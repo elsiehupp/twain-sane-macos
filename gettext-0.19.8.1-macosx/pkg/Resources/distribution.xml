@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<installer-gui-script minSpecVersion="2">
+  <title>gettext</title>
+  <options customize="never" require-scripts="true" rootVolumeOnly="true"/>
+  <welcome file="ReadMe.rtf" mime-type="text/rtf"/>
+  <license file="License.rtf" mime-type="text/rtf"/>
+  <allowed-os-versions>
+    <os-version min="@MACOSX_DEPLOYMENT_TARGET@"/>
+  </allowed-os-versions>
+  <pkg-ref id="org.gnu.gettext" version="@DSTVERSION@" auth="root">gettext.pkg</pkg-ref>
+  <choices-outline>
+    <line choice="org.gnu.gettext"/>
+  </choices-outline>
+  <choice
+     id="org.gnu.gettext"
+     visible="false"
+     title="gettext"
+     description="gettext"
+     start_selected="true">
+    <pkg-ref id="org.gnu.gettext"/>
+  </choice>
+</installer-gui-script>
