@@ -1,0 +1,25 @@
+--- libusb-2007-11-06-cvs/darwin.c.orig	2007-07-25 23:12:44.000000000 +0200
++++ libusb-2007-11-06-cvs/darwin.c	2007-11-07 18:28:38.000000000 +0100
+@@ -910,20 +910,14 @@
+ 
+   if (result == kIOReturnSuccess) {
+     /* wait for write to complete */
+-    if (CFRunLoopRunInMode(kCFRunLoopDefaultMode, (timeout+999)/1000, true) == kCFRunLoopRunTimedOut) {
+-      (*(device->interface))->AbortPipe(device->interface, pipeRef);
+-      CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, true); /* Pick up aborted callback */
+-      if (usb_debug)
+-	fprintf(stderr, "usb_bulk_transfer: timed out\n");
+-    }
++    CFRunLoopRun();
+   }
+ 
+   CFRunLoopRemoveSource(rw_arg.cf_loop, cfSource, kCFRunLoopDefaultMode);
+   CFRelease (rw_arg.cf_loop);
+   
+   /* Check the return code of both the write and completion functions. */
+-  if (result != kIOReturnSuccess || (rw_arg.result != kIOReturnSuccess && 
+-      rw_arg.result != kIOReturnAborted) ) {
++  if (result != kIOReturnSuccess || rw_arg.result != kIOReturnSuccess) {
+     int error_code;
+     char *error_str;
+ 

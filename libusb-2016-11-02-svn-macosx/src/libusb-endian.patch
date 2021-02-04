@@ -1,0 +1,26 @@
+--- libusb-2006-01-27-cvs/configure.in.orig	2006-01-30 23:19:22.000000000 +0100
++++ libusb-2006-01-27-cvs/configure.in	2006-01-30 23:27:06.000000000 +0100
+@@ -172,13 +172,17 @@
+ AC_C_CONST
+ 
+ dnl for bytesex stuff
+-AC_C_BIGENDIAN
++#AC_C_BIGENDIAN
+ 
+-if test "$ac_cv_c_bigendian" = "yes"; then
+-  BIGENDIAN="1"
+-else
+-  BIGENDIAN="0"
+-fi
++#if test "$ac_cv_c_bigendian" = "yes"; then
++#  BIGENDIAN="1"
++#else
++#  BIGENDIAN="0"
++#fi
++
++# Can't use AC_C_BIGENDIAN when doing cross compilation
++# for universial binaries for multiple architectures
++BIGENDIAN="__BIG_ENDIAN__"
+ AC_SUBST(BIGENDIAN)
+ 
+ dnl header file checks
