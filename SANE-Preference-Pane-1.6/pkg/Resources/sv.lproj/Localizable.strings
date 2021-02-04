@@ -1,0 +1,3 @@
+"SANE Preference Pane" = "SANE-inställningar";
+"NoSANETitle" = "sane-backends hittades inte";
+"NoSANEMessage" = "Vänligen installera sane-backend-paketet innan installationen av TWAIN-SANE-Gränssnitt-paketet.";

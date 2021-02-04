@@ -1,0 +1,5 @@
+/* Localized versions of Info.plist keys */
+
+CFBundleName = "SANE";
+CFBundleGetInfoString = "Настройки SANE, версия 1.6, © 2005–2017 Маттиас Эллерт";
+NSHumanReadableCopyright = "© 2005–2017 Маттиас Эллерт";

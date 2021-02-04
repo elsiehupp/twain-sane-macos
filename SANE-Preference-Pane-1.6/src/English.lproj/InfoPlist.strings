@@ -1,0 +1,5 @@
+/* Localized versions of Info.plist keys */
+
+CFBundleName = "SANE";
+CFBundleGetInfoString = "SANE Preference Pane, version 1.6, © 2005–2017 Mattias Ellert";
+NSHumanReadableCopyright = "© 2005–2017 Mattias Ellert";

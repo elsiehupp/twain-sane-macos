@@ -1,0 +1,3 @@
+"SANE Preference Pane" = "Préférences SANE"
+"NoSANETitle" = "sane-backends pas trouvé";
+"NoSANEMessage" = "Installez le paquet sane-backends avant l’installation du paquet de Interface TWAIN SANE, s.v.p.";
