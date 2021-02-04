@@ -1,0 +1,491 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7C32CBE60582A40600B8284A /* Alerts.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C32CBD50582A40600B8284A /* Alerts.cpp */; };
+		7C32CBE70582A40600B8284A /* Alerts.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C32CBD60582A40600B8284A /* Alerts.h */; };
+		7C32CBE80582A40600B8284A /* Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C32CBD70582A40600B8284A /* Buffer.cpp */; };
+		7C32CBE90582A40600B8284A /* Buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C32CBD80582A40600B8284A /* Buffer.h */; };
+		7C32CBEA0582A40600B8284A /* DataSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C32CBD90582A40600B8284A /* DataSource.cpp */; };
+		7C32CBEB0582A40600B8284A /* DataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C32CBDA0582A40600B8284A /* DataSource.h */; };
+		7C32CBEC0582A40600B8284A /* DSEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C32CBDB0582A40600B8284A /* DSEntry.cpp */; };
+		7C32CBED0582A40600B8284A /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C32CBDC0582A40600B8284A /* Image.cpp */; };
+		7C32CBEE0582A40600B8284A /* Image.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C32CBDD0582A40600B8284A /* Image.h */; };
+		7C32CBEF0582A40600B8284A /* MakeControls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C32CBDE0582A40600B8284A /* MakeControls.cpp */; };
+		7C32CBF00582A40600B8284A /* MakeControls.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C32CBDF0582A40600B8284A /* MakeControls.h */; };
+		7C32CBF10582A40600B8284A /* SaneCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C32CBE00582A40600B8284A /* SaneCallback.cpp */; };
+		7C32CBF20582A40600B8284A /* SaneCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C32CBE10582A40600B8284A /* SaneCallback.h */; };
+		7C32CBF30582A40600B8284A /* SaneDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C32CBE20582A40600B8284A /* SaneDevice.cpp */; };
+		7C32CBF40582A40600B8284A /* SaneDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C32CBE30582A40600B8284A /* SaneDevice.h */; };
+		7C32CBF50582A40600B8284A /* UserInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C32CBE40582A40600B8284A /* UserInterface.cpp */; };
+		7C32CBF60582A40600B8284A /* UserInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C32CBE50582A40600B8284A /* UserInterface.h */; };
+		7C32CBFB0582A42200B8284A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7C32CBF90582A42200B8284A /* Localizable.strings */; };
+		7C32CC1B0582A51D00B8284A /* TWAIN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C32CC1A0582A51D00B8284A /* TWAIN.framework */; };
+		7C32CC270582A91900B8284A /* SANE.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7C32CC260582A91900B8284A /* SANE.icns */; };
+		7C43A5440615A2EB00E402B7 /* GammaTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C43A5420615A2EB00E402B7 /* GammaTable.cpp */; };
+		7C43A5450615A2EB00E402B7 /* GammaTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C43A5430615A2EB00E402B7 /* GammaTable.h */; };
+		7C5C85740615CB4400FAD16F /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C5C85730615CB4400FAD16F /* ApplicationServices.framework */; };
+		7C76B60407F22F1C0041FB71 /* DeviceInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C76B60307F22F1C0041FB71 /* DeviceInfo.plist */; };
+		7C897FB31BE68B2E001A79D4 /* MissingQD.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C897FB21BE68B2E001A79D4 /* MissingQD.h */; };
+		7CB0FFEA05DE321E00679A3A /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = 7CB0FFE805DE321E00679A3A /* md5.c */; };
+		7CB0FFEB05DE321E00679A3A /* md5.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CB0FFE905DE321E00679A3A /* md5.h */; };
+		7CE0AC60088423C100FAD5A5 /* sane_constrain_value.c in Sources */ = {isa = PBXBuildFile; fileRef = 7CE0AC500884222700FAD5A5 /* sane_constrain_value.c */; };
+		7CEDA284058354D2000FA200 /* PkgInfo in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7C32CC100582A48000B8284A /* PkgInfo */; };
+		8D01CCC80486CAD60068D4B7 /* SANE.ds_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32BAE0B30371A71500C91783 /* SANE.ds_Prefix.pch */; };
+		8D01CCCA0486CAD60068D4B7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		8D01CCCE0486CAD60068D4B7 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EA7FFBFE8413EDC02AAC07 /* Carbon.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7C32CC2D0582AAFF00B8284A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents;
+			dstSubfolderSpec = 1;
+			files = (
+				7CEDA284058354D2000FA200 /* PkgInfo in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		08EA7FFBFE8413EDC02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		32BAE0B30371A71500C91783 /* SANE.ds_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SANE.ds_Prefix.pch; sourceTree = "<group>"; };
+		7C32CBD50582A40600B8284A /* Alerts.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Alerts.cpp; sourceTree = "<group>"; };
+		7C32CBD60582A40600B8284A /* Alerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alerts.h; sourceTree = "<group>"; };
+		7C32CBD70582A40600B8284A /* Buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Buffer.cpp; sourceTree = "<group>"; };
+		7C32CBD80582A40600B8284A /* Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
+		7C32CBD90582A40600B8284A /* DataSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataSource.cpp; sourceTree = "<group>"; };
+		7C32CBDA0582A40600B8284A /* DataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
+		7C32CBDB0582A40600B8284A /* DSEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DSEntry.cpp; sourceTree = "<group>"; };
+		7C32CBDC0582A40600B8284A /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
+		7C32CBDD0582A40600B8284A /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
+		7C32CBDE0582A40600B8284A /* MakeControls.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MakeControls.cpp; sourceTree = "<group>"; };
+		7C32CBDF0582A40600B8284A /* MakeControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MakeControls.h; sourceTree = "<group>"; };
+		7C32CBE00582A40600B8284A /* SaneCallback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SaneCallback.cpp; sourceTree = "<group>"; };
+		7C32CBE10582A40600B8284A /* SaneCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaneCallback.h; sourceTree = "<group>"; };
+		7C32CBE20582A40600B8284A /* SaneDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SaneDevice.cpp; sourceTree = "<group>"; };
+		7C32CBE30582A40600B8284A /* SaneDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaneDevice.h; sourceTree = "<group>"; };
+		7C32CBE40582A40600B8284A /* UserInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UserInterface.cpp; sourceTree = "<group>"; };
+		7C32CBE50582A40600B8284A /* UserInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInterface.h; sourceTree = "<group>"; };
+		7C32CBFA0582A42200B8284A /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7C32CBFE0582A43500B8284A /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7C32CBFF0582A43500B8284A /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7C32CC020582A44000B8284A /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7C32CC030582A44000B8284A /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7C32CC080582A45100B8284A /* Russian */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Russian; path = Russian.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7C32CC090582A45100B8284A /* Russian */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Russian; path = Russian.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7C32CC0C0582A46400B8284A /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Swedish; path = Swedish.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7C32CC0D0582A46500B8284A /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Swedish; path = Swedish.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7C32CC100582A48000B8284A /* PkgInfo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PkgInfo; sourceTree = "<group>"; };
+		7C32CC1A0582A51D00B8284A /* TWAIN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TWAIN.framework; path = /System/Library/Frameworks/TWAIN.framework; sourceTree = "<absolute>"; };
+		7C32CC260582A91900B8284A /* SANE.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = SANE.icns; sourceTree = "<group>"; };
+		7C32CC580582B04C00B8284A /* exported-symbols */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "exported-symbols"; sourceTree = "<group>"; };
+		7C43A5420615A2EB00E402B7 /* GammaTable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GammaTable.cpp; sourceTree = "<group>"; };
+		7C43A5430615A2EB00E402B7 /* GammaTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GammaTable.h; sourceTree = "<group>"; };
+		7C5325E11A25460600121F5C /* Danish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Danish; path = Danish.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7C5325E21A25461600121F5C /* Danish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Danish; path = Danish.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7C5C85730615CB4400FAD16F /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
+		7C63C5970E33884A006E0549 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Spanish; path = Spanish.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7C63C5980E33884A006E0549 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Spanish; path = Spanish.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7C76B60307F22F1C0041FB71 /* DeviceInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DeviceInfo.plist; sourceTree = "<group>"; };
+		7C897FB21BE68B2E001A79D4 /* MissingQD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MissingQD.h; sourceTree = "<group>"; };
+		7CB0FFE805DE321E00679A3A /* md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5.c; sourceTree = "<group>"; };
+		7CB0FFE905DE321E00679A3A /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
+		7CB8B6E6058BD9A800CB55D6 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7CB8B6EB058BD9C500CB55D6 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7CC2DC46072C03550080C64E /* Italian */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Italian; path = Italian.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7CC2DC49072C03670080C64E /* Italian */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Italian; path = Italian.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7CE0AC500884222700FAD5A5 /* sane_constrain_value.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sane_constrain_value.c; sourceTree = "<group>"; };
+		8D01CCD10486CAD60068D4B7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D01CCD20486CAD60068D4B7 /* SANE.ds */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SANE.ds; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D01CCCD0486CAD60068D4B7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D01CCCE0486CAD60068D4B7 /* Carbon.framework in Frameworks */,
+				7C32CC1B0582A51D00B8284A /* TWAIN.framework in Frameworks */,
+				7C5C85740615CB4400FAD16F /* ApplicationServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* SANE.ds */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77ADFE841716C02AAC07 /* Source */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* External Frameworks and Libraries */,
+				19C28FB4FE9D528D11CA2CBB /* Products */,
+			);
+			name = SANE.ds;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				7C5C85730615CB4400FAD16F /* ApplicationServices.framework */,
+				08EA7FFBFE8413EDC02AAC07 /* Carbon.framework */,
+				7C32CC1A0582A51D00B8284A /* TWAIN.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7C76B60307F22F1C0041FB71 /* DeviceInfo.plist */,
+				7C32CC580582B04C00B8284A /* exported-symbols */,
+				8D01CCD10486CAD60068D4B7 /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+				7C32CBF90582A42200B8284A /* Localizable.strings */,
+				7C32CC100582A48000B8284A /* PkgInfo */,
+				7C32CC260582A91900B8284A /* SANE.icns */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77ADFE841716C02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				32BAE0B30371A71500C91783 /* SANE.ds_Prefix.pch */,
+				7C32CBD50582A40600B8284A /* Alerts.cpp */,
+				7C32CBD60582A40600B8284A /* Alerts.h */,
+				7C32CBD70582A40600B8284A /* Buffer.cpp */,
+				7C32CBD80582A40600B8284A /* Buffer.h */,
+				7C32CBD90582A40600B8284A /* DataSource.cpp */,
+				7C32CBDA0582A40600B8284A /* DataSource.h */,
+				7C32CBDB0582A40600B8284A /* DSEntry.cpp */,
+				7C43A5420615A2EB00E402B7 /* GammaTable.cpp */,
+				7C43A5430615A2EB00E402B7 /* GammaTable.h */,
+				7C32CBDC0582A40600B8284A /* Image.cpp */,
+				7C32CBDD0582A40600B8284A /* Image.h */,
+				7C32CBDE0582A40600B8284A /* MakeControls.cpp */,
+				7C32CBDF0582A40600B8284A /* MakeControls.h */,
+				7C897FB21BE68B2E001A79D4 /* MissingQD.h */,
+				7C32CBE00582A40600B8284A /* SaneCallback.cpp */,
+				7C32CBE10582A40600B8284A /* SaneCallback.h */,
+				7C32CBE20582A40600B8284A /* SaneDevice.cpp */,
+				7C32CBE30582A40600B8284A /* SaneDevice.h */,
+				7C32CBE40582A40600B8284A /* UserInterface.cpp */,
+				7C32CBE50582A40600B8284A /* UserInterface.h */,
+				7CB0FFE805DE321E00679A3A /* md5.c */,
+				7CB0FFE905DE321E00679A3A /* md5.h */,
+				7CE0AC500884222700FAD5A5 /* sane_constrain_value.c */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		19C28FB4FE9D528D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D01CCD20486CAD60068D4B7 /* SANE.ds */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D01CCC70486CAD60068D4B7 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C897FB31BE68B2E001A79D4 /* MissingQD.h in Headers */,
+				8D01CCC80486CAD60068D4B7 /* SANE.ds_Prefix.pch in Headers */,
+				7C32CBE70582A40600B8284A /* Alerts.h in Headers */,
+				7C32CBE90582A40600B8284A /* Buffer.h in Headers */,
+				7C32CBEB0582A40600B8284A /* DataSource.h in Headers */,
+				7C43A5450615A2EB00E402B7 /* GammaTable.h in Headers */,
+				7C32CBEE0582A40600B8284A /* Image.h in Headers */,
+				7C32CBF00582A40600B8284A /* MakeControls.h in Headers */,
+				7C32CBF20582A40600B8284A /* SaneCallback.h in Headers */,
+				7C32CBF40582A40600B8284A /* SaneDevice.h in Headers */,
+				7C32CBF60582A40600B8284A /* UserInterface.h in Headers */,
+				7CB0FFEB05DE321E00679A3A /* md5.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D01CCC60486CAD60068D4B7 /* SANE.ds */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7C1BBAA90995E82900E58E8A /* Build configuration list for PBXNativeTarget "SANE.ds" */;
+			buildPhases = (
+				8D01CCC70486CAD60068D4B7 /* Headers */,
+				8D01CCC90486CAD60068D4B7 /* Resources */,
+				7C32CC2D0582AAFF00B8284A /* CopyFiles */,
+				8D01CCCB0486CAD60068D4B7 /* Sources */,
+				8D01CCCD0486CAD60068D4B7 /* Frameworks */,
+				8D01CCCF0486CAD60068D4B7 /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SANE.ds;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = SANE.ds;
+			productReference = 8D01CCD20486CAD60068D4B7 /* SANE.ds */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+			};
+			buildConfigurationList = 7C1BBAAC0995E82900E58E8A /* Build configuration list for PBXProject "SANE.ds" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				French,
+				German,
+				Italian,
+				Japanese,
+				Russian,
+				Spanish,
+				Swedish,
+				Danish,
+			);
+			mainGroup = 089C166AFE841209C02AAC07 /* SANE.ds */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D01CCC60486CAD60068D4B7 /* SANE.ds */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D01CCC90486CAD60068D4B7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D01CCCA0486CAD60068D4B7 /* InfoPlist.strings in Resources */,
+				7C32CBFB0582A42200B8284A /* Localizable.strings in Resources */,
+				7C32CC270582A91900B8284A /* SANE.icns in Resources */,
+				7C76B60407F22F1C0041FB71 /* DeviceInfo.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D01CCCF0486CAD60068D4B7 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D01CCCB0486CAD60068D4B7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C32CBE60582A40600B8284A /* Alerts.cpp in Sources */,
+				7C32CBE80582A40600B8284A /* Buffer.cpp in Sources */,
+				7C32CBEA0582A40600B8284A /* DataSource.cpp in Sources */,
+				7C32CBEC0582A40600B8284A /* DSEntry.cpp in Sources */,
+				7C43A5440615A2EB00E402B7 /* GammaTable.cpp in Sources */,
+				7C32CBED0582A40600B8284A /* Image.cpp in Sources */,
+				7C32CBEF0582A40600B8284A /* MakeControls.cpp in Sources */,
+				7C32CBF10582A40600B8284A /* SaneCallback.cpp in Sources */,
+				7C32CBF30582A40600B8284A /* SaneDevice.cpp in Sources */,
+				7C32CBF50582A40600B8284A /* UserInterface.cpp in Sources */,
+				7CB0FFEA05DE321E00679A3A /* md5.c in Sources */,
+				7CE0AC60088423C100FAD5A5 /* sane_constrain_value.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+				7C32CBFE0582A43500B8284A /* French */,
+				7C32CC020582A44000B8284A /* German */,
+				7CC2DC46072C03550080C64E /* Italian */,
+				7CB8B6E6058BD9A800CB55D6 /* Japanese */,
+				7C32CC080582A45100B8284A /* Russian */,
+				7C63C5970E33884A006E0549 /* Spanish */,
+				7C32CC0C0582A46400B8284A /* Swedish */,
+				7C5325E11A25460600121F5C /* Danish */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		7C32CBF90582A42200B8284A /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7C32CBFA0582A42200B8284A /* English */,
+				7C32CBFF0582A43500B8284A /* French */,
+				7C32CC030582A44000B8284A /* German */,
+				7CC2DC49072C03670080C64E /* Italian */,
+				7CB8B6EB058BD9C500CB55D6 /* Japanese */,
+				7C32CC090582A45100B8284A /* Russian */,
+				7C63C5980E33884A006E0549 /* Spanish */,
+				7C32CC0D0582A46500B8284A /* Swedish */,
+				7C5325E21A25461600121F5C /* Danish */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7C1BBAAA0995E82900E58E8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				EXPORTED_SYMBOLS_FILE = "exported-symbols";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = SANE.ds_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "/Library/Image Capture/TWAIN Data Sources";
+				OTHER_LDFLAGS = (
+					"-liconv",
+					"-lintl",
+					"-lsane",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "se.ellert.twain-sane";
+				PRODUCT_NAME = SANE;
+				WRAPPER_EXTENSION = ds;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		7C1BBAAB0995E82900E58E8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				EXPORTED_SYMBOLS_FILE = "exported-symbols";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = SANE.ds_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "/Library/Image Capture/TWAIN Data Sources";
+				OTHER_LDFLAGS = (
+					"-liconv",
+					"-lintl",
+					"-lsane",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "se.ellert.twain-sane";
+				PRODUCT_NAME = SANE;
+				WRAPPER_EXTENSION = ds;
+			};
+			name = Release;
+		};
+		7C1BBAAD0995E82900E58E8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		7C1BBAAE0995E82900E58E8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7C1BBAA90995E82900E58E8A /* Build configuration list for PBXNativeTarget "SANE.ds" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C1BBAAA0995E82900E58E8A /* Debug */,
+				7C1BBAAB0995E82900E58E8A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7C1BBAAC0995E82900E58E8A /* Build configuration list for PBXProject "SANE.ds" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C1BBAAD0995E82900E58E8A /* Debug */,
+				7C1BBAAE0995E82900E58E8A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

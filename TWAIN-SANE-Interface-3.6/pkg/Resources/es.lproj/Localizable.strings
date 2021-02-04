@@ -1,0 +1,5 @@
+"TWAIN SANE Interface" = "Interfase TWAIN SANE";
+"NoLibusbTitle" = "libusb no encontrado";
+"NoLibusbMessage" = "Por favor instale el paquete libusb antes de instalar el paquete de Interfase TWAIN SANE.";
+"NoSANETitle" = "sane-backends no encontrado";
+"NoSANEMessage" = "Por favor instale el paquete sane-backend antes de instalar el paquete de Interfase TWAIN SANE.";

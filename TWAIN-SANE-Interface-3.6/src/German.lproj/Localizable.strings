@@ -1,0 +1,37 @@
+"sane-localization" = "de_DE";
+"twain-language" = "6"; /* TWLG_GERMAN */
+"twain-country" = "49"; /* TWCY_GERMANY */
+"translation" = "Deutsche Version: Moritz Heckscher";
+
+"decimal" = ",";
+"sep1000" = " ";
+
+"pixels" = "Pixel";
+"bits" = "Bit";
+"mm" = "mm";
+"cm" = "cm";
+"dpi" = "Pixel/Zoll";
+"%" = "%";
+"mks" = "µs";
+
+"Authentication" = "Identifizieren";
+"The resource %@ needs authentication" = "Sie müssen sich zur Verwendung der Ressource „%@“ identifizieren.";
+"Username:" = "Benutzername:";
+"Password:" = "Passwort:";
+"Plain text password warning" = "Achtung: Es ist keine Passwortverschlüsselungsinformation vorhanden. Drücken Sie „Abbrechen“, wenn Sie Ihr Passwort nicht im Klartext senden wollen.";
+
+"Image Source:" = "Bildquelle:";
+"No image source found" = "Keine Bildquelle gefunden";
+"No image source explanation" = "Die SANE-Bibliothek konnte keine Bildquelle finden. Konsultieren Sie ggf. die Dokumentation auf http://www.ellert.se/twain-sane/, wenn Sie etwas Anderes erwartet haben.";
+"Could not open the image source %@" = "Die Bildquelle „%@“ konnte nicht geöffnet werden";
+
+"Cancel" = "Abbrechen";
+"OK" = "OK";
+"Preview" = "Vorschau";
+"Scan" = "Abtasten";
+"Scanning Image..." = "Bild wird abgetastet...";
+"Options" = "Einstellungen";
+
+"Scan Area:" = "Abtastbereich:";
+"Largest Possible" = "größtmöglich";
+"Other" = "benutzerdefiniert";

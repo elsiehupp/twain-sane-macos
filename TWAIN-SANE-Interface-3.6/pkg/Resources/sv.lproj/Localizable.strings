@@ -1,0 +1,5 @@
+"TWAIN SANE Interface" = "TWAIN-SANE-Gränssnitt";
+"NoLibusbTitle" = "libusb hittades inte";
+"NoLibusbMessage" = "Vänligen installera libusb-paketet innan installationen av TWAIN-SANE-Gränssnitt-paketet.";
+"NoSANETitle" = "sane-backends hittades inte";
+"NoSANEMessage" = "Vänligen installera sane-backend-paketet innan installationen av TWAIN-SANE-Gränssnitt-paketet.";

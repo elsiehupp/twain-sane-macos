@@ -1,0 +1,37 @@
+"sane-localization" = "ru_RU";
+"twain-language" = "78"; /* TWLG_RUSSIAN */
+"twain-country" = "7"; /* TWCY_RUSSIA */
+"translation" = "Русская версия: Маттиас Эллерт";
+
+"decimal" = ",";
+"sep1000" = ".";
+
+"pixels" = "пиксели";
+"bits" = "биты";
+"mm" = "мм";
+"cm" = "см";
+"dpi" = "пиксели/дюйм";
+"%" = "%";
+"mks" = "мкс";
+
+"Authentication" = "Аутентикация";
+"The resource %@ needs authentication" = "Ресурс «%@» требует аутентикацию";
+"Username:" = "Имя пользователя:";
+"Password:" = "Пароль:";
+"Plain text password warning" = "Осторожно: Ресурс не поставляет информацию шифрования пароля. Нажмите «Отменить» если вы не хотите использовать пароль открытого текста.";
+
+"Image Source:" = "Источник изображений:";
+"No image source found" = "Никакой источник изображений искан";
+"No image source explanation" = "Никакой источник изображений небыл искан SANE-библиотеком. Справляйтесь в документации на http://www.ellert.se/twain-sane/ если вы ждалы что-нибудь другое.";
+"Could not open the image source %@" = "Источник изображений «%@» не может выть открыт";
+
+"Cancel" = "Отменить";
+"OK" = "Продолжить";
+"Preview" = "Просмотр";
+"Scan" = "Сканировать";
+"Scanning Image..." = "Сканировать изображение...";
+"Options" = "Установки";
+
+"Scan Area:" = "Площадь сканирования:";
+"Largest Possible" = "Самая большая возможно";
+"Other" = "Другая";

@@ -1,0 +1,37 @@
+"sane-localization" = "ja_JP";
+"twain-language" = "68"; /* TWLG_JAPANESE */
+"twain-country" = "81"; /* TWCY_JAPAN */
+"translation" = "Japanese version: RedGecko";
+
+"decimal" = ".";
+"sep1000" = ",";
+
+"pixels" = "ピクセル";
+"bits" = "bit";
+"mm" = "mm";
+"cm" = "cm";
+"dpi" = "dpi";
+"%" = "%";
+"mks" = "µs";
+
+"Authentication" = "認証";
+"The resource %@ needs authentication" = "リソース “%@” は認証が必要です";
+"Username:" = "ユーザ名：";
+"Password:" = "パスワード：";
+"Plain text password warning" = "警告：リソースからパスワードの暗号化情報が提供されません。暗号化されないテキスト形式のパスワードを使いたくない場合は “キャンセル” を押してください。";
+
+"Image Source:" = "イメージソース：";
+"No image source found" = "イメージソースが見つかりませんでした";
+"No image source explanation" = "SANE ライブラリは何のイメージソースも見つけることができませんでした。 http://www.ellert.se/twain-sane/ のドキュメントを調べて何か間違っていることがないかどうかを確かめてください。";
+"Could not open the image source %@" = "イメージソース “%@” を開くことができませんでした。";
+
+"Cancel" = "キャンセル";
+"OK" = "OK";
+"Preview" = "プレビュー";
+"Scan" = "スキャン";
+"Scanning Image..." = "イメージをスキャン中...";
+"Options" = "オプション";
+
+"Scan Area:" = "Scan Area:";
+"Largest Possible" = "Largest Possible";
+"Other" = "Other";

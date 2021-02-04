@@ -1,0 +1,37 @@
+"sane-localization" = "fr_FR";
+"twain-language" = "5"; /* TWLG_FRENCH */
+"twain-country" = "33"; /* TWCY_FRANCE */
+"translation" = "Version française: Mattias Ellert";
+
+"decimal" = ",";
+"sep1000" = " ";
+
+"pixels" = "pixels";
+"bits" = "bits";
+"mm" = "mm";
+"cm" = "cm";
+"dpi" = "pixels/pouce";
+"%" = "%";
+"mks" = "µs";
+
+"Authentication" = "Authentification";
+"The resource %@ needs authentication" = "La ressource «%@» a besoin d’authentification";
+"Username:" = "Nom d’utilisateur:";
+"Password:" = "Mot de passe:";
+"Plain text password warning" = "Attention: La ressource ne fournit pas d’information de chiffrement de mot de passe. Appuyez sur «Annuler» si vous ne voulez pas utiliser un mot de passe en texte clair.";
+
+"Image Source:" = "Source d’images:";
+"No image source found" = "Aucune source d’images trouvée";
+"No image source explanation" = "Aucune source d’images a été trouvée par la bibliothèque SANE. Consultez la documentation à http://www.ellert.se/twain-sane/ si vous avez attendé autre chose.";
+"Could not open the image source %@" = "La source d’images «%@» ne peut pas être ouvert";
+
+"Cancel" = "Annuler";
+"OK" = "OK";
+"Preview" = "Aperçu";
+"Scan" = "Numériser";
+"Scanning Image..." = "Numérisation d’image...";
+"Options" = "Préférences";
+
+"Scan Area:" = "Surface de numérisation:";
+"Largest Possible" = "La plus grande possible";
+"Other" = "Autre";

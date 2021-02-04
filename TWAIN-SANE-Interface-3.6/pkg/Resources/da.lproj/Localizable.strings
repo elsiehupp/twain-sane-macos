@@ -1,0 +1,5 @@
+"TWAIN SANE Interface" = "TWAIN SANE Grænseflade";
+"NoLibusbTitle" = "libusb ikke fundet";
+"NoLibusbMessage" = "Installér venligst pakken libusb, før du installerer pakken TWAIN SANE Grænseflade.";
+"NoSANETitle" = "sane-backends ikke fundet";
+"NoSANEMessage" = "Installér venligst pakken sane-backends, før du installerer pakken TWAIN SANE Grænseflade.";

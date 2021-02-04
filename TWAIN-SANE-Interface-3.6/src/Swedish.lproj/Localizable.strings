@@ -1,0 +1,37 @@
+"sane-localization" = "sv_SE";
+"twain-language" = "12"; /* TWLG_SWEDISH */
+"twain-country" = "46"; /* TWCY_SWEDEN */
+"translation" = "Svensk version: Mattias Ellert";
+
+"decimal" = ",";
+"sep1000" = " ";
+
+"pixels" = "pixlar";
+"bits" = "bitar";
+"mm" = "mm";
+"cm" = "cm";
+"dpi" = "pixlar/tum";
+"%" = "%";
+"mks" = "µs";
+
+"Authentication" = "Autentisering";
+"The resource %@ needs authentication" = "Resursen ”%@” kräver autentisering";
+"Username:" = "Användarnamn:";
+"Password:" = "Lösenord:";
+"Plain text password warning" = "Varning: Resursen tillhandhåller ingen lösenordskrypteringsinformaion. Tryck på ”Avbryt” om du inte vill använda ett lösenord i klartext.";
+
+"Image Source:" = "Bildkälla:";
+"No image source found" = "Ingen bildkälla hittad";
+"No image source explanation" = "Ingen bildkälla hittades av SANE-biblioteket. Konsultera dokumentationen på http://www.ellert.se/twain-sane/ om du förväntade dig något annat.";
+"Could not open the image source %@" = "Kan inte öppna bildkällan ”%@”";
+
+"Cancel" = "Avbryt";
+"OK" = "OK";
+"Preview" = "Förhandsgranskning";
+"Scan" = "Läs in";
+"Scanning Image..." = "Läser in bild...";
+"Options" = "Inställningar";
+
+"Scan Area:" = "Inläsningsyta:";
+"Largest Possible" = "Största möjliga";
+"Other" = "Annan";

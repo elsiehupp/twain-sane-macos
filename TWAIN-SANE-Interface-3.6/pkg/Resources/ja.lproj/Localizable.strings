@@ -1,0 +1,5 @@
+"TWAIN SANE Interface" = "TWAIN SANE インターフェース";
+"NoLibusbTitle" = "libusb が見つかりません";
+"NoLibusbMessage" = "TWAIN SANE インターフェースパッケージをインストールする前に、libusb パッケージをインストールしてください。";
+"NoSANETitle" = "sane-backends が見つかりません";
+"NoSANEMessage" = "TWAIN SANE インターフェースパッケージをインストールする前に、sane-backend パッケージをインストールしてください。";

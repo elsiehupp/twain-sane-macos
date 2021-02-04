@@ -1,0 +1,4 @@
+CFBundleName = "Interfase TWAIN SANE";
+CFBundleVersionString = "versión 3.6";
+CFBundleGetInfoString = "Interfase TWAIN SANE, versión 3.6, © 2003–2017 Mattias Ellert";
+NSHumanReadableCopyright = "© 2003–2017 Mattias Ellert";

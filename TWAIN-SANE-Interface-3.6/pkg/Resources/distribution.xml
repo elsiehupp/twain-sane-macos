@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<installer-gui-script minSpecVersion="2">
+  <title>TWAIN-SANE-Interface</title>
+  <options customize="never" require-scripts="true" rootVolumeOnly="true"/>
+  <welcome file="ReadMe.rtf" mime-type="text/rtf"/>
+  <license file="License.rtf" mime-type="text/rtf"/>
+  <background file="background.gif" mime-type="image/gif" alignment="bottomleft" scaling="none"/>
+  <allowed-os-versions>
+    <os-version min="@MACOSX_DEPLOYMENT_TARGET@"/>
+  </allowed-os-versions>
+  <installation-check script="InstallationCheck()">
+    <script>
+      <![CDATA[
+function InstallationCheck() {
+  if(!system.files.fileExistsAtPath('/usr/local/lib/libusb.dylib')) {
+    my.result.title = system.localizedString('NoLibusbTitle');
+    my.result.message = system.localizedString('NoLibusbMessage');
+    my.result.type = 'Fatal';
+    return false;
+  }
+  if(!system.files.fileExistsAtPath('/usr/local/lib/libsane.dylib')) {
+    my.result.title = system.localizedString('NoSANETitle');
+    my.result.message = system.localizedString('NoSANEMessage');
+    my.result.type = 'Fatal';
+    return false;
+  }
+  return true;
+}
+      ]]>
+    </script>
+  </installation-check>
+  <pkg-ref id="se.ellert.twain-sane" version="@DSTVERSION@" auth="root">TWAIN-SANE-Interface.pkg</pkg-ref>
+  <choices-outline>
+    <line choice="se.ellert.twain-sane"/>
+  </choices-outline>
+  <choice
+     id="se.ellert.twain-sane"
+     visible="false"
+     title="TWAIN-SANE-Interface"
+     description="TWAIN-SANE-Interface"
+     start_selected="true">
+    <pkg-ref id="se.ellert.twain-sane"/>
+  </choice>
+</installer-gui-script>

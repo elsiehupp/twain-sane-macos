@@ -1,0 +1,37 @@
+"sane-localization" = "en_US";
+"twain-language" = "13"; /* TWLG_ENGLISH_USA */
+"twain-country" = "1"; /* TWCY_USA */
+"translation" = "English version: Mattias Ellert";
+
+"decimal" = ".";
+"sep1000" = ",";
+
+"pixels" = "pixels";
+"bits" = "bits";
+"mm" = "mm";
+"cm" = "cm";
+"dpi" = "dpi";
+"%" = "%";
+"mks" = "µs";
+
+"Authentication" = "Authentication";
+"The resource %@ needs authentication" = "The resource “%@” needs authentication";
+"Username:" = "Username:";
+"Password:" = "Password:";
+"Plain text password warning" = "Warning: The resource does not supply password encryption information. Press “Cancel” if you don’t want to use a plain text password.";
+
+"Image Source:" = "Image Source:";
+"No image source found" = "No image source found";
+"No image source explanation" = "No image source was found by the SANE library. Consult the documentation at http://www.ellert.se/twain-sane/ if you expected something different.";
+"Could not open the image source %@" = "Could not open the image source “%@”";
+
+"Cancel" = "Cancel";
+"OK" = "OK";
+"Preview" = "Preview";
+"Scan" = "Scan";
+"Scanning Image..." = "Scanning Image...";
+"Options" = "Options";
+
+"Scan Area:" = "Scan Area:";
+"Largest Possible" = "Largest Possible";
+"Other" = "Other";

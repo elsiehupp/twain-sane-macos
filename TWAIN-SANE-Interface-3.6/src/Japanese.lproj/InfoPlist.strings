@@ -1,0 +1,4 @@
+CFBundleName = "TWAIN SANE インターフェース";
+CFBundleVersionString = "version 3.6";
+CFBundleGetInfoString = "TWAIN SANE インターフェース, version 3.6, © 2003–2017 Mattias Ellert";
+NSHumanReadableCopyright = "© 2003–2017 Mattias Ellert";

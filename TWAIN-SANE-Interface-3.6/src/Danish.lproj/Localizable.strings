@@ -1,0 +1,37 @@
+"sane-localization" = "da_DK";
+"twain-language" = "0"; /* TWLG_DANISH */
+"twain-country" = "45"; /* TWCY_DENMARK */
+"translation" = "Dansk udgave: Anders Jenbo";
+
+"decimal" = ",";
+"sep1000" = ".";
+
+"pixels" = "pixels";
+"bits" = "bits";
+"mm" = "mm";
+"cm" = "cm";
+"dpi" = "dpi";
+"%" = "%";
+"mks" = "µs";
+
+"Authentication" = "Godkendelse";
+"The resource %@ needs authentication" = "Den ressource „%@“ behøver godkendelse";
+"Username:" = "Brugernavn:";
+"Password:" = "Adgangskode:";
+"Plain text password warning" = "Advarsel: Den ressource leverer ikke oplysninger om kryptering af adgangskode. Tryk på „Annullér“, hvis du ikke ønsker at bruge en almindelig tekst-adgangskode.";
+
+"Image Source:" = "Billedkilde:";
+"No image source found" = "Ingen billedkilde fundet";
+"No image source explanation" = "SANE biblioteket kunne ikke finde en billedkilde. Se dokumentationen på http://www.ellert.se/twain-sane/ hvis du forventede noget andet.";
+"Could not open the image source %@" = "Kunne ikke åbne billedkilden „%@“";
+
+"Cancel" = "Annullér";
+"OK" = "OK";
+"Preview" = "Forhåndsvisning";
+"Scan" = "Skan";
+"Scanning Image..." = "Skanner billede...";
+"Options" = "Indstillinger";
+
+"Scan Area:" = "Skanningsområde:";
+"Largest Possible" = "Størst mulig";
+"Other" = "Andet";
