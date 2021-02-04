@@ -1,0 +1,103 @@
+From 2fea21f28ecbcd83ec4c4cf6d1578cdd552b0df4 Mon Sep 17 00:00:00 2001
+From: Nils Philippsen <nils@redhat.com>
+Date: Tue, 14 Mar 2017 17:38:49 +0100
+Subject: [PATCH] patch: avision-skip-adf
+
+Squashed commit of the following:
+
+commit 1177ca9c2673e5264741dff60010ddebaf43737c
+Author: Dave Platt <dplatt@radagast.org>
+Date:   Thu Dec 15 22:29:16 2016 -0800
+
+    avision.c: Add "skip-adf" option
+
+    The code which tries aggressively to reset/initialize HP 82xx/83xx
+    Automatic Document Feeders doesn't work well if there's no ADF attached,
+    because the scanner reports a non-zero ADF model type in this case.
+    The retry code makes several attempts to initialize the ADF, and then
+    bails out with an "Operation not supported" error.
+
+    Add a new "option skip-adf" which will cause the backend to believe
+    the "ADF not present" status if that's what the scanner reports.
+
+    Fixes #313751
+
+    (cherry picked from commit 6585b6f60d07a196e42c99b935e2754bbc80b3c8)
+---
+ backend/avision.c    | 14 ++++++++++++--
+ doc/sane-avision.man | 10 ++++++++++
+ 2 files changed, 22 insertions(+), 2 deletions(-)
+
+diff --git a/backend/avision.c b/backend/avision.c
+index 146125c..b02b547 100644
+--- a/backend/avision.c
++++ b/backend/avision.c
+@@ -1277,6 +1277,9 @@ static SANE_Bool force_calibration = SANE_FALSE;
+ static SANE_Bool force_a4 = SANE_FALSE;
+ static SANE_Bool force_a3 = SANE_FALSE;
+ 
++/* trust ADF-presence flag, even if ADF model is nonzero */
++static SANE_Bool skip_adf = SANE_FALSE;
++
+ /* hardware resolutions to interpolate from */
+ static const int  hw_res_list_c5[] =
+   {
+@@ -3218,11 +3221,13 @@ get_accessories_info (Avision_Scanner* s)
+     {
+       dev->inquiry_duplex = 1;
+       dev->inquiry_duplex_interlaced = 0;
+-    } else if (result[0] == 0 && result[2] != 0) {
++    } else if (result[0] == 0 && result[2] != 0 && !skip_adf) {
+       /* Sometimes the scanner will report that there is no ADF attached, yet
+        * an ADF model number will still be reported.  This happens on the
+        * HP8200 series and possibly others.  In this case we need to reset the
+-       * the adf and try reading it again.
++       * the adf and try reading it again.  Skip this if the configuration says
++       * to do so, so that we don't fail out the scanner as being broken and
++       * unsupported if there isn't actually an ADF present.
+        */
+       DBG (3, "get_accessories_info: Found ADF model number but the ADF-present flag is not set. Trying to recover...\n");
+       status = adf_reset (s);
+@@ -7630,6 +7635,11 @@ sane_reload_devices (void)
+ 		     linenumber);
+ 		force_a3 = SANE_TRUE;
+ 	      }
++	      else if (strcmp (word, "skip-adf") == 0) {
++		DBG (3, "sane_reload_devices: config file line %d: enabling skip-adf\n",
++		     linenumber);
++		skip_adf = SANE_TRUE;
++	      }
+ 	      else if (strcmp (word, "static-red-calib") == 0) {
+ 		DBG (3, "sane_reload_devices: config file line %d: static red calibration\n",
+ 		     linenumber);
+diff --git a/doc/sane-avision.man b/doc/sane-avision.man
+index 299bb72..6a991b6 100644
+--- a/doc/sane-avision.man
++++ b/doc/sane-avision.man
+@@ -36,6 +36,7 @@ a hash mark (#) are ignored. A sample configuration file is shown below:
+ \ 
+  option force\-a4
+  option force\-a3
++ option skip\-adf
+  option disable\-gamma\-table
+  option disable\-calibration
+ \ 
+@@ -61,6 +62,15 @@ known to return bogus data are marked in the backend
+ so if you need this option please report this to the
+ backend maintainer. USE WITH CARE!
+ .TP
++skip\-adf:
++Forces the backend to ignore an inconsistent ADF
++status returned by the scanner (ADF not present, but
++ADF model number non-zero).  Without this option, the
++backend will make several attempts to reset the ADF
++and retry the query in this situation, and will fail
++with a "not supported" error if the ADF still doesn't
++respond.
++.TP
+ disable\-gamma\-table:
+ Disables the usage of the scanner's gamma-table. You
+ might try this if your scans hang or only produces
+-- 
+2.9.3
+

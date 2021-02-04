@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<installer-gui-script minSpecVersion="2">
+  <title>sane-backends</title>
+  <options customize="never" require-scripts="true" rootVolumeOnly="true"/>
+  <welcome file="ReadMe.rtf" mime-type="text/rtf"/>
+  <license file="License.rtf" mime-type="text/rtf"/>
+  <background file="background.gif" mime-type="image/gif" alignment="bottomleft" scaling="none"/>
+  <allowed-os-versions>
+    <os-version min="@MACOSX_DEPLOYMENT_TARGET@"/>
+  </allowed-os-versions>
+  <installation-check script="InstallationCheck()">
+    <script>
+      <![CDATA[
+function InstallationCheck() {
+  if(!system.files.fileExistsAtPath('/usr/local/lib/libusb.dylib')) {
+    my.result.title = system.localizedString('NoLibusbTitle');
+    my.result.message = system.localizedString('NoLibusbMessage');
+    my.result.type = 'Fatal';
+    return false;
+  }
+  return true;
+}
+      ]]>
+    </script>
+  </installation-check>
+  <pkg-ref id="org.alioth.sane-backends" version="@DSTVERSION@" auth="root">sane-backends.pkg</pkg-ref>
+  <choices-outline>
+    <line choice="org.alioth.sane-backends"/>
+  </choices-outline>
+  <choice
+     id="org.alioth.sane-backends"
+     visible="false"
+     title="sane-backends"
+     description="sane-backends"
+     start_selected="true">
+    <pkg-ref id="org.alioth.sane-backends"/>
+  </choice>
+</installer-gui-script>

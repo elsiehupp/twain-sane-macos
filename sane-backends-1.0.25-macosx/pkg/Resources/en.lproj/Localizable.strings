@@ -1,0 +1,2 @@
+"NoLibusbTitle" = "libusb not found";
+"NoLibusbMessage" = "Please install the libusb package before installing the sane-backends package.";
