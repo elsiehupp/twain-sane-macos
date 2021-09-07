@@ -1,4 +1,18 @@
-Copied from http://www.ellert.se/twain-sane/
+> ## Note
+> 
+> This repository aggregates the source code components available at [ellert.se/twain-sane](http://www.ellert.se/twain-sane/) for the purpose of setting up a Git workspace for the project of getting the TWAIN SANE Interface running in 64-bit for current versions of macOS.
+> 
+> ***The contents of this repository do not currently compile.***
+> 
+> I do not anticipate making progress on this project myself in the foreseeable future, as, among other things, I have very little experience with Cocoa and Objective-C, and learning macOS development is not a current focus for me.
+> 
+> Please feel free to fork this repository as a base for working on it yourself, and please do tag me if you make any progress!
+> 
+> — Elsie Hupp ([@elsiehupp](https://github.com/elsiehupp)) September 2021
+
+---
+
+(Text below lightly adapted from [ellert.se/twain-sane](http://www.ellert.se/twain-sane/).)
 
 # TWAIN SANE Interface for MacOS X
 
