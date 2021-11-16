@@ -1,0 +1,44 @@
+Author: Henning Meirer-Geinitz
+
+    Use "libsane" soname for every backend (all systems but AIX and mingw)
+
+diff --git a/ltmain.sh b/ltmain.sh
+--- a/ltmain.sh
++++ b/ltmain.sh
+@@ -9708,6 +9708,23 @@
+ 	  dlname=$soname
+ 	fi
+ 
++	# If -module or -export-dynamic was specified, set the dlname
++	if test "$module" = yes || test "$export_dynamic" = yes; then
++	  # On all known operating systems, these are identical.
++	  dlname="$soname"
++	fi
++
++	# On sane-backends the internal name for every lib is "libsane"
++	# not "libsane-backendname" so that linking to each backend is possible.
++	case $host in
++	  *mingw*)
++	    ;;
++	  *aix*)
++	    ;;
++	  *)
++	    soname=`echo $soname | sed -e "s/libsane-[A-Za-z_0-9]*/libsane/g"`
++	esac
++
+ 	lib=$output_objdir/$realname
+ 	linknames=
+ 	for link
+@@ -10166,12 +10183,6 @@
+ 	    func_show_eval '(cd "$output_objdir" && $RM "$linkname" && $LN_S "$realname" "$linkname")' 'exit $?'
+ 	  fi
+ 	done
+-
+-	# If -module or -export-dynamic was specified, set the dlname.
+-	if test yes = "$module" || test yes = "$export_dynamic"; then
+-	  # On all known operating systems, these are identical.
+-	  dlname=$soname
+-	fi
+       fi
+       ;;
+ 

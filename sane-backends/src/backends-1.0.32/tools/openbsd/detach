@@ -1,0 +1,21 @@
+#!/bin/sh
+
+DEVCLASS=$1
+DEVNAME=$2
+
+case $DEVCLASS in
+0)
+	case "$DEVNAME" in
+	ugen*)
+		BUSNAME=$(cat /var/run/${DEVNAME}.bus)
+		rm -f /var/run/${DEVNAME}.bus
+		chown root:wheel /dev/${DEVNAME}.* &&
+			chmod 600 /dev/${DEVNAME}.*
+		test -n "$BUSNAME" && {
+			chown root:wheel $BUSNAME &&
+				chmod 600 $BUSNAME
+		}
+		;;
+	esac
+	;;
+esac

@@ -1,0 +1,12 @@
+*.1
+*.5
+*.7
+*.8
+*.html
+descriptions-external.db
+descriptions.db
+doxygen-genesys.conf
+doxygen-sanei.conf
+doxygen_sqlite3.db
+genesys-html
+sanei-html

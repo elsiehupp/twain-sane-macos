@@ -1,8 +1,0 @@
-//
-// Prefix header for all source files of the 'SANE' target in the 'SANE' project.
-//
-
-#ifdef __OBJC__
-    #import <Foundation/Foundation.h>
-    #import <AppKit/AppKit.h>
-#endif

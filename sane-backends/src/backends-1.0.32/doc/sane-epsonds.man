@@ -1,0 +1,114 @@
+.TH sane\-epsonds 5 "29 Mar 2015" "@PACKAGEVERSION@" "SANE Scanner Access Now Easy"
+.IX sane\-epsonds
+.SH NAME
+sane\-epsonds \- SANE backend for EPSON ESC/I-2 scanners
+.SH DESCRIPTION
+The
+.B sane\-epsonds
+library implements a SANE (Scanner Access Now Easy) backend that provides access
+to Epson ESC/I-2 scanners.
+.PP
+Valid command line options and their syntax can be listed by using
+.PP
+.RS
+scanimage \-\-help \-d epsonds
+.RE
+.PP
+Not all devices support all options.
+.TP
+.I Scan Mode
+The
+.B \-\-mode
+switch selects the basic mode of operation of the scanner. Valid choices
+are Lineart, Gray and Color. The Lineart mode is black and white only,
+Gray will produce 256 levels of gray or more depending on the scanner
+and Color means 24 bit color mode or more depending on the scanner.
+Some scanners will internally use 36 bit color, their external interface
+however may only support 24 bits.
+
+The
+.B \-\-depth
+option selects the bit depth the scanner is using. This option is only
+available for scanners that support more than one bit depth. Older
+scanners will always transfer the image in 8bit mode. Newer scanners
+allow one to select either 8 bits, 12 or 14 bits per color channel. For a
+color scan this means an effective color depth of 36 or 42 bits over
+all three channels. The valid choices depend on the scanner model.
+
+The
+.B \-\-resolution
+switch selects the resolution for a scan. Some EPSON scanners will scan in
+any resolution between the lowest and highest possible value. The list
+reported by the scanner can be displayed using the "\-\-help \-d epson"
+parameters to
+.BR scanimage (1).
+
+The geometry options
+.B \-l \-t \-x \-y
+control the scan area:
+.B \-l
+sets the top left x coordinate,
+.B \-t
+the top left y coordinate,
+.B \-x
+selects the width and
+.B \-y
+the height of the scan area. All parameters are specified in millimeters.
+
+The
+.B \-\-source
+option selects the scan source. Valid options depend on the installed
+options. The default is "Flatbed".
+
+The
+.B \-\-eject
+option ejects the sheet in the ADF.
+
+The
+.B \-\-adf-mode
+option select the ADF mode (simplex/duplex).
+
+.SH CONFIGURATION FILE
+The configuration file
+.I @CONFIGDIR@/epsonds.conf
+specifies the device(s) that the backend will use. Possible connection types are:
+.TP
+.B USB
+For not automatically detected USB scanners, their VENDOR and PRODUCT ID can
+be specified manually in the config file.
+More information about valid syntax for USB devices can be found in
+.BR sane\-usb (5).
+.TP
+.B Network (not yet supported)
+Network scanners can be auto-discovered if
+.B autodiscovery
+is specified after
+.B net
+keyword.  An IP address to connect to can also be used.
+.SH FILES
+.TP
+.I @LIBDIR@/libsane\-epsonds.a
+The static library implementing this backend.
+.TP
+.I @LIBDIR@/libsane\-epsonds.so
+The shared library implementing this backend (present on systems that
+support dynamic loading).
+.SH ENVIRONMENT
+.TP
+.B SANE_DEBUG_EPSONDS
+If the library was compiled with debug support enabled, this
+environment variable controls the debug level for this backend.  E.g.,
+a value of 128 requests all debug output to be printed.  Smaller
+levels reduce verbosity. Values around 11-16 will usually be enough for
+a bug report.
+
+.SH "SEE ALSO"
+
+.BR sane\-usb (5),
+.BR scanimage (1),
+.BR xscanimage (1),
+.BR xsane (1)
+
+.SH AUTHOR
+
+The package is written by Alessandro Zummo

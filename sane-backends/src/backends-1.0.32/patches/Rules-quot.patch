@@ -1,0 +1,27 @@
+Author: Olaf Meeuwissen
+
+  Add custom options to commands used for generate .po files.  This
+  fixes word wrapping inconsistencies when using a custom width.
+
+  Do NOT put this file below po/ as all Rules-* files are included
+  in the po/Makefile *verbatim*!
+
+--- po/Rules-quot.orig	2019-06-30 13:46:34.281392263 +0900
++++ po/Rules-quot	2019-06-30 13:49:05.482142027 +0900
+@@ -22,13 +22,13 @@
+ 	LC_ALL=C; export LC_ALL; \
+ 	cd $(srcdir); \
+ 	if $(MSGINIT) $(MSGINIT_OPTIONS) -i $(DOMAIN).pot --no-translator -l $$lang -o - 2>/dev/null \
+-	   | $(SED) -f $$tmpdir/$$lang.insert-header | $(MSGCONV) -t UTF-8 | \
++	   | $(SED) -f $$tmpdir/$$lang.insert-header | $(MSGCONV) $(MSGCONV_OPTIONS) -t UTF-8 | \
+ 	   { case `$(MSGFILTER) --version | sed 1q | sed -e 's,^[^0-9]*,,'` in \
+ 	     '' | 0.[0-9] | 0.[0-9].* | 0.1[0-8] | 0.1[0-8].*) \
+-	       $(MSGFILTER) $(SED) -f `echo $$lang | sed -e 's/.*@//'`.sed \
++	       $(MSGFILTER) $(MSGFILTER_OPTIONS) $(SED) -f `echo $$lang | sed -e 's/.*@//'`.sed \
+ 	       ;; \
+ 	     *) \
+-	       $(MSGFILTER) `echo $$lang | sed -e 's/.*@//'` \
++	       $(MSGFILTER) $(MSGFILTER_OPTIONS) `echo $$lang | sed -e 's/.*@//'` \
+ 	       ;; \
+ 	     esac } 2>/dev/null > $$tmpdir/$$lang.new.po \
+ 	     ; then \

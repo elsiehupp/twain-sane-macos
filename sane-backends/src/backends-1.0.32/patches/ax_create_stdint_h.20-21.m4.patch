@@ -1,0 +1,35 @@
+X-Git-Url: https://git.savannah.gnu.org/gitweb/?p=autoconf-archive.git;a=blobdiff_plain;f=m4%2Fax_create_stdint_h.m4;h=94fbeb404829c232787e27193d6c24b2509a6f24;hp=8fccde1d4121ab374aed30b4c78cf287ce3be7c9;hb=b26684dc2f29222d9581089ea8cfb2fc54319fb4;hpb=68e93457f1d6f73f8e5019e7a0a97851085dc0fa
+
+diff --git a/m4/ax_create_stdint_h.m4 b/m4/ax_create_stdint_h.m4
+index 8fccde1..94fbeb4 100644
+--- a/m4/ax_create_stdint_h.m4
++++ b/m4/ax_create_stdint_h.m4
+@@ -53,7 +53,7 @@
+ #   and this notice are preserved.  This file is offered as-is, without any
+ #   warranty.
+ 
+-#serial 20
++#serial 21
+ 
+ AC_DEFUN([AX_CHECK_DATA_MODEL],[
+    AC_CHECK_SIZEOF(char)
+@@ -152,14 +152,14 @@ AC_CACHE_VAL([ac_cv_header_stdint_t],[
+ old_CXXFLAGS="$CXXFLAGS" ; CXXFLAGS=""
+ old_CPPFLAGS="$CPPFLAGS" ; CPPFLAGS=""
+ old_CFLAGS="$CFLAGS"     ; CFLAGS=""
+-AC_TRY_COMPILE([#include <stdint.h>],[int_least32_t v = 0;],
++AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stdint.h>]], [[int_least32_t v = 0;]])],
+ [ac_cv_stdint_result="(assuming C99 compatible system)"
+- ac_cv_header_stdint_t="stdint.h"; ],
+-[ac_cv_header_stdint_t=""])
++ ac_cv_header_stdint_t="stdint.h";],
++ [ac_cv_header_stdint_t=""])
+ if test "$GCC" = "yes" && test ".$ac_cv_header_stdint_t" = "."; then
+ CFLAGS="-std=c99"
+-AC_TRY_COMPILE([#include <stdint.h>],[int_least32_t v = 0;],
+-[AC_MSG_WARN(your GCC compiler has a defunct stdint.h for its default-mode)])
++AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stdint.h>]], [[int_least32_t v = 0;]])],
++[AC_MSG_WARN(your GCC compiler has a defunct stdint.h for its default-mode)], [])
+ fi
+ CXXFLAGS="$old_CXXFLAGS"
+ CPPFLAGS="$old_CPPFLAGS"

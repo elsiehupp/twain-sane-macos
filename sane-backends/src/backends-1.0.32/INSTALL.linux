@@ -1,0 +1,159 @@
+Installation Instructions
+*************************
+
+1. Quick install:
+=================
+
+$ ./autogen.sh          # only if you just cloned the git repository
+$ ./configure
+$ make
+$ make install
+
+
+2. Step by step install on Linux >=2.6, with udev:
+==================================================
+
+2.1. Install with your preferred package manager:
+     (a) the development environment for your Linux distribution
+         - mandatory: gcc, make, kernel header files, autoconf, autoconf-archive,
+                      python(>=2.7)
+         - optional:  git
+     (b) missing development packages
+         - libusb-dev or libusb-devel or libusb-compat-devel
+         - libusb-1.0.0-dev or similar
+         - libjpeg-dev or libjpeg8-dev or libjpeg-turbo-devel or turbojpeg-devel
+         - libpng-dev or similar
+         - libcurl4-gnutls-dev or similar
+         - libxml2-dev or similar
+         - libsnmp-dev or similar
+         - libpoppler-glib-dev or similar
+
+2.2. Get the latest SANE backend from git:
+      You can download "daily git snapshot" from here:
+
+      http://www.sane-project.org/snapshots/
+
+      If you prefer to use git, you can fetch a read-only copy of the git tree
+      with this command:
+
+      $ git clone https://gitlab.com/sane-project/backends.git
+
+      If you already are using a self compiled SANE backend and just fetched a
+      new copy of the git tree or if you patched some source files, there is no
+      need to follow the installation procedure again. You only need to make and
+      install libsane:
+
+      $ make && sudo make install
+
+2.3. Configure, make and install latest SANE backend:
+      We install a new SANE dynamically linked shared object library in
+      /usr/local/lib beside your system's SANE library.
+
+      $ ./autogen.sh          # only if you just cloned the git repository
+      $ ./configure
+      $ make && sudo make install
+
+      If you want to change some settings for your SANE installation, please
+      read the documentation on the website, the man pages and:
+
+      $ ./configure --help
+
+      Maybe you don't want to compile all scanners on your system, then you can
+      select the backends you need, e.g. epson2 and fujitsu:
+
+      $ ./configure BACKENDS="epson2 fujitsu"
+
+      You can search for your scanners backend names here:
+
+      http://sane-project.org/lists/sane-backends-cvs.html
+
+2.3.1. SANE library:
+      Register new installed SANE dynamically linked shared object library.
+
+      $ sudo ldconfig -v | grep libsane
+        libsane.so.1 -> libsane.so.1.0.25
+        libsane.so.1 -> libsane.so.1.0.23
+
+      This example shows that the system first find version 1.0.25 and then
+      1.0.23. This is the correct order.
+
+      If your system first find the old version and then the new installed one,
+      then you must change the order for library paths in /etc/ld.so.conf or you
+      must create the new configuration file /etc/ld.so.conf.d/1-sane.conf.
+
+      $ echo "/usr/local/lib" | sudo tee -a /etc/ld.so.conf.d/1-sane.conf
+
+      Then you must repeat this step.
+
+2.3.2. Localization file:
+
+      $ cd /usr/share/locale/<language>/LC_MESSAGES
+      $ sudo ln -sf /usr/local/share/locale/<language>/LC_MESSAGES/sane-backends.mo .
+      $ cd -
+
+2.3.3. udev rules file:
+
+      $ sudo cp tools/udev/libsane.rules /etc/udev/rules.d
+
+      Reconnect your scanner to the USB bus to activate the new rules file.
+
+2.3.4. Use the scanner with normal user rights:
+
+      Your user must be a member of the group scanner.
+
+      $ cat /etc/group | grep scanner
+      scanner:x:107:<user>
+
+      Create a new group scanner, if it doesn't exist.
+
+      $ sudo addgroup scanner
+
+      Add an existing user to group scanner.
+
+      $ sudo adduser <username> scanner
+
+      After this you must logoff and login again.
+
+2.4. Test your scanner:
+
+2.4.1. Check the used backend version:
+
+      The programs must use the installed SANE backend version, e.g. 1.0.25.
+
+      $ scanimage -V
+      scanimage (sane-backends) 1.0.25git; backend version 1.0.25
+
+      This example shows that backend and scanimage are version 1.0.25.
+
+      $ /usr/bin/scanimage -V
+      scanimage (sane-backends) 1.0.23; backend version 1.0.25
+
+      This example shows that an old scanimage (1.0.23) uses the backend 1.0.25.
+
+      If you want to use xsane, start xsane and check the used version with
+      CTRL - i.
+
+2.4.2. Access scanner with normal user rights:
+
+      $ scanimage -L
+
+      If your scanner isn't recognised here, try this:
+
+      $ sudo scanimage -L
+
+      If this works, your user doesn't have the rights to access the scanner.
+
+      However, please check and redo the installation described above.
+      If this doesn't help, you can ask the mailing list
+      <sane-devel@alioth-lists.debian.net> for further support.
+
+2.4.3. Testscan:
+
+      $ cd ~
+      $ scanimage > test.pnm
+
+
+3. Advanced Installation Information
+====================================
+
+      Please read the documents INSTALL, README and README.linux.

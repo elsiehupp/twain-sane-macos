@@ -1,0 +1,68 @@
+.TH sane\-ricoh2 5 "04 Sep 2019" "@PACKAGEVERSION@" "SANE Scanner Access Now Easy"
+.IX sane\-ricoh2
+.SH NAME
+sane\-ricoh2 \- SANE backend for Ricoh flatbed scanners
+.SH DESCRIPTION
+The
+.B sane\-ricoh2
+library implements a SANE (Scanner Access Now Easy) backend that
+provides access to the following Ricoh flatbed scanners:
+.PP
+.RS
+SG-3110SFNw
+.br
+SG-3100SNw
+.br
+SP-100SU
+.br
+SP-111SU (SP-112SU)
+.RE
+.PP
+.SH FILES
+.TP
+.I @LIBDIR@/libsane\-ricoh2.a
+The static library implementing this backend.
+.TP
+.I @LIBDIR@/libsane\-ricoh2.so
+The shared library implementing this backend (present on systems that
+support dynamic loading).
+
+.SH OPTIONS
+The options the backend supports can either be selected through command line
+options to programs like
+.BR scanimage (1)
+or through GUI elements in programs like
+.BR xscanimage (1)
+or
+.BR xsane (1).
+.PP
+The following options are supported by ricoh2:
+
+.B \-\-mode color|gray
+
+.RS
+Color or grayscale mode.
+.RE
+
+.B \-\-resolution 300|600
+
+.RS
+DPI resolution.
+
+.RE
+.SH ENVIRONMENT
+.TP
+.B SANE_DEBUG_RICOH2
+If the library was compiled with debug support enabled, this
+environment variable controls the debug level for this backend. Higher
+debug levels increase the verbosity of the output.
+
+.SH "SEE ALSO"
+.BR sane (7),
+.BR sane\-usb (5),
+.BR scanimage (1),
+.BR xscanimage (1),
+.BR xsane (1)
+
+.SH AUTHOR
+Stanislav Yuzvinsky

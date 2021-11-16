@@ -1,0 +1,87 @@
+# po/POTFILES.in -- files containing translatable strings
+# File names relative to the top source directory
+
+# Standardized, translatable option titles and descriptions
+
+include/sane/saneopts.h
+
+# Translatable SANE status strings
+
+backend/sane_strstatus.c
+
+# Remainder of this file created with
+#
+#  git grep -l SANE_I18N -- backend/*.[ch]* backend/*/*.[ch]* \
+#      | sed '/backend\/sane_strstatus.c/d'
+
+backend/artec_eplus48u.c
+backend/avision.h
+backend/canon-sane.c
+backend/canon.c
+backend/canon630u.c
+backend/canon_dr.c
+backend/canon_lide70.c
+backend/epjitsu.c
+backend/epson.c
+backend/epson.h
+backend/epson2-ops.c
+backend/epson2.c
+backend/epson2.h
+backend/epsonds-ops.c
+backend/epsonds.c
+backend/epsonds.h
+backend/fujitsu.c
+backend/genesys/genesys.cpp
+backend/genesys/genesys.h
+backend/gt68xx.c
+backend/gt68xx_low.h
+backend/hp-option.c
+backend/hp-option.h
+backend/hp3500.c
+backend/hp3900_sane.c
+backend/hp5400_sane.c
+backend/hp5590.c
+backend/kodak.c
+backend/kodakaio.c
+backend/kvs1025.h
+backend/kvs1025_opt.c
+backend/kvs20xx.c
+backend/kvs20xx_opt.c
+backend/kvs40xx.c
+backend/kvs40xx_opt.c
+backend/leo.c
+backend/lexmark.c
+backend/ma1509.c
+backend/magicolor.c
+backend/matsushita.c
+backend/matsushita.h
+backend/microtek2.h
+backend/mustek.c
+backend/mustek_usb.c
+backend/mustek_usb2.c
+backend/mustek_usb2.h
+backend/niash.c
+backend/p5.c
+backend/p5.h
+backend/p5_device.c
+backend/pixma/pixma.c
+backend/pixma/pixma_sane_options.c
+backend/plustek.c
+backend/plustek_pp.c
+backend/pnm.c
+backend/rts8891.c
+backend/rts8891.h
+backend/sceptre.c
+backend/sm3840.c
+backend/snapscan-options.c
+backend/snapscan.c
+backend/stv680.c
+backend/stv680.h
+backend/teco1.c
+backend/teco2.c
+backend/teco3.c
+backend/test.c
+backend/u12.c
+backend/umax.c
+backend/umax1220u.c
+backend/umax_pp.c

@@ -1,0 +1,11 @@
+# Options for the canon_lide70 backend
+
+# Autodetect the Canon CanoScan LiDE 70
+usb 0x04a9 0x2225
+
+# Autodetect the Canon CanoScan LiDE 600
+usb 0x04a9 0x2224
+
+# device list for non-linux-systems (enable if autodetect fails):
+#/dev/scanner
+#/dev/usb/scanner0

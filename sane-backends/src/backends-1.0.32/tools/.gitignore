@@ -1,0 +1,8 @@
+gamma4scanimage
+hal
+sane-backends.pc
+sane-config
+sane-desc
+sane-find-scanner
+udev
+umax_pp

@@ -1,0 +1,184 @@
+.TH sane\-sceptre 5 "11 Jul 2008" "@PACKAGEVERSION@" "SANE Scanner Access Now Easy"
+.IX sane\-sceptre
+.SH NAME
+sane\-sceptre \- SANE backend for SCEPTRE scanners
+.SH DESCRIPTION
+The
+.B sane\-sceptre
+library implements a SANE (Scanner Access Now Easy) backend that
+provides access to Sceptre flatbed scanners. This backend should be
+considered
+.B beta-quality
+software! Please report any strange behavior to the maintainer of the
+backend or to the SANE mailing list.
+.PP
+At present, only one scanner is known to work with this backend:
+.PP
+.RS
+.ft CR
+.nf
+Model                        Connection Type
+---------------------------  -------------------
+Sceptre VividScan S1200      SCSI
+.fi
+.ft R
+.RE
+
+The make of this scanner is KINPO, so other scanners from that manufacturer may also work (eg. the S600).
+.SH OPTIONS
+The options the backend supports can either be selected through command line
+options to programs like
+.BR scanimage (1)
+or through GUI elements in
+.BR xscanimage (1)
+or
+.BR xsane (1).
+
+Valid command line options and their syntax can be listed by using
+
+.RS
+scanimage \-\-help \-d sceptre
+.RE
+
+.TP
+.B Scan Mode
+
+.TP
+.B \-\-mode Lineart|Halftone|Gray|Color
+Selects the basic mode of operation of the scanner.
+The
+.I Lineart
+and
+.I Halftone
+mode are black and white only (1 bit).
+.I Gray
+will produce 256 levels of gray (8 bits).
+.I Color
+will produce a 24 bits
+color image. The scanner supports 30 bits internally but it only
+exports 24.
+
+.TP
+.B \-\-resolution 50..1200
+Selects the resolution for a scan. The scanner can do several
+resolutions between 50 and 1200.
+
+.TP
+.B \-\-halftone\-pattern 1|2|3|4
+Selects the pattern mode that is used in
+.I Halftone
+mode.
+
+.TP
+.B \-\-gamma\-correction Default|User Defined|High Density Printing|\
+Low density printing|High contrast printing
+controls the scanner internal gamma correction.
+
+.TP
+.B \-\-custom\-gamma
+Allows the user to specify a gamma table (see the
+next 3 parameters).
+.I Color
+mode only.
+
+.TP
+.B \-\-red\-gamma\-table
+Can be used to download a user defined
+gamma table for the red channel. The table must be 256 bytes long.
+.I Color
+mode only.
+
+.TP
+.B \-\-green\-gamma\-table
+Can be used to download a user defined
+gamma table for the green channel. The table must be 256 bytes long.
+.I Color
+mode only.
+
+.TP
+.B \-\-blue\-gamma\-table
+Can be used to download a user defined gamma table
+for the blue channel. The table must be 256 bytes long.
+.I Color
+mode only.
+
+.TP
+.B \-\-threshold 0..255
+Sets the threshold for black and white pixels in
+.I Lineart
+mode. Possible values are from 0 (darker) to 255 (lighter).
+
+.TP
+.B \-\-preview
+Requests a preview scan. The resolution used for that scan is 30 dpi
+and the scan area is the maximum allowed. The scan mode is user
+selected. The default is "no".
+
+.TP
+.B The geometry options
+
+.TP
+.B \-l \-t \-x \-y
+control the scan area:
+.B -l
+sets the top left x coordinate,
+.B \-t
+the top left y coordinate,
+.B \-x
+selects the width and
+.B \-y
+the height of the scan area. All parameters are specified in millimeters by default.
+
+
+.SH CONFIGURATION FILE
+The configuration file
+.I @CONFIGDIR@/sceptre.conf
+supports only one item: the device name to use
+.RI "(eg " /dev/scanner ).
+
+
+.SH FILES
+.TP
+.I @LIBDIR@/libsane\-sceptre.a
+The static library implementing this backend.
+.TP
+.I @LIBDIR@/libsane\-sceptre.so
+The shared library implementing this backend (present on systems that
+support dynamic loading).
+
+
+.SH ENVIRONMENT
+.TP
+.B SANE_DEBUG_SCEPTRE
+If the library was compiled with debug support enabled, this
+environment variable controls the debug level for this backend. E.g.,
+a value of 128 requests all debug output to be printed. Smaller levels
+reduce verbosity.
+
+
+.SH LIMITATIONS
+.TP
+.B Resolutions
+The windows TWAIN driver can be set to any resolution between 50 to 1200
+(excluding software interpolation). This backend cannot. Only a
+handful of resolution are available, although they should be numerous
+enough.
+
+
+.SH BUGS
+None known.
+
+
+.SH "SEE ALSO"
+.BR sane\-scsi (5),
+.BR scanimage (1),
+.BR xscanimage (1),
+.BR xsane (1),
+.BR sane (7)
+
+
+.SH AUTHOR
+
+.TP
+The package is actively maintained by Frank Zago.
+.I http://www.zago.net/sane/#sceptre

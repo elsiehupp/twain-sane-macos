@@ -1,0 +1,524 @@
+;
+; SANE Backend specification file
+;
+; It's basically emacs-lisp --- so ";" indicates comment to end of line.
+; All syntactic elements are keyword tokens, followed by a string or
+;  keyword argument, as specified.
+;
+; ":backend" *must* be specified.
+; All other information is optional (but what good is the file without it?).
+;
+
+:backend "canon_pixma"                 ; name of backend
+;:version "(external)"             ; version of backend
+:url "https://github.com/Ordissimo/scangearmp2/blob/master/README.md"     ; backend's web page
+:comment "External binary-only backend for Linux i386 and x86_64?. See the website for the latest release."
+
+
+
+:devicetype :scanner               ; start of a list of devices....
+                                   ; other types:  :stillcam, :vidcam,
+                                   ;               :meta, :api
+
+:mfg "Canon"                     ; name a manufacturer
+:url "https://www.canon.com/"
+:comment "Multi Function Peripheral. External backend made by Canon.  Please check the Canon website and/or contact us if you have a Canon device not mentioned here."
+
+;
+; Canon MFP2 conf file
+;
+
+; ---- V410 --------------------------
+:model "TS3400 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x18b7"
+:status :good
+
+:model "E3400 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x18b8"
+:status :good
+
+:model "TR7000 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x18b9"
+:status :good
+
+:model "G2020 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x18bd"
+:status :good
+
+:model "G3060 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x18c3"
+:status :good
+
+:model "G2060 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x18c1"
+:status :good
+
+:model "G3020 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x18bf"
+:status :good
+
+:model "TS7430 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x18b2"
+:status :good
+
+:model "XK90 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x18b6"
+:status :good
+
+:model "TS8430 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x18b5"
+:status :good
+
+:model "TR7600 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x18aa"
+:status :good
+
+:model "TR8600 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x18ad"
+:status :good
+
+:model "TR8630 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x18af"
+:status :good
+
+:model "TS6400 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x18a9"
+:status :good
+
+:model "TS7400 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x18a9"
+:status :good
+
+
+; ---- V400 --------------------------
+:model "G7000 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1863"
+:status :good
+
+:model "G7080 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1864"
+:status :good
+
+:model "GM4000 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1869"
+:status :good
+
+:model "GM4080 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x186a"
+:status :good
+
+
+; ---- V390 --------------------------
+:model "G6000 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1865"
+:status :good
+
+:model "G6080 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1866"
+:status :good
+
+:model "TS5300 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x188b"
+:status :good
+
+:model "TS5380 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x188c"
+:status :good
+
+:model "TS6300 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x188d"
+:status :good
+
+:model "TS6380 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x188e"
+:status :good
+
+:model "TS7330 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x188f"
+:status :good
+
+:model "TS8300 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1890"
+:status :good
+
+:model "TS8380 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1891"
+:status :good
+
+:model "TS8330 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1892"
+:status :good
+
+:model "XK60 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1893"
+:status :good
+
+:model "TS6330 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1894"
+:status :good
+
+:model "TS3300 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x18a2"
+:status :good
+
+:model "E3300 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x18a3"
+:status :good
+
+; ---- V370 --------------------------
+:model "TS8200 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1859"
+:status :good
+
+:model "XK80 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1873"
+:status :good
+
+:model "TS8230 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x185b"
+:status :good
+
+:model "TS8280 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x185a"
+:status :good
+
+:model "TS6200 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1856"
+:status :good
+
+:model "TS6230 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1858"
+:status :good
+
+:model "TS6280 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1857"
+:status :good
+
+:model "TS9500 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x185c"
+:status :good
+
+:model "TR9530 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x185e"
+:status :good
+
+:model "TS9580 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x185d"
+:status :good
+
+:model "TR4500 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1854"
+:status :good
+
+:model "E4200 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1855"
+:status :good
+
+:model "LiDE 400"
+:interface "USB"
+:usbid "0x04a9" "0x1912"
+:status :good
+
+:model "LiDE 300"
+:interface "USB"
+:usbid "0x04a9" "0x1913"
+:status :good
+
+
+; ---- V360 --------------------------
+:model "G3010 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x183b"
+:status :good
+
+:model "G4010 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x183d"
+:status :good
+
+
+; ---- V350 --------------------------
+:model "TS9100 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1820"
+:status :good
+
+:model "TS8100 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1821"
+:status :good
+
+:model "TS6100 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1822"
+:status :good
+
+:model "TR8500 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1823"
+:status :good
+
+:model "TR7500 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1824"
+:status :good
+
+:model "TS5100 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1825"
+:status :good
+
+:model "TS3100 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1827"
+:status :good
+
+:model "E3100 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1828"
+:status :good
+
+:model "TS9180 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x183e"
+:status :good
+
+:model "TS8180 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x183f"
+:status :good
+
+:model "TS6180 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1840"
+:status :good
+
+:model "TR8580 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1841"
+:status :good
+
+:model "TS8130 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1842"
+:status :good
+
+:model "TS6130 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1843"
+:status :good
+
+:model "TR8530 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1844"
+:status :good
+
+:model "TR7530 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1845"
+:status :good
+
+:model "XK50 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1846"
+:status :good
+
+:model "XK70 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1847"
+:status :good
+
+
+; ---- V340 --------------------------
+:model "TS9000 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x179f"
+:status :good
+
+:model "TS8000 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1800"
+:status :good
+
+:model "TS6000 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1801"
+:status :good
+
+:model "TS5000 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1802"
+:status :good
+
+:model "MG3000 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x180b"
+:status :good
+
+:model "E470 series"
+:interface "USB"
+:usbid "0x04a9" "0x180c"
+:status :good
+
+:model "G4000 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x181d"
+:status :good
+
+; Network attached versions of the above
+:model "MB2100 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1793"
+:status :good
+
+:model "MB2700 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1792"
+:status :good
+
+:model "MB5100 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1790"
+:status :good
+
+:model "MB5400 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x178f"
+:status :good
+
+; ---- V330 --------------------------
+:model "G3000 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1794"
+:status :good
+
+
+; ---- V320 --------------------------
+:model "MG7700 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x178b"
+:status :good
+
+:model "MG6900 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x178c"
+:status :good
+
+:model "MG6800 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x178d"
+:status :good
+
+:model "MG5700 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x178e"
+:status :good
+
+:model "MG3600 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x178a"
+:status :good
+
+
+; ---- V310 --------------------------
+:model "MX490 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1787"
+:status :good
+
+:model "E480 series"
+:interface "USB"
+:usbid "0x04a9" "0x1789"
+:status :good
+
+
+; ---- V300 --------------------------
+:model "MG7500 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x177c"
+:status :good
+
+:model "MG6600 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x177e"
+:status :good
+
+:model "MG5600 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x177f"
+:status :good
+
+:model "MG2900 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1780"
+:status :good
+
+:model "MB2000 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1778"
+:status :good
+
+:model "MB2300 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1779"
+:status :good
+
+:model "MB5000 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1776"
+:status :good
+
+:model "MB5300 series"
+:interface "USB WiFi"
+:usbid "0x04a9" "0x1777"
+:status :good
+
+:model "E460 series"
+:interface "USB"
+:usbid "0x04a9" "0x1788"
+:status :good

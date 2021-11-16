@@ -1,0 +1,12 @@
+Makefile
+Makefile.in
+.deps
+.libs
+testlibusb
+descriptor_test
+driver_name
+find_mice
+get_resolution
+hub_strings
+id_test
+find_hubs
