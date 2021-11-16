@@ -57,9 +57,9 @@ Int	tcp_dev_request(struct device *dev,
 
 
     /* Send request, if any */
-    if (cmd && cmdlen) {
+    if(cmd && cmdlen) {
         len = (size_t)sanei_tcp_write(dev.dn, cmd, cmdlen)
-        if (len != cmdlen) {
+        if(len != cmdlen) {
             DBG(1, "%s: sent only %lu bytes of %lu\n",
                 __func__, (u_long)len, (u_long)cmdlen)
             return Sane.STATUS_IO_ERROR
@@ -67,13 +67,13 @@ Int	tcp_dev_request(struct device *dev,
     }
 
     /* Receive response, if expected */
-    if (resp && resplen) {
+    if(resp && resplen) {
         DBG(3, "%s: wait for %i bytes\n", __func__, (Int)*resplen)
 
-        while (bytes_recv < *resplen && rc > 0) {
+        while(bytes_recv < *resplen && rc > 0) {
             rc = recv(dev.dn, resp+bytes_recv, *resplen-bytes_recv, 0)
 
-            if (rc > 0)	bytes_recv += rc
+            if(rc > 0)	bytes_recv += rc
             else {
                 DBG(1, "%s: error %s, bytes requested: %i, bytes read: %i\n",
                     __func__, strerror(errno), (Int)*resplen, (Int)bytes_recv)
@@ -107,24 +107,24 @@ Sane.Status	tcp_dev_open(struct device *dev)
     devname = dev.sane.name
     DBG(3, "%s: open %s\n", __func__, devname)
 
-    if (strncmp(devname, "tcp", 3) != 0)	return Sane.STATUS_INVAL
+    if(strncmp(devname, "tcp", 3) != 0)	return Sane.STATUS_INVAL
     devname += 3
     devname = sanei_config_skip_whitespace(devname)
-    if (!*devname)	return Sane.STATUS_INVAL
+    if(!*devname)	return Sane.STATUS_INVAL
 
     devname = sanei_config_get_string(devname, &strhost)
     devname = sanei_config_skip_whitespace(devname)
 
-    if (*devname)
+    if(*devname)
         devname = sanei_config_get_string(devname, &strport)
     else
         strport = "9400"
 
 
-    if (isdigit(*strport)) {
+    if(isdigit(*strport)) {
         port = atoi(strport)
     } else {
-        if ((sp = getservbyname(strport, "tcp"))) {
+        if((sp = getservbyname(strport, "tcp"))) {
             port = ntohs(sp.s_port)
         } else {
             DBG(1, "%s: unknown TCP service %s\n", __func__, strport)
@@ -133,10 +133,10 @@ Sane.Status	tcp_dev_open(struct device *dev)
     }
 
     status = sanei_tcp_open(strhost, port, &dev.dn)
-    if (status == Sane.STATUS_GOOD) {
+    if(status == Sane.STATUS_GOOD) {
         tv.tv_sec  = RECV_TIMEOUT
         tv.tv_usec = 0
-        if (setsockopt(dev.dn, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv, sizeof tv) < 0) {
+        if(setsockopt(dev.dn, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv, sizeof tv) < 0) {
             DBG(1, "%s: setsockopts %s", __func__, strerror(errno))
         }
     }
@@ -147,17 +147,17 @@ Sane.Status	tcp_dev_open(struct device *dev)
 void
 tcp_dev_close(struct device *dev)
 {
-    if (!dev)	return
+    if(!dev)	return
 
     DBG(3, "%s: closing dev %p\n", __func__, (void *)dev)
 
     /* finish all operations */
-    if (dev.scanning) {
+    if(dev.scanning) {
         dev.cancel = 1
         /* flush READ_IMAGE data */
-        if (dev.reading)	Sane.read(dev, NULL, 1, NULL)
+        if(dev.reading)	Sane.read(dev, NULL, 1, NULL)
         /* send cancel if not sent before */
-        if (dev.state != Sane.STATUS_CANCELLED)
+        if(dev.state != Sane.STATUS_CANCELLED)
             ret_cancel(dev, 0)
     }
 

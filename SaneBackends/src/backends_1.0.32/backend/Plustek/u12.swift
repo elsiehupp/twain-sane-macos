@@ -3,7 +3,7 @@
  *         the GeneSys Logic GL640 parallel-port to USB bridge.
  *
  * Based on source acquired from Plustek<br>
- * Copyright (c) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de><br>
+ * Copyright(c) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de><br>
  *
  * History:
  * - 0.01 - initial version
@@ -16,7 +16,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -271,7 +271,7 @@ static const Sane.String_Const
  */
 static void sig_chldhandler( Int signo )
 {
-	DBG( _DBG_PROC, "(SIG) Child is down (signal=%d)\n", signo )
+	DBG( _DBG_PROC, "(SIG) Child is down(signal=%d)\n", signo )
 }
 
 /** signal handler to kill the child process
@@ -309,16 +309,16 @@ static Int reader_process( void *args )
 	U12_Scanner *scanner = (U12_Scanner *)args
 
 	if( sanei_thread_is_forked()) {
-		DBG( _DBG_PROC, "reader_process started (forked)\n" )
+		DBG( _DBG_PROC, "reader_process started(forked)\n" )
 		close( scanner.r_pipe )
 		scanner.r_pipe = -1
 	} else {
-		DBG( _DBG_PROC, "reader_process started (as thread)\n" )
+		DBG( _DBG_PROC, "reader_process started(as thread)\n" )
 	}
 
-	sigfillset ( &ignore_set )
+	sigfillset( &ignore_set )
 	sigdelset  ( &ignore_set, SIGTERM )
-#if defined (__APPLE__) && defined (__MACH__)
+#if defined(__APPLE__) && defined(__MACH__)
 	sigdelset  ( &ignore_set, SIGUSR2 )
 #endif
 	sigprocmask( SIG_SETMASK, &ignore_set, 0 )
@@ -326,7 +326,7 @@ static Int reader_process( void *args )
 	cancelRead = Sane.FALSE
 
 	/* install the signal handler */
-	memset( &act, 0, sizeof (act))
+	memset( &act, 0, sizeof(act))
 	sigemptyset(&(act.sa_mask))
 	act.sa_flags = 0
 
@@ -339,7 +339,7 @@ static Int reader_process( void *args )
 	data_length = scanner.params.lines * scanner.params.bytes_per_line
 
 	DBG( _DBG_PROC, "reader_process:"
-					"starting to READ data (%lu bytes)\n", data_length )
+					"starting to READ data(%lu bytes)\n", data_length )
 	DBG( _DBG_PROC, "buf = 0x%08lx\n", (unsigned long)scanner.buf )
 
 	if( NULL == scanner.buf ) {
@@ -389,7 +389,7 @@ static Sane.Status do_cancel( U12_Scanner *scanner, Bool closepipe )
 
 	scanner.scanning = Sane.FALSE
 
-	if( sanei_thread_is_valid (scanner.reader_pid) ) {
+	if( sanei_thread_is_valid(scanner.reader_pid) ) {
 
                 DBG( _DBG_PROC, "---- killing reader_process ----\n" )
 
@@ -453,7 +453,7 @@ static Sane.Status init_options( U12_Scanner *s )
 	memset( s.opt, 0, sizeof(s.opt))
 
 	for( i = 0; i < NUM_OPTIONS; ++i ) {
-		s.opt[i].size = sizeof (Sane.Word)
+		s.opt[i].size = sizeof(Sane.Word)
 		s.opt[i].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     }
 
@@ -699,7 +699,7 @@ static void decodeUsbIDs( char *src, char **dest )
 
 		/* create what we need to go through our device list...*/
 		sprintf( *dest, "0x%04X-0x%04X", vi, pi )
-		DBG( _DBG_Sane.INIT, "next device is a USB device (%s)\n", *dest )
+		DBG( _DBG_Sane.INIT, "next device is a USB device(%s)\n", *dest )
 	}
 }
 
@@ -819,7 +819,7 @@ static Sane.Status attach( const char *dev_name,
 	Int         handle
 	U12_Device *dev
 
-	DBG( _DBG_Sane.INIT, "attach (%s, %p, %p)\n",
+	DBG( _DBG_Sane.INIT, "attach(%s, %p, %p)\n",
 	                                      dev_name, (void *)cnf, (void *)devp)
 
 	/* already attached ?*/
@@ -834,19 +834,19 @@ static Sane.Status attach( const char *dev_name,
     }
 
 	/* allocate some memory for the device */
-	dev = malloc( sizeof (*dev))
+	dev = malloc( sizeof(*dev))
 	if( NULL == dev )
     	return Sane.STATUS_NO_MEM
 
 	/* assign all the stuff we need for this device... */
-	memset(dev, 0, sizeof (*dev))
+	memset(dev, 0, sizeof(*dev))
 
 	dev.fd          = -1
 	dev.name        = strdup(dev_name);    /* hold it double to avoid  */
 	dev.sane.name   = dev.name;           /* compiler warnings        */
 	dev.sane.vendor = "Plustek"
 	dev.sane.model  = "U12/1212U"
-	dev.sane.type   = Sane.I18N ("flatbed scanner")
+	dev.sane.type   = Sane.I18N("flatbed scanner")
 	dev.initialized = Sane.FALSE
 
 	memcpy( &dev.adj, &cnf.adj, sizeof(AdjDef))
@@ -1065,15 +1065,15 @@ Sane.get_devices(const Sane.Device ***device_list,	Bool local_only )
 	Int         i
 	U12_Device *dev
 
-	DBG(_DBG_Sane.INIT, "Sane.get_devices (%p, %ld)\n",
+	DBG(_DBG_Sane.INIT, "Sane.get_devices(%p, %ld)\n",
 	                    (void *)device_list, (long) local_only)
 
 	/* already called, so cleanup */
 	if( devlist )
 		free( devlist )
 
-	devlist = malloc((num_devices + 1) * sizeof (devlist[0]))
-	if ( NULL == devlist )
+	devlist = malloc((num_devices + 1) * sizeof(devlist[0]))
+	if( NULL == devlist )
 		return Sane.STATUS_NO_MEM
 
 	i = 0
@@ -1118,11 +1118,11 @@ Sane.Status Sane.open( Sane.String_Const devicename, Sane.Handle* handle )
 	if( !dev )
     	return Sane.STATUS_INVAL
 
-	s = malloc (sizeof (*s))
+	s = malloc(sizeof(*s))
 	if( NULL == s )
     	return Sane.STATUS_NO_MEM
 
-	memset(s, 0, sizeof (*s))
+	memset(s, 0, sizeof(*s))
 	s.r_pipe   = -1
 	s.w_pipe   = -1
 	s.hw       = dev
@@ -1177,7 +1177,7 @@ void Sane.close( Sane.Handle handle )
 
 	drvClose( s.hw )
 
-	if (prev)
+	if(prev)
     	prev.next = s.next
 	else
 		first_handle = s.next
@@ -1200,7 +1200,7 @@ Sane.Status Sane.control_option( Sane.Handle handle, Int option,
 #endif
 	Int                      scanmode
 
-	if ( s.scanning )
+	if( s.scanning )
 		return Sane.STATUS_DEVICE_BUSY
 
 	if((option < 0) || (option >= NUM_OPTIONS))
@@ -1212,7 +1212,7 @@ Sane.Status Sane.control_option( Sane.Handle handle, Int option,
 	switch( action ) {
 
 		case Sane.ACTION_GET_VALUE:
-			switch (option) {
+			switch(option) {
 			case OPT_PREVIEW:
 			case OPT_NUM_OPTS:
 			case OPT_RESOLUTION:
@@ -1233,7 +1233,7 @@ Sane.Status Sane.control_option( Sane.Handle handle, Int option,
 #ifdef ALL_MODES
 			case OPT_MODE:
 			case OPT_EXT_MODE:
-				strcpy ((char *) value,
+				strcpy((char *) value,
 					  s.opt[option].constraint.string_list[s.val[option].w])
 				break
 #endif
@@ -1265,7 +1265,7 @@ Sane.Status Sane.control_option( Sane.Handle handle, Int option,
 	        		return Sane.STATUS_INVAL
 		    }
 
-          	switch (option) {
+          	switch(option) {
 
 	    		case OPT_RESOLUTION: {
 		    	    Int n
@@ -1494,7 +1494,7 @@ Sane.Status Sane.get_parameters( Sane.Handle handle, Sane.Parameters *params )
 #ifdef ALL_MODES
 		mp = getModeList( s )
 #endif
-		memset( &s.params, 0, sizeof (Sane.Parameters))
+		memset( &s.params, 0, sizeof(Sane.Parameters))
 
 		ndpi = s.val[OPT_RESOLUTION].w
 
@@ -1522,7 +1522,7 @@ Sane.Status Sane.get_parameters( Sane.Handle handle, Sane.Parameters *params )
 			s.params.bytes_per_line = 3 * s.params.pixels_per_line
 		} else {
 			s.params.format = Sane.FRAME_GRAY
-			if (s.params.depth == 1)
+			if(s.params.depth == 1)
 				s.params.bytes_per_line = (s.params.pixels_per_line + 7) / 8
 			else
 				s.params.bytes_per_line = s.params.pixels_per_line *
@@ -1532,7 +1532,7 @@ Sane.Status Sane.get_parameters( Sane.Handle handle, Sane.Parameters *params )
 
         /* if Sane.get_parameters() was called before Sane.start() */
 	    /* pass new values to the caller                           */
-    	if ((NULL != params) &&	(s.scanning != Sane.TRUE))
+    	if((NULL != params) &&	(s.scanning != Sane.TRUE))
 	    	*params = s.params
 	} else
 		*params = s.params
@@ -1565,8 +1565,8 @@ Sane.Status Sane.start( Sane.Handle handle )
 		return Sane.STATUS_DEVICE_BUSY
 	}
 
-	status = Sane.get_parameters (handle, NULL)
-	if (status != Sane.STATUS_GOOD) {
+	status = Sane.get_parameters(handle, NULL)
+	if(status != Sane.STATUS_GOOD) {
 		DBG( _DBG_ERROR, "Sane.get_parameters failed\n" )
 		return status
 	}
@@ -1643,7 +1643,7 @@ Sane.Status Sane.start( Sane.Handle handle )
 	DBG( _DBG_INFO, "scanmode = %u\n", scanmode )
 
 	/* clear it out just in case */
-	memset (&image, 0, sizeof(ImgDef))
+	memset(&image, 0, sizeof(ImgDef))
 
 	/* this is what we want */
 	image.xyDpi.x   = ndpi
@@ -1729,7 +1729,7 @@ Sane.Status Sane.start( Sane.Handle handle )
 
 	cancelRead = Sane.FALSE
 
-	if( !sanei_thread_is_valid (s.reader_pid) ) {
+	if( !sanei_thread_is_valid(s.reader_pid) ) {
 		DBG( _DBG_ERROR, "ERROR: could not start reader task\n" )
 		s.scanning = Sane.FALSE
 		u12if_close( dev )
@@ -1759,7 +1759,7 @@ Sane.Status Sane.read( Sane.Handle handle, Sane.Byte *data,
 	/* here we read all data from the driver... */
 	nread = read( s.r_pipe, data, max_length )
 	DBG( _DBG_READ, "Sane.read - read %ld bytes\n", (long)nread )
-	if (!(s.scanning)) {
+	if(!(s.scanning)) {
 		return do_cancel( s, Sane.TRUE )
 	}
 
@@ -1826,7 +1826,7 @@ Sane.Status Sane.set_io_mode( Sane.Handle handle, Bool non_blocking )
 
 	DBG( _DBG_Sane.INIT, "Sane.set_io_mode: non_blocking=%d\n", non_blocking )
 
-	if ( !s.scanning ) {
+	if( !s.scanning ) {
 		DBG( _DBG_ERROR, "ERROR: not scanning !\n" )
 		return Sane.STATUS_INVAL
 	}
@@ -1836,7 +1836,7 @@ Sane.Status Sane.set_io_mode( Sane.Handle handle, Bool non_blocking )
 		return Sane.STATUS_UNSUPPORTED
 	}
 
-	if( fcntl (s.r_pipe, F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0) {
+	if( fcntl(s.r_pipe, F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0) {
 		DBG( _DBG_ERROR, "ERROR: can´t set to non-blocking mode !\n" )
 		return Sane.STATUS_IO_ERROR
 	}

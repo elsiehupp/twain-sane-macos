@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2000-2003 Jochen Eisinger <jochen.eisinger@gmx.net>
+   Copyright(C) 2000-2003 Jochen Eisinger <jochen.eisinger@gmx.net>
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -65,7 +65,7 @@ debug_drv_init(Int options, Sane.String_Const port,
 		Sane.String_Const name, Sane.Attach_Callback attach)
 {
 
-	if (options != CAP_NOTHING)
+	if(options != CAP_NOTHING)
 		return Sane.STATUS_INVAL
 
 	return attach(port, name, MUSTEK_PP_NULL_DRIVER, 0)
@@ -94,7 +94,7 @@ debug_drv_capabilities(Int info __UNUSED__, String *model,
 
 /*ARGSUSED*/
 static Sane.Status
-debug_drv_open (String port __UNUSED__,
+debug_drv_open(String port __UNUSED__,
 			    Int caps __UNUSED__, Int *fd)
 {
 	*fd = 1
@@ -102,7 +102,7 @@ debug_drv_open (String port __UNUSED__,
 }
 
 static void
-debug_drv_setup (Sane.Handle hndl)
+debug_drv_setup(Sane.Handle hndl)
 {
 
 	Mustek_pp_Handle *dev = hndl
@@ -117,35 +117,35 @@ debug_drv_config(Sane.Handle hndl __UNUSED__,
 			     Sane.String_Const optname,
 			     Sane.String_Const optval)
 {
-	DBG (3, "debug_drv cfg option: %s=%s\n", optname, optval ? optval : "")
+	DBG(3, "debug_drv cfg option: %s=%s\n", optname, optval ? optval : "")
 	return Sane.STATUS_GOOD
 }
 
 /*ARGSUSED*/
 static void
-debug_drv_close (Sane.Handle hndl __UNUSED__)
+debug_drv_close(Sane.Handle hndl __UNUSED__)
 {
 }
 
 /*ARGSUSED*/
 static Sane.Status
-debug_drv_start (Sane.Handle hndl __UNUSED__)
+debug_drv_start(Sane.Handle hndl __UNUSED__)
 {
 	return Sane.STATUS_GOOD
 }
 
 static void
-debug_drv_read (Sane.Handle hndl, Sane.Byte *buffer)
+debug_drv_read(Sane.Handle hndl, Sane.Byte *buffer)
 {
 
 	Mustek_pp_Handle *dev = hndl
 
-	memset (buffer, 0, dev.params.bytes_per_line)
+	memset(buffer, 0, dev.params.bytes_per_line)
 }
 
 /*ARGSUSED*/
 static void
-debug_drv_stop (Sane.Handle hndl __UNUSED__)
+debug_drv_stop(Sane.Handle hndl __UNUSED__)
 {
 
 }

@@ -2,19 +2,19 @@
 #define __HP5400_DEBUG_H_
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2003 Martijn van Oosterhout <kleptog@svana.org>
-   Copyright (C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
+   Copyright(C) 2003 Martijn van Oosterhout <kleptog@svana.org>
+   Copyright(C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
 
    Originally copied from HP3300 testtools. Original notice follows:
 
-   Copyright (C) 2001 Bertrik Sikken (bertrik@zonnet.nl)
+   Copyright(C) 2001 Bertrik Sikken(bertrik@zonnet.nl)
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
    as published by the Free Software Foundation; either version 2
-   of the License, or (at your option) any later version.
+   of the License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -81,19 +81,19 @@ void  hp5400_dbg_start()
 
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2003 Martijn van Oosterhout <kleptog@svana.org>
-   Copyright (C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
+   Copyright(C) 2003 Martijn van Oosterhout <kleptog@svana.org>
+   Copyright(C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
 
    Originally copied from HP3300 testtools. Original notice follows:
 
-   Copyright (C) 2001 Bertrik Sikken (bertrik@zonnet.nl)
+   Copyright(C) 2001 Bertrik Sikken(bertrik@zonnet.nl)
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
    as published by the Free Software Foundation; either version 2
-   of the License, or (at your option) any later version.
+   of the License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of

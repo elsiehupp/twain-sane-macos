@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) Marian Eichholz 2001
+   Copyright(C) Marian Eichholz 2001
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -50,7 +50,7 @@ import sm3600-scantool
 
 dprintf(DEBUG_XXXX, format, ...)
 
-Put a debug message on STDERR (or whatever). The message is prefixed with
+Put a debug message on STDERR(or whatever). The message is prefixed with
 a "debug:" and given, if the current debugging flags contain the given
 flag "ulType".
 
@@ -67,8 +67,8 @@ __SM3600EXPORT__
 void debug_printf(unsigned long ulType, const char *szFormat, ...)
 {
   va_list ap
-  if ((ulDebugMask & ulType)!=ulType) return
-  if (*szFormat=='~')
+  if((ulDebugMask & ulType)!=ulType) return
+  if(*szFormat=='~')
     szFormat++
   else
     fprintf(stderr,"debug:")
@@ -81,7 +81,7 @@ void debug_printf(unsigned long ulType, const char *szFormat, ...)
 
 SetError(error, format, ...)
 
-The program is aborted, all handles and resources are freed (this
+The program is aborted, all handles and resources are freed(this
 being global) and the user gets a nice panic screen :-)
 
 ********************************************************************** */
@@ -90,11 +90,11 @@ __SM3600EXPORT__
 Int SetError(TInstance *this, Int nError, const char *szFormat, ...)
 {
   va_list ap
-  if (this.nErrorState) return 0; /* do not overwrite error state */
+  if(this.nErrorState) return 0; /* do not overwrite error state */
   this.nErrorState=nError
   this.szErrorReason=malloc(500)
 
-  if (szFormat!=NULL && this.szErrorReason)
+  if(szFormat!=NULL && this.szErrorReason)
     {
       va_start(ap,szFormat)
       vsnprintf(this.szErrorReason,499,szFormat,ap)
@@ -116,11 +116,11 @@ __SM3600EXPORT__
 void DumpBuffer(FILE *fh, const char *pch, Int cch)
 {
   var i: Int=0
-  while (i<cch)
+  while(i<cch)
     {
-      if (!(i & 15))
+      if(!(i & 15))
 	{
-	  if (i) fprintf(fh,"\n")
+	  if(i) fprintf(fh,"\n")
 	  fprintf(fh,"%04X:",i)
 	}
       fprintf(fh," %02X",(unsigned char)pch[i])
@@ -142,18 +142,18 @@ Frees all dynamical memory for scan buffering.
 __SM3600EXPORT__
 TState FreeState(TInstance *this, TState nReturn)
 {
-  if (this.state.ppchLines)
+  if(this.state.ppchLines)
     {
       var i: Int
-      for (i=0; i<this.state.cBacklog; i++)
+      for(i=0; i<this.state.cBacklog; i++)
 	{
-	  if (this.state.ppchLines[i])
+	  if(this.state.ppchLines[i])
 	    free(this.state.ppchLines[i])
 	}
       free(this.state.ppchLines)
     }
-  if (this.state.pchLineOut) free(this.state.pchLineOut)
-  if (this.state.pchBuf)     free(this.state.pchBuf)
+  if(this.state.pchLineOut) free(this.state.pchLineOut)
+  if(this.state.pchBuf)     free(this.state.pchBuf)
   this.state.pchBuf    =NULL
   this.state.pchLineOut=NULL
   this.state.ppchLines =NULL
@@ -169,7 +169,7 @@ EndScan()
 __SM3600EXPORT__
 TState EndScan(TInstance *this)
 {
-  if (!this.state.bScanning) return Sane.STATUS_GOOD
+  if(!this.state.bScanning) return Sane.STATUS_GOOD
   /* move slider back to start */
   this.state.bScanning=false
   FreeState(this,0)
@@ -200,7 +200,7 @@ TState CancelScan(TInstance *this)
   DBG(DEBUG_JUNK,"cs4: %d\n",(Int)this.nErrorState)
   bCanceled=this.state.bCanceled
   this.state.bCanceled=false; /* re-enable Origination! */
-  if (!this.bOptSkipOriginate)
+  if(!this.bOptSkipOriginate)
     DoOriginate(this,false); /* have an error here... */
   this.state.bCanceled=bCanceled
   DBG(DEBUG_JUNK,"cs5: %d\n",(Int)this.nErrorState)
@@ -225,9 +225,9 @@ TState ReadChunk(TInstance *this, unsigned char *achOut,
   Int rc
   *pcchRead=0
   INST_ASSERT()
-  if (!this.state.bScanning)
+  if(!this.state.bScanning)
     return Sane.STATUS_CANCELLED; /* deferred cancel? */
-  if (this.state.bCanceled) /* deferred cancellation? */
+  if(this.state.bCanceled) /* deferred cancellation? */
     return CancelScan(this)
   INST_ASSERT()
   /* 22.4.2001: This took me hard, harder, hardest:*/
@@ -237,13 +237,13 @@ TState ReadChunk(TInstance *this, unsigned char *achOut,
   /*     Thus, "iLine>0" is a suitable condition. */
   /*   Without the preread, there will a dummy line be read, if the
        target buffer is large enough.*/
-  if (this.state.iLine)
+  if(this.state.iLine)
     rc=Sane.STATUS_GOOD
   else
     rc=(*(this.state.ReadProc))(this); /* preread one line */
-  if (rc!=Sane.STATUS_GOOD) return rc
+  if(rc!=Sane.STATUS_GOOD) return rc
   dprintf(DEBUG_BUFFER,"Chunk-Init: cchMax = %d\n",cchMax)
-  while (this.state.iReadPos + cchMax > this.state.cchLineOut)
+  while(this.state.iReadPos + cchMax > this.state.cchLineOut)
     {
       Int cch
       /* copy rest of the line into target */
@@ -257,11 +257,11 @@ TState ReadChunk(TInstance *this, unsigned char *achOut,
       this.state.iReadPos=0
       rc=(*(this.state.ReadProc))(this)
       dprintf(DEBUG_BUFFER,"Chunk-Read: cchMax = %d\n",cchMax)
-      if (rc!=Sane.STATUS_GOOD)
+      if(rc!=Sane.STATUS_GOOD)
 	return rc; /* should be NOT(!) EOF, but then: good and away! */
     }
   dprintf(DEBUG_BUFFER,"Chunk-Exit: cchMax = %d\n",cchMax)
-  if (!cchMax) return Sane.STATUS_GOOD; /* now everything fits! */
+  if(!cchMax) return Sane.STATUS_GOOD; /* now everything fits! */
   (*pcchRead) += cchMax
   memcpy(achOut,
 	 this.state.pchLineOut+this.state.iReadPos,
@@ -283,7 +283,7 @@ void GetAreaSize(TInstance *this)
      this.state.cxMax   : pixels, we *need* (before interpolation) */
   Int nRefResX,nRefResY
   nRefResX=nRefResY=this.param.res
-  switch (this.param.res)
+  switch(this.param.res)
     {
     case 75:  nRefResX=100; this.state.nFixAspect=75; break
     default: this.state.nFixAspect=100; break
@@ -308,13 +308,13 @@ Free calibration data. The Instance can be safely released afterwards.
 __SM3600EXPORT__
 void ResetCalibration(TInstance *this)
 {
-  if (this.calibration.achStripeY)
+  if(this.calibration.achStripeY)
     free(this.calibration.achStripeY)
-  if (this.calibration.achStripeR)
+  if(this.calibration.achStripeR)
     free(this.calibration.achStripeR)
-  if (this.calibration.achStripeG)
+  if(this.calibration.achStripeG)
     free(this.calibration.achStripeG)
-  if (this.calibration.achStripeB)
+  if(this.calibration.achStripeB)
     free(this.calibration.achStripeB)
   /* reset all handles, pointers, flags */
   memset(&(this.calibration),0,sizeof(this.calibration))
@@ -343,11 +343,11 @@ TState InitGammaTables(TInstance *this, Int nBrightness, Int nContrast)
   /* the rescaling is done with temporary zero translation to 2048 */
   lOffset=(nBrightness-128)*16; /* signed! */
   lScale=(nContrast+128)*100;  /* in percent */
-  for (i=0; i<4096; i++)
+  for(i=0; i<4096; i++)
     {
       Int n=(Int)((i+lOffset)*lScale/12800L+2048L)
-      if (n<0) n=0
-      else if (n>4095) n=4095
+      if(n<0) n=0
+      else if(n>4095) n=4095
       this.agammaY[i]=n
       this.agammaR[i]=n
       this.agammaG[i]=n
@@ -379,18 +379,18 @@ TState DoScanFile(TInstance *this)
   achBuf=malloc(APP_CHUNK_SIZE)
   rc=Sane.STATUS_GOOD; /* make compiler happy */
   rc=InitGammaTables(this, this.param.nBrightness, this.param.nContrast)
-  if (rc!=Sane.STATUS_GOOD) return rc
-  if (this.mode==color)
+  if(rc!=Sane.STATUS_GOOD) return rc
+  if(this.mode==color)
     rc=StartScanColor(this)
   else
     rc=StartScanGray(this)
   cx=this.state.cxPixel
   cy=this.state.cyPixel
-  if (this.bVerbose)
+  if(this.bVerbose)
     fprintf(stderr,"scanning %d by %d\n",cx,cy)
-  if (this.fhScan && !this.bWriteRaw && !this.pchPageBuffer)
+  if(this.fhScan && !this.bWriteRaw && !this.pchPageBuffer)
    {
-      switch (this.mode)
+      switch(this.mode)
 	{
 	case color: fprintf(this.fhScan,"P6\n%d %d\n255\n",cx,cy)
 	            break
@@ -401,17 +401,17 @@ TState DoScanFile(TInstance *this)
 	}
     }
   lcchRead=0L
-  while (!rc)
+  while(!rc)
     {
       Int cch
       cch=0
       rc=ReadChunk(this,achBuf,APP_CHUNK_SIZE,&cch)
-      if (cch>0 && this.fhScan && cch<=APP_CHUNK_SIZE)
+      if(cch>0 && this.fhScan && cch<=APP_CHUNK_SIZE)
 	{
-	  if (this.pchPageBuffer)
+	  if(this.pchPageBuffer)
 	    {
 #ifdef SM3600_DEBUGPAGEBUFFER
-	      if (this.bVerbose)
+	      if(this.bVerbose)
 		fprintf(stderr,"ichPageBuffer:%d, cch:%d, cchPageBuffer:%d\n",
 			this.ichPageBuffer,cch,this.cchPageBuffer)
 #endif
@@ -420,13 +420,13 @@ TState DoScanFile(TInstance *this)
 		     achBuf,cch)
 	      this.ichPageBuffer+=cch
 	    }
-	  else if (!this.bWriteRaw)
+	  else if(!this.bWriteRaw)
 	    fwrite(achBuf,1,cch,this.fhScan)
 	  lcchRead+=cch
 	}
      }
   free(achBuf)
-  if (this.bVerbose)
+  if(this.bVerbose)
     fprintf(stderr,"read %ld image byte(s)\n",lcchRead)
   EndScan(this)
   INST_ASSERT()

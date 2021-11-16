@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 David Mosberger-Tang
+   Copyright(C) 1997 David Mosberger-Tang
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -50,15 +50,15 @@ import Sane.sanei_codec_ascii
 static const char *hexdigit = "0123456789abcdef"
 
 static void
-skip_ws (Wire *w)
+skip_ws(Wire *w)
 {
-  while (1)
+  while(1)
     {
-      sanei_w_space (w, 1)
-      if (w.status != 0)
+      sanei_w_space(w, 1)
+      if(w.status != 0)
 	return
 
-      if (!isspace (*w.buffer.curr))
+      if(!isspace(*w.buffer.curr))
 	return
 
       ++w.buffer.curr
@@ -66,15 +66,15 @@ skip_ws (Wire *w)
 }
 
 static unsigned
-get_digit (Wire *w)
+get_digit(Wire *w)
 {
   unsigned digit
 
-  sanei_w_space (w, 1)
+  sanei_w_space(w, 1)
   digit = tolower(*w.buffer.curr++) - '0'
-  if (digit > 9)
+  if(digit > 9)
     digit -= 'a' - ('9' + 1)
-  if (digit > 0xf)
+  if(digit > 0xf)
     {
       w.status = EINVAL
       return 0
@@ -83,28 +83,28 @@ get_digit (Wire *w)
 }
 
 static Sane.Byte
-get_byte (Wire *w)
+get_byte(Wire *w)
 {
-  return get_digit (w) << 4 | get_digit (w)
+  return get_digit(w) << 4 | get_digit(w)
 }
 
 static void
-ascii_w_byte (Wire *w, void *v)
+ascii_w_byte(Wire *w, void *v)
 {
   Sane.Byte *b = v
 
-  switch (w.direction)
+  switch(w.direction)
     {
     case WIRE_ENCODE:
-      sanei_w_space (w, 3)
+      sanei_w_space(w, 3)
       *w.buffer.curr++ = hexdigit[(*b >> 4) & 0x0f]
       *w.buffer.curr++ = hexdigit[(*b >> 0) & 0x0f]
       *w.buffer.curr++ = '\n'
       break
 
     case WIRE_DECODE:
-      skip_ws (w)
-      *b = get_byte (w)
+      skip_ws(w)
+      *b = get_byte(w)
       break
 
     case WIRE_FREE:
@@ -113,16 +113,16 @@ ascii_w_byte (Wire *w, void *v)
 }
 
 static void
-ascii_w_char (Wire *w, void *v)
+ascii_w_char(Wire *w, void *v)
 {
   Sane.Char *c = v
 
-  switch (w.direction)
+  switch(w.direction)
     {
     case WIRE_ENCODE:
-      sanei_w_space (w, 5)
+      sanei_w_space(w, 5)
       *w.buffer.curr++ = '\''
-      if (*c == '\'' || *c == '\\')
+      if(*c == '\'' || *c == '\\')
 	*w.buffer.curr++ = '\\'
       *w.buffer.curr++ = *c
       *w.buffer.curr++ = '\''
@@ -130,19 +130,19 @@ ascii_w_char (Wire *w, void *v)
       break
 
     case WIRE_DECODE:
-      sanei_w_space (w, 4)
-      if (*w.buffer.curr++ != '\'')
+      sanei_w_space(w, 4)
+      if(*w.buffer.curr++ != '\'')
 	{
 	  w.status = EINVAL
 	  return
 	}
       *c = *w.buffer.curr++
-      if (*c == '\\')
+      if(*c == '\\')
 	{
-	  sanei_w_space (w, 2)
+	  sanei_w_space(w, 2)
 	  *c = *w.buffer.curr++
 	}
-      if (*w.buffer.curr++ != '\'')
+      if(*w.buffer.curr++ != '\'')
 	{
 	  w.status = EINVAL
 	  return
@@ -155,25 +155,25 @@ ascii_w_char (Wire *w, void *v)
 }
 
 static void
-ascii_w_string (Wire *w, void *v)
+ascii_w_string(Wire *w, void *v)
 {
   size_t len, alloced_len
   String *s = v
   char * str, ch
   Int done
 
-  switch (w.direction)
+  switch(w.direction)
     {
     case WIRE_ENCODE:
-      if (*s)
+      if(*s)
 	{
-	  sanei_w_space (w, 1)
+	  sanei_w_space(w, 1)
 	  *w.buffer.curr++ = '"'
 	  str = *s
-	  while ((ch = *str++))
+	  while((ch = *str++))
 	    {
-	      sanei_w_space (w, 2)
-	      if (ch == '"' || ch == '\\')
+	      sanei_w_space(w, 2)
+	      if(ch == '"' || ch == '\\')
 		*w.buffer.curr++ = '\\'
 	      *w.buffer.curr++ = ch
 	    }
@@ -181,51 +181,51 @@ ascii_w_string (Wire *w, void *v)
 	}
       else
 	{
-	  sanei_w_space (w, 5)
+	  sanei_w_space(w, 5)
 	  *w.buffer.curr++ = '('
 	  *w.buffer.curr++ = 'n'
 	  *w.buffer.curr++ = 'i'
 	  *w.buffer.curr++ = 'l'
 	  *w.buffer.curr++ = ')'
 	}
-      sanei_w_space (w, 1)
+      sanei_w_space(w, 1)
       *w.buffer.curr++ = '\n'
       break
 
     case WIRE_DECODE:
-      skip_ws (w)
-      sanei_w_space (w, 1)
+      skip_ws(w)
+      sanei_w_space(w, 1)
       ch = *w.buffer.curr++
-      if (ch == '"')
+      if(ch == '"')
 	{
 	  alloced_len = len = 0
 	  str = 0
 	  done = 0
 	  do
 	    {
-	      sanei_w_space (w, 1)
-	      if (w.status != 0)
+	      sanei_w_space(w, 1)
+	      if(w.status != 0)
 		return
 
 	      ch = *w.buffer.curr++
-	      if (ch == '"')
+	      if(ch == '"')
 		done = 1
 
-	      if (ch == '\\')
+	      if(ch == '\\')
 		{
-		  sanei_w_space (w, 1)
+		  sanei_w_space(w, 1)
 		  ch = *w.buffer.curr++
 		}
 
-	      if (len >= alloced_len)
+	      if(len >= alloced_len)
 		{
 		  alloced_len += 1024
-		  if (!str)
-		    str = malloc (alloced_len)
+		  if(!str)
+		    str = malloc(alloced_len)
 		  else
-		    str = realloc (str, alloced_len)
+		    str = realloc(str, alloced_len)
 
-		  if (str == 0)
+		  if(str == 0)
 		    {
 		      /* Malloc failed, so return an error. */
 		      w.status = ENOMEM
@@ -234,22 +234,22 @@ ascii_w_string (Wire *w, void *v)
 		}
 	      str[len++] = ch
 	    }
-	  while (!done)
+	  while(!done)
 
 	  str[len - 1] = '\0'
-	  *s = realloc (str, len)
+	  *s = realloc(str, len)
 
-	  if (*s == 0)
+	  if(*s == 0)
 	    {
 	      /* Malloc failed, so return an error. */
 	      w.status = ENOMEM
 	      return
 	    }
 	}
-      else if (ch == '(')
+      else if(ch == '(')
 	{
-	  sanei_w_space (w, 4)
-	  if (   *w.buffer.curr++ != 'n'
+	  sanei_w_space(w, 4)
+	  if(   *w.buffer.curr++ != 'n'
 	      || *w.buffer.curr++ != 'i'
 	      || *w.buffer.curr++ != 'l'
 	      || *w.buffer.curr++ != ')')
@@ -267,25 +267,25 @@ ascii_w_string (Wire *w, void *v)
       break
 
     case WIRE_FREE:
-      if (*s)
-	free (*s)
+      if(*s)
+	free(*s)
       break
     }
 }
 
 static void
-ascii_w_word (Wire *w, void *v)
+ascii_w_word(Wire *w, void *v)
 {
   Sane.Word val, *word = v
   var i: Int, is_negative = 0
   char buf[16]
 
-  switch (w.direction)
+  switch(w.direction)
     {
     case WIRE_ENCODE:
       val = *word
-      i = sizeof (buf) - 1
-      if (val < 0)
+      i = sizeof(buf) - 1
+      if(val < 0)
 	{
 	  is_negative = 1
 	  val = -val
@@ -295,32 +295,32 @@ ascii_w_word (Wire *w, void *v)
 	  buf[i--] = '0' + (val % 10)
 	  val /= 10
 	}
-      while (val)
-      if (is_negative)
+      while(val)
+      if(is_negative)
 	buf[i--] = '-'
 
-      sanei_w_space (w, sizeof (buf) - i)
-      memcpy (w.buffer.curr, buf + i + 1, sizeof (buf) - i - 1)
-      w.buffer.curr += sizeof (buf) - i - 1
+      sanei_w_space(w, sizeof(buf) - i)
+      memcpy(w.buffer.curr, buf + i + 1, sizeof(buf) - i - 1)
+      w.buffer.curr += sizeof(buf) - i - 1
       *w.buffer.curr++ = '\n'
       break
 
     case WIRE_DECODE:
-      skip_ws (w)
+      skip_ws(w)
       val = 0
-      sanei_w_space (w, 1)
-      if (*w.buffer.curr == '-')
+      sanei_w_space(w, 1)
+      if(*w.buffer.curr == '-')
 	{
 	  is_negative = 1
 	  ++w.buffer.curr
 	}
-      while (1)
+      while(1)
 	{
-	  sanei_w_space (w, 1)
-	  if (w.status != 0)
+	  sanei_w_space(w, 1)
+	  if(w.status != 0)
 	    return
 
-	  if (!isdigit (*w.buffer.curr))
+	  if(!isdigit(*w.buffer.curr))
 	    break
 
 	  val = 10*val + (*w.buffer.curr++ - '0')
@@ -334,7 +334,7 @@ ascii_w_word (Wire *w, void *v)
 }
 
 void
-sanei_codec_ascii_init (Wire *w)
+sanei_codec_ascii_init(Wire *w)
 {
   w.codec.w_byte = ascii_w_byte
   w.codec.w_char = ascii_w_char

@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 David Mosberger-Tang
+   Copyright(C) 1997 David Mosberger-Tang
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -45,67 +45,67 @@ import Sane.sane
 import Sane.sanei_net
 
 void
-sanei_w_init_req (Wire *w, Sane.Init_Req *req)
+sanei_w_init_req(Wire *w, Sane.Init_Req *req)
 {
-  sanei_w_word (w, &req.version_code)
-  sanei_w_string (w, &req.username)
+  sanei_w_word(w, &req.version_code)
+  sanei_w_string(w, &req.username)
 }
 
 void
-sanei_w_init_reply (Wire *w, Sane.Init_Reply *reply)
+sanei_w_init_reply(Wire *w, Sane.Init_Reply *reply)
 {
-  sanei_w_status (w, &reply.status)
-  sanei_w_word (w, &reply.version_code)
+  sanei_w_status(w, &reply.status)
+  sanei_w_word(w, &reply.version_code)
 }
 
 void
-sanei_w_get_devices_reply (Wire *w, Sane.Get_Devices_Reply *reply)
+sanei_w_get_devices_reply(Wire *w, Sane.Get_Devices_Reply *reply)
 {
   Sane.Word len
 
-  if (w.direction != WIRE_DECODE)
+  if(w.direction != WIRE_DECODE)
     {
-      if (reply.device_list)
+      if(reply.device_list)
 	{
-	  for (len = 0; reply.device_list[len]; ++len)
+	  for(len = 0; reply.device_list[len]; ++len)
 	  ++len
 	}
       else
 	len = 0
     }
-  sanei_w_status (w, &reply.status)
-  sanei_w_array (w, &len, (void *) &reply.device_list,
+  sanei_w_status(w, &reply.status)
+  sanei_w_array(w, &len, (void *) &reply.device_list,
 		 (WireCodecFunc) sanei_w_device_ptr,
-		 sizeof (reply.device_list[0]))
+		 sizeof(reply.device_list[0]))
 }
 
 void
-sanei_w_open_reply (Wire *w, Sane.Open_Reply *reply)
+sanei_w_open_reply(Wire *w, Sane.Open_Reply *reply)
 {
-  sanei_w_status (w, &reply.status)
-  sanei_w_word (w, &reply.handle)
-  sanei_w_string (w, &reply.resource_to_authorize)
+  sanei_w_status(w, &reply.status)
+  sanei_w_word(w, &reply.handle)
+  sanei_w_string(w, &reply.resource_to_authorize)
 }
 
 static void
-w_option_value (Wire *w, Sane.Word type, Sane.Word size, void **value)
+w_option_value(Wire *w, Sane.Word type, Sane.Word size, void **value)
 {
   Sane.Word len, element_size
   WireCodecFunc w_value
 
-  switch (type)
+  switch(type)
     {
     case Sane.TYPE_BOOL:
     case Sane.TYPE_INT:
     case Sane.TYPE_FIXED:
       w_value = (WireCodecFunc) sanei_w_word
-      element_size = sizeof (Sane.Word)
+      element_size = sizeof(Sane.Word)
       len = size / element_size
       break
 
     case Sane.TYPE_STRING:
       w_value = (WireCodecFunc) sanei_w_char
-      element_size = sizeof (Sane.Char)
+      element_size = sizeof(Sane.Char)
       len = size
       break
 
@@ -120,65 +120,65 @@ w_option_value (Wire *w, Sane.Word type, Sane.Word size, void **value)
       w.status = EINVAL
       return
     }
-  sanei_w_array (w, &len, value, w_value, element_size)
+  sanei_w_array(w, &len, value, w_value, element_size)
 }
 
 void
-sanei_w_option_descriptor_array (Wire *w, Sane.Option_Descriptor_Array *a)
+sanei_w_option_descriptor_array(Wire *w, Sane.Option_Descriptor_Array *a)
 {
-  sanei_w_array (w, &a.num_options, (void **) &a.desc,
+  sanei_w_array(w, &a.num_options, (void **) &a.desc,
 		 (WireCodecFunc) sanei_w_option_descriptor_ptr,
-		 sizeof (a.desc[0]))
+		 sizeof(a.desc[0]))
 }
 
 void
-sanei_w_control_option_req (Wire *w, Sane.Control_Option_Req *req)
+sanei_w_control_option_req(Wire *w, Sane.Control_Option_Req *req)
 {
-  sanei_w_word (w, &req.handle)
-  sanei_w_word (w, &req.option)
-  sanei_w_word (w, &req.action)
+  sanei_w_word(w, &req.handle)
+  sanei_w_word(w, &req.option)
+  sanei_w_word(w, &req.action)
 
   /* Up to and including version 2, we incorrectly attempted to encode
      the option value even the action was Sane.ACTION_SET_AUTO.  */
-  if (w.version < 3 || req.action != Sane.ACTION_SET_AUTO)
+  if(w.version < 3 || req.action != Sane.ACTION_SET_AUTO)
     {
-      sanei_w_word (w, &req.value_type)
-      sanei_w_word (w, &req.value_size)
-      w_option_value (w, req.value_type, req.value_size, &req.value)
+      sanei_w_word(w, &req.value_type)
+      sanei_w_word(w, &req.value_size)
+      w_option_value(w, req.value_type, req.value_size, &req.value)
     }
 }
 
 void
-sanei_w_control_option_reply (Wire *w, Sane.Control_Option_Reply *reply)
+sanei_w_control_option_reply(Wire *w, Sane.Control_Option_Reply *reply)
 {
-  sanei_w_status (w, &reply.status)
-  sanei_w_word (w, &reply.info)
-  sanei_w_word (w, &reply.value_type)
-  sanei_w_word (w, &reply.value_size)
-  w_option_value (w, reply.value_type, reply.value_size, &reply.value)
-  sanei_w_string (w, &reply.resource_to_authorize)
+  sanei_w_status(w, &reply.status)
+  sanei_w_word(w, &reply.info)
+  sanei_w_word(w, &reply.value_type)
+  sanei_w_word(w, &reply.value_size)
+  w_option_value(w, reply.value_type, reply.value_size, &reply.value)
+  sanei_w_string(w, &reply.resource_to_authorize)
 }
 
 void
-sanei_w_get_parameters_reply (Wire *w, Sane.Get_Parameters_Reply *reply)
+sanei_w_get_parameters_reply(Wire *w, Sane.Get_Parameters_Reply *reply)
 {
-  sanei_w_status (w, &reply.status)
-  sanei_w_parameters (w, &reply.params)
+  sanei_w_status(w, &reply.status)
+  sanei_w_parameters(w, &reply.params)
 }
 
 void
-sanei_w_start_reply (Wire *w, Sane.Start_Reply *reply)
+sanei_w_start_reply(Wire *w, Sane.Start_Reply *reply)
 {
-  sanei_w_status (w, &reply.status)
-  sanei_w_word (w, &reply.port)
-  sanei_w_word (w, &reply.byte_order)
-  sanei_w_string (w, &reply.resource_to_authorize)
+  sanei_w_status(w, &reply.status)
+  sanei_w_word(w, &reply.port)
+  sanei_w_word(w, &reply.byte_order)
+  sanei_w_string(w, &reply.resource_to_authorize)
 }
 
 void
-sanei_w_authorization_req (Wire *w, Sane.Authorization_Req *req)
+sanei_w_authorization_req(Wire *w, Sane.Authorization_Req *req)
 {
-  sanei_w_string (w, &req.resource)
-  sanei_w_string (w, &req.username)
-  sanei_w_string (w, &req.password)
+  sanei_w_string(w, &req.resource)
+  sanei_w_string(w, &req.username)
+  sanei_w_string(w, &req.password)
 }

@@ -1,7 +1,7 @@
 /*
  * kodakaio.c - SANE library for Kodak ESP Aio scanners.
  *
- * Copyright (C)  2011-2013 Paul Newall
+ * Copyright(C)  2011-2013 Paul Newall
  *
  * Based on the Magicolor sane backend:
  * Based on the epson2 sane backend:
@@ -51,8 +51,8 @@ import Sane.sanei_backend
 
 #define KODAKAIO_CONFIG_FILE "kodakaio.conf"
 
-#define NUM_OF_HEX_ELEMENTS (16)        /* number of hex numbers per line for data dump */
-#define DEVICE_NAME_LEN (16)    /* length of device name in extended status */
+#define NUM_OF_HEX_ELEMENTS(16)        /* number of hex numbers per line for data dump */
+#define DEVICE_NAME_LEN(16)    /* length of device name in extended status */
 
 #define CAP_DEFAULT 0
 
@@ -137,7 +137,7 @@ struct Kodak_Device
 
 typedef struct Kodak_Device Kodak_Device
 
-/* Structure holding an instance of a scanner (i.e. scanner has been opened) */
+/* Structure holding an instance of a scanner(i.e. scanner has been opened) */
 struct KodakAio_Scanner
 {
 	struct KodakAio_Scanner *next
@@ -149,8 +149,8 @@ struct KodakAio_Scanner
 	Option_Value val[NUM_OPTIONS]
 	Sane.Parameters params
 
-	Bool ack; /* scanner has finished a page (happens early with adf and padding) */
-	Bool eof; /* backend has finished a page (after padding with adf) */
+	Bool ack; /* scanner has finished a page(happens early with adf and padding) */
+	Bool eof; /* backend has finished a page(after padding with adf) */
 	Sane.Byte *buf, *end, *ptr
 	Bool canceling
 	Bool scanning; /* scan in progress */

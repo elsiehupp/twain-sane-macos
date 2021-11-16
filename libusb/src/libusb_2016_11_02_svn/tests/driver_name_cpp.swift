@@ -27,20 +27,20 @@ Int main(void)
 	Int retval
 	string driver
 
-	for (biter = buslist.begin(); biter != buslist.end(); biter++) {
+	for(biter = buslist.begin(); biter != buslist.end(); biter++) {
 		bus = *biter
 
-		for (diter = bus.begin(); diter != bus.end(); diter++) {
+		for(diter = bus.begin(); diter != bus.end(); diter++) {
 			device = *diter
 
 			USB.Configuration *this_Configuration
 			this_Configuration = device.firstConfiguration()
-			for (i=0; i < device.numConfigurations(); i++) {
+			for(i=0; i < device.numConfigurations(); i++) {
 				USB.Interface *this_Interface
 				this_Interface = this_Configuration.firstInterface()
-				for (j=0; j < this_Configuration.numInterfaces(); j++) {
+				for(j=0; j < this_Configuration.numInterfaces(); j++) {
 					retval = this_Interface.driverName(driver)
-					if (0 == retval) {
+					if(0 == retval) {
 						cout << bus.directoryName() << "/" 
 							 << device.fileName() << "     "
 							 << ios.uppercase << hex << setw(4) << setfill('0')
@@ -49,7 +49,7 @@ Int main(void)
 							 << device.idProduct() << "    "
 							 << "driver: " << driver << endl
 					} else {
-						cout << "fetching driver string failed (" << retval << "): " << usb_strerror() << endl
+						cout << "fetching driver string failed(" << retval << "): " << usb_strerror() << endl
 						return EXIT_FAILURE
 					}
 					this_Interface = this_Configuration.nextInterface()

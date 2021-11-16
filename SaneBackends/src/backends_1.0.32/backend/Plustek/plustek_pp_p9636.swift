@@ -2,8 +2,8 @@
  * @brief here we have all functionality according to the p9636t
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 1998 Plustek Inc.
- * Copyright (C) 2000-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 1998 Plustek Inc.
+ * Copyright(C) 2000-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  * also based on the work done by Rick Bronson
  *
  * History:
@@ -39,7 +39,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -221,11 +221,11 @@ static void p9636InitializeAsicRegister( pScanData ps )
  * 2) Determine which type of CCD we are using
  * 3) According to the CCD, prepare the CCD dependent veriables
  *    SONY CCD:
- *		The color exposure sequence: Red, Green (after 11 red lines),
- *		Blue (after 8 green lines)
+ *		The color exposure sequence: Red, Green(after 11 red lines),
+ *		Blue(after 8 green lines)
  *	TOSHIBA CCD:
- *		The color exposure sequence: Red, Blue (after 11 red lines),
- *		Green (after 8 blue lines)
+ *		The color exposure sequence: Red, Blue(after 11 red lines),
+ *		Green(after 8 blue lines)
  */
 static void p9636Init98001( pScanData ps, Bool shading )
 {
@@ -283,7 +283,7 @@ static void p9636Init98001( pScanData ps, Bool shading )
         ps.Shade.pCcdDac.GainResize.Colors.Blue  =  96
 
 	    if( ps.DataInf.dwScanFlag & SCANDEF_TPA ) {
-			if (ps.DataInf.dwScanFlag & SCANDEF_Transparency) {
+			if(ps.DataInf.dwScanFlag & SCANDEF_Transparency) {
 
                 ps.Shade.pCcdDac.GainResize.Colors.Red   = 130
                 ps.Shade.pCcdDac.GainResize.Colors.Green = 110
@@ -337,7 +337,7 @@ static void p9636Init98001( pScanData ps, Bool shading )
 
             ps.Shade.pCcdDac.DarkDAC.Colors.Red   = 0xf0
             ps.Shade.pCcdDac.DarkDAC.Colors.Blue  = 0xcc
-			if (ps.bSetScanModeFlag & _ScanMode_Mono) {
+			if(ps.bSetScanModeFlag & _ScanMode_Mono) {
                 ps.Shade.pCcdDac.DarkDAC.Colors.Green =
 					((ps.bSetScanModeFlag & _ScanMode_AverageOut)? 0xa0:0x68)
 			} else {
@@ -345,7 +345,7 @@ static void p9636Init98001( pScanData ps, Bool shading )
 			}
 	    }
 
-	    if ((ps.bSetScanModeFlag & _ScanMode_Mono) ||
+	    if((ps.bSetScanModeFlag & _ScanMode_Mono) ||
 			(ps.DataInf.dwScanFlag & SCANDEF_Negative)) {
        		WolfsonDAC8144[3].bParam = 0x12
 		} else {
@@ -401,7 +401,7 @@ static void p9636Init98001( pScanData ps, Bool shading )
  */
 	    ps.lpEppColorHomePos.bExposureTime 	   = 64
 	    ps.a_tabDiffParam[_ColorEpp60].bStepSpeed = 8
-		ps.a_ColorSettings [1].bExposureTime      = 64
+		ps.a_ColorSettings[1].bExposureTime      = 64
 	    ps.a_tabDiffParam[_ColorEpp100_1400].bStepSpeed = 16
 		ps.lpBppColorHomePos.bExposureTime = 96
 	    ps.lpSppColorHomePos.bExposureTime = 96
@@ -409,7 +409,7 @@ static void p9636Init98001( pScanData ps, Bool shading )
         ps.Shade.pCcdDac.DarkDAC.Colors.Red  = 0xf0
         ps.Shade.pCcdDac.DarkDAC.Colors.Blue = 0xdf
 
-	    if (ps.bSetScanModeFlag & _ScanMode_Mono) {
+	    if(ps.bSetScanModeFlag & _ScanMode_Mono) {
             ps.Shade.pCcdDac.GainResize.Colors.Green = 110
 
             ps.Shade.pCcdDac.DarkCmpHi.Colors.Green  = 0x30
@@ -417,7 +417,7 @@ static void p9636Init98001( pScanData ps, Bool shading )
             ps.Shade.pCcdDac.DarkOffSub.Colors.Green = 0x20
             ps.Shade.pCcdDac.DarkDAC.Colors.Green    = 0xf0
 	    } else {
-			if (ps.bSetScanModeFlag & _ScanMode_AverageOut) {
+			if(ps.bSetScanModeFlag & _ScanMode_AverageOut) {
 
                 ps.Shade.pCcdDac.DarkDAC.Colors.Red   = 0xf6
                 ps.Shade.pCcdDac.DarkDAC.Colors.Green = 0xe5
@@ -465,7 +465,7 @@ static void p9636Init98001( pScanData ps, Bool shading )
         ps.Shade.pCcdDac.DarkDAC.Colors.Green = 0xcc
         ps.Shade.pCcdDac.DarkDAC.Colors.Blue  = 0xcc
 
-	    if (ps.bSetScanModeFlag & _ScanMode_Mono) {
+	    if(ps.bSetScanModeFlag & _ScanMode_Mono) {
 
             ps.Shade.pCcdDac.DarkCmpHi.Colors.Green = 0x30
             ps.Shade.pCcdDac.DarkCmpLo.Colors.Green = 0x20
@@ -520,7 +520,7 @@ static void p9636Init98001( pScanData ps, Bool shading )
 			}
 		}
 
-	    if ((ps.bSetScanModeFlag & _ScanMode_Mono) ||
+	    if((ps.bSetScanModeFlag & _ScanMode_Mono) ||
 								(ps.DataInf.dwScanFlag & SCANDEF_Negative)) {
        		WolfsonDAC8144[3].bParam = 0x12
 	    } else {
@@ -582,7 +582,7 @@ static void p9636Init98001( pScanData ps, Bool shading )
 			}
 		}
 
-	    if (ps.bSetScanModeFlag & _ScanMode_Mono ||
+	    if(ps.bSetScanModeFlag & _ScanMode_Mono ||
 								(ps.DataInf.dwScanFlag & SCANDEF_Negative)) {
        		WolfsonDAC8144[3].bParam = 0x12
 		} else {
@@ -608,7 +608,7 @@ static void p9636Init98001( pScanData ps, Bool shading )
 	/*
 	 * base init of the DAC
  	 */
-    DBG( DBG_IO, "Programming DAC (%u regs)\n", ps.Device.wNumDACRegs )
+    DBG( DBG_IO, "Programming DAC(%u regs)\n", ps.Device.wNumDACRegs )
 
     for( w = 0; w < ps.Device.wNumDACRegs; w++) {
 
@@ -680,10 +680,10 @@ static void p9636SetGeneralRegister( pScanData ps )
 
     } else {
 
-		if (COLOR_TRUE48 == ps.DataInf.wPhyDataType) {
+		if(COLOR_TRUE48 == ps.DataInf.wPhyDataType) {
 			ps.AsicReg.RD_ScanControl = _SCAN_12BITMODE
 
-		    if (!(ps.DataInf.dwScanFlag & SCANDEF_RightAlign))
+		    if(!(ps.DataInf.dwScanFlag & SCANDEF_RightAlign))
 				ps.AsicReg.RD_ScanControl |= _BITALIGN_LEFT
 		} else
 			ps.AsicReg.RD_ScanControl = _SCAN_BYTEMODE
@@ -706,11 +706,11 @@ static void p9636SetStartStopRegister( pScanData ps )
 
 	DBG( DBG_LOW, "p9636SetStartStopRegister()\n" )
 
-    if (ps.bSetScanModeFlag & _ScanMode_AverageOut )
+    if(ps.bSetScanModeFlag & _ScanMode_AverageOut )
 
 		ps.AsicReg.RD_Origin = ps.AsicReg.RD_Origin >> 1
 
-    if (ps.DataInf.wPhyDataType < COLOR_256GRAY) {
+    if(ps.DataInf.wPhyDataType < COLOR_256GRAY) {
 		ps.AsicReg.RD_Pixels = (UShort)ps.DataInf.dwAsicBytesPerLine
 	} else {
 		ps.AsicReg.RD_Pixels = (UShort)ps.DataInf.dwAsicPixelsPerPlane
@@ -731,13 +731,13 @@ static void p9636SetupScanningCondition( pScanData ps )
 
 	ps.InitialSetCurrentSpeed( ps )
 
-    if (ps.DataInf.wPhyDataType > COLOR_TRUE24) {
-		if (ps.DataInf.dwAsicBytesPerPlane < 1024)
+    if(ps.DataInf.wPhyDataType > COLOR_TRUE24) {
+		if(ps.DataInf.dwAsicBytesPerPlane < 1024)
 		    ps.Scan.dwMinReadFifo = 1024
 		else
 		    ps.Scan.dwMinReadFifo = ps.DataInf.dwAsicBytesPerPlane
 	} else {
-		if (ps.DataInf.dwAsicBytesPerPlane * 2 < 1024)
+		if(ps.DataInf.dwAsicBytesPerPlane * 2 < 1024)
 		    ps.Scan.dwMinReadFifo = 1024
 		else
 		    ps.Scan.dwMinReadFifo = ps.DataInf.dwAsicBytesPerPlane * 2
@@ -771,7 +771,7 @@ static void p9636SetupScanningCondition( pScanData ps )
 
 	ps.CloseScanPath( ps )
 
-    if (ps.DataInf.wPhyDataType >= COLOR_TRUE24) {
+    if(ps.DataInf.wPhyDataType >= COLOR_TRUE24) {
 
 		dw = ps.DataInf.dwAsicPixelsPerPlane
 		ps.dwMaxReadFifoData = _SIZE_COLORFIFO -
@@ -784,21 +784,21 @@ static void p9636SetupScanningCondition( pScanData ps )
 							    (ULong)ps.bCurrentSpeed - dw
     }
 
-    if ((dw = dw * 4UL) > ps.dwMaxReadFifoData) {
+    if((dw = dw * 4UL) > ps.dwMaxReadFifoData) {
 		ps.dwSizeMustProcess = ps.dwMaxReadFifoData
     } else {
 		ps.dwSizeMustProcess = dw
 	}
 
-    if (ps.DataInf.wPhyDataType >= COLOR_TRUE24) {
+    if(ps.DataInf.wPhyDataType >= COLOR_TRUE24) {
 
-		if (ps.DataInf.xyPhyDpi.y <= 150) {
+		if(ps.DataInf.xyPhyDpi.y <= 150) {
 		    dw = ps.DataInf.dwAsicPixelsPerPlane
 		} else {
-		    if (ps.DataInf.xyPhyDpi.y <= 300) {
+		    if(ps.DataInf.xyPhyDpi.y <= 300) {
 				dw = ps.DataInf.dwAsicPixelsPerPlane * 2
 		    } else {
-				if (ps.DataInf.xyPhyDpi.y <= 600) {
+				if(ps.DataInf.xyPhyDpi.y <= 600) {
 		    		dw = ps.DataInf.dwAsicPixelsPerPlane * 4
 				} else {
 				    dw = ps.DataInf.dwAsicPixelsPerPlane * 8
@@ -806,7 +806,7 @@ static void p9636SetupScanningCondition( pScanData ps )
 			}
 		}
 
-		if (ps.Device.f0_8_16 && (ps.DataInf.xyPhyDpi.y >= 150))
+		if(ps.Device.f0_8_16 && (ps.DataInf.xyPhyDpi.y >= 150))
 		    dw <<= 1
 
 		ps.dwSizeMustProcess  += dw
@@ -822,7 +822,7 @@ static void p9636PutToIdleMode( pScanData ps )
 {
     var i: Int
 
-	DBG( DBG_LOW, "Putting Scanner (ASIC 98001) into Idle-Mode\n" )
+	DBG( DBG_LOW, "Putting Scanner(ASIC 98001) into Idle-Mode\n" )
 
     /*
      * turn off motor
@@ -849,7 +849,7 @@ static void p9636PutToIdleMode( pScanData ps )
 }
 
 /*.............................................................................
- * do all the preliminary stuff here (calibrate the scanner and move the
+ * do all the preliminary stuff here(calibrate the scanner and move the
  * sensor to it´s start position, also setup the driver for the
  * current run)
  */
@@ -881,7 +881,7 @@ static Int p9636Calibration( pScanData ps )
 	ps.dwDivFilter   = ps.dwMul = 53
 	ps.bOffsetFilter = 12
 
-	if (COLOR_256GRAY == ps.DataInf.wPhyDataType) {
+	if(COLOR_256GRAY == ps.DataInf.wPhyDataType) {
 		ps.fDoFilter  = _TRUE
 		ps.pFilterBuf = ps.pGet1 = ps.pProcessingBuf
 		ps.pGet2      = ps.pGet1 + 5120

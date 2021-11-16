@@ -1,13 +1,13 @@
 /*
   sane - Scanner Access Now Easy.
-  Copyright (C) 2006 Jon Chambers <jon@jon.demon.co.uk>
+  Copyright(C) 2006 Jon Chambers <jon@jon.demon.co.uk>
 
   This file is part of the SANE package.
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License as
   published by the Free Software Foundation; either version 2 of the
-  License, or (at your option) any later version.
+  License, or(at your option) any later version.
 
   This program is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -106,7 +106,7 @@ struct ComBuf
 {
   size_t m_capacity;		/* current allocated size in bytes */
   size_t m_used;		/* current used size in bytes */
-  unsigned char *m_pBuf;	/* storage (or NULL if none allocated) */
+  unsigned char *m_pBuf;	/* storage(or NULL if none allocated) */
 ]
 
 /* state data for a single scanner connection */
@@ -117,21 +117,21 @@ struct ScannerState
   struct sockaddr_in m_sockAddr;	/* printer address */
   struct ComBuf m_buf;		/* buffer for network data */
   struct ComBuf m_imageData;	/* storage for decoded image data */
-  Int m_numPages;	        /* number of complete pages (host byte order) */
+  Int m_numPages;	        /* number of complete pages(host byte order) */
   struct ComBuf m_pageInfo;	/* "array" of numPages PageInfo structs */
   Int m_bFinish;		/* set non-0 to signal that we are finished */
   Int m_bCancelled;		/* set non-0 that bFinish state arose from cancellation */
   char m_regName[REG_NAME_SIZE];	/* name with which to register */
-  unsigned short m_xres;	/* x resolution (network byte order) */
-  unsigned short m_yres;	/* y resolution (network byte order) */
-  unsigned Int m_composition;	/* composition (0x01=>TIFF/PDF,0x40=>JPEG) (network byte order) */
+  unsigned short m_xres;	/* x resolution(network byte order) */
+  unsigned short m_yres;	/* y resolution(network byte order) */
+  unsigned Int m_composition;	/* composition(0x01=>TIFF/PDF,0x40=>JPEG) (network byte order) */
   unsigned char m_brightness;	/* brightness */
-  unsigned Int m_compression;	/* compression (0x08=>CCIT Group 4,0x20=>JPEG) (network byte order) */
-  unsigned Int m_fileType;	/* file type (2=>TIFF,4=>PDF,8=>JPEG)(network byte order) */
-  unsigned Int m_pixelWidth;	/* width in pixels (network byte order) */
-  unsigned Int m_pixelHeight;	/* height in pixels (network byte order) */
-  unsigned Int m_bytesRead;	/* bytes read by SANE (host byte order) */
-  unsigned Int m_currentPageBytes;/* number of bytes of current page read (host byte order) */
+  unsigned Int m_compression;	/* compression(0x08=>CCIT Group 4,0x20=>JPEG) (network byte order) */
+  unsigned Int m_fileType;	/* file type(2=>TIFF,4=>PDF,8=>JPEG)(network byte order) */
+  unsigned Int m_pixelWidth;	/* width in pixels(network byte order) */
+  unsigned Int m_pixelHeight;	/* height in pixels(network byte order) */
+  unsigned Int m_bytesRead;	/* bytes read by SANE(host byte order) */
+  unsigned Int m_currentPageBytes;/* number of bytes of current page read(host byte order) */
 ]
 
 /* state data for a single page
@@ -141,7 +141,7 @@ struct PageInfo
 {
   Int m_width;                 /* pixel width */
   Int m_height;                /* pixel height */
-  Int m_totalSize;             /* total page size (bytes) */
+  Int m_totalSize;             /* total page size(bytes) */
   Int m_bytesRemaining;        /* number of bytes not yet passed to SANE client */
 ]
 
@@ -161,68 +161,68 @@ struct JpegDataDecompState
  ***********************************************************/
 
 /* print hex buffer to stdout */
-static void HexDump (Int debugLevel, const unsigned char *buf,
+static void HexDump(Int debugLevel, const unsigned char *buf,
 		     size_t bufSize)
 
 /* clears gKnownDevices array */
-static void ClearKnownDevices (void)
+static void ClearKnownDevices(void)
 
 /* initialise a ComBuf struct */
-static Int InitComBuf (struct ComBuf *pBuf)
+static Int InitComBuf(struct ComBuf *pBuf)
 
 /* free a ComBuf struct */
-static void FreeComBuf (struct ComBuf *pBuf)
+static void FreeComBuf(struct ComBuf *pBuf)
 
 /* add data to a ComBuf struct */
-static Int AppendToComBuf (struct ComBuf *pBuf, const unsigned char *pData,
+static Int AppendToComBuf(struct ComBuf *pBuf, const unsigned char *pData,
 			   size_t datSize)
 
 /* remove data from the front of a ComBuf struct */
-static Int PopFromComBuf (struct ComBuf *pBuf, size_t datSize)
+static Int PopFromComBuf(struct ComBuf *pBuf, size_t datSize)
 
 /* initialise a packet */
-static Int InitPacket (struct ComBuf *pBuf, char type)
+static Int InitPacket(struct ComBuf *pBuf, char type)
 
 /* append message to a packet */
-static Int AppendMessageToPacket (struct ComBuf *pBuf,
+static Int AppendMessageToPacket(struct ComBuf *pBuf,
 				  char messageType,
 				  char *messageName,
 				  char valueType,
 				  void *pValue, size_t valueLen)
 
 /* write length data to packet header */
-static void FinalisePacket (struct ComBuf *pBuf)
+static void FinalisePacket(struct ComBuf *pBuf)
 
 /* \return 1 if message is complete, 0 otherwise */
-static Int MessageIsComplete (unsigned char *pData, size_t size)
+static Int MessageIsComplete(unsigned char *pData, size_t size)
 
 /* process a registration broadcast response
-   \return DeviceRecord pointer on success (caller frees), NULL on failure
+   \return DeviceRecord pointer on success(caller frees), NULL on failure
 */
-static struct DeviceRecord *ProcessFindResponse (unsigned char *pData, size_t size)
+static struct DeviceRecord *ProcessFindResponse(unsigned char *pData, size_t size)
 
 /* frees a scanner state struct stored in gOpenScanners */
-static void FreeScannerState (Int iHandle)
+static void FreeScannerState(Int iHandle)
 
 /* \return 1 if iHandle is a valid member of gOpenScanners, 0 otherwise */
-static Int ValidScannerNumber (Int iHandle)
+static Int ValidScannerNumber(Int iHandle)
 
 /* process UDP responses, \return 0 in success, >0 otherwise */
-static Int ProcessUdpResponse (unsigned char *pData, size_t size,
+static Int ProcessUdpResponse(unsigned char *pData, size_t size,
 			       struct ScannerState *pState)
 
 /* process TCP responses, \return 0 in success, >0 otherwise */
-static Int ProcessTcpResponse (struct ScannerState *pState,
+static Int ProcessTcpResponse(struct ScannerState *pState,
 			       struct ComBuf *pTcpBufBuf)
 
 /* Process the data from a single scanned page, \return 0 in success, >0 otherwise */
-static Int ProcessPageData (struct ScannerState *pState)
+static Int ProcessPageData(struct ScannerState *pState)
 
 /* Libjpeg decompression interface */
-static void JpegDecompInitSource (j_decompress_ptr cinfo)
-static boolean JpegDecompFillInputBuffer (j_decompress_ptr cinfo)
-static void JpegDecompSkipInputData (j_decompress_ptr cinfo, long numBytes)
-static void JpegDecompTermSource (j_decompress_ptr cinfo)
+static void JpegDecompInitSource(j_decompress_ptr cinfo)
+static boolean JpegDecompFillInputBuffer(j_decompress_ptr cinfo)
+static void JpegDecompSkipInputData(j_decompress_ptr cinfo, long numBytes)
+static void JpegDecompTermSource(j_decompress_ptr cinfo)
 
 /***********************************************************
  * GLOBALS
@@ -249,19 +249,19 @@ static unsigned short gRegReplyWaitMs = 300
  ***********************************************************/
 
 Sane.Status
-Sane.init (Int * version_code,
+Sane.init(Int * version_code,
 	   Sane.Auth_Callback __Sane.unused__ authorize)
 {
 
   /* init globals */
-  memset (gKnownDevices, 0, sizeof (gKnownDevices))
-  memset (gOpenScanners, 0, sizeof (gOpenScanners))
+  memset(gKnownDevices, 0, sizeof(gKnownDevices))
+  memset(gOpenScanners, 0, sizeof(gOpenScanners))
 
   /* report version */
   *version_code = DRIVER_VERSION
 
   /* init debug */
-  DBG_INIT ()
+  DBG_INIT()
 
   return Sane.STATUS_GOOD
 
@@ -270,18 +270,18 @@ Sane.init (Int * version_code,
 /***********************************************************/
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
 
   Int iHandle
 
   /* clean up */
-  ClearKnownDevices ()
+  ClearKnownDevices()
 
-  for (iHandle = 0; iHandle < MAX_SCANNERS; ++iHandle)
+  for(iHandle = 0; iHandle < MAX_SCANNERS; ++iHandle)
     {
-      if (gOpenScanners[iHandle])
-	FreeScannerState (iHandle)
+      if(gOpenScanners[iHandle])
+	FreeScannerState(iHandle)
     }
 
 } /* Sane.exit */
@@ -289,7 +289,7 @@ Sane.exit (void)
 /***********************************************************/
 
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 {
 
   Int ret
@@ -307,7 +307,7 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
   const char *pVal
   Int valLen
 
-  if (local_only) {
+  if(local_only) {
     *device_list = gEmptyDeviceList
     return Sane.STATUS_GOOD
   }
@@ -318,40 +318,40 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
   pDevice = NULL
   optYes = 1
 
-  InitComBuf (&queryPacket)
+  InitComBuf(&queryPacket)
 
   /* clear previous results */
-  ClearKnownDevices ()
+  ClearKnownDevices()
   iNextDevice = 0
 
   /* look for a config file */
   fConfig = sanei_config_open( "dell1600n_net.conf" )
-  if ( fConfig )
+  if( fConfig )
     {
-      while ( ! feof( fConfig ) )
+      while( ! feof( fConfig ) )
         {
-          if ( ! sanei_config_read ( configBuf, sizeof( configBuf ), fConfig ) ) break
+          if( ! sanei_config_read( configBuf, sizeof( configBuf ), fConfig ) ) break
 
           /* skip whitespace */
-          pVal = sanei_config_skip_whitespace ( configBuf )
+          pVal = sanei_config_skip_whitespace( configBuf )
 
           /* skip comments */
-          if ( *pVal == '#' ) continue
+          if( *pVal == '#' ) continue
 
           /* process named_scanner */
           valLen = strlen( "named_scanner:" )
-          if ( ! strncmp( pVal, "extra_scanner:", valLen ) ){
+          if( ! strncmp( pVal, "extra_scanner:", valLen ) ){
 
-            pVal = sanei_config_skip_whitespace ( pVal + valLen )
+            pVal = sanei_config_skip_whitespace( pVal + valLen )
 
-            pDevice = malloc (sizeof (struct DeviceRecord))
-            if (!pDevice)
+            pDevice = malloc(sizeof(struct DeviceRecord))
+            if(!pDevice)
               {
-                DBG (1, "Sane.get_devices: memory allocation failure\n")
+                DBG(1, "Sane.get_devices: memory allocation failure\n")
                 break
               }
 
-            pDevice.m_pName = strdup (pVal)
+            pDevice.m_pName = strdup(pVal)
             pDevice.m_device.vendor = "Dell"
             pDevice.m_pModel = strdup( "1600n" )
             pDevice.m_device.type = "multi-function peripheral"
@@ -372,69 +372,69 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
     }
 
   /* open UDP socket */
-  sock = socket (PF_INET, SOCK_DGRAM, IPPROTO_UDP)
-  if (sock == -1)
+  sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)
+  if(sock == -1)
     {
-      DBG (1, "Error creating socket\n")
+      DBG(1, "Error creating socket\n")
       ret = Sane.STATUS_NO_MEM
       goto cleanup
     }
-  setsockopt (sock, SOL_SOCKET, SO_BROADCAST, &optYes, sizeof (optYes))
+  setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &optYes, sizeof(optYes))
 
   /* prepare select mask */
-  FD_ZERO (&readFds)
-  FD_SET (sock, &readFds)
+  FD_ZERO(&readFds)
+  FD_SET(sock, &readFds)
   selTimeVal.tv_sec = 0
   selTimeVal.tv_usec = gRegReplyWaitMs * 1000
 
   /* init a packet */
-  InitPacket (&queryPacket, 0x01)
+  InitPacket(&queryPacket, 0x01)
 
   /* add query */
   ucVal = 0
-  AppendMessageToPacket (&queryPacket, 0x25, "std-scan-discovery-all",
-			 0x02, &ucVal, sizeof (ucVal))
+  AppendMessageToPacket(&queryPacket, 0x25, "std-scan-discovery-all",
+			 0x02, &ucVal, sizeof(ucVal))
 
-  FinalisePacket (&queryPacket)
+  FinalisePacket(&queryPacket)
 
-  DBG (10, "Sending:\n")
-  HexDump (10, queryPacket.m_pBuf, queryPacket.m_used)
+  DBG(10, "Sending:\n")
+  HexDump(10, queryPacket.m_pBuf, queryPacket.m_used)
 
 
   remoteAddr.sin_family = AF_INET
-  remoteAddr.sin_port = htons (gScannerPort)
+  remoteAddr.sin_port = htons(gScannerPort)
   remoteAddr.sin_addr.s_addr = 0xFFFFFFFF;	/* broadcast */
 
-  if (sendto (sock, queryPacket.m_pBuf, queryPacket.m_used, 0,
-    (struct sockaddr *) &remoteAddr, sizeof (remoteAddr)) == -1)
+  if(sendto(sock, queryPacket.m_pBuf, queryPacket.m_used, 0,
+    (struct sockaddr *) &remoteAddr, sizeof(remoteAddr)) == -1)
     {
-      DBG (1, "Error sending broadcast packet\n")
+      DBG(1, "Error sending broadcast packet\n")
       ret = Sane.STATUS_NO_MEM
       goto cleanup
     }
 
   /* process replies */
-  while (select (sock + 1, &readFds, NULL, NULL, &selTimeVal))
+  while(select(sock + 1, &readFds, NULL, NULL, &selTimeVal))
     {
 
       /* break if we've got no more storage space in array */
-      if (iNextDevice >= MAX_SCANNERS)
+      if(iNextDevice >= MAX_SCANNERS)
         {
-          DBG (1, "Sane.get_devices: more than %d devices, ignoring\n",
+          DBG(1, "Sane.get_devices: more than %d devices, ignoring\n",
             MAX_SCANNERS)
           break
         }
 
-      nread = read (sock, sockBuf, sizeof (sockBuf))
-      DBG (5, "Got a broadcast response, (%d bytes)\n", nread)
+      nread = read(sock, sockBuf, sizeof(sockBuf))
+      DBG(5, "Got a broadcast response, (%d bytes)\n", nread)
 
-      if (nread <= 0)
+      if(nread <= 0)
         break
 
-      HexDump (10, sockBuf, nread)
+      HexDump(10, sockBuf, nread)
 
-      /* process response (skipping bad ones) */
-      if (!(pDevice = ProcessFindResponse (sockBuf, nread))) continue
+      /* process response(skipping bad ones) */
+      if(!(pDevice = ProcessFindResponse(sockBuf, nread))) continue
 
       /* add to list */
       gKnownDevices[iNextDevice++] = pDevice
@@ -446,9 +446,9 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
 
 cleanup:
 
-  if (sock)
-    close (sock)
-  FreeComBuf (&queryPacket)
+  if(sock)
+    close(sock)
+  FreeComBuf(&queryPacket)
 
   return ret
 
@@ -457,7 +457,7 @@ cleanup:
 /***********************************************************/
 
 Sane.Status
-Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
+Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 {
 
   Int iHandle = -1, i
@@ -468,91 +468,91 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
   DBG( 5, "Sane.open: %s\n", devicename )
 
   /* find the next available scanner pointer in gOpenScanners */
-  for (i = 0; i < MAX_SCANNERS; ++i)
+  for(i = 0; i < MAX_SCANNERS; ++i)
     {
 
-      if (gOpenScanners[i]) continue
+      if(gOpenScanners[i]) continue
 
       iHandle = i
       break
 
     } /* for */
-  if (iHandle == -1)
+  if(iHandle == -1)
     {
-      DBG (1, "Sane.open: no space left in gOpenScanners array\n")
+      DBG(1, "Sane.open: no space left in gOpenScanners array\n")
       status = Sane.STATUS_NO_MEM
       goto cleanup
     }
 
   /* allocate some space */
-  if (!(gOpenScanners[iHandle] = malloc (sizeof (struct ScannerState))))
+  if(!(gOpenScanners[iHandle] = malloc(sizeof(struct ScannerState))))
     {
       status = Sane.STATUS_NO_MEM
       goto cleanup
     }
 
   /* init data */
-  memset (gOpenScanners[iHandle], 0, sizeof (struct ScannerState))
-  InitComBuf (&gOpenScanners[iHandle]->m_buf)
-  InitComBuf (&gOpenScanners[iHandle]->m_imageData)
-  InitComBuf (&gOpenScanners[iHandle]->m_pageInfo)
-  gOpenScanners[iHandle]->m_xres = ntohs (200)
-  gOpenScanners[iHandle]->m_yres = ntohs (200)
-  gOpenScanners[iHandle]->m_composition = ntohl (0x01)
+  memset(gOpenScanners[iHandle], 0, sizeof(struct ScannerState))
+  InitComBuf(&gOpenScanners[iHandle]->m_buf)
+  InitComBuf(&gOpenScanners[iHandle]->m_imageData)
+  InitComBuf(&gOpenScanners[iHandle]->m_pageInfo)
+  gOpenScanners[iHandle]->m_xres = ntohs(200)
+  gOpenScanners[iHandle]->m_yres = ntohs(200)
+  gOpenScanners[iHandle]->m_composition = ntohl(0x01)
   gOpenScanners[iHandle]->m_brightness = 0x80
-  gOpenScanners[iHandle]->m_compression = ntohl (0x08)
-  gOpenScanners[iHandle]->m_fileType = ntohl (0x02)
+  gOpenScanners[iHandle]->m_compression = ntohl(0x08)
+  gOpenScanners[iHandle]->m_fileType = ntohl(0x02)
 
 
   /* look up scanner name */
-  pHostent = gethostbyname (devicename)
-  if ((!pHostent) || (!pHostent.h_addr_list))
+  pHostent = gethostbyname(devicename)
+  if((!pHostent) || (!pHostent.h_addr_list))
     {
-      DBG (1, "Sane.open: error looking up scanner name %s\n", devicename)
+      DBG(1, "Sane.open: error looking up scanner name %s\n", devicename)
       status = Sane.STATUS_INVAL
       goto cleanup
     }
 
   /* open a UDP socket */
-  if (!(gOpenScanners[iHandle]->m_udpFd =
-    socket (PF_INET, SOCK_DGRAM, IPPROTO_UDP)))
+  if(!(gOpenScanners[iHandle]->m_udpFd =
+    socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)))
     {
-      DBG (1, "Sane.open: error opening socket\n")
+      DBG(1, "Sane.open: error opening socket\n")
       status = Sane.STATUS_IO_ERROR
       goto cleanup
     }
 
   /* connect to the scanner */
-  memset (&gOpenScanners[iHandle]->m_sockAddr, 0,
-    sizeof (gOpenScanners[iHandle]->m_sockAddr))
+  memset(&gOpenScanners[iHandle]->m_sockAddr, 0,
+    sizeof(gOpenScanners[iHandle]->m_sockAddr))
   gOpenScanners[iHandle]->m_sockAddr.sin_family = AF_INET
-  gOpenScanners[iHandle]->m_sockAddr.sin_port = htons (gScannerPort)
-  memcpy (&gOpenScanners[iHandle]->m_sockAddr.sin_addr,
+  gOpenScanners[iHandle]->m_sockAddr.sin_port = htons(gScannerPort)
+  memcpy(&gOpenScanners[iHandle]->m_sockAddr.sin_addr,
     pHostent.h_addr_list[0], pHostent.h_length)
-  if (connect (gOpenScanners[iHandle]->m_udpFd,
+  if(connect(gOpenScanners[iHandle]->m_udpFd,
     (struct sockaddr *) &gOpenScanners[iHandle]->m_sockAddr,
-    sizeof (gOpenScanners[iHandle]->m_sockAddr)))
+    sizeof(gOpenScanners[iHandle]->m_sockAddr)))
     {
-      DBG (1, "Sane.open: error connecting to %s:%d\n", devicename,
+      DBG(1, "Sane.open: error connecting to %s:%d\n", devicename,
         gScannerPort)
       status = Sane.STATUS_IO_ERROR
       goto cleanup
     }
 
   /* set fallback registration name */
-  sprintf (gOpenScanners[iHandle]->m_regName, "Sane")
+  sprintf(gOpenScanners[iHandle]->m_regName, "Sane")
 
   /* try to fill in hostname */
-  gethostname (gOpenScanners[iHandle]->m_regName, REG_NAME_SIZE)
+  gethostname(gOpenScanners[iHandle]->m_regName, REG_NAME_SIZE)
 
   /* just in case... */
   gOpenScanners[iHandle]->m_regName[REG_NAME_SIZE - 1] = 0
 
-  /* chop off any domain (if any) */
-  if ((pDot = strchr (gOpenScanners[iHandle]->m_regName, '.')))
+  /* chop off any domain(if any) */
+  if((pDot = strchr(gOpenScanners[iHandle]->m_regName, '.')))
     *pDot = 0
 
-  DBG (5, "Sane.open: connected to %s:%d as %s\n", devicename, gScannerPort,
+  DBG(5, "Sane.open: connected to %s:%d as %s\n", devicename, gScannerPort,
        gOpenScanners[iHandle]->m_regName)
 
 
@@ -563,8 +563,8 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
 
 cleanup:
 
-  if (iHandle != -1)
-    FreeScannerState (iHandle)
+  if(iHandle != -1)
+    FreeScannerState(iHandle)
 
   return status
 
@@ -573,19 +573,19 @@ cleanup:
 /***********************************************************/
 
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
 
   DBG( 5, "Sane.close: %lx\n", (unsigned long)handle )
 
-  FreeScannerState ((unsigned long) handle)
+  FreeScannerState((unsigned long) handle)
 
 } /* Sane.close */
 
 /***********************************************************/
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle __Sane.unused__ handle,
+Sane.get_option_descriptor(Sane.Handle __Sane.unused__ handle,
 			    Int option)
 {
 
@@ -601,7 +601,7 @@ Sane.get_option_descriptor (Sane.Handle __Sane.unused__ handle,
     {0}
   ]
 
-  if (option == 0)
+  if(option == 0)
     return &numOptions
   else
     return NULL
@@ -611,14 +611,14 @@ Sane.get_option_descriptor (Sane.Handle __Sane.unused__ handle,
 /***********************************************************/
 
 Sane.Status
-Sane.control_option (Sane.Handle __Sane.unused__ handle, Int option,
+Sane.control_option(Sane.Handle __Sane.unused__ handle, Int option,
 		     Sane.Action action, void *value,
 		     Int __Sane.unused__ * info)
 {
 
   static Int numOptions = 1
 
-  if (action == Sane.ACTION_GET_VALUE && option == 0)
+  if(action == Sane.ACTION_GET_VALUE && option == 0)
     *(Int *) value = numOptions
 
   return Sane.STATUS_GOOD
@@ -628,13 +628,13 @@ Sane.control_option (Sane.Handle __Sane.unused__ handle, Int option,
 /***********************************************************/
 
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
   Int iHandle = (Int) (unsigned long)handle
   unsigned Int width, height, imageSize
   struct PageInfo pageInfo
 
-  if (!gOpenScanners[iHandle])
+  if(!gOpenScanners[iHandle])
     return Sane.STATUS_INVAL
 
   /* fetch page info */
@@ -650,15 +650,15 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
        width,
        height )
 
-  DBG (5,
+  DBG(5,
        "Sane.get_parameters: handle %x: bytes outstanding: %lu, image size: %d\n",
        iHandle, (unsigned long)gOpenScanners[iHandle]->m_imageData.m_used, imageSize)
 
   /* check for enough data */
   /*
-  if (gOpenScanners[iHandle]->m_imageData.m_used < imageSize)
+  if(gOpenScanners[iHandle]->m_imageData.m_used < imageSize)
     {
-      DBG (1, "Sane.get_parameters: handle %d: not enough data: %d < %d\n",
+      DBG(1, "Sane.get_parameters: handle %d: not enough data: %d < %d\n",
 	   iHandle, gOpenScanners[iHandle]->m_imageData.m_used, imageSize)
       return Sane.STATUS_INVAL
     }
@@ -679,7 +679,7 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 /***********************************************************/
 
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
 
   Sane.Status status = Sane.STATUS_GOOD
@@ -697,83 +697,83 @@ Sane.start (Sane.Handle handle)
   DBG( 5, "Sane.start: %x\n", iHandle )
 
   /* fetch and check scanner index */
-  if (!ValidScannerNumber (iHandle))
+  if(!ValidScannerNumber(iHandle))
     return Sane.STATUS_INVAL
 
   /* check if we still have outstanding pages of data on this handle */
-  if (gOpenScanners[iHandle]->m_imageData.m_used){
+  if(gOpenScanners[iHandle]->m_imageData.m_used){
 
     /* remove empty page */
-    PopFromComBuf ( & gOpenScanners[iHandle]->m_pageInfo, sizeof( struct PageInfo ) )
+    PopFromComBuf( & gOpenScanners[iHandle]->m_pageInfo, sizeof( struct PageInfo ) )
     return Sane.STATUS_GOOD
 
   }
 
   /* determine local IP address */
-  addrSize = sizeof (myAddr)
-  if (getsockname (gOpenScanners[iHandle]->m_udpFd, (struct sockaddr *) &myAddr, &addrSize))
+  addrSize = sizeof(myAddr)
+  if(getsockname(gOpenScanners[iHandle]->m_udpFd, (struct sockaddr *) &myAddr, &addrSize))
     {
-      DBG (1, "Sane.start: Error getting own IP address\n")
+      DBG(1, "Sane.start: Error getting own IP address\n")
       return Sane.STATUS_IO_ERROR
     }
 
   /* init a buffer for our registration message */
-  errorCheck |= InitComBuf (&buf)
+  errorCheck |= InitComBuf(&buf)
 
   /* build packet */
-  errorCheck |= InitPacket (&buf, 1)
+  errorCheck |= InitPacket(&buf, 1)
   errorCheck |=
-    AppendMessageToPacket (&buf, 0x22, "std-scan-subscribe-user-name", 0x0b,
+    AppendMessageToPacket(&buf, 0x22, "std-scan-subscribe-user-name", 0x0b,
       gOpenScanners[iHandle]->m_regName,
-      strlen (gOpenScanners[iHandle]->m_regName))
+      strlen(gOpenScanners[iHandle]->m_regName))
   errorCheck |=
-    AppendMessageToPacket (&buf, 0x22, "std-scan-subscribe-ip-address", 0x0a,
+    AppendMessageToPacket(&buf, 0x22, "std-scan-subscribe-ip-address", 0x0a,
       &myAddr.sin_addr, 4)
-  FinalisePacket (&buf)
+  FinalisePacket(&buf)
 
   /* check nothing went wrong along the way */
-  if (errorCheck)
+  if(errorCheck)
     {
       status = Sane.STATUS_NO_MEM
       goto cleanup
     }
 
   /* send the packet */
-  send (gOpenScanners[iHandle]->m_udpFd, buf.m_pBuf, buf.m_used, 0)
+  send(gOpenScanners[iHandle]->m_udpFd, buf.m_pBuf, buf.m_used, 0)
 
 
   /* loop until done */
   gOpenScanners[iHandle]->m_bFinish = 0
-  while (!gOpenScanners[iHandle]->m_bFinish)
+  while(!gOpenScanners[iHandle]->m_bFinish)
     {
 
       /* prepare select mask */
-      FD_ZERO (&readFds)
-      FD_SET (gOpenScanners[iHandle]->m_udpFd, &readFds)
+      FD_ZERO(&readFds)
+      FD_SET(gOpenScanners[iHandle]->m_udpFd, &readFds)
       selTimeVal.tv_sec = 1
       selTimeVal.tv_usec = 0
 
 
 
-      DBG (5, "Sane.start: waiting for scan signal\n")
+      DBG(5, "Sane.start: waiting for scan signal\n")
 
       /* wait again if nothing received */
-      if (!select (gOpenScanners[iHandle]->m_udpFd + 1,
+      if(!select(gOpenScanners[iHandle]->m_udpFd + 1,
         &readFds, NULL, NULL, &selTimeVal))
         continue
 
       /* read from socket */
       nread =
-        read (gOpenScanners[iHandle]->m_udpFd, sockBuf, sizeof (sockBuf))
+        read(gOpenScanners[iHandle]->m_udpFd, sockBuf, sizeof(sockBuf))
 
-      if (nread <= 0)
+      if(nread <= 0)
         {
-          DBG (1, "Sane.start: read returned %d\n", nread)
+          DBG(1, "Sane.start: read returned %d\n", nread)
           break
         }
 
       /* process the response */
-      if (ProcessUdpResponse (sockBuf, nread, gOpenScanners[iHandle]))
+      if(ProcessUdpResponse(sockBuf, nread, gOpenScanners[iHandle]))
         {
           status = Sane.STATUS_IO_ERROR
           goto cleanup
@@ -782,11 +782,11 @@ Sane.start (Sane.Handle handle)
     } /* while */
 
   /* check whether we were cancelled */
-  if ( gOpenScanners[iHandle]->m_bCancelled ) status = Sane.STATUS_CANCELLED
+  if( gOpenScanners[iHandle]->m_bCancelled ) status = Sane.STATUS_CANCELLED
 
 cleanup:
 
-  FreeComBuf (&buf)
+  FreeComBuf(&buf)
 
   return status
 
@@ -795,7 +795,7 @@ cleanup:
 /***********************************************************/
 
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * data,
+Sane.read(Sane.Handle handle, Sane.Byte * data,
 	   Int max_length, Int * length)
 {
 
@@ -803,19 +803,19 @@ Sane.read (Sane.Handle handle, Sane.Byte * data,
   Int dataSize
   struct PageInfo pageInfo
 
-  DBG( 5, "Sane.read: %x (max_length=%d)\n", iHandle, max_length )
+  DBG( 5, "Sane.read: %x(max_length=%d)\n", iHandle, max_length )
 
   *length = 0
 
-  if (!gOpenScanners[iHandle])
+  if(!gOpenScanners[iHandle])
     return Sane.STATUS_INVAL
 
-  /* check for end of data (no further pages) */
-  if ( ( ! gOpenScanners[iHandle]->m_imageData.m_used )
+  /* check for end of data(no further pages) */
+  if( ( ! gOpenScanners[iHandle]->m_imageData.m_used )
        || ( ! gOpenScanners[iHandle]->m_numPages ) )
     {
       /* remove empty page if there are no more cached pages */
-      PopFromComBuf ( & gOpenScanners[iHandle]->m_pageInfo, sizeof( struct PageInfo ) )
+      PopFromComBuf( & gOpenScanners[iHandle]->m_pageInfo, sizeof( struct PageInfo ) )
 
       return Sane.STATUS_EOF
     }
@@ -823,14 +823,14 @@ Sane.read (Sane.Handle handle, Sane.Byte * data,
   /* fetch page info */
   memcpy( & pageInfo, gOpenScanners[iHandle]->m_pageInfo.m_pBuf, sizeof( pageInfo ) )
 
-  /* check for end of page data (we still have further cached pages) */
-  if ( pageInfo.m_bytesRemaining < 1 ) return Sane.STATUS_EOF
+  /* check for end of page data(we still have further cached pages) */
+  if( pageInfo.m_bytesRemaining < 1 ) return Sane.STATUS_EOF
 
   /*  send the remainder of the current image */
   dataSize = pageInfo.m_bytesRemaining
 
   /* unless there's not enough room in the output buffer */
-  if (dataSize > max_length)
+  if(dataSize > max_length)
     dataSize = max_length
 
   /* update the data sent counters */
@@ -841,14 +841,14 @@ Sane.read (Sane.Handle handle, Sane.Byte * data,
   memcpy( gOpenScanners[iHandle]->m_pageInfo.m_pBuf, & pageInfo, sizeof( pageInfo ) )
 
   /* check for end of page */
-  if ( pageInfo.m_bytesRemaining < 1 ){
+  if( pageInfo.m_bytesRemaining < 1 ){
 
     /* yes, so remove page info */
     gOpenScanners[iHandle]->m_numPages--
 
   } /* if */
 
-  DBG (5,
+  DBG(5,
        "Sane.read: sending %d bytes, image total %d, %d page bytes remaining, %lu total remaining, image: %dx%d\n",
        dataSize, gOpenScanners[iHandle]->m_bytesRead, pageInfo.m_bytesRemaining ,
        (unsigned long)(gOpenScanners[iHandle]->m_imageData.m_used - dataSize),
@@ -856,8 +856,8 @@ Sane.read (Sane.Handle handle, Sane.Byte * data,
        pageInfo.m_height)
 
   /* copy the data */
-  memcpy (data, gOpenScanners[iHandle]->m_imageData.m_pBuf, dataSize)
-  if (PopFromComBuf (&gOpenScanners[iHandle]->m_imageData, dataSize))
+  memcpy(data, gOpenScanners[iHandle]->m_imageData.m_pBuf, dataSize)
+  if(PopFromComBuf(&gOpenScanners[iHandle]->m_imageData, dataSize))
     return Sane.STATUS_NO_MEM
 
   *length = dataSize
@@ -869,7 +869,7 @@ Sane.read (Sane.Handle handle, Sane.Byte * data,
 /***********************************************************/
 
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   Int iHandle = (Int) (unsigned long)handle
 
@@ -884,7 +884,7 @@ Sane.cancel (Sane.Handle handle)
 /***********************************************************/
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle __Sane.unused__ handle,
+Sane.set_io_mode(Sane.Handle __Sane.unused__ handle,
 		  Bool __Sane.unused__ non_blocking)
 {
 
@@ -895,7 +895,7 @@ Sane.set_io_mode (Sane.Handle __Sane.unused__ handle,
 /***********************************************************/
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle __Sane.unused__ handle,
+Sane.get_select_fd(Sane.Handle __Sane.unused__ handle,
 		    Int __Sane.unused__ * fd)
 {
 
@@ -907,19 +907,19 @@ Sane.get_select_fd (Sane.Handle __Sane.unused__ handle,
 
 /* Clears the contents of gKnownDevices and zeros it */
 void
-ClearKnownDevices ()
+ClearKnownDevices()
 {
 
   var i: Int
 
-  for (i = 0; i < MAX_SCANNERS; ++i)
+  for(i = 0; i < MAX_SCANNERS; ++i)
     {
 
-      if (gKnownDevices[i])
+      if(gKnownDevices[i])
         {
-          if (gKnownDevices[i]->m_pName) free ( gKnownDevices[i]->m_pName )
-          if (gKnownDevices[i]->m_pModel) free ( gKnownDevices[i]->m_pModel )
-          free ( gKnownDevices[i] )
+          if(gKnownDevices[i]->m_pName) free( gKnownDevices[i]->m_pName )
+          if(gKnownDevices[i]->m_pModel) free( gKnownDevices[i]->m_pModel )
+          free( gKnownDevices[i] )
         }
       gKnownDevices[i] = NULL
 
@@ -931,7 +931,7 @@ ClearKnownDevices ()
 
 /* print hex buffer to debug output */
 void
-HexDump (Int debugLevel, const unsigned char *buf, size_t bufSize)
+HexDump(Int debugLevel, const unsigned char *buf, size_t bufSize)
 {
 
   unsigned var i: Int, j
@@ -939,67 +939,67 @@ HexDump (Int debugLevel, const unsigned char *buf, size_t bufSize)
 
   char itemBuf[16] = { 0 }, lineBuf[256] = { 0 ]
 
-  if (DBG_LEVEL < debugLevel)
+  if(DBG_LEVEL < debugLevel)
     return
 
-  for (i = 0; i < bufSize; ++i)
+  for(i = 0; i < bufSize; ++i)
     {
 
-      if (!(i % 16))
-        sprintf (lineBuf, "%p: ", (buf + i))
+      if(!(i % 16))
+        sprintf(lineBuf, "%p: ", (buf + i))
 
-      sprintf (itemBuf, "%02x ", (const unsigned Int) buf[i])
+      sprintf(itemBuf, "%02x ", (const unsigned Int) buf[i])
 
-      lineBufFree = sizeof (lineBuf) - strlen (lineBuf) - 1
-      strncat (lineBuf, itemBuf, lineBufFree)
+      lineBufFree = sizeof(lineBuf) - strlen(lineBuf) - 1
+      strncat(lineBuf, itemBuf, lineBufFree)
 
-      if ((i + 1) % 16)
+      if((i + 1) % 16)
         continue
 
       /* print string equivalent */
-      for (j = i - 15; j <= i; ++j)
+      for(j = i - 15; j <= i; ++j)
         {
 
-      if ((buf[j] >= 0x20) && (!(buf[j] & 0x80)))
+      if((buf[j] >= 0x20) && (!(buf[j] & 0x80)))
         {
-          sprintf (itemBuf, "%c", buf[j])
+          sprintf(itemBuf, "%c", buf[j])
         }
       else
         {
-          sprintf (itemBuf, ".")
+          sprintf(itemBuf, ".")
         }
-      lineBufFree = sizeof (lineBuf) - strlen (lineBuf) - 1
-      strncat (lineBuf, itemBuf, lineBufFree)
+      lineBufFree = sizeof(lineBuf) - strlen(lineBuf) - 1
+      strncat(lineBuf, itemBuf, lineBufFree)
 
     } /* for j */
 
-      DBG (debugLevel, "%s\n", lineBuf)
+      DBG(debugLevel, "%s\n", lineBuf)
       lineBuf[0] = 0
 
     } /* for i */
 
-  if (i % 16)
+  if(i % 16)
     {
 
-      for (j = (i % 16); j < 16; ++j)
+      for(j = (i % 16); j < 16; ++j)
         {
-          lineBufFree = sizeof (lineBuf) - strlen (lineBuf) - 1
-          strncat (lineBuf, "   ", lineBufFree)
+          lineBufFree = sizeof(lineBuf) - strlen(lineBuf) - 1
+          strncat(lineBuf, "   ", lineBufFree)
         }
-      for (j = 1 + i - ((i + 1) % 16); j < i; ++j)
+      for(j = 1 + i - ((i + 1) % 16); j < i; ++j)
         {
-          if ((buf[j] >= 0x20) && (!(buf[j] & 0x80)))
+          if((buf[j] >= 0x20) && (!(buf[j] & 0x80)))
             {
-              sprintf (itemBuf, "%c", buf[j])
+              sprintf(itemBuf, "%c", buf[j])
             }
           else
             {
-              strcpy (itemBuf, ".")
+              strcpy(itemBuf, ".")
             }
-          lineBufFree = sizeof (lineBuf) - strlen (lineBuf) - 1
-          strncat (lineBuf, itemBuf, lineBufFree)
+          lineBufFree = sizeof(lineBuf) - strlen(lineBuf) - 1
+          strncat(lineBuf, itemBuf, lineBufFree)
         }
-      DBG (debugLevel, "%s\n", lineBuf)
+      DBG(debugLevel, "%s\n", lineBuf)
     }
 } /* HexDump */
 
@@ -1009,13 +1009,13 @@ HexDump (Int debugLevel, const unsigned char *buf, size_t bufSize)
    \return 0 on success, >0 on failure
 */
 Int
-InitComBuf (struct ComBuf *pBuf)
+InitComBuf(struct ComBuf *pBuf)
 {
 
-  memset (pBuf, 0, sizeof (struct ComBuf))
+  memset(pBuf, 0, sizeof(struct ComBuf))
 
-  pBuf.m_pBuf = malloc (INITIAL_COM_BUF_SIZE)
-  if (!pBuf.m_pBuf)
+  pBuf.m_pBuf = malloc(INITIAL_COM_BUF_SIZE)
+  if(!pBuf.m_pBuf)
     return 1
 
   pBuf.m_capacity = INITIAL_COM_BUF_SIZE
@@ -1029,12 +1029,12 @@ InitComBuf (struct ComBuf *pBuf)
 
 /* free a ComBuf struct */
 void
-FreeComBuf (struct ComBuf *pBuf)
+FreeComBuf(struct ComBuf *pBuf)
 {
 
-  if (pBuf.m_pBuf)
-    free (pBuf.m_pBuf)
-  memset (pBuf, 0, sizeof (struct ComBuf))
+  if(pBuf.m_pBuf)
+    free(pBuf.m_pBuf)
+  memset(pBuf, 0, sizeof(struct ComBuf))
 
 } /* FreeComBuf */
 
@@ -1046,30 +1046,30 @@ FreeComBuf (struct ComBuf *pBuf)
    \note In case of failure pBuf will be released using FreeComBuf
 */
 Int
-AppendToComBuf (struct ComBuf *pBuf, const unsigned char *pData,
+AppendToComBuf(struct ComBuf *pBuf, const unsigned char *pData,
 		size_t datSize)
 {
 
   size_t newSize
 
   /* check we have enough space */
-  if (pBuf.m_used + datSize > pBuf.m_capacity)
+  if(pBuf.m_used + datSize > pBuf.m_capacity)
     {
       /* nope - allocate some more */
       newSize = pBuf.m_used + datSize + INITIAL_COM_BUF_SIZE
-      pBuf.m_pBuf = realloc (pBuf.m_pBuf, newSize)
-      if (!pBuf.m_pBuf)
+      pBuf.m_pBuf = realloc(pBuf.m_pBuf, newSize)
+      if(!pBuf.m_pBuf)
         {
-          DBG (1, "AppendToComBuf: memory allocation error")
-          FreeComBuf (pBuf)
-          return (1)
+          DBG(1, "AppendToComBuf: memory allocation error")
+          FreeComBuf(pBuf)
+          return(1)
         }
       pBuf.m_capacity = newSize
     } /* if */
 
   /* add data */
-  if (pData)
-    memcpy (pBuf.m_pBuf + pBuf.m_used, pData, datSize)
+  if(pData)
+    memcpy(pBuf.m_pBuf + pBuf.m_used, pData, datSize)
   pBuf.m_used += datSize
 
   return 0
@@ -1081,36 +1081,36 @@ AppendToComBuf (struct ComBuf *pBuf, const unsigned char *pData,
 /* append message to a packet
    \return 0 if  ok, 1 if bad */
 Int
-AppendMessageToPacket (struct ComBuf *pBuf,	/* packet to which to append */
+AppendMessageToPacket(struct ComBuf *pBuf,	/* packet to which to append */
 		       char messageType,	/* type of message */
 		       char *messageName,	/* name of message */
 		       char valueType,	        /* type of value */
 		       void *pValue,	        /* pointer to value */
-		       size_t valueLen	        /* length of value (bytes) */
+		       size_t valueLen	        /* length of value(bytes) */
   )
 {
 
   unsigned short slen
 
   /* message type */
-  AppendToComBuf (pBuf, (void *) &messageType, 1)
+  AppendToComBuf(pBuf, (void *) &messageType, 1)
 
   /* message length */
-  slen = htons (strlen (messageName))
-  AppendToComBuf (pBuf, (void *) &slen, 2)
+  slen = htons(strlen(messageName))
+  AppendToComBuf(pBuf, (void *) &slen, 2)
 
   /* and name */
-  AppendToComBuf (pBuf, (void *) messageName, strlen (messageName))
+  AppendToComBuf(pBuf, (void *) messageName, strlen(messageName))
 
   /* and value type */
-  AppendToComBuf (pBuf, (void *) &valueType, 1)
+  AppendToComBuf(pBuf, (void *) &valueType, 1)
 
   /* value length */
-  slen = htons (valueLen)
-  AppendToComBuf (pBuf, (void *) &slen, 2)
+  slen = htons(valueLen)
+  AppendToComBuf(pBuf, (void *) &slen, 2)
 
   /* and value */
-  return (AppendToComBuf (pBuf, (void *) pValue, valueLen))
+  return(AppendToComBuf(pBuf, (void *) pValue, valueLen))
 
 } /* AppendMessageToPacket */
 
@@ -1122,7 +1122,7 @@ AppendMessageToPacket (struct ComBuf *pBuf,	/* packet to which to append */
    \return 0 on success, >0 otherwise
 */
 Int
-InitPacket (struct ComBuf *pBuf, char type)
+InitPacket(struct ComBuf *pBuf, char type)
 {
 
   char header[8] = { 2, 0, 0, 2, 0, 0, 0, 0 ]
@@ -1133,7 +1133,7 @@ InitPacket (struct ComBuf *pBuf, char type)
   pBuf.m_used = 0
 
   /* add header */
-  return (AppendToComBuf (pBuf, (void *) &header, 8))
+  return(AppendToComBuf(pBuf, (void *) &header, 8))
 
 } /* InitPacket */
 
@@ -1142,18 +1142,18 @@ InitPacket (struct ComBuf *pBuf, char type)
 /* write length data to packet header
 */
 void
-FinalisePacket (struct ComBuf *pBuf)
+FinalisePacket(struct ComBuf *pBuf)
 {
 
   /* sanity check */
-  if (pBuf.m_used < 8)
+  if(pBuf.m_used < 8)
     return
 
   /* set the size */
-  *((unsigned short *) (pBuf.m_pBuf + 6)) = htons (pBuf.m_used - 8)
+  *((unsigned short *) (pBuf.m_pBuf + 6)) = htons(pBuf.m_used - 8)
 
-  DBG (20, "FinalisePacket: outgoing packet:\n")
-  HexDump (20, pBuf.m_pBuf, pBuf.m_used)
+  DBG(20, "FinalisePacket: outgoing packet:\n")
+  HexDump(20, pBuf.m_pBuf, pBuf.m_used)
 
 } /* FinalisePacket */
 
@@ -1161,20 +1161,20 @@ FinalisePacket (struct ComBuf *pBuf)
 
 /* \return 1 if message is complete, 0 otherwise */
 Int
-MessageIsComplete (unsigned char *pData, size_t size)
+MessageIsComplete(unsigned char *pData, size_t size)
 {
   unsigned short dataSize
 
   /* sanity check */
-  if (size < 8)
+  if(size < 8)
     return 0
 
   /* :NOTE: we can't just cast to a short as data may not be aligned */
   dataSize = (((unsigned short) pData[6]) << 8) | pData[7]
 
-  DBG (20, "MessageIsComplete: data size = %d\n", dataSize)
+  DBG(20, "MessageIsComplete: data size = %d\n", dataSize)
 
-  if (size >= (size_t) (dataSize + 8))
+  if(size >= (size_t) (dataSize + 8))
     return 1
   else
     return 0
@@ -1184,10 +1184,10 @@ MessageIsComplete (unsigned char *pData, size_t size)
 /***********************************************************/
 
 /* process a registration broadcast response
-   \return struct DeviceRecord pointer on success (caller frees), NULL on failure
+   \return struct DeviceRecord pointer on success(caller frees), NULL on failure
 */
 struct DeviceRecord *
-ProcessFindResponse (unsigned char *pData, size_t size)
+ProcessFindResponse(unsigned char *pData, size_t size)
 {
 
   struct DeviceRecord *pDevice = NULL
@@ -1198,13 +1198,13 @@ ProcessFindResponse (unsigned char *pData, size_t size)
   char *pModel, *pName
 
 
-  DBG (10, "ProcessFindResponse: processing %lu bytes, pData=%p\n",
+  DBG(10, "ProcessFindResponse: processing %lu bytes, pData=%p\n",
        (unsigned long)size, pData)
 
   /* check we have a complete packet */
-  if (!MessageIsComplete (pData, size))
+  if(!MessageIsComplete(pData, size))
     {
-      DBG (1, "ProcessFindResponse: Ignoring incomplete packet\n")
+      DBG(1, "ProcessFindResponse: Ignoring incomplete packet\n")
       return NULL
     }
 
@@ -1214,7 +1214,7 @@ ProcessFindResponse (unsigned char *pData, size_t size)
   /* loop through items in message */
   pItem = pData + 8
   pEnd = pItem + messageSize
-  while (pItem < pEnd)
+  while(pItem < pEnd)
     {
 
       pItem++
@@ -1233,46 +1233,46 @@ ProcessFindResponse (unsigned char *pData, size_t size)
       pItem += valueSize
 
       /* process the item */
-      if (!strncmp ("std-scan-discovery-ip", pName, nameSize))
+      if(!strncmp("std-scan-discovery-ip", pName, nameSize))
         {
 
-          snprintf (printerName, sizeof (printerName), "%d.%d.%d.%d",
+          snprintf(printerName, sizeof(printerName), "%d.%d.%d.%d",
             (Int) pValue[0],
             (Int) pValue[1], (Int) pValue[2], (Int) pValue[3])
-          DBG (2, "%s\n", printerName)
+          DBG(2, "%s\n", printerName)
 
         }
-      else if (!strncmp ("std-scan-discovery-model-name", pName, nameSize))
+      else if(!strncmp("std-scan-discovery-model-name", pName, nameSize))
         {
 
-          memset (printerModel, 0, sizeof (printerModel))
-          if (valueSize > (sizeof (printerModel) - 1))
-            valueSize = sizeof (printerModel) - 1
-          memcpy (printerModel, pValue, valueSize)
-          DBG (2, "std-scan-discovery-model-name: %s\n", printerModel)
+          memset(printerModel, 0, sizeof(printerModel))
+          if(valueSize > (sizeof(printerModel) - 1))
+            valueSize = sizeof(printerModel) - 1
+          memcpy(printerModel, pValue, valueSize)
+          DBG(2, "std-scan-discovery-model-name: %s\n", printerModel)
 
         }
 
     } /* while pItem */
 
   /* just in case nothing sensible was found */
-  if ( ! strlen( printerName ) ) return NULL
+  if( ! strlen( printerName ) ) return NULL
 
-  pDevice = malloc (sizeof (struct DeviceRecord))
-  if (!pDevice)
+  pDevice = malloc(sizeof(struct DeviceRecord))
+  if(!pDevice)
     {
-      DBG (1, "ProcessFindResponse: memory allocation failure\n")
+      DBG(1, "ProcessFindResponse: memory allocation failure\n")
       return NULL
     }
 
   /* knock off "Dell " from start of model name */
   pModel = printerModel
-  if ( ! strncmp( pModel, "Dell ", 5 ) )
+  if( ! strncmp( pModel, "Dell ", 5 ) )
     pModel += 5
 
   pDevice.m_pName = strdup( printerName )
   pDevice.m_device.vendor = "Dell"
-  pDevice.m_pModel = strdup (pModel)
+  pDevice.m_pModel = strdup(pModel)
   pDevice.m_device.type = "multi-function peripheral"
 
   pDevice.m_device.name = pDevice.m_pName
@@ -1286,25 +1286,25 @@ ProcessFindResponse (unsigned char *pData, size_t size)
 
 /* frees a scanner state struct stored in gOpenScanners */
 void
-FreeScannerState (Int iHandle)
+FreeScannerState(Int iHandle)
 {
 
   /* check range etc */
-  if (!ValidScannerNumber (iHandle))
+  if(!ValidScannerNumber(iHandle))
     return
 
   /* close UDP handle */
-  if (gOpenScanners[iHandle]->m_udpFd)
-    close (gOpenScanners[iHandle]->m_udpFd)
+  if(gOpenScanners[iHandle]->m_udpFd)
+    close(gOpenScanners[iHandle]->m_udpFd)
 
   /* free m_buf */
-  FreeComBuf (&gOpenScanners[iHandle]->m_buf)
+  FreeComBuf(&gOpenScanners[iHandle]->m_buf)
 
   /* free m_imageData */
-  FreeComBuf (&gOpenScanners[iHandle]->m_imageData)
+  FreeComBuf(&gOpenScanners[iHandle]->m_imageData)
 
   /* free the struct */
-  free (gOpenScanners[iHandle])
+  free(gOpenScanners[iHandle])
 
   /* set pointer to NULL */
   gOpenScanners[iHandle] = NULL
@@ -1315,19 +1315,19 @@ FreeScannerState (Int iHandle)
 
 /* \return 1 if iHandle is a valid member of gOpenScanners, 0 otherwise */
 Int
-ValidScannerNumber (Int iHandle)
+ValidScannerNumber(Int iHandle)
 {
   /* check range */
-  if ((iHandle < 0) || (iHandle >= MAX_SCANNERS))
+  if((iHandle < 0) || (iHandle >= MAX_SCANNERS))
     {
-      DBG (1, "ValidScannerNumber: invalid scanner index %d", iHandle)
+      DBG(1, "ValidScannerNumber: invalid scanner index %d", iHandle)
       return 0
     }
 
   /* check non-NULL pointer */
-  if (!gOpenScanners[iHandle])
+  if(!gOpenScanners[iHandle])
     {
-      DBG (1, "ValidScannerNumber: NULL scanner struct %d", iHandle)
+      DBG(1, "ValidScannerNumber: NULL scanner struct %d", iHandle)
       return 0
     }
 
@@ -1341,7 +1341,7 @@ ValidScannerNumber (Int iHandle)
 /* process UDP responses
    \return 0 in success, >0 otherwise */
 static Int
-ProcessUdpResponse (unsigned char *pData, size_t size,
+ProcessUdpResponse(unsigned char *pData, size_t size,
 		    struct ScannerState *pState)
 {
 
@@ -1352,20 +1352,20 @@ ProcessUdpResponse (unsigned char *pData, size_t size,
   Int nread
   unsigned Int numUsed
 
-  HexDump (15, pData, size)
+  HexDump(15, pData, size)
 
-  DBG (10, "ProcessUdpResponse: processing %lu bytes, pData=%p\n",
+  DBG(10, "ProcessUdpResponse: processing %lu bytes, pData=%p\n",
        (unsigned long)size, pData)
 
   /* check we have a complete packet */
-  if (!MessageIsComplete (pData, size))
+  if(!MessageIsComplete(pData, size))
     {
-      DBG (1, "ProcessUdpResponse: Ignoring incomplete packet\n")
+      DBG(1, "ProcessUdpResponse: Ignoring incomplete packet\n")
       return 1
     }
 
   /* init a com buf for use in tcp communication */
-  InitComBuf (&tcpBuf)
+  InitComBuf(&tcpBuf)
 
   /* extract data size */
   messageSize = (((unsigned short) (pData[6])) << 8) | pData[7]
@@ -1373,7 +1373,7 @@ ProcessUdpResponse (unsigned char *pData, size_t size,
   /* loop through items in message */
   pItem = pData + 8
   pEnd = pItem + messageSize
-  while (pItem < pEnd)
+  while(pItem < pEnd)
     {
 
       pItem++
@@ -1390,67 +1390,67 @@ ProcessUdpResponse (unsigned char *pData, size_t size,
       pItem += valueSize
 
       /* process the item */
-      if (!strncmp ("std-scan-request-tcp-connection", pName, nameSize))
+      if(!strncmp("std-scan-request-tcp-connection", pName, nameSize))
         {
 
           /* open TCP socket to scanner */
-          if (!(pState.m_tcpFd = socket (PF_INET, SOCK_STREAM, IPPROTO_TCP)))
+          if(!(pState.m_tcpFd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)))
             {
-              DBG (1, "ProcessUdpResponse: error opening TCP socket\n")
+              DBG(1, "ProcessUdpResponse: error opening TCP socket\n")
               return 2
             }
-          if (connect (pState.m_tcpFd,
+          if(connect(pState.m_tcpFd,
                        (struct sockaddr *) &pState.m_sockAddr,
-                       sizeof (pState.m_sockAddr)))
+                       sizeof(pState.m_sockAddr)))
             {
-              DBG (1,
+              DBG(1,
                    "ProcessUdpResponse: error connecting to scanner TCP port\n")
               goto cleanup
             }
 
-          DBG (1, "ProcessUdpResponse: opened TCP connection to scanner\n")
+          DBG(1, "ProcessUdpResponse: opened TCP connection to scanner\n")
 
           /* clear read buf */
           tcpBuf.m_used = 0
 
           /* TCP read loop */
-          while (1)
+          while(1)
             {
 
-              nread = read (pState.m_tcpFd, sockBuf, sizeof (sockBuf))
+              nread = read(pState.m_tcpFd, sockBuf, sizeof(sockBuf))
 
-              if (nread <= 0)
+              if(nread <= 0)
                 {
-                  DBG (1, "ProcessUdpResponse: TCP read returned %d\n",
+                  DBG(1, "ProcessUdpResponse: TCP read returned %d\n",
                        nread)
                   break
                 }
 
               /* append message to buffer */
-              if (AppendToComBuf (&tcpBuf, (unsigned char *) sockBuf, nread))
+              if(AppendToComBuf(&tcpBuf, (unsigned char *) sockBuf, nread))
                 goto cleanup
 
               /* process all available responses */
-              while (tcpBuf.m_used)
+              while(tcpBuf.m_used)
                 {
 
                   /* note the buffer size before the call */
                   numUsed = tcpBuf.m_used
 
                   /* process the response */
-                  if (ProcessTcpResponse (pState, &tcpBuf))
+                  if(ProcessTcpResponse(pState, &tcpBuf))
                     goto cleanup
 
                   /* if the buffer size has not changed then assume no more processing is possible */
-                  if (numUsed == tcpBuf.m_used)
+                  if(numUsed == tcpBuf.m_used)
                     break
 
                 } /* while */
 
             } /* while */
 
-          close (pState.m_tcpFd)
-          DBG (1, "ProcessUdpResponse: closed TCP connection to scanner\n")
+          close(pState.m_tcpFd)
+          DBG(1, "ProcessUdpResponse: closed TCP connection to scanner\n")
 
           /* signal end of session */
           pState.m_bFinish = 1
@@ -1463,8 +1463,8 @@ ProcessUdpResponse (unsigned char *pData, size_t size,
 
 cleanup:
 
-  FreeComBuf (&tcpBuf)
-  close (pState.m_tcpFd)
+  FreeComBuf(&tcpBuf)
+  close(pState.m_tcpFd)
   return 3
 
 } /* ProcessUdpResponse */
@@ -1473,7 +1473,7 @@ cleanup:
 
 /* process TCP responses, \return 0 in success, >0 otherwise */
 Int
-ProcessTcpResponse (struct ScannerState *pState, struct ComBuf *pTcpBuf)
+ProcessTcpResponse(struct ScannerState *pState, struct ComBuf *pTcpBuf)
 {
 
   struct ComBuf buf
@@ -1485,19 +1485,19 @@ ProcessTcpResponse (struct ScannerState *pState, struct ComBuf *pTcpBuf)
   Int errorCheck = 0
   Int bProcessImage = 0
 
-  DBG (10, "ProcessTcpResponse: processing %lu bytes, pData=%p\n",
+  DBG(10, "ProcessTcpResponse: processing %lu bytes, pData=%p\n",
        (unsigned long)pTcpBuf.m_used, pData)
-  HexDump (15, pData, pTcpBuf.m_used)
+  HexDump(15, pData, pTcpBuf.m_used)
 
   /* if message not complete then wait for more to arrive */
-  if (!MessageIsComplete (pData, pTcpBuf.m_used))
+  if(!MessageIsComplete(pData, pTcpBuf.m_used))
     {
-      DBG (10, "ProcessTcpResponse: incomplete message, returning\n")
+      DBG(10, "ProcessTcpResponse: incomplete message, returning\n")
       return 0
     }
 
   /* init a buffer for our outbound messages */
-  if (InitComBuf (&buf))
+  if(InitComBuf(&buf))
     {
       errorCheck |= 1
       goto cleanup
@@ -1509,7 +1509,7 @@ ProcessTcpResponse (struct ScannerState *pState, struct ComBuf *pTcpBuf)
   /* loop through items in message */
   pItem = pData + 8
   pEnd = pItem + messageSize
-  while (pItem < pEnd)
+  while(pItem < pEnd)
     {
 
       pItem++
@@ -1528,145 +1528,145 @@ ProcessTcpResponse (struct ScannerState *pState, struct ComBuf *pTcpBuf)
       pItem += valueSize
 
       /* process the item */
-      if (!strncmp ("std-scan-session-open", pName, nameSize))
+      if(!strncmp("std-scan-session-open", pName, nameSize))
         {
 
-          errorCheck |= InitPacket (&buf, 0x02)
+          errorCheck |= InitPacket(&buf, 0x02)
           uiVal = 0
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22,
+            AppendMessageToPacket(&buf, 0x22,
                                    "std-scan-session-open-response", 0x05,
-                                   &uiVal, sizeof (uiVal))
-          FinalisePacket (&buf)
-          send (pState.m_tcpFd, buf.m_pBuf, buf.m_used, 0)
+                                   &uiVal, sizeof(uiVal))
+          FinalisePacket(&buf)
+          send(pState.m_tcpFd, buf.m_pBuf, buf.m_used, 0)
 
         }
-      else if (!strncmp ("std-scan-getclientpref", pName, nameSize))
+      else if(!strncmp("std-scan-getclientpref", pName, nameSize))
         {
 
-          errorCheck |= InitPacket (&buf, 0x02)
+          errorCheck |= InitPacket(&buf, 0x02)
           uiVal = 0
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22, "std-scan-getclientpref-x1",
-                                   0x05, &uiVal, sizeof (uiVal))
+            AppendMessageToPacket(&buf, 0x22, "std-scan-getclientpref-x1",
+                                   0x05, &uiVal, sizeof(uiVal))
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22, "std-scan-getclientpref-x2",
-                                   0x05, &uiVal, sizeof (uiVal))
+            AppendMessageToPacket(&buf, 0x22, "std-scan-getclientpref-x2",
+                                   0x05, &uiVal, sizeof(uiVal))
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22, "std-scan-getclientpref-y1",
-                                   0x05, &uiVal, sizeof (uiVal))
+            AppendMessageToPacket(&buf, 0x22, "std-scan-getclientpref-y1",
+                                   0x05, &uiVal, sizeof(uiVal))
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22, "std-scan-getclientpref-y2",
-                                   0x05, &uiVal, sizeof (uiVal))
+            AppendMessageToPacket(&buf, 0x22, "std-scan-getclientpref-y2",
+                                   0x05, &uiVal, sizeof(uiVal))
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22,
+            AppendMessageToPacket(&buf, 0x22,
                                    "std-scan-getclientpref-xresolution", 0x04,
-                                   &pState.m_xres, sizeof (pState.m_xres))
+                                   &pState.m_xres, sizeof(pState.m_xres))
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22,
+            AppendMessageToPacket(&buf, 0x22,
                                    "std-scan-getclientpref-yresolution", 0x04,
-                                   &pState.m_yres, sizeof (pState.m_yres))
+                                   &pState.m_yres, sizeof(pState.m_yres))
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22,
+            AppendMessageToPacket(&buf, 0x22,
                                    "std-scan-getclientpref-image-composition",
                                    0x06, &pState.m_composition,
-                                   sizeof (pState.m_composition))
+                                   sizeof(pState.m_composition))
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22,
+            AppendMessageToPacket(&buf, 0x22,
                                    "std-scan-getclientpref-brightness", 0x02,
                                    &pState.m_brightness,
-                                   sizeof (pState.m_brightness))
+                                   sizeof(pState.m_brightness))
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22,
+            AppendMessageToPacket(&buf, 0x22,
                                    "std-scan-getclientpref-image-compression",
                                    0x06, &pState.m_compression,
-                                   sizeof (pState.m_compression))
+                                   sizeof(pState.m_compression))
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22,
+            AppendMessageToPacket(&buf, 0x22,
                                    "std-scan-getclientpref-file-type", 0x06,
                                    &pState.m_fileType,
-                                   sizeof (pState.m_fileType))
+                                   sizeof(pState.m_fileType))
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22,
+            AppendMessageToPacket(&buf, 0x22,
                                    "std-scan-getclientpref-paper-size-detect",
-                                   0x06, &uiVal, sizeof (uiVal))
+                                   0x06, &uiVal, sizeof(uiVal))
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22,
+            AppendMessageToPacket(&buf, 0x22,
                                    "std-scan-getclientpref-paper-scanner-type",
-                                   0x06, &uiVal, sizeof (uiVal))
-          FinalisePacket (&buf)
-          send (pState.m_tcpFd, buf.m_pBuf, buf.m_used, 0)
+                                   0x06, &uiVal, sizeof(uiVal))
+          FinalisePacket(&buf)
+          send(pState.m_tcpFd, buf.m_pBuf, buf.m_used, 0)
 
         }
-      else if (!strncmp ("std-scan-document-start", pName, nameSize))
+      else if(!strncmp("std-scan-document-start", pName, nameSize))
         {
-          errorCheck |= InitPacket (&buf, 0x02)
+          errorCheck |= InitPacket(&buf, 0x02)
           uiVal = 0
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22,
+            AppendMessageToPacket(&buf, 0x22,
                                    "std-scan-document-start-response", 0x05,
-                                   &uiVal, sizeof (uiVal))
-          FinalisePacket (&buf)
-          send (pState.m_tcpFd, buf.m_pBuf, buf.m_used, 0)
+                                   &uiVal, sizeof(uiVal))
+          FinalisePacket(&buf)
+          send(pState.m_tcpFd, buf.m_pBuf, buf.m_used, 0)
         }
-      else if (!strncmp ("std-scan-document-file-type", pName, nameSize))
+      else if(!strncmp("std-scan-document-file-type", pName, nameSize))
         {
-          memcpy (&pState.m_fileType, pValue, sizeof (pState.m_fileType))
-          DBG (5, "File type: %x\n", ntohl (pState.m_fileType))
+          memcpy(&pState.m_fileType, pValue, sizeof(pState.m_fileType))
+          DBG(5, "File type: %x\n", ntohl(pState.m_fileType))
         }
       else
-        if (!strncmp ("std-scan-document-image-compression", pName, nameSize))
+        if(!strncmp("std-scan-document-image-compression", pName, nameSize))
         {
-          memcpy (&pState.m_compression, pValue,
-                  sizeof (pState.m_compression))
-          DBG (5, "Compression: %x\n", ntohl (pState.m_compression))
+          memcpy(&pState.m_compression, pValue,
+                  sizeof(pState.m_compression))
+          DBG(5, "Compression: %x\n", ntohl(pState.m_compression))
 
         }
-      else if (!strncmp ("std-scan-document-xresolution", pName, nameSize))
+      else if(!strncmp("std-scan-document-xresolution", pName, nameSize))
         {
-          memcpy (&pState.m_xres, pValue, sizeof (pState.m_xres))
-          DBG (5, "X resolution: %d\n", ntohs (pState.m_xres))
+          memcpy(&pState.m_xres, pValue, sizeof(pState.m_xres))
+          DBG(5, "X resolution: %d\n", ntohs(pState.m_xres))
         }
-      else if (!strncmp ("std-scan-document-yresolution", pName, nameSize))
+      else if(!strncmp("std-scan-document-yresolution", pName, nameSize))
         {
-          memcpy (&pState.m_yres, pValue, sizeof (pState.m_yres))
-          DBG (5, "Y resolution: %d\n", ntohs (pState.m_yres))
+          memcpy(&pState.m_yres, pValue, sizeof(pState.m_yres))
+          DBG(5, "Y resolution: %d\n", ntohs(pState.m_yres))
         }
-      else if (!strncmp ("std-scan-page-widthpixel", pName, nameSize))
+      else if(!strncmp("std-scan-page-widthpixel", pName, nameSize))
         {
-          if (1 || !pState.m_pixelWidth)
+          if(1 || !pState.m_pixelWidth)
             {
-              memcpy (&pState.m_pixelWidth, pValue,
-                      sizeof (pState.m_pixelWidth))
-              DBG (5, "Width: %d\n", ntohl (pState.m_pixelWidth))
+              memcpy(&pState.m_pixelWidth, pValue,
+                      sizeof(pState.m_pixelWidth))
+              DBG(5, "Width: %d\n", ntohl(pState.m_pixelWidth))
             }
           else
             {
-              DBG (5, "Ignoring width (already have a value)\n")
+              DBG(5, "Ignoring width(already have a value)\n")
             }
         }
-      else if (!strncmp ("std-scan-page-heightpixel", pName, nameSize))
+      else if(!strncmp("std-scan-page-heightpixel", pName, nameSize))
         {
-          if (1 || !pState.m_pixelHeight)
+          if(1 || !pState.m_pixelHeight)
             {
-              memcpy (&pState.m_pixelHeight, pValue,
-                      sizeof (pState.m_pixelHeight))
-              DBG (5, "Height: %d\n", ntohl (pState.m_pixelHeight))
+              memcpy(&pState.m_pixelHeight, pValue,
+                      sizeof(pState.m_pixelHeight))
+              DBG(5, "Height: %d\n", ntohl(pState.m_pixelHeight))
             }
           else
             {
-              DBG (5, "Ignoring height (already have a value)\n")
+              DBG(5, "Ignoring height(already have a value)\n")
             }
         }
-      else if (!strncmp ("std-scan-page-start", pName, nameSize))
+      else if(!strncmp("std-scan-page-start", pName, nameSize))
         {
-          errorCheck |= InitPacket (&buf, 0x02)
+          errorCheck |= InitPacket(&buf, 0x02)
           uiVal = 0
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22, "std-scan-page-start-response",
-                                   0x05, &uiVal, sizeof (uiVal))
-          FinalisePacket (&buf)
-          send (pState.m_tcpFd, buf.m_pBuf, buf.m_used, 0)
+            AppendMessageToPacket(&buf, 0x22, "std-scan-page-start-response",
+                                   0x05, &uiVal, sizeof(uiVal))
+          FinalisePacket(&buf)
+          send(pState.m_tcpFd, buf.m_pBuf, buf.m_used, 0)
 
           /* reset the data buffer ready to store a new page */
           pState.m_buf.m_used = 0
@@ -1677,75 +1677,75 @@ ProcessTcpResponse (struct ScannerState *pState, struct ComBuf *pTcpBuf)
           pState.m_pixelWidth = 0
           pState.m_pixelHeight = 0
         }
-      else if (!strncmp ("std-scan-page-end", pName, nameSize))
+      else if(!strncmp("std-scan-page-end", pName, nameSize))
         {
           bProcessImage = 1
 
-          errorCheck |= InitPacket (&buf, 0x02)
+          errorCheck |= InitPacket(&buf, 0x02)
           uiVal = 0
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22, "std-scan-page-end-response",
-                                   0x05, &uiVal, sizeof (uiVal))
-          FinalisePacket (&buf)
-          send (pState.m_tcpFd, buf.m_pBuf, buf.m_used, 0)
+            AppendMessageToPacket(&buf, 0x22, "std-scan-page-end-response",
+                                   0x05, &uiVal, sizeof(uiVal))
+          FinalisePacket(&buf)
+          send(pState.m_tcpFd, buf.m_pBuf, buf.m_used, 0)
         }
-      else if (!strncmp ("std-scan-document-end", pName, nameSize))
+      else if(!strncmp("std-scan-document-end", pName, nameSize))
         {
-          errorCheck |= InitPacket (&buf, 0x02)
+          errorCheck |= InitPacket(&buf, 0x02)
           uiVal = 0
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22,
+            AppendMessageToPacket(&buf, 0x22,
                                    "std-scan-document-end-response", 0x05,
-                                   &uiVal, sizeof (uiVal))
-          FinalisePacket (&buf)
-          send (pState.m_tcpFd, buf.m_pBuf, buf.m_used, 0)
+                                   &uiVal, sizeof(uiVal))
+          FinalisePacket(&buf)
+          send(pState.m_tcpFd, buf.m_pBuf, buf.m_used, 0)
 
           /* reset the data buffer ready to store a new page */
           pState.m_buf.m_used = 0
         }
-      else if (!strncmp ("std-scan-session-end", pName, nameSize))
+      else if(!strncmp("std-scan-session-end", pName, nameSize))
         {
-          errorCheck |= InitPacket (&buf, 0x02)
+          errorCheck |= InitPacket(&buf, 0x02)
           uiVal = 0
           errorCheck |=
-            AppendMessageToPacket (&buf, 0x22,
+            AppendMessageToPacket(&buf, 0x22,
                                    "std-scan-session-end-response", 0x05,
-                                   &uiVal, sizeof (uiVal))
-          FinalisePacket (&buf)
-          send (pState.m_tcpFd, buf.m_pBuf, buf.m_used, 0)
+                                   &uiVal, sizeof(uiVal))
+          FinalisePacket(&buf)
+          send(pState.m_tcpFd, buf.m_pBuf, buf.m_used, 0)
 
           /* initialise a shutodwn of the socket */
-          shutdown (pState.m_tcpFd, SHUT_RDWR)
+          shutdown(pState.m_tcpFd, SHUT_RDWR)
         }
-      else if (!strncmp ("std-scan-scandata-error", pName, nameSize))
+      else if(!strncmp("std-scan-scandata-error", pName, nameSize))
         {
           /* determine the size of data in this chunk */
           dataChunkSize = (pItem[6] << 8) + pItem[7]
 
           pItem += 8
 
-          DBG (10, "Reading %d bytes of scan data\n", dataChunkSize)
+          DBG(10, "Reading %d bytes of scan data\n", dataChunkSize)
 
           /* append message to buffer */
-          errorCheck |= AppendToComBuf (&pState.m_buf, pItem, dataChunkSize)
+          errorCheck |= AppendToComBuf(&pState.m_buf, pItem, dataChunkSize)
 
           pItem += dataChunkSize
 
-          DBG (10, "Accumulated %lu bytes of scan data so far\n",
+          DBG(10, "Accumulated %lu bytes of scan data so far\n",
                (unsigned long)pState.m_buf.m_used)
         } /* if */
     } /* while */
 
   /* process page data if required */
-  if ( bProcessImage ) errorCheck |= ProcessPageData (pState)
+  if( bProcessImage ) errorCheck |= ProcessPageData(pState)
 
 cleanup:
 
-  /* remove processed data (including 8 byte header) from start of tcp buffer */
-  PopFromComBuf (pTcpBuf, messageSize + 8)
+  /* remove processed data(including 8 byte header) from start of tcp buffer */
+  PopFromComBuf(pTcpBuf, messageSize + 8)
 
   /* free com buf */
-  FreeComBuf (&buf)
+  FreeComBuf(&buf)
 
   return errorCheck
 
@@ -1757,25 +1757,25 @@ cleanup:
    \return 0 if successful, >0 otherwise
 */
 Int
-PopFromComBuf (struct ComBuf *pBuf, size_t datSize)
+PopFromComBuf(struct ComBuf *pBuf, size_t datSize)
 {
 
   /* check if we're trying to remove more data than is present */
-  if (datSize > pBuf.m_used)
+  if(datSize > pBuf.m_used)
     {
       pBuf.m_used = 0
       return 1
     }
 
   /* check easy cases */
-  if ((!datSize) || (datSize == pBuf.m_used))
+  if((!datSize) || (datSize == pBuf.m_used))
     {
       pBuf.m_used -= datSize
       return 0
     }
 
   /* move remaining memory contents to start */
-  memmove (pBuf.m_pBuf, pBuf.m_pBuf + datSize, pBuf.m_used - datSize)
+  memmove(pBuf.m_pBuf, pBuf.m_pBuf + datSize, pBuf.m_used - datSize)
 
   pBuf.m_used -= datSize
   return 0
@@ -1786,7 +1786,7 @@ PopFromComBuf (struct ComBuf *pBuf, size_t datSize)
 
 /* Process the data from a single scanned page, \return 0 in success, >0 otherwise */
 Int
-ProcessPageData (struct ScannerState *pState)
+ProcessPageData(struct ScannerState *pState)
 {
 
   FILE *fTmp
@@ -1806,13 +1806,13 @@ ProcessPageData (struct ScannerState *pState)
   TIFF *pTiff = NULL
 
   /* If there's no data then there's nothing to write */
-  if (!pState.m_buf.m_used)
+  if(!pState.m_buf.m_used)
     return 0
 
-  DBG (1, "ProcessPageData: Got compression %x\n",
-       ntohl (pState.m_compression))
+  DBG(1, "ProcessPageData: Got compression %x\n",
+       ntohl(pState.m_compression))
 
-  switch (ntohl (pState.m_compression))
+  switch(ntohl(pState.m_compression))
     {
 
     case 0x20:
@@ -1825,47 +1825,47 @@ ProcessPageData (struct ScannerState *pState)
         jpegSrcMgr.skip_input_data = JpegDecompSkipInputData
         jpegSrcMgr.term_source = JpegDecompTermSource
 
-        jpegCinfo.m_cinfo.err = jpeg_std_error (&jpegErr)
-        jpeg_create_decompress (&jpegCinfo.m_cinfo)
+        jpegCinfo.m_cinfo.err = jpeg_std_error(&jpegErr)
+        jpeg_create_decompress(&jpegCinfo.m_cinfo)
         jpegCinfo.m_cinfo.src = &jpegSrcMgr
         jpegCinfo.m_bytesRemaining = pState.m_buf.m_used
         jpegCinfo.m_pData = pState.m_buf.m_pBuf
 
-        jpeg_read_header (&jpegCinfo.m_cinfo, TRUE)
-        jpeg_start_decompress (&jpegCinfo.m_cinfo)
+        jpeg_read_header(&jpegCinfo.m_cinfo, TRUE)
+        jpeg_start_decompress(&jpegCinfo.m_cinfo)
 
         /* allocate space for a single scanline */
         scanLineSize = jpegCinfo.m_cinfo.output_width
           * jpegCinfo.m_cinfo.output_components
-        DBG (1, "ProcessPageData: image dimensions: %d x %d, line size: %d\n",
+        DBG(1, "ProcessPageData: image dimensions: %d x %d, line size: %d\n",
         jpegCinfo.m_cinfo.output_width,
         jpegCinfo.m_cinfo.output_height, scanLineSize)
 
-        pJpegLine = calloc (scanLineSize, sizeof (JSAMPLE))
-        if (!pJpegLine)
+        pJpegLine = calloc(scanLineSize, sizeof(JSAMPLE))
+        if(!pJpegLine)
           {
-            DBG (1, "ProcessPageData: memory allocation error\n")
+            DBG(1, "ProcessPageData: memory allocation error\n")
             ret = 1
             goto JPEG_CLEANUP
           } /* if */
 
         /* note dimensions - may be different from those previously reported */
-        pState.m_pixelWidth = htonl (jpegCinfo.m_cinfo.output_width)
-        pState.m_pixelHeight = htonl (jpegCinfo.m_cinfo.output_height)
+        pState.m_pixelWidth = htonl(jpegCinfo.m_cinfo.output_width)
+        pState.m_pixelHeight = htonl(jpegCinfo.m_cinfo.output_height)
 
         /* decode scanlines */
-        while (jpegCinfo.m_cinfo.output_scanline
+        while(jpegCinfo.m_cinfo.output_scanline
                < jpegCinfo.m_cinfo.output_height)
           {
-            DBG (20, "Reading scanline %d of %d\n",
+            DBG(20, "Reading scanline %d of %d\n",
                  jpegCinfo.m_cinfo.output_scanline,
                  jpegCinfo.m_cinfo.output_height)
 
             /* read scanline */
-            jpeg_read_scanlines (&jpegCinfo.m_cinfo, &pJpegLine, 1)
+            jpeg_read_scanlines(&jpegCinfo.m_cinfo, &pJpegLine, 1)
 
             /* append to output buffer */
-            ret |= AppendToComBuf (&pState.m_imageData,
+            ret |= AppendToComBuf(&pState.m_imageData,
                                    pJpegLine, scanLineSize)
 
           } /* while */
@@ -1883,11 +1883,11 @@ ProcessPageData (struct ScannerState *pState)
         ++( pState.m_numPages )
 
       JPEG_CLEANUP:
-        jpeg_finish_decompress (&jpegCinfo.m_cinfo)
-        jpeg_destroy_decompress (&jpegCinfo.m_cinfo)
+        jpeg_finish_decompress(&jpegCinfo.m_cinfo)
+        jpeg_destroy_decompress(&jpegCinfo.m_cinfo)
 
-        if (pJpegLine)
-          free (pJpegLine)
+        if(pJpegLine)
+          free(pJpegLine)
 
         return ret
       } /* case JPEG */
@@ -1898,41 +1898,41 @@ ProcessPageData (struct ScannerState *pState)
         /* get a temp file
            :TODO: 2006-04-18: Use TIFFClientOpen and do everything in RAM
          */
-        fTmp = tmpfile ()
-        fdTmp = fileno (fTmp)
+        fTmp = tmpfile()
+        fdTmp = fileno(fTmp)
 
-        pTiff = TIFFFdOpen (fdTmp, "tempfile", "w")
-        if (!pTiff)
+        pTiff = TIFFFdOpen(fdTmp, "tempfile", "w")
+        if(!pTiff)
           {
-            DBG (1, "ProcessPageData: Error opening temp TIFF file")
+            DBG(1, "ProcessPageData: Error opening temp TIFF file")
             ret = Sane.STATUS_IO_ERROR
             goto TIFF_CLEANUP
           }
 
         /* create a TIFF file */
-        width = ntohl (pState.m_pixelWidth)
-        height = ntohl (pState.m_pixelHeight)
-        TIFFSetField (pTiff, TIFFTAG_IMAGEWIDTH, width)
-        TIFFSetField (pTiff, TIFFTAG_IMAGELENGTH, height)
-        TIFFSetField (pTiff, TIFFTAG_BITSPERSAMPLE, 1)
-        TIFFSetField (pTiff, TIFFTAG_PHOTOMETRIC, 0);        /* 0 is white */
-        TIFFSetField (pTiff, TIFFTAG_COMPRESSION, 4);        /* CCITT Group 4 */
-        TIFFSetField (pTiff, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG)
+        width = ntohl(pState.m_pixelWidth)
+        height = ntohl(pState.m_pixelHeight)
+        TIFFSetField(pTiff, TIFFTAG_IMAGEWIDTH, width)
+        TIFFSetField(pTiff, TIFFTAG_IMAGELENGTH, height)
+        TIFFSetField(pTiff, TIFFTAG_BITSPERSAMPLE, 1)
+        TIFFSetField(pTiff, TIFFTAG_PHOTOMETRIC, 0);        /* 0 is white */
+        TIFFSetField(pTiff, TIFFTAG_COMPRESSION, 4);        /* CCITT Group 4 */
+        TIFFSetField(pTiff, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG)
 
-        TIFFWriteRawStrip (pTiff, 0, pState.m_buf.m_pBuf,
+        TIFFWriteRawStrip(pTiff, 0, pState.m_buf.m_pBuf,
                            pState.m_buf.m_used)
 
-        if (0 > TIFFRGBAImageOK (pTiff, tiffErrBuf))
+        if(0 > TIFFRGBAImageOK(pTiff, tiffErrBuf))
           {
-            DBG (1, "ProcessPageData: %s\n", tiffErrBuf)
+            DBG(1, "ProcessPageData: %s\n", tiffErrBuf)
             ret = Sane.STATUS_IO_ERROR
             goto TIFF_CLEANUP
           }
 
         /* allocate space for RGBA representation of image */
         numPixels = height * width
-        DBG (20, "ProcessPageData: num TIFF RGBA pixels: %d\n", numPixels)
-        if (!(pTiffRgba = calloc (numPixels, sizeof (u_long))))
+        DBG(20, "ProcessPageData: num TIFF RGBA pixels: %d\n", numPixels)
+        if(!(pTiffRgba = calloc(numPixels, sizeof(u_long))))
           {
             ret = Sane.STATUS_NO_MEM
             goto TIFF_CLEANUP
@@ -1940,8 +1940,8 @@ ProcessPageData (struct ScannerState *pState)
 
         /* make space in image buffer to store the results */
         imageBytes = width * height * 3
-        ret |= AppendToComBuf (&pState.m_imageData, NULL, imageBytes)
-        if (ret)
+        ret |= AppendToComBuf(&pState.m_imageData, NULL, imageBytes)
+        if(ret)
           goto TIFF_CLEANUP
 
         /* get a pointer to the start of the output data */
@@ -1949,19 +1949,19 @@ ProcessPageData (struct ScannerState *pState)
           + pState.m_imageData.m_used - imageBytes
 
         /* read RGBA image */
-        DBG (20, "ProcessPageData: setting up read buffer\n")
-        TIFFReadBufferSetup (pTiff, NULL, width * height * sizeof (u_long))
-        DBG (20, "ProcessPageData: reading RGBA data\n")
-        TIFFReadRGBAImageOriented (pTiff, width, height, pTiffRgba,
+        DBG(20, "ProcessPageData: setting up read buffer\n")
+        TIFFReadBufferSetup(pTiff, NULL, width * height * sizeof(u_long))
+        DBG(20, "ProcessPageData: reading RGBA data\n")
+        TIFFReadRGBAImageOriented(pTiff, width, height, pTiffRgba,
                                    ORIENTATION_TOPLEFT, 0)
 
         /* loop over pixels */
-        for (iPixel = 0; iPixel < numPixels; ++iPixel)
+        for(iPixel = 0; iPixel < numPixels; ++iPixel)
           {
 
-            *(pOut++) = TIFFGetR (pTiffRgba[iPixel])
-            *(pOut++) = TIFFGetG (pTiffRgba[iPixel])
-            *(pOut++) = TIFFGetB (pTiffRgba[iPixel])
+            *(pOut++) = TIFFGetR(pTiffRgba[iPixel])
+            *(pOut++) = TIFFGetG(pTiffRgba[iPixel])
+            *(pOut++) = TIFFGetB(pTiffRgba[iPixel])
 
           } /* for iRow */
 
@@ -1980,19 +1980,19 @@ ProcessPageData (struct ScannerState *pState)
         ++( pState.m_numPages )
 
       TIFF_CLEANUP:
-        if (pTiff)
-          TIFFClose (pTiff)
-        if (fTmp)
-          fclose (fTmp)
-        if (pTiffRgba)
-          free (pTiffRgba)
+        if(pTiff)
+          TIFFClose(pTiff)
+        if(fTmp)
+          fclose(fTmp)
+        if(pTiffRgba)
+          free(pTiffRgba)
         return ret
 
       } /* case CCITT */
     default:
       /* this is not expected or very useful */
       {
-        DBG (1, "ProcessPageData: Unexpected compression flag %d\n", ntohl (pState.m_compression))
+        DBG(1, "ProcessPageData: Unexpected compression flag %d\n", ntohl(pState.m_compression))
         ret = Sane.STATUS_IO_ERROR
       }
     } /* switch */
@@ -2003,7 +2003,7 @@ ProcessPageData (struct ScannerState *pState)
 /***********************************************************/
 
 void
-JpegDecompInitSource (j_decompress_ptr cinfo)
+JpegDecompInitSource(j_decompress_ptr cinfo)
 /* Libjpeg decompression interface */
 {
   cinfo.src.bytes_in_buffer = 0
@@ -2013,7 +2013,7 @@ JpegDecompInitSource (j_decompress_ptr cinfo)
 /***********************************************************/
 
 boolean
-JpegDecompFillInputBuffer (j_decompress_ptr cinfo)
+JpegDecompFillInputBuffer(j_decompress_ptr cinfo)
 /* Libjpeg decompression interface */
 {
   struct JpegDataDecompState *pState = (struct JpegDataDecompState *) cinfo
@@ -2021,10 +2021,10 @@ JpegDecompFillInputBuffer (j_decompress_ptr cinfo)
     0xFF, JPEG_EOI
   ]
 
-  DBG (10, "JpegDecompFillInputBuffer: bytes remaining: %d\n",
+  DBG(10, "JpegDecompFillInputBuffer: bytes remaining: %d\n",
        pState.m_bytesRemaining)
 
-  if (!pState.m_bytesRemaining)
+  if(!pState.m_bytesRemaining)
     {
 
       /* no input data available so return dummy data */
@@ -2051,10 +2051,10 @@ JpegDecompFillInputBuffer (j_decompress_ptr cinfo)
 /***********************************************************/
 
 void
-JpegDecompSkipInputData (j_decompress_ptr cinfo, long numBytes)
+JpegDecompSkipInputData(j_decompress_ptr cinfo, long numBytes)
 /* Libjpeg decompression interface */
 {
-  DBG (10, "JpegDecompSkipInputData: skipping %ld bytes\n", numBytes)
+  DBG(10, "JpegDecompSkipInputData: skipping %ld bytes\n", numBytes)
 
   cinfo.src.bytes_in_buffer -= numBytes
   cinfo.src.next_input_byte += numBytes
@@ -2064,7 +2064,7 @@ JpegDecompSkipInputData (j_decompress_ptr cinfo, long numBytes)
 /***********************************************************/
 
 void
-JpegDecompTermSource (j_decompress_ptr __Sane.unused__ cinfo)
+JpegDecompTermSource(j_decompress_ptr __Sane.unused__ cinfo)
 /* Libjpeg decompression interface */
 {
   /* nothing to do */

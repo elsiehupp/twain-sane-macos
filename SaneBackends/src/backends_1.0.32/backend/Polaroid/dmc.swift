@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1998 David F. Skoll
+   Copyright(C) 1998 David F. Skoll
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -121,7 +121,7 @@ typedef struct DMC_Camera {
 
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1998 David F. Skoll
+   Copyright(C) 1998 David F. Skoll
    Heavily based on "hp.c" driver for HP Scanners, by
    David Mosberger-Tang.
 
@@ -130,7 +130,7 @@ typedef struct DMC_Camera {
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -286,7 +286,7 @@ DMCWrite(Int fd, unsigned Int typecode, unsigned Int qualifier,
     Sane.Status status
 
     writeCmd = malloc(maxlen + 10)
-    if (!writeCmd) return Sane.STATUS_NO_MEM
+    if(!writeCmd) return Sane.STATUS_NO_MEM
 
     writeCmd[0] = 0x2A
     writeCmd[1] = 0
@@ -344,33 +344,33 @@ DMCAttach(char const *devname, DMC_Device **devp)
 
     /* If we're already attached, do nothing */
 
-    for (dev = FirstDevice; dev; dev = dev.next) {
-	if (!strcmp(dev.sane.name, devname)) {
-	    if (devp) *devp = dev
+    for(dev = FirstDevice; dev; dev = dev.next) {
+	if(!strcmp(dev.sane.name, devname)) {
+	    if(devp) *devp = dev
 	    return Sane.STATUS_GOOD
 	}
     }
 
     DBG(3, "DMCAttach: opening `%s'\n", devname)
     status = sanei_scsi_open(devname, &fd, 0, 0)
-    if (status != Sane.STATUS_GOOD) {
-	DBG(1, "DMCAttach: open failed (%s)\n", Sane.strstatus(status))
+    if(status != Sane.STATUS_GOOD) {
+	DBG(1, "DMCAttach: open failed(%s)\n", Sane.strstatus(status))
 	return status
     }
 
     DBG(3, "DMCAttach: sending INQUIRY\n")
     size = sizeof(result)
     status = sanei_scsi_cmd(fd, inquiry, sizeof(inquiry), result, &size)
-    if (status != Sane.STATUS_GOOD || size < 32) {
-	if (status == Sane.STATUS_GOOD) status = Sane.STATUS_INVAL
-	DBG(1, "DMCAttach: inquiry failed (%s)\n", Sane.strstatus(status))
+    if(status != Sane.STATUS_GOOD || size < 32) {
+	if(status == Sane.STATUS_GOOD) status = Sane.STATUS_INVAL
+	DBG(1, "DMCAttach: inquiry failed(%s)\n", Sane.strstatus(status))
 	sanei_scsi_close(fd)
 	return status
     }
 
     /* Verify that we have a Polaroid DMC */
 
-    if (result[0] != 6 ||
+    if(result[0] != 6 ||
 	strncmp(result+8, "POLAROID", 8) ||
 	strncmp(result+16, "DMC     ", 8)) {
 	sanei_scsi_close(fd)
@@ -381,8 +381,8 @@ DMCAttach(char const *devname, DMC_Device **devp)
     DBG(3, "DMCAttach: sending TEST_UNIT_READY\n")
     status = sanei_scsi_cmd(fd, test_unit_ready, sizeof(test_unit_ready),
 			    NULL, NULL)
-    if (status != Sane.STATUS_GOOD) {
-	DBG(1, "DMCAttach: test unit ready failed (%s)\n",
+    if(status != Sane.STATUS_GOOD) {
+	DBG(1, "DMCAttach: test unit ready failed(%s)\n",
 	    Sane.strstatus(status))
 	sanei_scsi_close(fd)
 	return status
@@ -391,31 +391,31 @@ DMCAttach(char const *devname, DMC_Device **devp)
     /* Read current ASA and shutter speed settings */
     status = DMCRead(fd, 0x87, 0x4, exposureCalculationResults,
 		     sizeof(exposureCalculationResults), &size)
-    if (status != Sane.STATUS_GOOD ||
+    if(status != Sane.STATUS_GOOD ||
 	size < sizeof(exposureCalculationResults)) {
-	DBG(1, "DMCAttach: Couldn't read exposure calculation results (%s)\n",
+	DBG(1, "DMCAttach: Couldn't read exposure calculation results(%s)\n",
 	    Sane.strstatus(status))
 	sanei_scsi_close(fd)
-	if (status == Sane.STATUS_GOOD) status = Sane.STATUS_IO_ERROR
+	if(status == Sane.STATUS_GOOD) status = Sane.STATUS_IO_ERROR
 	return status
     }
 
     /* Read current white balance settings */
     status = DMCRead(fd, 0x82, 0x0, userInterfaceSettings,
 		     sizeof(userInterfaceSettings), &size)
-    if (status != Sane.STATUS_GOOD ||
+    if(status != Sane.STATUS_GOOD ||
 	size < sizeof(userInterfaceSettings)) {
-	DBG(1, "DMCAttach: Couldn't read user interface settings (%s)\n",
+	DBG(1, "DMCAttach: Couldn't read user interface settings(%s)\n",
 	    Sane.strstatus(status))
 	sanei_scsi_close(fd)
-	if (status == Sane.STATUS_GOOD) status = Sane.STATUS_IO_ERROR
+	if(status == Sane.STATUS_GOOD) status = Sane.STATUS_IO_ERROR
 	return status
     }
 
     /* Shut off viewfinder mode */
     status = sanei_scsi_cmd(fd, no_viewfinder, sizeof(no_viewfinder),
 			    NULL, NULL)
-    if (status != Sane.STATUS_GOOD) {
+    if(status != Sane.STATUS_GOOD) {
 	sanei_scsi_close(fd)
 	return status
     }
@@ -424,7 +424,7 @@ DMCAttach(char const *devname, DMC_Device **devp)
     DBG(3, "DMCAttach: Looks like we have a Polaroid DMC\n")
 
     dev = malloc(sizeof(*dev))
-    if (!dev) return Sane.STATUS_NO_MEM
+    if(!dev) return Sane.STATUS_NO_MEM
     memset(dev, 0, sizeof(*dev))
 
     dev.sane.name = strdup(devname)
@@ -433,15 +433,15 @@ DMCAttach(char const *devname, DMC_Device **devp)
     dev.sane.type = "still camera"
     dev.next = FirstDevice
     dev.whiteBalance = userInterfaceSettings[5]
-    if (dev.whiteBalance > WHITE_BALANCE_FLUORESCENT) {
+    if(dev.whiteBalance > WHITE_BALANCE_FLUORESCENT) {
 	dev.whiteBalance = WHITE_BALANCE_FLUORESCENT
     }
 
-    /* Bright Eyes documentation gives these as shutter speed ranges (ms) */
+    /* Bright Eyes documentation gives these as shutter speed ranges(ms) */
     /* dev.shutterSpeedRange.min = 8; */
     /* dev.shutterSpeedRange.max = 320; */
 
-    /* User's manual says these are shutter speed ranges (ms) */
+    /* User's manual says these are shutter speed ranges(ms) */
     dev.shutterSpeedRange.min = 8
     dev.shutterSpeedRange.max = 1000
     dev.shutterSpeedRange.quant = 2
@@ -453,11 +453,11 @@ DMCAttach(char const *devname, DMC_Device **devp)
     dev.shutterSpeed = TICKS_TO_MS(dev.shutterSpeed)
 
     dev.asa = exposureCalculationResults[13]
-    if (dev.asa > ASA_100) dev.asa = ASA_100
+    if(dev.asa > ASA_100) dev.asa = ASA_100
     dev.asa = ValidASAs[dev.asa + 1]
     FirstDevice = dev
     NumDevices++
-    if (devp) *devp = dev
+    if(devp) *devp = dev
     return Sane.STATUS_GOOD
 }
 
@@ -472,8 +472,8 @@ static DMC_Camera *
 ValidateHandle(Sane.Handle handle)
 {
     DMC_Camera *c
-    for (c = FirstHandle; c; c = c.next) {
-	if (c == handle) return c
+    for(c = FirstHandle; c; c = c.next) {
+	if(c == handle) return c
     }
     DBG(1, "ValidateHandle: invalid handle %p\n", handle)
     return NULL
@@ -512,7 +512,7 @@ DMCInitOptions(DMC_Camera *c)
     memset(c.opt, 0, sizeof(c.opt))
     memset(c.val, 0, sizeof(c.val))
 
-    for (i=0; i<NUM_OPTIONS; i++) {
+    for(i=0; i<NUM_OPTIONS; i++) {
 	c.opt[i].type = Sane.TYPE_INT
 	c.opt[i].size = sizeof(Sane.Word)
 	c.opt[i].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
@@ -598,7 +598,7 @@ DMCInitOptions(DMC_Camera *c)
     c.val[OPT_ASA].w = c.hw.asa
 
     c.opt[OPT_SHUTTER_SPEED].name = "shutterspeed"
-    c.opt[OPT_SHUTTER_SPEED].title = "Shutter Speed (ms)"
+    c.opt[OPT_SHUTTER_SPEED].title = "Shutter Speed(ms)"
     c.opt[OPT_SHUTTER_SPEED].desc = "Shutter Speed in milliseconds"
     c.opt[OPT_SHUTTER_SPEED].constraint_type = Sane.CONSTRAINT_RANGE
     c.opt[OPT_SHUTTER_SPEED].constraint.range = &c.hw.shutterSpeedRange
@@ -630,7 +630,7 @@ DMCInitOptions(DMC_Camera *c)
 static Sane.Status
 DMCSetMode(DMC_Camera *c, Int mode)
 {
-  switch (mode)
+  switch(mode)
     {
     case IMAGE_MFI:
       c.tl_x_range.min = 0
@@ -710,7 +710,7 @@ DMCSetMode(DMC_Camera *c, Int mode)
 static Sane.Status
 DMCCancel(DMC_Camera *c)
 {
-    if (c.fd >= 0) {
+    if(c.fd >= 0) {
 	sanei_scsi_close(c.fd)
 	c.fd = -1
     }
@@ -736,16 +736,16 @@ DMCSetASA(Int fd, unsigned Int asa)
     var i: Int
 
     DBG(3, "DMCSetAsa: %d\n", asa)
-    for (i=1; i<=ASA_100+1; i++) {
-	if (asa == (unsigned Int) ValidASAs[i]) break
+    for(i=1; i<=ASA_100+1; i++) {
+	if(asa == (unsigned Int) ValidASAs[i]) break
     }
 
-    if (i > ASA_100+1) return Sane.STATUS_INVAL
+    if(i > ASA_100+1) return Sane.STATUS_INVAL
 
     status = DMCRead(fd, 0x87, 0x4, exposureCalculationResults,
 		     sizeof(exposureCalculationResults), &len)
-    if (status != Sane.STATUS_GOOD) return status
-    if (len < sizeof(exposureCalculationResults)) return Sane.STATUS_IO_ERROR
+    if(status != Sane.STATUS_GOOD) return status
+    if(len < sizeof(exposureCalculationResults)) return Sane.STATUS_IO_ERROR
 
     exposureCalculationResults[13] = (uint8_t) i - 1
 
@@ -773,8 +773,8 @@ DMCSetWhiteBalance(Int fd, Int mode)
     DBG(3, "DMCSetWhiteBalance: %d\n", mode)
     status = DMCRead(fd, 0x82, 0x0, userInterfaceSettings,
 		     sizeof(userInterfaceSettings), &len)
-    if (status != Sane.STATUS_GOOD) return status
-    if (len < sizeof(userInterfaceSettings)) return Sane.STATUS_IO_ERROR
+    if(status != Sane.STATUS_GOOD) return status
+    if(len < sizeof(userInterfaceSettings)) return Sane.STATUS_IO_ERROR
 
     userInterfaceSettings[5] = (uint8_t) mode
 
@@ -805,8 +805,8 @@ DMCSetShutterSpeed(Int fd, unsigned Int speed)
 
     status = DMCRead(fd, 0x87, 0x4, exposureCalculationResults,
 		     sizeof(exposureCalculationResults), &len)
-    if (status != Sane.STATUS_GOOD) return status
-    if (len < sizeof(exposureCalculationResults)) return Sane.STATUS_IO_ERROR
+    if(status != Sane.STATUS_GOOD) return status
+    if(len < sizeof(exposureCalculationResults)) return Sane.STATUS_IO_ERROR
 
     exposureCalculationResults[10] = (speed >> 8) & 0xFF
     exposureCalculationResults[11] = speed & 0xFF
@@ -825,7 +825,7 @@ DMCSetShutterSpeed(Int fd, unsigned Int speed)
 //%RETURNS:
 // Nothing
 //%DESCRIPTION:
-// Reads a single "raw" line from the camera (if needed) and constructs
+// Reads a single "raw" line from the camera(if needed) and constructs
 // two "super-resolution" output lines in "buf"
 // *********************************************************************/
 static Sane.Status
@@ -839,17 +839,17 @@ DMCReadTwoSuperResolutionLines(DMC_Camera *c, Sane.Byte *buf, Int lastLine)
     Int red, green, blue
     var i: Int
 
-    if (c.nextRawLineValid) {
+    if(c.nextRawLineValid) {
 	memcpy(c.currentRawLine, c.nextRawLine, BYTES_PER_RAW_LINE)
     } else {
 	status = DMCRead(c.fd, 0x00, IMAGE_RAW,
 			 c.currentRawLine, BYTES_PER_RAW_LINE, &len)
-	if (status != Sane.STATUS_GOOD) return status
+	if(status != Sane.STATUS_GOOD) return status
     }
-    if (!lastLine) {
+    if(!lastLine) {
 	status = DMCRead(c.fd, 0x00, IMAGE_RAW,
 			 c.nextRawLine, BYTES_PER_RAW_LINE, &len)
-	if (status != Sane.STATUS_GOOD) return status
+	if(status != Sane.STATUS_GOOD) return status
 	c.nextRawLineValid = 1
     }
 
@@ -859,7 +859,7 @@ DMCReadTwoSuperResolutionLines(DMC_Camera *c, Sane.Byte *buf, Int lastLine)
 
     /* Do the first super-resolution line */
     output = buf
-    for (i=0; i<BYTES_PER_RAW_LINE; i++) {
+    for(i=0; i<BYTES_PER_RAW_LINE; i++) {
 	red = redCoeff * c.currentRawLine[PREV_RED(i)] +
 	    (3-redCoeff) * c.currentRawLine[NEXT_RED(i)]
 	green = greenCoeff * c.currentRawLine[PREV_GREEN(i)] +
@@ -875,7 +875,7 @@ DMCReadTwoSuperResolutionLines(DMC_Camera *c, Sane.Byte *buf, Int lastLine)
     }
 
     /* Do the next super-resolution line and interpolate vertically */
-    if (lastLine) {
+    if(lastLine) {
 	memcpy(buf+BYTES_PER_RAW_LINE*3, buf, BYTES_PER_RAW_LINE*3)
 	return Sane.STATUS_GOOD
     }
@@ -884,7 +884,7 @@ DMCReadTwoSuperResolutionLines(DMC_Camera *c, Sane.Byte *buf, Int lastLine)
     blueCoeff = 2
 
     prev = buf
-    for (i=0; i<BYTES_PER_RAW_LINE; i++) {
+    for(i=0; i<BYTES_PER_RAW_LINE; i++) {
 	red = redCoeff * c.nextRawLine[PREV_RED(i)] +
 	    (3-redCoeff) * c.nextRawLine[NEXT_RED(i)]
 	green = greenCoeff * c.nextRawLine[PREV_GREEN(i)] +
@@ -902,7 +902,7 @@ DMCReadTwoSuperResolutionLines(DMC_Camera *c, Sane.Byte *buf, Int lastLine)
 }
 
 /***********************************************************************
-//%FUNCTION: attach_one (static function)
+//%FUNCTION: attach_one(static function)
 //%ARGUMENTS:
 // dev -- device to attach
 //%RETURNS:
@@ -911,9 +911,9 @@ DMCReadTwoSuperResolutionLines(DMC_Camera *c, Sane.Byte *buf, Int lastLine)
 // tries to attach a device found by sanei_config_attach_matching_devices
 // *********************************************************************/
 static Sane.Status
-attach_one (const char *dev)
+attach_one(const char *dev)
 {
-  DMCAttach (dev, 0)
+  DMCAttach(dev, 0)
   return Sane.STATUS_GOOD
 }
 
@@ -937,31 +937,31 @@ Sane.init(Int *version_code, Sane.Auth_Callback authorize)
     authorize = authorize
 
     DBG_INIT()
-    if (version_code) {
-	*version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, 0)
+    if(version_code) {
+	*version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, 0)
     }
 
     fp = sanei_config_open(DMC_CONFIG_FILE)
-    if (!fp) {
+    if(!fp) {
 	/* default to /dev/camera instead of insisting on config file */
-	if (DMCAttach ("/dev/camera", NULL) != Sane.STATUS_GOOD) {
+	if(DMCAttach("/dev/camera", NULL) != Sane.STATUS_GOOD) {
 	    /* OK, try /dev/scanner */
 	    DMCAttach("/dev/scanner", NULL)
 	}
 	return Sane.STATUS_GOOD
     }
 
-    while (sanei_config_read (dev_name, sizeof (dev_name), fp)) {
-	if (dev_name[0] == '#')	{	/* ignore line comments */
+    while(sanei_config_read(dev_name, sizeof(dev_name), fp)) {
+	if(dev_name[0] == '#')	{	/* ignore line comments */
 	    continue
 	}
-	len = strlen (dev_name)
+	len = strlen(dev_name)
 
-	if (!len) continue;			/* ignore empty lines */
+	if(!len) continue;			/* ignore empty lines */
 
 	sanei_config_attach_matching_devices(dev_name, attach_one)
     }
-    fclose (fp)
+    fclose(fp)
     return Sane.STATUS_GOOD
 }
 
@@ -993,8 +993,8 @@ Sane.exit(void)
 	dev = next
     }
 
-    if (devlist)
-      free (devlist)
+    if(devlist)
+      free(devlist)
 }
 
 /**********************************************************************
@@ -1015,16 +1015,16 @@ Sane.get_devices(Sane.Device const ***device_list, Bool local_only)
 
     local_only = local_only
 
-    if (devlist) free(devlist)
+    if(devlist) free(devlist)
     devlist = malloc((NumDevices+1) * sizeof(devlist[0]))
-    if (!devlist) return Sane.STATUS_NO_MEM
+    if(!devlist) return Sane.STATUS_NO_MEM
 
-    for (dev=FirstDevice; dev; dev = dev.next) {
+    for(dev=FirstDevice; dev; dev = dev.next) {
 	devlist[i++] = &dev.sane
     }
     devlist[i] = NULL
 
-    if (device_list) *device_list = devlist
+    if(device_list) *device_list = devlist
 
     return Sane.STATUS_GOOD
 }
@@ -1047,24 +1047,24 @@ Sane.open(Sane.String_Const name, Sane.Handle *handle)
     DMC_Camera *c
 
     /* If we're given a device name, search for it */
-    if (*name) {
-	for (dev = FirstDevice; dev; dev = dev.next) {
-	    if (!strcmp(dev.sane.name, name)) {
+    if(*name) {
+	for(dev = FirstDevice; dev; dev = dev.next) {
+	    if(!strcmp(dev.sane.name, name)) {
 		break
 	    }
 	}
-	if (!dev) {
+	if(!dev) {
 	    status = DMCAttach(name, &dev)
-	    if (status != Sane.STATUS_GOOD) return status
+	    if(status != Sane.STATUS_GOOD) return status
 	}
     } else {
 	dev = FirstDevice
     }
 
-    if (!dev) return Sane.STATUS_INVAL
+    if(!dev) return Sane.STATUS_INVAL
 
     c = malloc(sizeof(*c))
-    if (!c) return Sane.STATUS_NO_MEM
+    if(!c) return Sane.STATUS_NO_MEM
 
     memset(c, 0, sizeof(*c))
 
@@ -1080,7 +1080,7 @@ Sane.open(Sane.String_Const name, Sane.Handle *handle)
 
     c.next = FirstHandle
     FirstHandle = c
-    if (handle) *handle = c
+    if(handle) *handle = c
     return Sane.STATUS_GOOD
 }
 
@@ -1098,20 +1098,20 @@ Sane.close(Sane.Handle handle)
 {
     DMC_Camera *prev, *c
     prev = NULL
-    for (c = FirstHandle; c; c = c.next) {
-	if (c == handle) break
+    for(c = FirstHandle; c; c = c.next) {
+	if(c == handle) break
 	prev = c
     }
-    if (!c) {
+    if(!c) {
 	DBG(1, "close: invalid handle %p\n", handle)
 	return
     }
     DMCCancel(c)
 
-    if (prev) prev.next = c.next
+    if(prev) prev.next = c.next
     else FirstHandle = c.next
 
-    if (c.readBuffer) {
+    if(c.readBuffer) {
 	free(c.readBuffer)
     }
     free(c)
@@ -1129,9 +1129,9 @@ Sane.Option_Descriptor const *
 Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
     DMC_Camera *c = ValidateHandle(handle)
-    if (!c) return NULL
+    if(!c) return NULL
 
-    if ((unsigned) option >= NUM_OPTIONS) return NULL
+    if((unsigned) option >= NUM_OPTIONS) return NULL
     return c.opt + option
 }
 
@@ -1156,19 +1156,19 @@ Sane.control_option(Sane.Handle handle, Int option,
     Sane.Word cap
     var i: Int
 
-    if (info) *info = 0
+    if(info) *info = 0
 
     c = ValidateHandle(handle)
-    if (!c) return Sane.STATUS_INVAL
+    if(!c) return Sane.STATUS_INVAL
 
-    if (c.fd >= 0) return Sane.STATUS_DEVICE_BUSY
+    if(c.fd >= 0) return Sane.STATUS_DEVICE_BUSY
 
-    if (option >= NUM_OPTIONS) return Sane.STATUS_INVAL
+    if(option >= NUM_OPTIONS) return Sane.STATUS_INVAL
 
     cap = c.opt[option].cap
-    if (!Sane.OPTION_IS_ACTIVE(cap)) return Sane.STATUS_INVAL
+    if(!Sane.OPTION_IS_ACTIVE(cap)) return Sane.STATUS_INVAL
 
-    if (action == Sane.ACTION_GET_VALUE) {
+    if(action == Sane.ACTION_GET_VALUE) {
 	switch(c.opt[option].type) {
 	case Sane.TYPE_INT:
 	    * (Int *) val = c.val[option].w
@@ -1184,39 +1184,39 @@ Sane.control_option(Sane.Handle handle, Int option,
 	}
     }
 
-    if (action == Sane.ACTION_SET_AUTO) {
+    if(action == Sane.ACTION_SET_AUTO) {
 	return Sane.STATUS_UNSUPPORTED
     }
 
     switch(option) {
     case OPT_IMAGE_MODE:
-	for (i=0; i<NUM_IMAGE_MODES; i++) {
-	    if (!strcmp(val, ValidModes[i])) {
+	for(i=0; i<NUM_IMAGE_MODES; i++) {
+	    if(!strcmp(val, ValidModes[i])) {
 		DMCSetMode(c, i)
 		c.val[OPT_IMAGE_MODE].s = (String) ValidModes[i]
-		if (info) *info |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
+		if(info) *info |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
 		return Sane.STATUS_GOOD
 	    }
 	}
 	break
     case OPT_WHITE_BALANCE:
-	for (i=0; i<=WHITE_BALANCE_FLUORESCENT; i++) {
-	    if (!strcmp(val, ValidBalances[i])) {
+	for(i=0; i<=WHITE_BALANCE_FLUORESCENT; i++) {
+	    if(!strcmp(val, ValidBalances[i])) {
 		c.val[OPT_WHITE_BALANCE].s = (String) ValidBalances[i]
 		return Sane.STATUS_GOOD
 	    }
 	}
 	break
     case OPT_ASA:
-	for (i=1; i<= ASA_100+1; i++) {
-	    if (* ((Int *) val) == ValidASAs[i]) {
+	for(i=1; i<= ASA_100+1; i++) {
+	    if(* ((Int *) val) == ValidASAs[i]) {
 		c.val[OPT_ASA].w = ValidASAs[i]
 		return Sane.STATUS_GOOD
 	    }
 	}
 	break
     case OPT_SHUTTER_SPEED:
-	if (* (Int *) val < c.hw.shutterSpeedRange.min ||
+	if(* (Int *) val < c.hw.shutterSpeedRange.min ||
 	    * (Int *) val > c.hw.shutterSpeedRange.max) {
 	    return Sane.STATUS_INVAL
 	}
@@ -1224,8 +1224,8 @@ Sane.control_option(Sane.Handle handle, Int option,
 	/* Do any roundoff */
 	c.val[OPT_SHUTTER_SPEED].w =
 	    TICKS_TO_MS(MS_TO_TICKS(c.val[OPT_SHUTTER_SPEED].w))
-	if (c.val[OPT_SHUTTER_SPEED].w != * (Int *) val) {
-	    if (info) *info |= Sane.INFO_INEXACT
+	if(c.val[OPT_SHUTTER_SPEED].w != * (Int *) val) {
+	    if(info) *info |= Sane.INFO_INEXACT
 	}
 
 	return Sane.STATUS_GOOD
@@ -1252,9 +1252,9 @@ Sane.Status
 Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
 {
     DMC_Camera *c = ValidateHandle(handle)
-    if (!c) return Sane.STATUS_INVAL
+    if(!c) return Sane.STATUS_INVAL
 
-    if (c.fd < 0) {
+    if(c.fd < 0) {
 	Int width, height
 	memset(&c.params, 0, sizeof(c.params))
 
@@ -1278,7 +1278,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
 	    break
 	}
     }
-    if (params) *params = c.params
+    if(params) *params = c.params
     return Sane.STATUS_GOOD
 }
 
@@ -1307,13 +1307,13 @@ Sane.start(Sane.Handle handle)
     Sane.Status status
     var i: Int
 
-    if (!c) return Sane.STATUS_INVAL
+    if(!c) return Sane.STATUS_INVAL
 
     /* If we're already open, barf -- not sure this is the best status */
-    if (c.fd >= 0) return Sane.STATUS_DEVICE_BUSY
+    if(c.fd >= 0) return Sane.STATUS_DEVICE_BUSY
 
     /* Get rid of old read buffers */
-    if (c.readBuffer) {
+    if(c.readBuffer) {
 	free(c.readBuffer)
 	c.readBuffer = NULL
 	c.readPtr = NULL
@@ -1323,10 +1323,10 @@ Sane.start(Sane.Handle handle)
 
     /* Refresh parameter list */
     status = Sane.get_parameters(c, NULL)
-    if (status != Sane.STATUS_GOOD) return status
+    if(status != Sane.STATUS_GOOD) return status
 
     status = sanei_scsi_open(c.hw.sane.name, &c.fd, NULL, NULL)
-    if (status != Sane.STATUS_GOOD) {
+    if(status != Sane.STATUS_GOOD) {
 	c.fd = -1
 	DBG(1, "DMC: Open of `%s' failed: %s\n",
 	    c.hw.sane.name, Sane.strstatus(status))
@@ -1334,18 +1334,18 @@ Sane.start(Sane.Handle handle)
     }
 
     /* Set ASA and shutter speed if they're no longer current */
-    if (c.val[OPT_ASA].w != c.hw.asa) {
+    if(c.val[OPT_ASA].w != c.hw.asa) {
 	status = DMCSetASA(c.fd, c.val[OPT_ASA].w)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 	    DMCCancel(c)
 	    return status
 	}
 	c.hw.asa = c.val[OPT_ASA].w
     }
 
-    if ((unsigned Int) c.val[OPT_SHUTTER_SPEED].w != c.hw.shutterSpeed) {
+    if((unsigned Int) c.val[OPT_SHUTTER_SPEED].w != c.hw.shutterSpeed) {
 	status = DMCSetShutterSpeed(c.fd, c.val[OPT_SHUTTER_SPEED].w)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 	    DMCCancel(c)
 	    return status
 	}
@@ -1353,11 +1353,11 @@ Sane.start(Sane.Handle handle)
     }
 
     /* Set white balance mode if needed */
-    for (i=0; i<=WHITE_BALANCE_FLUORESCENT; i++) {
-	if (!strcmp(ValidBalances[i], c.val[OPT_WHITE_BALANCE].s)) {
-	    if (i != c.hw.whiteBalance) {
+    for(i=0; i<=WHITE_BALANCE_FLUORESCENT; i++) {
+	if(!strcmp(ValidBalances[i], c.val[OPT_WHITE_BALANCE].s)) {
+	    if(i != c.hw.whiteBalance) {
 		status = DMCSetWhiteBalance(c.fd, i)
-		if (status != Sane.STATUS_GOOD) {
+		if(status != Sane.STATUS_GOOD) {
 		    DMCCancel(c)
 		    return status
 		}
@@ -1367,10 +1367,10 @@ Sane.start(Sane.Handle handle)
     }
 
     /* Flip into viewfinder mode if needed */
-    if (c.imageMode == IMAGE_VIEWFINDER && !c.inViewfinderMode) {
+    if(c.imageMode == IMAGE_VIEWFINDER && !c.inViewfinderMode) {
 	status = sanei_scsi_cmd(c.fd, viewfinder, sizeof(viewfinder),
 				NULL, NULL)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 	    DMCCancel(c)
 	    return status
 	}
@@ -1378,10 +1378,10 @@ Sane.start(Sane.Handle handle)
     }
 
     /* Flip out of viewfinder mode if needed */
-    if (c.imageMode != IMAGE_VIEWFINDER && c.inViewfinderMode) {
+    if(c.imageMode != IMAGE_VIEWFINDER && c.inViewfinderMode) {
 	status = sanei_scsi_cmd(c.fd, no_viewfinder, sizeof(no_viewfinder),
 				NULL, NULL)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 	    DMCCancel(c)
 	    return status
 	}
@@ -1390,7 +1390,7 @@ Sane.start(Sane.Handle handle)
 
 
     status = sanei_scsi_cmd(c.fd, acquire, sizeof(acquire), NULL, NULL)
-    if (status != Sane.STATUS_GOOD) {
+    if(status != Sane.STATUS_GOOD) {
 	DMCCancel(c)
 	return status
     }
@@ -1418,12 +1418,12 @@ Sane.read(Sane.Handle handle, Sane.Byte *buf, Int max_len, Int *len)
     size_t size
     Int i
 
-    if (!c) return Sane.STATUS_INVAL
+    if(!c) return Sane.STATUS_INVAL
 
-    if (c.fd < 0) return Sane.STATUS_INVAL
+    if(c.fd < 0) return Sane.STATUS_INVAL
 
-    if (c.bytes_to_read == 0) {
-	if (c.readBuffer) {
+    if(c.bytes_to_read == 0) {
+	if(c.readBuffer) {
 	    free(c.readBuffer)
 	    c.readBuffer = NULL
 	    c.readPtr = NULL
@@ -1432,42 +1432,42 @@ Sane.read(Sane.Handle handle, Sane.Byte *buf, Int max_len, Int *len)
 	return Sane.STATUS_EOF
     }
 
-    if (max_len == 0) {
+    if(max_len == 0) {
 	return Sane.STATUS_GOOD
     }
 
-    if (c.imageMode == IMAGE_SUPER_RES) {
+    if(c.imageMode == IMAGE_SUPER_RES) {
 	/* We have to read *two* complete rows... */
 	max_len = (max_len / (2*c.params.bytes_per_line)) *
 	    (2*c.params.bytes_per_line)
 	/* If user is trying to read less than two complete lines, fail */
-	if (max_len == 0) return Sane.STATUS_INVAL
-	if ((unsigned Int) max_len > c.bytes_to_read) max_len = c.bytes_to_read
-	for (i=0; i<max_len; i += 2*c.params.bytes_per_line) {
+	if(max_len == 0) return Sane.STATUS_INVAL
+	if((unsigned Int) max_len > c.bytes_to_read) max_len = c.bytes_to_read
+	for(i=0; i<max_len; i += 2*c.params.bytes_per_line) {
 	    c.bytes_to_read -= 2*c.params.bytes_per_line
 	    status = DMCReadTwoSuperResolutionLines(c, buf+i,
 						    !c.bytes_to_read)
-	    if (status != Sane.STATUS_GOOD) return status
+	    if(status != Sane.STATUS_GOOD) return status
 	}
 	*len = max_len
 	return Sane.STATUS_GOOD
     }
 
-    if (c.imageMode == IMAGE_MFI || c.imageMode == IMAGE_RAW) {
+    if(c.imageMode == IMAGE_MFI || c.imageMode == IMAGE_RAW) {
 	/* We have to read complete rows... */
 	max_len = (max_len / c.params.bytes_per_line) * c.params.bytes_per_line
 
 	/* If user is trying to read less than one complete row, fail */
-	if (max_len == 0) return Sane.STATUS_INVAL
-	if ((unsigned Int) max_len > c.bytes_to_read) max_len = c.bytes_to_read
+	if(max_len == 0) return Sane.STATUS_INVAL
+	if((unsigned Int) max_len > c.bytes_to_read) max_len = c.bytes_to_read
 	c.bytes_to_read -= (unsigned Int) max_len
 	status = DMCRead(c.fd, 0x00, c.imageMode, buf, max_len, &size)
 	*len = size
 	return status
     }
 
-    if ((unsigned Int) max_len > c.bytes_to_read) max_len = c.bytes_to_read
-    if (c.readPtr) {
+    if((unsigned Int) max_len > c.bytes_to_read) max_len = c.bytes_to_read
+    if(c.readPtr) {
 	*len = max_len
 	memcpy(buf, c.readPtr, max_len)
 	c.readPtr += max_len
@@ -1477,13 +1477,13 @@ Sane.read(Sane.Handle handle, Sane.Byte *buf, Int max_len, Int *len)
 
     /* Fill the read buffer completely */
     c.readBuffer = malloc(c.bytes_to_read)
-    if (!c.readBuffer) return Sane.STATUS_NO_MEM
+    if(!c.readBuffer) return Sane.STATUS_NO_MEM
     c.readPtr = c.readBuffer
     status = DMCRead(c.fd, 0x00, c.imageMode, (Sane.Byte *) c.readBuffer,
 		     c.bytes_to_read, &size)
     *len = size
-    if (status != Sane.STATUS_GOOD) return status
-    if ((unsigned Int) *len != c.bytes_to_read) return Sane.STATUS_IO_ERROR
+    if(status != Sane.STATUS_GOOD) return status
+    if((unsigned Int) *len != c.bytes_to_read) return Sane.STATUS_IO_ERROR
 
     /* Now copy */
     *len = max_len
@@ -1503,16 +1503,16 @@ Sane.read(Sane.Handle handle, Sane.Byte *buf, Int max_len, Int *len)
 // A quick cancellation of the scane
 // *********************************************************************/
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
     DMC_Camera *c = ValidateHandle(handle)
-    if (!c) return
+    if(!c) return
 
     DMCCancel(c)
 }
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 {
   handle = handle
   non_blocking = non_blocking
@@ -1521,7 +1521,7 @@ Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle handle, Int *fd)
+Sane.get_select_fd(Sane.Handle handle, Int *fd)
 {
   handle = handle
   fd = fd

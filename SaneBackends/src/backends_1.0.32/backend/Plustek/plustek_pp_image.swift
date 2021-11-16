@@ -2,8 +2,8 @@
  * @brief functions to convert scanner data into image data
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 1998 Plustek Inc.
- * Copyright (C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 1998 Plustek Inc.
+ * Copyright(C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
  * also based on the work done by Rick Bronson
  *
  * History:
@@ -43,7 +43,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -105,49 +105,49 @@ static ThreshDef xferSpeed[4] = {
 
 /** return the correct DPI-value
  * The ASIC 96001/3 models are limited to an optical resolution of 300 Dpi
- * so it´s necessary to scale in X and Y direction (see scale.c)!
+ * so it´s necessary to scale in X and Y direction(see scale.c)!
  */
 static UShort imageGetPhysDPI( pScanData ps, pImgDef pImgInf, Bool fDpiX )
 {
 	if( _IS_ASIC98(ps.sCaps.AsicID)) {
 
-	    if (fDpiX) {
+	    if(fDpiX) {
 
-			if (pImgInf.xyDpi.x > ps.LensInf.rDpiX.wPhyMax)
+			if(pImgInf.xyDpi.x > ps.LensInf.rDpiX.wPhyMax)
 	    		return ps.LensInf.rDpiX.wPhyMax
 			else
 	    		return pImgInf.xyDpi.x
 
 	    } else {
-			if (pImgInf.xyDpi.y > ps.LensInf.rDpiY.wPhyMax)
+			if(pImgInf.xyDpi.y > ps.LensInf.rDpiY.wPhyMax)
 	    		return ps.LensInf.rDpiY.wPhyMax
 			else
 	    		return pImgInf.xyDpi.y
 	    }
 	} else {
 
-	    if (fDpiX) {
+	    if(fDpiX) {
 
-			if (pImgInf.wDataType >= COLOR_TRUE24) {
-	    		if (pImgInf.xyDpi.x > ps.LensInf.rDpiX.wPhyMax)
+			if(pImgInf.wDataType >= COLOR_TRUE24) {
+	    		if(pImgInf.xyDpi.x > ps.LensInf.rDpiX.wPhyMax)
 					return ps.LensInf.rDpiX.wPhyMax
 			    else
 					return pImgInf.xyDpi.x
 			} else {
-	    		if (pImgInf.xyDpi.x > (ps.LensInf.rDpiX.wPhyMax * 2))
-					return (ps.LensInf.rDpiX.wPhyMax * 2)
+	    		if(pImgInf.xyDpi.x > (ps.LensInf.rDpiX.wPhyMax * 2))
+					return(ps.LensInf.rDpiX.wPhyMax * 2)
 			    else
 					return pImgInf.xyDpi.x
 			}
     	} else {
 
-			if (pImgInf.wDataType >= COLOR_TRUE24 ) {
-	    		if (pImgInf.xyDpi.y > (ps.LensInf.rDpiY.wPhyMax / 2))
-					return (ps.LensInf.rDpiY.wPhyMax / 2)
+			if(pImgInf.wDataType >= COLOR_TRUE24 ) {
+	    		if(pImgInf.xyDpi.y > (ps.LensInf.rDpiY.wPhyMax / 2))
+					return(ps.LensInf.rDpiY.wPhyMax / 2)
 			    else
 					return pImgInf.xyDpi.y
 			} else {
-	    		if (pImgInf.xyDpi.y > ps.LensInf.rDpiY.wPhyMax)
+	    		if(pImgInf.xyDpi.y > ps.LensInf.rDpiY.wPhyMax)
 					return ps.LensInf.rDpiY.wPhyMax
 			    else
 					return pImgInf.xyDpi.y
@@ -286,8 +286,8 @@ static void fnP96GrayDirect( pScanData ps, pVoid pBuf, pVoid pImg, ULong bl )
 	src  = (pUChar)pImg
 	dest = (pUChar)pBuf
 
-    for (; bl; bl--, src++, dest++ )
-		*dest = ps.pbMapRed [*src]
+    for(; bl; bl--, src++, dest++ )
+		*dest = ps.pbMapRed[*src]
 }
 
 /** This routine used in the condition:
@@ -342,13 +342,13 @@ static void fnHalftoneDirect1( pScanData ps, pVoid pb, pVoid pImg, ULong bL )
 	src  = (pUChar)pImg
 	dest = (pUChar)pb
 
-	for (; bL; bL--, dest++ ) {
+	for(; bL; bL--, dest++ ) {
 
-		for (dw = 8; dw; dw--, src++ ) {
+		for(dw = 8; dw; dw--, src++ ) {
 
 		    threshold = (UChar)MiscLongRand()
 
-		    if (*src < threshold ) {
+		    if(*src < threshold ) {
 				*dest = (*dest << 1) | 0x01
 			} else {
 				*dest <<= 1
@@ -367,7 +367,7 @@ static void fnP98ColorDirect( pScanData ps, pVoid pb, pVoid pImg, ULong bL )
 	src  = (pUChar)pImg
 	dest = (pRGBByteDef)pb
 
-	for ( bL = ps.DataInf.dwAsicPixelsPerPlane; bL; bL--, src++, dest++) {
+	for( bL = ps.DataInf.dwAsicPixelsPerPlane; bL; bL--, src++, dest++) {
 
 		dest.Red   = *src
 		dest.Green = src[ps.DataInf.dwAsicPixelsPerPlane]
@@ -383,7 +383,7 @@ static void fnP96ColorDirect( pScanData ps, pVoid pb, pVoid pImg, ULong bL )
 	src  = (pUChar)pImg
 	dest = (pRGBByteDef)pb
 
-	for ( bL = ps.DataInf.dwAsicPixelsPerPlane; bL; bL--, dest++, src++) {
+	for( bL = ps.DataInf.dwAsicPixelsPerPlane; bL; bL--, dest++, src++) {
 
 			dest.Red  =ps.pbMapRed[*src]
 			dest.Green=ps.pbMapGreen[src[ps.DataInf.dwAsicPixelsPerPlane]]
@@ -405,7 +405,7 @@ static void fnP98Color48( pScanData ps, pVoid pb, pVoid pImg, ULong bL )
 	src  = (pUShort)pImg
 	dest = (pRGBUShortDef)pb
 
-	for ( i = ps.DataInf.dwAsicPixelsPerPlane; i;	i--, src++, dest++) {
+	for( i = ps.DataInf.dwAsicPixelsPerPlane; i;	i--, src++, dest++) {
 
 		dest.Red   = *src
 		dest.Green = src[ps.DataInf.dwAsicPixelsPerPlane]
@@ -427,7 +427,7 @@ static Int imageP98SetupScanSettings( pScanData ps, pScanInfo pInf )
 
     /* AdjustOriginXByLens
      * [NOTE]
-     *	Here we just simply adjust it to double (600 DPI is two times of
+     *	Here we just simply adjust it to double(600 DPI is two times of
      *	300 DPI), but if this model is a multi-lens scanner, we should adjust
      *	it according to different lens.
 	 */
@@ -440,10 +440,10 @@ static Int imageP98SetupScanSettings( pScanData ps, pScanInfo pInf )
 
     ps.GetImageInfo( ps, &pInf.ImgDef )
 
-    if (ps.DataInf.dwVxdFlag & _VF_DATATOUSERBUFFER) {
+    if(ps.DataInf.dwVxdFlag & _VF_DATATOUSERBUFFER) {
 		ps.Scan.DataProcess = fnDataDirect
 	}
-    if (ps.DataInf.dwScanFlag & SCANDEF_BmpStyle) {
+    if(ps.DataInf.dwScanFlag & SCANDEF_BmpStyle) {
 		ps.Scan.lBufferAdjust = -(Long)ps.DataInf.dwAppBytesPerLine
 	} else {
 		ps.Scan.lBufferAdjust = (Long)ps.DataInf.dwAppBytesPerLine
@@ -482,7 +482,7 @@ static Int imageP98SetupScanSettings( pScanData ps, pScanInfo pInf )
 */
 	DBG( DBG_LOW, "brightness = %i\n", pInf.siBrightness )
 
-    if (ps.DataInf.siBrightness < 0) {
+    if(ps.DataInf.siBrightness < 0) {
 		brightness = (UShort)(_DEF_BW_THRESHOLD -
 			       (255 - _DEF_BW_THRESHOLD) * ps.DataInf.siBrightness /127)
 	} else {
@@ -520,7 +520,7 @@ static void imageP98DoCopyBuffer( pScanData ps, pUChar pImage )
 	memcpy( ps.pFilterBuf, pImage, ps.DataInf.dwAsicBytesPerPlane )
 
 	ps.pFilterBuf += 5120
-    if (ps.pFilterBuf >= ps.pEndBuf)
+    if(ps.pFilterBuf >= ps.pEndBuf)
 		ps.pFilterBuf = ps.pProcessingBuf
 }
 
@@ -528,9 +528,9 @@ static void imageP98DoCopyBuffer( pScanData ps, pUChar pImage )
  */
 static Bool imageP98CopyToFilterBuffer( pScanData ps, pUChar pImage )
 {
-    if (ps.fDoFilter) {
+    if(ps.fDoFilter) {
 
-		if (ps.fFilterFirstLine) {
+		if(ps.fFilterFirstLine) {
 
 		    imageP98DoCopyBuffer( ps, pImage )
 		    imageP98DoCopyBuffer( ps, pImage )
@@ -539,7 +539,7 @@ static Bool imageP98CopyToFilterBuffer( pScanData ps, pUChar pImage )
 	} else {
 
 		    imageP98DoCopyBuffer( ps, pImage )
-		    if ((ps.dwLinesFilter--) == 0)
+		    if((ps.dwLinesFilter--) == 0)
 				imageP98DoCopyBuffer( ps, pImage)
 		}
     }
@@ -555,7 +555,7 @@ static void imageP98UnSharpCompare( pScanData ps, Byte Center,
 
     b = (Center >= Neighbour) ? Center - Neighbour : Neighbour - Center 
 
-    if (b > ps.bOffsetFilter) {
+    if(b > ps.bOffsetFilter) {
 
 		*pdwNewValue -= (Long)Neighbour
 		ps.dwDivFilter--
@@ -569,10 +569,10 @@ static void imageP98DoFilter( pScanData ps, pUChar pPut )
 	ULong dw
     Long  dwNewValue
 
-    if (ps.fDoFilter && (ps.DataInf.xyAppDpi.x) >= 600UL) {
+    if(ps.fDoFilter && (ps.DataInf.xyAppDpi.x) >= 600UL) {
 
 		/* DoUnsharpMask(); */
-		for (dw = 0; dw < ps.DataInf.dwAsicBytesPerPlane - 2; dw++, pPut++) {
+		for(dw = 0; dw < ps.DataInf.dwAsicBytesPerPlane - 2; dw++, pPut++) {
 
 			ps.dwDivFilter = ps.dwMul
 
@@ -622,7 +622,7 @@ static Bool imageP98DataIsReady( pScanData ps )
 	    	break
     }
 
-    if (b == _GREEN_DATA_READY) {
+    if(b == _GREEN_DATA_READY) {
 
 		ps.AsicReg.RD_ModeControl = _ModeFifoGSel
 		IOReadScannerImageData( ps, ps.DataInf.pCurrentBuffer,
@@ -654,7 +654,7 @@ static Bool imageP98DataIsReady( pScanData ps )
 		}
     }
 
-	if (ps.fFilterFirstLine) {
+	if(ps.fFilterFirstLine) {
 		ps.fFilterFirstLine = _FALSE
 	    return _TRUE
 	}
@@ -681,7 +681,7 @@ static Bool imageP98001ReadOneImageLine( pScanData ps )
 		ps.Scan.bNowScanState = IOGetScanState( ps, _FALSE )
 		dwFifoCounter = IOReadFifoLength( ps )
 
-		if (!(ps.Scan.bNowScanState & _SCANSTATE_STOP) &&
+		if(!(ps.Scan.bNowScanState & _SCANSTATE_STOP) &&
 								    (dwFifoCounter < ps.dwMaxReadFifoData)) {
 
 		    if( ps.Scan.bOldScanState != ps.Scan.bNowScanState )
@@ -692,7 +692,7 @@ static Bool imageP98001ReadOneImageLine( pScanData ps )
 
 		} else {	/* ScanStateIsStop */
 
-		    if (dwFifoCounter >= ps.dwSizeMustProcess)
+		    if(dwFifoCounter >= ps.dwSizeMustProcess)
 				return imageP98DataIsReady( ps )
 
 			ps.UpdateDataCurrentReadLine( ps )
@@ -703,7 +703,7 @@ static Bool imageP98001ReadOneImageLine( pScanData ps )
 
 		_DODELAY(10);			     /* delay 10 ms */
 
-    } while (!MiscCheckTimer( &timer ))
+    } while(!MiscCheckTimer( &timer ))
 
 	DBG( DBG_HIGH, "Timeout - Scanner malfunction !!\n" )
 	MotorToHomePosition(ps)
@@ -808,11 +808,11 @@ static void imageP98GetInfo( pScanData ps, pImgDef pImgInf )
 
     }
 
-    if (pImgInf.dwFlag & SCANDEF_BoundaryDWORD) {
+    if(pImgInf.dwFlag & SCANDEF_BoundaryDWORD) {
 		ps.DataInf.dwAppBytesPerLine = (ps.DataInf.dwAppPhyBytesPerLine + 3) &
 									      0xfffffffc
 	} else {
-		if (pImgInf.dwFlag & SCANDEF_BoundaryWORD) {
+		if(pImgInf.dwFlag & SCANDEF_BoundaryWORD) {
 		    ps.DataInf.dwAppBytesPerLine = (ps.DataInf.dwAppPhyBytesPerLine + 1) &
 											  0xfffffffe
 		} else {
@@ -906,7 +906,7 @@ static void imageP96GetInfo( pScanData ps, pImgDef pImgInf )
 		ps.DataInf.dwAppBytesPerLine =
 							(ps.DataInf.dwAppPhyBytesPerLine + 3) & 0xfffffffc
 	} else {
-		if ( pImgInf.dwFlag & SCANDEF_BoundaryWORD ) {
+		if( pImgInf.dwFlag & SCANDEF_BoundaryWORD ) {
 		    ps.DataInf.dwAppBytesPerLine =
 							(ps.DataInf.dwAppPhyBytesPerLine + 1) & 0xfffffffe
 		} else {
@@ -914,7 +914,7 @@ static void imageP96GetInfo( pScanData ps, pImgDef pImgInf )
 		}
 	}
 
-    if (ps.DataInf.wPhyDataType == COLOR_TRUE24)
+    if(ps.DataInf.wPhyDataType == COLOR_TRUE24)
 		ps.DataInf.dwAsicBytesPerLine = ps.DataInf.dwAsicBytesPerPlane * 3
     else
 		ps.DataInf.dwAsicBytesPerLine = ps.DataInf.dwAsicBytesPerPlane
@@ -947,15 +947,15 @@ static Bool imageP96ReadOneImageLine( pScanData ps )
 
 /* CHECK ps.bMoveDataOutFlag will never be set to _DataFromStopState !!!*/
 #if 1
-		if ((bFifoCount < ps.bMinReadFifo) &&
+		if((bFifoCount < ps.bMinReadFifo) &&
 					            (ps.bMoveDataOutFlag == _DataFromStopState)) {
 
 		    bData = IOGetScanState( ps, _FALSE)
 
-		    if (!(bData & _SCANSTATE_STOP)) {
-				if (bData < ps.bCurrentLineCount)
+		    if(!(bData & _SCANSTATE_STOP)) {
+				if(bData < ps.bCurrentLineCount)
 				    bData += _NUMBER_OF_SCANSTEPS
-				if ((bData - ps.bCurrentLineCount) < _SCANSTATE_BYTES)
+				if((bData - ps.bCurrentLineCount) < _SCANSTATE_BYTES)
 				    continue
 		    }
 
@@ -971,7 +971,7 @@ static Bool imageP96ReadOneImageLine( pScanData ps )
 		if( bFifoCount >= ps.bMinReadFifo ) {
 
 		    /* data is ready */
-		    for (; !(*ps.pCurrentColorRunTable &
+		    for(; !(*ps.pCurrentColorRunTable &
 				(ps.RedDataReady | ps.GreenDataReady | _BLUE_DATA_READY))
 												 ps.pCurrentColorRunTable++)
 
@@ -981,25 +981,25 @@ static Bool imageP96ReadOneImageLine( pScanData ps )
 				DBG( DBG_LOW, "WARNING: pCurrentColorRunTab>pColorRunTable\n")
 #endif
 
-		    if (ps.DataInf.wPhyDataType == COLOR_TRUE24) {
+		    if(ps.DataInf.wPhyDataType == COLOR_TRUE24) {
 
-				/* read color planes (either R/G/B or R/B/G sequence that
+				/* read color planes(either R/G/B or R/B/G sequence that
 				 * depends on COLOR CCD, see below
 				 */
-				if (*ps.pCurrentColorRunTable & ps.b1stColor) {
+				if(*ps.pCurrentColorRunTable & ps.b1stColor) {
 				    *ps.pCurrentColorRunTable &= ps.b1stMask
-				    IOReadScannerImageData (ps, ps.pPutBufR,
+				    IOReadScannerImageData(ps, ps.pPutBufR,
 						  					    ps.DataInf.dwAsicBytesPerPlane)
 				    ps.pPutBufR += ps.BufferSizePerModel
-					if (ps.pPutBufR == ps.pEndBufR)
+					if(ps.pPutBufR == ps.pEndBufR)
 						ps.pPutBufR = ps.pPrescan16
 				} else
-					if (*ps.pCurrentColorRunTable & ps.b2ndColor) {
+					if(*ps.pCurrentColorRunTable & ps.b2ndColor) {
 						*ps.pCurrentColorRunTable &= ps.b2ndMask
 						IOReadScannerImageData( ps, ps.pPutBufG,
 										        ps.DataInf.dwAsicBytesPerPlane)
 						ps.pPutBufG += ps.BufferSizePerModel
-						if (ps.pPutBufG == ps.pEndBufG)
+						if(ps.pPutBufG == ps.pEndBufG)
 						    ps.pPutBufG = ps.pPrescan8
 		    	} else {
 					*ps.pCurrentColorRunTable &= ps.b3rdMask
@@ -1012,29 +1012,29 @@ static Bool imageP96ReadOneImageLine( pScanData ps )
 					 * SCANDEF_BmpStyle: Blue, Green and Red, Otherwise
 					 *  Red, Green and Blue.
 					 */
-					if (ps.b3rdColor & ps.GreenDataReady) {
+					if(ps.b3rdColor & ps.GreenDataReady) {
 					    /* Green always in middle */
-					    IOReadScannerImageData (ps,
+					    IOReadScannerImageData(ps,
                                                  ps.DataInf.pCurrentBuffer +
 											  ps.DataInf.dwAsicBytesPerPlane,
 											  ps.DataInf.dwAsicBytesPerPlane)
 					} else {
 					    /* Blue depends the request style from caller */
-					    if (ps.DataInf.dwScanFlag & SCANDEF_BmpStyle) {
+					    if(ps.DataInf.dwScanFlag & SCANDEF_BmpStyle) {
 							/* BMP style, blue is the first one */
-							IOReadScannerImageData (ps,
+							IOReadScannerImageData(ps,
                                                    ps.DataInf.pCurrentBuffer,
 											  ps.DataInf.dwAsicBytesPerPlane)
 						} else {
 							/* Blue is the last one */
-							IOReadScannerImageData (ps, ps.DataInf.pCurrentBuffer +
+							IOReadScannerImageData(ps, ps.DataInf.pCurrentBuffer +
 											ps.DataInf.dwAsicBytesPerPlane * 2,
 											  ps.DataInf.dwAsicBytesPerPlane)
 						}
 					}
 
 					/* reassemble 3 color lines for separated RGB value */
-    				if (ps.DataInf.dwScanFlag & SCANDEF_BmpStyle) {
+    				if(ps.DataInf.dwScanFlag & SCANDEF_BmpStyle) {
 					    /* BMP style, red is last one */
 					    memcpy( ps.DataInf.pCurrentBuffer +
 								ps.DataInf.dwAsicBytesPerPlane * 2,
@@ -1045,14 +1045,14 @@ static Bool imageP96ReadOneImageLine( pScanData ps )
 		 					    ps.pGetBufR, ps.DataInf.dwAsicBytesPerPlane )
 					}
 
-					if (ps.b2ndColor & ps.GreenDataReady) {
+					if(ps.b2ndColor & ps.GreenDataReady) {
 					    /* Green always in middle */
 						memcpy( ps.DataInf.pCurrentBuffer +
 							   ps.DataInf.dwAsicBytesPerPlane,
 							   ps.pGetBufG, ps.DataInf.dwAsicBytesPerPlane)
 					} else {
 				    	/* Blue depends the request style from caller */
-					    if (ps.DataInf.dwScanFlag & SCANDEF_BmpStyle) {
+					    if(ps.DataInf.dwScanFlag & SCANDEF_BmpStyle) {
 							/* BMP style, blue is the first one */
 							memcpy( ps.DataInf.pCurrentBuffer,
 							        ps.pGetBufG,
@@ -1069,10 +1069,10 @@ static Bool imageP96ReadOneImageLine( pScanData ps )
 					/* Adjust the get pointers */
 					ps.pGetBufR += ps.BufferSizePerModel
 					ps.pGetBufG += ps.BufferSizePerModel
-					if (ps.pGetBufR == ps.pEndBufR)
+					if(ps.pGetBufR == ps.pEndBufR)
 					    ps.pGetBufR = ps.pPrescan16
 
-					if (ps.pGetBufG == ps.pEndBufG)
+					if(ps.pGetBufG == ps.pEndBufG)
 					    ps.pGetBufG = ps.pPrescan8
 
     				result = _TRUE; /* Line data in buffer */
@@ -1098,7 +1098,7 @@ static Bool imageP96ReadOneImageLine( pScanData ps )
 		if( ps.bMoveDataOutFlag != _DataFromStopState )
 	    	ps.UpdateDataCurrentReadLine( ps )
 
-    } while (!MiscCheckTimer( &timer))
+    } while(!MiscCheckTimer( &timer))
 
     if( _TRUE == result ) {
         (*ps.Scan.DataProcess)( ps, ps.Scan.bp.pMonoBuf,
@@ -1120,7 +1120,7 @@ static Int imageP96SetupScanSettings( pScanData ps, pScanInfo pInf )
 	DBG( DBG_LOW, "imageSetupP96ScanSettings()\n" )
 
 	ps.DataInf.dwVxdFlag = 0
-	if (pInf.ImgDef.dwFlag & SCANDEF_BuildBwMap)
+	if(pInf.ImgDef.dwFlag & SCANDEF_BuildBwMap)
 		ps.DataInf.dwVxdFlag |= _VF_BUILDMAP
 
     ps.DataInf.dwScanFlag = pInf.ImgDef.dwFlag
@@ -1143,7 +1143,7 @@ static Int imageP96SetupScanSettings( pScanData ps, pScanInfo pInf )
     ps.GetImageInfo( ps, &pInf.ImgDef )
 
 	/* try to get brightness to work */
-	if (ps.DataInf.wPhyDataType != COLOR_BW) { /* if not line art 			*/
+	if(ps.DataInf.wPhyDataType != COLOR_BW) { /* if not line art 			*/
 		ps.wBrightness = pInf.siBrightness;   /* use internal tables for 	*/
 		ps.wContrast   = pInf.siContrast;		/* brightness and contrast	*/
 
@@ -1151,12 +1151,12 @@ static Int imageP96SetupScanSettings( pScanData ps, pScanInfo pInf )
     }
     ps.DataInf.siBrightness = pInf.siBrightness
 
-    if (ps.DataInf.dwScanFlag & SCANDEF_BmpStyle)
+    if(ps.DataInf.dwScanFlag & SCANDEF_BmpStyle)
 		ps.Scan.lBufferAdjust = -(Long)ps.DataInf.dwAppBytesPerLine
     else
 		ps.Scan.lBufferAdjust = (Long)ps.DataInf.dwAppBytesPerLine
 
-    if (ps.DataInf.siBrightness < 0)
+    if(ps.DataInf.siBrightness < 0)
 		ps.DataInf.siBrightness = 255 - (_DEF_BW_THRESHOLD *
 							ps.DataInf.siBrightness / 127 + _DEF_BW_THRESHOLD)
     else
@@ -1498,7 +1498,7 @@ static Int imageP98003SetupScanSettings( pScanData ps, pScanInfo pInf )
             		wPreviewScanned = ps.DataInf.xyAppDpi.y * 8
     	} else {
 
-			DBG( DBG_LOW, "Sample lines (%u - %u)...\n",
+			DBG( DBG_LOW, "Sample lines(%u - %u)...\n",
 						  ps.DataInf.xyPhyDpi.y, ps.DataInf.xyAppDpi.y )
             ps.Scan.DoSample = fnSampleLines
 	        ps.DataInf.wYSum = ps.DataInf.xyPhyDpi.y - ps.DataInf.xyAppDpi.y

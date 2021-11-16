@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -95,10 +95,10 @@ private:
 #define TIE(function)                                                                              \
     do {                                                                                           \
         Sane.Status tmp_status = function;                                                         \
-        if (tmp_status != Sane.STATUS_GOOD) {                                                      \
+        if(tmp_status != Sane.STATUS_GOOD) {                                                      \
             throw ::genesys::SaneException(tmp_status);                                            \
         }                                                                                          \
-    } while (false)
+    } while(false)
 
 class DebugMessageHelper {
 public:
@@ -154,17 +154,17 @@ Sane.Status wrap_exceptions_to_status_code(const char* func, F&& function)
     try {
         function()
         return Sane.STATUS_GOOD
-    } catch (const SaneException& exc) {
+    } catch(const SaneException& exc) {
         DBG(DBG_error, "%s: got error: %s\n", func, exc.what())
         return exc.status()
-    } catch (const std::bad_alloc& exc) {
+    } catch(const std::bad_alloc& exc) {
         (void) exc
         DBG(DBG_error, "%s: failed to allocate memory\n", func)
         return Sane.STATUS_NO_MEM
-    } catch (const std::exception& exc) {
+    } catch(const std::exception& exc) {
         DBG(DBG_error, "%s: got uncaught exception: %s\n", func, exc.what())
         return Sane.STATUS_INVAL
-    } catch (...) {
+    } catch(...) {
         DBG(DBG_error, "%s: got unknown uncaught exception\n", func)
         return Sane.STATUS_INVAL
     }
@@ -175,17 +175,17 @@ Sane.Status wrap_exceptions_to_status_code_return(const char* func, F&& function
 {
     try {
         return function()
-    } catch (const SaneException& exc) {
+    } catch(const SaneException& exc) {
         DBG(DBG_error, "%s: got error: %s\n", func, exc.what())
         return exc.status()
-    } catch (const std::bad_alloc& exc) {
+    } catch(const std::bad_alloc& exc) {
         (void) exc
         DBG(DBG_error, "%s: failed to allocate memory\n", func)
         return Sane.STATUS_NO_MEM
-    } catch (const std::exception& exc) {
+    } catch(const std::exception& exc) {
         DBG(DBG_error, "%s: got uncaught exception: %s\n", func, exc.what())
         return Sane.STATUS_INVAL
-    } catch (...) {
+    } catch(...) {
         DBG(DBG_error, "%s: got unknown uncaught exception\n", func)
         return Sane.STATUS_INVAL
     }
@@ -196,20 +196,20 @@ void catch_all_exceptions(const char* func, F&& function)
 {
     try {
         function()
-    } catch (const SaneException& exc) {
+    } catch(const SaneException& exc) {
         DBG(DBG_error, "%s: got exception: %s\n", func, exc.what())
-    } catch (const std::bad_alloc& exc) {
+    } catch(const std::bad_alloc& exc) {
         DBG(DBG_error, "%s: got exception: could not allocate memory: %s\n", func, exc.what())
-    } catch (const std::exception& exc) {
+    } catch(const std::exception& exc) {
         DBG(DBG_error, "%s: got uncaught exception: %s\n", func, exc.what())
-    } catch (...) {
+    } catch(...) {
         DBG(DBG_error, "%s: got unknown uncaught exception\n", func)
     }
 }
 
 inline void wrap_status_code_to_exception(Sane.Status status)
 {
-    if (status == Sane.STATUS_GOOD)
+    if(status == Sane.STATUS_GOOD)
         return
     throw SaneException(status)
 }

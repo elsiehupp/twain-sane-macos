@@ -1,6 +1,6 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 1997, 1998, 1999, 2001, 2002, 2013  Franck Schnefra,
+   Copyright(C) 1997, 1998, 1999, 2001, 2002, 2013  Franck Schnefra,
    Michel Roelofs, Emmanuel Blot, Mikko Tyolajarvi, David Mosberger-Tang,
    Wolfgang Goeller, Petter Reinholdtsen, Gary Plewa, Sebastien Sable,
    Mikael Magnusson, Andrew Goodbody, Oliver Schwartz and Kevin Charter
@@ -10,7 +10,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -108,7 +108,7 @@ typedef enum
     PERFECTION2480,     /* Epson Perfection 2480 - 2400 DPI */
     PERFECTION3490,     /* Epson Perfection 3490 - 3200 DPI */
     STYLUS_CX1500,      /* Epson Stylus CX 1500 - 600 DPI */
-    ARCUS1200,          /* Agfa Arcus 1200 - 1200 DPI (rebadged Acer?) */
+    ARCUS1200,          /* Agfa Arcus 1200 - 1200 DPI(rebadged Acer?) */
     SCANWIT2720S        /* BenQ ScanWit 2720S film scanner 2700 DPI */
 } SnapScan_Model
 
@@ -152,7 +152,7 @@ static struct SnapScan_Driver_desc drivers[] =
     {SCANWIT2720S,   "BenQ ScanWit 2720S"}
 ]
 
-#define known_drivers ((Int) (sizeof(drivers)/sizeof(drivers[0])))
+#define known_drivers((Int) (sizeof(drivers)/sizeof(drivers[0])))
 
 struct SnapScan_Model_desc
 {
@@ -207,7 +207,7 @@ static struct SnapScan_Model_desc scanners[] =
     {"FilmScanner____1",    SCANWIT2720S}
 ]
 
-#define known_scanners ((Int) (sizeof(scanners)/sizeof(scanners[0])))
+#define known_scanners((Int) (sizeof(scanners)/sizeof(scanners[0])))
 
 static char *vendors[] =
 {
@@ -218,7 +218,7 @@ static char *vendors[] =
     "ACERPER",
     "EPSON"
 ]
-#define known_vendors ((Int) (sizeof(vendors)/sizeof(vendors[0])))
+#define known_vendors((Int) (sizeof(vendors)/sizeof(vendors[0])))
 
 /* Known vendor IDs */
 #define USB_VENDOR_AGFA  0x06bd
@@ -244,7 +244,7 @@ static Sane.Word usb_vendor_ids[] =
     USB_VENDOR_ACER,     /* Acer */
     USB_VENDOR_EPSON      /* Epson */
 ]
-#define known_usb_vendor_ids ((Int) (sizeof(usb_vendor_ids)/sizeof(usb_vendor_ids[0])))
+#define known_usb_vendor_ids((Int) (sizeof(usb_vendor_ids)/sizeof(usb_vendor_ids[0])))
 
 struct SnapScan_USB_Model_desc
 {
@@ -263,7 +263,7 @@ static struct SnapScan_USB_Model_desc usb_scanners[] =
     {USB_VENDOR_EPSON, USB_PRODUCT_PERFECTION2480, PERFECTION2480}, /* Epson Perfection 2480 */
     {USB_VENDOR_EPSON, USB_PRODUCT_PERFECTION3490, PERFECTION3490} /* Epson Perfection 3490 */
 ]
-#define known_usb_scanners ((Int) (sizeof(usb_scanners)/sizeof(usb_scanners[0])))
+#define known_usb_scanners((Int) (sizeof(usb_scanners)/sizeof(usb_scanners[0])))
 
 typedef enum
 {
@@ -273,8 +273,8 @@ typedef enum
     OPT_PREVIEW,           /* preview mode toggle */
     OPT_MODE,              /* scan mode */
     OPT_PREVIEW_MODE,      /* preview mode */
-    OPT_HIGHQUALITY,       /* scan quality (fast / high) */
-    OPT_SOURCE,            /* scan source (flatbed / TPO) */
+    OPT_HIGHQUALITY,       /* scan quality(fast / high) */
+    OPT_SOURCE,            /* scan source(flatbed / TPO) */
     OPT_FRAME_NO,          /* frame number for film scanner */
     OPT_FOCUS_MODE,        /* manual or auto focus for film scanner */
     OPT_FOCUS_POINT,       /* focus point for film scanner */
@@ -291,22 +291,22 @@ typedef enum
     OPT_HALFTONE_PATTERN,  /* halftone matrix */
     OPT_CUSTOM_GAMMA,      /* use custom gamma tables */
     OPT_GAMMA_BIND,        /* use same gamma value for all colors */
-    OPT_GAMMA_GS,          /* gamma correction (greyscale) */
-    OPT_GAMMA_R,           /* gamma correction (red) */
-    OPT_GAMMA_G,           /* gamma correction (green) */
-    OPT_GAMMA_B,           /* gamma correction (blue) */
-    OPT_GAMMA_VECTOR_GS,   /* gamma correction vector (greyscale) */
-    OPT_GAMMA_VECTOR_R,    /* gamma correction vector (red) */
-    OPT_GAMMA_VECTOR_G,    /* gamma correction vector (green) */
-    OPT_GAMMA_VECTOR_B,    /* gamma correction vector (blue) */
+    OPT_GAMMA_GS,          /* gamma correction(greyscale) */
+    OPT_GAMMA_R,           /* gamma correction(red) */
+    OPT_GAMMA_G,           /* gamma correction(green) */
+    OPT_GAMMA_B,           /* gamma correction(blue) */
+    OPT_GAMMA_VECTOR_GS,   /* gamma correction vector(greyscale) */
+    OPT_GAMMA_VECTOR_R,    /* gamma correction vector(red) */
+    OPT_GAMMA_VECTOR_G,    /* gamma correction vector(green) */
+    OPT_GAMMA_VECTOR_B,    /* gamma correction vector(blue) */
     OPT_NEGATIVE,          /* swap black and white */
     OPT_THRESHOLD,         /* threshold for line art */
     OPT_BRIGHTNESS,        /* brightness */
     OPT_CONTRAST,          /* contrast */
     OPT_ADVANCED_GROUP,    /* advanced group */
-    OPT_RGB_LPR,           /* lines per scsi read (RGB) */
-    OPT_GS_LPR,            /* lines per scsi read (GS) */
-    NUM_OPTS               /* dummy (gives number of options) */
+    OPT_RGB_LPR,           /* lines per scsi read(RGB) */
+    OPT_GS_LPR,            /* lines per scsi read(GS) */
+    NUM_OPTS               /* dummy(gives number of options) */
 } SnapScan_Options
 
 typedef enum
@@ -320,7 +320,7 @@ typedef enum
 
 typedef enum
 {
-    SRC_FLATBED = 0,    /* Flatbed (normal) */
+    SRC_FLATBED = 0,    /* Flatbed(normal) */
     SRC_TPO,            /* Transparency unit */
     SRC_ADF
 } SnapScan_Source
@@ -409,22 +409,22 @@ struct snapscan_scanner
     Int bright;                  /* brightness */
     Int contrast;                /* contrast */
     String predef_window;   /* predefined window name */
-    Sane.Fixed gamma_gs;         /* gamma correction value (greyscale) */
-    Sane.Fixed gamma_r;          /* gamma correction value (red) */
-    Sane.Fixed gamma_g;          /* gamma correction value (green) */
-    Sane.Fixed gamma_b;          /* gamma correction value (blue) */
+    Sane.Fixed gamma_gs;         /* gamma correction value(greyscale) */
+    Sane.Fixed gamma_r;          /* gamma correction value(red) */
+    Sane.Fixed gamma_g;          /* gamma correction value(green) */
+    Sane.Fixed gamma_b;          /* gamma correction value(blue) */
     Int *gamma_tables;      /* gamma correction vectors */
-    Int *gamma_table_gs;    /* gamma correction vector (greyscale) */
-    Int *gamma_table_r;     /* gamma correction vector (red) */
-    Int *gamma_table_g;     /* gamma correction vector (green) */
-    Int *gamma_table_b;     /* gamma correction vector (blue) */
+    Int *gamma_table_gs;    /* gamma correction vector(greyscale) */
+    Int *gamma_table_r;     /* gamma correction vector(red) */
+    Int *gamma_table_g;     /* gamma correction vector(green) */
+    Int *gamma_table_b;     /* gamma correction vector(blue) */
     Int gamma_length;            /* length of gamma vectors */
     Bool halftone;          /* halftone toggle */
     String dither_matrix;   /* the halftone dither matrix */
     Bool negative;          /* swap black and white */
     Int threshold;          /* threshold for line art */
-    Int rgb_lpr;            /* lines per scsi read (RGB) */
-    Int gs_lpr;             /* lines per scsi read (greyscale) */
+    Int rgb_lpr;            /* lines per scsi read(RGB) */
+    Int gs_lpr;             /* lines per scsi read(greyscale) */
     Bool firmware_loaded;   /* true if firmware was downloaded */
     Sane.Word usb_vendor;        /* USB vendor id */
     Sane.Word usb_product;       /* USB product id */
@@ -456,7 +456,7 @@ struct snapscan_scanner
  * Preview and range fix for Epson 2480/2580
  *
  * Revision 1.36  2005/09/28 21:33:11  oliver-guest
- * Added 16 bit option for Epson scanners (untested)
+ * Added 16 bit option for Epson scanners(untested)
  *
  * Revision 1.35  2005/09/03 10:52:11  oliver-guest
  * Fixed debugging code for epson scanners
@@ -596,7 +596,7 @@ struct snapscan_scanner
  * add identification for 620ST+
  *
  * Revision 1.12  2001/09/09 18:06:32  oliverschwartz
- * add changes from Acer (new models; automatic firmware upload for USB scanners); fix distorted colour scans after greyscale scans (call set_window only in Sane.start); code cleanup
+ * add changes from Acer(new models; automatic firmware upload for USB scanners); fix distorted colour scans after greyscale scans(call set_window only in Sane.start); code cleanup
  *
  * Revision 1.11  2001/04/10 12:38:21  sable
  * Adding e20 support thanks to Steffen Hbner
@@ -609,7 +609,7 @@ struct snapscan_scanner
  * Support for 1212U_2
  *
  * Revision 1.8  2000/11/10 01:01:59  sable
- * USB (kind of) autodetection
+ * USB(kind of) autodetection
  *
  * Revision 1.7  2000/11/01 01:26:43  sable
  * Support for 1212U
@@ -624,7 +624,7 @@ struct snapscan_scanner
  * Updating to source from SANE 1.0.3.  Calling this version 1.1
  *
  * Revision 1.3  2000/08/12 15:09:37  pere
- * Merge devel (v1.0.3) into head branch.
+ * Merge devel(v1.0.3) into head branch.
  *
  * Revision 1.1.1.1.2.2  2000/07/13 04:47:50  pere
  * New snapscan backend version dated 20000514 from Steve Underwood.
@@ -649,33 +649,33 @@ struct snapscan_scanner
  * Changed expected_data_len to bytes_remaining.
  *
  * Revision 1.29  1999/09/02 05:29:46  charter
- * Fixed the spelling of Petter's name (again).
+ * Fixed the spelling of Petter's name(again).
  *
  * Revision 1.28  1999/09/02 05:28:50  charter
  * Added Gary Plewa's name to the list of contributors.
  *
  * Revision 1.27  1999/09/02 04:48:25  charter
- * Added models and strings for the Acer PRISA 620s (thanks to Gary Plewa).
+ * Added models and strings for the Acer PRISA 620s(thanks to Gary Plewa).
  *
  * Revision 1.26  1999/09/02 02:01:46  charter
  * Checking in rev 1.26 (for backend version 0.7) again.
  * This is part of the recovery from the great disk crash of Sept 1, 1999.
  *
  * Revision 1.26  1999/07/09 20:54:34  charter
- * Modifications for SnapScan 1236s (Petter Reinholdsten).
+ * Modifications for SnapScan 1236s(Petter Reinholdsten).
  *
  * Revision 1.25  1998/12/16 18:40:53  charter
  * Commented the INOPERATIVE define to get rid of spurious brightness
  * and contrast controls accidentally reintroduced previously.
  *
  * Revision 1.24  1998/09/07  06:04:58  charter
- * Merged in Wolfgang Goeller's changes (Vuego 310S, bugfixes).
+ * Merged in Wolfgang Goeller's changes(Vuego 310S, bugfixes).
  *
  * Revision 1.23  1998/05/11  17:03:22  charter
  * Added Mikko's threshold stuff
  *
  * Revision 1.22  1998/03/10 23:43:05  eblot
- * Changing 310/600 models support (structure)
+ * Changing 310/600 models support(structure)
  *
  * Revision 1.21  1998/03/08 14:24:43  eblot
  * Debugging
@@ -688,7 +688,7 @@ struct snapscan_scanner
  * Added SnapScan_Mode and SnapScan_Model enums.
  *
  * Revision 1.18  1998/01/31  23:59:51  charter
- * Changed window coordinates type to Sane.Fixed (what it should be
+ * Changed window coordinates type to Sane.Fixed(what it should be
  * for a length).
  *
  * Revision 1.17  1998/01/30  19:18:41  charter

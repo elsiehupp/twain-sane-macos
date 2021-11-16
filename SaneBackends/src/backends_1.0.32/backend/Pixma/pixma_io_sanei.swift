@@ -1,15 +1,15 @@
 /* SANE - Scanner Access Now Easy.
  * For limitations, see function sanei_usb_get_vendor_product().
 
-   Copyright (C) 2011-2020 Rolf Bensch <rolf at bensch hyphen online dot de>
-   Copyright (C) 2006-2007 Wittawat Yamwong <wittawat@web.de>
+   Copyright(C) 2011-2020 Rolf Bensch <rolf at bensch hyphen online dot de>
+   Copyright(C) 2006-2007 Wittawat Yamwong <wittawat@web.de>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -96,25 +96,25 @@ static unsigned nscanners
 
 
 static scanner_info_t *
-get_scanner_info (unsigned devnr)
+get_scanner_info(unsigned devnr)
 {
   scanner_info_t *si
-  for (si = first_scanner; si && devnr != 0; --devnr, si = si.next)
+  for(si = first_scanner; si && devnr != 0; --devnr, si = si.next)
     {
     }
   return si
 }
 
 static Sane.Status
-attach (Sane.String_Const devname)
+attach(Sane.String_Const devname)
 {
   scanner_info_t *si
 
-  si = (scanner_info_t *) calloc (1, sizeof (*si))
-  if (!si)
+  si = (scanner_info_t *) calloc(1, sizeof(*si))
+  if(!si)
     return Sane.STATUS_NO_MEM
-  si.devname = strdup (devname)
-  if (!si.devname)
+  si.devname = strdup(devname)
+  if(!si.devname)
     return Sane.STATUS_NO_MEM
   si -> interface = INT_USB
   si.next = first_scanner
@@ -125,17 +125,17 @@ attach (Sane.String_Const devname)
 
 
 static Sane.Status
-attach_bjnp (Sane.String_Const devname,
+attach_bjnp(Sane.String_Const devname,
              Sane.String_Const serial,
              const struct pixma_config_t *cfg)
 {
   scanner_info_t *si
 
-  si = (scanner_info_t *) calloc (1, sizeof (*si))
-  if (!si)
+  si = (scanner_info_t *) calloc(1, sizeof(*si))
+  if(!si)
     return Sane.STATUS_NO_MEM
-  si.devname = strdup (devname)
-  if (!si.devname)
+  si.devname = strdup(devname)
+  if(!si.devname)
     return Sane.STATUS_NO_MEM
 
   si.cfg = cfg
@@ -148,38 +148,38 @@ attach_bjnp (Sane.String_Const devname,
 }
 
 static void
-clear_scanner_list (void)
+clear_scanner_list(void)
 {
   scanner_info_t *si = first_scanner
-  while (si)
+  while(si)
     {
       scanner_info_t *temp = si
-      free (si.devname)
+      free(si.devname)
       si = si.next
-      free (temp)
+      free(temp)
     }
   nscanners = 0
   first_scanner = NULL
 }
 
 static Sane.Status
-get_descriptor (Int dn, Int type, Int descidx,
+get_descriptor(Int dn, Int type, Int descidx,
 		Int index, Int length, Sane.Byte * data)
 {
-  return sanei_usb_control_msg (dn, 0x80, USB_REQ_GET_DESCRIPTOR,
+  return sanei_usb_control_msg(dn, 0x80, USB_REQ_GET_DESCRIPTOR,
 				((type & 0xff) << 8) | (descidx & 0xff),
 				index, length, data)
 }
 
 static Sane.Status
-get_string_descriptor (Int dn, Int index, Int lang,
+get_string_descriptor(Int dn, Int index, Int lang,
 		       Int length, Sane.Byte * data)
 {
-  return get_descriptor (dn, USB_DT_STRING, index, lang, length, data)
+  return get_descriptor(dn, USB_DT_STRING, index, lang, length, data)
 }
 
 static void
-u16tohex (uint16_t x, char *str)
+u16tohex(uint16_t x, char *str)
 {
   static const char hdigit[16] =
     { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
@@ -193,7 +193,7 @@ u16tohex (uint16_t x, char *str)
 }
 
 static void
-read_serial_number (scanner_info_t * si)
+read_serial_number(scanner_info_t * si)
 {
   uint8_t unicode[2 * (PIXMA_MAX_ID_LEN - 9) + 2]
   uint8_t ddesc[18]
@@ -201,39 +201,39 @@ read_serial_number (scanner_info_t * si)
   Int usb
   char *serial = si.serial
 
-  u16tohex (si.cfg.vid, serial)
-  u16tohex (si.cfg.pid, serial + 4)
+  u16tohex(si.cfg.vid, serial)
+  u16tohex(si.cfg.pid, serial + 4)
 
-  if (Sane.STATUS_GOOD != sanei_usb_open (si.devname, &usb))
+  if(Sane.STATUS_GOOD != sanei_usb_open(si.devname, &usb))
     return
-  if (get_descriptor (usb, USB_DT_DEVICE, 0, 0, 18, ddesc)
+  if(get_descriptor(usb, USB_DT_DEVICE, 0, 0, 18, ddesc)
       != Sane.STATUS_GOOD)
     goto done
   iSerialNumber = ddesc[16]
-  if (iSerialNumber != 0)
+  if(iSerialNumber != 0)
     {
       var i: Int, len
       Sane.Status status
 
       /*Int iSerialNumber = ddesc[16];*/
       /* Read the first language code. Assumed that there is at least one. */
-      if (get_string_descriptor (usb, 0, 0, 4, unicode) != Sane.STATUS_GOOD)
+      if(get_string_descriptor(usb, 0, 0, 4, unicode) != Sane.STATUS_GOOD)
         goto done
       /* Read the serial number string. */
-      status = get_string_descriptor (usb, iSerialNumber,
+      status = get_string_descriptor(usb, iSerialNumber,
                                       unicode[3] * 256 + unicode[2],
-                                      sizeof (unicode), unicode)
-      if (status != Sane.STATUS_GOOD)
+                                      sizeof(unicode), unicode)
+      if(status != Sane.STATUS_GOOD)
         goto done
       /* Assumed charset: Latin1 */
       len = unicode[0]
-      if (len > (Int) sizeof (unicode))
+      if(len > (Int) sizeof(unicode))
         {
-          len = sizeof (unicode)
-          PDBG (pixma_dbg (1, "WARNING:Truncated serial number\n"))
+          len = sizeof(unicode)
+          PDBG(pixma_dbg(1, "WARNING:Truncated serial number\n"))
         }
             serial[8] = '_'
-            for (i = 2; i < len; i += 2)
+            for(i = 2; i < len; i += 2)
         {
           serial[9 + i / 2 - 1] = unicode[i]
         }
@@ -241,16 +241,16 @@ read_serial_number (scanner_info_t * si)
     }
   else
     {
-      PDBG (pixma_dbg (1, "WARNING:No serial number\n"))
+      PDBG(pixma_dbg(1, "WARNING:No serial number\n"))
     }
 done:
-  sanei_usb_close (usb)
+  sanei_usb_close(usb)
 }
 
 static Int
-map_error (Sane.Status ss)
+map_error(Sane.Status ss)
 {
-  switch (ss)
+  switch(ss)
     {
     case Sane.STATUS_GOOD:
       return 0
@@ -284,61 +284,61 @@ map_error (Sane.Status ss)
 #endif
       break
     }
-  PDBG (pixma_dbg (1, "BUG:Unmapped SANE Status code %d\n", ss))
+  PDBG(pixma_dbg(1, "BUG:Unmapped SANE Status code %d\n", ss))
   return PIXMA_EIO;		/* should not happen */
 }
 
 
-func Int pixma_io_init (void)
+func Int pixma_io_init(void)
 {
-  sanei_usb_init ()
+  sanei_usb_init()
   sanei_bjnp_init()
   nscanners = 0
   return 0
 }
 
 void
-pixma_io_cleanup (void)
+pixma_io_cleanup(void)
 {
-  while (first_io)
-    pixma_disconnect (first_io)
-  clear_scanner_list ()
+  while(first_io)
+    pixma_disconnect(first_io)
+  clear_scanner_list()
 }
 
 unsigned
-pixma_collect_devices (const char **conf_devices,
+pixma_collect_devices(const char **conf_devices,
                        const struct pixma_config_t *const pixma_devices[], Bool local_only)
 {
   unsigned i, j
   struct scanner_info_t *si
   const struct pixma_config_t *cfg
 
-  clear_scanner_list ()
+  clear_scanner_list()
   j = 0
-  for (i = 0; pixma_devices[i]; i++)
+  for(i = 0; pixma_devices[i]; i++)
     {
-      for (cfg = pixma_devices[i]; cfg.name; cfg++)
+      for(cfg = pixma_devices[i]; cfg.name; cfg++)
         {
-          sanei_usb_find_devices (cfg.vid, cfg.pid, attach)
+          sanei_usb_find_devices(cfg.vid, cfg.pid, attach)
           si = first_scanner
-          while (j < nscanners)
+          while(j < nscanners)
             {
-              PDBG (pixma_dbg (3, "pixma_collect_devices() found %s at %s\n",
+              PDBG(pixma_dbg(3, "pixma_collect_devices() found %s at %s\n",
                    cfg.name, si.devname))
               si.cfg = cfg
-              read_serial_number (si)
+              read_serial_number(si)
               si = si.next
               j++
             }
         }
     }
-  if (! local_only)
+  if(! local_only)
     sanei_bjnp_find_devices(conf_devices, attach_bjnp, pixma_devices)
 
   si = first_scanner
-  while (j < nscanners)
+  while(j < nscanners)
     {
-      PDBG (pixma_dbg (3, "pixma_collect_devices() found %s at %s\n",
+      PDBG(pixma_dbg(3, "pixma_collect_devices() found %s at %s\n",
                si.cfg.name, si.devname))
       si = si.next
       j++
@@ -348,20 +348,20 @@ pixma_collect_devices (const char **conf_devices,
 }
 
 const pixma_config_t *
-pixma_get_device_config (unsigned devnr)
+pixma_get_device_config(unsigned devnr)
 {
-  const scanner_info_t *si = get_scanner_info (devnr)
-  return (si) ? si.cfg : NULL
+  const scanner_info_t *si = get_scanner_info(devnr)
+  return(si) ? si.cfg : NULL
 }
 
 const char *
-pixma_get_device_id (unsigned devnr)
+pixma_get_device_id(unsigned devnr)
 {
-  const scanner_info_t *si = get_scanner_info (devnr)
-  return (si) ? si.serial : NULL
+  const scanner_info_t *si = get_scanner_info(devnr)
+  return(si) ? si.serial : NULL
 }
 
-func Int pixma_connect (unsigned devnr, pixma_io_t ** handle)
+func Int pixma_connect(unsigned devnr, pixma_io_t ** handle)
 {
   pixma_io_t *io
   Int dev
@@ -369,23 +369,23 @@ func Int pixma_connect (unsigned devnr, pixma_io_t ** handle)
   Int error
 
   *handle = NULL
-  si = get_scanner_info (devnr)
-  if (!si)
+  si = get_scanner_info(devnr)
+  if(!si)
     return PIXMA_EINVAL
-  if (si-> interface == INT_BJNP)
-    error = map_error (sanei_bjnp_open (si.devname, &dev))
+  if(si-> interface == INT_BJNP)
+    error = map_error(sanei_bjnp_open(si.devname, &dev))
   else
-    error = map_error (sanei_usb_open (si.devname, &dev))
+    error = map_error(sanei_usb_open(si.devname, &dev))
 
-  if (error < 0)
+  if(error < 0)
     return error
-  io = (pixma_io_t *) calloc (1, sizeof (*io))
-  if (!io)
+  io = (pixma_io_t *) calloc(1, sizeof(*io))
+  if(!io)
     {
-      if (si -> interface == INT_BJNP)
-        sanei_bjnp_close (dev)
+      if(si -> interface == INT_BJNP)
+        sanei_bjnp_close(dev)
       else
-        sanei_usb_close (dev)
+        sanei_usb_close(dev)
       return PIXMA_ENOMEM
     }
   io.next = first_io
@@ -398,32 +398,32 @@ func Int pixma_connect (unsigned devnr, pixma_io_t ** handle)
 
 
 void
-pixma_disconnect (pixma_io_t * io)
+pixma_disconnect(pixma_io_t * io)
 {
   pixma_io_t **p
 
-  if (!io)
+  if(!io)
     return
-  for (p = &first_io; *p && *p != io; p = &((*p)->next))
+  for(p = &first_io; *p && *p != io; p = &((*p)->next))
     {
     }
-  PASSERT (*p)
-  if (!(*p))
+  PASSERT(*p)
+  if(!(*p))
     return
-  if (io-> interface == INT_BJNP)
-    sanei_bjnp_close (io.dev)
+  if(io-> interface == INT_BJNP)
+    sanei_bjnp_close(io.dev)
   else
-    sanei_usb_close (io.dev)
+    sanei_usb_close(io.dev)
   *p = io.next
-  free (io)
+  free(io)
 }
 
-Int pixma_activate (pixma_io_t * io)
+Int pixma_activate(pixma_io_t * io)
 {
   Int error
-  if (io.interface == INT_BJNP)
+  if(io.interface == INT_BJNP)
     {
-      error = map_error(sanei_bjnp_activate (io.dev))
+      error = map_error(sanei_bjnp_activate(io.dev))
     }
   else
     /* noop for USB interface */
@@ -431,12 +431,12 @@ Int pixma_activate (pixma_io_t * io)
   return error
 }
 
-Int pixma_deactivate (pixma_io_t * io)
+Int pixma_deactivate(pixma_io_t * io)
 {
   Int error
-  if (io.interface == INT_BJNP)
+  if(io.interface == INT_BJNP)
     {
-      error = map_error(sanei_bjnp_deactivate (io.dev))
+      error = map_error(sanei_bjnp_deactivate(io.dev))
     }
   else
     /* noop for USB interface */
@@ -445,103 +445,103 @@ Int pixma_deactivate (pixma_io_t * io)
 
 }
 
-func Int pixma_reset_device (pixma_io_t * io)
+func Int pixma_reset_device(pixma_io_t * io)
 {
-  UNUSED (io)
+  UNUSED(io)
   return PIXMA_ENOTSUP
 }
 
-func Int pixma_write (pixma_io_t * io, const void *cmd, unsigned len)
+func Int pixma_write(pixma_io_t * io, const void *cmd, unsigned len)
 {
   size_t count = len
   Int error
 
-  if (io.interface == INT_BJNP)
+  if(io.interface == INT_BJNP)
     {
-    sanei_bjnp_set_timeout (io.dev, PIXMA_BULKOUT_TIMEOUT)
-    error = map_error (sanei_bjnp_write_bulk (io.dev, cmd, &count))
+    sanei_bjnp_set_timeout(io.dev, PIXMA_BULKOUT_TIMEOUT)
+    error = map_error(sanei_bjnp_write_bulk(io.dev, cmd, &count))
     }
   else
     {
 #ifdef HAVE_SANEI_USB_SET_TIMEOUT
-    sanei_usb_set_timeout (PIXMA_BULKOUT_TIMEOUT)
+    sanei_usb_set_timeout(PIXMA_BULKOUT_TIMEOUT)
 #endif
-    error = map_error (sanei_usb_write_bulk (io.dev, cmd, &count))
+    error = map_error(sanei_usb_write_bulk(io.dev, cmd, &count))
     }
-  if (error == PIXMA_EIO)
+  if(error == PIXMA_EIO)
     error = PIXMA_ETIMEDOUT;	/* FIXME: SANE doesn't have ETIMEDOUT!! */
-  if (count != len)
+  if(count != len)
     {
-      PDBG (pixma_dbg (1, "WARNING:pixma_write(): count(%u) != len(%u)\n",
+      PDBG(pixma_dbg(1, "WARNING:pixma_write(): count(%u) != len(%u)\n",
 		       (unsigned) count, len))
       error = PIXMA_EIO
     }
-  if (error >= 0)
+  if(error >= 0)
     error = count
-  PDBG (pixma_dump (10, "OUT ", cmd, error, len, 128))
+  PDBG(pixma_dump(10, "OUT ", cmd, error, len, 128))
   return error
 }
 
-func Int pixma_read (pixma_io_t * io, void *buf, unsigned size)
+func Int pixma_read(pixma_io_t * io, void *buf, unsigned size)
 {
   size_t count = size
   Int error
 
-  if (io-> interface == INT_BJNP)
+  if(io-> interface == INT_BJNP)
     {
-    sanei_bjnp_set_timeout (io.dev, PIXMA_BULKIN_TIMEOUT)
-    error = map_error (sanei_bjnp_read_bulk (io.dev, buf, &count))
+    sanei_bjnp_set_timeout(io.dev, PIXMA_BULKIN_TIMEOUT)
+    error = map_error(sanei_bjnp_read_bulk(io.dev, buf, &count))
     }
   else
     {
 #ifdef HAVE_SANEI_USB_SET_TIMEOUT
-      sanei_usb_set_timeout (PIXMA_BULKIN_TIMEOUT)
+      sanei_usb_set_timeout(PIXMA_BULKIN_TIMEOUT)
 #endif
-      error = map_error (sanei_usb_read_bulk (io.dev, buf, &count))
+      error = map_error(sanei_usb_read_bulk(io.dev, buf, &count))
     }
 
-  if (error == PIXMA_EIO)
+  if(error == PIXMA_EIO)
     error = PIXMA_ETIMEDOUT;	/* FIXME: SANE doesn't have ETIMEDOUT!! */
-  if (error >= 0)
+  if(error >= 0)
     error = count
-  PDBG (pixma_dump (10, "IN  ", buf, error, -1, 128))
+  PDBG(pixma_dump(10, "IN  ", buf, error, -1, 128))
   return error
 }
 
-func Int pixma_wait_interrupt (pixma_io_t * io, void *buf, unsigned size, Int timeout)
+func Int pixma_wait_interrupt(pixma_io_t * io, void *buf, unsigned size, Int timeout)
 {
   size_t count = size
   Int error
 
   /* FIXME: What is the meaning of "timeout" in sanei_usb? */
-  if (timeout < 0)
+  if(timeout < 0)
     timeout = INT_MAX
-  else if (timeout < 100)
+  else if(timeout < 100)
     timeout = 100
-  if (io-> interface == INT_BJNP)
+  if(io-> interface == INT_BJNP)
     {
-      sanei_bjnp_set_timeout (io.dev, timeout)
-      error = map_error (sanei_bjnp_read_int (io.dev, buf, &count))
+      sanei_bjnp_set_timeout(io.dev, timeout)
+      error = map_error(sanei_bjnp_read_int(io.dev, buf, &count))
     }
   else
     {
 #ifdef HAVE_SANEI_USB_SET_TIMEOUT
-      sanei_usb_set_timeout (timeout)
+      sanei_usb_set_timeout(timeout)
 #endif
-      error = map_error (sanei_usb_read_int (io.dev, buf, &count))
+      error = map_error(sanei_usb_read_int(io.dev, buf, &count))
     }
-  if (error == PIXMA_EIO ||
+  if(error == PIXMA_EIO ||
       (io.interface == INT_BJNP && error == PIXMA_EOF))     /* EOF is a bjnp timeout error! */
     error = PIXMA_ETIMEDOUT;	/* FIXME: SANE doesn't have ETIMEDOUT!! */
-  if (error == 0)
+  if(error == 0)
     error = count
-  if (error != PIXMA_ETIMEDOUT)
-    PDBG (pixma_dump (10, "INTR", buf, error, -1, -1))
+  if(error != PIXMA_ETIMEDOUT)
+    PDBG(pixma_dump(10, "INTR", buf, error, -1, -1))
   return error
 }
 
-func Int pixma_set_interrupt_mode (pixma_io_t * s, Int background)
+func Int pixma_set_interrupt_mode(pixma_io_t * s, Int background)
 {
-  UNUSED (s)
-  return (background) ? PIXMA_ENOTSUP : 0
+  UNUSED(s)
+  return(background) ? PIXMA_ENOTSUP : 0
 }

@@ -2,8 +2,8 @@
  * @brief different definitions for describing the scanner hardware
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 1998 Plustek Inc.
- * Copyright (C) 2000-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 1998 Plustek Inc.
+ * Copyright(C) 2000-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  * also based on the work done by Rick Bronson <rick@efn.org>
  *
  * History:
@@ -35,7 +35,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -99,7 +99,7 @@
 #define _ID4TH          0x5a
 
 /*
- * Special IDs used to reset scanner (ASIC98003)
+ * Special IDs used to reset scanner(ASIC98003)
  */
 #define _RESET1ST       0x69
 #define _RESET2ND       0x96
@@ -151,12 +151,12 @@
  */
 #define _DEFAULT_LINESCANTIME   96
 
-/* Status Register (Addr: 0x30) */
+/* Status Register(Addr: 0x30) */
 #define	_FLAG_P98_PAPER      0x01
 #define _FLAG_P98_KEY		 0x80
 
 /*
- * some buffer sizes (for ASIC 98001 based devices)
+ * some buffer sizes(for ASIC 98001 based devices)
  */
 #define _LINE_BUFSIZE		(5500 * 6)
 #define _LINE_BUFSIZE1		(5500 * 8)
@@ -187,7 +187,7 @@
 #define _SCANSTATE_TABLE_SIZE	250		/* was 200 for 4830 */
 #define _P98_OFFSET70			60
 
-/* for Data channel (BYTE) */
+/* for Data channel(BYTE) */
 #define _RED_DATA_READY		0x01
 #define _GREEN_DATA_READY 	0x02
 #define _BLUE_DATA_READY	0x04
@@ -276,14 +276,14 @@ typedef struct {
  * some function types
  */
 typedef struct scandata *pScanData
-typedef void (*pFnDataProcess)(pScanData, pVoid, pVoid, ULong)
-typedef Bool (*pFnReadData)(pScanData, pUChar, ULong)
-typedef void (*pFnVoid)(pScanData)
-typedef Bool (*pFnBool)(pScanData)
-typedef void (*pFnDACOffs)(pScanData, pDACTblDef, ULong)
-typedef void (*pFnDACDark)(pScanData, pDACTblDef, ULong, UShort)
-typedef void (*pFnOut)(Byte,UShort)
-typedef Byte (*pFnIn)(UShort)
+typedef void(*pFnDataProcess)(pScanData, pVoid, pVoid, ULong)
+typedef Bool(*pFnReadData)(pScanData, pUChar, ULong)
+typedef void(*pFnVoid)(pScanData)
+typedef Bool(*pFnBool)(pScanData)
+typedef void(*pFnDACOffs)(pScanData, pDACTblDef, ULong)
+typedef void(*pFnDACDark)(pScanData, pDACTblDef, ULong, UShort)
+typedef void(*pFnOut)(Byte,UShort)
+typedef Byte(*pFnIn)(UShort)
 
 /*
  * For Motor step control
@@ -798,31 +798,31 @@ typedef struct {
 } BufferDef, *pBufferDef
 
 
-/* Register RegBitDepth (Addr: 0x13) - ASIC 9800x */
+/* Register RegBitDepth(Addr: 0x13) - ASIC 9800x */
 #define _BIT0_7		            0x00
 #define _BIT8_15		        0x01
 #define _BIT16_20	    	    0x02
 
-/* Register RegStepControl (Addr: 0x14) - ASIC 9800x */
+/* Register RegStepControl(Addr: 0x14) - ASIC 9800x */
 #define _MOTOR0_ONESTEP	        0x01
 #define _MOTOR0_SCANSTATE	    0x02
 #define _MOTOR_FREERUN          0x40
 #define _MOTOR_NOFREERUN        0x00
 
-/* Register RegGetScanState (Addr: 0x17, 0x12 on 9600x) - ASIC 9800x */
+/* Register RegGetScanState(Addr: 0x17, 0x12 on 9600x) - ASIC 9800x */
 #define _SCANSTATE_MASK         0x3f	/* bit 0-5 */
 #define _SCANSTATE_STOP	        0x80
 
-/* Register RegReadIOBufBus (Addr: 0x17) - ASIC 9600x only */
+/* Register RegReadIOBufBus(Addr: 0x17) - ASIC 9600x only */
 #define _IOBUF_BUSMASK	        0x0f	/* bit 0-3 */
 
-/* Register RegMemoryLow/High (Addr: 0x19/0x1a) - ASIC 9800x */
+/* Register RegMemoryLow/High(Addr: 0x19/0x1a) - ASIC 9800x */
 #define _MAP_ADDR_RED           0x00
 #define _MAP_ADDR_GREEN	        0x40
 #define _MAP_ADDR_BLUE	        0x80
 #define _MAP_ADDR_SIZE	        0x40	/* 0x4000 */
 
-/* Register RegModeControl (Addr: 0x1b, 0x18 on 9600x) - all ASICs*/
+/* Register RegModeControl(Addr: 0x1b, 0x18 on 9600x) - all ASICs*/
 #define _ModeScan		        0x00    /* all ASICs       */
 #define _ModeProgram	        0x01    /* 9600x def       */
 #define _ModeIdle		        0x01    /* 9800x defs      */
@@ -834,11 +834,11 @@ typedef struct {
 #define _ModeFifoBSel	        0x10
 #define _ModeFifoClose          0x18
 
-/* Register RegLineControl (Addr: 0x1c, 0x19 on 9600x) - all ASICs*/
+/* Register RegLineControl(Addr: 0x1c, 0x19 on 9600x) - all ASICs*/
 #define _LINE_SCANTIME_MASK     0x3f	/* bit 0-6              */
 #define _LINE_CDSINVERSE        0x80	/* Color Drive Signal   */
 
-/* Register RegScanControl (Addr: 0x1d) - all ASICs*/
+/* Register RegScanControl(Addr: 0x1d) - all ASICs*/
 #define _SCAN_BITMODE	        0x00
 #define _SCAN_BYTEMODE	        0x01	/* Gray/Color mode                  */
 #define _SCAN_1ST_AVERAGE	    0x04	/* first pixel is averaged pixel    */
@@ -857,7 +857,7 @@ typedef struct {
 
 #define _SCAN_LAMPS_ON          (_SCAN_NORMALLAMP_ON | _SCAN_TPALAMP_ON)
 
-/* Register RegMotor0Control (Addr: 0x15) */
+/* Register RegMotor0Control(Addr: 0x15) */
 #define _MotorDirForward	    0x01
 #define _MotorDirBackward	    0x00
 #define _MotorOn		        0x02
@@ -871,7 +871,7 @@ typedef struct {
 #define _FORWARD_MOTOR			(_MotorDirForward + _MotorOn + \
                					 _MotorHQuarterStep + _MotorPowerEnable)
 
-/* Register RegConfiguration (Addr: 0x1e), ASIC 9800x */
+/* Register RegConfiguration(Addr: 0x1e), ASIC 9800x */
 #define	_P98_CCD_TYPE_ID	    0x07
 #define	_P98_NEC_MACHINE        0x08
 #define _P98_PCBID		        0xF0
@@ -900,7 +900,7 @@ typedef struct {
 #define _AGFA_SCANNER	        0xf0
 #define _AGFA_PCB   	        0x1f
 
-/* Register RegModelControl (Addr: 0x1f), all ASICs */
+/* Register RegModelControl(Addr: 0x1f), all ASICs */
 #define _ModelSampleAndHold     0x01	/* sample and hold              */
 #define _ModelWhiteIs0	        0x02	/* white is 0                   */
 #define _ModelInvertPF	        0x04	/* invert paper flag            */
@@ -927,7 +927,7 @@ typedef struct {
 #define _MODEL_DPI1200	        0x28
 #define _DUMMY_12BIT 	        0x40
 
-/* Register RegModel1Control (Addr: 0x20), 9800x */
+/* Register RegModel1Control(Addr: 0x20), 9800x */
 #define _SCAN_GRAYTYPE	        0x01
 #define _CCD_SHIFT_GATE 	    0x02
 #define _CCD_SHIFT_PULSE	    0x04
@@ -936,10 +936,10 @@ typedef struct {
 #define _MOTOR_2916		        0x10
 #define _MOTOR_7042		        0x20
 
-/* Register RegThresholdGapControl (Addr: 0x29, 0x27 on 9600x ) - all ASICs */
+/* Register RegThresholdGapControl(Addr: 0x29, 0x27 on 9600x ) - all ASICs */
 #define _THRESHOLDGAP_MASK      0x0f
 
-/* Register RegResetConfig (Addr: 0x2e) */
+/* Register RegResetConfig(Addr: 0x2e) */
 #define _ADC_MASK		        0x07
 #define _DA_WOLFSON8143	        0x00
 #define _DA_ESIC 	            0x04
@@ -955,7 +955,7 @@ typedef struct {
 #define _MOTOR1_2916	        0x20
 #define _MOTOR1_7042	        0x40
 
-/* Register RegFifoFullLength (Addr: 0x54) */
+/* Register RegFifoFullLength(Addr: 0x54) */
 #define _RED_FULLSIZE	        0x00
 #define _GREEN_FULLSIZE         0x08
 #define _BLUE_FULLSIZE	        0x10
@@ -966,7 +966,7 @@ typedef struct {
 #define _MFRC_RUNSCANSTATE      0x04
 #define _MFRC_BY_XSTEP	        0x08
 
-/* Register RegMotorDriverType (Addr: 0x64) */
+/* Register RegMotorDriverType(Addr: 0x64) */
 #define _MOTORS_MASK 	        0x33
 #define _MOTORR_MASK	        0xf3
 #define _MOTORR_WEAK	        0x04
@@ -998,14 +998,14 @@ typedef struct {
 #define _SizeTotalBuf		(ULong)(_SizeDataBuf + _SizeShadingSumBuf)
 #define _SizeTotalBufTpa	(ULong)(_SizeTotalBuf + _SizeTpaDataBuf)
 
-/* for DAC programming (ASIC 98003)*/
+/* for DAC programming(ASIC 98003)*/
 #define _VALUE_CONFIG		    0x51
 #define _DAC_RED 	    	    (Byte)(_VALUE_CONFIG | 0x00)
 #define _DAC_GREENCOLOR		    (Byte)(_VALUE_CONFIG | 0x04)
 #define _DAC_GREENMONO		    (Byte)(_VALUE_CONFIG | 0x06)
 #define _DAC_BLUE   		    (Byte)(_VALUE_CONFIG | 0x08)
 
-/* internal FIFO buffers (ASIC 9800x) */
+/* internal FIFO buffers(ASIC 9800x) */
 #define _SIZE_REDFIFO		    196608UL	/* 192k */
 #define _SIZE_GREENFIFO		    147456UL	/* 144k */
 #define _SIZE_BLUEFIFO		    114688UL	/* 112k */

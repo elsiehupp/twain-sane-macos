@@ -1,10 +1,10 @@
-/* Copyright (C) 1997 Free Software Foundation, Inc.
+/* Copyright(C) 1997 Free Software Foundation, Inc.
 This file is part of the GNU C Library.
 
 The GNU C Library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Library General Public License as
 published by the Free Software Foundation; either version 2 of the
-License, or (at your option) any later version.
+License, or(at your option) any later version.
 
 The GNU C Library is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -23,14 +23,14 @@ import string
 #ifndef HAVE_STRDUP
 
 char *
-strdup (const char * s)
+strdup(const char * s)
 {
   char *clone
   size_t size
 
-  size = strlen (s) + 1
-  clone = malloc (size)
-  memcpy (clone, s, size)
+  size = strlen(s) + 1
+  clone = malloc(size)
+  memcpy(clone, s, size)
   return clone
 }
 

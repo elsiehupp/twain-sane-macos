@@ -1,14 +1,14 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2002 Sergey Vlasov <vsu@altlinux.ru>
-   Copyright (C) 2002 - 2007 Henning Geinitz <sane@geinitz.org>
+   Copyright(C) 2002 Sergey Vlasov <vsu@altlinux.ru>
+   Copyright(C) 2002 - 2007 Henning Geinitz <sane@geinitz.org>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -154,7 +154,7 @@ static GT68xx_Command_Set mustek_gt6801_command_set = {
   gt6801_check_firmware,
   gt6801_download_firmware,
   gt6801_get_power_status,
-  /* get_ta_status (FIXME: implement this) */ NULL,
+  /* get_ta_status(FIXME: implement this) */ NULL,
   gt6801_lamp_control,
   gt6801_is_moving,
   /* gt68xx_generic_move_relative *** to be tested */ NULL,
@@ -195,7 +195,7 @@ static GT68xx_Command_Set plustek_gt6801_command_set = {
   gt6801_check_plustek_firmware,
   gt6801_download_firmware,
   gt6801_get_power_status,
-  /* get_ta_status (FIXME: implement this) */ NULL,
+  /* get_ta_status(FIXME: implement this) */ NULL,
   gt6801_lamp_control,
   gt6801_is_moving,
   /* gt68xx_generic_move_relative *** to be tested */ NULL,
@@ -233,20 +233,20 @@ static GT68xx_Model unknown_model = {
   {8, 0},			/* possible depths in gray mode */
   {8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (0.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (13.0),		/* Start of scan area in mm (y) */
-  Sane.FIX (200.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (280.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(13.0),		/* Start of scan area in mm(y) */
+  Sane.FIX(200.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(280.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (9.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (0.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(9.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(0.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 0, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -254,7 +254,7 @@ static GT68xx_Model unknown_model = {
   COLOR_ORDER_BGR,		/* Order of the CCD/CIS colors */
   {0x14, 0x07, 0x14, 0x07, 0x14, 0x07},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.TRUE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_NO_STOP		/* Which flags are needed for this scanner? */
@@ -282,19 +282,19 @@ static GT68xx_Model mustek_2400ta_model = {
   {16, 12, 8, 0},		/* possible depths in gray mode */
   {16, 12, 8, 0},		/* possible depths in color mode */
 
-  Sane.FIX (3.67),		/* Start of scan area in mm  (x) */
-  Sane.FIX (7.4),		/* Start of scan area in mm (y) */
-  Sane.FIX (219.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (298.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(3.67),		/* Start of scan area in mm  (x) */
+  Sane.FIX(7.4),		/* Start of scan area in mm(y) */
+  Sane.FIX(219.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(298.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (0.635),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(0.635),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (94.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (107.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (37.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (165.0),		/* Size of scan area in TA mode in mm (y) */
-  Sane.FIX (95.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(94.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(107.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(37.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(165.0),		/* Size of scan area in TA mode in mm(y) */
+  Sane.FIX(95.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 24, 48,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -302,7 +302,7 @@ static GT68xx_Model mustek_2400ta_model = {
   COLOR_ORDER_RGB,		/* Order of the CCD/CIS colors */
   {0x2a, 0x0c, 0x2e, 0x06, 0x2d, 0x07},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.FALSE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_SCAN_FROM_HOME	/* Which flags are needed for this scanner? */
@@ -330,20 +330,20 @@ static GT68xx_Model mustek_2400taplus_model = {
   {8, 0},			/* possible depths in gray mode */
   {16, 12, 8, 0},		/* possible depths in color mode */
 
-  Sane.FIX (7.41),		/* Start of scan area in mm  (x) */
-  Sane.FIX (7.4),		/* Start of scan area in mm (y) */
-  Sane.FIX (217.5),		/* Size of scan area in mm (x) */
-  Sane.FIX (298.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(7.41),		/* Start of scan area in mm  (x) */
+  Sane.FIX(7.4),		/* Start of scan area in mm(y) */
+  Sane.FIX(217.5),		/* Size of scan area in mm(x) */
+  Sane.FIX(298.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (5.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(5.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (94.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (107.0) /* Start of scan area in TA mode in mm (y) */ ,
-  Sane.FIX (37.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (165.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(94.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(107.0) /* Start of scan area in TA mode in mm(y) */ ,
+  Sane.FIX(37.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(165.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (95.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(95.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 48, 96,			/* RGB CCD Line-distance correction in pixel */
   8,				/* CCD distcance for CCD with 6 lines) */
@@ -351,7 +351,7 @@ static GT68xx_Model mustek_2400taplus_model = {
   COLOR_ORDER_RGB,		/* Order of the CCD/CIS colors */
   {0x2a, 0x0c, 0x2e, 0x06, 0x2d, 0x07},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.FALSE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_USE_OPTICAL_X | GT68XX_FLAG_SCAN_FROM_HOME	/* Which flags are needed for this scanner? */
@@ -379,20 +379,20 @@ static GT68xx_Model mustek_2448taplus_model = {
   {16, 12, 8, 0},		/* possible depths in gray mode */
   {16, 12, 8, 0},		/* possible depths in color mode */
 
-  Sane.FIX (7.41),		/* Start of scan area in mm  (x) */
-  Sane.FIX (7.4),		/* Start of scan area in mm (y) */
-  Sane.FIX (216.3),		/* Size of scan area in mm (x) */
-  Sane.FIX (297.5),		/* Size of scan area in mm (y) */
+  Sane.FIX(7.41),		/* Start of scan area in mm  (x) */
+  Sane.FIX(7.4),		/* Start of scan area in mm(y) */
+  Sane.FIX(216.3),		/* Size of scan area in mm(x) */
+  Sane.FIX(297.5),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (4.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(4.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (94.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (105.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (36.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (165.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(94.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(105.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(36.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(165.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (95.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(95.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 48, 96,			/* RGB CCD Line-distance correction in pixel */
   8,				/* CCD distcance for CCD with 6 lines) */
@@ -400,7 +400,7 @@ static GT68xx_Model mustek_2448taplus_model = {
   COLOR_ORDER_RGB,		/* Order of the CCD/CIS colors */
   {0x2a, 0x0c, 0x2e, 0x06, 0x2d, 0x07},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.FALSE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_NO_STOP		/* Which flags are needed for this scanner? */
@@ -428,20 +428,20 @@ static GT68xx_Model mustek_1200ta_model = {
   {16, 12, 8, 0},		/* possible depths in gray mode */
   {16, 12, 8, 0},		/* possible depths in color mode */
 
-  Sane.FIX (8.4),		/* Start of scan area in mm  (x) */
-  Sane.FIX (7.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (220.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(8.4),		/* Start of scan area in mm  (x) */
+  Sane.FIX(7.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(220.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (6.9),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(6.9),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (98.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (108.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (37.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (163.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(98.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(108.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(37.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(163.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (95.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(95.0),		/* Start of white strip in TA mode in mm(y) */
 
   32, 16, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -449,7 +449,7 @@ static GT68xx_Model mustek_1200ta_model = {
   COLOR_ORDER_RGB,		/* Order of the CCD/CIS colors */
   {0x2a, 0x0c, 0x2e, 0x06, 0x2d, 0x07},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.FALSE,			/* Is this a CIS scanner? */
   0				/* Which flags are needed for this scanner? */
@@ -477,20 +477,20 @@ static GT68xx_Model mustek_1200cuplus_model = {
   {16, 12, 8, 0},		/* possible depths in gray mode */
   {16, 12, 8, 0},		/* possible depths in color mode */
 
-  Sane.FIX (0.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (13.0),		/* Start of scan area in mm (y) */
-  Sane.FIX (217.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(13.0),		/* Start of scan area in mm(y) */
+  Sane.FIX(217.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (9.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (0.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(9.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(0.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 0, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -498,7 +498,7 @@ static GT68xx_Model mustek_1200cuplus_model = {
   COLOR_ORDER_BGR,		/* Order of the CCD/CIS colors */
   {0x14, 0x07, 0x14, 0x07, 0x14, 0x07},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.TRUE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_NO_STOP		/* Which flags are needed for this scanner? */
@@ -526,20 +526,20 @@ static GT68xx_Model mustek_1200cuplus2_model = {
   {16, 12, 8, 0},		/* possible depths in gray mode */
   {16, 12, 8, 0},		/* possible depths in color mode */
 
-  Sane.FIX (4.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (13.0),		/* Start of scan area in mm (y) */
-  Sane.FIX (217.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(4.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(13.0),		/* Start of scan area in mm(y) */
+  Sane.FIX(217.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (5.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (0.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(5.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(0.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 0, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -547,7 +547,7 @@ static GT68xx_Model mustek_1200cuplus2_model = {
   COLOR_ORDER_BGR,		/* Order of the CCD/CIS colors */
   {0x19, 0x03, 0x1b, 0x05, 0x19, 0x03},	/* Default offset/gain */
   {0xb0, 0xb0, 0xb0},	/* Default exposure parameters */
-  Sane.FIX (1.5),		/* Default gamma value */
+  Sane.FIX(1.5),		/* Default gamma value */
 
   Sane.TRUE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_NO_STOP		/* Which flags are needed for this scanner? */
@@ -575,20 +575,20 @@ static GT68xx_Model mustek_2400cuplus_model = {
   {16, 12, 8, 0},		/* possible depths in gray mode */
   {16, 12, 8, 0},		/* possible depths in color mode */
 
-  Sane.FIX (2.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (13.0),		/* Start of scan area in mm (y) */
-  Sane.FIX (217.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (300.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(2.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(13.0),		/* Start of scan area in mm(y) */
+  Sane.FIX(217.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(300.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (4.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (0.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(4.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(0.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 0, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -596,7 +596,7 @@ static GT68xx_Model mustek_2400cuplus_model = {
   COLOR_ORDER_BGR,		/* Order of the CCD/CIS colors */
   {0x15, 0x08, 0x12, 0x05, 0x12, 0x05},	/* Default offset/gain */
   {0x2a0, 0x1ab, 0x10d},	/* Default exposure parameters */
-  Sane.FIX (1.5),		/* Default gamma value */
+  Sane.FIX(1.5),		/* Default gamma value */
 
   Sane.TRUE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_NO_STOP		/* Which flags are needed for this scanner? */
@@ -627,20 +627,20 @@ static GT68xx_Model mustek_1200cu_model = {
   {12, 8, 0},			/* possible depths in gray mode */
   {12, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (0.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (13.0),		/* Start of scan area in mm (y) */
-  Sane.FIX (217.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(13.0),		/* Start of scan area in mm(y) */
+  Sane.FIX(217.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (4.2),		/* Start of white strip in mm (y) */
-  Sane.FIX (0.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(4.2),		/* Start of white strip in mm(y) */
+  Sane.FIX(0.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 0, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -648,7 +648,7 @@ static GT68xx_Model mustek_1200cu_model = {
   COLOR_ORDER_BGR,		/* Order of the CCD/CIS colors */
   {0x13, 0x04, 0x15, 0x06, 0x0f, 0x02},	/* Default offset/gain */
   {0x150, 0x150, 0x150},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.TRUE,			/* Is this a CIS scanner? */
   0				/* Which flags are needed for this scanner? */
@@ -676,20 +676,20 @@ static GT68xx_Model mustek_scanexpress1200ubplus_model = {
   {12, 8, 0},			/* possible depths in gray mode */
   {12, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (0.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (15.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (217.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(15.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(217.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (6.5),		/* Start of white strip in mm (y) */
-  Sane.FIX (0.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(6.5),		/* Start of white strip in mm(y) */
+  Sane.FIX(0.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 0, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -697,7 +697,7 @@ static GT68xx_Model mustek_scanexpress1200ubplus_model = {
   COLOR_ORDER_BGR,		/* Order of the CCD/CIS colors */
   {0x0f, 0x01, 0x15, 0x06, 0x13, 0x04},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.TRUE,			/* Is this a CIS scanner? */
   0				/* Which flags are needed for this scanner? */
@@ -725,20 +725,20 @@ static GT68xx_Model mustek_scanexpress1248ub_model = {
   {16, 12, 8, 0},		/* possible depths in gray mode */
   {16, 12, 8, 0},		/* possible depths in color mode */
 
-  Sane.FIX (4.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (14.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (217.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(4.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(14.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(217.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (9.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (0.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(9.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(0.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 0, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -746,7 +746,7 @@ static GT68xx_Model mustek_scanexpress1248ub_model = {
   COLOR_ORDER_BGR,		/* Order of the CCD/CIS colors */
   {0x1e, 0x08, 0x21, 0x0d, 0x1b, 0x05},	/* Default offset/gain */
   {0x50, 0x50, 0x50},	/* Default exposure parameters */
-  Sane.FIX (1.5),		/* Default gamma value */
+  Sane.FIX(1.5),		/* Default gamma value */
 
   Sane.TRUE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_NO_STOP		/* Which flags are needed for this scanner? */
@@ -775,20 +775,20 @@ static GT68xx_Model artec_ultima2000_model = {
   {12, 8, 0},			/* possible depths in gray mode */
   {12, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (2.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (7.0),		/* Start of scan area in mm (y) */
-  Sane.FIX (218.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(2.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(7.0),		/* Start of scan area in mm(y) */
+  Sane.FIX(218.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (0.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(0.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 0, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -796,7 +796,7 @@ static GT68xx_Model artec_ultima2000_model = {
   COLOR_ORDER_BGR,		/* Order of the CCD/CIS colors */
   {0x0f, 0x01, 0x15, 0x06, 0x13, 0x04},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.TRUE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_MIRROR_X | GT68XX_FLAG_MOTOR_HOME | GT68XX_FLAG_OFFSET_INV	/* Which flags are needed for this scanner? */
@@ -824,20 +824,20 @@ static GT68xx_Model plustek_opticslim500plus_model = {
   {16, 8, 0},			/* possible depths in gray mode */
   {16, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (1.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (9.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (218.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (142.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(1.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(9.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(218.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(142.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (0.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(0.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 0, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -845,7 +845,7 @@ static GT68xx_Model plustek_opticslim500plus_model = {
   COLOR_ORDER_RGB,		/* Order of the CCD/CIS colors */
   {0x32, 0x02, 0x26, 0x07, 0x26, 0x09},	/* Default offset/gain */
   {0x127, 0x127, 0x127},	/* Default exposure parameters */
-  Sane.FIX (1.5),		/* Default gamma value */
+  Sane.FIX(1.5),		/* Default gamma value */
 
   Sane.TRUE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_NO_CALIBRATE	/* Which flags are needed for this scanner? */
@@ -872,20 +872,20 @@ static GT68xx_Model mustek_2400cu_model = {
   {12, 8, 0},			/* possible depths in gray mode */
   {12, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (0.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (13.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (215.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (296.9),		/* Size of scan area in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(13.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(215.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(296.9),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (5.5),		/* Start of white strip in mm (y) */
-  Sane.FIX (0.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(5.5),		/* Start of white strip in mm(y) */
+  Sane.FIX(0.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.9),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.9),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 0, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -893,7 +893,7 @@ static GT68xx_Model mustek_2400cu_model = {
   COLOR_ORDER_BGR,		/* Order of the CCD/CIS colors */
   {0x0f, 0x01, 0x15, 0x06, 0x13, 0x04},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.TRUE,			/* Is this a CIS scanner? */
   0				/* Which flags are needed for this scanner? */
@@ -921,20 +921,20 @@ static GT68xx_Model mustek_scanexpress2400usb_model = {
   {12, 8, 0},			/* possible depths in gray mode */
   {12, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (5.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (12.0),		/* Start of scan area in mm (y) */
-  Sane.FIX (224.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (300.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(5.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(12.0),		/* Start of scan area in mm(y) */
+  Sane.FIX(224.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(300.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (7.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(7.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   24, 12, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -942,7 +942,7 @@ static GT68xx_Model mustek_scanexpress2400usb_model = {
   COLOR_ORDER_RGB,		/* Order of the CCD/CIS colors */
   {0x12, 0x06, 0x0e, 0x03, 0x19, 0x25},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.FALSE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_UNTESTED | GT68XX_FLAG_SE_2400	/* Which flags are needed for this scanner? */
@@ -970,20 +970,20 @@ static GT68xx_Model mustek_a3usb_model = {
   {12, 8, 0},			/* possible depths in gray mode */
   {12, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (7.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (11.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (297.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (433.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(7.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(11.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(297.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(433.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (2.4),		/* Start of white strip in mm (y) */
-  Sane.FIX (0),			/* Start of black mark in mm (x) */
+  Sane.FIX(2.4),		/* Start of white strip in mm(y) */
+  Sane.FIX(0),			/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 5, 5,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -991,7 +991,7 @@ static GT68xx_Model mustek_a3usb_model = {
   COLOR_ORDER_RGB,		/* Order of the CCD/CIS colors */
   {0x14, 0x05, 0x12, 0x05, 0x17, 0x0c},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (1.5),		/* Default gamma value */
+  Sane.FIX(1.5),		/* Default gamma value */
 
   Sane.TRUE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_CIS_LAMP 		/* Which flags are needed for this scanner? */
@@ -1021,20 +1021,20 @@ static GT68xx_Model lexmark_x73_model = {
   {16, 12, 8, 0},		/* possible depths in gray mode */
   {16, 12, 8, 0},		/* possible depths in color mode */
 
-  Sane.FIX (6.519),		/* Start of scan area in mm  (x) */
-  Sane.FIX (12.615),		/* Start of scan area in mm (y) */
-  Sane.FIX (220.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (297.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(6.519),		/* Start of scan area in mm  (x) */
+  Sane.FIX(12.615),		/* Start of scan area in mm(y) */
+  Sane.FIX(220.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(297.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (1.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (0.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(1.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(0.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   32, 16, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -1042,7 +1042,7 @@ static GT68xx_Model lexmark_x73_model = {
   COLOR_ORDER_RGB,		/* Order of the CCD/CIS colors */
   {0x14, 0x07, 0x14, 0x07, 0x14, 0x07},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.FALSE,			/* Is this a CIS scanner? */
   0				/* Which flags are needed for this scanner? */
@@ -1073,20 +1073,20 @@ static GT68xx_Model plustek_op1248u_model = {
   {12, 8, 0},			/* possible depths in gray mode */
   {12, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (3.5),		/* Start of scan area in mm  (x) */
-  Sane.FIX (7.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (216.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(3.5),		/* Start of scan area in mm  (x) */
+  Sane.FIX(7.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(216.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (1.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(1.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 8, 16,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -1094,7 +1094,7 @@ static GT68xx_Model plustek_op1248u_model = {
   COLOR_ORDER_BGR,		/* Order of the CCD/CIS colors */
   {0x1e, 0x24, 0x1d, 0x1f, 0x1d, 0x20},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.FALSE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_OFFSET_INV | GT68XX_FLAG_ALWAYS_LINEMODE	/* Which flags are needed for this scanner? */
@@ -1122,20 +1122,20 @@ static GT68xx_Model plustek_u16b_model = {
   {16, 8, 0},			/* possible depths in gray mode */
   {16, 12, 8, 0},		/* possible depths in color mode */
 
-  Sane.FIX (5.5),		/* Start of scan area in mm  (x) */
-  Sane.FIX (8.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (216.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(5.5),		/* Start of scan area in mm  (x) */
+  Sane.FIX(8.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(216.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (1.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(1.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 8, 16,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -1143,7 +1143,7 @@ static GT68xx_Model plustek_u16b_model = {
   COLOR_ORDER_BGR,		/* Order of the CCD/CIS colors */
   {0x18, 0x16, 0x16, 0x0f, 0x17, 0x11},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.FALSE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_OFFSET_INV | GT68XX_FLAG_NO_POWER_STATUS |
@@ -1175,20 +1175,20 @@ static GT68xx_Model plustek_ops12_model = {
   {12, 8, 0},			/* possible depths in gray mode */
   {12, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (3.5),		/* Start of scan area in mm  (x) */
-  Sane.FIX (7.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (218.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(3.5),		/* Start of scan area in mm  (x) */
+  Sane.FIX(7.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(218.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (1.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(1.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 8, 16,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -1196,7 +1196,7 @@ static GT68xx_Model plustek_ops12_model = {
   COLOR_ORDER_RGB,		/* Order of the CCD/CIS colors */
   {0x1c, 0x29, 0x1c, 0x2c, 0x1c, 0x2b},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.FALSE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_OFFSET_INV | GT68XX_FLAG_ALWAYS_LINEMODE	/* Which flags are needed for this scanner? */
@@ -1224,20 +1224,20 @@ static GT68xx_Model plustek_ops24_model = {
   {12, 8, 0},			/* possible depths in gray mode */
   {12, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (4.5),		/* Start of scan area in mm  (x) */
-  Sane.FIX (8.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (218.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(4.5),		/* Start of scan area in mm  (x) */
+  Sane.FIX(8.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(218.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (1.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(1.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   48, 24, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -1245,12 +1245,12 @@ static GT68xx_Model plustek_ops24_model = {
   COLOR_ORDER_RGB,		/* Order of the CCD/CIS colors */
   {0x18, 0x1c, 0x16, 0x12, 0x18, 0x1c},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.FALSE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_OFFSET_INV | GT68XX_FLAG_ALWAYS_LINEMODE
   				/* Which flags are needed for this scanner? */
-    /* Works (tested by Filip Kaluza). Based on genius Colorpage Vivid 1200 X. */
+    /* Works(tested by Filip Kaluza). Based on genius Colorpage Vivid 1200 X. */
 ]
 
 
@@ -1275,20 +1275,20 @@ static GT68xx_Model genius_vivid4_model = {
   {16, 8, 0},			/* possible depths in gray mode */
   {16, 12, 8, 0},		/* possible depths in color mode */
 
-  Sane.FIX (5.5),		/* Start of scan area in mm  (x) */
-  Sane.FIX (8.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (216.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(5.5),		/* Start of scan area in mm  (x) */
+  Sane.FIX(8.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(216.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (1.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(1.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 8, 16,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -1296,7 +1296,7 @@ static GT68xx_Model genius_vivid4_model = {
   COLOR_ORDER_BGR,		/* Order of the CCD/CIS colors */
   {0x18, 0x16, 0x16, 0x0f, 0x17, 0x11},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.FALSE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_OFFSET_INV | GT68XX_FLAG_NO_POWER_STATUS |
@@ -1327,20 +1327,20 @@ static GT68xx_Model genius_vivid3x_model = {
   {12, 8, 0},			/* possible depths in gray mode */
   {12, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (3.5),		/* Start of scan area in mm  (x) */
-  Sane.FIX (7.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (218.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(3.5),		/* Start of scan area in mm  (x) */
+  Sane.FIX(7.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(218.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (1.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(1.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 8, 16,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -1348,7 +1348,7 @@ static GT68xx_Model genius_vivid3x_model = {
   COLOR_ORDER_BGR,		/* Order of the CCD/CIS colors */
   {0x1c, 0x29, 0x1c, 0x2c, 0x1c, 0x2b},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.FALSE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_OFFSET_INV | GT68XX_FLAG_ALWAYS_LINEMODE	/* Which flags are needed for this scanner? */
@@ -1376,20 +1376,20 @@ static GT68xx_Model genius_vivid4x_model = {
   {12, 8, 0},			/* possible depths in gray mode */
   {12, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (3.5),		/* Start of scan area in mm  (x) */
-  Sane.FIX (7.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (218.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(3.5),		/* Start of scan area in mm  (x) */
+  Sane.FIX(7.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(218.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (1.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(1.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 8, 16,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -1397,7 +1397,7 @@ static GT68xx_Model genius_vivid4x_model = {
   COLOR_ORDER_RGB,		/* Order of the CCD/CIS colors */
   {0x1c, 0x29, 0x1c, 0x2c, 0x1c, 0x2b},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.FALSE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_OFFSET_INV | GT68XX_FLAG_ALWAYS_LINEMODE	/* Which flags are needed for this scanner? */
@@ -1425,20 +1425,20 @@ static GT68xx_Model genius_vivid4xe_model = {
   {12, 8, 0},			/* possible depths in gray mode */
   {12, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (3.5),		/* Start of scan area in mm  (x) */
-  Sane.FIX (7.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (218.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(3.5),		/* Start of scan area in mm  (x) */
+  Sane.FIX(7.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(218.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (1.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(1.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 8, 16,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -1446,7 +1446,7 @@ static GT68xx_Model genius_vivid4xe_model = {
   COLOR_ORDER_RGB,		/* Order of the CCD/CIS colors */
   {0x1c, 0x29, 0x1c, 0x2c, 0x1c, 0x2b},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.FALSE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_OFFSET_INV | GT68XX_FLAG_ALWAYS_LINEMODE	/* Which flags are needed for this scanner? */
@@ -1474,20 +1474,20 @@ static GT68xx_Model genius_vivid3xe_model = {
   {12, 8, 0},			/* possible depths in gray mode */
   {12, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (3.5),		/* Start of scan area in mm  (x) */
-  Sane.FIX (7.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (218.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(3.5),		/* Start of scan area in mm  (x) */
+  Sane.FIX(7.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(218.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (1.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(1.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 8, 16,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -1495,7 +1495,7 @@ static GT68xx_Model genius_vivid3xe_model = {
   COLOR_ORDER_BGR,		/* Order of the CCD/CIS colors */
   {0x1c, 0x29, 0x1c, 0x2c, 0x1c, 0x2b},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.FALSE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_OFFSET_INV | GT68XX_FLAG_ALWAYS_LINEMODE	/* Which flags are needed for this scanner? */
@@ -1523,20 +1523,20 @@ static GT68xx_Model genius_vivid1200x_model = {
   {12, 8, 0},			/* possible depths in gray mode */
   {12, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (4.5),		/* Start of scan area in mm  (x) */
-  Sane.FIX (8.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (218.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(4.5),		/* Start of scan area in mm  (x) */
+  Sane.FIX(8.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(218.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (1.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(1.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   48, 24, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -1544,7 +1544,7 @@ static GT68xx_Model genius_vivid1200x_model = {
   COLOR_ORDER_RGB,		/* Order of the CCD/CIS colors */
   {0x18, 0x1c, 0x16, 0x12, 0x18, 0x1c},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.FALSE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_OFFSET_INV | GT68XX_FLAG_ALWAYS_LINEMODE
@@ -1574,20 +1574,20 @@ static GT68xx_Model genius_vivid1200xe_model = {
   {12, 8, 0},			/* possible depths in gray mode */
   {12, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (4.5),		/* Start of scan area in mm  (x) */
-  Sane.FIX (8.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (218.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(4.5),		/* Start of scan area in mm  (x) */
+  Sane.FIX(8.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(218.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (1.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(1.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   48, 24, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -1595,7 +1595,7 @@ static GT68xx_Model genius_vivid1200xe_model = {
   COLOR_ORDER_RGB,		/* Order of the CCD/CIS colors */
   {0x18, 0x1c, 0x16, 0x12, 0x18, 0x1c},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.FALSE,			/* Is this a CIS scanner? */
   GT68XX_FLAG_OFFSET_INV | GT68XX_FLAG_ALWAYS_LINEMODE	/* Which flags are needed for this scanner? */
@@ -1624,20 +1624,20 @@ static GT68xx_Model iriscan_express_2_model = {
   {16, 8, 0},			/* possible depths in gray mode */
   {16, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (0.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (1.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (218.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(1.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(218.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (18.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (21.72),		/* Start of black mark in mm (x) */
+  Sane.FIX(18.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(21.72),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 0, 0,				/* RGB CCD Line-distance correction in pixel */
   0,					/* CCD distcance for CCD with 6 lines) */
@@ -1645,7 +1645,7 @@ static GT68xx_Model iriscan_express_2_model = {
   COLOR_ORDER_BGR,		/* Order of the CCD/CIS colors */
   {0x22, 0x0c, 0x22, 0x0a, 0x24, 0x09},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),			/* Default gamma value */
+  Sane.FIX(2.0),			/* Default gamma value */
 
   Sane.TRUE,				/* Is this a CIS scanner? */
   GT68XX_FLAG_NO_POWER_STATUS | GT68XX_FLAG_SHEET_FED | GT68XX_FLAG_OFFSET_INV | GT68XX_FLAG_HAS_CALIBRATE
@@ -1673,20 +1673,20 @@ static GT68xx_Model plustek_opticslim_m12_model = {
   {16, 8, 0},			/* possible depths in gray mode */
   {16, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (0.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (1.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (218.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(1.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(218.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (18.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (21.72),		/* Start of black mark in mm (x) */
+  Sane.FIX(18.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(21.72),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 0, 0,				/* RGB CCD Line-distance correction in pixel */
   0,					/* CCD distcance for CCD with 6 lines) */
@@ -1694,7 +1694,7 @@ static GT68xx_Model plustek_opticslim_m12_model = {
   COLOR_ORDER_BGR,		/* Order of the CCD/CIS colors */
   {0x24, 0x0a, 0x23, 0x0f, 0x23, 0x0b},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),			/* Default gamma value */
+  Sane.FIX(2.0),			/* Default gamma value */
 
   Sane.TRUE,				/* Is this a CIS scanner? */
   GT68XX_FLAG_NO_POWER_STATUS | GT68XX_FLAG_SHEET_FED | GT68XX_FLAG_OFFSET_INV | GT68XX_FLAG_HAS_CALIBRATE
@@ -1721,20 +1721,20 @@ static GT68xx_Model genius_sf600_model = {
   {16, 8, 0},			/* possible depths in gray mode */
   {16, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (0.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (1.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (218.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(1.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(218.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (18.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (21.72),		/* Start of black mark in mm (x) */
+  Sane.FIX(18.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(21.72),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 0, 0,				/* RGB CCD Line-distance correction in pixel */
   0,					/* CCD distcance for CCD with 6 lines) */
@@ -1742,7 +1742,7 @@ static GT68xx_Model genius_sf600_model = {
   COLOR_ORDER_BGR,		/* Order of the CCD/CIS colors */
   {0x24, 0x0a, 0x23, 0x0f, 0x23, 0x0b},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),			/* Default gamma value */
+  Sane.FIX(2.0),			/* Default gamma value */
 
   Sane.TRUE,				/* Is this a CIS scanner? */
   GT68XX_FLAG_NO_POWER_STATUS | GT68XX_FLAG_UNTESTED | GT68XX_FLAG_SHEET_FED | GT68XX_FLAG_OFFSET_INV | GT68XX_FLAG_HAS_CALIBRATE | GT68XX_FLAG_NO_STOP
@@ -1771,20 +1771,20 @@ static GT68xx_Model plustek_opticslim1200_model = {
   {16, 8, 0},			/* possible depths in gray mode */
   {16, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (1.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (9.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (218.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(1.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(9.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(218.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (140.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(140.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 0, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -1792,7 +1792,7 @@ static GT68xx_Model plustek_opticslim1200_model = {
   COLOR_ORDER_RGB,		/* Order of the CCD/CIS colors */
   {0x15, 0x09, 0x18, 0x11, 0x16, 0x0c},	/* Default offset/gain */
   {0x157, 0x157, 0x157},	/* Default exposure parameters */
-  Sane.FIX (2.0),		/* Default gamma value */
+  Sane.FIX(2.0),		/* Default gamma value */
 
   Sane.TRUE,			/* Is this a CIS scanner? */
   0
@@ -1819,20 +1819,20 @@ static GT68xx_Model plustek_opticslim2400_model = {
   {12, 8, 0},			/* possible depths in gray mode */
   {12, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (1.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (9.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (217.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(1.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(9.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(217.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (0.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(0.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 0, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -1840,7 +1840,7 @@ static GT68xx_Model plustek_opticslim2400_model = {
   COLOR_ORDER_RGB,		/* Order of the CCD/CIS colors */
   {0x15, 0x09, 0x18, 0x11, 0x16, 0x0c},	/* Default offset/gain */
   {0x300, 0x300, 0x300},	/* Default exposure parameters */
-  Sane.FIX (1.5),		/* Default gamma value */
+  Sane.FIX(1.5),		/* Default gamma value */
 
   Sane.TRUE,			/* Is this a CIS scanner? */
   0
@@ -1868,20 +1868,20 @@ static GT68xx_Model visioneer_onetouch_7300_model = {
   {12, 8, 0},			/* possible depths in gray mode */
   {12, 8, 0},			/* possible depths in color mode */
 
-  Sane.FIX (1.0),		/* Start of scan area in mm  (x) */
-  Sane.FIX (9.5),		/* Start of scan area in mm (y) */
-  Sane.FIX (218.0),		/* Size of scan area in mm (x) */
-  Sane.FIX (299.0),		/* Size of scan area in mm (y) */
+  Sane.FIX(1.0),		/* Start of scan area in mm  (x) */
+  Sane.FIX(9.5),		/* Start of scan area in mm(y) */
+  Sane.FIX(218.0),		/* Size of scan area in mm(x) */
+  Sane.FIX(299.0),		/* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in mm (y) */
-  Sane.FIX (140.0),		/* Start of black mark in mm (x) */
+  Sane.FIX(0.0),		/* Start of white strip in mm(y) */
+  Sane.FIX(140.0),		/* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (100.0),		/* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),		/* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(100.0),		/* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),		/* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),		/* Start of white strip in TA mode in mm(y) */
 
   0, 0, 0,			/* RGB CCD Line-distance correction in pixel */
   0,				/* CCD distcance for CCD with 6 lines) */
@@ -1889,7 +1889,7 @@ static GT68xx_Model visioneer_onetouch_7300_model = {
   COLOR_ORDER_RGB,		/* Order of the CCD/CIS colors */
   {0x15, 0x09, 0x18, 0x11, 0x16, 0x0c},	/* Default offset/gain */
   {0x80, 0x80, 0x80},	/* Default exposure parameters */
-  Sane.FIX (1.5),		/* Default gamma value */
+  Sane.FIX(1.5),		/* Default gamma value */
 
   Sane.TRUE,			/* Is this a CIS scanner? */
   0
@@ -1921,20 +1921,20 @@ static GT68xx_Model genius_colorpageslim_1200_model = {
   {16, 12, 8, 0},                       /* possible depths in gray mode */
   {16, 12, 8, 0},                       /* possible depths in color mode */
 
-  Sane.FIX (0.5),               /* Start of scan area in mm  (x) */
-  Sane.FIX (8.0),               /* Start of scan area in mm (y) */
-  Sane.FIX (218.0),             /* Size of scan area in mm (x) */
-  Sane.FIX (299.0),             /* Size of scan area in mm (y) */
+  Sane.FIX(0.5),               /* Start of scan area in mm  (x) */
+  Sane.FIX(8.0),               /* Start of scan area in mm(y) */
+  Sane.FIX(218.0),             /* Size of scan area in mm(x) */
+  Sane.FIX(299.0),             /* Size of scan area in mm(y) */
 
-  Sane.FIX (0.0),               /* Start of white strip in mm (y) */
-  Sane.FIX (9.5),               /* Start of black mark in mm (x) */
+  Sane.FIX(0.0),               /* Start of white strip in mm(y) */
+  Sane.FIX(9.5),               /* Start of black mark in mm(x) */
 
-  Sane.FIX (0.0),               /* Start of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),               /* Start of scan area in TA mode in mm (y) */
-  Sane.FIX (0.0),               /* Size of scan area in TA mode in mm (x) */
-  Sane.FIX (0.0),               /* Size of scan area in TA mode in mm (y) */
+  Sane.FIX(0.0),               /* Start of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),               /* Start of scan area in TA mode in mm(y) */
+  Sane.FIX(0.0),               /* Size of scan area in TA mode in mm(x) */
+  Sane.FIX(0.0),               /* Size of scan area in TA mode in mm(y) */
 
-  Sane.FIX (0.0),               /* Start of white strip in TA mode in mm (y) */
+  Sane.FIX(0.0),               /* Start of white strip in TA mode in mm(y) */
 
   0, 0, 0,                      /* RGB CCD Line-distance correction in pixel */
   0,                            /* CCD distcance for CCD with 6 lines) */
@@ -1942,7 +1942,7 @@ static GT68xx_Model genius_colorpageslim_1200_model = {
   COLOR_ORDER_RGB,              /* Order of the CCD/CIS colors */
   {0x19, 0x1a, 0x18, 0x14, 0x18, 0x12}, /* Default offset/gain */
   {0x548, 0x513, 0x48d},        /* Default exposure parameters */
-  Sane.FIX (1.5),               /* Default gamma value */
+  Sane.FIX(1.5),               /* Default gamma value */
 
   Sane.TRUE,                    /* Is this a CIS scanner? */
   GT68XX_FLAG_ALWAYS_LINEMODE | GT68XX_FLAG_SE_2400

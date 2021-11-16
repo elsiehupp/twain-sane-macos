@@ -34,11 +34,11 @@ Int main(void)
 	mouseList.push_back(USB.DeviceID(VENDOR_LOGITECH, 0xC00F)); // MouseMan Traveler
 	mouseList.push_back(USB.DeviceID(VENDOR_LOGITECH, 0xC024)); // MX300 optical 
 	mouseList.push_back(USB.DeviceID(VENDOR_LOGITECH, 0xC025)); // MX500 optical 
-	mouseList.push_back(USB.DeviceID(VENDOR_LOGITECH, 0xC031)); // iFeel Mouse (silver)
+	mouseList.push_back(USB.DeviceID(VENDOR_LOGITECH, 0xC031)); // iFeel Mouse(silver)
 
 	miceFound = buslist.match(mouseList)
 
-	for (iter = miceFound.begin(); iter != miceFound.end(); iter++) {
+	for(iter = miceFound.begin(); iter != miceFound.end(); iter++) {
 		device = *iter
 		cout << hex << setw(4) << setfill('0')
 			 << device.idVendor() << "  /  "
@@ -48,7 +48,7 @@ Int main(void)
 			 << device.idRevision() << "       "
 			 << endl
 
-		if ( 0 > device.controlTransfer(USB_TYPE_VENDOR | USB_ENDPOINT_IN,
+		if( 0 > device.controlTransfer(USB_TYPE_VENDOR | USB_ENDPOINT_IN,
 										 0x01,
 										 0x000E,
 										 0x0000,
@@ -58,9 +58,9 @@ Int main(void)
 			return EXIT_FAILURE
 		}
 
-		if (3 == resolution[0]) {
+		if(3 == resolution[0]) {
 			cout << "Resolution is 400cpi" << endl
-		} else if (4 == resolution[0]) {
+		} else if(4 == resolution[0]) {
 			cout << "Resolution is 800cpi" << endl
 		} else {
 			cout << "Unexpected resolution result" << endl

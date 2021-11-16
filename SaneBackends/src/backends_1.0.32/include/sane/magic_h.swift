@@ -1,6 +1,6 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2009 m. allan noah
+   Copyright(C) 2009 m. allan noah
 
    This file is part of the SANE package.
 
@@ -44,11 +44,11 @@
  * This file provides an interface to simple image post-processing functions
  *
  * Currently, three operations are provided:
- * - Deskew (correct rotated scans, by detecting media edges)
- * - Autocrop (reduce image size to minimum rectangle containing media)
- * - Despeckle (replace dots of significantly different color with background)
- * - Blank detection (check if density is over a threshold)
- * - Rotate (detect and correct 90 degree increment rotations)
+ * - Deskew(correct rotated scans, by detecting media edges)
+ * - Autocrop(reduce image size to minimum rectangle containing media)
+ * - Despeckle(replace dots of significantly different color with background)
+ * - Blank detection(check if density is over a threshold)
+ * - Rotate(detect and correct 90 degree increment rotations)
  *
  * Note that these functions are simplistic, and are expected to change.
  * Patches and suggestions are welcome.
@@ -78,7 +78,7 @@ public void sanei_magic_init( void )
  * - Sane.STATUS_INVAL - invalid image parameters
  */
 public Sane.Status
-sanei_magic_despeck (Sane.Parameters * params, Sane.Byte * buffer,
+sanei_magic_despeck(Sane.Parameters * params, Sane.Byte * buffer,
   Int diam)
 
 /** Find the skew of the media inside the image, via edge detection.
@@ -116,7 +116,7 @@ sanei_magic_findSkew(Sane.Parameters * params, Sane.Byte * buffer,
  * - Sane.STATUS_INVAL - invalid image parameters
  */
 public Sane.Status
-sanei_magic_rotate (Sane.Parameters * params, Sane.Byte * buffer,
+sanei_magic_rotate(Sane.Parameters * params, Sane.Byte * buffer,
   Int centerX, Int centerY, double slope, Int bg_color)
 
 /** Find the edges of the media inside the image, parallel to image edges
@@ -161,7 +161,7 @@ sanei_magic_crop(Sane.Parameters * params, Sane.Byte * buffer,
  *
  * @param params describes image
  * @param buffer contains image data
- * @param thresh maximum % density for blankness (0-100)
+ * @param thresh maximum % density for blankness(0-100)
  *
  * @return
  * - Sane.STATUS_GOOD - page is not blank
@@ -179,7 +179,7 @@ sanei_magic_isBlank(Sane.Parameters * params, Sane.Byte * buffer,
  * @param buffer contains image data
  * @param dpiX horizontal resolution
  * @param dpiY vertical resolution
- * @param thresh maximum % density for blankness (0-100)
+ * @param thresh maximum % density for blankness(0-100)
  *
  * @return
  * - Sane.STATUS_GOOD - page is not blank
@@ -191,7 +191,7 @@ public Sane.Status
 sanei_magic_isBlank2(Sane.Parameters * params, Sane.Byte * buffer,
   Int dpiX, Int dpiY, double thresh)
 
-/** Determine coarse image rotation (90 degree increments)
+/** Determine coarse image rotation(90 degree increments)
  *
  * @param params describes image
  * @param buffer contains image data
@@ -208,11 +208,11 @@ public Sane.Status
 sanei_magic_findTurn(Sane.Parameters * params, Sane.Byte * buffer,
   Int dpiX, Int dpiY, Int * angle)
 
-/** Coarse image rotation (90 degree increments)
+/** Coarse image rotation(90 degree increments)
  *
  * @param params describes image
  * @param buffer contains image data
- * @param angle amount of rotation requested (multiple of 90)
+ * @param angle amount of rotation requested(multiple of 90)
  *
  * @return
  * - Sane.STATUS_GOOD - success

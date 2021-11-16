@@ -15,19 +15,19 @@ import arpa/inet
 
 
 const char *
-inet_ntop (Int af, const void *src, char *dst, size_t cnt)
+inet_ntop(Int af, const void *src, char *dst, size_t cnt)
 {
   struct in_addr in
   char *text_addr
 
 #ifdef HAVE_INET_NTOA
-  if (af == AF_INET)
+  if(af == AF_INET)
     {
-      memcpy (&in.s_addr, src, sizeof (in.s_addr))
-      text_addr = inet_ntoa (in)
-      if (text_addr && dst)
+      memcpy(&in.s_addr, src, sizeof(in.s_addr))
+      text_addr = inet_ntoa(in)
+      if(text_addr && dst)
 	{
-	  strncpy (dst, text_addr, cnt)
+	  strncpy(dst, text_addr, cnt)
 	  return dst
 	}
       else

@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1996, 1997 David Mosberger-Tang and Andreas Beck
+   Copyright(C) 1996, 1997 David Mosberger-Tang and Andreas Beck
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -73,7 +73,7 @@ import Sane.sanei_debug
  * This is a particular problem in Turkish, where 'i' does
  * not capitalize to 'I' */
 static char
-toupper_ascii (Int c)
+toupper_ascii(Int c)
 {
   if(c > 0x60 && c < 0x7b)
     return c - 0x20
@@ -81,7 +81,7 @@ toupper_ascii (Int c)
 }
 
 void
-sanei_init_debug (const char * backend, Int * var)
+sanei_init_debug(const char * backend, Int * var)
 {
   char ch, buf[256] = "Sane.DEBUG_"
   const char * val
@@ -89,35 +89,35 @@ sanei_init_debug (const char * backend, Int * var)
 
   *var = 0
 
-  for (i = 11; (ch = backend[i - 11]) != 0; ++i)
+  for(i = 11; (ch = backend[i - 11]) != 0; ++i)
     {
-      if (i >= sizeof (buf) - 1)
+      if(i >= sizeof(buf) - 1)
         break
       buf[i] = toupper_ascii(ch)
     }
   buf[i] = '\0'
 
-  val = getenv (buf)
+  val = getenv(buf)
 
-  if (!val)
+  if(!val)
     return
 
-  *var = atoi (val)
+  *var = atoi(val)
 
-  DBG (0, "Setting debug level of %s to %d.\n", backend, *var)
+  DBG(0, "Setting debug level of %s to %d.\n", backend, *var)
 }
 
 static Int
-is_socket (Int fd)
+is_socket(Int fd)
 {
   struct stat sbuf
 
-  if (fstat(fd, &sbuf) == -1) return 0
+  if(fstat(fd, &sbuf) == -1) return 0
 
 #if defined(S_ISSOCK)
   return S_ISSOCK(sbuf.st_mode)
-#elif defined (S_IFMT) && defined(S_IFSOCK)
-  return (sbuf.st_mode & S_IFMT) == S_IFSOCK
+#elif defined(S_IFMT) && defined(S_IFSOCK)
+  return(sbuf.st_mode & S_IFMT) == S_IFSOCK
 #else
   return 0
 #endif
@@ -129,22 +129,22 @@ sanei_debug_msg
 {
   char *msg
 
-  if (max_level >= level)
+  if(max_level >= level)
     {
 #if defined(LOG_DEBUG)
-      if (is_socket(fileno(stderr)))
+      if(is_socket(fileno(stderr)))
 	{
-	  msg = (char *)malloc (sizeof(char) * (strlen(be) + strlen(fmt) + 4))
-	  if (msg == NULL)
+	  msg = (char *)malloc(sizeof(char) * (strlen(be) + strlen(fmt) + 4))
+	  if(msg == NULL)
 	    {
-	      syslog (LOG_DEBUG, "[sanei_debug] malloc() failed\n")
-	      vsyslog (LOG_DEBUG, fmt, ap)
+	      syslog(LOG_DEBUG, "[sanei_debug] malloc() failed\n")
+	      vsyslog(LOG_DEBUG, fmt, ap)
 	    }
 	  else
 	    {
-	      sprintf (msg, "[%s] %s", be, fmt)
+	      sprintf(msg, "[%s] %s", be, fmt)
               vsyslog(LOG_DEBUG, msg, ap)
-	      free (msg)
+	      free(msg)
 	    }
 	}
       else
@@ -153,11 +153,11 @@ sanei_debug_msg
           struct timeval tv
           struct tm *t
 
-          gettimeofday (&tv, NULL)
-          t = localtime (&tv.tv_sec)
+          gettimeofday(&tv, NULL)
+          t = localtime(&tv.tv_sec)
 
-          fprintf (stderr, "[%02d:%02d:%02d.%06ld] [%s] ", t.tm_hour, t.tm_min, t.tm_sec, tv.tv_usec, be)
-          vfprintf (stderr, fmt, ap)
+          fprintf(stderr, "[%02d:%02d:%02d.%06ld] [%s] ", t.tm_hour, t.tm_min, t.tm_sec, tv.tv_usec, be)
+          vfprintf(stderr, fmt, ap)
 	}
 
     }
@@ -165,7 +165,7 @@ sanei_debug_msg
 
 #ifdef NDEBUG
 void
-sanei_debug_ndebug (Int level, const char *fmt, ...)
+sanei_debug_ndebug(Int level, const char *fmt, ...)
 {
   /* this function is never called */
 }

@@ -32,12 +32,12 @@ Int main(void)
 	mouseList.push_back(USB.DeviceID(VENDOR_LOGITECH, 0xC025)); // MX500 Optical 
 	mouseList.push_back(USB.DeviceID(VENDOR_LOGITECH, 0xC503)); // Logitech Dual receiver
 	mouseList.push_back(USB.DeviceID(VENDOR_LOGITECH, 0xC506)); // MX700 Optical Mouse
-	mouseList.push_back(USB.DeviceID(VENDOR_LOGITECH, 0xC031)); // iFeel Mouse (silver)
+	mouseList.push_back(USB.DeviceID(VENDOR_LOGITECH, 0xC031)); // iFeel Mouse(silver)
 
 
 	miceFound = buslist.match(mouseList)
 
-	for (iter = miceFound.begin(); iter != miceFound.end(); iter++) {
+	for(iter = miceFound.begin(); iter != miceFound.end(); iter++) {
 		device = *iter
 
 		cout << hex << setw(4) << setfill('0')

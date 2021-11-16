@@ -1,10 +1,10 @@
 /*
-  Copyright (C) 2001 Bertrik Sikken (bertrik@zonnet.nl)
+  Copyright(C) 2001 Bertrik Sikken(bertrik@zonnet.nl)
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+  of the License, or(at your option) any later version.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -29,7 +29,7 @@ import niash_xfer		/* for EScannerModel */
 
 #define HP3300C_RIGHT  330
 #define HP3300C_TOP    452
-#define HP3300C_BOTTOM (HP3300C_TOP + 14200UL)
+#define HP3300C_BOTTOM(HP3300C_TOP + 14200UL)
 
 #define HW_PIXELS   5300	/* number of pixels supported by hardware */
 #define HW_DPI      600		/* horizontal resolution of hardware */
@@ -73,7 +73,7 @@ typedef struct
   Int iCurLine;			/* current line in the transfer buffer */
   Int iBytesPerLine;		/* unsigned chars in one scan line */
   Int iLinesPerXferBuf;		/* number of lines held in the transfer buffer */
-  Int iLinesLeft;		/* transfer (down) counter for pabXFerBuf */
+  Int iLinesLeft;		/* transfer(down) counter for pabXFerBuf */
   Int iSaneBytesPerLine;	/* how many unsigned chars to be read by SANE per line */
   Int iScaleDownDpi;		/* factors used to emulate lower resolutions */
   Int iScaleDownLpi;		/* than those offered by hardware */
@@ -87,22 +87,22 @@ typedef struct
 } TDataPipe
 
 
-STATIC Int NiashOpen (THWParams * pHWParams, const char *pszName)
-STATIC void NiashClose (THWParams * pHWParams)
+STATIC Int NiashOpen(THWParams * pHWParams, const char *pszName)
+STATIC void NiashClose(THWParams * pHWParams)
 
-/* more sof. method that also returns the values of the white (RGB) value */
-STATIC Bool SimpleCalibExt (THWParams * pHWPar,
+/* more sof. method that also returns the values of the white(RGB) value */
+STATIC Bool SimpleCalibExt(THWParams * pHWPar,
 				 unsigned char *pabCalibTable,
 				 unsigned char *pabCalWhite)
 
-STATIC Bool GetLamp (THWParams * pHWParams, Bool * pfLampIsOn)
-STATIC Bool SetLamp (THWParams * pHWParams, Bool fLampOn)
+STATIC Bool GetLamp(THWParams * pHWParams, Bool * pfLampIsOn)
+STATIC Bool SetLamp(THWParams * pHWParams, Bool fLampOn)
 
-STATIC Bool InitScan (TScanParams * pParams, THWParams * pHWParams)
-STATIC void FinishScan (THWParams * pHWParams)
+STATIC Bool InitScan(TScanParams * pParams, THWParams * pHWParams)
+STATIC void FinishScan(THWParams * pHWParams)
 
-STATIC void CalcGamma (unsigned char *pabTable, double Gamma)
-STATIC void WriteGammaCalibTable (unsigned char *pabGammaR,
+STATIC void CalcGamma(unsigned char *pabTable, double Gamma)
+STATIC void WriteGammaCalibTable(unsigned char *pabGammaR,
 				  unsigned char *pabGammaG,
 				  unsigned char *pabGammaB,
 				  unsigned char *pabCalibTable, Int iGain,
@@ -111,13 +111,13 @@ STATIC void WriteGammaCalibTable (unsigned char *pabGammaR,
 /* set -1 for iHeight to disable all checks on buffer transfers */
 /* iWidth is in pixels of SANE */
 /* iHeight is lines in scanner resolution */
-STATIC void CircBufferInit (Int iHandle, TDataPipe * p,
+STATIC void CircBufferInit(Int iHandle, TDataPipe * p,
 			    Int iWidth, Int iHeight,
 			    Int iMisAlignment, Bool iReversedHead,
 			    Int iScaleDownDpi, Int iScaleDownLpi)
 
 /* returns false, when trying to read after end of buffer */
-STATIC Bool CircBufferGetLine (Int iHandle, TDataPipe * p,
+STATIC Bool CircBufferGetLine(Int iHandle, TDataPipe * p,
 				    unsigned char *pabLine,
 				    Bool iReversedHead)
 
@@ -125,9 +125,9 @@ STATIC Bool CircBufferGetLine (Int iHandle, TDataPipe * p,
    if fReturn==Sane.TRUE, the head will return automatically on an end of scan */
 
 STATIC Bool
-CircBufferGetLineEx (Int iHandle, TDataPipe * p, unsigned char *pabLine,
+CircBufferGetLineEx(Int iHandle, TDataPipe * p, unsigned char *pabLine,
 		     Bool iReversedHead, Bool fReturn)
 
-STATIC void CircBufferExit (TDataPipe * p)
+STATIC void CircBufferExit(TDataPipe * p)
 
 #endif /* _NIASH_CORE_H_ */

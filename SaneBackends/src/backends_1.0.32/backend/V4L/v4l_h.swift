@@ -1,6 +1,6 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 David Mosberger-Tang
-   Updates and bugfixes (C) 2002. 2003 Henning Meier-Geinitz
+   Copyright(C) 1997 David Mosberger-Tang
+   Updates and bugfixes(C) 2002. 2003 Henning Meier-Geinitz
 
    This file is part of the SANE package.
 

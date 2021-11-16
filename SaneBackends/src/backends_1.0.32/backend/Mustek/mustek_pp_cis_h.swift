@@ -1,12 +1,12 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2001-2003 Eddy De Greef <eddy_de_greef at scarlet dot be>
+   Copyright(C) 2001-2003 Eddy De Greef <eddy_de_greef at scarlet dot be>
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -118,10 +118,10 @@ Mustek_PP_1015_Registers
  *****************************************************************************/
 typedef struct Mustek_PP_CIS_Info
 {
-   /* Expose time (= time the lamp is on ?) */
+   /* Expose time(= time the lamp is on ?) */
    Sane.Byte exposeTime
 
-   /* Power-on delay (= time between lamp on and start of capturing ?) */
+   /* Power-on delay(= time between lamp on and start of capturing ?) */
    Sane.Byte powerOnDelay[3]
 
    /* Motor step control */
@@ -130,7 +130,7 @@ typedef struct Mustek_PP_CIS_Info
    /* Use 8K bank or 4K bank */
    Bool use8KBank
 
-   /* High resolution (600 DPI) or not (300 DPI) */
+   /* High resolution(600 DPI) or not(300 DPI) */
    Bool highRes
 
    /* delay between pixels; reading too fast causes stability problems */
@@ -152,13 +152,13 @@ typedef struct Mustek_PP_CIS_Info
       during CIS configuration */
    Bool setParameters
 
-   /* Number of lines to skip to reach the origin (used during calibration) */
+   /* Number of lines to skip to reach the origin(used during calibration) */
    Int skipsToOrigin
 
    /* Physical resolution of the CIS: either 300 or 600 DPI */
    Int cisRes
 
-   /* CCD mode (color/grayscale/lineart) */
+   /* CCD mode(color/grayscale/lineart) */
    Int mode
 
    /* how many positions to skip until scan area starts @ max res */
@@ -196,7 +196,7 @@ typedef struct Mustek_PP_CIS_dev
   /* device descriptor */
   struct Mustek_pp_Handle *desc
 
-  /* model identification (600CP/1200CP/1200CP+) */
+  /* model identification(600CP/1200CP/1200CP+) */
   Int model
 
   /* CIS status */
@@ -224,17 +224,17 @@ typedef struct Mustek_PP_CIS_dev
   Sane.Byte bw_limit
   /* Run in calibration mode ? (default: no) */
   Bool calib_mode
-  /* Extra delay between engine commands (ms). Default: zero. */
+  /* Extra delay between engine commands(ms). Default: zero. */
   Int engine_delay
 
-  /* temporary buffer for 1 line (of one color) */
+  /* temporary buffer for 1 line(of one color) */
   Sane.Byte *tmpbuf
 
-  /* calibration buffers (low cut, high cut) */
+  /* calibration buffers(low cut, high cut) */
   Sane.Byte *calib_low[3]
   Sane.Byte *calib_hi[3]
 
-  /* Number of pixels in calibration buffers (<= number of pixels to scan) */
+  /* Number of pixels in calibration buffers(<= number of pixels to scan) */
   Int calib_pixels
 
 } Mustek_PP_CIS_dev

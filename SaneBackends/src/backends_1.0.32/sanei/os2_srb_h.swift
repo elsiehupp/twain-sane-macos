@@ -6,7 +6,7 @@
  *  ASPI Router device driver. USE AT YOUR OWN RISK!!                      *
  *                                                                         *
  *  Version 1.01 - June 1997                                               *
- *  Daniel Dorau (woodst@cs.tu-berlin.de)                                  *
+ *  Daniel Dorau(woodst@cs.tu-berlin.de)                                  *
  *                                                                         *
  *  Changes since 1.00:                                                    *
  *  abort(), AbortSRB added                                                *
@@ -55,7 +55,7 @@
 
         /* SRB target status field */
 #define SRB_NoStatus    0x00    /* No target status */
-#define SRB_CheckStatus 0x02    /* Check status (sense data valid) */
+#define SRB_CheckStatus 0x02    /* Check status(sense data valid) */
 #define SRB_LUN_Busy    0x08    /* Specified LUN is busy */
 #define SRB_Reserved    0x18    /* Reservation conflict */
 

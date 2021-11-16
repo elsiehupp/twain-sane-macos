@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -146,7 +146,7 @@ struct Genesys_Model
     // Start of scan area in mm
     float x_offset = 0
 
-    // Start of scan area in mm (Amount of feeding needed to get to the medium)
+    // Start of scan area in mm(Amount of feeding needed to get to the medium)
     float y_offset = 0
 
     // Size of scan area in mm
@@ -204,7 +204,7 @@ struct Genesys_Model
     // Amount of feeding needed to eject document after finishing scanning in mm
     float eject_feed = 0
 
-    // Line-distance correction (in pixel at motor base_ydpi) for CCD scanners
+    // Line-distance correction(in pixel at motor base_ydpi) for CCD scanners
     Int ld_shift_r = 0
     Int ld_shift_g = 0
     Int ld_shift_b = 0

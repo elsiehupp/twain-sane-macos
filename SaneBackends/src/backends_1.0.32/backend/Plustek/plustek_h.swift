@@ -10,8 +10,8 @@
  * work on plustek.[ch] file from the SANE package.<br>
  *
  * original code taken from sane-0.71<br>
- * Copyright (C) 1997 Hypercore Software Design, Ltd.<br>
- * Copyright (C) 2001-2007 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 1997 Hypercore Software Design, Ltd.<br>
+ * Copyright(C) 2001-2007 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.30 - initial version
@@ -67,7 +67,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -190,7 +190,7 @@
 #define _E_LAMP_NOT_IN_POS  (_FIRST_ERR-10)
 #define _E_LAMP_NOT_STABLE  (_FIRST_ERR-11)
 #define _E_NODATA           (_FIRST_ERR-12)
-#define _E_BUFFER_TOO_SMALL (_FIRST_ERR-13)
+#define _E_BUFFER_TOO_SMALL(_FIRST_ERR-13)
 #define _E_DATAREAD         (_FIRST_ERR-14)
 
 /************************ some structures ************************************/
@@ -282,9 +282,9 @@ typedef struct {
 	Int gofs
 	Int bofs
 
-	Int rlampoff;   /* for red lamp off setting (CIS-scanner)   */
-	Int glampoff;   /* for green lamp off setting (CIS-scanner) */
-	Int blampoff;   /* for blue lamp off setting (CIS-scanner)  */
+	Int rlampoff;   /* for red lamp off setting(CIS-scanner)   */
+	Int glampoff;   /* for green lamp off setting(CIS-scanner) */
+	Int blampoff;   /* for blue lamp off setting(CIS-scanner)  */
 
 	OffsDef pos;    /* for adjusting normal scan area       */
 	OffsDef tpa;    /* for adjusting transparency scan area */
@@ -357,7 +357,7 @@ typedef struct Plustek_Device
 
 	/**************************** USB-stuff **********************************/
 	char                   usbId[_MAX_ID_LEN];/* to keep Vendor and product  */
-	                                         /* ID string (from conf) file   */
+	                                         /* ID string(from conf) file   */
 	struct ScanDef         scanning;         /* here we hold all stuff for   */
 	                                         /* the USB-scanner              */
 	struct DeviceDef       usbDev

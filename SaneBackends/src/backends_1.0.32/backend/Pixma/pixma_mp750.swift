@@ -1,14 +1,14 @@
 /* SANE - Scanner Access Now Easy.
 
-   Copyright (C) 2011-2020 Rolf Bensch <rolf at bensch hyphen online dot de>
-   Copyright (C) 2006-2007 Wittawat Yamwong <wittawat@web.de>
+   Copyright(C) 2011-2020 Rolf Bensch <rolf at bensch hyphen online dot de>
+   Copyright(C) 2006-2007 Wittawat Yamwong <wittawat@web.de>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -41,7 +41,7 @@
  */
 
 /****************************************************************************
- * Credits should go to Martin Schewe (http://pixma.schewe.com) who analysed
+ * Credits should go to Martin Schewe(http://pixma.schewe.com) who analysed
  * the protocol of MP750.
  ****************************************************************************/
 
@@ -121,123 +121,123 @@ typedef struct mp750_t
 
 
 
-static void mp750_finish_scan (pixma_t * s)
-static void check_status (pixma_t * s)
+static void mp750_finish_scan(pixma_t * s)
+static void check_status(pixma_t * s)
 
 static Int
-has_paper (pixma_t * s)
+has_paper(pixma_t * s)
 {
   mp750_t *mp = (mp750_t *) s.subdriver
-  return HAS_PAPER (mp.current_status)
+  return HAS_PAPER(mp.current_status)
 }
 
 static Int
-is_warming_up (pixma_t * s)
+is_warming_up(pixma_t * s)
 {
   mp750_t *mp = (mp750_t *) s.subdriver
-  return IS_WARMING_UP (mp.current_status)
+  return IS_WARMING_UP(mp.current_status)
 }
 
 static Int
-is_calibrated (pixma_t * s)
+is_calibrated(pixma_t * s)
 {
   mp750_t *mp = (mp750_t *) s.subdriver
-  return IS_CALIBRATED (mp.current_status)
+  return IS_CALIBRATED(mp.current_status)
 }
 
 static void
-drain_bulk_in (pixma_t * s)
+drain_bulk_in(pixma_t * s)
 {
   mp750_t *mp = (mp750_t *) s.subdriver
-  while (pixma_read (s.io, mp.buf, IMAGE_BLOCK_SIZE) >= 0)
+  while(pixma_read(s.io, mp.buf, IMAGE_BLOCK_SIZE) >= 0)
 }
 
 static Int
-abort_session (pixma_t * s)
+abort_session(pixma_t * s)
 {
   mp750_t *mp = (mp750_t *) s.subdriver
-  return pixma_exec_short_cmd (s, &mp.cb, cmd_abort_session)
+  return pixma_exec_short_cmd(s, &mp.cb, cmd_abort_session)
 }
 
 static Int
-query_status (pixma_t * s)
+query_status(pixma_t * s)
 {
   mp750_t *mp = (mp750_t *) s.subdriver
   uint8_t *data
   Int error
 
-  data = pixma_newcmd (&mp.cb, cmd_status, 0, 12)
-  error = pixma_exec (s, &mp.cb)
-  if (error >= 0)
+  data = pixma_newcmd(&mp.cb, cmd_status, 0, 12)
+  error = pixma_exec(s, &mp.cb)
+  if(error >= 0)
     {
-      memcpy (mp.current_status, data, 12)
-      PDBG (pixma_dbg (3, "Current status: paper=%u cal=%u lamp=%u\n",
+      memcpy(mp.current_status, data, 12)
+      PDBG(pixma_dbg(3, "Current status: paper=%u cal=%u lamp=%u\n",
 		       data[1], data[8], data[7]))
     }
   return error
 }
 
 static Int
-activate (pixma_t * s, uint8_t x)
+activate(pixma_t * s, uint8_t x)
 {
   mp750_t *mp = (mp750_t *) s.subdriver
-  uint8_t *data = pixma_newcmd (&mp.cb, cmd_activate, 10, 0)
+  uint8_t *data = pixma_newcmd(&mp.cb, cmd_activate, 10, 0)
   data[0] = 1
   data[3] = x
-  return pixma_exec (s, &mp.cb)
+  return pixma_exec(s, &mp.cb)
 }
 
 static Int
-activate_cs (pixma_t * s, uint8_t x)
+activate_cs(pixma_t * s, uint8_t x)
 {
-   /*SIM*/ check_status (s)
-  return activate (s, x)
+   /*SIM*/ check_status(s)
+  return activate(s, x)
 }
 
 static Int
-start_session (pixma_t * s)
-{
-  mp750_t *mp = (mp750_t *) s.subdriver
-  return pixma_exec_short_cmd (s, &mp.cb, cmd_start_session)
-}
-
-static Int
-select_source (pixma_t * s)
+start_session(pixma_t * s)
 {
   mp750_t *mp = (mp750_t *) s.subdriver
-  uint8_t *data = pixma_newcmd (&mp.cb, cmd_select_source, 10, 0)
+  return pixma_exec_short_cmd(s, &mp.cb, cmd_start_session)
+}
+
+static Int
+select_source(pixma_t * s)
+{
+  mp750_t *mp = (mp750_t *) s.subdriver
+  uint8_t *data = pixma_newcmd(&mp.cb, cmd_select_source, 10, 0)
   data[0] = (s.param.source == PIXMA_SOURCE_ADF) ? 2 : 1
   data[1] = 1
-  return pixma_exec (s, &mp.cb)
+  return pixma_exec(s, &mp.cb)
 }
 
 static Int
-has_ccd_sensor (pixma_t * s)
+has_ccd_sensor(pixma_t * s)
 {
-  return ((s.cfg.cap & PIXMA_CAP_CCD) != 0)
+  return((s.cfg.cap & PIXMA_CAP_CCD) != 0)
 }
 
 static Int
-is_ccd_grayscale (pixma_t * s)
+is_ccd_grayscale(pixma_t * s)
 {
-  return (has_ccd_sensor (s) && (s.param.channels == 1))
+  return(has_ccd_sensor(s) && (s.param.channels == 1))
 }
 
 /* CCD sensors don't have a Grayscale mode, but use color mode instead */
 static unsigned
-get_cis_ccd_line_size (pixma_t * s)
+get_cis_ccd_line_size(pixma_t * s)
 {
-  return (s.param.wx ? s.param.line_size / s.param.w * s.param.wx
-	  : s.param.line_size) * ((is_ccd_grayscale (s)) ? 3 : 1)
+  return(s.param.wx ? s.param.line_size / s.param.w * s.param.wx
+	  : s.param.line_size) * ((is_ccd_grayscale(s)) ? 3 : 1)
 }
 
 static Int
-send_scan_param (pixma_t * s)
+send_scan_param(pixma_t * s)
 {
   mp750_t *mp = (mp750_t *) s.subdriver
   uint8_t *data
 
-  data = pixma_newcmd (&mp.cb, cmd_scan_param, 0x2e, 0)
+  data = pixma_newcmd(&mp.cb, cmd_scan_param, 0x2e, 0)
   pixma_set_be16 (s.param.xdpi | 0x8000, data + 0x04)
   pixma_set_be16 (s.param.ydpi | 0x8000, data + 0x06)
   pixma_set_be32 (s.param.x, data + 0x08)
@@ -246,47 +246,47 @@ send_scan_param (pixma_t * s)
   pixma_set_be32 (mp.raw_height, data + 0x14)
   data[0x18] = 8;		/* 8 = color, 4 = grayscale(?) */
   /* GH: No, there is no grayscale for CCD devices, Windows shows same  */
-  data[0x19] = s.param.depth * ((is_ccd_grayscale (s)) ? 3 : s.param.channels);	/* bits per pixel */
+  data[0x19] = s.param.depth * ((is_ccd_grayscale(s)) ? 3 : s.param.channels);	/* bits per pixel */
   data[0x20] = 0xff
   data[0x23] = 0x81
   data[0x26] = 0x02
   data[0x27] = 0x01
   data[0x29] = mp.monochrome ? 0 : 1
 
-  return pixma_exec (s, &mp.cb)
+  return pixma_exec(s, &mp.cb)
 }
 
 static Int
-calibrate (pixma_t * s)
+calibrate(pixma_t * s)
 {
   mp750_t *mp = (mp750_t *) s.subdriver
-  return pixma_exec_short_cmd (s, &mp.cb, cmd_calibrate)
+  return pixma_exec_short_cmd(s, &mp.cb, cmd_calibrate)
 }
 
 static Int
-calibrate_cs (pixma_t * s)
+calibrate_cs(pixma_t * s)
 {
-   /*SIM*/ check_status (s)
-  return calibrate (s)
+   /*SIM*/ check_status(s)
+  return calibrate(s)
 }
 
 static Int
-request_image_block_ex (pixma_t * s, unsigned *size, uint8_t * info,
+request_image_block_ex(pixma_t * s, unsigned *size, uint8_t * info,
 			unsigned flag)
 {
   mp750_t *mp = (mp750_t *) s.subdriver
   Int error
 
-  memset (mp.cb.buf, 0, 10)
+  memset(mp.cb.buf, 0, 10)
   pixma_set_be16 (cmd_read_image, mp.cb.buf)
   mp.cb.buf[7] = *size >> 8
   mp.cb.buf[8] = 4 | flag
-  mp.cb.reslen = pixma_cmd_transaction (s, mp.cb.buf, 10, mp.cb.buf, 6)
+  mp.cb.reslen = pixma_cmd_transaction(s, mp.cb.buf, 10, mp.cb.buf, 6)
   mp.cb.expected_reslen = 0
-  error = pixma_check_result (&mp.cb)
-  if (error >= 0)
+  error = pixma_check_result(&mp.cb)
+  if(error >= 0)
     {
-      if (mp.cb.reslen == 6)
+      if(mp.cb.reslen == 6)
         {
           *info = mp.cb.buf[2]
           *size = pixma_get_be16 (mp.cb.buf + 4)
@@ -300,32 +300,32 @@ request_image_block_ex (pixma_t * s, unsigned *size, uint8_t * info,
 }
 
 static Int
-request_image_block (pixma_t * s, unsigned *size, uint8_t * info)
+request_image_block(pixma_t * s, unsigned *size, uint8_t * info)
 {
-  return request_image_block_ex (s, size, info, 0)
+  return request_image_block_ex(s, size, info, 0)
 }
 
 static Int
 request_image_block2 (pixma_t * s, uint8_t * info)
 {
   unsigned temp = 0
-  return request_image_block_ex (s, &temp, info, 0x20)
+  return request_image_block_ex(s, &temp, info, 0x20)
 }
 
 static Int
-read_image_block (pixma_t * s, uint8_t * data)
+read_image_block(pixma_t * s, uint8_t * data)
 {
   Int count, temp
 
-  count = pixma_read (s.io, data, IMAGE_BLOCK_SIZE)
-  if (count < 0)
+  count = pixma_read(s.io, data, IMAGE_BLOCK_SIZE)
+  if(count < 0)
     return count
-  if (count == IMAGE_BLOCK_SIZE)
+  if(count == IMAGE_BLOCK_SIZE)
     {
-      Int error = pixma_read (s.io, &temp, 0)
-      if (error < 0)
+      Int error = pixma_read(s.io, &temp, 0)
+      if(error < 0)
         {
-          PDBG (pixma_dbg
+          PDBG(pixma_dbg
           (1, "WARNING: reading zero-length packet failed %d\n", error))
         }
     }
@@ -333,68 +333,68 @@ read_image_block (pixma_t * s, uint8_t * data)
 }
 
 static Int
-read_error_info (pixma_t * s, void *buf, unsigned size)
+read_error_info(pixma_t * s, void *buf, unsigned size)
 {
   unsigned len = 16
   mp750_t *mp = (mp750_t *) s.subdriver
   uint8_t *data
   Int error
 
-  data = pixma_newcmd (&mp.cb, cmd_error_info, 0, len)
-  error = pixma_exec (s, &mp.cb)
-  if (error >= 0 && buf)
+  data = pixma_newcmd(&mp.cb, cmd_error_info, 0, len)
+  error = pixma_exec(s, &mp.cb)
+  if(error >= 0 && buf)
     {
-      if (len < size)
+      if(len < size)
         size = len
       /* NOTE: I've absolutely no idea what the returned data mean. */
-      memcpy (buf, data, size)
+      memcpy(buf, data, size)
       error = len
     }
   return error
 }
 
 static Int
-send_time (pixma_t * s)
+send_time(pixma_t * s)
 {
   /* TODO: implement send_time() */
-  UNUSED (s)
-  PDBG (pixma_dbg (3, "send_time() is not yet implemented.\n"))
+  UNUSED(s)
+  PDBG(pixma_dbg(3, "send_time() is not yet implemented.\n"))
   return 0
 }
 
 static Int
-handle_interrupt (pixma_t * s, Int timeout)
+handle_interrupt(pixma_t * s, Int timeout)
 {
   Int error
   uint8_t intr[16]
 
-  error = pixma_wait_interrupt (s.io, intr, sizeof (intr), timeout)
-  if (error == PIXMA_ETIMEDOUT)
+  error = pixma_wait_interrupt(s.io, intr, sizeof(intr), timeout)
+  if(error == PIXMA_ETIMEDOUT)
     return 0
-  if (error < 0)
+  if(error < 0)
     return error
-  if (error != 16)
+  if(error != 16)
     {
-      PDBG (pixma_dbg (1, "WARNING: unexpected interrupt packet length %d\n",
+      PDBG(pixma_dbg(1, "WARNING: unexpected interrupt packet length %d\n",
 		       error))
       return PIXMA_EPROTO
     }
 
-  if (intr[10] & 0x40)
-    send_time (s)
-  if (intr[12] & 0x40)
-    query_status (s)
-  if (intr[15] & 1)
+  if(intr[10] & 0x40)
+    send_time(s)
+  if(intr[12] & 0x40)
+    query_status(s)
+  if(intr[15] & 1)
     s.events = PIXMA_EV_BUTTON2;	/* b/w scan */
-  if (intr[15] & 2)
+  if(intr[15] & 2)
     s.events = PIXMA_EV_BUTTON1;	/* color scan */
   return 1
 }
 
 static void
-check_status (pixma_t * s)
+check_status(pixma_t * s)
 {
-  while (handle_interrupt (s, 0) > 0)
+  while(handle_interrupt(s, 0) > 0)
 }
 
 static Int
@@ -402,43 +402,43 @@ step1 (pixma_t * s)
 {
   Int error, tmo
 
-  error = activate (s, 0)
-  if (error < 0)
+  error = activate(s, 0)
+  if(error < 0)
     return error
-  error = query_status (s)
-  if (error < 0)
+  error = query_status(s)
+  if(error < 0)
     return error
-  if (s.param.source == PIXMA_SOURCE_ADF && !has_paper (s))
+  if(s.param.source == PIXMA_SOURCE_ADF && !has_paper(s))
     return PIXMA_ENO_PAPER
-  error = activate_cs (s, 0)
-   /*SIM*/ if (error < 0)
+  error = activate_cs(s, 0)
+   /*SIM*/ if(error < 0)
     return error
-  error = activate_cs (s, 0x20)
-  if (error < 0)
+  error = activate_cs(s, 0x20)
+  if(error < 0)
     return error
 
   tmo = 60
-  error = calibrate_cs (s)
-  while (error == PIXMA_EBUSY && --tmo >= 0)
+  error = calibrate_cs(s)
+  while(error == PIXMA_EBUSY && --tmo >= 0)
     {
-      if (s.cancel)
+      if(s.cancel)
 	return PIXMA_ECANCELED
-      PDBG (pixma_dbg
+      PDBG(pixma_dbg
 	    (2, "Scanner is busy. Timed out in %d sec.\n", tmo + 1))
-      pixma_sleep (1000000)
-      error = calibrate_cs (s)
+      pixma_sleep(1000000)
+      error = calibrate_cs(s)
     }
   return error
 }
 
 static void
-shift_rgb (const uint8_t * src, unsigned pixels,
+shift_rgb(const uint8_t * src, unsigned pixels,
 	   Int sr, Int sg, Int sb, Int stripe_shift,
 	   Int line_size, uint8_t * dst)
 {
   unsigned st
 
-  for (; pixels != 0; pixels--)
+  for(; pixels != 0; pixels--)
     {
       st = (pixels % 2 == 0) ? -2 * stripe_shift * line_size : 0
       *(dst++ + sr + st) = *src++
@@ -448,7 +448,7 @@ shift_rgb (const uint8_t * src, unsigned pixels,
 }
 
 static uint8_t *
-rgb_to_gray (uint8_t * gptr, const uint8_t * cptr, unsigned pixels, unsigned c)
+rgb_to_gray(uint8_t * gptr, const uint8_t * cptr, unsigned pixels, unsigned c)
 {
   unsigned i, j, g
 
@@ -456,27 +456,27 @@ rgb_to_gray (uint8_t * gptr, const uint8_t * cptr, unsigned pixels, unsigned c)
   /* cptr: source color scale buffer */
   /* c: 3 for 3-channel single-byte data, 6 for double-byte data */
 
-  for (i=0; i < pixels; i++)
+  for(i=0; i < pixels; i++)
     {
-      for (j = 0, g = 0; j < 3; j++)
+      for(j = 0, g = 0; j < 3; j++)
         {
           g += *cptr++
-	  if (c == 6) g += (*cptr++ << 8)
+	  if(c == 6) g += (*cptr++ << 8)
         }
       g /= 3
       *gptr++ = g
-      if (c == 6) *gptr++ = (g >> 8)
+      if(c == 6) *gptr++ = (g >> 8)
     }
   return gptr
 }
 
 static Int
-calc_component_shifting (pixma_t * s)
+calc_component_shifting(pixma_t * s)
 {
-  switch (s.cfg.pid)
+  switch(s.cfg.pid)
     {
     case MP760_PID:
-      switch (s.param.ydpi)
+      switch(s.param.ydpi)
 	{
 	case 300:
 	  return 3
@@ -496,7 +496,7 @@ calc_component_shifting (pixma_t * s)
 }
 
 static void
-workaround_first_command (pixma_t * s)
+workaround_first_command(pixma_t * s)
 {
   /* FIXME: Send a dummy command because the device doesn't response to the
      first command that is sent directly after the USB interface has been
@@ -504,58 +504,58 @@ workaround_first_command (pixma_t * s)
   uint8_t cmd[10]
   Int error
 
-  if (s.cfg.pid == MP750_PID)
+  if(s.cfg.pid == MP750_PID)
     return;			/* MP750 doesn't have this problem(?) */
 
-  PDBG (pixma_dbg
+  PDBG(pixma_dbg
 	(1,
 	 "Work-around for the problem: device doesn't response to the first command.\n"))
-  memset (cmd, 0, sizeof (cmd))
+  memset(cmd, 0, sizeof(cmd))
   pixma_set_be16 (cmd_calibrate, cmd)
-  error = pixma_write (s.io, cmd, 10)
-  if (error != 10)
+  error = pixma_write(s.io, cmd, 10)
+  if(error != 10)
     {
-      if (error < 0)
+      if(error < 0)
 	{
-	  PDBG (pixma_dbg
+	  PDBG(pixma_dbg
 		(1, "  Sending a dummy command failed: %s\n",
-		 pixma_strerror (error)))
+		 pixma_strerror(error)))
 	}
       else
 	{
-	  PDBG (pixma_dbg
+	  PDBG(pixma_dbg
 		(1, "  Sending a dummy command failed: count = %d\n", error))
 	}
       return
     }
-  error = pixma_read (s.io, cmd, sizeof (cmd))
-  if (error >= 0)
+  error = pixma_read(s.io, cmd, sizeof(cmd))
+  if(error >= 0)
     {
-      PDBG (pixma_dbg
+      PDBG(pixma_dbg
 	    (1, "  Got %d bytes response from a dummy command.\n", error))
     }
   else
     {
-      PDBG (pixma_dbg
+      PDBG(pixma_dbg
 	    (1, "  Reading response of a dummy command failed: %s\n",
-	     pixma_strerror (error)))
+	     pixma_strerror(error)))
     }
 }
 
 static Int
-mp750_open (pixma_t * s)
+mp750_open(pixma_t * s)
 {
   mp750_t *mp
   uint8_t *buf
 
-  mp = (mp750_t *) calloc (1, sizeof (*mp))
-  if (!mp)
+  mp = (mp750_t *) calloc(1, sizeof(*mp))
+  if(!mp)
     return PIXMA_ENOMEM
 
-  buf = (uint8_t *) malloc (CMDBUF_SIZE)
-  if (!buf)
+  buf = (uint8_t *) malloc(CMDBUF_SIZE)
+  if(!buf)
     {
-      free (mp)
+      free(mp)
       return PIXMA_ENOMEM
     }
 
@@ -576,39 +576,39 @@ mp750_open (pixma_t * s)
   mp.cb.cmd_header_len = 10
   mp.cb.cmd_len_field_ofs = 7
 
-  handle_interrupt (s, 200)
-  workaround_first_command (s)
+  handle_interrupt(s, 200)
+  workaround_first_command(s)
   return 0
 }
 
 static void
-mp750_close (pixma_t * s)
+mp750_close(pixma_t * s)
 {
   mp750_t *mp = (mp750_t *) s.subdriver
 
-  mp750_finish_scan (s)
-  free (mp.cb.buf)
-  free (mp)
+  mp750_finish_scan(s)
+  free(mp.cb.buf)
+  free(mp)
   s.subdriver = NULL
 }
 
 static Int
-mp750_check_param (pixma_t * s, pixma_scan_param_t * sp)
+mp750_check_param(pixma_t * s, pixma_scan_param_t * sp)
 {
   unsigned raw_width
 
-  UNUSED (s)
+  UNUSED(s)
 
   sp.depth = 8;		/* FIXME: Does MP750 supports other depth? */
 
   /* GH: my implementation */
-  /*   if ((sp.channels == 3) || (is_ccd_grayscale (s)))
-    raw_width = ALIGN_SUP (sp.w, 4)
+  /*   if((sp.channels == 3) || (is_ccd_grayscale(s)))
+    raw_width = ALIGN_SUP(sp.w, 4)
   else
-  raw_width = ALIGN_SUP (sp.w, 12);*/
+  raw_width = ALIGN_SUP(sp.w, 12);*/
 
   /* the above code gives segmentation fault?!? why... it seems to work in the mp750_scan function */
-  raw_width = ALIGN_SUP (sp.w, 4)
+  raw_width = ALIGN_SUP(sp.w, 4)
 
   /*sp.line_size = raw_width * sp.channels;*/
   sp.line_size = raw_width * sp.channels * (sp.depth / 8);  /* no cropping? */
@@ -616,7 +616,7 @@ mp750_check_param (pixma_t * s, pixma_scan_param_t * sp)
 }
 
 static Int
-mp750_scan (pixma_t * s)
+mp750_scan(pixma_t * s)
 {
   mp750_t *mp = (mp750_t *) s.subdriver
   Int error
@@ -627,39 +627,39 @@ mp750_scan (pixma_t * s)
   /* add a stripe shift for 2400dpi */
   mp.stripe_shift = (dpi == 2400) ? 4 : 0
 
-  if (mp.state != state_idle)
+  if(mp.state != state_idle)
     return PIXMA_EBUSY
 
   /* clear interrupt packets buffer */
-  while (handle_interrupt (s, 0) > 0)
+  while(handle_interrupt(s, 0) > 0)
     {
     }
 
-  /*  if (s.param.channels == 1)
-    mp.raw_width = ALIGN_SUP (s.param.w, 12)
+  /*  if(s.param.channels == 1)
+    mp.raw_width = ALIGN_SUP(s.param.w, 12)
   else
-    mp.raw_width = ALIGN_SUP (s.param.w, 4);*/
+    mp.raw_width = ALIGN_SUP(s.param.w, 4);*/
 
   /* change to use CCD grayscale mode --- why does this give segmentation error at runtime in mp750_check_param? */
-  if ((s.param.channels == 3) || (is_ccd_grayscale (s)))
-    mp.raw_width = ALIGN_SUP (s.param.w, 4)
+  if((s.param.channels == 3) || (is_ccd_grayscale(s)))
+    mp.raw_width = ALIGN_SUP(s.param.w, 4)
   else
-    mp.raw_width = ALIGN_SUP (s.param.w, 12)
+    mp.raw_width = ALIGN_SUP(s.param.w, 12)
   /* not sure about MP750, but there is no need for aligning at 12 for the MP760/770, MP780/790 since always use CCD color mode */
 
   /* modify for stripe shift */
-  spare = 2 * calc_component_shifting (s) + 2 * mp.stripe_shift; /* FIXME: or maybe (2*... + 1)? */
+  spare = 2 * calc_component_shifting(s) + 2 * mp.stripe_shift; /* FIXME: or maybe(2*... + 1)? */
   mp.raw_height = s.param.h + spare
-  PDBG (pixma_dbg (3, "raw_width=%u raw_height=%u dpi=%u\n",
+  PDBG(pixma_dbg(3, "raw_width=%u raw_height=%u dpi=%u\n",
 		   mp.raw_width, mp.raw_height, dpi))
 
-  /* PDBG (pixma_dbg (4, "line_size=%"PRIu64"\n",s.param.line_size)); */
+  /* PDBG(pixma_dbg(4, "line_size=%"PRIu64"\n",s.param.line_size)); */
 
-  mp.line_size = get_cis_ccd_line_size (s); /* scanner hardware line_size multiplied by 3 for CCD grayscale */
+  mp.line_size = get_cis_ccd_line_size(s); /* scanner hardware line_size multiplied by 3 for CCD grayscale */
 
   size = 8 + 2 * IMAGE_BLOCK_SIZE + spare * mp.line_size
-  buf = (uint8_t *) malloc (size)
-  if (!buf)
+  buf = (uint8_t *) malloc(size)
+  if(!buf)
     return PIXMA_ENOMEM
   mp.buf = buf
   mp.rawimg = buf
@@ -672,17 +672,17 @@ mp750_scan (pixma_t * s)
   mp.shifted_bytes = -(Int) mp.imgbuf_ofs
 
   error = step1 (s)
-  if (error >= 0)
-    error = start_session (s)
-  if (error >= 0)
+  if(error >= 0)
+    error = start_session(s)
+  if(error >= 0)
     mp.state = state_warmup
-  if (error >= 0)
-    error = select_source (s)
-  if (error >= 0)
-    error = send_scan_param (s)
-  if (error < 0)
+  if(error >= 0)
+    error = select_source(s)
+  if(error >= 0)
+    error = send_scan_param(s)
+  if(error < 0)
     {
-      mp750_finish_scan (s)
+      mp750_finish_scan(s)
       return error
     }
   return 0
@@ -690,7 +690,7 @@ mp750_scan (pixma_t * s)
 
 
 static Int
-mp750_fill_buffer (pixma_t * s, pixma_imagebuf_t * ib)
+mp750_fill_buffer(pixma_t * s, pixma_imagebuf_t * ib)
 {
   mp750_t *mp = (mp750_t *) s.subdriver
   Int error
@@ -699,48 +699,48 @@ mp750_fill_buffer (pixma_t * s, pixma_imagebuf_t * ib)
   Int shift[3], base_shift
   Int c
 
-  c = ((is_ccd_grayscale (s)) ? 3 : s.param.channels) * s.param.depth / 8; /* single-byte or double-byte data */
+  c = ((is_ccd_grayscale(s)) ? 3 : s.param.channels) * s.param.depth / 8; /* single-byte or double-byte data */
 
-  if (mp.state == state_warmup)
+  if(mp.state == state_warmup)
     {
       Int tmo = 60
 
-      query_status (s)
-      check_status (s)
- /*SIM*/ while (!is_calibrated (s) && --tmo >= 0)
+      query_status(s)
+      check_status(s)
+ /*SIM*/ while(!is_calibrated(s) && --tmo >= 0)
         {
-          if (s.cancel)
+          if(s.cancel)
             return PIXMA_ECANCELED
-          if (handle_interrupt (s, 1000) > 0)
+          if(handle_interrupt(s, 1000) > 0)
             {
               block_size = 0
-              error = request_image_block (s, &block_size, &info)
-               /*SIM*/ if (error < 0)
+              error = request_image_block(s, &block_size, &info)
+               /*SIM*/ if(error < 0)
           return error
             }
         }
-      if (tmo < 0)
+      if(tmo < 0)
         {
-          PDBG (pixma_dbg (1, "WARNING: Timed out waiting for calibration\n"))
+          PDBG(pixma_dbg(1, "WARNING: Timed out waiting for calibration\n"))
           return PIXMA_ETIMEDOUT
         }
-      pixma_sleep (100000)
-      query_status (s)
-      if (is_warming_up (s) || !is_calibrated (s))
+      pixma_sleep(100000)
+      query_status(s)
+      if(is_warming_up(s) || !is_calibrated(s))
         {
-          PDBG (pixma_dbg (1, "WARNING: Wrong status: wup=%d cal=%d\n",
-               is_warming_up (s), is_calibrated (s)))
+          PDBG(pixma_dbg(1, "WARNING: Wrong status: wup=%d cal=%d\n",
+               is_warming_up(s), is_calibrated(s)))
           return PIXMA_EPROTO
         }
       block_size = 0
-      request_image_block (s, &block_size, &info)
+      request_image_block(s, &block_size, &info)
        /*SIM*/ mp.state = state_scanning
       mp.last_block = 0
     }
 
   /* TODO: Move to other place, values are constant. */
-  base_shift = calc_component_shifting (s) * mp.line_size
-  if (s.param.source == PIXMA_SOURCE_ADF)
+  base_shift = calc_component_shifting(s) * mp.line_size
+  if(s.param.source == PIXMA_SOURCE_ADF)
     {
       shift[0] = 0
       shift[1] = -base_shift
@@ -755,30 +755,30 @@ mp750_fill_buffer (pixma_t * s, pixma_imagebuf_t * ib)
 
   do
     {
-      if (mp.last_block_size > 0)
+      if(mp.last_block_size > 0)
         {
           block_size = mp.imgbuf_len - mp.last_block_size
-          memcpy (mp.img, mp.img + mp.last_block_size, block_size)
+          memcpy(mp.img, mp.img + mp.last_block_size, block_size)
         }
 
       do
         {
-          if (s.cancel)
+          if(s.cancel)
             return PIXMA_ECANCELED
-          if (mp.last_block)
+          if(mp.last_block)
             {
               /* end of image */
               info = mp.last_block
-              if (info != 0x38)
+              if(info != 0x38)
                 {
-                  query_status (s)
-                   /*SIM*/ while ((info & 0x28) != 0x28)
+                  query_status(s)
+                   /*SIM*/ while((info & 0x28) != 0x28)
                     {
-                      pixma_sleep (10000)
+                      pixma_sleep(10000)
                       error = request_image_block2 (s, &info)
-                      if (s.cancel)
+                      if(s.cancel)
                         return PIXMA_ECANCELED;	/* FIXME: Is it safe to cancel here? */
-                      if (error < 0)
+                      if(error < 0)
                         return error
                     }
                 }
@@ -788,37 +788,37 @@ mp750_fill_buffer (pixma_t * s, pixma_imagebuf_t * ib)
               return 0
             }
 
-          check_status (s)
-           /*SIM*/ while (handle_interrupt (s, 1) > 0)
+          check_status(s)
+           /*SIM*/ while(handle_interrupt(s, 1) > 0)
            /*SIM*/ block_size = IMAGE_BLOCK_SIZE
-          error = request_image_block (s, &block_size, &info)
-          if (error < 0)
+          error = request_image_block(s, &block_size, &info)
+          if(error < 0)
             {
-              if (error == PIXMA_ECANCELED)
-                read_error_info (s, NULL, 0)
+              if(error == PIXMA_ECANCELED)
+                read_error_info(s, NULL, 0)
               return error
             }
           mp.last_block = info
-          if ((info & ~0x38) != 0)
+          if((info & ~0x38) != 0)
             {
-              PDBG (pixma_dbg (1, "WARNING: Unknown info byte %x\n", info))
+              PDBG(pixma_dbg(1, "WARNING: Unknown info byte %x\n", info))
             }
-          if (block_size == 0)
+          if(block_size == 0)
             {
               /* no image data at this moment. */
-              pixma_sleep (10000)
+              pixma_sleep(10000)
             }
         }
-      while (block_size == 0)
+      while(block_size == 0)
 
-      error = read_image_block (s, mp.rawimg + mp.rawimg_left)
-      if (error < 0)
+      error = read_image_block(s, mp.rawimg + mp.rawimg_left)
+      if(error < 0)
 	{
 	  mp.state = state_transfering
 	  return error
 	}
       bytes_received = error
-      PASSERT (bytes_received == block_size)
+      PASSERT(bytes_received == block_size)
 
       /* TODO: simplify! */
       mp.rawimg_left += bytes_received
@@ -826,18 +826,18 @@ mp750_fill_buffer (pixma_t * s, pixma_imagebuf_t * ib)
       /* n = number of pixels in the buffer? */
 
       /* Color to Grayscale conversion for CCD sensor */
-      if (is_ccd_grayscale (s)) {
-	shift_rgb (mp.rawimg, n, shift[0], shift[1], shift[2], mp.stripe_shift, mp.line_size,
+      if(is_ccd_grayscale(s)) {
+	shift_rgb(mp.rawimg, n, shift[0], shift[1], shift[2], mp.stripe_shift, mp.line_size,
 		   mp.imgcol + mp.imgbuf_ofs)
 	/* dst: img, src: imgcol */
-	rgb_to_gray (mp.img, mp.imgcol, n, c); /* cropping occurs later? */
-	PDBG (pixma_dbg (4, "*fill_buffer: did grayscale conversion \n"))
+	rgb_to_gray(mp.img, mp.imgcol, n, c); /* cropping occurs later? */
+	PDBG(pixma_dbg(4, "*fill_buffer: did grayscale conversion \n"))
       }
       /* Color image processing */
       else {
-	shift_rgb (mp.rawimg, n, shift[0], shift[1], shift[2], mp.stripe_shift, mp.line_size,
+	shift_rgb(mp.rawimg, n, shift[0], shift[1], shift[2], mp.stripe_shift, mp.line_size,
 		   mp.img + mp.imgbuf_ofs)
-	PDBG (pixma_dbg (4, "*fill_buffer: no grayscale conversion---keep color \n"))
+	PDBG(pixma_dbg(4, "*fill_buffer: no grayscale conversion---keep color \n"))
       }
 
       /* entering remaining unprocessed bytes after last complete pixel into mp.rawimg buffer -- no influence on mp.img */
@@ -845,21 +845,21 @@ mp750_fill_buffer (pixma_t * s, pixma_imagebuf_t * ib)
       mp.shifted_bytes += n
       mp.rawimg_left -= n;	/* rawimg_left = 0, 1 or 2 bytes left in the buffer. */
       mp.last_block_size = n
-      memcpy (mp.rawimg, mp.rawimg + n, mp.rawimg_left)
+      memcpy(mp.rawimg, mp.rawimg + n, mp.rawimg_left)
 
     }
-  while (mp.shifted_bytes <= 0)
+  while(mp.shifted_bytes <= 0)
 
-  if ((unsigned) mp.shifted_bytes < mp.last_block_size)
+  if((unsigned) mp.shifted_bytes < mp.last_block_size)
     {
-      if (is_ccd_grayscale (s))
+      if(is_ccd_grayscale(s))
 	ib.rptr = mp.img + mp.last_block_size/3 - mp.shifted_bytes/3; /* testing---works OK */
       else
 	ib.rptr = mp.img + mp.last_block_size - mp.shifted_bytes
     }
   else
     ib.rptr = mp.img
-  if (is_ccd_grayscale (s))
+  if(is_ccd_grayscale(s))
     ib.rend = mp.img + mp.last_block_size/3; /* testing---works OK */
   else
     ib.rend = mp.img + mp.last_block_size
@@ -867,40 +867,40 @@ mp750_fill_buffer (pixma_t * s, pixma_imagebuf_t * ib)
 }
 
 static void
-mp750_finish_scan (pixma_t * s)
+mp750_finish_scan(pixma_t * s)
 {
   Int error
   mp750_t *mp = (mp750_t *) s.subdriver
 
-  switch (mp.state)
+  switch(mp.state)
     {
     case state_transfering:
-      drain_bulk_in (s)
+      drain_bulk_in(s)
       /* fall through */
     case state_scanning:
     case state_warmup:
-      error = abort_session (s)
-      if (error == PIXMA_ECANCELED)
-	read_error_info (s, NULL, 0)
+      error = abort_session(s)
+      if(error == PIXMA_ECANCELED)
+	read_error_info(s, NULL, 0)
       /* fall through */
     case state_finished:
-      if (s.param.source == PIXMA_SOURCE_FLATBED)
+      if(s.param.source == PIXMA_SOURCE_FLATBED)
 	{
-	   /*SIM*/ query_status (s)
-	  if (abort_session (s) == PIXMA_ECANCELED)
+	   /*SIM*/ query_status(s)
+	  if(abort_session(s) == PIXMA_ECANCELED)
 	    {
-	      read_error_info (s, NULL, 0)
-	      query_status (s)
+	      read_error_info(s, NULL, 0)
+	      query_status(s)
 	    }
 	}
-      query_status (s)
-       /*SIM*/ activate (s, 0)
-      if (mp.needs_abort)
+      query_status(s)
+       /*SIM*/ activate(s, 0)
+      if(mp.needs_abort)
 	{
 	  mp.needs_abort = 0
-	  abort_session (s)
+	  abort_session(s)
 	}
-      free (mp.buf)
+      free(mp.buf)
       mp.buf = mp.rawimg = NULL
       mp.state = state_idle
       /* fall through */
@@ -910,28 +910,28 @@ mp750_finish_scan (pixma_t * s)
 }
 
 static void
-mp750_wait_event (pixma_t * s, Int timeout)
+mp750_wait_event(pixma_t * s, Int timeout)
 {
   /* FIXME: timeout is not correct. See usbGetCompleteUrbNoIntr() for
    * instance. */
-  while (s.events == 0 && handle_interrupt (s, timeout) > 0)
+  while(s.events == 0 && handle_interrupt(s, timeout) > 0)
     {
     }
 }
 
 static Int
-mp750_get_status (pixma_t * s, pixma_device_status_t * status)
+mp750_get_status(pixma_t * s, pixma_device_status_t * status)
 {
   Int error
 
-  error = query_status (s)
-  if (error < 0)
+  error = query_status(s)
+  if(error < 0)
     return error
   status.hardware = PIXMA_HARDWARE_OK
-  status.adf = (has_paper (s)) ? PIXMA_ADF_OK : PIXMA_ADF_NO_PAPER
+  status.adf = (has_paper(s)) ? PIXMA_ADF_OK : PIXMA_ADF_NO_PAPER
   status.cal =
-    (is_calibrated (s)) ? PIXMA_CALIBRATION_OK : PIXMA_CALIBRATION_OFF
-  status.lamp = (is_warming_up (s)) ? PIXMA_LAMP_WARMING_UP : PIXMA_LAMP_OK
+    (is_calibrated(s)) ? PIXMA_CALIBRATION_OK : PIXMA_CALIBRATION_OFF
+  status.lamp = (is_warming_up(s)) ? PIXMA_LAMP_WARMING_UP : PIXMA_LAMP_OK
   return 0
 }
 
@@ -963,8 +963,8 @@ static const pixma_scan_ops_t pixma_mp750_ops = {
 }
 
 const pixma_config_t pixma_mp750_devices[] = {
-  DEVICE ("Canon PIXMA MP750", "MP750", MP750_PID, 2400, PIXMA_CAP_ADF),
-  DEVICE ("Canon PIXMA MP760/770", "MP760/770", MP760_PID, 2400, PIXMA_CAP_TPU),
-  DEVICE ("Canon PIXMA MP780/790", "MP780/790", MP780_PID, 2400, PIXMA_CAP_ADF),
-  DEVICE (NULL, NULL, 0, 0, 0)
+  DEVICE("Canon PIXMA MP750", "MP750", MP750_PID, 2400, PIXMA_CAP_ADF),
+  DEVICE("Canon PIXMA MP760/770", "MP760/770", MP760_PID, 2400, PIXMA_CAP_TPU),
+  DEVICE("Canon PIXMA MP780/790", "MP780/790", MP780_PID, 2400, PIXMA_CAP_ADF),
+  DEVICE(NULL, NULL, 0, 0, 0)
 ]

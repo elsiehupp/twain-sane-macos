@@ -1,14 +1,14 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2002 Frank Zago (sane at zago dot net)
-   Copyright (C) 2003-2005 Gerard Klaver (gerard at gkall dot hobby dot nl)
+   Copyright(C) 2002 Frank Zago(sane at zago dot net)
+   Copyright(C) 2003-2005 Gerard Klaver(gerard at gkall dot hobby dot nl)
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -211,9 +211,9 @@ CDB
 /*--------------------------------------------------------------------------*/
 
 static inline Int
-getbitfield (unsigned char *pageaddr, Int mask, Int shift)
+getbitfield(unsigned char *pageaddr, Int mask, Int shift)
 {
-  return ((*pageaddr >> shift) & mask)
+  return((*pageaddr >> shift) & mask)
 }
 
 /* defines for request sense return block */
@@ -447,7 +447,7 @@ Teco_Scanner
 
 /*--------------------------------------------------------------------------*/
 
-/* 32 bits from an array to an integer (eg ntohl). */
+/* 32 bits from an array to an integer(eg ntohl). */
 #define B32TOI(buf) \
 	((((unsigned char *)buf)[0] << 24) | \
 	 (((unsigned char *)buf)[1] << 16) | \

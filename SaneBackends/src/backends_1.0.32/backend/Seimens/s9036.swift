@@ -1,12 +1,12 @@
 /* sane - Scanner Access Now Easy.
 
-   This file (C) 1997 Ingo Schneider
+   This file(C) 1997 Ingo Schneider
 
    This file is part of the SANE package.
 
    SANE is free software; you can redistribute it and/or modify it under
    the terms of the GNU General Public License as published by the Free
-   Software Foundation; either version 2 of the License, or (at your
+   Software Foundation; either version 2 of the License, or(at your
    option) any later version.
 
    SANE is distributed in the hope that it will be useful, but WITHOUT
@@ -52,40 +52,40 @@ static S9036_Device *s9036_devices
 
 /* sets loc_s bytes long value at offset loc in scsi command to value size  */
 static void
-set_size (Byte * loc, Int loc_s, size_t size)
+set_size(Byte * loc, Int loc_s, size_t size)
 {
   var i: Int
 
-  for (i = 0; i < loc_s; i++)
+  for(i = 0; i < loc_s; i++)
     {
       loc[loc_s - i - 1] = (size >> (i * 8)) & 0xff
     }
 }
 
 static long
-reserve_unit (Int fd)
+reserve_unit(Int fd)
 {
   const Byte scsi_reserve[] =
   {
     0x16, 0x00, 0x00, 0x00, 0x00, 0x00
   ]
-  DBG (3, "reserve_unit()\n")
-  return sanei_scsi_cmd (fd, scsi_reserve, sizeof (scsi_reserve), 0, 0)
+  DBG(3, "reserve_unit()\n")
+  return sanei_scsi_cmd(fd, scsi_reserve, sizeof(scsi_reserve), 0, 0)
 }
 
 static long
-release_unit (Int fd)
+release_unit(Int fd)
 {
   const Byte scsi_release[] =
   {
     0x17, 0x00, 0x00, 0x00, 0x00, 0x00
   ]
-  DBG (3, "release_unit()\n")
-  return sanei_scsi_cmd (fd, scsi_release, sizeof (scsi_release), 0, 0)
+  DBG(3, "release_unit()\n")
+  return sanei_scsi_cmd(fd, scsi_release, sizeof(scsi_release), 0, 0)
 }
 
 static Sane.Status
-test_ready (Int fd)
+test_ready(Int fd)
 {
   static const Byte scsi_test_ready[] =
   {
@@ -95,41 +95,41 @@ test_ready (Int fd)
   Sane.Status status
   Int try
 
-  for (try = 0; try < 1000; ++try)
+  for(try = 0; try < 1000; ++try)
     {
-      DBG (3, "test_ready: sending TEST_UNIT_READY\n")
-      status = sanei_scsi_cmd (fd, scsi_test_ready, sizeof (scsi_test_ready),
+      DBG(3, "test_ready: sending TEST_UNIT_READY\n")
+      status = sanei_scsi_cmd(fd, scsi_test_ready, sizeof(scsi_test_ready),
 			       0, 0)
 
-      switch (status)
+      switch(status)
 	{
 	case Sane.STATUS_DEVICE_BUSY:
-	  usleep (100000);	/* retry after 100ms */
+	  usleep(100000);	/* retry after 100ms */
 	  break
 
 	case Sane.STATUS_GOOD:
 	  return status
 
 	default:
-	  DBG (1, "test_ready: test unit ready failed (%s)\n",
-	       Sane.strstatus (status))
+	  DBG(1, "test_ready: test unit ready failed(%s)\n",
+	       Sane.strstatus(status))
 	  return status
 	}
     }
 
-  DBG (1, "test_ready: timed out after %d attempts\n", try)
+  DBG(1, "test_ready: timed out after %d attempts\n", try)
   return Sane.STATUS_IO_ERROR
 }
 
 static Sane.Status
-sense_handler (Int scsi_fd, u_char *result, void *arg)
+sense_handler(Int scsi_fd, u_char *result, void *arg)
 {
   scsi_fd = scsi_fd
   arg = arg; /* silence compilation warnings */
 
-  if (result[0])
+  if(result[0])
     {
-      DBG (0, "sense_handler() : sense code = %02x\n", result[0])
+      DBG(0, "sense_handler() : sense code = %02x\n", result[0])
       return Sane.STATUS_IO_ERROR
     }
   else
@@ -139,7 +139,7 @@ sense_handler (Int scsi_fd, u_char *result, void *arg)
 }
 
 static Sane.Status
-stop_scan (Int fd)
+stop_scan(Int fd)
 {
   fd = fd; /* silence compilation warnings */
 
@@ -149,8 +149,8 @@ stop_scan (Int fd)
   {
     0x01, 0x00, 0x00, 0x00, 0x00, 0x00
   ]
-  DBG (1, "Trying to stop scanner...\n")
-  return sanei_scsi_cmd (fd, scsi_rewind, sizeof (scsi_rewind), 0, 0)
+  DBG(1, "Trying to stop scanner...\n")
+  return sanei_scsi_cmd(fd, scsi_rewind, sizeof(scsi_rewind), 0, 0)
 #else
   return Sane.STATUS_GOOD
 #endif
@@ -158,7 +158,7 @@ stop_scan (Int fd)
 
 
 static Sane.Status
-start_scan (Int fd, Bool cont)
+start_scan(Int fd, Bool cont)
 {
   struct
   {
@@ -174,18 +174,18 @@ start_scan (Int fd, Bool cont)
   }
   scsi_start_scan
 
-  memset (&scsi_start_scan, 0, sizeof (scsi_start_scan))
+  memset(&scsi_start_scan, 0, sizeof(scsi_start_scan))
   scsi_start_scan.cmd = 0x1b
   scsi_start_scan.tr_len = 1
   scsi_start_scan.wid = 0
   scsi_start_scan.ctrl = (cont == Sane.TRUE) ? 0x80 : 0x00
 
-  DBG (1, "Starting scanner ...\n")
-  return sanei_scsi_cmd (fd, &scsi_start_scan, sizeof (scsi_start_scan), 0, 0)
+  DBG(1, "Starting scanner ...\n")
+  return sanei_scsi_cmd(fd, &scsi_start_scan, sizeof(scsi_start_scan), 0, 0)
 }
 
 static void
-wait_ready (Int fd)
+wait_ready(Int fd)
 {
 # define WAIT_READY_READ_SIZE 4
   const Byte scsi_read[] =
@@ -201,12 +201,12 @@ wait_ready (Int fd)
   size_t size = WAIT_READY_READ_SIZE
   Sane.Status status
 
-  while (1)
+  while(1)
     {
-      status = sanei_scsi_cmd (fd, scsi_read, sizeof (scsi_read),
+      status = sanei_scsi_cmd(fd, scsi_read, sizeof(scsi_read),
 			       result, &size)
 
-      if (status != Sane.STATUS_GOOD || size != WAIT_READY_READ_SIZE)
+      if(status != Sane.STATUS_GOOD || size != WAIT_READY_READ_SIZE)
 	{
 	  /*
 	     Command failed, the assembler code of the windows scan library
@@ -220,15 +220,15 @@ wait_ready (Int fd)
              ready * 100 */
 	  Int left = result[2] * 256 + result[3]
 
-	  DBG (1, "wait_ready() : %d left...\n", left)
+	  DBG(1, "wait_ready() : %d left...\n", left)
 
-	  if (!left)
+	  if(!left)
 	    break
 	  /* We delay only for half the given time */
-	  else if (left < 200)
-	    usleep (left * 5000)
+	  else if(left < 200)
+	    usleep(left * 5000)
 	  else
-	    sleep (left / 200)
+	    sleep(left / 200)
 	}
     }
 
@@ -236,7 +236,7 @@ wait_ready (Int fd)
 }
 
 static Sane.Status
-get_read_sizes (Int fd, Int *lines_available, Int *bpl, Int *total_lines)
+get_read_sizes(Int fd, Int *lines_available, Int *bpl, Int *total_lines)
 {
 # define GET_READ_SIZES_READ_SIZE 24
 
@@ -253,9 +253,9 @@ get_read_sizes (Int fd, Int *lines_available, Int *bpl, Int *total_lines)
   size_t size = GET_READ_SIZES_READ_SIZE
   Sane.Status status
 
-  status = sanei_scsi_cmd (fd, scsi_read, sizeof (scsi_read), result, &size)
+  status = sanei_scsi_cmd(fd, scsi_read, sizeof(scsi_read), result, &size)
 
-  if (status != Sane.STATUS_GOOD || size != GET_READ_SIZES_READ_SIZE)
+  if(status != Sane.STATUS_GOOD || size != GET_READ_SIZES_READ_SIZE)
     {
       /* Command failed */
       return Sane.STATUS_IO_ERROR
@@ -264,18 +264,18 @@ get_read_sizes (Int fd, Int *lines_available, Int *bpl, Int *total_lines)
     {
       *lines_available = result[14] * 256 + result[15]
       *bpl = result[12] * 256 + result[13]
-      if (total_lines)
+      if(total_lines)
 	*total_lines = result[10] * 256 + result[11]
     }
 
-  DBG (1, "get_read_sizes() : %d of %d, %d\n",
+  DBG(1, "get_read_sizes() : %d of %d, %d\n",
        *lines_available, total_lines ? *total_lines : -1, *bpl)
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-set_window (S9036_Scanner * s)
+set_window(S9036_Scanner * s)
 /* This function sets and sends the window for scanning */
 {
   double pixels_per_mm = (double) s.val[OPT_RESOLUTION] / MM_PER_INCH
@@ -284,10 +284,10 @@ set_window (S9036_Scanner * s)
   Bool auto_contr = !(s.opt[OPT_CONTR_ADJUST].cap & Sane.CAP_INACTIVE)
 
   /* ranges down 255 (dark) down to 1(bright) */
-  Int brightness = auto_bright ? 0 : (Sane.UNFIX (s.val[OPT_BRIGHTNESS])
+  Int brightness = auto_bright ? 0 : (Sane.UNFIX(s.val[OPT_BRIGHTNESS])
 				      * -1.27 + 128.5)
   /* ranges from 1 (little contrast) up to 255 (much contrast) */
-  Int contrast = auto_contr ? 0 : (Sane.UNFIX (s.val[OPT_CONTRAST])
+  Int contrast = auto_contr ? 0 : (Sane.UNFIX(s.val[OPT_CONTRAST])
 				   * 1.27 + 128.5)
 
   /* ranges from 40 (dark) down to 0 (bright) */
@@ -353,31 +353,31 @@ set_window (S9036_Scanner * s)
     }
   cmd
 
-  DBG (3,
+  DBG(3,
        "Setting parameters: bpp %d, res %d, bri %d, con %d, bad %d, cad %d\n",
        s.val[OPT_DEPTH], s.val[OPT_RESOLUTION],
        brightness, contrast, bright_adjust, contr_adjust)
 
-  memset (&cmd, 0, sizeof (cmd))
+  memset(&cmd, 0, sizeof(cmd))
 
   /* Commands and sizes.  Original comment in German: Kommando und Groessen. */
   cmd.cmd = 0x24
-  set_size (cmd.tr_len, 3, 37 + 8)
-  set_size (cmd.wd_len, 2, 37)
+  set_size(cmd.tr_len, 3, 37 + 8)
+  set_size(cmd.wd_len, 2, 37)
 
   /* Resolution.  Original comment in German: Aufloesung */
-  set_size (cmd.wd.x_axis_res, 2, s.val[OPT_RESOLUTION])
-  set_size (cmd.wd.y_axis_res, 2, s.val[OPT_RESOLUTION])
+  set_size(cmd.wd.x_axis_res, 2, s.val[OPT_RESOLUTION])
+  set_size(cmd.wd.y_axis_res, 2, s.val[OPT_RESOLUTION])
 
   /* Scan window position/size.  Original comment in German:
      Fensterposition / Groesse */
-  set_size (cmd.wd.x_axis_ul, 2,
-	    Sane.UNFIX (s.val[OPT_TL_X]) * pixels_per_mm + 0.5)
-  set_size (cmd.wd.y_axis_ul, 2,
-	    Sane.UNFIX (s.val[OPT_TL_Y]) * pixels_per_mm + 0.5)
-  set_size (cmd.wd.wwidth, 2, Sane.UNFIX (s.val[OPT_BR_X] - s.val[OPT_TL_X])
+  set_size(cmd.wd.x_axis_ul, 2,
+	    Sane.UNFIX(s.val[OPT_TL_X]) * pixels_per_mm + 0.5)
+  set_size(cmd.wd.y_axis_ul, 2,
+	    Sane.UNFIX(s.val[OPT_TL_Y]) * pixels_per_mm + 0.5)
+  set_size(cmd.wd.wwidth, 2, Sane.UNFIX(s.val[OPT_BR_X] - s.val[OPT_TL_X])
 	    * pixels_per_mm + 0.5)
-  set_size (cmd.wd.wlength, 2, Sane.UNFIX (s.val[OPT_BR_Y] - s.val[OPT_TL_Y])
+  set_size(cmd.wd.wlength, 2, Sane.UNFIX(s.val[OPT_BR_Y] - s.val[OPT_TL_Y])
 	    * pixels_per_mm + 0.5)
 
   cmd.wd.contrast = contrast
@@ -397,32 +397,32 @@ set_window (S9036_Scanner * s)
   cmd.wd.contr_adjust = contr_adjust
   cmd.wd.bright_adjust = bright_adjust
 
-  return sanei_scsi_cmd (s.fd, &cmd, sizeof (cmd), 0, 0)
+  return sanei_scsi_cmd(s.fd, &cmd, sizeof(cmd), 0, 0)
 }
 
 /* Tell scanner to scan more data.  Original comment in German:
    Fordert Scanner auf, weiter zu scannen... */
 static Sane.Status
-request_more_data (S9036_Scanner * s)
+request_more_data(S9036_Scanner * s)
 {
   Sane.Status status
   Int lines_available
   Int bytes_per_line
 
-  status = start_scan (s.fd, Sane.TRUE)
-  if (status != Sane.STATUS_GOOD)
+  status = start_scan(s.fd, Sane.TRUE)
+  if(status != Sane.STATUS_GOOD)
     return status
 
-  wait_ready (s.fd)
+  wait_ready(s.fd)
 
-  status = get_read_sizes (s.fd, &lines_available, &bytes_per_line, 0)
+  status = get_read_sizes(s.fd, &lines_available, &bytes_per_line, 0)
 
-  if (!lines_available || bytes_per_line != s.params.bytes_per_line)
+  if(!lines_available || bytes_per_line != s.params.bytes_per_line)
     {
       return Sane.STATUS_INVAL
     }
 
-  if (s.lines_read + lines_available > s.params.lines)
+  if(s.lines_read + lines_available > s.params.lines)
     return Sane.STATUS_INVAL
 
   s.lines_in_scanner = lines_available
@@ -436,7 +436,7 @@ request_more_data (S9036_Scanner * s)
    Original comment in German: Darf nur aufgerufen werden, wenn
    wirklich noch Zeilen zu scannen/lesen sind !  */
 static Sane.Status
-read_more_data (S9036_Scanner * s)
+read_more_data(S9036_Scanner * s)
 {
 
   static Byte cmd[] =
@@ -454,67 +454,67 @@ read_more_data (S9036_Scanner * s)
   Int bpl = s.params.bytes_per_line
   unsigned var i: Int
 
-  if (s.lines_in_scanner == 0)
+  if(s.lines_in_scanner == 0)
     {
       /* No lines in scanner ? scan some more */
-      status = request_more_data (s)
+      status = request_more_data(s)
 
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	return status
 
     }
 
   /* We try this 3 times */
-  while (1)
+  while(1)
     {
 
       /* Request as much lines as would fit into the buffer ... */
       lines_read = s.bufsize / bpl
 
       /* buffer is too small for one line: we can't handle this */
-      if (!lines_read)
+      if(!lines_read)
 	return Sane.STATUS_INVAL
 
       /* We only request as many lines as there are already scanned */
-      if (lines_read > s.lines_in_scanner)
+      if(lines_read > s.lines_in_scanner)
 	lines_read = s.lines_in_scanner
 
-      set_size (&cmd[6], 3, lines_read)
+      set_size(&cmd[6], 3, lines_read)
       size = lines_read * s.params.bytes_per_line
 
-      DBG (1, "Requesting %d lines, in scanner: %d, total: %d\n", lines_read,
+      DBG(1, "Requesting %d lines, in scanner: %d, total: %d\n", lines_read,
 	   s.lines_in_scanner, s.params.lines)
 
-      status = sanei_scsi_cmd (s.fd, cmd, sizeof (cmd), s.buffer, &size)
+      status = sanei_scsi_cmd(s.fd, cmd, sizeof(cmd), s.buffer, &size)
 
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  if (s.bufsize > 4096)
+	  if(s.bufsize > 4096)
 	    {
-	      DBG (1, "sanei_scsi_cmd(): using 4k buffer\n")
+	      DBG(1, "sanei_scsi_cmd(): using 4k buffer\n")
 	      s.bufsize = 4096
 	      continue
 	    }
 
-	  DBG (1, "sanei_scsi_cmd() = %d\n", status)
+	  DBG(1, "sanei_scsi_cmd() = %d\n", status)
 	  return Sane.STATUS_IO_ERROR
 	}
 
-      if (size != (unsigned Int) lines_read * s.params.bytes_per_line)
+      if(size != (unsigned Int) lines_read * s.params.bytes_per_line)
 	{
-	  DBG (1, "sanei_scsi_cmd(): got %lu bytes, expected %d\n",
+	  DBG(1, "sanei_scsi_cmd(): got %lu bytes, expected %d\n",
 	       (u_long) size, lines_read * s.params.bytes_per_line)
 	  return Sane.STATUS_INVAL
 	}
 
-      DBG (1, "Got %lu bytes\n", (u_long) size)
+      DBG(1, "Got %lu bytes\n", (u_long) size)
       break
     }
 
 
   /* Reverse: */
-  if (s.params.depth != 1)
-    for (i = 0; i < size; i++)
+  if(s.params.depth != 1)
+    for(i = 0; i < size; i++)
       s.buffer[i] = (255 - s.buffer[i])
 
   s.in_buffer += size
@@ -526,7 +526,7 @@ read_more_data (S9036_Scanner * s)
 
 
 static Sane.Status
-attach (const char *devname, S9036_Device ** devp)
+attach(const char *devname, S9036_Device ** devp)
 {
 #define ATTACH_SCSI_INQ_LEN 55
   const Byte scsi_inquiry[] =
@@ -541,36 +541,36 @@ attach (const char *devname, S9036_Device ** devp)
   size_t size
   var i: Int
 
-  for (dev = s9036_devices; dev; dev = dev.next)
-    if (strcmp (dev.sane.name, devname) == 0)
+  for(dev = s9036_devices; dev; dev = dev.next)
+    if(strcmp(dev.sane.name, devname) == 0)
       {
-	if (devp)
+	if(devp)
 	  *devp = dev
 	return Sane.STATUS_GOOD
       }
 
-  DBG (3, "attach: opening %s\n", devname)
-  status = sanei_scsi_open (devname, &fd, sense_handler, 0)
-  if (status != Sane.STATUS_GOOD)
+  DBG(3, "attach: opening %s\n", devname)
+  status = sanei_scsi_open(devname, &fd, sense_handler, 0)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: open failed (%s)\n", Sane.strstatus (status))
+      DBG(1, "attach: open failed(%s)\n", Sane.strstatus(status))
       return Sane.STATUS_INVAL
     }
 
-  DBG (3, "attach: sending INQUIRY\n")
-  size = sizeof (result)
-  status = sanei_scsi_cmd (fd, scsi_inquiry, sizeof (scsi_inquiry),
+  DBG(3, "attach: sending INQUIRY\n")
+  size = sizeof(result)
+  status = sanei_scsi_cmd(fd, scsi_inquiry, sizeof(scsi_inquiry),
 			   result, &size)
-  if (status != Sane.STATUS_GOOD || size != ATTACH_SCSI_INQ_LEN)
+  if(status != Sane.STATUS_GOOD || size != ATTACH_SCSI_INQ_LEN)
     {
-      DBG (1, "attach: inquiry failed (%s)\n", Sane.strstatus (status))
-      sanei_scsi_close (fd)
+      DBG(1, "attach: inquiry failed(%s)\n", Sane.strstatus(status))
+      sanei_scsi_close(fd)
       return status
     }
 
-  status = test_ready (fd)
-  sanei_scsi_close (fd)
-  if (status != Sane.STATUS_GOOD)
+  status = test_ready(fd)
+  sanei_scsi_close(fd)
+  if(status != Sane.STATUS_GOOD)
     return status
 
   /* The structure send by the scanner after inquiry is not SCSI-2
@@ -578,61 +578,61 @@ attach (const char *devname, S9036_Device ** devp)
      strings, but ?  At offset 36 my SIEMENS scanner identifies as an
      AGFA one ?!   */
 
-  if (result[0] != 6 || strncmp ((char *)result + 36, "AGFA03", 6))
+  if(result[0] != 6 || strncmp((char *)result + 36, "AGFA03", 6))
     {
-      DBG (1, "attach: device doesn't look like a Siemens 9036 scanner\n")
+      DBG(1, "attach: device doesn't look like a Siemens 9036 scanner\n")
       return Sane.STATUS_INVAL
     }
 
-  DBG (3, "Inquiry data:\n")
-  for (i = 5; i < 55; i += 10)
-    DBG (3, "%02x %02x %02x %02x %02x %02x %02x %02x %02x %02x\n",
+  DBG(3, "Inquiry data:\n")
+  for(i = 5; i < 55; i += 10)
+    DBG(3, "%02x %02x %02x %02x %02x %02x %02x %02x %02x %02x\n",
       result[i], result[i + 1], result[i + 2], result[i + 3], result[i + 4],
 	 result[i + 5], result[i + 6], result[i + 7], result[i + 8],
 	 result[i + 9])
 
-  dev = malloc (sizeof (*dev))
+  dev = malloc(sizeof(*dev))
 
-  if (!dev)
+  if(!dev)
     return Sane.STATUS_NO_MEM
 
-  memset (dev, 0, sizeof (*dev))
+  memset(dev, 0, sizeof(*dev))
 
-  dev.sane.name = strdup (devname)
+  dev.sane.name = strdup(devname)
   dev.sane.vendor = "Siemens"
   dev.sane.model = "9036"
   dev.sane.type = "flatbed scanner"
 
   dev.handle = 0
 
-  DBG (3, "attach: found S9036 scanner model\n")
+  DBG(3, "attach: found S9036 scanner model\n")
 
   ++num_devices
   dev.next = s9036_devices
   s9036_devices = dev
 
-  if (devp)
+  if(devp)
     *devp = dev
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-do_cancel (S9036_Scanner * s)
+do_cancel(S9036_Scanner * s)
 {
   s.scanning = Sane.FALSE
 
-  if (s.fd >= 0)
+  if(s.fd >= 0)
     {
-      stop_scan (s.fd)
-      release_unit (s.fd)
-      sanei_scsi_close (s.fd)
+      stop_scan(s.fd)
+      release_unit(s.fd)
+      sanei_scsi_close(s.fd)
       s.fd = -1
     }
 
-  if (s.buffer)
+  if(s.buffer)
     {
-      free (s.buffer)
+      free(s.buffer)
       s.buffer = 0
     }
 
@@ -641,7 +641,7 @@ do_cancel (S9036_Scanner * s)
 
 
 static Sane.Status
-init_options (S9036_Scanner * s)
+init_options(S9036_Scanner * s)
 {
   var i: Int
 
@@ -663,18 +663,18 @@ init_options (S9036_Scanner * s)
   {-20, 20, 1]
 
   static const Sane.Range x_range =
-  {0, Sane.FIX (8.27 * MM_PER_INCH), 0]
+  {0, Sane.FIX(8.27 * MM_PER_INCH), 0]
   static const Sane.Range y_range =
-  {0, Sane.FIX (12.72 * MM_PER_INCH), 0]
+  {0, Sane.FIX(12.72 * MM_PER_INCH), 0]
 
   /* ------ */
 
-  memset (s.opt, 0, sizeof (s.opt))
-  memset (s.val, 0, sizeof (s.val))
+  memset(s.opt, 0, sizeof(s.opt))
+  memset(s.val, 0, sizeof(s.val))
 
-  for (i = 0; i < NUM_OPTIONS; ++i)
+  for(i = 0; i < NUM_OPTIONS; ++i)
     {
-      s.opt[i].size = sizeof (Sane.Word)
+      s.opt[i].size = sizeof(Sane.Word)
       s.opt[i].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     }
 
@@ -816,14 +816,14 @@ init_options (S9036_Scanner * s)
 }
 
 static Sane.Status
-attach_one (const char *dev)
+attach_one(const char *dev)
 {
-  attach (dev, 0)
+  attach(dev, 0)
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 {
   char dev_name[PATH_MAX]
   size_t len
@@ -831,67 +831,67 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
 
   authorize = authorize; /* silence compilation warnings */
 
-  DBG_INIT ()
+  DBG_INIT()
 
-  if (version_code)
-    *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, 0)
+  if(version_code)
+    *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, 0)
 
-  fp = sanei_config_open ("s9036.conf")
-  if (!fp)
+  fp = sanei_config_open("s9036.conf")
+  if(!fp)
     {
       /* default to /dev/scanner instead of insisting on config file */
-      attach ("/dev/scanner", 0)
+      attach("/dev/scanner", 0)
       return Sane.STATUS_GOOD
     }
 
-  while (sanei_config_read (dev_name, sizeof (dev_name), fp))
+  while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if (dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == '#')	/* ignore line comments */
 	continue
-      len = strlen (dev_name)
+      len = strlen(dev_name)
 
-      if (!len)
+      if(!len)
 	continue;		/* ignore empty lines */
 
-      sanei_config_attach_matching_devices (dev_name, attach_one)
+      sanei_config_attach_matching_devices(dev_name, attach_one)
     }
-  fclose (fp)
+  fclose(fp)
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   S9036_Device *dev, *next
 
-  for (dev = s9036_devices; dev; dev = next)
+  for(dev = s9036_devices; dev; dev = next)
     {
       next = dev.next
-      if (dev.handle)
-	Sane.close (dev.handle)
-      free (dev)
+      if(dev.handle)
+	Sane.close(dev.handle)
+      free(dev)
     }
 
-  if (devlist)
-    free (devlist)
+  if(devlist)
+    free(devlist)
 }
 
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 {
   S9036_Device *dev
   var i: Int
 
   local_only = local_only; /* silence compilation warnings */
 
-  if (devlist)
-    free (devlist)
+  if(devlist)
+    free(devlist)
 
-  devlist = malloc ((num_devices + 1) * sizeof (devlist[0]))
-  if (!devlist)
+  devlist = malloc((num_devices + 1) * sizeof(devlist[0]))
+  if(!devlist)
     return Sane.STATUS_NO_MEM
 
-  for (dev = s9036_devices, i = 0; i < num_devices; dev = dev.next)
+  for(dev = s9036_devices, i = 0; i < num_devices; dev = dev.next)
     devlist[i++] = &dev.sane
   devlist[i++] = 0
 
@@ -900,16 +900,16 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
 }
 
 Sane.Status
-Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
+Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 {
   S9036_Device *dev
   Sane.Status status
   S9036_Scanner *s
 
-  if (devicename[0])
+  if(devicename[0])
     {
-      status = attach (devicename, &dev)
-      if (status != Sane.STATUS_GOOD)
+      status = attach(devicename, &dev)
+      if(status != Sane.STATUS_GOOD)
 	return status
     }
   else
@@ -918,71 +918,71 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
       dev = s9036_devices
     }
 
-  if (!dev)
+  if(!dev)
     return Sane.STATUS_INVAL
 
-  if (dev.handle)
+  if(dev.handle)
     return Sane.STATUS_DEVICE_BUSY
 
-  s = malloc (sizeof (*s))
-  if (!s)
+  s = malloc(sizeof(*s))
+  if(!s)
     return Sane.STATUS_NO_MEM
 
-  memset (s, 0, sizeof (*s))
+  memset(s, 0, sizeof(*s))
   s.scanning = Sane.FALSE
   s.fd = -1
   s.hw = dev
   s.hw.handle = s
 
-  init_options (s)
+  init_options(s)
 
   *handle = s
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
   S9036_Scanner *s = handle
 
-  if (s.scanning)
-    do_cancel (handle)
+  if(s.scanning)
+    do_cancel(handle)
 
   s.hw.handle = 0
 
-  free (handle)
+  free(handle)
 }
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
   S9036_Scanner *s = handle
 
-  if ((unsigned) option >= NUM_OPTIONS)
+  if((unsigned) option >= NUM_OPTIONS)
     return 0
   return s.opt + option
 }
 
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
 		     Sane.Action action, void *val, Int * info)
 {
   S9036_Scanner *s = handle
   Sane.Status status
 
-  if (info)
+  if(info)
     *info = 0
 
-  if (s.scanning)
+  if(s.scanning)
     return Sane.STATUS_DEVICE_BUSY
 
-  if (option >= NUM_OPTIONS || !Sane.OPTION_IS_ACTIVE (s.opt[option].cap))
+  if(option >= NUM_OPTIONS || !Sane.OPTION_IS_ACTIVE(s.opt[option].cap))
     return Sane.STATUS_UNSUPPORTED
 
-  if (action == Sane.ACTION_GET_VALUE)
+  if(action == Sane.ACTION_GET_VALUE)
     {
 
-      switch (option)
+      switch(option)
 	{
 	case OPT_DEPTH:
 	case OPT_RESOLUTION:
@@ -1002,17 +1002,17 @@ Sane.control_option (Sane.Handle handle, Int option,
 	}
 
     }
-  else if (action == Sane.ACTION_SET_VALUE)
+  else if(action == Sane.ACTION_SET_VALUE)
     {
 
-      if (!Sane.OPTION_IS_SETTABLE (s.opt[option].cap))
+      if(!Sane.OPTION_IS_SETTABLE(s.opt[option].cap))
 	return Sane.STATUS_UNSUPPORTED
 
-      status = sanei_constrain_value (s.opt + option, val, info)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_constrain_value(s.opt + option, val, info)
+      if(status != Sane.STATUS_GOOD)
 	return status
 
-      switch (option)
+      switch(option)
 	{
 	case OPT_DEPTH:
 	case OPT_RESOLUTION:
@@ -1020,7 +1020,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_TL_Y:
 	case OPT_BR_X:
 	case OPT_BR_Y:
-	  if (info)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
           // fall through
 	case OPT_BRIGHT_ADJUST:
@@ -1028,19 +1028,19 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  s.val[option] = *(Sane.Word *) val
 	  break
 	case OPT_BRIGHTNESS:
-	  if (Sane.OPTION_IS_ACTIVE (s.opt[OPT_BRIGHT_ADJUST].cap))
+	  if(Sane.OPTION_IS_ACTIVE(s.opt[OPT_BRIGHT_ADJUST].cap))
 	    {
 	      s.opt[OPT_BRIGHT_ADJUST].cap |= Sane.CAP_INACTIVE
-	      if (info)
+	      if(info)
 		*info |= Sane.INFO_RELOAD_OPTIONS
 	    }
 	  s.val[option] = *(Sane.Word *) val
 	  break
 	case OPT_CONTRAST:
-	  if (Sane.OPTION_IS_ACTIVE (s.opt[OPT_CONTR_ADJUST].cap))
+	  if(Sane.OPTION_IS_ACTIVE(s.opt[OPT_CONTR_ADJUST].cap))
 	    {
 	      s.opt[OPT_CONTR_ADJUST].cap |= Sane.CAP_INACTIVE
-	      if (info)
+	      if(info)
 		*info |= Sane.INFO_RELOAD_OPTIONS
 	    }
 	  s.val[option] = *(Sane.Word *) val
@@ -1050,27 +1050,27 @@ Sane.control_option (Sane.Handle handle, Int option,
 	}
 
     }
-  else if (action == Sane.ACTION_SET_AUTO)
+  else if(action == Sane.ACTION_SET_AUTO)
     {
 
-      if (!Sane.OPTION_IS_SETTABLE (s.opt[option].cap))
+      if(!Sane.OPTION_IS_SETTABLE(s.opt[option].cap))
 	return Sane.STATUS_UNSUPPORTED
 
-      switch (option)
+      switch(option)
 	{
 	case OPT_BRIGHTNESS:
-	  if (!Sane.OPTION_IS_ACTIVE (s.opt[OPT_BRIGHT_ADJUST].cap))
+	  if(!Sane.OPTION_IS_ACTIVE(s.opt[OPT_BRIGHT_ADJUST].cap))
 	    {
 	      s.opt[OPT_BRIGHT_ADJUST].cap &= ~Sane.CAP_INACTIVE
-	      if (info)
+	      if(info)
 		*info |= Sane.INFO_RELOAD_OPTIONS
 	    }
 	  break
 	case OPT_CONTRAST:
-	  if (!Sane.OPTION_IS_ACTIVE (s.opt[OPT_CONTR_ADJUST].cap))
+	  if(!Sane.OPTION_IS_ACTIVE(s.opt[OPT_CONTR_ADJUST].cap))
 	    {
 	      s.opt[OPT_CONTR_ADJUST].cap &= ~Sane.CAP_INACTIVE
-	      if (info)
+	      if(info)
 		*info |= Sane.INFO_RELOAD_OPTIONS
 	    }
 	  break
@@ -1085,28 +1085,28 @@ Sane.control_option (Sane.Handle handle, Int option,
 }
 
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
   S9036_Scanner *s = handle
 
-  if (!s.scanning)
+  if(!s.scanning)
     {
       double width, height, dpi
 
-      memset (&s.params, 0, sizeof (s.params))
+      memset(&s.params, 0, sizeof(s.params))
 
       s.params.format = Sane.FRAME_GRAY
       s.params.last_frame = Sane.TRUE
 
       s.params.depth = s.val[OPT_DEPTH]
 
-      width = Sane.UNFIX (s.val[OPT_BR_X] - s.val[OPT_TL_X])
-      height = Sane.UNFIX (s.val[OPT_BR_Y] - s.val[OPT_TL_Y])
+      width = Sane.UNFIX(s.val[OPT_BR_X] - s.val[OPT_TL_X])
+      height = Sane.UNFIX(s.val[OPT_BR_Y] - s.val[OPT_TL_Y])
       dpi = s.val[OPT_RESOLUTION]
 
       /* make best-effort guess at what parameters will look like once
          scanning starts.  */
-      if (dpi > 0.0 && width > 0.0 && height > 0.0)
+      if(dpi > 0.0 && width > 0.0 && height > 0.0)
 	{
 	  double dots_per_mm = dpi / MM_PER_INCH
 
@@ -1119,96 +1119,96 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 	/ (8 / s.params.depth)
     }
 
-  if (params)
+  if(params)
     *params = s.params
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   S9036_Scanner *s = handle
   Sane.Status status
 
-  if (s.scanning)
-    do_cancel (s)
+  if(s.scanning)
+    do_cancel(s)
 
   /* First make sure we have a current parameter set.  Some of the
      parameters will be overwritten below, but that's OK.  */
-  status = Sane.get_parameters (s, 0)
-  if (status != Sane.STATUS_GOOD)
+  status = Sane.get_parameters(s, 0)
+  if(status != Sane.STATUS_GOOD)
     return status
 
-  if (s.fd < 0)
+  if(s.fd < 0)
     {
-      status = sanei_scsi_open (s.hw.sane.name, &s.fd, sense_handler, 0)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_scsi_open(s.hw.sane.name, &s.fd, sense_handler, 0)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "open: open of %s failed: %s\n",
-	       s.hw.sane.name, Sane.strstatus (status))
+	  DBG(1, "open: open of %s failed: %s\n",
+	       s.hw.sane.name, Sane.strstatus(status))
 	  s.fd = -1
 	  return status
 	}
     }
 
-  status = test_ready (s.fd)
-  if (status != Sane.STATUS_GOOD)
+  status = test_ready(s.fd)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "open: test_ready() failed: %s\n", Sane.strstatus (status))
-      sanei_scsi_close (s.fd)
+      DBG(1, "open: test_ready() failed: %s\n", Sane.strstatus(status))
+      sanei_scsi_close(s.fd)
       s.fd = -1
       return status
     }
 
-  status = reserve_unit (s.fd)
-  if (status != Sane.STATUS_GOOD)
+  status = reserve_unit(s.fd)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "open: reserve_unit() failed: %s\n", Sane.strstatus (status))
-      sanei_scsi_close (s.fd)
+      DBG(1, "open: reserve_unit() failed: %s\n", Sane.strstatus(status))
+      sanei_scsi_close(s.fd)
       s.fd = -1
       return status
     }
 
-  status = set_window (s)
-  if (status != Sane.STATUS_GOOD)
+  status = set_window(s)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "open: set_window() failed: %s\n", Sane.strstatus (status))
-      release_unit (s.fd)
-      sanei_scsi_close (s.fd)
+      DBG(1, "open: set_window() failed: %s\n", Sane.strstatus(status))
+      release_unit(s.fd)
+      sanei_scsi_close(s.fd)
       s.fd = -1
       return status
     }
 
   s.scanning = Sane.TRUE
 
-  status = start_scan (s.fd, Sane.FALSE)
-  if (status != Sane.STATUS_GOOD)
+  status = start_scan(s.fd, Sane.FALSE)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "open: start_scan() failed: %s\n", Sane.strstatus (status))
-      do_cancel (s)
+      DBG(1, "open: start_scan() failed: %s\n", Sane.strstatus(status))
+      do_cancel(s)
       return status
     }
 
-  wait_ready (s.fd)
+  wait_ready(s.fd)
 
   {
     Int lines_available = 0, bytes_per_line = 0, total_lines = 0
 
-    status = get_read_sizes (s.fd, &lines_available, &bytes_per_line,
+    status = get_read_sizes(s.fd, &lines_available, &bytes_per_line,
 			     &total_lines)
-    if (status != Sane.STATUS_GOOD)
+    if(status != Sane.STATUS_GOOD)
       {
-	DBG (1, "open: get_read_sizes() failed: %s\n",
-	     Sane.strstatus (status))
-	do_cancel (s)
+	DBG(1, "open: get_read_sizes() failed: %s\n",
+	     Sane.strstatus(status))
+	do_cancel(s)
 	return status
       }
 
-    if (!lines_available || !bytes_per_line || !total_lines)
+    if(!lines_available || !bytes_per_line || !total_lines)
       {
-	DBG (1, "open: invalid_sizes(): %d, %d, %d\n",
+	DBG(1, "open: invalid_sizes(): %d, %d, %d\n",
 	     lines_available, bytes_per_line, total_lines)
-	do_cancel (s)
+	do_cancel(s)
 	return Sane.STATUS_INVAL
       }
 
@@ -1223,12 +1223,12 @@ Sane.start (Sane.Handle handle)
     s.bufsize = (sanei_scsi_max_request_size < 4096) ?
 	4096 : sanei_scsi_max_request_size
 
-    s.buffer = (Byte *) malloc (s.bufsize * sizeof (Byte))
+    s.buffer = (Byte *) malloc(s.bufsize * sizeof(Byte))
 
-    if (!s.buffer)
+    if(!s.buffer)
       {
-	DBG (1, "open  malloc(%lu) failed.\n", (u_long) s.bufsize)
-	do_cancel (s)
+	DBG(1, "open  malloc(%lu) failed.\n", (u_long) s.bufsize)
+	do_cancel(s)
 	return Sane.STATUS_NO_MEM
       }
     s.bufstart = s.buffer
@@ -1239,12 +1239,12 @@ Sane.start (Sane.Handle handle)
 }
 
 static void
-copy_buffer (S9036_Scanner * s, Sane.Byte ** buf, Int * max_len,
+copy_buffer(S9036_Scanner * s, Sane.Byte ** buf, Int * max_len,
 	     Int * len)
 {
-  if (*max_len > (Int) s.in_buffer)
+  if(*max_len > (Int) s.in_buffer)
     {
-      memcpy (*buf, s.bufstart, s.in_buffer)
+      memcpy(*buf, s.bufstart, s.in_buffer)
       *buf += s.in_buffer
       *len += s.in_buffer
       *max_len -= s.in_buffer
@@ -1254,7 +1254,7 @@ copy_buffer (S9036_Scanner * s, Sane.Byte ** buf, Int * max_len,
     }
   else
     {
-      memcpy (*buf, s.bufstart, *max_len)
+      memcpy(*buf, s.bufstart, *max_len)
       s.bufstart += *max_len
       s.in_buffer -= *max_len
 
@@ -1266,77 +1266,77 @@ copy_buffer (S9036_Scanner * s, Sane.Byte ** buf, Int * max_len,
 
 
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
+Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
 	   Int * len)
 {
   S9036_Scanner *s = handle
   Sane.Status status
 
-  if (s.scanning != Sane.TRUE || max_len == 0)
+  if(s.scanning != Sane.TRUE || max_len == 0)
     return Sane.STATUS_INVAL
 
   *len = 0
 
-  DBG (3, "Sane.read(%d) : lines_read %d\n", max_len, s.lines_read)
+  DBG(3, "Sane.read(%d) : lines_read %d\n", max_len, s.lines_read)
 
-  while (max_len > (Int) s.in_buffer && s.lines_read < s.params.lines)
+  while(max_len > (Int) s.in_buffer && s.lines_read < s.params.lines)
     {
 
-      if (s.in_buffer == 0)
+      if(s.in_buffer == 0)
 	{
-	  status = read_more_data (s)
+	  status = read_more_data(s)
 
-	  if (status != Sane.STATUS_GOOD)
+	  if(status != Sane.STATUS_GOOD)
 	    {
-	      DBG (1, "Sane.read: read_more_data() failed (%s)\n",
-		   Sane.strstatus (status))
-	      do_cancel (s)
+	      DBG(1, "Sane.read: read_more_data() failed(%s)\n",
+		   Sane.strstatus(status))
+	      do_cancel(s)
 	      return status
 	    }
 	}
 
-      copy_buffer (s, &buf, &max_len, len)
+      copy_buffer(s, &buf, &max_len, len)
 
-      if (!max_len || s.lines_read >= s.params.lines)
+      if(!max_len || s.lines_read >= s.params.lines)
 	return Sane.STATUS_GOOD
     }
 
   /* If we reached this point, there are either enough bytes in the buffer,
      or, if the buffer is empty, we already reached the end of the page */
 
-  if (s.in_buffer > 0)
+  if(s.in_buffer > 0)
     {
-      copy_buffer (s, &buf, &max_len, len)
+      copy_buffer(s, &buf, &max_len, len)
       return Sane.STATUS_GOOD
     }
   else
     {
-      do_cancel (s)
-      DBG (1, "EOF\n")
+      do_cancel(s)
+      DBG(1, "EOF\n")
       return Sane.STATUS_EOF
     }
 }
 
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   S9036_Scanner *s = handle
-  do_cancel (s)
+  do_cancel(s)
 }
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 {
   handle = handle; /* silence compilation warnings */
 
-  DBG (1, "Sane.set_io_mode(%d)\n", non_blocking)
+  DBG(1, "Sane.set_io_mode(%d)\n", non_blocking)
 
-  return (non_blocking == Sane.TRUE) ?
+  return(non_blocking == Sane.TRUE) ?
       Sane.STATUS_UNSUPPORTED : Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle handle, Int * fd)
+Sane.get_select_fd(Sane.Handle handle, Int * fd)
 {
   handle = handle
   fd = fd; /* silence compilation warnings */

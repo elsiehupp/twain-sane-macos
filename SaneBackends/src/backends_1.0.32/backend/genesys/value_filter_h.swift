@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2020 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2020 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -44,7 +44,7 @@ public:
 
     bool matches(T value) const
     {
-        if (matches_any_)
+        if(matches_any_)
             return true
         auto it = std::find(values_.begin(), values_.end(), value)
         return it != values_.end()
@@ -69,7 +69,7 @@ private:
 template<class T>
 std::ostream& operator<<(std::ostream& out, const ValueFilterAny<T>& values)
 {
-    if (values.matches_any()) {
+    if(values.matches_any()) {
         out << "ANY"
         return out
     }
@@ -118,7 +118,7 @@ private:
 template<class T>
 std::ostream& operator<<(std::ostream& out, const ValueFilter<T>& values)
 {
-    if (values.values().empty()) {
+    if(values.values().empty()) {
         out << "(none)"
         return out
     }

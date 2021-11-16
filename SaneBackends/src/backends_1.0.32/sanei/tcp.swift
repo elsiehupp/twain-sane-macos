@@ -1,12 +1,12 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2006 Tower Technologies
+   Copyright(C) 2006 Tower Technologies
    Author: Alessandro Zummo <a.zummo@towertech.it>
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -77,17 +77,17 @@ sanei_tcp_open(const char *host, Int port, Int *fdp)
 
 #ifdef HAVE_WINSOCK2_H
 	err = WSAStartup(MAKEWORD(2, 2), &wsaData)
-	if (err != 0)
+	if(err != 0)
 	    return Sane.STATUS_INVAL
 #endif
 
 	h = gethostbyname(host)
 
-	if (h == NULL || h.h_addr_list[0] == NULL
+	if(h == NULL || h.h_addr_list[0] == NULL
 	    || h.h_addrtype != AF_INET)
 		return Sane.STATUS_INVAL
 
-	if ((fd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
+	if((fd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
 		return Sane.STATUS_INVAL
 
 	memset(&saddr, 0x00, sizeof(struct sockaddr_in))
@@ -96,7 +96,7 @@ sanei_tcp_open(const char *host, Int port, Int *fdp)
 	saddr.sin_port = htons(port)
 	memcpy(&saddr.sin_addr, h.h_addr_list[0], h.h_length)
 
-	if ((err =
+	if((err =
 	     connect(fd, (struct sockaddr *) &saddr,
 		     sizeof(struct sockaddr_in))) != 0) {
 		close(fd)
@@ -129,15 +129,15 @@ sanei_tcp_read(Int fd, u_char * buf, size_t count)
 	size_t bytes_recv = 0
 	ssize_t rc = 1
 
-	if (count > SSIZE_MAX) {
+	if(count > SSIZE_MAX) {
 		errno = EINVAL
 		return -1
 	}
 
-	while (bytes_recv < count && rc > 0)
+	while(bytes_recv < count && rc > 0)
 	{
 		rc = recv(fd, buf+bytes_recv, count-bytes_recv, 0)
-		if (rc > 0)
+		if(rc > 0)
 		  bytes_recv += rc
 
 	}

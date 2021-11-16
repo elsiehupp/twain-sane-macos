@@ -82,7 +82,7 @@ struct usb_ioctl {
 	Int ifno;	/* interface 0..N ; negative numbers reserved */
 	Int ioctl_code;	/* MUST encode size + direction of data so the
 			 * macros in <asm/ioctl give correct values */
-	void *data;	/* param buffer (in, or out) */
+	void *data;	/* param buffer(in, or out) */
 }
 
 struct usb_hub_portinfo {

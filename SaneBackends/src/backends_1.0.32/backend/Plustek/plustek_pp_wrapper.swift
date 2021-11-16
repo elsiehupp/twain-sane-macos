@@ -2,7 +2,7 @@
  *  @brief The interface to the parport driver-code and the kernel module.
  *
  * Based on sources acquired from Plustek Inc.<br>
- * Copyright (C) 2001-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 2001-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.40 - initial version
@@ -18,7 +18,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -123,7 +123,7 @@ static Int ppDev_open( const char *dev_name, void *misc )
 	else
 		handle = open( dev_name, O_RDONLY )
 
-	if ( handle  < 0 ) {
+	if( handle  < 0 ) {
 	    DBG( _DBG_ERROR, "open: can't open %s as a device\n", dev_name )
     	return handle
 	}

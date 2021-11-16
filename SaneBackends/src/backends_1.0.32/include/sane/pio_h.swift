@@ -1,12 +1,12 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1998 Christian Bucher
-   Copyright (C) 1998 Kling & Hautzinger GmbH
+   Copyright(C) 1998 Christian Bucher
+   Copyright(C) 1998 Kling & Hautzinger GmbH
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -45,8 +45,8 @@ import sys/types
 import sane/sane
 
 public Sane.Status	sanei_pio_open  (const char * dev, Int * fd)
-public void		sanei_pio_close (Int fd)
+public void		sanei_pio_close(Int fd)
 public Int		sanei_pio_read  (Int fd, u_char * buf, Int n)
-public Int		sanei_pio_write (Int fd, const u_char * buf, Int n)
+public Int		sanei_pio_write(Int fd, const u_char * buf, Int n)
 
 #endif /* sanei_pio_h */

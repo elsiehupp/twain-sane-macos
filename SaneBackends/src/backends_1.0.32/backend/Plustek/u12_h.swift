@@ -1,7 +1,7 @@
 /** @file u12.h
  *  @brief Definitions for the backend.
  *
- * Copyright (c) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(c) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.01 - initial version
@@ -13,7 +13,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -240,7 +240,7 @@ typedef struct u12d
 	AdjDef       adj;               /* for driver adjustment        */
 
 	char         usbId[_MAX_ID_LEN];/* to keep Vendor and product   */
-                                    /* ID string (from conf) file   */
+                                    /* ID string(from conf) file   */
 	/* our gamma tables */
 	Sane.Word    gamma_table[4][4096]
 	Sane.Range   gamma_range

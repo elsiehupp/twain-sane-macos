@@ -1,5 +1,5 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2007 Jeremy Johnson
+   Copyright(C) 2007 Jeremy Johnson
    This file is part of a SANE backend for Ricoh IS450
    and IS420 family of HS2P Scanners using the SCSI controller.
 
@@ -8,7 +8,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -88,15 +88,15 @@ typedef struct data
   Sane.Byte endorser[19];	/* 80H Endorser */
   Sane.Byte size;		/* 81H startpos(4bits) + width(4bits) */
   /* 82H Reserved */
-  /* 83H Reserved (Vendor Unique) */
+  /* 83H Reserved(Vendor Unique) */
   Sane.Byte nlines[5];		/* 84H Page Length */
   MAINTENANCE_DATA maintenance;	/* 85H */
   Sane.Byte adf_status;		/* 86H */
-  /* 87H Reserved (Skew Data) */
-  /* 88H-91H Reserved (Vendor Unique) */
-  /* 92H Reserved (Scanner Extension I/O Access) */
-  /* 93H Reserved (Vendor Unique) */
-  /* 94H-FFH Reserved (Vendor Unique) */
+  /* 87H Reserved(Skew Data) */
+  /* 88H-91H Reserved(Vendor Unique) */
+  /* 92H Reserved(Scanner Extension I/O Access) */
+  /* 93H Reserved(Vendor Unique) */
+  /* 94H-FFH Reserved(Vendor Unique) */
 } HS2P_DATA
 
 typedef struct
@@ -167,7 +167,7 @@ typedef struct
   /* adf_id: 0: No ADF
    *         1: Single-sided ADF
    *         2: Double-sided ADF
-   *         3: ARDF (Reverse double-sided ADF)
+   *         3: ARDF(Reverse double-sided ADF)
    *         4: Reserved
    */
 
@@ -189,7 +189,7 @@ typedef struct
   Bool supports_4bitgray
   Bool supports_8bitgray
 
-  /* VPD Image Data Processing ACE (supported for IS420) */
+  /* VPD Image Data Processing ACE(supported for IS420) */
   Bool supports_whiteframing
   Bool supports_blackframing
   Bool supports_edgeextraction
@@ -197,16 +197,16 @@ typedef struct
   Bool supports_smoothing;	/* supported for IS450 if IPU installed */
   Bool supports_linebolding
 
-  /* VPD Compression (not supported for IS450) */
+  /* VPD Compression(not supported for IS450) */
   Bool supports_MH
   Bool supports_MR
   Bool supports_MMR
   Bool supports_MHB
 
-  /* VPD Marker Recognition (not supported for IS450) */
+  /* VPD Marker Recognition(not supported for IS450) */
   Bool supports_markerrecognition
 
-  /* VPD Size Recognition (supported for IS450 if IPU installed) */
+  /* VPD Size Recognition(supported for IS450 if IPU installed) */
   Bool supports_sizerecognition
 
   /* VPD X Maximum Output Pixel: IS450:4960   IS420:4880 */
@@ -221,9 +221,9 @@ typedef struct
   Int resMaxY;		/* maximum Y resolution */
   Int resMinX;		/* minimum X resolution */
   Int resMinY;		/* minimum Y resolution */
-  Int resStdList[16 + 1];	/* list of available standard resolutions (first slot is the length) */
-  Int winWidth;		/* length of window (in BasicX res DPI) */
-  Int winHeight;		/* height of window (in BasicY res DPI) */
+  Int resStdList[16 + 1];	/* list of available standard resolutions(first slot is the length) */
+  Int winWidth;		/* length of window(in BasicX res DPI) */
+  Int winHeight;		/* height of window(in BasicY res DPI) */
   /* jis.functions duplicates vpd.imagecomposition lineart/dither/grayscale */
   Bool overflow_support
   Bool lineart_support
@@ -365,26 +365,26 @@ static Sane.String_Const paper_list[] = {
 ]
 
 #if 0
-static /* inline */ Int _is_host_little_endian (void)
+static /* inline */ Int _is_host_little_endian(void)
 static /* inline */ Int
-_is_host_little_endian ()
+_is_host_little_endian()
 {
   Int val = 255
   unsigned char *firstbyte = (unsigned char *) &val
 
-  return (*firstbyte == 255) ? Sane.TRUE : Sane.FALSE
+  return(*firstbyte == 255) ? Sane.TRUE : Sane.FALSE
 }
 #endif
 
 static /* inline */ void
-_lto2b (u_long val, Sane.Byte * bytes)
+_lto2b(u_long val, Sane.Byte * bytes)
 {
   bytes[0] = (val >> 8) & 0xff
   bytes[1] = val & 0xff
 }
 
 static /* inline */ void
-_lto3b (u_long val, Sane.Byte * bytes)
+_lto3b(u_long val, Sane.Byte * bytes)
 {
   bytes[0] = (val >> 16) & 0xff
   bytes[1] = (val >> 8) & 0xff
@@ -392,7 +392,7 @@ _lto3b (u_long val, Sane.Byte * bytes)
 }
 
 static /* inline */ void
-_lto4b (u_long val, Sane.Byte * bytes)
+_lto4b(u_long val, Sane.Byte * bytes)
 {
   bytes[0] = (val >> 24) & 0xff
   bytes[1] = (val >> 16) & 0xff
@@ -401,7 +401,7 @@ _lto4b (u_long val, Sane.Byte * bytes)
 }
 
 static /* inline */ u_long
-_2btol (Sane.Byte * bytes)
+_2btol(Sane.Byte * bytes)
 {
   u_long rv
 
@@ -411,7 +411,7 @@ _2btol (Sane.Byte * bytes)
 }
 
 static /* inline */ u_long
-_4btol (Sane.Byte * bytes)
+_4btol(Sane.Byte * bytes)
 {
   u_long rv
 
@@ -427,16 +427,16 @@ _2btol(Sane.Byte *bytes)
   Int rv
 
   rv = (bytes[0] << 8) | bytes[1]
-  return (rv)
+  return(rv)
 }
 */
 static inline Int
-_3btol (Sane.Byte * bytes)
+_3btol(Sane.Byte * bytes)
 {
   Int rv
 
   rv = (bytes[0] << 16) | (bytes[1] << 8) | bytes[2]
-  return (rv)
+  return(rv)
 }
 
 /*
@@ -449,7 +449,7 @@ _4btol(Sane.Byte *bytes)
              (bytes[1] << 16) |
              (bytes[2] << 8) |
              bytes[3]
-        return (rv)
+        return(rv)
 }
 */
 enum adf_ret_bytes
@@ -515,7 +515,7 @@ enum adf_ret_bytes
 
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2007 Jeremy Johnson
+   Copyright(C) 2007 Jeremy Johnson
    This file is part of a SANE backend for Ricoh IS450
    and IS420 family of HS2P Scanners using the SCSI controller.
 
@@ -524,7 +524,7 @@ enum adf_ret_bytes
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -570,7 +570,7 @@ enum adf_ret_bytes
    . .
    . . - Sane.start() : start image acquisition
    . .   - Sane.get_parameters() : returns actual scan-parameters
-   . .   - Sane.read() : read image-data (from pipe)
+   . .   - Sane.read() : read image-data(from pipe)
    . .
    . . - Sane.cancel() : cancel operation
    . - Sane.close() : close opened scanner-device
@@ -634,10 +634,10 @@ static HS2P_HWEntry HS2P_Device_List[] = {
 
 #if 0
 static Int
-allblank (const char *s)
+allblank(const char *s)
 {
-  while (s && *s)
-    if (!isspace (*s++))
+  while(s && *s)
+    if(!isspace(*s++))
       return 0
 
   return 1
@@ -645,52 +645,52 @@ allblank (const char *s)
 #endif
 
 static size_t
-max_string_size (Sane.String_Const strings[])
+max_string_size(Sane.String_Const strings[])
 {
   size_t size, max_size = 0
   var i: Int
-  DBG (DBG_proc, ">> max_string_size\n")
+  DBG(DBG_proc, ">> max_string_size\n")
 
-  for (i = 0; strings[i]; ++i)
+  for(i = 0; strings[i]; ++i)
     {
-      size = strlen (strings[i]) + 1
-      if (size > max_size)
+      size = strlen(strings[i]) + 1
+      if(size > max_size)
 	max_size = size
     }
 
-  DBG (DBG_proc, "<< max_string_size\n")
+  DBG(DBG_proc, "<< max_string_size\n")
   return max_size
 }
 
 static void
-trim_spaces (char *s, size_t n)
+trim_spaces(char *s, size_t n)
 {
-  for (s += (n - 1); n > 0; n--, s--)
+  for(s += (n - 1); n > 0; n--, s--)
     {
-      if (*s && !isspace (*s))
+      if(*s && !isspace(*s))
 	break
       *s = '\0'
     }
 }
 static Bool
-is_device_supported (char *device)
+is_device_supported(char *device)
 {
   HS2P_HWEntry *hw
 
-  for (hw = &HS2P_Device_List[0]; hw.mfg != NULL; hw++)
-    if (strncmp (device, hw.model, strlen (hw.model)) == 0)
+  for(hw = &HS2P_Device_List[0]; hw.mfg != NULL; hw++)
+    if(strncmp(device, hw.model, strlen(hw.model)) == 0)
       break;			/* found a match */
 
-  return (hw == NULL) ? Sane.FALSE : Sane.TRUE
+  return(hw == NULL) ? Sane.FALSE : Sane.TRUE
 }
 
 static Int
-get_list_index (const char *list[], char *s)	/* sequential search */
+get_list_index(const char *list[], char *s)	/* sequential search */
 {
   Int i
 
-  for (i = 0; list[i]; i++)
-    if (strcmp (s, list[i]) == 0)
+  for(i = 0; list[i]; i++)
+    if(strcmp(s, list[i]) == 0)
       return i;			/* FOUND */
 
   /* unknown paper_list strings are treated as 'custom'     */
@@ -700,27 +700,27 @@ get_list_index (const char *list[], char *s)	/* sequential search */
 }
 
 static Int
-get_val_id_strndx (struct val_id *vi, Int len, Int val)
+get_val_id_strndx(struct val_id *vi, Int len, Int val)
 {
   var i: Int
-  for (i = 0; i < len; i++)
-    if (vi[i].val == val)
+  for(i = 0; i < len; i++)
+    if(vi[i].val == val)
       return vi[i].id;		/* FOUND */
   return vi[0].id;		/* NOT FOUND so let's default to first */
 }
 
 static Sane.Status
-init_options (HS2P_Scanner * s)
+init_options(HS2P_Scanner * s)
 {
   Int i
-  DBG (DBG_proc, ">> init_options\n")
+  DBG(DBG_proc, ">> init_options\n")
 
-  memset (s.opt, 0, sizeof (s.opt))
-  memset (s.val, 0, sizeof (s.val))
+  memset(s.opt, 0, sizeof(s.opt))
+  memset(s.val, 0, sizeof(s.val))
 
-  for (i = 0; i < NUM_OPTIONS; ++i)
+  for(i = 0; i < NUM_OPTIONS; ++i)
     {
-      s.opt[i].size = sizeof (Sane.Word)
+      s.opt[i].size = sizeof(Sane.Word)
       s.opt[i].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     }
 
@@ -754,9 +754,9 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_INQUIRY].title = Sane.TITLE_INQUIRY
   s.opt[OPT_INQUIRY].desc = Sane.DESC_INQUIRY
   s.opt[OPT_INQUIRY].type = Sane.TYPE_STRING
-  s.opt[OPT_INQUIRY].size = sizeof (inquiry_data)
+  s.opt[OPT_INQUIRY].size = sizeof(inquiry_data)
   s.opt[OPT_INQUIRY].constraint_type = Sane.CONSTRAINT_NONE
-  s.val[OPT_INQUIRY].s = strdup (inquiry_data)
+  s.val[OPT_INQUIRY].s = strdup(inquiry_data)
   s.opt[OPT_INQUIRY].cap = Sane.CAP_SOFT_DETECT;	/* Display Only */
 
   /* Scan mode */
@@ -766,11 +766,11 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_SCAN_MODE].type = Sane.TYPE_STRING
   s.opt[OPT_SCAN_MODE].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_SCAN_MODE].size =
-    max_string_size ((Sane.String_Const *) scan_mode_list)
+    max_string_size((Sane.String_Const *) scan_mode_list)
   s.opt[OPT_SCAN_MODE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_SCAN_MODE].constraint.string_list =
     (Sane.String_Const *) & scan_mode_list[0]
-  s.val[OPT_SCAN_MODE].s = strdup (scan_mode_list[0])
+  s.val[OPT_SCAN_MODE].s = strdup(scan_mode_list[0])
   s.image_composition = LINEART
 
   /* Standard resolutions */
@@ -810,12 +810,12 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_COMPRESSION].type = Sane.TYPE_STRING
   s.opt[OPT_COMPRESSION].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_COMPRESSION].size =
-    max_string_size ((Sane.String_Const *) compression_list)
+    max_string_size((Sane.String_Const *) compression_list)
   s.opt[OPT_COMPRESSION].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_COMPRESSION].constraint.string_list =
     (Sane.String_Const *) & compression_list[0]
-  s.val[OPT_COMPRESSION].s = strdup (compression_list[0])
-  if (s.hw.info.supports_MH == Sane.FALSE ||	/* MH  G3 1-D       */
+  s.val[OPT_COMPRESSION].s = strdup(compression_list[0])
+  if(s.hw.info.supports_MH == Sane.FALSE ||	/* MH  G3 1-D       */
       s.hw.info.supports_MR == Sane.FALSE ||	/* MR  G3 2-D       */
       s.hw.info.supports_MMR == Sane.FALSE ||	/* MMR G4 2-D       */
       s.hw.info.supports_MHB == Sane.FALSE)	/* MH byte boundary */
@@ -843,7 +843,7 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_AUTO_SIZE].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_AUTO_SIZE].constraint_type = Sane.CONSTRAINT_NONE
   s.val[OPT_AUTO_SIZE].w = Sane.FALSE
-  if (!s.hw.info.supports_sizerecognition)
+  if(!s.hw.info.supports_sizerecognition)
     s.opt[OPT_AUTO_SIZE].cap |= Sane.CAP_INACTIVE
 
   /* Pad short documents to requested length with white space */
@@ -854,10 +854,10 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_PADDING].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_PADDING].constraint_type = Sane.CONSTRAINT_NONE
   s.val[OPT_PADDING].w = Sane.TRUE
-  /*if (!s.hw.info.hasADF)
+  /*if(!s.hw.info.hasADF)
      s.opt[OPT_PADDING].cap |= Sane.CAP_INACTIVE
      FIXME: compare to user setting, not the existence of FB?
-     if (!strcmp (scan_source_list, "FB"))
+     if(!strcmp(scan_source_list, "FB"))
      s.opt[OPT_PADDING].cap |= Sane.CAP_INACTIVE; */
   /* Permanently disable OPT_PADDING */
   s.opt[OPT_PADDING].cap |= Sane.CAP_INACTIVE
@@ -867,20 +867,20 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_PAGE_ORIENTATION].title = Sane.TITLE_ORIENTATION
   s.opt[OPT_PAGE_ORIENTATION].desc = Sane.DESC_ORIENTATION
   s.opt[OPT_PAGE_ORIENTATION].type = Sane.TYPE_STRING
-  s.opt[OPT_PAGE_ORIENTATION].size = max_string_size (orientation_list)
+  s.opt[OPT_PAGE_ORIENTATION].size = max_string_size(orientation_list)
   s.opt[OPT_PAGE_ORIENTATION].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_PAGE_ORIENTATION].constraint.string_list = &orientation_list[0]
-  s.val[OPT_PAGE_ORIENTATION].s = strdup (orientation_list[0])
+  s.val[OPT_PAGE_ORIENTATION].s = strdup(orientation_list[0])
 
   /* Paper Size */
   s.opt[OPT_PAPER_SIZE].name = Sane.NAME_PAPER_SIZE
   s.opt[OPT_PAPER_SIZE].title = Sane.TITLE_PAPER_SIZE
   s.opt[OPT_PAPER_SIZE].desc = Sane.DESC_PAPER_SIZE
   s.opt[OPT_PAPER_SIZE].type = Sane.TYPE_STRING
-  s.opt[OPT_PAPER_SIZE].size = max_string_size (paper_list)
+  s.opt[OPT_PAPER_SIZE].size = max_string_size(paper_list)
   s.opt[OPT_PAPER_SIZE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_PAPER_SIZE].constraint.string_list = &paper_list[0]
-  s.val[OPT_PAPER_SIZE].s = strdup (paper_list[0])
+  s.val[OPT_PAPER_SIZE].s = strdup(paper_list[0])
 
   /* top-left x */
   s.opt[OPT_TL_X].name = Sane.NAME_SCAN_TL_X
@@ -890,7 +890,7 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_TL_X].unit = Sane.UNIT_MM
   s.opt[OPT_TL_X].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_TL_X].constraint.range = &(s.hw.info.x_range)
-  s.val[OPT_TL_X].w = Sane.FIX (0.0)
+  s.val[OPT_TL_X].w = Sane.FIX(0.0)
 
   /* top-left y */
   s.opt[OPT_TL_Y].name = Sane.NAME_SCAN_TL_Y
@@ -900,7 +900,7 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_TL_Y].unit = Sane.UNIT_MM
   s.opt[OPT_TL_Y].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_TL_Y].constraint.range = &(s.hw.info.y_range)
-  s.val[OPT_TL_Y].w = Sane.FIX (0.0)
+  s.val[OPT_TL_Y].w = Sane.FIX(0.0)
 
   /* bottom-right x */
   s.opt[OPT_BR_X].name = Sane.NAME_SCAN_BR_X
@@ -922,11 +922,11 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_BR_Y].constraint.range = &(s.hw.info.y_range)
   s.val[OPT_BR_Y].w = s.hw.info.y_range.max
 
-  DBG (DBG_info, "INIT_OPTIONS: ul(x,y) = (%d,%d)    br(x,y) = (%d,%d)\n",
-       (unsigned) Sane.UNFIX (s.val[OPT_TL_X].w),
-       (unsigned) Sane.UNFIX (s.val[OPT_TL_Y].w),
-       (unsigned) Sane.UNFIX (s.val[OPT_BR_X].w),
-       (unsigned) Sane.UNFIX (s.val[OPT_BR_Y].w))
+  DBG(DBG_info, "INIT_OPTIONS: ul(x,y) = (%d,%d)    br(x,y) = (%d,%d)\n",
+       (unsigned) Sane.UNFIX(s.val[OPT_TL_X].w),
+       (unsigned) Sane.UNFIX(s.val[OPT_TL_Y].w),
+       (unsigned) Sane.UNFIX(s.val[OPT_BR_X].w),
+       (unsigned) Sane.UNFIX(s.val[OPT_BR_Y].w))
   /* Autoborder */
   /* Rotation   */
   /* Deskew     */
@@ -949,12 +949,12 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_SCAN_SOURCE].desc = Sane.DESC_SCAN_SOURCE
   s.opt[OPT_SCAN_SOURCE].type = Sane.TYPE_STRING
   s.opt[OPT_SCAN_SOURCE].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
-  s.opt[OPT_SCAN_SOURCE].size = max_string_size (scan_source_list)
+  s.opt[OPT_SCAN_SOURCE].size = max_string_size(scan_source_list)
   s.opt[OPT_SCAN_SOURCE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_SCAN_SOURCE].constraint.string_list =
     (Sane.String_Const *) & scan_source_list[0]
-  s.val[OPT_SCAN_SOURCE].s = strdup (scan_source_list[0])
-  if (!s.hw.info.hasADF)
+  s.val[OPT_SCAN_SOURCE].s = strdup(scan_source_list[0])
+  if(!s.hw.info.hasADF)
     s.opt[OPT_SCAN_SOURCE].cap |= Sane.CAP_INACTIVE
 
   /* Duplex: */
@@ -965,7 +965,7 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_DUPLEX].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_DUPLEX].constraint_type = Sane.CONSTRAINT_NONE
   s.val[OPT_DUPLEX].w = s.hw.info.default_duplex
-  if (!s.hw.info.hasDuplex)
+  if(!s.hw.info.hasDuplex)
     s.opt[OPT_DUPLEX].cap |= Sane.CAP_INACTIVE
 
   /* Prefeed: */
@@ -986,7 +986,7 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_ENDORSER].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_ENDORSER].constraint_type = Sane.CONSTRAINT_NONE
   s.val[OPT_ENDORSER].w = s.hw.info.endorser_control
-  if (!s.hw.info.hasEndorser)
+  if(!s.hw.info.hasEndorser)
     s.opt[OPT_ENDORSER].cap |= Sane.CAP_INACTIVE
 
   /* Endorser String: */
@@ -996,10 +996,10 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_ENDORSER_STRING].type = Sane.TYPE_STRING
   s.opt[OPT_ENDORSER_STRING].cap =
     Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
-  s.opt[OPT_ENDORSER_STRING].size = sizeof (s.hw.info.endorser_string)
+  s.opt[OPT_ENDORSER_STRING].size = sizeof(s.hw.info.endorser_string)
   s.opt[OPT_ENDORSER_STRING].constraint_type = Sane.CONSTRAINT_NONE
-  s.val[OPT_ENDORSER_STRING].s = strdup (s.hw.info.endorser_string)
-  if (!s.hw.info.hasEndorser)
+  s.val[OPT_ENDORSER_STRING].s = strdup(s.hw.info.endorser_string)
+  if(!s.hw.info.hasEndorser)
     s.opt[OPT_ENDORSER_STRING].cap |= Sane.CAP_INACTIVE
 
   /* Batch     */
@@ -1022,13 +1022,13 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_HALFTONE_CODE].title = Sane.TITLE_HALFTONE_CODE
   s.opt[OPT_HALFTONE_CODE].desc = Sane.DESC_HALFTONE_CODE
   s.opt[OPT_HALFTONE_CODE].type = Sane.TYPE_STRING
-  s.opt[OPT_HALFTONE_CODE].size = max_string_size (halftone_code)
+  s.opt[OPT_HALFTONE_CODE].size = max_string_size(halftone_code)
   s.opt[OPT_HALFTONE_CODE].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_HALFTONE_CODE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_HALFTONE_CODE].constraint.string_list =
     (Sane.String_Const *) & halftone_code[0]
-  s.val[OPT_HALFTONE_CODE].s = strdup (halftone_code[0])
-  if (s.image_composition == LINEART)
+  s.val[OPT_HALFTONE_CODE].s = strdup(halftone_code[0])
+  if(s.image_composition == LINEART)
     s.opt[OPT_HALFTONE_CODE].cap |= Sane.CAP_INACTIVE
 
   /* Halftone patterns */
@@ -1037,14 +1037,14 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_HALFTONE_PATTERN].desc = Sane.DESC_HALFTONE_PATTERN
   s.opt[OPT_HALFTONE_PATTERN].type = Sane.TYPE_STRING
   s.opt[OPT_HALFTONE_PATTERN].size =
-    max_string_size ((Sane.String_Const *) halftone_pattern_list)
+    max_string_size((Sane.String_Const *) halftone_pattern_list)
   s.opt[OPT_HALFTONE_PATTERN].cap =
     Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_HALFTONE_PATTERN].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_HALFTONE_PATTERN].constraint.string_list =
     (Sane.String_Const *) & halftone_pattern_list[0]
-  s.val[OPT_HALFTONE_PATTERN].s = strdup (halftone_pattern_list[0])
-  if (s.image_composition == LINEART)
+  s.val[OPT_HALFTONE_PATTERN].s = strdup(halftone_pattern_list[0])
+  if(s.image_composition == LINEART)
     s.opt[OPT_HALFTONE_CODE].cap |= Sane.CAP_INACTIVE
 
   /* Gray Filter */
@@ -1052,12 +1052,12 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_GRAYFILTER].title = Sane.TITLE_GRAYFILTER
   s.opt[OPT_GRAYFILTER].desc = Sane.DESC_GRAYFILTER
   s.opt[OPT_GRAYFILTER].type = Sane.TYPE_STRING
-  s.opt[OPT_GRAYFILTER].size = max_string_size (grayfilter_list)
+  s.opt[OPT_GRAYFILTER].size = max_string_size(grayfilter_list)
   s.opt[OPT_GRAYFILTER].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_GRAYFILTER].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_GRAYFILTER].constraint.string_list =
     (Sane.String_Const *) & grayfilter_list[0]
-  s.val[OPT_GRAYFILTER].s = strdup (grayfilter_list[0])
+  s.val[OPT_GRAYFILTER].s = strdup(grayfilter_list[0])
 
   /* Scan Wait Mode */
   s.opt[OPT_SCAN_WAIT_MODE].name = Sane.NAME_SCAN_WAIT_MODE
@@ -1106,7 +1106,7 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_GAMMA].desc = Sane.DESC_GAMMA
   s.opt[OPT_GAMMA].type = Sane.TYPE_STRING
   s.opt[OPT_GAMMA].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
-  s.opt[OPT_GAMMA].size = max_string_size ((Sane.String_Const *) gamma_list)
+  s.opt[OPT_GAMMA].size = max_string_size((Sane.String_Const *) gamma_list)
   /*
      s.opt[OPT_GAMMA].type = Sane.TYPE_INT
      s.opt[OPT_GAMMA].unit = Sane.UNIT_NONE
@@ -1118,7 +1118,7 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_GAMMA].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_GAMMA].constraint.string_list =
     (Sane.String_Const *) & gamma_list[0]
-  s.val[OPT_GAMMA].s = strdup (gamma_list[0])
+  s.val[OPT_GAMMA].s = strdup(gamma_list[0])
 
   /* custom-gamma table */
   s.opt[OPT_CUSTOM_GAMMA].name = Sane.NAME_CUSTOM_GAMMA
@@ -1137,7 +1137,7 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_GAMMA_VECTOR_GRAY].cap |=
     Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_GAMMA_VECTOR_GRAY].unit = Sane.UNIT_NONE
-  s.opt[OPT_GAMMA_VECTOR_GRAY].size = GAMMA_LENGTH * sizeof (Sane.Word)
+  s.opt[OPT_GAMMA_VECTOR_GRAY].size = GAMMA_LENGTH * sizeof(Sane.Word)
   s.opt[OPT_GAMMA_VECTOR_GRAY].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_GAMMA_VECTOR_GRAY].constraint.range = &u8_range
   s.val[OPT_GAMMA_VECTOR_GRAY].wa = s.gamma_table
@@ -1156,7 +1156,7 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_SMOOTHING].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_SMOOTHING].constraint_type = Sane.CONSTRAINT_NONE
   s.val[OPT_SMOOTHING].w = Sane.FALSE
-  if (!s.hw.info.hasIPU)
+  if(!s.hw.info.hasIPU)
     s.opt[OPT_SMOOTHING].cap |= Sane.CAP_INACTIVE
 
   /* Binary Noise Removal Filter */
@@ -1164,12 +1164,12 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_NOISEREMOVAL].title = Sane.TITLE_NOISEREMOVAL
   s.opt[OPT_NOISEREMOVAL].desc = Sane.DESC_NOISEREMOVAL
   s.opt[OPT_NOISEREMOVAL].type = Sane.TYPE_STRING
-  s.opt[OPT_NOISEREMOVAL].size = max_string_size (noisematrix_list)
+  s.opt[OPT_NOISEREMOVAL].size = max_string_size(noisematrix_list)
   s.opt[OPT_NOISEREMOVAL].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_NOISEREMOVAL].constraint.string_list =
     (Sane.String_Const *) & noisematrix_list[0]
-  s.val[OPT_NOISEREMOVAL].s = strdup (noisematrix_list[0])
-  if (!s.hw.info.hasIPU)
+  s.val[OPT_NOISEREMOVAL].s = strdup(noisematrix_list[0])
+  if(!s.hw.info.hasIPU)
     s.opt[OPT_NOISEREMOVAL].cap |= Sane.CAP_INACTIVE
 
   /* Automatic Separation */
@@ -1177,12 +1177,12 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_AUTOSEP].title = Sane.TITLE_AUTOSEP
   s.opt[OPT_AUTOSEP].desc = Sane.DESC_AUTOSEP
   s.opt[OPT_AUTOSEP].type = Sane.TYPE_STRING
-  s.opt[OPT_AUTOSEP].size = max_string_size (auto_separation_list)
+  s.opt[OPT_AUTOSEP].size = max_string_size(auto_separation_list)
   s.opt[OPT_AUTOSEP].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_AUTOSEP].constraint.string_list =
     (Sane.String_Const *) & auto_separation_list[0]
-  s.val[OPT_AUTOSEP].s = strdup (auto_separation_list[0])
-  if (!s.hw.info.hasIPU)
+  s.val[OPT_AUTOSEP].s = strdup(auto_separation_list[0])
+  if(!s.hw.info.hasIPU)
     s.opt[OPT_AUTOSEP].cap |= Sane.CAP_INACTIVE
 
   /* Automatic Binarization */
@@ -1190,12 +1190,12 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_AUTOBIN].title = Sane.TITLE_AUTOBIN
   s.opt[OPT_AUTOBIN].desc = Sane.DESC_AUTOBIN
   s.opt[OPT_AUTOBIN].type = Sane.TYPE_STRING
-  s.opt[OPT_AUTOBIN].size = max_string_size (auto_binarization_list)
+  s.opt[OPT_AUTOBIN].size = max_string_size(auto_binarization_list)
   s.opt[OPT_AUTOBIN].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_AUTOBIN].constraint.string_list =
     (Sane.String_Const *) & auto_binarization_list[0]
-  s.val[OPT_AUTOBIN].s = strdup (auto_binarization_list[0])
-  if (!s.hw.info.hasIPU)
+  s.val[OPT_AUTOBIN].s = strdup(auto_binarization_list[0])
+  if(!s.hw.info.hasIPU)
     s.opt[OPT_AUTOBIN].cap |= Sane.CAP_INACTIVE
 
   /* SECTION
@@ -1238,7 +1238,7 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_PADDING_TYPE].desc = Sane.DESC_PADDING_TYPE
   s.opt[OPT_PADDING_TYPE].type = Sane.TYPE_STRING
   s.opt[OPT_PADDING_TYPE].cap = Sane.CAP_SOFT_DETECT;	/* Display only */
-  s.opt[OPT_PADDING_TYPE].size = max_string_size (paddingtype_list)
+  s.opt[OPT_PADDING_TYPE].size = max_string_size(paddingtype_list)
   /*
      s.opt[OPT_PADDING_TYPE].size = sizeof((paddingtype_list[ get_paddingtype_strndx(TRUNCATE) ]))
      s.opt[OPT_PADDING_TYPE].constraint_type = Sane.CONSTRAINT_NONE
@@ -1247,8 +1247,8 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_PADDING_TYPE].constraint.string_list =
     (Sane.String_Const *) & paddingtype_list[0]
   s.val[OPT_PADDING_TYPE].s =
-    strdup (paddingtype_list[get_paddingtype_strndx (TRUNCATE)])
-  DBG (DBG_info, "PADDINGTYPE =%s size=%d\n", s.val[OPT_PADDING_TYPE].s,
+    strdup(paddingtype_list[get_paddingtype_strndx(TRUNCATE)])
+  DBG(DBG_info, "PADDINGTYPE =%s size=%d\n", s.val[OPT_PADDING_TYPE].s,
        s.opt[OPT_PADDING_TYPE].size)
 
   /* Bit Order
@@ -1362,7 +1362,7 @@ init_options (HS2P_Scanner * s)
 
   s.opt[OPT_BLACK_LEVEL_ODD].name = "Black Level ODD"
   s.opt[OPT_BLACK_LEVEL_ODD].title = "Black Level ODD"
-  s.opt[OPT_BLACK_LEVEL_ODD].desc = "Adj. data in black level (ODD)"
+  s.opt[OPT_BLACK_LEVEL_ODD].desc = "Adj. data in black level(ODD)"
   s.opt[OPT_BLACK_LEVEL_ODD].type = Sane.TYPE_INT
   s.opt[OPT_BLACK_LEVEL_ODD].unit = Sane.UNIT_NONE
   s.opt[OPT_BLACK_LEVEL_ODD].cap = Sane.CAP_SOFT_DETECT
@@ -1370,7 +1370,7 @@ init_options (HS2P_Scanner * s)
 
   s.opt[OPT_BLACK_LEVEL_EVEN].name = "Black Level EVEN"
   s.opt[OPT_BLACK_LEVEL_EVEN].title = "Black Level EVEN"
-  s.opt[OPT_BLACK_LEVEL_EVEN].desc = "Adj. data in black level (EVEN)"
+  s.opt[OPT_BLACK_LEVEL_EVEN].desc = "Adj. data in black level(EVEN)"
   s.opt[OPT_BLACK_LEVEL_EVEN].type = Sane.TYPE_INT
   s.opt[OPT_BLACK_LEVEL_EVEN].unit = Sane.UNIT_NONE
   s.opt[OPT_BLACK_LEVEL_EVEN].cap = Sane.CAP_SOFT_DETECT
@@ -1378,7 +1378,7 @@ init_options (HS2P_Scanner * s)
 
   s.opt[OPT_WHITE_LEVEL_ODD].name = "White Level ODD"
   s.opt[OPT_WHITE_LEVEL_ODD].title = "White Level ODD"
-  s.opt[OPT_WHITE_LEVEL_ODD].desc = "Adj. data in White level (ODD)"
+  s.opt[OPT_WHITE_LEVEL_ODD].desc = "Adj. data in White level(ODD)"
   s.opt[OPT_WHITE_LEVEL_ODD].type = Sane.TYPE_INT
   s.opt[OPT_WHITE_LEVEL_ODD].unit = Sane.UNIT_NONE
   s.opt[OPT_WHITE_LEVEL_ODD].cap = Sane.CAP_SOFT_DETECT
@@ -1386,7 +1386,7 @@ init_options (HS2P_Scanner * s)
 
   s.opt[OPT_WHITE_LEVEL_EVEN].name = "White Level EVEN"
   s.opt[OPT_WHITE_LEVEL_EVEN].title = "White Level EVEN"
-  s.opt[OPT_WHITE_LEVEL_EVEN].desc = "Adj. data in White level (EVEN)"
+  s.opt[OPT_WHITE_LEVEL_EVEN].desc = "Adj. data in White level(EVEN)"
   s.opt[OPT_WHITE_LEVEL_EVEN].type = Sane.TYPE_INT
   s.opt[OPT_WHITE_LEVEL_EVEN].unit = Sane.UNIT_NONE
   s.opt[OPT_WHITE_LEVEL_EVEN].cap = Sane.CAP_SOFT_DETECT
@@ -1394,7 +1394,7 @@ init_options (HS2P_Scanner * s)
 
   s.opt[OPT_WHITE_LEVEL_EVEN].name = "White Level EVEN"
   s.opt[OPT_WHITE_LEVEL_EVEN].title = "White Level EVEN"
-  s.opt[OPT_WHITE_LEVEL_EVEN].desc = "Adj. data in White level (EVEN)"
+  s.opt[OPT_WHITE_LEVEL_EVEN].desc = "Adj. data in White level(EVEN)"
   s.opt[OPT_WHITE_LEVEL_EVEN].type = Sane.TYPE_INT
   s.opt[OPT_WHITE_LEVEL_EVEN].unit = Sane.UNIT_NONE
   s.opt[OPT_WHITE_LEVEL_EVEN].cap = Sane.CAP_SOFT_DETECT
@@ -1408,17 +1408,17 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_DENSITY].cap = Sane.CAP_SOFT_DETECT
   s.opt[OPT_DENSITY].constraint_type = Sane.CONSTRAINT_NONE
 
-  s.opt[OPT_FIRST_ADJ_WHITE_ODD].name = "1st adj. in white level (ODD)"
-  s.opt[OPT_FIRST_ADJ_WHITE_ODD].title = "1st adj. in white level (ODD)"
-  s.opt[OPT_FIRST_ADJ_WHITE_ODD].desc = "1st adj. in white level (ODD)"
+  s.opt[OPT_FIRST_ADJ_WHITE_ODD].name = "1st adj. in white level(ODD)"
+  s.opt[OPT_FIRST_ADJ_WHITE_ODD].title = "1st adj. in white level(ODD)"
+  s.opt[OPT_FIRST_ADJ_WHITE_ODD].desc = "1st adj. in white level(ODD)"
   s.opt[OPT_FIRST_ADJ_WHITE_ODD].type = Sane.TYPE_INT
   s.opt[OPT_FIRST_ADJ_WHITE_ODD].unit = Sane.UNIT_NONE
   s.opt[OPT_FIRST_ADJ_WHITE_ODD].cap = Sane.CAP_SOFT_DETECT
   s.opt[OPT_FIRST_ADJ_WHITE_ODD].constraint_type = Sane.CONSTRAINT_NONE
 
-  s.opt[OPT_FIRST_ADJ_WHITE_EVEN].name = "1st adj. in white level (EVEN)"
-  s.opt[OPT_FIRST_ADJ_WHITE_EVEN].title = "1st adj. in white level (EVEN)"
-  s.opt[OPT_FIRST_ADJ_WHITE_EVEN].desc = "1st adj. in white level (EVEN)"
+  s.opt[OPT_FIRST_ADJ_WHITE_EVEN].name = "1st adj. in white level(EVEN)"
+  s.opt[OPT_FIRST_ADJ_WHITE_EVEN].title = "1st adj. in white level(EVEN)"
+  s.opt[OPT_FIRST_ADJ_WHITE_EVEN].desc = "1st adj. in white level(EVEN)"
   s.opt[OPT_FIRST_ADJ_WHITE_EVEN].type = Sane.TYPE_INT
   s.opt[OPT_FIRST_ADJ_WHITE_EVEN].unit = Sane.UNIT_NONE
   s.opt[OPT_FIRST_ADJ_WHITE_EVEN].cap = Sane.CAP_SOFT_DETECT
@@ -1451,9 +1451,9 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_NSCANS_REVERSE_ADF].cap = Sane.CAP_SOFT_DETECT
   s.opt[OPT_NSCANS_REVERSE_ADF].constraint_type = Sane.CONSTRAINT_NONE
 
-  s.opt[OPT_REVERSE_TIME].name = "LAMP TIME (reverse)"
-  s.opt[OPT_REVERSE_TIME].title = "LAMP TIME (reverse)"
-  s.opt[OPT_REVERSE_TIME].desc = "LAMP TIME (reverse)"
+  s.opt[OPT_REVERSE_TIME].name = "LAMP TIME(reverse)"
+  s.opt[OPT_REVERSE_TIME].title = "LAMP TIME(reverse)"
+  s.opt[OPT_REVERSE_TIME].desc = "LAMP TIME(reverse)"
   s.opt[OPT_REVERSE_TIME].type = Sane.TYPE_INT
   s.opt[OPT_REVERSE_TIME].unit = Sane.UNIT_NONE
   s.opt[OPT_REVERSE_TIME].cap = Sane.CAP_SOFT_DETECT
@@ -1467,12 +1467,12 @@ init_options (HS2P_Scanner * s)
   s.opt[OPT_NCHARS].cap = Sane.CAP_SOFT_DETECT
   s.opt[OPT_NCHARS].constraint_type = Sane.CONSTRAINT_NONE
 
-  DBG (DBG_proc, "<< init_options\n")
+  DBG(DBG_proc, "<< init_options\n")
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-attach (Sane.String_Const devname, Int __Sane.unused__ connType,
+attach(Sane.String_Const devname, Int __Sane.unused__ connType,
 	HS2P_Device ** devp)
 {
   Sane.Status status
@@ -1490,196 +1490,196 @@ attach (Sane.String_Const devname, Int __Sane.unused__ connType,
   String *str
 
 
-  DBG (DBG_Sane.proc, ">>> attach:\n")
+  DBG(DBG_Sane.proc, ">>> attach:\n")
 
-  for (dev = first_dev; dev; dev = dev.next)
+  for(dev = first_dev; dev; dev = dev.next)
     {
-      if (strcmp (dev.sane.name, devname) == 0)
+      if(strcmp(dev.sane.name, devname) == 0)
 	{
-	  if (devp)
+	  if(devp)
 	    *devp = dev
 	  return Sane.STATUS_GOOD
 	}
     }
-  DBG (DBG_Sane.proc, ">>> attach: opening \"%s\"\n", devname)
+  DBG(DBG_Sane.proc, ">>> attach: opening \"%s\"\n", devname)
 
   /* sanei_scsi_open takes an option bufsize argument */
-  status = sanei_scsi_open (devname, &fd, &sense_handler, &(dev.sense_data))
-  if (status != Sane.STATUS_GOOD)
+  status = sanei_scsi_open(devname, &fd, &sense_handler, &(dev.sense_data))
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, ">>> attach: open failed: %s\n",
-	   Sane.strstatus (status))
-      return (status)
+      DBG(DBG_error, ">>> attach: open failed: %s\n",
+	   Sane.strstatus(status))
+      return(status)
     }
 
-  DBG (DBG_Sane.proc, ">>> attach: opened %s fd=%d\n", devname, fd)
+  DBG(DBG_Sane.proc, ">>> attach: opened %s fd=%d\n", devname, fd)
 
-  DBG (DBG_Sane.proc, ">>> attach: sending INQUIRY (standard data)\n")
-  memset (&ibuf, 0, sizeof (ibuf))
-  buf_size = sizeof (ibuf)
-  status = inquiry (fd, &ibuf, &buf_size, 0, HS2P_INQUIRY_STANDARD_PAGE_CODE)
-  if (status != Sane.STATUS_GOOD)
+  DBG(DBG_Sane.proc, ">>> attach: sending INQUIRY(standard data)\n")
+  memset(&ibuf, 0, sizeof(ibuf))
+  buf_size = sizeof(ibuf)
+  status = inquiry(fd, &ibuf, &buf_size, 0, HS2P_INQUIRY_STANDARD_PAGE_CODE)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, ">>> attach: inquiry failed: %s\n",
-	   Sane.strstatus (status))
-      sanei_scsi_close (fd)
-      return (status)
+      DBG(DBG_error, ">>> attach: inquiry failed: %s\n",
+	   Sane.strstatus(status))
+      sanei_scsi_close(fd)
+      return(status)
     }
 
-  DBG (DBG_info,
+  DBG(DBG_info,
        ">>> attach: reported devtype='%d', vendor='%.8s', product='%.16s', revision='%.4s'\n",
        ibuf.devtype, ibuf.vendor, ibuf.product, ibuf.revision)
-  DBG (DBG_info,
+  DBG(DBG_info,
        ">>> attach: reported RMB=%#x Ver=%#x ResponseDataFormat=%#x Length=%#x Byte7=%#x\n",
        ibuf.rmb_evpd, ibuf.version, ibuf.response_data_format, ibuf.length,
        ibuf.byte7)
 
-  if (ibuf.devtype != 6 || strncmp ((char *) ibuf.vendor, "RICOH   ", 8) != 0)
+  if(ibuf.devtype != 6 || strncmp((char *) ibuf.vendor, "RICOH   ", 8) != 0)
     {
-      DBG (DBG_warning, ">>> attach: device is not a RICOH scanner\n")
-      sanei_scsi_close (fd)
+      DBG(DBG_warning, ">>> attach: device is not a RICOH scanner\n")
+      sanei_scsi_close(fd)
       return Sane.STATUS_INVAL
     }
-  else if (!is_device_supported ((char *) ibuf.product))
+  else if(!is_device_supported((char *) ibuf.product))
     {
-      DBG (DBG_warning,
+      DBG(DBG_warning,
 	   ">>> attach: device %s is not yet a supported RICOH scanner\n",
 	   ibuf.product)
-      sanei_scsi_close (fd)
+      sanei_scsi_close(fd)
       return Sane.STATUS_INVAL
     }
 
   /* We should now have an open file descriptor to a supported hs2p scanner */
-  DBG (DBG_Sane.proc, ">>> attach: sending TEST_UNIT_READY\n")
+  DBG(DBG_Sane.proc, ">>> attach: sending TEST_UNIT_READY\n")
   do
     {
-      status = test_unit_ready (fd)
+      status = test_unit_ready(fd)
     }
-  while (status == HS2P_SK_UNIT_ATTENTION)
-  if (status != HS2P_SCSI_STATUS_GOOD)
+  while(status == HS2P_SK_UNIT_ATTENTION)
+  if(status != HS2P_SCSI_STATUS_GOOD)
     {
-      DBG (DBG_error, ">>> attach: test unit ready failed (%s)\n",
-	   Sane.strstatus (status))
-      sanei_scsi_close (fd)
-      return (status)
+      DBG(DBG_error, ">>> attach: test unit ready failed(%s)\n",
+	   Sane.strstatus(status))
+      sanei_scsi_close(fd)
+      return(status)
     }
 
-  DBG (DBG_Sane.proc, ">>> attach: sending INQUIRY (vpd data)\n")
-  memset (&vbuf, 0, sizeof (vbuf))
-  buf_size = sizeof (vbuf)
-  status = inquiry (fd, &vbuf, &buf_size, 1, HS2P_INQUIRY_VPD_PAGE_CODE)
-  if (status != Sane.STATUS_GOOD)
+  DBG(DBG_Sane.proc, ">>> attach: sending INQUIRY(vpd data)\n")
+  memset(&vbuf, 0, sizeof(vbuf))
+  buf_size = sizeof(vbuf)
+  status = inquiry(fd, &vbuf, &buf_size, 1, HS2P_INQUIRY_VPD_PAGE_CODE)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, ">>> attach: inquiry (vpd data) failed: %s\n",
-	   Sane.strstatus (status))
-      sanei_scsi_close (fd)
+      DBG(DBG_error, ">>> attach: inquiry(vpd data) failed: %s\n",
+	   Sane.strstatus(status))
+      sanei_scsi_close(fd)
       return status
     }
-  print_vpd_info (&vbuf)
+  print_vpd_info(&vbuf)
 
-  DBG (DBG_Sane.proc, ">>> attach: sending INQUIRY (jis data)\n")
-  memset (&jbuf, 0, sizeof (jbuf))
-  buf_size = sizeof (jbuf)
-  status = inquiry (fd, &jbuf, &buf_size, 1, HS2P_INQUIRY_JIS_PAGE_CODE)
-  if (status != Sane.STATUS_GOOD)
+  DBG(DBG_Sane.proc, ">>> attach: sending INQUIRY(jis data)\n")
+  memset(&jbuf, 0, sizeof(jbuf))
+  buf_size = sizeof(jbuf)
+  status = inquiry(fd, &jbuf, &buf_size, 1, HS2P_INQUIRY_JIS_PAGE_CODE)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, ">>> attach: inquiry (jis data) failed: %s\n",
-	   Sane.strstatus (status))
-      sanei_scsi_close (fd)
+      DBG(DBG_error, ">>> attach: inquiry(jis data) failed: %s\n",
+	   Sane.strstatus(status))
+      sanei_scsi_close(fd)
       return status
     }
-  print_jis_info (&jbuf)
+  print_jis_info(&jbuf)
 
 
   /* Fill in HS2P_Device {sane;info} */
-  dev = malloc (sizeof (*dev))
-  if (!dev)
+  dev = malloc(sizeof(*dev))
+  if(!dev)
     return Sane.STATUS_NO_MEM
-  memset (dev, 0, sizeof (*dev))
+  memset(dev, 0, sizeof(*dev))
 
   /* Maximum Number of Sub-Sections of Main Scanning Window */
-  if (strncmp ((char *) ibuf.product, "IS450", 5) == 0)
+  if(strncmp((char *) ibuf.product, "IS450", 5) == 0)
     {
       dev.info.max_win_sections = 4
     }
-  else if (strncmp ((char *) ibuf.product, "IS420", 5) == 0)
+  else if(strncmp((char *) ibuf.product, "IS420", 5) == 0)
     {
       dev.info.max_win_sections = 6
     }
 
   /* Some MODE SELECT scanner options */
-  DBG (DBG_proc, ">>> attach: get_basic_measurement_unit\n")
+  DBG(DBG_proc, ">>> attach: get_basic_measurement_unit\n")
   status =
-    get_basic_measurement_unit (fd, &(dev.info.bmu), &(dev.info.mud))
-  if (status != Sane.STATUS_GOOD)
+    get_basic_measurement_unit(fd, &(dev.info.bmu), &(dev.info.mud))
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, ">>> attach: get_basic_measurement_unit failed (%s)\n",
-	   Sane.strstatus (status))
-      DBG (DBG_error, ">>> attach: setting to defaults\n")
-      status = set_basic_measurement_unit (fd, MILLIMETERS)
-      if (status != Sane.STATUS_GOOD)
+      DBG(DBG_error, ">>> attach: get_basic_measurement_unit failed(%s)\n",
+	   Sane.strstatus(status))
+      DBG(DBG_error, ">>> attach: setting to defaults\n")
+      status = set_basic_measurement_unit(fd, MILLIMETERS)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (DBG_error,
-	       ">>> attach: set_basic_measurement_unit failed (%s)\n",
-	       Sane.strstatus (status))
+	  DBG(DBG_error,
+	       ">>> attach: set_basic_measurement_unit failed(%s)\n",
+	       Sane.strstatus(status))
 	}
     }
-  if ((status =
-       get_connection_parameters (fd, &(dev.info.cxn))) != Sane.STATUS_GOOD)
+  if((status =
+       get_connection_parameters(fd, &(dev.info.cxn))) != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, ">>> attach: get_connection_parameters failed\n")
+      DBG(DBG_error, ">>> attach: get_connection_parameters failed\n")
     }
-  status = get_endorser_control (fd, &dev.info.endorser_control)
-  if (status != Sane.STATUS_GOOD || dev.info.endorser_control != 0x01)
+  status = get_endorser_control(fd, &dev.info.endorser_control)
+  if(status != Sane.STATUS_GOOD || dev.info.endorser_control != 0x01)
     {
-      DBG (DBG_error,
+      DBG(DBG_error,
 	   ">>> attach: get_endorser_control failed: return value=%#02x\n",
 	   dev.info.endorser_control)
       dev.info.endorser_control = 0x00
     }
-  if ((dev.info.service_mode = get_service_mode (fd)) != 0x00
+  if((dev.info.service_mode = get_service_mode(fd)) != 0x00
       && dev.info.service_mode != 0x01)
     {
-      DBG (DBG_error, ">>> attach: get_service_mode failed %#02x\n",
+      DBG(DBG_error, ">>> attach: get_service_mode failed %#02x\n",
 	   dev.info.service_mode)
       dev.info.service_mode = 0x00
     }
-  if ((dev.info.scan_wait_mode = get_scan_wait_mode (fd)) != 0x00
+  if((dev.info.scan_wait_mode = get_scan_wait_mode(fd)) != 0x00
       && dev.info.scan_wait_mode != 0x01)
     {
-      DBG (DBG_error,
+      DBG(DBG_error,
 	   ">>> attach: get_scan_wait_mode failed: return value=%#02x\n",
 	   dev.info.scan_wait_mode)
       dev.info.scan_wait_mode = 0x00
     }
-  status = get_white_balance (fd, &dev.info.white_balance)
-  if (status != Sane.STATUS_GOOD && dev.info.white_balance != 0x01)
+  status = get_white_balance(fd, &dev.info.white_balance)
+  if(status != Sane.STATUS_GOOD && dev.info.white_balance != 0x01)
     {
-      DBG (DBG_error,
+      DBG(DBG_error,
 	   ">>> attach: get_white_balance failed: return value=%#02x\n",
 	   dev.info.white_balance)
       dev.info.white_balance = RELATIVE_WHITE
     }
 
-  DBG (DBG_info, ">>> attach: flushing and closing fd=%d\n", fd)
-  sanei_scsi_req_flush_all ()
-  sanei_scsi_close (fd)
+  DBG(DBG_info, ">>> attach: flushing and closing fd=%d\n", fd)
+  sanei_scsi_req_flush_all()
+  sanei_scsi_close(fd)
 
   dev.info.devtype = ibuf.devtype
-  snprintf (dev.info.vendor, 9, "%-.5s", ibuf.vendor);	/* RICOH */
-  trim_spaces (dev.info.vendor, sizeof (dev.info.vendor))
-  snprintf (dev.info.product, 16, "%-.16s", ibuf.product);	/* IS450 */
-  trim_spaces (dev.info.product, sizeof (dev.info.product))
-  snprintf (dev.info.revision, 5, "%-.4s", ibuf.revision);	/* 1R04 */
-  trim_spaces (dev.info.revision, sizeof (dev.info.revision))
+  snprintf(dev.info.vendor, 9, "%-.5s", ibuf.vendor);	/* RICOH */
+  trim_spaces(dev.info.vendor, sizeof(dev.info.vendor))
+  snprintf(dev.info.product, 16, "%-.16s", ibuf.product);	/* IS450 */
+  trim_spaces(dev.info.product, sizeof(dev.info.product))
+  snprintf(dev.info.revision, 5, "%-.4s", ibuf.revision);	/* 1R04 */
+  trim_spaces(dev.info.revision, sizeof(dev.info.revision))
 
   /* Sane.Device sane information */
-  dev.sane.name = strdup (devname)
+  dev.sane.name = strdup(devname)
   dev.sane.vendor =
-    (strcmp (dev.info.vendor, "RICOH") ==
-     0) ? strdup ("Ricoh") : strdup (dev.info.vendor)
-  dev.sane.model = strdup (dev.info.product)
-  dev.sane.type = strdup ("sheetfed scanner")
+    (strcmp(dev.info.vendor, "RICOH") ==
+     0) ? strdup("Ricoh") : strdup(dev.info.vendor)
+  dev.sane.model = strdup(dev.info.product)
+  dev.sane.type = strdup("sheetfed scanner")
   /*
      dev.sane.email_backend_author = strdup("<Jeremy Johnson> jeremy@acjlaw.net")
      dev.sane.backend_website = strdup("http://www.acjlaw.net:8080/~jeremy/Ricoh")
@@ -1701,7 +1701,7 @@ attach (Sane.String_Const devname, Int __Sane.unused__ connType,
 
   /* end_id 0=none,1=Yes,2=reserved;  should always be 0 or 1 */
   dev.info.hasEndorser = vbuf.end_id == 1 ? Sane.TRUE : Sane.FALSE
-  for (i = 0; i < 20; i++)
+  for(i = 0; i < 20; i++)
     dev.info.endorser_string[i] = '\0'
 
   /* ipu_id: Bit0: '0'-no IPU, '1'-has IPU
@@ -1722,29 +1722,29 @@ attach (Sane.String_Const devname, Int __Sane.unused__ connType,
   /* vbuf.imagecomposition & 0x40; FALSE */
   /* vbuf.imagecomposition & 0x80  FALSE reserved */
   str = &scan_mode_list[0];	/* array of string pointers */
-  if (dev.info.supports_lineart)
-    *str++ = strdup (SM_LINEART)
-  if (dev.info.supports_dithering || dev.info.supports_errordiffusion)
-    *str++ = strdup (SM_HALFTONE)
-  if (dev.info.supports_color)
-    *str++ = strdup (SM_COLOR)
-  if (dev.info.supports_4bitgray)
-    *str++ = strdup (SM_4BITGRAY)
-  if (dev.info.supports_8bitgray)
-    *str++ = strdup (SM_8BITGRAY)
+  if(dev.info.supports_lineart)
+    *str++ = strdup(SM_LINEART)
+  if(dev.info.supports_dithering || dev.info.supports_errordiffusion)
+    *str++ = strdup(SM_HALFTONE)
+  if(dev.info.supports_color)
+    *str++ = strdup(SM_COLOR)
+  if(dev.info.supports_4bitgray)
+    *str++ = strdup(SM_4BITGRAY)
+  if(dev.info.supports_8bitgray)
+    *str++ = strdup(SM_8BITGRAY)
   *str = NULL
 
-  snprintf (device_string, 60, "Flatbed%s%s%s%s%s%s",
+  snprintf(device_string, 60, "Flatbed%s%s%s%s%s%s",
 	    dev.info.hasADF ? "/ADF" : "",
 	    dev.info.hasDuplex ? "/Duplex" : "",
 	    dev.info.hasEndorser ? "/Endorser" : "",
 	    dev.info.hasIPU ? "/IPU" : "",
 	    dev.info.supports_color ? " Color" : " B&W", " Scanner")
-  dev.sane.type = strdup (device_string)
+  dev.sane.type = strdup(device_string)
 
   /* ACE Image Data Processing  Binary Filters
    * For IS450 this is set to 0x18 (0001 1000) if IPU installed, else 0x00
-   * For IS420 this is set to 0x3C (0011 1100) if IPU installed, else 0x00
+   * For IS420 this is set to 0x3C(0011 1100) if IPU installed, else 0x00
    */
   dev.info.supports_whiteframing =
     ((vbuf.imagedataprocessing[0] & 0x01) == 0x01) ? Sane.TRUE : Sane.FALSE
@@ -1771,15 +1771,15 @@ attach (Sane.String_Const devname, Int __Sane.unused__ connType,
 
   /* compression_list[] will have variable number of elements, but the order will be fixed as follows: */
   str = &compression_list[0]
-  *str++ = strdup ("none")
-  if (dev.info.supports_MH)
-    *str++ = strdup ("G3 1-D MH")
-  if (dev.info.supports_MR)
-    *str++ = strdup ("G3 2-D MR")
-  if (dev.info.supports_MMR)
-    *str++ = strdup ("G4 2-D MMR")
-  if (dev.info.supports_MHB)
-    *str++ = strdup ("MH Byte Boundary")
+  *str++ = strdup("none")
+  if(dev.info.supports_MH)
+    *str++ = strdup("G3 1-D MH")
+  if(dev.info.supports_MR)
+    *str++ = strdup("G3 2-D MR")
+  if(dev.info.supports_MMR)
+    *str++ = strdup("G4 2-D MMR")
+  if(dev.info.supports_MHB)
+    *str++ = strdup("MH Byte Boundary")
   *str = NULL
 
   /* Marker Recognition is set to 0x00 */
@@ -1802,105 +1802,105 @@ attach (Sane.String_Const devname, Int __Sane.unused__ connType,
     (vbuf.xmaxoutputpixels[0] << 8) | vbuf.xmaxoutputpixels[1]
 
   /* Set capabilities from jis VPD IDENTIFIER Page Code F0H */
-  dev.info.resBasicX = _2btol (&jbuf.BasicRes.x[0]);	/* set to 400 */
-  dev.info.resBasicY = _2btol (&jbuf.BasicRes.y[0]);	/* set to 400 */
+  dev.info.resBasicX = _2btol(&jbuf.BasicRes.x[0]);	/* set to 400 */
+  dev.info.resBasicY = _2btol(&jbuf.BasicRes.y[0]);	/* set to 400 */
 
   dev.info.resXstep = (jbuf.resolutionstep >> 4) & 0x0F;	/* set to 1   */
   dev.info.resYstep = jbuf.resolutionstep & 0x0F;	/* set to 1   */
-  dev.info.resMaxX = _2btol (&jbuf.MaxRes.x[0]);	/* set to 800 */
-  dev.info.resMaxY = _2btol (&jbuf.MaxRes.y[0]);	/* set to 800 */
-  dev.info.resMinX = _2btol (&jbuf.MinRes.x[0]);	/* set to 100 for IS450 and 60 for IS420 */
-  dev.info.resMinY = _2btol (&jbuf.MinRes.y[0]);	/* set to 100 for IS450 and 60 for IS420 */
+  dev.info.resMaxX = _2btol(&jbuf.MaxRes.x[0]);	/* set to 800 */
+  dev.info.resMaxY = _2btol(&jbuf.MaxRes.y[0]);	/* set to 800 */
+  dev.info.resMinX = _2btol(&jbuf.MinRes.x[0]);	/* set to 100 for IS450 and 60 for IS420 */
+  dev.info.resMinY = _2btol(&jbuf.MinRes.y[0]);	/* set to 100 for IS450 and 60 for IS420 */
 
-  dev.info.xres_range.min = _2btol (&jbuf.MinRes.x[0]);	/* set to 100 for IS450 and 60 for IS420 */
-  dev.info.xres_range.max = _2btol (&jbuf.MaxRes.x[0]);	/* set to 800 */
+  dev.info.xres_range.min = _2btol(&jbuf.MinRes.x[0]);	/* set to 100 for IS450 and 60 for IS420 */
+  dev.info.xres_range.max = _2btol(&jbuf.MaxRes.x[0]);	/* set to 800 */
   dev.info.resXstep = (jbuf.resolutionstep >> 4) & 0x0F;	/* set to 1   */
   dev.info.xres_range.quant = dev.info.resXstep
 
-  dev.info.yres_range.min = _2btol (&jbuf.MinRes.y[0]);	/* set to 100 for IS450 and 60 for IS420 */
-  dev.info.yres_range.max = _2btol (&jbuf.MaxRes.y[0]);	/* set to 800 */
+  dev.info.yres_range.min = _2btol(&jbuf.MinRes.y[0]);	/* set to 100 for IS450 and 60 for IS420 */
+  dev.info.yres_range.max = _2btol(&jbuf.MaxRes.y[0]);	/* set to 800 */
   dev.info.resYstep = jbuf.resolutionstep & 0x0F;	/* set to 1   */
   dev.info.yres_range.quant = dev.info.resYstep
 
   /* set the length of the list to zero first, then append standard resolutions */
   i = 0
-  if ((jbuf.standardres[0] & 0x80) == 0x80)
+  if((jbuf.standardres[0] & 0x80) == 0x80)
     dev.info.resStdList[++i] = 60
-  if ((jbuf.standardres[0] & 0x40) == 0x40)
+  if((jbuf.standardres[0] & 0x40) == 0x40)
     dev.info.resStdList[++i] = 75
-  if ((jbuf.standardres[0] & 0x20) == 0x20)
+  if((jbuf.standardres[0] & 0x20) == 0x20)
     dev.info.resStdList[++i] = 100
-  if ((jbuf.standardres[0] & 0x10) == 0x10)
+  if((jbuf.standardres[0] & 0x10) == 0x10)
     dev.info.resStdList[++i] = 120
-  if ((jbuf.standardres[0] & 0x08) == 0x08)
+  if((jbuf.standardres[0] & 0x08) == 0x08)
     dev.info.resStdList[++i] = 150
-  if ((jbuf.standardres[0] & 0x04) == 0x04)
+  if((jbuf.standardres[0] & 0x04) == 0x04)
     dev.info.resStdList[++i] = 160
-  if ((jbuf.standardres[0] & 0x02) == 0x02)
+  if((jbuf.standardres[0] & 0x02) == 0x02)
     dev.info.resStdList[++i] = 180
-  if ((jbuf.standardres[0] & 0x01) == 0x01)
+  if((jbuf.standardres[0] & 0x01) == 0x01)
     dev.info.resStdList[++i] = 200
-  if ((jbuf.standardres[1] & 0x80) == 0x80)
+  if((jbuf.standardres[1] & 0x80) == 0x80)
     dev.info.resStdList[++i] = 240
-  if ((jbuf.standardres[1] & 0x40) == 0x40)
+  if((jbuf.standardres[1] & 0x40) == 0x40)
     dev.info.resStdList[++i] = 300
-  if ((jbuf.standardres[1] & 0x20) == 0x20)
+  if((jbuf.standardres[1] & 0x20) == 0x20)
     dev.info.resStdList[++i] = 320
-  if ((jbuf.standardres[1] & 0x10) == 0x10)
+  if((jbuf.standardres[1] & 0x10) == 0x10)
     dev.info.resStdList[++i] = 400
-  if ((jbuf.standardres[1] & 0x08) == 0x08)
+  if((jbuf.standardres[1] & 0x08) == 0x08)
     dev.info.resStdList[++i] = 480
-  if ((jbuf.standardres[1] & 0x04) == 0x04)
+  if((jbuf.standardres[1] & 0x04) == 0x04)
     dev.info.resStdList[++i] = 600
-  if ((jbuf.standardres[1] & 0x02) == 0x02)
+  if((jbuf.standardres[1] & 0x02) == 0x02)
     dev.info.resStdList[++i] = 800
-  if ((jbuf.standardres[1] & 0x01) == 0x01)
+  if((jbuf.standardres[1] & 0x01) == 0x01)
     dev.info.resStdList[++i] = 1200
   dev.info.resStdList[0] = i;	/* number of resolutions */
-  if (dev.info.resStdList[0] == 0)
+  if(dev.info.resStdList[0] == 0)
     {				/* make a default standard resolutions for 200 and 300dpi */
-      DBG (DBG_warning, "attach: no standard resolutions reported\n")
+      DBG(DBG_warning, "attach: no standard resolutions reported\n")
       dev.info.resStdList[0] = 2
       dev.info.resStdList[1] = 200
       dev.info.resStdList[2] = 300
       dev.info.resBasicX = dev.info.resBasicY = 300
     }
-  DBG (DBG_info, "attach: Window(W/L) = (%lu/%lu)\n",
-       _4btol (&jbuf.Window.width[0]), _4btol (&jbuf.Window.length[0]))
-  dev.info.winWidth = _4btol (&jbuf.Window.width[0])
-  dev.info.winHeight = _4btol (&jbuf.Window.length[0])
-  if (dev.info.winWidth <= 0)
+  DBG(DBG_info, "attach: Window(W/L) = (%lu/%lu)\n",
+       _4btol(&jbuf.Window.width[0]), _4btol(&jbuf.Window.length[0]))
+  dev.info.winWidth = _4btol(&jbuf.Window.width[0])
+  dev.info.winHeight = _4btol(&jbuf.Window.length[0])
+  if(dev.info.winWidth <= 0)
     {
       dev.info.winWidth = (Int) (dev.info.resBasicX * 8.5)
-      DBG (DBG_warning, "attach: invalid window width reported, using %d\n",
+      DBG(DBG_warning, "attach: invalid window width reported, using %d\n",
 	   dev.info.winWidth)
     }
-  if (dev.info.winHeight <= 0)
+  if(dev.info.winHeight <= 0)
     {
       dev.info.winHeight = dev.info.resBasicY * 14
-      DBG (DBG_warning, "attach: invalid window height reported, using %d\n",
+      DBG(DBG_warning, "attach: invalid window height reported, using %d\n",
 	   dev.info.winHeight)
     }
   /* 4692 / 400 * 25.4 = 297 */
   mm = (dev.info.resBasicX > 0) ?
     ((double) dev.info.winWidth / (double) dev.info.resBasicX *
      MM_PER_INCH) : 0.0
-  dev.info.x_range.min = Sane.FIX (0.0)
-  dev.info.x_range.max = Sane.FIX (mm)
-  dev.info.x_range.quant = Sane.FIX (0.0)
-  DBG (DBG_info, "attach: winWidth=%d resBasicX=%d mm/in=%f mm=%f\n",
+  dev.info.x_range.min = Sane.FIX(0.0)
+  dev.info.x_range.max = Sane.FIX(mm)
+  dev.info.x_range.quant = Sane.FIX(0.0)
+  DBG(DBG_info, "attach: winWidth=%d resBasicX=%d mm/in=%f mm=%f\n",
        dev.info.winWidth, dev.info.resBasicX, MM_PER_INCH, mm)
 
   mm = (dev.info.resBasicY > 0) ?
     ((double) dev.info.winHeight / (double) dev.info.resBasicY *
      MM_PER_INCH) : 0.0
-  dev.info.y_range.min = Sane.FIX (0.0)
-  dev.info.y_range.max = Sane.FIX (mm)
-  dev.info.y_range.quant = Sane.FIX (0.0)
+  dev.info.y_range.min = Sane.FIX(0.0)
+  dev.info.y_range.max = Sane.FIX(mm)
+  dev.info.y_range.quant = Sane.FIX(0.0)
 
-  DBG (DBG_info, "attach: RANGE x_range.max=%f, y_range.max=%f\n",
-       Sane.UNFIX (dev.info.x_range.max),
-       Sane.UNFIX (dev.info.y_range.max))
+  DBG(DBG_info, "attach: RANGE x_range.max=%f, y_range.max=%f\n",
+       Sane.UNFIX(dev.info.x_range.max),
+       Sane.UNFIX(dev.info.y_range.max))
 
   /* min, max, quantization  light-dark  1-255, 0 means default 128 */
   dev.info.brightness_range.min = 1
@@ -1947,10 +1947,10 @@ attach (Sane.String_Const devname, Int __Sane.unused__ connType,
   dev.next = first_dev
   first_dev = dev
 
-  if (devp)
+  if(devp)
     *devp = dev
 
-  DBG (DBG_Sane.proc, "<<< attach:\n")
+  DBG(DBG_Sane.proc, "<<< attach:\n")
   return Sane.STATUS_GOOD
 }
 
@@ -1959,153 +1959,153 @@ attach (Sane.String_Const devname, Int __Sane.unused__ connType,
 
 /* SANE callback to attach a SCSI device */
 static Sane.Status
-attach_one_scsi (const char *devname)
+attach_one_scsi(const char *devname)
 {
-  return attach (devname, CONNECTION_SCSI, NULL)
+  return attach(devname, CONNECTION_SCSI, NULL)
   /* return Sane.STATUS_GOOD; */
 }
 
 static void
-parse_configuration_file (FILE * fp)
+parse_configuration_file(FILE * fp)
 {
   char line[PATH_MAX], *s, *t
   Int linenumber
 
-  DBG (DBG_proc, ">> parse_configuration_file\n")
+  DBG(DBG_proc, ">> parse_configuration_file\n")
 
-  if (fp == NULL)
+  if(fp == NULL)
     {
-      DBG (DBG_proc,
+      DBG(DBG_proc,
 	   ">> parse_configuration_file: No config file present!\n")
     }
   else
     {				/*parse configuration file */
-      for (linenumber = 0; sanei_config_read (line, sizeof (line), fp)
+      for(linenumber = 0; sanei_config_read(line, sizeof(line), fp)
 	   linenumber++)
 	{
-	  DBG (DBG_proc,
+	  DBG(DBG_proc,
 	       ">> parse_configuration_file: parsing config line \"%s\"\n",
 	       line)
-	  if (line[0] == '#')
+	  if(line[0] == '#')
 	    continue;		/* ignore line comments */
-	  for (s = line; isspace (*s); ++s);	/* skip white space: */
-	  for (t = s; *t != '\0'; t++)
-	  for (--t; t > s && isspace (*t); t--)
+	  for(s = line; isspace(*s); ++s);	/* skip white space: */
+	  for(t = s; *t != '\0'; t++)
+	  for(--t; t > s && isspace(*t); t--)
 	  *(++t) = '\0';	/*trim trailing space */
-	  if (!strlen (s))
+	  if(!strlen(s))
 	    continue;		/* ignore empty lines */
-	  if ((t = strstr (s, "scsi ")) != NULL)
+	  if((t = strstr(s, "scsi ")) != NULL)
 	    {
 	      /*  scsi VENDOR MODEL TYPE BUS CHANNEL ID LUN */
-	      DBG (DBG_proc,
+	      DBG(DBG_proc,
 		   ">> parse_configuration_file: config file line %d: trying to attach SCSI: %s'\n",
 		   linenumber, line)
-	      sanei_config_attach_matching_devices (t, attach_one_scsi)
+	      sanei_config_attach_matching_devices(t, attach_one_scsi)
 	    }
-	  else if ((t = strstr (s, "/dev/")) != NULL)
+	  else if((t = strstr(s, "/dev/")) != NULL)
 	    {
 	      /* /dev/scanner /dev/sg0 */
-	      DBG (DBG_proc,
+	      DBG(DBG_proc,
 		   ">> parse_configuration_file: config file line %d: trying to attach SCSI: %s'\n",
 		   linenumber, line)
-	      sanei_config_attach_matching_devices (t, attach_one_scsi)
+	      sanei_config_attach_matching_devices(t, attach_one_scsi)
 	    }
-	  else if ((t = strstr (s, "option")) != NULL)
+	  else if((t = strstr(s, "option")) != NULL)
 	    {
-	      for (t += 6; isspace (*t); t++);	/* skip to flag */
+	      for(t += 6; isspace(*t); t++);	/* skip to flag */
 	      /* if(strstr(t,"FLAG_VALUE")!=NULL) FLAG_VALUE=Sane.TRUE; */
 	    }
 	  else
 	    {
-	      DBG (DBG_proc,
+	      DBG(DBG_proc,
 		   ">> parse_configuration_file: config file line %d: OBSOLETE !! use the scsi keyword!\n",
 		   linenumber)
-	      DBG (DBG_proc,
+	      DBG(DBG_proc,
 		   ">> parse_configuration_file:   (see man sane-avision for details): trying to attach SCSI: %s'\n",
 		   line)
 	    }
 	}
-      fclose (fp)
+      fclose(fp)
     }
-  DBG (DBG_proc, "<< parse_configuration_file\n")
+  DBG(DBG_proc, "<< parse_configuration_file\n")
   return
 }
 
 static Sane.Status
-do_cancel (HS2P_Scanner * s)
+do_cancel(HS2P_Scanner * s)
 {
   Sane.Status status
-  DBG (DBG_Sane.proc, ">> do_cancel\n")
+  DBG(DBG_Sane.proc, ">> do_cancel\n")
 
-  DBG (DBG_proc, "cancel: sending OBJECT POSITION\n")
+  DBG(DBG_proc, "cancel: sending OBJECT POSITION\n")
 
   s.scanning = Sane.FALSE
   s.cancelled = Sane.TRUE
   s.EOM = Sane.FALSE
 
-  if (s.fd >= 0)
+  if(s.fd >= 0)
     {
-      if ((status =
-	   object_position (s.fd,
+      if((status =
+	   object_position(s.fd,
 			    OBJECT_POSITION_UNLOAD)) != Sane.STATUS_GOOD)
 	{
-	  DBG (DBG_error, "cancel: OBJECT POSITION failed\n")
+	  DBG(DBG_error, "cancel: OBJECT POSITION failed\n")
 	}
-      sanei_scsi_req_flush_all ()
-      release_unit (s.fd)
-      sanei_scsi_close (s.fd)
+      sanei_scsi_req_flush_all()
+      release_unit(s.fd)
+      sanei_scsi_close(s.fd)
       s.fd = -1
     }
   /*
-     if (s.reader_pid > 0){
+     if(s.reader_pid > 0){
      Int exit_status
-     sanei_thread_kill (s.reader_pid)
-     sanei_thread_waitpid (s.reader_pid, &exit_status)
+     sanei_thread_kill(s.reader_pid)
+     sanei_thread_waitpid(s.reader_pid, &exit_status)
      s.reader_pid = 0
      }
    */
 
-  DBG (DBG_Sane.proc, "<< do_cancel\n")
-  return (Sane.STATUS_CANCELLED)
+  DBG(DBG_Sane.proc, "<< do_cancel\n")
+  return(Sane.STATUS_CANCELLED)
 }
 
 
 Sane.Status
-Sane.init (Int * version_code,
+Sane.init(Int * version_code,
 	   Sane.Auth_Callback __Sane.unused__ authorize)
 {
   FILE *fp
 
-  DBG_INIT ();			/* initialize SANE DEBUG */
+  DBG_INIT();			/* initialize SANE DEBUG */
 
-  /*DBG (DBG_Sane.init, "> Sane.init (authorize = %p)\n", (void *) authorize); */
+  /*DBG(DBG_Sane.init, "> Sane.init(authorize = %p)\n", (void *) authorize); */
 #if defined PACKAGE && defined VERSION
-  DBG (DBG_Sane.init, "> Sane.init: hs2p backend version %d.%d-%d ("
+  DBG(DBG_Sane.init, "> Sane.init: hs2p backend version %d.%d-%d("
        PACKAGE " " VERSION ")\n", Sane.CURRENT_MAJOR, V_MINOR, BUILD)
 #endif
   /*
-     sanei_thread_init ()
+     sanei_thread_init()
    */
 
-  if (version_code)
-    *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, 0)
+  if(version_code)
+    *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, 0)
 
 
-  if ((fp = sanei_config_open (HS2P_CONFIG_FILE)) != NULL)
+  if((fp = sanei_config_open(HS2P_CONFIG_FILE)) != NULL)
     {
-      parse_configuration_file (fp)
+      parse_configuration_file(fp)
     }
   else
     {
-      DBG (DBG_Sane.init, "> Sane.init: No config file \"%s\" present!\n",
+      DBG(DBG_Sane.init, "> Sane.init: No config file \"%s\" present!\n",
 	   HS2P_CONFIG_FILE)
     }
 
 #if 0
   /* avision.c: search for all supported scanners on all scsi buses & channels */
-  for (hw = &HS2P_Device_List[0]; hw.mfg != NULL; hw++)
+  for(hw = &HS2P_Device_List[0]; hw.mfg != NULL; hw++)
     {
-      sanei_scsi_find_devices (hw.mfg,	/*vendor */
+      sanei_scsi_find_devices(hw.mfg,	/*vendor */
 			       hw.model,	/*model */
 			       NULL,	/*all types */
 			       -1,	/*all bus */
@@ -2113,89 +2113,89 @@ Sane.init (Int * version_code,
 			       -1,	/*all id */
 			       -1,	/*all lun */
 			       attach_one_scsi);	/*callback */
-      DBG (2, "Sane.init: %s %s\n", hw.mfg, hw.model)
+      DBG(2, "Sane.init: %s %s\n", hw.mfg, hw.model)
     }
 #endif
 
-  DBG (DBG_Sane.init, "< Sane.init\n")
+  DBG(DBG_Sane.init, "< Sane.init\n")
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   HS2P_Device *dev, *next
-  DBG (DBG_proc, ">> Sane.exit\n")
+  DBG(DBG_proc, ">> Sane.exit\n")
 
-  for (dev = first_dev; dev; dev = next)
+  for(dev = first_dev; dev; dev = next)
     {
       next = dev.next
-      free ((void *) (Sane.String_Const *) dev.sane.name)
-      free ((Sane.String_Const *) dev.sane.model)
-      free (dev)
+      free((void *) (Sane.String_Const *) dev.sane.name)
+      free((Sane.String_Const *) dev.sane.model)
+      free(dev)
     }
 
-  DBG (DBG_proc, "<< Sane.exit\n")
+  DBG(DBG_proc, "<< Sane.exit\n")
 }
 
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 {
   static const Sane.Device **devlist = 0
   HS2P_Device *dev
   var i: Int
-  DBG (DBG_proc, ">> Sane.get_devices (local_only = %d)\n", local_only)
+  DBG(DBG_proc, ">> Sane.get_devices(local_only = %d)\n", local_only)
 
-  if (devlist)
-    free (devlist)
-  devlist = malloc ((num_devices + 1) * sizeof (devlist[0]))
-  if (!devlist)
-    return (Sane.STATUS_NO_MEM)
+  if(devlist)
+    free(devlist)
+  devlist = malloc((num_devices + 1) * sizeof(devlist[0]))
+  if(!devlist)
+    return(Sane.STATUS_NO_MEM)
 
   i = 0
-  for (dev = first_dev; dev; dev = dev.next)
+  for(dev = first_dev; dev; dev = dev.next)
     devlist[i++] = &dev.sane
   devlist[i++] = 0
 
   *device_list = devlist
 
-  DBG (DBG_proc, "<< Sane.get_devices\n")
+  DBG(DBG_proc, "<< Sane.get_devices\n")
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.open (Sane.String_Const devnam, Sane.Handle * handle)
+Sane.open(Sane.String_Const devnam, Sane.Handle * handle)
 {
   Sane.Status status
   HS2P_Device *dev
   HS2P_Scanner *s
-  DBG (DBG_proc, "> Sane.open\n")
+  DBG(DBG_proc, "> Sane.open\n")
 
-  if (devnam[0] == '\0')
+  if(devnam[0] == '\0')
     {
-      for (dev = first_dev; dev; dev = dev.next)
+      for(dev = first_dev; dev; dev = dev.next)
 	{
-	  if (strcmp (dev.sane.name, devnam) == 0)
+	  if(strcmp(dev.sane.name, devnam) == 0)
 	    break
 	}
-      if (!dev)
+      if(!dev)
 	{
-	  status = attach (devnam, CONNECTION_SCSI, &dev)
-	  if (status != Sane.STATUS_GOOD)
-	    return (status)
+	  status = attach(devnam, CONNECTION_SCSI, &dev)
+	  if(status != Sane.STATUS_GOOD)
+	    return(status)
 	}
     }
   else
     {
       dev = first_dev
     }
-  if (!dev)
-    return (Sane.STATUS_INVAL)
+  if(!dev)
+    return(Sane.STATUS_INVAL)
 
-  s = malloc (sizeof (*s))
-  if (!s)
+  s = malloc(sizeof(*s))
+  if(!s)
     return Sane.STATUS_NO_MEM
-  memset (s, 0, sizeof (*s));	/* initialize */
+  memset(s, 0, sizeof(*s));	/* initialize */
 
   s.fd = -1
   s.hw = dev
@@ -2209,8 +2209,8 @@ Sane.open (Sane.String_Const devnam, Sane.Handle * handle)
   /*
    */
 
-  ScannerDump (s)
-  init_options (s)
+  ScannerDump(s)
+  init_options(s)
 
   s.next = first_handle;	/* insert newly opened handle into list of open handles: */
   first_handle = s
@@ -2221,52 +2221,52 @@ Sane.open (Sane.String_Const devnam, Sane.Handle * handle)
 
   *handle = s
 
-  DBG (DBG_proc, "< Sane.open\n")
+  DBG(DBG_proc, "< Sane.open\n")
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
   HS2P_Scanner *s = (HS2P_Scanner *) handle
   char **str
-  DBG (DBG_proc, ">> Sane.close\n")
+  DBG(DBG_proc, ">> Sane.close\n")
 
-  if (s.fd != -1)
-    sanei_scsi_close (s.fd)
-  free (s)
+  if(s.fd != -1)
+    sanei_scsi_close(s.fd)
+  free(s)
 
-  for (str = &compression_list[0]; *str; str++)
-  free (*str)
-  for (str = &scan_mode_list[0]; *str; str++)
-  free (*str)
+  for(str = &compression_list[0]; *str; str++)
+  free(*str)
+  for(str = &scan_mode_list[0]; *str; str++)
+  free(*str)
 
-  DBG (DBG_proc, "<< Sane.close\n")
+  DBG(DBG_proc, "<< Sane.close\n")
 }
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
   HS2P_Scanner *s = handle
-  DBG (DBG_proc, ">> Sane.get_option_descriptor: %d name=%s\n", option,
+  DBG(DBG_proc, ">> Sane.get_option_descriptor: %d name=%s\n", option,
        s.opt[option].name)
 
-  if ((unsigned) option >= NUM_OPTIONS)
-    return (0)
+  if((unsigned) option >= NUM_OPTIONS)
+    return(0)
 
-  DBG (DBG_info, "<< Sane.get_option_descriptor: name=%s\n",
+  DBG(DBG_info, "<< Sane.get_option_descriptor: name=%s\n",
        s.opt[option].name)
-  return (s.opt + option)
+  return(s.opt + option)
 }
 
 #if 0
 static Int
-get_scan_mode_id (char *s)	/* sequential search */
+get_scan_mode_id(char *s)	/* sequential search */
 {
   Int i
 
-  for (i = 0; scan_mode_list[i]; i++)
-    if (strcmp (s, scan_mode_list[i]) == 0)
+  for(i = 0; scan_mode_list[i]; i++)
+    if(strcmp(s, scan_mode_list[i]) == 0)
       break
 
   /* unknown strings are treated as 'lineart' */
@@ -2274,157 +2274,157 @@ get_scan_mode_id (char *s)	/* sequential search */
 }
 #endif
 static Sane.Status
-update_hs2p_data (HS2P_Scanner * s)
+update_hs2p_data(HS2P_Scanner * s)
 {
 
-  DBG (DBG_proc, ">> update_hs2p_data\n")
+  DBG(DBG_proc, ">> update_hs2p_data\n")
   /* OPT_NREGX_ADF: */
-  DBG (DBG_Sane.option, "OPT_NREGX_ADF\n")
+  DBG(DBG_Sane.option, "OPT_NREGX_ADF\n")
   s.val[OPT_NREGX_ADF].w = (Sane.Word) s.data.maintenance.nregx_adf
 
   /* OPT_NREGY_ADF: */
-  DBG (DBG_Sane.option, "OPT_NREGY_ADF\n")
+  DBG(DBG_Sane.option, "OPT_NREGY_ADF\n")
   s.val[OPT_NREGY_ADF].w = (Sane.Word) s.data.maintenance.nregx_book
 
   /* OPT_NREGX_BOOK: */
-  DBG (DBG_Sane.option, "OPT_NREGX_BOOK\n")
+  DBG(DBG_Sane.option, "OPT_NREGX_BOOK\n")
   s.val[OPT_NREGX_BOOK].w = (Sane.Word) s.data.maintenance.nregx_book
 
   /* OPT_NREGY_BOOK: */
-  DBG (DBG_Sane.option, "OPT_NREGY_BOOK\n")
+  DBG(DBG_Sane.option, "OPT_NREGY_BOOK\n")
   s.val[OPT_NREGY_BOOK].w = (Sane.Word) s.data.maintenance.nregy_book
 
   /* OPT_NSCANS_ADF: */
-  DBG (DBG_Sane.option, "OPT_NSCANS_ADF\n")
+  DBG(DBG_Sane.option, "OPT_NSCANS_ADF\n")
   s.val[OPT_NSCANS_ADF].w =
-    (Sane.Word) _4btol (&(s.data.maintenance.nscans_adf[0]))
+    (Sane.Word) _4btol(&(s.data.maintenance.nscans_adf[0]))
 
   /* OPT_NSCANS_BOOK: */
-  DBG (DBG_Sane.option, "OPT_NSCANS_BOOK\n")
+  DBG(DBG_Sane.option, "OPT_NSCANS_BOOK\n")
   s.val[OPT_NSCANS_BOOK].w =
-    (Sane.Word) _4btol (&(s.data.maintenance.nscans_book[0]))
+    (Sane.Word) _4btol(&(s.data.maintenance.nscans_book[0]))
 
   /* OPT_LAMP_TIME: */
-  DBG (DBG_Sane.option, "OPT_LAMP_TIME\n")
+  DBG(DBG_Sane.option, "OPT_LAMP_TIME\n")
   s.val[OPT_LAMP_TIME].w =
-    (Sane.Word) _4btol (&(s.data.maintenance.lamp_time[0]))
+    (Sane.Word) _4btol(&(s.data.maintenance.lamp_time[0]))
 
   /* OPT_EO_ODD: */
-  DBG (DBG_Sane.option, "OPT_EO_ODD\n")
+  DBG(DBG_Sane.option, "OPT_EO_ODD\n")
   s.val[OPT_EO_ODD].w = (Sane.Word) s.data.maintenance.eo_odd
 
   /* OPT_EO_EVEN: */
-  DBG (DBG_Sane.option, "OPT_EO_EVEN\n")
+  DBG(DBG_Sane.option, "OPT_EO_EVEN\n")
   s.val[OPT_EO_EVEN].w = (Sane.Word) s.data.maintenance.eo_even
 
   /* OPT_BLACK_LEVEL_ODD: */
-  DBG (DBG_Sane.option, "OPT_BLACK_LEVEL_ODD\n")
+  DBG(DBG_Sane.option, "OPT_BLACK_LEVEL_ODD\n")
   s.val[OPT_BLACK_LEVEL_ODD].w =
     (Sane.Word) s.data.maintenance.black_level_odd
 
   /* OPT_BLACK_LEVEL_EVEN: */
-  DBG (DBG_Sane.option, "OPT_BLACK_LEVEL_EVEN\n")
+  DBG(DBG_Sane.option, "OPT_BLACK_LEVEL_EVEN\n")
   s.val[OPT_BLACK_LEVEL_EVEN].w =
     (Sane.Word) s.data.maintenance.black_level_even
 
   /* OPT_WHITE_LEVEL_ODD: */
-  DBG (DBG_Sane.option, "OPT_WHITE_LEVEL_ODD\n")
+  DBG(DBG_Sane.option, "OPT_WHITE_LEVEL_ODD\n")
   s.val[OPT_WHITE_LEVEL_ODD].w =
-    (Sane.Word) _2btol (&(s.data.maintenance.white_level_odd[0]))
+    (Sane.Word) _2btol(&(s.data.maintenance.white_level_odd[0]))
 
   /* OPT_WHITE_LEVEL_EVEN: */
-  DBG (DBG_Sane.option, "OPT_WHITE_LEVEL_EVEN\n")
+  DBG(DBG_Sane.option, "OPT_WHITE_LEVEL_EVEN\n")
   s.val[OPT_WHITE_LEVEL_EVEN].w =
-    (Sane.Word) _2btol (&(s.data.maintenance.white_level_even[0]))
+    (Sane.Word) _2btol(&(s.data.maintenance.white_level_even[0]))
 
   /* OPT_FIRST_ADJ_WHITE_ODD: */
-  DBG (DBG_Sane.option, "OPT_FIRST_ADJ_WHITE_ODD\n")
+  DBG(DBG_Sane.option, "OPT_FIRST_ADJ_WHITE_ODD\n")
   s.val[OPT_FIRST_ADJ_WHITE_ODD].w =
-    (Sane.Word) _2btol (&(s.data.maintenance.first_adj_white_odd[0]))
+    (Sane.Word) _2btol(&(s.data.maintenance.first_adj_white_odd[0]))
 
   /* OPT_FIRST_ADJ_WHITE_EVEN: */
-  DBG (DBG_Sane.option, "OPT_FIRST_ADJ_WHITE_EVEN\n")
+  DBG(DBG_Sane.option, "OPT_FIRST_ADJ_WHITE_EVEN\n")
   s.val[OPT_FIRST_ADJ_WHITE_EVEN].w =
-    (Sane.Word) _2btol (&(s.data.maintenance.first_adj_white_even[0]))
+    (Sane.Word) _2btol(&(s.data.maintenance.first_adj_white_even[0]))
 
   /* OPT_DENSITY: */
-  DBG (DBG_Sane.option, "OPT_DENSITY\n")
+  DBG(DBG_Sane.option, "OPT_DENSITY\n")
   s.val[OPT_DENSITY].w = (Sane.Word) s.data.maintenance.density_adj
 
   /* OPT_NREGX_REVERSE: */
-  DBG (DBG_Sane.option, "OPT_NREGX_REVERSE\n")
+  DBG(DBG_Sane.option, "OPT_NREGX_REVERSE\n")
   s.val[OPT_NREGX_REVERSE].w = (Sane.Word) s.data.maintenance.nregx_reverse
 
   /* OPT_NREGY_REVERSE: */
-  DBG (DBG_Sane.option, "OPT_NREGY_REVERSE\n")
+  DBG(DBG_Sane.option, "OPT_NREGY_REVERSE\n")
   s.val[OPT_NREGY_REVERSE].w = (Sane.Word) s.data.maintenance.nregy_reverse
 
   /* OPT_NSCANS_REVERSE_ADF: */
-  DBG (DBG_Sane.option, "OPT_NSCANS_REVERSE_ADF\n")
+  DBG(DBG_Sane.option, "OPT_NSCANS_REVERSE_ADF\n")
   s.val[OPT_NSCANS_REVERSE_ADF].w =
-    (Sane.Word) _4btol (&(s.data.maintenance.nscans_reverse_adf[0]))
+    (Sane.Word) _4btol(&(s.data.maintenance.nscans_reverse_adf[0]))
 
   /* OPT_REVERSE_TIME: */
-  DBG (DBG_Sane.option, "OPT_REVERSE_TIME\n")
+  DBG(DBG_Sane.option, "OPT_REVERSE_TIME\n")
   s.val[OPT_REVERSE_TIME].w =
-    (Sane.Word) _4btol (&(s.data.maintenance.reverse_time[0]))
+    (Sane.Word) _4btol(&(s.data.maintenance.reverse_time[0]))
 
   /* OPT_NCHARS: */
-  DBG (DBG_Sane.option, "OPT_NCHARS\n")
+  DBG(DBG_Sane.option, "OPT_NCHARS\n")
   s.val[OPT_NCHARS].w =
-    (Sane.Word) _4btol (&(s.data.maintenance.nchars[0]))
+    (Sane.Word) _4btol(&(s.data.maintenance.nchars[0]))
 
-  DBG (DBG_proc, "<< update_hs2p_data\n")
+  DBG(DBG_proc, "<< update_hs2p_data\n")
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-hs2p_open (HS2P_Scanner * s)
+hs2p_open(HS2P_Scanner * s)
 {
   Sane.Status status
-  DBG (DBG_proc, ">> hs2p_open\n")
-  DBG (DBG_info, ">> hs2p_open: trying to open: name=\"%s\" fd=%d\n",
+  DBG(DBG_proc, ">> hs2p_open\n")
+  DBG(DBG_info, ">> hs2p_open: trying to open: name=\"%s\" fd=%d\n",
        s.hw.sane.name, s.fd)
-  if ((status =
-       sanei_scsi_open (s.hw.sane.name, &s.fd, &sense_handler,
+  if((status =
+       sanei_scsi_open(s.hw.sane.name, &s.fd, &sense_handler,
 			&(s.hw.sense_data))) != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "Sane.start: open of %s failed: %d %s\n",
-	   s.hw.sane.name, status, Sane.strstatus (status))
-      return (status)
+      DBG(DBG_error, "Sane.start: open of %s failed: %d %s\n",
+	   s.hw.sane.name, status, Sane.strstatus(status))
+      return(status)
     }
-  DBG (DBG_info, ">>hs2p_open: OPENED \"%s\" fd=%d\n", s.hw.sane.name,
+  DBG(DBG_info, ">>hs2p_open: OPENED \"%s\" fd=%d\n", s.hw.sane.name,
        s.fd)
 
-  if ((status = test_unit_ready (s.fd)) != Sane.STATUS_GOOD)
+  if((status = test_unit_ready(s.fd)) != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "hs2p_open: test_unit_ready() failed: %s\n",
-	   Sane.strstatus (status))
-      sanei_scsi_close (s.fd)
+      DBG(DBG_error, "hs2p_open: test_unit_ready() failed: %s\n",
+	   Sane.strstatus(status))
+      sanei_scsi_close(s.fd)
       s.fd = -1
       return status
     }
-  DBG (DBG_proc, "<< hs2p_open\n")
+  DBG(DBG_proc, "<< hs2p_open\n")
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-hs2p_close (HS2P_Scanner * s)
+hs2p_close(HS2P_Scanner * s)
 {
 
-  DBG (DBG_proc, ">> hs2p_close\n")
+  DBG(DBG_proc, ">> hs2p_close\n")
 
-  release_unit (s.fd)
-  sanei_scsi_close (s.fd)
+  release_unit(s.fd)
+  sanei_scsi_close(s.fd)
   s.fd = -1
 
-  DBG (DBG_proc, "<< hs2p_close\n")
+  DBG(DBG_proc, "<< hs2p_close\n")
   return Sane.STATUS_GOOD
 }
 
 import stdarg
 static Sane.Status
-get_hs2p_data (HS2P_Scanner * s, ...)
+get_hs2p_data(HS2P_Scanner * s, ...)
 {
   Sane.Status status
   Sane.Byte *buf
@@ -2433,129 +2433,129 @@ get_hs2p_data (HS2P_Scanner * s, ...)
   u_long dtq = 0;		/* two bytes */
   va_list ap
 
-  DBG (DBG_proc, ">> get_hs2p_data\n")
-  if (fd < 0)
+  DBG(DBG_proc, ">> get_hs2p_data\n")
+  if(fd < 0)
     {
-      status = hs2p_open (s)
-      if (status != Sane.STATUS_GOOD)
+      status = hs2p_open(s)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (DBG_error, "get_hs2p_data: error opening scanner: %s\n",
-	       Sane.strstatus (status))
+	  DBG(DBG_error, "get_hs2p_data: error opening scanner: %s\n",
+	       Sane.strstatus(status))
 	  return status
 	}
     }
 
-  for (va_start (ap, s), dtc = va_arg (ap, Int); dtc != DATA_TYPE_EOL
-       dtc = va_arg (ap, Int))
+  for(va_start(ap, s), dtc = va_arg(ap, Int); dtc != DATA_TYPE_EOL
+       dtc = va_arg(ap, Int))
     {
-      DBG (DBG_proc, ">> get_hs2p_data 0x%2.2x\n", (Int) dtc)
-      switch (dtc)
+      DBG(DBG_proc, ">> get_hs2p_data 0x%2.2x\n", (Int) dtc)
+      switch(dtc)
 	{
 	case DATA_TYPE_GAMMA:
 	  buf = &(s.data.gamma[0])
-	  *len = sizeof (s.data.gamma)
+	  *len = sizeof(s.data.gamma)
 	  break
 	case DATA_TYPE_ENDORSER:
 	  buf = &(s.data.endorser[0])
-	  *len = sizeof (s.data.endorser)
+	  *len = sizeof(s.data.endorser)
 	  break
 	case DATA_TYPE_SIZE:
 	  buf = &(s.data.size)
-	  *len = sizeof (s.data.size)
+	  *len = sizeof(s.data.size)
 	  break
 	case DATA_TYPE_PAGE_LEN:
 	  buf = s.data.nlines
-	  *len = sizeof (s.data.nlines)
+	  *len = sizeof(s.data.nlines)
 	  break
 	case DATA_TYPE_MAINTENANCE:
 	  buf = (Sane.Byte *) & (s.data.maintenance)
-	  *len = sizeof (s.data.maintenance)
+	  *len = sizeof(s.data.maintenance)
 	  break
 	case DATA_TYPE_ADF_STATUS:
 	  buf = &(s.data.adf_status)
-	  *len = sizeof (s.data.adf_status)
+	  *len = sizeof(s.data.adf_status)
 	  break
 	case DATA_TYPE_IMAGE:
 	case DATA_TYPE_HALFTONE:
 	default:
-	  DBG (DBG_info, "Data Type Code %2.2x not handled.\n", dtc)
+	  DBG(DBG_info, "Data Type Code %2.2x not handled.\n", dtc)
 	  return Sane.STATUS_INVAL
 	}
-      DBG (DBG_info,
+      DBG(DBG_info,
 	   "get_hs2p_data calling read_data for dtc=%2.2x and bufsize=%lu\n",
 	   (Int) dtc, (u_long) * len)
-      status = read_data (s.fd, buf, len, (Sane.Byte) dtc, dtq)
-      if (status != Sane.STATUS_GOOD)
+      status = read_data(s.fd, buf, len, (Sane.Byte) dtc, dtq)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (DBG_error, "get_scanner_data: ERROR %s\n",
-	       Sane.strstatus (status))
+	  DBG(DBG_error, "get_scanner_data: ERROR %s\n",
+	       Sane.strstatus(status))
 	}
     }
-  va_end (ap)
+  va_end(ap)
 
-  if (fd < 0)
+  if(fd < 0)
     {				/* need to return fd to original state */
-      status = hs2p_close (s)
-      if (status != Sane.STATUS_GOOD)
+      status = hs2p_close(s)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (DBG_error, "get_hs2p_data: error closing fd: %s\n",
-	       Sane.strstatus (status))
+	  DBG(DBG_error, "get_hs2p_data: error closing fd: %s\n",
+	       Sane.strstatus(status))
 	}
     }
-  DBG (DBG_proc, "<< get_hs2p_data: %d\n", status)
-  return (status)
+  DBG(DBG_proc, "<< get_hs2p_data: %d\n", status)
+  return(status)
 }
 
 static Sane.Status
-print_maintenance_data (MAINTENANCE_DATA * d)
+print_maintenance_data(MAINTENANCE_DATA * d)
 {
-  DBG (DBG_proc, ">> print_maintenance_data: \n")
+  DBG(DBG_proc, ">> print_maintenance_data: \n")
 
-  DBG (DBG_LEVEL, "nregx_adf = %d\n", d.nregx_adf)
-  DBG (DBG_LEVEL, "nregy_adf = %d\n", d.nregy_adf)
+  DBG(DBG_LEVEL, "nregx_adf = %d\n", d.nregx_adf)
+  DBG(DBG_LEVEL, "nregy_adf = %d\n", d.nregy_adf)
 
-  DBG (DBG_LEVEL, "nregx_book = %d\n", d.nregx_book)
-  DBG (DBG_LEVEL, "nregy_book = %d\n", d.nregy_book)
+  DBG(DBG_LEVEL, "nregx_book = %d\n", d.nregx_book)
+  DBG(DBG_LEVEL, "nregy_book = %d\n", d.nregy_book)
 
-  DBG (DBG_LEVEL, "nscans_adf = %lu\n", _4btol (&(d.nscans_adf[0])))
-  DBG (DBG_LEVEL, "nscans_adf = %lu\n", _4btol (&(d.nscans_adf[0])))
+  DBG(DBG_LEVEL, "nscans_adf = %lu\n", _4btol(&(d.nscans_adf[0])))
+  DBG(DBG_LEVEL, "nscans_adf = %lu\n", _4btol(&(d.nscans_adf[0])))
 
-  DBG (DBG_LEVEL, "lamp time = %lu\n", _4btol (&(d.lamp_time[0])))
+  DBG(DBG_LEVEL, "lamp time = %lu\n", _4btol(&(d.lamp_time[0])))
 
-  DBG (DBG_LEVEL, "eo_odd = %d\n", d.eo_odd)
-  DBG (DBG_LEVEL, "eo_even = %d\n", d.eo_even)
+  DBG(DBG_LEVEL, "eo_odd = %d\n", d.eo_odd)
+  DBG(DBG_LEVEL, "eo_even = %d\n", d.eo_even)
 
-  DBG (DBG_LEVEL, "black_level_odd = %d\n", d.black_level_odd)
-  DBG (DBG_LEVEL, "black_level_even = %d\n", d.black_level_even)
+  DBG(DBG_LEVEL, "black_level_odd = %d\n", d.black_level_odd)
+  DBG(DBG_LEVEL, "black_level_even = %d\n", d.black_level_even)
 
-  DBG (DBG_LEVEL, "white_level_odd = %lu\n",
-       _2btol (&(d.white_level_odd[0])))
-  DBG (DBG_LEVEL, "white_level_even = %lu\n",
-       _2btol (&(d.white_level_even[0])))
+  DBG(DBG_LEVEL, "white_level_odd = %lu\n",
+       _2btol(&(d.white_level_odd[0])))
+  DBG(DBG_LEVEL, "white_level_even = %lu\n",
+       _2btol(&(d.white_level_even[0])))
 
-  DBG (DBG_LEVEL, "first_adj_white_odd = %lu\n",
-       _2btol (&(d.first_adj_white_odd[0])))
-  DBG (DBG_LEVEL, "first_adj_white_even = %lu\n",
-       _2btol (&(d.first_adj_white_even[0])))
+  DBG(DBG_LEVEL, "first_adj_white_odd = %lu\n",
+       _2btol(&(d.first_adj_white_odd[0])))
+  DBG(DBG_LEVEL, "first_adj_white_even = %lu\n",
+       _2btol(&(d.first_adj_white_even[0])))
 
-  DBG (DBG_LEVEL, "density_adj = %d\n", d.density_adj)
+  DBG(DBG_LEVEL, "density_adj = %d\n", d.density_adj)
 
-  DBG (DBG_LEVEL, "nregx_reverse = %d\n", d.nregx_reverse)
-  DBG (DBG_LEVEL, "nregy_reverse = %d\n", d.nregy_reverse)
+  DBG(DBG_LEVEL, "nregx_reverse = %d\n", d.nregx_reverse)
+  DBG(DBG_LEVEL, "nregy_reverse = %d\n", d.nregy_reverse)
 
-  DBG (DBG_LEVEL, "nscans_reverse_adf = %lu\n",
-       _4btol (&(d.nscans_reverse_adf[0])))
+  DBG(DBG_LEVEL, "nscans_reverse_adf = %lu\n",
+       _4btol(&(d.nscans_reverse_adf[0])))
 
-  DBG (DBG_LEVEL, "reverse_time = %lu\n", _4btol (&(d.reverse_time[0])))
+  DBG(DBG_LEVEL, "reverse_time = %lu\n", _4btol(&(d.reverse_time[0])))
 
-  DBG (DBG_LEVEL, "nchars = %lu\n", _4btol (&(d.nchars[0])))
+  DBG(DBG_LEVEL, "nchars = %lu\n", _4btol(&(d.nchars[0])))
 
-  DBG (DBG_proc, "<< print_maintenance_data: \n")
+  DBG(DBG_proc, "<< print_maintenance_data: \n")
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
 		     Sane.Action action, void *val, Int * info)
 {
   HS2P_Scanner *s = handle
@@ -2567,24 +2567,24 @@ Sane.control_option (Sane.Handle handle, Int option,
 
 
   name = s.opt[option].name ? s.opt[option].name : "(nil)"
-  if (info)
+  if(info)
     *info = 0
-  DBG (DBG_proc, ">> Sane.control_option: %s option=%d name=%s\n",
+  DBG(DBG_proc, ">> Sane.control_option: %s option=%d name=%s\n",
        action == Sane.ACTION_GET_VALUE ? "SET" : "GET", option, name)
 
-  if (s.scanning)
-    return (Sane.STATUS_DEVICE_BUSY)
-  if (option >= NUM_OPTIONS)
-    return (Sane.STATUS_INVAL)
+  if(s.scanning)
+    return(Sane.STATUS_DEVICE_BUSY)
+  if(option >= NUM_OPTIONS)
+    return(Sane.STATUS_INVAL)
 
   cap = s.opt[option].cap
-  if (!Sane.OPTION_IS_ACTIVE (cap))
-    return (Sane.STATUS_INVAL)
+  if(!Sane.OPTION_IS_ACTIVE(cap))
+    return(Sane.STATUS_INVAL)
 
-  if (action == Sane.ACTION_GET_VALUE)
+  if(action == Sane.ACTION_GET_VALUE)
     {
-      DBG (DBG_proc, "Sane.control_option get_value option=%d\n", option)
-      switch (option)
+      DBG(DBG_proc, "Sane.control_option get_value option=%d\n", option)
+      switch(option)
 	{
 	  /* word options: */
 	case OPT_RESOLUTION:
@@ -2599,7 +2599,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_CONTRAST:
 	case OPT_NUM_OPTS:
 	  *(Sane.Word *) val = s.val[option].w
-	  return (Sane.STATUS_GOOD)
+	  return(Sane.STATUS_GOOD)
 
 	  /* bool options: */
 	  /*case OPT_AUTOBORDER: case OPT_DESKEW: case OPT_CHECK_ADF: case OPT_BATCH: */
@@ -2615,7 +2615,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_CUSTOM_GAMMA:
 	case OPT_PADDING:
 	  *(Bool *) val = s.val[option].w
-	  return (Sane.STATUS_GOOD)
+	  return(Sane.STATUS_GOOD)
 
 	  /* string options: */
 	  /* case OPT_ADF:      */
@@ -2637,16 +2637,16 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_AUTOSEP:
 	case OPT_AUTOBIN:
 	case OPT_PADDING_TYPE:
-	  DBG (DBG_proc, "STRING=%s\n", s.val[option].s)
-	  strcpy (val, s.val[option].s)
-	  return (Sane.STATUS_GOOD)
-	  DBG (DBG_proc, "sizeof(val)=%lu sizeof(s)=%lu\n",
-	       (u_long) sizeof (val), (u_long) sizeof (s.val[option].s))
-	  return (Sane.STATUS_GOOD)
+	  DBG(DBG_proc, "STRING=%s\n", s.val[option].s)
+	  strcpy(val, s.val[option].s)
+	  return(Sane.STATUS_GOOD)
+	  DBG(DBG_proc, "sizeof(val)=%lu sizeof(s)=%lu\n",
+	       (u_long) sizeof(val), (u_long) sizeof(s.val[option].s))
+	  return(Sane.STATUS_GOOD)
 
 	  /* gamma */
 	case OPT_GAMMA_VECTOR_GRAY:
-	  memcpy (val, s.val[option].wa, s.opt[option].size)
+	  memcpy(val, s.val[option].wa, s.opt[option].size)
 	  return Sane.STATUS_GOOD
 
 	  /* MAINTENANCE DATA */
@@ -2654,146 +2654,146 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_UPDATE:
 	  return Sane.STATUS_GOOD
 	case OPT_NREGX_ADF:
-	  DBG (DBG_Sane.option, "OPT_NREGX_ADF\n")
+	  DBG(DBG_Sane.option, "OPT_NREGX_ADF\n")
 	  *(Sane.Word *) val = (Sane.Word) s.data.maintenance.nregx_adf
 	  return Sane.STATUS_GOOD
 	case OPT_NREGY_ADF:
-	  DBG (DBG_Sane.option, "OPT_NREGY_ADF\n")
+	  DBG(DBG_Sane.option, "OPT_NREGY_ADF\n")
 	  *(Sane.Word *) val = (Sane.Word) s.data.maintenance.nregx_book
 	  return Sane.STATUS_GOOD
 	case OPT_NREGX_BOOK:
-	  DBG (DBG_Sane.option, "OPT_NREGX_BOOK\n")
+	  DBG(DBG_Sane.option, "OPT_NREGX_BOOK\n")
 	  *(Sane.Word *) val = (Sane.Word) s.data.maintenance.nregx_book
 	  return Sane.STATUS_GOOD
 	case OPT_NREGY_BOOK:
-	  DBG (DBG_Sane.option, "OPT_NREGY_BOOK\n")
+	  DBG(DBG_Sane.option, "OPT_NREGY_BOOK\n")
 	  *(Sane.Word *) val = (Sane.Word) s.data.maintenance.nregy_book
 	  return Sane.STATUS_GOOD
 	case OPT_NSCANS_ADF:
-	  DBG (DBG_Sane.option, "OPT_NSCANS_ADF\n")
+	  DBG(DBG_Sane.option, "OPT_NSCANS_ADF\n")
 	  *(Sane.Word *) val =
-	    (Sane.Word) _4btol (&(s.data.maintenance.nscans_adf[0]))
+	    (Sane.Word) _4btol(&(s.data.maintenance.nscans_adf[0]))
 	  return Sane.STATUS_GOOD
 	case OPT_NSCANS_BOOK:
-	  DBG (DBG_Sane.option, "OPT_NSCANS_BOOK\n")
+	  DBG(DBG_Sane.option, "OPT_NSCANS_BOOK\n")
 	  *(Sane.Word *) val =
-	    (Sane.Word) _4btol (&(s.data.maintenance.nscans_book[0]))
+	    (Sane.Word) _4btol(&(s.data.maintenance.nscans_book[0]))
 	  return Sane.STATUS_GOOD
 	case OPT_LAMP_TIME:
-	  DBG (DBG_Sane.option, "OPT_LAMP_TIME\n")
+	  DBG(DBG_Sane.option, "OPT_LAMP_TIME\n")
 	  *(Sane.Word *) val =
-	    (Sane.Word) _4btol (&(s.data.maintenance.lamp_time[0]))
+	    (Sane.Word) _4btol(&(s.data.maintenance.lamp_time[0]))
 	  return Sane.STATUS_GOOD
 	case OPT_EO_ODD:
-	  DBG (DBG_Sane.option, "OPT_EO_ODD\n")
+	  DBG(DBG_Sane.option, "OPT_EO_ODD\n")
 	  *(Sane.Word *) val = (Sane.Word) s.data.maintenance.eo_odd
 	  return Sane.STATUS_GOOD
 	case OPT_EO_EVEN:
-	  DBG (DBG_Sane.option, "OPT_EO_EVEN\n")
+	  DBG(DBG_Sane.option, "OPT_EO_EVEN\n")
 	  *(Sane.Word *) val = (Sane.Word) s.data.maintenance.eo_even
 	  return Sane.STATUS_GOOD
 	case OPT_BLACK_LEVEL_ODD:
-	  DBG (DBG_Sane.option, "OPT_BLACK_LEVEL_ODD\n")
+	  DBG(DBG_Sane.option, "OPT_BLACK_LEVEL_ODD\n")
 	  *(Sane.Word *) val =
 	    (Sane.Word) s.data.maintenance.black_level_odd
 	  return Sane.STATUS_GOOD
 	case OPT_BLACK_LEVEL_EVEN:
-	  DBG (DBG_Sane.option, "OPT_BLACK_LEVEL_EVEN\n")
+	  DBG(DBG_Sane.option, "OPT_BLACK_LEVEL_EVEN\n")
 	  *(Sane.Word *) val =
 	    (Sane.Word) s.data.maintenance.black_level_even
 	  return Sane.STATUS_GOOD
 	case OPT_WHITE_LEVEL_ODD:
-	  DBG (DBG_Sane.option, "OPT_WHITE_LEVEL_ODD\n")
+	  DBG(DBG_Sane.option, "OPT_WHITE_LEVEL_ODD\n")
 	  *(Sane.Word *) val =
-	    (Sane.Word) _2btol (&(s.data.maintenance.white_level_odd[0]))
+	    (Sane.Word) _2btol(&(s.data.maintenance.white_level_odd[0]))
 	  return Sane.STATUS_GOOD
 	case OPT_WHITE_LEVEL_EVEN:
-	  DBG (DBG_Sane.option, "OPT_WHITE_LEVEL_EVEN\n")
+	  DBG(DBG_Sane.option, "OPT_WHITE_LEVEL_EVEN\n")
 	  *(Sane.Word *) val =
-	    (Sane.Word) _2btol (&(s.data.maintenance.white_level_even[0]))
+	    (Sane.Word) _2btol(&(s.data.maintenance.white_level_even[0]))
 	  return Sane.STATUS_GOOD
 	case OPT_FIRST_ADJ_WHITE_ODD:
-	  DBG (DBG_Sane.option, "OPT_FIRST_ADJ_WHITE_ODD\n")
+	  DBG(DBG_Sane.option, "OPT_FIRST_ADJ_WHITE_ODD\n")
 	  *(Sane.Word *) val =
 	    (Sane.Word)
-	    _2btol (&(s.data.maintenance.first_adj_white_odd[0]))
+	    _2btol(&(s.data.maintenance.first_adj_white_odd[0]))
 	  return Sane.STATUS_GOOD
 	case OPT_FIRST_ADJ_WHITE_EVEN:
-	  DBG (DBG_Sane.option, "OPT_FIRST_ADJ_WHITE_EVEN\n")
+	  DBG(DBG_Sane.option, "OPT_FIRST_ADJ_WHITE_EVEN\n")
 	  *(Sane.Word *) val =
 	    (Sane.Word)
-	    _2btol (&(s.data.maintenance.first_adj_white_even[0]))
+	    _2btol(&(s.data.maintenance.first_adj_white_even[0]))
 	  return Sane.STATUS_GOOD
 	case OPT_DENSITY:
-	  DBG (DBG_Sane.option, "OPT_DENSITY\n")
+	  DBG(DBG_Sane.option, "OPT_DENSITY\n")
 	  *(Sane.Word *) val = (Sane.Word) s.data.maintenance.density_adj
 	  return Sane.STATUS_GOOD
 	case OPT_NREGX_REVERSE:
-	  DBG (DBG_Sane.option, "OPT_NREGX_REVERSE\n")
+	  DBG(DBG_Sane.option, "OPT_NREGX_REVERSE\n")
 	  *(Sane.Word *) val = (Sane.Word) s.data.maintenance.nregx_reverse
 	  return Sane.STATUS_GOOD
 	case OPT_NREGY_REVERSE:
-	  DBG (DBG_Sane.option, "OPT_NREGY_REVERSE\n")
+	  DBG(DBG_Sane.option, "OPT_NREGY_REVERSE\n")
 	  *(Sane.Word *) val = (Sane.Word) s.data.maintenance.nregy_reverse
 	  return Sane.STATUS_GOOD
 	case OPT_NSCANS_REVERSE_ADF:
-	  DBG (DBG_Sane.option, "OPT_NSCANS_REVERSE_ADF\n")
+	  DBG(DBG_Sane.option, "OPT_NSCANS_REVERSE_ADF\n")
 	  *(Sane.Word *) val =
-	    (Sane.Word) _4btol (&(s.data.maintenance.nscans_reverse_adf[0]))
+	    (Sane.Word) _4btol(&(s.data.maintenance.nscans_reverse_adf[0]))
 	  return Sane.STATUS_GOOD
 	case OPT_REVERSE_TIME:
-	  DBG (DBG_Sane.option, "OPT_REVERSE_TIME\n")
+	  DBG(DBG_Sane.option, "OPT_REVERSE_TIME\n")
 	  *(Sane.Word *) val =
-	    (Sane.Word) _4btol (&(s.data.maintenance.reverse_time[0]))
+	    (Sane.Word) _4btol(&(s.data.maintenance.reverse_time[0]))
 	  return Sane.STATUS_GOOD
 	case OPT_NCHARS:
-	  DBG (DBG_Sane.option, "OPT_NCHARS\n")
+	  DBG(DBG_Sane.option, "OPT_NCHARS\n")
 	  *(Sane.Word *) val =
-	    (Sane.Word) _4btol (&(s.data.maintenance.nchars[0]))
-	  return (Sane.STATUS_GOOD)
+	    (Sane.Word) _4btol(&(s.data.maintenance.nchars[0]))
+	  return(Sane.STATUS_GOOD)
 
 	default:
-	  DBG (DBG_proc, "Sane.control_option:invalid option number %d\n",
+	  DBG(DBG_proc, "Sane.control_option:invalid option number %d\n",
 	       option)
 	  return Sane.STATUS_INVAL
 	}
     }
-  else if (action == Sane.ACTION_SET_VALUE)
+  else if(action == Sane.ACTION_SET_VALUE)
     {
-      DBG (DBG_proc, "Sane.control_option set_value\n")
-      switch (s.opt[option].type)
+      DBG(DBG_proc, "Sane.control_option set_value\n")
+      switch(s.opt[option].type)
 	{
 	case Sane.TYPE_BOOL:
 	case Sane.TYPE_INT:
-	  DBG (DBG_proc, "Sane.control_option: set_value %s [#%d] to %d\n",
+	  DBG(DBG_proc, "Sane.control_option: set_value %s[#%d] to %d\n",
 	       name, option, *(Sane.Word *) val)
 	  break
 	case Sane.TYPE_FIXED:
-	  DBG (DBG_proc, "Sane.control_option: set_value %s [#%d] to %f\n",
-	       name, option, Sane.UNFIX (*(Sane.Word *) val))
+	  DBG(DBG_proc, "Sane.control_option: set_value %s[#%d] to %f\n",
+	       name, option, Sane.UNFIX(*(Sane.Word *) val))
 	  break
 	case Sane.TYPE_STRING:
-	  DBG (DBG_proc, "Sane.control_option: set_value %s [#%d] to %s\n",
+	  DBG(DBG_proc, "Sane.control_option: set_value %s[#%d] to %s\n",
 	       name, option, (char *) val)
 	  break
 	case Sane.TYPE_BUTTON:
-	  DBG (DBG_proc, "Sane.control_option: set_value %s [#%d]\n",
+	  DBG(DBG_proc, "Sane.control_option: set_value %s[#%d]\n",
 	       name, option)
-	  update_hs2p_data (s)
+	  update_hs2p_data(s)
 	  break
 	default:
-	  DBG (DBG_proc, "Sane.control_option: set_value %s [#%d]\n", name,
+	  DBG(DBG_proc, "Sane.control_option: set_value %s[#%d]\n", name,
 	       option)
 	}
 
-      if (!Sane.OPTION_IS_SETTABLE (cap))
-	return (Sane.STATUS_INVAL)
-      if ((status =
-	   sanei_constrain_value (s.opt + option, val,
+      if(!Sane.OPTION_IS_SETTABLE(cap))
+	return(Sane.STATUS_INVAL)
+      if((status =
+	   sanei_constrain_value(s.opt + option, val,
 				  info)) != Sane.STATUS_GOOD)
 	return status
 
-      switch (option)
+      switch(option)
 	{
 	  /* (mostly) side-effect-free word options: */
 	case OPT_TL_X:
@@ -2802,22 +2802,22 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_BR_Y:
 	  s.opt[OPT_AUTO_SIZE].cap |= Sane.CAP_INACTIVE;	/* disable auto size */
 	  /* make sure that paper-size is set to custom */
-	  if (info && s.val[option].w != *(Sane.Word *) val)
+	  if(info && s.val[option].w != *(Sane.Word *) val)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 	  s.val[option].w = *(Sane.Word *) val
 	  /* resets the paper format to user defined */
-	  if (strcmp (s.val[OPT_PAPER_SIZE].s, paper_list[0]) != 0)	/* CUSTOM PAPER SIZE */
+	  if(strcmp(s.val[OPT_PAPER_SIZE].s, paper_list[0]) != 0)	/* CUSTOM PAPER SIZE */
 	    {
-	      if (info)
+	      if(info)
 		*info |= Sane.INFO_RELOAD_OPTIONS
-	      if (s.val[OPT_PAPER_SIZE].s)
-		free (s.val[OPT_PAPER_SIZE].s)
-	      s.val[OPT_PAPER_SIZE].s = strdup (paper_list[0]);	/* CUSTOM PAPER SIZE */
+	      if(s.val[OPT_PAPER_SIZE].s)
+		free(s.val[OPT_PAPER_SIZE].s)
+	      s.val[OPT_PAPER_SIZE].s = strdup(paper_list[0]);	/* CUSTOM PAPER SIZE */
 	    }
 	  /* fall through */
 	case OPT_X_RESOLUTION:
 	case OPT_Y_RESOLUTION:
-	  if (info && s.val[option].w != *(Sane.Word *) val)
+	  if(info && s.val[option].w != *(Sane.Word *) val)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 
 	  /* fall through */
@@ -2827,7 +2827,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_CONTRAST:
 	case OPT_NUM_OPTS:
 	  s.val[option].w = *(Sane.Word *) val
-	  return (Sane.STATUS_GOOD)
+	  return(Sane.STATUS_GOOD)
 
 	  /* string options */
 	case OPT_NOISEREMOVAL:
@@ -2839,9 +2839,9 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_HALFTONE_CODE:
 	case OPT_HALFTONE_PATTERN:
 	case OPT_ENDORSER_STRING:
-	  if (s.val[option].s)
-	    free (s.val[option].s)
-	  s.val[option].s = strdup (val)
+	  if(s.val[option].s)
+	    free(s.val[option].s)
+	  s.val[option].s = strdup(val)
 	  return Sane.STATUS_GOOD
 
 	  /* boolean options: */
@@ -2858,14 +2858,14 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  return Sane.STATUS_GOOD
 
 	case OPT_GAMMA_VECTOR_GRAY:
-	  memcpy (s.val[option].wa, val, s.opt[option].size)
+	  memcpy(s.val[option].wa, val, s.opt[option].size)
 	  return Sane.STATUS_GOOD
 
 	  /* options with side effect */
 	case OPT_GAMMA:
-	  if (strcmp (s.val[option].s, (String) val))
+	  if(strcmp(s.val[option].s, (String) val))
 	    {
-	      if (!strcmp ((String) val, "User"))
+	      if(!strcmp((String) val, "User"))
 		{
 		  s.val[OPT_CUSTOM_GAMMA].b = Sane.TRUE
 		  s.opt[OPT_CUSTOM_GAMMA].cap &= ~Sane.CAP_INACTIVE
@@ -2880,17 +2880,17 @@ Sane.control_option (Sane.Handle handle, Int option,
 		  s.opt[OPT_BRIGHTNESS].cap &= ~Sane.CAP_INACTIVE
 		  s.opt[OPT_CONTRAST].cap &= ~Sane.CAP_INACTIVE
 		}
-	      if (info)
+	      if(info)
 		*info |= Sane.INFO_RELOAD_OPTIONS
 	    }
-	  if (s.val[option].s)
-	    free (s.val[option].s)
-	  s.val[option].s = strdup (val)
+	  if(s.val[option].s)
+	    free(s.val[option].s)
+	  s.val[option].s = strdup(val)
 	  return Sane.STATUS_GOOD
 
 	case OPT_CUSTOM_GAMMA:
 	  s.val[OPT_CUSTOM_GAMMA].w = *(Sane.Word *) val
-	  if (s.val[OPT_CUSTOM_GAMMA].w)
+	  if(s.val[OPT_CUSTOM_GAMMA].w)
 	    {
 	      s.opt[OPT_GAMMA_VECTOR_GRAY].cap &= ~Sane.CAP_INACTIVE
 	    }
@@ -2898,12 +2898,12 @@ Sane.control_option (Sane.Handle handle, Int option,
 	    {
 	      s.opt[OPT_GAMMA_VECTOR_GRAY].cap |= Sane.CAP_INACTIVE
 	    }
-	  if (info)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_OPTIONS
 	  return Sane.STATUS_GOOD
 
 	case OPT_RESOLUTION:
-	  if (info && s.val[option].w != *(Sane.Word *) val)
+	  if(info && s.val[option].w != *(Sane.Word *) val)
 	    *info |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
 	  s.val[option].w = *(Sane.Word *) val
 	  s.val[OPT_X_RESOLUTION].w = *(Sane.Word *) val
@@ -2914,14 +2914,14 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  /*    Since the scanner ejects the sheet in ADF mode
 	   * it is impossible to scan multiple sections in one document
 	   *    In ADF mode, because of mechanical limitations:
-	   * the minimum document size is (x,y)=(69mm x 120mm)
+	   * the minimum document size is(x,y)=(69mm x 120mm)
 	   */
-	  if (info && strcmp ((char *) s.val[option].s, (char *) val))
+	  if(info && strcmp((char *) s.val[option].s, (char *) val))
 	    *info |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
-	  if (s.val[option].s)
-	    free (s.val[option].s)
-	  s.val[option].s = strdup (val)
-	  if (!strcmp ("ADF", (String) val))
+	  if(s.val[option].s)
+	    free(s.val[option].s)
+	  s.val[option].s = strdup(val)
+	  if(!strcmp("ADF", (String) val))
 	    {
 	      s.opt[OPT_ENDORSER].cap &= ~Sane.CAP_INACTIVE
 	      s.opt[OPT_ENDORSER_STRING].cap &= ~Sane.CAP_INACTIVE
@@ -2941,11 +2941,11 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_SCAN_MODE:
 	  /* a string option */
 	  /* scan mode != lineart disables compression, setting it to  'none' */
-	  if (strcmp (s.val[option].s, (String) val))
+	  if(strcmp(s.val[option].s, (String) val))
 	    {
-	      if (info)
+	      if(info)
 		*info |= Sane.INFO_RELOAD_OPTIONS
-	      if (!strcmp (SM_LINEART, (String) val))
+	      if(!strcmp(SM_LINEART, (String) val))
 		{
 		  s.image_composition = LINEART
 		  s.opt[OPT_COMPRESSION].cap &= ~Sane.CAP_INACTIVE;	/* enable compression control */
@@ -2960,15 +2960,15 @@ Sane.control_option (Sane.Handle handle, Int option,
 		}
 	      else
 		{
-		  if (!strcmp (SM_HALFTONE, (String) val))
+		  if(!strcmp(SM_HALFTONE, (String) val))
 		    {
 		      s.image_composition = HALFTONE
 		      s.opt[OPT_HALFTONE_CODE].cap &= ~Sane.CAP_INACTIVE;	/* enable halftone code    */
 		      s.opt[OPT_HALFTONE_PATTERN].cap &= ~Sane.CAP_INACTIVE;	/* enable halftone pattern */
 		    }
-		  else if (!strcmp (SM_4BITGRAY, (String) val) ||
-			   !strcmp (SM_6BITGRAY, (String) val) ||
-			   !strcmp (SM_8BITGRAY, (String) val))
+		  else if(!strcmp(SM_4BITGRAY, (String) val) ||
+			   !strcmp(SM_6BITGRAY, (String) val) ||
+			   !strcmp(SM_8BITGRAY, (String) val))
 		    {
 		      s.image_composition = GRAYSCALE
 		      s.opt[OPT_GAMMA].cap &= ~Sane.CAP_INACTIVE;	/* enable  gamma            */
@@ -2978,50 +2978,50 @@ Sane.control_option (Sane.Handle handle, Int option,
 		      s.opt[OPT_COMPRESSION].cap |= Sane.CAP_INACTIVE;	/* disable compression      */
 		      s.opt[OPT_HALFTONE_CODE].cap |= Sane.CAP_INACTIVE;	/* disable halftone code    */
 		      s.opt[OPT_HALFTONE_PATTERN].cap |= Sane.CAP_INACTIVE;	/* disable halftone pattern */
-		      if (s.val[OPT_COMPRESSION].s
-			  && get_compression_id (s.val[OPT_COMPRESSION].s) !=
+		      if(s.val[OPT_COMPRESSION].s
+			  && get_compression_id(s.val[OPT_COMPRESSION].s) !=
 			  0)
 			{
-			  free (s.val[OPT_COMPRESSION].s)
+			  free(s.val[OPT_COMPRESSION].s)
 			  s.val[OPT_COMPRESSION].s =
-			    strdup (compression_list[0])
+			    strdup(compression_list[0])
 			}
 		    }
 		}
-	      free (s.val[option].s)
-	      s.val[option].s = strdup (val)
+	      free(s.val[option].s)
+	      s.val[option].s = strdup(val)
 	    }
 	  return Sane.STATUS_GOOD
 
 	case OPT_PAGE_ORIENTATION:
-	  if (strcmp (s.val[option].s, (String) val))
+	  if(strcmp(s.val[option].s, (String) val))
 	    {
-	      free (s.val[option].s)
-	      s.val[option].s = strdup (val)
-	      if (info)
+	      free(s.val[option].s)
+	      s.val[option].s = strdup(val)
+	      if(info)
 		*info |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
 	    }
 	  /* set val to current selected paper size */
-	  paper_id = get_paper_id ((String) s.val[OPT_PAPER_SIZE].s)
+	  paper_id = get_paper_id((String) s.val[OPT_PAPER_SIZE].s)
 	  goto paper_id
 	case OPT_PAPER_SIZE:
 	  /* a string option */
 	  /* changes geometry options, therefore _RELOAD_PARAMS and _RELOAD_OPTIONS */
 	  s.opt[OPT_AUTO_SIZE].cap |= Sane.CAP_INACTIVE;	/* disable auto size */
-	  if (strcmp (s.val[option].s, (String) val))
+	  if(strcmp(s.val[option].s, (String) val))
 	    {
-	      paper_id = get_paper_id ((String) val)
+	      paper_id = get_paper_id((String) val)
 
-	      /* paper_id 0 is a special case (custom) that
+	      /* paper_id 0 is a special case(custom) that
 	       * disables the paper size control of geometry
 	       */
 	    paper_id:
-	      if (paper_id != 0)
+	      if(paper_id != 0)
 		{
 		  double x_max, y_max, x, y, temp
 
-		  x_max = Sane.UNFIX (s.hw.info.x_range.max)
-		  y_max = Sane.UNFIX (s.hw.info.y_range.max)
+		  x_max = Sane.UNFIX(s.hw.info.x_range.max)
+		  y_max = Sane.UNFIX(s.hw.info.y_range.max)
 
 		  /* a dimension of 0.0 (or less) is replaced with the max value */
 		  x = (paper_sizes[paper_id].width <= 0.0) ? x_max :
@@ -3029,11 +3029,11 @@ Sane.control_option (Sane.Handle handle, Int option,
 		  y = (paper_sizes[paper_id].length <= 0.0) ? y_max :
 		    paper_sizes[paper_id].length
 
-		  if (info)
+		  if(info)
 		    *info |=
 		      Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
 
-		  if (!strcmp (s.val[OPT_PAGE_ORIENTATION].s, LANDSCAPE))	/* swap */
+		  if(!strcmp(s.val[OPT_PAGE_ORIENTATION].s, LANDSCAPE))	/* swap */
 		    {
 		      temp = y_max
 		      y_max = x_max
@@ -3043,19 +3043,19 @@ Sane.control_option (Sane.Handle handle, Int option,
 		      x = temp
 		    }
 
-		  s.val[OPT_TL_X].w = Sane.FIX (0.0)
-		  s.val[OPT_TL_Y].w = Sane.FIX (0.0)
-		  s.val[OPT_BR_X].w = Sane.FIX (MIN (x, x_max))
-		  s.val[OPT_BR_Y].w = Sane.FIX (MIN (y, y_max))
+		  s.val[OPT_TL_X].w = Sane.FIX(0.0)
+		  s.val[OPT_TL_Y].w = Sane.FIX(0.0)
+		  s.val[OPT_BR_X].w = Sane.FIX(MIN(x, x_max))
+		  s.val[OPT_BR_Y].w = Sane.FIX(MIN(y, y_max))
 		}
-	      free (s.val[option].s)
-	      s.val[option].s = strdup (val)
+	      free(s.val[option].s)
+	      s.val[option].s = strdup(val)
 	    }
 	  return Sane.STATUS_GOOD
 	case OPT_UPDATE:	/* Sane.TYPE_BUTTON */
-	  DBG (DBG_info,
+	  DBG(DBG_info,
 	       "OPT_UPDATE: ready to call get_hs2p_data: fd=%d\n", s.fd)
-	  get_hs2p_data (s,
+	  get_hs2p_data(s,
 			 /* DATA_TYPE_GAMMA, */
 			 /* DATA_TYPE_ENDORSER, */
 			 /* DATA_TYPE_SIZE, */
@@ -3065,48 +3065,48 @@ Sane.control_option (Sane.Handle handle, Int option,
 			 /* DATA_TYPE_IMAGE, */
 			 /* DATA_TYPE_HALFTONE, */
 			 DATA_TYPE_EOL);	/* va_list end */
-	  update_hs2p_data (s)
-	  if (DBG_LEVEL >= DBG_info)
-	    print_maintenance_data (&(s.data.maintenance))
-	  if (info)
+	  update_hs2p_data(s)
+	  if(DBG_LEVEL >= DBG_info)
+	    print_maintenance_data(&(s.data.maintenance))
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
 	  return Sane.STATUS_GOOD
 	}
-      return (Sane.STATUS_GOOD)
+      return(Sane.STATUS_GOOD)
     }
 
-  DBG (DBG_proc, "<< Sane.control_option\n")
-  return (Sane.STATUS_INVAL)
+  DBG(DBG_proc, "<< Sane.control_option\n")
+  return(Sane.STATUS_INVAL)
 
 }
 
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
   HS2P_Scanner *s = handle
-  DBG (DBG_proc, ">> Sane.get_parameters\n")
+  DBG(DBG_proc, ">> Sane.get_parameters\n")
 
-  if (!s.scanning)
+  if(!s.scanning)
     {
       Int width, length, xres, yres
       const char *mode
 
-      memset (&s.params, 0, sizeof (s.params));	/* CLEAR Sane.Parameters */
+      memset(&s.params, 0, sizeof(s.params));	/* CLEAR Sane.Parameters */
 
       width =
-	(Int) (Sane.UNFIX (s.val[OPT_BR_X].w) -
-	       Sane.UNFIX (s.val[OPT_TL_X].w))
+	(Int) (Sane.UNFIX(s.val[OPT_BR_X].w) -
+	       Sane.UNFIX(s.val[OPT_TL_X].w))
       length =
-	(Int) (Sane.UNFIX (s.val[OPT_BR_Y].w) -
-	       Sane.UNFIX (s.val[OPT_TL_Y].w))
+	(Int) (Sane.UNFIX(s.val[OPT_BR_Y].w) -
+	       Sane.UNFIX(s.val[OPT_TL_Y].w))
       xres = s.val[OPT_X_RESOLUTION].w
       yres = s.val[OPT_Y_RESOLUTION].w
-      DBG (DBG_proc,
+      DBG(DBG_proc,
 	   ">>Sane.get_parameters: (W/L)=(%d/%d) (xres/yres)=(%d/%d) mud=%d\n",
 	   width, length, xres, yres, s.hw.info.mud)
 
       /* make best-effort guess at what parameters will look like once scanning starts.  */
-      if (xres > 0 && yres > 0 && width > 0 && length > 0)
+      if(xres > 0 && yres > 0 && width > 0 && length > 0)
 	{			/* convert from mm to pixels */
 	  s.params.pixels_per_line =
 	    width * xres / s.hw.info.mud / MM_PER_INCH
@@ -3114,8 +3114,8 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 	}
 
       mode = s.val[OPT_SCAN_MODE].s
-      if ((strcmp (mode, SM_LINEART) == 0) ||
-	  (strcmp (mode, SM_HALFTONE)) == 0)
+      if((strcmp(mode, SM_LINEART) == 0) ||
+	  (strcmp(mode, SM_HALFTONE)) == 0)
 	{
 	  s.params.format = Sane.FRAME_GRAY
 	  s.params.bytes_per_line = s.params.pixels_per_line / 8
@@ -3123,7 +3123,7 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 	  s.params.pixels_per_line = s.params.bytes_per_line * 8
 	  s.params.depth = 1
 	}
-      else			/* if (strcmp (mode, Sane.VALUE_SCAN_MODE_GRAY) == 0) */
+      else			/* if(strcmp(mode, Sane.VALUE_SCAN_MODE_GRAY) == 0) */
 	{
 	  s.params.format = Sane.FRAME_GRAY
 	  s.params.bytes_per_line = s.params.pixels_per_line
@@ -3132,118 +3132,118 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
       s.params.last_frame = Sane.TRUE
     }
   else
-    DBG (DBG_proc, "Sane.get_parameters: scanning, so can't get params\n")
+    DBG(DBG_proc, "Sane.get_parameters: scanning, so can't get params\n")
 
-  if (params)
+  if(params)
     *params = s.params
 
-  DBG (DBG_proc,
+  DBG(DBG_proc,
        "%d pixels per line, %d bytes per line, %d lines high, total %lu bytes, "
        "dpi=%ld\n", s.params.pixels_per_line, s.params.bytes_per_line,
        s.params.lines, (u_long) s.bytes_to_read,
-       (long) Sane.UNFIX (s.val[OPT_Y_RESOLUTION].w))
+       (long) Sane.UNFIX(s.val[OPT_Y_RESOLUTION].w))
 
-  DBG (DBG_proc, "<< Sane.get_parameters\n")
-  return (Sane.STATUS_GOOD)
+  DBG(DBG_proc, "<< Sane.get_parameters\n")
+  return(Sane.STATUS_GOOD)
 }
 
 static Sane.Status
-set_window_data (HS2P_Scanner * s, SWD * wbuf)
+set_window_data(HS2P_Scanner * s, SWD * wbuf)
 {
   struct hs2p_window_data *data
   var i: Int, nwin, id, xres, yres, xmax, ymax
   long ulx, uly, width, length, number, bytes
   double offset
 
-  DBG (DBG_proc, ">> set_window_data: sizeof(*wbuf)=%lu; window len=%lu\n",
-       (u_long) sizeof (*wbuf), (u_long) sizeof (wbuf.data))
+  DBG(DBG_proc, ">> set_window_data: sizeof(*wbuf)=%lu; window len=%lu\n",
+       (u_long) sizeof(*wbuf), (u_long) sizeof(wbuf.data))
 
   /* initialize our window buffer with zeros */
-  DBG (DBG_proc, ">> set_window_data: CLEARING wbuf\n")
-  memset (wbuf, 0, sizeof (*wbuf))
+  DBG(DBG_proc, ">> set_window_data: CLEARING wbuf\n")
+  memset(wbuf, 0, sizeof(*wbuf))
 
   /* Header */
-  DBG (DBG_proc,
+  DBG(DBG_proc,
        ">> set_window_data: writing Window Descriptor Length =%lu\n",
-       (u_long) sizeof (wbuf.data))
-  _lto2b (sizeof (wbuf.data), &wbuf.hdr.len[0])
+       (u_long) sizeof(wbuf.data))
+  _lto2b(sizeof(wbuf.data), &wbuf.hdr.len[0])
 
   /* X-Axis Resolution 100-800dpi in 1 dpi steps */
   xres = s.val[OPT_X_RESOLUTION].w
-  if (xres < s.hw.info.resMinX || xres > s.hw.info.resMaxX)
+  if(xres < s.hw.info.resMinX || xres > s.hw.info.resMaxX)
     {
-      DBG (DBG_error, "XRESOLUTION %d IS NOT WITHIN [%d, %d]\n", xres,
+      DBG(DBG_error, "XRESOLUTION %d IS NOT WITHIN[%d, %d]\n", xres,
 	   s.hw.info.resMinX, s.hw.info.resMaxX)
-      return (Sane.STATUS_INVAL)
+      return(Sane.STATUS_INVAL)
     }
 
   /* Y-Axis Resolution 100-800dpi in 1 dpi steps */
   yres = s.val[OPT_Y_RESOLUTION].w
-  if (yres < s.hw.info.resMinY || yres > s.hw.info.resMaxY)
+  if(yres < s.hw.info.resMinY || yres > s.hw.info.resMaxY)
     {
-      DBG (DBG_error, "YRESOLUTION %d IS NOT WITHIN [%d, %d]\n", yres,
+      DBG(DBG_error, "YRESOLUTION %d IS NOT WITHIN[%d, %d]\n", yres,
 	   s.hw.info.resMinY, s.hw.info.resMaxY)
-      return (Sane.STATUS_INVAL)
+      return(Sane.STATUS_INVAL)
     }
 
-  ulx = (long) Sane.UNFIX (s.val[OPT_TL_X].w)
-  uly = (long) Sane.UNFIX (s.val[OPT_TL_Y].w)
-  DBG (DBG_info, "set_window_data: upperleft=(%ld,%ld)\n", ulx, uly)
+  ulx = (long) Sane.UNFIX(s.val[OPT_TL_X].w)
+  uly = (long) Sane.UNFIX(s.val[OPT_TL_Y].w)
+  DBG(DBG_info, "set_window_data: upperleft=(%ld,%ld)\n", ulx, uly)
 
-  width = (long) Sane.UNFIX (s.val[OPT_BR_X].w - s.val[OPT_TL_X].w);	/* Window Width */
-  length = (long) Sane.UNFIX (s.val[OPT_BR_Y].w - s.val[OPT_TL_Y].w);	/* Window Length */
-  DBG (DBG_info, "set_window_data: WxL= %ld x %ld\n", width, length)
+  width = (long) Sane.UNFIX(s.val[OPT_BR_X].w - s.val[OPT_TL_X].w);	/* Window Width */
+  length = (long) Sane.UNFIX(s.val[OPT_BR_Y].w - s.val[OPT_TL_Y].w);	/* Window Length */
+  DBG(DBG_info, "set_window_data: WxL= %ld x %ld\n", width, length)
 
   /* NOTE: the width in inches converted to byte unit must be the following values or less
    * Binary:       620 bytes
    * 4-bits gray: 2480 bytes
    * 8-bits gray: 4960 bytes
    */
-  if (!strcmp (s.val[OPT_SCAN_MODE].s, SM_LINEART))
+  if(!strcmp(s.val[OPT_SCAN_MODE].s, SM_LINEART))
     {
       bytes = (width / MM_PER_INCH) * (s.val[OPT_X_RESOLUTION].w / 8.0)
-      if (bytes > 620)
+      if(bytes > 620)
 	{
-	  DBG (DBG_error,
+	  DBG(DBG_error,
 	       "width in pixels too large: width=%ld x-resolution=%d bytes=%ld\n",
 	       width, s.val[OPT_X_RESOLUTION].w, bytes)
-	  return (Sane.STATUS_INVAL)
+	  return(Sane.STATUS_INVAL)
 	}
     }
-  else if (!strcmp (s.val[OPT_SCAN_MODE].s, SM_4BITGRAY))
+  else if(!strcmp(s.val[OPT_SCAN_MODE].s, SM_4BITGRAY))
     {
       bytes = (width / MM_PER_INCH) * (s.val[OPT_X_RESOLUTION].w / 2.0)
-      if (bytes > 2480)
+      if(bytes > 2480)
 	{
-	  DBG (DBG_error,
+	  DBG(DBG_error,
 	       "width in pixels too large: width=%ld x-resolution=%d bytes=%ld\n",
 	       width, s.val[OPT_X_RESOLUTION].w, bytes)
-	  return (Sane.STATUS_INVAL)
+	  return(Sane.STATUS_INVAL)
 	}
     }
-  else if (!strcmp (s.val[OPT_SCAN_MODE].s, SM_8BITGRAY))
+  else if(!strcmp(s.val[OPT_SCAN_MODE].s, SM_8BITGRAY))
     {
       bytes = (width / MM_PER_INCH) * (s.val[OPT_X_RESOLUTION].w)
-      if (bytes > 4960)
+      if(bytes > 4960)
 	{
-	  DBG (DBG_error,
+	  DBG(DBG_error,
 	       "width in pixels too large: width=%ld x-resolution=%d bytes=%ld\n",
 	       width, s.val[OPT_X_RESOLUTION].w, bytes)
-	  return (Sane.STATUS_INVAL)
+	  return(Sane.STATUS_INVAL)
 	}
     }
 
 
-  if (strcmp (s.val[OPT_SCAN_SOURCE].s, scan_source_list[ADF]) == 0)
+  if(strcmp(s.val[OPT_SCAN_SOURCE].s, scan_source_list[ADF]) == 0)
     {
-      offset = (Sane.UNFIX (s.hw.info.x_range.max) - width) / 2.0
-      DBG (DBG_info, "set_window_data: ADF origin offset=%f\n", offset)
+      offset = (Sane.UNFIX(s.hw.info.x_range.max) - width) / 2.0
+      DBG(DBG_info, "set_window_data: ADF origin offset=%f\n", offset)
 
       ulx += (long) offset
     }
 
 
-  if (strcmp (s.val[OPT_SCAN_SOURCE].s, scan_source_list[FB]) == 0)
+  if(strcmp(s.val[OPT_SCAN_SOURCE].s, scan_source_list[FB]) == 0)
     {				/* FB */
       xmax = 298;		/*mm */
       ymax = 432
@@ -3256,38 +3256,38 @@ set_window_data (HS2P_Scanner * s, SWD * wbuf)
 
   /* Boundary Conditions when BMU = MM */
   number = ulx + width
-  if (number <= 0 || number > xmax)
+  if(number <= 0 || number > xmax)
     {
-      DBG (DBG_error, "NOT WITHIN BOUNDS: ulx=%ld width=%ld sum=%ld\n",
+      DBG(DBG_error, "NOT WITHIN BOUNDS: ulx=%ld width=%ld sum=%ld\n",
 	   ulx, width, number)
-      return (Sane.STATUS_INVAL)
+      return(Sane.STATUS_INVAL)
     }
   number = uly + length
-  if (number <= 0 || number > ymax)
+  if(number <= 0 || number > ymax)
     {
-      DBG (DBG_error, "NOT WITHIN BOUNDS: uly=%ld length=%ld sum=%ld\n",
+      DBG(DBG_error, "NOT WITHIN BOUNDS: uly=%ld length=%ld sum=%ld\n",
 	   uly, length, number)
-      return (Sane.STATUS_INVAL)
+      return(Sane.STATUS_INVAL)
     }
 
 
 
-  /* For each window (up to 2 if we're duplexing) */
+  /* For each window(up to 2 if we're duplexing) */
   nwin = (s.val[OPT_DUPLEX].w == Sane.TRUE) ? 2 : 1
-  for (i = 0; i < nwin; i++)
+  for(i = 0; i < nwin; i++)
     {
       data = &(wbuf.data[i])
       data.window_id = i
       data.auto_bit &= 0xFE;	/* Auto bit set to 0 since auto function isn't supported */
 
-      _lto2b (xres, &data.xres[0]);	/* Set X resolution */
-      _lto2b (yres, &data.yres[0]);	/* Set Y resolution */
+      _lto2b(xres, &data.xres[0]);	/* Set X resolution */
+      _lto2b(yres, &data.yres[0]);	/* Set Y resolution */
 
-      _lto4b (ulx, &data.ulx[0]);	/* X-Axis Upper Left */
-      _lto4b (uly, &data.uly[0]);	/* Y-Axis Upper Left */
+      _lto4b(ulx, &data.ulx[0]);	/* X-Axis Upper Left */
+      _lto4b(uly, &data.uly[0]);	/* Y-Axis Upper Left */
 
-      _lto4b (width, &data.width[0]);	/* Window Width */
-      _lto4b (length, &data.length[0]);	/* Window Length */
+      _lto4b(width, &data.width[0]);	/* Window Width */
+      _lto4b(length, &data.length[0]);	/* Window Length */
 
 
 
@@ -3297,24 +3297,24 @@ set_window_data (HS2P_Scanner * s, SWD * wbuf)
       data.brightness = s.val[OPT_BRIGHTNESS].w;	/* black-white: 1-255; 0 is default 128 */
       data.threshold = s.val[OPT_THRESHOLD].w;	/* light-dark:  1-255; 0 is default 128 */
       data.contrast = s.val[OPT_CONTRAST].w;	/* low-high:    1-255: 0 is default 128 */
-      if (data.brightness == 128)
+      if(data.brightness == 128)
 	data.brightness = 0
-      if (data.threshold == 128)
+      if(data.threshold == 128)
 	data.threshold = 0
-      if (data.contrast == 128)
+      if(data.contrast == 128)
 	data.contrast = 0
 
       data.image_composition = s.image_composition
       data.bpp = s.bpp = s.params.depth
 
       /* Byte 27, 347 Halftone Code: if HALFTONE, then either DITHER or ERROR_DIFFUSION */
-      if (s.image_composition == HALFTONE)
+      if(s.image_composition == HALFTONE)
 	{			/* Then let's use pattern selected by user */
 	  data.halftone_code =
-	    (get_halftone_code_id (s.val[OPT_HALFTONE_CODE].s) ==
+	    (get_halftone_code_id(s.val[OPT_HALFTONE_CODE].s) ==
 	     0) ? DITHER : ERROR_DIFFUSION
 	  data.halftone_id =
-	    get_halftone_pattern_val (s.val[OPT_HALFTONE_PATTERN].s)
+	    get_halftone_pattern_val(s.val[OPT_HALFTONE_PATTERN].s)
 	}
       else
 	{
@@ -3325,17 +3325,17 @@ set_window_data (HS2P_Scanner * s, SWD * wbuf)
 
 
       /* Byte 29, 349: RIF:reserved:padding type */
-      if (data.image_composition == LINEART
+      if(data.image_composition == LINEART
 	  || data.image_composition == HALFTONE)
 	{
-	  if (s.val[OPT_NEGATIVE].w)
+	  if(s.val[OPT_NEGATIVE].w)
 	    data.byte29 |= (1 << 7);	/* set bit 7 */
 	  else
 	    data.byte29 &= ~(1 << 7);	/* unset bit 7 */
 	}
       /* Padding Type */
       data.byte29 |=
-	(paddingtype[get_paddingtype_id (s.val[OPT_PADDING_TYPE].s)].
+	(paddingtype[get_paddingtype_id(s.val[OPT_PADDING_TYPE].s)].
 	 val & 0x07)
 
       /* Bit Ordering:
@@ -3345,27 +3345,27 @@ set_window_data (HS2P_Scanner * s, SWD * wbuf)
        * Bit6-4: Reserved
        * Bit3: '0'-arrangement from MSB in grayscale mode
        *       '1'-arrangement from LSB in grayscale mode
-       *    2: '0'-unpacked 4-bits grayscale [DEFAULT]
+       *    2: '0'-unpacked 4-bits grayscale[DEFAULT]
        *       '1'-packed 4-bits grayscale
-       *    1: '0'-output from LSB of each word [DEFAULT]
+       *    1: '0'-output from LSB of each word[DEFAULT]
        *       '1'-output from MSB of each word
-       *    0: '0'-output from bit 0 of each byte [DEFAULT]
+       *    0: '0'-output from bit 0 of each byte[DEFAULT]
        *       '1'-output from bit 7 of each byte
        */
-      _lto2b (0x007, &data.bit_ordering[0]);	/* Set to Packed4bitGray, MSB, MSbit */
+      _lto2b(0x007, &data.bit_ordering[0]);	/* Set to Packed4bitGray, MSB, MSbit */
 
       /* Compression Type and Argument NOT SUPPORTED in this scanner */
       data.compression_type = 0x00
       data.compression_arg = 0x02
 
       /* Byte42:  MRIF:Filtering:GammaID */
-      if (data.image_composition == GRAYSCALE)
+      if(data.image_composition == GRAYSCALE)
 	{
-	  if (s.val[OPT_NEGATIVE].w)
+	  if(s.val[OPT_NEGATIVE].w)
 	    data.byte42 &= ~(1 << 7);	/* unset bit 7 */
 	  else
 	    data.byte42 |= (1 << 7);	/* set bit 7 */
-	  data.byte42 |= (get_grayfilter_val (s.val[OPT_GRAYFILTER].s) & (7 << 4));	/* set bits 6-4 to GRAYFILTER */
+	  data.byte42 |= (get_grayfilter_val(s.val[OPT_GRAYFILTER].s) & (7 << 4));	/* set bits 6-4 to GRAYFILTER */
 	}
       else
 	{
@@ -3373,23 +3373,23 @@ set_window_data (HS2P_Scanner * s, SWD * wbuf)
 	  data.byte42 &= ~(7 << 4);	/* unset bits 6-4 */
 	}
       /* Bytes 45, 365 Binary Filtering for lineart and halftone can be set when option IPU is installed */
-      if ((id = get_noisematrix_id (s.val[OPT_NOISEREMOVAL].s)) != 0)
+      if((id = get_noisematrix_id(s.val[OPT_NOISEREMOVAL].s)) != 0)
 	{
 	  data.binary_filtering |= (1 << 7);	/* set bit 7 */
 	  data.binary_filtering |= noisematrix[id].val;	/* 00H, 01H, 02H; 03H:Reserved */
 	}
-      if (s.val[OPT_SMOOTHING].w == Sane.TRUE)
+      if(s.val[OPT_SMOOTHING].w == Sane.TRUE)
 	data.binary_filtering |= (1 << 6);	/* set bit 6 */
 
       /* Automatic separation, automatic binarization, and SECTION is available if Image Processing Unit is installed */
-      if (s.hw.info.hasIPU)
+      if(s.hw.info.hasIPU)
 	{
 	  /* Byte 48: Automatic Separation */
 	  data.automatic_separation =
-	    get_auto_separation_val (s.val[OPT_AUTOSEP].s)
+	    get_auto_separation_val(s.val[OPT_AUTOSEP].s)
 	  /* Byte 50: Automatic Binarization */
 	  data.automatic_binarization =
-	    get_auto_binarization_val (s.val[OPT_AUTOBIN].s)
+	    get_auto_binarization_val(s.val[OPT_AUTOBIN].s)
 	  /* fill in values for each section
 	     for(j=0; j<NumSec; j++){
 	     wbuf[i].winsec[j].ulx
@@ -3405,12 +3405,12 @@ set_window_data (HS2P_Scanner * s, SWD * wbuf)
 	   */
 	}
     }
-  DBG (DBG_proc, "<< set_window_data\n")
-  return (Sane.STATUS_GOOD)
+  DBG(DBG_proc, "<< set_window_data\n")
+  return(Sane.STATUS_GOOD)
 }
 
 Sane.Status
-Sane.start (Sane.Handle handle)	/* begin scanning */
+Sane.start(Sane.Handle handle)	/* begin scanning */
 {
   HS2P_Scanner *s = handle
   Sane.Status status
@@ -3418,85 +3418,85 @@ Sane.start (Sane.Handle handle)	/* begin scanning */
   GWD gbuf;			/* Get Window Data: hdr + data */
   Sane.Byte mode, prefeed, mwt = 0
 
-  DBG (DBG_proc, ">> Sane.start\n")
+  DBG(DBG_proc, ">> Sane.start\n")
   s.cancelled = Sane.FALSE
 
-  if (s.another_side)
+  if(s.another_side)
     {
       /* Number of bytes to read for one side of sheet */
       s.bytes_to_read = s.params.bytes_per_line * s.params.lines
-      DBG (DBG_info,
+      DBG(DBG_info,
 	   "SIDE#2 %d pixels per line, %d bytes, %d lines high, dpi=%d\n",
 	   s.params.pixels_per_line, s.params.bytes_per_line,
 	   s.params.lines, (Int) s.val[OPT_Y_RESOLUTION].w)
       s.scanning = Sane.TRUE
       s.cancelled = Sane.FALSE
       s.another_side = Sane.FALSE;	/* This is side 2, so no more sides */
-      DBG (DBG_proc, "<< Sane.start\n")
-      return (Sane.STATUS_GOOD)
+      DBG(DBG_proc, "<< Sane.start\n")
+      return(Sane.STATUS_GOOD)
     }
 
-  if (s.scanning)
+  if(s.scanning)
     {
-      DBG (DBG_info, "Sane.start: device busy\n")
+      DBG(DBG_info, "Sane.start: device busy\n")
       return Sane.STATUS_DEVICE_BUSY
     }
 
   /* Let's start a new scan */
 
-  if ((status = Sane.get_parameters (s, 0)) != Sane.STATUS_GOOD)
+  if((status = Sane.get_parameters(s, 0)) != Sane.STATUS_GOOD)
     {				/* get preliminary parameters */
-      DBG (DBG_error, "Sane.start: Sane.get_parameters failed: %s\n",
-	   Sane.strstatus (status))
-      return (status)
+      DBG(DBG_error, "Sane.start: Sane.get_parameters failed: %s\n",
+	   Sane.strstatus(status))
+      return(status)
     }
 
-  DBG (DBG_info, ">> Sane.start: trying to open: name=\"%s\" fd=%d\n",
+  DBG(DBG_info, ">> Sane.start: trying to open: name=\"%s\" fd=%d\n",
        s.hw.sane.name, s.fd)
-  if ((status =
-       sanei_scsi_open (s.hw.sane.name, &s.fd, &sense_handler,
+  if((status =
+       sanei_scsi_open(s.hw.sane.name, &s.fd, &sense_handler,
 			&(s.hw.sense_data))) != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "Sane.start: open of %s failed: %d %s\n",
-	   s.hw.sane.name, status, Sane.strstatus (status))
-      return (status)
+      DBG(DBG_error, "Sane.start: open of %s failed: %d %s\n",
+	   s.hw.sane.name, status, Sane.strstatus(status))
+      return(status)
     }
-  DBG (DBG_info, ">>Sane.start: OPENED \"%s\" fd=%d\n", s.hw.sane.name,
+  DBG(DBG_info, ">>Sane.start: OPENED \"%s\" fd=%d\n", s.hw.sane.name,
        s.fd)
 
-  if ((status = test_unit_ready (s.fd)) != Sane.STATUS_GOOD)
+  if((status = test_unit_ready(s.fd)) != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "Sane.start: test_unit_ready() failed: %s\n",
-	   Sane.strstatus (status))
-      sanei_scsi_close (s.fd)
+      DBG(DBG_error, "Sane.start: test_unit_ready() failed: %s\n",
+	   Sane.strstatus(status))
+      sanei_scsi_close(s.fd)
       s.fd = -1
       return status
     }
 
 
-  if ((status = reserve_unit (s.fd)) != Sane.STATUS_GOOD)
+  if((status = reserve_unit(s.fd)) != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "Sane.start: reserve_unit() failed: %s\n",
-	   Sane.strstatus (status))
-      sanei_scsi_close (s.fd)
+      DBG(DBG_error, "Sane.start: reserve_unit() failed: %s\n",
+	   Sane.strstatus(status))
+      sanei_scsi_close(s.fd)
       s.fd = -1
-      return (status)
+      return(status)
     }
 
   /* NOW SET UP SCANNER ONCE PER BATCH */
 
-  DBG (DBG_info, "Sane.start: setting basic measurement unit to mm\n")
-  if ((status = set_basic_measurement_unit (s.fd, s.hw.info.bmu)))
+  DBG(DBG_info, "Sane.start: setting basic measurement unit to mm\n")
+  if((status = set_basic_measurement_unit(s.fd, s.hw.info.bmu)))
     {
-      DBG (DBG_error, "set_basic_measurment_unit failed: %s\n",
-	   Sane.strstatus (status))
-      release_unit (s.fd)
-      sanei_scsi_close (s.fd)
+      DBG(DBG_error, "set_basic_measurment_unit failed: %s\n",
+	   Sane.strstatus(status))
+      release_unit(s.fd)
+      sanei_scsi_close(s.fd)
       s.fd = -1
-      return (status)
+      return(status)
     }
 
-  if (get_scan_source_id (s.val[OPT_SCAN_SOURCE].s) == 0)
+  if(get_scan_source_id(s.val[OPT_SCAN_SOURCE].s) == 0)
     {
       mode = FLATBED
     }
@@ -3506,243 +3506,243 @@ Sane.start (Sane.Handle handle)	/* begin scanning */
     }
 
   prefeed = s.val[OPT_PREFEED].w ? 0x04 : 0x00
-  DBG (DBG_info, "Sane.start: setting scan source to %d %s\n", mode,
+  DBG(DBG_info, "Sane.start: setting scan source to %d %s\n", mode,
        (String) s.val[OPT_SCAN_SOURCE].s)
-  DBG (DBG_info, "Sane.start: setting prefeed to %d\n", prefeed)
-  if ((status =
-       set_adf_control (s.fd, &mode, &prefeed, &mwt)) != Sane.STATUS_GOOD)
+  DBG(DBG_info, "Sane.start: setting prefeed to %d\n", prefeed)
+  if((status =
+       set_adf_control(s.fd, &mode, &prefeed, &mwt)) != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "Sane.start: error set_adf_control: %s\n",
-	   Sane.strstatus (status))
-      release_unit (s.fd)
-      sanei_scsi_close (s.fd)
+      DBG(DBG_error, "Sane.start: error set_adf_control: %s\n",
+	   Sane.strstatus(status))
+      release_unit(s.fd)
+      sanei_scsi_close(s.fd)
       s.fd = -1
-      return (Sane.STATUS_INVAL)
+      return(Sane.STATUS_INVAL)
     }
 
 
-  DBG (DBG_info, "Sane.start: setting endorser control to %d\n",
+  DBG(DBG_info, "Sane.start: setting endorser control to %d\n",
        s.val[OPT_ENDORSER].w)
-  if ((status =
-       set_endorser_control (s.fd,
+  if((status =
+       set_endorser_control(s.fd,
 			     &s.val[OPT_ENDORSER].w)) != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "set_endorser_control failed: %s\n",
-	   Sane.strstatus (status))
-      release_unit (s.fd)
-      sanei_scsi_close (s.fd)
+      DBG(DBG_error, "set_endorser_control failed: %s\n",
+	   Sane.strstatus(status))
+      release_unit(s.fd)
+      sanei_scsi_close(s.fd)
       s.fd = -1
-      return (status)
+      return(status)
     }
-  if (s.val[OPT_ENDORSER].w)
+  if(s.val[OPT_ENDORSER].w)
     {
-      DBG (DBG_info, "Sane.start: setting endorser string to %s\n",
+      DBG(DBG_info, "Sane.start: setting endorser string to %s\n",
 	   s.val[OPT_ENDORSER_STRING].s)
-      if ((status =
-	   set_endorser_string (s.fd,
+      if((status =
+	   set_endorser_string(s.fd,
 				(String) s.val[OPT_ENDORSER_STRING].
 				s)) != Sane.STATUS_GOOD)
 	{
-	  DBG (DBG_error, "set_endorser_string failed: %s\n",
-	       Sane.strstatus (status))
-	  release_unit (s.fd)
-	  sanei_scsi_close (s.fd)
+	  DBG(DBG_error, "set_endorser_string failed: %s\n",
+	       Sane.strstatus(status))
+	  release_unit(s.fd)
+	  sanei_scsi_close(s.fd)
 	  s.fd = -1
-	  return (status)
+	  return(status)
 	}
     }
 
-  DBG (DBG_info, "Sane.start: setting scan_wait_mode to %d\n",
+  DBG(DBG_info, "Sane.start: setting scan_wait_mode to %d\n",
        s.val[OPT_SCAN_WAIT_MODE].w)
-  if ((status =
-       set_scan_wait_mode (s.fd,
+  if((status =
+       set_scan_wait_mode(s.fd,
 			   s.val[OPT_SCAN_WAIT_MODE].w)) != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "set_scan_wait_mode failed: %s\n",
-	   Sane.strstatus (status))
-      release_unit (s.fd)
-      sanei_scsi_close (s.fd)
+      DBG(DBG_error, "set_scan_wait_mode failed: %s\n",
+	   Sane.strstatus(status))
+      release_unit(s.fd)
+      sanei_scsi_close(s.fd)
       s.fd = -1
-      return (status)
+      return(status)
     }
-  DBG (DBG_info, "Sane.start: setting white_balance to %d\n",
+  DBG(DBG_info, "Sane.start: setting white_balance to %d\n",
        s.val[OPT_WHITE_BALANCE].w)
-  if ((status =
-       set_white_balance (s.fd,
+  if((status =
+       set_white_balance(s.fd,
 			  &s.val[OPT_WHITE_BALANCE].w)) != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "set_white_balance failed: %s\n",
-	   Sane.strstatus (status))
-      release_unit (s.fd)
-      sanei_scsi_close (s.fd)
+      DBG(DBG_error, "set_white_balance failed: %s\n",
+	   Sane.strstatus(status))
+      release_unit(s.fd)
+      sanei_scsi_close(s.fd)
       s.fd = -1
-      return (status)
+      return(status)
     }
 
-  if (s.val[OPT_CUSTOM_GAMMA].b)
+  if(s.val[OPT_CUSTOM_GAMMA].b)
     {				/* Custom Gamma needs to be sent to scanner */
-      DBG (DBG_info, "Sane.start: setting custom gamma\n")
-      if ((status = hs2p_send_gamma (s)))
+      DBG(DBG_info, "Sane.start: setting custom gamma\n")
+      if((status = hs2p_send_gamma(s)))
 	{
-	  DBG (DBG_error, "hs2p_send_gamma failed: %s\n",
-	       Sane.strstatus (status))
-	  release_unit (s.fd)
-	  sanei_scsi_close (s.fd)
+	  DBG(DBG_error, "hs2p_send_gamma failed: %s\n",
+	       Sane.strstatus(status))
+	  release_unit(s.fd)
+	  sanei_scsi_close(s.fd)
 	  s.fd = -1
-	  return (status)
+	  return(status)
 	}
-      /* We succeeded, so we don't need to upload this vector again (unless user modifies gamma table) */
+      /* We succeeded, so we don't need to upload this vector again(unless user modifies gamma table) */
       s.val[OPT_CUSTOM_GAMMA].b = Sane.FALSE
     }
 
 
-  DBG (DBG_info, "Sane.start: filling in window data buffer \n")
-  if ((status = set_window_data (s, &wbuf)) != Sane.STATUS_GOOD)
+  DBG(DBG_info, "Sane.start: filling in window data buffer \n")
+  if((status = set_window_data(s, &wbuf)) != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "set_window_data failed: %s\n",
-	   Sane.strstatus (status))
-      release_unit (s.fd)
-      sanei_scsi_close (s.fd)
+      DBG(DBG_error, "set_window_data failed: %s\n",
+	   Sane.strstatus(status))
+      release_unit(s.fd)
+      sanei_scsi_close(s.fd)
       s.fd = -1
-      return (status)
+      return(status)
     }
-  DBG (DBG_info, "Sane.start: sending SET WINDOW DATA\n")
-  if ((status = set_window (s.fd, &wbuf)) != Sane.STATUS_GOOD)
+  DBG(DBG_info, "Sane.start: sending SET WINDOW DATA\n")
+  if((status = set_window(s.fd, &wbuf)) != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "SET WINDOW DATA failed: %s\n",
-	   Sane.strstatus (status))
-      print_window_data (&wbuf)
-      release_unit (s.fd)
-      sanei_scsi_close (s.fd)
+      DBG(DBG_error, "SET WINDOW DATA failed: %s\n",
+	   Sane.strstatus(status))
+      print_window_data(&wbuf)
+      release_unit(s.fd)
+      sanei_scsi_close(s.fd)
       s.fd = -1
-      return (status)
+      return(status)
     }
-  DBG (DBG_info, "Sane.start: sending GET WINDOW\n")
-  memset (&gbuf, 0, sizeof (gbuf));	/* CLEAR wbuf */
-  if ((status = get_window (s.fd, &gbuf)) != Sane.STATUS_GOOD)
+  DBG(DBG_info, "Sane.start: sending GET WINDOW\n")
+  memset(&gbuf, 0, sizeof(gbuf));	/* CLEAR wbuf */
+  if((status = get_window(s.fd, &gbuf)) != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "GET WINDOW failed: %s\n", Sane.strstatus (status))
-      release_unit (s.fd)
-      sanei_scsi_close (s.fd)
+      DBG(DBG_error, "GET WINDOW failed: %s\n", Sane.strstatus(status))
+      release_unit(s.fd)
+      sanei_scsi_close(s.fd)
       s.fd = -1
-      return (status)
+      return(status)
     }
 
   /* DONE WITH SETTING UP SCANNER ONCE PER BATCH */
 
   s.EOM = Sane.FALSE
-  if (mode != FLATBED)
+  if(mode != FLATBED)
     {
-      if ((status =
-	   get_hs2p_data (s, DATA_TYPE_ADF_STATUS,
+      if((status =
+	   get_hs2p_data(s, DATA_TYPE_ADF_STATUS,
 			  DATA_TYPE_EOL)) != Sane.STATUS_GOOD)
 	{
-	  DBG (DBG_error, "Sane.start: error reading adf_status:  %s\n",
-	       Sane.strstatus (status))
-	  return (status)
+	  DBG(DBG_error, "Sane.start: error reading adf_status:  %s\n",
+	       Sane.strstatus(status))
+	  return(status)
 	}
-      if ((s.data.adf_status & 0x00) == 0x01)
+      if((s.data.adf_status & 0x00) == 0x01)
 	{
-	  DBG (DBG_warning, "Sane.start: No document on ADF\n")
-	  return (Sane.STATUS_NO_DOCS)
+	  DBG(DBG_warning, "Sane.start: No document on ADF\n")
+	  return(Sane.STATUS_NO_DOCS)
 	}
-      else if ((s.data.adf_status & 0x02) == 0x02)
+      else if((s.data.adf_status & 0x02) == 0x02)
 	{
-	  DBG (DBG_warning, "Sane.start: ADF cover open!\n")
-	  return (Sane.STATUS_COVER_OPEN)
+	  DBG(DBG_warning, "Sane.start: ADF cover open!\n")
+	  return(Sane.STATUS_COVER_OPEN)
 	}
     }
 
 
-  status = trigger_scan (s)
-  if (status != Sane.STATUS_GOOD)
+  status = trigger_scan(s)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "start of scan failed: %s\n", Sane.strstatus (status))
-      print_window_data (&wbuf)
+      DBG(DBG_error, "start of scan failed: %s\n", Sane.strstatus(status))
+      print_window_data(&wbuf)
       /* this line introduced not to freeze xscanimage */
-      /*do_cancel (s); */
+      /*do_cancel(s); */
       return status
     }
   /* Wait for scanner to become ready to transmit data */
-  status = hs2p_wait_ready (s)
-  if (status != Sane.STATUS_GOOD)
+  status = hs2p_wait_ready(s)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "GET DATA STATUS failed: %s\n",
-	   Sane.strstatus (status))
-      return (status)
+      DBG(DBG_error, "GET DATA STATUS failed: %s\n",
+	   Sane.strstatus(status))
+      return(status)
     }
 
   s.another_side = (mode == DUPLEX) ? Sane.TRUE : Sane.FALSE
   /* Number of bytes to read for one side of sheet */
-  DBG (DBG_info, "ANOTHER SIDE = %s\n", (s.another_side) ? "TRUE" : "FALSE")
+  DBG(DBG_info, "ANOTHER SIDE = %s\n", (s.another_side) ? "TRUE" : "FALSE")
   s.bytes_to_read = s.params.bytes_per_line * s.params.lines
-  DBG (DBG_info, "%d pixels per line, %d bytes, %d lines high, dpi=%d\n",
+  DBG(DBG_info, "%d pixels per line, %d bytes, %d lines high, dpi=%d\n",
        s.params.pixels_per_line, s.params.bytes_per_line,
        s.params.lines, (Int) s.val[OPT_Y_RESOLUTION].w)
   s.scanning = Sane.TRUE
   s.cancelled = Sane.FALSE
 
-  DBG (DBG_proc, "<< Sane.start\n")
-  return (Sane.STATUS_GOOD)
+  DBG(DBG_proc, "<< Sane.start\n")
+  return(Sane.STATUS_GOOD)
 }
 
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
+Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
 	   Int * len)
 {
   HS2P_Scanner *s = handle
   Sane.Status status
   size_t nread, bytes_requested, i, start
   Sane.Byte color
-  DBG (DBG_proc, ">> Sane.read\n")
+  DBG(DBG_proc, ">> Sane.read\n")
 
   *len = 0
 
-  DBG (DBG_info, "Sane.read: bytes left to read: %ld\n",
+  DBG(DBG_info, "Sane.read: bytes left to read: %ld\n",
        (u_long) s.bytes_to_read)
 
-  if (s.bytes_to_read == 0)
+  if(s.bytes_to_read == 0)
     {				/* We've reached the end of one side of sheet */
-      if (!s.another_side)
+      if(!s.another_side)
 	{
-	  do_cancel (s)
-	  return (Sane.STATUS_EOF)
+	  do_cancel(s)
+	  return(Sane.STATUS_EOF)
 	}
       else
 	{
 	  /* let frontend call Sane.start again to reset bytes_to_read */
-	  DBG (DBG_proc, "<< Sane.read: getting another side\n")
-	  return (Sane.STATUS_EOF)
+	  DBG(DBG_proc, "<< Sane.read: getting another side\n")
+	  return(Sane.STATUS_EOF)
 	}
     }
 
-  if (s.cancelled)
+  if(s.cancelled)
     {
-      DBG (DBG_info, "Sane.read: cancelled!\n")
+      DBG(DBG_info, "Sane.read: cancelled!\n")
       return Sane.STATUS_CANCELLED
     }
-  if (!s.scanning)
+  if(!s.scanning)
     {
-      DBG (DBG_info, "Sane.read: scanning is false!\n")
-      return (do_cancel (s))
+      DBG(DBG_info, "Sane.read: scanning is false!\n")
+      return(do_cancel(s))
     }
 
   nread = max_len
-  if (nread > s.bytes_to_read)
+  if(nread > s.bytes_to_read)
     nread = s.bytes_to_read
   bytes_requested = nread
   start = 0
 
 pad:
-  if (s.EOM)
+  if(s.EOM)
     {
-      if (s.val[OPT_PADDING].w)
+      if(s.val[OPT_PADDING].w)
 	{
-	  DBG (DBG_info, "Sane.read s.EOM padding from %ld to %ld\n",
+	  DBG(DBG_info, "Sane.read s.EOM padding from %ld to %ld\n",
 	       (u_long) start, (u_long) bytes_requested)
 	  color = (s.val[OPT_NEGATIVE].w) ? 0 : 255
 	  /* pad to requested length */
-	  for (i = start; i < bytes_requested; i++)
+	  for(i = start; i < bytes_requested; i++)
 	    buf[i] = color
 	  nread = bytes_requested;	/* we've padded to bytes_requested */
 	  *len = nread
@@ -3756,23 +3756,23 @@ pad:
     }
   else
     {
-      DBG (DBG_info, "Sane.read: trying to read %ld bytes\n", (u_long) nread)
-      status = read_data (s.fd, buf, &nread, DATA_TYPE_IMAGE, DTQ)
-      switch (status)
+      DBG(DBG_info, "Sane.read: trying to read %ld bytes\n", (u_long) nread)
+      status = read_data(s.fd, buf, &nread, DATA_TYPE_IMAGE, DTQ)
+      switch(status)
 	{
 	case Sane.STATUS_NO_DOCS:
-	  DBG (DBG_error, "Sane.read: End-Of-Medium detected\n")
+	  DBG(DBG_error, "Sane.read: End-Of-Medium detected\n")
 	  s.EOM = Sane.TRUE
 	  /*
 	   * If status != Sane.STATUS_GOOD, then sense_handler() has already
 	   * been called and the sanei.* functions have already gotten the
-	   * sense data buffer (which apparently clears the error condition)
+	   * sense data buffer(which apparently clears the error condition)
 	   * so the following doesn't work:
-	   get_sense_data (s.fd, &(s.hw.sense_data))
-	   print_sense_data (&(s.hw.sense_data))
+	   get_sense_data(s.fd, &(s.hw.sense_data))
+	   print_sense_data(&(s.hw.sense_data))
 	   */
-	  start = (isset_ILI (s.hw.sense_data)) ?	/* Invalid Length Indicator */
-	    bytes_requested - _4btol (s.hw.sense_data.information) : nread
+	  start = (isset_ILI(s.hw.sense_data)) ?	/* Invalid Length Indicator */
+	    bytes_requested - _4btol(s.hw.sense_data.information) : nread
 	  goto pad
 	  break
 	case Sane.STATUS_GOOD:
@@ -3780,59 +3780,59 @@ pad:
 	  s.bytes_to_read -= nread
 	  break
 	default:
-	  DBG (DBG_error, "Sane.read: read error\n")
-	  do_cancel (s)
-	  return (Sane.STATUS_IO_ERROR)
+	  DBG(DBG_error, "Sane.read: read error\n")
+	  do_cancel(s)
+	  return(Sane.STATUS_IO_ERROR)
 	}
     }
-  DBG (DBG_proc, "<< Sane.read\n")
-  return (Sane.STATUS_GOOD)
+  DBG(DBG_proc, "<< Sane.read\n")
+  return(Sane.STATUS_GOOD)
 }
 
 
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   HS2P_Scanner *s = handle
-  DBG (DBG_proc, ">> Sane.cancel\n")
+  DBG(DBG_proc, ">> Sane.cancel\n")
 
-  if (s.scanning)
+  if(s.scanning)
     {				/* if batchmode is enabled, then call set_window to abort the batch
-				   if (_OPT_VAL_WORD(s, OPT_BATCH) == Sane.TRUE) {
+				   if(_OPT_VAL_WORD(s, OPT_BATCH) == Sane.TRUE) {
 				   DBG(5, "Sane.cancel: calling set_window to abort batch\n")
 				   set_window(s, BH_BATCH_ABORT)
 				   }   */
-      do_cancel (s)
+      do_cancel(s)
     }
 
 
 
-  DBG (DBG_proc, "<< Sane.cancel\n")
+  DBG(DBG_proc, "<< Sane.cancel\n")
 }
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 {
-  DBG (DBG_proc, ">> Sane.set_io_mode (handle = %p, non_blocking = %d)\n",
+  DBG(DBG_proc, ">> Sane.set_io_mode(handle = %p, non_blocking = %d)\n",
        handle, non_blocking)
-  DBG (DBG_proc, "<< Sane.set_io_mode\n")
+  DBG(DBG_proc, "<< Sane.set_io_mode\n")
 
   return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle handle, Int * fd)
+Sane.get_select_fd(Sane.Handle handle, Int * fd)
 {
 #ifdef NONBLOCKSUPPORTED
   HS2P_Scanner *s = handle
 #endif
-  DBG (DBG_proc, ">> Sane.get_select_fd (handle = %p, fd = %p)\n", handle,
+  DBG(DBG_proc, ">> Sane.get_select_fd(handle = %p, fd = %p)\n", handle,
        (void *) fd)
 
 #ifdef NONBLOCKSUPPORTED
-  if (s.fd < 0)
+  if(s.fd < 0)
     {
-      DBG (DBG_proc, "<< Sane.get_select_fd\n")
+      DBG(DBG_proc, "<< Sane.get_select_fd\n")
       return Sane.STATUS_INVAL
     }
   *fd = s.fd
@@ -3840,7 +3840,7 @@ Sane.get_select_fd (Sane.Handle handle, Int * fd)
 #else
   handle = handle
   fd = fd;			/* get rid of compiler warning */
-  DBG (DBG_proc, "<< Sane.get_select_fd\n")
+  DBG(DBG_proc, "<< Sane.get_select_fd\n")
   return Sane.STATUS_UNSUPPORTED
 #endif
 }

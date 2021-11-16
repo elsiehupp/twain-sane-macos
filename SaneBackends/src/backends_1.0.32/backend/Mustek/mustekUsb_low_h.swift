@@ -1,16 +1,16 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2000 Mustek.
+   Copyright(C) 2000 Mustek.
    Originally maintained by Tom Wang <tom.wang@mustek.com.tw>
 
-   Copyright (C) 2001, 2002 by Henning Meier-Geinitz.
+   Copyright(C) 2001, 2002 by Henning Meier-Geinitz.
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -66,8 +66,8 @@ import Sane.sane
 #define HIBYTE(w) ((Sane.Byte)(((Sane.Word)(w) >> 8) & 0xFF))
 #define LOBYTE(w) ((Sane.Byte)(w))
 /* RIE: return if error */
-#define RIE(function) do {status = function; if (status != Sane.STATUS_GOOD) \
-                        return status;} while (Sane.FALSE)
+#define RIE(function) do {status = function; if(status != Sane.STATUS_GOOD) \
+                        return status;} while(Sane.FALSE)
 
 
 /* ---------------------------------- types ------------------------------- */
@@ -172,7 +172,7 @@ typedef struct ma1017
   Sane.Byte serial_length
 
   /* Use for Rowing */
-    Sane.Status (*get_row) (struct ma1017 * chip, Sane.Byte * row,
+    Sane.Status(*get_row) (struct ma1017 * chip, Sane.Byte * row,
 			    Sane.Word * lines_left)
 
   Sane.Word cmt_table_length_word
@@ -234,74 +234,74 @@ Sampleway
 
 /* ------------------------- function declarations ------------------------ */
 
-static Sane.Status usb_low_init (ma1017 ** chip)
+static Sane.Status usb_low_init(ma1017 ** chip)
 
-static Sane.Status usb_low_exit (ma1017 * chip)
+static Sane.Status usb_low_exit(ma1017 * chip)
 
 /* Register read and write functions */
 /* A0 ~ A1 */
 static Sane.Status
-usb_low_set_cmt_table (ma1017 * chip, Int index, Channel channel,
+usb_low_set_cmt_table(ma1017 * chip, Int index, Channel channel,
 		       Bool is_move_motor, Bool is_transfer)
 
 /* A2 */
 static Sane.Status usb_low_get_a2 (ma1017 * chip, Sane.Byte * value)
 
-static Sane.Status usb_low_start_cmt_table (ma1017 * chip)
+static Sane.Status usb_low_start_cmt_table(ma1017 * chip)
 
-static Sane.Status usb_low_stop_cmt_table (ma1017 * chip)
+static Sane.Status usb_low_stop_cmt_table(ma1017 * chip)
 
 static Sane.Status
-usb_low_set_test_sram_mode (ma1017 * chip, Bool is_test)
+usb_low_set_test_sram_mode(ma1017 * chip, Bool is_test)
 
-static Sane.Status usb_low_set_fix_pattern (ma1017 * chip, Bool is_fix)
+static Sane.Status usb_low_set_fix_pattern(ma1017 * chip, Bool is_fix)
 
 /* A3 */
-static Sane.Status usb_low_adjust_timing (ma1017 * chip, Sane.Byte data)
+static Sane.Status usb_low_adjust_timing(ma1017 * chip, Sane.Byte data)
 
 /* A4 */
 static Sane.Status usb_low_get_a4 (ma1017 * chip, Sane.Byte * value)
 
-static Sane.Status usb_low_select_timing (ma1017 * chip, Sane.Byte data)
+static Sane.Status usb_low_select_timing(ma1017 * chip, Sane.Byte data)
 
 static Sane.Status
-usb_low_turn_frontend_mode (ma1017 * chip, Bool is_on)
+usb_low_turn_frontend_mode(ma1017 * chip, Bool is_on)
 
 /* A6 */
 static Sane.Status usb_low_get_a6 (ma1017 * chip, Sane.Byte * value)
 
-static Sane.Status usb_low_set_asic_io_pins (ma1017 * chip, Sane.Byte data)
+static Sane.Status usb_low_set_asic_io_pins(ma1017 * chip, Sane.Byte data)
 
-static Sane.Status usb_low_set_rgb_sel_pins (ma1017 * chip, Sane.Byte data)
+static Sane.Status usb_low_set_rgb_sel_pins(ma1017 * chip, Sane.Byte data)
 
 /* A7 */
 static Sane.Status usb_low_get_a7 (ma1017 * chip, Sane.Byte * value)
 
-static Sane.Status usb_low_set_timing (ma1017 * chip, Sane.Byte data)
+static Sane.Status usb_low_set_timing(ma1017 * chip, Sane.Byte data)
 
-static Sane.Status usb_low_set_sram_bank (ma1017 * chip, Banksize banksize)
+static Sane.Status usb_low_set_sram_bank(ma1017 * chip, Banksize banksize)
 
 /* A8 */
 static Sane.Status usb_low_get_a8 (ma1017 * chip, Sane.Byte * value)
 
 static Sane.Status
-usb_low_set_cmt_table_length (ma1017 * chip, Sane.Byte table_length)
+usb_low_set_cmt_table_length(ma1017 * chip, Sane.Byte table_length)
 
 /* A9 */
 static Sane.Status usb_low_get_a9 (ma1017 * chip, Sane.Byte * value)
 
 static Sane.Status
-usb_low_set_cmt_second_position (ma1017 * chip, Sane.Byte position)
+usb_low_set_cmt_second_position(ma1017 * chip, Sane.Byte position)
 
 /* A10 + A8ID5 */
 static Sane.Status usb_low_get_a10 (ma1017 * chip, Sane.Byte * value)
 
-static Sane.Status usb_low_set_ccd_width (ma1017 * chip, Sane.Word ccd_width)
+static Sane.Status usb_low_set_ccd_width(ma1017 * chip, Sane.Word ccd_width)
 
 /* A11 + A8ID6 */
 static Sane.Status usb_low_get_a11 (ma1017 * chip, Sane.Byte * value)
 
-static Sane.Status usb_low_set_dummy (ma1017 * chip, Sane.Word dummy)
+static Sane.Status usb_low_set_dummy(ma1017 * chip, Sane.Word dummy)
 
 /* A12 + A13 */
 static Sane.Status usb_low_get_a12 (ma1017 * chip, Sane.Byte * value)
@@ -309,44 +309,44 @@ static Sane.Status usb_low_get_a12 (ma1017 * chip, Sane.Byte * value)
 static Sane.Status usb_low_get_a13 (ma1017 * chip, Sane.Byte * value)
 
 static Sane.Status
-usb_low_set_image_byte_width (ma1017 * chip, Sane.Word row_size)
+usb_low_set_image_byte_width(ma1017 * chip, Sane.Word row_size)
 
 static Sane.Status
-usb_low_set_soft_resample (ma1017 * chip, Sane.Word soft_resample)
+usb_low_set_soft_resample(ma1017 * chip, Sane.Word soft_resample)
 
 /* A14 + A30W */
 static Sane.Status
-usb_low_set_cmt_loop_count (ma1017 * chip, Sane.Word loop_count)
+usb_low_set_cmt_loop_count(ma1017 * chip, Sane.Word loop_count)
 
 /* A15 */
 static Sane.Status usb_low_get_a15 (ma1017 * chip, Sane.Byte * value)
 
-static Sane.Status usb_low_enable_motor (ma1017 * chip, Bool is_enable)
+static Sane.Status usb_low_enable_motor(ma1017 * chip, Bool is_enable)
 
 static Sane.Status
-usb_low_set_motor_movement (ma1017 * chip, Bool is_full_step,
+usb_low_set_motor_movement(ma1017 * chip, Bool is_full_step,
 			    Bool is_double_phase, Bool is_two_step)
 
-static Sane.Status usb_low_set_motor_signal (ma1017 * chip, Sane.Byte signal)
+static Sane.Status usb_low_set_motor_signal(ma1017 * chip, Sane.Byte signal)
 
 static Sane.Status
-usb_low_set_motor_direction (ma1017 * chip, Bool is_backward)
+usb_low_set_motor_direction(ma1017 * chip, Bool is_backward)
 
 static Sane.Status
-usb_low_move_motor_home (ma1017 * chip, Bool is_home,
+usb_low_move_motor_home(ma1017 * chip, Bool is_home,
 			 Bool is_backward)
 
 /* A16 */
 static Sane.Status usb_low_get_a16 (ma1017 * chip, Sane.Byte * value)
 
 static Sane.Status
-usb_low_set_image_dpi (ma1017 * chip, Bool is_optical600,
+usb_low_set_image_dpi(ma1017 * chip, Bool is_optical600,
 		       Sampleway sampleway)
 
 static Sane.Status
-usb_low_set_pixel_depth (ma1017 * chip, Pixeldepth pixeldepth)
+usb_low_set_pixel_depth(ma1017 * chip, Pixeldepth pixeldepth)
 
-static Sane.Status usb_low_invert_image (ma1017 * chip, Bool is_invert)
+static Sane.Status usb_low_invert_image(ma1017 * chip, Bool is_invert)
 
 /* A17 + A18 + A19 */
 static Sane.Status usb_low_get_a17 (ma1017 * chip, Sane.Byte * value)
@@ -355,11 +355,11 @@ static Sane.Status usb_low_get_a18 (ma1017 * chip, Sane.Byte * value)
 
 static Sane.Status usb_low_get_a19 (ma1017 * chip, Sane.Byte * value)
 
-static Sane.Status usb_low_set_red_ref (ma1017 * chip, Sane.Byte red_ref)
+static Sane.Status usb_low_set_red_ref(ma1017 * chip, Sane.Byte red_ref)
 
-static Sane.Status usb_low_set_green_ref (ma1017 * chip, Sane.Byte green_ref)
+static Sane.Status usb_low_set_green_ref(ma1017 * chip, Sane.Byte green_ref)
 
-static Sane.Status usb_low_set_blue_ref (ma1017 * chip, Sane.Byte blue_ref)
+static Sane.Status usb_low_set_blue_ref(ma1017 * chip, Sane.Byte blue_ref)
 
 /* A20 + A21 + A22 */
 static Sane.Status usb_low_get_a20 (ma1017 * chip, Sane.Byte * value)
@@ -368,29 +368,29 @@ static Sane.Status usb_low_get_a21 (ma1017 * chip, Sane.Byte * value)
 
 static Sane.Status usb_low_get_a22 (ma1017 * chip, Sane.Byte * value)
 
-static Sane.Status usb_low_set_red_pd (ma1017 * chip, Sane.Byte red_pd)
+static Sane.Status usb_low_set_red_pd(ma1017 * chip, Sane.Byte red_pd)
 
-static Sane.Status usb_low_set_green_pd (ma1017 * chip, Sane.Byte green_pd)
+static Sane.Status usb_low_set_green_pd(ma1017 * chip, Sane.Byte green_pd)
 
-static Sane.Status usb_low_set_blue_pd (ma1017 * chip, Sane.Byte blue_pd)
+static Sane.Status usb_low_set_blue_pd(ma1017 * chip, Sane.Byte blue_pd)
 
 /* A23 */
 static Sane.Status usb_low_get_a23 (ma1017 * chip, Sane.Byte * value)
 
 static Sane.Status
-usb_low_turn_peripheral_power (ma1017 * chip, Bool is_on)
+usb_low_turn_peripheral_power(ma1017 * chip, Bool is_on)
 
-static Sane.Status usb_low_turn_lamp_power (ma1017 * chip, Bool is_on)
+static Sane.Status usb_low_turn_lamp_power(ma1017 * chip, Bool is_on)
 
 static Sane.Status usb_low_set_io_3 (ma1017 * chip, Bool is_high)
 
 static Sane.Status
-usb_low_set_led_light_all (ma1017 * chip, Bool is_light_all)
+usb_low_set_led_light_all(ma1017 * chip, Bool is_light_all)
 
 /* A24 */
 static Sane.Status usb_low_get_a24 (ma1017 * chip, Sane.Byte * value)
 
-static Sane.Status usb_low_set_ad_timing (ma1017 * chip, Sane.Byte pattern)
+static Sane.Status usb_low_set_ad_timing(ma1017 * chip, Sane.Byte pattern)
 
 /* A25 + A26 */
 static Sane.Status usb_low_set_serial_byte1 (ma1017 * chip, Sane.Byte data)
@@ -400,49 +400,49 @@ static Sane.Status usb_low_set_serial_byte2 (ma1017 * chip, Sane.Byte data)
 /* A27 */
 static Sane.Status usb_low_get_a27 (ma1017 * chip, Sane.Byte * value)
 
-static Sane.Status usb_low_set_serial_format (ma1017 * chip, Sane.Byte data)
+static Sane.Status usb_low_set_serial_format(ma1017 * chip, Sane.Byte data)
 
 /* A31 */
-static Sane.Status usb_low_get_home_sensor (ma1017 * chip)
+static Sane.Status usb_low_get_home_sensor(ma1017 * chip)
 
 /* Special Mode */
-static Sane.Status usb_low_start_rowing (ma1017 * chip)
+static Sane.Status usb_low_start_rowing(ma1017 * chip)
 
-static Sane.Status usb_low_stop_rowing (ma1017 * chip)
+static Sane.Status usb_low_stop_rowing(ma1017 * chip)
 
-static Sane.Status usb_low_wait_rowing_stop (ma1017 * chip)
+static Sane.Status usb_low_wait_rowing_stop(ma1017 * chip)
 
 /* Global functions */
-static Sane.Status usb_low_read_all_registers (ma1017 * chip)
+static Sane.Status usb_low_read_all_registers(ma1017 * chip)
 
 static Sane.Status
-usb_low_get_row (ma1017 * chip, Sane.Byte * data, Sane.Word * lines_left)
+usb_low_get_row(ma1017 * chip, Sane.Byte * data, Sane.Word * lines_left)
 
 static Sane.Status
-usb_low_get_row_direct (ma1017 * chip, Sane.Byte * data,
+usb_low_get_row_direct(ma1017 * chip, Sane.Byte * data,
 			Sane.Word * lines_left)
 
 static Sane.Status
-usb_low_get_row_resample (ma1017 * chip, Sane.Byte * data,
+usb_low_get_row_resample(ma1017 * chip, Sane.Byte * data,
 			  Sane.Word * lines_left)
 
 /* Direct access */
-static Sane.Status usb_low_wait_rowing (ma1017 * chip)
+static Sane.Status usb_low_wait_rowing(ma1017 * chip)
 
 static Sane.Status
-usb_low_read_rows (ma1017 * chip, Sane.Byte * data, Sane.Word byte_count)
+usb_low_read_rows(ma1017 * chip, Sane.Byte * data, Sane.Word byte_count)
 
 static Sane.Status
-usb_low_write_reg (ma1017 * chip, Sane.Byte reg_no, Sane.Byte data)
+usb_low_write_reg(ma1017 * chip, Sane.Byte reg_no, Sane.Byte data)
 
 static Sane.Status
-usb_low_read_reg (ma1017 * chip, Sane.Byte reg_no, Sane.Byte * data)
+usb_low_read_reg(ma1017 * chip, Sane.Byte reg_no, Sane.Byte * data)
 
 static Sane.Status
-usb_low_identify_scanner (Int fd, Mustek_Type * scanner_type)
+usb_low_identify_scanner(Int fd, Mustek_Type * scanner_type)
 
-static Sane.Status usb_low_open (ma1017 * chip, const char *devname)
+static Sane.Status usb_low_open(ma1017 * chip, const char *devname)
 
-static Sane.Status usb_low_close (ma1017 * chip)
+static Sane.Status usb_low_close(ma1017 * chip)
 
 #endif /* defined mustek_usb_low_h */

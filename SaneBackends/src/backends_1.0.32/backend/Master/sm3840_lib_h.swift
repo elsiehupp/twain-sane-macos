@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
    ScanMaker 3840 Backend
-   Copyright (C) 2005-7 Earle F. Philhower, III
+   Copyright(C) 2005-7 Earle F. Philhower, III
    earle@ziplabel.com - http://www.ziplabel.com
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -52,7 +52,7 @@ import string
 typedef usb_dev_handle *p_usb_dev_handle
 #endif
 
-static p_usb_dev_handle find_device (unsigned Int idVendor,
+static p_usb_dev_handle find_device(unsigned Int idVendor,
 				    unsigned Int idProduct)
 #else
 import Sane.Sanei_usb
@@ -64,13 +64,13 @@ typedef Int p_usb_dev_handle
 #define usb_control_msg  my_usb_control_msg
 #define usb_bulk_read    my_usb_bulk_read
 #define usb_bulk_write   my_usb_bulk_write
-static Int my_usb_bulk_write (p_usb_dev_handle dev, Int ep,
+static Int my_usb_bulk_write(p_usb_dev_handle dev, Int ep,
 			      unsigned char *bytes,
 			      Int size, Int timeout)
-static Int my_usb_bulk_read (p_usb_dev_handle dev, Int ep,
+static Int my_usb_bulk_read(p_usb_dev_handle dev, Int ep,
 			     unsigned char *bytes,
 			     Int size, Int timeout)
-static Int my_usb_control_msg (p_usb_dev_handle dev, Int requesttype,
+static Int my_usb_control_msg(p_usb_dev_handle dev, Int requesttype,
 			       Int request, Int value, Int index,
 			       unsigned char *bytes,
 			       Int size, Int timeout)
@@ -80,59 +80,59 @@ static Int my_usb_control_msg (p_usb_dev_handle dev, Int requesttype,
 
 import sm3840_params
 
-static void idle_ab (p_usb_dev_handle udev)
-static void write_regs (p_usb_dev_handle udev, Int regs, unsigned char reg1,
+static void idle_ab(p_usb_dev_handle udev)
+static void write_regs(p_usb_dev_handle udev, Int regs, unsigned char reg1,
 			unsigned char val1,
 			... /*unsigned char reg, unsigned char val, ... */ )
-static Int write_vctl (p_usb_dev_handle udev, Int request, Int value,
+static Int write_vctl(p_usb_dev_handle udev, Int request, Int value,
 		       Int index, unsigned char byte)
-static Int read_vctl (p_usb_dev_handle udev, Int request, Int value,
+static Int read_vctl(p_usb_dev_handle udev, Int request, Int value,
 		      Int index, unsigned char *byte)
 
 #ifndef BACKENDNAME
-static void record (p_usb_dev_handle udev, char *fname, Int bytes)
-static void record_image (p_usb_dev_handle udev, char *fname, Int dpi,
+static void record(p_usb_dev_handle udev, char *fname, Int bytes)
+static void record_image(p_usb_dev_handle udev, char *fname, Int dpi,
 			  Int scanpix, Int scanlines, Int gray, char *head,
 			  Int bpp16)
-static void check_buttons (p_usb_dev_handle udev, Int *scan, Int *print,
+static void check_buttons(p_usb_dev_handle udev, Int *scan, Int *print,
 			   Int *mail)
-static void record_head (p_usb_dev_handle udev, char *fname, Int bytes,
+static void record_head(p_usb_dev_handle udev, char *fname, Int bytes,
 			 char *header)
 #endif
 
 static void poll1 (p_usb_dev_handle udev)
 static void poll2 (p_usb_dev_handle udev)
 
-static void reset_scanner (p_usb_dev_handle udev)
+static void reset_scanner(p_usb_dev_handle udev)
 
 
-static void set_lightmap_white (unsigned short *map, Int dpi, Int color)
+static void set_lightmap_white(unsigned short *map, Int dpi, Int color)
 
-static void calc_lightmap (unsigned short *buff,
+static void calc_lightmap(unsigned short *buff,
 			   unsigned short *storage, Int index, Int dpi,
 			   double gain, Int offset)
-static void select_pixels (unsigned short *map, Int dpi, Int start, Int end)
+static void select_pixels(unsigned short *map, Int dpi, Int start, Int end)
 
-static void record_mem (p_usb_dev_handle udev, unsigned char **dest,
+static void record_mem(p_usb_dev_handle udev, unsigned char **dest,
 			Int bytes)
-static void set_lamp_timer (p_usb_dev_handle udev, Int timeout_in_mins)
+static void set_lamp_timer(p_usb_dev_handle udev, Int timeout_in_mins)
 
-static void set_gain_black (p_usb_dev_handle udev,
+static void set_gain_black(p_usb_dev_handle udev,
 			    Int r_gain, Int g_gain, Int b_gain,
 			    Int r_black, Int g_black, Int b_black)
 
-static void idle_ab (p_usb_dev_handle udev)
-static void write_regs (p_usb_dev_handle udev, Int regs, unsigned char reg1,
+static void idle_ab(p_usb_dev_handle udev)
+static void write_regs(p_usb_dev_handle udev, Int regs, unsigned char reg1,
 			unsigned char val1,
 			... /*unsigned char reg, unsigned char val, ... */ )
-static Int write_vctl (p_usb_dev_handle udev, Int request, Int value,
+static Int write_vctl(p_usb_dev_handle udev, Int request, Int value,
 		       Int index, unsigned char byte)
-static Int read_vctl (p_usb_dev_handle udev, Int request, Int value,
+static Int read_vctl(p_usb_dev_handle udev, Int request, Int value,
 		      Int index, unsigned char *byte)
 
 static void download_lut8 (p_usb_dev_handle udev, Int dpi, Int incolor)
 
-static void record_line (Int reset,
+static void record_line(Int reset,
 			 p_usb_dev_handle udev,
 			 unsigned char *storeline,
 			 Int dpi, Int scanpix, Int gray, Int bpp16,
@@ -142,9 +142,9 @@ static void record_line (Int reset,
 			 unsigned char **save_color_remap)
 
 
-static void prepare_params (SM3840_Params * params)
+static void prepare_params(SM3840_Params * params)
 
-static void fix_endian_short (unsigned short *data, Int count)
+static void fix_endian_short(unsigned short *data, Int count)
 
 #define rd_timeout 10000
 #define wr_timeout 10000

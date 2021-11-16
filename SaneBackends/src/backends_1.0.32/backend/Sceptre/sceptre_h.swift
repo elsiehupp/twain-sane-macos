@@ -1,12 +1,12 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2002 Frank Zago (sane at zago dot net)
+   Copyright(C) 2002 Frank Zago(sane at zago dot net)
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -253,7 +253,7 @@ enum Sceptre_Option
   OPT_GAMMA_VECTOR_G,		/* Custom Green Gamma table */
   OPT_GAMMA_VECTOR_B,		/* Custom Blue Gamma table */
   OPT_THRESHOLD,		/* Threshold */
-  OPT_HALFTONE_PATTERN,		/* Halftone pattern (1 to 4) */
+  OPT_HALFTONE_PATTERN,		/* Halftone pattern(1 to 4) */
 
   OPT_PREVIEW,			/* preview mode */
 
@@ -395,14 +395,14 @@ Sceptre_Scanner
 
 /*--------------------------------------------------------------------------*/
 
-/* 32 bits from an array to an integer (eg ntohl). */
+/* 32 bits from an array to an integer(eg ntohl). */
 #define B32TOI(buf) \
 	((((unsigned char *)buf)[0] << 24) | \
 	 (((unsigned char *)buf)[1] << 16) | \
 	 (((unsigned char *)buf)[2] <<  8) |  \
 	 (((unsigned char *)buf)[3] <<  0))
 
-/* 16 bits from an array to an integer (eg ntohs). */
+/* 16 bits from an array to an integer(eg ntohs). */
 #define B16TOI(buf) \
 	((((unsigned char *)buf)[0] <<  8) | \
 	 (((unsigned char *)buf)[1] <<  0))

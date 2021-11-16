@@ -12,13 +12,13 @@ import Sane.sane
 
 #define INQUIRY_BUF_SIZE		(36)
 
-Sane.Status sanei_Espon_scsi_sense_handler (Int scsi_fd, u_char * result,
+Sane.Status sanei_Espon_scsi_sense_handler(Int scsi_fd, u_char * result,
 					    void *arg)
-Sane.Status sanei_Espon_scsi_inquiry (Int fd, Int page_code, void *buf,
+Sane.Status sanei_Espon_scsi_inquiry(Int fd, Int page_code, void *buf,
 				      size_t * buf_size)
-Int sanei_Espon_scsi_read (Int fd, void *buf, size_t buf_size,
+Int sanei_Espon_scsi_read(Int fd, void *buf, size_t buf_size,
 			   Sane.Status * status)
-Int sanei_Espon_scsi_write (Int fd, const void *buf, size_t buf_size,
+Int sanei_Espon_scsi_write(Int fd, const void *buf, size_t buf_size,
 			    Sane.Status * status)
 
 #endif
@@ -54,15 +54,15 @@ import stdio
  * sense handler for the sanei_scsi_XXX comands
  */
 Sane.Status
-sanei_Espon_scsi_sense_handler (Int scsi_fd, u_char * result, void *arg)
+sanei_Espon_scsi_sense_handler(Int scsi_fd, u_char * result, void *arg)
 {
   /* to get rid of warnings */
   scsi_fd = scsi_fd
   arg = arg
 
-  if (result[0] && result[0] != 0x70)
+  if(result[0] && result[0] != 0x70)
   {
-    DBG (2, "sense_handler() : sense code = 0x%02x\n", result[0])
+    DBG(2, "sense_handler() : sense code = 0x%02x\n", result[0])
     return Sane.STATUS_IO_ERROR
   }
   else
@@ -76,16 +76,16 @@ sanei_Espon_scsi_sense_handler (Int scsi_fd, u_char * result, void *arg)
  *
  */
 Sane.Status
-sanei_Espon_scsi_inquiry (Int fd, Int page_code, void *buf, size_t * buf_size)
+sanei_Espon_scsi_inquiry(Int fd, Int page_code, void *buf, size_t * buf_size)
 {
   u_char cmd[6]
   Int status
 
-  memset (cmd, 0, 6)
+  memset(cmd, 0, 6)
   cmd[0] = INQUIRY_COMMAND
   cmd[2] = page_code
   cmd[4] = *buf_size > 255 ? 255 : *buf_size
-  status = sanei_scsi_cmd (fd, cmd, sizeof cmd, buf, buf_size)
+  status = sanei_scsi_cmd(fd, cmd, sizeof cmd, buf, buf_size)
 
   return status
 }
@@ -95,19 +95,19 @@ sanei_Espon_scsi_inquiry (Int fd, Int page_code, void *buf, size_t * buf_size)
  *
  */
 Int
-sanei_Espon_scsi_read (Int fd, void *buf, size_t buf_size,
+sanei_Espon_scsi_read(Int fd, void *buf, size_t buf_size,
                        Sane.Status * status)
 {
   u_char cmd[6]
 
-  memset (cmd, 0, 6)
+  memset(cmd, 0, 6)
   cmd[0] = READ_6_COMMAND
   cmd[2] = buf_size >> 16
   cmd[3] = buf_size >> 8
   cmd[4] = buf_size
 
-  if (Sane.STATUS_GOOD ==
-      (*status = sanei_scsi_cmd (fd, cmd, sizeof (cmd), buf, &buf_size)))
+  if(Sane.STATUS_GOOD ==
+      (*status = sanei_scsi_cmd(fd, cmd, sizeof(cmd), buf, &buf_size)))
     return buf_size
 
   return 0
@@ -118,20 +118,20 @@ sanei_Espon_scsi_read (Int fd, void *buf, size_t buf_size,
  *
  */
 Int
-sanei_Espon_scsi_write (Int fd, const void *buf, size_t buf_size,
+sanei_Espon_scsi_write(Int fd, const void *buf, size_t buf_size,
                         Sane.Status * status)
 {
   u_char *cmd
 
-  cmd = alloca (8 + buf_size)
-  memset (cmd, 0, 8)
+  cmd = alloca(8 + buf_size)
+  memset(cmd, 0, 8)
   cmd[0] = WRITE_6_COMMAND
   cmd[2] = buf_size >> 16
   cmd[3] = buf_size >> 8
   cmd[4] = buf_size
-  memcpy (cmd + 8, buf, buf_size)
+  memcpy(cmd + 8, buf, buf_size)
 
-  if (Sane.STATUS_GOOD ==
+  if(Sane.STATUS_GOOD ==
       (*status = sanei_scsi_cmd2 (fd, cmd, 6, cmd + 8, buf_size, NULL, NULL)))
     return buf_size
 

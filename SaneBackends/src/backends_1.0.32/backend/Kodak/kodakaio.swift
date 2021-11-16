@@ -1,7 +1,7 @@
 /*
  * kodakaio.c - SANE library for Kodak ESP Aio scanners.
  *
- * Copyright (C)   2011-2017 Paul Newall
+ * Copyright(C)   2011-2017 Paul Newall
  *
  * Based on the Magicolor sane backend:
  * Based on the epson2 sane backend:
@@ -44,7 +44,7 @@ If you want to use the test backend, for example with sane-troubleshoot, you sho
 
 */
 
-/* SANE-FLOW-DIAGRAM  Kodakaio commands in [] brackets
+/* SANE-FLOW-DIAGRAM  Kodakaio commands in[] brackets
 
    - Sane.init() : initialize backend, attach scanners(devicename,0)
    . - Sane.get_devices() : query list of scanner-devices
@@ -54,10 +54,10 @@ If you want to use the test backend, for example with sane-troubleshoot, you sho
    . . - Sane.get_option_descriptor() : get option information
    . . - Sane.control_option() : change option values
    . .
-   . . - Sane.start() : start image acquisition [V,L,F,S,C,D,O,Z] first time or after cancel. [(F),E,G] every time
+   . . - Sane.start() : start image acquisition[V,L,F,S,C,D,O,Z] first time or after cancel. [(F),E,G] every time
    . .   - Sane.get_parameters() : returns actual scan-parameters
-   . .   - Sane.read() : read image-data (from pipe)
-   . . - Sane.cancel() : cancel operation, kill reader_process [(F), U]
+   . .   - Sane.read() : read image-data(from pipe)
+   . . - Sane.cancel() : cancel operation, kill reader_process[(F), U]
 
    . - Sane.close() : close opened scanner-device, do_cancel, free buffer and handle
    - Sane.exit() : terminate use of backend, free devicename and device-struture
@@ -95,7 +95,7 @@ If you want to use the test backend, for example with sane-troubleshoot, you sho
 		print_params
 	Sane.read
 		k_read
-			cmd_read_data (reads one block)
+			cmd_read_data(reads one block)
 				k_recv
 			cmp_array
 	Sane.cancel
@@ -156,7 +156,7 @@ If you want to use the test backend, for example with sane-troubleshoot, you sho
 #define KODAKAIO_REVISION	7
 #define KODAKAIO_BUILD		3
 
-/* for usb (but also used for net though it's not required). */
+/* for usb(but also used for net though it's not required). */
 #define MAX_BLOCK_SIZE		32768
 
 #define SCANNER_READ_TIMEOUT	15
@@ -183,7 +183,7 @@ normal levels. This system is a plan rather than a reality
  *	35	fine-grained status and progress
  *	30	Sane.read
  *	25	setvalue, getvalue, control_option
- *	20	low-level (I/O) functions
+ *	20	low-level(I/O) functions
  *	15	mid-level  functions
  *	10	high-level  functions
  *	 7	open/close/attach
@@ -234,7 +234,7 @@ import kodakaio
 
 #define min(x,y) (((x)<(y))?(x):(y))
 
-/* I think these timeouts (ms) are defaults, overridden by any timeouts in the kodakaio.conf file */
+/* I think these timeouts(ms) are defaults, overridden by any timeouts in the kodakaio.conf file */
 static Int K_SNMP_Timeout = 3000; /* used for any auto detection method */
 static Int K_Scan_Data_Timeout = 10000
 static Int K_Request_Timeout = 5000
@@ -265,7 +265,7 @@ static unsigned char KodakEsp_Comp[]   = {0x1b,'S','C',3,8,3,0,0] /* 3,8,3,1,0 d
 /* the extra 1 below could be despeckle option? maybe only for Hero 9.1 but no errors with ESP5250 */
 static unsigned char KodakEsp_E[]      = {0x1b,'S','E',1,1,0,0,0]
 static unsigned char KodakEsp_Go[]     = {0x1b,'S','G',0,0,0,0,0] /* Starts the scan */
-/* Other commands are: D (resolution), O (top left), Z (bottom right), R, G, B (curves) */
+/* Other commands are: D(resolution), O(top left), Z(bottom right), R, G, B(curves) */
 
 /* What is the relationship between these and the ranges in cap? */
 static Int kodakaio_resolution_list[] = {75, 150, 300, 600, 1200]
@@ -280,7 +280,7 @@ static struct KodakaioCap kodakaio_cap[] = {
 	max depth, pointer to depth list,
 	flatbed x range, flatbed y range,
 	adf present, adf duplex,
-	adf x range, adf y range (y range should be set a little shorter than the paper being scanned)
+	adf x range, adf y range(y range should be set a little shorter than the paper being scanned)
 
 The following are not used but may be in future
 commandtype, max depth, pointer to depth list
@@ -291,17 +291,17 @@ commandtype, max depth, pointer to depth list
   /* KODAK AIO DEFAULT,  */
   {
       0x9999, "esp", "KODAK AIO DEFAULT",
-      -1, 0x82, /* USBoutEP, USBinEP (-1 means find one) */
+      -1, 0x82, /* USBoutEP, USBinEP(-1 means find one) */
       600, {75, 600, 0}, kodakaio_resolution_list, 4,  /* 600 dpi max, 4 resolutions */
       8, kodakaio_depth_list,                          /* color depth max 8, list above */
       {0, Sane.FIX(8.5 * MM_PER_INCH), 0}, {0, Sane.FIX(11.7 * MM_PER_INCH), 0}, /* FBF x/y ranges */
       Sane.FALSE, Sane.FALSE, /* ADF, duplex */
-      {0, Sane.FIX(100), 0}, {0, Sane.FIX(100), 0} /* ADF x/y ranges (TODO!) */
+      {0, Sane.FIX(100), 0}, {0, Sane.FIX(100), 0} /* ADF x/y ranges(TODO!) */
   },
   /* KODAK ESP 5100, */
   {
       0x4025, "esp", "KODAK ESP 5100 AiO",
-      -1, 0x82, /* USBoutEP, USBinEP (-1 means find one) */
+      -1, 0x82, /* USBoutEP, USBinEP(-1 means find one) */
       600, {75, 600, 0}, kodakaio_resolution_list, 4,  /* 600 dpi max, 4 resolutions */
       8, kodakaio_depth_list,                          /* color depth max 8, list above */
       {0, Sane.FIX(8.5 * MM_PER_INCH), 0}, {0, Sane.FIX(11.7 * MM_PER_INCH), 0}, /* FBF x/y ranges */
@@ -311,7 +311,7 @@ commandtype, max depth, pointer to depth list
   /* KODAK ESP 5300, */
   {
       0x4026, "esp", "KODAK ESP 5300 AiO",
-      -1, 0x82, /* USBoutEP, USBinEP (-1 means find one) */
+      -1, 0x82, /* USBoutEP, USBinEP(-1 means find one) */
       600, {75, 600, 0}, kodakaio_resolution_list, 4,  /* 600 dpi max, 4 resolutions */
       8, kodakaio_depth_list,                          /* color depth max 8, list above */
       {0, Sane.FIX(8.5 * MM_PER_INCH), 0}, {0, Sane.FIX(11.7 * MM_PER_INCH), 0}, /* FBF x/y ranges */
@@ -321,7 +321,7 @@ commandtype, max depth, pointer to depth list
   /* KODAK ESP 5500, */
   {
       0x4027, "esp", "KODAK ESP 5500 AiO",
-      -1, 0x82, /* USBoutEP, USBinEP (-1 means find one) */
+      -1, 0x82, /* USBoutEP, USBinEP(-1 means find one) */
       600, {75, 600, 0}, kodakaio_resolution_list, 4,  /* 600 dpi max, 4 resolutions */
       8, kodakaio_depth_list,                          /* color depth max 8, list above */
       {0, Sane.FIX(8.5 * MM_PER_INCH), 0}, {0, Sane.FIX(11.7 * MM_PER_INCH), 0}, /* FBF x/y ranges */
@@ -331,7 +331,7 @@ commandtype, max depth, pointer to depth list
   /* KODAK ESP 5000, */
   {
       0x4028, "esp", "KODAK ESP 5000 Series AiO",
-      -1, 0x82, /* USBoutEP, USBinEP (-1 means find one) */
+      -1, 0x82, /* USBoutEP, USBinEP(-1 means find one) */
       600, {75, 600, 0}, kodakaio_resolution_list, 4,  /* 600 dpi max, 4 resolutions */
       8, kodakaio_depth_list,                          /* color depth max 8, list above */
       {0, Sane.FIX(8.5 * MM_PER_INCH), 0}, {0, Sane.FIX(11.7 * MM_PER_INCH), 0}, /* FBF x/y ranges */
@@ -341,7 +341,7 @@ commandtype, max depth, pointer to depth list
    /* KODAK ESP 3300, */
   {
       0x4031, "esp", "KODAK ESP 3300 Series AiO",
-      -1, 0x82, /* USBoutEP, USBinEP (-1 means find one) */
+      -1, 0x82, /* USBoutEP, USBinEP(-1 means find one) */
       600, {75, 600, 0}, kodakaio_resolution_list, 4,  /* 600 dpi max, 4 resolutions */
       8, kodakaio_depth_list,                          /* color depth max 8, list above */
       {0, Sane.FIX(8.5 * MM_PER_INCH), 0}, {0, Sane.FIX(11.7 * MM_PER_INCH), 0}, /* FBF x/y ranges */
@@ -351,7 +351,7 @@ commandtype, max depth, pointer to depth list
   /* KODAK ESP5, */
   {
       0x4032, "esp", "KODAK ESP 5 AiO",
-      -1, 0x82, /* USBoutEP, USBinEP (-1 means find one) */
+      -1, 0x82, /* USBoutEP, USBinEP(-1 means find one) */
       600, {75, 600, 0}, kodakaio_resolution_list, 4,  /* 600 dpi max, 4 resolutions */
       8, kodakaio_depth_list,                          /* color depth max 8, list above */
       {0, Sane.FIX(8.5 * MM_PER_INCH), 0}, {0, Sane.FIX(11.7 * MM_PER_INCH), 0}, /* FBF x/y ranges */
@@ -361,7 +361,7 @@ commandtype, max depth, pointer to depth list
   /* KODAK ESP7, */
   {
       0x403E, "esp", "KODAK ESP 7 AiO",
-      -1, 0x82, /* USBoutEP, USBinEP (-1 means find one) */
+      -1, 0x82, /* USBoutEP, USBinEP(-1 means find one) */
       600, {75, 600, 0}, kodakaio_resolution_list, 4,  /* 600 dpi max, 4 resolutions */
       8, kodakaio_depth_list,                          /* color depth max 8, list above */
       {0, Sane.FIX(8.5 * MM_PER_INCH), 0}, {0, Sane.FIX(11.7 * MM_PER_INCH), 0}, /* FBF x/y ranges */
@@ -371,7 +371,7 @@ commandtype, max depth, pointer to depth list
   /* KODAK ESP9, */
   {
       0x403F, "esp", "KODAK ESP 9 AiO",
-      -1, 0x82, /* USBoutEP, USBinEP (-1 means find one) */
+      -1, 0x82, /* USBoutEP, USBinEP(-1 means find one) */
       600, {75, 600, 0}, kodakaio_resolution_list, 4,  /* 600 dpi max, 4 resolutions */
       8, kodakaio_depth_list,                          /* color depth max 8, list above */
       {0, Sane.FIX(8.5 * MM_PER_INCH), 0}, {0, Sane.FIX(11.7 * MM_PER_INCH), 0}, /* FBF x/y ranges */
@@ -381,7 +381,7 @@ commandtype, max depth, pointer to depth list
   /* KODAK ESP5210 or 5250, */
   {
       0x4041, "esp", "KODAK ESP 5200 Series AiO",
-      -1, 0x82, /* USBoutEP, USBinEP (-1 means find one) */
+      -1, 0x82, /* USBoutEP, USBinEP(-1 means find one) */
       600, {75, 600, 0}, kodakaio_resolution_list, 4,  /* 600 dpi max, 4 resolutions */
       8, kodakaio_depth_list,                          /* color depth max 8, list above */
       {0, Sane.FIX(8.5 * MM_PER_INCH), 0}, {0, Sane.FIX(11.7 * MM_PER_INCH), 0}, /* FBF x/y ranges */
@@ -597,7 +597,7 @@ commandtype, max depth, pointer to depth list
 static struct mode_param mode_params[] = {
 	{0x03, 3, 24},  /* Color, 3 colors, 24 bit */
 	{0x02, 1, 8}, /* Grayscale, 1 color, 8 bit */
-	{0x00, 1, 1}  /* Lineart, 1 color, 8 bit (was 8 bit)   */
+	{0x00, 1, 1}  /* Lineart, 1 color, 8 bit(was 8 bit)   */
 ]
 
 static Sane.String_Const mode_list[] = {
@@ -618,7 +618,7 @@ static const Sane.String_Const adf_mode_list[] = {
 #define ADF_STR	Sane.I18N("Automatic Document Feeder")
 
 /*
- * source list need one dummy entry (save device settings is crashing).
+ * source list need one dummy entry(save device settings is crashing).
  * NOTE: no const - this list gets created while exploring the capabilities
  * of the scanner. Here space is reserved for 3 entries + NULL ?
  */
@@ -637,9 +637,9 @@ static const Sane.Range percent_range_fixed = {Sane.FIX(0.0), Sane.FIX(100.0), S
 static Sane.Status attach_one_usb(Sane.String_Const devname)
 static Sane.Status attach_one_net(Sane.String_Const devname, unsigned Int device)
 void kodakaio_com_str(unsigned char *buf, char *fmt_buf)
-Int cmparray (unsigned char *array1, unsigned char *array2, size_t len)
+Int cmparray(unsigned char *array1, unsigned char *array2, size_t len)
 #if WITH_AVAHI
-static struct KodakaioCap *get_device_from_identification (const char *ident, const char *vid, const char *pid)
+static struct KodakaioCap *get_device_from_identification(const char *ident, const char *vid, const char *pid)
 void ProcessAvahiDevice(const char *device_id, const char *vid, const char *pid, const char *ip_addr)
 #endif
 
@@ -653,9 +653,9 @@ max_string_size(const Sane.String_Const strings[])
 	size_t size, max_size = 0
 	var i: Int
 
-	for (i = 0; strings[i]; i++) {
+	for(i = 0; strings[i]; i++) {
 		size = strlen(strings[i]) + 1
-		if (size > max_size)
+		if(size > max_size)
 			max_size = size
 	}
 	return max_size
@@ -705,12 +705,12 @@ That is probably if the scanner disconnected the network connection
 
 	*status = Sane.STATUS_GOOD
 
-	/* poll for data-to-be-read (using K_Request_Timeout) */
+	/* poll for data-to-be-read(using K_Request_Timeout) */
 	fds[0].fd = s.fd
 	fds[0].events = POLLIN
 	fds[0].revents = 0
-	if ((pollreply = poll (fds, 1, K_Request_Timeout)) <= 0) {
-		if (pollreply == 0)
+	if((pollreply = poll(fds, 1, K_Request_Timeout)) <= 0) {
+		if(pollreply == 0)
 			DBG(1, "net poll timeout\n")
 		else
 			/* pollreply is -ve */
@@ -719,17 +719,17 @@ That is probably if the scanner disconnected the network connection
 		return read
 	}
 	else if((fds[0].revents & POLLIN) && !(fds[0].revents & (POLLERR | POLLHUP | POLLNVAL))) {
-		while (read < wanted) {
+		while(read < wanted) {
 			DBG(50, "reading: read %lu, wanted %lu\n",read, wanted)
 			size = sanei_tcp_read(s.fd, buf + read, wanted - read)
-			if (size == 0) {
+			if(size == 0) {
 				DBG(1, "No data read. Scanner may have disconnected\n")
 				break
 			}
 			read += size
 		}
 
-		if (read == 0)
+		if(read == 0)
 			*status = Sane.STATUS_IO_ERROR
 
 		DBG(32, "net read %lu bytes:%x,%x,%x,%x,%x,%x,%x,%x\n",(unsigned long)read,buf[0],buf[1],buf[2],buf[3],buf[4],buf[5],buf[6],buf[7])
@@ -783,37 +783,37 @@ sanei_kodakaio_net_close(struct KodakAio_Scanner *s)
  *   Low-level USB communication functions ****************************************************************************/
 
 static Int
-kodakaio_getNumberOfUSBProductIds (void)
+kodakaio_getNumberOfUSBProductIds(void)
 {
-  return sizeof (kodakaio_cap) / sizeof (struct KodakaioCap)
+  return sizeof(kodakaio_cap) / sizeof(struct KodakaioCap)
 }
 
 /****************************************************************************
  *   low-level communication commands ****************************************************************************/
 
-static void dump_hex_buffer_dense (Int level, const unsigned char *buf, size_t buf_size)
+static void dump_hex_buffer_dense(Int level, const unsigned char *buf, size_t buf_size)
 {
 	size_t k
 	char msg[1024], fmt_buf[1024]
-	memset (&msg[0], 0x00, 1024)
-	memset (&fmt_buf[0], 0x00, 1024)
-	for (k = 0; k < min(buf_size, 80); k++) {
-		if (k % 16 == 0) {
-			if (k>0) {
-				DBG (level, "%s\n", msg)
-				memset (&msg[0], 0x00, 1024)
+	memset(&msg[0], 0x00, 1024)
+	memset(&fmt_buf[0], 0x00, 1024)
+	for(k = 0; k < min(buf_size, 80); k++) {
+		if(k % 16 == 0) {
+			if(k>0) {
+				DBG(level, "%s\n", msg)
+				memset(&msg[0], 0x00, 1024)
 			}
-			sprintf (fmt_buf, "     0x%04lx  ", (unsigned long)k)
-			strcat (msg, fmt_buf)
+			sprintf(fmt_buf, "     0x%04lx  ", (unsigned long)k)
+			strcat(msg, fmt_buf)
 		}
-		if (k % 8 == 0) {
-			strcat (msg, " ")
+		if(k % 8 == 0) {
+			strcat(msg, " ")
 		}
-		sprintf (fmt_buf, " %02x" , buf[k])
-		strcat (msg, fmt_buf)
+		sprintf(fmt_buf, " %02x" , buf[k])
+		strcat(msg, fmt_buf)
 	}
-	if (msg[0] != 0 ) {
-		DBG (level, "%s\n", msg)
+	if(msg[0] != 0 ) {
+		DBG(level, "%s\n", msg)
 	}
 }
 
@@ -822,11 +822,11 @@ void kodakaio_com_str(unsigned char *buf, char *fmt_buf)
 {
 /* returns a printable string version of the first 8 bytes assuming they are a kodakaio command*/
 	if(buf[0] == 0x1b) {
-		sprintf (fmt_buf, "esc %c %c %02x %02x %02x %02x %02x",
+		sprintf(fmt_buf, "esc %c %c %02x %02x %02x %02x %02x",
 			 buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], buf[7])
 	}
 	else {
-		sprintf (fmt_buf, "%02x %02x %02x %02x %02x %02x %02x %02x",
+		sprintf(fmt_buf, "%02x %02x %02x %02x %02x %02x %02x %02x",
 			buf[0],buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], buf[7])
 	}
 }
@@ -839,15 +839,15 @@ k_send(KodakAio_Scanner * s, void *buf, size_t buf_size, Sane.Status * status)
 	kodakaio_com_str(buf, fmt_buf)
 	DBG(15, "%s: size = %lu :%s\n", __func__, (u_long) buf_size, fmt_buf)
 
-	if (DBG_LEVEL >= 125) {
+	if(DBG_LEVEL >= 125) {
 		const unsigned char *s = buf
 		DBG(125, "complete buffer:\n")
-		dump_hex_buffer_dense (125, s, buf_size)
+		dump_hex_buffer_dense(125, s, buf_size)
 	}
 
-	if (s.hw.connection == Sane.KODAKAIO_NET) {
+	if(s.hw.connection == Sane.KODAKAIO_NET) {
 		return sanei_kodakaio_net_write_raw(s, buf, buf_size, status)
-	} else if (s.hw.connection == Sane.KODAKAIO_USB) {
+	} else if(s.hw.connection == Sane.KODAKAIO_USB) {
 		size_t n
 		n = buf_size
 		*status = sanei_usb_write_bulk(s.fd, buf, &n)
@@ -877,23 +877,23 @@ In NET mode the timeout is in kodakaio_net_read
 	usb_delay.tv_sec = 0
 	usb_delay.tv_nsec = 300000000; /* 0.3 sec */
 
-	if (s.hw.connection == Sane.KODAKAIO_NET) {
+	if(s.hw.connection == Sane.KODAKAIO_NET) {
 
 		time(&time_start)
 		DBG(min(16,DBG_READ), "[%ld]  %s: net req size = %ld  ", (long) time_start, __func__, (long) buf_size)
  		n = kodakaio_net_read(s, buf, buf_size, status)
 		DBG(min(16,DBG_READ), "returned %lu\n", (unsigned long)n)
-		if (*status != Sane.STATUS_GOOD) {
+		if(*status != Sane.STATUS_GOOD) {
 			DBG(1, "%s: err returned from kodakaio_net_read, %s\n", __func__, Sane.strstatus(*status))
 		}
 
 
-	} else if (s.hw.connection == Sane.KODAKAIO_USB) {
+	} else if(s.hw.connection == Sane.KODAKAIO_USB) {
 		/* Start the clock for USB timeout */
 		time(&time_start)
 
 		/* Loop until we have data */
-		while (n == 0) {
+		while(n == 0) {
 			n = buf_size
 /* but what if the data is an exact number of blocks? */
 			DBG(min(16,DBG_READ), "[%ld]  %s: usb req size = %ld  ", (long) time_start,  __func__, (long) n)
@@ -904,10 +904,10 @@ In NET mode the timeout is in kodakaio_net_read
 
 				DBG(min(16,DBG_READ), "sanei_usb_read_bulk gave %s\n", Sane.strstatus(*status))
 
-				if (*status == Sane.STATUS_EOF) {
+				if(*status == Sane.STATUS_EOF) {
 					/* If we have EOF status, wait for more data */
 					time(&time_now)
-					if (difftime(time_now, time_start) < SCANNER_READ_TIMEOUT) {
+					if(difftime(time_now, time_start) < SCANNER_READ_TIMEOUT) {
 						nanosleep(&usb_delay, &usb_rem)
 					}
 					else {
@@ -923,14 +923,14 @@ In NET mode the timeout is in kodakaio_net_read
 		}
 	}
 
-	if (n == 8) {
+	if(n == 8) {
 		kodakaio_com_str(buf, fmt_buf)
 		DBG(min(14,DBG_READ), "%s: size = %ld, got %s\n", __func__, (long Int)n, fmt_buf)
 	}
 	/* dump buffer if appropriate */
-	if (DBG_LEVEL >= 127 && n > 0) {
+	if(DBG_LEVEL >= 127 && n > 0) {
 		const unsigned char* b=buf
-		dump_hex_buffer_dense (125, b, buf_size)
+		dump_hex_buffer_dense(125, b, buf_size)
 	}
 	return n
 }
@@ -943,13 +943,13 @@ kodakaio_expect_ack(KodakAio_Scanner *s, unsigned char *rxbuf)
 	Sane.Status status
 
 	k_recv(s, rxbuf, 8, &status)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "%s: rx err, %s\n", __func__, Sane.strstatus(status))
 		return status
 	}
 	/* strncmp ignores diffent possible responses like escSS00000 and escSS02000 */
-	if (strncmp((char *)KodakEsp_Ack,(char *)rxbuf,4)!=0) {
-		DBG (1, "No Ack received, Expected 0x%2x %2x %2x %2x... got 0x%2x %2x %2x %2x...\n",
+	if(strncmp((char *)KodakEsp_Ack,(char *)rxbuf,4)!=0) {
+		DBG(1, "No Ack received, Expected 0x%2x %2x %2x %2x... got 0x%2x %2x %2x %2x...\n",
 		KodakEsp_Ack[0], KodakEsp_Ack[1], KodakEsp_Ack[2], KodakEsp_Ack[3],rxbuf[0], rxbuf[1], rxbuf[2], rxbuf[3])
 		return Sane.STATUS_IO_ERROR
 	}
@@ -965,23 +965,23 @@ kodakaio_txrx(KodakAio_Scanner *s, unsigned char *txbuf, unsigned char *rxbuf)
 	ssize_t n = 0
 
 	k_send(s, txbuf, 8, &status)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "%s: tx err, %s\n", __func__, Sane.strstatus(status))
 		return status
 	}
 	n = k_recv(s, rxbuf, 8, &status)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "%s: %s gave rx err, %s\n", __func__, "txvalue", Sane.strstatus(status))
 		return status
 	}
-	if (n == 0) {
+	if(n == 0) {
 		DBG(1, "%s: try 1 k_recv returned 0 bytes with status %s\n", __func__, Sane.strstatus(status))
 		n = k_recv(s, rxbuf, 8, &status)
-		if (status != Sane.STATUS_GOOD) {
+		if(status != Sane.STATUS_GOOD) {
 			DBG(1, "%s: %s gave rx err, %s\n", __func__, "txvalue", Sane.strstatus(status))
 			return status
 		}
-		if (n == 0) {
+		if(n == 0) {
 			DBG(1, "%s: try 2 k_recv returned 0 bytes with status %s\n", __func__, Sane.strstatus(status))
 			return status
 		}
@@ -999,30 +999,30 @@ and returns appropriate status
 	Sane.Status status
 
 	k_send(s, txbuf, 8, &status)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "%s: tx err, %s\n", __func__, Sane.strstatus(status))
 		return status
 	}
 
 	k_recv(s, rxbuf, 8, &status)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "%s: %s gave rx err, %s\n", __func__, "txvalue", Sane.strstatus(status))
 		return status
 	}
 	/* strncmp ignores different possible responses like escSS00000 and escSS02000 */
-	if (strncmp((char *)KodakEsp_Ack,(char *)rxbuf,3) == 0) { /* was 4 byte comp */
-		if (rxbuf[4] == 0x01 && s.adf_loaded == Sane.FALSE) {
+	if(strncmp((char *)KodakEsp_Ack,(char *)rxbuf,3) == 0) { /* was 4 byte comp */
+		if(rxbuf[4] == 0x01 && s.adf_loaded == Sane.FALSE) {
 			s.adf_loaded = Sane.TRUE
 			DBG(5, "%s: News - docs in ADF\n", __func__)
 		}
-		else if (rxbuf[4] !=
+		else if(rxbuf[4] !=
 0x01 && s.adf_loaded == Sane.TRUE) {
 			s.adf_loaded = Sane.FALSE
 			DBG(5, "%s: News - ADF is empty\n", __func__)
 		}
 	}
 	else {
-		DBG (1, "No Ack received, Sent 0x%2x %2x %2x %2x... got 0x%2x %2x %2x %2x...\n",
+		DBG(1, "No Ack received, Sent 0x%2x %2x %2x %2x... got 0x%2x %2x %2x %2x...\n",
 		txbuf[0], txbuf[1], txbuf[2], txbuf[3],rxbuf[0], rxbuf[1], rxbuf[2], rxbuf[3])
 		return Sane.STATUS_IO_ERROR
 	}
@@ -1043,7 +1043,7 @@ and returns number of bytes read
 	ssize_t n = 0
 
 	n = k_recv(s, rxbuf, 64, &status)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "%s: %s gave rx err, %s\n", __func__, "status", Sane.strstatus(status))
 	}
 	DBG(5, "%s: flushed, %d bytes\n", __func__,  (Int)n)
@@ -1056,7 +1056,7 @@ and returns number of bytes read
 */
 
 static Sane.Status
-k_hello (KodakAio_Scanner * s)
+k_hello(KodakAio_Scanner * s)
 {
 	Sane.Status status
 	unsigned char reply[8]
@@ -1075,7 +1075,7 @@ reply[0] = 0; reply[1] = 1; reply[2] = 2; reply[3] = 3; reply[4] = 4; reply[5] =
 		return Sane.STATUS_IO_ERROR
 	}
 
-	if (strncmp((char *) reply, (char *) KodakEsp_v, 3)!=0) {
+	if(strncmp((char *) reply, (char *) KodakEsp_v, 3)!=0) {
 		kodakaio_com_str(reply, fmt_buf)
 			DBG(1, "%s: KodakEsp_v err, got %s\n", __func__, fmt_buf)
 			return Sane.STATUS_IO_ERROR
@@ -1088,7 +1088,7 @@ reply[0] = 0; reply[1] = 1; reply[2] = 2; reply[3] = 3; reply[4] = 4; reply[5] =
 
 /* Start scan command */
 static Sane.Status
-cmd_start_scan (Sane.Handle handle, size_t expect_total)
+cmd_start_scan(Sane.Handle handle, size_t expect_total)
 /* expect_total is the expected total no of bytes just for info -ve value not a problem? or is it for size_t? */
 {
 	KodakAio_Scanner *s = (KodakAio_Scanner *) handle
@@ -1097,15 +1097,15 @@ cmd_start_scan (Sane.Handle handle, size_t expect_total)
 /*send the start command here */
 	print_status(s, 5)
 /*adf added 20/2/12, apparently an extra KodakEsp_F is sent when the adf is used */
-	if (strcmp(source_list[s.val[OPT_SOURCE].w], ADF_STR) == 0) { /* adf is in use */
-		if (! s.adf_loaded) return Sane.STATUS_CANCELLED; /* was Sane.STATUS_NO_DOCS; */
-		if (kodakaio_txrxack(s, KodakEsp_F, reply)!= Sane.STATUS_GOOD) {
+	if(strcmp(source_list[s.val[OPT_SOURCE].w], ADF_STR) == 0) { /* adf is in use */
+		if(! s.adf_loaded) return Sane.STATUS_CANCELLED; /* was Sane.STATUS_NO_DOCS; */
+		if(kodakaio_txrxack(s, KodakEsp_F, reply)!= Sane.STATUS_GOOD) {
 			DBG(1, "%s: Did not get a good reply to KodakEsp_F\n", __func__)
 			return Sane.STATUS_IO_ERROR
 		}
 	}
 
-	if (kodakaio_txrxack(s, KodakEsp_E, reply)!= Sane.STATUS_GOOD) {
+	if(kodakaio_txrxack(s, KodakEsp_E, reply)!= Sane.STATUS_GOOD) {
 		DBG(1, "%s: Did not get a good reply to KodakEsp_E\n", __func__)
 		return Sane.STATUS_IO_ERROR
 	}
@@ -1113,7 +1113,7 @@ cmd_start_scan (Sane.Handle handle, size_t expect_total)
 	DBG(20, "starting the scan, expected total bytes %lu\n",(unsigned long)expect_total)
 	k_send(s, KodakEsp_Go, 8, &status)
 
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		DBG(1, "%s: KodakEsp_Go command NOT successfully sent\n", __func__)
 	else {
 		DBG(30, "%s: KodakEsp_Go command successfully sent\n", __func__)
@@ -1123,18 +1123,18 @@ cmd_start_scan (Sane.Handle handle, size_t expect_total)
 }
 
 static Sane.Status
-cmd_cancel_scan (Sane.Handle handle)
+cmd_cancel_scan(Sane.Handle handle)
 {
 	KodakAio_Scanner *s = (KodakAio_Scanner *) handle
 	unsigned char reply[8]
 /* adf added 20/2/12 should it be adf? or adf with paper in? */
-	if (strcmp(source_list[s.val[OPT_SOURCE].w], ADF_STR) == 0) { /* adf */
-		if (kodakaio_txrxack(s, KodakEsp_F, reply)!= Sane.STATUS_GOOD)
+	if(strcmp(source_list[s.val[OPT_SOURCE].w], ADF_STR) == 0) { /* adf */
+		if(kodakaio_txrxack(s, KodakEsp_F, reply)!= Sane.STATUS_GOOD)
 		{
 			DBG(1, "%s: KodakEsp_F command failed\n", __func__)
 			return Sane.STATUS_IO_ERROR
 		}
-		if (kodakaio_txrxack(s, KodakEsp_UnLock, reply)!= Sane.STATUS_GOOD)
+		if(kodakaio_txrxack(s, KodakEsp_UnLock, reply)!= Sane.STATUS_GOOD)
 		{
 			DBG(1, "%s: KodakEsp_UnLock command failed\n", __func__)
 			return Sane.STATUS_IO_ERROR
@@ -1142,7 +1142,7 @@ cmd_cancel_scan (Sane.Handle handle)
 		DBG(5, "%s unlocked the scanner with adf F U\n", __func__)
 	}
 	else { /* no adf */
-		if (kodakaio_txrxack(s, KodakEsp_UnLock, reply)!= Sane.STATUS_GOOD)
+		if(kodakaio_txrxack(s, KodakEsp_UnLock, reply)!= Sane.STATUS_GOOD)
 		{
 			DBG(1, "%s: KodakEsp_UnLock command failed\n", __func__)
 			return Sane.STATUS_IO_ERROR
@@ -1164,8 +1164,8 @@ Old mc cmd read this stuff from the scanner. I don't think kodak can do that eas
 
 	KodakAio_Scanner *s = (KodakAio_Scanner *) handle
 	Sane.Status status = Sane.STATUS_GOOD
-	NOT_USED (format)
-	NOT_USED (depth)
+	NOT_USED(format)
+	NOT_USED(depth)
 
 	DBG(10, "%s\n", __func__)
 
@@ -1174,7 +1174,7 @@ Old mc cmd read this stuff from the scanner. I don't think kodak can do that eas
 	*pixels_per_line = s.params.pixels_per_line
 	*data_pixels = s.params.pixels_per_line
 
-	DBG (20, "%s: data_pixels = %u, lines = %u, "
+	DBG(20, "%s: data_pixels = %u, lines = %u, "
 		"pixels_per_line = %u)\n", __func__,
 		*data_pixels, *lines, *pixels_per_line)
 	return status
@@ -1197,16 +1197,16 @@ cmd_set_color_curve(Sane.Handle handle, unsigned char col)
 	for(i=0;i<=255;++i) tx_curve[i]=i; /* 7/9/14 was i<255 the missing elements caused speckles */
 
 	k_send(s, tx_col, 8, &status)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "%s: tx err, %s\n", __func__, "curve command")
 		return status
 	}
 	k_send(s, tx_curve, 256, &status)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "%s: tx err, %s\n", __func__, "curve data")
 		return status
 	}
-	if (kodakaio_expect_ack(s, rx) != Sane.STATUS_GOOD) return Sane.STATUS_IO_ERROR
+	if(kodakaio_expect_ack(s, rx) != Sane.STATUS_GOOD) return Sane.STATUS_IO_ERROR
 		DBG(10, "%s: sent curve OK, \n", __func__)
 		return status
 }
@@ -1264,7 +1264,7 @@ but it seems to do no harm to send them */
 
 /* Origin top left s.tl_x and s.tl_y are in optres units
 this command needs actual DPI units*/
-	DBG(20, "%s: left (DPI)=%d, top (DPI)=%d\n", __func__, tl_x , tl_y)
+	DBG(20, "%s: left(DPI)=%d, top(DPI)=%d\n", __func__, tl_x , tl_y)
 
 	tx_topleft[0]=0x1b
 	tx_topleft[1]='S'
@@ -1288,14 +1288,14 @@ this command needs actual DPI units*/
 	tx_widthheight[7]=0
 	kodakaio_txrxack(s, tx_widthheight, bufread)
 
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		DBG(1, "%s: Data NOT successfully sent\n", __func__)
 	else
 		DBG(20, "%s: Data successfully sent\n", __func__)
 	return status
 }
 
-func Int cmparray (unsigned char *array1, unsigned char *array2, size_t len)
+func Int cmparray(unsigned char *array1, unsigned char *array2, size_t len)
 {
 /* compares len bytes of the arrays returns 0 if they match
 returns the first mismatch position if they don't match */
@@ -1308,7 +1308,7 @@ unsigned var i: Int
 }
 
 static Sane.Status
-cmd_read_data (Sane.Handle handle, unsigned char *buf, size_t *len)
+cmd_read_data(Sane.Handle handle, unsigned char *buf, size_t *len)
 {
 /*
 cmd_read_data is only used in k_read. It reads one block of data
@@ -1323,24 +1323,24 @@ if no padding option return EOF
 	unsigned char *Last8; /* will point to the last 8 chars in buf */
 	var i: Int, line, lines
 
-	if (s.ack && s.val[OPT_PADDING].w) {
+	if(s.ack && s.val[OPT_PADDING].w) {
 		/* do padding of whole block*/
 		/* memset(buf, 0x80, *len);  need to work out the background colour for this */
 		lines = *len / s.params.bytes_per_line
-		for (line=0; line < lines; ++line) {
-			for (i=0; i< s.params.pixels_per_line; ++i) {
+		for(line=0; line < lines; ++line) {
+			for(i=0; i< s.params.pixels_per_line; ++i) {
 				buf[line * s.params.bytes_per_line + i] = s.background[0]; /*red */
 				buf[line * s.params.bytes_per_line + s.params.pixels_per_line + i] = s.background[1];  /*green */
 				buf[line * s.params.bytes_per_line + 2 * s.params.pixels_per_line + i] = s.background[2];  /*blue */
 			}
 		}
 		s.bytes_unread -= *len
-		if (s.bytes_unread < 0)
+		if(s.bytes_unread < 0)
 			s.bytes_unread = 0
 		return Sane.STATUS_GOOD
 	}
 
-	if (s.ack && !s.val[OPT_PADDING].w) {
+	if(s.ack && !s.val[OPT_PADDING].w) {
 		s.bytes_unread = 0
 		s.eof = Sane.TRUE
 		return Sane.STATUS_EOF
@@ -1349,22 +1349,22 @@ if no padding option return EOF
 	/* Temporarily set the poll timeout long instead of short,
 	 * because a color scan needs >5 seconds to initialize. Is this needed for kodak? maybe */
 	K_Request_Timeout = K_Scan_Data_Timeout
-	sanei_usb_set_timeout (K_Scan_Data_Timeout)
+	sanei_usb_set_timeout(K_Scan_Data_Timeout)
 	bytecount = k_recv(s, buf, *len, &status)
 	K_Request_Timeout = oldtimeout
-	sanei_usb_set_timeout (oldtimeout)
+	sanei_usb_set_timeout(oldtimeout)
 
 /* We may need to do some special thing with the block request size to cope with usb blocks of any length
 in order to keep the ack bytes, when using adf, at the end of one block ie not split between blocks.
 But it seems that the scanner takes care of that, and gives you the ack as a separate 8 byte block */
 
-	if (bytecount >= 8) {
+	if(bytecount >= 8) {
 		/* it may be the last block from the scanner so look for Ack response in last 8 bytes */
 		Last8 = buf + bytecount - 8
 
 		/* only compare 4 bytes because we sometimes get escSS02.. or escSS00..
 		is 4 the right number ? */
-		if (cmparray(Last8,KodakEsp_Ack,4) == 0) {
+		if(cmparray(Last8,KodakEsp_Ack,4) == 0) {
 			DBG(min(10,DBG_READ), "%s: found KodakEsp_Ack at %lu bytes of %lu\n", __func__, (unsigned long) bytecount, (unsigned long) *len)
 			s.ack = Sane.TRUE
 			*len = bytecount - 8; /* discard the Ack response */
@@ -1382,14 +1382,14 @@ But it seems that the scanner takes care of that, and gives you the ack as a sep
 		return Sane.STATUS_IO_ERROR
 	}
 	lines = *len / s.params.bytes_per_line
-	if (lines > 1) {
+	if(lines > 1) {
 		/* store average colour as background. That's not the ideal method but it's easy to implement. What's it used for? */
 		s.background[0] = 0
 		s.background[1] = 0
 		s.background[2] = 0
 
-		for (line=0; line < lines; ++line) {
-			for (i=0; i< s.params.pixels_per_line; ++i) {
+		for(line=0; line < lines; ++line) {
+			for(i=0; i< s.params.pixels_per_line; ++i) {
 				s.background[0] += buf[line * s.params.bytes_per_line + i]; /*red */
 				s.background[1] += buf[line * s.params.bytes_per_line + s.params.pixels_per_line + i];  /*green */
 				s.background[2] += buf[line * s.params.bytes_per_line + 2 * s.params.pixels_per_line + i];  /*blue */
@@ -1401,12 +1401,12 @@ But it seems that the scanner takes care of that, and gives you the ack as a sep
 
 	}
 
-	if (status == Sane.STATUS_GOOD)
-		if (s.bytes_unread <= 0)
+	if(status == Sane.STATUS_GOOD)
+		if(s.bytes_unread <= 0)
 			DBG(min(2,DBG_READ), "%s: Page fully read %d blocks, %ld bytes unread\n", __func__, s.counter, (long) s.bytes_unread)
 		else
 			DBG(min(20,DBG_READ), "%s: Image data successfully read %ld bytes, %ld bytes unread\n", __func__, (long) bytecount, (long) s.bytes_unread)
-	else if  (s.ack) /* was (status == Sane.STATUS_EOF) */
+	else if  (s.ack) /* was(status == Sane.STATUS_EOF) */
 		DBG(min(2,DBG_READ), "%s: scanner data read ended %d blocks %ld bytes, %ld bytes unread\n", __func__, s.counter, (long) bytecount, (long) s.bytes_unread)
 	else
 		DBG(min(1,DBG_READ), "%s: Image data read stopped with %s after %d blocks %ld bytes, %ld bytes unread\n", __func__, Sane.strstatus(status), s.counter, (long) bytecount, (long) s.bytes_unread)
@@ -1442,10 +1442,10 @@ k_set_model(KodakAio_Scanner * s, const char *model, size_t len)
 	unsigned char *p
 	struct Kodak_Device *dev = s.hw
 
-	if (len<1) return Sane.STATUS_INVAL; /* to handle missing model */
+	if(len<1) return Sane.STATUS_INVAL; /* to handle missing model */
 
 	buf = malloc(len + 1)
-	if (buf == NULL)
+	if(buf == NULL)
 		return Sane.STATUS_NO_MEM
 
 	memcpy(buf, model, len)
@@ -1453,12 +1453,12 @@ k_set_model(KodakAio_Scanner * s, const char *model, size_t len)
 
 	p = &buf[len - 1]
 
-	while (*p == ' ') {
+	while(*p == ' ') {
 		*p = '\0'
 		p--
 	}
 
-	if (dev.model)
+	if(dev.model)
 		free(dev.model)
 
 	dev.model = strndup((const char *) buf, len)
@@ -1471,7 +1471,7 @@ k_set_model(KodakAio_Scanner * s, const char *model, size_t len)
 }
 
 static void
-k_set_device (Sane.Handle handle, Sane.Word device)
+k_set_device(Sane.Handle handle, Sane.Word device)
 {
 	KodakAio_Scanner *s = (KodakAio_Scanner *) handle
 	Kodak_Device *dev = s.hw
@@ -1479,18 +1479,18 @@ k_set_device (Sane.Handle handle, Sane.Word device)
 
 	DBG(10, "%s: 0x%x\n", __func__, device)
 
-	for (n = 0; n < NELEMS (kodakaio_cap); n++) {
-		if (kodakaio_cap[n].id == device)
+	for(n = 0; n < NELEMS(kodakaio_cap); n++) {
+		if(kodakaio_cap[n].id == device)
 			break
 	}
-	if (n < NELEMS(kodakaio_cap)) {
+	if(n < NELEMS(kodakaio_cap)) {
 		dev.cap = &kodakaio_cap[n]
 	} else {
 		dev.cap = &kodakaio_cap[CAP_DEFAULT]
 		DBG(1, " unknown device 0x%x, using default %s\n",
 		    device, dev.cap.model)
 	}
-	k_set_model (s, dev.cap.model, strlen (dev.cap.model))
+	k_set_model(s, dev.cap.model, strlen(dev.cap.model))
 
 }
 
@@ -1506,7 +1506,7 @@ k_discover_capabilities(KodakAio_Scanner *s)
 	/* always add flatbed */
 	*source_list_add++ = FBF_STR
 	/* TODO: How can I check for existence of an ADF??? */
-	if (dev.cap.ADF == Sane.TRUE) {
+	if(dev.cap.ADF == Sane.TRUE) {
 		*source_list_add++ = ADF_STR
 		DBG(10, "%s: added adf to list\n", __func__)
 	}
@@ -1528,22 +1528,22 @@ k_discover_capabilities(KodakAio_Scanner *s)
 }
 
 static Sane.Status
-k_setup_block_mode (KodakAio_Scanner *s)
+k_setup_block_mode(KodakAio_Scanner *s)
 {
 /* works for USB and for net changing to make block size  = a number of complete lines 28/12/12 */
 	s.block_len = MAX_BLOCK_SIZE / s.scan_bytes_per_line * s.scan_bytes_per_line
 	s.bytes_unread = s.data_len
 	s.counter = 0
 	s.bytes_read_in_line = 0
-	if (s.line_buffer)
+	if(s.line_buffer)
 		free(s.line_buffer)
 	s.line_buffer = malloc(s.scan_bytes_per_line)
-	if (s.line_buffer == NULL) {
-		DBG(1, "out of memory (line %d)\n", __LINE__)
+	if(s.line_buffer == NULL) {
+		DBG(1, "out of memory(line %d)\n", __LINE__)
 		return Sane.STATUS_NO_MEM
 	}
 
-	DBG (10, " %s: Setup block mode - scan_bytes_per_line=%d, pixels_per_line=%d, depth=%d, data_len=%d, block_len=%d, blocks=%d, last_len=%d\n",
+	DBG(10, " %s: Setup block mode - scan_bytes_per_line=%d, pixels_per_line=%d, depth=%d, data_len=%d, block_len=%d, blocks=%d, last_len=%d\n",
 		__func__, s.scan_bytes_per_line, s.params.pixels_per_line, s.params.depth, s.data_len, s.block_len, s.blocks, s.last_len)
 	return Sane.STATUS_GOOD
 }
@@ -1553,7 +1553,7 @@ In the Kodak Aio the parameters are:
 (x1b,"S","F",0,0,0,0,0)
 (x1b,"S","S",1,0,0,0,0)
 #It looks like the 4th param byte of the C command is compression 1=compress, 0=no compression
-#1st (or 3rd) param could be channels, 2nd could be bits per channel
+#1st(or 3rd) param could be channels, 2nd could be bits per channel
 (x1b,"S","C",3,8,3,0,0)  #3,8,3,1,0) was what the kodak software used with compression
 (x1b,"S","D",LowByte(Res),HighByte(Res),LowByte(Res),HighByte(Res),0) #resolution in DPI
 SendColour(tcpCliSock,"R")
@@ -1566,7 +1566,7 @@ SendColour(tcpCliSock,"B")
 */
 
 static Sane.Status
-k_lock_scanner (KodakAio_Scanner * s)
+k_lock_scanner(KodakAio_Scanner * s)
 {
 	Sane.Status status
 	unsigned char reply[8]
@@ -1577,11 +1577,11 @@ k_lock_scanner (KodakAio_Scanner * s)
 		return status
 	}
 
-	if (kodakaio_txrxack(s, KodakEsp_Lock, reply)!= Sane.STATUS_GOOD) {
+	if(kodakaio_txrxack(s, KodakEsp_Lock, reply)!= Sane.STATUS_GOOD) {
 		DBG(1, "%s Could not lock scanner\n", __func__)
 		return Sane.STATUS_IO_ERROR
 	}
-	if (s.adf_loaded) DBG(5, "%s scanner locked, with docs in adf\n", __func__)
+	if(s.adf_loaded) DBG(5, "%s scanner locked, with docs in adf\n", __func__)
 	else DBG(5, "%s scanner locked, with no docs in adf\n", __func__)
 	return Sane.STATUS_GOOD
 }
@@ -1597,14 +1597,14 @@ k_set_scanning_parameters(KodakAio_Scanner * s)
 	dpi = s.val[OPT_RESOLUTION].w
 	optres = s.hw.cap.optical_res
 
-	/* Find the resolution in the res list and assign the index (rs) */
-	for (rs=0; rs < s.hw.cap.res_list_size; rs++ ) {
-		if ( dpi == s.hw.cap.res_list[rs] )
+	/* Find the resolution in the res list and assign the index(rs) */
+	for(rs=0; rs < s.hw.cap.res_list_size; rs++ ) {
+		if( dpi == s.hw.cap.res_list[rs] )
 			break
 	}
 
 	/* ADF used? */
-	if (strcmp(source_list[s.val[OPT_SOURCE].w], ADF_STR) == 0) {
+	if(strcmp(source_list[s.val[OPT_SOURCE].w], ADF_STR) == 0) {
 		source = 0x00
 	} else {
 		source = 0x01
@@ -1615,44 +1615,44 @@ k_set_scanning_parameters(KodakAio_Scanner * s)
 
 	/* Remaining bytes unused */
 	status = cmd_set_scanning_parameters(s, dpi,
-		s.left * dpi / optres, s.top * dpi / optres,  /* top/left start (dpi units)*/
+		s.left * dpi / optres, s.top * dpi / optres,  /* top/left start(dpi units)*/
 		s.params.pixels_per_line, s.params.lines, /* extent was s.width, s.height*/
 		source); /* source */
 
-	if (status != Sane.STATUS_GOOD)
-		DBG (1, "%s: Command cmd_set_scanning_parameters failed, %s\n",
+	if(status != Sane.STATUS_GOOD)
+		DBG(1, "%s: Command cmd_set_scanning_parameters failed, %s\n",
 		     __func__, Sane.strstatus(status))
 
 	/* Now query the scanner for the current image parameters */
-	status = cmd_get_scanning_parameters (s,
+	status = cmd_get_scanning_parameters(s,
 			&s.params.format, &s.params.depth,
 			&scan_pixels_per_line,
 			&s.params.pixels_per_line, &s.params.lines)
-	if (status != Sane.STATUS_GOOD) {
-		DBG (1, "%s: Command cmd_get_scanning_parameters failed, %s\n",
+	if(status != Sane.STATUS_GOOD) {
+		DBG(1, "%s: Command cmd_get_scanning_parameters failed, %s\n",
 		     __func__, Sane.strstatus(status))
 		return status
 	}
 
 	/* Calculate how many bytes are really used per line */
-	s.params.bytes_per_line = ceil (s.params.pixels_per_line * s.params.depth / 8.0)
-	if (s.val[OPT_MODE].w == MODE_COLOR)
+	s.params.bytes_per_line = ceil(s.params.pixels_per_line * s.params.depth / 8.0)
+	if(s.val[OPT_MODE].w == MODE_COLOR)
 		s.params.bytes_per_line *= 3
 
 	/* Calculate how many bytes per line will be returned by the scanner.
 	magicolor needed this because it uses padding so scan bytes per line != image bytes per line.
 	 * The values needed for this are returned by get_scanning_parameters */
-	s.scan_bytes_per_line = 3 * ceil (scan_pixels_per_line); /* we always scan in colour 8 bit */
-	s.data_len = s.scan_bytes_per_line * floor (s.height * dpi / optres + 0.5); /* NB this is the length for a full scan */
-	DBG (5, "Check: scan_bytes_per_line = %d  s.params.bytes_per_line = %d \n", s.scan_bytes_per_line, s.params.bytes_per_line)
+	s.scan_bytes_per_line = 3 * ceil(scan_pixels_per_line); /* we always scan in colour 8 bit */
+	s.data_len = s.scan_bytes_per_line * floor(s.height * dpi / optres + 0.5); /* NB this is the length for a full scan */
+	DBG(5, "Check: scan_bytes_per_line = %d  s.params.bytes_per_line = %d \n", s.scan_bytes_per_line, s.params.bytes_per_line)
 
 /* k_setup_block_mode at the start of each page for adf to work */
-	status = k_setup_block_mode (s)
-	if (status != Sane.STATUS_GOOD)
-		DBG (1, "%s: Command k_setup_block_mode failed, %s\n",
+	status = k_setup_block_mode(s)
+	if(status != Sane.STATUS_GOOD)
+		DBG(1, "%s: Command k_setup_block_mode failed, %s\n",
 		     __func__, Sane.strstatus(status))
 
-	DBG (18, "%s: bytes_read_in_line: %d\n", __func__, s.bytes_read_in_line)
+	DBG(18, "%s: bytes_read_in_line: %d\n", __func__, s.bytes_read_in_line)
 	return status
 }
 
@@ -1661,7 +1661,7 @@ k_check_adf(KodakAio_Scanner * s)
 {
 /* 20/2/12  detect paper in the adf? acknowledge esc S S 00 01.. ?*/
 
-	if (! s.adf_loaded) {
+	if(! s.adf_loaded) {
 		DBG(5, "%s: NO DOCS\n", __func__)
 		return Sane.STATUS_NO_DOCS
 	}
@@ -1680,11 +1680,11 @@ k_scan_finish(KodakAio_Scanner * s)
 	DBG(10, "%s called\n", __func__)
 
 	/* If we have not yet read all data, cancel the scan */
-	if (s.buf && !s.eof)
-		status = cmd_cancel_scan (s)
+	if(s.buf && !s.eof)
+		status = cmd_cancel_scan(s)
 
-	if (s.line_buffer)
-		free (s.line_buffer)
+	if(s.line_buffer)
+		free(s.line_buffer)
 	s.line_buffer = NULL
 	free(s.buf)
 	s.buf = s.end = s.ptr = NULL
@@ -1701,22 +1701,22 @@ uncompressed data is RRRR...GGGG...BBBB  per line */
 		Int bytes_available
 		Int threshold
 
-		DBG (min(18,DBG_READ), "%s: bytes_read  in line: %d\n", __func__, s.bytes_read_in_line)
+		DBG(min(18,DBG_READ), "%s: bytes_read  in line: %d\n", __func__, s.bytes_read_in_line)
 		*length = 0
 
 		threshold = 255 - (Int) (Sane.UNFIX(s.val[OPT_THRESHOLD].w) * 255.0 / 100.0 + 0.5); /* 255 - for the grey scale version */
-		DBG (20, "%s: threshold: %d\n", __func__, threshold)
+		DBG(20, "%s: threshold: %d\n", __func__, threshold)
 
-		while ((max_length >= s.params.bytes_per_line) && (s.ptr < s.end)) {
+		while((max_length >= s.params.bytes_per_line) && (s.ptr < s.end)) {
 			Int bytes_to_copy = s.scan_bytes_per_line - s.bytes_read_in_line
 			/* First, fill the line buffer for the current line: */
 			bytes_available = (s.end - s.ptr)
 			/* Don't copy more than we have buffer and available */
-			if (bytes_to_copy > bytes_available)
+			if(bytes_to_copy > bytes_available)
 				bytes_to_copy = bytes_available
 
-			if (bytes_to_copy > 0) {
-				memcpy (s.line_buffer + s.bytes_read_in_line, s.ptr, bytes_to_copy)
+			if(bytes_to_copy > 0) {
+				memcpy(s.line_buffer + s.bytes_read_in_line, s.ptr, bytes_to_copy)
 				s.ptr += bytes_to_copy
 				s.bytes_read_in_line += bytes_to_copy
 			}
@@ -1726,34 +1726,34 @@ uncompressed data is RRRR...GGGG...BBBB  per line */
 			 * copy it over.
 			line points to the current byte in the input s.line_buffer
 			data points to the output buffer*/
-			if ((s.bytes_read_in_line >= s.scan_bytes_per_line) &&
+			if((s.bytes_read_in_line >= s.scan_bytes_per_line) &&
 			    (s.params.bytes_per_line <= max_length))
 			{
 				Int i
 				Sane.Byte *line = s.line_buffer
 				*length += s.params.bytes_per_line
 
-				for (i=0; i< s.params.pixels_per_line; ++i) {
+				for(i=0; i< s.params.pixels_per_line; ++i) {
 				/* different behaviour for each mode */
 
-					if (s.val[OPT_MODE].w == MODE_COLOR){
+					if(s.val[OPT_MODE].w == MODE_COLOR){
 					/*interlace was subtracting from 255 until 6/9/14 */
 					 	*data++ = 255-line[0]; /*red */
 					 	*data++ = 255-line[s.params.pixels_per_line];  /*green */
 					 	*data++ = 255-line[2 * s.params.pixels_per_line];  /*blue */
 					}
 
-					else if (s.val[OPT_MODE].w == MODE_LINEART) { /* gives 1 bit output  */
+					else if(s.val[OPT_MODE].w == MODE_LINEART) { /* gives 1 bit output  */
         					/*output image location*/
         					Int offset = i % 8
         					unsigned char mask = 0x80 >> offset
 						/*set if any colour is over the threshold  */
-						if (line[0] < threshold || line[s.params.pixels_per_line] < threshold || line[2 * s.params.pixels_per_line] < threshold)
+						if(line[0] < threshold || line[s.params.pixels_per_line] < threshold || line[2 * s.params.pixels_per_line] < threshold)
           						*data &= ~mask;     /* white clear the bit in mask */
         					else
           						*data |= mask;      /* black set the bit in mask */
 
-        					if (offset == 7 || i == s.params.pixels_per_line-1)
+        					if(offset == 7 || i == s.params.pixels_per_line-1)
             						data++; /* move on a byte if the byte is full or the line is complete */
 					}
 
@@ -1766,8 +1766,8 @@ uncompressed data is RRRR...GGGG...BBBB  per line */
 						line++
 				}
 /*debug file The same for color or grey because the scan is colour */
-				if (RawScan != NULL) {
-					for (i=0; i< s.scan_bytes_per_line; ++i) fputc(s.line_buffer[i],RawScan)
+				if(RawScan != NULL) {
+					for(i=0; i< s.scan_bytes_per_line; ++i) fputc(s.line_buffer[i],RawScan)
 				}
 				max_length -= s.params.bytes_per_line
 				s.bytes_read_in_line -= s.scan_bytes_per_line
@@ -1790,7 +1790,7 @@ k_init_parametersta(KodakAio_Scanner * s)
 
 	 /* mparam = &mode_params[s.val[OPT_MODE].w];does this get used? */
 
-	if (Sane.UNFIX(s.val[OPT_BR_Y].w) == 0 ||
+	if(Sane.UNFIX(s.val[OPT_BR_Y].w) == 0 ||
 		Sane.UNFIX(s.val[OPT_BR_X].w) == 0)
 		return Sane.STATUS_INVAL
 
@@ -1813,7 +1813,7 @@ k_init_parametersta(KodakAio_Scanner * s)
 	s.params.pixels_per_line = s.width * dpi / optres + 0.5
 
 	/* ADF used without padding? added 30/12/12 */
-	if (strcmp(source_list[s.val[OPT_SOURCE].w], ADF_STR) == 0 && !s.val[OPT_PADDING].w)
+	if(strcmp(source_list[s.val[OPT_SOURCE].w], ADF_STR) == 0 && !s.val[OPT_PADDING].w)
 		s.params.lines = -1
 	else
 		s.params.lines = s.height * dpi / optres + 0.5
@@ -1822,7 +1822,7 @@ k_init_parametersta(KodakAio_Scanner * s)
 	DBG(20, "%s: resolution = %d, preview = %d\n",
 		__func__, dpi, s.val[OPT_PREVIEW].w)
 
-	DBG(20, "%s: %p %p tlx %f tly %f brx %f bry %f [mm]\n",
+	DBG(20, "%s: %p %p tlx %f tly %f brx %f bry %f[mm]\n",
 	    __func__, (void *) s, (void *) s.val,
 	    Sane.UNFIX(s.val[OPT_TL_X].w), Sane.UNFIX(s.val[OPT_TL_Y].w),
 	    Sane.UNFIX(s.val[OPT_BR_X].w), Sane.UNFIX(s.val[OPT_BR_Y].w))
@@ -1830,24 +1830,24 @@ k_init_parametersta(KodakAio_Scanner * s)
 	/*
 	 * The default color depth is stored in mode_params.depth:‭
 	 */
-	if (mode_params[s.val[OPT_MODE].w].depth == 1)
+	if(mode_params[s.val[OPT_MODE].w].depth == 1)
 		s.params.depth = 1
 	else {
 		s.params.depth = s.val[OPT_BIT_DEPTH].w
 	}
 	DBG(20, "%s: bit depth = s.params.depth = %d\n", __func__,s.params.depth)
 	s.params.last_frame = Sane.TRUE
-	s.params.bytes_per_line = 3 * ceil (s.params.depth * s.params.pixels_per_line / 8.0)
+	s.params.bytes_per_line = 3 * ceil(s.params.depth * s.params.pixels_per_line / 8.0)
 
 /* kodak only scans in color and conversion to grey or lineart is done in the driver
 		s.params.format = Sane.FRAME_RGB; */
-	DBG(20, "%s: s.val[OPT_MODE].w = %d (color is %d)\n", __func__,s.val[OPT_MODE].w, MODE_COLOR)
-	if (s.val[OPT_MODE].w == MODE_COLOR) s.params.format = Sane.FRAME_RGB
-	else if (s.val[OPT_MODE].w == MODE_LINEART) s.params.format = Sane.FRAME_GRAY
+	DBG(20, "%s: s.val[OPT_MODE].w = %d(color is %d)\n", __func__,s.val[OPT_MODE].w, MODE_COLOR)
+	if(s.val[OPT_MODE].w == MODE_COLOR) s.params.format = Sane.FRAME_RGB
+	else if(s.val[OPT_MODE].w == MODE_LINEART) s.params.format = Sane.FRAME_GRAY
 	else s.params.format = Sane.FRAME_GRAY
 
 	DBG(20, "%s: format=%d, bytes_per_line=%d, lines=%d\n", __func__, s.params.format, s.params.bytes_per_line, s.params.lines)
-	return (s.params.lines >= -1) ? Sane.STATUS_GOOD : Sane.STATUS_INVAL
+	return(s.params.lines >= -1) ? Sane.STATUS_GOOD : Sane.STATUS_INVAL
 }
 
 static Sane.Status
@@ -1855,9 +1855,9 @@ k_start_scan(KodakAio_Scanner * s)
 {
 	Sane.Status status
 
-	status = cmd_start_scan (s, s.data_len)
-	if (status != Sane.STATUS_GOOD ) {
-		DBG (1, "%s: starting the scan failed (%s)\n", __func__, Sane.strstatus(status))
+	status = cmd_start_scan(s, s.data_len)
+	if(status != Sane.STATUS_GOOD ) {
+		DBG(1, "%s: starting the scan failed(%s)\n", __func__, Sane.strstatus(status))
 	}
 	return status
 }
@@ -1875,12 +1875,12 @@ you don't know how many blocks there will be in advance because their size may b
 	size_t buf_len = 0
 
 	/* have we passed everything we read to sane? */
-	if (s.ptr == s.end) {
-		if (s.eof)
+	if(s.ptr == s.end) {
+		if(s.eof)
 			return Sane.STATUS_EOF
 
 		s.counter++
-		if (s.bytes_unread >= s.block_len)
+		if(s.bytes_unread >= s.block_len)
 			buf_len = s.block_len
 		else
 			buf_len = s.bytes_unread
@@ -1888,9 +1888,9 @@ you don't know how many blocks there will be in advance because their size may b
 			s.counter, (unsigned long) buf_len)
 
 		/* receive image data + error code */
-		status = cmd_read_data (s, s.buf, &buf_len)
-		if (status != Sane.STATUS_GOOD && status != Sane.STATUS_EOF) { /* was just GOOD 20/2/12 */
-			DBG (1, "%s: Receiving image data failed (%s)\n",
+		status = cmd_read_data(s, s.buf, &buf_len)
+		if(status != Sane.STATUS_GOOD && status != Sane.STATUS_EOF) { /* was just GOOD 20/2/12 */
+			DBG(1, "%s: Receiving image data failed(%s)\n",
 					__func__, Sane.strstatus(status))
 			cmd_cancel_scan(s)
 			return status
@@ -1898,12 +1898,12 @@ you don't know how many blocks there will be in advance because their size may b
 
 		DBG(min(14,DBG_READ), "%s: success %lu bytes of block %d, %d remain\n", __func__, (unsigned long) buf_len, s.counter, s.bytes_unread)
 
-		if (s.bytes_unread > 0) {
-			if (s.canceling) {
+		if(s.bytes_unread > 0) {
+			if(s.canceling) {
 				cmd_cancel_scan(s)
 				return Sane.STATUS_CANCELLED
 			}
-			if (status == Sane.STATUS_EOF) {
+			if(status == Sane.STATUS_EOF) {
 				/* page ended prematurely.  */
 			}
 		}
@@ -1911,8 +1911,8 @@ you don't know how many blocks there will be in advance because their size may b
 			s.eof = Sane.TRUE
 			DBG(min(10,DBG_READ), "%s: set EOF after %d blocks\n=============\n", __func__, s.counter)
 /* look for the terminating ack if required */
-			if (!s.ack) {
-				if (kodakaio_expect_ack(s, rx) == Sane.STATUS_GOOD) {
+			if(!s.ack) {
+				if(kodakaio_expect_ack(s, rx) == Sane.STATUS_GOOD) {
 					s.ack = Sane.TRUE
 				}
 				else {
@@ -1931,12 +1931,12 @@ you don't know how many blocks there will be in advance because their size may b
 }
 
 /*
- *   SANE API implementation (high-level functions)
+ *   SANE API implementation(high-level functions)
 */
 
 #if WITH_AVAHI
 static struct KodakaioCap *
-get_device_from_identification (const char *ident, const char *vid, const char *pid)
+get_device_from_identification(const char *ident, const char *vid, const char *pid)
 {
 	Int n
 	Sane.Word pidnum, vidnum
@@ -1949,14 +1949,14 @@ get_device_from_identification (const char *ident, const char *vid, const char *
     		DBG(5, "could not convert hex pid <%s>\n", pid)
     		return NULL
 	}
-	for (n = 0; n < NELEMS (kodakaio_cap); n++) {
+	for(n = 0; n < NELEMS(kodakaio_cap); n++) {
 
-		if (strcmp (kodakaio_cap[n].model, ident)==0) {
+		if(strcmp(kodakaio_cap[n].model, ident)==0) {
 			DBG(20, "matched <%s> & <%s>\n", kodakaio_cap[n].model, ident)
 			return &kodakaio_cap[n]
 		}
 		else
-		if (kodakaio_cap[n].id == pidnum && 0x040A == vidnum) {
+		if(kodakaio_cap[n].id == pidnum && 0x040A == vidnum) {
 			DBG(20, "matched <%s> & <%s:%s>\n", kodakaio_cap[n].model, vid, pid)
 			return &kodakaio_cap[n]
 		}
@@ -1979,14 +1979,14 @@ close_scanner(KodakAio_Scanner *s)
 {
 	DBG(7, "%s: fd = %d\n", __func__, s.fd)
 
-	if (s.fd == -1)
+	if(s.fd == -1)
 		return
 
 	k_scan_finish(s)
-	if (s.hw.connection == Sane.KODAKAIO_NET) {
+	if(s.hw.connection == Sane.KODAKAIO_NET) {
 		sanei_kodakaio_net_close(s)
 		sanei_tcp_close(s.fd)
-	} else if (s.hw.connection == Sane.KODAKAIO_USB) {
+	} else if(s.hw.connection == Sane.KODAKAIO_USB) {
 		sanei_usb_close(s.fd)
 	}
 
@@ -1994,28 +1994,28 @@ close_scanner(KodakAio_Scanner *s)
 }
 
 static Bool
-split_scanner_name (const char *name, char * IP, unsigned Int *model)
+split_scanner_name(const char *name, char * IP, unsigned Int *model)
 {
 	const char *device = name
 	const char *qm
 	*model = 0
 	/* cut off leading net: */
-	if (strncmp(device, "net:", 4) == 0)
+	if(strncmp(device, "net:", 4) == 0)
 		device = &device[4]
 
 	qm = strchr(device, '?')
-	if (qm != NULL) {
+	if(qm != NULL) {
 		size_t len = qm-device
-		strncpy (IP, device, len)
+		strncpy(IP, device, len)
 		IP[len] = '\0'
 		qm++
-		if (strncmp(qm, "model=", 6) == 0) {
+		if(strncmp(qm, "model=", 6) == 0) {
 			qm += 6
-			if (!sscanf(qm, "0x%x", model))
+			if(!sscanf(qm, "0x%x", model))
 				sscanf(qm, "%x", model)
 		}
 	} else {
-		strcpy (IP, device)
+		strcpy(IP, device)
 	}
 	return Sane.TRUE
 }
@@ -2034,49 +2034,49 @@ open_scanner(KodakAio_Scanner *s)
 
 	DBG(7, "%s: %s\n", __func__, s.hw.sane.name)
 
-	if (s.fd != -1) {
+	if(s.fd != -1) {
 		DBG(10, "scanner is already open: fd = %d\n", s.fd)
 		return Sane.STATUS_GOOD;	/* no need to open the scanner */
 	}
 
-	if (s.hw.connection == Sane.KODAKAIO_NET) {
+	if(s.hw.connection == Sane.KODAKAIO_NET) {
 		/* device name has the form net:ipaddr?model=... */
 		char IP[1024]
 		unsigned Int model = 0
-		if (!split_scanner_name (s.hw.sane.name, IP, &model))
+		if(!split_scanner_name(s.hw.sane.name, IP, &model))
 			return Sane.STATUS_INVAL
 			DBG(10, "split_scanner_name OK model=0x%x\n",model)
 /* normal with IP */
 		status = sanei_tcp_open(IP, 9101, &s.fd);  /* (host,port,file pointer) */
 
-		if (status != Sane.STATUS_GOOD ) DBG(1, "Is network scanner switched on?\n")
+		if(status != Sane.STATUS_GOOD ) DBG(1, "Is network scanner switched on?\n")
 
-		if (model>0)
-			k_set_device (s, model)
-		if (status == Sane.STATUS_GOOD) {
-			status = sanei_kodakaio_net_open (s)
+		if(model>0)
+			k_set_device(s, model)
+		if(status == Sane.STATUS_GOOD) {
+			status = sanei_kodakaio_net_open(s)
 		}
 else			DBG(1, "status was not good at net open\n")
 
 
-	} else if (s.hw.connection == Sane.KODAKAIO_USB) {
+	} else if(s.hw.connection == Sane.KODAKAIO_USB) {
 			DBG(7, "trying to open usb\n")
 		status = sanei_usb_open(s.hw.sane.name, &s.fd)
-		if (s.hw.cap.out_ep>0)
-			sanei_usb_set_endpoint (s.fd,
+		if(s.hw.cap.out_ep>0)
+			sanei_usb_set_endpoint(s.fd,
 				USB_DIR_OUT | USB_ENDPOINT_TYPE_BULK, s.hw.cap.out_ep)
-		if (s.hw.cap.in_ep>0)
-			sanei_usb_set_endpoint (s.fd,
+		if(s.hw.cap.in_ep>0)
+			sanei_usb_set_endpoint(s.fd,
 				USB_DIR_IN | USB_ENDPOINT_TYPE_BULK, s.hw.cap.in_ep)
 	}
 
-	if (status == Sane.STATUS_ACCESS_DENIED) {
+	if(status == Sane.STATUS_ACCESS_DENIED) {
 		DBG(1, "please check that you have permissions on the device.\n")
 		DBG(1, "if this is a multi-function device with a printer,\n")
-		DBG(1, "disable any conflicting driver (like usblp).\n")
+		DBG(1, "disable any conflicting driver(like usblp).\n")
 	}
 
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		DBG(1, "%s open failed: %s\n", s.hw.sane.name,
 			Sane.strstatus(status))
 	else
@@ -2102,15 +2102,15 @@ detect_usb(struct KodakAio_Scanner *s)
 	 */
 
 	status = sanei_usb_get_vendor_product(s.fd, &vendor, &product)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "the device cannot be verified - will continue\n")
 		return Sane.STATUS_GOOD
 	}
 
 	/* check the vendor ID to see if we are dealing with a kodak device */
-	if (vendor != Sane.KODAKAIO_VENDOR_ID) {
+	if(vendor != Sane.KODAKAIO_VENDOR_ID) {
 		/* this is not a supported vendor ID */
-		DBG(1, "not a Kodak Aio device at %s (vendor id=0x%x)\n",
+		DBG(1, "not a Kodak Aio device at %s(vendor id=0x%x)\n",
 		    s.hw.sane.name, vendor)
 		return Sane.STATUS_INVAL
 	}
@@ -2121,20 +2121,20 @@ detect_usb(struct KodakAio_Scanner *s)
 
 	/* check all known product IDs to verify that we know
 	 *	   about the device */
-	while (i != numIds && !is_valid) {
-	/*	if (product == kodakaio_usb_product_ids[i]) */
-		if (product == kodakaio_cap[i].id)
+	while(i != numIds && !is_valid) {
+	/*	if(product == kodakaio_usb_product_ids[i]) */
+		if(product == kodakaio_cap[i].id)
 			is_valid = Sane.TRUE
 		i++
 	}
 
-	if (is_valid == Sane.FALSE) {
-		DBG(1, "the device at %s is not a supported (product id=0x%x)\n",
+	if(is_valid == Sane.FALSE) {
+		DBG(1, "the device at %s is not a supported(product id=0x%x)\n",
 		    s.hw.sane.name, product)
 		return Sane.STATUS_INVAL
 	}
 
-	DBG(2, "found valid usb Kodak Aio scanner: 0x%x/0x%x (vendorID/productID)\n",
+	DBG(2, "found valid usb Kodak Aio scanner: 0x%x/0x%x(vendorID/productID)\n",
 	    vendor, product)
 	k_set_device(s, product); /* added 21/12/11 to try and get a name for the device */
 
@@ -2156,7 +2156,7 @@ scanner_create(struct Kodak_Device *dev, Sane.Status *status)
 	struct KodakAio_Scanner *s
 
 	s = malloc(sizeof(struct KodakAio_Scanner))
-	if (s == NULL) {
+	if(s == NULL) {
 		*status = Sane.STATUS_NO_MEM
 		return NULL
 	}
@@ -2176,36 +2176,36 @@ device_detect(const char *name, Int type, Sane.Status *status)
 	struct Kodak_Device *dev
 
 	/* try to find the device in our list */
-	for (dev = first_dev; dev; dev = dev.next) {
-		if (strcmp(dev.sane.name, name) == 0) {
+	for(dev = first_dev; dev; dev = dev.next) {
+		if(strcmp(dev.sane.name, name) == 0) {
 			dev.missing = 0
-			DBG (10, "%s: Device %s already attached!\n", __func__,
+			DBG(10, "%s: Device %s already attached!\n", __func__,
 			     name)
 			return scanner_create(dev, status)
 		}
 	}
 
-	if (type == Sane.KODAKAIO_NODEV) {
+	if(type == Sane.KODAKAIO_NODEV) {
 		*status = Sane.STATUS_INVAL
 		return NULL
 	}
 
 	/* alloc and clear our device structure */
 	dev = malloc(sizeof(*dev))
-	if (!dev) {
+	if(!dev) {
 		*status = Sane.STATUS_NO_MEM
 		return NULL
 	}
 	memset(dev, 0x00, sizeof(struct Kodak_Device))
 
 	s = scanner_create(dev, status)
-	if (s == NULL)
+	if(s == NULL)
 		return NULL
 
 	k_dev_init(dev, name, type)
 
 	*status = open_scanner(s)
-	if (*status != Sane.STATUS_GOOD) {
+	if(*status != Sane.STATUS_GOOD) {
 		free(s)
 		free(dev)
 		return NULL
@@ -2214,15 +2214,15 @@ device_detect(const char *name, Int type, Sane.Status *status)
 	/* from now on, close_scanner() must be called */
 
 	/* USB requires special care */
-	if (dev.connection == Sane.KODAKAIO_USB) {
+	if(dev.connection == Sane.KODAKAIO_USB) {
 		*status = detect_usb(s)
 	}
 
-	if (*status != Sane.STATUS_GOOD)
+	if(*status != Sane.STATUS_GOOD)
 		goto close
 
-	/* set name and model (if not already set) */
-	if (dev.model == NULL)
+	/* set name and model(if not already set) */
+	if(dev.model == NULL)
 		k_set_model(s, "generic", 7)
 
 	dev.name = strdup(name)
@@ -2230,10 +2230,10 @@ device_detect(const char *name, Int type, Sane.Status *status)
 
 	/* do we need to discover capabilities here? */
 	*status = k_discover_capabilities(s)
-	if (*status != Sane.STATUS_GOOD)
+	if(*status != Sane.STATUS_GOOD)
 		goto close
 
-	if (source_list[0] == NULL || dev.cap.dpi_range.min == 0) {
+	if(source_list[0] == NULL || dev.cap.dpi_range.min == 0) {
 		DBG(1, "something is wrong in the discovery process, aborting.\n")
 		*status = Sane.STATUS_IO_ERROR
 		goto close
@@ -2269,12 +2269,12 @@ ProcessAvahiDevice(const char *device_id, const char *vid, const char *pid, cons
 
 	DBG(min(10,DBG_AUTO),"look up model <%s>\n", device_model); */
 	cap = get_device_from_identification("", vid, pid)
-	if (cap == NULL) {
+	if(cap == NULL) {
 		return
 	}
 
-	DBG(min(10,DBG_AUTO), "%s: Found autodiscovered device: %s (type 0x%x)\n", __func__, cap.model, cap.id)
-		attach_one_net (ip_addr, cap.id)
+	DBG(min(10,DBG_AUTO), "%s: Found autodiscovered device: %s(type 0x%x)\n", __func__, cap.model, cap.id)
+		attach_one_net(ip_addr, cap.id)
 }
 
 
@@ -2297,13 +2297,13 @@ static void resolve_callback(
 	char *pidkey, *pidvalue
 	char *vidkey, *vidvalue
 	size_t valuesize
-	NOT_USED (flags)
+	NOT_USED(flags)
 
     assert(r)
 
     /* Called whenever a service has been resolved successfully or timed out */
 
-    switch (event) {
+    switch(event) {
         case AVAHI_RESOLVER_FAILURE:
             DBG(min(1,DBG_AUTO), "(Resolver) Failed to resolve service '%s' of type '%s' in domain '%s': %s\n", name, type, domain, avahi_strerror(avahi_client_errno(avahi_service_resolver_get_client(r))))
             break
@@ -2363,10 +2363,10 @@ static void browse_callback(
     void* userdata) {
     AvahiSimplePoll *simple_poll = userdata
 
-    AvahiClient *c = avahi_service_browser_get_client (b)
+    AvahiClient *c = avahi_service_browser_get_client(b)
 
     /* Called whenever a new services becomes available on the LAN or is removed from the LAN */
-    switch (event) {
+    switch(event) {
         case AVAHI_BROWSER_FAILURE:
 
             DBG(min(1,DBG_AUTO), "(Browser) %s\n", avahi_strerror(avahi_client_errno(avahi_service_browser_get_client(b))))
@@ -2381,7 +2381,7 @@ static void browse_callback(
                the callback function is called the server will free
                the resolver for us. */
 
-            if (!(avahi_service_resolver_new(c, interface, protocol, name, type, domain, AVAHI_PROTO_UNSPEC, 0, resolve_callback, c)))
+            if(!(avahi_service_resolver_new(c, interface, protocol, name, type, domain, AVAHI_PROTO_UNSPEC, 0, resolve_callback, c)))
                 DBG(min(1,DBG_AUTO), "Failed to resolve service '%s': %s\n", name, avahi_strerror(avahi_client_errno(c)))
 
             break
@@ -2403,7 +2403,7 @@ static void client_callback(AvahiClient *c, AvahiClientState state, void * userd
 
     /* Called whenever the client or server state changes */
 
-    if (state == AVAHI_CLIENT_FAILURE) {
+    if(state == AVAHI_CLIENT_FAILURE) {
         DBG(min(1,DBG_AUTO), "Server connection failure: %s\n", avahi_strerror(avahi_client_errno(c)))
         avahi_simple_poll_quit(simple_poll)
     }
@@ -2425,7 +2425,7 @@ First version only does autodiscovery */
 	DBG(2, "%s: called\n", __func__)
 
     /* Allocate main loop object */
-    if (!(simple_poll = avahi_simple_poll_new())) {
+    if(!(simple_poll = avahi_simple_poll_new())) {
         DBG(min(1,DBG_AUTO), "Failed to create simple poll object.\n")
         goto fail
     }
@@ -2434,20 +2434,20 @@ First version only does autodiscovery */
     client = avahi_client_new(avahi_simple_poll_get(simple_poll), 0, client_callback, simple_poll, &error)
 
     /* Check whether creating the client object succeeded */
-    if (!client) {
+    if(!client) {
         DBG(min(1,DBG_AUTO), "Failed to create client: %s\n", avahi_strerror(error))
         goto fail
     }
 
     /* Create the service browser */
-    if (!(sb = avahi_service_browser_new(client, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, "_scanner._tcp", NULL, 0, browse_callback, simple_poll))) {
+    if(!(sb = avahi_service_browser_new(client, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, "_scanner._tcp", NULL, 0, browse_callback, simple_poll))) {
         DBG(min(1,DBG_AUTO), "Failed to create service browser: %s\n", avahi_strerror(avahi_client_errno(client)))
         goto fail
     }
 
     /* Run the main loop */
 	for(i=1;i<K_SNMP_Timeout/POLL_ITN_MS;++i) {
-    		if (avahi_simple_poll_iterate(simple_poll,POLL_ITN_MS) != 0)
+    		if(avahi_simple_poll_iterate(simple_poll,POLL_ITN_MS) != 0)
     			break
 	}
     ret = 0
@@ -2457,13 +2457,13 @@ fail:
 
     /* Cleanup things  */
         DBG(min(10,DBG_AUTO), "Cleaning up avahi.\n")
-    if (sb)
+    if(sb)
         avahi_service_browser_free(sb)
 
-    if (client)
+    if(client)
         avahi_client_free(client)
 
-    if (simple_poll)
+    if(simple_poll)
         avahi_simple_poll_free(simple_poll)
 
     return ret
@@ -2502,7 +2502,7 @@ attach_one_net(const char *dev, unsigned Int model)
 	char name[1024]
 
 	DBG(7, "%s: dev = %s\n", __func__, dev)
-	if (model > 0) {
+	if(model > 0) {
 		snprintf(name, 1024, "net:%s?model=0x%x", dev, model)
 	} else {
 		snprintf(name, 1024, "net:%s", dev)
@@ -2521,13 +2521,13 @@ attach_one_config(SANEI_Config __Sane.unused__ *config, const char *line,
 
 	DBG(7, "%s: len = %d, line = %s\n", __func__, len, line)
 
-	if (sscanf(line, "usb %i %i", &vendor, &product) == 2) {
+	if(sscanf(line, "usb %i %i", &vendor, &product) == 2) {
 		/* add the vendor and product IDs to the list of
 		 *		   known devices before we call the attach function */
 
 		Int numIds = kodakaio_getNumberOfUSBProductIds()
 
-		if (vendor != Sane.KODAKAIO_VENDOR_ID) {
+		if(vendor != Sane.KODAKAIO_VENDOR_ID) {
 			DBG(7, "Wrong vendor: numIds = %d, vendor = %d\n", numIds, vendor)
 			return Sane.STATUS_INVAL; /* this is not a Kodak device */
 		}
@@ -2536,37 +2536,37 @@ attach_one_config(SANEI_Config __Sane.unused__ *config, const char *line,
 
 		sanei_usb_attach_matching_devices(line, attach_one_usb)
 
-	} else if (strncmp(line, "usb", 3) == 0 && len == 3) {
+	} else if(strncmp(line, "usb", 3) == 0 && len == 3) {
 		var i: Int, numIds
 		/* auto detect ?  */
 		numIds = kodakaio_getNumberOfUSBProductIds()
 
-		for (i = 0; i < numIds; i++) {
+		for(i = 0; i < numIds; i++) {
 /*			sanei_usb_find_devices(Sane.KODAKAIO_VENDOR_ID,
 					       kodakaio_usb_product_ids[i], attach_one_usb); */
 			sanei_usb_find_devices(Sane.KODAKAIO_VENDOR_ID,
 					       kodakaio_cap[i].id, attach_one_usb)
 		}
 
-	} else if (strncmp(line, "net", 3) == 0) {
+	} else if(strncmp(line, "net", 3) == 0) {
 
-		if (!local_only) {
+		if(!local_only) {
 			/* remove the "net" sub string */
 			const char *name =
 				sanei_config_skip_whitespace(line + 3)
 			char IP[1024]
 			unsigned Int model = 0
 
-			if (strncmp(name, "autodiscovery", 13) == 0) {
+			if(strncmp(name, "autodiscovery", 13) == 0) {
 
 	#if WITH_AVAHI
-				DBG (30, "%s: Initiating network autodiscovery via avahi\n", __func__)
+				DBG(30, "%s: Initiating network autodiscovery via avahi\n", __func__)
 				kodak_network_discovery(NULL)
 	#else
-				DBG (20, "%s: Network autodiscovery not done because not configured with avahi.\n", __func__)
+				DBG(20, "%s: Network autodiscovery not done because not configured with avahi.\n", __func__)
 	#endif
 
-			} else if (sscanf(name, "%s %x", IP, &model) == 2) {
+			} else if(sscanf(name, "%s %x", IP, &model) == 2) {
 				DBG(30, "%s: Using network device on IP %s, forcing model 0x%x\n", __func__, IP, model)
 				attach_one_net(IP, model)
 			} else {
@@ -2575,17 +2575,17 @@ attach_one_config(SANEI_Config __Sane.unused__ *config, const char *line,
 			}
 		}
 
-	} else if (sscanf(line, "snmp-timeout %i\n", &timeout)) {
+	} else if(sscanf(line, "snmp-timeout %i\n", &timeout)) {
 		/* Timeout for auto network discovery */
 		DBG(50, "%s: network auto-discovery timeout set to %d\n", __func__, timeout)
 		K_SNMP_Timeout = timeout
 
-	} else if (sscanf(line, "scan-data-timeout %i\n", &timeout)) {
+	} else if(sscanf(line, "scan-data-timeout %i\n", &timeout)) {
 		/* Timeout for scan data requests */
 		DBG(50, "%s: Scan data timeout set to %d\n", __func__, timeout)
 		K_Scan_Data_Timeout = timeout
 
-	} else if (sscanf(line, "request-timeout %i\n", &timeout)) {
+	} else if(sscanf(line, "request-timeout %i\n", &timeout)) {
 		/* Timeout for all other read requests */
 		DBG(50, "%s: Request timeout set to %d\n", __func__, timeout)
 		K_Request_Timeout = timeout
@@ -2604,14 +2604,14 @@ free_devices(void)
 
 	DBG(5, "%s\n", __func__)
 
-	for (dev = first_dev; dev; dev = next) {
+	for(dev = first_dev; dev; dev = next) {
 		next = dev.next
 		free(dev.name)
 		free(dev.model)
 		free(dev)
 	}
 
-	if (devlist)
+	if(devlist)
 		free(devlist)
 	devlist = NULL
 	first_dev = NULL
@@ -2627,7 +2627,7 @@ Sane.init(Int *version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 	DBG(1, "kodakaio backend, version %i.%i.%i\n",
 	    KODAKAIO_VERSION, KODAKAIO_REVISION, KODAKAIO_BUILD)
 	DBG(2, "%s: called\n", __func__)
-	if (version_code != NULL)
+	if(version_code != NULL)
 		*version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR,
 						  KODAKAIO_BUILD)
 	sanei_usb_init()
@@ -2659,7 +2659,7 @@ Sane.get_devices(const Sane.Device ***device_list, Bool local_only)
 	sanei_usb_init()
 
 	/* mark all existing scanners as missing, attach_one will remove mark */
-	for (s = first_dev; s; s = s.next) {
+	for(s = first_dev; s; s = s.next) {
 		s.missing = 1
 	}
 
@@ -2668,14 +2668,14 @@ Sane.get_devices(const Sane.Device ***device_list, Bool local_only)
 			       attach_one_config, &local_only)
 
 	/*delete missing scanners from list*/
-	for (s = first_dev; s;) {
-		if (s.missing) {
-			DBG (5, "%s: missing scanner %s\n", __func__, s.name)
+	for(s = first_dev; s;) {
+		if(s.missing) {
+			DBG(5, "%s: missing scanner %s\n", __func__, s.name)
 
 			/*splice s out of list by changing pointer in prev to next*/
-			if (prev) {
+			if(prev) {
 				prev.next = s.next
-				free (s)
+				free(s)
 				s = prev.next
 				num_devices--
 			} else {
@@ -2692,24 +2692,24 @@ Sane.get_devices(const Sane.Device ***device_list, Bool local_only)
 		}
 	}
 
-	DBG (15, "%s: found %d scanner(s)\n", __func__, num_devices)
-	for (s = first_dev; s; s=s.next) {
-		DBG (15, "%s: found scanner %s\n", __func__, s.name)
+	DBG(15, "%s: found %d scanner(s)\n", __func__, num_devices)
+	for(s = first_dev; s; s=s.next) {
+		DBG(15, "%s: found scanner %s\n", __func__, s.name)
 	}
 
-	if (devlist)
-		free (devlist)
+	if(devlist)
+		free(devlist)
 
 	devlist = malloc((num_devices + 1) * sizeof(devlist[0]))
-	if (!devlist) {
-		DBG(1, "out of memory (line %d)\n", __LINE__)
+	if(!devlist) {
+		DBG(1, "out of memory(line %d)\n", __LINE__)
 		return Sane.STATUS_NO_MEM
 	}
 
 	DBG(5, "%s - results:\n", __func__)
 
-	for (i = 0, dev = first_dev; i < num_devices && dev; dev = dev.next, i++) {
-		DBG(5, " %d (%d): %s\n", i, dev.connection, dev.model)
+	for(i = 0, dev = first_dev; i < num_devices && dev; dev = dev.next, i++) {
+		DBG(5, " %d(%d): %s\n", i, dev.connection, dev.model)
 		devlist[i] = &dev.sane
 	}
 
@@ -2729,7 +2729,7 @@ init_options(KodakAio_Scanner *s)
 	Sane.Word *res_list
 	DBG(5, "%s: called\n", __func__)
 
-	for (i = 0; i < NUM_OPTIONS; i++) {
+	for(i = 0; i < NUM_OPTIONS; i++) {
 		s.opt[i].size = sizeof(Sane.Word)
 		s.opt[i].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 	}
@@ -2795,7 +2795,7 @@ init_options(KodakAio_Scanner *s)
 	s.val[OPT_BIT_DEPTH].w = s.hw.cap.depth_list[1];	/* the first "real" element is the default */
 
 	DBG(20, "%s: depth list has depth_list[0] = %d entries\n", __func__, s.hw.cap.depth_list[0])
-	if (s.hw.cap.depth_list[0] == 1) {	/* only one element in the list -> hide the option */
+	if(s.hw.cap.depth_list[0] == 1) {	/* only one element in the list -> hide the option */
 		s.opt[OPT_BIT_DEPTH].cap |= Sane.CAP_INACTIVE
 		DBG(20, "%s: Only one depth in list so inactive option\n", __func__)
 	}
@@ -2808,7 +2808,7 @@ init_options(KodakAio_Scanner *s)
 	s.opt[OPT_RESOLUTION].unit = Sane.UNIT_DPI
 	s.opt[OPT_RESOLUTION].constraint_type = Sane.CONSTRAINT_WORD_LIST
 	res_list = malloc((s.hw.cap.res_list_size + 1) * sizeof(Sane.Word))
-	if (res_list == NULL) {
+	if(res_list == NULL) {
 		return Sane.STATUS_NO_MEM
 	}
 	*(res_list) = s.hw.cap.res_list_size
@@ -2848,7 +2848,7 @@ init_options(KodakAio_Scanner *s)
 	s.opt[OPT_SOURCE].constraint.string_list = source_list
 	s.val[OPT_SOURCE].w = 0;	/* always use Flatbed as default */
 
-	if ((!s.hw.cap.ADF)) {
+	if((!s.hw.cap.ADF)) {
 		DBG(9, "device with no adf detected source option inactive\n")
 		s.opt[OPT_SOURCE].cap |= Sane.CAP_INACTIVE
 	}
@@ -2857,13 +2857,13 @@ init_options(KodakAio_Scanner *s)
 	s.opt[OPT_ADF_MODE].name = "adf-mode"
 	s.opt[OPT_ADF_MODE].title = Sane.I18N("ADF Mode")
 	s.opt[OPT_ADF_MODE].desc =
-	Sane.I18N("Selects the ADF mode (simplex/duplex)")
+	Sane.I18N("Selects the ADF mode(simplex/duplex)")
 	s.opt[OPT_ADF_MODE].type = Sane.TYPE_STRING
 	s.opt[OPT_ADF_MODE].size = max_string_size(adf_mode_list)
 	s.opt[OPT_ADF_MODE].constraint_type = Sane.CONSTRAINT_STRING_LIST
 	s.opt[OPT_ADF_MODE].constraint.string_list = adf_mode_list
 	s.val[OPT_ADF_MODE].w = 0;	/* simplex */
-	if ((!s.hw.cap.ADF) || (!s.hw.cap.adf_duplex))
+	if((!s.hw.cap.ADF) || (!s.hw.cap.adf_duplex))
 		s.opt[OPT_ADF_MODE].cap |= Sane.CAP_INACTIVE
 
 
@@ -2920,7 +2920,7 @@ init_options(KodakAio_Scanner *s)
 	s.opt[OPT_PADDING].desc = "Selects whether to make short pages up to full length"
 	s.opt[OPT_PADDING].type = Sane.TYPE_BOOL
 	s.val[OPT_PADDING].w = Sane.FALSE
-	if ((!s.hw.cap.ADF) || (strcmp(source_list[s.val[OPT_SOURCE].w], ADF_STR) != 0))
+	if((!s.hw.cap.ADF) || (strcmp(source_list[s.val[OPT_SOURCE].w], ADF_STR) != 0))
 	{
 		DBG(9, "adf not source so padding option off and inactive\n")
 		s.opt[OPT_PADDING].cap |= Sane.CAP_INACTIVE
@@ -2940,50 +2940,50 @@ Sane.open(Sane.String_Const name, Sane.Handle *handle)
 	DBG(2, "%s: name = %s\n", __func__, name)
 
 	/* probe if empty device name provided */
-	if (l == 0) {
+	if(l == 0) {
 
 		status = Sane.get_devices(NULL,0)
-		if (status != Sane.STATUS_GOOD) {
+		if(status != Sane.STATUS_GOOD) {
 			return status
 		}
 
-		if (first_dev == NULL) {
+		if(first_dev == NULL) {
 			DBG(1, "no device detected\n")
 			return Sane.STATUS_INVAL
 		}
 
 		s = device_detect(first_dev.sane.name, first_dev.connection,
 					&status)
-		if (s == NULL) {
-			DBG(1, "cannot open a perfectly valid device (%s),"
+		if(s == NULL) {
+			DBG(1, "cannot open a perfectly valid device(%s),"
 				" please report to the authors\n", name)
 			return Sane.STATUS_INVAL
 		}
 
 	} else {
 
-		if (strncmp(name, "net:", 4) == 0) {
+		if(strncmp(name, "net:", 4) == 0) {
 			s = device_detect(name, Sane.KODAKAIO_NET, &status)
-			if (s == NULL)
+			if(s == NULL)
 				return status
-		} else if (strncmp(name, "libusb:", 7) == 0) {
+		} else if(strncmp(name, "libusb:", 7) == 0) {
 			s = device_detect(name, Sane.KODAKAIO_USB, &status)
-			if (s == NULL)
+			if(s == NULL)
 				return status
 		} else {
 
 			/* as a last resort, check for a match
 			 * in the device list. This should handle platforms without libusb.
 			 */
-			if (first_dev == NULL) {
+			if(first_dev == NULL) {
 				status = Sane.get_devices(NULL,0)
-				if (status != Sane.STATUS_GOOD) {
+				if(status != Sane.STATUS_GOOD) {
 					return status
 				}
 			}
 
 			s = device_detect(name, Sane.KODAKAIO_NODEV, &status)
-			if (s == NULL) {
+			if(s == NULL) {
 				DBG(1, "invalid device name: %s\n", name)
 				return Sane.STATUS_INVAL
 			}
@@ -2996,7 +2996,7 @@ Sane.open(Sane.String_Const name, Sane.Handle *handle)
 	DBG(10, "handle obtained\n")
 	status = k_discover_capabilities(s); /* added 27/12/11 to fix source list problem
 maybe we should only be rebuilding the source list here? */
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	init_options(s)
@@ -3005,7 +3005,7 @@ maybe we should only be rebuilding the source list here? */
 
 /* moving the open scanner section below to Sane.start 27/12/14
 	status = open_scanner(s)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		free(s)
 		return status
 	}
@@ -3027,7 +3027,7 @@ Sane.close(Sane.Handle handle)
 	DBG(2, "%s: called\n", __func__)
 
 /* moving the close scanner section below to Sane.cancel 27/12/14 */
-	if (s.fd != -1)
+	if(s.fd != -1)
 		close_scanner(s)
 /* end of section */
 
@@ -3045,7 +3045,7 @@ Sane.get_option_descriptor(Sane.Handle handle, Int option)
 
 	DBG(30, "%s: called for option %d\n", __func__, option)
 
-	if (option < 0 || option >= NUM_OPTIONS)
+	if(option < 0 || option >= NUM_OPTIONS)
 		return NULL
 
 	return s.opt + option
@@ -3054,10 +3054,10 @@ Sane.get_option_descriptor(Sane.Handle handle, Int option)
 static const Sane.String_Const *
 search_string_list(const Sane.String_Const *list, String value)
 {
-	while (*list != NULL && strcmp(value, *list) != 0)
+	while(*list != NULL && strcmp(value, *list) != 0)
 		list++
 
-	return ((*list == NULL) ? NULL : list)
+	return((*list == NULL) ? NULL : list)
 }
 
 /*
@@ -3070,7 +3070,7 @@ search_string_list(const Sane.String_Const *list, String value)
 static void
 activateOption(KodakAio_Scanner *s, Int option, Bool *change)
 {
-	if (!Sane.OPTION_IS_ACTIVE(s.opt[option].cap)) {
+	if(!Sane.OPTION_IS_ACTIVE(s.opt[option].cap)) {
 		s.opt[option].cap &= ~Sane.CAP_INACTIVE
 		*change = Sane.TRUE
 	}
@@ -3079,7 +3079,7 @@ activateOption(KodakAio_Scanner *s, Int option, Bool *change)
 static void
 deactivateOption(KodakAio_Scanner *s, Int option, Bool *change)
 {
-	if (Sane.OPTION_IS_ACTIVE(s.opt[option].cap)) {
+	if(Sane.OPTION_IS_ACTIVE(s.opt[option].cap)) {
 		s.opt[option].cap |= Sane.CAP_INACTIVE
 		*change = Sane.TRUE
 	}
@@ -3094,7 +3094,7 @@ getvalue(Sane.Handle handle, Int option, void *value)
 
 	DBG(17, "%s: option = %d\n", __func__, option)
 
-	switch (option) {
+	switch(option) {
 
 	case OPT_NUM_OPTS:
 	case OPT_BIT_DEPTH:
@@ -3135,7 +3135,7 @@ getvalue(Sane.Handle handle, Int option, void *value)
 
 
 /*
- * Handles setting the source (flatbed, or auto document feeder (ADF)).
+ * Handles setting the source(flatbed, or auto document feeder(ADF)).
  *
  */
 
@@ -3148,22 +3148,22 @@ change_source(KodakAio_Scanner *s, Int optindex, char *value)
 	DBG(5, "%s: optindex = %d, source = '%s'\n", __func__, optindex,
 	    value)
 
-	if (s.val[OPT_SOURCE].w == optindex)
+	if(s.val[OPT_SOURCE].w == optindex)
 		return
 
 	s.val[OPT_SOURCE].w = optindex
 
-	if (s.val[OPT_TL_X].w == s.hw.x_range.min
+	if(s.val[OPT_TL_X].w == s.hw.x_range.min
 	    && s.val[OPT_TL_Y].w == s.hw.y_range.min
 	    && s.val[OPT_BR_X].w == s.hw.x_range.max
 	    && s.val[OPT_BR_Y].w == s.hw.y_range.max) {
 		force_max = Sane.TRUE
 	}
 
-	if (strcmp(ADF_STR, value) == 0) {
+	if(strcmp(ADF_STR, value) == 0) {
 		s.hw.x_range = &s.hw.cap.adf_x_range
 		s.hw.y_range = &s.hw.cap.adf_y_range
-		if (s.hw.cap.adf_duplex) {
+		if(s.hw.cap.adf_duplex) {
 			activateOption(s, OPT_ADF_MODE, &dummy)
 		} else {
 			deactivateOption(s, OPT_ADF_MODE, &dummy)
@@ -3185,16 +3185,16 @@ change_source(KodakAio_Scanner *s, Int optindex, char *value)
 	s.opt[OPT_BR_X].constraint.range = s.hw.x_range
 	s.opt[OPT_BR_Y].constraint.range = s.hw.y_range
 
-	if (s.val[OPT_TL_X].w < s.hw.x_range.min || force_max)
+	if(s.val[OPT_TL_X].w < s.hw.x_range.min || force_max)
 		s.val[OPT_TL_X].w = s.hw.x_range.min
 
-	if (s.val[OPT_TL_Y].w < s.hw.y_range.min || force_max)
+	if(s.val[OPT_TL_Y].w < s.hw.y_range.min || force_max)
 		s.val[OPT_TL_Y].w = s.hw.y_range.min
 
-	if (s.val[OPT_BR_X].w > s.hw.x_range.max || force_max)
+	if(s.val[OPT_BR_X].w > s.hw.x_range.max || force_max)
 		s.val[OPT_BR_X].w = s.hw.x_range.max
 
-	if (s.val[OPT_BR_Y].w > s.hw.y_range.max || force_max)
+	if(s.val[OPT_BR_Y].w > s.hw.y_range.max || force_max)
 		s.val[OPT_BR_Y].w = s.hw.y_range.max
 
 }
@@ -3214,35 +3214,35 @@ setvalue(Sane.Handle handle, Int option, void *value, Int *info)
 	DBG(17, "%s: option = %d, value = %p, as word: %d\n", __func__, option, value, *(Sane.Word *) value)
 
 	status = sanei_constrain_value(sopt, value, info)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
-	if (info && value && (*info & Sane.INFO_INEXACT)
+	if(info && value && (*info & Sane.INFO_INEXACT)
 	    && sopt.type == Sane.TYPE_INT)
 		DBG(17, "%s: constrained val = %d\n", __func__,
 		    *(Sane.Word *) value)
 
-	if (sopt.constraint_type == Sane.CONSTRAINT_STRING_LIST) {
+	if(sopt.constraint_type == Sane.CONSTRAINT_STRING_LIST) {
 		optval = search_string_list(sopt.constraint.string_list,
 					    (char *) value)
-		if (optval == NULL)
+		if(optval == NULL)
 			return Sane.STATUS_INVAL
 		optindex = optval - sopt.constraint.string_list
 	}
 
-	switch (option) {
+	switch(option) {
 
 	case OPT_MODE:
 	{
 		sval.w = optindex
 		/* if binary, then disable the bit depth selection and enable threshold */
-		if (optindex == MODE_LINEART) {
+		if(optindex == MODE_LINEART) {
 	DBG(17, "%s: binary mode setting depth to 1\n", __func__)
 			s.val[OPT_BIT_DEPTH].w = 1
 			s.opt[OPT_BIT_DEPTH].cap |= Sane.CAP_INACTIVE
 			s.opt[OPT_THRESHOLD].cap &= ~Sane.CAP_INACTIVE
 		} else {
-			if (s.hw.cap.depth_list[0] == 1) { /* only one entry in the list ? */
+			if(s.hw.cap.depth_list[0] == 1) { /* only one entry in the list ? */
 	DBG(17, "%s: non-binary mode but only one depth available\n", __func__)
 				s.val[OPT_BIT_DEPTH].w = s.hw.cap.depth_list[1]
 				s.opt[OPT_BIT_DEPTH].cap |= Sane.CAP_INACTIVE
@@ -3279,7 +3279,7 @@ setvalue(Sane.Handle handle, Int option, void *value, Int *info)
 
 	case OPT_BR_X:
 	case OPT_BR_Y:
-		if (Sane.UNFIX(*((Sane.Word *) value)) == 0) {
+		if(Sane.UNFIX(*((Sane.Word *) value)) == 0) {
 			DBG(17, "invalid br-x or br-y\n")
 			return Sane.STATUS_INVAL
 		}
@@ -3288,7 +3288,7 @@ setvalue(Sane.Handle handle, Int option, void *value, Int *info)
 	case OPT_TL_Y:
 		sval.w = *((Sane.Word *) value)
 		DBG(17, "setting size to %f\n", Sane.UNFIX(sval.w))
-		if (NULL != info)
+		if(NULL != info)
 			*info |= Sane.INFO_RELOAD_PARAMS
 		break
 
@@ -3314,7 +3314,7 @@ setvalue(Sane.Handle handle, Int option, void *value, Int *info)
 		return Sane.STATUS_INVAL
 	}
 
-	if (reload && info != NULL)
+	if(reload && info != NULL)
 		*info |= Sane.INFO_RELOAD_OPTIONS | Sane.INFO_RELOAD_PARAMS
 
 	DBG(17, "%s: end\n", __func__)
@@ -3327,18 +3327,18 @@ Sane.control_option(Sane.Handle handle, Int option, Sane.Action action,
 		    void *value, Int *info)
 {
 	KodakAio_Scanner *s = (KodakAio_Scanner *) handle
-	if (option < 0 || option >= NUM_OPTIONS)
+	if(option < 0 || option >= NUM_OPTIONS)
 	{
-		DBG(1, "%s: option num = %d out of range (0..%d)\n", __func__, option, NUM_OPTIONS - 1)
+		DBG(1, "%s: option num = %d out of range(0..%d)\n", __func__, option, NUM_OPTIONS - 1)
 		return Sane.STATUS_INVAL
 	}
 
 	DBG(5, "%s: action = %x, option = %d %s\n", __func__, action, option, s.opt[option].name)
 
-	if (info != NULL)
+	if(info != NULL)
 		*info = 0
 
-	switch (action) {
+	switch(action) {
 	case Sane.ACTION_GET_VALUE:
 		return getvalue(handle, option, value)
 
@@ -3359,7 +3359,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
 
 	DBG(2, "%s: called\n", __func__)
 
-	if (params == NULL)
+	if(params == NULL)
 		DBG(1, "%s: params is NULL\n", __func__)
 
 	/*
@@ -3367,14 +3367,14 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
 	 * from the scanner data structure
 	 */
 
-	if (!s.eof && s.ptr != NULL) {
+	if(!s.eof && s.ptr != NULL) {
 		DBG(5, "scan in progress, returning saved params structure\n")
 	} else {
 		/* otherwise initialize the params structure and gather the data */
 		k_init_parametersta(s)
 	}
 
-	if (params != NULL)
+	if(params != NULL)
 		*params = s.params
 
 	print_params(s.params,20)
@@ -3397,7 +3397,7 @@ Sane.start(Sane.Handle handle)
 	if(! s.scanning) {
 		/* calc scanning parameters */
 		status = k_init_parametersta(s)
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 			return status
 
 	/* set scanning parameters; also query the current image
@@ -3408,7 +3408,7 @@ try change 22/2/12 take lock scanner out of k_set_scanning_parameters */
 
 /* moved open_scanner here 27/12/14 from Sane.open */
 	status = open_scanner(s)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		free(s)
 		return status
 	}
@@ -3416,7 +3416,7 @@ try change 22/2/12 take lock scanner out of k_set_scanning_parameters */
 
 
 		status = k_lock_scanner(s)
-		if (status != Sane.STATUS_GOOD) {
+		if(status != Sane.STATUS_GOOD) {
 			DBG(1, "could not lock scanner\n")
 			return status
 		}
@@ -3424,14 +3424,14 @@ try change 22/2/12 take lock scanner out of k_set_scanning_parameters */
 	}
 
 	status = k_set_scanning_parameters(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	print_params(s.params, 5)
 	/* if we scan from ADF, check if it is loaded */
-	if (strcmp(source_list[s.val[OPT_SOURCE].w], ADF_STR) == 0) {
+	if(strcmp(source_list[s.val[OPT_SOURCE].w], ADF_STR) == 0) {
 		status = k_check_adf(s)
-		if (status != Sane.STATUS_GOOD) {
+		if(status != Sane.STATUS_GOOD) {
 /* returning Sane.STATUS_NO_DOCS seems not to cause simple-scan to end the adf scan, so we cancel */
 			status = Sane.STATUS_CANCELLED
 			DBG(10, "%s: returning %s\n", __func__, Sane.strstatus(status))
@@ -3443,7 +3443,7 @@ try change 22/2/12 take lock scanner out of k_set_scanning_parameters */
 	 * will leave the scanner in a sane state.
 	 */
 	s.buf = realloc(s.buf, s.block_len)
-	if (s.buf == NULL)
+	if(s.buf == NULL)
 		return Sane.STATUS_NO_MEM
 
 	s.eof = Sane.FALSE; /* page not finished */
@@ -3451,7 +3451,7 @@ try change 22/2/12 take lock scanner out of k_set_scanning_parameters */
 	s.ptr = s.end = s.buf
 	s.canceling = Sane.FALSE
 
-	if (strlen(RawScanPath) > 0 && s.params.lines > 0)
+	if(strlen(RawScanPath) > 0 && s.params.lines > 0)
 		RawScan = fopen(RawScanPath, "wb");/* open the debug file if it has a name */
 	if(RawScan) fprintf(RawScan, "P5\n%d %d\n%d\n",s.scan_bytes_per_line, s.params.lines, 255)
 
@@ -3459,7 +3459,7 @@ try change 22/2/12 take lock scanner out of k_set_scanning_parameters */
 	DBG(2, "%s: scanning...\n", __func__)
 	status = k_start_scan(s)
 
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "%s: start failed: %s\n", __func__,
 		    Sane.strstatus(status))
 
@@ -3478,7 +3478,7 @@ Sane.read(Sane.Handle handle, Sane.Byte *data, Int max_length,
 	Sane.Status status
 	KodakAio_Scanner *s = (KodakAio_Scanner *) handle
 
-	if (s.buf == NULL || s.canceling)
+	if(s.buf == NULL || s.canceling)
 		return Sane.STATUS_CANCELLED
 
 	*length = 0
@@ -3486,7 +3486,7 @@ Sane.read(Sane.Handle handle, Sane.Byte *data, Int max_length,
 
 	status = k_read(s)
 
-	if (status == Sane.STATUS_CANCELLED) {
+	if(status == Sane.STATUS_CANCELLED) {
 		k_scan_finish(s)
 		return status
 	}
@@ -3497,10 +3497,10 @@ Sane.read(Sane.Handle handle, Sane.Byte *data, Int max_length,
 		*length / s.params.bytes_per_line, Sane.strstatus(status))
 
 	/* continue reading if appropriate */
-	if (status == Sane.STATUS_GOOD)
+	if(status == Sane.STATUS_GOOD)
 		return status
 
-/* not sure if we want to finish (unlock scanner) here or in Sane.close */
+/* not sure if we want to finish(unlock scanner) here or in Sane.close */
 	/* k_scan_finish(s); */
 	return status
 }
@@ -3514,12 +3514,12 @@ Sane.cancel(Sane.Handle handle)
 	DBG(2, "%s: called\n", __func__)
 
 	status = cmd_cancel_scan(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		DBG(1, "%s: cmd_cancel_scan failed: %s\n", __func__,
 		    Sane.strstatus(status))
 
 /* moved from close scanner section 27/12/14 */
-	if (s.fd != -1)
+	if(s.fd != -1)
 		close_scanner(s)
 /* end of section */
 

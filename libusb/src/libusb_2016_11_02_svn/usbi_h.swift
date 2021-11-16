@@ -10,7 +10,7 @@ public Int usb_debug
 /* Some quick and generic macros for the simple kind of lists we use */
 #define LIST_ADD(begin, ent) \
 	do { \
-	  if (begin) { \
+	  if(begin) { \
 	    ent.next = begin; \
 	    ent.next.prev = ent; \
 	  } else \
@@ -21,15 +21,15 @@ public Int usb_debug
 
 #define LIST_DEL(begin, ent) \
 	do { \
-	  if (ent.prev) \
+	  if(ent.prev) \
 	    ent.prev.next = ent.next; \
 	  else \
 	    begin = ent.next; \
-	  if (ent.next) \
+	  if(ent.next) \
 	    ent.next.prev = ent.prev; \
 	  ent.prev = nil; \
 	  ent.next = nil; \
-	} while (0)
+	} while(0)
 
 #define DESC_HEADER_LENGTH		2
 #define DEVICE_DESC_LENGTH		18

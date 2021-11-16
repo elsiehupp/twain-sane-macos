@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -72,13 +72,13 @@ namespace genesys {
     The actual motor slope is defined as the duration of each motor step. That means we need to
     define speed in terms of travelled distance.
 
-    Solving (3) for `t` gives:
+    Solving(3) for `t` gives:
 
            sqrt( v(0)^2 + 2 * a * s ) - v(0)
     t(s) = ---------------------------------                                                    (4)
                           a
 
-    Combining (4) and (2) will yield:
+    Combining(4) and(2) will yield:
 
     v(s) = sqrt( v(0)^2 + 2 * a * s )                                                           (5)
 
@@ -181,8 +181,8 @@ struct Genesys_Motor
 
     MotorSlope& get_slope_with_step_type(StepType step_type)
     {
-        for (auto& p : profiles) {
-            if (p.step_type == step_type)
+        for(auto& p : profiles) {
+            if(p.step_type == step_type)
                 return p.slope
         }
         throw SaneException("No motor profile with step type")
@@ -190,8 +190,8 @@ struct Genesys_Motor
 
     const MotorSlope& get_slope_with_step_type(StepType step_type) const
     {
-        for (const auto& p : profiles) {
-            if (p.step_type == step_type)
+        for(const auto& p : profiles) {
+            if(p.step_type == step_type)
                 return p.slope
         }
         throw SaneException("No motor profile with step type")
@@ -199,11 +199,11 @@ struct Genesys_Motor
 
     StepType max_step_type() const
     {
-        if (profiles.empty()) {
+        if(profiles.empty()) {
             throw std::runtime_error("Profiles table is empty")
         }
         StepType step_type = StepType::FULL
-        for (const auto& p : profiles) {
+        for(const auto& p : profiles) {
             step_type = static_cast<StepType>(
                     std::max(static_cast<unsigned>(step_type),
                              static_cast<unsigned>(p.step_type)))

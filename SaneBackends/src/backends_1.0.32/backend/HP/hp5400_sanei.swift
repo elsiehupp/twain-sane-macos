@@ -2,20 +2,20 @@
 #define _HP5400_SANEI_H_
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2003 Martijn van Oosterhout <kleptog@svana.org>
-   Copyright (C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
-   Copyright (c) 2003 Henning Meier-Geinitz, <henning@meier-geinitz.de>
+   Copyright(C) 2003 Martijn van Oosterhout <kleptog@svana.org>
+   Copyright(C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
+   Copyright(c) 2003 Henning Meier-Geinitz, <henning@meier-geinitz.de>
 
    Originally copied from HP3300 testtools. Original notice follows:
 
-   Copyright (C) 2001 Bertrik Sikken (bertrik@zonnet.nl)
+   Copyright(C) 2001 Bertrik Sikken(bertrik@zonnet.nl)
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
    as published by the Free Software Foundation; either version 2
-   of the License, or (at your option) any later version.
+   of the License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -62,39 +62,39 @@
 
 
 
-HP5400_Sane.STATIC void _UsbWriteControl (Int fd, Int iValue, Int iIndex, void *pabData, Int iSize)
+HP5400_Sane.STATIC void _UsbWriteControl(Int fd, Int iValue, Int iIndex, void *pabData, Int iSize)
 
-HP5400_Sane.STATIC void hp5400_command_write_noverify (Int fd, Int iValue, void *pabData, Int iSize)
+HP5400_Sane.STATIC void hp5400_command_write_noverify(Int fd, Int iValue, void *pabData, Int iSize)
 
-HP5400_Sane.STATIC void _UsbReadControl (Int fd, Int iValue, Int iIndex, void *pabData, Int iSize)
+HP5400_Sane.STATIC void _UsbReadControl(Int fd, Int iValue, Int iIndex, void *pabData, Int iSize)
 
-HP5400_Sane.STATIC Int hp5400_open (const char *filename)
+HP5400_Sane.STATIC Int hp5400_open(const char *filename)
 
-HP5400_Sane.STATIC void hp5400_close (Int iHandle)
+HP5400_Sane.STATIC void hp5400_close(Int iHandle)
 
 /* returns value > 0 if verify ok */
-HP5400_Sane.STATIC Int hp5400_command_verify (Int iHandle, Int iCmd)
+HP5400_Sane.STATIC Int hp5400_command_verify(Int iHandle, Int iCmd)
 
 /* returns > 0 if command OK */
-HP5400_Sane.STATIC Int hp5400_command_read_noverify (Int iHandle, Int iCmd, Int iLen, void *pbData)
+HP5400_Sane.STATIC Int hp5400_command_read_noverify(Int iHandle, Int iCmd, Int iLen, void *pbData)
 
 /* returns > 0 if command OK */
-HP5400_Sane.STATIC Int hp5400_command_read (Int iHandle, Int iCmd, Int iLen, void *pbData)
+HP5400_Sane.STATIC Int hp5400_command_read(Int iHandle, Int iCmd, Int iLen, void *pbData)
 
 /* returns >0 if command OK */
-HP5400_Sane.STATIC Int hp5400_command_write (Int iHandle, Int iCmd, Int iLen, void *pbData)
+HP5400_Sane.STATIC Int hp5400_command_write(Int iHandle, Int iCmd, Int iLen, void *pbData)
 
 #ifdef STANDALONE
 /* returns >0 if command OK */
-HP5400_Sane.STATIC Int hp5400_bulk_read (Int iHandle, size_t len, Int block, FILE * file)
+HP5400_Sane.STATIC Int hp5400_bulk_read(Int iHandle, size_t len, Int block, FILE * file)
 #endif
 
 /* returns >0 if command OK */
-HP5400_Sane.STATIC Int hp5400_bulk_read_block (Int iHandle, Int iCmd, void *cmd, Int cmdlen,
+HP5400_Sane.STATIC Int hp5400_bulk_read_block(Int iHandle, Int iCmd, void *cmd, Int cmdlen,
 			void *buffer, Int len)
 
 /* returns >0 if command OK */
-HP5400_Sane.STATIC Int hp5400_bulk_command_write (Int iHandle, Int iCmd, void *cmd, Int cmdlen,
+HP5400_Sane.STATIC Int hp5400_bulk_command_write(Int iHandle, Int iCmd, void *cmd, Int cmdlen,
 			   Int datalen, Int block, char *data)
 
 /**
@@ -102,26 +102,26 @@ HP5400_Sane.STATIC Int hp5400_bulk_command_write (Int iHandle, Int iCmd, void *c
     retrieve on/off status from scanner
     @return 1 if is on 0 if is off -1 if is not reachable
 */
-HP5400_Sane.STATIC Int hp5400_isOn (Int iHandle)
+HP5400_Sane.STATIC Int hp5400_isOn(Int iHandle)
 
 #endif
 
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2003 Martijn van Oosterhout <kleptog@svana.org>
-   Copyright (C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
-   Copyright (c) 2003 Henning Meier-Geinitz, <henning@meier-geinitz.de>
+   Copyright(C) 2003 Martijn van Oosterhout <kleptog@svana.org>
+   Copyright(C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
+   Copyright(c) 2003 Henning Meier-Geinitz, <henning@meier-geinitz.de>
 
    Originally copied from HP3300 testtools. Original notice follows:
 
-   Copyright (C) 2001 Bertrik Sikken (bertrik@zonnet.nl)
+   Copyright(C) 2001 Bertrik Sikken(bertrik@zonnet.nl)
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
    as published by the Free Software Foundation; either version 2
-   of the License, or (at your option) any later version.
+   of the License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -173,29 +173,29 @@ import Sane.Sanei_usb
 
 
 static void
-_UsbWriteControl (Int fd, Int iValue, Int iIndex, void *pabData, Int iSize)
+_UsbWriteControl(Int fd, Int iValue, Int iIndex, void *pabData, Int iSize)
 {
   Int requesttype = USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT
   Int request = (iSize > 1) ? 0x04 : 0x0C
 
-  HP5400_DBG (DBG_MSG,
+  HP5400_DBG(DBG_MSG,
        "Write: reqtype = 0x%02X, req = 0x%02X, value = %04X, len = %d\n",
        requesttype, request, iValue, iSize)
 
-  if (iSize > 0)
+  if(iSize > 0)
     {
       var i: Int
-      HP5400_DBG (DBG_MSG, "  Data: ")
-      for (i = 0; i < iSize && i < 8; i++)
-	HP5400_DBG (DBG_MSG, "%02X ", ((unsigned char *) pabData)[i])
-      if (iSize > 8)
-	HP5400_DBG (DBG_MSG, "...")
-      HP5400_DBG (DBG_MSG, "\n")
+      HP5400_DBG(DBG_MSG, "  Data: ")
+      for(i = 0; i < iSize && i < 8; i++)
+	HP5400_DBG(DBG_MSG, "%02X ", ((unsigned char *) pabData)[i])
+      if(iSize > 8)
+	HP5400_DBG(DBG_MSG, "...")
+      HP5400_DBG(DBG_MSG, "\n")
     }
 
-  if (fd != -1)
+  if(fd != -1)
     {
-      sanei_usb_control_msg (fd, requesttype, request, iValue, iIndex, iSize,
+      sanei_usb_control_msg(fd, requesttype, request, iValue, iIndex, iSize,
 			     pabData)
     }
   /* No error checking? */
@@ -203,94 +203,94 @@ _UsbWriteControl (Int fd, Int iValue, Int iIndex, void *pabData, Int iSize)
 }
 
 void
-hp5400_command_write_noverify (Int fd, Int iValue, void *pabData, Int iSize)
+hp5400_command_write_noverify(Int fd, Int iValue, void *pabData, Int iSize)
 {
-  _UsbWriteControl (fd, iValue, 0, pabData, iSize)
+  _UsbWriteControl(fd, iValue, 0, pabData, iSize)
 }
 
 static void
-_UsbReadControl (Int fd, Int iValue, Int iIndex, void *pabData, Int iSize)
+_UsbReadControl(Int fd, Int iValue, Int iIndex, void *pabData, Int iSize)
 {
   Int requesttype = USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN
   Int request = (iSize > 1) ? 0x04 : 0x0C
 
-  HP5400_DBG (DBG_MSG, "Read: reqtype = 0x%02X, req = 0x%02X, value = %04X\n",
+  HP5400_DBG(DBG_MSG, "Read: reqtype = 0x%02X, req = 0x%02X, value = %04X\n",
        requesttype, request, iValue)
 
-  if (fd != -1)
+  if(fd != -1)
     {
-      sanei_usb_control_msg (fd, requesttype, request, iValue, iIndex, iSize,
+      sanei_usb_control_msg(fd, requesttype, request, iValue, iIndex, iSize,
 			     pabData)
     }
 }
 
 
 HP5400_Sane.STATIC Int
-hp5400_open (const char *filename)
+hp5400_open(const char *filename)
 {
   Int fd, iVendor, iProduct
   Sane.Status status
 
-  if (!filename)
+  if(!filename)
     filename = "/dev/usb/scanner0"
 
-  status = sanei_usb_open (filename, &fd)
-  if (status != Sane.STATUS_GOOD)
+  status = sanei_usb_open(filename, &fd)
+  if(status != Sane.STATUS_GOOD)
     {
-      HP5400_DBG (DBG_MSG, "hp5400_open: open returned %s\n",
-	   Sane.strstatus (status))
+      HP5400_DBG(DBG_MSG, "hp5400_open: open returned %s\n",
+	   Sane.strstatus(status))
       return -1
     }
 
-  status = sanei_usb_get_vendor_product (fd, &iVendor, &iProduct)
-  if (status != Sane.STATUS_GOOD)
+  status = sanei_usb_get_vendor_product(fd, &iVendor, &iProduct)
+  if(status != Sane.STATUS_GOOD)
     {
-      HP5400_DBG (DBG_MSG, "hp5400_open: can't get vendor/product ids: %s\n",
-	   Sane.strstatus (status))
-      sanei_usb_close (fd)
+      HP5400_DBG(DBG_MSG, "hp5400_open: can't get vendor/product ids: %s\n",
+	   Sane.strstatus(status))
+      sanei_usb_close(fd)
       return -1
     }
 
-  if ((iVendor != 0x03F0) || ((iProduct != 0x1005) && (iProduct != 0x1105)))
+  if((iVendor != 0x03F0) || ((iProduct != 0x1005) && (iProduct != 0x1105)))
     {
-      HP5400_DBG (DBG_MSG, "hp5400_open: vendor/product 0x%04X-0x%04X is not "
+      HP5400_DBG(DBG_MSG, "hp5400_open: vendor/product 0x%04X-0x%04X is not "
 	   "supported\n", iVendor, iProduct)
-      sanei_usb_close (fd)
+      sanei_usb_close(fd)
       return -1
     }
 
-  HP5400_DBG (DBG_MSG, "vendor/product 0x%04X-0x%04X opened\n", iVendor, iProduct)
+  HP5400_DBG(DBG_MSG, "vendor/product 0x%04X-0x%04X opened\n", iVendor, iProduct)
 
   return fd
 }
 
 
 void
-hp5400_close (Int iHandle)
+hp5400_close(Int iHandle)
 {
-  sanei_usb_close (iHandle)
+  sanei_usb_close(iHandle)
 }
 
 
 /* returns value > 0 if verify ok */
-func Int hp5400_command_verify (Int iHandle, Int iCmd)
+func Int hp5400_command_verify(Int iHandle, Int iCmd)
 {
   unsigned char abData[4]
   Int fd
 
-  if (iHandle < 0)
+  if(iHandle < 0)
     {
-      HP5400_DBG (DBG_ERR, "hp5400_command_verify: invalid handle\n")
+      HP5400_DBG(DBG_ERR, "hp5400_command_verify: invalid handle\n")
       return -1
     }
   fd = iHandle
 
   /* command 0xc500: read back previous command */
-  _UsbReadControl (fd, 0xc500, 0, (char *) abData, 2)
+  _UsbReadControl(fd, 0xc500, 0, (char *) abData, 2)
 
-  if (abData[0] != (iCmd >> 8))
+  if(abData[0] != (iCmd >> 8))
     {
-      HP5400_DBG (DBG_ERR,
+      HP5400_DBG(DBG_ERR,
 	   "hp5400_command_verify failed, expected 0x%02X%02X, got 0x%02X%02X\n",
 	   (Int) (iCmd >> 8), (Int) (iCmd & 0xff), (Int) abData[0],
 	   (Int) abData[1])
@@ -298,66 +298,66 @@ func Int hp5400_command_verify (Int iHandle, Int iCmd)
       return -1
     }
 
-  if (abData[1] != 0)		/* Error code non-zero */
+  if(abData[1] != 0)		/* Error code non-zero */
     {
-      _UsbReadControl (fd, 0x0300, 0, (char *) abData, 3)
-      HP5400_DBG (DBG_ERR, "  error response is: %02X %02X %02X\n", abData[0],
+      _UsbReadControl(fd, 0x0300, 0, (char *) abData, 3)
+      HP5400_DBG(DBG_ERR, "  error response is: %02X %02X %02X\n", abData[0],
 	   abData[1], abData[2])
 
       return -1
     }
 
-  HP5400_DBG (DBG_MSG, "Command %02X verified\n", abData[0])
+  HP5400_DBG(DBG_MSG, "Command %02X verified\n", abData[0])
   return 1
 }
 
 
 /* returns > 0 if command OK */
-func Int hp5400_command_read_noverify (Int iHandle, Int iCmd, Int iLen, void *pbData)
+func Int hp5400_command_read_noverify(Int iHandle, Int iCmd, Int iLen, void *pbData)
 {
   Int fd
 
-  if (iHandle < 0)
+  if(iHandle < 0)
     {
-      HP5400_DBG (DBG_ERR, "hp5400_command_read: invalid handle\n")
+      HP5400_DBG(DBG_ERR, "hp5400_command_read: invalid handle\n")
       return -1
     }
   fd = iHandle
 
-  _UsbReadControl (fd, iCmd, 0, pbData, iLen)
+  _UsbReadControl(fd, iCmd, 0, pbData, iLen)
 
   return 1
 }
 
 /* returns > 0 if command OK */
-func Int hp5400_command_read (Int iHandle, Int iCmd, Int iLen, void *pbData)
+func Int hp5400_command_read(Int iHandle, Int iCmd, Int iLen, void *pbData)
 {
-  hp5400_command_read_noverify (iHandle, iCmd, iLen, pbData)
+  hp5400_command_read_noverify(iHandle, iCmd, iLen, pbData)
 
-  return hp5400_command_verify (iHandle, iCmd)
+  return hp5400_command_verify(iHandle, iCmd)
 }
 
 
 /* returns >0 if command OK */
-func Int hp5400_command_write (Int iHandle, Int iCmd, Int iLen, void *pbData)
+func Int hp5400_command_write(Int iHandle, Int iCmd, Int iLen, void *pbData)
 {
   Int fd
 
-  if (iHandle < 0)
+  if(iHandle < 0)
     {
-      HP5400_DBG (DBG_ERR, "hp5400_command_write: invalid handle\n")
+      HP5400_DBG(DBG_ERR, "hp5400_command_write: invalid handle\n")
       return -1
     }
   fd = iHandle
 
-  _UsbWriteControl (fd, iCmd, 0, (char *) pbData, iLen)
+  _UsbWriteControl(fd, iCmd, 0, (char *) pbData, iLen)
 
-  return hp5400_command_verify (iHandle, iCmd)
+  return hp5400_command_verify(iHandle, iCmd)
 }
 
 #ifdef STANDALONE
 /* returns >0 if command OK */
-func Int hp5400_bulk_read (Int iHandle, size_t len, Int block, FILE * file)
+func Int hp5400_bulk_read(Int iHandle, size_t len, Int block, FILE * file)
 {
   Int fd
   char x1 = 0x14, x2 = 0x24
@@ -367,29 +367,29 @@ func Int hp5400_bulk_read (Int iHandle, size_t len, Int block, FILE * file)
 
   buf[2] = block
 
-  if (iHandle < 0)
+  if(iHandle < 0)
     {
-      HP5400_DBG (DBG_ERR, "hp5400_command_read: invalid handle\n")
+      HP5400_DBG(DBG_ERR, "hp5400_command_read: invalid handle\n")
       return -1
     }
   fd = iHandle
 
-  buffer = (unsigned char*) malloc (block)
+  buffer = (unsigned char*) malloc(block)
 
-  _UsbWriteControl (fd, CMD_INITBULK1, 0, &x1, 1)
-  _UsbWriteControl (fd, CMD_INITBULK2, 0, &x2, 1)
+  _UsbWriteControl(fd, CMD_INITBULK1, 0, &x1, 1)
+  _UsbWriteControl(fd, CMD_INITBULK2, 0, &x2, 1)
 
-  while (len > 0)
+  while(len > 0)
     {
-      _UsbWriteControl (fd, CMD_INITBULK3, 0, (unsigned char *) &buf,
-			sizeof (buf))
+      _UsbWriteControl(fd, CMD_INITBULK3, 0, (unsigned char *) &buf,
+			sizeof(buf))
       res = block
-      sanei_usb_read_bulk (fd, buffer, &res)
-      HP5400_DBG (DBG_MSG, "Read bulk returned %lu, %lu remain\n",
+      sanei_usb_read_bulk(fd, buffer, &res)
+      HP5400_DBG(DBG_MSG, "Read bulk returned %lu, %lu remain\n",
 		  (u_long) res, (u_long) len)
-      if (res > 0)
+      if(res > 0)
 	{
-	  fwrite (buffer, (len < res) ? len : res, 1, file)
+	  fwrite(buffer, (len < res) ? len : res, 1, file)
 	}
       len -= block
     }
@@ -399,65 +399,65 @@ func Int hp5400_bulk_read (Int iHandle, size_t len, Int block, FILE * file)
 #endif
 
 /* returns >0 if command OK */
-func Int hp5400_bulk_read_block (Int iHandle, Int iCmd, void *cmd, Int cmdlen,
+func Int hp5400_bulk_read_block(Int iHandle, Int iCmd, void *cmd, Int cmdlen,
 			void *buffer, Int len)
 {
   Int fd
   size_t res = 0
 
-  if (iHandle < 0)
+  if(iHandle < 0)
     {
-      HP5400_DBG (DBG_ERR, "hp5400_command_read_block: invalid handle\n")
+      HP5400_DBG(DBG_ERR, "hp5400_command_read_block: invalid handle\n")
       return -1
     }
   fd = iHandle
 
-  _UsbWriteControl (fd, iCmd, 0, cmd, cmdlen)
+  _UsbWriteControl(fd, iCmd, 0, cmd, cmdlen)
   res = len
-  sanei_usb_read_bulk (fd, (Sane.Byte *) buffer, &res)
-  HP5400_DBG (DBG_MSG, "Read block returned %lu when reading %d\n",
+  sanei_usb_read_bulk(fd, (Sane.Byte *) buffer, &res)
+  HP5400_DBG(DBG_MSG, "Read block returned %lu when reading %d\n",
 	      (u_long) res, len)
   return res
 }
 
 /* returns >0 if command OK */
-func Int hp5400_bulk_command_write (Int iHandle, Int iCmd, void *cmd, Int cmdlen,
+func Int hp5400_bulk_command_write(Int iHandle, Int iCmd, void *cmd, Int cmdlen,
 			   Int datalen, Int block, char *data)
 {
   Int fd
   size_t res = 0, offset = 0
 
-  if (iHandle < 0)
+  if(iHandle < 0)
     {
-      HP5400_DBG (DBG_ERR, "hp5400_bulk_command_write: invalid handle\n")
+      HP5400_DBG(DBG_ERR, "hp5400_bulk_command_write: invalid handle\n")
       return -1
     }
   fd = iHandle
 
-  HP5400_DBG (DBG_MSG, "bulk_command_write(%04X,<%d bytes>,<%d bytes>)\n", iCmd,
+  HP5400_DBG(DBG_MSG, "bulk_command_write(%04X,<%d bytes>,<%d bytes>)\n", iCmd,
        cmdlen, datalen)
 
-  _UsbWriteControl (fd, iCmd, 0, cmd, cmdlen)
+  _UsbWriteControl(fd, iCmd, 0, cmd, cmdlen)
 
-  while (datalen > 0)
+  while(datalen > 0)
     {
       {
 	var i: Int
-	HP5400_DBG (DBG_MSG, "  Data: ")
-	for (i = 0; i < datalen && i < block && i < 8; i++)
-	  HP5400_DBG (DBG_MSG, "%02X ", ((unsigned char *) data + offset)[i])
-	if (i >= 8)
-	  HP5400_DBG (DBG_MSG, "...")
-	HP5400_DBG (DBG_MSG, "\n")
+	HP5400_DBG(DBG_MSG, "  Data: ")
+	for(i = 0; i < datalen && i < block && i < 8; i++)
+	  HP5400_DBG(DBG_MSG, "%02X ", ((unsigned char *) data + offset)[i])
+	if(i >= 8)
+	  HP5400_DBG(DBG_MSG, "...")
+	HP5400_DBG(DBG_MSG, "\n")
       }
       res = (datalen < block) ? datalen : block
-      sanei_usb_write_bulk (fd, (Sane.Byte *) (data + offset), &res)
-      HP5400_DBG (DBG_MSG, "Write returned %lu, %d remain\n", (u_long) res, datalen)
+      sanei_usb_write_bulk(fd, (Sane.Byte *) (data + offset), &res)
+      HP5400_DBG(DBG_MSG, "Write returned %lu, %d remain\n", (u_long) res, datalen)
       datalen -= block
       offset += block
     }
 
-  return hp5400_command_verify (iHandle, iCmd)
+  return hp5400_command_verify(iHandle, iCmd)
 }
 
 #ifdef STANDALONE
@@ -466,17 +466,17 @@ func Int hp5400_bulk_command_write (Int iHandle, Int iCmd, void *cmd, Int cmdlen
     retrieve on/off status from scanner
     @return 1 if is on 0 if is off -1 if is not reachable
 */
-func Int hp5400_isOn (Int iHandle)
+func Int hp5400_isOn(Int iHandle)
 {
   unsigned char text2400[3]
 
-  hp5400_command_read (iHandle, 0x2400, 0x03, text2400)
+  hp5400_command_read(iHandle, 0x2400, 0x03, text2400)
 
   /* byte 0 indicates if is on or off if 0x02 */
   /* byte 1 indicates time since is on */
   /* byte 2 indicates time since is power plugged */
 
-  if (text2400[0] & 0x02)
+  if(text2400[0] & 0x02)
     {
       return 1;			/* is on */
     }

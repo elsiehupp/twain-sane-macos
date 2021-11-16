@@ -1,16 +1,16 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2000-2005 Mustek.
+   Copyright(C) 2000-2005 Mustek.
    Originally maintained by Mustek
 
-   Copyright (C) 2001-2005 by Henning Meier-Geinitz.
+   Copyright(C) 2001-2005 by Henning Meier-Geinitz.
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -55,10 +55,10 @@
 #define DISABLE(OPTION) s.opt[OPTION].cap |=  Sane.CAP_INACTIVE
 #define IS_ACTIVE(OPTION) (((s.opt[OPTION].cap) & Sane.CAP_INACTIVE) == 0)
 /* RIE: return if error */
-#define RIE(function) do {status = function; if (status != Sane.STATUS_GOOD) \
-return status;} while (Sane.FALSE)
+#define RIE(function) do {status = function; if(status != Sane.STATUS_GOOD) \
+return status;} while(Sane.FALSE)
 
-#define SCAN_BUFFER_SIZE (64 * 1024)
+#define SCAN_BUFFER_SIZE(64 * 1024)
 #define MAX_RESOLUTIONS 12
 #define DEF_LINEARTTHRESHOLD 128
 #define PER_ADD_START_LINES 0

@@ -1,7 +1,7 @@
 /* @file u12_map.c
  * @brief functions to create and manipulate gamma lookup tables.
  *
- * Copyright (C) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.01 - initial version
@@ -14,7 +14,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -61,7 +61,7 @@ static Sane.Status u12map_InitGammaSettings( U12_Device *dev )
 	dev.gamma_range.max   = 255
 	dev.gamma_range.quant = 0
 
-	DBG( _DBG_INFO, "Presetting Gamma tables (len=%u)\n", dev.gamma_length )
+	DBG( _DBG_INFO, "Presetting Gamma tables(len=%u)\n", dev.gamma_length )
 	DBG( _DBG_INFO, "----------------------------------\n" )
 
 	/* preset the gamma maps */
@@ -116,7 +116,7 @@ static void u12map_Adjust( U12_Device *dev, Int which, Sane.Byte *buf )
 
 	DBG( _DBG_INFO, "u12map_Adjust(%u)\n", which )
 
-	/* adjust brightness (b) and contrast (c) using the function:
+	/* adjust brightness(b) and contrast(c) using the function:
 	 *
 	 * s'(x,y) = (s(x,y) + b) * c
 	 * b = [-127, 127]

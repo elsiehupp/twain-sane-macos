@@ -1,6 +1,6 @@
 /* epson2 hardware colour correction coefficients
- * Copyright (C) 2001-2009 SEIKO EPSON Corporation
- * Copyright (C) 2009 Tower Technologies
+ * Copyright(C) 2001-2009 SEIKO EPSON Corporation
+ * Copyright(C) 2009 Tower Technologies
  *
  * License: GPLv2
  *
@@ -9,7 +9,7 @@
  *
  */
 
-/*! Hardware colour correction coefficients (CCC).
+/*! Hardware colour correction coefficients(CCC).
 
   Each entry starts with a unique identifier, followed by four CCC
   profiles; the first is for reflective materials, the second for

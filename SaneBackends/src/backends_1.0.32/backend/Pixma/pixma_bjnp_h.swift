@@ -1,9 +1,9 @@
 /* SANE - Scanner Access Now Easy.
 
-   Copyright (C) 2008 by Louis Lagendijk
+   Copyright(C) 2008 by Louis Lagendijk
    based on Sane.usb.h:
-   Copyright (C) 2003, 2005 Rene Rebe (sanei_read_int,sanei_set_timeout)
-   Copyright (C) 2001, 2002 Henning Meier-Geinitz
+   Copyright(C) 2003, 2005 Rene Rebe(sanei_read_int,sanei_set_timeout)
+   Copyright(C) 2001, 2002 Henning Meier-Geinitz
 
    This file is part of the SANE package.
 
@@ -61,7 +61,7 @@ import stdlib		/* for size_t */
  *
  * Call this before any other sanei_bjnp function.
  */
-public void sanei_bjnp_init (void)
+public void sanei_bjnp_init(void)
 
 /** Find scanners responding to a BJNP broadcast.
  *
@@ -73,14 +73,14 @@ public void sanei_bjnp_init (void)
  * @param attach attach function
  * @param pixma_devices device informatio needed by attach function
  *
- * @return Sane.STATUS_GOOD - on success (even if no scanner was found)
+ * @return Sane.STATUS_GOOD - on success(even if no scanner was found)
  */
 
 #define SERIAL_MAX 16
 
 public Sane.Status
-sanei_bjnp_find_devices (const char **conf_devices,
-                         Sane.Status (*attach_bjnp)
+sanei_bjnp_find_devices(const char **conf_devices,
+                         Sane.Status(*attach_bjnp)
 			     (Sane.String_Const devname,
                                Sane.String_Const serial,
 			       const struct pixma_config_t *cfg),
@@ -107,35 +107,35 @@ sanei_bjnp_find_devices (const char **conf_devices,
  *   permissions
  * - Sane.STATUS_INVAL - on every other error
  */
-public Sane.Status sanei_bjnp_open (Sane.String_Const devname, Int * dn)
+public Sane.Status sanei_bjnp_open(Sane.String_Const devname, Int * dn)
 
 /** Close a BJNP device.
  *
  * @param dn device number
  */
 
-public void sanei_bjnp_close (Int dn)
+public void sanei_bjnp_close(Int dn)
 
 /** Activate a BJNP device connection
  *
  *  @param dn device number
  */
 
-public Sane.Status sanei_bjnp_activate (Int dn)
+public Sane.Status sanei_bjnp_activate(Int dn)
 
 /** De-activate a BJNP device connection
  *
  * @param dn device number
  */
 
-public Sane.Status sanei_bjnp_deactivate (Int dn)
+public Sane.Status sanei_bjnp_deactivate(Int dn)
 
 /** Set the libbjnp timeout for bulk and interrupt reads.
  *
  * @param devno device number
  * @param timeout the new timeout in ms
  */
-public void sanei_bjnp_set_timeout (Int devno, Int timeout)
+public void sanei_bjnp_set_timeout(Int devno, Int timeout)
 
 /** Check if sanei_bjnp_set_timeout() is available.
  */
@@ -158,7 +158,7 @@ public void sanei_bjnp_set_timeout (Int devno, Int timeout)
  *
  */
 public Sane.Status
-sanei_bjnp_read_bulk (Int dn, Sane.Byte * buffer, size_t * size)
+sanei_bjnp_read_bulk(Int dn, Sane.Byte * buffer, size_t * size)
 
 /** Initiate a bulk transfer write.
  *
@@ -175,7 +175,7 @@ sanei_bjnp_read_bulk (Int dn, Sane.Byte * buffer, size_t * size)
  * - Sane.STATUS_INVAL - on every other error
  */
 public Sane.Status
-sanei_bjnp_write_bulk (Int dn, const Sane.Byte * buffer, size_t * size)
+sanei_bjnp_write_bulk(Int dn, const Sane.Byte * buffer, size_t * size)
 
 /** Initiate a interrupt transfer read.
  *
@@ -195,7 +195,7 @@ sanei_bjnp_write_bulk (Int dn, const Sane.Byte * buffer, size_t * size)
  */
 
 public Sane.Status
-sanei_bjnp_read_int (Int dn, Sane.Byte * buffer, size_t * size)
+sanei_bjnp_read_int(Int dn, Sane.Byte * buffer, size_t * size)
 
 /*------------------------------------------------------*/
 #endif /* sanei_bjnp_h */

@@ -1,5 +1,5 @@
 /* sane - Scanner Access Now Easy.
- * Copyright (C) 2003-2005 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 2003-2005 Gerhard Jaeger <gerhard@gjaeger.de>
  * based on work done by Jochen Eisinger <jochen.eisinger@gmx.net>
  * also parts from libieee1284 by Tim Waugh <tim@cyberelk.net>
  * This file is part of the SANE package.
@@ -7,7 +7,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -85,17 +85,17 @@ import limits
 #  define ULONG_MAX 4294967295UL
 # endif
 #endif
-#if defined (ENABLE_PARPORT_DIRECTIO)
+#if defined(ENABLE_PARPORT_DIRECTIO)
 # undef HAVE_LIBIEEE1284
 # if defined(HAVE_SYS_IO_H)
-#  if defined (__ICC) && __ICC >= 700
+#  if defined(__ICC) && __ICC >= 700
 #   define __GNUC__ 2
 #  endif
 #  include <sys/io
 #  ifndef Sane.HAVE_SYS_IO_H_WITH_INB_OUTB
 #   define IO_SUPPORT_MISSING
 #  endif
-#  if defined (__ICC) && __ICC >= 700
+#  if defined(__ICC) && __ICC >= 700
 #   undef __GNUC__
 #  elif defined(__ICC) && defined(HAVE_ASM_IO_H)
 #   include <asm/io
@@ -104,7 +104,7 @@ import limits
 #  include <asm/io
 # elif defined(HAVE_SYS_HW_H)
 #  include <sys/hw
-# elif defined(__i386__)  && ( defined (__GNUC__) || defined (__ICC) )
+# elif defined(__i386__)  && ( defined(__GNUC__) || defined(__ICC) )
 
 static __inline__ void
 outb( u_char value, u_long port )
@@ -149,7 +149,7 @@ import sys/types
 static Int           first_time = Sane.TRUE
 static unsigned long pp_thresh  = 0
 
-#if (defined (HAVE_IOPERM) || defined (HAVE_LIBIEEE1284)) && !defined (IO_SUPPORT_MISSING)
+#if(defined(HAVE_IOPERM) || defined(HAVE_LIBIEEE1284)) && !defined(IO_SUPPORT_MISSING)
 
 typedef struct {
 
@@ -167,7 +167,7 @@ typedef struct {
 
 } PortRec, *Port
 
-#if defined (HAVE_LIBIEEE1284)
+#if defined(HAVE_LIBIEEE1284)
 
 static struct parport_list  pplist
 static PortRec              port[_MAX_PORTS]
@@ -223,7 +223,7 @@ static inline void outb_eppdata(Int fd, u_char val)
                                                    (val) ^ C1284_INVERTED)
 static inline void outb_addr(Int fd, u_char val)
 {
-	ieee1284_epp_write_addr (pplist.portv[fd], 0, (char *)&val, 1)
+	ieee1284_epp_write_addr(pplist.portv[fd], 0, (char *)&val, 1)
 }
 
 #else
@@ -255,13 +255,13 @@ static inline void outb_addr(Int fd, u_char val)
 #endif
 
 /* should also be in unistd.h */
-public Int setuid (uid_t)
+public Int setuid(uid_t)
 
-#if defined (HAVE_LIBIEEE1284)
+#if defined(HAVE_LIBIEEE1284)
 
 static const char *pp_libieee1284_errorstr( Int error )
 {
-	switch (error) {
+	switch(error) {
 
 		case E1284_OK:
 			return "Everything went fine"
@@ -364,8 +364,8 @@ pp_probe( Int fd )
 
 	/* SPP check */
 	outbyte402( fd, 0x0c )
-	outb_ctrl ( fd, 0x0c )
-	outb_data ( fd, 0x55 )
+	outb_ctrl( fd, 0x0c )
+	outb_data( fd, 0x55 )
 	a = inb_data( fd )
 	if( a != 0x55 ) {
 	    DBG( 4, "pp_probe: nothing supported :-(\n" )
@@ -381,44 +381,44 @@ pp_probe( Int fd )
 	/* clear at most 1k of data from FIFO */
 	for( i = 1024; i > 0; i-- ) {
 		a = inbyte402( fd )
-		if ((a & 0x03) == 0x03)
+		if((a & 0x03) == 0x03)
 			goto no_ecp
-		if (a & 0x01)
+		if(a & 0x01)
 		    break
 		inbyte400( fd ); /* Remove byte from FIFO */
 	}
 
-	if (i <= 0)
+	if(i <= 0)
 		goto no_ecp
 
 	b = a ^ 3
 	outbyte402( fd, b )
 	c = inbyte402( fd )
 
-	if (a == c) {
+	if(a == c) {
 		outbyte402( fd, 0xc0 ); /* FIFO test */
 		j = 0
-		while (!(inbyte402( fd ) & 0x01) && (j < 1024)) {
+		while(!(inbyte402( fd ) & 0x01) && (j < 1024)) {
 	    	inbyte402( fd )
 	    	j++
 		}
-		if (j >= 1024)
+		if(j >= 1024)
 		    goto no_ecp
 		i = 0
 		j = 0
-		while (!(inbyte402( fd ) & 0x02) && (j < 1024)) {
+		while(!(inbyte402( fd ) & 0x02) && (j < 1024)) {
 		    outbyte400( fd, 0x00 )
 	    	i++
 		    j++
 		}
-		if (j >= 1024)
+		if(j >= 1024)
 		    goto no_ecp
 		j = 0
-		while (!(inbyte402( fd ) & 0x01) && (j < 1024)) {
+		while(!(inbyte402( fd ) & 0x01) && (j < 1024)) {
 	    	inbyte400( fd )
 		    j++
 		}
-		if (j >= 1024)
+		if(j >= 1024)
 		    goto no_ecp
 
     	DBG( 4, "pp_probe: ECP with a %i byte FIFO present\n", i )
@@ -457,7 +457,7 @@ no_ecp:
 		    outb_stat( fd, a )
 		    outb_stat( fd, (a & 0xfe))
 		    a = inb_stat( fd )
-	    	if (!(a & 0x01)) {
+	    	if(!(a & 0x01)) {
 			    DBG( 2, "pp_probe: "
 			            "Failed Intel bug check. (Phony EPP in ECP)\n" )
 				return retv
@@ -473,14 +473,14 @@ no_ecp:
 	outb_stat( fd, (a & 0xfe))
 	a = inb_stat( fd )
 
-	if (a & 0x01) {
+	if(a & 0x01) {
 		outbyte402( fd, 0x0c )
-		outb_ctrl ( fd, 0x0c )
+		outb_ctrl( fd, 0x0c )
 		return retv
 	}
 
 	outb_ctrl( fd, 0x04 )
-	inb_eppdata ( fd )
+	inb_eppdata( fd )
 	a = inb_stat( fd )
 	outb_stat( fd, a )
 	outb_stat( fd, (a & 0xfe))
@@ -494,7 +494,7 @@ no_ecp:
 		 * EPP 1.9 with software direction
 		 */
 		outb_ctrl( fd, 0x24 )
-		inb_eppdata ( fd )
+		inb_eppdata( fd )
 		a = inb_stat( fd )
 		outb_stat( fd, a )
 		outb_stat( fd, (a & 0xfe))
@@ -508,7 +508,7 @@ no_ecp:
 	}
 
 	outbyte402( fd, 0x0c )
-	outb_ctrl ( fd, 0x0c )
+	outb_ctrl( fd, 0x0c )
     return retv
 }
 
@@ -526,7 +526,7 @@ static Int pp_set_scpmode( Int fd )
 #endif
 	tmp  = inb_ctrl( fd )
 	tmp &= 0x0f
-	outb_ctrl ( fd, tmp )
+	outb_ctrl( fd, tmp )
 
 	return Sane.STATUS_GOOD
 }
@@ -542,7 +542,7 @@ static Int pp_set_bidimode( Int fd )
 #endif
 	tmp = inb_ctrl( fd )
 	tmp = (tmp & 0x0f) | 0x20
-	outb_ctrl ( fd, tmp )
+	outb_ctrl( fd, tmp )
 
 	return Sane.STATUS_GOOD
 }
@@ -558,7 +558,7 @@ static Int pp_set_eppmode( Int fd )
 #endif
 	tmp = inb_ctrl( fd )
 	tmp = (tmp & 0xf0) | 0x40
-	outb_ctrl ( fd, tmp )
+	outb_ctrl( fd, tmp )
 
 	return Sane.STATUS_GOOD
 }
@@ -621,7 +621,7 @@ pp_time_diff( struct timeval *start, struct timeval *end )
 		r = (s - e)
 
 	if( r <= (double)ULONG_MAX )
-		return (unsigned long)r
+		return(unsigned long)r
 
 	return 0
 }
@@ -686,7 +686,7 @@ pp_calibrate_delay( void )
 static Sane.Status
 pp_init( void )
 {
-#if defined (HAVE_LIBIEEE1284)
+#if defined(HAVE_LIBIEEE1284)
 	Int result, i
 #endif
 
@@ -698,13 +698,13 @@ pp_init( void )
 	DBG( 5, "pp_init: called for the first time\n")
 	first_time = Sane.FALSE
 
-#if defined (HAVE_LIBIEEE1284)
+#if defined(HAVE_LIBIEEE1284)
 
 	DBG( 4, "pp_init: initializing libieee1284\n")
 	result = ieee1284_find_ports( &pplist, 0 )
 
-	if (result) {
-		DBG (1, "pp_init: initializing IEEE 1284 failed (%s)\n",
+	if(result) {
+		DBG(1, "pp_init: initializing IEEE 1284 failed(%s)\n",
 				 pp_libieee1284_errorstr( result ))
 		first_time = Sane.TRUE
 		return Sane.STATUS_INVAL
@@ -717,7 +717,7 @@ pp_init( void )
 
 	/* we support only up to _MAX_PORTS... */
 	if( pplist.portc > _MAX_PORTS ) {
-		DBG (1, "pp_init: Lib IEEE 1284 reports too much ports: %d\n",
+		DBG(1, "pp_init: Lib IEEE 1284 reports too much ports: %d\n",
 		        pplist.portc )
 
 		ieee1284_free_ports( &pplist )
@@ -750,7 +750,7 @@ static Int
 pp_open( const char *dev, Sane.Status * status )
 {
 	var i: Int
-#if !defined (HAVE_LIBIEEE1284)
+#if !defined(HAVE_LIBIEEE1284)
 	u_long base
 #else
 	Int result
@@ -758,14 +758,14 @@ pp_open( const char *dev, Sane.Status * status )
 
 	DBG( 4, "pp_open: trying to attach dev `%s`\n", dev )
 
-#if !defined (HAVE_LIBIEEE1284)
+#if !defined(HAVE_LIBIEEE1284)
 {
 	char *end
 
 	DBG( 5, "pp_open: reading port number\n" )
 
 	base = strtol( dev, &end, 0 )
-	if ((end == dev) || (*end != '\0')) {
+	if((end == dev) || (*end != '\0')) {
 
 		DBG( 1, "pp_open: `%s` is not a valid port number\n", dev)
 		DBG( 6, "pp_open: the part I did not understand was ...`%s`\n", end)
@@ -785,7 +785,7 @@ pp_open( const char *dev, Sane.Status * status )
 
 	DBG( 5, "pp_open: looking up port in list\n" )
 
-#if defined (HAVE_LIBIEEE1284)
+#if defined(HAVE_LIBIEEE1284)
 	for( i = 0; i < pplist.portc; i++ ) {
 		DBG( 5, "pp_open: checking >%s<\n", pplist.portv[i]->name )
 		if( !strcmp(pplist.portv[i]->name, dev))
@@ -805,7 +805,7 @@ pp_open( const char *dev, Sane.Status * status )
 			break
 	}
 
-	if (NELEMS (port) <= i) {
+	if(NELEMS(port) <= i) {
 
 		DBG( 1, "pp_open: 0x%03lx is not a valid base address\n", base )
 		*status = Sane.STATUS_INVAL
@@ -818,7 +818,7 @@ pp_open( const char *dev, Sane.Status * status )
 
 	if( port[i].in_use == Sane.TRUE) {
 
-#if defined (HAVE_LIBIEEE1284)
+#if defined(HAVE_LIBIEEE1284)
 		DBG( 1, "pp_open: device `%s` is already in use\n", dev )
 #else
 		DBG( 1, "pp_open: port 0x%03lx is already in use\n", base )
@@ -830,13 +830,13 @@ pp_open( const char *dev, Sane.Status * status )
 	port[i].in_use  = Sane.TRUE
 	port[i].claimed = Sane.FALSE
 
-#if defined (HAVE_LIBIEEE1284)
+#if defined(HAVE_LIBIEEE1284)
 
 	DBG( 5, "pp_open: opening device\n" )
 	result = ieee1284_open( pplist.portv[i], 0, &port[i].caps )
-	if (result) {
+	if(result) {
 		DBG( 1, "pp_open: could not open device `%s` (%s)\n",
-				dev, pp_libieee1284_errorstr (result))
+				dev, pp_libieee1284_errorstr(result))
 		port[i].in_use = Sane.FALSE
 		*status = Sane.STATUS_ACCESS_DENIED
 		return -1
@@ -966,7 +966,7 @@ sanei_pp_close( Int fd )
 #if defined(HAVE_LIBIEEE1284)
 	if((fd < 0) || (fd >= pplist.portc)) {
 #else
-	if((fd < 0) || (fd >= NELEMS (port))) {
+	if((fd < 0) || (fd >= NELEMS(port))) {
 #endif
 		DBG( 2, "sanei_pp_close: fd %d is invalid\n", fd )
 		return
@@ -984,7 +984,7 @@ sanei_pp_close( Int fd )
     }
 
 	DBG( 5, "sanei_pp_close: freeing resources\n" )
-	if( pp_close (fd, &status) == -1 ) {
+	if( pp_close(fd, &status) == -1 ) {
 		DBG( 5, "sanei_pp_close: failed\n" )
 		return
 	}
@@ -994,20 +994,20 @@ sanei_pp_close( Int fd )
 Sane.Status
 sanei_pp_claim( Int fd )
 {
-#if defined (HAVE_LIBIEEE1284)
+#if defined(HAVE_LIBIEEE1284)
 	Int result
 #endif
 	DBG( 4, "sanei_pp_claim: fd = %d\n", fd )
 
-#if defined (HAVE_LIBIEEE1284)
+#if defined(HAVE_LIBIEEE1284)
 	if((fd < 0) || (fd >= pplist.portc)) {
 		DBG( 2, "sanei_pp_claim: fd %d is invalid\n", fd )
 		return Sane.STATUS_INVAL
 	}
 
-	result = ieee1284_claim (pplist.portv[fd])
-	if (result) {
-		DBG (1, "sanei_pp_claim: failed (%s)\n",
+	result = ieee1284_claim(pplist.portv[fd])
+	if(result) {
+		DBG(1, "sanei_pp_claim: failed(%s)\n",
 				pp_libieee1284_errorstr(result))
 		return -1
 	}
@@ -1043,9 +1043,9 @@ sanei_pp_outb_data( Int fd, Sane.Byte val )
 	DBG( 4, "sanei_pp_outb_data: called for fd %d\n", fd )
 
 #if defined(HAVE_LIBIEEE1284)
-	if ((fd < 0) || (fd >= pplist.portc)) {
+	if((fd < 0) || (fd >= pplist.portc)) {
 #else
-	if ((fd < 0) || (fd >= NELEMS (port))) {
+	if((fd < 0) || (fd >= NELEMS(port))) {
 #endif
 		DBG( 2, "sanei_pp_outb_data: invalid fd %d\n", fd )
 		return Sane.STATUS_INVAL
@@ -1062,9 +1062,9 @@ sanei_pp_outb_ctrl( Int fd, Sane.Byte val )
 	DBG( 4, "sanei_pp_outb_ctrl: called for fd %d\n", fd )
 
 #if defined(HAVE_LIBIEEE1284)
-	if ((fd < 0) || (fd >= pplist.portc)) {
+	if((fd < 0) || (fd >= pplist.portc)) {
 #else
-	if ((fd < 0) || (fd >= NELEMS (port))) {
+	if((fd < 0) || (fd >= NELEMS(port))) {
 #endif
 		DBG( 2, "sanei_pp_outb_ctrl: invalid fd %d\n", fd )
 		return Sane.STATUS_INVAL
@@ -1081,9 +1081,9 @@ sanei_pp_outb_addr( Int fd, Sane.Byte val )
 	DBG( 4, "sanei_pp_outb_addr: called for fd %d\n", fd )
 
 #if defined(HAVE_LIBIEEE1284)
-	if ((fd < 0) || (fd >= pplist.portc)) {
+	if((fd < 0) || (fd >= pplist.portc)) {
 #else
-	if ((fd < 0) || (fd >= NELEMS (port))) {
+	if((fd < 0) || (fd >= NELEMS(port))) {
 #endif
 		DBG( 2, "sanei_pp_outb_addr: invalid fd %d\n", fd )
 		return Sane.STATUS_INVAL
@@ -1100,9 +1100,9 @@ sanei_pp_outb_epp( Int fd, Sane.Byte val )
 	DBG( 4, "sanei_pp_outb_epp: called for fd %d\n", fd )
 
 #if defined(HAVE_LIBIEEE1284)
-	if ((fd < 0) || (fd >= pplist.portc)) {
+	if((fd < 0) || (fd >= pplist.portc)) {
 #else
-	if ((fd < 0) || (fd >= NELEMS (port))) {
+	if((fd < 0) || (fd >= NELEMS(port))) {
 #endif
 		DBG( 2, "sanei_pp_outb_epp: invalid fd %d\n", fd )
 		return Sane.STATUS_INVAL
@@ -1119,9 +1119,9 @@ sanei_pp_inb_data( Int fd )
 	DBG( 4, "sanei_pp_inb_data: called for fd %d\n", fd )
 
 #if defined(HAVE_LIBIEEE1284)
-	if ((fd < 0) || (fd >= pplist.portc)) {
+	if((fd < 0) || (fd >= pplist.portc)) {
 #else
-	if ((fd < 0) || (fd >= NELEMS (port))) {
+	if((fd < 0) || (fd >= NELEMS(port))) {
 #endif
 		DBG( 2, "sanei_pp_inb_data: invalid fd %d\n", fd )
 		return Sane.STATUS_INVAL
@@ -1137,9 +1137,9 @@ sanei_pp_inb_stat( Int fd )
 	DBG( 4, "sanei_pp_inb_stat: called for fd %d\n", fd )
 
 #if defined(HAVE_LIBIEEE1284)
-	if ((fd < 0) || (fd >= pplist.portc)) {
+	if((fd < 0) || (fd >= pplist.portc)) {
 #else
-	if ((fd < 0) || (fd >= NELEMS (port))) {
+	if((fd < 0) || (fd >= NELEMS(port))) {
 #endif
 		DBG( 2, "sanei_pp_outb_stat: invalid fd %d\n", fd )
 		return Sane.STATUS_INVAL
@@ -1154,9 +1154,9 @@ sanei_pp_inb_ctrl( Int fd )
 #ifdef _PARANOIA
 	DBG( 4, "sanei_pp_inb_ctrl: called for fd %d\n", fd )
 #if defined(HAVE_LIBIEEE1284)
-	if ((fd < 0) || (fd >= pplist.portc)) {
+	if((fd < 0) || (fd >= pplist.portc)) {
 #else
-	if ((fd < 0) || (fd >= NELEMS (port))) {
+	if((fd < 0) || (fd >= NELEMS(port))) {
 #endif
 		DBG( 2, "sanei_pp_inb_ctrl: invalid fd %d\n", fd )
 		return Sane.STATUS_INVAL
@@ -1172,9 +1172,9 @@ sanei_pp_inb_epp( Int fd )
 	DBG( 4, "sanei_pp_inb_epp: called for fd %d\n", fd )
 
 #if defined(HAVE_LIBIEEE1284)
-	if ((fd < 0) || (fd >= pplist.portc)) {
+	if((fd < 0) || (fd >= pplist.portc)) {
 #else
-	if ((fd < 0) || (fd >= NELEMS (port))) {
+	if((fd < 0) || (fd >= NELEMS(port))) {
 #endif
 		DBG( 2, "sanei_pp_inb_epp: invalid fd %d\n", fd )
 		return Sane.STATUS_INVAL
@@ -1187,9 +1187,9 @@ Sane.Status
 sanei_pp_getmodes( Int fd, Int *mode )
 {
 #if defined(HAVE_LIBIEEE1284)
-	if ((fd < 0) || (fd >= pplist.portc)) {
+	if((fd < 0) || (fd >= pplist.portc)) {
 #else
-	if ((fd < 0) || (fd >= NELEMS (port))) {
+	if((fd < 0) || (fd >= NELEMS(port))) {
 #endif
 		DBG( 2, "sanei_pp_getmodes: invalid fd %d\n", fd )
 		return Sane.STATUS_INVAL
@@ -1207,9 +1207,9 @@ sanei_pp_setmode( Int fd, Int mode )
 #if defined(HAVE_LIBIEEE1284)
 	Int result
 
-	if ((fd < 0) || (fd >= pplist.portc)) {
+	if((fd < 0) || (fd >= pplist.portc)) {
 #else
-	if ((fd < 0) || (fd >= NELEMS (port))) {
+	if((fd < 0) || (fd >= NELEMS(port))) {
 #endif
 		DBG( 2, "sanei_pp_setmode: invalid fd %d\n", fd )
 		return Sane.STATUS_INVAL
@@ -1266,7 +1266,7 @@ sanei_pp_udelay( unsigned long usec )
 
 	do {
 		gettimeofday( &now, NULL )
-	} while ((now.tv_sec < deadline.tv_sec) ||
+	} while((now.tv_sec < deadline.tv_sec) ||
 		(now.tv_sec == deadline.tv_sec && now.tv_usec < deadline.tv_usec))
 }
 
@@ -1274,11 +1274,11 @@ Sane.Status
 sanei_pp_set_datadir( Int fd, Int rev )
 {
 #if defined(HAVE_LIBIEEE1284)
-	if ((fd < 0) || (fd >= pplist.portc)) {
+	if((fd < 0) || (fd >= pplist.portc)) {
 #else
 	Sane.Byte tmp
 
-	if ((fd < 0) || (fd >= NELEMS (port))) {
+	if((fd < 0) || (fd >= NELEMS(port))) {
 #endif
 		DBG( 2, "sanei_pp_setdir: invalid fd %d\n", fd )
 		return Sane.STATUS_INVAL
@@ -1321,7 +1321,7 @@ sanei_pp_init( void )
 Sane.Status
 sanei_pp_open( const char *dev, Int *fd )
 {
-	if (fd)
+	if(fd)
 		*fd = -1
 
 	DBG( 4, "sanei_pp_open: called for device `%s`\n", dev )
@@ -1407,7 +1407,7 @@ Sane.Byte sanei_pp_inb_ctrl( Int fd )
 	return Sane.STATUS_INVAL
 }
 
-Sane.Byte sanei_pp_inb_epp ( Int fd )
+Sane.Byte sanei_pp_inb_epp( Int fd )
 {
 	DBG( 4, "sanei_pp_inb_epp: called for fd %d\n", fd )
 	DBG( 2, "sanei_pp_inb_epp: fd %d is invalid\n", fd )

@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 Geoffrey T. Dairiki
+   Copyright(C) 1997 Geoffrey T. Dairiki
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -37,14 +37,14 @@
    If you do not wish that, delete this exception notice.
 
    This file is part of a SANE backend for HP Scanners supporting
-   HP Scanner Control Language (SCL).
+   HP Scanner Control Language(SCL).
 */
 
 #ifndef HP_SCSI_INCLUDED
 #define HP_SCSI_INCLUDED
 
 #define HP_SCSI_MAX_WRITE	(2048)
-Sane.Status sanei_hp_nonscsi_new (HpScsi * newp, const char * devname,
+Sane.Status sanei_hp_nonscsi_new(HpScsi * newp, const char * devname,
                                   HpConnect connect)
 Sane.Status sanei_hp_scsi_new	(HpScsi * newp, const char * devname)
 void	    sanei_hp_scsi_destroy	(HpScsi this,Int completely)
@@ -52,7 +52,7 @@ void	    sanei_hp_scsi_destroy	(HpScsi this,Int completely)
 hp_byte_t * sanei_hp_scsi_inq        (HpScsi this)
 const char *sanei_hp_scsi_model	     (HpScsi this)
 const char *sanei_hp_scsi_vendor     (HpScsi this)
-const char *sanei_hp_scsi_devicename (HpScsi this)
+const char *sanei_hp_scsi_devicename(HpScsi this)
 
 Sane.Status sanei_hp_scsi_pipeout    (HpScsi this, Int outfd,
                                       HpProcessData *pdescr)
@@ -60,17 +60,17 @@ Sane.Status sanei_hp_scsi_pipeout    (HpScsi this, Int outfd,
 Sane.Status sanei_hp_scl_calibrate   (HpScsi scsi)
 Sane.Status sanei_hp_scl_startScan   (HpScsi scsi, HpScl scl)
 Sane.Status sanei_hp_scl_reset       (HpScsi scsi)
-Sane.Status sanei_hp_scl_clearErrors (HpScsi scsi)
+Sane.Status sanei_hp_scl_clearErrors(HpScsi scsi)
 Sane.Status sanei_hp_scl_errcheck    (HpScsi scsi)
 
-Sane.Status sanei_hp_scl_upload_binary (HpScsi scsi, HpScl scl,
+Sane.Status sanei_hp_scl_upload_binary(HpScsi scsi, HpScl scl,
                                         size_t *lengthhp, char **bufhp)
 Sane.Status sanei_hp_scl_set    (HpScsi scsi, HpScl scl, Int val)
 Sane.Status sanei_hp_scl_inquire(HpScsi scsi, HpScl scl,
                                  Int * valp, Int * minp, Int * maxp)
-Sane.Status sanei_hp_scl_upload (HpScsi scsi, HpScl scl,
+Sane.Status sanei_hp_scl_upload(HpScsi scsi, HpScl scl,
                                  void * buf, size_t sz)
-Sane.Status sanei_hp_scl_download (HpScsi scsi, HpScl scl,
+Sane.Status sanei_hp_scl_download(HpScsi scsi, HpScl scl,
                                    const void * buf, size_t sz)
 
 #endif /* HP_SCSI_INCLUDED */

@@ -2,8 +2,8 @@
  * @brief this is the driver interface
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 1998 Plustek Inc.
- * Copyright (C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 1998 Plustek Inc.
+ * Copyright(C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
  * also based on the work done by Rick Bronson
  *
  * History:
@@ -20,7 +20,7 @@
  *        - removed calls to ps.PositionLamp
  * - 0.34 - no changes
  * - 0.35 - removed _PTDRV_PUT_SCANNER_MODEL from ioctl interface
- *        - added Kevins' changes (MiscRestorePort)
+ *        - added Kevins' changes(MiscRestorePort)
  *        - added parameter legal and function PtDrvLegalRequested()
  * - 0.36 - removed a bug in the shutdown function
  *        - removed all OP600P specific stuff because of the Primax tests
@@ -40,7 +40,7 @@
  *        - removed function ptdrvIdleMode
  *        - moved function ptdrvP96Calibration() to p48xxCalibration
  *        - moved function ptdrvP98Calibration() to p9636Calibration
- *        - added devfs support (patch by Gordon Heydon <gjheydon@bigfoot.com>)
+ *        - added devfs support(patch by Gordon Heydon <gjheydon@bigfoot.com>)
  * - 0.39 - added schedule stuff after reading one line to have a better
  *          system response in SPP modes
  *        - added forceMode switch
@@ -62,7 +62,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -100,7 +100,7 @@ import linux/version
 
 # ifdef CONFIG_DEVFS_FS
 #  include <linux/devfs_fs_kernel
-#  if (LINUX_VERSION_CODE > KERNEL_VERSION(2,5,69))
+#  if(LINUX_VERSION_CODE > KERNEL_VERSION(2,5,69))
 #   define DEVFS_26_STYLE
 #  endif
 # endif
@@ -123,16 +123,16 @@ static pScanData PtDrvDevices[_MAX_PTDEVS] = { [0 ... (_MAX_PTDEVS-1)] = NULL]
 /* default is 180 secs for lamp switch off */
 static Int lampoff[_MAX_PTDEVS] = { [0 ... (_MAX_PTDEVS-1)] = 180 ]
 
-/* warmup period for lamp (30 secs) */
+/* warmup period for lamp(30 secs) */
 static Int warmup[_MAX_PTDEVS] = { [0 ... (_MAX_PTDEVS-1)] = 30 ]
 
-/* switch lamp off on unload (default = no)*/
+/* switch lamp off on unload(default = no)*/
 static Int lOffonEnd[_MAX_PTDEVS] = { [0 ... (_MAX_PTDEVS-1)] = 0 ]
 
-/* model override (0-->none) */
+/* model override(0-->none) */
 static UShort mov[_MAX_PTDEVS] = { [0 ... (_MAX_PTDEVS-1)] = 0 ]
 
-/* forceMode (0--> auto, 1: SPP, 2:EPP, others: auto) */
+/* forceMode(0--> auto, 1: SPP, 2:EPP, others: auto) */
 static UShort forceMode[_MAX_PTDEVS] = { [0 ... (_MAX_PTDEVS-1)] = 0 ]
 
 /* to use delayed I/O for each device */
@@ -167,7 +167,7 @@ public volatile unsigned long jiffies
 
 /* the parameter interface
  */
-#if ((LINUX_VERSION_CODE > 0x020111) && defined(MODULE))
+#if((LINUX_VERSION_CODE > 0x020111) && defined(MODULE))
 MODULE_AUTHOR("Gerhard Jaeger <gerhard@gjaeger.de>")
 MODULE_DESCRIPTION("Plustek parallelport-scanner driver")
 
@@ -176,7 +176,7 @@ MODULE_DESCRIPTION("Plustek parallelport-scanner driver")
 MODULE_LICENSE("GPL")
 #endif
 
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(2,6,13))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(2,6,13))
 MODULE_PARM(port, "1-" __MODULE_STRING(_MAX_PTDEVS) "i")
 MODULE_PARM(lampoff, "1-" __MODULE_STRING(_MAX_PTDEVS) "i")
 MODULE_PARM(warmup,"1-" __MODULE_STRING(_MAX_PTDEVS) "i")
@@ -210,8 +210,8 @@ MODULE_PARM_DESC(forceMode, "0 = use auto detection, "
                             "1 = use SPP mode, 2 = use EPP mode")
 #endif
 
-#if defined (CONFIG_DEVFS_FS)
-# ifndef (DEVFS_26_STYLE)
+#if defined(CONFIG_DEVFS_FS)
+# ifndef(DEVFS_26_STYLE)
 	static devfs_handle_t devfs_handle = NULL
 # endif
 #else
@@ -223,14 +223,14 @@ MODULE_PARM_DESC(forceMode, "0 = use auto detection, "
 /*
  * the module interface
  */
-static Int 		 pt_drv_open ( struct inode *, struct file *)
+static Int 		 pt_drv_open( struct inode *, struct file *)
 static CLOSETYPE pt_drv_close( struct inode *, struct file *)
 
 #ifdef LINUX_20
   static Int pt_drv_read(  struct inode*, struct file*, char*, Int )
   static Int pt_drv_write( struct inode*, struct file*, const char*, Int )
 #else
-  static ssize_t pt_drv_read ( struct file *file,
+  static ssize_t pt_drv_read( struct file *file,
 							 char *buffer, size_t count, loff_t *)
   static ssize_t pt_drv_write( struct file *file,
 							 const char *buffer, size_t tmp,loff_t *count)
@@ -298,7 +298,7 @@ static pScanData get_pt_from_inode(struct inode *ip)
     /*
      * unit out of range
      */
-    if (minor >=  _MAX_PTDEVS )
+    if(minor >=  _MAX_PTDEVS )
         return NULL
 
     return( PtDrvDevices[minor] )
@@ -316,11 +316,11 @@ static Int getUserPtr(const pVoid useraddr, pVoid where, UInt size )
 		return _E_INVALID
 
 #ifdef __KERNEL__
-	if ((err = verify_area_20(VERIFY_READ, useraddr, size)))
+	if((err = verify_area_20(VERIFY_READ, useraddr, size)))
 		return err
 #endif
 
-	switch (size) {
+	switch(size) {
 #ifdef __KERNEL__
 	case sizeof(u_char):
 		GET_USER_RET(*(u_char *)where, (u_char *) useraddr, -EFAULT)
@@ -335,7 +335,7 @@ static Int getUserPtr(const pVoid useraddr, pVoid where, UInt size )
 		break
 
 	default:
-		if (copy_from_user(where, useraddr, size))
+		if(copy_from_user(where, useraddr, size))
 			return -EFAULT
 #else
 	default:
@@ -351,14 +351,14 @@ static Int putUserPtr( const pVoid ptr, pVoid useraddr, UInt size )
 {
 	Int err = _OK
 
-	if (NULL == useraddr)
+	if(NULL == useraddr)
     	return _E_INVALID
 
 #ifdef __KERNEL__
-	if ((err = verify_area_20(VERIFY_WRITE, useraddr, size)))
+	if((err = verify_area_20(VERIFY_WRITE, useraddr, size)))
 		return err
 
-	if (copy_to_user(useraddr, ptr, size ))
+	if(copy_to_user(useraddr, ptr, size ))
 		return -EFAULT
 #else
 	memcpy( useraddr, ptr, size )
@@ -389,15 +389,15 @@ static Int putUserVal(const ULong value, pVoid useraddr, UInt size)
 	Int err
 #endif
 
-	if (NULL == useraddr)
+	if(NULL == useraddr)
     	return _E_INVALID
 
 #ifdef __KERNEL__
-	if ((err = verify_area_20(VERIFY_WRITE, useraddr, size)))
+	if((err = verify_area_20(VERIFY_WRITE, useraddr, size)))
     	return err
 #endif
 
-	switch (size) {
+	switch(size) {
 
 #ifdef __KERNEL__
 	case sizeof(u_char):
@@ -499,7 +499,7 @@ static void ptdrvLampWarmup( pScanData ps )
 
 	/*
 	 * start a timer here again with only a second timeout
-	 * because we need this one only for startup (Force timeout!!)
+	 * because we need this one only for startup(Force timeout!!)
 	 */
 	MiscStartTimer( &toTimer[ps.devno], _SECOND )
 }
@@ -659,7 +659,7 @@ static Int ptdrvOpen( pScanData ps, Int portBase )
 	return MiscInitPorts( ps, portBase )
 }
 
-/** free used memory (if necessary)
+/** free used memory(if necessary)
  * restore the parallel port settings and release the port
  */
 static Int ptdrvClose( pScanData ps )
@@ -671,13 +671,13 @@ static Int ptdrvClose( pScanData ps )
 	/*
 	 * should be cleared by ioctl(close)
 	 */
-    if ( NULL != ps.driverbuf ) {
+    if( NULL != ps.driverbuf ) {
 		DBG( DBG_LOW, "*** cleanup buffers ***\n" )
         _VFREE( ps.driverbuf )
         ps.driverbuf = NULL
     }
 
-    if ( NULL != ps.Shade.pHilight ) {
+    if( NULL != ps.Shade.pHilight ) {
         _VFREE( ps.Shade.pHilight )
         ps.Shade.pHilight = NULL
     }
@@ -979,9 +979,9 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 	dir  = _IOC_DIR(cmd)
 	size = _IOC_SIZE(cmd)
 
-	if ((_IOC_WRITE == dir) && size && (size <= sizeof(ULong))) {
+	if((_IOC_WRITE == dir) && size && (size <= sizeof(ULong))) {
 
-    	if (( retval = getUserPtr( arg, &argVal, size))) {
+    	if(( retval = getUserPtr( arg, &argVal, size))) {
 			DBG( DBG_HIGH, "ioctl() failed - result = %i\n", retval )
       		return retval
 		}
@@ -992,7 +992,7 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 	/* open */
     case _PTDRV_OPEN_DEVICE:
 		DBG( DBG_LOW, "ioctl(_PTDRV_OPEN_DEVICE)\n" )
-   	  	if (copy_from_user(&version, arg, sizeof(UShort)))
+   	  	if(copy_from_user(&version, arg, sizeof(UShort)))
 			return _E_FAULT
 
 		if( _PTDRV_IOCTL_VERSION != version ) {
@@ -1008,13 +1008,13 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 	case _PTDRV_CLOSE_DEVICE:
 		DBG( DBG_LOW,  "ioctl(_PTDRV_CLOSE_DEVICE)\n" )
 
-	    if ( NULL != ps.driverbuf ) {
+	    if( NULL != ps.driverbuf ) {
 			DBG( DBG_LOW, "*** cleanup buffers ***\n" )
 	        _VFREE( ps.driverbuf )
     	    ps.driverbuf = NULL
 	    }
 
-    	if ( NULL != ps.Shade.pHilight ) {
+    	if( NULL != ps.Shade.pHilight ) {
         	_VFREE( ps.Shade.pHilight )
 	        ps.Shade.pHilight = NULL
     	}
@@ -1044,7 +1044,7 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
       		ImgDef img
 
 			DBG( DBG_LOW, "ioctl(_PTDRV_PUT_IMAGEINFO)\n" )
-			if (copy_from_user( &img, (pImgDef)arg, size))
+			if(copy_from_user( &img, (pImgDef)arg, size))
 				return _E_FAULT
 
             tmpcx = (short)img.crArea.cx
@@ -1084,7 +1084,7 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 
 			DBG( DBG_LOW, "ioctl(_PTDRV_ADJUST)\n" )
 
-			if (copy_from_user(&adj, (pPPAdjDef)arg, sizeof(PPAdjDef)))
+			if(copy_from_user(&adj, (pPPAdjDef)arg, sizeof(PPAdjDef)))
 				return _E_FAULT
 
 			DBG( DBG_LOW, "Adjusting device %u\n", ps.devno )
@@ -1112,7 +1112,7 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 		}
 		break
 
-	/* set a specific map (r,g,b or gray) */
+	/* set a specific map(r,g,b or gray) */
 	case _PTDRV_SETMAP:
 		{
 			Int     i, x_len
@@ -1120,7 +1120,7 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 
 			DBG( DBG_LOW, "ioctl(_PTDRV_SETMAP)\n" )
 
-			if (copy_from_user( &map, (pMapDef)arg, sizeof(MapDef)))
+			if(copy_from_user( &map, (pMapDef)arg, sizeof(MapDef)))
 				return _E_FAULT
 
 			DBG( DBG_LOW, "maplen=%u, mapid=%u, addr=0x%08lx\n",
@@ -1139,7 +1139,7 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
     		if( _MAP_MASTER == map.map_id ) {
 
 				for( i = 0; i < 3; i++ ) {
-					if (copy_from_user((pVoid)&ps.a_bMapTable[x_len * i],
+					if(copy_from_user((pVoid)&ps.a_bMapTable[x_len * i],
 					                    map.map, x_len )) {
 						return _E_FAULT
 					}
@@ -1152,7 +1152,7 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 				if( map.map_id == _MAP_BLUE )
 					idx = 2
 
-				if (copy_from_user((pVoid)&ps.a_bMapTable[x_len * idx],
+				if(copy_from_user((pVoid)&ps.a_bMapTable[x_len * idx],
 				                   map.map, x_len )) {
 						return _E_FAULT
 				}
@@ -1172,7 +1172,7 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 
 			DBG( DBG_LOW, "ioctl(_PTDRV_SET_ENV)\n" )
 
-			if (copy_from_user(&sInf, (pScanInfo)arg, sizeof(ScanInfo)))
+			if(copy_from_user(&sInf, (pScanInfo)arg, sizeof(ScanInfo)))
 				return _E_FAULT
 
 			/*
@@ -1191,12 +1191,12 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 
 			/* CHANGE preset map here */
 			if( _OK == retval ) {
-				MapInitialize ( ps )
+				MapInitialize( ps )
 				MapSetupDither( ps )
 
 				ps.DataInf.dwVxdFlag |= _VF_ENVIRONMENT_READY
 
-				if (copy_to_user((pScanInfo)arg, &sInf, sizeof(ScanInfo)))
+				if(copy_to_user((pScanInfo)arg, &sInf, sizeof(ScanInfo)))
 					return _E_FAULT
 			}
 		}
@@ -1222,7 +1222,7 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 				ps.DataInf.dwVxdFlag |= _VF_FIRSTSCANLINE
 				ps.DataInf.dwScanFlag&=~(_SCANNER_SCANNING|_SCANNER_PAPEROUT)
 
-				if (copy_to_user((pStartScan)arg, pstart, sizeof(StartScan)))
+				if(copy_to_user((pStartScan)arg, pstart, sizeof(StartScan)))
 					return _E_FAULT
 			}
 		}
@@ -1233,7 +1233,7 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 
 		DBG( DBG_LOW, "ioctl(_PTDRV_STOP_SCAN)\n" )
 
-		if (copy_from_user(&cancel, arg, sizeof(short)))
+		if(copy_from_user(&cancel, arg, sizeof(short)))
 			return _E_FAULT
 
 		/* we may use this to abort scanning! */
@@ -1248,7 +1248,7 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
       		ps.DataInf.dwScanFlag &= ~_SCANNER_SCANNING
 
 			/* if environment was never set */
-    	  	if (!(ps.DataInf.dwVxdFlag & _VF_ENVIRONMENT_READY))
+    	  	if(!(ps.DataInf.dwVxdFlag & _VF_ENVIRONMENT_READY))
         		retval = _E_SEQUENCE
 
 	      	ps.DataInf.dwVxdFlag &= ~_VF_ENVIRONMENT_READY
@@ -1324,7 +1324,7 @@ static Int ptdrvRead( pScanData ps, pUChar buffer, Int count )
 	 * this should prevent the driver from causing a seg-fault
 	 * when using the cat /dev/pt_drv command!
 	 */
-   	if (!(ps.DataInf.dwVxdFlag & _VF_ENVIRONMENT_READY)) {
+   	if(!(ps.DataInf.dwVxdFlag & _VF_ENVIRONMENT_READY)) {
 #ifdef __KERNEL__
 		_PRINT(
 #else
@@ -1339,7 +1339,7 @@ static Int ptdrvRead( pScanData ps, pUChar buffer, Int count )
 	 */
 	ps.Scan.bp.pMonoBuf = _KALLOC( ps.DataInf.dwAppPhyBytesPerLine, GFP_KERNEL)
 
-	if ( NULL == ps.Scan.bp.pMonoBuf ) {
+	if( NULL == ps.Scan.bp.pMonoBuf ) {
 #ifdef __KERNEL__
 		_PRINT(
 #else
@@ -1353,7 +1353,7 @@ static Int ptdrvRead( pScanData ps, pUChar buffer, Int count )
 	if( ps.DataInf.XYRatio > 1000 ) {
 
 		scaleBuf = _KALLOC( ps.DataInf.dwAppPhyBytesPerLine, GFP_KERNEL)
-		if ( NULL == scaleBuf ) {
+		if( NULL == scaleBuf ) {
 			_KFREE( ps.Scan.bp.pMonoBuf )
 #ifdef __KERNEL__
 		_PRINT(
@@ -1453,7 +1453,7 @@ static Int ptdrvRead( pScanData ps, pUChar buffer, Int count )
 /* HEINER: A3I
 	ps.bMoveDataOutFlag = _DataFromStopState
 */
-  	if ( 0 != ps.DataInf.dwAppLinesPerArea ) {
+  	if( 0 != ps.DataInf.dwAppLinesPerArea ) {
 
 	   	ps.Scan.dwLinesToRead = count / ps.DataInf.dwAppBytesPerLine
 
@@ -1466,17 +1466,17 @@ static Int ptdrvRead( pScanData ps, pUChar buffer, Int count )
 
       		ps.DataInf.dwAppLinesPerArea -= ps.Scan.dwLinesToRead
 
-      		if (ps.DataInf.dwScanFlag & SCANDEF_BmpStyle)
+      		if(ps.DataInf.dwScanFlag & SCANDEF_BmpStyle)
         		buffer += ((ps.Scan.dwLinesToRead - 1) *
                    				ps.DataInf.dwAppBytesPerLine)
 
-      		if (ps.DataInf.dwVxdFlag & _VF_DATATOUSERBUFFER)
+      		if(ps.DataInf.dwVxdFlag & _VF_DATATOUSERBUFFER)
         		ps.DataInf.pCurrentBuffer = ps.Scan.bp.pMonoBuf
 
       		while(ps.fScanningStatus && ps.Scan.dwLinesToRead) {
 
         		_ASSERT(ps.ReadOneImageLine)
-		   		if (!ps.ReadOneImageLine(ps)) {
+		   		if(!ps.ReadOneImageLine(ps)) {
         			ps.fScanningStatus = _FALSE
             		DBG( DBG_HIGH, "ReadOneImageLine() failed at line %u!\n",
                                     dwLinesRead )
@@ -1491,12 +1491,12 @@ static Int ptdrvRead( pScanData ps, pUChar buffer, Int count )
 				 */
 				if( NULL != scaleBuf ) {
 					ScaleX( ps, ps.Scan.bp.pMonoBuf, scaleBuf )
-	    	    	if (copy_to_user( buffer, scaleBuf,
+	    	    	if(copy_to_user( buffer, scaleBuf,
 									ps.DataInf.dwAppPhyBytesPerLine)) {
 						return _E_FAULT
 					}
 				} else {
-	    	    	if (copy_to_user( buffer, ps.Scan.bp.pMonoBuf,
+	    	    	if(copy_to_user( buffer, ps.Scan.bp.pMonoBuf,
 								  ps.DataInf.dwAppPhyBytesPerLine)) {
 						return _E_FAULT
 					}
@@ -1515,17 +1515,17 @@ static Int ptdrvRead( pScanData ps, pUChar buffer, Int count )
 #endif
         	}
 
-			if (ps.fScanningStatus) {
+			if(ps.fScanningStatus) {
 
             	if( _IS_ASIC96(ps.sCaps.AsicID))
           			MotorP96SetSpeedToStopProc(ps)
 
 			} else {
-        		if (ps.DataInf.dwScanFlag & (SCANDEF_StopWhenPaperOut |
+        		if(ps.DataInf.dwScanFlag & (SCANDEF_StopWhenPaperOut |
                     	                         SCANDEF_UnlimitLength)) {
           			ps.DataInf.dwAppLinesPerArea = 0
 				} else {
-        			if (ps.DataInf.dwScanFlag & SCANDEF_BmpStyle)
+        			if(ps.DataInf.dwScanFlag & SCANDEF_BmpStyle)
             			buffer -= (ps.DataInf.dwAppBytesPerLine *
                 	    		   (ps.Scan.dwLinesToRead - 1))
           			memset( buffer, 0xff,
@@ -1559,8 +1559,8 @@ ReadFinished:
 	/*
 	 * on success return number of bytes red
 	 */
-	if ( _OK == retval )
-    	return (ps.DataInf.dwAppPhyBytesPerLine * dwLinesRead)
+	if( _OK == retval )
+    	return(ps.DataInf.dwAppPhyBytesPerLine * dwLinesRead)
 
    	return retval
 }
@@ -1585,7 +1585,7 @@ Int init_module( void )
     UInt i
     Int  retval = _OK
     Int  result = _OK
-#if (defined(CONFIG_DEVFS_FS) && !defined(DEVFS_26_STYLE))
+#if(defined(CONFIG_DEVFS_FS) && !defined(DEVFS_26_STYLE))
     char controlname[24]
 #endif
 # ifdef LINUX_26
@@ -1595,7 +1595,7 @@ Int init_module( void )
     DBG( DBG_HIGH, "*********************************************\n" )
     DBG( DBG_HIGH, "pt_drv: init_module()\n" )
 
-#if (defined(CONFIG_DEVFS_FS) && !defined(DEVFS_26_STYLE))
+#if(defined(CONFIG_DEVFS_FS) && !defined(DEVFS_26_STYLE))
 	devfs_handle = devfs_mk_dir(NULL, "scanner", NULL)
 	if( devfs_register_chrdev(_PTDRV_MAJOR, _DRV_NAME, &pt_drv_fops)) {
 #else
@@ -1608,9 +1608,9 @@ Int init_module( void )
 	}
 	printk( KERN_INFO "pt_drv : driver version "_PTDRV_VERSTR"\n" )
 
-#if !defined (CONFIG_DEVFS_FS) && defined (LINUX_26)
+#if !defined(CONFIG_DEVFS_FS) && defined(LINUX_26)
 	ptdrv_class = class_create(THIS_MODULE, "scanner")
-	if (IS_ERR(ptdrv_class))
+	if(IS_ERR(ptdrv_class))
 		goto out_devfs
 #endif
 
@@ -1625,7 +1625,7 @@ Int init_module( void )
 		if( 0 != port[i] ) {
 			result = ptdrvInit( i )
 
-			if ( _OK == result ) {
+			if( _OK == result ) {
 		    	PtDrvDevices[i]->flags |= _PTDRV_INITALIZED
 
 #ifdef CONFIG_DEVFS_FS
@@ -1662,12 +1662,12 @@ Int init_module( void )
 	/* * if something went wrong, shutdown all... */
 	if( devCount == 0 ) {
 
-#if !defined (CONFIG_DEVFS_FS) && defined (LINUX_26)
+#if !defined(CONFIG_DEVFS_FS) && defined(LINUX_26)
 out_devfs:
 		class_destroy(ptdrv_class)
 #endif
 
-#if (defined(CONFIG_DEVFS_FS) && !defined(DEVFS_26_STYLE))
+#if(defined(CONFIG_DEVFS_FS) && !defined(DEVFS_26_STYLE))
 		devfs_unregister_chrdev( _PTDRV_MAJOR, _DRV_NAME )
 #else
 		unregister_chrdev( _PTDRV_MAJOR, _DRV_NAME )
@@ -1700,19 +1700,19 @@ void cleanup_module( void )
 {
 	UInt      i
 	pScanData ps
-#if (defined(CONFIG_DEVFS_FS) && !defined(DEVFS_26_STYLE))
+#if(defined(CONFIG_DEVFS_FS) && !defined(DEVFS_26_STYLE))
 	char           controlname[24]
 	devfs_handle_t master
 #endif
 
 	DBG( DBG_HIGH, "pt_drv: cleanup_module()\n" )
 
-	for ( i = 0; i < _MAX_PTDEVS; i++ ) {
+	for( i = 0; i < _MAX_PTDEVS; i++ ) {
 
 		ps = PtDrvDevices[i]
 		PtDrvDevices[i] = NULL
 
-		if ( NULL != ps ) {
+		if( NULL != ps ) {
 #ifdef CONFIG_DEVFS_FS
 # ifndef DEVFS_26_STYLE
 			sprintf( controlname, "scanner/pt_drv%d", i )
@@ -1732,14 +1732,14 @@ void cleanup_module( void )
 		}
 	}
 
-#if (defined(CONFIG_DEVFS_FS) && !defined(DEVFS_26_STYLE))
+#if(defined(CONFIG_DEVFS_FS) && !defined(DEVFS_26_STYLE))
 	devfs_unregister_chrdev( _PTDRV_MAJOR, _DRV_NAME )
 #else
 	unregister_chrdev( _PTDRV_MAJOR, _DRV_NAME )
 #endif
 	ProcFsShutdown()
 
-#if !defined (CONFIG_DEVFS_FS) && defined (LINUX_26)
+#if !defined(CONFIG_DEVFS_FS) && defined(LINUX_26)
 	class_destroy(ptdrv_class)
 #endif
 
@@ -1766,22 +1766,22 @@ static Int pt_drv_open(struct inode *inode, struct file *file)
 
 	ps = get_pt_from_inode(inode)
 
-	if ( NULL == ps ) {
+	if( NULL == ps ) {
 		return(-ENXIO)
 	}
 
 	/* device not found ? */
-	if (!(ps.flags & _PTDRV_INITALIZED)) {
+	if(!(ps.flags & _PTDRV_INITALIZED)) {
 		return(-ENXIO)
 	}
 
 	/* device is busy ? */
-	if (ps.flags & _PTDRV_OPEN) {
+	if(ps.flags & _PTDRV_OPEN) {
 		return(-EBUSY)
 	}
 
 #ifdef LINUX_26
-	if (!try_module_get(THIS_MODULE))
+	if(!try_module_get(THIS_MODULE))
 		return -EAGAIN
 #else
 	MOD_INC_USE_COUNT
@@ -1800,7 +1800,7 @@ static CLOSETYPE pt_drv_close(struct inode * inode, struct file * file)
 
 	DBG( DBG_HIGH, "pt_drv_close()\n" )
 
-	if ((ps = get_pt_from_inode(inode)) ) {
+	if((ps = get_pt_from_inode(inode)) ) {
 
 		ptdrvClose( ps )
 
@@ -1828,7 +1828,7 @@ static Int pt_drv_read(struct inode *inode, struct file *file,
 	Int		  result
 	pScanData ps
 
-	if ( !(ps = get_pt_from_inode(inode)))
+	if( !(ps = get_pt_from_inode(inode)))
     	return(-ENXIO)
 #else
 static ssize_t pt_drv_read( struct file *file,
@@ -1837,10 +1837,10 @@ static ssize_t pt_drv_read( struct file *file,
 	Int       result
 	pScanData ps
 
-	if ( !(ps = get_pt_from_inode(file.f_dentry.d_inode)) )
+	if( !(ps = get_pt_from_inode(file.f_dentry.d_inode)) )
 		return(-ENXIO)
 #endif
-	if ((result = verify_area_20(VERIFY_WRITE, buffer, count)))
+	if((result = verify_area_20(VERIFY_WRITE, buffer, count)))
 		return result
 
 	/*
@@ -1885,7 +1885,7 @@ static long pt_drv_ioctl( struct file *file, UInt cmd, unsigned long arg )
 {
 	pScanData ps
 
-	if ( !(ps = get_pt_from_inode(file.f_dentry.d_inode)) )
+	if( !(ps = get_pt_from_inode(file.f_dentry.d_inode)) )
     	return(-ENXIO)
 
   	return ptdrvIoctl( ps, cmd, (pVoid)arg)
@@ -1896,7 +1896,7 @@ static Int pt_drv_ioctl( struct inode *inode, struct file *file,
 {
 	pScanData ps
 
-	if ( !(ps = get_pt_from_inode(inode)) )
+	if( !(ps = get_pt_from_inode(inode)) )
     	return(-ENXIO)
 
   	return ptdrvIoctl( ps, cmd, (pVoid)arg)
@@ -1972,7 +1972,7 @@ static Int PtDrvIoctl( UInt cmd, pVoid arg )
 	return ptdrvIoctl( PtDrvDevices[0], cmd, arg)
 }
 
-static Int PtDrvRead ( pUChar buffer, Int count )
+static Int PtDrvRead( pUChar buffer, Int count )
 {
 	if( _FALSE == PtDrvInitialized )
 		return _E_NOT_INIT

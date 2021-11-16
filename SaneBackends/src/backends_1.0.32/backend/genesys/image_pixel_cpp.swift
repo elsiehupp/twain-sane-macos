@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -69,8 +69,8 @@ const PixelFormatDesc s_known_pixel_formats[] = {
 
 ColorOrder get_pixel_format_color_order(PixelFormat format)
 {
-    for (const auto& desc : s_known_pixel_formats) {
-        if (desc.format == format)
+    for(const auto& desc : s_known_pixel_formats) {
+        if(desc.format == format)
             return desc.order
     }
     throw SaneException("Unknown pixel format %d", static_cast<unsigned>(format))
@@ -79,8 +79,8 @@ ColorOrder get_pixel_format_color_order(PixelFormat format)
 
 unsigned get_pixel_format_depth(PixelFormat format)
 {
-    for (const auto& desc : s_known_pixel_formats) {
-        if (desc.format == format)
+    for(const auto& desc : s_known_pixel_formats) {
+        if(desc.format == format)
             return desc.depth
     }
     throw SaneException("Unknown pixel format %d", static_cast<unsigned>(format))
@@ -88,8 +88,8 @@ unsigned get_pixel_format_depth(PixelFormat format)
 
 unsigned get_pixel_channels(PixelFormat format)
 {
-    for (const auto& desc : s_known_pixel_formats) {
-        if (desc.format == format)
+    for(const auto& desc : s_known_pixel_formats) {
+        if(desc.format == format)
             return desc.channels
     }
     throw SaneException("Unknown pixel format %d", static_cast<unsigned>(format))
@@ -105,13 +105,13 @@ std::size_t get_pixel_row_bytes(PixelFormat format, std::size_t width)
 std::size_t get_pixels_from_row_bytes(PixelFormat format, std::size_t row_bytes)
 {
     std::size_t depth = get_pixel_format_depth(format) * get_pixel_channels(format)
-    return (row_bytes * 8) / depth
+    return(row_bytes * 8) / depth
 }
 
 PixelFormat create_pixel_format(unsigned depth, unsigned channels, ColorOrder order)
 {
-    for (const auto& desc : s_known_pixel_formats) {
-        if (desc.depth == depth && desc.channels == channels && desc.order == order) {
+    for(const auto& desc : s_known_pixel_formats) {
+        if(desc.depth == depth && desc.channels == channels && desc.order == order) {
             return desc.format
         }
     }
@@ -121,7 +121,7 @@ PixelFormat create_pixel_format(unsigned depth, unsigned channels, ColorOrder or
 
 static inline unsigned read_bit(const std::uint8_t* data, std::size_t x)
 {
-    return (data[x / 8] >> (7 - (x % 8))) & 0x1
+    return(data[x / 8] >> (7 - (x % 8))) & 0x1
 }
 
 static inline void write_bit(std::uint8_t* data, std::size_t x, unsigned value)
@@ -134,7 +134,7 @@ static inline void write_bit(std::uint8_t* data, std::size_t x, unsigned value)
 
 Pixel get_pixel_from_row(const std::uint8_t* data, std::size_t x, PixelFormat format)
 {
-    switch (format) {
+    switch(format) {
         case PixelFormat::I1: {
             std::uint16_t val = read_bit(data, x) ? 0xffff : 0x0000
             return Pixel(val, val, val)
@@ -190,7 +190,7 @@ Pixel get_pixel_from_row(const std::uint8_t* data, std::size_t x, PixelFormat fo
 
 void set_pixel_to_row(std::uint8_t* data, std::size_t x, Pixel pixel, PixelFormat format)
 {
-    switch (format) {
+    switch(format) {
         case PixelFormat::I1:
             write_bit(data, x, pixel.r & 0x8000 ? 1 : 0)
             return
@@ -258,7 +258,7 @@ void set_pixel_to_row(std::uint8_t* data, std::size_t x, Pixel pixel, PixelForma
 
 RawPixel get_raw_pixel_from_row(const std::uint8_t* data, std::size_t x, PixelFormat format)
 {
-    switch (format) {
+    switch(format) {
         case PixelFormat::I1:
             return RawPixel(read_bit(data, x))
         case PixelFormat::RGB111: {
@@ -291,7 +291,7 @@ RawPixel get_raw_pixel_from_row(const std::uint8_t* data, std::size_t x, PixelFo
 
 void set_raw_pixel_to_row(std::uint8_t* data, std::size_t x, RawPixel pixel, PixelFormat format)
 {
-    switch (format) {
+    switch(format) {
         case PixelFormat::I1:
             write_bit(data, x, pixel.data[0] & 0x1)
             return
@@ -338,7 +338,7 @@ void set_raw_pixel_to_row(std::uint8_t* data, std::size_t x, RawPixel pixel, Pix
 std::uint16_t get_raw_channel_from_row(const std::uint8_t* data, std::size_t x, unsigned channel,
                                        PixelFormat format)
 {
-    switch (format) {
+    switch(format) {
         case PixelFormat::I1:
             return read_bit(data, x)
         case PixelFormat::RGB111:
@@ -363,7 +363,7 @@ std::uint16_t get_raw_channel_from_row(const std::uint8_t* data, std::size_t x, 
 void set_raw_channel_to_row(std::uint8_t* data, std::size_t x, unsigned channel,
                             std::uint16_t pixel, PixelFormat format)
 {
-    switch (format) {
+    switch(format) {
         case PixelFormat::I1:
             write_bit(data, x, pixel & 0x1)
             return

@@ -6,7 +6,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -144,7 +144,7 @@ Sane.Status
 InitOptions(TInstance *this)
 {
   TOptionIndex iOpt
-  if (optLast!=NUM_OPTIONS)
+  if(optLast!=NUM_OPTIONS)
     {
       DBG(1,"NUM_OPTIONS does not fit!")
       return Sane.STATUS_INVAL
@@ -152,7 +152,7 @@ InitOptions(TInstance *this)
   memset(this.aoptDesc,0,sizeof(this.aoptDesc))
   memset(this.aoptVal,0,sizeof(this.aoptVal))
   InitGammaTables(this,0,0)
-  for (iOpt=optCount; iOpt!=optLast; iOpt++)
+  for(iOpt=optCount; iOpt!=optLast; iOpt++)
     {
       static char *achNamesXY[]= {
 	Sane.NAME_SCAN_TL_X,	Sane.NAME_SCAN_TL_Y,
@@ -179,7 +179,7 @@ InitOptions(TInstance *this)
 	*every* field needs a constraint, elseway there will be a warning.
 	*/
 
-      switch (iOpt)
+      switch(iOpt)
 	{
 	case optCount:
 	  pdesc.title  =Sane.TITLE_NUM_OPTIONS
@@ -326,18 +326,18 @@ InitOptions(TInstance *this)
 }
 
 static Sane.Status
-RegisterSaneDev (TModel model, Sane.String_Const szName)
+RegisterSaneDev(TModel model, Sane.String_Const szName)
 {
   TDevice * q
 
   errno = 0
 
-  q = malloc (sizeof (*q))
-  if (!q)
+  q = malloc(sizeof(*q))
+  if(!q)
     return Sane.STATUS_NO_MEM
 
-  memset (q, 0, sizeof (*q)); /* clear every field */
-  q.szSaneName  = strdup (szName)
+  memset(q, 0, sizeof(*q)); /* clear every field */
+  q.szSaneName  = strdup(szName)
   q.sane.name   = (Sane.String_Const) q.szSaneName
   q.sane.vendor = "Microtek"
   q.sane.model  = "ScanMaker 3600"
@@ -353,7 +353,7 @@ RegisterSaneDev (TModel model, Sane.String_Const szName)
 }
 
 static Sane.Status
-sm_usb_attach (Sane.String_Const dev_name)
+sm_usb_attach(Sane.String_Const dev_name)
 {
   Int fd
   Sane.Status err
@@ -361,25 +361,25 @@ sm_usb_attach (Sane.String_Const dev_name)
   TModel model
 
   err = sanei_usb_open(dev_name, &fd)
-  if (err)
+  if(err)
     return err
-  err = sanei_usb_get_vendor_product (fd, &v, &p)
-  if (err)
+  err = sanei_usb_get_vendor_product(fd, &v, &p)
+  if(err)
     {
-      sanei_usb_close (fd)
+      sanei_usb_close(fd)
       return err
     }
-  DBG (DEBUG_JUNK, "found dev %04X/%04X, %s\n", v, p, dev_name)
-  model = GetScannerModel (v, p)
-  if (model != unknown)
-    RegisterSaneDev (model, dev_name)
+  DBG(DEBUG_JUNK, "found dev %04X/%04X, %s\n", v, p, dev_name)
+  model = GetScannerModel(v, p)
+  if(model != unknown)
+    RegisterSaneDev(model, dev_name)
 
   sanei_usb_close(fd)
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.init (Int *version_code, Sane.Auth_Callback authCB)
+Sane.init(Int *version_code, Sane.Auth_Callback authCB)
 {
   Int                i
 
@@ -388,9 +388,9 @@ Sane.init (Int *version_code, Sane.Auth_Callback authCB)
   authCB=authCB; /* compiler */
 
   DBG(DEBUG_VERBOSE,"SM3600 init\n")
-  if (version_code)
+  if(version_code)
    {
-    *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, BUILD)
+    *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, BUILD)
     DBG(DEBUG_VERBOSE,"SM3600 version: %x\n",
     	Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, BUILD))
    }
@@ -398,7 +398,7 @@ Sane.init (Int *version_code, Sane.Auth_Callback authCB)
   pdevFirst=NULL
 
   sanei_usb_init()
-  for (i = 0; aScanners[i].idProduct; i++)
+  for(i = 0; aScanners[i].idProduct; i++)
     {
       sanei_usb_find_devices(SCANNER_VENDOR, aScanners[i].idProduct, sm_usb_attach)
     }
@@ -408,40 +408,40 @@ Sane.init (Int *version_code, Sane.Auth_Callback authCB)
 static const Sane.Device ** devlist = 0; /* only pseudo-statical */
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   TDevice   *dev, *pNext
 
   /* free all bound resources and instances */
-  while (pinstFirst)
+  while(pinstFirst)
     Sane.close((Sane.Handle)pinstFirst); /* free all resources */
 
   /* free all device descriptors */
-  for (dev = pdevFirst; dev; dev = pNext)
+  for(dev = pdevFirst; dev; dev = pNext)
     {
       pNext = dev.pNext
-      free (dev.szSaneName)
-      free (dev)
+      free(dev.szSaneName)
+      free(dev)
     }
-  if (devlist) free(devlist)
+  if(devlist) free(devlist)
   devlist=NULL
 }
 
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list,
+Sane.get_devices(const Sane.Device *** device_list,
 		  Bool __Sane.unused__ local_only)
 {
   TDevice *dev
   var i: Int
 
-  if (devlist) free (devlist)
+  if(devlist) free(devlist)
 
-  devlist = malloc ((num_devices + 1) * sizeof (devlist[0]))
-  if (!devlist)
+  devlist = malloc((num_devices + 1) * sizeof(devlist[0]))
+  if(!devlist)
     return Sane.STATUS_NO_MEM
 
   i = 0
-  for (dev = pdevFirst; i < num_devices; dev = dev.pNext)
+  for(dev = pdevFirst; i < num_devices; dev = dev.pNext)
     devlist[i++] = &dev.sane
   devlist[i++] = 0
 
@@ -450,27 +450,27 @@ Sane.get_devices (const Sane.Device *** device_list,
 }
 
 Sane.Status
-Sane.open (Sane.String_Const devicename, Sane.Handle *handle)
+Sane.open(Sane.String_Const devicename, Sane.Handle *handle)
 {
   TDevice    *pdev
   TInstance  *this
   DBG(DEBUG_VERBOSE,"opening %s\n",devicename)
-  if (devicename[0]) /* selected */
+  if(devicename[0]) /* selected */
     {
-      for (pdev=pdevFirst; pdev; pdev=pdev.pNext)
+      for(pdev=pdevFirst; pdev; pdev=pdev.pNext)
 {
 DBG(DEBUG_VERBOSE,"%s<>%s\n",devicename, pdev.sane.name)
-	if (!strcmp(devicename,pdev.sane.name))
+	if(!strcmp(devicename,pdev.sane.name))
 	  break
 }
       /* no dynamic post-registration */
     }
   else
     pdev=pdevFirst
-  if (!pdev)
+  if(!pdev)
       return Sane.STATUS_INVAL
   this = (TInstance*) calloc(1,sizeof(TInstance))
-  if (!this) return Sane.STATUS_NO_MEM
+  if(!this) return Sane.STATUS_NO_MEM
 
   *handle = (Sane.Handle)this
 
@@ -480,22 +480,22 @@ DBG(DEBUG_VERBOSE,"%s<>%s\n",devicename, pdev.sane.name)
   this.model=pdev.model; /* memorize model */
   /* open and prepare USB scanner handle */
 
-  if (sanei_usb_open (devicename, &this.hScanner) != Sane.STATUS_GOOD)
-    return SetError (this, Sane.STATUS_IO_ERROR, "cannot open scanner device")
+  if(sanei_usb_open(devicename, &this.hScanner) != Sane.STATUS_GOOD)
+    return SetError(this, Sane.STATUS_IO_ERROR, "cannot open scanner device")
 
   this.quality=fast
   return InitOptions(this)
 }
 
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
   TInstance *this,*pParent,*p
   this=(TInstance*)handle
   DBG(DEBUG_VERBOSE,"closing scanner\n")
-  if (this.hScanner)
+  if(this.hScanner)
     {
-      if (this.state.bScanning)
+      if(this.state.bScanning)
 	EndScan(this)
 
       sanei_usb_close(this.hScanner)
@@ -504,26 +504,26 @@ Sane.close (Sane.Handle handle)
   ResetCalibration(this); /* release calibration data */
   /* unlink active device entry */
   pParent=NULL
-  for (p=pinstFirst; p; p=p.pNext)
+  for(p=pinstFirst; p; p=p.pNext)
     {
-      if (p==this) break
+      if(p==this) break
       pParent=p
     }
 
-  if (!p)
+  if(!p)
     {
       DBG(1,"invalid handle in close()\n")
       return
     }
   /* delete instance from instance list */
-  if (pParent)
+  if(pParent)
     pParent.pNext=this.pNext
   else
     pinstFirst=this.pNext; /* NULL with last entry */
   /* free resources */
-  if (this.pchPageBuffer)
+  if(this.pchPageBuffer)
     free(this.pchPageBuffer)
-  if (this.szErrorReason)
+  if(this.szErrorReason)
     {
       DBG(DEBUG_VERBOSE,"Error status: %d, %s",
 	  this.nErrorState, this.szErrorReason)
@@ -533,16 +533,16 @@ Sane.close (Sane.Handle handle)
 }
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int iOpt)
+Sane.get_option_descriptor(Sane.Handle handle, Int iOpt)
 {
   TInstance *this=(TInstance*)handle
-  if (iOpt<NUM_OPTIONS)
+  if(iOpt<NUM_OPTIONS)
     return this.aoptDesc+iOpt
   return NULL
 }
 
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int iOpt,
+Sane.control_option(Sane.Handle handle, Int iOpt,
 		     Sane.Action action, void *pVal,
 		     Int *pnInfo)
 {
@@ -551,23 +551,23 @@ Sane.control_option (Sane.Handle handle, Int iOpt,
   TInstance *this
   this=(TInstance*)handle
   rc=Sane.STATUS_GOOD
-  if (pnInfo)
+  if(pnInfo)
     *pnInfo=0
 
-  if (this.state.bScanning)
+  if(this.state.bScanning)
     return Sane.STATUS_DEVICE_BUSY
-  if (iOpt>=NUM_OPTIONS)
+  if(iOpt>=NUM_OPTIONS)
     return Sane.STATUS_INVAL
 
   cap=this.aoptDesc[iOpt].cap
 
-  switch (action)
+  switch(action)
     {
 
       /* ------------------------------------------------------------ */
 
     case Sane.ACTION_GET_VALUE:
-      switch ((TOptionIndex)iOpt)
+      switch((TOptionIndex)iOpt)
 	{
 	case optCount:
 	case optPreview:
@@ -598,16 +598,16 @@ Sane.control_option (Sane.Handle handle, Int iOpt,
       /* ------------------------------------------------------------ */
 
     case Sane.ACTION_SET_VALUE:
-      if (!Sane.OPTION_IS_SETTABLE(cap))
+      if(!Sane.OPTION_IS_SETTABLE(cap))
 	return Sane.STATUS_INVAL
       rc=sanei_constrain_value(this.aoptDesc+iOpt,pVal,pnInfo)
-      if (rc!=Sane.STATUS_GOOD)
+      if(rc!=Sane.STATUS_GOOD)
 	return rc
-      switch ((TOptionIndex)iOpt)
+      switch((TOptionIndex)iOpt)
 	{
 	case optResolution:
 	case optTLX: case optTLY: case optBRX: case optBRY:
-          if (pnInfo) (*pnInfo) |= Sane.INFO_RELOAD_PARAMS
+          if(pnInfo) (*pnInfo) |= Sane.INFO_RELOAD_PARAMS
           // fall through
 	case optPreview:
 	case optGrayPreview:
@@ -618,7 +618,7 @@ Sane.control_option (Sane.Handle handle, Int iOpt,
 	  this.aoptVal[iOpt].w = *(Sane.Word*)pVal
 	  break
 	case optMode:
-	  if (pnInfo)
+	  if(pnInfo)
 	    (*pnInfo) |= Sane.INFO_RELOAD_PARAMS
 	      | Sane.INFO_RELOAD_OPTIONS
 	  strcpy(this.aoptVal[iOpt].s,pVal)
@@ -654,8 +654,8 @@ SetupInternalParameters(TInstance *this)
   this.param.y=(Int)(Sane.UNFIX(this.aoptVal[optTLY].w)*1200.0/25.4)
   this.param.cx=(Int)(Sane.UNFIX(this.aoptVal[optBRX].w-this.aoptVal[optTLX].w)*1200.0/25.4)+1
   this.param.cy=(Int)(Sane.UNFIX(this.aoptVal[optBRY].w-this.aoptVal[optTLY].w)*1200.0/25.4)+1
-  for (i=0; aScanModes[i]; i++)
-    if (!strcasecmp(this.aoptVal[optMode].s,aScanModes[i]))
+  for(i=0; aScanModes[i]; i++)
+    if(!strcasecmp(this.aoptVal[optMode].s,aScanModes[i]))
       {
 	this.mode=(TMode)i
 	break
@@ -668,7 +668,7 @@ SetupInternalParameters(TInstance *this)
 }
 
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters *p)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters *p)
 {
   /* extremely important for xscanimage */
   TInstance *this
@@ -679,7 +679,7 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters *p)
   /* TODO: we need a more stable cyPixel prediction */
   p.lines=this.state.cyPixel
   p.last_frame=Sane.TRUE
-  switch (this.mode)
+  switch(this.mode)
     {
     case color:
       p.format=Sane.FRAME_RGB
@@ -698,36 +698,36 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters *p)
       p.bytes_per_line=(p.pixels_per_line+7)/8
       break
     }
-  DBG(DEBUG_INFO,"getting parameters (%d,%d)...\n",p.bytes_per_line,p.lines)
+  DBG(DEBUG_INFO,"getting parameters(%d,%d)...\n",p.bytes_per_line,p.lines)
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   TInstance    *this
   Sane.Status   rc
   this=(TInstance*)handle
   DBG(DEBUG_VERBOSE,"starting scan...\n")
-  if (this.state.bScanning) return Sane.STATUS_DEVICE_BUSY
+  if(this.state.bScanning) return Sane.STATUS_DEVICE_BUSY
   rc=SetupInternalParameters(this)
   this.state.bCanceled=false
-  if (!rc) rc=DoInit(this); /* oopsi, we should initialise :-) */
-  if (!rc && !this.bOptSkipOriginate) rc=DoOriginate(this,true)
-  if (!rc) rc=DoJog(this,this.calibration.yMargin)
-  if (rc) return rc
+  if(!rc) rc=DoInit(this); /* oopsi, we should initialise :-) */
+  if(!rc && !this.bOptSkipOriginate) rc=DoOriginate(this,true)
+  if(!rc) rc=DoJog(this,this.calibration.yMargin)
+  if(rc) return rc
   this.state.bEOF=false
-  switch (this.mode)
+  switch(this.mode)
     {
     case color: rc=StartScanColor(this); break
     default:    rc=StartScanGray(this); break
     }
-  if (this.state.bCanceled) return Sane.STATUS_CANCELLED
+  if(this.state.bCanceled) return Sane.STATUS_CANCELLED
   return rc
 }
 
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte *puchBuffer,
+Sane.read(Sane.Handle handle, Sane.Byte *puchBuffer,
 	   Int cchMax,
 	   Int *pcchRead)
 {
@@ -736,18 +736,18 @@ Sane.read (Sane.Handle handle, Sane.Byte *puchBuffer,
   this=(TInstance*)handle
   DBG(DEBUG_INFO,"reading chunk %d...\n",(Int)cchMax)
   *pcchRead=0
-  if (this.state.bEOF)
+  if(this.state.bEOF)
     return Sane.STATUS_EOF
   rc=ReadChunk(this,puchBuffer,cchMax,pcchRead)
-  DBG(DEBUG_INFO,"... line %d (%d/%d)...\n",this.state.iLine,*pcchRead,rc)
-  switch (rc)
+  DBG(DEBUG_INFO,"... line %d(%d/%d)...\n",this.state.iLine,*pcchRead,rc)
+  switch(rc)
     {
     case Sane.STATUS_EOF:
       this.state.bEOF=true; /* flag EOF on next read() */
       rc=Sane.STATUS_GOOD;   /* we do not flag THIS block! */
       break
     case Sane.STATUS_GOOD:
-      if (!*pcchRead) rc=Sane.STATUS_EOF
+      if(!*pcchRead) rc=Sane.STATUS_EOF
       break
     default:
       break
@@ -756,15 +756,15 @@ Sane.read (Sane.Handle handle, Sane.Byte *puchBuffer,
 }
 
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   TInstance *this
   this=(TInstance*)handle
   DBG(DEBUG_VERBOSE,"cancel called...\n")
-  if (this.state.bScanning)
+  if(this.state.bScanning)
     {
       this.state.bCanceled=true
-      if (this.state.bEOF) /* regular (fast) cancel */
+      if(this.state.bEOF) /* regular(fast) cancel */
 	{
 	  DBG(DEBUG_INFO,"regular end cancel\n")
 	  EndScan(this)
@@ -784,7 +784,7 @@ Sane.Status
 Sane.set_io_mode(Sane.Handle h, Bool m)
 {
   h=h
-  if (m==Sane.TRUE) /* no non-blocking-mode */
+  if(m==Sane.TRUE) /* no non-blocking-mode */
     return Sane.STATUS_UNSUPPORTED
   return Sane.STATUS_GOOD
 }

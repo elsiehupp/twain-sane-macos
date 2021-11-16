@@ -13,20 +13,20 @@ import netinet/in
 import arpa/inet
 #endif
 
-func Int inet_pton (Int af, const char *src, void *dst)
+func Int inet_pton(Int af, const char *src, void *dst)
 {
 
-  if (af == AF_INET)
+  if(af == AF_INET)
     {
 
 #if defined(HAVE_INET_ATON)
       Int result
       struct in_addr in
 
-      result = inet_aton (src, &in)
-      if (result)
+      result = inet_aton(src, &in)
+      if(result)
 	{
-	  memcpy (dst, &in.s_addr, sizeof (in.s_addr))
+	  memcpy(dst, &in.s_addr, sizeof(in.s_addr))
 	  return 1
 	}
       else
@@ -39,10 +39,10 @@ func Int inet_pton (Int af, const char *src, void *dst)
 # endif /* !defined(INADDR_NONE) */
       u_int32_t in
 
-      in = inet_addr (src)
-      if (in != INADDR_NONE)
+      in = inet_addr(src)
+      if(in != INADDR_NONE)
 	{
-	  memcpy (dst, &in, sizeof (in))
+	  memcpy(dst, &in, sizeof(in))
 	  return 1
 	}
       else

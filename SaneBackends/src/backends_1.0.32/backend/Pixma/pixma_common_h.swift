@@ -1,14 +1,14 @@
 /* SANE - Scanner Access Now Easy.
 
-   Copyright (C) 2011-2020 Rolf Bensch <rolf at bensch hyphen online dot de>
-   Copyright (C) 2006-2007 Wittawat Yamwong <wittawat@web.de>
+   Copyright(C) 2011-2020 Rolf Bensch <rolf at bensch hyphen online dot de>
+   Copyright(C) 2006-2007 Wittawat Yamwong <wittawat@web.de>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -59,7 +59,7 @@ import pixma
 #else
 # define PDBG(x) x
 # define PASSERT(x) do {				\
-    if (!(x))						\
+    if(!(x))						\
 	pixma_dbg(1, "ASSERT failed:%s:%d: "	\
 		     #x "\n", __FILE__, __LINE__);	\
   } while(0)
@@ -116,7 +116,7 @@ struct pixma_t
   Int cancel;			/* NOTE: It can be set in a signal handler. */
   uint32_t events
   void *subdriver;		/* can be used by model driver. */
-  Int rec_tmo;                  /* receive timeout [s] */
+  Int rec_tmo;                  /* receive timeout[s] */
   pixma_paper_source_t last_source; /* used for calibrate=once */
 
   /* private */
@@ -134,14 +134,14 @@ struct pixma_scan_ops_t
     /** Allocate a data structure for the subdriver. It is called after the
      *  core driver connected to the scanner. The subdriver should reset the
      *  scanner to a known state in this function. */
-  Int (*open) (pixma_t *)
+  Int(*open) (pixma_t *)
 
     /** Free resources allocated by the subdriver. Don't forget to send abort
      *  command to the scanner if it is scanning. */
-  void (*close) (pixma_t *)
+  void(*close) (pixma_t *)
 
     /** Setup the scanner for scan parameters defined in \a s.param. */
-  Int (*scan) (pixma_t * s)
+  Int(*scan) (pixma_t * s)
 
     /** Fill a buffer with image data. The subdriver has two choices:
      * -# Fill the buffer pointed by ib.wptr directly and leave
@@ -154,24 +154,24 @@ struct pixma_scan_ops_t
      *
      * The subdriver must wait until there is at least one byte to read or
      * return 0 for the end of image. */
-  Int (*fill_buffer) (pixma_t *, pixma_imagebuf_t * ib)
+  Int(*fill_buffer) (pixma_t *, pixma_imagebuf_t * ib)
 
     /** Cancel the scan operation if necessary and free resources allocated in
      *  scan(). */
-  void (*finish_scan) (pixma_t *)
+  void(*finish_scan) (pixma_t *)
 
     /** [Optional] Wait for a user's event, e.g. button event. \a timeout is
      *  in milliseconds. If an event occurred before it's timed out, flags in
      *  \a s.events should be set accordingly.
      *  \see PIXMA_EV_* */
-  void (*wait_event) (pixma_t * s, Int timeout)
+  void(*wait_event) (pixma_t * s, Int timeout)
 
     /** Check the scan parameters. The parameters can be adjusted if they are
      *  out of range, e.g. width > max_width. */
-  Int (*check_param) (pixma_t *, pixma_scan_param_t *)
+  Int(*check_param) (pixma_t *, pixma_scan_param_t *)
 
     /** Read the device status. \see pixma_get_device_status() */
-  Int (*get_status) (pixma_t *, pixma_device_status_t *)
+  Int(*get_status) (pixma_t *, pixma_device_status_t *)
 ]
 
 
@@ -185,25 +185,25 @@ uint32_t pixma_get_be32 (const uint8_t * buf)
 
 /** \name Utility functions */
 /**@{*/
-uint8_t pixma_sum_bytes (const void *data, unsigned len)
-Int pixma_check_dpi (unsigned dpi, unsigned max)
-void pixma_sleep (unsigned long usec)
-void pixma_get_time (time_t * sec, uint32_t * usec)
-uint8_t * pixma_r_to_ir (uint8_t * gptr, uint8_t * sptr, unsigned w, unsigned c)
-uint8_t * pixma_rgb_to_gray (uint8_t * gptr, uint8_t * sptr, unsigned w, unsigned c)
+uint8_t pixma_sum_bytes(const void *data, unsigned len)
+Int pixma_check_dpi(unsigned dpi, unsigned max)
+void pixma_sleep(unsigned long usec)
+void pixma_get_time(time_t * sec, uint32_t * usec)
+uint8_t * pixma_r_to_ir(uint8_t * gptr, uint8_t * sptr, unsigned w, unsigned c)
+uint8_t * pixma_rgb_to_gray(uint8_t * gptr, uint8_t * sptr, unsigned w, unsigned c)
 uint8_t * pixma_binarize_line(pixma_scan_param_t *, uint8_t * dst, uint8_t * src, unsigned width, unsigned c)
 /**@}*/
 
 /** \name Command related functions */
 /**@{*/
-Int pixma_cmd_transaction (pixma_t *, const void *cmd, unsigned cmdlen,
+Int pixma_cmd_transaction(pixma_t *, const void *cmd, unsigned cmdlen,
 			   void *data, unsigned expected_len)
-Int pixma_check_result (pixma_cmdbuf_t *)
-uint8_t *pixma_newcmd (pixma_cmdbuf_t *, unsigned cmd,
+Int pixma_check_result(pixma_cmdbuf_t *)
+uint8_t *pixma_newcmd(pixma_cmdbuf_t *, unsigned cmd,
 		       unsigned dataout, unsigned datain)
-Int pixma_exec (pixma_t *, pixma_cmdbuf_t *)
-Int pixma_exec_short_cmd (pixma_t *, pixma_cmdbuf_t *, unsigned cmd)
-Int pixma_map_status_errno (unsigned status)
+Int pixma_exec(pixma_t *, pixma_cmdbuf_t *)
+Int pixma_exec_short_cmd(pixma_t *, pixma_cmdbuf_t *, unsigned cmd)
+Int pixma_map_status_errno(unsigned status)
 #if defined(HAVE_LIBXML2)
 Int pixma_parse_xml_response(const char *xml_message)
 #endif
@@ -217,14 +217,14 @@ Int pixma_parse_xml_response(const char *xml_message)
 
 /** \addtogroup debug
  *  @{ */
-void pixma_set_debug_level (Int level)
+void pixma_set_debug_level(Int level)
 #ifndef NDEBUG
-void pixma_hexdump (Int level, const void *d_, unsigned len)
+void pixma_hexdump(Int level, const void *d_, unsigned len)
 
 /* len:   length of data or error code.
    size:  if >= 0, force to print 'size' bytes.
    max:   maximum number of bytes to print(-1 means no limit). */
-void pixma_dump (Int level, const char *type, const void *data, Int len,
+void pixma_dump(Int level, const char *type, const void *data, Int len,
 		 Int size, Int max)
 #  define DEBUG_DECLARE_ONLY
 #  include "../include/sane/sanei_debug

@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2008, Panasonic Russia Ltd.
+   Copyright(C) 2008, Panasonic Russia Ltd.
 */
 /* sane - Scanner Access Now Easy.
    Panasonic KV-S1020C / KV-S1025C USB scanners.
@@ -38,7 +38,7 @@ typedef enum
  ((unsigned char *)buf)[3] = ((val) >>  0) & 0xff; \
 }
 
-/* 32 bits from an array to an integer (eg ntohl). */
+/* 32 bits from an array to an integer(eg ntohl). */
 #define B32TOI(buf) \
     ((((unsigned char *)buf)[0] << 24) | \
      (((unsigned char *)buf)[1] << 16) | \
@@ -190,7 +190,7 @@ typedef struct kv_scanner_dev
   Int bytes_to_read[2];		/* bytes to read */
 
   /* --------------------------------------------------------------------- */
-  /* values used by the software enhancement code (deskew, crop, etc)      */
+  /* values used by the software enhancement code(deskew, crop, etc)      */
   Sane.Status deskew_stat
   Int deskew_vals[2]
   double deskew_slope
@@ -222,76 +222,76 @@ typedef struct kv_scanner_dev
 
 /* Prototypes in kvs1025_opt.c */
 
-Int get_optval_list (const PKV_DEV dev, Int idx,
+Int get_optval_list(const PKV_DEV dev, Int idx,
 		     const Sane.String_Const * str_list, const Int *val_list)
-KV_SCAN_MODE kv_get_mode (const PKV_DEV dev)
-Int kv_get_depth (KV_SCAN_MODE mode)
+KV_SCAN_MODE kv_get_mode(const PKV_DEV dev)
+Int kv_get_depth(KV_SCAN_MODE mode)
 
-void kv_calc_paper_size (const PKV_DEV dev, Int *w, Int *h)
+void kv_calc_paper_size(const PKV_DEV dev, Int *w, Int *h)
 
-const Sane.Option_Descriptor *kv_get_option_descriptor (PKV_DEV dev,
+const Sane.Option_Descriptor *kv_get_option_descriptor(PKV_DEV dev,
 							Int option)
-void kv_init_options (PKV_DEV dev)
-Sane.Status kv_control_option (PKV_DEV dev, Int option,
+void kv_init_options(PKV_DEV dev)
+Sane.Status kv_control_option(PKV_DEV dev, Int option,
 			       Sane.Action action, void *val,
 			       Int * info)
-void hexdump (Int level, const char *comment, unsigned char *p, Int l)
-void kv_set_window_data (PKV_DEV dev,
+void hexdump(Int level, const char *comment, unsigned char *p, Int l)
+void kv_set_window_data(PKV_DEV dev,
 			 KV_SCAN_MODE scan_mode,
 			 Int side, unsigned char *windowdata)
 
 /* Prototypes in kvs1025_low.c */
 
-Sane.Status kv_enum_devices (void)
-void kv_get_devices_list (const Sane.Device *** devices_list)
-void kv_exit (void)
-Sane.Status kv_open (PKV_DEV dev)
-Bool kv_already_open (PKV_DEV dev)
-Sane.Status kv_open_by_name (Sane.String_Const devicename,
+Sane.Status kv_enum_devices(void)
+void kv_get_devices_list(const Sane.Device *** devices_list)
+void kv_exit(void)
+Sane.Status kv_open(PKV_DEV dev)
+Bool kv_already_open(PKV_DEV dev)
+Sane.Status kv_open_by_name(Sane.String_Const devicename,
 			     Sane.Handle * handle)
-void kv_close (PKV_DEV dev)
-Sane.Status kv_send_command (PKV_DEV dev,
+void kv_close(PKV_DEV dev)
+Sane.Status kv_send_command(PKV_DEV dev,
 			     PKV_CMD_HEADER header,
 			     PKV_CMD_RESPONSE response)
 
 /* Commands */
 
-Sane.Status CMD_test_unit_ready (PKV_DEV dev, Bool * ready)
-Sane.Status CMD_read_support_info (PKV_DEV dev)
-Sane.Status CMD_scan (PKV_DEV dev)
-Sane.Status CMD_set_window (PKV_DEV dev, Int side, PKV_CMD_RESPONSE rs)
-Sane.Status CMD_reset_window (PKV_DEV dev)
-Sane.Status CMD_get_buff_status (PKV_DEV dev, Int *front_size,
+Sane.Status CMD_test_unit_ready(PKV_DEV dev, Bool * ready)
+Sane.Status CMD_read_support_info(PKV_DEV dev)
+Sane.Status CMD_scan(PKV_DEV dev)
+Sane.Status CMD_set_window(PKV_DEV dev, Int side, PKV_CMD_RESPONSE rs)
+Sane.Status CMD_reset_window(PKV_DEV dev)
+Sane.Status CMD_get_buff_status(PKV_DEV dev, Int *front_size,
 				 Int *back_size)
-Sane.Status CMD_wait_buff_status (PKV_DEV dev, Int *front_size,
+Sane.Status CMD_wait_buff_status(PKV_DEV dev, Int *front_size,
 				  Int *back_size)
-Sane.Status CMD_read_pic_elements (PKV_DEV dev, Int page, Int side,
+Sane.Status CMD_read_pic_elements(PKV_DEV dev, Int page, Int side,
 				   Int *width, Int *height)
-Sane.Status CMD_read_image (PKV_DEV dev, Int page, Int side,
+Sane.Status CMD_read_image(PKV_DEV dev, Int page, Int side,
 			    unsigned char *buffer, Int *psize,
 			    KV_CMD_RESPONSE * rs)
-Sane.Status CMD_wait_document_existanse (PKV_DEV dev)
-Sane.Status CMD_get_document_existanse (PKV_DEV dev)
-Sane.Status CMD_set_timeout (PKV_DEV dev, Sane.Word timeout)
-Sane.Status CMD_request_sense (PKV_DEV dev)
+Sane.Status CMD_wait_document_existanse(PKV_DEV dev)
+Sane.Status CMD_get_document_existanse(PKV_DEV dev)
+Sane.Status CMD_set_timeout(PKV_DEV dev, Sane.Word timeout)
+Sane.Status CMD_request_sense(PKV_DEV dev)
 /* Scan routines */
 
-Sane.Status AllocateImageBuffer (PKV_DEV dev)
-Sane.Status ReadImageDataSimplex (PKV_DEV dev, Int page)
-Sane.Status ReadImageDataDuplex (PKV_DEV dev, Int page)
-Sane.Status ReadImageData (PKV_DEV dev, Int page)
+Sane.Status AllocateImageBuffer(PKV_DEV dev)
+Sane.Status ReadImageDataSimplex(PKV_DEV dev, Int page)
+Sane.Status ReadImageDataDuplex(PKV_DEV dev, Int page)
+Sane.Status ReadImageData(PKV_DEV dev, Int page)
 
-Sane.Status buffer_deskew (PKV_DEV dev, Int side)
-Sane.Status buffer_crop (PKV_DEV dev, Int side)
-Sane.Status buffer_despeck (PKV_DEV dev, Int side)
-Int buffer_isblank (PKV_DEV dev, Int side)
+Sane.Status buffer_deskew(PKV_DEV dev, Int side)
+Sane.Status buffer_crop(PKV_DEV dev, Int side)
+Sane.Status buffer_despeck(PKV_DEV dev, Int side)
+Int buffer_isblank(PKV_DEV dev, Int side)
 Sane.Status buffer_rotate(PKV_DEV dev, Int side)
 
 #endif /* #ifndef __KVS1025_LOW_H */
 
 
 /*
-   Copyright (C) 2008, Panasonic Russia Ltd.
+   Copyright(C) 2008, Panasonic Russia Ltd.
 */
 /* sane - Scanner Access Now Easy.
    Panasonic KV-S1020C / KV-S1025C USB scanners.
@@ -336,69 +336,69 @@ const Sane.Device **g_devlist = NULL
 
 /* Free one device */
 static void
-kv_free (KV_DEV ** pdev)
+kv_free(KV_DEV ** pdev)
 {
   KV_DEV *dev
 
   dev = *pdev
 
-  if (dev == NULL)
+  if(dev == NULL)
     return
 
-  DBG (DBG_proc, "kv_free : enter\n")
+  DBG(DBG_proc, "kv_free : enter\n")
 
-  kv_close (dev)
+  kv_close(dev)
 
-  DBG (DBG_proc, "kv_free : free image buffer 0 \n")
-  if (dev.img_buffers[0])
-    free (dev.img_buffers[0])
-  DBG (DBG_proc, "kv_free : free image buffer 1 \n")
-  if (dev.img_buffers[1])
-    free (dev.img_buffers[1])
-  DBG (DBG_proc, "kv_free : free scsi device name\n")
-  if (dev.scsi_device_name)
-    free (dev.scsi_device_name)
+  DBG(DBG_proc, "kv_free : free image buffer 0 \n")
+  if(dev.img_buffers[0])
+    free(dev.img_buffers[0])
+  DBG(DBG_proc, "kv_free : free image buffer 1 \n")
+  if(dev.img_buffers[1])
+    free(dev.img_buffers[1])
+  DBG(DBG_proc, "kv_free : free scsi device name\n")
+  if(dev.scsi_device_name)
+    free(dev.scsi_device_name)
 
-  DBG (DBG_proc, "kv_free : free SCSI buffer\n")
-  if (dev.buffer0)
-    free (dev.buffer0)
+  DBG(DBG_proc, "kv_free : free SCSI buffer\n")
+  if(dev.buffer0)
+    free(dev.buffer0)
 
-  DBG (DBG_proc, "kv_free : free dev \n")
-  free (dev)
+  DBG(DBG_proc, "kv_free : free dev \n")
+  free(dev)
 
   *pdev = NULL
 
-  DBG (DBG_proc, "kv_free : exit\n")
+  DBG(DBG_proc, "kv_free : exit\n")
 }
 
 /* Free all devices */
 static void
-kv_free_devices (void)
+kv_free_devices(void)
 {
   PKV_DEV dev
-  while (g_devices)
+  while(g_devices)
     {
       dev = g_devices
       g_devices = dev.next
-      kv_free (&dev)
+      kv_free(&dev)
     }
-  if (g_devlist)
+  if(g_devlist)
     {
-      free (g_devlist)
+      free(g_devlist)
       g_devlist = NULL
     }
 }
 
 /* Get all supported scanners, and store into g_scanners_supported */
 Sane.Status
-kv_enum_devices (void)
+kv_enum_devices(void)
 {
   Sane.Status status
-  kv_free_devices ()
-  status = kv_usb_enum_devices ()
-  if (status)
+  kv_free_devices()
+  status = kv_usb_enum_devices()
+  if(status)
     {
-      kv_free_devices ()
+      kv_free_devices()
     }
 
   return status
@@ -406,76 +406,76 @@ kv_enum_devices (void)
 
 /* Return devices list to the front end */
 void
-kv_get_devices_list (const Sane.Device *** devices_list)
+kv_get_devices_list(const Sane.Device *** devices_list)
 {
   *devices_list = g_devlist
 }
 
 /* Close all open handles and clean up global storage */
 void
-kv_exit (void)
+kv_exit(void)
 {
-  kv_free_devices ();		/* Free all devices */
-  kv_usb_cleanup ();		/* Clean USB bus */
+  kv_free_devices();		/* Free all devices */
+  kv_usb_cleanup();		/* Clean USB bus */
 }
 
 /* Open device by name */
 Sane.Status
-kv_open_by_name (Sane.String_Const devicename, Sane.Handle * handle)
+kv_open_by_name(Sane.String_Const devicename, Sane.Handle * handle)
 {
 
   PKV_DEV pd = g_devices
-  DBG (DBG_proc, "Sane.open: enter (dev_name=%s)\n", devicename)
-  while (pd)
+  DBG(DBG_proc, "Sane.open: enter(dev_name=%s)\n", devicename)
+  while(pd)
     {
-      if (strcmp (pd.sane.name, devicename) == 0)
+      if(strcmp(pd.sane.name, devicename) == 0)
 	{
-	  if (kv_open (pd) == 0)
+	  if(kv_open(pd) == 0)
 	    {
 	      *handle = (Sane.Handle) pd
-	      DBG (DBG_proc, "Sane.open: leave\n")
+	      DBG(DBG_proc, "Sane.open: leave\n")
 	      return Sane.STATUS_GOOD
 	    }
 	}
       pd = pd.next
     }
-  DBG (DBG_proc, "Sane.open: leave -- no device found\n")
+  DBG(DBG_proc, "Sane.open: leave -- no device found\n")
   return Sane.STATUS_UNSUPPORTED
 }
 
 /* Open a device */
 Sane.Status
-kv_open (PKV_DEV dev)
+kv_open(PKV_DEV dev)
 {
   Sane.Status status = Sane.STATUS_UNSUPPORTED
   var i: Int
 #define RETRAY_NUM 3
 
 
-  if (dev.bus_mode == KV_USB_BUS)
+  if(dev.bus_mode == KV_USB_BUS)
     {
-      status = kv_usb_open (dev)
+      status = kv_usb_open(dev)
     }
-  if (status)
+  if(status)
     return status
-  for (i = 0; i < RETRAY_NUM; i++)
+  for(i = 0; i < RETRAY_NUM; i++)
     {
       Bool dev_ready
-      status = CMD_test_unit_ready (dev, &dev_ready)
-      if (!status && dev_ready)
+      status = CMD_test_unit_ready(dev, &dev_ready)
+      if(!status && dev_ready)
 	break
     }
 
-  if (status == 0)
+  if(status == 0)
     {
       /* Read device support info */
-      status = CMD_read_support_info (dev)
+      status = CMD_read_support_info(dev)
 
-      if (status == 0)
+      if(status == 0)
 	{
 	  /* Init options */
-	  kv_init_options (dev)
-	  status = CMD_set_timeout (dev, dev.val[OPT_FEED_TIMEOUT].w)
+	  kv_init_options(dev)
+	  status = CMD_set_timeout(dev, dev.val[OPT_FEED_TIMEOUT].w)
 	}
     }
   dev.scanning = 0
@@ -485,13 +485,13 @@ kv_open (PKV_DEV dev)
 /* Check if device is already open */
 
 Bool
-kv_already_open (PKV_DEV dev)
+kv_already_open(PKV_DEV dev)
 {
   Bool status = 0
 
-  if (dev.bus_mode == KV_USB_BUS)
+  if(dev.bus_mode == KV_USB_BUS)
     {
-      status = kv_usb_already_open (dev)
+      status = kv_usb_already_open(dev)
     }
 
   return status
@@ -499,30 +499,30 @@ kv_already_open (PKV_DEV dev)
 
 /* Close a device */
 void
-kv_close (PKV_DEV dev)
+kv_close(PKV_DEV dev)
 {
-  if (dev.bus_mode == KV_USB_BUS)
+  if(dev.bus_mode == KV_USB_BUS)
     {
-      kv_usb_close (dev)
+      kv_usb_close(dev)
     }
   dev.scanning = 0
 }
 
 /* Send command to a device */
 Sane.Status
-kv_send_command (PKV_DEV dev,
+kv_send_command(PKV_DEV dev,
 		 PKV_CMD_HEADER header, PKV_CMD_RESPONSE response)
 {
   Sane.Status status = Sane.STATUS_UNSUPPORTED
-  if (dev.bus_mode == KV_USB_BUS)
+  if(dev.bus_mode == KV_USB_BUS)
     {
-      if (!kv_usb_already_open(dev))
+      if(!kv_usb_already_open(dev))
 	{
-	  DBG (DBG_error, "kv_send_command error: device not open.\n")
+	  DBG(DBG_error, "kv_send_command error: device not open.\n")
 	  return Sane.STATUS_IO_ERROR
 	}
 
-      status = kv_usb_send_command (dev, header, response)
+      status = kv_usb_send_command(dev, header, response)
     }
 
   return status
@@ -531,23 +531,23 @@ kv_send_command (PKV_DEV dev,
 /* Commands */
 
 Sane.Status
-CMD_test_unit_ready (PKV_DEV dev, Bool * ready)
+CMD_test_unit_ready(PKV_DEV dev, Bool * ready)
 {
   Sane.Status status
   KV_CMD_HEADER hdr
   KV_CMD_RESPONSE rs
 
-  DBG (DBG_proc, "CMD_test_unit_ready\n")
+  DBG(DBG_proc, "CMD_test_unit_ready\n")
 
-  memset (&hdr, 0, sizeof (hdr))
+  memset(&hdr, 0, sizeof(hdr))
 
   hdr.direction = KV_CMD_NONE
   hdr.cdb[0] = SCSI_TEST_UNIT_READY
   hdr.cdb_size = 6
 
-  status = kv_send_command (dev, &hdr, &rs)
+  status = kv_send_command(dev, &hdr, &rs)
 
-  if (status == 0)
+  if(status == 0)
     {
       *ready = (rs.status == KV_SUCCESS ? 1 : 0)
     }
@@ -556,15 +556,15 @@ CMD_test_unit_ready (PKV_DEV dev, Bool * ready)
 }
 
 Sane.Status
-CMD_set_timeout (PKV_DEV dev, Sane.Word timeout)
+CMD_set_timeout(PKV_DEV dev, Sane.Word timeout)
 {
   Sane.Status status
   KV_CMD_HEADER hdr
   KV_CMD_RESPONSE rs
 
-  DBG (DBG_proc, "CMD_set_timeout\n")
+  DBG(DBG_proc, "CMD_set_timeout\n")
 
-  memset (&hdr, 0, sizeof (hdr))
+  memset(&hdr, 0, sizeof(hdr))
 
   hdr.direction = KV_CMD_OUT
   hdr.cdb[0] = SCSI_SET_TIMEOUT
@@ -576,21 +576,21 @@ CMD_set_timeout (PKV_DEV dev, Sane.Word timeout)
   dev.buffer[1] = (Sane.Byte) timeout
   hdr.data_size = 2
 
-  status = kv_send_command (dev, &hdr, &rs)
+  status = kv_send_command(dev, &hdr, &rs)
 
   return status
 }
 
 Sane.Status
-CMD_read_support_info (PKV_DEV dev)
+CMD_read_support_info(PKV_DEV dev)
 {
   Sane.Status status
   KV_CMD_HEADER hdr
   KV_CMD_RESPONSE rs
 
-  DBG (DBG_proc, "CMD_read_support_info\n")
+  DBG(DBG_proc, "CMD_read_support_info\n")
 
-  memset (&hdr, 0, sizeof (hdr))
+  memset(&hdr, 0, sizeof(hdr))
 
   hdr.direction = KV_CMD_IN
   hdr.cdb_size = 10
@@ -600,13 +600,13 @@ CMD_read_support_info (PKV_DEV dev)
   hdr.data = dev.buffer
   hdr.data_size = 32
 
-  status = kv_send_command (dev, &hdr, &rs)
+  status = kv_send_command(dev, &hdr, &rs)
 
-  DBG (DBG_error, "test.\n")
+  DBG(DBG_error, "test.\n")
 
-  if (status == 0)
+  if(status == 0)
     {
-      if (rs.status == 0)
+      if(rs.status == 0)
 	{
 	  Int min_x_res, min_y_res, max_x_res, max_y_res
 	  Int step_x_res, step_y_res
@@ -635,34 +635,34 @@ CMD_read_support_info (PKV_DEV dev)
 	  dev.support_info.max_y_range = KV_MAX_Y_RANGE
 
 	  dev.x_range.min = dev.y_range.min = 0
-	  dev.x_range.max = Sane.FIX (dev.support_info.max_x_range)
-	  dev.y_range.max = Sane.FIX (dev.support_info.max_y_range)
+	  dev.x_range.max = Sane.FIX(dev.support_info.max_x_range)
+	  dev.y_range.max = Sane.FIX(dev.support_info.max_y_range)
 	  dev.x_range.quant = dev.y_range.quant = 0
 
-	  DBG (DBG_error,
-	       "support_info.memory_size = %d (MB)\n",
+	  DBG(DBG_error,
+	       "support_info.memory_size = %d(MB)\n",
 	       dev.support_info.memory_size)
-	  DBG (DBG_error,
-	       "support_info.min_resolution = %d (DPI)\n",
+	  DBG(DBG_error,
+	       "support_info.min_resolution = %d(DPI)\n",
 	       dev.support_info.min_resolution)
-	  DBG (DBG_error,
-	       "support_info.max_resolution = %d (DPI)\n",
+	  DBG(DBG_error,
+	       "support_info.max_resolution = %d(DPI)\n",
 	       dev.support_info.max_resolution)
-	  DBG (DBG_error,
-	       "support_info.step_resolution = %d (DPI)\n",
+	  DBG(DBG_error,
+	       "support_info.step_resolution = %d(DPI)\n",
 	       dev.support_info.step_resolution)
-	  DBG (DBG_error,
+	  DBG(DBG_error,
 	       "support_info.support_duplex = %s\n",
 	       dev.support_info.support_duplex ? "TRUE" : "FALSE")
-	  DBG (DBG_error, "support_info.support_lamp = %s\n",
+	  DBG(DBG_error, "support_info.support_lamp = %s\n",
 	       dev.support_info.support_lamp ? "TRUE" : "FALSE")
 	}
       else
 	{
-	  DBG (DBG_error, "Error in CMD_get_support_info, "
+	  DBG(DBG_error, "Error in CMD_get_support_info, "
 	       "sense_key=%d, ASC=%d, ASCQ=%d\n",
-	       get_RS_sense_key (rs.sense),
-	       get_RS_ASC (rs.sense), get_RS_ASCQ (rs.sense))
+	       get_RS_sense_key(rs.sense),
+	       get_RS_ASC(rs.sense), get_RS_ASCQ(rs.sense))
 
 	}
     }
@@ -671,35 +671,35 @@ CMD_read_support_info (PKV_DEV dev)
 }
 
 Sane.Status
-CMD_scan (PKV_DEV dev)
+CMD_scan(PKV_DEV dev)
 {
   Sane.Status status
   KV_CMD_HEADER hdr
   KV_CMD_RESPONSE rs
 
-  DBG (DBG_proc, "CMD_scan\n")
+  DBG(DBG_proc, "CMD_scan\n")
 
-  memset (&hdr, 0, sizeof (hdr))
+  memset(&hdr, 0, sizeof(hdr))
 
   hdr.direction = KV_CMD_NONE
   hdr.cdb[0] = SCSI_SCAN
   hdr.cdb_size = 6
 
-  status = kv_send_command (dev, &hdr, &rs)
+  status = kv_send_command(dev, &hdr, &rs)
 
-  if (status == 0 && rs.status != 0)
+  if(status == 0 && rs.status != 0)
     {
-      DBG (DBG_error,
+      DBG(DBG_error,
 	   "Error in CMD_scan, sense_key=%d, ASC=%d, ASCQ=%d\n",
-	   get_RS_sense_key (rs.sense), get_RS_ASC (rs.sense),
-	   get_RS_ASCQ (rs.sense))
+	   get_RS_sense_key(rs.sense), get_RS_ASC(rs.sense),
+	   get_RS_ASCQ(rs.sense))
     }
 
   return status
 }
 
 Sane.Status
-CMD_set_window (PKV_DEV dev, Int side, PKV_CMD_RESPONSE rs)
+CMD_set_window(PKV_DEV dev, Int side, PKV_CMD_RESPONSE rs)
 {
   unsigned char *window
   unsigned char *windowdata
@@ -707,21 +707,21 @@ CMD_set_window (PKV_DEV dev, Int side, PKV_CMD_RESPONSE rs)
   KV_SCAN_MODE scan_mode
   KV_CMD_HEADER hdr
 
-  DBG (DBG_proc, "CMD_set_window\n")
+  DBG(DBG_proc, "CMD_set_window\n")
 
   window = (unsigned char *) dev.buffer
   windowdata = window + 8
 
-  memset (&hdr, 0, sizeof (hdr))
-  memset (window, 0, size)
+  memset(&hdr, 0, sizeof(hdr))
+  memset(window, 0, size)
 
   Ito16 (66, &window[6]);	/* Window descriptor block length */
 
   /* Set window data */
 
-  scan_mode = kv_get_mode (dev)
+  scan_mode = kv_get_mode(dev)
 
-  kv_set_window_data (dev, scan_mode, side, windowdata)
+  kv_set_window_data(dev, scan_mode, side, windowdata)
 
   hdr.direction = KV_CMD_OUT
   hdr.cdb_size = 10
@@ -730,43 +730,43 @@ CMD_set_window (PKV_DEV dev, Int side, PKV_CMD_RESPONSE rs)
   hdr.data = window
   hdr.data_size = size
 
-  hexdump (DBG_error, "window", window, size)
+  hexdump(DBG_error, "window", window, size)
 
-  return kv_send_command (dev, &hdr, rs)
+  return kv_send_command(dev, &hdr, rs)
 }
 
 Sane.Status
-CMD_reset_window (PKV_DEV dev)
+CMD_reset_window(PKV_DEV dev)
 {
   KV_CMD_HEADER hdr
   KV_CMD_RESPONSE rs
   Sane.Status status
 
-  DBG (DBG_proc, "CMD_reset_window\n")
+  DBG(DBG_proc, "CMD_reset_window\n")
 
-  memset (&hdr, 0, sizeof (hdr))
+  memset(&hdr, 0, sizeof(hdr))
 
   hdr.direction = KV_CMD_NONE
   hdr.cdb_size = 10
   hdr.cdb[0] = SCSI_SET_WINDOW
 
-  status = kv_send_command (dev, &hdr, &rs)
-  if (rs.status != 0)
+  status = kv_send_command(dev, &hdr, &rs)
+  if(rs.status != 0)
     status = Sane.STATUS_INVAL
 
   return status
 }
 
 Sane.Status
-CMD_get_buff_status (PKV_DEV dev, Int *front_size, Int *back_size)
+CMD_get_buff_status(PKV_DEV dev, Int *front_size, Int *back_size)
 {
   KV_CMD_HEADER hdr
   KV_CMD_RESPONSE rs
   Sane.Status status
   unsigned char *data = (unsigned char *) dev.buffer
   Int size = 12
-  memset (&hdr, 0, sizeof (hdr))
-  memset (data, 0, size)
+  memset(&hdr, 0, sizeof(hdr))
+  memset(data, 0, size)
 
   hdr.direction = KV_CMD_IN
   hdr.cdb_size = 10
@@ -775,15 +775,15 @@ CMD_get_buff_status (PKV_DEV dev, Int *front_size, Int *back_size)
   hdr.data = data
   hdr.data_size = size
 
-  status = kv_send_command (dev, &hdr, &rs)
-  if (status == 0)
+  status = kv_send_command(dev, &hdr, &rs)
+  if(status == 0)
     {
-      if (rs.status == KV_CHK_CONDITION)
+      if(rs.status == KV_CHK_CONDITION)
 	return Sane.STATUS_NO_DOCS
       else
 	{
 	  unsigned char *p = data + 4
-	  if (p[0] == SIDE_FRONT)
+	  if(p[0] == SIDE_FRONT)
 	    {
 	      *front_size = (p[5] << 16) | (p[6] << 8) | p[7]
 	    }
@@ -798,49 +798,49 @@ CMD_get_buff_status (PKV_DEV dev, Int *front_size, Int *back_size)
 }
 
 Sane.Status
-CMD_wait_buff_status (PKV_DEV dev, Int *front_size, Int *back_size)
+CMD_wait_buff_status(PKV_DEV dev, Int *front_size, Int *back_size)
 {
   Sane.Status status = Sane.STATUS_GOOD
   Int cnt = 0
   *front_size = 0
   *back_size = 0
 
-  DBG (DBG_proc, "CMD_wait_buff_status: enter feed %s\n",
+  DBG(DBG_proc, "CMD_wait_buff_status: enter feed %s\n",
        dev.val[OPT_MANUALFEED].s)
 
   do
     {
-      DBG (DBG_proc, "CMD_wait_buff_status: tray #%d of %d\n", cnt,
+      DBG(DBG_proc, "CMD_wait_buff_status: tray #%d of %d\n", cnt,
 	   dev.val[OPT_FEED_TIMEOUT].w)
-      status = CMD_get_buff_status (dev, front_size, back_size)
-      sleep (1)
+      status = CMD_get_buff_status(dev, front_size, back_size)
+      sleep(1)
     }
-  while (status == Sane.STATUS_GOOD && (*front_size == 0)
+  while(status == Sane.STATUS_GOOD && (*front_size == 0)
 	 && (*back_size == 0) && cnt++ < dev.val[OPT_FEED_TIMEOUT].w)
 
-  if (cnt > dev.val[OPT_FEED_TIMEOUT].w)
+  if(cnt > dev.val[OPT_FEED_TIMEOUT].w)
     status = Sane.STATUS_NO_DOCS
 
-  if (status == 0)
-    DBG (DBG_proc, "CMD_wait_buff_status: exit "
+  if(status == 0)
+    DBG(DBG_proc, "CMD_wait_buff_status: exit "
 	 "front_size %d, back_size %d\n", *front_size, *back_size)
   else
-    DBG (DBG_proc, "CMD_wait_buff_status: exit with no docs\n")
+    DBG(DBG_proc, "CMD_wait_buff_status: exit with no docs\n")
   return status
 }
 
 
 Sane.Status
-CMD_read_pic_elements (PKV_DEV dev, Int page, Int side,
+CMD_read_pic_elements(PKV_DEV dev, Int page, Int side,
 		       Int *width, Int *height)
 {
   Sane.Status status
   KV_CMD_HEADER hdr
   KV_CMD_RESPONSE rs
 
-  DBG (DBG_proc, "CMD_read_pic_elements\n")
+  DBG(DBG_proc, "CMD_read_pic_elements\n")
 
-  memset (&hdr, 0, sizeof (hdr))
+  memset(&hdr, 0, sizeof(hdr))
 
   hdr.direction = KV_CMD_IN
   hdr.cdb_size = 10
@@ -852,23 +852,23 @@ CMD_read_pic_elements (PKV_DEV dev, Int page, Int side,
   hdr.data = dev.buffer
   hdr.data_size = 16
 
-  status = kv_send_command (dev, &hdr, &rs)
-  if (status == 0)
+  status = kv_send_command(dev, &hdr, &rs)
+  if(status == 0)
     {
-      if (rs.status == 0)
+      if(rs.status == 0)
 	{
 	  Int s = side == SIDE_FRONT ? 0 : 1
-	  Int depth = kv_get_depth (kv_get_mode (dev))
-	  *width = B32TOI (dev.buffer)
-	  *height = B32TOI (&dev.buffer[4])
+	  Int depth = kv_get_depth(kv_get_mode(dev))
+	  *width = B32TOI(dev.buffer)
+	  *height = B32TOI(&dev.buffer[4])
 
-	  assert ((*width) % 8 == 0)
+	  assert((*width) % 8 == 0)
 
-	  DBG (DBG_proc, "CMD_read_pic_elements: "
+	  DBG(DBG_proc, "CMD_read_pic_elements: "
 	       "Page %d, Side %s, W=%d, H=%d\n",
 	       page, side == SIDE_FRONT ? "F" : "B", *width, *height)
 
-	  dev.params[s].format = kv_get_mode (dev) == SM_COLOR ?
+	  dev.params[s].format = kv_get_mode(dev) == SM_COLOR ?
 	    Sane.FRAME_RGB : Sane.FRAME_GRAY
 	  dev.params[s].last_frame = Sane.TRUE
 	  dev.params[s].depth = depth > 8 ? 8 : depth
@@ -880,7 +880,7 @@ CMD_read_pic_elements (PKV_DEV dev, Int page, Int side,
 	}
       else
 	{
-	  DBG (DBG_proc, "CMD_read_pic_elements: failed\n")
+	  DBG(DBG_proc, "CMD_read_pic_elements: failed\n")
 	  status = Sane.STATUS_INVAL
 	}
     }
@@ -889,16 +889,16 @@ CMD_read_pic_elements (PKV_DEV dev, Int page, Int side,
 }
 
 Sane.Status
-CMD_read_image (PKV_DEV dev, Int page, Int side,
+CMD_read_image(PKV_DEV dev, Int page, Int side,
 		unsigned char *buffer, Int *psize, KV_CMD_RESPONSE * rs)
 {
   Sane.Status status
   KV_CMD_HEADER hdr
   Int size = *psize
 
-  DBG (DBG_proc, "CMD_read_image\n")
+  DBG(DBG_proc, "CMD_read_image\n")
 
-  memset (&hdr, 0, sizeof (hdr))
+  memset(&hdr, 0, sizeof(hdr))
 
   hdr.direction = KV_CMD_IN
   hdr.cdb_size = 10
@@ -911,38 +911,38 @@ CMD_read_image (PKV_DEV dev, Int page, Int side,
 
   *psize = 0
 
-  status = kv_send_command (dev, &hdr, rs)
+  status = kv_send_command(dev, &hdr, rs)
 
-  if (status)
+  if(status)
     return status
 
   *psize = size
 
-  if (rs.status == KV_CHK_CONDITION && get_RS_ILI (rs.sense))
+  if(rs.status == KV_CHK_CONDITION && get_RS_ILI(rs.sense))
     {
-      Int delta = B32TOI (&rs.sense[3])
-      DBG (DBG_error, "size=%d, delta=0x%x (%d)\n", size, delta, delta)
+      Int delta = B32TOI(&rs.sense[3])
+      DBG(DBG_error, "size=%d, delta=0x%x(%d)\n", size, delta, delta)
       *psize = size - delta
     }
 
-  DBG (DBG_error, "CMD_read_image: bytes requested=%d, read=%d\n",
+  DBG(DBG_error, "CMD_read_image: bytes requested=%d, read=%d\n",
        size, *psize)
-  DBG (DBG_error, "CMD_read_image: ILI=%d, EOM=%d\n",
-       get_RS_ILI (rs.sense), get_RS_EOM (rs.sense))
+  DBG(DBG_error, "CMD_read_image: ILI=%d, EOM=%d\n",
+       get_RS_ILI(rs.sense), get_RS_EOM(rs.sense))
 
   return status
 }
 
 Sane.Status
-CMD_get_document_existanse (PKV_DEV dev)
+CMD_get_document_existanse(PKV_DEV dev)
 {
   Sane.Status status
   KV_CMD_HEADER hdr
   KV_CMD_RESPONSE rs
 
-  DBG (DBG_proc, "CMD_get_document_existanse\n")
+  DBG(DBG_proc, "CMD_get_document_existanse\n")
 
-  memset (&hdr, 0, sizeof (hdr))
+  memset(&hdr, 0, sizeof(hdr))
 
   hdr.direction = KV_CMD_IN
   hdr.cdb_size = 10
@@ -952,12 +952,12 @@ CMD_get_document_existanse (PKV_DEV dev)
   hdr.data = dev.buffer
   hdr.data_size = 6
 
-  status = kv_send_command (dev, &hdr, &rs)
-  if (status)
+  status = kv_send_command(dev, &hdr, &rs)
+  if(status)
     return status
-  if (rs.status)
+  if(rs.status)
     return Sane.STATUS_NO_DOCS
-  if ((dev.buffer[0] & 0x20) != 0)
+  if((dev.buffer[0] & 0x20) != 0)
     {
       return Sane.STATUS_GOOD
     }
@@ -966,16 +966,16 @@ CMD_get_document_existanse (PKV_DEV dev)
 }
 
 Sane.Status
-CMD_wait_document_existanse (PKV_DEV dev)
+CMD_wait_document_existanse(PKV_DEV dev)
 {
   Sane.Status status
   KV_CMD_HEADER hdr
   KV_CMD_RESPONSE rs
   Int cnt
 
-  DBG (DBG_proc, "CMD_wait_document_existanse\n")
+  DBG(DBG_proc, "CMD_wait_document_existanse\n")
 
-  memset (&hdr, 0, sizeof (hdr))
+  memset(&hdr, 0, sizeof(hdr))
 
   hdr.direction = KV_CMD_IN
   hdr.cdb_size = 10
@@ -985,37 +985,37 @@ CMD_wait_document_existanse (PKV_DEV dev)
   hdr.data = dev.buffer
   hdr.data_size = 6
 
-  for (cnt = 0; cnt < dev.val[OPT_FEED_TIMEOUT].w; cnt++)
+  for(cnt = 0; cnt < dev.val[OPT_FEED_TIMEOUT].w; cnt++)
     {
-      DBG (DBG_proc, "CMD_wait_document_existanse: tray #%d of %d\n", cnt,
+      DBG(DBG_proc, "CMD_wait_document_existanse: tray #%d of %d\n", cnt,
 	   dev.val[OPT_FEED_TIMEOUT].w)
-      status = kv_send_command (dev, &hdr, &rs)
-      if (status)
+      status = kv_send_command(dev, &hdr, &rs)
+      if(status)
 	return status
-      if (rs.status)
+      if(rs.status)
 	return Sane.STATUS_NO_DOCS
-      if ((dev.buffer[0] & 0x20) != 0)
+      if((dev.buffer[0] & 0x20) != 0)
 	{
 	  return Sane.STATUS_GOOD
 	}
-      else if (strcmp (dev.val[OPT_MANUALFEED].s, "off") == 0)
+      else if(strcmp(dev.val[OPT_MANUALFEED].s, "off") == 0)
 	{
 	  return Sane.STATUS_NO_DOCS
 	}
-      sleep (1)
+      sleep(1)
     }
 
   return Sane.STATUS_NO_DOCS
 }
 
 Sane.Status
-CMD_request_sense (PKV_DEV dev)
+CMD_request_sense(PKV_DEV dev)
 {
   KV_CMD_HEADER hdr
   KV_CMD_RESPONSE rs
 
-  DBG (DBG_proc, "CMD_request_sense\n")
-  memset (&hdr, 0, sizeof (hdr))
+  DBG(DBG_proc, "CMD_request_sense\n")
+  memset(&hdr, 0, sizeof(hdr))
   hdr.direction = KV_CMD_IN
   hdr.cdb[0] = SCSI_REQUEST_SENSE
   hdr.cdb[4] = 0x12
@@ -1023,34 +1023,34 @@ CMD_request_sense (PKV_DEV dev)
   hdr.data_size = 0x12
   hdr.data = dev.buffer
 
-  return kv_send_command (dev, &hdr, &rs)
+  return kv_send_command(dev, &hdr, &rs)
 }
 
 /* Scan routines */
 
-/* Allocate image buffer for one page (1 or 2 sides) */
+/* Allocate image buffer for one page(1 or 2 sides) */
 
 Sane.Status
-AllocateImageBuffer (PKV_DEV dev)
+AllocateImageBuffer(PKV_DEV dev)
 {
   Int *size = dev.bytes_to_read
-  Int sides = IS_DUPLEX (dev) ? 2 : 1
+  Int sides = IS_DUPLEX(dev) ? 2 : 1
   var i: Int
   size[0] = dev.params[0].bytes_per_line * dev.params[0].lines
   size[1] = dev.params[1].bytes_per_line * dev.params[1].lines
 
-  DBG (DBG_proc, "AllocateImageBuffer: enter\n")
+  DBG(DBG_proc, "AllocateImageBuffer: enter\n")
 
-  for (i = 0; i < sides; i++)
+  for(i = 0; i < sides; i++)
     {
       Sane.Byte *p
-      DBG (DBG_proc, "AllocateImageBuffer: size(%c)=%d\n",
+      DBG(DBG_proc, "AllocateImageBuffer: size(%c)=%d\n",
 	   i ? 'B' : 'F', size[i])
 
-      if (dev.img_buffers[i] == NULL)
+      if(dev.img_buffers[i] == NULL)
 	{
-	  p = (Sane.Byte *) malloc (size[i])
-	  if (p == NULL)
+	  p = (Sane.Byte *) malloc(size[i])
+	  if(p == NULL)
 	    {
 	      return Sane.STATUS_NO_MEM
 	    }
@@ -1058,8 +1058,8 @@ AllocateImageBuffer (PKV_DEV dev)
 	}
       else
 	{
-	  p = (Sane.Byte *) realloc (dev.img_buffers[i], size[i])
-	  if (p == NULL)
+	  p = (Sane.Byte *) realloc(dev.img_buffers[i], size[i])
+	  if(p == NULL)
 	    {
 	      return Sane.STATUS_NO_MEM
 	    }
@@ -1069,7 +1069,7 @@ AllocateImageBuffer (PKV_DEV dev)
 	    }
 	}
     }
-  DBG (DBG_proc, "AllocateImageBuffer: exit\n")
+  DBG(DBG_proc, "AllocateImageBuffer: exit\n")
 
   return Sane.STATUS_GOOD
 }
@@ -1077,7 +1077,7 @@ AllocateImageBuffer (PKV_DEV dev)
 /* Read image data from scanner dev.img_buffers[0],
    for the simplex page */
 Sane.Status
-ReadImageDataSimplex (PKV_DEV dev, Int page)
+ReadImageDataSimplex(PKV_DEV dev, Int page)
 {
   Int bytes_to_read = dev.bytes_to_read[0]
   Sane.Byte *buffer = (Sane.Byte *) dev.buffer
@@ -1092,24 +1092,24 @@ ReadImageDataSimplex (PKV_DEV dev, Int page)
     {
       Int size = buff_size
       Sane.Status status
-      DBG (DBG_error, "Bytes left = %d\n", bytes_to_read)
-      status = CMD_read_image (dev, page, SIDE_FRONT, buffer, &size, &rs)
-      if (status)
+      DBG(DBG_error, "Bytes left = %d\n", bytes_to_read)
+      status = CMD_read_image(dev, page, SIDE_FRONT, buffer, &size, &rs)
+      if(status)
 	{
 	  return status
 	}
-      if (rs.status)
+      if(rs.status)
 	{
-	  if (get_RS_sense_key (rs.sense))
+	  if(get_RS_sense_key(rs.sense))
 	    {
-	      DBG (DBG_error, "Error reading image data, "
+	      DBG(DBG_error, "Error reading image data, "
 		   "sense_key=%d, ASC=%d, ASCQ=%d",
-		   get_RS_sense_key (rs.sense),
-		   get_RS_ASC (rs.sense), get_RS_ASCQ (rs.sense))
+		   get_RS_sense_key(rs.sense),
+		   get_RS_ASC(rs.sense), get_RS_ASCQ(rs.sense))
 
-	      if (get_RS_sense_key (rs.sense) == 3)
+	      if(get_RS_sense_key(rs.sense) == 3)
 		{
-		  if (!get_RS_ASCQ (rs.sense))
+		  if(!get_RS_ASCQ(rs.sense))
 		    return Sane.STATUS_NO_DOCS
 		  return Sane.STATUS_JAMMED
 		}
@@ -1118,29 +1118,29 @@ ReadImageDataSimplex (PKV_DEV dev, Int page)
 
 	}
       /* copy data to image buffer */
-      if (size > bytes_to_read)
+      if(size > bytes_to_read)
 	{
 	  size = bytes_to_read
 	}
-      if (size > 0)
+      if(size > 0)
 	{
-	  memcpy (pt, buffer, size)
+	  memcpy(pt, buffer, size)
 	  bytes_to_read -= size
 	  pt += size
 	  dev.img_size[0] += size
 	}
     }
-  while (!get_RS_EOM (rs.sense))
+  while(!get_RS_EOM(rs.sense))
 
-  assert (pt == dev.img_buffers[0] + dev.img_size[0])
-  DBG (DBG_error, "Image size = %d\n", dev.img_size[0])
+  assert(pt == dev.img_buffers[0] + dev.img_size[0])
+  DBG(DBG_error, "Image size = %d\n", dev.img_size[0])
   return Sane.STATUS_GOOD
 }
 
 /* Read image data from scanner dev.img_buffers[0],
    for the duplex page */
 Sane.Status
-ReadImageDataDuplex (PKV_DEV dev, Int page)
+ReadImageDataDuplex(PKV_DEV dev, Int page)
 {
   Int bytes_to_read[2]
   Sane.Byte *buffer = (Sane.Byte *) dev.buffer
@@ -1171,27 +1171,27 @@ ReadImageDataDuplex (PKV_DEV dev, Int page)
     {
       Int size = buff_size[current_side]
       Sane.Status status
-      DBG (DBG_error, "Bytes left (F) = %d\n", bytes_to_read[0])
-      DBG (DBG_error, "Bytes left (B) = %d\n", bytes_to_read[1])
+      DBG(DBG_error, "Bytes left(F) = %d\n", bytes_to_read[0])
+      DBG(DBG_error, "Bytes left(B) = %d\n", bytes_to_read[1])
 
-      status = CMD_read_image (dev, page, sides[current_side],
+      status = CMD_read_image(dev, page, sides[current_side],
 			       buffer, &size, &rs)
-      if (status)
+      if(status)
 	{
 	  return status
 	}
-      if (rs.status)
+      if(rs.status)
 	{
-	  if (get_RS_sense_key (rs.sense))
+	  if(get_RS_sense_key(rs.sense))
 	    {
-	      DBG (DBG_error, "Error reading image data, "
+	      DBG(DBG_error, "Error reading image data, "
 		   "sense_key=%d, ASC=%d, ASCQ=%d",
-		   get_RS_sense_key (rs.sense),
-		   get_RS_ASC (rs.sense), get_RS_ASCQ (rs.sense))
+		   get_RS_sense_key(rs.sense),
+		   get_RS_ASC(rs.sense), get_RS_ASCQ(rs.sense))
 
-	      if (get_RS_sense_key (rs.sense) == 3)
+	      if(get_RS_sense_key(rs.sense) == 3)
 		{
-		  if (!get_RS_ASCQ (rs.sense))
+		  if(!get_RS_ASCQ(rs.sense))
 		    return Sane.STATUS_NO_DOCS
 		  return Sane.STATUS_JAMMED
 		}
@@ -1200,62 +1200,62 @@ ReadImageDataDuplex (PKV_DEV dev, Int page)
 	}
 
       /* copy data to image buffer */
-      if (size > bytes_to_read[current_side])
+      if(size > bytes_to_read[current_side])
 	{
 	  size = bytes_to_read[current_side]
 	}
-      if (size > 0)
+      if(size > 0)
 	{
-	  memcpy (pt[current_side], buffer, size)
+	  memcpy(pt[current_side], buffer, size)
 	  bytes_to_read[current_side] -= size
 	  pt[current_side] += size
 	  dev.img_size[current_side] += size
 	}
-      if (rs.status)
+      if(rs.status)
 	{
-	  if (get_RS_EOM (rs.sense))
+	  if(get_RS_EOM(rs.sense))
 	    {
 	      eoms[current_side] = 1
 	    }
-	  if (get_RS_ILI (rs.sense))
+	  if(get_RS_ILI(rs.sense))
 	    {
 	      current_side++
 	      current_side &= 1
 	    }
 	}
     }
-  while (eoms[0] == 0 || eoms[1] == 0)
+  while(eoms[0] == 0 || eoms[1] == 0)
 
-  DBG (DBG_error, "Image size (F) = %d\n", dev.img_size[0])
-  DBG (DBG_error, "Image size (B) = %d\n", dev.img_size[1])
+  DBG(DBG_error, "Image size(F) = %d\n", dev.img_size[0])
+  DBG(DBG_error, "Image size(B) = %d\n", dev.img_size[1])
 
-  assert (pt[0] == dev.img_buffers[0] + dev.img_size[0])
-  assert (pt[1] == dev.img_buffers[1] + dev.img_size[1])
+  assert(pt[0] == dev.img_buffers[0] + dev.img_size[0])
+  assert(pt[1] == dev.img_buffers[1] + dev.img_size[1])
 
   return Sane.STATUS_GOOD
 }
 
 /* Read image data for one page */
 Sane.Status
-ReadImageData (PKV_DEV dev, Int page)
+ReadImageData(PKV_DEV dev, Int page)
 {
   Sane.Status status
-  DBG (DBG_proc, "Reading image data for page %d\n", page)
+  DBG(DBG_proc, "Reading image data for page %d\n", page)
 
-  if (IS_DUPLEX (dev))
+  if(IS_DUPLEX(dev))
     {
-      DBG (DBG_proc, "ReadImageData: Duplex %d\n", page)
-      status = ReadImageDataDuplex (dev, page)
+      DBG(DBG_proc, "ReadImageData: Duplex %d\n", page)
+      status = ReadImageDataDuplex(dev, page)
     }
   else
     {
-      DBG (DBG_proc, "ReadImageData: Simplex %d\n", page)
-      status = ReadImageDataSimplex (dev, page)
+      DBG(DBG_proc, "ReadImageData: Simplex %d\n", page)
+      status = ReadImageDataSimplex(dev, page)
     }
   dev.img_pt[0] = dev.img_buffers[0]
   dev.img_pt[1] = dev.img_buffers[1]
 
-  DBG (DBG_proc, "Reading image data for page %d, finished\n", page)
+  DBG(DBG_proc, "Reading image data for page %d, finished\n", page)
 
   return status
 }
@@ -1271,7 +1271,7 @@ buffer_deskew(PKV_DEV s, Int side)
   Int side_index = (side == SIDE_FRONT)?0:1
   Int resolution = s.val[OPT_RESOLUTION].w
 
-  DBG (10, "buffer_deskew: start\n")
+  DBG(10, "buffer_deskew: start\n")
 
   /*only find skew on first image from a page, or if first image had error */
   if(side == SIDE_FRONT || s.deskew_stat){
@@ -1282,7 +1282,7 @@ buffer_deskew(PKV_DEV s, Int side)
       &s.deskew_vals[0],&s.deskew_vals[1],&s.deskew_slope)
 
     if(s.deskew_stat){
-      DBG (5, "buffer_despeck: bad findSkew, bailing\n")
+      DBG(5, "buffer_despeck: bad findSkew, bailing\n")
       goto cleanup
     }
   }
@@ -1303,7 +1303,7 @@ buffer_deskew(PKV_DEV s, Int side)
   }
 
   cleanup:
-  DBG (10, "buffer_deskew: finish\n")
+  DBG(10, "buffer_deskew: finish\n")
   return ret
 }
 
@@ -1317,7 +1317,7 @@ buffer_crop(PKV_DEV s, Int side)
   Int side_index = (side == SIDE_FRONT)?0:1
   Int resolution = s.val[OPT_RESOLUTION].w
 
-  DBG (10, "buffer_crop: start\n")
+  DBG(10, "buffer_crop: start\n")
 
   /*only find edges on first image from a page, or if first image had error */
   if(side == SIDE_FRONT || s.crop_stat){
@@ -1328,11 +1328,11 @@ buffer_crop(PKV_DEV s, Int side)
       &s.crop_vals[0],&s.crop_vals[1],&s.crop_vals[2],&s.crop_vals[3])
 
     if(s.crop_stat){
-      DBG (5, "buffer_crop: bad edges, bailing\n")
+      DBG(5, "buffer_crop: bad edges, bailing\n")
       goto cleanup
     }
 
-    DBG (15, "buffer_crop: t:%d b:%d l:%d r:%d\n",
+    DBG(15, "buffer_crop: t:%d b:%d l:%d r:%d\n",
       s.crop_vals[0],s.crop_vals[1],s.crop_vals[2],s.crop_vals[3])
 
     /* we don't listen to the 'top' value, since the top is not padded */
@@ -1352,7 +1352,7 @@ buffer_crop(PKV_DEV s, Int side)
       s.crop_vals[0],s.crop_vals[1],s.crop_vals[2],s.crop_vals[3])
 
   if(ret){
-    DBG (5, "buffer_crop: bad crop, bailing\n")
+    DBG(5, "buffer_crop: bad crop, bailing\n")
     ret = Sane.STATUS_GOOD
     goto cleanup
   }
@@ -1362,7 +1362,7 @@ buffer_crop(PKV_DEV s, Int side)
     = s.params[side_index].lines * s.params[side_index].bytes_per_line
 
   cleanup:
-  DBG (10, "buffer_crop: finish\n")
+  DBG(10, "buffer_crop: finish\n")
   return ret
 }
 
@@ -1375,19 +1375,19 @@ buffer_despeck(PKV_DEV s, Int side)
   Sane.Status ret = Sane.STATUS_GOOD
   Int side_index = (side == SIDE_FRONT)?0:1
 
-  DBG (10, "buffer_despeck: start\n")
+  DBG(10, "buffer_despeck: start\n")
 
   ret = sanei_magic_despeck(
     &s.params[side_index],s.img_buffers[side_index],s.val[OPT_SWDESPECK].w
   )
   if(ret){
-    DBG (5, "buffer_despeck: bad despeck, bailing\n")
+    DBG(5, "buffer_despeck: bad despeck, bailing\n")
     ret = Sane.STATUS_GOOD
     goto cleanup
   }
 
   cleanup:
-  DBG (10, "buffer_despeck: finish\n")
+  DBG(10, "buffer_despeck: finish\n")
   return ret
 }
 
@@ -1399,7 +1399,7 @@ func Int buffer_isblank(PKV_DEV s, Int side)
   Int side_index = (side == SIDE_FRONT)?0:1
   Int status = 0
 
-  DBG (10, "buffer_isblank: start\n")
+  DBG(10, "buffer_isblank: start\n")
 
   ret = sanei_magic_isBlank(
     &s.params[side_index],s.img_buffers[side_index],
@@ -1407,14 +1407,14 @@ func Int buffer_isblank(PKV_DEV s, Int side)
   )
 
   if(ret == Sane.STATUS_NO_DOCS){
-    DBG (5, "buffer_isblank: blank!\n")
+    DBG(5, "buffer_isblank: blank!\n")
     status = 1
   }
   else if(ret){
-    DBG (5, "buffer_isblank: error %d\n",ret)
+    DBG(5, "buffer_isblank: error %d\n",ret)
   }
 
-  DBG (10, "buffer_isblank: finished\n")
+  DBG(10, "buffer_isblank: finished\n")
   return status
 }
 
@@ -1428,7 +1428,7 @@ buffer_rotate(PKV_DEV s, Int side)
   Int side_index = (side == SIDE_FRONT)?0:1
   Int resolution = s.val[OPT_RESOLUTION].w
 
-  DBG (10, "buffer_rotate: start\n")
+  DBG(10, "buffer_rotate: start\n")
 
   if(s.val[OPT_SWDEROTATE].w){
     ret = sanei_magic_findTurn(
@@ -1436,7 +1436,7 @@ buffer_rotate(PKV_DEV s, Int side)
       resolution,resolution,&angle)
 
     if(ret){
-      DBG (5, "buffer_rotate: error %d\n",ret)
+      DBG(5, "buffer_rotate: error %d\n",ret)
       ret = Sane.STATUS_GOOD
       goto cleanup
     }
@@ -1454,7 +1454,7 @@ buffer_rotate(PKV_DEV s, Int side)
     angle)
 
   if(ret){
-    DBG (5, "buffer_rotate: error %d\n",ret)
+    DBG(5, "buffer_rotate: error %d\n",ret)
     ret = Sane.STATUS_GOOD
     goto cleanup
   }
@@ -1464,6 +1464,6 @@ buffer_rotate(PKV_DEV s, Int side)
     = s.params[side_index].lines * s.params[side_index].bytes_per_line
 
   cleanup:
-  DBG (10, "buffer_rotate: finished\n")
+  DBG(10, "buffer_rotate: finished\n")
   return ret
 }

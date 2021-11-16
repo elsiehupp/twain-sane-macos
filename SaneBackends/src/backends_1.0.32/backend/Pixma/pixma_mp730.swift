@@ -1,15 +1,15 @@
 /* SANE - Scanner Access Now Easy.
 
-   Copyright (C) 2011-2020 Rolf Bensch <rolf at bensch hyphen online dot de>
-   Copyright (C) 2007-2008 Nicolas Martin, <nicols-guest at alioth dot debian dot org>
-   Copyright (C) 2006-2007 Wittawat Yamwong <wittawat@web.de>
+   Copyright(C) 2011-2020 Rolf Bensch <rolf at bensch hyphen online dot de>
+   Copyright(C) 2007-2008 Nicolas Martin, <nicols-guest at alioth dot debian dot org>
+   Copyright(C) 2006-2007 Wittawat Yamwong <wittawat@web.de>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -58,7 +58,7 @@ import pixma_io
 # define UNUSED(v)
 #endif
 
-#define IMAGE_BLOCK_SIZE (0xc000)
+#define IMAGE_BLOCK_SIZE(0xc000)
 #define CMDBUF_SIZE 512
 
 #define MP10_PID 0x261f
@@ -122,70 +122,70 @@ typedef struct mp730_t
 } mp730_t
 
 
-static void mp730_finish_scan (pixma_t * s)
+static void mp730_finish_scan(pixma_t * s)
 
 static Int
-has_paper (pixma_t * s)
+has_paper(pixma_t * s)
 {
   mp730_t *mp = (mp730_t *) s.subdriver
-  return (mp.current_status[1] == 0)
+  return(mp.current_status[1] == 0)
 }
 
 static void
-drain_bulk_in (pixma_t * s)
+drain_bulk_in(pixma_t * s)
 {
   mp730_t *mp = (mp730_t *) s.subdriver
-  while (pixma_read (s.io, mp.imgbuf, IMAGE_BLOCK_SIZE) >= 0)
+  while(pixma_read(s.io, mp.imgbuf, IMAGE_BLOCK_SIZE) >= 0)
 }
 
 static Int
-abort_session (pixma_t * s)
+abort_session(pixma_t * s)
 {
   mp730_t *mp = (mp730_t *) s.subdriver
-  return pixma_exec_short_cmd (s, &mp.cb, cmd_abort_session)
+  return pixma_exec_short_cmd(s, &mp.cb, cmd_abort_session)
 }
 
 static Int
-query_status (pixma_t * s)
+query_status(pixma_t * s)
 {
   mp730_t *mp = (mp730_t *) s.subdriver
   uint8_t *data
   Int error
 
-  data = pixma_newcmd (&mp.cb, cmd_status, 0, 12)
-  error = pixma_exec (s, &mp.cb)
-  if (error >= 0)
+  data = pixma_newcmd(&mp.cb, cmd_status, 0, 12)
+  error = pixma_exec(s, &mp.cb)
+  if(error >= 0)
     {
-      memcpy (mp.current_status, data, 12)
-      PDBG (pixma_dbg (3, "Current status: paper=%u cal=%u lamp=%u\n",
+      memcpy(mp.current_status, data, 12)
+      PDBG(pixma_dbg(3, "Current status: paper=%u cal=%u lamp=%u\n",
 		       data[1], data[8], data[7]))
     }
   return error
 }
 
 static Int
-activate (pixma_t * s, uint8_t x)
+activate(pixma_t * s, uint8_t x)
 {
   mp730_t *mp = (mp730_t *) s.subdriver
-  uint8_t *data = pixma_newcmd (&mp.cb, cmd_activate, 10, 0)
+  uint8_t *data = pixma_newcmd(&mp.cb, cmd_activate, 10, 0)
   data[0] = 1
   data[3] = x
-  return pixma_exec (s, &mp.cb)
+  return pixma_exec(s, &mp.cb)
 }
 
 static Int
-start_session (pixma_t * s)
+start_session(pixma_t * s)
 {
   mp730_t *mp = (mp730_t *) s.subdriver
-  return pixma_exec_short_cmd (s, &mp.cb, cmd_start_session)
+  return pixma_exec_short_cmd(s, &mp.cb, cmd_start_session)
 }
 
 static Int
-select_source (pixma_t * s)
+select_source(pixma_t * s)
 {
   mp730_t *mp = (mp730_t *) s.subdriver
-  uint8_t *data = pixma_newcmd (&mp.cb, cmd_select_source, 10, 0)
-  switch (s.param.source)
+  uint8_t *data = pixma_newcmd(&mp.cb, cmd_select_source, 10, 0)
+  switch(s.param.source)
     {
     case PIXMA_SOURCE_ADF:
       data[0] = 2
@@ -200,16 +200,16 @@ select_source (pixma_t * s)
       data[0] = 1
       break
     }
-  return pixma_exec (s, &mp.cb)
+  return pixma_exec(s, &mp.cb)
 }
 
 static Int
-send_scan_param (pixma_t * s)
+send_scan_param(pixma_t * s)
 {
   mp730_t *mp = (mp730_t *) s.subdriver
   uint8_t *data
 
-  data = pixma_newcmd (&mp.cb, cmd_scan_param, 0x2e, 0)
+  data = pixma_newcmd(&mp.cb, cmd_scan_param, 0x2e, 0)
   pixma_set_be16 (s.param.xdpi | 0x1000, data + 0x04)
   pixma_set_be16 (s.param.ydpi | 0x1000, data + 0x06)
   pixma_set_be32 (s.param.x, data + 0x08)
@@ -217,9 +217,9 @@ send_scan_param (pixma_t * s)
   pixma_set_be32 (mp.raw_width, data + 0x10)
   pixma_set_be32 (s.param.h, data + 0x14)
 
-  if (s.param.channels == 1)
+  if(s.param.channels == 1)
     {
-      if (s.param.depth == 1)
+      if(s.param.depth == 1)
         data[0x18] = 0x01
       else
         data[0x18] = 0x04
@@ -233,18 +233,18 @@ send_scan_param (pixma_t * s)
   data[0x20] = (s.param.depth == 1) ? 0x01 : 0xff;  /* modify for lineart: 0x01 */
   data[0x23] = 0x81
 
-  return pixma_exec (s, &mp.cb)
+  return pixma_exec(s, &mp.cb)
 }
 
 static Int
-calibrate (pixma_t * s)
+calibrate(pixma_t * s)
 {
   mp730_t *mp = (mp730_t *) s.subdriver
-  return pixma_exec_short_cmd (s, &mp.cb, cmd_calibrate)
+  return pixma_exec_short_cmd(s, &mp.cb, cmd_calibrate)
 }
 
 static Int
-read_image_block (pixma_t * s, uint8_t * header, uint8_t * data)
+read_image_block(pixma_t * s, uint8_t * header, uint8_t * data)
 {
   static const uint8_t cmd[10] =	/* 0xd420 cmd */
   { 0xd4, 0x20, 0, 0, 0, 0, 0, IMAGE_BLOCK_SIZE / 256, 4, 0 ]
@@ -254,21 +254,21 @@ read_image_block (pixma_t * s, uint8_t * header, uint8_t * data)
 
   mp.state = state_transfering
   mp.cb.reslen =
-    pixma_cmd_transaction (s, cmd, sizeof (cmd), mp.cb.buf, 512)
+    pixma_cmd_transaction(s, cmd, sizeof(cmd), mp.cb.buf, 512)
   datalen = mp.cb.reslen
-  if (datalen < 0)
+  if(datalen < 0)
     return datalen
 
-  memcpy (header, mp.cb.buf, hlen)
-  if (datalen >= hlen)
+  memcpy(header, mp.cb.buf, hlen)
+  if(datalen >= hlen)
     {
       datalen -= hlen
-      memcpy (data, mp.cb.buf + hlen, datalen)
+      memcpy(data, mp.cb.buf + hlen, datalen)
       data += datalen
-      if (mp.cb.reslen == 512)
+      if(mp.cb.reslen == 512)
 	{
-	  error = pixma_read (s.io, data, IMAGE_BLOCK_SIZE - 512 + hlen)
-	  if (error < 0)
+	  error = pixma_read(s.io, data, IMAGE_BLOCK_SIZE - 512 + hlen)
+	  if(error < 0)
 	    return error
 	  datalen += error
 	}
@@ -276,16 +276,16 @@ read_image_block (pixma_t * s, uint8_t * header, uint8_t * data)
 
   mp.state = state_scanning
   mp.cb.expected_reslen = 0
-  error = pixma_check_result (&mp.cb)
-  if (error < 0)
+  error = pixma_check_result(&mp.cb)
+  if(error < 0)
     return error
-  if (mp.cb.reslen < hlen)
+  if(mp.cb.reslen < hlen)
     return PIXMA_EPROTO
   return datalen
 }
 
 static Int
-send_time (pixma_t * s)
+send_time(pixma_t * s)
 {
   /* Why does a scanner need a time? */
   time_t now
@@ -293,26 +293,26 @@ send_time (pixma_t * s)
   uint8_t *data
   mp730_t *mp = (mp730_t *) s.subdriver
 
-  data = pixma_newcmd (&mp.cb, cmd_time, 20, 0)
-  pixma_get_time (&now, NULL)
-  t = localtime (&now)
-  strftime ((char *) data, 16, "%y/%m/%d %H:%M", t)
-  PDBG (pixma_dbg (3, "Sending time: '%s'\n", (char *) data))
-  return pixma_exec (s, &mp.cb)
+  data = pixma_newcmd(&mp.cb, cmd_time, 20, 0)
+  pixma_get_time(&now, NULL)
+  t = localtime(&now)
+  strftime((char *) data, 16, "%y/%m/%d %H:%M", t)
+  PDBG(pixma_dbg(3, "Sending time: '%s'\n", (char *) data))
+  return pixma_exec(s, &mp.cb)
 }
 
 static Int
-handle_interrupt (pixma_t * s, Int timeout)
+handle_interrupt(pixma_t * s, Int timeout)
 {
   uint8_t buf[16]
   Int len
 
-  len = pixma_wait_interrupt (s.io, buf, sizeof (buf), timeout)
-  if (len == PIXMA_ETIMEDOUT)
+  len = pixma_wait_interrupt(s.io, buf, sizeof(buf), timeout)
+  if(len == PIXMA_ETIMEDOUT)
     return 0
-  if (len < 0)
+  if(len < 0)
     return len
-  switch (s.cfg.pid)
+  switch(s.cfg.pid)
     {
     case MP360_PID:
     case MP370_PID:
@@ -323,20 +323,20 @@ handle_interrupt (pixma_t * s, Int timeout)
     case MF5770_PID:
     case MF3110_PID:
     case IR1020_PID:
-      if (len != 16)
+      if(len != 16)
 	{
-	  PDBG (pixma_dbg
+	  PDBG(pixma_dbg
 		(1, "WARNING:unexpected interrupt packet length %d\n", len))
 	  return PIXMA_EPROTO
 	}
-      if (buf[12] & 0x40)
-	query_status (s)
-      if (buf[10] & 0x40)
-	send_time (s)
+      if(buf[12] & 0x40)
+	query_status(s)
+      if(buf[10] & 0x40)
+	send_time(s)
       /* FIXME: following is unverified! */
-      if (buf[15] & 1)
+      if(buf[15] & 1)
 	s.events = PIXMA_EV_BUTTON2;	/* b/w scan */
-      if (buf[15] & 2)
+      if(buf[15] & 2)
 	s.events = PIXMA_EV_BUTTON1;	/* color scan */
       break
 
@@ -346,29 +346,29 @@ handle_interrupt (pixma_t * s, Int timeout)
     case MP730_PID:
     case MP710_PID:
     case MP740_PID:
-      if (len != 8)
+      if(len != 8)
 	{
-	  PDBG (pixma_dbg
+	  PDBG(pixma_dbg
 		(1, "WARNING:unexpected interrupt packet length %d\n", len))
 	  return PIXMA_EPROTO
 	}
-      if (buf[7] & 0x10)
+      if(buf[7] & 0x10)
 	s.events = PIXMA_EV_BUTTON1
-      if (buf[5] & 8)
-	send_time (s)
+      if(buf[5] & 8)
+	send_time(s)
       break
 
     default:
-      PDBG (pixma_dbg (1, "WARNING:unknown interrupt, please report!\n"))
-      PDBG (pixma_hexdump (1, buf, len))
+      PDBG(pixma_dbg(1, "WARNING:unknown interrupt, please report!\n"))
+      PDBG(pixma_hexdump(1, buf, len))
     }
   return 1
 }
 
 static Int
-has_ccd_sensor (pixma_t * s)
+has_ccd_sensor(pixma_t * s)
 {
-  return (s.cfg.pid == MP360_PID ||
+  return(s.cfg.pid == MP360_PID ||
           s.cfg.pid == MP370_PID ||
           s.cfg.pid == MP375R_PID ||
           s.cfg.pid == MP390_PID ||
@@ -378,22 +378,22 @@ has_ccd_sensor (pixma_t * s)
 }
 
 static Int
-read_error_info (pixma_t * s, void *buf, unsigned size)
+read_error_info(pixma_t * s, void *buf, unsigned size)
 {
   unsigned len = 16
   mp730_t *mp = (mp730_t *) s.subdriver
   uint8_t *data
   Int error
 
-  data = pixma_newcmd (&mp.cb, cmd_error_info, 0, len)
-  error = pixma_exec (s, &mp.cb)
-  if (error < 0)
+  data = pixma_newcmd(&mp.cb, cmd_error_info, 0, len)
+  error = pixma_exec(s, &mp.cb)
+  if(error < 0)
     return error
-  if (buf && len < size)
+  if(buf && len < size)
     {
       size = len
       /* NOTE: I've absolutely no idea what the returned data mean. */
-      memcpy (buf, data, size)
+      memcpy(buf, data, size)
       error = len
     }
   return error
@@ -404,32 +404,32 @@ step1 (pixma_t * s)
 {
   Int error
 
-  error = query_status (s)
-  if (error < 0)
+  error = query_status(s)
+  if(error < 0)
     return error
-  if ((s.param.source == PIXMA_SOURCE_ADF
+  if((s.param.source == PIXMA_SOURCE_ADF
        || s.param.source == PIXMA_SOURCE_ADFDUP)
-      && !has_paper (s))
+      && !has_paper(s))
     return PIXMA_ENO_PAPER
-  if (has_ccd_sensor (s))
+  if(has_ccd_sensor(s))
     {
-      switch (s.cfg.pid)
+      switch(s.cfg.pid)
         {
           case MF5730_PID:
           case MF5750_PID:
           case MF5770_PID:
           /* MF57x0: Wait 10 sec before starting for 1st page only */
-            if (s.param.adf_pageid == 0)
+            if(s.param.adf_pageid == 0)
 	      {
                 Int tmo = 10;  /* like Windows driver, 10 sec CCD calibration ? */
-                while (--tmo >= 0)
+                while(--tmo >= 0)
                   {
-                    error = handle_interrupt (s, 1000);		\
-                    if (s.cancel)				\
+                    error = handle_interrupt(s, 1000);		\
+                    if(s.cancel)				\
                       return PIXMA_ECANCELED;			\
-                    if (error != PIXMA_ECANCELED && error < 0)	\
+                    if(error != PIXMA_ECANCELED && error < 0)	\
                       return error
-                    PDBG (pixma_dbg (2, "CCD Calibration ends in %d sec.\n", tmo))
+                    PDBG(pixma_dbg(2, "CCD Calibration ends in %d sec.\n", tmo))
                   }
               }
             break
@@ -438,17 +438,17 @@ step1 (pixma_t * s)
             break
         }
 
-      activate (s, 0)
-      error = calibrate (s)
+      activate(s, 0)
+      error = calibrate(s)
 
-      switch (s.cfg.pid)
+      switch(s.cfg.pid)
         {
           case MF5730_PID:
           case MF5750_PID:
           case MF5770_PID:
           /* MF57x0: calibration returns PIXMA_STATUS_FAILED */
-            if (error == PIXMA_ECANCELED)
-              error = read_error_info (s, NULL, 0)
+            if(error == PIXMA_ECANCELED)
+              error = read_error_info(s, NULL, 0)
             break
 
           default:
@@ -459,24 +459,24 @@ step1 (pixma_t * s)
       // don't interrupt @ PIXMA_STATUS_BUSY
       error = 0
     }
-  if (error >= 0)
-    error = activate (s, 0)
-  if (error >= 0)
-    error = activate (s, 4)
+  if(error >= 0)
+    error = activate(s, 0)
+  if(error >= 0)
+    error = activate(s, 4)
   return error
 }
 
 static void
-pack_rgb (const uint8_t * src, unsigned nlines, unsigned w, uint8_t * dst)
+pack_rgb(const uint8_t * src, unsigned nlines, unsigned w, uint8_t * dst)
 {
   unsigned w2, stride
 
   w2 = 2 * w
   stride = 3 * w
-  for (; nlines != 0; nlines--)
+  for(; nlines != 0; nlines--)
     {
       unsigned x
-      for (x = 0; x != w; x++)
+      for(x = 0; x != w; x++)
 	{
 	  *dst++ = src[x + 0]
 	  *dst++ = src[x + w]
@@ -487,19 +487,19 @@ pack_rgb (const uint8_t * src, unsigned nlines, unsigned w, uint8_t * dst)
 }
 
 static Int
-mp730_open (pixma_t * s)
+mp730_open(pixma_t * s)
 {
   mp730_t *mp
   uint8_t *buf
 
-  mp = (mp730_t *) calloc (1, sizeof (*mp))
-  if (!mp)
+  mp = (mp730_t *) calloc(1, sizeof(*mp))
+  if(!mp)
     return PIXMA_ENOMEM
 
-  buf = (uint8_t *) malloc (CMDBUF_SIZE)
-  if (!buf)
+  buf = (uint8_t *) malloc(CMDBUF_SIZE)
+  if(!buf)
     {
-      free (mp)
+      free(mp)
       return PIXMA_ENOMEM
     }
 
@@ -512,37 +512,37 @@ mp730_open (pixma_t * s)
   mp.cb.cmd_header_len = 10
   mp.cb.cmd_len_field_ofs = 7
 
-  PDBG (pixma_dbg (3, "Trying to clear the interrupt buffer...\n"))
-  if (handle_interrupt (s, 200) == 0)
+  PDBG(pixma_dbg(3, "Trying to clear the interrupt buffer...\n"))
+  if(handle_interrupt(s, 200) == 0)
     {
-      PDBG (pixma_dbg (3, "  no packets in buffer\n"))
+      PDBG(pixma_dbg(3, "  no packets in buffer\n"))
     }
   return 0
 }
 
 static void
-mp730_close (pixma_t * s)
+mp730_close(pixma_t * s)
 {
   mp730_t *mp = (mp730_t *) s.subdriver
 
-  mp730_finish_scan (s)
-  free (mp.cb.buf)
-  free (mp.buf)
-  free (mp)
+  mp730_finish_scan(s)
+  free(mp.cb.buf)
+  free(mp.buf)
+  free(mp)
   s.subdriver = NULL
 }
 
 static unsigned
-calc_raw_width (pixma_t * s, const pixma_scan_param_t * sp)
+calc_raw_width(pixma_t * s, const pixma_scan_param_t * sp)
 {
   unsigned raw_width
   /* FIXME: Does MP730 need the alignment? */
   /*  TODO test: MP710/740 */
-  if (sp.channels == 1)
+  if(sp.channels == 1)
     {
-      if (sp.depth == 8)   /* grayscale  */
+      if(sp.depth == 8)   /* grayscale  */
         {
-          if (s.cfg.pid == MP5_PID   ||
+          if(s.cfg.pid == MP5_PID   ||
               s.cfg.pid == MP10_PID  ||
               s.cfg.pid == MP700_PID ||
               s.cfg.pid == MP730_PID ||
@@ -551,30 +551,30 @@ calc_raw_width (pixma_t * s, const pixma_scan_param_t * sp)
               s.cfg.pid == MP375R_PID ||
               s.cfg.pid == MP390_PID ||
 	      s.cfg.pid == IR1020_PID)
-            raw_width = ALIGN_SUP (sp.w, 4)
+            raw_width = ALIGN_SUP(sp.w, 4)
           else
-            raw_width = ALIGN_SUP (sp.w, 12)
+            raw_width = ALIGN_SUP(sp.w, 12)
         }
       else   /* depth = 1 : LINEART */
-        raw_width = ALIGN_SUP (sp.w, 16)
+        raw_width = ALIGN_SUP(sp.w, 16)
     }
   else
-    raw_width = ALIGN_SUP (sp.w, 4)
+    raw_width = ALIGN_SUP(sp.w, 4)
   return raw_width
 }
 
 static Int
-mp730_check_param (pixma_t * s, pixma_scan_param_t * sp)
+mp730_check_param(pixma_t * s, pixma_scan_param_t * sp)
 {
   uint8_t k = 1
 
   /* check if channels is 3, or if depth is 1 then channels also 1 else set depth to 8 */
-  if ((sp.channels==3) || !(sp.channels==1 && sp.depth==1))
+  if((sp.channels==3) || !(sp.channels==1 && sp.depth==1))
     {
       sp.depth=8
     }
   /* for MP5, MP10, MP360/370, MP700/730 in grayscale & lineart modes, max scan res is 600 dpi */
-  if (s.cfg.pid == MP5_PID   ||
+  if(s.cfg.pid == MP5_PID   ||
       s.cfg.pid == MP10_PID  ||
       s.cfg.pid == MP700_PID ||
       s.cfg.pid == MP730_PID ||
@@ -583,8 +583,8 @@ mp730_check_param (pixma_t * s, pixma_scan_param_t * sp)
       s.cfg.pid == MP375R_PID ||
       s.cfg.pid == MP390_PID)
     {
-      if (sp.channels == 1)
-          k = sp.xdpi / MIN (sp.xdpi, 600)
+      if(sp.channels == 1)
+          k = sp.xdpi / MIN(sp.xdpi, 600)
     }
 
   sp.x /= k
@@ -593,34 +593,34 @@ mp730_check_param (pixma_t * s, pixma_scan_param_t * sp)
   sp.xdpi /= k
   sp.ydpi = sp.xdpi
 
-  sp.w = calc_raw_width (s, sp)
+  sp.w = calc_raw_width(s, sp)
   sp.w /= k
-  sp.line_size = (calc_raw_width (s, sp) * sp.channels * sp.depth) / 8
+  sp.line_size = (calc_raw_width(s, sp) * sp.channels * sp.depth) / 8
 
   return 0
 }
 
 static Int
-mp730_scan (pixma_t * s)
+mp730_scan(pixma_t * s)
 {
   Int error, n
   mp730_t *mp = (mp730_t *) s.subdriver
   uint8_t *buf
 
-  if (mp.state != state_idle)
+  if(mp.state != state_idle)
     return PIXMA_EBUSY
 
   /* clear interrupt packets buffer */
-  while (handle_interrupt (s, 0) > 0)
+  while(handle_interrupt(s, 0) > 0)
     {
     }
 
-  mp.raw_width = calc_raw_width (s, s.param)
-  PDBG (pixma_dbg (3, "raw_width = %u\n", mp.raw_width))
+  mp.raw_width = calc_raw_width(s, s.param)
+  PDBG(pixma_dbg(3, "raw_width = %u\n", mp.raw_width))
 
   n = IMAGE_BLOCK_SIZE / s.param.line_size + 1
-  buf = (uint8_t *) malloc ((n + 1) * s.param.line_size + IMAGE_BLOCK_SIZE)
-  if (!buf)
+  buf = (uint8_t *) malloc((n + 1) * s.param.line_size + IMAGE_BLOCK_SIZE)
+  if(!buf)
     return PIXMA_ENOMEM
   mp.buf = buf
   mp.lbuf = buf
@@ -628,17 +628,17 @@ mp730_scan (pixma_t * s)
   mp.imgbuf_len = 0
 
   error = step1 (s)
-  if (error >= 0)
-    error = start_session (s)
-  if (error >= 0)
+  if(error >= 0)
+    error = start_session(s)
+  if(error >= 0)
     mp.state = state_scanning
-  if (error >= 0)
-    error = select_source (s)
-  if (error >= 0)
-    error = send_scan_param (s)
-  if (error < 0)
+  if(error >= 0)
+    error = select_source(s)
+  if(error >= 0)
+    error = send_scan_param(s)
+  if(error < 0)
     {
-      mp730_finish_scan (s)
+      mp730_finish_scan(s)
       return error
     }
   mp.last_block = 0
@@ -646,7 +646,7 @@ mp730_scan (pixma_t * s)
 }
 
 static Int
-mp730_fill_buffer (pixma_t * s, pixma_imagebuf_t * ib)
+mp730_fill_buffer(pixma_t * s, pixma_imagebuf_t * ib)
 {
   Int error, n
   mp730_t *mp = (mp730_t *) s.subdriver
@@ -657,45 +657,45 @@ mp730_fill_buffer (pixma_t * s, pixma_imagebuf_t * ib)
     {
       do
 	{
-	  if (s.cancel)
+	  if(s.cancel)
 	    return PIXMA_ECANCELED
-	  if (mp.last_block)           /* end of image */
+	  if(mp.last_block)           /* end of image */
 	      return 0
 
-	  error = read_image_block (s, header, mp.imgbuf + mp.imgbuf_len)
-	  if (error < 0)
+	  error = read_image_block(s, header, mp.imgbuf + mp.imgbuf_len)
+	  if(error < 0)
 	    return error
 
 	  bytes_received = error
 	  block_size = pixma_get_be16 (header + 4)
 	  mp.last_block = ((header[2] & 0x28) == 0x28)
-	  if (mp.last_block)
+	  if(mp.last_block)
 	    {    /* end of image */
 	      mp.state = state_finished
 	    }
-	  if ((header[2] & ~0x38) != 0)
+	  if((header[2] & ~0x38) != 0)
 	    {
-	      PDBG (pixma_dbg (1, "WARNING: Unexpected result header\n"))
-	      PDBG (pixma_hexdump (1, header, 16))
+	      PDBG(pixma_dbg(1, "WARNING: Unexpected result header\n"))
+	      PDBG(pixma_hexdump(1, header, 16))
 	    }
-	  PASSERT (bytes_received == block_size)
+	  PASSERT(bytes_received == block_size)
 
-	  if (block_size == 0)
+	  if(block_size == 0)
 	    {
 	      /* no image data at this moment. */
 	      /*pixma_sleep(100000); *//* FIXME: too short, too long? */
-	      handle_interrupt (s, 100)
+	      handle_interrupt(s, 100)
             }
 	}
-      while (block_size == 0)
+      while(block_size == 0)
 
       /* TODO: simplify! */
       mp.imgbuf_len += bytes_received
       n = mp.imgbuf_len / s.param.line_size
-      /* n = number of full lines (rows) we have in the buffer. */
-      if (n != 0)
+      /* n = number of full lines(rows) we have in the buffer. */
+      if(n != 0)
 	{
-	  if (s.param.channels != 1    &&
+	  if(s.param.channels != 1    &&
 	      s.cfg.pid != MF5730_PID  &&
 	      s.cfg.pid != MF5750_PID  &&
 	      s.cfg.pid != MF5770_PID  &&
@@ -703,18 +703,18 @@ mp730_fill_buffer (pixma_t * s, pixma_imagebuf_t * ib)
 	      s.cfg.pid != IR1020_PID)
 	    {
 	      /* color, and not an MF57x0 nor MF3110 */
-	      pack_rgb (mp.imgbuf, n, mp.raw_width, mp.lbuf)
+	      pack_rgb(mp.imgbuf, n, mp.raw_width, mp.lbuf)
 	    }
 	  else
              /* grayscale/lineart or MF57x0 or MF3110 */
-             memcpy (mp.lbuf, mp.imgbuf, n * s.param.line_size)
+             memcpy(mp.lbuf, mp.imgbuf, n * s.param.line_size)
 
 	  block_size = n * s.param.line_size
 	  mp.imgbuf_len -= block_size
-	  memcpy (mp.imgbuf, mp.imgbuf + block_size, mp.imgbuf_len)
+	  memcpy(mp.imgbuf, mp.imgbuf + block_size, mp.imgbuf_len)
 	}
     }
-  while (n == 0)
+  while(n == 0)
 
   ib.rptr = mp.lbuf
   ib.rend = mp.lbuf + block_size
@@ -722,45 +722,45 @@ mp730_fill_buffer (pixma_t * s, pixma_imagebuf_t * ib)
 }
 
 static void
-mp730_finish_scan (pixma_t * s)
+mp730_finish_scan(pixma_t * s)
 {
   Int error, aborted = 0
   mp730_t *mp = (mp730_t *) s.subdriver
 
-  switch (mp.state)
+  switch(mp.state)
     {
     case state_transfering:
-      drain_bulk_in (s)
+      drain_bulk_in(s)
       /* fall through */
     case state_scanning:
     case state_warmup:
       aborted = 1
-      error = abort_session (s)
-      if (error < 0)
-	PDBG (pixma_dbg
+      error = abort_session(s)
+      if(error < 0)
+	PDBG(pixma_dbg
 	      (1, "WARNING:abort_session() failed %s\n",
-	       pixma_strerror (error)))
+	       pixma_strerror(error)))
       /* fall through */
     case state_finished:
-      query_status (s)
-      query_status (s)
-      activate (s, 0)
+      query_status(s)
+      query_status(s)
+      activate(s, 0)
 
       // MF57x0 devices don't require abort_session() after the last page
-      if (!aborted &&
+      if(!aborted &&
           (s.param.source == PIXMA_SOURCE_ADF ||
            s.param.source == PIXMA_SOURCE_ADFDUP) &&
-           has_paper (s) &&
+           has_paper(s) &&
            (s.cfg.pid == MF5730_PID ||
             s.cfg.pid == MF5750_PID ||
             s.cfg.pid == MF5770_PID ||
             s.cfg.pid == IR1020_PID))
       {
-        error = abort_session (s)
-        if (error < 0)
-          PDBG (pixma_dbg
+        error = abort_session(s)
+        if(error < 0)
+          PDBG(pixma_dbg
                 (1, "WARNING:abort_session() failed %s\n",
-                 pixma_strerror (error)))
+                 pixma_strerror(error)))
       }
 
       mp.buf = mp.lbuf = mp.imgbuf = NULL
@@ -772,25 +772,25 @@ mp730_finish_scan (pixma_t * s)
 }
 
 static void
-mp730_wait_event (pixma_t * s, Int timeout)
+mp730_wait_event(pixma_t * s, Int timeout)
 {
   /* FIXME: timeout is not correct. See usbGetCompleteUrbNoIntr() for
    * instance. */
-  while (s.events == 0 && handle_interrupt (s, timeout) > 0)
+  while(s.events == 0 && handle_interrupt(s, timeout) > 0)
     {
     }
 }
 
 static Int
-mp730_get_status (pixma_t * s, pixma_device_status_t * status)
+mp730_get_status(pixma_t * s, pixma_device_status_t * status)
 {
   Int error
 
-  error = query_status (s)
-  if (error < 0)
+  error = query_status(s)
+  if(error < 0)
     return error
   status.hardware = PIXMA_HARDWARE_OK
-  status.adf = (has_paper (s)) ? PIXMA_ADF_OK : PIXMA_ADF_NO_PAPER
+  status.adf = (has_paper(s)) ? PIXMA_ADF_OK : PIXMA_ADF_NO_PAPER
   return 0
 }
 
@@ -822,23 +822,23 @@ static const pixma_scan_ops_t pixma_mp730_ops = {
 }
 const pixma_config_t pixma_mp730_devices[] = {
 /* TODO: check area limits */
-  DEVICE ("PIXUS MP5/SmartBase MPC190/imageCLASS MPC190","MP5", MP5_PID, 600, 636, 868, PIXMA_CAP_LINEART),/* color scan can do 600x1200 */
-  DEVICE ("PIXUS MP10/SmartBase MPC200/imageCLASS MPC200","MP10", MP10_PID, 600, 636, 868, PIXMA_CAP_LINEART),/* color scan can do 600x1200 */
-  DEVICE ("PIXMA MP360", "MP360", MP360_PID, 1200, 636, 868, PIXMA_CAP_LINEART),
-  DEVICE ("PIXMA MP370", "MP370", MP370_PID, 1200, 636, 868, PIXMA_CAP_LINEART),
-  DEVICE ("PIXMA MP375R", "MP375R", MP375R_PID, 1200, 636, 868, PIXMA_CAP_LINEART),
-  DEVICE ("PIXMA MP390", "MP390", MP390_PID, 1200, 636, 868, PIXMA_CAP_LINEART),
-  DEVICE ("PIXMA MP700", "MP700", MP700_PID, 1200, 638, 877 /*1035 */ , PIXMA_CAP_LINEART),
-  DEVICE ("PIXMA MP710", "MP710", MP710_PID, 1200, 637, 868, PIXMA_CAP_LINEART),
-  DEVICE ("PIXMA MP730", "MP730", MP730_PID, 1200, 637, 868, PIXMA_CAP_ADF | PIXMA_CAP_LINEART),
-  DEVICE ("PIXMA MP740", "MP740", MP740_PID, 1200, 637, 868, PIXMA_CAP_ADF | PIXMA_CAP_LINEART),
+  DEVICE("PIXUS MP5/SmartBase MPC190/imageCLASS MPC190","MP5", MP5_PID, 600, 636, 868, PIXMA_CAP_LINEART),/* color scan can do 600x1200 */
+  DEVICE("PIXUS MP10/SmartBase MPC200/imageCLASS MPC200","MP10", MP10_PID, 600, 636, 868, PIXMA_CAP_LINEART),/* color scan can do 600x1200 */
+  DEVICE("PIXMA MP360", "MP360", MP360_PID, 1200, 636, 868, PIXMA_CAP_LINEART),
+  DEVICE("PIXMA MP370", "MP370", MP370_PID, 1200, 636, 868, PIXMA_CAP_LINEART),
+  DEVICE("PIXMA MP375R", "MP375R", MP375R_PID, 1200, 636, 868, PIXMA_CAP_LINEART),
+  DEVICE("PIXMA MP390", "MP390", MP390_PID, 1200, 636, 868, PIXMA_CAP_LINEART),
+  DEVICE("PIXMA MP700", "MP700", MP700_PID, 1200, 638, 877 /*1035 */ , PIXMA_CAP_LINEART),
+  DEVICE("PIXMA MP710", "MP710", MP710_PID, 1200, 637, 868, PIXMA_CAP_LINEART),
+  DEVICE("PIXMA MP730", "MP730", MP730_PID, 1200, 637, 868, PIXMA_CAP_ADF | PIXMA_CAP_LINEART),
+  DEVICE("PIXMA MP740", "MP740", MP740_PID, 1200, 637, 868, PIXMA_CAP_ADF | PIXMA_CAP_LINEART),
 
-  DEVICE ("Canon imageCLASS MF5730", "MF5730", MF5730_PID, 1200, 636, 868, PIXMA_CAP_ADF),
-  DEVICE ("Canon imageCLASS MF5750", "MF5750", MF5750_PID, 1200, 636, 868, PIXMA_CAP_ADF),
-  DEVICE ("Canon imageCLASS MF5770", "MF5770", MF5770_PID, 1200, 636, 868, PIXMA_CAP_ADF),
-  DEVICE ("Canon imageCLASS MF3110", "MF3110", MF3110_PID, 600, 636, 868, 0),
+  DEVICE("Canon imageCLASS MF5730", "MF5730", MF5730_PID, 1200, 636, 868, PIXMA_CAP_ADF),
+  DEVICE("Canon imageCLASS MF5750", "MF5750", MF5750_PID, 1200, 636, 868, PIXMA_CAP_ADF),
+  DEVICE("Canon imageCLASS MF5770", "MF5770", MF5770_PID, 1200, 636, 868, PIXMA_CAP_ADF),
+  DEVICE("Canon imageCLASS MF3110", "MF3110", MF3110_PID, 600, 636, 868, 0),
 
-  DEVICE ("Canon iR 1020/1024/1025", "iR1020", IR1020_PID, 600, 636, 868, PIXMA_CAP_ADFDUP),
+  DEVICE("Canon iR 1020/1024/1025", "iR1020", IR1020_PID, 600, 636, 868, PIXMA_CAP_ADFDUP),
 
-  DEVICE (NULL, NULL, 0, 0, 0, 0, 0)
+  DEVICE(NULL, NULL, 0, 0, 0, 0, 0)
 ]

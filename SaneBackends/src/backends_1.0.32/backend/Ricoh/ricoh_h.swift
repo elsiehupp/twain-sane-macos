@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1998, Feico W. Dillema
+   Copyright(C) 1998, Feico W. Dillema
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -140,7 +140,7 @@ _2btol(Sane.Byte *bytes)
 
         rv = (bytes[0] << 8) |
              bytes[1]
-        return (rv)
+        return(rv)
 }
 
 static inline Int
@@ -151,7 +151,7 @@ _3btol(Sane.Byte *bytes)
         rv = (bytes[0] << 16) |
              (bytes[1] << 8) |
              bytes[2]
-        return (rv)
+        return(rv)
 }
 
 static inline Int
@@ -163,7 +163,7 @@ _4btol(Sane.Byte *bytes)
              (bytes[1] << 16) |
              (bytes[2] << 8) |
              bytes[3]
-        return (rv)
+        return(rv)
 }
 
 typedef enum
@@ -278,7 +278,7 @@ struct ricoh_window_data {
         Sane.Byte brightness
         Sane.Byte threshold
         Sane.Byte contrast
-        Sane.Byte image_comp;        /* image composition (data type) */
+        Sane.Byte image_comp;        /* image composition(data type) */
         Sane.Byte bits_per_pixel
         Sane.Byte halftone_pattern[2]
         Sane.Byte pad_type
@@ -308,7 +308,7 @@ struct measurements_units_page {
         Sane.Byte mud[2]
         Sane.Byte res2[2];  /* anybody know what `COH' may mean ??? */
 #if 0
-        Sane.Byte more_pages[243]; /* maximum size 255 bytes (incl header) */
+        Sane.Byte more_pages[243]; /* maximum size 255 bytes(incl header) */
 #endif
 ]
 
@@ -317,7 +317,7 @@ struct mode_pages {
         Sane.Byte parameter_length
         Sane.Byte rest[6]
 #if 0
-        Sane.Byte more_pages[243]; /* maximum size 255 bytes (incl header) */
+        Sane.Byte more_pages[243]; /* maximum size 255 bytes(incl header) */
 #endif
 ]
 

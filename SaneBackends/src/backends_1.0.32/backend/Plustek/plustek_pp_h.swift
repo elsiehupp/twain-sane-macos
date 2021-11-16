@@ -5,8 +5,8 @@
  * Work on plustek.[ch] file from the SANE package.<br>
  *
  * original code taken from sane-0.71<br>
- * Copyright (C) 1997 Hypercore Software Design, Ltd.<br>
- * Copyright (C) 2001-2013 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 1997 Hypercore Software Design, Ltd.<br>
+ * Copyright(C) 2001-2013 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.01 - initial version
@@ -21,7 +21,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -225,11 +225,11 @@ typedef const struct mode_param
 #define _E_ABORT	  (_FIRST_ERR-9)	/* operation aborted				*/
 #define	_E_LOCK		  (_FIRST_ERR-10)	/* can't lock resource				*/
 #define _E_NOSUPP	  (_FIRST_ERR-11)	/* feature or device not supported  */
-#define _E_NORESOURCE (_FIRST_ERR-12)	/* out of memo, resource busy...    */
+#define _E_NORESOURCE(_FIRST_ERR-12)	/* out of memo, resource busy...    */
 #define _E_VERSION	  (_FIRST_ERR-19)	/* version conflict					*/
 #define _E_NO_DEV	  (_FIRST_ERR-20)	/* device does not exist			*/
 #define _E_NO_CONN	  (_FIRST_ERR-21)	/* nothing connected				*/
-#define _E_PORTSEARCH (_FIRST_ERR-22)	/* parport_enumerate failed			*/
+#define _E_PORTSEARCH(_FIRST_ERR-22)	/* parport_enumerate failed			*/
 #define _E_NO_PORT	  (_FIRST_ERR-23)	/* requested port does not exist	*/
 #define _E_REGISTER	  (_FIRST_ERR-24)	/* cannot register this device		*/
 #define _E_SEQUENCE	  (_FIRST_ERR-30)	/* caller sequence does not match	*/
@@ -244,7 +244,7 @@ typedef const struct mode_param
 #define _E_LAMP_NOT_IN_POS	(_FIRST_ERR-40)
 #define _E_LAMP_NOT_STABLE	(_FIRST_ERR-41)
 #define _E_NODATA           (_FIRST_ERR-42)
-#define _E_BUFFER_TOO_SMALL (_FIRST_ERR-43)
+#define _E_BUFFER_TOO_SMALL(_FIRST_ERR-43)
 #define _E_DATAREAD         (_FIRST_ERR-44)
 
 
@@ -411,7 +411,7 @@ typedef struct {
 } AdjDef, *pAdjDef
 
 typedef struct {
-  	unsigned long dwFlag;  			/* refer to SECTION (1.2)			*/
+  	unsigned long dwFlag;  			/* refer to SECTION(1.2)			*/
 	unsigned long dwBytesPerLine
 	unsigned long dwLinesPerScan
 } StartScan, *pStartScan
@@ -420,13 +420,13 @@ typedef struct {
     unsigned short	wMin;       /* minimum value						*/
     unsigned short	wDef;       /* default value						*/
     unsigned short	wMax;		/* software maximum value				*/
-    unsigned short	wPhyMax;	/* hardware maximum value (for DPI only)*/
+    unsigned short	wPhyMax;	/* hardware maximum value(for DPI only)*/
 } RANGE, *PRANGE
 
 typedef struct {
 	RANGE          rDataType;   /* available scan modes 			*/
-	unsigned long  dwFlag;      /* refer to SECTION (1.2)           */
-	unsigned short wIOBase;     /* refer to SECTION (1.3)			*/
+	unsigned long  dwFlag;      /* refer to SECTION(1.2)           */
+	unsigned short wIOBase;     /* refer to SECTION(1.3)			*/
 	unsigned short wMaxExtentX; /* scanarea width					*/
 	unsigned short wMaxExtentY; /* scanarea height					*/
 	unsigned short AsicID;      /* copy of RegAsicID 				*/
@@ -446,10 +446,10 @@ typedef struct {
     unsigned char*	pDither
     void*	    	pMap
     ImgDef	    	ImgDef
-	unsigned short	wMapType;		/* refer to SECTION (3.2)			*/
-	unsigned short	wDither;		/* refer to SECTION (3.3)			*/
-    short	    	siBrightness;	/* refer to SECTION (3.5)			*/
-    short	    	siContrast;    	/* refer to SECTION (3.6)			*/
+	unsigned short	wMapType;		/* refer to SECTION(3.2)			*/
+	unsigned short	wDither;		/* refer to SECTION(3.3)			*/
+    short	    	siBrightness;	/* refer to SECTION(3.5)			*/
+    short	    	siContrast;    	/* refer to SECTION(3.6)			*/
 } ScanInfo, *pScanInfo
 
 
@@ -503,8 +503,8 @@ typedef struct {
  */
 #define _TP_X  ((double)_TPAPageWidth/300.0 * MM_PER_INCH)
 #define _TP_Y  ((double)_TPAPageHeight/300.0 * MM_PER_INCH)
-#define _NEG_X ((double)_NegativePageWidth/300.0 * MM_PER_INCH)
-#define _NEG_Y ((double)_NegativePageHeight/300.0 * MM_PER_INCH)
+#define _NEG_X((double)_NegativePageWidth/300.0 * MM_PER_INCH)
+#define _NEG_Y((double)_NegativePageHeight/300.0 * MM_PER_INCH)
 
 /************************ some structures ************************************/
 
@@ -570,7 +570,7 @@ typedef struct Plustek_Device
      */
     Int  (*open)       ( const char*, void* )
     Int  (*close)      ( struct Plustek_Device* )
-    void (*shutdown)   ( struct Plustek_Device* )
+    void(*shutdown)   ( struct Plustek_Device* )
     Int  (*getCaps)    ( struct Plustek_Device* )
     Int  (*getLensInfo)( struct Plustek_Device*, pLensInfo  )
     Int  (*getCropInfo)( struct Plustek_Device*, pCropInfo  )

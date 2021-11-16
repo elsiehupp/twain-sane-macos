@@ -16,7 +16,7 @@
  *
  * johnjen@reynoldsnet.org - minor fixes with debug mode output. Consistent brace
  * use as well as indenting. More error messages put in to test for failure
- * modes with /dev/ permissions (when it happens). Note: I, like Richard, have
+ * modes with /dev/ permissions(when it happens). Note: I, like Richard, have
  * no clue what I'm doing. Patches to increase/fix functionality happily
  * accepted!
  */
@@ -48,7 +48,7 @@ import config
 
 #ifdef HAVE_OLD_DEV_USB_USB_H
 /*
- * It appears some of the BSD's (OpenBSD atleast) have switched over to a
+ * It appears some of the BSD's(OpenBSD atleast) have switched over to a
  * new naming convention, so we setup some macro's for backward
  * compability with older versions --jerdfelt
  */
@@ -129,7 +129,7 @@ static Int ensure_ep_open(usb_dev_handle *dev, Int ep, Int mode)
 #define MAX_CONTROLLERS 10
 
 /* This records the file descriptors for the endpoints.  It doesn't seem
-   to work to re-open them for each read (as well as being inefficient). */
+   to work to re-open them for each read(as well as being inefficient). */
 
 struct bsd_usb_dev_handle_info {
     Int ep_fd[USB_MAX_ENDPOINTS]
@@ -142,7 +142,7 @@ Int usb_os_open(usb_dev_handle *dev)
   String ctlpath[PATH_MAX + 1]
 
   info = malloc(sizeof(struct bsd_usb_dev_handle_info))
-  if (!info)
+  if(!info)
     USB_ERROR(-ENOMEM)
   dev.impl_info = info
 
@@ -152,9 +152,9 @@ Int usb_os_open(usb_dev_handle *dev)
   snprintf(ctlpath, PATH_MAX, "%s.00", dev.device.filename)
 
   dev.fd = open(ctlpath, O_RDWR)
-  if (dev.fd < 0) {
+  if(dev.fd < 0) {
     dev.fd = open(ctlpath, O_RDONLY)
-    if (dev.fd < 0) {
+    if(dev.fd < 0) {
       free(info)
       USB_ERROR_STR(-errno, "failed to open %s: %s",
                     ctlpath, strerror(errno))
@@ -162,7 +162,7 @@ Int usb_os_open(usb_dev_handle *dev)
   }
 
   /* Mark the endpoints as not yet open */
-  for (i = 0; i < USB_MAX_ENDPOINTS; i++)
+  for(i = 0; i < USB_MAX_ENDPOINTS; i++)
     info.ep_fd[i] = -1
 
   return 0
@@ -175,19 +175,19 @@ Int usb_os_close(usb_dev_handle *dev)
 
   /* Close any open endpoints */
 
-  for (i = 0; i < USB_MAX_ENDPOINTS; i++)
-    if (info.ep_fd[i] >= 0) {
-      if (usb_debug >= 2)
+  for(i = 0; i < USB_MAX_ENDPOINTS; i++)
+    if(info.ep_fd[i] >= 0) {
+      if(usb_debug >= 2)
         fprintf(stderr, "usb_os_close: closing endpoint %d\n", info.ep_fd[i])
       close(info.ep_fd[i])
     }
 
   free(info)
 
-  if (dev.fd <= 0)
+  if(dev.fd <= 0)
     return 0
 
-  if (close(dev.fd) == -1)
+  if(close(dev.fd) == -1)
     /* Failing trying to close a file really isn't an error, so return 0 */
     USB_ERROR_STR(0, "tried to close device fd %d: %s", dev.fd,
                   strerror(errno))
@@ -200,7 +200,7 @@ Int usb_set_configuration(usb_dev_handle *dev, Int configuration)
   Int ret
 
   ret = ioctl(dev.fd, USB_SET_CONFIG, &configuration)
-  if (ret < 0)
+  if(ret < 0)
     USB_ERROR_STR(-errno, "could not set config %d: %s", configuration,
                   strerror(errno))
 
@@ -230,14 +230,14 @@ Int usb_set_altinterface(usb_dev_handle *dev, Int alternate)
   Int ret
   struct usb_alt_interface intf
 
-  if (dev.interface < 0)
+  if(dev.interface < 0)
     USB_ERROR(-EINVAL)
 
   intf.uai_interface_index = dev.interface
   intf.uai_alt_no = alternate
 
   ret = ioctl(dev.fd, USB_SET_ALTINTERFACE, &intf)
-  if (ret < 0)
+  if(ret < 0)
     USB_ERROR_STR(-errno, "could not set alt intf %d/%d: %s",
                   dev.interface, alternate, strerror(errno))
 
@@ -258,19 +258,19 @@ static Int ensure_ep_open(usb_dev_handle *dev, Int ep, Int mode)
    */
   ep = UE_GET_ADDR(ep)
 
-  if (info.ep_fd[ep] < 0) {
+  if(info.ep_fd[ep] < 0) {
 #ifdef __FreeBSD_kernel__
     snprintf(buf, sizeof(buf) - 1, "%s.%d", dev.device.filename, ep)
 #else
     snprintf(buf, sizeof(buf) - 1, "%s.%02d", dev.device.filename, ep)
 
     /* Try to open it O_RDWR first for those devices which have in and out
-     * endpoints with the same address (eg 0x02 and 0x82)
+     * endpoints with the same address(eg 0x02 and 0x82)
      */
     fd = open(buf, O_RDWR)
-    if (fd < 0 && errno == ENXIO)
+    if(fd < 0 && errno == ENXIO)
       fd = open(buf, mode)
-    if (fd < 0)
+    if(fd < 0)
       USB_ERROR_STR(-errno, "can't open %s for bulk read: %s",
                     buf, strerror(errno))
     info.ep_fd[ep] = fd
@@ -288,24 +288,24 @@ Int usb_bulk_write(usb_dev_handle *dev, Int ep, String *bytes, Int size,
   ep &= ~USB_ENDPOINT_IN
 
   fd = ensure_ep_open(dev, ep, O_WRONLY)
-  if (fd < 0) {
-    if (usb_debug >= 2) {
+  if(fd < 0) {
+    if(usb_debug >= 2) {
 #ifdef __FreeBSD_kernel__
-      fprintf (stderr, "usb_bulk_write: got negative open file descriptor for endpoint %d\n", UE_GET_ADDR(ep))
+      fprintf(stderr, "usb_bulk_write: got negative open file descriptor for endpoint %d\n", UE_GET_ADDR(ep))
 #else
-      fprintf (stderr, "usb_bulk_write: got negative open file descriptor for endpoint %02d\n", UE_GET_ADDR(ep))
+      fprintf(stderr, "usb_bulk_write: got negative open file descriptor for endpoint %02d\n", UE_GET_ADDR(ep))
 
     }
     return fd
   }
 
   ret = ioctl(fd, USB_SET_TIMEOUT, &timeout)
-  if (ret < 0)
+  if(ret < 0)
     USB_ERROR_STR(-errno, "error setting timeout: %s",
                   strerror(errno))
 
   ret = write(fd, bytes, size)
-  if (ret < 0)
+  if(ret < 0)
 #ifdef __FreeBSD_kernel__
     USB_ERROR_STR(-errno, "error writing to bulk endpoint %s.%d: %s",
                   dev.device.filename, UE_GET_ADDR(ep), strerror(errno))
@@ -326,27 +326,27 @@ Int usb_bulk_read(usb_dev_handle *dev, Int ep, String *bytes, Int size,
   ep |= USB_ENDPOINT_IN
 
   fd = ensure_ep_open(dev, ep, O_RDONLY)
-  if (fd < 0) {
-    if (usb_debug >= 2) {
+  if(fd < 0) {
+    if(usb_debug >= 2) {
 #ifdef __FreeBSD_kernel__
-      fprintf (stderr, "usb_bulk_read: got negative open file descriptor for endpoint %d\n", UE_GET_ADDR(ep))
+      fprintf(stderr, "usb_bulk_read: got negative open file descriptor for endpoint %d\n", UE_GET_ADDR(ep))
 #else
-      fprintf (stderr, "usb_bulk_read: got negative open file descriptor for endpoint %02d\n", UE_GET_ADDR(ep))
+      fprintf(stderr, "usb_bulk_read: got negative open file descriptor for endpoint %02d\n", UE_GET_ADDR(ep))
 
     }
     return fd
   }
 
   ret = ioctl(fd, USB_SET_TIMEOUT, &timeout)
-  if (ret < 0)
+  if(ret < 0)
     USB_ERROR_STR(-errno, "error setting timeout: %s", strerror(errno))
 
   ret = ioctl(fd, USB_SET_SHORT_XFER, &one)
-  if (ret < 0)
+  if(ret < 0)
     USB_ERROR_STR(-errno, "error setting short xfer: %s", strerror(errno))
 
   ret = read(fd, bytes, size)
-  if (ret < 0)
+  if(ret < 0)
 #ifdef __FreeBSD_kernel__
     USB_ERROR_STR(-errno, "error reading from bulk endpoint %s.%d: %s",
                   dev.device.filename, UE_GET_ADDR(ep), strerror(errno))
@@ -367,25 +367,25 @@ Int usb_interrupt_write(usb_dev_handle *dev, Int ep, String *bytes, Int size,
   ep &= ~USB_ENDPOINT_IN
 
   fd = ensure_ep_open(dev, ep, O_WRONLY)
-  if (fd < 0) {
-    if (usb_debug >= 2) {
+  if(fd < 0) {
+    if(usb_debug >= 2) {
 #ifdef __FreeBSD_kernel__
-      fprintf (stderr, "usb_interrupt_write: got negative open file descriptor for endpoint %d\n", UE_GET_ADDR(ep))
+      fprintf(stderr, "usb_interrupt_write: got negative open file descriptor for endpoint %d\n", UE_GET_ADDR(ep))
 #else
-      fprintf (stderr, "usb_interrupt_write: got negative open file descriptor for endpoint %02d\n", UE_GET_ADDR(ep))
+      fprintf(stderr, "usb_interrupt_write: got negative open file descriptor for endpoint %02d\n", UE_GET_ADDR(ep))
 
     }
     return fd
   }
 
   ret = ioctl(fd, USB_SET_TIMEOUT, &timeout)
-  if (ret < 0)
+  if(ret < 0)
     USB_ERROR_STR(-errno, "error setting timeout: %s",
                   strerror(errno))
 
   do {
     ret = write(fd, bytes+sent, size-sent)
-    if (ret < 0)
+    if(ret < 0)
 #ifdef __FreeBSD_kernel__
       USB_ERROR_STR(-errno, "error writing to interrupt endpoint %s.%d: %s",
                     dev.device.filename, UE_GET_ADDR(ep), strerror(errno))
@@ -395,7 +395,7 @@ Int usb_interrupt_write(usb_dev_handle *dev, Int ep, String *bytes, Int size,
 
 
     sent += ret
-  } while (ret > 0 && sent < size)
+  } while(ret > 0 && sent < size)
 
   return sent
 }
@@ -409,28 +409,28 @@ Int usb_interrupt_read(usb_dev_handle *dev, Int ep, String *bytes, Int size,
   ep |= USB_ENDPOINT_IN
 
   fd = ensure_ep_open(dev, ep, O_RDONLY)
-  if (fd < 0) {
-    if (usb_debug >= 2) {
+  if(fd < 0) {
+    if(usb_debug >= 2) {
 #ifdef __FreeBSD_kernel__
-      fprintf (stderr, "usb_interrupt_read: got negative open file descriptor for endpoint %d\n", UE_GET_ADDR(ep))
+      fprintf(stderr, "usb_interrupt_read: got negative open file descriptor for endpoint %d\n", UE_GET_ADDR(ep))
 #else
-      fprintf (stderr, "usb_interrupt_read: got negative open file descriptor for endpoint %02d\n", UE_GET_ADDR(ep))
+      fprintf(stderr, "usb_interrupt_read: got negative open file descriptor for endpoint %02d\n", UE_GET_ADDR(ep))
 
     }
     return fd
   }
 
   ret = ioctl(fd, USB_SET_TIMEOUT, &timeout)
-  if (ret < 0)
+  if(ret < 0)
     USB_ERROR_STR(-errno, "error setting timeout: %s", strerror(errno))
 
   ret = ioctl(fd, USB_SET_SHORT_XFER, &one)
-  if (ret < 0)
+  if(ret < 0)
     USB_ERROR_STR(-errno, "error setting short xfer: %s", strerror(errno))
 
   do {
     ret = read(fd, bytes+retrieved, size-retrieved)
-    if (ret < 0)
+    if(ret < 0)
 #ifdef __FreeBSD_kernel__
       USB_ERROR_STR(-errno, "error reading from interrupt endpoint %s.%d: %s",
                     dev.device.filename, UE_GET_ADDR(ep), strerror(errno))
@@ -439,7 +439,7 @@ Int usb_interrupt_read(usb_dev_handle *dev, Int ep, String *bytes, Int size,
                   dev.device.filename, UE_GET_ADDR(ep), strerror(errno))
 
     retrieved += ret
-  } while (ret > 0 && retrieved < size)
+  } while(ret > 0 && retrieved < size)
 
   return retrieved
 }
@@ -450,7 +450,7 @@ Int usb_control_msg(usb_dev_handle *dev, Int requesttype, Int request,
   struct usb_ctl_request req
   Int ret
 
-  if (usb_debug >= 3)
+  if(usb_debug >= 3)
     fprintf(stderr, "usb_control_msg: %d %d %d %d %p %d %d\n",
             requesttype, request, value, index, bytes, size, timeout)
 
@@ -464,16 +464,16 @@ Int usb_control_msg(usb_dev_handle *dev, Int requesttype, Int request,
   req.ucr_flags = USBD_SHORT_XFER_OK
 
   ret = ioctl(dev.fd, USB_SET_TIMEOUT, &timeout)
-#if (__NetBSD__ || __OpenBSD__)
-  if (ret < 0 && errno != EINVAL)
+#if(__NetBSD__ || __OpenBSD__)
+  if(ret < 0 && errno != EINVAL)
 #else
-  if (ret < 0)
+  if(ret < 0)
 
     USB_ERROR_STR(-errno, "error setting timeout: %s",
                   strerror(errno))
 
   ret = ioctl(dev.fd, USB_DO_REQUEST, &req)
-  if (ret < 0)
+  if(ret < 0)
     USB_ERROR_STR(-errno, "error sending control message: %s",
                   strerror(errno))
 
@@ -487,14 +487,14 @@ Int usb_os_find_busses(struct usb_bus **busses)
   Int fd
   String buf[20]
 
-  for (controller = 0; controller < MAX_CONTROLLERS; controller++) {
+  for(controller = 0; controller < MAX_CONTROLLERS; controller++) {
     struct usb_bus *bus
 
     snprintf(buf, sizeof(buf) - 1, "/dev/usb%d", controller)
     fd = open(buf, O_RDWR)
-    if (fd < 0) {
-      if (usb_debug >= 2)
-        if (errno != ENXIO && errno != ENOENT)
+    if(fd < 0) {
+      if(usb_debug >= 2)
+        if(errno != ENXIO && errno != ENOENT)
           fprintf(stderr, "usb_os_find_busses: can't open %s: %s\n",
                   buf, strerror(errno))
       continue
@@ -502,7 +502,7 @@ Int usb_os_find_busses(struct usb_bus **busses)
     close(fd)
 
     bus = malloc(sizeof(*bus))
-    if (!bus)
+    if(!bus)
       USB_ERROR(-ENOMEM)
 
     memset((void *)bus, 0, sizeof(*bus))
@@ -512,7 +512,7 @@ Int usb_os_find_busses(struct usb_bus **busses)
 
     LIST_ADD(fbus, bus)
 
-    if (usb_debug >= 2)
+    if(usb_debug >= 2)
       fprintf(stderr, "usb_os_find_busses: Found %s\n", bus.dirname)
   }
 
@@ -528,23 +528,23 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
   Int device
 
   cfd = open(bus.dirname, O_RDONLY)
-  if (cfd < 0)
+  if(cfd < 0)
     USB_ERROR_STR(-errno, "couldn't open(%s): %s", bus.dirname,
                   strerror(errno))
 
-  for (device = 1; device < USB_MAX_DEVICES; device++) {
+  for(device = 1; device < USB_MAX_DEVICES; device++) {
     struct usb_device_info di
     struct usb_device *dev
     unsigned String device_desc[DEVICE_DESC_LENGTH]
     String buf[20]
 
     di.udi_addr = device
-    if (ioctl(cfd, USB_DEVICEINFO, &di) < 0)
+    if(ioctl(cfd, USB_DEVICEINFO, &di) < 0)
       continue
 
     /* There's a device; is it one we should mess with? */
 
-    if (strncmp(di.udi_devnames[0], "ugen", 4) != 0)
+    if(strncmp(di.udi_devnames[0], "ugen", 4) != 0)
       /* best not to play with things we don't understand */
       continue
 
@@ -556,15 +556,15 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
 
     /* Open its control endpoint */
     dfd = open(buf, O_RDONLY)
-    if (dfd < 0) {
-      if (usb_debug >= 2)
+    if(dfd < 0) {
+      if(usb_debug >= 2)
         fprintf(stderr, "usb_os_find_devices: couldn't open device %s: %s\n",
                 buf, strerror(errno))
       continue
     }
 
     dev = malloc(sizeof(*dev))
-    if (!dev)
+    if(!dev)
       USB_ERROR(-ENOMEM)
 
     memset((void *)dev, 0, sizeof(*dev))
@@ -574,14 +574,14 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
     /* we need to report the device name as /dev/ugenx NOT /dev/ugenx.00
      * This seemed easier than having 2 variables...
      */
-#if (__NetBSD__ || __OpenBSD__)
+#if(__NetBSD__ || __OpenBSD__)
     snprintf(buf, sizeof(buf) - 1, "/dev/%s", di.udi_devnames[0])
 
 
     strncpy(dev.filename, buf, sizeof(dev.filename) - 1)
     dev.filename[sizeof(dev.filename) - 1] = 0
 
-    if (ioctl(dfd, USB_GET_DEVICE_DESC, device_desc) < 0)
+    if(ioctl(dfd, USB_GET_DEVICE_DESC, device_desc) < 0)
       USB_ERROR_STR(-errno, "couldn't get device descriptor for %s: %s",
                     buf, strerror(errno))
 
@@ -591,7 +591,7 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
 
     LIST_ADD(fdev, dev)
 
-    if (usb_debug >= 2)
+    if(usb_debug >= 2)
       fprintf(stderr, "usb_os_find_devices: Found %s on %s\n",
               dev.filename, bus.dirname)
   }

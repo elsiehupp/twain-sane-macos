@@ -10,7 +10,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -170,13 +170,13 @@ static unsigned char UG80_INQUIRY[] =
 /* 92-93 window descriptor block length */
 	0x00, 0x30,
 
-/* 94 optical resolution residue (1dpi) */
+/* 94 optical resolution residue(1dpi) */
 	0x00,
 
-/* 95 x_resolution residue (1dpi) */
+/* 95 x_resolution residue(1dpi) */
 	0x00,
 
-/* 96 y_resolution residue (1dpi) */
+/* 96 y_resolution residue(1dpi) */
 	0x00,
 
 /* 97 analog gamma table */

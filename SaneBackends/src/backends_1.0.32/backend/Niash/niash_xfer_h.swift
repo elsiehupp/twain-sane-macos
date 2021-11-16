@@ -1,10 +1,10 @@
 /*
-  Copyright (C) 2001 Bertrik Sikken (bertrik@zonnet.nl)
+  Copyright(C) 2001 Bertrik Sikken(bertrik@zonnet.nl)
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+  of the License, or(at your option) any later version.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -55,7 +55,7 @@ typedef struct
 } TScannerModel
 
 
-typedef Int (TFnReportDevice) (TScannerModel * pModel,
+typedef Int(TFnReportDevice) (TScannerModel * pModel,
 			       const char *pszDeviceName)
 
 
@@ -73,20 +73,20 @@ public FILE *BG_ASSERT
 public TScannerModel ScannerModels[]
 #endif /* NO WITH_NIASH */
 
-STATIC void NiashXferInit (TFnReportDevice * pfnReport)
-STATIC Int NiashXferOpen (const char *pszName, EScannerModel * peModel)
-STATIC void NiashXferClose (Int iXferHandle)
+STATIC void NiashXferInit(TFnReportDevice * pfnReport)
+STATIC Int NiashXferOpen(const char *pszName, EScannerModel * peModel)
+STATIC void NiashXferClose(Int iXferHandle)
 
-STATIC void NiashWriteReg (Int iXferHandle, unsigned char bReg,
+STATIC void NiashWriteReg(Int iXferHandle, unsigned char bReg,
 			   unsigned char bData)
-STATIC void NiashReadReg (Int iXferHandle, unsigned char bReg,
+STATIC void NiashReadReg(Int iXferHandle, unsigned char bReg,
 			  unsigned char *pbData)
-STATIC void NiashWriteBulk (Int iXferHandle, unsigned char *pabBuf,
+STATIC void NiashWriteBulk(Int iXferHandle, unsigned char *pabBuf,
 			    Int iSize)
-STATIC void NiashReadBulk (Int iXferHandle, unsigned char *pabBuf, Int iSize)
-STATIC void NiashWakeup (Int iXferHandle)
+STATIC void NiashReadBulk(Int iXferHandle, unsigned char *pabBuf, Int iSize)
+STATIC void NiashWakeup(Int iXferHandle)
 
-STATIC Bool MatchUsbDevice (Int iVendor, Int iProduct,
+STATIC Bool MatchUsbDevice(Int iVendor, Int iProduct,
 				 TScannerModel ** ppeModel)
 
 #endif /* _NIASH_XFER_H_ */

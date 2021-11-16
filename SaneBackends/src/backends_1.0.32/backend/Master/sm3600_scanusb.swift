@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) Marian Eichholz 2001
+   Copyright(C) Marian Eichholz 2001
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -68,14 +68,14 @@ static Int TransferControlMsg(TInstance *this,
 
   cJiffiesTimeout = cJiffiesTimeout
 
-  err = sanei_usb_control_msg (this.hScanner,
+  err = sanei_usb_control_msg(this.hScanner,
 			 nReqType,
 			 nRequest,
 			 nValue,
 			 nIndex,
 			 cchBuffer,
 			 pBuffer)
-  if (err)
+  if(err)
     return err
   return cchBuffer
 }
@@ -101,7 +101,7 @@ static Int TransferBulkRead(TInstance *this,
   err = sanei_usb_read_bulk(this.hScanner,
 			    pBuffer,
 			    &sz)
-  if (err)
+  if(err)
     return err
   return sz
 }
@@ -121,16 +121,16 @@ TState RegWrite(TInstance *this, Int iRegister, Int cb, unsigned long ulValue)
   TBool bOk=true
   INST_ASSERT()
   /* some rough assertions */
-  if (cb<1 || cb>4)
+  if(cb<1 || cb>4)
   return SetError(this,Sane.STATUS_INVAL,"unsupported control transfer size %d",cb)
   pchBuffer=malloc(cb)
   CHECK_POINTER(pchBuffer)
-  for (i=0; i<cb; i++)
+  for(i=0; i<cb; i++)
   {
     pchBuffer[i]=(char)(ulValue&0xFF)
     ulValue=ulValue>>8
   }
-  if (!bOk)
+  if(!bOk)
   {
     free(pchBuffer)
     return SetError(this,Sane.STATUS_IO_ERROR,
@@ -144,7 +144,7 @@ TState RegWrite(TInstance *this, Int iRegister, Int cb, unsigned long ulValue)
 		    pchBuffer, cb,         /* bytes, size */
 		    USB_TIMEOUT_JIFFIES);                /* TO, jiffies... */
   free(pchBuffer)
-  if (i<0)
+  if(i<0)
     return SetError(this,Sane.STATUS_IO_ERROR,"error during register write")
   return Sane.STATUS_GOOD
 }
@@ -162,7 +162,7 @@ TState RegWriteArray(TInstance *this, Int iRegister, Int cb, unsigned char *pchB
 		    0,                     /* index */
 		    pchBuffer, cb,         /* bytes, size */
 		    USB_TIMEOUT_JIFFIES);                /* TO, jiffies... */
-  if (i<0)
+  if(i<0)
     return SetError(this,Sane.STATUS_IO_ERROR,"error during register write")
   return Sane.STATUS_GOOD
 }
@@ -187,7 +187,7 @@ TState MemWriteArray(TInstance *this, Int iAddress,
 		    0,                     /* index */
 		    pchBuffer, cb,         /* bytes, size */
 		    10000);                /* TO, jiffies... */
-  if (i<0)
+  if(i<0)
     return SetError(this,Sane.STATUS_IO_ERROR,"error during memory write")
   return Sane.STATUS_GOOD
 }
@@ -213,7 +213,7 @@ TState MemReadArray(TInstance *this, Int iAddress, Int cb, unsigned char *pchBuf
 		    0,                     /* index */
 		    pchBuffer, cb,         /* bytes, size */
 		    USB_TIMEOUT_JIFFIES);                /* TO, jiffies... */
-  if (i<0)
+  if(i<0)
     return SetError(this,Sane.STATUS_IO_ERROR,"error during memory read")
   return Sane.STATUS_GOOD
 }
@@ -231,26 +231,26 @@ TState RegCheck(TInstance *this, Int iRegister, Int cch, unsigned long ulValue)
   Int   i,rcCode
   TBool bOk
   INST_ASSERT()
-  if (cch<1 || cch>3)
+  if(cch<1 || cch>3)
     return SetError(this,Sane.STATUS_INVAL,"unsupported control transfer size %d",cch)
   pchBuffer=malloc(cch)
   pchTransfer=calloc(1,cch)
   rcCode=Sane.STATUS_GOOD
-  if (!pchBuffer || !pchTransfer)
+  if(!pchBuffer || !pchTransfer)
     {
-      if (pchBuffer) free(pchBuffer)
-      if (pchTransfer) free(pchTransfer)
+      if(pchBuffer) free(pchBuffer)
+      if(pchTransfer) free(pchTransfer)
       rcCode=SetError(this, Sane.STATUS_NO_MEM, "no memory in RegCheck()")
     }
   bOk=true
-  for (i=0; !rcCode && i<cch; i++)
+  for(i=0; !rcCode && i<cch; i++)
     {
       pchBuffer[i]=(char)(ulValue&0x00FF)
       ulValue=(ulValue>>8)
     }
-  if (!rcCode)
+  if(!rcCode)
     {
-      if (!bOk)
+      if(!bOk)
 	rcCode=SetError(this,Sane.STATUS_IO_ERROR,
 			"error in reg out: %d,%d,%08X",iRegister,cch,ulValue)
       else
@@ -262,12 +262,12 @@ TState RegCheck(TInstance *this, Int iRegister, Int cch, unsigned long ulValue)
 		    0,                     /* index */
 		    pchTransfer, cch,      /* bytes, size */
 		    USB_TIMEOUT_JIFFIES);                /* TO, jiffies... */
-	  if (i<0)
+	  if(i<0)
 	    rcCode=SetError(this,Sane.STATUS_IO_ERROR,
 			    "error during register check")
 	}
     }
-  if (!rcCode && memcmp(pchTransfer,pchBuffer,cch))
+  if(!rcCode && memcmp(pchTransfer,pchBuffer,cch))
     {
       DumpBuffer(stdout,pchTransfer,cch)
       rcCode=SetError(this,Sane.STATUS_IO_ERROR,
@@ -294,13 +294,13 @@ Int BulkRead(TInstance *this, FILE *fhOut, unsigned Int cchBulk)
   CHECK_POINTER(pchBuffer)
   cchRead=0
   rc=0
-  while (!rc && cchBulk)
+  while(!rc && cchBulk)
     {
       Int cchChunk
       Int cchReal
 
       cchChunk=cchBulk
-      if (cchChunk>0x1000)
+      if(cchChunk>0x1000)
 	cchChunk=0x1000
       cchReal=TransferBulkRead(this,
 		       0x82,
@@ -308,11 +308,11 @@ Int BulkRead(TInstance *this, FILE *fhOut, unsigned Int cchBulk)
 		       cchChunk,
 		       USB_TIMEOUT_JIFFIES)
       dprintf(DEBUG_COMM,"bulk read: %d -> %d\n",cchChunk,cchReal)
-      if (cchReal>=0)
+      if(cchReal>=0)
 	{
 	  cchBulk-=cchReal
 	  cchRead+=cchReal
-	  if (cchReal<cchChunk) /* last Chunk of a series */
+	  if(cchReal<cchChunk) /* last Chunk of a series */
 	    break
 	}
       else
@@ -326,10 +326,10 @@ Int BulkRead(TInstance *this, FILE *fhOut, unsigned Int cchBulk)
 	}
     }
   dprintf(DEBUG_COMM,"writing %d bytes\n",cchRead)
-  if (fhOut && !rc)
+  if(fhOut && !rc)
     {
       fwrite(pchBuffer,1,cchRead,fhOut)
-      if (ferror(fhOut))
+      if(ferror(fhOut))
 	rc=SetError(this,Sane.STATUS_IO_ERROR,
 		    "scan file write failed: %s",
 		    strerror(errno))
@@ -358,13 +358,13 @@ Int BulkReadBuffer(TInstance *this,
   CHECK_POINTER(pchBuffer)
   cchRead=0
   rc=0
-  while (!rc && cchBulk)
+  while(!rc && cchBulk)
     {
       Int cchChunk
       Int cchReal
 
       cchChunk=cchBulk
-      if (cchChunk>0x1000)
+      if(cchChunk>0x1000)
 	cchChunk=0x1000
       cchReal=TransferBulkRead(this,
 		       0x82,
@@ -372,11 +372,11 @@ Int BulkReadBuffer(TInstance *this,
 		       cchChunk,
 		       USB_TIMEOUT_JIFFIES)
       dprintf(DEBUG_COMM,"bulk read: %d -> %d\n",cchChunk,cchReal)
-      if (cchReal>=0)
+      if(cchReal>=0)
 	{
 	  cchBulk-=cchReal
 	  cchRead+=cchReal
-	  if (cchReal<cchChunk) /* last Chunk of a series */
+	  if(cchReal<cchChunk) /* last Chunk of a series */
 	    break
 	}
       else
@@ -388,7 +388,7 @@ Int BulkReadBuffer(TInstance *this,
     }
   dprintf(DEBUG_COMM,"writing %d bytes\n",cchRead)
 
-  if (!rc && puchBufferOut)
+  if(!rc && puchBufferOut)
     memcpy(puchBufferOut,pchBuffer,cchRead)
   free(pchBuffer)
   return rc ? -1 : cchRead
@@ -398,7 +398,7 @@ Int BulkReadBuffer(TInstance *this,
 
 RegRead(iRegister, Int cch)
 
-Read register in big endian (INTEL-) format.
+Read register in big endian(INTEL-) format.
 
 ********************************************************************** */
 
@@ -409,7 +409,7 @@ unsigned Int RegRead(TInstance *this, Int iRegister, Int cch)
   Int          i
   unsigned Int n
   INST_ASSERT()
-  if (cch<1 || cch>4)
+  if(cch<1 || cch>4)
     {
       SetError(this,Sane.STATUS_INVAL,
 		    "unsupported control read size %d",cch)
@@ -424,10 +424,10 @@ unsigned Int RegRead(TInstance *this, Int iRegister, Int cch)
 	0,                     /* index */
 	pchTransfer, cch,      /* bytes, size */
 	USB_TIMEOUT_JIFFIES);                /* TO, jiffies... */
-  if (i>=0)
+  if(i>=0)
     {
       n=0
-      for (i=cch-1; i>=0; i--)
+      for(i=cch-1; i>=0; i--)
 	n=(n<<8)|(unsigned char)pchTransfer[i]
       free(pchTransfer)
       return n

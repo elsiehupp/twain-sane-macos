@@ -163,7 +163,7 @@ struct scanner
   unsigned char * buffer
 
   /* --------------------------------------------------------------------- */
-  /* values which used by the command and data sending functions (scsi/usb)*/
+  /* values which used by the command and data sending functions(scsi/usb)*/
   Int fd;                      /* The scanner device file descriptor.     */
   size_t rs_info
 
@@ -200,49 +200,49 @@ struct scanner
 
 /* ------------------------------------------------------------------------- */
 
-Sane.Status Sane.init (Int * version_code, Sane.Auth_Callback authorize)
+Sane.Status Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 
-Sane.Status Sane.get_devices (const Sane.Device *** device_list,
+Sane.Status Sane.get_devices(const Sane.Device *** device_list,
                               Bool local_only)
 
-Sane.Status Sane.open (Sane.String_Const name, Sane.Handle * handle)
+Sane.Status Sane.open(Sane.String_Const name, Sane.Handle * handle)
 
-Sane.Status Sane.set_io_mode (Sane.Handle h, Bool non_blocking)
+Sane.Status Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
 
-Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fdp)
+Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fdp)
 
-const Sane.Option_Descriptor * Sane.get_option_descriptor (Sane.Handle handle,
+const Sane.Option_Descriptor * Sane.get_option_descriptor(Sane.Handle handle,
                                                           Int option)
 
-Sane.Status Sane.control_option (Sane.Handle handle, Int option,
+Sane.Status Sane.control_option(Sane.Handle handle, Int option,
                                  Sane.Action action, void *val,
                                  Int * info)
 
-Sane.Status Sane.start (Sane.Handle handle)
+Sane.Status Sane.start(Sane.Handle handle)
 
-Sane.Status Sane.get_parameters (Sane.Handle handle,
+Sane.Status Sane.get_parameters(Sane.Handle handle,
                                  Sane.Parameters * params)
 
-Sane.Status Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
+Sane.Status Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
                        Int * len)
 
-void Sane.cancel (Sane.Handle h)
+void Sane.cancel(Sane.Handle h)
 
-void Sane.close (Sane.Handle h)
+void Sane.close(Sane.Handle h)
 
-void Sane.exit (void)
+void Sane.exit(void)
 
 /* ------------------------------------------------------------------------- */
 
-static Sane.Status attach_one (const char *name)
-static Sane.Status connect_fd (struct scanner *s)
-static Sane.Status disconnect_fd (struct scanner *s)
-static Sane.Status sense_handler (Int scsi_fd, u_char * result, void *arg)
+static Sane.Status attach_one(const char *name)
+static Sane.Status connect_fd(struct scanner *s)
+static Sane.Status disconnect_fd(struct scanner *s)
+static Sane.Status sense_handler(Int scsi_fd, u_char * result, void *arg)
 
-static Sane.Status init_inquire (struct scanner *s)
-static Sane.Status init_model (struct scanner *s)
-static Sane.Status init_user (struct scanner *s)
-static Sane.Status init_options (struct scanner *s)
+static Sane.Status init_inquire(struct scanner *s)
+static Sane.Status init_model(struct scanner *s)
+static Sane.Status init_user(struct scanner *s)
+static Sane.Status init_options(struct scanner *s)
 
 static Sane.Status
 do_cmd(struct scanner *s, Int runRS, Int shortTime,
@@ -252,12 +252,12 @@ do_cmd(struct scanner *s, Int runRS, Int shortTime,
 )
 
 #if 0 /* unused */
-static Sane.Status wait_scanner (struct scanner *s)
+static Sane.Status wait_scanner(struct scanner *s)
 #endif
 
-static Sane.Status do_cancel (struct scanner *scanner)
+static Sane.Status do_cancel(struct scanner *scanner)
 
-static Sane.Status set_window (struct scanner *s)
+static Sane.Status set_window(struct scanner *s)
 static Sane.Status read_imageheader(struct scanner *s)
 static Sane.Status send_sc(struct scanner *s)
 
@@ -265,9 +265,9 @@ static Sane.Status read_from_scanner(struct scanner *s)
 static Sane.Status copy_buffer(struct scanner *s, unsigned char * buf, Int len)
 static Sane.Status read_from_buffer(struct scanner *s, Sane.Byte * buf, Int max_len, Int * len)
 
-static void hexdump (Int level, char *comment, unsigned char *p, Int l)
+static void hexdump(Int level, char *comment, unsigned char *p, Int l)
 
-static size_t maxStringSize (const Sane.String_Const strings[])
+static size_t maxStringSize(const Sane.String_Const strings[])
 
 #endif /* KODAK_H */
 
@@ -277,7 +277,7 @@ static size_t maxStringSize (const Sane.String_Const strings[])
    This file is part of the SANE package, and implements a SANE backend
    for various large Kodak scanners.
 
-   Copyright (C) 2008-2010 m. allan noah
+   Copyright(C) 2008-2010 m. allan noah
 
    --------------------------------------------------------------------------
 
@@ -286,7 +286,7 @@ static size_t maxStringSize (const Sane.String_Const strings[])
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -354,7 +354,7 @@ static size_t maxStringSize (const Sane.String_Const strings[])
    . .
    . . - Sane.start() : start image acquisition
    . .   - Sane.get_parameters() : returns actual scan parameters
-   . .   - Sane.read() : read image data (from pipe)
+   . .   - Sane.read() : read image data(from pipe)
    . . (Sane.read called multiple times; after Sane.read returns EOF,
    . . loop may continue with Sane.start which may return a 2nd page
    . . when doing duplex scans, or load the next page from the ADF)
@@ -447,20 +447,20 @@ static struct scanner *scanner_devList = NULL
  * not support authentication.
  */
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 {
   authorize = authorize;        /* get rid of compiler warning */
 
-  DBG_INIT ()
-  DBG (10, "Sane.init: start\n")
+  DBG_INIT()
+  DBG(10, "Sane.init: start\n")
 
-  if (version_code)
-    *version_code = Sane.VERSION_CODE (V_MAJOR, V_MINOR, BUILD)
+  if(version_code)
+    *version_code = Sane.VERSION_CODE(V_MAJOR, V_MINOR, BUILD)
 
-  DBG (5, "Sane.init: kodak backend %d.%d.%d, from %s\n",
+  DBG(5, "Sane.init: kodak backend %d.%d.%d, from %s\n",
     V_MAJOR, V_MINOR, BUILD, PACKAGE_STRING)
 
-  DBG (10, "Sane.init: finish\n")
+  DBG(10, "Sane.init: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -473,11 +473,11 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
  * available. If the function executes successfully, it stores a
  * pointer to a NULL terminated array of pointers to Sane.Device
  * structures in *device_list. The returned list is guaranteed to
- * remain unchanged and valid until (a) another call to this function
- * is performed or (b) a call to Sane.exit() is performed. This
+ * remain unchanged and valid until(a) another call to this function
+ * is performed or(b) a call to Sane.exit() is performed. This
  * function can be called repeatedly to detect when new devices become
  * available. If argument local_only is true, only local devices are
- * returned (devices directly attached to the machine that SANE is
+ * returned(devices directly attached to the machine that SANE is
  * running on). If it is false, the device list includes all remote
  * devices that are accessible to the SANE library.
  *
@@ -490,7 +490,7 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
  * store in two global lists of device structs
  */
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 {
   struct scanner *dev
   char line[PATH_MAX]
@@ -501,93 +501,93 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
 
   local_only = local_only;        /* get rid of compiler warning */
 
-  DBG (10, "Sane.get_devices: start\n")
+  DBG(10, "Sane.get_devices: start\n")
 
   /* set this to default before reading the file */
   global_buffer_size = DEFAULT_BUFFER_SIZE
 
-  fp = sanei_config_open (KODAK_CONFIG_FILE)
+  fp = sanei_config_open(KODAK_CONFIG_FILE)
 
-  if (fp) {
+  if(fp) {
 
-      DBG (15, "Sane.get_devices: reading config file %s\n", KODAK_CONFIG_FILE)
+      DBG(15, "Sane.get_devices: reading config file %s\n", KODAK_CONFIG_FILE)
 
-      while (sanei_config_read (line, PATH_MAX, fp)) {
+      while(sanei_config_read(line, PATH_MAX, fp)) {
 
           lp = line
 
           /* ignore comments */
-          if (*lp == '#')
+          if(*lp == '#')
             continue
 
           /* skip empty lines */
-          if (*lp == 0)
+          if(*lp == 0)
             continue
 
-          if ((strncmp ("option", lp, 6) == 0) && isspace (lp[6])) {
+          if((strncmp("option", lp, 6) == 0) && isspace(lp[6])) {
 
               lp += 6
-              lp = sanei_config_skip_whitespace (lp)
+              lp = sanei_config_skip_whitespace(lp)
 
               /* we allow setting buffersize too big */
-              if ((strncmp (lp, "buffer-size", 11) == 0) && isspace (lp[11])) {
+              if((strncmp(lp, "buffer-size", 11) == 0) && isspace(lp[11])) {
 
                   Int buf
                   lp += 11
-                  lp = sanei_config_skip_whitespace (lp)
-                  buf = atoi (lp)
+                  lp = sanei_config_skip_whitespace(lp)
+                  buf = atoi(lp)
 
-                  if (buf < 4096) {
-                    DBG (5, "Sane.get_devices: config option \"buffer-size\" \
+                  if(buf < 4096) {
+                    DBG(5, "Sane.get_devices: config option \"buffer-size\" \
                       (%d) is < 4096, ignoring!\n", buf)
                     continue
                   }
 
-                  if (buf > DEFAULT_BUFFER_SIZE) {
-                    DBG (5, "Sane.get_devices: config option \"buffer-size\" \
+                  if(buf > DEFAULT_BUFFER_SIZE) {
+                    DBG(5, "Sane.get_devices: config option \"buffer-size\" \
                       (%d) is > %d, warning!\n", buf, DEFAULT_BUFFER_SIZE)
                   }
 
-                  DBG (15, "Sane.get_devices: setting \"buffer-size\" to %d\n",
+                  DBG(15, "Sane.get_devices: setting \"buffer-size\" to %d\n",
                     buf)
                   global_buffer_size = buf
               }
               else {
-                  DBG (5, "Sane.get_devices: config option \"%s\" \
+                  DBG(5, "Sane.get_devices: config option \"%s\" \
                     unrecognized\n", lp)
               }
           }
-          else if ((strncmp ("scsi", lp, 4) == 0) && isspace (lp[4])) {
-              DBG (15, "Sane.get_devices: looking for '%s'\n", lp)
-              sanei_config_attach_matching_devices (lp, attach_one)
+          else if((strncmp("scsi", lp, 4) == 0) && isspace(lp[4])) {
+              DBG(15, "Sane.get_devices: looking for '%s'\n", lp)
+              sanei_config_attach_matching_devices(lp, attach_one)
           }
           else{
-              DBG (5, "Sane.get_devices: config line \"%s\" unrecognized\n",
+              DBG(5, "Sane.get_devices: config line \"%s\" unrecognized\n",
                 lp)
           }
       }
-      fclose (fp)
+      fclose(fp)
   }
 
   else {
-      DBG (5, "Sane.get_devices: no config file '%s', using defaults\n",
+      DBG(5, "Sane.get_devices: no config file '%s', using defaults\n",
         KODAK_CONFIG_FILE)
-      DBG (15, "Sane.get_devices: looking for 'scsi KODAK'\n")
-      sanei_config_attach_matching_devices ("scsi KODAK", attach_one)
+      DBG(15, "Sane.get_devices: looking for 'scsi KODAK'\n")
+      sanei_config_attach_matching_devices("scsi KODAK", attach_one)
   }
 
-  for (dev = scanner_devList; dev; dev=dev.next) {
-    DBG (15, "Sane.get_devices: found scanner %s\n",dev.device_name)
+  for(dev = scanner_devList; dev; dev=dev.next) {
+    DBG(15, "Sane.get_devices: found scanner %s\n",dev.device_name)
     num_devices++
   }
 
-  DBG (15, "Sane.get_devices: found %d scanner(s)\n",num_devices)
+  DBG(15, "Sane.get_devices: found %d scanner(s)\n",num_devices)
 
-  Sane.devArray = calloc (num_devices + 1, sizeof (Sane.Device*))
-  if (!Sane.devArray)
+  Sane.devArray = calloc(num_devices + 1, sizeof(Sane.Device*))
+  if(!Sane.devArray)
     return Sane.STATUS_NO_MEM
 
-  for (dev = scanner_devList; dev; dev=dev.next) {
+  for(dev = scanner_devList; dev; dev=dev.next) {
     Sane.devArray[i++] = (Sane.Device *)&dev.sane
   }
 
@@ -597,7 +597,7 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
     *device_list = Sane.devArray
   }
 
-  DBG (10, "Sane.get_devices: finish\n")
+  DBG(10, "Sane.get_devices: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -606,32 +606,32 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
  * unless struct is already loaded, then pretend
  */
 static Sane.Status
-attach_one (const char *device_name)
+attach_one(const char *device_name)
 {
   struct scanner *s
   Int ret
 
-  DBG (10, "attach_one: start\n")
-  DBG (15, "attach_one: looking for '%s'\n", device_name)
+  DBG(10, "attach_one: start\n")
+  DBG(15, "attach_one: looking for '%s'\n", device_name)
 
-  for (s = scanner_devList; s; s = s.next) {
-    if (strcmp (s.sane.name, device_name) == 0) {
-      DBG (10, "attach_one: already attached!\n")
+  for(s = scanner_devList; s; s = s.next) {
+    if(strcmp(s.sane.name, device_name) == 0) {
+      DBG(10, "attach_one: already attached!\n")
       return Sane.STATUS_GOOD
     }
   }
 
   /* build a struct to hold it */
-  if ((s = calloc (sizeof (*s), 1)) == NULL)
+  if((s = calloc(sizeof(*s), 1)) == NULL)
     return Sane.STATUS_NO_MEM
 
   /* scsi command/data buffer */
   s.buffer_size = global_buffer_size
 
   /* copy the device name */
-  s.device_name = strdup (device_name)
-  if (!s.device_name){
-    free (s)
+  s.device_name = strdup(device_name)
+  if(!s.device_name){
+    free(s)
     return Sane.STATUS_NO_MEM
   }
 
@@ -639,49 +639,49 @@ attach_one (const char *device_name)
   s.fd = -1
   ret = connect_fd(s)
   if(ret != Sane.STATUS_GOOD){
-    free (s.device_name)
-    free (s)
+    free(s.device_name)
+    free(s)
     return ret
   }
 
   /* Now query the device to load its vendor/model/version */
-  ret = init_inquire (s)
-  if (ret != Sane.STATUS_GOOD) {
+  ret = init_inquire(s)
+  if(ret != Sane.STATUS_GOOD) {
     disconnect_fd(s)
-    free (s.device_name)
-    free (s)
-    DBG (5, "attach_one: inquiry failed\n")
+    free(s.device_name)
+    free(s)
+    DBG(5, "attach_one: inquiry failed\n")
     return ret
   }
 
   /* clean up the scanner struct based on model */
   /* this is the only piece of model specific code */
-  ret = init_model (s)
-  if (ret != Sane.STATUS_GOOD) {
+  ret = init_model(s)
+  if(ret != Sane.STATUS_GOOD) {
     disconnect_fd(s)
-    free (s.device_name)
-    free (s)
-    DBG (5, "attach_one: model failed\n")
+    free(s.device_name)
+    free(s)
+    DBG(5, "attach_one: model failed\n")
     return ret
   }
 
   /* sets user 'values' to good defaults */
-  ret = init_user (s)
-  if (ret != Sane.STATUS_GOOD) {
+  ret = init_user(s)
+  if(ret != Sane.STATUS_GOOD) {
     disconnect_fd(s)
-    free (s.device_name)
-    free (s)
-    DBG (5, "attach_one: user failed\n")
+    free(s.device_name)
+    free(s)
+    DBG(5, "attach_one: user failed\n")
     return ret
   }
 
   /* sets SANE option 'values' to good defaults */
-  ret = init_options (s)
-  if (ret != Sane.STATUS_GOOD) {
+  ret = init_options(s)
+  if(ret != Sane.STATUS_GOOD) {
     disconnect_fd(s)
-    free (s.device_name)
-    free (s)
-    DBG (5, "attach_one: options failed\n")
+    free(s.device_name)
+    free(s)
+    DBG(5, "attach_one: options failed\n")
     return ret
   }
 
@@ -697,7 +697,7 @@ attach_one (const char *device_name)
   s.next = scanner_devList
   scanner_devList = s
 
-  DBG (10, "attach_one: finish\n")
+  DBG(10, "attach_one: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -706,30 +706,30 @@ attach_one (const char *device_name)
  * connect the fd in the scanner struct
  */
 static Sane.Status
-connect_fd (struct scanner *s)
+connect_fd(struct scanner *s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
   Int buffer_size = s.buffer_size
 
-  DBG (10, "connect_fd: start\n")
+  DBG(10, "connect_fd: start\n")
 
   if(s.fd > -1){
-    DBG (5, "connect_fd: already open\n")
+    DBG(5, "connect_fd: already open\n")
     ret = Sane.STATUS_GOOD
   }
   else {
-    ret = sanei_scsi_open_extended (s.device_name, &(s.fd), sense_handler,
+    ret = sanei_scsi_open_extended(s.device_name, &(s.fd), sense_handler,
       s, &s.buffer_size)
     if(!ret && buffer_size != s.buffer_size){
-      DBG (5, "connect_fd: cannot get requested buffer size (%d/%d)\n",
+      DBG(5, "connect_fd: cannot get requested buffer size(%d/%d)\n",
         buffer_size, s.buffer_size)
     }
     else{
-      DBG (15, "connect_fd: opened SCSI device\n")
+      DBG(15, "connect_fd: opened SCSI device\n")
     }
   }
 
-  DBG (10, "connect_fd: finish %d\n", ret)
+  DBG(10, "connect_fd: finish %d\n", ret)
 
   return ret
 }
@@ -739,7 +739,7 @@ connect_fd (struct scanner *s)
  * It also copies interesting data from INQUIRY into the handle structure
  */
 static Sane.Status
-init_inquire (struct scanner *s)
+init_inquire(struct scanner *s)
 {
   var i: Int
   Sane.Status ret
@@ -750,39 +750,39 @@ init_inquire (struct scanner *s)
   unsigned char in[I_data_len]
   size_t inLen = I_data_len
 
-  DBG (10, "init_inquire: start\n")
+  DBG(10, "init_inquire: start\n")
 
   memset(cmd,0,cmdLen)
   set_SCSI_opcode(cmd, INQUIRY_code)
-  set_I_evpd (cmd, 0)
-  set_I_page_code (cmd, I_page_code_default)
-  set_I_data_length (cmd, inLen)
+  set_I_evpd(cmd, 0)
+  set_I_page_code(cmd, I_page_code_default)
+  set_I_data_length(cmd, inLen)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     NULL, 0,
     in, &inLen
   )
 
-  if (ret != Sane.STATUS_GOOD){
+  if(ret != Sane.STATUS_GOOD){
     return ret
   }
 
-  if (get_I_periph_qual(in) != I_periph_qual_valid){
-    DBG (5, "The device at '%s' has invalid periph_qual.\n", s.device_name)
+  if(get_I_periph_qual(in) != I_periph_qual_valid){
+    DBG(5, "The device at '%s' has invalid periph_qual.\n", s.device_name)
     return Sane.STATUS_INVAL
   }
 
-  if (get_I_periph_devtype(in) != I_periph_devtype_scanner){
-    DBG (5, "The device at '%s' is not a scanner.\n", s.device_name)
+  if(get_I_periph_devtype(in) != I_periph_devtype_scanner){
+    DBG(5, "The device at '%s' is not a scanner.\n", s.device_name)
     return Sane.STATUS_INVAL
   }
 
-  get_I_vendor (in, s.vendor_name)
-  get_I_product (in, s.product_name)
-  get_I_version (in, s.version_name)
-  get_I_build (in, s.build_name)
+  get_I_vendor(in, s.vendor_name)
+  get_I_product(in, s.product_name)
+  get_I_version(in, s.version_name)
+  get_I_build(in, s.build_name)
 
   s.vendor_name[8] = 0
   s.product_name[16] = 0
@@ -790,118 +790,118 @@ init_inquire (struct scanner *s)
   s.build_name[2] = 0
 
   /* gobble trailing spaces */
-  for (i = 7; s.vendor_name[i] == ' ' && i >= 0; i--)
+  for(i = 7; s.vendor_name[i] == ' ' && i >= 0; i--)
     s.vendor_name[i] = 0
-  for (i = 15; s.product_name[i] == ' ' && i >= 0; i--)
+  for(i = 15; s.product_name[i] == ' ' && i >= 0; i--)
     s.product_name[i] = 0
-  for (i = 3; s.version_name[i] == ' ' && i >= 0; i--)
+  for(i = 3; s.version_name[i] == ' ' && i >= 0; i--)
     s.version_name[i] = 0
-  for (i = 2; s.build_name[i] == ' ' && i >= 0; i--)
+  for(i = 2; s.build_name[i] == ' ' && i >= 0; i--)
     s.build_name[i] = 0
 
-  if (strcmp ("KODAK", s.vendor_name)) {
-    DBG (5, "The device at '%s' is reported to be made by '%s'\n", s.device_name, s.vendor_name)
-    DBG (5, "This backend only supports Kodak products.\n")
+  if(strcmp("KODAK", s.vendor_name)) {
+    DBG(5, "The device at '%s' is reported to be made by '%s'\n", s.device_name, s.vendor_name)
+    DBG(5, "This backend only supports Kodak products.\n")
     return Sane.STATUS_INVAL
   }
 
-  DBG (15, "init_inquire: Found '%s' '%s' '%s' '%s' at '%s'\n",
+  DBG(15, "init_inquire: Found '%s' '%s' '%s' '%s' at '%s'\n",
     s.vendor_name, s.product_name, s.version_name, s.build_name,
     s.device_name)
 
   /*defined in SCSI spec*/
-  DBG (15, "standard inquiry options\n")
+  DBG(15, "standard inquiry options\n")
 
   /*FIXME: do we need to save these?*/
-  DBG (15, "  PQ: %d\n",get_I_periph_qual(in))
-  DBG (15, "  PDT: %d\n",get_I_periph_devtype(in))
+  DBG(15, "  PQ: %d\n",get_I_periph_qual(in))
+  DBG(15, "  PDT: %d\n",get_I_periph_devtype(in))
 
-  DBG (15, "  RMB: %d\n",get_I_rmb(in))
-  DBG (15, "  DTQ: %d\n",get_I_devtype_qual(in))
+  DBG(15, "  RMB: %d\n",get_I_rmb(in))
+  DBG(15, "  DTQ: %d\n",get_I_devtype_qual(in))
 
-  DBG (15, "  ISO: %d\n",get_I_iso_version(in))
-  DBG (15, "  ECMA: %d\n",get_I_ecma_version(in))
-  DBG (15, "  ANSI: %d\n",get_I_ansi_version(in))
+  DBG(15, "  ISO: %d\n",get_I_iso_version(in))
+  DBG(15, "  ECMA: %d\n",get_I_ecma_version(in))
+  DBG(15, "  ANSI: %d\n",get_I_ansi_version(in))
 
-  DBG (15, "  AENC: %d\n",get_I_aenc(in))
-  DBG (15, "  TrmIOP: %d\n",get_I_trmiop(in))
-  DBG (15, "  RDF: %d\n",get_I_resonse_format(in))
+  DBG(15, "  AENC: %d\n",get_I_aenc(in))
+  DBG(15, "  TrmIOP: %d\n",get_I_trmiop(in))
+  DBG(15, "  RDF: %d\n",get_I_resonse_format(in))
 
-  DBG (15, "  Length: %d\n",get_I_length(in))
+  DBG(15, "  Length: %d\n",get_I_length(in))
 
-  DBG (15, "  RelAdr: %d\n",get_I_reladr(in))
-  DBG (15, "  WBus32: %d\n",get_I_wbus32(in))
-  DBG (15, "  WBus16: %d\n",get_I_wbus16(in))
-  DBG (15, "  Sync: %d\n",get_I_sync(in))
-  DBG (15, "  Linked: %d\n",get_I_linked(in))
-  DBG (15, "  CmdQue: %d\n",get_I_cmdque(in))
-  DBG (15, "  SftRe: %d\n",get_I_sftre(in))
+  DBG(15, "  RelAdr: %d\n",get_I_reladr(in))
+  DBG(15, "  WBus32: %d\n",get_I_wbus32(in))
+  DBG(15, "  WBus16: %d\n",get_I_wbus16(in))
+  DBG(15, "  Sync: %d\n",get_I_sync(in))
+  DBG(15, "  Linked: %d\n",get_I_linked(in))
+  DBG(15, "  CmdQue: %d\n",get_I_cmdque(in))
+  DBG(15, "  SftRe: %d\n",get_I_sftre(in))
 
   /*kodak specific*/
-  DBG (15, "vendor inquiry options\n")
+  DBG(15, "vendor inquiry options\n")
 
-  DBG (15, "  MF Disable: %d\n",get_I_mf_disable(in))
-  DBG (15, "  Checkdigit: %d\n",get_I_checkdigit(in))
-  DBG (15, "  Front Prism: %d\n",get_I_front_prism(in))
-  DBG (15, "  Comp Gray: %d\n",get_I_compressed_gray(in))
-  DBG (15, "  Front Toggle: %d\n",get_I_front_toggle(in))
-  DBG (15, "  Front DP1: %d\n",get_I_front_dp1(in))
-  DBG (15, "  Front Color: %d\n",get_I_front_color(in))
-  DBG (15, "  Front ATP: %d\n",get_I_front_atp(in))
+  DBG(15, "  MF Disable: %d\n",get_I_mf_disable(in))
+  DBG(15, "  Checkdigit: %d\n",get_I_checkdigit(in))
+  DBG(15, "  Front Prism: %d\n",get_I_front_prism(in))
+  DBG(15, "  Comp Gray: %d\n",get_I_compressed_gray(in))
+  DBG(15, "  Front Toggle: %d\n",get_I_front_toggle(in))
+  DBG(15, "  Front DP1: %d\n",get_I_front_dp1(in))
+  DBG(15, "  Front Color: %d\n",get_I_front_color(in))
+  DBG(15, "  Front ATP: %d\n",get_I_front_atp(in))
 
-  DBG (15, "  DP1 180: %d\n",get_I_dp1_180(in))
-  DBG (15, "  MF Pause: %d\n",get_I_mf_pause(in))
-  DBG (15, "  Rear Prism: %d\n",get_I_rear_prism(in))
-  DBG (15, "  Uncomp Gray: %d\n",get_I_uncompressed_gray(in))
-  DBG (15, "  Rear Toggle: %d\n",get_I_rear_toggle(in))
-  DBG (15, "  Rear DP1: %d\n",get_I_rear_dp1(in))
-  DBG (15, "  Rear Color: %d\n",get_I_rear_color(in))
-  DBG (15, "  Rear ATP: %d\n",get_I_rear_atp(in))
+  DBG(15, "  DP1 180: %d\n",get_I_dp1_180(in))
+  DBG(15, "  MF Pause: %d\n",get_I_mf_pause(in))
+  DBG(15, "  Rear Prism: %d\n",get_I_rear_prism(in))
+  DBG(15, "  Uncomp Gray: %d\n",get_I_uncompressed_gray(in))
+  DBG(15, "  Rear Toggle: %d\n",get_I_rear_toggle(in))
+  DBG(15, "  Rear DP1: %d\n",get_I_rear_dp1(in))
+  DBG(15, "  Rear Color: %d\n",get_I_rear_color(in))
+  DBG(15, "  Rear ATP: %d\n",get_I_rear_atp(in))
 
   /* we actually care about these */
-  DBG (15, "  Min Binary Res: %d\n",get_I_min_bin_res(in))
+  DBG(15, "  Min Binary Res: %d\n",get_I_min_bin_res(in))
   s.s_res_min[MODE_LINEART] = get_I_min_bin_res(in)
-  DBG (15, "  Max Binary Res: %d\n",get_I_max_bin_res(in))
+  DBG(15, "  Max Binary Res: %d\n",get_I_max_bin_res(in))
   s.s_res_max[MODE_LINEART] = get_I_max_bin_res(in)
-  DBG (15, "  Min Color Res: %d\n",get_I_min_col_res(in))
+  DBG(15, "  Min Color Res: %d\n",get_I_min_col_res(in))
   s.s_res_min[MODE_COLOR] = get_I_min_col_res(in)
-  DBG (15, "  Max Color Res: %d\n",get_I_max_col_res(in))
+  DBG(15, "  Max Color Res: %d\n",get_I_max_col_res(in))
   s.s_res_max[MODE_COLOR] = get_I_max_col_res(in)
 
-  DBG (15, "  Max Width: %d\n",get_I_max_image_width(in))
+  DBG(15, "  Max Width: %d\n",get_I_max_image_width(in))
   s.s_width_max = get_I_max_image_width(in)
-  DBG (15, "  Max Length: %d\n",get_I_max_image_length(in))
+  DBG(15, "  Max Length: %d\n",get_I_max_image_length(in))
   s.s_length_max = get_I_max_image_length(in)
 
   /*FIXME: do we need to save these?*/
-  DBG (15, "  Finecrop: %d\n",get_I_finecrop(in))
-  DBG (15, "  iThresh: %d\n",get_I_ithresh(in))
-  DBG (15, "  ECD: %d\n",get_I_ecd(in))
-  DBG (15, "  VBLR: %d\n",get_I_vblr(in))
-  DBG (15, "  Elevator: %d\n",get_I_elevator(in))
-  DBG (15, "  RelCrop: %d\n",get_I_relcrop(in))
+  DBG(15, "  Finecrop: %d\n",get_I_finecrop(in))
+  DBG(15, "  iThresh: %d\n",get_I_ithresh(in))
+  DBG(15, "  ECD: %d\n",get_I_ecd(in))
+  DBG(15, "  VBLR: %d\n",get_I_vblr(in))
+  DBG(15, "  Elevator: %d\n",get_I_elevator(in))
+  DBG(15, "  RelCrop: %d\n",get_I_relcrop(in))
 
-  DBG (15, "  CDeskew: %d\n",get_I_cdeskew(in))
-  DBG (15, "  IA: %d\n",get_I_ia(in))
-  DBG (15, "  Patch: %d\n",get_I_patch(in))
-  DBG (15, "  Null Mode: %d\n",get_I_nullmode(in))
-  DBG (15, "  SABRE: %d\n",get_I_sabre(in))
-  DBG (15, "  LDDDS: %d\n",get_I_lddds(in))
-  DBG (15, "  UDDDS: %d\n",get_I_uddds(in))
-  DBG (15, "  Fixed Gap: %d\n",get_I_fixedgap(in))
+  DBG(15, "  CDeskew: %d\n",get_I_cdeskew(in))
+  DBG(15, "  IA: %d\n",get_I_ia(in))
+  DBG(15, "  Patch: %d\n",get_I_patch(in))
+  DBG(15, "  Null Mode: %d\n",get_I_nullmode(in))
+  DBG(15, "  SABRE: %d\n",get_I_sabre(in))
+  DBG(15, "  LDDDS: %d\n",get_I_lddds(in))
+  DBG(15, "  UDDDS: %d\n",get_I_uddds(in))
+  DBG(15, "  Fixed Gap: %d\n",get_I_fixedgap(in))
 
-  DBG (15, "  HR Printer: %d\n",get_I_hr_printer(in))
-  DBG (15, "  Elev 100/250: %d\n",get_I_elev_100_250(in))
-  DBG (15, "  UDDS Individual: %d\n",get_I_udds_individual(in))
-  DBG (15, "  Auto Color: %d\n",get_I_auto_color(in))
-  DBG (15, "  WB: %d\n",get_I_wb(in))
-  DBG (15, "  ES: %d\n",get_I_es(in))
-  DBG (15, "  FC: %d\n",get_I_fc(in))
+  DBG(15, "  HR Printer: %d\n",get_I_hr_printer(in))
+  DBG(15, "  Elev 100/250: %d\n",get_I_elev_100_250(in))
+  DBG(15, "  UDDS Individual: %d\n",get_I_udds_individual(in))
+  DBG(15, "  Auto Color: %d\n",get_I_auto_color(in))
+  DBG(15, "  WB: %d\n",get_I_wb(in))
+  DBG(15, "  ES: %d\n",get_I_es(in))
+  DBG(15, "  FC: %d\n",get_I_fc(in))
 
-  DBG (15, "  Max Rate: %d\n",get_I_max_rate(in))
-  DBG (15, "  Buffer Size: %d\n",get_I_buffer_size(in))
+  DBG(15, "  Max Rate: %d\n",get_I_max_rate(in))
+  DBG(15, "  Buffer Size: %d\n",get_I_buffer_size(in))
 
-  DBG (10, "init_inquire: finish\n")
+  DBG(10, "init_inquire: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -911,10 +911,10 @@ init_inquire (struct scanner *s)
  * errors in vpd data. struct is already initialized to 0.
  */
 static Sane.Status
-init_model (struct scanner *s)
+init_model(struct scanner *s)
 {
 
-  DBG (10, "init_model: start\n")
+  DBG(10, "init_model: start\n")
 
   s.s_mode[MODE_LINEART] = 1
   s.s_mode[MODE_HALFTONE] = 1
@@ -936,7 +936,7 @@ init_model (struct scanner *s)
   s.s_threshold_steps = 255
   s.s_rif = 1
 
-  DBG (10, "init_model: finish\n")
+  DBG(10, "init_model: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -946,10 +946,10 @@ init_model (struct scanner *s)
  * struct is already initialized to 0.
  */
 static Sane.Status
-init_user (struct scanner *s)
+init_user(struct scanner *s)
 {
 
-  DBG (10, "init_user: start\n")
+  DBG(10, "init_user: start\n")
 
   /* source */
   s.u_source = SOURCE_ADF_FRONT
@@ -978,7 +978,7 @@ init_user (struct scanner *s)
   /* bottom-right y */
   s.u_br_y = s.u_page_height
 
-  DBG (10, "init_user: finish\n")
+  DBG(10, "init_user: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -987,16 +987,16 @@ init_user (struct scanner *s)
  * This function presets the "option" array to blank
  */
 static Sane.Status
-init_options (struct scanner *s)
+init_options(struct scanner *s)
 {
   var i: Int
 
-  DBG (10, "init_options: start\n")
+  DBG(10, "init_options: start\n")
 
-  memset (s.opt, 0, sizeof (s.opt))
-  for (i = 0; i < NUM_OPTIONS; ++i) {
+  memset(s.opt, 0, sizeof(s.opt))
+  for(i = 0; i < NUM_OPTIONS; ++i) {
       s.opt[i].name = "filler"
-      s.opt[i].size = sizeof (Sane.Word)
+      s.opt[i].size = sizeof(Sane.Word)
       s.opt[i].cap = Sane.CAP_INACTIVE
   }
 
@@ -1010,7 +1010,7 @@ init_options (struct scanner *s)
   s.opt[OPT_NUM_OPTS].type = Sane.TYPE_INT
   s.opt[OPT_NUM_OPTS].cap = Sane.CAP_SOFT_DETECT
 
-  DBG (10, "init_options: finish\n")
+  DBG(10, "init_options: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -1025,7 +1025,7 @@ init_options (struct scanner *s)
  * (if there is such a device).
  */
 Sane.Status
-Sane.open (Sane.String_Const name, Sane.Handle * handle)
+Sane.open(Sane.String_Const name, Sane.Handle * handle)
 {
   struct scanner *dev = NULL
   struct scanner *s = NULL
@@ -1038,13 +1038,13 @@ Sane.open (Sane.String_Const name, Sane.Handle * handle)
   struct tm * gmt_tm_p
   struct tm * local_tm_p
 
-  DBG (10, "Sane.open: start\n")
+  DBG(10, "Sane.open: start\n")
 
   if(scanner_devList){
-    DBG (15, "Sane.open: searching currently attached scanners\n")
+    DBG(15, "Sane.open: searching currently attached scanners\n")
   }
   else{
-    DBG (15, "Sane.open: no scanners currently attached, attaching\n")
+    DBG(15, "Sane.open: no scanners currently attached, attaching\n")
 
     ret = Sane.get_devices(NULL,0)
     if(ret != Sane.STATUS_GOOD){
@@ -1053,26 +1053,26 @@ Sane.open (Sane.String_Const name, Sane.Handle * handle)
   }
 
   if(name[0] == 0){
-    DBG (15, "Sane.open: no device requested, using default\n")
+    DBG(15, "Sane.open: no device requested, using default\n")
     s = scanner_devList
   }
   else{
-    DBG (15, "Sane.open: device %s requested\n", name)
+    DBG(15, "Sane.open: device %s requested\n", name)
 
-    for (dev = scanner_devList; dev; dev = dev.next) {
-      if (strcmp (dev.sane.name, name) == 0) {
+    for(dev = scanner_devList; dev; dev = dev.next) {
+      if(strcmp(dev.sane.name, name) == 0) {
         s = dev
         break
       }
     }
   }
 
-  if (!s) {
-    DBG (5, "Sane.open: no device found\n")
+  if(!s) {
+    DBG(5, "Sane.open: no device found\n")
     return Sane.STATUS_INVAL
   }
 
-  DBG (15, "Sane.open: device %s found\n", s.sane.name)
+  DBG(15, "Sane.open: device %s found\n", s.sane.name)
 
   *handle = s
 
@@ -1082,7 +1082,7 @@ Sane.open (Sane.String_Const name, Sane.Handle * handle)
     return ret
   }
 
-  /*send the end batch (GX) command*/
+  /*send the end batch(GX) command*/
   memset(cmd,0,cmdLen)
   set_SCSI_opcode(cmd,SEND_code)
   set_SR_datatype_code(cmd,SR_datatype_random)
@@ -1095,10 +1095,10 @@ Sane.open (Sane.String_Const name, Sane.Handle * handle)
 
   /*loop until scanner is ready*/
   while(ret == Sane.STATUS_DEVICE_BUSY){
-    DBG (15, "Sane.open: GX, try %d, sleep %lu\n", try, (unsigned long)s.rs_info)
+    DBG(15, "Sane.open: GX, try %d, sleep %lu\n", try, (unsigned long)s.rs_info)
     try++
     sleep(s.rs_info)
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
@@ -1109,31 +1109,31 @@ Sane.open (Sane.String_Const name, Sane.Handle * handle)
     }
   }
   if(ret){
-    DBG (5, "Sane.open: GX error %d\n",ret)
+    DBG(5, "Sane.open: GX error %d\n",ret)
     return ret
   }
 
-  /*send the clear buffer (CB) command*/
-  DBG (15, "Sane.open: CB\n")
+  /*send the clear buffer(CB) command*/
+  DBG(15, "Sane.open: CB\n")
   memset(cmd,0,cmdLen)
   set_SCSI_opcode(cmd,SEND_code)
   set_SR_datatype_code(cmd,SR_datatype_random)
   set_SR_datatype_qual(cmd,SR_qual_clear)
   set_SR_xfer_length(cmd,SR_len_clear)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     NULL, 0,
     NULL, NULL
   )
   if(ret){
-    DBG (5, "Sane.open: CB error %d\n",ret)
+    DBG(5, "Sane.open: CB error %d\n",ret)
     return ret
   }
 
   /*send the GT command*/
-  DBG (15, "Sane.open: GT\n")
+  DBG(15, "Sane.open: GT\n")
   gmt_tt = time(NULL)
   gmt_tm_p = gmtime(&gmt_tt)
 
@@ -1151,21 +1151,21 @@ Sane.open (Sane.String_Const name, Sane.Handle * handle)
   set_SR_time_day(out,gmt_tm_p.tm_mday)
   set_SR_time_year(out,gmt_tm_p.tm_year+1900)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     out, SR_len_time,
     NULL, NULL
   )
   if(ret){
-    DBG (5, "Sane.open: GT error %d\n",ret)
+    DBG(5, "Sane.open: GT error %d\n",ret)
     return ret
   }
 
   /*FIXME: read the LC command? */
 
   /*send the LC command*/
-  DBG (15, "Sane.open: LC\n")
+  DBG(15, "Sane.open: LC\n")
   gmt_tt = time(NULL)
   local_tm_p = localtime(&gmt_tt)
 
@@ -1183,18 +1183,18 @@ Sane.open (Sane.String_Const name, Sane.Handle * handle)
   set_SR_time_day(out,local_tm_p.tm_mday)
   set_SR_time_year(out,local_tm_p.tm_year+1900)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     out, SR_len_time,
     NULL, NULL
   )
   if(ret){
-    DBG (5, "Sane.open: LC error %d\n",ret)
+    DBG(5, "Sane.open: LC error %d\n",ret)
     return ret
   }
 
-  DBG (10, "Sane.open: finish\n")
+  DBG(10, "Sane.open: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -1211,21 +1211,21 @@ Sane.open (Sane.String_Const name, Sane.Handle * handle)
  * returns the option descriptor for option number n of the device
  * represented by handle h. Option number 0 is guaranteed to be a
  * valid option. Its value is an integer that specifies the number of
- * options that are available for device handle h (the count includes
+ * options that are available for device handle h(the count includes
  * option 0). If n is not a valid option index, the function returns
  * NULL. The returned option descriptor is guaranteed to remain valid
  * (and at the returned address) until the device is closed.
  */
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
   struct scanner *s = handle
   var i: Int
   Sane.Option_Descriptor *opt = &s.opt[option]
 
-  DBG (20, "Sane.get_option_descriptor: %d\n", option)
+  DBG(20, "Sane.get_option_descriptor: %d\n", option)
 
-  if ((unsigned) option >= NUM_OPTIONS)
+  if((unsigned) option >= NUM_OPTIONS)
     return NULL
 
   /* "Mode" group -------------------------------------------------------- */
@@ -1250,7 +1250,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     opt.type = Sane.TYPE_STRING
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.o_source_list
-    opt.size = maxStringSize (opt.constraint.string_list)
+    opt.size = maxStringSize(opt.constraint.string_list)
     opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   }
 
@@ -1277,7 +1277,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     opt.type = Sane.TYPE_STRING
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.o_mode_list
-    opt.size = maxStringSize (opt.constraint.string_list)
+    opt.size = maxStringSize(opt.constraint.string_list)
     opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   }
 
@@ -1497,7 +1497,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     opt.desc = "Reverse image format"
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.s_rif)
+    if(s.s_rif)
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -1517,7 +1517,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
  * below.  The value of the option is passed through argument val. It
  * is a pointer to the memory that holds the option value. The memory
  * area pointed to by v must be big enough to hold the entire option
- * value (determined by member size in the corresponding option
+ * value(determined by member size in the corresponding option
  * descriptor).
  *
  * The only exception to this rule is that when setting the value of a
@@ -1528,38 +1528,38 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
  * well the request has been met.
  */
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
                      Sane.Action action, void *val, Int * info)
 {
   struct scanner *s = (struct scanner *) handle
   Int dummy = 0
 
-  /* Make sure that all those statements involving *info cannot break (better
-   * than having to do "if (info) ..." everywhere!)
+  /* Make sure that all those statements involving *info cannot break(better
+   * than having to do "if(info) ..." everywhere!)
    */
-  if (info == 0)
+  if(info == 0)
     info = &dummy
 
-  if (option >= NUM_OPTIONS) {
-    DBG (5, "Sane.control_option: %d too big\n", option)
+  if(option >= NUM_OPTIONS) {
+    DBG(5, "Sane.control_option: %d too big\n", option)
     return Sane.STATUS_INVAL
   }
 
-  if (!Sane.OPTION_IS_ACTIVE (s.opt[option].cap)) {
-    DBG (5, "Sane.control_option: %d inactive\n", option)
+  if(!Sane.OPTION_IS_ACTIVE(s.opt[option].cap)) {
+    DBG(5, "Sane.control_option: %d inactive\n", option)
     return Sane.STATUS_INVAL
   }
 
   /*
    * Sane.ACTION_GET_VALUE: We have to find out the current setting and
-   * return it in a human-readable form (often, text).
+   * return it in a human-readable form(often, text).
    */
-  if (action == Sane.ACTION_GET_VALUE) {
+  if(action == Sane.ACTION_GET_VALUE) {
       Sane.Word * val_p = (Sane.Word *) val
 
-      DBG (20, "Sane.control_option: get value for '%s' (%d)\n", s.opt[option].name,option)
+      DBG(20, "Sane.control_option: get value for '%s' (%d)\n", s.opt[option].name,option)
 
-      switch (option) {
+      switch(option) {
 
         case OPT_NUM_OPTS:
           *val_p = NUM_OPTIONS
@@ -1567,13 +1567,13 @@ Sane.control_option (Sane.Handle handle, Int option,
 
         case OPT_SOURCE:
           if(s.u_source == SOURCE_ADF_FRONT){
-            strcpy (val, STRING_ADFFRONT)
+            strcpy(val, STRING_ADFFRONT)
           }
           else if(s.u_source == SOURCE_ADF_BACK){
-            strcpy (val, STRING_ADFBACK)
+            strcpy(val, STRING_ADFBACK)
           }
           else if(s.u_source == SOURCE_ADF_DUPLEX){
-            strcpy (val, STRING_ADFDUPLEX)
+            strcpy(val, STRING_ADFDUPLEX)
           }
           else{
             DBG(5,"missing option val for source\n")
@@ -1582,16 +1582,16 @@ Sane.control_option (Sane.Handle handle, Int option,
 
         case OPT_MODE:
           if(s.u_mode == MODE_LINEART){
-            strcpy (val, STRING_LINEART)
+            strcpy(val, STRING_LINEART)
           }
           else if(s.u_mode == MODE_HALFTONE){
-            strcpy (val, STRING_HALFTONE)
+            strcpy(val, STRING_HALFTONE)
           }
           else if(s.u_mode == MODE_GRAYSCALE){
-            strcpy (val, STRING_GRAYSCALE)
+            strcpy(val, STRING_GRAYSCALE)
           }
           else if(s.u_mode == MODE_COLOR){
-            strcpy (val, STRING_COLOR)
+            strcpy(val, STRING_COLOR)
           }
           return Sane.STATUS_GOOD
 
@@ -1640,26 +1640,26 @@ Sane.control_option (Sane.Handle handle, Int option,
           return Sane.STATUS_GOOD
       }
   }
-  else if (action == Sane.ACTION_SET_VALUE) {
+  else if(action == Sane.ACTION_SET_VALUE) {
       Int tmp
       Sane.Word val_c
       Sane.Status status
 
-      DBG (20, "Sane.control_option: set value for '%s' (%d)\n", s.opt[option].name,option)
+      DBG(20, "Sane.control_option: set value for '%s' (%d)\n", s.opt[option].name,option)
 
-      if ( s.started ) {
-        DBG (5, "Sane.control_option: can't set, device busy\n")
+      if( s.started ) {
+        DBG(5, "Sane.control_option: can't set, device busy\n")
         return Sane.STATUS_DEVICE_BUSY
       }
 
-      if (!Sane.OPTION_IS_SETTABLE (s.opt[option].cap)) {
-        DBG (5, "Sane.control_option: not settable\n")
+      if(!Sane.OPTION_IS_SETTABLE(s.opt[option].cap)) {
+        DBG(5, "Sane.control_option: not settable\n")
         return Sane.STATUS_INVAL
       }
 
-      status = sanei_constrain_value (s.opt + option, val, info)
-      if (status != Sane.STATUS_GOOD) {
-        DBG (5, "Sane.control_option: bad value\n")
+      status = sanei_constrain_value(s.opt + option, val, info)
+      if(status != Sane.STATUS_GOOD) {
+        DBG(5, "Sane.control_option: bad value\n")
         return status
       }
 
@@ -1673,41 +1673,41 @@ Sane.control_option (Sane.Handle handle, Int option,
        * sanei_constrain_value does. Hence no "else: invalid" branches
        * below.
        */
-      switch (option) {
+      switch(option) {
 
         /* Mode Group */
         case OPT_SOURCE:
-          if (!strcmp (val, STRING_ADFFRONT)) {
+          if(!strcmp(val, STRING_ADFFRONT)) {
             tmp = SOURCE_ADF_FRONT
           }
-          else if (!strcmp (val, STRING_ADFBACK)) {
+          else if(!strcmp(val, STRING_ADFBACK)) {
             tmp = SOURCE_ADF_BACK
           }
           else{
             tmp = SOURCE_ADF_DUPLEX
           }
 
-          if (s.u_source != tmp) {
+          if(s.u_source != tmp) {
             s.u_source = tmp
             *info |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
           }
           return Sane.STATUS_GOOD
 
         case OPT_MODE:
-          if (!strcmp (val, STRING_LINEART)) {
+          if(!strcmp(val, STRING_LINEART)) {
             tmp = MODE_LINEART
           }
-          else if (!strcmp (val, STRING_HALFTONE)) {
+          else if(!strcmp(val, STRING_HALFTONE)) {
             tmp = MODE_HALFTONE
           }
-          else if (!strcmp (val, STRING_GRAYSCALE)) {
+          else if(!strcmp(val, STRING_GRAYSCALE)) {
             tmp = MODE_GRAYSCALE
           }
           else{
             tmp = MODE_COLOR
           }
 
-          if (tmp != s.u_mode){
+          if(tmp != s.u_mode){
             s.u_mode = tmp
             *info |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
           }
@@ -1715,7 +1715,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 
         case OPT_RES:
 
-          if (s.u_res != val_c) {
+          if(s.u_res != val_c) {
             s.u_res = val_c
             *info |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
           }
@@ -1723,42 +1723,42 @@ Sane.control_option (Sane.Handle handle, Int option,
 
         /* Geometry Group */
         case OPT_TL_X:
-          if (s.u_tl_x != FIXED_MM_TO_SCANNER_UNIT(val_c)){
+          if(s.u_tl_x != FIXED_MM_TO_SCANNER_UNIT(val_c)){
             s.u_tl_x = FIXED_MM_TO_SCANNER_UNIT(val_c)
             *info |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
           }
           return Sane.STATUS_GOOD
 
         case OPT_TL_Y:
-          if (s.u_tl_y != FIXED_MM_TO_SCANNER_UNIT(val_c)){
+          if(s.u_tl_y != FIXED_MM_TO_SCANNER_UNIT(val_c)){
             s.u_tl_y = FIXED_MM_TO_SCANNER_UNIT(val_c)
             *info |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
           }
           return Sane.STATUS_GOOD
 
         case OPT_BR_X:
-          if (s.u_br_x != FIXED_MM_TO_SCANNER_UNIT(val_c)){
+          if(s.u_br_x != FIXED_MM_TO_SCANNER_UNIT(val_c)){
             s.u_br_x = FIXED_MM_TO_SCANNER_UNIT(val_c)
             *info |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
           }
           return Sane.STATUS_GOOD
 
         case OPT_BR_Y:
-          if (s.u_br_y != FIXED_MM_TO_SCANNER_UNIT(val_c)){
+          if(s.u_br_y != FIXED_MM_TO_SCANNER_UNIT(val_c)){
             s.u_br_y = FIXED_MM_TO_SCANNER_UNIT(val_c)
             *info |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
           }
           return Sane.STATUS_GOOD
 
         case OPT_PAGE_WIDTH:
-          if (s.u_page_width != FIXED_MM_TO_SCANNER_UNIT(val_c)){
+          if(s.u_page_width != FIXED_MM_TO_SCANNER_UNIT(val_c)){
             s.u_page_width = FIXED_MM_TO_SCANNER_UNIT(val_c)
             *info |= Sane.INFO_RELOAD_OPTIONS
           }
           return Sane.STATUS_GOOD
 
         case OPT_PAGE_HEIGHT:
-          if (s.u_page_height != FIXED_MM_TO_SCANNER_UNIT(val_c)){
+          if(s.u_page_height != FIXED_MM_TO_SCANNER_UNIT(val_c)){
             s.u_page_height = FIXED_MM_TO_SCANNER_UNIT(val_c)
             *info |= Sane.INFO_RELOAD_OPTIONS
           }
@@ -1766,25 +1766,25 @@ Sane.control_option (Sane.Handle handle, Int option,
 
         /* Enhancement Group */
         case OPT_BRIGHTNESS:
-          if (s.u_brightness != val_c){
+          if(s.u_brightness != val_c){
             s.u_brightness = val_c
           }
           return Sane.STATUS_GOOD
 
         case OPT_CONTRAST:
-          if (s.u_contrast != val_c){
+          if(s.u_contrast != val_c){
             s.u_contrast = val_c
           }
           return Sane.STATUS_GOOD
 
         case OPT_THRESHOLD:
-          if (s.u_threshold != val_c){
+          if(s.u_threshold != val_c){
             s.u_threshold = val_c
           }
           return Sane.STATUS_GOOD
 
         case OPT_RIF:
-          if (s.u_rif != val_c){
+          if(s.u_rif != val_c){
             s.u_rif = val_c
           }
           return Sane.STATUS_GOOD
@@ -1805,7 +1805,7 @@ Sane.control_option (Sane.Handle handle, Int option,
  * From the SANE spec:
  * This function is used to obtain the current scan parameters. The
  * returned parameters are guaranteed to be accurate between the time
- * a scan has been started (Sane.start() has been called) and the
+ * a scan has been started(Sane.start() has been called) and the
  * completion of that request. Outside of that window, the returned
  * values are best-effort estimates of what the parameters will be
  * when Sane.start() gets invoked.
@@ -1825,22 +1825,22 @@ Sane.control_option (Sane.Handle handle, Int option,
 	Int bytes_per_line
 */
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
     Sane.Status ret = Sane.STATUS_GOOD
     struct scanner *s = (struct scanner *) handle
 
-    DBG (10, "Sane.get_parameters: start\n")
+    DBG(10, "Sane.get_parameters: start\n")
 
     /* started? get param data from image header */
     if(s.started){
-        DBG (15, "Sane.get_parameters: image settings:\n")
+        DBG(15, "Sane.get_parameters: image settings:\n")
 
-        DBG (15, "  tlx=%d, brx=%d, iw=%d, maxx=%d\n",
+        DBG(15, "  tlx=%d, brx=%d, iw=%d, maxx=%d\n",
           s.i_tlx, (s.i_tlx+s.i_width), s.i_width, s.s_width_max/1200)
-        DBG (15, "  tly=%d, bry=%d, il=%d, maxy=%d\n",
+        DBG(15, "  tly=%d, bry=%d, il=%d, maxy=%d\n",
           s.i_tly, (s.i_tly+s.i_length), s.i_length, s.s_length_max/1200)
-        DBG (15, "  res=%d, id=%d, bytes=%d\n",
+        DBG(15, "  res=%d, id=%d, bytes=%d\n",
           s.i_dpi, s.i_id, s.i_bytes)
 
         params.last_frame = 1
@@ -1848,40 +1848,40 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
         params.pixels_per_line = s.i_width
 
         /* bitonal */
-        if (s.i_bpp == 1) {
+        if(s.i_bpp == 1) {
             params.format = Sane.FRAME_GRAY
             params.depth = 1
             params.bytes_per_line = params.pixels_per_line / 8
 
 #ifdef Sane.FRAME_G42D
 	    /*G4 fax compression*/
-            if (s.i_compr) {
+            if(s.i_compr) {
                 params.format = Sane.FRAME_G42D
 	    }
 #endif
         }
         /* gray */
-        else if (s.i_bpp == 8) {
+        else if(s.i_bpp == 8) {
             params.format = Sane.FRAME_GRAY
             params.depth = 8
             params.bytes_per_line = params.pixels_per_line
 
 #ifdef Sane.FRAME_JPEG
 	    /*jpeg compression*/
-            if (s.i_compr) {
+            if(s.i_compr) {
                 params.format = Sane.FRAME_JPEG
 	    }
 #endif
         }
         /* color */
-        else if (s.i_bpp == 24 || s.i_bpp == 96) {
+        else if(s.i_bpp == 24 || s.i_bpp == 96) {
             params.format = Sane.FRAME_RGB
             params.depth = 8
             params.bytes_per_line = params.pixels_per_line * 3
 
 #ifdef Sane.FRAME_JPEG
 	    /*jpeg compression*/
-            if (s.i_compr) {
+            if(s.i_compr) {
                 params.format = Sane.FRAME_JPEG
 	    }
 #endif
@@ -1895,21 +1895,21 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
     /* not started? get param data from user input */
     else{
 
-        DBG (15, "Sane.get_parameters: user settings:\n")
+        DBG(15, "Sane.get_parameters: user settings:\n")
 
-        DBG (15, "  tlx=%d, brx=%d, pw=%d, maxx=%d\n",
+        DBG(15, "  tlx=%d, brx=%d, pw=%d, maxx=%d\n",
           s.u_tl_x, s.u_br_x, s.u_page_width, s.s_width_max)
-        DBG (15, "  tly=%d, bry=%d, ph=%d, maxy=%d\n",
+        DBG(15, "  tly=%d, bry=%d, ph=%d, maxy=%d\n",
           s.u_tl_y, s.u_br_y, s.u_page_height, s.s_length_max)
-        DBG (15, "  res=%d, user_x=%d, user_y=%d\n",
+        DBG(15, "  res=%d, user_x=%d, user_y=%d\n",
           s.u_res, (s.u_res * (s.u_br_x - s.u_tl_x) / 1200),
           (s.u_res * (s.u_br_y - s.u_tl_y) / 1200))
 
-        if (s.u_mode == MODE_COLOR) {
+        if(s.u_mode == MODE_COLOR) {
             params.format = Sane.FRAME_RGB
             params.depth = 8
         }
-        else if (s.u_mode == MODE_GRAYSCALE) {
+        else if(s.u_mode == MODE_GRAYSCALE) {
             params.format = Sane.FRAME_GRAY
             params.depth = 8
         }
@@ -1923,10 +1923,10 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
         params.pixels_per_line = s.u_res * (s.u_br_x - s.u_tl_x) / 1200
 
         /* bytes per line differs by mode */
-        if (s.u_mode == MODE_COLOR) {
+        if(s.u_mode == MODE_COLOR) {
             params.bytes_per_line = params.pixels_per_line * 3
         }
-        else if (s.u_mode == MODE_GRAYSCALE) {
+        else if(s.u_mode == MODE_GRAYSCALE) {
             params.bytes_per_line = params.pixels_per_line
         }
         else {
@@ -1935,21 +1935,21 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 
     }
 
-    DBG (15, "Sane.get_parameters: returning:\n")
-    DBG (15, "  scan_x=%d, Bpl=%d, depth=%d\n",
+    DBG(15, "Sane.get_parameters: returning:\n")
+    DBG(15, "  scan_x=%d, Bpl=%d, depth=%d\n",
       params.pixels_per_line, params.bytes_per_line, params.depth )
 
-    DBG (15, "  scan_y=%d, frame=%d, last=%d\n",
+    DBG(15, "  scan_y=%d, frame=%d, last=%d\n",
       params.lines, params.format, params.last_frame )
 
-    DBG (10, "Sane.get_parameters: finish\n")
+    DBG(10, "Sane.get_parameters: finish\n")
 
     return ret
 }
 
 /*
  * Called by SANE when a page acquisition operation is to be started.
- * commands: scanner control (lampon), send (lut), send (dither),
+ * commands: scanner control(lampon), send(lut), send(dither),
  * set window, object pos, and scan
  *
  * this will be called before each image, including duplex backsides,
@@ -1957,19 +1957,19 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
  * hence, we spend a lot of time playing with s.started, etc.
  */
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   struct scanner *s = handle
   Sane.Status ret
 
-  DBG (10, "Sane.start: start\n")
+  DBG(10, "Sane.start: start\n")
 
-  DBG (15, "started=%d, source=%d\n", s.started, s.u_source)
+  DBG(15, "started=%d, source=%d\n", s.started, s.u_source)
 
   /* batch already running */
   if(s.started){
       /* not finished with current image, error */
-      if (s.bytes_tx != s.i_bytes) {
+      if(s.bytes_tx != s.i_bytes) {
           DBG(5,"Sane.start: previous transfer not finished?")
           return do_cancel(s)
       }
@@ -1983,8 +1983,8 @@ Sane.start (Sane.Handle handle)
 
       /* set window command */
       ret = set_window(s)
-      if (ret != Sane.STATUS_GOOD) {
-        DBG (5, "Sane.start: ERROR: cannot set window\n")
+      if(ret != Sane.STATUS_GOOD) {
+        DBG(5, "Sane.start: ERROR: cannot set window\n")
         do_cancel(s)
         return ret
       }
@@ -1993,32 +1993,32 @@ Sane.start (Sane.Handle handle)
 
       /* read/send SC command */
       ret = send_sc(s)
-      if (ret != Sane.STATUS_GOOD) {
-        DBG (5, "Sane.start: ERROR: cannot send SC\n")
+      if(ret != Sane.STATUS_GOOD) {
+        DBG(5, "Sane.start: ERROR: cannot send SC\n")
         do_cancel(s)
         return ret
       }
 
       /* read/send CT command */
 
-      DBG (15, "Sane.start: send SCAN\n")
+      DBG(15, "Sane.start: send SCAN\n")
       memset(cmd, 0, SCAN_len)
       set_SCSI_opcode(cmd, SCAN_code)
 
-      ret = do_cmd (
+      ret = do_cmd(
         s, 1, 0,
         cmd, SCAN_len,
         NULL, 0,
         NULL, NULL
       )
-      if (ret != Sane.STATUS_GOOD) {
-        DBG (5, "Sane.start: ERROR sending SCAN\n")
+      if(ret != Sane.STATUS_GOOD) {
+        DBG(5, "Sane.start: ERROR sending SCAN\n")
         do_cancel(s)
         return ret
       }
 
       /* send SS command */
-      DBG (15, "Sane.start: send SS\n")
+      DBG(15, "Sane.start: send SS\n")
       memset(cmd,0,SEND_len)
       set_SCSI_opcode(cmd,SEND_code)
       set_SR_datatype_code(cmd,SR_datatype_random)
@@ -2029,18 +2029,18 @@ Sane.start (Sane.Handle handle)
       set_SR_payload_len(pay,SR_len_startstop)
       set_SR_startstop_cmd(pay,1)
 
-      ret = do_cmd (
+      ret = do_cmd(
         s, 1, 0,
         cmd, SEND_len,
         pay, SR_len_startstop,
         NULL, NULL
       )
       if(ret){
-        DBG (5, "Sane.open: SS error %d\n",ret)
+        DBG(5, "Sane.open: SS error %d\n",ret)
         return ret
       }
 
-      DBG (15, "Sane.start: sleeping\n")
+      DBG(15, "Sane.start: sleeping\n")
       sleep(2)
 
       s.started=1
@@ -2048,7 +2048,7 @@ Sane.start (Sane.Handle handle)
 
   ret = read_imageheader(s)
   if(ret){
-    DBG (5, "Sane.open: error reading imageheader %d\n",ret)
+    DBG(5, "Sane.open: error reading imageheader %d\n",ret)
     return ret
   }
 
@@ -2057,30 +2057,30 @@ Sane.start (Sane.Handle handle)
   s.bytes_tx  = 0
 
   /* make large buffer to hold the images */
-  DBG (15, "Sane.start: setup buffer\n")
+  DBG(15, "Sane.start: setup buffer\n")
 
   /* free current buffer if too small */
-  if (s.buffer && s.bytes_buf < s.i_bytes) {
-      DBG (15, "Sane.start: free buffer.\n")
+  if(s.buffer && s.bytes_buf < s.i_bytes) {
+      DBG(15, "Sane.start: free buffer.\n")
       free(s.buffer)
       s.buffer = NULL
       s.bytes_buf = 0
   }
 
   /* grab new buffer if don't have one */
-  if (!s.buffer) {
-      DBG (15, "Sane.start: calloc buffer.\n")
-      s.buffer = calloc (1,s.i_bytes)
-      if (!s.buffer) {
-          DBG (5, "Sane.start: Error, no buffer\n")
+  if(!s.buffer) {
+      DBG(15, "Sane.start: calloc buffer.\n")
+      s.buffer = calloc(1,s.i_bytes)
+      if(!s.buffer) {
+          DBG(5, "Sane.start: Error, no buffer\n")
           do_cancel(s)
           return Sane.STATUS_NO_MEM
       }
   }
 
-  DBG (15, "started=%d, source=%d\n", s.started, s.u_source)
+  DBG(15, "started=%d, source=%d\n", s.started, s.u_source)
 
-  DBG (10, "Sane.start: finish\n")
+  DBG(10, "Sane.start: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -2092,7 +2092,7 @@ Sane.start (Sane.Handle handle)
  * even if you don't intend to acquire images from all of them.
  */
 static Sane.Status
-set_window (struct scanner *s)
+set_window(struct scanner *s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
@@ -2109,7 +2109,7 @@ set_window (struct scanner *s)
   Int width = (s.u_br_x - s.u_tl_x) * s.u_res/1200
   Int length = (s.u_br_y - s.u_tl_y) * s.u_res/1200
 
-  DBG (10, "set_window: start\n")
+  DBG(10, "set_window: start\n")
 
   /* binary window settings */
   memset(cmd,0,cmdLen)
@@ -2122,11 +2122,11 @@ set_window (struct scanner *s)
   set_WD_wid(desc,WD_wid_front_binary)
 
   /* common settings */
-  set_WD_Xres (desc, s.u_res)
-  set_WD_Yres (desc, s.u_res)
+  set_WD_Xres(desc, s.u_res)
+  set_WD_Yres(desc, s.u_res)
 
-  set_WD_ULX (desc, s.u_tl_x)
-  set_WD_ULY (desc, s.u_tl_y)
+  set_WD_ULX(desc, s.u_tl_x)
+  set_WD_ULY(desc, s.u_tl_y)
 
   /* width % 32 == 0 && length % 1 == 0 */
   width -= width % 32
@@ -2134,71 +2134,71 @@ set_window (struct scanner *s)
 
   length = length*1200/s.u_res
 
-  set_WD_width (desc, width)
-  set_WD_length (desc, length)
+  set_WD_width(desc, width)
+  set_WD_length(desc, length)
 
   /* brightness not supported? */
-  set_WD_brightness (desc, 0)
-  set_WD_threshold (desc, s.u_threshold)
-  set_WD_contrast (desc, 0)
+  set_WD_brightness(desc, 0)
+  set_WD_threshold(desc, s.u_threshold)
+  set_WD_contrast(desc, 0)
   if(s.s_contrast_steps){
     /*convert our common -127 to +127 range into HW's range
      *FIXME: this code assumes hardware range of 1-255 */
-    set_WD_contrast (desc, s.u_contrast+128)
+    set_WD_contrast(desc, s.u_contrast+128)
   }
 
   if(s.u_mode == MODE_HALFTONE){
-    set_WD_composition (desc, WD_compo_HALFTONE)
-    set_WD_bitsperpixel (desc, 1)
+    set_WD_composition(desc, WD_compo_HALFTONE)
+    set_WD_bitsperpixel(desc, 1)
   }
   else{
-    set_WD_composition (desc, WD_compo_LINEART)
-    set_WD_bitsperpixel (desc, 1)
+    set_WD_composition(desc, WD_compo_LINEART)
+    set_WD_bitsperpixel(desc, 1)
   }
 
   /* FIXME ht pattern */
 
-  set_WD_rif (desc, s.u_rif)
+  set_WD_rif(desc, s.u_rif)
 
-  set_WD_bitorder (desc, 1)
+  set_WD_bitorder(desc, 1)
 
   /* compression options */
   if(s.u_compr)
-    set_WD_compress_type (desc, WD_compr_FAXG4)
+    set_WD_compress_type(desc, WD_compr_FAXG4)
 
   /*FIXME: noise filter */
 
   set_WD_allow_zero(desc,1)
-  set_WD_cropping (desc, WD_crop_RELATIVE)
+  set_WD_cropping(desc, WD_crop_RELATIVE)
 
   /*FIXME: more settings here*/
 
   hexdump(15, "front binary window:", desc, WINDOW_DESCRIPTOR_len)
 
-  DBG (15, "set_window: set window binary back\n")
-  ret = do_cmd (
+  DBG(15, "set_window: set window binary back\n")
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     pay, payLen,
     NULL, NULL
   )
   if(ret){
-    DBG (5, "set_window: error setting binary front window %d\n",ret)
+    DBG(5, "set_window: error setting binary front window %d\n",ret)
     return ret
   }
 
   /*send the window for backside too*/
   set_WD_wid(desc,WD_wid_back_binary)
 
-  DBG (15, "set_window: set window binary back\n")
-  ret = do_cmd (
+  DBG(15, "set_window: set window binary back\n")
+  ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       pay, payLen,
       NULL, NULL
   )
   if(ret){
-    DBG (5, "set_window: error setting binary back window %d\n",ret)
+    DBG(5, "set_window: error setting binary back window %d\n",ret)
     return ret
   }
 
@@ -2209,14 +2209,14 @@ set_window (struct scanner *s)
   set_GW_wid(cmd,WD_wid_front_color)
   set_GW_xferlen(cmd,payLen)
 
-  ret = do_cmd (
+  ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
       pay, &payLen
   )
   if(ret){
-    DBG (5, "set_window: error getting window %d\n",ret)
+    DBG(5, "set_window: error getting window %d\n",ret)
     return ret
   }
   hexdump(15,"foo",pay,payLen)
@@ -2233,14 +2233,14 @@ set_window (struct scanner *s)
   set_WD_wid(desc,WD_wid_front_color)
 
   /* common settings */
-  set_WD_Xres (desc, s.u_res)
-  set_WD_Yres (desc, s.u_res)
+  set_WD_Xres(desc, s.u_res)
+  set_WD_Yres(desc, s.u_res)
 
-  set_WD_ULX (desc, s.u_tl_x)
-  set_WD_ULY (desc, s.u_tl_y)
+  set_WD_ULX(desc, s.u_tl_x)
+  set_WD_ULY(desc, s.u_tl_y)
 
-  set_WD_width (desc, width)
-  set_WD_length (desc, length)
+  set_WD_width(desc, width)
+  set_WD_length(desc, length)
 
   /*gray mode*/
   if(s.u_mode == MODE_GRAYSCALE){
@@ -2248,67 +2248,67 @@ set_window (struct scanner *s)
      gamma
      width % 8 == 0 && length % 8 == 0
      */
-    set_WD_composition (desc, WD_compo_MULTILEVEL)
-    set_WD_bitsperpixel (desc, 8)
+    set_WD_composition(desc, WD_compo_MULTILEVEL)
+    set_WD_bitsperpixel(desc, 8)
   }
   /*color mode or color window in binary mode*/
   else{
     /*
      width % 16 == 0 && length % 8 == 0
      */
-    set_WD_composition (desc, WD_compo_MULTILEVEL)
-    set_WD_bitsperpixel (desc, 24)
+    set_WD_composition(desc, WD_compo_MULTILEVEL)
+    set_WD_bitsperpixel(desc, 24)
 
     /* compression options */
     if(s.u_compr)
-      set_WD_compress_type (desc, WD_compr_JPEG)
+      set_WD_compress_type(desc, WD_compr_JPEG)
   }
 
-  set_WD_bitorder (desc, 1)
+  set_WD_bitorder(desc, 1)
 
   /*FIXME: noise filter */
 
   set_WD_allow_zero(desc,1)
-  set_WD_cropping (desc, WD_crop_RELATIVE)
+  set_WD_cropping(desc, WD_crop_RELATIVE)
 
   /*FIXME: more settings here*/
 
-  DBG (15, "set_window: set window color front\n")
+  DBG(15, "set_window: set window color front\n")
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     pay, payLen,
     NULL, NULL
   )
   if(ret){
-    DBG (5, "set_window: error setting color front window %d\n",ret)
+    DBG(5, "set_window: error setting color front window %d\n",ret)
     return ret
   }
 
   /*send the window for backside too*/
   set_WD_wid(desc,WD_wid_back_color)
 
-  DBG (15, "set_window: set window color back\n")
+  DBG(15, "set_window: set window color back\n")
 
-  ret = do_cmd (
+  ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       pay, payLen,
       NULL, NULL
   )
   if(ret){
-    DBG (5, "set_window: error setting color back window %d\n",ret)
+    DBG(5, "set_window: error setting color back window %d\n",ret)
     return ret
   }
 
-  DBG (10, "set_window: finish\n")
+  DBG(10, "set_window: finish\n")
 
   return ret
 }
 
 /*
- * This routine reads the SC (scanner config) data from the scanner
+ * This routine reads the SC(scanner config) data from the scanner
  * modifies a few params based on user data, and sends it back
  */
 static Sane.Status
@@ -2322,9 +2322,9 @@ send_sc(struct scanner *s)
   size_t payLen = SR_len_config
 
   /* send SC command */
-  DBG (10, "send_sc: start\n")
+  DBG(10, "send_sc: start\n")
 
-  DBG (15, "send_sc: reading config\n")
+  DBG(15, "send_sc: reading config\n")
   memset(cmd,0,READ_len)
   set_SCSI_opcode(cmd,READ_code)
 
@@ -2332,14 +2332,14 @@ send_sc(struct scanner *s)
   set_SR_datatype_qual(cmd,SR_qual_config)
   set_SR_xfer_length(cmd,SR_len_config)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     NULL, 0,
     pay, &payLen
   )
   if(ret || !payLen){
-    DBG (5, "send_sc: error reading: %d\n",ret)
+    DBG(5, "send_sc: error reading: %d\n",ret)
     return ret
   }
 
@@ -2387,14 +2387,14 @@ send_sc(struct scanner *s)
 
   /*FIXME: there are hundreds of other settings in this payload*/
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     pay, payLen,
     NULL, NULL
   )
 
-  DBG (10, "send_sc: finish %d\n",ret)
+  DBG(10, "send_sc: finish %d\n",ret)
 
   return ret
 }
@@ -2404,7 +2404,7 @@ send_sc(struct scanner *s)
  * values currently in the scanner data structure.
  */
 static Sane.Status
-read_imageheader (struct scanner *s)
+read_imageheader(struct scanner *s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
@@ -2414,27 +2414,27 @@ read_imageheader (struct scanner *s)
   Int pass = 0
 
   /* read img header */
-  DBG (10, "read_imageheader: start\n")
+  DBG(10, "read_imageheader: start\n")
 
   memset(cmd,0,READ_len)
   set_SCSI_opcode(cmd,READ_code)
   set_SR_datatype_code(cmd,SR_datatype_imageheader)
   set_SR_xfer_length(cmd,SR_len_imageheader)
 
-  while (pass++ < 1000){
+  while(pass++ < 1000){
 
-    DBG (15, "read_imageheader: pass %d\n", pass)
+    DBG(15, "read_imageheader: pass %d\n", pass)
 
     payLen = SR_len_imageheader
 
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, READ_len,
       NULL, 0,
       pay, &payLen
     )
 
-    DBG (15, "read_imageheader: pass status %d\n", ret)
+    DBG(15, "read_imageheader: pass status %d\n", ret)
 
     if(ret != Sane.STATUS_DEVICE_BUSY){
       break
@@ -2443,41 +2443,41 @@ read_imageheader (struct scanner *s)
     usleep(50000)
   }
 
-  if (ret == Sane.STATUS_GOOD){
+  if(ret == Sane.STATUS_GOOD){
 
-    DBG (15, "image header:\n")
+    DBG(15, "image header:\n")
 
-    DBG (15, "  bytes: %d\n",get_SR_ih_image_length(pay))
+    DBG(15, "  bytes: %d\n",get_SR_ih_image_length(pay))
     s.i_bytes = get_SR_ih_image_length(pay)
 
-    DBG (15, "  id: %d\n",get_SR_ih_image_id(pay))
+    DBG(15, "  id: %d\n",get_SR_ih_image_id(pay))
     s.i_id = get_SR_ih_image_id(pay)
 
-    DBG (15, "  dpi: %d\n",get_SR_ih_resolution(pay))
+    DBG(15, "  dpi: %d\n",get_SR_ih_resolution(pay))
     s.i_dpi = get_SR_ih_resolution(pay)
 
-    DBG (15, "  tlx: %d\n",get_SR_ih_ulx(pay))
+    DBG(15, "  tlx: %d\n",get_SR_ih_ulx(pay))
     s.i_tlx = get_SR_ih_ulx(pay)
 
-    DBG (15, "  tly: %d\n",get_SR_ih_uly(pay))
+    DBG(15, "  tly: %d\n",get_SR_ih_uly(pay))
     s.i_tly = get_SR_ih_uly(pay)
 
-    DBG (15, "  width: %d\n",get_SR_ih_width(pay))
+    DBG(15, "  width: %d\n",get_SR_ih_width(pay))
     s.i_width = get_SR_ih_width(pay)
 
-    DBG (15, "  length: %d\n",get_SR_ih_length(pay))
+    DBG(15, "  length: %d\n",get_SR_ih_length(pay))
     s.i_length = get_SR_ih_length(pay)
 
-    DBG (15, "  bpp: %d\n",get_SR_ih_bpp(pay))
+    DBG(15, "  bpp: %d\n",get_SR_ih_bpp(pay))
     s.i_bpp = get_SR_ih_bpp(pay)
 
-    DBG (15, "  comp: %d\n",get_SR_ih_comp_type(pay))
+    DBG(15, "  comp: %d\n",get_SR_ih_comp_type(pay))
     s.i_compr = get_SR_ih_comp_type(pay)
 
     /*FIXME: there are a lot more of these?*/
   }
 
-  DBG (10, "read_imageheader: finish %d\n", ret)
+  DBG(10, "read_imageheader: finish %d\n", ret)
 
   return ret
 }
@@ -2490,31 +2490,31 @@ read_imageheader (struct scanner *s)
  * represented by handle h.  Argument buf is a pointer to a memory
  * area that is at least maxlen bytes long.  The number of bytes
  * returned is stored in *len. A backend must set this to zero when
- * the call fails (i.e., when a status other than Sane.STATUS_GOOD is
+ * the call fails(i.e., when a status other than Sane.STATUS_GOOD is
  * returned).
  *
  * When the call succeeds, the number of bytes returned can be
  * anywhere in the range from 0 to maxlen bytes.
  */
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
+Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
 {
   struct scanner *s = (struct scanner *) handle
   Sane.Status ret=0
 
-  DBG (10, "Sane.read: start\n")
+  DBG(10, "Sane.read: start\n")
 
   *len=0
 
   /* maybe cancelled? */
   if(!s.started){
-      DBG (5, "Sane.read: not started, call Sane.start\n")
+      DBG(5, "Sane.read: not started, call Sane.start\n")
       return Sane.STATUS_CANCELLED
   }
 
   /* Sane.start required between images */
   if(s.bytes_tx == s.i_bytes){
-      DBG (15, "Sane.read: returning eof\n")
+      DBG(15, "Sane.read: returning eof\n")
       return Sane.STATUS_EOF
   }
 
@@ -2529,7 +2529,7 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
   /* copy a block from buffer to frontend */
   ret = read_from_buffer(s,buf,max_len,len)
 
-  DBG (10, "Sane.read: finish\n")
+  DBG(10, "Sane.read: finish\n")
 
   return ret
 }
@@ -2546,7 +2546,7 @@ read_from_scanner(struct scanner *s)
     unsigned char cmd[READ_len]
     Int cmdLen=READ_len
 
-    DBG (10, "read_from_scanner: start\n")
+    DBG(10, "read_from_scanner: start\n")
 
     memset(cmd, 0, cmdLen)
     set_SCSI_opcode(cmd, READ_code)
@@ -2571,23 +2571,23 @@ read_from_scanner(struct scanner *s)
         return Sane.STATUS_NO_MEM
     }
 
-    set_SR_datatype_code (cmd, SR_datatype_imagedata)
-    set_SR_xfer_length (cmd, bytes)
+    set_SR_datatype_code(cmd, SR_datatype_imagedata)
+    set_SR_xfer_length(cmd, bytes)
 
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
       buf, &inLen
     )
 
-    if (ret == Sane.STATUS_GOOD) {
+    if(ret == Sane.STATUS_GOOD) {
         DBG(15, "read_from_scanner: got GOOD, returning GOOD\n")
     }
-    else if (ret == Sane.STATUS_EOF) {
+    else if(ret == Sane.STATUS_EOF) {
         DBG(15, "read_from_scanner: got EOF, finishing\n")
     }
-    else if (ret == Sane.STATUS_DEVICE_BUSY) {
+    else if(ret == Sane.STATUS_DEVICE_BUSY) {
         DBG(5, "read_from_scanner: got BUSY, returning GOOD\n")
         inLen = 0
         ret = Sane.STATUS_GOOD
@@ -2598,18 +2598,18 @@ read_from_scanner(struct scanner *s)
     }
 
     if(inLen){
-        copy_buffer (s, buf, inLen)
+        copy_buffer(s, buf, inLen)
     }
 
     free(buf)
 
     if(ret == Sane.STATUS_EOF){
-      DBG (5, "read_from_scanner: unexpected EOF, shortening image\n")
+      DBG(5, "read_from_scanner: unexpected EOF, shortening image\n")
       s.i_bytes = s.bytes_rx
       ret = Sane.STATUS_GOOD
     }
 
-    DBG (10, "read_from_scanner: finish\n")
+    DBG(10, "read_from_scanner: finish\n")
 
     return ret
 }
@@ -2619,12 +2619,12 @@ copy_buffer(struct scanner *s, unsigned char * buf, Int len)
 {
   Sane.Status ret=Sane.STATUS_GOOD
 
-  DBG (10, "copy_buffer: start\n")
+  DBG(10, "copy_buffer: start\n")
 
   memcpy(s.buffer+s.bytes_rx,buf,len)
   s.bytes_rx += len
 
-  DBG (10, "copy_buffer: finish\n")
+  DBG(10, "copy_buffer: finish\n")
 
   return ret
 }
@@ -2637,7 +2637,7 @@ read_from_buffer(struct scanner *s, Sane.Byte * buf,
     Int bytes = max_len
     Int remain = s.bytes_rx - s.bytes_tx
 
-    DBG (10, "read_from_buffer: start\n")
+    DBG(10, "read_from_buffer: start\n")
 
     /* figure out the max amount to transfer */
     if(bytes > remain){
@@ -2659,7 +2659,7 @@ read_from_buffer(struct scanner *s, Sane.Byte * buf,
 
     s.bytes_tx += *len
 
-    DBG (10, "read_from_buffer: finish\n")
+    DBG(10, "read_from_buffer: finish\n")
 
     return ret
 }
@@ -2676,7 +2676,7 @@ read_from_buffer(struct scanner *s, Sane.Byte * buf,
  * batch - quoting David Mosberger-Tang:
  *
  * > In other words, the idea is to have Sane.start() be called, and
- * > collect as many images as the frontend wants (which could in turn
+ * > collect as many images as the frontend wants(which could in turn
  * > consist of multiple frames each as indicated by frame-type) and
  * > when the frontend is done, it should call Sane.cancel().
  * > Sometimes it's better to think of Sane.cancel() as "Sane.stop()"
@@ -2684,7 +2684,7 @@ read_from_buffer(struct scanner *s, Sane.Byte * buf,
  * > well, that's why we stuck with "cancel".
  *
  * The current consensus regarding duplex and ADF scans seems to be
- * the following call sequence: Sane.start; Sane.read (repeat until
+ * the following call sequence: Sane.start; Sane.read(repeat until
  * EOF); Sane.start; Sane.read...  and then call Sane.cancel if the
  * batch is at an end. I.e. do not call Sane.cancel during the run but
  * as soon as you get a Sane.STATUS_NO_DOCS.
@@ -2692,25 +2692,25 @@ read_from_buffer(struct scanner *s, Sane.Byte * buf,
  * From the SANE spec:
  * This function is used to immediately or as quickly as possible
  * cancel the currently pending operation of the device represented by
- * handle h.  This function can be called at any time (as long as
+ * handle h.  This function can be called at any time(as long as
  * handle h is a valid handle) but usually affects long-running
- * operations only (such as image is acquisition). It is safe to call
- * this function asynchronously (e.g., from within a signal handler).
+ * operations only(such as image is acquisition). It is safe to call
+ * this function asynchronously(e.g., from within a signal handler).
  * It is important to note that completion of this operation does not
  * imply that the currently pending operation has been cancelled. It
  * only guarantees that cancellation has been initiated. Cancellation
- * completes only when the cancelled call returns (typically with a
+ * completes only when the cancelled call returns(typically with a
  * status value of Sane.STATUS_CANCELLED).  Since the SANE API does
  * not require any other operations to be re-entrant, this implies
  * that a frontend must not call any other operation until the
  * cancelled operation has returned.
  */
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
-  DBG (10, "Sane.cancel: start\n")
-  do_cancel ((struct scanner *) handle)
-  DBG (10, "Sane.cancel: finish\n")
+  DBG(10, "Sane.cancel: start\n")
+  do_cancel((struct scanner *) handle)
+  DBG(10, "Sane.cancel: finish\n")
 }
 
 /*
@@ -2718,13 +2718,13 @@ Sane.cancel (Sane.Handle handle)
  * FIXME: do better cleanup if scanning is ongoing...
  */
 static Sane.Status
-do_cancel (struct scanner *s)
+do_cancel(struct scanner *s)
 {
-  DBG (10, "do_cancel: start\n")
+  DBG(10, "do_cancel: start\n")
 
   s.started = 0
 
-  DBG (10, "do_cancel: finish\n")
+  DBG(10, "do_cancel: finish\n")
 
   return Sane.STATUS_CANCELLED
 }
@@ -2739,28 +2739,28 @@ do_cancel (struct scanner *s)
  * this function returns, handle h must not be used anymore.
  */
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
-  DBG (10, "Sane.close: start\n")
+  DBG(10, "Sane.close: start\n")
 
   do_cancel((struct scanner *) handle)
   disconnect_fd((struct scanner *) handle)
 
-  DBG (10, "Sane.close: finish\n")
+  DBG(10, "Sane.close: finish\n")
 }
 
 static Sane.Status
-disconnect_fd (struct scanner *s)
+disconnect_fd(struct scanner *s)
 {
-  DBG (10, "disconnect_fd: start\n")
+  DBG(10, "disconnect_fd: start\n")
 
   if(s.fd > -1){
-    DBG (15, "disconnecting scsi device\n")
-    sanei_scsi_close (s.fd)
+    DBG(15, "disconnecting scsi device\n")
+    sanei_scsi_close(s.fd)
     s.fd = -1
   }
 
-  DBG (10, "disconnect_fd: finish\n")
+  DBG(10, "disconnect_fd: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -2771,7 +2771,7 @@ disconnect_fd (struct scanner *s)
  * From the SANE spec:
  * This function must be called to terminate use of a backend. The
  * function will first close all device handles that still might be
- * open (it is recommended to close device handles explicitly through
+ * open(it is recommended to close device handles explicitly through
  * a call to Sane.close(), but backends are required to release all
  * resources upon a call to this function). After this function
  * returns, no function other than Sane.init() may be called
@@ -2780,26 +2780,26 @@ disconnect_fd (struct scanner *s)
  * released properly.
  */
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   struct scanner *dev, *next
 
-  DBG (10, "Sane.exit: start\n")
+  DBG(10, "Sane.exit: start\n")
 
-  for (dev = scanner_devList; dev; dev = next) {
+  for(dev = scanner_devList; dev; dev = next) {
       disconnect_fd(dev)
       next = dev.next
-      free (dev.device_name)
-      free (dev)
+      free(dev.device_name)
+      free(dev)
   }
 
-  if (Sane.devArray)
-    free (Sane.devArray)
+  if(Sane.devArray)
+    free(Sane.devArray)
 
   scanner_devList = NULL
   Sane.devArray = NULL
 
-  DBG (10, "Sane.exit: finish\n")
+  DBG(10, "Sane.exit: finish\n")
 }
 
 
@@ -2813,39 +2813,39 @@ Sane.exit (void)
  * and produces debug msgs
  */
 static Sane.Status
-sense_handler (Int fd, unsigned char * sensed_data, void *arg)
+sense_handler(Int fd, unsigned char * sensed_data, void *arg)
 {
   struct scanner *s = arg
-  unsigned Int ili = get_RS_ILI (sensed_data)
-  unsigned Int sk = get_RS_sense_key (sensed_data)
-  unsigned Int asc = get_RS_ASC (sensed_data)
-  unsigned Int ascq = get_RS_ASCQ (sensed_data)
+  unsigned Int ili = get_RS_ILI(sensed_data)
+  unsigned Int sk = get_RS_sense_key(sensed_data)
+  unsigned Int asc = get_RS_ASC(sensed_data)
+  unsigned Int ascq = get_RS_ASCQ(sensed_data)
 
-  DBG (5, "sense_handler: start\n")
+  DBG(5, "sense_handler: start\n")
 
   /* kill compiler warning */
   fd = fd
 
   /* save for later */
-  s.rs_info = get_RS_information (sensed_data)
+  s.rs_info = get_RS_information(sensed_data)
 
-  DBG (5, "SK=%#02x, ASC=%#02x, ASCQ=%#02x, ILI=%d, info=%#08lx\n",
+  DBG(5, "SK=%#02x, ASC=%#02x, ASCQ=%#02x, ILI=%d, info=%#08lx\n",
        sk, asc, ascq, ili, (unsigned long)s.rs_info)
 
-  switch (sk) {
+  switch(sk) {
 
     /* no sense */
     case 0x0:
-      if (0x00 != asc) {
-        DBG (5, "No sense: unknown asc\n")
+      if(0x00 != asc) {
+        DBG(5, "No sense: unknown asc\n")
         return Sane.STATUS_IO_ERROR
       }
-      if (0x00 != ascq) {
-        DBG (5, "No sense: unknown ascq\n")
+      if(0x00 != ascq) {
+        DBG(5, "No sense: unknown ascq\n")
         return Sane.STATUS_IO_ERROR
       }
-      if (ili) {
-        DBG (5, "No sense: ILI set\n")
+      if(ili) {
+        DBG(5, "No sense: ILI set\n")
         return Sane.STATUS_EOF
       }
       DBG  (5, "No sense: ready\n")
@@ -2853,72 +2853,72 @@ sense_handler (Int fd, unsigned char * sensed_data, void *arg)
 
     /* not ready */
     case 0x2:
-      if (0x80 != asc) {
-        DBG (5, "Not ready: unknown asc\n")
+      if(0x80 != asc) {
+        DBG(5, "Not ready: unknown asc\n")
         return Sane.STATUS_IO_ERROR
       }
-      if (0x00 != ascq) {
-        DBG (5, "Not ready: unknown ascq\n")
+      if(0x00 != ascq) {
+        DBG(5, "Not ready: unknown ascq\n")
         return Sane.STATUS_IO_ERROR
       }
-      DBG (5, "Not ready: end of job\n")
+      DBG(5, "Not ready: end of job\n")
       return Sane.STATUS_NO_DOCS
       break
 
     /* hardware error */
     case 0x4:
-      if (0x3b != asc) {
-        DBG (5, "Hardware error: unknown asc\n")
+      if(0x3b != asc) {
+        DBG(5, "Hardware error: unknown asc\n")
         return Sane.STATUS_IO_ERROR
       }
-      if (0x05 == ascq) {
-        DBG (5, "Hardware error: paper jam\n")
+      if(0x05 == ascq) {
+        DBG(5, "Hardware error: paper jam\n")
         return Sane.STATUS_JAMMED
       }
-      if (0x80 == ascq) {
-        DBG (5, "Hardware error: multi-feed\n")
+      if(0x80 == ascq) {
+        DBG(5, "Hardware error: multi-feed\n")
         return Sane.STATUS_JAMMED
       }
-      DBG (5, "Hardware error: unknown ascq\n")
+      DBG(5, "Hardware error: unknown ascq\n")
       return Sane.STATUS_IO_ERROR
       break
 
     /* illegal request */
     case 0x5:
-      if (asc != 0x20 && asc != 0x24 && asc != 0x25 && asc != 0x26
+      if(asc != 0x20 && asc != 0x24 && asc != 0x25 && asc != 0x26
       && asc != 0x83 && asc != 0x8f) {
-        DBG (5, "Illegal request: unknown asc\n")
+        DBG(5, "Illegal request: unknown asc\n")
         return Sane.STATUS_IO_ERROR
       }
-      if (0x20 == asc && 0x00 == ascq) {
+      if(0x20 == asc && 0x00 == ascq) {
         DBG  (5, "Illegal request: invalid opcode\n")
         return Sane.STATUS_INVAL
       }
-      if (0x24 == asc && 0x00 == ascq) {
+      if(0x24 == asc && 0x00 == ascq) {
         DBG  (5, "Illegal request: invalid field in CDB\n")
         return Sane.STATUS_INVAL
       }
-      if (0x25 == asc && 0x00 == ascq) {
+      if(0x25 == asc && 0x00 == ascq) {
         DBG  (5, "Illegal request: invalid LUN\n")
         return Sane.STATUS_INVAL
       }
-      if (0x26 == asc && 0x00 == ascq) {
+      if(0x26 == asc && 0x00 == ascq) {
         DBG  (5, "Illegal request: invalid field in params\n")
         return Sane.STATUS_INVAL
       }
-      if (0x83 == asc && 0x00 == ascq) {
+      if(0x83 == asc && 0x00 == ascq) {
         DBG  (5, "Illegal request: command failed, check log\n")
         return Sane.STATUS_INVAL
       }
-      if (0x83 == asc && 0x01 == ascq) {
+      if(0x83 == asc && 0x01 == ascq) {
         DBG  (5, "Illegal request: command failed, invalid state\n")
         return Sane.STATUS_INVAL
       }
-      if (0x83 == asc && 0x02 == ascq) {
+      if(0x83 == asc && 0x02 == ascq) {
         DBG  (5, "Illegal request: command failed, critical error\n")
         return Sane.STATUS_INVAL
       }
-      if (0x8f == asc && 0x00 == ascq) {
+      if(0x8f == asc && 0x00 == ascq) {
         DBG  (5, "Illegal request: no image\n")
         return Sane.STATUS_DEVICE_BUSY
       }
@@ -2928,27 +2928,27 @@ sense_handler (Int fd, unsigned char * sensed_data, void *arg)
 
     /* unit attention */
     case 0x6:
-      if (asc != 0x29 && asc != 0x80) {
-        DBG (5, "Unit attention: unknown asc\n")
+      if(asc != 0x29 && asc != 0x80) {
+        DBG(5, "Unit attention: unknown asc\n")
         return Sane.STATUS_IO_ERROR
       }
-      if (0x29 == asc && 0x60 == ascq) {
+      if(0x29 == asc && 0x60 == ascq) {
         DBG  (5, "Unit attention: device reset\n")
         return Sane.STATUS_GOOD
       }
-      if (0x80 == asc && 0x00 == ascq) {
+      if(0x80 == asc && 0x00 == ascq) {
         DBG  (5, "Unit attention: Energy Star warm up\n")
         return Sane.STATUS_DEVICE_BUSY
       }
-      if (0x80 == asc && 0x01 == ascq) {
+      if(0x80 == asc && 0x01 == ascq) {
         DBG  (5, "Unit attention: lamp warm up for scan\n")
         return Sane.STATUS_DEVICE_BUSY
       }
-      if (0x80 == asc && 0x02 == ascq) {
+      if(0x80 == asc && 0x02 == ascq) {
         DBG  (5, "Unit attention: lamp warm up for cal\n")
         return Sane.STATUS_DEVICE_BUSY
       }
-      if (0x80 == asc && 0x04 == ascq) {
+      if(0x80 == asc && 0x04 == ascq) {
         DBG  (5, "Unit attention: calibration failed\n")
         return Sane.STATUS_INVAL
       }
@@ -2958,7 +2958,7 @@ sense_handler (Int fd, unsigned char * sensed_data, void *arg)
 
     /* ia overflow */
     case 0x9:
-      if (0x80 == asc && 0x00 == ascq) {
+      if(0x80 == asc && 0x00 == ascq) {
         DBG  (5, "IA overflow: IA field overflow\n")
         return Sane.STATUS_IO_ERROR
       }
@@ -2968,7 +2968,7 @@ sense_handler (Int fd, unsigned char * sensed_data, void *arg)
 
     /* volume overflow */
     case 0xd:
-      if (0x80 == asc && 0x00 == ascq) {
+      if(0x80 == asc && 0x00 == ascq) {
         DBG  (5, "Volume overflow: Image buffer full\n")
         return Sane.STATUS_IO_ERROR
       }
@@ -2977,11 +2977,11 @@ sense_handler (Int fd, unsigned char * sensed_data, void *arg)
       break
 
     default:
-      DBG (5, "Unknown Sense Code\n")
+      DBG(5, "Unknown Sense Code\n")
       return Sane.STATUS_IO_ERROR
   }
 
-  DBG (5, "sense_handler: should never happen!\n")
+  DBG(5, "sense_handler: should never happen!\n")
 
   return Sane.STATUS_IO_ERROR
 }
@@ -2994,14 +2994,14 @@ do_rs(scanner * s)
   unsigned char cmd[REQUEST_SENSE_len]
   size_t cmdLen = REQUEST_SENSE_len
 
-  DBG (10, "do_rs: start\n")
+  DBG(10, "do_rs: start\n")
 
   memset(cmd,0,cmdLen)
   set_SCSI_opcode(cmd,REQUEST_SENSE_code)
   set_SR_datatype_code(cmd,SR_datatype_random)
   set_SR_datatype_qual(cmd,SR_qual_end)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     NULL, 0,
@@ -3012,7 +3012,7 @@ do_rs(scanner * s)
     ret = run_rs(s)
   }
 
-  DBG (10, "do_rs: finish\n")
+  DBG(10, "do_rs: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -3040,7 +3040,7 @@ do_cmd(struct scanner *s, Int runRS, Int shortTime,
     DBG(25, "out: writing %d bytes\n", (Int)outLen)
     hexdump(30, "out: >>", outBuff, outLen)
   }
-  if (inBuff && inLen){
+  if(inBuff && inLen){
     DBG(25, "in: reading %d bytes\n", (Int)*inLen)
   }
 
@@ -3052,7 +3052,7 @@ do_cmd(struct scanner *s, Int runRS, Int shortTime,
   }
 
   /* FIXME: should we look at s.rs_info here? */
-  if (inBuff && inLen){
+  if(inBuff && inLen){
     hexdump(30, "in: <<", inBuff, *inLen)
     DBG(25, "in: read %d bytes\n", (Int)*inLen)
   }
@@ -3071,30 +3071,30 @@ wait_scanner(struct scanner *s)
   unsigned char cmd[TEST_UNIT_READY_len]
   size_t cmdLen = TEST_UNIT_READY_len
 
-  DBG (10, "wait_scanner: start\n")
+  DBG(10, "wait_scanner: start\n")
 
   memset(cmd,0,cmdLen)
   set_SCSI_opcode(cmd,TEST_UNIT_READY_code)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 0, 1,
     cmd, cmdLen,
     NULL, 0,
     NULL, NULL
   )
 
-  if (ret != Sane.STATUS_GOOD) {
+  if(ret != Sane.STATUS_GOOD) {
     DBG(5,"WARNING: Brain-dead scanner. Hitting with stick\n")
-    ret = do_cmd (
+    ret = do_cmd(
       s, 0, 1,
       cmd, cmdLen,
       NULL, 0,
       NULL, NULL
     )
   }
-  if (ret != Sane.STATUS_GOOD) {
+  if(ret != Sane.STATUS_GOOD) {
     DBG(5,"WARNING: Brain-dead scanner. Hitting with stick again\n")
-    ret = do_cmd (
+    ret = do_cmd(
       s, 0, 1,
       cmd, cmdLen,
       NULL, 0,
@@ -3102,11 +3102,11 @@ wait_scanner(struct scanner *s)
     )
   }
 
-  if (ret != Sane.STATUS_GOOD) {
-    DBG (5, "wait_scanner: error '%s'\n", Sane.strstatus (ret))
+  if(ret != Sane.STATUS_GOOD) {
+    DBG(5, "wait_scanner: error '%s'\n", Sane.strstatus(ret))
   }
 
-  DBG (10, "wait_scanner: finish\n")
+  DBG(10, "wait_scanner: finish\n")
 
   return ret
 }
@@ -3116,14 +3116,14 @@ wait_scanner(struct scanner *s)
  * Convenience method to determine longest string size in a list.
  */
 static size_t
-maxStringSize (const Sane.String_Const strings[])
+maxStringSize(const Sane.String_Const strings[])
 {
   size_t size, max_size = 0
   var i: Int
 
-  for (i = 0; strings[i]; ++i) {
-    size = strlen (strings[i]) + 1
-    if (size > max_size)
+  for(i = 0; strings[i]; ++i) {
+    size = strlen(strings[i]) + 1
+    if(size > max_size)
       max_size = size
   }
 
@@ -3134,7 +3134,7 @@ maxStringSize (const Sane.String_Const strings[])
  * Prints a hex dump of the given buffer onto the debug output stream.
  */
 static void
-hexdump (Int level, char *comment, unsigned char *p, Int l)
+hexdump(Int level, char *comment, unsigned char *p, Int l)
 {
   var i: Int
   char line[128]
@@ -3143,36 +3143,36 @@ hexdump (Int level, char *comment, unsigned char *p, Int l)
   if(DBG_LEVEL < level)
     return
 
-  DBG (level, "%s\n", comment)
+  DBG(level, "%s\n", comment)
   ptr = line
-  for (i = 0; i < l; i++, p++)
+  for(i = 0; i < l; i++, p++)
     {
-      if ((i % 16) == 0)
+      if((i % 16) == 0)
         {
-          if (ptr != line)
+          if(ptr != line)
             {
               *ptr = '\0'
-              DBG (level, "%s\n", line)
+              DBG(level, "%s\n", line)
               ptr = line
             }
-          sprintf (ptr, "%3.3x:", i)
+          sprintf(ptr, "%3.3x:", i)
           ptr += 4
         }
-      sprintf (ptr, " %2.2x", *p)
+      sprintf(ptr, " %2.2x", *p)
       ptr += 3
     }
   *ptr = '\0'
-  DBG (level, "%s\n", line)
+  DBG(level, "%s\n", line)
 }
 
 /**
  * An advanced method we don't support but have to define.
  */
 Sane.Status
-Sane.set_io_mode (Sane.Handle h, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
 {
-  DBG (10, "Sane.set_io_mode\n")
-  DBG (15, "%d %p\n", non_blocking, h)
+  DBG(10, "Sane.set_io_mode\n")
+  DBG(15, "%d %p\n", non_blocking, h)
   return Sane.STATUS_UNSUPPORTED
 }
 
@@ -3180,9 +3180,9 @@ Sane.set_io_mode (Sane.Handle h, Bool non_blocking)
  * An advanced method we don't support but have to define.
  */
 Sane.Status
-Sane.get_select_fd (Sane.Handle h, Int *fdp)
+Sane.get_select_fd(Sane.Handle h, Int *fdp)
 {
-  DBG (10, "Sane.get_select_fd\n")
-  DBG (15, "%p %d\n", h, *fdp)
+  DBG(10, "Sane.get_select_fd\n")
+  DBG(15, "%p %d\n", h, *fdp)
   return Sane.STATUS_UNSUPPORTED
 }

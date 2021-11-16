@@ -2,14 +2,14 @@
 
    pieusb_buffer.c
 
-   Copyright (C) 2012-2015 Jan Vleeshouwers, Michael Rickmann, Klaus Kaempf
+   Copyright(C) 2012-2015 Jan Vleeshouwers, Michael Rickmann, Klaus Kaempf
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -48,7 +48,7 @@
  * The scanner returns data in the 'index' or 'line' color format, which means it
  * returns data in batches which contain a single color of a scan line.
  *
- * These must finally be converted into the SANE data format (data for a single
+ * These must finally be converted into the SANE data format(data for a single
  * pixel in consecutive bytes). Apart from that, Sane.read() must be able to
  * return any amount of data bytes.
  *
@@ -62,8 +62,8 @@
  * The read buffer is constructed by a call to buffer_create(), which initializes
  * the buffer based on width, height, number of colors and depth. The buffer
  * contains data organized in color planes, with each plane consisting of lines,
- * each line of a fixed number of (single color) pixels, and each pixel of a fixed
- * number of bits (or bytes).
+ * each line of a fixed number of(single color) pixels, and each pixel of a fixed
+ * number of bits(or bytes).
  *
  * The buffer maintains read and write pointers.
  *
@@ -110,12 +110,12 @@ static void buffer_update_read_index(struct Pieusb_Read_Buffer* buffer, Int incr
  * A scanner has a Pieusb_Read_Buffer struct as one of its members.
  *
  * @param buffer the buffer to initialize
- * @param width number of pixels on a line (row)
- * @param height number of lines in the buffer (pixels in a column)
- * @param colors bitmap specifying the colors in the scanned data (bitmap: 0000 IBGR)
+ * @param width number of pixels on a line(row)
+ * @param height number of lines in the buffer(pixels in a column)
+ * @param colors bitmap specifying the colors in the scanned data(bitmap: 0000 IBGR)
  * @param depth number of bits of a color
  * @param bigendian how to store multi-byte values: bigendian if true
- * @param maximum_size maximum size of buffer (-1 = size of image)
+ * @param maximum_size maximum size of buffer(-1 = size of image)
  */
 
 Sane.Status
@@ -129,16 +129,16 @@ sanei_pieusb_buffer_create(struct Pieusb_Read_Buffer* buffer, Int width, Int hei
     buffer.width = width
     buffer.height = height
     buffer.colors = 0
-    if (color_spec & 0x01) { buffer.color_index_red = 0; buffer.colors++; } else { buffer.color_index_red = -1; }
-    if (color_spec & 0x02) { buffer.color_index_green = 1; buffer.colors++; } else { buffer.color_index_green = -1; }
-    if (color_spec & 0x04) { buffer.color_index_blue = 2; buffer.colors++; } else { buffer.color_index_blue = -1; }
-    if (color_spec & 0x08) { buffer.color_index_infrared = 3; buffer.colors++; } else { buffer.color_index_infrared = -1; }
-    if (buffer.colors == 0) {
+    if(color_spec & 0x01) { buffer.color_index_red = 0; buffer.colors++; } else { buffer.color_index_red = -1; }
+    if(color_spec & 0x02) { buffer.color_index_green = 1; buffer.colors++; } else { buffer.color_index_green = -1; }
+    if(color_spec & 0x04) { buffer.color_index_blue = 2; buffer.colors++; } else { buffer.color_index_blue = -1; }
+    if(color_spec & 0x08) { buffer.color_index_infrared = 3; buffer.colors++; } else { buffer.color_index_infrared = -1; }
+    if(buffer.colors == 0) {
         DBG(DBG_error, "sanei_pieusb_buffer_create(): no colors specified\n")
         return Sane.STATUS_INVAL
     }
     buffer.depth = depth
-    if (depth < 1 || depth > 16) {
+    if(depth < 1 || depth > 16) {
         DBG(DBG_error, "sanei_pieusb_buffer_create(): unsupported depth %d\n", depth)
         return Sane.STATUS_INVAL
     }
@@ -152,10 +152,10 @@ sanei_pieusb_buffer_create(struct Pieusb_Read_Buffer* buffer, Int width, Int hei
 
     /* Create empty file */
     snprintf(buffer.buffer_name, L_tmpnam, "/tmp/sane.XXXXXX")
-    if (buffer.data_file != 0) /* might still be open from previous invocation */
+    if(buffer.data_file != 0) /* might still be open from previous invocation */
       close(buffer.data_file)
     buffer.data_file = mkstemp(buffer.buffer_name)
-    if (buffer.data_file == -1) {
+    if(buffer.data_file == -1) {
         buffer.data_file = 0
         buffer.data = NULL
 	perror("sanei_pieusb_buffer_create(): error opening image buffer file")
@@ -163,14 +163,14 @@ sanei_pieusb_buffer_create(struct Pieusb_Read_Buffer* buffer, Int width, Int hei
     }
     /* Stretch the file size */
     buffer_size_bytes = buffer.width * buffer.height * buffer.colors * sizeof(Sane.Uint)
-    if (buffer_size_bytes == 0) {
+    if(buffer_size_bytes == 0) {
         close(buffer.data_file)
         buffer.data_file = 0
         DBG(DBG_error, "sanei_pieusb_buffer_create(): buffer_size is zero: width %d, height %d, colors %d\n", buffer.width, buffer.height, buffer.colors)
         return Sane.STATUS_INVAL
     }
     result = lseek(buffer.data_file, buffer_size_bytes-1, SEEK_SET)
-    if (result == -1) {
+    if(result == -1) {
 	close(buffer.data_file)
         buffer.data_file = 0
         buffer.data = NULL
@@ -181,7 +181,7 @@ sanei_pieusb_buffer_create(struct Pieusb_Read_Buffer* buffer, Int width, Int hei
     /* Write one byte at the end */
     g = 0x00
     result = write(buffer.data_file, &g, 1)
-    if (result < 0) {
+    if(result < 0) {
 	close(buffer.data_file)
         buffer.data_file = 0
         buffer.data = NULL
@@ -191,7 +191,7 @@ sanei_pieusb_buffer_create(struct Pieusb_Read_Buffer* buffer, Int width, Int hei
 #ifdef HAVE_MMAP
     /* Create memory map */
     buffer.data = mmap(NULL, buffer_size_bytes, PROT_WRITE | PROT_READ, MAP_SHARED, buffer.data_file, 0)
-    if (buffer.data == MAP_FAILED) {
+    if(buffer.data == MAP_FAILED) {
         close(buffer.data_file)
         buffer.data = NULL
         perror("sanei_pieusb_buffer_create(): error mapping file")
@@ -203,12 +203,12 @@ sanei_pieusb_buffer_create(struct Pieusb_Read_Buffer* buffer, Int width, Int hei
     buffer.data_size = buffer_size_bytes
     /* Reading and writing */
     buffer.p_read = calloc(buffer.colors, sizeof(Sane.Uint*))
-    if (buffer.p_read == NULL)
+    if(buffer.p_read == NULL)
       return Sane.STATUS_NO_MEM
     buffer.p_write = calloc(buffer.colors, sizeof(Sane.Uint*))
-    if (buffer.p_write == NULL)
+    if(buffer.p_write == NULL)
       return Sane.STATUS_NO_MEM
-    for (k = 0; k < buffer.colors; k++) {
+    for(k = 0; k < buffer.colors; k++) {
         buffer.p_write[k] = buffer.data + k * buffer.height * buffer.width
         buffer.p_read[k] = buffer.p_write[k]
     }
@@ -276,7 +276,7 @@ sanei_pieusb_buffer_put_single_color_line(struct Pieusb_Read_Buffer* buffer, San
 
     /* Check index code */
     c = -1
-    switch (color) {
+    switch(color) {
         case 'R':
             c = buffer.color_index_red
             break
@@ -290,14 +290,14 @@ sanei_pieusb_buffer_put_single_color_line(struct Pieusb_Read_Buffer* buffer, San
             c = buffer.color_index_infrared
             break
     }
-    if (c == -1) {
+    if(c == -1) {
         DBG(DBG_error, "sanei_pieusb_buffer_put_single_color_line(): color '%c' not specified when buffer was created\n", color)
         return 0
     }
-    DBG(DBG_info_buffer, "sanei_pieusb_buffer_put_single_color_line() line color = %d (0=R, 1=G, 2=B, 3=I)\n",c)
+    DBG(DBG_info_buffer, "sanei_pieusb_buffer_put_single_color_line() line color = %d(0=R, 1=G, 2=B, 3=I)\n",c)
 
-    /* Check line size (for a line with a single color) */
-    if (buffer.line_size_bytes != size) {
+    /* Check line size(for a line with a single color) */
+    if(buffer.line_size_bytes != size) {
         DBG(DBG_error, "sanei_pieusb_buffer_put_single_color_line(): incorrect line size, expecting %d, got %d\n", buffer.line_size_bytes, size)
         return 0
     }
@@ -310,20 +310,20 @@ sanei_pieusb_buffer_put_single_color_line(struct Pieusb_Read_Buffer* buffer, San
      * because the general approach is a bit overkill for them.
      */
 
-    if (buffer.packet_size_bytes == 1 && buffer.packing_density == 1) {
+    if(buffer.packet_size_bytes == 1 && buffer.packing_density == 1) {
         uint8_t* p_packet = (uint8_t*)line
         n = 0
-        while (n < size) {
+        while(n < size) {
             /* Get next packet data & store in buffer */
             *buffer.p_write[c]++ = *p_packet++
             n++
         }
-    } else if (buffer.packet_size_bytes == 2 && buffer.packing_density == 1) {
+    } else if(buffer.packet_size_bytes == 2 && buffer.packing_density == 1) {
         uint16_t* p_packet = (uint16_t*)line
         n = 0
-        while (n < size) {
+        while(n < size) {
             /* Get next packet data & store in buffer */
-            *buffer.p_write[c]++ = le16toh (*p_packet++)
+            *buffer.p_write[c]++ = le16toh(*p_packet++)
             n += 2
         }
     } else {
@@ -332,20 +332,20 @@ sanei_pieusb_buffer_put_single_color_line(struct Pieusb_Read_Buffer* buffer, San
         Sane.Uint val
         uint8_t mask = ~(0xFF >> buffer.depth); /* byte with depth most significant bits set */
         n = 0
-        while (n < size) {
+        while(n < size) {
             /* Get next packet data */
-            for (k = 0; k < buffer.packet_size_bytes; k++) packet[k] = *p_packet++
+            for(k = 0; k < buffer.packet_size_bytes; k++) packet[k] = *p_packet++
             /* Unpack packing_density samples from packet. Of course,
              * buffer.depth * packing_density <= # bits in packet.
              * That is checked at buffer creation. */
-            for (k = 0; k < buffer.packing_density; k++) {
+            for(k = 0; k < buffer.packing_density; k++) {
                 /* Take 1st depth bits and store in val */
                 val = (packet[0] & mask) >> (8-buffer.depth)
                 /* Now shift packet bytes depth bits left */
-                for (m = 0; m < buffer.packet_size_bytes; m++) {
+                for(m = 0; m < buffer.packet_size_bytes; m++) {
                     /* Shift left one sample */
                     packet[m] <<= buffer.depth
-                    if (m < buffer.packet_size_bytes-1) {
+                    if(m < buffer.packet_size_bytes-1) {
                         /* If there are more bytes, insert 1st depth bits of next byte */
                         packet[m] |= (packet[m+1] >> (8-buffer.depth))
                     }
@@ -386,7 +386,7 @@ sanei_pieusb_buffer_put_full_color_line(struct Pieusb_Read_Buffer* buffer, void*
     DBG(DBG_info_buffer, "sanei_pieusb_buffer_put_full_color_line() entered\n")
 
     /* Check line size */
-    if (buffer.line_size_bytes * buffer.colors != size) {
+    if(buffer.line_size_bytes * buffer.colors != size) {
         DBG(DBG_error, "sanei_pieusb_buffer_put_full_color_line(): incorrect line size, expecting %d, got %d\n", buffer.line_size_bytes * buffer.colors, size)
         return 0
     }
@@ -399,23 +399,23 @@ sanei_pieusb_buffer_put_full_color_line(struct Pieusb_Read_Buffer* buffer, void*
      * because the general approach is a bit overkill for them.
      */
 
-    if (buffer.packet_size_bytes == 1 && buffer.packing_density == 1) {
+    if(buffer.packet_size_bytes == 1 && buffer.packing_density == 1) {
         uint8_t* p_packet = (uint8_t*)line
         n = 0
-        while (n < size) {
+        while(n < size) {
             /* Get next packet data & store in buffer */
-            for (c = 0; c < buffer.colors; c++) {
+            for(c = 0; c < buffer.colors; c++) {
                 *buffer.p_write[c]++ = *p_packet++
                 n++
             }
         }
-    } else if (buffer.packet_size_bytes == 2 && buffer.packing_density == 1) {
+    } else if(buffer.packet_size_bytes == 2 && buffer.packing_density == 1) {
         uint16_t* p_packet = (uint16_t*)line
         n = 0
-        while (n < size) {
+        while(n < size) {
             /* Get next packet data & store in buffer */
-            for (c = 0; c < buffer.colors; c++) {
-                *buffer.p_write[c]++ = le16toh (*p_packet++)
+            for(c = 0; c < buffer.colors; c++) {
+                *buffer.p_write[c]++ = le16toh(*p_packet++)
                 n += 2
             }
         }
@@ -426,26 +426,26 @@ sanei_pieusb_buffer_put_full_color_line(struct Pieusb_Read_Buffer* buffer, void*
         uint8_t mask = ~(0xFF >> buffer.depth); /* byte with depth most significant bits set */
         /* DBG(DBG_info,"buffer_put_full_color_line(): mask %02x\n",mask); */
         n = 0
-        while (n < size) {
+        while(n < size) {
             /* Get next packet data */
-            for (c = 0; c < buffer.colors; c++) {
-                for (k = 0; k < buffer.packet_size_bytes; k++) {
+            for(c = 0; c < buffer.colors; c++) {
+                for(k = 0; k < buffer.packet_size_bytes; k++) {
                     packet[k] = *p_packet++
                     /* DBG(DBG_info,"buffer_put_full_color_line(): packet[%d] = %02x\n",k,packet[k]); */
                 }
                 /* Unpack packing_density samples from packet. Of course,
                  * buffer.depth * packing_density <= # bits in packet.
                  * That is checked at buffer creation. */
-                for (k = 0; k < buffer.packing_density; k++) {
+                for(k = 0; k < buffer.packing_density; k++) {
                     /* Take 1st depth bits and store in val */
                     val = (packet[0] & mask) >> (8-buffer.depth)
                     /* DBG(DBG_info,"buffer_put_full_color_line(): val[%d] = %02x\n",k,val); */
                     /* Now shift packet bytes depth bits left */
-                    for (m = 0; m < buffer.packet_size_bytes; m++) {
+                    for(m = 0; m < buffer.packet_size_bytes; m++) {
                         /* Shift left one sample */
                         packet[m] <<= buffer.depth
                         /* DBG(DBG_info,"buffer_put_full_color_line(): shift packet[%d] = %02x\n",m,packet[m]); */
-                        if (m < buffer.packet_size_bytes-1) {
+                        if(m < buffer.packet_size_bytes-1) {
                             /* If there are more bytes, insert 1st depth bits of next byte */
                             packet[m] |= (packet[m+1] >> (8-buffer.depth))
                             /* DBG(DBG_info,"buffer_put_full_color_line(): shift packet[%d] = %02x\n",m,packet[m]); */
@@ -493,9 +493,9 @@ sanei_pieusb_buffer_get(struct Pieusb_Read_Buffer* buffer, Sane.Byte* data, Int 
     n = 0
     N = buffer.width * buffer.height
     /* Determine bytes to return */
-    if (buffer.packet_size_bytes == 1 && buffer.packing_density == 1) {
+    if(buffer.packet_size_bytes == 1 && buffer.packing_density == 1) {
         /* Single byte values in buffer */
-        while (n < max_len && buffer.bytes_read < buffer.image_size_bytes) {
+        while(n < max_len && buffer.bytes_read < buffer.image_size_bytes) {
             /* Return byte*/
             *pdata++ = *(buffer.data + N*buffer.read_index[0] + buffer.width*buffer.read_index[1] + buffer.read_index[2]) & 0xFF
             /* Update read indices */
@@ -504,18 +504,18 @@ sanei_pieusb_buffer_get(struct Pieusb_Read_Buffer* buffer, Sane.Byte* data, Int 
             buffer.bytes_read++
             n++
         }
-    } else if (buffer.packet_size_bytes == 1 && buffer.packing_density == 8) {
+    } else if(buffer.packet_size_bytes == 1 && buffer.packing_density == 8) {
         /* Unpacked bits in buffer: repack */
-        while (n < max_len && buffer.bytes_read < buffer.image_size_bytes) {
+        while(n < max_len && buffer.bytes_read < buffer.image_size_bytes) {
             uint8_t val = 0
             /* How many bits to pack? At the end of a line it may be less than 8 */
             n_bits = 8
-            if (buffer.width - buffer.read_index[2] < 8) {
+            if(buffer.width - buffer.read_index[2] < 8) {
                 n_bits = buffer.width - buffer.read_index[2]
             }
             /* Pack n_bits samples from same color plane */
-            for (i = 0; i < n_bits; i++) {
-                if (*(buffer.data + N*buffer.read_index[0] + buffer.width*buffer.read_index[1] + buffer.read_index[2] + i) > 0) {
+            for(i = 0; i < n_bits; i++) {
+                if(*(buffer.data + N*buffer.read_index[0] + buffer.width*buffer.read_index[1] + buffer.read_index[2] + i) > 0) {
                     val |= (0x80 >> i)
                 }
             }
@@ -527,13 +527,13 @@ sanei_pieusb_buffer_get(struct Pieusb_Read_Buffer* buffer, Sane.Byte* data, Int 
             buffer.bytes_read++
             n++
         }
-    } else if (buffer.packet_size_bytes == 2) {
+    } else if(buffer.packet_size_bytes == 2) {
         /* Two-byte values in buffer */
-        while (n < max_len && buffer.bytes_read < buffer.image_size_bytes) {
+        while(n < max_len && buffer.bytes_read < buffer.image_size_bytes) {
             /* Pointer to byte to return */
             Sane.Uint val = *(buffer.data + N*buffer.read_index[0] + buffer.width*buffer.read_index[1] + buffer.read_index[2])
             /* Return byte */
-            if (buffer.read_index[3] == 0) {
+            if(buffer.read_index[3] == 0) {
                 *pdata++ = *((Sane.Byte*)(&val))
             } else {
                 *pdata++ = *((Sane.Byte*)(&val)+1)
@@ -571,15 +571,15 @@ static void buffer_update_read_index(struct Pieusb_Read_Buffer* buffer, Int incr
      * [2] = index of pixel on line: increased after color plane
      * [1] = index of line: increased after line is complete
      * [0] = color index: increased first since SANE requires full color pixels */
-    if (buffer.read_index[3] == 0 && buffer.packet_size_bytes == 2) {
+    if(buffer.read_index[3] == 0 && buffer.packet_size_bytes == 2) {
         buffer.read_index[3] = 1
     } else {
         buffer.read_index[3] = 0
         buffer.read_index[0]++
-        if (buffer.read_index[0] == buffer.colors) {
+        if(buffer.read_index[0] == buffer.colors) {
             buffer.read_index[0] = 0
             buffer.read_index[2] += increment
-            if (buffer.read_index[2] >= buffer.width) {
+            if(buffer.read_index[2] >= buffer.width) {
                 buffer.read_index[2] = 0
                 buffer.read_index[1]++
             }
@@ -602,22 +602,22 @@ static void buffer_output_state(struct Pieusb_Read_Buffer* buffer)
     line_size = buffer.line_size_bytes * buffer.colors; /* Full line size in bytes */
 
     DBG(DBG_info_buffer, "Buffer data\n")
-    DBG(DBG_info_buffer,"  width/height/colors/depth = %d %d %d %d (buffer size %d)\n",
+    DBG(DBG_info_buffer,"  width/height/colors/depth = %d %d %d %d(buffer size %d)\n",
         buffer.width, buffer.height, buffer.colors, buffer.depth, buffer.image_size_bytes)
 
     /* Summary */
     N = buffer.width * buffer.height
-    for (k = 0; k < buffer.colors; k++) {
+    for(k = 0; k < buffer.colors; k++) {
         loc[k] = buffer.p_read[k] - buffer.data - k*N
     }
-    for (k = buffer.colors; k < 4; k++) {
+    for(k = buffer.colors; k < 4; k++) {
         loc[k] = 0
     }
     DBG(DBG_info_buffer, "  reading at: lines = %d:%d:%d:%d\n", loc[0], loc[1], loc[2], loc[3])
-    for (k = 0; k < buffer.colors; k++) {
+    for(k = 0; k < buffer.colors; k++) {
         loc[k] = buffer.p_write[k] - buffer.data - k*N
     }
-    for (k = buffer.colors; k < 4; k++) {
+    for(k = buffer.colors; k < 4; k++) {
         loc[k] = 0
     }
     DBG(DBG_info_buffer, "  writing at: lines = %d:%d:%d:%d\n", loc[0], loc[1], loc[2], loc[3])
@@ -626,7 +626,7 @@ static void buffer_output_state(struct Pieusb_Read_Buffer* buffer)
     double fdata = (double)buffer.bytes_unread/buffer.image_size_bytes*100
     double fread = (double)buffer.bytes_read/buffer.image_size_bytes*100
     double fwritten = (double)buffer.bytes_written/buffer.image_size_bytes*100
-    DBG(DBG_info_buffer, "  byte counts: image = %d, data = %d (%.0f%%), read = %d (%.0f%%), written = %d (%.0f%%)\n",
+    DBG(DBG_info_buffer, "  byte counts: image = %d, data = %d(%.0f%%), read = %d(%.0f%%), written = %d(%.0f%%)\n",
         buffer.image_size_bytes, buffer.bytes_unread, fdata, buffer.bytes_read, fread, buffer.bytes_written, fwritten)
     DBG(DBG_info_buffer, "  line counts: image = %.1f, data = %.1f, read = %.1f, written = %.1f\n",
         (double)buffer.image_size_bytes/line_size, (double)buffer.bytes_unread/line_size, (double)buffer.bytes_read/line_size, (double)buffer.bytes_written/line_size)

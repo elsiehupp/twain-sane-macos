@@ -1,6 +1,6 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2002 Sergey Vlasov <vsu@altlinux.ru>
+   Copyright(C) 2002 Sergey Vlasov <vsu@altlinux.ru>
    GT6801 support by Andreas Nowack <nowack.andreas@gmx.de>
 
    This file is part of the SANE package.
@@ -8,7 +8,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -44,43 +44,43 @@
 #define GT68XX_GT6801_H
 
 static Sane.Status
-gt6801_check_firmware (GT68xx_Device * dev, Bool * loaded)
+gt6801_check_firmware(GT68xx_Device * dev, Bool * loaded)
 
 static Sane.Status
-gt6801_check_plustek_firmware (GT68xx_Device * dev, Bool * loaded)
+gt6801_check_plustek_firmware(GT68xx_Device * dev, Bool * loaded)
 
 static Sane.Status
-gt6801_download_firmware (GT68xx_Device * dev,
+gt6801_download_firmware(GT68xx_Device * dev,
 			  Sane.Byte * data, Sane.Word size)
 
 static Sane.Status
-gt6801_get_power_status (GT68xx_Device * dev, Bool * power_ok)
+gt6801_get_power_status(GT68xx_Device * dev, Bool * power_ok)
 
 static Sane.Status
-gt6801_lamp_control (GT68xx_Device * dev, Bool fb_lamp,
+gt6801_lamp_control(GT68xx_Device * dev, Bool fb_lamp,
 		     Bool ta_lamp)
 
-static Sane.Status gt6801_is_moving (GT68xx_Device * dev, Bool * moving)
+static Sane.Status gt6801_is_moving(GT68xx_Device * dev, Bool * moving)
 
-static Sane.Status gt6801_carriage_home (GT68xx_Device * dev)
+static Sane.Status gt6801_carriage_home(GT68xx_Device * dev)
 
-static Sane.Status gt6801_stop_scan (GT68xx_Device * dev)
+static Sane.Status gt6801_stop_scan(GT68xx_Device * dev)
 
 #endif /* not GT68XX_GT6801_H */
 
 
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2002 Sergey Vlasov <vsu@altlinux.ru>
+   Copyright(C) 2002 Sergey Vlasov <vsu@altlinux.ru>
    GT6801 support by Andreas Nowack <nowack.andreas@gmx.de>
-   Copyright (C) 2002-2007 Henning Geinitz <sane@geinitz.org>
+   Copyright(C) 2002-2007 Henning Geinitz <sane@geinitz.org>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -120,19 +120,19 @@ import gt68xx_gt6801
 
 /* doesn't work with plustek scanner */
 Sane.Status
-gt6801_check_firmware (GT68xx_Device * dev, Bool * loaded)
+gt6801_check_firmware(GT68xx_Device * dev, Bool * loaded)
 {
   Sane.Status status
   GT68xx_Packet req
 
-  memset (req, 0, sizeof (req))
+  memset(req, 0, sizeof(req))
   req[0] = 0x50
   req[1] = 0x01
   req[2] = 0x80
 
-  RIE (gt68xx_device_req (dev, req, req))
+  RIE(gt68xx_device_req(dev, req, req))
 
-  if (req[0] == 0x00 && req[1] == 0x50)
+  if(req[0] == 0x00 && req[1] == 0x50)
     *loaded = Sane.TRUE
   else
     *loaded = Sane.FALSE
@@ -142,18 +142,18 @@ gt6801_check_firmware (GT68xx_Device * dev, Bool * loaded)
 
 /* doesn't work with at least cytron scanner */
 Sane.Status
-gt6801_check_plustek_firmware (GT68xx_Device * dev, Bool * loaded)
+gt6801_check_plustek_firmware(GT68xx_Device * dev, Bool * loaded)
 {
   Sane.Status status
   GT68xx_Packet req
 
-  memset (req, 0, sizeof (req))
+  memset(req, 0, sizeof(req))
 
   req[0] = 0x73
   req[1] = 0x01
 
-  status = gt68xx_device_small_req (dev, req, req)
-  if (status != Sane.STATUS_GOOD)
+  status = gt68xx_device_small_req(dev, req, req)
+  if(status != Sane.STATUS_GOOD)
     {
       /* Assume that firmware is not loaded */
       *loaded = Sane.FALSE
@@ -161,9 +161,9 @@ gt6801_check_plustek_firmware (GT68xx_Device * dev, Bool * loaded)
     }
 
   /* check for correct answer */
-  if ((req[0] == 0) && (req[1] == 0x12) && (req[3] == 0x80))
+  if((req[0] == 0) && (req[1] == 0x12) && (req[3] == 0x80))
     /* req[3] is 0 if fw is not loaded, if loaded it's 0x80
-     * at least on my 1284u (gerhard@gjaeger.de)
+     * at least on my 1284u(gerhard@gjaeger.de)
      *
      * With the Genius scanners req[3] is 0x02/0x82. (hmg)
      */
@@ -181,7 +181,7 @@ gt6801_check_plustek_firmware (GT68xx_Device * dev, Bool * loaded)
 #define MAX_DOWNLOAD_BLOCK_SIZE 64
 
 Sane.Status
-gt6801_download_firmware (GT68xx_Device * dev,
+gt6801_download_firmware(GT68xx_Device * dev,
 			  Sane.Byte * data, Sane.Word size)
 {
   Sane.Status status
@@ -192,71 +192,71 @@ gt6801_download_firmware (GT68xx_Device * dev,
   GT68xx_Packet boot_req
   Sane.Word block_size = MAX_DOWNLOAD_BLOCK_SIZE
 
-  CHECK_DEV_ACTIVE (dev, "gt6801_download_firmware")
+  CHECK_DEV_ACTIVE(dev, "gt6801_download_firmware")
 
-  for (addr = 0; addr < size; addr += block_size)
+  for(addr = 0; addr < size; addr += block_size)
     {
       bytes_left = size - addr
-      if (bytes_left > block_size)
+      if(bytes_left > block_size)
 	block = data + addr
       else
 	{
-	  memset (download_buf, 0, block_size)
-	  memcpy (download_buf, data + addr, bytes_left)
+	  memset(download_buf, 0, block_size)
+	  memcpy(download_buf, data + addr, bytes_left)
 	  block = download_buf
 	}
-      RIE (gt68xx_device_memory_write (dev, addr, block_size, block))
-      RIE (gt68xx_device_memory_read (dev, 0x3f00, block_size, check_buf))
+      RIE(gt68xx_device_memory_write(dev, addr, block_size, block))
+      RIE(gt68xx_device_memory_read(dev, 0x3f00, block_size, check_buf))
 
       /*
        * For GT6816 this was:
-       *   if (memcmp (block, check_buf, block_size) != 0) ...
+       *   if(memcmp(block, check_buf, block_size) != 0) ...
        * Apparently the GT6801 does something different...
        *
        * hmg: For my BP 1200 CU the result is 00 09 so maybe only the 0 is
        * relevant?
        */
-      if ((check_buf[0] != 0) && (check_buf[1] != 0x40))
+      if((check_buf[0] != 0) && (check_buf[1] != 0x40))
 	{
-	  DBG (3, "gt6801_download_firmware: mismatch at block 0x%0x\n",
+	  DBG(3, "gt6801_download_firmware: mismatch at block 0x%0x\n",
 	       addr)
 	  return Sane.STATUS_IO_ERROR
 	}
     }
 
-  memset (boot_req, 0, sizeof (boot_req))
+  memset(boot_req, 0, sizeof(boot_req))
   boot_req[0] = 0x69
   boot_req[1] = 0x01
   boot_req[2] = 0xc0
   boot_req[3] = 0x1c
-  RIE (gt68xx_device_req (dev, boot_req, boot_req))
+  RIE(gt68xx_device_req(dev, boot_req, boot_req))
 
 #if 0
   /* hmg: the following isn't in my log: */
-  memset (boot_req, 0, sizeof (boot_req));	/* I don't know if this is needed */
+  memset(boot_req, 0, sizeof(boot_req));	/* I don't know if this is needed */
   boot_req[0] = 0x01
   boot_req[1] = 0x01
-  RIE (gt68xx_device_small_req (dev, boot_req, boot_req))
+  RIE(gt68xx_device_small_req(dev, boot_req, boot_req))
 #endif
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-gt6801_get_power_status (GT68xx_Device * dev, Bool * power_ok)
+gt6801_get_power_status(GT68xx_Device * dev, Bool * power_ok)
 {
   Sane.Status status
   GT68xx_Packet req
 
-  memset (req, 0, sizeof (req))
+  memset(req, 0, sizeof(req))
   req[0] = 0x10
   req[1] = 0x01
 
-  RIE (gt68xx_device_req (dev, req, req))
+  RIE(gt68xx_device_req(dev, req, req))
 
   /* I don't know what power_ok = Sane.FALSE looks like... */
   /* hmg: let's assume it's different from the usual 00 10 */
-  if (gt68xx_device_check_result (req, 0x10) == Sane.STATUS_GOOD)
+  if(gt68xx_device_check_result(req, 0x10) == Sane.STATUS_GOOD)
     *power_ok = Sane.TRUE
   else
     *power_ok = Sane.FALSE
@@ -266,29 +266,29 @@ gt6801_get_power_status (GT68xx_Device * dev, Bool * power_ok)
 
 
 Sane.Status
-gt6801_lamp_control (GT68xx_Device * dev, Bool fb_lamp,
+gt6801_lamp_control(GT68xx_Device * dev, Bool fb_lamp,
 		     Bool ta_lamp)
 {
-  if (!dev.model.is_cis)
+  if(!dev.model.is_cis)
     {
       GT68xx_Packet req
 
-      memset (req, 0, sizeof (req))
+      memset(req, 0, sizeof(req))
       req[0] = 0x25
       req[1] = 0x01
       req[2] = 0
-      if (fb_lamp)
+      if(fb_lamp)
 	req[2] |= 0x01
-      if (ta_lamp)
+      if(ta_lamp)
 	req[2] |= 0x02
-      return gt68xx_device_req (dev, req, req)
+      return gt68xx_device_req(dev, req, req)
     }
   return Sane.STATUS_GOOD
 }
 
 
 Sane.Status
-gt6801_is_moving (GT68xx_Device * dev, Bool * moving)
+gt6801_is_moving(GT68xx_Device * dev, Bool * moving)
 {
   /* this seems not to be supported by the scanner */
   (void) dev
@@ -300,31 +300,31 @@ gt6801_is_moving (GT68xx_Device * dev, Bool * moving)
 
 
 Sane.Status
-gt6801_carriage_home (GT68xx_Device * dev)
+gt6801_carriage_home(GT68xx_Device * dev)
 {
   GT68xx_Packet req
   Sane.Status status
 
-  memset (req, 0, sizeof (req))
+  memset(req, 0, sizeof(req))
 
-  if (dev.model.flags & GT68XX_FLAG_MOTOR_HOME)
+  if(dev.model.flags & GT68XX_FLAG_MOTOR_HOME)
     {
       req[0] = 0x34
       req[1] = 0x01
-      status = gt68xx_device_req (dev, req, req)
+      status = gt68xx_device_req(dev, req, req)
     }
   else
     {
       req[0] = 0x12
       req[1] = 0x01
-      if ((status = gt68xx_device_req (dev, req, req)) == Sane.STATUS_GOOD)
+      if((status = gt68xx_device_req(dev, req, req)) == Sane.STATUS_GOOD)
 	{
-	  RIE (gt68xx_device_check_result (req, 0x12))
-	  memset (req, 0, sizeof (req))
+	  RIE(gt68xx_device_check_result(req, 0x12))
+	  memset(req, 0, sizeof(req))
 	  req[0] = 0x24
 	  req[1] = 0x01
-	  status = gt68xx_device_req (dev, req, req)
-	  RIE (gt68xx_device_check_result (req, 0x24))
+	  status = gt68xx_device_req(dev, req, req)
+	  RIE(gt68xx_device_check_result(req, 0x24))
 	}
     }
   return status
@@ -332,16 +332,16 @@ gt6801_carriage_home (GT68xx_Device * dev)
 
 
 Sane.Status
-gt6801_stop_scan (GT68xx_Device * dev)
+gt6801_stop_scan(GT68xx_Device * dev)
 {
   GT68xx_Packet req
   Sane.Status status
 
-  memset (req, 0, sizeof (req))
+  memset(req, 0, sizeof(req))
   req[0] = 0x42
   req[1] = 0x01
 
-  RIE (gt68xx_device_req (dev, req, req))
-  RIE (gt68xx_device_check_result (req, 0x42))
+  RIE(gt68xx_device_req(dev, req, req))
+  RIE(gt68xx_device_check_result(req, 0x42))
   return Sane.STATUS_GOOD
 }

@@ -28,7 +28,7 @@ import sane/sanei_debug
   /* OS/2 i/o-port access compatibility macros: */
 # define inb(p)         _inp8 (p)
 # define outb(v,p)      _outp8 ((p),(v))
-# define ioperm(b,l,o)  _portaccess ((b),(b)+(l)-1)
+# define ioperm(b,l,o)  _portaccess((b),(b)+(l)-1)
 # define HAVE_IOPERM    1
 #endif
 
@@ -93,14 +93,14 @@ import limits
 # endif
 
 # define sigset_t               Int
-# define sigemptyset(set)       do { *(set) = 0; } while (0)
-# define sigfillset(set)        do { *(set) = ~0; } while (0)
-# define sigaddset(set,signal)  do { *(set) |= sigmask (signal); } while (0)
-# define sigdelset(set,signal)  do { *(set) &= ~sigmask (signal); } while (0)
-# define sigaction(sig,new,old) sigvec (sig,new,old)
+# define sigemptyset(set)       do { *(set) = 0; } while(0)
+# define sigfillset(set)        do { *(set) = ~0; } while(0)
+# define sigaddset(set,signal)  do { *(set) |= sigmask(signal); } while(0)
+# define sigdelset(set,signal)  do { *(set) &= ~sigmask(signal); } while(0)
+# define sigaction(sig,new,old) sigvec(sig,new,old)
 
   /* Note: it's not safe to just declare our own "struct sigaction" since
-     some systems (e.g., some versions of OpenStep) declare that structure,
+     some systems(e.g., some versions of OpenStep) declare that structure,
      but do not implement sigprocmask().  Hard to believe, aint it?  */
 # define SIGACTION              sigvec
 # define SIG_BLOCK      1

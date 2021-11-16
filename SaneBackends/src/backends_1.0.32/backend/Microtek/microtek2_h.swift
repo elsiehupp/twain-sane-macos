@@ -3,7 +3,7 @@
 
    microtek2.h
 
-   This file (C) 1998, 1999 Bernd Schroeder
+   This file(C) 1998, 1999 Bernd Schroeder
                  2000, 2001 Karsten Festag
 
    This file is part of the SANE package.
@@ -11,7 +11,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -78,7 +78,7 @@ import sys/types
 
 
 #define ENDIAN_TYPE(d)          { unsigned  i, test = 0; \
-                                  for (i=0; i < sizeof(Int); i++ ) \
+                                  for(i=0; i < sizeof(Int); i++ ) \
                                     test += i << (8 * i); \
                                   d = ((char *) &test)[0] == 0 ? 0 : 1; }
 
@@ -651,17 +651,17 @@ enum Microtek2_Option
 #define M_NAME_GAMMA_SCALAR_R  "scalar-gamma-r"
 #define M_TITLE_GAMMA_SCALAR_R Sane.I18N("Scalar gamma red")
 #define M_DESC_GAMMA_SCALAR_R  Sane.I18N("Selects a value for scalar gamma" \
-                               " correction (red channel)")
+                               " correction(red channel)")
 
 #define M_NAME_GAMMA_SCALAR_G  "scalar-gamma-g"
 #define M_TITLE_GAMMA_SCALAR_G Sane.I18N("Scalar gamma green")
 #define M_DESC_GAMMA_SCALAR_G  Sane.I18N("Selects a value for scalar gamma" \
-                               " correction (green channel)")
+                               " correction(green channel)")
 
 #define M_NAME_GAMMA_SCALAR_B  "scalar-gamma-b"
 #define M_TITLE_GAMMA_SCALAR_B Sane.I18N("Scalar gamma blue")
 #define M_DESC_GAMMA_SCALAR_B  Sane.I18N("Selects a value for scalar gamma" \
-                               " correction (blue channel)")
+                               " correction(blue channel)")
 
 #define M_NAME_CHANNEL         "channel"
 #define M_TITLE_CHANNEL        Sane.I18N("Channel")
@@ -740,7 +740,7 @@ typedef struct Config_Temp
 
 
 /******************************************************************************/
-/* scanner hardware info (as discovered by INQUIRY and READ ATTRIBUTES)       */
+/* scanner hardware info(as discovered by INQUIRY and READ ATTRIBUTES)       */
 /******************************************************************************/
 
 typedef struct Microtek2_Info {
@@ -840,7 +840,7 @@ typedef struct Microtek2_Info {
 } Microtek2_Info
 
 /******************************************************************************/
-/* device structure (one for each device in config file)                      */
+/* device structure(one for each device in config file)                      */
 /******************************************************************************/
 
 typedef struct Microtek2_Device {
@@ -963,18 +963,18 @@ typedef struct Microtek2_Device {
     Sane.String_Const scansource_list[MD_SOURCESTRING_NUMS + 1]
 
 #define MD_HALFTONE_NUMS              12
-#define MD_HALFTONE0                  "53-dot screen (53 gray levels)"
-#define MD_HALFTONE1                  "Horiz. screen (65 gray levels)"
-#define MD_HALFTONE2                  "Vert. screen (65 gray levels)"
-#define MD_HALFTONE3                  "Mixed page (33 gray levels)"
-#define MD_HALFTONE4                  "71-dot screen (29 gray levels)"
+#define MD_HALFTONE0                  "53-dot screen(53 gray levels)"
+#define MD_HALFTONE1                  "Horiz. screen(65 gray levels)"
+#define MD_HALFTONE2                  "Vert. screen(65 gray levels)"
+#define MD_HALFTONE3                  "Mixed page(33 gray levels)"
+#define MD_HALFTONE4                  "71-dot screen(29 gray levels)"
 #define MD_HALFTONE5                  "60-dot #1 (26 gray levels)"
 #define MD_HALFTONE6                  "60-dot #2 (26 gray levels)"
 #define MD_HALFTONE7                  "Fine detail #1 (17 gray levels)"
 #define MD_HALFTONE8                  "Fine detail #2 (17 gray levels)"
-#define MD_HALFTONE9                  "Slant line (17 gray levels)"
-#define MD_HALFTONE10                 "Posterizing (10 gray levels)"
-#define MD_HALFTONE11                 "High Contrast (5 gray levels)"
+#define MD_HALFTONE9                  "Slant line(17 gray levels)"
+#define MD_HALFTONE10                 "Posterizing(10 gray levels)"
+#define MD_HALFTONE11                 "High Contrast(5 gray levels)"
     Sane.String_Const halftone_mode_list[MD_HALFTONE_NUMS + 1]
 
 #define MD_CHANNEL_NUMS               4
@@ -1011,7 +1011,7 @@ typedef struct Microtek2_Device {
 
 
 /******************************************************************************/
-/* scanner structure (one for each device in use)                             */
+/* scanner structure(one for each device in use)                             */
 /*       ....all the state needed to define a scan request                    */
 /******************************************************************************/
 
@@ -1157,10 +1157,10 @@ static Sane.Status
 attach(Microtek2_Device *)
 
 static Sane.Status
-attach_one (const char *)
+attach_one(const char *)
 
 static Sane.Status
-auto_adjust_proc_data (Microtek2_Scanner *, uint8_t **)
+auto_adjust_proc_data(Microtek2_Scanner *, uint8_t **)
 
 static Sane.Status
 calc_cx_shading_line(Microtek2_Scanner *);  /* (KF) new */
@@ -1263,7 +1263,7 @@ static Sane.Status
 lplconcat_proc_data(Microtek2_Scanner *ms)
 
 static size_t
-max_string_size (const Sane.String_Const * /* strings[] */)
+max_string_size(const Sane.String_Const * /* strings[] */)
 
 static void
 parse_config_file(FILE *, Config_Temp **)
@@ -1306,7 +1306,7 @@ static Sane.Status
 shading_function(Microtek2_Scanner *, uint8_t *)
 
 static void
-signal_handler (Int)
+signal_handler(Int)
 
 static Sane.Status
 wordchunky_copy_pixels(uint8_t *, uint32_t, Int, FILE *)
@@ -1314,11 +1314,11 @@ wordchunky_copy_pixels(uint8_t *, uint32_t, Int, FILE *)
 static Sane.Status
 wordchunky_proc_data(Microtek2_Scanner *)
 
-typedef Int (*qsortfunc)(const void *, const void *)
+typedef Int(*qsortfunc)(const void *, const void *)
 
 static Int compare_func_16(const uint16_t *p1, uint16_t *p2)
              {
-               return ( *p1 - *p2 )
+               return( *p1 - *p2 )
              }
 
 
@@ -1368,7 +1368,7 @@ static Sane.Status
 scsi_send_system_status(Microtek2_Device *, Int)
 
 static Sane.Status
-scsi_sense_handler (Int, u_char *, void *)
+scsi_sense_handler(Int, u_char *, void *)
 
 static Sane.Status
 scsi_test_unit_ready(Microtek2_Device *)

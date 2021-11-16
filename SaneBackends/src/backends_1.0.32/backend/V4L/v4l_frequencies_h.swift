@@ -1,7 +1,7 @@
 /*
  * Worldwide channel/frequency list
  *
- * Nathan Laredo (laredo@broked.net)
+ * Nathan Laredo(laredo@broked.net)
  *
  * Frequencies are given in kHz
  */
@@ -44,8 +44,8 @@
 	Sri Lanka, Sudan, Swaziland, Sweden, Switzeland, Syria, Thailand,
 	Tunisia, Turkey, Uganda, United Arab Emirates, Yemen
    (N) PAL used in: (Combination N = 4.5MHz audio carrier, 3.58MHz burst)
-	Argentina (Combination N), Paraguay, Uruguay
-   (M) PAL (525/60, 3.57MHz burst) used in:
+	Argentina(Combination N), Paraguay, Uruguay
+   (M) PAL(525/60, 3.57MHz burst) used in:
 	Brazil
    (G) PAL used in:
 	Albania, Algeria, Austria, Bahrain, Bosnia/Herzegovinia, Cambodia,

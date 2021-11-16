@@ -5,7 +5,7 @@
  * Work on epson.[ch] file from the SANE package.
  * Please see those files for original copyrights.
  *
- * Copyright (C) 2006 Tower Technologies
+ * Copyright(C) 2006 Tower Technologies
  * Author: Alessandro Zummo <a.zummo@towertech.it>
  *
  * This file is part of the SANE package.
@@ -70,7 +70,7 @@ Sane.Status esci_enable_infrared(Sane.Handle handle)
  * Work on epson.[ch] file from the SANE package.
  * Please see those files for original copyrights.
  *
- * Copyright (C) 2006 Tower Technologies
+ * Copyright(C) 2006 Tower Technologies
  * Author: Alessandro Zummo <a.zummo@towertech.it>
  *
  * This file is part of the SANE package.
@@ -102,7 +102,7 @@ esci_set_zoom(Epson_Scanner * s, unsigned char x, unsigned char y)
 
 	DBG(8, "%s: x = %d, y = %d\n", __func__, x, y)
 
-	if (!s.hw.cmd.set_zoom) {
+	if(!s.hw.cmd.set_zoom) {
 		DBG(1, "%s: not supported\n", __func__)
 		return Sane.STATUS_GOOD
 	}
@@ -111,7 +111,7 @@ esci_set_zoom(Epson_Scanner * s, unsigned char x, unsigned char y)
 	params[1] = s.hw.cmd.set_zoom
 
 	status = e2_cmd_simple(s, params, 2)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	params[0] = x
@@ -129,7 +129,7 @@ esci_set_resolution(Epson_Scanner * s, Int x, Int y)
 
 	DBG(8, "%s: x = %d, y = %d\n", __func__, x, y)
 
-	if (!s.hw.cmd.set_resolution) {
+	if(!s.hw.cmd.set_resolution) {
 		DBG(1, "%s: not supported\n", __func__)
 		return Sane.STATUS_GOOD
 	}
@@ -138,7 +138,7 @@ esci_set_resolution(Epson_Scanner * s, Int x, Int y)
 	params[1] = s.hw.cmd.set_resolution
 
 	status = e2_cmd_simple(s, params, 2)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	params[0] = x
@@ -164,20 +164,20 @@ esci_set_scan_area(Epson_Scanner * s, Int x, Int y, Int width, Int height)
 	DBG(8, "%s: x = %d, y = %d, w = %d, h = %d\n",
 	    __func__, x, y, width, height)
 
-	if (!s.hw.cmd.set_scan_area) {
+	if(!s.hw.cmd.set_scan_area) {
 		DBG(1, "%s: not supported\n", __func__)
 		return Sane.STATUS_UNSUPPORTED
 	}
 
 	/* verify the scan area */
-	if (x < 0 || y < 0 || width <= 0 || height <= 0)
+	if(x < 0 || y < 0 || width <= 0 || height <= 0)
 		return Sane.STATUS_INVAL
 
 	params[0] = ESC
 	params[1] = s.hw.cmd.set_scan_area
 
 	status = e2_cmd_simple(s, params, 2)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	params[0] = x
@@ -198,12 +198,12 @@ get_roundup_index(double frac[], Int n)
 	var i: Int, index = -1
 	double max_val = 0.0
 
-	for (i = 0; i < n; i++) {
+	for(i = 0; i < n; i++) {
 
-		if (frac[i] < 0)
+		if(frac[i] < 0)
 			continue
 
-		if (max_val < frac[i]) {
+		if(max_val < frac[i]) {
 			index = i
 			max_val = frac[i]
 		}
@@ -218,12 +218,12 @@ get_rounddown_index(double frac[], Int n)
 	var i: Int, index = -1
 	double min_val = 1.0
 
-	for (i = 0; i < n; i++) {
+	for(i = 0; i < n; i++) {
 
-		if (frac[i] > 0)
+		if(frac[i] > 0)
 			continue
 
-		if (min_val > frac[i]) {
+		if(min_val > frac[i]) {
 			index = i
 			min_val = frac[i]
 		}
@@ -235,21 +235,21 @@ get_rounddown_index(double frac[], Int n)
 static unsigned char
 int2cpt(Int val)
 {
-	if (val >= 0) {
+	if(val >= 0) {
 
-		if (val > 127)
+		if(val > 127)
 			val = 127
 
-		return (unsigned char) val
+		return(unsigned char) val
 
 	} else {
 
 		val = -val
 
-		if (val > 127)
+		if(val > 127)
 			val = 127
 
-		return (unsigned char) (0x80 | val)
+		return(unsigned char) (0x80 | val)
 	}
 }
 
@@ -260,17 +260,17 @@ round_cct(double org_cct[], Int rnd_cct[])
 	var i: Int, j, sum[3]
 	double mult_cct[9], frac[9]
 
-	for (i = 0; i < 9; i++) {
+	for(i = 0; i < 9; i++) {
   		mult_cct[i] = org_cct[i] * 32
 		rnd_cct[i] = (Int) floor(mult_cct[i] + 0.5)
 	}
 
 	do {
-		for (i = 0; i < 3; i++) {
+		for(i = 0; i < 3; i++) {
 
 			Int k = i * 3
 
-			if ((rnd_cct[k] == 11) &&
+			if((rnd_cct[k] == 11) &&
 				(rnd_cct[k] == rnd_cct[k + 1]) &&
 				(rnd_cct[k] == rnd_cct[k + 2])) {
 
@@ -279,34 +279,34 @@ round_cct(double org_cct[], Int rnd_cct[])
 			}
 		}
 
-		for (i = 0; i < 3; i++) {
+		for(i = 0; i < 3; i++) {
 
 			Int k = i * 3
 
-			for (sum[i] = j = 0; j < 3; j++)
+			for(sum[i] = j = 0; j < 3; j++)
 				sum[i] += rnd_cct[k + j]
 		}
 
-		for (i = 0; i < 9; i++)
+		for(i = 0; i < 9; i++)
 			frac[i] = mult_cct[i] - rnd_cct[i]
 
-		for (i = 0; i < 3; i++) {
+		for(i = 0; i < 3; i++) {
 
 			Int k = i * 3
 
-			if (sum[i] < 32) {
+			if(sum[i] < 32) {
 
 				Int index = get_roundup_index(&frac[k], 3)
-				if (index != -1) {
+				if(index != -1) {
 					rnd_cct[k + index]++
 					mult_cct[k + index] = rnd_cct[k + index]
 					sum[i]++
 				}
 
-			} else if (sum[i] > 32) {
+			} else if(sum[i] > 32) {
 
 				Int index = get_rounddown_index(&frac[k], 3)
-				if (index != -1) {
+				if(index != -1) {
 					rnd_cct[k + index]--
 					mult_cct[k + index] = rnd_cct[k + index]
 					sum[i]--
@@ -315,7 +315,7 @@ round_cct(double org_cct[], Int rnd_cct[])
 		}
 	}
 
-	while ((++loop < 2)
+	while((++loop < 2)
 		&& ((sum[0] != 32) || (sum[1] != 32) || (sum[2] != 32)))
 }
 
@@ -327,7 +327,7 @@ profile_to_colorcoeff(double *profile, unsigned char *color_coeff)
 
   	round_cct(profile, color_table)
 
-  	for (i = 0; i < 9; i++)
+  	for(i = 0; i < 9; i++)
   		color_coeff[i] = int2cpt(color_table[cc_idx[i]])
 }
 
@@ -346,7 +346,7 @@ esci_set_color_correction_coefficients(Epson_Scanner * s, Sane.Word *table)
 	double cct[9]
 
 	DBG(8, "%s\n", __func__)
-	if (!s.hw.cmd.set_color_correction_coefficients) {
+	if(!s.hw.cmd.set_color_correction_coefficients) {
 		DBG(1, "%s: not supported\n", __func__)
 		return Sane.STATUS_UNSUPPORTED
 	}
@@ -355,7 +355,7 @@ esci_set_color_correction_coefficients(Epson_Scanner * s, Sane.Word *table)
 	params[1] = s.hw.cmd.set_color_correction_coefficients
 
 	status = e2_cmd_simple(s, params, 2)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	cct[0] = Sane.UNFIX(table[0])
@@ -390,7 +390,7 @@ esci_set_gamma_table(Epson_Scanner * s)
 	static const char gamma_cmds[] = { 'R', 'G', 'B' ]
 
 	DBG(8, "%s\n", __func__)
-	if (!s.hw.cmd.set_gamma_table)
+	if(!s.hw.cmd.set_gamma_table)
 		return Sane.STATUS_UNSUPPORTED
 
 	params[0] = ESC
@@ -398,16 +398,16 @@ esci_set_gamma_table(Epson_Scanner * s)
 
 	/* Print the gamma tables before sending them to the scanner */
 
-	if (DBG_LEVEL >= 16) {
+	if(DBG_LEVEL >= 16) {
 		Int c, i, j
 
-		for (c = 0; c < 3; c++) {
-			for (i = 0; i < 256; i += 16) {
+		for(c = 0; c < 3; c++) {
+			for(i = 0; i < 256; i += 16) {
 				char gammaValues[16 * 3 + 1], newValue[4]
 
 				gammaValues[0] = '\0'
 
-				for (j = 0; j < 16; j++) {
+				for(j = 0; j < 16; j++) {
 					sprintf(newValue, " %02x",
 						s.gamma_table[c][i + j])
 					strcat(gammaValues, newValue)
@@ -419,18 +419,18 @@ esci_set_gamma_table(Epson_Scanner * s)
 		}
 	}
 
-	for (table = 0; table < 3; table++) {
+	for(table = 0; table < 3; table++) {
 		gamma[0] = gamma_cmds[table]
 
-		for (n = 0; n < 256; ++n)
+		for(n = 0; n < 256; ++n)
 			gamma[n + 1] = s.gamma_table[table][n]
 
 		status = e2_cmd_simple(s, params, 2)
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 			return status
 
 		status = e2_cmd_simple(s, gamma, 257)
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 			return status
 	}
 
@@ -451,44 +451,44 @@ esci_request_status(Sane.Handle handle, unsigned char *scanner_status)
 
 	DBG(8, "%s\n", __func__)
 
-	if (s.hw.cmd.request_status == 0)
+	if(s.hw.cmd.request_status == 0)
 		return Sane.STATUS_UNSUPPORTED
 
 	params[0] = ESC
 	params[1] = s.hw.cmd.request_status
 
 	e2_send(s, params, 2, 4, &status)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	status = e2_recv_info_block(s, params, 4, NULL)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
-	if (scanner_status)
+	if(scanner_status)
 		*scanner_status = params[0]
 
 	DBG(1, "status: %02x\n", params[0])
 
-	if (params[0] & STATUS_NOT_READY)
+	if(params[0] & STATUS_NOT_READY)
 		DBG(1, " scanner in use on another interface\n")
 	else
 		DBG(1, " ready\n")
 
-	if (params[0] & STATUS_FER)
+	if(params[0] & STATUS_FER)
 		DBG(1, " system error\n")
 
-	if (params[0] & STATUS_OPTION)
+	if(params[0] & STATUS_OPTION)
 		DBG(1, " option equipment is installed\n")
 	else
 		DBG(1, " no option equipment installed\n")
 
-	if (params[0] & STATUS_EXT_COMMANDS)
+	if(params[0] & STATUS_EXT_COMMANDS)
 		DBG(1, " support extended commands\n")
 	else
 		DBG(1, " does NOT support extended commands\n")
 
-	if (params[0] & STATUS_RESERVED)
+	if(params[0] & STATUS_RESERVED)
 		DBG(0,
 		    " a reserved bit is set, please contact the author.\n")
 
@@ -499,7 +499,7 @@ esci_request_status(Sane.Handle handle, unsigned char *scanner_status)
 
 /* FS I, Request Extended Identity
  * -> FS I
- * <- Extended identity data (80)
+ * <- Extended identity data(80)
  *
  * Request the properties of the scanner.
  */
@@ -514,17 +514,17 @@ esci_request_extended_identity(Sane.Handle handle, unsigned char *buf)
 
 	DBG(8, "%s\n", __func__)
 
-	if (buf == NULL)
+	if(buf == NULL)
 		return Sane.STATUS_INVAL
 
-	if (s.hw.cmd.request_extended_identity == 0)
+	if(s.hw.cmd.request_extended_identity == 0)
 		return Sane.STATUS_UNSUPPORTED
 
 	params[0] = FS
 	params[1] = s.hw.cmd.request_extended_identity
 
 	status = e2_txrx(s, params, 2, buf, 80)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	DBG(1, " command level   : %c%c\n", buf[0], buf[1])
@@ -541,8 +541,8 @@ esci_request_extended_identity(Sane.Handle handle, unsigned char *buf)
 	DBG(1, " tpu area        : %lux%lu\n",
 	    (unsigned long) le32atoh(&buf[36]), (unsigned long) le32atoh(&buf[40]))
 
-	DBG(1, " capabilities (1): 0x%02x\n", buf[44])
-	DBG(1, " capabilities (2): 0x%02x\n", buf[45])
+	DBG(1, " capabilities(1): 0x%02x\n", buf[44])
+	DBG(1, " capabilities(2): 0x%02x\n", buf[45])
 	DBG(1, " input depth     : %d\n", buf[66])
 	DBG(1, " max output depth: %d\n", buf[67])
 	DBG(1, " rom version     : %c%c%c%c\n",
@@ -554,50 +554,50 @@ esci_request_extended_identity(Sane.Handle handle, unsigned char *buf)
 
 	DBG(1, "options:\n")
 
-	if (le32atoh(&buf[28]) > 0)
+	if(le32atoh(&buf[28]) > 0)
 		DBG(1, " ADF detected\n")
 
-	if (le32atoh(&buf[36]) > 0)
+	if(le32atoh(&buf[36]) > 0)
 		DBG(1, " TPU detected\n")
 
-	if (buf[44])
-		DBG(1, "capabilities (1):\n")
+	if(buf[44])
+		DBG(1, "capabilities(1):\n")
 
-	if (buf[44] & EXT_IDTY_CAP1_DLF)
+	if(buf[44] & EXT_IDTY_CAP1_DLF)
 		DBG(1, " main lamp change is supported\n")
 
-	if (buf[44] & EXT_IDTY_CAP1_NOTFBF)
+	if(buf[44] & EXT_IDTY_CAP1_NOTFBF)
 		DBG(1, " the device is NOT flatbed\n")
 
-	if (buf[44] & EXT_IDTY_CAP1_ADFT)
+	if(buf[44] & EXT_IDTY_CAP1_ADFT)
 		DBG(1, " page type ADF is installed\n")
 
-	if (buf[44] & EXT_IDTY_CAP1_ADFS)
+	if(buf[44] & EXT_IDTY_CAP1_ADFS)
 		DBG(1, " ADF is duplex capable\n")
 
-	if (buf[44] & EXT_IDTY_CAP1_ADFO)
+	if(buf[44] & EXT_IDTY_CAP1_ADFO)
 		DBG(1, " page type ADF loads from the first sheet\n")
 
-	if (buf[44] & EXT_IDTY_CAP1_LID)
+	if(buf[44] & EXT_IDTY_CAP1_LID)
 		DBG(1, " lid type option is installed\n")
 
-	if (buf[44] & EXT_IDTY_CAP1_TPIR)
+	if(buf[44] & EXT_IDTY_CAP1_TPIR)
 		DBG(1, " infrared scanning is supported\n")
 
-	if (buf[44] & EXT_IDTY_CAP1_PB)
+	if(buf[44] & EXT_IDTY_CAP1_PB)
 		DBG(1, " push button is supported\n")
 
 
-	if (buf[45])
-		DBG(1, "capabilities (2):\n")
+	if(buf[45])
+		DBG(1, "capabilities(2):\n")
 
-	if (buf[45] & EXT_IDTY_CAP2_AFF)
+	if(buf[45] & EXT_IDTY_CAP2_AFF)
 		DBG(1, " ADF has auto form feed\n")
 
-	if (buf[45] & EXT_IDTY_CAP2_DFD)
+	if(buf[45] & EXT_IDTY_CAP2_DFD)
 		DBG(1, " ADF has double feed detection\n")
 
-	if (buf[45] & EXT_IDTY_CAP2_ADFAS)
+	if(buf[45] & EXT_IDTY_CAP2_ADFAS)
 		DBG(1, " ADF has auto scan\n")
 
 	return Sane.STATUS_GOOD
@@ -613,91 +613,91 @@ esci_request_scanner_status(Sane.Handle handle, unsigned char *buf)
 
 	DBG(8, "%s\n", __func__)
 
-	if (!s.hw.extended_commands)
+	if(!s.hw.extended_commands)
 		return Sane.STATUS_UNSUPPORTED
 
-	if (buf == NULL)
+	if(buf == NULL)
 		return Sane.STATUS_INVAL
 
 	params[0] = FS
 	params[1] = 'F'
 
 	status = e2_txrx(s, params, 2, buf, 16)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	DBG(1, "global status   : 0x%02x\n", buf[0])
 
-	if (buf[0] & FSF_STATUS_MAIN_FER)
+	if(buf[0] & FSF_STATUS_MAIN_FER)
 		DBG(1, " system error\n")
 
-	if (buf[0] & FSF_STATUS_MAIN_NR)
+	if(buf[0] & FSF_STATUS_MAIN_NR)
 		DBG(1, " not ready\n")
 
-	if (buf[0] & FSF_STATUS_MAIN_WU)
+	if(buf[0] & FSF_STATUS_MAIN_WU)
 		DBG(1, " scanner is warming up\n")
 
-	if (buf[0] & FSF_STATUS_MAIN_CWU)
+	if(buf[0] & FSF_STATUS_MAIN_CWU)
 		DBG(1, " warmup can be cancelled\n")
 
 
 	DBG(1, "adf status      : 0x%02x\n", buf[1])
 
-	if (buf[1] & FSF_STATUS_ADF_IST)
+	if(buf[1] & FSF_STATUS_ADF_IST)
 		DBG(11, " installed\n")
 	else
 		DBG(11, " not installed\n")
 
-	if (buf[1] & FSF_STATUS_ADF_EN)
+	if(buf[1] & FSF_STATUS_ADF_EN)
 		DBG(11, " enabled\n")
 	else
 		DBG(11, " not enabled\n")
 
-	if (buf[1] & FSF_STATUS_ADF_ERR)
+	if(buf[1] & FSF_STATUS_ADF_ERR)
 		DBG(1, " error\n")
 
-	if (buf[1] & FSF_STATUS_ADF_PE)
+	if(buf[1] & FSF_STATUS_ADF_PE)
 		DBG(1, " paper empty\n")
 
-	if (buf[1] & FSF_STATUS_ADF_PJ)
+	if(buf[1] & FSF_STATUS_ADF_PJ)
 		DBG(1, " paper jam\n")
 
-	if (buf[1] & FSF_STATUS_ADF_OPN)
+	if(buf[1] & FSF_STATUS_ADF_OPN)
 		DBG(1, " cover open\n")
 
-	if (buf[1] & FSF_STATUS_ADF_PAG)
+	if(buf[1] & FSF_STATUS_ADF_PAG)
 		DBG(1, " duplex capable\n")
 
 
 	DBG(1, "tpu status      : 0x%02x\n", buf[2])
 
-	if (buf[2] & FSF_STATUS_TPU_IST)
+	if(buf[2] & FSF_STATUS_TPU_IST)
 		DBG(11, " installed\n")
 	else
 		DBG(11, " not installed\n")
 
-	if (buf[2] & FSF_STATUS_TPU_EN)
+	if(buf[2] & FSF_STATUS_TPU_EN)
 		DBG(11, " enabled\n")
 	else
 		DBG(11, " not enabled\n")
 
-	if (buf[2] & FSF_STATUS_TPU_ERR)
+	if(buf[2] & FSF_STATUS_TPU_ERR)
 		DBG(1, " error\n")
 
-	if (buf[1] & FSF_STATUS_TPU_OPN)
+	if(buf[1] & FSF_STATUS_TPU_OPN)
 		DBG(1, " cover open\n")
 
 
 	DBG(1, "device type     : 0x%02x\n", buf[3] & 0xC0)
 	DBG(1, "main body status: 0x%02x\n", buf[3] & 0x3F)
 
-	if (buf[3] & FSF_STATUS_MAIN2_PE)
+	if(buf[3] & FSF_STATUS_MAIN2_PE)
 		DBG(1, " paper empty\n")
 
-	if (buf[3] & FSF_STATUS_MAIN2_PJ)
+	if(buf[3] & FSF_STATUS_MAIN2_PJ)
 		DBG(1, " paper jam\n")
 
-	if (buf[3] & FSF_STATUS_MAIN2_OPN)
+	if(buf[3] & FSF_STATUS_MAIN2_OPN)
 		DBG(1, " cover open\n")
 
 	return Sane.STATUS_GOOD
@@ -712,7 +712,7 @@ esci_set_scanning_parameter(Sane.Handle handle, unsigned char *buf)
 
 	DBG(8, "%s\n", __func__)
 
-	if (buf == NULL)
+	if(buf == NULL)
 		return Sane.STATUS_INVAL
 
 	params[0] = FS
@@ -741,11 +741,11 @@ esci_set_scanning_parameter(Sane.Handle handle, unsigned char *buf)
 	DBG(10, "main lamp lighting mode     : %d\n", buf[38])
 
 	status = e2_cmd_simple(s, params, 2)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	status = e2_cmd_simple(s, buf, 64)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "%s: invalid scanning parameters\n", __func__)
 		return status
 	}
@@ -764,14 +764,14 @@ esci_get_scanning_parameter(Sane.Handle handle, unsigned char *buf)
 
 	DBG(8, "%s\n", __func__)
 
-	if (buf == NULL)
+	if(buf == NULL)
 		return Sane.STATUS_INVAL
 
 	params[0] = FS
 	params[1] = 'S'
 
 	status = e2_txrx(s, params, 2, buf, 64)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	DBG(10, "resolution of main scan     : %lu\n",
@@ -826,10 +826,10 @@ esci_enable_infrared(Sane.Handle handle)
 	DBG(8, "%s\n", __func__)
 
 	status = esci_get_scanning_parameter(handle, buf)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
-	for (i = 0; i < 32; i++) {
+	for(i = 0; i < 32; i++) {
 		buf[i] = seq[i] ^ buf[i]
 	}
 
@@ -837,11 +837,11 @@ esci_enable_infrared(Sane.Handle handle)
 	params[1] = '#'
 
 	status = e2_cmd_simple(s, params, 2)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	status = e2_cmd_simple(s, buf, 32)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	return Sane.STATUS_GOOD
@@ -856,14 +856,14 @@ esci_request_command_parameter(Sane.Handle handle, unsigned char *buf)
 
 	DBG(8, "%s\n", __func__)
 
-	if (s.hw.cmd.request_condition == 0)
+	if(s.hw.cmd.request_condition == 0)
 		return Sane.STATUS_UNSUPPORTED
 
 	params[0] = ESC
 	params[1] = s.hw.cmd.request_condition
 
 	status = e2_cmd_info_block(s, params, 2, 45, &buf, NULL)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	DBG(1, "scanning parameters:\n")
@@ -893,7 +893,7 @@ esci_request_command_parameter(Sane.Handle handle, unsigned char *buf)
 /* ESC q - Request Focus Position
  * -> ESC q
  * <- Information block
- * <- Focus position status (2)
+ * <- Focus position status(2)
  *	0 - Error status
  *	1 - Focus position
  */
@@ -909,17 +909,17 @@ esci_request_focus_position(Sane.Handle handle, unsigned char *position)
 
 	DBG(8, "%s\n", __func__)
 
-	if (s.hw.cmd.request_focus_position == 0)
+	if(s.hw.cmd.request_focus_position == 0)
 		return Sane.STATUS_UNSUPPORTED
 
 	params[0] = ESC
 	params[1] = s.hw.cmd.request_focus_position
 
 	status = e2_cmd_info_block(s, params, 2, 2, &buf, NULL)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
-	if (buf[0] & 0x01)
+	if(buf[0] & 0x01)
 		DBG(1, "autofocus error\n")
 
 	*position = buf[1]
@@ -933,7 +933,7 @@ esci_request_focus_position(Sane.Handle handle, unsigned char *position)
 /* ESC ! - Request Push Button Status
  * -> ESC !
  * <- Information block
- * <- Push button status (1)
+ * <- Push button status(1)
  */
 
 Sane.Status
@@ -946,7 +946,7 @@ esci_request_push_button_status(Sane.Handle handle, unsigned char *bstatus)
 
 	DBG(8, "%s\n", __func__)
 
-	if (s.hw.cmd.request_push_button_status == 0) {
+	if(s.hw.cmd.request_push_button_status == 0) {
 		DBG(1, "push button status unsupported\n")
 		return Sane.STATUS_UNSUPPORTED
 	}
@@ -955,7 +955,7 @@ esci_request_push_button_status(Sane.Handle handle, unsigned char *bstatus)
 	params[1] = s.hw.cmd.request_push_button_status
 
 	status = e2_cmd_info_block(s, params, 2, 1, &buf, NULL)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	DBG(1, "push button status = %d\n", buf[0])
@@ -980,7 +980,7 @@ esci_request_identity(Sane.Handle handle, unsigned char **buf, size_t *len)
 
 	DBG(8, "%s\n", __func__)
 
-	if (!s.hw.cmd.request_identity)
+	if(!s.hw.cmd.request_identity)
 		return Sane.STATUS_INVAL
 
 	params[0] = ESC
@@ -1003,14 +1003,14 @@ esci_request_identity2(Sane.Handle handle, unsigned char **buf)
 
 	DBG(8, "%s\n", __func__)
 
-	if (s.hw.cmd.request_identity2 == 0)
+	if(s.hw.cmd.request_identity2 == 0)
 		return Sane.STATUS_UNSUPPORTED
 
 	params[0] = ESC
 	params[1] = s.hw.cmd.request_identity2
 
 	status = e2_cmd_info_block(s, params, 2, 0, buf, &len)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	return status
@@ -1026,13 +1026,13 @@ esci_reset(Epson_Scanner * s)
 
 	DBG(8, "%s\n", __func__)
 
-	if (!s.hw.cmd.initialize_scanner)
+	if(!s.hw.cmd.initialize_scanner)
 		return Sane.STATUS_GOOD
 
 	params[0] = ESC
 	params[1] = s.hw.cmd.initialize_scanner
 
-	if (s.fd == -1)
+	if(s.fd == -1)
 		return Sane.STATUS_GOOD
 
 	status = e2_cmd_simple(s, params, 2)
@@ -1047,7 +1047,7 @@ esci_feed(Epson_Scanner * s)
 
 	DBG(8, "%s\n", __func__)
 
-	if (!s.hw.cmd.feed)
+	if(!s.hw.cmd.feed)
 		return Sane.STATUS_UNSUPPORTED
 
 	params[0] = s.hw.cmd.feed
@@ -1068,10 +1068,10 @@ esci_eject(Epson_Scanner * s)
 
 	DBG(8, "%s\n", __func__)
 
-	if (!s.hw.cmd.eject)
+	if(!s.hw.cmd.eject)
 		return Sane.STATUS_UNSUPPORTED
 
-	if (s.fd == -1)
+	if(s.fd == -1)
 		return Sane.STATUS_GOOD
 
 	params[0] = s.hw.cmd.eject
@@ -1091,7 +1091,7 @@ esci_request_extended_status(Sane.Handle handle, unsigned char **data,
 
 	DBG(8, "%s\n", __func__)
 
-	if (s.hw.cmd.request_extended_status == 0)
+	if(s.hw.cmd.request_extended_status == 0)
 		return Sane.STATUS_UNSUPPORTED
 
 	params[0] = ESC
@@ -1102,15 +1102,15 @@ esci_request_extended_status(Sane.Handle handle, unsigned char **data,
 	 */
 	status = e2_cmd_info_block(s, params, 2, CMD_SIZE_EXT_STATUS,
 				       &buf, &buf_len)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
-	switch (buf_len) {
+	switch(buf_len) {
 	case 33:
 	case 42:
 		break
 	default:
-		DBG(1, "%s: unknown reply length (%lu)\n", __func__,
+		DBG(1, "%s: unknown reply length(%lu)\n", __func__,
 			(unsigned long) buf_len)
 		break
 	}
@@ -1118,25 +1118,25 @@ esci_request_extended_status(Sane.Handle handle, unsigned char **data,
 	DBG(4, "main = %02x, ADF = %02x, TPU = %02x, main 2 = %02x\n",
 		buf[0], buf[1], buf[6], buf[11])
 
-	if (buf[0] & EXT_STATUS_FER)
+	if(buf[0] & EXT_STATUS_FER)
 		DBG(1, "system error\n")
 
-	if (buf[0] & EXT_STATUS_WU)
+	if(buf[0] & EXT_STATUS_WU)
 		DBG(1, "scanner is warming up\n")
 
-	if (buf[1] & EXT_STATUS_ERR)
+	if(buf[1] & EXT_STATUS_ERR)
 		DBG(1, "ADF: other error\n")
 
-	if (buf[1] & EXT_STATUS_PE)
+	if(buf[1] & EXT_STATUS_PE)
 		DBG(1, "ADF: no paper\n")
 
-	if (buf[1] & EXT_STATUS_PJ)
+	if(buf[1] & EXT_STATUS_PJ)
 		DBG(1, "ADF: paper jam\n")
 
-	if (buf[1] & EXT_STATUS_OPN)
+	if(buf[1] & EXT_STATUS_OPN)
 		DBG(1, "ADF: cover open\n")
 
-	if (buf[6] & EXT_STATUS_ERR)
+	if(buf[6] & EXT_STATUS_ERR)
 		DBG(1, "TPU: other error\n")
 
 	/* give back a pointer to the payload
@@ -1144,12 +1144,12 @@ esci_request_extended_status(Sane.Handle handle, unsigned char **data,
 	 * free it.
 	 */
 
-	if (data)
+	if(data)
 		*data = buf
 	else
 		free(buf)
 
-	if (data_len)
+	if(data_len)
 		*data_len = buf_len
 
 	return status

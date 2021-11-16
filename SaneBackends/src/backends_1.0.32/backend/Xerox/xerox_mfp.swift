@@ -52,34 +52,34 @@ transport available_transports[TRANSPORTS_MAX] = {
 
 static Int resolv_state(Int state)
 {
-    if (state & STATE_DOCUMENT_JAM)
+    if(state & STATE_DOCUMENT_JAM)
         return Sane.STATUS_JAMMED
-    if (state & STATE_NO_DOCUMENT)
+    if(state & STATE_NO_DOCUMENT)
         return Sane.STATUS_NO_DOCS
-    if (state & STATE_COVER_OPEN)
+    if(state & STATE_COVER_OPEN)
         return Sane.STATUS_COVER_OPEN
-    if (state & STATE_INVALID_AREA)
+    if(state & STATE_INVALID_AREA)
         return Sane.STATUS_INVAL; /* Sane.start: implies Sane.INFO_RELOAD_OPTIONS */
-    if (state & STATE_WARMING)
+    if(state & STATE_WARMING)
 #ifdef Sane.STATUS_WARMING_UP
         return Sane.STATUS_WARMING_UP
 #else
         return Sane.STATUS_DEVICE_BUSY
 #endif
-    if (state & STATE_LOCKING)
+    if(state & STATE_LOCKING)
 #ifdef Sane.STATUS_HW_LOCKED
         return Sane.STATUS_HW_LOCKED
 #else
         return Sane.STATUS_JAMMED
 #endif
-    if (state & ~STATE_NO_ERROR)
+    if(state & ~STATE_NO_ERROR)
         return Sane.STATUS_DEVICE_BUSY
     return 0
 }
 
 static char *str_cmd(Int cmd)
 {
-    switch (cmd) {
+    switch(cmd) {
     case CMD_ABORT:		return "ABORT"
     case CMD_INQUIRY:		return "INQUIRY"
     case CMD_RESERVE_UNIT:	return "RESERVE_UNIT"
@@ -110,7 +110,7 @@ static Int decompress(struct device __Sane.unused__ *dev,
     FILE *pInfile = NULL
     JSAMPARRAY buffer
 
-    if ((pInfile = fopen(infilename, "rb")) == NULL) {
+    if((pInfile = fopen(infilename, "rb")) == NULL) {
         fprintf(stderr, "can't open %s\n", infilename)
         return -1
     }
@@ -122,7 +122,7 @@ static Int decompress(struct device __Sane.unused__ *dev,
     jpeg_stdio_src(&cinfo, pInfile)
 
     rc = jpeg_read_header(&cinfo, TRUE)
-    if (rc != 1) {
+    if(rc != 1) {
         jpeg_destroy_decompress(&cinfo)
         fclose(pInfile)
         return -1
@@ -142,7 +142,7 @@ static Int decompress(struct device __Sane.unused__ *dev,
     buffer = (*cinfo.mem.alloc_sarray)
              ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1)
 
-    while (cinfo.output_scanline < cinfo.output_height) {
+    while(cinfo.output_scanline < cinfo.output_height) {
         buffer[0] = dev.decData + \
                     (cinfo.output_scanline) * row_stride
         jpeg_read_scanlines(&cinfo, buffer, 1)
@@ -156,26 +156,26 @@ static Int decompress(struct device __Sane.unused__ *dev,
 #endif
 }
 
-/* copy from decoded jpeg image (dev.decData) into user's buffer (pDest) */
+/* copy from decoded jpeg image(dev.decData) into user's buffer(pDest) */
 /* returns 0 if there is no data to copy */
 static Int copy_decompress_data(struct device *dev, unsigned char *pDest, Int maxlen, Int *destLen)
 {
     Int data_size = 0
 
-    if (destLen)
+    if(destLen)
 	*destLen = 0
-    if (!dev.decDataSize)
+    if(!dev.decDataSize)
         return 0
     data_size = dev.decDataSize - dev.currentDecDataIndex
-    if (data_size > maxlen)
+    if(data_size > maxlen)
         data_size = maxlen
-    if (data_size && pDest) {
+    if(data_size && pDest) {
 	memcpy(pDest, dev.decData + dev.currentDecDataIndex, data_size)
-	if (destLen)
+	if(destLen)
 	    *destLen = data_size
 	dev.currentDecDataIndex += data_size
     }
-    if (dev.decDataSize == dev.currentDecDataIndex) {
+    if(dev.decDataSize == dev.currentDecDataIndex) {
         dev.currentDecDataIndex = 0
         dev.decDataSize = 0
     }
@@ -194,7 +194,7 @@ static Int dump_to_tmp_file(struct device *dev)
     unsigned char *pSrc = dev.data
     Int srcLen = dev.datalen
     FILE *pInfile
-    if ((pInfile = fopen(encTmpFileName, "a")) == NULL) {
+    if((pInfile = fopen(encTmpFileName, "a")) == NULL) {
         fprintf(stderr, "can't open %s\n", encTmpFileName)
         return 0
     }
@@ -208,9 +208,9 @@ static Int isSupportedDevice(struct device __Sane.unused__ *dev)
 {
 #ifdef HAVE_LIBJPEG
     /* Checking device which supports JPEG Lossy compression for color scanning*/
-    if (dev.compressionTypes & (1 << 6)) {
+    if(dev.compressionTypes & (1 << 6)) {
 	/* blacklist malfunctioning device(s) */
-	if (!strncmp(dev.sane.model, "SCX-4500W", 9) ||
+	if(!strncmp(dev.sane.model, "SCX-4500W", 9) ||
             !strncmp(dev.sane.model, "C460", 4) ||
 	    !!strstr(dev.sane.model, "CLX-3170") ||
 	    !strncmp(dev.sane.model, "M288x", 5))
@@ -230,13 +230,13 @@ static void dbg_dump(struct device *dev)
     Int nzlen = dev.reslen
     Int dlen = MIN(dev.reslen, MAX_DUMP)
 
-    for (i = dev.reslen - 1; i >= 0; i--, nzlen--)
-        if (dev.res[i] != 0)
+    for(i = dev.reslen - 1; i >= 0; i--, nzlen--)
+        if(dev.res[i] != 0)
             break
 
     dlen = MIN(dlen, nzlen + 1)
 
-    for (i = 0; i < dlen; i++, dptr += 3)
+    for(i = 0; i < dlen; i++, dptr += 3)
         sprintf(dptr, " %02x", dev.res[i])
 
     DBG(5, "[%lu]%s%s\n", (u_long)dev.reslen, dbuf,
@@ -255,12 +255,12 @@ static Int dev_command(struct device *dev, Sane.Byte *cmd, size_t reqlen)
     assert(reqlen <= sizeof(dev.res));	/* requested len */
     dev.reslen = sizeof(dev.res);	/* doing full buffer to flush stalled commands */
 
-    if (cmd[2] == CMD_SET_WINDOW) {
+    if(cmd[2] == CMD_SET_WINDOW) {
         /* Set Window have wrong packet length, huh. */
         sendlen = 25
     }
 
-    if (cmd[2] == CMD_READ_IMAGE) {
+    if(cmd[2] == CMD_READ_IMAGE) {
         /* Read Image is raw data, don't need to read response */
         res = NULL
     }
@@ -269,19 +269,19 @@ static Int dev_command(struct device *dev, Sane.Byte *cmd, size_t reqlen)
     DBG(4, ":: dev_command(%s[%#x], %lu)\n", str_cmd(cmd[2]), cmd[2],
         (u_long)reqlen)
     status = dev.io.dev_request(dev, cmd, sendlen, res, &dev.reslen)
-    if (status != Sane.STATUS_GOOD) {
+    if(status != Sane.STATUS_GOOD) {
         DBG(1, "%s: dev_request: %s\n", __func__, Sane.strstatus(status))
         dev.state = Sane.STATUS_IO_ERROR
         return 0
     }
 
-    if (!res) {
+    if(!res) {
         /* if not need response just return success */
         return 1
     }
 
     /* normal command reply, some sanity checking */
-    if (dev.reslen < reqlen) {
+    if(dev.reslen < reqlen) {
         DBG(1, "%s: illegal response len %lu, need %lu\n",
             __func__, (u_long)dev.reslen, (u_long)reqlen)
         dev.state = Sane.STATUS_IO_ERROR
@@ -289,41 +289,41 @@ static Int dev_command(struct device *dev, Sane.Byte *cmd, size_t reqlen)
     } else {
         size_t pktlen;		/* len specified in packet */
 
-        if (DBG_LEVEL > 3)
+        if(DBG_LEVEL > 3)
             dbg_dump(dev)
 
-        if (dev.res[0] != RES_CODE) {
+        if(dev.res[0] != RES_CODE) {
             DBG(2, "%s: illegal data header %02x\n", __func__, dev.res[0])
             dev.state = Sane.STATUS_IO_ERROR
             return 0
         }
         pktlen = dev.res[2] + 3
-        if (dev.reslen != pktlen) {
+        if(dev.reslen != pktlen) {
             DBG(2, "%s: illegal response len %lu, should be %lu\n",
                 __func__, (u_long)pktlen, (u_long)dev.reslen)
             dev.state = Sane.STATUS_IO_ERROR
             return 0
         }
-        if (dev.reslen > reqlen)
+        if(dev.reslen > reqlen)
             DBG(2, "%s: too big packet len %lu, need %lu\n",
                 __func__, (u_long)dev.reslen, (u_long)reqlen)
     }
 
     dev.state = 0
-    if (cmd[2] == CMD_SET_WINDOW ||
+    if(cmd[2] == CMD_SET_WINDOW ||
         cmd[2] == CMD_OBJECT_POSITION ||
         cmd[2] == CMD_READ ||
         cmd[2] == CMD_RESERVE_UNIT) {
-        if (dev.res[1] == STATUS_BUSY)
+        if(dev.res[1] == STATUS_BUSY)
             dev.state = Sane.STATUS_DEVICE_BUSY
-        else if (dev.res[1] == STATUS_CANCEL)
+        else if(dev.res[1] == STATUS_CANCEL)
             dev.state = Sane.STATUS_CANCELLED
-        else if (dev.res[1] == STATUS_CHECK)
+        else if(dev.res[1] == STATUS_CHECK)
             dev.state = resolv_state((cmd[2] == CMD_READ)?
                                       (dev.res[12] << 8 | dev.res[13]) :
                                       (dev.res[4] << 8 | dev.res[5]))
 
-        if (dev.state)
+        if(dev.state)
             DBG(3, "%s(%s[%#x]): => %d: %s\n",
                 __func__, str_cmd(cmd[2]), cmd[2],
                 dev.state, Sane.strstatus(dev.state))
@@ -350,11 +350,11 @@ static Sane.Status dev_stop(struct device *dev)
     dev.scanning = 0
 
     /* release */
-    if (!dev.reserved)
+    if(!dev.reserved)
         return state
     dev.reserved = 0
     dev_cmd(dev, CMD_RELEASE_UNIT)
-    DBG(3, "total image %d*%d size %d (win %d*%d), %d*%d %d data: %d, out %d bytes\n",
+    DBG(3, "total image %d*%d size %d(win %d*%d), %d*%d %d data: %d, out %d bytes\n",
         dev.para.pixels_per_line, dev.para.lines,
         dev.total_img_size,
         dev.win_width, dev.win_len,
@@ -367,7 +367,7 @@ static Sane.Status dev_stop(struct device *dev)
 Sane.Status ret_cancel(struct device *dev, Sane.Status ret)
 {
     dev_cmd(dev, CMD_ABORT)
-    if (dev.scanning) {
+    if(dev.scanning) {
         dev_stop(dev)
         dev.state = Sane.STATUS_CANCELLED
     }
@@ -376,7 +376,7 @@ Sane.Status ret_cancel(struct device *dev, Sane.Status ret)
 
 static Int cancelled(struct device *dev)
 {
-    if (dev.cancel)
+    if(dev.cancel)
         return ret_cancel(dev, 1)
     return 0
 }
@@ -388,30 +388,30 @@ static Int dev_cmd_wait(struct device *dev, Int cmd)
     Int sleeptime = 10
 
     do {
-        if (cancelled(dev))
+        if(cancelled(dev))
             return 0
-        if (!dev_cmd(dev, cmd)) {
+        if(!dev_cmd(dev, cmd)) {
             dev.state = Sane.STATUS_IO_ERROR
             return 0
-        } else if (dev.state) {
-            if (dev.state != Sane.STATUS_DEVICE_BUSY)
+        } else if(dev.state) {
+            if(dev.state != Sane.STATUS_DEVICE_BUSY)
                 return 0
             else {
-                if (dev.non_blocking) {
+                if(dev.non_blocking) {
                     dev.state = Sane.STATUS_GOOD
                     return 0
                 } else {
-                    if (sleeptime > 1000)
+                    if(sleeptime > 1000)
                         sleeptime = 1000
                     DBG(4, "(%s) sleeping(%d ms).. [%x %x]\n",
                         str_cmd(cmd), sleeptime, dev.res[4], dev.res[5])
                     usleep(sleeptime * 1000)
-                    if (sleeptime < 1000)
+                    if(sleeptime < 1000)
                         sleeptime *= (sleeptime < 100)? 10 : 2
                 }
             } /* BUSY */
         }
-    } while (dev.state == Sane.STATUS_DEVICE_BUSY)
+    } while(dev.state == Sane.STATUS_DEVICE_BUSY)
 
     return 1
 }
@@ -443,8 +443,8 @@ static void resolv_inq_dpi(struct device *dev)
     Int res = dev.resolutions
 
     assert(sizeof(inq_dpi_bits) < sizeof(dev.dpi_list))
-    for (i = 0; i < sizeof(inq_dpi_bits) / sizeof(Int); i++)
-        if (inq_dpi_bits[i] && (res & (1 << i)))
+    for(i = 0; i < sizeof(inq_dpi_bits) / sizeof(Int); i++)
+        if(inq_dpi_bits[i] && (res & (1 << i)))
             dev.dpi_list[++dev.dpi_list[0]] = inq_dpi_bits[i]
     qsort(&dev.dpi_list[1], dev.dpi_list[0], sizeof(Sane.Word), Sane.Word_sort)
 }
@@ -453,8 +453,8 @@ static unsigned Int dpi_to_code(Int dpi)
 {
     unsigned var i: Int
 
-    for (i = 0; i < sizeof(res_dpi_codes) / sizeof(Int); i++) {
-        if (dpi == res_dpi_codes[i])
+    for(i = 0; i < sizeof(res_dpi_codes) / sizeof(Int); i++) {
+        if(dpi == res_dpi_codes[i])
             return i
     }
     return 0
@@ -464,9 +464,9 @@ static Int string_match_index(const Sane.String_Const s[], String m)
 {
     var i: Int
 
-    for (i = 0; *s; i++) {
+    for(i = 0; *s; i++) {
         Sane.String_Const x = *s++
-        if (strcasecmp(x, m) == 0)
+        if(strcasecmp(x, m) == 0)
             return i
     }
     return 0
@@ -481,9 +481,9 @@ static size_t max_string_size(Sane.String_Const s[])
 {
     size_t max = 0
 
-    while (*s) {
+    while(*s) {
         size_t size = strlen(*s++) + 1
-        if (size > max)
+        if(size > max)
             max = size
     }
     return max
@@ -540,7 +540,7 @@ static void init_options(struct device *dev)
 {
     var i: Int
 
-    for (i = 0; i < NUM_OPTIONS; i++) {
+    for(i = 0; i < NUM_OPTIONS; i++) {
         dev.opt[i].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
         dev.opt[i].size = sizeof(Sane.Word)
         dev.opt[i].type = Sane.TYPE_FIXED
@@ -647,22 +647,22 @@ static void set_parameters(struct device *dev)
     dev.para.pixels_per_line = dev.win_width / px_to_len
     dev.para.bytes_per_line = dev.para.pixels_per_line
 
-    if (!isSupportedDevice(dev)) {
+    if(!isSupportedDevice(dev)) {
 #if BETTER_BASEDPI
         px_to_len = 1213.9 / dev.val[OPT_RESOLUTION].w
 #endif
     }
     dev.para.lines = dev.win_len / px_to_len
-    if (dev.composition == MODE_LINEART ||
+    if(dev.composition == MODE_LINEART ||
         dev.composition == MODE_HALFTONE) {
         dev.para.format = Sane.FRAME_GRAY
         dev.para.depth = 1
         dev.para.bytes_per_line = (dev.para.pixels_per_line + 7) / 8
-    } else if (dev.composition == MODE_GRAY8) {
+    } else if(dev.composition == MODE_GRAY8) {
         dev.para.format = Sane.FRAME_GRAY
         dev.para.depth = 8
         dev.para.bytes_per_line = dev.para.pixels_per_line
-    } else if (dev.composition == MODE_RGB24) {
+    } else if(dev.composition == MODE_RGB24) {
         dev.para.format = Sane.FRAME_RGB
         dev.para.depth = 8
         dev.para.bytes_per_line *= 3
@@ -686,15 +686,15 @@ static Int fix_window(struct device *dev)
     dev.resolution = dpi_to_code(dev.val[OPT_RESOLUTION].w)
     dev.composition = scan_mode_to_code[string_match_index(scan_modes, dev.val[OPT_MODE].s)]
 
-    if (dev.composition == MODE_LINEART ||
+    if(dev.composition == MODE_LINEART ||
         dev.composition == MODE_HALFTONE) {
         dev.opt[OPT_THRESHOLD].cap &= ~Sane.CAP_INACTIVE
     } else {
         dev.opt[OPT_THRESHOLD].cap |= Sane.CAP_INACTIVE
     }
-    if (threshold < 30) {
+    if(threshold < 30) {
         dev.val[OPT_THRESHOLD].w = Sane.FIX(30)
-    } else if (threshold > 70) {
+    } else if(threshold > 70) {
         dev.val[OPT_THRESHOLD].w = Sane.FIX(70)
     }
     threshold = Sane.UNFIX(dev.val[OPT_THRESHOLD].w)
@@ -704,7 +704,7 @@ static Int fix_window(struct device *dev)
     dev.doc_source = doc_source_to_code[string_match_index(doc_sources, dev.val[OPT_SOURCE].s)]
 
     /* max window len is dependent of document source */
-    if (dev.doc_source == DOC_FLATBED ||
+    if(dev.doc_source == DOC_FLATBED ||
         (dev.doc_source == DOC_AUTO && !dev.doc_loaded))
         dev.max_len = dev.max_len_fb
     else
@@ -714,16 +714,16 @@ static Int fix_window(struct device *dev)
     dev.win_y_range.max = Sane.FIX((double)dev.max_len / PNT_PER_MM)
 
     /* window sanity checking */
-    for (i = OPT_SCAN_TL_X; i <= OPT_SCAN_BR_Y; i++) {
-        if (dev.val[i].w < dev.opt[i].constraint.range.min)
+    for(i = OPT_SCAN_TL_X; i <= OPT_SCAN_BR_Y; i++) {
+        if(dev.val[i].w < dev.opt[i].constraint.range.min)
             dev.val[i].w = dev.opt[i].constraint.range.min
-        if (dev.val[i].w > dev.opt[i].constraint.range.max)
+        if(dev.val[i].w > dev.opt[i].constraint.range.max)
             dev.val[i].w = dev.opt[i].constraint.range.max
     }
 
-    if (dev.val[OPT_SCAN_TL_X].w > dev.val[OPT_SCAN_BR_X].w)
+    if(dev.val[OPT_SCAN_TL_X].w > dev.val[OPT_SCAN_BR_X].w)
         SWAP_Word(dev.val[OPT_SCAN_TL_X].w, dev.val[OPT_SCAN_BR_X].w)
-    if (dev.val[OPT_SCAN_TL_Y].w > dev.val[OPT_SCAN_BR_Y].w)
+    if(dev.val[OPT_SCAN_TL_Y].w > dev.val[OPT_SCAN_BR_Y].w)
         SWAP_Word(dev.val[OPT_SCAN_TL_Y].w, dev.val[OPT_SCAN_BR_Y].w)
 
     /* recalculate millimeters to inches */
@@ -740,7 +740,7 @@ static Int fix_window(struct device *dev)
     dev.win_len = (Int)(win_len_mm * PNT_PER_MM)
 
     /* don't scan if window is zero size */
-    if (!dev.win_width || !dev.win_len) {
+    if(!dev.win_width || !dev.win_len) {
         /* "The scan cannot be started with the current set of options." */
         dev.state = Sane.STATUS_INVAL
         return 0
@@ -755,7 +755,7 @@ static Int dev_set_window(struct device *dev)
         REQ_CODE_A, REQ_CODE_B, CMD_SET_WINDOW, 0x13, MSG_SCANNING_PARAM
     ]
 
-    if (!fix_window(dev))
+    if(!fix_window(dev))
         return 0
 
     cmd[0x05] = dev.win_width >> 24
@@ -773,10 +773,10 @@ static Int dev_set_window(struct device *dev)
     cmd[0x11] = (Sane.Byte)floor(dev.win_off_y)
     cmd[0x12] = (Sane.Byte)((dev.win_off_y - floor(dev.win_off_y)) * 100)
     cmd[0x13] = dev.composition
-    /* Set to JPEG Lossy Compression, if mode is color (only for supported model)...
-     * else go with Uncompressed (For backard compatibility with old models )*/
-    if (dev.composition == MODE_RGB24) {
-        if (isSupportedDevice(dev)) {
+    /* Set to JPEG Lossy Compression, if mode is color(only for supported model)...
+     * else go with Uncompressed(For backard compatibility with old models )*/
+    if(dev.composition == MODE_RGB24) {
+        if(isSupportedDevice(dev)) {
             cmd[0x14] = 0x6
         }
     }
@@ -800,27 +800,27 @@ dev_inquiry(struct device *dev)
     Sane.Byte *ptr
     Sane.Char *optr, *xptr
 
-    if (!dev_cmd(dev, CMD_INQUIRY))
+    if(!dev_cmd(dev, CMD_INQUIRY))
         return Sane.STATUS_IO_ERROR
     ptr = dev.res
-    if (ptr[3] != MSG_PRODUCT_INFO) {
+    if(ptr[3] != MSG_PRODUCT_INFO) {
         DBG(1, "%s: illegal INQUIRY response %02x\n", __func__, ptr[3])
         return Sane.STATUS_IO_ERROR
     }
 
     /* parse reported manufacturer/product names */
     dev.sane.vendor = optr = (Sane.Char *) malloc(33)
-    for (ptr += 4; ptr < &dev.res[0x24] && *ptr && *ptr != ' ';)
+    for(ptr += 4; ptr < &dev.res[0x24] && *ptr && *ptr != ' ';)
         *optr++ = *ptr++
     *optr++ = 0
 
-    for (; ptr < &dev.res[0x24] && (!*ptr || *ptr == ' '); ptr++)
+    for(; ptr < &dev.res[0x24] && (!*ptr || *ptr == ' '); ptr++)
         /* skip spaces */
 
     dev.sane.model = optr = (Sane.Char *) malloc(33)
     xptr = optr;			/* is last non space character + 1 */
-    for (; ptr < &dev.res[0x24] && *ptr;) {
-        if (*ptr != ' ')
+    for(; ptr < &dev.res[0x24] && *ptr;) {
+        if(*ptr != ' ')
             xptr = optr + 1
         *optr++ = *ptr++
     }
@@ -870,7 +870,7 @@ Sane.get_option_descriptor(Sane.Handle h, Int opt)
     struct device *dev = h
 
     DBG(3, "%s: %p, %d\n", __func__, h, opt)
-    if (opt >= NUM_OPTIONS || opt < 0)
+    if(opt >= NUM_OPTIONS || opt < 0)
         return NULL
     return &dev.opt[opt]
 }
@@ -882,28 +882,28 @@ Sane.control_option(Sane.Handle h, Int opt, Sane.Action act,
     struct device *dev = h
 
     DBG(3, "%s: %p, %d, <%d>, %p, %p\n", __func__, h, opt, act, val, (void *)info)
-    if (!dev || opt >= NUM_OPTIONS || opt < 0)
+    if(!dev || opt >= NUM_OPTIONS || opt < 0)
         return Sane.STATUS_INVAL
 
-    if (info)
+    if(info)
         *info = 0
 
-    if (act == Sane.ACTION_GET_VALUE) { /* GET */
-        if (dev.opt[opt].type == Sane.TYPE_STRING)
+    if(act == Sane.ACTION_GET_VALUE) { /* GET */
+        if(dev.opt[opt].type == Sane.TYPE_STRING)
             strcpy(val, dev.val[opt].s)
         else
             *(Sane.Word *)val = dev.val[opt].w
-    } else if (act == Sane.ACTION_SET_VALUE) { /* SET */
+    } else if(act == Sane.ACTION_SET_VALUE) { /* SET */
         Sane.Parameters xpara = dev.para
         Sane.Option_Descriptor xopt[NUM_OPTIONS]
         Option_Value xval[NUM_OPTIONS]
         var i: Int
 
-        if (dev.opt[opt].constraint_type == Sane.CONSTRAINT_STRING_LIST) {
+        if(dev.opt[opt].constraint_type == Sane.CONSTRAINT_STRING_LIST) {
             dev.val[opt].s = string_match(dev.opt[opt].constraint.string_list, val)
-            if (info && strcasecmp(dev.val[opt].s, val))
+            if(info && strcasecmp(dev.val[opt].s, val))
                 *info |= Sane.INFO_INEXACT
-        } else if (opt == OPT_RESOLUTION)
+        } else if(opt == OPT_RESOLUTION)
             dev.val[opt].w = res_dpi_codes[dpi_to_code(*(Sane.Word *)val)]
         else
             dev.val[opt].w = *(Sane.Word *)val
@@ -914,14 +914,14 @@ Sane.control_option(Sane.Handle h, Int opt, Sane.Action act,
         set_parameters(dev)
 
         /* check for side effects */
-        if (info) {
-            if (memcmp(&xpara, &dev.para, sizeof(xpara)))
+        if(info) {
+            if(memcmp(&xpara, &dev.para, sizeof(xpara)))
                 *info |= Sane.INFO_RELOAD_PARAMS
-            if (memcmp(&xopt, &dev.opt, sizeof(xopt)))
+            if(memcmp(&xopt, &dev.opt, sizeof(xopt)))
                 *info |= Sane.INFO_RELOAD_OPTIONS
-            for (i = 0; i < NUM_OPTIONS; i++)
-                if (xval[i].w != dev.val[i].w) {
-                    if (i == opt)
+            for(i = 0; i < NUM_OPTIONS; i++)
+                if(xval[i].w != dev.val[i].w) {
+                    if(i == opt)
                         *info |= Sane.INFO_INEXACT
                     else
                         *info |= Sane.INFO_RELOAD_OPTIONS
@@ -937,20 +937,20 @@ Sane.control_option(Sane.Handle h, Int opt, Sane.Action act,
 static void
 dev_free(struct device *dev)
 {
-    if (!dev)
+    if(!dev)
         return
 
-    if (dev.sane.name)
+    if(dev.sane.name)
         free(UNCONST(dev.sane.name))
-    if (dev.sane.vendor)
+    if(dev.sane.vendor)
         free(UNCONST(dev.sane.vendor))
-    if (dev.sane.model)
+    if(dev.sane.model)
         free(UNCONST(dev.sane.model))
-    if (dev.sane.type)
+    if(dev.sane.type)
         free(UNCONST(dev.sane.type))
-    if (dev.data)
+    if(dev.data)
         free(dev.data)
-    if (dev.decData) {
+    if(dev.decData) {
         free(dev.decData)
         dev.decData = NULL
     }
@@ -964,11 +964,11 @@ free_devices(void)
     struct device *next
     struct device *dev
 
-    if (devlist) {
+    if(devlist) {
         free(devlist)
         devlist = NULL
     }
-    for (dev = devices_head; dev; dev = next) {
+    for(dev = devices_head; dev; dev = next) {
         next = dev.next
         dev_free(dev)
     }
@@ -977,7 +977,7 @@ free_devices(void)
 
 static transport *tr_from_devname(Sane.String_Const devname)
 {
-    if (strncmp("tcp", devname, 3) == 0)
+    if(strncmp("tcp", devname, 3) == 0)
         return &available_transports[TRANSPORT_TCP]
     return &available_transports[TRANSPORT_USB]
 }
@@ -991,29 +991,29 @@ list_one_device(Sane.String_Const devname)
 
     DBG(4, "%s: %s\n", __func__, devname)
 
-    for (dev = devices_head; dev; dev = dev.next) {
-        if (strcmp(dev.sane.name, devname) == 0)
+    for(dev = devices_head; dev; dev = dev.next) {
+        if(strcmp(dev.sane.name, devname) == 0)
             return Sane.STATUS_GOOD
     }
 
     tr = tr_from_devname(devname)
 
     dev = calloc(1, sizeof(struct device))
-    if (dev == NULL)
+    if(dev == NULL)
         return Sane.STATUS_NO_MEM
 
     dev.sane.name = strdup(devname)
     dev.io = tr
     status = tr.dev_open(dev)
-    if (status != Sane.STATUS_GOOD) {
+    if(status != Sane.STATUS_GOOD) {
         dev_free(dev)
         return status
     }
 
-    /*  status = dev_cmd (dev, CMD_ABORT);*/
+    /*  status = dev_cmd(dev, CMD_ABORT);*/
     status = dev_inquiry(dev)
     tr.dev_close(dev)
-    if (status != Sane.STATUS_GOOD) {
+    if(status != Sane.STATUS_GOOD) {
         DBG(1, "%s: dev_inquiry(%s): %s\n", __func__,
             dev.sane.name, Sane.strstatus(status))
         dev_free(dev)
@@ -1038,10 +1038,10 @@ Sane.Status
 Sane.init(Int *version_code, Sane.Auth_Callback cb)
 {
     DBG_INIT()
-    DBG(2, "Sane.init: Xerox backend (build %d), version %s null, authorize %s null\n", BACKEND_BUILD,
+    DBG(2, "Sane.init: Xerox backend(build %d), version %s null, authorize %s null\n", BACKEND_BUILD,
         (version_code) ? "!=" : "==", (cb) ? "!=" : "==")
 
-    if (version_code)
+    if(version_code)
         *version_code = Sane.VERSION_CODE(V_MAJOR, V_MINOR, BACKEND_BUILD)
 
     sanei_usb_init()
@@ -1053,8 +1053,8 @@ Sane.exit(void)
 {
     struct device *dev
 
-    for (dev = devices_head; dev; dev = dev.next)
-        if (dev.dn != -1)
+    for(dev = devices_head; dev; dev = dev.next)
+        if(dev.dn != -1)
             Sane.close(dev); /* implies flush */
 
     free_devices()
@@ -1070,8 +1070,8 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local)
 
     DBG(3, "%s: %p, %d\n", __func__, (const void *)device_list, local)
 
-    if (devlist) {
-        if (device_list)
+    if(devlist) {
+        if(device_list)
             *device_list = devlist
         return Sane.STATUS_GOOD
     }
@@ -1083,20 +1083,20 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local)
     config.values = NULL
     sanei_configure_attach(XEROX_CONFIG_FILE, &config, list_conf_devices, NULL)
 
-    for (dev_count = 0, dev = devices_head; dev; dev = dev.next)
+    for(dev_count = 0, dev = devices_head; dev; dev = dev.next)
         dev_count++
 
     devlist = malloc((dev_count + 1) * sizeof(*devlist))
-    if (!devlist) {
+    if(!devlist) {
         DBG(1, "%s: malloc: no memory\n", __func__)
         return Sane.STATUS_NO_MEM
     }
 
-    for (i = 0, dev = devices_head; dev; dev = dev.next)
+    for(i = 0, dev = devices_head; dev; dev = dev.next)
         devlist[i++] = &dev.sane
     devlist[i++] = NULL
 
-    if (device_list)
+    if(device_list)
         *device_list = devlist
     return Sane.STATUS_GOOD
 }
@@ -1106,10 +1106,10 @@ Sane.close(Sane.Handle h)
 {
     struct device *dev = h
 
-    if (!dev)
+    if(!dev)
         return
 
-    DBG(3, "%s: %p (%s)\n", __func__, (void *)dev, dev.sane.name)
+    DBG(3, "%s: %p(%s)\n", __func__, (void *)dev, dev.sane.name)
     dev.io.dev_close(dev)
 }
 
@@ -1120,20 +1120,20 @@ Sane.open(Sane.String_Const name, Sane.Handle *h)
 
     DBG(3, "%s: '%s'\n", __func__, name)
 
-    if (!devlist)
+    if(!devlist)
         Sane.get_devices(NULL, Sane.TRUE)
 
-    if (!name || !*name) {
+    if(!name || !*name) {
         /* special case of empty name: open first available device */
-        for (dev = devices_head; dev; dev = dev.next) {
-            if (dev.dn != -1) {
-                if (Sane.open(dev.sane.name, h) == Sane.STATUS_GOOD)
+        for(dev = devices_head; dev; dev = dev.next) {
+            if(dev.dn != -1) {
+                if(Sane.open(dev.sane.name, h) == Sane.STATUS_GOOD)
                     return Sane.STATUS_GOOD
             }
         }
     } else {
-        for (dev = devices_head; dev; dev = dev.next) {
-            if (strcmp(name, dev.sane.name) == 0) {
+        for(dev = devices_head; dev; dev = dev.next) {
+            if(strcmp(name, dev.sane.name) == 0) {
                 *h = dev
                 return dev.io.dev_open(dev)
             }
@@ -1149,7 +1149,7 @@ Sane.get_parameters(Sane.Handle h, Sane.Parameters *para)
     struct device *dev = h
 
     DBG(3, "%s: %p, %p\n", __func__, h, (void *)para)
-    if (!para)
+    if(!para)
         return Sane.STATUS_INVAL
 
     *para = dev.para
@@ -1160,7 +1160,7 @@ Sane.get_parameters(Sane.Handle h, Sane.Parameters *para)
 /* 1: image is acquired, 0: error or non_blocking mode */
 static Int dev_acquire(struct device *dev)
 {
-    if (!dev_cmd_wait(dev, CMD_READ))
+    if(!dev_cmd_wait(dev, CMD_READ))
         return dev.state
 
     dev.state = Sane.STATUS_GOOD
@@ -1175,9 +1175,9 @@ static Int dev_acquire(struct device *dev)
     dev.pixels_per_line = dev.horizontal
     dev.bytes_per_line = dev.horizontal
 
-    if (dev.composition == MODE_RGB24)
+    if(dev.composition == MODE_RGB24)
         dev.bytes_per_line *= 3
-    else if (dev.composition == MODE_LINEART ||
+    else if(dev.composition == MODE_LINEART ||
              dev.composition == MODE_HALFTONE)
         dev.pixels_per_line *= 8
 
@@ -1185,7 +1185,7 @@ static Int dev_acquire(struct device *dev)
         dev.vertical, dev.horizontal, dev.final_block? "last " : "",
         dev.blocklen, dev.blocklen - (dev.vertical * dev.bytes_per_line))
 
-    if (dev.bytes_per_line > DATASIZE) {
+    if(dev.bytes_per_line > DATASIZE) {
         DBG(1, "%s: unsupported line size: %d bytes > %d\n",
             __func__, dev.bytes_per_line, DATASIZE)
         return ret_cancel(dev, Sane.STATUS_NO_MEM)
@@ -1206,9 +1206,9 @@ static Int fill_slack(struct device *dev, Sane.Byte *buf, Int maxlen)
     const Int havelen = MIN(slack, maxlen)
     Int j
 
-    if (havelen <= 0)
+    if(havelen <= 0)
         return 0
-    for (j = 0; j < havelen; j++)
+    for(j = 0; j < havelen; j++)
         buf[j] = 255
     return havelen
 }
@@ -1219,12 +1219,12 @@ static Int copy_plain_trim(struct device *dev, Sane.Byte *buf, Int maxlen, Int *
     const Int linesize = dev.bytes_per_line
     Int k = dev.dataindex
     *olenp = 0
-    for (j = 0; j < dev.datalen && *olenp < maxlen; j++, k++) {
+    for(j = 0; j < dev.datalen && *olenp < maxlen; j++, k++) {
         const Int x = k % linesize
         const Int y = k / linesize
-        if (y >= dev.vertical)
+        if(y >= dev.vertical)
             break; /* slack */
-        if (x < dev.para.bytes_per_line &&
+        if(x < dev.para.bytes_per_line &&
             (y + dev.y_off) < dev.para.lines) {
             *buf++ = dev.data[(dev.dataoff + j) & DATAMASK]
             (*olenp)++
@@ -1255,13 +1255,13 @@ static Int copy_mix_bands_trim(struct device *dev, Sane.Byte *buf, Int maxlen, I
     *olenp = 0
 
     /* while we have data && they can receive */
-    for (j = 0; j < havelen && *olenp < maxlen; j++, k++) {
+    for(j = 0; j < havelen && *olenp < maxlen; j++, k++) {
         const Int band = (k % bands) * dev.horizontal
         const Int x = k % linesize / bands
         const Int y = k / linesize - y_off; /* y relative to buffer head */
         const Int y_rly = y + y_off + dev.y_off; /* global y */
 
-        if (x < dev.para.pixels_per_line &&
+        if(x < dev.para.pixels_per_line &&
             y_rly < dev.para.lines) {
             *buf++ = dev.data[(dev.dataoff + band + x + y * linesize) & DATAMASK]
             (*olenp)++
@@ -1270,7 +1270,7 @@ static Int copy_mix_bands_trim(struct device *dev, Sane.Byte *buf, Int maxlen, I
     dev.dataindex = k
 
     /* how much full lines are finished */
-    return (k / linesize - y_off) * linesize
+    return(k / linesize - y_off) * linesize
 }
 
 Sane.Status
@@ -1281,47 +1281,47 @@ Sane.read(Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
 
     DBG(3, "%s: %p, %p, %d, %p\n", __func__, h, buf, maxlen, (void *)lenp)
 
-    if (lenp)
+    if(lenp)
         *lenp = 0
-    if (!dev)
+    if(!dev)
         return Sane.STATUS_INVAL
 
-    if (!dev.scanning)
+    if(!dev.scanning)
         return Sane.STATUS_EOF
 
     /* if there is no data to read or output from buffer */
-    if (!dev.blocklen && dev.datalen <= PADDING_SIZE) {
+    if(!dev.blocklen && dev.datalen <= PADDING_SIZE) {
 
         /* copying uncompressed data */
-        if (dev.composition == MODE_RGB24 &&
+        if(dev.composition == MODE_RGB24 &&
             isSupportedDevice(dev) &&
             dev.decDataSize > 0) {
             Int diff = dev.total_img_size - dev.total_out_size
             Int bufLen = (diff < maxlen) ? diff : maxlen
-            if (diff &&
+            if(diff &&
                 copy_decompress_data(dev, buf, bufLen, lenp)) {
-		if (lenp)
+		if(lenp)
 		    dev.total_out_size += *lenp
                 return Sane.STATUS_GOOD
             }
         }
 
         /* and we don't need to acquire next block */
-        if (dev.final_block) {
+        if(dev.final_block) {
             Int slack = dev.total_img_size - dev.total_out_size
 
             /* but we may need to fill slack */
-            if (buf && lenp && slack > 0) {
+            if(buf && lenp && slack > 0) {
                 *lenp = fill_slack(dev, buf, maxlen)
                 dev.total_out_size += *lenp
                 DBG(9, "<> slack: %d, filled: %d, maxlen %d\n",
                     slack, *lenp, maxlen)
                 return Sane.STATUS_GOOD
-            } else if (slack < 0) {
+            } else if(slack < 0) {
                 /* this will never happen */
                 DBG(1, "image overflow %d bytes\n", dev.total_img_size - dev.total_out_size)
             }
-            if (isSupportedDevice(dev) &&
+            if(isSupportedDevice(dev) &&
                 dev.composition == MODE_RGB24) {
                 remove(encTmpFileName)
             }
@@ -1331,15 +1331,15 @@ Sane.read(Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
         }
 
         /* queue next image block */
-        if (!dev_acquire(dev))
+        if(!dev_acquire(dev))
             return dev.state
     }
 
-    if (!dev.reading) {
-        if (cancelled(dev))
+    if(!dev.reading) {
+        if(cancelled(dev))
             return dev.state
         DBG(5, "READ_IMAGE\n")
-        if (!dev_cmd(dev, CMD_READ_IMAGE))
+        if(!dev_cmd(dev, CMD_READ_IMAGE))
             return Sane.STATUS_IO_ERROR
         dev.reading++
         dev.ulines += dev.vertical
@@ -1355,31 +1355,31 @@ Sane.read(Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
 
         /* read as much data into the buffer */
         datalen = DATAROOM(dev) & USB_BLOCK_MASK
-        while (datalen && dev.blocklen) {
+        while(datalen && dev.blocklen) {
             Sane.Byte *rbuf = dev.data + DATATAIL(dev)
 
             DBG(9, "<> request len: %lu, [%d, %d; %d]\n",
                 (u_long)datalen, dev.dataoff, DATATAIL(dev), dev.datalen)
-            if ((status = dev.io.dev_request(dev, NULL, 0, rbuf, &datalen)) !=
+            if((status = dev.io.dev_request(dev, NULL, 0, rbuf, &datalen)) !=
                 Sane.STATUS_GOOD)
                 return status
             dev.datalen += datalen
             dev.blocklen -= datalen
             DBG(9, "<> got %lu, [%d, %d; %d]\n",
                 (u_long)datalen, dev.dataoff, DATATAIL(dev), dev.datalen)
-            if (dev.blocklen < 0)
+            if(dev.blocklen < 0)
                 return ret_cancel(dev, Sane.STATUS_IO_ERROR)
 
             datalen = DATAROOM(dev) & USB_BLOCK_MASK
         }
 
-        if (buf && lenp) { /* read mode */
+        if(buf && lenp) { /* read mode */
             /* copy will do minimal of valid data */
-            if (dev.para.format == Sane.FRAME_RGB && dev.line_order) {
-                if (isSupportedDevice(dev)) {
+            if(dev.para.format == Sane.FRAME_RGB && dev.line_order) {
+                if(isSupportedDevice(dev)) {
                     clrlen = dump_to_tmp_file(dev)
                     /* decompress after reading entire block data*/
-                    if (0 == dev.blocklen) {
+                    if(0 == dev.blocklen) {
                         decompress_tempfile(dev)
                     }
                     copy_decompress_data(dev, buf, maxlen, &olen)
@@ -1396,27 +1396,27 @@ Sane.read(Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
             *lenp += olen
             dev.total_out_size += olen
 
-            DBG(9, "<> olen: %d, clrlen: %d, blocklen: %d/%d, maxlen %d (%d %d %d)\n",
+            DBG(9, "<> olen: %d, clrlen: %d, blocklen: %d/%d, maxlen %d(%d %d %d)\n",
                 olen, clrlen, dev.blocklen, dev.datalen, maxlen,
                 dev.dataindex / dev.bytes_per_line + dev.y_off,
                 dev.y_off, dev.para.lines)
 
             /* slack beyond last line */
-            if (dev.dataindex / dev.bytes_per_line + dev.y_off >= dev.para.lines) {
+            if(dev.dataindex / dev.bytes_per_line + dev.y_off >= dev.para.lines) {
                 dev.datalen = 0
                 dev.dataoff = 0
             }
 
-            if (!clrlen || maxlen <= 0)
+            if(!clrlen || maxlen <= 0)
                 break
         } else { /* flush mode */
             dev.datalen = 0
             dev.dataoff = 0
         }
 
-    } while (dev.blocklen)
+    } while(dev.blocklen)
 
-    if (lenp)
+    if(lenp)
         DBG(9, " ==> %d\n", *lenp)
 
     return Sane.STATUS_GOOD
@@ -1436,20 +1436,20 @@ Sane.start(Sane.Handle h)
     dev.total_data_size = 0
     dev.blocks = 0
 
-    if (!dev.reserved) {
-        if (!dev_cmd_wait(dev, CMD_RESERVE_UNIT))
+    if(!dev.reserved) {
+        if(!dev_cmd_wait(dev, CMD_RESERVE_UNIT))
             return dev.state
         dev.reserved++
     }
 
-    if (!dev_set_window(dev) ||
+    if(!dev_set_window(dev) ||
         (dev.state && dev.state != Sane.STATUS_DEVICE_BUSY))
         return dev_stop(dev)
 
-    if (!dev_cmd_wait(dev, CMD_OBJECT_POSITION))
+    if(!dev_cmd_wait(dev, CMD_OBJECT_POSITION))
         return dev_stop(dev)
 
-    if (!dev_cmd(dev, CMD_READ) ||
+    if(!dev_cmd(dev, CMD_READ) ||
         (dev.state && dev.state != Sane.STATUS_DEVICE_BUSY))
         return dev_stop(dev)
 
@@ -1462,25 +1462,25 @@ Sane.start(Sane.Handle h)
 
     set_parameters(dev)
 
-    if (!dev.data && !(dev.data = malloc(DATASIZE)))
+    if(!dev.data && !(dev.data = malloc(DATASIZE)))
         return ret_cancel(dev, Sane.STATUS_NO_MEM)
 
     /* this is for jpeg mode only */
-    if (!dev.decData && !(dev.decData = malloc(POST_DATASIZE)))
+    if(!dev.decData && !(dev.decData = malloc(POST_DATASIZE)))
         return ret_cancel(dev, Sane.STATUS_NO_MEM)
 
-    if (!dev_acquire(dev))
+    if(!dev_acquire(dev))
         return dev.state
 
     /* make sure to have dev.para <= of real size */
-    if (dev.para.pixels_per_line > dev.pixels_per_line) {
+    if(dev.para.pixels_per_line > dev.pixels_per_line) {
         dev.para.pixels_per_line = dev.pixels_per_line
         dev.para.bytes_per_line = dev.pixels_per_line
     }
 
-    if (dev.composition == MODE_RGB24)
+    if(dev.composition == MODE_RGB24)
         dev.para.bytes_per_line = dev.para.pixels_per_line * 3
-    else if (dev.composition == MODE_LINEART ||
+    else if(dev.composition == MODE_LINEART ||
              dev.composition == MODE_HALFTONE) {
         dev.para.bytes_per_line = (dev.para.pixels_per_line + 7) / 8
         dev.para.pixels_per_line = dev.para.bytes_per_line * 8
@@ -1490,14 +1490,14 @@ Sane.start(Sane.Handle h)
 
     dev.total_img_size = dev.para.bytes_per_line * dev.para.lines
 
-    if (isSupportedDevice(dev) &&
+    if(isSupportedDevice(dev) &&
         dev.composition == MODE_RGB24) {
 	Int fd
         remove(encTmpFileName)
 
 	/* Precreate temporary file in exclusive mode. */
 	fd = open(encTmpFileName, O_CREAT|O_EXCL, 0600)
-	if (fd == -1) {
+	if(fd == -1) {
 	    DBG(3, "%s: %p, can't create temporary file %s: %s\n", __func__,
 		(void *)dev, encTmpFileName, strerror(errno))
 	    return ret_cancel(dev, Sane.STATUS_ACCESS_DENIED)
@@ -1515,7 +1515,7 @@ Sane.Status Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
 
     DBG(3, "%s: %p, %d\n", __func__, h, non_blocking)
 
-    if (non_blocking)
+    if(non_blocking)
         return Sane.STATUS_UNSUPPORTED
 
     dev.non_blocking = non_blocking

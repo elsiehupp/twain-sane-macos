@@ -2,7 +2,7 @@
 #define _HP5400_INTERNAL_H_
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2020 Ralph Little <skelband@gmail.com>
+   Copyright(C) 2020 Ralph Little <skelband@gmail.com>
    (C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
    (c) 2003 Martijn van Oosterhout, kleptog@svana.org
    (c) 2002 Bertrik Sikken, bertrik@zonnet.nl
@@ -12,7 +12,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -114,7 +114,7 @@ struct ScanRequest
 }
 PACKED
 
-     /* More known combos (All 24-bit):
+     /* More known combos(All 24-bit):
         300 x  300 light calibration: 0x0000, 0x0010, 0x1820
         300 x  300 dark calibration:  0x0000, 0x0010, 0x3024
         75 x   75 preview scan:      0x0080, 0x0000, 0x18E8
@@ -176,19 +176,19 @@ func Int InitScan2 (enum ScanType type, struct ScanRequest *req,
 
 HP5400_Sane.STATIC
 void
-FinishScan (THWParams * pHWParams)
+FinishScan(THWParams * pHWParams)
 
 HP5400_Sane.STATIC
-func Int WriteByte (Int iHandle, Int cmd, char data)
+func Int WriteByte(Int iHandle, Int cmd, char data)
 
 HP5400_Sane.STATIC
-func Int SetLamp (THWParams * pHWParams, Int fLampOn)
+func Int SetLamp(THWParams * pHWParams, Int fLampOn)
 
 HP5400_Sane.STATIC
-func Int GetSensors (THWParams * pHWParams, uint16_t *sensorMap)
+func Int GetSensors(THWParams * pHWParams, uint16_t *sensorMap)
 
 HP5400_Sane.STATIC
-func Int GetPanelInfo (THWParams * pHWParams, TPanelInfo *panelInfo)
+func Int GetPanelInfo(THWParams * pHWParams, TPanelInfo *panelInfo)
 
 HP5400_Sane.STATIC
 func Int SetCopyCount(THWParams * pHWParams, Sane.Word copyCount)
@@ -197,92 +197,92 @@ HP5400_Sane.STATIC
 func Int SetColourBW(THWParams * pHWParams, Sane.Word colourBW)
 
 HP5400_Sane.STATIC
-func Int WarmupLamp (Int iHandle)
+func Int WarmupLamp(Int iHandle)
 
 HP5400_Sane.STATIC
-func Int SetCalibration (Int iHandle, Int numPixels,
+func Int SetCalibration(Int iHandle, Int numPixels,
 			   unsigned Int *low_vals[3],
 			   unsigned Int *high_vals[3], Int dpi)
 
 HP5400_Sane.STATIC
 void
-WriteGammaCalibTable (Int iHandle, const Int *pabGammaR,
+WriteGammaCalibTable(Int iHandle, const Int *pabGammaR,
 				  const Int *pabGammaG,
 				  const Int *pabGammaB)
 #ifdef STANDALONE
 HP5400_Sane.STATIC
 void
-SetDefaultGamma (Int iHandle)
+SetDefaultGamma(Int iHandle)
 #endif
 
 HP5400_Sane.STATIC
 void
-CircBufferInit (Int iHandle, TDataPipe * p, Int iBytesPerLine,
+CircBufferInit(Int iHandle, TDataPipe * p, Int iBytesPerLine,
 			    Int bpp, Int iMisAlignment, Int blksize,
 			    Int iTransferSize)
 
 HP5400_Sane.STATIC
-func Int CircBufferGetLine (Int iHandle, TDataPipe * p, void *pabLine)
+func Int CircBufferGetLine(Int iHandle, TDataPipe * p, void *pabLine)
 
 HP5400_Sane.STATIC
 void
-CircBufferExit (TDataPipe * p)
+CircBufferExit(TDataPipe * p)
 
 #ifdef STANDALONE
 HP5400_Sane.STATIC
 void
-DecodeImage (FILE * file, Int planes, Int bpp, Int xsize, Int ysize,
+DecodeImage(FILE * file, Int planes, Int bpp, Int xsize, Int ysize,
 			 const char *filename)
 
 HP5400_Sane.STATIC
-func Int hp5400_test_scan_response (struct ScanResponse *resp,
+func Int hp5400_test_scan_response(struct ScanResponse *resp,
 				      struct ScanRequest *req)
 #endif
 
 
 HP5400_Sane.STATIC
-func Int DoAverageScan (Int iHandle, struct ScanRequest *req, Int code,
+func Int DoAverageScan(Int iHandle, struct ScanRequest *req, Int code,
 			  unsigned Int **array)
 
 #ifdef STANDALONE
 HP5400_Sane.STATIC
-func Int DoScan (Int iHandle, struct ScanRequest *req, const char *filename, Int code,
+func Int DoScan(Int iHandle, struct ScanRequest *req, const char *filename, Int code,
 		   struct ScanResponse *res)
 #endif
 
 HP5400_Sane.STATIC
-func Int Calibrate (Int iHandle, Int dpi)
+func Int Calibrate(Int iHandle, Int dpi)
 
 #ifdef STANDALONE
 HP5400_Sane.STATIC
-func Int hp5400_scan (Int iHandle, TScanParams * params, THWParams * pHWParams,
+func Int hp5400_scan(Int iHandle, TScanParams * params, THWParams * pHWParams,
 			const char *filename)
 
 HP5400_Sane.STATIC
-func Int PreviewScan (Int iHandle)
+func Int PreviewScan(Int iHandle)
 
 HP5400_Sane.STATIC
-func Int InitScanner (Int iHandle)
+func Int InitScanner(Int iHandle)
 #endif
 
 HP5400_Sane.STATIC
-func Int InitScan (enum ScanType scantype, TScanParams * pParams,
+func Int InitScan(enum ScanType scantype, TScanParams * pParams,
 		     THWParams * pHWParams)
 
 HP5400_Sane.STATIC
 void
-FinishScan (THWParams * pHWParams)
+FinishScan(THWParams * pHWParams)
 
 HP5400_Sane.STATIC
-func Int HP5400Open (THWParams * params, const char *filename)
+func Int HP5400Open(THWParams * params, const char *filename)
 
 HP5400_Sane.STATIC
 void
-HP5400Close (THWParams * params)
+HP5400Close(THWParams * params)
 
 HP5400_Sane.STATIC
-func Int HP5400Detect (const char *filename,
-			 Int (*_ReportDevice) (TScannerModel * pModel,
+func Int HP5400Detect(const char *filename,
+			 Int(*_ReportDevice) (TScannerModel * pModel,
 					       const char *pszDeviceName))
 
 
@@ -294,28 +294,28 @@ func Int FreeHp5400_internal( void )
 
 
 #ifdef STANDALONE
-func Int main (Int argc, char *argv[])
+func Int main(Int argc, char *argv[])
 #endif
 
 #endif
 
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2020 Ralph Little <skelband@gmail.com>
-   Copyright (C) 2003 Martijn van Oosterhout <kleptog@svana.org>
-   Copyright (C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
-   Copyright (c) 2003 Henning Meier-Geinitz, <henning@meier-geinitz.de>
+   Copyright(C) 2020 Ralph Little <skelband@gmail.com>
+   Copyright(C) 2003 Martijn van Oosterhout <kleptog@svana.org>
+   Copyright(C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
+   Copyright(c) 2003 Henning Meier-Geinitz, <henning@meier-geinitz.de>
 
    Originally copied from HP3300 testtools. Original notice follows:
 
-   Copyright (C) 2001 Bertrik Sikken (bertrik@zonnet.nl)
+   Copyright(C) 2001 Bertrik Sikken(bertrik@zonnet.nl)
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
    as published by the Free Software Foundation; either version 2
-   of the License, or (at your option) any later version.
+   of the License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -431,22 +431,22 @@ func Int FreeHp5400_internal() {
 
 
 HP5400_Sane.STATIC
-func Int WriteByte (Int iHandle, Int cmd, char data)
+func Int WriteByte(Int iHandle, Int cmd, char data)
 {
-  if (hp5400_command_write (iHandle, cmd, 1, &data) < 0)
+  if(hp5400_command_write(iHandle, cmd, 1, &data) < 0)
     {
-      HP5400_DBG (DBG_MSG, "failed to send byte (cmd=%04X)\n", cmd)
+      HP5400_DBG(DBG_MSG, "failed to send byte(cmd=%04X)\n", cmd)
       return -1
     }
   return 0
 }
 
 HP5400_Sane.STATIC
-func Int SetLamp (THWParams * pHWParams, Int fLampOn)
+func Int SetLamp(THWParams * pHWParams, Int fLampOn)
 {
-  if (fLampOn)
+  if(fLampOn)
     {
-      if (WriteByte (pHWParams.iXferHandle, 0x0000, 0x01) == 0)
+      if(WriteByte(pHWParams.iXferHandle, 0x0000, 0x01) == 0)
         return 0
     }
   return -1
@@ -466,26 +466,26 @@ func Int GetSensors(THWParams * pHWParams, uint16_t *sensorMap)
   size_t iterCount = 10
   do
     {
-      if (hp5400_command_read
-          (pHWParams.iXferHandle, CMD_GETSENSORS, sizeof (uint16_t), &thisSensorMap) < 0)
+      if(hp5400_command_read
+          (pHWParams.iXferHandle, CMD_GETSENSORS, sizeof(uint16_t), &thisSensorMap) < 0)
         {
-          HP5400_DBG (DBG_MSG, "failed to read sensors\n")
+          HP5400_DBG(DBG_MSG, "failed to read sensors\n")
           return -1
         }
       *sensorMap |= thisSensorMap
-    } while (iterCount-- && (thisSensorMap > 0))
+    } while(iterCount-- && (thisSensorMap > 0))
 
     return 0
 }
 
 HP5400_Sane.STATIC
-func Int GetPanelInfo (THWParams * pHWParams, TPanelInfo *panelInfo)
+func Int GetPanelInfo(THWParams * pHWParams, TPanelInfo *panelInfo)
 {
   struct PanelInfo info
-  if (hp5400_command_read (pHWParams.iXferHandle, CMD_READPANEL,
+  if(hp5400_command_read(pHWParams.iXferHandle, CMD_READPANEL,
                            sizeof(info), &info) < 0)
     {
-      HP5400_DBG (DBG_MSG, "failed to read panel info\n")
+      HP5400_DBG(DBG_MSG, "failed to read panel info\n")
       return -1
     }
 
@@ -524,10 +524,10 @@ func Int SetCopyCount(THWParams * pHWParams, Sane.Word copyCount)
 
   workingInfo.copycount = (uint8_t)copyCount
 
-  if (hp5400_command_write (pHWParams.iXferHandle, CMD_WRITEPANEL,
+  if(hp5400_command_write(pHWParams.iXferHandle, CMD_WRITEPANEL,
                            sizeof(workingInfo), &workingInfo) < 0)
     {
-      HP5400_DBG (DBG_MSG, "failed to write panel info\n")
+      HP5400_DBG(DBG_MSG, "failed to write panel info\n")
       return -1
     }
 
@@ -563,10 +563,10 @@ func Int SetColourBW(THWParams * pHWParams, Sane.Word colourBW)
 
   workingInfo.bwcolour = (uint8_t)colourBW
 
-  if (hp5400_command_write (pHWParams.iXferHandle, CMD_WRITEPANEL,
+  if(hp5400_command_write(pHWParams.iXferHandle, CMD_WRITEPANEL,
                            sizeof(workingInfo), &workingInfo) < 0)
     {
-      HP5400_DBG (DBG_MSG, "failed to write panel info\n")
+      HP5400_DBG(DBG_MSG, "failed to write panel info\n")
       return -1
     }
 
@@ -576,7 +576,7 @@ func Int SetColourBW(THWParams * pHWParams, Sane.Word colourBW)
 
 
 HP5400_Sane.STATIC
-func Int WarmupLamp (Int iHandle)
+func Int WarmupLamp(Int iHandle)
 {
   var i: Int = 30;			/* Max 30 seconds, 15 is typical for cold start? */
   Int couldRead
@@ -589,23 +589,23 @@ func Int WarmupLamp (Int iHandle)
   unsigned char data0300[3]
 
 
-  hp5400_command_write_noverify (iHandle, 0x0000, data0000, 1)
+  hp5400_command_write_noverify(iHandle, 0x0000, data0000, 1)
 
   do
     {
-      hp5400_command_read_noverify (iHandle, 0x0300, 3, data0300)
+      hp5400_command_read_noverify(iHandle, 0x0300, 3, data0300)
 
-      hp5400_command_write_noverify (iHandle, 0x0000, data0000, 1)
+      hp5400_command_write_noverify(iHandle, 0x0000, data0000, 1)
 
       couldRead =
-	hp5400_command_read_noverify (iHandle, 0xc500, 0x02, dataVerify)
-      if ((dataVerify[0] != 0) || (dataVerify[1] != 0))
-	sleep (1)
+	hp5400_command_read_noverify(iHandle, 0xc500, 0x02, dataVerify)
+      if((dataVerify[0] != 0) || (dataVerify[1] != 0))
+	sleep(1)
     }
-  while ((i-- > 0) && (couldRead >= 0)
+  while((i-- > 0) && (couldRead >= 0)
 	 && ((dataVerify[0] != 0) || (dataVerify[1] != 0)))
 
-  if (i > 0)
+  if(i > 0)
     return 0
 
   /*
@@ -619,14 +619,14 @@ func Int WarmupLamp (Int iHandle)
      }
    */
 
-  HP5400_DBG (DBG_MSG, "***WARNING*** Warmup lamp failed...\n")
+  HP5400_DBG(DBG_MSG, "***WARNING*** Warmup lamp failed...\n")
   return -1
 }
 
 #define CALPIXBYBLOCK  42
 
 HP5400_Sane.STATIC
-func Int SetCalibration (Int iHandle, Int numPixels, unsigned Int *low_vals[3],
+func Int SetCalibration(Int iHandle, Int numPixels, unsigned Int *low_vals[3],
 		unsigned Int *high_vals[3], Int dpi)
 {
   char cmd[8]
@@ -654,17 +654,17 @@ func Int SetCalibration (Int iHandle, Int numPixels, unsigned Int *low_vals[3],
    we did scan test at 300 dpi, so we don't have all the needed pixels.
    To fill the gap, we loop
    */
-  Int numLoop = max (1, dpi / 300)
-  Int calBlockSize = CALPIXBYBLOCK * (6 * sizeof (short)) + 8 * sizeof (char);	/* = sizeof(calBlock) */
+  Int numLoop = max(1, dpi / 300)
+  Int calBlockSize = CALPIXBYBLOCK * (6 * sizeof(short)) + 8 * sizeof(char);	/* = sizeof(calBlock) */
   Int numCalBlock =
     ((numPixels / CALPIXBYBLOCK) +
      ((numPixels % CALPIXBYBLOCK != 0) ? 1 : 0))
   Int calSize = numLoop * calBlockSize * numCalBlock
 
-  calinfo = malloc (calSize)
-  memset (calinfo, 0, calSize)
+  calinfo = malloc(calSize)
+  memset(calinfo, 0, calSize)
 
-  for (j = 0; j < numLoop * numCalBlock * CALPIXBYBLOCK; j++)
+  for(j = 0; j < numLoop * numCalBlock * CALPIXBYBLOCK; j++)
     {
       struct CalPixel *pixel =
 	&calinfo[j / CALPIXBYBLOCK].pixels[j % CALPIXBYBLOCK]
@@ -701,22 +701,22 @@ func Int SetCalibration (Int iHandle, Int numPixels, unsigned Int *low_vals[3],
   cmd[3] = 0x00
   cmd[4] = 0x54
   cmd[5] = 0x02
-  cmd[6] = -128;                // 0x80; fixes compiler warning (for
+  cmd[6] = -128;                // 0x80; fixes compiler warning(for
                                 // signed char implementations), see
                                 // also comment above
   cmd[7] = 0x00
 
-  hp5400_bulk_command_write (iHandle, 0xE603, cmd, 8, calSize, calSize,
+  hp5400_bulk_command_write(iHandle, 0xE603, cmd, 8, calSize, calSize,
 			     (void *) calinfo)
 
-  free (calinfo)
+  free(calinfo)
   return 0
 }
 
 /* Write a gamma table */
 HP5400_Sane.STATIC
 void
-WriteGammaCalibTable (Int iHandle, const Int *pabGammaR, const Int *pabGammaG,
+WriteGammaCalibTable(Int iHandle, const Int *pabGammaR, const Int *pabGammaG,
 		      const Int *pabGammaB)
 {
   char cmd[3]
@@ -724,26 +724,26 @@ WriteGammaCalibTable (Int iHandle, const Int *pabGammaR, const Int *pabGammaG,
   var i: Int, j
 
   /* Setup dummy gamma correction table */
-  buffer = malloc (2 * 65536)
+  buffer = malloc(2 * 65536)
 
   cmd[0] = 2
   cmd[1] = 0
   cmd[2] = 0
 
-  for (i = 0; i < 3; i++)
+  for(i = 0; i < 3; i++)
     {
       const Int *ptr = (i == 0) ? pabGammaR :
 	(i == 1) ? pabGammaG : pabGammaB
 
-      for (j = 0; j < 65536; j++) {
+      for(j = 0; j < 65536; j++) {
 	buffer[2 * j] = ptr[j]
 	buffer[2 * j + 1] = ptr[j] >> 8
       }
 
-      hp5400_bulk_command_write (iHandle, 0x2A01 + i, cmd, 3, 2 * 65536,
+      hp5400_bulk_command_write(iHandle, 0x2A01 + i, cmd, 3, 2 * 65536,
 				 65536, (void *) buffer)
     }
-  free (buffer)
+  free(buffer)
 
   return
 }
@@ -751,19 +751,19 @@ WriteGammaCalibTable (Int iHandle, const Int *pabGammaR, const Int *pabGammaG,
 #ifdef STANDALONE
 HP5400_Sane.STATIC
 void
-SetDefaultGamma (Int iHandle)
+SetDefaultGamma(Int iHandle)
 {
-  Int *buffer = malloc (sizeof (Int) * 65536)
+  Int *buffer = malloc(sizeof(Int) * 65536)
   var i: Int
 
-  for (i = 0; i < 65336; i++)
+  for(i = 0; i < 65336; i++)
     buffer[i] = i
 
-  WriteGammaCalibTable (iHandle, buffer, buffer, buffer)
+  WriteGammaCalibTable(iHandle, buffer, buffer, buffer)
 }
 #endif
 
-#define BUFFER_SIZE (6*65536)
+#define BUFFER_SIZE(6*65536)
 
 #ifdef IMAGE_DEBUG
 FILE *temp
@@ -772,19 +772,19 @@ FILE *temp
 /* Bytes per line is the number of pixels. The actual bytes is one more */
 HP5400_Sane.STATIC
 void
-CircBufferInit (Int iHandle, TDataPipe * p, Int iBytesPerLine,
+CircBufferInit(Int iHandle, TDataPipe * p, Int iBytesPerLine,
 		Int bpp, Int iMisAlignment, Int blksize, Int iTransferSize)
 {
   iHandle = iHandle; /* to avoid compilation warning */
-  p.buffersize = max (BUFFER_SIZE, 3 * blksize)
+  p.buffersize = max(BUFFER_SIZE, 3 * blksize)
 
-  if (p.buffer)
+  if(p.buffer)
     {
-      free (p.buffer)
+      free(p.buffer)
     }
 
   /* Allocate a large enough buffer for transfer */
-  p.buffer = malloc (p.buffersize)
+  p.buffer = malloc(p.buffersize)
 
   p.pixels = (iBytesPerLine / 3) / bpp
 
@@ -797,14 +797,14 @@ CircBufferInit (Int iHandle, TDataPipe * p, Int iBytesPerLine,
   p.bpp = bpp
   p.bufstart = p.bufend = 0
 
-  if (iMisAlignment > 0)
+  if(iMisAlignment > 0)
     {
       p.roff += 0
       p.goff += p.linelength * iMisAlignment
       p.boff += p.linelength * iMisAlignment * 2
     }
 
-  if (iMisAlignment < 0)
+  if(iMisAlignment < 0)
     {
       p.roff -= p.linelength * iMisAlignment * 2
       p.goff -= p.linelength * iMisAlignment
@@ -815,18 +815,18 @@ CircBufferInit (Int iHandle, TDataPipe * p, Int iBytesPerLine,
   p.transfersize = iTransferSize
 
 #ifdef IMAGE_DEBUG
-  temp = fopen ("imagedebug.dat", "w+b")
+  temp = fopen("imagedebug.dat", "w+b")
 #endif
 
-  HP5400_DBG (DBG_MSG,
-       "Begin: line=%d (%X), pixels=%d (%X), r=%d (%X), g=%d (%X), b=%d (%X), bpp=%d, step=%d\n",
+  HP5400_DBG(DBG_MSG,
+       "Begin: line=%d(%X), pixels=%d(%X), r=%d(%X), g=%d(%X), b=%d(%X), bpp=%d, step=%d\n",
        p.linelength, p.linelength, p.pixels, p.pixels, p.roff, p.roff,
        p.goff, p.goff, p.boff, p.boff, bpp, iMisAlignment)
 }
 
 
 HP5400_Sane.STATIC
-func Int CircBufferGetLine (Int iHandle, TDataPipe * p, void *pabLine)
+func Int CircBufferGetLine(Int iHandle, TDataPipe * p, void *pabLine)
 {
   var i: Int
   Int maxoff = 0
@@ -834,58 +834,58 @@ func Int CircBufferGetLine (Int iHandle, TDataPipe * p, void *pabLine)
 
 /*  HP5400_DBG(DBG_MSG, "CircBufferGetLine:\n");   */
 
-  if (p.roff > maxoff)
+  if(p.roff > maxoff)
     maxoff = p.roff
-  if (p.goff > maxoff)
+  if(p.goff > maxoff)
     maxoff = p.goff
-  if (p.boff > maxoff)
+  if(p.boff > maxoff)
     maxoff = p.boff
 
   maxoff += p.pixels * p.bpp
 
-  if (maxoff < p.linelength)
+  if(maxoff < p.linelength)
     maxoff = p.linelength
 
 
   /* resize buffer if needed */
-  if (p.bufstart + maxoff >= p.buffersize + p.blksize)
+  if(p.bufstart + maxoff >= p.buffersize + p.blksize)
     {
       /* store actual buffer pointer */
       void *tmpBuf = p.buffer
-      /* calculate new size for buffer (oversize a bit) */
+      /* calculate new size for buffer(oversize a bit) */
       Int newsize = p.bufstart + maxoff + 2 * p.blksize
 
-      p.buffer = malloc (newsize)
-      memcpy (p.buffer, tmpBuf, p.buffersize)
+      p.buffer = malloc(newsize)
+      memcpy(p.buffer, tmpBuf, p.buffersize)
       p.buffersize = newsize
 
       /* free old buffer */
-      free (tmpBuf)
+      free(tmpBuf)
       buftmp = (char*)(p.buffer)
     }
 
-  while (p.bufstart + maxoff >= p.bufend)	/* Not enough data in buffer */
+  while(p.bufstart + maxoff >= p.bufend)	/* Not enough data in buffer */
     {
       Int res
       unsigned char cmd[8] = { 0, 0, 0, 0, 0, 0, 0, 0 ]
       cmd[4] = p.blksize
       cmd[5] = p.blksize >> 8
 
-      assert ((p.bufend + p.blksize) <= p.buffersize)
+      assert((p.bufend + p.blksize) <= p.buffersize)
 
-      HP5400_DBG (DBG_MSG, "Reading block, %d bytes remain\n", p.transfersize)
+      HP5400_DBG(DBG_MSG, "Reading block, %d bytes remain\n", p.transfersize)
       p.transfersize -= p.blksize
 
       res =
-	hp5400_bulk_read_block (iHandle, CMD_INITBULK3, cmd, sizeof (cmd),
+	hp5400_bulk_read_block(iHandle, CMD_INITBULK3, cmd, sizeof(cmd),
     				buftmp + p.bufend, p.blksize)
-      if (res != p.blksize)
+      if(res != p.blksize)
 	{
-	  HP5400_DBG (DBG_ERR, "*** ERROR: Read returned %d. FATAL.\n", res)
+	  HP5400_DBG(DBG_ERR, "*** ERROR: Read returned %d. FATAL.\n", res)
 	  return -1
 	}
 #ifdef IMAGE_DEBUG
-      fwrite (
+      fwrite(
     	buftmp + p.bufend
 	,p.blksize
 	,1
@@ -895,16 +895,16 @@ func Int CircBufferGetLine (Int iHandle, TDataPipe * p, void *pabLine)
       p.bufend += p.blksize
     }
 
-  assert (p.bufstart + maxoff < p.bufend)
+  assert(p.bufstart + maxoff < p.bufend)
 
   /* Copy a line into the result buffer */
-  if (p.bpp == 1)
+  if(p.bpp == 1)
     {
       char *itPix = (char *) pabLine
       char *itR = (char *) (buftmp + p.bufstart + p.roff)
       char *itG = (char *) (buftmp + p.bufstart + p.goff)
       char *itB = (char *) (buftmp + p.bufstart + p.boff)
-      for (i = 0; i < p.pixels; i++)
+      for(i = 0; i < p.pixels; i++)
 	{
 	  /* pointer move goes a little bit faster than vector access */
 	  /* Although I wouldn't be surprised if the compiler worked that out anyway.
@@ -920,7 +920,7 @@ func Int CircBufferGetLine (Int iHandle, TDataPipe * p, void *pabLine)
       short *itR = (short *) (buftmp + p.bufstart + p.roff)
       short *itG = (short *) (buftmp + p.bufstart + p.goff)
       short *itB = (short *) (buftmp + p.bufstart + p.boff)
-      for (i = 0; i < p.pixels; i++)
+      for(i = 0; i < p.pixels; i++)
 	{
 #if 0
 	  /* This code, while correct for PBM is not correct for the host and
@@ -933,21 +933,21 @@ func Int CircBufferGetLine (Int iHandle, TDataPipe * p, void *pabLine)
 	    *((short *) (p.buffer + p.bufstart + p.boff + 2 * i))
 #else
 	  /* pointer move goes a little bit faster than vector access */
-	  *(itPix++) = htons (*(itR++))
-	  *(itPix++) = htons (*(itG++))
-	  *(itPix++) = htons (*(itB++))
+	  *(itPix++) = htons(*(itR++))
+	  *(itPix++) = htons(*(itG++))
+	  *(itPix++) = htons(*(itB++))
 #endif
 	}
     }
 
   p.bufstart += p.linelength
 
-  assert (p.bufstart <= p.bufend)
+  assert(p.bufstart <= p.bufend)
 
   /* If we've used a whole block at the beginning, move it */
-  if (p.bufstart > p.blksize)
+  if(p.bufstart > p.blksize)
     {
-      memmove (
+      memmove(
 	buftmp
 	,buftmp + p.bufstart
 	,p.bufend - p.bufstart
@@ -962,12 +962,12 @@ func Int CircBufferGetLine (Int iHandle, TDataPipe * p, void *pabLine)
 
 HP5400_Sane.STATIC
 void
-CircBufferExit (TDataPipe * p)
+CircBufferExit(TDataPipe * p)
 {
-  free (p.buffer)
+  free(p.buffer)
   p.buffer = NULL
 #ifdef IMAGE_DEBUG
-  fclose (temp)
+  fclose(temp)
   temp = NULL
 #endif
   return
@@ -978,7 +978,7 @@ CircBufferExit (TDataPipe * p)
 /* bpp is BYTES per pixel */
 HP5400_Sane.STATIC
 void
-DecodeImage (FILE * file, Int planes, Int bpp, Int xsize, Int ysize,
+DecodeImage(FILE * file, Int planes, Int bpp, Int xsize, Int ysize,
 	     const char *filename)
 {
   char *in, *buf
@@ -989,61 +989,61 @@ DecodeImage (FILE * file, Int planes, Int bpp, Int xsize, Int ysize,
   /* xsize is byte width, not pixel width */
   xsize /= planes * bpp
 
-  HP5400_DBG (DBG_MSG,
-       "DecodeImage(planes=%d,bpp=%d,xsize=%d,ysize=%d) => %d (file=%s)\n",
+  HP5400_DBG(DBG_MSG,
+       "DecodeImage(planes=%d,bpp=%d,xsize=%d,ysize=%d) => %d(file=%s)\n",
        planes, bpp, xsize, ysize, planes * bpp * xsize * ysize, filename)
 
-  in = malloc (planes * (xsize * bpp + 1))
+  in = malloc(planes * (xsize * bpp + 1))
 
-  for (i = 0; i < planes; i++)
+  for(i = 0; i < planes; i++)
     p[i] = in + i * (xsize * bpp + 1)
 
-  buf = malloc (3 * xsize * bpp)
+  buf = malloc(3 * xsize * bpp)
 
-  output = fopen (filename, "wb")
+  output = fopen(filename, "wb")
 
-  fprintf (output, "P%d\n%d %d\n", (planes == 3) ? 6 : 5, xsize, ysize)
-  fprintf (output, "%d\n", (bpp == 1) ? 255 : 0xb000)
+  fprintf(output, "P%d\n%d %d\n", (planes == 3) ? 6 : 5, xsize, ysize)
+  fprintf(output, "%d\n", (bpp == 1) ? 255 : 0xb000)
 
-  for (i = 0; i < ysize; i++)
+  for(i = 0; i < ysize; i++)
     {
-      fread (in, planes * (xsize * bpp + 1), 1, file)
+      fread(in, planes * (xsize * bpp + 1), 1, file)
 
-      for (j = 0; j < xsize; j++)
+      for(j = 0; j < xsize; j++)
 	{
-	  for (k = 0; k < planes; k++)
+	  for(k = 0; k < planes; k++)
 	    {
-	      if (bpp == 1)
+	      if(bpp == 1)
 		{
 		  buf[j * planes + k] = p[k][j]
 		}
-	      else if (bpp == 2)
+	      else if(bpp == 2)
 		{
 		  buf[j * planes * 2 + k * 2 + 0] = p[k][2 * j + 0]
 		  buf[j * planes * 2 + k * 2 + 1] = p[k][2 * j + 1]
 		}
 	    }
 	}
-      fwrite (buf, planes * xsize * bpp, 1, output)
+      fwrite(buf, planes * xsize * bpp, 1, output)
     }
 
-  fclose (output)
+  fclose(output)
 
-  free (in)
-  free (buf)
+  free(in)
+  free(buf)
 }
 
 HP5400_Sane.STATIC
-func Int hp5400_test_scan_response (struct ScanResponse *resp, struct ScanRequest *req)
+func Int hp5400_test_scan_response(struct ScanResponse *resp, struct ScanRequest *req)
 {
   req = req; /* to avoid compilation warning */
-  HP5400_DBG (DBG_MSG, "Scan response:\n")
-  HP5400_DBG (DBG_MSG, "  transfersize=%d   htonl-> %d\n", resp.transfersize,
-       htonl (resp.transfersize))
-  HP5400_DBG (DBG_MSG, "  xsize=%d    htonl-> %d\n", resp.xsize,
-       htonl (resp.xsize))
-  HP5400_DBG (DBG_MSG, "  ysize=%d    htons-> %d\n", resp.ysize,
-       htons (resp.ysize))
+  HP5400_DBG(DBG_MSG, "Scan response:\n")
+  HP5400_DBG(DBG_MSG, "  transfersize=%d   htonl-> %d\n", resp.transfersize,
+       htonl(resp.transfersize))
+  HP5400_DBG(DBG_MSG, "  xsize=%d    htonl-> %d\n", resp.xsize,
+       htonl(resp.xsize))
+  HP5400_DBG(DBG_MSG, "  ysize=%d    htons-> %d\n", resp.ysize,
+       htons(resp.ysize))
   return 1
 }
 #endif
@@ -1056,7 +1056,7 @@ func Int hp5400_test_scan_response (struct ScanResponse *resp, struct ScanReques
  * will be overwritten with allocated pointers. */
 
 HP5400_Sane.STATIC
-func Int DoAverageScan (Int iHandle, struct ScanRequest *req, Int code,
+func Int DoAverageScan(Int iHandle, struct ScanRequest *req, Int code,
 	       unsigned Int **array)
 {
   THWParams HWParams
@@ -1064,49 +1064,49 @@ func Int DoAverageScan (Int iHandle, struct ScanRequest *req, Int code,
   unsigned short *buffer
   var i: Int, j, k, length
 
-  memset (&HWParams, 0, sizeof (HWParams))
+  memset(&HWParams, 0, sizeof(HWParams))
 
   HWParams.iXferHandle = iHandle
 
-  if (InitScan2 (SCAN_TYPE_CALIBRATION, req, &HWParams, &res, 0, code) != 0)
+  if(InitScan2 (SCAN_TYPE_CALIBRATION, req, &HWParams, &res, 0, code) != 0)
     return -1;			/* No colour offsetting, we want raw */
 
-  length = htonl (res.xsize) / 6
+  length = htonl(res.xsize) / 6
 
-  HP5400_DBG (DBG_MSG, "Calibration scan: %d pixels wide\n", length)
+  HP5400_DBG(DBG_MSG, "Calibration scan: %d pixels wide\n", length)
 
-  for (j = 0; j < 3; j++)
+  for(j = 0; j < 3; j++)
     {
-      array[j] = malloc (sizeof (Int) * length)
-      memset (array[j], 0, sizeof (Int) * length);	/* Clear array */
+      array[j] = malloc(sizeof(Int) * length)
+      memset(array[j], 0, sizeof(Int) * length);	/* Clear array */
     }
 
-  buffer = malloc (htonl (res.xsize) + 1)
+  buffer = malloc(htonl(res.xsize) + 1)
 
   /* First we just sum them all */
-  for (i = 0; i < htons (res.ysize); i++)
+  for(i = 0; i < htons(res.ysize); i++)
     {
-      CircBufferGetLine (iHandle, &HWParams.pipe, buffer)
+      CircBufferGetLine(iHandle, &HWParams.pipe, buffer)
 
-      for (j = 0; j < length; j++)
-	for (k = 0; k < 3; k++)
+      for(j = 0; j < length; j++)
+	for(k = 0; k < 3; k++)
 	  array[k][j] += buffer[3 * j + k]
     }
 
-  free (buffer)
-  FinishScan (&HWParams)
+  free(buffer)
+  FinishScan(&HWParams)
 
   /* Now divide by the height to get the average */
-  for (j = 0; j < length; j++)
-    for (k = 0; k < 3; k++)
-      array[k][j] /= htons (res.ysize)
+  for(j = 0; j < length; j++)
+    for(k = 0; k < 3; k++)
+      array[k][j] /= htons(res.ysize)
 
   return 0
 }
 
 #ifdef STANDALONE
 HP5400_Sane.STATIC
-func Int DoScan (Int iHandle, struct ScanRequest *req, const char *filename, Int code,
+func Int DoScan(Int iHandle, struct ScanRequest *req, const char *filename, Int code,
 	struct ScanResponse *res)
 {
   FILE *file
@@ -1118,45 +1118,45 @@ func Int DoScan (Int iHandle, struct ScanRequest *req, const char *filename, Int
 
   code = code; /*to avoid compilation warning*/
 
-  if (res == NULL)
+  if(res == NULL)
     res = &res_temp
 
-  memset (&HWParams, 0, sizeof (HWParams))
+  memset(&HWParams, 0, sizeof(HWParams))
 
-  file = fopen (filename, "w+b")
-  if (!file)
+  file = fopen(filename, "w+b")
+  if(!file)
     {
-      HP5400_DBG (DBG_MSG, "Couldn't open outputfile (%s)\n", strerror (errno))
+      HP5400_DBG(DBG_MSG, "Couldn't open outputfile(%s)\n", strerror(errno))
       return -1
     }
 
   HWParams.iXferHandle = iHandle
 
-  if (InitScan2 (SCAN_TYPE_NORMAL, req, &HWParams, res, 1, 0x40) != 0)
+  if(InitScan2 (SCAN_TYPE_NORMAL, req, &HWParams, res, 1, 0x40) != 0)
     return -1
 
-  fprintf (file, "P%d\n%d %d\n", 6, htonl (res.xsize) / 3,
-	   htons (res.ysize))
-  fprintf (file, "%d\n", 255)
+  fprintf(file, "P%d\n%d %d\n", 6, htonl(res.xsize) / 3,
+	   htons(res.ysize))
+  fprintf(file, "%d\n", 255)
 
-  buffer = malloc (htonl (res.xsize) + 1)
-  for (i = 0; i < htons (res.ysize); i++)
+  buffer = malloc(htonl(res.xsize) + 1)
+  for(i = 0; i < htons(res.ysize); i++)
     {
-      CircBufferGetLine (iHandle, &HWParams.pipe, buffer)
+      CircBufferGetLine(iHandle, &HWParams.pipe, buffer)
 
-      fwrite (buffer, htonl (res.xsize), 1, file)
+      fwrite(buffer, htonl(res.xsize), 1, file)
     }
-  free (buffer)
+  free(buffer)
 
-  FinishScan (&HWParams)
+  FinishScan(&HWParams)
 
-  fclose (file)
+  fclose(file)
   return 0
 }
 #endif
 
 HP5400_Sane.STATIC
-func Int Calibrate (Int iHandle, Int dpi)
+func Int Calibrate(Int iHandle, Int dpi)
 {
   struct ScanRequest req
 
@@ -1171,57 +1171,57 @@ func Int Calibrate (Int iHandle, Int dpi)
   memset(&req, 0, sizeof(req))
 
   req.x1 = 0x08
-  req.dpix = htons (300);	/* = 300 dpi */
-  req.dpiy = htons (300);	/* = 300 dpi */
-  req.offx = htons (0);		/* = 0cm */
-  req.offy = htons (0);		/* = 0cm */
-  req.lenx = htons (2690);	/* = 22.78cm */
-  req.leny = htons (50);	/* =  0.42cm */
+  req.dpix = htons(300);	/* = 300 dpi */
+  req.dpiy = htons(300);	/* = 300 dpi */
+  req.offx = htons(0);		/* = 0cm */
+  req.offy = htons(0);		/* = 0cm */
+  req.lenx = htons(2690);	/* = 22.78cm */
+  req.leny = htons(50);	/* =  0.42cm */
 
-  req.flags1 = htons (0x0000)
-  req.flags2 = htons (0x0010)
-  req.flags3 = htons (0x3020);	/* First calibration scan, 48bpp */
+  req.flags1 = htons(0x0000)
+  req.flags2 = htons(0x0010)
+  req.flags3 = htons(0x3020);	/* First calibration scan, 48bpp */
 
-  req.gamma[0] = htons (100)
-  req.gamma[1] = htons (100)
-  req.gamma[2] = htons (100)
+  req.gamma[0] = htons(100)
+  req.gamma[1] = htons(100)
+  req.gamma[2] = htons(100)
 
-  if (DoAverageScan (iHandle, &req, 0x40, high_array) != 0)
+  if(DoAverageScan(iHandle, &req, 0x40, high_array) != 0)
     return -1
 
 #ifdef CALIB_DEBUG
-  for (i = 0; i < 3; i++)
+  for(i = 0; i < 3; i++)
     {
       Int len
       buffer[0] = 0
-      sprintf (buffer, "Average %d: \n", i)
-      len = strlen (buffer)
+      sprintf(buffer, "Average %d: \n", i)
+      len = strlen(buffer)
 
-      for (j = 0; j < 24; j++)
+      for(j = 0; j < 24; j++)
 	{
-	  sprintf (buffer + len, "%04X ", high_array[i][j])
+	  sprintf(buffer + len, "%04X ", high_array[i][j])
 	  len += 5
 	}
-      strcat (buffer, " ... \n")
+      strcat(buffer, " ... \n")
       len += 6
 
-      for (j = 1000; j < 1024; j++)
+      for(j = 1000; j < 1024; j++)
 	{
-	  sprintf (buffer + len, "%04X ", high_array[i][j])
+	  sprintf(buffer + len, "%04X ", high_array[i][j])
 	  len += 5
 	}
-      strcat (buffer, " ... \n")
+      strcat(buffer, " ... \n")
       len += 6
 
-      for (j = 2000; j < 2024; j++)
+      for(j = 2000; j < 2024; j++)
 	{
-	  sprintf (buffer + len, "%04X ", high_array[i][j])
+	  sprintf(buffer + len, "%04X ", high_array[i][j])
 	  len += 5
 	}
-      strcat (buffer, " ... \n")
+      strcat(buffer, " ... \n")
       len += 6
 
-      HP5400_DBG (DBG_MSG, buffer)
+      HP5400_DBG(DBG_MSG, buffer)
     }
 #endif
 
@@ -1229,68 +1229,68 @@ func Int Calibrate (Int iHandle, Int dpi)
   memset(&req, 0, sizeof(req))
 
   req.x1 = 0x08
-  req.dpix = htons (300);	/* = 300 dpi */
-  req.dpiy = htons (300);	/* = 300 dpi */
-  req.offx = htons (0);		/* = 0cm */
-  req.offy = htons (0);		/* = 0cm */
-  req.lenx = htons (2690);	/* = 22.78cm */
-  req.leny = htons (16);	/* =  0.14cm */
+  req.dpix = htons(300);	/* = 300 dpi */
+  req.dpiy = htons(300);	/* = 300 dpi */
+  req.offx = htons(0);		/* = 0cm */
+  req.offy = htons(0);		/* = 0cm */
+  req.lenx = htons(2690);	/* = 22.78cm */
+  req.leny = htons(16);	/* =  0.14cm */
 
-  req.flags1 = htons (0x0000)
-  req.flags2 = htons (0x0010)
-  req.flags3 = htons (0x3024);	/* Second calibration scan, 48bpp */
+  req.flags1 = htons(0x0000)
+  req.flags2 = htons(0x0010)
+  req.flags3 = htons(0x3024);	/* Second calibration scan, 48bpp */
 
-  req.gamma[0] = htons (100)
-  req.gamma[1] = htons (100)
-  req.gamma[2] = htons (100)
+  req.gamma[0] = htons(100)
+  req.gamma[1] = htons(100)
+  req.gamma[2] = htons(100)
 
-  if (DoAverageScan (iHandle, &req, 0x00, low_array) != 0)
+  if(DoAverageScan(iHandle, &req, 0x00, low_array) != 0)
     return -1
 
 #ifdef CALIB_DEBUG
-  for (i = 0; i < 3; i++)
+  for(i = 0; i < 3; i++)
     {
       Int len
       buffer[0] = 0
-      sprintf (buffer, "Average %d: \n", i)
-      len = strlen (buffer)
+      sprintf(buffer, "Average %d: \n", i)
+      len = strlen(buffer)
 
-      for (j = 0; j < 24; j++)
+      for(j = 0; j < 24; j++)
 	{
-	  sprintf (buffer + len, "%04X ", low_array[i][j])
+	  sprintf(buffer + len, "%04X ", low_array[i][j])
 	  len += 5
 	}
-      strcat (buffer, " ... \n")
+      strcat(buffer, " ... \n")
       len += 6
 
-      for (j = 1000; j < 1024; j++)
+      for(j = 1000; j < 1024; j++)
 	{
-	  sprintf (buffer + len, "%04X ", low_array[i][j])
+	  sprintf(buffer + len, "%04X ", low_array[i][j])
 	  len += 5
 	}
-      strcat (buffer, " ... \n")
+      strcat(buffer, " ... \n")
       len += 6
 
-      for (j = 2000; j < 2024; j++)
+      for(j = 2000; j < 2024; j++)
 	{
-	  sprintf (buffer + len, "%04X ", low_array[i][j])
+	  sprintf(buffer + len, "%04X ", low_array[i][j])
 	  len += 5
 	}
-      strcat (buffer, " ... \n")
+      strcat(buffer, " ... \n")
       len += 6
 
-      HP5400_DBG (DBG_MSG, buffer)
+      HP5400_DBG(DBG_MSG, buffer)
     }
 #endif
 
-  SetCalibration (iHandle, 2690, low_array, high_array, dpi)
+  SetCalibration(iHandle, 2690, low_array, high_array, dpi)
 
   return 0
 }
 
 #ifdef STANDALONE
 HP5400_Sane.STATIC
-func Int hp5400_scan (Int iHandle, TScanParams * params, THWParams * pHWParams,
+func Int hp5400_scan(Int iHandle, TScanParams * params, THWParams * pHWParams,
 	     const char *filename)
 {
   struct ScanRequest req
@@ -1299,64 +1299,64 @@ func Int hp5400_scan (Int iHandle, TScanParams * params, THWParams * pHWParams,
 
   pHWParams = pHWParams; /*to avoid compilation warning*/
 
-  HP5400_DBG (DBG_MSG, "\n")
-  HP5400_DBG (DBG_MSG, "Scanning :\n")
-  HP5400_DBG (DBG_MSG, "   dpi(x) : %d\n", params.iDpi)
-  HP5400_DBG (DBG_MSG, "   dpi(y) : %d\n", params.iLpi)
-  HP5400_DBG (DBG_MSG, "   x0 : %d\n", params.iLeft)
-  HP5400_DBG (DBG_MSG, "   y0 : %d\n", params.iTop)
-  HP5400_DBG (DBG_MSG, "   width : %d\n", params.iWidth)
-  HP5400_DBG (DBG_MSG, "   height : %d\n", params.iHeight)
-  HP5400_DBG (DBG_MSG, "\n")
+  HP5400_DBG(DBG_MSG, "\n")
+  HP5400_DBG(DBG_MSG, "Scanning :\n")
+  HP5400_DBG(DBG_MSG, "   dpi(x) : %d\n", params.iDpi)
+  HP5400_DBG(DBG_MSG, "   dpi(y) : %d\n", params.iLpi)
+  HP5400_DBG(DBG_MSG, "   x0 : %d\n", params.iLeft)
+  HP5400_DBG(DBG_MSG, "   y0 : %d\n", params.iTop)
+  HP5400_DBG(DBG_MSG, "   width : %d\n", params.iWidth)
+  HP5400_DBG(DBG_MSG, "   height : %d\n", params.iHeight)
+  HP5400_DBG(DBG_MSG, "\n")
 
   memset(&req, 0, sizeof(req))
 
   req.x1 = 0x08
-  req.dpix = htons (params.iDpi)
-  req.dpiy = htons (params.iLpi)
+  req.dpix = htons(params.iDpi)
+  req.dpiy = htons(params.iLpi)
 
   /* These offsets and lengths should all be in the reference DPI which
    * is set to HW_LPI */
-  req.offx = htons (params.iLeft)
-  req.offy = htons (params.iTop)
-  req.lenx = htons (params.iWidth)
-  req.leny = htons (params.iHeight)
+  req.offx = htons(params.iLeft)
+  req.offy = htons(params.iTop)
+  req.lenx = htons(params.iWidth)
+  req.leny = htons(params.iHeight)
 
-  req.flags1 = htons (0x0080)
-  req.flags2 = htons (0x0000)
-  req.flags3 = htons ((params.iDpi < 2400) ? 0x18E8 : 0x18C0);	/* Try preview scan */
+  req.flags1 = htons(0x0080)
+  req.flags2 = htons(0x0000)
+  req.flags3 = htons((params.iDpi < 2400) ? 0x18E8 : 0x18C0);	/* Try preview scan */
 
-  req.gamma[0] = htons (100)
-  req.gamma[1] = htons (100)
-  req.gamma[2] = htons (100)
+  req.gamma[0] = htons(100)
+  req.gamma[1] = htons(100)
+  req.gamma[2] = htons(100)
 
-  if (Calibrate (iHandle, params.iDpi) != 0)
+  if(Calibrate(iHandle, params.iDpi) != 0)
     return -1
-  SetDefaultGamma (iHandle)
+  SetDefaultGamma(iHandle)
 
-  result = DoScan (iHandle, &req, filename, 0x40, &res)
+  result = DoScan(iHandle, &req, filename, 0x40, &res)
 
   /* Pass the results back to the parent */
-  params.iBytesPerLine = htonl (res.xsize)
-  params.iLines = htons (res.ysize)
+  params.iBytesPerLine = htonl(res.xsize)
+  params.iLines = htons(res.ysize)
 
 #if 0
-  imageFile = fopen ("output.dat", "r+b")
-  if (imageFile)
+  imageFile = fopen("output.dat", "r+b")
+  if(imageFile)
     {
       Int planes = 3
       Int bpp = 1
-      fseek (imageFile, 0, SEEK_SET)
-      DecodeImage (imageFile, planes, bpp, planes * bpp * params.iWidth,
+      fseek(imageFile, 0, SEEK_SET)
+      DecodeImage(imageFile, planes, bpp, planes * bpp * params.iWidth,
 		   params.iHeight, filename)
-      fclose (imageFile)
+      fclose(imageFile)
     }
 #endif
   return result
 }
 
 HP5400_Sane.STATIC
-func Int PreviewScan (Int iHandle)
+func Int PreviewScan(Int iHandle)
 {
   TScanParams params
   THWParams pHWParams
@@ -1370,7 +1370,7 @@ func Int PreviewScan (Int iHandle)
   params.iHeight = 3510;	/* = 29.72cm * 300dpi */
   params.iColourOffset = 1
 
-  return hp5400_scan (iHandle, &params, &pHWParams, "output.ppm")
+  return hp5400_scan(iHandle, &params, &pHWParams, "output.ppm")
 }
 
 
@@ -1395,25 +1395,25 @@ static char UISetup2[] = {
 ]
 
 HP5400_Sane.STATIC
-func Int InitScanner (Int iHandle)
+func Int InitScanner(Int iHandle)
 {
-  WarmupLamp (iHandle)
+  WarmupLamp(iHandle)
 
-  if (WriteByte (iHandle, 0xF200, 0x40) < 0)
+  if(WriteByte(iHandle, 0xF200, 0x40) < 0)
     return -1
 
-  if (hp5400_command_write (iHandle, 0xF10B, sizeof (UISetup1), UISetup1) < 0)
+  if(hp5400_command_write(iHandle, 0xF10B, sizeof(UISetup1), UISetup1) < 0)
     {
-      HP5400_DBG (DBG_MSG, "failed to send UISetup1 (%lu)\n", (u_long) sizeof (UISetup1))
+      HP5400_DBG(DBG_MSG, "failed to send UISetup1 (%lu)\n", (u_long) sizeof(UISetup1))
       return -1
     }
 
-  if (WriteByte (iHandle, 0xF200, 0x00) < 0)
+  if(WriteByte(iHandle, 0xF200, 0x00) < 0)
     return -1
 
-  if (hp5400_command_write (iHandle, 0xF10C, sizeof (UISetup2), UISetup2) < 0)
+  if(hp5400_command_write(iHandle, 0xF10C, sizeof(UISetup2), UISetup2) < 0)
     {
-      HP5400_DBG (DBG_MSG, "failed to send UISetup2\n")
+      HP5400_DBG(DBG_MSG, "failed to send UISetup2\n")
       return -1
     }
   return 0
@@ -1422,7 +1422,7 @@ func Int InitScanner (Int iHandle)
 
 /* Warning! The caller must have configured the gamma tables at this stage */
 HP5400_Sane.STATIC
-func Int InitScan (enum ScanType scantype, TScanParams * pParams,
+func Int InitScan(enum ScanType scantype, TScanParams * pParams,
 	  THWParams * pHWParams)
 {
   struct ScanRequest req
@@ -1432,42 +1432,42 @@ func Int InitScan (enum ScanType scantype, TScanParams * pParams,
   memset(&req, 0, sizeof(req))
 
   req.x1 = 0x08
-  req.dpix = htons (pParams.iDpi);	/* = 300 dpi */
-  req.dpiy = htons (pParams.iLpi);	/* = 300 dpi */
-  req.offx = htons (pParams.iLeft);	/* = 0cm */
-  req.offy = htons (pParams.iTop);	/* = 0cm */
-  req.lenx = htons (pParams.iWidth);	/* = 22.78cm */
+  req.dpix = htons(pParams.iDpi);	/* = 300 dpi */
+  req.dpiy = htons(pParams.iLpi);	/* = 300 dpi */
+  req.offx = htons(pParams.iLeft);	/* = 0cm */
+  req.offy = htons(pParams.iTop);	/* = 0cm */
+  req.lenx = htons(pParams.iWidth);	/* = 22.78cm */
 
   /* Scan a few extra rows so we can colour offset properly. At 300dpi the
    * difference is 4 lines */
 
-  req.leny = htons (pParams.iHeight);	/* =  0.42cm */
+  req.leny = htons(pParams.iHeight);	/* =  0.42cm */
 
-  req.flags1 = htons ((scantype == SCAN_TYPE_CALIBRATION) ? 0x0000 : 0x0080)
-  req.flags2 = htons ((scantype == SCAN_TYPE_CALIBRATION) ? 0x0010 :
+  req.flags1 = htons((scantype == SCAN_TYPE_CALIBRATION) ? 0x0000 : 0x0080)
+  req.flags2 = htons((scantype == SCAN_TYPE_CALIBRATION) ? 0x0010 :
 		      (scantype == SCAN_TYPE_PREVIEW) ? 0x0000 :
 		      /* SCAN_TYPE_NORMAL  */ 0x0040)
-  req.flags3 = htons (0x18E8)
+  req.flags3 = htons(0x18E8)
 
-  req.gamma[0] = htons (100)
-  req.gamma[1] = htons (100)
-  req.gamma[2] = htons (100)
+  req.gamma[0] = htons(100)
+  req.gamma[1] = htons(100)
+  req.gamma[2] = htons(100)
 
-  if (Calibrate (pHWParams.iXferHandle, pParams.iDpi) != 0)
+  if(Calibrate(pHWParams.iXferHandle, pParams.iDpi) != 0)
     return -1
 /*  SetDefaultGamma( pHWParams.iXferHandle ); ** Must be done by caller */
 
-  HP5400_DBG (DBG_MSG, "Calibration complete\n")
+  HP5400_DBG(DBG_MSG, "Calibration complete\n")
   ret =
     InitScan2 (scantype, &req, pHWParams, &res, pParams.iColourOffset, 0x40)
 
-  HP5400_DBG (DBG_MSG, "InitScan2 returned %d\n", ret)
+  HP5400_DBG(DBG_MSG, "InitScan2 returned %d\n", ret)
 
   /* Pass the results back to the parent */
-  pParams.iBytesPerLine = htonl (res.xsize)
+  pParams.iBytesPerLine = htonl(res.xsize)
 
   /* Hide the extra lines we're scanning */
-  pParams.iLines = htons (res.ysize)
+  pParams.iLines = htons(res.ysize)
 
   return ret;			/* 0 is good, -1 is bad */
 }
@@ -1489,247 +1489,247 @@ func Int InitScan2 (enum ScanType scantype, struct ScanRequest *req,
    * still break things by fiddling the ScanOffset, but that is not yet
    * under user control */
 
-  if (scantype != SCAN_TYPE_CALIBRATION)
+  if(scantype != SCAN_TYPE_CALIBRATION)
     {
-      HP5400_DBG (DBG_MSG, "Off(%d,%d) : Len(%d,%d)\n", htons (req.offx),
-	   htons (req.offy), htons (req.lenx), htons (req.leny))
+      HP5400_DBG(DBG_MSG, "Off(%d,%d) : Len(%d,%d)\n", htons(req.offx),
+	   htons(req.offy), htons(req.lenx), htons(req.leny))
       /* Yes, all the htons() is silly but we want this check as late as possible */
-      if (htons (req.offx) > 0x09F8)
-	req.offx = htons (0x09F8)
-      if (htons (req.offy) > 0x0DB6)
-	req.offy = htons (0x0DB6)
+      if(htons(req.offx) > 0x09F8)
+	req.offx = htons(0x09F8)
+      if(htons(req.offy) > 0x0DB6)
+	req.offy = htons(0x0DB6)
       /* These tests are meaningless as htons() returns unsigned
          if( htons( req.offx ) < 0      ) req.offx = 0
          if( htons( req.offy ) < 0      ) req.offy = 0
        */
-      if (htons (req.offx) + htons (req.lenx) > 0x09F8)
-	req.lenx = htons (0x09F8 - htons (req.offx))
-      if (htons (req.offy) + htons (req.leny) > 0x0DB6)
-	req.leny = htons (0x0DB6 - htons (req.offy))
-      if (htons (req.lenx) <= 1)
+      if(htons(req.offx) + htons(req.lenx) > 0x09F8)
+	req.lenx = htons(0x09F8 - htons(req.offx))
+      if(htons(req.offy) + htons(req.leny) > 0x0DB6)
+	req.leny = htons(0x0DB6 - htons(req.offy))
+      if(htons(req.lenx) <= 1)
 	return -1
-      if (htons (req.leny) <= 1)
+      if(htons(req.leny) <= 1)
 	return -1
     }
 
-  WarmupLamp (iHandle)
+  WarmupLamp(iHandle)
 
   {				/* Try to set it to make scan succeed, URB 53 *//*  0x1B01 => 0x40  */
     /* I think this tries to cancel any existing scan */
     char flag = 0x40
-    if (hp5400_command_write (iHandle, CMD_STOPSCAN, sizeof (flag), &flag) <
+    if(hp5400_command_write(iHandle, CMD_STOPSCAN, sizeof(flag), &flag) <
 	0)
       {
-	HP5400_DBG (DBG_MSG, "failed to cancel scan flag\n")
+	HP5400_DBG(DBG_MSG, "failed to cancel scan flag\n")
 	return -1
       }
   }
 
   {				/* Try to set it to make scan succeed, URB 55  */
     char data[4] = { 0x02, 0x03, 0x03, 0x3C ]
-    if (hp5400_command_write (iHandle, CMD_UNKNOWN3, sizeof (data), data) < 0)
+    if(hp5400_command_write(iHandle, CMD_UNKNOWN3, sizeof(data), data) < 0)
       {
-	HP5400_DBG (DBG_MSG, "failed to set unknown1\n")
+	HP5400_DBG(DBG_MSG, "failed to set unknown1\n")
 	return -1
       }
   }
 
   {				/* Try to set it to make scan succeed, URB 59 */
     char flag = 0x04
-    if (hp5400_command_write (iHandle, CMD_UNKNOWN2, sizeof (flag), &flag) <
+    if(hp5400_command_write(iHandle, CMD_UNKNOWN2, sizeof(flag), &flag) <
 	0)
       {
-	HP5400_DBG (DBG_MSG, "failed to set unknown2\n")
+	HP5400_DBG(DBG_MSG, "failed to set unknown2\n")
 	return -1
       }
   }
 
   {				/* URB 67 *//* Reference DPI = 300 currently */
-    short dpi = htons (HW_LPI)
-    if (hp5400_command_write (iHandle, CMD_SETDPI, sizeof (dpi), &dpi) < 0)
+    short dpi = htons(HW_LPI)
+    if(hp5400_command_write(iHandle, CMD_SETDPI, sizeof(dpi), &dpi) < 0)
       {
-	HP5400_DBG (DBG_MSG, "failed to set dpi\n")
+	HP5400_DBG(DBG_MSG, "failed to set dpi\n")
 	return -1
       }
   }
 
-  if (scantype != SCAN_TYPE_CALIBRATION)
+  if(scantype != SCAN_TYPE_CALIBRATION)
     {				/* Setup scan offsets - Should only apply to non-calibration scans */
       short offsets[2]
 
-      offsets [0] = htons (0x0054)
-      offsets [1] = htons (0x0282)
+      offsets[0] = htons(0x0054)
+      offsets[1] = htons(0x0282)
 
-      if (hp5400_command_write
-	  (iHandle, CMD_SETOFFSET, sizeof (offsets), offsets) < 0)
+      if(hp5400_command_write
+	  (iHandle, CMD_SETOFFSET, sizeof(offsets), offsets) < 0)
 	{
-	  HP5400_DBG (DBG_MSG, "failed to set offsets\n")
+	  HP5400_DBG(DBG_MSG, "failed to set offsets\n")
 	  return -1
 	}
     }
 
-  HP5400_DBG (DBG_MSG, "Scan request: \n  ")
+  HP5400_DBG(DBG_MSG, "Scan request: \n  ")
   {
     size_t i
-    for (i = 0; i < sizeof (*req); i++)
+    for(i = 0; i < sizeof(*req); i++)
       {
-	HP5400_DBG (DBG_MSG, "%02X ", ((unsigned char *) req)[i])
+	HP5400_DBG(DBG_MSG, "%02X ", ((unsigned char *) req)[i])
       }
-    HP5400_DBG (DBG_MSG, "\n")
+    HP5400_DBG(DBG_MSG, "\n")
   }
 
-  if (hp5400_command_write
+  if(hp5400_command_write
       (iHandle,
        (scantype !=
 	SCAN_TYPE_CALIBRATION) ? CMD_SCANREQUEST2 : CMD_SCANREQUEST,
-       sizeof (*req), req) < 0)
+       sizeof(*req), req) < 0)
     {
-      HP5400_DBG (DBG_MSG, "failed to send scan request\n")
+      HP5400_DBG(DBG_MSG, "failed to send scan request\n")
       return -1
     }
 
   {				/* Try to set it to make scan succeed, URB 71 */
     char flag = code;		/* Start scan with light on or off as requested */
-    if (hp5400_command_write (iHandle, CMD_STARTSCAN, sizeof (flag), &flag) <
+    if(hp5400_command_write(iHandle, CMD_STARTSCAN, sizeof(flag), &flag) <
 	0)
       {
-	HP5400_DBG (DBG_MSG, "failed to set gamma flag\n")
+	HP5400_DBG(DBG_MSG, "failed to set gamma flag\n")
 	return -1
       }
   }
 
-  if (hp5400_command_read (iHandle, CMD_SCANRESPONSE, sizeof (res), &res) < 0)
+  if(hp5400_command_read(iHandle, CMD_SCANRESPONSE, sizeof(res), &res) < 0)
     {
-      HP5400_DBG (DBG_MSG, "failed to read scan response\n")
+      HP5400_DBG(DBG_MSG, "failed to read scan response\n")
       return -1
     }
 
-  HP5400_DBG (DBG_MSG, "Scan response: \n  ")
+  HP5400_DBG(DBG_MSG, "Scan response: \n  ")
   {
     size_t i
-    for (i = 0; i < sizeof (res); i++)
+    for(i = 0; i < sizeof(res); i++)
       {
-	HP5400_DBG (DBG_MSG, "%02X ", ((unsigned char *) &res)[i])
+	HP5400_DBG(DBG_MSG, "%02X ", ((unsigned char *) &res)[i])
       }
-    HP5400_DBG (DBG_MSG, "\n")
+    HP5400_DBG(DBG_MSG, "\n")
   }
 
-  HP5400_DBG (DBG_MSG, "Bytes to transfer: %d\nBitmap resolution: %d x %d\n",
-       htonl (res.transfersize), htonl (res.xsize), htons (res.ysize))
+  HP5400_DBG(DBG_MSG, "Bytes to transfer: %d\nBitmap resolution: %d x %d\n",
+       htonl(res.transfersize), htonl(res.xsize), htons(res.ysize))
 
-  HP5400_DBG (DBG_MSG, "Proceeding to scan\n")
+  HP5400_DBG(DBG_MSG, "Proceeding to scan\n")
 
-  if (htonl (res.transfersize) == 0)
+  if(htonl(res.transfersize) == 0)
     {
-      HP5400_DBG (DBG_MSG, "Hmm, size is zero. Obviously a problem. Aborting...\n")
+      HP5400_DBG(DBG_MSG, "Hmm, size is zero. Obviously a problem. Aborting...\n")
       return -1
     }
 
   {
     char x1 = 0x14, x2 = 0x24
 
-    float pixels = ((float) htons (req.lenx) * (float) htons (req.leny)) *
-      ((float) htons (req.dpix) * (float) htons (req.dpiy)) /
+    float pixels = ((float) htons(req.lenx) * (float) htons(req.leny)) *
+      ((float) htons(req.dpix) * (float) htons(req.dpiy)) /
       ((float) HW_LPI * (float) HW_LPI)
-    Int bpp = (Int) ((float) htonl (res.transfersize) / pixels + 0.5)
+    Int bpp = (Int) ((float) htonl(res.transfersize) / pixels + 0.5)
     Int planes = (bpp == 1) ? 1 : 3
     bpp /= planes
 
-    HP5400_DBG (DBG_MSG, "bpp = %d / ( (%d * %d) * (%d * %d) / (%d * %d) ) = %d\n",
-	 htonl (res.transfersize),
-	 htons (req.lenx), htons (req.leny),
-	 htons (req.dpix), htons (req.dpiy), HW_LPI, HW_LPI, bpp)
+    HP5400_DBG(DBG_MSG, "bpp = %d / ( (%d * %d) * (%d * %d) / (%d * %d) ) = %d\n",
+	 htonl(res.transfersize),
+	 htons(req.lenx), htons(req.leny),
+	 htons(req.dpix), htons(req.dpiy), HW_LPI, HW_LPI, bpp)
 
-    hp5400_command_write_noverify (iHandle, CMD_INITBULK1, &x1, 1)
-    hp5400_command_write_noverify (iHandle, CMD_INITBULK2, &x2, 1)
+    hp5400_command_write_noverify(iHandle, CMD_INITBULK1, &x1, 1)
+    hp5400_command_write_noverify(iHandle, CMD_INITBULK2, &x2, 1)
 
-    if (bpp > 2)		/* Bug!! */
+    if(bpp > 2)		/* Bug!! */
       bpp = 2
 
-    CircBufferInit (pHWParams.iXferHandle, &pHWParams.pipe,
-		    htonl (res.xsize), bpp, iColourOffset, 0xF000,
-		    htonl (res.transfersize) + 3 * htons (res.ysize))
+    CircBufferInit(pHWParams.iXferHandle, &pHWParams.pipe,
+		    htonl(res.xsize), bpp, iColourOffset, 0xF000,
+		    htonl(res.transfersize) + 3 * htons(res.ysize))
   }
 
-  if (result)			/* copy ScanResult to parent if they asked for it */
-    memcpy (result, &res, sizeof (*result))
+  if(result)			/* copy ScanResult to parent if they asked for it */
+    memcpy(result, &res, sizeof(*result))
 
   return 0
 }
 
 HP5400_Sane.STATIC
 void
-FinishScan (THWParams * pHWParams)
+FinishScan(THWParams * pHWParams)
 {
   Int iHandle = pHWParams.iXferHandle
 
-  CircBufferExit (&pHWParams.pipe)
+  CircBufferExit(&pHWParams.pipe)
 
   {				/* Finish scan request */
     char flag = 0x40
-    if (hp5400_command_write (iHandle, CMD_STOPSCAN, sizeof (flag), &flag) <
+    if(hp5400_command_write(iHandle, CMD_STOPSCAN, sizeof(flag), &flag) <
 	0)
       {
-	HP5400_DBG (DBG_MSG, "failed to set gamma flag\n")
+	HP5400_DBG(DBG_MSG, "failed to set gamma flag\n")
 	return
       }
   }
 }
 
 HP5400_Sane.STATIC
-func Int HP5400Open (THWParams * params, const char *filename)
+func Int HP5400Open(THWParams * params, const char *filename)
 {
-  Int iHandle = hp5400_open (filename)
+  Int iHandle = hp5400_open(filename)
   char szVersion[32]
   var i: Int
 #ifndef NO_STRING_VERSION_MATCH
   Int versionMatched
 #endif
 
-  if (iHandle < 0)
+  if(iHandle < 0)
     {
-      HP5400_DBG (DBG_MSG, "hp5400_open failed\n")
+      HP5400_DBG(DBG_MSG, "hp5400_open failed\n")
       return -1
     }
 
   params.iXferHandle = 0
 
   /* read version info */
-  if (hp5400_command_read
-      (iHandle, CMD_GETVERSION, sizeof (szVersion), szVersion) < 0)
+  if(hp5400_command_read
+      (iHandle, CMD_GETVERSION, sizeof(szVersion), szVersion) < 0)
     {
-      HP5400_DBG (DBG_MSG, "failed to read version string\n")
+      HP5400_DBG(DBG_MSG, "failed to read version string\n")
       goto hp5400_close_exit
     }
 
-	  HP5400_DBG (DBG_MSG, "version String :\n")
-    for (i=0; i < 32; i++) {
-      HP5400_DBG (DBG_MSG, "%c\n", szVersion[i])
+	  HP5400_DBG(DBG_MSG, "version String :\n")
+    for(i=0; i < 32; i++) {
+      HP5400_DBG(DBG_MSG, "%c\n", szVersion[i])
     }
-    HP5400_DBG (DBG_MSG, "\n")
+    HP5400_DBG(DBG_MSG, "\n")
 
 #ifndef NO_STRING_VERSION_MATCH
   i = 0
   versionMatched = 0
-  while ( !versionMatched && (i < numVersions) ) {
-	if (!strncmp (szVersion + 1, MatchVersions[i] .strVersion, strlen(MatchVersions[i] .strVersion) - 4)) {
+  while( !versionMatched && (i < numVersions) ) {
+	if(!strncmp(szVersion + 1, MatchVersions[i] .strVersion, strlen(MatchVersions[i] .strVersion) - 4)) {
 		versionMatched = 1
 	}
   	i++
   }
-  if ( !versionMatched ) {
-	HP5400_DBG (DBG_MSG,
+  if( !versionMatched ) {
+	HP5400_DBG(DBG_MSG,
 	       "Sorry, unknown scanner version. Attempted match on :\n")
 	i = 0
-	while ( i < numVersions ) {
-		HP5400_DBG (DBG_MSG, "* '%s'\n", MatchVersions[i] .strVersion)
+	while( i < numVersions ) {
+		HP5400_DBG(DBG_MSG, "* '%s'\n", MatchVersions[i] .strVersion)
 		i++
 	}
-	HP5400_DBG (DBG_MSG, "Version is '%s'\n", szVersion)
+	HP5400_DBG(DBG_MSG, "Version is '%s'\n", szVersion)
 	goto hp5400_close_exit
     }
 #else
-  HP5400_DBG (DBG_MSG, "Warning, Version match is disabled. Version is '%s'\n",
+  HP5400_DBG(DBG_MSG, "Warning, Version match is disabled. Version is '%s'\n",
        szVersion)
 #endif /* NO_STRING_VERSION_MATCH */
 
@@ -1737,29 +1737,29 @@ func Int HP5400Open (THWParams * params, const char *filename)
 
   /* Start the lamp warming up */
   /* No point checking the return value, we don't care anyway */
-  WriteByte (iHandle, 0x0000, 0x01)
+  WriteByte(iHandle, 0x0000, 0x01)
 
   /* Success */
   return 0
 
 hp5400_close_exit:
-  hp5400_close (iHandle)
+  hp5400_close(iHandle)
   return -1
 }
 
 HP5400_Sane.STATIC
 void
-HP5400Close (THWParams * params)
+HP5400Close(THWParams * params)
 {
-  hp5400_close (params.iXferHandle)
+  hp5400_close(params.iXferHandle)
 }
 
 HP5400_Sane.STATIC
-func Int HP5400Detect (const char *filename,
-	      Int (*_ReportDevice) (TScannerModel * pModel,
+func Int HP5400Detect(const char *filename,
+	      Int(*_ReportDevice) (TScannerModel * pModel,
 				    const char *pszDeviceName))
 {
-  Int iHandle = hp5400_open (filename)
+  Int iHandle = hp5400_open(filename)
 
   char szVersion[32]
   Int ret = 0
@@ -1768,17 +1768,17 @@ func Int HP5400Detect (const char *filename,
   var i: Int = 0
 #endif
 
-  if (iHandle < 0)
+  if(iHandle < 0)
     {
-      HP5400_DBG (DBG_MSG, "hp5400_open failed\n")
+      HP5400_DBG(DBG_MSG, "hp5400_open failed\n")
       return -1
     }
 
   /* read version info */
-  if (hp5400_command_read
-      (iHandle, CMD_GETVERSION, sizeof (szVersion), szVersion) < 0)
+  if(hp5400_command_read
+      (iHandle, CMD_GETVERSION, sizeof(szVersion), szVersion) < 0)
     {
-      HP5400_DBG (DBG_MSG, "failed to read version string\n")
+      HP5400_DBG(DBG_MSG, "failed to read version string\n")
       ret = -1
       goto hp5400_close_exit
     }
@@ -1786,77 +1786,77 @@ func Int HP5400Detect (const char *filename,
 #ifndef NO_STRING_VERSION_MATCH
   i = 0
   versionMatched = 0
-  while ( !versionMatched && (i < numVersions) ) {
-	if (!memcmp (szVersion + 1, MatchVersions[i] .strVersion, strlen (MatchVersions[i] .strVersion) - 4)) {
+  while( !versionMatched && (i < numVersions) ) {
+	if(!memcmp(szVersion + 1, MatchVersions[i] .strVersion, strlen(MatchVersions[i] .strVersion) - 4)) {
 		versionMatched = 1
 	}
   	i++
   }
-  if ( !versionMatched ) {
-	HP5400_DBG (DBG_MSG,
+  if( !versionMatched ) {
+	HP5400_DBG(DBG_MSG,
 	       "Sorry, unknown scanner version. Attempted match on :\n")
 	i = 0
-	while ( i < numVersions ) {
-		HP5400_DBG (DBG_MSG, "* '%s'\n", MatchVersions[i] .strVersion)
+	while( i < numVersions ) {
+		HP5400_DBG(DBG_MSG, "* '%s'\n", MatchVersions[i] .strVersion)
 		i++
 	}
-	HP5400_DBG (DBG_MSG, "Version is '%s'\n", szVersion)
+	HP5400_DBG(DBG_MSG, "Version is '%s'\n", szVersion)
 	goto hp5400_close_exit
     }
 #else
-  HP5400_DBG (DBG_MSG, "Warning, Version match is disabled. Version is '%s'\n",
+  HP5400_DBG(DBG_MSG, "Warning, Version match is disabled. Version is '%s'\n",
        szVersion)
 #endif /* NO_STRING_VERSION_MATCH */
 
-  if (_ReportDevice)
-    _ReportDevice (&Model_HP54xx, filename)
+  if(_ReportDevice)
+    _ReportDevice(&Model_HP54xx, filename)
 
 hp5400_close_exit:
-  hp5400_close (iHandle)
+  hp5400_close(iHandle)
   return ret
 }
 
 #ifdef STANDALONE
-func Int main (Int argc, char *argv[])
+func Int main(Int argc, char *argv[])
 {
   THWParams scanner
 
-  assert (sizeof (struct ScanRequest) == 32)
-  assert (sizeof (struct ScanResponse) == 16)
+  assert(sizeof(struct ScanRequest) == 32)
+  assert(sizeof(struct ScanResponse) == 16)
 
   hp5400_dbg_start()
 
-  HP5400_DBG (DBG_MSG,
+  HP5400_DBG(DBG_MSG,
        "HP5400/5470C sample scan utility, by Martijn van Oosterhout <kleptog@svana.org>\n")
-  HP5400_DBG (DBG_MSG,
-       "Based on the testutils by Bertrik Sikken (bertrik@zonnet.nl)\n")
+  HP5400_DBG(DBG_MSG,
+       "Based on the testutils by Bertrik Sikken(bertrik@zonnet.nl)\n")
 
-  if ((argc == 6) && (!strcmp (argv[1], "-decode")))
+  if((argc == 6) && (!strcmp(argv[1], "-decode")))
     {
-      Int width = atoi (argv[3])
-      Int height = atoi (argv[4])
-      FILE *temp = fopen (argv[2], "r+b")
-      if (temp)
+      Int width = atoi(argv[3])
+      Int height = atoi(argv[4])
+      FILE *temp = fopen(argv[2], "r+b")
+      if(temp)
 	{
 	  Int planes = 3
 	  Int bpp = 1
-	  fseek (temp, 0, SEEK_SET)
-	  DecodeImage (temp, planes, bpp, planes * bpp * width, height,
+	  fseek(temp, 0, SEEK_SET)
+	  DecodeImage(temp, planes, bpp, planes * bpp * width, height,
 		       argv[5])
-	  fclose (temp)
+	  fclose(temp)
 	}
       return 1
     }
 
-  if (HP5400Open (&scanner, NULL) < 0)
+  if(HP5400Open(&scanner, NULL) < 0)
     {
       return 1
     }
 
-  PreviewScan (scanner.iXferHandle)
+  PreviewScan(scanner.iXferHandle)
 
-  HP5400Close (&scanner)
-  fprintf (stderr, "Note: output is in output.ppm\n")
+  HP5400Close(&scanner)
+  fprintf(stderr, "Note: output is in output.ppm\n")
   return 0
 }
 

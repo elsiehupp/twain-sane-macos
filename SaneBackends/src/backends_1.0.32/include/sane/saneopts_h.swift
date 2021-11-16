@@ -1,10 +1,10 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1996, 1997 David Mosberger-Tang and Andreas Beck
+   Copyright(C) 1996, 1997 David Mosberger-Tang and Andreas Beck
    This file is part of the SANE package.
 
    SANE is free software; you can redistribute it and/or modify it under
    the terms of the GNU General Public License as published by the Free
-   Software Foundation; either version 2 of the License, or (at your
+   Software Foundation; either version 2 of the License, or(at your
    option) any later version.
 
    SANE is distributed in the hope that it will be useful, but WITHOUT
@@ -43,7 +43,7 @@
 */
 
 /* This file defines several option NAMEs, TITLEs and DESCs
-   that are (or should be) used by several backends.
+   that are(or should be) used by several backends.
 
    All well known options should be listed here. But this does
    not mean that all options that are listed here are well known options.
@@ -57,7 +57,7 @@
 #define Sane.I18N(text) text
 #endif
 
-/* This _must_ be the first option (index 0): */
+/* This _must_ be the first option(index 0): */
 #define Sane.NAME_NUM_OPTIONS		""	/* never settable */
 
 /* The common option groups */
@@ -269,13 +269,13 @@ Sane.I18N("Number of bits per sample, typical values are 1 for \"line-art\" " \
 "and 8 for multibit scans.")
 
 #define Sane.DESC_SCAN_MODE \
-Sane.I18N("Selects the scan mode (e.g., lineart, monochrome, or color).")
+Sane.I18N("Selects the scan mode(e.g., lineart, monochrome, or color).")
 
 #define Sane.DESC_SCAN_SPEED \
 Sane.I18N("Determines the speed at which the scan proceeds.")
 
 #define Sane.DESC_SCAN_SOURCE \
-Sane.I18N("Selects the scan source (such as a document-feeder).")
+Sane.I18N("Selects the scan source(such as a document-feeder).")
 
 #define Sane.DESC_BACKTRACK \
 Sane.I18N("Controls whether backtracking is forced.")
@@ -314,7 +314,7 @@ Sane.I18N("Determines whether a builtin or a custom gamma-table should be " \
 
 #define Sane.DESC_GAMMA_VECTOR \
 Sane.I18N("Gamma-correction table.  In color mode this option equally " \
-"affects the red, green, and blue channels simultaneously (i.e., it is an " \
+"affects the red, green, and blue channels simultaneously(i.e., it is an " \
 "intensity gamma table).")
 
 #define Sane.DESC_GAMMA_VECTOR_R \
@@ -337,7 +337,7 @@ Sane.I18N("Selects the \"graininess\" of the acquired image.  Smaller values " \
 "result in sharper images.")
 
 #define Sane.DESC_HALFTONE \
-Sane.I18N("Selects whether the acquired image should be halftoned (dithered).")
+Sane.I18N("Selects whether the acquired image should be halftoned(dithered).")
 
 #define Sane.DESC_BLACK_LEVEL \
 Sane.I18N("Selects what radiance level should be considered \"black\".")
@@ -386,11 +386,11 @@ Sane.I18N("The saturation level controls the amount of \"blooming\" that " \
 Sane.I18N("The filename of the image to be loaded.")
 
 #define Sane.DESC_HALFTONE_DIMENSION \
-Sane.I18N("Sets the size of the halftoning (dithering) pattern used when " \
+Sane.I18N("Sets the size of the halftoning(dithering) pattern used when " \
 "scanning halftoned images.")
 
 #define Sane.DESC_HALFTONE_PATTERN \
-Sane.I18N("Defines the halftoning (dithering) pattern for scanning " \
+Sane.I18N("Defines the halftoning(dithering) pattern for scanning " \
 "halftoned images.")
 
 #define Sane.DESC_RESOLUTION_BIND \
@@ -458,7 +458,7 @@ Sane.I18N("Perform autofocus before scan")
 #define Sane.DESC_PAGE_LOADED	Sane.I18N("Page loaded")
 #define Sane.DESC_COVER_OPEN	Sane.I18N("Cover open")
 
-/* Typical values for stringlists (to keep the backends consistent) */
+/* Typical values for stringlists(to keep the backends consistent) */
 #define Sane.VALUE_SCAN_MODE_COLOR		Sane.I18N("Color")
 #define Sane.VALUE_SCAN_MODE_COLOR_LINEART	Sane.I18N("Color Lineart")
 #define Sane.VALUE_SCAN_MODE_COLOR_HALFTONE     Sane.I18N("Color Halftone")

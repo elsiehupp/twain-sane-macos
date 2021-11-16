@@ -38,7 +38,7 @@ To send an enter command to the server, follow these steps:
 #define DomainSenseSize 18
 
 /* Maximum amount of data in a transfer, per Domain/OS SCSI spec */
-#define DomainMaxDataSize (32 * 1024)
+#define DomainMaxDataSize(32 * 1024)
 
 /* Timeout for ec2_$wait calls, in 1/4 second intervals */
 #define DomainECWaitConstant 120
@@ -76,13 +76,13 @@ struct DomainServerCommon
 
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1996, 1997 David Mosberger-Tang
+   Copyright(C) 1996, 1997 David Mosberger-Tang
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -194,12 +194,12 @@ static void DomainErrorCheck(status_$t status, const char *message)
    char *subsystem, *module, *code
    short subsystem_length, module_length, code_length
 
-   if (status.all)
+   if(status.all)
       {
       DBG(0, "Unrecoverable Domain/OS Error 0x%08x:  %s\n", status.all, message)
       error_$find_text(status, &subsystem, &subsystem_length, &module, &module_length, &code, &code_length)
-      if (subsystem_length && module_length && code_length)
-         DBG(0, "%.*s (%.*s/%.*s)\n", code_length, code, subsystem_length, subsystem, module_length, module)
+      if(subsystem_length && module_length && code_length)
+         DBG(0, "%.*s(%.*s/%.*s)\n", code_length, code, subsystem_length, subsystem, module_length, module)
       exit(EXIT_FAILURE)
       }
    }
@@ -214,7 +214,7 @@ pfm_$fh_func_val_t FaultHandler(pfm_$fault_rec_t *FaultStatusPtr)
    status_$t status
 
    DBG(1, "In fault handler, status is %08x\n", FaultStatusPtr.status.all)
-   switch (FaultStatusPtr.status.all)
+   switch(FaultStatusPtr.status.all)
       {
       case fault_$quit:
          pfm_$release_fault_handler(FaultHandle, &status)
@@ -236,15 +236,15 @@ static void DomainSCSIOpen(void)
    void *DataBasePtr
 
    /* Find fake fd. */
-   for (fd = 0; fd < num_alloced; ++fd)
-      if (!DomainFdInfo[fd].in_use)
+   for(fd = 0; fd < num_alloced; ++fd)
+      if(!DomainFdInfo[fd].in_use)
          break
 
    /* Acquire the device */
    DBG(1, "DomainSCSIOpen: dev='%s', fd=%d\n", com.open_path, fd)
    len = strlen(com.open_path)
    scsi_$acquire((char *)com.open_path, len, &scsi_handle, &com.CommandStatus)
-   if (com.CommandStatus.all != status_$ok)
+   if(com.CommandStatus.all != status_$ok)
       {
       /* we have a failure, return an error code, and generate debug output */
       DBG(1, "DomainSCSIOpen: acquire failed, Domain/OS status is %08x\n", com.CommandStatus.all)
@@ -264,7 +264,7 @@ static void DomainSCSIOpen(void)
       DBG(2, "Data Buffer block created at %p, length = 0x%lx\n", DataBasePtr, DomainMaxDataSize + DomainSenseSize)
       /* Wire the buffer */
       scsi_$wire(scsi_handle, (void *)DataBasePtr, DomainMaxDataSize + DomainSenseSize, &com.CommandStatus)
-      if (com.CommandStatus.all == status_$ok)
+      if(com.CommandStatus.all == status_$ok)
          {
          /* success, indicate status */
          DBG(2, "Buffer wire was successful\n")
@@ -278,18 +278,18 @@ static void DomainSCSIOpen(void)
          }
       }
 
-   if (fd >= num_alloced)
+   if(fd >= num_alloced)
       {
       size_t new_size, old_size
 
-      old_size = num_alloced * sizeof (DomainFdInfo[0])
+      old_size = num_alloced * sizeof(DomainFdInfo[0])
       num_alloced = fd + 8
-      new_size = num_alloced * sizeof (DomainFdInfo[0])
-      if (DomainFdInfo)
-         DomainFdInfo = realloc (DomainFdInfo, new_size)
+      new_size = num_alloced * sizeof(DomainFdInfo[0])
+      if(DomainFdInfo)
+         DomainFdInfo = realloc(DomainFdInfo, new_size)
       else
-         DomainFdInfo = malloc (new_size)
-      memset ((char *) DomainFdInfo + old_size, 0, new_size - old_size)
+         DomainFdInfo = malloc(new_size)
+      memset((char *) DomainFdInfo + old_size, 0, new_size - old_size)
       assert(DomainFdInfo)
       }
    DomainFdInfo[fd].in_use = 1
@@ -342,9 +342,9 @@ static void DomainSCSIWait(void)
    /* wait for the command completion */
    wait_index = scsi_$wait(DomainFdInfo[com.fd].scsi_handle, DomainScsiTimeout, true, DomainFdInfo[com.fd].op_id, 1, status_list, &return_count, &com.CommandStatus)
    DBG(2, " scsi_$wait returned status = %08x\n", com.CommandStatus.all)
-   if (com.CommandStatus.all == status_$ok)
+   if(com.CommandStatus.all == status_$ok)
       {
-      switch (wait_index)
+      switch(wait_index)
          {
          case scsi_device_advance:  ascii_wait_status = "scsi_device_advance"; break
          case scsi_timeout:         ascii_wait_status = "scsi_timeout"; break
@@ -352,14 +352,14 @@ static void DomainSCSIWait(void)
          default:                   ascii_wait_status = "unknown"; break
          }
       DBG(2, " scsi_$wait status is %s, return_count is %d\n", ascii_wait_status, return_count)
-      if (wait_index != scsi_device_advance)
+      if(wait_index != scsi_device_advance)
          {
          DBG(1, "Error - SCSI timeout, or async fault\n")
          com.CommandStatus.all = scsi_$operation_timeout
          }
-      else for (count = 0; count < return_count; count++)
+      else for(count = 0; count < return_count; count++)
          {
-         switch (status_list[count].op_status)
+         switch(status_list[count].op_status)
             {
             case scsi_good_status:                ascii_op_status = "scsi_good_status"; break
             case scsi_check_condition:            ascii_op_status = "scsi_check_condition"; break
@@ -381,10 +381,10 @@ static void DomainSCSIWait(void)
             default:                              ascii_op_status = "unknown"; break
             }
          DBG(2, " list[%d]: op=%x  cmd_status=%08x, status=%s\n", count, status_list[count].op, status_list[count].cmd_status.all, ascii_op_status)
-         switch (status_list[count].cmd_status.all)
+         switch(status_list[count].cmd_status.all)
             {
             case status_$ok:
-               switch (status_list[count].op_status)
+               switch(status_list[count].op_status)
                   {
                   case scsi_good_status:
                      break
@@ -402,7 +402,7 @@ static void DomainSCSIWait(void)
                      static pinteger sense_return_count
                      static Int temp
 
-                     /* Issue the sense command (wire, issue, wait, unwire */
+                     /* Issue the sense command(wire, issue, wait, unwire */
                      sense_cdb_size = sizeof(scanner_sense_cdb)
                      memcpy(&sense_cdb, scanner_sense_cdb, sense_cdb_size)
                      scsi_$do_command_2(DomainFdInfo[com.fd].scsi_handle, sense_cdb, sense_cdb_size, DomainFdInfo[com.fd].DomainSensePtr, DomainSenseSize, scsi_read, &sense_op_id, &sense_status)
@@ -411,12 +411,12 @@ static void DomainSCSIWait(void)
                      /* The following debug output is scanner specific */
                      DBG(2, "Sense information:  Error code=%02x, ASC=%02x, ASCQ=%02x\n", ((u_char *)DomainFdInfo[com.fd].DomainSensePtr)[0], ((char *)DomainFdInfo[com.fd].DomainSensePtr)[0xc], ((char *)DomainFdInfo[com.fd].DomainSensePtr)[0xd])
                      DBG(2, " Sense dump:\n")
-                     for (temp = 0; temp < DomainSenseSize; temp++)
+                     for(temp = 0; temp < DomainSenseSize; temp++)
                         DBG(2, " %02x", ((u_char *)DomainFdInfo[com.fd].DomainSensePtr)[temp])
                      DBG(2, "\n")
                      /* see if buffer underrun - ILI/Valid are set, and command was a read */
                      /* Warning - this might be UMAX specific */
-                     if ((((char *)DomainFdInfo[com.fd].DomainSensePtr)[0] == 0xf0) && (((char *)DomainFdInfo[com.fd].DomainSensePtr)[2] & 0x20) && (com.cdb.g0.cmd == 0x28))
+                     if((((char *)DomainFdInfo[com.fd].DomainSensePtr)[0] == 0xf0) && (((char *)DomainFdInfo[com.fd].DomainSensePtr)[2] & 0x20) && (com.cdb.g0.cmd == 0x28))
                         {
                         /* Warning - the following code is specific to endianness and Int size */
                         /*   Its also very ugly */
@@ -452,10 +452,10 @@ static void DomainSCSIWait(void)
             }
          }
       /* Dump the buffer contents */
-      if (com.direction == scsi_read)
+      if(com.direction == scsi_read)
          {
          DBG(3, "first words of buffer are:\n")
-         for (return_count = 0; return_count < com.dst_size; return_count++)
+         for(return_count = 0; return_count < com.dst_size; return_count++)
             DBG(3, "%02X%c", ((unsigned char *)DomainFdInfo[com.fd].DomainSCSIPtr)[return_count], (return_count % 16) == 15 ? '\n' : ' ')
          DBG(3, "\n")
          }
@@ -475,7 +475,7 @@ static void DomainSCSIEnter(void)
    /* Give some debug info */
    DBG(1, "Entering DomainSCSIEnter, fd=%d, opcode=%02X\n", com.fd, com.cdb.all[0])
    DBG(2, " CDB Contents: ")
-   for (count = 0; count < com.cdb_size; count++)
+   for(count = 0; count < com.cdb_size; count++)
       DBG(2, " %02X", com.cdb.all[count])
    DBG(2, "\n")
    DBG(2, "Buffer address is 0x%08x\n", DomainFdInfo[com.fd].DomainSCSIPtr)
@@ -483,7 +483,7 @@ static void DomainSCSIEnter(void)
    DBG(2, "Direction is %s\n", (com.direction == scsi_read) ? "READ" : "WRITE")
    /* now queue the command */
    scsi_$do_command_2(DomainFdInfo[com.fd].scsi_handle, com.cdb, com.cdb_size, DomainFdInfo[com.fd].DomainSCSIPtr, com.buf_size, com.direction, &DomainFdInfo[com.fd].op_id, &com.CommandStatus)
-   if (com.CommandStatus.all == status_$ok)
+   if(com.CommandStatus.all == status_$ok)
       {
       /* success, indicate status */
       DBG(2, " scsi_$do_command_2 was successful, op_id is %x\n", DomainFdInfo[com.fd].op_id)
@@ -525,7 +525,7 @@ static void sanei_DomainOS_init(char *path)
    DBG(1, "Starting Domain SANE Server, common area path = '%s'\n", path)
    com = ms_$mapl(path, strlen(path), 0, sizeof(struct DomainServerCommon), ms_$cowriters, ms_$wr, true, &length_mapped, &status)
    DomainErrorCheck(status, "Can't open common area")
-   if (length_mapped < sizeof(struct DomainServerCommon))
+   if(length_mapped < sizeof(struct DomainServerCommon))
       {
       DBG(0, "Error - can't open common area '%s' to required length\n", path)
       DBG(0, " Required length = %lx, returned length = %lx\n", sizeof(struct DomainServerCommon), length_mapped)
@@ -555,9 +555,9 @@ static void sanei_DomainOS_init(char *path)
          {
          index = ec2_$wait_svc(CommandAvailablePtr, &CommandTriggerValue, 1, &status)
          }
-      while (status.all == ec2_$wait_quit)
+      while(status.all == ec2_$wait_quit)
       DomainErrorCheck(status, "Error waiting on CommandAvailable EC")
-      assert (index == 1)
+      assert(index == 1)
       /* Get the trigger value for next time - this avoids a race/deadlock */
       CommandTriggerValue = ec2_$read(com.CommandAvailable) + 1
       /* decode/execute the command */
@@ -591,7 +591,7 @@ static void sanei_DomainOS_init(char *path)
          }
       DBG(2, "Command processing complete\n")
       }
-   while (!done)
+   while(!done)
    /* This would be a good place to close all devices, but for now we'll assume
       they have already been closed by a well-behaved program */
    /* Unmap the common area */

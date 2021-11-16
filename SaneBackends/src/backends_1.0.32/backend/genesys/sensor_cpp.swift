@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -49,13 +49,13 @@ namespace genesys {
 
 std::ostream& operator<<(std::ostream& out, const StaggerConfig& config)
 {
-    if (config.shifts().empty()) {
+    if(config.shifts().empty()) {
         out << "StaggerConfig{}"
         return out
     }
 
     out << "StaggerConfig{ " << config.shifts().front()
-    for (auto it = std::next(config.shifts().begin()); it != config.shifts().end(); ++it) {
+    for(auto it = std::next(config.shifts().begin()); it != config.shifts().end(); ++it) {
         out << ", " << *it
     }
     out << " }"
@@ -64,7 +64,7 @@ std::ostream& operator<<(std::ostream& out, const StaggerConfig& config)
 
 std::ostream& operator<<(std::ostream& out, const FrontendType& type)
 {
-    switch (type) {
+    switch(type) {
         case FrontendType::UNKNOWN: out << "UNKNOWN"; break
         case FrontendType::WOLFSON: out << "WOLFSON"; break
         case FrontendType::ANALOG_DEVICES: out << "ANALOG_DEVICES"; break

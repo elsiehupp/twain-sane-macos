@@ -181,7 +181,7 @@ Sane.Word sanei_Espon_usb_product_ids[] = {
 				   in the config file as "usb <vendor> <product>" */
 ]
 
-func Int sanei_Espon_getNumberOfUSBProductIds (void)
+func Int sanei_Espon_getNumberOfUSBProductIds(void)
 {
-  return sizeof (sanei_Espon_usb_product_ids) / sizeof (Sane.Word)
+  return sizeof(sanei_Espon_usb_product_ids) / sizeof(Sane.Word)
 }

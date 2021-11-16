@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -59,7 +59,7 @@ struct AssignableArray : public std::array<T, Size> {
 
     AssignableArray& operator=(std::initializer_list<T> init)
     {
-        if (init.size() != std::array<T, Size>::size())
+        if(init.size() != std::array<T, Size>::size())
             throw std::runtime_error("An array of incorrect size assigned")
         std::copy(init.begin(), init.end(), std::array<T, Size>::begin())
         return *this
@@ -78,7 +78,7 @@ public:
 
     std::size_t max_shift() const
     {
-        if (shifts_.empty()) {
+        if(shifts_.empty()) {
             return 0
         }
         return *std::max_element(shifts_.begin(), shifts_.end())
@@ -298,9 +298,9 @@ struct Genesys_Sensor {
     Int black_pixels = 0
     // value of the dummy register
     Int dummy_pixel = 0
-    // TA CCD target code (reference gain)
+    // TA CCD target code(reference gain)
     Int fau_gain_white_ref = 0
-    // CCD target code (reference gain)
+    // CCD target code(reference gain)
     Int gain_white_ref = 0
 
     // red, green and blue initial exposure values
@@ -335,7 +335,7 @@ struct Genesys_Sensor {
 
     unsigned get_optical_resolution() const
     {
-        if (optical_resolution != 0)
+        if(optical_resolution != 0)
             return optical_resolution
         return full_resolution
     }
@@ -345,7 +345,7 @@ struct Genesys_Sensor {
     {
         // same on GL646, GL841, GL843, GL846, GL847, GL124
         constexpr unsigned REG_CKSEL = 0x03
-        return (custom_regs.get_value(0x18) & REG_CKSEL) + 1
+        return(custom_regs.get_value(0x18) & REG_CKSEL) + 1
     }
 
     bool matches_channel_count(unsigned count) const
@@ -355,7 +355,7 @@ struct Genesys_Sensor {
 
     unsigned get_segment_count() const
     {
-        if (segment_order.size() < 2)
+        if(segment_order.size() < 2)
             return 1
         return segment_order.size()
     }

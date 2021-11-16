@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2000 Jochen Eisinger <jochen.eisinger@gmx.net>
+   Copyright(C) 2000 Jochen Eisinger <jochen.eisinger@gmx.net>
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -66,33 +66,33 @@ import ../include/md5
 static Int random_seeded = 0
 
 #define INIT_RND()	do { 					\
-				if (random_seeded == 0)	{	\
+				if(random_seeded == 0)	{	\
 					random_seeded = 1;	\
 					srand(time(NULL));	\
 					DBG_INIT();		\
 				}				\
-			} while (0)
+			} while(0)
 
 
 #ifdef HAVE_DEV_URANDOM
 
 static unsigned long
-randombits (void)
+randombits(void)
 {
 
   FILE *dev_urandom
   unsigned long result = 0
   char buffer[4]
 
-  if ((dev_urandom = fopen ("/dev/urandom", "r")) == NULL)
+  if((dev_urandom = fopen("/dev/urandom", "r")) == NULL)
     {
-      DBG (2, "randombits: could not open /dev/urandom...\n")
-      return rand ()
+      DBG(2, "randombits: could not open /dev/urandom...\n")
+      return rand()
     }
 
-  fread (buffer, 1, 4, dev_urandom)
+  fread(buffer, 1, 4, dev_urandom)
 
-  fclose (dev_urandom)
+  fclose(dev_urandom)
 
   result = buffer[0]
   result <<= 8
@@ -114,7 +114,7 @@ randombits (void)
 
 
 static Int
-check_passwd (const char *upassword,
+check_passwd(const char *upassword,
 	      const char *password,
 	      const char *randomstring, const char *username)
 {
@@ -122,14 +122,14 @@ check_passwd (const char *upassword,
   unsigned char md5digest[16]
   char tmpstr[512]
 
-  if (strncmp (upassword, "$MD5$", 5) == 0)
+  if(strncmp(upassword, "$MD5$", 5) == 0)
     {
 
-      sprintf (tmpstr, "%s%.128s",
-	       strstr (randomstring, "$MD5$") + 5, password)
-      md5_buffer (tmpstr, strlen (tmpstr), md5digest)
+      sprintf(tmpstr, "%s%.128s",
+	       strstr(randomstring, "$MD5$") + 5, password)
+      md5_buffer(tmpstr, strlen(tmpstr), md5digest)
 
-      sprintf (tmpstr, "$MD5$%02x%02x%02x%02x%02x%02x%02x%02x"
+      sprintf(tmpstr, "$MD5$%02x%02x%02x%02x%02x%02x%02x%02x"
 	       "%02x%02x%02x%02x%02x%02x%02x%02x",
 	       md5digest[0], md5digest[1],
 	       md5digest[2], md5digest[3],
@@ -140,23 +140,23 @@ check_passwd (const char *upassword,
 	       md5digest[12], md5digest[13], md5digest[14], md5digest[15])
 
 
-      return (strcmp (upassword, tmpstr) == 0)
+      return(strcmp(upassword, tmpstr) == 0)
 
     }
   else
     {
 
-      DBG (1, "check_passwd: received plain-text reply from user ``%s''\n",
+      DBG(1, "check_passwd: received plain-text reply from user ``%s''\n",
 	   username)
 
-      return (strcmp (upassword, password) == 0)
+      return(strcmp(upassword, password) == 0)
 
     }
 }
 
 
 Sane.Status
-sanei_authorize (const char *resource,
+sanei_authorize(const char *resource,
 		 const char *backend, Sane.Auth_Callback authorize)
 {
   FILE *passwd_file
@@ -167,32 +167,32 @@ sanei_authorize (const char *resource,
   char username[Sane.MAX_USERNAME_LEN]
   char password[Sane.MAX_PASSWORD_LEN]
 
-  INIT_RND ()
+  INIT_RND()
 
-  DBG (4, "called for ``%s'' by %s\n", resource, backend)
+  DBG(4, "called for ``%s'' by %s\n", resource, backend)
 
-  if (strlen (resource) > 127)
-    DBG (1, "resource is longer than 127 chars...\n")
+  if(strlen(resource) > 127)
+    DBG(1, "resource is longer than 127 chars...\n")
 
-  sprintf (passwd_filename, "%s.users", backend)
+  sprintf(passwd_filename, "%s.users", backend)
 
-  passwd_file = sanei_config_open (passwd_filename)
+  passwd_file = sanei_config_open(passwd_filename)
 
-  if (passwd_file == NULL)
+  if(passwd_file == NULL)
     {
-      DBG (3, "could not open ``%s''...\n", passwd_filename)
+      DBG(3, "could not open ``%s''...\n", passwd_filename)
       return Sane.STATUS_GOOD
     }
 
-  while (sanei_config_read (line, 1024, passwd_file))
+  while(sanei_config_read(line, 1024, passwd_file))
     {
 
-      if (strchr (line, ':') != NULL)
+      if(strchr(line, ':') != NULL)
 	{
-	  if (strchr (strchr (line, ':') + 1, ':') != NULL)
+	  if(strchr(strchr(line, ':') + 1, ':') != NULL)
 	    {
 
-	      if (strcmp (strchr (strchr (line, ':') + 1, ':') + 1, resource)
+	      if(strcmp(strchr(strchr(line, ':') + 1, ':') + 1, resource)
 		  == 0)
 
 		{
@@ -209,62 +209,62 @@ sanei_authorize (const char *resource,
 
     }
 
-  if (entry_found == Sane.FALSE)
+  if(entry_found == Sane.FALSE)
     {
 
-      fclose (passwd_file)
+      fclose(passwd_file)
 
-      DBG (3, "could not find resource ``%s''...\n", resource)
+      DBG(3, "could not find resource ``%s''...\n", resource)
       return Sane.STATUS_GOOD
 
     }
 
-  if (authorize == NULL)
+  if(authorize == NULL)
     {
-      DBG (2, "no authorization callback supplied by frontend\n")
+      DBG(2, "no authorization callback supplied by frontend\n")
       return Sane.STATUS_ACCESS_DENIED
     }
 
-  sprintf (md5resource, "%.128s$MD5$%x%lx%08lx",
-	   resource, getpid (), (long Int) time (NULL), randombits ())
+  sprintf(md5resource, "%.128s$MD5$%x%lx%08lx",
+	   resource, getpid(), (long Int) time(NULL), randombits())
 
   DBG(0, "resource=%s\n", md5resource)
 
-  memset (username, 0, Sane.MAX_USERNAME_LEN)
-  memset (password, 0, Sane.MAX_PASSWORD_LEN)
+  memset(username, 0, Sane.MAX_USERNAME_LEN)
+  memset(password, 0, Sane.MAX_PASSWORD_LEN)
 
   (*authorize) (md5resource, username, password)
 
 
-  fseek (passwd_file, 0L, SEEK_SET)
+  fseek(passwd_file, 0L, SEEK_SET)
 
-  while (sanei_config_read (line, 1024, passwd_file))
+  while(sanei_config_read(line, 1024, passwd_file))
     {
 
-      if ((strlen (line) > 0) && (line[strlen (line) - 1] == '\n'))
-	line[strlen (line) - 1] = '\n'
+      if((strlen(line) > 0) && (line[strlen(line) - 1] == '\n'))
+	line[strlen(line) - 1] = '\n'
 
-      if ((strlen (line) > 0) && (line[strlen (line) - 1] == '\r'))
-	line[strlen (line) - 1] = '\r'
+      if((strlen(line) > 0) && (line[strlen(line) - 1] == '\r'))
+	line[strlen(line) - 1] = '\r'
 
 
-      if ((strncmp (line, username, strlen (username)) == 0) &&
-	  (((strchr (line, ':')) - line) == (signed) strlen (username)))
+      if((strncmp(line, username, strlen(username)) == 0) &&
+	  (((strchr(line, ':')) - line) == (signed) strlen(username)))
 	{
 
-	  linep = strchr (line, ':') + 1
+	  linep = strchr(line, ':') + 1
 
-	  if ((strchr (linep, ':') != NULL)
-	      && (strcmp (strchr (linep, ':') + 1, resource) == 0))
+	  if((strchr(linep, ':') != NULL)
+	      && (strcmp(strchr(linep, ':') + 1, resource) == 0))
 	    {
 
-	      *(strchr (linep, ':')) = 0
+	      *(strchr(linep, ':')) = 0
 
 
-	      if (check_passwd (password, linep, md5resource, username))
+	      if(check_passwd(password, linep, md5resource, username))
 		{
-		  fclose (passwd_file)
-		  DBG (2, "authorization succeeded\n")
+		  fclose(passwd_file)
+		  DBG(2, "authorization succeeded\n")
 		  return Sane.STATUS_GOOD
 		}
 	    }
@@ -273,9 +273,9 @@ sanei_authorize (const char *resource,
 
     }
 
-  fclose (passwd_file)
+  fclose(passwd_file)
 
-  DBG (1, "authorization failed\n")
+  DBG(1, "authorization failed\n")
 
   return Sane.STATUS_ACCESS_DENIED
 }

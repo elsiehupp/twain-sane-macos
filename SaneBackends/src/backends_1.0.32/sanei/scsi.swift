@@ -1,12 +1,12 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1996, 1997 David Mosberger-Tang
-   Copyright (C) 2003 Frank Zago
+   Copyright(C) 1996, 1997 David Mosberger-Tang
+   Copyright(C) 2003 Frank Zago
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -60,7 +60,7 @@ import sys/ioctl
 import sys/param
 import sys/types
 
-#if defined (HAVE_WINDOWS_H)
+#if defined(HAVE_WINDOWS_H)
 import windows
 #endif
 
@@ -88,17 +88,17 @@ import windows
 import resmgr
 #endif
 
-#if defined (HAVE_SCSI_SG_H)
+#if defined(HAVE_SCSI_SG_H)
 # define USE LINUX_INTERFACE
 import scsi/sg
-#elif defined (HAVE__USR_SRC_LINUX_INCLUDE_SCSI_SG_H)
+#elif defined(HAVE__USR_SRC_LINUX_INCLUDE_SCSI_SG_H)
 # define USE LINUX_INTERFACE
 import /usr/src/linux/include/scsi/sg
-#elif defined (HAVE_SYS_SCSICMD_H)
+#elif defined(HAVE_SYS_SCSICMD_H)
 # define USE SCSO_OS5_INTERFACE
 import sys/scsi
 import sys/scsicmd
-#elif defined (HAVE_CAMLIB_H)
+#elif defined(HAVE_CAMLIB_H)
 # define USE FREEBSD_CAM_INTERFACE
 import stdio		/* there is a bug in scsi_all.h */
 import cam/cam
@@ -106,27 +106,27 @@ import cam/cam_ccb
 import cam/scsi/scsi_message
 import cam/scsi/scsi_pass
 import camlib
-#elif defined (HAVE_SYS_SCSIIO_H)
+#elif defined(HAVE_SYS_SCSIIO_H)
 # define USE BSD_INTERFACE
 import sys/scsiio
 # ifdef HAVE_SCSI_H
 #  include <scsi
 # endif
-#elif defined (HAVE_BSD_DEV_SCSIREG_H)
+#elif defined(HAVE_BSD_DEV_SCSIREG_H)
 # define USE OPENSTEP_INTERFACE
 import bsd/dev/scsireg
-#elif defined (HAVE_IO_CAM_CAM_H)
+#elif defined(HAVE_IO_CAM_CAM_H)
 # define USE DECUNIX_INTERFACE
 import io/common/iotypes
 import io/cam/cam
 import io/cam/dec_cam
 import io/cam/uagt
 import io/cam/scsi_all
-#elif defined (HAVE_SYS_DSREQ_H)
+#elif defined(HAVE_SYS_DSREQ_H)
 # define USE IRIX_INTERFACE
 import sys/dsreq
 import invent
-#elif defined (HAVE_SYS_SCSI_H)
+#elif defined(HAVE_SYS_SCSI_H)
 import sys/scsi
 # ifdef HAVE_SYS_SDI_COMM_H
 #  ifdef HAVE_SYS_PASSTHRUDEF_H
@@ -153,7 +153,7 @@ import sys/scsi
 #   endif
 #  endif
 # endif
-#elif defined (HAVE_OS2_H)
+#elif defined(HAVE_OS2_H)
 # define USE OS2_INTERFACE
 # define INCL_DOSFILEMGR
 # define INCL_DOS
@@ -162,14 +162,14 @@ import sys/scsi
 # define INCL_DOSMEMMGR
 import os2
 import os2_srb
-#elif defined (HAVE_SYS_SCSI_SGDEFS_H)
+#elif defined(HAVE_SYS_SCSI_SGDEFS_H)
 # define USE SOLARIS_SG_INTERFACE
 import sys/scsi/sgdefs
-#elif defined (HAVE_SYS_SCSI_TARGETS_SCGIO_H)
+#elif defined(HAVE_SYS_SCSI_TARGETS_SCGIO_H)
 # define USE SOLARIS_INTERFACE
 # define SOL2
 import sys/scsi/targets/scgio
-#elif defined (HAVE_SYS_SCSI_SCSI_H)
+#elif defined(HAVE_SYS_SCSI_SCSI_H)
   /*
    * the "official" solaris uscsi(7I) interface; comes last, so that users
    * installing the SCG/SG driver can still use these generic scsi interfaces
@@ -177,7 +177,7 @@ import sys/scsi/targets/scgio
 # define USE SOLARIS_USCSI_INTERFACE
 # define SOL2
 import sys/scsi/scsi
-#elif defined (HAVE_APOLLO_SCSI_H)
+#elif defined(HAVE_APOLLO_SCSI_H)
 # define USE DOMAINOS_INTERFACE
 import signal		/* Only used for signal name for KillDomainServer */
 import apollo/base
@@ -188,9 +188,9 @@ import apollo/mutex
 import apollo/scsi
 import apollo/time
 import sanei_DomainOS
-#elif defined (HAVE_IOKIT_CDB_IOSCSILIB_H) || \
-      defined (HAVE_IOKIT_SCSI_SCSICOMMANDOPERATIONCODES_H) || \
-      defined (HAVE_IOKIT_SCSI_COMMANDS_SCSICOMMANDOPERATIONCODES_H)
+#elif defined(HAVE_IOKIT_CDB_IOSCSILIB_H) || \
+      defined(HAVE_IOKIT_SCSI_SCSICOMMANDOPERATIONCODES_H) || \
+      defined(HAVE_IOKIT_SCSI_COMMANDS_SCSICOMMANDOPERATIONCODES_H)
 # define USE MACOSX_INTERFACE
 import CoreFoundation/CoreFoundation
 import IOKit/IOKitLib
@@ -213,11 +213,11 @@ import IOKit/IOKitLib
 #  include <IOKit/scsi-commands/SCSITaskLib
 # endif
 # endif
-#elif defined (HAVE_DDK_NTDDSCSI_H)
+#elif defined(HAVE_DDK_NTDDSCSI_H)
 # define USE WIN32_INTERFACE
 import ddk/scsi
 import ddk/ntddscsi
-#elif defined (HAVE_NTDDSCSI_H)
+#elif defined(HAVE_NTDDSCSI_H)
 # define USE WIN32_INTERFACE
 import ntddscsi
 #endif
@@ -242,7 +242,7 @@ static Int cam_fd = -1;		/* used for SCSI CAM based interfaces */
 #endif
 
 #if USE == SOLARIS_INTERFACE || USE == SOLARIS_USCSI_INTERFACE
-static Int unit_ready (Int fd)
+static Int unit_ready(Int fd)
 #endif
 
 #ifdef SG_BIG_BUFF
@@ -341,7 +341,7 @@ import linux_sg3_err	/* contains several definitions of error codes */
 #endif
 
 #ifndef SCSIBUFFERSIZE
-#define SCSIBUFFERSIZE (128 * 1024)
+#define SCSIBUFFERSIZE(128 * 1024)
 #endif
 
 /* the struct returned by the SG ioctl call SG_GET_SCSI_ID changed
@@ -357,8 +357,8 @@ typedef struct xsg_scsi_id
   Int scsi_id;			/* scsi id of target device */
   Int lun
   Int scsi_type;		/* TYPE_... defined in scsi/scsi.h */
-  short h_cmd_per_lun;		/* host (adapter) maximum commands per lun */
-  short d_queue_depth;		/* device (or adapter) maximum queue length */
+  short h_cmd_per_lun;		/* host(adapter) maximum commands per lun */
+  short d_queue_depth;		/* device(or adapter) maximum queue length */
   Int unused1;			/* probably find a good use, set 0 for now */
   Int unused2;			/* ditto */
 }
@@ -464,48 +464,48 @@ time_$clock_t Wait16S = { 64, 0 ]	/* Delay of about 16 Seconds */
    the server.  It will also unmap the common area before it
    returns. */
 static void
-KillDomainServer (void)
+KillDomainServer(void)
 {
   static boolean GotTheLock
   static status_$t status
   static pinteger index
 
-  DBG (1, "Asking Domain SANE Server to exit\n")
+  DBG(1, "Asking Domain SANE Server to exit\n")
   /* First, try to send a command to exit */
-  if (GotTheLock = mutex_$lock (&com.CommandLock, Wait16S))
+  if(GotTheLock = mutex_$lock(&com.CommandLock, Wait16S))
     {
-      /* Set the wait time to 16 Seconds (units are 4uS) */
+      /* Set the wait time to 16 Seconds(units are 4uS) */
       com.opcode = Exit
-      CommandTriggerValue[0] = ec2_$read (com.CommandAccepted) + 1
-      ec2_$advance (&com.CommandAvailable, &status)
-      DomainErrorCheck (status, "Can't advance CommandAvailable EC")
+      CommandTriggerValue[0] = ec2_$read(com.CommandAccepted) + 1
+      ec2_$advance(&com.CommandAvailable, &status)
+      DomainErrorCheck(status, "Can't advance CommandAvailable EC")
       /* For this wait, we want to allow a timeout as well */
-      CommandTriggerValue[1] = (ec2_$read (*CommandAcceptedPtr[1])
+      CommandTriggerValue[1] = (ec2_$read(*CommandAcceptedPtr[1])
 				+ DomainECWaitConstant)
-      index = ec2_$wait_svc (CommandAcceptedPtr, CommandTriggerValue, 2,
+      index = ec2_$wait_svc(CommandAcceptedPtr, CommandTriggerValue, 2,
 			     &status)
-      DomainErrorCheck (status,
+      DomainErrorCheck(status,
 			"Error waiting on Exit command acceptance EC")
       /* Release the lock */
-      mutex_$unlock (&com.CommandLock)
-      if (index == 1)
-	DBG (1, "Domain SANE Server responded to exit request\n")
+      mutex_$unlock(&com.CommandLock)
+      if(index == 1)
+	DBG(1, "Domain SANE Server responded to exit request\n")
       else
-	DBG (1, "Domain SANE Server did not respond to exit request\n")
+	DBG(1, "Domain SANE Server did not respond to exit request\n")
     }
   else
-    DBG (0, "Could not get mutex lock for killing server\n")
-  if ((!GotTheLock) || (index != 1))
+    DBG(0, "Could not get mutex lock for killing server\n")
+  if((!GotTheLock) || (index != 1))
     {
       /* If we get here, then we never got the mutex lock, or we timed out
          waiting for an Exit command ack. */
       /* It's now time to be brutal with the server */
-      DBG (1, "Sending QUIT signal to Domain SANE Server\n")
-      kill (ServerPID, SIGQUIT)
+      DBG(1, "Sending QUIT signal to Domain SANE Server\n")
+      kill(ServerPID, SIGQUIT)
     }
   /* unmap the common area */
-  ms_$unmap (com, sizeof (struct DomainServerCommon), &status)
-  DomainErrorCheck (status, "Error unmapping common area")
+  ms_$unmap(com, sizeof(struct DomainServerCommon), &status)
+  DomainErrorCheck(status, "Error unmapping common area")
 }
 #endif /* USE == DOMAINOS_INTERFACE */
 
@@ -533,7 +533,7 @@ static char tmpAspi[MAXPATHLEN];	/* scsi chain scan */
 
    Output: 0 if error, which is reported.  */
 static Int
-open_aspi (void)
+open_aspi(void)
 {
   ULONG rc
   ULONG ActionTaken
@@ -549,99 +549,99 @@ open_aspi (void)
   ]
   FILE *tmp
 
-  if (driver_handle)
+  if(driver_handle)
     {
       aspi_ref_count++;		/* increment internal usage counter */
       return 1;			/* Already open. */
     }
-  aspi_buf = _tcalloc (sanei_scsi_max_request_size, 1)
-  if (aspi_buf == NULL)
+  aspi_buf = _tcalloc(sanei_scsi_max_request_size, 1)
+  if(aspi_buf == NULL)
     {
-      DBG (1, "sanei_scsi_open_aspi: _tcalloc aspi_buf failed")
+      DBG(1, "sanei_scsi_open_aspi: _tcalloc aspi_buf failed")
       return 0
     }
 
-  PSRBlock = _tcalloc (sizeof (SRB), 1)
-  if (PSRBlock == NULL)
+  PSRBlock = _tcalloc(sizeof(SRB), 1)
+  if(PSRBlock == NULL)
     {
-      DBG (1, "sanei_scsi_open_aspi: _tcalloc PSRBlock failed")
+      DBG(1, "sanei_scsi_open_aspi: _tcalloc PSRBlock failed")
       return 0
     }
 
-  rc = DosOpen ((PSZ) "aspirou$",	/* open driver */
+  rc = DosOpen((PSZ) "aspirou$",	/* open driver */
 		&driver_handle,
 		&ActionTaken,
 		0,
 		0,
 		FILE_OPEN,
 		OPEN_SHARE_DENYREADWRITE | OPEN_ACCESS_READWRITE, NULL)
-  if (rc)
+  if(rc)
     {
       /* opening failed -> return false */
-      DBG (1, "open_aspi:  opening failed.\n")
+      DBG(1, "open_aspi:  opening failed.\n")
       return 0
     }
 
   /* Lock aspi_buf. */
-  rc = DosDevIOCtl (driver_handle, 0x92, 0x04,	/* pass aspi_buf pointer */
-		    (void *) aspi_buf, sizeof (PVOID),	/* to driver */
+  rc = DosDevIOCtl(driver_handle, 0x92, 0x04,	/* pass aspi_buf pointer */
+		    (void *) aspi_buf, sizeof(PVOID),	/* to driver */
 		    &cbParam, (void *) &lockSegmentReturn,
-		    sizeof (USHORT), &cbreturn)
-  if (rc || lockSegmentReturn)
+		    sizeof(USHORT), &cbreturn)
+  if(rc || lockSegmentReturn)
     {
       /* DosDevIOCtl failed */
-      DBG (1, "sanei_scsi_open_aspi:  Can't lock buffer. rc= %lu \n", rc)
+      DBG(1, "sanei_scsi_open_aspi:  Can't lock buffer. rc= %lu \n", rc)
       return 0
     }
 
   /* query number of installed adapters */
-  memset (PSRBlock, 0, sizeof (SRB))
+  memset(PSRBlock, 0, sizeof(SRB))
   PSRBlock.cmd = SRB_Inquiry;	/* host adapter inquiry */
 
   PSRBlock.ha_num = 0;		/* host adapter number */
 
   PSRBlock.flags = 0;		/* no flags set */
 
-  rc = DosDevIOCtl (driver_handle, 0x92, 0x02,
-		    (void *) PSRBlock, sizeof (SRB), &cbParam,
-		    (void *) PSRBlock, sizeof (SRB), &cbreturn)
+  rc = DosDevIOCtl(driver_handle, 0x92, 0x02,
+		    (void *) PSRBlock, sizeof(SRB), &cbParam,
+		    (void *) PSRBlock, sizeof(SRB), &cbreturn)
   num_adapters = PSRBlock.u.inq.num_ha
 
-  DBG (1, "OS/2: installed adapters %d\n", num_adapters)
-  DBG (1, "OS/2: ASPI manager is '%s'\n", PSRBlock.u.inq.aspimgr_id)
-  DBG (1, "OS/2: host adapter is '%s'\n", PSRBlock.u.inq.host_id)
-  DBG (1, "OS/2: unique id is    '%s'\n", PSRBlock.u.inq.unique_id)
+  DBG(1, "OS/2: installed adapters %d\n", num_adapters)
+  DBG(1, "OS/2: ASPI manager is '%s'\n", PSRBlock.u.inq.aspimgr_id)
+  DBG(1, "OS/2: host adapter is '%s'\n", PSRBlock.u.inq.host_id)
+  DBG(1, "OS/2: unique id is    '%s'\n", PSRBlock.u.inq.unique_id)
 
-  strcpy (tmpAspi, "asXXXXXX")
-  mkstemp (tmpAspi)
-  DBG (2, "open_aspi: open temporary file '%s'\n", tmpAspi)
-  tmp = fopen (tmpAspi, "w")
-  if (!tmp)
+  strcpy(tmpAspi, "asXXXXXX")
+  mkstemp(tmpAspi)
+  DBG(2, "open_aspi: open temporary file '%s'\n", tmpAspi)
+  tmp = fopen(tmpAspi, "w")
+  if(!tmp)
     {				/* can't open tmp file */
 
-      DBG (1, "open_aspi:  Can't open temporary file.\n")
+      DBG(1, "open_aspi:  Can't open temporary file.\n")
       return 0
     }
 
   /* scan all installed adapters */
-  for (i = 0; i < num_adapters; i++)
+  for(i = 0; i < num_adapters; i++)
     {
       Int id
       /* query adapter name */
-      memset (PSRBlock, 0, sizeof (SRB))
+      memset(PSRBlock, 0, sizeof(SRB))
       PSRBlock.cmd = SRB_Inquiry;	/* host adapter inquiry */
 
       PSRBlock.ha_num = i;	/* host adapter number */
 
       PSRBlock.flags = 0;	/* no flags set */
 
-      rc = DosDevIOCtl (driver_handle, 0x92, 0x02,
-			(void *) PSRBlock, sizeof (SRB), &cbParam,
-			(void *) PSRBlock, sizeof (SRB), &cbreturn)
-      DBG (1, "OS/2: adapter#%02d '%s'\n", i, PSRBlock.u.inq.host_id)
+      rc = DosDevIOCtl(driver_handle, 0x92, 0x02,
+			(void *) PSRBlock, sizeof(SRB), &cbParam,
+			(void *) PSRBlock, sizeof(SRB), &cbreturn)
+      DBG(1, "OS/2: adapter#%02d '%s'\n", i, PSRBlock.u.inq.host_id)
 
-      /* scan scsi chain (need 15 for wide?) */
-      for (id = 0; id < 7; id++)
+      /* scan scsi chain(need 15 for wide?) */
+      for(id = 0; id < 7; id++)
 	{
 	  unsigned char len
 	  char vendor[9]
@@ -649,7 +649,7 @@ open_aspi (void)
 	  char version[5]
 	  char *pp
 
-	  memset (PSRBlock, 0, sizeof (SRB))
+	  memset(PSRBlock, 0, sizeof(SRB))
 	  PSRBlock.cmd = SRB_Device;	/* get device type */
 
 	  PSRBlock.ha_num = i;	/* host adapter number */
@@ -660,22 +660,22 @@ open_aspi (void)
 
 	  PSRBlock.u.dev.lun = 0;	/* target LUN */
 
-	  rc = DosDevIOCtl (driver_handle, 0x92, 0x02,
-			    (void *) PSRBlock, sizeof (SRB), &cbParam,
-			    (void *) PSRBlock, sizeof (SRB), &cbreturn)
-	  DBG (1, "OS/2:             id#%02d status=%02xh\n",
+	  rc = DosDevIOCtl(driver_handle, 0x92, 0x02,
+			    (void *) PSRBlock, sizeof(SRB), &cbParam,
+			    (void *) PSRBlock, sizeof(SRB), &cbreturn)
+	  DBG(1, "OS/2:             id#%02d status=%02xh\n",
 	       id, PSRBlock.status)
 
 	  /* skip if device not connected */
-	  if (PSRBlock.status == SRB_BadDevice)
+	  if(PSRBlock.status == SRB_BadDevice)
 	    continue
 
-	  DBG (1, "OS/2:                   type is '%s'\n",
-	       PSRBlock.u.dev.devtype < sizeof (devtypes) / sizeof (char *)?
+	  DBG(1, "OS/2:                   type is '%s'\n",
+	       PSRBlock.u.dev.devtype < sizeof(devtypes) / sizeof(char *)?
 	       devtypes[PSRBlock.u.dev.devtype] : "unknown device")
 
 	  /* query adapter string id */
-	  memset (PSRBlock, 0, sizeof (SRB))
+	  memset(PSRBlock, 0, sizeof(SRB))
 	  PSRBlock.cmd = SRB_Command;	/* execute SCSI command */
 
 	  PSRBlock.ha_num = i;	/* host adapter number */
@@ -693,13 +693,13 @@ open_aspi (void)
 	  PSRBlock.u.cmd.cdb_st[3] = 0;	/* transfer length */
 	  PSRBlock.u.cmd.cdb_st[4] = 5;	/* transfer length LSB */
 	  PSRBlock.u.cmd.cdb_st[5] = 0
-	  rc = DosDevIOCtl (driver_handle, 0x92, 0x02,
-			    (void *) PSRBlock, sizeof (SRB), &cbParam,
-			    (void *) PSRBlock, sizeof (SRB), &cbreturn)
+	  rc = DosDevIOCtl(driver_handle, 0x92, 0x02,
+			    (void *) PSRBlock, sizeof(SRB), &cbParam,
+			    (void *) PSRBlock, sizeof(SRB), &cbreturn)
 	  len = ((char *) aspi_buf)[4];	/* additional length */
 
 	  /* query id string */
-	  memset (PSRBlock, 0, sizeof (SRB))
+	  memset(PSRBlock, 0, sizeof(SRB))
 	  PSRBlock.cmd = SRB_Command;	/* execute SCSI command */
 	  PSRBlock.ha_num = i;	/* host adapter number */
 	  PSRBlock.flags = SRB_Read | SRB_Post;	/* data transfer, posting */
@@ -716,45 +716,45 @@ open_aspi (void)
 	  PSRBlock.u.cmd.cdb_st[3] = 0;	/* transfer length */
 	  PSRBlock.u.cmd.cdb_st[4] = 5 + len;	/* transfer length LSB */
 	  PSRBlock.u.cmd.cdb_st[5] = 0
-	  rc = DosDevIOCtl (driver_handle, 0x92, 0x02,
-			    (void *) PSRBlock, sizeof (SRB), &cbParam,
-			    (void *) PSRBlock, sizeof (SRB), &cbreturn)
-	  DBG (1, "OS/2         '%s'\n", (char *) aspi_buf + 8)
+	  rc = DosDevIOCtl(driver_handle, 0x92, 0x02,
+			    (void *) PSRBlock, sizeof(SRB), &cbParam,
+			    (void *) PSRBlock, sizeof(SRB), &cbreturn)
+	  DBG(1, "OS/2         '%s'\n", (char *) aspi_buf + 8)
 	  /* write data */
-	  get_inquiry_vendor ((char *) aspi_buf, vendor)
-	  get_inquiry_product ((char *) aspi_buf, product)
-	  get_inquiry_version ((char *) aspi_buf, version)
+	  get_inquiry_vendor((char *) aspi_buf, vendor)
+	  get_inquiry_product((char *) aspi_buf, product)
+	  get_inquiry_version((char *) aspi_buf, version)
 
 	  pp = &vendor[7]
 	  vendor[8] = '\0'
-	  while (pp >= vendor && (*pp == ' ' || *pp >= 127))
+	  while(pp >= vendor && (*pp == ' ' || *pp >= 127))
 	    *pp-- = '\0'
 
 	  pp = &product[15]
 	  product[16] = '\0'
-	  while (pp >= product && (*pp == ' ' || *pp >= 127))
+	  while(pp >= product && (*pp == ' ' || *pp >= 127))
 	    *pp-- = '\0'
 
 	  pp = product
 	  do
 	    {
-	      if (isspace ((Int) *pp))
+	      if(isspace((Int) *pp))
 		*pp = '_'
 	    }
-	  while (*++pp)
+	  while(*++pp)
 
 	  pp = &version[3]
 	  version[4] = '\0'
-	  while (pp >= version && (*pp == ' ' || *(pp - 1) >= 127))
+	  while(pp >= version && (*pp == ' ' || *(pp - 1) >= 127))
 	    *pp-- = '\0'
-	  fprintf (tmp, "Vendor: %s ", vendor)
-	  fprintf (tmp, "Model: %s ", product)
-	  fprintf (tmp, "Rev: %s ", version)
-	  fprintf (tmp, "scsi %d Channel: 0 Id: %d Lun: 0\n", i, id)
+	  fprintf(tmp, "Vendor: %s ", vendor)
+	  fprintf(tmp, "Model: %s ", product)
+	  fprintf(tmp, "Rev: %s ", version)
+	  fprintf(tmp, "scsi %d Channel: 0 Id: %d Lun: 0\n", i, id)
 	}
     }
-  DBG (2, "open_aspi: close temporary file '%s'\n", tmpAspi)
-  fclose (tmp)
+  DBG(2, "open_aspi: close temporary file '%s'\n", tmpAspi)
+  fclose(tmp)
 
   aspi_ref_count++;		/* increment internal usage counter */
 
@@ -764,30 +764,30 @@ open_aspi (void)
 /* Close driver and free everything.  */
 
 static void
-close_aspi (void)
+close_aspi(void)
 {
   aspi_ref_count--;		/* decrement internal usage counter */
 
-  if (aspi_ref_count)
+  if(aspi_ref_count)
     return;			/* wait for usage==0 */
 
-  if (driver_handle)		/* Close driver. */
-    DosClose (driver_handle)
+  if(driver_handle)		/* Close driver. */
+    DosClose(driver_handle)
   driver_handle = 0
-  if (aspi_buf)			/* Free buffer. */
-    _tfree (aspi_buf)
+  if(aspi_buf)			/* Free buffer. */
+    _tfree(aspi_buf)
   aspi_buf = 0
 
-  if (PSRBlock)
-    _tfree (PSRBlock)
+  if(PSRBlock)
+    _tfree(PSRBlock)
   PSRBlock = 0
 
   errno = 0
-  if (unlink (tmpAspi))		/* remove scsi descriptions */
-    DBG (2, "OS/2: error#%d while removing temporary '%s'\n", errno, tmpAspi)
-  strcpy (tmpAspi, "")
+  if(unlink(tmpAspi))		/* remove scsi descriptions */
+    DBG(2, "OS/2: error#%d while removing temporary '%s'\n", errno, tmpAspi)
+  strcpy(tmpAspi, "")
 
-  DBG (1, "OS/2: ASPI closed\n")
+  DBG(1, "OS/2: ASPI closed\n")
 }
 
 #endif /* USE_OS2_INTERFACE */
@@ -799,7 +799,7 @@ static Int num_alloced = 0
 static Int sg_version = 0
 
 static Sane.Status
-get_max_buffer_size (const char *file)
+get_max_buffer_size(const char *file)
 {
   Int fd = -1
   Int buffersize = SCSIBUFFERSIZE, i
@@ -810,39 +810,39 @@ get_max_buffer_size (const char *file)
   fd = rsm_open_device(file, O_RDWR)
 #endif
 
-  if (fd == -1)
-    fd = open (file, O_RDWR)
+  if(fd == -1)
+    fd = open(file, O_RDWR)
 
-  if (fd > 0)
+  if(fd > 0)
     {
-      cc = getenv ("Sane.SG_BUFFERSIZE")
-      if (cc)
+      cc = getenv("Sane.SG_BUFFERSIZE")
+      if(cc)
 	{
-	  i = strtol (cc, &cc1, 10)
-	  if (cc != cc1 && i >= 32768)
+	  i = strtol(cc, &cc1, 10)
+	  if(cc != cc1 && i >= 32768)
 	    buffersize = i
 	}
 
-      ioctl (fd, SG_SET_RESERVED_SIZE, &buffersize)
-      if (0 == ioctl (fd, SG_GET_RESERVED_SIZE, &buffersize))
+      ioctl(fd, SG_SET_RESERVED_SIZE, &buffersize)
+      if(0 == ioctl(fd, SG_GET_RESERVED_SIZE, &buffersize))
 	{
-	  if (buffersize < sanei_scsi_max_request_size)
+	  if(buffersize < sanei_scsi_max_request_size)
 	    sanei_scsi_max_request_size = buffersize
-	  close (fd)
-	  DBG (4, "get_max_buffer_size for %s: %i\n", file,
+	  close(fd)
+	  DBG(4, "get_max_buffer_size for %s: %i\n", file,
 	       sanei_scsi_max_request_size)
 	  return Sane.STATUS_GOOD
 	}
       else
 	{
-	  close (fd)
+	  close(fd)
 	  /* ioctl not available: we have the old SG driver */
-	  fd = open ("/proc/sys/kernel/sg-big-buff", O_RDONLY)
-	  if (fd > 0 && (len = read (fd, buf, sizeof (buf) - 1)) > 0)
+	  fd = open("/proc/sys/kernel/sg-big-buff", O_RDONLY)
+	  if(fd > 0 && (len = read(fd, buf, sizeof(buf) - 1)) > 0)
 	    {
 	      buf[len] = '\0'
-	      sanei_scsi_max_request_size = atoi (buf)
-	      close (fd)
+	      sanei_scsi_max_request_size = atoi(buf)
+	      close(fd)
 	    }
 	  else
 	    sanei_scsi_max_request_size = buffersize < SG_BIG_BUFF ?
@@ -856,13 +856,13 @@ get_max_buffer_size (const char *file)
 
 
 Sane.Status
-sanei_scsi_open_extended (const char *dev, Int *fdp,
+sanei_scsi_open_extended(const char *dev, Int *fdp,
 			  SANEI_SCSI_Sense_Handler handler,
 			  void *handler_arg, Int *buffersize)
 #else
 
 Sane.Status
-sanei_scsi_open (const char *dev, Int *fdp,
+sanei_scsi_open(const char *dev, Int *fdp,
 		 SANEI_SCSI_Sense_Handler handler, void *handler_arg)
 #endif
 {
@@ -879,26 +879,26 @@ sanei_scsi_open (const char *dev, Int *fdp,
   u_int d
 #endif
 
-  cc = getenv ("Sane.SCSICMD_TIMEOUT")
-  if (cc)
+  cc = getenv("Sane.SCSICMD_TIMEOUT")
+  if(cc)
     {
-      i = strtol (cc, &cc1, 10)
+      i = strtol(cc, &cc1, 10)
       /* 20 minutes are hopefully enough as a timeout value ;) */
-      if (cc != cc1 && i > 0 && i <= 1200)
+      if(cc != cc1 && i > 0 && i <= 1200)
 	{
 	  Sane.scsicmd_timeout = i
 	}
       else
 	{
-	  DBG (1,
+	  DBG(1,
 	       "sanei_scsi_open: timeout value must be between 1 and 1200 seconds\n")
 	}
     }
 
-  DBG_INIT ()
+  DBG_INIT()
 
 #if USE == LINUX_INTERFACE
-  if (first_time)
+  if(first_time)
     {
       first_time = 0
 
@@ -911,78 +911,78 @@ sanei_scsi_open (const char *dev, Int *fdp,
 
          For older version of the SG driver, which don't support variable
          buffer size, try to read /proc/sys/kernel/sg-big-biff ; if
-         this fails (SG driver too old, or loaded as a module), use
+         this fails(SG driver too old, or loaded as a module), use
          SG_BIG_BUFF
        */
 
       sanei_scsi_max_request_size = SCSIBUFFERSIZE
-      cc = getenv ("Sane.SG_BUFFERSIZE")
-      if (cc)
+      cc = getenv("Sane.SG_BUFFERSIZE")
+      if(cc)
 	{
-	  i = strtol (cc, &cc1, 10)
-	  if (cc != cc1 && i >= 32768)
+	  i = strtol(cc, &cc1, 10)
+	  if(cc != cc1 && i >= 32768)
 	    sanei_scsi_max_request_size = i
 	}
-      sanei_scsi_find_devices (0, 0, "Scanner", -1, -1, -1, -1,
+      sanei_scsi_find_devices(0, 0, "Scanner", -1, -1, -1, -1,
 			       get_max_buffer_size)
-      sanei_scsi_find_devices (0, 0, "Processor", -1, -1, -1, -1,
+      sanei_scsi_find_devices(0, 0, "Processor", -1, -1, -1, -1,
 			       get_max_buffer_size)
-      DBG (4, "sanei_scsi_open: sanei_scsi_max_request_size=%d bytes\n",
+      DBG(4, "sanei_scsi_open: sanei_scsi_max_request_size=%d bytes\n",
 	   sanei_scsi_max_request_size)
     }
 #endif
 
 #if USE == OS2_INTERFACE
-  if (sscanf (dev, "b%ut%ul%u", &bus, &target, &lun) != 3)
+  if(sscanf(dev, "b%ut%ul%u", &bus, &target, &lun) != 3)
     {
-      DBG (1, "sanei_scsi_open: device name %s is not valid\n", dev)
+      DBG(1, "sanei_scsi_open: device name %s is not valid\n", dev)
       return Sane.STATUS_INVAL
     }
-  if (!open_aspi ())
+  if(!open_aspi())
     {
       /* Open driver if necessary. */
-      close_aspi ()
+      close_aspi()
       return Sane.STATUS_INVAL
     }
 
   /* Find fake fd. */
-  for (fd = 0; fd < num_alloced; ++fd)
-    if (!fd_info[fd].in_use)
+  for(fd = 0; fd < num_alloced; ++fd)
+    if(!fd_info[fd].in_use)
       break
   fake_fd = 1
 #elif USE == DECUNIX_INTERFACE
   {
     UAGT_CAM_SCAN cam_scan
 
-    if (sscanf (dev, "b%dt%dl%d", &bus, &target, &lun) != 3)
+    if(sscanf(dev, "b%dt%dl%d", &bus, &target, &lun) != 3)
       {
-	DBG (1, "sanei_scsi_open: device name `%s´ is not valid: %s\n",
-	     dev, strerror (errno))
+	DBG(1, "sanei_scsi_open: device name `%s´ is not valid: %s\n",
+	     dev, strerror(errno))
 	return Sane.STATUS_INVAL
       }
 
-    if (cam_fd < 0)
+    if(cam_fd < 0)
       {
-	cam_fd = open ("/dev/cam", O_RDWR)
-	if (cam_fd < 0)
+	cam_fd = open("/dev/cam", O_RDWR)
+	if(cam_fd < 0)
 	  {
-	    DBG (1, "sanei_scsi_open: open(/dev/cam) failed: %s\n",
-		 strerror (errno))
+	    DBG(1, "sanei_scsi_open: open(/dev/cam) failed: %s\n",
+		 strerror(errno))
 	    return Sane.STATUS_INVAL
 	  }
       }
     cam_scan.ucs_bus = bus
     cam_scan.ucs_target = target
     cam_scan.ucs_lun = lun
-    if (ioctl (cam_fd, UAGT_CAM_SINGLE_SCAN, &cam_scan) < 0)
+    if(ioctl(cam_fd, UAGT_CAM_SINGLE_SCAN, &cam_scan) < 0)
       {
-	DBG (1, "sanei_scsi_open: ioctl(UAGT_CAM_SINGLE_SCAN) failed: %s\n",
-	     strerror (errno))
+	DBG(1, "sanei_scsi_open: ioctl(UAGT_CAM_SINGLE_SCAN) failed: %s\n",
+	     strerror(errno))
 	return Sane.STATUS_INVAL
       }
 
-    for (fd = 0; fd < num_alloced; ++fd)
-      if (!fd_info[fd].in_use)
+    for(fd = 0; fd < num_alloced; ++fd)
+      if(!fd_info[fd].in_use)
 	break
     fake_fd = 1
   }
@@ -992,127 +992,127 @@ sanei_scsi_open (const char *dev, Int *fdp,
     static status_$t status
     static unsigned long length_mapped
 
-    DBG (1, "sanei_scsi_open: (dev='%s', Int * fdp=%p, "
+    DBG(1, "sanei_scsi_open: (dev='%s', Int * fdp=%p, "
 	 "SANEI_SCSI_Sense_Handler handler=%p)\n", dev, fdp, handler)
 
     /* See if the server process has started yet */
-    if (!ServerInitialized)
+    if(!ServerInitialized)
       {
 	static char *CommonAreaPath
 
 	/* Initialize the server */
-	DBG (2, "Initializing Domain Server\n")
+	DBG(2, "Initializing Domain Server\n")
 
 	/* Map the area */
-	CommonAreaPath = tmpnam (NULL)
-	DBG (2, "Domain Server Common area name is '%s'\n", CommonAreaPath)
-	com = ms_$crmapl (CommonAreaPath, strlen (CommonAreaPath), 0,
-			  sizeof (struct DomainServerCommon), ms_$cowriters,
+	CommonAreaPath = tmpnam(NULL)
+	DBG(2, "Domain Server Common area name is '%s'\n", CommonAreaPath)
+	com = ms_$crmapl(CommonAreaPath, strlen(CommonAreaPath), 0,
+			  sizeof(struct DomainServerCommon), ms_$cowriters,
 			  &status)
-	DomainErrorCheck (status, "Can't open common area")
-	DBG (2, "Domain Server common area mapped\n")
+	DomainErrorCheck(status, "Can't open common area")
+	DBG(2, "Domain Server common area mapped\n")
 
 	/* Initialize the eventcounts */
-	ec2_$init (&com.CommandAvailable)
-	ec2_$init (&com.CommandAccepted)
-	ec2_$init (&com.ResultReady)
-	ec2_$init (&com.ResultAccepted)
-	DBG (2, "Domain Server EC's initialized\n")
+	ec2_$init(&com.CommandAvailable)
+	ec2_$init(&com.CommandAccepted)
+	ec2_$init(&com.ResultReady)
+	ec2_$init(&com.ResultAccepted)
+	DBG(2, "Domain Server EC's initialized\n")
 	/* Initialize the mutex locks */
-	mutex_$init (&com.CommandLock)
-	mutex_$init (&com.ResultLock)
-	DBG (2, "Domain Server MutexLock's initialized\n")
+	mutex_$init(&com.CommandLock)
+	mutex_$init(&com.ResultLock)
+	DBG(2, "Domain Server MutexLock's initialized\n")
 
 	/* Initialize pointers to ECs */
 	CommandAcceptedPtr[0] = &com.CommandAccepted
 	ResultReadyPtr[0] = &com.ResultReady
-	time_$get_ec (time_$clockh_key, &CommandAcceptedPtr[1], &status)
-	DomainErrorCheck (status, "Can't get time EC")
+	time_$get_ec(time_$clockh_key, &CommandAcceptedPtr[1], &status)
+	DomainErrorCheck(status, "Can't get time EC")
 	ResultReadyPtr[1] = CommandAcceptedPtr[1]
 
 	/* Read the ResultReady EC value, to avoid race with the server */
-	ResultTriggerValue[0] = ec2_$read (com.ResultReady) + 1
+	ResultTriggerValue[0] = ec2_$read(com.ResultReady) + 1
 
 	/* Now invoke the server */
-	ServerPID = fork ()
-	if (!ServerPID)
+	ServerPID = fork()
+	if(!ServerPID)
 	  {
 	    /* I am the child, call the initialization routine */
-	    sanei_DomainOS_init (CommonAreaPath)
+	    sanei_DomainOS_init(CommonAreaPath)
 	    /* We get here when the server is done, so we just exit. */
-	    exit (EXIT_SUCCESS)
+	    exit(EXIT_SUCCESS)
 	  }
 
 	/* The communication area is open, wait for the initial response */
-	ResultTriggerValue[1] = (ec2_$read (*ResultReadyPtr[1])
+	ResultTriggerValue[1] = (ec2_$read(*ResultReadyPtr[1])
 				 + DomainECWaitConstant)
 	index =
-	  ec2_$wait_svc (ResultReadyPtr, ResultTriggerValue, 2, &status)
-	DomainErrorCheck (status, "Error waiting on initial open EC")
-	if (index != 1)
+	  ec2_$wait_svc(ResultReadyPtr, ResultTriggerValue, 2, &status)
+	DomainErrorCheck(status, "Error waiting on initial open EC")
+	if(index != 1)
 	  {
-	    DBG (0, "Domain SANE Server never responded on startup\n")
+	    DBG(0, "Domain SANE Server never responded on startup\n")
 	    /* Send a quit signal to the server */
-	    kill (ServerPID, SIGQUIT)
+	    kill(ServerPID, SIGQUIT)
 	    return Sane.STATUS_INVAL
 	  }
 	/* Register a function to kill the server when we are done */
-	assert (!atexit (KillDomainServer))
+	assert(!atexit(KillDomainServer))
 	ServerInitialized = 1
       }
 
     /* Find fake fd. */
-    for (fd = 0; fd < num_alloced; ++fd)
-      if (!fd_info[fd].in_use)
+    for(fd = 0; fd < num_alloced; ++fd)
+      if(!fd_info[fd].in_use)
 	break
     fake_fd = 1
 
     /* Send the command open to the server */
-    if (!mutex_$lock (&com.CommandLock, Wait16S))
+    if(!mutex_$lock(&com.CommandLock, Wait16S))
       {
-	DBG (0, "Could not obtain mutex lock for Open\n")
+	DBG(0, "Could not obtain mutex lock for Open\n")
 	return Sane.STATUS_INVAL
       }
     com.opcode = Open
-    strcpy (com.open_path, dev)
-    CommandTriggerValue[0] = ec2_$read (com.CommandAccepted) + 1
-    ec2_$advance (&com.CommandAvailable, &status)
-    DomainErrorCheck (status, "Can't advance CommandAvailable EC")
-    CommandTriggerValue[1] = (ec2_$read (*CommandAcceptedPtr[1])
+    strcpy(com.open_path, dev)
+    CommandTriggerValue[0] = ec2_$read(com.CommandAccepted) + 1
+    ec2_$advance(&com.CommandAvailable, &status)
+    DomainErrorCheck(status, "Can't advance CommandAvailable EC")
+    CommandTriggerValue[1] = (ec2_$read(*CommandAcceptedPtr[1])
 			      + DomainECWaitConstant)
-    index = ec2_$wait_svc (CommandAcceptedPtr, CommandTriggerValue, 2,
+    index = ec2_$wait_svc(CommandAcceptedPtr, CommandTriggerValue, 2,
 			   &status)
-    DomainErrorCheck (status, "Error waiting on Open command acceptance EC")
-    if (index != 1)
+    DomainErrorCheck(status, "Error waiting on Open command acceptance EC")
+    if(index != 1)
       {
-	DBG (0, "Domain SANE Server never accepted Open Command\n")
+	DBG(0, "Domain SANE Server never accepted Open Command\n")
 	return Sane.STATUS_INVAL
       }
 
     /* Read the result */
     status = com.CommandStatus
-    DomainErrorCheck (status, "Opening device in server")
+    DomainErrorCheck(status, "Opening device in server")
 
     /* Now map the data area, and make it temporary */
-    DBG (2, "Mapping server's data block, name is '%s'\n", com.open_path)
-    pdata = ms_$mapl (com.open_path, strlen (com.open_path), 0,
+    DBG(2, "Mapping server's data block, name is '%s'\n", com.open_path)
+    pdata = ms_$mapl(com.open_path, strlen(com.open_path), 0,
 		      DomainMaxDataSize + DomainSenseSize, ms_$cowriters,
 		      ms_$wr, true, &length_mapped, &status)
-    DomainErrorCheck (status, "Mapping Server Data block")
-    assert (length_mapped >= DomainMaxDataSize + DomainSenseSize)
-    ms_$mk_temporary (pdata, &status)
-    DomainErrorCheck (status, "Can't make data block temporary")
+    DomainErrorCheck(status, "Mapping Server Data block")
+    assert(length_mapped >= DomainMaxDataSize + DomainSenseSize)
+    ms_$mk_temporary(pdata, &status)
+    DomainErrorCheck(status, "Can't make data block temporary")
 
     /* Release the lock */
-    mutex_$unlock (&com.CommandLock)
+    mutex_$unlock(&com.CommandLock)
 
-    if (status.all != status_$ok)
+    if(status.all != status_$ok)
       {
 	/* we have a failure, return an error code, and generate debug
 	   output */
-	DBG (1, "sanei_scsi_open: acquire failed, Domain/OS status is %08x\n",
+	DBG(1, "sanei_scsi_open: acquire failed, Domain/OS status is %08x\n",
 	     status.all)
-	error_$print (status)
+	error_$print(status)
 	return Sane.STATUS_INVAL
       }
     else
@@ -1122,7 +1122,7 @@ sanei_scsi_open (const char *dev, Int *fdp,
       }
   }
 #elif USE == FREEBSD_CAM_INTERFACE
-  if (1)
+  if(1)
     {				/* 'if(1) {' makes my emacs c-mode indent better than
 				   just '{' unfortunately, this only works if all of
 				   the '{' are that way. */
@@ -1132,23 +1132,23 @@ sanei_scsi_open (const char *dev, Int *fdp,
       fake_fd = 1
       fd = -1
 
-      if ((curdev = cam_open_pass (dev, O_RDWR, NULL)) != NULL)
+      if((curdev = cam_open_pass(dev, O_RDWR, NULL)) != NULL)
 	{
-	  for (fd = 0; fd < CAM_MAXDEVS && cam_devices[fd] != NULL; fd++)
+	  for(fd = 0; fd < CAM_MAXDEVS && cam_devices[fd] != NULL; fd++)
 	    
 
-	  if (fd == CAM_MAXDEVS)
+	  if(fd == CAM_MAXDEVS)
 	    {
-	      DBG (1, "sanei_scsi_open: too many CAM devices (%d)\n", fd)
-	      cam_close_device (curdev)
+	      DBG(1, "sanei_scsi_open: too many CAM devices(%d)\n", fd)
+	      cam_close_device(curdev)
 	      return Sane.STATUS_INVAL
 	    }
 	  cam_devices[fd] = curdev
 	}
       else
 	{
-	  DBG (1, "sanei_scsi_open: can't open device `%s´: %s\n", dev,
-	       strerror (errno))
+	  DBG(1, "sanei_scsi_open: can't open device `%s´: %s\n", dev,
+	       strerror(errno))
 	  return Sane.STATUS_INVAL
 	}
     }
@@ -1158,11 +1158,11 @@ sanei_scsi_open (const char *dev, Int *fdp,
     pt_handle_t pt_handle
     Int bus, cnt, id, lun
 
-    if (4 !=
-	sscanf (dev, "/dev/passthru0:%d,%d,%d,%d", &bus, &cnt, &id, &lun))
+    if(4 !=
+	sscanf(dev, "/dev/passthru0:%d,%d,%d,%d", &bus, &cnt, &id, &lun))
       {
-	DBG (1, "sanei_scsi_open: device name `%s´ is not valid: %s\n",
-	     dev, strerror (errno))
+	DBG(1, "sanei_scsi_open: device name `%s´ is not valid: %s\n",
+	     dev, strerror(errno))
 	return Sane.STATUS_INVAL
       }
     dev_addr.psa_bus = bus
@@ -1170,10 +1170,10 @@ sanei_scsi_open (const char *dev, Int *fdp,
     dev_addr.psa_target = id
     dev_addr.psa_lun = lun
 
-    if (0 != pt_open (PASSTHRU_SCSI_ADDRESS, &dev_addr, PT_EXCLUSIVE,
+    if(0 != pt_open(PASSTHRU_SCSI_ADDRESS, &dev_addr, PT_EXCLUSIVE,
 		      &pt_handle))
       {
-	DBG (1, "sanei_scsi_open: pt_open failed: %s!\n", strerror (errno))
+	DBG(1, "sanei_scsi_open: pt_open failed: %s!\n", strerror(errno))
 	return Sane.STATUS_INVAL
       }
     else
@@ -1181,38 +1181,38 @@ sanei_scsi_open (const char *dev, Int *fdp,
   }
 #elif USE == MACOSX_INTERFACE
   {
-# if defined (HAVE_IOKIT_SCSI_SCSICOMMANDOPERATIONCODES_H) || \
-     defined (HAVE_IOKIT_SCSI_COMMANDS_SCSICOMMANDOPERATIONCODES_H)
-    len = strlen (dev)
-    if (len > 2 && len % 2 == 0 && dev [0] == '<' && dev [len - 1] == '>')
+# if defined(HAVE_IOKIT_SCSI_SCSICOMMANDOPERATIONCODES_H) || \
+     defined(HAVE_IOKIT_SCSI_COMMANDS_SCSICOMMANDOPERATIONCODES_H)
+    len = strlen(dev)
+    if(len > 2 && len % 2 == 0 && dev[0] == '<' && dev[len - 1] == '>')
       {
 	len = (len - 2) / 2
-	guid = (UInt8 *) malloc (len)
-	for (i = 0; i < len; i++)
+	guid = (UInt8 *) malloc(len)
+	for(i = 0; i < len; i++)
 	  {
-	    if (sscanf (&dev [2 * i + 1], "%02x", &d) != 1)
+	    if(sscanf(&dev[2 * i + 1], "%02x", &d) != 1)
 	      break
-	    guid [i] = d
+	    guid[i] = d
 	  }
-	if (i == len)
-	  pdata = (void *) CFDataCreate (kCFAllocatorDefault, guid, len)
-	free (guid)
+	if(i == len)
+	  pdata = (void *) CFDataCreate(kCFAllocatorDefault, guid, len)
+	free(guid)
       }
 # endif
 # ifdef HAVE_IOKIT_CDB_IOSCSILIB_H
-    if ((pdata == NULL) &&
-	(sscanf (dev, "u%ut%ul%u", &bus, &target, &lun) != 3))
+    if((pdata == NULL) &&
+	(sscanf(dev, "u%ut%ul%u", &bus, &target, &lun) != 3))
 # else
-    if (pdata == NULL)
+    if(pdata == NULL)
 # endif
       {
-	DBG (1, "sanei_scsi_open: device name %s is not valid\n", dev)
+	DBG(1, "sanei_scsi_open: device name %s is not valid\n", dev)
 	return Sane.STATUS_INVAL
       }
 
     /* Find fake fd. */
-    for (fd = 0; fd < num_alloced; ++fd)
-      if (!fd_info[fd].in_use)
+    for(fd = 0; fd < num_alloced; ++fd)
+      if(!fd_info[fd].in_use)
 	break
     fake_fd = 1
   }
@@ -1221,9 +1221,9 @@ sanei_scsi_open (const char *dev, Int *fdp,
 	  char scsi_hca_name[20]
 	  u_int hca = 0
 
-	  if (sscanf (dev, "h%ub%ut%ul%u", &hca, &bus, &target, &lun) != 4)
+	  if(sscanf(dev, "h%ub%ut%ul%u", &hca, &bus, &target, &lun) != 4)
 		  {
-			  DBG (1, "sanei_scsi_open: device name %s is not valid\n", dev)
+			  DBG(1, "sanei_scsi_open: device name %s is not valid\n", dev)
 			  return Sane.STATUS_INVAL
 		  }
 
@@ -1235,7 +1235,7 @@ sanei_scsi_open (const char *dev, Int *fdp,
 					  NULL, OPEN_EXISTING,
 					  FILE_FLAG_RANDOM_ACCESS, NULL )
 
-	  if (fd == INVALID_HANDLE_VALUE) fd = -1
+	  if(fd == INVALID_HANDLE_VALUE) fd = -1
   }
 #else
 #if defined(SGIOCSTL) || (USE == SOLARIS_INTERFACE)
@@ -1249,20 +1249,20 @@ sanei_scsi_open (const char *dev, Int *fdp,
        last character in the device name as the target index.  'a' is
        target 0, 'b', target 1, and so on... */
 
-    len = strlen (dev)
-    if (len <= 1)
+    len = strlen(dev)
+    if(len <= 1)
       {
-	DBG (1, "sanei_scsi_open: devicename `%s' too short\n", dev)
+	DBG(1, "sanei_scsi_open: devicename `%s' too short\n", dev)
 	return Sane.STATUS_INVAL
       }
 
-    real_dev = strdup (dev)
+    real_dev = strdup(dev)
     real_dev[len - 1] = '\0'
 
     target = dev[len - 1] - 'a'
-    if (target > 7)
+    if(target > 7)
       {
-	DBG (1, "sanei_scsi_open: `%c' is not a valid target id\n",
+	DBG(1, "sanei_scsi_open: `%c' is not a valid target id\n",
 	     dev[len - 1])
 	return Sane.STATUS_INVAL
       }
@@ -1275,28 +1275,28 @@ sanei_scsi_open (const char *dev, Int *fdp,
   fd = rsm_open_device(dev, O_RDWR | O_EXCL | O_NONBLOCK)
 #endif
 
-  if (fd == -1)
-    fd = open (dev, O_RDWR | O_EXCL
+  if(fd == -1)
+    fd = open(dev, O_RDWR | O_EXCL
 #if USE == LINUX_INTERFACE
 	     | O_NONBLOCK
 #endif
     )
-  if (fd < 0)
+  if(fd < 0)
     {
       Sane.Status status = Sane.STATUS_INVAL
 
-      if (errno == EACCES)
+      if(errno == EACCES)
 	status = Sane.STATUS_ACCESS_DENIED
-      else if (errno == EBUSY)
+      else if(errno == EBUSY)
 	status = Sane.STATUS_DEVICE_BUSY
 
-      DBG (1, "sanei_scsi_open: open of `%s' failed: %s\n",
-	   dev, strerror (errno))
+      DBG(1, "sanei_scsi_open: open of `%s' failed: %s\n",
+	   dev, strerror(errno))
       return status
     }
 
-  if (real_dev)
-    free (real_dev)
+  if(real_dev)
+    free(real_dev)
 
 #ifdef SG_SET_TIMEOUT
   /* Set large timeout since some scanners are slow but do not
@@ -1304,7 +1304,7 @@ sanei_scsi_open (const char *dev, Int *fdp,
   {
     Int timeout
     timeout = Sane.scsicmd_timeout * GNU_HZ
-    ioctl (fd, SG_SET_TIMEOUT, &timeout)
+    ioctl(fd, SG_SET_TIMEOUT, &timeout)
   }
 #endif
 
@@ -1314,10 +1314,10 @@ sanei_scsi_open (const char *dev, Int *fdp,
 
     sa.sa_target = target
     sa.sa_lun = 0
-    if (ioctl (fd, SGIOCSTL, &sa) == -1)
+    if(ioctl(fd, SGIOCSTL, &sa) == -1)
       {
-	DBG (1, "sanei_scsi_open: failed to attach to target: %u (%s)\n",
-	     sa.sa_target, strerror (errno))
+	DBG(1, "sanei_scsi_open: failed to attach to target: %u(%s)\n",
+	     sa.sa_target, strerror(errno))
 	return Sane.STATUS_INVAL
       }
   }
@@ -1330,13 +1330,13 @@ sanei_scsi_open (const char *dev, Int *fdp,
     fdparms *fdpa = 0
     SG_scsi_id devinfo
 
-    pdata = fdpa = malloc (sizeof (fdparms))
-    if (!pdata)
+    pdata = fdpa = malloc(sizeof(fdparms))
+    if(!pdata)
       {
-	close (fd)
+	close(fd)
 	return Sane.STATUS_NO_MEM
       }
-    memset (fdpa, 0, sizeof (fdparms))
+    memset(fdpa, 0, sizeof(fdparms))
     /* default: allow only one command to be sent to the SG driver
      */
     fdpa.sg_queue_max = 1
@@ -1347,69 +1347,69 @@ sanei_scsi_open (const char *dev, Int *fdp,
        If we have SG version 2.1.35 or above, we can additionally enable
        command queueing.
      */
-    if (0 == ioctl (fd, SG_GET_VERSION_NUM, &sg_version))
+    if(0 == ioctl(fd, SG_GET_VERSION_NUM, &sg_version))
       {
-	DBG (1, "sanei_scsi_open: SG driver version: %i\n", sg_version)
+	DBG(1, "sanei_scsi_open: SG driver version: %i\n", sg_version)
 
-	ioctl_val = ioctl (fd, SG_GET_SCSI_ID, &devinfo)
-	if (ioctl_val == EINVAL || ioctl_val == ENOTTY)
+	ioctl_val = ioctl(fd, SG_GET_SCSI_ID, &devinfo)
+	if(ioctl_val == EINVAL || ioctl_val == ENOTTY)
 	  {
-	    DBG (1, "sanei_scsi_open: The file %s is not an SG device file\n",
+	    DBG(1, "sanei_scsi_open: The file %s is not an SG device file\n",
 		 dev)
-	    close (fd)
+	    close(fd)
 	    return Sane.STATUS_INVAL
 	  }
 
-	if (devinfo.scsi_type != 6 && devinfo.scsi_type != 3)
+	if(devinfo.scsi_type != 6 && devinfo.scsi_type != 3)
 	  {
-	    DBG (1,
+	    DBG(1,
 		 "sanei_scsi_open: The device found for %s does not look like a scanner\n",
 		 dev)
-	    close (fd)
+	    close(fd)
 	    return Sane.STATUS_INVAL
 	  }
 
 	/* try to reserve a SG buffer of the size specified by *buffersize
 	 */
-	ioctl (fd, SG_SET_RESERVED_SIZE, buffersize)
+	ioctl(fd, SG_SET_RESERVED_SIZE, buffersize)
 
 	/* the set call may not be able to allocate as much memory
 	   as requested, thus we read the actual buffer size.
 	 */
-	if (0 == ioctl (fd, SG_GET_RESERVED_SIZE, &real_buffersize))
+	if(0 == ioctl(fd, SG_GET_RESERVED_SIZE, &real_buffersize))
 	  {
 	    /* if we got more memory than requested, we stick with
 	       with the requested value, in order to allow
 	       sanei_scsi_open to check the buffer size exactly.
 	     */
-	    if (real_buffersize < *buffersize)
+	    if(real_buffersize < *buffersize)
 	      *buffersize = real_buffersize
 	    fdpa.buffersize = *buffersize
 	  }
 	else
 	  {
-	    DBG (1, "sanei_scsi_open: cannot read SG buffer size - %s\n",
-		 strerror (errno))
-	    close (fd)
+	    DBG(1, "sanei_scsi_open: cannot read SG buffer size - %s\n",
+		 strerror(errno))
+	    close(fd)
 	    return Sane.STATUS_NO_MEM
 	  }
-	DBG (1, "sanei_scsi_open_extended: using %i bytes as SCSI buffer\n",
+	DBG(1, "sanei_scsi_open_extended: using %i bytes as SCSI buffer\n",
 	     *buffersize)
 
-	if (sg_version >= 20135)
+	if(sg_version >= 20135)
 	  {
-	    DBG (1, "trying to enable low level command queueing\n")
+	    DBG(1, "trying to enable low level command queueing\n")
 
-	    if (0 == ioctl (fd, SG_GET_SCSI_ID, &sid))
+	    if(0 == ioctl(fd, SG_GET_SCSI_ID, &sid))
 	      {
-		DBG (1, "sanei_scsi_open: Host adapter queue depth: %i\n",
+		DBG(1, "sanei_scsi_open: Host adapter queue depth: %i\n",
 		     sid.d_queue_depth)
 
 		ioctl_val = 1
-		if (0 == ioctl (fd, SG_SET_COMMAND_Q, &ioctl_val))
+		if(0 == ioctl(fd, SG_SET_COMMAND_Q, &ioctl_val))
 		  {
 		    fdpa.sg_queue_max = sid.d_queue_depth
-		    if (fdpa.sg_queue_max <= 0)
+		    if(fdpa.sg_queue_max <= 0)
 		      fdpa.sg_queue_max = 1
 		  }
 	      }
@@ -1420,31 +1420,31 @@ sanei_scsi_open (const char *dev, Int *fdp,
 	/* we have a really old SG driver version, or we're not opening
 	   an SG device file
 	 */
-	if (ioctl (fd, SG_GET_TIMEOUT, &ioctl_val) < 0)
+	if(ioctl(fd, SG_GET_TIMEOUT, &ioctl_val) < 0)
 	  {
-	    DBG (1, "sanei_scsi_open: The file %s is not an SG device file\n",
+	    DBG(1, "sanei_scsi_open: The file %s is not an SG device file\n",
 		 dev)
-	    close (fd)
+	    close(fd)
 	    return Sane.STATUS_INVAL
 	  }
-	if (sanei_scsi_max_request_size < *buffersize)
+	if(sanei_scsi_max_request_size < *buffersize)
 	  *buffersize = sanei_scsi_max_request_size
 	fdpa.buffersize = *buffersize
       }
-    if (sg_version == 0)
+    if(sg_version == 0)
       {
-	DBG (1, "sanei_scsi_open: using old SG driver logic\n")
+	DBG(1, "sanei_scsi_open: using old SG driver logic\n")
       }
     else
       {
-	DBG (1,
+	DBG(1,
 	     "sanei_scsi_open: SG driver can change buffer size at run time\n")
-	if (fdpa.sg_queue_max > 1)
-	  DBG (1, "sanei_scsi_open: low level command queueing enabled\n")
+	if(fdpa.sg_queue_max > 1)
+	  DBG(1, "sanei_scsi_open: low level command queueing enabled\n")
 #ifdef SG_IO
-	if (sg_version >= 30000)
+	if(sg_version >= 30000)
 	  {
-	    DBG (1, "sanei_scsi_open: using new SG header structure\n")
+	    DBG(1, "sanei_scsi_open: using new SG header structure\n")
 	  }
 #endif
       }
@@ -1454,22 +1454,22 @@ sanei_scsi_open (const char *dev, Int *fdp,
 
 /* Note: this really relies on fd to start small. Windows starts a little higher than 3. */
 
-  if (fd >= num_alloced)
+  if(fd >= num_alloced)
     {
       size_t new_size, old_size
 
-      old_size = num_alloced * sizeof (fd_info[0])
+      old_size = num_alloced * sizeof(fd_info[0])
       num_alloced = fd + 8
-      new_size = num_alloced * sizeof (fd_info[0])
-      if (fd_info)
-	fd_info = realloc (fd_info, new_size)
+      new_size = num_alloced * sizeof(fd_info[0])
+      if(fd_info)
+	fd_info = realloc(fd_info, new_size)
       else
-	fd_info = malloc (new_size)
-      memset ((char *) fd_info + old_size, 0, new_size - old_size)
-      if (!fd_info)
+	fd_info = malloc(new_size)
+      memset((char *) fd_info + old_size, 0, new_size - old_size)
+      if(!fd_info)
 	{
-	  if (!fake_fd)
-	    close (fd)
+	  if(!fake_fd)
+	    close(fd)
 	  return Sane.STATUS_NO_MEM
 	}
     }
@@ -1484,17 +1484,17 @@ sanei_scsi_open (const char *dev, Int *fdp,
 
 #if USE == SOLARIS_INTERFACE || USE == SOLARIS_USCSI_INTERFACE
   /* verify that the device really exists: */
-  if (!unit_ready (fd))
+  if(!unit_ready(fd))
     {
-      sanei_scsi_close (fd)
+      sanei_scsi_close(fd)
       return Sane.STATUS_INVAL
     }
 #endif
 #if USE == SYSVR4_INTERFACE
-  memset (lastrcmd, 0, 16);	/* reinitialize last read command block */
+  memset(lastrcmd, 0, 16);	/* reinitialize last read command block */
 #endif
 
-  if (fdp)
+  if(fdp)
     *fdp = fd
 
   return Sane.STATUS_GOOD
@@ -1503,7 +1503,7 @@ sanei_scsi_open (const char *dev, Int *fdp,
 #if USE == LINUX_INTERFACE
 /* The "wrapper" for the old open call */
 Sane.Status
-sanei_scsi_open (const char *dev, Int *fdp,
+sanei_scsi_open(const char *dev, Int *fdp,
 		 SANEI_SCSI_Sense_Handler handler, void *handler_arg)
 {
   var i: Int = 0
@@ -1512,13 +1512,13 @@ sanei_scsi_open (const char *dev, Int *fdp,
   char *cc, *cc1
   static Int first_time = 1
 
-  if (first_time)
+  if(first_time)
     {
-      cc = getenv ("Sane.SG_BUFFERSIZE")
-      if (cc)
+      cc = getenv("Sane.SG_BUFFERSIZE")
+      if(cc)
 	{
-	  i = strtol (cc, &cc1, 10)
-	  if (cc != cc1 && i >= 32768)
+	  i = strtol(cc, &cc1, 10)
+	  if(cc != cc1 && i >= 32768)
 	    wanted_buffersize = i
 	}
     }
@@ -1526,17 +1526,17 @@ sanei_scsi_open (const char *dev, Int *fdp,
     wanted_buffersize = sanei_scsi_max_request_size
 
   real_buffersize = wanted_buffersize
-  res = sanei_scsi_open_extended (dev, fdp, handler, handler_arg,
+  res = sanei_scsi_open_extended(dev, fdp, handler, handler_arg,
 				  &real_buffersize)
 
   /* make sure that we got as much memory as we wanted, otherwise
      the backend might be confused
    */
-  if (!first_time && real_buffersize != wanted_buffersize)
+  if(!first_time && real_buffersize != wanted_buffersize)
     {
-      DBG (1, "sanei_scsi_open: could not allocate SG buffer memory "
+      DBG(1, "sanei_scsi_open: could not allocate SG buffer memory "
 	   "wanted: %i got: %i\n", wanted_buffersize, real_buffersize)
-      sanei_scsi_close (*fdp)
+      sanei_scsi_close(*fdp)
       return Sane.STATUS_NO_MEM
     }
 
@@ -1546,37 +1546,37 @@ sanei_scsi_open (const char *dev, Int *fdp,
 #else
 /* dummy for the proposed new open call */
 Sane.Status
-sanei_scsi_open_extended (const char *dev, Int *fdp,
+sanei_scsi_open_extended(const char *dev, Int *fdp,
 			  SANEI_SCSI_Sense_Handler handler,
 			  void *handler_arg, Int *buffersize)
 {
   Sane.Status res
-  res = sanei_scsi_open (dev, fdp, handler, handler_arg)
-  if (sanei_scsi_max_request_size < *buffersize)
+  res = sanei_scsi_open(dev, fdp, handler, handler_arg)
+  if(sanei_scsi_max_request_size < *buffersize)
     *buffersize = sanei_scsi_max_request_size
   return res
 }
 #endif
 
 void
-sanei_scsi_close (Int fd)
+sanei_scsi_close(Int fd)
 {
 #if USE == LINUX_INTERFACE
-  if (fd_info[fd].pdata)
+  if(fd_info[fd].pdata)
     {
       req *req, *next_req
 
       /* make sure that there are no pending SCSI calls */
-      sanei_scsi_req_flush_all_extended (fd)
+      sanei_scsi_req_flush_all_extended(fd)
 
       req = ((fdparms *) fd_info[fd].pdata)->Sane.free_list
-      while (req)
+      while(req)
 	{
 	  next_req = req.next
-	  free (req)
+	  free(req)
 	  req = next_req
 	}
-      free (fd_info[fd].pdata)
+      free(fd_info[fd].pdata)
     }
 #endif
 
@@ -1587,63 +1587,63 @@ sanei_scsi_close (Int fd)
 #ifdef WIN32
   CloseHandle(fd)
 #else
-  if (!fd_info[fd].fake_fd)
-    close (fd)
+  if(!fd_info[fd].fake_fd)
+    close(fd)
 #endif
 
 #if USE == FREEBSD_CAM_INTERFACE
-  cam_close_device (cam_devices[fd])
+  cam_close_device(cam_devices[fd])
   cam_devices[fd] = NULL
 #elif USE == DOMAINOS_INTERFACE
   {
     static Int index
     static status_$t status
 
-    DBG (1, "sanei_scsi_close:  fd=%d\n", fd)
+    DBG(1, "sanei_scsi_close:  fd=%d\n", fd)
 
     /* Send the command to the server */
-    if (!mutex_$lock (&com.CommandLock, Wait16S))
+    if(!mutex_$lock(&com.CommandLock, Wait16S))
       {
-	DBG (0, "Could not obtain mutex lock for Close command\n")
+	DBG(0, "Could not obtain mutex lock for Close command\n")
       }
     else
       {
 	com.opcode = Close
 	com.fd = fd
-	CommandTriggerValue[0] = ec2_$read (com.CommandAccepted) + 1
-	ec2_$advance (&com.CommandAvailable, &status)
-	DomainErrorCheck (status, "Can't advance CommandAvailable EC")
-	CommandTriggerValue[1] = (ec2_$read (*CommandAcceptedPtr[1])
+	CommandTriggerValue[0] = ec2_$read(com.CommandAccepted) + 1
+	ec2_$advance(&com.CommandAvailable, &status)
+	DomainErrorCheck(status, "Can't advance CommandAvailable EC")
+	CommandTriggerValue[1] = (ec2_$read(*CommandAcceptedPtr[1])
 				  + DomainECWaitConstant)
-	index = ec2_$wait_svc (CommandAcceptedPtr, CommandTriggerValue, 2,
+	index = ec2_$wait_svc(CommandAcceptedPtr, CommandTriggerValue, 2,
 			       &status)
-	DomainErrorCheck (status,
+	DomainErrorCheck(status,
 			  "Error waiting on Close command acceptance EC")
-	if (index != 1)
+	if(index != 1)
 	  {
-	    DBG (0, "Domain SANE Server never accepted Close Command\n")
+	    DBG(0, "Domain SANE Server never accepted Close Command\n")
 	  }
 
 	/* Read the result */
 	status = com.CommandStatus
 	/* Release the lock */
-	mutex_$unlock (&com.CommandLock)
+	mutex_$unlock(&com.CommandLock)
       }
 
     /* Unmap the data area */
-    ms_$unmap (fd_info[com.fd].pdata, DomainMaxDataSize + DomainSenseSize,
+    ms_$unmap(fd_info[com.fd].pdata, DomainMaxDataSize + DomainSenseSize,
 	       &status)
-    DomainErrorCheck (status, "Error unmapping device data area")
+    DomainErrorCheck(status, "Error unmapping device data area")
   }
 #endif /* USE == DOMAINOS_INTERFACE */
 
 #if USE == OS2_INTERFACE
-  close_aspi ()
+  close_aspi()
 #endif /* USE == OS2_INTERFACE */
 
 #if USE == MACOSX_INTERFACE
-  if (fd_info[fd].pdata)
-    CFRelease (fd_info[fd].pdata)
+  if(fd_info[fd].pdata)
+    CFRelease(fd_info[fd].pdata)
 #endif /* USE == MACOSX_INTERFACE */
 }
 
@@ -1652,15 +1652,15 @@ sanei_scsi_close (Int fd)
 # define WE_HAVE_ASYNC_SCSI
 
 void
-sanei_scsi_req_flush_all (void)
+sanei_scsi_req_flush_all(void)
 {
   status_$t status
 
-  DBG (1, "sanei_scsi_req_flush_all: ()\n")
+  DBG(1, "sanei_scsi_req_flush_all: ()\n")
   /* I have never seen this called, and I'm not sure what to do with it,
      so I guarantee that it will generate a fault, and I can add support
      for it.  */
-  assert (1 == 0)
+  assert(1 == 0)
 }
 
 
@@ -1677,19 +1677,19 @@ sanei_scsi_req_enter2 (Int fd,
   static scsi_$status_t SCSIStatus
   static void *buf_ptr
 
-  if (dst_size)
-    DBG (1, "sanei_scsi_req_enter2: (fd=%x, cmd=%p, cmd_size=%x, "
+  if(dst_size)
+    DBG(1, "sanei_scsi_req_enter2: (fd=%x, cmd=%p, cmd_size=%x, "
 	 "src=%p, src_size=%x, dst=%p, dst_size=%x, *idp=%p)\n",
 	 fd, cmd, cmd_size, src, src_size, dst, *dst_size, idp)
   else
-    DBG (1, "sanei_scsi_req_enter2: (fd=%x, cmd=%p, cmd_size=%x, "
+    DBG(1, "sanei_scsi_req_enter2: (fd=%x, cmd=%p, cmd_size=%x, "
 	 "src=%p, src_size=%x, dst=%p, dst_size=NULL, *idp=%p)\n",
 	 fd, src, src_size, dst, idp)
 
   /* Lock the command structure */
-  if (!mutex_$lock (&com.CommandLock, mutex_$wait_forever))
+  if(!mutex_$lock(&com.CommandLock, mutex_$wait_forever))
     {
-      DBG (0, "Could not obtain mutex lock for Enter Command\n")
+      DBG(0, "Could not obtain mutex lock for Enter Command\n")
       return Sane.STATUS_INVAL
     }
 
@@ -1697,15 +1697,15 @@ sanei_scsi_req_enter2 (Int fd,
   com.opcode = Enter
   com.fd = fd
   com.cdb_size = cmd_size
-  if (dst_size)
+  if(dst_size)
     com.dst_size = *dst_size
-  memcpy (&com.cdb, cmd, com.cdb_size)
+  memcpy(&com.cdb, cmd, com.cdb_size)
 
   /* figure out if this is a read or a write */
-  if (dst_size && *dst_size)
+  if(dst_size && *dst_size)
     {
       /* dest buffer specified, must be a read */
-      /* assert (com.cdb_size == src_size); */
+      /* assert(com.cdb_size == src_size); */
       com.direction = scsi_read
       buf_ptr = dst
       com.buf_size = *dst_size
@@ -1713,24 +1713,24 @@ sanei_scsi_req_enter2 (Int fd,
   else
     {
       /* no dest buffer, must be a write */
-      /* assert (com.cdb_size <= src_size); */
+      /* assert(com.cdb_size <= src_size); */
       com.direction = scsi_write
       buf_ptr = (char *) src
       com.buf_size = src_size
-      if (com.buf_size)
-	memcpy (fd_info[fd].pdata, buf_ptr, com.buf_size)
+      if(com.buf_size)
+	memcpy(fd_info[fd].pdata, buf_ptr, com.buf_size)
     }
 
-  CommandTriggerValue[0] = ec2_$read (com.CommandAccepted) + 1
-  ec2_$advance (&com.CommandAvailable, &status)
-  DomainErrorCheck (status, "Can't advance CommandAvailable EC")
-  CommandTriggerValue[1] = (ec2_$read (*CommandAcceptedPtr[1])
+  CommandTriggerValue[0] = ec2_$read(com.CommandAccepted) + 1
+  ec2_$advance(&com.CommandAvailable, &status)
+  DomainErrorCheck(status, "Can't advance CommandAvailable EC")
+  CommandTriggerValue[1] = (ec2_$read(*CommandAcceptedPtr[1])
 			    + DomainECWaitConstant)
-  index = ec2_$wait_svc (CommandAcceptedPtr, CommandTriggerValue, 2, &status)
-  DomainErrorCheck (status, "Error waiting on Enter command acceptance EC")
-  if (index != 1)
+  index = ec2_$wait_svc(CommandAcceptedPtr, CommandTriggerValue, 2, &status)
+  DomainErrorCheck(status, "Error waiting on Enter command acceptance EC")
+  if(index != 1)
     {
-      DBG (0, "Domain SANE Server never accepted Enter Command\n")
+      DBG(0, "Domain SANE Server never accepted Enter Command\n")
       return Sane.STATUS_INVAL
     }
 
@@ -1739,12 +1739,12 @@ sanei_scsi_req_enter2 (Int fd,
   SCSIStatus = com.SCSIStatus
 
   /* Release the lock */
-  mutex_$unlock (&com.CommandLock)
+  mutex_$unlock(&com.CommandLock)
 
   /* Now decode the return status */
-  if (status.all)
-    DBG (1, "Server returned status %08x from Enter command\n", status.all)
-  switch (status.all)
+  if(status.all)
+    DBG(1, "Server returned status %08x from Enter command\n", status.all)
+  switch(status.all)
     {
     case status_$ok:
       Sane.status = Sane.STATUS_GOOD
@@ -1761,16 +1761,16 @@ sanei_scsi_req_enter2 (Int fd,
     case scsi_$hdwr_failure:	/* received when both scanners were active */
       Sane.status = Sane.STATUS_IO_ERROR
       break
-    case (status_$ok | 0x80000000):
+    case(status_$ok | 0x80000000):
       /* Special - no Domain/OS error, but fail bit set means to check
          SCSI operation status. */
-      DBG (1, "Server returned SCSI status of %08x\n", SCSIStatus)
-      switch (SCSIStatus)
+      DBG(1, "Server returned SCSI status of %08x\n", SCSIStatus)
+      switch(SCSIStatus)
 	{
 	case scsi_check_condition:
 	  /* Call the sense handler, if defined */
 	  handler = fd_info[com.fd].sense_handler
-	  if (handler)
+	  if(handler)
 	    (*handler) (fd, ((u_char *) fd_info[fd].pdata
 			     + DomainMaxDataSize),
 			fd_info[com.fd].sense_handler_arg)
@@ -1780,31 +1780,31 @@ sanei_scsi_req_enter2 (Int fd,
 	  Sane.status = Sane.STATUS_DEVICE_BUSY
 	  break
 	default:
-	  DBG (0, "Error - Unrecognized SCSI status %08x returned from "
+	  DBG(0, "Error - Unrecognized SCSI status %08x returned from "
 	       "Enter command\n", SCSIStatus)
 	  Sane.status = Sane.STATUS_IO_ERROR
-	  exit (EXIT_FAILURE)
+	  exit(EXIT_FAILURE)
 	}
       break
     default:
-      DBG (0, "Unmapped status (%08x) returned from Domain SANE Server\n",
+      DBG(0, "Unmapped status(%08x) returned from Domain SANE Server\n",
 	   status.all)
       Sane.status = Sane.STATUS_IO_ERROR
     }
 
   /* If a read, copy the data into the destination buffer */
-  if ((com.direction == scsi_read) && com.dst_size)
-    memcpy (buf_ptr, fd_info[fd].pdata, com.dst_size)
+  if((com.direction == scsi_read) && com.dst_size)
+    memcpy(buf_ptr, fd_info[fd].pdata, com.dst_size)
 
   return Sane.status
 }
 
 
 Sane.Status
-sanei_scsi_req_wait (void *id)
+sanei_scsi_req_wait(void *id)
 {
   Sane.Status status
-  DBG (1, "sanei_scsi_req_wait: (id=%p)\n", id)
+  DBG(1, "sanei_scsi_req_wait: (id=%p)\n", id)
   status = Sane.STATUS_GOOD
   return status
 }
@@ -1819,13 +1819,13 @@ sanei_scsi_cmd2 (Int fd,
   Sane.Status status
   void *id
 
-  DBG (1, "sanei_scsi_cmd2: (fd=%d)\n", fd)
+  DBG(1, "sanei_scsi_cmd2: (fd=%d)\n", fd)
   status =
     sanei_scsi_req_enter2 (fd, cmd, cmd_size, src, src_size, dst, dst_size,
 			   &id)
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     return status
-  return sanei_scsi_req_wait (id)
+  return sanei_scsi_req_wait(id)
 }
 
 #endif /* USE == DOMAINOS_INTERFACE */
@@ -1850,19 +1850,19 @@ do							\
   {							\
     sigset_t old_mask;					\
 							\
-    if (need_init)					\
+    if(need_init)					\
       {							\
 	need_init = 0;					\
-	sigfillset (&all_signals);			\
+	sigfillset(&all_signals);			\
       }							\
-    sigprocmask (SIG_BLOCK, &all_signals, &old_mask);	\
+    sigprocmask(SIG_BLOCK, &all_signals, &old_mask);	\
     {s;}						\
-    sigprocmask (SIG_SETMASK, &old_mask, 0);		\
+    sigprocmask(SIG_SETMASK, &old_mask, 0);		\
   }							\
-while (0)
+while(0)
 
 static void
-issue (struct req *req)
+issue(struct req *req)
 {
   ssize_t nwritten
   fdparms *fdp
@@ -1870,31 +1870,31 @@ issue (struct req *req)
   Int retries
   Int ret
 
-  if (!req)
+  if(!req)
     return
 
   fdp = (fdparms *) fd_info[req.fd].pdata
-  DBG (4, "sanei_scsi.issue: %p\n", (void *) req)
+  DBG(4, "sanei_scsi.issue: %p\n", (void *) req)
 
   rp = fdp.Sane.qhead
-  while (rp && rp.running)
+  while(rp && rp.running)
     rp = rp.next
 
-  while (rp && fdp.sg_queue_used < fdp.sg_queue_max)
+  while(rp && fdp.sg_queue_used < fdp.sg_queue_max)
     {
       retries = 20
-      while (retries)
+      while(retries)
 	{
 	  errno = 0
 #ifdef SG_IO
-	  if (sg_version < 30000)
+	  if(sg_version < 30000)
 	    {
 #endif
-	      ATOMIC (rp.running = 1
-		      nwritten = write (rp.fd, &rp.sgdata.cdb,
+	      ATOMIC(rp.running = 1
+		      nwritten = write(rp.fd, &rp.sgdata.cdb,
 					rp.sgdata.cdb.hdr.pack_len)
 		      ret = 0
-		      if (nwritten != rp.sgdata.cdb.hdr.pack_len)
+		      if(nwritten != rp.sgdata.cdb.hdr.pack_len)
 		      {
 		      /* ENOMEM can easily happen, if both command queueing
 		         inside the SG driver and large buffers are used.
@@ -1902,7 +1902,7 @@ issue (struct req *req)
 		         command in the queue, we simply try to issue
 		         it later again.
 		       */
-		      if (errno == EAGAIN
+		      if(errno == EAGAIN
 			  || (errno == ENOMEM && rp != fdp.Sane.qhead))
 		      {
 		      /* don't try to send the data again, but
@@ -1915,10 +1915,10 @@ issue (struct req *req)
 	    }
 	  else
 	    {
-	      ATOMIC (rp.running = 1
+	      ATOMIC(rp.running = 1
 		      ret = ioctl(rp.fd, SG_IO, &rp.sgdata.sg3.hdr)
 		      nwritten = 0
-		      if (ret < 0)
+		      if(ret < 0)
 		      {
 		      /* ENOMEM can easily happen, if both command queuein
 		         inside the SG driver and large buffers are used.
@@ -1926,7 +1926,7 @@ issue (struct req *req)
 		         command in the queue, we simply try to issue
 		         it later again.
 		       */
-			if (errno == EAGAIN
+			if(errno == EAGAIN
 			    || (errno == ENOMEM && rp != fdp.Sane.qhead))
 			  {
 			    /* don't try to send the data again, but
@@ -1942,42 +1942,42 @@ issue (struct req *req)
 			  }
 		      }
 	      )
-	      IF_DBG (if (DBG_LEVEL >= 255)
-		      system ("cat /proc/scsi/sg/debug 1>&2");)
+	      IF_DBG(if(DBG_LEVEL >= 255)
+		      system("cat /proc/scsi/sg/debug 1>&2");)
 		}
 #endif
-		if (rp == fdp.Sane.qhead && errno == EAGAIN)
+		if(rp == fdp.Sane.qhead && errno == EAGAIN)
 		  {
 		    retries--
-		    usleep (10000)
+		    usleep(10000)
 		  }
 		else
 		  retries = 0
 	    }
 
 #ifndef SG_IO
-	  if (nwritten != rp.sgdata.cdb.hdr.pack_len)
+	  if(nwritten != rp.sgdata.cdb.hdr.pack_len)
 #else
-	  if ((sg_version < 30000 && nwritten != rp.sgdata.cdb.hdr.pack_len)
+	  if((sg_version < 30000 && nwritten != rp.sgdata.cdb.hdr.pack_len)
 	      || (sg_version >= 30000 && ret < 0))
 #endif
 	    {
-	      if (rp.running)
+	      if(rp.running)
 		{
 #ifdef SG_IO
-		  if (sg_version < 30000)
+		  if(sg_version < 30000)
 #endif
-		    DBG (1, "sanei_scsi.issue: bad write (errno=%i) %s %li\n",
-			 errno, strerror (errno), (long)nwritten)
+		    DBG(1, "sanei_scsi.issue: bad write(errno=%i) %s %li\n",
+			 errno, strerror(errno), (long)nwritten)
 #ifdef SG_IO
-		  else if (sg_version > 30000)
-		    DBG (1, "sanei_scsi.issue: SG_IO ioctl error (errno=%i, ret=%d) %s\n",
-			 errno, ret, strerror (errno))
+		  else if(sg_version > 30000)
+		    DBG(1, "sanei_scsi.issue: SG_IO ioctl error(errno=%i, ret=%d) %s\n",
+			 errno, ret, strerror(errno))
 #endif
 		  rp.done = 1
-		  if (errno == ENOMEM)
+		  if(errno == ENOMEM)
 		    {
-		      DBG (1, "sanei_scsi.issue: SG_BIG_BUF inconsistency? "
+		      DBG(1, "sanei_scsi.issue: SG_BIG_BUF inconsistency? "
 			   "Check file PROBLEMS.\n")
 		      rp.status = Sane.STATUS_NO_MEM
 		    }
@@ -1986,11 +1986,11 @@ issue (struct req *req)
 		}
 	      else
 		{
-		  if (errno == ENOMEM)
-		    DBG (1, "issue: ENOMEM - cannot queue SCSI command. "
+		  if(errno == ENOMEM)
+		    DBG(1, "issue: ENOMEM - cannot queue SCSI command. "
 			 "Trying again later.\n")
 		  else
-		    DBG (1, "issue: EAGAIN - cannot queue SCSI command. "
+		    DBG(1, "issue: EAGAIN - cannot queue SCSI command. "
 			 "Trying again later.\n")
 		}
 	      break;		/* in case of an error don't try to queue more commands */
@@ -1998,11 +1998,11 @@ issue (struct req *req)
 	  else
 	    {
 #ifdef SG_IO
-	      if (sg_version < 30000)
+	      if(sg_version < 30000)
 #endif
 		req.status = Sane.STATUS_IO_ERROR
 #ifdef SG_IO
-	      else if (sg_version > 30000) /* SG_IO is synchronous, we're all set */
+	      else if(sg_version > 30000) /* SG_IO is synchronous, we're all set */
 		req.status = Sane.STATUS_GOOD
 #endif
 	    }
@@ -2011,34 +2011,34 @@ issue (struct req *req)
     }
 }
 
-  void sanei_scsi_req_flush_all_extended (Int fd)
+  void sanei_scsi_req_flush_all_extended(Int fd)
   {
     fdparms *fdp
     struct req *req, *next_req
     Int len, count
 
     fdp = (fdparms *) fd_info[fd].pdata
-    for (req = fdp.Sane.qhead; req; req = next_req)
+    for(req = fdp.Sane.qhead; req; req = next_req)
       {
-	if (req.running && !req.done)
+	if(req.running && !req.done)
 	  {
 	    count = Sane.scsicmd_timeout * 10
-	    while (count)
+	    while(count)
 	      {
 		errno = 0
 #ifdef SG_IO
-		if (sg_version < 30000)
+		if(sg_version < 30000)
 #endif
 		  len =
-		    read (fd, &req.sgdata.cdb,
+		    read(fd, &req.sgdata.cdb,
 			  req.sgdata.cdb.hdr.reply_len)
 #ifdef SG_IO
 		else
-		  len = read (fd, &req.sgdata.sg3.hdr, sizeof (Sg_io_hdr))
+		  len = read(fd, &req.sgdata.sg3.hdr, sizeof(Sg_io_hdr))
 #endif
-		if (len >= 0 || (len < 0 && errno != EAGAIN))
+		if(len >= 0 || (len < 0 && errno != EAGAIN))
 		  break
-		usleep (100000)
+		usleep(100000)
 		count--
 	      }
 	    ((fdparms *) fd_info[req.fd].pdata)->sg_queue_used--
@@ -2052,7 +2052,7 @@ issue (struct req *req)
     fdp.Sane.qhead = fdp.Sane.qtail = 0
   }
 
-  void sanei_scsi_req_flush_all ()
+  void sanei_scsi_req_flush_all()
   {
     Int fd, i, j = 0
 
@@ -2061,17 +2061,17 @@ issue (struct req *req)
      */
 
     fd = num_alloced
-    for (i = 0; i < num_alloced; i++)
-      if (fd_info[i].in_use)
+    for(i = 0; i < num_alloced; i++)
+      if(fd_info[i].in_use)
 	{
 	  j++
 	  fd = i
 	}
 
-    assert (j < 2)
+    assert(j < 2)
 
-    if (fd < num_alloced)
-      sanei_scsi_req_flush_all_extended (fd)
+    if(fd < num_alloced)
+      sanei_scsi_req_flush_all_extended(fd)
   }
 
   Sane.Status
@@ -2086,7 +2086,7 @@ issue (struct req *req)
 
     fdp = (fdparms *) fd_info[fd].pdata
 
-    if (fdp.Sane.free_list)
+    if(fdp.Sane.free_list)
       {
 	req = fdp.Sane.free_list
 	fdp.Sane.free_list = req.next
@@ -2095,19 +2095,19 @@ issue (struct req *req)
     else
       {
 #ifdef SG_IO
-	if (sg_version < 30000)
+	if(sg_version < 30000)
 #endif
-	  size = (sizeof (*req) - sizeof (req.sgdata.cdb.data)
+	  size = (sizeof(*req) - sizeof(req.sgdata.cdb.data)
 		  + fdp.buffersize)
 #ifdef SG_IO
 	else
-	  size = sizeof (*req) + MAX_CDB + fdp.buffersize
-	    - sizeof (req.sgdata.sg3.data)
+	  size = sizeof(*req) + MAX_CDB + fdp.buffersize
+	    - sizeof(req.sgdata.sg3.data)
 #endif
-	req = malloc (size)
-	if (!req)
+	req = malloc(size)
+	if(!req)
 	  {
-	    DBG (1, "sanei_scsi_req_enter: failed to malloc %lu bytes\n",
+	    DBG(1, "sanei_scsi_req_enter: failed to malloc %lu bytes\n",
 		 (u_long) size)
 	    return Sane.STATUS_NO_MEM
 	  }
@@ -2119,22 +2119,22 @@ issue (struct req *req)
     req.dst = dst
     req.dst_len = dst_size
 #ifdef SG_IO
-    if (sg_version < 30000)
+    if(sg_version < 30000)
       {
 #endif
-	memset (&req.sgdata.cdb.hdr, 0, sizeof (req.sgdata.cdb.hdr))
+	memset(&req.sgdata.cdb.hdr, 0, sizeof(req.sgdata.cdb.hdr))
 	req.sgdata.cdb.hdr.pack_id = pack_id++
 	req.sgdata.cdb.hdr.pack_len = cmd_size + src_size
-	  + sizeof (req.sgdata.cdb.hdr)
+	  + sizeof(req.sgdata.cdb.hdr)
 	req.sgdata.cdb.hdr.reply_len = (dst_size ? *dst_size : 0)
-	  + sizeof (req.sgdata.cdb.hdr)
-	memcpy (&req.sgdata.cdb.data, cmd, cmd_size)
-	memcpy (&req.sgdata.cdb.data[cmd_size], src, src_size)
-	if (CDB_SIZE (*(const u_char *) cmd) != cmd_size)
+	  + sizeof(req.sgdata.cdb.hdr)
+	memcpy(&req.sgdata.cdb.data, cmd, cmd_size)
+	memcpy(&req.sgdata.cdb.data[cmd_size], src, src_size)
+	if(CDB_SIZE(*(const u_char *) cmd) != cmd_size)
 	  {
-	    if (ioctl (fd, SG_NEXT_CMD_LEN, &cmd_size))
+	    if(ioctl(fd, SG_NEXT_CMD_LEN, &cmd_size))
 	      {
-		DBG (1,
+		DBG(1,
 		     "sanei_scsi_req_enter2: ioctl to set command length failed\n")
 	      }
 	  }
@@ -2142,45 +2142,45 @@ issue (struct req *req)
       }
     else
       {
-	memset (&req.sgdata.sg3.hdr, 0, sizeof (req.sgdata.sg3.hdr))
+	memset(&req.sgdata.sg3.hdr, 0, sizeof(req.sgdata.sg3.hdr))
 	req.sgdata.sg3.hdr.interface_id = 'S'
 	req.sgdata.sg3.hdr.cmd_len = cmd_size
 	req.sgdata.sg3.hdr.iovec_count = 0
 	req.sgdata.sg3.hdr.mx_sb_len = SENSE_MAX
 	/* read or write? */
-	if (dst_size && *dst_size)
+	if(dst_size && *dst_size)
 	  {
 	    req.sgdata.sg3.hdr.dxfer_direction = SG_DXFER_FROM_DEV
 	    req.sgdata.sg3.hdr.dxfer_len = *dst_size
 	    req.sgdata.sg3.hdr.dxferp = dst
 	  }
-	else if (src_size)
+	else if(src_size)
 	  {
 	    req.sgdata.sg3.hdr.dxfer_direction = SG_DXFER_TO_DEV
-	    if (src_size > fdp.buffersize)
+	    if(src_size > fdp.buffersize)
 	      {
-		DBG (1,
+		DBG(1,
 		     "sanei_scsi_req_enter2 warning: truncating write data "
 		     "from requested %li bytes to allowed %li bytes\n",
 		     (long)src_size, (long)fdp.buffersize)
 		src_size = fdp.buffersize
 	      }
 	    req.sgdata.sg3.hdr.dxfer_len = src_size
-	    memcpy (&req.sgdata.sg3.data[MAX_CDB], src, src_size)
+	    memcpy(&req.sgdata.sg3.data[MAX_CDB], src, src_size)
 	    req.sgdata.sg3.hdr.dxferp = &req.sgdata.sg3.data[MAX_CDB]
 	  }
 	else
 	  {
 	    req.sgdata.sg3.hdr.dxfer_direction = SG_DXFER_NONE
 	  }
-	if (cmd_size > MAX_CDB)
+	if(cmd_size > MAX_CDB)
 	  {
-	    DBG (1, "sanei_scsi_req_enter2 warning: truncating write data "
+	    DBG(1, "sanei_scsi_req_enter2 warning: truncating write data "
 		 "from requested %li bytes to allowed %i bytes\n",
 		 (long)cmd_size, MAX_CDB)
 	    cmd_size = MAX_CDB
 	  }
-	memcpy (req.sgdata.sg3.data, cmd, cmd_size)
+	memcpy(req.sgdata.sg3.data, cmd, cmd_size)
 	req.sgdata.sg3.hdr.cmdp = req.sgdata.sg3.data
 	req.sgdata.sg3.hdr.sbp = &(req.sgdata.sg3.sense_buffer[0])
 	req.sgdata.sg3.hdr.timeout = 1000 * Sane.scsicmd_timeout
@@ -2200,64 +2200,64 @@ issue (struct req *req)
 #endif
 
     req.next = 0
-    ATOMIC (if (fdp.Sane.qtail)
+    ATOMIC(if(fdp.Sane.qtail)
 	    {
 	    fdp.Sane.qtail.next = req; fdp.Sane.qtail = req;}
 	    else
 	    fdp.Sane.qhead = fdp.Sane.qtail = req)
 
-    DBG (4, "scsi_req_enter: entered %p\n", (void *) req)
+    DBG(4, "scsi_req_enter: entered %p\n", (void *) req)
 
     *idp = req
-    issue (req)
+    issue(req)
 
-    DBG (10, "scsi_req_enter: queue_used: %i, queue_max: %i\n",
+    DBG(10, "scsi_req_enter: queue_used: %i, queue_max: %i\n",
 	 ((fdparms *) fd_info[fd].pdata)->sg_queue_used,
 	 ((fdparms *) fd_info[fd].pdata)->sg_queue_max)
 
     return Sane.STATUS_GOOD
   }
 
-  Sane.Status sanei_scsi_req_wait (void *id)
+  Sane.Status sanei_scsi_req_wait(void *id)
   {
     Sane.Status status = Sane.STATUS_GOOD
     struct req *req = id
     ssize_t nread = 0
 
     /* we don't support out-of-order completion */
-    assert (req == ((fdparms *) fd_info[req.fd].pdata)->Sane.qhead)
+    assert(req == ((fdparms *) fd_info[req.fd].pdata)->Sane.qhead)
 
-    DBG (4, "sanei_scsi_req_wait: waiting for %p\n", (void *) req)
+    DBG(4, "sanei_scsi_req_wait: waiting for %p\n", (void *) req)
 
-    issue (req);		/* ensure the command is running */
-    if (req.done)
+    issue(req);		/* ensure the command is running */
+    if(req.done)
       {
-	issue (req.next);	/* issue next command, if any */
+	issue(req.next);	/* issue next command, if any */
 	status = req.status
       }
     else
       {
 #ifdef SG_IO
-	if (sg_version < 30000)
+	if(sg_version < 30000)
 	  {
 #endif
 	    fd_set readable
 
 	    /* wait for command completion: */
-	    FD_ZERO (&readable)
-	    FD_SET (req.fd, &readable)
-	    select (req.fd + 1, &readable, 0, 0, 0)
+	    FD_ZERO(&readable)
+	    FD_SET(req.fd, &readable)
+	    select(req.fd + 1, &readable, 0, 0, 0)
 
 	    /* now atomically read result and set DONE: */
-	    ATOMIC (nread = read (req.fd, &req.sgdata.cdb,
+	    ATOMIC(nread = read(req.fd, &req.sgdata.cdb,
 				  req.sgdata.cdb.hdr.reply_len)
 		    req.done = 1)
 #ifdef SG_IO
 	  }
 	else
 	  {
-	    IF_DBG (if (DBG_LEVEL >= 255)
-		    system ("cat /proc/scsi/sg/debug 1>&2");)
+	    IF_DBG(if(DBG_LEVEL >= 255)
+		    system("cat /proc/scsi/sg/debug 1>&2");)
 
 	      /* set DONE: */
 	      nread = 0; /* unused in this code path */
@@ -2265,32 +2265,32 @@ issue (struct req *req)
 	  }
 #endif
 
-	if (fd_info[req.fd].pdata)
+	if(fd_info[req.fd].pdata)
 	  ((fdparms *) fd_info[req.fd].pdata)->sg_queue_used--
 
 	/* Now issue next command asap, if any.  We can't do this
 	   earlier since the Linux kernel has space for just one big
 	   buffer.  */
-	issue (req.next)
+	issue(req.next)
 
-	DBG (4, "sanei_scsi_req_wait: read %ld bytes\n", (long) nread)
+	DBG(4, "sanei_scsi_req_wait: read %ld bytes\n", (long) nread)
 
-	if (nread < 0)
+	if(nread < 0)
 	  {
-	    DBG (1, "sanei_scsi_req_wait: read returned %ld (errno=%d)\n",
+	    DBG(1, "sanei_scsi_req_wait: read returned %ld(errno=%d)\n",
 		 (long) nread, errno)
 	    status = Sane.STATUS_IO_ERROR
 	  }
 	else
 	  {
 #ifdef SG_IO
-	    if (sg_version < 30000)
+	    if(sg_version < 30000)
 	      {
 #endif
-		nread -= sizeof (req.sgdata.cdb.hdr)
+		nread -= sizeof(req.sgdata.cdb.hdr)
 
 		/* check for errors, but let the sense_handler decide.... */
-		if ((req.sgdata.cdb.hdr.result != 0) ||
+		if((req.sgdata.cdb.hdr.result != 0) ||
 		    (((req.sgdata.cdb.hdr.sense_buffer[0] & 0x7f) != 0)
 #ifdef HAVE_SG_TARGET_STATUS
 		     /* this is messy... Sometimes it happens that we have
@@ -2306,10 +2306,10 @@ issue (struct req *req)
 		      = fd_info[req.fd].sense_handler
 		    void *arg = fd_info[req.fd].sense_handler_arg
 
-		    DBG (1,
+		    DBG(1,
 			 "sanei_scsi_req_wait: SCSI command complained: %s\n",
-			 strerror (req.sgdata.cdb.hdr.result))
-		    DBG (10,
+			 strerror(req.sgdata.cdb.hdr.result))
+		    DBG(10,
 			 "sense buffer: %02x %02x %02x %02x %02x %02x %02x %02x"
 			 " %02x %02x %02x %02x %02x %02x %02x %02x\n",
 			 req.sgdata.cdb.hdr.sense_buffer[0],
@@ -2332,18 +2332,18 @@ issue (struct req *req)
 		    /* really old SG header do not define target_status,
 		       host_status and driver_status
 		     */
-		    DBG (10, "target status: %02x host status: %02x"
+		    DBG(10, "target status: %02x host status: %02x"
 			 " driver status: %02x\n",
 			 req.sgdata.cdb.hdr.target_status,
 			 req.sgdata.cdb.hdr.host_status,
 			 req.sgdata.cdb.hdr.driver_status)
 
-		    if (req.sgdata.cdb.hdr.host_status == DID_NO_CONNECT || req.sgdata.cdb.hdr.host_status == DID_BUS_BUSY || req.sgdata.cdb.hdr.host_status == DID_TIME_OUT || req.sgdata.cdb.hdr.driver_status == DRIVER_BUSY || req.sgdata.cdb.hdr.target_status == 0x04)	/* BUSY */
+		    if(req.sgdata.cdb.hdr.host_status == DID_NO_CONNECT || req.sgdata.cdb.hdr.host_status == DID_BUS_BUSY || req.sgdata.cdb.hdr.host_status == DID_TIME_OUT || req.sgdata.cdb.hdr.driver_status == DRIVER_BUSY || req.sgdata.cdb.hdr.target_status == 0x04)	/* BUSY */
 #else
-		    if (req.sgdata.cdb.hdr.result == EBUSY)
+		    if(req.sgdata.cdb.hdr.result == EBUSY)
 #endif
 		      status = Sane.STATUS_DEVICE_BUSY
-		    else if (handler)
+		    else if(handler)
 		      /* sense handler should return Sane.STATUS_GOOD if it
 		         decided all was ok after all */
 		      status =
@@ -2354,12 +2354,12 @@ issue (struct req *req)
 		  }
 
 		/* if we are ok so far, copy over the return data */
-		if (status == Sane.STATUS_GOOD)
+		if(status == Sane.STATUS_GOOD)
 		  {
-		    if (req.dst)
-		      memcpy (req.dst, req.sgdata.cdb.data, nread)
+		    if(req.dst)
+		      memcpy(req.dst, req.sgdata.cdb.data, nread)
 
-		    if (req.dst_len)
+		    if(req.dst_len)
 		      *req.dst_len = nread
 		  }
 #ifdef SG_IO
@@ -2367,7 +2367,7 @@ issue (struct req *req)
 	    else
 	      {
 		/* check for errors, but let the sense_handler decide.... */
-		if (((req.sgdata.sg3.hdr.info & SG_INFO_CHECK) != 0)
+		if(((req.sgdata.sg3.hdr.info & SG_INFO_CHECK) != 0)
 		    || ((req.sgdata.sg3.hdr.sb_len_wr > 0)
 			&& ((req.sgdata.sg3.sense_buffer[0] & 0x7f) != 0)
 			&& (req.sgdata.sg3.hdr.
@@ -2377,10 +2377,10 @@ issue (struct req *req)
 		      = fd_info[req.fd].sense_handler
 		    void *arg = fd_info[req.fd].sense_handler_arg
 
-		    DBG (1,
+		    DBG(1,
 			 "sanei_scsi_req_wait: SCSI command complained: %s\n",
-			 strerror (errno))
-		    DBG (10,
+			 strerror(errno))
+		    DBG(10,
 			 "sense buffer: %02x %02x %02x %02x %02x %02x %02x %02x"
 			 " %02x %02x %02x %02x %02x %02x %02x %02x\n",
 			 req.sgdata.sg3.sense_buffer[0],
@@ -2399,7 +2399,7 @@ issue (struct req *req)
 			 req.sgdata.sg3.sense_buffer[13],
 			 req.sgdata.sg3.sense_buffer[14],
 			 req.sgdata.sg3.sense_buffer[15])
-		    DBG (10,
+		    DBG(10,
 			 "target status: %02x host status: %04x"
 			 " driver status: %04x\n", req.sgdata.sg3.hdr.status,
 			 req.sgdata.sg3.hdr.host_status,
@@ -2409,9 +2409,9 @@ issue (struct req *req)
 		       error "classification" as it was with the old SG driver,
 		       the fourth test is new.
 		     */
-		    if (req.sgdata.sg3.hdr.host_status == SG_ERR_DID_NO_CONNECT || req.sgdata.sg3.hdr.host_status == SG_ERR_DID_BUS_BUSY || req.sgdata.sg3.hdr.host_status == SG_ERR_DID_TIME_OUT || req.sgdata.sg3.hdr.driver_status == DRIVER_BUSY || req.sgdata.sg3.hdr.masked_status == 0x04)	/* BUSY */
+		    if(req.sgdata.sg3.hdr.host_status == SG_ERR_DID_NO_CONNECT || req.sgdata.sg3.hdr.host_status == SG_ERR_DID_BUS_BUSY || req.sgdata.sg3.hdr.host_status == SG_ERR_DID_TIME_OUT || req.sgdata.sg3.hdr.driver_status == DRIVER_BUSY || req.sgdata.sg3.hdr.masked_status == 0x04)	/* BUSY */
 		      status = Sane.STATUS_DEVICE_BUSY
-		    else if (handler && req.sgdata.sg3.hdr.sb_len_wr)
+		    else if(handler && req.sgdata.sg3.hdr.sb_len_wr)
 		      /* sense handler should return Sane.STATUS_GOOD if it
 		         decided all was ok after all */
 		      status =
@@ -2421,7 +2421,7 @@ issue (struct req *req)
 		    /* status bits INTERMEDIATE and CONDITION MET should not
 		       result in an error; neither should reserved bits
 		     */
-		    else if (((req.sgdata.sg3.hdr.status & 0x2a) == 0)
+		    else if(((req.sgdata.sg3.hdr.status & 0x2a) == 0)
 			     && (req.sgdata.sg3.hdr.host_status ==
 				 SG_ERR_DID_OK)
 			     &&
@@ -2438,20 +2438,20 @@ issue (struct req *req)
 		   Observed with lk 2.4.5, 2.4.13, aic7xxx and sym53c8xx drivers,
 		   if command queueing is used. So we better issue only a warning
 		 */
-		if (status == Sane.STATUS_GOOD)
+		if(status == Sane.STATUS_GOOD)
 		  {
-		    if (req.dst_len)
+		    if(req.dst_len)
 		      {
 			*req.dst_len -= req.sgdata.sg3.hdr.resid
 		      }
 		  }
 #endif
-		if (req.sgdata.sg3.hdr.resid)
+		if(req.sgdata.sg3.hdr.resid)
 		  {
-		    DBG (1,
+		    DBG(1,
 			 "sanei_scsi_req_wait: SG driver returned resid %i\n",
 			 req.sgdata.sg3.hdr.resid)
-		    DBG (1,
+		    DBG(1,
 			 "                     NOTE: This value may be bogus\n")
 		  }
 	      }
@@ -2460,9 +2460,9 @@ issue (struct req *req)
       }
 
     /* dequeue and release processed request: */
-    ATOMIC (((fdparms *) fd_info[req.fd].pdata)->Sane.qhead
+    ATOMIC(((fdparms *) fd_info[req.fd].pdata)->Sane.qhead
 	    = ((fdparms *) fd_info[req.fd].pdata)->Sane.qhead.next
-	    if (!((fdparms *) fd_info[req.fd].pdata)->Sane.qhead)
+	    if(!((fdparms *) fd_info[req.fd].pdata)->Sane.qhead)
 	    ((fdparms *) fd_info[req.fd].pdata)->Sane.qtail = 0
 	    req.next = ((fdparms *) fd_info[req.fd].pdata)->Sane.free_list
 	    ((fdparms *) fd_info[req.fd].pdata)->Sane.free_list = req)
@@ -2481,14 +2481,14 @@ issue (struct req *req)
     status =
       sanei_scsi_req_enter2 (fd, cmd, cmd_size, src, src_size, dst, dst_size,
 			     &id)
-    if (status != Sane.STATUS_GOOD)
+    if(status != Sane.STATUS_GOOD)
       return status
-    return sanei_scsi_req_wait (id)
+    return sanei_scsi_req_wait(id)
   }
 
-/* The following code (up to and including sanei_scsi_find_devices() )
+/* The following code(up to and including sanei_scsi_find_devices() )
    is trying to match device/manufacturer names and/or SCSI addressing
-   numbers (i.e. <host,bus,id,lun>) with a sg device file name
+   numbers(i.e. <host,bus,id,lun>) with a sg device file name
    (e.g. /dev/sg3).
 */
 #define PROCFILE	"/proc/scsi/scsi"
@@ -2524,55 +2524,55 @@ issue (struct req *req)
   ]
 
   static Int			/* Returns open sg file descriptor, or -1 for no access,
-				   or -2 for not found (or other error) */
-    lx_mk_devicename (Int guess_devnum, char *name, size_t name_len)
+				   or -2 for not found(or other error) */
+    lx_mk_devicename(Int guess_devnum, char *name, size_t name_len)
   {
     Int dev_fd, k, dnl_len
     const struct lx_device_name_list_tag *dnp
 
-    dnl_len = NELEMS (lx_dnl)
+    dnl_len = NELEMS(lx_dnl)
     k = ((-1 == lx_sg_dev_base) ? 0 : lx_sg_dev_base)
-    for (; k < dnl_len; ++k)
+    for(; k < dnl_len; ++k)
       {
 	dnp = &lx_dnl[k]
-	if (dnp.base)
-	  snprintf (name, name_len, "%s%c", dnp.prefix,
+	if(dnp.base)
+	  snprintf(name, name_len, "%s%c", dnp.prefix,
 		    dnp.base + guess_devnum)
 	else
-	  snprintf (name, name_len, "%s%d", dnp.prefix, guess_devnum)
+	  snprintf(name, name_len, "%s%d", dnp.prefix, guess_devnum)
    dev_fd = -1
 #ifdef HAVE_RESMGR
-   dev_fd = rsm_open_device (name, O_RDWR | O_NONBLOCK)
+   dev_fd = rsm_open_device(name, O_RDWR | O_NONBLOCK)
 #endif
-   if (dev_fd == -1)
-     dev_fd = open (name, O_RDWR | O_NONBLOCK)
-	if (dev_fd >= 0)
+   if(dev_fd == -1)
+     dev_fd = open(name, O_RDWR | O_NONBLOCK)
+	if(dev_fd >= 0)
 	  {
 	    lx_sg_dev_base = k
 	    return dev_fd
 	  }
-	else if ((EACCES == errno) || (EBUSY == errno))
+	else if((EACCES == errno) || (EBUSY == errno))
 	  {
 	    lx_sg_dev_base = k
 	    return -1
 	  }
-	if (-1 != lx_sg_dev_base)
+	if(-1 != lx_sg_dev_base)
 	  return -2
       }
     return -2
   }
 
   static Int			/* Returns 1 for match, else 0 */
-    lx_chk_id (Int dev_fd, Int host, Int channel, Int id, Int lun)
+    lx_chk_id(Int dev_fd, Int host, Int channel, Int id, Int lun)
   {
 #ifdef SG_GET_SCSI_ID_FOUND
     struct sg_scsi_id ssid
 
-    if ((ioctl (dev_fd, SG_GET_SCSI_ID, &ssid) >= 0))
+    if((ioctl(dev_fd, SG_GET_SCSI_ID, &ssid) >= 0))
       {
-	DBG (2, "lx_chk_id: %d,%d  %d,%d  %d,%d  %d,%d\n", host, ssid.host_no,
+	DBG(2, "lx_chk_id: %d,%d  %d,%d  %d,%d  %d,%d\n", host, ssid.host_no,
 	     channel, ssid.channel, id, ssid.scsi_id, lun, ssid.lun)
-	if ((host == ssid.host_no) &&
+	if((host == ssid.host_no) &&
 	    (channel == ssid.channel) &&
 	    (id == ssid.scsi_id) && (lun == ssid.lun))
 	  return 1
@@ -2587,9 +2587,9 @@ issue (struct req *req)
 	Int host_unique_id
       }
       my_idlun
-      if (ioctl (dev_fd, SCSI_IOCTL_GET_IDLUN, &my_idlun) >= 0)
+      if(ioctl(dev_fd, SCSI_IOCTL_GET_IDLUN, &my_idlun) >= 0)
 	{
-	  if (((my_idlun.dev_id & 0xff) == id) &&
+	  if(((my_idlun.dev_id & 0xff) == id) &&
 	      (((my_idlun.dev_id >> 8) & 0xff) == lun) &&
 	      (((my_idlun.dev_id >> 16) & 0xff) == channel))
 	    return 1;		/* cheating, assume 'host' number matches */
@@ -2600,34 +2600,34 @@ issue (struct req *req)
 
   static Int			/* Returns 1 if match with 'name' set, else 0 */
 
-    lx_scan_sg (Int exclude_devnum, char *name, size_t name_len,
+    lx_scan_sg(Int exclude_devnum, char *name, size_t name_len,
 		Int host, Int channel, Int id, Int lun)
   {
     Int dev_fd, k, missed
 
-    if (-1 == lx_sg_dev_base)
+    if(-1 == lx_sg_dev_base)
       return 0
-    for (k = 0, missed = 0; (missed < SCAN_MISSES) && (k < 255)
+    for(k = 0, missed = 0; (missed < SCAN_MISSES) && (k < 255)
 	 ++k, ++missed)
       {
-	DBG (2, "lx_scan_sg: k=%d, exclude=%d, missed=%d\n", k,
+	DBG(2, "lx_scan_sg: k=%d, exclude=%d, missed=%d\n", k,
 	     exclude_devnum, missed)
-	if (k == exclude_devnum)
+	if(k == exclude_devnum)
 	  {
 	    missed = 0
 	    continue;		/* assumed this one has been checked already */
 	  }
-	if ((dev_fd = lx_mk_devicename (k, name, name_len)) >= 0)
+	if((dev_fd = lx_mk_devicename(k, name, name_len)) >= 0)
 	  {
 	    missed = 0
-	    if (lx_chk_id (dev_fd, host, channel, id, lun))
+	    if(lx_chk_id(dev_fd, host, channel, id, lun))
 	      {
-		close (dev_fd)
+		close(dev_fd)
 		return 1
 	      }
-	    close (dev_fd)
+	    close(dev_fd)
 	  }
-	else if (-1 == dev_fd)
+	else if(-1 == dev_fd)
 	  missed = 0;		/* no permissions but something found */
       }
     return 0
@@ -2635,57 +2635,57 @@ issue (struct req *req)
 
   static Int			/* Returns 1 if match, else 0 */
 
-    lx_chk_devicename (Int guess_devnum, char *name, size_t name_len,
+    lx_chk_devicename(Int guess_devnum, char *name, size_t name_len,
 		       Int host, Int channel, Int id, Int lun)
   {
     Int dev_fd
 
-    if (host < 0)
+    if(host < 0)
       return 0
-    if (0 != lx_devfs)
+    if(0 != lx_devfs)
       {				/* simple mapping if we have devfs */
-	if (-1 == lx_devfs)
+	if(-1 == lx_devfs)
 	  {
-	    if ((dev_fd =
-		 lx_mk_devicename (guess_devnum, name, name_len)) >= 0)
-	      close (dev_fd);	/* hack to load sg driver module */
+	    if((dev_fd =
+		 lx_mk_devicename(guess_devnum, name, name_len)) >= 0)
+	      close(dev_fd);	/* hack to load sg driver module */
 	  }
-	snprintf (name, name_len, DEVFS_MSK, host, channel, id, lun)
-	dev_fd = open (name, O_RDWR | O_NONBLOCK)
-	if (dev_fd >= 0)
+	snprintf(name, name_len, DEVFS_MSK, host, channel, id, lun)
+	dev_fd = open(name, O_RDWR | O_NONBLOCK)
+	if(dev_fd >= 0)
 	  {
-	    close (dev_fd)
+	    close(dev_fd)
 	    lx_devfs = 1
-	    DBG (1, "lx_chk_devicename: matched device(devfs): %s\n", name)
+	    DBG(1, "lx_chk_devicename: matched device(devfs): %s\n", name)
 	    return 1
 	  }
-	else if (ENOENT == errno)
+	else if(ENOENT == errno)
 	  lx_devfs = 0
       }
 
-    if ((dev_fd = lx_mk_devicename (guess_devnum, name, name_len)) < -1)
+    if((dev_fd = lx_mk_devicename(guess_devnum, name, name_len)) < -1)
       {				/* no candidate sg device file name found, try /dev/sg0,1 */
-	if ((dev_fd = lx_mk_devicename (0, name, name_len)) < -1)
+	if((dev_fd = lx_mk_devicename(0, name, name_len)) < -1)
 	  {
-	    if ((dev_fd = lx_mk_devicename (1, name, name_len)) < -1)
+	    if((dev_fd = lx_mk_devicename(1, name, name_len)) < -1)
 	      return 0;		/* no luck finding sg fd to open */
 	  }
       }
-    if (dev_fd >= 0)
+    if(dev_fd >= 0)
       {
 /* now check this fd for match on <host, channel, id, lun> */
-	if (lx_chk_id (dev_fd, host, channel, id, lun))
+	if(lx_chk_id(dev_fd, host, channel, id, lun))
 	  {
-	    close (dev_fd)
-	    DBG (1, "lx_chk_devicename: matched device(direct): %s\n", name)
+	    close(dev_fd)
+	    DBG(1, "lx_chk_devicename: matched device(direct): %s\n", name)
 	    return 1
 	  }
-	close (dev_fd)
+	close(dev_fd)
       }
 /* if mismatch then call scan algorithm */
-    if (lx_scan_sg (guess_devnum, name, name_len, host, channel, id, lun))
+    if(lx_scan_sg(guess_devnum, name, name_len, host, channel, id, lun))
       {
-	DBG (1, "lx_chk_devicename: matched device(scan): %s\n", name)
+	DBG(1, "lx_chk_devicename: matched device(scan): %s\n", name)
 	return 1
       }
     return 0
@@ -2693,11 +2693,11 @@ issue (struct req *req)
 
 /* Legacy /proc/scsi/scsi */
 static void /* calls 'attach' function pointer with sg device file name iff match */
-sanei_proc_scsi_find_devices (const char *findvendor, const char *findmodel,
+sanei_proc_scsi_find_devices(const char *findvendor, const char *findmodel,
 			      const char *findtype,
 			      Int findbus, Int findchannel, Int findid,
 			      Int findlun,
-			      Sane.Status (*attach) (const char *dev))
+			      Sane.Status(*attach) (const char *dev))
   {
 #define FOUND_VENDOR  1
 #define FOUND_MODEL   2
@@ -2793,57 +2793,57 @@ sanei_proc_scsi_find_devices (const char *findvendor, const char *findmodel,
     param[6].u.i = &id
     param[7].u.i = &lun
 
-    DBG_INIT ()
+    DBG_INIT()
 
-    proc_fp = fopen (PROCFILE, "r")
-    if (!proc_fp)
+    proc_fp = fopen(PROCFILE, "r")
+    if(!proc_fp)
       {
-	DBG (1, "%s: could not open %s for reading\n", me, PROCFILE)
+	DBG(1, "%s: could not open %s for reading\n", me, PROCFILE)
 	return
       }
 
     number = bus = channel = id = lun = -1
 
     vendor[0] = model[0] = type[0] = '\0'
-    if (findvendor)
-      findvendor_len = strlen (findvendor)
-    if (findmodel)
-      findmodel_len = strlen (findmodel)
-    if (findtype)
-      findtype_len = strlen (findtype)
+    if(findvendor)
+      findvendor_len = strlen(findvendor)
+    if(findmodel)
+      findmodel_len = strlen(findmodel)
+    if(findtype)
+      findtype_len = strlen(findtype)
 
     definedd = 0
-    while (!feof (proc_fp))
+    while(!feof(proc_fp))
       {
-	fgets (line, sizeof (line), proc_fp)
-	string = (char *) sanei_config_skip_whitespace (line)
+	fgets(line, sizeof(line), proc_fp)
+	string = (char *) sanei_config_skip_whitespace(line)
 
-	while (*string)
+	while(*string)
 	  {
-	    for (i = 0; i < NELEMS (param); ++i)
+	    for(i = 0; i < NELEMS(param); ++i)
 	      {
-		if (strncmp (string, param[i].name, param[i].name_len) == 0)
+		if(strncmp(string, param[i].name, param[i].name_len) == 0)
 		  {
 		    string += param[i].name_len
 		    /* Make sure that we don't read the next parameter name
 		       as a value, if the real value consists only of spaces
 		     */
-		    c2 = string + strlen (string)
-		    for (j = 0; j < NELEMS (param); ++j)
+		    c2 = string + strlen(string)
+		    for(j = 0; j < NELEMS(param); ++j)
 		      {
-			c1 = strstr (string, param[j].name)
-			if ((j != i) && c1 && (c1 < c2))
+			c1 = strstr(string, param[j].name)
+			if((j != i) && c1 && (c1 < c2))
 			  c2 = c1
 		      }
 		    ctmp = *c2
 		    *c2 = 0
-		    string = (char *) sanei_config_skip_whitespace (string)
+		    string = (char *) sanei_config_skip_whitespace(string)
 
-		    if (param[i].is_int)
+		    if(param[i].is_int)
 		      {
-			if (*string)
+			if(*string)
 			  {
-			    *param[i].u.i = strtol (string, &end, 10)
+			    *param[i].u.i = strtol(string, &end, 10)
 			    string = (char *) end
 			  }
 			else
@@ -2851,18 +2851,18 @@ sanei_proc_scsi_find_devices (const char *findvendor, const char *findmodel,
 		      }
 		    else
 		      {
-			strncpy (param[i].u.str, string, 32)
+			strncpy(param[i].u.str, string, 32)
 			param[i].u.str[31] = '\0'
-			/* while (*string && !isspace (*string))
+			/* while(*string && !isspace(*string))
 			   ++string
 			 */
 		      }
-		    /* string = sanei_config_skip_whitespace (string); */
+		    /* string = sanei_config_skip_whitespace(string); */
 		    *c2 = ctmp
 		    string = c2
 		    definedd |= 1 << i
 
-		    if (param[i].u.v == &bus)
+		    if(param[i].u.v == &bus)
 		      {
 			++number
 			definedd = FOUND_HOST
@@ -2870,28 +2870,28 @@ sanei_proc_scsi_find_devices (const char *findvendor, const char *findmodel,
 		    break
 		  }
 	      }
-	    if (i >= NELEMS (param))
+	    if(i >= NELEMS(param))
 	      ++string;		/* no match */
 	  }
 
-	if (FOUND_ALL != definedd)
+	if(FOUND_ALL != definedd)
 	  /* some info is still missing */
 	  continue
 
 	definedd = 0
-	if ((!findvendor || strncmp (vendor, findvendor, findvendor_len) == 0)
-	    && (!findmodel || strncmp (model, findmodel, findmodel_len) == 0)
-	    && (!findtype || strncmp (type, findtype, findtype_len) == 0)
+	if((!findvendor || strncmp(vendor, findvendor, findvendor_len) == 0)
+	    && (!findmodel || strncmp(model, findmodel, findmodel_len) == 0)
+	    && (!findtype || strncmp(type, findtype, findtype_len) == 0)
 	    && (findbus == -1 || bus == findbus)
 	    && (findchannel == -1 || channel == findchannel)
 	    && (findid == -1 || id == findid)
 	    && (findlun == -1 || lun == findlun))
 	  {
-	    DBG (2, "%s: found: vendor=%s model=%s type=%s\n\t"
+	    DBG(2, "%s: found: vendor=%s model=%s type=%s\n\t"
 		 "bus=%d chan=%d id=%d lun=%d num=%d\n",
 		 me, findvendor, findmodel, findtype,
 		 bus, channel, id, lun, number)
-	    if (lx_chk_devicename (number, dev_name, sizeof (dev_name), bus,
+	    if(lx_chk_devicename(number, dev_name, sizeof(dev_name), bus,
 				   channel, id, lun)
 		&& ((*attach) (dev_name) != Sane.STATUS_GOOD))
 	      {
@@ -2900,12 +2900,12 @@ sanei_proc_scsi_find_devices (const char *findvendor, const char *findmodel,
 	  }
 	else
 	  {
-	    DBG (2, "%s: no match\n", me)
+	    DBG(2, "%s: no match\n", me)
 	  }
 	vendor[0] = model[0] = type[0] = 0
 	bus = channel = id = lun = -1
       }
-    fclose (proc_fp)
+    fclose(proc_fp)
   }
 
 #define SYSFS_SCSI_DEVICES "/sys/bus/scsi/devices"
@@ -2934,11 +2934,11 @@ static char *lnxscsi_device_types[] = {
 ]
 
 void /* calls 'attach' function pointer with sg device file name iff match */
-sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
+sanei_scsi_find_devices(const char *findvendor, const char *findmodel,
 			 const char *findtype,
 			 Int findbus, Int findchannel, Int findid,
 			 Int findlun,
-			 Sane.Status (*attach) (const char *dev))
+			 Sane.Status(*attach) (const char *dev))
   {
     char *me = "sanei_scsi_find_devices"
     char path[PATH_MAX]
@@ -2958,19 +2958,19 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     long val
     Int ret
 
-    DBG_INIT ()
+    DBG_INIT()
 
-    DBG (2, "%s: looking for: v=%s m=%s t=%s b=%d c=%d i=%d l=%d\n",
+    DBG(2, "%s: looking for: v=%s m=%s t=%s b=%d c=%d i=%d l=%d\n",
 	 me, findvendor, findmodel, findtype,
 	 findbus, findchannel, findid, findlun)
 
-    scsidevs = opendir (SYSFS_SCSI_DEVICES)
-    if (!scsidevs)
+    scsidevs = opendir(SYSFS_SCSI_DEVICES)
+    if(!scsidevs)
       {
-	DBG (1, "%s: could not open %s; falling back to /proc\n",
+	DBG(1, "%s: could not open %s; falling back to /proc\n",
 	     me, SYSFS_SCSI_DEVICES)
 
-	sanei_proc_scsi_find_devices (findvendor, findmodel, findtype,
+	sanei_proc_scsi_find_devices(findvendor, findmodel, findtype,
 				      findbus, findchannel, findid, findlun,
 				      attach)
 	return
@@ -2982,59 +2982,59 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 
     lastbus = -1
     number = -1
-    for (;;)
+    for(;;)
       {
 	errno = 0
-	buf = readdir (scsidevs)
-	if (errno != 0)
+	buf = readdir(scsidevs)
+	if(errno != 0)
 	  {
-	    DBG (1, "%s: could not read directory %s: %s\n",
+	    DBG(1, "%s: could not read directory %s: %s\n",
 		 me, SYSFS_SCSI_DEVICES, strerror(errno))
 
 	    break
 	  }
 
-	if (buf == NULL)
+	if(buf == NULL)
 	  break
 
-	if (buf.d_name[0] == '.')
+	if(buf.d_name[0] == '.')
 	  continue
 
 	/* Extract bus, channel, id, lun from directory name b:c:i:l */
 	ptr = buf.d_name
-	for (i = 0; i < 4; i++)
+	for(i = 0; i < 4; i++)
 	  {
 	    errno = 0
-	    val = strtol (ptr, &end, 10)
-	    if (((errno == ERANGE) && ((val == LONG_MAX) || (val == LONG_MIN)))
+	    val = strtol(ptr, &end, 10)
+	    if(((errno == ERANGE) && ((val == LONG_MAX) || (val == LONG_MIN)))
 		|| ((errno != 0) && (val == 0)))
 	      {
-		DBG (1, "%s: invalid integer in string (%s): %s\n",
+		DBG(1, "%s: invalid integer in string(%s): %s\n",
 		     me, ptr, strerror(errno))
 
 		i = 12; /* Skip */
 		break
 	      }
 
-	    if (end == ptr)
+	    if(end == ptr)
 	      {
-		DBG (1, "%s: no integer found in string: %s (%d)\n", me, ptr, i)
+		DBG(1, "%s: no integer found in string: %s(%d)\n", me, ptr, i)
 
 		i = 12; /* Skip */
 		break
 	      }
 
-	    if (*end && (*end != ':'))
+	    if(*end && (*end != ':'))
 	      {
-		DBG (1, "%s: parse error on string %s (%d)\n", me, buf.d_name, i)
+		DBG(1, "%s: parse error on string %s(%d)\n", me, buf.d_name, i)
 
 		i = 12; /* Skip */
 		break
 	      }
 
-	    if (val > INT_MAX)
+	    if(val > INT_MAX)
 	      {
-		DBG (1, "%s: integer value too large (%s)\n", me, buf.d_name)
+		DBG(1, "%s: integer value too large(%s)\n", me, buf.d_name)
 
 		i = 12; /* Skip */
 		break
@@ -3045,109 +3045,109 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	  }
 
 	/* Skip this one */
-	if (i == 12)
+	if(i == 12)
 	  continue
 
-	if (bcil[0] != lastbus)
+	if(bcil[0] != lastbus)
 	  {
 	    lastbus = bcil[0]
 	    number++
 	  }
 
-	for (i = 0; i < 3; i++)
+	for(i = 0; i < 3; i++)
 	  {
-	    ret = snprintf (path, PATH_MAX, "%s/%s/%s",
+	    ret = snprintf(path, PATH_MAX, "%s/%s/%s",
 			   SYSFS_SCSI_DEVICES, buf.d_name, vmtfiles[i])
-	    if ((ret < 0) || (ret >= PATH_MAX))
+	    if((ret < 0) || (ret >= PATH_MAX))
 	      {
-		DBG (1, "%s: skipping %s/%s, PATH_MAX exceeded on %s\n",
+		DBG(1, "%s: skipping %s/%s, PATH_MAX exceeded on %s\n",
 		     me, SYSFS_SCSI_DEVICES, buf.d_name, vmtfiles[i])
 
 		i = 12; /* Skip */
 		break
 	      }
 
-	    memset (vmt[i], 0, sizeof(vmt[i]))
+	    memset(vmt[i], 0, sizeof(vmt[i]))
 
 	    fp = fopen(path, "r")
-	    if (!fp)
+	    if(!fp)
 	      {
-		DBG (1, "%s: could not open %s: %s\n", me, path, strerror(errno))
+		DBG(1, "%s: could not open %s: %s\n", me, path, strerror(errno))
 
 		i = 12; /* Skip */
 		break
 	      }
 
-	    ret = fread (vmt[i], 1, sizeof(vmt[i]) - 1, fp)
-	    if (ret <= 0)
+	    ret = fread(vmt[i], 1, sizeof(vmt[i]) - 1, fp)
+	    if(ret <= 0)
 	      {
-		if (ferror(fp))
+		if(ferror(fp))
 		  {
-		    DBG (1, "%s: error reading %s\n", me, path)
+		    DBG(1, "%s: error reading %s\n", me, path)
 
 		    i = 12; /* Skip */
 		    break
 		  }
 	      }
 
-	    if (vmt[i][ret - 1] == '\n')
+	    if(vmt[i][ret - 1] == '\n')
 	      vmt[i][ret - 1] = '\0'
 
-	    fclose (fp)
+	    fclose(fp)
 	  }
 
 	/* Skip this one */
-	if (i == 12)
+	if(i == 12)
 	  continue
 
 	/* Type is a numeric string and must be converted back to a well-known string */
 	errno = 0
-	val = strtol (vmt[2], &end, 10)
-	if (((errno == ERANGE) && ((val == LONG_MAX) || (val == LONG_MIN)))
+	val = strtol(vmt[2], &end, 10)
+	if(((errno == ERANGE) && ((val == LONG_MAX) || (val == LONG_MIN)))
 	    || ((errno != 0) && (val == 0)))
 	  {
-	    DBG (1, "%s: invalid integer in type string (%s): %s\n",
+	    DBG(1, "%s: invalid integer in type string(%s): %s\n",
 		 me, vmt[2], strerror(errno))
 	    continue
 	  }
 
-	if (end == vmt[2])
+	if(end == vmt[2])
 	  {
-	    DBG (1, "%s: no integer found in type string: %s\n", me, vmt[2])
+	    DBG(1, "%s: no integer found in type string: %s\n", me, vmt[2])
 	    continue
 	  }
 
-	if ((val < 0) || (val >= (Int)(sizeof(lnxscsi_device_types) / sizeof(lnxscsi_device_types[0]))))
+	if((val < 0) || (val >= (Int)(sizeof(lnxscsi_device_types) / sizeof(lnxscsi_device_types[0]))))
 	  {
-	    DBG (1, "%s: invalid type %ld\n", me, val)
+	    DBG(1, "%s: invalid type %ld\n", me, val)
 	    continue
 	  }
 
 	strncpy(vmt[2], lnxscsi_device_types[val], sizeof(vmt[2]) - 1)
 
-	if ((!findvendor || strncmp (vmt[0], findvendor, vmt_len[0]) == 0)
-	    && (!findmodel || strncmp (vmt[1], findmodel, vmt_len[1]) == 0)
-	    && (!findtype || strncmp (vmt[2], findtype, vmt_len[2]) == 0)
+	if((!findvendor || strncmp(vmt[0], findvendor, vmt_len[0]) == 0)
+	    && (!findmodel || strncmp(vmt[1], findmodel, vmt_len[1]) == 0)
+	    && (!findtype || strncmp(vmt[2], findtype, vmt_len[2]) == 0)
 	    && (findbus == -1 || bcil[0] == findbus)
 	    && (findchannel == -1 || bcil[1] == findchannel)
 	    && (findid == -1 || bcil[2] == findid)
 	    && (findlun == -1 || bcil[3] == findlun))
 	  {
-	    DBG (2, "%s: found: vendor=%s model=%s type=%s\n\t"
+	    DBG(2, "%s: found: vendor=%s model=%s type=%s\n\t"
 		 "bus=%d chan=%d id=%d lun=%d num=%d\n",
 		 me, vmt[0], vmt[1], vmt[2],
 		 bcil[0], bcil[1], bcil[2], bcil[3], number)
 
-	    if (lx_chk_devicename (number, dev_name, sizeof (dev_name),
+	    if(lx_chk_devicename(number, dev_name, sizeof(dev_name),
 				   bcil[0], bcil[1], bcil[2], bcil[3])
 		&& ((*attach) (dev_name) != Sane.STATUS_GOOD))
 	      {
-		DBG (1, "%s: bad attach\n", me)
+		DBG(1, "%s: bad attach\n", me)
 	      }
 	  }
 	else
 	  {
-	    DBG (2, "%s: no match\n", me)
+	    DBG(2, "%s: no match\n", me)
 	  }
       }
 
@@ -3160,9 +3160,9 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 #if USE == BSD_INTERFACE
 
 #ifndef HAVE_SCSIREQ_ENTER
-  static Int scsireq_enter (Int fd, scsireq_t * hdr)
+  static Int scsireq_enter(Int fd, scsireq_t * hdr)
   {
-    return ioctl (fd, SCIOCCOMMAND, hdr)
+    return ioctl(fd, SCIOCCOMMAND, hdr)
   }
 #endif /* !HAVE_SCSIREQ_ENTER */
 
@@ -3178,14 +3178,14 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     Int result
 
 /* xxx obsolete:
-  cdb_size = CDB_SIZE (*(u_char *) src)
+  cdb_size = CDB_SIZE(*(u_char *) src)
 */
 
-    memset (&hdr, 0, sizeof (hdr))
-    memcpy (hdr.cmd, cmd, cmd_size)
-    if (dst_size && *dst_size)
+    memset(&hdr, 0, sizeof(hdr))
+    memcpy(hdr.cmd, cmd, cmd_size)
+    if(dst_size && *dst_size)
       {
-	/* xxx obsolete: assert (cdb_size == src_size)
+	/* xxx obsolete: assert(cdb_size == src_size)
 	 */
 	hdr.flags = SCCMD_READ
 	hdr.databuf = dst
@@ -3193,7 +3193,7 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
       }
     else
       {
-	/* xxx obsolete: assert (cdb_size <= src_size)
+	/* xxx obsolete: assert(cdb_size <= src_size)
 	 */
 	hdr.flags = SCCMD_WRITE
 	/* The old variant:
@@ -3206,21 +3206,21 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
       }
     hdr.timeout = Sane.scsicmd_timeout * 1000
     hdr.cmdlen = cmd_size
-    hdr.senselen = sizeof (hdr.sense)
+    hdr.senselen = sizeof(hdr.sense)
 
-    result = scsireq_enter (fd, &hdr)
-    if (result < 0)
+    result = scsireq_enter(fd, &hdr)
+    if(result < 0)
       {
-	DBG (1, "sanei_scsi_cmd: scsi_reqenter() failed: %s\n",
-	     strerror (errno))
+	DBG(1, "sanei_scsi_cmd: scsi_reqenter() failed: %s\n",
+	     strerror(errno))
 	return Sane.STATUS_IO_ERROR
       }
-    if (hdr.retsts != SCCMD_OK)
+    if(hdr.retsts != SCCMD_OK)
       {
 	SANEI_SCSI_Sense_Handler handler
 
-	DBG (1, "sanei_scsi_cmd: scsi returned with status %d\n", hdr.retsts)
-	switch (hdr.retsts)
+	DBG(1, "sanei_scsi_cmd: scsi returned with status %d\n", hdr.retsts)
+	switch(hdr.retsts)
 	  {
 	  case SCCMD_TIMEOUT:
 	  case SCCMD_BUSY:
@@ -3228,8 +3228,8 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 
 	  case SCCMD_SENSE:
 	    handler = fd_info[fd].sense_handler
-	    if (handler)
-	      return (*handler) (fd, &hdr.sense[0],
+	    if(handler)
+	      return(*handler) (fd, &hdr.sense[0],
 				 fd_info[fd].sense_handler_arg)
 	    /* fall through */
 	  default:
@@ -3237,7 +3237,7 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	  }
       }
 
-    if (dst_size)
+    if(dst_size)
       *dst_size = hdr.datalen_used
 
     return Sane.STATUS_GOOD
@@ -3259,31 +3259,31 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     size_t data_len
     Sane.Status status
 
-    if (fd < 0 || fd > CAM_MAXDEVS || cam_devices[fd] == NULL)
+    if(fd < 0 || fd > CAM_MAXDEVS || cam_devices[fd] == NULL)
       {
-	fprintf (stderr, "attempt to reference invalid unit %d\n", fd)
+	fprintf(stderr, "attempt to reference invalid unit %d\n", fd)
 	return Sane.STATUS_INVAL
       }
 
     dev = cam_devices[fd]
-    ccb = cam_getccb (dev)
+    ccb = cam_getccb(dev)
 
     /* Build the CCB */
-    memset (&(&ccb.ccb_h)[1], 0, sizeof (struct ccb_scsiio))
-    memcpy (&ccb.csio.cdb_io.cdb_bytes, cmd, cmd_size)
+    memset(&(&ccb.ccb_h)[1], 0, sizeof(struct ccb_scsiio))
+    memcpy(&ccb.csio.cdb_io.cdb_bytes, cmd, cmd_size)
 
     /*
      * Set the data direction flags.
      */
-    if (dst_size && *dst_size)
+    if(dst_size && *dst_size)
       {
-	/* xxx obsolete: assert (cdb_size == src_size)
+	/* xxx obsolete: assert(cdb_size == src_size)
 	 */
 	ccb_flags = CAM_DIR_IN
 	data_buf = ((char *) (dst))
 	data_len = *dst_size
       }
-    else if (src_size > 0)
+    else if(src_size > 0)
       {
 	ccb_flags = CAM_DIR_OUT
 	data_buf = ((char *) (src))
@@ -3296,7 +3296,7 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	data_len = 0
       }
 
-    cam_fill_csio (&ccb.csio,
+    cam_fill_csio(&ccb.csio,
 		   /* retries */ 1,
 		   /* cbfncp */ NULL,
 		   /* flags */ ccb_flags,
@@ -3309,20 +3309,20 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 
     /* Run the command */
     errno = 0
-    if ((rv = cam_send_ccb (dev, ccb)) == -1)
+    if((rv = cam_send_ccb(dev, ccb)) == -1)
       {
-	cam_freeccb (ccb)
-	return (Sane.STATUS_IO_ERROR)
+	cam_freeccb(ccb)
+	return(Sane.STATUS_IO_ERROR)
       }
 
-    if ((ccb.ccb_h.status & CAM_STATUS_MASK) != CAM_REQ_CMP)
+    if((ccb.ccb_h.status & CAM_STATUS_MASK) != CAM_REQ_CMP)
       {
 	SANEI_SCSI_Sense_Handler handler
 
-	DBG (1, "sanei_scsi_cmd: scsi returned with status %d\n",
+	DBG(1, "sanei_scsi_cmd: scsi returned with status %d\n",
 	     (ccb.ccb_h.status & CAM_STATUS_MASK))
 
-	switch (ccb.ccb_h.status & CAM_STATUS_MASK)
+	switch(ccb.ccb_h.status & CAM_STATUS_MASK)
 	  {
 	  case CAM_BUSY:
 	  case CAM_SEL_TIMEOUT:
@@ -3334,28 +3334,28 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	  }
 
 	handler = fd_info[fd].sense_handler
-	if (handler && (ccb.ccb_h.status & CAM_AUTOSNS_VALID))
+	if(handler && (ccb.ccb_h.status & CAM_AUTOSNS_VALID))
 	  {
 	    Sane.Status st = (*handler)
 	      (fd, ((u_char *) (&ccb.csio.sense_data)),
 	       fd_info[fd].sense_handler_arg)
-	    cam_freeccb (ccb)
+	    cam_freeccb(ccb)
 	    return st
 	  }
 	else
 	  {
-	    cam_freeccb (ccb)
+	    cam_freeccb(ccb)
 	    return status
 	  }
       }
-    cam_freeccb (ccb)
+    cam_freeccb(ccb)
     return Sane.STATUS_GOOD
   }
 
 #define WE_HAVE_FIND_DEVICES
 
   Int
-    cam_compare_inquiry (Int fd, path_id_t path_id,
+    cam_compare_inquiry(Int fd, path_id_t path_id,
 			 target_id_t target_id, lun_id_t target_lun,
 			 const char *vendor, const char *product,
 			 const char *type)
@@ -3366,18 +3366,18 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     Int retval = 0
 
     /* build ccb for device match */
-    memset (&cdm, 0, sizeof (cdm))
+    memset(&cdm, 0, sizeof(cdm))
     cdm.ccb_h.func_code = XPT_DEV_MATCH
 
     /* result buffer */
-    cdm.match_buf_len = sizeof (struct dev_match_result)
-    cdm.matches = (struct dev_match_result *) malloc (cdm.match_buf_len)
+    cdm.match_buf_len = sizeof(struct dev_match_result)
+    cdm.matches = (struct dev_match_result *) malloc(cdm.match_buf_len)
     cdm.num_matches = 0
 
     /* pattern buffer */
     cdm.num_patterns = 1
-    cdm.pattern_buf_len = sizeof (struct dev_match_pattern)
-    cdm.patterns = (struct dev_match_pattern *) malloc (cdm.pattern_buf_len)
+    cdm.pattern_buf_len = sizeof(struct dev_match_pattern)
+    cdm.patterns = (struct dev_match_pattern *) malloc(cdm.pattern_buf_len)
 
     /* assemble conditions */
     cdm.patterns[0].type = DEV_MATCH_DEVICE
@@ -3387,54 +3387,54 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     pattern.target_id = target_id
     pattern.target_lun = target_lun
 
-    if (ioctl (fd, CAMIOCOMMAND, &cdm) == -1)
+    if(ioctl(fd, CAMIOCOMMAND, &cdm) == -1)
       {
-	DBG (1, "error sending CAMIOCOMMAND ioctl")
+	DBG(1, "error sending CAMIOCOMMAND ioctl")
 	retval = -1
 	goto ret
       }
 
-    if ((cdm.ccb_h.status != CAM_REQ_CMP)
+    if((cdm.ccb_h.status != CAM_REQ_CMP)
 	|| ((cdm.status != CAM_DEV_MATCH_LAST)
 	    && (cdm.status != CAM_DEV_MATCH_MORE)))
       {
-	DBG (1, "got CAM error %#x, CDM error %d\n",
+	DBG(1, "got CAM error %#x, CDM error %d\n",
 	     cdm.ccb_h.status, cdm.status)
 	retval = -1
 	goto ret
       }
 
-    if (cdm.num_matches == 0)
+    if(cdm.num_matches == 0)
       {
-	DBG (1, "not found\n")
+	DBG(1, "not found\n")
 	retval = -1
 	goto ret
       }
 
-    if (cdm.matches[0].type != DEV_MATCH_DEVICE)
+    if(cdm.matches[0].type != DEV_MATCH_DEVICE)
       {
-	DBG (1, "no device match\n")
+	DBG(1, "no device match\n")
 	retval = -1
 	goto ret
       }
 
     inq = &cdm.matches[0].result.device_result.inq_data
-    if ((vendor && cam_strmatch (inq.vendor, vendor, SID_VENDOR_SIZE)) ||
-	(product && cam_strmatch (inq.product, product, SID_PRODUCT_SIZE)))
+    if((vendor && cam_strmatch(inq.vendor, vendor, SID_VENDOR_SIZE)) ||
+	(product && cam_strmatch(inq.product, product, SID_PRODUCT_SIZE)))
       retval = 1
 
   ret:
-    free (cdm.patterns)
-    free (cdm.matches)
-    return (retval)
+    free(cdm.patterns)
+    free(cdm.matches)
+    return(retval)
   }
 
   void
-    sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
+    sanei_scsi_find_devices(const char *findvendor, const char *findmodel,
 			     const char *findtype,
 			     Int findbus, Int findchannel, Int findid,
 			     Int findlun,
-			     Sane.Status (*attach) (const char *dev))
+			     Sane.Status(*attach) (const char *dev))
   {
     Int fd
     struct ccb_dev_match cdm
@@ -3443,44 +3443,44 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     var i: Int
     char devname[16]
 
-    DBG_INIT ()
+    DBG_INIT()
 
-    if ((fd = open (XPT_DEVICE, O_RDWR)) == -1)
+    if((fd = open(XPT_DEVICE, O_RDWR)) == -1)
       {
-	DBG (1, "could not open %s\n", XPT_DEVICE)
+	DBG(1, "could not open %s\n", XPT_DEVICE)
 	return
       }
 
     /* build ccb for device match */
-    memset (&cdm, 0, sizeof (cdm))
+    memset(&cdm, 0, sizeof(cdm))
     cdm.ccb_h.func_code = XPT_DEV_MATCH
 
     /* result buffer */
-    cdm.match_buf_len = sizeof (struct dev_match_result) * 100
-    cdm.matches = (struct dev_match_result *) malloc (cdm.match_buf_len)
+    cdm.match_buf_len = sizeof(struct dev_match_result) * 100
+    cdm.matches = (struct dev_match_result *) malloc(cdm.match_buf_len)
     cdm.num_matches = 0
 
     /* pattern buffer */
     cdm.num_patterns = 1
-    cdm.pattern_buf_len = sizeof (struct dev_match_pattern)
-    cdm.patterns = (struct dev_match_pattern *) malloc (cdm.pattern_buf_len)
+    cdm.pattern_buf_len = sizeof(struct dev_match_pattern)
+    cdm.patterns = (struct dev_match_pattern *) malloc(cdm.pattern_buf_len)
 
     /* assemble conditions ... findchannel is ignored */
     cdm.patterns[0].type = DEV_MATCH_PERIPH
     pattern = &cdm.patterns[0].pattern.periph_pattern
     pattern.flags = PERIPH_MATCH_NAME
-    strcpy (pattern.periph_name, "pass")
-    if (findbus != -1)
+    strcpy(pattern.periph_name, "pass")
+    if(findbus != -1)
       {
 	pattern.path_id = findbus
 	pattern.flags |= PERIPH_MATCH_PATH
       }
-    if (findid != -1)
+    if(findid != -1)
       {
 	pattern.target_id = findid
 	pattern.flags |= PERIPH_MATCH_TARGET
       }
-    if (findlun != -1)
+    if(findlun != -1)
       {
 	pattern.target_lun = findlun
 	pattern.flags |= PERIPH_MATCH_LUN
@@ -3489,45 +3489,45 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     /* result loop */
     do
       {
-	if (ioctl (fd, CAMIOCOMMAND, &cdm) == -1)
+	if(ioctl(fd, CAMIOCOMMAND, &cdm) == -1)
 	  {
-	    DBG (1, "error sending CAMIOCOMMAND ioctl")
+	    DBG(1, "error sending CAMIOCOMMAND ioctl")
 	    break
 	  }
 
-	if ((cdm.ccb_h.status != CAM_REQ_CMP)
+	if((cdm.ccb_h.status != CAM_REQ_CMP)
 	    || ((cdm.status != CAM_DEV_MATCH_LAST)
 		&& (cdm.status != CAM_DEV_MATCH_MORE)))
 	  {
-	    DBG (1, "got CAM error %#x, CDM error %d\n",
+	    DBG(1, "got CAM error %#x, CDM error %d\n",
 		 cdm.ccb_h.status, cdm.status)
 	    break
 	  }
 
-	for (i = 0; i < cdm.num_matches; i++)
+	for(i = 0; i < cdm.num_matches; i++)
 	  {
-	    if (cdm.matches[i].type != DEV_MATCH_PERIPH)
+	    if(cdm.matches[i].type != DEV_MATCH_PERIPH)
 	      continue
 	    result = &cdm.matches[i].result.periph_result
-	    DBG (4, "%s%d on scbus%d %d:%d\n",
+	    DBG(4, "%s%d on scbus%d %d:%d\n",
 		 result.periph_name, result.unit_number,
 		 result.path_id, result.target_id, result.target_lun)
-	    if (cam_compare_inquiry (fd, result.path_id,
+	    if(cam_compare_inquiry(fd, result.path_id,
 				     result.target_id, result.target_lun,
 				     findvendor, findmodel, findtype) == 0)
 	      {
-		sprintf (devname, "/dev/%s%d", result.periph_name,
+		sprintf(devname, "/dev/%s%d", result.periph_name,
 			 result.unit_number)
 		(*attach) (devname)
 	      }
 	  }
       }
-    while ((cdm.ccb_h.status == CAM_REQ_CMP)
+    while((cdm.ccb_h.status == CAM_REQ_CMP)
 	   && (cdm.status == CAM_DEV_MATCH_MORE))
 
-    free (cdm.patterns)
-    free (cdm.matches)
-    close (fd)
+    free(cdm.patterns)
+    free(cdm.matches)
+    close(fd)
     return
   }
 
@@ -3546,14 +3546,14 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     struct sctl_io hdr
     /* xxx obsolete size_t cdb_size
 
-       cdb_size = CDB_SIZE (*(u_char *) src)
+       cdb_size = CDB_SIZE(*(u_char *) src)
      */
 
-    memset (&hdr, 0, sizeof (hdr))
-    memcpy (hdr.cdb, cmd, cmd_size)
-    if (dst_size && *dst_size)
+    memset(&hdr, 0, sizeof(hdr))
+    memcpy(hdr.cdb, cmd, cmd_size)
+    if(dst_size && *dst_size)
       {
-	/* xxx obsolete assert (cdb_size == src_size)
+	/* xxx obsolete assert(cdb_size == src_size)
 	 */
 	hdr.flags = SCTL_READ
 	hdr.data = dst
@@ -3561,28 +3561,28 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
       }
     else
       {
-	/* xxx obsolete assert (cdb_size <= src_size)
+	/* xxx obsolete assert(cdb_size <= src_size)
 	 */
 	hdr.data = (char *) src
 	hdr.data_length = src_size
       }
     hdr.cdb_length = cmd_size
     hdr.max_msecs = Sane.scsicmd_timeout * 1000
-    if (ioctl (fd, SIOC_IO, &hdr) < 0)
+    if(ioctl(fd, SIOC_IO, &hdr) < 0)
       {
-	DBG (1, "sanei_scsi_cmd: ioctl(SIOC_IO) failed: %s\n",
-	     strerror (errno))
+	DBG(1, "sanei_scsi_cmd: ioctl(SIOC_IO) failed: %s\n",
+	     strerror(errno))
 	return Sane.STATUS_IO_ERROR
       }
-    if (hdr.cdb_status)
-      DBG (1, "sanei_scsi_cmd: SCSI completed with cdb_status=%d\n",
+    if(hdr.cdb_status)
+      DBG(1, "sanei_scsi_cmd: SCSI completed with cdb_status=%d\n",
 	   hdr.cdb_status)
-    if (dst_size)
+    if(dst_size)
       *dst_size = hdr.data_xfer
 
-    if (hdr.sense_xfer > 0 && (hdr.sense[0] & 0x80)
+    if(hdr.sense_xfer > 0 && (hdr.sense[0] & 0x80)
 	&& fd_info[fd].sense_handler)
-      return (*fd_info[fd].sense_handler) (fd, hdr.sense,
+      return(*fd_info[fd].sense_handler) (fd, hdr.sense,
 					   fd_info[fd].sense_handler_arg)
     return Sane.STATUS_GOOD
   }
@@ -3599,16 +3599,16 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     struct scsi_req hdr
     /* xxx obsolete size_t cdb_size
 
-       cdb_size = CDB_SIZE (*(u_char *) src)
+       cdb_size = CDB_SIZE(*(u_char *) src)
      */
 
-    memset (&hdr, 0, sizeof (hdr))
-    memcpy (&hdr.sr_cdb, cmd, cmd_size)
+    memset(&hdr, 0, sizeof(hdr))
+    memcpy(&hdr.sr_cdb, cmd, cmd_size)
     hdr.sr_cdb_length = cmd_size
 
-    if (dst_size && *dst_size)
+    if(dst_size && *dst_size)
       {
-	/* xxx obsolete assert (cdb_size == src_size)
+	/* xxx obsolete assert(cdb_size == src_size)
 	 */
 	hdr.sr_dma_dir = SR_DMA_RD
 	hdr.sr_addr = dst
@@ -3616,7 +3616,7 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
       }
     else
       {
-	/* xxx obsolete assert (cdb_size <= src_size)
+	/* xxx obsolete assert(cdb_size <= src_size)
 	 */
 	hdr.sr_dma_dir = SR_DMA_WR
 	hdr.sr_addr = (char *) src
@@ -3624,17 +3624,17 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
       }
     hdr.sr_ioto = Sane.scsicmd_timeout
 
-    if (ioctl (fd, SGIOCREQ, &hdr) == -1)
+    if(ioctl(fd, SGIOCREQ, &hdr) == -1)
       {
-	DBG (1, "sanei_scsi_cmd: ioctl(SGIOCREQ) failed: %s\n",
-	     strerror (errno))
+	DBG(1, "sanei_scsi_cmd: ioctl(SGIOCREQ) failed: %s\n",
+	     strerror(errno))
 	return Sane.STATUS_IO_ERROR
       }
-    if (hdr.sr_io_status != 1)
-      DBG (1, "sanei_scsi_cmd: SGIOCREQ completed with sr_io_status=%d\n",
+    if(hdr.sr_io_status != 1)
+      DBG(1, "sanei_scsi_cmd: SGIOCREQ completed with sr_io_status=%d\n",
 	   hdr.sr_io_status)
 
-    if (hdr.sr_io_status == SR_IOST_CHKSNV)
+    if(hdr.sr_io_status == SR_IOST_CHKSNV)
       {
 	struct scsi_req sr
 	struct cdb_6 *cdbp = &sr.sr_cdb.cdb_c6
@@ -3644,9 +3644,9 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 
 	/* clear struct */
 	p = (char *) cdbp
-	for (i = 0; i < sizeof (union cdb); i++)
+	for(i = 0; i < sizeof(union cdb); i++)
 	  *p++ = 0
-	memset (&sr, 0, sizeof (struct scsi_req))
+	memset(&sr, 0, sizeof(struct scsi_req))
 
 	cdbp.c6_opcode = C6OP_REQSENSE
 	cdbp.c6_lun = 0;	/* where do I get the lun from? */
@@ -3655,16 +3655,16 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 
 	sr.sr_dma_dir = SR_DMA_RD
 	sr.sr_addr = (char *) &sense_reply
-	sr.sr_dma_max = sizeof (struct esense_reply)
+	sr.sr_dma_max = sizeof(struct esense_reply)
 	sr.sr_ioto = Sane.scsicmd_timeout
 	sr.sr_cdb_length = 6
 
-	ioctl (fd, SGIOCREQ, &sr)
-	if (sense_reply.er_ibvalid)
+	ioctl(fd, SGIOCREQ, &sr)
+	if(sense_reply.er_ibvalid)
 	  {
 	    sr.sr_esense = sense_reply
-	    if (fd_info[fd].sense_handler)
-	      return (*fd_info[fd].sense_handler)
+	    if(fd_info[fd].sense_handler)
+	      return(*fd_info[fd].sense_handler)
 		(fd, (u_char *) & sr.sr_esense,
 		 fd_info[fd].sense_handler_arg)
 	  }
@@ -3673,10 +3673,10 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	return Sane.STATUS_INVAL
       }
 
-    if (hdr.sr_scsi_status == SR_IOST_CHKSV && fd_info[fd].sense_handler)
-      return (*fd_info[fd].sense_handler) (fd, (u_char *) & hdr.sr_esense,
+    if(hdr.sr_scsi_status == SR_IOST_CHKSV && fd_info[fd].sense_handler)
+      return(*fd_info[fd].sense_handler) (fd, (u_char *) & hdr.sr_esense,
 					   fd_info[fd].sense_handler_arg)
-    if (dst_size)
+    if(dst_size)
       *dst_size = hdr.sr_dma_xfr
     return Sane.STATUS_GOOD
   }
@@ -3695,21 +3695,21 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     CCB_SCSIIO ccb
     /* xxx obsolete size_t cdb_size
 
-       cdb_size = CDB_SIZE (*(u_char *) src)
+       cdb_size = CDB_SIZE(*(u_char *) src)
      */
 
-    memset (&ccb, 0, sizeof (ccb))
+    memset(&ccb, 0, sizeof(ccb))
     ccb.cam_ch.my_addr = (CCB_HEADER *) & ccb
-    ccb.cam_ch.cam_ccb_len = sizeof (ccb)
+    ccb.cam_ch.cam_ccb_len = sizeof(ccb)
     ccb.cam_ch.cam_func_code = XPT_SCSI_IO
     ccb.cam_ch.cam_path_id = fd_info[fd].bus
     ccb.cam_ch.cam_target_id = fd_info[fd].target
     ccb.cam_ch.cam_target_lun = fd_info[fd].lun
     ccb.cam_ch.cam_flags = 0
 
-    if (dst_size && *dst_size)
+    if(dst_size && *dst_size)
       {
-	/* xxx obsolete assert (cdb_size == src_size)
+	/* xxx obsolete assert(cdb_size == src_size)
 	 */
 	ccb.cam_ch.cam_flags |= CAM_DIR_IN
 	ccb.cam_data_ptr = (u_char *) dst
@@ -3717,9 +3717,9 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
       }
     else
       {
-	/* xxx obsolete assert (cdb_size <= src_size)
+	/* xxx obsolete assert(cdb_size <= src_size)
 	 */
-	if (0 == src_size)
+	if(0 == src_size)
 	  ccb.cam_ch.cam_flags |= CAM_DIR_NONE
 	else
 	  ccb.cam_ch.cam_flags |= CAM_DIR_OUT
@@ -3728,37 +3728,37 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
       }
     ccb.cam_timeout = Sane.scsicmd_timeout
     ccb.cam_cdb_len = cmd_size
-    memcpy (&ccb.cam_cdb_io.cam_cdb_bytes[0], cmd, cmd_size)
+    memcpy(&ccb.cam_cdb_io.cam_cdb_bytes[0], cmd, cmd_size)
 
-    memset (&hdr, 0, sizeof (hdr))
+    memset(&hdr, 0, sizeof(hdr))
     hdr.uagt_ccb = (CCB_HEADER *) & ccb
-    hdr.uagt_ccblen = sizeof (ccb)
+    hdr.uagt_ccblen = sizeof(ccb)
     hdr.uagt_buffer = ccb.cam_data_ptr
     hdr.uagt_buflen = ccb.cam_dxfer_len
     hdr.uagt_snsbuf = sense
-    hdr.uagt_snslen = sizeof (sense)
+    hdr.uagt_snslen = sizeof(sense)
     hdr.uagt_cdb = 0;		/* indicate that CDB is in CCB */
     hdr.uagt_cdblen = 0
 
-    if (ioctl (cam_fd, UAGT_CAM_IO, &hdr) < 0)
+    if(ioctl(cam_fd, UAGT_CAM_IO, &hdr) < 0)
       {
-	DBG (1, "sanei_scsi_cmd: ioctl(UAGT_CAM_IO) failed: %s\n",
-	     strerror (errno))
+	DBG(1, "sanei_scsi_cmd: ioctl(UAGT_CAM_IO) failed: %s\n",
+	     strerror(errno))
 	return Sane.STATUS_IO_ERROR
       }
-    if (ccb.cam_ch.cam_status != CAM_REQ_CMP)
+    if(ccb.cam_ch.cam_status != CAM_REQ_CMP)
       {
-	DBG (1, "sanei_scsi_cmd: UAGT_CAM_IO completed with cam_status=%d\n",
+	DBG(1, "sanei_scsi_cmd: UAGT_CAM_IO completed with cam_status=%d\n",
 	     ccb.cam_ch.cam_status)
 
-	if (ccb.cam_ch.cam_status == CAM_AUTOSNS_VALID
+	if(ccb.cam_ch.cam_status == CAM_AUTOSNS_VALID
 	    && fd_info[fd].sense_handler)
-	  return (*fd_info[fd].sense_handler) (fd, sense,
+	  return(*fd_info[fd].sense_handler) (fd, sense,
 					       fd_info[fd].sense_handler_arg)
 	else
 	  return Sane.STATUS_INVAL
       }
-    if (dst_size)
+    if(dst_size)
       *dst_size = ccb.cam_dxfer_len
     return Sane.STATUS_GOOD
   }
@@ -3780,17 +3780,17 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     Int opcode
     var i: Int
 
-    if (fd < 0)
+    if(fd < 0)
       return Sane.STATUS_IO_ERROR
 
-    memset (&sc2, 0, sizeof (sc2))
+    memset(&sc2, 0, sizeof(sc2))
     sc = &sc2.cmd
-    sc2.sense_len = sizeof (sense_buffer)
+    sc2.sense_len = sizeof(sense_buffer)
     sc2.sense_ptr = sense_buffer
 
-    /* xxx obsolete cdb_size = CDB_SIZE (*(u_char *) src)
+    /* xxx obsolete cdb_size = CDB_SIZE(*(u_char *) src)
      */
-    if (dst_size && *dst_size)
+    if(dst_size && *dst_size)
       {
 	sc.is_write = 0
 	sc.data_ptr = dst
@@ -3802,22 +3802,22 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	sc.data_ptr = (char *) src
 	sc.is_write = 1
       }
-    memcpy (sc.cdb, cmd, cmd_size)
+    memcpy(sc.cdb, cmd, cmd_size)
     sc.cdb_len = cmd_size
 
     /* Send the command down via the "pass-through" interface */
-    if (ioctl (fd, SCSIUSERCMD2, &sc2) < 0)
+    if(ioctl(fd, SCSIUSERCMD2, &sc2) < 0)
       {
-	DBG (1, "sanei_scsi_cmd: ioctl(SCSIUSERCMD2) failed: %s\n",
-	     strerror (errno))
+	DBG(1, "sanei_scsi_cmd: ioctl(SCSIUSERCMD2) failed: %s\n",
+	     strerror(errno))
 	return Sane.STATUS_IO_ERROR
       }
-    if (sc.host_sts || sc.target_sts)
+    if(sc.host_sts || sc.target_sts)
       {
-	DBG (1, "sanei_scsi_cmd: SCSIUSERCMD2 completed with "
+	DBG(1, "sanei_scsi_cmd: SCSIUSERCMD2 completed with "
 	     "host_sts=%x, target_sts=%x\n", sc.host_sts, sc.target_sts)
-	if (fd_info[fd].sense_handler)
-	  return (*fd_info[fd].sense_handler) (fd, sense_buffer,
+	if(fd_info[fd].sense_handler)
+	  return(*fd_info[fd].sense_handler) (fd, sense_buffer,
 					       fd_info[fd].sense_handler_arg)
 	return Sane.STATUS_IO_ERROR
       }
@@ -3855,55 +3855,55 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 
     /* xxx obsolete size_t cdb_size
 
-       cdb_size = CDB_SIZE (*(u_char *) src)
+       cdb_size = CDB_SIZE(*(u_char *) src)
      */
-    memset (&cmd, 0, 16)
+    memset(&cmd, 0, 16)
     sb_ptr = &sb
     sb_ptr.sb_type = ISCB_TYPE
     cp = (char *) cmd
-    DBG (1,
+    DBG(1,
 	 "cdb_size = %d src = {0x%x,0x%x,0x%x,0x%x,0x%x,0x%x,0x%x,0x%x,0x%x,0x%x ...}\n",
 	 cmd_size, cp[0], cp[1], cp[2], cp[3], cp[4], cp[5], cp[6], cp[7],
 	 cp[8], cp[9])
-    switch (cmd_size)
+    switch(cmd_size)
       {
       default:
 	return Sane.STATUS_IO_ERROR
       case 6:
 	scs = (struct scs *) cmd
-	memcpy (SCS_AD (scs), cmd, SCS_SZ)
+	memcpy(SCS_AD(scs), cmd, SCS_SZ)
 	scs.ss_lun = 0
-	sb_ptr.SCB.sc_cmdpt = SCS_AD (scs)
+	sb_ptr.SCB.sc_cmdpt = SCS_AD(scs)
 	sb_ptr.SCB.sc_cmdsz = SCS_SZ
 	break
       case 10:
 	scm = (struct scm *) cmd
-	memcpy (SCM_AD (scm), cmd, SCM_SZ)
+	memcpy(SCM_AD(scm), cmd, SCM_SZ)
 	scm.sm_lun = 0
-	sb_ptr.SCB.sc_cmdpt = SCM_AD (scm)
+	sb_ptr.SCB.sc_cmdpt = SCM_AD(scm)
 	sb_ptr.SCB.sc_cmdsz = SCM_SZ
 	break
       case 12:
 	scv = (struct scv *) cmd
-	memcpy (SCV_AD (scv), cmd, SCV_SZ)
+	memcpy(SCV_AD(scv), cmd, SCV_SZ)
 	scv.sv_lun = 0
-	sb_ptr.SCB.sc_cmdpt = SCV_AD (scv)
+	sb_ptr.SCB.sc_cmdpt = SCV_AD(scv)
 	sb_ptr.SCB.sc_cmdsz = SCV_SZ
 	break
       }
-    if (dst_size && *dst_size)
+    if(dst_size && *dst_size)
       {
-	assert (0 == src_size)
+	assert(0 == src_size)
 	sb_ptr.SCB.sc_mode = SCB_READ
 	sb_ptr.SCB.sc_datapt = dst
 	sb_ptr.SCB.sc_datasz = *dst_size
       }
     else
       {
-	assert (0 <= src_size)
+	assert(0 <= src_size)
 	sb_ptr.SCB.sc_mode = SCB_WRITE
 	sb_ptr.SCB.sc_datapt = (char *) src
-	if ((sb_ptr.SCB.sc_datasz = src_size) > 0)
+	if((sb_ptr.SCB.sc_datasz = src_size) > 0)
 	  {
 	    sb_ptr.SCB.sc_mode = SCB_WRITE
 	  }
@@ -3914,38 +3914,38 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	  }
       }
     sb_ptr.SCB.sc_time = Sane.scsicmd_timeout * 1000
-    DBG (1, "sanei_scsi_cmd: sc_mode = %d, sc_cmdsz = %d, sc_datasz = %d\n",
+    DBG(1, "sanei_scsi_cmd: sc_mode = %d, sc_cmdsz = %d, sc_datasz = %d\n",
 	 sb_ptr.SCB.sc_mode, sb_ptr.SCB.sc_cmdsz, sb_ptr.SCB.sc_datasz)
     {
       /* do read write by normal read or write system calls */
       /* the driver will lock process in momory and do optimized transfer */
       cp = (char *) cmd
-      switch (*cp)
+      switch(*cp)
 	{
 	case 0x0:		/* test unit ready */
-	  if (ioctl (fd, SS_TEST, NULL) < 0)
+	  if(ioctl(fd, SS_TEST, NULL) < 0)
 	    {
 	      return Sane.STATUS_DEVICE_BUSY
 	    }
 	  break
 	case SS_READ:
 	case SM_READ:
-	  if (*dst_size > 0x2048)
+	  if(*dst_size > 0x2048)
 	    {
 	      sb_ptr.SCB.sc_datapt = NULL
 	      sb_ptr.SCB.sc_datasz = 0
-	      if (memcmp
+	      if(memcmp
 		  (sb_ptr.SCB.sc_cmdpt, lastrcmd, sb_ptr.SCB.sc_cmdsz))
 		{
 		  /* set the command block for the next read or write */
-		  memcpy (lastrcmd, sb_ptr.SCB.sc_cmdpt,
+		  memcpy(lastrcmd, sb_ptr.SCB.sc_cmdpt,
 			  sb_ptr.SCB.sc_cmdsz)
-		  if (!ioctl (fd, SDI_SEND, sb_ptr))
+		  if(!ioctl(fd, SDI_SEND, sb_ptr))
 		    {
-		      *dst_size = read (fd, dst, *dst_size)
-		      if (*dst_size == -1)
+		      *dst_size = read(fd, dst, *dst_size)
+		      if(*dst_size == -1)
 			{
-			  perror ("sanei-scsi:UW-driver read ")
+			  perror("sanei-scsi:UW-driver read ")
 			  return Sane.STATUS_IO_ERROR
 			}
 		      break
@@ -3953,10 +3953,10 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 		}
 	      else
 		{
-		  *dst_size = read (fd, dst, *dst_size)
-		  if (*dst_size == -1)
+		  *dst_size = read(fd, dst, *dst_size)
+		  if(*dst_size == -1)
 		    {
-		      perror ("sanei-scsi:UW-driver read ")
+		      perror("sanei-scsi:UW-driver read ")
 		      return Sane.STATUS_IO_ERROR
 		    }
 		  break
@@ -3965,25 +3965,25 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	    }
 	  /* fall through for small read */
 	default:
-	  if (ioctl (fd, SDI_SEND, sb_ptr) < 0)
+	  if(ioctl(fd, SDI_SEND, sb_ptr) < 0)
 	    {
-	      DBG (1, "sanei_scsi_cmd: ioctl(SDI_SEND) FAILED: %s\n",
-		   strerror (errno))
+	      DBG(1, "sanei_scsi_cmd: ioctl(SDI_SEND) FAILED: %s\n",
+		   strerror(errno))
 	      return Sane.STATUS_IO_ERROR
 	    }
-	  if (dst_size)
+	  if(dst_size)
 	    *dst_size = sb_ptr.SCB.sc_datasz
 #ifdef UWSUPPORTED		/* at this time not supported by driver */
-	  if (sb_ptr.SCB.sc_comp_code != SDI_ASW)
+	  if(sb_ptr.SCB.sc_comp_code != SDI_ASW)
 	    {
-	      DBG (1, "sanei_scsi_cmd: scsi_cmd failure %x\n",
+	      DBG(1, "sanei_scsi_cmd: scsi_cmd failure %x\n",
 		   sb_ptr.SCB.sc_comp_code)
-	      if (sb_ptr.SCB.sc_comp_code == SDI_CKSTAT
+	      if(sb_ptr.SCB.sc_comp_code == SDI_CKSTAT
 		  && sb_ptr.SCB.sc_status == S_CKCON)
-		if (fd_info[fd].sense_handler)
+		if(fd_info[fd].sense_handler)
 		  {
 		    void *arg = fd_info[fd].sense_handler_arg
-		    return (*fd_info[fd].sense_handler) (fd,
+		    return(*fd_info[fd].sense_handler) (fd,
 							 (u_char *) & sb_ptr->
 							 SCB.sc_link, arg)
 		  }
@@ -4012,18 +4012,18 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     Int mode
     var i: Int
 
-    if (fd < 0)
+    if(fd < 0)
       return Sane.STATUS_IO_ERROR
 
     cmdblk.sc_cmdpt = (caddr_t) cmd
-    /* xxx obsolete cdb_size = CDB_SIZE (*(u_char *) src)
+    /* xxx obsolete cdb_size = CDB_SIZE(*(u_char *) src)
      */
     cmdblk.sc_cmdsz = cmd_size
     cmdblk.sc_time = 60000;	/* 60 secs */
 
-    if (dst_size && *dst_size)
+    if(dst_size && *dst_size)
       {
-	/* xxx obsolete assert (cdb_size == src_size)
+	/* xxx obsolete assert(cdb_size == src_size)
 	 */
 	cmdblk.sc_datapt = (caddr_t) dst
 	cmdblk.sc_datasz = *dst_size
@@ -4031,35 +4031,35 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
       }
     else
       {
-	/* xxx obsolete assert (cdb_size <= src_size)
+	/* xxx obsolete assert(cdb_size <= src_size)
 	 */
 	cmdblk.sc_datapt = (char *) src
 	cmdblk.sc_datasz = src_size
 	mode = SCB_WRITE
       }
 
-    if (pt_send (fd, cmdblk.sc_cmdpt, cmdblk.sc_cmdsz, cmdblk.sc_datapt,
+    if(pt_send(fd, cmdblk.sc_cmdpt, cmdblk.sc_cmdsz, cmdblk.sc_datapt,
 		 cmdblk.sc_datasz, mode, cmdblk.sc_time, &elapsed, &compcode,
-		 &status, sense_buffer, sizeof (sense_buffer)) != 0)
+		 &status, sense_buffer, sizeof(sense_buffer)) != 0)
       {
-	DBG (1, "sanei_scsi_cmd: pt_send failed: %s!\n", strerror (errno))
+	DBG(1, "sanei_scsi_cmd: pt_send failed: %s!\n", strerror(errno))
       }
     else
       {
-	DBG (2, "sanei_scsi_cmd completed with: compcode = %x, status = %x\n",
+	DBG(2, "sanei_scsi_cmd completed with: compcode = %x, status = %x\n",
 	     compcode, status)
 
-	switch (compcode)
+	switch(compcode)
 	  {
 	  case SDI_ASW:	/* All seems well */
 	    return Sane.STATUS_GOOD
 	  case SDI_CKSTAT:
-	    DBG (2, "Sense Data:\n")
-	    for (i = 0; i < sizeof (sense_buffer); i++)
-	      DBG (2, "%.2X ", sense_buffer[i])
-	    DBG (2, "\n")
-	    if (fd_info[fd].sense_handler)
-	      return (*fd_info[fd].sense_handler) (fd, sense_buffer,
+	    DBG(2, "Sense Data:\n")
+	    for(i = 0; i < sizeof(sense_buffer); i++)
+	      DBG(2, "%.2X ", sense_buffer[i])
+	    DBG(2, "\n")
+	    if(fd_info[fd].sense_handler)
+	      return(*fd_info[fd].sense_handler) (fd, sense_buffer,
 						   fd_info[fd].
 						   sense_handler_arg)
 	    /* fall through */
@@ -4075,19 +4075,19 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 #define WE_HAVE_FIND_DEVICES
 
   static Int
-    get_devicename (Int bus, Int target, Int lun, char *name, size_t name_len)
+    get_devicename(Int bus, Int target, Int lun, char *name, size_t name_len)
   {
-    snprintf (name, name_len, "b%dt%dl%d", bus, target, lun)
-    DBG (1, "OS/2 searched device is %s\n", name)
+    snprintf(name, name_len, "b%dt%dl%d", bus, target, lun)
+    DBG(1, "OS/2 searched device is %s\n", name)
     return 0
   }
 
   void
-    sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
+    sanei_scsi_find_devices(const char *findvendor, const char *findmodel,
 			     const char *findtype,
 			     Int findbus, Int findchannel, Int findid,
 			     Int findlun,
-			     Sane.Status (*attach) (const char *dev))
+			     Sane.Status(*attach) (const char *dev))
   {
     size_t findvendor_len = 0, findmodel_len = 0, findtype_len = 0
     char vendor[32], model[32], type[32], revision[32]
@@ -4169,67 +4169,67 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     param[6].u.i = &id
     param[7].u.i = &lun
 
-    DBG_INIT ()
+    DBG_INIT()
 
-    open_aspi ();		/* open aspi manager if not already done */
+    open_aspi();		/* open aspi manager if not already done */
 
-    DBG (2, "find_devices: open temporary file '%s'\n", tmpAspi)
-    proc_fp = fopen (tmpAspi, "r")
-    if (!proc_fp)
+    DBG(2, "find_devices: open temporary file '%s'\n", tmpAspi)
+    proc_fp = fopen(tmpAspi, "r")
+    if(!proc_fp)
       {
-	DBG (1, "could not open %s for reading\n", tmpAspi)
+	DBG(1, "could not open %s for reading\n", tmpAspi)
 	return
       }
 
     number = bus = channel = id = lun = -1
 
     vendor[0] = model[0] = type[0] = '\0'
-    if (findvendor)
-      findvendor_len = strlen (findvendor)
-    if (findmodel)
-      findmodel_len = strlen (findmodel)
-    if (findtype)
-      findtype_len = strlen (findtype)
+    if(findvendor)
+      findvendor_len = strlen(findvendor)
+    if(findmodel)
+      findmodel_len = strlen(findmodel)
+    if(findtype)
+      findtype_len = strlen(findtype)
 
-    while (!feof (proc_fp))
+    while(!feof(proc_fp))
       {
-	if (!fgets (line, sizeof (line), proc_fp))
+	if(!fgets(line, sizeof(line), proc_fp))
 	  break;		/* at eof exit */
 
-	string = sanei_config_skip_whitespace (line)
+	string = sanei_config_skip_whitespace(line)
 
-	while (*string)
+	while(*string)
 	  {
-	    for (i = 0; i < NELEMS (param); ++i)
+	    for(i = 0; i < NELEMS(param); ++i)
 	      {
-		if (strncmp (string, param[i].name, param[i].name_len) == 0)
+		if(strncmp(string, param[i].name, param[i].name_len) == 0)
 		  {
 		    string += param[i].name_len
-		    string = sanei_config_skip_whitespace (string)
-		    if (param[i].is_int)
+		    string = sanei_config_skip_whitespace(string)
+		    if(param[i].is_int)
 		      {
-			*param[i].u.i = strtol (string, &end, 10)
+			*param[i].u.i = strtol(string, &end, 10)
 			string = (char *) end
 		      }
 		    else
 		      {
-			strncpy (param[i].u.str, string, 32)
+			strncpy(param[i].u.str, string, 32)
 			param[i].u.str[31] = '\0'
-			while (*string && !isspace ((Int) *string))
+			while(*string && !isspace((Int) *string))
 			  ++string
 		      }
-		    string = sanei_config_skip_whitespace (string)
+		    string = sanei_config_skip_whitespace(string)
 
-		    if (param[i].u.v == &bus)
+		    if(param[i].u.v == &bus)
 		      ++number
 		    break
 		  }
 	      }
-	    if (i >= NELEMS (param))
+	    if(i >= NELEMS(param))
 	      ++string;		/* no match */
 	  }
 
-	if ((findvendor && !vendor[0]) || (findmodel && !model[0])
+	if((findvendor && !vendor[0]) || (findmodel && !model[0])
 	    || (findtype && !type[0])
 	    || (findbus >= 0 && bus == -1) || (findchannel >= 0
 					       && channel == -1)
@@ -4237,14 +4237,14 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	  /* some info is still missing */
 	  continue
 
-	if ((!findvendor || strncmp (vendor, findvendor, findvendor_len) == 0)
-	    && (!findmodel || strncmp (model, findmodel, findmodel_len) == 0)
-	    && (!findtype || strncmp (type, findtype, findtype_len) == 0)
+	if((!findvendor || strncmp(vendor, findvendor, findvendor_len) == 0)
+	    && (!findmodel || strncmp(model, findmodel, findmodel_len) == 0)
+	    && (!findtype || strncmp(type, findtype, findtype_len) == 0)
 	    && (findbus == -1 || bus == findbus)
 	    && (findchannel == -1 || channel == findchannel)
 	    && (findid == -1 || id == findid)
 	    && (findlun == -1 || lun == findlun)
-	    && get_devicename (bus, id, lun, dev_name, sizeof (dev_name)) >= 0
+	    && get_devicename(bus, id, lun, dev_name, sizeof(dev_name)) >= 0
 	    && (*attach) (dev_name) != Sane.STATUS_GOOD)
 	  return
 
@@ -4252,10 +4252,10 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	bus = channel = id = lun = -1
       }
 
-    DBG (2, "find_devices: close temporary file '%s'\n", tmpAspi)
-    fclose (proc_fp)
+    DBG(2, "find_devices: close temporary file '%s'\n", tmpAspi)
+    fclose(proc_fp)
 
-    close_aspi ();		/* close aspi manager */
+    close_aspi();		/* close aspi manager */
   }
 
 /* XXX untested code! */
@@ -4268,32 +4268,32 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     ULONG rc;			/* Returns. */
     unsigned long cbreturn
     unsigned long cbParam
-    if (aspi_buf == NULL)	/* avoid SIGSEGV in memcpy() when calling
+    if(aspi_buf == NULL)	/* avoid SIGSEGV in memcpy() when calling
 				   sanei_scsi_cmd2() while aspi-driver is closed */
       {
-	DBG (1, "sanei_scsi_cmd: Error no device (aspi_buf == NULL)\n")
+	DBG(1, "sanei_scsi_cmd: Error no device(aspi_buf == NULL)\n")
 	return Sane.STATUS_INVAL
       }
 
-    if (PSRBlock == NULL)	/* avoid SIGSEGV in memcpy() when calling
+    if(PSRBlock == NULL)	/* avoid SIGSEGV in memcpy() when calling
 				   sanei_scsi_cmd2() while aspi-driver is closed */
       {
-	DBG (1, "sanei_scsi_cmd: Error no device (PSRBlock == NULL)\n")
+	DBG(1, "sanei_scsi_cmd: Error no device(PSRBlock == NULL)\n")
 	return Sane.STATUS_INVAL
       }
 
-    memset (PSRBlock, 0, sizeof (SRB));	/* Okay, I'm paranoid. */
+    memset(PSRBlock, 0, sizeof(SRB));	/* Okay, I'm paranoid. */
     PSRBlock.cmd = SRB_Command;	/* execute SCSI cmd */
     PSRBlock.ha_num = fd_info[fd].bus;	/* host adapter number */
     PSRBlock.u.cmd.target = fd_info[fd].target;	/* Target SCSI ID */
     PSRBlock.u.cmd.lun = fd_info[fd].lun;	/* Target SCSI LUN */
     PSRBlock.flags = SRB_Post;	/* posting enabled */
-    if (dst_size && *dst_size)
+    if(dst_size && *dst_size)
       {
 	/* Reading. */
-	assert (*dst_size <= (size_t) sanei_scsi_max_request_size)
+	assert(*dst_size <= (size_t) sanei_scsi_max_request_size)
 	PSRBlock.u.cmd.data_len = *dst_size
-	DBG (1, "sanei_scsi_cmd: Reading PSRBlock.u.cmd.data_len= %lu\n",
+	DBG(1, "sanei_scsi_cmd: Reading PSRBlock.u.cmd.data_len= %lu\n",
 	     PSRBlock.u.cmd.data_len)
 	PSRBlock.flags |= SRB_Read
       }
@@ -4301,47 +4301,47 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
       {
 	/* Writing. */
 	PSRBlock.u.cmd.data_len = src_size
-	DBG (1, "sanei_scsi_cmd: Writing PSRBlock.u.cmd.data_len= %lu\n",
+	DBG(1, "sanei_scsi_cmd: Writing PSRBlock.u.cmd.data_len= %lu\n",
 	     PSRBlock.u.cmd.data_len)
-	assert (PSRBlock.u.cmd.data_len <=
+	assert(PSRBlock.u.cmd.data_len <=
 		(unsigned long) sanei_scsi_max_request_size)
-	if (PSRBlock.u.cmd.data_len)
+	if(PSRBlock.u.cmd.data_len)
 	  PSRBlock.flags |= SRB_Write
 	else
 	  PSRBlock.flags |= SRB_NoTransfer
-	memcpy (aspi_buf, src, PSRBlock.u.cmd.data_len)
+	memcpy(aspi_buf, src, PSRBlock.u.cmd.data_len)
       }
     PSRBlock.u.cmd.sense_len = 32;	/* length of sense buffer */
     PSRBlock.u.cmd.data_ptr = NULL;	/* pointer to data buffer already registered */
     PSRBlock.u.cmd.link_ptr = NULL;	/* pointer to next SRB */
     PSRBlock.u.cmd.cdb_len = cmd_size;	/* SCSI command length */
-    memcpy (PSRBlock.u.cmd.cdb_st, cmd, cmd_size)
+    memcpy(PSRBlock.u.cmd.cdb_st, cmd, cmd_size)
 
     /* Do the command. */
-    rc = DosDevIOCtl (driver_handle, 0x92, 0x02,
-		      (void *) PSRBlock, sizeof (SRB), &cbParam,
-		      (void *) PSRBlock, sizeof (SRB), &cbreturn)
+    rc = DosDevIOCtl(driver_handle, 0x92, 0x02,
+		      (void *) PSRBlock, sizeof(SRB), &cbParam,
+		      (void *) PSRBlock, sizeof(SRB), &cbreturn)
 
-    if (rc)
+    if(rc)
       {
-	DBG (1, "sanei_scsi_cmd: DosDevIOCtl failed. rc= %lu \n", rc)
+	DBG(1, "sanei_scsi_cmd: DosDevIOCtl failed. rc= %lu \n", rc)
 	return Sane.STATUS_IO_ERROR
       }
 
     /* Get sense data if available. */
-    if ((PSRBlock.status == SRB_Aborted || PSRBlock.status == SRB_Error) &&
+    if((PSRBlock.status == SRB_Aborted || PSRBlock.status == SRB_Error) &&
 	PSRBlock.u.cmd.target_status == SRB_CheckStatus
 	&& fd_info[fd].sense_handler != 0)
       {
 	SANEI_SCSI_Sense_Handler s_handler = fd_info[fd].sense_handler
-	return (*s_handler) (fd, &PSRBlock.u.cmd.cdb_st[cmd_size],
+	return(*s_handler) (fd, &PSRBlock.u.cmd.cdb_st[cmd_size],
 			     fd_info[fd].sense_handler_arg)
       }
-    if (PSRBlock.status != SRB_Done ||
+    if(PSRBlock.status != SRB_Done ||
 	PSRBlock.u.cmd.ha_status != SRB_NoError ||
 	PSRBlock.u.cmd.target_status != SRB_NoStatus)
       {
-	DBG (1, "sanei_scsi_cmd:  command 0x%02x failed.\n"
+	DBG(1, "sanei_scsi_cmd:  command 0x%02x failed.\n"
 	     "PSRBlock.status= 0x%02x\n"
 	     "PSRBlock.u.chm.ha_status= 0x%02x\n"
 	     "PSRBlock.u.cmd.target_status= 0x%02x\n",
@@ -4351,8 +4351,8 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	return Sane.STATUS_IO_ERROR
       }
 
-    if (dst_size && *dst_size)	/* Reading? */
-      memcpy ((char *) dst, aspi_buf, *dst_size)
+    if(dst_size && *dst_size)	/* Reading? */
+      memcpy((char *) dst, aspi_buf, *dst_size)
     return Sane.STATUS_GOOD
   }
 #endif /* USE == OS2_INTERFACE */
@@ -4389,25 +4389,25 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
      * to do this to avoid buffer alignment problems, since some
      * hardware requires these buffers to be 32-bit aligned.
      */
-    if (cmdbuf == NULL)
+    if(cmdbuf == NULL)
       {
-	cmdbuf = malloc (64)
-	sensebuf = malloc (1024);	/* may be can reduced to 128 */
-	databuf = malloc (MAX_DATA)
+	cmdbuf = malloc(64)
+	sensebuf = malloc(1024);	/* may be can reduced to 128 */
+	databuf = malloc(MAX_DATA)
 
-	if (cmdbuf == NULL || sensebuf == NULL || databuf == NULL)
+	if(cmdbuf == NULL || sensebuf == NULL || databuf == NULL)
 	  return Sane.STATUS_NO_MEM
       }
 
     /*
      * Build the SCSI request...
      */
-    /* xxx obsolete cdb_size = CDB_SIZE (*(u_char *) src)
+    /* xxx obsolete cdb_size = CDB_SIZE(*(u_char *) src)
      */
 
-    DBG (1, "sanei_scsi_cmd: cmd_size = %d\n", cmd_size)
+    DBG(1, "sanei_scsi_cmd: cmd_size = %d\n", cmd_size)
 
-    if (dst != NULL)
+    if(dst != NULL)
       {
 	/*
 	 * SCSI command returning/reading data...
@@ -4419,12 +4419,12 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	scsi_req.ds_databuf = (caddr_t) databuf
 	scsi_req.ds_datalen = *dst_size
 	scsi_req.ds_sensebuf = (caddr_t) sensebuf
-	scsi_req.ds_senselen = 128;	/* 1024 does not work, 128 is tested (O.Rauch) */
+	scsi_req.ds_senselen = 128;	/* 1024 does not work, 128 is tested(O.Rauch) */
 
 	/*
 	 * Copy command to cmdbuf to assure 32-bit alignment.
 	 */
-	memcpy (cmdbuf, cmd, cmd_size)
+	memcpy(cmdbuf, cmd, cmd_size)
       }
     else
       {
@@ -4443,45 +4443,45 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	/*
 	 * Copy command and data to local buffers to ensure 32-bit alignment...
 	 */
-	memcpy (cmdbuf, (u_char *) cmd, cmd_size)
-	memcpy (databuf, (u_char *) src, src_size)
+	memcpy(cmdbuf, (u_char *) cmd, cmd_size)
+	memcpy(databuf, (u_char *) src, src_size)
       }
 
-    memset (sensebuf, 0, 128)
+    memset(sensebuf, 0, 128)
 
     /*
      * Do SCSI request...
      */
-    if (ioctl (fd, DS_ENTER, &scsi_req) < 0)
+    if(ioctl(fd, DS_ENTER, &scsi_req) < 0)
       {
-	DBG (1, "sanei_scsi_cmd: ioctl failed - %s\n", strerror (errno))
+	DBG(1, "sanei_scsi_cmd: ioctl failed - %s\n", strerror(errno))
 	return Sane.STATUS_IO_ERROR
       }
 
-    DBG (1, "sanei_scsi_cmd: status = %d\n", scsi_req.ds_status)
+    DBG(1, "sanei_scsi_cmd: status = %d\n", scsi_req.ds_status)
 
     /*
      * Set the incoming data size and copy the destination data as needed...
      */
-    if (dst != NULL)
+    if(dst != NULL)
       {
 	*dst_size = scsi_req.ds_datasent
 
-	DBG (1, "sanei_scsi_cmd: read %d bytes\n", scsi_req.ds_datasent)
+	DBG(1, "sanei_scsi_cmd: read %d bytes\n", scsi_req.ds_datasent)
 
-	if (scsi_req.ds_datasent > 0)
-	  memcpy (dst, databuf, scsi_req.ds_datasent)
+	if(scsi_req.ds_datasent > 0)
+	  memcpy(dst, databuf, scsi_req.ds_datasent)
       }
 
     /*
      * Return the appropriate status code...
      */
-    if (scsi_req.ds_status != 0)
+    if(scsi_req.ds_status != 0)
       {
-	if (scsi_req.ds_status == STA_BUSY)
+	if(scsi_req.ds_status == STA_BUSY)
 	  return Sane.STATUS_DEVICE_BUSY
-	else if (fd_info[fd].sense_handler)
-	  return (*fd_info[fd].sense_handler) (fd, sensebuf,
+	else if(fd_info[fd].sense_handler)
+	  return(*fd_info[fd].sense_handler) (fd, sensebuf,
 					       fd_info[fd].sense_handler_arg)
 	else
 	  return Sane.STATUS_IO_ERROR
@@ -4490,11 +4490,11 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
   }
 
   void
-    sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
+    sanei_scsi_find_devices(const char *findvendor, const char *findmodel,
 			     const char *findtype,
 			     Int findbus, Int findchannel, Int findid,
 			     Int findlun,
-			     Sane.Status (*attach) (const char *dev))
+			     Sane.Status(*attach) (const char *dev))
   {
     size_t findvendor_len = 0, findmodel_len = 0
     /* Lengths of search strings */
@@ -4506,29 +4506,29 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     char vendor[9],		/* Vendor name */
       model[17];		/* Model/product name */
     u_char inqdata[128],	/* Inquiry data buffer */
-      inqcommand[6];		/* Inquiry command (0x12) buffer */
+      inqcommand[6];		/* Inquiry command(0x12) buffer */
 
-    DBG_INIT ()
+    DBG_INIT()
 
     vendor[0] = model[0] = '\0'
-    if (findvendor)
-      findvendor_len = strlen (findvendor)
-    if (findmodel)
-      findmodel_len = strlen (findmodel)
+    if(findvendor)
+      findvendor_len = strlen(findvendor)
+    if(findmodel)
+      findmodel_len = strlen(findmodel)
 
-    if (findvendor != NULL)
-      DBG (1, "sanei_scsi_find_devices: looking for vendors starting "
+    if(findvendor != NULL)
+      DBG(1, "sanei_scsi_find_devices: looking for vendors starting "
 	   "with \"%s\".\n", findvendor)
 
-    if (findmodel != NULL)
-      DBG (1, "sanei_scsi_find_devices: looking for models starting "
+    if(findmodel != NULL)
+      DBG(1, "sanei_scsi_find_devices: looking for models starting "
 	   "with \"%s\".\n", findmodel)
 
-    setinvent ()
+    setinvent()
 
-    while ((inv = getinvent ()) != NULL)
+    while((inv = getinvent()) != NULL)
       {
-	if (inv.inv_class != INV_SCSI ||
+	if(inv.inv_class != INV_SCSI ||
 	    (inv.inv_type != INV_SCANNER && inv.inv_type != INV_CPU))
 	  continue
 
@@ -4536,74 +4536,74 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	id = inv.inv_unit
 	lun = inv.inv_state >> 8
 
-	DBG (1, "sanei_scsi_find_devices: found %s on controller %d, "
+	DBG(1, "sanei_scsi_find_devices: found %s on controller %d, "
 	     "ID %d, LUN %d.\n",
 	     inv.inv_type == INV_SCANNER ? "scanner" : "processor",
 	     bus, id, lun)
 
-	if ((findbus >= 0 && bus != findbus) ||
+	if((findbus >= 0 && bus != findbus) ||
 	    (findid >= 0 && id != findid) || (findlun >= 0 && lun != findlun))
 	  {
-	    DBG (1, "sanei_scsi_find_devices: ignoring this device.\n")
+	    DBG(1, "sanei_scsi_find_devices: ignoring this device.\n")
 	    continue
 	  }
 
-	sprintf (dev_name, "/dev/scsi/sc%dd%dl%d", bus, id, lun)
-	DBG (1, "sanei_scsi_find_devices: device name is \"%s\".\n",
+	sprintf(dev_name, "/dev/scsi/sc%dd%dl%d", bus, id, lun)
+	DBG(1, "sanei_scsi_find_devices: device name is \"%s\".\n",
 	     dev_name)
 
 	/*
 	 * Open the SCSI device and get the inquiry data...
 	 */
 
-	if (sanei_scsi_open (dev_name, &fd, NULL, NULL) != Sane.STATUS_GOOD)
+	if(sanei_scsi_open(dev_name, &fd, NULL, NULL) != Sane.STATUS_GOOD)
 	  {
-	    DBG (1,
+	    DBG(1,
 		 "sanei_scsi_find_devices: unable to open device file - %s.\n",
-		 strerror (errno))
+		 strerror(errno))
 	    continue
 	  }
 
-	DBG (1, "sanei_scsi_find_devices: device fd = %d.\n", fd)
+	DBG(1, "sanei_scsi_find_devices: device fd = %d.\n", fd)
 
-	inqsize = sizeof (inqdata)
+	inqsize = sizeof(inqdata)
 
 	inqcommand[0] = 0x12
 	inqcommand[1] = 0
 	inqcommand[2] = 0
-	inqcommand[3] = sizeof (inqdata) >> 8
-	inqcommand[4] = sizeof (inqdata)
+	inqcommand[3] = sizeof(inqdata) >> 8
+	inqcommand[4] = sizeof(inqdata)
 	inqcommand[5] = 0
 
-	if (sanei_scsi_cmd (fd, inqcommand, sizeof (inqcommand), inqdata,
+	if(sanei_scsi_cmd(fd, inqcommand, sizeof(inqcommand), inqdata,
 			    &inqsize) != Sane.STATUS_GOOD)
 	  {
-	    DBG (1,
+	    DBG(1,
 		 "sanei_scsi_find_devices: unable to get inquiry data - %s.\n",
-		 strerror (errno))
+		 strerror(errno))
 	    continue
 	  }
 
-	sanei_scsi_close (fd)
+	sanei_scsi_close(fd)
 
-	strncpy (vendor, (char *) inqdata + 8, 8)
+	strncpy(vendor, (char *) inqdata + 8, 8)
 	vendor[8] = '\0'
-	strncpy (model, (char *) inqdata + 16, 16)
+	strncpy(model, (char *) inqdata + 16, 16)
 	model[16] = '\0'
 
-	DBG (1, "sanei_scsi_find_devices: vendor = \'%s\', model = \'%s'.\n",
+	DBG(1, "sanei_scsi_find_devices: vendor = \'%s\', model = \'%s'.\n",
 	     vendor, model)
 
 	/*
 	 * Compare as necessary...
 	 */
 
-	if ((findvendor != NULL
-	     && strncmp (findvendor, vendor, findvendor_len))
+	if((findvendor != NULL
+	     && strncmp(findvendor, vendor, findvendor_len))
 	    || (findmodel != NULL
-		&& strncmp (findmodel, model, findmodel_len)))
+		&& strncmp(findmodel, model, findmodel_len)))
 	  {
-	    DBG (1, "sanei_scsi_find_devices: ignoring this device.\n")
+	    DBG(1, "sanei_scsi_find_devices: ignoring this device.\n")
 	    continue
 	  }
 
@@ -4611,7 +4611,7 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	 * OK, this one matches, so use it!
 	 */
 
-	DBG (1, "sanei_scsi_find_devices: attaching this device.\n")
+	DBG(1, "sanei_scsi_find_devices: attaching this device.\n")
 
 	(*attach) (dev_name)
       }
@@ -4631,13 +4631,13 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     char sense_buf[32]
     char status
 
-    /* xxx obsolete cdb_size = CDB_SIZE (*(u_char *) src)
+    /* xxx obsolete cdb_size = CDB_SIZE(*(u_char *) src)
      */
 
-    memset (&scmd, 0, sizeof (scmd))
-    if (dst_size && *dst_size)
+    memset(&scmd, 0, sizeof(scmd))
+    if(dst_size && *dst_size)
       {
-	/* xxx obsolete assert (cdb_size == src_size)
+	/* xxx obsolete assert(cdb_size == src_size)
 	 */
 	scmd.rw = 1
 	scmd.data_buf = dst
@@ -4645,7 +4645,7 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
       }
     else
       {
-	/* assert (cdb_size <= src_size)
+	/* assert(cdb_size <= src_size)
 	 */
 	scmd.data_buf = (char *) src
 	scmd.datalen = src_size
@@ -4654,33 +4654,33 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     scmd.cdblen = cmd_size
     scmd.timeval = Sane.scsicmd_timeout
     scmd.sense_buf = sense_buf
-    scmd.senselen = sizeof (sense_buf)
+    scmd.senselen = sizeof(sense_buf)
     scmd.statusp = &status
-    DBG (1, "sanei_scsi_cmd: scmd.rw = %d, scmd.cdblen = %d, ",
+    DBG(1, "sanei_scsi_cmd: scmd.rw = %d, scmd.cdblen = %d, ",
 	 scmd.rw, scmd.cdblen)
-    DBG (1, "scmd.cdb = {0x%x,0x%x,0x%x,0x%x,0x%x,0x%x, ...}\n",
+    DBG(1, "scmd.cdb = {0x%x,0x%x,0x%x,0x%x,0x%x,0x%x, ...}\n",
 	 scmd.cdb[0], scmd.cdb[1], scmd.cdb[2],
 	 scmd.cdb[3], scmd.cdb[4], scmd.cdb[5])
-    if (ioctl (fd, GSC_CMD, &scmd) < 0)
+    if(ioctl(fd, GSC_CMD, &scmd) < 0)
       {
-	DBG (1, "sanei_scsi_cmd: ioctl(SIOC_IO) failed: %s\n",
-	     strerror (errno))
+	DBG(1, "sanei_scsi_cmd: ioctl(SIOC_IO) failed: %s\n",
+	     strerror(errno))
 	return Sane.STATUS_IO_ERROR
       }
-    if (*scmd.statusp)
-      DBG (1, "sanei_scsi_cmd: SCSI completed with status=%d\n",
+    if(*scmd.statusp)
+      DBG(1, "sanei_scsi_cmd: SCSI completed with status=%d\n",
 	   *scmd.statusp)
 
-    DBG (1, "sanei_scsi_cmd: dst = {0x%x,0x%x,0x%x,0x%x,0x%x,0x%x, ...}\n",
+    DBG(1, "sanei_scsi_cmd: dst = {0x%x,0x%x,0x%x,0x%x,0x%x,0x%x, ...}\n",
 	 *((char *) dst + 0), *((char *) dst + 1), *((char *) dst + 2),
 	 *((char *) dst + 3), *((char *) dst + 4), *((char *) dst + 5))
 
-    if (dst_size)
+    if(dst_size)
       *dst_size = scmd.datalen
 
-    if (scmd.senselen > 0
+    if(scmd.senselen > 0
 	&& (scmd.sense_buf[0] & 0x80) && fd_info[fd].sense_handler)
-      return (*fd_info[fd].sense_handler) (fd, (u_char *) scmd.sense_buf,
+      return(*fd_info[fd].sense_handler) (fd, (u_char *) scmd.sense_buf,
 					   fd_info[fd].sense_handler_arg)
     return Sane.STATUS_GOOD
   }
@@ -4703,16 +4703,16 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
      */
     char sensebf[CCS_SENSE_LEN]
 
-    /* xxx obsolete cdb_size = CDB_SIZE (*(u_char *) src)
+    /* xxx obsolete cdb_size = CDB_SIZE(*(u_char *) src)
      */
 
     /* first put the user scsi structure together.  */
-    memset (&us, 0, sizeof (us))
+    memset(&us, 0, sizeof(us))
     us.us_cdbp = (caddr_t) cmd
     us.us_cdblen = cmd_size
     us.us_sensep = sensebf
     us.us_senselen = CCS_SENSE_LEN
-    if (dst && dst_size && *dst_size)
+    if(dst && dst_size && *dst_size)
       {
 	us.us_bufp = (caddr_t) dst
 	us.us_buflen = *dst_size
@@ -4725,9 +4725,9 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	us.us_flags = USER_SCSI_WRITE
       }
     /* now run it */
-    if (ioctl (fd, USER_SCSI, &us) < 0)
+    if(ioctl(fd, USER_SCSI, &us) < 0)
       return Sane.STATUS_IO_ERROR
-    if (dst_size)
+    if(dst_size)
       *dst_size -= us.us_resid
 
     return Sane.STATUS_GOOD
@@ -4765,7 +4765,7 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
   static Int d_errs = 100
 
   static Sane.Status
-    scsi_cmd (Int fd,
+    scsi_cmd(Int fd,
 	      const void *cmd, size_t cmd_size,
 	      const void *src, size_t src_size,
 	      void *dst, size_t * dst_size, Int probing)
@@ -4775,14 +4775,14 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
      */
     SANEI_SCSI_Sense_Handler handler
 
-    /* xxx obsolete cdb_size = CDB_SIZE (*(u_char *) src)
+    /* xxx obsolete cdb_size = CDB_SIZE(*(u_char *) src)
      */
 
-    memset (&scmd, 0, sizeof (scmd))
+    memset(&scmd, 0, sizeof(scmd))
     scmd.flags = DEF_SCG_FLG | (probing ? SCG_SILENT : 0)
-    if (dst && dst_size && *dst_size)
+    if(dst && dst_size && *dst_size)
       {
-	/* xxx obsolete assert (cdb_size == src_size)
+	/* xxx obsolete assert(cdb_size == src_size)
 	 */
 	scmd.flags |= SCG_RECV_DATA
 	scmd.addr = dst
@@ -4790,7 +4790,7 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
       }
     else
       {
-	/* xxx obsolete assert (cdb_size <= src_size)
+	/* xxx obsolete assert(cdb_size <= src_size)
 	 */
 	scmd.addr = (caddr_t) src
 	scmd.size = src_size
@@ -4800,23 +4800,23 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     scmd.target = fd_info[fd].target
     /* use 2 second timeout when probing, 60 seconds otherwise: */
     scmd.timeout = probing ? 2 : DEF_TIMEOUT
-    memcpy (&scmd.cdb.g0_cdb.cmd, cmd, cmd_size)
+    memcpy(&scmd.cdb.g0_cdb.cmd, cmd, cmd_size)
     scmd.cdb.cmd_cdb[1] |= fd_info[fd].lun << 5
-    if (ioctl (fd, SCGIO_CMD, &scmd) < 0)
+    if(ioctl(fd, SCGIO_CMD, &scmd) < 0)
       return Sane.STATUS_IO_ERROR
-    if (dst_size)
+    if(dst_size)
       *dst_size = scmd.size - scmd.resid
-    if (scmd.error == 0 && scmd.errno == 0 && *(u_char *) & scmd.scb == 0)
+    if(scmd.error == 0 && scmd.errno == 0 && *(u_char *) & scmd.scb == 0)
       return Sane.STATUS_GOOD
 
-    if (scmd.error == SCG_TIMEOUT)
-      DBG (0, "sanei_scsi_cmd %x: timeout\n", scmd.cdb.g0_cdb.cmd)
-    else if (probing)
+    if(scmd.error == SCG_TIMEOUT)
+      DBG(0, "sanei_scsi_cmd %x: timeout\n", scmd.cdb.g0_cdb.cmd)
+    else if(probing)
       {
 	struct scsi_ext_sense *ext_sense =
 	  (struct scsi_ext_sense *) &scmd.sense
 
-	if (scmd.error < SCG_FATAL
+	if(scmd.error < SCG_FATAL
 	    && ((scmd.sense.code < 0x70 && scmd.sense.code != 0x04)
 		|| (scmd.sense.code >= 0x70
 		    && ext_sense.key != SC_NOT_READY)))
@@ -4828,41 +4828,41 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	var i: Int, rv, lifes
 
 	handler = fd_info[fd].sense_handler
-	DBG (3, "cmd=%x, error=%d:%s, bsiz=%d, stat=%x,%x,%x, slen=%d\n",
-	     scmd.cdb.g0_cdb.cmd, scmd.error, strerror (scmd.errno),
+	DBG(3, "cmd=%x, error=%d:%s, bsiz=%d, stat=%x,%x,%x, slen=%d\n",
+	     scmd.cdb.g0_cdb.cmd, scmd.error, strerror(scmd.errno),
 	     ((dst_size != NULL) ? (*dst_size) : 0), scmd.u_scb.cmd_scb[0],
 	     scmd.u_scb.cmd_scb[1], scmd.u_scb.cmd_scb[2], scmd.sense_count)
 	*errbf = '\0'
-	for (i = 0; i < scmd.sense_count; i++)
-	  sprintf (errbf + strlen (errbf), "%x,", scmd.u_sense.cmd_sense[i])
-	DBG (3, "sense=%s\n", errbf)
+	for(i = 0; i < scmd.sense_count; i++)
+	  sprintf(errbf + strlen(errbf), "%x,", scmd.u_sense.cmd_sense[i])
+	DBG(3, "sense=%s\n", errbf)
 
 	/* test_unit_ready on a busy unit returns error = 0 or 2 with
 	   errno=EIO.  I've seen 0 on a CDrom without a CD, and 2 on a
 	   scanner just busy.
 
-	   If (Sane.DEBUG_SANEI_SCSI > 100) lifes =
+	   If(Sane.DEBUG_SANEI_SCSI > 100) lifes =
 	   Sane.DEBUG_SANEI_SCSI - 100 use up one life for every
 	   scmd.error abort and dump core when no lifes left
 	   test_unit_ready commands are not counted.  */
-	if (scmd.error)
+	if(scmd.error)
 	  {
-	    if (sanei_debug_sanei_scsi > 100 &&
+	    if(sanei_debug_sanei_scsi > 100 &&
 		scmd.cdb.g0_cdb.cmd != SC_TEST_UNIT_READY)
 	      {
 		lifes = sanei_debug_sanei_scsi - ++d_errs
-		DBG (1, "sanei_scsi_cmd: %d lifes left\n", lifes)
-		assert (lifes > 0)
+		DBG(1, "sanei_scsi_cmd: %d lifes left\n", lifes)
+		assert(lifes > 0)
 	      }
 	    return Sane.STATUS_IO_ERROR
 	  }
-	if (scmd.u_scb.cmd_scb[0] == SC_BUSY)
+	if(scmd.u_scb.cmd_scb[0] == SC_BUSY)
 	  return Sane.STATUS_DEVICE_BUSY
-	if (*(u_char *) & scmd.sense && handler)
+	if(*(u_char *) & scmd.sense && handler)
 	  {
 	    rv = (*handler) (fd, scmd.u_sense.cmd_sense,
 			     fd_info[fd].sense_handler_arg)
-	    DBG (2, "sanei_scsi_cmd: sense-handler returns %d\n", rv)
+	    DBG(2, "sanei_scsi_cmd: sense-handler returns %d\n", rv)
 	    return rv
 	  }
       }
@@ -4875,17 +4875,17 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 		     const void *src, size_t src_size,
 		     void *dst, size_t * dst_size)
   {
-    return scsi_cmd (fd, cmd, cmd_size, src, src_size, dst, dst_size, 0)
+    return scsi_cmd(fd, cmd, cmd_size, src, src_size, dst, dst_size, 0)
   }
 
-  static Int unit_ready (Int fd)
+  static Int unit_ready(Int fd)
   {
     static const u_char test_unit_ready[] = { 0, 0, 0, 0, 0, 0 ]
     Int status
 
-    status = scsi_cmd (fd, test_unit_ready, sizeof (test_unit_ready),
+    status = scsi_cmd(fd, test_unit_ready, sizeof(test_unit_ready),
 		       0, 0, 0, 0, 1)
-    return (status == Sane.STATUS_GOOD)
+    return(status == Sane.STATUS_GOOD)
   }
 
 #endif /* USE == SOLARIS_INTERFACE */
@@ -4900,7 +4900,7 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
   typedef struct scsi_inquiry scsi_inquiry_t
 
   static Sane.Status
-    scsi_cmd (Int fd,
+    scsi_cmd(Int fd,
 	      const void *cmd, size_t cmd_size,
 	      const void *src, size_t src_size,
 	      void *dst, size_t * dst_size, Int probing)
@@ -4910,15 +4910,15 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     extended_sense_t sense, *sp = &sense
     SANEI_SCSI_Sense_Handler handler
 
-    memset (&us, 0, sizeof (us))
-    memset (sp, 0, sizeof (*sp))
+    memset(&us, 0, sizeof(us))
+    memset(sp, 0, sizeof(*sp))
 
     us.uscsi_flags = USCSI_SILENT | USCSI_RQENABLE | USCSI_DIAGNOSE
     us.uscsi_timeout = probing ? 2 : DEF_TIMEOUT
     us.uscsi_rqbuf = (caddr_t) sp;	/* sense data address */
-    us.uscsi_rqlen = sizeof (extended_sense_t);	/* length of sense data */
+    us.uscsi_rqlen = sizeof(extended_sense_t);	/* length of sense data */
 
-    if (dst && dst_size && *dst_size)
+    if(dst && dst_size && *dst_size)
       {
 	us.uscsi_flags |= USCSI_READ
 	us.uscsi_bufaddr = (caddr_t) dst
@@ -4934,53 +4934,53 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     us.uscsi_cdblen = cmd_size
     us.uscsi_cdb = (caddr_t) cmd
 
-    if (ioctl (fd, USCSICMD, &us) < 0)
+    if(ioctl(fd, USCSICMD, &us) < 0)
       return Sane.STATUS_IO_ERROR
 
-    if (dst_size)
+    if(dst_size)
       *dst_size = us.uscsi_buflen - us.uscsi_resid
 
-    if ((us.uscsi_status & STATUS_MASK) == STATUS_GOOD)
+    if((us.uscsi_status & STATUS_MASK) == STATUS_GOOD)
       return Sane.STATUS_GOOD
 
-    if (sp.es_key == SUN_KEY_TIMEOUT)
-      DBG (0, "sanei_scsi_cmd %x: timeout\n", *(char *) cmd)
+    if(sp.es_key == SUN_KEY_TIMEOUT)
+      DBG(0, "sanei_scsi_cmd %x: timeout\n", *(char *) cmd)
     else
       {
 	char errbf[128]
 	var i: Int, rv, lifes
 
 	handler = fd_info[fd].sense_handler
-	DBG (3, "cmd=%x, scsi_status=%x\n", *(char *) cmd, us.uscsi_status)
+	DBG(3, "cmd=%x, scsi_status=%x\n", *(char *) cmd, us.uscsi_status)
 	*errbf = '\0'
 
-	for (i = 0; i < us.uscsi_rqlen; i++)
-	  sprintf (errbf + strlen (errbf), "%x,", *(sp + i))
+	for(i = 0; i < us.uscsi_rqlen; i++)
+	  sprintf(errbf + strlen(errbf), "%x,", *(sp + i))
 
-	DBG (3, "sense=%s\n", errbf)
+	DBG(3, "sense=%s\n", errbf)
 
 #if 0
-	if (us.error)
+	if(us.error)
 	  {
-	    if (sanei_debug_sanei_scsi > 100 &&
+	    if(sanei_debug_sanei_scsi > 100 &&
 		scmd.cdb.g0_cdb.cmd != SC_TEST_UNIT_READY)
 	      {
 		lifes = sanei_debug_sanei_scsi - ++d_errs
-		DBG (1, "sanei_scsi_cmd: %d lifes left\n", lifes)
-		assert (lifes > 0)
+		DBG(1, "sanei_scsi_cmd: %d lifes left\n", lifes)
+		assert(lifes > 0)
 	      }
 	    return Sane.STATUS_IO_ERROR
 	  }
 
-	if (scmd.u_scb.cmd_scb[0] == SC_BUSY)
+	if(scmd.u_scb.cmd_scb[0] == SC_BUSY)
 	  return Sane.STATUS_DEVICE_BUSY
 #endif
 
-	if (handler)
+	if(handler)
 	  {
 	    rv = (*handler) (fd, (unsigned char *) sp,
 			     fd_info[fd].sense_handler_arg)
-	    DBG (2, "sanei_scsi_cmd: sense-handler returns %d\n", rv)
+	    DBG(2, "sanei_scsi_cmd: sense-handler returns %d\n", rv)
 	    return rv
 	  }
       }
@@ -4994,17 +4994,17 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 		     const void *src, size_t src_size,
 		     void *dst, size_t * dst_size)
   {
-    return scsi_cmd (fd, cmd, cmd_size, src, src_size, dst, dst_size, 0)
+    return scsi_cmd(fd, cmd, cmd_size, src, src_size, dst, dst_size, 0)
   }
 
-  static Int unit_ready (Int fd)
+  static Int unit_ready(Int fd)
   {
     static const u_char test_unit_ready[] = { 0, 0, 0, 0, 0, 0 ]
     Int status
 
-    status = scsi_cmd (fd, test_unit_ready, sizeof (test_unit_ready),
+    status = scsi_cmd(fd, test_unit_ready, sizeof(test_unit_ready),
 		       0, 0, 0, 0, 1)
-    return (status == Sane.STATUS_GOOD)
+    return(status == Sane.STATUS_GOOD)
   }
 #endif /* USE == SOLARIS_USCSI_INTERFACE */
 
@@ -5034,13 +5034,13 @@ sanei_scsi_cmd2 (Int fd,
   memcpy(pkt.sptd.Cdb, cmd, cmd_size)
   pkt.sptd.CdbLength = cmd_size
 
-  if (dst_size && *dst_size)
+  if(dst_size && *dst_size)
     {
 	pkt.sptd.DataIn = SCSI_IOCTL_DATA_IN
 	pkt.sptd.DataTransferLength = *dst_size
         pkt.sptd.DataBuffer         = dst
     }
-  else if (src_size)
+  else if(src_size)
     {
 	pkt.sptd.DataIn = SCSI_IOCTL_DATA_OUT
 	pkt.sptd.DataTransferLength = src_size
@@ -5061,32 +5061,32 @@ sanei_scsi_cmd2 (Int fd,
                         &pkt.sptd, sizeof( pkt ),
                         &BytesReturned, NULL )
 
-  if (ret == 0)
+  if(ret == 0)
     {
-      DBG (1, "sanei_scsi_cmd2: DeviceIoControl() failed: %ld\n",
+      DBG(1, "sanei_scsi_cmd2: DeviceIoControl() failed: %ld\n",
 	   GetLastError())
       return Sane.STATUS_IO_ERROR
     }
 
-   if (pkt.sptd.ScsiStatus == 2){
+   if(pkt.sptd.ScsiStatus == 2){
 	/* Check condition. */
       SANEI_SCSI_Sense_Handler handler
 
       handler = fd_info[fd].sense_handler
-      if (handler) {
+      if(handler) {
 	 return handler(fd, pkt.sense, fd_info[fd].sense_handler_arg)
       }
       else {
 	 return Sane.STATUS_IO_ERROR
       }
    }
-   else if (pkt.sptd.ScsiStatus != 0) {
-      DBG (1, "sanei_scsi_cmd2: ScsiStatus is %d\n",
+   else if(pkt.sptd.ScsiStatus != 0) {
+      DBG(1, "sanei_scsi_cmd2: ScsiStatus is %d\n",
 	    pkt.sptd.ScsiStatus)
       return Sane.STATUS_IO_ERROR
    }
 
-  if (dst_size) {
+  if(dst_size) {
     *dst_size = pkt.sptd.DataTransferLength
   }
 
@@ -5097,10 +5097,10 @@ sanei_scsi_cmd2 (Int fd,
 
 /* This is almost the same algorithm used in sane-find-scanner. */
 void
-sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
+sanei_scsi_find_devices(const char *findvendor, const char *findmodel,
 			 const char *findtype,
 			 Int findbus, Int findchannel, Int findid, Int findlun,
-			 Sane.Status (*attach) (const char *dev))
+			 Sane.Status(*attach) (const char *dev))
 {
 	Int hca
 	HANDLE fd
@@ -5125,7 +5125,7 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
                                NULL, OPEN_EXISTING,
                                FILE_FLAG_RANDOM_ACCESS, NULL )
 
-	if (fd == INVALID_HANDLE_VALUE) {
+	if(fd == INVALID_HANDLE_VALUE) {
 	   /* Assume there is no more adapter. This is wrong in the case
 	   * of hot-plug stuff, but I have yet to see it on a user
 	   * machine. */
@@ -5152,7 +5152,7 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 
 	for(i = 0; i < adapter.NumberOfBuses; i++) {
 
-		if (adapter.BusData[i].InquiryDataOffset == 0) {
+		if(adapter.BusData[i].InquiryDataOffset == 0) {
 			/* No device here */
 			continue
 		}
@@ -5162,15 +5162,15 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 
 		while(1) {
 
-			if ((findvendor == NULL || strncmp(findvendor, (char *)&inquiry.InquiryData[8], 8) == 0)) {
+			if((findvendor == NULL || strncmp(findvendor, (char *)&inquiry.InquiryData[8], 8) == 0)) {
 				DBG(1, "OK1\n")
 			} else {
-				DBG(1, "failed for [%s] and [%s]\n",findvendor, (char *)&inquiry.InquiryData[8] )
+				DBG(1, "failed for[%s] and[%s]\n",findvendor, (char *)&inquiry.InquiryData[8] )
 			}
 
 
 			/* Check if this device fits the criteria. */
-			if ((findvendor == NULL || strncmp(findvendor, (char *)&inquiry.InquiryData[8], strlen(findvendor)) == 0) &&
+			if((findvendor == NULL || strncmp(findvendor, (char *)&inquiry.InquiryData[8], strlen(findvendor)) == 0) &&
 			    (findmodel == NULL || strncmp(findmodel, (char *)&inquiry.InquiryData[16], strlen(findmodel)) == 0) &&
 			    (findbus == -1 || findbus == hca) &&
 			    (findchannel == -1 || findchannel == inquiry.PathId) &&
@@ -5181,7 +5181,7 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 				sprintf(device_name, "h%db%dt%dl%d", hca, inquiry.PathId, inquiry.TargetId, inquiry.Lun)
 				attach(device_name)
 			}
-			if (inquiry.NextInquiryDataOffset == 0) {
+			if(inquiry.NextInquiryDataOffset == 0) {
 			   /* No device here */
 			   break
 			} else {
@@ -5201,7 +5201,7 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 # ifdef HAVE_IOKIT_CDB_IOSCSILIB_H
 
   static Sane.Status
-    sanei_scsi_cmd2_old_api (Int fd,
+    sanei_scsi_cmd2_old_api(Int fd,
 			     const void *cmd, size_t cmd_size,
 			     const void *src, size_t src_size,
 			     void *dst, size_t * dst_size)
@@ -5234,129 +5234,129 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     UInt32 seqNumber
 
     masterPort = 0
-    ioReturnValue = IOMasterPort (MACH_PORT_NULL, &masterPort)
-    if (ioReturnValue != kIOReturnSuccess || masterPort == 0)
+    ioReturnValue = IOMasterPort(MACH_PORT_NULL, &masterPort)
+    if(ioReturnValue != kIOReturnSuccess || masterPort == 0)
       {
-	DBG (5, "Could not get I/O master port (0x%08x)\n", ioReturnValue)
+	DBG(5, "Could not get I/O master port(0x%08x)\n", ioReturnValue)
 	return Sane.STATUS_IO_ERROR
       }
 
     scsiDevice = 0
-    for (i = 0; !scsiDevice && i < 2; i++)
+    for(i = 0; !scsiDevice && i < 2; i++)
       {
-	scsiMatchDictionary = IOServiceMatching (kIOSCSIDeviceClassName)
-	if (scsiMatchDictionary == NULL)
+	scsiMatchDictionary = IOServiceMatching(kIOSCSIDeviceClassName)
+	if(scsiMatchDictionary == NULL)
 	  {
-	    DBG (5, "Could not create SCSI matching dictionary\n")
+	    DBG(5, "Could not create SCSI matching dictionary\n")
 	    return Sane.STATUS_NO_MEM
 	  }
 
 	deviceTypeNumber =
 	  (i == 0 ? kSCSIDevTypeScanner : kSCSIDevTypeProcessor)
-	deviceTypeRef = CFNumberCreate (NULL, kCFNumberIntType,
+	deviceTypeRef = CFNumberCreate(NULL, kCFNumberIntType,
 					&deviceTypeNumber)
-	CFDictionarySetValue (scsiMatchDictionary,
-			      CFSTR (kSCSIPropertyDeviceTypeID),
+	CFDictionarySetValue(scsiMatchDictionary,
+			      CFSTR(kSCSIPropertyDeviceTypeID),
 			      deviceTypeRef)
-	CFRelease (deviceTypeRef)
+	CFRelease(deviceTypeRef)
 
 	scsiObjectIterator = 0
-	ioReturnValue = IOServiceGetMatchingServices (masterPort,
+	ioReturnValue = IOServiceGetMatchingServices(masterPort,
 						      scsiMatchDictionary,
 						      &scsiObjectIterator)
-	if (ioReturnValue != kIOReturnSuccess)
+	if(ioReturnValue != kIOReturnSuccess)
 	  {
-	    DBG (5, "Could not match services (0x%08x)\n", ioReturnValue)
+	    DBG(5, "Could not match services(0x%08x)\n", ioReturnValue)
 	    return Sane.STATUS_NO_MEM
 	  }
 
-	while ((device = IOIteratorNext (scsiObjectIterator)))
+	while((device = IOIteratorNext(scsiObjectIterator)))
 	  {
 	    IOUnitRef =
-	      IORegistryEntryCreateCFProperty (device,
-					       CFSTR (kSCSIPropertyIOUnit),
+	      IORegistryEntryCreateCFProperty(device,
+					       CFSTR(kSCSIPropertyIOUnit),
 					       NULL, 0)
-	    CFNumberGetValue (IOUnitRef, kCFNumberIntType, &iounit)
-	    CFRelease (IOUnitRef)
+	    CFNumberGetValue(IOUnitRef, kCFNumberIntType, &iounit)
+	    CFRelease(IOUnitRef)
 	    scsiTargetRef =
-	      IORegistryEntryCreateCFProperty (device,
-					       CFSTR (kSCSIPropertyTarget),
+	      IORegistryEntryCreateCFProperty(device,
+					       CFSTR(kSCSIPropertyTarget),
 					       NULL, 0)
-	    CFNumberGetValue (scsiTargetRef, kCFNumberIntType, &scsitarget)
-	    CFRelease (scsiTargetRef)
+	    CFNumberGetValue(scsiTargetRef, kCFNumberIntType, &scsitarget)
+	    CFRelease(scsiTargetRef)
 	    scsiLunRef =
-	      IORegistryEntryCreateCFProperty (device,
-					       CFSTR (kSCSIPropertyLun),
+	      IORegistryEntryCreateCFProperty(device,
+					       CFSTR(kSCSIPropertyLun),
 					       NULL, 0)
-	    CFNumberGetValue (scsiLunRef, kCFNumberIntType, &scsilun)
-	    CFRelease (scsiLunRef)
+	    CFNumberGetValue(scsiLunRef, kCFNumberIntType, &scsilun)
+	    CFRelease(scsiLunRef)
 
-	    if (fd_info[fd].bus == iounit &&
+	    if(fd_info[fd].bus == iounit &&
 		fd_info[fd].target == scsitarget &&
 		fd_info[fd].lun == scsilun)
 	      scsiDevice = device
 	    else
-	      IOObjectRelease (device)
+	      IOObjectRelease(device)
 	  }
-	IOObjectRelease (scsiObjectIterator)
+	IOObjectRelease(scsiObjectIterator)
       }
-    if (!scsiDevice)
+    if(!scsiDevice)
       {
-	DBG (5, "Device not found (unit %i, target %i, lun %i)\n",
+	DBG(5, "Device not found(unit %i, target %i, lun %i)\n",
 	     fd_info[fd].bus, fd_info[fd].target, fd_info[fd].lun)
 	return Sane.STATUS_INVAL
       }
 
     plugInInterface = NULL
     score = 0
-    ioReturnValue = IOCreatePlugInInterfaceForService (scsiDevice,
+    ioReturnValue = IOCreatePlugInInterfaceForService(scsiDevice,
 						       kIOSCSIUserClientTypeID,
 						       kIOCFPlugInInterfaceID,
 						       &plugInInterface,
 						       &score)
-    if (ioReturnValue != kIOReturnSuccess || plugInInterface == NULL)
+    if(ioReturnValue != kIOReturnSuccess || plugInInterface == NULL)
       {
-	DBG (5, "Error creating plugin interface (0x%08x)\n", ioReturnValue)
+	DBG(5, "Error creating plugin interface(0x%08x)\n", ioReturnValue)
 	return Sane.STATUS_NO_MEM
       }
 
     scsiDeviceInterface = NULL
     plugInResult = (*plugInInterface)->
-      QueryInterface (plugInInterface,
-		      CFUUIDGetUUIDBytes (kIOSCSIDeviceInterfaceID),
+      QueryInterface(plugInInterface,
+		      CFUUIDGetUUIDBytes(kIOSCSIDeviceInterfaceID),
 		      (LPVOID) & scsiDeviceInterface)
-    if (plugInResult != S_OK || scsiDeviceInterface == NULL)
+    if(plugInResult != S_OK || scsiDeviceInterface == NULL)
       {
-	DBG (5, "Couldn't create SCSI device interface (%ld)\n", plugInResult)
+	DBG(5, "Couldn't create SCSI device interface(%ld)\n", plugInResult)
 	return Sane.STATUS_NO_MEM
       }
 
-    (*plugInInterface)->Release (plugInInterface)
-    IOObjectRelease (scsiDevice)
+    (*plugInInterface)->Release(plugInInterface)
+    IOObjectRelease(scsiDevice)
 
-    ioReturnValue = (*scsiDeviceInterface)->open (scsiDeviceInterface)
-    if (ioReturnValue != kIOReturnSuccess)
+    ioReturnValue = (*scsiDeviceInterface)->open(scsiDeviceInterface)
+    if(ioReturnValue != kIOReturnSuccess)
       {
-	DBG (5, "Error opening SCSI interface (0x%08x)\n", ioReturnValue)
+	DBG(5, "Error opening SCSI interface(0x%08x)\n", ioReturnValue)
 	return Sane.STATUS_IO_ERROR
       }
 
     cdbCommandInterface = NULL
     plugInResult = (*scsiDeviceInterface)->
-      QueryInterface (scsiDeviceInterface,
-		      CFUUIDGetUUIDBytes (kIOCDBCommandInterfaceID),
+      QueryInterface(scsiDeviceInterface,
+		      CFUUIDGetUUIDBytes(kIOCDBCommandInterfaceID),
 		      (LPVOID) & cdbCommandInterface)
-    if (plugInResult != S_OK || cdbCommandInterface == NULL)
+    if(plugInResult != S_OK || cdbCommandInterface == NULL)
       {
-	DBG (5, "Error creating CDB interface (%ld)\n", plugInResult)
+	DBG(5, "Error creating CDB interface(%ld)\n", plugInResult)
 	return Sane.STATUS_NO_MEM
       }
 
     cdb.cdbLength = cmd_size
-    memcpy (&cdb.cdb, cmd, cmd_size)
-    if (dst && dst_size)
+    memcpy(&cdb.cdb, cmd, cmd_size)
+    if(dst && dst_size)
       {
-	memset (dst, 0, *dst_size)
+	memset(dst, 0, *dst_size)
 	range.address = (IOVirtualAddress) dst
 	range.length = *dst_size
 	transferCount = *dst_size
@@ -5372,43 +5372,43 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 
     seqNumber = 0
     ioReturnValue = (*cdbCommandInterface)->
-      setAndExecuteCommand (cdbCommandInterface, &cdb, transferCount,
+      setAndExecuteCommand(cdbCommandInterface, &cdb, transferCount,
 			    &range, 1, isWrite, Sane.scsicmd_timeout * 1000,
 			    0, 0, 0, &seqNumber)
-    if (ioReturnValue != kIOReturnSuccess &&
+    if(ioReturnValue != kIOReturnSuccess &&
 	ioReturnValue != kIOReturnUnderrun)
       {
-	DBG (5, "Error executing CDB command (0x%08x)\n", ioReturnValue)
+	DBG(5, "Error executing CDB command(0x%08x)\n", ioReturnValue)
 	return Sane.STATUS_IO_ERROR
       }
 
-    ioReturnValue = (*cdbCommandInterface)->getResults (cdbCommandInterface,
+    ioReturnValue = (*cdbCommandInterface)->getResults(cdbCommandInterface,
 							&results)
-    if (ioReturnValue != kIOReturnSuccess &&
+    if(ioReturnValue != kIOReturnSuccess &&
 	ioReturnValue != kIOReturnUnderrun)
       {
-	DBG (5, "Error getting results from CDB Interface (0x%08x)\n",
+	DBG(5, "Error getting results from CDB Interface(0x%08x)\n",
 	     ioReturnValue)
 	return Sane.STATUS_IO_ERROR
       }
 
-    if (dst && dst_size)
+    if(dst && dst_size)
       *dst_size = results.bytesTransferred
 
-    (*cdbCommandInterface)->Release (cdbCommandInterface)
-    (*scsiDeviceInterface)->close (scsiDeviceInterface)
-    (*scsiDeviceInterface)->Release (scsiDeviceInterface)
+    (*cdbCommandInterface)->Release(cdbCommandInterface)
+    (*scsiDeviceInterface)->close(scsiDeviceInterface)
+    (*scsiDeviceInterface)->Release(scsiDeviceInterface)
 
     return Sane.STATUS_GOOD
   }
 
 
   static void
-    sanei_scsi_find_devices_old_api (const char *findvendor,
+    sanei_scsi_find_devices_old_api(const char *findvendor,
 				     const char *findmodel,
 				     const char *findtype, Int findbus,
 				     Int findchannel, Int findid, Int findlun,
-				     Sane.Status (*attach) (const char *dev))
+				     Sane.Status(*attach) (const char *dev))
   {
     mach_port_t masterPort
     IOReturn ioReturnValue
@@ -5433,119 +5433,119 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     char devname[16]
 
     masterPort = 0
-    ioReturnValue = IOMasterPort (MACH_PORT_NULL, &masterPort)
-    if (ioReturnValue != kIOReturnSuccess || masterPort == 0)
+    ioReturnValue = IOMasterPort(MACH_PORT_NULL, &masterPort)
+    if(ioReturnValue != kIOReturnSuccess || masterPort == 0)
       {
-	DBG (5, "Could not get I/O master port (0x%08x)\n", ioReturnValue)
+	DBG(5, "Could not get I/O master port(0x%08x)\n", ioReturnValue)
 	return
       }
 
-    for (i = 0; i < 2; i++)
+    for(i = 0; i < 2; i++)
       {
-	scsiMatchDictionary = IOServiceMatching (kIOSCSIDeviceClassName)
-	if (scsiMatchDictionary == NULL)
+	scsiMatchDictionary = IOServiceMatching(kIOSCSIDeviceClassName)
+	if(scsiMatchDictionary == NULL)
 	  {
-	    DBG (5, "Could not create SCSI matching dictionary\n")
+	    DBG(5, "Could not create SCSI matching dictionary\n")
 	    return
 	  }
 	deviceTypeNumber =
 	  (i == 0 ? kSCSIDevTypeScanner : kSCSIDevTypeProcessor)
-	deviceTypeRef = CFNumberCreate (NULL, kCFNumberIntType,
+	deviceTypeRef = CFNumberCreate(NULL, kCFNumberIntType,
 					&deviceTypeNumber)
-	CFDictionarySetValue (scsiMatchDictionary,
-			      CFSTR (kSCSIPropertyDeviceTypeID),
+	CFDictionarySetValue(scsiMatchDictionary,
+			      CFSTR(kSCSIPropertyDeviceTypeID),
 			      deviceTypeRef)
-	CFRelease (deviceTypeRef)
+	CFRelease(deviceTypeRef)
 
 	scsiObjectIterator = 0
-	ioReturnValue = IOServiceGetMatchingServices (masterPort,
+	ioReturnValue = IOServiceGetMatchingServices(masterPort,
 						      scsiMatchDictionary,
 						      &scsiObjectIterator)
-	if (ioReturnValue != kIOReturnSuccess)
+	if(ioReturnValue != kIOReturnSuccess)
 	  {
-	    DBG (5, "Could not match services (0x%08x)\n", ioReturnValue)
+	    DBG(5, "Could not match services(0x%08x)\n", ioReturnValue)
 	    return
 	  }
 
-	while ((scsiDevice = IOIteratorNext (scsiObjectIterator)))
+	while((scsiDevice = IOIteratorNext(scsiObjectIterator)))
 	  {
 	    IOUnitRef =
-	      IORegistryEntryCreateCFProperty (scsiDevice,
-					       CFSTR (kSCSIPropertyIOUnit),
+	      IORegistryEntryCreateCFProperty(scsiDevice,
+					       CFSTR(kSCSIPropertyIOUnit),
 					       NULL, 0)
-	    CFNumberGetValue (IOUnitRef, kCFNumberIntType, &iounit)
-	    CFRelease (IOUnitRef)
+	    CFNumberGetValue(IOUnitRef, kCFNumberIntType, &iounit)
+	    CFRelease(IOUnitRef)
 	    scsiTargetRef =
-	      IORegistryEntryCreateCFProperty (scsiDevice,
-					       CFSTR (kSCSIPropertyTarget),
+	      IORegistryEntryCreateCFProperty(scsiDevice,
+					       CFSTR(kSCSIPropertyTarget),
 					       NULL, 0)
-	    CFNumberGetValue (scsiTargetRef, kCFNumberIntType, &scsitarget)
-	    CFRelease (scsiTargetRef)
+	    CFNumberGetValue(scsiTargetRef, kCFNumberIntType, &scsitarget)
+	    CFRelease(scsiTargetRef)
 	    scsiLunRef =
-	      IORegistryEntryCreateCFProperty (scsiDevice,
-					       CFSTR (kSCSIPropertyLun),
+	      IORegistryEntryCreateCFProperty(scsiDevice,
+					       CFSTR(kSCSIPropertyLun),
 					       NULL, 0)
-	    CFNumberGetValue (scsiLunRef, kCFNumberIntType, &scsilun)
-	    CFRelease (scsiLunRef)
+	    CFNumberGetValue(scsiLunRef, kCFNumberIntType, &scsilun)
+	    CFRelease(scsiLunRef)
 
 	    plugInInterface = NULL
 	    score = 0
 	    ioReturnValue =
-	      IOCreatePlugInInterfaceForService (scsiDevice,
+	      IOCreatePlugInInterfaceForService(scsiDevice,
 						 kIOSCSIUserClientTypeID,
 						 kIOCFPlugInInterfaceID,
 						 &plugInInterface, &score)
-	    if (ioReturnValue != kIOReturnSuccess || plugInInterface == NULL)
+	    if(ioReturnValue != kIOReturnSuccess || plugInInterface == NULL)
 	      {
-		DBG (5, "Error creating plugin interface (0x%08x)\n",
+		DBG(5, "Error creating plugin interface(0x%08x)\n",
 		     ioReturnValue)
 		return
 	      }
 
 	    scsiDeviceInterface = NULL
 	    plugInResult = (*plugInInterface)->
-	      QueryInterface (plugInInterface,
-			      CFUUIDGetUUIDBytes (kIOSCSIDeviceInterfaceID),
+	      QueryInterface(plugInInterface,
+			      CFUUIDGetUUIDBytes(kIOSCSIDeviceInterfaceID),
 			      (LPVOID) & scsiDeviceInterface)
-	    if (plugInResult != S_OK || scsiDeviceInterface == NULL)
+	    if(plugInResult != S_OK || scsiDeviceInterface == NULL)
 	      {
-		DBG (5, "Couldn't create SCSI device interface (%ld)\n",
+		DBG(5, "Couldn't create SCSI device interface(%ld)\n",
 		     plugInResult)
 		return
 	      }
 
-	    (*plugInInterface)->Release (plugInInterface)
-	    IOObjectRelease (scsiDevice)
+	    (*plugInInterface)->Release(plugInInterface)
+	    IOObjectRelease(scsiDevice)
 
 	    ioReturnValue = (*scsiDeviceInterface)->
-	      getInquiryData (scsiDeviceInterface, &inquiry,
-			      sizeof (SCSIInquiry), &inquirySize)
+	      getInquiryData(scsiDeviceInterface, &inquiry,
+			      sizeof(SCSIInquiry), &inquirySize)
 
-	    (*scsiDeviceInterface)->Release (scsiDeviceInterface)
+	    (*scsiDeviceInterface)->Release(scsiDeviceInterface)
 
-	    if ((findlun < 0 || findlun == scsilun) &&
-		(findvendor == NULL || strncmp (findvendor,
+	    if((findlun < 0 || findlun == scsilun) &&
+		(findvendor == NULL || strncmp(findvendor,
 						inquiry.vendorName,
-						strlen (findvendor)) == 0) &&
-		(findmodel == NULL || strncmp (findmodel,
+						strlen(findvendor)) == 0) &&
+		(findmodel == NULL || strncmp(findmodel,
 					       inquiry.productName,
-					       strlen (findmodel)) == 0))
+					       strlen(findmodel)) == 0))
 	      {
-		sprintf (devname, "u%dt%dl%d", iounit, scsitarget, scsilun)
+		sprintf(devname, "u%dt%dl%d", iounit, scsitarget, scsilun)
 		(*attach) (devname)
 	      }
 	  }
-	IOObjectRelease (scsiObjectIterator)
+	IOObjectRelease(scsiObjectIterator)
       }
   }
 
 # endif	/* ifdef HAVE_IOKIT_CDB_IOSCSILIB_H */
 
-# if defined (HAVE_IOKIT_SCSI_SCSICOMMANDOPERATIONCODES_H) || \
-     defined (HAVE_IOKIT_SCSI_COMMANDS_SCSICOMMANDOPERATIONCODES_H)
+# if defined(HAVE_IOKIT_SCSI_SCSICOMMANDOPERATIONCODES_H) || \
+     defined(HAVE_IOKIT_SCSI_COMMANDS_SCSICOMMANDOPERATIONCODES_H)
 
   static
-  void CreateMatchingDictionaryForSTUC (SInt32 peripheralDeviceType,
+  void CreateMatchingDictionaryForSTUC(SInt32 peripheralDeviceType,
 					const char *findvendor,
 					const char *findmodel,
 					const CFDataRef scsiguid,
@@ -5557,21 +5557,21 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 
     /* Create the dictionaries */
     *matchingDict =
-      CFDictionaryCreateMutable (kCFAllocatorDefault, 0,
+      CFDictionaryCreateMutable(kCFAllocatorDefault, 0,
 				 &kCFTypeDictionaryKeyCallBacks,
 				 &kCFTypeDictionaryValueCallBacks)
-    if (*matchingDict == NULL)
+    if(*matchingDict == NULL)
       {
 	return
       }
 
     subDict =
-      CFDictionaryCreateMutable (kCFAllocatorDefault, 0,
+      CFDictionaryCreateMutable(kCFAllocatorDefault, 0,
 				 &kCFTypeDictionaryKeyCallBacks,
 				 &kCFTypeDictionaryValueCallBacks)
-    if (subDict == NULL)
+    if(subDict == NULL)
       {
-	CFRelease (*matchingDict)
+	CFRelease(*matchingDict)
 	*matchingDict = NULL
 	return
       }
@@ -5579,40 +5579,40 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     /* Create a dictionary with the "SCSITaskDeviceCategory" key with the
        appropriate value for the device type we're interested in.*/
 
-    CFDictionarySetValue (subDict,
-			  CFSTR (kIOPropertySCSITaskDeviceCategory),
-			  CFSTR (kIOPropertySCSITaskUserClientDevice))
+    CFDictionarySetValue(subDict,
+			  CFSTR(kIOPropertySCSITaskDeviceCategory),
+			  CFSTR(kIOPropertySCSITaskUserClientDevice))
 
-    deviceTypeRef = CFNumberCreate (kCFAllocatorDefault, kCFNumberIntType,
+    deviceTypeRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType,
 				    &peripheralDeviceType)
-    CFDictionarySetValue (subDict,
-			  CFSTR (kIOPropertySCSIPeripheralDeviceType),
+    CFDictionarySetValue(subDict,
+			  CFSTR(kIOPropertySCSIPeripheralDeviceType),
 			  deviceTypeRef)
-    CFRelease (deviceTypeRef)
+    CFRelease(deviceTypeRef)
 
     /* Add search for a vendor or model */
 
-    if (findvendor)
+    if(findvendor)
       {
-	str = CFStringCreateWithCString (kCFAllocatorDefault, findvendor,
+	str = CFStringCreateWithCString(kCFAllocatorDefault, findvendor,
 					 kCFStringEncodingUTF8)
-	CFDictionarySetValue (subDict,
-			      CFSTR (kIOPropertySCSIVendorIdentification),
+	CFDictionarySetValue(subDict,
+			      CFSTR(kIOPropertySCSIVendorIdentification),
 			      str)
-	CFRelease (str)
+	CFRelease(str)
       }
-    if (findmodel)
+    if(findmodel)
       {
-	str = CFStringCreateWithCString (kCFAllocatorDefault, findmodel,
+	str = CFStringCreateWithCString(kCFAllocatorDefault, findmodel,
 					 kCFStringEncodingUTF8)
-	CFDictionarySetValue (subDict,
-			      CFSTR (kIOPropertySCSIProductIdentification),
+	CFDictionarySetValue(subDict,
+			      CFSTR(kIOPropertySCSIProductIdentification),
 			      str)
-	CFRelease (str)
+	CFRelease(str)
       }
-    if (scsiguid)
+    if(scsiguid)
       {
-	CFDictionarySetValue (subDict,
+	CFDictionarySetValue(subDict,
 			      CFSTR
 			      (kIOPropertySCSITaskUserClientInstanceGUID),
 			      scsiguid)
@@ -5621,12 +5621,12 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     /* Add the dictionary to the main dictionary with the key "IOPropertyMatch"
        to narrow the search to the above dictionary. */
 
-    CFDictionarySetValue (*matchingDict, CFSTR (kIOPropertyMatchKey), subDict)
-    CFRelease (subDict)
+    CFDictionarySetValue(*matchingDict, CFSTR(kIOPropertyMatchKey), subDict)
+    CFRelease(subDict)
   }
 
   static
-  void CreateDeviceInterfaceUsingSTUC (io_object_t scsiDevice,
+  void CreateDeviceInterfaceUsingSTUC(io_object_t scsiDevice,
 				       IOCFPlugInInterface ***
 				       thePlugInInterface,
 				       SCSITaskDeviceInterface ***
@@ -5642,13 +5642,13 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
        This object will be used to create the SCSI device interface object. */
 
     ioReturnValue =
-      IOCreatePlugInInterfaceForService (scsiDevice,
+      IOCreatePlugInInterfaceForService(scsiDevice,
 					 kIOSCSITaskDeviceUserClientTypeID,
 					 kIOCFPlugInInterfaceID,
 					 &plugInInterface, &score)
-    if (ioReturnValue != kIOReturnSuccess)
+    if(ioReturnValue != kIOReturnSuccess)
       {
-	DBG (5, "Error creating plugin interface (0x%08x)\n", ioReturnValue)
+	DBG(5, "Error creating plugin interface(0x%08x)\n", ioReturnValue)
 	return
       }
 
@@ -5656,13 +5656,13 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
        SCSI device interface object. */
 
     plugInResult =
-      (*plugInInterface)->QueryInterface (plugInInterface,
+      (*plugInInterface)->QueryInterface(plugInInterface,
 					  CFUUIDGetUUIDBytes
 					  (kIOSCSITaskDeviceInterfaceID),
 					  (LPVOID) & interface)
-    if (plugInResult != S_OK)
+    if(plugInResult != S_OK)
       {
-	DBG (5, "Couldn't create SCSI device interface (%ld)\n",
+	DBG(5, "Couldn't create SCSI device interface(%ld)\n",
 	     (long) plugInResult)
 	return
       }
@@ -5674,7 +5674,7 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
   }
 
   static Sane.Status
-    ExecuteSCSITask (SCSITaskInterface ** task,
+    ExecuteSCSITask(SCSITaskInterface ** task,
 		     const void *cmd, size_t cmd_size,
 		     const void *src, size_t src_size,
 		     void *dst, size_t * dst_size)
@@ -5692,12 +5692,12 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     UInt64 data_length = 0
     UInt8 transferType = 0
 
-    if (dst && dst_size)	/* isRead */
+    if(dst && dst_size)	/* isRead */
       {
-	DBG (6, "isRead dst_size:%ld\n", *dst_size)
+	DBG(6, "isRead dst_size:%ld\n", *dst_size)
 
 	/* Zero the buffer. */
-	memset (dst, 0, *dst_size)
+	memset(dst, 0, *dst_size)
 
 	/* Configure the virtual range for the buffer. */
 	range.address = (long) dst
@@ -5708,7 +5708,7 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
       }
     else
       {
-	DBG (6, "isWrite src_size:%ld\n", src_size)
+	DBG(6, "isWrite src_size:%ld\n", src_size)
 
 	/* Configure the virtual range for the buffer. */
 	range.address = (long) src
@@ -5720,68 +5720,68 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 
 
     /* zero the senseData and CDB */
-    memset (&senseData, 0, sizeof (senseData))
-    memset (cdb, 0, sizeof (cdb))
+    memset(&senseData, 0, sizeof(senseData))
+    memset(cdb, 0, sizeof(cdb))
 
     /* copy the command data */
-    memcpy (cdb, cmd, cmd_size)
+    memcpy(cdb, cmd, cmd_size)
 
     /* Set the actual cdb in the task */
-    ioReturnValue = (*task)->SetCommandDescriptorBlock (task, cdb, cmd_size)
-    if (ioReturnValue != kIOReturnSuccess)
+    ioReturnValue = (*task)->SetCommandDescriptorBlock(task, cdb, cmd_size)
+    if(ioReturnValue != kIOReturnSuccess)
       {
-	DBG (5, "Error setting CDB (0x%08x)\n", ioReturnValue)
+	DBG(5, "Error setting CDB(0x%08x)\n", ioReturnValue)
 	return Sane.STATUS_IO_ERROR
       }
 
     /* Set the scatter-gather entry in the task */
-    ioReturnValue = (*task)->SetScatterGatherEntries (task, &range, 1,
+    ioReturnValue = (*task)->SetScatterGatherEntries(task, &range, 1,
 						      data_length,
 						      transferType)
-    if (ioReturnValue != kIOReturnSuccess)
+    if(ioReturnValue != kIOReturnSuccess)
       {
-	DBG (5, "Error setting scatter-gather entries (0x%08x)\n",
+	DBG(5, "Error setting scatter-gather entries(0x%08x)\n",
 	     ioReturnValue)
 	return Sane.STATUS_IO_ERROR
       }
 
     /* Set the timeout in the task */
-    ioReturnValue = (*task)->SetTimeoutDuration (task,
+    ioReturnValue = (*task)->SetTimeoutDuration(task,
 						 Sane.scsicmd_timeout * 1000)
-    if (ioReturnValue != kIOReturnSuccess)
+    if(ioReturnValue != kIOReturnSuccess)
       {
-	DBG (5, "Error setting timeout (0x%08x)\n", ioReturnValue)
+	DBG(5, "Error setting timeout(0x%08x)\n", ioReturnValue)
 	return Sane.STATUS_IO_ERROR
       }
 
-    DBG (5, "Executing command\n")
+    DBG(5, "Executing command\n")
 
     /* Send it! */
-    ioReturnValue = (*task)->ExecuteTaskSync (task, &senseData, &taskStatus,
+    ioReturnValue = (*task)->ExecuteTaskSync(task, &senseData, &taskStatus,
 					      &transferCount)
-    if (ioReturnValue != kIOReturnSuccess)
+    if(ioReturnValue != kIOReturnSuccess)
       {
-	DBG (5, "Error executing task (0x%08x)\n", ioReturnValue)
+	DBG(5, "Error executing task(0x%08x)\n", ioReturnValue)
 	return Sane.STATUS_IO_ERROR
       }
 
-    DBG (5, "ExecuteTaskSync OK Transferred %lld bytes\n", transferCount)
+    DBG(5, "ExecuteTaskSync OK Transferred %lld bytes\n", transferCount)
 
-    if (taskStatus != kSCSITaskStatus_GOOD)
+    if(taskStatus != kSCSITaskStatus_GOOD)
       {
-	DBG (5, "taskStatus = 0x%08x\n", taskStatus)
+	DBG(5, "taskStatus = 0x%08x\n", taskStatus)
 	return Sane.STATUS_IO_ERROR
       }
 
     /* Task worked correctly */
-    if (dst && dst_size)
+    if(dst && dst_size)
       *dst_size = transferCount
 
     return Sane.STATUS_GOOD
   }
 
   static Sane.Status
-    ExecuteCommandUsingSTUC (SCSITaskDeviceInterface ** interface,
+    ExecuteCommandUsingSTUC(SCSITaskDeviceInterface ** interface,
 			     const void *cmd, size_t cmd_size,
 			     const void *src, size_t src_size,
 			     void *dst, size_t * dst_size)
@@ -5792,38 +5792,38 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 
     /* Get exclusive access for the device if we can. This must be done
        before any SCSITasks can be created and sent to the device. */
-    ioReturnValue = (*interface)->ObtainExclusiveAccess (interface)
+    ioReturnValue = (*interface)->ObtainExclusiveAccess(interface)
 
-    if (ioReturnValue != kIOReturnSuccess)
+    if(ioReturnValue != kIOReturnSuccess)
       {
-	DBG (5, "ObtainExclusiveAccess failed (0x%08x)\n", ioReturnValue)
+	DBG(5, "ObtainExclusiveAccess failed(0x%08x)\n", ioReturnValue)
 	return Sane.STATUS_NO_MEM
       }
 
     /* Create a task now that we have exclusive access */
-    task = (*interface)->CreateSCSITask (interface)
+    task = (*interface)->CreateSCSITask(interface)
 
-    if (task == NULL)
+    if(task == NULL)
       {
-	DBG (5, "CreateSCSITask returned NULL\n")
-	(*interface)->ReleaseExclusiveAccess (interface)
+	DBG(5, "CreateSCSITask returned NULL\n")
+	(*interface)->ReleaseExclusiveAccess(interface)
 	return Sane.STATUS_NO_MEM
       }
 
-    returnValue = ExecuteSCSITask (task, cmd, cmd_size,
+    returnValue = ExecuteSCSITask(task, cmd, cmd_size,
 				   src, src_size, dst, dst_size)
 
     /* Release the task interface */
-    (*task)->Release (task)
+    (*task)->Release(task)
 
     /* Release exclusive access */
-    (*interface)->ReleaseExclusiveAccess (interface)
+    (*interface)->ReleaseExclusiveAccess(interface)
 
     return returnValue
   }
 
   static Sane.Status
-    sanei_scsi_cmd2_stuc_api (Int fd,
+    sanei_scsi_cmd2_stuc_api(Int fd,
 			      const void *cmd, size_t cmd_size,
 			      const void *src, size_t src_size,
 			      void *dst, size_t * dst_size)
@@ -5842,28 +5842,28 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     Sane.Status returnValue
 
     guid = fd_info[fd].pdata
-    if (!guid)
+    if(!guid)
       {
-	DBG (5, "No GUID\n")
+	DBG(5, "No GUID\n")
 	return Sane.STATUS_INVAL
       }
 
-    DBG (2, "cmd2: cmd_size:%ld src_size:%ld dst_size:%ld isWrite:%d\n",
+    DBG(2, "cmd2: cmd_size:%ld src_size:%ld dst_size:%ld isWrite:%d\n",
 	 cmd_size, src_size, (!dst_size) ? 0 : *dst_size, (!dst_size) ? 1 : 0)
 
     /* Use default master port */
     masterPort = 0
-    ioReturnValue = IOMasterPort (MACH_PORT_NULL, &masterPort)
-    if (ioReturnValue != kIOReturnSuccess || masterPort == 0)
+    ioReturnValue = IOMasterPort(MACH_PORT_NULL, &masterPort)
+    if(ioReturnValue != kIOReturnSuccess || masterPort == 0)
       {
-	DBG (5, "Could not get I/O master port (0x%08x)\n", ioReturnValue)
+	DBG(5, "Could not get I/O master port(0x%08x)\n", ioReturnValue)
 	return Sane.STATUS_IO_ERROR
       }
 
     /* Search for both Scanner type and Processor type devices */
     /* GB TDB This should only be needed for find */
     scsiDevice = 0
-    for (i = 0; !scsiDevice && i < 2; i++)
+    for(i = 0; !scsiDevice && i < 2; i++)
       {
 	peripheralDeviceType =
 	  (i == 0 ? kINQUIRY_PERIPHERAL_TYPE_ScannerSCSI2Device :
@@ -5873,82 +5873,82 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	   the SCSI device */
 	/* we are interested in, specifying the SCSITaskUserClient GUID. */
 	matchingDict = NULL
-	CreateMatchingDictionaryForSTUC (peripheralDeviceType, NULL, NULL,
+	CreateMatchingDictionaryForSTUC(peripheralDeviceType, NULL, NULL,
 					 guid, &matchingDict)
-	if (matchingDict == NULL)
+	if(matchingDict == NULL)
 	  {
-	    DBG (5, "CreateMatchingDictionaryForSTUC Failed\n")
+	    DBG(5, "CreateMatchingDictionaryForSTUC Failed\n")
 	    return Sane.STATUS_NO_MEM
 	  }
 
 	/* Now search I/O Registry for the matching device */
 	iokIterator = 0
 	ioReturnValue =
-	  IOServiceGetMatchingServices (masterPort, matchingDict,
+	  IOServiceGetMatchingServices(masterPort, matchingDict,
 					&iokIterator)
-	if (ioReturnValue != kIOReturnSuccess)
+	if(ioReturnValue != kIOReturnSuccess)
 	  {
-	    DBG (5, "IOServiceGetMatchingServices Failed\n")
+	    DBG(5, "IOServiceGetMatchingServices Failed\n")
 	    return Sane.STATUS_NO_MEM
 	  }
 
-	scsiDevice = IOIteratorNext (iokIterator)
+	scsiDevice = IOIteratorNext(iokIterator)
 
-	while ((nextDevice = IOIteratorNext (iokIterator)))
+	while((nextDevice = IOIteratorNext(iokIterator)))
 	  {
-	    IOObjectRelease (nextDevice)
+	    IOObjectRelease(nextDevice)
 	  }
 
-	IOObjectRelease (iokIterator)
+	IOObjectRelease(iokIterator)
       }
 
-    if (!scsiDevice)
+    if(!scsiDevice)
       {
-	DBG (5, "Device not found\n")
+	DBG(5, "Device not found\n")
 	return Sane.STATUS_INVAL
       }
 
     /* Found Device */
     /* Create interface */
 
-    CreateDeviceInterfaceUsingSTUC (scsiDevice, &plugInInterface, &interface)
+    CreateDeviceInterfaceUsingSTUC(scsiDevice, &plugInInterface, &interface)
 
     /* Done with SCSI object from I/O Registry. */
-    ioReturnValue = IOObjectRelease (scsiDevice)
+    ioReturnValue = IOObjectRelease(scsiDevice)
 
     returnValue = Sane.STATUS_IO_ERROR
 
-    if (ioReturnValue != kIOReturnSuccess)
+    if(ioReturnValue != kIOReturnSuccess)
       {
-	DBG (5, "Error releasing SCSI device. (0x%08x)\n", ioReturnValue)
+	DBG(5, "Error releasing SCSI device. (0x%08x)\n", ioReturnValue)
       }
-    else if (interface != NULL)
+    else if(interface != NULL)
       {
 	/* Execute the command */
 	returnValue =
-	  ExecuteCommandUsingSTUC (interface, cmd, cmd_size, src, src_size,
+	  ExecuteCommandUsingSTUC(interface, cmd, cmd_size, src, src_size,
 				   dst, dst_size)
       }
 
-    if (interface != NULL)
+    if(interface != NULL)
       {
-	(*interface)->Release (interface)
+	(*interface)->Release(interface)
       }
 
-    if (plugInInterface != NULL)
+    if(plugInInterface != NULL)
       {
-	IODestroyPlugInInterface (plugInInterface)
+	IODestroyPlugInInterface(plugInInterface)
       }
 
     return returnValue
   }
 
   static void
-    sanei_scsi_find_devices_stuc_api (const char *findvendor,
+    sanei_scsi_find_devices_stuc_api(const char *findvendor,
 				      const char *findmodel,
 				      const char *findtype, Int findbus,
 				      Int findchannel, Int findid, Int findlun,
-				      Sane.Status (*attach) (const char *dev))
+				      Sane.Status(*attach) (const char *dev))
   {
     mach_port_t masterPort
     IOReturn ioReturnValue
@@ -5966,17 +5966,17 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     Int scsilun
 
     masterPort = 0
-    ioReturnValue = IOMasterPort (MACH_PORT_NULL, &masterPort)
-    if (ioReturnValue != kIOReturnSuccess || masterPort == 0)
+    ioReturnValue = IOMasterPort(MACH_PORT_NULL, &masterPort)
+    if(ioReturnValue != kIOReturnSuccess || masterPort == 0)
       return
 
-    DBG (5, "Search for Vendor: %s Model: %s\n",
+    DBG(5, "Search for Vendor: %s Model: %s\n",
 	 (findvendor) ? findvendor : "(none)",
 	 (findmodel) ? findmodel : "(none)")
 
     /* Search for both Scanner type and Processor type devices */
 
-    for (i = 0; i < 2; i++)
+    for(i = 0; i < 2; i++)
       {
 	peripheralDeviceType =
 	  (i == 0 ? kINQUIRY_PERIPHERAL_TYPE_ScannerSCSI2Device :
@@ -5986,11 +5986,11 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 	   devices we are interested in. */
 
 	matchingDict = NULL
-	CreateMatchingDictionaryForSTUC (peripheralDeviceType, findvendor,
+	CreateMatchingDictionaryForSTUC(peripheralDeviceType, findvendor,
 					 findmodel, NULL, &matchingDict)
-	if (matchingDict == NULL)
+	if(matchingDict == NULL)
 	  {
-	    DBG (5, "CreateMatchingDictionaryForSTUC Failed\n")
+	    DBG(5, "CreateMatchingDictionaryForSTUC Failed\n")
 	    return
 	  }
 
@@ -5998,65 +5998,65 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 
 	iokIterator = 0
 	ioReturnValue =
-	  IOServiceGetMatchingServices (masterPort, matchingDict,
+	  IOServiceGetMatchingServices(masterPort, matchingDict,
 					&iokIterator)
-	if (ioReturnValue != kIOReturnSuccess)
+	if(ioReturnValue != kIOReturnSuccess)
 	  {
-	    DBG (5, "IOServiceGetMatchingServices Failed\n")
+	    DBG(5, "IOServiceGetMatchingServices Failed\n")
 	    return
 	  }
 
 	/* Check devices */
 
-	while ((scsiDevice = IOIteratorNext (iokIterator)))
+	while((scsiDevice = IOIteratorNext(iokIterator)))
 	  {
 	    scsilun = 0
             protocolCharacteristics = IORegistryEntryCreateCFProperty
-	      (scsiDevice, CFSTR ("Protocol Characteristics"), NULL, 0)
-	    if (protocolCharacteristics)
+	      (scsiDevice, CFSTR("Protocol Characteristics"), NULL, 0)
+	    if(protocolCharacteristics)
 	      {
 		scsiLunRef = CFDictionaryGetValue
 		  (protocolCharacteristics,
-		   CFSTR ("SCSI Logical Unit Number"))
-		if (scsiLunRef)
-		  CFNumberGetValue (scsiLunRef, kCFNumberIntType, &scsilun)
-		CFRelease (protocolCharacteristics)
+		   CFSTR("SCSI Logical Unit Number"))
+		if(scsiLunRef)
+		  CFNumberGetValue(scsiLunRef, kCFNumberIntType, &scsilun)
+		CFRelease(protocolCharacteristics)
 	      }
 
-	    if (findlun < 0 || findlun == scsilun)
+	    if(findlun < 0 || findlun == scsilun)
 	      {
 		/* Create device name from the SCSITaskUserClient GUID */
 
 		GUIDRef = IORegistryEntryCreateCFProperty
 		  (scsiDevice,
-		   CFSTR (kIOPropertySCSITaskUserClientInstanceGUID),
+		   CFSTR(kIOPropertySCSITaskUserClientInstanceGUID),
 		   NULL, 0)
 
-		if (GUIDRef)
+		if(GUIDRef)
 		  {
-		    len = CFDataGetLength (GUIDRef)
-		    p = CFDataGetBytePtr (GUIDRef)
+		    len = CFDataGetLength(GUIDRef)
+		    p = CFDataGetBytePtr(GUIDRef)
 
-		    devname = (char *) malloc (2 * len + 3)
-		    devname [0] = '<'
-		    for (i = 0; i < len; i++)
-		      sprintf (&devname [2 * i + 1], "%02x", p [i])
-		    devname [2 * len + 1] = '>'
-		    devname [2 * len + 2] = '\0'
+		    devname = (char *) malloc(2 * len + 3)
+		    devname[0] = '<'
+		    for(i = 0; i < len; i++)
+		      sprintf(&devname[2 * i + 1], "%02x", p[i])
+		    devname[2 * len + 1] = '>'
+		    devname[2 * len + 2] = '\0'
 
-		    CFRelease (GUIDRef)
+		    CFRelease(GUIDRef)
 
-		    DBG (1, "Found: %s\n", devname)
+		    DBG(1, "Found: %s\n", devname)
 
 		    /* Attach to the device */
 		    (*attach) (devname)
-		    free (devname)
+		    free(devname)
 		  }
 		else
-		  DBG (1, "Can't find SCSITaskUserClient GUID\n")
+		  DBG(1, "Can't find SCSITaskUserClient GUID\n")
 	      }
 	  }
-	IOObjectRelease (iokIterator)
+	IOObjectRelease(iokIterator)
       }
   }
 
@@ -6068,17 +6068,17 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 		     const void *src, size_t src_size,
 		     void *dst, size_t * dst_size)
   {
-    if (fd_info[fd].pdata)
-# if defined (HAVE_IOKIT_SCSI_SCSICOMMANDOPERATIONCODES_H) || \
-     defined (HAVE_IOKIT_SCSI_COMMANDS_SCSICOMMANDOPERATIONCODES_H)
-      return sanei_scsi_cmd2_stuc_api (fd, cmd, cmd_size, src, src_size,
+    if(fd_info[fd].pdata)
+# if defined(HAVE_IOKIT_SCSI_SCSICOMMANDOPERATIONCODES_H) || \
+     defined(HAVE_IOKIT_SCSI_COMMANDS_SCSICOMMANDOPERATIONCODES_H)
+      return sanei_scsi_cmd2_stuc_api(fd, cmd, cmd_size, src, src_size,
 				       dst, dst_size)
 # else
       return Sane.STATUS_INVAL
 # endif
     else
 # ifdef HAVE_IOKIT_CDB_IOSCSILIB_H
-      return sanei_scsi_cmd2_old_api (fd, cmd, cmd_size, src, src_size,
+      return sanei_scsi_cmd2_old_api(fd, cmd, cmd_size, src, src_size,
 				      dst, dst_size)
 # else
       return Sane.STATUS_INVAL
@@ -6086,20 +6086,20 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
   }
 
   void
-    sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
+    sanei_scsi_find_devices(const char *findvendor, const char *findmodel,
 			     const char *findtype,
 			     Int findbus, Int findchannel, Int findid,
 			     Int findlun,
-			     Sane.Status (*attach) (const char *dev))
+			     Sane.Status(*attach) (const char *dev))
   {
-# if defined (HAVE_IOKIT_SCSI_SCSICOMMANDOPERATIONCODES_H) || \
-     defined (HAVE_IOKIT_SCSI_COMMANDS_SCSICOMMANDOPERATIONCODES_H)
-    sanei_scsi_find_devices_stuc_api (findvendor, findmodel, findtype,
+# if defined(HAVE_IOKIT_SCSI_SCSICOMMANDOPERATIONCODES_H) || \
+     defined(HAVE_IOKIT_SCSI_COMMANDS_SCSICOMMANDOPERATIONCODES_H)
+    sanei_scsi_find_devices_stuc_api(findvendor, findmodel, findtype,
 				      findbus, findchannel, findid,
 				      findlun, attach)
 # endif
 # ifdef HAVE_IOKIT_CDB_IOSCSILIB_H
-    sanei_scsi_find_devices_old_api (findvendor, findmodel, findtype,
+    sanei_scsi_find_devices_old_api(findvendor, findmodel, findtype,
 				     findbus, findchannel, findid,
 				     findlun, attach)
 # endif
@@ -6120,31 +6120,31 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
     return sanei_scsi_cmd2 (fd, cmd, cmd_size, src, src_size, dst, dst_size)
   }
 
-  Sane.Status sanei_scsi_req_wait (void *id)
+  Sane.Status sanei_scsi_req_wait(void *id)
   {
     return Sane.STATUS_GOOD
   }
 
-  void sanei_scsi_req_flush_all (void)
+  void sanei_scsi_req_flush_all(void)
   {
   }
 
-  void sanei_scsi_req_flush_all_extended (Int fd)
+  void sanei_scsi_req_flush_all_extended(Int fd)
   {
   }
 
 #endif /* WE_HAVE_ASYNC_SCSI */
 
-  Sane.Status sanei_scsi_req_enter (Int fd,
+  Sane.Status sanei_scsi_req_enter(Int fd,
 				    const void *src, size_t src_size,
 				    void *dst, size_t * dst_size, void **idp)
   {
-    size_t cmd_size = CDB_SIZE (*(const char *) src)
+    size_t cmd_size = CDB_SIZE(*(const char *) src)
 
-    if (dst_size && *dst_size)
-      assert (src_size == cmd_size)
+    if(dst_size && *dst_size)
+      assert(src_size == cmd_size)
     else
-      assert (src_size >= cmd_size)
+      assert(src_size >= cmd_size)
 
     return sanei_scsi_req_enter2 (fd, src, cmd_size,
 				  (const char *) src + cmd_size,
@@ -6152,15 +6152,15 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
   }
 
   Sane.Status
-    sanei_scsi_cmd (Int fd, const void *src, size_t src_size,
+    sanei_scsi_cmd(Int fd, const void *src, size_t src_size,
 		    void *dst, size_t * dst_size)
   {
-    size_t cmd_size = CDB_SIZE (*(const char *) src)
+    size_t cmd_size = CDB_SIZE(*(const char *) src)
 
-    if (dst_size && *dst_size)
-      assert (src_size == cmd_size)
+    if(dst_size && *dst_size)
+      assert(src_size == cmd_size)
     else
-      assert (src_size >= cmd_size)
+      assert(src_size >= cmd_size)
 
     return sanei_scsi_cmd2 (fd, src, cmd_size,
 			    (const char *) src + cmd_size,
@@ -6172,14 +6172,14 @@ sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
 #ifndef WE_HAVE_FIND_DEVICES
 
   void
-    sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
+    sanei_scsi_find_devices(const char *findvendor, const char *findmodel,
 			     const char *findtype,
 			     Int findbus, Int findchannel, Int findid,
 			     Int findlun,
-			     Sane.Status (*attach) (const char *dev))
+			     Sane.Status(*attach) (const char *dev))
   {
-    DBG_INIT ()
-    DBG (1, "sanei_scsi_find_devices: not implemented for this platform\n")
+    DBG_INIT()
+    DBG(1, "sanei_scsi_find_devices: not implemented for this platform\n")
   }
 
 #endif /* WE_HAVE_FIND_DEVICES */

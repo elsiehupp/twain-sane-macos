@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2002 Henning Meier-Geinitz <henning@meier-geinitz.de>
+   Copyright(C) 2002 Henning Meier-Geinitz <henning@meier-geinitz.de>
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -39,12 +39,12 @@
    This file implements test picture functions for the test backend.
 */
 
-#define BUFFER_SIZE (64 * 1024)
+#define BUFFER_SIZE(64 * 1024)
 
-static Bool little_endian (void)
+static Bool little_endian(void)
 
 static Sane.Status
-init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
+init_picture_buffer(Test_Device * test_device, Sane.Byte ** buffer,
 		     size_t * buffer_size)
 {
   Sane.Word pattern_size = 0, pattern_distance = 0
@@ -53,38 +53,38 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
   Sane.Word bpl = test_device.bytes_per_line
   Sane.Word ppl = test_device.pixels_per_line
   Sane.Byte *b
-  Bool is_little_endian = little_endian ()
+  Bool is_little_endian = little_endian()
 
-  if (test_device.val[opt_invert_endianess].w)
+  if(test_device.val[opt_invert_endianess].w)
     is_little_endian ^= 1
 
-  DBG (2, "(child) init_picture_buffer test_device=%p, buffer=%p, "
+  DBG(2, "(child) init_picture_buffer test_device=%p, buffer=%p, "
        "buffer_size=%p\n",(void*)test_device,(void*)buffer,(void*)buffer_size)
 
-  if (strcmp (test_device.val[opt_test_picture].s, "Solid black") == 0
-      || strcmp (test_device.val[opt_test_picture].s, "Solid white") == 0)
+  if(strcmp(test_device.val[opt_test_picture].s, "Solid black") == 0
+      || strcmp(test_device.val[opt_test_picture].s, "Solid white") == 0)
     {
       Sane.Byte pattern = 0
 
       b_size = BUFFER_SIZE
-      if (buffer_size)
+      if(buffer_size)
 	*buffer_size = b_size
 
-      b = malloc (b_size)
-      if (!b)
+      b = malloc(b_size)
+      if(!b)
 	{
-	  DBG (1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
 
-      if (buffer)
+      if(buffer)
 	*buffer = b
 
-      if (strcmp (test_device.val[opt_test_picture].s, "Solid black") == 0)
+      if(strcmp(test_device.val[opt_test_picture].s, "Solid black") == 0)
 	{
-	  DBG (3, "(child) init_picture_buffer: drawing solid black test "
+	  DBG(3, "(child) init_picture_buffer: drawing solid black test "
 	       "picture %d bytes\n", b_size)
-	  if (test_device.params.format == Sane.FRAME_GRAY
+	  if(test_device.params.format == Sane.FRAME_GRAY
 	      && test_device.params.depth == 1)
 	    pattern = 0xff
 	  else
@@ -92,67 +92,67 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
 	}
       else
 	{
-	  DBG (3, "(child) init_picture_buffer: drawing solid white test "
+	  DBG(3, "(child) init_picture_buffer: drawing solid white test "
 	       "picture %d bytes\n", b_size)
-	  if (test_device.params.format == Sane.FRAME_GRAY
+	  if(test_device.params.format == Sane.FRAME_GRAY
 	      && test_device.params.depth == 1)
 	    pattern = 0x00
 	  else
 	    pattern = 0xff
 	}
-      memset (b, pattern, b_size)
+      memset(b, pattern, b_size)
       return Sane.STATUS_GOOD
     }
 
   /* Grid */
-  if (strcmp (test_device.val[opt_test_picture].s, "Grid") == 0)
+  if(strcmp(test_device.val[opt_test_picture].s, "Grid") == 0)
     {
-      double p_size = (10.0 * Sane.UNFIX (test_device.val[opt_resolution].w)
+      double p_size = (10.0 * Sane.UNFIX(test_device.val[opt_resolution].w)
 		       / MM_PER_INCH)
       Sane.Word increment = 1
-      if (test_device.params.format == Sane.FRAME_RGB)
+      if(test_device.params.format == Sane.FRAME_RGB)
 	increment *= 3
-      if (test_device.params.depth == 16)
+      if(test_device.params.depth == 16)
 	increment *= 2
 
       lines = 2 * p_size + 0.5
       b_size = lines * bpl
-      if (buffer_size)
+      if(buffer_size)
 	*buffer_size = b_size
-      b = malloc (b_size)
-      if (!b)
+      b = malloc(b_size)
+      if(!b)
 	{
-	  DBG (1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
-      if (buffer)
+      if(buffer)
 	*buffer = b
-      DBG (3, "(child) init_picture_buffer: drawing grid test picture "
+      DBG(3, "(child) init_picture_buffer: drawing grid test picture "
 	   "%d bytes, %d bpl, %d ppl, %d lines\n", b_size, bpl, ppl, lines)
 
-      for (line_count = 0; line_count < lines; line_count++)
+      for(line_count = 0; line_count < lines; line_count++)
 	{
 	  Sane.Word x = 0
 
-	  for (x = 0; x < bpl; x += increment)
+	  for(x = 0; x < bpl; x += increment)
 	    {
 	      Sane.Word x1
 	      Sane.Byte color = 0
 
-	      if (test_device.params.depth == 1)
+	      if(test_device.params.depth == 1)
 		{
-		  if (test_device.params.format == Sane.FRAME_GRAY ||
+		  if(test_device.params.format == Sane.FRAME_GRAY ||
 		      (test_device.params.format >= Sane.FRAME_RED &&
 		       test_device.params.format <= Sane.FRAME_BLUE))
 		    {
 		      Sane.Byte value = 0
-		      for (x1 = 0; x1 < 8; x1++)
+		      for(x1 = 0; x1 < 8; x1++)
 			{
 			  Sane.Word xfull = x * 8 + (7 - x1)
 
-			  if (xfull < ppl)
+			  if(xfull < ppl)
 			    {
-			      if ((((Sane.Word) (xfull / p_size)) % 2)
+			      if((((Sane.Word) (xfull / p_size)) % 2)
 				  ^ (!(line_count >
 				      (Sane.Word) (p_size + 0.5))))
 				color = 0x0
@@ -160,7 +160,7 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
 				color = 0x1
 			    }
 			  else
-			    color = (rand ()) & 0x01
+			    color = (rand()) & 0x01
 			  value |= (color << x1)
 			}
 		      b[line_count * bpl + x] = value
@@ -168,38 +168,38 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
 		  else		/* Sane.FRAME_RGB */
 		    {
 		      Sane.Byte value = 0
-		      for (x1 = 0; x1 < 8; x1++)
+		      for(x1 = 0; x1 < 8; x1++)
 			{
 			  Sane.Word xfull = x * 8 / 3 + (7 - x1)
 
-			  if (xfull < ppl)
+			  if(xfull < ppl)
 			    {
-			      if (((Sane.Word) (xfull / p_size) % 2)
+			      if(((Sane.Word) (xfull / p_size) % 2)
 				  ^ (line_count > (Sane.Word) (p_size + 0.5)))
 				color = 0x0
 			      else
 				color = 0x1
 			    }
 			  else
-			    color = (rand ()) & 0x01
+			    color = (rand()) & 0x01
 			  value |= (color << x1)
 			}
-		      for (x1 = 0; x1 < increment; x1++)
+		      for(x1 = 0; x1 < increment; x1++)
 			b[line_count * bpl + x + x1] = value
 		    }
 		}
 	      else		/* depth = 8, 16 */
 		{
-		  if (x / increment < ppl)
-		    if ((((Int) (x / increment / p_size)) % 2)
+		  if(x / increment < ppl)
+		    if((((Int) (x / increment / p_size)) % 2)
 			^ (line_count > (Int) (p_size + 0.5)))
 		      color = 0x00
 		    else
 		      color = 0xff
 		  else
-		    color = (rand ()) & 0xff
+		    color = (rand()) & 0xff
 
-		  for (x1 = 0; x1 < increment; x1++)
+		  for(x1 = 0; x1 < increment; x1++)
 		    b[line_count * bpl + x + x1] = color
 		}
 	    }
@@ -208,7 +208,7 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
     }
 
   /* Color patterns */
-  if (test_device.params.format == Sane.FRAME_GRAY
+  if(test_device.params.format == Sane.FRAME_GRAY
       && test_device.params.depth == 1)
     {
       /* 1 bit black/white */
@@ -217,39 +217,39 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
       lines = 2 * (pattern_size + pattern_distance)
       b_size = lines * bpl
 
-      if (buffer_size)
+      if(buffer_size)
 	*buffer_size = b_size
-      b = malloc (b_size)
-      if (!b)
+      b = malloc(b_size)
+      if(!b)
 	{
-	  DBG (1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
-      if (buffer)
+      if(buffer)
 	*buffer = b
-      DBG (3, "(child) init_picture_buffer: drawing b/w test picture "
+      DBG(3, "(child) init_picture_buffer: drawing b/w test picture "
 	   "%d bytes, %d bpl, %d lines\n", b_size, bpl, lines)
-      memset (b, 255, b_size)
-      for (line_count = 0; line_count < lines; line_count++)
+      memset(b, 255, b_size)
+      for(line_count = 0; line_count < lines; line_count++)
 	{
 	  Sane.Word x = 0
 
-	  if (line_count >= lines / 2)
+	  if(line_count >= lines / 2)
 	    x += (pattern_size + pattern_distance) / 8
 
-	  while (x < bpl)
+	  while(x < bpl)
 	    {
 	      Sane.Word width
 
 	      width = pattern_size / 8
-	      if (x + width >= bpl)
+	      if(x + width >= bpl)
 		width = bpl - x
-	      memset (b + line_count * bpl + x, 0x00, width)
+	      memset(b + line_count * bpl + x, 0x00, width)
 	      x += (pattern_size + pattern_distance) * 2 / 8
 	    }
 	}
     }
-  else if (test_device.params.format == Sane.FRAME_GRAY
+  else if(test_device.params.format == Sane.FRAME_GRAY
 	   && test_device.params.depth == 8)
     {
       /* 8 bit gray */
@@ -258,47 +258,47 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
       lines = 2 * (pattern_size + pattern_distance)
       b_size = lines * bpl
 
-      if (buffer_size)
+      if(buffer_size)
 	*buffer_size = b_size
-      b = malloc (b_size)
-      if (!b)
+      b = malloc(b_size)
+      if(!b)
 	{
-	  DBG (1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
-      if (buffer)
+      if(buffer)
 	*buffer = b
-      DBG (3, "(child) init_picture_buffer: drawing 8 bit gray test picture "
+      DBG(3, "(child) init_picture_buffer: drawing 8 bit gray test picture "
 	   "%d bytes, %d bpl, %d lines\n", b_size, bpl, lines)
-      memset (b, 0x55, b_size)
-      for (line_count = 0; line_count < lines; line_count++)
+      memset(b, 0x55, b_size)
+      for(line_count = 0; line_count < lines; line_count++)
 	{
 	  Sane.Word x = pattern_distance
 
-	  if (line_count % (pattern_size + pattern_distance)
+	  if(line_count % (pattern_size + pattern_distance)
 	      < pattern_distance)
 	    continue
 
-	  while (x < bpl)
+	  while(x < bpl)
 	    {
 	      Sane.Word width
 	      Sane.Byte color
 
 	      width = pattern_size
-	      if (x + width >= bpl)
+	      if(x + width >= bpl)
 		width = bpl - x
-	      if (line_count > (pattern_size + pattern_distance))
+	      if(line_count > (pattern_size + pattern_distance))
 		color =
 		  0xff - ((x / (pattern_size + pattern_distance)) & 0xff)
 	      else
 		color = (x / (pattern_size + pattern_distance)) & 0xff
-	      memset (b + line_count * bpl + x, color, width)
+	      memset(b + line_count * bpl + x, color, width)
 	      x += (pattern_size + pattern_distance)
 	    }
 	}
 
     }
-  else if (test_device.params.format == Sane.FRAME_GRAY
+  else if(test_device.params.format == Sane.FRAME_GRAY
 	   && test_device.params.depth == 16)
     {
       /* 16 bit gray */
@@ -307,43 +307,43 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
       lines = 1 * (pattern_size + pattern_distance)
       b_size = lines * bpl
 
-      if (buffer_size)
+      if(buffer_size)
 	*buffer_size = b_size
-      b = malloc (b_size)
-      if (!b)
+      b = malloc(b_size)
+      if(!b)
 	{
-	  DBG (1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
-      if (buffer)
+      if(buffer)
 	*buffer = b
-      DBG (3, "(child) init_picture_buffer: drawing 16 bit gray test picture "
+      DBG(3, "(child) init_picture_buffer: drawing 16 bit gray test picture "
 	   "%d bytes, %d bpl, %d lines\n", b_size, bpl, lines)
-      memset (b, 0x55, b_size)
-      for (line_count = 0; line_count < lines; line_count++)
+      memset(b, 0x55, b_size)
+      for(line_count = 0; line_count < lines; line_count++)
 	{
 	  Sane.Word x = pattern_distance * 2
 
-	  if (line_count % (pattern_size + pattern_distance)
+	  if(line_count % (pattern_size + pattern_distance)
 	      < pattern_distance)
 	    continue
 
-	  while (x < bpl)
+	  while(x < bpl)
 	    {
 	      Sane.Word width
 	      Sane.Word x1
 	      Sane.Byte pattern_lo, pattern_hi
 
 	      width = pattern_size * 2
-	      if (x + width >= bpl)
+	      if(x + width >= bpl)
 		width = bpl - x
 	      pattern_lo =
 		((line_count - pattern_distance)
 		 % (pattern_size + pattern_distance)) & 0xff
-	      for (x1 = 0; x1 < width; x1 += 2)
+	      for(x1 = 0; x1 < width; x1 += 2)
 		{
 		  pattern_hi = (x1 / 2) & 0xff
-		  if (is_little_endian)
+		  if(is_little_endian)
 		    {
 		      b[line_count * bpl + x + x1 + 0] = pattern_lo
 		      b[line_count * bpl + x + x1 + 1] = pattern_hi
@@ -359,7 +359,7 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
 	}
 
     }
-  else if (test_device.params.format == Sane.FRAME_RGB
+  else if(test_device.params.format == Sane.FRAME_RGB
 	   && test_device.params.depth == 1)
     {
       /* 1 bit color */
@@ -368,55 +368,55 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
       lines = 2 * (pattern_size + pattern_distance)
       b_size = lines * bpl
 
-      if (buffer_size)
+      if(buffer_size)
 	*buffer_size = b_size
-      b = malloc (b_size)
-      if (!b)
+      b = malloc(b_size)
+      if(!b)
 	{
-	  DBG (1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
-      if (buffer)
+      if(buffer)
 	*buffer = b
-      DBG (3, "(child) init_picture_buffer: drawing color lineart test "
+      DBG(3, "(child) init_picture_buffer: drawing color lineart test "
 	   "picture %d bytes, %d bpl, %d lines\n", b_size, bpl, lines)
-      memset (b, 0x55, b_size)
+      memset(b, 0x55, b_size)
 
-      for (line_count = 0; line_count < lines; line_count++)
+      for(line_count = 0; line_count < lines; line_count++)
 	{
 	  Sane.Word x = 0
 	  Sane.Byte color = 0, color_r = 0, color_g = 0, color_b = 0
 
-	  if (line_count >= lines / 2)
+	  if(line_count >= lines / 2)
 	    color = 7
-	  while (x < bpl)
+	  while(x < bpl)
 	    {
 	      Sane.Word width
 	      Sane.Word x2 = 0
 
 	      width = pattern_size / 8 * 3
-	      if (x + width >= bpl)
+	      if(x + width >= bpl)
 		width = bpl - x
 
 	      color_b = (color & 1) * 0xff
 	      color_g = ((color >> 1) & 1) * 0xff
 	      color_r = ((color >> 2) & 1) * 0xff
 
-	      for (x2 = 0; x2 < width; x2 += 3)
+	      for(x2 = 0; x2 < width; x2 += 3)
 		{
 		  b[line_count * bpl + x + x2 + 0] = color_r
 		  b[line_count * bpl + x + x2 + 1] = color_g
 		  b[line_count * bpl + x + x2 + 2] = color_b
 		}
-	      if (line_count < lines / 2)
+	      if(line_count < lines / 2)
 		{
 		  ++color
-		  if (color >= 8)
+		  if(color >= 8)
 		    color = 0
 		}
 	      else
 		{
-		  if (color == 0)
+		  if(color == 0)
 		    color = 8
 		  --color
 		}
@@ -424,7 +424,7 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
 	    }
 	}
     }
-  else if ((test_device.params.format == Sane.FRAME_RED
+  else if((test_device.params.format == Sane.FRAME_RED
 	    || test_device.params.format == Sane.FRAME_GREEN
 	    || test_device.params.format == Sane.FRAME_BLUE)
 	   && test_device.params.depth == 1)
@@ -435,58 +435,58 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
       lines = 2 * (pattern_size + pattern_distance)
       b_size = lines * bpl
 
-      if (buffer_size)
+      if(buffer_size)
 	*buffer_size = b_size
-      b = malloc (b_size)
-      if (!b)
+      b = malloc(b_size)
+      if(!b)
 	{
-	  DBG (1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
-      if (buffer)
+      if(buffer)
 	*buffer = b
-      DBG (3, "(child) init_picture_buffer: drawing color lineart three-pass "
+      DBG(3, "(child) init_picture_buffer: drawing color lineart three-pass "
 	   "test picture %d bytes, %d bpl, %d lines\n", b_size, bpl, lines)
-      memset (b, 0x55, b_size)
+      memset(b, 0x55, b_size)
 
-      for (line_count = 0; line_count < lines; line_count++)
+      for(line_count = 0; line_count < lines; line_count++)
 	{
 	  Sane.Word x = 0
 	  Sane.Byte color = 0, color_r = 0, color_g = 0, color_b = 0
 
-	  if (line_count >= lines / 2)
+	  if(line_count >= lines / 2)
 	    color = 7
-	  while (x < bpl)
+	  while(x < bpl)
 	    {
 	      Sane.Word width
 	      Sane.Word x2 = 0
 
 	      width = pattern_size / 8
-	      if (x + width >= bpl)
+	      if(x + width >= bpl)
 		width = bpl - x
 
 	      color_b = (color & 1) * 0xff
 	      color_g = ((color >> 1) & 1) * 0xff
 	      color_r = ((color >> 2) & 1) * 0xff
 
-	      for (x2 = 0; x2 < width; x2++)
+	      for(x2 = 0; x2 < width; x2++)
 		{
-		  if (test_device.params.format == Sane.FRAME_RED)
+		  if(test_device.params.format == Sane.FRAME_RED)
 		    b[line_count * bpl + x + x2] = color_r
-		  else if (test_device.params.format == Sane.FRAME_GREEN)
+		  else if(test_device.params.format == Sane.FRAME_GREEN)
 		    b[line_count * bpl + x + x2] = color_g
 		  else
 		    b[line_count * bpl + x + x2] = color_b
 		}
-	      if (line_count < lines / 2)
+	      if(line_count < lines / 2)
 		{
 		  ++color
-		  if (color >= 8)
+		  if(color >= 8)
 		    color = 0
 		}
 	      else
 		{
-		  if (color == 0)
+		  if(color == 0)
 		    color = 8
 		  --color
 		}
@@ -494,7 +494,7 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
 	    }
 	}
     }
-  else if (test_device.params.format == Sane.FRAME_RGB
+  else if(test_device.params.format == Sane.FRAME_RGB
 	   && test_device.params.depth == 8)
     {
       /* 8 bit color */
@@ -503,51 +503,51 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
       lines = 6 * (pattern_size + pattern_distance)
       b_size = lines * bpl
 
-      if (buffer_size)
+      if(buffer_size)
 	*buffer_size = b_size
-      b = malloc (b_size)
-      if (!b)
+      b = malloc(b_size)
+      if(!b)
 	{
-	  DBG (1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
-      if (buffer)
+      if(buffer)
 	*buffer = b
-      DBG (3, "(child) init_picture_buffer: drawing 8 bit color test picture "
+      DBG(3, "(child) init_picture_buffer: drawing 8 bit color test picture "
 	   "%d bytes, %d bpl, %d lines\n", b_size, bpl, lines)
-      memset (b, 0x55, b_size)
-      for (line_count = 0; line_count < lines; line_count++)
+      memset(b, 0x55, b_size)
+      for(line_count = 0; line_count < lines; line_count++)
 	{
 	  Sane.Word x = pattern_distance * 3
 
-	  if (line_count % (pattern_size + pattern_distance)
+	  if(line_count % (pattern_size + pattern_distance)
 	      < pattern_distance)
 	    continue
 
-	  while (x < bpl)
+	  while(x < bpl)
 	    {
 	      Sane.Word width
 	      Sane.Byte color = 0, color_r = 0, color_g = 0, color_b = 0
 	      Sane.Word x1
 
 	      width = pattern_size * 3
-	      if (x + width >= bpl)
+	      if(x + width >= bpl)
 		width = bpl - x
 
-	      if ((line_count / (pattern_size + pattern_distance)) & 1)
+	      if((line_count / (pattern_size + pattern_distance)) & 1)
 		color =
 		  0xff - ((x / ((pattern_size + pattern_distance) * 3))
 			  & 0xff)
 	      else
 		color = (x / ((pattern_size + pattern_distance) * 3)) & 0xff
 
-	      if (line_count / (pattern_size + pattern_distance) < 2)
+	      if(line_count / (pattern_size + pattern_distance) < 2)
 		{
 		  color_r = color
 		  color_g = 0
 		  color_b = 0
 		}
-	      else if (line_count / (pattern_size + pattern_distance) < 4)
+	      else if(line_count / (pattern_size + pattern_distance) < 4)
 		{
 		  color_r = 0
 		  color_g = color
@@ -560,7 +560,7 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
 		  color_b = color
 		}
 
-	      for (x1 = 0; x1 < width; x1 += 3)
+	      for(x1 = 0; x1 < width; x1 += 3)
 		{
 		  b[line_count * bpl + x + x1 + 0] = color_r
 		  b[line_count * bpl + x + x1 + 1] = color_g
@@ -572,7 +572,7 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
 	}
 
     }
-  else if ((test_device.params.format == Sane.FRAME_RED
+  else if((test_device.params.format == Sane.FRAME_RED
 	    || test_device.params.format == Sane.FRAME_GREEN
 	    || test_device.params.format == Sane.FRAME_BLUE)
 	   && test_device.params.depth == 8)
@@ -583,64 +583,64 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
       lines = 6 * (pattern_size + pattern_distance)
       b_size = lines * bpl
 
-      if (buffer_size)
+      if(buffer_size)
 	*buffer_size = b_size
-      b = malloc (b_size)
-      if (!b)
+      b = malloc(b_size)
+      if(!b)
 	{
-	  DBG (1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
-      if (buffer)
+      if(buffer)
 	*buffer = b
-      DBG (3, "(child) init_picture_buffer: drawing 8 bit color three-pass "
+      DBG(3, "(child) init_picture_buffer: drawing 8 bit color three-pass "
 	   "test picture %d bytes, %d bpl, %d lines\n", b_size, bpl, lines)
-      memset (b, 0x55, b_size)
-      for (line_count = 0; line_count < lines; line_count++)
+      memset(b, 0x55, b_size)
+      for(line_count = 0; line_count < lines; line_count++)
 	{
 	  Sane.Word x = pattern_distance
 
-	  if (line_count % (pattern_size + pattern_distance)
+	  if(line_count % (pattern_size + pattern_distance)
 	      < pattern_distance)
 	    continue
 
-	  while (x < bpl)
+	  while(x < bpl)
 	    {
 	      Sane.Word width
 	      Sane.Byte color = 0
 
 	      width = pattern_size
-	      if (x + width >= bpl)
+	      if(x + width >= bpl)
 		width = bpl - x
 
-	      if ((line_count / (pattern_size + pattern_distance)) & 1)
+	      if((line_count / (pattern_size + pattern_distance)) & 1)
 		color =
 		  0xff - (x / ((pattern_size + pattern_distance)) & 0xff)
 	      else
 		color = (x / (pattern_size + pattern_distance)) & 0xff
 
-	      if (line_count / (pattern_size + pattern_distance) < 2)
+	      if(line_count / (pattern_size + pattern_distance) < 2)
 		{
-		  if (test_device.params.format != Sane.FRAME_RED)
+		  if(test_device.params.format != Sane.FRAME_RED)
 		    color = 0x00
 		}
-	      else if (line_count / (pattern_size + pattern_distance) < 4)
+	      else if(line_count / (pattern_size + pattern_distance) < 4)
 		{
-		  if (test_device.params.format != Sane.FRAME_GREEN)
+		  if(test_device.params.format != Sane.FRAME_GREEN)
 		    color = 0x00
 		}
 	      else
 		{
-		  if (test_device.params.format != Sane.FRAME_BLUE)
+		  if(test_device.params.format != Sane.FRAME_BLUE)
 		    color = 0x00
 		}
-	      memset (b + line_count * bpl + x, color, width)
+	      memset(b + line_count * bpl + x, color, width)
 
 	      x += (pattern_size + pattern_distance)
 	    }
 	}
     }
-  else if (test_device.params.format == Sane.FRAME_RGB
+  else if(test_device.params.format == Sane.FRAME_RGB
 	   && test_device.params.depth == 16)
     {
       /* 16 bit color */
@@ -649,29 +649,29 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
       lines = pattern_size + pattern_distance
       b_size = lines * bpl
 
-      if (buffer_size)
+      if(buffer_size)
 	*buffer_size = b_size
-      b = malloc (b_size)
-      if (!b)
+      b = malloc(b_size)
+      if(!b)
 	{
-	  DBG (1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
-      if (buffer)
+      if(buffer)
 	*buffer = b
-      DBG (3,
+      DBG(3,
 	   "(child) init_picture_buffer: drawing 16 bit color test picture "
 	   "%d bytes, %d bpl, %d lines\n", b_size, bpl, lines)
-      memset (b, 0x55, b_size)
-      for (line_count = 0; line_count < lines; line_count++)
+      memset(b, 0x55, b_size)
+      for(line_count = 0; line_count < lines; line_count++)
 	{
 	  Sane.Word x = pattern_distance * 2 * 3
 
-	  if (line_count % (pattern_size + pattern_distance)
+	  if(line_count % (pattern_size + pattern_distance)
 	      < pattern_distance)
 	    continue
 
-	  while (x < bpl)
+	  while(x < bpl)
 	    {
 	      Sane.Word width
 	      Sane.Word x1
@@ -681,17 +681,17 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
 	      Sane.Byte color_hi_b = 0, color_lo_b = 0
 
 	      width = pattern_size * 2 * 3
-	      if (x + width >= bpl)
+	      if(x + width >= bpl)
 		width = bpl - x
 
 
-	      for (x1 = 0; x1 < width; x1 += 6)
+	      for(x1 = 0; x1 < width; x1 += 6)
 		{
 		  color_lo =
 		    ((line_count + pattern_size)
 		     % (pattern_size + pattern_distance)) & 0xff
 		  color_hi = (x1 / 6) & 0xff
-		  if (((x / ((pattern_size + pattern_distance) * 6)) % 3) ==
+		  if(((x / ((pattern_size + pattern_distance) * 6)) % 3) ==
 		      0)
 		    {
 		      color_lo_r = color_lo
@@ -701,7 +701,7 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
 		      color_lo_b = 0
 		      color_hi_b = 0
 		    }
-		  else if (((x / ((pattern_size + pattern_distance) * 6)) % 3)
+		  else if(((x / ((pattern_size + pattern_distance) * 6)) % 3)
 			   == 1)
 		    {
 		      color_lo_r = 0
@@ -720,7 +720,7 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
 		      color_lo_b = color_lo
 		      color_hi_b = color_hi
 		    }
-		  if (is_little_endian)
+		  if(is_little_endian)
 		    {
 		      b[line_count * bpl + x + x1 + 0] = color_lo_r
 		      b[line_count * bpl + x + x1 + 1] = color_hi_r
@@ -744,7 +744,7 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
 	}
 
     }
-  else if ((test_device.params.format == Sane.FRAME_RED
+  else if((test_device.params.format == Sane.FRAME_RED
 	    || test_device.params.format == Sane.FRAME_GREEN
 	    || test_device.params.format == Sane.FRAME_BLUE)
 	   && test_device.params.depth == 16)
@@ -755,57 +755,57 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
       lines = pattern_size + pattern_distance
       b_size = lines * bpl
 
-      if (buffer_size)
+      if(buffer_size)
 	*buffer_size = b_size
-      b = malloc (b_size)
-      if (!b)
+      b = malloc(b_size)
+      if(!b)
 	{
-	  DBG (1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
-      if (buffer)
+      if(buffer)
 	*buffer = b
-      DBG (3, "(child) init_picture_buffer: drawing 16 bit color three-pass "
+      DBG(3, "(child) init_picture_buffer: drawing 16 bit color three-pass "
 	   "test picture %d bytes, %d bpl, %d lines\n", b_size, bpl, lines)
-      memset (b, 0x55, b_size)
-      for (line_count = 0; line_count < lines; line_count++)
+      memset(b, 0x55, b_size)
+      for(line_count = 0; line_count < lines; line_count++)
 	{
 	  Sane.Word x = pattern_distance * 2
 
-	  if (line_count % (pattern_size + pattern_distance)
+	  if(line_count % (pattern_size + pattern_distance)
 	      < pattern_distance)
 	    continue
 
-	  while (x < bpl)
+	  while(x < bpl)
 	    {
 	      Sane.Word width
 	      Sane.Word x1
 	      Sane.Byte color_hi = 0, color_lo = 0
 
 	      width = pattern_size * 2
-	      if (x + width >= bpl)
+	      if(x + width >= bpl)
 		width = bpl - x
 
 
-	      for (x1 = 0; x1 < width; x1 += 2)
+	      for(x1 = 0; x1 < width; x1 += 2)
 		{
 		  color_lo =
 		    ((line_count + pattern_size)
 		     % (pattern_size + pattern_distance)) & 0xff
 		  color_hi = (x1 / 2) & 0xff
-		  if (((x / ((pattern_size + pattern_distance) * 2)) % 3) ==
+		  if(((x / ((pattern_size + pattern_distance) * 2)) % 3) ==
 		      0)
 		    {
-		      if (test_device.params.format != Sane.FRAME_RED)
+		      if(test_device.params.format != Sane.FRAME_RED)
 			{
 			  color_lo = 0x00
 			  color_hi = 0x00
 			}
 		    }
-		  else if (((x / ((pattern_size + pattern_distance) * 2)) % 3)
+		  else if(((x / ((pattern_size + pattern_distance) * 2)) % 3)
 			   == 1)
 		    {
-		      if (test_device.params.format != Sane.FRAME_GREEN)
+		      if(test_device.params.format != Sane.FRAME_GREEN)
 			{
 			  color_lo = 0x00
 			  color_hi = 0x00
@@ -813,14 +813,14 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
 		    }
 		  else
 		    {
-		      if (test_device.params.format != Sane.FRAME_BLUE)
+		      if(test_device.params.format != Sane.FRAME_BLUE)
 			{
 			  color_lo = 0x00
 			  color_hi = 0x00
 			}
 		    }
 
-		  if (is_little_endian)
+		  if(is_little_endian)
 		    {
 		      b[line_count * bpl + x + x1 + 0] = color_lo
 		      b[line_count * bpl + x + x1 + 1] = color_hi
@@ -839,7 +839,7 @@ init_picture_buffer (Test_Device * test_device, Sane.Byte ** buffer,
     }
   else				/* Huh? */
     {
-      DBG (1, "(child) init_picture_buffer: unknown mode\n")
+      DBG(1, "(child) init_picture_buffer: unknown mode\n")
       return Sane.STATUS_INVAL
     }
 

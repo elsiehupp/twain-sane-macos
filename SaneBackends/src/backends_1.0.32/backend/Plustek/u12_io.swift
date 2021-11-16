@@ -1,7 +1,7 @@
 /** @file u12-io.c
  *  @brief The I/O functions to the U12 backend stuff.
  *
- * Copyright (c) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(c) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  * GeneSys Logic I/O stuff derived from canon630u-common.c which has
  * been written by Nathan Rutman <nathan@gordian.com>
  *
@@ -16,7 +16,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -54,15 +54,15 @@
  * cacheLen[1]  =  SCANSTATE ?
  * cacheLen[2]  =  REG-STATUS ?
  * cacheLen[3]  =  ??
- * cacheLen[4]  =  FIFO-LEN (RED)   HiByte  LW
- * cacheLen[5]  =  FIFO-LEN (RED)   LoByte  LW
- * cacheLen[6]  =  FIFO-LEN (RED)   LoByte  HW
- * cacheLen[7]  =  FIFO-LEN (GREEN) HiByte  LW
- * cacheLen[8]  =  FIFO-LEN (GREEN) LoByte  LW
- * cacheLen[9]  =  FIFO-LEN (GREEN) LoByte  HW
- * cacheLen[10] =  FIFO-LEN (BLUE)  HiByte  LW
- * cacheLen[11] =  FIFO-LEN (BLUE)  LoByte  LW
- * cacheLen[12] =  FIFO-LEN (BLUE)  LoByte  HW
+ * cacheLen[4]  =  FIFO-LEN(RED)   HiByte  LW
+ * cacheLen[5]  =  FIFO-LEN(RED)   LoByte  LW
+ * cacheLen[6]  =  FIFO-LEN(RED)   LoByte  HW
+ * cacheLen[7]  =  FIFO-LEN(GREEN) HiByte  LW
+ * cacheLen[8]  =  FIFO-LEN(GREEN) LoByte  LW
+ * cacheLen[9]  =  FIFO-LEN(GREEN) LoByte  HW
+ * cacheLen[10] =  FIFO-LEN(BLUE)  HiByte  LW
+ * cacheLen[11] =  FIFO-LEN(BLUE)  LoByte  LW
+ * cacheLen[12] =  FIFO-LEN(BLUE)  LoByte  HW
  */
 static Sane.Byte cacheLen[13]
 
@@ -103,7 +103,7 @@ static void u12io_udelay( unsigned long usec )
 
 	do {
 		gettimeofday( &now, NULL )
-	} while ((now.tv_sec < deadline.tv_sec) ||
+	} while((now.tv_sec < deadline.tv_sec) ||
 		(now.tv_sec == deadline.tv_sec && now.tv_usec < deadline.tv_usec))
 }
 
@@ -239,9 +239,9 @@ gl640WriteBulk( Int fd, u_char *setup, u_char *data, size_t size )
 	setup[5] = (size >> 8) & 0xFF
 	setup[6] = 0
 
-	CHK (gl640WriteControl (fd, GL640_BULK_SETUP, setup, 8))
+	CHK(gl640WriteControl(fd, GL640_BULK_SETUP, setup, 8))
 
-	status = sanei_usb_write_bulk (fd, data, &size)
+	status = sanei_usb_write_bulk(fd, data, &size)
 	if( status != Sane.STATUS_GOOD ) {
 		DBG( _DBG_ERROR, "gl640WriteBulk error\n")
 	}
@@ -266,7 +266,7 @@ gl640ReadBulk( Int fd, u_char *setup, u_char *data, size_t size, Int mod )
 	setup[5] = (size >> 8) & 0xFF
 	setup[6] = mod
 
-	CHK (gl640WriteControl (fd, GL640_BULK_SETUP, setup, 8))
+	CHK(gl640WriteControl(fd, GL640_BULK_SETUP, setup, 8))
 
 	len_info = NULL
 	toget    = size
@@ -386,7 +386,7 @@ static Sane.Byte u12io_DataFromRegister( U12_Device *dev, Sane.Byte reg )
 
 	if( dev.mode == _PP_MODE_EPP ) {
 		gl640WriteReq( dev.fd, GL640_EPP_ADDR, reg )
-		gl640ReadReq ( dev.fd, GL640_EPP_DATA_READ, &val )
+		gl640ReadReq( dev.fd, GL640_EPP_DATA_READ, &val )
 	} else {
 
 		u12io_RegisterToScanner( dev, reg )
@@ -444,7 +444,7 @@ static Bool u12io_OpenScanPath( U12_Device *dev )
 	return Sane.FALSE
 }
 
-/** Write data to asic (SPP mode only)
+/** Write data to asic(SPP mode only)
  */
 static void u12io_DataToScanner( U12_Device *dev , Sane.Byte bValue )
 {
@@ -477,7 +477,7 @@ static Sane.Status u12io_DataToRegister( U12_Device *dev,
 		buf[1] = data
 
 		bulk_setup_data[1] = 0x11
-		CHK( gl640WriteBulk ( dev.fd, bulk_setup_data, buf, 2 ))
+		CHK( gl640WriteBulk( dev.fd, bulk_setup_data, buf, 2 ))
 
 	} else {
 
@@ -501,7 +501,7 @@ static Sane.Status u12io_DataToRegs( U12_Device *dev, Sane.Byte *buf, Int len )
 	}
 
 	bulk_setup_data[1] = 0x11
-	CHK( gl640WriteBulk ( dev.fd, bulk_setup_data, buf, len*2 ))
+	CHK( gl640WriteBulk( dev.fd, bulk_setup_data, buf, len*2 ))
 	return Sane.STATUS_GOOD
 }
 
@@ -548,7 +548,7 @@ static Sane.Status u12io_ReadData( U12_Device *dev, Sane.Byte *buf, Int len )
 	u12io_RegisterToScanner( dev, REG_READDATAMODE )
 
 	bulk_setup_data[1] = 0x00
-	CHK (gl640ReadBulk( dev.fd, bulk_setup_data, buf, len, 0 ))
+	CHK(gl640ReadBulk( dev.fd, bulk_setup_data, buf, len, 0 ))
 	bulk_setup_data[1] = 0x11
 
 	return Sane.STATUS_GOOD
@@ -558,7 +558,7 @@ static Sane.Status u12io_ReadData( U12_Device *dev, Sane.Byte *buf, Int len )
  */
 static void u12io_SoftwareReset( U12_Device *dev )
 {
-	DBG( _DBG_INFO, "Device reset (%i)!!!\n", dev.fd )
+	DBG( _DBG_INFO, "Device reset(%i)!!!\n", dev.fd )
 
 	u12io_DataToRegister( dev, REG_TESTMODE, _SW_TESTMODE )
 
@@ -587,7 +587,7 @@ static Bool u12io_IsConnected( U12_Device *dev )
 	DBG( _DBG_INFO, "* tmp1 = 0x%02x\n", tmp )
 
 	gl640WriteReq( dev.fd, GL640_EPP_ADDR, REG_ASICID )
-	gl640ReadReq ( dev.fd, GL640_EPP_DATA_READ, &tmp )
+	gl640ReadReq( dev.fd, GL640_EPP_DATA_READ, &tmp )
 	DBG( _DBG_INFO, "* REG_ASICID = 0x%02x\n", tmp )
 
 	if( tmp != ASIC_ID ) {
@@ -598,7 +598,7 @@ static Bool u12io_IsConnected( U12_Device *dev )
 		DBG( _DBG_INFO, "* tmp2 = 0x%02x\n", tmp )
 
 		gl640WriteReq( dev.fd, GL640_EPP_ADDR, REG_ASICID )
-		gl640ReadReq ( dev.fd, GL640_EPP_DATA_READ, &tmp )
+		gl640ReadReq( dev.fd, GL640_EPP_DATA_READ, &tmp )
 		DBG( _DBG_INFO, "* REG_ASICID = 0x%02x\n", tmp )
 
 		if( tmp == 0x02 ) {
@@ -645,7 +645,7 @@ static Sane.Status u12io_ReadMonoData( U12_Device *dev, Sane.Byte *buf, u_long l
 	bulk_setup_data[1] = 0x0c
 	bulk_setup_data[2] = ((dev.regs.RD_ModeControl >> 3) + 1)
 
-	CHK (gl640ReadBulk( dev.fd, bulk_setup_data, buf, len, 1 ))
+	CHK(gl640ReadBulk( dev.fd, bulk_setup_data, buf, len, 1 ))
 	bulk_setup_data[1] = 0x11
 	bulk_setup_data[2] = 0
 
@@ -661,7 +661,7 @@ u12io_ReadColorData( U12_Device *dev, Sane.Byte *buf, u_long len )
 
 	bulk_setup_data[1] = 0x0c
 
-	CHK (gl640ReadBulk( dev.fd, bulk_setup_data, buf, len, 3 ))
+	CHK(gl640ReadBulk( dev.fd, bulk_setup_data, buf, len, 3 ))
 	bulk_setup_data[1] = 0x11
 	return Sane.STATUS_GOOD
 }
@@ -699,7 +699,7 @@ static Sane.Status u12io_DownloadScanStates( U12_Device *dev )
 		u12io_StartTimer( &timer, (_SECOND/2))
 		do {
 
-			if (!( u12io_GetScanState( dev ) & _SCANSTATE_STOP))
+			if(!( u12io_GetScanState( dev ) & _SCANSTATE_STOP))
 				break
 		}
 		while( !u12io_CheckTimer(&timer))
@@ -784,7 +784,7 @@ static u_long u12io_GetFifoLength( U12_Device *dev )
 		memset( bulk_setup_data, 0, 8 )
 		bulk_setup_data[1] = 0x0c
 
-		CHK (gl640WriteControl(dev.fd, GL640_BULK_SETUP, bulk_setup_data, 8))
+		CHK(gl640WriteControl(dev.fd, GL640_BULK_SETUP, bulk_setup_data, 8))
 
 		toget = 13
 		status = sanei_usb_read_bulk( dev.fd, data, &toget )

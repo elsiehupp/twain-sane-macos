@@ -1,15 +1,15 @@
 /* SANE - Scanner Access Now Easy.
 
-   Copyright (C) 2011-2020 Rolf Bensch <rolf at bensch hyphen online dot de>
-   Copyright (C) 2007-2008 Nicolas Martin, <nicols-guest at alioth dot debian dot org>
-   Copyright (C) 2006-2007 Wittawat Yamwong <wittawat@web.de>
+   Copyright(C) 2011-2020 Rolf Bensch <rolf at bensch hyphen online dot de>
+   Copyright(C) 2007-2008 Nicolas Martin, <nicols-guest at alioth dot debian dot org>
+   Copyright(C) 2006-2007 Wittawat Yamwong <wittawat@web.de>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -58,18 +58,18 @@ import Sane.sane
  *    setup_param(param)
  *    pixma_check_scan_param(scanner, param)
  *    do {
- *        if (I_need_events &&
+ *        if(I_need_events &&
  *            (ev = pixma_wait_event(scanner, timeout)) > 0) {
  *            handle_event(ev)
  *        }
  *        pixma_scan(scanner, param)
- *        while ((count = pixma_read_image(scanner, buf, len)) > 0) {
+ *        while((count = pixma_read_image(scanner, buf, len)) > 0) {
  *            write(buf, count)
- *            if (error_occured_in_write) {
+ *            if(error_occured_in_write) {
  *                pixma_cancel(scanner)
  *            }
  *        }
- *    } while (!enough)
+ *    } while(!enough)
  *    pixma_close(scanner)
  *    pixma_cleanup()
  * \endcode
@@ -77,7 +77,7 @@ import Sane.sane
  * <b>Note:</b> pixma_cancel() can be called asynchronously to
  * interrupt pixma_read_image(). It does not cancel the operation
  * immediately. pixma_read_image() <em>must</em> be called until it
- * returns zero or an error (probably \c PIXMA_ECANCELED).
+ * returns zero or an error(probably \c PIXMA_ECANCELED).
  *
  * \section reference Reference
  * - \subpage API
@@ -171,7 +171,7 @@ import inttypes          /* available in ISO C99 */
 #define PIXMA_EV_BUTTON1       (1 << 24)
 #define PIXMA_EV_BUTTON2       (2 << 24)
 #define PIXMA_EV_TARGET_MASK   (0x0f)
-#define PIXMA_EV_ORIGINAL_MASK (0x0f00)
+#define PIXMA_EV_ORIGINAL_MASK(0x0f00)
 #define PIXMA_EV_DPI_MASK      (0x0f0000)
 #define PIXMA_EV_DOC_MASK      (0xf000)
 #define PIXMA_EV_STAT_MASK     (0xf00000)
@@ -296,7 +296,7 @@ struct pixma_device_status_t
 /** Scan parameters. */
 struct pixma_scan_param_t
 {
-    /** Size in bytes of one image line (row).
+    /** Size in bytes of one image line(row).
      *  line_size >= depth / 8 * channels * w <br>
      *  This field will be set by pixma_check_scan_param(). */
   uint64_t line_size
@@ -310,11 +310,11 @@ struct pixma_scan_param_t
   unsigned channels
 
     /** Bits per channels.
-     *   1 =  1 bit B/W lineart (flatbed)
+     *   1 =  1 bit B/W lineart(flatbed)
      *   8 =  8 bit grayscale,
-     *       24 bit color (both flatbed)
-     *  16 = 16 bit grayscale (TPU, flatbed not implemented),
-     *       48 bit color (TPU, flatbed not implemented) */
+     *       24 bit color(both flatbed)
+     *  16 = 16 bit grayscale(TPU, flatbed not implemented),
+     *       48 bit color(TPU, flatbed not implemented) */
   unsigned depth
 
   /*@{ */
@@ -333,7 +333,7 @@ struct pixma_scan_param_t
   /*@} */
 
   /** Flag indicating whether the offset correction for TPU scans
-   *  was already performed (to avoid repeated corrections).
+   *  was already performed(to avoid repeated corrections).
    *  Currently only used in pixma_mp800.c sub-driver */
   unsigned tpu_offset_added
 
@@ -411,10 +411,10 @@ struct pixma_config_t
 
 /** Initialize the driver. It must be called before any other functions
  *  except pixma_set_debug_level(). */
-Int pixma_init (void)
+Int pixma_init(void)
 
 /** Free resources allocated by the driver. */
-void pixma_cleanup (void)
+void pixma_cleanup(void)
 
 /** Set the debug level.
  *  \param[in] level the debug level
@@ -423,7 +423,7 @@ void pixma_cleanup (void)
  *    - 2 General information
  *    - 3 Debugging messages
  *    - 10 USB traffic dump */
-void pixma_set_debug_level (Int level)
+void pixma_set_debug_level(Int level)
 
 /** Find scanners. The device number used in pixma_open(),
  *  pixma_get_device_model(), pixma_get_device_id() and
@@ -432,30 +432,30 @@ void pixma_set_debug_level (Int level)
  *
  *  \return The number of scanners found currently. The return value is
  *  guaranteed to be valid until the next call to pixma_find_scanners(). */
-Int pixma_find_scanners (const char **conf_devices, Bool local_only)
+Int pixma_find_scanners(const char **conf_devices, Bool local_only)
 
 /** Return the model name of the device \a devnr. */
-const char *pixma_get_device_model (unsigned devnr)
+const char *pixma_get_device_model(unsigned devnr)
 
 /** Return the unique ID of the device \a devnr. */
-const char *pixma_get_device_id (unsigned devnr)
+const char *pixma_get_device_id(unsigned devnr)
 
 /** Return the device configuration of the device \a devnr. */
-const struct pixma_config_t *pixma_get_device_config (unsigned devnr)
+const struct pixma_config_t *pixma_get_device_config(unsigned devnr)
 
 /** Open a connection to the scanner \a devnr.
  *  \param[in] devnr The scanner number
  *  \param[out] handle The device handle
  *  \see pixma_find_scanners() */
-Int pixma_open (unsigned devnr, pixma_t ** handle)
+Int pixma_open(unsigned devnr, pixma_t ** handle)
 
 /** Close the connection to the scanner. The scanning process is aborted
  *  if necessary before the function returns. */
-void pixma_close (pixma_t * s)
+void pixma_close(pixma_t * s)
 
 /** Initiate an image acquisition process. You must keep \a sp valid until the
  *  image acquisition process has finished. */
-Int pixma_scan (pixma_t *, pixma_scan_param_t * sp)
+Int pixma_scan(pixma_t *, pixma_scan_param_t * sp)
 
 /** Read a block of image data. It blocks until there is at least one byte
  *  available or an error occurs.
@@ -469,27 +469,27 @@ Int pixma_scan (pixma_t *, pixma_scan_param_t * sp)
  *     - count = \a len
  *     - 0 < count < \a len if and only if it is the last block.
  *     - count < 0 for error  */
-Int pixma_read_image (pixma_t *, void *buf, unsigned len)
+Int pixma_read_image(pixma_t *, void *buf, unsigned len)
 
 #if 0
 /** Read a block of image data and write to \a fd.
  *  \param[in] fd output file descriptor
  *  \see pixma_read_image() */
-Int pixma_read_image_write (pixma_t *, Int fd)
+Int pixma_read_image_write(pixma_t *, Int fd)
 #endif
 
 /** Cancel the scanning process. No effect if no scanning process is in
  *  progress. It can be called asynchronously e.g. within a signal
  *  handle. pixma_cancel() doesn't abort the operation immediately.  It
  *  guarantees that the current call or, at the latest, the next call to
- *  pixma_read_image() will return zero or an error (probably PIXMA_ECANCELED). */
-void pixma_cancel (pixma_t *)
+ *  pixma_read_image() will return zero or an error(probably PIXMA_ECANCELED). */
+void pixma_cancel(pixma_t *)
 
 /** Check the scan parameters. This function can change your parameters to
  *  match the device capability, e.g. adjust width and height to the available
  *  area.
  *  \return PIXMA_EINVAL for invalid parameters. */
-Int pixma_check_scan_param (pixma_t *, pixma_scan_param_t *)
+Int pixma_check_scan_param(pixma_t *, pixma_scan_param_t *)
 
 /** Wait until a scanner button is pressed or it times out. It should not be
  *  called during image acquisition is in progress.
@@ -499,38 +499,38 @@ Int pixma_check_scan_param (pixma_t *, pixma_scan_param_t *)
  *   - non-zero value indicates which button was pressed.
  *  \see PIXMA_EV_*
  */
-uint32_t pixma_wait_event (pixma_t *, Int timeout)
+uint32_t pixma_wait_event(pixma_t *, Int timeout)
 
 /** Activate connection to scanner */
-Int pixma_activate_connection (pixma_t *)
+Int pixma_activate_connection(pixma_t *)
 
 /** De-activate connection to scanner */
 
-Int pixma_deactivate_connection (pixma_t *)
+Int pixma_deactivate_connection(pixma_t *)
 
 
 /** Enable or disable background tasks. Currently, the only one task
  *  is submitting interrupt URB in background.
  *  \param[in] enabled if not zero, enable background task.
  *  \see pixma_set_interrupt_mode() */
-Int pixma_enable_background (pixma_t *, Int enabled)
+Int pixma_enable_background(pixma_t *, Int enabled)
 
 /** Read the current device status.
  *  \param[out] status the current device status
  *  \return 0 if succeeded. Otherwise, failed.
  */
-Int pixma_get_device_status (pixma_t *, pixma_device_status_t * status)
+Int pixma_get_device_status(pixma_t *, pixma_device_status_t * status)
 
 /** Decide whether to run calibration or not.
  *  Decision takes into account scan_param, source and last_source.
  *  \return 0x01 for calibration and 0x00 for no calibration
  */
-unsigned pixma_calc_calibrate (pixma_t *)
+unsigned pixma_calc_calibrate(pixma_t *)
 
-const char *pixma_get_string (pixma_t *, pixma_string_index_t)
-const pixma_config_t *pixma_get_config (pixma_t *)
-void pixma_fill_gamma_table (double gamma, uint8_t * table, unsigned n)
-const char *pixma_strerror (Int error)
+const char *pixma_get_string(pixma_t *, pixma_string_index_t)
+const pixma_config_t *pixma_get_config(pixma_t *)
+void pixma_fill_gamma_table(double gamma, uint8_t * table, unsigned n)
+const char *pixma_strerror(Int error)
 
 /** @} end of API group */
 

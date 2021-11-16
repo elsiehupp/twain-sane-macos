@@ -5,14 +5,14 @@
 
    11/11/98
 
-   This file (C) 1998 Brian J. Murrell
+   This file(C) 1998 Brian J. Murrell
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -119,7 +119,7 @@ typedef struct dc210_info_s
   }
 Dc210Info, *Dc210InfoPtr
 
-static Int get_info (DC210 *)
+static Int get_info(DC210 *)
 
 #define INIT_PCK	{0x41, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1A}
 /*                               ^^^^^^^^^^
@@ -156,7 +156,7 @@ struct pkt_speed
     unsigned char pkt_code[2]
   ]
 
-#if defined (B57600) && defined (B115200)
+#if defined(B57600) && defined(B115200)
 # define SPEEDS			{ {   B9600, { 0x96, 0x00 } }, \
 				  {  B19200, { 0x19, 0x20 } }, \
 				  {  B38400, { 0x38, 0x40 } }, \
@@ -257,23 +257,23 @@ public char *__progname;	/* Defined in /usr/lib/crt0.o */
 
 
 
-FILE *sanei_config_open (const char *filename)
+FILE *sanei_config_open(const char *filename)
 
 static Int init_dc210 (DC210 *)
 
 static void close_dc210 (Int)
 
-static Int read_data (Int fd, unsigned char *buf, Int sz)
+static Int read_data(Int fd, unsigned char *buf, Int sz)
 
-static Int end_of_data (Int fd)
+static Int end_of_data(Int fd)
 
-static PictureInfo *get_pictures_info (void)
+static PictureInfo *get_pictures_info(void)
 
-static Int get_picture_info (PictureInfo * pic, Int p)
+static Int get_picture_info(PictureInfo * pic, Int p)
 
-static Sane.Status snap_pic (Int)
+static Sane.Status snap_pic(Int)
 
-char *sanei_config_read (char *str, Int n, FILE * stream)
+char *sanei_config_read(char *str, Int n, FILE * stream)
 
 
 /***************************************************************************
@@ -283,14 +283,14 @@ char *sanei_config_read (char *str, Int n, FILE * stream)
 
    11/11/98
 
-   This file (C) 1998 Brian J. Murrell
+   This file(C) 1998 Brian J. Murrell
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -367,13 +367,13 @@ import dc210
 # define DEFAULT_BAUD_RATE	B38400
 #endif
 
-#if defined (__sgi)
+#if defined(__sgi)
 # define DEFAULT_TTY		"/dev/ttyd1"	/* Irix */
-#elif defined (__sun)
+#elif defined(__sun)
 # define DEFAULT_TTY		"/dev/term/a"	/* Solaris */
-#elif defined (hpux)
+#elif defined(hpux)
 # define DEFAULT_TTY		"/dev/tty1d0"	/* HP-UX */
-#elif defined (__osf__)
+#elif defined(__osf__)
 # define DEFAULT_TTY		"/dev/tty00"	/* Digital UNIX */
 #else
 # define DEFAULT_TTY		"/dev/ttyS0"	/* Linux */
@@ -412,7 +412,7 @@ static Sane.Option_Descriptor sod = [
    Sane.DESC_NUM_OPTIONS,
    Sane.TYPE_INT,
    Sane.UNIT_NONE,
-   sizeof (Sane.Word),
+   sizeof(Sane.Word),
    Sane.CAP_SOFT_DETECT,
    Sane.CONSTRAINT_NONE,
    {NULL}
@@ -454,7 +454,7 @@ static Sane.Option_Descriptor sod = [
    "Load the image as thumbnail.",
    Sane.TYPE_BOOL,
    Sane.UNIT_NONE,
-   sizeof (Sane.Word),
+   sizeof(Sane.Word),
    Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT,
    Sane.CONSTRAINT_NONE,
    {NULL}
@@ -467,7 +467,7 @@ static Sane.Option_Descriptor sod = [
    "Take new picture and download it",
    Sane.TYPE_BOOL,
    Sane.UNIT_NONE,
-   sizeof (Sane.Word),
+   sizeof(Sane.Word),
    Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT /* | Sane.CAP_ADVANCED */ ,
    Sane.CONSTRAINT_NONE,
    {NULL}
@@ -480,7 +480,7 @@ static Sane.Option_Descriptor sod = [
    "Resolution of new pictures",
    Sane.TYPE_BOOL,
    Sane.UNIT_NONE,
-   sizeof (Sane.Word),
+   sizeof(Sane.Word),
    Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_INACTIVE
    /* | Sane.CAP_ADVANCED */ ,
    Sane.CONSTRAINT_NONE,
@@ -495,7 +495,7 @@ static Sane.Option_Descriptor sod = [
    "Erase the picture after downloading",
    Sane.TYPE_BOOL,
    Sane.UNIT_NONE,
-   sizeof (Sane.Word),
+   sizeof(Sane.Word),
    Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT,
    Sane.CONSTRAINT_NONE,
    {NULL}
@@ -519,7 +519,7 @@ static Sane.Option_Descriptor sod = [
   {
    "camera-init",
    "Re-establish Communications",
-   "Re-establish communications with camera (in case of timeout, etc.)",
+   "Re-establish communications with camera(in case of timeout, etc.)",
    Sane.TYPE_BUTTON,
    Sane.UNIT_NONE,
    0,
@@ -557,34 +557,34 @@ import sys/time
 import unistd
 
 static Int
-send_pck (Int fd, unsigned char *pck)
+send_pck(Int fd, unsigned char *pck)
 {
   Int n
   unsigned char r = 0xf0;	/* prime the loop with a "camera busy" */
 
   /* keep trying if camera says it's busy */
-  while (r == 0xf0)
+  while(r == 0xf0)
     {
       /*
          * Not quite sure why we need this, but the program works a whole
-         * lot better (at least on the DC210)  with this short delay.
+         * lot better(at least on the DC210)  with this short delay.
        */
 
-      if (write (fd, (char *) pck, 8) != 8)
+      if(write(fd, (char *) pck, 8) != 8)
 	{
-	  DBG (2, "send_pck: error: write returned -1\n")
+	  DBG(2, "send_pck: error: write returned -1\n")
 	  return -1
 	}
       /* need to wait before we read command result */
-      usleep (cmdrespause)
+      usleep(cmdrespause)
 
-      if ((n = read (fd, (char *) &r, 1)) != 1)
+      if((n = read(fd, (char *) &r, 1)) != 1)
 	{
-	  DBG (2, "send_pck: error: read returned -1\n")
+	  DBG(2, "send_pck: error: read returned -1\n")
 	  return -1
 	}
     }
-  return (r == 0xd1) ? 0 : -1
+  return(r == 0xd1) ? 0 : -1
 }
 
 static Int
@@ -593,9 +593,9 @@ init_dc210 (DC210 * camera)
   struct termios tty_new
   Int speed_index
 
-  for (speed_index = 0; speed_index < NELEMS (speeds); speed_index++)
+  for(speed_index = 0; speed_index < NELEMS(speeds); speed_index++)
     {
-      if (speeds[speed_index].baud == camera.baud)
+      if(speeds[speed_index].baud == camera.baud)
 	{
 	  init_pck[2] = speeds[speed_index].pkt_code[0]
 	  init_pck[3] = speeds[speed_index].pkt_code[1]
@@ -603,36 +603,36 @@ init_dc210 (DC210 * camera)
 	}
     }
 
-  if (init_pck[2] == 0)
+  if(init_pck[2] == 0)
     {
-      DBG (2, "unsupported baud rate.\n")
+      DBG(2, "unsupported baud rate.\n")
       return -1
     }
 
   /*
      Open device file.
    */
-  if ((camera.fd = open (camera.tty_name, O_RDWR)) == -1)
+  if((camera.fd = open(camera.tty_name, O_RDWR)) == -1)
     {
-      DBG (2, "init_dc210: error: could not open %s for read/write\n",
+      DBG(2, "init_dc210: error: could not open %s for read/write\n",
 	   camera.tty_name)
       return -1
     }
   /*
      Save old device information to restore when we are done.
    */
-  if (tcgetattr (camera.fd, &tty_orig) == -1)
+  if(tcgetattr(camera.fd, &tty_orig) == -1)
     {
-      DBG (2, "init_dc210: error: could not get attributes\n")
+      DBG(2, "init_dc210: error: could not get attributes\n")
       return -1
     }
 
-  memcpy ((char *) &tty_new, (char *) &tty_orig, sizeof (struct termios))
+  memcpy((char *) &tty_new, (char *) &tty_orig, sizeof(struct termios))
   /*
      We need the device to be raw. 8 bits even parity on 9600 baud to start.
    */
 #ifdef HAVE_CFMAKERAW
-  cfmakeraw (&tty_new)
+  cfmakeraw(&tty_new)
 #else
   /* Modified to set the port REALLY as required. Code inspired by
      the gPhoto2 serial port setup */
@@ -661,12 +661,12 @@ init_dc210 (DC210 * camera)
                        ECHOK | IEXTEN)
   tty_new.c_cc[VMIN] = 0
   tty_new.c_cc[VTIME] = 5
-  cfsetospeed (&tty_new, B9600)
-  cfsetispeed (&tty_new, B9600)
+  cfsetospeed(&tty_new, B9600)
+  cfsetispeed(&tty_new, B9600)
 
-  if (tcsetattr (camera.fd, TCSANOW, &tty_new) == -1)
+  if(tcsetattr(camera.fd, TCSANOW, &tty_new) == -1)
     {
-      DBG (2, "init_dc210: error: could not set attributes\n")
+      DBG(2, "init_dc210: error: could not set attributes\n")
       return -1
     }
 
@@ -678,25 +678,25 @@ init_dc210 (DC210 * camera)
    */
 
 #ifdef HAVE_TCSENDBREAK
-  tcsendbreak (camera.fd, 0)
+  tcsendbreak(camera.fd, 0)
 # if defined(__sgi)
-  tcdrain (camera.fd)
+  tcdrain(camera.fd)
 # endif
 # elif defined(TCSBRKP)
-  ioctl (camera.fd, TCSBRKP, 0)
+  ioctl(camera.fd, TCSBRKP, 0)
 # elif defined(TCSBRK)
-  ioctl (camera.fd, TCSBRK, 0)
+  ioctl(camera.fd, TCSBRK, 0)
 #endif
 
    /* and wait for it to recover from the break */
 
 #ifdef HAVE_USLEEP
-  usleep (breakpause)
+  usleep(breakpause)
 #else
-  sleep (1)
+  sleep(1)
 #endif
 
-  if (send_pck (camera.fd, init_pck) == -1)
+  if(send_pck(camera.fd, init_pck) == -1)
     {
       /*
        *    The camera always powers up at 9600, so we try
@@ -704,41 +704,41 @@ init_dc210 (DC210 * camera)
        *      a different speed.  Try the entries in the table:
        */
 
-      for (speed_index = NELEMS (speeds) - 1; speed_index > 0; speed_index--)
+      for(speed_index = NELEMS(speeds) - 1; speed_index > 0; speed_index--)
 	{
 	  Int x
-	  DBG (3, "init_dc210: changing speed to %d\n",
+	  DBG(3, "init_dc210: changing speed to %d\n",
 	       (Int) speeds[speed_index].baud)
 
-	  cfsetospeed (&tty_new, speeds[speed_index].baud)
-	  cfsetispeed (&tty_new, speeds[speed_index].baud)
+	  cfsetospeed(&tty_new, speeds[speed_index].baud)
+	  cfsetispeed(&tty_new, speeds[speed_index].baud)
 
-	  if (tcsetattr (camera.fd, TCSANOW, &tty_new) == -1)
+	  if(tcsetattr(camera.fd, TCSANOW, &tty_new) == -1)
 	    {
-	      DBG (2, "init_dc210: error: could not set attributes\n")
+	      DBG(2, "init_dc210: error: could not set attributes\n")
 	      return -1
 	    }
-	  for (x = 0; x < 3; x++)
-	    if (send_pck (camera.fd, init_pck) != -1)
+	  for(x = 0; x < 3; x++)
+	    if(send_pck(camera.fd, init_pck) != -1)
 	      break
 	}
 
-      if (speed_index == 0)
+      if(speed_index == 0)
 	{
-	  tcsetattr (camera.fd, TCSANOW, &tty_orig)
-	  DBG (2, "init_dc210: error: no suitable baud rate\n")
+	  tcsetattr(camera.fd, TCSANOW, &tty_orig)
+	  DBG(2, "init_dc210: error: no suitable baud rate\n")
 	  return -1
 	}
     }
   /*
      Set speed to requested speed.
    */
-  cfsetospeed (&tty_new, Camera.baud)
-  cfsetispeed (&tty_new, Camera.baud)
+  cfsetospeed(&tty_new, Camera.baud)
+  cfsetispeed(&tty_new, Camera.baud)
 
-  if (tcsetattr (camera.fd, TCSANOW, &tty_new) == -1)
+  if(tcsetattr(camera.fd, TCSANOW, &tty_new) == -1)
     {
-      DBG (2, "init_dc210: error: could not set attributes\n")
+      DBG(2, "init_dc210: error: could not set attributes\n")
       return -1
     }
 
@@ -752,36 +752,36 @@ close_dc210 (Int fd)
    *    Put the camera back to 9600 baud
    */
 
-  if (close (fd) == -1)
+  if(close(fd) == -1)
     {
-      DBG (4, "close_dc210: error: could not close device\n")
+      DBG(4, "close_dc210: error: could not close device\n")
     }
 }
 
 Int
-get_info (DC210 * camera)
+get_info(DC210 * camera)
 {
 
   char f[] = "get_info"
   unsigned char buf[256]
 
-  if (send_pck (camera.fd, info_pck) == -1)
+  if(send_pck(camera.fd, info_pck) == -1)
     {
-      DBG (2, "%s: error: send_pck returned -1\n", f)
+      DBG(2, "%s: error: send_pck returned -1\n", f)
       return -1
     }
 
-  DBG (9, "%s: read info packet\n", f)
+  DBG(9, "%s: read info packet\n", f)
 
-  if (read_data (camera.fd, buf, 256) == -1)
+  if(read_data(camera.fd, buf, 256) == -1)
     {
-      DBG (2, "%s: error: read_data returned -1\n", f)
+      DBG(2, "%s: error: read_data returned -1\n", f)
       return -1
     }
 
-  if (end_of_data (camera.fd) == -1)
+  if(end_of_data(camera.fd) == -1)
     {
-      DBG (2, "%s: error: end_of_data returned -1\n", f)
+      DBG(2, "%s: error: end_of_data returned -1\n", f)
       return -1
     }
 
@@ -797,7 +797,7 @@ get_info (DC210 * camera)
 }
 
 static Int
-read_data (Int fd, unsigned char *buf, Int sz)
+read_data(Int fd, unsigned char *buf, Int sz)
 {
   unsigned char ccsum
   unsigned char rcsum
@@ -807,46 +807,46 @@ read_data (Int fd, unsigned char *buf, Int sz)
   var i: Int
 
 /* read the control byte */
-  if (read (fd, &c, 1) != 1)
+  if(read(fd, &c, 1) != 1)
     {
-      DBG (2,
+      DBG(2,
 	   "read_data: error: read for packet control byte returned bad status\n")
       return -1
     }
-  if (c != 1)
+  if(c != 1)
     {
-      DBG (2, "read_data: error: incorrect packet control byte: %02x\n", c)
+      DBG(2, "read_data: error: incorrect packet control byte: %02x\n", c)
       return -1
     }
-  for (n = 0; n < sz && (r = read (fd, (char *) &buf[n], sz - n)) > 0; n += r)
+  for(n = 0; n < sz && (r = read(fd, (char *) &buf[n], sz - n)) > 0; n += r)
     
 
-  if (r <= 0)
+  if(r <= 0)
     {
-      DBG (2, "read_data: error: read returned -1\n")
+      DBG(2, "read_data: error: read returned -1\n")
       return -1
     }
 
-  if (n < sz || read (fd, &rcsum, 1) != 1)
+  if(n < sz || read(fd, &rcsum, 1) != 1)
     {
-      DBG (2, "read_data: error: buffer underrun or no checksum\n")
+      DBG(2, "read_data: error: buffer underrun or no checksum\n")
       return -1
     }
 
-  for (i = 0, ccsum = 0; i < n; i++)
+  for(i = 0, ccsum = 0; i < n; i++)
     ccsum ^= buf[i]
 
-  if (ccsum != rcsum)
+  if(ccsum != rcsum)
     {
-      DBG (2, "read_data: error: bad checksum (%02x !=%02x)\n", rcsum, ccsum)
+      DBG(2, "read_data: error: bad checksum(%02x !=%02x)\n", rcsum, ccsum)
       return -1
     }
 
   c = 0xd2
 
-  if (write (fd, (char *) &c, 1) != 1)
+  if(write(fd, (char *) &c, 1) != 1)
     {
-      DBG (2, "read_data: error: write ack\n")
+      DBG(2, "read_data: error: write ack\n")
       return -1
     }
 
@@ -854,27 +854,27 @@ read_data (Int fd, unsigned char *buf, Int sz)
 }
 
 static Int
-end_of_data (Int fd)
+end_of_data(Int fd)
 {
   unsigned char c
 
   do
     {				/* loop until the camera isn't busy */
-      if (read (fd, &c, 1) != 1)
+      if(read(fd, &c, 1) != 1)
 	{
-	  DBG (2, "end_of_data: error: read returned -1\n")
+	  DBG(2, "end_of_data: error: read returned -1\n")
 	  return -1
 	}
-      if (c == 0)		/* got successful end of data */
+      if(c == 0)		/* got successful end of data */
 	return 0;		/* return success */
-      sleep (1);		/* not too fast */
+      sleep(1);		/* not too fast */
     }
-  while (c == 0xf0)
+  while(c == 0xf0)
 
   /* Accck!  Not busy, but not a good end of data either */
-  if (c != 0)
+  if(c != 0)
     {
-      DBG (2, "end_of_data: error: bad EOD from camera (%02x)\n",
+      DBG(2, "end_of_data: error: bad EOD from camera(%02x)\n",
 	   (unsigned) c)
       return -1
     }
@@ -882,17 +882,17 @@ end_of_data (Int fd)
 }
 
 static Int
-erase (Int fd)
+erase(Int fd)
 {
-  if (send_pck (fd, erase_pck) == -1)
+  if(send_pck(fd, erase_pck) == -1)
     {
-      DBG (3, "erase: error: send_pck returned -1\n")
+      DBG(3, "erase: error: send_pck returned -1\n")
       return -1
     }
 
-  if (end_of_data (fd) == -1)
+  if(end_of_data(fd) == -1)
     {
-      DBG (3, "erase: error: end_of_data returned -1\n")
+      DBG(3, "erase: error: end_of_data returned -1\n")
       return -1
     }
 
@@ -900,36 +900,36 @@ erase (Int fd)
 }
 
 static Int
-change_res (Int fd, unsigned char res)
+change_res(Int fd, unsigned char res)
 {
   char f[] = "change_res"
 
-  DBG (127, "%s called\n", f)
-  if (res != 0 && res != 1)
+  DBG(127, "%s called\n", f)
+  if(res != 0 && res != 1)
     {
-      DBG (3, "%s: error: unsupported resolution\n", f)
+      DBG(3, "%s: error: unsupported resolution\n", f)
       return -1
     }
 
   /* cameras resolution semantics are opposite of ours */
   res = !res
-  DBG (127, "%s: setting res to %d\n", f, res)
+  DBG(127, "%s: setting res to %d\n", f, res)
   res_pck[2] = res
 
-  if (send_pck (fd, res_pck) == -1)
+  if(send_pck(fd, res_pck) == -1)
     {
-      DBG (4, "%s: error: send_pck returned -1\n", f)
+      DBG(4, "%s: error: send_pck returned -1\n", f)
     }
 
-  if (end_of_data (fd) == -1)
+  if(end_of_data(fd) == -1)
     {
-      DBG (4, "%s: error: end_of_data returned -1\n", f)
+      DBG(4, "%s: error: end_of_data returned -1\n", f)
     }
   return 0
 }
 
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 {
 
   char f[] = "Sane.init"
@@ -938,45 +938,45 @@ Sane.init (Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
   FILE *fp
   Int baud
 
-  DBG_INIT ()
+  DBG_INIT()
 
-  if (version_code)
-    *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, 0)
+  if(version_code)
+    *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, 0)
 
-  fp = sanei_config_open (DC210_CONFIG_FILE)
+  fp = sanei_config_open(DC210_CONFIG_FILE)
 
   /* defaults */
   Camera.baud = DEFAULT_BAUD_RATE
   Camera.tty_name = DEFAULT_TTY
 
-  if (!fp)
+  if(!fp)
     {
       /* default to /dev/whatever instead of insisting on config file */
-      DBG (1, "%s:  missing config file '%s'\n", f, DC210_CONFIG_FILE)
+      DBG(1, "%s:  missing config file '%s'\n", f, DC210_CONFIG_FILE)
     }
   else
     {
-      while (sanei_config_read (dev_name, sizeof (dev_name), fp))
+      while(sanei_config_read(dev_name, sizeof(dev_name), fp))
 	{
-	  dev_name[sizeof (dev_name) - 1] = '\0'
-	  DBG (20, "%s:  config- %s\n", f, dev_name)
+	  dev_name[sizeof(dev_name) - 1] = '\0'
+	  DBG(20, "%s:  config- %s\n", f, dev_name)
 
-	  if (dev_name[0] == '#')
+	  if(dev_name[0] == '#')
 	    continue;		/* ignore line comments */
-	  len = strlen (dev_name)
-	  if (!len)
+	  len = strlen(dev_name)
+	  if(!len)
 	    continue;		/* ignore empty lines */
-	  if (strncmp (dev_name, "port=", 5) == 0)
+	  if(strncmp(dev_name, "port=", 5) == 0)
 	    {
-	      p = strchr (dev_name, '/')
-	      if (p)
-		Camera.tty_name = strdup (p)
-	      DBG (20, "Config file port=%s\n", Camera.tty_name)
+	      p = strchr(dev_name, '/')
+	      if(p)
+		Camera.tty_name = strdup(p)
+	      DBG(20, "Config file port=%s\n", Camera.tty_name)
 	    }
-	  else if (strncmp (dev_name, "baud=", 5) == 0)
+	  else if(strncmp(dev_name, "baud=", 5) == 0)
 	    {
-	      baud = atoi (&dev_name[5])
-	      switch (baud)
+	      baud = atoi(&dev_name[5])
+	      switch(baud)
 		{
 		case 9600:
 		  Camera.baud = B9600
@@ -998,36 +998,36 @@ Sane.init (Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 		  break
 #endif
 		}
-	      DBG (20, "Config file baud=%d\n", Camera.baud)
+	      DBG(20, "Config file baud=%d\n", Camera.baud)
 	    }
-	  else if (strcmp (dev_name, "dumpinquiry") == 0)
+	  else if(strcmp(dev_name, "dumpinquiry") == 0)
 	    {
 	      dumpinquiry = Sane.TRUE
 	    }
-	  else if (strncmp (dev_name, "cmdrespause=", 12) == 0)
+	  else if(strncmp(dev_name, "cmdrespause=", 12) == 0)
 	    {
-	      cmdrespause = atoi (&dev_name[12])
-	      DBG (20, "Config file cmdrespause=%lu\n", cmdrespause)
+	      cmdrespause = atoi(&dev_name[12])
+	      DBG(20, "Config file cmdrespause=%lu\n", cmdrespause)
 	    }
-	  else if (strncmp (dev_name, "breakpause=", 11) == 0)
+	  else if(strncmp(dev_name, "breakpause=", 11) == 0)
 	    {
-	      breakpause = atoi (&dev_name[11])
-	      DBG (20, "Config file breakpause=%lu\n", breakpause)
+	      breakpause = atoi(&dev_name[11])
+	      DBG(20, "Config file breakpause=%lu\n", breakpause)
 	    }
 	}
-      fclose (fp)
+      fclose(fp)
     }
 
-  if (init_dc210 (&Camera) == -1)
+  if(init_dc210 (&Camera) == -1)
     return Sane.STATUS_INVAL
 
-  if (get_info (&Camera) == -1)
+  if(get_info(&Camera) == -1)
     {
-      DBG (2, "error: could not get info\n")
+      DBG(2, "error: could not get info\n")
       close_dc210 (Camera.fd)
       return Sane.STATUS_INVAL
     }
-  if (Camera.pic_taken == 0)
+  if(Camera.pic_taken == 0)
     {
       sod[DC210_OPT_IMAGE_NUMBER].cap |= Sane.CAP_INACTIVE
       image_range.min = 0
@@ -1042,9 +1042,9 @@ Sane.init (Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 
 
   /* load the current images array */
-  Camera.Pictures = get_pictures_info ()
+  Camera.Pictures = get_pictures_info()
 
-  if (Camera.pic_taken == 0)
+  if(Camera.pic_taken == 0)
     {
       Camera.current_picture_number = 0
       parms.bytes_per_line = 0
@@ -1054,7 +1054,7 @@ Sane.init (Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
   else
     {
       Camera.current_picture_number = 1
-      if (Camera.Pictures[Camera.current_picture_number - 1].low_res)
+      if(Camera.Pictures[Camera.current_picture_number - 1].low_res)
 	{
 	  parms.bytes_per_line = 640 * 3
 	  parms.pixels_per_line = 640
@@ -1068,17 +1068,17 @@ Sane.init (Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 	}
     }
 
-  if (dumpinquiry)
+  if(dumpinquiry)
     {
-      DBG (0, "\nCamera information:\n~~~~~~~~~~~~~~~~~\n\n")
-      DBG (0, "Model...........: DC%x\n", Camera.model)
-      DBG (0, "Firmware version: %d.%d\n", Camera.ver_major,
+      DBG(0, "\nCamera information:\n~~~~~~~~~~~~~~~~~\n\n")
+      DBG(0, "Model...........: DC%x\n", Camera.model)
+      DBG(0, "Firmware version: %d.%d\n", Camera.ver_major,
 	   Camera.ver_minor)
-      DBG (0, "Pictures........: %d/%d\n", Camera.pic_taken,
+      DBG(0, "Pictures........: %d/%d\n", Camera.pic_taken,
 	   Camera.pic_taken + Camera.pic_left)
-      DBG (0, "Resolution......: %s\n",
+      DBG(0, "Resolution......: %s\n",
 	   Camera.flags.low_res ? "low" : "high")
-      DBG (0, "Battery state...: %s\n",
+      DBG(0, "Battery state...: %s\n",
 	   Camera.flags.low_batt ? "low" : "good")
     }
 
@@ -1086,7 +1086,7 @@ Sane.init (Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 }
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
 }
 
@@ -1101,46 +1101,46 @@ static const Sane.Device dev = [
 ]
 
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list,
+Sane.get_devices(const Sane.Device *** device_list,
 		  Bool __Sane.unused__ local_only)
 {
   static const Sane.Device *devlist = [
     dev + 0, 0
   ]
 
-  DBG (127, "Sane.get_devices called\n")
+  DBG(127, "Sane.get_devices called\n")
 
   *device_list = devlist
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
+Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 {
   var i: Int
 
-  DBG (127, "Sane.open for device %s\n", devicename)
-  if (!devicename[0])
+  DBG(127, "Sane.open for device %s\n", devicename)
+  if(!devicename[0])
     {
       i = 0
     }
   else
     {
-      for (i = 0; i < NELEMS (dev); ++i)
+      for(i = 0; i < NELEMS(dev); ++i)
 	{
-	  if (strcmp (devicename, dev[i].name) == 0)
+	  if(strcmp(devicename, dev[i].name) == 0)
 	    {
 	      break
 	    }
 	}
     }
 
-  if (i >= NELEMS (dev))
+  if(i >= NELEMS(dev))
     {
       return Sane.STATUS_INVAL
     }
 
-  if (is_open)
+  if(is_open)
     {
       return Sane.STATUS_DEVICE_BUSY
     }
@@ -1148,69 +1148,69 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
   is_open = 1
   *handle = MAGIC
 
-  DBG (3, "Sane.open: pictures taken=%d\n", Camera.pic_taken)
+  DBG(3, "Sane.open: pictures taken=%d\n", Camera.pic_taken)
 
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
-  DBG (127, "Sane.close called\n")
-  if (handle == MAGIC)
+  DBG(127, "Sane.close called\n")
+  if(handle == MAGIC)
     is_open = 0
 
-  DBG (127, "Sane.close returning\n")
+  DBG(127, "Sane.close returning\n")
 }
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
-  if (handle != MAGIC || !is_open)
+  if(handle != MAGIC || !is_open)
     return NULL;		/* wrong device */
-  if (option < 0 || option >= NELEMS (sod))
+  if(option < 0 || option >= NELEMS(sod))
     return NULL
   return &sod[option]
 }
 
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
 		     Sane.Action action, void *value, Int * info)
 {
   Int myinfo = 0
   Sane.Status status
 
-  DBG (127, "control_option(handle=%p,opt=%s,act=%s,val=%p,info=%p)\n",
+  DBG(127, "control_option(handle=%p,opt=%s,act=%s,val=%p,info=%p)\n",
        handle, sod[option].title,
        (action ==
 	Sane.ACTION_SET_VALUE ? "SET" : (action ==
 					 Sane.ACTION_GET_VALUE ? "GET" :
 					 "SETAUTO")), value, (void *)info)
 
-  if (handle != MAGIC || !is_open)
+  if(handle != MAGIC || !is_open)
     return Sane.STATUS_INVAL;	/* Unknown handle ... */
 
-  if (option < 0 || option >= NELEMS (sod))
+  if(option < 0 || option >= NELEMS(sod))
     return Sane.STATUS_INVAL;	/* Unknown option ... */
 
-  switch (action)
+  switch(action)
     {
     case Sane.ACTION_SET_VALUE:
-      status = sanei_constrain_value (sod + option, value, &myinfo)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_constrain_value(sod + option, value, &myinfo)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "Constraint error in control_option\n")
+	  DBG(1, "Constraint error in control_option\n")
 	  return status
 	}
 
-      switch (option)
+      switch(option)
 	{
 	case DC210_OPT_IMAGE_NUMBER:
 	  Camera.current_picture_number = *(Sane.Word *) value
 	  myinfo |= Sane.INFO_RELOAD_PARAMS
 	  /* get the image's resolution */
 
-	  if (Camera.Pictures[Camera.current_picture_number - 1].low_res)
+	  if(Camera.Pictures[Camera.current_picture_number - 1].low_res)
 	    {
 	      parms.bytes_per_line = 640 * 3
 	      parms.pixels_per_line = 640
@@ -1228,7 +1228,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  dc210_opt_thumbnails = !!*(Sane.Word *) value
 	  myinfo |= Sane.INFO_RELOAD_PARAMS
 
-	  if (dc210_opt_thumbnails)
+	  if(dc210_opt_thumbnails)
 	    {
 	      /*
 	       * DC210 thumbnail are 96x72x8x3
@@ -1239,7 +1239,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	    }
 	  else
 	    {
-	      if (Camera.Pictures[Camera.current_picture_number - 1].low_res)
+	      if(Camera.Pictures[Camera.current_picture_number - 1].low_res)
 		{
 		  parms.bytes_per_line = 640 * 3
 		  parms.pixels_per_line = 640
@@ -1258,7 +1258,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  dc210_opt_snap = !!*(Sane.Word *) value
 	  myinfo |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
 	  /* if we are snapping a new one */
-	  if (dc210_opt_snap)
+	  if(dc210_opt_snap)
 	    {
 	      /* activate the resolution setting */
 	      sod[DC210_OPT_LOWRES].cap &= ~Sane.CAP_INACTIVE
@@ -1273,7 +1273,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	      sod[DC210_OPT_IMAGE_NUMBER].cap &= ~Sane.CAP_INACTIVE
 	    }
 	  /* set params according to resolution settings */
-	  if (dc210_opt_lowres)
+	  if(dc210_opt_lowres)
 	    {
 	      parms.bytes_per_line = 640 * 3
 	      parms.pixels_per_line = 640
@@ -1291,13 +1291,13 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  dc210_opt_lowres = !!*(Sane.Word *) value
 	  myinfo |= Sane.INFO_RELOAD_PARAMS
 
-	  if (!dc210_opt_thumbnails)
+	  if(!dc210_opt_thumbnails)
 	    {
 
 /* XXX - change the number of pictures left depending on resolution
    perhaps just call get_info again?
  */
-	      if (dc210_opt_lowres)
+	      if(dc210_opt_lowres)
 		{
 		  parms.bytes_per_line = 640 * 3
 		  parms.pixels_per_line = 640
@@ -1318,10 +1318,10 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  break
 
 	case DC210_OPT_DEFAULT:
-	  DBG (1, "Fixme: Set all defaults here!\n")
+	  DBG(1, "Fixme: Set all defaults here!\n")
 	  break
 	case DC210_OPT_INIT_DC210:
-	  if ((Camera.fd = init_dc210 (&Camera)) == -1)
+	  if((Camera.fd = init_dc210 (&Camera)) == -1)
 	    {
 	      return Sane.STATUS_INVAL
 	    }
@@ -1333,10 +1333,10 @@ Sane.control_option (Sane.Handle handle, Int option,
       break
 
     case Sane.ACTION_GET_VALUE:
-      switch (option)
+      switch(option)
 	{
 	case 0:
-	  *(Sane.Word *) value = NELEMS (sod)
+	  *(Sane.Word *) value = NELEMS(sod)
 	  break
 
 	case DC210_OPT_IMAGE_NUMBER:
@@ -1365,32 +1365,32 @@ Sane.control_option (Sane.Handle handle, Int option,
       break
 
     case Sane.ACTION_SET_AUTO:
-      switch (option)
+      switch(option)
 	{
 	default:
 	  return Sane.STATUS_UNSUPPORTED;	/* We are DUMB */
 	}
     }
 
-  if (info)
+  if(info)
     *info = myinfo
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
   Int rc = Sane.STATUS_GOOD
 
-  DBG (127, "Sane.get_params called\n")
+  DBG(127, "Sane.get_params called\n")
 
-  if (handle != MAGIC || !is_open)
+  if(handle != MAGIC || !is_open)
     rc = Sane.STATUS_INVAL;	/* Unknown handle ... */
 
   parms.last_frame = Sane.TRUE;	/* Have no idea what this does */
   *params = parms
-  DBG (127, "Sane.get_params return %d\n", rc)
+  DBG(127, "Sane.get_params return %d\n", rc)
   return rc
 }
 
@@ -1402,20 +1402,20 @@ typedef struct
 my_source_mgr
 typedef my_source_mgr *my_src_ptr
 
-METHODDEF (void)
-sanei_jpeg_init_source (j_decompress_ptr __Sane.unused__ cinfo)
+METHODDEF(void)
+sanei_jpeg_init_source(j_decompress_ptr __Sane.unused__ cinfo)
 {
   /* nothing to do */
 }
 
-METHODDEF (boolean) sanei_jpeg_fill_input_buffer (j_decompress_ptr cinfo)
+METHODDEF(boolean) sanei_jpeg_fill_input_buffer(j_decompress_ptr cinfo)
 {
 
   my_src_ptr src = (my_src_ptr) cinfo.src
 
-  if (read_data (Camera.fd, src.buffer, 1024) == -1)
+  if(read_data(Camera.fd, src.buffer, 1024) == -1)
     {
-      DBG (5, "Sane.start: read_data failed\n")
+      DBG(5, "Sane.start: read_data failed\n")
       src.buffer[0] = (JOCTET) 0xFF
       src.buffer[1] = (JOCTET) JPEG_EOI
       return FALSE
@@ -1426,72 +1426,72 @@ METHODDEF (boolean) sanei_jpeg_fill_input_buffer (j_decompress_ptr cinfo)
   return TRUE
 }
 
-METHODDEF (void)
-sanei_jpeg_skip_input_data (j_decompress_ptr cinfo, long num_bytes)
+METHODDEF(void)
+sanei_jpeg_skip_input_data(j_decompress_ptr cinfo, long num_bytes)
 {
 
   my_src_ptr src = (my_src_ptr) cinfo.src
 
-  if (num_bytes > 0)
+  if(num_bytes > 0)
     {
-      while (num_bytes > (long) src.pub.bytes_in_buffer)
+      while(num_bytes > (long) src.pub.bytes_in_buffer)
 	{
 	  num_bytes -= (long) src.pub.bytes_in_buffer
-	  (void) sanei_jpeg_fill_input_buffer (cinfo)
+	  (void) sanei_jpeg_fill_input_buffer(cinfo)
 	}
     }
   src.pub.next_input_byte += (size_t) num_bytes
   src.pub.bytes_in_buffer -= (size_t) num_bytes
 }
 
-METHODDEF (void)
-sanei_jpeg_term_source (j_decompress_ptr __Sane.unused__ cinfo)
+METHODDEF(void)
+sanei_jpeg_term_source(j_decompress_ptr __Sane.unused__ cinfo)
 {
   /* no work necessary here */
 }
 
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
 
-  DBG (127, "Sane.start called\n")
-  if (handle != MAGIC || !is_open ||
+  DBG(127, "Sane.start called\n")
+  if(handle != MAGIC || !is_open ||
       (Camera.current_picture_number == 0 && dc210_opt_snap == Sane.FALSE))
     return Sane.STATUS_INVAL;	/* Unknown handle ... */
 
-  if (Camera.scanning)
+  if(Camera.scanning)
     return Sane.STATUS_EOF
 
-  if (dc210_opt_snap)
+  if(dc210_opt_snap)
     {
 
       /*
        * Don't allow picture unless there is room in the
        * camera.
        */
-      if (Camera.pic_left == 0)
+      if(Camera.pic_left == 0)
 	{
-	  DBG (3, "No room to store new picture\n")
+	  DBG(3, "No room to store new picture\n")
 	  return Sane.STATUS_INVAL
 	}
 
 
-      if (snap_pic (Camera.fd) != Sane.STATUS_GOOD)
+      if(snap_pic(Camera.fd) != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "Failed to snap new picture\n")
+	  DBG(1, "Failed to snap new picture\n")
 	  return Sane.STATUS_INVAL
 	}
     }
 
-  if (dc210_opt_thumbnails)
+  if(dc210_opt_thumbnails)
     {
 
       thumb_pck[3] = (unsigned char) Camera.current_picture_number - 1
       thumb_pck[4] = 1
 
-      if (send_pck (Camera.fd, thumb_pck) == -1)
+      if(send_pck(Camera.fd, thumb_pck) == -1)
 	{
-	  DBG (4, "Sane.start: error: send_pck returned -1\n")
+	  DBG(4, "Sane.start: error: send_pck returned -1\n")
 	  return Sane.STATUS_INVAL
 	}
 
@@ -1511,22 +1511,22 @@ Sane.start (Sane.Handle handle)
 
       pic_pck[3] = (unsigned char) Camera.current_picture_number - 1
 
-      if (send_pck (Camera.fd, pic_pck) == -1)
+      if(send_pck(Camera.fd, pic_pck) == -1)
 	{
-	  DBG (4, "Sane.start: error: send_pck returned -1\n")
+	  DBG(4, "Sane.start: error: send_pck returned -1\n")
 	  return Sane.STATUS_INVAL
 	}
-      cinfo.err = jpeg_std_error (&jerr)
-      jpeg_create_decompress (&cinfo)
+      cinfo.err = jpeg_std_error(&jerr)
+      jpeg_create_decompress(&cinfo)
 
-      cinfo.src = (struct jpeg_source_mgr *) (*cinfo.mem.alloc_small) ((j_common_ptr) & cinfo, JPOOL_PERMANENT, sizeof (my_source_mgr))
+      cinfo.src = (struct jpeg_source_mgr *) (*cinfo.mem.alloc_small) ((j_common_ptr) & cinfo, JPOOL_PERMANENT, sizeof(my_source_mgr))
       src = (my_src_ptr) cinfo.src
 
       src.buffer = (JOCTET *) (*cinfo.mem.alloc_small) ((j_common_ptr) &
 							  cinfo,
 							  JPOOL_PERMANENT,
 							  1024 *
-							  sizeof (JOCTET))
+							  sizeof(JOCTET))
       src.pub.init_source = sanei_jpeg_init_source
       src.pub.fill_input_buffer = sanei_jpeg_fill_input_buffer
       src.pub.skip_input_data = sanei_jpeg_skip_input_data
@@ -1535,9 +1535,9 @@ Sane.start (Sane.Handle handle)
       src.pub.bytes_in_buffer = 0
       src.pub.next_input_byte = NULL
 
-      (void) jpeg_read_header (&cinfo, TRUE)
-      dest_mgr = sanei_jpeg_jinit_write_ppm (&cinfo)
-      (void) jpeg_start_decompress (&cinfo)
+      (void) jpeg_read_header(&cinfo, TRUE)
+      dest_mgr = sanei_jpeg_jinit_write_ppm(&cinfo)
+      (void) jpeg_start_decompress(&cinfo)
     }
 
   Camera.scanning = Sane.TRUE;	/* don't overlap scan requests */
@@ -1547,21 +1547,21 @@ Sane.start (Sane.Handle handle)
 }
 
 Sane.Status
-Sane.read (Sane.Handle __Sane.unused__ handle, Sane.Byte * data,
+Sane.read(Sane.Handle __Sane.unused__ handle, Sane.Byte * data,
 	   Int max_length, Int * length)
 {
 
   static char buffer[1024]
 
-  if (dc210_opt_thumbnails)
+  if(dc210_opt_thumbnails)
     {
-      if (total_bytes_read == THUMBSIZE)
+      if(total_bytes_read == THUMBSIZE)
 	{
-	  if (dc210_opt_erase)
+	  if(dc210_opt_erase)
 	    {
-	      if (erase (Camera.fd) == -1)
+	      if(erase(Camera.fd) == -1)
 		{
-		  DBG (1, "Failed to erase memory\n")
+		  DBG(1, "Failed to erase memory\n")
 		  return Sane.STATUS_INVAL
 		}
 	      Camera.pic_taken--
@@ -1573,18 +1573,18 @@ Sane.read (Sane.Handle __Sane.unused__ handle, Sane.Byte * data,
 	}
 
       *length = 0
-      if (!(bytes_in_buffer - bytes_read_from_buffer))
+      if(!(bytes_in_buffer - bytes_read_from_buffer))
 	{
-	  if (read_data (Camera.fd, (unsigned char *) buffer, 1024) == -1)
+	  if(read_data(Camera.fd, (unsigned char *) buffer, 1024) == -1)
 	    {
-	      DBG (5, "Sane.read: read_data failed\n")
+	      DBG(5, "Sane.read: read_data failed\n")
 	      return Sane.STATUS_INVAL
 	    }
 	  bytes_in_buffer = 1024
 	  bytes_read_from_buffer = 0
 	}
 
-      while (bytes_read_from_buffer < bytes_in_buffer &&
+      while(bytes_read_from_buffer < bytes_in_buffer &&
 	     max_length && total_bytes_read < THUMBSIZE)
 	{
 	  *data++ = buffer[bytes_read_from_buffer++]
@@ -1593,11 +1593,11 @@ Sane.read (Sane.Handle __Sane.unused__ handle, Sane.Byte * data,
 	  total_bytes_read++
 	}
 
-      if (total_bytes_read == THUMBSIZE)
+      if(total_bytes_read == THUMBSIZE)
 	{
-	  if (end_of_data (Camera.fd) == -1)
+	  if(end_of_data(Camera.fd) == -1)
 	    {
-	      DBG (4, "Sane.read: end_of_data error\n")
+	      DBG(4, "Sane.read: end_of_data error\n")
 	      return Sane.STATUS_INVAL
 	    }
 	  else
@@ -1614,20 +1614,20 @@ Sane.read (Sane.Handle __Sane.unused__ handle, Sane.Byte * data,
     {
       Int lines = 0
 
-      if (cinfo.output_scanline >= cinfo.output_height)
+      if(cinfo.output_scanline >= cinfo.output_height)
 	{
 	  /* clean up comms with the camera */
-	  if (end_of_data (Camera.fd) == -1)
+	  if(end_of_data(Camera.fd) == -1)
 	    {
-	      DBG (2, "Sane.read: error: end_of_data returned -1\n")
+	      DBG(2, "Sane.read: error: end_of_data returned -1\n")
 	      return Sane.STATUS_INVAL
 	    }
-	  if (dc210_opt_erase)
+	  if(dc210_opt_erase)
 	    {
-	      DBG (127, "Sane.read bp%d, erase image\n", __LINE__)
-	      if (erase (Camera.fd) == -1)
+	      DBG(127, "Sane.read bp%d, erase image\n", __LINE__)
+	      if(erase(Camera.fd) == -1)
 		{
-		  DBG (1, "Failed to erase memory\n")
+		  DBG(1, "Failed to erase memory\n")
 		  return Sane.STATUS_INVAL
 		}
 	      Camera.pic_taken--
@@ -1640,7 +1640,7 @@ Sane.read (Sane.Handle __Sane.unused__ handle, Sane.Byte * data,
 
 /* XXX - we should read more than 1 line at a time here */
       lines = 1
-      (void) jpeg_read_scanlines (&cinfo, dest_mgr.buffer, lines)
+      (void) jpeg_read_scanlines(&cinfo, dest_mgr.buffer, lines)
       (*dest_mgr.put_pixel_rows) (&cinfo, dest_mgr, lines, (char *) data)
       *length = cinfo.output_width * cinfo.output_components * lines
 
@@ -1650,48 +1650,48 @@ Sane.read (Sane.Handle __Sane.unused__ handle, Sane.Byte * data,
 }
 
 void
-Sane.cancel (Sane.Handle __Sane.unused__ handle)
+Sane.cancel(Sane.Handle __Sane.unused__ handle)
 {
-  DBG (127, "Sane.cancel() called\n")
-  if (Camera.scanning)
+  DBG(127, "Sane.cancel() called\n")
+  if(Camera.scanning)
     Camera.scanning = Sane.FALSE;	/* done with scan */
   else
-    DBG (127, "Sane.cancel() aborted, scanner not scanning\n")
+    DBG(127, "Sane.cancel() aborted, scanner not scanning\n")
 }
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle __Sane.unused__ handle,
+Sane.set_io_mode(Sane.Handle __Sane.unused__ handle,
 		  Bool __Sane.unused__ non_blocking)
 {
   return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle __Sane.unused__ handle, Int __Sane.unused__ * fd)
+Sane.get_select_fd(Sane.Handle __Sane.unused__ handle, Int __Sane.unused__ * fd)
 {
   return Sane.STATUS_UNSUPPORTED
 }
 
 static PictureInfo *
-get_pictures_info (void)
+get_pictures_info(void)
 {
 
   char f[] = "get_pictures_info"
   unsigned Int p
   PictureInfo *pics
 
-  if ((pics = (PictureInfo *) malloc (Camera.pic_taken *
-				      sizeof (PictureInfo))) == NULL)
+  if((pics = (PictureInfo *) malloc(Camera.pic_taken *
+				      sizeof(PictureInfo))) == NULL)
     {
-      DBG (4, "%s: error: allocate memory for pictures array\n", f)
+      DBG(4, "%s: error: allocate memory for pictures array\n", f)
       return NULL
     }
 
-  for (p = 0; p < (unsigned Int) Camera.pic_taken; p++)
+  for(p = 0; p < (unsigned Int) Camera.pic_taken; p++)
     {
-      if (get_picture_info (pics + p, p) == -1)
+      if(get_picture_info(pics + p, p) == -1)
 	{
-	  free (pics)
+	  free(pics)
 	  return NULL
 	}
     }
@@ -1700,45 +1700,45 @@ get_pictures_info (void)
 }
 
 static Int
-get_picture_info (PictureInfo * pic, Int p)
+get_picture_info(PictureInfo * pic, Int p)
 {
 
   char f[] = "get_picture_info"
   static char buffer[256]
 
-  DBG (4, "%s: info for pic #%d\n", f, p)
+  DBG(4, "%s: info for pic #%d\n", f, p)
 
   pic_info_pck[3] = (unsigned char) p
 
-  if (send_pck (Camera.fd, pic_info_pck) == -1)
+  if(send_pck(Camera.fd, pic_info_pck) == -1)
     {
-      DBG (4, "%s: error: send_pck returned -1\n", f)
+      DBG(4, "%s: error: send_pck returned -1\n", f)
       return -1
     }
 
-  if (read_data (Camera.fd, (unsigned char *) buffer, 256) == -1)
+  if(read_data(Camera.fd, (unsigned char *) buffer, 256) == -1)
     {
-      DBG (2, "%s: error: read_data returned -1\n", f)
+      DBG(2, "%s: error: read_data returned -1\n", f)
       return -1
     }
 
-  if (end_of_data (Camera.fd) == -1)
+  if(end_of_data(Camera.fd) == -1)
     {
-      DBG (2, "%s: error: end_of_data returned -1\n", f)
+      DBG(2, "%s: error: end_of_data returned -1\n", f)
       return -1
     }
 
-  if (buffer[3] == 0)
+  if(buffer[3] == 0)
     {
       pic.low_res = Sane.TRUE
     }
-  else if (buffer[3] == 1)
+  else if(buffer[3] == 1)
     {
       pic.low_res = Sane.FALSE
     }
   else
     {
-      DBG (2, "%s: error: unknown resolution code %u\n", f, buffer[3])
+      DBG(2, "%s: error: unknown resolution code %u\n", f, buffer[3])
       return -1
     }
   pic.size = (buffer[8] & 0xFF) << 24
@@ -1750,29 +1750,29 @@ get_picture_info (PictureInfo * pic, Int p)
 }
 
 static Sane.Status
-snap_pic (Int fd)
+snap_pic(Int fd)
 {
 
   char f[] = "snap_pic"
 
   /* make sure camera is set to our settings state */
-  if (change_res (Camera.fd, dc210_opt_lowres) == -1)
+  if(change_res(Camera.fd, dc210_opt_lowres) == -1)
     {
-      DBG (1, "%s: Failed to set resolution\n", f)
+      DBG(1, "%s: Failed to set resolution\n", f)
       return Sane.STATUS_INVAL
     }
 
   /* take the picture */
-  if (send_pck (fd, shoot_pck) == -1)
+  if(send_pck(fd, shoot_pck) == -1)
     {
-      DBG (4, "%s: error: send_pck returned -1\n", f)
+      DBG(4, "%s: error: send_pck returned -1\n", f)
       return Sane.STATUS_INVAL
     }
   else
     {
-      if (end_of_data (Camera.fd) == -1)
+      if(end_of_data(Camera.fd) == -1)
 	{
-	  DBG (2, "%s: error: end_of_data returned -1\n", f)
+	  DBG(2, "%s: error: end_of_data returned -1\n", f)
 	  return Sane.STATUS_INVAL
 	}
     }
@@ -1783,19 +1783,19 @@ snap_pic (Int fd)
   sod[DC210_OPT_IMAGE_NUMBER].cap &= ~Sane.CAP_INACTIVE
 
   /* add this one to the Pictures array */
-  if ((Camera.Pictures =
-       (PictureInfo *) realloc (Camera.Pictures,
-				Camera.pic_taken * sizeof (PictureInfo))) ==
+  if((Camera.Pictures =
+       (PictureInfo *) realloc(Camera.Pictures,
+				Camera.pic_taken * sizeof(PictureInfo))) ==
       NULL)
     {
-      DBG (4, "%s: error: allocate memory for pictures array\n", f)
+      DBG(4, "%s: error: allocate memory for pictures array\n", f)
       return Sane.STATUS_INVAL
     }
 
-  if (get_picture_info (Camera.Pictures + Camera.pic_taken,
+  if(get_picture_info(Camera.Pictures + Camera.pic_taken,
 			Camera.pic_taken) == -1)
     {
-      DBG (1, "%s: Failed to get new picture info\n", f)
+      DBG(1, "%s: Failed to get new picture info\n", f)
       /* XXX - I guess we should try to erase the image here */
       return Sane.STATUS_INVAL
     }

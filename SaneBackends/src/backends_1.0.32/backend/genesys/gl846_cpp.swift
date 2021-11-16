@@ -1,6 +1,6 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2012-2013 Stéphane Voltz <stef.dev@free.fr>
+   Copyright(C) 2012-2013 Stéphane Voltz <stef.dev@free.fr>
 
 
    This file is part of the SANE package.
@@ -8,7 +8,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -59,7 +59,7 @@ namespace gl846 {
 /**
  * compute the step multiplier used
  */
-static Int gl846_get_step_multiplier (Genesys_Register_Set * regs)
+static Int gl846_get_step_multiplier(Genesys_Register_Set * regs)
 {
     unsigned value = (regs.get8(0x9d) & 0x0f) >> 1
     return 1 << value
@@ -73,40 +73,40 @@ static Int gl846_get_step_multiplier (Genesys_Register_Set * regs)
  * @param dev device structure holding register set to initialize
  */
 static void
-gl846_init_registers (Genesys_Device * dev)
+gl846_init_registers(Genesys_Device * dev)
 {
     DBG_HELPER(dbg)
 
     dev.reg.clear()
 
     dev.reg.init_reg(0x01, 0x60)
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
         dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_8200I)
     {
         dev.reg.init_reg(0x01, 0x22)
     }
     dev.reg.init_reg(0x02, 0x38)
     dev.reg.init_reg(0x03, 0x03)
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
         dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_8200I)
     {
         dev.reg.init_reg(0x03, 0xbf)
     }
     dev.reg.init_reg(0x04, 0x22)
     dev.reg.init_reg(0x05, 0x60)
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
         dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_8200I)
     {
         dev.reg.init_reg(0x05, 0x48)
     }
     dev.reg.init_reg(0x06, 0x10)
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
         dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_8200I)
     {
         dev.reg.init_reg(0x06, 0xf0)
     }
     dev.reg.init_reg(0x08, 0x60)
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
         dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_8200I)
     {
         dev.reg.init_reg(0x08, 0x00)
@@ -114,10 +114,10 @@ gl846_init_registers (Genesys_Device * dev)
     dev.reg.init_reg(0x09, 0x00)
     dev.reg.init_reg(0x0a, 0x00)
     dev.reg.init_reg(0x0b, 0x8b)
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
         dev.reg.init_reg(0x0b, 0x2a)
     }
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
         dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_8200I)
     {
         dev.reg.init_reg(0x0b, 0x4a)
@@ -142,12 +142,12 @@ gl846_init_registers (Genesys_Device * dev)
 
      // SCANFED
     dev.reg.init_reg(0x1f, 0x01)
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400) {
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400) {
         dev.reg.init_reg(0x1f, 0x00)
     }
 
     dev.reg.init_reg(0x20, 0x03)
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
         dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_8200I)
     {
         dev.reg.init_reg(0x20, 0x55)
@@ -170,7 +170,7 @@ gl846_init_registers (Genesys_Device * dev)
 
     // DUMMY: the number of CCD dummy pixels
     dev.reg.init_reg(0x34, 0x1f)
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
         dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_8200I)
     {
         dev.reg.init_reg(0x34, 0x14)
@@ -196,7 +196,7 @@ gl846_init_registers (Genesys_Device * dev)
 
     // DECSEL, STEPTIM
     dev.reg.init_reg(0x5e, 0x1f)
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
         dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_8200I)
     {
         dev.reg.init_reg(0x5e, 0x01)
@@ -228,7 +228,7 @@ gl846_init_registers (Genesys_Device * dev)
     dev.reg.init_reg(0x7c, 0x99); // SENSOR_DEF
     dev.reg.init_reg(0x7d, 0x20); // SENSOR_DEF
     dev.reg.init_reg(0x7f, 0x05)
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
         dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_8200I)
     {
         dev.reg.init_reg(0x7f, 0x00)
@@ -238,10 +238,10 @@ gl846_init_registers (Genesys_Device * dev)
 
     // MTRPLS: pulse width of ADF motor trigger signal
     dev.reg.init_reg(0x94, 0x00)
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
         dev.reg.init_reg(0x94, 0xff)
     }
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
         dev.reg.init_reg(0x98, 0x20); // ONDUR
         dev.reg.init_reg(0x99, 0x00); // ONDUR
         dev.reg.init_reg(0x9a, 0x90); // OFFDUR
@@ -249,17 +249,17 @@ gl846_init_registers (Genesys_Device * dev)
     }
 
     dev.reg.init_reg(0x9d, 0x00); // contains STEPTIM
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
         dev.reg.init_reg(0x9d, 0x04)
     }
     dev.reg.init_reg(0x9e, 0x00)
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
         dev.reg.init_reg(0xa1, 0xe0)
     }
 
-    // RFHSET (SDRAM refresh time)
+    // RFHSET(SDRAM refresh time)
     dev.reg.init_reg(0xa2, 0x1f)
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
         dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_8200I)
     {
         dev.reg.init_reg(0xa2, 0x0f)
@@ -269,19 +269,19 @@ gl846_init_registers (Genesys_Device * dev)
 
     // Various important settings: GPOM9, MULSTOP, NODECEL, TB3TB1, TB5TB2, FIX16CLK
     dev.reg.init_reg(0xab, 0xc0)
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
         dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_8200I)
     {
         dev.reg.init_reg(0xab, 0x01)
     }
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
         dev.reg.init_reg(0xbb, 0x00); // FIXME: default is the same
     }
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
         dev.reg.init_reg(0xbc, 0x0f)
         dev.reg.init_reg(0xdb, 0xff)
     }
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400) {
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400) {
         dev.reg.init_reg(0xbe, 0x07)
     }
 
@@ -291,7 +291,7 @@ gl846_init_registers (Genesys_Device * dev)
     // [0xe0..0xf7] - image buffer addresses. Set during memory layout setup
     dev.reg.init_reg(0xf8, 0x05); // MAXSEL, MINSEL
 
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
         dev.reg.init_reg(0xfe, 0x08); // MOTTGST, AUTO_O
         dev.reg.init_reg(0xff, 0x02); // AUTO_S
     }
@@ -312,12 +312,12 @@ static void gl846_set_adi_fe(Genesys_Device* dev, uint8_t set)
 
     // wait for FE to be ready
     auto status = scanner_read_status(*dev)
-    while (status.is_front_end_busy) {
+    while(status.is_front_end_busy) {
         dev.interface.sleep_ms(10)
         status = scanner_read_status(*dev)
     ]
 
-    if (set == AFE_INIT) {
+    if(set == AFE_INIT) {
         dev.frontend = dev.frontend_initial
     }
 
@@ -326,10 +326,10 @@ static void gl846_set_adi_fe(Genesys_Device* dev, uint8_t set)
 
     dev.interface.write_fe_register(0x01, dev.frontend.regs.get_value(0x01))
 
-    for (i = 0; i < 3; i++) {
+    for(i = 0; i < 3; i++) {
         dev.interface.write_fe_register(0x02 + i, dev.frontend.get_gain(i))
     }
-    for (i = 0; i < 3; i++) {
+    for(i = 0; i < 3; i++) {
         dev.interface.write_fe_register(0x05 + i, dev.frontend.get_offset(i))
     }
 }
@@ -344,7 +344,7 @@ void CommandSetGl846::set_fe(Genesys_Device* dev, const Genesys_Sensor& sensor, 
 
   /* route to specific analog frontend setup */
     uint8_t frontend_type = dev.reg.find_reg(0x04).value & REG_0x04_FESET
-    switch (frontend_type) {
+    switch(frontend_type) {
       case 0x02: /* ADI FE */
         gl846_set_adi_fe(dev, set)
         break
@@ -375,10 +375,10 @@ static void gl846_init_motor_regs_scan(Genesys_Device* dev,
     unsigned step_multiplier = gl846_get_step_multiplier(reg)
 
     bool use_fast_fed = false
-    if (dev.settings.yres == 4444 && feed_steps > 100 && !has_flag(flags, ScanFlag::FEEDING)) {
+    if(dev.settings.yres == 4444 && feed_steps > 100 && !has_flag(flags, ScanFlag::FEEDING)) {
         use_fast_fed = true
     }
-    if (has_flag(dev.model.flags, ModelFlag::DISABLE_FAST_FEEDING)) {
+    if(has_flag(dev.model.flags, ModelFlag::DISABLE_FAST_FEEDING)) {
         use_fast_fed = false
     }
 
@@ -388,20 +388,20 @@ static void gl846_init_motor_regs_scan(Genesys_Device* dev,
     sanei_genesys_set_motor_power(*reg, true)
 
     std::uint8_t reg02 = reg.get8(REG_0x02)
-    if (use_fast_fed) {
+    if(use_fast_fed) {
         reg02 |= REG_0x02_FASTFED
     } else {
         reg02 &= ~REG_0x02_FASTFED
     }
 
-    if (has_flag(flags, ScanFlag::AUTO_GO_HOME)) {
+    if(has_flag(flags, ScanFlag::AUTO_GO_HOME)) {
         reg02 |= REG_0x02_AGOHOME | REG_0x02_NOTHOME
     }
 
-    if (has_flag(flags, ScanFlag::DISABLE_BUFFER_FULL_MOVE) || (scan_yres>=sensor.full_resolution)) {
+    if(has_flag(flags, ScanFlag::DISABLE_BUFFER_FULL_MOVE) || (scan_yres>=sensor.full_resolution)) {
         reg02 |= REG_0x02_ACDCDIS
     }
-    if (has_flag(flags, ScanFlag::REVERSE)) {
+    if(has_flag(flags, ScanFlag::REVERSE)) {
         reg02 |= REG_0x02_MTRREV
     } else {
         reg02 &= ~REG_0x02_MTRREV
@@ -422,7 +422,7 @@ static void gl846_init_motor_regs_scan(Genesys_Device* dev,
 
     // fast table
     const auto* fast_profile = get_motor_profile_ptr(dev.motor.fast_profiles, 0, session)
-    if (fast_profile == nullptr) {
+    if(fast_profile == nullptr) {
         fast_profile = &motor_profile
     }
 
@@ -435,7 +435,7 @@ static void gl846_init_motor_regs_scan(Genesys_Device* dev,
     reg.set8(REG_FMOVNO, fast_table.table.size() / step_multiplier)
     reg.set8(REG_FMOVDEC, fast_table.table.size() / step_multiplier)
 
-    if (motor_profile.motor_vref != -1 && fast_profile.motor_vref != 1) {
+    if(motor_profile.motor_vref != -1 && fast_profile.motor_vref != 1) {
         std::uint8_t vref = 0
         vref |= (motor_profile.motor_vref << REG_0x80S_TABLE1_NORMAL) & REG_0x80_TABLE1_NORMAL
         vref |= (motor_profile.motor_vref << REG_0x80S_TABLE2_BACK) & REG_0x80_TABLE2_BACK
@@ -446,7 +446,7 @@ static void gl846_init_motor_regs_scan(Genesys_Device* dev,
 
     unsigned feedl = feed_steps
     unsigned dist = 0
-    if (use_fast_fed) {
+    if(use_fast_fed) {
         feedl <<= static_cast<unsigned>(fast_profile.step_type)
         dist = (scan_table.table.size() + 2 * fast_table.table.size())
         // TODO read and decode REG_0xAB
@@ -455,13 +455,13 @@ static void gl846_init_motor_regs_scan(Genesys_Device* dev,
     } else {
         feedl <<= static_cast<unsigned>(motor_profile.step_type)
         dist = scan_table.table.size()
-        if (has_flag(flags, ScanFlag::FEEDING)) {
+        if(has_flag(flags, ScanFlag::FEEDING)) {
             dist *= 2
         }
     }
 
     // check for overflow
-    if (dist < feedl) {
+    if(dist < feedl) {
         feedl -= dist
     } else {
         feedl = 0
@@ -479,9 +479,9 @@ static void gl846_init_motor_regs_scan(Genesys_Device* dev,
 
   /* if quarter step, bipolar Vref2 */
   /* XXX STEF XXX GPIO
-  if (motor_profile.step_type > 1)
+  if(motor_profile.step_type > 1)
     {
-      if (motor_profile.step_type < 3)
+      if(motor_profile.step_type < 3)
         {
             val = effective & ~REG_0x6C_GPIO13
         }
@@ -505,7 +505,7 @@ static void gl846_init_motor_regs_scan(Genesys_Device* dev,
   */
 
     unsigned min_restep = (scan_table.table.size() / step_multiplier) / 2 - 1
-    if (min_restep < 1) {
+    if(min_restep < 1) {
         min_restep = 1
     }
 
@@ -546,7 +546,7 @@ static void gl846_init_motor_regs_scan(Genesys_Device* dev,
    0x2c,0x2d      DPISET
    0x30,0x31      STRPIXEL
    0x32,0x33      ENDPIXEL
-   0x35,0x36,0x37 MAXWD [25:2] (>>2)
+   0x35,0x36,0x37 MAXWD[25:2] (>>2)
    0x38,0x39      LPERIOD
    0x34           DUMMY
  */
@@ -563,7 +563,7 @@ static void gl846_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
   /* enable shading */
     regs_set_optical_off(dev.model.asic_type, *reg)
     reg.find_reg(REG_0x01).value |= REG_0x01_SHDAREA
-    if (has_flag(session.params.flags, ScanFlag::DISABLE_SHADING) ||
+    if(has_flag(session.params.flags, ScanFlag::DISABLE_SHADING) ||
         has_flag(dev.model.flags, ModelFlag::DISABLE_SHADING_CALIBRATION) ||
         session.use_host_side_calib)
     {
@@ -583,7 +583,7 @@ static void gl846_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
     reg.set8(0x2f, 0x7f)
 
   /* monochrome / color scan */
-    switch (session.params.depth) {
+    switch(session.params.depth) {
     case 8:
             reg.find_reg(REG_0x04).value &= ~(REG_0x04_LINEART | REG_0x04_BITSET)
       break
@@ -594,9 +594,9 @@ static void gl846_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
     }
 
     reg.find_reg(REG_0x04).value &= ~(REG_0x04_FILTER | REG_0x04_AFEMOD)
-  if (session.params.channels == 1)
+  if(session.params.channels == 1)
     {
-      switch (session.params.color_filter)
+      switch(session.params.color_filter)
         {
             case ColorFilter::RED:
                 reg.find_reg(REG_0x04).value |= 0x24
@@ -619,7 +619,7 @@ static void gl846_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
                                                          session.params.scan_method)
     sanei_genesys_set_dpihw(*reg, dpihw_sensor.register_dpihw)
 
-    if (should_enable_gamma(session, sensor)) {
+    if(should_enable_gamma(session, sensor)) {
         reg.find_reg(REG_0x05).value |= REG_0x05_GMMENB
     } else {
         reg.find_reg(REG_0x05).value &= ~REG_0x05_GMMENB
@@ -627,16 +627,16 @@ static void gl846_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
 
   /* CIS scanners can do true gray by setting LEDADD */
   /* we set up LEDADD only when asked */
-    if (dev.model.is_cis) {
+    if(dev.model.is_cis) {
         reg.find_reg(0x87).value &= ~REG_0x87_LEDADD
 
-        if (session.enable_ledadd) {
+        if(session.enable_ledadd) {
             reg.find_reg(0x87).value |= REG_0x87_LEDADD
         }
       /* RGB weighting
         reg.find_reg(0x01).value &= ~REG_0x01_TRUEGRAY
 
-      if (session.enable_ledadd))
+      if(session.enable_ledadd))
         {
             reg.find_reg(0x01).value |= REG_0x01_TRUEGRAY
         }*/
@@ -672,7 +672,7 @@ void CommandSetGl846::init_regs_for_scan_session(Genesys_Device* dev, const Gene
 /* slope_dpi */
 /* cis color scan is effectively a gray scan with 3 gray lines per color
    line and a FILTER of 0 */
-    if (dev.model.is_cis) {
+    if(dev.model.is_cis) {
         slope_dpi = session.params.yres * session.params.channels
     } else {
         slope_dpi = session.params.yres
@@ -715,17 +715,17 @@ ScanSession CommandSetGl846::calculate_scan_session(const Genesys_Device* dev,
     unsigned move_dpi = dev.motor.base_ydpi
 
     float move = dev.model.y_offset
-    if (settings.scan_method == ScanMethod::TRANSPARENCY ||
+    if(settings.scan_method == ScanMethod::TRANSPARENCY ||
         settings.scan_method == ScanMethod::TRANSPARENCY_INFRARED)
     {
         // note: scanner_move_to_ta() function has already been called and the sensor is at the
         // transparency adapter
-        if (!dev.ignore_offsets) {
+        if(!dev.ignore_offsets) {
             move = dev.model.y_offset_ta - dev.model.y_offset_sensor_to_ta
         }
         flags |= ScanFlag::USE_XPA
     } else {
-        if (!dev.ignore_offsets) {
+        if(!dev.ignore_offsets) {
             move = dev.model.y_offset
         }
     }
@@ -735,7 +735,7 @@ ScanSession CommandSetGl846::calculate_scan_session(const Genesys_Device* dev,
     move -= dev.head_pos(ScanHeadId::PRIMARY)
 
     float start = dev.model.x_offset
-    if (settings.scan_method == ScanMethod::TRANSPARENCY ||
+    if(settings.scan_method == ScanMethod::TRANSPARENCY ||
         settings.scan_method == ScanMethod::TRANSPARENCY_INFRARED)
     {
         start = dev.model.x_offset_ta
@@ -788,7 +788,7 @@ void CommandSetGl846::begin_scan(Genesys_Device* dev, const Genesys_Sensor& sens
     (void) sensor
   uint8_t val
 
-    if (reg.state.is_xpa_on && reg.state.is_lamp_on) {
+    if(reg.state.is_xpa_on && reg.state.is_lamp_on) {
         dev.cmd_set.set_xpa_lamp_power(*dev, true)
     }
 
@@ -812,16 +812,16 @@ void CommandSetGl846::end_scan(Genesys_Device* dev, Genesys_Register_Set* reg,
     (void) reg
     DBG_HELPER_ARGS(dbg, "check_stop = %d", check_stop)
 
-    if (reg.state.is_xpa_on) {
+    if(reg.state.is_xpa_on) {
         dev.cmd_set.set_xpa_lamp_power(*dev, false)
     }
 
-    if (!dev.model.is_sheetfed) {
+    if(!dev.model.is_sheetfed) {
         scanner_stop_action(*dev)
     }
 }
 
-// Moves the slider to the home (top) position slowly
+// Moves the slider to the home(top) position slowly
 void CommandSetGl846::move_back_home(Genesys_Device* dev, bool wait_until_home) const
 {
     scanner_move_back_home(*dev, wait_until_home)
@@ -836,7 +836,7 @@ void CommandSetGl846::init_regs_for_shading(Genesys_Device* dev, const Genesys_S
     unsigned move_dpi = dev.motor.base_ydpi
 
     float calib_size_mm = 0
-    if (dev.settings.scan_method == ScanMethod::TRANSPARENCY ||
+    if(dev.settings.scan_method == ScanMethod::TRANSPARENCY ||
         dev.settings.scan_method == ScanMethod::TRANSPARENCY_INFRARED)
     {
         calib_size_mm = dev.model.y_size_calib_ta_mm
@@ -855,7 +855,7 @@ void CommandSetGl846::init_regs_for_shading(Genesys_Device* dev, const Genesys_S
                      ScanFlag::DISABLE_GAMMA |
                      ScanFlag::DISABLE_BUFFER_FULL_MOVE
 
-    if (dev.settings.scan_method == ScanMethod::TRANSPARENCY ||
+    if(dev.settings.scan_method == ScanMethod::TRANSPARENCY ||
         dev.settings.scan_method == ScanMethod::TRANSPARENCY_INFRARED)
     {
         // note: scanner_move_to_ta() function has already been called and the sensor is at the
@@ -922,7 +922,7 @@ void CommandSetGl846::send_shading_data(Genesys_Device* dev, const Genesys_Senso
 
   std::vector<uint8_t> buffer(pixels, 0)
 
-  DBG(DBG_io2, "%s: using chunks of %d (0x%04x) bytes\n", __func__, pixels, pixels)
+  DBG(DBG_io2, "%s: using chunks of %d(0x%04x) bytes\n", __func__, pixels, pixels)
 
   /* base addr of data has been written in reg D0-D4 in 4K word, so AHB address
    * is 8192*reg value */
@@ -935,7 +935,7 @@ void CommandSetGl846::send_shading_data(Genesys_Device* dev, const Genesys_Senso
       ptr = buffer.data()
 
       /* iterate on both sensor segment */
-        for (unsigned x = 0; x < pixels; x += 4 * sensor.shading_factor) {
+        for(unsigned x = 0; x < pixels; x += 4 * sensor.shading_factor) {
           // coefficient source
           src = (data + offset + i * length) + x
 
@@ -1000,13 +1000,13 @@ void CommandSetGl846::asic_boot(Genesys_Device* dev, bool cold) const
   uint8_t val
 
     // reset ASIC if cold boot
-    if (cold) {
+    if(cold) {
         dev.interface.write_register(0x0e, 0x01)
         dev.interface.write_register(0x0e, 0x00)
     }
 
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
-        if (dev.usb_mode == 1) {
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICBOOK_3800) {
+        if(dev.usb_mode == 1) {
             val = 0x14
         } else {
             val = 0x11
@@ -1016,25 +1016,25 @@ void CommandSetGl846::asic_boot(Genesys_Device* dev, bool cold) const
 
     // test CHKVER
     val = dev.interface.read_register(REG_0x40)
-    if (val & REG_0x40_CHKVER) {
+    if(val & REG_0x40_CHKVER) {
         val = dev.interface.read_register(0x00)
         DBG(DBG_info, "%s: reported version for genesys chip is 0x%02x\n", __func__, val)
     }
 
-    gl846_init_registers (dev)
+    gl846_init_registers(dev)
 
     // Write initial registers
     dev.interface.write_registers(dev.reg)
 
   /* CIS_LINE */
-  if (dev.model.is_cis)
+  if(dev.model.is_cis)
     {
         dev.reg.init_reg(0x08, REG_0x08_CIS_LINE)
         dev.interface.write_register(0x08, dev.reg.find_reg(0x08).value)
     }
 
     // set up clocks
-    if (dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
+    if(dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7400 ||
         dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_8200I)
     {
         dev.interface.write_0x8c(0x10, 0x0c)
@@ -1060,7 +1060,7 @@ void CommandSetGl846::asic_boot(Genesys_Device* dev, bool cold) const
  */
 void CommandSetGl846::init(Genesys_Device* dev) const
 {
-  DBG_INIT ()
+  DBG_INIT()
     DBG_HELPER(dbg)
 
     sanei_genesys_asic_init(dev)

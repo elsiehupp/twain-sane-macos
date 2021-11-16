@@ -2,14 +2,14 @@
 
    pieusb.c
 
-   Copyright (C) 2012-2015 Jan Vleeshouwers, Michael Rickmann, Klaus Kaempf
+   Copyright(C) 2012-2015 Jan Vleeshouwers, Michael Rickmann, Klaus Kaempf
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -45,7 +45,7 @@
  * SANE interface to three Reflecta USB scanners with USB-id 0x05e3/0x0145:
  * - Reflecta CrystalScan 7200 (model id 0x30)
  * - Reflecta ProScan 7200 (model id 0x36)
- * - Reflecta 6000 Multiple Slide Scanner (model id 0x3A)
+ * - Reflecta 6000 Multiple Slide Scanner(model id 0x3A)
  *
  * ========================================================================= */
 
@@ -82,7 +82,7 @@ import pieusb_specific
 #define CAN_DO_4_CHANNEL_TIFF
 
 #ifdef CAN_DO_4_CHANNEL_TIFF
-public void write_tiff_rgbi_header (FILE *fptr, Int width, Int height, Int depth, Int resolution, const char *icc_profile)
+public void write_tiff_rgbi_header(FILE *fptr, Int width, Int height, Int depth, Int resolution, const char *icc_profile)
 #endif
 
 /* --------------------------------------------------------------------------
@@ -146,7 +146,7 @@ static const Sane.Device **devlist = NULL
  * @return Sane.STATUS_GOOD
  */
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 {
     FILE *fp
     char config_line[PATH_MAX]
@@ -158,18 +158,18 @@ Sane.init (Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
     var i: Int
 
     /* Initialize debug logging */
-    DBG_INIT ()
+    DBG_INIT()
 
-    DBG (DBG_info_sane, "Sane.init() build %d\n", BUILD)
+    DBG(DBG_info_sane, "Sane.init() build %d\n", BUILD)
 
     /* Set version code to current major, minor and build number */
     /* TODO: use V_MINOR instead or Sane.CURRENT_MINOR? If so, why?  */
-    if (version_code)
-        *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, Sane.CURRENT_MINOR, BUILD)
+    if(version_code)
+        *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, Sane.CURRENT_MINOR, BUILD)
 
     /* Initialize usb */
-    sanei_usb_init ()
-    sanei_usb_set_timeout (30 * 1000); /* 30 sec timeout */
+    sanei_usb_init()
+    sanei_usb_set_timeout(30 * 1000); /* 30 sec timeout */
 
     /* There are currently 3 scanners hardcoded into this backend, see below.
      * The config file may add other scanners using a line like
@@ -179,8 +179,8 @@ Sane.init (Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
      * config file standard. Anyone any suggestions? */
 
     /* Create default list */
-    pieusb_supported_usb_device_list = calloc (4, sizeof(struct Pieusb_USB_Device_Entry))
-    if (pieusb_supported_usb_device_list == NULL)
+    pieusb_supported_usb_device_list = calloc(4, sizeof(struct Pieusb_USB_Device_Entry))
+    if(pieusb_supported_usb_device_list == NULL)
       return Sane.STATUS_NO_MEM
     /* Reflecta CrystalScan 7200, model number 0x30 */
     pieusb_supported_usb_device_list[0].vendor = 0x05e3
@@ -204,37 +204,37 @@ Sane.init (Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
     pieusb_supported_usb_device_list[3].flags = 0
 
     /* Add entries from config file */
-    fp = sanei_config_open (PIEUSB_CONFIG_FILE)
-    if (!fp) {
-        DBG (DBG_info_sane, "Sane.init() did not find a config file, using default list of supported devices\n")
+    fp = sanei_config_open(PIEUSB_CONFIG_FILE)
+    if(!fp) {
+        DBG(DBG_info_sane, "Sane.init() did not find a config file, using default list of supported devices\n")
     } else {
-        while (sanei_config_read (config_line, sizeof (config_line), fp)) {
+        while(sanei_config_read(config_line, sizeof(config_line), fp)) {
             /* Ignore line comments and empty lines */
-            if (config_line[0] == '#') continue
-            if (strlen (config_line) == 0) continue
+            if(config_line[0] == '#') continue
+            if(strlen(config_line) == 0) continue
             /* Ignore lines which do not begin with 'usb ' */
-            if (strncmp (config_line, "usb ", 4) != 0) continue
+            if(strncmp(config_line, "usb ", 4) != 0) continue
             /* Parse vendor-id, product-id and model number and add to list */
-            DBG (DBG_info_sane, "Sane.init() config file parsing %s\n", config_line)
+            DBG(DBG_info_sane, "Sane.init() config file parsing %s\n", config_line)
             status = sanei_pieusb_parse_config_line(config_line, &vendor_id, &product_id, &model_number, &flags)
-            if (status == Sane.STATUS_GOOD) {
-                DBG (DBG_info_sane, "Sane.init() config file lists device %04x %04x %02x %02x\n",vendor_id, product_id, model_number, flags)
-                if (!sanei_pieusb_supported_device_list_contains(vendor_id, product_id, model_number, flags)) {
-                    DBG (DBG_info_sane, "Sane.init() adding device %04x %04x %02x %02x\n",vendor_id, product_id, model_number, flags)
+            if(status == Sane.STATUS_GOOD) {
+                DBG(DBG_info_sane, "Sane.init() config file lists device %04x %04x %02x %02x\n",vendor_id, product_id, model_number, flags)
+                if(!sanei_pieusb_supported_device_list_contains(vendor_id, product_id, model_number, flags)) {
+                    DBG(DBG_info_sane, "Sane.init() adding device %04x %04x %02x %02x\n",vendor_id, product_id, model_number, flags)
                     sanei_pieusb_supported_device_list_add(vendor_id, product_id, model_number, flags)
                 } else {
-                    DBG (DBG_info_sane, "Sane.init() list already contains %04x %04x %02x %02x\n", vendor_id, product_id, model_number, flags)
+                    DBG(DBG_info_sane, "Sane.init() list already contains %04x %04x %02x %02x\n", vendor_id, product_id, model_number, flags)
                 }
             } else {
-                DBG (DBG_info_sane, "Sane.init() config file parsing %s: error\n", config_line)
+                DBG(DBG_info_sane, "Sane.init() config file parsing %s: error\n", config_line)
             }
 	}
-        fclose (fp)
+        fclose(fp)
     }
 
     /* Loop through supported device list */
     i = 0
-    while (pieusb_supported_usb_device_list[i].vendor != 0) {
+    while(pieusb_supported_usb_device_list[i].vendor != 0) {
         /* Check if the supported device is present. If so, create a device
          * definition structure for it.
          * The variable pieusb_supported_usb_device is set to current values,
@@ -243,13 +243,13 @@ Sane.init (Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
         pieusb_supported_usb_device.product = pieusb_supported_usb_device_list[i].product
         pieusb_supported_usb_device.model = pieusb_supported_usb_device_list[i].model
         pieusb_supported_usb_device.flags = pieusb_supported_usb_device_list[i].flags
-        pieusb_supported_usb_device.device_number = -1; /* No device number (yet) */
+        pieusb_supported_usb_device.device_number = -1; /* No device number(yet) */
         DBG( DBG_info_sane, "Sane.init() looking for scanner %04x %04x model %02x, flags %02x\n",
              pieusb_supported_usb_device.vendor,
              pieusb_supported_usb_device.product,
              pieusb_supported_usb_device.model,
              pieusb_supported_usb_device.flags)
-        sanei_usb_find_devices (pieusb_supported_usb_device.vendor, pieusb_supported_usb_device.product, sanei_pieusb_find_device_callback)
+        sanei_usb_find_devices(pieusb_supported_usb_device.vendor, pieusb_supported_usb_device.product, sanei_pieusb_find_device_callback)
         i++
     }
     return Sane.STATUS_GOOD
@@ -260,24 +260,24 @@ Sane.init (Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
  * Clean up allocated memory.
  */
 void
-Sane.exit (void)
+Sane.exit(void)
 {
     Pieusb_Device_Definition *dev, *next
 
-    DBG (DBG_info_sane, "Sane.exit()\n")
+    DBG(DBG_info_sane, "Sane.exit()\n")
 
-    for (dev = pieusb_definition_list_head; dev; dev = next) {
+    for(dev = pieusb_definition_list_head; dev; dev = next) {
         next = dev.next
         free((void *)dev.sane.name)
         free((void *)dev.sane.vendor)
         free((void *)dev.sane.model)
-        free (dev.version)
-        free (dev)
+        free(dev.version)
+        free(dev)
     }
     pieusb_definition_list_head = NULL
 
-    if (devlist) {
-        free (devlist)
+    if(devlist) {
+        free(devlist)
         devlist = NULL
     }
 }
@@ -290,27 +290,27 @@ Sane.exit (void)
  * @return Sane.STATUS_GOOD, or Sane.STATUS_NO_MEM if the list cannot be allocated
  */
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool __Sane.unused__ local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool __Sane.unused__ local_only)
 {
     Pieusb_Device_Definition *dev
     var i: Int
 
-    DBG (DBG_info_sane, "Sane.get_devices\n")
+    DBG(DBG_info_sane, "Sane.get_devices\n")
 
     /* Create Sane.DEVICE list from device list created in Sane.init() */
     i = 0
-    for (dev = pieusb_definition_list_head; dev; dev = dev.next) {
+    for(dev = pieusb_definition_list_head; dev; dev = dev.next) {
         i++
     }
-    if (devlist) {
-        free (devlist)
+    if(devlist) {
+        free(devlist)
     }
-    devlist = malloc ((i + 1) * sizeof (devlist[0]))
-    if (!devlist) {
+    devlist = malloc((i + 1) * sizeof(devlist[0]))
+    if(!devlist) {
         return Sane.STATUS_NO_MEM
     }
     i = 0
-    for (dev = pieusb_definition_list_head; dev; dev = dev.next) {
+    for(dev = pieusb_definition_list_head; dev; dev = dev.next) {
         devlist[i++] = &dev.sane
     }
     devlist[i] = NULL
@@ -324,41 +324,41 @@ Sane.get_devices (const Sane.Device *** device_list, Bool __Sane.unused__ local_
  * a couple of other functions of the SANE interface.
  *
  * @param devicename Name of the device, corresponds to Sane.Device.name
- * @param handle handle to scanner (pointer to a Pieusb_Scanner struct)
+ * @param handle handle to scanner(pointer to a Pieusb_Scanner struct)
  * @return Sane.STATUS_GOOD if the device has been opened
  */
 Sane.Status
-Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
+Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 {
     Pieusb_Device_Definition *dev
     Sane.Status status
     Pieusb_Scanner *scanner, *s
 
-    DBG (DBG_info_sane, "Sane.open(%s)\n", devicename)
+    DBG(DBG_info_sane, "Sane.open(%s)\n", devicename)
 
     /* Search for devicename */
-    if (devicename[0]) {
-        for (dev = pieusb_definition_list_head; dev; dev = dev.next) {
-	  if (strcmp (dev.sane.name, devicename) == 0) {
+    if(devicename[0]) {
+        for(dev = pieusb_definition_list_head; dev; dev = dev.next) {
+	  if(strcmp(dev.sane.name, devicename) == 0) {
 	      break
 	  }
         }
-        if (!dev) {
+        if(!dev) {
             /* Is it a valid USB device? */
             Sane.Word vendor
             Sane.Word product
             var i: Int = 0
 
-            status = sanei_usb_get_vendor_product_byname (devicename, &vendor, &product)
-            if (status != Sane.STATUS_GOOD) {
-                DBG (DBG_error, "Sane.open: sanei_usb_get_vendor_product_byname failed %s\n", devicename)
+            status = sanei_usb_get_vendor_product_byname(devicename, &vendor, &product)
+            if(status != Sane.STATUS_GOOD) {
+                DBG(DBG_error, "Sane.open: sanei_usb_get_vendor_product_byname failed %s\n", devicename)
                 return status
             }
             /* Get vendor-product-model & verify that is is supported */
             /* Loop through supported device list */
-            while (pieusb_supported_usb_device_list[i].vendor != 0) {
+            while(pieusb_supported_usb_device_list[i].vendor != 0) {
                 /* Check if vendor and product match */
-                if (pieusb_supported_usb_device_list[i].vendor == vendor
+                if(pieusb_supported_usb_device_list[i].vendor == vendor
                         && pieusb_supported_usb_device_list[i].product == product) {
                     /* Check if a supported device is present
                      * If so, create a device definition structure for it. */
@@ -368,20 +368,20 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
                     pieusb_supported_usb_device.model = pieusb_supported_usb_device_list[i].model
                     pieusb_supported_usb_device.flags = pieusb_supported_usb_device_list[i].flags
                     pieusb_supported_usb_device.device_number = -1
-                    sanei_usb_find_devices (vendor, product, sanei_pieusb_find_device_callback)
-                    if (pieusb_supported_usb_device.device_number == -1) {
+                    sanei_usb_find_devices(vendor, product, sanei_pieusb_find_device_callback)
+                    if(pieusb_supported_usb_device.device_number == -1) {
                         /* Did not succeed in opening the USB device, which is an error.
                          * This error is not caught by sanei_usb_find_devices(), so handle
                          * it here. */
-                        DBG (DBG_error, "Sane.open: sanei_usb_find_devices did not open device %s\n", devicename)
+                        DBG(DBG_error, "Sane.open: sanei_usb_find_devices did not open device %s\n", devicename)
                         return Sane.STATUS_INVAL
                     }
                 }
                 i++
             }
             /* Now rescan the device list to see if it is present */
-            for (dev = pieusb_definition_list_head; dev; dev = dev.next) {
-              if (strcmp (dev.sane.name, devicename) == 0) {
+            for(dev = pieusb_definition_list_head; dev; dev = dev.next) {
+              if(strcmp(dev.sane.name, devicename) == 0) {
                   break
               }
             }
@@ -391,39 +391,39 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
         dev = pieusb_definition_list_head
     }
     /* If no device found, return error */
-    if (!dev) {
+    if(!dev) {
         return Sane.STATUS_INVAL
     }
 
     /* Now create a scanner structure to return */
 
     /* Check if we are not opening the same scanner again. */
-    for (s = first_handle; s; s = s.next) {
-        if (s.device.sane.name == devicename) {
+    for(s = first_handle; s; s = s.next) {
+        if(s.device.sane.name == devicename) {
             *handle = s
             return Sane.STATUS_GOOD
         }
     }
 
     /* Create a new scanner instance */
-    scanner = malloc (sizeof (*scanner))
-    if (!scanner) {
+    scanner = malloc(sizeof(*scanner))
+    if(!scanner) {
         return Sane.STATUS_NO_MEM
     }
-    memset (scanner, 0, sizeof (*scanner))
+    memset(scanner, 0, sizeof(*scanner))
     scanner.device = dev
-    sanei_usb_open (dev.sane.name, &scanner.device_number)
+    sanei_usb_open(dev.sane.name, &scanner.device_number)
     scanner.cancel_request = 0
     scanner.shading_data_present = Sane.FALSE
     /* Options and buffers */
-    (void)sanei_pieusb_init_options (scanner)
+    (void)sanei_pieusb_init_options(scanner)
 
     /* wait for warmup */
-    status = sanei_pieusb_wait_ready (scanner, 0)
-    if (status != Sane.STATUS_GOOD) {
+    status = sanei_pieusb_wait_ready(scanner, 0)
+    if(status != Sane.STATUS_GOOD) {
       sanei_usb_close(scanner.device_number)
-      free (scanner)
-      DBG (DBG_error, "Sane.open: scanner not ready\n")
+      free(scanner)
+      DBG(DBG_error, "Sane.open: scanner not ready\n")
       return status
     }
 
@@ -443,40 +443,40 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
  * @param handle Scanner handle
  */
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
     Pieusb_Scanner *prev, *scanner
     Int k
 
-    DBG (DBG_info_sane, "Sane.close()\n")
+    DBG(DBG_info_sane, "Sane.close()\n")
 
     /* Find handle in list of open handles: */
     prev = 0
-    for (scanner = first_handle; scanner; scanner = scanner.next)  {
-        if (scanner == handle) {
+    for(scanner = first_handle; scanner; scanner = scanner.next)  {
+        if(scanner == handle) {
             break
         }
         prev = scanner
     }
     /* Not a handle we know about. This may happen since all different backend
-     * scanner instances are all cast to Sane.Handle (a void pointer) */
-    if (!scanner) {
-        DBG (DBG_error, "Sane.close(): invalid handle %p\n", handle)
+     * scanner instances are all cast to Sane.Handle(a void pointer) */
+    if(!scanner) {
+        DBG(DBG_error, "Sane.close(): invalid handle %p\n", handle)
         return
     }
 
     /* Stop scan if still scanning */
-    if (scanner.scanning) {
+    if(scanner.scanning) {
         sanei_pieusb_on_cancel(scanner)
     }
 
     /* USB scanners may be still open here */
-    if (scanner.device_number >= 0) {
-        sanei_usb_reset (scanner.device_number)
-        sanei_usb_close (scanner.device_number)
+    if(scanner.device_number >= 0) {
+        sanei_usb_reset(scanner.device_number)
+        sanei_usb_close(scanner.device_number)
     }
     /* Remove handle from list */
-    if (prev) {
+    if(prev) {
         prev.next = scanner.next
     } else {
         first_handle = scanner.next
@@ -484,12 +484,12 @@ Sane.close (Sane.Handle handle)
 
     /* Free scanner related allocated memory and the scanner itself */
     /*TODO: check if complete */
-    if (scanner.buffer.data) sanei_pieusb_buffer_delete(&scanner.buffer)
-    free (scanner.ccd_mask)
-    for (k=0; k<4; k++) free (scanner.shading_ref[k])
-    free (scanner.val[OPT_MODE].s)
-    free (scanner.val[OPT_HALFTONE_PATTERN].s)
-    free (scanner)
+    if(scanner.buffer.data) sanei_pieusb_buffer_delete(&scanner.buffer)
+    free(scanner.ccd_mask)
+    for(k=0; k<4; k++) free(scanner.shading_ref[k])
+    free(scanner.val[OPT_MODE].s)
+    free(scanner.val[OPT_HALFTONE_PATTERN].s)
+    free(scanner)
 }
 
 /**
@@ -500,13 +500,13 @@ Sane.close (Sane.Handle handle)
  * @return The option descriptor
  */
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
     Pieusb_Scanner *scanner = handle
 
-    DBG (DBG_info_proc, "Sane.get_option_descriptor() option=%d\n", option)
+    DBG(DBG_info_proc, "Sane.get_option_descriptor() option=%d\n", option)
 
-    if ((unsigned) option >= NUM_OPTIONS)
+    if((unsigned) option >= NUM_OPTIONS)
     {
       return 0
     }
@@ -526,7 +526,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
  * @return Sane.STATUS_GOOD, or Sane.STATUS_INVAL if a parameter cannot be set
  */
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
+Sane.control_option(Sane.Handle handle, Int option, Sane.Action action,
 		     void *val, Int * info)
 {
     Pieusb_Scanner *scanner = handle
@@ -535,44 +535,44 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
     Sane.String_Const name
 
     DBG(DBG_info_sane,"Sane.control_option()\n")
-    if (info) {
+    if(info) {
         *info = 0
     }
 
     /* Don't set or get options while the scanner is busy */
-    if (scanner.scanning) {
+    if(scanner.scanning) {
         DBG(DBG_error,"Device busy scanning, no option returned\n")
         return Sane.STATUS_DEVICE_BUSY
     }
 
     /* Check if option index is between bounds */
-    if ((unsigned) option >= NUM_OPTIONS) {
+    if((unsigned) option >= NUM_OPTIONS) {
         DBG(DBG_error,"Index too large, no option returned\n")
         return Sane.STATUS_INVAL
     }
 
     /* Check if option is switched on */
     cap = scanner.opt[option].cap
-    if (!Sane.OPTION_IS_ACTIVE (cap))
+    if(!Sane.OPTION_IS_ACTIVE(cap))
     {
-        DBG(DBG_error,"Option inactive (%s)\n", scanner.opt[option].name)
+        DBG(DBG_error,"Option inactive(%s)\n", scanner.opt[option].name)
         return Sane.STATUS_INVAL
     }
 
     /* Get name of option */
     name = scanner.opt[option].name
-    if (!name)
+    if(!name)
     {
       name = "(no name)"
     }
 
     /* */
-    switch (action) {
+    switch(action) {
         case Sane.ACTION_GET_VALUE:
 
-            DBG (DBG_info_sane, "get %s [#%d]\n", name, option)
+            DBG(DBG_info_sane, "get %s[#%d]\n", name, option)
 
-            switch (option) {
+            switch(option) {
 
                 /* word options: */
                 case OPT_NUM_OPTS:
@@ -611,12 +611,12 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
                 case OPT_SET_OFFSET_B:
                 case OPT_SET_OFFSET_I:
                     *(Sane.Word *) val = scanner.val[option].w
-                    DBG (DBG_info_sane, "get %s [#%d] val=%d\n", name, option,scanner.val[option].w)
+                    DBG(DBG_info_sane, "get %s[#%d] val=%d\n", name, option,scanner.val[option].w)
                     return Sane.STATUS_GOOD
 
                 /* word-array options: => for exposure gain offset? */
                 case OPT_CROP_IMAGE:
-                    memcpy (val, scanner.val[option].wa, scanner.opt[option].size)
+                    memcpy(val, scanner.val[option].wa, scanner.opt[option].size)
                     return Sane.STATUS_GOOD
 
                 /* string options */
@@ -624,41 +624,41 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
                 case OPT_CALIBRATION_MODE:
                 case OPT_GAIN_ADJUST:
                 case OPT_HALFTONE_PATTERN:
-                    strcpy (val, scanner.val[option].s)
-                    DBG (DBG_info_sane, "get %s [#%d] val=%s\n", name, option,scanner.val[option].s)
+                    strcpy(val, scanner.val[option].s)
+                    DBG(DBG_info_sane, "get %s[#%d] val=%s\n", name, option,scanner.val[option].s)
                     return Sane.STATUS_GOOD
             }
             break
 
         case Sane.ACTION_SET_VALUE:
 
-            switch (scanner.opt[option].type) {
+            switch(scanner.opt[option].type) {
                 case Sane.TYPE_INT:
-                    DBG (DBG_info_sane, "set %s [#%d] to %d, size=%d\n", name, option, *(Sane.Word *) val, scanner.opt[option].size)
+                    DBG(DBG_info_sane, "set %s[#%d] to %d, size=%d\n", name, option, *(Sane.Word *) val, scanner.opt[option].size)
                     break
                 case Sane.TYPE_FIXED:
-                    DBG (DBG_info_sane, "set %s [#%d] to %f\n", name, option, Sane.UNFIX (*(Sane.Word *) val))
+                    DBG(DBG_info_sane, "set %s[#%d] to %f\n", name, option, Sane.UNFIX(*(Sane.Word *) val))
                     break
                 case Sane.TYPE_STRING:
-                    DBG (DBG_info_sane, "set %s [#%d] to %s\n", name, option, (char *) val)
+                    DBG(DBG_info_sane, "set %s[#%d] to %s\n", name, option, (char *) val)
                     break
                 case Sane.TYPE_BOOL:
-                    DBG (DBG_info_sane, "set %s [#%d] to %d\n", name, option, *(Sane.Word *) val)
+                    DBG(DBG_info_sane, "set %s[#%d] to %d\n", name, option, *(Sane.Word *) val)
                     break
                 default:
-                    DBG (DBG_info_sane, "set %s [#%d]\n", name, option)
+                    DBG(DBG_info_sane, "set %s[#%d]\n", name, option)
             }
             /* Check if option can be set */
-            if (!Sane.OPTION_IS_SETTABLE (cap)) {
+            if(!Sane.OPTION_IS_SETTABLE(cap)) {
               return Sane.STATUS_INVAL
             }
             /* Check if new value within bounds */
-            status = sanei_constrain_value (scanner.opt + option, val, info)
-            if (status != Sane.STATUS_GOOD) {
+            status = sanei_constrain_value(scanner.opt + option, val, info)
+            if(status != Sane.STATUS_GOOD) {
               return status
             }
             /* Set option and handle info return */
-            switch (option)
+            switch(option)
             {
                 /* (mostly) side-effect-free word options: */
                 case OPT_BIT_DEPTH:
@@ -670,7 +670,7 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
                 case OPT_SHARPEN:
                 case OPT_SHADING_ANALYSIS:
                 case OPT_FAST_INFRARED:
-                    if (info) {
+                    if(info) {
                         *info |= Sane.INFO_RELOAD_PARAMS
                     }
                   /* fall through */
@@ -705,20 +705,20 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
 
                 /* side-effect-free word-array options: */
                 case OPT_CROP_IMAGE:
-                    memcpy (scanner.val[option].wa, val, scanner.opt[option].size)
+                    memcpy(scanner.val[option].wa, val, scanner.opt[option].size)
                     break
 
                 /* options with side-effects: */
                 case OPT_MODE:
                 {
                     /* Free current setting */
-                    if (scanner.val[option].s) {
-                        free (scanner.val[option].s)
+                    if(scanner.val[option].s) {
+                        free(scanner.val[option].s)
                     }
                     /* New setting */
-                    scanner.val[option].s = (Sane.Char *) strdup (val)
+                    scanner.val[option].s = (Sane.Char *) strdup(val)
                     /* Info */
-                    if (info) {
+                    if(info) {
                         *info |= Sane.INFO_RELOAD_OPTIONS | Sane.INFO_RELOAD_PARAMS
                     }
                     break
@@ -729,18 +729,18 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
                 case OPT_HALFTONE_PATTERN:
                 {
                      /* Free current setting */
-                    if (scanner.val[option].s) {
-                        free (scanner.val[option].s)
+                    if(scanner.val[option].s) {
+                        free(scanner.val[option].s)
                     }
                     /* New setting */
-                    scanner.val[option].s = (Sane.Char *) strdup (val)
+                    scanner.val[option].s = (Sane.Char *) strdup(val)
                     break
                 }
 
             }
 
             /* Check the whole set */
-            if (sanei_pieusb_analyse_options(scanner)) {
+            if(sanei_pieusb_analyse_options(scanner)) {
                 return Sane.STATUS_GOOD
             } else {
                 return Sane.STATUS_INVAL
@@ -756,7 +756,7 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
 
 /**
  * Obtain the current scan parameters. The returned parameters are guaranteed
- * to be accurate between the time a scan has been started (sane start() has
+ * to be accurate between the time a scan has been started(sane start() has
  * been called) and the completion of that request. Outside of that window, the
  * returned values are best-effort estimates of what the parameters will be when
  * sane start() gets invoked. - says the SANE standard.
@@ -766,20 +766,20 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
  * @return Sane.STATUS_GOOD
  */
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
     Pieusb_Scanner *scanner = handle
     const char *mode
     double resolution, width, height
     Int colors
 
-    DBG (DBG_info_sane, "Sane.get_parameters\n")
+    DBG(DBG_info_sane, "Sane.get_parameters\n")
 
-    if (params) {
+    if(params) {
 
-        if (scanner.scanning) {
+        if(scanner.scanning) {
             /* Sane.start() initialized a Sane.Parameters struct in the scanner */
-            DBG (DBG_info_sane, "Sane.get_parameters from scanner values\n")
+            DBG(DBG_info_sane, "Sane.get_parameters from scanner values\n")
             params.bytes_per_line = scanner.scan_parameters.bytes_per_line
             params.depth = scanner.scan_parameters.depth
             params.format = scanner.scan_parameters.format
@@ -788,20 +788,20 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
             params.pixels_per_line = scanner.scan_parameters.pixels_per_line
         } else {
             /* Calculate appropriate values from option settings */
-            DBG (DBG_info_sane, "Sane.get_parameters from option values\n")
-            if (scanner.val[OPT_PREVIEW].b) {
+            DBG(DBG_info_sane, "Sane.get_parameters from option values\n")
+            if(scanner.val[OPT_PREVIEW].b) {
                 resolution = scanner.device.fast_preview_resolution
             } else {
                 resolution = Sane.UNFIX(scanner.val[OPT_RESOLUTION].w)
             }
-            DBG (DBG_info_sane, "  resolution %f\n", resolution)
+            DBG(DBG_info_sane, "  resolution %f\n", resolution)
             width = Sane.UNFIX(scanner.val[OPT_BR_X].w)-Sane.UNFIX(scanner.val[OPT_TL_X].w)
             height = Sane.UNFIX(scanner.val[OPT_BR_Y].w)-Sane.UNFIX(scanner.val[OPT_TL_Y].w)
-            DBG (DBG_info_sane, "  width x height: %f x %f\n", width, height)
+            DBG(DBG_info_sane, "  width x height: %f x %f\n", width, height)
             params.lines = height / MM_PER_INCH * resolution
             params.pixels_per_line = width / MM_PER_INCH * resolution
             mode = scanner.val[OPT_MODE].s
-            if (strcmp(mode, Sane.VALUE_SCAN_MODE_LINEART) == 0) {
+            if(strcmp(mode, Sane.VALUE_SCAN_MODE_LINEART) == 0) {
                 params.format = Sane.FRAME_GRAY
                 params.depth = 1
                 colors = 1
@@ -822,12 +822,12 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
                 params.depth = scanner.val[OPT_BIT_DEPTH].w
                 colors = 3
             }
-            DBG (DBG_info_sane, "  colors: %d\n", colors)
-            if (params.depth == 1) {
+            DBG(DBG_info_sane, "  colors: %d\n", colors)
+            if(params.depth == 1) {
                 params.bytes_per_line = colors * (params.pixels_per_line + 7)/8
-            } else if (params.depth <= 8) {
+            } else if(params.depth <= 8) {
                 params.bytes_per_line = colors * params.pixels_per_line
-            } else if (params.depth <= 16) {
+            } else if(params.depth <= 16) {
                 params.bytes_per_line = 2 * colors * params.pixels_per_line
             }
             params.last_frame = Sane.TRUE
@@ -861,7 +861,7 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
  * @return
  */
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
     struct Pieusb_Scanner *scanner = handle
     struct Pieusb_Command_Status status
@@ -887,15 +887,15 @@ Sane.start (Sane.Handle handle)
       { { 0x02, 100 }, { 0x04, 100 }, { 0x08, 100 } }
     ]
 
-    DBG (DBG_info_sane, "Sane.start()\n")
+    DBG(DBG_info_sane, "Sane.start()\n")
 
     /* ----------------------------------------------------------------------
      *
      * Exit if currently scanning
      *
      * ---------------------------------------------------------------------- */
-    if (scanner.scanning) {
-        DBG (DBG_error, "Sane.start(): scanner is already scanning, exiting\n")
+    if(scanner.scanning) {
+        DBG(DBG_error, "Sane.start(): scanner is already scanning, exiting\n")
         return Sane.STATUS_DEVICE_BUSY
     }
 
@@ -905,17 +905,17 @@ Sane.start (Sane.Handle handle)
      *
      * ---------------------------------------------------------------------- */
 
-    sanei_pieusb_cmd_read_state (scanner.device_number, &(scanner.state), &status)
-    if (status.pieusb_status != PIEUSB_STATUS_GOOD) {
-        if (status.pieusb_status == PIEUSB_STATUS_DEVICE_BUSY)
+    sanei_pieusb_cmd_read_state(scanner.device_number, &(scanner.state), &status)
+    if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
+        if(status.pieusb_status == PIEUSB_STATUS_DEVICE_BUSY)
 	  return Sane.STATUS_DEVICE_BUSY; /* was: Sane.STATUS_WARMING_UP */
-        DBG (DBG_error, "Sane.start(): warmed up check returns status: %s\n",  Sane.strstatus (sanei_pieusb_convert_status(status.pieusb_status)))
+        DBG(DBG_error, "Sane.start(): warmed up check returns status: %s\n",  Sane.strstatus(sanei_pieusb_convert_status(status.pieusb_status)))
         return Sane.STATUS_IO_ERROR
     }
-    if (scanner.state.warmingUp) {
-        DBG (DBG_error, "Sane.start(): warming up, exiting\n")
+    if(scanner.state.warmingUp) {
+        DBG(DBG_error, "Sane.start(): warming up, exiting\n")
         /* Seen Sane.STATUS_WARMING_UP in scanimage => enabled */
-        sleep (10); /* scanimage does not pause, so do it here */
+        sleep(10); /* scanimage does not pause, so do it here */
         return Sane.STATUS_DEVICE_BUSY; /* was: Sane.STATUS_WARMING_UP */
     }
 
@@ -923,9 +923,9 @@ Sane.start (Sane.Handle handle)
      * set exposure time
      * ---------------------------------------------------------------------- */
 
-    sanei_pieusb_cmd_set_exposure_time (scanner.device_number, &exptime, &status)
-    if (status.pieusb_status != PIEUSB_STATUS_GOOD) {
-      DBG (DBG_error, "Sane.start(): sanei_pieusb_cmd_set_exposure_time failed: %d\n", status.pieusb_status)
+    sanei_pieusb_cmd_set_exposure_time(scanner.device_number, &exptime, &status)
+    if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
+      DBG(DBG_error, "Sane.start(): sanei_pieusb_cmd_set_exposure_time failed: %d\n", status.pieusb_status)
       return Sane.STATUS_IO_ERROR
     }
 
@@ -933,9 +933,9 @@ Sane.start (Sane.Handle handle)
      * set highlight shadow
      * ---------------------------------------------------------------------- */
 
-    sanei_pieusb_cmd_set_highlight_shadow (scanner.device_number, &shadow, &status)
-    if (status.pieusb_status != PIEUSB_STATUS_GOOD) {
-      DBG (DBG_error, "Sane.start(): sanei_pieusb_cmd_set_highlight_shadow failed: %d\n", status.pieusb_status)
+    sanei_pieusb_cmd_set_highlight_shadow(scanner.device_number, &shadow, &status)
+    if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
+      DBG(DBG_error, "Sane.start(): sanei_pieusb_cmd_set_highlight_shadow failed: %d\n", status.pieusb_status)
       return Sane.STATUS_IO_ERROR
     }
 
@@ -943,23 +943,23 @@ Sane.start (Sane.Handle handle)
      * get calibration info
      * ---------------------------------------------------------------------- */
 
-    sanei_pieusb_cmd_get_shading_parms (scanner.device_number, scanner.device.shading_parameters, &status)
-    if (status.pieusb_status != PIEUSB_STATUS_GOOD) {
-      DBG (DBG_error, "Sane.scan: sanei_pieusb_cmd_get_shading_parms failed: %d\n", status.pieusb_status)
+    sanei_pieusb_cmd_get_shading_parms(scanner.device_number, scanner.device.shading_parameters, &status)
+    if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
+      DBG(DBG_error, "Sane.scan: sanei_pieusb_cmd_get_shading_parms failed: %d\n", status.pieusb_status)
       return Sane.STATUS_INVAL
     }
     shading_width = scanner.device.shading_parameters[0].pixelsPerLine
-    DBG (DBG_info, "shading_width %d\n", shading_width)
-    for (shading_idx = 0; shading_idx < SHADING_PARAMETERS_INFO_COUNT; shading_idx++) {
+    DBG(DBG_info, "shading_width %d\n", shading_width)
+    for(shading_idx = 0; shading_idx < SHADING_PARAMETERS_INFO_COUNT; shading_idx++) {
       scanner.shading_ref[shading_idx] =
         realloc(scanner.shading_ref[shading_idx], 2 * shading_width * sizeof(Int))
-      if (scanner.shading_ref[shading_idx] == NULL) {
+      if(scanner.shading_ref[shading_idx] == NULL) {
         return Sane.STATUS_NO_MEM
       }
     }
-    scanner.ccd_mask = realloc (scanner.ccd_mask, shading_width)
+    scanner.ccd_mask = realloc(scanner.ccd_mask, shading_width)
     scanner.ccd_mask_size = shading_width
-    if (scanner.ccd_mask == NULL) {
+    if(scanner.ccd_mask == NULL) {
       return Sane.STATUS_NO_MEM
     }
 
@@ -987,8 +987,8 @@ Sane.start (Sane.Handle handle)
      * Show and check options
      *
      * ---------------------------------------------------------------------- */
-    sanei_pieusb_print_options (scanner)
-    if (!sanei_pieusb_analyse_options (scanner)) {
+    sanei_pieusb_print_options(scanner)
+    if(!sanei_pieusb_analyse_options(scanner)) {
         return Sane.STATUS_IO_ERROR
     }
 
@@ -997,7 +997,7 @@ Sane.start (Sane.Handle handle)
      * Set scan frame
      *
      * ---------------------------------------------------------------------- */
-    if (sanei_pieusb_set_frame_from_options (scanner) != Sane.STATUS_GOOD) {
+    if(sanei_pieusb_set_frame_from_options(scanner) != Sane.STATUS_GOOD) {
         return Sane.STATUS_IO_ERROR
     }
 
@@ -1007,15 +1007,15 @@ Sane.start (Sane.Handle handle)
      *
      * ---------------------------------------------------------------------- */
 
-    if (scanner.device.flags & FLAG_SLIDE_TRANSPORT) {
+    if(scanner.device.flags & FLAG_SLIDE_TRANSPORT) {
         sanei_pieusb_cmd_17 (scanner.device_number, 1, &status)
-        if (status.pieusb_status != PIEUSB_STATUS_GOOD) {
-          DBG (DBG_error, "Sane.start(): sanei_pieusb_cmd_17 failed: %d\n", status.pieusb_status)
+        if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
+          DBG(DBG_error, "Sane.start(): sanei_pieusb_cmd_17 failed: %d\n", status.pieusb_status)
           return Sane.STATUS_IO_ERROR
         }
-        st = sanei_pieusb_wait_ready (scanner, 0)
-        if (st != Sane.STATUS_GOOD) {
-          DBG (DBG_error, "Sane.start(): scanner not ready after sanei_pieusb_cmd_17: %d\n", st)
+        st = sanei_pieusb_wait_ready(scanner, 0)
+        if(st != Sane.STATUS_GOOD) {
+          DBG(DBG_error, "Sane.start(): scanner not ready after sanei_pieusb_cmd_17: %d\n", st)
           return st
         }
     }
@@ -1026,19 +1026,19 @@ Sane.start (Sane.Handle handle)
      * There does not seem to be much reason to set exposure/gain/offset
      * now, but it does make a large difference in speed, because it
      * creates a small BADF-table. This is probably because without SET GAIN
-     * OFFSET, extraEntries has a random value (it is not initialised).
+     * OFFSET, extraEntries has a random value(it is not initialised).
      *
      * TODO: test if this may be done just once, in Sane.open().
      *
      * ---------------------------------------------------------------------- */
 
-    if (sanei_pieusb_set_gain_offset (scanner, scanner.val[OPT_CALIBRATION_MODE].s) != Sane.STATUS_GOOD) {
+    if(sanei_pieusb_set_gain_offset(scanner, scanner.val[OPT_CALIBRATION_MODE].s) != Sane.STATUS_GOOD) {
         return Sane.STATUS_IO_ERROR
     }
 
-    st = sanei_pieusb_wait_ready (scanner, 0)
-    if (st != Sane.STATUS_GOOD) {
-      DBG (DBG_error, "Sane.start: scanner not ready %d\n", st)
+    st = sanei_pieusb_wait_ready(scanner, 0)
+    if(st != Sane.STATUS_GOOD) {
+      DBG(DBG_error, "Sane.start: scanner not ready %d\n", st)
       return st
     }
 
@@ -1047,7 +1047,7 @@ Sane.start (Sane.Handle handle)
      * Set mode
      *
      * ---------------------------------------------------------------------- */
-    if (sanei_pieusb_set_mode_from_options (scanner) != Sane.STATUS_GOOD) {
+    if(sanei_pieusb_set_mode_from_options(scanner) != Sane.STATUS_GOOD) {
         return Sane.STATUS_IO_ERROR
     }
 
@@ -1056,20 +1056,20 @@ Sane.start (Sane.Handle handle)
      * Init slide transport
      *
      * ---------------------------------------------------------------------- */
-    if (scanner.device.flags & FLAG_SLIDE_TRANSPORT) {
-        sanei_pieusb_cmd_slide (scanner.device_number, SLIDE_INIT, &status)
-        if (status.pieusb_status != PIEUSB_STATUS_GOOD) {
-          DBG (DBG_error, "Sane.start(): sanei_pieusb_cmd_slide failed: %d\n", status.pieusb_status)
+    if(scanner.device.flags & FLAG_SLIDE_TRANSPORT) {
+        sanei_pieusb_cmd_slide(scanner.device_number, SLIDE_INIT, &status)
+        if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
+          DBG(DBG_error, "Sane.start(): sanei_pieusb_cmd_slide failed: %d\n", status.pieusb_status)
           return Sane.STATUS_IO_ERROR
         }
-        st = sanei_pieusb_wait_ready (scanner, 0)
-        if (st != Sane.STATUS_GOOD) {
-          DBG (DBG_error, "Sane.start: scanner not ready %d\n", st)
+        st = sanei_pieusb_wait_ready(scanner, 0)
+        if(st != Sane.STATUS_GOOD) {
+          DBG(DBG_error, "Sane.start: scanner not ready %d\n", st)
           return st
         }
     }
     /* Enter SCAN phase 1 */
-    DBG (DBG_info_sane, "Sane.start(): scan phase 1\n")
+    DBG(DBG_info_sane, "Sane.start(): scan phase 1\n")
 
     /* ----------------------------------------------------------------------
      *
@@ -1078,18 +1078,18 @@ Sane.start (Sane.Handle handle)
      * ---------------------------------------------------------------------- */
     scanner.scanning = Sane.TRUE
     scanner.cancel_request = Sane.FALSE
-    for (;;) {
-      sanei_pieusb_cmd_start_scan (scanner.device_number, &status)
-      if (status.pieusb_status != PIEUSB_STATUS_WARMING_UP)
+    for(;;) {
+      sanei_pieusb_cmd_start_scan(scanner.device_number, &status)
+      if(status.pieusb_status != PIEUSB_STATUS_WARMING_UP)
 	break
       sleep(5)
     }
-    sanei_pieusb_wait_ready (scanner, 0)
-    if ((status.pieusb_status == PIEUSB_STATUS_MUST_CALIBRATE)
+    sanei_pieusb_wait_ready(scanner, 0)
+    if((status.pieusb_status == PIEUSB_STATUS_MUST_CALIBRATE)
         || (scanner.val[OPT_SHADING_ANALYSIS].b != 0)) {
 
         /* Overriding skip calibration */
-        DBG (DBG_info_sane, "Sane.start(): process shading data\n")
+        DBG(DBG_info_sane, "Sane.start(): process shading data\n")
 
         /* ------------------------------------------------------------------
          *
@@ -1098,8 +1098,8 @@ Sane.start (Sane.Handle handle)
          * or use defaults.
          *
          * ------------------------------------------------------------------ */
-        if (sanei_pieusb_set_gain_offset (scanner, scanner.val[OPT_CALIBRATION_MODE].s) != Sane.STATUS_GOOD) {
-            sanei_pieusb_cmd_stop_scan (scanner.device_number, &status)
+        if(sanei_pieusb_set_gain_offset(scanner, scanner.val[OPT_CALIBRATION_MODE].s) != Sane.STATUS_GOOD) {
+            sanei_pieusb_cmd_stop_scan(scanner.device_number, &status)
             scanner.scanning = Sane.FALSE
             return Sane.STATUS_IO_ERROR
         }
@@ -1110,31 +1110,31 @@ Sane.start (Sane.Handle handle)
          * it's 45 lines, scanner.ccd_mask_size pixels, 16 bit depth in all cases.
          *
          * ------------------------------------------------------------------ */
-        if (sanei_pieusb_get_shading_data (scanner) != Sane.STATUS_GOOD) {
-            sanei_pieusb_cmd_stop_scan (scanner.device_number, &status)
+        if(sanei_pieusb_get_shading_data(scanner) != Sane.STATUS_GOOD) {
+            sanei_pieusb_cmd_stop_scan(scanner.device_number, &status)
             scanner.scanning = Sane.FALSE
             return Sane.STATUS_IO_ERROR
         }
     }
 
     /* Enter SCAN phase 2 */
-    DBG (DBG_info_sane, "Sane.start(): scan phase 2\n")
+    DBG(DBG_info_sane, "Sane.start(): scan phase 2\n")
 
     /* SCAN phase 2 (line-by-line scan) not implemented */
 
-    st = sanei_pieusb_wait_ready (scanner, 0)
-    if (st != Sane.STATUS_GOOD) {
-      DBG (DBG_error, "Sane.start: scanner not ready %d\n", st)
+    st = sanei_pieusb_wait_ready(scanner, 0)
+    if(st != Sane.STATUS_GOOD) {
+      DBG(DBG_error, "Sane.start: scanner not ready %d\n", st)
       return st
     }
 
     /* Enter SCAN phase 3 */
 
-    DBG (DBG_info_sane, "Sane.start(): scan phase 3\n")
+    DBG(DBG_info_sane, "Sane.start(): scan phase 3\n")
 
     /* Handle cancel request */
-    if (scanner.cancel_request) {
-        return sanei_pieusb_on_cancel (scanner)
+    if(scanner.cancel_request) {
+        return sanei_pieusb_on_cancel(scanner)
     }
 
     /* ----------------------------------------------------------------------
@@ -1143,8 +1143,8 @@ Sane.start (Sane.Handle handle)
      *
      * ---------------------------------------------------------------------- */
 
-    if (sanei_pieusb_get_ccd_mask (scanner) != Sane.STATUS_GOOD) {
-        sanei_pieusb_cmd_stop_scan (scanner.device_number, &status)
+    if(sanei_pieusb_get_ccd_mask(scanner) != Sane.STATUS_GOOD) {
+        sanei_pieusb_cmd_stop_scan(scanner.device_number, &status)
         scanner.scanning = Sane.FALSE
         return Sane.STATUS_IO_ERROR
     }
@@ -1156,15 +1156,15 @@ Sane.start (Sane.Handle handle)
      * Read scan parameters & wait until ready for reading
      *
      * ---------------------------------------------------------------------- */
-    if (sanei_pieusb_get_parameters (scanner, &bytes_per_line) != Sane.STATUS_GOOD) {
-        sanei_pieusb_cmd_stop_scan (scanner.device_number, &status)
+    if(sanei_pieusb_get_parameters(scanner, &bytes_per_line) != Sane.STATUS_GOOD) {
+        sanei_pieusb_cmd_stop_scan(scanner.device_number, &status)
         scanner.scanning = Sane.FALSE
         return Sane.STATUS_IO_ERROR
     }
 
-    st = sanei_pieusb_wait_ready (scanner, 0)
-    if (st != Sane.STATUS_GOOD) {
-      DBG (DBG_error, "Sane.start: scanner not ready %d\n", st)
+    st = sanei_pieusb_wait_ready(scanner, 0)
+    if(st != Sane.STATUS_GOOD) {
+      DBG(DBG_error, "Sane.start: scanner not ready %d\n", st)
       return st
     }
 
@@ -1172,11 +1172,11 @@ Sane.start (Sane.Handle handle)
      *
      * Prepare read buffer
      * Currently this buffer is always a memory mapped buffer
-     * Might be faster to use RAM buffers for small images (such as preview)
+     * Might be faster to use RAM buffers for small images(such as preview)
      *
      * ---------------------------------------------------------------------- */
     colors = 0x00
-    switch (scanner.mode.passes) {
+    switch(scanner.mode.passes) {
         case SCAN_FILTER_RED: colors = 0x01; break
         case SCAN_FILTER_GREEN: colors = 0x02; break
         case SCAN_FILTER_BLUE: colors = 0x04; break
@@ -1184,11 +1184,11 @@ Sane.start (Sane.Handle handle)
         case SCAN_ONE_PASS_COLOR: colors = 0x07; break
         case SCAN_ONE_PASS_RGBI: colors = 0x0F; break
     }
-    if (scanner.buffer.data) sanei_pieusb_buffer_delete(&scanner.buffer); /* free resources from previous invocation */
-    st = sanei_pieusb_buffer_create (&(scanner.buffer), scanner.scan_parameters.pixels_per_line,
+    if(scanner.buffer.data) sanei_pieusb_buffer_delete(&scanner.buffer); /* free resources from previous invocation */
+    st = sanei_pieusb_buffer_create(&(scanner.buffer), scanner.scan_parameters.pixels_per_line,
 			       scanner.scan_parameters.lines, colors,
 			       scanner.scan_parameters.depth)
-    if (st != Sane.STATUS_GOOD) {
+    if(st != Sane.STATUS_GOOD) {
         scanner.scanning = Sane.FALSE
         return st
     }
@@ -1198,29 +1198,29 @@ Sane.start (Sane.Handle handle)
      * Read all image data into the buffer
      *
      * ---------------------------------------------------------------------- */
-    if (sanei_pieusb_get_scan_data (scanner, bytes_per_line) != Sane.STATUS_GOOD) {
+    if(sanei_pieusb_get_scan_data(scanner, bytes_per_line) != Sane.STATUS_GOOD) {
         scanner.scanning = Sane.FALSE
         return Sane.STATUS_IO_ERROR
     }
     sleep(2)
-    st = sanei_pieusb_wait_ready (scanner, 0)
-    if (st != Sane.STATUS_GOOD) {
-      DBG (DBG_error, "Sane.start(): scanner not ready after sanei_pieusb_get_scan_data: %d\n", st)
+    st = sanei_pieusb_wait_ready(scanner, 0)
+    if(st != Sane.STATUS_GOOD) {
+      DBG(DBG_error, "Sane.start(): scanner not ready after sanei_pieusb_get_scan_data: %d\n", st)
       scanner.scanning = Sane.FALSE
       return st
     }
 
     /* ----------------------------------------------------------------------
      *
-     * Advance to next slide (except for preview)
+     * Advance to next slide(except for preview)
      *
      * ---------------------------------------------------------------------- */
 
-    if (scanner.device.flags & FLAG_SLIDE_TRANSPORT) {
-        if (scanner.val[OPT_ADVANCE_SLIDE].b && !scanner.val[OPT_PREVIEW].b) {
-            sanei_pieusb_cmd_slide (scanner.device_number, SLIDE_NEXT, &status)
-            if (status.pieusb_status != PIEUSB_STATUS_GOOD) {
-                DBG (DBG_error, "Sane.start(): sanei_pieusb_cmd_slide failed: %d\n", status.pieusb_status)
+    if(scanner.device.flags & FLAG_SLIDE_TRANSPORT) {
+        if(scanner.val[OPT_ADVANCE_SLIDE].b && !scanner.val[OPT_PREVIEW].b) {
+            sanei_pieusb_cmd_slide(scanner.device_number, SLIDE_NEXT, &status)
+            if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
+                DBG(DBG_error, "Sane.start(): sanei_pieusb_cmd_slide failed: %d\n", status.pieusb_status)
             }
         }
     }
@@ -1235,37 +1235,37 @@ Sane.start (Sane.Handle handle)
      * ---------------------------------------------------------------------- */
 
     mode = scanner.val[OPT_MODE].s
-    if (strcmp(mode, Sane.VALUE_SCAN_MODE_LINEART) == 0) {
+    if(strcmp(mode, Sane.VALUE_SCAN_MODE_LINEART) == 0) {
         shading_correction_relevant = Sane.FALSE; /* Shading correction irrelavant at bit depth 1 */
         infrared_post_processing_relevant = Sane.FALSE; /* No infrared, no postprocessing */
-    } else if (strcmp(mode, Sane.VALUE_SCAN_MODE_HALFTONE) == 0) {
+    } else if(strcmp(mode, Sane.VALUE_SCAN_MODE_HALFTONE) == 0) {
         shading_correction_relevant = Sane.FALSE; /* Shading correction irrelavant at bit depth 1 */
         infrared_post_processing_relevant = Sane.FALSE; /* No infrared, no postprocessing */
-    } else if (strcmp(mode, Sane.VALUE_SCAN_MODE_GRAY) == 0) {
+    } else if(strcmp(mode, Sane.VALUE_SCAN_MODE_GRAY) == 0) {
         shading_correction_relevant = Sane.TRUE
         infrared_post_processing_relevant = Sane.FALSE; /* No infrared, no postprocessing */
-    } else if (scanner.val[OPT_PREVIEW].b) {
+    } else if(scanner.val[OPT_PREVIEW].b) {
         /* Catch preview here, otherwise next ifs get complicated */
         shading_correction_relevant = Sane.TRUE
         infrared_post_processing_relevant = Sane.FALSE
-    } else if (strcmp(mode, Sane.VALUE_SCAN_MODE_RGBI) == 0) {
+    } else if(strcmp(mode, Sane.VALUE_SCAN_MODE_RGBI) == 0) {
         shading_correction_relevant = Sane.TRUE
         infrared_post_processing_relevant = Sane.TRUE
-    } else if (strcmp(mode, Sane.VALUE_SCAN_MODE_COLOR) == 0 && scanner.val[OPT_CLEAN_IMAGE].b) {
+    } else if(strcmp(mode, Sane.VALUE_SCAN_MODE_COLOR) == 0 && scanner.val[OPT_CLEAN_IMAGE].b) {
         shading_correction_relevant = Sane.TRUE
         infrared_post_processing_relevant = Sane.TRUE
     } else { /* Sane.VALUE_SCAN_MODE_COLOR */
         shading_correction_relevant = Sane.TRUE
         infrared_post_processing_relevant = Sane.TRUE
     }
-    if (scanner.val[OPT_CORRECT_SHADING].b && shading_correction_relevant) {
-        if (scanner.shading_data_present) {
-            sanei_pieusb_correct_shading (scanner, &scanner.buffer)
+    if(scanner.val[OPT_CORRECT_SHADING].b && shading_correction_relevant) {
+        if(scanner.shading_data_present) {
+            sanei_pieusb_correct_shading(scanner, &scanner.buffer)
         } else {
             DBG(DBG_warning, "Sane.start(): unable to correct for shading, no shading data available\n")
         }
     }
-    if ((scanner.val[OPT_CORRECT_INFRARED].b || scanner.val[OPT_CLEAN_IMAGE].b) && !scanner.val[OPT_PREVIEW].b && infrared_post_processing_relevant) {
+    if((scanner.val[OPT_CORRECT_INFRARED].b || scanner.val[OPT_CLEAN_IMAGE].b) && !scanner.val[OPT_PREVIEW].b && infrared_post_processing_relevant) {
         /* Create array of pointers to color planes R, G, B, I */
         Sane.Uint *planes[PLANES]
         Int N
@@ -1274,19 +1274,19 @@ Sane.start (Sane.Handle handle)
         planes[1] = scanner.buffer.data + N
         planes[2] = scanner.buffer.data + 2 * N
         planes[3] = scanner.buffer.data + 3 * N
-        sanei_ir_init ()
-        sanei_pieusb_post (scanner, planes, scanner.buffer.colors)
+        sanei_ir_init()
+        sanei_pieusb_post(scanner, planes, scanner.buffer.colors)
     }
 
     /* Save preview data. Preview data only used once to set gain and offset. */
-    if (scanner.val[OPT_PREVIEW].b) {
+    if(scanner.val[OPT_PREVIEW].b) {
         sanei_pieusb_analyze_preview(scanner)
     } else {
         scanner.preview_done = Sane.FALSE
     }
 
     /* Modify buffer in case the buffer has infrared, but no infrared should be returned */
-    if (scanner.buffer.colors == PLANES && (strcmp(mode,Sane.VALUE_SCAN_MODE_COLOR) == 0 && scanner.val[OPT_CLEAN_IMAGE].b)) {
+    if(scanner.buffer.colors == PLANES && (strcmp(mode,Sane.VALUE_SCAN_MODE_COLOR) == 0 && scanner.val[OPT_CLEAN_IMAGE].b)) {
         DBG(DBG_info_sane, "Sane.start(): modifying buffer to ignore I\n")
         /* Base buffer parameters */
         scanner.buffer.colors = 3
@@ -1311,7 +1311,7 @@ Sane.start (Sane.Handle handle)
  * @return
  */
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
+Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
 {
 
     struct Pieusb_Scanner *scanner = handle
@@ -1320,13 +1320,13 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
     DBG(DBG_info_sane, "Sane.read(): requested %d bytes\n", max_len)
 
     /* No reading if not scanning */
-    if (!scanner.scanning) {
+    if(!scanner.scanning) {
         *len = 0
         return Sane.STATUS_IO_ERROR; /* SANE standard does not allow a Sane.STATUS_INVAL return */
     }
 
     /* Handle cancel request */
-    if (scanner.cancel_request) {
+    if(scanner.cancel_request) {
         return sanei_pieusb_on_cancel(scanner)
     }
 #if 0
@@ -1337,24 +1337,24 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
     DBG(DBG_info_sane, "  read       %d\n", scanner.buffer.bytes_read)
     DBG(DBG_info_sane, "  max_len    %d\n", max_len)
 #endif
-    if (scanner.buffer.bytes_read > scanner.buffer.image_size_bytes) {
+    if(scanner.buffer.bytes_read > scanner.buffer.image_size_bytes) {
         /* Test if not reading past buffer boundaries */
-        DBG(DBG_error, "Sane.read(): reading past buffer boundaries (contains %d, read %d)\n", scanner.buffer.image_size_bytes, scanner.buffer.bytes_read)
+        DBG(DBG_error, "Sane.read(): reading past buffer boundaries(contains %d, read %d)\n", scanner.buffer.image_size_bytes, scanner.buffer.bytes_read)
         *len = 0
         sanei_pieusb_on_cancel(scanner)
         return Sane.STATUS_EOF
-    } else if (scanner.buffer.bytes_read == scanner.buffer.image_size_bytes) {
+    } else if(scanner.buffer.bytes_read == scanner.buffer.image_size_bytes) {
         /* Return EOF since all data of this frame has already been read. */
         *len = 0
         scanner.scanning = Sane.FALSE
         return Sane.STATUS_EOF
-    } else if (scanner.buffer.bytes_unread >= max_len) {
+    } else if(scanner.buffer.bytes_unread >= max_len) {
         /* Already enough data to return, do not read */
-        DBG(DBG_info_sane, "Sane.read(): buffer suffices (contains %d, requested %d)\n", scanner.buffer.bytes_unread, max_len)
+        DBG(DBG_info_sane, "Sane.read(): buffer suffices(contains %d, requested %d)\n", scanner.buffer.bytes_unread, max_len)
         return_size = max_len
-    } else if (scanner.buffer.bytes_read + scanner.buffer.bytes_unread == scanner.buffer.image_size_bytes) {
+    } else if(scanner.buffer.bytes_read + scanner.buffer.bytes_unread == scanner.buffer.image_size_bytes) {
         /* All the remaining data is in the buffer, do not read */
-        DBG(DBG_info_sane, "Sane.read(): buffer suffices (contains %d, requested %d, last batch though)\n", scanner.buffer.bytes_unread, max_len)
+        DBG(DBG_info_sane, "Sane.read(): buffer suffices(contains %d, requested %d, last batch though)\n", scanner.buffer.bytes_unread, max_len)
         return_size = scanner.buffer.bytes_unread
     } else {
         /* Should not happen in this implementation - all data read by Sane.start() */
@@ -1363,7 +1363,7 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
     }
 
     /* Check */
-    if (return_size == 0 && scanner.buffer.bytes_read < scanner.buffer.image_size_bytes) {
+    if(return_size == 0 && scanner.buffer.bytes_read < scanner.buffer.image_size_bytes) {
         DBG(DBG_error, "Sane.read(): unable to service read request, %d bytes in frame, %d read\n", scanner.buffer.image_size_bytes, scanner.buffer.bytes_read)
     }
 
@@ -1373,7 +1373,7 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
     DBG(DBG_info_sane, "Sane.read(): currently read %.2f lines of %d\n",
       (double)scanner.buffer.bytes_written/(scanner.buffer.line_size_bytes*scanner.buffer.colors),
       scanner.buffer.height)
-    DBG(DBG_info_sane, "Sane.read(): returning %d bytes (requested %d), returned %d of %d \n",
+    DBG(DBG_info_sane, "Sane.read(): returning %d bytes(requested %d), returned %d of %d \n",
       *len, max_len,scanner.buffer.bytes_read, scanner.buffer.image_size_bytes)
 #endif
     return Sane.STATUS_GOOD
@@ -1386,13 +1386,13 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
  * @param handle Scanner handle
  */
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
     struct Pieusb_Scanner *scanner = handle
 
-    DBG (DBG_info_sane, "Sane.cancel\n")
+    DBG(DBG_info_sane, "Sane.cancel\n")
 
-    if (scanner.scanning) {
+    if(scanner.scanning) {
         scanner.cancel_request = 1
     }
 }
@@ -1406,13 +1406,13 @@ Sane.cancel (Sane.Handle handle)
  * @return Sane.STATUS_UNSUPPORTED
  */
 Sane.Status
-Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 {
     /* Pieusb_Scanner *scanner = handle; */
 
-    DBG (DBG_info_sane, "Sane.set_io_mode: handle = %p, non_blocking = %s\n", handle, non_blocking == Sane.TRUE ? "true" : "false")
+    DBG(DBG_info_sane, "Sane.set_io_mode: handle = %p, non_blocking = %s\n", handle, non_blocking == Sane.TRUE ? "true" : "false")
 
-    if (non_blocking) {
+    if(non_blocking) {
 	return Sane.STATUS_UNSUPPORTED
     }
 
@@ -1430,9 +1430,9 @@ Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
  * @return Sane.STATUS_INVAL
  */
 Sane.Status
-Sane.get_select_fd (Sane.Handle handle, Int * fd)
+Sane.get_select_fd(Sane.Handle handle, Int * fd)
 {
-    DBG(DBG_info_sane,"Sane.get_select_fd(): not supported (only for non-blocking IO)\n")
+    DBG(DBG_info_sane,"Sane.get_select_fd(): not supported(only for non-blocking IO)\n")
     handle = handle
     fd = fd
     return Sane.STATUS_UNSUPPORTED

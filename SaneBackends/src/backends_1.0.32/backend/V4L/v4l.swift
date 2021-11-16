@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1999 Juergen G. Schimmer
-   Updates and bugfixes (C) 2002 - 2004 Henning Meier-Geinitz
+   Copyright(C) 1999 Juergen G. Schimmer
+   Updates and bugfixes(C) 2002 - 2004 Henning Meier-Geinitz
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -119,7 +119,7 @@ static Sane.Parameters parms = {
 ]
 
 static Sane.Status
-attach (const char *devname, V4L_Device ** devp)
+attach(const char *devname, V4L_Device ** devp)
 {
   V4L_Device *dev
   static Int v4lfd
@@ -127,57 +127,57 @@ attach (const char *devname, V4L_Device ** devp)
 
   errno = 0
 
-  for (dev = first_dev; dev; dev = dev.next)
-    if (strcmp (dev.sane.name, devname) == 0)
+  for(dev = first_dev; dev; dev = dev.next)
+    if(strcmp(dev.sane.name, devname) == 0)
       {
-	if (devp)
+	if(devp)
 	  *devp = dev
-	DBG (5, "attach: device %s is already known\n", devname)
+	DBG(5, "attach: device %s is already known\n", devname)
 	return Sane.STATUS_GOOD
       }
 
-  DBG (3, "attach: trying to open %s\n", devname)
-  v4lfd = v4l1_open (devname, O_RDWR)
-  if (v4lfd != -1)
+  DBG(3, "attach: trying to open %s\n", devname)
+  v4lfd = v4l1_open(devname, O_RDWR)
+  if(v4lfd != -1)
     {
-      if (v4l1_ioctl (v4lfd, VIDIOCGCAP, &capability) == -1)
+      if(v4l1_ioctl(v4lfd, VIDIOCGCAP, &capability) == -1)
 	{
-	  DBG (1,
-	       "attach: ioctl (%d, VIDIOCGCAP,..) failed on `%s': %s\n",
-	       v4lfd, devname, strerror (errno))
-	  v4l1_close (v4lfd)
+	  DBG(1,
+	       "attach: ioctl(%d, VIDIOCGCAP,..) failed on `%s': %s\n",
+	       v4lfd, devname, strerror(errno))
+	  v4l1_close(v4lfd)
 	  return Sane.STATUS_INVAL
 	}
-      if (!(VID_TYPE_CAPTURE & capability.type))
+      if(!(VID_TYPE_CAPTURE & capability.type))
 	{
-	  DBG (1, "attach: device %s can't capture to memory -- exiting\n",
+	  DBG(1, "attach: device %s can't capture to memory -- exiting\n",
 	       devname)
-	  v4l1_close (v4lfd)
+	  v4l1_close(v4lfd)
 	  return Sane.STATUS_UNSUPPORTED
 	}
-      DBG (2, "attach: found videodev `%s' on `%s'\n", capability.name,
+      DBG(2, "attach: found videodev `%s' on `%s'\n", capability.name,
 	   devname)
-      v4l1_close (v4lfd)
+      v4l1_close(v4lfd)
     }
   else
     {
-      DBG (1, "attach: failed to open device `%s': %s\n", devname,
-	   strerror (errno))
+      DBG(1, "attach: failed to open device `%s': %s\n", devname,
+	   strerror(errno))
       return Sane.STATUS_INVAL
     }
 
-  dev = malloc (sizeof (*dev))
-  if (!dev)
+  dev = malloc(sizeof(*dev))
+  if(!dev)
     return Sane.STATUS_NO_MEM
 
-  memset (dev, 0, sizeof (*dev))
+  memset(dev, 0, sizeof(*dev))
 
-  dev.sane.name = strdup (devname)
-  if (!dev.sane.name)
+  dev.sane.name = strdup(devname)
+  if(!dev.sane.name)
     return Sane.STATUS_NO_MEM
   dev.sane.vendor = "Noname"
-  dev.sane.model = strdup (capability.name)
-  if (!dev.sane.model)
+  dev.sane.model = strdup(capability.name)
+  if(!dev.sane.model)
     return Sane.STATUS_NO_MEM
   dev.sane.type = "virtual device"
 
@@ -185,13 +185,13 @@ attach (const char *devname, V4L_Device ** devp)
   dev.next = first_dev
   first_dev = dev
 
-  if (devp)
+  if(devp)
     *devp = dev
   return Sane.STATUS_GOOD
 }
 
 static void
-update_parameters (V4L_Scanner * s)
+update_parameters(V4L_Scanner * s)
 {
   /* ??? should be per-device */
   x_range.min = 0
@@ -204,7 +204,7 @@ update_parameters (V4L_Scanner * s)
 
   odd_x_range.min = s.capability.minwidth
   odd_x_range.max = s.capability.maxwidth
-  if (odd_x_range.max > 767)
+  if(odd_x_range.max > 767)
     {
       odd_x_range.max = 767
       x_range.max = 767 - s.capability.minwidth
@@ -213,7 +213,7 @@ update_parameters (V4L_Scanner * s)
 
   odd_y_range.min = s.capability.minheight
   odd_y_range.max = s.capability.maxheight
-  if (odd_y_range.max > 511)
+  if(odd_y_range.max > 511)
     {
       odd_y_range.max = 511
       y_range.max = 511 - s.capability.minheight
@@ -223,7 +223,7 @@ update_parameters (V4L_Scanner * s)
   parms.lines = s.window.height
   parms.pixels_per_line = s.window.width
 
-  switch (s.pict.palette)
+  switch(s.pict.palette)
     {
     case VIDEO_PALETTE_GREY:	/* Linear greyscale */
       {
@@ -249,16 +249,16 @@ update_parameters (V4L_Scanner * s)
 }
 
 static Sane.Status
-init_options (V4L_Scanner * s)
+init_options(V4L_Scanner * s)
 {
   var i: Int
 
-  memset (s.opt, 0, sizeof (s.opt))
-  memset (s.val, 0, sizeof (s.val))
+  memset(s.opt, 0, sizeof(s.opt))
+  memset(s.val, 0, sizeof(s.val))
 
-  for (i = 0; i < NUM_OPTIONS; ++i)
+  for(i = 0; i < NUM_OPTIONS; ++i)
     {
-      s.opt[i].size = sizeof (Sane.Word)
+      s.opt[i].size = sizeof(Sane.Word)
       s.opt[i].cap = (Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT)
     }
 
@@ -284,14 +284,14 @@ init_options (V4L_Scanner * s)
   s.opt[OPT_MODE].unit = Sane.UNIT_NONE
   s.opt[OPT_MODE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_MODE].constraint.string_list = mode_list
-  s.val[OPT_MODE].s = strdup (mode_list[0])
-  if (!s.val[OPT_MODE].s)
+  s.val[OPT_MODE].s = strdup(mode_list[0])
+  if(!s.val[OPT_MODE].s)
     return Sane.STATUS_NO_MEM
   s.opt[OPT_MODE].size = 1; /* '\0' */
-  for (i = 0; mode_list[i] != 0; ++i)
+  for(i = 0; mode_list[i] != 0; ++i)
     {
       Int len = strlen(mode_list[i]) + 1
-      if (s.opt[OPT_MODE].size < len)
+      if(s.opt[OPT_MODE].size < len)
         s.opt[OPT_MODE].size = len
     }
 
@@ -299,21 +299,21 @@ init_options (V4L_Scanner * s)
   s.opt[OPT_CHANNEL].name = "channel"
   s.opt[OPT_CHANNEL].title = "Channel"
   s.opt[OPT_CHANNEL].desc =
-    "Selects the channel of the v4l device (e.g. television " "or video-in."
+    "Selects the channel of the v4l device(e.g. television " "or video-in."
   s.opt[OPT_CHANNEL].type = Sane.TYPE_STRING
   s.opt[OPT_CHANNEL].unit = Sane.UNIT_NONE
   s.opt[OPT_CHANNEL].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_CHANNEL].constraint.string_list = s.channel
-  s.val[OPT_CHANNEL].s = strdup (s.channel[0])
-  if (!s.val[OPT_CHANNEL].s)
+  s.val[OPT_CHANNEL].s = strdup(s.channel[0])
+  if(!s.val[OPT_CHANNEL].s)
     return Sane.STATUS_NO_MEM
-  if (s.channel[0] == 0 || s.channel[1] == 0)
+  if(s.channel[0] == 0 || s.channel[1] == 0)
     s.opt[OPT_CHANNEL].cap |= Sane.CAP_INACTIVE
   s.opt[OPT_CHANNEL].size = 1; /* '\0' */
-  for (i = 0; s.channel[i] != 0; ++i)
+  for(i = 0; s.channel[i] != 0; ++i)
     {
       Int len = strlen(s.channel[i]) + 1
-      if (s.opt[OPT_CHANNEL].size < len)
+      if(s.opt[OPT_CHANNEL].size < len)
         s.opt[OPT_CHANNEL].size = len
     }
 
@@ -356,7 +356,7 @@ init_options (V4L_Scanner * s)
   s.opt[OPT_BR_X].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_BR_X].constraint.range = &odd_x_range
   s.val[OPT_BR_X].w = s.capability.maxwidth
-  if (s.val[OPT_BR_X].w > 767)
+  if(s.val[OPT_BR_X].w > 767)
     s.val[OPT_BR_X].w = 767
 
   /* bottom-right y */
@@ -369,7 +369,7 @@ init_options (V4L_Scanner * s)
   s.opt[OPT_BR_Y].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_BR_Y].constraint.range = &odd_y_range
   s.val[OPT_BR_Y].w = s.capability.maxheight
-  if (s.val[OPT_BR_Y].w > 511)
+  if(s.val[OPT_BR_Y].w > 511)
     s.val[OPT_BR_Y].w = 511
 
   /* "Enhancement" group: */
@@ -428,86 +428,86 @@ init_options (V4L_Scanner * s)
 }
 
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 {
   char dev_name[PATH_MAX], *str
   size_t len
   FILE *fp
 
   authorize = authorize;	/* stop gcc from complaining */
-  DBG_INIT ()
+  DBG_INIT()
 
-  DBG (2, "SANE v4l backend version %d.%d build %d from %s\n", Sane.CURRENT_MAJOR,
+  DBG(2, "SANE v4l backend version %d.%d build %d from %s\n", Sane.CURRENT_MAJOR,
        V_MINOR, BUILD, PACKAGE_STRING)
 
-  if (version_code)
-    *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, BUILD)
+  if(version_code)
+    *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, BUILD)
 
-  fp = sanei_config_open (V4L_CONFIG_FILE)
-  if (!fp)
+  fp = sanei_config_open(V4L_CONFIG_FILE)
+  if(!fp)
     {
-      DBG (2,
-	   "Sane.init: file `%s' not accessible (%s), trying /dev/video0\n",
-	   V4L_CONFIG_FILE, strerror (errno))
+      DBG(2,
+	   "Sane.init: file `%s' not accessible(%s), trying /dev/video0\n",
+	   V4L_CONFIG_FILE, strerror(errno))
 
-      return attach ("/dev/video0", 0)
+      return attach("/dev/video0", 0)
     }
 
-  while (sanei_config_read (dev_name, sizeof (dev_name), fp))
+  while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if (dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == '#')	/* ignore line comments */
 	continue
-      len = strlen (dev_name)
+      len = strlen(dev_name)
 
-      if (!len)
+      if(!len)
 	continue;		/* ignore empty lines */
 
       /* Remove trailing space and trailing comments */
-      for (str = dev_name; *str && !isspace (*str) && *str != '#'; ++str)
-      attach (dev_name, 0)
+      for(str = dev_name; *str && !isspace(*str) && *str != '#'; ++str)
+      attach(dev_name, 0)
     }
-  fclose (fp)
+  fclose(fp)
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   V4L_Device *dev, *next
 
-  for (dev = first_dev; dev; dev = next)
+  for(dev = first_dev; dev; dev = next)
     {
       next = dev.next
-      free ((void *) dev.sane.name)
-      free ((void *) dev.sane.model)
-      free (dev)
+      free((void *) dev.sane.name)
+      free((void *) dev.sane.model)
+      free(dev)
     }
 
-  if (NULL != devlist)
+  if(NULL != devlist)
     {
-      free (devlist)
+      free(devlist)
       devlist = NULL
     }
-  DBG (5, "Sane.exit: all devices freed\n")
+  DBG(5, "Sane.exit: all devices freed\n")
 }
 
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool __Sane.unused__ local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool __Sane.unused__ local_only)
 {
   V4L_Device *dev
   var i: Int
 
-  DBG (5, "Sane.get_devices\n")
+  DBG(5, "Sane.get_devices\n")
 
-  if (devlist)
-    free (devlist)
+  if(devlist)
+    free(devlist)
 
-  devlist = malloc ((num_devices + 1) * sizeof (devlist[0]))
-  if (!devlist)
+  devlist = malloc((num_devices + 1) * sizeof(devlist[0]))
+  if(!devlist)
     return Sane.STATUS_NO_MEM
 
   i = 0
-  for (dev = first_dev; i < num_devices; dev = dev.next)
+  for(dev = first_dev; i < num_devices; dev = dev.next)
     devlist[i++] = &dev.sane
   devlist[i++] = 0
 
@@ -516,7 +516,7 @@ Sane.get_devices (const Sane.Device *** device_list, Bool __Sane.unused__ local_
 }
 
 Sane.Status
-Sane.open (Sane.String_Const devname, Sane.Handle * handle)
+Sane.open(Sane.String_Const devname, Sane.Handle * handle)
 {
   V4L_Device *dev
   V4L_Scanner *s
@@ -526,139 +526,139 @@ Sane.open (Sane.String_Const devname, Sane.Handle * handle)
   Sane.Status status
   Int max_channels = MAX_CHANNELS
 
-  if (!devname)
+  if(!devname)
     {
-      DBG (1, "Sane.open: devname == 0\n")
+      DBG(1, "Sane.open: devname == 0\n")
       return Sane.STATUS_INVAL
     }
 
-  for (dev = first_dev; dev; dev = dev.next)
-    if (strcmp (dev.sane.name, devname) == 0)
+  for(dev = first_dev; dev; dev = dev.next)
+    if(strcmp(dev.sane.name, devname) == 0)
       {
-	DBG (5, "Sane.open: device %s found in devlist\n", devname)
+	DBG(5, "Sane.open: device %s found in devlist\n", devname)
 	break
       }
-  if (!devname[0])
+  if(!devname[0])
     dev = first_dev
-  if (!dev)
+  if(!dev)
     {
-      DBG (1, "Sane.open: device %s doesn't seem to be a v4l "
+      DBG(1, "Sane.open: device %s doesn't seem to be a v4l "
 	   "device\n", devname)
       return Sane.STATUS_INVAL
     }
 
-  v4lfd = v4l1_open (devname, O_RDWR)
-  if (v4lfd == -1)
+  v4lfd = v4l1_open(devname, O_RDWR)
+  if(v4lfd == -1)
     {
-      DBG (1, "Sane.open: can't open %s (%s)\n", devname, strerror (errno))
+      DBG(1, "Sane.open: can't open %s(%s)\n", devname, strerror(errno))
       return Sane.STATUS_INVAL
     }
-  s = malloc (sizeof (*s))
-  if (!s)
+  s = malloc(sizeof(*s))
+  if(!s)
     return Sane.STATUS_NO_MEM
-  memset (s, 0, sizeof (*s))
+  memset(s, 0, sizeof(*s))
   s.user_corner = 0;		/* ??? */
   s.devicename = devname
   s.fd = v4lfd
 
-  if (v4l1_ioctl (s.fd, VIDIOCGCAP, &s.capability) == -1)
+  if(v4l1_ioctl(s.fd, VIDIOCGCAP, &s.capability) == -1)
     {
-      DBG (1, "Sane.open: ioctl (%d, VIDIOCGCAP,..) failed on `%s': %s\n",
-	   s.fd, devname, strerror (errno))
-      v4l1_close (s.fd)
+      DBG(1, "Sane.open: ioctl(%d, VIDIOCGCAP,..) failed on `%s': %s\n",
+	   s.fd, devname, strerror(errno))
+      v4l1_close(s.fd)
       return Sane.STATUS_INVAL
     }
 
-  DBG (5, "Sane.open: %d channels, %d audio devices\n",
+  DBG(5, "Sane.open: %d channels, %d audio devices\n",
        s.capability.channels, s.capability.audios)
-  DBG (5, "Sane.open: minwidth=%d, minheight=%d, maxwidth=%d, "
+  DBG(5, "Sane.open: minwidth=%d, minheight=%d, maxwidth=%d, "
        "maxheight=%d\n", s.capability.minwidth, s.capability.minheight,
        s.capability.maxwidth, s.capability.maxheight)
-  if (VID_TYPE_CAPTURE & s.capability.type)
-    DBG (5, "Sane.open: V4L device can capture to memory\n")
-  if (VID_TYPE_TUNER & s.capability.type)
-    DBG (5, "Sane.open: V4L device has a tuner of some form\n")
-  if (VID_TYPE_TELETEXT & s.capability.type)
-    DBG (5, "Sane.open: V4L device supports teletext\n")
-  if (VID_TYPE_OVERLAY & s.capability.type)
-    DBG (5, "Sane.open: V4L device can overlay its image onto the frame "
+  if(VID_TYPE_CAPTURE & s.capability.type)
+    DBG(5, "Sane.open: V4L device can capture to memory\n")
+  if(VID_TYPE_TUNER & s.capability.type)
+    DBG(5, "Sane.open: V4L device has a tuner of some form\n")
+  if(VID_TYPE_TELETEXT & s.capability.type)
+    DBG(5, "Sane.open: V4L device supports teletext\n")
+  if(VID_TYPE_OVERLAY & s.capability.type)
+    DBG(5, "Sane.open: V4L device can overlay its image onto the frame "
 	 "buffer\n")
-  if (VID_TYPE_CHROMAKEY & s.capability.type)
-    DBG (5, "Sane.open: V4L device uses chromakey on overlay\n")
-  if (VID_TYPE_CLIPPING & s.capability.type)
-    DBG (5, "Sane.open: V4L device supports overlay clipping\n")
-  if (VID_TYPE_FRAMERAM & s.capability.type)
-    DBG (5, "Sane.open: V4L device overwrites frame buffer memory\n")
-  if (VID_TYPE_SCALES & s.capability.type)
-    DBG (5, "Sane.open: V4L device supports hardware scaling\n")
-  if (VID_TYPE_MONOCHROME & s.capability.type)
-    DBG (5, "Sane.open: V4L device is grey scale only\n")
-  if (VID_TYPE_SUBCAPTURE & s.capability.type)
-    DBG (5, "Sane.open: V4L device can capture parts of the image\n")
+  if(VID_TYPE_CHROMAKEY & s.capability.type)
+    DBG(5, "Sane.open: V4L device uses chromakey on overlay\n")
+  if(VID_TYPE_CLIPPING & s.capability.type)
+    DBG(5, "Sane.open: V4L device supports overlay clipping\n")
+  if(VID_TYPE_FRAMERAM & s.capability.type)
+    DBG(5, "Sane.open: V4L device overwrites frame buffer memory\n")
+  if(VID_TYPE_SCALES & s.capability.type)
+    DBG(5, "Sane.open: V4L device supports hardware scaling\n")
+  if(VID_TYPE_MONOCHROME & s.capability.type)
+    DBG(5, "Sane.open: V4L device is grey scale only\n")
+  if(VID_TYPE_SUBCAPTURE & s.capability.type)
+    DBG(5, "Sane.open: V4L device can capture parts of the image\n")
 
-  if (s.capability.channels < max_channels)
+  if(s.capability.channels < max_channels)
     max_channels = s.capability.channels
-  for (i = 0; i < max_channels; i++)
+  for(i = 0; i < max_channels; i++)
     {
       channel.channel = i
-      if (-1 == v4l1_ioctl (v4lfd, VIDIOCGCHAN, &channel))
+      if(-1 == v4l1_ioctl(v4lfd, VIDIOCGCHAN, &channel))
 	{
-	  DBG (1, "Sane.open: can't ioctl VIDIOCGCHAN %s: %s\n", devname,
-	       strerror (errno))
+	  DBG(1, "Sane.open: can't ioctl VIDIOCGCHAN %s: %s\n", devname,
+	       strerror(errno))
 	  return Sane.STATUS_INVAL
 	}
-      DBG (5, "Sane.open: channel %d (%s), tuners=%d, flags=0x%x, "
+      DBG(5, "Sane.open: channel %d(%s), tuners=%d, flags=0x%x, "
 	   "type=%d, norm=%d\n", channel.channel, channel.name,
 	   channel.tuners, channel.flags, channel.type, channel.norm)
-      if (VIDEO_VC_TUNER & channel.flags)
-	DBG (5, "Sane.open: channel has tuner(s)\n")
-      if (VIDEO_VC_AUDIO & channel.flags)
-	DBG (5, "Sane.open: channel has audio\n")
-      if (VIDEO_TYPE_TV == channel.type)
-	DBG (5, "Sane.open: input is TV input\n")
-      if (VIDEO_TYPE_CAMERA == channel.type)
-	DBG (5, "Sane.open: input is camera input\n")
-      s.channel[i] = strdup (channel.name)
-      if (!s.channel[i])
+      if(VIDEO_VC_TUNER & channel.flags)
+	DBG(5, "Sane.open: channel has tuner(s)\n")
+      if(VIDEO_VC_AUDIO & channel.flags)
+	DBG(5, "Sane.open: channel has audio\n")
+      if(VIDEO_TYPE_TV == channel.type)
+	DBG(5, "Sane.open: input is TV input\n")
+      if(VIDEO_TYPE_CAMERA == channel.type)
+	DBG(5, "Sane.open: input is camera input\n")
+      s.channel[i] = strdup(channel.name)
+      if(!s.channel[i])
 	return Sane.STATUS_NO_MEM
     }
   s.channel[i] = 0
-  if (-1 == v4l1_ioctl (v4lfd, VIDIOCGPICT, &s.pict))
+  if(-1 == v4l1_ioctl(v4lfd, VIDIOCGPICT, &s.pict))
     {
-      DBG (1, "Sane.open: can't ioctl VIDIOCGPICT %s: %s\n", devname,
-	   strerror (errno))
+      DBG(1, "Sane.open: can't ioctl VIDIOCGPICT %s: %s\n", devname,
+	   strerror(errno))
       return Sane.STATUS_INVAL
     }
-  DBG (5, "Sane.open: brightness=%d, hue=%d, colour=%d, contrast=%d\n",
+  DBG(5, "Sane.open: brightness=%d, hue=%d, colour=%d, contrast=%d\n",
        s.pict.brightness, s.pict.hue, s.pict.colour, s.pict.contrast)
-  DBG (5, "Sane.open: whiteness=%d, depth=%d, palette=%d\n",
+  DBG(5, "Sane.open: whiteness=%d, depth=%d, palette=%d\n",
        s.pict.whiteness, s.pict.depth, s.pict.palette)
 
   /* ??? */
   s.pict.palette = VIDEO_PALETTE_GREY
-  if (-1 == v4l1_ioctl (s.fd, VIDIOCSPICT, &s.pict))
+  if(-1 == v4l1_ioctl(s.fd, VIDIOCSPICT, &s.pict))
     {
-      DBG (1, "Sane.open: ioctl VIDIOCSPICT failed (%s)\n", strerror (errno))
+      DBG(1, "Sane.open: ioctl VIDIOCSPICT failed(%s)\n", strerror(errno))
     }
 
-  if (-1 == v4l1_ioctl (s.fd, VIDIOCGWIN, &s.window))
+  if(-1 == v4l1_ioctl(s.fd, VIDIOCGWIN, &s.window))
     {
-      DBG (1, "Sane.open: can't ioctl VIDIOCGWIN %s: %s\n", devname,
-	   strerror (errno))
+      DBG(1, "Sane.open: can't ioctl VIDIOCGWIN %s: %s\n", devname,
+	   strerror(errno))
       return Sane.STATUS_INVAL
     }
-  DBG (5, "Sane.open: x=%d, y=%d, width=%d, height=%d\n",
+  DBG(5, "Sane.open: x=%d, y=%d, width=%d, height=%d\n",
        s.window.x, s.window.y, s.window.width, s.window.height)
 
   /* already done in Sane.start
-     if (-1 == v4l1_ioctl (v4lfd, VIDIOCGMBUF, &mbuf))
-     DBG (1, "Sane.open: can't ioctl VIDIOCGMBUF (no Fbuffer?)\n")
+     if(-1 == v4l1_ioctl(v4lfd, VIDIOCGMBUF, &mbuf))
+     DBG(1, "Sane.open: can't ioctl VIDIOCGMBUF(no Fbuffer?)\n")
    */
 
-  status = init_options (s)
-  if (status != Sane.STATUS_GOOD)
+  status = init_options(s)
+  if(status != Sane.STATUS_GOOD)
     return status
-  update_parameters (s)
+  update_parameters(s)
 
   /* insert newly opened handle into list of open handles: */
   s.next = first_handle
@@ -670,62 +670,62 @@ Sane.open (Sane.String_Const devname, Sane.Handle * handle)
 }
 
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
   V4L_Scanner *prev, *s
 
-  DBG (2, "Sane.close: trying to close handle %p\n", (void *) handle)
+  DBG(2, "Sane.close: trying to close handle %p\n", (void *) handle)
   /* remove handle from list of open handles: */
   prev = 0
-  for (s = first_handle; s; s = s.next)
+  for(s = first_handle; s; s = s.next)
     {
-      if (s == handle)
+      if(s == handle)
 	break
       prev = s
     }
-  if (!s)
+  if(!s)
     {
-      DBG (1, "Sane.close: bad handle %p\n", handle)
+      DBG(1, "Sane.close: bad handle %p\n", handle)
       return;			/* oops, not a handle we know about */
     }
-  if (prev)
+  if(prev)
     prev.next = s.next
   else
     first_handle = s.next
 
-  if (s.scanning)
-    Sane.cancel (handle)
-  v4l1_close (s.fd)
-  free (s)
+  if(s.scanning)
+    Sane.cancel(handle)
+  v4l1_close(s.fd)
+  free(s)
 }
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
   V4L_Scanner *s = handle
 
-  if ((unsigned) option >= NUM_OPTIONS || option < 0)
+  if((unsigned) option >= NUM_OPTIONS || option < 0)
     return 0
-  DBG (4, "Sane.get_option_descriptor: option %d (%s)\n", option,
+  DBG(4, "Sane.get_option_descriptor: option %d(%s)\n", option,
        s.opt[option].name ? s.opt[option].name : s.opt[option].title)
   return s.opt + option
 }
 
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
 		     Sane.Action action, void *val, Int * info)
 {
   V4L_Scanner *s = handle
   Sane.Status status
   Sane.Word cap
 
-  if (info)
+  if(info)
     *info = 0
 
-  if (option >= NUM_OPTIONS || option < 0)
+  if(option >= NUM_OPTIONS || option < 0)
     return Sane.STATUS_INVAL
 
-  DBG (4, "Sane.control_option: %s option %d (%s)\n",
+  DBG(4, "Sane.control_option: %s option %d(%s)\n",
        action == Sane.ACTION_GET_VALUE ? "get" :
        action == Sane.ACTION_SET_VALUE ? "set" :
        action == Sane.ACTION_SET_AUTO ? "auto set" :
@@ -734,15 +734,15 @@ Sane.control_option (Sane.Handle handle, Int option,
 
   cap = s.opt[option].cap
 
-  if (!Sane.OPTION_IS_ACTIVE (cap))
+  if(!Sane.OPTION_IS_ACTIVE(cap))
     {
-      DBG (1, "Sane.control option: option is inactive\n")
+      DBG(1, "Sane.control option: option is inactive\n")
       return Sane.STATUS_INVAL
     }
 
-  if (action == Sane.ACTION_GET_VALUE)
+  if(action == Sane.ACTION_GET_VALUE)
     {
-      switch (option)
+      switch(option)
 	{
 	  /* word options: */
 	case OPT_NUM_OPTS:
@@ -759,32 +759,32 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  return Sane.STATUS_GOOD
 	case OPT_CHANNEL:	/* string list options */
 	case OPT_MODE:
-	  strcpy (val, s.val[option].s)
+	  strcpy(val, s.val[option].s)
 	  return Sane.STATUS_GOOD
 	default:
-	  DBG (1, "Sane.control_option: option %d unknown\n", option)
+	  DBG(1, "Sane.control_option: option %d unknown\n", option)
 	}
     }
-  else if (action == Sane.ACTION_SET_VALUE)
+  else if(action == Sane.ACTION_SET_VALUE)
     {
-      if (!Sane.OPTION_IS_SETTABLE (cap))
+      if(!Sane.OPTION_IS_SETTABLE(cap))
 	{
-	  DBG (1, "Sane.control_option: option is not settable\n")
+	  DBG(1, "Sane.control_option: option is not settable\n")
 	  return Sane.STATUS_INVAL
 	}
-      status = sanei_constrain_value (s.opt + option, val, info)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_constrain_value(s.opt + option, val, info)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "Sane.control_option: sanei_constarin_value failed: %s\n",
-	       Sane.strstatus (status))
+	  DBG(1, "Sane.control_option: sanei_constarin_value failed: %s\n",
+	       Sane.strstatus(status))
 	  return status
 	}
-      if (option >= OPT_TL_X && option <= OPT_BR_Y)
+      if(option >= OPT_TL_X && option <= OPT_BR_Y)
 	{
 	  s.user_corner |= 1 << (option - OPT_TL_X)
-	  if (-1 == v4l1_ioctl (s.fd, VIDIOCGWIN, &s.window))
+	  if(-1 == v4l1_ioctl(s.fd, VIDIOCGWIN, &s.window))
 	    {
-	      DBG (1, "Sane.control_option: ioctl VIDIOCGWIN failed "
+	      DBG(1, "Sane.control_option: ioctl VIDIOCGWIN failed "
 		   "(can not get window geometry)\n")
 	      return Sane.STATUS_INVAL
 	    }
@@ -795,7 +795,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	}
 
 
-      switch (option)
+      switch(option)
 	{
 	  /* (mostly) side-effect-free word options: */
 	case OPT_TL_X:
@@ -805,26 +805,26 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_BR_X:
 	  s.window.width = *(Sane.Word *) val
 	  parms.pixels_per_line = *(Sane.Word *) val
-	  if (info)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 	  break
 	case OPT_BR_Y:
 	  s.window.height = *(Sane.Word *) val
 	  parms.lines = *(Sane.Word *) val
-	  if (info)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 	  break
 	case OPT_MODE:
-	  if (info)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
-	  s.val[option].s = strdup (val)
-	  if (!s.val[option].s)
+	  s.val[option].s = strdup(val)
+	  if(!s.val[option].s)
 	    return Sane.STATUS_NO_MEM
-	  if (strcmp (s.val[option].s, Sane.VALUE_SCAN_MODE_GRAY) == 0)
+	  if(strcmp(s.val[option].s, Sane.VALUE_SCAN_MODE_GRAY) == 0)
 	    s.pict.palette = VIDEO_PALETTE_GREY
 	  else
 	    s.pict.palette = VIDEO_PALETTE_RGB24
-	  update_parameters (s)
+	  update_parameters(s)
 	  break
 	case OPT_BRIGHTNESS:
 	  s.pict.brightness = *(Sane.Word *) val *256
@@ -851,24 +851,24 @@ Sane.control_option (Sane.Handle handle, Int option,
 	    var i: Int
 	    struct video_channel channel
 
-	    s.val[option].s = strdup (val)
-	    if (!s.val[option].s)
+	    s.val[option].s = strdup(val)
+	    if(!s.val[option].s)
 	      return Sane.STATUS_NO_MEM
-	    for (i = 0; i < MAX_CHANNELS; i++)
+	    for(i = 0; i < MAX_CHANNELS; i++)
 	      {
-		if (strcmp (s.channel[i], val) == 0)
+		if(strcmp(s.channel[i], val) == 0)
 		  {
 		    channel.channel = i
-		    if (-1 == v4l1_ioctl (s.fd, VIDIOCGCHAN, &channel))
+		    if(-1 == v4l1_ioctl(s.fd, VIDIOCGCHAN, &channel))
 		      {
-			DBG (1, "Sane.open: can't ioctl VIDIOCGCHAN %s: %s\n",
-			     s.devicename, strerror (errno))
+			DBG(1, "Sane.open: can't ioctl VIDIOCGCHAN %s: %s\n",
+			     s.devicename, strerror(errno))
 			return Sane.STATUS_INVAL
 		      }
-		    if (-1 == v4l1_ioctl (s.fd, VIDIOCSCHAN, &channel))
+		    if(-1 == v4l1_ioctl(s.fd, VIDIOCSCHAN, &channel))
 		      {
-			DBG (1, "Sane.open: can't ioctl VIDIOCSCHAN %s: %s\n",
-			     s.devicename, strerror (errno))
+			DBG(1, "Sane.open: can't ioctl VIDIOCSCHAN %s: %s\n",
+			     s.devicename, strerror(errno))
 			return Sane.STATUS_INVAL
 		      }
 		    break
@@ -878,43 +878,43 @@ Sane.control_option (Sane.Handle handle, Int option,
 	    break
 	  }
 	default:
-	  DBG (1, "Sane.control_option: option %d unknown\n", option)
+	  DBG(1, "Sane.control_option: option %d unknown\n", option)
 	  return Sane.STATUS_INVAL
 	}
-      if (option >= OPT_TL_X && option <= OPT_BR_Y)
+      if(option >= OPT_TL_X && option <= OPT_BR_Y)
 	{
-	  if (-1 == v4l1_ioctl (s.fd, VIDIOCSWIN, &s.window))
+	  if(-1 == v4l1_ioctl(s.fd, VIDIOCSWIN, &s.window))
 	    {
-	      DBG (1, "Sane.control_option: ioctl VIDIOCSWIN failed (%s)\n",
-		   strerror (errno))
+	      DBG(1, "Sane.control_option: ioctl VIDIOCSWIN failed(%s)\n",
+		   strerror(errno))
 	      /* return Sane.STATUS_INVAL; */
 	    }
-	  if (-1 == v4l1_ioctl (s.fd, VIDIOCGWIN, &s.window))
+	  if(-1 == v4l1_ioctl(s.fd, VIDIOCGWIN, &s.window))
 	    {
-	      DBG (1, "Sane.control_option: ioctl VIDIOCGWIN failed (%s)\n",
-		   strerror (errno))
+	      DBG(1, "Sane.control_option: ioctl VIDIOCGWIN failed(%s)\n",
+		   strerror(errno))
 	      return Sane.STATUS_INVAL
 	    }
 	}
-      if (option >= OPT_BRIGHTNESS && option <= OPT_WHITE_LEVEL)
+      if(option >= OPT_BRIGHTNESS && option <= OPT_WHITE_LEVEL)
 	{
-	  if (-1 == v4l1_ioctl (s.fd, VIDIOCSPICT, &s.pict))
+	  if(-1 == v4l1_ioctl(s.fd, VIDIOCSPICT, &s.pict))
 	    {
-	      DBG (1, "Sane.control_option: ioctl VIDIOCSPICT failed (%s)\n",
-		   strerror (errno))
+	      DBG(1, "Sane.control_option: ioctl VIDIOCSPICT failed(%s)\n",
+		   strerror(errno))
 	      /* return Sane.STATUS_INVAL; */
 	    }
 	}
       return Sane.STATUS_GOOD
     }
-  else if (action == Sane.ACTION_SET_AUTO)
+  else if(action == Sane.ACTION_SET_AUTO)
     {
-      if (!(cap & Sane.CAP_AUTOMATIC))
+      if(!(cap & Sane.CAP_AUTOMATIC))
 	{
-	  DBG (1, "Sane.control_option: option can't be set automatically\n")
+	  DBG(1, "Sane.control_option: option can't be set automatically\n")
 	  return Sane.STATUS_INVAL
 	}
-      switch (option)
+      switch(option)
 	{
 	case OPT_BRIGHTNESS:
 	  /* not implemented yet */
@@ -928,26 +928,26 @@ Sane.control_option (Sane.Handle handle, Int option,
 }
 
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
   V4L_Scanner *s = handle
 
-  DBG (4, "Sane.get_parameters\n")
-  update_parameters (s)
-  if (params == 0)
+  DBG(4, "Sane.get_parameters\n")
+  update_parameters(s)
+  if(params == 0)
     {
-      DBG (1, "Sane.get_parameters: params == 0\n")
+      DBG(1, "Sane.get_parameters: params == 0\n")
       return Sane.STATUS_INVAL
     }
-  if (-1 == v4l1_ioctl (s.fd, VIDIOCGWIN, &s.window))
+  if(-1 == v4l1_ioctl(s.fd, VIDIOCGWIN, &s.window))
     {
-      DBG (1, "Sane.control_option: ioctl VIDIOCGWIN failed "
+      DBG(1, "Sane.control_option: ioctl VIDIOCGWIN failed "
 	   "(can not get window geometry)\n")
       return Sane.STATUS_INVAL
     }
   parms.pixels_per_line = s.window.width
   parms.bytes_per_line = s.window.width
-  if (parms.format == Sane.FRAME_RGB)
+  if(parms.format == Sane.FRAME_RGB)
     parms.bytes_per_line = s.window.width * 3
   parms.lines = s.window.height
   *params = parms
@@ -956,96 +956,96 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 }
 
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   Int len
   V4L_Scanner *s
   char data
 
-  DBG (2, "Sane.start\n")
-  for (s = first_handle; s; s = s.next)
+  DBG(2, "Sane.start\n")
+  for(s = first_handle; s; s = s.next)
     {
-      if (s == handle)
+      if(s == handle)
 	break
     }
-  if (!s)
+  if(!s)
     {
-      DBG (1, "Sane.start: bad handle %p\n", handle)
+      DBG(1, "Sane.start: bad handle %p\n", handle)
       return Sane.STATUS_INVAL;	/* oops, not a handle we know about */
     }
-  len = v4l1_ioctl (s.fd, VIDIOCGCAP, &s.capability)
-  if (-1 == len)
+  len = v4l1_ioctl(s.fd, VIDIOCGCAP, &s.capability)
+  if(-1 == len)
     {
-      DBG (1, "Sane.start: can not get capabilities\n")
+      DBG(1, "Sane.start: can not get capabilities\n")
       return Sane.STATUS_INVAL
     }
   s.buffercount = 0
-  if (-1 == v4l1_ioctl (s.fd, VIDIOCGMBUF, &s.mbuf))
+  if(-1 == v4l1_ioctl(s.fd, VIDIOCGMBUF, &s.mbuf))
     {
       s.is_mmap = Sane.FALSE
       buffer =
-	malloc (s.capability.maxwidth * s.capability.maxheight *
+	malloc(s.capability.maxwidth * s.capability.maxheight *
 		s.pict.depth)
-      if (0 == buffer)
+      if(0 == buffer)
 	return Sane.STATUS_NO_MEM
-      DBG (3, "Sane.start: V4L trying to read frame\n")
-      len = v4l1_read (s.fd, buffer, parms.bytes_per_line * parms.lines)
-      DBG (3, "Sane.start: %d bytes read\n", len)
+      DBG(3, "Sane.start: V4L trying to read frame\n")
+      len = v4l1_read(s.fd, buffer, parms.bytes_per_line * parms.lines)
+      DBG(3, "Sane.start: %d bytes read\n", len)
     }
   else
     {
       Int loop
       s.is_mmap = Sane.TRUE
-      DBG (3,
+      DBG(3,
 	   "Sane.start: mmap frame, buffersize: %d bytes, buffers: %d, offset 0 %d\n",
 	   s.mbuf.size, s.mbuf.frames, s.mbuf.offsets[0])
       buffer =
-	v4l1_mmap (0, s.mbuf.size, PROT_READ | PROT_WRITE, MAP_SHARED, s.fd, 0)
-      if (buffer == (void *)-1)
+	v4l1_mmap(0, s.mbuf.size, PROT_READ | PROT_WRITE, MAP_SHARED, s.fd, 0)
+      if(buffer == (void *)-1)
 	{
-	  DBG (1, "Sane.start: mmap failed: %s\n", strerror (errno))
+	  DBG(1, "Sane.start: mmap failed: %s\n", strerror(errno))
 	  buffer = NULL
 	  return Sane.STATUS_IO_ERROR
 	}
-      DBG (3, "Sane.start: mmapped frame, capture 1 pict into %p\n", buffer)
+      DBG(3, "Sane.start: mmapped frame, capture 1 pict into %p\n", buffer)
       s.mmap.frame = 0
       s.mmap.width = s.window.width
       /*   s.mmap.width = parms.pixels_per_line;  ??? huh? */
       s.mmap.height = s.window.height
       /*      s.mmap.height = parms.lines;  ??? huh? */
       s.mmap.format = s.pict.palette
-      DBG (2, "Sane.start: mmapped frame %d x %d with palette %d\n",
+      DBG(2, "Sane.start: mmapped frame %d x %d with palette %d\n",
 	   s.mmap.width, s.mmap.height, s.mmap.format)
 
       /* We need to loop here to empty the read buffers, so we don't
          get a stale image */
-      for (loop = 0; loop <= s.mbuf.frames; loop++)
+      for(loop = 0; loop <= s.mbuf.frames; loop++)
         {
-          len = v4l1_ioctl (s.fd, VIDIOCMCAPTURE, &s.mmap)
-          if (len == -1)
+          len = v4l1_ioctl(s.fd, VIDIOCMCAPTURE, &s.mmap)
+          if(len == -1)
 	    {
-	      DBG (1, "Sane.start: ioctl VIDIOCMCAPTURE failed: %s\n",
-	           strerror (errno))
+	      DBG(1, "Sane.start: ioctl VIDIOCMCAPTURE failed: %s\n",
+	           strerror(errno))
 	      return Sane.STATUS_INVAL
 	    }
-          DBG (3, "Sane.start: waiting for frame %x, loop %d\n", s.mmap.frame, loop)
-          len = v4l1_ioctl (s.fd, VIDIOCSYNC, &(s.mmap.frame))
-          if (-1 == len)
+          DBG(3, "Sane.start: waiting for frame %x, loop %d\n", s.mmap.frame, loop)
+          len = v4l1_ioctl(s.fd, VIDIOCSYNC, &(s.mmap.frame))
+          if(-1 == len)
 	    {
-	      DBG (1, "Sane.start: call to ioctl(%d, VIDIOCSYNC, ..) failed\n",
+	      DBG(1, "Sane.start: call to ioctl(%d, VIDIOCSYNC, ..) failed\n",
 	           s.fd)
 	      return Sane.STATUS_INVAL
 	    }
         }
-      DBG (3, "Sane.start: frame %x done\n", s.mmap.frame)
+      DBG(3, "Sane.start: frame %x done\n", s.mmap.frame)
     }
 
   /* v4l1 actually returns BGR when we ask for RGB, so convert it */
-  if (s.pict.palette == VIDEO_PALETTE_RGB24)
+  if(s.pict.palette == VIDEO_PALETTE_RGB24)
     {
       uint32_t loop
-      DBG (3, "Sane.start: converting from BGR to RGB\n")
-      for (loop = 0; loop < (s.window.width * s.window.height * 3); loop += 3)
+      DBG(3, "Sane.start: converting from BGR to RGB\n")
+      for(loop = 0; loop < (s.window.width * s.window.height * 3); loop += 3)
         {
           data = *(buffer + loop)
           *(buffer + loop) = *(buffer + loop + 2)
@@ -1053,54 +1053,54 @@ Sane.start (Sane.Handle handle)
         }
     }
 
-  DBG (3, "Sane.start: done\n")
+  DBG(3, "Sane.start: done\n")
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
+Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
 	   Int * lenp)
 {
   var i: Int, min
   V4L_Scanner *s = handle
 
-  DBG (4, "Sane.read: max_len = %d\n", max_len)
-  if (!lenp)
+  DBG(4, "Sane.read: max_len = %d\n", max_len)
+  if(!lenp)
     {
-      DBG (1, "Sane.read: lenp == 0\n")
+      DBG(1, "Sane.read: lenp == 0\n")
       return Sane.STATUS_INVAL
     }
-  if ((s.buffercount + 1) > (parms.lines * parms.bytes_per_line))
+  if((s.buffercount + 1) > (parms.lines * parms.bytes_per_line))
     {
       *lenp = 0
       return Sane.STATUS_EOF
     ]
   min = parms.lines * parms.bytes_per_line
-  if (min > (max_len + s.buffercount))
+  if(min > (max_len + s.buffercount))
     min = (max_len + s.buffercount)
-  if (s.is_mmap == Sane.FALSE)
+  if(s.is_mmap == Sane.FALSE)
     {
-      for (i = s.buffercount; i < (min + 0); i++)
+      for(i = s.buffercount; i < (min + 0); i++)
 	{
 	  *(buf + i - s.buffercount) = *(buffer + i)
 	]
       *lenp = (parms.lines * parms.bytes_per_line - s.buffercount)
-      if (max_len < *lenp)
+      if(max_len < *lenp)
 	*lenp = max_len
-      DBG (3, "Sane.read: transferred %d bytes (from %d to %d)\n", *lenp,
+      DBG(3, "Sane.read: transferred %d bytes(from %d to %d)\n", *lenp,
 	   s.buffercount, i)
       s.buffercount = i
     }
   else
     {
-      for (i = s.buffercount; i < (min + 0); i++)
+      for(i = s.buffercount; i < (min + 0); i++)
 	{
 	  *(buf + i - s.buffercount) = *(buffer + i)
 	]
       *lenp = (parms.lines * parms.bytes_per_line - s.buffercount)
-      if ((i - s.buffercount) < *lenp)
+      if((i - s.buffercount) < *lenp)
 	*lenp = (i - s.buffercount)
-      DBG (3, "Sane.read: transferred %d bytes (from %d to %d)\n", *lenp,
+      DBG(3, "Sane.read: transferred %d bytes(from %d to %d)\n", *lenp,
 	   s.buffercount, i)
       s.buffercount = i
     }
@@ -1108,19 +1108,19 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
 }
 
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   V4L_Scanner *s = handle
 
-  DBG (2, "Sane.cancel\n")
+  DBG(2, "Sane.cancel\n")
 
   /* ??? buffer isn't checked in Sane.read? */
-  if (buffer)
+  if(buffer)
     {
-      if (s.is_mmap)
+      if(s.is_mmap)
 	v4l1_munmap(buffer, s.mbuf.size)
       else
-	free (buffer)
+	free(buffer)
 
       buffer = NULL
     }
@@ -1128,15 +1128,15 @@ Sane.cancel (Sane.Handle handle)
 
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle __Sane.unused__ handle, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle __Sane.unused__ handle, Bool non_blocking)
 {
-  if (non_blocking == Sane.FALSE)
+  if(non_blocking == Sane.FALSE)
     return Sane.STATUS_GOOD
   return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle __Sane.unused__ handle, Int __Sane.unused__ * fd)
+Sane.get_select_fd(Sane.Handle __Sane.unused__ handle, Int __Sane.unused__ * fd)
 {
   return Sane.STATUS_UNSUPPORTED
 }

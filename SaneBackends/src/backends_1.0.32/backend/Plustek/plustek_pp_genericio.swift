@@ -2,8 +2,8 @@
  * @brief all i/o functions
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 1998 Plustek Inc.
- * Copyright (C) 2000-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 1998 Plustek Inc.
+ * Copyright(C) 2000-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  * also based on the work done by Rick Bronson
  *
  * History:
@@ -39,7 +39,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -76,7 +76,7 @@ import plustek-pp_scan
 /*************************** local vars **************************************/
 
 /* WORK COMMENT THIS */
-typedef void (*pFnSpeed_Set)(pScanData)
+typedef void(*pFnSpeed_Set)(pScanData)
 
 static ModeTypeVar a_FilmSettings[18] = {
 	/* SppNegFilmPos */
@@ -339,7 +339,7 @@ static pModeTypeVar	pModeType
 static pDiffModeVar	pModeDiff
 
 /*
- * prototypes for the speed procs (ASIC 98001), EPP, SPP and BIDI
+ * prototypes for the speed procs(ASIC 98001), EPP, SPP and BIDI
  */
 static void fnLineArtSpeed( pScanData ps )
 static void fnGraySpeed   ( pScanData ps )
@@ -390,7 +390,7 @@ static void ioP96InitialSetCurrentSpeed( pScanData ps )
 {
 	DBG( DBG_LOW, "ioP96InitialSetCurrentSpeed()\n" )
 
-	switch ( ps.DataInf.wPhyDataType ) {
+	switch( ps.DataInf.wPhyDataType ) {
 
 	case COLOR_BW:
 		ps.bCurrentSpeed = (ps.DataInf.dwAsicPixelsPerPlane >
@@ -398,20 +398,20 @@ static void ioP96InitialSetCurrentSpeed( pScanData ps )
 		break
 
 	case COLOR_256GRAY:
-		if ( COLOR_256GRAY == ps.DataInf.wAppDataType ) {
+		if( COLOR_256GRAY == ps.DataInf.wAppDataType ) {
 
 			ps.bCurrentSpeed = (Byte)(ps.a_wGrayInitTime[ps.IO.portMode] /
 			                           ps.wLinesPer64kTime)
-			if (!ps.bCurrentSpeed)
+			if(!ps.bCurrentSpeed)
 			    ps.bCurrentSpeed = 1
 
-			if ((ps.DataInf.dwAsicPixelsPerPlane>=1500) && (ps.bCurrentSpeed==1))
+			if((ps.DataInf.dwAsicPixelsPerPlane>=1500) && (ps.bCurrentSpeed==1))
 			    ps.bCurrentSpeed = 2
 
-			if ( ps.DataInf.xyAppDpi.x > 1200) {
+			if( ps.DataInf.xyAppDpi.x > 1200) {
 			    ps.bCurrentSpeed += 2; 			/* 1201-2400 */
 
-			    if ( ps.DataInf.xyAppDpi.x > 2400 )
+			    if( ps.DataInf.xyAppDpi.x > 2400 )
 					ps.bCurrentSpeed += 2;			/* >= 2401   */
 			}
 
@@ -419,7 +419,7 @@ static void ioP96InitialSetCurrentSpeed( pScanData ps )
 
 	    } else {
 
-			if ( _PORT_SPP != ps.IO.portMode ) {
+			if( _PORT_SPP != ps.IO.portMode ) {
 			    if( ps.DataInf.dwAsicPixelsPerPlane <= 1280 )
 					ps.bCurrentSpeed = 1;	/* <= 1280 pixels */
 
@@ -464,28 +464,28 @@ static void ioP96InitialSetCurrentSpeed( pScanData ps )
 			ps.bCurrentSpeed = 1
 		}
 
-	    if (ps.DataInf.xyAppDpi.x > 150)  {
-			if (ps.bCurrentSpeed < 4)
+	    if(ps.DataInf.xyAppDpi.x > 150)  {
+			if(ps.bCurrentSpeed < 4)
 			    ps.bCurrentSpeed = 4
 	    } else {
 /*
 // HEINER:A3I
-//			if (ps.DataInf.xyAppDpi.x > 100)
+//			if(ps.DataInf.xyAppDpi.x > 100)
 */
-			if (ps.DataInf.xyAppDpi.x > 75)
-			    if (ps.bCurrentSpeed < 2)
+			if(ps.DataInf.xyAppDpi.x > 75)
+			    if(ps.bCurrentSpeed < 2)
 					ps.bCurrentSpeed = 2
 		}
 
 	    if( 1 != ps.bCurrentSpeed )
 			ps.bCurrentSpeed += ps.bExtraAdd
 
-    	if (ps.DataInf.xyAppDpi.x > ps.PhysicalDpi) {
-			if (ps.DataInf.xyAppDpi.x <= 600)
+    	if(ps.DataInf.xyAppDpi.x > ps.PhysicalDpi) {
+			if(ps.DataInf.xyAppDpi.x <= 600)
 			    ps.bCurrentSpeed += 2
-			else if (ps.DataInf.xyAppDpi.x <= 1200)
+			else if(ps.DataInf.xyAppDpi.x <= 1200)
 				ps.bCurrentSpeed += 2
-    		else if (ps.DataInf.xyAppDpi.x <= 2400)
+    		else if(ps.DataInf.xyAppDpi.x <= 2400)
 			    ps.bCurrentSpeed += 2
 			else
 			    ps.bCurrentSpeed += 2
@@ -505,13 +505,13 @@ static void fnLineArtSpeed( pScanData ps )
     pModeType = a_BwSettings + _FixParamEppBw
     pModeDiff = a_tabDiffParam + _BwEpp75
 
-    if (ps.DataInf.xyAppDpi.y > 75) {
+    if(ps.DataInf.xyAppDpi.y > 75) {
 		pModeType++
 		pModeDiff = a_tabDiffParam + _BwEpp150
     }
 
-    if (ps.DataInf.xyAppDpi.y > 150) {
-		if (ps.DataInf.xyAppDpi.y <= 300) {
+    if(ps.DataInf.xyAppDpi.y > 150) {
+		if(ps.DataInf.xyAppDpi.y <= 300) {
 		    pModeType++
 		    pModeDiff = a_tabDiffParam + _BwEpp300
 		} else {
@@ -529,19 +529,19 @@ static void fnGraySpeed( pScanData ps )
     pModeType = a_GraySettings + _FixParamEppGray
     pModeDiff = a_tabDiffParam + _GrayEpp75
 
-    if (ps.DataInf.xyAppDpi.y > 75) {
+    if(ps.DataInf.xyAppDpi.y > 75) {
 		pModeType++
 		pModeDiff = a_tabDiffParam + _GrayEpp150
     }
 
-    if ( ps.DataInf.xyAppDpi.y > 150) {
-		if (ps.DataInf.xyAppDpi.y <= 300) {
+    if( ps.DataInf.xyAppDpi.y > 150) {
+		if(ps.DataInf.xyAppDpi.y <= 300) {
 		    pModeType++
 		    pModeDiff = a_tabDiffParam + _GrayEpp300
 		} else {
 		    pModeType += 2
 		    pModeDiff = a_tabDiffParam + _GrayEpp600
-	    	if (ps.DataInf.dwAsicPixelsPerPlane > 3000)
+	    	if(ps.DataInf.dwAsicPixelsPerPlane > 3000)
 				pModeDiff++
 		}
 	}
@@ -556,33 +556,33 @@ static void fnColorSpeed( pScanData ps )
 
     pModeType = a_ColorSettings + _FixParamEppColor
 
-    if ( ps.DataInf.xyAppDpi.y <= ps.wMinCmpDpi ) {
+    if( ps.DataInf.xyAppDpi.y <= ps.wMinCmpDpi ) {
 		/* DPI <= 60 */
 		pModeDiff = a_tabDiffParam + _ColorEpp60
 
 	} else {
 
-		if (ps.DataInf.xyAppDpi.y <= 100) {
+		if(ps.DataInf.xyAppDpi.y <= 100) {
 		    pModeType++
 		    pModeDiff = a_tabDiffParam + _ColorEpp100
 
-	    	if (ps.DataInf.dwAsicBytesPerPlane > 1400)
+	    	if(ps.DataInf.dwAsicBytesPerPlane > 1400)
 				pModeDiff = a_tabDiffParam + _ColorEpp100_1400
 		} else {
-		    if (ps.DataInf.xyAppDpi.y <= 150) {
+		    if(ps.DataInf.xyAppDpi.y <= 150) {
 				pModeType += 2
 				pModeDiff = a_tabDiffParam + _ColorEpp150
 
-				if (ps.DataInf.dwAsicBytesPerPlane > 1900)
+				if(ps.DataInf.dwAsicBytesPerPlane > 1900)
 				    pModeDiff = a_tabDiffParam + _ColorEpp150_1900
 		    } else {
-				if (ps.DataInf.xyAppDpi.y <= 300) {
+				if(ps.DataInf.xyAppDpi.y <= 300) {
 				    pModeType += 3
 				    pModeDiff = a_tabDiffParam + _ColorEpp300_1200
-				    if (ps.DataInf.dwAsicBytesPerPlane <= 1200)
+				    if(ps.DataInf.dwAsicBytesPerPlane <= 1200)
 						pModeDiff --
 				    else {
-						if (ps.DataInf.dwAsicBytesPerPlane > 4000)
+						if(ps.DataInf.dwAsicBytesPerPlane > 4000)
 						    pModeDiff = a_tabDiffParam + _ColorEpp300_4000
 					}
 				} else {
@@ -590,16 +590,16 @@ static void fnColorSpeed( pScanData ps )
 				    pModeDiff = a_tabDiffParam + _ColorEpp600_4000
 				    pModeType.bExposureTime = 88
 
-				    if (ps.DataInf.dwAsicBytesPerPlane <= 4000) {
+				    if(ps.DataInf.dwAsicBytesPerPlane <= 4000) {
 						pModeDiff--
-						if (ps.DataInf.dwAsicBytesPerPlane <= 2800) {
+						if(ps.DataInf.dwAsicBytesPerPlane <= 2800) {
 						    pModeType.bExposureTime = 96
 						    pModeDiff--
-						    if (ps.DataInf.dwAsicBytesPerPlane <= 1200)
+						    if(ps.DataInf.dwAsicBytesPerPlane <= 1200)
 								pModeDiff--
 						}
 		    		} else {
-						if (ps.DataInf.dwAsicBytesPerPlane >= 9600)
+						if(ps.DataInf.dwAsicBytesPerPlane >= 9600)
 						    pModeDiff = a_tabDiffParam + _ColorEpp600_9600
 					}
 				}
@@ -616,14 +616,14 @@ static void fnSppLineArtSpeed( pScanData ps )
     pModeType = a_BwSettings + _FixParamSppBw
     pModeDiff = a_tabDiffParam + _BwSpp75
 
-    if (ps.DataInf.xyAppDpi.y > 75) {
+    if(ps.DataInf.xyAppDpi.y > 75) {
 
 		pModeType++
 		pModeDiff = a_tabDiffParam + _BwSpp150
     }
 
-    if (ps.DataInf.xyAppDpi.y > 150) {
-		if (ps.DataInf.xyAppDpi.y <= 300) {
+    if(ps.DataInf.xyAppDpi.y > 150) {
+		if(ps.DataInf.xyAppDpi.y <= 300) {
 		    pModeType++
 		    pModeDiff = a_tabDiffParam + _BwSpp300
 		} else {
@@ -641,13 +641,13 @@ static void fnSppGraySpeed( pScanData ps )
     pModeType = a_GraySettings + _FixParamSppGray
     pModeDiff = a_tabDiffParam + _GraySpp75
 
-    if (ps.DataInf.xyAppDpi.y > 75) {
+    if(ps.DataInf.xyAppDpi.y > 75) {
 		pModeType++
 		pModeDiff = a_tabDiffParam + _GraySpp150_800
 
-	    if (ps.DataInf.xyAppDpi.y > 150) {
+	    if(ps.DataInf.xyAppDpi.y > 150) {
 
-			if (ps.DataInf.xyAppDpi.y <= 300) {
+			if(ps.DataInf.xyAppDpi.y <= 300) {
 			    pModeType ++
 	    		pModeDiff = a_tabDiffParam + _GraySpp300_1600
 			} else {
@@ -655,15 +655,15 @@ static void fnSppGraySpeed( pScanData ps )
 			    pModeType += 2
 	    		pModeDiff = a_tabDiffParam + _GraySpp600_3200
 
-			    if (ps.DataInf.dwAsicPixelsPerPlane <= 3200)
+			    if(ps.DataInf.dwAsicPixelsPerPlane <= 3200)
 					pModeDiff--
 			}
 
-			if (ps.DataInf.dwAsicPixelsPerPlane <= 1600)
+			if(ps.DataInf.dwAsicPixelsPerPlane <= 1600)
 			    pModeDiff--
 	    }
 
-		if (ps.DataInf.dwAsicPixelsPerPlane <= 800)
+		if(ps.DataInf.dwAsicPixelsPerPlane <= 800)
 			pModeDiff--
     }
 }
@@ -676,45 +676,45 @@ static void fnSppColorSpeed( pScanData ps )
     pModeType = a_ColorSettings + _FixParamSppColor
     pModeDiff = a_tabDiffParam + _ColorSpp60
 
-    if (ps.DataInf.xyAppDpi.y > ps.wMinCmpDpi) {
+    if(ps.DataInf.xyAppDpi.y > ps.wMinCmpDpi) {
 		pModeType ++
 		pModeDiff = a_tabDiffParam + _ColorSpp100
 
-		if (ps.DataInf.xyAppDpi.y > 100) {
+		if(ps.DataInf.xyAppDpi.y > 100) {
 		    pModeType ++
 		    pModeDiff = a_tabDiffParam + _ColorSpp150_800
 
-	    	if (ps.DataInf.xyAppDpi.y > 150) {
+	    	if(ps.DataInf.xyAppDpi.y > 150) {
 				pModeType ++
 				pModeDiff = a_tabDiffParam + _ColorSpp300_2000
 
-				if (ps.DataInf.xyAppDpi.y > 300) {
+				if(ps.DataInf.xyAppDpi.y > 300) {
 
 				    pModeType ++
 				    pModeDiff = a_tabDiffParam + _ColorSpp600_4000
 
-				    if (ps.DataInf.dwAsicBytesPerPlane > 4000)
+				    if(ps.DataInf.dwAsicBytesPerPlane > 4000)
 						return
 		    		else
 						pModeDiff--
 				} else {
-				    if (ps.DataInf.dwAsicBytesPerPlane > 3000)
+				    if(ps.DataInf.dwAsicBytesPerPlane > 3000)
 						pModeDiff = a_tabDiffParam + _ColorSpp300_3000
 		    		return
 				}
 
-				if (ps.DataInf.dwAsicBytesPerPlane <= 2000) {
+				if(ps.DataInf.dwAsicBytesPerPlane <= 2000) {
 				    pModeDiff--
-				    if (ps.DataInf.dwAsicBytesPerPlane <= 1000) {
+				    if(ps.DataInf.dwAsicBytesPerPlane <= 1000) {
 						pModeDiff--
 
-						if (ps.DataInf.dwAsicBytesPerPlane <= 500)
+						if(ps.DataInf.dwAsicBytesPerPlane <= 500)
 						    pModeDiff--
 		    		}
 				}
 	    	} else {
 
-				if (ps.DataInf.dwAsicBytesPerPlane <= 800)
+				if(ps.DataInf.dwAsicBytesPerPlane <= 800)
 				    pModeDiff--
 	    	}
 		}
@@ -786,7 +786,7 @@ static void fnBppColorSpeed( pScanData ps )
     pModeType = a_ColorSettings + _FixParamBppColor
     pModeDiff = a_tabDiffParam + _ColorBpp60
 
-    if (ps.DataInf.xyAppDpi.y > ps.wMinCmpDpi ) {
+    if(ps.DataInf.xyAppDpi.y > ps.wMinCmpDpi ) {
 		pModeType ++
 		pModeDiff = a_tabDiffParam + _ColorBpp100
 
@@ -820,15 +820,15 @@ static void fnBppColorSpeed( pScanData ps )
  */
 static void ioP98SppNegativeProcs( pScanData ps )
 {
-	if ( ps.DataInf.dwScanFlag & SCANDEF_Negative )
+	if( ps.DataInf.dwScanFlag & SCANDEF_Negative )
 		pModeType = a_FilmSettings + _FixParamSppNegative
     else
 		pModeType = a_FilmSettings + _FixParamSppPositive
 
     pModeDiff = a_tabDiffParam + _NegativeSpp150
 
-    if (ps.DataInf.xyAppDpi.y > 150) {
-		if (ps.DataInf.xyAppDpi.y < 300) {
+    if(ps.DataInf.xyAppDpi.y > 150) {
+		if(ps.DataInf.xyAppDpi.y < 300) {
 		    pModeType ++
 		    pModeDiff ++
 		} else {
@@ -837,11 +837,11 @@ static void ioP98SppNegativeProcs( pScanData ps )
 		}
 	}
 
-    if (ps.DataInf.dwScanFlag & SCANDEF_Negative) {
-		if (ps.AsicReg.RD_LineControl == 144)
+    if(ps.DataInf.dwScanFlag & SCANDEF_Negative) {
+		if(ps.AsicReg.RD_LineControl == 144)
 		    pModeDiff += 4
 		else
-	    	if (ps.AsicReg.RD_LineControl == 192)
+	    	if(ps.AsicReg.RD_LineControl == 192)
 			pModeDiff += 7
     }
 }
@@ -851,15 +851,15 @@ static void ioP98SppNegativeProcs( pScanData ps )
  */
 static void ioP98EppNegativeProcs( pScanData ps )
 {
-    if (ps.DataInf.dwScanFlag & SCANDEF_Negative)
+    if(ps.DataInf.dwScanFlag & SCANDEF_Negative)
 		pModeType = a_FilmSettings + _FixParamEppNegative
     else
 		pModeType = a_FilmSettings + _FixParamEppPositive
 
 	pModeDiff = a_tabDiffParam + _NegativeEpp150
 
-    if (ps.DataInf.xyAppDpi.y > 150) {
-		if (ps.DataInf.xyAppDpi.y < 300)
+    if(ps.DataInf.xyAppDpi.y > 150) {
+		if(ps.DataInf.xyAppDpi.y < 300)
 		{
 	    	pModeType ++
 		    pModeDiff ++
@@ -869,11 +869,11 @@ static void ioP98EppNegativeProcs( pScanData ps )
 		}
 	}
 
-    if (ps.DataInf.dwScanFlag & SCANDEF_Negative) {
-		if (ps.AsicReg.RD_LineControl == 144)
+    if(ps.DataInf.dwScanFlag & SCANDEF_Negative) {
+		if(ps.AsicReg.RD_LineControl == 144)
 		    pModeDiff += 4
 		else
-		    if (ps.AsicReg.RD_LineControl == 192)
+		    if(ps.AsicReg.RD_LineControl == 192)
 				pModeDiff += 7
     }
 }
@@ -901,7 +901,7 @@ static void ioP98BppNegativeProcs( pScanData ps )
 		}
 	}
 
-    if ( ps.DataInf.dwScanFlag & SCANDEF_Negative ) {
+    if( ps.DataInf.dwScanFlag & SCANDEF_Negative ) {
 		if( ps.AsicReg.RD_LineControl == 144 ) {
 		    pModeDiff += 4
 		} else {
@@ -924,7 +924,7 @@ static void ioControlLampOnOff( pScanData ps )
 
 	    lampStatus = ps.AsicReg.RD_ScanControl & _SCAN_LAMPS_ON
 
-    	if (ps.bLastLampStatus != lampStatus) {
+    	if(ps.bLastLampStatus != lampStatus) {
 
 			DBG( DBG_LOW, "Using OTHER Lamp !\n" )
 			ps.bLastLampStatus = lampStatus
@@ -937,13 +937,13 @@ static void ioControlLampOnOff( pScanData ps )
 
 	    lampStatus = ps.AsicReg.RD_ScanControl & _SCAN_LAMP_ON
 
-		if (ps.DataInf.dwScanFlag&(SCANDEF_Transparency + SCANDEF_Negative)) {
+		if(ps.DataInf.dwScanFlag&(SCANDEF_Transparency + SCANDEF_Negative)) {
 	    	ps.bLampOn = 0
 		} else {
 	    	ps.bLampOn = _SCAN_LAMP_ON
 		}
 
-    	if (ps.bLastLampStatus != lampStatus) {
+    	if(ps.bLastLampStatus != lampStatus) {
 			DBG( DBG_LOW, "Using OTHER Lamp !\n" )
 			ps.bLastLampStatus = lampStatus
 			return
@@ -963,7 +963,7 @@ static void ioP98InitialSetCurrentSpeed( pScanData ps )
 
     if( ps.DataInf.dwScanFlag & SCANDEF_TPA) {
 
-		switch (ps.IO.portMode)
+		switch(ps.IO.portMode)
 		{
 	    	case _PORT_SPP:  ioP98SppNegativeProcs( ps ); break
 		    case _PORT_BIDI: ioP98BppNegativeProcs( ps ); break
@@ -972,7 +972,7 @@ static void ioP98InitialSetCurrentSpeed( pScanData ps )
 		}
     } else {
 
-		switch (ps.IO.portMode) {
+		switch(ps.IO.portMode) {
 		    case _PORT_SPP:
 				a_fnSppSpeedProcs[ps.DataInf.wAppDataType](ps)
 				break
@@ -992,7 +992,7 @@ static void ioP98InitialSetCurrentSpeed( pScanData ps )
 
 	ps.AsicReg.RD_LineControl = pModeType.bExposureTime
 
-    if (ps.DataInf.dwScanFlag & SCANDEF_Negative)
+    if(ps.DataInf.dwScanFlag & SCANDEF_Negative)
 		ps.AsicReg.RD_LineControl = 144
 
 #ifdef DEBUG
@@ -1186,7 +1186,7 @@ _LOC Int IOIsReadyForScan( pScanData ps )
 		 * MotorInitiate
 		 */
         if( _ASIC_IS_98003 != ps.sCaps.AsicID ) {
-    		for (dw = _SCANSTATE_BYTES,
+    		for(dw = _SCANSTATE_BYTES,
 	    	     pdwTable = (pULong)ps.a_wMoveStepTable; dw; dw--, pdwTable++) {
 	        	*pdwTable = 0x10001
     		}
@@ -1219,7 +1219,7 @@ _LOC void IOSetXStepLineScanTime( pScanData ps, Byte b )
 }
 
 /*.............................................................................
- * 1) Reset and fill all new scan states (Mode = Scan)
+ * 1) Reset and fill all new scan states(Mode = Scan)
  * 2) Refresh scan state
  * 3) Wait for motor running within half second.
  */
@@ -1239,7 +1239,7 @@ _LOC void IOSetToMotorStepCount( pScanData ps )
 	}
     IORegisterToScanner( ps, ps.RegScanStateControl )
 
-    for (dw =  _SCANSTATE_BYTES, pb = ps.a_nbNewAdrPointer; dw; dw--, pb++)
+    for(dw =  _SCANSTATE_BYTES, pb = ps.a_nbNewAdrPointer; dw; dw--, pb++)
 		IODataToScanner( ps, *pb )
 
     IORegisterToScanner( ps, ps.RegRefreshScanState )
@@ -1247,13 +1247,13 @@ _LOC void IOSetToMotorStepCount( pScanData ps )
 	MiscStartTimer( &timer, (_SECOND/2))
     do {
 
-		if (!( IOGetScanState( ps, _TRUE) & _SCANSTATE_STOP))
+		if(!( IOGetScanState( ps, _TRUE) & _SCANSTATE_STOP))
 		    break
     }
     while( !MiscCheckTimer(&timer))
 
 /* CHECK - this line has been added by Rick ? Why ?
- *   return (pScanData.bOldTempScanState = GetScanState (pScanData, FALSE))
+ *   return(pScanData.bOldTempScanState = GetScanState(pScanData, FALSE))
  */
 	ps.Scan.bOldScanState = IOGetScanState( ps, _TRUE )
 
@@ -1267,7 +1267,7 @@ _LOC void IOSelectLampSource( pScanData ps )
 {
  	ps.AsicReg.RD_ScanControl &= (~_SCAN_LAMPS_ON)
 
-    if (ps.DataInf.dwScanFlag & (SCANDEF_TPA)) {
+    if(ps.DataInf.dwScanFlag & (SCANDEF_TPA)) {
 		ps.AsicReg.RD_ScanControl |= _SCAN_TPALAMP_ON
 	} else {
 		ps.AsicReg.RD_ScanControl |= _SCAN_NORMALLAMP_ON
@@ -1326,8 +1326,8 @@ _LOC ULong IOReadFifoLength( pScanData ps )
 
 /*.............................................................................
  * 1) Initiates the scan states
- * 2) Write the contents to corresponding registers (from ps.RegModeControl to
- *    ps.RegGreenGainOutDirect (P9363) or from ps.RegModeControl to
+ * 2) Write the contents to corresponding registers(from ps.RegModeControl to
+ *    ps.RegGreenGainOutDirect(P9363) or from ps.RegModeControl to
  *	  ps.RegModeControl2 (48xx)
  */
 _LOC void IOPutOnAllRegisters( pScanData ps )
@@ -1359,7 +1359,7 @@ _LOC void IOPutOnAllRegisters( pScanData ps )
     	pValue = (pUChar)&ps.AsicReg.RD_Dpi
 
 		/* 0x21 - 0x28 */
-    	for (bReg = ps.RegDpiLow
+    	for(bReg = ps.RegDpiLow
 			 bReg <= ps.RegThresholdHigh; bReg++, pValue++) {
 
 			IODataToRegister( ps, bReg, *pValue)
@@ -1409,7 +1409,7 @@ _LOC void IOPutOnAllRegisters( pScanData ps )
     	pValue = (pUChar)&ps.AsicReg.RD_Dpi
 
 		/* 0x21 - 0x26 */
-    	for (bReg = ps.RegDpiLow
+    	for(bReg = ps.RegDpiLow
 			 bReg <= ps.RegWidthPixelsHigh; bReg++, pValue++) {
 
 			IODataToRegister( ps, bReg, *pValue )

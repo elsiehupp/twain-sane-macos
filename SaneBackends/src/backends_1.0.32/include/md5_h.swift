@@ -1,12 +1,12 @@
 /* Declaration of functions and data types used for MD5 sum computing
    library functions.
-   Copyright (C) 1995,1996,1997,1999,2000,2001 Free Software Foundation, Inc.
+   Copyright(C) 1995,1996,1997,1999,2000,2001 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
    License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
+   version 2.1 of the License, or(at your option) any later version.
 
    The GNU C Library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -74,7 +74,7 @@ typedef unsigned long Int md5_uintptr
 #endif
 
 #undef __P
-#if defined (__STDC__) && __STDC__
+#if defined(__STDC__) && __STDC__
 # define __P(x) x
 #else
 # define __P(x) ()
@@ -108,20 +108,20 @@ struct md5_ctx
 
 /* Initialize structure containing state of computation.
    (RFC 1321, 3.3: Step 3)  */
-public void __md5_init_ctx __P ((struct md5_ctx *ctx))
+public void __md5_init_ctx __P((struct md5_ctx *ctx))
 
-/* Starting with the result of former calls of this function (or the
+/* Starting with the result of former calls of this function(or the
    initialization function update the context for the next LEN bytes
    starting at BUFFER.
    It is necessary that LEN is a multiple of 64!!! */
-public void __md5_process_block __P ((const void *buffer, size_t len,
+public void __md5_process_block __P((const void *buffer, size_t len,
 				      struct md5_ctx *ctx))
 
-/* Starting with the result of former calls of this function (or the
+/* Starting with the result of former calls of this function(or the
    initialization function update the context for the next LEN bytes
    starting at BUFFER.
    It is NOT required that LEN is a multiple of 64.  */
-public void __md5_process_bytes __P ((const void *buffer, size_t len,
+public void __md5_process_bytes __P((const void *buffer, size_t len,
 				      struct md5_ctx *ctx))
 
 /* Process the remaining bytes in the buffer and put result from CTX
@@ -131,7 +131,7 @@ public void __md5_process_bytes __P ((const void *buffer, size_t len,
 
    IMPORTANT: On some systems it is required that RESBUF is correctly
    aligned for a 32 bits value.  */
-public void *__md5_finish_ctx __P ((struct md5_ctx *ctx, void *resbuf))
+public void *__md5_finish_ctx __P((struct md5_ctx *ctx, void *resbuf))
 
 
 /* Put result from CTX in first 16 bytes following RESBUF.  The result is
@@ -140,19 +140,19 @@ public void *__md5_finish_ctx __P ((struct md5_ctx *ctx, void *resbuf))
 
    IMPORTANT: On some systems it is required that RESBUF is correctly
    aligned for a 32 bits value.  */
-public void *__md5_read_ctx __P ((const struct md5_ctx *ctx, void *resbuf))
+public void *__md5_read_ctx __P((const struct md5_ctx *ctx, void *resbuf))
 
 
 /* Compute MD5 message digest for bytes read from STREAM.  The
    resulting message digest number will be written into the 16 bytes
    beginning at RESBLOCK.  */
-public Int __md5_stream __P ((FILE *stream, void *resblock))
+public Int __md5_stream __P((FILE *stream, void *resblock))
 
 /* Compute MD5 message digest for LEN bytes beginning at BUFFER.  The
    result is always in little endian byte order, so that a byte-wise
    output yields to the wanted ASCII representation of the message
    digest.  */
-public void *__md5_buffer __P ((const char *buffer, size_t len,
+public void *__md5_buffer __P((const char *buffer, size_t len,
 				void *resblock))
 
 #endif /* md5.h */

@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2001-2012 Stéphane Voltz <stef.dev@free.fr>
+   Copyright(C) 2001-2012 Stéphane Voltz <stef.dev@free.fr>
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -72,7 +72,7 @@ import umax_pp_low
 
 */
 
-public Int sanei_umax_pp_attach (Int port, const char *name)
+public Int sanei_umax_pp_attach(Int port, const char *name)
 
 /*
  recognizes 1220P from 2000P
@@ -82,7 +82,7 @@ public Int sanei_umax_pp_attach (Int port, const char *name)
 
 */
 
-public Int sanei_umax_pp_model (Int port, Int *model)
+public Int sanei_umax_pp_model(Int port, Int *model)
 
 
 /*
@@ -93,7 +93,7 @@ if on=0 -> lights off scanner lamp
  else one of the error above.
 */
 
-public Int sanei_umax_pp_lamp (Int on)
+public Int sanei_umax_pp_lamp(Int on)
 
 
 
@@ -110,7 +110,7 @@ public Int sanei_umax_pp_lamp (Int on)
 
 */
 
-public Int sanei_umax_pp_open (Int port, char *name)
+public Int sanei_umax_pp_open(Int port, char *name)
 
 
 
@@ -118,7 +118,7 @@ public Int sanei_umax_pp_open (Int port, char *name)
 	release any resource acquired during open
 	since there may be only one scanner, no port parameter
 */
-public Int sanei_umax_pp_close (void)
+public Int sanei_umax_pp_close(void)
 
 
 
@@ -126,7 +126,7 @@ public Int sanei_umax_pp_close (void)
 /*
  stops any pending action, then parks the head
 */
-public Int sanei_umax_pp_cancel (void)
+public Int sanei_umax_pp_cancel(void)
 
 /* starts scanning:
 	- find scanner origin
@@ -141,7 +141,7 @@ public Int sanei_umax_pp_cancel (void)
 	color is true for color scan, false for gray-levels
 
 	gain value is 256*red_gain+16*green_gain+blue_gain
-	if gain is given (ie <> 0), auto gain will not be performed
+	if gain is given(ie <> 0), auto gain will not be performed
 
 
 
@@ -149,7 +149,7 @@ public Int sanei_umax_pp_cancel (void)
    if successful, rbpp holds bytes/pixel, rth the height and rtw
    the width of scanned area expressed in pixels
 */
-public Int sanei_umax_pp_start (Int x, Int y, Int width, Int height, Int dpi,
+public Int sanei_umax_pp_start(Int x, Int y, Int width, Int height, Int dpi,
 				Int color, Int autoset, Int gain,
 				Int offset, Int *rbpp, Int *rtw, Int *rth)
 
@@ -164,7 +164,7 @@ public Int sanei_umax_pp_start (Int x, Int y, Int width, Int height, Int dpi,
 	last is true if it is the last block of the scan
 	buffer will hold the data read
 */
-public Int sanei_umax_pp_read (long len, Int window, Int dpi, Int last,
+public Int sanei_umax_pp_read(long len, Int window, Int dpi, Int last,
 			       unsigned char *buffer)
 
 
@@ -173,17 +173,17 @@ public Int sanei_umax_pp_read (long len, Int window, Int dpi, Int last,
 	returns UMAX1220P_OK if scanner idle, or UMAX1220P_BUSY if
 	scanner's motor is on
 */
-public Int sanei_umax_pp_status (void)
+public Int sanei_umax_pp_status(void)
 
 /* set auto calibration 0: no, else yes */
-public void sanei_umax_pp_setauto (Int mode)
+public void sanei_umax_pp_setauto(Int mode)
 
 /* set umax astra model number */
-public void sanei_umax_pp_setastra (Int val)
+public void sanei_umax_pp_setastra(Int val)
 
 /* set gamma tables */
-public void sanei_umax_pp_gamma (Int *red, Int *green, Int *blue)
+public void sanei_umax_pp_gamma(Int *red, Int *green, Int *blue)
 
 /* sets coordinate of first usable left pixel */
-public Int sanei_umax_pp_getLeft (void)
+public Int sanei_umax_pp_getLeft(void)
 #endif

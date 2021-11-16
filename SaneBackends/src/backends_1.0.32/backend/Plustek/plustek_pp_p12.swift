@@ -2,8 +2,8 @@
  * @brief p12 and pt12 specific stuff
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 2000 Plustek Inc.
- * Copyright (C) 2001-2013 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 2000 Plustek Inc.
+ * Copyright(C) 2001-2013 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.38 - initial version
@@ -21,7 +21,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -185,7 +185,7 @@ static void p12SetupScannerVariables( pScanData ps )
 	DBG( DBG_LOW, "p12SetupScannerVariables()\n" )
 
     /*
-     * these values were originally altered by registry entries (NT-driver)
+     * these values were originally altered by registry entries(NT-driver)
      * and used to adjust the picture position...
      */
     ps.Device.lUpNormal   = 0
@@ -289,10 +289,10 @@ static void p12SetupScanningCondition( pScanData ps )
     ps.AsicReg.RD_BufFullSize |= channel
 
     ps.Scan.bRefresh = (Byte)(ps.Scan.dwInterval << 1)
-    ps.AsicReg.RD_LineControl    = (_LOBYTE (ps.Shade.wExposure))
-    ps.AsicReg.RD_ExtLineControl = (_HIBYTE (ps.Shade.wExposure))
-    ps.AsicReg.RD_XStepTime      = (_LOBYTE (ps.Shade.wXStep))
-    ps.AsicReg.RD_ExtXStepTime   = (_HIBYTE (ps.Shade.wXStep))
+    ps.AsicReg.RD_LineControl    = (_LOBYTE(ps.Shade.wExposure))
+    ps.AsicReg.RD_ExtLineControl = (_HIBYTE(ps.Shade.wExposure))
+    ps.AsicReg.RD_XStepTime      = (_LOBYTE(ps.Shade.wXStep))
+    ps.AsicReg.RD_ExtXStepTime   = (_HIBYTE(ps.Shade.wXStep))
     ps.AsicReg.RD_Motor0Control  = _FORWARD_MOTOR
     ps.AsicReg.RD_StepControl    = _MOTOR0_SCANSTATE
     ps.AsicReg.RD_ModeControl    = (_ModeScan | _ModeFifoGSel)
@@ -374,7 +374,7 @@ static void p12SetupScanningCondition( pScanData ps )
     }
     for( channel = 0, pState = ps.Bufs.b1.pReadBuf
                                       channel < _SCANSTATE_BYTES; channel++)  {
-    	ps.a_nbNewAdrPointer[channel] = pState [0] | (pState [1] << 4)
+    	ps.a_nbNewAdrPointer[channel] = pState[0] | (pState[1] << 4)
 	    pState += 2
     }
 
@@ -429,7 +429,7 @@ static void p12ProgramCCD( pScanData ps)
             (unsigned long)ps.Device.pCCDRegisters,
             ((unsigned long)ps.Device.wNumCCDRegs * ps.Shade.bIntermediate))
 
-    DBG( DBG_IO, " %u regs * %u (intermediate)\n",
+    DBG( DBG_IO, " %u regs * %u(intermediate)\n",
                     ps.Device.wNumCCDRegs, ps.Shade.bIntermediate )
 
     rp = ps.Device.pCCDRegisters +

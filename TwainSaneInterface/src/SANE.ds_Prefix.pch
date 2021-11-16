@@ -1,5 +1,0 @@
-//
-// Prefix header for all source files of the 'SANE.ds' target in the 'SANE.ds' project.
-//
-
-#include <Carbon/Carbon.h>

@@ -7,7 +7,7 @@
  *  @brief The interface functions to the USB driver stuff.
  *
  * Based on sources acquired from Plustek Inc.<br>
- * Copyright (C) 2001-2007 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 2001-2007 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.40 - starting version of the USB support
@@ -55,7 +55,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -115,7 +115,7 @@ static TabDef usbVendors[] = {
 ]
 
 /** we use at least 8 megs for scanning... */
-#define _SCANBUF_SIZE (8 * 1024 * 1024)
+#define _SCANBUF_SIZE(8 * 1024 * 1024)
 
 /********************** the USB scanner interface ****************************/
 
@@ -266,8 +266,8 @@ usb_initDev( Plustek_Device *dev, Int idx, Int handle, Int vendor )
 
 		if( usbVendors[i].id == vendor ) {
 			dev.sane.vendor = usbVendors[i].desc
-			if (dev.usbDev.Caps.workaroundFlag & _WAF_USE_ALT_DESC )
-				if (usbVendors[i].desc_alt )
+			if(dev.usbDev.Caps.workaroundFlag & _WAF_USE_ALT_DESC )
+				if(usbVendors[i].desc_alt )
 					dev.sane.vendor = usbVendors[i].desc_alt
 			DBG( _DBG_INFO, "Vendor adjusted to: >%s<\n", dev.sane.vendor )
 			break
@@ -303,12 +303,12 @@ usb_initDev( Plustek_Device *dev, Int idx, Int handle, Int vendor )
 		strcpy( tmp_str1, "plustek-default" )
 	}
 
-	ptr = getenv ("HOME")
+	ptr = getenv("HOME")
 	ret = ( NULL == ptr )?
 		snprintf( tmp_str2, sizeof(tmp_str2), "/tmp/%s", tmp_str1 ):
 		snprintf( tmp_str2, sizeof(tmp_str2), "%s/.sane/%s", ptr, tmp_str1 )
 
-	if ((ret < 0) || (ret > (Int)sizeof(tmp_str2))) {
+	if((ret < 0) || (ret > (Int)sizeof(tmp_str2))) {
 		DBG( _DBG_WARNING,
 		     "Failed to generate calibration file path. Default substituted.\n" )
 		snprintf(tmp_str2, sizeof(tmp_str2), "/tmp/plustek-default")
@@ -363,7 +363,7 @@ static Int usb_CheckForPlustekDevice( Int handle, Plustek_Device *dev )
 		return -1
 	}
 
-	result = sanei_lm983x_read ( handle, 0x02, &pcbID, 1, Sane.TRUE )
+	result = sanei_lm983x_read( handle, 0x02, &pcbID, 1, Sane.TRUE )
 	if( Sane.STATUS_GOOD != result ) {
 		sanei_usb_close( handle )
 		return -1
@@ -384,7 +384,7 @@ static Int usb_CheckForPlustekDevice( Int handle, Plustek_Device *dev )
 	tmp[13] = '\0'
 
 	sprintf( pcbStr, "-%u", pcbID )
-	strcat ( tmp, pcbStr )
+	strcat( tmp, pcbStr )
 
 	DBG( _DBG_INFO, "Checking for device >%s<\n", tmp )
 
@@ -407,7 +407,7 @@ static void usbDev_shutdown( Plustek_Device *dev  )
 {
 	Int handle
 
-	DBG( _DBG_INFO, "Shutdown called (dev.fd=%d, %s)\n",
+	DBG( _DBG_INFO, "Shutdown called(dev.fd=%d, %s)\n",
 	                dev.fd, dev.sane.name )
 	if( NULL == dev.usbDev.ModelStr ) {
 		DBG( _DBG_INFO, "Function ignored!\n" )
@@ -622,7 +622,7 @@ static Int usbDev_open( Plustek_Device *dev, DevList *devs, Int keep_lock )
 
 		status = sanei_usb_open( dn, &handle )
 		if( Sane.STATUS_GOOD != status ) {
-			DBG( _DBG_ERROR, "sanei_usb_open failed: %s (%d)\n",
+			DBG( _DBG_ERROR, "sanei_usb_open failed: %s(%d)\n",
 			     strerror(errno), errno)
 			sanei_access_unlock( dev.sane.name )
 			return -1
@@ -645,7 +645,7 @@ static Int usbDev_open( Plustek_Device *dev, DevList *devs, Int keep_lock )
 
 		status = sanei_usb_open( dev.name, &handle )
 		if( Sane.STATUS_GOOD != status ) {
-			DBG( _DBG_ERROR, "sanei_usb_open failed: %s (%d)\n",
+			DBG( _DBG_ERROR, "sanei_usb_open failed: %s(%d)\n",
 			     strerror(errno), errno)
 			sanei_access_unlock( dev.sane.name )
 			return -1
@@ -714,7 +714,7 @@ static Int usbDev_open( Plustek_Device *dev, DevList *devs, Int keep_lock )
 		return -1
 	}
 
-	if ((version < 3) || (version > 4)) {
+	if((version < 3) || (version > 4)) {
 		DBG( _DBG_ERROR, "This is not a LM9831 or LM9832 chip based scanner.\n" )
 		sanei_usb_close( handle )
 		sanei_access_unlock( dev.sane.name )
@@ -765,7 +765,7 @@ static Int usbDev_open( Plustek_Device *dev, DevList *devs, Int keep_lock )
 			}
 			sprintf( devStr, "%s-%d", dev.usbId, dev.adj.mov )
 			lc = strlen(devStr)
-			DBG( _DBG_INFO, "BearPaw device: %s (%d)\n", devStr, lc )
+			DBG( _DBG_INFO, "BearPaw device: %s(%d)\n", devStr, lc )
 		}
 
 		if( was_empty )
@@ -923,14 +923,14 @@ usbDev_setScanEnv( Plustek_Device *dev, ScanInfo *si )
 				si.ImgDef.wDataType = COLOR_TRUE24
 			}
 
-		} else if ( si.ImgDef.wDataType == COLOR_GRAY16 ) {
+		} else if( si.ImgDef.wDataType == COLOR_GRAY16 ) {
 			if( caps.workaroundFlag & _WAF_GRAY_FROM_COLOR ) {
 				DBG( _DBG_INFO, "* Gray(16-bit) from color set!\n" )
 				scan.fGrayFromColor = 2
 				si.ImgDef.wDataType = COLOR_TRUE48
 			}
 
-		} else if ( si.ImgDef.wDataType == COLOR_BW ) {
+		} else if( si.ImgDef.wDataType == COLOR_BW ) {
 			if( caps.workaroundFlag & _WAF_BIN_FROM_COLOR ) {
 				DBG( _DBG_INFO, "* Binary from color set!\n" )
 				scan.fGrayFromColor = 10
@@ -940,7 +940,7 @@ usbDev_setScanEnv( Plustek_Device *dev, ScanInfo *si )
 	}
 
 	usb_SaveImageInfo( dev, &si.ImgDef )
-	usb_GetImageInfo ( dev, &si.ImgDef, &scan.sParam.Size )
+	usb_GetImageInfo( dev, &si.ImgDef, &scan.sParam.Size )
 
 	/* mask the flags */
 	scan.dwFlag = si.ImgDef.dwFlag &
@@ -1098,12 +1098,12 @@ usbDev_startScan( Plustek_Device *dev )
 
 	scan.dwFlag |= SCANFLAG_StartScan
 
-	/* some devices (esp. BearPaw) do need a lamp switch off before
+	/* some devices(esp. BearPaw) do need a lamp switch off before
 	 * switching it on again. Otherwise it might happen that the lamp
 	 * remains off
 	 */
 	if(dev.usbDev.Caps.workaroundFlag & _WAF_LOFF_ON_START) {
-		if (usb_GetLampStatus(dev))
+		if(usb_GetLampStatus(dev))
 			usb_LampOn( dev, Sane.FALSE, Sane.TRUE )
 	}
 
@@ -1314,9 +1314,9 @@ usbDev_Prepare( Plustek_Device *dev, Sane.Byte *buf )
 				u_long len = scan.sParam.Size.dwPhyBytes / 3
 
 				so = scaps.bSensorOrder
-				if (_WAF_RESET_SO_TO_RGB & scaps.workaroundFlag) {
-					if (scaps.bPCB != 0) {
-						if (scan.sParam.PhyDpi.x > scaps.bPCB) {
+				if(_WAF_RESET_SO_TO_RGB & scaps.workaroundFlag) {
+					if(scaps.bPCB != 0) {
+						if(scan.sParam.PhyDpi.x > scaps.bPCB) {
 							so = SENSORORDER_rgb
 							DBG(_DBG_INFO, "* Resetting sensororder to RGB\n")
 						}
@@ -1366,7 +1366,7 @@ usbDev_Prepare( Plustek_Device *dev, Sane.Byte *buf )
 
 				scan.wSumY = scan.sParam.PhyDpi.y - scan.sParam.UserDpi.y
 				scan.dwFlag |= SCANFLAG_SampleY
-				DBG( _DBG_INFO, "SampleY Flag set (%u != %u, wSumY=%u)\n",
+				DBG( _DBG_INFO, "SampleY Flag set(%u != %u, wSumY=%u)\n",
 				  scan.sParam.UserDpi.y, scan.sParam.PhyDpi.y, scan.wSumY )
 			}
 		}

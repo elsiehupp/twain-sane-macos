@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 Andreas Czechanowski
+   Copyright(C) 1997 Andreas Czechanowski
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -42,15 +42,15 @@ import sys/types
 
 import sane/sane
 
-Sane.Status	sanei_ab306_open (const char *dev, Int *fd)
-void		sanei_ab306_close (Int fd)
-void		sanei_ab306_exit (void)
+Sane.Status	sanei_ab306_open(const char *dev, Int *fd)
+void		sanei_ab306_close(Int fd)
+void		sanei_ab306_exit(void)
 
-Sane.Status	sanei_ab306_get_io_privilege (Int fd)
-Sane.Status	sanei_ab306_test_ready (Int fd)
-Sane.Status	sanei_ab306_cmd (Int fd, const void *src, size_t src_size,
+Sane.Status	sanei_ab306_get_io_privilege(Int fd)
+Sane.Status	sanei_ab306_test_ready(Int fd)
+Sane.Status	sanei_ab306_cmd(Int fd, const void *src, size_t src_size,
 				 void *dst, size_t *dst_size)
-Sane.Status	sanei_ab306_rdata (Int fd, Int planes,
+Sane.Status	sanei_ab306_rdata(Int fd, Int planes,
 				   Sane.Byte *buf, Int lines, Int bpl)
 
 #endif /* sanei_ab306_h */

@@ -10,7 +10,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -113,7 +113,7 @@ enum Mtek_Option
 
 
 /*******************************************************************/
-/***** scanner hardware information (as discovered by INQUIRY) *****/
+/***** scanner hardware information(as discovered by INQUIRY) *****/
 /*******************************************************************/
 
 typedef struct Microtek_Info {
@@ -164,7 +164,7 @@ typedef struct Microtek_Info {
 #define MI_SRC_HAS_FEED  0x04 /* feeder installed                      */
 #define MI_SRC_FEED_RDY  0x08 /* feeder ready                          */
 #define MI_SRC_GET_FEED  0x10 /* if opaque:  get from feeder           */
-#define MI_SRC_GET_TRANS 0x20 /* get transparency (not opaque)         */
+#define MI_SRC_GET_TRANS 0x20 /* get transparency(not opaque)         */
 #define MI_SRC_HAS_TRANS 0x40 /* transparency adapter installed        */
   Sane.Byte source_options
   Sane.Byte expanded_resolution
@@ -173,7 +173,7 @@ typedef struct Microtek_Info {
   Sane.Byte enhance_cap
   Int max_lookup_size;     /* max. size of gamma LUT            */
   Int max_gamma_bit_depth; /* max. bits of a gamma LUT element  */
-  Int gamma_size;          /* size (bytes) of each LUT element  */
+  Int gamma_size;          /* size(bytes) of each LUT element  */
   Sane.Byte fast_color_preview; /* allows fast color preview?        */
   Sane.Byte xfer_format_select; /* allows select of transfer format? */
 #define MI_COLSEQ_PLANE  0x00
@@ -205,7 +205,7 @@ typedef struct Microtek_Info {
 
 
 /*******************************************************************/
-/***** device structure (one for each device discovered)       *****/
+/***** device structure(one for each device discovered)       *****/
 /*******************************************************************/
 
 typedef struct Microtek_Device {
@@ -227,7 +227,7 @@ typedef struct ring_buffer {
 
   uint8_t *base;  /* base address of buffer */
 
-  size_t size;         /* size (bytes) of ring buffer */
+  size_t size;         /* size(bytes) of ring buffer */
   size_t initial_size; /* initial size of ring buffer */
 
   size_t tail_blue;   /* byte index, next blue line  */
@@ -247,7 +247,7 @@ typedef struct ring_buffer {
 
 
 /*******************************************************************/
-/***** scanner structure (one for each device in use)          *****/
+/***** scanner structure(one for each device in use)          *****/
 /*****       ....all the state needed to define a scan request *****/
 /*******************************************************************/
 
@@ -349,10 +349,10 @@ typedef struct Microtek_Scanner {
 
 
   Int sfd;	 /* SCSI device file descriptor, -1 when not opened       */
-  Int scanning;  /* true == mid-pass (between Sane.start & Sane.read=EOF) */
+  Int scanning;  /* true == mid-pass(between Sane.start & Sane.read=EOF) */
   Int scan_started; /* true == start_scan has scanner going...            */
   Int woe;  /* Woe! */
-  Int this_pass; /* non-zero => in midst of a multipass scan (1,2,3)      */
+  Int this_pass; /* non-zero => in midst of a multipass scan(1,2,3)      */
   Int cancel
 
   /* we cleverly compare mode_sense results between scans to detect

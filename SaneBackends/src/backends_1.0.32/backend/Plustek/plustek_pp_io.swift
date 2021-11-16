@@ -3,8 +3,8 @@
  *        functions according to the parallel port hardware
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 1998 Plustek Inc.
- * Copyright (C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 1998 Plustek Inc.
+ * Copyright(C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.37 - initial version
@@ -29,7 +29,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -87,7 +87,7 @@ static ioReadFuncDef ioReadFunc[3] = {
 /*************************** local functions *********************************/
 
 /** we provide some functions to read data from SPP port according to
- * the speed we have detected (ReadWriteTest!!)
+ * the speed we have detected(ReadWriteTest!!)
  */
 static Byte ioDataFromSPPFast( pScanData ps )
 {
@@ -225,22 +225,22 @@ static Bool fnSPPRead( pScanData ps, pUChar pBuffer, ULong ulSize )
 	switch( ps.IO.delay ) {
 
 		case 0:
-			for (; ulSize; ulSize--, pBuffer++)
+			for(; ulSize; ulSize--, pBuffer++)
 				*pBuffer = ioDataFromSPPFast( ps )
 			break
 
 		case 1:
-			for (; ulSize; ulSize--, pBuffer++)
+			for(; ulSize; ulSize--, pBuffer++)
 				*pBuffer = ioDataFromSPPMiddle( ps )
 			break
 
 		case 2:
-			for (; ulSize; ulSize--, pBuffer++)
+			for(; ulSize; ulSize--, pBuffer++)
 				*pBuffer = ioDataFromSPPSlow( ps )
 			break
 
 		default:
-			for (; ulSize; ulSize--, pBuffer++)
+			for(; ulSize; ulSize--, pBuffer++)
 				*pBuffer = ioDataFromSPPSlowest( ps )
 			break
 	}
@@ -375,7 +375,7 @@ static void ioRestoreParallelMode( pScanData ps )
 	_DO_UDELAY( 1 )
 }
 
-/** try to connect to scanner (ASIC 9600x and 98001)
+/** try to connect to scanner(ASIC 9600x and 98001)
  */
 _LOC void ioP98001EstablishScannerConnection( pScanData ps, ULong delTime )
 {
@@ -395,7 +395,7 @@ _LOC void ioP98001EstablishScannerConnection( pScanData ps, ULong delTime )
     _DO_UDELAY( delTime )
 }
 
-/** try to connect to scanner (ASIC 98003)
+/** try to connect to scanner(ASIC 98003)
  */
 static void ioP98003EstablishScannerConnection( pScanData ps, ULong delTime )
 {
@@ -426,7 +426,7 @@ static Bool ioP96OpenScanPath( pScanData ps )
 	}
 #ifdef DEBUG
 	else
-		DBG( DBG_IO, "!!!! Path already open (%u)!!!!\n", ps.IO.bOpenCount )
+		DBG( DBG_IO, "!!!! Path already open(%u)!!!!\n", ps.IO.bOpenCount )
 #endif
 
 	ps.IO.bOpenCount++;			/* increment the opened count */
@@ -486,7 +486,7 @@ static Bool ioP98OpenScanPath( pScanData ps )
 	}
 #ifdef DEBUG
 	else
-		DBG( DBG_IO, "!!!! Path already open (%u)!!!!\n", ps.IO.bOpenCount )
+		DBG( DBG_IO, "!!!! Path already open(%u)!!!!\n", ps.IO.bOpenCount )
 #endif
 
 	ps.IO.bOpenCount++;			/* increment the opened count */
@@ -575,7 +575,7 @@ static Int ioP98ReadWriteTest( pScanData ps )
 
 	for( ul = 0; ul < _MEMTEST_SIZE; ul++ ) {
 		if( buffer[ul] != buffer[ul+_MEMTEST_SIZE] ) {
-			DBG( DBG_HIGH, "Error in memory test at pos %u (%u != %u)\n",
+			DBG( DBG_HIGH, "Error in memory test at pos %u(%u != %u)\n",
 				 ul, buffer[ul], buffer[ul+_MEMTEST_SIZE] )
 			retval = _E_NO_DEV
 			break
@@ -595,7 +595,7 @@ static void ioSPPWrite( pScanData ps, pUChar pBuffer, ULong size )
 	switch( ps.IO.delay ) {
 
 		case 0:
-		    for (; size; size--, pBuffer++) {
+		    for(; size; size--, pBuffer++) {
 				_OUTB_DATA( ps, *pBuffer )
 				_OUTB_CTRL( ps, _CTRL_START_DATAWRITE )
 				_OUTB_CTRL( ps, _CTRL_END_DATAWRITE )
@@ -604,7 +604,7 @@ static void ioSPPWrite( pScanData ps, pUChar pBuffer, ULong size )
 
 		case 1:
 		case 2:
-		    for (; size; size--, pBuffer++) {
+		    for(; size; size--, pBuffer++) {
 				_OUTB_DATA( ps, *pBuffer )
 				_DO_UDELAY( 1 )
 				_OUTB_CTRL( ps, _CTRL_START_DATAWRITE )
@@ -615,7 +615,7 @@ static void ioSPPWrite( pScanData ps, pUChar pBuffer, ULong size )
 			break
 
 		default:
-		    for (; size; size--, pBuffer++) {
+		    for(; size; size--, pBuffer++) {
 				_OUTB_DATA( ps, *pBuffer )
 				_DO_UDELAY( 1 )
 				_OUTB_CTRL( ps, _CTRL_START_DATAWRITE )
@@ -719,7 +719,7 @@ _LOC void IODownloadScanStates( pScanData ps )
 		MiscStartTimer( &timer, (_SECOND/2))
 		do {
 
-			if (!( IOGetScanState( ps, _TRUE) & _SCANSTATE_STOP))
+			if(!( IOGetScanState( ps, _TRUE) & _SCANSTATE_STOP))
 				break
 		}
 		while( !MiscCheckTimer(&timer))
@@ -789,7 +789,7 @@ _LOC Byte IODataFromRegister( pScanData ps, Byte bReg )
 }
 
 /** Calling SITUATION: Scanner path is established.
- * Write a register to asic (used for a command without parameter)
+ * Write a register to asic(used for a command without parameter)
  */
 _LOC void IORegisterToScanner( pScanData ps, Byte bReg )
 {
@@ -886,7 +886,7 @@ _LOC void IOCmdRegisterToScanner( pScanData ps, Byte bReg, Byte bData )
 }
 
 /** Calling SITUATION: Scanner path not established.
- * Write a register to asic (used for a command without parameter)
+ * Write a register to asic(used for a command without parameter)
  */
 _LOC void IORegisterDirectToScanner( pScanData ps, Byte bReg )
 {

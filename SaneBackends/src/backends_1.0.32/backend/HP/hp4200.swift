@@ -1,10 +1,10 @@
 /*
-  Copyright (C) 2000 by Adrian Perez Jorge
+  Copyright(C) 2000 by Adrian Perez Jorge
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+  of the License, or(at your option) any later version.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -95,7 +95,7 @@ struct _scanner_buffer_t
 {
   unsigned char *buffer;	/* buffer memory space */
   Int size;			/* size of the buffer */
-  Int num_bytes;		/* number of bytes left (to read) */
+  Int num_bytes;		/* number of bytes left(to read) */
   unsigned char *data_ptr;	/* cursor in buffer */
 ]
 
@@ -266,12 +266,12 @@ typedef struct _HP4200_Scanner HP4200_Scanner
 
 
 /*
-  Copyright (C) 2000 by Adrian Perez Jorge
+  Copyright(C) 2000 by Adrian Perez Jorge
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+  of the License, or(at your option) any later version.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -284,14 +284,14 @@ typedef struct _HP4200_Scanner HP4200_Scanner
 
 /* Developers:
 
-       Adrian Perez Jorge (APJ) -
+       Adrian Perez Jorge(APJ) -
             Creator of the original HP4200C backend code.
 	    adrianpj@easynews.com
 
        Andrew John Lewis  (AJL) -
 	    lewi0235@tc.umn.edu
 
-       Arnar Mar Hrafnkelsson (AMH) -
+       Arnar Mar Hrafnkelsson(AMH) -
             addi@umich.edu
 
        Frank Zago
@@ -354,9 +354,9 @@ static const Int dpi_list[] =
 #else
 static const Int dpi_list[] = { 4, 75, 150, 300, 600 ]
 #endif
-static Sane.Range x_range = { Sane.FIX (0), Sane.FIX (8.5 * MM_PER_INCH), 0 ]
+static Sane.Range x_range = { Sane.FIX(0), Sane.FIX(8.5 * MM_PER_INCH), 0 ]
 static Sane.Range y_range =
-  { Sane.FIX (0), Sane.FIX (11.75 * MM_PER_INCH), 0 ]
+  { Sane.FIX(0), Sane.FIX(11.75 * MM_PER_INCH), 0 ]
 static const Sane.Range u8_range = { 0, 255, 0 ]
 
 struct coarse_t
@@ -382,71 +382,71 @@ static Int n_devices = 0;	/* the device count */
 static const Sane.Device **devlist = NULL
 
 static unsigned char
-getreg (HP4200_Scanner * s, unsigned char reg)
+getreg(HP4200_Scanner * s, unsigned char reg)
 {
   unsigned char reg_value
 
-  if ((reg > 0x08) && (reg < 0x5b))
-    return (unsigned char) LOBYTE (s.regs[reg])
+  if((reg > 0x08) && (reg < 0x5b))
+    return(unsigned char) LOBYTE(s.regs[reg])
   else
     {
-      lm9830_read_register (s.fd, reg, &reg_value)
+      lm9830_read_register(s.fd, reg, &reg_value)
       return reg_value
     }
 }
 
 static void
-setreg (HP4200_Scanner * s, unsigned char reg, unsigned char reg_value)
+setreg(HP4200_Scanner * s, unsigned char reg, unsigned char reg_value)
 {
   s.regs[reg] = reg_value;	/* dirty bit should be clear with this */
-  if ((reg < 0x08) || (reg > 0x5b))
+  if((reg < 0x08) || (reg > 0x5b))
     {
-      lm9830_write_register (s.fd, reg, reg_value)
+      lm9830_write_register(s.fd, reg, reg_value)
     }
 }
 
 static void
-setbits (HP4200_Scanner * s, unsigned char reg, unsigned char bitmap)
+setbits(HP4200_Scanner * s, unsigned char reg, unsigned char bitmap)
 {
   s.regs[reg] = (s.regs[reg] & 0xff) | bitmap
-  if ((reg < 0x08) || (reg > 0x5b))
+  if((reg < 0x08) || (reg > 0x5b))
     {
-      lm9830_write_register (s.fd, reg, LOBYTE (s.regs[reg]))
+      lm9830_write_register(s.fd, reg, LOBYTE(s.regs[reg]))
     }
 }
 
 static void
-clearbits (HP4200_Scanner * s, unsigned char reg, unsigned char mask)
+clearbits(HP4200_Scanner * s, unsigned char reg, unsigned char mask)
 {
   s.regs[reg] = (s.regs[reg] & ~mask) & 0xff
-  if ((reg < 0x08) || (reg > 0x5b))
+  if((reg < 0x08) || (reg > 0x5b))
     {
-      lm9830_write_register (s.fd, reg, LOBYTE (s.regs[reg]))
+      lm9830_write_register(s.fd, reg, LOBYTE(s.regs[reg]))
     }
 }
 
 static Int
-cache_write (HP4200_Scanner * s)
+cache_write(HP4200_Scanner * s)
 {
   var i: Int
 #ifdef DEBUG_REG_CACHE
   Int counter = 0
 #endif
 
-  DBG (DBG_proc, "Writing registers\n")
+  DBG(DBG_proc, "Writing registers\n")
 
-  for (i = 0; i < 0x80; i++)
-    if (!(s.regs[i] & 0x100))
+  for(i = 0; i < 0x80; i++)
+    if(!(s.regs[i] & 0x100))
       {				/* modified register */
 #ifdef DEBUG_REG_CACHE
-	fprintf (stderr, "%.2x", i)
-	if (counter == 8)
-	  fprintf (stderr, "\n")
+	fprintf(stderr, "%.2x", i)
+	if(counter == 8)
+	  fprintf(stderr, "\n")
 	else
-	  fprintf (stderr, ", ")
+	  fprintf(stderr, ", ")
 	counter = (counter + 1) % 9
 #endif
-	lm9830_write_register (s.fd, i, s.regs[i])
+	lm9830_write_register(s.fd, i, s.regs[i])
 	s.regs[i] |= 0x100;	/* register is updated */
       }
   return 0
@@ -457,7 +457,7 @@ cache_write (HP4200_Scanner * s)
  */
 
 static Int
-hp4200_init_registers (HP4200_Scanner * s)
+hp4200_init_registers(HP4200_Scanner * s)
 {
   /* set up hardware parameters */
 
@@ -492,7 +492,7 @@ hp4200_init_registers (HP4200_Scanner * s)
      */
 
     /* clears the registers cache */
-    memset (s.regs, 0, sizeof (s.regs))
+    memset(s.regs, 0, sizeof(s.regs))
 
     /*
      * registers 0x00 - 0x07 are non-cacheable/volatile, so don't
@@ -500,19 +500,19 @@ hp4200_init_registers (HP4200_Scanner * s)
      * to read/write registers.
      */
 
-    for (i = 0; i < 0x08; i++)
+    for(i = 0; i < 0x08; i++)
       s.regs[i] = 0x100
   }
 
-  setreg (s, 0x70, 0x70);	/* noise filter */
+  setreg(s, 0x70, 0x70);	/* noise filter */
 
-  setreg (s, 0x0b,
+  setreg(s, 0x0b,
 	  INPUT_SIGNAL_POLARITY_NEGATIVE |
 	  CDS_ON |
 	  SENSOR_STANDARD |
-	  SENSOR_RESOLUTION_600 | LINE_SKIPPING_COLOR_PHASE_DELAY (0))
+	  SENSOR_RESOLUTION_600 | LINE_SKIPPING_COLOR_PHASE_DELAY(0))
 
-  setreg (s, 0x0c,
+  setreg(s, 0x0c,
 	  PHI1_POLARITY_POSITIVE |
 	  PHI2_POLARITY_POSITIVE |
 	  RS_POLARITY_POSITIVE |
@@ -520,106 +520,106 @@ hp4200_init_registers (HP4200_Scanner * s)
 	  CP2_POLARITY_POSITIVE |
 	  TR1_POLARITY_NEGATIVE | TR2_POLARITY_NEGATIVE)
 
-  setreg (s, 0x0d,
+  setreg(s, 0x0d,
 	  PHI1_ACTIVE |
 	  PHI2_ACTIVE |
 	  RS_ACTIVE |
 	  CP1_ACTIVE |
 	  CP2_OFF |
 	  TR1_ACTIVE |
-	  TR2_OFF | NUMBER_OF_TR_PULSES (s.hw_parms.num_tr_pulses))
+	  TR2_OFF | NUMBER_OF_TR_PULSES(s.hw_parms.num_tr_pulses))
 
-  setreg (s, 0x0e,
-	  TR_PULSE_DURATION (s.hw_parms.pulse_duration) |
-	  TR_PHI1_GUARDBAND_DURATION (s.hw_parms.guard_band_duration))
+  setreg(s, 0x0e,
+	  TR_PULSE_DURATION(s.hw_parms.pulse_duration) |
+	  TR_PHI1_GUARDBAND_DURATION(s.hw_parms.guard_band_duration))
 
   /* for pixel rate timing */
-  setreg (s, 0x0f, 6)
-  setreg (s, 0x10, 23)
-  setreg (s, 0x11, 1)
-  setreg (s, 0x12, 3)
-  setreg (s, 0x13, 3);		/* 0 */
-  setreg (s, 0x14, 5);		/* 0 */
-  setreg (s, 0x15, 0)
-  setreg (s, 0x16, 0)
-  setreg (s, 0x17, 11)
-  setreg (s, 0x18, 2);		/* 1 */
+  setreg(s, 0x0f, 6)
+  setreg(s, 0x10, 23)
+  setreg(s, 0x11, 1)
+  setreg(s, 0x12, 3)
+  setreg(s, 0x13, 3);		/* 0 */
+  setreg(s, 0x14, 5);		/* 0 */
+  setreg(s, 0x15, 0)
+  setreg(s, 0x16, 0)
+  setreg(s, 0x17, 11)
+  setreg(s, 0x18, 2);		/* 1 */
 
-  setreg (s, 0x19, CIS_TR1_TIMING_OFF | FAKE_OPTICAL_BLACK_PIXELS_OFF)
+  setreg(s, 0x19, CIS_TR1_TIMING_OFF | FAKE_OPTICAL_BLACK_PIXELS_OFF)
 
-  setreg (s, 0x1a, 0)
-  setreg (s, 0x1b, 0)
+  setreg(s, 0x1a, 0)
+  setreg(s, 0x1b, 0)
 
-  setreg (s, 0x1c, 0x0d)
-  setreg (s, 0x1d, 0x21)
+  setreg(s, 0x1c, 0x0d)
+  setreg(s, 0x1d, 0x21)
 
-  setreg (s, 0x27, TR_RED_DROP (0) | TR_GREEN_DROP (0) | TR_BLUE_DROP (0))
+  setreg(s, 0x27, TR_RED_DROP(0) | TR_GREEN_DROP(0) | TR_BLUE_DROP(0))
 
-  setreg (s, 0x28, 0x00)
+  setreg(s, 0x28, 0x00)
 
-  setreg (s, 0x29, ILLUMINATION_MODE (1))
-  setreg (s, 0x2a, HIBYTE (0));	/* 0 */
-  setreg (s, 0x2b, LOBYTE (0));	/* 0 */
+  setreg(s, 0x29, ILLUMINATION_MODE(1))
+  setreg(s, 0x2a, HIBYTE(0));	/* 0 */
+  setreg(s, 0x2b, LOBYTE(0));	/* 0 */
 
-  setreg (s, 0x2c, HIBYTE (16383))
-  setreg (s, 0x2d, LOBYTE (16383))
+  setreg(s, 0x2c, HIBYTE(16383))
+  setreg(s, 0x2d, LOBYTE(16383))
 
-  setreg (s, 0x2e, HIBYTE (2));	/* 2 */
-  setreg (s, 0x2f, LOBYTE (2));	/* 1 */
+  setreg(s, 0x2e, HIBYTE(2));	/* 2 */
+  setreg(s, 0x2f, LOBYTE(2));	/* 1 */
 
-  setreg (s, 0x30, HIBYTE (0))
-  setreg (s, 0x31, LOBYTE (0))
+  setreg(s, 0x30, HIBYTE(0))
+  setreg(s, 0x31, LOBYTE(0))
 
-  setreg (s, 0x32, HIBYTE (0))
-  setreg (s, 0x33, LOBYTE (0))
+  setreg(s, 0x32, HIBYTE(0))
+  setreg(s, 0x33, LOBYTE(0))
 
-  setreg (s, 0x34, HIBYTE (32))
-  setreg (s, 0x35, LOBYTE (32))
+  setreg(s, 0x34, HIBYTE(32))
+  setreg(s, 0x35, LOBYTE(32))
 
-  setreg (s, 0x36, HIBYTE (48))
-  setreg (s, 0x37, LOBYTE (48))
+  setreg(s, 0x36, HIBYTE(48))
+  setreg(s, 0x37, LOBYTE(48))
 
-  setreg (s, 0x42, EPP_MODE | PPORT_DRIVE_CURRENT (3))
+  setreg(s, 0x42, EPP_MODE | PPORT_DRIVE_CURRENT(3))
 
-  setreg (s, 0x43,
+  setreg(s, 0x43,
 	  RAM_SIZE_128 |
-	  SRAM_DRIVER_CURRENT (3) | SRAM_BANDWIDTH_8 | SCANNING_FULL_DUPLEX)
+	  SRAM_DRIVER_CURRENT(3) | SRAM_BANDWIDTH_8 | SCANNING_FULL_DUPLEX)
 
-  setreg (s, 0x45,
+  setreg(s, 0x45,
 	  MICRO_STEPPING |
-	  CURRENT_SENSING_PHASES (2) |
+	  CURRENT_SENSING_PHASES(2) |
 	  PHASE_A_POLARITY_POSITIVE |
 	  PHASE_B_POLARITY_POSITIVE | STEPPER_MOTOR_OUTPUT)
 
-  setreg (s, 0x4a, HIBYTE (100))
-  setreg (s, 0x4b, LOBYTE (100))
+  setreg(s, 0x4a, HIBYTE(100))
+  setreg(s, 0x4b, LOBYTE(100))
 
-  setreg (s, 0x4c, HIBYTE (0))
-  setreg (s, 0x4d, LOBYTE (0))
+  setreg(s, 0x4c, HIBYTE(0))
+  setreg(s, 0x4d, LOBYTE(0))
 
   /* resume scan threshold */
-  setreg (s, 0x4f, 64)
+  setreg(s, 0x4f, 64)
   /* steps to reverse */
-  setreg (s, 0x50, 40)
-  setreg (s, 0x51,
-	  ACCELERATION_PROFILE_STOPPED (3) |
-	  ACCELERATION_PROFILE_25P (s.hw_parms.fsteps_25_speed) |
-	  ACCELERATION_PROFILE_50P (s.hw_parms.fsteps_50_speed))
-  setreg (s, 0x54, NON_REVERSING_EXTRA_LINES (0) | FIRST_LINE_TO_PROCESS (0))
-  setreg (s, 0x55, KICKSTART_STEPS (0) | HOLD_CURRENT_TIMEOUT (2))
+  setreg(s, 0x50, 40)
+  setreg(s, 0x51,
+	  ACCELERATION_PROFILE_STOPPED(3) |
+	  ACCELERATION_PROFILE_25P(s.hw_parms.fsteps_25_speed) |
+	  ACCELERATION_PROFILE_50P(s.hw_parms.fsteps_50_speed))
+  setreg(s, 0x54, NON_REVERSING_EXTRA_LINES(0) | FIRST_LINE_TO_PROCESS(0))
+  setreg(s, 0x55, KICKSTART_STEPS(0) | HOLD_CURRENT_TIMEOUT(2))
 
   /* stepper PWM frequency */
-  setreg (s, 0x56, 8)
+  setreg(s, 0x56, 8)
   /* stepper pwm duty cycle */
-  setreg (s, 0x57, 23)
+  setreg(s, 0x57, 23)
 
-  setreg (s, 0x58,
+  setreg(s, 0x58,
 	  PAPER_SENSOR_1_POLARITY_HIGH |
 	  PAPER_SENSOR_1_TRIGGER_EDGE |
 	  PAPER_SENSOR_1_NO_STOP_SCAN |
 	  PAPER_SENSOR_2_POLARITY_HIGH |
 	  PAPER_SENSOR_2_TRIGGER_EDGE | PAPER_SENSOR_2_STOP_SCAN)
-  setreg (s, 0x59,
+  setreg(s, 0x59,
 	  MISCIO_1_TYPE_OUTPUT |
 	  MISCIO_1_POLARITY_HIGH |
 	  MISCIO_1_TRIGGER_EDGE |
@@ -633,19 +633,19 @@ hp4200_init_registers (HP4200_Scanner * s)
 
 #ifdef DEBUG
 static Int
-dump_register_cache (HP4200_Scanner * s)
+dump_register_cache(HP4200_Scanner * s)
 {
   var i: Int
 
-  for (i = 0; i < 0x80; i++)
+  for(i = 0; i < 0x80; i++)
     {
-      fprintf (stderr, "%.2x:0x%.2x", i, s.regs[i])
-      if ((i + 1) % 8)
-	fprintf (stderr, ", ")
+      fprintf(stderr, "%.2x:0x%.2x", i, s.regs[i])
+      if((i + 1) % 8)
+	fprintf(stderr, ", ")
       else
-	fprintf (stderr, "\n")
+	fprintf(stderr, "\n")
     }
-  fputs ("", stderr)
+  fputs("", stderr)
   return 0
 }
 #endif
@@ -655,38 +655,38 @@ dump_register_cache (HP4200_Scanner * s)
  */
 
 static Int
-hp4200_goto_home (HP4200_Scanner * s)
+hp4200_goto_home(HP4200_Scanner * s)
 {
   unsigned char cmd_reg
   unsigned char status_reg
   unsigned char old_paper_sensor_reg
 
-  cmd_reg = getreg (s, 0x07)
-  if (cmd_reg != 2)
+  cmd_reg = getreg(s, 0x07)
+  if(cmd_reg != 2)
     {
       unsigned char paper_sensor_reg
       unsigned char sensor_bit[2] = { 0x02, 0x10 ]
       /* sensor head is not returning */
 
       /* let's see if it's already at home */
-      /* first put paper (head) sensor level sensitive */
-      paper_sensor_reg = getreg (s, 0x58)
+      /* first put paper(head) sensor level sensitive */
+      paper_sensor_reg = getreg(s, 0x58)
       old_paper_sensor_reg = paper_sensor_reg
       paper_sensor_reg &= ~sensor_bit[s.hw_parms.home_sensor - 1]
-      setreg (s, 0x58, paper_sensor_reg)
-      cache_write (s)
+      setreg(s, 0x58, paper_sensor_reg)
+      cache_write(s)
 
       /* if the scan head is not at home then move motor backwards */
-      status_reg = getreg (s, 0x02)
-      setreg (s, 0x58, old_paper_sensor_reg)
-      cache_write (s)
-      if (!(status_reg & s.hw_parms.home_sensor))
+      status_reg = getreg(s, 0x02)
+      setreg(s, 0x58, old_paper_sensor_reg)
+      cache_write(s)
+      if(!(status_reg & s.hw_parms.home_sensor))
 	{
-	  setreg (s, 0x07, 0x08)
-	  usleep (10 * 1000)
-	  setreg (s, 0x07, 0x00)
-	  usleep (10 * 1000)
-	  setreg (s, 0x07, 0x02)
+	  setreg(s, 0x07, 0x08)
+	  usleep(10 * 1000)
+	  setreg(s, 0x07, 0x00)
+	  usleep(10 * 1000)
+	  setreg(s, 0x07, 0x02)
 	}
     }
   return 0
@@ -694,43 +694,43 @@ hp4200_goto_home (HP4200_Scanner * s)
 
 #define HP4200_CHECK_INTERVAL 1000	/* usecs between status checks */
 static Int
-hp4200_wait_homed (HP4200_Scanner * s)
+hp4200_wait_homed(HP4200_Scanner * s)
 {
   unsigned char cmd_reg
 
-  cmd_reg = getreg (s, 0x07)
-  while (cmd_reg != 0)
+  cmd_reg = getreg(s, 0x07)
+  while(cmd_reg != 0)
     {
-      usleep (HP4200_CHECK_INTERVAL)
-      cmd_reg = getreg (s, 0x07)
+      usleep(HP4200_CHECK_INTERVAL)
+      cmd_reg = getreg(s, 0x07)
     }
   return 0
 }
 
 static Int
-compute_fastfeed_step_size (unsigned long crystal_freq, Int mclk,
+compute_fastfeed_step_size(unsigned long crystal_freq, Int mclk,
 			    float max_speed, Int steps_per_inch,
 			    Int color_mode)
 {
   Int aux
   Int r
 
-  if (color_mode == 0)
+  if(color_mode == 0)
     r = 24
   else
     r = 8
 
-  aux = floor (crystal_freq / ((double) mclk * max_speed * 4.0 *
+  aux = floor(crystal_freq / ((double) mclk * max_speed * 4.0 *
 			       steps_per_inch * r))
 
 
-  if (aux < 2)
+  if(aux < 2)
     aux = 2
   return aux
 }
 
 static Sane.Status
-read_available_data (HP4200_Scanner * s, Sane.Byte * buffer,
+read_available_data(HP4200_Scanner * s, Sane.Byte * buffer,
 		     size_t * byte_count)
 {
   Sane.Status status
@@ -740,46 +740,46 @@ read_available_data (HP4200_Scanner * s, Sane.Byte * buffer,
   size_t really_read
   size_t chunk
 
-  assert (buffer != NULL)
+  assert(buffer != NULL)
 
   *byte_count = 0
   do
     {
-      scankb1 = getreg (s, 0x01)
-      scankb2 = getreg (s, 0x01)
-      if (s.aborted_by_user)
+      scankb1 = getreg(s, 0x01)
+      scankb2 = getreg(s, 0x01)
+      if(s.aborted_by_user)
 	return Sane.STATUS_CANCELLED
     }
-  while ((scankb1 != scankb2) || (scankb1 < 12))
+  while((scankb1 != scankb2) || (scankb1 < 12))
 
   to_read = scankb1 * 1024
 
-  while (to_read)
+  while(to_read)
     {
-      if (s.aborted_by_user)
+      if(s.aborted_by_user)
 	return Sane.STATUS_CANCELLED
       chunk = (to_read > 0xffff) ? 0xffff : to_read
 
-      sanei_pv8630_write_byte (s.fd, PV8630_REPPADDRESS, 0x00)
-      sanei_pv8630_prep_bulkread (s.fd, chunk)
+      sanei_pv8630_write_byte(s.fd, PV8630_REPPADDRESS, 0x00)
+      sanei_pv8630_prep_bulkread(s.fd, chunk)
       really_read = chunk
-      if ((status = sanei_usb_read_bulk (s.fd, buffer, &really_read)) !=
+      if((status = sanei_usb_read_bulk(s.fd, buffer, &really_read)) !=
 	  Sane.STATUS_GOOD)
 	{
-	  DBG (DBG_error, "sanei_usb_read_bulk failed (%s)\n",
-	       Sane.strstatus (status))
+	  DBG(DBG_error, "sanei_usb_read_bulk failed(%s)\n",
+	       Sane.strstatus(status))
 	  return status
 	}
-      if (really_read > to_read)
+      if(really_read > to_read)
 	{
-	  DBG (DBG_error, "USB stack read more bytes than requested!\n")
+	  DBG(DBG_error, "USB stack read more bytes than requested!\n")
 	  return Sane.STATUS_IO_ERROR
 	}
       *byte_count += really_read
       buffer += really_read
       to_read -= really_read
 #ifdef DEBUG
-      fprintf (stderr, "read %d bytes\n", really_read)
+      fprintf(stderr, "read %d bytes\n", really_read)
 #endif
     }
   return Sane.STATUS_GOOD
@@ -787,30 +787,30 @@ read_available_data (HP4200_Scanner * s, Sane.Byte * buffer,
 
 #ifdef unused
 static Int
-compute_datalink_bandwidth (HP4200_Scanner * s)
+compute_datalink_bandwidth(HP4200_Scanner * s)
 {
   Int line_size
   Int pause_limit
   unsigned Int color_mode
 
   /*
-   * Line size for 8 bpp, the entire scan area width (plus the
+   * Line size for 8 bpp, the entire scan area width(plus the
    * status byte) at optical resolution.
    */
 
-  if (s.user_parms.color)
+  if(s.user_parms.color)
     {
       line_size = 3 * s.hw_parms.scan_area_width + 1
       color_mode = 0
-      setreg (s, 0x26, color_mode);	/* 3 channel pixel rate color */
+      setreg(s, 0x26, color_mode);	/* 3 channel pixel rate color */
     }
   else
     {
       line_size = s.hw_parms.scan_area_width + 1
       color_mode = 4
-      setreg (s, 0x26, 0x08 | color_mode);	/* 1 channel mode A (green) */
+      setreg(s, 0x26, 0x08 | color_mode);	/* 1 channel mode A(green) */
     }
-  setreg (s, 0x09, (3 << 3));	/* h-divider = 1, 8 bpp */
+  setreg(s, 0x09, (3 << 3));	/* h-divider = 1, 8 bpp */
 
   {
     Int first_white_pixel
@@ -818,19 +818,19 @@ compute_datalink_bandwidth (HP4200_Scanner * s)
 
     first_white_pixel = s.hw_parms.sensor_pixel_end - 10
     line_end = first_white_pixel + s.hw_parms.scan_area_width
-    if (line_end > (s.hw_parms.sensor_num_pixels - 20))
+    if(line_end > (s.hw_parms.sensor_num_pixels - 20))
       line_end = s.hw_parms.sensor_num_pixels - 20
 
-    setreg (s, 0x1c, HIBYTE (s.hw_parms.sensor_pixel_start))
-    setreg (s, 0x1d, LOBYTE (s.hw_parms.sensor_pixel_end))
-    setreg (s, 0x1e, HIBYTE (first_white_pixel))
-    setreg (s, 0x1f, LOBYTE (first_white_pixel))
-    setreg (s, 0x20, HIBYTE (s.hw_parms.sensor_num_pixels))
-    setreg (s, 0x21, LOBYTE (s.hw_parms.sensor_num_pixels))
-    setreg (s, 0x22, getreg (s, 0x1e))
-    setreg (s, 0x23, getreg (s, 0x1f))
-    setreg (s, 0x24, HIBYTE (line_end))
-    setreg (s, 0x25, LOBYTE (line_end))
+    setreg(s, 0x1c, HIBYTE(s.hw_parms.sensor_pixel_start))
+    setreg(s, 0x1d, LOBYTE(s.hw_parms.sensor_pixel_end))
+    setreg(s, 0x1e, HIBYTE(first_white_pixel))
+    setreg(s, 0x1f, LOBYTE(first_white_pixel))
+    setreg(s, 0x20, HIBYTE(s.hw_parms.sensor_num_pixels))
+    setreg(s, 0x21, LOBYTE(s.hw_parms.sensor_num_pixels))
+    setreg(s, 0x22, getreg(s, 0x1e))
+    setreg(s, 0x23, getreg(s, 0x1f))
+    setreg(s, 0x24, HIBYTE(line_end))
+    setreg(s, 0x25, LOBYTE(line_end))
   }
 
   /*
@@ -838,17 +838,17 @@ compute_datalink_bandwidth (HP4200_Scanner * s)
    * Stay in the calibration region.
    */
 
-  setreg (s, 0x4f, 0)
-  clearbits (s, 0x45, 0x10)
+  setreg(s, 0x4f, 0)
+  clearbits(s, 0x45, 0x10)
 
   /*
    * Pause the scan when memory is full.
    */
 
   pause_limit = s.hw_parms.SRAM_size - (line_size / 1024) - 1
-  setreg (s, 0x4e, pause_limit & 0xff)
+  setreg(s, 0x4e, pause_limit & 0xff)
 
-  s.mclk = compute_min_mclk (s.hw_parms.SRAM_bandwidth,
+  s.mclk = compute_min_mclk(s.hw_parms.SRAM_bandwidth,
 			      s.hw_parms.crystal_frequency)
 
 
@@ -860,28 +860,28 @@ compute_datalink_bandwidth (HP4200_Scanner * s)
     Int step_size
 
     step_size =
-      compute_fastfeed_step_size (s.hw_parms.crystal_frequency,
+      compute_fastfeed_step_size(s.hw_parms.crystal_frequency,
 				  s.mclk,
 				  s.hw_parms.scan_bar_max_speed,
 				  s.hw_parms.motor_full_steps_per_inch,
 				  color_mode)
 
-    setreg (s, 0x46, HIBYTE (step_size))
-    setreg (s, 0x47, LOBYTE (step_size))
-    setreg (s, 0x48, HIBYTE (step_size))
-    setreg (s, 0x49, LOBYTE (step_size))
+    setreg(s, 0x46, HIBYTE(step_size))
+    setreg(s, 0x47, LOBYTE(step_size))
+    setreg(s, 0x48, HIBYTE(step_size))
+    setreg(s, 0x49, LOBYTE(step_size))
   }
 
-  cache_write (s)
+  cache_write(s)
 
-  /*  dump_register_cache (s); */
+  /*  dump_register_cache(s); */
 
   /*
    * scan during 1 sec. aprox.
    */
 
-  setreg (s, 0x07, 0x08)
-  setreg (s, 0x07, 0x03)
+  setreg(s, 0x07, 0x08)
+  setreg(s, 0x07, 0x03)
 
   {
     struct timeval tv_before
@@ -890,41 +890,41 @@ compute_datalink_bandwidth (HP4200_Scanner * s)
     long bytes_read_total
     Sane.Byte *buffer
 
-    buffer = malloc (2 * 98304);	/* check this */
-    if (!buffer)
+    buffer = malloc(2 * 98304);	/* check this */
+    if(!buffer)
       {
-	DBG (DBG_error, "compute_datalink_bandwidth: malloc failed\n")
+	DBG(DBG_error, "compute_datalink_bandwidth: malloc failed\n")
 	return 0
       }
     bytes_read_total = 0
-    gettimeofday (&tv_before, NULL)
+    gettimeofday(&tv_before, NULL)
     do
       {
 	size_t bytes_read
 	Sane.Status status
 
-	status = read_available_data (s, buffer, &bytes_read)
-	if (status != Sane.STATUS_GOOD)
+	status = read_available_data(s, buffer, &bytes_read)
+	if(status != Sane.STATUS_GOOD)
 	  {
-	    DBG (DBG_error, "read_available_data failed (%s)\n",
-		 Sane.strstatus (status))
+	    DBG(DBG_error, "read_available_data failed(%s)\n",
+		 Sane.strstatus(status))
 	    return 0
 	  }
 	bytes_read_total += bytes_read
-	gettimeofday (&tv_after, NULL)
+	gettimeofday(&tv_after, NULL)
 	elapsed_time_ms = (tv_after.tv_sec - tv_before.tv_sec) * 1000
 	elapsed_time_ms += (tv_after.tv_usec - tv_before.tv_usec) / 1000
       }
-    while (elapsed_time_ms < 1000)
+    while(elapsed_time_ms < 1000)
 
-    setreg (s, 0x07, 0x00)
-    free (buffer)
+    setreg(s, 0x07, 0x00)
+    free(buffer)
 
     s.msrd_parms.datalink_bandwidth = bytes_read_total /
       (elapsed_time_ms / 1000)
 
 #ifdef DEBUG
-    fprintf (stderr, "PC Transfer rate = %d bytes/sec. (%ld/%d)\n",
+    fprintf(stderr, "PC Transfer rate = %d bytes/sec. (%ld/%d)\n",
 	     s.msrd_parms.datalink_bandwidth, bytes_read_total,
 	     elapsed_time_ms)
 #endif
@@ -934,35 +934,35 @@ compute_datalink_bandwidth (HP4200_Scanner * s)
 #endif
 
 static void
-compute_first_gain_offset (Int target, Int max, Int min, Int *gain,
+compute_first_gain_offset(Int target, Int max, Int min, Int *gain,
 			   Int *offset, Int *max_gain, Int *min_offset)
 {
   *gain = (Int) 15.0 *(target / (max - min) - 0.933)
   *offset = (Int) (-1.0 * min / (512.0 * 0.0195))
-  if (*gain >= 32)
+  if(*gain >= 32)
     {
       *gain = (Int) 15.0 *(target / 3.0 / (max - min) - 0.933)
       *offset = (Int) -3.0 * min / (512.0 * 0.0195)
     }
-  if (*gain < 0)
+  if(*gain < 0)
     *gain = 0
-  else if (*gain > 63)
+  else if(*gain > 63)
     *gain = 63
 
-  if (*offset < -31)
+  if(*offset < -31)
     *offset = -31
-  else if (*offset > 31)
+  else if(*offset > 31)
     *offset = 31
 
   *max_gain = 63
   *min_offset = -31
 }
 
-#define DATA_PORT_READ (1 << 5)
+#define DATA_PORT_READ(1 << 5)
 #define DATA_PORT_WRITE 0
 
 static Int
-write_gamma (HP4200_Scanner * s)
+write_gamma(HP4200_Scanner * s)
 {
   Int color
   var i: Int
@@ -972,36 +972,36 @@ write_gamma (HP4200_Scanner * s)
   size_t to_read
   size_t to_write
 
-  for (color = 0; color < 3; color++)
+  for(color = 0; color < 3; color++)
     {
-      for (i = 0; i < 1024; i++)
+      for(i = 0; i < 1024; i++)
 	gamma[i] = s.user_parms.gamma[color][i]
 
-      setreg (s, 0x03, color << 1)
-      setreg (s, 0x04, DATA_PORT_WRITE)
-      setreg (s, 0x05, 0x00)
-      sanei_pv8630_write_byte (s.fd, PV8630_REPPADDRESS, 0x06)
-      sanei_pv8630_prep_bulkwrite (s.fd, sizeof (gamma))
-      to_write = sizeof (gamma)
-      sanei_usb_write_bulk (s.fd, gamma, &to_write)
+      setreg(s, 0x03, color << 1)
+      setreg(s, 0x04, DATA_PORT_WRITE)
+      setreg(s, 0x05, 0x00)
+      sanei_pv8630_write_byte(s.fd, PV8630_REPPADDRESS, 0x06)
+      sanei_pv8630_prep_bulkwrite(s.fd, sizeof(gamma))
+      to_write = sizeof(gamma)
+      sanei_usb_write_bulk(s.fd, gamma, &to_write)
 
       /* check if gamma vector was correctly written */
 
-      setreg (s, 0x03, color << 1)
-      setreg (s, 0x04, DATA_PORT_READ)
-      setreg (s, 0x05, 0x00)
-      sanei_pv8630_write_byte (s.fd, PV8630_REPPADDRESS, 0x06)
-      sanei_pv8630_prep_bulkread (s.fd, sizeof (read_gamma))
-      to_read = sizeof (read_gamma)
-      sanei_usb_read_bulk (s.fd, read_gamma, &to_read)
-      retval = memcmp (read_gamma, gamma, sizeof (read_gamma))
-      if (retval != 0)
+      setreg(s, 0x03, color << 1)
+      setreg(s, 0x04, DATA_PORT_READ)
+      setreg(s, 0x05, 0x00)
+      sanei_pv8630_write_byte(s.fd, PV8630_REPPADDRESS, 0x06)
+      sanei_pv8630_prep_bulkread(s.fd, sizeof(read_gamma))
+      to_read = sizeof(read_gamma)
+      sanei_usb_read_bulk(s.fd, read_gamma, &to_read)
+      retval = memcmp(read_gamma, gamma, sizeof(read_gamma))
+      if(retval != 0)
 	{
-	  DBG (DBG_error, "error: color %d has bad gamma table\n", color)
+	  DBG(DBG_error, "error: color %d has bad gamma table\n", color)
 	}
 #ifdef DEBUG
       else
-	fprintf (stderr, "color %d gamma table is good\n", color)
+	fprintf(stderr, "color %d gamma table is good\n", color)
 #endif
     }
 
@@ -1009,7 +1009,7 @@ write_gamma (HP4200_Scanner * s)
 }
 
 static Int
-write_default_offset_gain (HP4200_Scanner * s, Sane.Byte * gain_offset,
+write_default_offset_gain(HP4200_Scanner * s, Sane.Byte * gain_offset,
 			   Int size, Int color)
 {
   Sane.Byte *check_data
@@ -1017,38 +1017,38 @@ write_default_offset_gain (HP4200_Scanner * s, Sane.Byte * gain_offset,
   size_t to_read
   size_t to_write
 
-  setreg (s, 0x03, (color << 1) | 1)
-  setreg (s, 0x04, DATA_PORT_WRITE)
-  setreg (s, 0x05, 0x00)
-  sanei_pv8630_write_byte (s.fd, PV8630_REPPADDRESS, 0x06)
-  sanei_pv8630_prep_bulkwrite (s.fd, size)
+  setreg(s, 0x03, (color << 1) | 1)
+  setreg(s, 0x04, DATA_PORT_WRITE)
+  setreg(s, 0x05, 0x00)
+  sanei_pv8630_write_byte(s.fd, PV8630_REPPADDRESS, 0x06)
+  sanei_pv8630_prep_bulkwrite(s.fd, size)
   to_write = size
-  sanei_usb_write_bulk (s.fd, gain_offset, &to_write)
+  sanei_usb_write_bulk(s.fd, gain_offset, &to_write)
 
-  check_data = malloc (size)
-  setreg (s, 0x03, (color << 1) | 1)
-  setreg (s, 0x04, DATA_PORT_READ)
-  setreg (s, 0x05, 0x00)
-  sanei_pv8630_write_byte (s.fd, PV8630_REPPADDRESS, 0x06)
-  sanei_pv8630_prep_bulkread (s.fd, size)
+  check_data = malloc(size)
+  setreg(s, 0x03, (color << 1) | 1)
+  setreg(s, 0x04, DATA_PORT_READ)
+  setreg(s, 0x05, 0x00)
+  sanei_pv8630_write_byte(s.fd, PV8630_REPPADDRESS, 0x06)
+  sanei_pv8630_prep_bulkread(s.fd, size)
   to_read = size
-  sanei_usb_read_bulk (s.fd, check_data, &to_read)
-  retval = memcmp (gain_offset, check_data, size)
-  free (check_data)
-  if (retval != 0)
+  sanei_usb_read_bulk(s.fd, check_data, &to_read)
+  retval = memcmp(gain_offset, check_data, size)
+  free(check_data)
+  if(retval != 0)
     {
-      DBG (DBG_error, "error: color %d has bad gain/offset table\n", color)
+      DBG(DBG_error, "error: color %d has bad gain/offset table\n", color)
     }
 #ifdef DEBUG
   else
-    fprintf (stderr, "color %d gain/offset table is good\n", color)
+    fprintf(stderr, "color %d gain/offset table is good\n", color)
 #endif
 
   return 0
 }
 
 static Int
-compute_gain_offset (Int target, Int max, Int min, Int *gain,
+compute_gain_offset(Int target, Int max, Int min, Int *gain,
 		     Int *offset, Int *max_gain, Int *min_offset)
 {
   Int gain_stable
@@ -1057,9 +1057,9 @@ compute_gain_offset (Int target, Int max, Int min, Int *gain,
   gain_stable = 1;		/* unless the opposite is said */
   is_unstable = 0
 
-  if (max > target)
+  if(max > target)
     {
-      if (*gain > 0)
+      if(*gain > 0)
 	{
 	  (*gain)--
 	  *max_gain = *gain
@@ -1068,13 +1068,13 @@ compute_gain_offset (Int target, Int max, Int min, Int *gain,
 	}
       else
 	{
-	  DBG (DBG_error, "error: integration time too long.\n")
+	  DBG(DBG_error, "error: integration time too long.\n")
 	  return -1
 	}
     }
   else
     {
-      if (*gain < *max_gain)
+      if(*gain < *max_gain)
 	{
 	  (*gain)++
 	  gain_stable = 0
@@ -1082,24 +1082,24 @@ compute_gain_offset (Int target, Int max, Int min, Int *gain,
 	}
     }
 
-  if (min == 0)
+  if(min == 0)
     {
-      if (*offset < 31)
+      if(*offset < 31)
 	{
 	  (*offset)++
-	  if (gain_stable)
+	  if(gain_stable)
 	    *min_offset = *offset
 	  is_unstable |= 1
 	}
       else
 	{
-	  DBG (DBG_error, "error: max static has pixel value == 0\n")
+	  DBG(DBG_error, "error: max static has pixel value == 0\n")
 	  return -1
 	}
     }
   else
     {
-      if (*offset > *min_offset)
+      if(*offset > *min_offset)
 	{
 	  (*offset)--
 	  is_unstable |= 1
@@ -1109,7 +1109,7 @@ compute_gain_offset (Int target, Int max, Int min, Int *gain,
 }
 
 static Int
-compute_bytes_per_line (Int width_in_pixels, unsigned char hdpi_code,
+compute_bytes_per_line(Int width_in_pixels, unsigned char hdpi_code,
 			unsigned char pixel_packing,
 			unsigned char data_mode,
 			unsigned char AFE_operation, Int m)
@@ -1122,16 +1122,16 @@ compute_bytes_per_line (Int width_in_pixels, unsigned char hdpi_code,
   Int status_bytes
   const Int pixels_per_byte_mapping[] = { 8, 4, 2, 1 ]
 
-  assert (hdpi_code <= 7)
+  assert(hdpi_code <= 7)
   pixels_per_line = (width_in_pixels * dpi_qot_mul[hdpi_code]) /
     dpi_qot_div[hdpi_code]
-  if ((width_in_pixels * dpi_qot_mul[hdpi_code]) % dpi_qot_div[hdpi_code])
+  if((width_in_pixels * dpi_qot_mul[hdpi_code]) % dpi_qot_div[hdpi_code])
     pixels_per_line++
 
 
   status_bytes = (m == 0) ? 1 : m
 
-  if (data_mode == 1)
+  if(data_mode == 1)
     pixels_per_byte = 1;	/* should be 0.5 but later
 				   bytes_per_line will be multiplied
 				   by 2, and also the number of status
@@ -1142,11 +1142,11 @@ compute_bytes_per_line (Int width_in_pixels, unsigned char hdpi_code,
 				 */
   else
     {
-      assert (pixel_packing <= 3)
+      assert(pixel_packing <= 3)
       pixels_per_byte = pixels_per_byte_mapping[pixel_packing]
     }
 
-  switch (AFE_operation)
+  switch(AFE_operation)
     {
     case PIXEL_RATE_3_CHANNELS:
       bytes_per_line = ((pixels_per_line * 3) / pixels_per_byte) +
@@ -1158,17 +1158,17 @@ compute_bytes_per_line (Int width_in_pixels, unsigned char hdpi_code,
     default:
       /* Not implemented! (yet?) and not used.
        * This case should not happen. */
-      assert (0)
+      assert(0)
     }
 
-  if (data_mode == 1)		/* see big note above */
+  if(data_mode == 1)		/* see big note above */
     bytes_per_line *= 2
 
   return bytes_per_line
 }
 
 static Int
-compute_pause_limit (hardware_parameters_t * hw_parms, Int bytes_per_line)
+compute_pause_limit(hardware_parameters_t * hw_parms, Int bytes_per_line)
 {
   Int coef_size
   const Int coef_mapping[] = { 16, 32 ]
@@ -1177,14 +1177,14 @@ compute_pause_limit (hardware_parameters_t * hw_parms, Int bytes_per_line)
   coef_size = coef_mapping[hw_parms.sensor_resolution & 0x01]
   pause_limit = hw_parms.SRAM_size - coef_size - (bytes_per_line / 1024) - 1
 
-  if (pause_limit > 2)
+  if(pause_limit > 2)
     pause_limit -= 2
 
   return pause_limit
 }
 
 static Int
-compute_dpd (HP4200_Scanner * s, Int step_size, Int line_end)
+compute_dpd(HP4200_Scanner * s, Int step_size, Int line_end)
 {
   Int tr, dpd
 
@@ -1194,7 +1194,7 @@ compute_dpd (HP4200_Scanner * s, Int step_size, Int line_end)
 		  s.hw_parms.pulse_duration + 1) +
 		 3 - s.hw_parms.num_tr_pulses))
 
-  if (tr == 0)
+  if(tr == 0)
     return 0
 
   dpd = (((s.hw_parms.fsteps_25_speed * 4) +
@@ -1206,7 +1206,7 @@ compute_dpd (HP4200_Scanner * s, Int step_size, Int line_end)
 }
 
 static Sane.Status
-read_required_bytes (HP4200_Scanner * s, Int required, Sane.Byte * buffer)
+read_required_bytes(HP4200_Scanner * s, Int required, Sane.Byte * buffer)
 {
   Int read_count = 0
   unsigned char scankb1
@@ -1216,39 +1216,39 @@ read_required_bytes (HP4200_Scanner * s, Int required, Sane.Byte * buffer)
   size_t chunk
   Sane.Status status
 
-  assert (buffer != NULL)
+  assert(buffer != NULL)
 
-  while (required)
+  while(required)
     {
       do
 	{
-	  scankb1 = getreg (s, 0x01)
-	  scankb2 = getreg (s, 0x01)
-	  if (s.aborted_by_user)
+	  scankb1 = getreg(s, 0x01)
+	  scankb2 = getreg(s, 0x01)
+	  if(s.aborted_by_user)
 	    return Sane.STATUS_CANCELLED
 	}
-      while ((scankb1 != scankb2) || (scankb1 < 12))
+      while((scankb1 != scankb2) || (scankb1 < 12))
 
-      to_read = min (required, (scankb1 * 1024))
-      while (to_read)
+      to_read = min(required, (scankb1 * 1024))
+      while(to_read)
 	{
-	  if (s.aborted_by_user)
+	  if(s.aborted_by_user)
 	    return Sane.STATUS_CANCELLED
 	  chunk = (to_read > 0xffff) ? 0xffff : to_read
 
-	  sanei_pv8630_write_byte (s.fd, PV8630_REPPADDRESS, 0x00)
-	  sanei_pv8630_prep_bulkread (s.fd, chunk)
+	  sanei_pv8630_write_byte(s.fd, PV8630_REPPADDRESS, 0x00)
+	  sanei_pv8630_prep_bulkread(s.fd, chunk)
 	  really_read = chunk
-	  if ((status = sanei_usb_read_bulk (s.fd, buffer, &really_read)) !=
+	  if((status = sanei_usb_read_bulk(s.fd, buffer, &really_read)) !=
 	      Sane.STATUS_GOOD)
 	    {
-	      DBG (DBG_error, "sanei_usb_read_bulk failed (%s)\n",
-		   Sane.strstatus (status))
+	      DBG(DBG_error, "sanei_usb_read_bulk failed(%s)\n",
+		   Sane.strstatus(status))
 	      return status
 	    }
-	  if (really_read > chunk)
+	  if(really_read > chunk)
 	    {
-	      DBG (DBG_error, "USB stack read more bytes than requested!\n")
+	      DBG(DBG_error, "USB stack read more bytes than requested!\n")
 	      return Sane.STATUS_IO_ERROR
 	    }
 	  buffer += really_read
@@ -1262,12 +1262,12 @@ read_required_bytes (HP4200_Scanner * s, Int required, Sane.Byte * buffer)
 }
 
 static Sane.Status
-scanner_buffer_init (scanner_buffer_t * sb, Int size_in_kb)
+scanner_buffer_init(scanner_buffer_t * sb, Int size_in_kb)
 {
 
   sb.size = size_in_kb * 1024 + 3
-  sb.buffer = malloc (sb.size)
-  if (!sb.buffer)
+  sb.buffer = malloc(sb.size)
+  if(!sb.buffer)
     return Sane.STATUS_NO_MEM
   sb.num_bytes = 0
   sb.data_ptr = sb.buffer
@@ -1276,16 +1276,16 @@ scanner_buffer_init (scanner_buffer_t * sb, Int size_in_kb)
 }
 
 static Sane.Status
-scanner_buffer_read (HP4200_Scanner * s)
+scanner_buffer_read(HP4200_Scanner * s)
 {
   Sane.Status status
   size_t num_bytes_read_now
 
-  assert (s.scanner_buffer.num_bytes <= 3)
+  assert(s.scanner_buffer.num_bytes <= 3)
 
-  memcpy (s.scanner_buffer.buffer, s.scanner_buffer.data_ptr, 3)
+  memcpy(s.scanner_buffer.buffer, s.scanner_buffer.data_ptr, 3)
 
-  status = read_available_data (s, s.scanner_buffer.buffer +
+  status = read_available_data(s, s.scanner_buffer.buffer +
 				s.scanner_buffer.num_bytes,
 				&num_bytes_read_now)
   s.scanner_buffer.data_ptr = s.scanner_buffer.buffer
@@ -1297,7 +1297,7 @@ scanner_buffer_read (HP4200_Scanner * s)
 #define OFFSET_DECODE_SIGN(off) (((off) & 0x20) ? -(off & 0x1f) : (off))
 
 static Sane.Status
-do_coarse_calibration (HP4200_Scanner * s, struct coarse_t *coarse)
+do_coarse_calibration(HP4200_Scanner * s, struct coarse_t *coarse)
 {
   Sane.Status status
   unsigned char *cal_line = NULL
@@ -1342,10 +1342,10 @@ do_coarse_calibration (HP4200_Scanner * s, struct coarse_t *coarse)
   Int min_blue
   static char me[] = "do_coarse_calibration"
 
-  DBG (DBG_proc, "%s\n", me)
+  DBG(DBG_proc, "%s\n", me)
 
-  setreg (s, 0x07, 0x00)
-  usleep (10 * 1000)
+  setreg(s, 0x07, 0x00)
+  usleep(10 * 1000)
 
   vdpi = 150
   hdpi_code = 0
@@ -1354,148 +1354,148 @@ do_coarse_calibration (HP4200_Scanner * s, struct coarse_t *coarse)
   s.mclk_div = 2
   data_pixels_start = 0x40
   data_pixels_end = (Int) (data_pixels_start + s.hw_parms.scan_area_width)
-  data_pixels_end = min (data_pixels_end, line_end - 20)
+  data_pixels_end = min(data_pixels_end, line_end - 20)
 
   cal_line_size = s.hw_parms.scan_area_width * 3 * 2 + 2
 
-  setreg (s, 0x1e, HIBYTE (active_pixels_start))
-  setreg (s, 0x1f, LOBYTE (active_pixels_start))
-  setreg (s, 0x20, HIBYTE (line_end))
-  setreg (s, 0x21, LOBYTE (line_end))
-  setreg (s, 0x22, HIBYTE (data_pixels_start))
-  setreg (s, 0x23, LOBYTE (data_pixels_start))
-  setreg (s, 0x24, HIBYTE (data_pixels_end))
-  setreg (s, 0x25, LOBYTE (data_pixels_end))
+  setreg(s, 0x1e, HIBYTE(active_pixels_start))
+  setreg(s, 0x1f, LOBYTE(active_pixels_start))
+  setreg(s, 0x20, HIBYTE(line_end))
+  setreg(s, 0x21, LOBYTE(line_end))
+  setreg(s, 0x22, HIBYTE(data_pixels_start))
+  setreg(s, 0x23, LOBYTE(data_pixels_start))
+  setreg(s, 0x24, HIBYTE(data_pixels_end))
+  setreg(s, 0x25, LOBYTE(data_pixels_end))
 
-  setreg (s, 0x26,
+  setreg(s, 0x26,
 	  PIXEL_RATE_3_CHANNELS |
-	  GRAY_CHANNEL_RED | TR_RED (0) | TR_GREEN (0) | TR_BLUE (0))
+	  GRAY_CHANNEL_RED | TR_RED(0) | TR_GREEN(0) | TR_BLUE(0))
 
 
-  setreg (s, 0x08, (s.mclk_div - 1) * 2)
-  setreg (s, 0x09, hdpi_code | PIXEL_PACKING (3) | DATAMODE (1))
-  setreg (s, 0x0a, 0);		/* reserved and strange register */
+  setreg(s, 0x08, (s.mclk_div - 1) * 2)
+  setreg(s, 0x09, hdpi_code | PIXEL_PACKING(3) | DATAMODE(1))
+  setreg(s, 0x0a, 0);		/* reserved and strange register */
 
-  setreg (s, 0x38, red_offset)
-  setreg (s, 0x39, green_offset)
-  setreg (s, 0x3a, blue_offset)
-  setreg (s, 0x3b, red_gain)
-  setreg (s, 0x3c, green_gain)
-  setreg (s, 0x3d, blue_gain)
+  setreg(s, 0x38, red_offset)
+  setreg(s, 0x39, green_offset)
+  setreg(s, 0x3a, blue_offset)
+  setreg(s, 0x3b, red_gain)
+  setreg(s, 0x3c, green_gain)
+  setreg(s, 0x3d, blue_gain)
 
-  setreg (s, 0x5e, 0x80)
+  setreg(s, 0x5e, 0x80)
 
-  setreg (s, 0x3e, 0x00);	/* 1.5:1, 6/10 bits, 2*fixed */
-  setreg (s, 0x3f, 0x00)
-  setreg (s, 0x40, 0x00)
-  setreg (s, 0x41, 0x00)
+  setreg(s, 0x3e, 0x00);	/* 1.5:1, 6/10 bits, 2*fixed */
+  setreg(s, 0x3f, 0x00)
+  setreg(s, 0x40, 0x00)
+  setreg(s, 0x41, 0x00)
 
-  setreg (s, 0x4e, 0x5b - 0x3c);	/* max Kb to pause */
-  setreg (s, 0x4f, 0x02);	/* min Kb to resume */
+  setreg(s, 0x4e, 0x5b - 0x3c);	/* max Kb to pause */
+  setreg(s, 0x4f, 0x02);	/* min Kb to resume */
 
   line_rate_color = 1
   step_size = (vdpi * line_end * line_rate_color) /
     (4 * s.hw_parms.motor_full_steps_per_inch)
 
-  dpd = compute_dpd (s, step_size, line_end);	/* 0x0ada; */
+  dpd = compute_dpd(s, step_size, line_end);	/* 0x0ada; */
 #ifdef DEBUG
-  fprintf (stderr, "dpd = %d\n", dpd)
+  fprintf(stderr, "dpd = %d\n", dpd)
 #endif
-  setreg (s, 0x52, HIBYTE (dpd))
-  setreg (s, 0x53, LOBYTE (dpd))
+  setreg(s, 0x52, HIBYTE(dpd))
+  setreg(s, 0x53, LOBYTE(dpd))
 
-  setreg (s, 0x46, HIBYTE (step_size))
-  setreg (s, 0x47, LOBYTE (step_size))
+  setreg(s, 0x46, HIBYTE(step_size))
+  setreg(s, 0x47, LOBYTE(step_size))
 
-  ff_step_size = compute_fastfeed_step_size (s.hw_parms.crystal_frequency, s.mclk_div, s.hw_parms.motor_max_speed, s.hw_parms.motor_full_steps_per_inch, 0);	/* 0x0190; */
-  setreg (s, 0x48, HIBYTE (ff_step_size))
-  setreg (s, 0x49, LOBYTE (ff_step_size))
-  setreg (s, 0x4b, 0x15)
+  ff_step_size = compute_fastfeed_step_size(s.hw_parms.crystal_frequency, s.mclk_div, s.hw_parms.motor_max_speed, s.hw_parms.motor_full_steps_per_inch, 0);	/* 0x0190; */
+  setreg(s, 0x48, HIBYTE(ff_step_size))
+  setreg(s, 0x49, LOBYTE(ff_step_size))
+  setreg(s, 0x4b, 0x15)
   steps_to_reverse = 0x3f
-  setreg (s, 0x50, steps_to_reverse)
-  setreg (s, 0x51, 0x15);	/* accel profile */
+  setreg(s, 0x50, steps_to_reverse)
+  setreg(s, 0x51, 0x15);	/* accel profile */
 
   /* this is to stay the motor stopped */
-  clearbits (s, 0x45, (1 << 4))
+  clearbits(s, 0x45, (1 << 4))
 
-  cache_write (s)
+  cache_write(s)
 
   calibrated = 0
   first_time = 1
-  cal_line = malloc (cal_line_size + 1024)
+  cal_line = malloc(cal_line_size + 1024)
 
   do
     {
       unsigned char cmd_reg
 
       /* resets the lm9830 before start scanning */
-      setreg (s, 0x07, 0x08)
+      setreg(s, 0x07, 0x08)
       do
 	{
-	  setreg (s, 0x07, 0x03)
-	  cmd_reg = getreg (s, 0x07)
+	  setreg(s, 0x07, 0x03)
+	  cmd_reg = getreg(s, 0x07)
 	}
-      while (cmd_reg != 0x03)
+      while(cmd_reg != 0x03)
 
       cal_line_ptr = cal_line
-      status = read_required_bytes (s, cal_line_size, cal_line_ptr)
-      if (status != Sane.STATUS_GOOD)
+      status = read_required_bytes(s, cal_line_size, cal_line_ptr)
+      if(status != Sane.STATUS_GOOD)
 	goto done
 
-      setreg (s, 0x07, 0x00)
+      setreg(s, 0x07, 0x00)
       {
 	unsigned var i: Int
 	min_red = max_red = (cal_line[0] * 256 + cal_line[1]) >> 2
 	min_green = max_green = (cal_line[2] * 256 + cal_line[3]) >> 2
 	min_blue = max_blue = (cal_line[4] * 256 + cal_line[5]) >> 2
-	for (i = 6; i < (s.hw_parms.scan_area_width * 3 * 2); i += 6)
+	for(i = 6; i < (s.hw_parms.scan_area_width * 3 * 2); i += 6)
 	  {
 	    Int value
 
 	    value = cal_line[i] * 256 + cal_line[i + 1]
 	    value >>= 2
-	    if (value > max_red)
+	    if(value > max_red)
 	      max_red = value
 	    value = cal_line[i + 2] * 256 + cal_line[i + 3]
 	    value >>= 2
-	    if (value > max_green)
+	    if(value > max_green)
 	      max_green = value
 	    value = cal_line[i + 4] * 256 + cal_line[i + 5]
 	    value >>= 2
-	    if (value > max_blue)
+	    if(value > max_blue)
 	      max_blue = value
 	    value = cal_line[i] * 256 + cal_line[i + 1]
 	    value >>= 2
-	    if (value < min_red)
+	    if(value < min_red)
 	      min_red = value
 	    value = cal_line[i + 2] * 256 + cal_line[i + 3]
 	    value >>= 2
-	    if (value < min_green)
+	    if(value < min_green)
 	      min_green = value
 	    value = cal_line[i + 4] * 256 + cal_line[i + 5]
 	    value >>= 2
-	    if (value < min_blue)
+	    if(value < min_blue)
 	      min_blue = value
 	  }
 #ifdef DEBUG
-	fprintf (stderr, "max_red:%d max_green:%d max_blue:%d\n",
+	fprintf(stderr, "max_red:%d max_green:%d max_blue:%d\n",
 		 max_red, max_green, max_blue)
-	fprintf (stderr, "min_red:%d min_green:%d min_blue:%d\n",
+	fprintf(stderr, "min_red:%d min_green:%d min_blue:%d\n",
 		 min_red, min_green, min_blue)
 #endif
 
-	if (first_time)
+	if(first_time)
 	  {
 	    first_time = 0
-	    compute_first_gain_offset (s.hw_parms.target_value.red,
+	    compute_first_gain_offset(s.hw_parms.target_value.red,
 				       max_red, min_red,
 				       &red_gain, &red_offset,
 				       &max_red_gain, &min_red_offset)
-	    compute_first_gain_offset (s.hw_parms.target_value.green,
+	    compute_first_gain_offset(s.hw_parms.target_value.green,
 				       max_green, min_green,
 				       &green_gain, &green_offset,
 				       &max_green_gain, &min_green_offset)
-	    compute_first_gain_offset (s.hw_parms.target_value.blue,
+	    compute_first_gain_offset(s.hw_parms.target_value.blue,
 				       max_blue, min_blue, &blue_gain,
 				       &blue_offset, &max_blue_gain,
 				       &min_blue_offset)
@@ -1506,45 +1506,45 @@ do_coarse_calibration (HP4200_Scanner * s, struct coarse_t *coarse)
 
 	    /* this code should check return value -1 for error */
 
-	    retval = compute_gain_offset (s.hw_parms.target_value.red,
+	    retval = compute_gain_offset(s.hw_parms.target_value.red,
 					  max_red, min_red,
 					  &red_gain, &red_offset,
 					  &max_red_gain, &min_red_offset)
-	    if (retval < 0)
+	    if(retval < 0)
 	      break
-	    retval |= compute_gain_offset (s.hw_parms.target_value.green,
+	    retval |= compute_gain_offset(s.hw_parms.target_value.green,
 					   max_green, min_green,
 					   &green_gain, &green_offset,
 					   &max_green_gain,
 					   &min_green_offset)
-	    if (retval < 0)
+	    if(retval < 0)
 	      break
-	    retval |= compute_gain_offset (s.hw_parms.target_value.blue,
+	    retval |= compute_gain_offset(s.hw_parms.target_value.blue,
 					   max_blue, min_blue,
 					   &blue_gain, &blue_offset,
 					   &max_blue_gain, &min_blue_offset)
-	    if (retval < 0)
+	    if(retval < 0)
 	      break
 	    calibrated = !retval
 	  }
 
-	setreg (s, 0x3b, red_gain)
-	setreg (s, 0x3c, green_gain)
-	setreg (s, 0x3d, blue_gain)
+	setreg(s, 0x3b, red_gain)
+	setreg(s, 0x3c, green_gain)
+	setreg(s, 0x3d, blue_gain)
 
-	setreg (s, 0x38, OFFSET_CODE_SIGN (red_offset))
-	setreg (s, 0x39, OFFSET_CODE_SIGN (green_offset))
-	setreg (s, 0x3a, OFFSET_CODE_SIGN (blue_offset))
+	setreg(s, 0x38, OFFSET_CODE_SIGN(red_offset))
+	setreg(s, 0x39, OFFSET_CODE_SIGN(green_offset))
+	setreg(s, 0x3a, OFFSET_CODE_SIGN(blue_offset))
 
 #ifdef DEBUG
-	fprintf (stderr, "%d, %d, %d   %d, %d, %d\n", red_gain,
+	fprintf(stderr, "%d, %d, %d   %d, %d, %d\n", red_gain,
 		 green_gain, blue_gain, red_offset, green_offset,
 		 blue_offset)
 #endif
-	cache_write (s)
+	cache_write(s)
       }
     }
-  while (!calibrated)
+  while(!calibrated)
   coarse.min_red = min_red
   coarse.min_green = min_green
   coarse.min_blue = min_blue
@@ -1561,41 +1561,41 @@ do_coarse_calibration (HP4200_Scanner * s, struct coarse_t *coarse)
   status = Sane.STATUS_GOOD
 
 done:
-  if (cal_line)
-    free (cal_line)
+  if(cal_line)
+    free(cal_line)
 
   return status
 }
 
 static Int
-compute_corr_code (Int average, Int min_color, Int range, Int target)
+compute_corr_code(Int average, Int min_color, Int range, Int target)
 {
   Int value
   Int corr_code
 
   value = average - min_color
-  if (value > 0)
+  if(value > 0)
     corr_code =
       (Int) (range * ((double) target / (double) value - 1.0) + 0.5)
   else
     corr_code = 0
-  if (corr_code < 0)
+  if(corr_code < 0)
     corr_code = 0
-  else if (corr_code > 2048)
+  else if(corr_code > 2048)
     corr_code = 0
-  else if (corr_code > 1023)
+  else if(corr_code > 1023)
     corr_code = 1023
   return corr_code
 }
 
 static Int
-compute_hdpi_code (Int hres)
+compute_hdpi_code(Int hres)
 {
   Int hdpi_code
 
   /* Calculate the horizontal DPI code based on the requested
      horizontal resolution.  Defaults to 150dpi.  */
-  switch (hres)
+  switch(hres)
     {
     case 600:
       hdpi_code = 0
@@ -1629,7 +1629,7 @@ compute_hdpi_code (Int hres)
 
 
 static Sane.Status
-do_fine_calibration (HP4200_Scanner * s, struct coarse_t *coarse)
+do_fine_calibration(HP4200_Scanner * s, struct coarse_t *coarse)
 {
   Sane.Status status
   unsigned char *cal_line
@@ -1662,13 +1662,13 @@ do_fine_calibration (HP4200_Scanner * s, struct coarse_t *coarse)
 
   static char me[] = "do_fine_calibration"
 
-  DBG (DBG_proc, "%s\n", me)
+  DBG(DBG_proc, "%s\n", me)
 
-  setreg (s, 0x07, 0x00)
-  usleep (10 * 1000)
+  setreg(s, 0x07, 0x00)
+  usleep(10 * 1000)
 
   vdpi = 150
-  hdpi_code = compute_hdpi_code (s.user_parms.horizontal_resolution)
+  hdpi_code = compute_hdpi_code(s.user_parms.horizontal_resolution)
 
   /* figure out which horizontal divider to use based on the
      calculated horizontal dpi code */
@@ -1680,119 +1680,119 @@ do_fine_calibration (HP4200_Scanner * s, struct coarse_t *coarse)
   data_pixels_start = 0x72 + s.runtime_parms.first_pixel * hdpi_div
   data_pixels_end =
     (Int) (data_pixels_start + s.user_parms.image_width * hdpi_div)
-  data_pixels_end = min (data_pixels_end, line_end - 20)
+  data_pixels_end = min(data_pixels_end, line_end - 20)
 
   cal_line_size = line_length * 3 * 2 + 2
 
-  setreg (s, 0x1e, HIBYTE (active_pixels_start))
-  setreg (s, 0x1f, LOBYTE (active_pixels_start))
-  setreg (s, 0x20, HIBYTE (line_end))
-  setreg (s, 0x21, LOBYTE (line_end))
-  setreg (s, 0x22, HIBYTE (data_pixels_start))
-  setreg (s, 0x23, LOBYTE (data_pixels_start))
-  setreg (s, 0x24, HIBYTE (data_pixels_end))
-  setreg (s, 0x25, LOBYTE (data_pixels_end))
+  setreg(s, 0x1e, HIBYTE(active_pixels_start))
+  setreg(s, 0x1f, LOBYTE(active_pixels_start))
+  setreg(s, 0x20, HIBYTE(line_end))
+  setreg(s, 0x21, LOBYTE(line_end))
+  setreg(s, 0x22, HIBYTE(data_pixels_start))
+  setreg(s, 0x23, LOBYTE(data_pixels_start))
+  setreg(s, 0x24, HIBYTE(data_pixels_end))
+  setreg(s, 0x25, LOBYTE(data_pixels_end))
 
-  setreg (s, 0x26,
+  setreg(s, 0x26,
 	  PIXEL_RATE_3_CHANNELS |
-	  GRAY_CHANNEL_RED | TR_RED (0) | TR_GREEN (0) | TR_BLUE (0))
+	  GRAY_CHANNEL_RED | TR_RED(0) | TR_GREEN(0) | TR_BLUE(0))
 
 
-  setreg (s, 0x08, (s.mclk_div - 1) * 2)
-  setreg (s, 0x09, 0 | PIXEL_PACKING (3) | DATAMODE (1))
-  setreg (s, 0x0a, 0);		/* reserved and strange register */
+  setreg(s, 0x08, (s.mclk_div - 1) * 2)
+  setreg(s, 0x09, 0 | PIXEL_PACKING(3) | DATAMODE(1))
+  setreg(s, 0x0a, 0);		/* reserved and strange register */
 
-  setreg (s, 0x38, 1)
-  setreg (s, 0x39, 1)
-  setreg (s, 0x3a, 1)
-  setreg (s, 0x3b, coarse.red_gain)
-  setreg (s, 0x3c, coarse.green_gain)
-  setreg (s, 0x3d, coarse.blue_gain)
+  setreg(s, 0x38, 1)
+  setreg(s, 0x39, 1)
+  setreg(s, 0x3a, 1)
+  setreg(s, 0x3b, coarse.red_gain)
+  setreg(s, 0x3c, coarse.green_gain)
+  setreg(s, 0x3d, coarse.blue_gain)
 
-  setreg (s, 0x5e, 0x80)
+  setreg(s, 0x5e, 0x80)
 
-  setreg (s, 0x3e, 0x00);	/* 1.5:1, 6/10 bits, 2*fixed */
-  setreg (s, 0x3f, 0x00)
-  setreg (s, 0x40, 0x00)
-  setreg (s, 0x41, 0x00)
+  setreg(s, 0x3e, 0x00);	/* 1.5:1, 6/10 bits, 2*fixed */
+  setreg(s, 0x3f, 0x00)
+  setreg(s, 0x40, 0x00)
+  setreg(s, 0x41, 0x00)
 
-  setreg (s, 0x4e, 0x5b - 0x3c);	/* max Kb to pause */
-  setreg (s, 0x4f, 0x02);	/* min Kb to resume */
+  setreg(s, 0x4e, 0x5b - 0x3c);	/* max Kb to pause */
+  setreg(s, 0x4f, 0x02);	/* min Kb to resume */
 
   line_rate_color = 1
   step_size = (vdpi * line_end * line_rate_color) /
     (4 * s.hw_parms.motor_full_steps_per_inch)
 
-  dpd = compute_dpd (s, step_size, line_end);	/* 0x0ada; */
+  dpd = compute_dpd(s, step_size, line_end);	/* 0x0ada; */
 #ifdef DEBUG
-  fprintf (stderr, "dpd = %d\n", dpd)
+  fprintf(stderr, "dpd = %d\n", dpd)
 #endif
-  setreg (s, 0x52, HIBYTE (dpd))
-  setreg (s, 0x53, LOBYTE (dpd))
+  setreg(s, 0x52, HIBYTE(dpd))
+  setreg(s, 0x53, LOBYTE(dpd))
 
-  setreg (s, 0x46, HIBYTE (step_size))
-  setreg (s, 0x47, LOBYTE (step_size))
+  setreg(s, 0x46, HIBYTE(step_size))
+  setreg(s, 0x47, LOBYTE(step_size))
 
-  ff_step_size = compute_fastfeed_step_size (s.hw_parms.crystal_frequency, s.mclk_div, s.hw_parms.motor_max_speed, s.hw_parms.motor_full_steps_per_inch, 0);	/* 0x0190; */
-  setreg (s, 0x48, HIBYTE (ff_step_size))
-  setreg (s, 0x49, LOBYTE (ff_step_size))
-  setreg (s, 0x4b, 0x15)
+  ff_step_size = compute_fastfeed_step_size(s.hw_parms.crystal_frequency, s.mclk_div, s.hw_parms.motor_max_speed, s.hw_parms.motor_full_steps_per_inch, 0);	/* 0x0190; */
+  setreg(s, 0x48, HIBYTE(ff_step_size))
+  setreg(s, 0x49, LOBYTE(ff_step_size))
+  setreg(s, 0x4b, 0x15)
   steps_to_reverse = 0x3f
-  setreg (s, 0x50, steps_to_reverse)
-  setreg (s, 0x51, 0x15);	/* accel profile */
+  setreg(s, 0x50, steps_to_reverse)
+  setreg(s, 0x51, 0x15);	/* accel profile */
 
   /* this is to activate the motor */
-  setbits (s, 0x45, (1 << 4))
+  setbits(s, 0x45, (1 << 4))
 
   lines_to_process = 8 * step_size * 4 / line_end
-  if (lines_to_process < 1)
+  if(lines_to_process < 1)
     lines_to_process = 1
 
 #ifdef DEBUG
-  fprintf (stderr, "lines to process = %d\n", lines_to_process)
+  fprintf(stderr, "lines to process = %d\n", lines_to_process)
 #endif
 
-  setreg (s, 0x58, 0)
+  setreg(s, 0x58, 0)
 
-  cache_write (s)
+  cache_write(s)
 
   calibrated = 0
-  cal_line = malloc (cal_line_size + 1024)
-  average = malloc (sizeof (Int) * line_length * 3)
-  memset (average, 0, sizeof (Int) * line_length * 3)
+  cal_line = malloc(cal_line_size + 1024)
+  average = malloc(sizeof(Int) * line_length * 3)
+  memset(average, 0, sizeof(Int) * line_length * 3)
   {
     var i: Int
-    for (i = 0; i < 12; i++)
+    for(i = 0; i < 12; i++)
       {
-        memset (registro[i], 0, 5460 * 3 * sizeof(registro[0]))
+        memset(registro[i], 0, 5460 * 3 * sizeof(registro[0]))
       }
   }
 
   /* resets the lm9830 before start scanning */
-  setreg (s, 0x07, 0x08)
-  setreg (s, 0x07, 0x03)
+  setreg(s, 0x07, 0x08)
+  setreg(s, 0x07, 0x03)
 
-  usleep (100)
+  usleep(100)
 
   do
     {
 
       cal_line_ptr = cal_line
 
-      status = read_required_bytes (s, cal_line_size, cal_line_ptr)
-      if (status != Sane.STATUS_GOOD)
+      status = read_required_bytes(s, cal_line_size, cal_line_ptr)
+      if(status != Sane.STATUS_GOOD)
 	goto done
       {
 	var i: Int, j
 
-	if (calibrated == 0)
-	  for (j = 0, i = 0; i < (line_length * 3); i++, j += 2)
+	if(calibrated == 0)
+	  for(j = 0, i = 0; i < (line_length * 3); i++, j += 2)
 	    {
 	      average[i] = (cal_line[j] * 256 + cal_line[j + 1]) >> 2
 	      registro[calibrated][i] = average[i]
 	    }
 	else
-	  for (j = 0, i = 0; i < (line_length * 3); i++, j += 2)
+	  for(j = 0, i = 0; i < (line_length * 3); i++, j += 2)
 	    {
 	      Int value
 	      value = (cal_line[j] * 256 + cal_line[j + 1]) >> 2
@@ -1803,9 +1803,9 @@ do_fine_calibration (HP4200_Scanner * s, struct coarse_t *coarse)
       }
       calibrated++
     }
-  while (calibrated < lines_to_process)
-  lm9830_write_register (s.fd, 0x07, 0x00)
-  usleep (10 * 1000)
+  while(calibrated < lines_to_process)
+  lm9830_write_register(s.fd, 0x07, 0x00)
+  usleep(10 * 1000)
 
 #if 0
   {
@@ -1813,7 +1813,7 @@ do_fine_calibration (HP4200_Scanner * s, struct coarse_t *coarse)
     Int j = 0
     do
       {
-	for (i = 3; (i + 6) < (line_length * 3); i += 3)
+	for(i = 3; (i + 6) < (line_length * 3); i += 3)
 	  {
 	    average[i] =
 	      (2 * average[i - 3] + average[i] + 2 * average[i + 3]) / 5
@@ -1824,7 +1824,7 @@ do_fine_calibration (HP4200_Scanner * s, struct coarse_t *coarse)
 	  }
 	j++
       }
-    while (j < 3)
+    while(j < 3)
   }
 #endif
   {
@@ -1838,33 +1838,33 @@ do_fine_calibration (HP4200_Scanner * s, struct coarse_t *coarse)
     min_red = max_red = average[0]
     min_green = max_green = average[1]
     min_blue = max_blue = average[2]
-    for (i = 3; i < (line_length * 3); i += 3)
+    for(i = 3; i < (line_length * 3); i += 3)
       {
 	Int value
 
 	value = average[i]
-	if (value > max_red)
+	if(value > max_red)
 	  max_red = value
 	value = average[i + 1]
-	if (value > max_green)
+	if(value > max_green)
 	  max_green = value
 	value = average[i + 2]
-	if (value > max_blue)
+	if(value > max_blue)
 	  max_blue = value
 	value = average[i]
-	if (value < min_red)
+	if(value < min_red)
 	  min_red = value
 	value = average[i + 1]
-	if (value < min_green)
+	if(value < min_green)
 	  min_green = value
 	value = average[i + 2]
-	if (value < min_blue)
+	if(value < min_blue)
 	  min_blue = value
       }
 #ifdef DEBUG
-    fprintf (stderr, "max_red:%d max_green:%d max_blue:%d\n",
+    fprintf(stderr, "max_red:%d max_green:%d max_blue:%d\n",
 	     max_red, max_green, max_blue)
-    fprintf (stderr, "min_red:%d min_green:%d min_blue:%d\n",
+    fprintf(stderr, "min_red:%d min_green:%d min_blue:%d\n",
 	     min_red, min_green, min_blue)
 #endif
 
@@ -1880,18 +1880,18 @@ do_fine_calibration (HP4200_Scanner * s, struct coarse_t *coarse)
       Int j
 
       min_white_red = min_white_green = min_white_blue = 0x3ff
-      for (i = 0; i < (line_length * 3); i += 3)
+      for(i = 0; i < (line_length * 3); i += 3)
 	{
 	  Int value
 
 	  value = average[i] - coarse.min_red
-	  if ((value > 0) && (value < min_white_red))
+	  if((value > 0) && (value < min_white_red))
 	    min_white_red = value
 	  value = average[i + 1] - coarse.min_green
-	  if ((value > 0) && (value < min_white_green))
+	  if((value > 0) && (value < min_white_green))
 	    min_white_green = value
 	  value = average[i + 2] - coarse.min_blue
-	  if ((value > 0) && (value < min_white_blue))
+	  if((value > 0) && (value < min_white_blue))
 	    min_white_blue = value
 	}
 
@@ -1899,98 +1899,98 @@ do_fine_calibration (HP4200_Scanner * s, struct coarse_t *coarse)
       min_white_err = 0x3ff
 
       aux = (double) s.hw_parms.target_value.red / min_white_red
-      if (aux > ratio)
+      if(aux > ratio)
 	ratio = aux
-      if (min_white_err > min_white_red)
+      if(min_white_err > min_white_red)
 	min_white_err = min_white_red
       aux = (double) s.hw_parms.target_value.green / min_white_green
-      if (aux > ratio)
+      if(aux > ratio)
 	ratio = aux
-      if (min_white_err > min_white_green)
+      if(min_white_err > min_white_green)
 	min_white_err = min_white_green
       aux = (double) s.hw_parms.target_value.blue / min_white_blue
-      if (aux > ratio)
+      if(aux > ratio)
 	ratio = aux
-      if (min_white_err > min_white_blue)
+      if(min_white_err > min_white_blue)
 	min_white_err = min_white_blue
 
 #ifdef DEBUG
-      fprintf (stderr, "min_white_err = %d, ratio = %f\n",
+      fprintf(stderr, "min_white_err = %d, ratio = %f\n",
 	       min_white_err, ratio)
 #endif
-      if (ratio <= 1.5)
+      if(ratio <= 1.5)
 	range = 2048
-      else if (ratio <= 2.0)
+      else if(ratio <= 2.0)
 	range = 1024
       else
 	range = 512
 
-      corr_red = malloc (sizeof (Int) * line_length)
-      corr_green = malloc (sizeof (Int) * line_length)
-      corr_blue = malloc (sizeof (Int) * line_length)
+      corr_red = malloc(sizeof(Int) * line_length)
+      corr_green = malloc(sizeof(Int) * line_length)
+      corr_blue = malloc(sizeof(Int) * line_length)
 
-      for (i = 0, j = 0; i < (line_length * 3); i += 3, j++)
+      for(i = 0, j = 0; i < (line_length * 3); i += 3, j++)
 	{
-	  corr_red[j] = compute_corr_code (average[i],
+	  corr_red[j] = compute_corr_code(average[i],
 					   coarse.min_red,
 					   range,
 					   s.hw_parms.target_value.red)
 	  corr_green[j] =
-	    compute_corr_code (average[i + 1], coarse.min_green,
+	    compute_corr_code(average[i + 1], coarse.min_green,
 			       range, s.hw_parms.target_value.green)
 	  corr_blue[j] =
-	    compute_corr_code (average[i + 2], coarse.min_blue,
+	    compute_corr_code(average[i + 2], coarse.min_blue,
 			       range, s.hw_parms.target_value.blue)
 	}
 #ifdef DEBUG
       {
 	FILE *kaka
 	var i: Int
-	kaka = fopen ("corr.raw", "w")
-	for (i = 0; i < line_length; i++)
+	kaka = fopen("corr.raw", "w")
+	for(i = 0; i < line_length; i++)
 	  {
-	    fprintf (kaka, "%d %d %d %d %d %d ",
+	    fprintf(kaka, "%d %d %d %d %d %d ",
 		     corr_red[i], corr_green[i], corr_blue[i],
 		     average[3 * i], average[3 * i + 1], average[3 * i + 2])
-	    fprintf (kaka, "%d %d %d  %d %d %d  %d %d %d ",
+	    fprintf(kaka, "%d %d %d  %d %d %d  %d %d %d ",
 		     registro[0][3 * i], registro[0][3 * i + 1],
 		     registro[0][3 * i + 2], registro[1][3 * i],
 		     registro[1][3 * i + 1], registro[1][3 * i + 2],
 		     registro[2][3 * i], registro[2][3 * i + 1],
 		     registro[2][3 * i + 2])
-	    fprintf (kaka, "%d %d %d  %d %d %d  %d %d %d\n",
+	    fprintf(kaka, "%d %d %d  %d %d %d  %d %d %d\n",
 		     registro[3][3 * i], registro[3][3 * i + 1],
 		     registro[3][3 * i + 2], registro[4][3 * i],
 		     registro[4][3 * i + 1], registro[4][3 * i + 2],
 		     registro[5][3 * i], registro[5][3 * i + 1],
 		     registro[5][3 * i + 2])
 	  }
-	fclose (kaka)
+	fclose(kaka)
       }
 #endif
       {
 	Int max_black
 	Int use_six_eight_bits
 
-	max_black = max (coarse.min_red, coarse.min_green)
-	max_black = max (max_black, coarse.min_blue)
+	max_black = max(coarse.min_red, coarse.min_green)
+	max_black = max(max_black, coarse.min_blue)
 	use_six_eight_bits = (max_black < 64)
 
-	if (use_six_eight_bits)
+	if(use_six_eight_bits)
 	  {
-	    setreg (s, 0x3e, (1 << 4) | (1 << 3) | (1024 / range))
+	    setreg(s, 0x3e, (1 << 4) | (1 << 3) | (1024 / range))
 	  }
 	else
 	  {
-	    setreg (s, 0x3e, (1 << 4) | (1 << 3) | (1 << 2) | (1024 / range))
+	    setreg(s, 0x3e, (1 << 4) | (1 << 3) | (1 << 2) | (1024 / range))
 	  }
-	memset (red_gain_offset, 0, sizeof (red_gain_offset))
-	memset (green_gain_offset, 0, sizeof (green_gain_offset))
-	memset (blue_gain_offset, 0, sizeof (blue_gain_offset))
-	for (i = 0, j = (data_pixels_start - active_pixels_start) * 2
+	memset(red_gain_offset, 0, sizeof(red_gain_offset))
+	memset(green_gain_offset, 0, sizeof(green_gain_offset))
+	memset(blue_gain_offset, 0, sizeof(blue_gain_offset))
+	for(i = 0, j = (data_pixels_start - active_pixels_start) * 2
 	     i < line_length; i++, j += 2)
 	  {
-	    if (use_six_eight_bits)
+	    if(use_six_eight_bits)
 	      {
 		red_gain_offset[j] = (coarse.min_red << 2) |
 		  ((corr_red[i] >> 8) & 0x03)
@@ -2012,9 +2012,9 @@ do_fine_calibration (HP4200_Scanner * s, struct coarse_t *coarse)
 		blue_gain_offset[j + 1] = corr_blue[j] >> 2
 	      }
 	  }
-	write_default_offset_gain (s, red_gain_offset, 5460 * 2, 0)
-	write_default_offset_gain (s, green_gain_offset, 5460 * 2, 1)
-	write_default_offset_gain (s, blue_gain_offset, 5460 * 2, 2)
+	write_default_offset_gain(s, red_gain_offset, 5460 * 2, 0)
+	write_default_offset_gain(s, green_gain_offset, 5460 * 2, 1)
+	write_default_offset_gain(s, blue_gain_offset, 5460 * 2, 2)
       }
     }
   }
@@ -2022,25 +2022,25 @@ do_fine_calibration (HP4200_Scanner * s, struct coarse_t *coarse)
   status = Sane.STATUS_GOOD
 
 done:
-  if (corr_red)
-    free (corr_red)
-  if (corr_green)
-    free (corr_green)
-  if (corr_blue)
-    free (corr_blue)
-  if (cal_line)
-    free (cal_line)
-  if (average)
-    free (average)
+  if(corr_red)
+    free(corr_red)
+  if(corr_green)
+    free(corr_green)
+  if(corr_blue)
+    free(corr_blue)
+  if(cal_line)
+    free(cal_line)
+  if(average)
+    free(average)
 
   return status
 }
 
 static void
-ciclic_buffer_init_offset_correction (ciclic_buffer_t * cb, Int vres)
+ciclic_buffer_init_offset_correction(ciclic_buffer_t * cb, Int vres)
 {
   cb.blue_idx = 0
-  switch (vres)
+  switch(vres)
     {
     case 600:
       cb.green_idx = 4
@@ -2084,7 +2084,7 @@ ciclic_buffer_init_offset_correction (ciclic_buffer_t * cb, Int vres)
 }
 
 static Sane.Status
-ciclic_buffer_init (ciclic_buffer_t * cb, Int bytes_per_line,
+ciclic_buffer_init(ciclic_buffer_t * cb, Int bytes_per_line,
 		    Int vres, Int status_bytes)
 {
   cb.good_bytes = 0
@@ -2092,8 +2092,8 @@ ciclic_buffer_init (ciclic_buffer_t * cb, Int bytes_per_line,
   cb.size = bytes_per_line * cb.num_lines
   cb.can_consume = cb.size + cb.num_lines * status_bytes
 
-  cb.buffer = malloc (cb.size)
-  if (!cb.buffer)
+  cb.buffer = malloc(cb.size)
+  if(!cb.buffer)
     return Sane.STATUS_NO_MEM
 
   {
@@ -2102,12 +2102,12 @@ ciclic_buffer_init (ciclic_buffer_t * cb, Int bytes_per_line,
     unsigned char **ptrs
 
     ptrs = cb.buffer_ptrs = (unsigned char **)
-      malloc (sizeof (unsigned char *) * cb.num_lines)
-    if (!cb.buffer_ptrs)
+      malloc(sizeof(unsigned char *) * cb.num_lines)
+    if(!cb.buffer_ptrs)
       return Sane.STATUS_NO_MEM
 
     buffer = cb.buffer
-    for (i = 0; i < cb.num_lines; i++)
+    for(i = 0; i < cb.num_lines; i++)
       {
 	ptrs[i] = buffer
 	buffer += bytes_per_line
@@ -2116,13 +2116,13 @@ ciclic_buffer_init (ciclic_buffer_t * cb, Int bytes_per_line,
 
   cb.current_line = 0
   cb.pixel_position = 0
-  ciclic_buffer_init_offset_correction (cb, vres)
+  ciclic_buffer_init_offset_correction(cb, vres)
 
   return Sane.STATUS_GOOD
 }
 
 static Int
-prepare_for_a_scan (HP4200_Scanner * s)
+prepare_for_a_scan(HP4200_Scanner * s)
 {
   /* local scanning params */
   Int active_pixels_start
@@ -2142,10 +2142,10 @@ prepare_for_a_scan (HP4200_Scanner * s)
   Int pause_limit
   Int n = 0, m = 0
 
-  setreg (s, 0x07, 0x00)
-  usleep (10 * 1000)
+  setreg(s, 0x07, 0x00)
+  usleep(10 * 1000)
 
-  hdpi_code = compute_hdpi_code (s.user_parms.horizontal_resolution)
+  hdpi_code = compute_hdpi_code(s.user_parms.horizontal_resolution)
   /* figure out which horizontal divider to use based on the
      calculated horizontal dpi code */
   hdpi_div = hdpi_mapping[hdpi_code]
@@ -2160,106 +2160,106 @@ prepare_for_a_scan (HP4200_Scanner * s)
   data_pixels_start = 0x72 + s.runtime_parms.first_pixel * hdpi_div
   data_pixels_end =
     (Int) (data_pixels_start + s.user_parms.image_width * hdpi_div)
-  data_pixels_end = min (data_pixels_end, line_end - 20)
-  setreg (s, 0x1e, HIBYTE (active_pixels_start))
-  setreg (s, 0x1f, LOBYTE (active_pixels_start))
-  setreg (s, 0x20, HIBYTE (line_end))
-  setreg (s, 0x21, LOBYTE (line_end))
-  setreg (s, 0x22, HIBYTE (data_pixels_start))
-  setreg (s, 0x23, LOBYTE (data_pixels_start))
-  setreg (s, 0x24, HIBYTE (data_pixels_end))
-  setreg (s, 0x25, LOBYTE (data_pixels_end))
+  data_pixels_end = min(data_pixels_end, line_end - 20)
+  setreg(s, 0x1e, HIBYTE(active_pixels_start))
+  setreg(s, 0x1f, LOBYTE(active_pixels_start))
+  setreg(s, 0x20, HIBYTE(line_end))
+  setreg(s, 0x21, LOBYTE(line_end))
+  setreg(s, 0x22, HIBYTE(data_pixels_start))
+  setreg(s, 0x23, LOBYTE(data_pixels_start))
+  setreg(s, 0x24, HIBYTE(data_pixels_end))
+  setreg(s, 0x25, LOBYTE(data_pixels_end))
 
   AFE_operation = PIXEL_RATE_3_CHANNELS
-  setreg (s, 0x26,
+  setreg(s, 0x26,
 	  AFE_operation |
-	  GRAY_CHANNEL_RED | TR_RED (0) | TR_GREEN (0) | TR_BLUE (0))
+	  GRAY_CHANNEL_RED | TR_RED(0) | TR_GREEN(0) | TR_BLUE(0))
 
-  setreg (s, 0x08, (s.mclk_div - 1) * 2)
+  setreg(s, 0x08, (s.mclk_div - 1) * 2)
   pixel_packing = 3
   data_mode = 0
-  setreg (s, 0x09, hdpi_code | PIXEL_PACKING (pixel_packing) |
-	  DATAMODE (data_mode))
-  setreg (s, 0x0a, 0);		/* reserved and strange register */
+  setreg(s, 0x09, hdpi_code | PIXEL_PACKING(pixel_packing) |
+	  DATAMODE(data_mode))
+  setreg(s, 0x0a, 0);		/* reserved and strange register */
 
-  setreg (s, 0x5c, 0x00)
-  setreg (s, 0x5d, 0x00)
-  setreg (s, 0x5e, 0x00)
+  setreg(s, 0x5c, 0x00)
+  setreg(s, 0x5d, 0x00)
+  setreg(s, 0x5e, 0x00)
 
-  if (s.user_parms.vertical_resolution == 1200)
+  if(s.user_parms.vertical_resolution == 1200)
     {
       /* 1 out of 2 */
       n = 1
       m = 2
     }
-  setreg (s, 0x44, (256 - n) & 0xff)
-  setreg (s, 0x5a, m)
+  setreg(s, 0x44, (256 - n) & 0xff)
+  setreg(s, 0x5a, m)
   s.runtime_parms.status_bytes = (m == 0) ? 1 : m
-  if (data_mode == 1)
+  if(data_mode == 1)
     s.runtime_parms.status_bytes *= 2
 
   s.runtime_parms.scanner_line_size =
-    compute_bytes_per_line (data_pixels_end - data_pixels_start,
+    compute_bytes_per_line(data_pixels_end - data_pixels_start,
 			    hdpi_code, pixel_packing, data_mode,
 			    AFE_operation, m)
-  pause_limit = compute_pause_limit (&(s.hw_parms),
+  pause_limit = compute_pause_limit(&(s.hw_parms),
 				     s.runtime_parms.scanner_line_size)
 
 #ifdef DEBUG
-  fprintf (stderr, "scanner_line_size = %d\npause_limit = %d\n",
+  fprintf(stderr, "scanner_line_size = %d\npause_limit = %d\n",
 	   s.runtime_parms.scanner_line_size, pause_limit)
 #endif
 
-  setreg (s, 0x4e, pause_limit);	/* max Kb to pause */
-  setreg (s, 0x4f, 0x02);	/* min Kb to resume */
+  setreg(s, 0x4e, pause_limit);	/* max Kb to pause */
+  setreg(s, 0x4f, 0x02);	/* min Kb to resume */
 
   line_rate_color = 1
   step_size =
     (s.user_parms.vertical_resolution * line_end * line_rate_color) /
     (4 * s.hw_parms.motor_full_steps_per_inch)
 
-  if (s.val[OPT_BACKTRACK].b)
+  if(s.val[OPT_BACKTRACK].b)
     {
       steps_to_reverse = 0x3f
-      setreg (s, 0x50, steps_to_reverse)
-      setreg (s, 0x51, 0x15);	/* accel profile */
+      setreg(s, 0x50, steps_to_reverse)
+      setreg(s, 0x51, 0x15);	/* accel profile */
     }
   else
     {
       s.hw_parms.steps_to_reverse = 0
-      setreg (s, 0x50, s.hw_parms.steps_to_reverse)
-      setreg (s, 0x51, 0);	/* accel profile */
+      setreg(s, 0x50, s.hw_parms.steps_to_reverse)
+      setreg(s, 0x51, 0);	/* accel profile */
       s.hw_parms.fsteps_25_speed = 0
       s.hw_parms.fsteps_50_speed = 0
     }
 
-  dpd = compute_dpd (s, step_size, line_end);	/* 0x0ada; */
+  dpd = compute_dpd(s, step_size, line_end);	/* 0x0ada; */
 #ifdef DEBUG
-  fprintf (stderr, "dpd = %d\n", dpd)
+  fprintf(stderr, "dpd = %d\n", dpd)
 #endif
-  setreg (s, 0x52, HIBYTE (dpd))
-  setreg (s, 0x53, LOBYTE (dpd))
+  setreg(s, 0x52, HIBYTE(dpd))
+  setreg(s, 0x53, LOBYTE(dpd))
 
-  setreg (s, 0x46, HIBYTE (step_size))
-  setreg (s, 0x47, LOBYTE (step_size))
+  setreg(s, 0x46, HIBYTE(step_size))
+  setreg(s, 0x47, LOBYTE(step_size))
 
-  ff_step_size = compute_fastfeed_step_size (s.hw_parms.crystal_frequency,
+  ff_step_size = compute_fastfeed_step_size(s.hw_parms.crystal_frequency,
 					     s.mclk_div,
 					     s.hw_parms.motor_max_speed,
 					     s.hw_parms.
 					     motor_full_steps_per_inch, 0)
-  setreg (s, 0x48, HIBYTE (ff_step_size))
-  setreg (s, 0x49, LOBYTE (ff_step_size))
-  setreg (s, 0x4b, 0x15)
+  setreg(s, 0x48, HIBYTE(ff_step_size))
+  setreg(s, 0x49, LOBYTE(ff_step_size))
+  setreg(s, 0x4b, 0x15)
   /* this is to stay the motor running */
-  setbits (s, 0x45, (1 << 4))
+  setbits(s, 0x45, (1 << 4))
 
-  setreg (s, 0x4a, HIBYTE (47 + s.runtime_parms.steps_to_skip))
-  setreg (s, 0x4b, LOBYTE (47 + s.runtime_parms.steps_to_skip))
+  setreg(s, 0x4a, HIBYTE(47 + s.runtime_parms.steps_to_skip))
+  setreg(s, 0x4b, LOBYTE(47 + s.runtime_parms.steps_to_skip))
 
-  setreg (s, 0x58, 0)
+  setreg(s, 0x58, 0)
 
-  ciclic_buffer_init (&(s.ciclic_buffer),
+  ciclic_buffer_init(&(s.ciclic_buffer),
 		      s.runtime_parms.image_line_size,
 		      s.user_parms.vertical_resolution,
 		      s.runtime_parms.status_bytes)
@@ -2268,48 +2268,48 @@ prepare_for_a_scan (HP4200_Scanner * s)
     s.user_parms.lines_to_scan * s.runtime_parms.image_line_size
 
 #ifdef DEBUG
-  fprintf (stderr, "bytes to scan = %ld\n",
+  fprintf(stderr, "bytes to scan = %ld\n",
 	   s.runtime_parms.num_bytes_left_to_scan)
 #endif
 
-  cache_write (s)
+  cache_write(s)
 
 #ifdef DEBUG
-  lm9830_dump_registers (s.fd)
+  lm9830_dump_registers(s.fd)
 #endif
 
-  lm9830_reset (s.fd)
+  lm9830_reset(s.fd)
 
-  setreg (s, 0x07, 0x03)
-  usleep (100)
+  setreg(s, 0x07, 0x03)
+  usleep(100)
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-end_scan (HP4200_Scanner * s)
+end_scan(HP4200_Scanner * s)
 {
   s.scanning = Sane.FALSE
-  setreg (s, 0x07, 0x00)
-  lm9830_reset (s.fd)
-  setbits (s, 0x58, PAPER_SENSOR_2_STOP_SCAN)
-  cache_write (s)
-  setreg (s, 0x07, 0x02)
+  setreg(s, 0x07, 0x00)
+  lm9830_reset(s.fd)
+  setbits(s, 0x58, PAPER_SENSOR_2_STOP_SCAN)
+  cache_write(s)
+  setreg(s, 0x07, 0x02)
 
   /* Free some buffers */
-  if (s.ciclic_buffer.buffer)
+  if(s.ciclic_buffer.buffer)
     {
-      free (s.ciclic_buffer.buffer)
+      free(s.ciclic_buffer.buffer)
       s.ciclic_buffer.buffer = NULL
     }
-  if (s.ciclic_buffer.buffer_ptrs)
+  if(s.ciclic_buffer.buffer_ptrs)
     {
-      free (s.ciclic_buffer.buffer_ptrs)
+      free(s.ciclic_buffer.buffer_ptrs)
       s.ciclic_buffer.buffer_ptrs = NULL
     }
-  if (s.scanner_buffer.buffer)
+  if(s.scanner_buffer.buffer)
     {
-      free (s.scanner_buffer.buffer)
+      free(s.scanner_buffer.buffer)
       s.scanner_buffer.buffer = NULL
     }
 
@@ -2317,35 +2317,35 @@ end_scan (HP4200_Scanner * s)
 }
 
 static Int
-hp4200_init_scanner (HP4200_Scanner * s)
+hp4200_init_scanner(HP4200_Scanner * s)
 {
   Int ff_step_size
   Int mclk_div
 
-  lm9830_ini_scanner (s.fd, NULL)
-  hp4200_init_registers (s)
-  scanner_buffer_init (&(s.scanner_buffer), s.hw_parms.SRAM_size)
-  setreg (s, 0x07, 0x08)
-  usleep (10 * 1000)
-  setreg (s, 0x07, 0x00)
-  usleep (10 * 1000)
+  lm9830_ini_scanner(s.fd, NULL)
+  hp4200_init_registers(s)
+  scanner_buffer_init(&(s.scanner_buffer), s.hw_parms.SRAM_size)
+  setreg(s, 0x07, 0x08)
+  usleep(10 * 1000)
+  setreg(s, 0x07, 0x00)
+  usleep(10 * 1000)
   mclk_div = 2
 
-  setreg (s, 0x08, (mclk_div - 1) * 2)
+  setreg(s, 0x08, (mclk_div - 1) * 2)
   ff_step_size =
-    compute_fastfeed_step_size (s.hw_parms.crystal_frequency,
+    compute_fastfeed_step_size(s.hw_parms.crystal_frequency,
 				mclk_div,
 				s.hw_parms.motor_max_speed,
 				s.hw_parms.motor_full_steps_per_inch, 0)
-  setreg (s, 0x48, HIBYTE (ff_step_size))
-  setreg (s, 0x49, LOBYTE (ff_step_size))
-  setbits (s, 0x45, (1 << 4))
-  cache_write (s)
+  setreg(s, 0x48, HIBYTE(ff_step_size))
+  setreg(s, 0x49, LOBYTE(ff_step_size))
+  setbits(s, 0x45, (1 << 4))
+  cache_write(s)
   return 0
 }
 
 static void
-ciclic_buffer_copy (ciclic_buffer_t * cb, Sane.Byte * buf,
+ciclic_buffer_copy(ciclic_buffer_t * cb, Sane.Byte * buf,
 		    Int num_bytes, Int image_line_size, Int status_bytes)
 {
   Int biggest_upper_block_size
@@ -2355,8 +2355,8 @@ ciclic_buffer_copy (ciclic_buffer_t * cb, Sane.Byte * buf,
 
   /* copy the upper block */
   biggest_upper_block_size = cb.size - (cb.buffer_position - cb.buffer)
-  upper_block_size = min (biggest_upper_block_size, num_bytes)
-  memcpy (buf, cb.buffer_position, upper_block_size)
+  upper_block_size = min(biggest_upper_block_size, num_bytes)
+  memcpy(buf, cb.buffer_position, upper_block_size)
   cb.good_bytes -= upper_block_size
 
   bytes_to_be_a_entire_line = (cb.buffer_position - cb.buffer) %
@@ -2365,7 +2365,7 @@ ciclic_buffer_copy (ciclic_buffer_t * cb, Sane.Byte * buf,
     status_bytes * (((bytes_to_be_a_entire_line + upper_block_size) /
 		     image_line_size) - 1)
 
-  if (num_bytes < biggest_upper_block_size)
+  if(num_bytes < biggest_upper_block_size)
     {
       cb.buffer_position += num_bytes
       return
@@ -2373,9 +2373,9 @@ ciclic_buffer_copy (ciclic_buffer_t * cb, Sane.Byte * buf,
 
   /* copy the lower block */
   lower_block_size = num_bytes - biggest_upper_block_size
-  if (lower_block_size > 0)
+  if(lower_block_size > 0)
     {
-      memcpy (buf + biggest_upper_block_size, cb.buffer, lower_block_size)
+      memcpy(buf + biggest_upper_block_size, cb.buffer, lower_block_size)
       cb.good_bytes -= lower_block_size
       cb.can_consume += lower_block_size + status_bytes *
 	(lower_block_size / image_line_size)
@@ -2385,12 +2385,12 @@ ciclic_buffer_copy (ciclic_buffer_t * cb, Sane.Byte * buf,
     {
       cb.buffer_position = cb.buffer
     }
-  assert (cb.good_bytes >= 0)
-  assert (lower_block_size >= 0)
+  assert(cb.good_bytes >= 0)
+  assert(lower_block_size >= 0)
 }
 
 static void
-ciclic_buffer_consume (ciclic_buffer_t * cb,
+ciclic_buffer_consume(ciclic_buffer_t * cb,
 		       scanner_buffer_t * scanner_buffer,
 		       Int image_width, Int status_bytes)
 {
@@ -2399,14 +2399,14 @@ ciclic_buffer_consume (ciclic_buffer_t * cb,
   var i: Int
   Int processed
 
-  to_consume = min (cb.can_consume, scanner_buffer.num_bytes)
+  to_consume = min(cb.can_consume, scanner_buffer.num_bytes)
 
-  while (to_consume)
+  while(to_consume)
     {
 
-      if (cb.pixel_position == image_width)
+      if(cb.pixel_position == image_width)
 	{
-	  if (scanner_buffer.num_bytes >= status_bytes)
+	  if(scanner_buffer.num_bytes >= status_bytes)
 	    {
 	      /* forget status bytes */
 	      scanner_buffer.data_ptr += status_bytes
@@ -2425,13 +2425,13 @@ ciclic_buffer_consume (ciclic_buffer_t * cb,
 	    break
 	}
 
-      to_consume_now = min ((image_width - cb.pixel_position) * 3,
+      to_consume_now = min((image_width - cb.pixel_position) * 3,
 			    to_consume)
 
-      if (to_consume_now < 3)
+      if(to_consume_now < 3)
 	break
 
-      for (i = cb.pixel_position * 3; to_consume_now >= 3
+      for(i = cb.pixel_position * 3; to_consume_now >= 3
 	   i += 3, to_consume_now -= 3)
 	{
 	  cb.buffer_ptrs[cb.red_idx][i] = scanner_buffer.data_ptr[0]
@@ -2444,13 +2444,13 @@ ciclic_buffer_consume (ciclic_buffer_t * cb,
       to_consume -= processed
       cb.can_consume -= processed
       scanner_buffer.num_bytes -= processed
-      if (cb.current_line > cb.first_good_line)
+      if(cb.current_line > cb.first_good_line)
 	cb.good_bytes += processed
     }
 }
 
 Sane.Status
-Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
+Sane.read(Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 {
   Sane.Status status
   Int to_copy_now
@@ -2458,34 +2458,34 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
   HP4200_Scanner *s = h
 
   static char me[] = "Sane.read"
-  DBG (DBG_proc, "%s\n", me)
+  DBG(DBG_proc, "%s\n", me)
 
-  if (!(s.scanning))
+  if(!(s.scanning))
     {
       /* OOPS, not scanning */
       return Sane.STATUS_CANCELLED
     }
 
-  if (!buf || !len)
+  if(!buf || !len)
     return Sane.STATUS_INVAL
 
   *len = 0
 
-  if (s.runtime_parms.num_bytes_left_to_scan == 0)
+  if(s.runtime_parms.num_bytes_left_to_scan == 0)
     {
-      end_scan (s)
+      end_scan(s)
       return Sane.STATUS_EOF
     }
 
-  bytes_to_copy_to_frontend = min (s.runtime_parms.num_bytes_left_to_scan,
+  bytes_to_copy_to_frontend = min(s.runtime_parms.num_bytes_left_to_scan,
 				   maxlen)
 
   /* first copy available data from the ciclic buffer */
-  to_copy_now = min (s.ciclic_buffer.good_bytes, bytes_to_copy_to_frontend)
+  to_copy_now = min(s.ciclic_buffer.good_bytes, bytes_to_copy_to_frontend)
 
-  if (to_copy_now > 0)
+  if(to_copy_now > 0)
     {
-      ciclic_buffer_copy (&(s.ciclic_buffer), buf, to_copy_now,
+      ciclic_buffer_copy(&(s.ciclic_buffer), buf, to_copy_now,
 			  s.runtime_parms.image_line_size,
 			  s.runtime_parms.status_bytes)
       buf += to_copy_now
@@ -2494,37 +2494,37 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
     }
 
   /* if not enough bytes, get data from the scanner */
-  while (bytes_to_copy_to_frontend)
+  while(bytes_to_copy_to_frontend)
     {
-      if (s.scanner_buffer.num_bytes < 3)
+      if(s.scanner_buffer.num_bytes < 3)
 	{			/* cicl buf consumes modulo 3
 				   bytes at least now for rgb
 				   color 8 bpp fixme: but this
 				   is ugly and not generic
 				 */
-	  status = scanner_buffer_read (s)
+	  status = scanner_buffer_read(s)
 
-	  if (status == Sane.STATUS_CANCELLED)
+	  if(status == Sane.STATUS_CANCELLED)
 	    {
-	      end_scan (s)
+	      end_scan(s)
 	      s.aborted_by_user = Sane.FALSE
 	      return status
 	    }
-	  if (status != Sane.STATUS_GOOD)
+	  if(status != Sane.STATUS_GOOD)
 	    return status
 	}
 
-      while ((s.scanner_buffer.num_bytes > 3) && bytes_to_copy_to_frontend)
+      while((s.scanner_buffer.num_bytes > 3) && bytes_to_copy_to_frontend)
 	{
-	  ciclic_buffer_consume (&(s.ciclic_buffer), &(s.scanner_buffer),
+	  ciclic_buffer_consume(&(s.ciclic_buffer), &(s.scanner_buffer),
 				 s.user_parms.image_width,
 				 s.runtime_parms.status_bytes)
-	  to_copy_now = min (s.ciclic_buffer.good_bytes,
+	  to_copy_now = min(s.ciclic_buffer.good_bytes,
 			     bytes_to_copy_to_frontend)
 
-	  if (to_copy_now > 0)
+	  if(to_copy_now > 0)
 	    {
-	      ciclic_buffer_copy (&(s.ciclic_buffer), buf, to_copy_now,
+	      ciclic_buffer_copy(&(s.ciclic_buffer), buf, to_copy_now,
 				  s.runtime_parms.image_line_size,
 				  s.runtime_parms.status_bytes)
 	      buf += to_copy_now
@@ -2536,23 +2536,23 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 
   s.runtime_parms.num_bytes_left_to_scan -= *len
 
-  if (s.runtime_parms.num_bytes_left_to_scan < 0)
+  if(s.runtime_parms.num_bytes_left_to_scan < 0)
     *len += s.runtime_parms.num_bytes_left_to_scan
 
   return Sane.STATUS_GOOD
 }
 
 static HP4200_Device *
-find_device (Sane.String_Const name)
+find_device(Sane.String_Const name)
 {
   static char me[] = "find_device"
   HP4200_Device *dev
 
-  DBG (DBG_proc, "%s\n", me)
+  DBG(DBG_proc, "%s\n", me)
 
-  for (dev = first_device; dev; dev = dev.next)
+  for(dev = first_device; dev; dev = dev.next)
     {
-      if (strcmp (dev.dev.name, name) == 0)
+      if(strcmp(dev.dev.name, name) == 0)
 	{
 	  return dev
 	}
@@ -2561,53 +2561,53 @@ find_device (Sane.String_Const name)
 }
 
 static Sane.Status
-add_device (Sane.String_Const name, HP4200_Device ** argpd)
+add_device(Sane.String_Const name, HP4200_Device ** argpd)
 {
   Int fd
   HP4200_Device *pd
   static const char me[] = "add_device"
   Sane.Status status
 
-  DBG (DBG_proc, "%s(%s)\n", me, name)
+  DBG(DBG_proc, "%s(%s)\n", me, name)
 
   /* Avoid adding the same device more than once */
-  if ((pd = find_device (name)))
+  if((pd = find_device(name)))
     {
-      if (argpd)
+      if(argpd)
 	*argpd = pd
       return Sane.STATUS_GOOD
     }
 
   /* open the device file, but read only or read/write to perform
      ioctl's ? */
-  if ((status = sanei_usb_open (name, &fd)) != Sane.STATUS_GOOD)
+  if((status = sanei_usb_open(name, &fd)) != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "%s: open(%s) failed: %s\n", me, name,
-	   Sane.strstatus (status))
+      DBG(DBG_error, "%s: open(%s) failed: %s\n", me, name,
+	   Sane.strstatus(status))
       return Sane.STATUS_INVAL
     }
 
   /* put here some code to probe that the device attached to the
      device file is a supported scanner. Maybe some ioctl */
-  sanei_usb_close (fd)
+  sanei_usb_close(fd)
 
-  pd = (HP4200_Device *) calloc (1, sizeof (HP4200_Device))
-  if (!pd)
+  pd = (HP4200_Device *) calloc(1, sizeof(HP4200_Device))
+  if(!pd)
     {
-      DBG (DBG_error, "%s: out of memory allocating device.\n", me)
+      DBG(DBG_error, "%s: out of memory allocating device.\n", me)
       return Sane.STATUS_NO_MEM
     }
 
-  pd.dev.name = strdup (name)
+  pd.dev.name = strdup(name)
   pd.dev.vendor = "Hewlett-Packard"
   pd.dev.model = "HP-4200"
   pd.dev.type = "flatbed scanner"
 
-  if (!pd.dev.name || !pd.dev.vendor || !pd.dev.model || !pd.dev.type)
+  if(!pd.dev.name || !pd.dev.vendor || !pd.dev.model || !pd.dev.type)
     {
-      DBG (DBG_error,
+      DBG(DBG_error,
 	   "%s: out of memory allocating device descriptor strings.\n", me)
-      free (pd)
+      free(pd)
       return Sane.STATUS_NO_MEM
     }
 
@@ -2615,22 +2615,22 @@ add_device (Sane.String_Const name, HP4200_Device ** argpd)
   pd.next = first_device
   first_device = pd
   n_devices++
-  if (argpd)
+  if(argpd)
     *argpd = pd
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-attach (Sane.String_Const name)
+attach(Sane.String_Const name)
 {
   static char me[] = "attach"
-  DBG (DBG_proc, "%s\n", me)
-  return add_device (name, NULL)
+  DBG(DBG_proc, "%s\n", me)
+  return add_device(name, NULL)
 }
 
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 {
   static const char me[] = "Sane.hp4200_init"
   char dev_name[PATH_MAX]
@@ -2638,106 +2638,106 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
 
   authorize = authorize;	/* keep gcc quiet */
 
-  DBG_INIT ()
+  DBG_INIT()
 
-  DBG (DBG_proc, "%s\n", me)
-  DBG (DBG_error, "SANE hp4200 backend version %d.%d build %d from %s\n",
+  DBG(DBG_proc, "%s\n", me)
+  DBG(DBG_error, "SANE hp4200 backend version %d.%d build %d from %s\n",
        Sane.CURRENT_MAJOR, V_MINOR, BUILD, PACKAGE_STRING)
   /* put some version_code checks here */
 
-  if (NULL != version_code)
+  if(NULL != version_code)
     {
-      *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, 0)
+      *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, 0)
     }
 
-  sanei_usb_init ()
-  sanei_pv8630_init ()
+  sanei_usb_init()
+  sanei_pv8630_init()
 
-  fp = sanei_config_open (HP4200_CONFIG_FILE)
-  if (!fp)
+  fp = sanei_config_open(HP4200_CONFIG_FILE)
+  if(!fp)
     {
-      DBG (DBG_error, "%s: configuration file not found!\n", me)
+      DBG(DBG_error, "%s: configuration file not found!\n", me)
 
       return Sane.STATUS_INVAL
     }
   else
     {
-      while (sanei_config_read (dev_name, sizeof (dev_name), fp))
+      while(sanei_config_read(dev_name, sizeof(dev_name), fp))
 	{
-	  if (dev_name[0] == '#')	/* ignore line comments */
+	  if(dev_name[0] == '#')	/* ignore line comments */
 	    continue
 
-	  if (strlen (dev_name) == 0)
+	  if(strlen(dev_name) == 0)
 	    continue;		/* ignore empty lines */
 
-	  DBG (DBG_info, "%s: looking for devices matching %s\n",
+	  DBG(DBG_info, "%s: looking for devices matching %s\n",
 	       me, dev_name)
 
-	  sanei_usb_attach_matching_devices (dev_name, attach)
+	  sanei_usb_attach_matching_devices(dev_name, attach)
 	}
 
-      fclose (fp)
+      fclose(fp)
     }
 
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   HP4200_Device *device, *next
 
-  DBG (DBG_proc, "Sane.hp4200_exit\n")
+  DBG(DBG_proc, "Sane.hp4200_exit\n")
 
-  for (device = first_device; device; device = next)
+  for(device = first_device; device; device = next)
     {
       next = device.next
-      if (device.handle)
+      if(device.handle)
 	{
-	  Sane.close (device.handle)
+	  Sane.close(device.handle)
 	}
-      if (device.dev.name)
+      if(device.dev.name)
 	{
-	  free ((void *) device.dev.name)
+	  free((void *) device.dev.name)
 	}
-      free (device)
+      free(device)
     }
   first_device = NULL
 
-  if (devlist)
+  if(devlist)
     {
-      free (devlist)
+      free(devlist)
       devlist = NULL
     }
 
   n_devices = 0
 
-  DBG (DBG_proc, "Sane.exit: exit\n")
+  DBG(DBG_proc, "Sane.exit: exit\n")
 }
 
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 {
   var i: Int
   HP4200_Device *pdev
 
-  DBG (DBG_proc, "Sane.get_devices (%p, %d)\n", (void *) device_list,
+  DBG(DBG_proc, "Sane.get_devices(%p, %d)\n", (void *) device_list,
        local_only)
 
   /* Waste the last list returned from this function */
-  if (devlist)
-    free (devlist)
+  if(devlist)
+    free(devlist)
 
   devlist = (const Sane.Device **)
-    malloc ((n_devices + 1) * sizeof (Sane.Device *))
+    malloc((n_devices + 1) * sizeof(Sane.Device *))
 
-  if (!devlist)
+  if(!devlist)
     {
-      DBG (DBG_error, "Sane.get_devices: out of memory\n")
+      DBG(DBG_error, "Sane.get_devices: out of memory\n")
       return Sane.STATUS_NO_MEM
     }
 
-  for (i = 0, pdev = first_device; pdev; i++, pdev = pdev.next)
+  for(i = 0, pdev = first_device; pdev; i++, pdev = pdev.next)
     {
       devlist[i] = &(pdev.dev)
     }
@@ -2745,13 +2745,13 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
 
   *device_list = devlist
 
-  DBG (DBG_proc, "Sane.get_devices: exit\n")
+  DBG(DBG_proc, "Sane.get_devices: exit\n")
 
   return Sane.STATUS_GOOD
 }
 
 static void
-init_options (HP4200_Scanner * s)
+init_options(HP4200_Scanner * s)
 {
   s.opt[OPT_NUM_OPTS].name = ""
   s.opt[OPT_NUM_OPTS].title = Sane.TITLE_NUM_OPTIONS
@@ -2759,7 +2759,7 @@ init_options (HP4200_Scanner * s)
   s.opt[OPT_NUM_OPTS].cap = Sane.CAP_SOFT_DETECT
   s.opt[OPT_NUM_OPTS].type = Sane.TYPE_INT
   s.opt[OPT_NUM_OPTS].unit = Sane.UNIT_NONE
-  s.opt[OPT_NUM_OPTS].size = sizeof (Sane.Word)
+  s.opt[OPT_NUM_OPTS].size = sizeof(Sane.Word)
   s.opt[OPT_NUM_OPTS].constraint_type = Sane.CONSTRAINT_NONE
   s.val[OPT_NUM_OPTS].w = NUM_OPTIONS
 
@@ -2768,7 +2768,7 @@ init_options (HP4200_Scanner * s)
   s.opt[OPT_RES].desc = Sane.DESC_SCAN_RESOLUTION
   s.opt[OPT_RES].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_RES].type = Sane.TYPE_INT
-  s.opt[OPT_RES].size = sizeof (Sane.Word)
+  s.opt[OPT_RES].size = sizeof(Sane.Word)
   s.opt[OPT_RES].unit = Sane.UNIT_DPI
   s.opt[OPT_RES].constraint_type = Sane.CONSTRAINT_WORD_LIST
   s.opt[OPT_RES].constraint.word_list = dpi_list
@@ -2779,7 +2779,7 @@ init_options (HP4200_Scanner * s)
   s.opt[OPT_TL_X].desc = Sane.DESC_SCAN_TL_X
   s.opt[OPT_TL_X].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_TL_X].type = Sane.TYPE_FIXED
-  s.opt[OPT_TL_X].size = sizeof (Sane.Fixed)
+  s.opt[OPT_TL_X].size = sizeof(Sane.Fixed)
   s.opt[OPT_TL_X].unit = Sane.UNIT_MM
   s.opt[OPT_TL_X].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_TL_X].constraint.range = &x_range
@@ -2790,7 +2790,7 @@ init_options (HP4200_Scanner * s)
   s.opt[OPT_TL_Y].desc = Sane.DESC_SCAN_TL_Y
   s.opt[OPT_TL_Y].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_TL_Y].type = Sane.TYPE_FIXED
-  s.opt[OPT_TL_Y].size = sizeof (Sane.Fixed)
+  s.opt[OPT_TL_Y].size = sizeof(Sane.Fixed)
   s.opt[OPT_TL_Y].unit = Sane.UNIT_MM
   s.opt[OPT_TL_Y].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_TL_Y].constraint.range = &y_range
@@ -2801,7 +2801,7 @@ init_options (HP4200_Scanner * s)
   s.opt[OPT_BR_X].desc = Sane.DESC_SCAN_BR_X
   s.opt[OPT_BR_X].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_BR_X].type = Sane.TYPE_FIXED
-  s.opt[OPT_BR_X].size = sizeof (Sane.Fixed)
+  s.opt[OPT_BR_X].size = sizeof(Sane.Fixed)
   s.opt[OPT_BR_X].unit = Sane.UNIT_MM
   s.opt[OPT_BR_X].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_BR_X].constraint.range = &x_range
@@ -2812,7 +2812,7 @@ init_options (HP4200_Scanner * s)
   s.opt[OPT_BR_Y].desc = Sane.DESC_SCAN_BR_Y
   s.opt[OPT_BR_Y].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_BR_Y].type = Sane.TYPE_FIXED
-  s.opt[OPT_BR_Y].size = sizeof (Sane.Fixed)
+  s.opt[OPT_BR_Y].size = sizeof(Sane.Fixed)
   s.opt[OPT_BR_Y].unit = Sane.UNIT_MM
   s.opt[OPT_BR_Y].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_BR_Y].constraint.range = &y_range
@@ -2823,7 +2823,7 @@ init_options (HP4200_Scanner * s)
   s.opt[OPT_BACKTRACK].desc = Sane.DESC_BACKTRACK
   s.opt[OPT_BACKTRACK].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_BACKTRACK].type = Sane.TYPE_BOOL
-  s.opt[OPT_BACKTRACK].size = sizeof (Bool)
+  s.opt[OPT_BACKTRACK].size = sizeof(Bool)
   s.opt[OPT_BACKTRACK].unit = Sane.UNIT_NONE
   s.opt[OPT_BACKTRACK].constraint_type = Sane.CONSTRAINT_NONE
   s.val[OPT_BACKTRACK].b = Sane.TRUE
@@ -2834,7 +2834,7 @@ init_options (HP4200_Scanner * s)
   s.opt[OPT_GAMMA_VECTOR_R].cap =
     Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_GAMMA_VECTOR_R].type = Sane.TYPE_INT
-  s.opt[OPT_GAMMA_VECTOR_R].size = 1024 * sizeof (Sane.Word)
+  s.opt[OPT_GAMMA_VECTOR_R].size = 1024 * sizeof(Sane.Word)
   s.opt[OPT_GAMMA_VECTOR_R].unit = Sane.UNIT_NONE
   s.opt[OPT_GAMMA_VECTOR_R].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_GAMMA_VECTOR_R].constraint.range = &u8_range
@@ -2846,7 +2846,7 @@ init_options (HP4200_Scanner * s)
   s.opt[OPT_GAMMA_VECTOR_G].cap =
     Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_GAMMA_VECTOR_G].type = Sane.TYPE_INT
-  s.opt[OPT_GAMMA_VECTOR_G].size = 1024 * sizeof (Sane.Word)
+  s.opt[OPT_GAMMA_VECTOR_G].size = 1024 * sizeof(Sane.Word)
   s.opt[OPT_GAMMA_VECTOR_G].unit = Sane.UNIT_NONE
   s.opt[OPT_GAMMA_VECTOR_G].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_GAMMA_VECTOR_G].constraint.range = &u8_range
@@ -2858,7 +2858,7 @@ init_options (HP4200_Scanner * s)
   s.opt[OPT_GAMMA_VECTOR_B].cap =
     Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   s.opt[OPT_GAMMA_VECTOR_B].type = Sane.TYPE_INT
-  s.opt[OPT_GAMMA_VECTOR_B].size = 1024 * sizeof (Sane.Word)
+  s.opt[OPT_GAMMA_VECTOR_B].size = 1024 * sizeof(Sane.Word)
   s.opt[OPT_GAMMA_VECTOR_B].unit = Sane.UNIT_NONE
   s.opt[OPT_GAMMA_VECTOR_B].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_GAMMA_VECTOR_B].constraint.range = &u8_range
@@ -2867,14 +2867,14 @@ init_options (HP4200_Scanner * s)
   {
     var i: Int
     double gamma = 2.0
-    for (i = 0; i < 1024; i++)
+    for(i = 0; i < 1024; i++)
       {
 	s.user_parms.gamma[0][i] =
-	  255 * pow (((double) i + 1) / 1024, 1.0 / gamma)
+	  255 * pow(((double) i + 1) / 1024, 1.0 / gamma)
 	s.user_parms.gamma[1][i] =	s.user_parms.gamma[0][i]
 	s.user_parms.gamma[2][i] =	s.user_parms.gamma[0][i]
 #ifdef DEBUG
-	printf ("%d %d\n", i, s.user_parms.gamma[0][i])
+	printf("%d %d\n", i, s.user_parms.gamma[0][i])
 #endif
       }
   }
@@ -2884,28 +2884,28 @@ init_options (HP4200_Scanner * s)
   s.opt[OPT_PREVIEW].title = Sane.TITLE_PREVIEW
   s.opt[OPT_PREVIEW].desc = Sane.DESC_PREVIEW
   s.opt[OPT_PREVIEW].type = Sane.TYPE_BOOL
-  s.opt[OPT_PREVIEW].size = sizeof (Sane.Word)
+  s.opt[OPT_PREVIEW].size = sizeof(Sane.Word)
   s.opt[OPT_PREVIEW].cap = Sane.CAP_SOFT_DETECT | Sane.CAP_SOFT_SELECT
   s.val[OPT_PREVIEW].w = Sane.FALSE
 }
 
 Sane.Status
-Sane.open (Sane.String_Const name, Sane.Handle * h)
+Sane.open(Sane.String_Const name, Sane.Handle * h)
 {
   static const char me[] = "Sane.hp4200_open"
   Sane.Status status
   HP4200_Device *dev
   HP4200_Scanner *s
 
-  DBG (DBG_proc, "%s (%s, %p)\n", me, name, (void *) h)
+  DBG(DBG_proc, "%s(%s, %p)\n", me, name, (void *) h)
 
-  if (name && name[0])
+  if(name && name[0])
     {
-      dev = find_device (name)
-      if (!dev)
+      dev = find_device(name)
+      if(!dev)
 	{
-	  status = add_device (name, &dev)
-	  if (status != Sane.STATUS_GOOD)
+	  status = add_device(name, &dev)
+	  if(status != Sane.STATUS_GOOD)
 	    return status
 	}
     }
@@ -2913,16 +2913,16 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
     {
       dev = first_device
     }
-  if (!dev)
+  if(!dev)
     return Sane.STATUS_INVAL
 
-  if (!h)
+  if(!h)
     return Sane.STATUS_INVAL
 
-  s = *h = (HP4200_Scanner *) calloc (1, sizeof (HP4200_Scanner))
-  if (!s)
+  s = *h = (HP4200_Scanner *) calloc(1, sizeof(HP4200_Scanner))
+  if(!s)
     {
-      DBG (DBG_error, "%s: out of memory creating scanner structure.\n", me)
+      DBG(DBG_error, "%s: out of memory creating scanner structure.\n", me)
       return Sane.STATUS_NO_MEM
     }
 
@@ -2937,11 +2937,11 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
   s.scanning = Sane.FALSE
   s.fd = -1
 
-  init_options (s)
+  init_options(s)
 
-  if ((sanei_usb_open (dev.dev.name, &s.fd) != Sane.STATUS_GOOD))
+  if((sanei_usb_open(dev.dev.name, &s.fd) != Sane.STATUS_GOOD))
     {
-      DBG (DBG_error, "%s: Can't open %s.\n", me, dev.dev.name)
+      DBG(DBG_error, "%s: Can't open %s.\n", me, dev.dev.name)
       return Sane.STATUS_IO_ERROR;	/* fixme: return busy when file is
 					   being accessed already */
     }
@@ -2950,38 +2950,38 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 }
 
 void
-Sane.close (Sane.Handle h)
+Sane.close(Sane.Handle h)
 {
   HP4200_Scanner *s = (HP4200_Scanner *) h
-  DBG (DBG_proc, "Sane.hp4200_close (%p)\n", (void *) h)
+  DBG(DBG_proc, "Sane.hp4200_close(%p)\n", (void *) h)
 
-  if (s)
+  if(s)
     {
       s.dev.handle = NULL
-      if (s.fd != -1)
+      if(s.fd != -1)
 	{
-	  sanei_usb_close (s.fd)
+	  sanei_usb_close(s.fd)
 	}
-      free (s)
+      free(s)
     }
 }
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle h, Int n)
+Sane.get_option_descriptor(Sane.Handle h, Int n)
 {
   static char me[] = "Sane.get_option_descriptor"
   HP4200_Scanner *s = (HP4200_Scanner *) h
 
-  DBG (DBG_proc, "%s\n", me)
+  DBG(DBG_proc, "%s\n", me)
 
-  if ((n < 0) || (n >= NUM_OPTIONS))
+  if((n < 0) || (n >= NUM_OPTIONS))
     return NULL
 
   return s.opt + n
 }
 
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
 		     Sane.Action action, void *val, Int * info)
 {
   HP4200_Scanner *s = (HP4200_Scanner *) handle
@@ -2989,31 +2989,31 @@ Sane.control_option (Sane.Handle handle, Int option,
   Int myinfo = 0
   Sane.Word cap
 
-  DBG (DBG_proc, "Sane.control_option\n")
+  DBG(DBG_proc, "Sane.control_option\n")
 
-  if (info)
+  if(info)
     *info = 0
 
-  if (s.scanning)
+  if(s.scanning)
     {
       return Sane.STATUS_DEVICE_BUSY
     }
 
-  if (option < 0 || option >= NUM_OPTIONS)
+  if(option < 0 || option >= NUM_OPTIONS)
     {
       return Sane.STATUS_INVAL
     }
 
   cap = s.opt[option].cap
-  if (!Sane.OPTION_IS_ACTIVE (cap))
+  if(!Sane.OPTION_IS_ACTIVE(cap))
     {
       return Sane.STATUS_INVAL
     }
 
-  if (action == Sane.ACTION_GET_VALUE)
+  if(action == Sane.ACTION_GET_VALUE)
     {
 
-      switch (option)
+      switch(option)
 	{
 	case OPT_NUM_OPTS:
 	case OPT_RES:
@@ -3032,26 +3032,26 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_GAMMA_VECTOR_R:
 	case OPT_GAMMA_VECTOR_G:
 	case OPT_GAMMA_VECTOR_B:
-	  memcpy (val, s.val[option].wa, s.opt[option].size)
+	  memcpy(val, s.val[option].wa, s.opt[option].size)
 	  break
 	default:
 	  return Sane.STATUS_UNSUPPORTED
 	}
     }
-  else if (action == Sane.ACTION_SET_VALUE)
+  else if(action == Sane.ACTION_SET_VALUE)
     {
 
-      if (!Sane.OPTION_IS_SETTABLE (cap))
+      if(!Sane.OPTION_IS_SETTABLE(cap))
 	{
-	  DBG (DBG_error, "could not set option, not settable\n")
+	  DBG(DBG_error, "could not set option, not settable\n")
 	  return Sane.STATUS_INVAL
 	}
 
-      status = sanei_constrain_value (s.opt + option, val, &myinfo)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_constrain_value(s.opt + option, val, &myinfo)
+      if(status != Sane.STATUS_GOOD)
 	return status
 
-      switch (option)
+      switch(option)
 	{
 
 	  /* Numeric side-effect free options */
@@ -3076,7 +3076,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_GAMMA_VECTOR_R:
 	case OPT_GAMMA_VECTOR_G:
 	case OPT_GAMMA_VECTOR_B:
-	  memcpy (s.val[option].wa, val, s.opt[option].size)
+	  memcpy(s.val[option].wa, val, s.opt[option].size)
 	  break
 	default:
 	  return Sane.STATUS_UNSUPPORTED
@@ -3087,14 +3087,14 @@ Sane.control_option (Sane.Handle handle, Int option,
       return Sane.STATUS_UNSUPPORTED
     }
 
-  if (info)
+  if(info)
     *info = myinfo
 
   return Sane.STATUS_GOOD
 }
 
 static void
-compute_parameters (HP4200_Scanner * s)
+compute_parameters(HP4200_Scanner * s)
 {
   Int resolution
   Int opt_tl_x
@@ -3102,53 +3102,53 @@ compute_parameters (HP4200_Scanner * s)
   Int opt_tl_y
   Int opt_br_y
 
-  if (s.val[OPT_PREVIEW].w == Sane.TRUE)
+  if(s.val[OPT_PREVIEW].w == Sane.TRUE)
     {
       resolution = 50
-      opt_tl_x = Sane.UNFIX (x_range.min)
-      opt_tl_y = Sane.UNFIX (y_range.min)
-      opt_br_x = Sane.UNFIX (x_range.max)
-      opt_br_y = Sane.UNFIX (y_range.max)
+      opt_tl_x = Sane.UNFIX(x_range.min)
+      opt_tl_y = Sane.UNFIX(y_range.min)
+      opt_br_x = Sane.UNFIX(x_range.max)
+      opt_br_y = Sane.UNFIX(y_range.max)
     }
   else
     {
       resolution = s.val[OPT_RES].w
-      opt_tl_x = Sane.UNFIX (s.val[OPT_TL_X].w)
-      opt_tl_y = Sane.UNFIX (s.val[OPT_TL_Y].w)
-      opt_br_x = Sane.UNFIX (s.val[OPT_BR_X].w)
-      opt_br_y = Sane.UNFIX (s.val[OPT_BR_Y].w)
+      opt_tl_x = Sane.UNFIX(s.val[OPT_TL_X].w)
+      opt_tl_y = Sane.UNFIX(s.val[OPT_TL_Y].w)
+      opt_br_x = Sane.UNFIX(s.val[OPT_BR_X].w)
+      opt_br_y = Sane.UNFIX(s.val[OPT_BR_Y].w)
     }
 
   s.user_parms.horizontal_resolution = resolution
   s.user_parms.vertical_resolution = resolution
 
-  s.runtime_parms.steps_to_skip = floor (300.0 / MM_PER_INCH * opt_tl_y)
+  s.runtime_parms.steps_to_skip = floor(300.0 / MM_PER_INCH * opt_tl_y)
   s.user_parms.lines_to_scan =
-    floor ((opt_br_y - opt_tl_y) / MM_PER_INCH * resolution)
+    floor((opt_br_y - opt_tl_y) / MM_PER_INCH * resolution)
   s.user_parms.image_width =
-    floor ((opt_br_x - opt_tl_x) / MM_PER_INCH * resolution)
-  s.runtime_parms.first_pixel = floor (opt_tl_x / MM_PER_INCH * resolution)
+    floor((opt_br_x - opt_tl_x) / MM_PER_INCH * resolution)
+  s.runtime_parms.first_pixel = floor(opt_tl_x / MM_PER_INCH * resolution)
 
   /* fixme: add support for more depth's and bpp's. */
   s.runtime_parms.image_line_size = s.user_parms.image_width * 3
 }
 
 Sane.Status
-Sane.get_parameters (Sane.Handle h, Sane.Parameters * p)
+Sane.get_parameters(Sane.Handle h, Sane.Parameters * p)
 {
   static char me[] = "Sane.get_parameters"
   HP4200_Scanner *s = (HP4200_Scanner *) h
 
-  DBG (DBG_proc, "%s\n", me)
-  if (!p)
+  DBG(DBG_proc, "%s\n", me)
+  if(!p)
     return Sane.STATUS_INVAL
 
   p.format = Sane.FRAME_RGB
   p.last_frame = Sane.TRUE
   p.depth = 8
-  if (!s.scanning)
+  if(!s.scanning)
     {
-      compute_parameters (s)
+      compute_parameters(s)
     }
 
   p.lines = s.user_parms.lines_to_scan
@@ -3159,61 +3159,61 @@ Sane.get_parameters (Sane.Handle h, Sane.Parameters * p)
 }
 
 Sane.Status
-Sane.start (Sane.Handle h)
+Sane.start(Sane.Handle h)
 {
   HP4200_Scanner *s = (HP4200_Scanner *) h
   struct coarse_t coarse
 
   static char me[] = "Sane.start"
-  DBG (DBG_proc, "%s\n", me)
+  DBG(DBG_proc, "%s\n", me)
 
   s.scanning = Sane.TRUE
   s.aborted_by_user = Sane.FALSE
   s.user_parms.color = Sane.TRUE
 
-  compute_parameters (s)
+  compute_parameters(s)
 
-  hp4200_init_scanner (s)
-  hp4200_goto_home (s)
-  hp4200_wait_homed (s)
+  hp4200_init_scanner(s)
+  hp4200_goto_home(s)
+  hp4200_wait_homed(s)
   /* restore default register values here... */
-  write_gamma (s)
-  hp4200_init_registers (s)
-  lm9830_ini_scanner (s.fd, NULL)
+  write_gamma(s)
+  hp4200_init_registers(s)
+  lm9830_ini_scanner(s.fd, NULL)
   /* um... do not call cache_write() here, don't know why :( */
-  do_coarse_calibration (s, &coarse)
-  do_fine_calibration (s, &coarse)
-  prepare_for_a_scan (s)
+  do_coarse_calibration(s, &coarse)
+  do_fine_calibration(s, &coarse)
+  prepare_for_a_scan(s)
 
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.cancel (Sane.Handle h)
+Sane.cancel(Sane.Handle h)
 {
   static char me[] = "Sane.cancel"
   HP4200_Scanner *s = (HP4200_Scanner *) h
-  DBG (DBG_proc, "%s\n", me)
+  DBG(DBG_proc, "%s\n", me)
 
   s.aborted_by_user = Sane.TRUE
 
-  end_scan (s)
+  end_scan(s)
 }
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 {
   HP4200_Scanner *dev = handle
   Sane.Status status
 
   non_blocking = non_blocking;	/* silence gcc */
 
-  if (dev.scanning == Sane.FALSE)
+  if(dev.scanning == Sane.FALSE)
     {
       return Sane.STATUS_INVAL
     }
 
-  if (non_blocking == Sane.FALSE)
+  if(non_blocking == Sane.FALSE)
     {
       status = Sane.STATUS_GOOD
     }
@@ -3222,19 +3222,19 @@ Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
       status = Sane.STATUS_UNSUPPORTED
     }
 
-  DBG (DBG_proc, "Sane.set_io_mode: exit\n")
+  DBG(DBG_proc, "Sane.set_io_mode: exit\n")
 
   return status
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle h, Int * fd)
+Sane.get_select_fd(Sane.Handle h, Int * fd)
 {
   static char me[] = "Sane.get_select_fd"
 
   h = h;			/* keep gcc quiet */
   fd = fd;			/* keep gcc quiet */
 
-  DBG (DBG_proc, "%s\n", me)
+  DBG(DBG_proc, "%s\n", me)
   return Sane.STATUS_UNSUPPORTED
 }

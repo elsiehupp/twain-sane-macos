@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 Geoffrey T. Dairiki
+   Copyright(C) 1997 Geoffrey T. Dairiki
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -37,7 +37,7 @@
    If you do not wish that, delete this exception notice.
 
    This file is part of a SANE backend for HP Scanners supporting
-   HP Scanner Control Language (SCL).
+   HP Scanner Control Language(SCL).
 */
 
 #ifndef HP_SCL_INCLUDED
@@ -165,13 +165,13 @@
 
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 Geoffrey T. Dairiki
+   Copyright(C) 1997 Geoffrey T. Dairiki
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -203,7 +203,7 @@
    If you do not wish that, delete this exception notice.
 
    This file is part of a SANE backend for HP Scanners supporting
-   HP Scanner Control Language (SCL).
+   HP Scanner Control Language(SCL).
 */
 
 /*
@@ -214,11 +214,11 @@
    Rename global function hp_init_openfd to sanei_hp_init_openfd
 
    Revision 1.13  2004/03/27 13:52:39  kig-guest
-   Keep USB-connection open (was problem with Linux 2.6.x)
+   Keep USB-connection open(was problem with Linux 2.6.x)
 
    Revision 1.12  2003/10/09 19:34:57  kig-guest
    Redo when TEST UNIT READY failed
-   Redo when read returns with 0 bytes (non-SCSI only)
+   Redo when read returns with 0 bytes(non-SCSI only)
 */
 
 /*
@@ -282,8 +282,8 @@ struct hp_scsi_s
     hp_byte_t	inq_data[HP_SCSI_INQ_LEN]
 ]
 
-#define HP_TMP_BUF_SIZE (1024*4)
-#define HP_WR_BUF_SIZE (1024*4)
+#define HP_TMP_BUF_SIZE(1024*4)
+#define HP_WR_BUF_SIZE(1024*4)
 
 typedef struct
 {
@@ -292,7 +292,7 @@ typedef struct
   Int outfd
   const unsigned char *map
 
-  unsigned char *image_buf; /* Buffer to store complete image (if req.) */
+  unsigned char *image_buf; /* Buffer to store complete image(if req.) */
   unsigned char *image_ptr
   Int image_buf_size
 
@@ -309,28 +309,28 @@ typedef struct
 
 /* Initialize structure where we remember out open file descriptors */
 void
-sanei_hp_init_openfd ()
+sanei_hp_init_openfd()
 {Int iCount
- memset (asHpOpenFd, 0, sizeof (asHpOpenFd))
+ memset(asHpOpenFd, 0, sizeof(asHpOpenFd))
 
- for (iCount = 0; iCount < HP_MAX_OPEN_FD; iCount++)
+ for(iCount = 0; iCount < HP_MAX_OPEN_FD; iCount++)
      asHpOpenFd[iCount].fd = -1
 }
 
 
 /* Look if the device is still open */
 static Sane.Status
-hp_GetOpenDevice (const char *devname, HpConnect connect, Int *pfd)
+hp_GetOpenDevice(const char *devname, HpConnect connect, Int *pfd)
 
 {Int iCount
 
- for (iCount = 0; iCount < HP_MAX_OPEN_FD; iCount++)
+ for(iCount = 0; iCount < HP_MAX_OPEN_FD; iCount++)
      {
-     if (!asHpOpenFd[iCount].devname) continue
-     if (   (strcmp (asHpOpenFd[iCount].devname, devname) == 0)
+     if(!asHpOpenFd[iCount].devname) continue
+     if(   (strcmp(asHpOpenFd[iCount].devname, devname) == 0)
          && (asHpOpenFd[iCount].connect == connect) )
          {
-         if (pfd) *pfd = asHpOpenFd[iCount].fd
+         if(pfd) *pfd = asHpOpenFd[iCount].fd
          DBG(3, "hp_GetOpenDevice: device %s is open with fd=%d\n", devname,
              asHpOpenFd[iCount].fd)
          return Sane.STATUS_GOOD
@@ -343,7 +343,7 @@ hp_GetOpenDevice (const char *devname, HpConnect connect, Int *pfd)
 /* Add an open file descriptor. This also decides */
 /* if we keep a connection open or not. */
 static Sane.Status
-hp_AddOpenDevice (const char *devname, HpConnect connect, Int fd)
+hp_AddOpenDevice(const char *devname, HpConnect connect, Int fd)
 
 {Int iCount, iKeepOpen
  static Int iInitKeepFlags = 1
@@ -354,31 +354,31 @@ hp_AddOpenDevice (const char *devname, HpConnect connect, Int fd)
  static Int iKeepOpenDevice = 0
  static Int iKeepOpenPIO = 0
 
- if (iInitKeepFlags) /* Change the defaults by environment */
+ if(iInitKeepFlags) /* Change the defaults by environment */
      {char *eptr
 
      iInitKeepFlags = 0
 
-     eptr = getenv ("Sane.HP_KEEPOPEN_SCSI")
-     if ( (eptr != NULL) && ((*eptr == '0') || (*eptr == '1')) )
+     eptr = getenv("Sane.HP_KEEPOPEN_SCSI")
+     if( (eptr != NULL) && ((*eptr == '0') || (*eptr == '1')) )
          iKeepOpenSCSI = (*eptr == '1')
 
-     eptr = getenv ("Sane.HP_KEEPOPEN_USB")
-     if ( (eptr != NULL) && ((*eptr == '0') || (*eptr == '1')) )
+     eptr = getenv("Sane.HP_KEEPOPEN_USB")
+     if( (eptr != NULL) && ((*eptr == '0') || (*eptr == '1')) )
          iKeepOpenUSB = (*eptr == '1')
 
-     eptr = getenv ("Sane.HP_KEEPOPEN_DEVICE")
-     if ( (eptr != NULL) && ((*eptr == '0') || (*eptr == '1')) )
+     eptr = getenv("Sane.HP_KEEPOPEN_DEVICE")
+     if( (eptr != NULL) && ((*eptr == '0') || (*eptr == '1')) )
          iKeepOpenDevice = (*eptr == '1')
 
-     eptr = getenv ("Sane.HP_KEEPOPEN_PIO")
-     if ( (eptr != NULL) && ((*eptr == '0') || (*eptr == '1')) )
+     eptr = getenv("Sane.HP_KEEPOPEN_PIO")
+     if( (eptr != NULL) && ((*eptr == '0') || (*eptr == '1')) )
          iKeepOpenPIO = (*eptr == '1')
      }
 
  /* Look if we should keep it open or not */
  iKeepOpen = 0
- switch (connect)
+ switch(connect)
      {
      case HP_CONNECT_SCSI: iKeepOpen = iKeepOpenSCSI
                            break
@@ -391,18 +391,18 @@ hp_AddOpenDevice (const char *devname, HpConnect connect, Int fd)
      case HP_CONNECT_RESERVE:
                            break
      }
- if (!iKeepOpen)
+ if(!iKeepOpen)
      {
      DBG(3, "hp_AddOpenDevice: %s should not be kept open\n", devname)
      return Sane.STATUS_INVAL
      }
 
- for (iCount = 0; iCount < HP_MAX_OPEN_FD; iCount++)
+ for(iCount = 0; iCount < HP_MAX_OPEN_FD; iCount++)
      {
-     if (!asHpOpenFd[iCount].devname)  /* Is this entry free ? */
+     if(!asHpOpenFd[iCount].devname)  /* Is this entry free ? */
          {
-         asHpOpenFd[iCount].devname = sanei_hp_strdup (devname)
-         if (!asHpOpenFd[iCount].devname) return Sane.STATUS_NO_MEM
+         asHpOpenFd[iCount].devname = sanei_hp_strdup(devname)
+         if(!asHpOpenFd[iCount].devname) return Sane.STATUS_NO_MEM
          DBG(3, "hp_AddOpenDevice: added device %s with fd=%d\n", devname, fd)
          asHpOpenFd[iCount].connect = connect
          asHpOpenFd[iCount].fd = fd
@@ -416,13 +416,13 @@ hp_AddOpenDevice (const char *devname, HpConnect connect, Int fd)
 
 /* Check if we have remembered an open file descriptor */
 static Sane.Status
-hp_IsOpenFd (Int fd, HpConnect connect)
+hp_IsOpenFd(Int fd, HpConnect connect)
 
 {Int iCount
 
- for (iCount = 0; iCount < HP_MAX_OPEN_FD; iCount++)
+ for(iCount = 0; iCount < HP_MAX_OPEN_FD; iCount++)
      {
-     if (   (asHpOpenFd[iCount].devname != NULL)
+     if(   (asHpOpenFd[iCount].devname != NULL)
          && (asHpOpenFd[iCount].fd == fd)
          && (asHpOpenFd[iCount].connect == connect) )
          {
@@ -436,17 +436,17 @@ hp_IsOpenFd (Int fd, HpConnect connect)
 
 
 static Sane.Status
-hp_RemoveOpenFd (Int fd, HpConnect connect)
+hp_RemoveOpenFd(Int fd, HpConnect connect)
 
 {Int iCount
 
- for (iCount = 0; iCount < HP_MAX_OPEN_FD; iCount++)
+ for(iCount = 0; iCount < HP_MAX_OPEN_FD; iCount++)
      {
-     if (   (asHpOpenFd[iCount].devname != NULL)
+     if(   (asHpOpenFd[iCount].devname != NULL)
          && (asHpOpenFd[iCount].fd == fd)
          && (asHpOpenFd[iCount].connect == connect) )
          {
-         sanei_hp_free (asHpOpenFd[iCount].devname)
+         sanei_hp_free(asHpOpenFd[iCount].devname)
          asHpOpenFd[iCount].devname = NULL
          DBG(3, "hp_RemoveOpenFd: removed %d\n", asHpOpenFd[iCount].fd)
          asHpOpenFd[iCount].fd = -1
@@ -459,27 +459,27 @@ hp_RemoveOpenFd (Int fd, HpConnect connect)
 
 
 static Sane.Status
-hp_nonscsi_write (HpScsi this, hp_byte_t *data, size_t len, HpConnect connect)
+hp_nonscsi_write(HpScsi this, hp_byte_t *data, size_t len, HpConnect connect)
 
 {Int n = -1
  size_t loc_len
  Sane.Status status = Sane.STATUS_GOOD
 
- if (len <= 0) return Sane.STATUS_GOOD
+ if(len <= 0) return Sane.STATUS_GOOD
 
- switch (connect)
+ switch(connect)
  {
    case HP_CONNECT_DEVICE:   /* direct device-io */
-     n = write (this.fd, data, len)
+     n = write(this.fd, data, len)
      break
 
    case HP_CONNECT_PIO:      /* Use sanepio interface */
-     n = sanei_pio_write (this.fd, data, len)
+     n = sanei_pio_write(this.fd, data, len)
      break
 
    case HP_CONNECT_USB:      /* Not supported */
      loc_len = len
-     status = sanei_usb_write_bulk ((Int)this.fd, data, &loc_len)
+     status = sanei_usb_write_bulk((Int)this.fd, data, &loc_len)
      n = loc_len
      break
 
@@ -492,14 +492,14 @@ hp_nonscsi_write (HpScsi this, hp_byte_t *data, size_t len, HpConnect connect)
      break
  }
 
- if (n == 0) return Sane.STATUS_EOF
- else if (n < 0) return Sane.STATUS_IO_ERROR
+ if(n == 0) return Sane.STATUS_EOF
+ else if(n < 0) return Sane.STATUS_IO_ERROR
 
  return status
 }
 
 static Sane.Status
-hp_nonscsi_read (HpScsi this, hp_byte_t *data, size_t *len, HpConnect connect,
+hp_nonscsi_read(HpScsi this, hp_byte_t *data, size_t *len, HpConnect connect,
   Int __Sane.unused__ isResponse)
 
 {Int n = -1
@@ -507,29 +507,29 @@ hp_nonscsi_read (HpScsi this, hp_byte_t *data, size_t *len, HpConnect connect,
  size_t save_len = *len
  Sane.Status status = Sane.STATUS_GOOD
 
- if (*len <= 0) return Sane.STATUS_GOOD
+ if(*len <= 0) return Sane.STATUS_GOOD
 
- if (retries < 0)  /* Read environment */
- {char *eptr = getenv ("Sane.HP_RDREDO")
+ if(retries < 0)  /* Read environment */
+ {char *eptr = getenv("Sane.HP_RDREDO")
 
    retries = 1;       /* Set default value */
-   if (eptr != NULL)
+   if(eptr != NULL)
    {
-     if (sscanf (eptr, "%d", &retries) != 1) retries = 1; /* Restore default */
-     else if (retries < 0) retries = 0; /* Allow no retries here */
+     if(sscanf(eptr, "%d", &retries) != 1) retries = 1; /* Restore default */
+     else if(retries < 0) retries = 0; /* Allow no retries here */
    }
  }
 
- for (;;) /* Retry on EOF */
+ for(;;) /* Retry on EOF */
  {
-   switch (connect)
+   switch(connect)
    {
      case HP_CONNECT_DEVICE:
-       n = read (this.fd, data, *len)
+       n = read(this.fd, data, *len)
        break
 
      case HP_CONNECT_PIO:
-       n = sanei_pio_read (this.fd, data, *len)
+       n = sanei_pio_read(this.fd, data, *len)
        break
 
      case HP_CONNECT_USB:
@@ -545,21 +545,21 @@ hp_nonscsi_read (HpScsi this, hp_byte_t *data, size_t *len, HpConnect connect,
        n = -1
        break
    }
-   if ((n != 0) || (retries <= 0)) break
+   if((n != 0) || (retries <= 0)) break
    retries--
-   usleep (100*1000);  /* sleep 0.1 seconds */
+   usleep(100*1000);  /* sleep 0.1 seconds */
    *len = save_len;    /* Restore value */
  }
 
- if (n == 0) return Sane.STATUS_EOF
- else if (n < 0) return Sane.STATUS_IO_ERROR
+ if(n == 0) return Sane.STATUS_EOF
+ else if(n < 0) return Sane.STATUS_IO_ERROR
 
  *len = n
  return status
 }
 
 static Sane.Status
-hp_nonscsi_open (const char *devname, Int *fd, HpConnect connect)
+hp_nonscsi_open(const char *devname, Int *fd, HpConnect connect)
 
 {Int lfd, flags
  Int dn
@@ -582,14 +582,14 @@ hp_nonscsi_open (const char *devname, Int *fd, HpConnect connect)
  flags |= O_BINARY
 #endif
 
- switch (connect)
+ switch(connect)
  {
    case HP_CONNECT_DEVICE:
-     lfd = open (devname, flags)
-     if (lfd < 0)
+     lfd = open(devname, flags)
+     if(lfd < 0)
      {
-        DBG(1, "hp_nonscsi_open: open device %s failed (%s)\n", devname,
-            strerror (errno) )
+        DBG(1, "hp_nonscsi_open: open device %s failed(%s)\n", devname,
+            strerror(errno) )
        status = (errno == EACCES) ? Sane.STATUS_ACCESS_DENIED : Sane.STATUS_INVAL
      }
      else
@@ -597,12 +597,12 @@ hp_nonscsi_open (const char *devname, Int *fd, HpConnect connect)
      break
 
    case HP_CONNECT_PIO:
-     status = sanei_pio_open (devname, &lfd)
+     status = sanei_pio_open(devname, &lfd)
      break
 
    case HP_CONNECT_USB:
      DBG(17, "hp_nonscsi_open: open usb with \"%s\"\n", devname)
-     status = sanei_usb_open (devname, &dn)
+     status = sanei_usb_open(devname, &dn)
      lfd = (Int)dn
      break
 
@@ -615,7 +615,7 @@ hp_nonscsi_open (const char *devname, Int *fd, HpConnect connect)
      break
  }
 
- if (status != Sane.STATUS_GOOD)
+ if(status != Sane.STATUS_GOOD)
  {
     DBG(1, "hp_nonscsi_open: open device %s failed\n", devname)
  }
@@ -624,27 +624,27 @@ hp_nonscsi_open (const char *devname, Int *fd, HpConnect connect)
     DBG(17,"hp_nonscsi_open: device %s opened, fd=%d\n", devname, lfd)
  }
 
- if (fd) *fd = lfd
+ if(fd) *fd = lfd
 
  return status
 }
 
 static void
-hp_nonscsi_close (Int fd, HpConnect connect)
+hp_nonscsi_close(Int fd, HpConnect connect)
 
 {
- switch (connect)
+ switch(connect)
  {
    case HP_CONNECT_DEVICE:
-     close (fd)
+     close(fd)
      break
 
    case HP_CONNECT_PIO:
-     sanei_pio_close (fd)
+     sanei_pio_close(fd)
      break
 
    case HP_CONNECT_USB:
-     sanei_usb_close (fd)
+     sanei_usb_close(fd)
      break
 
    case HP_CONNECT_RESERVE:
@@ -657,59 +657,59 @@ hp_nonscsi_close (Int fd, HpConnect connect)
 }
 
 Sane.Status
-sanei_hp_nonscsi_new (HpScsi * newp, const char * devname, HpConnect connect)
+sanei_hp_nonscsi_new(HpScsi * newp, const char * devname, HpConnect connect)
 {
  HpScsi new
  Sane.Status status
  Int iAlreadyOpen = 0
 
   new = sanei_hp_allocz(sizeof(*new))
-  if (!new)
+  if(!new)
     return Sane.STATUS_NO_MEM
 
   /* Is the device already open ? */
-  if ( hp_GetOpenDevice (devname, connect, &new.fd) == Sane.STATUS_GOOD )
+  if( hp_GetOpenDevice(devname, connect, &new.fd) == Sane.STATUS_GOOD )
   {
     iAlreadyOpen = 1
   }
   else
   {
     status = hp_nonscsi_open(devname, &new.fd, connect)
-    if (FAILED(status))
+    if(FAILED(status))
     {
-      DBG(1, "nonscsi_new: open failed (%s)\n", Sane.strstatus(status))
+      DBG(1, "nonscsi_new: open failed(%s)\n", Sane.strstatus(status))
       sanei_hp_free(new)
       return Sane.STATUS_IO_ERROR
     }
   }
 
   /* For SCSI-devices we would have the inquire command here */
-  memcpy (new.inq_data, "\003zzzzzzzHP      ------          R000",
-          sizeof (new.inq_data))
+  memcpy(new.inq_data, "\003zzzzzzzHP      ------          R000",
+          sizeof(new.inq_data))
 
   new.bufp = new.buf + HP_SCSI_CMD_LEN
-  new.devname = sanei_hp_alloc ( strlen ( devname ) + 1 )
-  if ( new.devname ) strcpy (new.devname, devname)
+  new.devname = sanei_hp_alloc( strlen( devname ) + 1 )
+  if( new.devname ) strcpy(new.devname, devname)
 
   *newp = new
 
   /* Remember the open device */
-  if (!iAlreadyOpen) hp_AddOpenDevice (devname, connect, new.fd)
+  if(!iAlreadyOpen) hp_AddOpenDevice(devname, connect, new.fd)
 
   return Sane.STATUS_GOOD
 }
 
 static void
-hp_scsi_close (HpScsi this, Int completely)
+hp_scsi_close(HpScsi this, Int completely)
 {HpConnect connect
 
  DBG(3, "scsi_close: closing fd %ld\n", (long)this.fd)
 
- connect = sanei_hp_scsi_get_connect (this)
+ connect = sanei_hp_scsi_get_connect(this)
 
- if (!completely)  /* May we keep the device open ? */
+ if(!completely)  /* May we keep the device open ? */
  {
-   if ( hp_IsOpenFd (this.fd, connect) == Sane.STATUS_GOOD )
+   if( hp_IsOpenFd(this.fd, connect) == Sane.STATUS_GOOD )
    {
      DBG(3, "scsi_close: not closing. Keep open\n")
      return
@@ -718,20 +718,20 @@ hp_scsi_close (HpScsi this, Int completely)
  }
  assert(this.fd >= 0)
 
- if (connect != HP_CONNECT_SCSI)
-   hp_nonscsi_close (this.fd, connect)
+ if(connect != HP_CONNECT_SCSI)
+   hp_nonscsi_close(this.fd, connect)
  else
-   sanei_scsi_close (this.fd)
+   sanei_scsi_close(this.fd)
 
  DBG(3,"scsi_close: really closed\n")
 
  /* Remove a remembered open device */
- hp_RemoveOpenFd (this.fd, connect)
+ hp_RemoveOpenFd(this.fd, connect)
 }
 
 
 Sane.Status
-sanei_hp_scsi_new (HpScsi * newp, const char * devname)
+sanei_hp_scsi_new(HpScsi * newp, const char * devname)
 {
   static hp_byte_t inq_cmd[] = { 0x12, 0, 0, 0, HP_SCSI_INQ_LEN, 0]
   static hp_byte_t tur_cmd[] = { 0x00, 0, 0, 0, 0, 0]
@@ -741,26 +741,26 @@ sanei_hp_scsi_new (HpScsi * newp, const char * devname)
   Sane.Status	status
   Int iAlreadyOpen = 0
 
-  connect = sanei_hp_get_connect (devname)
+  connect = sanei_hp_get_connect(devname)
 
-  if (connect != HP_CONNECT_SCSI)
-    return sanei_hp_nonscsi_new (newp, devname, connect)
+  if(connect != HP_CONNECT_SCSI)
+    return sanei_hp_nonscsi_new(newp, devname, connect)
 
   new = sanei_hp_allocz(sizeof(*new))
-  if (!new)
+  if(!new)
       return Sane.STATUS_NO_MEM
 
   /* Is the device still open ? */
-  if ( hp_GetOpenDevice (devname, connect, &new.fd) == Sane.STATUS_GOOD )
+  if( hp_GetOpenDevice(devname, connect, &new.fd) == Sane.STATUS_GOOD )
   {
     iAlreadyOpen = 1
   }
   else
   {
     status = sanei_scsi_open(devname, &new.fd, 0, 0)
-    if (FAILED(status))
+    if(FAILED(status))
       {
-        DBG(1, "scsi_new: open failed (%s)\n", Sane.strstatus(status))
+        DBG(1, "scsi_new: open failed(%s)\n", Sane.strstatus(status))
         sanei_hp_free(new)
         return Sane.STATUS_IO_ERROR
       }
@@ -768,7 +768,7 @@ sanei_hp_scsi_new (HpScsi * newp, const char * devname)
 
   DBG(3, "scsi_inquire: sending INQUIRE\n")
   status = sanei_scsi_cmd(new.fd, inq_cmd, 6, new.inq_data, &inq_len)
-  if (FAILED(status))
+  if(FAILED(status))
     {
       DBG(1, "scsi_inquire: inquiry failed: %s\n", Sane.strstatus(status))
       sanei_scsi_close(new.fd)
@@ -777,30 +777,30 @@ sanei_hp_scsi_new (HpScsi * newp, const char * devname)
     }
 
   {char vendor[9], model[17], rev[5]
-   memset (vendor, 0, sizeof (vendor))
-   memset (model, 0, sizeof (model))
-   memset (rev, 0, sizeof (rev))
-   memcpy (vendor, new.inq_data + 8, 8)
-   memcpy (model, new.inq_data + 16, 16)
-   memcpy (rev, new.inq_data + 32, 4)
+   memset(vendor, 0, sizeof(vendor))
+   memset(model, 0, sizeof(model))
+   memset(rev, 0, sizeof(rev))
+   memcpy(vendor, new.inq_data + 8, 8)
+   memcpy(model, new.inq_data + 16, 16)
+   memcpy(rev, new.inq_data + 32, 4)
 
    DBG(3, "vendor=%s, model=%s, rev=%s\n", vendor, model, rev)
   }
 
   DBG(3, "scsi_new: sending TEST_UNIT_READY\n")
   status = sanei_scsi_cmd(new.fd, tur_cmd, 6, 0, 0)
-  if (FAILED(status))
+  if(FAILED(status))
     {
-      DBG(1, "hp_scsi_open: test unit ready failed (%s)\n",
+      DBG(1, "hp_scsi_open: test unit ready failed(%s)\n",
 	  Sane.strstatus(status))
-      usleep (500*1000); /* Wait 0.5 seconds */
+      usleep(500*1000); /* Wait 0.5 seconds */
       DBG(3, "scsi_new: sending TEST_UNIT_READY second time\n")
       status = sanei_scsi_cmd(new.fd, tur_cmd, 6, 0, 0)
     }
 
-  if (FAILED(status))
+  if(FAILED(status))
     {
-      DBG(1, "hp_scsi_open: test unit ready failed (%s)\n",
+      DBG(1, "hp_scsi_open: test unit ready failed(%s)\n",
 	  Sane.strstatus(status))
 
       sanei_scsi_close(new.fd)
@@ -809,13 +809,13 @@ sanei_hp_scsi_new (HpScsi * newp, const char * devname)
     }
 
   new.bufp = new.buf + HP_SCSI_CMD_LEN
-  new.devname = sanei_hp_alloc ( strlen ( devname ) + 1 )
-  if ( new.devname ) strcpy (new.devname, devname)
+  new.devname = sanei_hp_alloc( strlen( devname ) + 1 )
+  if( new.devname ) strcpy(new.devname, devname)
 
   *newp = new
 
   /* Remember the open device */
-  if (!iAlreadyOpen) hp_AddOpenDevice (devname, connect, new.fd)
+  if(!iAlreadyOpen) hp_AddOpenDevice(devname, connect, new.fd)
 
   return Sane.STATUS_GOOD
 }
@@ -830,29 +830,29 @@ sanei_hp_scsi_new (HpScsi * newp, const char * devname)
  * connection, including closing and deallocating the PTAL
  * channel, when initially probing the device in hp-device.c,
  * but leave it open while the frontend is actually using the
- * device (from hp-handle.c), and "completely" destroy it when
+ * device(from hp-handle.c), and "completely" destroy it when
  * the frontend closes its handle. */
 void
-sanei_hp_scsi_destroy (HpScsi this,Int completely)
+sanei_hp_scsi_destroy(HpScsi this,Int completely)
 {
   /* Moved to hp_scsi_close():
    * assert(this.fd >= 0)
    * DBG(3, "scsi_close: closing fd %d\n", this.fd)
    */
 
-  hp_scsi_close (this, completely)
-  if ( this.devname ) sanei_hp_free (this.devname)
+  hp_scsi_close(this, completely)
+  if( this.devname ) sanei_hp_free(this.devname)
   sanei_hp_free(this)
 }
 
 hp_byte_t *
-sanei_hp_scsi_inq (HpScsi this)
+sanei_hp_scsi_inq(HpScsi this)
 {
   return this.inq_data
 }
 
 const char *
-sanei_hp_scsi_vendor (HpScsi this)
+sanei_hp_scsi_vendor(HpScsi this)
 {
   static char buf[9]
   memcpy(buf, sanei_hp_scsi_inq(this) + 8, 8)
@@ -861,7 +861,7 @@ sanei_hp_scsi_vendor (HpScsi this)
 }
 
 const char *
-sanei_hp_scsi_model (HpScsi this)
+sanei_hp_scsi_model(HpScsi this)
 {
 
   static char buf[17]
@@ -871,20 +871,20 @@ sanei_hp_scsi_model (HpScsi this)
 }
 
 const char *
-sanei_hp_scsi_devicename (HpScsi this)
+sanei_hp_scsi_devicename(HpScsi this)
 {
   return this.devname
 }
 
 hp_bool_t
-sanei_hp_is_active_xpa (HpScsi scsi)
+sanei_hp_is_active_xpa(HpScsi scsi)
 {HpDeviceInfo *info
  Int model_num
 
- info = sanei_hp_device_info_get ( sanei_hp_scsi_devicename  (scsi) )
- if (info.active_xpa < 0)
+ info = sanei_hp_device_info_get( sanei_hp_scsi_devicename  (scsi) )
+ if(info.active_xpa < 0)
  {
-   model_num = sanei_hp_get_max_model (scsi)
+   model_num = sanei_hp_get_max_model(scsi)
    info.active_xpa = (model_num >= 17)
    DBG(5,"sanei_hp_is_active_xpa: model=%d, active_xpa=%d\n",
        model_num, info.active_xpa)
@@ -892,16 +892,16 @@ sanei_hp_is_active_xpa (HpScsi scsi)
  return info.active_xpa
 }
 
-func Int sanei_hp_get_max_model (HpScsi scsi)
+func Int sanei_hp_get_max_model(HpScsi scsi)
 
 {HpDeviceInfo *info
 
- info = sanei_hp_device_info_get ( sanei_hp_scsi_devicename  (scsi) )
- if (info.max_model < 0)
+ info = sanei_hp_device_info_get( sanei_hp_scsi_devicename  (scsi) )
+ if(info.max_model < 0)
  {enum hp_device_compat_e compat
   Int model_num
 
-   if ( sanei_hp_device_probe_model ( &compat, scsi, &model_num, 0)
+   if( sanei_hp_device_probe_model( &compat, scsi, &model_num, 0)
             == Sane.STATUS_GOOD )
      info.max_model = model_num
  }
@@ -909,30 +909,30 @@ func Int sanei_hp_get_max_model (HpScsi scsi)
 }
 
 
-func Int sanei_hp_is_flatbed_adf (HpScsi scsi)
+func Int sanei_hp_is_flatbed_adf(HpScsi scsi)
 
-{Int model = sanei_hp_get_max_model (scsi)
+{Int model = sanei_hp_get_max_model(scsi)
 
- return ((model == 2) || (model == 4) || (model == 5) || (model == 8))
+ return((model == 2) || (model == 4) || (model == 5) || (model == 8))
 }
 
 
 HpConnect
-sanei_hp_get_connect (const char *devname)
+sanei_hp_get_connect(const char *devname)
 
 {const HpDeviceInfo *info
  HpConnect connect = HP_CONNECT_SCSI
  Int got_connect_type = 0
 
- info = sanei_hp_device_info_get (devname)
- if (!info)
+ info = sanei_hp_device_info_get(devname)
+ if(!info)
  {
    DBG(1, "sanei_hp_get_connect: Could not get info for %s. Assume SCSI\n",
        devname)
    connect = HP_CONNECT_SCSI
  }
  else
- if ( !(info.config_is_up) )
+ if( !(info.config_is_up) )
  {
    DBG(1, "sanei_hp_get_connect: Config not initialized for %s. Assume SCSI\n",
        devname)
@@ -944,17 +944,17 @@ sanei_hp_get_connect (const char *devname)
    got_connect_type = info.config.got_connect_type
  }
 
- /* Beware of using a USB-device as a SCSI-device (not 100% perfect) */
- if ((connect == HP_CONNECT_SCSI) && !got_connect_type)
+ /* Beware of using a USB-device as a SCSI-device(not 100% perfect) */
+ if((connect == HP_CONNECT_SCSI) && !got_connect_type)
  {Int maybe_usb
 
-   maybe_usb = (   strstr (devname, "usb")
-                || strstr (devname, "uscanner")
-                || strstr (devname, "ugen"))
-   if (maybe_usb)
+   maybe_usb = (   strstr(devname, "usb")
+                || strstr(devname, "uscanner")
+                || strstr(devname, "ugen"))
+   if(maybe_usb)
    {static Int print_warning = 1
 
-     if (print_warning)
+     if(print_warning)
      {
        print_warning = 0
        DBG(1,"sanei_hp_get_connect: WARNING\n")
@@ -974,22 +974,22 @@ sanei_hp_get_connect (const char *devname)
 }
 
 HpConnect
-sanei_hp_scsi_get_connect (HpScsi this)
+sanei_hp_scsi_get_connect(HpScsi this)
 
 {
- return sanei_hp_get_connect (sanei_hp_scsi_devicename (this))
+ return sanei_hp_get_connect(sanei_hp_scsi_devicename(this))
 }
 
 
 static Sane.Status
-hp_scsi_flush (HpScsi this)
+hp_scsi_flush(HpScsi this)
 {
   hp_byte_t *	data	= this.buf + HP_SCSI_CMD_LEN
   size_t 	len 	= this.bufp - data
   HpConnect     connect
 
   assert(len < HP_SCSI_MAX_WRITE)
-  if (len == 0)
+  if(len == 0)
       return Sane.STATUS_GOOD
 
   this.bufp = this.buf
@@ -1004,34 +1004,34 @@ hp_scsi_flush (HpScsi this)
   *this.bufp++ = len
   *this.bufp++ = 0
 
-  connect = sanei_hp_scsi_get_connect (this)
-  if (connect == HP_CONNECT_SCSI)
-    return sanei_scsi_cmd (this.fd, this.buf, HP_SCSI_CMD_LEN + len, 0, 0)
+  connect = sanei_hp_scsi_get_connect(this)
+  if(connect == HP_CONNECT_SCSI)
+    return sanei_scsi_cmd(this.fd, this.buf, HP_SCSI_CMD_LEN + len, 0, 0)
   else
-    return hp_nonscsi_write (this, this.buf+HP_SCSI_CMD_LEN, len, connect)
+    return hp_nonscsi_write(this, this.buf+HP_SCSI_CMD_LEN, len, connect)
 }
 
 static size_t
-hp_scsi_room (HpScsi this)
+hp_scsi_room(HpScsi this)
 {
   return this.buf + HP_SCSI_BUFSIZ - this.bufp
 }
 
 static Sane.Status
-hp_scsi_need (HpScsi this, size_t need)
+hp_scsi_need(HpScsi this, size_t need)
 {
   assert(need < HP_SCSI_MAX_WRITE)
 
-  if (need > hp_scsi_room(this))
+  if(need > hp_scsi_room(this))
       RETURN_IF_FAIL( hp_scsi_flush(this) )
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-hp_scsi_write (HpScsi this, const void *data, size_t len)
+hp_scsi_write(HpScsi this, const void *data, size_t len)
 {
-  if ( len < HP_SCSI_MAX_WRITE )
+  if( len < HP_SCSI_MAX_WRITE )
     {
       RETURN_IF_FAIL( hp_scsi_need(this, len) )
       memcpy(this.bufp, data, len)
@@ -1041,9 +1041,9 @@ hp_scsi_write (HpScsi this, const void *data, size_t len)
     {size_t maxwrite = HP_SCSI_MAX_WRITE - 16
      const char *c_data = (const char *)data
 
-      while ( len > 0 )
+      while( len > 0 )
         {
-          if ( maxwrite > len ) maxwrite = len
+          if( maxwrite > len ) maxwrite = len
           RETURN_IF_FAIL( hp_scsi_write(this, c_data, maxwrite) )
           c_data += maxwrite
           len -= maxwrite
@@ -1065,7 +1065,7 @@ hp_scsi_scl(HpScsi this, HpScl scl, Int val)
   RETURN_IF_FAIL( hp_scsi_need(this, 10) )
 
   /* Don't try to optimize SCL-commands like using <ESC>*a1b0c5T */
-  /* Some scanners have problems with it (e.g. HP Photosmart Photoscanner */
+  /* Some scanners have problems with it(e.g. HP Photosmart Photoscanner */
   /* with window position/extent, resolution) */
   count = sprintf((char *)this.bufp, "\033*%c%d%c", group, val, param)
   this.bufp += count
@@ -1077,7 +1077,7 @@ hp_scsi_scl(HpScsi this, HpScl scl, Int val)
 
 /* Read it bytewise */
 static Sane.Status
-hp_scsi_read_slow (HpScsi this, void * dest, size_t *len)
+hp_scsi_read_slow(HpScsi this, void * dest, size_t *len)
 {static hp_byte_t read_cmd[6] = { 0x08, 0, 0, 0, 0, 0 ]
  size_t leftover = *len
  Sane.Status status = Sane.STATUS_GOOD
@@ -1086,22 +1086,22 @@ hp_scsi_read_slow (HpScsi this, void * dest, size_t *len)
 
  DBG(16, "hp_scsi_read_slow: Start reading %d bytes bytewise\n", (Int)*len)
 
- while (leftover > 0)  /* Until we got all the bytes */
+ while(leftover > 0)  /* Until we got all the bytes */
  {size_t one = 1
 
    read_cmd[2] = 0
    read_cmd[3] = 0
    read_cmd[4] = 1;   /* Read one byte */
 
-   status = sanei_scsi_cmd (this.fd, read_cmd, sizeof(read_cmd),
+   status = sanei_scsi_cmd(this.fd, read_cmd, sizeof(read_cmd),
                             next_dest, &one)
-   if ((status != Sane.STATUS_GOOD) || (one != 1))
+   if((status != Sane.STATUS_GOOD) || (one != 1))
    {
      DBG(250,"hp_scsi_read_slow: Reading byte %d: status=%s, len=%d\n",
          (Int)(next_dest-start_dest), Sane.strstatus(status), (Int)one)
    }
 
-   if (status != Sane.STATUS_GOOD) break;  /* Finish on error */
+   if(status != Sane.STATUS_GOOD) break;  /* Finish on error */
 
    next_dest++
    leftover--
@@ -1111,7 +1111,7 @@ hp_scsi_read_slow (HpScsi this, void * dest, size_t *len)
 
  DBG(16, "hp_scsi_read_slow: Got %d bytes\n", (Int)*len)
 
- if ((status != Sane.STATUS_GOOD) && (*len > 0))
+ if((status != Sane.STATUS_GOOD) && (*len > 0))
  {
    DBG(16, "We got some data. Ignore the error \"%s\"\n",
        Sane.strstatus(status))
@@ -1126,41 +1126,41 @@ hp_scsi_read_slow (HpScsi this, void * dest, size_t *len)
  * a well-formed response.  Naturally, this parameter would be zero
  * when reading scan data. */
 static Sane.Status
-hp_scsi_read (HpScsi this, void * dest, size_t *len, Int isResponse)
+hp_scsi_read(HpScsi this, void * dest, size_t *len, Int isResponse)
 {
   HpConnect connect
 
   RETURN_IF_FAIL( hp_scsi_flush(this) )
 
-  connect = sanei_hp_scsi_get_connect (this)
-  if (connect == HP_CONNECT_SCSI)
+  connect = sanei_hp_scsi_get_connect(this)
+  if(connect == HP_CONNECT_SCSI)
   {Int read_bytewise = 0
 
-    if (*len <= 32)   /* Is it a candidate for reading bytewise ? */
+    if(*len <= 32)   /* Is it a candidate for reading bytewise ? */
     {const HpDeviceInfo *info
 
-      info = sanei_hp_device_info_get (sanei_hp_scsi_devicename (this))
-      if ((info != NULL) && (info.config_is_up) && info.config.dumb_read)
+      info = sanei_hp_device_info_get(sanei_hp_scsi_devicename(this))
+      if((info != NULL) && (info.config_is_up) && info.config.dumb_read)
         read_bytewise = 1
     }
 
-    if ( ! read_bytewise )
+    if( ! read_bytewise )
     {static hp_byte_t read_cmd[6] = { 0x08, 0, 0, 0, 0, 0 ]
       read_cmd[2] = *len >> 16
       read_cmd[3] = *len >> 8
       read_cmd[4] = *len
 
-      RETURN_IF_FAIL( sanei_scsi_cmd (this.fd, read_cmd,
+      RETURN_IF_FAIL( sanei_scsi_cmd(this.fd, read_cmd,
                                       sizeof(read_cmd), dest, len) )
     }
     else
     {
-      RETURN_IF_FAIL (hp_scsi_read_slow (this, dest, len))
+      RETURN_IF_FAIL(hp_scsi_read_slow(this, dest, len))
     }
   }
   else
   {
-    RETURN_IF_FAIL( hp_nonscsi_read (this, dest, len, connect, isResponse) )
+    RETURN_IF_FAIL( hp_nonscsi_read(this, dest, len, connect, isResponse) )
   }
   DBG(16, "scsi_read:  %lu bytes:\n", (unsigned long) *len)
   DBGDUMP(16, dest, *len)
@@ -1171,19 +1171,19 @@ hp_scsi_read (HpScsi this, void * dest, size_t *len, Int isResponse)
 static Int signal_caught = 0
 
 static void
-signal_catcher (Int sig)
+signal_catcher(Int sig)
 {
   DBG(1,"signal_catcher(sig=%d): old signal_caught=%d\n",sig,signal_caught)
-  if (!signal_caught)
+  if(!signal_caught)
       signal_caught = sig
 }
 
 static void
-hp_data_map (register const unsigned char *map, register Int count,
+hp_data_map(register const unsigned char *map, register Int count,
              register unsigned char *data)
 {
-  if (count <= 0) return
-  while (count--)
+  if(count <= 0) return
+  while(count--)
   {
     *data = map[*data]
     data++
@@ -1191,7 +1191,7 @@ hp_data_map (register const unsigned char *map, register Int count,
 }
 
 static const unsigned char *
-hp_get_simulation_map (const char *devname, const HpDeviceInfo *info)
+hp_get_simulation_map(const char *devname, const HpDeviceInfo *info)
 {
  hp_bool_t     sim_gamma, sim_brightness, sim_contrast
  Int           k, ind
@@ -1199,25 +1199,25 @@ hp_get_simulation_map (const char *devname, const HpDeviceInfo *info)
  static unsigned char map8x8[256]
 
   sim_gamma = info.simulate.gamma_simulate
-  sim_brightness = sanei_hp_device_simulate_get (devname, SCL_BRIGHTNESS)
-  sim_contrast = sanei_hp_device_simulate_get (devname, SCL_CONTRAST)
+  sim_brightness = sanei_hp_device_simulate_get(devname, SCL_BRIGHTNESS)
+  sim_contrast = sanei_hp_device_simulate_get(devname, SCL_CONTRAST)
 
-  if ( sim_gamma )
+  if( sim_gamma )
   {
     map = &(info.simulate.gamma_map[0])
   }
-  else if ( sim_brightness && sim_contrast )
+  else if( sim_brightness && sim_contrast )
   {
-    for (k = 0; k < 256; k++)
+    for(k = 0; k < 256; k++)
     {
       ind = info.simulate.contrast_map[k]
       map8x8[k] = info.simulate.brightness_map[ind]
     }
     map = &(map8x8[0])
   }
-  else if ( sim_brightness )
+  else if( sim_brightness )
     map = &(info.simulate.brightness_map[0])
-  else if ( sim_contrast )
+  else if( sim_contrast )
     map = &(info.simulate.contrast_map[0])
 
   return map
@@ -1226,17 +1226,17 @@ hp_get_simulation_map (const char *devname, const HpDeviceInfo *info)
 
 /* Check the native byte order on the local machine */
 static hp_bool_t
-is_lowbyte_first_byteorder (void)
+is_lowbyte_first_byteorder(void)
 
 {unsigned short testvar = 1
  unsigned char *testptr = (unsigned char *)&testvar
 
- if (sizeof (unsigned short) == 2)
-   return (testptr[0] == 1)
- else if (sizeof (unsigned short) == 4)
-   return ((testptr[0] == 1) || (testptr[2] == 1))
+ if(sizeof(unsigned short) == 2)
+   return(testptr[0] == 1)
+ else if(sizeof(unsigned short) == 4)
+   return((testptr[0] == 1) || (testptr[2] == 1))
  else
-   return (   (testptr[0] == 1) || (testptr[2] == 1)
+   return(   (testptr[0] == 1) || (testptr[2] == 1)
            || (testptr[4] == 1) || (testptr[6] == 1))
 }
 
@@ -1255,32 +1255,32 @@ hp_scale_to_16bit(Int count, register unsigned char *data, Int depth,
 {
     register unsigned Int tmp
     register unsigned Int mask
-    register hp_bool_t lowbyte_first = is_lowbyte_first_byteorder ()
+    register hp_bool_t lowbyte_first = is_lowbyte_first_byteorder()
     unsigned Int shift1 = 16 - depth
     unsigned Int shift2 = 2*depth - 16
     Int k
 
-    if (count <= 0) return
+    if(count <= 0) return
 
     mask = 1
-    for (k = 1; k < depth; k++) mask |= (1 << k)
+    for(k = 1; k < depth; k++) mask |= (1 << k)
 
-    if (lowbyte_first)
+    if(lowbyte_first)
     {
-      while (count--) {
+      while(count--) {
          tmp = ((((unsigned Int)data[0])<<8) | ((unsigned Int)data[1])) & mask
          tmp = (tmp << shift1) + (tmp >> shift2)
-         if (invert) tmp = ~tmp
+         if(invert) tmp = ~tmp
          *data++ = tmp & 255U
          *data++ = (tmp >> 8) & 255U
       }
     }
     else  /* Highbyte first */
     {
-      while (count--) {
+      while(count--) {
          tmp = ((((unsigned Int)data[0])<<8) | ((unsigned Int)data[1])) & mask
          tmp = (tmp << shift1) + (tmp >> shift2)
-         if (invert) tmp = ~tmp
+         if(invert) tmp = ~tmp
          *data++ = (tmp >> 8) & 255U
          *data++ = tmp & 255U
       }
@@ -1293,32 +1293,32 @@ hp_scale_to_8bit(Int count, register unsigned char *data, Int depth,
                  hp_bool_t invert)
 {
     register unsigned Int tmp, mask
-    register hp_bool_t lowbyte_first = is_lowbyte_first_byteorder ()
+    register hp_bool_t lowbyte_first = is_lowbyte_first_byteorder()
     unsigned Int shift1 = depth-8
     Int k
     unsigned char *dataout = data
 
-    if ((count <= 0) || (shift1 <= 0)) return
+    if((count <= 0) || (shift1 <= 0)) return
 
     mask = 1
-    for (k = 1; k < depth; k++) mask |= (1 << k)
+    for(k = 1; k < depth; k++) mask |= (1 << k)
 
-    if (lowbyte_first)
+    if(lowbyte_first)
     {
-      while (count--) {
+      while(count--) {
          tmp = ((((unsigned Int)data[0])<<8) | ((unsigned Int)data[1])) & mask
          tmp >>= shift1
-         if (invert) tmp = ~tmp
+         if(invert) tmp = ~tmp
          *(dataout++) = tmp & 255U
          data += 2
       }
     }
     else  /* Highbyte first */
     {
-      while (count--) {
+      while(count--) {
          tmp = ((((unsigned Int)data[0])<<8) | ((unsigned Int)data[1])) & mask
          tmp >>= shift1
-         if (invert) tmp = ~tmp
+         if(invert) tmp = ~tmp
          *(dataout++) = tmp & 255U
          data += 2
       }
@@ -1327,7 +1327,7 @@ hp_scale_to_8bit(Int count, register unsigned char *data, Int depth,
 
 static void
 hp_soft_invert(Int count, register unsigned char *data) {
-	while (count>0) {
+	while(count>0) {
 		*data = ~(*data)
 		data++
 		count--
@@ -1335,23 +1335,23 @@ hp_soft_invert(Int count, register unsigned char *data) {
 }
 
 static PROCDATA_HANDLE *
-process_data_init (HpProcessData *procdata, const unsigned char *map,
+process_data_init(HpProcessData *procdata, const unsigned char *map,
                    Int outfd, hp_bool_t use_imgbuf)
 
-{PROCDATA_HANDLE *ph = sanei_hp_alloc (sizeof (PROCDATA_HANDLE))
+{PROCDATA_HANDLE *ph = sanei_hp_alloc(sizeof(PROCDATA_HANDLE))
  Int tsz
 
- if (ph == NULL) return NULL
+ if(ph == NULL) return NULL
 
- memset (ph, 0, sizeof (*ph))
- memcpy (&(ph.procdata), procdata, sizeof (*procdata))
+ memset(ph, 0, sizeof(*ph))
+ memcpy(&(ph.procdata), procdata, sizeof(*procdata))
  procdata = &(ph.procdata)
 
  tsz = (HP_TMP_BUF_SIZE <= 0) ? procdata.bytes_per_line : HP_TMP_BUF_SIZE
- ph.tmp_buf = sanei_hp_alloc (tsz)
- if (ph.tmp_buf == NULL)
+ ph.tmp_buf = sanei_hp_alloc(tsz)
+ if(ph.tmp_buf == NULL)
  {
-   sanei_hp_free (ph)
+   sanei_hp_free(ph)
    return NULL
  }
  ph.tmp_buf_size = tsz
@@ -1360,12 +1360,12 @@ process_data_init (HpProcessData *procdata, const unsigned char *map,
  ph.map = map
  ph.outfd = outfd
 
- if ( procdata.mirror_vertical || use_imgbuf)
+ if( procdata.mirror_vertical || use_imgbuf)
  {
    tsz = procdata.lines*procdata.bytes_per_line
-   if (procdata.out8) tsz /= 2
-   ph.image_ptr = ph.image_buf = sanei_hp_alloc (tsz)
-   if ( !ph.image_buf )
+   if(procdata.out8) tsz /= 2
+   ph.image_ptr = ph.image_buf = sanei_hp_alloc(tsz)
+   if( !ph.image_buf )
    {
      procdata.mirror_vertical = 0
      ph.image_buf_size = 0
@@ -1376,36 +1376,36 @@ process_data_init (HpProcessData *procdata, const unsigned char *map,
  }
 
  ph.wr_ptr = ph.wr_buf
- ph.wr_buf_size = ph.wr_left = sizeof (ph.wr_buf)
+ ph.wr_buf_size = ph.wr_left = sizeof(ph.wr_buf)
 
  return ph
 }
 
 
 static Sane.Status
-process_data_write (PROCDATA_HANDLE *ph, unsigned char *data, Int nbytes)
+process_data_write(PROCDATA_HANDLE *ph, unsigned char *data, Int nbytes)
 
 {Int ncopy
 
- if (ph == NULL) return Sane.STATUS_INVAL
+ if(ph == NULL) return Sane.STATUS_INVAL
 
  /* Fill up write buffer */
  ncopy = ph.wr_left
- if (ncopy > nbytes) ncopy = nbytes
+ if(ncopy > nbytes) ncopy = nbytes
 
- memcpy (ph.wr_ptr, data, ncopy)
+ memcpy(ph.wr_ptr, data, ncopy)
  ph.wr_ptr += ncopy
  ph.wr_left -= ncopy
  data += ncopy
  nbytes -= ncopy
 
- if ( ph.wr_left > 0 )  /* Did not fill up the write buffer ? Finished */
+ if( ph.wr_left > 0 )  /* Did not fill up the write buffer ? Finished */
    return Sane.STATUS_GOOD
 
  DBG(12, "process_data_write: write %d bytes\n", ph.wr_buf_size)
  /* Don't write data if we got a signal in the meantime */
- if (   signal_caught
-     || (write (ph.outfd, ph.wr_buf, ph.wr_buf_size) != ph.wr_buf_size))
+ if(   signal_caught
+     || (write(ph.outfd, ph.wr_buf, ph.wr_buf_size) != ph.wr_buf_size))
  {
    DBG(1, "process_data_write: write failed: %s\n",
        signal_caught ? "signal caught" : strerror(errno))
@@ -1415,10 +1415,10 @@ process_data_write (PROCDATA_HANDLE *ph, unsigned char *data, Int nbytes)
  ph.wr_left = ph.wr_buf_size
 
  /* For large amount of data write it from data-buffer */
- while ( nbytes > ph.wr_buf_size )
+ while( nbytes > ph.wr_buf_size )
  {
-   if (   signal_caught
-       || (write (ph.outfd, data, ph.wr_buf_size) != ph.wr_buf_size))
+   if(   signal_caught
+       || (write(ph.outfd, data, ph.wr_buf_size) != ph.wr_buf_size))
    {
      DBG(1, "process_data_write: write failed: %s\n",
          signal_caught ? "signal caught" : strerror(errno))
@@ -1428,9 +1428,9 @@ process_data_write (PROCDATA_HANDLE *ph, unsigned char *data, Int nbytes)
    data += ph.wr_buf_size
  }
 
- if ( nbytes > 0 ) /* Something left ? Save it to (empty) write buffer */
+ if( nbytes > 0 ) /* Something left ? Save it to(empty) write buffer */
  {
-   memcpy (ph.wr_ptr, data, nbytes)
+   memcpy(ph.wr_ptr, data, nbytes)
    ph.wr_ptr += nbytes
    ph.wr_left -= nbytes
  }
@@ -1438,21 +1438,21 @@ process_data_write (PROCDATA_HANDLE *ph, unsigned char *data, Int nbytes)
 }
 
 static Sane.Status
-process_scanline (PROCDATA_HANDLE *ph, unsigned char *linebuf,
+process_scanline(PROCDATA_HANDLE *ph, unsigned char *linebuf,
                   Int bytes_per_line)
 
 {Int out_bytes_per_line = bytes_per_line
  HpProcessData *procdata
 
- if (ph == NULL) return Sane.STATUS_INVAL
+ if(ph == NULL) return Sane.STATUS_INVAL
  procdata = &(ph.procdata)
 
- if ( ph.map )
-   hp_data_map (ph.map, bytes_per_line, linebuf)
+ if( ph.map )
+   hp_data_map(ph.map, bytes_per_line, linebuf)
 
- if (procdata.bits_per_channel > 8)
+ if(procdata.bits_per_channel > 8)
  {
-   if (procdata.out8)
+   if(procdata.out8)
    {
      hp_scale_to_8bit( bytes_per_line/2, linebuf,
                        procdata.bits_per_channel,
@@ -1465,15 +1465,15 @@ process_scanline (PROCDATA_HANDLE *ph, unsigned char *linebuf,
                         procdata.bits_per_channel,
                         procdata.invert)
    }
- } else if (procdata.invert) {
+ } else if(procdata.invert) {
    hp_soft_invert(bytes_per_line,linebuf)
  }
 
- if ( ph.image_buf )
+ if( ph.image_buf )
  {
    DBG(5, "process_scanline: save in memory\n")
 
-   if (    ph.image_ptr+out_bytes_per_line-1
+   if(    ph.image_ptr+out_bytes_per_line-1
         <= ph.image_buf+ph.image_buf_size-1 )
    {
      memcpy(ph.image_ptr, linebuf, out_bytes_per_line)
@@ -1487,47 +1487,47 @@ process_scanline (PROCDATA_HANDLE *ph, unsigned char *linebuf,
  else /* Save scanlines in a bigger buffer. */
  {    /* Otherwise we will get performance problems */
 
-   RETURN_IF_FAIL ( process_data_write (ph, linebuf, out_bytes_per_line) )
+   RETURN_IF_FAIL( process_data_write(ph, linebuf, out_bytes_per_line) )
  }
  return Sane.STATUS_GOOD
 }
 
 
 static Sane.Status
-process_data (PROCDATA_HANDLE *ph, unsigned char *read_ptr, Int nread)
+process_data(PROCDATA_HANDLE *ph, unsigned char *read_ptr, Int nread)
 
 {Int bytes_left
 
- if (nread <= 0) return Sane.STATUS_GOOD
+ if(nread <= 0) return Sane.STATUS_GOOD
 
- if (ph == NULL) return Sane.STATUS_INVAL
+ if(ph == NULL) return Sane.STATUS_INVAL
 
- if ( ph.tmp_buf_len > 0 )  /* Something left ? */
+ if( ph.tmp_buf_len > 0 )  /* Something left ? */
  {
    bytes_left = ph.tmp_buf_size - ph.tmp_buf_len
-   if (nread < bytes_left)  /* All to buffer ? */
+   if(nread < bytes_left)  /* All to buffer ? */
    {
-     memcpy (ph.tmp_buf+ph.tmp_buf_len, read_ptr, nread)
+     memcpy(ph.tmp_buf+ph.tmp_buf_len, read_ptr, nread)
      ph.tmp_buf_len += nread
      return Sane.STATUS_GOOD
    }
-   memcpy (ph.tmp_buf+ph.tmp_buf_len, read_ptr, bytes_left)
+   memcpy(ph.tmp_buf+ph.tmp_buf_len, read_ptr, bytes_left)
    read_ptr += bytes_left
    nread -= bytes_left
-   RETURN_IF_FAIL ( process_scanline (ph, ph.tmp_buf, ph.tmp_buf_size) )
+   RETURN_IF_FAIL( process_scanline(ph, ph.tmp_buf, ph.tmp_buf_size) )
    ph.tmp_buf_len = 0
  }
- while (nread > 0)
+ while(nread > 0)
  {
-   if (nread >= ph.tmp_buf_size)
+   if(nread >= ph.tmp_buf_size)
    {
-     RETURN_IF_FAIL ( process_scanline (ph, read_ptr, ph.tmp_buf_size) )
+     RETURN_IF_FAIL( process_scanline(ph, read_ptr, ph.tmp_buf_size) )
      read_ptr += ph.tmp_buf_size
      nread -= ph.tmp_buf_size
    }
    else
    {
-     memcpy (ph.tmp_buf, read_ptr, nread)
+     memcpy(ph.tmp_buf, read_ptr, nread)
      ph.tmp_buf_len = nread
      nread = 0
    }
@@ -1537,7 +1537,7 @@ process_data (PROCDATA_HANDLE *ph, unsigned char *read_ptr, Int nread)
 
 
 static Sane.Status
-process_data_flush (PROCDATA_HANDLE *ph)
+process_data_flush(PROCDATA_HANDLE *ph)
 
 {Sane.Status status = Sane.STATUS_GOOD
  HpProcessData *procdata
@@ -1546,15 +1546,15 @@ process_data_flush (PROCDATA_HANDLE *ph)
  Int num_lines, bytes_per_line
  Int nbytes
 
- if (ph == NULL) return Sane.STATUS_INVAL
+ if(ph == NULL) return Sane.STATUS_INVAL
 
- if ( ph.tmp_buf_len > 0 )
-   process_scanline (ph, ph.tmp_buf, ph.tmp_buf_len)
+ if( ph.tmp_buf_len > 0 )
+   process_scanline(ph, ph.tmp_buf, ph.tmp_buf_len)
 
- if ( ph.wr_left != ph.wr_buf_size ) /* Something in write buffer ? */
+ if( ph.wr_left != ph.wr_buf_size ) /* Something in write buffer ? */
  {
    nbytes = ph.wr_buf_size - ph.wr_left
-   if ( signal_caught || (write (ph.outfd, ph.wr_buf, nbytes) != nbytes))
+   if( signal_caught || (write(ph.outfd, ph.wr_buf, nbytes) != nbytes))
    {
      DBG(1, "process_data_flush: write failed: %s\n",
          signal_caught ? "signal caught" : strerror(errno))
@@ -1565,22 +1565,22 @@ process_data_flush (PROCDATA_HANDLE *ph)
  }
 
  procdata = &(ph.procdata)
- if ( ph.image_buf )
+ if( ph.image_buf )
  {
    bytes_per_line = procdata.bytes_per_line
-   if (procdata.out8) bytes_per_line /= 2
+   if(procdata.out8) bytes_per_line /= 2
    image_len = (size_t) (ph.image_ptr - ph.image_buf)
    num_lines = ((Int)(image_len + bytes_per_line-1)) / bytes_per_line
 
    DBG(3, "process_data_finish: write %d bytes from memory...\n",
        (Int)image_len)
 
-   if ( procdata.mirror_vertical )
+   if( procdata.mirror_vertical )
    {
      image_data = ph.image_buf + (num_lines-1) * bytes_per_line
-     while (num_lines > 0 )
+     while(num_lines > 0 )
      {
-       if (   signal_caught
+       if(   signal_caught
            || (write(ph.outfd, image_data, bytes_per_line) != bytes_per_line))
        {
          DBG(1,"process_data_finish: write from memory failed: %s\n",
@@ -1595,9 +1595,9 @@ process_data_flush (PROCDATA_HANDLE *ph)
    else
    {
      image_data = ph.image_buf
-     while (num_lines > 0 )
+     while(num_lines > 0 )
      {
-       if (   signal_caught
+       if(   signal_caught
            || (write(ph.outfd, image_data, bytes_per_line) != bytes_per_line))
        {
          DBG(1,"process_data_finish: write from memory failed: %s\n",
@@ -1615,22 +1615,22 @@ process_data_flush (PROCDATA_HANDLE *ph)
 
 
 static void
-process_data_finish (PROCDATA_HANDLE *ph)
+process_data_finish(PROCDATA_HANDLE *ph)
 
 {
  DBG(12, "process_data_finish called\n")
 
- if (ph == NULL) return
+ if(ph == NULL) return
 
- if (ph.image_buf != NULL) sanei_hp_free (ph.image_buf)
+ if(ph.image_buf != NULL) sanei_hp_free(ph.image_buf)
 
- sanei_hp_free (ph.tmp_buf)
- sanei_hp_free (ph)
+ sanei_hp_free(ph.tmp_buf)
+ sanei_hp_free(ph)
 }
 
 
 Sane.Status
-sanei_hp_scsi_pipeout (HpScsi this, Int outfd, HpProcessData *procdata)
+sanei_hp_scsi_pipeout(HpScsi this, Int outfd, HpProcessData *procdata)
 {
   /* We will catch these signals, and rethrow them after cleaning up,
    * anything not in this list, we will ignore. */
@@ -1660,7 +1660,7 @@ sanei_hp_scsi_pipeout (HpScsi this, Int outfd, HpProcessData *procdata)
       SIGPWR,
 #endif
   ]
-#define HP_NSIGS (sizeof(kill_sig)/sizeof(kill_sig[0]))
+#define HP_NSIGS(sizeof(kill_sig)/sizeof(kill_sig[0]))
   struct SIGACTION old_handler[HP_NSIGS]
   struct SIGACTION sa
   sigset_t	old_set, sig_set
@@ -1681,7 +1681,7 @@ sanei_hp_scsi_pipeout (HpScsi this, Int outfd, HpProcessData *procdata)
   char          *image_buf = 0
   char          *read_buf = 0
   const HpDeviceInfo *info
-  const char    *devname = sanei_hp_scsi_devicename (this)
+  const char    *devname = sanei_hp_scsi_devicename(this)
   Int           enable_requests = 1
   Int           enable_image_buffering = 0
   const unsigned char *map = NULL
@@ -1691,12 +1691,12 @@ sanei_hp_scsi_pipeout (HpScsi this, Int outfd, HpProcessData *procdata)
 
   RETURN_IF_FAIL( hp_scsi_flush(this) )
 
-  connect = sanei_hp_get_connect (devname)
-  info = sanei_hp_device_info_get (devname)
+  connect = sanei_hp_get_connect(devname)
+  info = sanei_hp_device_info_get(devname)
 
-  assert (info)
+  assert(info)
 
-  if ( info.config_is_up )
+  if( info.config_is_up )
   {
     enable_requests = info.config.use_scsi_request
     enable_image_buffering = info.config.use_image_buffering
@@ -1706,12 +1706,12 @@ sanei_hp_scsi_pipeout (HpScsi this, Int outfd, HpProcessData *procdata)
     enable_requests = 0
   }
 
-  if (connect != HP_CONNECT_SCSI)
+  if(connect != HP_CONNECT_SCSI)
     enable_requests = 0
 
   /* Currently we can only simulate 8 bits mapping */
-  if (bits_per_channel == 8)
-    map = hp_get_simulation_map (devname, info)
+  if(bits_per_channel == 8)
+    map = hp_get_simulation_map(devname, info)
 
   sigfillset(&sig_set)
   sigprocmask(SIG_BLOCK, &sig_set, &old_set)
@@ -1721,7 +1721,7 @@ sanei_hp_scsi_pipeout (HpScsi this, Int outfd, HpProcessData *procdata)
   sigfillset(&sa.sa_mask)
 
   sigemptyset(&sig_set)
-  for (i = 0; i < (Int)(HP_NSIGS); i++)
+  for(i = 0; i < (Int)(HP_NSIGS); i++)
     {
       sigaction(kill_sig[i], &sa, &old_handler[i])
       sigaddset(&sig_set, kill_sig[i])
@@ -1730,26 +1730,26 @@ sanei_hp_scsi_pipeout (HpScsi this, Int outfd, HpProcessData *procdata)
   sigprocmask(SIG_UNBLOCK, &sig_set, 0)
 
   /* Wait for front button push ? */
-  if ( procdata.startscan )
+  if( procdata.startscan )
   {
-    for (;;)
+    for(;;)
     {Int val = 0
 
-       if (signal_caught) goto quit
-       sanei_hp_scl_inquire (this, SCL_FRONT_BUTTON, &val, 0, 0)
-       if (val) break
-       usleep ((unsigned long)333*1000); /* Wait 1/3 second */
+       if(signal_caught) goto quit
+       sanei_hp_scl_inquire(this, SCL_FRONT_BUTTON, &val, 0, 0)
+       if(val) break
+       usleep((unsigned long)333*1000); /* Wait 1/3 second */
     }
-    status = sanei_hp_scl_startScan (this, procdata.startscan)
-    if (status != Sane.STATUS_GOOD )
+    status = sanei_hp_scl_startScan(this, procdata.startscan)
+    if(status != Sane.STATUS_GOOD )
     {
       DBG(1, "do_read: Error starting scan in reader process\n")
       goto quit
     }
   }
-  ph = process_data_init (procdata, map, outfd, enable_image_buffering)
+  ph = process_data_init(procdata, map, outfd, enable_image_buffering)
 
-  if ( ph == NULL )
+  if( ph == NULL )
   {
     DBG(1, "do_read: Error with process_data_init()\n")
     goto quit
@@ -1757,16 +1757,16 @@ sanei_hp_scsi_pipeout (HpScsi this, Int outfd, HpProcessData *procdata)
 
   DBG(1, "do_read: Start reading data from scanner\n")
 
-  if (enable_requests)   /* Issue SCSI-requests ? */
+  if(enable_requests)   /* Issue SCSI-requests ? */
   {
-    while (count > 0 || reqs_completed < reqs_issued)
+    while(count > 0 || reqs_completed < reqs_issued)
     {
-      while (count > 0 && reqs_issued < reqs_completed + 2)
+      while(count > 0 && reqs_issued < reqs_completed + 2)
 	{
 	  req = buf + (reqs_issued++ % 2)
 
 	  req.len = HP_PIPEBUF
-	  if (count < req.len)
+	  if(count < req.len)
 	      req.len = count
 	  count -= req.len
 
@@ -1782,17 +1782,17 @@ sanei_hp_scsi_pipeout (HpScsi this, Int outfd, HpProcessData *procdata)
 
 	  status = sanei_scsi_req_enter(this.fd, req.cmd, 6,
 				      req.data, &req.len, &req.id)
-	  if (status != Sane.STATUS_GOOD)
+	  if(status != Sane.STATUS_GOOD)
 	    {
 	      DBG(1, "do_read: Error from scsi_req_enter: %s\n",
 		  Sane.strstatus(status))
 	      goto quit
 	    }
-	  if (signal_caught)
+	  if(signal_caught)
 	      goto quit
 	}
 
-      if (signal_caught)
+      if(signal_caught)
 	  goto quit
 
       assert(reqs_completed < reqs_issued)
@@ -1800,17 +1800,17 @@ sanei_hp_scsi_pipeout (HpScsi this, Int outfd, HpProcessData *procdata)
 
       DBG(3, "do_read: waiting for data\n")
       status = sanei_scsi_req_wait(req.id)
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
 	  DBG(1, "do_read: Error from scsi_req_wait: %s\n",
 	      Sane.strstatus(status))
 	  goto quit
 	}
-      if (signal_caught)
+      if(signal_caught)
 	  goto quit
 
-      status = process_data (ph, (unsigned char *)req.data, (Int)req.len)
-      if ( status != Sane.STATUS_GOOD )
+      status = process_data(ph, (unsigned char *)req.data, (Int)req.len)
+      if( status != Sane.STATUS_GOOD )
       {
         DBG(1,"do_read: Error in process_data\n")
         goto quit
@@ -1819,28 +1819,28 @@ sanei_hp_scsi_pipeout (HpScsi this, Int outfd, HpProcessData *procdata)
   }
   else  /* Read directly */
   {
-    read_buf = sanei_hp_alloc ( HP_PIPEBUF )
-    if (!read_buf)
+    read_buf = sanei_hp_alloc( HP_PIPEBUF )
+    if(!read_buf)
     {
       DBG(1, "do_read: not enough memory for read buffer\n")
       goto quit
     }
 
-    while (count > 0)
+    while(count > 0)
     {size_t nread
 
-      if (signal_caught)
+      if(signal_caught)
 	  goto quit
 
       DBG(5, "do_read: %lu bytes left to read\n", (unsigned long)count)
 
       nread = HP_PIPEBUF
-      if (nread > count) nread = count
+      if(nread > count) nread = count
 
-      DBG(3, "do_read: try to read data (%lu bytes)\n", (unsigned long)nread)
+      DBG(3, "do_read: try to read data(%lu bytes)\n", (unsigned long)nread)
 
-      status = hp_scsi_read (this, read_buf, &nread, 0)
-      if (status != Sane.STATUS_GOOD)
+      status = hp_scsi_read(this, read_buf, &nread, 0)
+      if(status != Sane.STATUS_GOOD)
       {
         DBG(1, "do_read: Error from scsi_read: %s\n",Sane.strstatus(status))
         goto quit
@@ -1848,14 +1848,14 @@ sanei_hp_scsi_pipeout (HpScsi this, Int outfd, HpProcessData *procdata)
 
       DBG(3, "do_read: got %lu bytes\n", (unsigned long)nread)
 
-      if (nread <= 0)
+      if(nread <= 0)
       {
         DBG(1, "do_read: Nothing read\n")
         continue
       }
 
-      status = process_data (ph, (unsigned char *)read_buf, (Int)nread)
-      if ( status != Sane.STATUS_GOOD )
+      status = process_data(ph, (unsigned char *)read_buf, (Int)nread)
+      if( status != Sane.STATUS_GOOD )
       {
         DBG(1,"do_read: Error in process_data\n")
         goto quit
@@ -1864,19 +1864,19 @@ sanei_hp_scsi_pipeout (HpScsi this, Int outfd, HpProcessData *procdata)
     }
   }
 
-  process_data_flush (ph)
+  process_data_flush(ph)
 
 quit:
 
-  process_data_finish (ph)
+  process_data_finish(ph)
 
-  if ( image_buf ) sanei_hp_free ( image_buf )
-  if ( read_buf ) sanei_hp_free ( read_buf )
+  if( image_buf ) sanei_hp_free( image_buf )
+  if( read_buf ) sanei_hp_free( read_buf )
 
-  if (enable_requests && (reqs_completed < reqs_issued))
+  if(enable_requests && (reqs_completed < reqs_issued))
     {
       DBG(1, "do_read: cleaning up leftover requests\n")
-      while (reqs_completed < reqs_issued)
+      while(reqs_completed < reqs_issued)
 	{
 	  req = buf + (reqs_completed++ % 2)
 	  sanei_scsi_req_wait(req.id)
@@ -1885,11 +1885,11 @@ quit:
 
   sigfillset(&sig_set)
   sigprocmask(SIG_BLOCK, &sig_set, 0)
-  for (i = 0; i < (Int)(HP_NSIGS); i++)
+  for(i = 0; i < (Int)(HP_NSIGS); i++)
       sigaction(kill_sig[i], &old_handler[i], 0)
   sigprocmask(SIG_SETMASK, &old_set, 0)
 
-  if (signal_caught)
+  if(signal_caught)
     {
       DBG(1, "do_read: caught signal %d\n", signal_caught)
       raise(signal_caught)
@@ -1906,7 +1906,7 @@ quit:
  */
 
 static Sane.Status
-_hp_scl_inq (HpScsi scsi, HpScl scl, HpScl inq_cmnd,
+_hp_scl_inq(HpScsi scsi, HpScl scl, HpScl inq_cmnd,
 	     void *valp, size_t *lengthp)
 {
   size_t	bufsize	= 16 + (lengthp ? *lengthp: 0)
@@ -1915,30 +1915,30 @@ _hp_scl_inq (HpScsi scsi, HpScl scl, HpScl inq_cmnd,
   Int		val, count
   Sane.Status	status
 
-  if (!buf)
+  if(!buf)
       return Sane.STATUS_NO_MEM
 
   /* Flush data before sending inquiry. */
   /* Otherwise scanner might not generate a response. */
-  RETURN_IF_FAIL( hp_scsi_flush (scsi)) 
+  RETURN_IF_FAIL( hp_scsi_flush(scsi)) 
 
   RETURN_IF_FAIL( hp_scsi_scl(scsi, inq_cmnd, SCL_INQ_ID(scl)) )
-  usleep (1000); /* 500 works, too, but not 100 */
+  usleep(1000); /* 500 works, too, but not 100 */
 
   status =  hp_scsi_read(scsi, buf, &bufsize, 1)
-  if (FAILED(status))
+  if(FAILED(status))
     {
-      DBG(1, "scl_inq: read failed (%s)\n", Sane.strstatus(status))
+      DBG(1, "scl_inq: read failed(%s)\n", Sane.strstatus(status))
       return status
     }
 
-  if (SCL_PARAM_CHAR(inq_cmnd) == 'R')
+  if(SCL_PARAM_CHAR(inq_cmnd) == 'R')
       expect_char = 'p'
   else
       expect_char = tolower(SCL_PARAM_CHAR(inq_cmnd) - 1)
 
   count = sprintf(expect, "\033*s%d%c", SCL_INQ_ID(scl), expect_char)
-  if (memcmp(buf, expect, count) != 0)
+  if(memcmp(buf, expect, count) != 0)
     {
       DBG(1, "scl_inq: malformed response: expected '%s', got '%.*s'\n",
 	  expect, count, buf)
@@ -1946,13 +1946,13 @@ _hp_scl_inq (HpScsi scsi, HpScl scl, HpScl inq_cmnd,
     }
   buf += count
 
-  if (buf[0] == 'N')
+  if(buf[0] == 'N')
     {				/* null response */
       DBG(3, "scl_inq: parameter %d unsupported\n", SCL_INQ_ID(scl))
       return Sane.STATUS_UNSUPPORTED
     }
 
-  if (sscanf(buf, "%d%n", &val, &count) != 1)
+  if(sscanf(buf, "%d%n", &val, &count) != 1)
     {
       DBG(1, "scl_inq: malformed response: expected Int, got '%.8s'\n", buf)
       return Sane.STATUS_IO_ERROR
@@ -1960,18 +1960,18 @@ _hp_scl_inq (HpScsi scsi, HpScl scl, HpScl inq_cmnd,
   buf += count
 
   expect_char = lengthp ? 'W' : 'V'
-  if (*buf++ != expect_char)
+  if(*buf++ != expect_char)
     {
       DBG(1, "scl_inq: malformed response: expected '%c', got '%.4s'\n",
 	  expect_char, buf - 1)
       return Sane.STATUS_IO_ERROR
     }
 
-  if (!lengthp)
+  if(!lengthp)
       *(Int *)valp = val; /* Get integer value */
   else
     {
-      if (val > (Int)*lengthp)
+      if(val > (Int)*lengthp)
 	{
 	  DBG(1, "scl_inq: inquiry returned %d bytes, expected <= %lu\n",
 	      val, (unsigned long) *lengthp)
@@ -1986,7 +1986,7 @@ _hp_scl_inq (HpScsi scsi, HpScl scl, HpScl inq_cmnd,
 
 
 Sane.Status
-sanei_hp_scl_upload_binary (HpScsi scsi, HpScl scl, size_t *lengthhp,
+sanei_hp_scl_upload_binary(HpScsi scsi, HpScl scl, size_t *lengthhp,
                             char **bufhp)
 {
   size_t	bufsize	= 16, sv
@@ -1997,27 +1997,27 @@ sanei_hp_scl_upload_binary (HpScsi scsi, HpScl scl, size_t *lengthhp,
   Int		n, val, count
   Sane.Status	status
 
-  if (!buf)
+  if(!buf)
       return Sane.STATUS_NO_MEM
 
-  assert ( IS_SCL_DATA_TYPE (scl) )
+  assert( IS_SCL_DATA_TYPE(scl) )
 
   /* Flush data before sending inquiry. */
   /* Otherwise scanner might not generate a response. */
-  RETURN_IF_FAIL( hp_scsi_flush (scsi)) 
+  RETURN_IF_FAIL( hp_scsi_flush(scsi)) 
 
   RETURN_IF_FAIL( hp_scsi_scl(scsi, SCL_UPLOAD_BINARY_DATA, SCL_INQ_ID(scl)) )
 
   status =  hp_scsi_read(scsi, buf, &bufsize, 0)
-  if (FAILED(status))
+  if(FAILED(status))
     {
-      DBG(1, "scl_upload_binary: read failed (%s)\n", Sane.strstatus(status))
+      DBG(1, "scl_upload_binary: read failed(%s)\n", Sane.strstatus(status))
       return status
     }
 
   expect_char = 't'
   count = sprintf(expect, "\033*s%d%c", SCL_INQ_ID(scl), expect_char)
-  if (memcmp(buf, expect, count) != 0)
+  if(memcmp(buf, expect, count) != 0)
     {
       DBG(1, "scl_upload_binary: malformed response: expected '%s', got '%.*s'\n",
 	  expect, count, buf)
@@ -2025,13 +2025,13 @@ sanei_hp_scl_upload_binary (HpScsi scsi, HpScl scl, size_t *lengthhp,
     }
   buf += count
 
-  if (buf[0] == 'N')
+  if(buf[0] == 'N')
     {				/* null response */
       DBG(1, "scl_upload_binary: parameter %d unsupported\n", SCL_INQ_ID(scl))
       return Sane.STATUS_UNSUPPORTED
     }
 
-  if (sscanf(buf, "%d%n", &val, &count) != 1)
+  if(sscanf(buf, "%d%n", &val, &count) != 1)
     {
       DBG(1, "scl_inq: malformed response: expected Int, got '%.8s'\n", buf)
       return Sane.STATUS_IO_ERROR
@@ -2039,7 +2039,7 @@ sanei_hp_scl_upload_binary (HpScsi scsi, HpScl scl, size_t *lengthhp,
   buf += count
 
   expect_char = 'W'
-  if (*buf++ != expect_char)
+  if(*buf++ != expect_char)
     {
       DBG(1, "scl_inq: malformed response: expected '%c', got '%.4s'\n",
 	  expect_char, buf - 1)
@@ -2047,26 +2047,26 @@ sanei_hp_scl_upload_binary (HpScsi scsi, HpScl scl, size_t *lengthhp,
     }
 
   *lengthhp = val
-  *bufhp = hpdata = sanei_hp_alloc ( val )
-  if (!hpdata)
+  *bufhp = hpdata = sanei_hp_alloc( val )
+  if(!hpdata)
       return Sane.STATUS_NO_MEM
 
-  if (buf < bufstart + bufsize)
+  if(buf < bufstart + bufsize)
     {
        n = bufsize - (buf - bufstart)
-       if (n > val) n = val
-       memcpy (hpdata, buf, n)
+       if(n > val) n = val
+       memcpy(hpdata, buf, n)
        hpdata += n
        val -= n
     }
 
   status = Sane.STATUS_GOOD
-  if ( val > 0 )
+  if( val > 0 )
     {
       sv = val
       status = hp_scsi_read(scsi, hpdata, &sv, 0)
-      if (status != Sane.STATUS_GOOD)
-        sanei_hp_free ( *bufhp )
+      if(status != Sane.STATUS_GOOD)
+        sanei_hp_free( *bufhp )
     }
 
   return status
@@ -2096,12 +2096,12 @@ sanei_hp_scl_inquire(HpScsi scsi, HpScl scl, Int * valp, Int * minp, Int * maxp)
   assert(IS_SCL_CONTROL(scl) || IS_SCL_PARAMETER(scl))
   assert(IS_SCL_CONTROL(scl) || (!minp && !maxp))
 
-  if (valp)
+  if(valp)
       RETURN_IF_FAIL( _hp_scl_inq(scsi, scl, inquiry, valp, 0) )
-  if (minp)
+  if(minp)
       RETURN_IF_FAIL( _hp_scl_inq(scsi, scl,
 				  SCL_INQUIRE_MINIMUM_VALUE, minp, 0) )
-  if (maxp)
+  if(maxp)
       RETURN_IF_FAIL( _hp_scl_inq(scsi, scl,
 				  SCL_INQUIRE_MAXIMUM_VALUE, maxp, 0) )
   return Sane.STATUS_GOOD
@@ -2134,7 +2134,7 @@ sanei_hp_scl_download(HpScsi scsi, HpScl scl, const void * valp, size_t len)
 {
   assert(IS_SCL_DATA_TYPE(scl))
 
-  sanei_hp_scl_clearErrors ( scsi )
+  sanei_hp_scl_clearErrors( scsi )
   RETURN_IF_FAIL( hp_scsi_need(scsi, 16) )
   RETURN_IF_FAIL( hp_scsi_scl(scsi, SCL_DOWNLOAD_TYPE, SCL_INQ_ID(scl)) )
                             /* Download type not supported ? */
@@ -2160,9 +2160,9 @@ sanei_hp_scl_upload(HpScsi scsi, HpScl scl, void * valp, size_t len)
   assert(IS_SCL_DATA_TYPE(scl) || IS_SCL_PARAMETER(scl))
 
   RETURN_IF_FAIL( _hp_scl_inq(scsi, scl, inquiry, valp, &nread) )
-  if (IS_SCL_PARAMETER(scl) && nread < len)
+  if(IS_SCL_PARAMETER(scl) && nread < len)
       ((char *)valp)[nread] = '\0'
-  else if (len != nread)
+  else if(len != nread)
     {
       DBG(1, "scl_upload: requested %lu bytes, got %lu\n",
 	  (unsigned long) len, (unsigned long) nread)
@@ -2183,14 +2183,14 @@ sanei_hp_scl_startScan(HpScsi scsi, HpScl scl)
 {
   char *msg = ""
 
-  if (scl == SCL_ADF_SCAN) msg = " (ADF)"
-  else if (scl == SCL_XPA_SCAN) msg = " (XPA)"
+  if(scl == SCL_ADF_SCAN) msg = " (ADF)"
+  else if(scl == SCL_XPA_SCAN) msg = " (XPA)"
   else scl = SCL_START_SCAN
 
   DBG(1, "sanei_hp_scl_startScan: Start scan%s\n", msg)
 
   /* For active XPA we must not use XPA scan */
-  if ((scl == SCL_XPA_SCAN) && sanei_hp_is_active_xpa (scsi))
+  if((scl == SCL_XPA_SCAN) && sanei_hp_is_active_xpa(scsi))
   {
     DBG(3,"Map XPA scan to scan because of active XPA\n")
     scl = SCL_START_SCAN
@@ -2217,7 +2217,7 @@ sanei_hp_scl_clearErrors(HpScsi scsi)
 }
 
 static const char *
-hp_scl_strerror (Int errnum)
+hp_scl_strerror(Int errnum)
 {
   static const char * errlist[] = {
       "Command Format Error",
@@ -2233,7 +2233,7 @@ hp_scl_strerror (Int errnum)
       "Gross Calibration Error"
   ]
 
-  if (errnum >= 0 && errnum < (Int)(sizeof(errlist)/sizeof(errlist[0])))
+  if(errnum >= 0 && errnum < (Int)(sizeof(errlist)/sizeof(errlist[0])))
       return errlist[errnum]
   else
       switch(errnum) {
@@ -2246,28 +2246,28 @@ hp_scl_strerror (Int errnum)
 
 /* Check for SCL errors */
 Sane.Status
-sanei_hp_scl_errcheck (HpScsi scsi)
+sanei_hp_scl_errcheck(HpScsi scsi)
 {
   Int		errnum
   Int		nerrors
   Sane.Status	status
 
   status = sanei_hp_scl_inquire(scsi, SCL_CURRENT_ERROR_STACK, &nerrors,0,0)
-  if (!FAILED(status) && nerrors)
+  if(!FAILED(status) && nerrors)
       status = sanei_hp_scl_inquire(scsi, SCL_OLDEST_ERROR, &errnum,0,0)
-  if (FAILED(status))
+  if(FAILED(status))
     {
       DBG(1, "scl_errcheck: Can't read SCL error stack: %s\n",
 	  Sane.strstatus(status))
       return Sane.STATUS_IO_ERROR
     }
 
-  if (nerrors)
+  if(nerrors)
     {
       DBG(1, "Scanner issued SCL error: (%d) %s\n",
 	  errnum, hp_scl_strerror(errnum))
 
-      sanei_hp_scl_clearErrors (scsi)
+      sanei_hp_scl_clearErrors(scsi)
       return Sane.STATUS_IO_ERROR
     }
 

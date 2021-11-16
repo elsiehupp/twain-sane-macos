@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -61,7 +61,7 @@ public:
 
     const std::uint8_t* get_row_ptr(std::size_t y) const
     {
-        if (y >= height()) {
+        if(y >= height()) {
             throw SaneException("y %zu is out of range", y)
         }
         return data_.data() + row_bytes_ * get_row_index(y)
@@ -69,7 +69,7 @@ public:
 
     std::uint8_t* get_row_ptr(std::size_t y)
     {
-        if (y >= height()) {
+        if(y >= height()) {
             throw SaneException("y %zu is out of range", y)
         }
         return data_.data() + row_bytes_ * get_row_index(y)
@@ -84,7 +84,7 @@ public:
 
     bool full()
     {
-        if (is_linear_) {
+        if(is_linear_) {
             return last_ == buffer_end_
         }
         return first_ == last_
@@ -94,7 +94,7 @@ public:
 
     void linearize()
     {
-        if (!is_linear_) {
+        if(!is_linear_) {
             std::rotate(data_.begin(), data_.begin() + row_bytes_ * first_, data_.end())
             last_ = height()
             first_ = 0
@@ -104,16 +104,16 @@ public:
 
     void pop_front()
     {
-        if (empty()) {
+        if(empty()) {
             throw SaneException("Trying to pop out of empty() line buffer")
         }
 
         first_++
-        if (first_ == last_) {
+        if(first_ == last_) {
             first_ = 0
             last_ = 0
             is_linear_ = true
-        } else  if (first_ == buffer_end_) {
+        } else  if(first_ == buffer_end_) {
             first_ = 0
             is_linear_ = true
         }
@@ -121,11 +121,11 @@ public:
 
     void push_front()
     {
-        if (height() + 1 >= height_capacity()) {
+        if(height() + 1 >= height_capacity()) {
             ensure_capacity(std::max<std::size_t>(1, height() * 2))
         }
 
-        if (first_ == 0) {
+        if(first_ == 0) {
             is_linear_ = false
             first_ = buffer_end_
         }
@@ -134,15 +134,15 @@ public:
 
     void pop_back()
     {
-        if (empty()) {
+        if(empty()) {
             throw SaneException("Trying to pop out of empty() line buffer")
         }
-        if (last_ == 0) {
+        if(last_ == 0) {
             last_ = buffer_end_
             is_linear_ = true
         }
         last_--
-        if (first_ == last_) {
+        if(first_ == last_) {
             first_ = 0
             last_ = 0
             is_linear_ = true
@@ -151,11 +151,11 @@ public:
 
     void push_back()
     {
-        if (height() + 1 >= height_capacity()) {
+        if(height() + 1 >= height_capacity()) {
             ensure_capacity(std::max<std::size_t>(1, height() * 2))
         }
 
-        if (last_ == buffer_end_) {
+        if(last_ == buffer_end_) {
             is_linear_ = false
             last_ = 0
         }
@@ -166,7 +166,7 @@ public:
 
     std::size_t height() const
     {
-        if (!is_linear_) {
+        if(!is_linear_) {
             return last_ + buffer_end_ - first_
         }
         return last_ - first_
@@ -183,7 +183,7 @@ public:
 private:
     std::size_t get_row_index(std::size_t index) const
     {
-        if (index >= buffer_end_ - first_) {
+        if(index >= buffer_end_ - first_) {
             return index - (buffer_end_ - first_)
         }
         return index + first_
@@ -191,7 +191,7 @@ private:
 
     void ensure_capacity(std::size_t capacity)
     {
-        if (capacity < height_capacity())
+        if(capacity < height_capacity())
             return
         linearize()
         data_.resize(capacity * row_bytes_)

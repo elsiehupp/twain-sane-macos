@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997-1999 David Mosberger-Tang and Andreas Beck
+   Copyright(C) 1997-1999 David Mosberger-Tang and Andreas Beck
    This file is part of the SANE package.
 
    This file is in the public domain.  You may use and modify it as
    you see fit, as long as this copyright message is included and
    that there is an indication as to what modifications have been
-   made (if any).
+   made(if any).
 
    SANE is distributed in the hope that it will be useful, but WITHOUT
    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -127,18 +127,18 @@ typedef struct
   }
 Sane.Authorization_Req
 
-public void sanei_w_init_req (Wire *w, Sane.Init_Req *req)
-public void sanei_w_init_reply (Wire *w, Sane.Init_Reply *reply)
-public void sanei_w_get_devices_reply (Wire *w, Sane.Get_Devices_Reply *reply)
-public void sanei_w_open_reply (Wire *w, Sane.Open_Reply *reply)
-public void sanei_w_option_descriptor_array (Wire *w,
+public void sanei_w_init_req(Wire *w, Sane.Init_Req *req)
+public void sanei_w_init_reply(Wire *w, Sane.Init_Reply *reply)
+public void sanei_w_get_devices_reply(Wire *w, Sane.Get_Devices_Reply *reply)
+public void sanei_w_open_reply(Wire *w, Sane.Open_Reply *reply)
+public void sanei_w_option_descriptor_array(Wire *w,
 					   Sane.Option_Descriptor_Array *opt)
-public void sanei_w_control_option_req (Wire *w, Sane.Control_Option_Req *req)
-public void sanei_w_control_option_reply (Wire *w,
+public void sanei_w_control_option_req(Wire *w, Sane.Control_Option_Req *req)
+public void sanei_w_control_option_reply(Wire *w,
 					  Sane.Control_Option_Reply *reply)
-public void sanei_w_get_parameters_reply (Wire *w,
+public void sanei_w_get_parameters_reply(Wire *w,
 					  Sane.Get_Parameters_Reply *reply)
-public void sanei_w_start_reply (Wire *w, Sane.Start_Reply *reply)
-public void sanei_w_authorization_req (Wire *w, Sane.Authorization_Req *req)
+public void sanei_w_start_reply(Wire *w, Sane.Start_Reply *reply)
+public void sanei_w_authorization_req(Wire *w, Sane.Authorization_Req *req)
 
 #endif /* sanei_net_h */

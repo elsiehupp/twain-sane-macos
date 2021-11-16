@@ -1,5 +1,5 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1999,2000 Tom Martone
+   Copyright(C) 1999,2000 Tom Martone
    This file is part of a SANE backend for Bell and Howell Copiscan II
    Scanners using the Remote SCSI Controller(RSC).
 
@@ -8,7 +8,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -43,7 +43,7 @@
 #define BH_H 1
 
 #ifndef PATH_MAX
-#define PATH_MAX (1024)
+#define PATH_MAX(1024)
 #endif
 
 #define BH_CONFIG_FILE "bh.conf"
@@ -64,12 +64,12 @@
 #define BH_DECODE_FUDGE 1.0
 
 /* section flags - what operation(s) to perform on section */
-#define BH_SECTION_FRONT_IMAGE (1 << 0)
-#define BH_SECTION_BACK_IMAGE (1 << 1)
-#define BH_SECTION_FRONT_BAR (1 << 2)
-#define BH_SECTION_BACK_BAR (1 << 3)
-#define BH_SECTION_FRONT_PATCH (1 << 4)
-#define BH_SECTION_BACK_PATCH (1 << 5)
+#define BH_SECTION_FRONT_IMAGE(1 << 0)
+#define BH_SECTION_BACK_IMAGE(1 << 1)
+#define BH_SECTION_FRONT_BAR(1 << 2)
+#define BH_SECTION_BACK_BAR(1 << 3)
+#define BH_SECTION_FRONT_PATCH(1 << 4)
+#define BH_SECTION_BACK_PATCH(1 << 5)
 
 typedef enum
 {
@@ -129,7 +129,7 @@ typedef enum
   OPT_BR_Y,
 
   OPT_FEEDER_GROUP,
-  /* scan source (eg. ADF) */
+  /* scan source(eg. ADF) */
   OPT_SCAN_SOURCE,
   /* scan in batch mode */
   OPT_BATCH,
@@ -155,25 +155,25 @@ typedef enum
   OPT_THRESHOLD,
   /* Contrast */
   OPT_CONTRAST,
-  /* Negative (reverse image) */
+  /* Negative(reverse image) */
   OPT_NEGATIVE,
 
   OPT_ICON_GROUP,
-  /* Width of icon (thumbnail) image in pixels */
+  /* Width of icon(thumbnail) image in pixels */
   OPT_ICON_WIDTH,
-  /* Length of icon (thumbnail) image in pixels */
+  /* Length of icon(thumbnail) image in pixels */
   OPT_ICON_LENGTH,
 
   OPT_BARCODE_GROUP,
   /* Add <name> to barcode search priority. */
   OPT_BARCODE_SEARCH_BAR,
-  /* Barcode search count (1-7, default 3). */
+  /* Barcode search count(1-7, default 3). */
   OPT_BARCODE_SEARCH_COUNT,
   /* Barcode search mode.
    * (1 = horizontal,2 = vertical, 6 = v then h, 9 = h then v).
    */
   OPT_BARCODE_SEARCH_MODE,
-  /* Patch code min height (def=127 (5mm)) */
+  /* Patch code min height(def=127 (5mm)) */
   OPT_BARCODE_HMIN,
   /* Barcode search timeout in ms
    * (20-65535,default is disabled).
@@ -229,7 +229,7 @@ typedef struct _BH_Section
   Sane.Byte compressionarg
   Sane.Frame format
 
-  /* Flags (see BH_SECTION_...) indicating operation(s) to perform
+  /* Flags(see BH_SECTION_...) indicating operation(s) to perform
    * on the section.  If zero, the section is completely disabled
    * and will not even be defined in set_window.
    */
@@ -292,8 +292,8 @@ typedef struct _BH_Info
   Int resStdList[16+1];    /* list of available standard resolutions
 				 * (first slot is the length)
 				 */
-  Int winWidth;		/* length of window (in BasicX res DPI) */
-  Int winHeight;		/* height of window (in BasicY res DPI) */
+  Int winWidth;		/* length of window(in BasicX res DPI) */
+  Int winHeight;		/* height of window(in BasicY res DPI) */
 } BH_Info
 
 typedef struct _BH_Device BH_Device
@@ -392,7 +392,7 @@ static const Sane.Range barcode_search_timeout_range =
 static const Sane.Range barcode_hmin_range =
 {
     1,		/* minimum */
-    1660, 	/* maximum (when converted from mm
+    1660, 	/* maximum(when converted from mm
 		 * to thousandths will still be less
 		 * than 65536)
 		 */
@@ -551,7 +551,7 @@ _is_host_little_endian()
   Int val = 255
   unsigned char *firstbyte = (unsigned char *) &val
 
-  return (*firstbyte == 255) ? Sane.TRUE : Sane.FALSE
+  return(*firstbyte == 255) ? Sane.TRUE : Sane.FALSE
 }
 
 static /* inline */ void
@@ -642,7 +642,7 @@ _4btol(Sane.Byte *bytes)
 
 #define Sane.NAME_DUPLEX "duplex"
 #define Sane.TITLE_DUPLEX "Duplex"
-#define Sane.DESC_DUPLEX "Enable Duplex (Dual-Sided) Scanning"
+#define Sane.DESC_DUPLEX "Enable Duplex(Dual-Sided) Scanning"
 
 #define Sane.NAME_BARCODE_SEARCH_COUNT "barcode-search-count"
 #define Sane.TITLE_BARCODE_SEARCH_COUNT "Barcode Search Count"
@@ -650,7 +650,7 @@ _4btol(Sane.Byte *bytes)
 
 #define Sane.NAME_BARCODE_HMIN "barcode-hmin"
 #define Sane.TITLE_BARCODE_HMIN "Barcode Minimum Height"
-#define Sane.DESC_BARCODE_HMIN "Sets the Barcode Minimum Height (larger values increase recognition speed)"
+#define Sane.DESC_BARCODE_HMIN "Sets the Barcode Minimum Height(larger values increase recognition speed)"
 
 #define Sane.NAME_BARCODE_SEARCH_MODE "barcode-search-mode"
 #define Sane.TITLE_BARCODE_SEARCH_MODE "Barcode Search Mode"
@@ -703,11 +703,11 @@ _4btol(Sane.Byte *bytes)
 
 #define Sane.NAME_ICON_WIDTH "icon-width"
 #define Sane.TITLE_ICON_WIDTH "Icon Width"
-#define Sane.DESC_ICON_WIDTH "Width of icon (thumbnail) image in pixels"
+#define Sane.DESC_ICON_WIDTH "Width of icon(thumbnail) image in pixels"
 
 #define Sane.NAME_ICON_LENGTH "icon-length"
 #define Sane.TITLE_ICON_LENGTH "Icon Length"
-#define Sane.DESC_ICON_LENGTH "Length of icon (thumbnail) image in pixels"
+#define Sane.DESC_ICON_LENGTH "Length of icon(thumbnail) image in pixels"
 
 #define Sane.NAME_PAPER_SIZE "paper-size"
 #define Sane.TITLE_PAPER_SIZE "Paper Size"
@@ -857,7 +857,7 @@ struct icon_data {
 
 /* used with BH_SCSI_INQUIRY */
 
-/* Standard Data [EVPD=0] */
+/* Standard Data[EVPD=0] */
 struct inquiry_standard_data {
   Sane.Byte devtype
   Sane.Byte reserved[7]
@@ -866,7 +866,7 @@ struct inquiry_standard_data {
   Sane.Byte revision[4]
 ]
 
-/* VPD Information [EVPD=1, PageCode=C0H] */
+/* VPD Information[EVPD=1, PageCode=C0H] */
 struct inquiry_vpd_data {
   Sane.Byte devtype
   Sane.Byte pagecode
@@ -884,7 +884,7 @@ struct inquiry_vpd_data {
 ]
 
 
-/* JIS Information [EVPD=1, PageCode=F0H] */
+/* JIS Information[EVPD=1, PageCode=F0H] */
 struct inquiry_jis_data {
   Sane.Byte devtype
   Sane.Byte pagecode
@@ -1035,7 +1035,7 @@ struct mode_page_33 {
 
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1999,2000 Tom Martone
+   Copyright(C) 1999,2000 Tom Martone
    This file is part of a SANE backend for Bell and Howell Copiscan II
    Scanners using the Remote SCSI Controller(RSC).
 
@@ -1044,7 +1044,7 @@ struct mode_page_33 {
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -1110,23 +1110,23 @@ static Int fake_inquiry = 0
 
 static Int allblank(const char *s)
 {
-  while (s && *s)
-    if (!isspace(*s++))
+  while(s && *s)
+    if(!isspace(*s++))
       return 0
 
   return 1
 }
 
 static size_t
-max_string_size (const Sane.String_Const strings[])
+max_string_size(const Sane.String_Const strings[])
 {
   size_t size, max_size = 0
   var i: Int
 
-  for (i = 0; strings[i]; ++i)
+  for(i = 0; strings[i]; ++i)
     {
-      size = strlen (strings[i]) + 1
-      if (size > max_size)
+      size = strlen(strings[i]) + 1
+      if(size > max_size)
         max_size = size
     }
 
@@ -1136,16 +1136,16 @@ max_string_size (const Sane.String_Const strings[])
 static void
 trim_spaces(char *s, size_t n)
 {
-  for (s += (n-1); n > 0; n--, s--)
+  for(s += (n-1); n > 0; n--, s--)
     {
-      if (*s && !isspace(*s))
+      if(*s && !isspace(*s))
 	break
       *s = '\0'
     }
 }
 
 static Sane.String_Const
-print_devtype (Sane.Byte devtype)
+print_devtype(Sane.Byte devtype)
 {
   static String devtypes[] =
   {
@@ -1161,21 +1161,21 @@ print_devtype (Sane.Byte devtype)
     "communicator"
   ]
 
-  return (devtype > 0 && devtype < NELEMS(devtypes)) ?
+  return(devtype > 0 && devtype < NELEMS(devtypes)) ?
     devtypes[devtype] :
     "unknown-device"
 }
 
 static Sane.String_Const
-print_barcodetype (Int i)
+print_barcodetype(Int i)
 {
-  return (i > 0 && i < NELEMS(barcode_search_bar_list)) ?
+  return(i > 0 && i < NELEMS(barcode_search_bar_list)) ?
     barcode_search_bar_list[i] :
     (Sane.String_Const) "unknown"
 }
 
 static Sane.String_Const
-print_orientation (Int i)
+print_orientation(Int i)
 {
   switch(i)
     {
@@ -1197,81 +1197,81 @@ print_orientation (Int i)
 }
 
 static Sane.String_Const
-print_read_type (Int i)
+print_read_type(Int i)
 {
   static char buf[32]
   Int n
 
   /* translate BH_SCSI_READ_TYPE_ codes to a human-readable string */
-  if (i == BH_SCSI_READ_TYPE_FRONT)
+  if(i == BH_SCSI_READ_TYPE_FRONT)
     {
       strcpy(buf, "front page")
     }
-  else if (i == BH_SCSI_READ_TYPE_BACK)
+  else if(i == BH_SCSI_READ_TYPE_BACK)
     {
       strcpy(buf, "back page")
     }
-  else if (i > BH_SCSI_READ_TYPE_FRONT &&
+  else if(i > BH_SCSI_READ_TYPE_FRONT &&
 	   i <= BH_SCSI_READ_TYPE_FRONT + NUM_SECTIONS)
     {
       n = i - BH_SCSI_READ_TYPE_FRONT
       sprintf(buf, "front section %d", n)
     }
-  else if (i > BH_SCSI_READ_TYPE_BACK &&
+  else if(i > BH_SCSI_READ_TYPE_BACK &&
 	   i <= BH_SCSI_READ_TYPE_BACK + NUM_SECTIONS)
     {
       n = i - BH_SCSI_READ_TYPE_BACK
       sprintf(buf, "back section %d", n)
     }
-  else if (i == BH_SCSI_READ_TYPE_FRONT_BARCODE)
+  else if(i == BH_SCSI_READ_TYPE_FRONT_BARCODE)
     {
       strcpy(buf, "front page barcode")
     }
-  else if (i == BH_SCSI_READ_TYPE_BACK_BARCODE)
+  else if(i == BH_SCSI_READ_TYPE_BACK_BARCODE)
     {
       strcpy(buf, "back page barcode")
     }
-  else if (i > BH_SCSI_READ_TYPE_FRONT_BARCODE &&
+  else if(i > BH_SCSI_READ_TYPE_FRONT_BARCODE &&
 	   i <= BH_SCSI_READ_TYPE_FRONT_BARCODE + NUM_SECTIONS)
     {
       n = i - BH_SCSI_READ_TYPE_FRONT_BARCODE
       sprintf(buf, "front barcode section %d", n)
     }
-  else if (i > BH_SCSI_READ_TYPE_BACK_BARCODE &&
+  else if(i > BH_SCSI_READ_TYPE_BACK_BARCODE &&
 	   i <= BH_SCSI_READ_TYPE_BACK_BARCODE + NUM_SECTIONS)
     {
       n = i - BH_SCSI_READ_TYPE_BACK_BARCODE
       sprintf(buf, "back barcode section %d", n)
     }
-  else if (i == BH_SCSI_READ_TYPE_FRONT_PATCHCODE)
+  else if(i == BH_SCSI_READ_TYPE_FRONT_PATCHCODE)
     {
       strcpy(buf, "front page patchcode")
     }
-  else if (i == BH_SCSI_READ_TYPE_BACK_PATCHCODE)
+  else if(i == BH_SCSI_READ_TYPE_BACK_PATCHCODE)
     {
       strcpy(buf, "back page patchcode")
     }
-  else if (i > BH_SCSI_READ_TYPE_FRONT_PATCHCODE &&
+  else if(i > BH_SCSI_READ_TYPE_FRONT_PATCHCODE &&
 	   i <= BH_SCSI_READ_TYPE_FRONT_PATCHCODE + NUM_SECTIONS)
     {
       n = i - BH_SCSI_READ_TYPE_FRONT_PATCHCODE
       sprintf(buf, "front patchcode section %d", n)
     }
-  else if (i > BH_SCSI_READ_TYPE_BACK_PATCHCODE &&
+  else if(i > BH_SCSI_READ_TYPE_BACK_PATCHCODE &&
 	   i <= BH_SCSI_READ_TYPE_BACK_PATCHCODE + NUM_SECTIONS)
     {
       n = i - BH_SCSI_READ_TYPE_BACK_PATCHCODE
       sprintf(buf, "back patchcode section %d", n)
     }
-  else if (i == BH_SCSI_READ_TYPE_FRONT_ICON)
+  else if(i == BH_SCSI_READ_TYPE_FRONT_ICON)
     {
       strcpy(buf, "front page icon")
     }
-  else if (i == BH_SCSI_READ_TYPE_BACK_ICON)
+  else if(i == BH_SCSI_READ_TYPE_BACK_ICON)
     {
       strcpy(buf, "back page icon")
     }
-  else if (i == BH_SCSI_READ_TYPE_SENDBARFILE)
+  else if(i == BH_SCSI_READ_TYPE_SENDBARFILE)
     {
       strcpy(buf, "transmit bar/patch codes")
     }
@@ -1288,8 +1288,8 @@ get_rotation_id(char *s)
 {
   Int i
 
-  for (i = 0; rotation_list[i]; i++)
-    if (strcmp(s, rotation_list[i]) == 0)
+  for(i = 0; rotation_list[i]; i++)
+    if(strcmp(s, rotation_list[i]) == 0)
       break
 
   /* unknown strings are treated as '0' */
@@ -1301,8 +1301,8 @@ get_compression_id(char *s)
 {
   Int i
 
-  for (i = 0; compression_list[i]; i++)
-    if (strcmp(s, compression_list[i]) == 0)
+  for(i = 0; compression_list[i]; i++)
+    if(strcmp(s, compression_list[i]) == 0)
       break
 
   /* unknown strings are treated as 'none' */
@@ -1314,8 +1314,8 @@ get_barcode_id(char *s)
 {
   Int i
 
-  for (i = 0; barcode_search_bar_list[i]; i++)
-    if (strcmp(s, barcode_search_bar_list[i]) == 0)
+  for(i = 0; barcode_search_bar_list[i]; i++)
+    if(strcmp(s, barcode_search_bar_list[i]) == 0)
       break
 
   /* unknown strings are treated as 'none' */
@@ -1327,8 +1327,8 @@ get_scan_mode_id(char *s)
 {
   Int i
 
-  for (i = 0; scan_mode_list[i]; i++)
-    if (strcmp(s, scan_mode_list[i]) == 0)
+  for(i = 0; scan_mode_list[i]; i++)
+    if(strcmp(s, scan_mode_list[i]) == 0)
       break
 
   /* unknown strings are treated as 'lineart' */
@@ -1340,8 +1340,8 @@ get_paper_id(char *s)
 {
   Int i
 
-  for (i = 0; paper_list[i]; i++)
-    if (strcmp(s, paper_list[i]) == 0)
+  for(i = 0; paper_list[i]; i++)
+    if(strcmp(s, paper_list[i]) == 0)
       break
 
   /* unknown strings are treated as 'custom' */
@@ -1353,19 +1353,19 @@ get_barcode_search_mode(char *s)
 {
   Int i
 
-  if (strcmp(s, "horizontal") == 0)
+  if(strcmp(s, "horizontal") == 0)
     {
       i = 1
     }
-  else if (strcmp(s, "vertical") == 0)
+  else if(strcmp(s, "vertical") == 0)
     {
       i = 2
     }
-  else if (strcmp(s, "vert-horiz") == 0)
+  else if(strcmp(s, "vert-horiz") == 0)
     {
       i = 6
     }
-  else if (strcmp(s, "horiz-vert") == 0)
+  else if(strcmp(s, "horiz-vert") == 0)
     {
       i = 9
     }
@@ -1397,25 +1397,25 @@ ScannerDump(BH_Scanner *s)
   info = &s.hw.info
   sdev = &s.hw.sane
 
-  DBG (1, "SANE Device: '%s' Vendor: '%s' Model: '%s' Type: '%s'\n",
+  DBG(1, "SANE Device: '%s' Vendor: '%s' Model: '%s' Type: '%s'\n",
 	 sdev.name,
 	 sdev.vendor,
 	 sdev.model,
 	 sdev.type)
 
-  DBG (1, "Type: '%s' Vendor: '%s' Product: '%s' Revision: '%s'\n",
+  DBG(1, "Type: '%s' Vendor: '%s' Product: '%s' Revision: '%s'\n",
 	 print_devtype(info.devtype),
 	 info.vendor,
 	 info.product,
 	 info.revision)
 
-  DBG (1, "Automatic Document Feeder:%s\n",
+  DBG(1, "Automatic Document Feeder:%s\n",
 	 info.canADF ? " <Installed>" : " <Not Installed>")
 
-  DBG (1, "Colors:%s%s\n", info.colorBandW ? " <Black and White>" : "",
+  DBG(1, "Colors:%s%s\n", info.colorBandW ? " <Black and White>" : "",
 	 info.colorHalftone ? " <Halftone>" : "")
 
-  DBG (1, "Data processing:%s%s%s%s%s%s\n",
+  DBG(1, "Data processing:%s%s%s%s%s%s\n",
 	 info.canWhiteFrame ? " <White Frame>" : "",
 	 info.canBlackFrame ? " <Black Frame>" : "",
 	 info.canEdgeExtract ? " <Edge Extraction>" : "",
@@ -1423,44 +1423,44 @@ ScannerDump(BH_Scanner *s)
 	 info.canSmooth ? " <Smooth>" : "",
 	 info.canLineBold ? " <Line Bolding>" : "")
 
-  DBG (1, "Compression:%s%s%s\n",
+  DBG(1, "Compression:%s%s%s\n",
 	 info.comprG3_1D ? " <Group 3, 1D>" : "",
 	 info.comprG3_2D ? " <Group 3, 2D>" : "",
 	 info.comprG4 ? " <Group 4>" : "")
 
-  DBG (1, "Optional Features:%s%s%s%s\n",
+  DBG(1, "Optional Features:%s%s%s%s\n",
 	 info.canBorderRecog ? " <Border Recognition>" : "",
 	 info.canBarCode ? " <BarCode Decoding>" : "",
 	 info.canIcon ? " <Icon Generation>" : "",
 	 info.canSection ? " <Section Support>" : "")
 
-  DBG (1, "Max bytes per scan-line: %d (%d pixels)\n",
+  DBG(1, "Max bytes per scan-line: %d(%d pixels)\n",
 	 info.lineMaxBytes,
 	 info.lineMaxBytes * 8)
 
-  DBG (1, "Basic resolution (X/Y): %d/%d\n",
+  DBG(1, "Basic resolution(X/Y): %d/%d\n",
 	 info.resBasicX,
 	 info.resBasicY)
 
-  DBG (1, "Maximum resolution (X/Y): %d/%d\n",
+  DBG(1, "Maximum resolution(X/Y): %d/%d\n",
 	 info.resMaxX,
 	 info.resMaxY)
 
-  DBG (1, "Minimum resolution (X/Y): %d/%d\n",
+  DBG(1, "Minimum resolution(X/Y): %d/%d\n",
 	 info.resMinX,
 	 info.resMinY)
 
-  DBG (1, "Standard Resolutions:\n")
-  for (i = 0; i < info.resStdList[0]; i++)
-    DBG (1, " %d\n", info.resStdList[i+1])
+  DBG(1, "Standard Resolutions:\n")
+  for(i = 0; i < info.resStdList[0]; i++)
+    DBG(1, " %d\n", info.resStdList[i+1])
 
-  DBG (1, "Window Width/Height (in basic res) %d/%d (%.2f/%.2f inches)\n",
+  DBG(1, "Window Width/Height(in basic res) %d/%d(%.2f/%.2f inches)\n",
 	 info.winWidth,
 	 info.winHeight,
 	 (info.resBasicX != 0) ? ((float) info.winWidth) / info.resBasicX : 0.0,
 	 (info.resBasicY) ? ((float) info.winHeight) / info.resBasicY : 0.0)
 
-  DBG (1, "Summary:%s%s%s\n",
+  DBG(1, "Summary:%s%s%s\n",
 	 info.canDuplex ? "Duplex Scanner" : "Simplex Scanner",
 	 info.canACE ? " (ACE capable)" : "",
 	 info.canCheckADF ? " (ADF Paper Sensor capable)" : "")
@@ -1473,48 +1473,48 @@ ScannerDump(BH_Scanner *s)
 	 info.canACE ? " (ACE capable)" : "",
 	 info.canCheckADF ? " (ADF Paper Sensor capable)" : "")
 
-  DBG (5, "autoborder_default=%d\n", info.autoborder_default)
-  DBG (5, "batch_default=%d\n", info.batch_default)
-  DBG (5, "deskew_default=%d\n", info.deskew_default)
-  DBG (5, "check_adf_default=%d\n", info.check_adf_default)
-  DBG (5, "duplex_default=%d\n", info.duplex_default)
-  DBG (5, "timeout_adf_default=%d\n", info.timeout_adf_default)
-  DBG (5, "timeout_manual_default=%d\n", info.timeout_manual_default)
-  DBG (5, "control_panel_default=%d\n", info.control_panel_default)
+  DBG(5, "autoborder_default=%d\n", info.autoborder_default)
+  DBG(5, "batch_default=%d\n", info.batch_default)
+  DBG(5, "deskew_default=%d\n", info.deskew_default)
+  DBG(5, "check_adf_default=%d\n", info.check_adf_default)
+  DBG(5, "duplex_default=%d\n", info.duplex_default)
+  DBG(5, "timeout_adf_default=%d\n", info.timeout_adf_default)
+  DBG(5, "timeout_manual_default=%d\n", info.timeout_manual_default)
+  DBG(5, "control_panel_default=%d\n", info.control_panel_default)
 
 }
 
 static Sane.Status
-test_unit_ready (Int fd)
+test_unit_ready(Int fd)
 {
   static Sane.Byte cmd[6]
   Sane.Status status
-  DBG (3, "test_unit_ready called\n")
+  DBG(3, "test_unit_ready called\n")
 
   cmd[0] = BH_SCSI_TEST_UNIT_READY
-  memset (cmd, 0, sizeof (cmd))
-  status = sanei_scsi_cmd (fd, cmd, sizeof (cmd), 0, 0)
+  memset(cmd, 0, sizeof(cmd))
+  status = sanei_scsi_cmd(fd, cmd, sizeof(cmd), 0, 0)
 
   return status
 }
 
 static Sane.Status
-object_position (BH_Scanner *s)
+object_position(BH_Scanner *s)
 {
   static Sane.Byte cmd[10]
   Sane.Status status
-  DBG (3, "object_position called\n")
+  DBG(3, "object_position called\n")
 
-  memset (cmd, 0, sizeof (cmd))
+  memset(cmd, 0, sizeof(cmd))
   cmd[0] = BH_SCSI_OBJECT_POSITION
   cmd[1] = 0x01
-  status = sanei_scsi_cmd (s.fd, cmd, sizeof (cmd), 0, 0)
+  status = sanei_scsi_cmd(s.fd, cmd, sizeof(cmd), 0, 0)
 
   return status
 }
 
 static Sane.Status
-read_barcode_data (BH_Scanner *s, FILE *fp)
+read_barcode_data(BH_Scanner *s, FILE *fp)
 {
   static Sane.Byte cmd[10]
   Sane.Status status
@@ -1522,20 +1522,20 @@ read_barcode_data (BH_Scanner *s, FILE *fp)
   double w, l, x, y, res
   struct barcode_data buf
   size_t buf_size = sizeof(buf)
-  DBG (3, "read_barcode_data called\n")
+  DBG(3, "read_barcode_data called\n")
 
-  memset (&cmd, 0, sizeof (cmd))
+  memset(&cmd, 0, sizeof(cmd))
   cmd[0] = BH_SCSI_READ_SCANNED_DATA
   cmd[2] = s.readlist[s.readptr]
   _lto3b(buf_size, &cmd[6]); /* transfer length */
 
   s.barcode_not_found = Sane.FALSE
   do {
-    memset (&buf, 0, sizeof(buf))
-    status = sanei_scsi_cmd (s.fd, &cmd, sizeof (cmd), &buf, &buf_size)
-    if (status != Sane.STATUS_GOOD)
+    memset(&buf, 0, sizeof(buf))
+    status = sanei_scsi_cmd(s.fd, &cmd, sizeof(cmd), &buf, &buf_size)
+    if(status != Sane.STATUS_GOOD)
       break
-    if (s.barcode_not_found == Sane.TRUE)
+    if(s.barcode_not_found == Sane.TRUE)
       break
 
     num_found++
@@ -1549,7 +1549,7 @@ read_barcode_data (BH_Scanner *s, FILE *fp)
     l = MAX((Int) _2btol(buf.posya), (Int) _2btol(buf.posyc)) - y
     /* convert from pixels to mm */
     res = _OPT_VAL_WORD(s, OPT_RESOLUTION)
-    if (res <= 0.0)
+    if(res <= 0.0)
       {
 	/* avoid divide by zero */
 	DBG(1, "read_barcode_data: warning: "
@@ -1590,31 +1590,31 @@ read_barcode_data (BH_Scanner *s, FILE *fp)
 	    (Int) buf.barcodelen)
     fprintf(fp, " <data>%s</data>\n</barcode>\n",
 	    buf.barcodedata)
-  } while (num_found <= BH_DECODE_TRIES)
+  } while(num_found <= BH_DECODE_TRIES)
 
-  DBG (3, "read_barcode_data: found %d barcodes, returning %s\n",
+  DBG(3, "read_barcode_data: found %d barcodes, returning %s\n",
        num_found, Sane.strstatus(status))
 
   return status
 }
 
 static Sane.Status
-read_icon_data (BH_Scanner *s)
+read_icon_data(BH_Scanner *s)
 {
   static Sane.Byte cmd[10]
   Sane.Status status
   struct icon_data buf
   size_t buf_size = sizeof(buf)
-  DBG (3, "read_icon_data called\n")
+  DBG(3, "read_icon_data called\n")
 
-  memset (&cmd, 0, sizeof (cmd))
+  memset(&cmd, 0, sizeof(cmd))
   cmd[0] = BH_SCSI_READ_SCANNED_DATA
   cmd[2] = s.readlist[s.readptr]
   _lto3b(buf_size, &cmd[6]); /* transfer length */
 
-  memset (&buf, 0, sizeof(buf))
+  memset(&buf, 0, sizeof(buf))
 
-  status = sanei_scsi_cmd (s.fd, &cmd, sizeof (cmd), &buf, &buf_size)
+  status = sanei_scsi_cmd(s.fd, &cmd, sizeof(cmd), &buf, &buf_size)
 
   /* set the fields in the scanner handle for later reference */
   s.iconwidth = _4btol(buf.iconwidth)
@@ -1631,36 +1631,36 @@ read_icon_data (BH_Scanner *s)
       buf.bitordering,
       _4btol(buf.icondatalen))
 
-  DBG (3, "read_icon_data returning %d\n", status)
+  DBG(3, "read_icon_data returning %d\n", status)
 
   return status
 }
 
 static Sane.Status
-read_barfile (BH_Scanner *s, void *buf, size_t *buf_size)
+read_barfile(BH_Scanner *s, void *buf, size_t *buf_size)
 {
   Sane.Status status = Sane.STATUS_GOOD
   size_t nread
-  DBG (3, "read_barfile called (%lu bytes)\n", (u_long) *buf_size)
+  DBG(3, "read_barfile called(%lu bytes)\n", (u_long) *buf_size)
 
-  if (s.barf != NULL)
+  if(s.barf != NULL)
     {
       /* this function needs to set InvalidBytes so it looks
        * like a B&H scsi EOF
        */
-      if ((nread = fread(buf, 1, *buf_size, s.barf)) < *buf_size)
+      if((nread = fread(buf, 1, *buf_size, s.barf)) < *buf_size)
 	{
 	  /* set InvalidBytes */
 	  s.InvalidBytes = *buf_size - nread
 
-	  if (ferror(s.barf))
+	  if(ferror(s.barf))
 	    {
 	      status = Sane.STATUS_IO_ERROR
 	      fclose(s.barf)
 	      s.barf = NULL
 	      unlink(s.barfname)
 	    }
-	  else if (feof(s.barf))
+	  else if(feof(s.barf))
 	    {
 	      /* it also needs to close the file and delete it when EOF is
 	       * reached.
@@ -1681,32 +1681,32 @@ read_barfile (BH_Scanner *s, void *buf, size_t *buf_size)
 }
 
 static Sane.Status
-read_data (BH_Scanner *s, void *buf, size_t *buf_size)
+read_data(BH_Scanner *s, void *buf, size_t *buf_size)
 {
   static Sane.Byte cmd[10]
   Sane.Status status
-  DBG (3, "read_data called (%lu bytes)\n", (u_long) *buf_size)
+  DBG(3, "read_data called(%lu bytes)\n", (u_long) *buf_size)
 
-  if (s.readlist[s.readptr] == BH_SCSI_READ_TYPE_SENDBARFILE)
+  if(s.readlist[s.readptr] == BH_SCSI_READ_TYPE_SENDBARFILE)
     {
       /* call special barcode data read function. */
       status = read_barfile(s, buf, buf_size)
     }
   else
     {
-      memset (&cmd, 0, sizeof (cmd))
+      memset(&cmd, 0, sizeof(cmd))
       cmd[0] = BH_SCSI_READ_SCANNED_DATA
       cmd[2] = s.readlist[s.readptr]
       _lto3b(*buf_size, &cmd[6]); /* transfer length */
 
-      status = sanei_scsi_cmd (s.fd, &cmd, sizeof (cmd), buf, buf_size)
+      status = sanei_scsi_cmd(s.fd, &cmd, sizeof(cmd), buf, buf_size)
     }
 
   return status
 }
 
 static Sane.Status
-mode_select_measurement (BH_Scanner *s)
+mode_select_measurement(BH_Scanner *s)
 {
   static struct {
     Sane.Byte cmd[6]
@@ -1714,10 +1714,10 @@ mode_select_measurement (BH_Scanner *s)
   } select_cmd
   Sane.Status status
 
-  DBG (3, "mode_select_measurement called (bmu:%d mud:%d)\n",
+  DBG(3, "mode_select_measurement called(bmu:%d mud:%d)\n",
        s.bmu, s.mud)
 
-  memset (&select_cmd, 0, sizeof (select_cmd))
+  memset(&select_cmd, 0, sizeof(select_cmd))
   select_cmd.cmd[0] = BH_SCSI_MODE_SELECT
   select_cmd.cmd[1] = 0x10
   select_cmd.cmd[4] = sizeof(select_cmd.mp)
@@ -1727,13 +1727,13 @@ mode_select_measurement (BH_Scanner *s)
   select_cmd.mp.bmu = s.bmu
   _lto2b(s.mud, select_cmd.mp.mud)
 
-  status = sanei_scsi_cmd (s.fd, &select_cmd, sizeof (select_cmd), 0, 0)
+  status = sanei_scsi_cmd(s.fd, &select_cmd, sizeof(select_cmd), 0, 0)
 
   return status
 }
 
 static Sane.Status
-mode_select_timeout (BH_Scanner *s)
+mode_select_timeout(BH_Scanner *s)
 {
   static struct {
     Sane.Byte cmd[6]
@@ -1741,9 +1741,9 @@ mode_select_timeout (BH_Scanner *s)
   } select_cmd
   Sane.Status status
 
-  DBG (3, "mode_select_timeout called\n")
+  DBG(3, "mode_select_timeout called\n")
 
-  memset (&select_cmd, 0, sizeof (select_cmd))
+  memset(&select_cmd, 0, sizeof(select_cmd))
   select_cmd.cmd[0] = BH_SCSI_MODE_SELECT
   select_cmd.cmd[1] = 0x10
   select_cmd.cmd[4] = sizeof(select_cmd.mp)
@@ -1753,13 +1753,13 @@ mode_select_timeout (BH_Scanner *s)
   select_cmd.mp.timeoutmanual = _OPT_VAL_WORD(s, OPT_TIMEOUT_MANUAL)
   select_cmd.mp.timeoutadf = _OPT_VAL_WORD(s, OPT_TIMEOUT_ADF)
 
-  status = sanei_scsi_cmd (s.fd, &select_cmd, sizeof (select_cmd), 0, 0)
+  status = sanei_scsi_cmd(s.fd, &select_cmd, sizeof(select_cmd), 0, 0)
 
   return status
 }
 
 static Sane.Status
-mode_select_icon (BH_Scanner *s)
+mode_select_icon(BH_Scanner *s)
 {
   static struct {
     Sane.Byte cmd[6]
@@ -1767,9 +1767,9 @@ mode_select_icon (BH_Scanner *s)
   } select_cmd
   Sane.Status status
 
-  DBG (3, "mode_select_icon called\n")
+  DBG(3, "mode_select_icon called\n")
 
-  memset (&select_cmd, 0, sizeof (select_cmd))
+  memset(&select_cmd, 0, sizeof(select_cmd))
   select_cmd.cmd[0] = BH_SCSI_MODE_SELECT
   select_cmd.cmd[1] = 0x10
   select_cmd.cmd[4] = sizeof(select_cmd.mp)
@@ -1779,13 +1779,13 @@ mode_select_icon (BH_Scanner *s)
   _lto2b(_OPT_VAL_WORD(s, OPT_ICON_WIDTH), select_cmd.mp.iconwidth)
   _lto2b(_OPT_VAL_WORD(s, OPT_ICON_LENGTH), select_cmd.mp.iconlength)
 
-  status = sanei_scsi_cmd (s.fd, &select_cmd, sizeof (select_cmd), 0, 0)
+  status = sanei_scsi_cmd(s.fd, &select_cmd, sizeof(select_cmd), 0, 0)
 
   return status
 }
 
 static Sane.Status
-mode_select_barcode_priority (BH_Scanner *s)
+mode_select_barcode_priority(BH_Scanner *s)
 {
   static struct {
     Sane.Byte cmd[6]
@@ -1794,9 +1794,9 @@ mode_select_barcode_priority (BH_Scanner *s)
   Sane.Status status
   var i: Int
 
-  DBG (3, "mode_select_barcode_priority called\n")
+  DBG(3, "mode_select_barcode_priority called\n")
 
-  memset (&select_cmd, 0, sizeof (select_cmd))
+  memset(&select_cmd, 0, sizeof(select_cmd))
   select_cmd.cmd[0] = BH_SCSI_MODE_SELECT
   select_cmd.cmd[1] = 0x10
   select_cmd.cmd[4] = sizeof(select_cmd.mp)
@@ -1804,13 +1804,13 @@ mode_select_barcode_priority (BH_Scanner *s)
   select_cmd.mp.pagecode = BH_MODE_BARCODE_PRIORITY_PAGE_CODE
   select_cmd.mp.paramlen = 0x06
 
-  for (i = 0; i < NUM_SEARCH_BARS; i++)
+  for(i = 0; i < NUM_SEARCH_BARS; i++)
     {
       /* anything after a 'none' is ignored */
-      if ((select_cmd.mp.priority[i] = s.search_bars[i]) == 0) break
+      if((select_cmd.mp.priority[i] = s.search_bars[i]) == 0) break
     }
 
-  status = sanei_scsi_cmd (s.fd, &select_cmd, sizeof (select_cmd), 0, 0)
+  status = sanei_scsi_cmd(s.fd, &select_cmd, sizeof(select_cmd), 0, 0)
 
   return status
 }
@@ -1824,9 +1824,9 @@ mode_select_barcode_param1 (BH_Scanner *s)
   } select_cmd
   Sane.Status status
 
-  DBG (3, "mode_select_barcode_param1 called\n")
+  DBG(3, "mode_select_barcode_param1 called\n")
 
-  memset (&select_cmd, 0, sizeof (select_cmd))
+  memset(&select_cmd, 0, sizeof(select_cmd))
   select_cmd.cmd[0] = BH_SCSI_MODE_SELECT
   select_cmd.cmd[1] = 0x10
   select_cmd.cmd[4] = sizeof(select_cmd.mp)
@@ -1840,7 +1840,7 @@ mode_select_barcode_param1 (BH_Scanner *s)
     get_barcode_search_mode(_OPT_VAL_STRING(s, OPT_BARCODE_SEARCH_MODE))
   _lto2b(_OPT_VAL_WORD(s, OPT_BARCODE_SEARCH_TIMEOUT), select_cmd.mp.searchtimeout)
 
-  status = sanei_scsi_cmd (s.fd, &select_cmd, sizeof (select_cmd), 0, 0)
+  status = sanei_scsi_cmd(s.fd, &select_cmd, sizeof(select_cmd), 0, 0)
 
   return status
 }
@@ -1855,28 +1855,28 @@ mode_select_barcode_param2 (BH_Scanner *s)
   Sane.Status status
   size_t len
 
-  DBG (3, "mode_select_barcode_param2 called\n")
+  DBG(3, "mode_select_barcode_param2 called\n")
 
   /* first we'll do a mode sense, then we'll overwrite with
    * our new values, and then do a mode select
    */
-  memset (&select_cmd, 0, sizeof (select_cmd))
+  memset(&select_cmd, 0, sizeof(select_cmd))
   select_cmd.cmd[0] = BH_SCSI_MODE_SENSE
   select_cmd.cmd[2] = BH_MODE_BARCODE_PARAM2_PAGE_CODE
   select_cmd.cmd[4] = sizeof(select_cmd.mp)
 
   len = sizeof(select_cmd.mp)
-  status = sanei_scsi_cmd (s.fd, &select_cmd.cmd, sizeof (select_cmd.cmd),
+  status = sanei_scsi_cmd(s.fd, &select_cmd.cmd, sizeof(select_cmd.cmd),
 			   &select_cmd.mp, &len)
 
-  if (status == Sane.STATUS_GOOD)
+  if(status == Sane.STATUS_GOOD)
     {
       DBG(8, "mode_select_barcode_param2: sensed values: relmax:%d barmin:%d barmax:%d\n",
 	  (Int) _2btol(select_cmd.mp.relmax),
 	  (Int) _2btol(select_cmd.mp.barmin),
 	  (Int) _2btol(select_cmd.mp.barmax))
 
-      memset (&select_cmd.cmd, 0, sizeof (select_cmd.cmd))
+      memset(&select_cmd.cmd, 0, sizeof(select_cmd.cmd))
       select_cmd.cmd[0] = BH_SCSI_MODE_SELECT
       select_cmd.cmd[1] = 0x10
       select_cmd.cmd[4] = sizeof(select_cmd.mp)
@@ -1890,15 +1890,15 @@ mode_select_barcode_param2 (BH_Scanner *s)
       select_cmd.mp.paramlen = 0x06
 
       /* only overwrite the default values if the option is non-zero */
-      if (_OPT_VAL_WORD(s, OPT_BARCODE_RELMAX) != 0)
+      if(_OPT_VAL_WORD(s, OPT_BARCODE_RELMAX) != 0)
 	{
 	  _lto2b(_OPT_VAL_WORD(s, OPT_BARCODE_RELMAX), select_cmd.mp.relmax)
 	}
-      if (_OPT_VAL_WORD(s, OPT_BARCODE_BARMIN) != 0)
+      if(_OPT_VAL_WORD(s, OPT_BARCODE_BARMIN) != 0)
 	{
 	  _lto2b(_OPT_VAL_WORD(s, OPT_BARCODE_BARMIN), select_cmd.mp.barmin)
 	}
-      if (_OPT_VAL_WORD(s, OPT_BARCODE_BARMAX) != 0)
+      if(_OPT_VAL_WORD(s, OPT_BARCODE_BARMAX) != 0)
 	{
 	  _lto2b(_OPT_VAL_WORD(s, OPT_BARCODE_BARMAX), select_cmd.mp.barmax)
 	}
@@ -1913,7 +1913,7 @@ mode_select_barcode_param2 (BH_Scanner *s)
 	  (Int) _2btol(select_cmd.mp.barmin),
 	  (Int) _2btol(select_cmd.mp.barmax))
 
-      status = sanei_scsi_cmd (s.fd, &select_cmd, sizeof (select_cmd), 0, 0)
+      status = sanei_scsi_cmd(s.fd, &select_cmd, sizeof(select_cmd), 0, 0)
     }
 
   return status
@@ -1929,27 +1929,27 @@ mode_select_barcode_param3 (BH_Scanner *s)
   Sane.Status status
   size_t len
 
-  DBG (3, "mode_select_barcode_param3 called\n")
+  DBG(3, "mode_select_barcode_param3 called\n")
 
   /* first we'll do a mode sense, then we'll overwrite with
    * our new values, and then do a mode select
    */
-  memset (&select_cmd, 0, sizeof (select_cmd))
+  memset(&select_cmd, 0, sizeof(select_cmd))
   select_cmd.cmd[0] = BH_SCSI_MODE_SENSE
   select_cmd.cmd[2] = BH_MODE_BARCODE_PARAM3_PAGE_CODE
   select_cmd.cmd[4] = sizeof(select_cmd.mp)
 
   len = sizeof(select_cmd.mp)
-  status = sanei_scsi_cmd (s.fd, &select_cmd.cmd, sizeof (select_cmd.cmd),
+  status = sanei_scsi_cmd(s.fd, &select_cmd.cmd, sizeof(select_cmd.cmd),
 			   &select_cmd.mp, &len)
 
-  if (status == Sane.STATUS_GOOD)
+  if(status == Sane.STATUS_GOOD)
     {
       DBG(8, "mode_select_barcode_param3: sensed values: contrast:%d patchmode:%d\n",
 	  (Int) _2btol(select_cmd.mp.barcodecontrast),
 	  (Int) _2btol(select_cmd.mp.patchmode))
 
-      memset (&select_cmd.cmd, 0, sizeof (select_cmd.cmd))
+      memset(&select_cmd.cmd, 0, sizeof(select_cmd.cmd))
       select_cmd.cmd[0] = BH_SCSI_MODE_SELECT
       select_cmd.cmd[1] = 0x10
       select_cmd.cmd[4] = sizeof(select_cmd.mp)
@@ -1963,11 +1963,11 @@ mode_select_barcode_param3 (BH_Scanner *s)
       select_cmd.mp.paramlen = 0x06
 
       /* only overwrite the default values if the option is non-zero */
-      if (_OPT_VAL_WORD(s, OPT_BARCODE_CONTRAST) != 0)
+      if(_OPT_VAL_WORD(s, OPT_BARCODE_CONTRAST) != 0)
 	{
 	  _lto2b(_OPT_VAL_WORD(s, OPT_BARCODE_CONTRAST), select_cmd.mp.barcodecontrast)
 	}
-      if (_OPT_VAL_WORD(s, OPT_BARCODE_PATCHMODE) != 0)
+      if(_OPT_VAL_WORD(s, OPT_BARCODE_PATCHMODE) != 0)
 	{
 	  _lto2b(_OPT_VAL_WORD(s, OPT_BARCODE_PATCHMODE), select_cmd.mp.patchmode)
 	}
@@ -1980,32 +1980,32 @@ mode_select_barcode_param3 (BH_Scanner *s)
 	  (Int) _2btol(select_cmd.mp.barcodecontrast),
 	  (Int) _2btol(select_cmd.mp.patchmode))
 
-      status = sanei_scsi_cmd (s.fd, &select_cmd, sizeof (select_cmd), 0, 0)
+      status = sanei_scsi_cmd(s.fd, &select_cmd, sizeof(select_cmd), 0, 0)
     }
 
   return status
 }
 
 static Sane.Status
-inquiry (Int fd, void *buf, size_t *buf_size, Sane.Byte evpd, Sane.Byte page_code)
+inquiry(Int fd, void *buf, size_t *buf_size, Sane.Byte evpd, Sane.Byte page_code)
 {
   static Sane.Byte cmd[6]
   Sane.Status status
-  DBG (3, "inquiry called\n")
+  DBG(3, "inquiry called\n")
 
-  memset (cmd, 0, sizeof (cmd))
+  memset(cmd, 0, sizeof(cmd))
   cmd[0] = BH_SCSI_INQUIRY
   cmd[1] = evpd
   cmd[2] = page_code
   cmd[4] = *buf_size
 
-  status = sanei_scsi_cmd (fd, cmd, sizeof (cmd), buf, buf_size)
+  status = sanei_scsi_cmd(fd, cmd, sizeof(cmd), buf, buf_size)
 
   return status
 }
 
 static Sane.Status
-set_window (BH_Scanner *s, Sane.Byte batchmode)
+set_window(BH_Scanner *s, Sane.Byte batchmode)
 {
   static struct {
     Sane.Byte cmd[10]
@@ -2015,16 +2015,16 @@ set_window (BH_Scanner *s, Sane.Byte batchmode)
   Sane.Status status
   Int width, length, i, format, rotation, deskew 
 
-  DBG (3, "set_window called\n")
+  DBG(3, "set_window called\n")
 
   /* set to thousandths for set_window */
   s.bmu = BH_UNIT_INCH
   s.mud = 1000
   status = mode_select_measurement(s)
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     return status
 
-  memset (&set_window_cmd, 0, sizeof (set_window_cmd))
+  memset(&set_window_cmd, 0, sizeof(set_window_cmd))
   set_window_cmd.cmd[0] = BH_SCSI_SET_WINDOW
   DBG(3, "set_window: sizeof(hdr) %d, sizeof(window): %d\n",
       (Int)sizeof(set_window_cmd.hdr), (Int)sizeof(set_window_cmd.window))
@@ -2036,7 +2036,7 @@ set_window (BH_Scanner *s, Sane.Byte batchmode)
 
   set_window_cmd.window.windowid = 0
   set_window_cmd.window.autoborder = _OPT_VAL_WORD(s, OPT_AUTOBORDER)
-  DBG (5, "autoborder set to=%d\n", set_window_cmd.window.autoborder)
+  DBG(5, "autoborder set to=%d\n", set_window_cmd.window.autoborder)
   _lto2b(_OPT_VAL_WORD(s, OPT_RESOLUTION), set_window_cmd.window.xres)
   _lto2b(_OPT_VAL_WORD(s, OPT_RESOLUTION), set_window_cmd.window.yres)
   _lto4b((Int) _OPT_VAL_WORD_THOUSANDTHS(s, OPT_TL_X), set_window_cmd.window.ulx)
@@ -2050,23 +2050,23 @@ set_window (BH_Scanner *s, Sane.Byte batchmode)
   _lto4b(width, set_window_cmd.window.windowwidth)
   _lto4b(length, set_window_cmd.window.windowlength)
 
-  /* brightness (1-255) 0 is default, aka 128.  Ignored with ACE scanners */
+  /* brightness(1-255) 0 is default, aka 128.  Ignored with ACE scanners */
   set_window_cmd.window.brightness = _OPT_VAL_WORD(s, OPT_BRIGHTNESS)
-  /* threshold (1-255) 0 is default, aka 128.  Ignored with ACE scanners */
+  /* threshold(1-255) 0 is default, aka 128.  Ignored with ACE scanners */
   set_window_cmd.window.threshold = _OPT_VAL_WORD(s, OPT_THRESHOLD)
-  /*!!! contrast (not used) */
+  /*!!! contrast(not used) */
   /*!!! set_window_cmd.window.contrast = _OPT_VAL_WORD(s, OPT_CONTRAST); */
   /* imagecomposition 0x00 lineart, 0x01 dithered/halftone, 0x02 grayscale*/
   set_window_cmd.window.imagecomposition =
     get_scan_mode_id(_OPT_VAL_STRING(s, OPT_SCAN_MODE))
 
   set_window_cmd.window.bitsperpixel = 0x01
-  /*!!! halftone code (not used) */
-  /*!!! halftone id (not used) */
+  /*!!! halftone code(not used) */
+  /*!!! halftone id(not used) */
 
   set_window_cmd.window.paddingtype = 0x03; /* truncate byte */
-  if (_OPT_VAL_WORD(s, OPT_NEGATIVE) == Sane.TRUE) {
-    /* reverse image format (valid when bitsperpixel=1)
+  if(_OPT_VAL_WORD(s, OPT_NEGATIVE) == Sane.TRUE) {
+    /* reverse image format(valid when bitsperpixel=1)
      * 0x00 normal, 0x01 reversed.  This is bit 7 of paddingtype.
      */
     set_window_cmd.window.paddingtype |= 0x80
@@ -2079,7 +2079,7 @@ set_window (BH_Scanner *s, Sane.Byte batchmode)
     BH_COMP_NONE :
     get_compression_id(_OPT_VAL_STRING(s, OPT_COMPRESSION))
 
-  switch (format)
+  switch(format)
     {
     case BH_COMP_G31D:
       set_window_cmd.window.compressiontype = 0x01
@@ -2107,24 +2107,24 @@ set_window (BH_Scanner *s, Sane.Byte batchmode)
   /* rotation and deskew settings, if autoborder is turned on */
   if(set_window_cmd.window.autoborder){ /*--- setting byte 46 of the window descriptor block only works with autoborder */
     rotation = get_rotation_id(_OPT_VAL_STRING(s, OPT_ROTATION))
-    if (_OPT_VAL_WORD(s, OPT_DESKEW) == Sane.TRUE) deskew = BH_DESKEW_ENABLE
+    if(_OPT_VAL_WORD(s, OPT_DESKEW) == Sane.TRUE) deskew = BH_DESKEW_ENABLE
     else deskew = BH_DESKEW_DISABLE
     set_window_cmd.window.border_rotation = ( rotation | deskew );  /*--- deskew assumes autoborder */
   }
 
   /* remote - 0x00 ACE set in window; 0x01 ACE set by control panel */
   set_window_cmd.window.remote = _OPT_VAL_WORD(s, OPT_CONTROL_PANEL)
-  if (set_window_cmd.window.remote == 0x00) {
-    /* acefunction (ignored on non-ACE scanners) */
+  if(set_window_cmd.window.remote == 0x00) {
+    /* acefunction(ignored on non-ACE scanners) */
     set_window_cmd.window.acefunction = _OPT_VAL_WORD(s, OPT_ACE_FUNCTION)
-    /* acesensitivity (ignored on non-ACE scanners) */
+    /* acesensitivity(ignored on non-ACE scanners) */
     set_window_cmd.window.acesensitivity = _OPT_VAL_WORD(s, OPT_ACE_SENSITIVITY)
   }
 
   set_window_cmd.window.batchmode = batchmode
 
   /* fill in the section descriptor blocks */
-  for (i = 0; i < s.num_sections; i++)
+  for(i = 0; i < s.num_sections; i++)
     {
       BH_SectionBlock *b
 
@@ -2138,9 +2138,9 @@ set_window (BH_Scanner *s, Sane.Byte batchmode)
       b.compressionarg = s.sections[i].compressionarg
     }
 
-  status = sanei_scsi_cmd (s.fd, &set_window_cmd, sizeof (set_window_cmd), 0, 0)
-  DBG (5, "sanei_scsi_cmd executed, status=%d\n", status )
-  if (status != Sane.STATUS_GOOD)
+  status = sanei_scsi_cmd(s.fd, &set_window_cmd, sizeof(set_window_cmd), 0, 0)
+  DBG(5, "sanei_scsi_cmd executed, status=%d\n", status )
+  if(status != Sane.STATUS_GOOD)
     return status
 
   /* set to points for reading */
@@ -2152,7 +2152,7 @@ set_window (BH_Scanner *s, Sane.Byte batchmode)
 }
 
 static Sane.Status
-get_window (BH_Scanner *s, Int *w, Int *h, Bool backpage)
+get_window(BH_Scanner *s, Int *w, Int *h, Bool backpage)
 {
   Sane.Byte cmd[10]
   static struct {
@@ -2164,15 +2164,15 @@ get_window (BH_Scanner *s, Int *w, Int *h, Bool backpage)
   Bool autoborder
   size_t len
 
-  DBG (3, "get_window called\n")
+  DBG(3, "get_window called\n")
 
   autoborder = _OPT_VAL_WORD(s, OPT_AUTOBORDER) == 1
 
-  while (1)
+  while(1)
     {
       i++
-      memset (&cmd, 0, sizeof (cmd))
-      memset (&get_window_data, 0, sizeof (get_window_data))
+      memset(&cmd, 0, sizeof(cmd))
+      memset(&get_window_data, 0, sizeof(get_window_data))
 
       cmd[0] = BH_SCSI_GET_WINDOW
       _lto3b(sizeof(get_window_data), &cmd[6])
@@ -2182,38 +2182,38 @@ get_window (BH_Scanner *s, Int *w, Int *h, Bool backpage)
       get_window_data.window.windowid = (backpage == Sane.TRUE) ? 1 : 0
 
       len = sizeof(get_window_data)
-      status = sanei_scsi_cmd (s.fd, &cmd, sizeof (cmd),
+      status = sanei_scsi_cmd(s.fd, &cmd, sizeof(cmd),
 			       &get_window_data, &len)
-      if (status == Sane.STATUS_GOOD)
+      if(status == Sane.STATUS_GOOD)
 	{
 	  x =_4btol(get_window_data.window.ulx)
 	  y =_4btol(get_window_data.window.uly)
 	  *w =_4btol(get_window_data.window.windowwidth)
 	  *h =_4btol(get_window_data.window.windowlength)
 
-	  if (autoborder)
+	  if(autoborder)
 	    {
 	      /* we try repeatedly until we get the autoborder bit set */
-	      if (get_window_data.window.autoborder != 1 &&
+	      if(get_window_data.window.autoborder != 1 &&
 		  i < BH_AUTOBORDER_TRIES)
 		{
-	          DBG (5, "waiting %d second[s], try: %d\n",get_window_delay,i)
+	          DBG(5, "waiting %d second[s], try: %d\n",get_window_delay,i)
 		  sleep(get_window_delay);  /*--- page 4-5 of B&H Copiscan 8000 ESC OEM Tech Manual */
                                             /*--- requires at least 50ms wait between each GET WINDOW command */
                                             /*--- experience shows that this can take 3 to 4 seconds */
 		  continue
 		}
-	      if (get_window_data.window.autoborder != 1)
+	      if(get_window_data.window.autoborder != 1)
 		{
 		  DBG(1, "Automatic Border Detection not done within %d tries\n",
 		      BH_AUTOBORDER_TRIES)
 		  status = Sane.STATUS_IO_ERROR
 		}
-             DBG (0, "page dimension: wide:%d high:%d \n",*w,*h)
+             DBG(0, "page dimension: wide:%d high:%d \n",*w,*h)
 	    }
-	  DBG (3, "*** Window size: %dx%d+%d+%d\n", *w, *h, x, y)
-	  DBG (5, "*** get_window found autoborder=%02xh\n", get_window_data.window.autoborder)
-	  DBG (5, "*** get_window found border_rotation=%02xh\n", get_window_data.window.border_rotation)
+	  DBG(3, "*** Window size: %dx%d+%d+%d\n", *w, *h, x, y)
+	  DBG(5, "*** get_window found autoborder=%02xh\n", get_window_data.window.autoborder)
+	  DBG(5, "*** get_window found border_rotation=%02xh\n", get_window_data.window.border_rotation)
 	}
 
       /* we are 'outta here' */
@@ -2224,7 +2224,7 @@ get_window (BH_Scanner *s, Int *w, Int *h, Bool backpage)
 }
 
 static Sane.Status
-get_parameters (Sane.Handle handle, Sane.Parameters *params)
+get_parameters(Sane.Handle handle, Sane.Parameters *params)
 {
   BH_Scanner *s = handle
   Int width, length, res, comp
@@ -2233,7 +2233,7 @@ get_parameters (Sane.Handle handle, Sane.Parameters *params)
 
   DBG(3, "get_parameters called\n")
 
-  memset (&s.params, 0, sizeof (s.params))
+  memset(&s.params, 0, sizeof(s.params))
 
   res = _OPT_VAL_WORD(s, OPT_RESOLUTION)
 
@@ -2250,7 +2250,7 @@ get_parameters (Sane.Handle handle, Sane.Parameters *params)
 
   /* figure out the default image format for front/back pages */
   comp = get_compression_id(_OPT_VAL_STRING(s, OPT_COMPRESSION))
-  switch (comp)
+  switch(comp)
     {
     case BH_COMP_G31D:
       format = Sane.FRAME_G31D
@@ -2267,7 +2267,7 @@ get_parameters (Sane.Handle handle, Sane.Parameters *params)
       break
     }
 
-  if (s.scanning)
+  if(s.scanning)
     {
       Int w, l, status
       Sane.Byte itemtype
@@ -2276,27 +2276,27 @@ get_parameters (Sane.Handle handle, Sane.Parameters *params)
       /* update parameters based on the current item */
 
       status = Sane.STATUS_GOOD
-      if (itemtype == BH_SCSI_READ_TYPE_FRONT)
+      if(itemtype == BH_SCSI_READ_TYPE_FRONT)
 	{
-	  DBG (3, "get_parameters: sending GET WINDOW (front)\n")
-	  status = get_window (s, &w, &l, Sane.FALSE)
-	  if (status == Sane.STATUS_GOOD)
+	  DBG(3, "get_parameters: sending GET WINDOW(front)\n")
+	  status = get_window(s, &w, &l, Sane.FALSE)
+	  if(status == Sane.STATUS_GOOD)
 	    {
 	      width = w
 	      length = l
 	    }
 	}
-      else if (itemtype == BH_SCSI_READ_TYPE_BACK)
+      else if(itemtype == BH_SCSI_READ_TYPE_BACK)
 	{
-	  DBG (3, "get_parameters: sending GET WINDOW (back)\n")
-	  status = get_window (s, &w, &l, Sane.TRUE)
-	  if (status == Sane.STATUS_GOOD)
+	  DBG(3, "get_parameters: sending GET WINDOW(back)\n")
+	  status = get_window(s, &w, &l, Sane.TRUE)
+	  if(status == Sane.STATUS_GOOD)
 	    {
 	      width = w
 	      length = l
 	    }
 	}
-      else if (itemtype == BH_SCSI_READ_TYPE_FRONT_ICON ||
+      else if(itemtype == BH_SCSI_READ_TYPE_FRONT_ICON ||
 	       itemtype == BH_SCSI_READ_TYPE_BACK_ICON)
 	{
 	  /* the icon is never compressed */
@@ -2304,7 +2304,7 @@ get_parameters (Sane.Handle handle, Sane.Parameters *params)
 	  width = s.iconwidth
 	  length = s.iconlength
 	}
-      else if (itemtype > BH_SCSI_READ_TYPE_FRONT &&
+      else if(itemtype > BH_SCSI_READ_TYPE_FRONT &&
 	       itemtype <= (BH_SCSI_READ_TYPE_FRONT + NUM_SECTIONS))
 	{
 	  /* a front section */
@@ -2315,7 +2315,7 @@ get_parameters (Sane.Handle handle, Sane.Parameters *params)
 	  width = s.sections[sectnum - 1].width * res / 1000.0
 	  length = s.sections[sectnum - 1].length * res / 1000.0
 	}
-      else if (itemtype > BH_SCSI_READ_TYPE_BACK &&
+      else if(itemtype > BH_SCSI_READ_TYPE_BACK &&
 	       itemtype <= (BH_SCSI_READ_TYPE_BACK + NUM_SECTIONS))
 	{
 	  /* a back section */
@@ -2326,7 +2326,7 @@ get_parameters (Sane.Handle handle, Sane.Parameters *params)
 	  width = s.sections[sectnum - 1].width * res / 1000.0
 	  length = s.sections[sectnum - 1].length * res / 1000.0
 	}
-      else if ( (itemtype >= BH_SCSI_READ_TYPE_BACK_BARCODE &&
+      else if( (itemtype >= BH_SCSI_READ_TYPE_BACK_BARCODE &&
 		 itemtype <= (BH_SCSI_READ_TYPE_BACK_BARCODE + NUM_SECTIONS)) ||
 		(itemtype >= BH_SCSI_READ_TYPE_FRONT_BARCODE &&
 		 itemtype <= (BH_SCSI_READ_TYPE_FRONT_BARCODE + NUM_SECTIONS)) )
@@ -2336,7 +2336,7 @@ get_parameters (Sane.Handle handle, Sane.Parameters *params)
 	  width = 8
 	  length = -1
 	}
-      else if (itemtype == BH_SCSI_READ_TYPE_SENDBARFILE)
+      else if(itemtype == BH_SCSI_READ_TYPE_SENDBARFILE)
 	{
 	  /* decoded barcode data file */
 	  format = Sane.FRAME_TEXT
@@ -2352,14 +2352,14 @@ get_parameters (Sane.Handle handle, Sane.Parameters *params)
 	      itemtype)
 	}
 
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
 	  DBG(1, "get_parameters: failed\n")
 	  return status
 	}
     }
 
-  if (res <= 0 || width <= 0)
+  if(res <= 0 || width <= 0)
     {
       DBG(1, "get_parameters:illegal parameters res=%d, width=%d, length=%d\n",
 	  res, width, length)
@@ -2370,7 +2370,7 @@ get_parameters (Sane.Handle handle, Sane.Parameters *params)
    * as with the disable_optional_frames configuration option.  NOTE:
    * we may still be delivering 'wierd' data and lying about it being _GRAY!
    */
-  if (format != Sane.FRAME_GRAY &&
+  if(format != Sane.FRAME_GRAY &&
       (_OPT_VAL_WORD(s, OPT_PREVIEW) || disable_optional_frames))
     {
       DBG(1, "get_parameters: warning: delivering %s data as gray",
@@ -2387,10 +2387,10 @@ get_parameters (Sane.Handle handle, Sane.Parameters *params)
   /* The Bell and Howell truncates to the byte */
   s.params.pixels_per_line = s.params.bytes_per_line * 8
 
-  if (params)
+  if(params)
     *params = s.params
 
-  DBG (1, "get_parameters: format=%d, pixels/line=%d, bytes/line=%d, "
+  DBG(1, "get_parameters: format=%d, pixels/line=%d, bytes/line=%d, "
        "lines=%d, dpi=%d\n",
        (Int) s.params.format,
        s.params.pixels_per_line,
@@ -2420,7 +2420,7 @@ section_parse(const char *val, BH_Section *sect, Int res, Int comp)
    * the function codes are one or more of:
    * front, back, frontbar, backbar, frontpatch, backpatch
    */
-  if (strlen(val) > sizeof(buf) - 1)
+  if(strlen(val) > sizeof(buf) - 1)
     {
       DBG(1, "section_parse: option string too long\n")
       status = Sane.STATUS_INVAL
@@ -2432,22 +2432,22 @@ section_parse(const char *val, BH_Section *sect, Int res, Int comp)
 
 	x = y = w = l = f = NULL
 	w = strtok(buf, seps)
-	if (w) l = strtok(NULL, seps)
-	if (l) x = strtok(NULL, seps)
-	if (x) y = strtok(NULL, seps)
-	if (y) f = strtok(NULL, seps)
-	if (!x || !y || !w || !l) break
+	if(w) l = strtok(NULL, seps)
+	if(l) x = strtok(NULL, seps)
+	if(x) y = strtok(NULL, seps)
+	if(y) f = strtok(NULL, seps)
+	if(!x || !y || !w || !l) break
 
 	mm = strtod(x, &ep)
-	if (*ep != '\0' || errno == ERANGE || mm < 0.0) break
+	if(*ep != '\0' || errno == ERANGE || mm < 0.0) break
 	sect.left = mm * 1000.0 / MM_PER_INCH
 
 	mm = strtod(y, &ep)
-	if (*ep != '\0' || errno == ERANGE || mm < 0.0) break
+	if(*ep != '\0' || errno == ERANGE || mm < 0.0) break
 	sect.top = mm * 1000.0 / MM_PER_INCH
 
 	mm = strtod(w, &ep)
-	if (*ep != '\0' || errno == ERANGE || mm < 0.0) break
+	if(*ep != '\0' || errno == ERANGE || mm < 0.0) break
 	sect.width = mm * 1000.0 / MM_PER_INCH
 	/* the window width must be truncated to 16 bit points */
 	fpixels = sect.width * res / 1000.0
@@ -2455,32 +2455,32 @@ section_parse(const char *val, BH_Section *sect, Int res, Int comp)
 	sect.width = pixels * 16 * 1000 / res
 
 	mm = strtod(l, &ep)
-	if (*ep != '\0' || errno == ERANGE || mm < 0.0) break
+	if(*ep != '\0' || errno == ERANGE || mm < 0.0) break
 	sect.length = mm * 1000.0 / MM_PER_INCH
 
 	status = Sane.STATUS_GOOD
-	while (f)
+	while(f)
 	  {
 	    /* parse the function modifiers and set flags */
-	    if (strcmp(f, "front") == 0)
+	    if(strcmp(f, "front") == 0)
 	      sect.flags |= BH_SECTION_FRONT_IMAGE
-	    else if (strcmp(f, "frontbar") == 0)
+	    else if(strcmp(f, "frontbar") == 0)
 	      sect.flags |= BH_SECTION_FRONT_BAR
-	    else if (strcmp(f, "frontpatch") == 0)
+	    else if(strcmp(f, "frontpatch") == 0)
 	      sect.flags |= BH_SECTION_FRONT_PATCH
-	    else if (strcmp(f, "back") == 0)
+	    else if(strcmp(f, "back") == 0)
 		sect.flags |= BH_SECTION_BACK_IMAGE
-	    else if (strcmp(f, "backbar") == 0)
+	    else if(strcmp(f, "backbar") == 0)
 		sect.flags |= BH_SECTION_BACK_BAR
-	    else if (strcmp(f, "backpatch") == 0)
+	    else if(strcmp(f, "backpatch") == 0)
 		sect.flags |= BH_SECTION_BACK_PATCH
-	    else if (strcmp(f, "g42d") == 0)
+	    else if(strcmp(f, "g42d") == 0)
 		comp = BH_COMP_G42D
-	    else if (strcmp(f, "g32d") == 0)
+	    else if(strcmp(f, "g32d") == 0)
 		comp = BH_COMP_G32D
-	    else if (strcmp(f, "g31d") == 0)
+	    else if(strcmp(f, "g31d") == 0)
 		comp = BH_COMP_G31D
-	    else if (strcmp(f, "none") == 0)
+	    else if(strcmp(f, "none") == 0)
 		comp = BH_COMP_NONE
 	    else
 	      DBG(1, "section_parse: ignoring unrecognized function "
@@ -2489,7 +2489,7 @@ section_parse(const char *val, BH_Section *sect, Int res, Int comp)
 	    f = strtok(NULL, seps)
 	  }
 
-	switch (comp)
+	switch(comp)
 	  {
 	  case BH_COMP_G31D:
 	    sect.compressiontype = 0x01
@@ -2515,7 +2515,7 @@ section_parse(const char *val, BH_Section *sect, Int res, Int comp)
 	  }
 
 	DBG(3, "section_parse: converted '%s' (mm) to "
-	    "%ldx%ld+%ld+%ld (thousandths) "
+	    "%ldx%ld+%ld+%ld(thousandths) "
 	    "flags=%02x compression=[%d,%d] frame=%s\n",
 	    val,
 	    sect.width, sect.length, sect.left, sect.top,
@@ -2523,14 +2523,14 @@ section_parse(const char *val, BH_Section *sect, Int res, Int comp)
 	    sect.compressiontype, sect.compressionarg,
 	    Sane.strframe(sect.format))
 
-      } while (0); /* perform 'loop' once */
+      } while(0); /* perform 'loop' once */
     }
 
   return status
 }
 
 static Sane.Status
-setup_sections (BH_Scanner *s, const char *val)
+setup_sections(BH_Scanner *s, const char *val)
 {
   Sane.Status status = Sane.STATUS_GOOD
   Int sectnum = 0
@@ -2539,7 +2539,7 @@ setup_sections (BH_Scanner *s, const char *val)
   DBG(3, "setup_sections called\n")
 
   memset(s.sections, '\0', sizeof(s.sections))
-  if (strlen(val) > sizeof(buf) - 1)
+  if(strlen(val) > sizeof(buf) - 1)
     {
       DBG(1, "setup_sections: option string too long\n")
       status = Sane.STATUS_INVAL
@@ -2549,9 +2549,9 @@ setup_sections (BH_Scanner *s, const char *val)
       strcpy(buf, val)
 
       section = strtok(buf, ",")
-      while (section != NULL && sectnum < NUM_SECTIONS)
+      while(section != NULL && sectnum < NUM_SECTIONS)
 	{
-	  if (!allblank(section))
+	  if(!allblank(section))
 	    {
 	      Int res = _OPT_VAL_WORD(s, OPT_RESOLUTION)
 	      Int format =
@@ -2559,7 +2559,7 @@ setup_sections (BH_Scanner *s, const char *val)
 
 	      status = section_parse(section, &s.sections[sectnum],
 				     res, format)
-	      if (status != Sane.STATUS_GOOD)
+	      if(status != Sane.STATUS_GOOD)
 		{
 		  DBG(1,
 		      "setup_sections: error parsing section `%s'\n",
@@ -2570,7 +2570,7 @@ setup_sections (BH_Scanner *s, const char *val)
 	      sectnum++
 	    }
 	  section += strlen(section) + 1
-	  if (section > buf + strlen(val)) break
+	  if(section > buf + strlen(val)) break
 
 	  section = strtok(section, ",")
 	}
@@ -2581,7 +2581,7 @@ setup_sections (BH_Scanner *s, const char *val)
 }
 
 static Sane.Status
-start_setup (BH_Scanner *s)
+start_setup(BH_Scanner *s)
 {
   Sane.Status status
   Bool duplex
@@ -2594,7 +2594,7 @@ start_setup (BH_Scanner *s)
 
   /* get the _SECTION option, parse it and fill in the sections */
   status = setup_sections(s, _OPT_VAL_STRING(s, OPT_SECTION))
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
       DBG(1, "start_setup: setup_sections failed: %s\n",
 	  Sane.strstatus(status))
@@ -2604,7 +2604,7 @@ start_setup (BH_Scanner *s)
   /* see whether we'll be decoding barcodes and
    * set the barcodes flag appropriately
    */
-  if (s.search_bars[0] == 0)
+  if(s.search_bars[0] == 0)
     {
       s.barcodes = Sane.FALSE
     }
@@ -2613,10 +2613,10 @@ start_setup (BH_Scanner *s)
       s.barcodes = Sane.TRUE
     }
 
-  /* see whether we'll be handling icons (thumbnails)
+  /* see whether we'll be handling icons(thumbnails)
    * set the icons flag appropriately
    */
-  if (_OPT_VAL_WORD(s, OPT_ICON_WIDTH) >= 8 &&
+  if(_OPT_VAL_WORD(s, OPT_ICON_WIDTH) >= 8 &&
       _OPT_VAL_WORD(s, OPT_ICON_LENGTH) >= 8)
     {
       s.icons = Sane.TRUE
@@ -2634,29 +2634,29 @@ start_setup (BH_Scanner *s)
   s.readlist[s.readcnt++] = BH_SCSI_READ_TYPE_FRONT
 
   /* read back page only if duplex is true */
-  if (duplex == Sane.TRUE)
+  if(duplex == Sane.TRUE)
     {
       s.readlist[s.readcnt++] = BH_SCSI_READ_TYPE_BACK
     }
 
   /* add image section reads to the readlist */
-  for (i = 0; i < s.num_sections; i++)
+  for(i = 0; i < s.num_sections; i++)
     {
       Sane.Word flags = s.sections[i].flags
 
-      if (flags & BH_SECTION_FRONT_IMAGE)
+      if(flags & BH_SECTION_FRONT_IMAGE)
 	s.readlist[s.readcnt++] = BH_SCSI_READ_TYPE_FRONT + i + 1
-      if (flags & BH_SECTION_BACK_IMAGE)
+      if(flags & BH_SECTION_BACK_IMAGE)
 	s.readlist[s.readcnt++] = BH_SCSI_READ_TYPE_BACK + i + 1
     }
 
 
-  /* icons (thumbnails) */
-  if (s.icons)
+  /* icons(thumbnails) */
+  if(s.icons)
     {
       s.readlist[s.readcnt++] = BH_SCSI_READ_TYPE_FRONT_ICON
       /* read back icon only if duplex is true */
-      if (duplex == Sane.TRUE)
+      if(duplex == Sane.TRUE)
 	{
 	  s.readlist[s.readcnt++] = BH_SCSI_READ_TYPE_BACK_ICON
 	}
@@ -2667,16 +2667,16 @@ start_setup (BH_Scanner *s)
    */
   /* barcodes */
   imagecnt = s.readcnt
-  if (s.barcodes)
+  if(s.barcodes)
     {
-      if (s.num_sections == 0)
+      if(s.num_sections == 0)
 	{
 	  /* we only decode the entire page(s) if there are no
 	   * sections defined
 	   */
 	  s.readlist[s.readcnt++] = BH_SCSI_READ_TYPE_FRONT_BARCODE
 	  /* read back barcode only if duplex is true */
-	  if (duplex == Sane.TRUE)
+	  if(duplex == Sane.TRUE)
 	    {
 	      s.readlist[s.readcnt++] = BH_SCSI_READ_TYPE_BACK_BARCODE
 	    }
@@ -2684,14 +2684,14 @@ start_setup (BH_Scanner *s)
       else
 	{
 	  /* add barcode section reads to the readlist */
-	  for (i = 0; i < s.num_sections; i++)
+	  for(i = 0; i < s.num_sections; i++)
 	    {
 	      Sane.Word flags = s.sections[i].flags
 
-	      if (flags & BH_SECTION_FRONT_BAR)
+	      if(flags & BH_SECTION_FRONT_BAR)
 		s.readlist[s.readcnt++] =
 		  BH_SCSI_READ_TYPE_FRONT_BARCODE + i + 1
-	      if (flags & BH_SECTION_BACK_BAR)
+	      if(flags & BH_SECTION_BACK_BAR)
 		s.readlist[s.readcnt++] =
 		  BH_SCSI_READ_TYPE_BACK_BARCODE + i + 1
 	    }
@@ -2699,16 +2699,16 @@ start_setup (BH_Scanner *s)
     }
 
   /* patchcodes */
-  if (s.patchcodes)
+  if(s.patchcodes)
     {
-      if (s.num_sections == 0)
+      if(s.num_sections == 0)
 	{
 	  /* we only decode the entire page(s) if there are no
 	   * sections defined
 	   */
 	  s.readlist[s.readcnt++] = BH_SCSI_READ_TYPE_FRONT_PATCHCODE
 	  /* read back patchcode only if duplex is true */
-	  if (duplex == Sane.TRUE)
+	  if(duplex == Sane.TRUE)
 	    {
 	      s.readlist[s.readcnt++] = BH_SCSI_READ_TYPE_BACK_PATCHCODE
 	    }
@@ -2716,14 +2716,14 @@ start_setup (BH_Scanner *s)
       else
 	{
 	  /* add patchcode section reads to the readlist */
-	  for (i = 0; i < s.num_sections; i++)
+	  for(i = 0; i < s.num_sections; i++)
 	    {
 	      Sane.Word flags = s.sections[i].flags
 
-	      if (flags & BH_SECTION_FRONT_PATCH)
+	      if(flags & BH_SECTION_FRONT_PATCH)
 		s.readlist[s.readcnt++] =
 		  BH_SCSI_READ_TYPE_FRONT_PATCHCODE + i + 1
-	      if (flags & BH_SECTION_BACK_PATCH)
+	      if(flags & BH_SECTION_BACK_PATCH)
 		s.readlist[s.readcnt++] =
 		  BH_SCSI_READ_TYPE_BACK_PATCHCODE + i + 1
 	    }
@@ -2734,15 +2734,15 @@ start_setup (BH_Scanner *s)
    * file that's built as a result of processing barcode and patchcode
    * readitems.  NOTE: this one must be last!
    */
-  if (s.readcnt > imagecnt)
+  if(s.readcnt > imagecnt)
     {
       s.readlist[s.readcnt++] = BH_SCSI_READ_TYPE_SENDBARFILE
     }
 
-  if (_OPT_VAL_WORD(s, OPT_BATCH) == Sane.TRUE)
+  if(_OPT_VAL_WORD(s, OPT_BATCH) == Sane.TRUE)
     {
       /* if batchmode is enabled, then call set_window to
-       * abort the batch (even though there might not (and probably
+       * abort the batch(even though there might not(and probably
        * isn't) a batch in progress).  This avoids a batch start error
        * in the case where a previous batch was not aborted.
        */
@@ -2764,7 +2764,7 @@ start_setup (BH_Scanner *s)
       (s.icons == Sane.TRUE) ? "yes" : "no",
       (batchmode == BH_BATCH_ENABLE) ? "yes" : "no")
   DBG(5, "start_setup: sections=%d\n", s.num_sections)
-  for (i = 0; i < s.num_sections; i++)
+  for(i = 0; i < s.num_sections; i++)
     {
       DBG(5, "start_setup:  "
 	  "[%d] %lux%lu+%lu+%lu flags=%02x compression=[%d,%d]\n",
@@ -2775,14 +2775,14 @@ start_setup (BH_Scanner *s)
 	  s.sections[i].compressiontype, s.sections[i].compressionarg)
     }
   DBG(5, "start_setup: read list length=%d\n", s.readcnt)
-  for (i = 0; i < s.readcnt; i++)
+  for(i = 0; i < s.readcnt; i++)
     {
       DBG(5, "start_setup:  [%d] %s\n", i+1, print_read_type(s.readlist[i]))
     }
 
   DBG(5, "start_setup: sending SET WINDOW\n")
   status = set_window(s, batchmode)
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
       DBG(1, "start_setup: SET WINDOW failed: %s\n",
 	   Sane.strstatus(status))
@@ -2791,18 +2791,18 @@ start_setup (BH_Scanner *s)
 
   DBG(5, "start_setup: sending mode_select_timeout\n")
   status = mode_select_timeout(s)
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
       DBG(1, "start_setup: mode_select_timeout failed: %s\n",
 	   Sane.strstatus(status))
       return status
     }
 
-  if (s.icons == Sane.TRUE)
+  if(s.icons == Sane.TRUE)
     {
       DBG(5, "start_setup: sending mode_select_icon\n")
       status = mode_select_icon(s)
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
 	  DBG(1, "start_setup: mode_select_icon failed: %s\n",
 	       Sane.strstatus(status))
@@ -2810,11 +2810,11 @@ start_setup (BH_Scanner *s)
 	}
     }
 
-  if (s.barcodes == Sane.TRUE)
+  if(s.barcodes == Sane.TRUE)
     {
       DBG(5, "start_setup: sending mode_select_barcode_priority\n")
       status = mode_select_barcode_priority(s)
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
 	  DBG(1, "start_setup: mode_select_barcode_priority failed: %s\n",
 	       Sane.strstatus(status))
@@ -2823,7 +2823,7 @@ start_setup (BH_Scanner *s)
 
       DBG(5, "start_setup: sending mode_select_barcode_param1\n")
       status = mode_select_barcode_param1(s)
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
 	  DBG(1, "start_setup: mode_select_barcode_param1 failed: %s\n",
 	       Sane.strstatus(status))
@@ -2832,7 +2832,7 @@ start_setup (BH_Scanner *s)
 
       DBG(5, "start_setup: sending mode_select_barcode_param2\n")
       status = mode_select_barcode_param2(s)
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
 	  DBG(1, "start_setup: mode_select_barcode_param2 failed: %s\n",
 	       Sane.strstatus(status))
@@ -2841,7 +2841,7 @@ start_setup (BH_Scanner *s)
 
       DBG(5, "start_setup: sending mode_select_barcode_param3\n")
       status = mode_select_barcode_param3(s)
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
 	  DBG(1, "start_setup: mode_select_barcode_param3 failed: %s\n",
 	       Sane.strstatus(status))
@@ -2853,20 +2853,20 @@ start_setup (BH_Scanner *s)
 }
 
 static Sane.Status
-start_scan (BH_Scanner *s)
+start_scan(BH_Scanner *s)
 {
   static Sane.Byte cmd[8]
   Sane.Status status = Sane.STATUS_GOOD
   Bool check_adf, duplex
-  DBG (3, "start_scan called\n")
+  DBG(3, "start_scan called\n")
 
   /* SANE front ends will call this function between 'FRAMES'.
    * A single scan on the B&H may result in up to 56 different
-   * things to read (20 are SANE image frames, 36 are non-SANE
+   * things to read(20 are SANE image frames, 36 are non-SANE
    * data - decoded bar/patch codes).
    */
 
-  if (s.readcnt > 1 && s.scanning == Sane.TRUE)
+  if(s.readcnt > 1 && s.scanning == Sane.TRUE)
     {
       DBG(3, "start_scan: any more items in the readlist?\n")
       /* we've been reading data from this scan, so we just
@@ -2874,11 +2874,11 @@ start_scan (BH_Scanner *s)
        * starting a new scan.
        */
       s.readptr++
-      if (s.readptr < s.readcnt)
+      if(s.readptr < s.readcnt)
 	{
 	  Sane.Byte itemtype
 
-	  for (; s.readptr < s.readcnt; s.readptr++)
+	  for(; s.readptr < s.readcnt; s.readptr++)
 	    {
 
 	      itemtype = s.readlist[s.readptr]
@@ -2890,7 +2890,7 @@ start_scan (BH_Scanner *s)
 	      /* 'dance' by the non-SANE data streams
 	       * like bar/patch code data
 	       */
-	      if (!BH_HAS_IMAGE_DATA(itemtype))
+	      if(!BH_HAS_IMAGE_DATA(itemtype))
 		{
 		  Int fd
 		  FILE *fp
@@ -2899,28 +2899,28 @@ start_scan (BH_Scanner *s)
 		  s.barfname[sizeof(s.barfname)-1] = '\0'
 		  fd = mkstemp(s.barfname)
 
-		  if (fd !=-1 && (fp = fdopen(fd, "w")) != NULL)
+		  if(fd !=-1 && (fp = fdopen(fd, "w")) != NULL)
 		    {
 		      fprintf(fp, "<xml-stream>\n")
 
-		      for (
+		      for(
 			   s.readptr < s.readcnt &&
 			     status == Sane.STATUS_GOOD
 			   s.readptr++)
 			{
-			  if (s.readlist[s.readptr] ==
+			  if(s.readlist[s.readptr] ==
 			      BH_SCSI_READ_TYPE_SENDBARFILE) {
 			    break
 			  }
 			  status = read_barcode_data(s, fp)
-			  if (status != Sane.STATUS_GOOD) break
+			  if(status != Sane.STATUS_GOOD) break
 			}
 
 		      fprintf(fp, "</xml-stream>\n")
 
 		      /* close file; re-open for read(setting s.barfd) */
 		      fclose(fp)
-		      if ((s.barf = fopen(s.barfname, "r")) == NULL)
+		      if((s.barf = fopen(s.barfname, "r")) == NULL)
 			{
 			  DBG(1, "Sane.start: error opening barfile `%s'\n",
 			      s.barfname)
@@ -2934,7 +2934,7 @@ start_scan (BH_Scanner *s)
 		      status = Sane.STATUS_IO_ERROR
 		    }
 		}
-	      else if (itemtype == BH_SCSI_READ_TYPE_FRONT_ICON ||
+	      else if(itemtype == BH_SCSI_READ_TYPE_FRONT_ICON ||
 		       itemtype == BH_SCSI_READ_TYPE_BACK_ICON)
 		{
 		  /* read the icon header setting the iconwidth and iconlength
@@ -2946,13 +2946,13 @@ start_scan (BH_Scanner *s)
 		  status = read_icon_data(s)
 		}
 
-	      if (status == Sane.STATUS_GOOD)
+	      if(status == Sane.STATUS_GOOD)
 		{
 		  /* update our parameters to reflect the new item */
-		  status = get_parameters (s, 0)
+		  status = get_parameters(s, 0)
 		}
 
-	      if (status != Sane.STATUS_GOOD) s.scanning = Sane.FALSE
+	      if(status != Sane.STATUS_GOOD) s.scanning = Sane.FALSE
 
 	      return status
 	    }
@@ -2967,33 +2967,33 @@ start_scan (BH_Scanner *s)
   check_adf = _OPT_VAL_WORD(s, OPT_CHECK_ADF)
   duplex = _OPT_VAL_WORD(s, OPT_DUPLEX)
 
-  memset (&cmd, 0, sizeof (cmd))
+  memset(&cmd, 0, sizeof(cmd))
   cmd[0] = BH_SCSI_START_SCAN
   cmd[4] = (duplex == Sane.TRUE) ? 2 : 1
 
   cmd[6] = 0
   cmd[7] = 1
 
-  if (check_adf)
+  if(check_adf)
     {
       status = object_position(s)
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
 	  DBG(3, "object_position: returned %d\n", status)
 	  return status
 	}
     }
 
-  status = sanei_scsi_cmd (s.fd, &cmd, sizeof (cmd), 0, 0)
-  if (status == Sane.STATUS_GOOD)
+  status = sanei_scsi_cmd(s.fd, &cmd, sizeof(cmd), 0, 0)
+  if(status == Sane.STATUS_GOOD)
     {
       s.scanning = Sane.TRUE
 
       /* update our parameters,
        * now that we're scanning we'll do a GET_WINDOW
        */
-      status = get_parameters (s, 0)
-      if (status != Sane.STATUS_GOOD)
+      status = get_parameters(s, 0)
+      if(status != Sane.STATUS_GOOD)
 	{
 	  s.scanning = Sane.FALSE
 	}
@@ -3005,7 +3005,7 @@ start_scan (BH_Scanner *s)
 /* a sensible sense handler, courtesy of Franck
    arg is a pointer to the associated BH_Scanner structure */
 static Sane.Status
-sense_handler (Int scsi_fd, u_char *result, void *arg)
+sense_handler(Int scsi_fd, u_char *result, void *arg)
 {
   BH_Scanner *s = (BH_Scanner *) arg
   u_char sense, asc, ascq, EOM, ILI, ErrorCode, ValidData
@@ -3032,44 +3032,44 @@ sense_handler (Int scsi_fd, u_char *result, void *arg)
       ErrorCode, ValidData, EOM, ILI, InvalidBytes)
 
   memset(print_sense, '\0', sizeof(print_sense))
-  for (i = 0; i < 16; i++)
+  for(i = 0; i < 16; i++)
     {
       sprintf(print_sense + strlen(print_sense), "%02x ", result[i])
     }
   DBG(5, "sense_handler: sense=%s\n", print_sense)
 
-  if (ErrorCode != 0x70 && ErrorCode != 0x71)
+  if(ErrorCode != 0x70 && ErrorCode != 0x71)
     {
-      DBG (3, "sense_handler: error code is invalid.\n")
+      DBG(3, "sense_handler: error code is invalid.\n")
       return Sane.STATUS_IO_ERROR;	/* error code is invalid */
     }
 
   /* handle each sense key
    * RSC supports 0x00, 0x02, 0x03, 0x04, 0x05, 0x06, 0x0B
    */
-  switch (sense)
+  switch(sense)
     {
     case 0x00:
       /* no sense */
       sense_str = "No sense."
       status = Sane.STATUS_GOOD
-      if (ILI && asc == 0x00 && ascq == 0x05)
+      if(ILI && asc == 0x00 && ascq == 0x05)
 	{
 	  /* from read_data function */
 	  as_str = "ILI bit is set."
-	  if (s != NULL)
+	  if(s != NULL)
 	    {
 	      s.InvalidBytes = InvalidBytes
 	    }
 	  status = Sane.STATUS_GOOD
 	}
-      else if (EOM && asc == 0x00 && ascq == 0x02)
+      else if(EOM && asc == 0x00 && ascq == 0x02)
 	{
 	  /* from adfStatus or startScan function */
 	  as_str = "Out of paper in the hopper."
 	  status = Sane.STATUS_NO_DOCS
 	}
-      else if (EOM)
+      else if(EOM)
 	{
 	  /* from adfStatus or startScan function */
 	  as_str = "Out of paper in the hopper."
@@ -3085,17 +3085,17 @@ sense_handler (Int scsi_fd, u_char *result, void *arg)
       /* not ready */
       sense_str = "Not ready."
       status = Sane.STATUS_DEVICE_BUSY
-      if (asc == 0x40 && ascq == 0x01)
+      if(asc == 0x40 && ascq == 0x01)
 	{
 	  as_str = "P.O.D. error: Scanner not found."
 	  status = Sane.STATUS_INVAL
 	}
-      else if (asc == 0x40 && ascq == 0x02)
+      else if(asc == 0x40 && ascq == 0x02)
 	{
 	  as_str = "P.O.D. error: Scanner not ready(paper in transport)."
 	  status = Sane.STATUS_DEVICE_BUSY
 	}
-      else if (asc == 0x40 && ascq == 0x03)
+      else if(asc == 0x40 && ascq == 0x03)
 	{
 	  as_str = "P.O.D. error: Unknown scanner."
 	  status = Sane.STATUS_INVAL
@@ -3105,7 +3105,7 @@ sense_handler (Int scsi_fd, u_char *result, void *arg)
       /* medium error */
       sense_str = "Medium error."
       status = Sane.STATUS_IO_ERROR
-      if (asc == 0x00 && ascq == 0x00)
+      if(asc == 0x00 && ascq == 0x00)
 	{
 	  as_str = "Scanner error: paper jam detected."
 	  status = Sane.STATUS_JAMMED
@@ -3115,54 +3115,54 @@ sense_handler (Int scsi_fd, u_char *result, void *arg)
       /* hardware error */
       sense_str = "Hardware error."
       status = Sane.STATUS_IO_ERROR
-      if (asc == 0x60 && ascq == 0x00)
+      if(asc == 0x60 && ascq == 0x00)
 	{
 	  as_str = "Scanner error: illumination lamps failure."
 	  status = Sane.STATUS_IO_ERROR
 	}
-      else if (asc == 0x80 && ascq == 0x03)
+      else if(asc == 0x80 && ascq == 0x03)
 	{
 	  as_str = "Communication error between RSC and scanner."
 	  status = Sane.STATUS_IO_ERROR
 	}
-      else if (asc == 0x80 && ascq == 0x06)
+      else if(asc == 0x80 && ascq == 0x06)
 	{
 	  as_str = "Scanner error: page detected but lamps are off."
 	  status = Sane.STATUS_IO_ERROR
 	}
-      else if (asc == 0x80 && ascq == 0x07)
+      else if(asc == 0x80 && ascq == 0x07)
 	{
 	  as_str = "Scanner error: camera white level problem."
 	  status = Sane.STATUS_IO_ERROR
 	}
-      else if (asc == 0x80 && ascq == 0x08)
+      else if(asc == 0x80 && ascq == 0x08)
 	{
 	  /* could be caught from start_scan or read_data */
 	  /* stop button pressed */
 	  as_str = "Scanner error: operator pressed the Stop key."
 	  status = Sane.STATUS_NO_DOCS
 	}
-      else if (asc == 0x80 && ascq == 0x12)
+      else if(asc == 0x80 && ascq == 0x12)
 	{
 	  as_str = "Scanner error: transport motor failure."
 	  status = Sane.STATUS_IO_ERROR
 	}
-      else if (asc == 0x80 && ascq == 0x15)
+      else if(asc == 0x80 && ascq == 0x15)
 	{
 	  as_str = "Scanner error: device / page sensor(s) bouncing."
 	  status = Sane.STATUS_IO_ERROR
 	}
-      else if (asc == 0x80 && ascq == 0x16)
+      else if(asc == 0x80 && ascq == 0x16)
 	{
 	  as_str = "Scanner error: feeder is not attached."
 	  status = Sane.STATUS_IO_ERROR
 	}
-      else if (asc == 0x80 && ascq == 0x18)
+      else if(asc == 0x80 && ascq == 0x18)
 	{
 	  as_str = "Scanner error: logic system general failure."
 	  status = Sane.STATUS_IO_ERROR
 	}
-      else if (asc == 0x80 && ascq == 0x34)
+      else if(asc == 0x80 && ascq == 0x34)
 	{
 	  as_str = "Scanner error: no dual logic communication."
 	  status = Sane.STATUS_IO_ERROR
@@ -3172,37 +3172,37 @@ sense_handler (Int scsi_fd, u_char *result, void *arg)
       /* illegal request */
       sense_str = "Illegal request."
       status = Sane.STATUS_INVAL
-      if (asc == 0x1a && ascq == 0x00)
+      if(asc == 0x1a && ascq == 0x00)
 	{
 	  as_str = "Parameter list length error."
 	  status = Sane.STATUS_INVAL
 	}
-      else if (asc == 0x20 && ascq == 0x00)
+      else if(asc == 0x20 && ascq == 0x00)
 	{
 	  as_str = "Invalid command operation code."
 	  status = Sane.STATUS_INVAL
 	}
-      else if (asc == 0x24 && ascq == 0x00)
+      else if(asc == 0x24 && ascq == 0x00)
 	{
-	  /* caught from object_position (via reverse engineering) */
+	  /* caught from object_position(via reverse engineering) */
 	  /* Not supported? */
 	  as_str = "Invalid field in CDB."
 	  status = Sane.STATUS_INVAL
 	}
-      else if (asc == 0x25 && ascq == 0x00)
+      else if(asc == 0x25 && ascq == 0x00)
 	{
 	  as_str = "Unsupported LUN."
 	  status = Sane.STATUS_INVAL
 	}
-      else if (asc == 0x26 && ascq == 0x00)
+      else if(asc == 0x26 && ascq == 0x00)
 	{
-	  /* caught from mode_select (as well as others) */
+	  /* caught from mode_select(as well as others) */
 	  /* Bar/Patch code detection support not installed */
 	  /* See Appendix A, Section A.5 */
 	  as_str = "Invalid field in parameter list."
 	  status = Sane.STATUS_INVAL
 	}
-      else if (asc == 0x2c && ascq == 0x00)
+      else if(asc == 0x2c && ascq == 0x00)
 	{
 	  /* we were getting this in read_data during the time
 	     that the ADF was misbehaving.  Hopefully we will
@@ -3211,22 +3211,22 @@ sense_handler (Int scsi_fd, u_char *result, void *arg)
 	  as_str = "Command out of sequence."
 	  status = Sane.STATUS_INVAL
 	}
-      else if (asc == 0x2c && ascq == 0x01)
+      else if(asc == 0x2c && ascq == 0x01)
 	{
 	  as_str = "Too many windows defined."
 	  status = Sane.STATUS_INVAL
 	}
-      else if (asc == 0x2c && ascq == 0x02)
+      else if(asc == 0x2c && ascq == 0x02)
 	{
 	  as_str = "Batch start error."
 	  status = Sane.STATUS_INVAL
 	}
-      else if (asc == 0x2c && ascq == 0x03)
+      else if(asc == 0x2c && ascq == 0x03)
 	{
 	  as_str = "Batch abort error."
 	  status = Sane.STATUS_INVAL
 	}
-      else if (asc == 0x3d && ascq == 0x00)
+      else if(asc == 0x3d && ascq == 0x00)
 	{
 	  as_str = "Invalid bits in IDENTIFY message."
 	  status = Sane.STATUS_INVAL
@@ -3236,7 +3236,7 @@ sense_handler (Int scsi_fd, u_char *result, void *arg)
       /* unit attention */
       sense_str = "Unit attention."
       status = Sane.STATUS_IO_ERROR
-      if (asc == 0x04 && ascq == 0x01)
+      if(asc == 0x04 && ascq == 0x01)
 	{
 	  as_str = "Reset detected, LUN is becoming ready."
 	  status = Sane.STATUS_DEVICE_BUSY
@@ -3266,37 +3266,37 @@ sense_handler (Int scsi_fd, u_char *result, void *arg)
       /* aborted command */
       sense_str = "Aborted command."
       status = Sane.STATUS_IO_ERROR
-      if (asc == 0x00 && ascq == 0x00)
+      if(asc == 0x00 && ascq == 0x00)
 	{
-	  as_str = "Aborted command (unspecified error)."
+	  as_str = "Aborted command(unspecified error)."
 	  status = Sane.STATUS_IO_ERROR
 	}
-      else if (asc == 0x08 && ascq == 0x01)
+      else if(asc == 0x08 && ascq == 0x01)
 	{
 	  /* caught from start_scan */
 	  /* manual feed timeout */
-	  as_str = "SCSI Time-out, paper Time-out (SCAN command)."
+	  as_str = "SCSI Time-out, paper Time-out(SCAN command)."
 	  status = Sane.STATUS_NO_DOCS
 	}
-      else if (asc == 0x47 && ascq == 0x00)
+      else if(asc == 0x47 && ascq == 0x00)
 	{
 	  as_str = "SCSI parity error."
 	  status = Sane.STATUS_IO_ERROR
 	}
-      else if (asc == 0x80 && ascq == 0x00)
+      else if(asc == 0x80 && ascq == 0x00)
 	{
 	  as_str = "Aborted command due to memory error."
 	  status = Sane.STATUS_IO_ERROR
 	}
-      else if (asc == 0x80 && ascq == 0x01)
+      else if(asc == 0x80 && ascq == 0x01)
 	{
 	  /* caught from read_data */
 	  /* section border error; border is outside the main window */
 	  /* See Appendix A, Section A.4 */
-	  as_str = "Section Read error (out of border)."
+	  as_str = "Section Read error(out of border)."
 	  status = Sane.STATUS_INVAL
 	}
-      else if (asc == 0x80 && ascq == 0x02)
+      else if(asc == 0x80 && ascq == 0x02)
 	{
 	  /* caught from read_data */
 	  /* No code found; no barcode data is found */
@@ -3305,9 +3305,9 @@ sense_handler (Int scsi_fd, u_char *result, void *arg)
 	  as_str = "No Bar/Patch Code found."
 	  status = Sane.STATUS_GOOD
 	}
-      else if (asc == 0x80 && ascq == 0x03)
+      else if(asc == 0x80 && ascq == 0x03)
 	{
-	  as_str = "Icon Read error (out of border)."
+	  as_str = "Icon Read error(out of border)."
 	  status = Sane.STATUS_INVAL
 	}
       break
@@ -3344,17 +3344,17 @@ sense_handler (Int scsi_fd, u_char *result, void *arg)
 }
 
 static Sane.Status
-init_options (BH_Scanner * s)
+init_options(BH_Scanner * s)
 {
   var i: Int
-  DBG (3, "init_options called\n")
+  DBG(3, "init_options called\n")
 
-  memset (s.opt, 0, sizeof (s.opt))
-  memset (s.val, 0, sizeof (s.val))
+  memset(s.opt, 0, sizeof(s.opt))
+  memset(s.val, 0, sizeof(s.val))
 
-  for (i = 0; i < NUM_OPTIONS; ++i)
+  for(i = 0; i < NUM_OPTIONS; ++i)
     {
-      s.opt[i].size = sizeof (Sane.Word)
+      s.opt[i].size = sizeof(Sane.Word)
       s.opt[i].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     }
 
@@ -3395,10 +3395,10 @@ init_options (BH_Scanner * s)
   s.opt[OPT_SCAN_MODE].title = Sane.TITLE_SCAN_MODE
   s.opt[OPT_SCAN_MODE].desc = Sane.DESC_SCAN_MODE
   s.opt[OPT_SCAN_MODE].type = Sane.TYPE_STRING
-  s.opt[OPT_SCAN_MODE].size = max_string_size (scan_mode_list)
+  s.opt[OPT_SCAN_MODE].size = max_string_size(scan_mode_list)
   s.opt[OPT_SCAN_MODE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_SCAN_MODE].constraint.string_list = scan_mode_list
-  s.val[OPT_SCAN_MODE].s = strdup (scan_mode_list[0])
+  s.val[OPT_SCAN_MODE].s = strdup(scan_mode_list[0])
 
   /* Standard resolutions */
   s.opt[OPT_RESOLUTION].name = Sane.NAME_SCAN_RESOLUTION
@@ -3415,18 +3415,18 @@ init_options (BH_Scanner * s)
   s.opt[OPT_COMPRESSION].title = Sane.TITLE_COMPRESSION
   s.opt[OPT_COMPRESSION].desc = Sane.DESC_COMPRESSION
   s.opt[OPT_COMPRESSION].type = Sane.TYPE_STRING
-  s.opt[OPT_COMPRESSION].size = max_string_size (compression_list)
+  s.opt[OPT_COMPRESSION].size = max_string_size(compression_list)
   s.opt[OPT_COMPRESSION].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_COMPRESSION].constraint.string_list = compression_list
-  s.val[OPT_COMPRESSION].s = strdup (compression_list[0])
+  s.val[OPT_COMPRESSION].s = strdup(compression_list[0])
 
-  if (s.hw.info.colorHalftone == Sane.FALSE)
+  if(s.hw.info.colorHalftone == Sane.FALSE)
     {
-      s.opt[OPT_SCAN_MODE].size = max_string_size (scan_mode_min_list)
+      s.opt[OPT_SCAN_MODE].size = max_string_size(scan_mode_min_list)
       s.opt[OPT_SCAN_MODE].constraint.string_list = scan_mode_min_list
     }
 
-  if (s.hw.info.comprG3_1D == Sane.FALSE ||
+  if(s.hw.info.comprG3_1D == Sane.FALSE ||
       s.hw.info.comprG3_2D == Sane.FALSE ||
       s.hw.info.comprG4 == Sane.FALSE)
     {
@@ -3454,20 +3454,20 @@ init_options (BH_Scanner * s)
   s.opt[OPT_PAPER_SIZE].title = Sane.TITLE_PAPER_SIZE
   s.opt[OPT_PAPER_SIZE].desc = Sane.DESC_PAPER_SIZE
   s.opt[OPT_PAPER_SIZE].type = Sane.TYPE_STRING
-  s.opt[OPT_PAPER_SIZE].size = max_string_size (paper_list)
+  s.opt[OPT_PAPER_SIZE].size = max_string_size(paper_list)
   s.opt[OPT_PAPER_SIZE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_PAPER_SIZE].constraint.string_list = paper_list
-  s.val[OPT_PAPER_SIZE].s = strdup (paper_list[0])
+  s.val[OPT_PAPER_SIZE].s = strdup(paper_list[0])
 
   /* rotation */
   s.opt[OPT_ROTATION].name = Sane.NAME_ROTATION
   s.opt[OPT_ROTATION].title = Sane.TITLE_ROTATION
   s.opt[OPT_ROTATION].desc = Sane.DESC_ROTATION
   s.opt[OPT_ROTATION].type = Sane.TYPE_STRING
-  s.opt[OPT_ROTATION].size = max_string_size (rotation_list)
+  s.opt[OPT_ROTATION].size = max_string_size(rotation_list)
   s.opt[OPT_ROTATION].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_ROTATION].constraint.string_list = rotation_list
-  s.val[OPT_ROTATION].s = strdup (rotation_list[0])
+  s.val[OPT_ROTATION].s = strdup(rotation_list[0])
 
   /* Deskew: */
   s.opt[OPT_DESKEW].name = Sane.NAME_DESKEW
@@ -3517,7 +3517,7 @@ init_options (BH_Scanner * s)
   s.opt[OPT_BR_Y].constraint.range = &(s.hw.info.y_range)
   s.val[OPT_BR_Y].w = s.hw.info.y_range.max
 
-  if (s.hw.info.canBorderRecog == Sane.FALSE)
+  if(s.hw.info.canBorderRecog == Sane.FALSE)
     {
       s.opt[OPT_AUTOBORDER].cap |= Sane.CAP_INACTIVE
     }
@@ -3535,10 +3535,10 @@ init_options (BH_Scanner * s)
   s.opt[OPT_SCAN_SOURCE].title = Sane.TITLE_SCAN_SOURCE
   s.opt[OPT_SCAN_SOURCE].desc = Sane.DESC_SCAN_SOURCE
   s.opt[OPT_SCAN_SOURCE].type = Sane.TYPE_STRING
-  s.opt[OPT_SCAN_SOURCE].size = max_string_size (scan_source_list)
+  s.opt[OPT_SCAN_SOURCE].size = max_string_size(scan_source_list)
   s.opt[OPT_SCAN_SOURCE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_SCAN_SOURCE].constraint.string_list = scan_source_list
-  s.val[OPT_SCAN_SOURCE].s = strdup (scan_source_list[0])
+  s.val[OPT_SCAN_SOURCE].s = strdup(scan_source_list[0])
 
   /* Batch: */
   s.opt[OPT_BATCH].name = Sane.NAME_BATCH
@@ -3584,17 +3584,17 @@ init_options (BH_Scanner * s)
   s.opt[OPT_TIMEOUT_MANUAL].constraint.range = &u8_range
   s.val[OPT_TIMEOUT_MANUAL].w =  s.hw.info.timeout_manual_default
 
-  if (s.hw.info.canCheckADF == Sane.FALSE)
+  if(s.hw.info.canCheckADF == Sane.FALSE)
     {
       s.opt[OPT_CHECK_ADF].cap |= Sane.CAP_INACTIVE
     }
 
-  if (s.hw.info.canDuplex == Sane.FALSE)
+  if(s.hw.info.canDuplex == Sane.FALSE)
     {
       s.opt[OPT_DUPLEX].cap |= Sane.CAP_INACTIVE
     }
 
-  if (s.hw.info.canADF == Sane.FALSE)
+  if(s.hw.info.canADF == Sane.FALSE)
     {
       s.opt[OPT_TIMEOUT_ADF].cap |= Sane.CAP_INACTIVE
     }
@@ -3675,14 +3675,14 @@ init_options (BH_Scanner * s)
 
   /* Contrast is not used in any case; why did we add it? */
   s.opt[OPT_CONTRAST].cap |= Sane.CAP_INACTIVE
-  if (s.hw.info.control_panel_default == Sane.TRUE)
+  if(s.hw.info.control_panel_default == Sane.TRUE)
     {
       s.opt[OPT_ACE_FUNCTION].cap |= Sane.CAP_INACTIVE
       s.opt[OPT_ACE_SENSITIVITY].cap |= Sane.CAP_INACTIVE
       s.opt[OPT_BRIGHTNESS].cap |= Sane.CAP_INACTIVE
       s.opt[OPT_THRESHOLD].cap |= Sane.CAP_INACTIVE
     }
-  else if (s.hw.info.canACE == Sane.FALSE)
+  else if(s.hw.info.canACE == Sane.FALSE)
     {
       s.opt[OPT_ACE_FUNCTION].cap |= Sane.CAP_INACTIVE
       s.opt[OPT_ACE_SENSITIVITY].cap |= Sane.CAP_INACTIVE
@@ -3721,7 +3721,7 @@ init_options (BH_Scanner * s)
   s.opt[OPT_ICON_LENGTH].constraint.range = &icon_range
   s.val[OPT_ICON_LENGTH].w = 0
 
-  if (s.hw.info.canIcon == Sane.FALSE)
+  if(s.hw.info.canIcon == Sane.FALSE)
     {
       s.opt[OPT_ICON_GROUP].cap |= Sane.CAP_INACTIVE
       s.opt[OPT_ICON_WIDTH].cap |= Sane.CAP_INACTIVE
@@ -3744,10 +3744,10 @@ init_options (BH_Scanner * s)
   s.opt[OPT_BARCODE_SEARCH_BAR].unit = Sane.UNIT_NONE
   s.opt[OPT_BARCODE_SEARCH_BAR].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_BARCODE_SEARCH_BAR].constraint.string_list = barcode_search_bar_list
-  s.opt[OPT_BARCODE_SEARCH_BAR].size = max_string_size (barcode_search_bar_list)
-  s.val[OPT_BARCODE_SEARCH_BAR].s = strdup (barcode_search_bar_list[0])
+  s.opt[OPT_BARCODE_SEARCH_BAR].size = max_string_size(barcode_search_bar_list)
+  s.val[OPT_BARCODE_SEARCH_BAR].s = strdup(barcode_search_bar_list[0])
 
-  /* Barcode search count (1-7, default 1). */
+  /* Barcode search count(1-7, default 1). */
   s.opt[OPT_BARCODE_SEARCH_COUNT].name = Sane.NAME_BARCODE_SEARCH_COUNT
   s.opt[OPT_BARCODE_SEARCH_COUNT].title = Sane.TITLE_BARCODE_SEARCH_COUNT
   s.opt[OPT_BARCODE_SEARCH_COUNT].desc = Sane.DESC_BARCODE_SEARCH_COUNT
@@ -3762,12 +3762,12 @@ init_options (BH_Scanner * s)
   s.opt[OPT_BARCODE_SEARCH_MODE].title = Sane.TITLE_BARCODE_SEARCH_MODE
   s.opt[OPT_BARCODE_SEARCH_MODE].desc = Sane.DESC_BARCODE_SEARCH_MODE
   s.opt[OPT_BARCODE_SEARCH_MODE].type = Sane.TYPE_STRING
-  s.opt[OPT_BARCODE_SEARCH_MODE].size = max_string_size (barcode_search_mode_list)
+  s.opt[OPT_BARCODE_SEARCH_MODE].size = max_string_size(barcode_search_mode_list)
   s.opt[OPT_BARCODE_SEARCH_MODE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_BARCODE_SEARCH_MODE].constraint.string_list = barcode_search_mode_list
   s.val[OPT_BARCODE_SEARCH_MODE].s = strdup(barcode_search_mode_list[0])
 
-  /* Patch code min height (def=5mm) */
+  /* Patch code min height(def=5mm) */
   s.opt[OPT_BARCODE_HMIN].name = Sane.NAME_BARCODE_HMIN
   s.opt[OPT_BARCODE_HMIN].title = Sane.TITLE_BARCODE_HMIN
   s.opt[OPT_BARCODE_HMIN].desc = Sane.DESC_BARCODE_HMIN
@@ -3777,7 +3777,7 @@ init_options (BH_Scanner * s)
   s.opt[OPT_BARCODE_HMIN].constraint.range = &barcode_hmin_range
   s.val[OPT_BARCODE_HMIN].w =  5
 
-  /* Barcode search timeout in ms (20-65535,default is 10000). */
+  /* Barcode search timeout in ms(20-65535,default is 10000). */
   s.opt[OPT_BARCODE_SEARCH_TIMEOUT].name = Sane.NAME_BARCODE_SEARCH_TIMEOUT
   s.opt[OPT_BARCODE_SEARCH_TIMEOUT].title = Sane.TITLE_BARCODE_SEARCH_TIMEOUT
   s.opt[OPT_BARCODE_SEARCH_TIMEOUT].desc = Sane.DESC_BARCODE_SEARCH_TIMEOUT
@@ -3795,7 +3795,7 @@ init_options (BH_Scanner * s)
   s.opt[OPT_SECTION].unit = Sane.UNIT_NONE
   s.opt[OPT_SECTION].constraint_type = Sane.CONSTRAINT_NONE
   s.opt[OPT_SECTION].size = 255
-  s.val[OPT_SECTION].s = strdup ("")
+  s.val[OPT_SECTION].s = strdup("")
 
   /* Barcode_Relmax */
   s.opt[OPT_BARCODE_RELMAX].name = Sane.NAME_BARCODE_RELMAX
@@ -3847,12 +3847,12 @@ init_options (BH_Scanner * s)
   s.opt[OPT_BARCODE_PATCHMODE].constraint.range = &barcode_patchmode_range
   s.val[OPT_BARCODE_PATCHMODE].w = 0
 
-  if (s.hw.info.canSection == Sane.FALSE)
+  if(s.hw.info.canSection == Sane.FALSE)
     {
       s.opt[OPT_SECTION].cap |= Sane.CAP_INACTIVE
     }
 
-  if (s.hw.info.canBarCode == Sane.FALSE)
+  if(s.hw.info.canBarCode == Sane.FALSE)
     {
       s.opt[OPT_BARCODE_GROUP].cap |= Sane.CAP_INACTIVE
       s.opt[OPT_BARCODE_SEARCH_BAR].cap |= Sane.CAP_INACTIVE
@@ -3871,7 +3871,7 @@ init_options (BH_Scanner * s)
 }
 
 static Sane.Status
-attach (const char *devnam, BH_Device ** devp)
+attach(const char *devnam, BH_Device ** devp)
 {
   Sane.Status status
   BH_Device *dev
@@ -3882,119 +3882,119 @@ attach (const char *devnam, BH_Device ** devp)
   Int fd = -1
   double mm
 
-  DBG (3, "attach called\n")
+  DBG(3, "attach called\n")
 
-  for (dev = first_dev; dev; dev = dev.next)
+  for(dev = first_dev; dev; dev = dev.next)
     {
-      if (strcmp (dev.sane.name, devnam) == 0)
+      if(strcmp(dev.sane.name, devnam) == 0)
         {
-          if (devp)
+          if(devp)
             *devp = dev
           return Sane.STATUS_GOOD
         }
     }
 
 #ifdef FAKE_INQUIRY
-  if (fake_inquiry)
+  if(fake_inquiry)
     {
-      DBG (3, "attach: faking inquiry of %s\n", devnam)
+      DBG(3, "attach: faking inquiry of %s\n", devnam)
 
-      memset (&ibuf, 0, sizeof (ibuf))
+      memset(&ibuf, 0, sizeof(ibuf))
       ibuf.devtype = 6
       memcpy(ibuf.vendor, "**FAKE**", 8)
       memcpy(ibuf.product, "COPISCAN II 6338", 16)
       memcpy(ibuf.revision, "0016", 4)
 
-      DBG (1, "attach: reported devtype='%d', vendor='%.8s', "
+      DBG(1, "attach: reported devtype='%d', vendor='%.8s', "
 	   "product='%.16s', revision='%.4s'\n",
 	   ibuf.devtype, ibuf.vendor,
 	   ibuf.product, ibuf.revision)
 
-      memset (&vbuf, 0, sizeof (vbuf))
-      memset (&jbuf, 0, sizeof (jbuf))
+      memset(&vbuf, 0, sizeof(vbuf))
+      memset(&jbuf, 0, sizeof(jbuf))
     }
   else
 #endif
     {
-      DBG (3, "attach: opening %s\n", devnam)
-      status = sanei_scsi_open (devnam, &fd, sense_handler, NULL)
-      if (status != Sane.STATUS_GOOD)
+      DBG(3, "attach: opening %s\n", devnam)
+      status = sanei_scsi_open(devnam, &fd, sense_handler, NULL)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "attach: open failed: %s\n", Sane.strstatus (status))
+	  DBG(1, "attach: open failed: %s\n", Sane.strstatus(status))
 	  return status
 	}
 
-      DBG (3, "attach: sending TEST_UNIT_READY\n")
-      status = test_unit_ready (fd)
-      if (status != Sane.STATUS_GOOD)
+      DBG(3, "attach: sending TEST_UNIT_READY\n")
+      status = test_unit_ready(fd)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "attach: test unit ready failed (%s)\n",
-	       Sane.strstatus (status))
-	  sanei_scsi_close (fd)
+	  DBG(1, "attach: test unit ready failed(%s)\n",
+	       Sane.strstatus(status))
+	  sanei_scsi_close(fd)
 	  return status
 	}
 
-      DBG (3, "attach: sending INQUIRY (standard data)\n")
-      memset (&ibuf, 0, sizeof (ibuf))
+      DBG(3, "attach: sending INQUIRY(standard data)\n")
+      memset(&ibuf, 0, sizeof(ibuf))
       buf_size = sizeof(ibuf)
-      status = inquiry (fd, &ibuf, &buf_size, 0,
+      status = inquiry(fd, &ibuf, &buf_size, 0,
 			BH_INQUIRY_STANDARD_PAGE_CODE)
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "attach: inquiry (standard data) failed: %s\n",
-	       Sane.strstatus (status))
-	  sanei_scsi_close (fd)
+	  DBG(1, "attach: inquiry(standard data) failed: %s\n",
+	       Sane.strstatus(status))
+	  sanei_scsi_close(fd)
 	  return status
 	}
 
-      DBG (1, "attach: reported devtype='%d', vendor='%.8s', "
+      DBG(1, "attach: reported devtype='%d', vendor='%.8s', "
 	   "product='%.16s', revision='%.4s'\n",
 	   ibuf.devtype, ibuf.vendor,
 	   ibuf.product, ibuf.revision)
 
-      if (ibuf.devtype != 6
-	  || strncmp ((char *)ibuf.vendor, "B&H SCSI", 8) != 0
-	  || strncmp ((char *)ibuf.product, "COPISCAN ", 9) != 0)
+      if(ibuf.devtype != 6
+	  || strncmp((char *)ibuf.vendor, "B&H SCSI", 8) != 0
+	  || strncmp((char *)ibuf.product, "COPISCAN ", 9) != 0)
 	{
-	  DBG (1,
+	  DBG(1,
 	       "attach: device is not a recognized Bell and Howell scanner\n")
-	  sanei_scsi_close (fd)
+	  sanei_scsi_close(fd)
 	  return Sane.STATUS_INVAL
 	}
 
-      DBG (3, "attach: sending INQUIRY (vpd data)\n")
-      memset (&vbuf, 0, sizeof (vbuf))
+      DBG(3, "attach: sending INQUIRY(vpd data)\n")
+      memset(&vbuf, 0, sizeof(vbuf))
       buf_size = sizeof(vbuf)
-      status = inquiry (fd, &vbuf, &buf_size, 1,
+      status = inquiry(fd, &vbuf, &buf_size, 1,
 			BH_INQUIRY_VPD_PAGE_CODE)
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "attach: inquiry (vpd data) failed: %s\n",
-	       Sane.strstatus (status))
-	  sanei_scsi_close (fd)
+	  DBG(1, "attach: inquiry(vpd data) failed: %s\n",
+	       Sane.strstatus(status))
+	  sanei_scsi_close(fd)
 	  return status
 	}
 
-      DBG (3, "attach: sending INQUIRY (jis data)\n")
-      memset (&jbuf, 0, sizeof (jbuf))
+      DBG(3, "attach: sending INQUIRY(jis data)\n")
+      memset(&jbuf, 0, sizeof(jbuf))
       buf_size = sizeof(jbuf)
-      status = inquiry (fd, &jbuf, &buf_size, 1,
+      status = inquiry(fd, &jbuf, &buf_size, 1,
 			BH_INQUIRY_JIS_PAGE_CODE)
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "attach: inquiry (jis data) failed: %s\n",
-	       Sane.strstatus (status))
-	  sanei_scsi_close (fd)
+	  DBG(1, "attach: inquiry(jis data) failed: %s\n",
+	       Sane.strstatus(status))
+	  sanei_scsi_close(fd)
 	  return status
 	}
 
-      sanei_scsi_close (fd)
+      sanei_scsi_close(fd)
     }
 
-  dev = malloc (sizeof (*dev))
-  if (!dev)
+  dev = malloc(sizeof(*dev))
+  if(!dev)
     return Sane.STATUS_NO_MEM
-  memset (dev, 0, sizeof (*dev))
+  memset(dev, 0, sizeof(*dev))
 
 
   dev.info.devtype = ibuf.devtype
@@ -4005,7 +4005,7 @@ attach (const char *devnam, BH_Device ** devp)
   sprintf(dev.info.revision, "%.4s", ibuf.revision)
   trim_spaces(dev.info.revision, sizeof(dev.info.revision))
 
-  dev.sane.name = strdup (devnam)
+  dev.sane.name = strdup(devnam)
   dev.sane.vendor = strdup(dev.info.vendor)
   dev.sane.model = strdup(dev.info.product)
   dev.sane.type = strdup(print_devtype(dev.info.devtype))
@@ -4030,7 +4030,7 @@ attach (const char *devnam, BH_Device ** devp)
   dev.info.lineMaxBytes = _2btol(vbuf.xmaxoutputbytes)
 
 #ifdef FAKE_INQUIRY
-  if (fake_inquiry)
+  if(fake_inquiry)
     {
       dev.info.canADF = Sane.FALSE
       dev.info.colorBandW = Sane.TRUE
@@ -4062,23 +4062,23 @@ attach (const char *devnam, BH_Device ** devp)
 
   /* set the length of the list to zero first, then append standard resolutions */
   dev.info.resStdList[0] = 0
-  if (jbuf.standardres[0] & 0x80) appendStdList(&dev.info, 60)
-  if (jbuf.standardres[0] & 0x40) appendStdList(&dev.info, 75)
-  if (jbuf.standardres[0] & 0x20) appendStdList(&dev.info, 100)
-  if (jbuf.standardres[0] & 0x10) appendStdList(&dev.info, 120)
-  if (jbuf.standardres[0] & 0x08) appendStdList(&dev.info, 150)
-  if (jbuf.standardres[0] & 0x04) appendStdList(&dev.info, 160)
-  if (jbuf.standardres[0] & 0x02) appendStdList(&dev.info, 180)
-  if (jbuf.standardres[0] & 0x01) appendStdList(&dev.info, 200)
-  if (jbuf.standardres[1] & 0x80) appendStdList(&dev.info, 240)
-  if (jbuf.standardres[1] & 0x40) appendStdList(&dev.info, 300)
-  if (jbuf.standardres[1] & 0x20) appendStdList(&dev.info, 320)
-  if (jbuf.standardres[1] & 0x10) appendStdList(&dev.info, 400)
-  if (jbuf.standardres[1] & 0x08) appendStdList(&dev.info, 480)
-  if (jbuf.standardres[1] & 0x04) appendStdList(&dev.info, 600)
-  if (jbuf.standardres[1] & 0x02) appendStdList(&dev.info, 800)
-  if (jbuf.standardres[1] & 0x01) appendStdList(&dev.info, 1200)
-  if (dev.info.resStdList[0] == 0)
+  if(jbuf.standardres[0] & 0x80) appendStdList(&dev.info, 60)
+  if(jbuf.standardres[0] & 0x40) appendStdList(&dev.info, 75)
+  if(jbuf.standardres[0] & 0x20) appendStdList(&dev.info, 100)
+  if(jbuf.standardres[0] & 0x10) appendStdList(&dev.info, 120)
+  if(jbuf.standardres[0] & 0x08) appendStdList(&dev.info, 150)
+  if(jbuf.standardres[0] & 0x04) appendStdList(&dev.info, 160)
+  if(jbuf.standardres[0] & 0x02) appendStdList(&dev.info, 180)
+  if(jbuf.standardres[0] & 0x01) appendStdList(&dev.info, 200)
+  if(jbuf.standardres[1] & 0x80) appendStdList(&dev.info, 240)
+  if(jbuf.standardres[1] & 0x40) appendStdList(&dev.info, 300)
+  if(jbuf.standardres[1] & 0x20) appendStdList(&dev.info, 320)
+  if(jbuf.standardres[1] & 0x10) appendStdList(&dev.info, 400)
+  if(jbuf.standardres[1] & 0x08) appendStdList(&dev.info, 480)
+  if(jbuf.standardres[1] & 0x04) appendStdList(&dev.info, 600)
+  if(jbuf.standardres[1] & 0x02) appendStdList(&dev.info, 800)
+  if(jbuf.standardres[1] & 0x01) appendStdList(&dev.info, 1200)
+  if(dev.info.resStdList[0] == 0)
     {
       /* make a default standard resolutions for 200 and 300dpi */
       DBG(1, "attach: no standard resolutions reported\n")
@@ -4091,12 +4091,12 @@ attach (const char *devnam, BH_Device ** devp)
   dev.info.winWidth = _4btol(jbuf.windowwidth)
   dev.info.winHeight = _4btol(jbuf.windowlength)
 
-  if (dev.info.winWidth <= 0)
+  if(dev.info.winWidth <= 0)
     {
       dev.info.winWidth = (Int) (dev.info.resBasicX * 8.5)
       DBG(1, "attach: invalid window width reported, using %d\n", dev.info.winWidth)
     }
-  if (dev.info.winHeight <= 0)
+  if(dev.info.winHeight <= 0)
     {
       dev.info.winHeight = dev.info.resBasicY * 14
       DBG(1, "attach: invalid window height reported, using %d\n", dev.info.winHeight)
@@ -4125,7 +4125,7 @@ attach (const char *devnam, BH_Device ** devp)
     dev.info.canLineBold
 
   /* if the model is known to be a duplex, declare it duplex capable */
-  if (strcmp(dev.info.product, "COPISCAN II 6338") == 0)
+  if(strcmp(dev.info.product, "COPISCAN II 6338") == 0)
     {
       dev.info.canDuplex = Sane.TRUE
     }
@@ -4138,7 +4138,7 @@ attach (const char *devnam, BH_Device ** devp)
    * installed feeder.  NOTE: It also requires SW-4 on and the
    * AccufeedPlus feeder, but we cannot discover that.
    */
-  if (strcmp(dev.info.revision, "0014") >= 0)
+  if(strcmp(dev.info.revision, "0014") >= 0)
     {
       dev.info.canCheckADF = dev.info.canADF
     }
@@ -4162,7 +4162,7 @@ attach (const char *devnam, BH_Device ** devp)
   dev.next = first_dev
   first_dev = dev
 
-  if (devp)
+  if(devp)
     *devp = dev
 
   return Sane.STATUS_GOOD
@@ -4171,12 +4171,12 @@ attach (const char *devnam, BH_Device ** devp)
 static Sane.Status
 attach_one(const char *devnam)
 {
-  attach (devnam, NULL)
+  attach(devnam, NULL)
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.init (Int *version_code, Sane.Auth_Callback authorize)
+Sane.init(Int *version_code, Sane.Auth_Callback authorize)
 {
     char devnam[PATH_MAX] = "/dev/scanner"
     FILE *fp
@@ -4189,44 +4189,44 @@ Sane.init (Int *version_code, Sane.Auth_Callback authorize)
 	Sane.CURRENT_MAJOR, V_MINOR, BUILD,
 	_is_host_little_endian() ? "little" : "big")
 
-    if (version_code)
-	*version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, BUILD)
+    if(version_code)
+	*version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, BUILD)
 
     fp = sanei_config_open(BH_CONFIG_FILE)
-    if (fp)
+    if(fp)
 	{
 	    char line[PATH_MAX]
 	    const char *lp
 	    size_t len
 
 	    /* read config file */
-	    while (sanei_config_read (line, sizeof (line), fp))
+	    while(sanei_config_read(line, sizeof(line), fp))
 		{
-		  if (line[0] == '#')           /* ignore line comments */
+		  if(line[0] == '#')           /* ignore line comments */
 		    continue
-		  len = strlen (line)
+		  len = strlen(line)
 
-		  if (!len)
+		  if(!len)
 		    continue;                   /* ignore empty lines */
 
-		  lp = sanei_config_skip_whitespace (line)
+		  lp = sanei_config_skip_whitespace(line)
 
 		  DBG(16,
 		      "Sane.init: processing config file line '%s'\n",
 		      line)
-		  if (strncmp(lp, "option", 6) == 0 &&
-		      (isspace (lp[6]) || lp[6] == '\0'))
+		  if(strncmp(lp, "option", 6) == 0 &&
+		      (isspace(lp[6]) || lp[6] == '\0'))
 		    {
 		      lp += 6
-		      lp = sanei_config_skip_whitespace (lp)
+		      lp = sanei_config_skip_whitespace(lp)
 
-		      if (strncmp(lp, "disable-optional-frames", 23) == 0)
+		      if(strncmp(lp, "disable-optional-frames", 23) == 0)
 			{
 			  DBG(1, "Sane.init: configuration option "
 			      "'disable-optional-frames' set\n")
 			  disable_optional_frames = 1
 			}
-		      else if (strncmp(lp, "fake-inquiry", 12) == 0)
+		      else if(strncmp(lp, "fake-inquiry", 12) == 0)
 			{
 			  DBG(1, "Sane.init: configuration option "
 			      "'fake-inquiry' set\n")
@@ -4244,40 +4244,40 @@ Sane.init (Int *version_code, Sane.Auth_Callback authorize)
 		      DBG(16,
 			  "Sane.init: found a device: line '%s'\n",
 			  lp)
-		      strncpy (devnam, lp, sizeof(devnam))
+		      strncpy(devnam, lp, sizeof(devnam))
 		      devnam[sizeof(devnam)-1] = '\0'
 
 		      sanei_config_attach_matching_devices(devnam,
 							   attach_one)
 		    }
 		}
-	    fclose (fp)
+	    fclose(fp)
 	}
     else
 	{
 	    /* configure the /dev/scanner device in the absence of config file */
-	    sanei_config_attach_matching_devices ("/dev/scanner", attach_one)
+	    sanei_config_attach_matching_devices("/dev/scanner", attach_one)
 	}
 
     return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.get_devices (const Sane.Device ***device_list, Bool local)
+Sane.get_devices(const Sane.Device ***device_list, Bool local)
 {
     BH_Device *dev
     var i: Int
     DBG(3, "Sane.get_devices called\n")
 
     local = local; /* get rid of compiler warning */
-    if (devlist)
-	free (devlist)
-    devlist = malloc ((num_devices + 1) * sizeof (devlist[0]))
-    if (!devlist)
+    if(devlist)
+	free(devlist)
+    devlist = malloc((num_devices + 1) * sizeof(devlist[0]))
+    if(!devlist)
 	return Sane.STATUS_NO_MEM
 
     i = 0
-    for (dev = first_dev; dev; dev = dev.next)
+    for(dev = first_dev; dev; dev = dev.next)
 	devlist[i++] = &dev.sane
     devlist[i++] = 0
 
@@ -4287,25 +4287,25 @@ Sane.get_devices (const Sane.Device ***device_list, Bool local)
 }
 
 Sane.Status
-Sane.open (Sane.String_Const devnam, Sane.Handle *handle)
+Sane.open(Sane.String_Const devnam, Sane.Handle *handle)
 {
     Sane.Status status
     BH_Device *dev
     BH_Scanner *s
     DBG(3, "Sane.open called\n")
 
-    if (devnam[0] != '\0')
+    if(devnam[0] != '\0')
 	{
-	    for (dev = first_dev; dev; dev = dev.next)
+	    for(dev = first_dev; dev; dev = dev.next)
 		{
-		    if (strcmp (dev.sane.name, devnam) == 0)
+		    if(strcmp(dev.sane.name, devnam) == 0)
 		      break
 		}
 
-	    if (!dev)
+	    if(!dev)
 		{
-		    status = attach (devnam, &dev)
-		    if (status != Sane.STATUS_GOOD)
+		    status = attach(devnam, &dev)
+		    if(status != Sane.STATUS_GOOD)
 			return status
 		}
 	}
@@ -4314,13 +4314,13 @@ Sane.open (Sane.String_Const devnam, Sane.Handle *handle)
 	    dev = first_dev
 	}
 
-    if (!dev)
+    if(!dev)
 	return Sane.STATUS_INVAL
 
-    s = malloc (sizeof (*s))
-    if (!s)
+    s = malloc(sizeof(*s))
+    if(!s)
 	return Sane.STATUS_NO_MEM
-    memset (s, 0, sizeof (*s))
+    memset(s, 0, sizeof(*s))
 
     s.fd = -1
     s.hw = dev
@@ -4330,7 +4330,7 @@ Sane.open (Sane.String_Const devnam, Sane.Handle *handle)
 
     ScannerDump(s)
 
-    init_options (s)
+    init_options(s)
 
     s.next = first_handle
     first_handle = s
@@ -4341,19 +4341,19 @@ Sane.open (Sane.String_Const devnam, Sane.Handle *handle)
     *handle = s
 
 #ifdef FAKE_INQUIRY
-    if (fake_inquiry)
+    if(fake_inquiry)
       {
-	DBG (1, "Sane.open: faking open of %s\n",
+	DBG(1, "Sane.open: faking open of %s\n",
 	     s.hw.sane.name)
       }
     else
 #endif
       {
-	status = sanei_scsi_open (s.hw.sane.name, &s.fd, sense_handler, s)
-	if (status != Sane.STATUS_GOOD)
+	status = sanei_scsi_open(s.hw.sane.name, &s.fd, sense_handler, s)
+	if(status != Sane.STATUS_GOOD)
 	  {
-	    DBG (1, "Sane.open: open of %s failed: %s\n",
-		 s.hw.sane.name, Sane.strstatus (status))
+	    DBG(1, "Sane.open: open of %s failed: %s\n",
+		 s.hw.sane.name, Sane.strstatus(status))
 	    return status
 	  }
       }
@@ -4362,19 +4362,19 @@ Sane.open (Sane.String_Const devnam, Sane.Handle *handle)
 }
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
   BH_Scanner *s = handle
-  DBG(3, "Sane.get_option_descriptor called (option:%d)\n", option)
+  DBG(3, "Sane.get_option_descriptor called(option:%d)\n", option)
 
-  if ((unsigned) option >= NUM_OPTIONS)
+  if((unsigned) option >= NUM_OPTIONS)
       return 0
 
-  return (s.opt + option)
+  return(s.opt + option)
 }
 
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
+Sane.control_option(Sane.Handle handle, Int option, Sane.Action action,
 		     void *val, Sane.Word *info)
 {
   BH_Scanner *s = handle
@@ -4386,22 +4386,22 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
 
   name = s.opt[option].name ? s.opt[option].name : "(nil)"
 
-  if (info)
+  if(info)
     *info = 0
 
-  if (s.scanning && action == Sane.ACTION_SET_VALUE)
+  if(s.scanning && action == Sane.ACTION_SET_VALUE)
     return Sane.STATUS_DEVICE_BUSY
-  if (option >= NUM_OPTIONS)
+  if(option >= NUM_OPTIONS)
     return Sane.STATUS_INVAL
 
   cap = s.opt[option].cap
-  if (!Sane.OPTION_IS_ACTIVE (cap))
+  if(!Sane.OPTION_IS_ACTIVE(cap))
     return Sane.STATUS_INVAL
 
-  if (action == Sane.ACTION_GET_VALUE)
+  if(action == Sane.ACTION_GET_VALUE)
     {
-      DBG(16, "Sane.control_option: get_value %s [#%d]\n", name, option)
-      switch (option)
+      DBG(16, "Sane.control_option: get_value %s[#%d]\n", name, option)
+      switch(option)
 	{
 	  /* word options: */
 	case OPT_RESOLUTION:
@@ -4440,7 +4440,7 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
 	case OPT_BARCODE_SEARCH_BAR:
 	case OPT_BARCODE_SEARCH_MODE:
 	case OPT_SECTION:
-	  strcpy (val, s.val[option].s)
+	  strcpy(val, s.val[option].s)
 	  return Sane.STATUS_GOOD
 
 	  /* boolean options: */
@@ -4460,39 +4460,39 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
 	  return Sane.STATUS_INVAL
 	}
     }
-  else if (action == Sane.ACTION_SET_VALUE)
+  else if(action == Sane.ACTION_SET_VALUE)
     {
-      switch (s.opt[option].type)
+      switch(s.opt[option].type)
 	{
 	case Sane.TYPE_BOOL:
 	case Sane.TYPE_INT:
-	  DBG(16, "Sane.control_option: set_value %s [#%d] to %d\n",
+	  DBG(16, "Sane.control_option: set_value %s[#%d] to %d\n",
 	      name, option, *(Sane.Word *) val)
 	  break
 
 	case Sane.TYPE_FIXED:
-	  DBG(16, "Sane.control_option: set_value %s [#%d] to %f\n",
+	  DBG(16, "Sane.control_option: set_value %s[#%d] to %f\n",
 	      name, option, Sane.UNFIX(*(Sane.Word *) val))
 	  break
 
 	case Sane.TYPE_STRING:
-	  DBG(16, "Sane.control_option: set_value %s [#%d] to %s\n",
+	  DBG(16, "Sane.control_option: set_value %s[#%d] to %s\n",
 	      name, option, (char *) val)
 	  break
 
 	default:
-	  DBG(16, "Sane.control_option: set_value %s [#%d]\n",
+	  DBG(16, "Sane.control_option: set_value %s[#%d]\n",
 	      name, option)
 	}
 
-      if (!Sane.OPTION_IS_SETTABLE (cap))
+      if(!Sane.OPTION_IS_SETTABLE(cap))
 	return Sane.STATUS_INVAL
 
-      status = sanei_constrain_value (s.opt + option, val, info)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_constrain_value(s.opt + option, val, info)
+      if(status != Sane.STATUS_GOOD)
 	return status
 
-      switch (option)
+      switch(option)
 	{
 	  /* (mostly) side-effect-free word options: */
 	case OPT_TL_X:
@@ -4500,22 +4500,22 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
 	case OPT_BR_X:
 	case OPT_BR_Y:
 	  /* make sure that paper-size is set to custom */
-	  if (s.val[option].w != *(Sane.Word *) val)
+	  if(s.val[option].w != *(Sane.Word *) val)
 	    {
-	      if (info) *info |= Sane.INFO_RELOAD_PARAMS
+	      if(info) *info |= Sane.INFO_RELOAD_PARAMS
 
-	      if (get_paper_id(_OPT_VAL_STRING(s, OPT_PAPER_SIZE)) != 0)
+	      if(get_paper_id(_OPT_VAL_STRING(s, OPT_PAPER_SIZE)) != 0)
 		{
-		  if (info) *info |= Sane.INFO_RELOAD_OPTIONS
+		  if(info) *info |= Sane.INFO_RELOAD_OPTIONS
 
 		  /* set paper size to 'custom' */
-		  free (s.val[OPT_PAPER_SIZE].s)
+		  free(s.val[OPT_PAPER_SIZE].s)
 		  s.val[OPT_PAPER_SIZE].s = strdup(paper_list[0])
 		}
 	    }
 	  /* fall through */
 	case OPT_RESOLUTION:
-	  if (info && s.val[option].w != *(Sane.Word *) val)
+	  if(info && s.val[option].w != *(Sane.Word *) val)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 	  /* fall through */
 	case OPT_TIMEOUT_ADF:
@@ -4549,9 +4549,9 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
 	case OPT_ROTATION:
 	case OPT_BARCODE_SEARCH_MODE:
 	case OPT_SECTION:
-	  if (s.val[option].s)
-	    free (s.val[option].s)
-	  s.val[option].s = strdup (val)
+	  if(s.val[option].s)
+	    free(s.val[option].s)
+	  s.val[option].s = strdup(val)
 	  return Sane.STATUS_GOOD
 
 	  /* boolean options: */
@@ -4573,15 +4573,15 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
 	case OPT_CONTROL_PANEL:
 	  /* a boolean option */
 	  /* control-panel true enables/disables some enhancement controls */
-	  if (s.val[option].w != *(Sane.Word *) val)
+	  if(s.val[option].w != *(Sane.Word *) val)
 	    {
-	      if (info) *info |= Sane.INFO_RELOAD_OPTIONS
+	      if(info) *info |= Sane.INFO_RELOAD_OPTIONS
 
 	      s.val[option].w = *(Sane.Word *) val
 
-	      if (*(Sane.Word *) val == Sane.TRUE)
+	      if(*(Sane.Word *) val == Sane.TRUE)
 		{
-		  if (s.hw.info.canACE == Sane.TRUE)
+		  if(s.hw.info.canACE == Sane.TRUE)
 		    {
 		      s.opt[OPT_ACE_FUNCTION].cap |= Sane.CAP_INACTIVE
 		      s.opt[OPT_ACE_SENSITIVITY].cap |= Sane.CAP_INACTIVE
@@ -4594,7 +4594,7 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
 		}
 	      else
 		{
-		  if (s.hw.info.canACE == Sane.TRUE)
+		  if(s.hw.info.canACE == Sane.TRUE)
 		    {
 		      s.opt[OPT_ACE_FUNCTION].cap &= ~Sane.CAP_INACTIVE
 		      s.opt[OPT_ACE_SENSITIVITY].cap &= ~Sane.CAP_INACTIVE
@@ -4613,19 +4613,19 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
 	  /* scan mode != lineart disables compression, setting it to
 	   * 'none'
 	   */
-	  if (strcmp (s.val[option].s, (String) val))
+	  if(strcmp(s.val[option].s, (String) val))
 	    {
-	      if (info) *info |= Sane.INFO_RELOAD_OPTIONS
-	      if (get_scan_mode_id((String) val) != 0)
+	      if(info) *info |= Sane.INFO_RELOAD_OPTIONS
+	      if(get_scan_mode_id((String) val) != 0)
 		{
 		  /* scan mode is not lineart, disable compression
 		   * and set compression to 'none'
 		   */
 		  s.opt[OPT_COMPRESSION].cap |= Sane.CAP_INACTIVE
-		  if (s.val[OPT_COMPRESSION].s &&
+		  if(s.val[OPT_COMPRESSION].s &&
 		      get_compression_id(s.val[OPT_COMPRESSION].s) != 0)
 		    {
-		      free (s.val[OPT_COMPRESSION].s)
+		      free(s.val[OPT_COMPRESSION].s)
 		      s.val[OPT_COMPRESSION].s = strdup(compression_list[0])
 		    }
 		}
@@ -4634,22 +4634,22 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
 		  /* scan mode is lineart, enable compression */
 		  s.opt[OPT_COMPRESSION].cap &= ~Sane.CAP_INACTIVE
 		}
-	      free (s.val[option].s)
-	      s.val[option].s = strdup (val)
+	      free(s.val[option].s)
+	      s.val[option].s = strdup(val)
 	    }
 	  return Sane.STATUS_GOOD
 
 	case OPT_PAPER_SIZE:
 	  /* a string option */
 	  /* changes geometry options, therefore _RELOAD_PARAMS and _RELOAD_OPTIONS */
-	  if (strcmp (s.val[option].s, (String) val))
+	  if(strcmp(s.val[option].s, (String) val))
 	    {
 	      Int paper_id = get_paper_id((String) val)
 
-	      /* paper_id 0 is a special case (custom) that
+	      /* paper_id 0 is a special case(custom) that
 	       * disables the paper size control of geometry
 	       */
-	      if (paper_id != 0)
+	      if(paper_id != 0)
 		{
 		  double left, x_max, y_max, x, y
 
@@ -4661,17 +4661,17 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
 		  y = (paper_sizes[paper_id].length <= 0.0) ? y_max :
 		    paper_sizes[paper_id].length
 
-		  if (info) *info |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
+		  if(info) *info |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
 
 		  /* set geometry options based on paper size */
 		  /* set geometry options based on paper size */
-		  if (s.hw.info.canADF)
+		  if(s.hw.info.canADF)
 		    {
 		      /* when the feeder is used the paper is centered in the
 		       * hopper; with the manual feed it is aligned left.
 		       */
 		      left = (x_max - x) / 2.0
-		      if (left < 0.0) left = 0.0
+		      if(left < 0.0) left = 0.0
 		    }
 		  else
 		    {
@@ -4683,8 +4683,8 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
 		  s.val[OPT_BR_X].w = Sane.FIX(MIN(x + left, x_max))
 		  s.val[OPT_BR_Y].w = Sane.FIX(MIN(y, y_max))
 		}
-	      free (s.val[option].s)
-	      s.val[option].s = strdup (val)
+	      free(s.val[option].s)
+	      s.val[option].s = strdup(val)
 	    }
 	  return Sane.STATUS_GOOD
 
@@ -4698,18 +4698,18 @@ Sane.control_option (Sane.Handle handle, Int option, Sane.Action action,
 }
 
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters *params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
 {
   BH_Scanner *s = handle
   Int status = Sane.STATUS_GOOD
 
   DBG(3, "Sane.get_parameters called\n")
 
-  if (params)
+  if(params)
     {
       Int res
 
-      if (!s.scanning)
+      if(!s.scanning)
 	{
 	  /* update our parameters ONLY if we're not scanning */
 	  status = get_parameters(s, 0)
@@ -4719,7 +4719,7 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters *params)
 
       res = _OPT_VAL_WORD(s, OPT_RESOLUTION)
 
-      DBG (1, "get_parameters: format=%d, pixels/line=%d, bytes/line=%d, "
+      DBG(1, "get_parameters: format=%d, pixels/line=%d, bytes/line=%d, "
 	   "lines=%d, dpi=%d\n",
 	   (Int) s.params.format,
 	   s.params.pixels_per_line,
@@ -4732,7 +4732,7 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters *params)
 }
 
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   BH_Scanner *s = handle
   Sane.Status status
@@ -4740,14 +4740,14 @@ Sane.start (Sane.Handle handle)
   DBG(3, "Sane.start called\n")
   s.cancelled = Sane.FALSE
 
-  if (s.scanning == Sane.FALSE)
+  if(s.scanning == Sane.FALSE)
     {
       /* get preliminary parameters */
-      status = get_parameters (s, 0)
-      if (status != Sane.STATUS_GOOD)
+      status = get_parameters(s, 0)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "Sane.start: get_parameters failed: %s\n",
-	       Sane.strstatus (status))
+	  DBG(1, "Sane.start: get_parameters failed: %s\n",
+	       Sane.strstatus(status))
 	  return status
 	}
 
@@ -4756,20 +4756,20 @@ Sane.start (Sane.Handle handle)
        * acquired.  That is when scanning is set back to Sane.FALSE and
        * the 'batch' is considered done.
        */
-      status = start_setup (s)
-      if (status != Sane.STATUS_GOOD)
+      status = start_setup(s)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "Sane.start: start_setup failed: %s\n",
-	       Sane.strstatus (status))
+	  DBG(1, "Sane.start: start_setup failed: %s\n",
+	       Sane.strstatus(status))
 	  return status
 	}
     }
 
-  status = start_scan (s)
-  if (status != Sane.STATUS_GOOD)
+  status = start_scan(s)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "Sane.start: start_scan failed: %s\n",
-	   Sane.strstatus (status))
+      DBG(1, "Sane.start: start_scan failed: %s\n",
+	   Sane.strstatus(status))
       return status
     }
 
@@ -4777,7 +4777,7 @@ Sane.start (Sane.Handle handle)
 }
 
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte *buf, Int maxlen, Int *len)
+Sane.read(Sane.Handle handle, Sane.Byte *buf, Int maxlen, Int *len)
 {
   BH_Scanner *s = handle
   Sane.Status status
@@ -4787,41 +4787,41 @@ Sane.read (Sane.Handle handle, Sane.Byte *buf, Int maxlen, Int *len)
 
   *len = 0
 
-  if (s.cancelled) {
-    DBG (3, "Sane.read: cancelled!\n")
+  if(s.cancelled) {
+    DBG(3, "Sane.read: cancelled!\n")
     return Sane.STATUS_CANCELLED
   }
 
-  if (!s.scanning) {
-    DBG (3, "Sane.read: scanning is false!\n")
+  if(!s.scanning) {
+    DBG(3, "Sane.read: scanning is false!\n")
     Sane.cancel(s)
     return Sane.STATUS_CANCELLED
   }
 
   nread = maxlen
 
-  DBG (3, "Sane.read: request %lu bytes\n", (u_long) nread)
+  DBG(3, "Sane.read: request %lu bytes\n", (u_long) nread)
   /* set InvalidBytes to 0 before read; sense_handler will set it
    * to non-zero if we do the last partial read.
    */
   s.InvalidBytes = 0
-  status = read_data (s, buf, &nread)
-  if (status != Sane.STATUS_GOOD)
+  status = read_data(s, buf, &nread)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "Sane.read: read_data failed %s\n",
+      DBG(1, "Sane.read: read_data failed %s\n",
 	   Sane.strstatus(status))
-      Sane.cancel (s)
+      Sane.cancel(s)
       return status
     }
   nread = maxlen - s.InvalidBytes
-  DBG (3, "Sane.read: got %lu bytes\n", (u_long) nread)
+  DBG(3, "Sane.read: got %lu bytes\n", (u_long) nread)
   *len = nread
 
-  return (maxlen != 0 && nread == 0) ? Sane.STATUS_EOF : Sane.STATUS_GOOD
+  return(maxlen != 0 && nread == 0) ? Sane.STATUS_EOF : Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 {
 #ifdef NONBLOCKSUPPORTED
   BH_Scanner *s = handle
@@ -4829,12 +4829,12 @@ Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
   DBG(3, "Sane.set_io_mode called: non_blocking=%d\n", non_blocking)
 
 #ifdef NONBLOCKSUPPORTED
-  if (s.fd < 0)
+  if(s.fd < 0)
     {
       return Sane.STATUS_INVAL
     }
 
-  if (fcntl (s.fd, F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0)
+  if(fcntl(s.fd, F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0)
     {
       DBG(1, "Sane.set_io_mode: error setting io mode\n")
       return Sane.STATUS_IO_ERROR
@@ -4843,12 +4843,12 @@ Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
  return Sane.STATUS_GOOD
 #else
  handle = handle; /* get rid of compiler warning */
- return (non_blocking == 1) ? Sane.STATUS_UNSUPPORTED : Sane.STATUS_GOOD
+ return(non_blocking == 1) ? Sane.STATUS_UNSUPPORTED : Sane.STATUS_GOOD
 #endif
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle handle, Int *fd)
+Sane.get_select_fd(Sane.Handle handle, Int *fd)
 {
 #ifdef NONBLOCKSUPPORTED
   BH_Scanner *s = handle
@@ -4856,7 +4856,7 @@ Sane.get_select_fd (Sane.Handle handle, Int *fd)
   DBG(3, "Sane.get_select_fd called\n")
 
 #ifdef NONBLOCKSUPPORTED
-  if (s.fd < 0)
+  if(s.fd < 0)
     {
       return Sane.STATUS_INVAL
     }
@@ -4870,16 +4870,16 @@ Sane.get_select_fd (Sane.Handle handle, Int *fd)
 }
 
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   BH_Scanner *s = (BH_Scanner *) handle
   DBG(3, "Sane.cancel called\n")
-  if (s.scanning)
+  if(s.scanning)
     {
       /* if batchmode is enabled, then call set_window to
        * abort the batch
        */
-      if (_OPT_VAL_WORD(s, OPT_BATCH) == Sane.TRUE)
+      if(_OPT_VAL_WORD(s, OPT_BATCH) == Sane.TRUE)
 	{
 	  DBG(5, "Sane.cancel: calling set_window to abort batch\n")
 	  set_window(s, BH_BATCH_ABORT)
@@ -4890,29 +4890,29 @@ Sane.cancel (Sane.Handle handle)
 }
 
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
   BH_Scanner *s = (BH_Scanner *) handle
   DBG(3, "Sane.close called\n")
 
-  if (s.fd != -1)
-    sanei_scsi_close (s.fd)
+  if(s.fd != -1)
+    sanei_scsi_close(s.fd)
   s.fd = -1
-  free (s)
+  free(s)
 }
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   BH_Device *dev, *next
   DBG(3, "Sane.exit called\n")
 
-  for (dev = first_dev; dev; dev = next)
+  for(dev = first_dev; dev; dev = next)
     {
       next = dev.next
-      free (dev)
+      free(dev)
     }
 
-  if (devlist)
-    free (devlist)
+  if(devlist)
+    free(devlist)
 }

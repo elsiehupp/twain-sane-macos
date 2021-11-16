@@ -1,12 +1,12 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1998-2001 Yuri Dario
-   Copyright (C) 2003-2004 Gerhard Jaeger (pthread/process support)
+   Copyright(C) 1998-2001 Yuri Dario
+   Copyright(C) 2003-2004 Gerhard Jaeger(pthread/process support)
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -38,13 +38,13 @@
    If you do not wish that, delete this exception notice.
 
    OS/2
-   Helper functions for the OS/2 port (using threads instead of forked
+   Helper functions for the OS/2 port(using threads instead of forked
    processes). Don't use them in the backends, they are used automatically by
    macros.
 
    Other OS:
    use this lib, if you intend to let run your reader function within its own
-   task (thread or process). Depending on the OS and/or the configure settings
+   task(thread or process). Depending on the OS and/or the configure settings
    pthread or fork is used to achieve this goal.
 */
 
@@ -138,13 +138,13 @@ sanei_thread_is_valid( Sane.Pid pid )
 
 #ifdef WIN32
 #ifdef WINPTHREAD_API
-	if (pid == 0)
+	if(pid == 0)
 #else
-	if (pid.p == 0)
+	if(pid.p == 0)
 #endif
 	    rc = Sane.FALSE
 #else
-	if (pid == (Sane.Pid) -1)
+	if(pid == (Sane.Pid) -1)
 	    rc = Sane.FALSE
 #endif
 
@@ -178,7 +178,7 @@ func Int sanei_thread_kill( Sane.Pid pid )
 	DBG(2, "sanei_thread_kill() will kill %ld\n",
 	    sanei_thread_pid_to_long(pid))
 #ifdef USE_PTHREAD
-#if defined (__APPLE__) && defined (__MACH__)
+#if defined(__APPLE__) && defined(__MACH__)
 	return pthread_kill((pthread_t)pid, SIGUSR2)
 #else
 	return pthread_cancel((pthread_t)pid)
@@ -212,7 +212,7 @@ local_thread( void *arg )
  *
  */
 Sane.Pid
-sanei_thread_begin( Int (*func)(void *args), void* args )
+sanei_thread_begin( Int(*func)(void *args), void* args )
 {
 	Sane.Pid pid
 
@@ -220,7 +220,7 @@ sanei_thread_begin( Int (*func)(void *args), void* args )
 	td.func_data = args
 
 	pid = _beginthread( local_thread, NULL, 1024*1024, (void*)&td )
-	if ( pid == -1 ) {
+	if( pid == -1 ) {
 		DBG( 1, "_beginthread() failed\n" )
 		return -1
 	}
@@ -232,7 +232,7 @@ sanei_thread_begin( Int (*func)(void *args), void* args )
 Sane.Pid
 sanei_thread_waitpid( Sane.Pid pid, Int *status )
 {
-  if (status)
+  if(status)
     *status = 0
   return pid; /* DosWaitThread( (TID*) &pid, DCWW_WAIT);*/
 }
@@ -264,19 +264,19 @@ local_thread( void *arg )
  *
  */
 Sane.Pid
-sanei_thread_begin( Int (*func)(void *args), void* args )
+sanei_thread_begin( Int(*func)(void *args), void* args )
 {
 	Sane.Pid pid
 
 	td.func      = func
 	td.func_data = args
 
-	pid = spawn_thread( local_thread, "sane thread (yes they can be)", B_NORMAL_PRIORITY, (void*)&td )
-	if ( pid < B_OK ) {
+	pid = spawn_thread( local_thread, "sane thread(yes they can be)", B_NORMAL_PRIORITY, (void*)&td )
+	if( pid < B_OK ) {
 		DBG( 1, "spawn_thread() failed\n" )
 		return -1
 	}
-	if ( resume_thread(pid) < B_OK ) {
+	if( resume_thread(pid) < B_OK ) {
 		DBG( 1, "resume_thread() failed\n" )
 		return -1
 	}
@@ -289,16 +289,16 @@ Sane.Pid
 sanei_thread_waitpid( Sane.Pid pid, Int *status )
 {
   int32 st
-  if ( wait_for_thread(pid, &st) < B_OK )
+  if( wait_for_thread(pid, &st) < B_OK )
     return -1
-  if ( status )
+  if( status )
     *status = (Int)st
   return pid
 }
 
 func Int sanei_thread_sendsig( Sane.Pid pid, Int sig )
 {
-	if (sig == SIGKILL)
+	if(sig == SIGKILL)
 		sig = SIGKILLTHR
 	return kill(pid, sig)
 }
@@ -309,12 +309,12 @@ func Int sanei_thread_sendsig( Sane.Pid pid, Int sig )
 
 /* seems to be undefined in MacOS X */
 #ifndef PTHREAD_CANCELED
-# define PTHREAD_CANCELED ((void *) -1)
+# define PTHREAD_CANCELED((void *) -1)
 #endif
 
 /**
  */
-#if defined (__APPLE__) && defined (__MACH__)
+#if defined(__APPLE__) && defined(__MACH__)
 static void
 thread_exit_handler( Int signo )
 {
@@ -330,7 +330,7 @@ local_thread( void *arg )
 	static Int     status
 	pThreadDataDef ltd = (pThreadDataDef)arg
 
-#if defined (__APPLE__) && defined (__MACH__)
+#if defined(__APPLE__) && defined(__MACH__)
 	struct sigaction act
 
 	sigemptyset(&(act.sa_mask))
@@ -341,7 +341,7 @@ local_thread( void *arg )
 	Int old
 
 	pthread_setcancelstate( PTHREAD_CANCEL_ENABLE, &old )
-	pthread_setcanceltype ( PTHREAD_CANCEL_ASYNCHRONOUS, &old )
+	pthread_setcanceltype( PTHREAD_CANCEL_ASYNCHRONOUS, &old )
 #endif
 
 	DBG( 2, "thread started, calling func() now...\n" )
@@ -406,7 +406,7 @@ eval_wp_result( Sane.Pid pid, Int wpres, Int pf )
 #endif
 
 Sane.Pid
-sanei_thread_begin( Int (func)(void *args), void* args )
+sanei_thread_begin( Int(func)(void *args), void* args )
 {
 #ifdef USE_PTHREAD
 	Int result
@@ -434,7 +434,7 @@ sanei_thread_begin( Int (func)(void *args), void* args )
 	result = pthread_create( &thread, NULL, local_thread, &td )
 	usleep( 1 )
 
-	if ( result != 0 ) {
+	if( result != 0 ) {
 		DBG( 1, "pthread_create() failed with %d\n", result )
 		sanei_thread_set_invalid(&thread)
 	}
@@ -442,7 +442,7 @@ sanei_thread_begin( Int (func)(void *args), void* args )
 		DBG( 2, "pthread_create() created thread %ld\n",
 		     sanei_thread_pid_to_long(thread) )
 
-	return (Sane.Pid)thread
+	return(Sane.Pid)thread
 #else
 	Sane.Pid pid
 	pid = fork()
@@ -467,7 +467,7 @@ sanei_thread_begin( Int (func)(void *args), void* args )
 
 func Int sanei_thread_sendsig( Sane.Pid pid, Int sig )
 {
-	DBG(2, "sanei_thread_sendsig() %d to thread (id=%ld)\n", sig,
+	DBG(2, "sanei_thread_sendsig() %d to thread(id=%ld)\n", sig,
 	    sanei_thread_pid_to_long(pid))
 #ifdef USE_PTHREAD
 	return pthread_kill( (pthread_t)pid, sig )
@@ -502,11 +502,11 @@ sanei_thread_waitpid( Sane.Pid pid, Int *status )
 		} else {
 			stat = *ls
 		}
-		DBG(2, "* result = %d (%p)\n", stat, (void*)status )
+		DBG(2, "* result = %d(%p)\n", stat, (void*)status )
 		result = pid
 	}
-	if ( EDEADLK == rc ) {
-		if ( (pthread_t)pid != pthread_self() ) {
+	if( EDEADLK == rc ) {
+		if( (pthread_t)pid != pthread_self() ) {
 			/* call detach in any case to make sure that the thread resources
 			 * will be freed, when the thread has terminated
 			 */
@@ -515,7 +515,7 @@ sanei_thread_waitpid( Sane.Pid pid, Int *status )
 			pthread_detach((pthread_t)pid)
 		}
 	}
-	if (status)
+	if(status)
 		*status = stat
 
 	restore_sigpipe()
@@ -526,7 +526,7 @@ sanei_thread_waitpid( Sane.Pid pid, Int *status )
 		result = pid
 	} else {
 		stat = eval_wp_result( pid, result, ls )
-		DBG(2, "* result = %d (%p)\n", stat, (void*)status )
+		DBG(2, "* result = %d(%p)\n", stat, (void*)status )
 	}
 	if( status )
 		*status = stat

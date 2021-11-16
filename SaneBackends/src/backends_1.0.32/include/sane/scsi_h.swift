@@ -1,5 +1,5 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1996, 1997 David Mosberger-Tang
+   Copyright(C) 1996, 1997 David Mosberger-Tang
    This file is part of the SANE package.
 
    SANE is free software; you can redistribute it and/or modify it
@@ -62,10 +62,10 @@ import sane/config
  * @param arg pointer to data buffer
  *
  * @return
- * - Sane.STATUS_GOOD - on success (sense isn't regarded as error)
+ * - Sane.STATUS_GOOD - on success(sense isn't regarded as error)
  * - any other status if sense code is regarded as error
  */
-typedef Sane.Status (*SANEI_SCSI_Sense_Handler) (Int fd,
+typedef Sane.Status(*SANEI_SCSI_Sense_Handler) (Int fd,
 						 u_char *sense_buffer,
 						 void *arg)
 /** Maximum size of a SCSI request
@@ -88,13 +88,13 @@ public Int sanei_scsi_max_request_size
  * @param channel
  * @param id
  * @param lun
- * @param attach callback invoked once for each device, dev is the real devicename (passed to attach callback)
+ * @param attach callback invoked once for each device, dev is the real devicename(passed to attach callback)
  *
  */
-public void sanei_scsi_find_devices (const char *vendor, const char *model,
+public void sanei_scsi_find_devices(const char *vendor, const char *model,
 				     const char *type,
 				     Int bus, Int channel, Int id, Int lun,
-				     Sane.Status (*attach) (const char *dev))
+				     Sane.Status(*attach) (const char *dev))
 
 
 /** Open a SCSI device
@@ -112,12 +112,12 @@ public void sanei_scsi_find_devices (const char *vendor, const char *model,
  * - Sane.STATUS_GOOD - on success
  * - Sane.STATUS_ACCESS_DENIED - if the file couldn't be accessed due to
  *   permissions
- * - Sane.STATUS_NO_MEM - if malloc failed (not enough memory)
+ * - Sane.STATUS_NO_MEM - if malloc failed(not enough memory)
  * - Sane.STATUS_INVAL - if the filename was invalid or an unknown error occurred
  *
  * @sa sanei_scsi_open_extended(), HAVE_SANEI_SCSI_OPEN_EXTENDED
  */
-public Sane.Status sanei_scsi_open (const char * device_name, Int * fd,
+public Sane.Status sanei_scsi_open(const char * device_name, Int * fd,
 				    SANEI_SCSI_Sense_Handler sense_handler,
 				    void *sense_arg)
 
@@ -137,18 +137,18 @@ public Sane.Status sanei_scsi_open (const char * device_name, Int * fd,
  * @param fd file descriptor
  * @param sense_handler called whenever the SCSI driver returns a sense buffer
  * @param sense_arg pointer to data for the sense handler
- * @param buffersize size of the SCAI request buffer (in bytes)
+ * @param buffersize size of the SCAI request buffer(in bytes)
  *
  * @return
  * - Sane.STATUS_GOOD - on success
  * - Sane.STATUS_ACCESS_DENIED - if the file couldn't be accessed due to
  *   permissions
- * - Sane.STATUS_NO_MEM - if malloc failed (not enough memory)
+ * - Sane.STATUS_NO_MEM - if malloc failed(not enough memory)
  * - Sane.STATUS_INVAL - if the filename was invalid or an unknown error occurred
  *
  * @sa sanei_scsi_open(), HAVE_SANEI_SCSI_OPEN_EXTENDED
  */
-public Sane.Status sanei_scsi_open_extended (
+public Sane.Status sanei_scsi_open_extended(
        const char * device_name, Int * fd,
        SANEI_SCSI_Sense_Handler sense_handler,
        void *sense_arg, Int *buffersize)
@@ -173,24 +173,24 @@ public Sane.Status sanei_scsi_open_extended (
  * to assume that enter() is a non-blocking routine.
  *
  * @param fd file descriptor
- * @param src pointer to the SCSI command and associated write data (if any)
+ * @param src pointer to the SCSI command and associated write data(if any)
  * @param src_size length of the command and data
  * @param dst pointer to a buffer in which data is returned; NULL if no data is
  *   returned
  * @param dst_size  on input, the size of the buffer pointed to by dst, on exit,
- *   set to the number of bytes returned in the buffer (which is less than or equal
+ *   set to the number of bytes returned in the buffer(which is less than or equal
  *   to the buffer size; may be NULL if no data is expected
  * @param idp pointer to a void* that uniquely identifies the entered request
  *
  * @return
  * - Sane.STATUS_GOOD - on success
  * - Sane.STATUS_IO_ERROR - if an error was received from the SCSI driver
- * - Sane.STATUS_NO_MEM - if malloc failed (not enough memory)
+ * - Sane.STATUS_NO_MEM - if malloc failed(not enough memory)
  * - Sane.STATUS_INVAL - if a locking or an unknown error occurred
  * @sa sanei_scsi_req_enter2()
  *
 */
-public Sane.Status sanei_scsi_req_enter (Int fd,
+public Sane.Status sanei_scsi_req_enter(Int fd,
 					 const void * src, size_t src_size,
 					 void * dst, size_t * dst_size,
 					 void **idp)
@@ -217,13 +217,13 @@ public Sane.Status sanei_scsi_req_enter (Int fd,
  * @param dst pointer to a buffer in which data is returned; NULL if no data is
  *   returned
  * @param dst_size  on input, the size of the buffer pointed to by dst, on exit,
- *   set to the number of bytes returned in the buffer (which is less than or equal
+ *   set to the number of bytes returned in the buffer(which is less than or equal
  *   to the buffer size; may be NULL if no data is expected
  * @param idp pointer to a void* that uniquely identifies the entered request
  * @return
  * - Sane.STATUS_GOOD - on success
  * - Sane.STATUS_IO_ERROR - if an error was received from the SCSI driver
- * - Sane.STATUS_NO_MEM - if malloc failed (not enough memory)
+ * - Sane.STATUS_NO_MEM - if malloc failed(not enough memory)
  * - Sane.STATUS_INVAL - if a locking or an unknown error occurred
  * @sa sanei_scsi_req_enter()
  */
@@ -241,10 +241,10 @@ public Sane.Status sanei_scsi_req_enter2 (Int fd,
  *
  * @return
  * - Sane.STATUS_GOOD - on success
- * - Sane.STATUS_DEVICE_BUSY - if the device is busy (try again later)
+ * - Sane.STATUS_DEVICE_BUSY - if the device is busy(try again later)
  * - Sane.STATUS_IO_ERROR - if an error was received from the SCSI driver
 */
-public Sane.Status sanei_scsi_req_wait (void *id)
+public Sane.Status sanei_scsi_req_wait(void *id)
 
 /** Send SCSI command
  *
@@ -252,23 +252,23 @@ public Sane.Status sanei_scsi_req_wait (void *id)
  * sanei_scsi_req_enter()/sanei_scsi_req_wait() calls.
  *
  * @param fd file descriptor
- * @param src pointer to the SCSI command and associated write data (if any)
+ * @param src pointer to the SCSI command and associated write data(if any)
  * @param src_size length of the command and data
  * @param dst pointer to a buffer in which data is returned; NULL if no data is
  *   returned
  * @param dst_size  on input, the size of the buffer pointed to by dst, on exit,
- *   set to the number of bytes returned in the buffer (which is less than or equal
+ *   set to the number of bytes returned in the buffer(which is less than or equal
  *   to the buffer size; may be NULL if no data is expected
  *
  * @return
  * - Sane.STATUS_GOOD - on success
  * - Sane.STATUS_IO_ERROR - if an error was received from the SCSI driver
- * - Sane.STATUS_NO_MEM - if malloc failed (not enough memory)
+ * - Sane.STATUS_NO_MEM - if malloc failed(not enough memory)
  * - Sane.STATUS_INVAL - if a locking or an unknown error occurred
  *
  * @sa sanei_scsi_cmd2(), sanei_scsi_req_enter(), sanei_scsi_req_wait()
  */
-public Sane.Status sanei_scsi_cmd (Int fd,
+public Sane.Status sanei_scsi_cmd(Int fd,
 				   const void * src, size_t src_size,
 				   void * dst, size_t * dst_size)
 
@@ -285,12 +285,12 @@ public Sane.Status sanei_scsi_cmd (Int fd,
  * @param dst pointer to a buffer in which data is returned; NULL if no data is
  *   returned
  * @param dst_size  on input, the size of the buffer pointed to by dst, on exit,
- *   set to the number of bytes returned in the buffer (which is less than or equal
+ *   set to the number of bytes returned in the buffer(which is less than or equal
  *   to the buffer size; may be NULL if no data is expected
  * @return
  * - Sane.STATUS_GOOD - on success
  * - Sane.STATUS_IO_ERROR - if an error was received from the SCSI driver
- * - Sane.STATUS_NO_MEM - if malloc failed (not enough memory)
+ * - Sane.STATUS_NO_MEM - if malloc failed(not enough memory)
  * - Sane.STATUS_INVAL - if a locking or an unknown error occurred
  *
  * @sa sanei_scsi_cmd(), sanei_scsi_req_enter(), sanei_scsi_req_wait()
@@ -307,7 +307,7 @@ public Sane.Status sanei_scsi_cmd2 (Int fd,
  *
  * @sa sanei_scsi_req_flush_all_extended()
 */
-public void sanei_scsi_req_flush_all (void)
+public void sanei_scsi_req_flush_all(void)
 
 /** Flush queue for handle
  *
@@ -317,13 +317,13 @@ public void sanei_scsi_req_flush_all (void)
  *
  * @sa sanei_scsi_req_flush_all()
  */
-public void sanei_scsi_req_flush_all_extended (Int fd)
+public void sanei_scsi_req_flush_all_extended(Int fd)
 
 /** Close a SCSI device
  *
  * @param fd file descriptor
  *
  */
-public void sanei_scsi_close (Int fd)
+public void sanei_scsi_close(Int fd)
 
 #endif /* sanei_scsi_h */

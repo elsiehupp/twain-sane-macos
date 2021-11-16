@@ -2,13 +2,13 @@
  * @brief functions to create and manipulate lookup tables.
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 1998 Plustek Inc.
- * Copyright (C) 2000-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 1998 Plustek Inc.
+ * Copyright(C) 2000-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  * also based on the work done by Rick Bronson
  *
  * History:
  * - 0.30 - initial version
- * - 0.31 - brightness and contrast is working (see mapAdjust)
+ * - 0.31 - brightness and contrast is working(see mapAdjust)
  * - 0.32 - no changes
  * - 0.33 - disabled a few functions
  * - 0.34 - added new dither matrix for checking
@@ -33,7 +33,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -134,7 +134,7 @@ static void mapInvertMap( pScanData ps )
 		size = 256
     }
 
-    for (pdw = (pULong)ps.a_bMapTable, dw = size * 3 / 4; dw; dw--, pdw++) {
+    for(pdw = (pULong)ps.a_bMapTable, dw = size * 3 / 4; dw; dw--, pdw++) {
 		*pdw = ~(*pdw)
 	}
 }
@@ -151,7 +151,7 @@ static void mapInvertDitherMap( pScanData ps )
 		DBG( DBG_LOW, "mapInvertDitherMap()\n" )
 
 		mapInvertMap( ps )
-		for (dw = 0; dw < 16; dw++) {
+		for(dw = 0; dw < 16; dw++) {
 	    	pDither[dw] = ~pDither[dw]
 		}
     }
@@ -205,7 +205,7 @@ _LOC void MapSetupDither( pScanData ps )
 	if( COLOR_HALFTONE == ps.DataInf.wAppDataType ) {
 
 		mapSetDitherMap( ps )
-	    if (ps.DataInf.dwScanFlag & SCANDEF_Inverse)
+	    if(ps.DataInf.dwScanFlag & SCANDEF_Inverse)
 			mapInvertDitherMap( ps )
 	}
 }
@@ -226,7 +226,7 @@ _LOC void MapAdjust( pScanData ps, Int which )
 		tabLen = 256
 	}
 
-	/* adjust brightness (b) and contrast (c) using the function:
+	/* adjust brightness(b) and contrast(c) using the function:
 	 * s'(x,y) = (s(x,y) + b) * c
 	 * b = [-127, 127]
 	 * c = [0,2]

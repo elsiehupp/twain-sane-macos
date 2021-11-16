@@ -1,6 +1,6 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 1997-2005, 2013 Franck Schnefra, Michel Roelofs,
+   Copyright(C) 1997-2005, 2013 Franck Schnefra, Michel Roelofs,
    Emmanuel Blot, Mikko Tyolajarvi, David Mosberger-Tang, Wolfgang Goeller,
    Simon Munton, Petter Reinholdtsen, Gary Plewa, Sebastien Sable,
    Mikael Magnusson, Max Ushakov, Andrew Goodbody, Oliver Schwartz
@@ -11,7 +11,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -107,7 +107,7 @@ import Sane.sanei_config
 #define DL_VERBOSE      20
 
 #define CHECK_STATUS(s,caller,cmd) \
-if ((s) != Sane.STATUS_GOOD) { DBG(DL_MAJOR_ERROR, "%s: %s command failed: %s\n", caller, (cmd), Sane.strstatus(s)); return s; }
+if((s) != Sane.STATUS_GOOD) { DBG(DL_MAJOR_ERROR, "%s: %s command failed: %s\n", caller, (cmd), Sane.strstatus(s)); return s; }
 
 /*----- internal scanner operations -----*/
 
@@ -119,7 +119,7 @@ if ((s) != Sane.STATUS_GOOD) { DBG(DL_MAJOR_ERROR, "%s: %s command failed: %s\n"
 #define HCFG_RB          0x10         /* ring buffer */
 #define HCFG_HT16        0x08         /* 16x16 halftone matrices */
 #define HCFG_HT8         0x04         /* 8x8 halftone matrices */
-#define HCFG_SRA         0x02         /* scanline row average (high-speed colour) */
+#define HCFG_SRA         0x02         /* scanline row average(high-speed colour) */
 #define HCFG_CAL_ALLOWED 0x01         /* 1 ==> calibration allowed */
 
 #define HCFG_HT   0x0C                /* support halftone matrices at all */
@@ -144,23 +144,23 @@ static Sane.Char password[Sane.MAX_PASSWORD_LEN]
 
 /* function prototypes */
 
-static void gamma_n (double gamma, Int brightness, Int contrast,
+static void gamma_n(double gamma, Int brightness, Int contrast,
                      u_char *buf, Int length, Int gamma_mode)
-static void gamma_to_sane (Int length, u_char *in, Int *out)
+static void gamma_to_sane(Int length, u_char *in, Int *out)
 
 static size_t max_string_size(Sane.String_Const strings[])
 
 /* inline functions */
-static inline SnapScan_Mode actual_mode (SnapScan_Scanner *pss)
+static inline SnapScan_Mode actual_mode(SnapScan_Scanner *pss)
 {
-    if (pss.preview == Sane.TRUE)
+    if(pss.preview == Sane.TRUE)
         return pss.preview_mode
     return pss.mode
 }
 
-static inline Int is_colour_mode (SnapScan_Mode m)
+static inline Int is_colour_mode(SnapScan_Mode m)
 {
-    return (m == MD_COLOUR) || (m == MD_BILEVELCOLOUR)
+    return(m == MD_COLOUR) || (m == MD_BILEVELCOLOUR)
 }
 
 static inline Int calibration_line_length(SnapScan_Scanner *pss)
@@ -168,7 +168,7 @@ static inline Int calibration_line_length(SnapScan_Scanner *pss)
     Int pos_factor
     Int pixel_length
 
-    switch (pss.pdev.model)
+    switch(pss.pdev.model)
     {
     case STYLUS_CX1500:
     case PRISA5000E:
@@ -221,14 +221,14 @@ static Sane.Status alloc_gamma_tables(SnapScan_Scanner * ps)
     static const char me[] = "alloc_gamma_tables"
 
     ps.gamma_length = 1 << ps.bpp
-    DBG (DL_MINOR_INFO, "%s: using 4*%d bytes for gamma table\n",
+    DBG(DL_MINOR_INFO, "%s: using 4*%d bytes for gamma table\n",
          me,
          ps.gamma_length)
 
     ps.gamma_tables =
         (Int *) malloc(4 * ps.gamma_length * sizeof(Int))
 
-    if (!ps.gamma_tables)
+    if(!ps.gamma_tables)
     {
         return Sane.STATUS_NO_MEM
     }
@@ -247,47 +247,47 @@ static Sane.Status init_gamma(SnapScan_Scanner * ps)
 
     gamma = (u_char*) malloc(ps.gamma_length * sizeof(u_char) * 2)
 
-    if (!gamma)
+    if(!gamma)
     {
         return Sane.STATUS_NO_MEM
     }
 
     /* Default tables */
-    gamma_n (Sane.UNFIX(ps.gamma_gs), ps.bright, ps.contrast, gamma, ps.bpp, 1)
-    gamma_to_sane (ps.gamma_length, gamma, ps.gamma_table_gs)
+    gamma_n(Sane.UNFIX(ps.gamma_gs), ps.bright, ps.contrast, gamma, ps.bpp, 1)
+    gamma_to_sane(ps.gamma_length, gamma, ps.gamma_table_gs)
 
-    gamma_n (Sane.UNFIX(ps.gamma_r), ps.bright, ps.contrast, gamma, ps.bpp, 1)
-    gamma_to_sane (ps.gamma_length, gamma, ps.gamma_table_r)
+    gamma_n(Sane.UNFIX(ps.gamma_r), ps.bright, ps.contrast, gamma, ps.bpp, 1)
+    gamma_to_sane(ps.gamma_length, gamma, ps.gamma_table_r)
 
-    gamma_n (Sane.UNFIX(ps.gamma_g), ps.bright, ps.contrast, gamma, ps.bpp, 1)
-    gamma_to_sane (ps.gamma_length, gamma, ps.gamma_table_g)
+    gamma_n(Sane.UNFIX(ps.gamma_g), ps.bright, ps.contrast, gamma, ps.bpp, 1)
+    gamma_to_sane(ps.gamma_length, gamma, ps.gamma_table_g)
 
-    gamma_n (Sane.UNFIX(ps.gamma_b), ps.bright, ps.contrast, gamma, ps.bpp, 1)
-    gamma_to_sane (ps.gamma_length, gamma, ps.gamma_table_b)
+    gamma_n(Sane.UNFIX(ps.gamma_b), ps.bright, ps.contrast, gamma, ps.bpp, 1)
+    gamma_to_sane(ps.gamma_length, gamma, ps.gamma_table_b)
 
-    free (gamma)
+    free(gamma)
     return Sane.STATUS_GOOD
 }
 
 /* Max string size */
 
-static size_t max_string_size (Sane.String_Const strings[])
+static size_t max_string_size(Sane.String_Const strings[])
 {
     size_t size
     size_t max_size = 0
     var i: Int
 
-    for (i = 0;  strings[i];  ++i)
+    for(i = 0;  strings[i];  ++i)
     {
-        size = strlen (strings[i]) + 1
-        if (size > max_size)
+        size = strlen(strings[i]) + 1
+        if(size > max_size)
             max_size = size
     }
     return max_size
 }
 
 /* gamma table computation */
-static void gamma_n (double gamma, Int brightness, Int contrast,
+static void gamma_n(double gamma, Int brightness, Int contrast,
                       u_char *buf, Int bpp, Int gamma_mode)
 {
     var i: Int
@@ -296,16 +296,16 @@ static void gamma_n (double gamma, Int brightness, Int contrast,
     Int max = length - 1
     double mid = max / 2.0
 
-    for (i = 0;  i < length;  i++)
+    for(i = 0;  i < length;  i++)
     {
         Int x
         double val = (i - mid) * (1.0 + contrast / 100.0)
             + (1.0 + brightness / 100.0) * mid
         val = LIMIT(val, 0, max)
-        switch (gamma_mode)
+        switch(gamma_mode)
         {
         case GAMMA_16BIT:
-            x = LIMIT(65535*pow ((double) val/max, i_gamma) + 0.5, 0, 65535)
+            x = LIMIT(65535*pow((double) val/max, i_gamma) + 0.5, 0, 65535)
 
             buf[2*i] = (u_char) x
             buf[2*i + 1] = (u_char) (x >> 8)
@@ -316,7 +316,7 @@ static void gamma_n (double gamma, Int brightness, Int contrast,
             break
         case GAMMA_8BIT:
             buf[i] =
-                (u_char) LIMIT(255*pow ((double) val/max, i_gamma) + 0.5, 0, 255)
+                (u_char) LIMIT(255*pow((double) val/max, i_gamma) + 0.5, 0, 255)
             break
         default:
             break
@@ -324,11 +324,11 @@ static void gamma_n (double gamma, Int brightness, Int contrast,
     }
 }
 
-static void gamma_from_sane (Int length, Int *in, u_char *out, Int gamma_mode)
+static void gamma_from_sane(Int length, Int *in, u_char *out, Int gamma_mode)
 {
     var i: Int
-    for (i = 0; i < length; i++)
-        if (gamma_mode != GAMMA_8BIT)
+    for(i = 0; i < length; i++)
+        if(gamma_mode != GAMMA_8BIT)
         {
             out[2*i] = (u_char) LIMIT(in[i], 0, 65535)
             out[2*i + 1] = (u_char) (LIMIT(in[i], 0, 65535) >> 8)
@@ -337,10 +337,10 @@ static void gamma_from_sane (Int length, Int *in, u_char *out, Int gamma_mode)
             out[i] = (u_char) LIMIT(in[i] / 256, 0, 255)
 }
 
-static void gamma_to_sane (Int length, u_char *in, Int *out)
+static void gamma_to_sane(Int length, u_char *in, Int *out)
 {
     var i: Int
-    for (i = 0; i < length; i++)
+    for(i = 0; i < length; i++)
         out[i] = in[2*i] + 256 * in[2*i + 1]
 }
 
@@ -357,11 +357,11 @@ static u_char D2[] ={0, 2, 3, 1]
 
 static u_char D4[16], D8[64], D16[256]
 
-static void mkDn (u_char *Dn, u_char *Dn_half, unsigned n)
+static void mkDn(u_char *Dn, u_char *Dn_half, unsigned n)
 {
     unsigned Int x, y
-    for (y = 0; y < n; y++) {
-        for (x = 0; x < n; x++) {
+    for(y = 0; y < n; y++) {
+        for(x = 0; x < n; x++) {
             /* Dn(x,y) = D2(2*x/n, 2*y/n) +4*Dn_half(x%(n/2), y%(n/2)) */
             Dn[y*n + x] = D2[((Int)(2*y/n))*2 + (Int)(2*x/n)]
                           + 4*Dn_half[(y%(n/2))*(n/2) + x%(n/2)]
@@ -369,12 +369,12 @@ static void mkDn (u_char *Dn, u_char *Dn_half, unsigned n)
     }
 }
 
-static Bool device_already_in_list (SnapScan_Device *current,
+static Bool device_already_in_list(SnapScan_Device *current,
                                          Sane.String_Const name)
 {
-    for (  ;  NULL != current;  current = current.pnext)
+    for(  ;  NULL != current;  current = current.pnext)
     {
-        if (0 == strcmp (name, current.dev.name))
+        if(0 == strcmp(name, current.dev.name))
             return Sane.TRUE
     }
     return Sane.FALSE
@@ -382,14 +382,14 @@ static Bool device_already_in_list (SnapScan_Device *current,
 
 static Sane.Char* get_driver_name(SnapScan_Model model_num) {
     Int i
-    for (i=0; i<known_drivers; i++) {
-        if (drivers[i].id == model_num) break
+    for(i=0; i<known_drivers; i++) {
+        if(drivers[i].id == model_num) break
     }
-    if (i == known_drivers) {
+    if(i == known_drivers) {
         DBG(0, "Implementation error: Driver name not found\n")
-        return ("Unknown")
+        return("Unknown")
     }
-    return (drivers[i].driver_name)
+    return(drivers[i].driver_name)
 }
 
 static Sane.Status snapscani_check_device(
@@ -404,41 +404,41 @@ static Sane.Status snapscani_check_device(
     Int supported_vendor = 0
     var i: Int
 
-    DBG (DL_CALL_TRACE, "%s()\n", me)
+    DBG(DL_CALL_TRACE, "%s()\n", me)
 
     /* check that the device is legitimate */
-    if ((status = mini_inquiry (bus_type, fd, vendor, model)) != Sane.STATUS_GOOD)
+    if((status = mini_inquiry(bus_type, fd, vendor, model)) != Sane.STATUS_GOOD)
     {
-        DBG (DL_MAJOR_ERROR,
+        DBG(DL_MAJOR_ERROR,
              "%s: mini_inquiry failed with %s.\n",
              me,
-             Sane.strstatus (status))
+             Sane.strstatus(status))
         return status
     }
 
-    DBG (DL_VERBOSE,
+    DBG(DL_VERBOSE,
          "%s: Is vendor \"%s\" model \"%s\" a supported scanner?\n",
          me,
          vendor,
          model)
 
     /* check if this is one of our supported vendors */
-    for (i = 0;  i < known_vendors;  i++)
+    for(i = 0;  i < known_vendors;  i++)
     {
-        if (0 == strcasecmp (vendor, vendors[i]))
+        if(0 == strcasecmp(vendor, vendors[i]))
         {
             supported_vendor = 1
             break
         }
     }
-    if (supported_vendor)
+    if(supported_vendor)
     {
         /* Known vendor.  Check if it is one of our supported models */
         *model_num = snapscani_get_model_id(model, fd, bus_type)
     }
-    if (!supported_vendor  ||  UNKNOWN == model_num)
+    if(!supported_vendor  ||  UNKNOWN == model_num)
     {
-        DBG (DL_MINOR_ERROR,
+        DBG(DL_MINOR_ERROR,
              "%s: \"%s %s\" is not one of %s\n",
              me,
              vendor,
@@ -466,38 +466,38 @@ static Sane.Status snapscani_init_device_structure(
     static const char me[] = "snapscani_init_device_structure"
     Sane.Status status = Sane.STATUS_GOOD
 
-    DBG (DL_CALL_TRACE, "%s()\n", me)
+    DBG(DL_CALL_TRACE, "%s()\n", me)
 
-    (*pd) = (SnapScan_Device *) malloc (sizeof (SnapScan_Device))
-    if (!(*pd))
+    (*pd) = (SnapScan_Device *) malloc(sizeof(SnapScan_Device))
+    if(!(*pd))
     {
-        DBG (DL_MAJOR_ERROR, "%s: out of memory allocating device.", me)
+        DBG(DL_MAJOR_ERROR, "%s: out of memory allocating device.", me)
         return Sane.STATUS_NO_MEM
     }
-    (*pd)->dev.name = strdup (name)
-    if (strcmp(vendor, "Color") == 0) {
-        (*pd)->dev.vendor = strdup ("Acer")
+    (*pd)->dev.name = strdup(name)
+    if(strcmp(vendor, "Color") == 0) {
+        (*pd)->dev.vendor = strdup("Acer")
     } else {
-        (*pd)->dev.vendor = strdup (vendor)
+        (*pd)->dev.vendor = strdup(vendor)
     }
-    (*pd)->dev.model = strdup (model)
-    if (model_num == SCANWIT2720S)
+    (*pd)->dev.model = strdup(model)
+    if(model_num == SCANWIT2720S)
     {
-        (*pd)->dev.type = strdup (SNAPSCAN_FS_TYPE)
+        (*pd)->dev.type = strdup(SNAPSCAN_FS_TYPE)
     }
     else
     {
-        (*pd)->dev.type = strdup (SNAPSCAN_TYPE)
+        (*pd)->dev.type = strdup(SNAPSCAN_TYPE)
     }
     (*pd)->bus = bus_type
     (*pd)->model = model_num
 
-    if (!(*pd)->dev.name  ||  !(*pd)->dev.vendor  ||  !(*pd)->dev.model  ||  !(*pd)->dev.type)
+    if(!(*pd)->dev.name  ||  !(*pd)->dev.vendor  ||  !(*pd)->dev.model  ||  !(*pd)->dev.type)
     {
-        DBG (DL_MAJOR_ERROR,
+        DBG(DL_MAJOR_ERROR,
              "%s: out of memory allocating device descriptor strings.\n",
              me)
-        free (*pd)
+        free(*pd)
         return Sane.STATUS_NO_MEM
     }
     (*pd)->x_range.min = x_range_fb.min
@@ -514,7 +514,7 @@ static Sane.Status snapscani_init_device_structure(
     return status
 }
 
-static Sane.Status add_scsi_device (Sane.String_Const full_name)
+static Sane.Status add_scsi_device(Sane.String_Const full_name)
 {
     Int fd
     static const char me[] = "add_scsi_device"
@@ -526,15 +526,15 @@ static Sane.Status add_scsi_device (Sane.String_Const full_name)
     char model[17]
     Sane.Char *name = NULL
 
-    DBG (DL_CALL_TRACE, "%s(%s)\n", me, full_name)
+    DBG(DL_CALL_TRACE, "%s(%s)\n", me, full_name)
 
     sanei_config_get_string(full_name, &name)
-    if (!name)
+    if(!name)
     {
     	return Sane.STATUS_INVAL
     }
     /* Avoid adding the same device more then once */
-    if (device_already_in_list (first_device, name)) {
+    if(device_already_in_list(first_device, name)) {
         free(name)
         name = 0
         return Sane.STATUS_GOOD
@@ -542,21 +542,21 @@ static Sane.Status add_scsi_device (Sane.String_Const full_name)
 
     vendor[0] = model[0] = '\0'
 
-    DBG (DL_VERBOSE, "%s: Detected (kind of) a SCSI device\n", me)
+    DBG(DL_VERBOSE, "%s: Detected(kind of) a SCSI device\n", me)
 
-    status = sanei_scsi_open (name, &fd, sense_handler, NULL)
-    if (status != Sane.STATUS_GOOD)
+    status = sanei_scsi_open(name, &fd, sense_handler, NULL)
+    if(status != Sane.STATUS_GOOD)
     {
-        DBG (DL_MAJOR_ERROR,
+        DBG(DL_MAJOR_ERROR,
             "%s: error opening device %s: %s\n",
             me,
             name,
-            Sane.strstatus (status))
+            Sane.strstatus(status))
     } else {
         status = snapscani_check_device(fd, bus_type, vendor, model, &model_num)
         sanei_scsi_close(fd)
     }
-    if (status == Sane.STATUS_GOOD) {
+    if(status == Sane.STATUS_GOOD) {
         status = snapscani_init_device_structure(
             &pd,
             bus_type,
@@ -571,7 +571,7 @@ static Sane.Status add_scsi_device (Sane.String_Const full_name)
     return status
 }
 
-static Sane.Status add_usb_device (Sane.String_Const full_name) {
+static Sane.Status add_usb_device(Sane.String_Const full_name) {
     static const char me[] = "add_usb_device"
     Int fd
     SnapScan_Device *pd
@@ -585,14 +585,14 @@ static Sane.Status add_usb_device (Sane.String_Const full_name) {
     var i: Int
     Sane.Char *name = NULL
 
-    DBG (DL_CALL_TRACE, "%s(%s)\n", me, full_name)
+    DBG(DL_CALL_TRACE, "%s(%s)\n", me, full_name)
     sanei_config_get_string(full_name, &name)
-    if (!name)
+    if(!name)
     {
         return Sane.STATUS_INVAL
     }
     /* Avoid adding the same device more then once */
-    if (device_already_in_list (first_device, name)) {
+    if(device_already_in_list(first_device, name)) {
         free(name)
         name = 0
         return Sane.STATUS_GOOD
@@ -600,23 +600,23 @@ static Sane.Status add_usb_device (Sane.String_Const full_name) {
 
     vendor[0] = model[0] = '\0'
 
-    DBG (DL_VERBOSE, "%s: Detected (kind of) an USB device\n", me)
+    DBG(DL_VERBOSE, "%s: Detected(kind of) an USB device\n", me)
     bus_type = USB
     status = snapscani_usb_shm_init()
-    if (status != Sane.STATUS_GOOD)
+    if(status != Sane.STATUS_GOOD)
     {
         return status
     }
-    status = snapscani_usb_open (name, &fd, sense_handler, NULL)
-    if (status != Sane.STATUS_GOOD)
+    status = snapscani_usb_open(name, &fd, sense_handler, NULL)
+    if(status != Sane.STATUS_GOOD)
     {
-        DBG (DL_MAJOR_ERROR,
+        DBG(DL_MAJOR_ERROR,
             "%s: error opening device %s: %s\n",
             me,
             name,
-            Sane.strstatus (status))
+            Sane.strstatus(status))
     } else {
-        if (sanei_usb_get_vendor_product(fd, &vendor_id, &product_id) ==
+        if(sanei_usb_get_vendor_product(fd, &vendor_id, &product_id) ==
                 Sane.STATUS_GOOD)
         {
             /* check for known USB vendors to avoid hanging scanners by
@@ -624,12 +624,12 @@ static Sane.Status add_usb_device (Sane.String_Const full_name) {
             */
             DBG(DL_INFO, "%s: Checking if 0x%04x is a supported USB vendor ID\n",
                 me, vendor_id)
-            for (i = 0; i < known_usb_vendor_ids; i++) {
-                if (vendor_id == usb_vendor_ids[i]) {
+            for(i = 0; i < known_usb_vendor_ids; i++) {
+                if(vendor_id == usb_vendor_ids[i]) {
                     supported_usb_vendor = 1
                 }
             }
-            if (!supported_usb_vendor) {
+            if(!supported_usb_vendor) {
                 DBG(DL_MINOR_ERROR,
                     "%s: USB vendor ID 0x%04x is currently NOT supported by the snapscan backend.\n",
                     me, vendor_id)
@@ -638,13 +638,13 @@ static Sane.Status add_usb_device (Sane.String_Const full_name) {
             }
         }
     }
-    if (status == Sane.STATUS_GOOD) {
+    if(status == Sane.STATUS_GOOD) {
         status = snapscani_check_device(fd, bus_type, vendor, model, &model_num)
         snapscani_usb_close(fd)
     }
     /* deinit shared memory, will be initialized again in open_scanner */
     snapscani_usb_shm_exit()
-    if (status == Sane.STATUS_GOOD) {
+    if(status == Sane.STATUS_GOOD) {
         status = snapscani_init_device_structure(
             &pd,
             bus_type,
@@ -666,16 +666,16 @@ static Sane.Status add_usb_device (Sane.String_Const full_name) {
    RET: a pointer to the corresponding device record, or NULL if there
    is no such device */
 
-static SnapScan_Device *find_device (Sane.String_Const name)
+static SnapScan_Device *find_device(Sane.String_Const name)
 {
     static char me[] = "find_device"
     SnapScan_Device *psd
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
+    DBG(DL_CALL_TRACE, "%s\n", me)
 
-    for (psd = first_device;  psd;  psd = psd.pnext)
+    for(psd = first_device;  psd;  psd = psd.pnext)
     {
-        if (strcmp (psd.dev.name, name) == 0)
+        if(strcmp(psd.dev.name, name) == 0)
             return psd
     }
     return NULL
@@ -683,7 +683,7 @@ static SnapScan_Device *find_device (Sane.String_Const name)
 
 /*----- functions in the scanner interface -----*/
 
-Sane.Status Sane.init (Int *version_code,
+Sane.Status Sane.init(Int *version_code,
                        Sane.Auth_Callback authorize)
 {
     static const char me[] = "Sane.snapscan_init"
@@ -692,17 +692,17 @@ Sane.Status Sane.init (Int *version_code,
     FILE *fp
     Sane.Status status
 
-    DBG_INIT ()
+    DBG_INIT()
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
-    DBG (DL_VERBOSE, "%s: Snapscan backend version %d.%d.%d\n",
+    DBG(DL_CALL_TRACE, "%s\n", me)
+    DBG(DL_VERBOSE, "%s: Snapscan backend version %d.%d.%d\n",
         me,
         Sane.CURRENT_MAJOR, MINOR_VERSION, BUILD)
 
-    if (version_code != NULL)
+    if(version_code != NULL)
     {
         *version_code =
-            Sane.VERSION_CODE (Sane.CURRENT_MAJOR, MINOR_VERSION, BUILD)
+            Sane.VERSION_CODE(Sane.CURRENT_MAJOR, MINOR_VERSION, BUILD)
     }
 
     auth = authorize
@@ -714,18 +714,18 @@ Sane.Status Sane.init (Int *version_code,
     sanei_usb_init()
     sanei_thread_init()
     /* build a device structure */
-    fp = sanei_config_open (SNAPSCAN_CONFIG_FILE)
-    if (!fp)
+    fp = sanei_config_open(SNAPSCAN_CONFIG_FILE)
+    if(!fp)
     {
         /* default to DEFAULT_DEVICE instead of insisting on config file */
-        DBG (DL_INFO,
+        DBG(DL_INFO,
              "%s: configuration file not found, defaulting to %s.\n",
              me,
              DEFAULT_DEVICE)
-        status = add_scsi_device (DEFAULT_DEVICE)
-        if (status != Sane.STATUS_GOOD)
+        status = add_scsi_device(DEFAULT_DEVICE)
+        if(status != Sane.STATUS_GOOD)
         {
-            DBG (DL_MINOR_ERROR,
+            DBG(DL_MINOR_ERROR,
                  "%s: failed to add device \"%s\"\n",
                  me,
                  dev_name)
@@ -733,73 +733,73 @@ Sane.Status Sane.init (Int *version_code,
     }
     else
     {
-        while (sanei_config_read (dev_name, sizeof (dev_name), fp))
+        while(sanei_config_read(dev_name, sizeof(dev_name), fp))
         {
-            len = strlen (dev_name)
-            if (!len)
+            len = strlen(dev_name)
+            if(!len)
                 continue;                /* ignore empty lines */
-            if (dev_name[0] == '#')        /* ignore line comments */
+            if(dev_name[0] == '#')        /* ignore line comments */
                 continue
-            if (strncasecmp(dev_name, FIRMWARE_KW, strlen(FIRMWARE_KW)) == 0) {
-                if (!default_firmware_filename) {
+            if(strncasecmp(dev_name, FIRMWARE_KW, strlen(FIRMWARE_KW)) == 0) {
+                if(!default_firmware_filename) {
                     sanei_config_get_string(dev_name + strlen(FIRMWARE_KW), &default_firmware_filename)
-                    if (default_firmware_filename == NULL) {
-                        DBG (0, "%s: Illegal firmware entry %s.\n", me, dev_name)
+                    if(default_firmware_filename == NULL) {
+                        DBG(0, "%s: Illegal firmware entry %s.\n", me, dev_name)
                     }
                 }
             }
-            else if (strncasecmp(dev_name, OPTIONS_KW, strlen(OPTIONS_KW)) == 0)
+            else if(strncasecmp(dev_name, OPTIONS_KW, strlen(OPTIONS_KW)) == 0)
                 continue;                   /* ignore options lines */
 
-            else if (strncmp(dev_name, "usb", 3) == 0) {
-                sanei_usb_attach_matching_devices (dev_name, add_usb_device)
+            else if(strncmp(dev_name, "usb", 3) == 0) {
+                sanei_usb_attach_matching_devices(dev_name, add_usb_device)
             }
-            else if (strncmp(dev_name, "scsi", 4) == 0) {
-                sanei_config_attach_matching_devices (dev_name, add_scsi_device)
+            else if(strncmp(dev_name, "scsi", 4) == 0) {
+                sanei_config_attach_matching_devices(dev_name, add_scsi_device)
             }
-            else if (strstr (dev_name, "usb")) {
+            else if(strstr(dev_name, "usb")) {
                 add_usb_device(dev_name)
             }
             else {
                 add_scsi_device(dev_name)
             }
         }
-        fclose (fp)
+        fclose(fp)
     }
 
     /* compute the dither matrices */
 
-    mkDn (D4, D2, 4)
-    mkDn (D8, D4, 8)
-    mkDn (D16, D8, 16)
+    mkDn(D4, D2, 4)
+    mkDn(D8, D4, 8)
+    mkDn(D16, D8, 16)
     /* scale the D8 matrix from 0..63 to 0..255 */
     {
         u_char i
-        for (i = 0;  i < 64;  i++)
+        for(i = 0;  i < 64;  i++)
             D8[i] = (u_char) (4 * D8[i] + 2)
     }
     return Sane.STATUS_GOOD
 }
 
 static void free_device_list(SnapScan_Device *psd) {
-    if (psd.pnext != NULL) {
+    if(psd.pnext != NULL) {
         free_device_list(psd.pnext)
     }
     free(psd)
 }
 
-void Sane.exit (void)
+void Sane.exit(void)
 {
-    DBG (DL_CALL_TRACE, "Sane.snapscan_exit\n")
+    DBG(DL_CALL_TRACE, "Sane.snapscan_exit\n")
 
-    if (get_devices_list)
-        free (get_devices_list)
+    if(get_devices_list)
+        free(get_devices_list)
     get_devices_list = NULL
 
     /* just for safety, reset things to known values */
     auth = NULL
 
-    if (first_device) {
+    if(first_device) {
         free_device_list(first_device)
         first_device = NULL
     }
@@ -807,34 +807,34 @@ void Sane.exit (void)
 }
 
 
-Sane.Status Sane.get_devices (const Sane.Device ***device_list,
+Sane.Status Sane.get_devices(const Sane.Device ***device_list,
                               Bool local_only)
 {
     static const char *me = "Sane.snapscan_get_devices"
-    DBG (DL_CALL_TRACE,
-         "%s (%p, %ld)\n",
+    DBG(DL_CALL_TRACE,
+         "%s(%p, %ld)\n",
          me,
          (const void *) device_list,
          (long) local_only)
 
     /* Waste the last list returned from this function */
-    if (NULL != get_devices_list)
-        free (get_devices_list)
+    if(NULL != get_devices_list)
+        free(get_devices_list)
 
     *device_list =
-        (const Sane.Device **) malloc ((n_devices + 1) * sizeof (Sane.Device *))
+        (const Sane.Device **) malloc((n_devices + 1) * sizeof(Sane.Device *))
 
-    if (*device_list)
+    if(*device_list)
     {
         var i: Int
         SnapScan_Device *pdev
-        for (i = 0, pdev = first_device;  pdev;  i++, pdev = pdev.pnext)
+        for(i = 0, pdev = first_device;  pdev;  i++, pdev = pdev.pnext)
             (*device_list)[i] = &(pdev.dev)
         (*device_list)[i] = 0x0000 /*NULL */
     }
     else
     {
-        DBG (DL_MAJOR_ERROR, "%s: out of memory\n", me)
+        DBG(DL_MAJOR_ERROR, "%s: out of memory\n", me)
         return Sane.STATUS_NO_MEM
     }
 
@@ -843,27 +843,27 @@ Sane.Status Sane.get_devices (const Sane.Device ***device_list,
     return Sane.STATUS_GOOD
 }
 
-Sane.Status Sane.open (Sane.String_Const name, Sane.Handle * h)
+Sane.Status Sane.open(Sane.String_Const name, Sane.Handle * h)
 {
     static const char *me = "Sane.snapscan_open"
     SnapScan_Device *psd
     Sane.Status status
 
-    DBG (DL_CALL_TRACE, "%s (%s, %p)\n", me, name, (void *) h)
+    DBG(DL_CALL_TRACE, "%s(%s, %p)\n", me, name, (void *) h)
 
     /* possible authorization required */
 
     /* no device name: use first device */
-    if ((strlen(name) == 0) && (first_device != NULL))
+    if((strlen(name) == 0) && (first_device != NULL))
     {
         name = first_device.dev.name
     }
 
     /* device exists? */
-    psd = find_device (name)
-    if (!psd)
+    psd = find_device(name)
+    if(!psd)
     {
-        DBG (DL_MINOR_ERROR,
+        DBG(DL_MINOR_ERROR,
              "%s: device \"%s\" not in current device list.\n",
              me,
              name)
@@ -872,10 +872,10 @@ Sane.Status Sane.open (Sane.String_Const name, Sane.Handle * h)
 
     /* create and initialize the scanner structure */
 
-    *h = (SnapScan_Scanner *) calloc (sizeof (SnapScan_Scanner), 1)
-    if (!*h)
+    *h = (SnapScan_Scanner *) calloc(sizeof(SnapScan_Scanner), 1)
+    if(!*h)
     {
-        DBG (DL_MAJOR_ERROR,
+        DBG(DL_MAJOR_ERROR,
              "%s: out of memory creating scanner structure.\n",
              me)
         return Sane.STATUS_NO_MEM
@@ -885,11 +885,11 @@ Sane.Status Sane.open (Sane.String_Const name, Sane.Handle * h)
         SnapScan_Scanner *pss = *(SnapScan_Scanner **) h
 
         {
-            pss.devname = strdup (name)
-            if (!pss.devname)
+            pss.devname = strdup(name)
+            if(!pss.devname)
             {
-                free (*h)
-                DBG (DL_MAJOR_ERROR,
+                free(*h)
+                DBG(DL_MAJOR_ERROR,
                      "%s: out of memory copying device name.\n",
                      me)
                 return Sane.STATUS_NO_MEM
@@ -899,139 +899,139 @@ Sane.Status Sane.open (Sane.String_Const name, Sane.Handle * h)
             pss.sense_str = NULL
             pss.as_str = NULL
             pss.phys_buf_sz = DEFAULT_SCANNER_BUF_SZ
-            if ((pss.pdev.model == PERFECTION2480) || (pss.pdev.model == PERFECTION3490))
+            if((pss.pdev.model == PERFECTION2480) || (pss.pdev.model == PERFECTION3490))
                 pss.phys_buf_sz *= 2
-            if (psd.bus == SCSI) {
+            if(psd.bus == SCSI) {
                 pss.phys_buf_sz = sanei_scsi_max_request_size
             }
-            DBG (DL_DATA_TRACE,
+            DBG(DL_DATA_TRACE,
                 "%s: Allocating %lu bytes as scanner buffer.\n",
                 me, (u_long) pss.phys_buf_sz)
             pss.buf = (u_char *) malloc(pss.phys_buf_sz)
-            if (!pss.buf) {
-                DBG (DL_MAJOR_ERROR,
+            if(!pss.buf) {
+                DBG(DL_MAJOR_ERROR,
                 "%s: out of memory creating scanner buffer.\n",
                 me)
                 return Sane.STATUS_NO_MEM
             }
 
-            DBG (DL_VERBOSE,
+            DBG(DL_VERBOSE,
                  "%s: allocated scanner structure at %p\n",
                  me,
                  (void *) pss)
         }
         status = snapscani_usb_shm_init()
-        if (status != Sane.STATUS_GOOD)
+        if(status != Sane.STATUS_GOOD)
         {
             return status
         }
-        status = open_scanner (pss)
-        if (status != Sane.STATUS_GOOD)
+        status = open_scanner(pss)
+        if(status != Sane.STATUS_GOOD)
         {
-            DBG (DL_MAJOR_ERROR,
+            DBG(DL_MAJOR_ERROR,
                  "%s: open_scanner failed, status: %s\n",
                  me,
-                 Sane.strstatus (status))
-            free (pss)
+                 Sane.strstatus(status))
+            free(pss)
             return Sane.STATUS_ACCESS_DENIED
         }
 
-        DBG (DL_MINOR_INFO, "%s: waiting for scanner to warm up.\n", me)
-        status = wait_scanner_ready (pss)
-        if (status != Sane.STATUS_GOOD)
+        DBG(DL_MINOR_INFO, "%s: waiting for scanner to warm up.\n", me)
+        status = wait_scanner_ready(pss)
+        if(status != Sane.STATUS_GOOD)
         {
-            DBG (DL_MAJOR_ERROR,
+            DBG(DL_MAJOR_ERROR,
                 "%s: error waiting for scanner to warm up: %s\n",
                 me,
                 Sane.strstatus(status))
-            free (pss)
+            free(pss)
             return status
         }
-        DBG (DL_MINOR_INFO, "%s: performing scanner self test.\n", me)
-        status = send_diagnostic (pss)
-        if (status != Sane.STATUS_GOOD)
+        DBG(DL_MINOR_INFO, "%s: performing scanner self test.\n", me)
+        status = send_diagnostic(pss)
+        if(status != Sane.STATUS_GOOD)
         {
-            DBG (DL_MINOR_INFO, "%s: send_diagnostic reports %s\n",
-                 me, Sane.strstatus (status))
-            free (pss)
+            DBG(DL_MINOR_INFO, "%s: send_diagnostic reports %s\n",
+                 me, Sane.strstatus(status))
+            free(pss)
             return status
         }
-        DBG (DL_MINOR_INFO, "%s: self test passed.\n", me)
+        DBG(DL_MINOR_INFO, "%s: self test passed.\n", me)
 
         /* option initialization depends on getting the hardware configuration
            byte */
-        status = inquiry (pss)
-        if (status != Sane.STATUS_GOOD)
+        status = inquiry(pss)
+        if(status != Sane.STATUS_GOOD)
         {
-            DBG (DL_MAJOR_ERROR,
+            DBG(DL_MAJOR_ERROR,
                     "%s: error in inquiry command: %s\n",
                 me,
-                        Sane.strstatus (status))
-            free (pss)
+                        Sane.strstatus(status))
+            free(pss)
             return status
         }
 
-		if (pss.pdev.bus == USB)
+		if(pss.pdev.bus == USB)
 		{
-			if (sanei_usb_get_vendor_product(pss.fd, &pss.usb_vendor, &pss.usb_product) != Sane.STATUS_GOOD)
+			if(sanei_usb_get_vendor_product(pss.fd, &pss.usb_vendor, &pss.usb_product) != Sane.STATUS_GOOD)
 			{
 				pss.usb_vendor = 0
 				pss.usb_product = 0
 			}
 	        /* Download Firmware for USB scanners */
-	        if (pss.hwst & 0x02)
+	        if(pss.hwst & 0x02)
 	        {
 	            char vendor[8]
 	            char model[17]
 
 	            status = download_firmware(pss)
-	            CHECK_STATUS (status, me, "download_firmware")
+	            CHECK_STATUS(status, me, "download_firmware")
 	            /* send inquiry command again, wait for scanner to initialize */
 	            status = wait_scanner_ready(pss)
-	            CHECK_STATUS (status, me, "wait_scanner_ready after firmware upload")
-	            status =  mini_inquiry (pss.pdev.bus, pss.fd, vendor, model)
-	            CHECK_STATUS (status, me, "mini_inquiry after firmware upload")
+	            CHECK_STATUS(status, me, "wait_scanner_ready after firmware upload")
+	            status =  mini_inquiry(pss.pdev.bus, pss.fd, vendor, model)
+	            CHECK_STATUS(status, me, "mini_inquiry after firmware upload")
 	            /* The model identifier may change after firmware upload */
-	            DBG (DL_INFO,
-	                "%s (after firmware upload): Checking if \"%s\" is a supported scanner\n",
+	            DBG(DL_INFO,
+	                "%s(after firmware upload): Checking if \"%s\" is a supported scanner\n",
 	                me,
 	                model)
 	            /* Check if it is one of our supported models */
 	            pss.pdev.model = snapscani_get_model_id(model, pss.fd, pss.pdev.bus)
 
-	            if (pss.pdev.model == UNKNOWN) {
-	                DBG (DL_MINOR_ERROR,
-	                    "%s (after firmware upload): \"%s\" is not a supported scanner\n",
+	            if(pss.pdev.model == UNKNOWN) {
+	                DBG(DL_MINOR_ERROR,
+	                    "%s(after firmware upload): \"%s\" is not a supported scanner\n",
 	                    me,
 	                    model)
 	            }
 	            /* run "real" inquiry command once again for option initialization */
-	            status = inquiry (pss)
-	            CHECK_STATUS (status, me, "inquiry after firmware upload")
+	            status = inquiry(pss)
+	            CHECK_STATUS(status, me, "inquiry after firmware upload")
 	        }
 		}
         close_scanner(pss)
 
-        status = alloc_gamma_tables (pss)
-        if (status != Sane.STATUS_GOOD)
+        status = alloc_gamma_tables(pss)
+        if(status != Sane.STATUS_GOOD)
         {
-            DBG (DL_MAJOR_ERROR,
+            DBG(DL_MAJOR_ERROR,
                  "%s: error in alloc_gamma_tables: %s\n",
                  me,
-                 Sane.strstatus (status))
-            free (pss)
+                 Sane.strstatus(status))
+            free(pss)
             return status
         }
 
-        init_options (pss)
-        status = init_gamma (pss)
-        if (status != Sane.STATUS_GOOD)
+        init_options(pss)
+        status = init_gamma(pss)
+        if(status != Sane.STATUS_GOOD)
         {
-            DBG (DL_MAJOR_ERROR,
+            DBG(DL_MAJOR_ERROR,
                  "%s: error in init_gamma: %s\n",
                  me,
-                 Sane.strstatus (status))
-            free (pss)
+                 Sane.strstatus(status))
+            free(pss)
             return status
         }
 
@@ -1040,29 +1040,29 @@ Sane.Status Sane.open (Sane.String_Const name, Sane.Handle * h)
     return Sane.STATUS_GOOD
 }
 
-void Sane.close (Sane.Handle h)
+void Sane.close(Sane.Handle h)
 {
     SnapScan_Scanner *pss = (SnapScan_Scanner *) h
-    DBG (DL_CALL_TRACE, "Sane.snapscan_close (%p)\n", (void *) h)
-    switch (pss.state)
+    DBG(DL_CALL_TRACE, "Sane.snapscan_close(%p)\n", (void *) h)
+    switch(pss.state)
     {
     case ST_SCAN_INIT:
     case ST_SCANNING:
-        release_unit (pss)
+        release_unit(pss)
         break
     default:
         break
     }
-    close_scanner (pss)
+    close_scanner(pss)
     snapscani_usb_shm_exit()
-    free (pss.gamma_tables)
-    free (pss.buf)
-    free (pss)
+    free(pss.gamma_tables)
+    free(pss.buf)
+    free(pss)
 }
 
 
 
-Sane.Status Sane.get_parameters (Sane.Handle h,
+Sane.Status Sane.get_parameters(Sane.Handle h,
                                  Sane.Parameters *p)
 {
     static const char *me = "Sane.snapscan_get_parameters"
@@ -1070,15 +1070,15 @@ Sane.Status Sane.get_parameters (Sane.Handle h,
     Sane.Status status = Sane.STATUS_GOOD
     SnapScan_Mode mode = actual_mode(pss)
 
-    DBG (DL_CALL_TRACE, "%s (%p, %p)\n", me, (void *) h, (void *) p)
+    DBG(DL_CALL_TRACE, "%s(%p, %p)\n", me, (void *) h, (void *) p)
 
     p.last_frame = Sane.TRUE;        /* we always do only one frame */
 
-    if ((pss.state == ST_SCAN_INIT) || (pss.state == ST_SCANNING))
+    if((pss.state == ST_SCAN_INIT) || (pss.state == ST_SCANNING))
     {
         /* we are in the middle of a scan, so we can use the data
            that the scanner has reported */
-        if (pss.psrc != NULL)
+        if(pss.psrc != NULL)
         {
             DBG(DL_DATA_TRACE, "%s: Using source chain data\n", me)
             /* use what the source chain says */
@@ -1094,7 +1094,7 @@ Sane.Status Sane.get_parameters (Sane.Handle h,
             p.pixels_per_line = pss.pixels_per_line
             p.bytes_per_line = pss.bytes_per_line
             p.lines = pss.lines
-            if (mode == MD_BILEVELCOLOUR)
+            if(mode == MD_BILEVELCOLOUR)
                 p.bytes_per_line = p.pixels_per_line*3
         }
     }
@@ -1107,13 +1107,13 @@ Sane.Status Sane.get_parameters (Sane.Handle h,
         double dots_per_mm
 
         DBG(DL_DATA_TRACE, "%s: Using estimated data\n", me)
-        width = Sane.UNFIX (pss.brx - pss.tlx)
-        height = Sane.UNFIX (pss.bry - pss.tly)
+        width = Sane.UNFIX(pss.brx - pss.tlx)
+        height = Sane.UNFIX(pss.bry - pss.tly)
         dpi = pss.res
         dots_per_mm = dpi / MM_PER_IN
         p.pixels_per_line = width * dots_per_mm
         p.lines = height * dots_per_mm
-        switch (mode)
+        switch(mode)
         {
         case MD_COLOUR:
         case MD_BILEVELCOLOUR:
@@ -1129,22 +1129,22 @@ Sane.Status Sane.get_parameters (Sane.Handle h,
         }
     }
     p.format = (is_colour_mode(mode)) ? Sane.FRAME_RGB : Sane.FRAME_GRAY
-    if (mode == MD_LINEART)
+    if(mode == MD_LINEART)
         p.depth = 1
-    else if (pss.pdev.model == SCANWIT2720S)
+    else if(pss.pdev.model == SCANWIT2720S)
         p.depth = 16
-    else if (pss.preview)
+    else if(pss.preview)
         p.depth = 8
     else
         p.depth = pss.val[OPT_BIT_DEPTH].w
 
-    DBG (DL_DATA_TRACE, "%s: depth = %ld\n", me, (long) p.depth)
-    DBG (DL_DATA_TRACE, "%s: lines = %ld\n", me, (long) p.lines)
-    DBG (DL_DATA_TRACE,
+    DBG(DL_DATA_TRACE, "%s: depth = %ld\n", me, (long) p.depth)
+    DBG(DL_DATA_TRACE, "%s: lines = %ld\n", me, (long) p.lines)
+    DBG(DL_DATA_TRACE,
          "%s: pixels per line = %ld\n",
          me,
          (long) p.pixels_per_line)
-    DBG (DL_DATA_TRACE,
+    DBG(DL_DATA_TRACE,
          "%s: bytes per line = %ld\n",
          me,
          (long) p.bytes_per_line)
@@ -1156,47 +1156,47 @@ Sane.Status Sane.get_parameters (Sane.Handle h,
 
 #define READER_WRITE_SIZE 4096
 
-static void reader (SnapScan_Scanner *pss)
+static void reader(SnapScan_Scanner *pss)
 {
     static char me[] = "Child reader process"
     Sane.Status status
     Sane.Byte *wbuf = NULL
 
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
+    DBG(DL_CALL_TRACE, "%s\n", me)
 
     wbuf = (Sane.Byte*) malloc(READER_WRITE_SIZE)
-    if (wbuf == NULL)
+    if(wbuf == NULL)
     {
-        DBG (DL_MAJOR_ERROR, "%s: failed to allocate write buffer.\n", me)
+        DBG(DL_MAJOR_ERROR, "%s: failed to allocate write buffer.\n", me)
         return
     }
 
-    while ((pss.preadersrc.remaining(pss.preadersrc) > 0) && !cancelRead)
+    while((pss.preadersrc.remaining(pss.preadersrc) > 0) && !cancelRead)
     {
         Int ndata = READER_WRITE_SIZE
         status = pss.preadersrc.get(pss.preadersrc, wbuf, &ndata)
-        if (status != Sane.STATUS_GOOD)
+        if(status != Sane.STATUS_GOOD)
         {
-            DBG (DL_MAJOR_ERROR,
+            DBG(DL_MAJOR_ERROR,
                  "%s: %s on read.\n",
                  me,
-                 Sane.strstatus (status))
+                 Sane.strstatus(status))
             return
         }
         {
             Sane.Byte *buf = wbuf
-            DBG (DL_DATA_TRACE, "READ %d BYTES (%d)\n", ndata, cancelRead)
-            while (ndata > 0)
+            DBG(DL_DATA_TRACE, "READ %d BYTES(%d)\n", ndata, cancelRead)
+            while(ndata > 0)
             {
-                Int written = write (pss.rpipe[1], buf, ndata)
-                DBG (DL_DATA_TRACE, "WROTE %d BYTES\n", written)
-                if (written == -1)
+                Int written = write(pss.rpipe[1], buf, ndata)
+                DBG(DL_DATA_TRACE, "WROTE %d BYTES\n", written)
+                if(written == -1)
                 {
-                    DBG (DL_MAJOR_ERROR,
+                    DBG(DL_MAJOR_ERROR,
                          "%s: error writing scan data on parent pipe.\n",
                          me)
-                    perror ("pipe error: ")
+                    perror("pipe error: ")
                 }
                 else
                 {
@@ -1232,19 +1232,19 @@ static Int reader_process( void *args )
     SnapScan_Scanner *pss = (SnapScan_Scanner *) args
 
     if( sanei_thread_is_forked()) {
-        DBG( DL_MINOR_INFO, "reader_process started (forked)\n" )
+        DBG( DL_MINOR_INFO, "reader_process started(forked)\n" )
         /* child process - close read side, make stdout the write side of the pipe */
         close( pss.rpipe[0] )
         pss.rpipe[0] = -1
     } else {
-        DBG( DL_MINOR_INFO, "reader_process started (as thread)\n" )
+        DBG( DL_MINOR_INFO, "reader_process started(as thread)\n" )
     }
 
-    sigfillset ( &ignore_set )
+    sigfillset( &ignore_set )
     sigdelset  ( &ignore_set, SIGUSR1 )
     sigprocmask( SIG_SETMASK, &ignore_set, 0 )
 
-    memset   ( &act, 0, sizeof (act))
+    memset   ( &act, 0, sizeof(act))
     sigaction( SIGTERM, &act, 0 )
 
     cancelRead = Sane.FALSE
@@ -1256,14 +1256,14 @@ static Int reader_process( void *args )
     act.sa_handler = usb_reader_process_sigterm_handler
     sigaction( SIGUSR1, &act, 0 )
 
-    status = create_base_source (pss, SCSI_SRC, &(pss.preadersrc))
-    if (status == Sane.STATUS_GOOD)
+    status = create_base_source(pss, SCSI_SRC, &(pss.preadersrc))
+    if(status == Sane.STATUS_GOOD)
     {
-        reader (pss)
+        reader(pss)
     }
     else
     {
-        DBG (DL_MAJOR_ERROR,
+        DBG(DL_MAJOR_ERROR,
                 "Reader process: failed to create SCSISource.\n")
     }
     pss.preadersrc.done(pss.preadersrc)
@@ -1276,38 +1276,38 @@ static Int reader_process( void *args )
 }
 
 
-static Sane.Status start_reader (SnapScan_Scanner *pss)
+static Sane.Status start_reader(SnapScan_Scanner *pss)
 {
     Sane.Status status = Sane.STATUS_GOOD
     static char me[] = "start_reader"
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
+    DBG(DL_CALL_TRACE, "%s\n", me)
 
     pss.nonblocking = Sane.FALSE
     pss.rpipe[0] = pss.rpipe[1] = -1
-    sanei_thread_initialize (pss.child)
+    sanei_thread_initialize(pss.child)
 
-    if (pipe (pss.rpipe) != -1)
+    if(pipe(pss.rpipe) != -1)
     {
-        pss.orig_rpipe_flags = fcntl (pss.rpipe[0], F_GETFL, 0)
+        pss.orig_rpipe_flags = fcntl(pss.rpipe[0], F_GETFL, 0)
         pss.child =  sanei_thread_begin(reader_process, (void *) pss)
 
         cancelRead = Sane.FALSE
 
-        if (!sanei_thread_is_valid (pss.child))
+        if(!sanei_thread_is_valid(pss.child))
         {
             /* we'll have to read in blocking mode */
-            DBG (DL_MAJOR_ERROR,
+            DBG(DL_MAJOR_ERROR,
                  "%s: Error while calling sanei_thread_begin; must read in blocking mode.\n",
                  me)
-            close (pss.rpipe[0])
-            close (pss.rpipe[1])
+            close(pss.rpipe[0])
+            close(pss.rpipe[1])
             status = Sane.STATUS_UNSUPPORTED
         }
-        if (sanei_thread_is_forked())
+        if(sanei_thread_is_forked())
         {
             /* parent; close write side */
-            close (pss.rpipe[1])
+            close(pss.rpipe[1])
             pss.rpipe[1] = -1
         }
         pss.nonblocking = Sane.TRUE
@@ -1315,26 +1315,26 @@ static Sane.Status start_reader (SnapScan_Scanner *pss)
     return status
 }
 
-static Sane.Status send_gamma_table (SnapScan_Scanner *pss, u_char dtc, u_char dtcq)
+static Sane.Status send_gamma_table(SnapScan_Scanner *pss, u_char dtc, u_char dtcq)
 {
     static char me[] = "send_gamma_table"
     Sane.Status status = Sane.STATUS_GOOD
-    status = send (pss, dtc, dtcq)
-    CHECK_STATUS (status, me, "send")
-    switch (pss.pdev.model)
+    status = send(pss, dtc, dtcq)
+    CHECK_STATUS(status, me, "send")
+    switch(pss.pdev.model)
     {
         case PERFECTION1270:
         case PERFECTION1670:
         case PERFECTION2480:
         case PERFECTION3490:
             /* Some epson scanners need the gamma table twice */
-            status = send (pss, dtc, dtcq)
-            CHECK_STATUS (status, me, "2nd send")
+            status = send(pss, dtc, dtcq)
+            CHECK_STATUS(status, me, "2nd send")
             break
         case PRISA5150:
             /* 5150 needs the gamma table twice, with dtc = 0x04 for the second one */
-            status = send (pss, DTC_GAMMA2, dtcq)
-            CHECK_STATUS (status, me, "2nd send")
+            status = send(pss, DTC_GAMMA2, dtcq)
+            CHECK_STATUS(status, me, "2nd send")
             break
         default:
             break
@@ -1342,28 +1342,28 @@ static Sane.Status send_gamma_table (SnapScan_Scanner *pss, u_char dtc, u_char d
     return status
 }
 
-static Sane.Status download_gamma_tables (SnapScan_Scanner *pss)
+static Sane.Status download_gamma_tables(SnapScan_Scanner *pss)
 {
     static char me[] = "download_gamma_tables"
     Sane.Status status = Sane.STATUS_GOOD
-    double gamma_gs = Sane.UNFIX (pss.gamma_gs)
-    double gamma_r = Sane.UNFIX (pss.gamma_r)
-    double gamma_g = Sane.UNFIX (pss.gamma_g)
-    double gamma_b = Sane.UNFIX (pss.gamma_b)
-    SnapScan_Mode mode = actual_mode (pss)
+    double gamma_gs = Sane.UNFIX(pss.gamma_gs)
+    double gamma_r = Sane.UNFIX(pss.gamma_r)
+    double gamma_g = Sane.UNFIX(pss.gamma_g)
+    double gamma_b = Sane.UNFIX(pss.gamma_b)
+    SnapScan_Mode mode = actual_mode(pss)
     Int dtcq_gamma_gray
     Int dtcq_gamma_red
     Int dtcq_gamma_green
     Int dtcq_gamma_blue
     Int gamma_mode = GAMMA_8BIT
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
-    switch (mode)
+    DBG(DL_CALL_TRACE, "%s\n", me)
+    switch(mode)
     {
     case MD_COLOUR:
         break
     case MD_BILEVELCOLOUR:
-        if (!pss.halftone)
+        if(!pss.halftone)
         {
             gamma_r =
             gamma_g =
@@ -1371,7 +1371,7 @@ static Sane.Status download_gamma_tables (SnapScan_Scanner *pss)
         }
         break
     case MD_LINEART:
-        if (!pss.halftone)
+        if(!pss.halftone)
             gamma_gs = 1.0
         break
     default:
@@ -1379,19 +1379,19 @@ static Sane.Status download_gamma_tables (SnapScan_Scanner *pss)
         break
     }
 
-    switch (pss.bpp)
+    switch(pss.bpp)
     {
     case 10:
-        DBG (DL_DATA_TRACE, "%s: Sending 8bit gamma table for %d bpp\n", me, pss.bpp)
+        DBG(DL_DATA_TRACE, "%s: Sending 8bit gamma table for %d bpp\n", me, pss.bpp)
         dtcq_gamma_gray = DTCQ_GAMMA_GRAY10
         dtcq_gamma_red = DTCQ_GAMMA_RED10
         dtcq_gamma_green = DTCQ_GAMMA_GREEN10
         dtcq_gamma_blue = DTCQ_GAMMA_BLUE10
         break
     case 12:
-        if (pss.pdev.model == SCANWIT2720S)
+        if(pss.pdev.model == SCANWIT2720S)
         {
-            DBG (DL_DATA_TRACE, "%s: Sending 16bit gamma table for %d bpp\n", me, pss.bpp)
+            DBG(DL_DATA_TRACE, "%s: Sending 16bit gamma table for %d bpp\n", me, pss.bpp)
             dtcq_gamma_gray = DTCQ_GAMMA_GRAY12_16BIT
             dtcq_gamma_red = DTCQ_GAMMA_RED12_16BIT
             dtcq_gamma_green = DTCQ_GAMMA_GREEN12_16BIT
@@ -1400,7 +1400,7 @@ static Sane.Status download_gamma_tables (SnapScan_Scanner *pss)
         }
         else
         {
-            DBG (DL_DATA_TRACE, "%s: Sending 8bit gamma table for %d bpp\n", me, pss.bpp)
+            DBG(DL_DATA_TRACE, "%s: Sending 8bit gamma table for %d bpp\n", me, pss.bpp)
             dtcq_gamma_gray = DTCQ_GAMMA_GRAY12
             dtcq_gamma_red = DTCQ_GAMMA_RED12
             dtcq_gamma_green = DTCQ_GAMMA_GREEN12
@@ -1408,9 +1408,9 @@ static Sane.Status download_gamma_tables (SnapScan_Scanner *pss)
         }
         break
     case 14:
-        if (pss.bpp_scan == 16)
+        if(pss.bpp_scan == 16)
         {
-            DBG (DL_DATA_TRACE, "%s: Sending 16bit gamma table for %d bpp\n", me, pss.bpp)
+            DBG(DL_DATA_TRACE, "%s: Sending 16bit gamma table for %d bpp\n", me, pss.bpp)
             dtcq_gamma_gray = DTCQ_GAMMA_GRAY14_16BIT
             dtcq_gamma_red = DTCQ_GAMMA_RED14_16BIT
             dtcq_gamma_green = DTCQ_GAMMA_GREEN14_16BIT
@@ -1419,7 +1419,7 @@ static Sane.Status download_gamma_tables (SnapScan_Scanner *pss)
         }
         else
         {
-            DBG (DL_DATA_TRACE, "%s: Sending 8bit gamma table for %d bpp\n", me, pss.bpp)
+            DBG(DL_DATA_TRACE, "%s: Sending 8bit gamma table for %d bpp\n", me, pss.bpp)
             dtcq_gamma_gray = DTCQ_GAMMA_GRAY14
             dtcq_gamma_red = DTCQ_GAMMA_RED14
             dtcq_gamma_green = DTCQ_GAMMA_GREEN14
@@ -1427,7 +1427,7 @@ static Sane.Status download_gamma_tables (SnapScan_Scanner *pss)
         }
         break
     default:
-        DBG (DL_DATA_TRACE, "%s: Sending 8bit gamma table for %d bpp\n", me, pss.bpp)
+        DBG(DL_DATA_TRACE, "%s: Sending 8bit gamma table for %d bpp\n", me, pss.bpp)
         dtcq_gamma_gray = DTCQ_GAMMA_GRAY8
         dtcq_gamma_red = DTCQ_GAMMA_RED8
         dtcq_gamma_green = DTCQ_GAMMA_GREEN8
@@ -1435,82 +1435,82 @@ static Sane.Status download_gamma_tables (SnapScan_Scanner *pss)
         break
     }
 
-    if (is_colour_mode(mode))
+    if(is_colour_mode(mode))
     {
-        if (pss.val[OPT_CUSTOM_GAMMA].b)
+        if(pss.val[OPT_CUSTOM_GAMMA].b)
         {
-            if (pss.val[OPT_GAMMA_BIND].b)
+            if(pss.val[OPT_GAMMA_BIND].b)
             {
                 /* Use greyscale gamma for all rgb channels */
-                gamma_from_sane (pss.gamma_length, pss.gamma_table_gs,
+                gamma_from_sane(pss.gamma_length, pss.gamma_table_gs,
                                  pss.buf + SEND_LENGTH, gamma_mode)
                 status = send_gamma_table(pss, DTC_GAMMA, dtcq_gamma_red)
-                CHECK_STATUS (status, me, "send")
+                CHECK_STATUS(status, me, "send")
 
-                gamma_from_sane (pss.gamma_length, pss.gamma_table_gs,
+                gamma_from_sane(pss.gamma_length, pss.gamma_table_gs,
                                  pss.buf + SEND_LENGTH, gamma_mode)
                 status = send_gamma_table(pss, DTC_GAMMA, dtcq_gamma_green)
-                CHECK_STATUS (status, me, "send")
+                CHECK_STATUS(status, me, "send")
 
-                gamma_from_sane (pss.gamma_length, pss.gamma_table_gs,
+                gamma_from_sane(pss.gamma_length, pss.gamma_table_gs,
                                  pss.buf + SEND_LENGTH, gamma_mode)
                 status = send_gamma_table(pss, DTC_GAMMA, dtcq_gamma_blue)
-                CHECK_STATUS (status, me, "send")
+                CHECK_STATUS(status, me, "send")
             }
             else
             {
-                gamma_from_sane (pss.gamma_length, pss.gamma_table_r,
+                gamma_from_sane(pss.gamma_length, pss.gamma_table_r,
                                  pss.buf + SEND_LENGTH, gamma_mode)
                 status = send_gamma_table(pss, DTC_GAMMA, dtcq_gamma_red)
-                CHECK_STATUS (status, me, "send")
+                CHECK_STATUS(status, me, "send")
 
-                gamma_from_sane (pss.gamma_length, pss.gamma_table_g,
+                gamma_from_sane(pss.gamma_length, pss.gamma_table_g,
                                  pss.buf + SEND_LENGTH, gamma_mode)
                 status = send_gamma_table(pss, DTC_GAMMA, dtcq_gamma_green)
-                CHECK_STATUS (status, me, "send")
+                CHECK_STATUS(status, me, "send")
 
-                gamma_from_sane (pss.gamma_length, pss.gamma_table_b,
+                gamma_from_sane(pss.gamma_length, pss.gamma_table_b,
                                  pss.buf + SEND_LENGTH, gamma_mode)
                 status = send_gamma_table(pss, DTC_GAMMA, dtcq_gamma_blue)
-                CHECK_STATUS (status, me, "send")
+                CHECK_STATUS(status, me, "send")
             }
         }
         else
         {
-            if (pss.val[OPT_GAMMA_BIND].b)
+            if(pss.val[OPT_GAMMA_BIND].b)
             {
                 /* Use greyscale gamma for all rgb channels */
-                gamma_n (gamma_gs, pss.bright, pss.contrast,
+                gamma_n(gamma_gs, pss.bright, pss.contrast,
                          pss.buf + SEND_LENGTH, pss.bpp, gamma_mode)
                 status = send_gamma_table(pss, DTC_GAMMA, dtcq_gamma_red)
-                CHECK_STATUS (status, me, "send")
+                CHECK_STATUS(status, me, "send")
 
-                gamma_n (gamma_gs, pss.bright, pss.contrast,
+                gamma_n(gamma_gs, pss.bright, pss.contrast,
                          pss.buf + SEND_LENGTH, pss.bpp, gamma_mode)
                 status = send_gamma_table(pss, DTC_GAMMA, dtcq_gamma_green)
-                CHECK_STATUS (status, me, "send")
+                CHECK_STATUS(status, me, "send")
 
-                gamma_n (gamma_gs, pss.bright, pss.contrast,
+                gamma_n(gamma_gs, pss.bright, pss.contrast,
                          pss.buf + SEND_LENGTH, pss.bpp, gamma_mode)
                 status = send_gamma_table(pss, DTC_GAMMA, dtcq_gamma_blue)
-                CHECK_STATUS (status, me, "send")
+                CHECK_STATUS(status, me, "send")
             }
             else
             {
-                gamma_n (gamma_r, pss.bright, pss.contrast,
+                gamma_n(gamma_r, pss.bright, pss.contrast,
                          pss.buf + SEND_LENGTH, pss.bpp, gamma_mode)
                 status = send_gamma_table(pss, DTC_GAMMA, dtcq_gamma_red)
-                CHECK_STATUS (status, me, "send")
+                CHECK_STATUS(status, me, "send")
 
-                gamma_n (gamma_g, pss.bright, pss.contrast,
+                gamma_n(gamma_g, pss.bright, pss.contrast,
                          pss.buf + SEND_LENGTH, pss.bpp, gamma_mode)
                 status = send_gamma_table(pss, DTC_GAMMA, dtcq_gamma_green)
-                CHECK_STATUS (status, me, "send")
+                CHECK_STATUS(status, me, "send")
 
-                gamma_n (gamma_b, pss.bright, pss.contrast,
+                gamma_n(gamma_b, pss.bright, pss.contrast,
                          pss.buf + SEND_LENGTH, pss.bpp, gamma_mode)
                 status = send_gamma_table(pss, DTC_GAMMA, dtcq_gamma_blue)
-                CHECK_STATUS (status, me, "send")
+                CHECK_STATUS(status, me, "send")
             }
         }
     }
@@ -1518,91 +1518,91 @@ static Sane.Status download_gamma_tables (SnapScan_Scanner *pss)
     {
         if(pss.val[OPT_CUSTOM_GAMMA].b)
         {
-            gamma_from_sane (pss.gamma_length, pss.gamma_table_gs,
+            gamma_from_sane(pss.gamma_length, pss.gamma_table_gs,
                              pss.buf + SEND_LENGTH, gamma_mode)
             status = send_gamma_table(pss, DTC_GAMMA, dtcq_gamma_gray)
-            CHECK_STATUS (status, me, "send")
+            CHECK_STATUS(status, me, "send")
         }
         else
         {
-            gamma_n (gamma_gs, pss.bright, pss.contrast,
+            gamma_n(gamma_gs, pss.bright, pss.contrast,
                      pss.buf + SEND_LENGTH, pss.bpp, gamma_mode)
             status = send_gamma_table(pss, DTC_GAMMA, dtcq_gamma_gray)
-            CHECK_STATUS (status, me, "send")
+            CHECK_STATUS(status, me, "send")
         }
     }
     return status
 }
 
-static Sane.Status download_halftone_matrices (SnapScan_Scanner *pss)
+static Sane.Status download_halftone_matrices(SnapScan_Scanner *pss)
 {
     static char me[] = "download_halftone_matrices"
     Sane.Status status = Sane.STATUS_GOOD
-    if ((pss.halftone) &&
+    if((pss.halftone) &&
         ((actual_mode(pss) == MD_LINEART) || (actual_mode(pss) == MD_BILEVELCOLOUR)))
     {
         u_char *matrix
         size_t matrix_sz
         u_char dtcq
 
-        if (pss.dither_matrix == dm_dd8x8)
+        if(pss.dither_matrix == dm_dd8x8)
         {
             matrix = D8
-            matrix_sz = sizeof (D8)
+            matrix_sz = sizeof(D8)
         }
         else
         {
             matrix = D16
-            matrix_sz = sizeof (D16)
+            matrix_sz = sizeof(D16)
         }
 
-        memcpy (pss.buf + SEND_LENGTH, matrix, matrix_sz)
+        memcpy(pss.buf + SEND_LENGTH, matrix, matrix_sz)
 
-        if (is_colour_mode(actual_mode(pss)))
+        if(is_colour_mode(actual_mode(pss)))
         {
-            if (matrix_sz == sizeof (D8))
+            if(matrix_sz == sizeof(D8))
                 dtcq = DTCQ_HALFTONE_COLOR8
             else
                 dtcq = DTCQ_HALFTONE_COLOR16
 
             /* need copies for green and blue bands */
-            memcpy (pss.buf + SEND_LENGTH + matrix_sz,
+            memcpy(pss.buf + SEND_LENGTH + matrix_sz,
                     matrix,
                     matrix_sz)
-            memcpy (pss.buf + SEND_LENGTH + 2 * matrix_sz,
+            memcpy(pss.buf + SEND_LENGTH + 2 * matrix_sz,
                     matrix,
                     matrix_sz)
         }
         else
         {
-            if (matrix_sz == sizeof (D8))
+            if(matrix_sz == sizeof(D8))
                 dtcq = DTCQ_HALFTONE_BW8
             else
                 dtcq = DTCQ_HALFTONE_BW16
         }
 
-        status = send (pss, DTC_HALFTONE, dtcq)
-        CHECK_STATUS (status, me, "send")
+        status = send(pss, DTC_HALFTONE, dtcq)
+        CHECK_STATUS(status, me, "send")
     }
     return status
 }
 
-static Sane.Status measure_transfer_rate (SnapScan_Scanner *pss)
+static Sane.Status measure_transfer_rate(SnapScan_Scanner *pss)
 {
     static char me[] = "measure_transfer_rate"
     Sane.Status status = Sane.STATUS_GOOD
 
-    if (pss.hconfig & HCFG_RB)
+    if(pss.hconfig & HCFG_RB)
     {
         /* We have a ring buffer. We simulate one round of a read-store
            cycle on the size of buffer we will be using. For this read only,
            the buffer size must be rounded to a 128-byte boundary. */
 
-        DBG (DL_VERBOSE, "%s: have ring buffer\n", me)
-	if ((pss.pdev.model == PERFECTION2480) || (pss.pdev.model == PERFECTION3490))
+        DBG(DL_VERBOSE, "%s: have ring buffer\n", me)
+	if((pss.pdev.model == PERFECTION2480) || (pss.pdev.model == PERFECTION3490))
 	{
 	    /* Epson 2480: read a multiple of bytes per line, limit to less than 0xfff0 */
-	    if (pss.bytes_per_line > 0xfff0)
+	    if(pss.bytes_per_line > 0xfff0)
         	pss.expected_read_bytes = 0xfff0
 	    else
                 pss.expected_read_bytes = (0xfff0 / pss.bytes_per_line) * pss.bytes_per_line
@@ -1611,102 +1611,102 @@ static Sane.Status measure_transfer_rate (SnapScan_Scanner *pss)
             pss.expected_read_bytes =
                 (pss.buf_sz%128)  ?  (pss.buf_sz/128 + 1)*128  :  pss.buf_sz
 
-        status = scsi_read (pss, READ_TRANSTIME)
-        CHECK_STATUS (status, me, "scsi_read")
+        status = scsi_read(pss, READ_TRANSTIME)
+        CHECK_STATUS(status, me, "scsi_read")
         pss.expected_read_bytes = 0
-        status = scsi_read (pss, READ_TRANSTIME)
-        CHECK_STATUS (status, me, "scsi_read")
+        status = scsi_read(pss, READ_TRANSTIME)
+        CHECK_STATUS(status, me, "scsi_read")
     }
     else
     {
         /* we don't have a ring buffer. The test requires transferring one
-           scan line of data (rounded up to next 128 byte boundary). */
+           scan line of data(rounded up to next 128 byte boundary). */
 
-        DBG (DL_VERBOSE, "%s: we don't have a ring buffer.\n", me)
+        DBG(DL_VERBOSE, "%s: we don't have a ring buffer.\n", me)
         pss.expected_read_bytes = pss.bytes_per_line
 
-        if (pss.expected_read_bytes%128)
+        if(pss.expected_read_bytes%128)
         {
             pss.expected_read_bytes =
                 (pss.expected_read_bytes/128 + 1)*128
         }
-        status = scsi_read (pss, READ_TRANSTIME)
-        CHECK_STATUS (status, me, "scsi_read")
-        DBG (DL_VERBOSE, "%s: read %ld bytes.\n", me, (long) pss.read_bytes)
+        status = scsi_read(pss, READ_TRANSTIME)
+        CHECK_STATUS(status, me, "scsi_read")
+        DBG(DL_VERBOSE, "%s: read %ld bytes.\n", me, (long) pss.read_bytes)
     }
 
     pss.expected_read_bytes = 0
-    status = scsi_read (pss, READ_TRANSTIME)
-    if (status != Sane.STATUS_GOOD)
+    status = scsi_read(pss, READ_TRANSTIME)
+    if(status != Sane.STATUS_GOOD)
     {
-        DBG (DL_MAJOR_ERROR, "%s: test read failed.\n", me)
+        DBG(DL_MAJOR_ERROR, "%s: test read failed.\n", me)
         return status
     }
 
-    DBG (DL_VERBOSE, "%s: successfully calibrated transfer rate.\n", me)
+    DBG(DL_VERBOSE, "%s: successfully calibrated transfer rate.\n", me)
     return status
 }
 
 
-Sane.Status Sane.start (Sane.Handle h)
+Sane.Status Sane.start(Sane.Handle h)
 {
     static const char *me = "Sane.snapscan_start"
     Sane.Status status
     SnapScan_Scanner *pss = (SnapScan_Scanner *) h
 
-    DBG (DL_CALL_TRACE, "%s (%p)\n", me, (void *) h)
+    DBG(DL_CALL_TRACE, "%s(%p)\n", me, (void *) h)
 
     /* possible authorization required */
 
-    status = open_scanner (pss)
-    CHECK_STATUS (status, me, "open_scanner")
+    status = open_scanner(pss)
+    CHECK_STATUS(status, me, "open_scanner")
 
-    status = wait_scanner_ready (pss)
-    CHECK_STATUS (status, me, "wait_scanner_ready")
+    status = wait_scanner_ready(pss)
+    CHECK_STATUS(status, me, "wait_scanner_ready")
 
     /* start scanning; reserve the unit first, because a release_unit is
        necessary to abort a scan in progress */
 
     pss.state = ST_SCAN_INIT
 
-    if ((pss.pdev.model == SCANWIT2720S) && (pss.focus_mode == MD_AUTO))
+    if((pss.pdev.model == SCANWIT2720S) && (pss.focus_mode == MD_AUTO))
     {
         status = get_focus(pss)
-        CHECK_STATUS (status, me, "get_focus")
+        CHECK_STATUS(status, me, "get_focus")
     }
 
     reserve_unit(pss)
 
-    if (pss.pdev.model == SCANWIT2720S)
+    if(pss.pdev.model == SCANWIT2720S)
     {
         status = set_frame(pss, 0)
-        CHECK_STATUS (status, me, "set_frame")
+        CHECK_STATUS(status, me, "set_frame")
         status = set_focus(pss, pss.focus)
-        CHECK_STATUS (status, me, "set_focus")
+        CHECK_STATUS(status, me, "set_focus")
     }
 
     /* set up the window and fetch the resulting scanner parameters */
     status = set_window(pss)
-    CHECK_STATUS (status, me, "set_window")
+    CHECK_STATUS(status, me, "set_window")
 
     status = inquiry(pss)
-    CHECK_STATUS (status, me, "inquiry")
+    CHECK_STATUS(status, me, "inquiry")
 
     /* download the gamma and halftone tables */
 
     status = download_gamma_tables(pss)
-    CHECK_STATUS (status, me, "download_gamma_tables")
+    CHECK_STATUS(status, me, "download_gamma_tables")
 
     status = download_halftone_matrices(pss)
-    CHECK_STATUS (status, me, "download_halftone_matrices")
+    CHECK_STATUS(status, me, "download_halftone_matrices")
 
-    if (pss.val[OPT_QUALITY_CAL].b && (pss.usb_vendor == USB_VENDOR_EPSON))
+    if(pss.val[OPT_QUALITY_CAL].b && (pss.usb_vendor == USB_VENDOR_EPSON))
     {
         status = calibrate(pss)
-        if (status != Sane.STATUS_GOOD)
+        if(status != Sane.STATUS_GOOD)
         {
-            DBG (DL_MAJOR_ERROR, "%s: calibration failed.\n", me)
-            release_unit (pss)
+            DBG(DL_MAJOR_ERROR, "%s: calibration failed.\n", me)
+            release_unit(pss)
             return status
         }
     }
@@ -1716,13 +1716,13 @@ Sane.Status Sane.start (Sane.Handle h)
        ring buffer or not. */
 
     status = measure_transfer_rate(pss)
-    CHECK_STATUS (status, me, "measure_transfer_rate")
+    CHECK_STATUS(status, me, "measure_transfer_rate")
 
     /* now perform an inquiry again to retrieve the scan speed */
     status = inquiry(pss)
-    CHECK_STATUS (status, me, "inquiry")
+    CHECK_STATUS(status, me, "inquiry")
 
-    DBG (DL_DATA_TRACE,
+    DBG(DL_DATA_TRACE,
          "%s: after measuring speed:\n\t%lu bytes per scan line\n"
          "\t%f milliseconds per scan line.\n\t==>%f bytes per millisecond\n",
          me,
@@ -1731,58 +1731,58 @@ Sane.Status Sane.start (Sane.Handle h)
          pss.bytes_per_line/pss.ms_per_line)
 
 
-    if (pss.val[OPT_QUALITY_CAL].b && (pss.usb_vendor != USB_VENDOR_EPSON))
+    if(pss.val[OPT_QUALITY_CAL].b && (pss.usb_vendor != USB_VENDOR_EPSON))
     {
         status = calibrate(pss)
-        if (status != Sane.STATUS_GOOD)
+        if(status != Sane.STATUS_GOOD)
         {
-            DBG (DL_MAJOR_ERROR, "%s: calibration failed.\n", me)
-            release_unit (pss)
+            DBG(DL_MAJOR_ERROR, "%s: calibration failed.\n", me)
+            release_unit(pss)
             return status
         }
     }
 
     status = scan(pss)
-    if (status != Sane.STATUS_GOOD)
+    if(status != Sane.STATUS_GOOD)
     {
-        DBG (DL_MAJOR_ERROR, "%s: scan command failed: %s.\n", me, Sane.strstatus(status))
-        release_unit (pss)
+        DBG(DL_MAJOR_ERROR, "%s: scan command failed: %s.\n", me, Sane.strstatus(status))
+        release_unit(pss)
         return status
     }
 
-    if (pss.pdev.model == SCANWIT2720S)
+    if(pss.pdev.model == SCANWIT2720S)
     {
         status = set_frame(pss, pss.frame_no)
-        CHECK_STATUS (status, me, "set_frame")
+        CHECK_STATUS(status, me, "set_frame")
     }
 
-    if (pss.source == SRC_ADF)
+    if(pss.source == SRC_ADF)
     {
-        /* Wait for scanner ready again (e.g. until paper is loaded from an ADF) */
+        /* Wait for scanner ready again(e.g. until paper is loaded from an ADF) */
         /* Maybe replace with get_data_buffer_status()? */
-        status = wait_scanner_ready (pss)
-        if (status != Sane.STATUS_GOOD)
+        status = wait_scanner_ready(pss)
+        if(status != Sane.STATUS_GOOD)
         {
-            DBG (DL_MAJOR_ERROR, "%s: scan command failed while waiting for scanner: %s.\n", me, Sane.strstatus(status))
-            release_unit (pss)
+            DBG(DL_MAJOR_ERROR, "%s: scan command failed while waiting for scanner: %s.\n", me, Sane.strstatus(status))
+            release_unit(pss)
             return status
         }
     }
 
-    DBG (DL_MINOR_INFO, "%s: starting the reader process.\n", me)
+    DBG(DL_MINOR_INFO, "%s: starting the reader process.\n", me)
     status = start_reader(pss)
     {
         BaseSourceType st = FD_SRC
-        if (status != Sane.STATUS_GOOD)
+        if(status != Sane.STATUS_GOOD)
             st = SCSI_SRC
-        status = create_source_chain (pss, st, &(pss.psrc))
+        status = create_source_chain(pss, st, &(pss.psrc))
     }
 
     return status
 }
 
 
-Sane.Status Sane.read (Sane.Handle h,
+Sane.Status Sane.read(Sane.Handle h,
                        Sane.Byte *buf,
                        Int maxlen,
                        Int *plen)
@@ -1791,8 +1791,8 @@ Sane.Status Sane.read (Sane.Handle h,
     SnapScan_Scanner *pss = (SnapScan_Scanner *) h
     Sane.Status status = Sane.STATUS_GOOD
 
-    DBG (DL_CALL_TRACE,
-        "%s (%p, %p, %ld, %p)\n",
+    DBG(DL_CALL_TRACE,
+        "%s(%p, %p, %ld, %p)\n",
         me,
         (void *) h,
         (void *) buf,
@@ -1801,21 +1801,21 @@ Sane.Status Sane.read (Sane.Handle h,
 
     *plen = 0
 
-    if (pss.state == ST_CANCEL_INIT) {
+    if(pss.state == ST_CANCEL_INIT) {
         pss.state = ST_IDLE
         return Sane.STATUS_CANCELLED
     }
 
-    if (pss.psrc == NULL  ||  pss.psrc.remaining(pss.psrc) == 0)
+    if(pss.psrc == NULL  ||  pss.psrc.remaining(pss.psrc) == 0)
     {
-      if (sanei_thread_is_valid (pss.child))
+      if(sanei_thread_is_valid(pss.child))
         {
-            sanei_thread_waitpid (pss.child, 0);        /* ensure no zombies */
-            sanei_thread_invalidate (pss.child)
+            sanei_thread_waitpid(pss.child, 0);        /* ensure no zombies */
+            sanei_thread_invalidate(pss.child)
         }
-        release_unit (pss)
-        close_scanner (pss)
-        if (pss.psrc != NULL)
+        release_unit(pss)
+        close_scanner(pss)
+        if(pss.psrc != NULL)
         {
             pss.psrc.done(pss.psrc)
             free(pss.psrc)
@@ -1828,10 +1828,10 @@ Sane.Status Sane.read (Sane.Handle h,
     *plen = maxlen
     status = pss.psrc.get(pss.psrc, buf, plen)
 
-    switch (pss.state)
+    switch(pss.state)
     {
     case ST_IDLE:
-        DBG (DL_MAJOR_ERROR,
+        DBG(DL_MAJOR_ERROR,
             "%s: weird error: scanner state should not be idle on call to "
             "Sane.read.\n",
             me)
@@ -1851,15 +1851,15 @@ Sane.Status Sane.read (Sane.Handle h,
     return status
 }
 
-void Sane.cancel (Sane.Handle h)
+void Sane.cancel(Sane.Handle h)
 {
     char *me = "Sane.snapscan_cancel"
     SnapScan_Scanner *pss = (SnapScan_Scanner *) h
     struct SIGACTION act
     Sane.Pid         res
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
-    switch (pss.state)
+    DBG(DL_CALL_TRACE, "%s\n", me)
+    switch(pss.state)
     {
     case ST_IDLE:
         break
@@ -1868,7 +1868,7 @@ void Sane.cancel (Sane.Handle h)
         /* signal a cancellation has occurred */
         pss.state = ST_CANCEL_INIT
         /* signal the reader, if any */
-        if (sanei_thread_is_valid (pss.child))
+        if(sanei_thread_is_valid(pss.child))
         {
             DBG( DL_INFO, "---- killing reader_process ----\n" )
 
@@ -1878,7 +1878,7 @@ void Sane.cancel (Sane.Handle h)
             act.sa_handler = sigalarm_handler
             sigaction( SIGALRM, &act, 0 )
 
-            if (sanei_thread_is_forked())
+            if(sanei_thread_is_forked())
             {
                 /* use SIGUSR1 to set cancelRead in child process */
                 sanei_thread_sendsig( pss.child, SIGUSR1 )
@@ -1906,67 +1906,67 @@ void Sane.cancel (Sane.Handle h)
             sanei_thread_invalidate( pss.child )
             DBG( DL_INFO,"reader_process killed\n")
         }
-        release_unit (pss)
-        close_scanner (pss)
+        release_unit(pss)
+        close_scanner(pss)
         break
     case ST_CANCEL_INIT:
-        DBG (DL_INFO, "%s: cancellation already initiated.\n", me)
+        DBG(DL_INFO, "%s: cancellation already initiated.\n", me)
         break
     default:
-        DBG (DL_MAJOR_ERROR,
-             "%s: weird error: invalid scanner state (%ld).\n",
+        DBG(DL_MAJOR_ERROR,
+             "%s: weird error: invalid scanner state(%ld).\n",
              me,
              (long) pss.state)
         break
     }
 }
 
-Sane.Status Sane.set_io_mode (Sane.Handle h, Bool m)
+Sane.Status Sane.set_io_mode(Sane.Handle h, Bool m)
 {
     static char me[] = "Sane.snapscan_set_io_mode"
     SnapScan_Scanner *pss = (SnapScan_Scanner *) h
     char *op
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
+    DBG(DL_CALL_TRACE, "%s\n", me)
 
-    if (pss.state != ST_SCAN_INIT)
+    if(pss.state != ST_SCAN_INIT)
         return Sane.STATUS_INVAL
 
-    if (m)
+    if(m)
     {
-      if (!sanei_thread_is_valid (pss.child))
+      if(!sanei_thread_is_valid(pss.child))
         {
-            DBG (DL_MINOR_INFO,
+            DBG(DL_MINOR_INFO,
                  "%s: no reader child; must use blocking mode.\n",
                  me)
             return Sane.STATUS_UNSUPPORTED
         }
         op = "ON"
-        fcntl (pss.rpipe[0], F_SETFL, O_NONBLOCK | pss.orig_rpipe_flags)
+        fcntl(pss.rpipe[0], F_SETFL, O_NONBLOCK | pss.orig_rpipe_flags)
     }
     else
     {
         op = "OFF"
-        fcntl (pss.rpipe[0], F_SETFL, pss.orig_rpipe_flags)
+        fcntl(pss.rpipe[0], F_SETFL, pss.orig_rpipe_flags)
     }
-    DBG (DL_MINOR_INFO, "%s: turning nonblocking mode %s.\n", me, op)
+    DBG(DL_MINOR_INFO, "%s: turning nonblocking mode %s.\n", me, op)
     pss.nonblocking = m
     return Sane.STATUS_GOOD
 }
 
-Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
+Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fd)
 {
     static char me[] = "Sane.snapscan_get_select_fd"
     SnapScan_Scanner *pss = (SnapScan_Scanner *) h
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
+    DBG(DL_CALL_TRACE, "%s\n", me)
 
-    if (pss.state != ST_SCAN_INIT)
+    if(pss.state != ST_SCAN_INIT)
         return Sane.STATUS_INVAL
 
-    if (!sanei_thread_is_valid (pss.child))
+    if(!sanei_thread_is_valid(pss.child))
     {
-        DBG (DL_MINOR_INFO,
+        DBG(DL_MINOR_INFO,
              "%s: no reader child; cannot provide select file descriptor.\n",
              me)
         return Sane.STATUS_UNSUPPORTED
@@ -2043,7 +2043,7 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  * Fixes for Epson 3490 and 16 bit scan mode
  *
  * Revision 1.52  2005/09/28 21:33:11  oliver-guest
- * Added 16 bit option for Epson scanners (untested)
+ * Added 16 bit option for Epson scanners(untested)
  *
  * Revision 1.51  2005/08/15 18:56:55  oliver-guest
  * Added temporary debug code for 2480/2580 distinction
@@ -2064,7 +2064,7 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  * Added support for Epson 1270
  *
  * Revision 1.45  2004/10/03 17:34:36  hmg-guest
- * 64 bit platform fixes (bug #300799).
+ * 64 bit platform fixes(bug #300799).
  *
  * Revision 1.44  2004/09/02 20:59:12  oliver-guest
  * Added support for Epson 2480
@@ -2174,7 +2174,7 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  * - Cleanup
  *
  * Revision 1.40  2002/02/09 14:55:23  oliverschwartz
- * Added language translation support (Sane.I18N)
+ * Added language translation support(Sane.I18N)
  *
  * Revision 1.39  2002/01/23 20:40:54  oliverschwartz
  * Don't use quantization for scan area parameter
@@ -2256,7 +2256,7 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  * better USB / SCSI recognition, correct max scan area for 1236+TPO
  *
  * Revision 1.17  2001/09/09 18:06:32  oliverschwartz
- * add changes from Acer (new models; automatic firmware upload for USB scanners); fix distorted colour scans after greyscale scans (call set_window only in Sane.start); code cleanup
+ * add changes from Acer(new models; automatic firmware upload for USB scanners); fix distorted colour scans after greyscale scans(call set_window only in Sane.start); code cleanup
  *
  * Revision 1.16  2001/09/07 09:42:13  oliverschwartz
  * Sync with Sane-1.0.5
@@ -2290,7 +2290,7 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  * Imported from snapscan-11282000.tar.gz
  *
  * Revision 1.10  2000/11/10 01:01:59  sable
- * USB (kind of) autodetection
+ * USB(kind of) autodetection
  *
  * Revision 1.9  2000/11/01 01:26:43  sable
  * Support for 1212U
@@ -2312,7 +2312,7 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  * Updating to source from SANE 1.0.3.  Calling this version 1.1
  *
  * Revision 1.3  2000/08/12 15:09:35  pere
- * Merge devel (v1.0.3) into head branch.
+ * Merge devel(v1.0.3) into head branch.
  *
  * Revision 1.1.1.1.2.5  2000/07/29 16:04:33  hmg
  * 2000-07-29  Henning Meier-Geinitz <hmg@gmx.de>
@@ -2329,13 +2329,13 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  *           Changed include statements from import sane/...> to
  *           import sane...".
  *         * backend/avision.c backend/dc25.c: Use DBG(0, ...) instead of
- *            fprintf (stderr, ...)
+ *            fprintf(stderr, ...)
  *         * backend/avision.c backend/canon-sane.c backend/coolscan.c
  *           backend/dc25.c backend/microtek.c backend/microtek2.c
  *            backend/st400.c: Use sanei_config_read() instead of fgets().
  *         * backend/coolscan.desc backend/microtek.desc backend/microtek2.desc
  *           backend/st400.desc: Added :interface and :manpage entries.
- *         * backend/nec.desc: Status is beta now (was: new). Fixed typo.
+ *         * backend/nec.desc: Status is beta now(was: new). Fixed typo.
  *         * doc/canon.README: Removed, because the information is included in
  *            the manpage now.
  *         * doc/Makefile.in: Added sane-coolscan to list of mapages to install.
@@ -2346,7 +2346,7 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  * Revision 1.1.1.1.2.4  2000/07/25 21:47:43  hmg
  * 2000-07-25  Henning Meier-Geinitz <hmg@gmx.de>
  *
- *         * backend/snapscan.c: Use DBG(0, ...) instead of fprintf (stderr, ...).
+ *         * backend/snapscan.c: Use DBG(0, ...) instead of fprintf(stderr, ...).
  *         * backend/abaton.c backend/agfafocus.c backend/Apple.c backend/dc210.c
  *            backend/dll.c backend/dmc.c backend/microtek2.c backend/pint.c
  *           backend/qcam.c backend/ricoh.c backend/s9036.c backend/snapscan.c
@@ -2394,7 +2394,7 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  * Changed expected_data_len to bytes_remaining.
  *
  * Revision 1.45  1999/09/06 23:32:37  charter
- * Split up Sane.start() into sub-functions to improve readability (again).
+ * Split up Sane.start() into sub-functions to improve readability(again).
  * Introduced actual_mode() and is_colour_mode() (again).
  * Fixed problems with cancellation. Works fine with my system now.
  *
@@ -2410,20 +2410,20 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  *
  * Revision 1.42  1999/07/09 22:37:55  charter
  * Potential bugfix for problems with Sane.get_parameters() and
- * the new generic scsi driver (suggested by Francois Desarmeni,
+ * the new generic scsi driver(suggested by Francois Desarmeni,
  * Douglas Gilbert, Abel Deuring).
  *
  * Revision 1.41  1999/07/09 20:58:07  charter
- * Changes to support SnapScan 1236s (Petter Reinholdsten).
+ * Changes to support SnapScan 1236s(Petter Reinholdsten).
  *
  * Revision 1.40  1998/12/16 18:43:06  charter
  * Fixed major version problem precipitated by release of SANE-1.00.
  *
  * Revision 1.39  1998/09/07  06:09:26  charter
- * Formatting (whitespace) changes.
+ * Formatting(whitespace) changes.
  *
  * Revision 1.38  1998/09/07  06:06:01  charter
- * Merged in Wolfgang Goeller's changes (Vuego 310S, bugfixes).
+ * Merged in Wolfgang Goeller's changes(Vuego 310S, bugfixes).
  *
  * Revision 1.37  1998/08/06  06:16:39  charter
  * Now using Sane.config_attach_matching_devices() in Sane.snapscan_init().
@@ -2446,8 +2446,8 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  * First routines to support SnapScan 310 scanned data.
  *
  * Revision 1.33  1998/02/06  02:30:28  charter
- * Now using a mode enum (instead of the static string pointers directly).
- * Now check for the SnapScan 310 and 600 explicitly (start of support
+ * Now using a mode enum(instead of the static string pointers directly).
+ * Now check for the SnapScan 310 and 600 explicitly(start of support
  * for these models).
  *
  * Revision 1.32  1998/02/01  21:56:48  charter
@@ -2457,7 +2457,7 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  * Revision 1.31  1998/02/01  03:36:40  charter
  * Now check for BRX < TLX and BRY < TLY and whether the area of the
  * scanning window is approaching zero in set_window. I'm setting a
- * minimum window size of 75x75 hardware pixels (0.25 inches a side).
+ * minimum window size of 75x75 hardware pixels(0.25 inches a side).
  * If the area falls to zero, the scanner seems to hang in the middle
  * of the set_window command.
  *
@@ -2488,7 +2488,7 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  * one.
  *
  * Revision 1.25  1998/01/30  19:41:11  charter
- * Waiting for child process termination at regular end of scan (not
+ * Waiting for child process termination at regular end of scan(not
  * just on cancellation); before I was getting zombies.
  *
  * Revision 1.24  1998/01/30  19:19:27  charter
@@ -2503,7 +2503,7 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  * assuming an available string "me".
  *
  * Revision 1.23  1998/01/30  11:03:04  charter
- * Fixed * vs [] operator precedence screwup in Sane.snapscan_get_devices()
+ * Fixed * vs[] operator precedence screwup in Sane.snapscan_get_devices()
  * that caused a segfault in scanimage -h.
  * Fixed problem with not closing the scsi fd between certain commands
  * that caused scanimage to hang; now using open_scanner() and close_scanner().
@@ -2516,12 +2516,12 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  * both 8x8 and 16x16 halftoning should be made available.
  *
  * Revision 1.21  1998/01/25  09:57:57  charter
- * Added more SCSI command buttons (and a group for them).
+ * Added more SCSI command buttons(and a group for them).
  * Made the output of the Inquiry command a bit nicer.
  *
  * Revision 1.20  1998/01/25  08:53:14  charter
  * Have added bi-level colour mode, with halftones too.
- * Can now select preview mode (but it's an advanced option, since
+ * Can now select preview mode(but it's an advanced option, since
  * you usually don't want to do it).
  *
  * Revision 1.19  1998/01/25  02:25:02  charter
@@ -2534,9 +2534,9 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  * Revision 1.18  1998/01/24  05:15:32  charter
  * Now have RGB gamma correction and dispersed-dot dither halftoning
  * for BW images. Cleaned up some spots in the code and have set up
- * option interactions a bit better (e.g. halftoning and GS gamma
+ * option interactions a bit better(e.g. halftoning and GS gamma
  * correction made inactive in colour mode, etc). TL_[XY] and BR_[XY]
- * now change in ten-pixel increments (I had problems with screwed-up
+ * now change in ten-pixel increments(I had problems with screwed-up
  * scan lines when the dimensions were weird at low res... could be the
  * problem).
  *
@@ -2592,7 +2592,7 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  * Revision 1.10  1997/12/10  23:33:12  charter
  * Slight change to some floating-point computations in the brightness
  * and contrast stuff. The controls don't seem to do anything to the
- * scanner though (I think these aren't actually supported in the
+ * scanner though(I think these aren't actually supported in the
  * SnapScan).
  *
  * Revision 1.9  1997/11/26  15:40:50  charter
@@ -2602,12 +2602,12 @@ Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
  * No longer exec after forking to do nonblocking scanning; found how
  * to fix the problems with SIGPIPEs from before.
  * Now support a config file like the other scanner drivers, and
- * can check whether a given device is an AGFA SnapScan (mini_inquiry()).
+ * can check whether a given device is an AGFA SnapScan(mini_inquiry()).
  *
  * Revision 1.7  1997/11/10  05:52:08  charter
  * Now have the child reader process and pipe stuff working, and
  * nonblocking mode. For large scans the nonblocking mode actually
- * seems to cut down on cpu hogging (though there is still a hit).
+ * seems to cut down on cpu hogging(though there is still a hit).
  *
  * Revision 1.6  1997/11/03  07:45:54  charter
  * Added the predef_window stuff. I've tried it with 6x4, and it seems

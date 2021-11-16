@@ -1,13 +1,13 @@
 /* HP Scanjet 3900 series - RTS8822 internal config
 
-   Copyright (C) 2005-2009 Jonathan Bravo Lopez <jkdsoft@gmail.com>
+   Copyright(C) 2005-2009 Jonathan Bravo Lopez <jkdsoft@gmail.com>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
    as published by the Free Software Foundation; either version 2
-   of the License, or (at your option) any later version.
+   of the License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -110,7 +110,7 @@ static Int hp3800_fixedpwm(Int scantype, Int usb)
 static Int hp3970_fixedpwm(Int scantype, Int usb, Int sensor)
 static Int hp4370_fixedpwm(Int scantype, Int usb)
 
-/* virtual origin (ser and ler references) */
+/* virtual origin(ser and ler references) */
 static void cfg_vrefs_get(Int sensortype, Int res, Int *ser, Int *ler)
 static void hp3800_vrefs(Int res, Int *ser, Int *ler)
 static void hp3970_vrefs(Int usb, Int sensor, Int res, Int *ser, Int *ler)
@@ -382,9 +382,9 @@ static Int cfg_device_get(Int product, Int vendor)
 	Int a
 	Int count = sizeof(myreg) / sizeof(struct st_myreg)
 
-	for (a = 0; a < count; a++)
+	for(a = 0; a < count; a++)
 	{
-		if ((vendor == myreg[a].vendor)&&(product == myreg[a].product))
+		if((vendor == myreg[a].vendor)&&(product == myreg[a].product))
 		{
 			rst = myreg[a].device
 
@@ -421,9 +421,9 @@ static Int cfg_chipset_model_get(Int device)
 	Int a
 	Int count = sizeof(myreg) / sizeof(struct st_myreg)
 
-	for (a = 0; a < count; a++)
+	for(a = 0; a < count; a++)
 	{
-		if (device == myreg[a].device)
+		if(device == myreg[a].device)
 		{
 			rst = myreg[a].chipset
 
@@ -439,7 +439,7 @@ static Int cfg_chipset_get(Int model, struct st_chip *chipset)
 	/* returns info and capabilities of selected chipset */
 	Int rst = ERROR
 
-	if (chipset != NULL)
+	if(chipset != NULL)
 	{
 		struct st_chip data[] =
 		{
@@ -452,16 +452,16 @@ static Int cfg_chipset_get(Int model, struct st_chip *chipset)
 
 		Int a
 
-		for (a = 0; a < 4; a++)
+		for(a = 0; a < 4; a++)
 		{
-			if (model == data[a].model)
+			if(model == data[a].model)
 			{
 				/* model found, fill information */
 				chipset.model = data[a].model
 				chipset.capabilities = data[a].capabilities
 				chipset.name = strdup(data[a].name)
 
-				if (chipset.name != NULL)
+				if(chipset.name != NULL)
 					rst = OK
 
 				break
@@ -479,7 +479,7 @@ static Int cfg_buttons_get(struct st_buttons *reg)
 	/* buttons for each scanner */
 	Int rst = ERROR
 
-	if (reg != NULL)
+	if(reg != NULL)
 	{
 		struct st_myreg
 		{
@@ -504,9 +504,9 @@ static Int cfg_buttons_get(struct st_buttons *reg)
 		Int a
 		Int count = sizeof(myreg) / sizeof(struct st_myreg)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (RTS_Debug.dev_model == myreg[a].device)
+			if(RTS_Debug.dev_model == myreg[a].device)
 			{
 				memcpy(reg, &myreg[a].value, sizeof(struct st_buttons))
 				rst = OK
@@ -525,7 +525,7 @@ static Int cfg_sscg_get(Int *enable, Int *mode, Int *clock)
 {
 	Int rst = ERROR
 
-	if ((enable != NULL)&&(mode != NULL)&&(clock != NULL))
+	if((enable != NULL)&&(mode != NULL)&&(clock != NULL))
 	{
 		struct st_myreg
 		{
@@ -555,9 +555,9 @@ static Int cfg_sscg_get(Int *enable, Int *mode, Int *clock)
 		*mode   = 0
 		*clock  = 3
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (RTS_Debug.dev_model == myreg[a].device)
+			if(RTS_Debug.dev_model == myreg[a].device)
 			{
 				*enable = myreg[a].value[0]
 				*mode   = myreg[a].value[1]
@@ -577,7 +577,7 @@ static Int cfg_motor_get(struct st_motorcfg *reg)
 {
 	Int rst = ERROR
 
-	if (reg != NULL)
+	if(reg != NULL)
 	{
 		struct st_myreg
 		{
@@ -606,9 +606,9 @@ static Int cfg_motor_get(struct st_motorcfg *reg)
 		memset(reg, 0, sizeof(struct st_motorcfg))
 		reg.type = -1
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (RTS_Debug.dev_model == myreg[a].device)
+			if(RTS_Debug.dev_model == myreg[a].device)
 			{
 				memcpy(reg, &myreg[a].motor, sizeof(struct st_motorcfg))
 				rst = OK
@@ -627,7 +627,7 @@ static Int cfg_sensor_get(struct st_sensorcfg *reg)
 {
 	Int rst = ERROR
 
-	if (reg != NULL)
+	if(reg != NULL)
 	{
 		struct st_myreg
 		{
@@ -656,9 +656,9 @@ static Int cfg_sensor_get(struct st_sensorcfg *reg)
 		memset(reg, 0, sizeof(struct st_sensorcfg))
 		reg.type = -1
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (RTS_Debug.dev_model == myreg[a].device)
+			if(RTS_Debug.dev_model == myreg[a].device)
 			{
 				memcpy(reg, &myreg[a].sensor, sizeof(struct st_sensorcfg))
 				rst = OK
@@ -690,16 +690,16 @@ static void hp3800_refvoltages(Int usb, Int sensor, Sane.Byte *vrts, Sane.Byte *
 		{USB11, CCD_SENSOR, {   2,    3,    2}},
 	]
 
-	if ((vrts != NULL)&&(vrms != NULL)&&(vrbs != NULL))
+	if((vrts != NULL)&&(vrms != NULL)&&(vrbs != NULL))
 	{
 		Int a
 		Int count = sizeof(myreg) / sizeof(struct st_reg)
 
 		*vrts = *vrms = *vrbs = 0
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if ((myreg[a].usb == usb)&&(myreg[a].sensor == sensor))
+			if((myreg[a].usb == usb)&&(myreg[a].sensor == sensor))
 			{
 				*vrts = myreg[a].values[0]
 				*vrms = myreg[a].values[1]
@@ -728,16 +728,16 @@ static void hp3970_refvoltages(Int usb, Int sensor, Sane.Byte *vrts, Sane.Byte *
 		{USB11, CIS_SENSOR, {   0,    0,    0}}
 	]
 
-	if ((vrts != NULL)&&(vrms != NULL)&&(vrbs != NULL))
+	if((vrts != NULL)&&(vrms != NULL)&&(vrbs != NULL))
 	{
 		Int a
 		Int count = sizeof(myreg) / sizeof(struct st_reg)
 
 		*vrts = *vrms = *vrbs = 0
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if ((myreg[a].usb == usb)&&(myreg[a].sensor == sensor))
+			if((myreg[a].usb == usb)&&(myreg[a].sensor == sensor))
 			{
 				*vrts = myreg[a].values[0]
 				*vrms = myreg[a].values[1]
@@ -793,14 +793,14 @@ static void hp3800_offset(Int resolution, Int scantype, Int *left, Int *width)
 		{  150, {{ 0,  3}, { 0,  3}, { 0,  3}}}
 	]
 
-	if ((left != NULL)&&(width != NULL))
+	if((left != NULL)&&(width != NULL))
 	{
 		Int a
 		Int count = sizeof(myreg) / sizeof(struct st_reg)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (myreg[a].resolution == resolution)
+			if(myreg[a].resolution == resolution)
 			{
 				scantype--
 
@@ -849,14 +849,14 @@ static void hp3970_offset(Int sensor, Int resolution, Int scantype, Int *left, I
 		{CIS_SENSOR,  100, {{ 2,  3}, { 2,  3}, { 2,  3}}}
 	]
 
-	if ((left != NULL)&&(width != NULL))
+	if((left != NULL)&&(width != NULL))
 	{
 		Int a
 		Int count = sizeof(myreg) / sizeof(struct st_reg)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if ((myreg[a].sensor == sensor)&&(myreg[a].resolution == resolution))
+			if((myreg[a].sensor == sensor)&&(myreg[a].resolution == resolution))
 			{
 				scantype--
 
@@ -896,14 +896,14 @@ static void hp4370_offset(Int resolution, Int scantype, Int *left, Int *width)
 		{  150, {{ 1,  2}, { 1,  2}, { 1,  2}}}
 	]
 
-	if ((left != NULL)&&(width != NULL))
+	if((left != NULL)&&(width != NULL))
 	{
 		Int a
 		Int count = sizeof(myreg) / sizeof(struct st_reg)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (myreg[a].resolution == resolution)
+			if(myreg[a].resolution == resolution)
 			{
 				scantype--
 
@@ -943,14 +943,14 @@ static void ua4900_offset(Int resolution, Int scantype, Int *left, Int *width)
 		{   100, {{ 0, 10}, { 3,  4}, { 3,  4}}}
 	]
 
-	if ((left != NULL)&&(width != NULL))
+	if((left != NULL)&&(width != NULL))
 	{
 		Int a
 		Int count = sizeof(myreg) / sizeof(struct st_reg)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (myreg[a].resolution == resolution)
+			if(myreg[a].resolution == resolution)
 			{
 				scantype--
 
@@ -1016,14 +1016,14 @@ static Int cfg_constrains_get(struct st_constrains *constrain)
 		{HPG3110 , {{   0,   220,   0,    300}, {  92,    28,   0,    190}, {  85,    44,   0,    190}}}
 	]
 
-	if (constrain != NULL)
+	if(constrain != NULL)
 	{
 		Int a
 		Int count = sizeof(reg) / sizeof(struct st_reg)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (reg[a].device == RTS_Debug.dev_model)
+			if(reg[a].device == RTS_Debug.dev_model)
 			{
 				memcpy(constrain, &reg[a].constrain, sizeof(struct st_constrains))
 				rst = OK
@@ -1043,10 +1043,10 @@ static Sane.Byte *cfg_motor_resource_get(Sane.Byte *size)
 
 	/* Until now, resource size is always 32 bytes */
 	rst = (Sane.Byte *)malloc(sizeof(Sane.Byte) * 32)
-	if (size != NULL)
+	if(size != NULL)
 		*size = 0
 
-	if (rst != NULL)
+	if(rst != NULL)
 	{
 		memset(rst, 0, sizeof(Sane.Byte) * 32)
 
@@ -1056,7 +1056,7 @@ static Sane.Byte *cfg_motor_resource_get(Sane.Byte *size)
 				{
 					Sane.Byte Resource[] = {0xff, 0xb4, 0xb0, 0xd4, 0xd0, 0x70, 0x50, 0x54, 0x30, 0x34, 0x14, 0x38, 0x18, 0x0c, 0x08, 0x28, 0x04, 0x24, 0x20, 0x44, 0x40, 0xe0, 0xc0, 0xc4, 0xa0, 0xa4, 0x84, 0xa8, 0x88, 0x9c, 0x98, 0xb8]
 					memcpy(rst, &Resource, sizeof(Sane.Byte) * 32)
-					if (size != NULL)
+					if(size != NULL)
 						*size = 32
 				}
 				break
@@ -1064,7 +1064,7 @@ static Sane.Byte *cfg_motor_resource_get(Sane.Byte *size)
 				{
 					Sane.Byte Resource[] = {0xff, 0x90, 0xb0, 0xd4, 0xd0, 0x70, 0x50, 0x54, 0x30, 0x10, 0x14, 0x38, 0x18, 0x0c, 0x08, 0x28, 0x04, 0x00, 0x20, 0x44, 0x40, 0xe0, 0xc0, 0xc4, 0xa0, 0x80, 0x84, 0xa8, 0x88, 0x9c, 0x98, 0xb8]
 					memcpy(rst, &Resource, sizeof(Sane.Byte) * 32)
-					if (size != NULL)
+					if(size != NULL)
 						*size = 32
 				}
 				break
@@ -1078,7 +1078,7 @@ static Sane.Byte *cfg_motor_resource_get(Sane.Byte *size)
 
 static void cfg_autoref_get(struct st_autoref *reg)
 {
-	if (reg != NULL)
+	if(reg != NULL)
 	{
 		struct st_reg
 		{
@@ -1104,9 +1104,9 @@ static void cfg_autoref_get(struct st_autoref *reg)
 		Int a
 		Int count = sizeof(myreg) / sizeof(struct st_reg)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (myreg[a].device == RTS_Debug.dev_model)
+			if(myreg[a].device == RTS_Debug.dev_model)
 			{
 				memcpy(reg, &myreg[a].value, sizeof(struct st_autoref))
 				break
@@ -1138,9 +1138,9 @@ static Int hp3800_effectivepixel(Int resolution)
 	Int count = sizeof(reg) / sizeof(struct st_reg)
 	Int rst = 230; /* default */
 
-	for (a = 0; a < count; a++)
+	for(a = 0; a < count; a++)
 	{
-		if (reg[a].resolution == resolution)
+		if(reg[a].resolution == resolution)
 		{
 			rst = reg[a].pixel
 			break
@@ -1173,9 +1173,9 @@ static Int hp3970_effectivepixel(Int sensor, Int resolution)
 	Int count = sizeof(reg) / sizeof(struct st_reg)
 	Int rst = 230; /* default */
 
-	for (a = 0; a < count; a++)
+	for(a = 0; a < count; a++)
 	{
-		if (reg[a].resolution == resolution)
+		if(reg[a].resolution == resolution)
 		{
 			rst = (sensor == CCD_SENSOR)? reg[a].pixel[0] : reg[a].pixel[1]
 			break
@@ -1208,9 +1208,9 @@ static Int hp4370_effectivepixel(Int resolution)
 	Int count = sizeof(reg) / sizeof(struct st_reg)
 	Int rst = 230; /* default */
 
-	for (a = 0; a < count; a++)
+	for(a = 0; a < count; a++)
 	{
-		if (reg[a].resolution == resolution)
+		if(reg[a].resolution == resolution)
 		{
 			rst = reg[a].pixel
 			break
@@ -1243,9 +1243,9 @@ static Int ua4900_effectivepixel(Int resolution)
 	Int count = sizeof(reg) / sizeof(struct st_reg)
 	Int rst = 230; /* default */
 
-	for (a = 0; a < count; a++)
+	for(a = 0; a < count; a++)
 	{
-		if (reg[a].resolution == resolution)
+		if(reg[a].resolution == resolution)
 		{
 			rst = reg[a].pixel
 			break
@@ -1303,14 +1303,14 @@ static Int bq5550_gainoffset(Int usb, struct st_gain_offset *myreg)
 
 	Int rst = ERROR
 
-	if (myreg != NULL)
+	if(myreg != NULL)
 	{
 		Int a
 		Int count = sizeof(reg) / sizeof(struct st_reg)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (reg[a].usb == usb)
+			if(reg[a].usb == usb)
 			{
 				memcpy(myreg, &reg[a].values, sizeof(struct st_gain_offset))
 				rst = OK
@@ -1339,14 +1339,14 @@ static Int hp3800_gainoffset(Int usb, struct st_gain_offset *myreg)
 
 	Int rst = ERROR
 
-	if (myreg != NULL)
+	if(myreg != NULL)
 	{
 		Int a
 		Int count = sizeof(reg) / sizeof(struct st_reg)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (reg[a].usb == usb)
+			if(reg[a].usb == usb)
 			{
 				memcpy(myreg, &reg[a].values, sizeof(struct st_gain_offset))
 				rst = OK
@@ -1379,14 +1379,14 @@ static Int hp3970_gainoffset(Int usb, Int sensor, struct st_gain_offset *myreg)
 
 	Int rst = ERROR
 
-	if (myreg != NULL)
+	if(myreg != NULL)
 	{
 		Int a
 		Int count = sizeof(reg) / sizeof(struct st_reg)
 
-		for (a = 0; count < 4; a++)
+		for(a = 0; count < 4; a++)
 		{
-			if ((reg[a].usb == usb)&&(reg[a].sensor == sensor))
+			if((reg[a].usb == usb)&&(reg[a].sensor == sensor))
 			{
 				memcpy(myreg, &reg[a].values, sizeof(struct st_gain_offset))
 				rst = OK
@@ -1415,14 +1415,14 @@ static Int hp4370_gainoffset(Int usb, struct st_gain_offset *myreg)
 
 	Int rst = ERROR
 
-	if (myreg != NULL)
+	if(myreg != NULL)
 	{
 		Int a
 		Int count = sizeof(reg) / sizeof(struct st_reg)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (reg[a].usb == usb)
+			if(reg[a].usb == usb)
 			{
 				memcpy(myreg, &reg[a].values, sizeof(struct st_gain_offset))
 				rst = OK
@@ -1451,14 +1451,14 @@ static Int ua4900_gainoffset(Int usb, struct st_gain_offset *myreg)
 
 	Int rst = ERROR
 
-	if (myreg != NULL)
+	if(myreg != NULL)
 	{
 		Int a
 		Int count = sizeof(reg) / sizeof(struct st_reg)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (reg[a].usb == usb)
+			if(reg[a].usb == usb)
 			{
 				memcpy(myreg, &reg[a].values, sizeof(struct st_gain_offset))
 				rst = OK
@@ -1523,14 +1523,14 @@ static Int hp3800_checkstable(Int lamp, struct st_checkstable *check)
 
 	Int rst = ERROR
 
-	if (reg != NULL)
+	if(reg != NULL)
 	{
 		Int a
 		Int count = sizeof(reg) / sizeof(struct st_reg)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (reg[a].lamp == lamp)
+			if(reg[a].lamp == lamp)
 			{
 				memcpy(check, &reg[a].values, sizeof(struct st_checkstable))
 				rst = OK
@@ -1560,14 +1560,14 @@ static Int hp3970_checkstable(Int lamp, struct st_checkstable *check)
 
 	Int rst = ERROR
 
-	if (reg != NULL)
+	if(reg != NULL)
 	{
 		Int a
 		Int count = sizeof(reg) / sizeof(struct st_reg)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (reg[a].lamp == lamp)
+			if(reg[a].lamp == lamp)
 			{
 				memcpy(check, &reg[a].values, sizeof(struct st_checkstable))
 				rst = OK
@@ -1597,14 +1597,14 @@ static Int hp4370_checkstable(Int lamp, struct st_checkstable *check)
 
 	Int rst = ERROR
 
-	if (reg != NULL)
+	if(reg != NULL)
 	{
 		Int a
 		Int count = sizeof(reg) / sizeof(struct st_reg)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (reg[a].lamp == lamp)
+			if(reg[a].lamp == lamp)
 			{
 				memcpy(check, &reg[a].values, sizeof(struct st_checkstable))
 				rst = OK
@@ -1634,14 +1634,14 @@ static Int ua4900_checkstable(Int lamp, struct st_checkstable *check)
 
 	Int rst = ERROR
 
-	if (reg != NULL)
+	if(reg != NULL)
 	{
 		Int a
 		Int count = sizeof(reg) / sizeof(struct st_reg)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (reg[a].lamp == lamp)
+			if(reg[a].lamp == lamp)
 			{
 				memcpy(check, &reg[a].values, sizeof(struct st_checkstable))
 				rst = OK
@@ -1702,11 +1702,11 @@ static Int hp3800_fixedpwm(Int scantype, Int usb)
 	Int a, rst = 0x16
 	Int count = sizeof(reg) / sizeof(struct st_reg)
 
-	for (a = 0; a < count; a++)
+	for(a = 0; a < count; a++)
 	{
-		if (reg[a].usb == usb)
+		if(reg[a].usb == usb)
 		{
-			if ((scantype < ST_NORMAL)||(scantype > ST_NEG))
+			if((scantype < ST_NORMAL)||(scantype > ST_NEG))
 				scantype = ST_NORMAL
 
 			rst = reg[a].pwm[scantype - 1]
@@ -1739,11 +1739,11 @@ static Int hp3970_fixedpwm(Int scantype, Int usb, Int sensor)
 	Int a, rst = 0x16
 	Int count = sizeof(reg) / sizeof(struct st_reg)
 
-	for (a = 0; a < count; a++)
+	for(a = 0; a < count; a++)
 	{
-		if ((reg[a].usb == usb)&&(reg[a].sensor == sensor))
+		if((reg[a].usb == usb)&&(reg[a].sensor == sensor))
 		{
-			if ((scantype < ST_NORMAL)||(scantype > ST_NEG))
+			if((scantype < ST_NORMAL)||(scantype > ST_NEG))
 				scantype = ST_NORMAL
 
 			rst = reg[a].pwm[scantype - 1]
@@ -1772,11 +1772,11 @@ static Int hp4370_fixedpwm(Int scantype, Int usb)
 	Int a, rst = 0x16
 	Int count = sizeof(reg) / sizeof(struct st_reg)
 
-	for (a = 0; a < count; a++)
+	for(a = 0; a < count; a++)
 	{
-		if (reg[a].usb == usb)
+		if(reg[a].usb == usb)
 		{
-			if ((scantype < ST_NORMAL)||(scantype > ST_NEG))
+			if((scantype < ST_NORMAL)||(scantype > ST_NEG))
 				scantype = ST_NORMAL
 
 			rst = reg[a].pwm[scantype - 1]
@@ -1805,11 +1805,11 @@ static Int ua4900_fixedpwm(Int scantype, Int usb)
 	Int a, rst = 0x16
 	Int count = sizeof(reg) / sizeof(struct st_reg)
 
-	for (a = 0; a < count; a++)
+	for(a = 0; a < count; a++)
 	{
-		if (reg[a].usb == usb)
+		if(reg[a].usb == usb)
 		{
-			if ((scantype < ST_NORMAL)||(scantype > ST_NEG))
+			if((scantype < ST_NORMAL)||(scantype > ST_NEG))
 				scantype = ST_NORMAL
 
 			rst = reg[a].pwm[scantype - 1]
@@ -1890,7 +1890,7 @@ static void hp3800_vrefs(Int res, Int *ser, Int *ler)
 		{ 2400, { 408,  808}}
 	]
 
-	if ((ser != NULL)&&(ler != NULL))
+	if((ser != NULL)&&(ler != NULL))
 	{
 		Int a
 		Int count = sizeof(reg) / sizeof(struct st_reg)
@@ -1898,9 +1898,9 @@ static void hp3800_vrefs(Int res, Int *ser, Int *ler)
 		/* values by default */
 		*ser = *ler = 0
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (reg[a].resolution == res)
+			if(reg[a].resolution == res)
 			{
 				*ser = reg[a].vref[0]
 				*ler = reg[a].vref[1]
@@ -1959,7 +1959,7 @@ static void hp3970_vrefs(Int usb, Int sensor, Int res, Int *ser, Int *ler)
 		{  USB11, CIS_SENSOR, 2400, { 407, 1285}}
 	]
 
-	if ((ser != NULL)&&(ler != NULL))
+	if((ser != NULL)&&(ler != NULL))
 	{
 		Int a
 		Int count = sizeof(reg) / sizeof(struct st_reg)
@@ -1967,9 +1967,9 @@ static void hp3970_vrefs(Int usb, Int sensor, Int res, Int *ser, Int *ler)
 		/* values by default */
 		*ser = *ler = 0
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if ((reg[a].usb == usb)&&(reg[a].sensor == sensor)&&(reg[a].resolution == res))
+			if((reg[a].usb == usb)&&(reg[a].sensor == sensor)&&(reg[a].resolution == res))
 			{
 				*ser = reg[a].vref[0]
 				*ler = reg[a].vref[1]
@@ -1998,7 +1998,7 @@ static void hp4370_vrefs(Int res, Int *ser, Int *ler)
 		{ 4800, { 976, 2512}}
 	]
 
-	if ((ser != NULL)&&(ler != NULL))
+	if((ser != NULL)&&(ler != NULL))
 	{
 		Int a
 		Int count = sizeof(reg) / sizeof(struct st_reg)
@@ -2006,9 +2006,9 @@ static void hp4370_vrefs(Int res, Int *ser, Int *ler)
 		/* values by default */
 		*ser = *ler = 0
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
-			if (reg[a].resolution == res)
+			if(reg[a].resolution == res)
 			{
 				*ser = reg[a].vref[0]
 				*ler = reg[a].vref[1]
@@ -2048,7 +2048,7 @@ static Int bq5550_motormove(Int item, struct st_motormove *reg)
 
 	/* data is the same in all usb types and sensors so those args aren't needed */
 
-	if (reg != NULL)
+	if(reg != NULL)
 	{
 		struct st_motormove mv[] =
 		{
@@ -2059,7 +2059,7 @@ static Int bq5550_motormove(Int item, struct st_motormove *reg)
 
 		rst = OK
 
-		if ((item < 2)&&(item > -1))
+		if((item < 2)&&(item > -1))
 			memcpy(reg, &mv[item], sizeof(struct st_motormove))
 				else rst = ERROR
 	}
@@ -2073,7 +2073,7 @@ static Int hp3800_motormove(Int item, struct st_motormove *reg)
 
 	/* data is the same in all usb types and sensors so those args aren't needed */
 
-	if (reg != NULL)
+	if(reg != NULL)
 	{
 		struct st_motormove mv[] =
 		{
@@ -2084,7 +2084,7 @@ static Int hp3800_motormove(Int item, struct st_motormove *reg)
 
 		rst = OK
 
-		if ((item < 2)&&(item > -1))
+		if((item < 2)&&(item > -1))
 			memcpy(reg, &mv[item], sizeof(struct st_motormove))
 				else rst = ERROR
 	}
@@ -2103,7 +2103,7 @@ static Int hp3970_motormove(Int usb, Int ccd, Int item, struct st_motormove *reg
 		struct st_motormove move
 	]
 
-	if (reg != NULL)
+	if(reg != NULL)
 	{
 		struct st_mtmove mv[] =
 		{
@@ -2121,16 +2121,16 @@ static Int hp3970_motormove(Int usb, Int ccd, Int item, struct st_motormove *reg
 			{USB11, CIS_SENSOR, {0x02       , 2000, STT_HALF, -1         }}
 		]
 
-		if (item < 2)
+		if(item < 2)
 		{
 			Int a, count = 0
 			Int total = sizeof(mv) / sizeof(struct st_mtmove)
 
-			for (a = 0; a < total; a++)
+			for(a = 0; a < total; a++)
 			{
-				if ((mv[a].usbtype == usb)&&(mv[a].sensor == ccd))
+				if((mv[a].usbtype == usb)&&(mv[a].sensor == ccd))
 				{
-					if (item == count)
+					if(item == count)
 					{
 						memcpy(reg, &mv[a].move, sizeof(struct st_motormove))
 						rst = OK
@@ -2373,19 +2373,19 @@ static Int hp3970_scanmodes(Int usb, Int ccd, Int sm, struct st_scanmode *mymode
 
 	Int rst = ERROR
 
-	if (mymode != NULL)
+	if(mymode != NULL)
 	{
 		Int a
 		Int total = sizeof(reg) / sizeof(struct st_modes)
 		Int count = 0
 		struct st_modes *md
 
-		for (a = 0; a < total; a++)
+		for(a = 0; a < total; a++)
 		{
 			md = &reg[a]
-			if ((md.usb == usb)&&(md.sensor == ccd))
+			if((md.usb == usb)&&(md.sensor == ccd))
 			{
-				if (count == sm)
+				if(count == sm)
 				{
 					memcpy(mymode, &md.mode, sizeof(struct st_scanmode))
 					rst = OK
@@ -2503,19 +2503,19 @@ static Int hp4370_scanmodes(Int usb, Int sm, struct st_scanmode *mymode)
 
 	Int rst = ERROR
 
-	if (mymode != NULL)
+	if(mymode != NULL)
 	{
 		Int a
 		Int total = sizeof(reg) / sizeof(struct st_modes)
 		Int count = 0
 		struct st_modes *md
 
-		for (a = 0; a < total; a++)
+		for(a = 0; a < total; a++)
 		{
 			md = &reg[a]
-			if (md.usb == usb)
+			if(md.usb == usb)
 			{
-				if (count == sm)
+				if(count == sm)
 				{
 					memcpy(mymode, &md.mode, sizeof(struct st_scanmode))
 					rst = OK
@@ -2621,19 +2621,19 @@ static Int hp3800_scanmodes(Int usb, Int sm, struct st_scanmode *mymode)
 
 	Int rst = ERROR
 
-	if (mymode != NULL)
+	if(mymode != NULL)
 	{
 		Int a
 		Int total = sizeof(reg) / sizeof(struct st_modes)
 		Int count = 0
 		struct st_modes *md
 
-		for (a = 0; a < total; a++)
+		for(a = 0; a < total; a++)
 		{
 			md = &reg[a]
-			if (md.usb == usb)
+			if(md.usb == usb)
 			{
-				if (count == sm)
+				if(count == sm)
 				{
 					memcpy(mymode, &md.mode, sizeof(struct st_scanmode))
 					rst = OK
@@ -2721,17 +2721,17 @@ static Int bq5550_scanmodes(Int usb, Int sm, struct st_scanmode *mymode)
 	/* silence compiler */
 	usb = usb
 
-	if (mymode != NULL)
+	if(mymode != NULL)
 	{
 		Int a
 		Int total = sizeof(reg) / sizeof(struct st_modes)
 		Int count = 0
 		struct st_modes *md
 
-		for (a = 0; a < total; a++)
+		for(a = 0; a < total; a++)
 		{
 			md = &reg[a]
-			if (count == sm)
+			if(count == sm)
 			{
 				memcpy(mymode, &md.mode, sizeof(struct st_scanmode))
 				rst = OK
@@ -2797,19 +2797,19 @@ static Int ua4900_scanmodes(Int usb, Int sm, struct st_scanmode *mymode)
 
 	Int rst = ERROR
 
-	if (mymode != NULL)
+	if(mymode != NULL)
 	{
 		Int a
 		Int total = sizeof(reg) / sizeof(struct st_modes)
 		Int count = 0
 		struct st_modes *md
 
-		for (a = 0; a < total; a++)
+		for(a = 0; a < total; a++)
 		{
 			md = &reg[a]
-			if (md.usb == usb)
+			if(md.usb == usb)
 			{
-				if (count == sm)
+				if(count == sm)
 				{
 					memcpy(mymode, &md.mode, sizeof(struct st_scanmode))
 					rst = OK
@@ -2905,27 +2905,27 @@ static void hp3970_wrefs(Int usb, Int ccd, Int depth, Int res, Int scantype, Int
 
 	*red = *green = *blue = 0x50
 
-	if (res <= 100)
+	if(res <= 100)
 		res = 100
-	else if (res <= 200)
+	else if(res <= 200)
 		res = 200
-	else if (res <= 300)
+	else if(res <= 300)
 		res = 300
-	else if (res <= 600)
+	else if(res <= 600)
 		res = 600
-	else if (res <= 1200)
+	else if(res <= 1200)
 		res = 1200
 	else res = 2400
 
-	if (scantype != ST_NORMAL)
+	if(scantype != ST_NORMAL)
 	{
 		Int a
 		Int count = sizeof(wrefs) / sizeof(struct st_wref)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
 			rf = &wrefs[a]
-			if ((rf.usb == usb)&&(rf.sensor == ccd)&&(rf.depth == depth)&&(rf.res == res))
+			if((rf.usb == usb)&&(rf.sensor == ccd)&&(rf.depth == depth)&&(rf.res == res))
 			{
 				switch(scantype)
 				{
@@ -2997,25 +2997,25 @@ static void ua4900_wrefs(Int usb, Int depth, Int res, Int scantype, Int *red, In
 
 	*red = *green = *blue = 0x50
 
-	if (res <= 100)
+	if(res <= 100)
 		res = 100
-	else if (res <= 200)
+	else if(res <= 200)
 		res = 200
-	else if (res <= 300)
+	else if(res <= 300)
 		res = 300
-	else if (res <= 600)
+	else if(res <= 600)
 		res = 600
 	else res = 1200
 
-	if (scantype != ST_NORMAL)
+	if(scantype != ST_NORMAL)
 	{
 		Int a
 		Int count = sizeof(wrefs) / sizeof(struct st_wref)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
 			rf = &wrefs[a]
-			if ((rf.usb == usb)&&(rf.depth == depth)&&(rf.res == res))
+			if((rf.usb == usb)&&(rf.depth == depth)&&(rf.res == res))
 			{
 				switch(scantype)
 				{
@@ -3067,25 +3067,25 @@ static void hp3800_wrefs(Int res, Int scantype, Int *red, Int *green, Int *blue)
 
 	*red = *green = *blue = 0x50
 
-	if (res <= 150)
+	if(res <= 150)
 		res = 150
-	else if (res <= 300)
+	else if(res <= 300)
 		res = 300
-	else if (res <= 600)
+	else if(res <= 600)
 		res = 600
-	else if (res <= 1200)
+	else if(res <= 1200)
 		res = 1200
 	else res = 2400
 
-	if (scantype != ST_NORMAL)
+	if(scantype != ST_NORMAL)
 	{
 		Int a
 		Int count = sizeof(wrefs) / sizeof(struct st_wref)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
 			rf = &wrefs[a]
-			if (rf.res == res)
+			if(rf.res == res)
 			{
 				switch(scantype)
 				{
@@ -3141,26 +3141,26 @@ static void hp4370_wrefs(Int res, Int scantype, Int *red, Int *green, Int *blue)
 
 	*red = *green = *blue = 0x50
 
-	if (res <= 150)
+	if(res <= 150)
 		res = 150
-	else if (res <= 300)
+	else if(res <= 300)
 		res = 300
-	else if (res <= 600)
+	else if(res <= 600)
 		res = 600
-	else if (res <= 1200)
+	else if(res <= 1200)
 		res = 1200
-	else if (res <= 2400)
+	else if(res <= 2400)
 		res = 2400
 	else res = 4800
 
-	if (scantype != ST_NORMAL)
+	if(scantype != ST_NORMAL)
 	{
 		Int count = sizeof(wrefs) / sizeof(struct st_wref)
 
-		for (a = 0; a < count; a++)
+		for(a = 0; a < count; a++)
 		{
 			rf = &wrefs[a]
-			if (rf.res == res)
+			if(rf.res == res)
 			{
 				switch(scantype)
 				{
@@ -3242,20 +3242,20 @@ static void hp3800_shading_cut(Int res, Int scantype, Int *red, Int *green, Int 
 
 	*red = *green = *blue = 0
 
-	if (res <= 150)
+	if(res <= 150)
 		res = 150
-	else if (res <= 300)
+	else if(res <= 300)
 		res = 300
-	else if (res <= 600)
+	else if(res <= 600)
 		res = 600
-	else if (res <= 1200)
+	else if(res <= 1200)
 		res = 1200
 	else res = 2400
 
-	for (a = 0; a < count; a++)
+	for(a = 0; a < count; a++)
 	{
 		ct = &cuts[a]
-		if (ct.res == res)
+		if(ct.res == res)
 		{
 			switch(scantype)
 			{
@@ -3363,22 +3363,22 @@ static void hp3970_shading_cut(Int usb, Int ccd, Int depth, Int res, Int scantyp
 
 	*red = *green = *blue = 0
 
-	if (res <= 100)
+	if(res <= 100)
 		res = 100
-	else if (res <= 200)
+	else if(res <= 200)
 		res = 200
-	else if (res <= 300)
+	else if(res <= 300)
 		res = 300
-	else if (res <= 600)
+	else if(res <= 600)
 		res = 600
-	else if (res <= 1200)
+	else if(res <= 1200)
 		res = 1200
 	else res = 2400
 
-	for (a = 0; a < count; a++)
+	for(a = 0; a < count; a++)
 	{
 		ct = &cuts[a]
-		if ((ct.usb == usb)&&(ct.sensor == ccd)&&(ct.depth == depth)&&(ct.res == res))
+		if((ct.usb == usb)&&(ct.sensor == ccd)&&(ct.depth == depth)&&(ct.res == res))
 		{
 			switch(scantype)
 			{
@@ -3440,22 +3440,22 @@ static void hp4370_shading_cut(Int depth, Int res, Int scantype, Int *red, Int *
 
 	*red = *green = *blue = 0
 
-	if (res <= 150)
+	if(res <= 150)
 		res = 150
-	else if (res <= 300)
+	else if(res <= 300)
 		res = 300
-	else if (res <= 600)
+	else if(res <= 600)
 		res = 600
-	else if (res <= 1200)
+	else if(res <= 1200)
 		res = 1200
-	else if (res <= 2400)
+	else if(res <= 2400)
 		res = 2400
 	else res = 4800
 
-	for (a = 0; a < count; a++)
+	for(a = 0; a < count; a++)
 	{
 		ct = &cuts[a]
-		if ((ct.depth == depth)&&(ct.res == res))
+		if((ct.depth == depth)&&(ct.res == res))
 		{
 			switch(scantype)
 			{
@@ -3528,20 +3528,20 @@ static void ua4900_shading_cut(Int usb, Int depth, Int res, Int scantype, Int *r
 
 	*red = *green = *blue = 0
 
-	if (res <= 100)
+	if(res <= 100)
 		res = 100
-	else if (res <= 200)
+	else if(res <= 200)
 		res = 200
-	else if (res <= 300)
+	else if(res <= 300)
 		res = 300
-	else if (res <= 600)
+	else if(res <= 600)
 		res = 600
 	else res = 1200
 
-	for (a = 0; a < count; a++)
+	for(a = 0; a < count; a++)
 	{
 		ct = &cuts[a]
-		if ((ct.usb == usb)&&(ct.depth == depth)&&(ct.res == res))
+		if((ct.usb == usb)&&(ct.depth == depth)&&(ct.res == res))
 		{
 			switch(scantype)
 			{
@@ -3599,7 +3599,7 @@ static Int bq5550_timing_get(Int tm, struct st_timing *reg)
 {
 	Int rst = ERROR
 
-	if ((tm < 7)&&(reg != NULL))
+	if((tm < 7)&&(reg != NULL))
 	{
 		/* bq5550 sensor timing values for each resolution and color mode */
 
@@ -3626,7 +3626,7 @@ static Int hp3800_timing_get(Int tm, struct st_timing *reg)
 {
 	Int rst = ERROR
 
-	if ((tm < 20)&&(reg != NULL))
+	if((tm < 20)&&(reg != NULL))
 	{
 		/* Toshiba T2905 sensor timing values for each resolution and color mode */
 
@@ -3670,10 +3670,10 @@ static Int hp3970_timing_get(Int sensortype, Int tm, struct st_timing *reg)
 {
 	Int rst = ERROR
 
-	if ((tm < 12)&&(reg != NULL))
+	if((tm < 12)&&(reg != NULL))
 	{
 		rst = OK
-		if (sensortype == CCD_SENSOR)
+		if(sensortype == CCD_SENSOR)
 		{
 			/* Toshiba T2952 sensor timing values for each resolution and color mode */
 			struct st_timing data[] =
@@ -3727,7 +3727,7 @@ static Int hp4370_timing_get(Int tm, struct st_timing *reg)
 {
 	Int rst = ERROR
 
-	if ((reg != NULL)&&(tm < 14))
+	if((reg != NULL)&&(tm < 14))
 	{
 		/* Toshiba T2958 sensor timing values for each resolution and color mode */
 
@@ -3762,7 +3762,7 @@ static Int ua4900_timing_get(Int tm, struct st_timing *reg)
 {
 	Int rst = ERROR
 
-	if ((tm < 10)&&(reg != NULL))
+	if((tm < 10)&&(reg != NULL))
 	{
 		/* Sony S575 sensor timing values for each resolution and color mode */
 		struct st_timing data[] =
@@ -3841,7 +3841,7 @@ static Int *bq5550_motor()
 	]
 
 	rst = (Int *)malloc(sizeof(steps))
-	if (rst != NULL)
+	if(rst != NULL)
 		memcpy(rst, &steps, sizeof(steps))
 
 	return rst
@@ -3942,7 +3942,7 @@ static Int *hp4370_motor()
 	]
 
 	rst = (Int *)malloc(sizeof(steps))
-	if (rst != NULL)
+	if(rst != NULL)
 		memcpy(rst, &steps, sizeof(steps))
 
 	return rst
@@ -4043,7 +4043,7 @@ static Int *hp3970_motor()
 	]
 
 	rst = (Int *)malloc(sizeof(steps))
-	if (rst != NULL)
+	if(rst != NULL)
 		memcpy(rst, &steps, sizeof(steps))
 
 	return rst
@@ -4188,7 +4188,7 @@ static Int *hp3800_motor()
 	]
 
 	rst = (Int *)malloc(sizeof(steps))
-	if (rst != NULL)
+	if(rst != NULL)
 		memcpy(rst, &steps, sizeof(steps))
 
 	return rst
@@ -5634,7 +5634,7 @@ static Int srt_hp3800_scanparam_get(Int option, Int defvalue)
 
 	Int *value = value3
 
-	if (value != NULL)
+	if(value != NULL)
 		switch(option)
 		{
 			case ARRANGELINE: rst = value[0]; break
@@ -5683,7 +5683,7 @@ static Int srt_hp3970_scanparam_get(Int file, Int option, Int defvalue)
 		case T_USB1INIFILE: value = value4; break
 	}
 
-	if (value != NULL)
+	if(value != NULL)
 		switch(option)
 		{
 			case ARRANGELINE: rst = value[0]; break
@@ -5732,7 +5732,7 @@ static Int srt_hp4370_scanparam_get(Int file, Int option, Int defvalue)
 		case T_USB1INIFILE: value = value4; break
 	}
 
-	if (value != NULL)
+	if(value != NULL)
 		switch(option)
 		{
 			case ARRANGELINE: rst = value[0]; break
@@ -5784,7 +5784,7 @@ static Int srt_scancali_get(Int file, Int option, Int defvalue)
 		case T_USB1INIFILE: value = value4; break
 	}
 
-	if (value != NULL)
+	if(value != NULL)
 		switch(option)
 		{
 			case PGA1: rst = value[0]; break
@@ -5837,7 +5837,7 @@ static Int srt_truegrayparam_get(Int file, Int option, Int defvalue)
 		case T_USB1INIFILE: value = value4; break
 	}
 
-	if (value != NULL)
+	if(value != NULL)
 		switch(option)
 		{
 			case SHADINGBASE: rst = value[0]; break
@@ -5870,7 +5870,7 @@ static Int srt_caliparam_get(Int file, Int option, Int defvalue)
 		case T_USB1INIFILE: value = value4; break
 	}
 
-	if (value != NULL)
+	if(value != NULL)
 		switch(option)
 		{
 			case PIXELDARKLEVEL: rst = value[0]; break
@@ -5887,7 +5887,7 @@ static Int srt_hp3800_platform_get(Int option, Int defvalue)
 	Int *value = value1
 	Int rst = defvalue
 
-	if (value != NULL)
+	if(value != NULL)
 	{
 		switch(option)
 		{
@@ -5908,7 +5908,7 @@ static Int srt_hp3970_platform_get(Int option, Int defvalue)
 	Int *value = value1
 	Int rst = defvalue
 
-	if (value != NULL)
+	if(value != NULL)
 	{
 		switch(option)
 		{
@@ -5928,7 +5928,7 @@ static Int srt_ua4900_platform_get(Int option, Int defvalue)
 	Int *value = value1
 	Int rst = defvalue
 
-	if (value != NULL)
+	if(value != NULL)
 	{
 		switch(option)
 		{
@@ -5949,7 +5949,7 @@ static Int srt_hp4370_platform_get(Int option, Int defvalue)
 	Int *value = value3
 	Int rst = defvalue
 
-	if (value != NULL)
+	if(value != NULL)
 	{
 		switch(option)
 		{
@@ -5979,7 +5979,7 @@ static Int srt_scaninfo_get(Int file, Int option, Int defvalue)
 		case T_USB1INIFILE: value = value4; break
 	}
 
-	if (value != NULL)
+	if(value != NULL)
 	{
 		switch(option)
 		{

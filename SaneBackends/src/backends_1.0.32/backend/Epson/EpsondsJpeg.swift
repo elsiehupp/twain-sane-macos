@@ -1,7 +1,7 @@
 /*
  * epsonds.c - Epson ESC/I-2 driver, JPEG support.
  *
- * Copyright (C) 2015 Tower Technologies
+ * Copyright(C) 2015 Tower Technologies
  * Author: Alessandro Zummo <a.zummo@towertech.it>
  *
  * This file is part of the SANE package.
@@ -20,7 +20,7 @@ void eds_jpeg_read(Sane.Handle handle, Sane.Byte *data, Int max_length, Int *len
 /*
  * epsonds-jpeg.c - Epson ESC/I-2 driver, JPEG support.
  *
- * Copyright (C) 2015 Tower Technologies
+ * Copyright(C) 2015 Tower Technologies
  * Author: Alessandro Zummo <a.zummo@towertech.it>
  *
  * This file is part of the SANE package.
@@ -74,7 +74,7 @@ jpeg_fill_input_buffer(j_decompress_ptr cinfo)
 	/* read from the scanner or the ring buffer */
 
 	avail = eds_ring_avail(src.s.current)
-	if (avail == 0) {
+	if(avail == 0) {
 		return FALSE
 	}
 
@@ -89,14 +89,14 @@ jpeg_fill_input_buffer(j_decompress_ptr cinfo)
 	return TRUE
 }
 
-METHODDEF (void)
+METHODDEF(void)
 jpeg_skip_input_data(j_decompress_ptr cinfo, long num_bytes)
 {
 	epsonds_src_mgr *src = (epsonds_src_mgr *)cinfo.src
 
-	if (num_bytes > 0) {
+	if(num_bytes > 0) {
 
-		while (num_bytes > (long)src.pub.bytes_in_buffer) {
+		while(num_bytes > (long)src.pub.bytes_in_buffer) {
 			num_bytes -= (long)src.pub.bytes_in_buffer
 			jpeg_fill_input_buffer(cinfo)
 		}
@@ -145,11 +145,11 @@ eds_jpeg_read_header(epsonds_scanner *s)
 {
 	epsonds_src_mgr *src = (epsonds_src_mgr *)s.jpeg_cinfo.src
 
-	if (jpeg_read_header(&s.jpeg_cinfo, TRUE)) {
+	if(jpeg_read_header(&s.jpeg_cinfo, TRUE)) {
 
 		s.jdst = sanei_jpeg_jinit_write_ppm(&s.jpeg_cinfo)
 
-		if (jpeg_start_decompress(&s.jpeg_cinfo)) {
+		if(jpeg_start_decompress(&s.jpeg_cinfo)) {
 
 			Int size
 
@@ -200,11 +200,11 @@ eds_jpeg_read(Sane.Handle handle, Sane.Byte *data,
 	*length = 0
 
 	/* copy from line buffer if available */
-	if (src.linebuffer_size && src.linebuffer_index < src.linebuffer_size) {
+	if(src.linebuffer_size && src.linebuffer_index < src.linebuffer_size) {
 
 		*length = src.linebuffer_size - src.linebuffer_index
 
-		if (*length > max_length)
+		if(*length > max_length)
 			*length = max_length
 
 		memcpy(data, src.linebuffer + src.linebuffer_index, *length)
@@ -213,7 +213,7 @@ eds_jpeg_read(Sane.Handle handle, Sane.Byte *data,
 		return
 	}
 
-	if (cinfo.output_scanline >= cinfo.output_height) {
+	if(cinfo.output_scanline >= cinfo.output_height) {
 		*length = 0
 		return
 	}
@@ -223,7 +223,7 @@ eds_jpeg_read(Sane.Handle handle, Sane.Byte *data,
 	 */
 
 	l = jpeg_read_scanlines(&cinfo, s.jdst.buffer, 1)
-	if (l == 0) {
+	if(l == 0) {
 		return
 	}
 
@@ -237,7 +237,7 @@ eds_jpeg_read(Sane.Handle handle, Sane.Byte *data,
 	src.linebuffer_size = *length
 	src.linebuffer_index = 0
 
-	if (*length > max_length)
+	if(*length > max_length)
 		*length = max_length
 
 	memcpy(data, src.linebuffer + src.linebuffer_index, *length)

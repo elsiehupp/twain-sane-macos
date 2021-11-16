@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 David Mosberger-Tang
+   Copyright(C) 1997 David Mosberger-Tang
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -47,15 +47,15 @@ import Sane.sanei_wire
 import Sane.sanei_codec_bin
 
 static void
-bin_w_byte (Wire *w, void *v)
+bin_w_byte(Wire *w, void *v)
 {
   Sane.Byte *b = v
 
-  sanei_w_space (w, 1)
-  if (w.status)
+  sanei_w_space(w, 1)
+  if(w.status)
     return
 
-  switch (w.direction)
+  switch(w.direction)
     {
     case WIRE_ENCODE:
       *w.buffer.curr++ = *b
@@ -71,37 +71,37 @@ bin_w_byte (Wire *w, void *v)
 }
 
 static void
-bin_w_string (Wire *w, void *v)
+bin_w_string(Wire *w, void *v)
 {
   Sane.Word len
   String *s = v
 
-  if (w.direction != WIRE_DECODE)
+  if(w.direction != WIRE_DECODE)
     {
       len = 0
-      if (*s)
-	len = strlen (*s) + 1
+      if(*s)
+	len = strlen(*s) + 1
     }
-  sanei_w_array (w, &len, v, w.codec.w_byte, 1)
+  sanei_w_array(w, &len, v, w.codec.w_byte, 1)
 
-  if (w.direction == WIRE_DECODE)
+  if(w.direction == WIRE_DECODE)
     {
-      if (len == 0)
+      if(len == 0)
 	*s = 0
-      else if (w.status == 0)
+      else if(w.status == 0)
 	*(*s + len - 1) = '\0'
     }
 }
 
 static void
-bin_w_word (Wire *w, void *v)
+bin_w_word(Wire *w, void *v)
 {
   Sane.Word val, *word = v
 
-  sanei_w_space (w, 4)
-  if (w.status)
+  sanei_w_space(w, 4)
+  if(w.status)
     return
-  switch (w.direction)
+  switch(w.direction)
     {
     case WIRE_ENCODE:
       val = *word
@@ -128,7 +128,7 @@ bin_w_word (Wire *w, void *v)
 }
 
 void
-sanei_codec_bin_init (Wire *w)
+sanei_codec_bin_init(Wire *w)
 {
   w.codec.w_byte = bin_w_byte
   w.codec.w_char = bin_w_byte

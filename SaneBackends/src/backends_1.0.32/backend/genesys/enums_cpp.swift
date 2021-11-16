@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -49,7 +49,7 @@ namespace genesys {
 
 const char* scan_method_to_option_string(ScanMethod method)
 {
-    switch (method) {
+    switch(method) {
         case ScanMethod::FLATBED: return STR_FLATBED
         case ScanMethod::TRANSPARENCY: return STR_TRANSPARENCY_ADAPTER
         case ScanMethod::TRANSPARENCY_INFRARED: return STR_TRANSPARENCY_ADAPTER_INFRARED
@@ -59,11 +59,11 @@ const char* scan_method_to_option_string(ScanMethod method)
 
 ScanMethod option_string_to_scan_method(const std::string& str)
 {
-    if (str == STR_FLATBED) {
+    if(str == STR_FLATBED) {
         return ScanMethod::FLATBED
-    } else if (str == STR_TRANSPARENCY_ADAPTER) {
+    } else if(str == STR_TRANSPARENCY_ADAPTER) {
         return ScanMethod::TRANSPARENCY
-    } else if (str == STR_TRANSPARENCY_ADAPTER_INFRARED) {
+    } else if(str == STR_TRANSPARENCY_ADAPTER_INFRARED) {
         return ScanMethod::TRANSPARENCY_INFRARED
     }
     throw SaneException("Unknown scan method option %s", str.c_str())
@@ -71,7 +71,7 @@ ScanMethod option_string_to_scan_method(const std::string& str)
 
 const char* scan_color_mode_to_option_string(ScanColorMode mode)
 {
-    switch (mode) {
+    switch(mode) {
         case ScanColorMode::COLOR_SINGLE_PASS: return Sane.VALUE_SCAN_MODE_COLOR
         case ScanColorMode::GRAY: return Sane.VALUE_SCAN_MODE_GRAY
         case ScanColorMode::HALFTONE: return Sane.VALUE_SCAN_MODE_HALFTONE
@@ -82,13 +82,13 @@ const char* scan_color_mode_to_option_string(ScanColorMode mode)
 
 ScanColorMode option_string_to_scan_color_mode(const std::string& str)
 {
-    if (str == Sane.VALUE_SCAN_MODE_COLOR) {
+    if(str == Sane.VALUE_SCAN_MODE_COLOR) {
         return ScanColorMode::COLOR_SINGLE_PASS
-    } else if (str == Sane.VALUE_SCAN_MODE_GRAY) {
+    } else if(str == Sane.VALUE_SCAN_MODE_GRAY) {
         return ScanColorMode::GRAY
-    } else if (str == Sane.VALUE_SCAN_MODE_HALFTONE) {
+    } else if(str == Sane.VALUE_SCAN_MODE_HALFTONE) {
         return ScanColorMode::HALFTONE
-    } else if (str == Sane.VALUE_SCAN_MODE_LINEART) {
+    } else if(str == Sane.VALUE_SCAN_MODE_LINEART) {
         return ScanColorMode::LINEART
     }
     throw SaneException("Unknown scan color mode %s", str.c_str())
@@ -97,7 +97,7 @@ ScanColorMode option_string_to_scan_color_mode(const std::string& str)
 
 std::ostream& operator<<(std::ostream& out, ColorFilter mode)
 {
-    switch (mode) {
+    switch(mode) {
         case ColorFilter::RED: out << "RED"; break
         case ColorFilter::GREEN: out << "GREEN"; break
         case ColorFilter::BLUE: out << "BLUE"; break
@@ -109,7 +109,7 @@ std::ostream& operator<<(std::ostream& out, ColorFilter mode)
 
 std::ostream& operator<<(std::ostream& out, ModelId id)
 {
-    switch (id) {
+    switch(id) {
         case ModelId::UNKNOWN: out << "UNKNOWN"; break
         case ModelId::CANON_4400F: out << "CANON_4400F"; break
         case ModelId::CANON_5600F: out << "CANON_5600F"; break
@@ -170,7 +170,7 @@ std::ostream& operator<<(std::ostream& out, ModelId id)
 
 std::ostream& operator<<(std::ostream& out, SensorId id)
 {
-    switch (id) {
+    switch(id) {
         case SensorId::CCD_5345: out << "CCD_5345"; break
         case SensorId::CCD_CANON_4400F: out << "CCD_CANON_4400F"; break
         case SensorId::CCD_CANON_5600F: out << "CCD_CANON_5600F"; break
@@ -221,7 +221,7 @@ std::ostream& operator<<(std::ostream& out, SensorId id)
 
 std::ostream& operator<<(std::ostream& out, AdcId id)
 {
-    switch (id) {
+    switch(id) {
         case AdcId::UNKNOWN: out << "UNKNOWN"; break
         case AdcId::AD_XP200: out << "AD_XP200"; break
         case AdcId::CANON_LIDE_35: out << "CANON_LIDE_35"; break
@@ -263,7 +263,7 @@ std::ostream& operator<<(std::ostream& out, AdcId id)
 
 std::ostream& operator<<(std::ostream& out, GpioId id)
 {
-    switch (id) {
+    switch(id) {
         case GpioId::UNKNOWN: out << "UNKNOWN"; break
         case GpioId::CANON_LIDE_35: out << "CANON_LIDE_35"; break
         case GpioId::CANON_LIDE_80: out << "CANON_LIDE_80"; break
@@ -306,7 +306,7 @@ std::ostream& operator<<(std::ostream& out, GpioId id)
 
 std::ostream& operator<<(std::ostream& out, MotorId id)
 {
-    switch (id) {
+    switch(id) {
         case MotorId::UNKNOWN: out << "UNKNOWN"; break
         case MotorId::CANON_LIDE_90: out << "CANON_LIDE_90"; break
         case MotorId::CANON_LIDE_100: out << "CANON_LIDE_100"; break
@@ -351,7 +351,7 @@ std::ostream& operator<<(std::ostream& out, MotorId id)
 
 std::ostream& operator<<(std::ostream& out, StepType type)
 {
-    switch (type) {
+    switch(type) {
         case StepType::FULL: out << "1/1"; break
         case StepType::HALF: out << "1/2"; break
         case StepType::QUARTER: out << "1/4"; break

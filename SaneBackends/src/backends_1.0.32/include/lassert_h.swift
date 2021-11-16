@@ -1,12 +1,12 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2001 by Henning Meier-Geinitz
+   Copyright(C) 2001 by Henning Meier-Geinitz
 
    This file is part of the SANE package.
 
    SANE is free software; you can redistribute it and/or modify it under
    the terms of the GNU General Public License as published by the Free
-   Software Foundation; either version 2 of the License, or (at your
+   Software Foundation; either version 2 of the License, or(at your
    option) any later version.
 
    SANE is distributed in the hope that it will be useful, but WITHOUT
@@ -51,10 +51,10 @@
 /* The implementation of assert of gcc on AIX is in libgcc.a. This
    doesn't work with shared libraries. So let's make our own assert(). */
 #define assert(arg)  \
- ((void) ((arg) ? 0 : lassert (arg, __FILE__, __LINE__)))
+ ((void) ((arg) ? 0 : lassert(arg, __FILE__, __LINE__)))
 #define lassert(arg, file, lineno)  \
-  (printf ("%s:%u: failed assertion\n", file, lineno),  \
-   abort (), 0)
+  (printf("%s:%u: failed assertion\n", file, lineno),  \
+   abort(), 0)
 #else
 import assert
 #endif

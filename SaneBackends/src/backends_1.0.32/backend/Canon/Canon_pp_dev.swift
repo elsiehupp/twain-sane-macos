@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2001-2002 Matthew C. Duggan and Simon Krix
+   Copyright(C) 2001-2002 Matthew C. Duggan and Simon Krix
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -118,7 +118,7 @@ typedef struct scanner_parameter_struct
 	/* Not understood white-balance/gain values */
 	unsigned char gamma[32]
 
-	/* Type of scanner ( 0 = *20P, 1 = [*30P|*40P] ) */
+	/* Type of scanner( 0 = *20P, 1 = [*30P|*40P] ) */
 	unsigned char type
 
 	/* Are we aborting this scanner now */
@@ -132,7 +132,7 @@ typedef struct scan_parameter_struct
 	unsigned Int width, height
 	/* Position of image on the scanner bed */
 	unsigned Int xoffset, yoffset
-	/* Resolution at which to scan (remember it's 75 << resolution) */
+	/* Resolution at which to scan(remember it's 75 << resolution) */
 	Int xresolution, yresolution
 	/* Mode of image. 0 = greyscale, 1 = truecolour */
 	Int mode
@@ -182,13 +182,13 @@ Int sanei_canon_pp_sleep_scanner(struct parport *port)
 
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2001-2002 Matthew C. Duggan and Simon Krix
+   Copyright(C) 2001-2002 Matthew C. Duggan and Simon Krix
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -258,7 +258,7 @@ static void DBG(Int level, const char *format, ...)
 {
 	va_list args
 	va_start(args, format)
-	if (level < 50) vfprintf(stderr, format, args)
+	if(level < 50) vfprintf(stderr, format, args)
 	va_end(args)
 }
 #else
@@ -291,7 +291,7 @@ static const struct scanner_hardware_desc
 	/* A few generic scanner descriptions for aliens */
 	hw_alien600 = { "Unknown 600dpi", 3, 3, 7016, 0, 1 },
 	hw_alien300 = { "Unknown 300dpi", 2, 2, 3508, 0, 1 },
-	hw_alien = { "Unknown (600dpi?)", 3, 3, 7016, 0, 1 ]
+	hw_alien = { "Unknown(600dpi?)", 3, 3, 7016, 0, 1 ]
 
 /* ID table linking ID strings with hardware descriptions */
 struct scanner_id {
@@ -328,7 +328,7 @@ static Int scanner_setup_params(unsigned char *buf, scanner_parameters *sp,
 static Int safe_write(Int fd, const char *p, unsigned long len)
 static Int safe_read(Int fd, char *p, unsigned long len)
 
-/* Command sending loop (waiting for ready status) */
+/* Command sending loop(waiting for ready status) */
 static Int send_command(struct parport *port, unsigned char *buf, Int bufsize,
 		Int delay, Int timeout)
 
@@ -375,13 +375,13 @@ static unsigned char cmd_cleargamma = [0xc5, 0x20, 0, 0, 0, 0, 0, 0, 0, 0]
 /* Read back the gamma table values */
 static unsigned char cmd_readgamma = [0xf6, 0x20, 0, 0, 0, 0, 0, 0, 0x20, 0]
 
-/* Reads COLOUR (R,G or B) calibration image */
+/* Reads COLOUR(R,G or B) calibration image */
 static unsigned char cmd_calcolour[]={0xf9, 0x20, 0, 0, 0, 0, 0, 0x4a, 0xc4, 0]
 
 /* Abort scan */
 static unsigned char cmd_abort = [0xef, 0x20, 0, 0, 0, 0, 0, 0, 0, 0]
 
-/* Upload the gamma table (followed by 32 byte write) */
+/* Upload the gamma table(followed by 32 byte write) */
 static unsigned char cmd_setgamma = [0xe6, 0x20, 0, 0, 0, 0, 0, 0, 0x20, 0]
 
 #if 0
@@ -411,13 +411,13 @@ static Int safe_write(Int fd, const char *p, unsigned long len) {
 
 	do {
 		diff = write(fd, p+total, len-total)
-		if (diff < 0)
+		if(diff < 0)
 		{
-			if (errno == EINTR) continue
+			if(errno == EINTR) continue
 			return -1
 		}
 		total += diff
-	} while (len > total)
+	} while(len > total)
 
 	return 0
 
@@ -431,15 +431,15 @@ static Int safe_read(Int fd, char *p, unsigned long len) {
 
 	do {
 		diff = read(fd, p+total, len-total)
-		if (diff <= 0)
+		if(diff <= 0)
 		{
-			if (errno == EINTR) continue
-			if (diff == 0) return -2
+			if(errno == EINTR) continue
+			if(diff == 0) return -2
 			return -1
 
 		}
 		total += diff
-	} while (len > total)
+	} while(len > total)
 
 	return 0
 
@@ -460,7 +460,7 @@ Int sanei_canon_pp_init_scan(scanner_parameters *sp, scan_parameters *scanp)
 	   (based on the scanner's replies) */
 	Int true_scanline_size, true_scanline_count
 
-	/* The image size we expect to get (based on *scanp) */
+	/* The image size we expect to get(based on *scanp) */
 	Int expected_scanline_size, expected_scanline_count
 
 	/* Set up the default scan command packet */
@@ -473,17 +473,17 @@ Int sanei_canon_pp_init_scan(scanner_parameters *sp, scan_parameters *scanp)
 	/* Add checksum byte */
 	command_b[55] = check8(command_b+10, 45)
 
-	if (send_command(sp.port, command_b, 56, 50000, 1000000))
+	if(send_command(sp.port, command_b, 56, 50000, 1000000))
 		return -1
 
 	/* Ask the scanner about the buffer */
-	if (send_command(sp.port, cmd_buf_status, 10, 50000, 1000000))
+	if(send_command(sp.port, cmd_buf_status, 10, 50000, 1000000))
 		return -1
 
 	/* Read buffer information block */
 	sanei_canon_pp_read(sp.port, 6, buffer_info_block)
 
-	if (check8(buffer_info_block, 6))
+	if(check8(buffer_info_block, 6))
 		DBG(1, "init_scan: ** Warning: Checksum error reading buffer "
 				"info block.\n")
 
@@ -507,7 +507,7 @@ Int sanei_canon_pp_init_scan(scanner_parameters *sp, scan_parameters *scanp)
 	/* The scanner's idea of the number of scanlines in total */
 	true_scanline_count = (buffer_info_block[2]<<8) | buffer_info_block[3]
 
-	if ((expected_scanline_size != true_scanline_size)
+	if((expected_scanline_size != true_scanline_size)
 			|| (expected_scanline_count != true_scanline_count))
 	{
 		DBG(10, "init_scan: Warning: Scanner is producing an image "
@@ -518,7 +518,7 @@ Int sanei_canon_pp_init_scan(scanner_parameters *sp, scan_parameters *scanp)
 		DBG(10, "true: %i bytes wide, %i scanlines tall.\n",
 				true_scanline_size, true_scanline_count)
 
-		if (scanp.mode == 0)
+		if(scanp.mode == 0)
 			scanp.width = true_scanline_size / 1.25
 		else
 			scanp.width = true_scanline_size / 3.75
@@ -537,7 +537,7 @@ Int sanei_canon_pp_initialise(scanner_parameters *sp, Int mode)
 	const struct scanner_hardware_desc *hw
 
 	/* Hopefully take the scanner out of transparent mode */
-	if (sanei_canon_pp_wake_scanner(sp.port, mode))
+	if(sanei_canon_pp_wake_scanner(sp.port, mode))
 	{
 		DBG(10, "initialise: could not wake scanner\n")
 		return 1
@@ -545,12 +545,12 @@ Int sanei_canon_pp_initialise(scanner_parameters *sp, Int mode)
 
 	/* This block of code does something unknown but necessary */
 	DBG(50, "initialise: >> scanner_init\n")
-	if (sanei_canon_pp_scanner_init(sp.port))
+	if(sanei_canon_pp_scanner_init(sp.port))
 	{
 		/* If we're using an unsupported ieee1284 mode here, this is
 		 * where it will fail, so fall back to nibble. */
 		sanei_canon_pp_set_ieee1284_mode(M1284_NIBBLE)
-		if (sanei_canon_pp_scanner_init(sp.port))
+		if(sanei_canon_pp_scanner_init(sp.port))
 		{
 			DBG(10, "initialise: Could not init scanner.\n")
 			return 1
@@ -560,16 +560,16 @@ Int sanei_canon_pp_initialise(scanner_parameters *sp, Int mode)
 
 	/* Read Device ID */
 	memset(sp.id_string, 0, sizeof sp.id_string)
-	if (send_command(sp.port, cmd_readid, 10, 10000, 100000))
+	if(send_command(sp.port, cmd_readid, 10, 10000, 100000))
 		return -1
 	sanei_canon_pp_read(sp.port, 38, (unsigned char *)(sp.id_string))
 
 	/* Read partially unknown data */
-	if (send_command(sp.port, cmd_readinfo, 10, 10000, 100000))
+	if(send_command(sp.port, cmd_readinfo, 10, 10000, 100000))
 		return -1
 	sanei_canon_pp_read(sp.port, 12, scanner_info)
 
-	if (check8(scanner_info, 12))
+	if(check8(scanner_info, 12))
 	{
 		DBG(10, "initialise: Checksum error reading Info Block.\n")
 		return 2
@@ -579,23 +579,23 @@ Int sanei_canon_pp_initialise(scanner_parameters *sp, Int mode)
 
 	/* Set up various known values */
 	cur_id = scanner_id_table
-	while (cur_id.id)
+	while(cur_id.id)
 	{
-		if (!strncmp(sp.id_string+8, cur_id.id, strlen(cur_id.id)))
+		if(!strncmp(sp.id_string+8, cur_id.id, strlen(cur_id.id)))
 			break
 		cur_id++
 	}
 
-	if (cur_id.id)
+	if(cur_id.id)
 	{
 		hw = cur_id.hw
 	}
-	else if (sp.scanheadwidth == 5104)
+	else if(sp.scanheadwidth == 5104)
 	{
 		/* Guess 600dpi scanner */
 		hw = &hw_alien600
 	}
-	else if (sp.scanheadwidth == 2552)
+	else if(sp.scanheadwidth == 2552)
 	{
 		/* Guess 300dpi scanner */
 		hw = &hw_alien300
@@ -610,7 +610,7 @@ Int sanei_canon_pp_initialise(scanner_parameters *sp, Int mode)
 	sp.natural_xresolution = hw.natural_xresolution
 	sp.natural_yresolution = hw.natural_yresolution
 	sp.scanbedlength = hw.scanbedlength
-	if (hw.scanheadwidth)
+	if(hw.scanheadwidth)
 		sp.scanheadwidth = hw.scanheadwidth
 	sp.type = hw.type
 
@@ -623,23 +623,23 @@ Int sanei_canon_pp_close_scanner(scanner_parameters *sp)
 	/* Put scanner in transparent mode */
 	sanei_canon_pp_sleep_scanner(sp.port)
 
-	/* Free memory (with purchase of memory of equal or greater value) */
-	if (sp.blackweight != NULL)
+	/* Free memory(with purchase of memory of equal or greater value) */
+	if(sp.blackweight != NULL)
 	{
 		free(sp.blackweight)
 		sp.blackweight = NULL
 	}
-	if (sp.redweight != NULL)
+	if(sp.redweight != NULL)
 	{
 		free(sp.redweight)
 		sp.redweight = NULL
 	}
-	if (sp.greenweight != NULL)
+	if(sp.greenweight != NULL)
 	{
 		free(sp.greenweight)
 		sp.greenweight = NULL
 	}
-	if (sp.blueweight != NULL)
+	if(sp.blueweight != NULL)
 	{
 		free(sp.blueweight)
 		sp.blueweight = NULL
@@ -659,23 +659,23 @@ Int sanei_canon_pp_load_weights(const char *filename, scanner_parameters *sp)
 	Int temp, ret
 
 	/* Open file */
-	if ((fd = open(filename, O_RDONLY)) == -1)
+	if((fd = open(filename, O_RDONLY)) == -1)
 		return -1
 
 	/* Read header and check it's right */
 	ret = safe_read(fd, buffer, strlen(header) + 1)
-	if ((ret < 0) || strcmp(buffer, header) != 0)
+	if((ret < 0) || strcmp(buffer, header) != 0)
 	{
 		DBG(1,"Calibration file header is wrong, recalibrate please\n")
 		close(fd)
 		return -2
 	}
 
-	/* Read and check file version (the calibrate file
+	/* Read and check file version(the calibrate file
 	   format changes from time to time) */
 	ret = safe_read(fd, (char *)&temp, sizeof(Int))
 
-	if ((ret < 0) || (temp != fileversion))
+	if((ret < 0) || (temp != fileversion))
 	{
 		DBG(1,"Calibration file is wrong version, recalibrate please\n")
 		close(fd)
@@ -683,7 +683,7 @@ Int sanei_canon_pp_load_weights(const char *filename, scanner_parameters *sp)
 	}
 
 	/* Allocate memory for calibration values */
-	if (((sp.blueweight = malloc(cal_data_size)) == NULL)
+	if(((sp.blueweight = malloc(cal_data_size)) == NULL)
 			|| ((sp.redweight = malloc(cal_data_size)) == NULL)
 			|| ((sp.greenweight = malloc(cal_data_size)) == NULL)
 			|| ((sp.blackweight = malloc(cal_data_size)) == NULL))
@@ -692,7 +692,7 @@ Int sanei_canon_pp_load_weights(const char *filename, scanner_parameters *sp)
 	/* Read width of calibration data */
 	ret = safe_read(fd, (char *)&cal_file_size, sizeof(cal_file_size))
 
-	if ((ret < 0) || (cal_file_size != sp.scanheadwidth))
+	if((ret < 0) || (cal_file_size != sp.scanheadwidth))
 	{
 		DBG(1, "Calibration doesn't match scanner, recalibrate?\n")
 		close(fd)
@@ -700,28 +700,28 @@ Int sanei_canon_pp_load_weights(const char *filename, scanner_parameters *sp)
 	}
 
 	/* Read calibration data */
-	if (safe_read(fd, (char *)(sp.blackweight), cal_data_size) < 0)
+	if(safe_read(fd, (char *)(sp.blackweight), cal_data_size) < 0)
 	{
 		DBG(1, "Error reading black calibration data, recalibrate?\n")
 		close(fd)
 		return -6
 	}
 
-	if (safe_read(fd, (char *)sp.redweight, cal_data_size) < 0)
+	if(safe_read(fd, (char *)sp.redweight, cal_data_size) < 0)
 	{
 		DBG(1, "Error reading red calibration data, recalibrate?\n")
 		close(fd)
 		return -7
 	}
 
-	if (safe_read(fd, (char *)sp.greenweight, cal_data_size) < 0)
+	if(safe_read(fd, (char *)sp.greenweight, cal_data_size) < 0)
 	{
 		DBG(1, "Error reading green calibration data, recalibrate?\n")
 		close(fd)
 		return -8
 	}
 
-	if (safe_read(fd, (char *)sp.blueweight, cal_data_size) < 0)
+	if(safe_read(fd, (char *)sp.blueweight, cal_data_size) < 0)
 	{
 		DBG(1, "Error reading blue calibration data, recalibrate?\n")
 		close(fd)
@@ -730,7 +730,7 @@ Int sanei_canon_pp_load_weights(const char *filename, scanner_parameters *sp)
 
 	/* Read white-balance/gamma data */
 
-	if (safe_read(fd, (char *)&(sp.gamma), 32) < 0)
+	if(safe_read(fd, (char *)&(sp.gamma), 32) < 0)
 	{
 		close(fd)
 		return -10
@@ -750,16 +750,16 @@ static void convert_to_rgb(image_segment *dest, unsigned char *src,
 	const Int colour_size = width * 1.25
 	const Int scanline_size = (mode == 0 ? colour_size : colour_size * 3)
 
-	for (curline = 0; curline < scanlines; curline++)
+	for(curline = 0; curline < scanlines; curline++)
 	{
 
-		if (mode == 0) /* Grey */
+		if(mode == 0) /* Grey */
 		{
 			convdata(src + (curline * scanline_size),
 					dest.image_data +
 					(curline * width * 2), width, 1)
 		}
-		else if (mode == 1) /* Truecolour */
+		else if(mode == 1) /* Truecolour */
 		{
 			/* Red */
 			convdata(src + (curline * scanline_size),
@@ -792,7 +792,7 @@ Int sanei_canon_pp_read_segment(image_segment **dest, scanner_parameters *sp,
 	Int read_data_size
 	Int scanline_size
 
-	if (scanp.mode == 1) /* RGB */
+	if(scanp.mode == 1) /* RGB */
 		scanline_size = scanp.width * 3.75
 	else /* Greyscale */
 		scanline_size = scanp.width * 1.25
@@ -800,7 +800,7 @@ Int sanei_canon_pp_read_segment(image_segment **dest, scanner_parameters *sp,
 	read_data_size = scanline_size * scanline_number
 
 	/* Allocate output_image struct */
-	if ((output_image = malloc(sizeof(*output_image))) == NULL)
+	if((output_image = malloc(sizeof(*output_image))) == NULL)
 	{
 		DBG(1, "read_segment: Error: Not enough memory for scanner "
 				"input buffer\n")
@@ -808,7 +808,7 @@ Int sanei_canon_pp_read_segment(image_segment **dest, scanner_parameters *sp,
 	}
 
 	/* Allocate memory for input buffer */
-	if ((input_buffer = malloc(scanline_size * scanline_number)) == NULL)
+	if((input_buffer = malloc(scanline_size * scanline_number)) == NULL)
 	{
 		DBG(1, "read_segment: Error: Not enough memory for scanner "
 				"input buffer\n")
@@ -824,7 +824,7 @@ Int sanei_canon_pp_read_segment(image_segment **dest, scanner_parameters *sp,
 		malloc(output_image.width * output_image.height *
 				(scanp.mode ? 3 : 1) * 2)
 
-	if (output_image.image_data == NULL)
+	if(output_image.image_data == NULL)
 	{
 		DBG(1, "read_segment: Error: Not enough memory for "
 				"image data\n")
@@ -837,7 +837,7 @@ Int sanei_canon_pp_read_segment(image_segment **dest, scanner_parameters *sp,
 	packet_req_command[8] = (read_data_size + 4) & 0xFF
 
 	/* Send packet req. and wait for the scanner's READY signal */
-	if (send_command(sp.port, packet_req_command, 10, 9000, 2000000))
+	if(send_command(sp.port, packet_req_command, 10, 9000, 2000000))
 	{
 		DBG(1, "read_segment: Error: didn't get response within 2s "
 				"of sending request")
@@ -845,13 +845,13 @@ Int sanei_canon_pp_read_segment(image_segment **dest, scanner_parameters *sp,
 	}
 
 	/* Read packet header */
-	if (sanei_canon_pp_read(sp.port, 4, packet_header))
+	if(sanei_canon_pp_read(sp.port, 4, packet_header))
 	{
 		DBG(1, "read_segment: Error reading packet header\n")
 		goto error_out
 	}
 
-	if ((packet_header[2]<<8) + packet_header[3] != read_data_size)
+	if((packet_header[2]<<8) + packet_header[3] != read_data_size)
 	{
 		DBG(1, "read_segment: Error: Expected data size: %i bytes.\n",
 				read_data_size)
@@ -864,7 +864,7 @@ Int sanei_canon_pp_read_segment(image_segment **dest, scanner_parameters *sp,
 
 	/* Read scanlines_this_packet scanlines into the input buf */
 
-	if (sanei_canon_pp_read(sp.port, read_data_size, input_buffer))
+	if(sanei_canon_pp_read(sp.port, read_data_size, input_buffer))
 	{
 		DBG(1, "read_segment: Segment read incorrectly, and we don't "
 				"know how to recover.\n")
@@ -873,9 +873,9 @@ Int sanei_canon_pp_read_segment(image_segment **dest, scanner_parameters *sp,
 
 	/* This is the only place we can abort safely -
 	 * between reading one segment and requesting the next one. */
-	if (sp.abort_now) goto error_out
+	if(sp.abort_now) goto error_out
 
-	if (scanlines_left >= (scanline_number * 2))
+	if(scanlines_left >= (scanline_number * 2))
 	{
 		DBG(100, "read_segment: Speculatively starting more scanning "
 				"(%d left)\n", scanlines_left)
@@ -889,7 +889,7 @@ Int sanei_canon_pp_read_segment(image_segment **dest, scanner_parameters *sp,
 			scanline_number, scanp.mode)
 
 	/* Adjust pixel readings according to calibration data */
-	if (do_adjust) {
+	if(do_adjust) {
 		DBG(100, "read_segment: Adjust output\n")
 		adjust_output(output_image, scanp, sp)
 	}
@@ -901,10 +901,10 @@ Int sanei_canon_pp_read_segment(image_segment **dest, scanner_parameters *sp,
 	return 0
 
 	error_out:
-	if (output_image && output_image.image_data)
+	if(output_image && output_image.image_data)
 		free(output_image.image_data)
-	if (output_image) free(output_image)
-	if (input_buffer) free(input_buffer)
+	if(output_image) free(output_image)
+	if(input_buffer) free(input_buffer)
 	sp.abort_now = 0
 	return -1
 }
@@ -915,7 +915,7 @@ check8: Calculates the checksum-8 for s bytes pointed to by p.
 For messages from the scanner, this should normally end up returning
 0, since the last byte of most packets is the value that makes the
 total up to 0 (or 256 if you're left-handed).
-Hence, usage: if (check8(buffer, size)) {DBG(10, "checksum error!\n");}
+Hence, usage: if(check8(buffer, size)) {DBG(10, "checksum error!\n");}
 
 Can also be used to generate valid checksums for sending to the scanner.
 */
@@ -932,7 +932,7 @@ static Int check8(unsigned char *p, Int s) {
 /* This function could use a rewrite */
 static void convdata(unsigned char *srcbuffer, unsigned char *dstbuffer,
 		Int width, Int mode)
-/* This is a tricky (read: crap) function (read: hack) which is why I probably
+/* This is a tricky(read: crap) function(read: hack) which is why I probably
    spent more time commenting it than programming it. The thing to remember
    here is that the scanner uses interpolated scanlines, so it's
    RRRRRRRGGGGGGBBBBBB not RGBRGBRGBRGBRGB. So, the calling function just
@@ -942,14 +942,14 @@ static void convdata(unsigned char *srcbuffer, unsigned char *dstbuffer,
 	Int count
 	var i: Int, j, k
 
-	for (count = 0; count < width; count++)
+	for(count = 0; count < width; count++)
 	{
 		/* The scanner stores data in a bizarre butchered 10-bit
 		   format.  I'll try to explain it in 100 words or less:
 
 		   Scanlines are made up of groups of 4 pixels. Each group of
 		   4 is stored inside 5 bytes. The first 4 bytes of the group
-		   contain the lowest 8 bits of one pixel each (in the right
+		   contain the lowest 8 bits of one pixel each(in the right
 		   order). The 5th byte contains the most significant 2 bits
 		   of each pixel in the same order. */
 
@@ -963,12 +963,12 @@ static void convdata(unsigned char *srcbuffer, unsigned char *dstbuffer,
 		/* now we return this as a 16 bit value */
 		k = k << 6
 
-		if (mode == 1) /* Scanner -> Grey */
+		if(mode == 1) /* Scanner -> Grey */
 		{
 			dstbuffer[count * 2] = HIGH_BYTE(k)
 			dstbuffer[(count * 2) + 1] = LOW_BYTE(k)
 		}
-		else if (mode == 2) /* Scanner -> RGB */
+		else if(mode == 2) /* Scanner -> RGB */
 		{
 			dstbuffer[count * 3 * 2] = HIGH_BYTE(k)
 			dstbuffer[(count * 3 * 2) + 1] = LOW_BYTE(k)
@@ -995,9 +995,9 @@ static Int adjust_output(image_segment *image, scan_parameters *scanp,
 	unsigned long Int pixel_address
 	unsigned Int cols = scanp.mode ? 3 : 1
 
-	for (scanline = 0; scanline < image.height; scanline++)
+	for(scanline = 0; scanline < image.height; scanline++)
 	{
-		for (pixelnum = 0; pixelnum < image.width; pixelnum++)
+		for(pixelnum = 0; pixelnum < image.width; pixelnum++)
 		{
 			/* Figure out CCD sensor number */
 			/* MAGIC FORMULA ALERT! */
@@ -1012,7 +1012,7 @@ static Int adjust_output(image_segment *image, scan_parameters *scanp,
 
 			ccd += scaled_xoff
 
-			for (colour = 0; colour < cols; colour++)
+			for(colour = 0; colour < cols; colour++)
 			{
 				/* Address of pixel under scrutiny */
 				pixel_address =
@@ -1025,9 +1025,9 @@ static Int adjust_output(image_segment *image, scan_parameters *scanp,
 
 				/* Light value depends on the colour,
 				 * and is an average in greyscale mode. */
-				if (scanp.mode == 1) /* RGB */
+				if(scanp.mode == 1) /* RGB */
 				{
-					switch (colour)
+					switch(colour)
 					{
 						case 0: hi = scannerp.redweight[ccd] * 3
 							break
@@ -1044,7 +1044,7 @@ static Int adjust_output(image_segment *image, scan_parameters *scanp,
 
 				/* Check for bad calibration data as it
 				   can cause a divide-by-0 error */
-				if (hi <= lo)
+				if(hi <= lo)
 				{
 					DBG(1, "adjust_output: Bad cal data!"
 							" hi: %ld lo: %ld\n"
@@ -1062,7 +1062,7 @@ static Int adjust_output(image_segment *image, scan_parameters *scanp,
 
 				result = result >> 6; /* Range now = 0-1023 */
 					/*
-				if (scanline == 10)
+				if(scanline == 10)
 					DBG(200, "adjust_output: Initial pixel"
 							" value: %ld\n",
 							result)
@@ -1070,8 +1070,8 @@ static Int adjust_output(image_segment *image, scan_parameters *scanp,
 				result *= 54;         /* Range now = 0-54k */
 
 				/* Clip to dark and light values */
-				if (result < lo) result = lo
-				if (result > hi) result = hi
+				if(result < lo) result = lo
+				if(result > hi) result = hi
 
 				/* result = (base-lo) * max_value / (hi-lo) */
 				temp = result - lo
@@ -1080,13 +1080,13 @@ static Int adjust_output(image_segment *image, scan_parameters *scanp,
 
 				/* Clip output  result has been clipped to lo,
 				 * and hi >= lo, so temp can't be < 0 */
-				if (temp > 65535)
+				if(temp > 65535)
 					temp = 65535
 				/*
-				if (scanline == 10)
+				if(scanline == 10)
 				{
 					DBG(200, "adjust_output: %d: base = "
-							"%lu, result %lu (%lu "
+							"%lu, result %lu(%lu "
 							"- %lu)\n", pixelnum,
 							result, temp, lo, hi)
 				}
@@ -1094,7 +1094,7 @@ static Int adjust_output(image_segment *image, scan_parameters *scanp,
 				result = temp
 
 				/* Store the value back where it came
-				 * from (always bigendian) */
+				 * from(always bigendian) */
 				*(image.image_data + pixel_address)
 					= HIGH_BYTE(result)
 				*(image.image_data + pixel_address+1)
@@ -1126,14 +1126,14 @@ Int sanei_canon_pp_calibrate(scanner_parameters *sp, char *cal_file)
 
 	char colours[3][6] = {"Red", "Green", "Blue"]
 
-	/* Calibration data is monochromatic (greyscale format) */
+	/* Calibration data is monochromatic(greyscale format) */
 	scanline_size = sp.scanheadwidth * 1.25
 
 	/* 620P has to be difficult here... */
-	if (!(sp.type) ) scanline_count = 8
+	if(!(sp.type) ) scanline_count = 8
 
 	/* Probably shouldn't have to abort *just* yet, but may as well check */
-	if (sp.abort_now) return -1
+	if(sp.abort_now) return -1
 
 	DBG(40, "Calibrating %ix%i pixels calibration image "
 			"(%i bytes each scan).\n",
@@ -1150,7 +1150,7 @@ Int sanei_canon_pp_calibrate(scanner_parameters *sp, char *cal_file)
 	sp.blueweight = (unsigned long *)
 		calloc(sizeof(unsigned long), sp.scanheadwidth)
 
-	/* The data buffer needs to hold a number of images (calibration_reads)
+	/* The data buffer needs to hold a number of images(calibration_reads)
 	 * per colour, each sp.scanheadwidth x scanline_count */
 	databuf = malloc(scanline_size * scanline_count * calibration_reads*3)
 
@@ -1168,17 +1168,17 @@ Int sanei_canon_pp_calibrate(scanner_parameters *sp, char *cal_file)
 	command_buffer[8] = (scanline_size * scanline_count) & 0xff
 
 	DBG(40, "Step 1/3: Calibrating black level...\n")
-	for (readnum = 0; readnum < calibration_reads; readnum++)
+	for(readnum = 0; readnum < calibration_reads; readnum++)
 	{
 		DBG(40, "  * Black scan number %d/%d.\n", readnum + 1,
 				calibration_reads)
 
-		if (sp.abort_now) return -1
+		if(sp.abort_now) return -1
 
-		if (send_command(sp.port, command_buffer, 10, 100000, 5000000))
+		if(send_command(sp.port, command_buffer, 10, 100000, 5000000))
 		{
 			DBG(1, "Error reading black level!\n")
-			free (image.image_data)
+			free(image.image_data)
 			free(databuf)
 			return -1
 
@@ -1191,7 +1191,7 @@ Int sanei_canon_pp_calibrate(scanner_parameters *sp, char *cal_file)
 	}
 
 	/* Convert scanner format to a greyscale 16bpp image */
-	for (scanlinenum = 0
+	for(scanlinenum = 0
 			scanlinenum < scanline_count * calibration_reads
 			scanlinenum++)
 	{
@@ -1202,16 +1202,16 @@ Int sanei_canon_pp_calibrate(scanner_parameters *sp, char *cal_file)
 	}
 
 	/* Take column totals */
-	for (count = 0; count < sp.scanheadwidth; count++)
+	for(count = 0; count < sp.scanheadwidth; count++)
 	{
 		/* Value is normalised as if we took 6 scanlines, even if we
-		 * didn't (620P I'm looking at you!) */
+		 * didn't(620P I'm looking at you!) */
 		sp.blackweight[count] = (column_sum(&image, count) * 6)
 			/ scanline_count >> 6
 	}
 
 	/* 620P has to be difficult here... */
-	if (!(sp.type) )
+	if(!(sp.type) )
 	{
 		scanline_count = 6
 		image.height = scanline_count * calibration_reads
@@ -1219,11 +1219,11 @@ Int sanei_canon_pp_calibrate(scanner_parameters *sp, char *cal_file)
 
 	DBG(40, "Step 2/3: Gamma tables...\n")
 	DBG(40, "  * Requesting creation of new of gamma tables...\n")
-	if (sp.abort_now) return -1
-	if (send_command(sp.port, cmd_cleargamma, 10, 100000, 5000000))
+	if(sp.abort_now) return -1
+	if(send_command(sp.port, cmd_cleargamma, 10, 100000, 5000000))
 	{
 		DBG(1,"Error sending gamma command!\n")
-		free (image.image_data)
+		free(image.image_data)
 		free(databuf)
 		return -1
 	}
@@ -1233,10 +1233,10 @@ Int sanei_canon_pp_calibrate(scanner_parameters *sp, char *cal_file)
 	DBG(40, "done.\n")
 
 	DBG(40, "  * Requesting gamma table values...")
-	if (send_command(sp.port, cmd_readgamma, 10, 100000, 10000000))
+	if(send_command(sp.port, cmd_readgamma, 10, 100000, 10000000))
 	{
 		DBG(1,"Error sending gamma table request!\n")
-		free (image.image_data)
+		free(image.image_data)
 		free(databuf)
 		return -1
 	}
@@ -1246,7 +1246,7 @@ Int sanei_canon_pp_calibrate(scanner_parameters *sp, char *cal_file)
 	sanei_canon_pp_read(sp.port, 32, sp.gamma)
 	DBG(40, "done.\n")
 
-	if (sp.abort_now) return -1
+	if(sp.abort_now) return -1
 
 	memcpy(command_buffer, cmd_calcolour, 10)
 
@@ -1256,22 +1256,22 @@ Int sanei_canon_pp_calibrate(scanner_parameters *sp, char *cal_file)
 
 	DBG(40, "Step 3/3: Calibrating sensors...\n")
 	/* Now for the RGB high-points */
-	for (colournum = 1; colournum < 4; colournum++)
+	for(colournum = 1; colournum < 4; colournum++)
 	{
 		/* Set the colour we want to read */
 		command_buffer[3] = colournum
-		for (readnum = 0; readnum < 3; readnum++)
+		for(readnum = 0; readnum < 3; readnum++)
 		{
 			DBG(10, "  * %s sensors, scan number %d/%d.\n",
 					colours[colournum-1], readnum + 1,
 					calibration_reads)
 
-			if (sp.abort_now) return -1
-			if (send_command(sp.port, command_buffer, 10,
+			if(sp.abort_now) return -1
+			if(send_command(sp.port, command_buffer, 10,
 						100000, 5000000))
 			{
 				DBG(1,"Error sending scan request!")
-				free (image.image_data)
+				free(image.image_data)
 				free(databuf)
 				return -1
 			}
@@ -1284,7 +1284,7 @@ Int sanei_canon_pp_calibrate(scanner_parameters *sp, char *cal_file)
 		}
 
 		/* Convert colour data from scanner format to RGB data */
-		for (scanlinenum = 0; scanlinenum < scanline_count *
+		for(scanlinenum = 0; scanlinenum < scanline_count *
 				calibration_reads; scanlinenum++)
 		{
 			convdata(databuf + (scanlinenum * scanline_size),
@@ -1294,12 +1294,12 @@ Int sanei_canon_pp_calibrate(scanner_parameters *sp, char *cal_file)
 		}
 
 		/* Sum each column of the image and store the results in sp */
-		for (count = 0; count < sp.scanheadwidth; count++)
+		for(count = 0; count < sp.scanheadwidth; count++)
 		{
-			if (colournum == 1)
+			if(colournum == 1)
 				sp.redweight[count] =
 					column_sum(&image, count) >> 6
-			else if (colournum == 2)
+			else if(colournum == 2)
 				sp.greenweight[count] =
 					column_sum(&image, count) >> 6
 			else
@@ -1309,41 +1309,41 @@ Int sanei_canon_pp_calibrate(scanner_parameters *sp, char *cal_file)
 
 	}
 
-	if (sp.abort_now) return -1
+	if(sp.abort_now) return -1
 
 	/* cal_file == NUL indicates we want an in-memory scan only */
-	if (cal_file != NULL)
+	if(cal_file != NULL)
 	{
 		DBG(40, "Writing calibration to %s\n", cal_file)
 		outfile = open(cal_file, O_WRONLY | O_TRUNC | O_CREAT, 0600)
-		if (outfile < 0)
+		if(outfile < 0)
 		{
 			DBG(10, "Error opening cal file for writing\n")
 		}
 
 		/* Header */
-		if (safe_write(outfile, header, strlen(header) + 1) < 0)
+		if(safe_write(outfile, header, strlen(header) + 1) < 0)
 			DBG(10, "Write error on calibration file %s", cal_file)
-		if (safe_write(outfile, (const char *)&fileversion, sizeof(Int)) < 0)
+		if(safe_write(outfile, (const char *)&fileversion, sizeof(Int)) < 0)
 			DBG(10, "Write error on calibration file %s", cal_file)
 
 		/* Data */
-		if (safe_write(outfile, (char *)&(sp.scanheadwidth),
+		if(safe_write(outfile, (char *)&(sp.scanheadwidth),
 					sizeof(sp.scanheadwidth)) < 0)
 			DBG(10, "Write error on calibration file %s", cal_file)
-		if (safe_write(outfile, (char *)(sp.blackweight),
+		if(safe_write(outfile, (char *)(sp.blackweight),
 					sp.scanheadwidth * sizeof(long)) < 0)
 			DBG(10, "Write error on calibration file %s", cal_file)
-		if (safe_write(outfile, (char *)(sp.redweight),
+		if(safe_write(outfile, (char *)(sp.redweight),
 					sp.scanheadwidth * sizeof(long)) < 0)
 			DBG(10, "Write error on calibration file %s", cal_file)
-		if (safe_write(outfile, (char *)(sp.greenweight),
+		if(safe_write(outfile, (char *)(sp.greenweight),
 					sp.scanheadwidth * sizeof(long)) < 0)
 			DBG(10, "Write error on calibration file %s", cal_file)
-		if (safe_write(outfile, (char *)(sp.blueweight),
+		if(safe_write(outfile, (char *)(sp.blueweight),
 					sp.scanheadwidth * sizeof(long)) < 0)
 			DBG(10, "Write error on calibration file %s", cal_file)
-		if (safe_write(outfile, (char *)(sp.gamma), 32) < 0)
+		if(safe_write(outfile, (char *)(sp.gamma), 32) < 0)
 			DBG(10, "Write error on calibration file %s", cal_file)
 
 		close(outfile)
@@ -1362,7 +1362,7 @@ static unsigned long column_sum(image_segment *image, Int x)
 	unsigned long total = 0
 
 	p = x
-	for (row = 0; row < image.height; row++)
+	for(row = 0; row < image.height; row++)
 	{
 		total+= MAKE_SHORT(image.image_data[2*p],
 				image.image_data[2*p+1])
@@ -1378,8 +1378,8 @@ static Int scanner_setup_params(unsigned char *buf, scanner_parameters *sp,
 	Int scaled_width, scaled_height
 	Int scaled_xoff, scaled_yoff
 
-	/* Natural resolution (I think) */
-	if (sp.scanheadwidth == 2552)
+	/* Natural resolution(I think) */
+	if(sp.scanheadwidth == 2552)
 	{
 		buf[0] = 0x11; /* 300 | 0x1000 */
 		buf[1] = 0x2c
@@ -1437,7 +1437,7 @@ static Int scanner_setup_params(unsigned char *buf, scanner_parameters *sp,
 	/* These appear to be the only two colour mode possibilities.
 	   Pure black-and-white mode probably just uses greyscale and
 	   then gets its contrast adjusted by the driver. I forget. */
-	if (scanp.mode == 1) /* Truecolour */
+	if(scanp.mode == 1) /* Truecolour */
 		buf[24] = 0x08
 	else /* Greyscale */
 		buf[24] = 0x04
@@ -1447,7 +1447,7 @@ static Int scanner_setup_params(unsigned char *buf, scanner_parameters *sp,
 
 Int sanei_canon_pp_abort_scan(scanner_parameters *sp)
 {
-	/* The abort command (hopefully) */
+	/* The abort command(hopefully) */
 	sanei_canon_pp_write(sp.port, 10, cmd_abort)
 	sanei_canon_pp_check_status(sp.port)
 	return 0
@@ -1457,9 +1457,9 @@ Int sanei_canon_pp_abort_scan(scanner_parameters *sp)
 Int sanei_canon_pp_adjust_gamma(scanner_parameters *sp)
 {
 	sp.gamma[31] = check8(sp.gamma, 31)
-	if (sanei_canon_pp_write(sp.port, 10, cmd_setgamma))
+	if(sanei_canon_pp_write(sp.port, 10, cmd_setgamma))
 		return -1
-	if (sanei_canon_pp_write(sp.port, 32, sp.gamma))
+	if(sanei_canon_pp_write(sp.port, 32, sp.gamma))
 		return -1
 
 	return 0
@@ -1496,19 +1496,19 @@ Int sanei_canon_pp_detect(struct parport *port, Int mode)
 
 	/* port is already open, just need to claim it */
 
-	if (ieee1284_claim(port) != E1284_OK)
+	if(ieee1284_claim(port) != E1284_OK)
 	{
 		DBG(0,"detect: Unable to claim port\n")
 		return 2
 	}
-	if (sanei_canon_pp_wake_scanner(port, mode))
+	if(sanei_canon_pp_wake_scanner(port, mode))
 	{
 		DBG(10, "detect: could not wake scanner\n")
 		ieee1284_release(port)
 		return 3
 	}
 
-	/* Goodo, sleep (snaps fingers) */
+	/* Goodo, sleep(snaps fingers) */
 	sanei_canon_pp_sleep_scanner(port)
 
 	ieee1284_release(port)
@@ -1528,15 +1528,15 @@ static Int send_command(struct parport *port, unsigned char *buf, Int bufsize,
 	do
 	{
 		/* Send command */
-		if (sanei_canon_pp_write(port, bufsize, buf))
+		if(sanei_canon_pp_write(port, bufsize, buf))
 			return -1
 
 		/* sleep a bit */
 		usleep(delay)
-	} while (sanei_canon_pp_check_status(port) &&
+	} while(sanei_canon_pp_check_status(port) &&
 			retries++ < (timeout/delay))
 
-	if (retries >= (timeout/delay)) return -2
+	if(retries >= (timeout/delay)) return -2
 	return 0
 
 }

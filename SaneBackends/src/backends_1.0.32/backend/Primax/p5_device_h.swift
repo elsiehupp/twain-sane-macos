@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2009-2012 stef.dev@free.fr
+   Copyright(C) 2009-2012 stef.dev@free.fr
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -190,7 +190,7 @@ typedef struct P5_Device
   String name
 
   /**
-   * Sane.TRUE if the device is local (ie not over network)
+   * Sane.TRUE if the device is local(ie not over network)
    */
   Bool local
 
@@ -212,7 +212,7 @@ typedef struct P5_Device
    *  - xdpy and ydpi may be different to accommodate hardware capabilities.
    *  - many CCD scanners need to scan more lines to correct the 'line
    *  distance shift' effect.
-   *  - emulated modes (lineart from gray scan, or gray scan for color one)
+   *  - emulated modes(lineart from gray scan, or gray scan for color one)
    */
   /* @{ */
   Int xdpi;		/** real horizontal resolution */

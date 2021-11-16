@@ -7,15 +7,15 @@
  *  @brief Main defines for the USB devices.
  *
  * Based on sources acquired from Plustek Inc.<br>
- * Copyright (C) 2001-2013 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 2001-2013 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.40 - starting version of the USB support
  * - 0.41 - added workaround flag to struct DevCaps
  * - 0.42 - added MODEL_NOPLUSTEK
- *        - replaced fLM9831 by chip (valid entries: _LM9831, _LM9832, _LM9833)
+ *        - replaced fLM9831 by chip(valid entries: _LM9831, _LM9832, _LM9833)
  *        - added _WAF_MISC_IO3_LAMP for UMAX 3400
- * - 0.43 - added _WAF_MISC_IOx_LAMP (x=1,2,4,5)
+ * - 0.43 - added _WAF_MISC_IOx_LAMP(x=1,2,4,5)
  *        - added CLKDef
  * - 0.44 - added vendor and product ID to struct DeviceDef
  *        - added _WAF_BYPASS_CALIBRATION
@@ -48,7 +48,7 @@
  *        - added MODEL_QSCAN_A6 (thanks to Hiroshi Miura)
  *        - changed DCapsDef, lamp -> misc_io
  *        - bPCB is now ushort to be "missused" by non Plustek
- *          devices (as threshold for resetting sensor order)
+ *          devices(as threshold for resetting sensor order)
  *        - added _WAF_LOFF_ON_START and _WAF_ONLY_8BIT
  *        - added MODEL_TSCAN_A4
  *        - added attribute packed for data access structs
@@ -60,7 +60,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -95,7 +95,7 @@
 #ifndef __PLUSTEK_USB_H__
 #define __PLUSTEK_USB_H__
 
-/** CCD ID (PCB ID): total 3 bits (on Plustek devices) */
+/** CCD ID(PCB ID): total 3 bits(on Plustek devices) */
 #define kNEC3799    0
 #define kSONY518    1
 #define kSONY548    2
@@ -416,7 +416,7 @@ typedef struct DevCaps
 	u_char     bSensorDistance; /**< CCD Color distance                      */
 	u_char     bButtons;        /**< Number of buttons                       */
 	u_char     bCCD;            /**< CCD ID                                  */
-	u_short    bPCB;            /**< PCB ID/or threshold (only CIS)          */
+	u_short    bPCB;            /**< PCB ID/or threshold(only CIS)          */
 	u_long     workaroundFlag;  /**< Flag to allow special work arounds, see */
 	                            /*   _WORKAROUNDS                            */
 	u_long     misc_io;         /**< for lamp, papersense and buttons        */
@@ -461,8 +461,8 @@ typedef struct HWDefault
 	u_char              bReg_0x0c
 	u_char              bReg_0x0d
 	u_char              bReg_0x0e
-	u_char              bReg_0x0f_Mono [10];	/* 0x0f to 0x18 */
-	u_char              bReg_0x0f_Color [10];	/* 0x0f to 0x18 */
+	u_char              bReg_0x0f_Mono[10];	/* 0x0f to 0x18 */
+	u_char              bReg_0x0f_Color[10];	/* 0x0f to 0x18 */
 
 	/* color mode settings */
 	u_char              bReg_0x26
@@ -491,7 +491,7 @@ typedef struct HWDefault
 	u_short             wActivePixelsStart;     /* 0x1e & 0x1f */
 	u_short             wLineEnd;               /* 0x20 & 0x21 */
 
-	/* illumination settings (runtime) */
+	/* illumination settings(runtime) */
 	u_short             red_lamp_on;            /* 0x2c & 0x2d */
 	u_short             red_lamp_off;           /* 0x2e & 0x2f */
 	u_short             green_lamp_on;          /* 0x30 & 0x31 */
@@ -567,10 +567,10 @@ typedef struct
 
 	/** Driver Info */
 	u_long dwValidPixels; /**< only valid pixels, not incl. pad pix(B/W,Gray)*/
-	u_long dwPhyPixels;   /**< include pad pixels for ASIC (B/W, Gray)       */
+	u_long dwPhyPixels;   /**< include pad pixels for ASIC(B/W, Gray)       */
 	u_long dwPhyBytes;    /**< bytes to read from ASIC                       */
 	u_long dwPhyLines;    /**< should include the extra lines accord to the  */
-	                      /*   request dpi (CCD lines distance)              */
+	                      /*   request dpi(CCD lines distance)              */
 	u_long dwTotalBytes;  /**< Total bytes per scan                          */
 
 } WinInfo
@@ -597,7 +597,7 @@ typedef struct
 	short   brightness
 	short   contrast
 	u_char  bSource;      /**< Reflection/Positive/Negative/Adf(SOURCE_xxx)*/
-	u_char  bDataType;    /**< Bw, Gray or Color (see _SCANDATATYPE)       */
+	u_char  bDataType;    /**< Bw, Gray or Color(see _SCANDATATYPE)       */
 	u_char  bBitDepth;    /**< 1/8/14                                      */
 	u_char  bChannels;    /**< Color or Gray                               */
 	u_char  bCalibration; /**< 1 or 2: the origin.x is from CCD pixel 0 and
@@ -630,7 +630,7 @@ typedef struct ScanDef
 	u_long    dwLinesToProcess
 
 	/** Image processing routine according to the scan mode  */
-	void (*pfnProcess)(struct Plustek_Device*)
+	void(*pfnProcess)(struct Plustek_Device*)
 
 	u_long* pScanBuffer;      /**< our scan buffer */
 
@@ -694,15 +694,15 @@ typedef struct {
 	 * here we define some ranges for better supporting
 	 * non-Plustek devices with it's different hardware
 	 * we can set the MCLK and the motor PWM stuff for color
-	 * and gray modes (8bit and 14/16bit modes)
+	 * and gray modes(8bit and 14/16bit modes)
 	 *    0    1     2     3     4     5     6      7     8      9
 	 * <= 75 <=100 <=150 <=200 <=300 <=400 <=600 <= 800 <=1200 <=2400DPI
 	 */
 	MDef   motor_sets[_MAX_CLK];	/**< motor PWM settings during scan      */
 	double color_mclk_8[_MAX_CLK];  /**< MCLK settings for color scan        */
-	double color_mclk_16[_MAX_CLK]; /**< MCLK settings for color (16bit) scan*/
+	double color_mclk_16[_MAX_CLK]; /**< MCLK settings for color(16bit) scan*/
 	double gray_mclk_8[_MAX_CLK];   /**< MCLK settings for gray scan         */
-	double gray_mclk_16[_MAX_CLK];  /**< MCLK settings for gray (16bit) scan */
+	double gray_mclk_16[_MAX_CLK];  /**< MCLK settings for gray(16bit) scan */
 
 } ClkMotorDef
 

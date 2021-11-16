@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 Geoffrey T. Dairiki
+   Copyright(C) 1997 Geoffrey T. Dairiki
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -37,7 +37,7 @@
    If you do not wish that, delete this exception notice.
 
    This file is part of a SANE backend for HP Scanners supporting
-   HP Scanner Control Language (SCL).
+   HP Scanner Control Language(SCL).
 */
 /*
 #define STUBS
@@ -68,11 +68,11 @@ static Alloc  head[] = {{ head, head, {0} }]
 
 
 void *
-sanei_hp_alloc (size_t sz)
+sanei_hp_alloc(size_t sz)
 {
   Alloc * new = malloc(ALLOCSIZE(sz))
 
-  if (!new)
+  if(!new)
       return 0
   (new.next = head.next)->prev = new
   (new.prev = head)->next = new
@@ -80,42 +80,42 @@ sanei_hp_alloc (size_t sz)
 }
 
 void *
-sanei_hp_allocz (size_t sz)
+sanei_hp_allocz(size_t sz)
 {
   void * new = sanei_hp_alloc(sz)
 
-  if (!new)
+  if(!new)
       return 0
   memset(new, 0, sz)
   return new
 }
 
 void *
-sanei_hp_memdup (const void * src, size_t sz)
+sanei_hp_memdup(const void * src, size_t sz)
 {
   char * new = sanei_hp_alloc(sz)
-  if (!new)
+  if(!new)
       return 0
   return memcpy(new, src, sz)
 }
 
 char *
-sanei_hp_strdup (const char * str)
+sanei_hp_strdup(const char * str)
 {
   return sanei_hp_memdup(str, strlen(str) + 1)
 }
 
 void *
-sanei_hp_realloc (void * ptr, size_t sz)
+sanei_hp_realloc(void * ptr, size_t sz)
 {
-  if (ptr)
+  if(ptr)
     {
       Alloc * old = VOID_TO_ALLOCP(ptr)
       Alloc  copy = *old
       Alloc * new = realloc(old, ALLOCSIZE(sz))
-      if (!new)
+      if(!new)
 	  return 0
-      if (new != old)
+      if(new != old)
 	  (new.prev = copy.prev)->next = (new.next = copy.next)->prev = new
       return new.buf
     }
@@ -124,7 +124,7 @@ sanei_hp_realloc (void * ptr, size_t sz)
 }
 
 void
-sanei_hp_free (void * ptr)
+sanei_hp_free(void * ptr)
 {
   Alloc * old = VOID_TO_ALLOCP(ptr)
 
@@ -135,12 +135,12 @@ sanei_hp_free (void * ptr)
 }
 
 void
-sanei_hp_free_all (void)
+sanei_hp_free_all(void)
 {
   Alloc * ptr
   Alloc * next
 
-  for (ptr = head.next; ptr != head; ptr = next)
+  for(ptr = head.next; ptr != head; ptr = next)
     {
       next = ptr.next
       free(ptr)

@@ -2,14 +2,14 @@
 
    pieusb_buffer.h
 
-   Copyright (C) 2012-2015 Jan Vleeshouwers, Michael Rickmann, Klaus Kaempf
+   Copyright(C) 2012-2015 Jan Vleeshouwers, Michael Rickmann, Klaus Kaempf
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -69,15 +69,15 @@ struct Pieusb_Read_Buffer
     Int packet_size_bytes; /* number of bytes of a packet of samples = round_up(depth*packing_density/8) */
     Int line_size_packets; /* number of packets on a single color line = round-down((width+packing_density-1)/packing_density) */
     Int line_size_bytes; /* number of bytes on a single color line =  line_size_packets*packet_size_bytes */
-    Int image_size_bytes; /* total number of bytes in the buffer (= colors * height * line_size_packets* packet_size_bytes) */
-    Int color_index_red; /* color index of the red color plane (-1 if not used) */
-    Int color_index_green; /* color index of the green color plane (-1 if not used) */
-    Int color_index_blue; /* color index of the blue color plane (-1 if not used) */
-    Int color_index_infrared; /* color index of the infrared color plane (-1 if not used) */
+    Int image_size_bytes; /* total number of bytes in the buffer(= colors * height * line_size_packets* packet_size_bytes) */
+    Int color_index_red; /* color index of the red color plane(-1 if not used) */
+    Int color_index_green; /* color index of the green color plane(-1 if not used) */
+    Int color_index_blue; /* color index of the blue color plane(-1 if not used) */
+    Int color_index_infrared; /* color index of the infrared color plane(-1 if not used) */
 
     /* Reading - byte oriented */
     Sane.Uint** p_read; /* array of pointers to next sample to read for each color plane */
-    Int read_index[4]; /* location where to read next (color-index, height-index, width-index, byte-index) */
+    Int read_index[4]; /* location where to read next(color-index, height-index, width-index, byte-index) */
     Int bytes_read; /* number of bytes read from the buffer */
     Int bytes_unread; /* number of bytes not yet read from the buffer */
     Int bytes_written; /* number of bytes written to the buffer */

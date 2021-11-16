@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2000-2003 Jochen Eisinger <jochen.eisinger@gmx.net>
+   Copyright(C) 2000-2003 Jochen Eisinger <jochen.eisinger@gmx.net>
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -54,10 +54,10 @@ import Sane.sanei_debug
  * be executed, even if NDEBUG is defined...
  */
 #define	ASSERT(cond, retval)	do { 					\
-				if (!(cond)) { 				\
+				if(!(cond)) { 				\
 					DBG(2, "assertion %s failed\n",	\
 					STRINGIFY(cond));		\
-					if (retval >= 0)		\
+					if(retval >= 0)		\
 						return retval;		\
 					else				\
 						return;			\
@@ -73,7 +73,7 @@ import Sane.sanei_debug
 
 
 /* the function init uses this callback to register a device to the backend */
-typedef Sane.Status (*Sane.Attach_Callback) (Sane.String_Const port, Sane.String_Const name,
+typedef Sane.Status(*Sane.Attach_Callback) (Sane.String_Const port, Sane.String_Const name,
 						Int driver, Int info)
 
 typedef struct {
@@ -120,7 +120,7 @@ typedef struct {
 	/* start actual scan */
 	Sane.Status		(*start)(Sane.Handle hndl)
 
-	/* read data (one line) */
+	/* read data(one line) */
 	void			(*read)(Sane.Handle hndl, Sane.Byte *buffer)
 
 	/* stop scanner and return scanhead home */

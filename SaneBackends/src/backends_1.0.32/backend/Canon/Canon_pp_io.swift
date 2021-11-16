@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2001-2002 Matthew C. Duggan and Simon Krix
+   Copyright(C) 2001-2002 Matthew C. Duggan and Simon Krix
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -62,13 +62,13 @@ Int sanei_canon_pp_scanner_init(struct parport *port)
 
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2001-2002 Matthew C. Duggan and Simon Krix
+   Copyright(C) 2001-2002 Matthew C. Duggan and Simon Krix
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -128,7 +128,7 @@ static void DBG(Int level, const char *format, ...)
 {
 	va_list args
 	va_start(args, format)
-	if (level < 50) vfprintf(stderr, format, args)
+	if(level < 50) vfprintf(stderr, format, args)
 	va_end(args)
 }
 #else
@@ -141,8 +141,8 @@ import Sane.sanei_config
 
 #endif
 
-/* 0x00 = Nibble Mode (M1284_NIBBLE)
-   0x10 = ECP Mode (M1284_ECP)
+/* 0x00 = Nibble Mode(M1284_NIBBLE)
+   0x10 = ECP Mode(M1284_ECP)
    The scanner driver seems not to support ECP RLE mode
    (which is a huge bummer because compression would be
    ace) nor EPP mode.
@@ -181,7 +181,7 @@ static void outboth(struct parport *port, Int d, Int c)
 /*
  * IEEE 1284 defines many values for m,
  * but these scanners only support 2: nibble and ECP modes.
- * And no data compression either (argh!)
+ * And no data compression either(argh!)
  * 0 = Nibble-mode reverse channel transfer
  * 16 = ECP-mode
  */
@@ -202,11 +202,11 @@ Int sanei_canon_pp_wake_scanner(struct parport *port, Int mode)
 	tmp = readstatus(port)
 
 	/* Reset only works on 30/40 models */
-	if (mode != INITMODE_20P)
+	if(mode != INITMODE_20P)
 	{
-		if ((tmp != READY))
+		if((tmp != READY))
 		{
-			DBG(40, "Scanner not ready (0x%x). Attempting to "
+			DBG(40, "Scanner not ready(0x%x). Attempting to "
 					"reset...\n", tmp)
 			scanner_reset(port)
 			/* give it more of a chance to reset in this case */
@@ -225,7 +225,7 @@ Int sanei_canon_pp_wake_scanner(struct parport *port, Int mode)
 		scanner_chessboard_control(port)
 		scanner_chessboard_data(port, mode)
 
-		if (expect(port, NULL, 0x03, 0x1f, 800000) &&
+		if(expect(port, NULL, 0x03, 0x1f, 800000) &&
 				(mode == INITMODE_AUTO))
 		{
 			/* 630 Style init failed, try 620 style */
@@ -233,7 +233,7 @@ Int sanei_canon_pp_wake_scanner(struct parport *port, Int mode)
 			scanner_chessboard_data(port, INITMODE_20P)
 		}
 
-		if (expect(port, "Scanner wakeup reply 1", 0x03, 0x1f, 50000))
+		if(expect(port, "Scanner wakeup reply 1", 0x03, 0x1f, 50000))
 		{
 			outboth(port, 0x04, 0x0d)
 			usleep(100000)
@@ -241,24 +241,24 @@ Int sanei_canon_pp_wake_scanner(struct parport *port, Int mode)
 			usleep(100000)
 		}
 
-	} while ((i < max_cycles) && (!expect(port,"Scanner wakeup reply 2",
+	} while((i < max_cycles) && (!expect(port,"Scanner wakeup reply 2",
 					0x03, 0x1f, 100000) == 0))
 
 	/* Block just after chessboarding
 	   Reply 1 (S3 and S4 on, S5 and S7 off) */
 	outcont(port, 0, HOSTBUSY); /* C1 off */
 	/* Reply 2 - If it ain't happening by now, it ain't gonna happen. */
-	if (expect(port, "Reply 2", 0xc, 0x1f, 800000))
+	if(expect(port, "Reply 2", 0xc, 0x1f, 800000))
 		return -1
 	outcont(port, HOSTBUSY, HOSTBUSY); /* C1 on */
-	if (expect(port, "Reply 3", 0x0b, 0x1f, 800000))
+	if(expect(port, "Reply 3", 0x0b, 0x1f, 800000))
 		return -1
 	outboth(port, 0, NSELECTIN | NINIT | HOSTCLK); /* Clear D, C3+, C1- */
 
 	/* If we had to try the wakeup cycle more than once, we should wait
 	 * here for 10 seconds to let the scanner pull itself together -
 	 * it can actually take longer, but I can't wait that long! */
-	if (i > 1)
+	if(i > 1)
 	{
 		DBG(10, "Had to reset scanner, waiting for the "
 				"head to get back.\n")
@@ -276,30 +276,30 @@ Int sanei_canon_pp_write(struct parport *port, Int length, unsigned char *data)
 	ssize_t count
 
 	DBG(10,"Sending: ")
-	for (count = 0; count < length; count++)
+	for(count = 0; count < length; count++)
 	{
 		DBG(10,"%02x ", data[count])
-		if (count % 20 == 19)
+		if(count % 20 == 19)
 			DBG(10,"\n      ")
 	}
-	if (count % 20 != 19) DBG(10,"\n")
+	if(count % 20 != 19) DBG(10,"\n")
 #endif
 
-	DBG(100, "NEW Send Command (length %i):\n", length)
+	DBG(100, "NEW Send Command(length %i):\n", length)
 
-	switch (ieee_mode)
+	switch(ieee_mode)
 	{
 		case M1284_BECP:
 		case M1284_ECPRLE:
 		case M1284_ECPSWE:
 		case M1284_ECP:
 			ieee1284_negotiate(port, ieee_mode)
-			if (ieee1284_ecp_write_data(port, 0, (char *)data,
+			if(ieee1284_ecp_write_data(port, 0, (char *)data,
 						length) != length)
 				return -1
 			break
 		case M1284_NIBBLE:
-			if (ieee1284_compat_write(port, 0, (char *)data,
+			if(ieee1284_compat_write(port, 0, (char *)data,
 						length) != length)
 				return -1
 			break
@@ -316,17 +316,17 @@ Int sanei_canon_pp_read(struct parport *port, Int length, unsigned char *data)
 {
 	Int count, offset
 
-	DBG(200, "NEW read_data (%i bytes):\n", length)
+	DBG(200, "NEW read_data(%i bytes):\n", length)
 	ieee1284_negotiate(port, ieee_mode)
 
 	/* This is special; Nibble mode needs a little
 	   extra help from us. */
 
-	if (ieee_mode == M1284_NIBBLE)
+	if(ieee_mode == M1284_NIBBLE)
 	{
 		/* Interrupt phase */
 		outcont(port, NSELECTIN, HOSTBUSY | NSELECTIN)
-		if (expect(port, "Read Data 1", 0, NDATAAVAIL, 6000000))
+		if(expect(port, "Read Data 1", 0, NDATAAVAIL, 6000000))
 		{
 			DBG(10,"Error 1\n")
 			ieee1284_terminate(port)
@@ -334,13 +334,13 @@ Int sanei_canon_pp_read(struct parport *port, Int length, unsigned char *data)
 		}
 		outcont(port, HOSTBUSY, HOSTBUSY)
 
-		if (expect(port, "Read Data 2",  NACK, NACK, 1000000))
+		if(expect(port, "Read Data 2",  NACK, NACK, 1000000))
 		{
 			DBG(1,"Error 2\n")
 			ieee1284_terminate(port)
 			return 1
 		}
-		if (expect(port, "Read Data 3 (Ready?)",  0, PERROR, 1000000))
+		if(expect(port, "Read Data 3 (Ready?)",  0, PERROR, 1000000))
 		{
 			DBG(1,"Error 3\n")
 			ieee1284_terminate(port)
@@ -349,7 +349,7 @@ Int sanei_canon_pp_read(struct parport *port, Int length, unsigned char *data)
 
 		/* Host-Busy Data Available phase */
 
-		if ((readstatus(port) & NDATAAVAIL) == NDATAAVAIL)
+		if((readstatus(port) & NDATAAVAIL) == NDATAAVAIL)
 		{
 			DBG(1,"No data to read.\n")
 			ieee1284_terminate(port)
@@ -363,19 +363,19 @@ Int sanei_canon_pp_read(struct parport *port, Int length, unsigned char *data)
 	count = ieee_transfer(port, length, data)
 	DBG(100, "<- (%d)\n", count)
 	/* Early-out if it was not implemented */
-	if (count == E1284_NOTIMPL)
+	if(count == E1284_NOTIMPL)
 		return 2
 
 	length -= count
 	offset+= count
-	while (length > 0)
+	while(length > 0)
 	{
 		/* If 0 bytes were transferred, it's a legal
-		   "No data" condition (I think). Otherwise,
+		   "No data" condition(I think). Otherwise,
 		   it may have run out of buffer.. keep reading*/
 
-		if (count < 0) {
-			DBG(10, "Couldn't read enough data (need %d more "
+		if(count < 0) {
+			DBG(10, "Couldn't read enough data(need %d more "
 					"of %d)\n", length+count,length+offset)
 			ieee1284_terminate(port)
 			return 1
@@ -390,17 +390,17 @@ Int sanei_canon_pp_read(struct parport *port, Int length, unsigned char *data)
 	}
 
 #ifdef DUMP_PACKETS
-	if (length <= 60)
+	if(length <= 60)
 	{
 		DBG(10,"Read: ")
-		for (count = 0; count < length; count++)
+		for(count = 0; count < length; count++)
 		{
 			DBG(10,"%02x ", data[count])
-			if (count % 20 == 19)
+			if(count % 20 == 19)
 				DBG(10,"\n      ")
 		}
 
-		if (count % 20 != 19) DBG(10,"\n")
+		if(count % 20 != 19) DBG(10,"\n")
 		}
 	else
 	{
@@ -408,7 +408,7 @@ Int sanei_canon_pp_read(struct parport *port, Int length, unsigned char *data)
 	}
 #endif
 
-	if (ieee_mode == M1284_NIBBLE)
+	if(ieee_mode == M1284_NIBBLE)
     ieee1284_terminate(port)
 
 	return 0
@@ -419,9 +419,9 @@ static Int ieee_transfer(struct parport *port, Int length, unsigned char *data)
 {
 	Int result = 0
 
-	DBG(100, "IEEE transfer (%i bytes)\n", length)
+	DBG(100, "IEEE transfer(%i bytes)\n", length)
 
-	switch (ieee_mode)
+	switch(ieee_mode)
 	{
 		case M1284_BECP:
 		case M1284_ECP:
@@ -450,7 +450,7 @@ Int sanei_canon_pp_check_status(struct parport *port)
 
 	DBG(200, "* Check Status:\n")
 
-	if (sanei_canon_pp_read(port, 2, data))
+	if(sanei_canon_pp_read(port, 2, data))
 		return -1
 
 	status = data[0] | (data[1] << 8)
@@ -508,12 +508,12 @@ static void outboth(struct parport *port, Int d, Int c)
 }
 
 /* readstatus():
-   Returns the LOGIC value of the S register (ie: all input lines)
+   Returns the LOGIC value of the S register(ie: all input lines)
    shifted right to to make it easier to read. Note: S5 is inverted
    by ieee1284_read_status so we don't need to */
 static Int readstatus(struct parport *port)
 {
-	return (ieee1284_read_status(port) & 0xf8) >> 3
+	return(ieee1284_read_status(port) & 0xf8) >> 3
 }
 
 static void scanner_chessboard_control(struct parport *port)
@@ -536,11 +536,11 @@ static void scanner_chessboard_data(struct parport *port, Int mode)
 	/* initial weirdness here for 620P - seems to go quite fast,
 	 * just ignore it! */
 
-	for (count = 0; count < 2; count++)
+	for(count = 0; count < 2; count++)
 	{
-		/* Wiggle data lines (4 times) while strobing C1 */
+		/* Wiggle data lines(4 times) while strobing C1 */
 		/* 33 here for *30P, 55 for *20P */
-		if (mode == INITMODE_20P)
+		if(mode == INITMODE_20P)
 			outdata(port, 0x55)
 		else
 			outdata(port, 0x33)
@@ -551,7 +551,7 @@ static void scanner_chessboard_data(struct parport *port, Int mode)
 		outcont(port, HOSTBUSY, HOSTBUSY)
 		usleep(10)
 
-		if (mode == INITMODE_20P)
+		if(mode == INITMODE_20P)
 			outdata(port, 0xaa)
 		else
 			outdata(port, 0xcc)
@@ -569,7 +569,7 @@ static Int scanner_reset(struct parport *port)
 {
 
 	/* Resetting only works for the *30Ps, sorry */
-	if (readstatus(port) == 0x0b)
+	if(readstatus(port) == 0x0b)
 	{
 		/* Init Block 1 - composed of a 0-byte IEEE read */
 		ieee1284_negotiate(port, 0x0)
@@ -591,7 +591,7 @@ static Int scanner_reset(struct parport *port)
 	outboth(port, 0x04, 0x0d)
 
 	/* Specifically, we want this: 00111 on S */
-	if (expect(port, "Reset 2 response 1", 0x7, 0x1f, 500000))
+	if(expect(port, "Reset 2 response 1", 0x7, 0x1f, 500000))
 		return 1
 
 	outcont(port, 0, HOSTCLK)
@@ -599,7 +599,7 @@ static Int scanner_reset(struct parport *port)
 	outcont(port, 0x0f, 0xf); /* All lines must be 1. */
 
 	/* All lines 1 */
-	if (expect(port, "Reset 2 response 2 (READY)",
+	if(expect(port, "Reset 2 response 2 (READY)",
 				0x1f, 0x1f, 500000))
 		return 1
 
@@ -620,9 +620,9 @@ static Int expect(struct parport *port, const char *msg, Int s,
 	tv.tv_sec = delay / 1000000
 	tv.tv_usec = delay % 1000000
 
-	if (ieee1284_wait_status(port, mask << 3, s << 3, &tv))
+	if(ieee1284_wait_status(port, mask << 3, s << 3, &tv))
 	{
-		if (msg) DBG(10, "Timeout: %s (0x%02x in 0x%02x) - Status "
+		if(msg) DBG(10, "Timeout: %s(0x%02x in 0x%02x) - Status "
 				"= 0x%02x\n", msg, s, mask, readstatus(port))
 		return 1
 	}
@@ -642,21 +642,21 @@ Int sanei_canon_pp_scanner_init(struct parport *port)
 	/* No data to read yet - return to idle mode */
 	ieee1284_terminate(port)
 
-	/* In Windows, this is always ECP (or an attempt at it) */
-	if (sanei_canon_pp_write(port, 10, cmd_init))
+	/* In Windows, this is always ECP(or an attempt at it) */
+	if(sanei_canon_pp_write(port, 10, cmd_init))
 		return -1
 	/* Note that we don't really mind what the status was as long as it
-	 * wasn't a read error (returns -1) */
+	 * wasn't a read error(returns -1) */
 	/* In fact, the 620P gives an error on that last command, but they
 	 * keep going anyway */
-	if (sanei_canon_pp_check_status(port) < 0)
+	if(sanei_canon_pp_check_status(port) < 0)
 		return -1
 
 	/* Try until it's ready */
 	sanei_canon_pp_write(port, 10, cmd_init)
-	while ((tries < 3) && (tmp = sanei_canon_pp_check_status(port)))
+	while((tries < 3) && (tmp = sanei_canon_pp_check_status(port)))
 	{
-		if (tmp < 0)
+		if(tmp < 0)
 			return -1
 		DBG(10, "scanner_init: Giving the scanner a snooze...\n")
 		usleep(500000)
@@ -666,7 +666,7 @@ Int sanei_canon_pp_scanner_init(struct parport *port)
 		sanei_canon_pp_write(port, 10, cmd_init)
 	}
 
-	if (tries == 3) return 1
+	if(tries == 3) return 1
 
 	return 0
 }

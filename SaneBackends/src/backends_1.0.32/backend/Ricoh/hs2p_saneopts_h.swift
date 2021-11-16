@@ -1,5 +1,5 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2007 Jeremy Johnson
+   Copyright(C) 2007 Jeremy Johnson
    This file is part of a SANE backend for Ricoh IS450
    and IS420 family of HS2P Scanners using the SCSI controller.
 
@@ -8,7 +8,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -92,7 +92,7 @@
 
 #define Sane.NAME_DUPLEX "duplex"
 #define Sane.TITLE_DUPLEX "Duplex"
-#define Sane.DESC_DUPLEX "Enable Duplex (Dual-Sided) Scanning"
+#define Sane.DESC_DUPLEX "Enable Duplex(Dual-Sided) Scanning"
 
 #define Sane.NAME_ENDORSER  "endorser"
 #define Sane.TITLE_ENDORSER "Endorser"
@@ -108,7 +108,7 @@
 
 #define Sane.NAME_BARCODE_HMIN "barcode-hmin"
 #define Sane.TITLE_BARCODE_HMIN "Barcode Minimum Height"
-#define Sane.DESC_BARCODE_HMIN "Sets the Barcode Minimum Height (larger values increase recognition speed)"
+#define Sane.DESC_BARCODE_HMIN "Sets the Barcode Minimum Height(larger values increase recognition speed)"
 
 #define Sane.NAME_BARCODE_SEARCH_MODE "barcode-search-mode"
 #define Sane.TITLE_BARCODE_SEARCH_MODE "Barcode Search Mode"
@@ -161,11 +161,11 @@
 
 #define Sane.NAME_ICON_WIDTH "icon-width"
 #define Sane.TITLE_ICON_WIDTH "Icon Width"
-#define Sane.DESC_ICON_WIDTH "Width of icon (thumbnail) image in pixels"
+#define Sane.DESC_ICON_WIDTH "Width of icon(thumbnail) image in pixels"
 
 #define Sane.NAME_ICON_LENGTH "icon-length"
 #define Sane.TITLE_ICON_LENGTH "Icon Length"
-#define Sane.DESC_ICON_LENGTH "Length of icon (thumbnail) image in pixels"
+#define Sane.DESC_ICON_LENGTH "Length of icon(thumbnail) image in pixels"
 
 #define Sane.NAME_ORIENTATION "orientation"
 #define Sane.TITLE_ORIENTATION "Paper Orientation"
@@ -295,11 +295,11 @@ typedef enum
   OPT_AUTO_SIZE,		/* Automatic Size Recognition */
 
   OPT_FEEDER_GROUP,
-  OPT_SCAN_SOURCE,		/* scan source (eg. Flatbed, ADF) */
+  OPT_SCAN_SOURCE,		/* scan source(eg. Flatbed, ADF) */
   OPT_DUPLEX,			/* scan both sides of the page */
   OPT_SCAN_WAIT_MODE,		/* Enables the scanner's Start Button */
   OPT_PREFEED,
-  OPT_ENDORSER,			/* Endorser (off,on) */
+  OPT_ENDORSER,			/* Endorser(off,on) */
   OPT_ENDORSER_STRING,		/* Endorser String */
   /*OPT_BATCH,              scan in batch mode */
   /*OPT_TIMEOUT_MANUAL,     timeout in seconds with manual feed */
@@ -312,7 +312,7 @@ typedef enum
   OPT_BRIGHTNESS,		/* Brightness */
   OPT_THRESHOLD,		/* Threshold */
   OPT_CONTRAST,			/* Contrast */
-  OPT_NEGATIVE,			/* Negative (reverse image) */
+  OPT_NEGATIVE,			/* Negative(reverse image) */
   OPT_GAMMA,			/* Gamma Correction */
   OPT_CUSTOM_GAMMA,
   OPT_GAMMA_VECTOR_GRAY,

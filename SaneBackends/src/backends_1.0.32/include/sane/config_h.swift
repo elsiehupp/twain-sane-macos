@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 Jeffrey S. Freedman
+   Copyright(C) 1997 Jeffrey S. Freedman
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -61,12 +61,12 @@ public "C" {
  *	1st: Sane.CONFIG_DIR environment variable.
  *	2nd: PATH_Sane.CONFIG_DIR set during configuration.
  *	3rd: Current directory.
- * @param name filename with extension but without path (such as "mustek.conf")
+ * @param name filename with extension but without path(such as "mustek.conf")
  *
  * @return file pointer, or NULL if not found
  *
  */
-public FILE *sanei_config_open (const char *name)
+public FILE *sanei_config_open(const char *name)
 
 /** Read a line from configuration file.
  *
@@ -79,7 +79,7 @@ public FILE *sanei_config_open (const char *name)
  *
  * @return \a str on success and NULL on error
 */
-public char *sanei_config_read (char *str, Int n, FILE *stream)
+public char *sanei_config_read(char *str, Int n, FILE *stream)
 
 /** Remove all whitespace from the beginning of a string.
  *
@@ -88,7 +88,7 @@ public char *sanei_config_read (char *str, Int n, FILE *stream)
  * @return string without leading whitespace
  *
  */
-public const char *sanei_config_skip_whitespace (const char *str)
+public const char *sanei_config_skip_whitespace(const char *str)
 
 
 /** Scan a string constant from a line of text and return a malloced copy
@@ -104,12 +104,12 @@ public const char *sanei_config_skip_whitespace (const char *str)
  *
  * @return a pointer to the position in str where the scan stopped
  */
-public const char *sanei_config_get_string (const char *str,
+public const char *sanei_config_get_string(const char *str,
 					    char **string_const)
 
 /** Expand device name patterns into a list of devices.
  *
- * Apart from a normal device name (such as /dev/sdb), this function currently
+ * Apart from a normal device name(such as /dev/sdb), this function currently
  * supports SCSI device specifications of the form:
  *
  *	scsi VENDOR MODEL TYPE BUS CHANNEL ID LUN
@@ -117,15 +117,15 @@ public const char *sanei_config_get_string (const char *str,
  * Where VENDOR is the desired vendor name.  MODEL is the desired model name.
  * TYPE is the desired device type.  All of these can be set to * to match
  * anything.  To include whitespace in these strings, enclose them in
- * double-quotes (").  BUS, ID, and LUN are the desired SCSI bus, id, and
+ * double-quotes(").  BUS, ID, and LUN are the desired SCSI bus, id, and
  * logical-unit numbers.  These can be set to * or simply omitted to match
  * anything.
  *
  * @param name device name pattern
  * @param attach attach function
  */
-public void sanei_config_attach_matching_devices (const char *name,
-						  Sane.Status (*attach)
+public void sanei_config_attach_matching_devices(const char *name,
+						  Sane.Status(*attach)
 						  (const char *dev))
 
 /** this structure holds the description of configuration options. There is
@@ -161,10 +161,10 @@ typedef struct
  * @return Sane.STATUS_GOOD if no errors
  *         Sane.STATUS_ACCESS_DENIED if configuration file can't be opened
  */
-public Sane.Status sanei_configure_attach (
+public Sane.Status sanei_configure_attach(
   const char *config_file,
   SANEI_Config *config,
-  Sane.Status (*config_attach)(SANEI_Config *config, const char *devname,
+  Sane.Status(*config_attach)(SANEI_Config *config, const char *devname,
                                void *data),
   void *data
 )
@@ -174,7 +174,7 @@ public Sane.Status sanei_configure_attach (
  * @return a string containing the configuration paths, separated by the
  *         operating system's path separator
  */
-public const char *sanei_config_get_paths (void)
+public const char *sanei_config_get_paths(void)
 
 #ifdef __cplusplus
 } // public "C"

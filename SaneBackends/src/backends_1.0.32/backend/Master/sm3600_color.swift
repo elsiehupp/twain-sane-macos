@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) Marian Eichholz 2001
+   Copyright(C) Marian Eichholz 2001
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -70,41 +70,41 @@ static TState ReadNextColorLine(PTInstance this)
   bVisible=false
   do {
       iWrite=0
-      while (iWrite<3*this.state.cxMax) /* max 1 time in reality */
+      while(iWrite<3*this.state.cxMax) /* max 1 time in reality */
 	{
-	  while (iWrite<3*this.state.cxMax &&
+	  while(iWrite<3*this.state.cxMax &&
 		 this.state.iBulkReadPos<this.state.cchBulk)
 	    this.state.ppchLines[0][iWrite++] =
 	      this.state.pchBuf[this.state.iBulkReadPos++]
-	  if (iWrite<3*this.state.cxMax) /* we need an additional chunk */
+	  if(iWrite<3*this.state.cxMax) /* we need an additional chunk */
 	    {
-	      if (this.state.bLastBulk)
+	      if(this.state.bLastBulk)
 		return Sane.STATUS_EOF
 	      this.state.cchBulk=BulkReadBuffer(this,this.state.pchBuf,
 						 USB_CHUNK_SIZE)
 	      dprintf(DEBUG_SCAN,"bulk read: %d byte(s), line #%d\n",
 		      this.state.cchBulk, this.state.iLine)
-	      if (this.bWriteRaw)
+	      if(this.bWriteRaw)
 		fwrite(this.state.pchBuf,1,this.state.cchBulk,this.fhScan)
 	      INST_ASSERT()
-	      if (this.state.cchBulk!=USB_CHUNK_SIZE)
+	      if(this.state.cchBulk!=USB_CHUNK_SIZE)
 		this.state.bLastBulk=true
 	      this.state.iBulkReadPos=0
 	    }
 	} /* while raw line buffer acquiring */
       this.state.iLine++
-      if (this.state.iLine>2*this.state.ySensorSkew)
+      if(this.state.iLine>2*this.state.ySensorSkew)
 	{
 	  bVisible=true
 	  iOffsetR=(this.state.szOrder[0]-'0')*this.state.cxMax
 	  iOffsetG=(this.state.szOrder[1]-'0')*this.state.cxMax
 	  iOffsetB=(this.state.szOrder[2]-'0')*this.state.cxMax
-	  for (nInterpolator=100, iWrite=0, iRead=0
+	  for(nInterpolator=100, iWrite=0, iRead=0
 	       iRead<3*this.state.cxMax && iWrite<this.state.cchLineOut
 	       iRead++)
 	    {
 	      nInterpolator+=this.state.nFixAspect
-	      if (nInterpolator<100) continue; /* res. reduction */
+	      if(nInterpolator<100) continue; /* res. reduction */
 	      nInterpolator-=100
 	      /* dprintf(DEBUG_SCAN," i=%d",iTo); */
 	      /* the first scan lines only fill the line backlog buffer */
@@ -121,10 +121,10 @@ static TState ReadNextColorLine(PTInstance this)
 	} /* if visible line */
       /* cycle backlog buffers */
       pchLineSwap=this.state.ppchLines[this.state.cBacklog-1]
-      for (i=this.state.cBacklog-2; i>=0; i--)
+      for(i=this.state.cBacklog-2; i>=0; i--)
 	this.state.ppchLines[i+1]=this.state.ppchLines[i]
       this.state.ppchLines[0]=pchLineSwap
-  } while (!bVisible)
+  } while(!bVisible)
   return Sane.STATUS_GOOD
 }
 
@@ -148,7 +148,7 @@ TState StartScanColor(TInstance *this)
      construction.  Thus, we have to deal with several buffers, some
      interpolation, and related management stuff. */
   Int             i
-  if (this.state.bScanning)
+  if(this.state.bScanning)
     return SetError(this,Sane.STATUS_DEVICE_BUSY,"scan active")
   memset(&(this.state),0,sizeof(this.state))
   this.state.ReadProc  =ReadNextColorLine
@@ -156,7 +156,7 @@ TState StartScanColor(TInstance *this)
 
   GetAreaSize(this)
 
-  switch (this.param.res)
+  switch(this.param.res)
     {
     case 200: this.state.ySensorSkew=1; break
     case 300: this.state.ySensorSkew=2; break
@@ -214,7 +214,7 @@ TState StartScanColor(TInstance *this)
 	     (2*this.state.ySensorSkew)*600/this.param.res)
     this.state.szOrder=ORDER_BRG
     RegWrite(this,R_CCAL, 3, this.calibration.rgbBias); INST_ASSERT(); /* 0xBBGGRR */
-    switch (this.param.res)
+    switch(this.param.res)
       {
       case 75:
 	RegWrite(this,R_XRES,1, 0x20); /* ups, can  do only 100 dpi horizontal */
@@ -262,7 +262,7 @@ TState StartScanColor(TInstance *this)
   RegWrite(this,0x40,1,0x28); /* offset FIFO 8*3 (GAMMA)+16 KB(gain) spared */
   /*
     hey, surprise: Although the color lines are sent in a strange order,
-    the gamma tables are mapped constantly to the sensors (i.e. RGB)
+    the gamma tables are mapped constantly to the sensors(i.e. RGB)
   */
   UploadGammaTable(this,0x0000,this.agammaR)
   UploadGammaTable(this,0x2000,this.agammaG)
@@ -278,14 +278,14 @@ TState StartScanColor(TInstance *this)
   /* allocate raw line buffers */
   this.state.ppchLines=calloc(this.state.cBacklog,sizeof(short*))
   this.state.pchBuf=malloc(0x8000)
-  if (!this.state.ppchLines || !this.state.pchBuf)
+  if(!this.state.ppchLines || !this.state.pchBuf)
     return FreeState(this,SetError(this,
 				   Sane.STATUS_NO_MEM,"no buffers available"))
 
-  for (i=0; i<this.state.cBacklog; i++)
+  for(i=0; i<this.state.cBacklog; i++)
   {
     this.state.ppchLines[i]=calloc(1,3*this.state.cxMax*sizeof(short)); /* must be less than 0x8000 */
-    if (!this.state.ppchLines[i])
+    if(!this.state.ppchLines[i])
       return FreeState(this,
 		       SetError(this,Sane.STATUS_NO_MEM,
 				"no line buffer available"))
@@ -295,7 +295,7 @@ TState StartScanColor(TInstance *this)
 
   this.state.cchLineOut=3*this.state.cxPixel
   this.state.pchLineOut = malloc(this.state.cchLineOut)
-  if (!this.state.pchLineOut)
+  if(!this.state.pchLineOut)
     return FreeState(this,SetError(this,
 				   Sane.STATUS_NO_MEM,
 				   "no buffers available"))

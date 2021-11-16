@@ -1,13 +1,13 @@
 /* SANE - Scanner Access Now Easy.
 
-   Copyright (C) 2006-2007 Wittawat Yamwong <wittawat@web.de>
+   Copyright(C) 2006-2007 Wittawat Yamwong <wittawat@web.de>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -49,7 +49,7 @@
  *
  * Return value of functions that return \c Int if not otherwise specified:
  *  - >=    if succeeded
- *  - < 0   if failed (e.g. \c PIXMA_ETIMEDOUT)
+ *  - < 0   if failed(e.g. \c PIXMA_ETIMEDOUT)
  * .
  * @{
  */
@@ -73,10 +73,10 @@ typedef struct pixma_io_t pixma_io_t
  *   - \c PIXMA_ENOMEM
  *   - \c PIXMA_EACCES
  *   - \c PIXMA_EIO */
-Int pixma_io_init (void)
+Int pixma_io_init(void)
 
 /** Shutdown all connections and free resources allocated in this module. */
-void pixma_io_cleanup (void)
+void pixma_io_cleanup(void)
 
 /** Find devices currently connected to the computer.
  *  \c devnr passed to functions
@@ -89,15 +89,15 @@ void pixma_io_cleanup (void)
  *             array of pixma_config_t which is terminated by setting
  *             pixma_config_t::name to \c NULL.
  *  \return Number of devices found */
-unsigned pixma_collect_devices (const char ** conf_devices,
+unsigned pixma_collect_devices(const char ** conf_devices,
                                 const struct pixma_config_t *const
 				pixma_devices[], Bool local_only)
 
 /** Get device configuration. */
-const struct pixma_config_t *pixma_get_device_config (unsigned devnr)
+const struct pixma_config_t *pixma_get_device_config(unsigned devnr)
 
 /** Get a unique ID of the device \a devnr. */
-const char *pixma_get_device_id (unsigned devnr)
+const char *pixma_get_device_id(unsigned devnr)
 
 /** Connect to the device and claim the scanner interface.
  *  \param[in] devnr
@@ -109,42 +109,42 @@ const char *pixma_get_device_id (unsigned devnr)
  *   - \c PIXMA_EACCES
  *   - \c PIXMA_ENOMEM
  *   - \c PIXMA_EIO */
-Int pixma_connect (unsigned devnr, pixma_io_t ** handle)
+Int pixma_connect(unsigned devnr, pixma_io_t ** handle)
 
 /** Release the scanner interface and disconnect from the device. */
-void pixma_disconnect (pixma_io_t *)
+void pixma_disconnect(pixma_io_t *)
 
 /** Activate connection to scanner */
-Int pixma_activate (pixma_io_t *)
+Int pixma_activate(pixma_io_t *)
 
 /** De-activate connection to scanner */
-Int pixma_deactivate (pixma_io_t *)
+Int pixma_deactivate(pixma_io_t *)
 
 /** Reset the USB interface. \warning Use with care! */
-Int pixma_reset_device (pixma_io_t *)
+Int pixma_reset_device(pixma_io_t *)
 
 /** Write data to the device. This function may not be interrupted by signals.
  *  It will return iff
  *   - \a len bytes have been successfully written or
- *   - an error (inclusive timeout) occurred.
+ *   - an error(inclusive timeout) occurred.
  *  .
  *  \note Calling pixma_write(io, buf, n1) and pixma(io, buf+n1, n2) may
  *        not be the same as pixma_write(io, buf, n1+n2) if n1 is not
  *        multiple of the maximum packet size of the endpoint.
  *  \param[in] cmd Data
  *  \param[in] len Length of data
- *  \return Number of bytes successfully written (always = \a len) or
+ *  \return Number of bytes successfully written(always = \a len) or
  *   - \c PIXMA_ETIMEDOUT
  *   - \c PIXMA_EIO
  *   - \c PIXMA_ENOMEM
  *  \see #PIXMA_BULKOUT_TIMEOUT */
-Int pixma_write (pixma_io_t *, const void *cmd, unsigned len)
+Int pixma_write(pixma_io_t *, const void *cmd, unsigned len)
 
 /** Read data from the device. This function may not be interrupted by signals.
  *  It will return iff
  *   - \a size bytes have been successfully read,
  *   - a short packet has been read or
- *   - an error (inclusive timeout) occurred.
+ *   - an error(inclusive timeout) occurred.
  *  .
  *  \param[out] buf
  *  \param[in]  size of the buffer
@@ -154,7 +154,7 @@ Int pixma_write (pixma_io_t *, const void *cmd, unsigned len)
  *   - \c PIXMA_EIO
  *   - \c PIXMA_ENOMEM
  *  \see #PIXMA_BULKIN_TIMEOUT */
-Int pixma_read (pixma_io_t *, void *buf, unsigned size)
+Int pixma_read(pixma_io_t *, void *buf, unsigned size)
 
 /** Wait for an interrupt. This function can be interrupted by signals.
  *  \a size should be less than or equal to the maximum packet size.
@@ -166,7 +166,7 @@ Int pixma_read (pixma_io_t *, void *buf, unsigned size)
  *   - \c PIXMA_EIO
  *   - \c PIXMA_ENOMEM
  *   - \c PIXMA_ECANCELED if it was interrupted by a signal. */
-Int pixma_wait_interrupt (pixma_io_t *, void *buf, unsigned size,
+Int pixma_wait_interrupt(pixma_io_t *, void *buf, unsigned size,
 			  Int timeout)
 
 /** Enable or disable background interrupt monitoring.
@@ -177,7 +177,7 @@ Int pixma_wait_interrupt (pixma_io_t *, void *buf, unsigned size,
  *   - \c PIXMA_ENOTSUP
  *   - \c PIXMA_EIO
  *   - \c PIXMA_ENOMEM */
-Int pixma_set_interrupt_mode (pixma_io_t *, Int background)
+Int pixma_set_interrupt_mode(pixma_io_t *, Int background)
 
 /** @} end of IO group */
 

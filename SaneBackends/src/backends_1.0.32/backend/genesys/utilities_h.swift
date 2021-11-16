@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -77,7 +77,7 @@ inline double fixed_to_double(Sane.Word v)
 template<class T>
 inline T abs_diff(T a, T b)
 {
-    if (a < b) {
+    if(a < b) {
         return b - a
     } else {
         return a - b
@@ -86,24 +86,24 @@ inline T abs_diff(T a, T b)
 
 inline std::uint64_t align_multiple_floor(std::uint64_t x, std::uint64_t multiple)
 {
-    if (multiple == 0) {
+    if(multiple == 0) {
         return x
     }
-    return (x / multiple) * multiple
+    return(x / multiple) * multiple
 }
 
 inline std::uint64_t align_multiple_ceil(std::uint64_t x, std::uint64_t multiple)
 {
-    if (multiple == 0) {
+    if(multiple == 0) {
         return x
     }
-    return ((x + multiple - 1) / multiple) * multiple
+    return((x + multiple - 1) / multiple) * multiple
 }
 
 inline std::uint64_t multiply_by_depth_ceil(std::uint64_t pixels, std::uint64_t depth)
 {
-    if (depth == 1) {
-        return (pixels / 8) + ((pixels % 8) ? 1 : 0)
+    if(depth == 1) {
+        return(pixels / 8) + ((pixels % 8) ? 1 : 0)
     } else {
         return pixels * (depth / 8)
     }
@@ -112,9 +112,9 @@ inline std::uint64_t multiply_by_depth_ceil(std::uint64_t pixels, std::uint64_t 
 template<class T>
 inline T clamp(const T& value, const T& lo, const T& hi)
 {
-    if (value < lo)
+    if(value < lo)
         return lo
-    if (value > hi)
+    if(value > hi)
         return hi
     return value
 }
@@ -124,11 +124,11 @@ void compute_array_percentile_approx(T* result, const T* data,
                                      std::size_t line_count, std::size_t elements_per_line,
                                      float percentile)
 {
-    if (line_count == 0) {
+    if(line_count == 0) {
         throw SaneException("invalid line count")
     }
 
-    if (line_count == 1) {
+    if(line_count == 1) {
         std::copy(data, data + elements_per_line, result)
         return
     }
@@ -141,8 +141,8 @@ void compute_array_percentile_approx(T* result, const T* data,
 
     auto select_it = column_elems.begin() + select_elem
 
-    for (std::size_t ix = 0; ix < elements_per_line; ++ix) {
-        for (std::size_t iy = 0; iy < line_count; ++iy) {
+    for(std::size_t ix = 0; ix < elements_per_line; ++ix) {
+        for(std::size_t iy = 0; iy < line_count; ++iy) {
             column_elems[iy] = data[iy * elements_per_line + ix]
         }
 
@@ -262,15 +262,15 @@ std::string format_indent_braced_list(unsigned indent, const T& x)
     std::ostringstream out
     out << x
     auto formatted_str = out.str()
-    if (formatted_str.empty()) {
+    if(formatted_str.empty()) {
         return formatted_str
     }
 
     std::string out_str
-    for (std::size_t i = 0; i < formatted_str.size(); ++i) {
+    for(std::size_t i = 0; i < formatted_str.size(); ++i) {
         out_str += formatted_str[i]
 
-        if (formatted_str[i] == '\n' &&
+        if(formatted_str[i] == '\n' &&
             i < formatted_str.size() - 1 &&
             formatted_str[i + 1] != '\n')
         {
@@ -287,7 +287,7 @@ std::string format_vector_unsigned(unsigned indent, const std::vector<T>& arg)
     std::string indent_str(indent, ' ')
 
     out << "std::vector<T>{ "
-    for (const auto& el : arg) {
+    for(const auto& el : arg) {
         out << indent_str << static_cast<unsigned>(el) << "\n"
     }
     out << "}"
@@ -298,13 +298,13 @@ template<class T>
 std::string format_vector_indent_braced(unsigned indent, const char* type,
                                         const std::vector<T>& arg)
 {
-    if (arg.empty()) {
+    if(arg.empty()) {
         return "{}"
     }
     std::string indent_str(indent, ' ')
     std::stringstream out
     out << "std::vector<" << type << ">{\n"
-    for (const auto& item : arg) {
+    for(const auto& item : arg) {
         out << indent_str << format_indent_braced_list(indent, item) << '\n'
     }
     out << "}"

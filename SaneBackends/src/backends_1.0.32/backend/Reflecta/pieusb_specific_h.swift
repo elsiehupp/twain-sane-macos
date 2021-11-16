@@ -2,14 +2,14 @@
 
    pieusb_specific.h
 
-   Copyright (C) 2012-2015 Jan Vleeshouwers, Michael Rickmann, Klaus Kaempf
+   Copyright(C) 2012-2015 Jan Vleeshouwers, Michael Rickmann, Klaus Kaempf
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -124,7 +124,7 @@ enum Pieusb_Option
     OPT_MODE,                   /* scan mode */
     OPT_BIT_DEPTH,              /* number of bits to encode a color */
     OPT_RESOLUTION,             /* number of pixels per inch */
-    OPT_HALFTONE_PATTERN,       /* halftone pattern to use (see halftone_list) */
+    OPT_HALFTONE_PATTERN,       /* halftone pattern to use(see halftone_list) */
     OPT_THRESHOLD,              /* halftone threshold */
     OPT_SHARPEN,                /* create a sharper scan at the cost of scan time */
     OPT_SHADING_ANALYSIS,       /* do shading analysis before the scan */
@@ -139,10 +139,10 @@ enum Pieusb_Option
     OPT_BR_Y,			/* bottom-right y */
     /* ------------------------------------------- */
     OPT_ENHANCEMENT_GROUP,
-    OPT_CORRECT_SHADING,        /* correct scanned data for lamp variations (shading) */
+    OPT_CORRECT_SHADING,        /* correct scanned data for lamp variations(shading) */
     OPT_CORRECT_INFRARED,       /* correct infrared for red crosstalk */
     OPT_CLEAN_IMAGE,            /* detect and remove dust and scratch artifacts */
-    OPT_GAIN_ADJUST,            /* adjust gain (a simpler option than setting gain, exposure and offset directly) */
+    OPT_GAIN_ADJUST,            /* adjust gain(a simpler option than setting gain, exposure and offset directly) */
     OPT_CROP_IMAGE,             /* automatically crop image */
     OPT_SMOOTH_IMAGE,           /* smoothen image */
     OPT_TRANSFORM_TO_SRGB,      /* transform to approximate sRGB data */
@@ -170,7 +170,7 @@ enum Pieusb_Option
     NUM_OPTIONS
 ]
 
-/* Forward declaration (see pieusb_scancmd.h) */
+/* Forward declaration(see pieusb_scancmd.h) */
 struct Pieusb_Shading_Parameters
 
 /* Device characteristics of a Pieusb USB scanner */
@@ -204,7 +204,7 @@ struct Pieusb_Device_Definition
     Sane.Range highlight_range
 
     /* Enumerated ranges vor various quantities */
-    String scan_mode_list[7]; /* names of scan modes (see saneopts.h) */
+    String scan_mode_list[7]; /* names of scan modes(see saneopts.h) */
     String calibration_mode_list[6]; /* names of calibration modes */
     String gain_adjust_list[10]; /* gain adjustment values */
     Sane.Word bpp_list[5];	   /* bit depths  */
@@ -220,8 +220,8 @@ struct Pieusb_Device_Definition
     Int maximum_resolution
 
     /* Geometry */
-    double scan_bed_width;	   /* flatbed width in inches (horizontal) */
-    double scan_bed_height;	   /* flatbed height in inches (vertical) */
+    double scan_bed_width;	   /* flatbed width in inches(horizontal) */
+    double scan_bed_height;	   /* flatbed height in inches(vertical) */
     Int slide_top_left_x;          /* top-left location of slide w.r.t. scan bed */
     Int slide_top_left_y;          /* top-left location of slide w.r.t. scan bed */
     double slide_width;	           /* transparency width in inches */
@@ -267,7 +267,7 @@ struct Pieusb_Scanner
     struct Pieusb_Scanner *next
     struct Pieusb_Device_Definition *device; /* pointer to device definition */
 
-    Int device_number; /* scanner device number (as determined by USB) */
+    Int device_number; /* scanner device number(as determined by USB) */
 
     /* SANE option descriptions and settings for this scanner instance */
     Sane.Option_Descriptor opt[NUM_OPTIONS]
@@ -289,8 +289,8 @@ struct Pieusb_Scanner
     Sane.Byte *ccd_mask; /* malloc'ed in Sane.open */
     Int ccd_mask_size
     Bool shading_data_present; /* don't correct shading if not present */
-    Int shading_mean[SHADING_PARAMETERS_INFO_COUNT]; /* mean shading value for each color (average all 45 lines)  */
-    Int shading_max[SHADING_PARAMETERS_INFO_COUNT]; /* maximum shading value for each color (for all 45 lines)  */
+    Int shading_mean[SHADING_PARAMETERS_INFO_COUNT]; /* mean shading value for each color(average all 45 lines)  */
+    Int shading_max[SHADING_PARAMETERS_INFO_COUNT]; /* maximum shading value for each color(for all 45 lines)  */
     Int* shading_ref[SHADING_PARAMETERS_INFO_COUNT]; /* 4 arrays of shading references for each pixel on a line and for each color */
 
     /* Calibration using preview */
@@ -320,7 +320,7 @@ Sane.Status sanei_pieusb_parse_config_line(const char* config_line,
                                            Int* model_number,
                                            Int* flags)
 /* sub to Sane.start() */
-Sane.Status sanei_pieusb_post (Pieusb_Scanner *scanner,  uint16_t **in_img, Int planes)
+Sane.Status sanei_pieusb_post(Pieusb_Scanner *scanner,  uint16_t **in_img, Int planes)
 void sanei_pieusb_correct_shading(struct Pieusb_Scanner *scanner, struct Pieusb_Read_Buffer *buffer)
 Sane.Status sanei_pieusb_get_scan_data(Pieusb_Scanner * scanner, Int parameter_bytes)
 Sane.Status sanei_pieusb_get_parameters(Pieusb_Scanner * scanner, Int *parameter_bytes)
@@ -335,11 +335,11 @@ Int sanei_pieusb_analyse_options(struct Pieusb_Scanner *scanner)
 Bool sanei_pieusb_supported_device_list_contains(Sane.Word vendor_id, Sane.Word product_id, Int model_number, Int flags)
 Sane.Status sanei_pieusb_supported_device_list_add(Sane.Word vendor_id, Sane.Word product_id, Int model_number, Int flags)
 /* sub to Sane.init() and Sane.open() */
-Sane.Status sanei_pieusb_find_device_callback (const char *devicename)
+Sane.Status sanei_pieusb_find_device_callback(const char *devicename)
 /* sub to Sane.open() */
-Sane.Status sanei_pieusb_init_options (Pieusb_Scanner * scanner)
+Sane.Status sanei_pieusb_init_options(Pieusb_Scanner * scanner)
 /* sub to Sane.start(), Sane.read() and Sane.close() */
-Sane.Status sanei_pieusb_on_cancel (Pieusb_Scanner * scanner)
+Sane.Status sanei_pieusb_on_cancel(Pieusb_Scanner * scanner)
 
 Sane.Status sanei_pieusb_wait_ready(Pieusb_Scanner *scanner, Int device_number)
 Sane.Status sanei_pieusb_analyze_preview(Pieusb_Scanner * scanner)

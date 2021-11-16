@@ -1,6 +1,6 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2010-2013 Stéphane Voltz <stef.dev@free.fr>
+   Copyright(C) 2010-2013 Stéphane Voltz <stef.dev@free.fr>
 
 
    This file is part of the SANE package.
@@ -8,7 +8,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -54,7 +54,7 @@ namespace gl847 {
 /**
  * compute the step multiplier used
  */
-static unsigned gl847_get_step_multiplier (Genesys_Register_Set * regs)
+static unsigned gl847_get_step_multiplier(Genesys_Register_Set * regs)
 {
     unsigned value = (regs.get8(0x9d) & 0x0f) >> 1
     return 1 << value
@@ -68,49 +68,49 @@ static unsigned gl847_get_step_multiplier (Genesys_Register_Set * regs)
  * @param dev device structure holding register set to initialize
  */
 static void
-gl847_init_registers (Genesys_Device * dev)
+gl847_init_registers(Genesys_Device * dev)
 {
     DBG_HELPER(dbg)
   Int lide700=0
   uint8_t val
 
   /* 700F class needs some different initial settings */
-    if (dev.model.model_id == ModelId::CANON_LIDE_700F) {
+    if(dev.model.model_id == ModelId::CANON_LIDE_700F) {
        lide700 = 1
     }
 
     dev.reg.clear()
 
     dev.reg.init_reg(0x01, 0x82)
-    if (dev.model.model_id == ModelId::CANON_5600F) {
+    if(dev.model.model_id == ModelId::CANON_5600F) {
         dev.reg.init_reg(0x01, 0x40)
     }
     dev.reg.init_reg(0x02, 0x18)
     dev.reg.init_reg(0x03, 0x50)
     dev.reg.init_reg(0x04, 0x12)
-    if (dev.model.model_id == ModelId::CANON_5600F) {
+    if(dev.model.model_id == ModelId::CANON_5600F) {
         dev.reg.init_reg(0x04, 0x20)
     }
     dev.reg.init_reg(0x05, 0x80)
     dev.reg.init_reg(0x06, 0x50); // FASTMODE + POWERBIT
-    if (dev.model.model_id == ModelId::CANON_5600F) {
+    if(dev.model.model_id == ModelId::CANON_5600F) {
         dev.reg.init_reg(0x06, 0xf8)
     }
     dev.reg.init_reg(0x08, 0x10)
-    if (dev.model.model_id == ModelId::CANON_5600F) {
+    if(dev.model.model_id == ModelId::CANON_5600F) {
         dev.reg.init_reg(0x08, 0x20)
     }
     dev.reg.init_reg(0x09, 0x01)
-    if (dev.model.model_id == ModelId::CANON_5600F) {
+    if(dev.model.model_id == ModelId::CANON_5600F) {
         dev.reg.init_reg(0x09, 0x00)
     }
     dev.reg.init_reg(0x0a, 0x00)
     dev.reg.init_reg(0x0b, 0x01)
-    if (dev.model.model_id == ModelId::CANON_5600F) {
+    if(dev.model.model_id == ModelId::CANON_5600F) {
         dev.reg.init_reg(0x0b, 0x6b)
     }
     dev.reg.init_reg(0x0c, 0x02)
-    if (dev.model.model_id == ModelId::CANON_5600F) {
+    if(dev.model.model_id == ModelId::CANON_5600F) {
         dev.reg.init_reg(0x0c, 0x00)
     }
 
@@ -132,7 +132,7 @@ gl847_init_registers (Genesys_Device * dev)
     dev.reg.init_reg(0x1c, 0x02); // SENSOR_DEF
     dev.reg.init_reg(0x1d, 0x04); // SENSOR_DEF
     dev.reg.init_reg(0x1e, 0x10)
-    if (dev.model.model_id == ModelId::CANON_5600F) {
+    if(dev.model.model_id == ModelId::CANON_5600F) {
         dev.reg.init_reg(0x1e, 0xf0)
     }
     dev.reg.init_reg(0x1f, 0x04)
@@ -207,14 +207,14 @@ gl847_init_registers (Genesys_Device * dev)
     dev.reg.init_reg(0x9d, 0x06); // RAMDLY, MOTLAG, CMODE, STEPTIM, IFRS
     dev.reg.init_reg(0xa2, 0x0f); // misc
 
-    if (dev.model.model_id == ModelId::CANON_5600F) {
+    if(dev.model.model_id == ModelId::CANON_5600F) {
         dev.reg.init_reg(0xab, 0x31)
         dev.reg.init_reg(0xbb, 0x00)
         dev.reg.init_reg(0xbc, 0x0f)
     }
     dev.reg.init_reg(0xbd, 0x18); // misc
     dev.reg.init_reg(0xfe, 0x08); // misc
-    if (dev.model.model_id == ModelId::CANON_5600F) {
+    if(dev.model.model_id == ModelId::CANON_5600F) {
         dev.reg.init_reg(0x9e, 0x00); // sensor reg, but not in SENSOR_DEF
         dev.reg.init_reg(0x9f, 0x00); // sensor reg, but not in SENSOR_DEF
         dev.reg.init_reg(0xaa, 0x00); // custom data
@@ -231,7 +231,7 @@ gl847_init_registers (Genesys_Device * dev)
     dev.reg.init_reg(0xca, 0x00)
 
   /* LiDE 700 fixups */
-    if (lide700) {
+    if(lide700) {
         dev.reg.init_reg(0x5f, 0x04)
         dev.reg.init_reg(0x7d, 0x80)
 
@@ -248,7 +248,7 @@ gl847_init_registers (Genesys_Device * dev)
                                                          3, ScanMethod::FLATBED)
     sanei_genesys_set_dpihw(dev.reg, dpihw_sensor.register_dpihw)
 
-    if (dev.model.model_id == ModelId::CANON_5600F) {
+    if(dev.model.model_id == ModelId::CANON_5600F) {
         scanner_setup_sensor(*dev, sensor, dev.reg)
     }
 }
@@ -262,33 +262,33 @@ void CommandSetGl847::set_fe(Genesys_Device* dev, const Genesys_Sensor& sensor, 
 
     (void) sensor
 
-    if (dev.model.model_id != ModelId::CANON_5600F) {
+    if(dev.model.model_id != ModelId::CANON_5600F) {
         // FIXME: remove the following read
         dev.interface.read_register(REG_0x04)
     }
 
     // wait for FE to be ready
     auto status = scanner_read_status(*dev)
-    while (status.is_front_end_busy) {
+    while(status.is_front_end_busy) {
         dev.interface.sleep_ms(10)
         status = scanner_read_status(*dev)
     }
 
-    if (set == AFE_INIT) {
+    if(set == AFE_INIT) {
         dev.frontend = dev.frontend_initial
     }
 
-    if (dev.model.model_id != ModelId::CANON_5600F) {
-        // reset DAC (BUG: this does completely different thing on Analog Devices ADCs)
+    if(dev.model.model_id != ModelId::CANON_5600F) {
+        // reset DAC(BUG: this does completely different thing on Analog Devices ADCs)
         dev.interface.write_fe_register(0x00, 0x80)
     } else {
-        if (dev.frontend.layout.type == FrontendType::WOLFSON) {
+        if(dev.frontend.layout.type == FrontendType::WOLFSON) {
             // reset DAC
             dev.interface.write_fe_register(0x04, 0xff)
         }
     }
 
-    for (const auto& reg : dev.frontend.regs) {
+    for(const auto& reg : dev.frontend.regs) {
         dev.interface.write_fe_register(reg.address, reg.value)
     }
 }
@@ -296,7 +296,7 @@ void CommandSetGl847::set_fe(Genesys_Device* dev, const Genesys_Sensor& sensor, 
 static void gl847_write_motor_phase_table(Genesys_Device& dev, unsigned ydpi)
 {
     (void) ydpi
-    if (dev.model.model_id == ModelId::CANON_5600F) {
+    if(dev.model.model_id == ModelId::CANON_5600F) {
         std::vector<std::uint8_t> phase_table = {
             0x33, 0x00, 0x33, 0x00, 0x33, 0x00, 0x33, 0x00,
             0x32, 0x00, 0x32, 0x00, 0x32, 0x00, 0x32, 0x00,
@@ -336,13 +336,13 @@ static void gl847_init_motor_regs_scan(Genesys_Device* dev,
                     scan_exposure_time, scan_yres, static_cast<unsigned>(motor_profile.step_type),
                     scan_lines, scan_dummy, feed_steps, static_cast<unsigned>(flags))
 
-    unsigned step_multiplier = gl847_get_step_multiplier (reg)
+    unsigned step_multiplier = gl847_get_step_multiplier(reg)
 
     bool use_fast_fed = false
-    if (dev.settings.yres == 4444 && feed_steps > 100 && !has_flag(flags, ScanFlag::FEEDING)) {
+    if(dev.settings.yres == 4444 && feed_steps > 100 && !has_flag(flags, ScanFlag::FEEDING)) {
         use_fast_fed = true
     }
-    if (has_flag(dev.model.flags, ModelFlag::DISABLE_FAST_FEEDING)) {
+    if(has_flag(dev.model.flags, ModelFlag::DISABLE_FAST_FEEDING)) {
         use_fast_fed = false
     }
 
@@ -352,20 +352,20 @@ static void gl847_init_motor_regs_scan(Genesys_Device* dev,
     sanei_genesys_set_motor_power(*reg, true)
 
     std::uint8_t reg02 = reg.get8(REG_0x02)
-    if (use_fast_fed) {
+    if(use_fast_fed) {
         reg02 |= REG_0x02_FASTFED
     } else {
         reg02 &= ~REG_0x02_FASTFED
     }
 
-    if (has_flag(flags, ScanFlag::AUTO_GO_HOME)) {
+    if(has_flag(flags, ScanFlag::AUTO_GO_HOME)) {
         reg02 |= REG_0x02_AGOHOME | REG_0x02_NOTHOME
     }
 
-    if (has_flag(flags, ScanFlag::DISABLE_BUFFER_FULL_MOVE) || (scan_yres >= sensor.full_resolution)) {
+    if(has_flag(flags, ScanFlag::DISABLE_BUFFER_FULL_MOVE) || (scan_yres >= sensor.full_resolution)) {
         reg02 |= REG_0x02_ACDCDIS
     }
-    if (has_flag(flags, ScanFlag::REVERSE)) {
+    if(has_flag(flags, ScanFlag::REVERSE)) {
         reg02 |= REG_0x02_MTRREV
     } else {
         reg02 &= ~REG_0x02_MTRREV
@@ -383,7 +383,7 @@ static void gl847_init_motor_regs_scan(Genesys_Device* dev,
 
     // BUG: looks like for fast moves we use inconsistent step type
     StepType fast_step_type = motor_profile.step_type
-    if (static_cast<unsigned>(motor_profile.step_type) >= static_cast<unsigned>(StepType::QUARTER)) {
+    if(static_cast<unsigned>(motor_profile.step_type) >= static_cast<unsigned>(StepType::QUARTER)) {
         fast_step_type = StepType::QUARTER
     }
 
@@ -402,7 +402,7 @@ static void gl847_init_motor_regs_scan(Genesys_Device* dev,
     // correct move distance by acceleration and deceleration amounts
     unsigned feedl = feed_steps
     unsigned dist = 0
-    if (use_fast_fed)
+    if(use_fast_fed)
     {
         feedl <<= static_cast<unsigned>(fast_step_type)
         dist = (scan_table.table.size() + 2 * fast_table.table.size())
@@ -412,13 +412,13 @@ static void gl847_init_motor_regs_scan(Genesys_Device* dev,
     } else {
         feedl <<= static_cast<unsigned>(motor_profile.step_type)
         dist = scan_table.table.size()
-        if (has_flag(flags, ScanFlag::FEEDING)) {
+        if(has_flag(flags, ScanFlag::FEEDING)) {
             dist *= 2
         }
     }
 
     // check for overflow
-    if (dist < feedl) {
+    if(dist < feedl) {
         feedl -= dist
     } else {
         feedl = 0
@@ -435,9 +435,9 @@ static void gl847_init_motor_regs_scan(Genesys_Device* dev,
     // if quarter step, bipolar Vref2
 
     std::uint8_t val = effective
-    if (motor_profile.step_type == StepType::QUARTER) {
+    if(motor_profile.step_type == StepType::QUARTER) {
         val = effective & ~REG_0x6C_GPIO13
-    } else if (static_cast<unsigned>(motor_profile.step_type) > static_cast<unsigned>(StepType::QUARTER)) {
+    } else if(static_cast<unsigned>(motor_profile.step_type) > static_cast<unsigned>(StepType::QUARTER)) {
         val = effective | REG_0x6C_GPIO13
     }
     dev.interface.write_register(REG_0x6C, val)
@@ -448,7 +448,7 @@ static void gl847_init_motor_regs_scan(Genesys_Device* dev,
     dev.interface.write_register(REG_0x6C, val)
 
     unsigned min_restep = scan_table.table.size() / (2 * step_multiplier) - 1
-    if (min_restep < 1) {
+    if(min_restep < 1) {
         min_restep = 1
     }
 
@@ -495,7 +495,7 @@ static void gl847_init_motor_regs_scan(Genesys_Device* dev,
    0x2c,0x2d      DPISET
    0x30,0x31      STRPIXEL
    0x32,0x33      ENDPIXEL
-   0x35,0x36,0x37 MAXWD [25:2] (>>2)
+   0x35,0x36,0x37 MAXWD[25:2] (>>2)
    0x38,0x39      LPERIOD
    0x34           DUMMY
  */
@@ -513,7 +513,7 @@ static void gl847_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
     regs_set_optical_off(dev.model.asic_type, *reg)
     reg.find_reg(REG_0x01).value |= REG_0x01_SHDAREA
 
-    if (has_flag(session.params.flags, ScanFlag::DISABLE_SHADING) ||
+    if(has_flag(session.params.flags, ScanFlag::DISABLE_SHADING) ||
         has_flag(dev.model.flags, ModelFlag::DISABLE_SHADING_CALIBRATION) ||
         session.use_host_side_calib)
     {
@@ -524,15 +524,15 @@ static void gl847_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
     reg.find_reg(REG_0x03).value &= ~REG_0x03_AVEENB
 
     reg.find_reg(REG_0x03).value &= ~REG_0x03_XPASEL
-    if (has_flag(session.params.flags, ScanFlag::USE_XPA)) {
+    if(has_flag(session.params.flags, ScanFlag::USE_XPA)) {
         reg.find_reg(REG_0x03).value |= REG_0x03_XPASEL
     }
     sanei_genesys_set_lamp_power(dev, sensor, *reg,
                                  !has_flag(session.params.flags, ScanFlag::DISABLE_LAMP))
     reg.state.is_xpa_on = has_flag(session.params.flags, ScanFlag::USE_XPA)
 
-    if (has_flag(session.params.flags, ScanFlag::USE_XPA)) {
-        if (dev.model.model_id == ModelId::CANON_5600F) {
+    if(has_flag(session.params.flags, ScanFlag::USE_XPA)) {
+        if(dev.model.model_id == ModelId::CANON_5600F) {
             regs_set_exposure(dev.model.asic_type, *reg, sanei_genesys_fixup_exposure({0, 0, 0}))
         }
     }
@@ -542,7 +542,7 @@ static void gl847_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
     reg.set8(0x2f, 0x7f)
 
   /* monochrome / color scan */
-    switch (session.params.depth) {
+    switch(session.params.depth) {
     case 8:
             reg.find_reg(REG_0x04).value &= ~(REG_0x04_LINEART | REG_0x04_BITSET)
       break
@@ -553,9 +553,9 @@ static void gl847_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
     }
 
     reg.find_reg(REG_0x04).value &= ~(REG_0x04_FILTER | REG_0x04_AFEMOD)
-  if (session.params.channels == 1)
+  if(session.params.channels == 1)
     {
-      switch (session.params.color_filter)
+      switch(session.params.color_filter)
 	{
 
            case ColorFilter::RED:
@@ -571,7 +571,7 @@ static void gl847_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
                break; // should not happen
 	}
     } else {
-        if (dev.model.model_id == ModelId::CANON_5600F) {
+        if(dev.model.model_id == ModelId::CANON_5600F) {
             reg.find_reg(REG_0x04).value |= 0x20
         } else {
             reg.find_reg(REG_0x04).value |= 0x10; // mono
@@ -583,7 +583,7 @@ static void gl847_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
                                                          session.params.scan_method)
     sanei_genesys_set_dpihw(*reg, dpihw_sensor.register_dpihw)
 
-    if (should_enable_gamma(session, sensor)) {
+    if(should_enable_gamma(session, sensor)) {
         reg.find_reg(REG_0x05).value |= REG_0x05_GMMENB
     } else {
         reg.find_reg(REG_0x05).value &= ~REG_0x05_GMMENB
@@ -591,15 +591,15 @@ static void gl847_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
 
   /* CIS scanners can do true gray by setting LEDADD */
   /* we set up LEDADD only when asked */
-    if (dev.model.is_cis) {
+    if(dev.model.is_cis) {
         reg.find_reg(0x87).value &= ~REG_0x87_LEDADD
 
-        if (session.enable_ledadd) {
+        if(session.enable_ledadd) {
             reg.find_reg(0x87).value |= REG_0x87_LEDADD
         }
       /* RGB weighting
         reg.find_reg(0x01).value &= ~REG_0x01_TRUEGRAY
-        if (session.enable_ledadd) {
+        if(session.enable_ledadd) {
             reg.find_reg(0x01).value |= REG_0x01_TRUEGRAY
         }
         */
@@ -630,7 +630,7 @@ void CommandSetGl847::init_regs_for_scan_session(Genesys_Device* dev, const Gene
   Int slope_dpi = 0
   Int dummy = 0
 
-    if (dev.model.model_id == ModelId::CANON_LIDE_100 ||
+    if(dev.model.model_id == ModelId::CANON_LIDE_100 ||
         dev.model.model_id == ModelId::CANON_LIDE_200 ||
         dev.model.model_id == ModelId::CANON_LIDE_700F ||
         dev.model.model_id == ModelId::HP_SCANJET_N6310)
@@ -641,7 +641,7 @@ void CommandSetGl847::init_regs_for_scan_session(Genesys_Device* dev, const Gene
 /* slope_dpi */
 /* cis color scan is effectively a gray scan with 3 gray lines per color
    line and a FILTER of 0 */
-    if (dev.model.is_cis) {
+    if(dev.model.is_cis) {
         slope_dpi = session.params.yres * session.params.channels
     } else {
         slope_dpi = session.params.yres
@@ -691,17 +691,17 @@ ScanSession CommandSetGl847::calculate_scan_session(const Genesys_Device* dev,
     unsigned move_dpi = dev.motor.base_ydpi
 
     float move = dev.model.y_offset
-    if (settings.scan_method == ScanMethod::TRANSPARENCY ||
+    if(settings.scan_method == ScanMethod::TRANSPARENCY ||
         settings.scan_method == ScanMethod::TRANSPARENCY_INFRARED)
     {
         // note: scanner_move_to_ta() function has already been called and the sensor is at the
         // transparency adapter
-        if (!dev.ignore_offsets) {
+        if(!dev.ignore_offsets) {
             move = dev.model.y_offset_ta - dev.model.y_offset_sensor_to_ta
         }
         flags |= ScanFlag::USE_XPA
     } else {
-        if (!dev.ignore_offsets) {
+        if(!dev.ignore_offsets) {
             move = dev.model.y_offset
         }
     }
@@ -711,7 +711,7 @@ ScanSession CommandSetGl847::calculate_scan_session(const Genesys_Device* dev,
     move -= dev.head_pos(ScanHeadId::PRIMARY)
 
     float start = dev.model.x_offset
-    if (settings.scan_method == ScanMethod::TRANSPARENCY ||
+    if(settings.scan_method == ScanMethod::TRANSPARENCY ||
         settings.scan_method == ScanMethod::TRANSPARENCY_INFRARED)
     {
         start = dev.model.x_offset_ta
@@ -763,11 +763,11 @@ void CommandSetGl847::begin_scan(Genesys_Device* dev, const Genesys_Sensor& sens
     (void) sensor
   uint8_t val
 
-    if (reg.state.is_xpa_on && reg.state.is_lamp_on) {
+    if(reg.state.is_xpa_on && reg.state.is_lamp_on) {
         dev.cmd_set.set_xpa_lamp_power(*dev, true)
     }
 
-    if (dev.model.model_id == ModelId::HP_SCANJET_N6310 ||
+    if(dev.model.model_id == ModelId::HP_SCANJET_N6310 ||
         dev.model.model_id == ModelId::CANON_LIDE_100 ||
         dev.model.model_id == ModelId::CANON_LIDE_200)
     {
@@ -776,8 +776,8 @@ void CommandSetGl847::begin_scan(Genesys_Device* dev, const Genesys_Sensor& sens
         dev.interface.write_register(REG_0x6C, val)
     }
 
-    if (dev.model.model_id == ModelId::CANON_5600F) {
-        switch (dev.session.params.xres) {
+    if(dev.model.model_id == ModelId::CANON_5600F) {
+        switch(dev.session.params.xres) {
             case 75:
             case 150:
             case 300:
@@ -803,7 +803,7 @@ void CommandSetGl847::begin_scan(Genesys_Device* dev, const Genesys_Sensor& sens
         dev.interface.write_register(0x6d, 0x5f)
     }
 
-    if (dev.model.model_id == ModelId::CANON_5600F) {
+    if(dev.model.model_id == ModelId::CANON_5600F) {
         scanner_clear_scan_and_feed_counts(*dev)
     } else {
         // FIXME: use scanner_clear_scan_and_feed_counts()
@@ -831,11 +831,11 @@ void CommandSetGl847::end_scan(Genesys_Device* dev, Genesys_Register_Set* reg,
     (void) reg
     DBG_HELPER_ARGS(dbg, "check_stop = %d", check_stop)
 
-    if (reg.state.is_xpa_on) {
+    if(reg.state.is_xpa_on) {
         dev.cmd_set.set_xpa_lamp_power(*dev, false)
     }
 
-    if (!dev.model.is_sheetfed) {
+    if(!dev.model.is_sheetfed) {
         scanner_stop_action(*dev)
     }
 }
@@ -854,7 +854,7 @@ void CommandSetGl847::init_regs_for_shading(Genesys_Device* dev, const Genesys_S
     unsigned move_dpi = dev.motor.base_ydpi
 
     float calib_size_mm = 0
-    if (dev.settings.scan_method == ScanMethod::TRANSPARENCY ||
+    if(dev.settings.scan_method == ScanMethod::TRANSPARENCY ||
         dev.settings.scan_method == ScanMethod::TRANSPARENCY_INFRARED)
     {
         calib_size_mm = dev.model.y_size_calib_ta_mm
@@ -873,7 +873,7 @@ void CommandSetGl847::init_regs_for_shading(Genesys_Device* dev, const Genesys_S
                      ScanFlag::DISABLE_GAMMA |
                      ScanFlag::DISABLE_BUFFER_FULL_MOVE
 
-    if (dev.settings.scan_method == ScanMethod::TRANSPARENCY ||
+    if(dev.settings.scan_method == ScanMethod::TRANSPARENCY ||
         dev.settings.scan_method == ScanMethod::TRANSPARENCY_INFRARED)
     {
         // note: scanner_move_to_ta() function has already been called and the sensor is at the
@@ -940,12 +940,12 @@ void CommandSetGl847::send_shading_data(Genesys_Device* dev, const Genesys_Senso
 
   std::vector<uint8_t> buffer(pixels, 0)
 
-  DBG(DBG_io2, "%s: using chunks of %d (0x%04x) bytes\n", __func__, pixels, pixels)
+  DBG(DBG_io2, "%s: using chunks of %d(0x%04x) bytes\n", __func__, pixels, pixels)
 
   /* base addr of data has been written in reg D0-D4 in 4K word, so AHB address
    * is 8192*reg value */
 
-    if (dev.model.model_id == ModelId::CANON_5600F) {
+    if(dev.model.model_id == ModelId::CANON_5600F) {
         return
     }
 
@@ -957,7 +957,7 @@ void CommandSetGl847::send_shading_data(Genesys_Device* dev, const Genesys_Senso
       ptr = buffer.data()
 
         // iterate on both sensor segment
-        for (unsigned x = 0; x < pixels; x += 4 * sensor.shading_factor) {
+        for(unsigned x = 0; x < pixels; x += 4 * sensor.shading_factor) {
           /* coefficient source */
             src = (data + offset + i * length) + x
 
@@ -995,7 +995,7 @@ static void gl847_init_gpio(Genesys_Device* dev)
 {
     DBG_HELPER(dbg)
 
-    if (dev.model.model_id == ModelId::CANON_5600F) {
+    if(dev.model.model_id == ModelId::CANON_5600F) {
         apply_registers_ordered(dev.gpo.regs, {0xa6, 0xa7, 0x6f, 0x6e},
                                 [&](const GenesysRegisterSetting& reg)
         {
@@ -1005,21 +1005,21 @@ static void gl847_init_gpio(Genesys_Device* dev)
         std::vector<std::uint16_t> order1 = { 0xa7, 0xa6, 0x6e ]
         std::vector<std::uint16_t> order2 = { 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0xa8, 0xa9 ]
 
-        for (auto addr : order1) {
+        for(auto addr : order1) {
             dev.interface.write_register(addr, dev.gpo.regs.find_reg(addr).value)
         }
 
         dev.interface.write_register(REG_0x6C, 0x00); // FIXME: Likely not needed
 
-        for (auto addr : order2) {
+        for(auto addr : order2) {
             dev.interface.write_register(addr, dev.gpo.regs.find_reg(addr).value)
         }
 
-        for (const auto& reg : dev.gpo.regs) {
-            if (std::find(order1.begin(), order1.end(), reg.address) != order1.end()) {
+        for(const auto& reg : dev.gpo.regs) {
+            if(std::find(order1.begin(), order1.end(), reg.address) != order1.end()) {
                 continue
             }
-            if (std::find(order2.begin(), order2.end(), reg.address) != order2.end()) {
+            if(std::find(order2.begin(), order2.end(), reg.address) != order2.end()) {
                 continue
             }
             dev.interface.write_register(reg.address, reg.value)
@@ -1035,7 +1035,7 @@ static void gl847_init_memory_layout(Genesys_Device* dev)
     DBG_HELPER(dbg)
 
     // FIXME: move to initial register list
-    switch (dev.model.model_id) {
+    switch(dev.model.model_id) {
         case ModelId::CANON_LIDE_100:
         case ModelId::CANON_LIDE_200:
             dev.interface.write_register(REG_0x0B, 0x29)
@@ -1061,25 +1061,25 @@ void CommandSetGl847::asic_boot(Genesys_Device* dev, bool cold) const
     DBG_HELPER(dbg)
 
     // reset ASIC if cold boot
-    if (cold) {
+    if(cold) {
         dev.interface.write_register(0x0e, 0x01)
         dev.interface.write_register(0x0e, 0x00)
     }
 
     // test CHKVER
     uint8_t val = dev.interface.read_register(REG_0x40)
-    if (val & REG_0x40_CHKVER) {
+    if(val & REG_0x40_CHKVER) {
         val = dev.interface.read_register(0x00)
         DBG(DBG_info, "%s: reported version for genesys chip is 0x%02x\n", __func__, val)
     }
 
   /* Set default values for registers */
-  gl847_init_registers (dev)
+  gl847_init_registers(dev)
 
     // Write initial registers
     dev.interface.write_registers(dev.reg)
 
-    if (dev.model.model_id != ModelId::CANON_5600F) {
+    if(dev.model.model_id != ModelId::CANON_5600F) {
         // Enable DRAM by setting a rising edge on bit 3 of reg 0x0b
         // The initial register write also powers on SDRAM
         val = dev.reg.find_reg(0x0b).value & REG_0x0B_DRAMSEL
@@ -1099,9 +1099,9 @@ void CommandSetGl847::asic_boot(Genesys_Device* dev, bool cold) const
     gl847_init_gpio(dev)
 
     // setup internal memory layout
-    gl847_init_memory_layout (dev)
+    gl847_init_memory_layout(dev)
 
-    if (dev.model.model_id != ModelId::CANON_5600F) {
+    if(dev.model.model_id != ModelId::CANON_5600F) {
         // FIXME: move to memory layout
         dev.reg.init_reg(0xf8, 0x01)
         dev.interface.write_register(0xf8, dev.reg.find_reg(0xf8).value)
@@ -1114,7 +1114,7 @@ void CommandSetGl847::asic_boot(Genesys_Device* dev, bool cold) const
  */
 void CommandSetGl847::init(Genesys_Device* dev) const
 {
-  DBG_INIT ()
+  DBG_INIT()
     DBG_HELPER(dbg)
 
     sanei_genesys_asic_init(dev)
@@ -1153,7 +1153,7 @@ void CommandSetGl847::update_home_sensor_gpio(Genesys_Device& dev) const
 {
     DBG_HELPER(dbg)
 
-    if (dev.model.gpio_id == GpioId::CANON_LIDE_700F) {
+    if(dev.model.gpio_id == GpioId::CANON_LIDE_700F) {
         std::uint8_t val = dev.interface.read_register(REG_0x6C)
         val &= ~REG_0x6C_GPIO10
         dev.interface.write_register(REG_0x6C, val)

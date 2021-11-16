@@ -1,8 +1,8 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 1998 David Huggins-Daines, heavily based on the Apple
-   scanner driver (since Abaton scanners are very similar to old Apple
-   scanners), which is (C) 1998 Milon Firikis, which is, in turn, based
+   Copyright(C) 1998 David Huggins-Daines, heavily based on the Apple
+   scanner driver(since Abaton scanners are very similar to old Apple
+   scanners), which is(C) 1998 Milon Firikis, which is, in turn, based
    on the Mustek driver, (C) 1996-7 David Mosberger-Tang.
 
    This file is part of the SANE package.
@@ -10,7 +10,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -131,9 +131,9 @@ Abaton_Scanner
 
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 1998 David Huggins-Daines, heavily based on the Apple
-   scanner driver (since Abaton scanners are very similar to old Apple
-   scanners), which is (C) 1998 Milon Firikis, which is, in turn, based
+   Copyright(C) 1998 David Huggins-Daines, heavily based on the Apple
+   scanner driver(since Abaton scanners are very similar to old Apple
+   scanners), which is(C) 1998 Milon Firikis, which is, in turn, based
    on the Mustek driver, (C) 1996-7 David Mosberger-Tang.
 
    This file is part of the SANE package.
@@ -141,7 +141,7 @@ Abaton_Scanner
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -292,14 +292,14 @@ static const uint8_t test_unit_ready[] =
 /* store an 8-bit-wide value at the location specified by ptr */
 #define STORE8(ptr, val) (*((uint8_t *) ptr) = val)
 
-/* store a 16-bit-wide value in network (big-endian) byte order */
+/* store a 16-bit-wide value in network(big-endian) byte order */
 #define STORE16(ptr, val)			\
   {						\
   *((uint8_t *) ptr)     = (val >> 8) & 0xff;	\
   *((uint8_t *) ptr+1)   = val & 0xff;		\
   }
 
-/* store a 24-bit-wide value in network (big-endian) byte order */
+/* store a 24-bit-wide value in network(big-endian) byte order */
 #define STORE24(ptr, val)			\
   {						\
   *((uint8_t *) ptr)     = (val >> 16) & 0xff;	\
@@ -307,7 +307,7 @@ static const uint8_t test_unit_ready[] =
   *((uint8_t *) ptr+2)   = val & 0xff;		\
   }
 
-/* store a 32-bit-wide value in network (big-endian) byte order */
+/* store a 32-bit-wide value in network(big-endian) byte order */
 #define STORE32(ptr, val)			\
   {						\
   *((uint8_t *) ptr)     = (val >> 24) & 0xff;	\
@@ -323,38 +323,38 @@ static const uint8_t test_unit_ready[] =
   (*((uint8_t *) ptr+2))
 
 static Sane.Status
-wait_ready (Int fd)
+wait_ready(Int fd)
 {
 #define MAX_WAITING_TIME	60	/* one minute, at most */
   struct timeval now, start
   Sane.Status status
 
-  gettimeofday (&start, 0)
+  gettimeofday(&start, 0)
 
-  while (1)
+  while(1)
     {
-      DBG (USER_MESSAGE, "wait_ready: sending TEST_UNIT_READY\n")
+      DBG(USER_MESSAGE, "wait_ready: sending TEST_UNIT_READY\n")
 
-      status = sanei_scsi_cmd (fd, test_unit_ready, sizeof (test_unit_ready),
+      status = sanei_scsi_cmd(fd, test_unit_ready, sizeof(test_unit_ready),
 			       0, 0)
-      switch (status)
+      switch(status)
 	{
 	default:
 	  /* Ignore errors while waiting for scanner to become ready.
 	     Some SCSI drivers return EIO while the scanner is
 	     returning to the home position.  */
-	  DBG (ERROR_MESSAGE, "wait_ready: test unit ready failed (%s)\n",
-	       Sane.strstatus (status))
+	  DBG(ERROR_MESSAGE, "wait_ready: test unit ready failed(%s)\n",
+	       Sane.strstatus(status))
 	  /* fall through */
 	case Sane.STATUS_DEVICE_BUSY:
-	  gettimeofday (&now, 0)
-	  if (now.tv_sec - start.tv_sec >= MAX_WAITING_TIME)
+	  gettimeofday(&now, 0)
+	  if(now.tv_sec - start.tv_sec >= MAX_WAITING_TIME)
 	    {
-	      DBG (ERROR_MESSAGE, "wait_ready: timed out after %ld seconds\n",
+	      DBG(ERROR_MESSAGE, "wait_ready: timed out after %ld seconds\n",
 		   (long) (now.tv_sec - start.tv_sec))
 	      return Sane.STATUS_INVAL
 	    }
-	  usleep (100000);	/* retry after 100ms */
+	  usleep(100000);	/* retry after 100ms */
 	  break
 
 	case Sane.STATUS_GOOD:
@@ -365,34 +365,34 @@ wait_ready (Int fd)
 }
 
 static Sane.Status
-sense_handler (Int scsi_fd, u_char * result, void *arg)
+sense_handler(Int scsi_fd, u_char * result, void *arg)
 {
   scsi_fd = scsi_fd;			/* silence gcc */
   arg = arg;					/* silence gcc */
 
-  switch (result[2] & 0x0F)
+  switch(result[2] & 0x0F)
     {
     case 0:
-      DBG (USER_MESSAGE, "Sense: No sense Error\n")
+      DBG(USER_MESSAGE, "Sense: No sense Error\n")
       return Sane.STATUS_GOOD
     case 2:
-      DBG (ERROR_MESSAGE, "Sense: Scanner not ready\n")
+      DBG(ERROR_MESSAGE, "Sense: Scanner not ready\n")
       return Sane.STATUS_DEVICE_BUSY
     case 4:
-      DBG (ERROR_MESSAGE, "Sense: Hardware Error. Read more...\n")
+      DBG(ERROR_MESSAGE, "Sense: Hardware Error. Read more...\n")
       return Sane.STATUS_IO_ERROR
     case 5:
-      DBG (ERROR_MESSAGE, "Sense: Illegal request\n")
+      DBG(ERROR_MESSAGE, "Sense: Illegal request\n")
       return Sane.STATUS_UNSUPPORTED
     case 6:
-      DBG (ERROR_MESSAGE, "Sense: Unit Attention (Wait until scanner "
+      DBG(ERROR_MESSAGE, "Sense: Unit Attention(Wait until scanner "
 	   "boots)\n")
       return Sane.STATUS_DEVICE_BUSY
     case 9:
-      DBG (ERROR_MESSAGE, "Sense: Vendor Unique. Read more...\n")
+      DBG(ERROR_MESSAGE, "Sense: Vendor Unique. Read more...\n")
       return Sane.STATUS_IO_ERROR
     default:
-      DBG (ERROR_MESSAGE, "Sense: Unknown Sense Key. Read more...\n")
+      DBG(ERROR_MESSAGE, "Sense: Unknown Sense Key. Read more...\n")
       return Sane.STATUS_IO_ERROR
     }
 
@@ -400,59 +400,59 @@ sense_handler (Int scsi_fd, u_char * result, void *arg)
 }
 
 static Sane.Status
-request_sense (Abaton_Scanner * s)
+request_sense(Abaton_Scanner * s)
 {
   uint8_t cmd[6]
   uint8_t result[22]
-  size_t size = sizeof (result)
+  size_t size = sizeof(result)
   Sane.Status status
 
-  memset (cmd, 0, sizeof (cmd))
-  memset (result, 0, sizeof (result))
+  memset(cmd, 0, sizeof(cmd))
+  memset(result, 0, sizeof(result))
 
   cmd[0] = REQUEST_SENSE
-  STORE8 (cmd + 4, sizeof (result))
-  sanei_scsi_cmd (s.fd, cmd, sizeof (cmd), result, &size)
+  STORE8 (cmd + 4, sizeof(result))
+  sanei_scsi_cmd(s.fd, cmd, sizeof(cmd), result, &size)
 
-  if (result[7] != 14)
+  if(result[7] != 14)
     {
-      DBG (ERROR_MESSAGE, "Additional Length %u\n", (unsigned Int) result[7])
+      DBG(ERROR_MESSAGE, "Additional Length %u\n", (unsigned Int) result[7])
       status = Sane.STATUS_IO_ERROR
     }
 
 
-  status = sense_handler (s.fd, result, NULL)
-  if (status == Sane.STATUS_IO_ERROR)
+  status = sense_handler(s.fd, result, NULL)
+  if(status == Sane.STATUS_IO_ERROR)
     {
 
       /* Since I haven't figured out the vendor unique error codes on
 	 this thing, I'll just handle the normal ones for now */
 
-      if (result[18] & 0x80)
-	DBG (ERROR_MESSAGE, "Sense: Dim Light (output of lamp below 70%%).\n")
+      if(result[18] & 0x80)
+	DBG(ERROR_MESSAGE, "Sense: Dim Light(output of lamp below 70%%).\n")
 
-      if (result[18] & 0x40)
-	DBG (ERROR_MESSAGE, "Sense: No Light at all.\n")
+      if(result[18] & 0x40)
+	DBG(ERROR_MESSAGE, "Sense: No Light at all.\n")
 
-      if (result[18] & 0x20)
-	DBG (ERROR_MESSAGE, "Sense: No Home.\n")
+      if(result[18] & 0x20)
+	DBG(ERROR_MESSAGE, "Sense: No Home.\n")
 
-      if (result[18] & 0x10)
-	DBG (ERROR_MESSAGE, "Sense: No Limit. Tried to scan out of range.\n")
+      if(result[18] & 0x10)
+	DBG(ERROR_MESSAGE, "Sense: No Limit. Tried to scan out of range.\n")
     }
 
-  DBG (USER_MESSAGE, "Sense: Optical gain %u.\n", (unsigned Int) result[20])
+  DBG(USER_MESSAGE, "Sense: Optical gain %u.\n", (unsigned Int) result[20])
   return status
 }
 
 static Sane.Status
-set_window (Abaton_Scanner * s)
+set_window(Abaton_Scanner * s)
 {
   uint8_t cmd[10 + 40]
   uint8_t *window = cmd + 10 + 8
   Int invert
 
-  memset (cmd, 0, sizeof (cmd))
+  memset(cmd, 0, sizeof(cmd))
   cmd[0] = SET_WINDOW
   cmd[8] = 40
 
@@ -472,39 +472,39 @@ set_window (Abaton_Scanner * s)
 
   invert = s.val[OPT_NEGATIVE].w
 
-  if (!strcmp (s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART))
+  if(!strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART))
     {
       STORE8 (window + 17, 0)
     }
-  else if (!strcmp (s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_HALFTONE))
+  else if(!strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_HALFTONE))
     {
       STORE8 (window + 17, 1)
     }
-  else if (!strcmp (s.val[OPT_MODE].s, "Gray256")
-	   || !strcmp (s.val[OPT_MODE].s, "Gray16"))
+  else if(!strcmp(s.val[OPT_MODE].s, "Gray256")
+	   || !strcmp(s.val[OPT_MODE].s, "Gray16"))
     {
       STORE8 (window + 17, 2)
       invert = !s.val[OPT_NEGATIVE].w
     }
   else
     {
-      DBG (ERROR_MESSAGE, "Can't match mode %s\n", s.val[OPT_MODE].s)
+      DBG(ERROR_MESSAGE, "Can't match mode %s\n", s.val[OPT_MODE].s)
       return Sane.STATUS_INVAL
     }
 
   STORE8 (window + 18, s.bpp)
 
-  if (!strcmp (s.val[OPT_HALFTONE_PATTERN].s, "spiral"))
+  if(!strcmp(s.val[OPT_HALFTONE_PATTERN].s, "spiral"))
     {
       STORE8 (window + 20, 0)
     }
-  else if (!strcmp (s.val[OPT_HALFTONE_PATTERN].s, "bayer"))
+  else if(!strcmp(s.val[OPT_HALFTONE_PATTERN].s, "bayer"))
     {
       STORE8 (window + 20, 1)
     }
   else
     {
-      DBG (ERROR_MESSAGE, "Can't match haftone pattern %s\n",
+      DBG(ERROR_MESSAGE, "Can't match haftone pattern %s\n",
 	   s.val[OPT_HALFTONE_PATTERN].s)
       return Sane.STATUS_INVAL
     }
@@ -515,26 +515,26 @@ set_window (Abaton_Scanner * s)
 
   STORE16 (window + 22, (s.val[OPT_MIRROR].w != 0))
 
-  return sanei_scsi_cmd (s.fd, cmd, sizeof (cmd), 0, 0)
+  return sanei_scsi_cmd(s.fd, cmd, sizeof(cmd), 0, 0)
 }
 
 static Sane.Status
-start_scan (Abaton_Scanner * s)
+start_scan(Abaton_Scanner * s)
 {
   Sane.Status status
   uint8_t start[7]
 
 
-  memset (start, 0, sizeof (start))
+  memset(start, 0, sizeof(start))
   start[0] = START_STOP
   start[4] = 1
 
-  status = sanei_scsi_cmd (s.fd, start, sizeof (start), 0, 0)
+  status = sanei_scsi_cmd(s.fd, start, sizeof(start), 0, 0)
   return status
 }
 
 static Sane.Status
-attach (const char *devname, Abaton_Device ** devp, Int may_wait)
+attach(const char *devname, Abaton_Device ** devp, Int may_wait)
 {
   char result[INQ_LEN]
   const char *model_name = result + 44
@@ -543,97 +543,97 @@ attach (const char *devname, Abaton_Device ** devp, Int may_wait)
   Sane.Status status
   size_t size
 
-  for (dev = first_dev; dev; dev = dev.next)
-    if (strcmp (dev.sane.name, devname) == 0)
+  for(dev = first_dev; dev; dev = dev.next)
+    if(strcmp(dev.sane.name, devname) == 0)
       {
-	if (devp)
+	if(devp)
 	  *devp = dev
 	return Sane.STATUS_GOOD
       }
 
-  DBG (USER_MESSAGE, "attach: opening %s\n", devname)
-  status = sanei_scsi_open (devname, &fd, sense_handler, 0)
-  if (status != Sane.STATUS_GOOD)
+  DBG(USER_MESSAGE, "attach: opening %s\n", devname)
+  status = sanei_scsi_open(devname, &fd, sense_handler, 0)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (ERROR_MESSAGE, "attach: open failed (%s)\n",
-	   Sane.strstatus (status))
+      DBG(ERROR_MESSAGE, "attach: open failed(%s)\n",
+	   Sane.strstatus(status))
       return Sane.STATUS_INVAL
     }
 
-  if (may_wait)
-    wait_ready (fd)
+  if(may_wait)
+    wait_ready(fd)
 
-  DBG (USER_MESSAGE, "attach: sending INQUIRY\n")
-  size = sizeof (result)
-  status = sanei_scsi_cmd (fd, inquiry, sizeof (inquiry), result, &size)
-  if (status != Sane.STATUS_GOOD)
+  DBG(USER_MESSAGE, "attach: sending INQUIRY\n")
+  size = sizeof(result)
+  status = sanei_scsi_cmd(fd, inquiry, sizeof(inquiry), result, &size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (ERROR_MESSAGE, "attach: inquiry failed (%s)\n",
-	   Sane.strstatus (status))
-      sanei_scsi_close (fd)
+      DBG(ERROR_MESSAGE, "attach: inquiry failed(%s)\n",
+	   Sane.strstatus(status))
+      sanei_scsi_close(fd)
       return status
     }
 
-  status = wait_ready (fd)
-  sanei_scsi_close (fd)
-  if (status != Sane.STATUS_GOOD)
+  status = wait_ready(fd)
+  sanei_scsi_close(fd)
+  if(status != Sane.STATUS_GOOD)
     return status
 
   /* check that we've got an Abaton */
-  abaton_scanner = (strncmp (result + 8, "ABATON  ", 8) == 0)
+  abaton_scanner = (strncmp(result + 8, "ABATON  ", 8) == 0)
   model_name = result + 16
 
   /* make sure it's a scanner ;-) */
   abaton_scanner = abaton_scanner && (result[0] == 0x06)
 
-  if (!abaton_scanner)
+  if(!abaton_scanner)
     {
-      DBG (ERROR_MESSAGE, "attach: device doesn't look like an Abaton scanner "
+      DBG(ERROR_MESSAGE, "attach: device doesn't look like an Abaton scanner "
 	   "(result[0]=%#02x)\n", result[0])
       return Sane.STATUS_INVAL
     }
 
-  dev = malloc (sizeof (*dev))
-  if (!dev)
+  dev = malloc(sizeof(*dev))
+  if(!dev)
     return Sane.STATUS_NO_MEM
 
-  memset (dev, 0, sizeof (*dev))
+  memset(dev, 0, sizeof(*dev))
 
-  dev.sane.name = strdup (devname)
+  dev.sane.name = strdup(devname)
   dev.sane.vendor = "Abaton"
-  dev.sane.model = strndup (model_name, 16)
+  dev.sane.model = strndup(model_name, 16)
   dev.sane.type = "flatbed scanner"
 
-  if (!strncmp (model_name, "SCAN 300/GS", 11))
+  if(!strncmp(model_name, "SCAN 300/GS", 11))
     {
       dev.ScannerModel = ABATON_300GS
     }
-  else if (!strncmp (model_name, "SCAN 300/S", 10))
+  else if(!strncmp(model_name, "SCAN 300/S", 10))
     {
       dev.ScannerModel = ABATON_300S
     }
 
-  DBG (USER_MESSAGE, "attach: found Abaton scanner model %s (%s)\n",
+  DBG(USER_MESSAGE, "attach: found Abaton scanner model %s(%s)\n",
        dev.sane.model, dev.sane.type)
 
   ++num_devices
   dev.next = first_dev
   first_dev = dev
 
-  if (devp)
+  if(devp)
     *devp = dev
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-attach_one (const char *devname)
+attach_one(const char *devname)
 {
-  return attach (devname, 0, Sane.FALSE)
+  return attach(devname, 0, Sane.FALSE)
 }
 
 static Sane.Status
-calc_parameters (Abaton_Scanner * s)
+calc_parameters(Abaton_Scanner * s)
 {
   String val = s.val[OPT_MODE].s
   Sane.Status status = Sane.STATUS_GOOD
@@ -641,26 +641,26 @@ calc_parameters (Abaton_Scanner * s)
   Int dpiy = s.val[OPT_Y_RESOLUTION].w
   double ulx, uly, width, height
 
-  DBG (FLOW_CONTROL, "Entering calc_parameters\n")
+  DBG(FLOW_CONTROL, "Entering calc_parameters\n")
 
-  if (!strcmp (val, Sane.VALUE_SCAN_MODE_LINEART) || !strcmp (val, Sane.VALUE_SCAN_MODE_HALFTONE))
+  if(!strcmp(val, Sane.VALUE_SCAN_MODE_LINEART) || !strcmp(val, Sane.VALUE_SCAN_MODE_HALFTONE))
     {
       s.params.depth = 1
       s.bpp = 1
     }
-  else if (!strcmp (val, "Gray16"))
+  else if(!strcmp(val, "Gray16"))
     {
       s.params.depth = 8
       s.bpp = 4
     }
-  else if (!strcmp (val, "Gray256"))
+  else if(!strcmp(val, "Gray256"))
     {
       s.params.depth = 8
       s.bpp = 8
     }
   else
     {
-      DBG (ERROR_MESSAGE, "calc_parameters: Invalid mode %s\n", (char *) val)
+      DBG(ERROR_MESSAGE, "calc_parameters: Invalid mode %s\n", (char *) val)
       status = Sane.STATUS_INVAL
     }
 
@@ -670,7 +670,7 @@ calc_parameters (Abaton_Scanner * s)
   width  = (double) s.val[OPT_BR_X].w / MM_PER_INCH - ulx
   height = (double) s.val[OPT_BR_Y].w / MM_PER_INCH - uly
 
-  DBG (VARIABLE_CONTROL, "(inches) ulx: %f, uly: %f, width: %f, height: %f\n",
+  DBG(VARIABLE_CONTROL, "(inches) ulx: %f, uly: %f, width: %f, height: %f\n",
        ulx, uly, width, height)
 
   /* turn 'em into pixel quantities */
@@ -679,15 +679,15 @@ calc_parameters (Abaton_Scanner * s)
   s.Width  = width  * dpix
   s.Height = height * dpiy
 
-  DBG (VARIABLE_CONTROL, "(pixels) ulx: %d, uly: %d, width: %d, height: %d\n",
+  DBG(VARIABLE_CONTROL, "(pixels) ulx: %d, uly: %d, width: %d, height: %d\n",
        s.ULx, s.ULy, s.Width, s.Height)
 
   /* floor width to a byte multiple */
-  if ((s.Width * s.bpp) % 8)
+  if((s.Width * s.bpp) % 8)
     {
       s.Width /= 8
       s.Width *= 8
-      DBG (VARIABLE_CONTROL, "Adapting to width %d\n", s.Width)
+      DBG(VARIABLE_CONTROL, "Adapting to width %d\n", s.Width)
     }
 
   s.params.pixels_per_line = s.Width
@@ -695,67 +695,67 @@ calc_parameters (Abaton_Scanner * s)
   s.params.bytes_per_line = s.params.pixels_per_line * s.params.depth / 8
 
 
-  DBG (VARIABLE_CONTROL, "format=%d\n", s.params.format)
-  DBG (VARIABLE_CONTROL, "last_frame=%d\n", s.params.last_frame)
-  DBG (VARIABLE_CONTROL, "lines=%d\n", s.params.lines)
-  DBG (VARIABLE_CONTROL, "depth=%d (%d)\n", s.params.depth, s.bpp)
-  DBG (VARIABLE_CONTROL, "pixels_per_line=%d\n", s.params.pixels_per_line)
-  DBG (VARIABLE_CONTROL, "bytes_per_line=%d\n", s.params.bytes_per_line)
-  DBG (VARIABLE_CONTROL, "Pixels %dx%dx%d\n",
+  DBG(VARIABLE_CONTROL, "format=%d\n", s.params.format)
+  DBG(VARIABLE_CONTROL, "last_frame=%d\n", s.params.last_frame)
+  DBG(VARIABLE_CONTROL, "lines=%d\n", s.params.lines)
+  DBG(VARIABLE_CONTROL, "depth=%d(%d)\n", s.params.depth, s.bpp)
+  DBG(VARIABLE_CONTROL, "pixels_per_line=%d\n", s.params.pixels_per_line)
+  DBG(VARIABLE_CONTROL, "bytes_per_line=%d\n", s.params.bytes_per_line)
+  DBG(VARIABLE_CONTROL, "Pixels %dx%dx%d\n",
        s.params.pixels_per_line, s.params.lines, 1 << s.params.depth)
 
-  DBG (FLOW_CONTROL, "Leaving calc_parameters\n")
+  DBG(FLOW_CONTROL, "Leaving calc_parameters\n")
   return status
 }
 
 static Sane.Status
-mode_update (Sane.Handle handle, char *val)
+mode_update(Sane.Handle handle, char *val)
 {
   Abaton_Scanner *s = handle
 
-  if (!strcmp (val, Sane.VALUE_SCAN_MODE_LINEART))
+  if(!strcmp(val, Sane.VALUE_SCAN_MODE_LINEART))
     {
-      DISABLE (OPT_BRIGHTNESS)
-      DISABLE (OPT_CONTRAST)
-      ENABLE (OPT_THRESHOLD)
-      DISABLE (OPT_HALFTONE_PATTERN)
+      DISABLE(OPT_BRIGHTNESS)
+      DISABLE(OPT_CONTRAST)
+      ENABLE(OPT_THRESHOLD)
+      DISABLE(OPT_HALFTONE_PATTERN)
     }
-  else if (!strcmp (val, Sane.VALUE_SCAN_MODE_HALFTONE))
+  else if(!strcmp(val, Sane.VALUE_SCAN_MODE_HALFTONE))
     {
-      ENABLE (OPT_BRIGHTNESS)
-      ENABLE (OPT_CONTRAST)
-      DISABLE (OPT_THRESHOLD)
-      ENABLE (OPT_HALFTONE_PATTERN)
+      ENABLE(OPT_BRIGHTNESS)
+      ENABLE(OPT_CONTRAST)
+      DISABLE(OPT_THRESHOLD)
+      ENABLE(OPT_HALFTONE_PATTERN)
     }
-  else if (!strcmp (val, "Gray16") || !strcmp (val, "Gray256"))
+  else if(!strcmp(val, "Gray16") || !strcmp(val, "Gray256"))
     {
-      ENABLE (OPT_BRIGHTNESS)
-      ENABLE (OPT_CONTRAST)
-      DISABLE (OPT_THRESHOLD)
-      DISABLE (OPT_HALFTONE_PATTERN)
+      ENABLE(OPT_BRIGHTNESS)
+      ENABLE(OPT_CONTRAST)
+      DISABLE(OPT_THRESHOLD)
+      DISABLE(OPT_HALFTONE_PATTERN)
     }				/* End of Gray */
   else
     {
-      DBG (ERROR_MESSAGE, "Invalid mode %s\n", (char *) val)
+      DBG(ERROR_MESSAGE, "Invalid mode %s\n", (char *) val)
       return Sane.STATUS_INVAL
     }
 
-  calc_parameters (s)
+  calc_parameters(s)
 
   return Sane.STATUS_GOOD
 }
 
 /* find the longest of a list of strings */
 static size_t
-max_string_size (const Sane.String_Const strings[])
+max_string_size(const Sane.String_Const strings[])
 {
   size_t size, max_size = 0
   var i: Int
 
-  for (i = 0; strings[i]; ++i)
+  for(i = 0; strings[i]; ++i)
     {
-      size = strlen (strings[i]) + 1
-      if (size > max_size)
+      size = strlen(strings[i]) + 1
+      if(size > max_size)
 	max_size = size
     }
 
@@ -763,16 +763,16 @@ max_string_size (const Sane.String_Const strings[])
 }
 
 static Sane.Status
-init_options (Abaton_Scanner * s)
+init_options(Abaton_Scanner * s)
 {
   var i: Int
 
-  memset (s.opt, 0, sizeof (s.opt))
-  memset (s.val, 0, sizeof (s.val))
+  memset(s.opt, 0, sizeof(s.opt))
+  memset(s.val, 0, sizeof(s.val))
 
-  for (i = 0; i < NUM_OPTIONS; ++i)
+  for(i = 0; i < NUM_OPTIONS; ++i)
     {
-      s.opt[i].size = sizeof (Sane.Word)
+      s.opt[i].size = sizeof(Sane.Word)
       s.opt[i].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     }
 
@@ -792,7 +792,7 @@ init_options (Abaton_Scanner * s)
 
   mode_list[0]=Sane.VALUE_SCAN_MODE_LINEART
 
-  switch (s.hw.ScannerModel)
+  switch(s.hw.ScannerModel)
     {
     case ABATON_300GS:
       mode_list[1]=Sane.VALUE_SCAN_MODE_HALFTONE
@@ -812,9 +812,9 @@ init_options (Abaton_Scanner * s)
   s.opt[OPT_MODE].desc = Sane.DESC_SCAN_MODE
   s.opt[OPT_MODE].type = Sane.TYPE_STRING
   s.opt[OPT_MODE].constraint_type = Sane.CONSTRAINT_STRING_LIST
-  s.opt[OPT_MODE].size = max_string_size (mode_list)
+  s.opt[OPT_MODE].size = max_string_size(mode_list)
   s.opt[OPT_MODE].constraint.string_list = mode_list
-  s.val[OPT_MODE].s = strdup (mode_list[0])
+  s.val[OPT_MODE].s = strdup(mode_list[0])
 
   /* resolution - horizontal */
   s.opt[OPT_X_RESOLUTION].name = Sane.NAME_SCAN_RESOLUTION
@@ -858,12 +858,12 @@ init_options (Abaton_Scanner * s)
   s.opt[OPT_HALFTONE_PATTERN].name = Sane.NAME_HALFTONE_PATTERN
   s.opt[OPT_HALFTONE_PATTERN].title = Sane.TITLE_HALFTONE_PATTERN
   s.opt[OPT_HALFTONE_PATTERN].desc = Sane.DESC_HALFTONE_PATTERN
-  s.opt[OPT_HALFTONE_PATTERN].size = max_string_size (halftone_pattern_list)
+  s.opt[OPT_HALFTONE_PATTERN].size = max_string_size(halftone_pattern_list)
   s.opt[OPT_HALFTONE_PATTERN].type = Sane.TYPE_STRING
   s.opt[OPT_HALFTONE_PATTERN].cap |= Sane.CAP_INACTIVE
   s.opt[OPT_HALFTONE_PATTERN].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_HALFTONE_PATTERN].constraint.string_list = halftone_pattern_list
-  s.val[OPT_HALFTONE_PATTERN].s = strdup (halftone_pattern_list[0])
+  s.val[OPT_HALFTONE_PATTERN].s = strdup(halftone_pattern_list[0])
 
 
   /* "Geometry" group: */
@@ -975,7 +975,7 @@ init_options (Abaton_Scanner * s)
 }
 
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 {
   char dev_name[PATH_MAX]
   size_t len
@@ -983,80 +983,80 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
 
   authorize = authorize;		/* silence gcc */
 
-  DBG_INIT ()
+  DBG_INIT()
 
-  if (version_code)
-    *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, 0)
+  if(version_code)
+    *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, 0)
 
-  fp = sanei_config_open (ABATON_CONFIG_FILE)
-  if (!fp)
+  fp = sanei_config_open(ABATON_CONFIG_FILE)
+  if(!fp)
     {
       /* default to /dev/scanner instead of insisting on config file */
-      attach ("/dev/scanner", 0, Sane.FALSE)
+      attach("/dev/scanner", 0, Sane.FALSE)
       return Sane.STATUS_GOOD
     }
 
-  while (sanei_config_read (dev_name, sizeof (dev_name), fp))
+  while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if (dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == '#')	/* ignore line comments */
 	continue
 
-      len = strlen (dev_name)
+      len = strlen(dev_name)
 
-      if (!len)
+      if(!len)
 	continue;		/* ignore empty lines */
 
-      if (strncmp (dev_name, "option", 6) == 0
-	  && isspace (dev_name[6]))
+      if(strncmp(dev_name, "option", 6) == 0
+	  && isspace(dev_name[6]))
 	{
 	  const char *str = dev_name + 7
 
-	  while (isspace (*str))
+	  while(isspace(*str))
 	    ++str
 
 	  continue
 	}
 
-      sanei_config_attach_matching_devices (dev_name, attach_one)
+      sanei_config_attach_matching_devices(dev_name, attach_one)
     }
-  fclose (fp)
+  fclose(fp)
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   Abaton_Device *dev, *next
 
-  for (dev = first_dev; dev; dev = next)
+  for(dev = first_dev; dev; dev = next)
     {
       next = dev.next
-      free ((void *) dev.sane.name)
-      free ((void *) dev.sane.model)
-      free (dev)
+      free((void *) dev.sane.name)
+      free((void *) dev.sane.model)
+      free(dev)
     }
 
-  if (devlist)
-    free (devlist)
+  if(devlist)
+    free(devlist)
 }
 
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 {
   Abaton_Device *dev
   var i: Int
 
   local_only = local_only;		/* silence gcc */
 
-  if (devlist)
-    free (devlist)
+  if(devlist)
+    free(devlist)
 
-  devlist = malloc ((num_devices + 1) * sizeof (devlist[0]))
-  if (!devlist)
+  devlist = malloc((num_devices + 1) * sizeof(devlist[0]))
+  if(!devlist)
     return Sane.STATUS_NO_MEM
 
   i = 0
-  for (dev = first_dev; i < num_devices; dev = dev.next)
+  for(dev = first_dev; i < num_devices; dev = dev.next)
     devlist[i++] = &dev.sane
   devlist[i++] = 0
 
@@ -1065,22 +1065,22 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
 }
 
 Sane.Status
-Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
+Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 {
   Abaton_Device *dev
   Sane.Status status
   Abaton_Scanner *s
 
-  if (devicename[0])
+  if(devicename[0])
     {
-      for (dev = first_dev; dev; dev = dev.next)
-	if (strcmp (dev.sane.name, devicename) == 0)
+      for(dev = first_dev; dev; dev = dev.next)
+	if(strcmp(dev.sane.name, devicename) == 0)
 	  break
 
-      if (!dev)
+      if(!dev)
 	{
-	  status = attach (devicename, &dev, Sane.TRUE)
-	  if (status != Sane.STATUS_GOOD)
+	  status = attach(devicename, &dev, Sane.TRUE)
+	  if(status != Sane.STATUS_GOOD)
 	    return status
 	}
     }
@@ -1088,17 +1088,17 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
     /* empty devicname -> use first device */
     dev = first_dev
 
-  if (!dev)
+  if(!dev)
     return Sane.STATUS_INVAL
 
-  s = malloc (sizeof (*s))
-  if (!s)
+  s = malloc(sizeof(*s))
+  if(!s)
     return Sane.STATUS_NO_MEM
-  memset (s, 0, sizeof (*s))
+  memset(s, 0, sizeof(*s))
   s.fd = -1
   s.hw = dev
 
-  init_options (s)
+  init_options(s)
 
   /* set up some universal parameters */
   s.params.last_frame = Sane.TRUE
@@ -1113,45 +1113,45 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
 }
 
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
   Abaton_Scanner *prev, *s
 
   /* remove handle from list of open handles: */
   prev = 0
-  for (s = first_handle; s; s = s.next)
+  for(s = first_handle; s; s = s.next)
     {
-      if (s == (Abaton_Scanner *) handle)
+      if(s == (Abaton_Scanner *) handle)
 	break
       prev = s
     }
-  if (!s)
+  if(!s)
     {
-      DBG (ERROR_MESSAGE, "close: invalid handle %p\n", handle)
+      DBG(ERROR_MESSAGE, "close: invalid handle %p\n", handle)
       return;			/* oops, not a handle we know about */
     }
 
-  if (prev)
+  if(prev)
     prev.next = s.next
   else
     first_handle = s.next
 
-  free (handle)
+  free(handle)
 }
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
   Abaton_Scanner *s = handle
 
-  if ((unsigned) option >= NUM_OPTIONS)
+  if((unsigned) option >= NUM_OPTIONS)
     return NULL
 
   return s.opt + option
 }
 
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
 		     Sane.Action action, void *val, Int * info)
 {
   Abaton_Scanner *s = handle
@@ -1159,23 +1159,23 @@ Sane.control_option (Sane.Handle handle, Int option,
   Sane.Word cap
 
 
-  if (option < 0 || option >= NUM_OPTIONS)
+  if(option < 0 || option >= NUM_OPTIONS)
     return Sane.STATUS_INVAL
 
-  if (info != NULL)
+  if(info != NULL)
     *info = 0
 
-  if (s.scanning)
+  if(s.scanning)
     return Sane.STATUS_DEVICE_BUSY
 
   cap = s.opt[option].cap
 
-  if (!Sane.OPTION_IS_ACTIVE (cap))
+  if(!Sane.OPTION_IS_ACTIVE(cap))
     return Sane.STATUS_INVAL
 
-  if (action == Sane.ACTION_GET_VALUE)
+  if(action == Sane.ACTION_GET_VALUE)
     {
-      switch (option)
+      switch(option)
 	{
 	  /* word options: */
 	case OPT_NUM_OPTS:
@@ -1199,72 +1199,72 @@ Sane.control_option (Sane.Handle handle, Int option,
 
 	case OPT_MODE:
 	case OPT_HALFTONE_PATTERN:
-	  status = sanei_constrain_value (s.opt + option, s.val[option].s,
+	  status = sanei_constrain_value(s.opt + option, s.val[option].s,
 					  info)
-	  strcpy (val, s.val[option].s)
+	  strcpy(val, s.val[option].s)
 	  return Sane.STATUS_GOOD
 	}
     }
-  else if (action == Sane.ACTION_SET_VALUE)
+  else if(action == Sane.ACTION_SET_VALUE)
     {
-      if (!Sane.OPTION_IS_SETTABLE (cap))
+      if(!Sane.OPTION_IS_SETTABLE(cap))
 	return Sane.STATUS_INVAL
 
-      status = sanei_constrain_value (s.opt + option, val, info)
+      status = sanei_constrain_value(s.opt + option, val, info)
 
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	return status
 
 
-      switch (option)
+      switch(option)
 	{
 	  /* resolution should be uniform for previews, or when the
 	     user says so. */
 	case OPT_PREVIEW:
 	  s.val[option].w = *(Sane.Word *) val
-	  if (*(Sane.Word *) val) {
+	  if(*(Sane.Word *) val) {
 	    s.val[OPT_Y_RESOLUTION].w = s.val[OPT_X_RESOLUTION].w
-	    if (info)
+	    if(info)
 	      *info |= Sane.INFO_RELOAD_OPTIONS
 	  }
 	  /* always recalculate! */
-	  calc_parameters (s)
-	  if (info)
+	  calc_parameters(s)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 	  return Sane.STATUS_GOOD
 
 	case OPT_RESOLUTION_BIND:
 	  s.val[option].w = *(Sane.Word *) val
-	  if (*(Sane.Word *) val) {
+	  if(*(Sane.Word *) val) {
 	    s.val[OPT_Y_RESOLUTION].w = s.val[OPT_X_RESOLUTION].w
-	    calc_parameters (s)
-	    if (info)
+	    calc_parameters(s)
+	    if(info)
 	      *info |= Sane.INFO_RELOAD_PARAMS |
 		Sane.INFO_RELOAD_OPTIONS
 	  }
 	  return Sane.STATUS_GOOD
 
 	case OPT_X_RESOLUTION:
-	  if (s.val[OPT_PREVIEW].w || s.val[OPT_RESOLUTION_BIND].w) {
+	  if(s.val[OPT_PREVIEW].w || s.val[OPT_RESOLUTION_BIND].w) {
 	    s.val[OPT_Y_RESOLUTION].w = *(Sane.Word *)val
-	    if (info)
+	    if(info)
 	      *info |= Sane.INFO_RELOAD_OPTIONS
 	  }
 	  s.val[option].w = *(Sane.Word *) val
-	  calc_parameters (s)
-	  if (info)
+	  calc_parameters(s)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 	  return Sane.STATUS_GOOD
 
 	case OPT_Y_RESOLUTION:
-	  if (s.val[OPT_PREVIEW].w || s.val[OPT_RESOLUTION_BIND].w) {
+	  if(s.val[OPT_PREVIEW].w || s.val[OPT_RESOLUTION_BIND].w) {
 	    s.val[OPT_X_RESOLUTION].w = *(Sane.Word *)val
-	    if (info)
+	    if(info)
 	      *info |= Sane.INFO_RELOAD_OPTIONS
 	  }
 	  s.val[option].w = *(Sane.Word *) val
-	  calc_parameters (s)
-	  if (info)
+	  calc_parameters(s)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 	  return Sane.STATUS_GOOD
 
@@ -1273,16 +1273,16 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_TL_Y:
 	case OPT_BR_Y:
 	  s.val[option].w = *(Sane.Word *) val
-	  calc_parameters (s)
-	  if (info)
+	  calc_parameters(s)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 	  return Sane.STATUS_GOOD
 
 	  /* this one is somewhat imprecise */
 	case OPT_BR_X:
 	  s.val[option].w = *(Sane.Word *) val
-	  calc_parameters (s)
-	  if (info)
+	  calc_parameters(s)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 	      | Sane.INFO_INEXACT
 	  return Sane.STATUS_GOOD
@@ -1299,22 +1299,22 @@ Sane.control_option (Sane.Handle handle, Int option,
 
 	  /* string options */
 	case OPT_HALFTONE_PATTERN:
-	  if (info)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_OPTIONS
-	  if (s.val[option].s)
-	    free (s.val[option].s)
-	  s.val[option].s = strdup (val)
+	  if(s.val[option].s)
+	    free(s.val[option].s)
+	  s.val[option].s = strdup(val)
 	  return Sane.STATUS_GOOD
 
 	case OPT_MODE:
-	  status = mode_update (s, val)
-	  if (status != Sane.STATUS_GOOD)
+	  status = mode_update(s, val)
+	  if(status != Sane.STATUS_GOOD)
 	    return status
-	  if (s.val[option].s)
-	    free (s.val[option].s)
-	  s.val[option].s = strdup (val)
+	  if(s.val[option].s)
+	    free(s.val[option].s)
+	  s.val[option].s = strdup(val)
 
-	  if (info)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_OPTIONS | Sane.INFO_RELOAD_PARAMS
 	  return Sane.STATUS_GOOD
 	}			/* End of switch */
@@ -1323,21 +1323,21 @@ Sane.control_option (Sane.Handle handle, Int option,
 }
 
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
   Abaton_Scanner *s = handle
 
-  DBG (FLOW_CONTROL, "Entering Sane.get_parameters\n")
-  calc_parameters (s)
+  DBG(FLOW_CONTROL, "Entering Sane.get_parameters\n")
+  calc_parameters(s)
 
 
-  if (params)
+  if(params)
     *params = s.params
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   Abaton_Scanner *s = handle
   Sane.Status status
@@ -1345,50 +1345,50 @@ Sane.start (Sane.Handle handle)
   /* First make sure we have a current parameter set.  Some of the
      parameters will be overwritten below, but that's OK.  */
 
-  calc_parameters (s)
+  calc_parameters(s)
 
-  if (s.fd < 0)
+  if(s.fd < 0)
     {
-      /* this is the first (and maybe only) pass... */
+      /* this is the first(and maybe only) pass... */
 
-      status = sanei_scsi_open (s.hw.sane.name, &s.fd, sense_handler, 0)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_scsi_open(s.hw.sane.name, &s.fd, sense_handler, 0)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (ERROR_MESSAGE, "open: open of %s failed: %s\n",
-	       s.hw.sane.name, Sane.strstatus (status))
+	  DBG(ERROR_MESSAGE, "open: open of %s failed: %s\n",
+	       s.hw.sane.name, Sane.strstatus(status))
 	  return status
 	}
     }
 
-  status = wait_ready (s.fd)
-  if (status != Sane.STATUS_GOOD)
+  status = wait_ready(s.fd)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (ERROR_MESSAGE, "open: wait_ready() failed: %s\n",
-	   Sane.strstatus (status))
+      DBG(ERROR_MESSAGE, "open: wait_ready() failed: %s\n",
+	   Sane.strstatus(status))
       goto stop_scanner_and_return
     }
 
-  status = request_sense (s)
-  if (status != Sane.STATUS_GOOD)
+  status = request_sense(s)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (ERROR_MESSAGE, "Sane.start: request_sense revealed error: %s\n",
-	   Sane.strstatus (status))
+      DBG(ERROR_MESSAGE, "Sane.start: request_sense revealed error: %s\n",
+	   Sane.strstatus(status))
       goto stop_scanner_and_return
     }
 
-  status = set_window (s)
-  if (status != Sane.STATUS_GOOD)
+  status = set_window(s)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (ERROR_MESSAGE, "open: set scan area command failed: %s\n",
-	   Sane.strstatus (status))
+      DBG(ERROR_MESSAGE, "open: set scan area command failed: %s\n",
+	   Sane.strstatus(status))
       goto stop_scanner_and_return
     }
 
   s.scanning = Sane.TRUE
   s.AbortedByUser = Sane.FALSE
 
-  status = start_scan (s)
-  if (status != Sane.STATUS_GOOD)
+  status = start_scan(s)
+  if(status != Sane.STATUS_GOOD)
     goto stop_scanner_and_return
 
   return Sane.STATUS_GOOD
@@ -1400,7 +1400,7 @@ stop_scanner_and_return:
 }
 
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
+Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
 	   Int * len)
 {
   Abaton_Scanner *s = handle
@@ -1422,36 +1422,36 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
 
   /* don't let bogus read requests reach the scanner */
   /* this is a sub-optimal way of doing this, I'm sure */
-  if (!s.scanning)
+  if(!s.scanning)
     return Sane.STATUS_EOF
 
-  if (!strcmp (s.val[OPT_MODE].s, "Gray16"))
+  if(!strcmp(s.val[OPT_MODE].s, "Gray16"))
     Pseudo8bit = Sane.TRUE
 
-  memset (get_data_status, 0, sizeof (get_data_status))
+  memset(get_data_status, 0, sizeof(get_data_status))
   get_data_status[0] = GET_DATA_STATUS
   /* This means "block" for Apple scanners, it seems to be the same
      for Abaton.  The scanner will do non-blocking I/O, but I don't
      want to go there right now. */
   get_data_status[1] = 1
-  STORE8 (get_data_status + 8, sizeof (result))
+  STORE8 (get_data_status + 8, sizeof(result))
 
-  memset (read, 0, sizeof (read))
+  memset(read, 0, sizeof(read))
   read[0] = READ_10
 
   do
     {
-      size = sizeof (result)
+      size = sizeof(result)
       /* this isn't necessary */
-      /*  memset (result, 0, size); */
-      status = sanei_scsi_cmd (s.fd, get_data_status,
-			       sizeof (get_data_status), result, &size)
+      /*  memset(result, 0, size); */
+      status = sanei_scsi_cmd(s.fd, get_data_status,
+			       sizeof(get_data_status), result, &size)
 
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	return status
-      if (!size)
+      if(!size)
 	{
-	  DBG (ERROR_MESSAGE, "Sane.read: cannot get_data_status.\n")
+	  DBG(ERROR_MESSAGE, "Sane.read: cannot get_data_status.\n")
 	  return Sane.STATUS_IO_ERROR
 	}
 
@@ -1461,19 +1461,19 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
 
       /* don't check result[3] here, because that screws things up
 	 somewhat */
-      if (data_length) {
-	DBG (IO_MESSAGE,
+      if(data_length) {
+	DBG(IO_MESSAGE,
 	     "Sane.read: (status) Available in scanner buffer %u.\n",
 	     data_av)
 
-	if (Pseudo8bit)
+	if(Pseudo8bit)
 	  {
-	    if ((data_av * 2) + offset > max_len)
+	    if((data_av * 2) + offset > max_len)
 	      rread = (max_len - offset) / 2
 	    else
 	      rread = data_av
 	  }
-	else if (data_av + offset > max_len)
+	else if(data_av + offset > max_len)
 	  {
 	    rread = max_len - offset
 	  }
@@ -1482,7 +1482,7 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
 	    rread = data_av
 	  }
 
-	DBG (IO_MESSAGE,
+	DBG(IO_MESSAGE,
 	     "Sane.read: (action) Actual read request for %u bytes.\n",
 	     rread)
 
@@ -1490,20 +1490,20 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
 
 	STORE24 (read + 6, rread)
 
-	status = sanei_scsi_cmd (s.fd, read, sizeof (read),
+	status = sanei_scsi_cmd(s.fd, read, sizeof(read),
 				 buf + offset, &size)
 
-	if (Pseudo8bit)
+	if(Pseudo8bit)
 	  {
 	    Int byte
 	    Int pos = offset + (rread << 1) - 1
 	    Sane.Byte B
-	    for (byte = offset + rread - 1; byte >= offset; byte--)
+	    for(byte = offset + rread - 1; byte >= offset; byte--)
 	      {
 		B = buf[byte]
 		/* don't invert these! */
-		buf[pos--] = B << 4;   /* low (right) nibble */
-		buf[pos--] = B & 0xF0; /* high (left) nibble */
+		buf[pos--] = B << 4;   /* low(right) nibble */
+		buf[pos--] = B & 0xF0; /* high(left) nibble */
 	      }
 	    /* putting an end to bitop abuse here */
 	    offset += size * 2
@@ -1511,51 +1511,51 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
 	else
 	  offset += size
 
-	DBG (IO_MESSAGE, "Sane.read: Buffer %u of %u full %g%%\n",
+	DBG(IO_MESSAGE, "Sane.read: Buffer %u of %u full %g%%\n",
 	     offset, max_len, (double) (offset * 100. / max_len))
       }
     }
-  while (offset < max_len && data_length != 0 && !s.AbortedByUser)
+  while(offset < max_len && data_length != 0 && !s.AbortedByUser)
 
-  if (s.AbortedByUser)
+  if(s.AbortedByUser)
     {
       s.scanning = Sane.FALSE
 
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (ERROR_MESSAGE, "Sane.read: request_sense revealed error: %s\n",
-	       Sane.strstatus (status))
+	  DBG(ERROR_MESSAGE, "Sane.read: request_sense revealed error: %s\n",
+	       Sane.strstatus(status))
 	  return status
 	}
 
-      status = sanei_scsi_cmd (s.fd, test_unit_ready,
-			       sizeof (test_unit_ready), 0, 0)
-      if (status != Sane.STATUS_GOOD || status != Sane.STATUS_INVAL)
+      status = sanei_scsi_cmd(s.fd, test_unit_ready,
+			       sizeof(test_unit_ready), 0, 0)
+      if(status != Sane.STATUS_GOOD || status != Sane.STATUS_INVAL)
 	return status
       return Sane.STATUS_CANCELLED
     }
 
-  if (!data_length)
+  if(!data_length)
     {
       s.scanning = Sane.FALSE
-      DBG (IO_MESSAGE, "Sane.read: (status) No more data...")
-      if (!offset)
+      DBG(IO_MESSAGE, "Sane.read: (status) No more data...")
+      if(!offset)
 	{
 	  /* this shouldn't happen */
 	  *len = 0
-	  DBG (IO_MESSAGE, "EOF\n")
+	  DBG(IO_MESSAGE, "EOF\n")
 	  return Sane.STATUS_EOF
 	}
       else
 	{
 	  *len = offset
-	  DBG (IO_MESSAGE, "GOOD\n")
+	  DBG(IO_MESSAGE, "GOOD\n")
 	  return Sane.STATUS_GOOD
 	}
     }
 
 
-  DBG (FLOW_CONTROL,
+  DBG(FLOW_CONTROL,
        "Sane.read: Normal Exiting, Aborted=%u, data_length=%u\n",
        s.AbortedByUser, data_av)
   *len = offset
@@ -1564,36 +1564,36 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
 }
 
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   Abaton_Scanner *s = handle
 
-  if (s.scanning)
+  if(s.scanning)
     {
-      if (s.AbortedByUser)
+      if(s.AbortedByUser)
 	{
-	  DBG (FLOW_CONTROL,
+	  DBG(FLOW_CONTROL,
 	       "Sane.cancel: Already Aborted. Please Wait...\n")
 	}
       else
 	{
 	  s.scanning = Sane.FALSE
 	  s.AbortedByUser = Sane.TRUE
-	  DBG (FLOW_CONTROL, "Sane.cancel: Signal Caught! Aborting...\n")
+	  DBG(FLOW_CONTROL, "Sane.cancel: Signal Caught! Aborting...\n")
 	}
     }
   else
     {
-      if (s.AbortedByUser)
+      if(s.AbortedByUser)
 	{
-	  DBG (FLOW_CONTROL, "Sane.cancel: Scan has not been initiated yet."
+	  DBG(FLOW_CONTROL, "Sane.cancel: Scan has not been initiated yet."
 	       "we probably received a signal while writing data.\n")
 	  s.AbortedByUser = Sane.FALSE
 	}
       else
 	{
-	  DBG (FLOW_CONTROL, "Sane.cancel: Scan has not been initiated "
-	       "yet (or it's over).\n")
+	  DBG(FLOW_CONTROL, "Sane.cancel: Scan has not been initiated "
+	       "yet(or it's over).\n")
 	}
     }
 
@@ -1601,23 +1601,23 @@ Sane.cancel (Sane.Handle handle)
 }
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 {
   handle = handle;			/* silence gcc */
   non_blocking = non_blocking;	/* silence gcc */
 
-  DBG (FLOW_CONTROL, "Sane.set_io_mode: Don't call me please. "
+  DBG(FLOW_CONTROL, "Sane.set_io_mode: Don't call me please. "
        "Unimplemented function\n")
   return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle handle, Int * fd)
+Sane.get_select_fd(Sane.Handle handle, Int * fd)
 {
   handle = handle;			/* silence gcc */
   fd = fd;						/* silence gcc */
 
-  DBG (FLOW_CONTROL, "Sane.get_select_fd: Don't call me please. "
+  DBG(FLOW_CONTROL, "Sane.get_select_fd: Don't call me please. "
        "Unimplemented function\n")
   return Sane.STATUS_UNSUPPORTED
 }

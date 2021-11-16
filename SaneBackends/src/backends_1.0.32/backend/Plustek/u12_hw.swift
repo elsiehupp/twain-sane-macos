@@ -1,7 +1,7 @@
 /** @file u12-hw.c
  *  @brief The HW-access functions to the U12 backend stuff.
  *
- * Copyright (c) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(c) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.01 - initial version
@@ -16,7 +16,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -104,7 +104,7 @@ static void u12hw_ProgramCCD( U12_Device *dev )
 	                (u_long)dev.CCDRegs,
 	                ((u_long)dev.numCCDRegs * dev.shade.intermediate))
 
-	DBG( _DBG_INFO, " * %u regs * %u (intermediate)\n",
+	DBG( _DBG_INFO, " * %u regs * %u(intermediate)\n",
 	                dev.numCCDRegs, dev.shade.intermediate )
 
 	reg_val = (Sane.Byte*)(dev.CCDRegs +
@@ -287,7 +287,7 @@ static void u12hw_ControlLampOnOff( U12_Device *dev )
 
 	lampStatus = dev.regs.RD_ScanControl & _SCAN_LAMPS_ON
 
-	if ( dev.lastLampStatus != lampStatus ) {
+	if( dev.lastLampStatus != lampStatus ) {
 
 		DBG( _DBG_INFO, "* Using OTHER Lamp --> warmup needed\n" )
 		dev.lastLampStatus = lampStatus
@@ -937,13 +937,13 @@ static void u12hw_StartLampTimer( U12_Device *dev )
 	if( 0 != dev.adj.lampOff ) {
 		dev_xxx = dev
 		setitimer( ITIMER_REAL, &interval, &dev.saveSettings )
-		DBG( _DBG_INFO, "Lamp-Timer started (using ITIMER)\n" )
+		DBG( _DBG_INFO, "Lamp-Timer started(using ITIMER)\n" )
 	}
 #else
 	if( 0 != dev.adj.lampOff ) {
 		dev_xxx = dev
 		alarm( dev.adj.lampOff )
-		DBG( _DBG_INFO, "Lamp-Timer started (using ALARM)\n" )
+		DBG( _DBG_INFO, "Lamp-Timer started(using ALARM)\n" )
 	}
 #endif
 }

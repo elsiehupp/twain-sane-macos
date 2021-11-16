@@ -1,6 +1,6 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 1997, 1998, 2002, 2013 Franck Schnefra, Michel Roelofs,
+   Copyright(C) 1997, 1998, 2002, 2013 Franck Schnefra, Michel Roelofs,
    Emmanuel Blot, Mikko Tyolajarvi, David Mosberger-Tang, Wolfgang Goeller,
    Petter Reinholdtsen, Gary Plewa, Sebastien Sable, Max Ushakov,
    Andrew Goodbody, Oliver Schwartz and Kevin Charter
@@ -10,7 +10,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -46,11 +46,11 @@
 */
 
 /*
-   SnapScan backend data sources (implementation)
+   SnapScan backend data sources(implementation)
 */
 
 /**************************************************************************************
-If you get confused from all the structs (like I did when I first saw them),
+If you get confused from all the structs(like I did when I first saw them),
 think of it as "C++ in C". If you're accustomed to OO and UML maybe the
 following diagram helps you to make sense of it:
 
@@ -100,11 +100,11 @@ color scanning, a typical source chain would consist of an RGBRouter sitting on 
 of a SCSISource. In the get() method, RGBRouter will then call the get() method of
 the subsource, process the data and return it.
 
-I hope this makes sense to you (and I got the right idea of the original author's
+I hope this makes sense to you(and I got the right idea of the original author's
 intention).
 ***********************************************************************************/
 
-static Sane.Status Source_init (Source *pself,
+static Sane.Status Source_init(Source *pself,
                                 SnapScan_Scanner *pss,
                                 SourceRemaining remaining,
                                 SourceBytesPerLine bytesPerLine,
@@ -123,12 +123,12 @@ static Sane.Status Source_init (Source *pself,
 
 /* these are defaults, normally used only by base sources */
 
-static Int Source_bytesPerLine (Source *pself)
+static Int Source_bytesPerLine(Source *pself)
 {
     return pself.pss.bytes_per_line
 }
 
-static Int Source_pixelsPerLine (Source *pself)
+static Int Source_pixelsPerLine(Source *pself)
 {
     return pself.pss.pixels_per_line
 }
@@ -152,13 +152,13 @@ typedef struct
     Int absolute_max;    /* largest possible data read */
 } SCSISource
 
-static Int SCSISource_remaining (Source *pself)
+static Int SCSISource_remaining(Source *pself)
 {
     SCSISource *ps = (SCSISource *) pself
     return ps.pss.bytes_remaining + (ps.scsi_buf_max - ps.scsi_buf_pos)
 }
 
-static Sane.Status SCSISource_get (Source *pself,
+static Sane.Status SCSISource_get(Source *pself,
                                    Sane.Byte *pbuf,
                                    Int *plen)
 {
@@ -167,32 +167,32 @@ static Sane.Status SCSISource_get (Source *pself,
     Int remaining = *plen
     char* me = "SCSISource_get"
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
-    while (remaining > 0
+    DBG(DL_CALL_TRACE, "%s\n", me)
+    while(remaining > 0
            && pself.remaining(pself) > 0
            && status == Sane.STATUS_GOOD
            && !cancelRead)
     {
         Int ndata = ps.scsi_buf_max - ps.scsi_buf_pos
-        DBG (DL_DATA_TRACE, "%s: ndata %d; remaining %d\n", me, ndata, remaining)
-        if (ndata == 0)
+        DBG(DL_DATA_TRACE, "%s: ndata %d; remaining %d\n", me, ndata, remaining)
+        if(ndata == 0)
         {
             ps.pss.expected_read_bytes = MIN((size_t)ps.absolute_max,
                                            ps.pss.bytes_remaining)
             ps.scsi_buf_pos = 0
             ps.scsi_buf_max = 0
-            status = scsi_read (ps.pss, READ_IMAGE)
-            if (status != Sane.STATUS_GOOD)
+            status = scsi_read(ps.pss, READ_IMAGE)
+            if(status != Sane.STATUS_GOOD)
                 break
             ps.scsi_buf_max = ps.pss.read_bytes
             ndata = ps.pss.read_bytes
             ps.pss.bytes_remaining -= ps.pss.read_bytes
-            DBG (DL_DATA_TRACE, "%s: pos: %d; max: %d; expected: %lu; read: %lu\n",
+            DBG(DL_DATA_TRACE, "%s: pos: %d; max: %d; expected: %lu; read: %lu\n",
                 me, ps.scsi_buf_pos, ps.scsi_buf_max, (u_long) ps.pss.expected_read_bytes,
                 (u_long) ps.pss.read_bytes)
         }
         ndata = MIN(ndata, remaining)
-        memcpy (pbuf, ps.pss.buf + ps.scsi_buf_pos, (size_t)ndata)
+        memcpy(pbuf, ps.pss.buf + ps.scsi_buf_pos, (size_t)ndata)
         pbuf += ndata
         ps.scsi_buf_pos += ndata
         remaining -= ndata
@@ -201,22 +201,22 @@ static Sane.Status SCSISource_get (Source *pself,
     return status
 }
 
-static Sane.Status SCSISource_done (Source *pself)
+static Sane.Status SCSISource_done(Source *pself)
 {
     DBG(DL_MINOR_INFO, "SCSISource_done\n")
     UNREFERENCED_PARAMETER(pself)
     return Sane.STATUS_GOOD
 }
 
-static Sane.Status SCSISource_init (SCSISource *pself, SnapScan_Scanner *pss)
+static Sane.Status SCSISource_init(SCSISource *pself, SnapScan_Scanner *pss)
 {
-    Sane.Status status = Source_init ((Source *) pself, pss,
+    Sane.Status status = Source_init((Source *) pself, pss,
                                       SCSISource_remaining,
                                       Source_bytesPerLine,
                                       Source_pixelsPerLine,
                                       SCSISource_get,
                                       SCSISource_done)
-    if (status == Sane.STATUS_GOOD)
+    if(status == Sane.STATUS_GOOD)
     {
         pself.scsi_buf_max = 0
         pself.scsi_buf_pos = 0
@@ -235,36 +235,36 @@ typedef struct
     Int bytes_remaining
 } FDSource
 
-static Int FDSource_remaining (Source *pself)
+static Int FDSource_remaining(Source *pself)
 {
     FDSource *ps = (FDSource *) pself
     return ps.bytes_remaining
 }
 
-static Sane.Status FDSource_get (Source *pself, Sane.Byte *pbuf, Int *plen)
+static Sane.Status FDSource_get(Source *pself, Sane.Byte *pbuf, Int *plen)
 {
     Sane.Status status = Sane.STATUS_GOOD
     FDSource *ps = (FDSource *) pself
     Int remaining = *plen
 
-    while (remaining > 0
+    while(remaining > 0
            && pself.remaining(pself) > 0
            && status == Sane.STATUS_GOOD)
     {
-        Int bytes_read = read (ps.fd, pbuf, remaining)
-        if (bytes_read == -1)
+        Int bytes_read = read(ps.fd, pbuf, remaining)
+        if(bytes_read == -1)
         {
-            if (errno == EAGAIN)
+            if(errno == EAGAIN)
             {
                 /* No data currently available */
                 break
             }
             /* It's an IO error */
-            DBG (DL_MAJOR_ERROR, "%s: read failed: %s\n",
+            DBG(DL_MAJOR_ERROR, "%s: read failed: %s\n",
                      __func__, strerror(errno))
             status = Sane.STATUS_IO_ERROR
         }
-        else if (bytes_read == 0)
+        else if(bytes_read == 0)
         {
             /* EOF of current reading */
             DBG(DL_DATA_TRACE, "%s: EOF\n",__func__)
@@ -278,24 +278,24 @@ static Sane.Status FDSource_get (Source *pself, Sane.Byte *pbuf, Int *plen)
     return status
 }
 
-static Sane.Status FDSource_done (Source *pself)
+static Sane.Status FDSource_done(Source *pself)
 {
     close(((FDSource *) pself)->fd)
     return Sane.STATUS_GOOD
 }
 
-static Sane.Status FDSource_init (FDSource *pself,
+static Sane.Status FDSource_init(FDSource *pself,
                                   SnapScan_Scanner *pss,
                                   Int fd)
 {
-    Sane.Status status = Source_init ((Source *) pself,
+    Sane.Status status = Source_init((Source *) pself,
                                       pss,
                                       FDSource_remaining,
                                       Source_bytesPerLine,
                                       Source_pixelsPerLine,
                                       FDSource_get,
                                       FDSource_done)
-    if (status == Sane.STATUS_GOOD)
+    if(status == Sane.STATUS_GOOD)
     {
         pself.fd = fd
         pself.bytes_remaining = pss.bytes_per_line * (pss.lines + pss.chroma)
@@ -316,44 +316,44 @@ typedef struct
     Int buf_pos
 } BufSource
 
-static Int BufSource_remaining (Source *pself)
+static Int BufSource_remaining(Source *pself)
 {
     BufSource *ps = (BufSource *) pself
     return  ps.buf_size - ps.buf_pos
 }
 
-static Sane.Status BufSource_get (Source *pself,
+static Sane.Status BufSource_get(Source *pself,
                                   Sane.Byte *pbuf,
                                   Int *plen)
 {
     BufSource *ps = (BufSource *) pself
     Sane.Status status = Sane.STATUS_GOOD
     Int to_move = MIN(*plen, pself.remaining(pself))
-    if (to_move == 0)
+    if(to_move == 0)
     {
         status = Sane.STATUS_EOF
     }
     else
     {
-        memcpy (pbuf, ps.buf + ps.buf_pos, to_move)
+        memcpy(pbuf, ps.buf + ps.buf_pos, to_move)
         ps.buf_pos += to_move
         *plen = to_move
     }
     return status
 }
 
-static Sane.Status BufSource_done (Source *pself)
+static Sane.Status BufSource_done(Source *pself)
 {
     UNREFERENCED_PARAMETER(pself)
     return Sane.STATUS_GOOD
 }
 
-static Sane.Status BufSource_init (BufSource *pself,
+static Sane.Status BufSource_init(BufSource *pself,
                                    SnapScan_Scanner *pss,
                                      Sane.Byte *buf,
                                    Int buf_size)
 {
-    Sane.Status status = Source_init ((Source *) pself,
+    Sane.Status status = Source_init((Source *) pself,
                                       pss,
                                       BufSource_remaining,
                                       Source_bytesPerLine,
@@ -361,7 +361,7 @@ static Sane.Status BufSource_init (BufSource *pself,
                                       BufSource_get,
                                       BufSource_done)
     DBG(DL_DATA_TRACE, "BufSource_init: buf_size=%d\n", buf_size)
-    if (status == Sane.STATUS_GOOD)
+    if(status == Sane.STATUS_GOOD)
     {
         pself.buf = buf
         pself.buf_size = buf_size
@@ -372,55 +372,55 @@ static Sane.Status BufSource_init (BufSource *pself,
 
 /* base source creation */
 
-static Sane.Status create_base_source (SnapScan_Scanner *pss,
+static Sane.Status create_base_source(SnapScan_Scanner *pss,
                                        BaseSourceType st,
                                        Source **pps)
 {
     Sane.Status status = Sane.STATUS_GOOD
     *pps = NULL
-    switch (st)
+    switch(st)
     {
     case SCSI_SRC:
         *pps = (Source *) malloc(sizeof(SCSISource))
-        if (*pps == NULL)
+        if(*pps == NULL)
         {
-            DBG (DL_MAJOR_ERROR, "failed to allocate SCSISource")
+            DBG(DL_MAJOR_ERROR, "failed to allocate SCSISource")
             status = Sane.STATUS_NO_MEM
         }
         else
         {
-            status = SCSISource_init ((SCSISource *) *pps, pss)
+            status = SCSISource_init((SCSISource *) *pps, pss)
         }
     break
     case FD_SRC:
         *pps = (Source *) malloc(sizeof(FDSource))
-        if (*pps == NULL)
+        if(*pps == NULL)
         {
-            DBG (DL_MAJOR_ERROR, "failed to allocate FDSource")
+            DBG(DL_MAJOR_ERROR, "failed to allocate FDSource")
             status = Sane.STATUS_NO_MEM
         }
         else
         {
-            status = FDSource_init ((FDSource *) *pps, pss, pss.rpipe[0])
+            status = FDSource_init((FDSource *) *pps, pss, pss.rpipe[0])
         }
     break
     case BUF_SRC:
         *pps = (Source *) malloc(sizeof(BufSource))
-        if (*pps == NULL)
+        if(*pps == NULL)
         {
-            DBG (DL_MAJOR_ERROR, "failed to allocate BufSource")
+            DBG(DL_MAJOR_ERROR, "failed to allocate BufSource")
             status = Sane.STATUS_NO_MEM
         }
         else
         {
-            status = BufSource_init ((BufSource *) *pps,
+            status = BufSource_init((BufSource *) *pps,
                                      pss,
                                      pss.buf,
                                      pss.read_bytes)
         }
     break
     default:
-        DBG (DL_MAJOR_ERROR, "illegal base source type %d", st)
+        DBG(DL_MAJOR_ERROR, "illegal base source type %d", st)
         break
     }
     return status
@@ -439,31 +439,31 @@ typedef struct
     TX_SOURCE_GUTS
 } TxSource
 
-static Int TxSource_remaining (Source *pself)
+static Int TxSource_remaining(Source *pself)
 {
     TxSource *ps = (TxSource *) pself
     return ps.psub.remaining(ps.psub)
 }
 
-static Int TxSource_bytesPerLine (Source *pself)
+static Int TxSource_bytesPerLine(Source *pself)
 {
     TxSource *ps = (TxSource *) pself
     return ps.psub.bytesPerLine(ps.psub)
 }
 
-static Int TxSource_pixelsPerLine (Source *pself)
+static Int TxSource_pixelsPerLine(Source *pself)
 {
     TxSource *ps = (TxSource *) pself
     return ps.psub.pixelsPerLine(ps.psub)
 }
 
-static Sane.Status TxSource_get (Source *pself, Sane.Byte *pbuf, Int *plen)
+static Sane.Status TxSource_get(Source *pself, Sane.Byte *pbuf, Int *plen)
 {
     TxSource *ps = (TxSource *) pself
     return ps.psub.get(ps.psub, pbuf, plen)
 }
 
-static Sane.Status TxSource_done (Source *pself)
+static Sane.Status TxSource_done(Source *pself)
 {
     TxSource *ps = (TxSource *) pself
     Sane.Status status = ps.psub.done(ps.psub)
@@ -472,7 +472,7 @@ static Sane.Status TxSource_done (Source *pself)
     return status
 }
 
-static Sane.Status TxSource_init (TxSource *pself,
+static Sane.Status TxSource_init(TxSource *pself,
                                   SnapScan_Scanner *pss,
                                   SourceRemaining remaining,
                                   SourceBytesPerLine bytesPerLine,
@@ -488,7 +488,7 @@ static Sane.Status TxSource_init (TxSource *pself,
                                      pixelsPerLine,
                                      get,
                                      done)
-    if (status == Sane.STATUS_GOOD)
+    if(status == Sane.STATUS_GOOD)
         pself.psub = psub
     return status
 }
@@ -504,11 +504,11 @@ typedef struct
     Int   ch_ndata;        /* actual #bytes in channel buffer */
     Int   ch_pos;            /* position in buffer */
     Int   bit;                /* current bit */
-    Int   last_bit;        /* current last bit (counting down) */
+    Int   last_bit;        /* current last bit(counting down) */
     Int   last_last_bit;    /* last bit in the last byte of the channel */
 } Expander
 
-static Int Expander_remaining (Source *pself)
+static Int Expander_remaining(Source *pself)
 {
     Expander *ps = (Expander *) pself
     Int sub_remaining = TxSource_remaining(pself)
@@ -516,7 +516,7 @@ static Int Expander_remaining (Source *pself)
     Int whole_channels = sub_remaining/ps.ch_size
     Int result = whole_channels*sub_bits_per_channel
 
-    if (ps.ch_pos < ps.ch_size)
+    if(ps.ch_pos < ps.ch_size)
     {
         Int bits_covered = MAX((ps.ch_pos - 1)*8, 0) + 7 - ps.bit
         result += sub_bits_per_channel - bits_covered
@@ -525,40 +525,40 @@ static Int Expander_remaining (Source *pself)
     return result
 }
 
-static Int Expander_bytesPerLine (Source *pself)
+static Int Expander_bytesPerLine(Source *pself)
 {
     return TxSource_pixelsPerLine(pself)*3
 }
 
-static Sane.Status Expander_get (Source *pself, Sane.Byte *pbuf, Int *plen)
+static Sane.Status Expander_get(Source *pself, Sane.Byte *pbuf, Int *plen)
 {
     Expander *ps = (Expander *) pself
     Sane.Status status = Sane.STATUS_GOOD
     Int remaining = *plen
 
-    while (remaining > 0
+    while(remaining > 0
            &&
            pself.remaining(pself) > 0 &&
            !cancelRead)
     {
-        if (ps.ch_pos == ps.ch_ndata)
+        if(ps.ch_pos == ps.ch_ndata)
         {
             /* we need more data; try to get the remainder of the current
                channel, or else the next channel */
             Int ndata = ps.ch_size - ps.ch_ndata
-            if (ndata == 0)
+            if(ndata == 0)
             {
                 ps.ch_ndata = 0
                 ps.ch_pos = 0
                 ndata = ps.ch_size
             }
             status = TxSource_get(pself, ps.ch_buf + ps.ch_pos, &ndata)
-            if (status != Sane.STATUS_GOOD)
+            if(status != Sane.STATUS_GOOD)
                 break
-            if (ndata == 0)
+            if(ndata == 0)
                 break
             ps.ch_ndata += ndata
-            if (ps.ch_pos == (ps.ch_size - 1))
+            if(ps.ch_pos == (ps.ch_size - 1))
                 ps.last_bit = ps.last_last_bit
             else
                 ps.last_bit = 0
@@ -568,11 +568,11 @@ static Sane.Status Expander_get (Source *pself, Sane.Byte *pbuf, Int *plen)
         pbuf++
         remaining--
 
-        if (ps.bit == ps.last_bit)
+        if(ps.bit == ps.last_bit)
         {
             ps.bit = 7
             ps.ch_pos++
-            if (ps.ch_pos == (ps.ch_size - 1))
+            if(ps.ch_pos == (ps.ch_size - 1))
                 ps.last_bit = ps.last_last_bit
             else
                 ps.last_bit = 0
@@ -587,7 +587,7 @@ static Sane.Status Expander_get (Source *pself, Sane.Byte *pbuf, Int *plen)
     return status
 }
 
-static Sane.Status Expander_done (Source *pself)
+static Sane.Status Expander_done(Source *pself)
 {
     Expander *ps = (Expander *) pself
     Sane.Status status = TxSource_done(pself)
@@ -598,7 +598,7 @@ static Sane.Status Expander_done (Source *pself)
     return status
 }
 
-static Sane.Status Expander_init (Expander *pself,
+static Sane.Status Expander_init(Expander *pself,
                   SnapScan_Scanner *pss,
                                   Source *psub)
 {
@@ -610,13 +610,13 @@ static Sane.Status Expander_init (Expander *pself,
                                        Expander_get,
                                        Expander_done,
                                        psub)
-    if (status == Sane.STATUS_GOOD)
+    if(status == Sane.STATUS_GOOD)
     {
         pself.ch_size = TxSource_bytesPerLine((Source *) pself)/3
         pself.ch_buf = (Sane.Byte *) malloc(pself.ch_size)
-        if (pself.ch_buf == NULL)
+        if(pself.ch_buf == NULL)
         {
-            DBG (DL_MAJOR_ERROR,
+            DBG(DL_MAJOR_ERROR,
                  "%s: couldn't allocate channel buffer.\n",
                  __func__)
             status = Sane.STATUS_NO_MEM
@@ -626,11 +626,11 @@ static Sane.Status Expander_init (Expander *pself,
             pself.ch_ndata = 0
             pself.ch_pos = 0
             pself.last_last_bit = pself.pixelsPerLine((Source *) pself)%8
-            if (pself.last_last_bit == 0)
+            if(pself.last_last_bit == 0)
                 pself.last_last_bit = 7
             pself.last_last_bit = 7 - pself.last_last_bit
             pself.bit = 7
-            if (pself.ch_size > 1)
+            if(pself.ch_size > 1)
                 pself.last_bit = 0
             else
                 pself.last_bit = pself.last_last_bit
@@ -639,22 +639,22 @@ static Sane.Status Expander_init (Expander *pself,
     return status
 }
 
-static Sane.Status create_Expander (SnapScan_Scanner *pss,
+static Sane.Status create_Expander(SnapScan_Scanner *pss,
                                     Source *psub,
                                     Source **pps)
 {
     Sane.Status status = Sane.STATUS_GOOD
     *pps = (Source *) malloc(sizeof(Expander))
-    if (*pps == NULL)
+    if(*pps == NULL)
     {
-        DBG (DL_MAJOR_ERROR,
+        DBG(DL_MAJOR_ERROR,
              "%s: failed to allocate Expander.\n",
              __func__)
         status = Sane.STATUS_NO_MEM
     }
     else
     {
-        status = Expander_init ((Expander *) *pps, pss, psub)
+        status = Expander_init((Expander *) *pps, pss, psub)
     }
     return status
 }
@@ -664,8 +664,8 @@ static Sane.Status create_Expander (SnapScan_Scanner *pss,
    of pixels offset. Currently it only shifts every other column
    starting with the first one down ch_offset pixels.
 
-   The Deinterlacer detects if data is in SANE RGB frame format (3 bytes/pixel)
-   or in Grayscale (1 byte/pixel).
+   The Deinterlacer detects if data is in SANE RGB frame format(3 bytes/pixel)
+   or in Grayscale(1 byte/pixel).
 
    The first ch_offset lines of data in the output are fudged so that even indexed
    add odd indexed pixels will have the same value. This is necessary because
@@ -691,7 +691,7 @@ typedef struct
     Bool  ch_shift_even;     /* flag indicating whether even or odd pixels are shifted */
 } Deinterlacer
 
-static Int Deinterlacer_remaining (Source *pself)
+static Int Deinterlacer_remaining(Source *pself)
 {
     Deinterlacer *ps = (Deinterlacer *) pself
     Int result = TxSource_remaining(pself)
@@ -699,7 +699,7 @@ static Int Deinterlacer_remaining (Source *pself)
     return result
 }
 
-static Sane.Status Deinterlacer_get (Source *pself, Sane.Byte *pbuf, Int *plen)
+static Sane.Status Deinterlacer_get(Source *pself, Sane.Byte *pbuf, Int *plen)
 {
     Deinterlacer *ps = (Deinterlacer *) pself
     Sane.Status status = Sane.STATUS_GOOD
@@ -710,17 +710,17 @@ static Sane.Status Deinterlacer_get (Source *pself, Sane.Byte *pbuf, Int *plen)
     DBG(DL_DATA_TRACE, "%s: remaining=%d, pself.remaining=%d, ch_ndata=%d, ch_pos=%d\n",
             me, remaining, pself.remaining(pself), ps.ch_ndata, ps.ch_pos)
 
-    while (remaining > 0
+    while(remaining > 0
            &&
            pself.remaining(pself) > 0 &&
            !cancelRead)
     {
-        if (ps.ch_pos % (ps.ch_line_size) == ps.ch_ndata % (ps.ch_line_size) )
+        if(ps.ch_pos % (ps.ch_line_size) == ps.ch_ndata % (ps.ch_line_size) )
         {
             /* we need more data; try to get the remainder of the current
                line, or else the next line */
             Int ndata = (ps.ch_line_size) - ps.ch_ndata % (ps.ch_line_size)
-            if (ps.ch_pos >= ps.ch_size)
+            if(ps.ch_pos >= ps.ch_size)
             {
 	        /* wrap to the beginning of the buffer if we need to */
                 ps.ch_ndata = 0
@@ -728,18 +728,18 @@ static Sane.Status Deinterlacer_get (Source *pself, Sane.Byte *pbuf, Int *plen)
                 ndata = ps.ch_line_size
             }
             status = TxSource_get(pself, ps.ch_buf + ps.ch_pos, &ndata)
-            if (status != Sane.STATUS_GOOD)
+            if(status != Sane.STATUS_GOOD)
                 break
-            if (ndata == 0)
+            if(ndata == 0)
                 break
             ps.ch_ndata += ndata
         }
         /* Handle special lineart mode: Valid pixels need to be masked */
-        if (ps.ch_lineart)
+        if(ps.ch_lineart)
         {
-            if (ps.ch_past_init)
+            if(ps.ch_past_init)
             {
-                if (ps.ch_shift_even)
+                if(ps.ch_shift_even)
                 {
                     /* Even columns need to be shifted, i.e. bits 1,3,5,7 -> 0xaa */
                     /* use valid pixels from this line and shifted pixels from ch_size lines back */
@@ -756,7 +756,7 @@ static Sane.Status Deinterlacer_get (Source *pself, Sane.Byte *pbuf, Int *plen)
             else
             {
                 /* not enough data. duplicate pixel values from previous column */
-                if (ps.ch_shift_even)
+                if(ps.ch_shift_even)
                 {
                     /* bits 0,2,4,6 contain valid data -> 0x55 */
                     Sane.Byte valid_pixel = ps.ch_buf[ps.ch_pos] & 0x55
@@ -773,11 +773,11 @@ static Sane.Status Deinterlacer_get (Source *pself, Sane.Byte *pbuf, Int *plen)
         }
         else /* colour / grayscale mode */
         {
-            if ((ps.ch_shift_even && ((ps.ch_pos/ps.ch_bytes_per_pixel) % 2 == 0)) ||
+            if((ps.ch_shift_even && ((ps.ch_pos/ps.ch_bytes_per_pixel) % 2 == 0)) ||
                 (!ps.ch_shift_even && ((ps.ch_pos/ps.ch_bytes_per_pixel) % 2 == 1)))
             {
                 /* the even indexed pixels need to be shifted down */
-                if (ps.ch_past_init){
+                if(ps.ch_past_init){
                     /* We need to use data 4 lines back */
                     /* So we just go one forward and it will wrap around to 4 back. */
                     *pbuf = ps.ch_buf[(ps.ch_pos + (ps.ch_line_size)) % ps.ch_size]
@@ -786,7 +786,7 @@ static Sane.Status Deinterlacer_get (Source *pself, Sane.Byte *pbuf, Int *plen)
                       if we are on the first few lines.
                       TODO: also we will overread the buffer if the buffer read ended
                       on the first pixel. */
-                    if (ps.ch_pos % (ps.ch_line_size) == 0 )
+                    if(ps.ch_pos % (ps.ch_line_size) == 0 )
                         *pbuf = ps.ch_buf[ps.ch_pos+ps.ch_bytes_per_pixel]
                     else
                         *pbuf = ps.ch_buf[ps.ch_pos-ps.ch_bytes_per_pixel]
@@ -797,7 +797,7 @@ static Sane.Status Deinterlacer_get (Source *pself, Sane.Byte *pbuf, Int *plen)
             }
         }
 	/* set the flag so we know we have enough data to start shifting columns */
-	if (ps.ch_pos >= ps.ch_line_size * ps.ch_offset)
+	if(ps.ch_pos >= ps.ch_line_size * ps.ch_offset)
 	   ps.ch_past_init = Sane.TRUE
 
         pbuf++
@@ -818,7 +818,7 @@ static Sane.Status Deinterlacer_get (Source *pself, Sane.Byte *pbuf, Int *plen)
     return status
 }
 
-static Sane.Status Deinterlacer_done (Source *pself)
+static Sane.Status Deinterlacer_done(Source *pself)
 {
     Deinterlacer *ps = (Deinterlacer *) pself
     Sane.Status status = TxSource_done(pself)
@@ -830,7 +830,7 @@ static Sane.Status Deinterlacer_done (Source *pself)
     return status
 }
 
-static Sane.Status Deinterlacer_init (Deinterlacer *pself,
+static Sane.Status Deinterlacer_init(Deinterlacer *pself,
                   SnapScan_Scanner *pss,
                                   Source *psub)
 {
@@ -842,14 +842,14 @@ static Sane.Status Deinterlacer_init (Deinterlacer *pself,
                                        Deinterlacer_get,
                                        Deinterlacer_done,
                                        psub)
-    if (status == Sane.STATUS_GOOD)
+    if(status == Sane.STATUS_GOOD)
     {
         pself.ch_shift_even = Sane.TRUE
-        switch (pss.pdev.model)
+        switch(pss.pdev.model)
         {
         case PERFECTION3490:
             pself.ch_offset = 8
-            if ((actual_mode(pss) == MD_GREYSCALE) || (actual_mode(pss) == MD_LINEART))
+            if((actual_mode(pss) == MD_GREYSCALE) || (actual_mode(pss) == MD_LINEART))
                  pself.ch_shift_even = Sane.FALSE
             break
         case PERFECTION2480:
@@ -862,9 +862,9 @@ static Sane.Status Deinterlacer_init (Deinterlacer *pself,
            to shift up ch_offset pixels. */
         pself.ch_size = pself.ch_line_size * (pself.ch_offset + 1)
         pself.ch_buf = (Sane.Byte *) malloc(pself.ch_size)
-        if (pself.ch_buf == NULL)
+        if(pself.ch_buf == NULL)
         {
-            DBG (DL_MAJOR_ERROR,
+            DBG(DL_MAJOR_ERROR,
                  "%s: couldn't allocate channel buffer.\n",
                  __func__)
             status = Sane.STATUS_NO_MEM
@@ -874,11 +874,11 @@ static Sane.Status Deinterlacer_init (Deinterlacer *pself,
             pself.ch_ndata = 0
             pself.ch_pos = 0
             pself.ch_past_init = Sane.FALSE
-	    if ((actual_mode(pss) == MD_GREYSCALE) || (actual_mode(pss) == MD_LINEART))
+	    if((actual_mode(pss) == MD_GREYSCALE) || (actual_mode(pss) == MD_LINEART))
 	    	pself.ch_bytes_per_pixel = 1
 	    else
 	    	pself.ch_bytes_per_pixel = 3
-	    if (pss.bpp_scan == 16)
+	    if(pss.bpp_scan == 16)
 		pself.ch_bytes_per_pixel *= 2
         }
         pself.ch_lineart = (actual_mode(pss) == MD_LINEART)
@@ -886,22 +886,22 @@ static Sane.Status Deinterlacer_init (Deinterlacer *pself,
     return status
 }
 
-static Sane.Status create_Deinterlacer (SnapScan_Scanner *pss,
+static Sane.Status create_Deinterlacer(SnapScan_Scanner *pss,
                                     Source *psub,
                                     Source **pps)
 {
     Sane.Status status = Sane.STATUS_GOOD
     *pps = (Source *) malloc(sizeof(Deinterlacer))
-    if (*pps == NULL)
+    if(*pps == NULL)
     {
-        DBG (DL_MAJOR_ERROR,
+        DBG(DL_MAJOR_ERROR,
              "%s: failed to allocate Deinterlacer.\n",
              __func__)
         status = Sane.STATUS_NO_MEM
     }
     else
     {
-        status = Deinterlacer_init ((Deinterlacer *) *pps, pss, psub)
+        status = Deinterlacer_init((Deinterlacer *) *pps, pss, psub)
     }
     return status
 }
@@ -927,25 +927,25 @@ typedef struct
     Int round_read
 } RGBRouter
 
-static void put_int16r (Int n, u_char *p)
+static void put_int16r(Int n, u_char *p)
 {
 	p[0] = (n & 0x00ff)
 	p[1] = (n & 0xff00) >> 8
 }
 
 
-static Int RGBRouter_remaining (Source *pself)
+static Int RGBRouter_remaining(Source *pself)
 {
     RGBRouter *ps = (RGBRouter *) pself
    Int remaining
-    if (ps.round_req == ps.cb_size)
+    if(ps.round_req == ps.cb_size)
         remaining = TxSource_remaining(pself) - ps.cb_size + ps.cb_line_size
     else
       remaining = TxSource_remaining(pself) + ps.cb_line_size - ps.pos
-   return (remaining)
+   return(remaining)
 }
 
-static Sane.Status RGBRouter_get (Source *pself,
+static Sane.Status RGBRouter_get(Source *pself,
                                   Sane.Byte *pbuf,
                                   Int *plen)
 {
@@ -959,32 +959,32 @@ static Sane.Status RGBRouter_get (Source *pself,
     Int org_len = *plen
     char *me = "RGBRouter_get"
 
-    while (remaining > 0  &&  pself.remaining(pself) > 0 && !cancelRead)
+    while(remaining > 0  &&  pself.remaining(pself) > 0 && !cancelRead)
     {
         DBG(DL_DATA_TRACE, "%s: remaining=%d, pself.remaining=%d, round_req=%d, cb_size=%d\n",
             me, remaining, pself.remaining(pself), ps.round_req, ps.cb_size)
         /* Check if there is no valid data left from previous get */
-        if (ps.pos >= ps.cb_line_size)
+        if(ps.pos >= ps.cb_line_size)
         {
             /* Try to get more data. either one line or
-               full buffer (first time) */
+               full buffer(first time) */
             do
             {
                 run_req = ps.round_req - ps.round_read
-                status = TxSource_get (pself,
+                status = TxSource_get(pself,
                                        ps.cbuf + ps.cb_start + ps.round_read,
                                        &run_req)
-                if (status != Sane.STATUS_GOOD || run_req==0)
+                if(status != Sane.STATUS_GOOD || run_req==0)
                 {
                     *plen -= remaining
-                    if ( *plen > 0 )
+                    if( *plen > 0 )
                         DBG(DL_DATA_TRACE, "%s: request=%d, read=%d\n",
                             me, org_len, *plen)
                     return status
                 }
                 ps.round_read += run_req
             }
-            while ((ps.round_req > ps.round_read) && !cancelRead)
+            while((ps.round_req > ps.round_read) && !cancelRead)
 
             /* route RGB */
             ps.cb_start = (ps.cb_start + ps.round_read)%ps.cb_size
@@ -992,26 +992,26 @@ static Sane.Status RGBRouter_get (Source *pself,
             r = (ps.cb_start + ps.ch_offset[0])%ps.cb_size
             g = (ps.cb_start + ps.ch_offset[1])%ps.cb_size
             b = (ps.cb_start + ps.ch_offset[2])%ps.cb_size
-            for (i = 0;  i < ps.cb_line_size/3;  i++)
+            for(i = 0;  i < ps.cb_line_size/3;  i++)
             {
-                if (pself.pss.bpp_scan == 8)
+                if(pself.pss.bpp_scan == 8)
                 {
                     *s++ = ps.cbuf[r++]
                     *s++ = ps.cbuf[g++]
                     *s++ = ps.cbuf[b++]
                 }
-                else if (pself.pss.pdev.model == SCANWIT2720S)
+                else if(pself.pss.pdev.model == SCANWIT2720S)
                 {
                     t = (((ps.cbuf[r+1] << 8) | ps.cbuf[r]) & 0xfff) << 4
-                    put_int16r (t, s)
+                    put_int16r(t, s)
                     s += 2
                     r += 2
                     t = (((ps.cbuf[g+1] << 8) | ps.cbuf[g]) & 0xfff) << 4
-                    put_int16r (t, s)
+                    put_int16r(t, s)
                     s += 2
                     g += 2
                     t = (((ps.cbuf[b+1] << 8) | ps.cbuf[b]) & 0xfff) << 4
-                    put_int16r (t, s)
+                    put_int16r(t, s)
                     s += 2
                     b += 2
                     i++
@@ -1038,7 +1038,7 @@ static Sane.Status RGBRouter_get (Source *pself,
         }
 
         /* Repack the whole scan line and copy to caller's buffer */
-        while (remaining > 0  &&  ps.pos < ps.cb_line_size)
+        while(remaining > 0  &&  ps.pos < ps.cb_line_size)
         {
             *pbuf++ = ps.xbuf[ps.pos++]
             remaining--
@@ -1056,7 +1056,7 @@ static Sane.Status RGBRouter_get (Source *pself,
     return status
 }
 
-static Sane.Status RGBRouter_done (Source *pself)
+static Sane.Status RGBRouter_done(Source *pself)
 {
     RGBRouter *ps = (RGBRouter *) pself
     Sane.Status status = TxSource_done(pself)
@@ -1069,7 +1069,7 @@ static Sane.Status RGBRouter_done (Source *pself)
     return status
 }
 
-static Sane.Status RGBRouter_init (RGBRouter *pself,
+static Sane.Status RGBRouter_init(RGBRouter *pself,
                            SnapScan_Scanner *pss,
                                    Source *psub)
 {
@@ -1081,7 +1081,7 @@ static Sane.Status RGBRouter_init (RGBRouter *pself,
                                        RGBRouter_get,
                                        RGBRouter_done,
                                        psub)
-    if (status == Sane.STATUS_GOOD)
+    if(status == Sane.STATUS_GOOD)
     {
         Int lines_in_buffer = 0
 
@@ -1097,9 +1097,9 @@ static Sane.Status RGBRouter_init (RGBRouter *pself,
 
         pself.cbuf = (Sane.Byte *) malloc(pself.cb_size)
         pself.xbuf = (Sane.Byte *) malloc(pself.cb_line_size)
-        if (pself.cbuf == NULL  ||  pself.xbuf == NULL)
+        if(pself.cbuf == NULL  ||  pself.xbuf == NULL)
         {
-            DBG (DL_MAJOR_ERROR,
+            DBG(DL_MAJOR_ERROR,
                  "%s: failed to allocate circular buffer.\n",
                  __func__)
             status = Sane.STATUS_NO_MEM
@@ -1109,7 +1109,7 @@ static Sane.Status RGBRouter_init (RGBRouter *pself,
             Int ch
 
             pself.cb_start = 0
-            for (ch = 0;  ch < 3;  ch++)
+            for(ch = 0;  ch < 3;  ch++)
             {
                 pself.ch_offset[ch] =
                         pss.chroma_offset[ch] * pself.cb_line_size
@@ -1124,24 +1124,24 @@ static Sane.Status RGBRouter_init (RGBRouter *pself,
     return status
 }
 
-static Sane.Status create_RGBRouter (SnapScan_Scanner *pss,
+static Sane.Status create_RGBRouter(SnapScan_Scanner *pss,
                                      Source *psub,
                                      Source **pps)
 {
     static char me[] = "create_RGBRouter"
     Sane.Status status = Sane.STATUS_GOOD
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
+    DBG(DL_CALL_TRACE, "%s\n", me)
     *pps = (Source *) malloc(sizeof(RGBRouter))
-    if (*pps == NULL)
+    if(*pps == NULL)
     {
-        DBG (DL_MAJOR_ERROR, "%s: failed to allocate RGBRouter.\n",
+        DBG(DL_MAJOR_ERROR, "%s: failed to allocate RGBRouter.\n",
              __func__)
         status = Sane.STATUS_NO_MEM
     }
     else
     {
-        status = RGBRouter_init ((RGBRouter *) *pps, pss, psub)
+        status = RGBRouter_init((RGBRouter *) *pps, pss, psub)
     }
     return status
 }
@@ -1153,23 +1153,23 @@ typedef struct
     TX_SOURCE_GUTS
 } Inverter
 
-static Sane.Status Inverter_get (Source *pself, Sane.Byte *pbuf, Int *plen)
+static Sane.Status Inverter_get(Source *pself, Sane.Byte *pbuf, Int *plen)
 {
-    Sane.Status status = TxSource_get (pself, pbuf, plen)
-    if (status == Sane.STATUS_GOOD)
+    Sane.Status status = TxSource_get(pself, pbuf, plen)
+    if(status == Sane.STATUS_GOOD)
     {
         var i: Int
-        for (i = 0;  i < *plen;  i++)
+        for(i = 0;  i < *plen;  i++)
             pbuf[i] ^= 0xFF
     }
     return status
 }
 
-static Sane.Status Inverter_init (Inverter *pself,
+static Sane.Status Inverter_init(Inverter *pself,
                                   SnapScan_Scanner *pss,
                                   Source *psub)
 {
-    return  TxSource_init ((TxSource *) pself,
+    return  TxSource_init((TxSource *) pself,
                            pss,
                            TxSource_remaining,
                            TxSource_bytesPerLine,
@@ -1179,78 +1179,78 @@ static Sane.Status Inverter_init (Inverter *pself,
                            psub)
 }
 
-static Sane.Status create_Inverter (SnapScan_Scanner *pss,
+static Sane.Status create_Inverter(SnapScan_Scanner *pss,
                                     Source *psub,
                                     Source **pps)
 {
     Sane.Status status = Sane.STATUS_GOOD
     *pps = (Source *) malloc(sizeof(Inverter))
-    if (*pps == NULL)
+    if(*pps == NULL)
     {
-        DBG (DL_MAJOR_ERROR, "%s: failed to allocate Inverter.\n",
+        DBG(DL_MAJOR_ERROR, "%s: failed to allocate Inverter.\n",
                  __func__)
         status = Sane.STATUS_NO_MEM
     }
     else
     {
-        status = Inverter_init ((Inverter *) *pps, pss, psub)
+        status = Inverter_init((Inverter *) *pps, pss, psub)
     }
     return status
 }
 
 /* Source chain creation */
 
-static Sane.Status create_source_chain (SnapScan_Scanner *pss,
+static Sane.Status create_source_chain(SnapScan_Scanner *pss,
                                         BaseSourceType bst,
                                         Source **pps)
 {
    static char me[] = "create_source_chain"
-    Sane.Status status = create_base_source (pss, bst, pps)
+    Sane.Status status = create_base_source(pss, bst, pps)
 
-   DBG (DL_CALL_TRACE, "%s\n", me)
-    if (status == Sane.STATUS_GOOD)
+   DBG(DL_CALL_TRACE, "%s\n", me)
+    if(status == Sane.STATUS_GOOD)
     {
         SnapScan_Mode mode = actual_mode(pss)
-        switch (mode)
+        switch(mode)
         {
         case MD_COLOUR:
-            status = create_RGBRouter (pss, *pps, pps)
+            status = create_RGBRouter(pss, *pps, pps)
             /* We only have the interlace problems on
                some scanners like the Epson Perfection 2480/2580
                at 2400 dpi. */
-            if (status == Sane.STATUS_GOOD &&
+            if(status == Sane.STATUS_GOOD &&
                 ((pss.pdev.model == PERFECTION2480 && pss.res == 2400) ||
                 (pss.pdev.model == PERFECTION3490 && pss.res == 3200) ||
                 (pss.pdev.model == PRISA5000E && pss.res == 1200)))
-                status = create_Deinterlacer (pss, *pps, pps)
+                status = create_Deinterlacer(pss, *pps, pps)
             break
         case MD_BILEVELCOLOUR:
-            status = create_Expander (pss, *pps, pps)
-            if (status == Sane.STATUS_GOOD)
-                status = create_RGBRouter (pss, *pps, pps)
-            if (status == Sane.STATUS_GOOD &&
+            status = create_Expander(pss, *pps, pps)
+            if(status == Sane.STATUS_GOOD)
+                status = create_RGBRouter(pss, *pps, pps)
+            if(status == Sane.STATUS_GOOD &&
                 ((pss.pdev.model == PERFECTION2480 && pss.res == 2400) ||
                 (pss.pdev.model == PERFECTION3490 && pss.res == 3200) ||
                 (pss.pdev.model == PRISA5000E && pss.res == 1200)))
-                status = create_Deinterlacer (pss, *pps, pps)
+                status = create_Deinterlacer(pss, *pps, pps)
             break
         case MD_GREYSCALE:
-            if ((pss.pdev.model == PERFECTION2480 && pss.res == 2400) ||
+            if((pss.pdev.model == PERFECTION2480 && pss.res == 2400) ||
                 (pss.pdev.model == PERFECTION3490 && pss.res == 3200) ||
                 (pss.pdev.model == PRISA5000E && pss.res == 1200))
-                status = create_Deinterlacer (pss, *pps, pps)
+                status = create_Deinterlacer(pss, *pps, pps)
             break
         case MD_LINEART:
             /* The SnapScan creates a negative image by
                default... so for the user interface to make sense,
                the internal meaning of "negative" is reversed */
-            if (pss.negative == Sane.FALSE)
-                status = create_Inverter (pss, *pps, pps)
-            if (pss.pdev.model == PERFECTION3490 && pss.res == 3200)
-                status = create_Deinterlacer (pss, *pps, pps)
+            if(pss.negative == Sane.FALSE)
+                status = create_Inverter(pss, *pps, pps)
+            if(pss.pdev.model == PERFECTION3490 && pss.res == 3200)
+                status = create_Deinterlacer(pss, *pps, pps)
             break
         default:
-            DBG (DL_MAJOR_ERROR, "%s: bad mode value %d (internal error)\n",
+            DBG(DL_MAJOR_ERROR, "%s: bad mode value %d(internal error)\n",
                  __func__, mode)
             status = Sane.STATUS_INVAL
             break
@@ -1291,10 +1291,10 @@ static Sane.Status create_source_chain (SnapScan_Scanner *pss,
  * Applied patch from Julien Blache to change ch_past_init from Int to Bool
  *
  * Revision 1.11  2004/11/09 23:17:38  oliver-guest
- * First implementation of deinterlacer for Epson scanners at high resolutions (thanks to Brad Johnson)
+ * First implementation of deinterlacer for Epson scanners at high resolutions(thanks to Brad Johnson)
  *
  * Revision 1.10  2004/10/03 17:34:36  hmg-guest
- * 64 bit platform fixes (bug #300799).
+ * 64 bit platform fixes(bug #300799).
  *
  * Revision 1.9  2004/04/09 16:18:37  oliver-guest
  * Fix initialization of FDSource.bytes_remaining
@@ -1337,7 +1337,7 @@ static Sane.Status create_source_chain (SnapScan_Scanner *pss,
  * - Change copyright notice
  *
  * Revision 1.12  2001/09/09 18:06:32  oliverschwartz
- * add changes from Acer (new models; automatic firmware upload for USB scanners); fix distorted colour scans after greyscale scans (call set_window only in Sane.start); code cleanup
+ * add changes from Acer(new models; automatic firmware upload for USB scanners); fix distorted colour scans after greyscale scans(call set_window only in Sane.start); code cleanup
  *
  * Revision 1.11  2001/04/13 13:12:18  oliverschwartz
  * use absolute_max as expected_read_bytes for PRISA620S

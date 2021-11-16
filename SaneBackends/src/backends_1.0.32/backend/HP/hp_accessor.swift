@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 Geoffrey T. Dairiki
+   Copyright(C) 1997 Geoffrey T. Dairiki
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -37,21 +37,21 @@
    If you do not wish that, delete this exception notice.
 
    This file is part of a SANE backend for HP Scanners supporting
-   HP Scanner Control Language (SCL).
+   HP Scanner Control Language(SCL).
 */
 
 #ifndef HP_ACCESSOR_H_INCLUDED
 #define HP_ACCESSOR_H_INCLUDED
 import hp
 
-HpData sanei_hp_data_new (void)
-HpData sanei_hp_data_dup (HpData orig)
-void   sanei_hp_data_destroy (HpData this)
+HpData sanei_hp_data_new(void)
+HpData sanei_hp_data_dup(HpData orig)
+void   sanei_hp_data_destroy(HpData this)
 
 HpAccessor sanei_hp_accessor_new       (HpData data, size_t size)
 HpAccessor sanei_hp_accessor_int_new   (HpData data)
 HpAccessor sanei_hp_accessor_bool_new  (HpData data)
-HpAccessor sanei_hp_accessor_fixed_new (HpData data)
+HpAccessor sanei_hp_accessor_fixed_new(HpData data)
 HpAccessor sanei_hp_accessor_choice_new(HpData data, HpChoice choices,
                                         hp_bool_t may_change)
 HpAccessor sanei_hp_accessor_vector_new(HpData data,
@@ -63,7 +63,7 @@ HpAccessor sanei_hp_accessor_matrix_vector_new(HpData data,
 HpAccessor sanei_hp_accessor_subvector_new(HpAccessorVector super,
                                         unsigned nchan, unsigned chan)
 
-HpAccessor sanei_hp_accessor_geometry_new (HpAccessor val, HpAccessor lim,
+HpAccessor sanei_hp_accessor_geometry_new(HpAccessor val, HpAccessor lim,
                                         hp_bool_t is_br, HpAccessor res)
 
 Sane.Status sanei_hp_accessor_get   (HpAccessor this, HpData data, void * valp)
@@ -71,29 +71,29 @@ Sane.Status sanei_hp_accessor_set   (HpAccessor this, HpData data, void * valp)
 Int	    sanei_hp_accessor_getint(HpAccessor this, HpData data)
 void	    sanei_hp_accessor_setint(HpAccessor this, HpData data, Int v)
 const void *sanei_hp_accessor_data  (HpAccessor this, HpData data)
-void *	    sanei__hp_accessor_data (HpAccessor this, HpData data)
+void *	    sanei__hp_accessor_data(HpAccessor this, HpData data)
 size_t      sanei_hp_accessor_size  (HpAccessor this)
 
-unsigned    sanei_hp_accessor_vector_length (HpAccessorVector this)
-Sane.Fixed  sanei_hp_accessor_vector_minval (HpAccessorVector this)
-Sane.Fixed  sanei_hp_accessor_vector_maxval (HpAccessorVector this)
+unsigned    sanei_hp_accessor_vector_length(HpAccessorVector this)
+Sane.Fixed  sanei_hp_accessor_vector_minval(HpAccessorVector this)
+Sane.Fixed  sanei_hp_accessor_vector_maxval(HpAccessorVector this)
 
-Int    sanei_hp_accessor_choice_maxsize (HpAccessorChoice this)
+Int    sanei_hp_accessor_choice_maxsize(HpAccessorChoice this)
 Sane.String_Const *
-  sanei_hp_accessor_choice_strlist (HpAccessorChoice this, HpOptSet optset,
+  sanei_hp_accessor_choice_strlist(HpAccessorChoice this, HpOptSet optset,
                                     HpData data, const HpDeviceInfo *info)
 
 #endif /* HP_ACCESSOR_H_INCLUDED */
 
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 Geoffrey T. Dairiki
+   Copyright(C) 1997 Geoffrey T. Dairiki
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -125,7 +125,7 @@ Sane.String_Const *
    If you do not wish that, delete this exception notice.
 
    This file is part of a SANE backend for HP Scanners supporting
-   HP Scanner Control Language (SCL).
+   HP Scanner Control Language(SCL).
 */
 
 /* #define STUBS
@@ -160,10 +160,10 @@ struct hp_data_s
 
 
 static void
-hp_data_resize (HpData this, size_t newsize)
+hp_data_resize(HpData this, size_t newsize)
 {
 
-  if (this.bufsiz != newsize)
+  if(this.bufsiz != newsize)
     {
       assert(!this.frozen)
       this.buf = sanei_hp_realloc(this.buf, newsize)
@@ -173,14 +173,14 @@ hp_data_resize (HpData this, size_t newsize)
 }
 
 static void
-hp_data_freeze (HpData this)
+hp_data_freeze(HpData this)
 {
   hp_data_resize(this, this.length)
   this.frozen = 1
 }
 
 static size_t
-hp_data_alloc (HpData this, size_t sz)
+hp_data_alloc(HpData this, size_t sz)
 {
   size_t	newsize	= this.bufsiz
   size_t	offset	= this.length
@@ -195,9 +195,9 @@ hp_data_alloc (HpData this, size_t sz)
   * The workaround is to ensure that all allocations are in multiples
   * of 8 bytes.
   */
-  sz = (sz + sizeof (long) - 1) & ~(sizeof (long) - 1)
+  sz = (sz + sizeof(long) - 1) & ~(sizeof(long) - 1)
 
-  while (newsize < this.length + sz)
+  while(newsize < this.length + sz)
       newsize += DATA_SIZE_INCREMENT
   hp_data_resize(this, newsize)
 
@@ -206,27 +206,27 @@ hp_data_alloc (HpData this, size_t sz)
 }
 
 static void *
-hp_data_data (HpData this, size_t offset)
+hp_data_data(HpData this, size_t offset)
 {
   assert(offset < this.length)
-  return (char *)this.buf + offset
+  return(char *)this.buf + offset
 }
 
 HpData
-sanei_hp_data_new (void)
+sanei_hp_data_new(void)
 {
   return sanei_hp_allocz(sizeof(struct hp_data_s))
 }
 
 HpData
-sanei_hp_data_dup (HpData orig)
+sanei_hp_data_dup(HpData orig)
 {
   HpData new
 
   hp_data_freeze(orig)
-  if (!( new = sanei_hp_memdup(orig, sizeof(*orig)) ))
+  if(!( new = sanei_hp_memdup(orig, sizeof(*orig)) ))
       return 0
-  if (!(new.buf = sanei_hp_memdup(orig.buf, orig.bufsiz)))
+  if(!(new.buf = sanei_hp_memdup(orig.buf, orig.bufsiz)))
       {
 	sanei_hp_free(new)
 	return 0
@@ -235,7 +235,7 @@ sanei_hp_data_dup (HpData orig)
 }
 
 void
-sanei_hp_data_destroy (HpData this)
+sanei_hp_data_destroy(HpData this)
 {
   sanei_hp_free(this.buf)
   sanei_hp_free(this)
@@ -258,61 +258,61 @@ struct hp_accessor_s
 
 struct hp_accessor_type_s
 {
-    Sane.Status (*get)(HpAccessor this, HpData data, void * valp)
-    Sane.Status (*set)(HpAccessor this,  HpData data, void * valp)
+    Sane.Status(*get)(HpAccessor this, HpData data, void * valp)
+    Sane.Status(*set)(HpAccessor this,  HpData data, void * valp)
     Int	 (*getint)(HpAccessor this, HpData data)
-    void (*setint)(HpAccessor this, HpData data, Int val)
+    void(*setint)(HpAccessor this, HpData data, Int val)
 ]
 
 Sane.Status
-sanei_hp_accessor_get (HpAccessor this, HpData data, void * valp)
+sanei_hp_accessor_get(HpAccessor this, HpData data, void * valp)
 {
-  if (!this.type.get)
+  if(!this.type.get)
       return Sane.STATUS_INVAL
-  return (*this.type.get)(this, data, valp)
+  return(*this.type.get)(this, data, valp)
 }
 
 Sane.Status
-sanei_hp_accessor_set (HpAccessor this,  HpData data, void * valp)
+sanei_hp_accessor_set(HpAccessor this,  HpData data, void * valp)
 {
-  if (!this.type.set)
+  if(!this.type.set)
       return Sane.STATUS_INVAL
-  return (*this.type.set)(this, data, valp)
+  return(*this.type.set)(this, data, valp)
 }
 
-func Int sanei_hp_accessor_getint (HpAccessor this, HpData data)
+func Int sanei_hp_accessor_getint(HpAccessor this, HpData data)
 {
-  assert (this.type.getint)
-  return (*this.type.getint)(this, data)
+  assert(this.type.getint)
+  return(*this.type.getint)(this, data)
 }
 
 void
-sanei_hp_accessor_setint (HpAccessor this, HpData data, Int val)
+sanei_hp_accessor_setint(HpAccessor this, HpData data, Int val)
 {
-  assert (this.type.setint)
+  assert(this.type.setint)
   (*this.type.setint)(this, data, val)
 }
 
 const void *
-sanei_hp_accessor_data (HpAccessor this, HpData data)
+sanei_hp_accessor_data(HpAccessor this, HpData data)
 {
   return hp_data_data(data, this.data_offset)
 }
 
 void *
-sanei__hp_accessor_data (HpAccessor this, HpData data)
+sanei__hp_accessor_data(HpAccessor this, HpData data)
 {
   return hp_data_data(data, this.data_offset)
 }
 
 size_t
-sanei_hp_accessor_size (HpAccessor this)
+sanei_hp_accessor_size(HpAccessor this)
 {
   return  this.data_size
 }
 
 HpAccessor
-sanei_hp_accessor_new (HpData data, size_t sz)
+sanei_hp_accessor_new(HpData data, size_t sz)
 {
   static const struct hp_accessor_type_s type = {
       0, 0, 0, 0
@@ -334,33 +334,33 @@ typedef const struct hp_accessor_int_s *	HpAccessorInt
 typedef struct hp_accessor_int_s *		_HpAccessorInt
 
 static Sane.Status
-hp_accessor_int_get (HpAccessor this, HpData data, void * valp)
+hp_accessor_int_get(HpAccessor this, HpData data, void * valp)
 {
   *(Int*)valp = *(Int *)hp_data_data(data, this.data_offset)
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-hp_accessor_int_set (HpAccessor this, HpData data, void * valp)
+hp_accessor_int_set(HpAccessor this, HpData data, void * valp)
 {
   *(Int *)hp_data_data(data, this.data_offset) = *(Int*)valp
   return Sane.STATUS_GOOD
 }
 
 static Int
-hp_accessor_int_getint (HpAccessor this, HpData data)
+hp_accessor_int_getint(HpAccessor this, HpData data)
 {
   return *(Int *)hp_data_data(data, this.data_offset)
 }
 
 static void
-hp_accessor_int_setint (HpAccessor this, HpData data, Int val)
+hp_accessor_int_setint(HpAccessor this, HpData data, Int val)
 {
   *(Int *)hp_data_data(data, this.data_offset) = val
 }
 
 HpAccessor
-sanei_hp_accessor_int_new (HpData data)
+sanei_hp_accessor_int_new(HpData data)
 {
   static const struct hp_accessor_type_s type = {
       hp_accessor_int_get, hp_accessor_int_set,
@@ -369,7 +369,7 @@ sanei_hp_accessor_int_new (HpData data)
   _HpAccessorInt	 new = sanei_hp_alloc(sizeof(*new))
   new.type = &type
   new.data_offset = hp_data_alloc(data, new.data_size = sizeof(Int))
-  return (HpAccessor)new
+  return(HpAccessor)new
 }
 
 
@@ -383,7 +383,7 @@ typedef const struct hp_accessor_bool_s *	HpAccessorBool
 typedef struct hp_accessor_bool_s *		_HpAccessorBool
 
 static Sane.Status
-hp_accessor_bool_get (HpAccessor this, HpData data, void * valp)
+hp_accessor_bool_get(HpAccessor this, HpData data, void * valp)
 {
   Int val = *(Int *)hp_data_data(data, this.data_offset)
   *(Bool*)valp = val ? Sane.TRUE : Sane.FALSE
@@ -391,7 +391,7 @@ hp_accessor_bool_get (HpAccessor this, HpData data, void * valp)
 }
 
 static Sane.Status
-hp_accessor_bool_set (HpAccessor this, HpData data, void * valp)
+hp_accessor_bool_set(HpAccessor this, HpData data, void * valp)
 {
   Int * datap = hp_data_data(data, this.data_offset)
   *datap = *(Bool*)valp == Sane.FALSE ? 0 : 1
@@ -399,7 +399,7 @@ hp_accessor_bool_set (HpAccessor this, HpData data, void * valp)
 }
 
 HpAccessor
-sanei_hp_accessor_bool_new (HpData data)
+sanei_hp_accessor_bool_new(HpData data)
 {
   static const struct hp_accessor_type_s type = {
       hp_accessor_bool_get, hp_accessor_bool_set,
@@ -408,7 +408,7 @@ sanei_hp_accessor_bool_new (HpData data)
   _HpAccessorBool	 new = sanei_hp_alloc(sizeof(*new))
   new.type = &type
   new.data_offset = hp_data_alloc(data, new.data_size = sizeof(Int))
-  return (HpAccessor)new
+  return(HpAccessor)new
 }
 
 
@@ -422,21 +422,21 @@ typedef const struct hp_accessor_fixed_s *	HpAccessorFixed
 typedef struct hp_accessor_fixed_s *		_HpAccessorFixed
 
 static Sane.Status
-hp_accessor_fixed_get (HpAccessor this, HpData data, void * valp)
+hp_accessor_fixed_get(HpAccessor this, HpData data, void * valp)
 {
   *(Sane.Fixed*)valp = *(Sane.Fixed *)hp_data_data(data, this.data_offset)
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-hp_accessor_fixed_set (HpAccessor this, HpData data, void * valp)
+hp_accessor_fixed_set(HpAccessor this, HpData data, void * valp)
 {
   *(Sane.Fixed *)hp_data_data(data, this.data_offset) = *(Sane.Fixed*)valp
   return Sane.STATUS_GOOD
 }
 
 HpAccessor
-sanei_hp_accessor_fixed_new (HpData data)
+sanei_hp_accessor_fixed_new(HpData data)
 {
   static const struct hp_accessor_type_s type = {
       hp_accessor_fixed_get, hp_accessor_fixed_set, 0, 0
@@ -444,7 +444,7 @@ sanei_hp_accessor_fixed_new (HpData data)
   _HpAccessorFixed	 new = sanei_hp_alloc(sizeof(*new))
   new.type = &type
   new.data_offset = hp_data_alloc(data, new.data_size = sizeof(Sane.Fixed))
-  return (HpAccessor)new
+  return(HpAccessor)new
 }
 
 
@@ -465,7 +465,7 @@ struct hp_accessor_choice_s
 ]
 
 static Sane.Status
-hp_accessor_choice_get (HpAccessor this, HpData data, void * valp)
+hp_accessor_choice_get(HpAccessor this, HpData data, void * valp)
 {
   HpChoice choice = *(HpChoice *)hp_data_data(data, this.data_offset)
   strcpy(valp, choice.name)
@@ -473,20 +473,20 @@ hp_accessor_choice_get (HpAccessor this, HpData data, void * valp)
 }
 
 static Sane.Status
-hp_accessor_choice_set (HpAccessor _this, HpData data, void * valp)
+hp_accessor_choice_set(HpAccessor _this, HpData data, void * valp)
 {
   HpAccessorChoice	this	= (HpAccessorChoice)_this
   HpChoice 		choice
   Sane.String_Const *	strlist = this.strlist
 
-  for (choice = this.choices; choice; choice = choice.next)
+  for(choice = this.choices; choice; choice = choice.next)
     {
       /* Skip choices which aren't in strlist. */
-      if (!*strlist || strcmp(*strlist, choice.name) != 0)
+      if(!*strlist || strcmp(*strlist, choice.name) != 0)
 	  continue
       strlist++
 
-      if (strcmp((const char *)valp, choice.name) == 0)
+      if(strcmp((const char *)valp, choice.name) == 0)
 	{
 	  *(HpChoice *)hp_data_data(data, this.data_offset) = choice
 	  return Sane.STATUS_GOOD
@@ -497,68 +497,68 @@ hp_accessor_choice_set (HpAccessor _this, HpData data, void * valp)
 }
 
 static Int
-hp_accessor_choice_getint (HpAccessor this, HpData data)
+hp_accessor_choice_getint(HpAccessor this, HpData data)
 {
   HpChoice choice = *(HpChoice *)hp_data_data(data, this.data_offset)
   return choice.val
 }
 
 static void
-hp_accessor_choice_setint (HpAccessor _this,  HpData data, Int val)
+hp_accessor_choice_setint(HpAccessor _this,  HpData data, Int val)
 {
   HpAccessorChoice	this	= (HpAccessorChoice)_this
   HpChoice 		choice
   HpChoice 		first_choice = 0
   Sane.String_Const *	strlist = this.strlist
 
-  for (choice = this.choices; choice; choice = choice.next)
+  for(choice = this.choices; choice; choice = choice.next)
     {
       /* Skip choices which aren't in strlist. */
-      if (!*strlist || strcmp(*strlist, choice.name) != 0)
+      if(!*strlist || strcmp(*strlist, choice.name) != 0)
 	  continue
       strlist++
 
-      if (!first_choice)
+      if(!first_choice)
 	  first_choice = choice; /* First enabled choice */
 
-      if (choice.val == val)
+      if(choice.val == val)
 	{
 	  *(HpChoice *)hp_data_data(data, this.data_offset) = choice
 	  return
 	}
     }
 
-  if (first_choice)
+  if(first_choice)
       *(HpChoice *)hp_data_data(data, this.data_offset) = first_choice
   else
       assert(!"No choices to choose from?")
 }
 
 Int
-sanei_hp_accessor_choice_maxsize (HpAccessorChoice this)
+sanei_hp_accessor_choice_maxsize(HpAccessorChoice this)
 {
   HpChoice	choice
   Int	size	= 0
 
-  for (choice = this.choices; choice; choice = choice.next)
-      if ((Int)strlen(choice.name) >= size)
+  for(choice = this.choices; choice; choice = choice.next)
+      if((Int)strlen(choice.name) >= size)
 	  size = strlen(choice.name) + 1
   return size
 }
 
 Sane.String_Const *
-sanei_hp_accessor_choice_strlist (HpAccessorChoice this,
+sanei_hp_accessor_choice_strlist(HpAccessorChoice this,
 			    HpOptSet optset, HpData data,
                             const HpDeviceInfo *info)
 {
-  if (optset)
+  if(optset)
     {
       Int	old_val = hp_accessor_choice_getint((HpAccessor)this, data)
       HpChoice	choice
       size_t	count	= 0
 
-      for (choice = this.choices; choice; choice = choice.next)
-	  if (sanei_hp_choice_isEnabled(choice, optset, data, info))
+      for(choice = this.choices; choice; choice = choice.next)
+	  if(sanei_hp_choice_isEnabled(choice, optset, data, info))
 	      this.strlist[count++] = choice.name
       this.strlist[count] = 0
 
@@ -569,7 +569,7 @@ sanei_hp_accessor_choice_strlist (HpAccessorChoice this,
 }
 
 HpAccessor
-sanei_hp_accessor_choice_new (HpData data, HpChoice choices,
+sanei_hp_accessor_choice_new(HpData data, HpChoice choices,
                               hp_bool_t may_change)
 {
   static const struct hp_accessor_type_s type = {
@@ -580,12 +580,12 @@ sanei_hp_accessor_choice_new (HpData data, HpChoice choices,
   size_t	count	= 0
   _HpAccessorChoice this
 
-  if ( may_change ) data.frozen = 0
+  if( may_change ) data.frozen = 0
 
-  for (choice = choices; choice; choice = choice.next)
+  for(choice = choices; choice; choice = choice.next)
       count++
   this = sanei_hp_alloc(sizeof(*this) + (count+1) * sizeof(*this.strlist))
-  if (!this)
+  if(!this)
       return 0
 
   this.type = &type
@@ -594,11 +594,11 @@ sanei_hp_accessor_choice_new (HpData data, HpChoice choices,
   this.strlist = (Sane.String_Const *)(this + 1)
 
   count = 0
-  for (choice = this.choices; choice; choice = choice.next)
+  for(choice = this.choices; choice; choice = choice.next)
       this.strlist[count++] = choice.name
   this.strlist[count] = 0
 
-  return (HpAccessor)this
+  return(HpAccessor)this
 }
 
 /*
@@ -627,29 +627,29 @@ struct hp_accessor_vector_s
 ]
 
 unsigned
-sanei_hp_accessor_vector_length (HpAccessorVector this)
+sanei_hp_accessor_vector_length(HpAccessorVector this)
 {
   return this.length
 }
 
 Sane.Fixed
-sanei_hp_accessor_vector_minval (HpAccessorVector this)
+sanei_hp_accessor_vector_minval(HpAccessorVector this)
 {
   return this.fmin
 }
 
 Sane.Fixed
-sanei_hp_accessor_vector_maxval (HpAccessorVector this)
+sanei_hp_accessor_vector_maxval(HpAccessorVector this)
 {
   return this.fmax
 }
 
 static unsigned short
-_v_get (HpAccessorVector this, const unsigned char * data)
+_v_get(HpAccessorVector this, const unsigned char * data)
 {
   unsigned short val
 
-  if (this.mask <= 255)
+  if(this.mask <= 255)
       val = data[0]
   else
 #ifndef NotOrig
@@ -662,11 +662,11 @@ _v_get (HpAccessorVector this, const unsigned char * data)
 }
 
 static void
-_v_set (HpAccessorVector this, unsigned char * data, unsigned short val)
+_v_set(HpAccessorVector this, unsigned char * data, unsigned short val)
 {
   val &= this.mask
 
-  if (this.mask <= 255)
+  if(this.mask <= 255)
     {
       data[0] = (unsigned char)val
     }
@@ -683,7 +683,7 @@ _v_set (HpAccessorVector this, unsigned char * data, unsigned short val)
 }
 
 static Sane.Status
-hp_accessor_vector_get (HpAccessor _this, HpData d, void * valp)
+hp_accessor_vector_get(HpAccessor _this, HpData d, void * valp)
 {
   HpAccessorVector	this	= (HpAccessorVector)_this
   Sane.Fixed *		ptr	= valp
@@ -692,7 +692,7 @@ hp_accessor_vector_get (HpAccessor _this, HpData d, void * valp)
 
   data += this.offset
 
-  while (ptr < end)
+  while(ptr < end)
     {
       *ptr++ = (*this.scale)(this, _v_get(this, data))
       data += this.stride
@@ -701,7 +701,7 @@ hp_accessor_vector_get (HpAccessor _this, HpData d, void * valp)
 }
 
 static Sane.Status
-hp_accessor_vector_set (HpAccessor _this, HpData d, void * valp)
+hp_accessor_vector_set(HpAccessor _this, HpData d, void * valp)
 {
   HpAccessorVector	this	= (HpAccessorVector)_this
   Sane.Fixed *		ptr	= valp
@@ -710,11 +710,11 @@ hp_accessor_vector_set (HpAccessor _this, HpData d, void * valp)
 
   data += this.offset
 
-  while (ptr < end)
+  while(ptr < end)
     {
-      if (*ptr < this.fmin)
+      if(*ptr < this.fmin)
 	  *ptr = this.fmin
-      if (*ptr > this.fmax)
+      if(*ptr > this.fmax)
 	  *ptr = this.fmax
 
       _v_set(this, data, (*this.unscale)(this, *ptr++))
@@ -725,21 +725,21 @@ hp_accessor_vector_set (HpAccessor _this, HpData d, void * valp)
 }
 
 static unsigned short
-_vector_unscale (HpAccessorVector this, Sane.Fixed fval)
+_vector_unscale(HpAccessorVector this, Sane.Fixed fval)
 {
   unsigned short max_val = this.mask
-  return (fval * max_val + Sane.FIX(0.5)) / Sane.FIX(1.0)
+  return(fval * max_val + Sane.FIX(0.5)) / Sane.FIX(1.0)
 }
 
 static Sane.Fixed
-_vector_scale (HpAccessorVector this, unsigned short val)
+_vector_scale(HpAccessorVector this, unsigned short val)
 {
   unsigned short max_val = this.mask
-  return (Sane.FIX(1.0) * val + max_val / 2) / max_val
+  return(Sane.FIX(1.0) * val + max_val / 2) / max_val
 }
 
 HpAccessor
-sanei_hp_accessor_vector_new (HpData data, unsigned length, unsigned depth)
+sanei_hp_accessor_vector_new(HpData data, unsigned length, unsigned depth)
 {
   static const struct hp_accessor_type_s type = {
       hp_accessor_vector_get, hp_accessor_vector_set, 0, 0
@@ -747,7 +747,7 @@ sanei_hp_accessor_vector_new (HpData data, unsigned length, unsigned depth)
   unsigned		width	= depth > 8 ? 2 : 1
   _HpAccessorVector	new	= sanei_hp_alloc(sizeof(*new))
 
-  if (!new)
+  if(!new)
       return 0
 
   assert(depth > 0 && depth <= 16)
@@ -768,21 +768,21 @@ sanei_hp_accessor_vector_new (HpData data, unsigned length, unsigned depth)
   new.fmin = Sane.FIX(0.0)
   new.fmax = Sane.FIX(1.0)
 
-  return (HpAccessor)new
+  return(HpAccessor)new
 }
 
 static unsigned short
-_gamma_vector_unscale (HpAccessorVector __Sane.unused__ this, Sane.Fixed fval)
+_gamma_vector_unscale(HpAccessorVector __Sane.unused__ this, Sane.Fixed fval)
 {
   unsigned short unscaled = fval / Sane.FIX(1.0)
-  if (unscaled > 255) unscaled = 255
+  if(unscaled > 255) unscaled = 255
   unscaled = 255 - unscaled;  /* Don't know why. But this is how it works. */
 
   return unscaled
 }
 
 static Sane.Fixed
-_gamma_vector_scale (HpAccessorVector __Sane.unused__ this, unsigned short val)
+_gamma_vector_scale(HpAccessorVector __Sane.unused__ this, unsigned short val)
 {
   Sane.Fixed scaled
   val = 255-val;     /* Don't know why. But this is how it works. */
@@ -792,14 +792,14 @@ _gamma_vector_scale (HpAccessorVector __Sane.unused__ this, unsigned short val)
 }
 
 HpAccessor
-sanei_hp_accessor_gamma_vector_new (HpData data, unsigned length,
+sanei_hp_accessor_gamma_vector_new(HpData data, unsigned length,
                                     unsigned depth)
 {
   _HpAccessorVector	this	=
       ( (_HpAccessorVector) sanei_hp_accessor_vector_new(data, length, depth) )
 
 
-  if (!this)
+  if(!this)
       return 0
 
   this.offset += this.stride * (this.length - 1)
@@ -811,20 +811,20 @@ sanei_hp_accessor_gamma_vector_new (HpData data, unsigned length,
   this.fmin = Sane.FIX(0.0)
   this.fmax = Sane.FIX(255.0)
 
-  return (HpAccessor)this
+  return(HpAccessor)this
 }
 
 static unsigned short
-_matrix_vector_unscale (HpAccessorVector this, Sane.Fixed fval)
+_matrix_vector_unscale(HpAccessorVector this, Sane.Fixed fval)
 {
   unsigned short max_val  = this.mask >> 1
   unsigned short sign_bit = this.mask & ~max_val
   unsigned short sign	  = 0
 
-  if (fval == Sane.FIX(1.0))
+  if(fval == Sane.FIX(1.0))
       return sign_bit
 
-  if (fval < 0)
+  if(fval < 0)
     {
       sign = sign_bit
       fval = -fval
@@ -833,31 +833,31 @@ _matrix_vector_unscale (HpAccessorVector this, Sane.Fixed fval)
 }
 
 static Sane.Fixed
-_matrix_vector_scale (HpAccessorVector this, unsigned short val)
+_matrix_vector_scale(HpAccessorVector this, unsigned short val)
 {
   unsigned short max_val  = this.mask >> 1
   unsigned short sign_bit = this.mask & ~max_val
   Sane.Fixed	 fval
 
-  if (val == sign_bit)
+  if(val == sign_bit)
       return Sane.FIX(1.0)
 
   fval = (this.fmax * (val & max_val) + max_val / 2) / max_val
 
-  if ((val & sign_bit) != 0)
+  if((val & sign_bit) != 0)
       fval = -fval
 
   return fval
 }
 
 HpAccessor
-sanei_hp_accessor_matrix_vector_new (HpData data, unsigned length,
+sanei_hp_accessor_matrix_vector_new(HpData data, unsigned length,
                                      unsigned depth)
 {
   _HpAccessorVector	this	=
       ( (_HpAccessorVector) sanei_hp_accessor_vector_new(data, length, depth) )
 
-  if (!this)
+  if(!this)
       return 0
 
   this.scale   = _matrix_vector_scale
@@ -868,16 +868,16 @@ sanei_hp_accessor_matrix_vector_new (HpData data, unsigned length,
   this.fmax >>= (depth - 1)
   this.fmin = - this.fmax
 
-  return (HpAccessor)this
+  return(HpAccessor)this
 }
 
 HpAccessor
-sanei_hp_accessor_subvector_new (HpAccessorVector super,
+sanei_hp_accessor_subvector_new(HpAccessorVector super,
 			   unsigned nchan, unsigned chan)
 {
   _HpAccessorVector	this	= sanei_hp_memdup(super, sizeof(*this))
 
-  if (!this)
+  if(!this)
       return 0
 
   assert(chan < nchan)
@@ -885,14 +885,14 @@ sanei_hp_accessor_subvector_new (HpAccessorVector super,
 
   this.length /= nchan
 
-  if (this.stride < 0)
+  if(this.stride < 0)
       this.offset += (nchan - chan - 1) * this.stride
   else
       this.offset += chan * this.stride
 
   this.stride *= nchan
 
-  return (HpAccessor)this
+  return(HpAccessor)this
 }
 
 /*
@@ -916,27 +916,27 @@ struct hp_accessor_geometry_s
 
 
 static Sane.Status
-hp_accessor_geometry_set (HpAccessor _this, HpData data, void * _valp)
+hp_accessor_geometry_set(HpAccessor _this, HpData data, void * _valp)
 {
   HpAccessorGeometry	this	= (HpAccessorGeometry)_this
   Sane.Fixed *		valp	= _valp
   Sane.Fixed		limit
 
   sanei_hp_accessor_get(this.other, data, &limit)
-  if (this.is_br ? *valp < limit : *valp > limit)
+  if(this.is_br ? *valp < limit : *valp > limit)
       *valp = limit
   return sanei_hp_accessor_set(this.this, data, valp)
 }
 
 static Int
-_to_devpixels (Sane.Fixed val_mm, Sane.Fixed mm_per_pix)
+_to_devpixels(Sane.Fixed val_mm, Sane.Fixed mm_per_pix)
 {
   assert(val_mm >= 0)
-  return (val_mm + mm_per_pix / 2) / mm_per_pix
+  return(val_mm + mm_per_pix / 2) / mm_per_pix
 }
 
 static Int
-hp_accessor_geometry_getint (HpAccessor _this, HpData data)
+hp_accessor_geometry_getint(HpAccessor _this, HpData data)
 {
   HpAccessorGeometry	this	= (HpAccessorGeometry)_this
   Sane.Fixed		this_val, other_val
@@ -947,12 +947,12 @@ hp_accessor_geometry_getint (HpAccessor _this, HpData data)
   assert(res > 0)
   sanei_hp_accessor_get(this.this, data, &this_val)
 
-  if (this.is_br)
+  if(this.is_br)
     {
       /* Convert to extent. */
       sanei_hp_accessor_get(this.other, data, &other_val)
       assert(this_val >= other_val && other_val >= 0)
-      return (_to_devpixels(this_val, mm_per_pix)
+      return(_to_devpixels(this_val, mm_per_pix)
 	      - _to_devpixels(other_val, mm_per_pix) + 1)
     }
   return _to_devpixels(this_val, mm_per_pix)
@@ -965,7 +965,7 @@ hp_accessor_geometry_getint (HpAccessor _this, HpData data)
 
 
 HpAccessor
-sanei_hp_accessor_geometry_new (HpAccessor val, HpAccessor lim, hp_bool_t is_br,
+sanei_hp_accessor_geometry_new(HpAccessor val, HpAccessor lim, hp_bool_t is_br,
 			  HpAccessor resolution)
 {
   static const struct hp_accessor_type_s type = {
@@ -983,5 +983,5 @@ sanei_hp_accessor_geometry_new (HpAccessor val, HpAccessor lim, hp_bool_t is_br,
   new.is_br = is_br
   new.resolution = resolution
 
-  return (HpAccessor)new
+  return(HpAccessor)new
 }

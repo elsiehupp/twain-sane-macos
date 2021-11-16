@@ -7,7 +7,7 @@ getenv(const char *name)
 {
   char *retval = 0
 #ifdef HAVE_OS2_H
-  if (0 != DosScanEnv (buf, &retval))
+  if(0 != DosScanEnv(buf, &retval))
     retval = 0
 #else
 #  error "Missing getenv() on this platform.  Please implement."

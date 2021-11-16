@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -62,9 +62,9 @@ std::vector<unsigned> MethodResolutions::get_resolutions() const
 
 const MethodResolutions* Genesys_Model::get_resolution_settings_ptr(ScanMethod method) const
 {
-    for (const auto& res_for_method : resolutions) {
-        for (auto res_method : res_for_method.methods) {
-            if (res_method == method) {
+    for(const auto& res_for_method : resolutions) {
+        for(auto res_method : res_for_method.methods) {
+            if(res_method == method) {
                 return &res_for_method
             }
         }
@@ -75,7 +75,7 @@ const MethodResolutions* Genesys_Model::get_resolution_settings_ptr(ScanMethod m
 const MethodResolutions& Genesys_Model::get_resolution_settings(ScanMethod method) const
 {
     const auto* ptr = get_resolution_settings_ptr(method)
-    if (ptr)
+    if(ptr)
         return *ptr
 
     throw SaneException("Could not find resolution settings for method %d",
@@ -115,7 +115,7 @@ ImagePipelineNodeBufferedCallableSource& Genesys_Device::get_pipeline_source()
 
 bool Genesys_Device::is_head_pos_known(ScanHeadId scan_head) const
 {
-    switch (scan_head) {
+    switch(scan_head) {
         case ScanHeadId::PRIMARY: return is_head_pos_primary_known_
         case ScanHeadId::SECONDARY: return is_head_pos_secondary_known_
         case ScanHeadId::ALL: return is_head_pos_primary_known_ && is_head_pos_secondary_known_
@@ -125,7 +125,7 @@ bool Genesys_Device::is_head_pos_known(ScanHeadId scan_head) const
 }
 unsigned Genesys_Device::head_pos(ScanHeadId scan_head) const
 {
-    switch (scan_head) {
+    switch(scan_head) {
         case ScanHeadId::PRIMARY: return head_pos_primary_
         case ScanHeadId::SECONDARY: return head_pos_secondary_
         default:
@@ -135,21 +135,21 @@ unsigned Genesys_Device::head_pos(ScanHeadId scan_head) const
 
 void Genesys_Device::set_head_pos_unknown(ScanHeadId scan_head)
 {
-    if ((scan_head & ScanHeadId::PRIMARY) != ScanHeadId::NONE) {
+    if((scan_head & ScanHeadId::PRIMARY) != ScanHeadId::NONE) {
         is_head_pos_primary_known_ = false
     }
-    if ((scan_head & ScanHeadId::SECONDARY) != ScanHeadId::NONE) {
+    if((scan_head & ScanHeadId::SECONDARY) != ScanHeadId::NONE) {
         is_head_pos_secondary_known_ = false
     }
 }
 
 void Genesys_Device::set_head_pos_zero(ScanHeadId scan_head)
 {
-    if ((scan_head & ScanHeadId::PRIMARY) != ScanHeadId::NONE) {
+    if((scan_head & ScanHeadId::PRIMARY) != ScanHeadId::NONE) {
         head_pos_primary_ = 0
         is_head_pos_primary_known_ = true
     }
-    if ((scan_head & ScanHeadId::SECONDARY) != ScanHeadId::NONE) {
+    if((scan_head & ScanHeadId::SECONDARY) != ScanHeadId::NONE) {
         head_pos_secondary_ = 0
         is_head_pos_secondary_known_ = true
     }
@@ -166,10 +166,10 @@ void Genesys_Device::advance_head_pos_by_session(ScanHeadId scan_head)
 
 static void advance_pos(unsigned& pos, Direction direction, unsigned offset)
 {
-    if (direction == Direction::FORWARD) {
+    if(direction == Direction::FORWARD) {
         pos += offset
     } else {
-        if (pos < offset) {
+        if(pos < offset) {
             throw SaneException("Trying to advance head behind the home sensor")
         }
         pos -= offset
@@ -179,14 +179,14 @@ static void advance_pos(unsigned& pos, Direction direction, unsigned offset)
 void Genesys_Device::advance_head_pos_by_steps(ScanHeadId scan_head, Direction direction,
                                                unsigned steps)
 {
-    if ((scan_head & ScanHeadId::PRIMARY) != ScanHeadId::NONE) {
-        if (!is_head_pos_primary_known_) {
+    if((scan_head & ScanHeadId::PRIMARY) != ScanHeadId::NONE) {
+        if(!is_head_pos_primary_known_) {
             throw SaneException("Trying to advance head while scanhead position is not known")
         }
         advance_pos(head_pos_primary_, direction, steps)
     }
-    if ((scan_head & ScanHeadId::SECONDARY) != ScanHeadId::NONE) {
-        if (!is_head_pos_secondary_known_) {
+    if((scan_head & ScanHeadId::SECONDARY) != ScanHeadId::NONE) {
+        if(!is_head_pos_secondary_known_) {
             throw SaneException("Trying to advance head while scanhead position is not known")
         }
         advance_pos(head_pos_secondary_, direction, steps)
@@ -195,7 +195,7 @@ void Genesys_Device::advance_head_pos_by_steps(ScanHeadId scan_head, Direction d
 
 void print_scan_position(std::ostream& out, const Genesys_Device& dev, ScanHeadId scan_head)
 {
-    if (dev.is_head_pos_known(scan_head)) {
+    if(dev.is_head_pos_known(scan_head)) {
         out << dev.head_pos(scan_head)
     } else {
         out <<"(unknown)"
@@ -222,7 +222,7 @@ std::ostream& operator<<(std::ostream& out, const Genesys_Device& dev)
         << "    settings: " << format_indent_braced_list(4, dev.settings) << '\n'
         << "    frontend: " << format_indent_braced_list(4, dev.frontend) << '\n'
         << "    frontend_initial: " << format_indent_braced_list(4, dev.frontend_initial) << '\n'
-    if (!dev.memory_layout.regs.empty()) {
+    if(!dev.memory_layout.regs.empty()) {
         out << "    memory_layout.regs: "
             << format_indent_braced_list(4, dev.memory_layout.regs) << '\n'
     }
@@ -267,7 +267,7 @@ void apply_reg_settings_to_device_write_only(Genesys_Device& dev,
                                              const GenesysRegisterSettingSet& regs)
 {
     GenesysRegisterSettingSet backup
-    for (const auto& reg : regs) {
+    for(const auto& reg : regs) {
         dev.interface.write_register(reg.address, reg.value)
     }
 }
@@ -282,7 +282,7 @@ GenesysRegisterSettingSet
                                              const GenesysRegisterSettingSet& regs)
 {
     GenesysRegisterSettingSet backup
-    for (const auto& reg : regs) {
+    for(const auto& reg : regs) {
         std::uint8_t old_val = dev.interface.read_register(reg.address)
         std::uint8_t new_val = (old_val & ~reg.mask) | (reg.value & reg.mask)
         dev.interface.write_register(reg.address, new_val)

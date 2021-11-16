@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -54,7 +54,7 @@ ImagePipelineNode::~ImagePipelineNode() {}
 bool ImagePipelineNodeCallableSource::get_next_row_data(std::uint8_t* out_data)
 {
     bool got_data = producer_(get_row_bytes(), out_data)
-    if (!got_data)
+    if(!got_data)
         eof_ = true
     return got_data
 }
@@ -72,7 +72,7 @@ ImagePipelineNodeBufferedCallableSource::ImagePipelineNodeBufferedCallableSource
 
 bool ImagePipelineNodeBufferedCallableSource::get_next_row_data(std::uint8_t* out_data)
 {
-    if (curr_row_ >= get_height()) {
+    if(curr_row_ >= get_height()) {
         DBG(DBG_warn, "%s: reading out of bounds. Row %zu, height: %zu\n", __func__,
             curr_row_, get_height())
         eof_ = true
@@ -83,7 +83,7 @@ bool ImagePipelineNodeBufferedCallableSource::get_next_row_data(std::uint8_t* ou
 
     got_data &= buffer_.get_data(get_row_bytes(), out_data)
     curr_row_++
-    if (!got_data) {
+    if(!got_data) {
         eof_ = true
     }
     return got_data
@@ -99,15 +99,15 @@ ImagePipelineNodeArraySource::ImagePipelineNodeArraySource(std::size_t width, st
     next_row_{0}
 {
     auto size = get_row_bytes() * height_
-    if (data_.size() < size) {
-        throw SaneException("The given array is too small (%zu bytes). Need at least %zu",
+    if(data_.size() < size) {
+        throw SaneException("The given array is too small(%zu bytes). Need at least %zu",
                             data_.size(), size)
     }
 }
 
 bool ImagePipelineNodeArraySource::get_next_row_data(std::uint8_t* out_data)
 {
-    if (next_row_ >= height_) {
+    if(next_row_ >= height_) {
         eof_ = true
         return false
     }
@@ -126,7 +126,7 @@ ImagePipelineNodeImageSource::ImagePipelineNodeImageSource(const Image& source) 
 
 bool ImagePipelineNodeImageSource::get_next_row_data(std::uint8_t* out_data)
 {
-    if (next_row_ >= get_height()) {
+    if(next_row_ >= get_height()) {
         return false
     }
     std::memcpy(out_data, source_.get_row_ptr(next_row_), get_row_bytes())
@@ -137,7 +137,7 @@ bool ImagePipelineNodeImageSource::get_next_row_data(std::uint8_t* out_data)
 bool ImagePipelineNodeFormatConvert::get_next_row_data(std::uint8_t* out_data)
 {
     auto src_format = source_.get_format()
-    if (src_format == dst_format_) {
+    if(src_format == dst_format_) {
         return source_.get_next_row_data(out_data)
     }
 
@@ -167,7 +167,7 @@ ImagePipelineNodeDesegment::ImagePipelineNodeDesegment(ImagePipelineNode& source
                          "pixels_per_shunk=%zu", segment_order.size(), segment_pixels,
                     interleaved_lines, pixels_per_chunk)
 
-    if (source_.get_height() % interleaved_lines_ > 0) {
+    if(source_.get_height() % interleaved_lines_ > 0) {
         throw SaneException("Height is not a multiple of the number of lines to interelave %zu/%zu",
                             source_.get_height(), interleaved_lines_)
     }
@@ -199,11 +199,11 @@ bool ImagePipelineNodeDesegment::get_next_row_data(uint8_t* out_data)
     bool got_data = true
 
     buffer_.clear()
-    for (std::size_t i = 0; i < interleaved_lines_; ++i) {
+    for(std::size_t i = 0; i < interleaved_lines_; ++i) {
         buffer_.push_back()
         got_data &= source_.get_next_row_data(buffer_.get_row_ptr(i))
     }
-    if (!buffer_.is_linear()) {
+    if(!buffer_.is_linear()) {
         throw SaneException("Buffer is not linear")
     }
 
@@ -214,13 +214,13 @@ bool ImagePipelineNodeDesegment::get_next_row_data(uint8_t* out_data)
 
     std::size_t groups_count = output_width_ / (segment_order_.size() * pixels_per_chunk_)
 
-    for (std::size_t igroup = 0; igroup < groups_count; ++igroup) {
-        for (std::size_t isegment = 0; isegment < segment_count; ++isegment) {
+    for(std::size_t igroup = 0; igroup < groups_count; ++igroup) {
+        for(std::size_t isegment = 0; isegment < segment_count; ++isegment) {
             auto input_offset = igroup * pixels_per_chunk_
             input_offset += segment_pixels_ * segment_order_[isegment]
             auto output_offset = (igroup * segment_count + isegment) * pixels_per_chunk_
 
-            for (std::size_t ipixel = 0; ipixel < pixels_per_chunk_; ++ipixel) {
+            for(std::size_t ipixel = 0; ipixel < pixels_per_chunk_; ++ipixel) {
                 auto pixel = get_raw_pixel_from_row(in_data, input_offset + ipixel, format)
                 set_raw_pixel_to_row(out_data, output_offset + ipixel, pixel, format)
             }
@@ -240,7 +240,7 @@ ImagePipelineNodeSwap16BitEndian::ImagePipelineNodeSwap16BitEndian(ImagePipeline
     source_(source),
     needs_swapping_{false}
 {
-    if (get_pixel_format_depth(source_.get_format()) == 16) {
+    if(get_pixel_format_depth(source_.get_format()) == 16) {
         needs_swapping_ = true
     } else {
         DBG(DBG_info, "%s: this pipeline node does nothing for non 16-bit formats", __func__)
@@ -250,9 +250,9 @@ ImagePipelineNodeSwap16BitEndian::ImagePipelineNodeSwap16BitEndian(ImagePipeline
 bool ImagePipelineNodeSwap16BitEndian::get_next_row_data(std::uint8_t* out_data)
 {
     bool got_data = source_.get_next_row_data(out_data)
-    if (needs_swapping_) {
+    if(needs_swapping_) {
         std::size_t pixels = get_row_bytes() / 2
-        for (std::size_t i = 0; i < pixels; ++i) {
+        for(std::size_t i = 0; i < pixels; ++i) {
             std::swap(*out_data, *(out_data + 1))
             out_data += 2
         }
@@ -271,10 +271,10 @@ bool ImagePipelineNodeInvert::get_next_row_data(std::uint8_t* out_data)
     auto num_values = get_width() * get_pixel_channels(source_.get_format())
     auto depth = get_pixel_format_depth(source_.get_format())
 
-    switch (depth) {
+    switch(depth) {
         case 16: {
             auto* data = reinterpret_cast<std::uint16_t*>(out_data)
-            for (std::size_t i = 0; i < num_values; ++i) {
+            for(std::size_t i = 0; i < num_values; ++i) {
                 *data = 0xffff - *data
                 data++
             }
@@ -282,7 +282,7 @@ bool ImagePipelineNodeInvert::get_next_row_data(std::uint8_t* out_data)
         }
         case 8: {
             auto* data = out_data
-            for (std::size_t i = 0; i < num_values; ++i) {
+            for(std::size_t i = 0; i < num_values; ++i) {
                 *data = 0xff - *data
                 data++
             }
@@ -291,7 +291,7 @@ bool ImagePipelineNodeInvert::get_next_row_data(std::uint8_t* out_data)
         case 1: {
             auto* data = out_data
             auto num_bytes = (num_values + 7) / 8
-            for (std::size_t i = 0; i < num_bytes; ++i) {
+            for(std::size_t i = 0; i < num_bytes; ++i) {
                 *data = ~*data
                 data++
             }
@@ -319,7 +319,7 @@ bool ImagePipelineNodeMergeMonoLines::get_next_row_data(std::uint8_t* out_data)
     bool got_data = true
 
     buffer_.clear()
-    for (unsigned i = 0; i < 3; ++i) {
+    for(unsigned i = 0; i < 3; ++i) {
         buffer_.push_back()
         got_data &= source_.get_next_row_data(buffer_.get_row_ptr(i))
     }
@@ -330,7 +330,7 @@ bool ImagePipelineNodeMergeMonoLines::get_next_row_data(std::uint8_t* out_data)
 
     auto format = source_.get_format()
 
-    for (std::size_t x = 0, width = get_width(); x < width; ++x) {
+    for(std::size_t x = 0, width = get_width(); x < width; ++x) {
         std::uint16_t ch0 = get_raw_channel_from_row(row0, x, 0, format)
         std::uint16_t ch1 = get_raw_channel_from_row(row1, x, 0, format)
         std::uint16_t ch2 = get_raw_channel_from_row(row2, x, 0, format)
@@ -344,27 +344,27 @@ bool ImagePipelineNodeMergeMonoLines::get_next_row_data(std::uint8_t* out_data)
 PixelFormat ImagePipelineNodeMergeMonoLines::get_output_format(PixelFormat input_format,
                                                                ColorOrder order)
 {
-    switch (input_format) {
+    switch(input_format) {
         case PixelFormat::I1: {
-            if (order == ColorOrder::RGB) {
+            if(order == ColorOrder::RGB) {
                 return PixelFormat::RGB111
             }
             break
         }
         case PixelFormat::I8: {
-            if (order == ColorOrder::RGB) {
+            if(order == ColorOrder::RGB) {
                 return PixelFormat::RGB888
             }
-            if (order == ColorOrder::BGR) {
+            if(order == ColorOrder::BGR) {
                 return PixelFormat::BGR888
             }
             break
         }
         case PixelFormat::I16: {
-            if (order == ColorOrder::RGB) {
+            if(order == ColorOrder::RGB) {
                 return PixelFormat::RGB161616
             }
-            if (order == ColorOrder::BGR) {
+            if(order == ColorOrder::BGR) {
                 return PixelFormat::BGR161616
             }
             break
@@ -387,7 +387,7 @@ bool ImagePipelineNodeSplitMonoLines::get_next_row_data(std::uint8_t* out_data)
 {
     bool got_data = true
 
-    if (next_channel_ == 0) {
+    if(next_channel_ == 0) {
         buffer_.resize(source_.get_row_bytes())
         got_data &= source_.get_next_row_data(buffer_.data())
     }
@@ -395,7 +395,7 @@ bool ImagePipelineNodeSplitMonoLines::get_next_row_data(std::uint8_t* out_data)
     const auto* row = buffer_.data()
     auto format = source_.get_format()
 
-    for (std::size_t x = 0, width = get_width(); x < width; ++x) {
+    for(std::size_t x = 0, width = get_width(); x < width; ++x) {
         std::uint16_t ch = get_raw_channel_from_row(row, x, next_channel_, format)
         set_raw_channel_to_row(out_data, x, 0, ch, output_format_)
     }
@@ -406,7 +406,7 @@ bool ImagePipelineNodeSplitMonoLines::get_next_row_data(std::uint8_t* out_data)
 
 PixelFormat ImagePipelineNodeSplitMonoLines::get_output_format(PixelFormat input_format)
 {
-    switch (input_format) {
+    switch(input_format) {
         case PixelFormat::RGB111: return PixelFormat::I1
         case PixelFormat::RGB888:
         case PixelFormat::BGR888: return PixelFormat::I8
@@ -424,7 +424,7 @@ ImagePipelineNodeComponentShiftLines::ImagePipelineNodeComponentShiftLines(
 {
     DBG_HELPER_ARGS(dbg, "shifts={%d, %d, %d}", shift_r, shift_g, shift_b)
 
-    switch (source.get_format()) {
+    switch(source.get_format()) {
         case PixelFormat::RGB111:
         case PixelFormat::RGB888:
         case PixelFormat::RGB161616: {
@@ -442,7 +442,7 @@ ImagePipelineNodeComponentShiftLines::ImagePipelineNodeComponentShiftLines(
     }
     extra_height_ = *std::max_element(channel_shifts_.begin(), channel_shifts_.end())
     height_ = source_.get_height()
-    if (extra_height_ > height_) {
+    if(extra_height_ > height_) {
         height_ = 0
     } else {
         height_ -= extra_height_
@@ -453,10 +453,10 @@ bool ImagePipelineNodeComponentShiftLines::get_next_row_data(std::uint8_t* out_d
 {
     bool got_data = true
 
-    if (!buffer_.empty()) {
+    if(!buffer_.empty()) {
         buffer_.pop_front()
     }
-    while (buffer_.height() < extra_height_ + 1) {
+    while(buffer_.height() < extra_height_ + 1) {
         buffer_.push_back()
         got_data &= source_.get_next_row_data(buffer_.get_back_row_ptr())
     }
@@ -466,7 +466,7 @@ bool ImagePipelineNodeComponentShiftLines::get_next_row_data(std::uint8_t* out_d
     const auto* row1 = buffer_.get_row_ptr(channel_shifts_[1])
     const auto* row2 = buffer_.get_row_ptr(channel_shifts_[2])
 
-    for (std::size_t x = 0, width = get_width(); x < width; ++x) {
+    for(std::size_t x = 0, width = get_width(); x < width; ++x) {
         std::uint16_t ch0 = get_raw_channel_from_row(row0, x, 0, format)
         std::uint16_t ch1 = get_raw_channel_from_row(row1, x, 1, format)
         std::uint16_t ch2 = get_raw_channel_from_row(row2, x, 2, format)
@@ -485,7 +485,7 @@ ImagePipelineNodePixelShiftLines::ImagePipelineNodePixelShiftLines(
 {
     extra_height_ = *std::max_element(pixel_shifts_.begin(), pixel_shifts_.end())
     height_ = source_.get_height()
-    if (extra_height_ > height_) {
+    if(extra_height_ > height_) {
         height_ = 0
     } else {
         height_ -= extra_height_
@@ -496,10 +496,10 @@ bool ImagePipelineNodePixelShiftLines::get_next_row_data(std::uint8_t* out_data)
 {
     bool got_data = true
 
-    if (!buffer_.empty()) {
+    if(!buffer_.empty()) {
         buffer_.pop_front()
     }
-    while (buffer_.height() < extra_height_ + 1) {
+    while(buffer_.height() < extra_height_ + 1) {
         buffer_.push_back()
         got_data &= source_.get_next_row_data(buffer_.get_back_row_ptr())
     }
@@ -510,12 +510,12 @@ bool ImagePipelineNodePixelShiftLines::get_next_row_data(std::uint8_t* out_data)
     std::vector<std::uint8_t*> rows
     rows.resize(shift_count, nullptr)
 
-    for (std::size_t irow = 0; irow < shift_count; ++irow) {
+    for(std::size_t irow = 0; irow < shift_count; ++irow) {
         rows[irow] = buffer_.get_row_ptr(pixel_shifts_[irow])
     }
 
-    for (std::size_t x = 0, width = get_width(); x < width;) {
-        for (std::size_t irow = 0; irow < shift_count && x < width; irow++, x++) {
+    for(std::size_t x = 0, width = get_width(); x < width;) {
+        for(std::size_t irow = 0; irow < shift_count && x < width; irow++, x++) {
             RawPixel pixel = get_raw_pixel_from_row(rows[irow], x, format)
             set_raw_pixel_to_row(out_data, x, pixel, format)
         }
@@ -530,7 +530,7 @@ ImagePipelineNodePixelShiftColumns::ImagePipelineNodePixelShiftColumns(
 {
     width_ = source_.get_width()
     extra_width_ = compute_pixel_shift_extra_width(width_, pixel_shifts_)
-    if (extra_width_ > width_) {
+    if(extra_width_ > width_) {
         width_ = 0
     } else {
         width_ -= extra_width_
@@ -540,7 +540,7 @@ ImagePipelineNodePixelShiftColumns::ImagePipelineNodePixelShiftColumns(
 
 bool ImagePipelineNodePixelShiftColumns::get_next_row_data(std::uint8_t* out_data)
 {
-    if (width_ == 0) {
+    if(width_ == 0) {
         throw SaneException("Attempt to read zero-width line")
     }
     bool got_data = source_.get_next_row_data(temp_buffer_.data())
@@ -548,8 +548,8 @@ bool ImagePipelineNodePixelShiftColumns::get_next_row_data(std::uint8_t* out_dat
     auto format = get_format()
     auto shift_count = pixel_shifts_.size()
 
-    for (std::size_t x = 0, width = get_width(); x < width; x += shift_count) {
-        for (std::size_t ishift = 0; ishift < shift_count && x + ishift < width; ishift++) {
+    for(std::size_t x = 0, width = get_width(); x < width; x += shift_count) {
+        for(std::size_t ishift = 0; ishift < shift_count && x + ishift < width; ishift++) {
             RawPixel pixel = get_raw_pixel_from_row(temp_buffer_.data(), x + pixel_shifts_[ishift],
                                                     format)
             set_raw_pixel_to_row(out_data, x + ishift, pixel, format)
@@ -568,11 +568,11 @@ std::size_t compute_pixel_shift_extra_width(std::size_t source_width,
     Int non_filled_group = source_width % shifts.size()
     Int extra_width = 0
 
-    for (var i: Int = 0; i < group_size; ++i) {
+    for(var i: Int = 0; i < group_size; ++i) {
         Int shift_groups = shifts[i] / group_size
         Int shift_rem = shifts[i] % group_size
 
-        if (shift_rem < non_filled_group) {
+        if(shift_rem < non_filled_group) {
             shift_groups--
         }
         extra_width = std::max(extra_width, shift_groups * group_size + non_filled_group - i)
@@ -613,17 +613,17 @@ bool ImagePipelineNodeScaleRows::get_next_row_data(std::uint8_t* out_data)
     auto format = get_format()
     auto channels = get_pixel_channels(format)
 
-    if (src_width > dst_width) {
+    if(src_width > dst_width) {
         // average
         std::uint32_t counter = src_width / 2
         unsigned src_x = 0
-        for (unsigned dst_x = 0; dst_x < dst_width; dst_x++) {
+        for(unsigned dst_x = 0; dst_x < dst_width; dst_x++) {
             unsigned avg[3] = {0, 0, 0]
             unsigned count = 0
-            while (counter < src_width && src_x < src_width) {
+            while(counter < src_width && src_x < src_width) {
                 counter += dst_width
 
-                for (unsigned c = 0; c < channels; c++) {
+                for(unsigned c = 0; c < channels; c++) {
                     avg[c] += get_raw_channel_from_row(src_data, src_x, c, format)
                 }
 
@@ -632,7 +632,7 @@ bool ImagePipelineNodeScaleRows::get_next_row_data(std::uint8_t* out_data)
             }
             counter -= src_width
 
-            for (unsigned c = 0; c < channels; c++) {
+            for(unsigned c = 0; c < channels; c++) {
                 set_raw_channel_to_row(out_data, dst_x, c, avg[c] / count, format)
             }
         }
@@ -641,15 +641,15 @@ bool ImagePipelineNodeScaleRows::get_next_row_data(std::uint8_t* out_data)
         std::uint32_t counter = dst_width / 2
         unsigned dst_x = 0
 
-        for (unsigned src_x = 0; src_x < src_width; src_x++) {
+        for(unsigned src_x = 0; src_x < src_width; src_x++) {
             unsigned avg[3] = {0, 0, 0]
-            for (unsigned c = 0; c < channels; c++) {
+            for(unsigned c = 0; c < channels; c++) {
                 avg[c] += get_raw_channel_from_row(src_data, src_x, c, format)
             }
-            while ((counter < dst_width || src_x + 1 == src_width) && dst_x < dst_width) {
+            while((counter < dst_width || src_x + 1 == src_width) && dst_x < dst_width) {
                 counter += src_width
 
-                for (unsigned c = 0; c < channels; c++) {
+                for(unsigned c = 0; c < channels; c++) {
                     set_raw_channel_to_row(out_data, dst_x, c, avg[c], format)
                 }
                 dst_x++
@@ -664,11 +664,11 @@ bool ImagePipelineNodeExtract::get_next_row_data(std::uint8_t* out_data)
 {
     bool got_data = true
 
-    while (current_line_ < offset_y_) {
+    while(current_line_ < offset_y_) {
         got_data &= source_.get_next_row_data(cached_line_.data())
         current_line_++
     }
-    if (current_line_ >= offset_y_ + source_.get_height()) {
+    if(current_line_ >= offset_y_ + source_.get_height()) {
         std::fill(out_data, out_data + get_row_bytes(), 0)
         current_line_++
         return got_data
@@ -682,22 +682,22 @@ bool ImagePipelineNodeExtract::get_next_row_data(std::uint8_t* out_data)
     x_src_width = std::min(x_src_width, width_)
     auto x_pad_after = width_ > x_src_width ? width_ - x_src_width : 0
 
-    if (get_pixel_format_depth(format) < 8) {
+    if(get_pixel_format_depth(format) < 8) {
         // we need to copy pixels one-by-one as there's no per-bit addressing
-        for (std::size_t i = 0; i < x_src_width; ++i) {
+        for(std::size_t i = 0; i < x_src_width; ++i) {
             auto pixel = get_raw_pixel_from_row(cached_line_.data(), i + offset_x_, format)
             set_raw_pixel_to_row(out_data, i, pixel, format)
         }
-        for (std::size_t i = 0; i < x_pad_after; ++i) {
+        for(std::size_t i = 0; i < x_pad_after; ++i) {
             set_raw_pixel_to_row(out_data, i + x_src_width, RawPixel{}, format)
         }
     } else {
         std::size_t bpp = get_pixel_format_depth(format) / 8
-        if (x_src_width > 0) {
+        if(x_src_width > 0) {
             std::memcpy(out_data, cached_line_.data() + offset_x_ * bpp,
                         x_src_width * bpp)
         }
-        if (x_pad_after > 0) {
+        if(x_pad_after > 0) {
             std::fill(out_data + x_src_width * bpp,
                       out_data + (x_src_width + x_pad_after) * bpp, 0)
         }
@@ -715,14 +715,14 @@ ImagePipelineNodeCalibrate::ImagePipelineNodeCalibrate(ImagePipelineNode& source
     source_{source}
 {
     std::size_t size = 0
-    if (bottom.size() >= x_start && top.size() >= x_start) {
+    if(bottom.size() >= x_start && top.size() >= x_start) {
         size = std::min(bottom.size() - x_start, top.size() - x_start)
     }
 
     offset_.reserve(size)
     multiplier_.reserve(size)
 
-    for (std::size_t i = 0; i < size; ++i) {
+    for(std::size_t i = 0; i < size; ++i) {
         offset_.push_back(bottom[i + x_start] / 65535.0f)
         multiplier_.push_back(65535.0f / (top[i + x_start] - bottom[i + x_start]))
     }
@@ -735,7 +735,7 @@ bool ImagePipelineNodeCalibrate::get_next_row_data(std::uint8_t* out_data)
     auto format = get_format()
     auto depth = get_pixel_format_depth(format)
     std::size_t max_value = 1
-    switch (depth) {
+    switch(depth) {
         case 8: max_value = 255; break
         case 16: max_value = 65535; break
         default:
@@ -746,8 +746,8 @@ bool ImagePipelineNodeCalibrate::get_next_row_data(std::uint8_t* out_data)
     std::size_t max_calib_i = offset_.size()
     std::size_t curr_calib_i = 0
 
-    for (std::size_t x = 0, width = get_width(); x < width && curr_calib_i < max_calib_i; ++x) {
-        for (unsigned ch = 0; ch < channels && curr_calib_i < max_calib_i; ++ch) {
+    for(std::size_t x = 0, width = get_width(); x < width && curr_calib_i < max_calib_i; ++x) {
+        for(unsigned ch = 0; ch < channels && curr_calib_i < max_calib_i; ++ch) {
             std::int32_t value = get_raw_channel_from_row(out_data, x, ch, format)
 
             float value_f = static_cast<float>(value) / max_value
@@ -773,7 +773,7 @@ ImagePipelineNodeDebug::~ImagePipelineNodeDebug()
 {
     catch_all_exceptions(__func__, [&]()
     {
-        if (buffer_.empty())
+        if(buffer_.empty())
             return
 
         auto format = get_format()
@@ -841,7 +841,7 @@ std::size_t ImagePipelineStack::get_output_row_bytes() const
 
 void ImagePipelineStack::ensure_node_exists() const
 {
-    if (nodes_.empty()) {
+    if(nodes_.empty()) {
         throw SaneException("The pipeline does not contain any nodes")
     }
 }
@@ -850,7 +850,7 @@ void ImagePipelineStack::clear()
 {
     // we need to destroy the nodes back to front, so that the destructors still have valid
     // references to sources
-    for (auto it = nodes_.rbegin(); it != nodes_.rend(); ++it) {
+    for(auto it = nodes_.rbegin(); it != nodes_.rend(); ++it) {
         it.reset()
     }
     nodes_.clear()
@@ -864,7 +864,7 @@ std::vector<std::uint8_t> ImagePipelineStack::get_all_data()
     std::vector<std::uint8_t> ret
     ret.resize(row_bytes * height)
 
-    for (std::size_t i = 0; i < height; ++i) {
+    for(std::size_t i = 0; i < height; ++i) {
         get_next_row_data(ret.data() + row_bytes * i)
     }
     return ret
@@ -877,7 +877,7 @@ Image ImagePipelineStack::get_image()
     Image ret
     ret.resize(get_output_width(), height, get_output_format())
 
-    for (std::size_t i = 0; i < height; ++i) {
+    for(std::size_t i = 0; i < height; ++i) {
         get_next_row_data(ret.get_row_ptr(i))
     }
     return ret

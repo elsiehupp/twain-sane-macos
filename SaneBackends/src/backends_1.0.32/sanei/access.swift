@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2005 Gerhard Jaeger
+   Copyright(C) 2005 Gerhard Jaeger
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -168,17 +168,17 @@ sanei_access_lock( const char *devicename, Sane.Word timeout )
 	return Sane.STATUS_GOOD
 #else
 	to = timeout
-	if (to <= 0)
+	if(to <= 0)
 		to = 1
 
 	create_lock_filename( fn, devicename )
 
-	for (i = 0; i < to; i++) {
+	for(i = 0; i < to; i++) {
 
 		fd = open( fn, O_CREAT | O_EXCL | O_WRONLY, 0644 )
-		if (fd < 0) {
+		if(fd < 0) {
 
-			if (errno == EEXIST) {
+			if(errno == EEXIST) {
 				switch( get_lock_status( fn )) {
 				case PROCESS_DEAD:
 					DBG( 2, "sanei_access_lock: "

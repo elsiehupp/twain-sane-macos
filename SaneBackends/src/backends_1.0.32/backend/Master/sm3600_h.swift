@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) Marian Matthias Eichholz 2001
+   Copyright(C) Marian Matthias Eichholz 2001
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -109,17 +109,17 @@ typedef struct {
 typedef enum { fast, high, best } TQuality
 typedef enum { color, gray, line, halftone } TMode
 
-#define INST_ASSERT() { if (this.nErrorState) return this.nErrorState; }
+#define INST_ASSERT() { if(this.nErrorState) return this.nErrorState; }
 
-#define CHECK_ASSERTION(a) if (!(a)) return SetError(this,Sane.STATUS_INVAL,"assertion failed in %s %d",__FILE__,__LINE__)
+#define CHECK_ASSERTION(a) if(!(a)) return SetError(this,Sane.STATUS_INVAL,"assertion failed in %s %d",__FILE__,__LINE__)
 
 #define CHECK_POINTER(p) \
-if (!(p)) return SetError(this,Sane.STATUS_NO_MEM,"memory failed in %s %d",__FILE__,__LINE__)
+if(!(p)) return SetError(this,Sane.STATUS_NO_MEM,"memory failed in %s %d",__FILE__,__LINE__)
 
 #define dprintf debug_printf
 
 typedef struct TInstance *PTInstance
-typedef TState (*TReadLineCB)(PTInstance)
+typedef TState(*TReadLineCB)(PTInstance)
 
 typedef struct TScanState {
   TBool           bEOF;         /* EOF marker for Sane.read */

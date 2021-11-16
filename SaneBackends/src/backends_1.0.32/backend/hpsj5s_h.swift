@@ -10,7 +10,7 @@ import ieee1284
 
 #define ADDRESS_RESULT			0x20	/*Here we get result */
 
-/*Scanner functions (not all - some of them I can't identify)*/
+/*Scanner functions(not all - some of them I can't identify)*/
 #define FUNCTION_SETUP_HARDWARE		0xA0
 
 /*Scanner hardware control flags:*/
@@ -32,71 +32,71 @@ enumColorDepth
 
 /*Middle-level API:*/
 
-static Int OpenScanner (const char *scanner_path)
+static Int OpenScanner(const char *scanner_path)
 
-static void CloseScanner (Int handle)
+static void CloseScanner(Int handle)
 
-static Int DetectScanner (void)
+static Int DetectScanner(void)
 
-static void StandByScanner (void)
+static void StandByScanner(void)
 
-static void SwitchHardwareState (Sane.Byte mask, Sane.Byte invert_mask)
+static void SwitchHardwareState(Sane.Byte mask, Sane.Byte invert_mask)
 
-static Int CheckPaperPresent (void)
+static Int CheckPaperPresent(void)
 
-static Int ReleasePaper (void)
+static Int ReleasePaper(void)
 
-static Int PaperFeed (Sane.Word wLinesToFeed)
+static Int PaperFeed(Sane.Word wLinesToFeed)
 
-static void TransferScanParameters (enumColorDepth enColor,
+static void TransferScanParameters(enumColorDepth enColor,
 				    Sane.Word wResolution,
 				    Sane.Word wCorrectedLength)
 
-static void TurnOnPaperPulling (enumColorDepth enColor,
+static void TurnOnPaperPulling(enumColorDepth enColor,
 				Sane.Word wResolution)
 
-static void TurnOffPaperPulling (void)
+static void TurnOffPaperPulling(void)
 
-static Sane.Byte GetCalibration (void)
+static Sane.Byte GetCalibration(void)
 
-static void CalibrateScanElements (void)
+static void CalibrateScanElements(void)
 
 /*Internal-use functions:*/
 
-static Int OutputCheck (void)
-static Int InputCheck (void)
-static Int CallCheck (void)
-static void LoadingPaletteToScanner (void)
+static Int OutputCheck(void)
+static Int InputCheck(void)
+static Int CallCheck(void)
+static void LoadingPaletteToScanner(void)
 
 /*Low level warappers:*/
 
-static void WriteAddress (Sane.Byte Address)
+static void WriteAddress(Sane.Byte Address)
 
-static void WriteData (Sane.Byte Data)
+static void WriteData(Sane.Byte Data)
 
-static void WriteScannerRegister (Sane.Byte Address, Sane.Byte Data)
+static void WriteScannerRegister(Sane.Byte Address, Sane.Byte Data)
 
-static void CallFunctionWithParameter (Sane.Byte Function,
+static void CallFunctionWithParameter(Sane.Byte Function,
 				       Sane.Byte Parameter)
 
-static Sane.Byte CallFunctionWithRetVal (Sane.Byte Function)
+static Sane.Byte CallFunctionWithRetVal(Sane.Byte Function)
 
-static Sane.Byte ReadDataByte (void)
+static Sane.Byte ReadDataByte(void)
 
-static void ReadDataBlock (Sane.Byte * Buffer, Int length)
+static void ReadDataBlock(Sane.Byte * Buffer, Int length)
 
 /*Daisy chaining API: (should be moved to ieee1284 library in future)*/
 
 /*Deselect all devices in chain on this port.*/
-static void daisy_deselect_all (struct parport *port)
+static void daisy_deselect_all(struct parport *port)
 
 /*Select device with number 'daisy' in 'mode'.*/
-static Int daisy_select (struct parport *port, Int daisy, Int mode)
+static Int daisy_select(struct parport *port, Int daisy, Int mode)
 
 /*Setup address for device in chain on this port*/
-static Int assign_addr (struct parport *port, Int daisy)
+static Int assign_addr(struct parport *port, Int daisy)
 
 /* Send a daisy-chain-style CPP command packet. */
-static Int cpp_daisy (struct parport *port, Int cmd)
+static Int cpp_daisy(struct parport *port, Int cmd)
 
 #endif

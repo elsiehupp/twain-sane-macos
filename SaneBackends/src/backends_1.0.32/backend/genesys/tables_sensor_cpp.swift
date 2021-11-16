@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -87,7 +87,7 @@ void genesys_init_sensor_tables()
             { { 1200 }, 2400, 64 },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.register_dpiset = setting.register_dpiset
             sensor.output_pixel_offset = setting.output_pixel_offset
@@ -127,7 +127,7 @@ void genesys_init_sensor_tables()
             { { 600 }, 85 },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.register_dpiset = setting.resolutions.values()[0]
             sensor.output_pixel_offset = setting.output_pixel_offset
@@ -169,7 +169,7 @@ void genesys_init_sensor_tables()
             { { 1200 }, 2400, 64 },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.register_dpiset = setting.register_dpiset
             sensor.output_pixel_offset = setting.output_pixel_offset
@@ -284,7 +284,7 @@ void genesys_init_sensor_tables()
             },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings)
+        for(const CustomSensorSettings& setting : custom_settings)
         {
             sensor.resolutions = setting.resolutions
             sensor.optical_resolution = setting.optical_resolution
@@ -377,7 +377,7 @@ void genesys_init_sensor_tables()
             },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings)
+        for(const CustomSensorSettings& setting : custom_settings)
         {
             sensor.resolutions = setting.resolutions
             sensor.register_dpiset = setting.register_dpiset
@@ -451,7 +451,7 @@ void genesys_init_sensor_tables()
             },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings)
+        for(const CustomSensorSettings& setting : custom_settings)
         {
             sensor.resolutions = setting.resolutions
             sensor.optical_resolution = setting.optical_resolution
@@ -502,7 +502,7 @@ void genesys_init_sensor_tables()
             { { 1200 }, 1200, 1200, 1200, 88 },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.optical_resolution = setting.optical_resolution
             sensor.register_dpiset = setting.register_dpiset
@@ -550,7 +550,7 @@ void genesys_init_sensor_tables()
             { { 1200 }, 1200, 1200, 1200, 88 },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.optical_resolution = setting.optical_resolution
             sensor.register_dpiset = setting.register_dpiset
@@ -607,7 +607,7 @@ void genesys_init_sensor_tables()
                 {0, 1, 2, 3} },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.optical_resolution = setting.optical_resolution
             sensor.register_dpihw = setting.register_dpihw
@@ -664,7 +664,7 @@ void genesys_init_sensor_tables()
             { { 600 }, { 1 }, 24000, { 0x050a, 0x0fa0, 0x1010 }, 38 },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings)
+        for(const CustomSensorSettings& setting : custom_settings)
         {
             sensor.resolutions = setting.resolutions
             sensor.channels = setting.channels
@@ -764,7 +764,7 @@ void genesys_init_sensor_tables()
             },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings)
+        for(const CustomSensorSettings& setting : custom_settings)
         {
             sensor.resolutions = setting.resolutions
             sensor.register_dpiset = setting.register_dpiset
@@ -812,7 +812,7 @@ void genesys_init_sensor_tables()
             { { 1200 }, 1200, 28 },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.register_dpiset = setting.register_dpiset
             sensor.output_pixel_offset = setting.output_pixel_offset
@@ -854,7 +854,7 @@ void genesys_init_sensor_tables()
             { { 1200 }, 1200, 28 },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.register_dpiset = setting.register_dpiset
             sensor.output_pixel_offset = setting.output_pixel_offset
@@ -896,7 +896,7 @@ void genesys_init_sensor_tables()
             { { 600 }, 600, 29 },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.register_dpiset = setting.register_dpiset
             sensor.output_pixel_offset = setting.output_pixel_offset
@@ -938,7 +938,7 @@ void genesys_init_sensor_tables()
             { { 600 }, 1200, 28 },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.register_dpiset = setting.register_dpiset
             sensor.output_pixel_offset = setting.output_pixel_offset
@@ -980,7 +980,7 @@ void genesys_init_sensor_tables()
             { { 600 }, 600, 28 },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.register_dpiset = setting.register_dpiset
             sensor.output_pixel_offset = setting.output_pixel_offset
@@ -1023,7 +1023,7 @@ void genesys_init_sensor_tables()
             { { 600 }, 600, 27 },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.register_dpiset = setting.register_dpiset
             sensor.output_pixel_offset = setting.output_pixel_offset
@@ -1057,7 +1057,7 @@ void genesys_init_sensor_tables()
         ]
 
         CustomSensorSettings custom_settings[] = {
-            // Note: Windows driver uses 1424 lperiod and enables dummy line (0x17)
+            // Note: Windows driver uses 1424 lperiod and enables dummy line(0x17)
             {   { 75 }, 600, 2848, { 304, 203, 180 }, Ratio{1, 8}, 8, 40, 5136,
                 std::vector<unsigned>{}, {
                     { 0x16, 0x10 }, { 0x17, 0x0a }, { 0x18, 0x00 }, { 0x19, 0xff },
@@ -1069,7 +1069,7 @@ void genesys_init_sensor_tables()
                     { 0x7a, 0x00 }, { 0x7b, 0x00 }, { 0x7c, 0x55 },
                 }
             },
-            // Note: Windows driver uses 1424 lperiod and enables dummy line (0x17)
+            // Note: Windows driver uses 1424 lperiod and enables dummy line(0x17)
             {   { 100 }, 600, 2848, { 304, 203, 180 }, Ratio{1, 8}, 6, 53, 5136,
                 std::vector<unsigned>{}, {
                     { 0x16, 0x10 }, { 0x17, 0x0a }, { 0x18, 0x00 }, { 0x19, 0xff },
@@ -1081,7 +1081,7 @@ void genesys_init_sensor_tables()
                     { 0x7a, 0x00 }, { 0x7b, 0x00 }, { 0x7c, 0x55 },
                 }
             },
-            // Note: Windows driver uses 1424 lperiod and enables dummy line (0x17)
+            // Note: Windows driver uses 1424 lperiod and enables dummy line(0x17)
             {   { 150 }, 600, 2848, { 304, 203, 180 }, Ratio{1, 8}, 4, 80, 5136,
                 std::vector<unsigned>{}, {
                     { 0x16, 0x10 }, { 0x17, 0x0a }, { 0x18, 0x00 }, { 0x19, 0xff },
@@ -1093,7 +1093,7 @@ void genesys_init_sensor_tables()
                     { 0x7a, 0x00 }, { 0x7b, 0x00 }, { 0x7c, 0x55 },
                 }
             },
-            // Note: Windows driver uses 1424 lperiod and enables dummy line (0x17)
+            // Note: Windows driver uses 1424 lperiod and enables dummy line(0x17)
             {   { 200 }, 600, 2848, { 304, 203, 180 }, Ratio{1, 8}, 3, 106, 5136,
                 std::vector<unsigned>{}, {
                     { 0x16, 0x10 }, { 0x17, 0x0a }, { 0x18, 0x00 }, { 0x19, 0xff },
@@ -1105,7 +1105,7 @@ void genesys_init_sensor_tables()
                     { 0x7a, 0x00 }, { 0x7b, 0x00 }, { 0x7c, 0x55 },
                 }
             },
-            // Note: Windows driver uses 788 lperiod and enables dummy line (0x17)
+            // Note: Windows driver uses 788 lperiod and enables dummy line(0x17)
             {   { 300 }, 600, 1424, { 304, 203, 180 }, Ratio{1, 8}, 2, 160, 5136,
                 std::vector<unsigned>{}, {
                     { 0x16, 0x10 }, { 0x17, 0x0a }, { 0x18, 0x00 }, { 0x19, 0xff },
@@ -1117,7 +1117,7 @@ void genesys_init_sensor_tables()
                     { 0x7a, 0x00 }, { 0x7b, 0x00 }, { 0x7c, 0x55 },
                 }
             },
-            // Note: Windows driver uses 788 lperiod and enables dummy line (0x17)
+            // Note: Windows driver uses 788 lperiod and enables dummy line(0x17)
             {   { 400 }, 600, 1424, { 304, 203, 180 }, Ratio{1, 8}, 1, 213, 5136,
                 std::vector<unsigned>{}, {
                     { 0x16, 0x10 }, { 0x17, 0x0a }, { 0x18, 0x00 }, { 0x19, 0xff },
@@ -1175,7 +1175,7 @@ void genesys_init_sensor_tables()
             }
         ]
 
-        for (const auto& setting : custom_settings) {
+        for(const auto& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.register_dpihw = setting.register_dpihw
             sensor.register_dpiset = setting.resolutions.values()[0]
@@ -1318,7 +1318,7 @@ void genesys_init_sensor_tables()
             }
         ]
 
-        for (const auto& setting : custom_settings) {
+        for(const auto& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.register_dpihw = setting.register_dpihw
             sensor.register_dpiset = setting.resolutions.values()[0]
@@ -1449,7 +1449,7 @@ void genesys_init_sensor_tables()
             }
         ]
 
-        for (const auto& setting : custom_settings) {
+        for(const auto& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.register_dpihw = setting.register_dpihw
             sensor.register_dpiset = setting.resolutions.values()[0]
@@ -1524,7 +1524,7 @@ void genesys_init_sensor_tables()
             { { 600 }, 600, Ratio{1, 1}, 38 },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.register_dpiset = setting.register_dpiset
             sensor.pixel_count_ratio = setting.pixel_count_ratio
@@ -1656,7 +1656,7 @@ void genesys_init_sensor_tables()
         ]
 
         auto base_custom_regs = sensor.custom_regs
-        for (const CustomSensorSettings& setting : custom_settings)
+        for(const CustomSensorSettings& setting : custom_settings)
         {
             sensor.resolutions = setting.resolutions
             sensor.register_dpihw = setting.register_dpihw
@@ -1792,7 +1792,7 @@ void genesys_init_sensor_tables()
         ]
 
         auto base_custom_regs = sensor.custom_regs
-        for (const CustomSensorSettings& setting : custom_settings)
+        for(const CustomSensorSettings& setting : custom_settings)
         {
             sensor.resolutions = setting.resolutions
             sensor.register_dpihw = setting.register_dpihw
@@ -1916,10 +1916,10 @@ void genesys_init_sensor_tables()
             }
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings)
+        for(const CustomSensorSettings& setting : custom_settings)
         {
-            for (auto method : setting.methods) {
-                for (auto resolution : setting.resolutions.values()) {
+            for(auto method : setting.methods) {
+                for(auto resolution : setting.resolutions.values()) {
                     sensor.resolutions = { resolution ]
                     sensor.optical_resolution = setting.optical_resolution
                     sensor.register_dpiset = setting.register_dpiset
@@ -2038,8 +2038,8 @@ void genesys_init_sensor_tables()
             }
         ]
 
-        for (const auto& setting : custom_settings) {
-            for (auto method : { ScanMethod::FLATBED, ScanMethod::TRANSPARENCY }) {
+        for(const auto& setting : custom_settings) {
+            for(auto method : { ScanMethod::FLATBED, ScanMethod::TRANSPARENCY }) {
                 sensor.method = method
                 sensor.resolutions = setting.resolutions
                 sensor.optical_resolution = setting.optical_resolution
@@ -2207,10 +2207,10 @@ void genesys_init_sensor_tables()
             },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings)
+        for(const CustomSensorSettings& setting : custom_settings)
         {
-            for (auto method : setting.methods)
-                {for (auto resolution : setting.resolutions.values()) {
+            for(auto method : setting.methods)
+                {for(auto resolution : setting.resolutions.values()) {
                     sensor.resolutions = { resolution ]
                     sensor.shading_resolution = resolution
                     sensor.register_dpiset = setting.register_dpiset
@@ -2388,9 +2388,9 @@ void genesys_init_sensor_tables()
             },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
-            for (auto method : setting.methods) {
-                for (auto resolution : setting.resolutions.values()) {
+        for(const CustomSensorSettings& setting : custom_settings) {
+            for(auto method : setting.methods) {
+                for(auto resolution : setting.resolutions.values()) {
                     sensor.resolutions = { resolution ]
                     sensor.optical_resolution = setting.optical_resolution
                     sensor.register_dpiset = setting.register_dpiset
@@ -2458,7 +2458,7 @@ void genesys_init_sensor_tables()
         ]
 
         auto base_custom_regs = sensor.custom_regs
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.register_dpiset = setting.resolutions.values()[0]
             sensor.register_dpihw = setting.register_dpihw
@@ -2623,7 +2623,7 @@ void genesys_init_sensor_tables()
             }
         ]
 
-        for (const auto& setting : custom_settings) {
+        for(const auto& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.optical_resolution = setting.optical_resolution
             sensor.register_dpihw = setting.register_dpihw
@@ -2793,7 +2793,7 @@ void genesys_init_sensor_tables()
             },
         ]
 
-        for (const auto& setting : custom_settings) {
+        for(const auto& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.optical_resolution = setting.optical_resolution
             sensor.register_dpihw = setting.register_dpihw
@@ -2988,7 +2988,7 @@ void genesys_init_sensor_tables()
             }
         ]
 
-        for (const auto& setting : custom_settings) {
+        for(const auto& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.optical_resolution = setting.optical_resolution
             sensor.register_dpihw = setting.register_dpihw
@@ -3184,7 +3184,7 @@ void genesys_init_sensor_tables()
             }
         ]
 
-        for (const auto& setting : custom_settings) {
+        for(const auto& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.optical_resolution = setting.optical_resolution
             sensor.register_dpihw = setting.register_dpihw
@@ -3236,7 +3236,7 @@ void genesys_init_sensor_tables()
             { { 1200 }, 1200, 1200, 1200, 88 },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.optical_resolution = setting.optical_resolution
             sensor.register_dpihw = setting.register_dpihw
@@ -3288,7 +3288,7 @@ void genesys_init_sensor_tables()
             { { 7200 }, ScanMethod::TRANSPARENCY, Ratio{1, 1}, 20, 1200, StaggerConfig{0, 4} },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.method = setting.method
             sensor.shading_resolution = setting.resolutions.values().front()
@@ -3379,7 +3379,7 @@ void genesys_init_sensor_tables()
                 StaggerConfig{4, 0}, {} },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.method = setting.method
             sensor.shading_resolution = setting.shading_resolution
@@ -3454,7 +3454,7 @@ void genesys_init_sensor_tables()
             { { 7200 }, 7200, Ratio{1, 1}, 20, 1200, StaggerConfig{4, 0} },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.shading_resolution = setting.shading_resolution
             sensor.pixel_count_ratio = setting.pixel_count_ratio
@@ -3508,7 +3508,7 @@ void genesys_init_sensor_tables()
             { { 7200 }, 1200, 120, StaggerConfig{4, 0} },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.shading_resolution = setting.resolutions.values()[0]
             sensor.register_dpiset = setting.register_dpiset
@@ -3590,7 +3590,7 @@ void genesys_init_sensor_tables()
                 StaggerConfig{4, 0} },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.method = setting.method
             sensor.shading_resolution = setting.shading_resolution
@@ -3650,7 +3650,7 @@ void genesys_init_sensor_tables()
             { { 7200 }, ScanMethod::TRANSPARENCY_INFRARED, 1200, 120, StaggerConfig{4, 0} },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.method = setting.method
             sensor.shading_resolution = setting.resolutions.values()[0]
@@ -3704,7 +3704,7 @@ void genesys_init_sensor_tables()
         ]
 
         auto base_custom_regs = sensor.custom_regs
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.register_dpihw = setting.register_dpihw
             sensor.register_dpiset = setting.resolutions.values()[0]
@@ -3758,7 +3758,7 @@ void genesys_init_sensor_tables()
             { { 1200 }, 1200, Ratio{1, 1}, 1 },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.register_dpihw = setting.register_dpihw
             sensor.register_dpiset = setting.resolutions.values()[0]
@@ -3808,7 +3808,7 @@ void genesys_init_sensor_tables()
             { { 1200 }, 1200, 1200, 1200, 1, 35 },
         ]
 
-        for (const CustomSensorSettings& setting : custom_settings) {
+        for(const CustomSensorSettings& setting : custom_settings) {
             sensor.resolutions = setting.resolutions
             sensor.optical_resolution = setting.optical_resolution
             sensor.register_dpiset = setting.register_dpiset
@@ -3823,54 +3823,54 @@ void genesys_init_sensor_tables()
 void verify_sensor_tables()
 {
     std::map<SensorId, AsicType> sensor_to_asic
-    for (const auto& device : *s_usb_devices) {
+    for(const auto& device : *s_usb_devices) {
         sensor_to_asic[device.model().sensor_id] = device.model().asic_type
     }
-    for (const auto& sensor : *s_sensors) {
-        if (sensor_to_asic.count(sensor.sensor_id) == 0) {
+    for(const auto& sensor : *s_sensors) {
+        if(sensor_to_asic.count(sensor.sensor_id) == 0) {
             throw SaneException("Unknown asic for sensor")
         }
         auto asic_type = sensor_to_asic[sensor.sensor_id]
 
-        if (sensor.full_resolution == 0) {
+        if(sensor.full_resolution == 0) {
             throw SaneException("full_resolution is not defined")
         }
 
-        if (sensor.register_dpiset == 0) {
+        if(sensor.register_dpiset == 0) {
             throw SaneException("register_dpiset is not defined")
         }
 
-        if (asic_type != AsicType::GL646) {
-            if (sensor.register_dpihw == 0) {
+        if(asic_type != AsicType::GL646) {
+            if(sensor.register_dpihw == 0) {
                 throw SaneException("register_dpihw is not defined")
             }
-            if (sensor.shading_resolution == 0) {
+            if(sensor.shading_resolution == 0) {
                 throw SaneException("shading_resolution is not defined")
             }
         }
 
-        if (asic_type == AsicType::GL841) {
+        if(asic_type == AsicType::GL841) {
             auto required_registers = {
                 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d,
                 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5a,
                 0x70, 0x71, 0x72, 0x73,
             ]
-            for (auto address : required_registers) {
-                if (!sensor.custom_regs.has_reg(address)) {
+            for(auto address : required_registers) {
+                if(!sensor.custom_regs.has_reg(address)) {
                     throw SaneException("Required register is not present")
                 }
             }
         }
 
-        if (asic_type == AsicType::GL842) {
+        if(asic_type == AsicType::GL842) {
             auto required_registers = {
                 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1c, 0x1d,
                 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5a,
                 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x7b, 0x7c, 0x7d,
                 0x7f
             ]
-            for (auto address : required_registers) {
-                if (!sensor.custom_regs.has_reg(address)) {
+            for(auto address : required_registers) {
+                if(!sensor.custom_regs.has_reg(address)) {
                     throw SaneException("Required register is not present")
                 }
             }

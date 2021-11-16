@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -79,10 +79,10 @@ struct Genesys_Settings
     // true if scan is true gray, false if monochrome scan
     Int true_gray = 0
 
-    // value for contrast enhancement in the [-100..100] range
+    // value for contrast enhancement in the[-100..100] range
     Int contrast = 0
 
-    // value for brightness enhancement in the [-100..100] range
+    // value for brightness enhancement in the[-100..100] range
     Int brightness = 0
 
     // cache entries expiration time
@@ -90,7 +90,7 @@ struct Genesys_Settings
 
     unsigned get_channels() const
     {
-        if (scan_mode == ScanColorMode::COLOR_SINGLE_PASS)
+        if(scan_mode == ScanColorMode::COLOR_SINGLE_PASS)
             return 3
         return 1
     }
@@ -140,7 +140,7 @@ struct SetupParams {
 
     unsigned get_requested_pixels() const
     {
-        if (requested_pixels != 0) {
+        if(requested_pixels != 0) {
             return requested_pixels
         }
         return pixels
@@ -148,7 +148,7 @@ struct SetupParams {
 
     void assert_valid() const
     {
-        if (xres == NOT_SET || yres == NOT_SET || startx == NOT_SET || starty == NOT_SET ||
+        if(xres == NOT_SET || yres == NOT_SET || startx == NOT_SET || starty == NOT_SET ||
             pixels == NOT_SET || lines == NOT_SET ||depth == NOT_SET || channels == NOT_SET ||
             scan_method == static_cast<ScanMethod>(NOT_SET) ||
             scan_mode == static_cast<ScanColorMode>(NOT_SET) ||
@@ -224,16 +224,16 @@ struct ScanSession {
     // the offset in pixels from the beginning of output data
     unsigned output_startx = 0
 
-    // the number of pixels in output data (after desegmentation)
+    // the number of pixels in output data(after desegmentation)
     unsigned output_pixels = 0
 
-    // the number of bytes in the output of a channel of a single line (after desegmentation)
+    // the number of bytes in the output of a channel of a single line(after desegmentation)
     unsigned output_channel_bytes = 0
 
-    // the number of bytes in the output of a single line (after desegmentation)
+    // the number of bytes in the output of a single line(after desegmentation)
     unsigned output_line_bytes = 0
 
-    // the number of bytes per line in the output data from the scanner (before desegmentation)
+    // the number of bytes per line in the output data from the scanner(before desegmentation)
     // Equal to output_line_bytes if sensor does not have segments
     unsigned output_line_bytes_raw = 0
 
@@ -244,13 +244,13 @@ struct ScanSession {
     // requested number due to line staggering and color channel shifting.
     unsigned output_line_count = 0
 
-    // the total number of bytes to read from the scanner (before desegmentation)
+    // the total number of bytes to read from the scanner(before desegmentation)
     unsigned output_total_bytes_raw = 0
 
-    // the total number of bytes to read from the scanner (after desegmentation)
+    // the total number of bytes to read from the scanner(after desegmentation)
     unsigned output_total_bytes = 0
 
-    // the number of staggered lines (i.e. lines that overlap during scanning due to line being
+    // the number of staggered lines(i.e. lines that overlap during scanning due to line being
     // thinner than the CCD element). Computed according to stagger_y.
     unsigned num_staggered_lines = 0
 
@@ -319,7 +319,7 @@ struct ScanSession {
 
     void assert_computed() const
     {
-        if (!computed) {
+        if(!computed) {
             throw std::runtime_error("ScanSession is not computed")
         }
     }

@@ -1,14 +1,14 @@
 /*
   Snapscan 1212U modifications for the Snapscan SANE backend
 
-  Copyright (C) 2000 Henrik Johansson
+  Copyright(C) 2000 Henrik Johansson
 
-  Henrik Johansson (henrikjo@post.urfors.se)
+  Henrik Johansson(henrikjo@post.urfors.se)
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License as
   published by the Free Software Foundation; either version 2 of the
-  License, or (at your option) any later version.
+  License, or(at your option) any later version.
 
   This program is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -50,7 +50,7 @@
 #ifndef snapscan_usb_h
 #define snapscan_usb_h
 
-typedef Sane.Status (*sense_handler_type)(Int fd, u_char *sense_buffer, void *arg)
+typedef Sane.Status(*sense_handler_type)(Int fd, u_char *sense_buffer, void *arg)
 
 static Sane.Status snapscani_usb_cmd(Int fd, const void *src, size_t src_size,
                          void *dst, size_t * dst_size)

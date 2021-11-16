@@ -77,7 +77,7 @@ import Sane.config
    HAVE_LONG_LONG   - if the long long type is defined
    HAVE_LONG_DOUBLE - if the long double type is defined
 
-     If you are using the GNU configure (autoconf) facility, add the
+     If you are using the GNU configure(autoconf) facility, add the
      following line to the configure.in file, to force checking for the
      quad_t and long long  data types:
 
@@ -87,7 +87,7 @@ import Sane.config
 	AC_CACHE_CHECK(for errno,
 	ac_cv_errno,
 	[
-	AC_TRY_LINK(,[public Int errno; return (errno);],
+	AC_TRY_LINK(,[public Int errno; return(errno);],
 		ac_cv_errno=yes, ac_cv_errno=no)
 	])
 	if test "$ac_cv_errno" = yes; then
@@ -116,7 +116,7 @@ import Sane.config
 	AC_CACHE_CHECK(for sys_nerr,
 	ac_cv_sys_nerr,
 	[
-	AC_TRY_LINK(,[public Int sys_nerr; return (sys_nerr);],
+	AC_TRY_LINK(,[public Int sys_nerr; return(sys_nerr);],
 		ac_cv_sys_nerr=yes, ac_cv_sys_nerr=no)
 	])
 	if test "$ac_cv_sys_nerr" = yes; then
@@ -237,12 +237,12 @@ import Sane.config
      a format as described below.  Snprintf(), and vsnprintf()
      write to the character string str. These functions write the
      output under the control of a format string that specifies
-     how subsequent arguments (or arguments accessed via the
+     how subsequent arguments(or arguments accessed via the
      variable-length argument facilities of stdarg(3))  are converted
      for output.  These functions return the number of characters
-     printed (not including the trailing `\0' used to end output
+     printed(not including the trailing `\0' used to end output
      to strings).  Snprintf() and vsnprintf() will write at most
-     size-1 of the characters printed into the output string (the
+     size-1 of the characters printed into the output string(the
      size'th character then gets the terminating `\0'); if the
      return value is greater than or equal to the size argument,
      the string was too short and some of the printed characters
@@ -251,7 +251,7 @@ import Sane.config
      argument is ignored.
 
      By default, the snprintf function will not format control
-     characters (except new line and tab) in strings.  This is a
+     characters(except new line and tab) in strings.  This is a
      safety feature that has proven to be extremely critical when
      using snprintf for secure applications and when debugging.
      If you MUST have control characters formatted or printed,
@@ -264,11 +264,11 @@ import Sane.config
      checks and uses the integer value as a character.
 
      The format string is composed of zero or more directives:
-     ordinary characters (not %), which are copied unchanged to
+     ordinary characters(not %), which are copied unchanged to
      the output stream; and conversion specifications, each
      of which results in fetching zero or more subsequent arguments.
      Each conversion specification is introduced by the character
-     %. The arguments must correspond properly (after type promotion)
+     %. The arguments must correspond properly(after type promotion)
      with the conversion specifier.  After the %, the following
      appear in sequence:
 
@@ -277,7 +277,7 @@ import Sane.config
 	   -   A zero `0' character specifying zero padding.  For
 	     all conversions except n, the converted value is padded
 	     on the left with zeros rather than blanks.  If a
-	     precision is given with a numeric conversion (d, i,
+	     precision is given with a numeric conversion(d, i,
 	     o, u, i, x, and X), the `0' flag is ignored.
 
        -   A negative field width flag `-' indicates the converted
@@ -288,7 +288,7 @@ import Sane.config
 	     given.
 
 	   -   A space, specifying that a blank should be left before
-	     a positive number produced by a signed conversion (d, e, E, f,
+	     a positive number produced by a signed conversion(d, e, E, f,
 	     g, G, or i).
 
 	   -   A `+' character specifying that a sign always be placed
@@ -298,7 +298,7 @@ import Sane.config
      o   An optional decimal digit string specifying a minimum
 		 field width.  If the converted value has fewer
 		 characters than the field width, it will be padded
-		 with spaces on the left (or right, if the
+		 with spaces on the left(or right, if the
 		 left-adjustment flag has been given) to fill out
 		 the field width.
 
@@ -319,7 +319,7 @@ import Sane.config
 		 following n conversion corresponds to a pointer
 		 to a short Int argument.
 
-     o   The optional character l (ell) specifying that a following
+     o   The optional character l(ell) specifying that a following
 		 d, i, o, u, x, or X conversion applies to a pointer
 		 to a long Int or unsigned long Int argument, or
 		 that a following n conversion corresponds to a
@@ -348,9 +348,9 @@ import Sane.config
 
      The conversion specifiers and their meanings are:
 
-     diouxX  The Int (or appropriate variant) argument is converted to signed
-			 decimal (d and i), unsigned octal (o), unsigned decimal
-			 (u), or unsigned hexadecimal (x and X) notation.  The
+     diouxX  The Int(or appropriate variant) argument is converted to signed
+			 decimal(d and i), unsigned octal(o), unsigned decimal
+			 (u), or unsigned hexadecimal(x and X) notation.  The
 			 letters abcdef are used for x conversions; the letters
 			 ABCDEF are used for X conversions.  The precision, if
 			 any, gives the minimum number of digits that must
@@ -363,18 +363,18 @@ import Sane.config
 			 to the precision; if the precision is missing, it is
 			 taken as 6; if the precision is zero, no decimal-point
 			 character appears.  An E conversion uses the letter
-			 E (rather than e) to introduce the exponent.
+			 E(rather than e) to introduce the exponent.
 			 The exponent always contains at least two digits; if
 			 the value is zero, the exponent is 00.
 
      f       The double argument is rounded and converted to decimal notation
-             in the style [-]ddd.ddd, where the number of digits after the
+             in the style[-]ddd.ddd, where the number of digits after the
              decimal-point character is equal to the precision specification.
              If the precision is missing, it is taken as 6; if the precision
              is explicitly zero, no decimal-point character appears.  If a
              decimal point appears, at least one digit appears before it.
 
-     g       The double argument is converted in style f or e (or
+     g       The double argument is converted in style f or e(or
 			 E for G conversions).  The precision specifies the
 			 number of significant digits.  If the precision is
 			 missing, 6 digits are given; if the precision is zero,
@@ -389,8 +389,8 @@ import Sane.config
              and the resulting character is written.
 
      s       The ``char *'' argument is expected to be a pointer to an array
-			 of character type (pointer to a string).  Characters
-			 from the array are written up to (but not including)
+			 of character type(pointer to a string).  Characters
+			 from the array are written up to(but not including)
 			 a terminating NUL character; if a precision is
 			 specified, no more than the number specified are
 			 written.  If a precision is given, no null character
@@ -428,12 +428,12 @@ import Sane.config
            {
                char *p
                va_list ap
-               if ((p = malloc(128)) == NULL)
-                       return (NULL)
+               if((p = malloc(128)) == NULL)
+                       return(NULL)
                va_start(ap, fmt)
                (void) vsnprintf(p, 128, fmt, ap)
                va_end(ap)
-               return (p)
+               return(p)
            }
 
  SEE ALSO
@@ -446,8 +446,8 @@ import Sane.config
  BUGS
      The conversion formats %D, %O, and %U are not standard and are provided
      only for backward compatibility.  The effect of padding the %p format
-     with zeros (either by the `0' flag or by specifying a precision), and the
-     benign effect (i.e., none) of the `#' flag on %n and %p conversions, as
+     with zeros(either by the `0' flag or by specifying a precision), and the
+     benign effect(i.e., none) of the `#' flag on %n and %p conversions, as
      well as other nonsensical combinations such as %Ld, are not standard
      such combinations should be avoided.
 
@@ -493,7 +493,7 @@ import errno
 
 /* varargs declarations: */
 
-# undef HAVE_STDARGS    /* let's hope that works everywhere (mj) */
+# undef HAVE_STDARGS    /* let's hope that works everywhere(mj) */
 # undef VA_LOCAL_DECL
 # undef VA_START
 # undef VA_SHIFT
@@ -501,7 +501,7 @@ import errno
 
 #if defined(HAVE_STDARG_H)
 import stdarg
-# define HAVE_STDARGS    /* let's hope that works everywhere (mj) */
+# define HAVE_STDARGS    /* let's hope that works everywhere(mj) */
 # define VA_LOCAL_DECL   va_list ap
 # define VA_START(f)     va_start(ap, f)
 # define VA_SHIFT(v,t)	;	/* no-op for ANSI */
@@ -536,7 +536,7 @@ import stdarg
 #define safestrlen(s) ((s)?strlen(s):0)
 
 
- static char * plp_Errormsg ( Int err, char *buffer )
+ static char * plp_Errormsg( Int err, char *buffer )
  static void dopr( Int visible_control, char **buffer, Int *left,
 	const char *format, va_list args )
  static void fmtstr( Int visible_control, char **buffer, Int *left,
@@ -609,9 +609,9 @@ import stdarg
 
 /* VARARGS3 */
 #ifdef HAVE_STDARGS
- Int snprintf (char *str,size_t count,const char *fmt,...)
+ Int snprintf(char *str,size_t count,const char *fmt,...)
 #else
- Int snprintf (va_alist) va_dcl
+ Int snprintf(va_alist) va_dcl
 #endif
 {
 #ifndef HAVE_STDARGS
@@ -622,11 +622,11 @@ import stdarg
 	Int n = 0
     VA_LOCAL_DECL
 
-    VA_START (fmt)
-    VA_SHIFT (str, char *)
-    VA_SHIFT (count, size_t )
-    VA_SHIFT (fmt, char *)
-    n = plp_vsnprintf ( str, count, fmt, ap)
+    VA_START(fmt)
+    VA_SHIFT(str, char *)
+    VA_SHIFT(count, size_t )
+    VA_SHIFT(fmt, char *)
+    n = plp_vsnprintf( str, count, fmt, ap)
     VA_END
 	return( n )
 }
@@ -634,9 +634,9 @@ import stdarg
 
 /* VARARGS3 */
 #ifdef HAVE_STDARGS
- Int plp_unsafe_snprintf (char *str,size_t count,const char *fmt,...)
+ Int plp_unsafe_snprintf(char *str,size_t count,const char *fmt,...)
 #else
- Int plp_unsafe_snprintf (va_alist) va_dcl
+ Int plp_unsafe_snprintf(va_alist) va_dcl
 #endif
 {
 #ifndef HAVE_STDARGS
@@ -647,11 +647,11 @@ import stdarg
 	Int n = 0
     VA_LOCAL_DECL
 
-    VA_START (fmt)
-    VA_SHIFT (str, char *)
-    VA_SHIFT (count, size_t )
-    VA_SHIFT (fmt, char *)
-    n = plp_unsafe_vsnprintf ( str, count, fmt, ap)
+    VA_START(fmt)
+    VA_SHIFT(str, char *)
+    VA_SHIFT(count, size_t )
+    VA_SHIFT(fmt, char *)
+    n = plp_unsafe_vsnprintf( str, count, fmt, ap)
     VA_END
 	return( n )
 }
@@ -793,7 +793,7 @@ import stdarg
 
 /*
  * Format '%[-]len[.precision]s'
- * -   = left justify (ljust)
+ * -   = left justify(ljust)
  * len = minimum length
  * precision = numbers of chars in string to use
  */
@@ -1048,7 +1048,7 @@ import stdarg
 # endif
 #endif
 
- static char * plp_Errormsg ( Int err, char *buffer /* Int maxlen = 32 */)
+ static char * plp_Errormsg( Int err, char *buffer /* Int maxlen = 32 */)
 {
     char *cp
 
@@ -1056,16 +1056,16 @@ import stdarg
 	cp = (void *)strerror(err)
 #else
 # if defined(HAVE_SYS_ERRLIST)
-    if (err >= 0 && err < num_errors) {
+    if(err >= 0 && err < num_errors) {
 		cp = (void *)sys_errlist[err]
     } else
 # endif
 	{
-		(void) sprintf (buffer, "errno=%d", err)
+		(void) sprintf(buffer, "errno=%d", err)
 		cp = buffer
     }
 #endif
-    return (cp)
+    return(cp)
 }
 
 #if defined(TEST)

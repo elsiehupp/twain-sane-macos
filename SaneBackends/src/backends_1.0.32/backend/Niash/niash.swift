@@ -1,10 +1,10 @@
 /*
-  Copyright (C) 2001 Bertrik Sikken (bertrik@zonnet.nl)
+  Copyright(C) 2001 Bertrik Sikken(bertrik@zonnet.nl)
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+  of the License, or(at your option) any later version.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -148,19 +148,19 @@ static const Int setResolutions[] = { 4, 75, 150, 300, 600 ]
 
 #ifdef EXPERIMENTAL
 /* range of an analog gamma */
-static const Sane.Range rangeGamma = { Sane.FIX (0.25), Sane.FIX (4.0),
-  Sane.FIX (0.0)
+static const Sane.Range rangeGamma = { Sane.FIX(0.25), Sane.FIX(4.0),
+  Sane.FIX(0.0)
 ]
 #endif
 
 /* interpolate a sane gamma table to a hardware appropriate one
    just in case the sane gamma table would be smaller */
 static void
-_ConvertGammaTable (Sane.Word * saneGamma, unsigned char *hwGamma)
+_ConvertGammaTable(Sane.Word * saneGamma, unsigned char *hwGamma)
 {
   var i: Int
   Int current = 0
-  for (i = 0; i < Sane.GAMMA_SIZE; ++i)
+  for(i = 0; i < Sane.GAMMA_SIZE; ++i)
     {
       Int j
       Int next
@@ -172,7 +172,7 @@ _ConvertGammaTable (Sane.Word * saneGamma, unsigned char *hwGamma)
       hwGamma[current] = saneGamma[i]
 
       /* the interpolation of the rest depends on the gap */
-      for (j = current + 1; j < HW_GAMMA_SIZE && j < next; ++j)
+      for(j = current + 1; j < HW_GAMMA_SIZE && j < next; ++j)
         {
           hwGamma[j] =
             (saneGamma[i] * (next - j) +
@@ -184,10 +184,10 @@ _ConvertGammaTable (Sane.Word * saneGamma, unsigned char *hwGamma)
 
 /* create a unity gamma table */
 static void
-_UnityGammaTable (unsigned char *hwGamma)
+_UnityGammaTable(unsigned char *hwGamma)
 {
   var i: Int
-  for (i = 0; i < HW_GAMMA_SIZE; ++i)
+  for(i = 0; i < HW_GAMMA_SIZE; ++i)
     {
       hwGamma[i] = (i * 256) / HW_GAMMA_SIZE
     }
@@ -196,7 +196,7 @@ _UnityGammaTable (unsigned char *hwGamma)
 
 static const Sane.Range rangeXmm = { 0, 220, 1 ]
 static const Sane.Range rangeYmm = { 0, 296, 1 ]
-static const Int startUpGamma = Sane.FIX (1.6)
+static const Int startUpGamma = Sane.FIX(1.6)
 
 static const char colorStr[] = { Sane.VALUE_SCAN_MODE_COLOR ]
 static const char grayStr[] = { Sane.VALUE_SCAN_MODE_GRAY ]
@@ -236,29 +236,29 @@ static Sane.String_Const modeList[] = {
 ]
 
 static Int
-_bytesPerLineLineart (Int pixelsPerLine)
+_bytesPerLineLineart(Int pixelsPerLine)
 {
-  return (pixelsPerLine * BITS_PER_PIXEL_LINEART +
+  return(pixelsPerLine * BITS_PER_PIXEL_LINEART +
           BITS_PADDING) / BITS_PER_BYTE
 }
 
 static Int
-_bytesPerLineGray (Int pixelsPerLine)
+_bytesPerLineGray(Int pixelsPerLine)
 {
-  return (pixelsPerLine * BITS_PER_PIXEL_GRAY + BITS_PADDING) / BITS_PER_BYTE
+  return(pixelsPerLine * BITS_PER_PIXEL_GRAY + BITS_PADDING) / BITS_PER_BYTE
 }
 
 static Int
-_bytesPerLineColor (Int pixelsPerLine)
+_bytesPerLineColor(Int pixelsPerLine)
 {
-  return (pixelsPerLine * BITS_PER_PIXEL_COLOR +
+  return(pixelsPerLine * BITS_PER_PIXEL_COLOR +
           BITS_PADDING) / BITS_PER_BYTE
 }
 
 
 /* dummy*/
 static void
-_rgb2rgb (unsigned char __Sane.unused__ *buffer, Int __Sane.unused__ pixels, Int __Sane.unused__ threshold)
+_rgb2rgb(unsigned char __Sane.unused__ *buffer, Int __Sane.unused__ pixels, Int __Sane.unused__ threshold)
 {
   /* make the compiler content */
 }
@@ -266,22 +266,22 @@ _rgb2rgb (unsigned char __Sane.unused__ *buffer, Int __Sane.unused__ pixels, Int
 
 /* convert 24bit RGB to 8bit GRAY */
 static void
-_rgb2gray (unsigned char *buffer, Int pixels, Int __Sane.unused__ threshold)
+_rgb2gray(unsigned char *buffer, Int pixels, Int __Sane.unused__ threshold)
 {
 #define WEIGHT_R 27
 #define WEIGHT_G 54
 #define WEIGHT_B 19
-#define WEIGHT_W (WEIGHT_R + WEIGHT_G + WEIGHT_B)
+#define WEIGHT_W(WEIGHT_R + WEIGHT_G + WEIGHT_B)
   static Int aWeight[BYTES_PER_PIXEL_COLOR] =
     { WEIGHT_R, WEIGHT_G, WEIGHT_B ]
   Int nbyte = pixels * BYTES_PER_PIXEL_COLOR
   Int acc = 0
   Int x
 
-  for (x = 0; x < nbyte; ++x)
+  for(x = 0; x < nbyte; ++x)
     {
       acc += aWeight[x % BYTES_PER_PIXEL_COLOR] * buffer[x]
-      if ((x + 1) % BYTES_PER_PIXEL_COLOR == 0)
+      if((x + 1) % BYTES_PER_PIXEL_COLOR == 0)
         {
           buffer[x / BYTES_PER_PIXEL_COLOR] =
             (unsigned char) (acc / WEIGHT_W)
@@ -296,23 +296,23 @@ _rgb2gray (unsigned char *buffer, Int pixels, Int __Sane.unused__ threshold)
 
 /* convert 24bit RGB to 1bit B/W */
 static void
-_rgb2lineart (unsigned char *buffer, Int pixels, Int threshold)
+_rgb2lineart(unsigned char *buffer, Int pixels, Int threshold)
 {
   static const Int aMask[BITS_PER_BYTE] = { 128, 64, 32, 16, 8, 4, 2, 1 ]
   Int acc = 0
   Int nx
   Int x
   Int thresh
-  _rgb2gray (buffer, pixels, 0)
+  _rgb2gray(buffer, pixels, 0)
   nx = ((pixels + BITS_PADDING) / BITS_PER_BYTE) * BITS_PER_BYTE
   thresh = 255 * threshold / rangeThreshold.max
-  for (x = 0; x < nx; ++x)
+  for(x = 0; x < nx; ++x)
     {
-      if (x < pixels && buffer[x] < thresh)
+      if(x < pixels && buffer[x] < thresh)
         {
           acc |= aMask[x % BITS_PER_BYTE]
         }
-      if ((x + 1) % BITS_PER_BYTE == 0)
+      if((x + 1) % BITS_PER_BYTE == 0)
         {
           buffer[x / BITS_PER_BYTE] = (unsigned char) (acc)
           acc = 0
@@ -324,8 +324,8 @@ typedef struct tgModeParam
 {
   Int depth
   Sane.Frame format
-  Int (*bytesPerLine) (Int pixelsPerLine)
-  void (*adaptFormat) (unsigned char *rgbBuffer, Int pixels, Int threshold)
+  Int(*bytesPerLine) (Int pixelsPerLine)
+  void(*adaptFormat) (unsigned char *rgbBuffer, Int pixels, Int threshold)
 
 } TModeParam
 
@@ -352,44 +352,44 @@ static const Int aiWarmUpTime[] = { WARMUP_TESTINTERVAL, WARMUP_TIME ]
 
 /* returns 1, when the warm up time "iTime" has elasped */
 static Int
-_TimeElapsed (struct timeval *start, struct timeval *now, Int iTime)
+_TimeElapsed(struct timeval *start, struct timeval *now, Int iTime)
 {
 
   /* this is a bit strange, but can deal with overflows */
-  if (start.tv_sec > now.tv_sec)
-    return (start.tv_sec / 2 - now.tv_sec / 2 > iTime / 2)
+  if(start.tv_sec > now.tv_sec)
+    return(start.tv_sec / 2 - now.tv_sec / 2 > iTime / 2)
   else
-    return (now.tv_sec - start.tv_sec >= iTime)
+    return(now.tv_sec - start.tv_sec >= iTime)
 }
 
 static void
-_WarmUpLamp (TScanner * s, Int iMode)
+_WarmUpLamp(TScanner * s, Int iMode)
 {
   Bool fLampOn
   /* on startup don't care what was before
      assume lamp was off, and the previous
      cal values can never be reached */
-  if (iMode == WARMUP_AFTERSTART)
+  if(iMode == WARMUP_AFTERSTART)
     {
       fLampOn = Sane.FALSE
       s.CalWhite[0] = s.CalWhite[1] = s.CalWhite[2] = (unsigned char) (-1)
     }
   else
-    GetLamp (&s.HWParams, &fLampOn)
+    GetLamp(&s.HWParams, &fLampOn)
 
-  if (!fLampOn)
+  if(!fLampOn)
     {
       /* get the current system time */
-      gettimeofday (&s.WarmUpStarted, 0)
+      gettimeofday(&s.WarmUpStarted, 0)
       /* determine the time to wait at least */
       s.WarmUpTime = aiWarmUpTime[iMode]
       /* switch on the lamp */
-      SetLamp (&s.HWParams, Sane.TRUE)
+      SetLamp(&s.HWParams, Sane.TRUE)
     }
 }
 
 static void
-_WaitForLamp (TScanner * s, unsigned char *pabCalibTable)
+_WaitForLamp(TScanner * s, unsigned char *pabCalibTable)
 {
   struct timeval now[2];        /* toggling time holder */
   var i: Int;                        /* rgb loop */
@@ -398,40 +398,40 @@ _WaitForLamp (TScanner * s, unsigned char *pabCalibTable)
   Bool fHasCal
   unsigned char CalWhite[2][3]; /* toggling buffer */
   Int iDelay = 0;               /* delay loop counter */
-  _WarmUpLamp (s, Sane.FALSE)
+  _WarmUpLamp(s, Sane.FALSE)
 
 
   /* get the time stamp for the wait loops */
-  if (s.WarmUpTime)
-    gettimeofday (&now[iCurrent], 0)
-  SimpleCalibExt (&s.HWParams, pabCalibTable, CalWhite[iCurrent])
+  if(s.WarmUpTime)
+    gettimeofday(&now[iCurrent], 0)
+  SimpleCalibExt(&s.HWParams, pabCalibTable, CalWhite[iCurrent])
   fHasCal = Sane.TRUE
 
-  DBG (DBG_MSG, "_WaitForLamp: first calibration\n")
+  DBG(DBG_MSG, "_WaitForLamp: first calibration\n")
 
 
   /* wait until time has elapsed or for values to stabilze */
-  while (s.WarmUpTime)
+  while(s.WarmUpTime)
     {
       /* check if the last scan has lower calibration values than
          the current one would have */
-      if (s.WarmUpTime && fHasCal)
+      if(s.WarmUpTime && fHasCal)
         {
           Bool fOver = Sane.TRUE
-          for (i = 0; fOver && i < 3; ++i)
+          for(i = 0; fOver && i < 3; ++i)
             {
-              if (!s.CalWhite[i])
+              if(!s.CalWhite[i])
                 fOver = Sane.FALSE
-              else if (CalWhite[iCurrent][i] < s.CalWhite[i])
+              else if(CalWhite[iCurrent][i] < s.CalWhite[i])
                 fOver = Sane.FALSE
             }
 
           /* warm up is not needed, when calibration data is above
              the calibration data of the last scan */
-          if (fOver)
+          if(fOver)
             {
               s.WarmUpTime = 0
-              DBG (DBG_MSG,
+              DBG(DBG_MSG,
                    "_WaitForLamp: Values seem stable, skipping next calibration cycle\n")
             }
         }
@@ -440,41 +440,41 @@ _WaitForLamp (TScanner * s, unsigned char *pabCalibTable)
       /* break the loop, when the longest wait time has expired
          to prevent a hanging application,
          even if the values might not be good, yet */
-      if (s.WarmUpTime && fHasCal && iCal)
+      if(s.WarmUpTime && fHasCal && iCal)
         {
           /* abort, when we have waited long enough */
-          if (_TimeElapsed
+          if(_TimeElapsed
               (&s.WarmUpStarted, &now[iCurrent], WARMUP_MAXTIME))
             {
               /* stop idling */
               s.WarmUpTime = 0
-              DBG (DBG_MSG, "_WaitForLamp: WARMUP_MAXTIME=%ds elapsed!\n",
+              DBG(DBG_MSG, "_WaitForLamp: WARMUP_MAXTIME=%ds elapsed!\n",
                    WARMUP_MAXTIME)
             }
         }
 
 
       /* enter a delay loop, when there is still time to wait */
-      if (s.WarmUpTime)
+      if(s.WarmUpTime)
         {
-          /* if the (too low) calibration values have just been acquired
+          /* if the(too low) calibration values have just been acquired
              we start waiting */
-          if (fHasCal)
-            DBG (DBG_MSG, "_WaitForLamp: entering delay loop\r")
+          if(fHasCal)
+            DBG(DBG_MSG, "_WaitForLamp: entering delay loop\r")
           else
-            DBG (DBG_MSG, "_WaitForLamp: delay loop %d        \r", ++iDelay)
-          sleep (1)
+            DBG(DBG_MSG, "_WaitForLamp: delay loop %d        \r", ++iDelay)
+          sleep(1)
           fHasCal = Sane.FALSE
-          gettimeofday (&now[!iCurrent], 0)
+          gettimeofday(&now[!iCurrent], 0)
         }
 
 
       /* look if we should check again */
-      if (s.WarmUpTime         /* did we have to wait at all */
+      if(s.WarmUpTime         /* did we have to wait at all */
           /* is the minimum time elapsed */
-          && _TimeElapsed (&s.WarmUpStarted, &now[!iCurrent], s.WarmUpTime)
+          && _TimeElapsed(&s.WarmUpStarted, &now[!iCurrent], s.WarmUpTime)
           /* has the minimum time elapsed since the last calibration */
-          && _TimeElapsed (&now[iCurrent], &now[!iCurrent],
+          && _TimeElapsed(&now[iCurrent], &now[!iCurrent],
                            WARMUP_TESTINTERVAL))
         {
           Int dev = 0;          /* 0 percent deviation in cal value as default */
@@ -482,10 +482,10 @@ _WaitForLamp (TScanner * s, unsigned char *pabCalibTable)
           /* new calibration */
           ++iCal
           iCurrent = !iCurrent; /* swap the test-buffer, and time-holder */
-          SimpleCalibExt (&s.HWParams, pabCalibTable, CalWhite[iCurrent])
+          SimpleCalibExt(&s.HWParams, pabCalibTable, CalWhite[iCurrent])
           fHasCal = Sane.TRUE
 
-          for (i = 0; i < 3; ++i)
+          for(i = 0; i < 3; ++i)
             {
               /* copy for faster and clearer access */
               Int cwa
@@ -494,28 +494,28 @@ _WaitForLamp (TScanner * s, unsigned char *pabCalibTable)
               cwa = CalWhite[!iCurrent][i]
               cwb = CalWhite[iCurrent][i]
               /* find the biggest deviation of one color */
-              if (cwa > cwb)
+              if(cwa > cwb)
                 ldev = 0
-              else if (cwa && cwb)
+              else if(cwa && cwb)
                 ldev = ((cwb - cwa) * 100) / cwb
               else
                 ldev = 100
-              dev = MAX (dev, ldev)
+              dev = MAX(dev, ldev)
             }
 
           /* show the biggest deviation of the calibration values */
-          DBG (DBG_MSG, "_WaitForLamp: recalibration #%d, deviation = %d%%\n",
+          DBG(DBG_MSG, "_WaitForLamp: recalibration #%d, deviation = %d%%\n",
                iCal, dev)
 
           /* the deviation to the previous calibration is tolerable */
-          if (dev <= CAL_DEV_MAX)
+          if(dev <= CAL_DEV_MAX)
             s.WarmUpTime = 0
         }
     }
 
   /* remember the values of this calibration
      for the next time */
-  for (i = 0; i < 3; ++i)
+  for(i = 0; i < 3; ++i)
     {
       s.CalWhite[i] = CalWhite[iCurrent][i]
     }
@@ -524,18 +524,18 @@ _WaitForLamp (TScanner * s, unsigned char *pabCalibTable)
 
 /* used, when setting gamma as 1 value */
 static void
-_SetScalarGamma (Int * aiGamma, Int sfGamma)
+_SetScalarGamma(Int * aiGamma, Int sfGamma)
 {
   Int j
   double fGamma
-  fGamma = Sane.UNFIX (sfGamma)
-  for (j = 0; j < Sane.GAMMA_SIZE; j++)
+  fGamma = Sane.UNFIX(sfGamma)
+  for(j = 0; j < Sane.GAMMA_SIZE; j++)
     {
       Int iData
       iData =
-        floor (256.0 *
-               pow (((double) j / (double) Sane.GAMMA_SIZE), 1.0 / fGamma))
-      if (iData > 255)
+        floor(256.0 *
+               pow(((double) j / (double) Sane.GAMMA_SIZE), 1.0 / fGamma))
+      if(iData > 255)
         iData = 255
       aiGamma[j] = iData
     }
@@ -544,15 +544,15 @@ _SetScalarGamma (Int * aiGamma, Int sfGamma)
 
 /* return size of longest string in a string list */
 static size_t
-_MaxStringSize (const Sane.String_Const strings[])
+_MaxStringSize(const Sane.String_Const strings[])
 {
   size_t size, max_size = 0
   var i: Int
 
-  for (i = 0; strings[i]; ++i)
+  for(i = 0; strings[i]; ++i)
     {
-      size = strlen (strings[i]) + 1
-      if (size > max_size)
+      size = strlen(strings[i]) + 1
+      if(size > max_size)
         max_size = size
     }
   return max_size
@@ -561,10 +561,10 @@ _MaxStringSize (const Sane.String_Const strings[])
 
 /* change a sane cap and return true, when a change took place */
 static Int
-_ChangeCap (Sane.Word * pCap, Sane.Word cap, Int isSet)
+_ChangeCap(Sane.Word * pCap, Sane.Word cap, Int isSet)
 {
   Sane.Word prevCap = *pCap
-  if (isSet)
+  if(isSet)
     {
       *pCap |= cap
     }
@@ -577,14 +577,14 @@ _ChangeCap (Sane.Word * pCap, Sane.Word cap, Int isSet)
 
 
 static void
-_InitOptions (TScanner * s)
+_InitOptions(TScanner * s)
 {
   var i: Int
   Sane.Option_Descriptor *pDesc
   TOptionValue *pVal
-  _SetScalarGamma (s.aGammaTable, startUpGamma)
+  _SetScalarGamma(s.aGammaTable, startUpGamma)
 
-  for (i = optCount; i < optLast; i++)
+  for(i = optCount; i < optLast; i++)
     {
 
       pDesc = &s.aOptions[i]
@@ -596,11 +596,11 @@ _InitOptions (TScanner * s)
       pDesc.desc = ""
       pDesc.type = Sane.TYPE_INT
       pDesc.unit = Sane.UNIT_NONE
-      pDesc.size = sizeof (Sane.Word)
+      pDesc.size = sizeof(Sane.Word)
       pDesc.constraint_type = Sane.CONSTRAINT_NONE
       pDesc.cap = 0
 
-      switch (i)
+      switch(i)
         {
 
         case optCount:
@@ -672,7 +672,7 @@ _InitOptions (TScanner * s)
           break
 
         case optGroupImage:
-          pDesc.title = Sane.I18N ("Image")
+          pDesc.title = Sane.I18N("Image")
           pDesc.type = Sane.TYPE_GROUP
           pDesc.size = 0
           break
@@ -694,7 +694,7 @@ _InitOptions (TScanner * s)
           pDesc.name = Sane.NAME_GAMMA_VECTOR
           pDesc.title = Sane.TITLE_GAMMA_VECTOR
           pDesc.desc = Sane.DESC_GAMMA_VECTOR
-          pDesc.size = sizeof (s.aGammaTable)
+          pDesc.size = sizeof(s.aGammaTable)
           pDesc.constraint_type = Sane.CONSTRAINT_RANGE
           pDesc.constraint.range = &rangeGammaTable
           pDesc.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
@@ -703,15 +703,15 @@ _InitOptions (TScanner * s)
 
 #ifdef EXPERIMENTAL
         case optGroupMisc:
-          pDesc.title = Sane.I18N ("Miscellaneous")
+          pDesc.title = Sane.I18N("Miscellaneous")
           pDesc.type = Sane.TYPE_GROUP
           pDesc.size = 0
           break
 
         case optLamp:
           pDesc.name = "lamp"
-          pDesc.title = Sane.I18N ("Lamp status")
-          pDesc.desc = Sane.I18N ("Switches the lamp on or off.")
+          pDesc.title = Sane.I18N("Lamp status")
+          pDesc.desc = Sane.I18N("Switches the lamp on or off.")
           pDesc.type = Sane.TYPE_BOOL
           pDesc.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
           /* switch the lamp on when starting for first the time */
@@ -720,15 +720,15 @@ _InitOptions (TScanner * s)
 
         case optCalibrate:
           pDesc.name = "calibrate"
-          pDesc.title = Sane.I18N ("Calibrate")
-          pDesc.desc = Sane.I18N ("Calibrates for black and white level.")
+          pDesc.title = Sane.I18N("Calibrate")
+          pDesc.desc = Sane.I18N("Calibrates for black and white level.")
           pDesc.type = Sane.TYPE_BUTTON
           pDesc.cap = Sane.CAP_SOFT_SELECT
           pDesc.size = 0
           break
 #endif
         case optGroupMode:
-          pDesc.title = Sane.I18N ("Scan Mode")
+          pDesc.title = Sane.I18N("Scan Mode")
           pDesc.desc = ""
           pDesc.type = Sane.TYPE_GROUP
           break
@@ -739,7 +739,7 @@ _InitOptions (TScanner * s)
           pDesc.title = Sane.TITLE_SCAN_MODE
           pDesc.desc = Sane.DESC_SCAN_MODE
           pDesc.type = Sane.TYPE_STRING
-          pDesc.size = _MaxStringSize (modeList)
+          pDesc.size = _MaxStringSize(modeList)
           pDesc.constraint_type = Sane.CONSTRAINT_STRING_LIST
           pDesc.constraint.string_list = modeList
           pDesc.cap =
@@ -748,7 +748,7 @@ _InitOptions (TScanner * s)
           break
 
         case optGroupEnhancement:
-          pDesc.title = Sane.I18N ("Enhancement")
+          pDesc.title = Sane.I18N("Enhancement")
           pDesc.desc = ""
           pDesc.type = Sane.TYPE_GROUP
           break
@@ -768,7 +768,7 @@ _InitOptions (TScanner * s)
           break
 
         default:
-          DBG (DBG_ERR, "Uninitialised option %d\n", i)
+          DBG(DBG_ERR, "Uninitialised option %d\n", i)
           break
         }
     }
@@ -776,27 +776,27 @@ _InitOptions (TScanner * s)
 
 
 static Int
-_ReportDevice (TScannerModel * pModel, const char *pszDeviceName)
+_ReportDevice(TScannerModel * pModel, const char *pszDeviceName)
 {
   TDevListEntry *pNew, *pDev
 
-  DBG (DBG_MSG, "niash: _ReportDevice '%s'\n", pszDeviceName)
+  DBG(DBG_MSG, "niash: _ReportDevice '%s'\n", pszDeviceName)
 
-  pNew = malloc (sizeof (TDevListEntry))
-  if (!pNew)
+  pNew = malloc(sizeof(TDevListEntry))
+  if(!pNew)
     {
-      DBG (DBG_ERR, "no mem\n")
+      DBG(DBG_ERR, "no mem\n")
       return -1
     }
 
   /* add new element to the end of the list */
-  if (_pFirstSaneDev == 0)
+  if(_pFirstSaneDev == 0)
     {
       _pFirstSaneDev = pNew
     }
   else
     {
-      for (pDev = _pFirstSaneDev; pDev.pNext; pDev = pDev.pNext)
+      for(pDev = _pFirstSaneDev; pDev.pNext; pDev = pDev.pNext)
         {
           
         }
@@ -805,7 +805,7 @@ _ReportDevice (TScannerModel * pModel, const char *pszDeviceName)
 
   /* fill in new element */
   pNew.pNext = 0
-  pNew.dev.name = strdup (pszDeviceName)
+  pNew.dev.name = strdup(pszDeviceName)
   pNew.dev.vendor = pModel.pszVendor
   pNew.dev.model = pModel.pszName
   pNew.dev.type = "flatbed scanner"
@@ -820,68 +820,68 @@ _ReportDevice (TScannerModel * pModel, const char *pszDeviceName)
 /*****************************************************************************/
 
 Sane.Status
-Sane.init (Int * piVersion, Sane.Auth_Callback __Sane.unused__ pfnAuth)
+Sane.init(Int * piVersion, Sane.Auth_Callback __Sane.unused__ pfnAuth)
 {
-  DBG_INIT ()
-  DBG (DBG_MSG, "Sane.init\n")
+  DBG_INIT()
+  DBG(DBG_MSG, "Sane.init\n")
 
-  if (piVersion != NULL)
+  if(piVersion != NULL)
     {
-      *piVersion = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, BUILD)
+      *piVersion = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, BUILD)
     }
 
   /* initialise transfer methods */
   iNumSaneDev = 0
-  NiashXferInit (_ReportDevice)
+  NiashXferInit(_ReportDevice)
 
   return Sane.STATUS_GOOD
 }
 
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   TDevListEntry *pDev, *pNext
 
-  DBG (DBG_MSG, "Sane.exit\n")
+  DBG(DBG_MSG, "Sane.exit\n")
 
   /* free device list memory */
-  if (_pSaneDevList)
+  if(_pSaneDevList)
     {
-      for (pDev = _pFirstSaneDev; pDev; pDev = pNext)
+      for(pDev = _pFirstSaneDev; pDev; pDev = pNext)
         {
           pNext = pDev.pNext
-          free ((void *) pDev.dev.name)
-          free (pDev)
+          free((void *) pDev.dev.name)
+          free(pDev)
         }
       _pFirstSaneDev = 0
-      free (_pSaneDevList)
+      free(_pSaneDevList)
       _pSaneDevList = 0
     }
 }
 
 
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool __Sane.unused__ local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool __Sane.unused__ local_only)
 {
   TDevListEntry *pDev
   var i: Int
 
-  DBG (DBG_MSG, "Sane.get_devices\n")
+  DBG(DBG_MSG, "Sane.get_devices\n")
 
-  if (_pSaneDevList)
+  if(_pSaneDevList)
     {
-      free (_pSaneDevList)
+      free(_pSaneDevList)
     }
 
-  _pSaneDevList = malloc (sizeof (*_pSaneDevList) * (iNumSaneDev + 1))
-  if (!_pSaneDevList)
+  _pSaneDevList = malloc(sizeof(*_pSaneDevList) * (iNumSaneDev + 1))
+  if(!_pSaneDevList)
     {
-      DBG (DBG_MSG, "no mem\n")
+      DBG(DBG_MSG, "no mem\n")
       return Sane.STATUS_NO_MEM
     }
   i = 0
-  for (pDev = _pFirstSaneDev; pDev; pDev = pDev.pNext)
+  for(pDev = _pFirstSaneDev; pDev; pDev = pDev.pNext)
     {
       _pSaneDevList[i++] = &pDev.dev
     }
@@ -894,73 +894,73 @@ Sane.get_devices (const Sane.Device *** device_list, Bool __Sane.unused__ local_
 
 
 Sane.Status
-Sane.open (Sane.String_Const name, Sane.Handle * h)
+Sane.open(Sane.String_Const name, Sane.Handle * h)
 {
   TScanner *s
 
-  DBG (DBG_MSG, "Sane.open: %s\n", name)
+  DBG(DBG_MSG, "Sane.open: %s\n", name)
 
   /* check the name */
-  if (strlen (name) == 0)
+  if(strlen(name) == 0)
     {
       /* default to first available device */
       name = _pFirstSaneDev.dev.name
     }
 
-  s = malloc (sizeof (TScanner))
-  if (!s)
+  s = malloc(sizeof(TScanner))
+  if(!s)
     {
-      DBG (DBG_MSG, "malloc failed\n")
+      DBG(DBG_MSG, "malloc failed\n")
       return Sane.STATUS_NO_MEM
     }
 
-  if (NiashOpen (&s.HWParams, name) < 0)
+  if(NiashOpen(&s.HWParams, name) < 0)
     {
       /* is this OK ? */
-      DBG (DBG_ERR, "NiashOpen failed\n")
-      free ((void *) s)
+      DBG(DBG_ERR, "NiashOpen failed\n")
+      free((void *) s)
       return Sane.STATUS_DEVICE_BUSY
     }
-  _InitOptions (s)
+  _InitOptions(s)
   s.fScanning = Sane.FALSE
   s.fCancelled = Sane.FALSE
   *h = s
 
   /* Turn on lamp by default at startup */
-  _WarmUpLamp (s, WARMUP_AFTERSTART)
+  _WarmUpLamp(s, WARMUP_AFTERSTART)
 
   return Sane.STATUS_GOOD
 }
 
 
 void
-Sane.close (Sane.Handle h)
+Sane.close(Sane.Handle h)
 {
   TScanner *s
 
-  DBG (DBG_MSG, "Sane.close\n")
+  DBG(DBG_MSG, "Sane.close\n")
 
   s = (TScanner *) h
 
   /* turn off scanner lamp */
-  SetLamp (&s.HWParams, Sane.FALSE)
+  SetLamp(&s.HWParams, Sane.FALSE)
 
   /* close scanner */
-  NiashClose (&s.HWParams)
+  NiashClose(&s.HWParams)
 
   /* free scanner object memory */
-  free ((void *) s)
+  free((void *) s)
 }
 
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle h, Int n)
+Sane.get_option_descriptor(Sane.Handle h, Int n)
 {
   TScanner *s
 
-  DBG (DBG_MSG, "Sane.get_option_descriptor %d\n", n)
+  DBG(DBG_MSG, "Sane.get_option_descriptor %d\n", n)
 
-  if ((n < optCount) || (n >= optLast))
+  if((n < optCount) || (n >= optLast))
     {
       return NULL
     }
@@ -971,7 +971,7 @@ Sane.get_option_descriptor (Sane.Handle h, Int n)
 
 
 Sane.Status
-Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
+Sane.control_option(Sane.Handle h, Int n, Sane.Action Action,
                      void *pVal, Int * pInfo)
 {
   TScanner *s
@@ -986,16 +986,16 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
   Bool fSame
 #endif
 
-  DBG (DBG_MSG, "Sane.control_option: option %d, action %d\n", n, Action)
+  DBG(DBG_MSG, "Sane.control_option: option %d, action %d\n", n, Action)
 
-  if ((n < optCount) || (n >= optLast))
+  if((n < optCount) || (n >= optLast))
     {
       return Sane.STATUS_UNSUPPORTED
     }
 
-  if (Action == Sane.ACTION_GET_VALUE || Action == Sane.ACTION_SET_VALUE)
+  if(Action == Sane.ACTION_GET_VALUE || Action == Sane.ACTION_SET_VALUE)
     {
-      if (pVal == NULL)
+      if(pVal == NULL)
         {
           return Sane.STATUS_INVAL
         }
@@ -1004,10 +1004,10 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
   s = (TScanner *) h
   info = 0
 
-  switch (Action)
+  switch(Action)
     {
     case Sane.ACTION_GET_VALUE:
-      switch (n)
+      switch(n)
         {
 
           /* Get options of type Sane.Word */
@@ -1021,7 +1021,7 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
         case optBRX:
         case optBRY:
         case optThreshold:
-          DBG (DBG_MSG,
+          DBG(DBG_MSG,
                "Sane.control_option: Sane.ACTION_GET_VALUE %d = %d\n", n,
                (Int) s.aValues[n].w)
           *(Sane.Word *) pVal = s.aValues[n].w
@@ -1029,20 +1029,20 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 
           /* Get options of type Sane.Word array */
         case optGammaTable:
-          DBG (DBG_MSG, "Reading gamma table\n")
-          memcpy (pVal, s.aValues[n].wa, s.aOptions[n].size)
+          DBG(DBG_MSG, "Reading gamma table\n")
+          memcpy(pVal, s.aValues[n].wa, s.aOptions[n].size)
           break
 
         case optMode:
-          DBG (DBG_MSG, "Reading scan mode %s\n",
+          DBG(DBG_MSG, "Reading scan mode %s\n",
                modeList[s.aValues[optMode].w])
-          strcpy ((char *) pVal, modeList[s.aValues[optMode].w])
+          strcpy((char *) pVal, modeList[s.aValues[optMode].w])
           break
 
 #ifdef EXPERIMENTAL
           /* Get options of type Bool */
         case optLamp:
-          GetLamp (&s.HWParams, &fLampIsOn)
+          GetLamp(&s.HWParams, &fLampIsOn)
           *(Bool *) pVal = fLampIsOn
           break
 
@@ -1053,19 +1053,19 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 #endif
 
         default:
-          DBG (DBG_MSG, "Sane.ACTION_GET_VALUE: Invalid option (%d)\n", n)
+          DBG(DBG_MSG, "Sane.ACTION_GET_VALUE: Invalid option(%d)\n", n)
         }
       break
 
 
     case Sane.ACTION_SET_VALUE:
-      if (s.fScanning)
+      if(s.fScanning)
         {
-          DBG (DBG_ERR,
+          DBG(DBG_ERR,
                "Sane.control_option: Sane.ACTION_SET_VALUE not allowed during scan\n")
           return Sane.STATUS_INVAL
         }
-      switch (n)
+      switch(n)
         {
 
         case optCount:
@@ -1085,10 +1085,10 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
         case optBRX:
         case optBRY:
 
-          status = sanei_constrain_value (&s.aOptions[n], pVal, &info)
-          if (status != Sane.STATUS_GOOD)
+          status = sanei_constrain_value(&s.aOptions[n], pVal, &info)
+          if(status != Sane.STATUS_GOOD)
             {
-              DBG (DBG_ERR, "Failed to constrain option %d (%s)\n", n,
+              DBG(DBG_ERR, "Failed to constrain option %d(%s)\n", n,
                    s.aOptions[n].title)
               return status
             }
@@ -1100,44 +1100,44 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 
           /* set the values */
           s.aValues[n].w = *(Sane.Word *) pVal
-          DBG (DBG_MSG,
+          DBG(DBG_MSG,
                "Sane.control_option: Sane.ACTION_SET_VALUE %d = %d\n", n,
                (Int) s.aValues[n].w)
 #ifdef EXPERIMENTAL
-          if (n == optGamma)
+          if(n == optGamma)
             {
-              if (!fSame && optLast > optGammaTable)
+              if(!fSame && optLast > optGammaTable)
                 {
                   info |= Sane.INFO_RELOAD_OPTIONS
                 }
-              _SetScalarGamma (s.aGammaTable, s.aValues[n].w)
+              _SetScalarGamma(s.aGammaTable, s.aValues[n].w)
             }
 #endif
           break
 
         case optGammaTable:
-          DBG (DBG_MSG, "Writing gamma table\n")
+          DBG(DBG_MSG, "Writing gamma table\n")
           pi = (Int *) pVal
-          memcpy (s.aValues[n].wa, pVal, s.aOptions[n].size)
+          memcpy(s.aValues[n].wa, pVal, s.aOptions[n].size)
 
           /* prepare table for debug */
-          strcpy (szTable, "Gamma table summary:")
-          for (i = 0; i < Sane.GAMMA_SIZE; i++)
+          strcpy(szTable, "Gamma table summary:")
+          for(i = 0; i < Sane.GAMMA_SIZE; i++)
             {
-              if ((Sane.GAMMA_SIZE / 16) && (i % (Sane.GAMMA_SIZE / 16)) == 0)
+              if((Sane.GAMMA_SIZE / 16) && (i % (Sane.GAMMA_SIZE / 16)) == 0)
                 {
-                  DBG (DBG_MSG, "%s\n", szTable)
+                  DBG(DBG_MSG, "%s\n", szTable)
 		  szTable[0] = '\0'
                 }
               /* test for number print */
-              if ((Sane.GAMMA_SIZE / 64) && (i % (Sane.GAMMA_SIZE / 64)) == 0)
+              if((Sane.GAMMA_SIZE / 64) && (i % (Sane.GAMMA_SIZE / 64)) == 0)
                 {
-                  sprintf (szTable + strlen(szTable), " %04X", pi[i])
+                  sprintf(szTable + strlen(szTable), " %04X", pi[i])
                 }
             }
-          if (strlen (szTable))
+          if(strlen(szTable))
             {
-              DBG (DBG_MSG, "%s\n", szTable)
+              DBG(DBG_MSG, "%s\n", szTable)
             }
           break
 
@@ -1148,28 +1148,28 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 
             pCap = &s.aOptions[optThreshold].cap
 
-            if (strcmp ((char const *) pVal, colorStr) == 0)
+            if(strcmp((char const *) pVal, colorStr) == 0)
               {
                 s.aValues[optMode].w = MODE_COLOR
-                fCapChanged = _ChangeCap (pCap, Sane.CAP_INACTIVE, 1)
+                fCapChanged = _ChangeCap(pCap, Sane.CAP_INACTIVE, 1)
               }
-            if (strcmp ((char const *) pVal, grayStr) == 0)
+            if(strcmp((char const *) pVal, grayStr) == 0)
               {
                 s.aValues[optMode].w = MODE_GRAY
-                fCapChanged = _ChangeCap (pCap, Sane.CAP_INACTIVE, 1)
+                fCapChanged = _ChangeCap(pCap, Sane.CAP_INACTIVE, 1)
               }
-            if (strcmp ((char const *) pVal, lineartStr) == 0)
+            if(strcmp((char const *) pVal, lineartStr) == 0)
               {
                 s.aValues[optMode].w = MODE_LINEART
-                fCapChanged = _ChangeCap (pCap, Sane.CAP_INACTIVE, 0)
+                fCapChanged = _ChangeCap(pCap, Sane.CAP_INACTIVE, 0)
 
               }
             info |= Sane.INFO_RELOAD_PARAMS
-            if (fCapChanged)
+            if(fCapChanged)
               {
                 info |= Sane.INFO_RELOAD_OPTIONS
               }
-            DBG (DBG_MSG, "setting scan mode: %s\n", (char const *) pVal)
+            DBG(DBG_MSG, "setting scan mode: %s\n", (char const *) pVal)
           }
           break
 
@@ -1178,11 +1178,11 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 #ifdef EXPERIMENTAL
         case optLamp:
           fVal = *(Bool *) pVal
-          DBG (DBG_MSG, "lamp %s\n", fVal ? "on" : "off")
-          if (fVal)
-            _WarmUpLamp (s, WARMUP_INSESSION)
+          DBG(DBG_MSG, "lamp %s\n", fVal ? "on" : "off")
+          if(fVal)
+            _WarmUpLamp(s, WARMUP_INSESSION)
           else
-            SetLamp (&s.HWParams, Sane.FALSE)
+            SetLamp(&s.HWParams, Sane.FALSE)
           break
 
         case optCalibrate:
@@ -1191,9 +1191,9 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 #endif
 
         default:
-          DBG (DBG_ERR, "Sane.ACTION_SET_VALUE: Invalid option (%d)\n", n)
+          DBG(DBG_ERR, "Sane.ACTION_SET_VALUE: Invalid option(%d)\n", n)
         }
-      if (pInfo != NULL)
+      if(pInfo != NULL)
         {
           *pInfo |= info
         }
@@ -1205,7 +1205,7 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 
 
     default:
-      DBG (DBG_ERR, "Invalid action (%d)\n", Action)
+      DBG(DBG_ERR, "Invalid action(%d)\n", Action)
       return Sane.STATUS_INVAL
     }
 
@@ -1217,24 +1217,24 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 
 
 Sane.Status
-Sane.get_parameters (Sane.Handle h, Sane.Parameters * p)
+Sane.get_parameters(Sane.Handle h, Sane.Parameters * p)
 {
   TScanner *s
   TModeParam const *pMode
 
-  DBG (DBG_MSG, "Sane.get_parameters\n")
+  DBG(DBG_MSG, "Sane.get_parameters\n")
 
   s = (TScanner *) h
 
   /* first do some checks */
-  if (s.aValues[optTLX].w >= s.aValues[optBRX].w)
+  if(s.aValues[optTLX].w >= s.aValues[optBRX].w)
     {
-      DBG (DBG_ERR, "TLX should be smaller than BRX\n")
+      DBG(DBG_ERR, "TLX should be smaller than BRX\n")
       return Sane.STATUS_INVAL; /* proper error code? */
     }
-  if (s.aValues[optTLY].w >= s.aValues[optBRY].w)
+  if(s.aValues[optTLY].w >= s.aValues[optBRY].w)
     {
-      DBG (DBG_ERR, "TLY should be smaller than BRY\n")
+      DBG(DBG_ERR, "TLY should be smaller than BRY\n")
       return Sane.STATUS_INVAL; /* proper error code? */
     }
 
@@ -1245,13 +1245,13 @@ Sane.get_parameters (Sane.Handle h, Sane.Parameters * p)
   p.format = pMode.format
   p.last_frame = Sane.TRUE
 
-  p.lines = MM_TO_PIXEL (s.aValues[optBRY].w - s.aValues[optTLY].w,
+  p.lines = MM_TO_PIXEL(s.aValues[optBRY].w - s.aValues[optTLY].w,
                           s.aValues[optDPI].w)
   p.depth = pMode.depth
   p.pixels_per_line =
-    MM_TO_PIXEL (s.aValues[optBRX].w - s.aValues[optTLX].w,
+    MM_TO_PIXEL(s.aValues[optBRX].w - s.aValues[optTLX].w,
                  s.aValues[optDPI].w)
-  p.bytes_per_line = pMode.bytesPerLine (p.pixels_per_line)
+  p.bytes_per_line = pMode.bytesPerLine(p.pixels_per_line)
 
   return Sane.STATUS_GOOD
 }
@@ -1260,9 +1260,9 @@ Sane.get_parameters (Sane.Handle h, Sane.Parameters * p)
 /* get the scale down factor for a resolution that is
   not supported by hardware */
 static Int
-_SaneEmulateScaling (Int iDpi)
+_SaneEmulateScaling(Int iDpi)
 {
-  if (iDpi == 75)
+  if(iDpi == 75)
     return 2
   else
     return 1
@@ -1270,7 +1270,7 @@ _SaneEmulateScaling (Int iDpi)
 
 
 Sane.Status
-Sane.start (Sane.Handle h)
+Sane.start(Sane.Handle h)
 {
   TScanner *s
   Sane.Parameters par
@@ -1279,16 +1279,16 @@ Sane.start (Sane.Handle h)
   static unsigned char abGamma[HW_GAMMA_SIZE]
   static unsigned char abCalibTable[HW_PIXELS * 6]
 
-  DBG (DBG_MSG, "Sane.start\n")
+  DBG(DBG_MSG, "Sane.start\n")
 
   s = (TScanner *) h
 
-  if (Sane.get_parameters (h, &par) != Sane.STATUS_GOOD)
+  if(Sane.get_parameters(h, &par) != Sane.STATUS_GOOD)
     {
-      DBG (DBG_MSG, "Invalid scan parameters\n")
+      DBG(DBG_MSG, "Invalid scan parameters\n")
       return Sane.STATUS_INVAL
     }
-  iScaleDown = _SaneEmulateScaling (s.aValues[optDPI].w)
+  iScaleDown = _SaneEmulateScaling(s.aValues[optDPI].w)
   s.iLinesLeft = par.lines
 
   /* fill in the scanparams using the option values */
@@ -1301,10 +1301,10 @@ Sane.start (Sane.Handle h)
   iLineCorr += s.HWParams.iSkipLines * (HW_LPI / s.ScanParams.iLpi)
 
   s.ScanParams.iTop =
-    MM_TO_PIXEL (s.aValues[optTLY].w + s.HWParams.iTopLeftY,
+    MM_TO_PIXEL(s.aValues[optTLY].w + s.HWParams.iTopLeftY,
                  HW_LPI) - iLineCorr
   s.ScanParams.iLeft =
-    MM_TO_PIXEL (s.aValues[optTLX].w + s.HWParams.iTopLeftX, HW_DPI)
+    MM_TO_PIXEL(s.aValues[optTLX].w + s.HWParams.iTopLeftX, HW_DPI)
 
   s.ScanParams.iWidth = par.pixels_per_line * iScaleDown
   s.ScanParams.iHeight = par.lines * iScaleDown
@@ -1312,45 +1312,45 @@ Sane.start (Sane.Handle h)
   s.ScanParams.fCalib = Sane.FALSE
 
   /* perform a simple calibration just before scanning */
-  _WaitForLamp (s, abCalibTable)
+  _WaitForLamp(s, abCalibTable)
 
-  if (s.aValues[optMode].w == MODE_LINEART)
+  if(s.aValues[optMode].w == MODE_LINEART)
     {
       /* use a unity gamma table for lineart to be independent from Gamma settings */
-      _UnityGammaTable (abGamma)
+      _UnityGammaTable(abGamma)
     }
   else
     {
       /* copy gamma table */
-      _ConvertGammaTable (s.aGammaTable, abGamma)
+      _ConvertGammaTable(s.aGammaTable, abGamma)
     }
 
-  WriteGammaCalibTable (abGamma, abGamma, abGamma, abCalibTable, 0, 0,
+  WriteGammaCalibTable(abGamma, abGamma, abGamma, abCalibTable, 0, 0,
                         &s.HWParams)
 
   /* prepare the actual scan */
-  if (!InitScan (&s.ScanParams, &s.HWParams))
+  if(!InitScan(&s.ScanParams, &s.HWParams))
     {
-      DBG (DBG_MSG, "Invalid scan parameters\n")
+      DBG(DBG_MSG, "Invalid scan parameters\n")
       return Sane.STATUS_INVAL
     }
 
   /* init data pipe */
   s.DataPipe.iSkipLines = s.HWParams.iSkipLines
-  /* on the hp3400 and hp4300 we cannot set the top of the scan area (yet),
+  /* on the hp3400 and hp4300 we cannot set the top of the scan area(yet),
      so instead we just scan and throw away the data until the top */
-  if (s.HWParams.fReg07)
+  if(s.HWParams.fReg07)
     {
       s.DataPipe.iSkipLines +=
-        MM_TO_PIXEL (s.aValues[optTLY].w + s.HWParams.iTopLeftY,
+        MM_TO_PIXEL(s.aValues[optTLY].w + s.HWParams.iTopLeftY,
                      s.aValues[optDPI].w * iScaleDown)
     }
   s.iBytesLeft = 0
   s.iPixelsPerLine = par.pixels_per_line
 
   /* hack */
-  s.DataPipe.pabLineBuf = (unsigned char *) malloc (HW_PIXELS * 3)
-  CircBufferInit (s.HWParams.iXferHandle, &s.DataPipe,
+  s.DataPipe.pabLineBuf = (unsigned char *) malloc(HW_PIXELS * 3)
+  CircBufferInit(s.HWParams.iXferHandle, &s.DataPipe,
                   par.pixels_per_line, s.ScanParams.iHeight,
                   s.ScanParams.iLpi * s.HWParams.iSensorSkew / HW_LPI,
                   s.HWParams.iReversedHead, iScaleDown, iScaleDown)
@@ -1362,31 +1362,31 @@ Sane.start (Sane.Handle h)
 
 
 Sane.Status
-Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
+Sane.read(Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 {
   TScanner *s
   TDataPipe *p
   TModeParam const *pMode
 
-  DBG (DBG_MSG, "Sane.read: buf=%p, maxlen=%d, ", buf, maxlen)
+  DBG(DBG_MSG, "Sane.read: buf=%p, maxlen=%d, ", buf, maxlen)
 
   s = (TScanner *) h
 
   pMode = &modeParam[s.aValues[optMode].w]
 
   /* Sane.read only allowed after Sane.start */
-  if (!s.fScanning)
+  if(!s.fScanning)
     {
-      if (s.fCancelled)
+      if(s.fCancelled)
         {
-          DBG (DBG_MSG, "\n")
-          DBG (DBG_MSG, "Sane.read: Sane.read cancelled\n")
+          DBG(DBG_MSG, "\n")
+          DBG(DBG_MSG, "Sane.read: Sane.read cancelled\n")
           s.fCancelled = Sane.FALSE
           return Sane.STATUS_CANCELLED
         }
       else
         {
-          DBG (DBG_ERR,
+          DBG(DBG_ERR,
                "Sane.read: Sane.read only allowed after Sane.start\n")
           return Sane.STATUS_INVAL
         }
@@ -1395,43 +1395,43 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
   p = &s.DataPipe
 
   /* anything left to read? */
-  if ((s.iLinesLeft == 0) && (s.iBytesLeft == 0))
+  if((s.iLinesLeft == 0) && (s.iBytesLeft == 0))
     {
-      CircBufferExit (p)
-      free (p.pabLineBuf)
+      CircBufferExit(p)
+      free(p.pabLineBuf)
       p.pabLineBuf = NULL
-      FinishScan (&s.HWParams)
+      FinishScan(&s.HWParams)
       *len = 0
-      DBG (DBG_MSG, "\n")
-      DBG (DBG_MSG, "Sane.read: end of scan\n")
+      DBG(DBG_MSG, "\n")
+      DBG(DBG_MSG, "Sane.read: end of scan\n")
       s.fCancelled = Sane.FALSE
       s.fScanning = Sane.FALSE
       return Sane.STATUS_EOF
     }
 
   /* time to read the next line? */
-  if (s.iBytesLeft == 0)
+  if(s.iBytesLeft == 0)
     {
       /* read a line from the transfer buffer */
-      if (CircBufferGetLineEx (s.HWParams.iXferHandle, p, p.pabLineBuf,
+      if(CircBufferGetLineEx(s.HWParams.iXferHandle, p, p.pabLineBuf,
                                s.HWParams.iReversedHead, Sane.TRUE))
         {
-          pMode.adaptFormat (p.pabLineBuf, s.iPixelsPerLine,
+          pMode.adaptFormat(p.pabLineBuf, s.iPixelsPerLine,
                               s.aValues[optThreshold].w)
-          s.iBytesLeft = pMode.bytesPerLine (s.iPixelsPerLine)
+          s.iBytesLeft = pMode.bytesPerLine(s.iPixelsPerLine)
           s.iLinesLeft--
         }
       /* stop scanning further, when the read action fails
          because we try read after the end of the buffer */
       else
         {
-          FinishScan (&s.HWParams)
-          CircBufferExit (p)
-          free (p.pabLineBuf)
+          FinishScan(&s.HWParams)
+          CircBufferExit(p)
+          free(p.pabLineBuf)
           p.pabLineBuf = NULL
           *len = 0
-          DBG (DBG_MSG, "\n")
-          DBG (DBG_MSG, "Sane.read: read after end of buffer\n")
+          DBG(DBG_MSG, "\n")
+          DBG(DBG_MSG, "Sane.read: read after end of buffer\n")
           s.fCancelled = Sane.FALSE
           s.fScanning = Sane.FALSE
           return Sane.STATUS_EOF
@@ -1439,36 +1439,36 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 
     }
 
-  /* copy (part of) a line */
-  *len = MIN (maxlen, s.iBytesLeft)
-  memcpy (buf,
-          &p.pabLineBuf[pMode.bytesPerLine (s.iPixelsPerLine) -
+  /* copy(part of) a line */
+  *len = MIN(maxlen, s.iBytesLeft)
+  memcpy(buf,
+          &p.pabLineBuf[pMode.bytesPerLine(s.iPixelsPerLine) -
                          s.iBytesLeft], *len)
   s.iBytesLeft -= *len
 
-  DBG (DBG_MSG, " read=%d    \n", *len)
+  DBG(DBG_MSG, " read=%d    \n", *len)
 
   return Sane.STATUS_GOOD
 }
 
 
 void
-Sane.cancel (Sane.Handle h)
+Sane.cancel(Sane.Handle h)
 {
   TScanner *s
 
-  DBG (DBG_MSG, "Sane.cancel\n")
+  DBG(DBG_MSG, "Sane.cancel\n")
 
   s = (TScanner *) h
   /* Make sure the scanner head returns home */
-  FinishScan (&s.HWParams)
+  FinishScan(&s.HWParams)
   /* delete allocated data */
-  if (s.fScanning)
+  if(s.fScanning)
     {
-      CircBufferExit (&s.DataPipe)
-      free (s.DataPipe.pabLineBuf)
+      CircBufferExit(&s.DataPipe)
+      free(s.DataPipe.pabLineBuf)
       s.DataPipe.pabLineBuf = NULL
-      DBG (DBG_MSG, "Sane.cancel: freeing buffers\n")
+      DBG(DBG_MSG, "Sane.cancel: freeing buffers\n")
     }
   s.fCancelled = Sane.TRUE
   s.fScanning = Sane.FALSE
@@ -1476,11 +1476,11 @@ Sane.cancel (Sane.Handle h)
 
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle __Sane.unused__ h, Bool m)
+Sane.set_io_mode(Sane.Handle __Sane.unused__ h, Bool m)
 {
-  DBG (DBG_MSG, "Sane.set_io_mode %s\n", m ? "non-blocking" : "blocking")
+  DBG(DBG_MSG, "Sane.set_io_mode %s\n", m ? "non-blocking" : "blocking")
 
-  if (m)
+  if(m)
     {
       return Sane.STATUS_UNSUPPORTED
     }
@@ -1489,8 +1489,8 @@ Sane.set_io_mode (Sane.Handle __Sane.unused__ h, Bool m)
 
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle __Sane.unused__ h, Int __Sane.unused__ * fd)
+Sane.get_select_fd(Sane.Handle __Sane.unused__ h, Int __Sane.unused__ * fd)
 {
-  DBG (DBG_MSG, "Sane.select_fd\n")
+  DBG(DBG_MSG, "Sane.select_fd\n")
   return Sane.STATUS_UNSUPPORTED
 }

@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -56,7 +56,7 @@ TestUsbDevice::TestUsbDevice(std::uint16_t vendor, std::uint16_t product,
 
 TestUsbDevice::~TestUsbDevice()
 {
-    if (is_open()) {
+    if(is_open()) {
         DBG(DBG_error, "TestUsbDevice not closed; closing automatically")
         close()
     }
@@ -66,7 +66,7 @@ void TestUsbDevice::open(const char* dev_name)
 {
     DBG_HELPER(dbg)
 
-    if (is_open()) {
+    if(is_open()) {
         throw SaneException("device already open")
     }
     name_ = dev_name
@@ -123,7 +123,7 @@ void TestUsbDevice::control_msg(Int rtype, Int reg, Int value, Int index, Int le
     (void) index
     DBG_HELPER(dbg)
     assert_is_open()
-    if (rtype == REQUEST_TYPE_IN) {
+    if(rtype == REQUEST_TYPE_IN) {
         std::memset(data, 0, length)
     }
 }
@@ -146,7 +146,7 @@ void TestUsbDevice::bulk_write(const std::uint8_t* buffer, std::size_t* size)
 
 void TestUsbDevice::assert_is_open() const
 {
-    if (!is_open()) {
+    if(!is_open()) {
         throw SaneException("device not open")
     }
 }

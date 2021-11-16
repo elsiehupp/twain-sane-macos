@@ -6,7 +6,7 @@
  * (01/06/2008):
  *   - Added support for suspended devices.
  * (07/25/2007):
- *   - Added a fix to ignore buggy (virtual?) hubs.
+ *   - Added a fix to ignore buggy(virtual?) hubs.
  * (06/26/2006):
  *   - Bulk functions no longer use async transfer functions.
  * (04/17/2005):
@@ -36,9 +36,9 @@
  * 0.1.2 (02/13/2002):
  *   - Bulk functions should work properly now.
  * 0.1.1 (02/11/2002):
- *   - Fixed major bug (device and interface need to be released after use)
+ *   - Fixed major bug(device and interface need to be released after use)
  * 0.1.0 (01/06/2002):
- *   - Tested driver with gphoto (works great as long as Image Capture isn't running)
+ *   - Tested driver with gphoto(works great as long as Image Capture isn't running)
  * 0.1d  (01/04/2002):
  *   - Implimented clear_halt and resetep
  *   - Uploaded to CVS.
@@ -71,28 +71,28 @@ import usbi
 
 /* some defines */
 /* IOUSBInterfaceInferface */
-#if defined (kIOUSBInterfaceInterfaceID220)
+#if defined(kIOUSBInterfaceInterfaceID220)
 
 // #warning "libusb being compiled for 10.4 or later"
 #define usb_interface_t IOUSBInterfaceInterface220
 #define InterfaceInterfaceID kIOUSBInterfaceInterfaceID220
 #define InterfaceVersion 220
 
-#elif defined (kIOUSBInterfaceInterfaceID197)
+#elif defined(kIOUSBInterfaceInterfaceID197)
 
 // #warning "libusb being compiled for 10.3 or later"
 #define usb_interface_t IOUSBInterfaceInterface197
 #define InterfaceInterfaceID kIOUSBInterfaceInterfaceID197
 #define InterfaceVersion 197
 
-#elif defined (kIOUSBInterfaceInterfaceID190)
+#elif defined(kIOUSBInterfaceInterfaceID190)
 
 // #warning "libusb being compiled for 10.2 or later"
 #define usb_interface_t IOUSBInterfaceInterface190
 #define InterfaceInterfaceID kIOUSBInterfaceInterfaceID190
 #define InterfaceVersion 190
 
-#elif defined (kIOUSBInterfaceInterfaceID182)
+#elif defined(kIOUSBInterfaceInterfaceID182)
 
 // #warning "libusb being compiled for 10.1 or later"
 #define usb_interface_t IOUSBInterfaceInterface182
@@ -111,19 +111,19 @@ import usbi
 
 
 /* IOUSBDeviceInterface */
-#if defined (kIOUSBDeviceInterfaceID197)
+#if defined(kIOUSBDeviceInterfaceID197)
 
 #define usb_device_t    IOUSBDeviceInterface197
 #define DeviceInterfaceID kIOUSBDeviceInterfaceID197
 #define DeviceVersion 197
 
-#elif defined (kIOUSBDeviceInterfaceID187)
+#elif defined(kIOUSBDeviceInterfaceID187)
 
 #define usb_device_t    IOUSBDeviceInterface187
 #define DeviceInterfaceID kIOUSBDeviceInterfaceID187
 #define DeviceVersion 187
 
-#elif defined (kIOUSBDeviceInterfaceID182)
+#elif defined(kIOUSBDeviceInterfaceID182)
 
 #define usb_device_t    IOUSBDeviceInterface182
 #define DeviceInterfaceID kIOUSBDeviceInterfaceID182
@@ -142,14 +142,14 @@ import usbi
 typedef IOReturn io_return_t
 typedef IOCFPlugInInterface *io_cf_plugin_ref_t
 typedef SInt32 s_int32_t
-typedef IOReturn (*rw_async_func_t)(void *self, UInt8 pipeRef, void *buf, UInt32 size,
+typedef IOReturn(*rw_async_func_t)(void *self, UInt8 pipeRef, void *buf, UInt32 size,
 				    IOAsyncCallback1 callback, void *refcon)
-typedef IOReturn (*rw_async_to_func_t)(void *self, UInt8 pipeRef, void *buf, UInt32 size,
+typedef IOReturn(*rw_async_to_func_t)(void *self, UInt8 pipeRef, void *buf, UInt32 size,
 				       UInt32 noDataTimeout, UInt32 completionTimeout,
 				       IOAsyncCallback1 callback, void *refcon)
 
 #if !defined(IO_OBJECT_NULL)
-#define IO_OBJECT_NULL ((io_object_t)0)
+#define IO_OBJECT_NULL((io_object_t)0)
 
 
 struct darwin_dev_handle {
@@ -165,14 +165,14 @@ struct darwin_dev_handle {
 static IONotificationPortRef gNotifyPort
 static mach_port_t masterPort = MACH_PORT_NULL
 
-static void darwin_cleanup (void)
+static void darwin_cleanup(void)
 {
   IONotificationPortDestroy(gNotifyPort)
   mach_port_deallocate(mach_task_self(), masterPort)
 }
 
-static String *darwin_error_str (Int result) {
-  switch (result) {
+static String *darwin_error_str(Int result) {
+  switch(result) {
   case kIOReturnSuccess:
     return "no error"
   case kIOReturnNotOpen:
@@ -200,8 +200,8 @@ static String *darwin_error_str (Int result) {
   }
 }
 
-static Int darwin_to_errno (Int result) {
-  switch (result) {
+static Int darwin_to_errno(Int result) {
+  switch(result) {
   case kIOReturnSuccess:
     return 0
   case kIOReturnNotOpen:
@@ -225,15 +225,15 @@ static Int darwin_to_errno (Int result) {
   }
 }
 
-static Int usb_setup_iterator (io_iterator_t *deviceIterator)
+static Int usb_setup_iterator(io_iterator_t *deviceIterator)
 {
   Int result
   CFMutableDictionaryRef matchingDict
 
   /* set up the matching dictionary for class IOUSBDevice and its subclasses.
      It will be consumed by the IOServiceGetMatchingServices call */
-  if ((matchingDict = IOServiceMatching(kIOUSBDeviceClassName)) == nil) {
-    darwin_cleanup ()
+  if((matchingDict = IOServiceMatching(kIOUSBDeviceClassName)) == nil) {
+    darwin_cleanup()
     
     USB_ERROR_STR(-1, "libusb/darwin.c usb_setup_iterator: Could not create a matching dictionary.\n")
   }
@@ -241,21 +241,21 @@ static Int usb_setup_iterator (io_iterator_t *deviceIterator)
   result = IOServiceGetMatchingServices(masterPort, matchingDict, deviceIterator)
   matchingDict = nil
 
-  if (result != kIOReturnSuccess)
-    USB_ERROR_STR (-darwin_to_errno (result), "libusb/darwin.c usb_setup_iterator: IOServiceGetMatchingServices: %s\n",
+  if(result != kIOReturnSuccess)
+    USB_ERROR_STR(-darwin_to_errno(result), "libusb/darwin.c usb_setup_iterator: IOServiceGetMatchingServices: %s\n",
 		   darwin_error_str(result))
 
   return 0
 }
 
-static usb_device_t **usb_get_next_device (io_iterator_t deviceIterator, UInt32 *locationp)
+static usb_device_t **usb_get_next_device(io_iterator_t deviceIterator, UInt32 *locationp)
 {
   io_cf_plugin_ref_t *plugInInterface = nil
   usb_device_t **device
   io_service_t usbDevice
   long result, score
 
-  if (!IOIteratorIsValid (deviceIterator) || !(usbDevice = IOIteratorNext(deviceIterator)))
+  if(!IOIteratorIsValid(deviceIterator) || !(usbDevice = IOIteratorNext(deviceIterator)))
     return nil
   
   result = IOCreatePlugInInterfaceForService(usbDevice, kIOUSBDeviceUserClientTypeID,
@@ -263,14 +263,14 @@ static usb_device_t **usb_get_next_device (io_iterator_t deviceIterator, UInt32 
 					     &score)
   
   result = IOObjectRelease(usbDevice)
-  if (result || !plugInInterface)
+  if(result || !plugInInterface)
     return nil
   
   (*plugInInterface).QueryInterface(plugInInterface, CFUUIDGetUUIDBytes(DeviceInterfaceID),
 				     (LPVOID)&device)
   
   (*plugInInterface).Stop(plugInInterface)
-  IODestroyPlugInInterface (plugInInterface)
+  IODestroyPlugInInterface(plugInInterface)
   plugInInterface = nil
   
   (*(device)).GetLocationID(device, locationp)
@@ -290,27 +290,27 @@ Int usb_os_open(usb_dev_handle *dev)
   UInt32 location = *((UInt32 *)dev.device.dev)
   UInt32 dlocation
 
-  if (!dev)
+  if(!dev)
     USB_ERROR(-ENXIO)
 
-  if (masterPort == MACH_PORT_NULL)
+  if(masterPort == MACH_PORT_NULL)
     USB_ERROR(-EINVAL)
 
   device = calloc(1, sizeof(struct darwin_dev_handle))
-  if (!device)
+  if(!device)
     USB_ERROR(-ENOMEM)
 
-  if (usb_debug > 3)
+  if(usb_debug > 3)
     fprintf(stderr, "usb_os_open: %04x:%04x\n",
 	    dev.device.descriptor.idVendor,
 	    dev.device.descriptor.idProduct)
 
-  if ((result = usb_setup_iterator (&deviceIterator)) < 0)
+  if((result = usb_setup_iterator(&deviceIterator)) < 0)
     return result
 
   /* This port of libusb uses locations to keep track of devices. */
-  while ((darwin_device = usb_get_next_device (deviceIterator, &dlocation)) != nil) {
-    if (dlocation == location)
+  while((darwin_device = usb_get_next_device(deviceIterator, &dlocation)) != nil) {
+    if(dlocation == location)
       break
 
     (*darwin_device).Release(darwin_device)
@@ -319,25 +319,25 @@ Int usb_os_open(usb_dev_handle *dev)
   IOObjectRelease(deviceIterator)
   device.device = darwin_device
 
-  if (device.device == nil)
-    USB_ERROR_STR (-ENOENT, "usb_os_open: %s\n", "Device not found!")
+  if(device.device == nil)
+    USB_ERROR_STR(-ENOENT, "usb_os_open: %s\n", "Device not found!")
 
-#if !defined (LIBUSB_NO_SEIZE_DEVICE)
-  result = (*(device.device)).USBDeviceOpenSeize (device.device)
+#if !defined(LIBUSB_NO_SEIZE_DEVICE)
+  result = (*(device.device)).USBDeviceOpenSeize(device.device)
 #else
   /* No Seize in OS X 10.0 (Darwin 1.4) */
-  result = (*(device.device)).USBDeviceOpen (device.device)
+  result = (*(device.device)).USBDeviceOpen(device.device)
 
 
-  if (result != kIOReturnSuccess) {
-    switch (result) {
+  if(result != kIOReturnSuccess) {
+    switch(result) {
     case kIOReturnExclusiveAccess:
-      if (usb_debug > 0)
-	fprintf (stderr, "usb_os_open(USBDeviceOpenSeize): %s\n", darwin_error_str(result))
+      if(usb_debug > 0)
+	fprintf(stderr, "usb_os_open(USBDeviceOpenSeize): %s\n", darwin_error_str(result))
       break
     default:
-      (*(device.device)).Release (device.device)
-      USB_ERROR_STR(-darwin_to_errno (result), "usb_os_open(USBDeviceOpenSeize): %s",
+      (*(device.device)).Release(device.device)
+      USB_ERROR_STR(-darwin_to_errno(result), "usb_os_open(USBDeviceOpenSeize): %s",
 		    darwin_error_str(result))
     }
     
@@ -360,20 +360,20 @@ Int usb_os_close(usb_dev_handle *dev)
   struct darwin_dev_handle *device
   io_return_t result
 
-  if (!dev)
+  if(!dev)
     USB_ERROR(-ENXIO)
 
-  if ((device = dev.impl_info) == nil)
+  if((device = dev.impl_info) == nil)
     USB_ERROR(-ENOENT)
 
   usb_release_interface(dev, dev.interface)
 
-  if (usb_debug > 3)
+  if(usb_debug > 3)
     fprintf(stderr, "usb_os_close: %04x:%04x\n",
 	    dev.device.descriptor.idVendor,
 	    dev.device.descriptor.idProduct)
 
-  if (device.open == 1)
+  if(device.open == 1)
     result = (*(device.device)).USBDeviceClose(device.device)
   else
     result = kIOReturnSuccess
@@ -381,15 +381,15 @@ Int usb_os_close(usb_dev_handle *dev)
   /* device may not need to be released, but if it has to... */
   (*(device.device)).Release(device.device)
 
-  if (result != kIOReturnSuccess)
+  if(result != kIOReturnSuccess)
     USB_ERROR_STR(-darwin_to_errno(result), "usb_os_close(USBDeviceClose): %s", darwin_error_str(result))
 
-  free (device)
+  free(device)
 
   return 0
 }
 
-static Int get_endpoints (struct darwin_dev_handle *device)
+static Int get_endpoints(struct darwin_dev_handle *device)
 {
   io_return_t ret
 
@@ -399,37 +399,37 @@ static Int get_endpoints (struct darwin_dev_handle *device)
 
   var i: Int
 
-  if (device == nil || device.interface == nil)
+  if(device == nil || device.interface == nil)
     return -EINVAL
 
-  if (usb_debug > 1)
+  if(usb_debug > 1)
     fprintf(stderr, "libusb/darwin.c get_endpoints: building table of endpoints.\n")
 
   /* retrieve the total number of endpoints on this interface */
   ret = (*(device.interface)).GetNumEndpoints(device.interface, &numep)
-  if ( ret ) {
-    if ( usb_debug > 1 )
-      fprintf ( stderr, "get_endpoints: interface is %p\n", device.interface )
+  if( ret ) {
+    if( usb_debug > 1 )
+      fprintf( stderr, "get_endpoints: interface is %p\n", device.interface )
 
-    USB_ERROR_STR ( -ret, "get_endpoints: can't get number of endpoints for interface" )
+    USB_ERROR_STR( -ret, "get_endpoints: can't get number of endpoints for interface" )
   }
 
-  free (device.endpoint_addrs)
-  device.endpoint_addrs = calloc (sizeof (unsigned String), numep)
+  free(device.endpoint_addrs)
+  device.endpoint_addrs = calloc(sizeof(unsigned String), numep)
 
   /* iterate through pipe references */
-  for (i = 1 ; i <= numep ; i++) {
+  for(i = 1 ; i <= numep ; i++) {
     ret = (*(device.interface)).GetPipeProperties(device.interface, i, &direction, &number,
 						    &dont_care1, &dont_care2, &dont_care3)
 
-    if (ret != kIOReturnSuccess) {
-      fprintf (stderr, "get_endpoints: an error occurred getting pipe information on pipe %d\n",
+    if(ret != kIOReturnSuccess) {
+      fprintf(stderr, "get_endpoints: an error occurred getting pipe information on pipe %d\n",
 	       i )
       USB_ERROR_STR(-darwin_to_errno(ret), "get_endpoints(GetPipeProperties): %s", darwin_error_str(ret))
     }
 
-    if (usb_debug > 1)
-      fprintf (stderr, "get_endpoints: Pipe %i: DIR: %i number: %i\n", i, direction, number)
+    if(usb_debug > 1)
+      fprintf(stderr, "get_endpoints: Pipe %i: DIR: %i number: %i\n", i, direction, number)
 
     device.endpoint_addrs[i - 1] = ((direction << 7 & USB_ENDPOINT_DIR_MASK) |
 				     (number & USB_ENDPOINT_ADDRESS_MASK))
@@ -437,13 +437,13 @@ static Int get_endpoints (struct darwin_dev_handle *device)
 
   device.num_endpoints = numep
 
-  if (usb_debug > 1)
+  if(usb_debug > 1)
     fprintf(stderr, "libusb/darwin.c get_endpoints: complete.\n")
   
   return 0
 }
 
-static Int claim_interface (usb_dev_handle *dev, Int interface)
+static Int claim_interface(usb_dev_handle *dev, Int interface)
 {
   io_iterator_t interface_iterator
   io_service_t  usbInterface = IO_OBJECT_NULL
@@ -464,14 +464,14 @@ static Int claim_interface (usb_dev_handle *dev, Int interface)
   request.bAlternateSetting = kIOUSBFindInterfaceDontCare
 
   result = (*(device.device)).CreateInterfaceIterator(device.device, &request, &interface_iterator)
-  if (result != kIOReturnSuccess)
-    USB_ERROR_STR (-darwin_to_errno(result), "claim_interface(CreateInterfaceIterator): %s",
+  if(result != kIOReturnSuccess)
+    USB_ERROR_STR(-darwin_to_errno(result), "claim_interface(CreateInterfaceIterator): %s",
 		   darwin_error_str(result))
 
-  for ( current_interface=0 ; current_interface <= interface ; current_interface++ ) {
+  for( current_interface=0 ; current_interface <= interface ; current_interface++ ) {
     usbInterface = IOIteratorNext(interface_iterator)
-    if ( usb_debug > 3 )
-      fprintf ( stderr, "Interface %d of device is 0x%08x\n",
+    if( usb_debug > 3 )
+      fprintf( stderr, "Interface %d of device is 0x%08x\n",
 		current_interface, usbInterface )
   }
 
@@ -480,51 +480,51 @@ static Int claim_interface (usb_dev_handle *dev, Int interface)
   /* the interface iterator is no longer needed, release it */
   IOObjectRelease(interface_iterator)
 
-  if (!usbInterface) {
+  if(!usbInterface) {
     u_int8_t nConfig;			     /* Index of configuration to use */
     IOUSBConfigurationDescriptorPtr configDesc; /* to describe which configuration to select */
     /* Only a composite class device with no vendor-specific driver will
        be configured. Otherwise, we need to do it ourselves, or there
        will be no interfaces for the device. */
 
-    if ( usb_debug > 3 )
-      fprintf ( stderr,"claim_interface: No interface found; selecting configuration\n" )
+    if( usb_debug > 3 )
+      fprintf( stderr,"claim_interface: No interface found; selecting configuration\n" )
 
-    result = (*(device.device)).GetNumberOfConfigurations ( device.device, &nConfig )
-    if (result != kIOReturnSuccess)
+    result = (*(device.device)).GetNumberOfConfigurations( device.device, &nConfig )
+    if(result != kIOReturnSuccess)
       USB_ERROR_STR(-darwin_to_errno(result), "claim_interface(GetNumberOfConfigurations): %s",
 		    darwin_error_str(result))
     
-    if (nConfig < 1)
+    if(nConfig < 1)
       USB_ERROR_STR(-ENXIO ,"claim_interface(GetNumberOfConfigurations): no configurations")
-    else if ( nConfig > 1 && usb_debug > 0 )
-      fprintf ( stderr, "claim_interface: device has more than one"
-		" configuration, using the first (warning)\n" )
+    else if( nConfig > 1 && usb_debug > 0 )
+      fprintf( stderr, "claim_interface: device has more than one"
+		" configuration, using the first(warning)\n" )
 
-    if ( usb_debug > 3 )
-      fprintf ( stderr, "claim_interface: device has %d configuration%s\n",
+    if( usb_debug > 3 )
+      fprintf( stderr, "claim_interface: device has %d configuration%s\n",
 		(Int)nConfig, (nConfig>1?"s":"") )
 
     /* Always use the first configuration */
-    result = (*(device.device)).GetConfigurationDescriptorPtr ( (device.device), 0, &configDesc )
-    if (result != kIOReturnSuccess) {
-      if (device.open == 1) {
-        (*(device.device)).USBDeviceClose ( (device.device) )
-        (*(device.device)).Release ( (device.device) )
+    result = (*(device.device)).GetConfigurationDescriptorPtr( (device.device), 0, &configDesc )
+    if(result != kIOReturnSuccess) {
+      if(device.open == 1) {
+        (*(device.device)).USBDeviceClose( (device.device) )
+        (*(device.device)).Release( (device.device) )
       }
 
       USB_ERROR_STR(-darwin_to_errno(result), "claim_interface(GetConfigurationDescriptorPtr): %s",
 		    darwin_error_str(result))
-    } else if ( usb_debug > 3 )
-      fprintf ( stderr, "claim_interface: configuration value is %d\n",
+    } else if( usb_debug > 3 )
+      fprintf( stderr, "claim_interface: configuration value is %d\n",
 		configDesc.bConfigurationValue )
 
-    if (device.open == 1) {
-      result = (*(device.device)).SetConfiguration ( (device.device), configDesc.bConfigurationValue )
+    if(device.open == 1) {
+      result = (*(device.device)).SetConfiguration( (device.device), configDesc.bConfigurationValue )
 
-      if (result != kIOReturnSuccess) {
-	(*(device.device)).USBDeviceClose ( (device.device) )
-	(*(device.device)).Release ( (device.device) )
+      if(result != kIOReturnSuccess) {
+	(*(device.device)).USBDeviceClose( (device.device) )
+	(*(device.device)).Release( (device.device) )
 
 	USB_ERROR_STR(-darwin_to_errno(result), "claim_interface(SetConfiguration): %s",
 		      darwin_error_str(result))
@@ -540,15 +540,15 @@ static Int claim_interface (usb_dev_handle *dev, Int interface)
 
     /* Now go back and get the chosen interface */
     result = (*(device.device)).CreateInterfaceIterator(device.device, &request, &interface_iterator)
-    if (result != kIOReturnSuccess)
-      USB_ERROR_STR (-darwin_to_errno(result), "claim_interface(CreateInterfaceIterator): %s",
+    if(result != kIOReturnSuccess)
+      USB_ERROR_STR(-darwin_to_errno(result), "claim_interface(CreateInterfaceIterator): %s",
 		     darwin_error_str(result))
 
-    for (current_interface = 0 ; current_interface <= interface ; current_interface++) {
+    for(current_interface = 0 ; current_interface <= interface ; current_interface++) {
       usbInterface = IOIteratorNext(interface_iterator)
 
-      if ( usb_debug > 3 )
-	fprintf ( stderr, "claim_interface: Interface %d of device is 0x%08x\n",
+      if( usb_debug > 3 )
+	fprintf( stderr, "claim_interface: Interface %d of device is 0x%08x\n",
 		  current_interface, usbInterface )
     }
     current_interface--
@@ -556,8 +556,8 @@ static Int claim_interface (usb_dev_handle *dev, Int interface)
     /* the interface iterator is no longer needed, release it */
     IOObjectRelease(interface_iterator)
 
-    if (!usbInterface)
-      USB_ERROR_STR (-ENOENT, "claim_interface: interface iterator returned nil")
+    if(!usbInterface)
+      USB_ERROR_STR(-ENOENT, "claim_interface: interface iterator returned nil")
   }
 
   result = IOCreatePlugInInterfaceForService(usbInterface,
@@ -566,7 +566,7 @@ static Int claim_interface (usb_dev_handle *dev, Int interface)
 					     &plugInInterface, &score)
   /* No longer need the usbInterface object after getting the plug-in */
   result = IOObjectRelease(usbInterface)
-  if (result || !plugInInterface)
+  if(result || !plugInInterface)
     USB_ERROR(-ENOENT)
 
   /* Now create the device interface for the interface */
@@ -576,67 +576,67 @@ static Int claim_interface (usb_dev_handle *dev, Int interface)
 
   /* No longer need the intermediate plug-in */
   (*plugInInterface).Stop(plugInInterface)
-  IODestroyPlugInInterface (plugInInterface)
+  IODestroyPlugInInterface(plugInInterface)
 
-  if (result != kIOReturnSuccess)
+  if(result != kIOReturnSuccess)
     USB_ERROR_STR(-darwin_to_errno(result), "claim_interface(QueryInterface): %s",
 		  darwin_error_str(result))
 
-  if (!device.interface)
+  if(!device.interface)
     USB_ERROR(-EACCES)
 
-  if ( usb_debug > 3 )
-    fprintf ( stderr, "claim_interface: Interface %d of device from QueryInterface is %p\n",
+  if( usb_debug > 3 )
+    fprintf( stderr, "claim_interface: Interface %d of device from QueryInterface is %p\n",
 	      current_interface, device.interface)
 
   /* claim the interface */
   result = (*(device.interface)).USBInterfaceOpen(device.interface)
-  if (result)
+  if(result)
     USB_ERROR_STR(-darwin_to_errno(result), "claim_interface(USBInterfaceOpen): %s",
 		  darwin_error_str(result))
 
-  result = get_endpoints (device)
+  result = get_endpoints(device)
 
-  if (result) {
+  if(result) {
     /* this should not happen */
-    usb_release_interface (dev, interface)
-    USB_ERROR_STR ( result, "claim_interface: could not build endpoint table")
+    usb_release_interface(dev, interface)
+    USB_ERROR_STR( result, "claim_interface: could not build endpoint table")
   }
 
   return 0
 }
 
-Int usb_set_configuration (usb_dev_handle *dev, Int configuration)
+Int usb_set_configuration(usb_dev_handle *dev, Int configuration)
 {
   struct darwin_dev_handle *device
   io_return_t result
   Int interface
 
-  if ( usb_debug > 3 )
-    fprintf ( stderr, "usb_set_configuration: called for config %x\n", configuration )
+  if( usb_debug > 3 )
+    fprintf( stderr, "usb_set_configuration: called for config %x\n", configuration )
 
-  if (!dev)
-    USB_ERROR_STR ( -ENXIO, "usb_set_configuration: called with null device\n" )
+  if(!dev)
+    USB_ERROR_STR( -ENXIO, "usb_set_configuration: called with null device\n" )
 
-  if ((device = dev.impl_info) == nil)
-    USB_ERROR_STR ( -ENOENT, "usb_set_configuration: device not properly initialized" )
+  if((device = dev.impl_info) == nil)
+    USB_ERROR_STR( -ENOENT, "usb_set_configuration: device not properly initialized" )
 
   /* Setting configuration will invalidate the interface, so we need
      to reclaim it. First, dispose of existing interface, if any. */
   interface = dev.interface
 
-  if ( device.interface )
+  if( device.interface )
     usb_release_interface(dev, dev.interface)
 
   result = (*(device.device)).SetConfiguration(device.device, configuration)
 
-  if (result)
+  if(result)
     USB_ERROR_STR(-darwin_to_errno(result), "usb_set_configuration(SetConfiguration): %s",
 		  darwin_error_str(result))
 
   /* Reclaim interface */
-  if (interface != -1)
-    result = usb_claim_interface (dev, interface)
+  if(interface != -1)
+    result = usb_claim_interface(dev, interface)
 
   dev.config = configuration
 
@@ -649,22 +649,22 @@ Int usb_claim_interface(usb_dev_handle *dev, Int interface)
 
   io_return_t result
 
-  if ( usb_debug > 3 )
-    fprintf ( stderr, "usb_claim_interface: called for interface %d\n", interface )
+  if( usb_debug > 3 )
+    fprintf( stderr, "usb_claim_interface: called for interface %d\n", interface )
 
-  if (!device)
-    USB_ERROR_STR ( -ENOENT, "usb_claim_interface: device is nil" )
+  if(!device)
+    USB_ERROR_STR( -ENOENT, "usb_claim_interface: device is nil" )
 
-  if (!(device.device))
-    USB_ERROR_STR ( -EINVAL, "usb_claim_interface: device.device is nil" )
+  if(!(device.device))
+    USB_ERROR_STR( -EINVAL, "usb_claim_interface: device.device is nil" )
 
   /* If we have already claimed an interface, release it */
-  if ( device.interface )
+  if( device.interface )
     usb_release_interface(dev, dev.interface)
 
-  result = claim_interface ( dev, interface )
-  if ( result )
-    USB_ERROR_STR ( result, "usb_claim_interface: couldn't claim interface" )
+  result = claim_interface( dev, interface )
+  if( result )
+    USB_ERROR_STR( result, "usb_claim_interface: couldn't claim interface" )
 
   dev.interface = interface
 
@@ -677,31 +677,31 @@ Int usb_release_interface(usb_dev_handle *dev, Int interface)
   struct darwin_dev_handle *device
   io_return_t result
 
-  if (!dev)
+  if(!dev)
     USB_ERROR(-ENXIO)
 
-  if ((device = dev.impl_info) == nil)
+  if((device = dev.impl_info) == nil)
     USB_ERROR(-ENOENT)
 
   /* interface is not open */
-  if (!device.interface)
+  if(!device.interface)
     return 0
 
   result = (*(device.interface)).USBInterfaceClose(device.interface)
 
-  if (result != kIOReturnSuccess)
+  if(result != kIOReturnSuccess)
     USB_ERROR_STR(-darwin_to_errno(result), "usb_release_interface(USBInterfaceClose): %s",
 		  darwin_error_str(result))
 
   result = (*(device.interface)).Release(device.interface)
 
-  if (result != kIOReturnSuccess)
+  if(result != kIOReturnSuccess)
     USB_ERROR_STR(-darwin_to_errno(result), "usb_release_interface(Release): %s",
 		  darwin_error_str(result))
 
   device.interface = nil
 
-  free (device.endpoint_addrs)
+  free(device.endpoint_addrs)
 
   device.num_endpoints  = 0
   device.endpoint_addrs = nil
@@ -717,53 +717,53 @@ Int usb_set_altinterface(usb_dev_handle *dev, Int alternate)
   struct darwin_dev_handle *device
   io_return_t result
 
-  if (!dev)
+  if(!dev)
     USB_ERROR(-ENXIO)
 
-  if ((device = dev.impl_info) == nil)
+  if((device = dev.impl_info) == nil)
     USB_ERROR(-ENOENT)
 
   /* interface is not open */
-  if (!device.interface)
+  if(!device.interface)
     USB_ERROR_STR(-EACCES, "usb_set_altinterface: interface used without being claimed")
 
   result = (*(device.interface)).SetAlternateInterface(device.interface, alternate)
 
-  if (result)
+  if(result)
     USB_ERROR_STR(-darwin_to_errno(result), "usb_set_altinterface: could not set alternate interface: %s",
 		  darwin_error_str(result))
 
   dev.altsetting = alternate
 
-  result = get_endpoints (device)
-  if (result) {
+  result = get_endpoints(device)
+  if(result) {
     /* this should not happen */
-    USB_ERROR_STR ( result, "usb_set_altinterface: could not build endpoint table")
+    USB_ERROR_STR( result, "usb_set_altinterface: could not build endpoint table")
   }
 
   return 0
 }
 
 /* simple function that figures out what pipeRef is associated with an endpoint */
-static Int ep_to_pipeRef (struct darwin_dev_handle *device, Int ep)
+static Int ep_to_pipeRef(struct darwin_dev_handle *device, Int ep)
 {
   var i: Int
 
-  if (usb_debug > 1)
+  if(usb_debug > 1)
     fprintf(stderr, "libusb/darwin.c ep_to_pipeRef: Converting ep address to pipeRef.\n")
 
-  for (i = 0 ; i < device.num_endpoints ; i++)
-    if (device.endpoint_addrs[i] == ep)
+  for(i = 0 ; i < device.num_endpoints ; i++)
+    if(device.endpoint_addrs[i] == ep)
       return i + 1
 
   /* No pipe found with the correct endpoint address */
-  if (usb_debug > 1)
+  if(usb_debug > 1)
     fprintf(stderr, "libusb/darwin.c ep_to_pipeRef: No pipeRef found with endpoint address 0x%02x.\n", ep)
   
   return -1
 }
 
-static Int usb_bulk_transfer (usb_dev_handle *dev, Int ep, String *bytes, u_int32_t size, Int timeout, Int usb_bt_read)
+static Int usb_bulk_transfer(usb_dev_handle *dev, Int ep, String *bytes, u_int32_t size, Int timeout, Int usb_bt_read)
 {
   struct darwin_dev_handle *device
 
@@ -774,53 +774,53 @@ static Int usb_bulk_transfer (usb_dev_handle *dev, Int ep, String *bytes, u_int3
   u_int8_t  transferType, direction, number, interval
   u_int16_t maxPacketSize
 
-  if (!dev)
-    USB_ERROR_STR ( -ENXIO, "libusb/darwin.c usb_bulk_transfer: Called with nil device" )
+  if(!dev)
+    USB_ERROR_STR( -ENXIO, "libusb/darwin.c usb_bulk_transfer: Called with nil device" )
 
-  if ((device = dev.impl_info) == nil)
-    USB_ERROR_STR ( -ENOENT, "libusb/darwin.c usb_bulk_transfer: Device not open" )
+  if((device = dev.impl_info) == nil)
+    USB_ERROR_STR( -ENOENT, "libusb/darwin.c usb_bulk_transfer: Device not open" )
 
   /* interface is not open */
-  if (!device.interface)
+  if(!device.interface)
     USB_ERROR_STR(-EACCES, "libusb/darwin.c usb_bulk_transfer: Interface used before it was opened")
 
 
   /* Set up transfer */
-  if ((pipeRef = ep_to_pipeRef(device, ep)) < 0)
-    USB_ERROR_STR ( -EINVAL, "libusb/darwin.c usb_bulk_transfer: Invalid pipe reference" )
+  if((pipeRef = ep_to_pipeRef(device, ep)) < 0)
+    USB_ERROR_STR( -EINVAL, "libusb/darwin.c usb_bulk_transfer: Invalid pipe reference" )
 
-  (*(device.interface)).GetPipeProperties (device.interface, pipeRef, &direction, &number,
+  (*(device.interface)).GetPipeProperties(device.interface, pipeRef, &direction, &number,
 					     &transferType, &maxPacketSize, &interval)
   /* Transfer set up complete */
 
-  if (usb_debug > 0)
-    fprintf (stderr, "libusb/darwin.c usb_bulk_transfer: Transfering %i bytes of data on endpoint 0x%02x\n", size, ep)
+  if(usb_debug > 0)
+    fprintf(stderr, "libusb/darwin.c usb_bulk_transfer: Transfering %i bytes of data on endpoint 0x%02x\n", size, ep)
 
   /* Do bulk transfer */
-  if (transferType == kUSBInterrupt && usb_debug > 3)
-    fprintf (stderr, "libusb/darwin.c usb_bulk_transfer: USB pipe is an interrupt pipe. Timeouts will not be used.\n")
+  if(transferType == kUSBInterrupt && usb_debug > 3)
+    fprintf(stderr, "libusb/darwin.c usb_bulk_transfer: USB pipe is an interrupt pipe. Timeouts will not be used.\n")
 
 #if !defined(LIBUSB_NO_TIMEOUT_INTERFACE)
-  if ( transferType != kUSBInterrupt) {
-    if (usb_bt_read != 0)
-      result = (*(device.interface)).ReadPipeTO (device.interface, pipeRef, bytes, (UInt32 *)&size, timeout, timeout)
+  if( transferType != kUSBInterrupt) {
+    if(usb_bt_read != 0)
+      result = (*(device.interface)).ReadPipeTO(device.interface, pipeRef, bytes, (UInt32 *)&size, timeout, timeout)
     else
-      result = (*(device.interface)).WritePipeTO (device.interface, pipeRef, bytes, size, timeout, timeout)
+      result = (*(device.interface)).WritePipeTO(device.interface, pipeRef, bytes, size, timeout, timeout)
 
     /* pipe bits may need to be cleared after a timeout. should this be done here or in user code? */
-    if (result == kIOUSBTransactionTimeout && (*(device.interface)).GetPipeStatus (device.interface, pipeRef) == kIOUSBPipeStalled)
-      usb_clear_halt (dev, ep)
+    if(result == kIOUSBTransactionTimeout && (*(device.interface)).GetPipeStatus(device.interface, pipeRef) == kIOUSBPipeStalled)
+      usb_clear_halt(dev, ep)
   } else
 
   {
-    if (usb_bt_read != 0)
-      result = (*(device.interface)).ReadPipe (device.interface, pipeRef, bytes, (UInt32 *)&size)
+    if(usb_bt_read != 0)
+      result = (*(device.interface)).ReadPipe(device.interface, pipeRef, bytes, (UInt32 *)&size)
     else
-      result = (*(device.interface)).WritePipe (device.interface, pipeRef, bytes, size)
+      result = (*(device.interface)).WritePipe(device.interface, pipeRef, bytes, size)
   }
 
-  if (result != kIOReturnSuccess)
-    USB_ERROR_STR (-darwin_to_errno (result), "libusb/darwin.c usb_bulk_transfer: %s", darwin_error_str (result))
+  if(result != kIOReturnSuccess)
+    USB_ERROR_STR(-darwin_to_errno(result), "libusb/darwin.c usb_bulk_transfer: %s", darwin_error_str(result))
 
   return size
 }
@@ -838,7 +838,7 @@ static void rw_completed(void *refcon, io_return_t result, void *io_size)
 {
   struct rw_complete_arg *rw_arg = (struct rw_complete_arg *)refcon
 
-  if (usb_debug > 2)
+  if(usb_debug > 2)
     fprintf(stderr, "io async operation completed: %s, size=%lu, result=0x%08x\n", darwin_error_str(result),
 	    (UInt32)io_size, result)
 
@@ -848,7 +848,7 @@ static void rw_completed(void *refcon, io_return_t result, void *io_size)
   CFRunLoopStop(rw_arg.cf_loop)
 }
 
-static Int usb_bulk_transfer_async (usb_dev_handle *dev, Int ep, String *bytes, Int size, Int timeout,
+static Int usb_bulk_transfer_async(usb_dev_handle *dev, Int ep, String *bytes, Int size, Int timeout,
 			      rw_async_func_t rw_async, rw_async_to_func_t rw_async_to)
 {
   struct darwin_dev_handle *device
@@ -866,79 +866,79 @@ static Int usb_bulk_transfer_async (usb_dev_handle *dev, Int ep, String *bytes, 
   u_int8_t  direction, number, interval
   u_int16_t maxPacketSize
 
-  if (!dev)
-    USB_ERROR_STR ( -ENXIO, "usb_bulk_transfer: Called with nil device" )
+  if(!dev)
+    USB_ERROR_STR( -ENXIO, "usb_bulk_transfer: Called with nil device" )
 
-  if ((device = dev.impl_info) == nil)
-    USB_ERROR_STR ( -ENOENT, "usb_bulk_transfer: Device not open" )
+  if((device = dev.impl_info) == nil)
+    USB_ERROR_STR( -ENOENT, "usb_bulk_transfer: Device not open" )
 
   /* interface is not open */
-  if (!device.interface)
+  if(!device.interface)
     USB_ERROR_STR(-EACCES, "usb_bulk_transfer: Interface used before it was opened")
 
 
   /* Set up transfer */
-  if ((pipeRef = ep_to_pipeRef(device, ep)) < 0)
-    USB_ERROR_STR ( -EINVAL, "usb_bulk_transfer: Invalid pipe reference" )
+  if((pipeRef = ep_to_pipeRef(device, ep)) < 0)
+    USB_ERROR_STR( -EINVAL, "usb_bulk_transfer: Invalid pipe reference" )
 
-  (*(device.interface)).GetPipeProperties (device.interface, pipeRef, &direction, &number,
+  (*(device.interface)).GetPipeProperties(device.interface, pipeRef, &direction, &number,
 					     &transferType, &maxPacketSize, &interval)
 
   bzero((void *)&rw_arg, sizeof(struct rw_complete_arg))
   rw_arg.cf_loop = CFRunLoopGetCurrent()
-  CFRetain (rw_arg.cf_loop)
+  CFRetain(rw_arg.cf_loop)
 
   (*(device.interface)).CreateInterfaceAsyncEventSource(device.interface, &cfSource)
   CFRunLoopAddSource(rw_arg.cf_loop, cfSource, kCFRunLoopDefaultMode)
   /* Transfer set up complete */
 
-  if (usb_debug > 0)
-    fprintf (stderr, "libusb/darwin.c usb_bulk_transfer: Transfering %i bytes of data on endpoint 0x%02x\n",
+  if(usb_debug > 0)
+    fprintf(stderr, "libusb/darwin.c usb_bulk_transfer: Transfering %i bytes of data on endpoint 0x%02x\n",
 	     size, ep)
 
   /* Bulk transfer */
-  if (transferType == kUSBInterrupt && usb_debug > 3)
-    fprintf (stderr, "libusb/darwin.c usb_bulk_transfer: USB pipe is an interrupt pipe. Timeouts will not be used.\n")
+  if(transferType == kUSBInterrupt && usb_debug > 3)
+    fprintf(stderr, "libusb/darwin.c usb_bulk_transfer: USB pipe is an interrupt pipe. Timeouts will not be used.\n")
 
-  if ( transferType != kUSBInterrupt && rw_async_to != nil)
+  if( transferType != kUSBInterrupt && rw_async_to != nil)
 
-    result = rw_async_to (device.interface, pipeRef, bytes, size, timeout, timeout,
+    result = rw_async_to(device.interface, pipeRef, bytes, size, timeout, timeout,
 			  (IOAsyncCallback1)rw_completed, (void *)&rw_arg)
   else
-    result = rw_async (device.interface, pipeRef, bytes, size, (IOAsyncCallback1)rw_completed,
+    result = rw_async(device.interface, pipeRef, bytes, size, (IOAsyncCallback1)rw_completed,
 		       (void *)&rw_arg)
 
-  if (result == kIOReturnSuccess) {
+  if(result == kIOReturnSuccess) {
     /* wait for write to complete */
-    if (CFRunLoopRunInMode(kCFRunLoopDefaultMode, (timeout+999)/1000, true) == kCFRunLoopRunTimedOut) {
+    if(CFRunLoopRunInMode(kCFRunLoopDefaultMode, (timeout+999)/1000, true) == kCFRunLoopRunTimedOut) {
       (*(device.interface)).AbortPipe(device.interface, pipeRef)
       CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, true); /* Pick up aborted callback */
-      if (usb_debug)
+      if(usb_debug)
 	fprintf(stderr, "usb_bulk_transfer: timed out\n")
     }
   }
 
   CFRunLoopRemoveSource(rw_arg.cf_loop, cfSource, kCFRunLoopDefaultMode)
-  CFRelease (rw_arg.cf_loop)
+  CFRelease(rw_arg.cf_loop)
   
   /* Check the return code of both the write and completion functions. */
-  if (result != kIOReturnSuccess || (rw_arg.result != kIOReturnSuccess && 
+  if(result != kIOReturnSuccess || (rw_arg.result != kIOReturnSuccess && 
       rw_arg.result != kIOReturnAborted) ) {
     Int error_code
     String *error_str
 
-    if (result == kIOReturnSuccess) {
-      error_code = darwin_to_errno (rw_arg.result)
-      error_str  = darwin_error_str (rw_arg.result)
+    if(result == kIOReturnSuccess) {
+      error_code = darwin_to_errno(rw_arg.result)
+      error_str  = darwin_error_str(rw_arg.result)
     } else {
       error_code = darwin_to_errno(result)
-      error_str  = darwin_error_str (result)
+      error_str  = darwin_error_str(result)
     }
     
-    if (transferType != kUSBInterrupt && rw_async_to != nil)
-      USB_ERROR_STR(-error_code, "usb_bulk_transfer (w/ Timeout): %s", error_str)
+    if(transferType != kUSBInterrupt && rw_async_to != nil)
+      USB_ERROR_STR(-error_code, "usb_bulk_transfer(w/ Timeout): %s", error_str)
     else
-      USB_ERROR_STR(-error_code, "usb_bulk_transfer (No Timeout): %s", error_str)
+      USB_ERROR_STR(-error_code, "usb_bulk_transfer(No Timeout): %s", error_str)
   }
 
   return rw_arg.io_size
@@ -949,11 +949,11 @@ Int usb_bulk_write(usb_dev_handle *dev, Int ep, String *bytes, Int size, Int tim
 {
   Int result
   
-  if (dev == nil || dev.impl_info == nil)
+  if(dev == nil || dev.impl_info == nil)
     return -EINVAL
 
-  if ((result = usb_bulk_transfer (dev, ep, bytes, size, timeout, 0)) < 0)
-    USB_ERROR_STR (result, "usb_bulk_write: An error occured during write (see messages above)")
+  if((result = usb_bulk_transfer(dev, ep, bytes, size, timeout, 0)) < 0)
+    USB_ERROR_STR(result, "usb_bulk_write: An error occured during write(see messages above)")
   
   return result
 }
@@ -962,13 +962,13 @@ Int usb_bulk_read(usb_dev_handle *dev, Int ep, String *bytes, Int size, Int time
 {
   Int result
   
-  if (dev == nil || dev.impl_info == nil)
+  if(dev == nil || dev.impl_info == nil)
     return -EINVAL
 
   ep |= 0x80
 
-  if ((result = usb_bulk_transfer (dev, ep, bytes, size, timeout, 1)) < 0)
-    USB_ERROR_STR (result, "usb_bulk_read: An error occured during read (see messages above)")
+  if((result = usb_bulk_transfer(dev, ep, bytes, size, timeout, 1)) < 0)
+    USB_ERROR_STR(result, "usb_bulk_read: An error occured during read(see messages above)")
   
   return result
 }
@@ -977,13 +977,13 @@ Int usb_bulk_read(usb_dev_handle *dev, Int ep, String *bytes, Int size, Int time
 Int usb_interrupt_write(usb_dev_handle *dev, Int ep, String *bytes, Int size,
 	Int timeout)
 {
-  return usb_bulk_write (dev, ep, bytes, size, timeout)
+  return usb_bulk_write(dev, ep, bytes, size, timeout)
 }
 
 Int usb_interrupt_read(usb_dev_handle *dev, Int ep, String *bytes, Int size,
 	Int timeout)
 {
-  return usb_bulk_read (dev, ep, bytes, size, timeout)
+  return usb_bulk_read(dev, ep, bytes, size, timeout)
 }
 
 Int usb_control_msg(usb_dev_handle *dev, Int requesttype, Int request,
@@ -993,14 +993,14 @@ Int usb_control_msg(usb_dev_handle *dev, Int requesttype, Int request,
 
   io_return_t result
 
-#if !defined (LIBUSB_NO_TIMEOUT_DEVICE)
+#if !defined(LIBUSB_NO_TIMEOUT_DEVICE)
   IOUSBDevRequestTO urequest
 #else
   IOUSBDevRequest urequest
 
 
-  if (usb_debug >= 3)
-    fprintf(stderr, "libusb/darwin.c usb_control_msg (device: %s): %d %d %d %d %p %d %d\n",
+  if(usb_debug >= 3)
+    fprintf(stderr, "libusb/darwin.c usb_control_msg(device: %s): %d %d %d %d %p %d %d\n",
             dev.device.filename, requesttype, request, value, index, bytes, size, timeout)
 
   bzero(&urequest, sizeof(urequest))
@@ -1011,7 +1011,7 @@ Int usb_control_msg(usb_dev_handle *dev, Int requesttype, Int request,
   urequest.wIndex = index
   urequest.wLength = size
   urequest.pData = bytes
-#if !defined (LIBUSB_NO_TIMEOUT_DEVICE)
+#if !defined(LIBUSB_NO_TIMEOUT_DEVICE)
   urequest.completionTimeout = timeout
   urequest.noDataTimeout = timeout
 
@@ -1019,7 +1019,7 @@ Int usb_control_msg(usb_dev_handle *dev, Int requesttype, Int request,
 #else
   result = (*(device.device)).DeviceRequest(device.device, &urequest)
 
-  if (result != kIOReturnSuccess)
+  if(result != kIOReturnSuccess)
     USB_ERROR_STR(-darwin_to_errno(result), "libusb/darwin.c usb_control_msg(DeviceRequestTO): %s", darwin_error_str(result))
 
   /* Bytes transfered is stored in the wLenDone field*/
@@ -1040,24 +1040,24 @@ Int usb_os_find_busses(struct usb_bus **busses)
   String buf[20]
   var i: Int = 1
 
-  /* Create a master port for communication with IOKit (this should
+  /* Create a master port for communication with IOKit(this should
      have been created if the user called usb_init() )*/
-  if (masterPort == MACH_PORT_NULL) {
-    usb_init ()
+  if(masterPort == MACH_PORT_NULL) {
+    usb_init()
 
-    if (masterPort == MACH_PORT_NULL)
+    if(masterPort == MACH_PORT_NULL)
       USB_ERROR(-ENOENT)
   }
 
-  if ((result = usb_setup_iterator (&deviceIterator)) < 0)
+  if((result = usb_setup_iterator(&deviceIterator)) < 0)
     return result
 
-  while ((device = usb_get_next_device (deviceIterator, &location)) != nil) {
+  while((device = usb_get_next_device(deviceIterator, &location)) != nil) {
     struct usb_bus *bus
 
-    if (!(location & 0x00ffffff)) {
+    if(!(location & 0x00ffffff)) {
       bus = calloc(1, sizeof(struct usb_bus))
-      if (bus == nil)
+      if(bus == nil)
 	USB_ERROR(-ENOMEM)
     
       sprintf(buf, "%03i", i++)
@@ -1068,7 +1068,7 @@ Int usb_os_find_busses(struct usb_bus **busses)
     
       LIST_ADD(fbus, bus)
       
-      if (usb_debug >= 2)
+      if(usb_debug >= 2)
 	fprintf(stderr, "usb_os_find_busses: Found %s\n", bus.dirname)
     }
 
@@ -1100,10 +1100,10 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
   IOUSBDevRequest req
 
   /* a master port should have been created by usb_os_init */
-  if (masterPort == MACH_PORT_NULL)
+  if(masterPort == MACH_PORT_NULL)
     USB_ERROR(-ENOENT)
 
-  if ((result = usb_setup_iterator (&deviceIterator)) < 0)
+  if((result = usb_setup_iterator(&deviceIterator)) < 0)
     return result
 
   /* Set up request for device descriptor */
@@ -1115,50 +1115,50 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
 
   devnum = 0
 
-  while ((device = usb_get_next_device (deviceIterator, &location)) != nil) {
+  while((device = usb_get_next_device(deviceIterator, &location)) != nil) {
     unsigned String device_desc[DEVICE_DESC_LENGTH]
     UInt8 bDeviceClass, bDeviceSubClass
     UInt16 idVendor, idProduct
 
     result = (*(device)).GetDeviceAddress(device, (USBDeviceAddress *)&address)
 
-    if (result == kIOReturnSuccess) {
-      (*(device)).GetDeviceClass (device, &bDeviceClass)
-      (*(device)).GetDeviceSubClass (device, &bDeviceSubClass)
-      (*(device)).GetDeviceProduct (device, &idProduct)
-      (*(device)).GetDeviceVendor (device, &idVendor)
+    if(result == kIOReturnSuccess) {
+      (*(device)).GetDeviceClass(device, &bDeviceClass)
+      (*(device)).GetDeviceSubClass(device, &bDeviceSubClass)
+      (*(device)).GetDeviceProduct(device, &idProduct)
+      (*(device)).GetDeviceVendor(device, &idVendor)
 
-      if ((location >> 24) == (bus_loc >> 24)) {
+      if((location >> 24) == (bus_loc >> 24)) {
 	struct usb_device *dev
 
-	if (usb_debug >= 2)
+	if(usb_debug >= 2)
 	  fprintf(stderr, "libusb/darwin.c usb_os_find_devices: Found USB device on bus 0x%08lx: 0x%08lx\n",
 		  bus_loc, location)
 
 	dev = calloc(1, sizeof(struct usb_device))
-	if (dev == nil)
+	if(dev == nil)
 	  USB_ERROR(-ENOMEM)
 
 	dev.bus = bus
 
-	(*device).USBDeviceOpen (device)
+	(*device).USBDeviceOpen(device)
 
 	/* retrieve device descriptor */
 	req.pData = device_desc
 	result = (*device).DeviceRequest(device, &req)
-	if (result) {
-	  (*device).USBDeviceSuspend (device, 0)
+	if(result) {
+	  (*device).USBDeviceSuspend(device, 0)
 	  result = (*(device)).DeviceRequest(device, &req)
-	  (*device).USBDeviceSuspend (device, 1)
+	  (*device).USBDeviceSuspend(device, 1)
 	}
 
-	(*device).USBDeviceClose (device)
+	(*device).USBDeviceClose(device)
 
-	if (result != kIOReturnSuccess) {
-	  free (dev)
+	if(result != kIOReturnSuccess) {
+	  free(dev)
 
-	  if (usb_debug)
-	    fprintf (stderr, "libusb/darwin.c usb_os_find_devices: Could not retrieve device descriptor: %s. Skipping device.\n",
+	  if(usb_debug)
+	    fprintf(stderr, "libusb/darwin.c usb_os_find_devices: Could not retrieve device descriptor: %s. Skipping device.\n",
 		     darwin_error_str(result))
 	
 	  /* release the device now */
@@ -1168,12 +1168,12 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
 
 	usb_parse_descriptor(device_desc, "bbwbbbbwwwbbbb", &dev.descriptor)
 
-	/* catch buggy hubs (which appear to be virtual). Apple's own USB prober has problems with these devices */
-	if (dev.descriptor.idProduct != idProduct) {
-	  free (dev)
+	/* catch buggy hubs(which appear to be virtual). Apple's own USB prober has problems with these devices */
+	if(dev.descriptor.idProduct != idProduct) {
+	  free(dev)
 
-	  if (usb_debug)
-	    fprintf (stderr, "libusb/darwin.c usb_os_find_devices: idProduct from iokit does not match idProduct in descriptor. Skipping device\n")
+	  if(usb_debug)
+	    fprintf(stderr, "libusb/darwin.c usb_os_find_devices: idProduct from iokit does not match idProduct in descriptor. Skipping device\n")
 
 	  /* release the device now */
           (*(device)).Release(device)
@@ -1184,20 +1184,20 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
 
 	sprintf(dev.filename, "%03i-%04x-%04x-%02x-%02x", address, idVendor, idProduct, bDeviceClass, bDeviceSubClass)
 
-	dev.dev = (USBDeviceAddress *) calloc (1, 4)
-	if (dev.dev == nil)
+	dev.dev = (USBDeviceAddress *) calloc(1, 4)
+	if(dev.dev == nil)
 	  USB_ERROR(-ENOMEM)
 
 	memcpy(dev.dev, &location, 4)
 
 	LIST_ADD(fdev, dev)
 
-	if (usb_debug >= 2)
+	if(usb_debug >= 2)
 	  fprintf(stderr, "libusb/darwin.c usb_os_find_devices: Found %s on %s at location 0x%08lx\n",
 		  dev.filename, bus.dirname, location)
       }
-    } else if (usb_debug)
-      fprintf (stderr, "libusb/darwin.c usb_os_find_devices: Could not retrieve device address: %s\n",
+    } else if(usb_debug)
+      fprintf(stderr, "libusb/darwin.c usb_os_find_devices: Could not retrieve device address: %s\n",
 	       darwin_error_str(result))
 
     /* release the device now */
@@ -1208,8 +1208,8 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
 
   *devices = fdev
 
-  if (usb_debug)
-    fprintf (stderr, "libusb/darwin.c usb_os_find_devices: Complete\n")
+  if(usb_debug)
+    fprintf(stderr, "libusb/darwin.c usb_os_find_devices: Complete\n")
 
   return 0
 }
@@ -1222,17 +1222,17 @@ Int usb_os_determine_children(struct usb_bus *bus)
 
 func void usb_os_init(void)
 {
-  if (masterPort == MACH_PORT_NULL) {
+  if(masterPort == MACH_PORT_NULL) {
     IOMasterPort(masterPort, &masterPort)
     
     gNotifyPort = IONotificationPortCreate(masterPort)
   }
 }
 
-func void usb_os_cleanup (void)
+func void usb_os_cleanup(void)
 {
-  if (masterPort != MACH_PORT_NULL)
-    darwin_cleanup ()
+  if(masterPort != MACH_PORT_NULL)
+    darwin_cleanup()
 }
 
 Int usb_resetep(usb_dev_handle *dev, unsigned Int ep)
@@ -1243,22 +1243,22 @@ Int usb_resetep(usb_dev_handle *dev, unsigned Int ep)
 
   Int pipeRef
 
-  if (!dev)
+  if(!dev)
     USB_ERROR(-ENXIO)
 
-  if ((device = dev.impl_info) == nil)
+  if((device = dev.impl_info) == nil)
     USB_ERROR(-ENOENT)
 
   /* interface is not open */
-  if (!device.interface)
+  if(!device.interface)
     USB_ERROR_STR(-EACCES, "usb_resetep: interface used without being claimed")
 
-  if ((pipeRef = ep_to_pipeRef(device, ep)) == -1)
+  if((pipeRef = ep_to_pipeRef(device, ep)) == -1)
     USB_ERROR(-EINVAL)
 
   result = (*(device.interface)).ResetPipe(device.interface, pipeRef)
 
-  if (result != kIOReturnSuccess)
+  if(result != kIOReturnSuccess)
     USB_ERROR_STR(-darwin_to_errno(result), "usb_resetep(ResetPipe): %s", darwin_error_str(result))
 
   return 0
@@ -1272,27 +1272,27 @@ Int usb_clear_halt(usb_dev_handle *dev, unsigned Int ep)
 
   Int pipeRef
 
-  if (!dev)
+  if(!dev)
     USB_ERROR(-ENXIO)
 
-  if ((device = dev.impl_info) == nil)
+  if((device = dev.impl_info) == nil)
     USB_ERROR(-ENOENT)
 
   /* interface is not open */
-  if (!device.interface)
+  if(!device.interface)
     USB_ERROR_STR(-EACCES, "usb_clear_halt: interface used without being claimed")
 
-  if ((pipeRef = ep_to_pipeRef(device, ep)) == -1)
+  if((pipeRef = ep_to_pipeRef(device, ep)) == -1)
     USB_ERROR(-EINVAL)
 
-#if (InterfaceVersion < 190)
+#if(InterfaceVersion < 190)
   result = (*(device.interface)).ClearPipeStall(device.interface, pipeRef)
 #else
   /* newer versions of darwin support clearing additional bits on the device's endpoint */
   result = (*(device.interface)).ClearPipeStallBothEnds(device.interface, pipeRef)
 
 
-  if (result != kIOReturnSuccess)
+  if(result != kIOReturnSuccess)
     USB_ERROR_STR(-darwin_to_errno(result), "usb_clear_halt(ClearPipeStall): %s", darwin_error_str(result))
 
   return 0
@@ -1304,18 +1304,18 @@ Int usb_reset(usb_dev_handle *dev)
   
   io_return_t result
 
-  if (!dev)
+  if(!dev)
     USB_ERROR(-ENXIO)
 
-  if ((device = dev.impl_info) == nil)
+  if((device = dev.impl_info) == nil)
     USB_ERROR(-ENOENT)
 
-  if (!device.device)
+  if(!device.device)
     USB_ERROR_STR(-ENOENT, "usb_reset: no such device")
 
   result = (*(device.device)).ResetDevice(device.device)
 
-  if (result != kIOReturnSuccess)
+  if(result != kIOReturnSuccess)
     USB_ERROR_STR(-darwin_to_errno(result), "usb_reset(ResetDevice): %s", darwin_error_str(result))
   
   return 0

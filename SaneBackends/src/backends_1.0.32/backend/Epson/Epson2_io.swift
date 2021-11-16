@@ -5,7 +5,7 @@
  * Work on epson.[ch] file from the SANE package.
  * Please see those files for original copyrights.
  *
- * Copyright (C) 2006 Tower Technologies
+ * Copyright(C) 2006 Tower Technologies
  * Author: Alessandro Zummo <a.zummo@towertech.it>
  *
  * This file is part of the SANE package.
@@ -57,7 +57,7 @@ e2_esc_cmd(Epson_Scanner * s, unsigned char cmd, unsigned char val)
  * Work on epson.[ch] file from the SANE package.
  * Please see those files for original copyrights.
  *
- * Copyright (C) 2006 Tower Technologies
+ * Copyright(C) 2006 Tower Technologies
  * Author: Alessandro Zummo <a.zummo@towertech.it>
  *
  * This file is part of the SANE package.
@@ -100,10 +100,10 @@ func Int e2_send(Epson_Scanner * s, void *buf, size_t buf_size, size_t reply_len
 	DBG(15, "%s: size = %lu, reply = %lu\n",
 	    __func__, (u_long) buf_size, (u_long) reply_len)
 
-	if (buf_size == 2) {
+	if(buf_size == 2) {
 		char *cmd = buf
 
-		switch (cmd[0]) {
+		switch(cmd[0]) {
 		case ESC:
 			DBG(9, "%s: ESC %c\n", __func__, cmd[1])
 			break
@@ -114,37 +114,37 @@ func Int e2_send(Epson_Scanner * s, void *buf, size_t buf_size, size_t reply_len
 		}
 	}
 
-	if (DBG_LEVEL >= 125) {
+	if(DBG_LEVEL >= 125) {
 		unsigned Int k
 		const unsigned char *s = buf
 
-		for (k = 0; k < buf_size; k++) {
+		for(k = 0; k < buf_size; k++) {
 			DBG(125, "buf[%d] %02x %c\n", k, s[k],
 			    isprint(s[k]) ? s[k] : '.')
 		}
 	}
 
-	if (s.hw.connection == Sane.EPSON_NET) {
-		if (reply_len == 0) {
+	if(s.hw.connection == Sane.EPSON_NET) {
+		if(reply_len == 0) {
 			DBG(0,
 			    "Cannot send this command to a networked scanner\n")
 			return Sane.STATUS_INVAL
 		}
 		return sanei_Espon_net_write(s, 0x2000, buf, buf_size,
 					     reply_len, status)
-	} else if (s.hw.connection == Sane.EPSON_SCSI) {
+	} else if(s.hw.connection == Sane.EPSON_SCSI) {
 		return sanei_epson2_scsi_write(s.fd, buf, buf_size, status)
-	} else if (s.hw.connection == Sane.EPSON_PIO) {
+	} else if(s.hw.connection == Sane.EPSON_PIO) {
 		size_t n
 
-		if (buf_size == (n = sanei_pio_write(s.fd, buf, buf_size)))
+		if(buf_size == (n = sanei_pio_write(s.fd, buf, buf_size)))
 			*status = Sane.STATUS_GOOD
 		else
 			*status = Sane.STATUS_INVAL
 
 		return n
 
-	} else if (s.hw.connection == Sane.EPSON_USB) {
+	} else if(s.hw.connection == Sane.EPSON_USB) {
 		size_t n
 		n = buf_size
 		*status = sanei_usb_write_bulk(s.fd, buf, &n)
@@ -169,22 +169,22 @@ e2_recv(Epson_Scanner *s, void *buf, ssize_t buf_size,
 	DBG(15, "%s: size = %ld, buf = %p\n", __func__, (long) buf_size, buf)
 
 	*status = Sane.STATUS_GOOD
-	if (s.hw.connection == Sane.EPSON_NET) {
+	if(s.hw.connection == Sane.EPSON_NET) {
 		n = sanei_Espon_net_read(s, buf, buf_size, status)
-	} else if (s.hw.connection == Sane.EPSON_SCSI) {
-		if (buf_size)
+	} else if(s.hw.connection == Sane.EPSON_SCSI) {
+		if(buf_size)
 			n = sanei_epson2_scsi_read(s.fd, buf, buf_size, status)
-	} else if (s.hw.connection == Sane.EPSON_PIO) {
-		if (buf_size) {
-			if (buf_size ==
+	} else if(s.hw.connection == Sane.EPSON_PIO) {
+		if(buf_size) {
+			if(buf_size ==
 			    (n = sanei_pio_read(s.fd, buf, (size_t) buf_size)))
 				*status = Sane.STATUS_GOOD
 			else
 				*status = Sane.STATUS_INVAL
 		}
-	} else if (s.hw.connection == Sane.EPSON_USB) {
+	} else if(s.hw.connection == Sane.EPSON_USB) {
 		/* !!! only report an error if we don't read anything */
-		if (n) {
+		if(n) {
 			*status =
 				sanei_usb_read_bulk(s.fd, (Sane.Byte *) buf,
 						    (size_t *) & n)
@@ -192,12 +192,12 @@ e2_recv(Epson_Scanner *s, void *buf, ssize_t buf_size,
 			DBG(20, "%s: cmd count, r = %d, w = %d\n",
 			    __func__, r_cmd_count, w_cmd_count)
 
-			if (n > 0)
+			if(n > 0)
 				*status = Sane.STATUS_GOOD
 		}
 	}
 
-	if (n < buf_size) {
+	if(n < buf_size) {
 		DBG(1, "%s: expected = %lu, got = %ld, canceling: %d\n", __func__,
 		    (u_long) buf_size, (long) n, s.canceling)
 
@@ -205,11 +205,11 @@ e2_recv(Epson_Scanner *s, void *buf, ssize_t buf_size,
 	}
 
 	/* dump buffer if appropriate */
-	if (DBG_LEVEL >= 127 && n > 0) {
+	if(DBG_LEVEL >= 127 && n > 0) {
 		Int k
 		const unsigned char *s = buf
 
-		for (k = 0; k < n; k++)
+		for(k = 0; k < n; k++)
 			DBG(127, "buf[%d] %02x %c\n", k, s[k],
 			    isprint(s[k]) ? s[k] : '.')
 	}
@@ -229,17 +229,17 @@ e2_txrx(Epson_Scanner * s, unsigned char *txbuf, size_t txlen,
 	size_t done
 
 	done = e2_send(s, txbuf, txlen, rxlen, &status)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "%s: tx err, %s\n", __func__, Sane.strstatus(status))
 		return status
 	}
-	if (done != txlen) {
+	if(done != txlen) {
 		DBG(1, "%s: tx err, short write\n", __func__)
 		return Sane.STATUS_IO_ERROR
 	}
 
 	e2_recv(s, rxbuf, rxlen, &status)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "%s: rx err, %s\n", __func__, Sane.strstatus(status))
 	}
 		DBG(1, "%s: eds_recv status, %s\n", __func__, Sane.strstatus(status))
@@ -258,15 +258,15 @@ e2_cmd_simple(Epson_Scanner * s, void *buf, size_t buf_size)
 	DBG(12, "%s: size = %lu\n", __func__, (u_long) buf_size)
 
 	status = e2_txrx(s, buf, buf_size, &result, 1)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "%s: failed, %s\n", __func__, Sane.strstatus(status))
 		return status
 	}
 
-	if (result == ACK)
+	if(result == ACK)
 		return Sane.STATUS_GOOD
 
-	if (result == NAK) {
+	if(result == NAK) {
 		DBG(3, "%s: NAK\n", __func__)
 		return Sane.STATUS_INVAL
 	}
@@ -285,40 +285,40 @@ e2_recv_info_block(Epson_Scanner * s, unsigned char *scanner_status,
 	Sane.Status status
 	unsigned char info[6]
 
-	if (s.hw.connection == Sane.EPSON_PIO)
+	if(s.hw.connection == Sane.EPSON_PIO)
 		e2_recv(s, info, 1, &status)
 	else
 		e2_recv(s, info, info_size, &status)
 
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	/* check for explicit NAK */
-	if (info[0] == NAK) {
+	if(info[0] == NAK) {
 		DBG(1, "%s: command not supported\n", __func__)
 		return Sane.STATUS_UNSUPPORTED
 	}
 
 	/* check the first byte: if it's not STX, bail out */
-	if (info[0] != STX) {
+	if(info[0] != STX) {
 		DBG(1, "%s: expecting STX, got %02X\n", __func__, info[0])
 		return Sane.STATUS_INVAL
 	}
 
 	/* if connection is PIO read the remaining bytes. */
-	if (s.hw.connection == Sane.EPSON_PIO) {
+	if(s.hw.connection == Sane.EPSON_PIO) {
 		e2_recv(s, &info[1], info_size - 1, &status)
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 			return status
 	}
 
-	if (scanner_status)
+	if(scanner_status)
 		*scanner_status = info[1]
 
-	if (payload_size) {
+	if(payload_size) {
 		*payload_size = le16atoh(&info[2])
 
-		if (info_size == 6)
+		if(info_size == 6)
 			*payload_size *= le16atoh(&info[4])
 
 		DBG(14, "%s: payload length: %lu\n", __func__,
@@ -347,7 +347,7 @@ e2_cmd_info_block(Sane.Handle handle, unsigned char *params,
 	DBG(13, "%s, params len = %d, reply len = %lu, buf = %p\n",
 	    __func__, params_len, (u_long) reply_len, (void *) buf)
 
-	if (buf == NULL)
+	if(buf == NULL)
 		return Sane.STATUS_INVAL
 
 	/* initialize */
@@ -357,25 +357,25 @@ e2_cmd_info_block(Sane.Handle handle, unsigned char *params,
 	e2_send(s, params, params_len,
 		    reply_len ? reply_len + 4 : 0, &status)
 
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		goto end
 
 	status = e2_recv_info_block(s, NULL, 4, &len)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		goto end
 
 	/* do we need to provide the length of the payload? */
-	if (buf_len)
+	if(buf_len)
 		*buf_len = len
 
 	/* no payload, stop here */
-	if (len == 0)
+	if(len == 0)
 		goto end
 
 	/* if a reply_len has been specified and the actual
 	 * length differs, throw a warning
 	 */
-	if (reply_len && (len != reply_len)) {
+	if(reply_len && (len != reply_len)) {
 		DBG(1, "%s: mismatched len - expected %lu, got %lu\n",
 		    __func__, (u_long) reply_len, (u_long) len)
 	}
@@ -383,17 +383,17 @@ e2_cmd_info_block(Sane.Handle handle, unsigned char *params,
 	/* allocate and receive the payload */
 	*buf = malloc(len)
 
-	if (*buf) {
+	if(*buf) {
 		memset(*buf, 0x00, len)
 		e2_recv(s, *buf, len, &status);	/* receive actual data */
 	} else
 		status = Sane.STATUS_NO_MEM
       end:
 
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "%s: failed, %s\n", __func__, Sane.strstatus(status))
 
-		if (*buf) {
+		if(*buf) {
 			free(*buf)
 			*buf = NULL
 		}
@@ -413,14 +413,14 @@ e2_esc_cmd(Epson_Scanner * s, unsigned char cmd, unsigned char val)
 	unsigned char params[2]
 
 	DBG(8, "%s: cmd = 0x%02x, val = %d\n", __func__, cmd, val)
-	if (!cmd)
+	if(!cmd)
 		return Sane.STATUS_UNSUPPORTED
 
 	params[0] = ESC
 	params[1] = cmd
 
 	status = e2_cmd_simple(s, params, 2)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	params[0] = val

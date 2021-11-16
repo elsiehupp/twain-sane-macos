@@ -11,7 +11,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -58,7 +58,7 @@ static void pv8630_mini_init_scanner(Int fd)
 {
 	DBG(DBG_info, "mini_init_scanner\n")
 
-	/* (re-)init the device (?) */
+	/* (re-)init the device(?) */
 	sanei_pv8630_write_byte(fd, PV8630_UNKNOWN, 0x04 )
 	sanei_pv8630_write_byte(fd, PV8630_RMODE, 0x02 )
 	sanei_pv8630_write_byte(fd, PV8630_RMODE, 0x02 )
@@ -67,7 +67,7 @@ static void pv8630_mini_init_scanner(Int fd)
 }
 
 /* Length of the CDB given the SCSI command. The last two are not
-   correct (vendor reserved). */
+   correct(vendor reserved). */
 static u_char cdb_sizes[8] = {
     6, 10, 10, 6, 16, 12, 0, 0
 ]
@@ -82,7 +82,7 @@ static u_char cdb_sizes[8] = {
 static Sane.Status sanei_umaxusb_cmd(Int fd, const void *src, size_t src_size, void *dst, size_t * dst_size)
 {
 	unsigned char result
-	size_t cmd_size = CDB_SIZE (*(const char *) src)
+	size_t cmd_size = CDB_SIZE(*(const char *) src)
 	size_t param_size = src_size - cmd_size
 	const char * param_ptr = ((const char *) src) + cmd_size
 	size_t tmp_len
@@ -109,16 +109,16 @@ static Sane.Status sanei_umaxusb_cmd(Int fd, const void *src, size_t src_size, v
 	result = 0xA5;				/* to be sure */
 	tmp_len = 1
 	sanei_pv8630_bulkread(fd, &result, &tmp_len)
-	if (result != 0) {
-		DBG(DBG_info, "error in sanei_pv8630_bulkread (got %02x)\n", result)
-		if (result == 8) {
+	if(result != 0) {
+		DBG(DBG_info, "error in sanei_pv8630_bulkread(got %02x)\n", result)
+		if(result == 8) {
 			pv8630_mini_init_scanner(fd)
 		}
 		return(Sane.STATUS_IO_ERROR)
 	}
 
 	/* Send the parameters and check they've been received OK. */
-	if (param_size) {
+	if(param_size) {
 		sanei_pv8630_flush_buffer(fd)
 		sanei_pv8630_prep_bulkwrite(fd, param_size)
 
@@ -132,9 +132,9 @@ static Sane.Status sanei_umaxusb_cmd(Int fd, const void *src, size_t src_size, v
 		result = 0xA5;				/* to be sure */
 		tmp_len = 1
 		sanei_pv8630_bulkread(fd, &result, &tmp_len)
-		if (result != 0) {
-			DBG(DBG_info, "error in sanei_pv8630_bulkread (got %02x)\n", result)
-			if (result == 8) {
+		if(result != 0) {
+			DBG(DBG_info, "error in sanei_pv8630_bulkread(got %02x)\n", result)
+			if(result == 8) {
 				pv8630_mini_init_scanner(fd)
 			}
 			return(Sane.STATUS_IO_ERROR)
@@ -142,7 +142,7 @@ static Sane.Status sanei_umaxusb_cmd(Int fd, const void *src, size_t src_size, v
 	}
 
 	/* If the SCSI command expect a return, get it. */
-	if (dst_size != NULL && *dst_size != 0 && dst != NULL) {
+	if(dst_size != NULL && *dst_size != 0 && dst != NULL) {
 		sanei_pv8630_flush_buffer(fd)
 		sanei_pv8630_prep_bulkread(fd, *dst_size)
 		sanei_pv8630_bulkread(fd, dst, dst_size)
@@ -157,9 +157,9 @@ static Sane.Status sanei_umaxusb_cmd(Int fd, const void *src, size_t src_size, v
 		result = 0x5A;			/* just to be sure */
 		tmp_len = 1
 		sanei_pv8630_bulkread(fd, &result, &tmp_len)
-		if (result != 0) {
-			DBG(DBG_info, "error in sanei_pv8630_bulkread (got %02x)\n", result)
-			if (result == 8) {
+		if(result != 0) {
+			DBG(DBG_info, "error in sanei_pv8630_bulkread(got %02x)\n", result)
+			if(result == 8) {
 				pv8630_mini_init_scanner(fd)
 			}
 			return(Sane.STATUS_IO_ERROR)
@@ -235,7 +235,7 @@ static Sane.Status pv8630_init_umaxusb_scanner(Int fd)
 
 static void *umaxusb_req_buffer; /* keep the buffer ptr as an ID */
 
-static Sane.Status sanei_umaxusb_req_enter (Int fd,
+static Sane.Status sanei_umaxusb_req_enter(Int fd,
 											const void *src, size_t src_size,
 											void *dst, size_t * dst_size, void **idp)
 {
@@ -244,9 +244,9 @@ static Sane.Status sanei_umaxusb_req_enter (Int fd,
 }
 
 static Sane.Status
-sanei_umaxusb_req_wait (void *id)
+sanei_umaxusb_req_wait(void *id)
 {
-	if (id != umaxusb_req_buffer) {
+	if(id != umaxusb_req_buffer) {
 		DBG(DBG_info, "sanei_umaxusb_req_wait: AIE, invalid id\n")
 		return(Sane.STATUS_IO_ERROR)
 	}
@@ -256,7 +256,7 @@ sanei_umaxusb_req_wait (void *id)
 /* Open the device.
  */
 static Sane.Status
-sanei_umaxusb_open (const char *dev, Int *fdp,
+sanei_umaxusb_open(const char *dev, Int *fdp,
 					SANEI_SCSI_Sense_Handler handler, void *handler_arg)
 {
 	Sane.Status status
@@ -264,9 +264,9 @@ sanei_umaxusb_open (const char *dev, Int *fdp,
 	handler = handler;			/* silence gcc */
 	handler_arg = handler_arg;	/* silence gcc */
 
-	status = sanei_usb_open (dev, fdp)
-	if (status != Sane.STATUS_GOOD) {
-		DBG (1, "sanei_umaxusb_open: open of `%s' failed: %s\n",
+	status = sanei_usb_open(dev, fdp)
+	if(status != Sane.STATUS_GOOD) {
+		DBG(1, "sanei_umaxusb_open: open of `%s' failed: %s\n",
 			 dev, Sane.strstatus(status))
 		return status
     } else {
@@ -274,7 +274,7 @@ sanei_umaxusb_open (const char *dev, Int *fdp,
 		Sane.Word product
 
 		/* We have opened the device. Check that it is a USB scanner. */
-		if (sanei_usb_get_vendor_product (*fdp, &vendor, &product) != Sane.STATUS_GOOD) {
+		if(sanei_usb_get_vendor_product(*fdp, &vendor, &product) != Sane.STATUS_GOOD) {
 			/* This is not a USB scanner, or SANE or the OS doesn't support it. */
 			sanei_usb_close(*fdp)
 			*fdp = -1
@@ -283,7 +283,7 @@ sanei_umaxusb_open (const char *dev, Int *fdp,
 
 		/* So it's a scanner. Does this backend support it?
 		 * Only the UMAX 2200 USB is currently supported. */
-		if ((vendor != 0x1606) || (product != 0x0230)) {
+		if((vendor != 0x1606) || (product != 0x0230)) {
 			sanei_usb_close(*fdp)
 			*fdp = -1
 			return Sane.STATUS_UNSUPPORTED
@@ -303,7 +303,7 @@ sanei_umaxusb_open (const char *dev, Int *fdp,
 
 /* sanei_umaxusb_open_extended() is just a passthrough for sanei_umaxusb_open(). */
 static Sane.Status
-sanei_umaxusb_open_extended (const char *dev, Int *fdp,
+sanei_umaxusb_open_extended(const char *dev, Int *fdp,
 					SANEI_SCSI_Sense_Handler handler, void *handler_arg, Int *buffersize)
 {
 	buffersize = buffersize
@@ -312,7 +312,7 @@ sanei_umaxusb_open_extended (const char *dev, Int *fdp,
 
 /* Close the scanner. */
 static void
-sanei_umaxusb_close (Int fd)
+sanei_umaxusb_close(Int fd)
 {
 	sanei_usb_close(fd)
 }

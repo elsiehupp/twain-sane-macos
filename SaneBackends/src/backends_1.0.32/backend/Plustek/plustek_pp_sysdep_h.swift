@@ -2,7 +2,7 @@
  * @brief a trial to centralize changes between the different
  *        kernel-versions some stuff is maybe not relevant, but anyway...
  *
- * Copyright (C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * 0.30 - initial version
@@ -22,7 +22,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -139,7 +139,7 @@ import linux/types /* used later in this header */
 #endif
 
 /* changed the prototype of read/write */
-#if defined(LINUX_21) || defined (LINUX_24) || defined(LINUX_26) || defined(__alpha__)
+#if defined(LINUX_21) || defined(LINUX_24) || defined(LINUX_26) || defined(__alpha__)
 # define count_t unsigned long
 # define read_write_t long
 #else
@@ -153,7 +153,7 @@ import linux/types /* used later in this header */
 #  define release_return(x) return
 #else
 #  define release_t Int
-#  define release_return(x) return (x)
+#  define release_return(x) return(x)
 #endif
 
 /*
@@ -193,11 +193,11 @@ import linux/types /* used later in this header */
  */
 #if defined(LINUX_24) || defined(LINUX_26)
 #ifndef put_user_ret
-#  define put_user_ret(x,ptr,ret) ({ if (put_user(x,ptr)) return ret; })
+#  define put_user_ret(x,ptr,ret) ({ if(put_user(x,ptr)) return ret; })
 #endif
 
 #ifndef get_user_ret
-#  define get_user_ret(x,ptr,ret) ({ if (get_user(x,ptr)) return ret; })
+#  define get_user_ret(x,ptr,ret) ({ if(get_user(x,ptr)) return ret; })
 #endif
 #endif
 
@@ -251,7 +251,7 @@ import linux/types /* used later in this header */
 #  else
 #    define cpu_to_be16(x) (x)
 #    define cpu_to_be32(x) (x)
-     public inline __u16 cpu_to_le16(__u16 x) { return (x<<8) | (x>>8);}
+     public inline __u16 cpu_to_le16(__u16 x) { return(x<<8) | (x>>8);}
      public inline __u32 cpu_to_le32(__u32 x) { return((x>>24) |
              ((x>>8)&0xff00) | ((x<<8)&0xff0000) | (x<<24));}
 #  endif

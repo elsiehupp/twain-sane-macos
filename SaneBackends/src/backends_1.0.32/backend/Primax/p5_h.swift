@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2009-2012 stef.dev@free.fr
+   Copyright(C) 2009-2012 stef.dev@free.fr
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -191,13 +191,13 @@ typedef struct P5_Session
 } P5_Session
 
 
-static Sane.Status probe_p5_devices (void)
-static P5_Model *probe (const char *devicename)
-static Sane.Status config_attach (SANEI_Config * config, const char *devname,
+static Sane.Status probe_p5_devices(void)
+static P5_Model *probe(const char *devicename)
+static Sane.Status config_attach(SANEI_Config * config, const char *devname,
                                   void *data)
 static Sane.Status attach_p5 (const char *name, SANEI_Config * config)
-static Sane.Status init_options (struct P5_Session *session)
-static Sane.Status compute_parameters (struct P5_Session *session)
+static Sane.Status init_options(struct P5_Session *session)
+static Sane.Status compute_parameters(struct P5_Session *session)
 
 /* vim: set sw=2 cino=>2se-1sn-1s{s^-1st0(0u0 smarttab expandtab: */
 

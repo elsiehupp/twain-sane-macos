@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2003 James Perry
+   Copyright(C) 2003 James Perry
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -43,7 +43,7 @@
 #ifndef mustek_scsi_pp_h
 #define mustek_scsi_pp_h
 
-static Int mustek_scsi_pp_get_time (void)
+static Int mustek_scsi_pp_get_time(void)
 
 /**
  * Open the connection to a Mustek SCSI-over-pp device.
@@ -57,7 +57,7 @@ static Int mustek_scsi_pp_get_time (void)
  * - Sane.STATUS_INVAL - if the port address can't be interpreted
  * - Sane.STATUS_IO_ERROR - if the device file for a port couldn't be accessed
  */
-static Sane.Status mustek_scsi_pp_open (const char *dev, Int *fd)
+static Sane.Status mustek_scsi_pp_open(const char *dev, Int *fd)
 
 /**
  * Close the connection to a Mustek SCSI-over-PP device.
@@ -65,12 +65,12 @@ static Sane.Status mustek_scsi_pp_open (const char *dev, Int *fd)
  * @param fd  Information about port address and I/O method.
  *
  */
-static void mustek_scsi_pp_close (Int fd)
+static void mustek_scsi_pp_close(Int fd)
 
 /**
  * Exit Mustek SCSI-over-PP.
  */
-static void mustek_scsi_pp_exit (void)
+static void mustek_scsi_pp_exit(void)
 
 /**
  * Find out if the device is ready to accept new commands.
@@ -79,9 +79,9 @@ static void mustek_scsi_pp_exit (void)
  *
  * @return
  * - Sane.STATUS_GOOD - if the device is ready
- * - Sane.STATUS_DEVICE_BUSY if the device is still busy (try again later)
+ * - Sane.STATUS_DEVICE_BUSY if the device is still busy(try again later)
  */
-static Sane.Status mustek_scsi_pp_test_ready (Int fd)
+static Sane.Status mustek_scsi_pp_test_ready(Int fd)
 
 /**
  * Send a command to the Mustek SCSI-over-pp device.
@@ -97,14 +97,14 @@ static Sane.Status mustek_scsi_pp_test_ready (Int fd)
  * - Sane.STATUS_IO_ERROR - if an error occurred during the dialog with the
  *   device
  */
-static Sane.Status mustek_scsi_pp_cmd (Int fd, const void *src, size_t src_size,
+static Sane.Status mustek_scsi_pp_cmd(Int fd, const void *src, size_t src_size,
 				       void *dst, size_t * dst_size)
 
 /**
  * Read scanned image data.
  *
  * @param fd  Information about port address and I/O method.
- * @param planes Bytes per pixel (3 for color, 1 for all other modes)
+ * @param planes Bytes per pixel(3 for color, 1 for all other modes)
  * @param buf Buffer for image data.
  * @param lines Number of lines
  * @param bpl Bytes per line
@@ -114,7 +114,7 @@ static Sane.Status mustek_scsi_pp_cmd (Int fd, const void *src, size_t src_size,
  * - Sane.STATUS_IO_ERROR - if an error occurred during the dialog with the
  *   device
  */
-static Sane.Status mustek_scsi_pp_rdata (Int fd, Int planes,
+static Sane.Status mustek_scsi_pp_rdata(Int fd, Int planes,
 					 Sane.Byte * buf, Int lines, Int bpl)
 
 

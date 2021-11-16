@@ -1,14 +1,14 @@
 /* sane - Scanner Access Now Easy.
    (C) 2003 Henning Meier-Geinitz <henning@meier-geinitz.de>.
 
-   Based on the mustek (SCSI) backend.
+   Based on the mustek(SCSI) backend.
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -53,7 +53,7 @@ import sys/types
 #define INQ_LEN	0x60		/* Length of SCSI inquiry */
 #define MA1509_COMMAND_LENGTH 8
 #define MA1509_GAMMA_SIZE 1024
-#define MA1509_BUFFER_SIZE (1024 * 128)
+#define MA1509_BUFFER_SIZE(1024 * 128)
 #define MA1509_WARMUP_TIME 30
 
 #ifndef PATH_MAX
@@ -72,21 +72,21 @@ import sys/types
 #define MIN(a,b)	((a) < (b) ? (a) : (b))
 #define MAX(a,b)	((a) > (b) ? (a) : (b))
 
-/* Copy values to memory ('L' = little endian, 'B' = big endian */
+/* Copy values to memory('L' = little endian, 'B' = big endian */
 #define STORE16L(cp,v)				\
 do {						\
     Int value = (v);				\
 						\
     *(cp)++ = (value >> 0) & 0xff;		\
     *(cp)++ = (value >> 8) & 0xff;		\
-} while (0)
+} while(0)
 #define STORE16B(cp,v)				\
 do {						\
     Int value = (v);				\
 						\
     *(cp)++ = (value >> 8) & 0xff;		\
     *(cp)++ = (value >> 0) & 0xff;		\
-} while (0)
+} while(0)
 #define STORE32B(cp,v)				\
 do {						\
     long Int value = (v);			\
@@ -95,7 +95,7 @@ do {						\
     *(cp)++ = (value >> 16) & 0xff;		\
     *(cp)++ = (value >>  8) & 0xff;		\
     *(cp)++ = (value >>  0) & 0xff;		\
-} while (0)
+} while(0)
 
 /* declarations */
 enum Ma1509_Option

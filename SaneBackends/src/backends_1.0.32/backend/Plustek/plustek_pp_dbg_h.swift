@@ -1,14 +1,14 @@
 /** @file plustek-pp_dbg.c
  *  @brief definition of some debug macros
  *
- * Copyright (C) 2000-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 2000-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * This file is part of the SANE package.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -65,7 +65,7 @@
 # endif
 
 # ifndef DBG
-#  define DBG(level, msg, args...)		if ((dbg_level) & (level)) {	\
+#  define DBG(level, msg, args...)		if((dbg_level) & (level)) {	\
 											_PRINT(msg, ##args);		\
 										}
 # endif

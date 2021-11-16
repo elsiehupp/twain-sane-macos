@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -50,7 +50,7 @@ inline std::ostream& operator<<(std::ostream& str, const genesys::RawPixel& arg)
 {
     auto flags = str.flags()
     str << std::hex
-    for (auto el : arg.data) {
+    for(auto el : arg.data) {
         str << static_cast<unsigned>(el) << " "
     }
     str.flags(flags)

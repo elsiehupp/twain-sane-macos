@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -52,7 +52,7 @@ namespace genesys {
 unsigned MotorSlope::get_table_step_shifted(unsigned step, StepType step_type) const
 {
     // first two steps are always equal to the initial speed
-    if (step < 2) {
+    if(step < 2) {
         return initial_speed_w >> static_cast<unsigned>(step_type)
     }
     step--
@@ -66,7 +66,7 @@ float compute_acceleration_for_steps(unsigned initial_w, unsigned max_w, unsigne
 {
     float initial_speed_v = 1.0f / static_cast<float>(initial_w)
     float max_speed_v = 1.0f / static_cast<float>(max_w)
-    return (max_speed_v * max_speed_v - initial_speed_v * initial_speed_v) / (2 * steps)
+    return(max_speed_v * max_speed_v - initial_speed_v * initial_speed_v) / (2 * steps)
 }
 
 
@@ -82,7 +82,7 @@ MotorSlope MotorSlope::create_from_steps(unsigned initial_w, unsigned max_w,
 
 void MotorSlopeTable::slice_steps(unsigned count, unsigned step_multiplier)
 {
-    if (count > table.size() || count < step_multiplier) {
+    if(count > table.size() || count < step_multiplier) {
         throw SaneException("Invalid steps count")
     }
     count = align_multiple_floor(count, step_multiplier)
@@ -92,7 +92,7 @@ void MotorSlopeTable::slice_steps(unsigned count, unsigned step_multiplier)
 
 void MotorSlopeTable::expand_table(unsigned count, unsigned step_multiplier)
 {
-    if (table.empty()) {
+    if(table.empty()) {
         throw SaneException("Can't expand empty table")
     }
     count = align_multiple_ceil(count, step_multiplier)
@@ -108,7 +108,7 @@ void MotorSlopeTable::generate_pixeltime_sum()
 
 unsigned get_slope_table_max_size(AsicType asic_type)
 {
-    switch (asic_type) {
+    switch(asic_type) {
         case AsicType::GL646:
         case AsicType::GL841:
         case AsicType::GL842: return 255
@@ -135,11 +135,11 @@ MotorSlopeTable create_slope_table_for_speed(const MotorSlope& slope, unsigned t
     unsigned target_speed_shifted_w = target_speed_w >> step_shift
     unsigned max_speed_shifted_w = slope.max_speed_w >> step_shift
 
-    if (target_speed_shifted_w < max_speed_shifted_w) {
+    if(target_speed_shifted_w < max_speed_shifted_w) {
         dbg.log(DBG_warn, "failed to reach target speed")
     }
 
-    if (target_speed_shifted_w >= std::numeric_limits<std::uint16_t>::max()) {
+    if(target_speed_shifted_w >= std::numeric_limits<std::uint16_t>::max()) {
         throw SaneException("Target motor speed is too low")
     }
 
@@ -147,20 +147,20 @@ MotorSlopeTable create_slope_table_for_speed(const MotorSlope& slope, unsigned t
 
     table.table.reserve(max_size)
 
-    while (table.table.size() < max_size - 1) {
+    while(table.table.size() < max_size - 1) {
         unsigned current = slope.get_table_step_shifted(table.table.size(), step_type)
-        if (current <= final_speed) {
+        if(current <= final_speed) {
             break
         }
         table.table.push_back(current)
     }
 
-    // make sure the target speed (or the max speed if target speed is too high) is present in
+    // make sure the target speed(or the max speed if target speed is too high) is present in
     // the table
     table.table.push_back(final_speed)
 
     // fill the table up to the specified size
-    while (table.table.size() < max_size - 1 &&
+    while(table.table.size() < max_size - 1 &&
            (table.table.size() % steps_alignment != 0 || table.table.size() < min_size))
     {
         table.table.push_back(table.table.back())

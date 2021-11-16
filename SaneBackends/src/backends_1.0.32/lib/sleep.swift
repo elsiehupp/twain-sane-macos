@@ -20,7 +20,7 @@ unsigned Int sleep(unsigned Int seconds)
      * version which can support it. If it fails, need to add an OS
      * specific replacement like Sleep for Windows.
      */
-    if (usleep(seconds*1000000))
+    if(usleep(seconds*1000000))
 	rc = 1
     return rc
 #endif

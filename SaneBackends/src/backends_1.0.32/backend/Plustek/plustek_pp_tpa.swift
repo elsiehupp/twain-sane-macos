@@ -3,8 +3,8 @@
  *        This file is ASIC P9800x specific
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 1998 Plustek Inc.
- * Copyright (C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 1998 Plustek Inc.
+ * Copyright(C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
  * also based on the work done by Rick Bronson
  *
  * History:
@@ -32,7 +32,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -68,7 +68,7 @@ import plustek-pp_scan
 
 /***************************** local vars ************************************/
 
-static UShort a_wGainString [] = {
+static UShort a_wGainString[] = {
 	 50,  75, 100, 125, 150, 175, 200, 225,
 	250, 275, 300, 325, 350, 375, 400, 425,
 	450, 475, 500, 525, 550, 575, 600, 625,
@@ -86,27 +86,27 @@ static void tpaP98SubNoise( pScanData ps, pULong pdwSum, pUShort pwShading,
 	ULong   dwPixels, dwLines, dwSum
     pUShort pw
 
-    for (dwPixels = 4; dwPixels--; pdwSum++, pwShading++)
+    for(dwPixels = 4; dwPixels--; pdwSum++, pwShading++)
 		*pwShading = (UShort)(*pdwSum >> 5)
 
-    for (dwPixels = 0; dwPixels < (ps.dwShadingPixels - 4); dwPixels++,
+    for(dwPixels = 0; dwPixels < (ps.dwShadingPixels - 4); dwPixels++,
 						 pdwSum++, pwShading++) {
 
 		pw = (pUShort)ps.Shade.pHilight + dwHilightOff + dwPixels
 		dwSum = 0
 
-		for (dwLines = _DEF_BRIGHTEST_SKIP; dwLines--; pw += 5400UL)
+		for(dwLines = _DEF_BRIGHTEST_SKIP; dwLines--; pw += 5400UL)
 		    dwSum += (ULong) *pw
 
 		pw = ps.pwShadow + dwShadowOff + dwPixels
 
-		for (dwLines = _DEF_DARKEST_SKIP; dwLines--; pw += 5400UL)
+		for(dwLines = _DEF_DARKEST_SKIP; dwLines--; pw += 5400UL)
 		    dwSum += (ULong) *pw
 
 		*pwShading = (UShort)((*pdwSum - dwSum) / ps.Shade.dwDiv)
     }
-    if (ps.dwShadingPixels != 5400UL) {
-		for (dwPixels = 2700UL; dwPixels--; pdwSum++, pwShading++)
+    if(ps.dwShadingPixels != 5400UL) {
+		for(dwPixels = 2700UL; dwPixels--; pdwSum++, pwShading++)
 		    *pwShading = (UShort)(*pdwSum >> 5)
 	}
 }
@@ -122,7 +122,7 @@ static void tpaP98ShadingWaveformSum( pScanData ps )
     pd.pdw = (pULong)ps.pScanBuffer1
     pt.pw  = (pUShort)ps.pScanBuffer1
 
-    if ((ps.DataInf.dwScanFlag & SCANDEF_TPA ) ||
+    if((ps.DataInf.dwScanFlag & SCANDEF_TPA ) ||
 		(0 == ps.bShadingTimeFlag)) {
 
 		if( ps.Shade.pHilight ) {
@@ -139,17 +139,17 @@ static void tpaP98ShadingWaveformSum( pScanData ps )
 				      	      ps.dwHilightCh * 2, ps.dwShadowCh * 2)
 		} else {
 
-		    for (dw = 5400 * 3; dw; dw--, pt.pw++, pd.pdw++)
+		    for(dw = 5400 * 3; dw; dw--, pt.pw++, pd.pdw++)
 				*pt.pw = (UShort)(*pd.pdw / 32);	/* shift 5 bits */
 		}
 
     } else {
 
-		if (02 == ps.bShadingTimeFlag ) {
-		    for (dw = 5400 * 3; dw; dw--, pt.pw++, pd.pdw++)
+		if(02 == ps.bShadingTimeFlag ) {
+		    for(dw = 5400 * 3; dw; dw--, pt.pw++, pd.pdw++)
 				*pt.pw = (UShort)(*pd.pdw / 16);	/* shift 4 bits */
 		} else {
-		    for (dw = 5400 * 3; dw; dw--, pt.pw++, pd.pdw++)
+		    for(dw = 5400 * 3; dw; dw--, pt.pw++, pd.pdw++)
 				*pt.pw = (UShort)(*pd.pdw / 4);	    /* shift 2 bits */
 		}
 	}
@@ -189,7 +189,7 @@ static void tpaP98GetNegativeTempRamData( pScanData ps )
 	ps.AsicReg.RD_ModelControl  = _ModelDpi600 + _LED_CONTROL + _LED_ACTIVITY
 	ps.AsicReg.RD_Dpi 			 = ps.PhysicalDpi
 
-    if (!ps.wNegAdjustX) {
+    if(!ps.wNegAdjustX) {
 		ps.AsicReg.RD_Origin = (UShort)(ps.dwOffset70 + ps.Device.DataOriginX +
 							             _Negative96OriginOffsetX * 2)
 	} else {
@@ -204,12 +204,12 @@ static void tpaP98GetNegativeTempRamData( pScanData ps )
 
     /* NegativeMotorRunLoop() */
     p.pb = ps.a_nbNewAdrPointer
-    for (dw = _NUMBER_OF_SCANSTEPS / 8; dw; dw--, p.pdw++)
+    for(dw = _NUMBER_OF_SCANSTEPS / 8; dw; dw--, p.pdw++)
 		*p.pdw = 0x87808780
 
 	IOSetToMotorRegister( ps )
 
-    for (dw1 = 16; dw1; dw1--) {
+    for(dw1 = 16; dw1; dw1--) {
 
 		TimerDef timer
 
@@ -231,11 +231,11 @@ static void tpaP98GetNegativeTempRamData( pScanData ps )
 		IOReadScannerImageData( ps, (pUChar)(pNegativeTempRam + 960 * 2), 960 )
 
 		/* fillNegativeSum() */
-		for (dw = 0; dw < 960 * 3; dw++)
+		for(dw = 0; dw < 960 * 3; dw++)
 		    pdwNegativeSumTemp[dw] += ((pUShort) pNegativeTempRam)[dw]
 
 		/* one line */
-		if (IOReadFifoLength( ps ) <= (960 * 2))
+		if(IOReadFifoLength( ps ) <= (960 * 2))
 		    IORegisterDirectToScanner( ps, ps.RegRefreshScanState )
     }
 
@@ -250,14 +250,14 @@ static void tpaP98GetNegativeTempRamData( pScanData ps )
 	}
 
 	/* NegativeAdd1() */
-    if (!ps.wNegAdjustX) {
+    if(!ps.wNegAdjustX) {
 		dw1 = (ps.dwOffsetNegative + _Negative96OriginOffsetX * 2 * 2) / 2
     } else {
 		dw1 = (ps.dwOffsetNegative + ps.wNegAdjustX * 2) / 2
 	}
 
 	/* do R shading average */
-    for (dw = 0; dw < 240; dw++, dw1 += 4) {
+    for(dw = 0; dw < 240; dw++, dw1 += 4) {
 		pNegativeTempRam2[dw] = (UShort)(
 								 (((pUShort)ps.pScanBuffer1)[dw1] +
 								  ((pUShort)ps.pScanBuffer1)[dw1+1] +
@@ -266,13 +266,13 @@ static void tpaP98GetNegativeTempRamData( pScanData ps )
 	}
 
 	/* NegativeAdd1() */
-    if (!ps.wNegAdjustX)
+    if(!ps.wNegAdjustX)
 		dw1 = (ps.dwOffsetNegative + 5400 * 2 + _Negative96OriginOffsetX * 2 * 2) / 2
     else
 		dw1 = (ps.dwOffsetNegative + 5400 * 2 + ps.wNegAdjustX * 2) / 2
 
 	/* do G shading average */
-    for (; dw < 240 * 2; dw++, dw1 += 4) {
+    for(; dw < 240 * 2; dw++, dw1 += 4) {
 		pNegativeTempRam2[dw] = (UShort)(
 									(((pUShort)ps.pScanBuffer1)[dw1] +
 									 ((pUShort)ps.pScanBuffer1)[dw1+1] +
@@ -281,13 +281,13 @@ static void tpaP98GetNegativeTempRamData( pScanData ps )
 	}
 
 	/* NegativeAdd1() */
-    if (!ps.wNegAdjustX)
+    if(!ps.wNegAdjustX)
 		dw1 = (ps.dwOffsetNegative + 5400 * 4 + _Negative96OriginOffsetX * 2 * 2) / 2
     else
 		dw1 = (ps.dwOffsetNegative + 5400 * 4 + ps.wNegAdjustX * 2) / 2
 
 	/* do B shading average */
-    for (; dw < 240 * 3; dw++, dw1 += 4) {
+    for(; dw < 240 * 3; dw++, dw1 += 4) {
 		pNegativeTempRam2 [dw] = (UShort)(
 									(((pUShort)ps.pScanBuffer1)[dw1] +
 									 ((pUShort)ps.pScanBuffer1)[dw1+1] +
@@ -299,8 +299,8 @@ static void tpaP98GetNegativeTempRamData( pScanData ps )
     wRedShadingTemp = wGreenShadingTemp = wBlueShadingTemp = 0
 
     /* FindMaxNegValue -- find R */
-    for (dw = 0; dw < 240; dw++) {
-		if (pNegativeTempRam[dw] >= wRedTemp &&
+    for(dw = 0; dw < 240; dw++) {
+		if(pNegativeTempRam[dw] >= wRedTemp &&
 		    pNegativeTempRam[dw + 240] >= wGreenTemp  &&
 	    	pNegativeTempRam[dw + 480] > wBlueTemp)	{
 
@@ -315,13 +315,13 @@ static void tpaP98GetNegativeTempRamData( pScanData ps )
 	}
 
     /* GainAddX = (1/4)*DoubleX + 1/ 2 */
-    if ((ps.bRedGainIndex += (Byte)((wRedShadingTemp / wRedTemp) * 100 - 50) / 25) > 32)
+    if((ps.bRedGainIndex += (Byte)((wRedShadingTemp / wRedTemp) * 100 - 50) / 25) > 32)
 		ps.bRedGainIndex = 31
 
-    if ((ps.bGreenGainIndex += (Byte)((wGreenShadingTemp / wGreenTemp) * 100 - 50) / 25) > 32)
+    if((ps.bGreenGainIndex += (Byte)((wGreenShadingTemp / wGreenTemp) * 100 - 50) / 25) > 32)
 		ps.bGreenGainIndex = 31
 
-    if ((ps.bBlueGainIndex += (Byte)((wBlueShadingTemp / wBlueTemp) * 100 - 50) / 25) > 32)
+    if((ps.bBlueGainIndex += (Byte)((wBlueShadingTemp / wBlueTemp) * 100 - 50) / 25) > 32)
 		ps.bBlueGainIndex = 31
 
 }
@@ -342,7 +342,7 @@ static void tpaP98RecalculateNegativeShadingGain( pScanData ps )
 
     pNegativeTempRam = (pUChar)(ps.pScanBuffer1 + 5400 * 6)
 
-    /* AdjustDarkCondition () */
+    /* AdjustDarkCondition() */
     ps.Shade.pCcdDac.DarkDAC.Colors.Red   = ps.bsPreRedDAC
     ps.Shade.pCcdDac.DarkDAC.Colors.Green = ps.bsPreGreenDAC
     ps.Shade.pCcdDac.DarkDAC.Colors.Blue  = ps.bsPreBlueDAC
@@ -356,13 +356,13 @@ static void tpaP98RecalculateNegativeShadingGain( pScanData ps )
 
     DacP98FillGainOutDirectPort( ps )
 
-    /* ClearNegativeTempBuffer () */
+    /* ClearNegativeTempBuffer() */
 	memset( pNegativeTempRam, 0, (960 * 3 * 4))
 
-    /* GetNegGainValue () */
+    /* GetNegGainValue() */
 	ps.PauseColorMotorRunStates( ps )
 
-    /* SetScanMode () set scan mode to Byte mode */
+    /* SetScanMode() set scan mode to Byte mode */
 	ps.AsicReg.RD_ScanControl |= _SCAN_BYTEMODE
 	ps.AsicReg.RD_ScanControl &= 0xfd
 	IOCmdRegisterToScanner(ps, ps.RegScanControl, ps.AsicReg.RD_ScanControl)
@@ -378,7 +378,7 @@ static void tpaP98RecalculateNegativeShadingGain( pScanData ps )
 	ps.AsicReg.RD_ModelControl  = _ModelDpi600 + _LED_CONTROL + _LED_ACTIVITY
 	ps.AsicReg.RD_Dpi 			 = ps.PhysicalDpi
 
-    if (!ps.wNegAdjustX) {
+    if(!ps.wNegAdjustX) {
 		ps.AsicReg.RD_Origin = (UShort)(ps.dwOffset70 +
                                          ps.Device.DataOriginX +
 					 				     _Negative96OriginOffsetX * 2)
@@ -412,17 +412,17 @@ static void tpaP98RecalculateNegativeShadingGain( pScanData ps )
     pDest = pSrce = pNegativeTempRam
 
     /* ReAdjustGainAverage() */
-    for (dw1 = 0; dw1 < (960 * 3) / 16; dw1++, pDest++) {
-		for (dw = 0, wSum = 0; dw < 16; dw++, pSrce++)
+    for(dw1 = 0; dw1 < (960 * 3) / 16; dw1++, pDest++) {
+		for(dw = 0, wSum = 0; dw < 16; dw++, pSrce++)
 		    wSum += *pSrce
 
 		*pDest = wSum / 16
     }
 
     /* FindTheMaxGainValue */
-    for (w = 0, p.pb = pNegativeTempRam; w < 3; w++) {
-		for (dw = 960 / 16, b[w] = 0; dw; dw--, p.pb++) {
-		    if (b[w] < *p.pb)
+    for(w = 0, p.pb = pNegativeTempRam; w < 3; w++) {
+		for(dw = 960 / 16, b[w] = 0; dw; dw--, p.pb++) {
+		    if(b[w] < *p.pb)
 				b[w] = *p.pb
 		}
     }
@@ -430,8 +430,8 @@ static void tpaP98RecalculateNegativeShadingGain( pScanData ps )
 	ps.bGreenHigh = b[1]
     ps.bBlueHigh  = b[2]
 
-    /* ModifyExposureTime () */
-    if ((ps.bRedHigh < _GAIN_LOW) ||
+    /* ModifyExposureTime() */
+    if((ps.bRedHigh < _GAIN_LOW) ||
 		(ps.bGreenHigh < _GAIN_LOW) || (ps.bBlueHigh <  _GAIN_LOW)) {
 		ps.AsicReg.RD_LineControl = 192
 	}
@@ -440,13 +440,13 @@ static void tpaP98RecalculateNegativeShadingGain( pScanData ps )
 							ps.AsicReg.RD_LineControl )
     counter = 0
 
-    /* ReAdjustRGBGain () */
-    for (w1 = 0; w1 < 16; w1++) {
+    /* ReAdjustRGBGain() */
+    for(w1 = 0; w1 < 16; w1++) {
 
 		ps.PauseColorMotorRunStates( ps )
 		DacP98FillGainOutDirectPort( ps )
 
-		/* SetReadNegativeTempRegister () */
+		/* SetReadNegativeTempRegister() */
 		ps.AsicReg.RD_Motor0Control = 0
 		IOCmdRegisterToScanner( ps, ps.RegMotor0Control,
 								ps.AsicReg.RD_Motor0Control )
@@ -456,7 +456,7 @@ static void tpaP98RecalculateNegativeShadingGain( pScanData ps )
 		ps.AsicReg.RD_ModelControl  = _ModelDpi600 + _LED_CONTROL + _LED_ACTIVITY
 		ps.AsicReg.RD_Dpi 			 = ps.PhysicalDpi
 
-		if (!ps.wNegAdjustX) {
+		if(!ps.wNegAdjustX) {
 		    ps.AsicReg.RD_Origin = (UShort)(ps.dwOffset70 +
                                              ps.Device.DataOriginX +
 										     _Negative96OriginOffsetX * 2)
@@ -470,7 +470,7 @@ static void tpaP98RecalculateNegativeShadingGain( pScanData ps )
 		ps.AsicReg.RD_XStepTime = 32
 		IOPutOnAllRegisters( ps )
 
-		/* ReReadNegativeTemp () */
+		/* ReReadNegativeTemp() */
 		MiscStartTimer( &timer, _SECOND )
 		while((IOReadFifoLength( ps ) < 960) && !MiscCheckTimer( &timer)) {
 
@@ -500,32 +500,32 @@ static void tpaP98RecalculateNegativeShadingGain( pScanData ps )
 		pbReg[0] = &ps.bRedGainIndex
 		pbReg[1] = &ps.bGreenGainIndex
 		pbReg[2] = &ps.bBlueGainIndex
-		for (w = 0, p.pb = pNegativeTempRam; w < 3; w++) {
+		for(w = 0, p.pb = pNegativeTempRam; w < 3; w++) {
 
-		    for (dw = 960 / 16, b [w] = 0; dw; dw--, p.pb++) {
-				if (b[w] < *p.pb)
+		    for(dw = 960 / 16, b[w] = 0; dw; dw--, p.pb++) {
+				if(b[w] < *p.pb)
 				    b[w] = *p.pb
 		    }
-		    if (b [w] < _GAIN_LOW) {
-				if (( _GAIN_P98_HIGH - b [w]) < b [w])
-				    *(pbReg [w]) += 1
+		    if(b[w] < _GAIN_LOW) {
+				if(( _GAIN_P98_HIGH - b[w]) < b[w])
+				    *(pbReg[w]) += 1
 				else
-			    	*(pbReg [w]) += 4
+			    	*(pbReg[w]) += 4
 	    	} else {
 
-				if (b [w] > _GAIN_P98_HIGH)
-			    	*(pbReg [w]) -= 1
+				if(b[w] > _GAIN_P98_HIGH)
+			    	*(pbReg[w]) -= 1
 		    }
 		}
 
-		for (w2 = 0; w2 < 3; w2++) {
-		    if (*(pbReg[w2]) > 31)
+		for(w2 = 0; w2 < 3; w2++) {
+		    if(*(pbReg[w2]) > 31)
 			(*(pbReg[w2])) = 31
 		}
-		if ((b[0] == 0) || (b[1] == 0) || (b[2] == 0)) {
+		if((b[0] == 0) || (b[1] == 0) || (b[2] == 0)) {
 	    	counter++
 
-		    if (counter < 16) {
+		    if(counter < 16) {
 				w1--
 				ps.bRedGainIndex   -= 4
 				ps.bGreenGainIndex -= 4
@@ -558,7 +558,7 @@ static void tpaP98RecalculateShadingGainandData( pScanData ps )
 	UShort		wOldRedGain, wOldGreenGain, wOldBlueGain
 	UShort		wNewRedGain, wNewGreenGain, wNewBlueGain
 
-    /* AdjustDarkCondition () */
+    /* AdjustDarkCondition() */
     ps.Shade.pCcdDac.DarkDAC.Colors.Red   = ps.bsPreRedDAC
     ps.Shade.pCcdDac.DarkDAC.Colors.Green = ps.bsPreGreenDAC
     ps.Shade.pCcdDac.DarkDAC.Colors.Blue  = ps.bsPreBlueDAC
@@ -573,12 +573,12 @@ static void tpaP98RecalculateShadingGainandData( pScanData ps )
     wOldRedGain = a_wGainString[ps.bRedGainIndex] * 100/ps.wReduceRedFactor
 
 	/* SearchNewGain() */
-    for (ps.bRedGainIndex = 0; ps.bRedGainIndex < 32; ps.bRedGainIndex++) {
-		if (wOldRedGain < a_wGainString[ps.bRedGainIndex])
+    for(ps.bRedGainIndex = 0; ps.bRedGainIndex < 32; ps.bRedGainIndex++) {
+		if(wOldRedGain < a_wGainString[ps.bRedGainIndex])
 		    break
 	}
 
-    if (0 == ps.bRedGainIndex)
+    if(0 == ps.bRedGainIndex)
 		ps.bRedGainIndex ++
 
     wNewRedGain = a_wGainString[--ps.bRedGainIndex]
@@ -587,14 +587,14 @@ static void tpaP98RecalculateShadingGainandData( pScanData ps )
 														ps.wReduceGreenFactor
 
 	/* SearchNewGain() */
-    for (ps.bGreenGainIndex = 0
+    for(ps.bGreenGainIndex = 0
 		 ps.bGreenGainIndex < 32; ps.bGreenGainIndex++) {
 
-		if (wOldGreenGain < a_wGainString[ps.bGreenGainIndex])
+		if(wOldGreenGain < a_wGainString[ps.bGreenGainIndex])
 		    break
 	}
 
-    if (0 == ps.bGreenGainIndex)
+    if(0 == ps.bGreenGainIndex)
 		ps.bGreenGainIndex ++
 
     wNewGreenGain = a_wGainString[--ps.bGreenGainIndex]
@@ -602,11 +602,11 @@ static void tpaP98RecalculateShadingGainandData( pScanData ps )
     wOldBlueGain = a_wGainString[ps.bBlueGainIndex]*100/ps.wReduceBlueFactor
 
 	/* SearchNewGain() */
-    for (ps.bBlueGainIndex = 0;ps.bBlueGainIndex < 32;ps.bBlueGainIndex++) {
-		if (wOldBlueGain < a_wGainString[ps.bBlueGainIndex])
+    for(ps.bBlueGainIndex = 0;ps.bBlueGainIndex < 32;ps.bBlueGainIndex++) {
+		if(wOldBlueGain < a_wGainString[ps.bBlueGainIndex])
 		    break
 	}
-    if (0 == ps.bBlueGainIndex)
+    if(0 == ps.bBlueGainIndex)
 		ps.bBlueGainIndex ++
 
     wNewBlueGain = a_wGainString[--ps.bBlueGainIndex]
@@ -624,13 +624,13 @@ static void tpaP98RecalculateShadingGainandData( pScanData ps )
 	DacP98AdjustDark( ps )
 
     /* RecalculateTransparencyImage() */
-    if (ps.DataInf.dwScanFlag & SCANDEF_Transparency) {
+    if(ps.DataInf.dwScanFlag & SCANDEF_Transparency) {
 		filmAdjustX = ps.wPosAdjustX
     } else {
 		filmAdjustX = ps.wNegAdjustX
 	}
 
-    if (!filmAdjustX) {
+    if(!filmAdjustX) {
 		p.pw = (pUShort)(ps.pScanBuffer1 + ps.dwOffsetNegative +
 			  		       _Negative96OriginOffsetX * 2)
 	} else {
@@ -639,10 +639,10 @@ static void tpaP98RecalculateShadingGainandData( pScanData ps )
 	}
 
 	/* RecalculateData() */
-    for (dw= 0; dw < _NegativePageWidth * 2 + 132; dw++, p.pw++)
+    for(dw= 0; dw < _NegativePageWidth * 2 + 132; dw++, p.pw++)
 		*p.pw = *p.pw * wNewRedGain / wOldRedGain
 
-    if (!ps.wNegAdjustX) {
+    if(!ps.wNegAdjustX) {
 		p.pw = (pUShort)(ps.pScanBuffer1 + 5400 * 2 +
 							ps.dwOffsetNegative + _Negative96OriginOffsetX * 2)
 	} else {
@@ -651,10 +651,10 @@ static void tpaP98RecalculateShadingGainandData( pScanData ps )
 	}
 
 	/* RecalculateData() */
-    for (dw= 0; dw < _NegativePageWidth * 2 + 132; dw++, p.pw++)
+    for(dw= 0; dw < _NegativePageWidth * 2 + 132; dw++, p.pw++)
 		*p.pw = *p.pw * wNewGreenGain / wOldGreenGain
 
-    if (!ps.wNegAdjustX) {
+    if(!ps.wNegAdjustX) {
 		p.pw = (pUShort)(ps.pScanBuffer1 + 5400 * 4 +
 							ps.dwOffsetNegative + _Negative96OriginOffsetX * 2)
     } else {
@@ -663,14 +663,14 @@ static void tpaP98RecalculateShadingGainandData( pScanData ps )
 	}
 
 	/* RecalculateData() - 64 + dwoffset70 */
-    for (dw= 0; dw < _NegativePageWidth * 2 + 132; dw++, p.pw++)
+    for(dw= 0; dw < _NegativePageWidth * 2 + 132; dw++, p.pw++)
 		*p.pw = *p.pw * wNewBlueGain / wOldBlueGain
 }
 
 /************************ exported functions *********************************/
 
 /*.............................................................................
- * perform some adjustments according to the source (normal, transparency etc)
+ * perform some adjustments according to the source(normal, transparency etc)
  */
 _LOC void TPAP98001AverageShadingData( pScanData ps )
 {
@@ -684,23 +684,23 @@ _LOC void TPAP98001AverageShadingData( pScanData ps )
 
 	/*
 	 * CHANGE: to support Grayscale images in transparency and negative mode
-	 * original code: if ((ps.DataInf.wPhyDataType >= COLOR_TRUE24) &&
+	 * original code: if((ps.DataInf.wPhyDataType >= COLOR_TRUE24) &&
 	 */
 	if((ps.DataInf.wPhyDataType >= COLOR_256GRAY) &&
        (ps.DataInf.dwScanFlag & SCANDEF_TPA)) {
 
-		if (((ps.DataInf.dwScanFlag & SCANDEF_Negative) && !ps.wNegAdjustX) ||
+		if(((ps.DataInf.dwScanFlag & SCANDEF_Negative) && !ps.wNegAdjustX) ||
 		    ((ps.DataInf.dwScanFlag & SCANDEF_Transparency) && !ps.wPosAdjustX)) {
 
 		    Long	dwLeft, dwRight
 		    pUShort	pw = (pUShort)ps.pScanBuffer1
 
-		    for (dwLeft = 0; dwLeft < 5400; dwLeft++)
-				if (pw[dwLeft] >= 600)
+		    for(dwLeft = 0; dwLeft < 5400; dwLeft++)
+				if(pw[dwLeft] >= 600)
 		    		break
 
-		    for (dwRight = 4600; dwRight; dwRight--)
-				if (pw[dwRight] >= 600)
+		    for(dwRight = 4600; dwRight; dwRight--)
+				if(pw[dwRight] >= 600)
 		    		break
 
 			DBG( DBG_LOW, "_TPAPageWidth = %u, _NegativePageWidth = %u\n"
@@ -710,9 +710,9 @@ _LOC void TPAP98001AverageShadingData( pScanData ps )
 
 		    dwRight = (dwRight - dwLeft) / 2
 
-		    if (ps.DataInf.dwScanFlag & SCANDEF_Negative) {
+		    if(ps.DataInf.dwScanFlag & SCANDEF_Negative) {
 
-				if (dwRight >= (Long)_NegativePageWidth) {
+				if(dwRight >= (Long)_NegativePageWidth) {
 
 				    ps.wNegAdjustX = (UShort)(dwRight - _NegativePageWidth +
 										 	   dwLeft - ps.dwOffset70 -
@@ -725,7 +725,7 @@ _LOC void TPAP98001AverageShadingData( pScanData ps )
 				    ps.DataInf.crImage.x += (_Negative96OriginOffsetX * 2U)
 				}
 		    }  else {
-				if (dwRight >= (Long)_TPAPageWidth) {
+				if(dwRight >= (Long)_TPAPageWidth) {
 
 				    ps.wPosAdjustX = (UShort)(dwRight - _TPAPageWidth +
 									 		   dwLeft - ps.dwOffset70 -
@@ -781,7 +781,7 @@ _LOC void TPAP98001AverageShadingData( pScanData ps )
 }
 
 /*.............................................................................
- * perform some adjustments according to the source (normal, transparency etc)
+ * perform some adjustments according to the source(normal, transparency etc)
  */
 _LOC void TPAP98003FindCenterPointer( pScanData ps )
 {
@@ -915,11 +915,11 @@ _LOC void TPAP98003Reshading( pScanData ps )
 
     RedPtr.pb = ps.Bufs.TpaBuf.pb
 
-	/* Convert RGB to gray scale (Brightness), and average 16 pixels */
+	/* Convert RGB to gray scale(Brightness), and average 16 pixels */
     for( bHiRight[1] = 0, i = dwIndexRight = 0
                                          i < _NEG_PAGEWIDTH600 / 2; i += 16 ) {
-    	bHiRight [0] =
-	       (Byte)(((((ULong) RedPtr.pbrgb [i].Red +
+    	bHiRight[0] =
+	       (Byte)(((((ULong) RedPtr.pbrgb[i].Red +
 		     (ULong) RedPtr.pbrgb[i + 1].Red +
 		     (ULong) RedPtr.pbrgb[i + 2].Red +
 		     (ULong) RedPtr.pbrgb[i + 3].Red +
@@ -974,10 +974,10 @@ _LOC void TPAP98003Reshading( pScanData ps )
     	}
     }
 
-	/* Convert RGB to gray scale (Brightness), and average 16 pixels */
+	/* Convert RGB to gray scale(Brightness), and average 16 pixels */
     for( bHiLeft[1] = 0, i = dwIndexLeft = _NEG_PAGEWIDTH / 2
                                         	 i < _NEG_PAGEWIDTH600; i += 16 ) {
-    	bHiLeft [0] =
+    	bHiLeft[0] =
 	       (Byte)(((((ULong) RedPtr.pbrgb[i].Red +
 		     (ULong) RedPtr.pbrgb[i + 1].Red +
 		     (ULong) RedPtr.pbrgb[i + 2].Red +
@@ -1164,7 +1164,7 @@ _LOC void TPAP98003Reshading( pScanData ps )
     	}
     }
 
-    /* AdjustDark () */
+    /* AdjustDark() */
     ps.AsicReg.RD_Origin = _SHADING_BEGINX
     ps.AsicReg.RD_Pixels = 5400
 }

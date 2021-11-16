@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2007-2012 stef.dev@free.fr
+   Copyright(C) 2007-2012 stef.dev@free.fr
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -86,7 +86,7 @@ typedef struct Rts8891_Device Rts8891_Device
 #define LAMP_REG                0xd9
 #define LAMP_BRIGHT_REG         0xda
 
-/* double reg (E6,E5) -> timing doubles when y resolution doubles
+/* double reg(E6,E5) -> timing doubles when y resolution doubles
  * E6 is high byte, possibly exposure */
 #define EXPOSURE_REG            0xe6
 
@@ -122,7 +122,7 @@ typedef struct Rts8891_Model
   Sane.Fixed x_size_ta;		/* Size of scan area in TA mode in mm */
   Sane.Fixed y_size_ta;		/* Size of scan area in TA mode in mm */
 
-  /* Line-distance correction (in pixel at max optical dpi) for CCD scanners */
+  /* Line-distance correction(in pixel at max optical dpi) for CCD scanners */
   Int ld_shift_r;		/* red */
   Int ld_shift_g;		/* green */
   Int ld_shift_b;		/* blue */
@@ -278,22 +278,22 @@ typedef struct Rts8891_USB_Device_Entry
 } Rts8891_USB_Device_Entry
 
 /* this function init the rts8891 library */
-void rts8891_lib_init (void)
+void rts8891_lib_init(void)
 
  /***********************************/
  /* RTS8891 ASIC specific functions */
  /***********************************/
 
  /* this functions commits pending scan command */
-static Sane.Status rts8891_commit (Int devnum, Sane.Byte value)
+static Sane.Status rts8891_commit(Int devnum, Sane.Byte value)
 
 /* wait for head to park to home position */
-static Sane.Status rts8891_wait_for_home (struct Rts8891_Device *device, Sane.Byte * regs)
+static Sane.Status rts8891_wait_for_home(struct Rts8891_Device *device, Sane.Byte * regs)
 
  /**
   * move the head backward by a huge line number then poll home sensor until
   * head has get back home
   */
-static Sane.Status rts8891_park (struct Rts8891_Device *device, Sane.Byte * regs, Bool wait)
+static Sane.Status rts8891_park(struct Rts8891_Device *device, Sane.Byte * regs, Bool wait)
 
 #endif /* not RTS8891_LOW_H */

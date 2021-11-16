@@ -1,12 +1,12 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2000-2003 Jochen Eisinger <jochen.eisinger@gmx.net>
-   Copyright (C) 2003 James Perry (scsi_pp functions)
+   Copyright(C) 2000-2003 Jochen Eisinger <jochen.eisinger@gmx.net>
+   Copyright(C) 2003 James Perry(scsi_pp functions)
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -67,14 +67,14 @@ import ieee1284
 #elif defined(ENABLE_PARPORT_DIRECTIO)
 
 # if defined(HAVE_SYS_IO_H)
-#  if defined (__ICC) && __ICC >= 700
+#  if defined(__ICC) && __ICC >= 700
 #   define __GNUC__ 2
 #  endif
 #  include <sys/io
 #  ifndef Sane.HAVE_SYS_IO_H_WITH_INB_OUTB
 #   define IO_SUPPORT_MISSING
 #  endif
-#  if defined (__ICC) && __ICC >= 700
+#  if defined(__ICC) && __ICC >= 700
 #   undef __GNUC__
 #  elif defined(__ICC) && defined(HAVE_ASM_IO_H)
 #   include <asm/io
@@ -83,16 +83,16 @@ import ieee1284
 #  include <asm/io		/* ugly, but backwards compatible */
 # elif defined(HAVE_SYS_HW_H)
 #  include <sys/hw
-# elif defined(__i386__)  && ( defined (__GNUC__) || defined (__ICC) )
+# elif defined(__i386__)  && ( defined(__GNUC__) || defined(__ICC) )
 
 static __inline__ void
-outb (u_char value, u_long port)
+outb(u_char value, u_long port)
 {
   __asm__ __volatile__ ("outb %0,%1"::"a" (value), "d" ((u_short) port))
 }
 
 static __inline__ u_char
-inb (u_long port)
+inb(u_long port)
 {
   u_char value
 
@@ -124,10 +124,10 @@ import Sane.sanei_pa4s2
 
 static Int sanei_pa4s2_dbg_init_called = Sane.FALSE
 
-#if (!defined __GNUC__ || __GNUC__ < 2 || \
+#if(!defined __GNUC__ || __GNUC__ < 2 || \
      __GNUC_MINOR__ < (defined __cplusplus ? 6 : 4))
 
-#define TEST_DBG_INIT() if (sanei_pa4s2_dbg_init_called == Sane.FALSE) \
+#define TEST_DBG_INIT() if(sanei_pa4s2_dbg_init_called == Sane.FALSE) \
                           {                                            \
                             DBG_INIT();                                \
                             DBG(6, "sanei_pa4s2: interface called for" \
@@ -136,7 +136,7 @@ static Int sanei_pa4s2_dbg_init_called = Sane.FALSE
                           }
 #else
 
-#define TEST_DBG_INIT() if (sanei_pa4s2_dbg_init_called == Sane.FALSE)   \
+#define TEST_DBG_INIT() if(sanei_pa4s2_dbg_init_called == Sane.FALSE)   \
                           {                                              \
                             DBG_INIT();                                  \
                             DBG(6, "%s: interface called for"            \
@@ -163,7 +163,7 @@ import sys/types
 import Sane.saneopts
 
 
-#if (defined (HAVE_IOPERM) || defined (HAVE_LIBIEEE1284)) && !defined (IO_SUPPORT_MISSING)
+#if(defined(HAVE_IOPERM) || defined(HAVE_LIBIEEE1284)) && !defined(IO_SUPPORT_MISSING)
 
 #if defined(STDC_HEADERS)
 import errno
@@ -206,7 +206,7 @@ typedef struct
   }
 PortRec, *Port
 
-#if defined (HAVE_LIBIEEE1284)
+#if defined(HAVE_LIBIEEE1284)
 
 static struct parport_list pplist
 static PortRec *port
@@ -227,29 +227,29 @@ static PortRec port[] =
 
 static u_int sanei_pa4s2_interface_options = SANEI_PA4S2_OPT_DEFAULT
 
-public Int setuid (uid_t);	/* should also be in unistd.h */
+public Int setuid(uid_t);	/* should also be in unistd.h */
 
-static Int pa4s2_open (const char *dev, Sane.Status * status)
-static void pa4s2_readbegin_epp (Int fd, u_char reg)
-static u_char pa4s2_readbyte_epp (Int fd)
-static void pa4s2_readend_epp (Int fd)
-static void pa4s2_readbegin_uni (Int fd, u_char reg)
-static u_char pa4s2_readbyte_uni (Int fd)
-static void pa4s2_readend_uni (Int fd)
-static void pa4s2_readbegin_nib (Int fd, u_char reg)
-static u_char pa4s2_readbyte_nib (Int fd)
-static void pa4s2_readend_nib (Int fd)
-static void pa4s2_writebyte_any (Int fd, u_char reg, u_char val)
-static Int pa4s2_enable (Int fd, u_char * prelock)
-static Int pa4s2_disable (Int fd, u_char * prelock)
-static Int pa4s2_close (Int fd, Sane.Status * status)
+static Int pa4s2_open(const char *dev, Sane.Status * status)
+static void pa4s2_readbegin_epp(Int fd, u_char reg)
+static u_char pa4s2_readbyte_epp(Int fd)
+static void pa4s2_readend_epp(Int fd)
+static void pa4s2_readbegin_uni(Int fd, u_char reg)
+static u_char pa4s2_readbyte_uni(Int fd)
+static void pa4s2_readend_uni(Int fd)
+static void pa4s2_readbegin_nib(Int fd, u_char reg)
+static u_char pa4s2_readbyte_nib(Int fd)
+static void pa4s2_readend_nib(Int fd)
+static void pa4s2_writebyte_any(Int fd, u_char reg, u_char val)
+static Int pa4s2_enable(Int fd, u_char * prelock)
+static Int pa4s2_disable(Int fd, u_char * prelock)
+static Int pa4s2_close(Int fd, Sane.Status * status)
 
-#if defined (HAVE_LIBIEEE1284)
+#if defined(HAVE_LIBIEEE1284)
 
 static const char * pa4s2_libieee1284_errorstr(Int error)
 {
 
-  switch (error)
+  switch(error)
     {
 
       case E1284_OK:
@@ -294,50 +294,50 @@ static const char * pa4s2_libieee1284_errorstr(Int error)
 #endif
 
 static Int
-pa4s2_init (Sane.Status *status)
+pa4s2_init(Sane.Status *status)
 {
   static Int first_time = Sane.TRUE
-#if defined (HAVE_LIBIEEE1284)
+#if defined(HAVE_LIBIEEE1284)
   Int result, n
 #endif
 
-  DBG (6, "pa4s2_init: static Int first_time = %u\n", first_time)
+  DBG(6, "pa4s2_init: static Int first_time = %u\n", first_time)
 
-  if (first_time == Sane.FALSE)
+  if(first_time == Sane.FALSE)
     {
-      DBG (5, "pa4s2_init: sanei already initialized\n")
+      DBG(5, "pa4s2_init: sanei already initialized\n")
       status = Sane.STATUS_GOOD
       return 0
     }
 
-  DBG (5, "pa4s2_init: called for the first time\n")
+  DBG(5, "pa4s2_init: called for the first time\n")
 
   first_time = Sane.FALSE
 
-#if defined (HAVE_LIBIEEE1284)
+#if defined(HAVE_LIBIEEE1284)
 
-  DBG (4, "pa4s2_init: initializing libieee1284\n")
-  result = ieee1284_find_ports (&pplist, 0)
+  DBG(4, "pa4s2_init: initializing libieee1284\n")
+  result = ieee1284_find_ports(&pplist, 0)
 
-  if (result)
+  if(result)
     {
-      DBG (1, "pa4s2_init: initializing IEEE 1284 failed (%s)\n",
-           pa4s2_libieee1284_errorstr (result))
+      DBG(1, "pa4s2_init: initializing IEEE 1284 failed(%s)\n",
+           pa4s2_libieee1284_errorstr(result))
       first_time = Sane.TRUE
       *status = Sane.STATUS_INVAL
       return -1
     }
 
-  DBG (3, "pa4s2_init: %d ports reported by IEEE 1284 library\n", pplist.portc)
+  DBG(3, "pa4s2_init: %d ports reported by IEEE 1284 library\n", pplist.portc)
 
-  for (n=0; n<pplist.portc; n++)
-    DBG (6, "pa4s2_init: port %d is `%s`\n", n, pplist.portv[n]->name)
+  for(n=0; n<pplist.portc; n++)
+    DBG(6, "pa4s2_init: port %d is `%s`\n", n, pplist.portv[n]->name)
 
 
-  DBG (6, "pa4s2_init: allocating port list\n")
-  if ((port = calloc(pplist.portc, sizeof(PortRec))) == NULL)
+  DBG(6, "pa4s2_init: allocating port list\n")
+  if((port = calloc(pplist.portc, sizeof(PortRec))) == NULL)
     {
-      DBG (1, "pa4s2_init: not enough free memory\n")
+      DBG(1, "pa4s2_init: not enough free memory\n")
       ieee1284_free_ports(&pplist)
       first_time = Sane.TRUE
       *status = Sane.STATUS_NO_MEM
@@ -346,13 +346,13 @@ pa4s2_init (Sane.Status *status)
 
 #else
 
-  DBG (4, "pa4s2_init: trying to setuid root\n")
+  DBG(4, "pa4s2_init: trying to setuid root\n")
 
-  if (0 > setuid (0))
+  if(0 > setuid(0))
     {
 
-      DBG (1, "pa4s2_init: setuid failed: errno = %d\n", errno)
-      DBG (5, "pa4s2_init: returning Sane.STATUS_INVAL\n")
+      DBG(1, "pa4s2_init: setuid failed: errno = %d\n", errno)
+      DBG(5, "pa4s2_init: returning Sane.STATUS_INVAL\n")
 
       *status = Sane.STATUS_INVAL
       first_time = Sane.TRUE
@@ -360,10 +360,10 @@ pa4s2_init (Sane.Status *status)
 
     }
 
-  DBG (3, "pa4s2_init: the application is now root\n")
-  DBG (3, "pa4s2_init: this is a high security risk...\n")
+  DBG(3, "pa4s2_init: the application is now root\n")
+  DBG(3, "pa4s2_init: this is a high security risk...\n")
 
-  DBG (6, "pa4s2_init: ... you'd better start praying\n")
+  DBG(6, "pa4s2_init: ... you'd better start praying\n")
 
   /* PS: no, i don't trust myself either */
 
@@ -371,44 +371,44 @@ pa4s2_init (Sane.Status *status)
 
 #endif
 
-  DBG (5, "pa4s2_init: initialized successfully\n")
+  DBG(5, "pa4s2_init: initialized successfully\n")
   *status = Sane.STATUS_GOOD
   return 0
 }
 
 static Int
-pa4s2_open (const char *dev, Sane.Status * status)
+pa4s2_open(const char *dev, Sane.Status * status)
 {
 
   Int n, result
-#if !defined (HAVE_LIBIEEE1284)
+#if !defined(HAVE_LIBIEEE1284)
   u_long base
 #endif
 
-  DBG (4, "pa4s2_open: trying to attach dev `%s`\n", dev)
+  DBG(4, "pa4s2_open: trying to attach dev `%s`\n", dev)
 
-  if ((result = pa4s2_init(status)) != 0)
+  if((result = pa4s2_init(status)) != 0)
     {
 
-      DBG (1, "pa4s2_open: failed to initialize\n")
+      DBG(1, "pa4s2_open: failed to initialize\n")
       return result
     }
 
-#if !defined (HAVE_LIBIEEE1284)
+#if !defined(HAVE_LIBIEEE1284)
 
   {
     char *end
 
-    DBG (5, "pa4s2_open: reading port number\n")
+    DBG(5, "pa4s2_open: reading port number\n")
 
-    base = strtol (dev, &end, 0)
+    base = strtol(dev, &end, 0)
 
-    if ((end == dev) || (*end != '\0'))
+    if((end == dev) || (*end != '\0'))
       {
 
-	DBG (1, "pa4s2_open: `%s` is not a valid port number\n", dev)
-	DBG (6, "pa4s2_open: the part I did not understand was ...`%s`\n", end)
-	DBG (5, "pa4s2_open: returning Sane.STATUS_INVAL\n")
+	DBG(1, "pa4s2_open: `%s` is not a valid port number\n", dev)
+	DBG(6, "pa4s2_open: the part I did not understand was ...`%s`\n", end)
+	DBG(5, "pa4s2_open: returning Sane.STATUS_INVAL\n")
 
 	*status = Sane.STATUS_INVAL
 
@@ -418,13 +418,13 @@ pa4s2_open (const char *dev, Sane.Status * status)
 
   }
 
-  DBG (6, "pa4s2_open: read port number 0x%03lx\n", base)
+  DBG(6, "pa4s2_open: read port number 0x%03lx\n", base)
 
-  if (base == 0)
+  if(base == 0)
     {
 
-      DBG (1, "pa4s2_open: 0x%03lx is not a valid base address\n", base)
-      DBG (5, "pa4s2_open: returning Sane.STATUS_INVAL\n")
+      DBG(1, "pa4s2_open: 0x%03lx is not a valid base address\n", base)
+      DBG(5, "pa4s2_open: returning Sane.STATUS_INVAL\n")
 
       *status = Sane.STATUS_INVAL
       return -1
@@ -432,18 +432,18 @@ pa4s2_open (const char *dev, Sane.Status * status)
     }
 #endif
 
-  DBG (5, "pa4s2_open: looking up port in list\n")
+  DBG(5, "pa4s2_open: looking up port in list\n")
 
-#if defined (HAVE_LIBIEEE1284)
+#if defined(HAVE_LIBIEEE1284)
 
-  for (n = 0; n < pplist.portc; n++)
-    if (!strcmp(pplist.portv[n]->name, dev))
+  for(n = 0; n < pplist.portc; n++)
+    if(!strcmp(pplist.portv[n]->name, dev))
       break
 
-  if (pplist.portc <= n)
+  if(pplist.portc <= n)
     {
-      DBG (1, "pa4s2_open: `%s` is not a valid device name\n", dev)
-      DBG (5, "pa4s2_open: returning Sane.STATUS_INVAL\n")
+      DBG(1, "pa4s2_open: `%s` is not a valid device name\n", dev)
+      DBG(5, "pa4s2_open: returning Sane.STATUS_INVAL\n")
 
       *status = Sane.STATUS_INVAL
       return -1
@@ -451,16 +451,16 @@ pa4s2_open (const char *dev, Sane.Status * status)
 
 #else
 
-  for (n = 0; n < NELEMS (port); n++)
-    if (port[n].base == base)
+  for(n = 0; n < NELEMS(port); n++)
+    if(port[n].base == base)
       break
 
-  if (NELEMS (port) <= n)
+  if(NELEMS(port) <= n)
     {
 
-      DBG (1, "pa4s2_open: 0x%03lx is not a valid base address\n",
+      DBG(1, "pa4s2_open: 0x%03lx is not a valid base address\n",
 	   base)
-      DBG (5, "pa4s2_open: returning Sane.STATUS_INVAL\n")
+      DBG(5, "pa4s2_open: returning Sane.STATUS_INVAL\n")
 
       *status = Sane.STATUS_INVAL
       return -1
@@ -468,80 +468,80 @@ pa4s2_open (const char *dev, Sane.Status * status)
 
 #endif
 
-  DBG (6, "pa4s2_open: port is in list at port[%d]\n", n)
+  DBG(6, "pa4s2_open: port is in list at port[%d]\n", n)
 
-  if (port[n].in_use == Sane.TRUE)
+  if(port[n].in_use == Sane.TRUE)
     {
 
-#if defined (HAVE_LIBIEEE1284)
-      DBG (1, "pa4s2_open: device `%s` is already in use\n", dev)
+#if defined(HAVE_LIBIEEE1284)
+      DBG(1, "pa4s2_open: device `%s` is already in use\n", dev)
 #else
-      DBG (1, "pa4s2_open: port 0x%03lx is already in use\n", base)
+      DBG(1, "pa4s2_open: port 0x%03lx is already in use\n", base)
 #endif
-      DBG (5, "pa4s2_open: returning Sane.STATUS_DEVICE_BUSY\n")
+      DBG(5, "pa4s2_open: returning Sane.STATUS_DEVICE_BUSY\n")
 
       *status = Sane.STATUS_DEVICE_BUSY
       return -1
 
     }
 
-  DBG (5, "pa4s2_open: setting up port data\n")
+  DBG(5, "pa4s2_open: setting up port data\n")
 
-#if defined (HAVE_LIBIEEE1284)
-  DBG (6, "pa4s2_open: name=%s in_use=Sane.TRUE\n", dev)
+#if defined(HAVE_LIBIEEE1284)
+  DBG(6, "pa4s2_open: name=%s in_use=Sane.TRUE\n", dev)
 #else
-  DBG (6, "pa4s2_open: base=0x%03lx in_use=Sane.TRUE\n", base)
+  DBG(6, "pa4s2_open: base=0x%03lx in_use=Sane.TRUE\n", base)
 #endif
-  DBG (6, "pa4s2_open: enabled=Sane.FALSE mode=PA4S2_MODE_NIB\n")
+  DBG(6, "pa4s2_open: enabled=Sane.FALSE mode=PA4S2_MODE_NIB\n")
   port[n].in_use = Sane.TRUE
   port[n].enabled = Sane.FALSE
   port[n].mode = PA4S2_MODE_NIB
 
 
-#if defined (HAVE_LIBIEEE1284)
+#if defined(HAVE_LIBIEEE1284)
 
-  DBG (5, "pa4s2_open: opening device\n")
-  result = ieee1284_open (pplist.portv[n], 0, &port[n].caps)
+  DBG(5, "pa4s2_open: opening device\n")
+  result = ieee1284_open(pplist.portv[n], 0, &port[n].caps)
 
-  if (result)
+  if(result)
     {
-      DBG (1, "pa4s2_open: could not open device `%s` (%s)\n",
-           dev, pa4s2_libieee1284_errorstr (result))
+      DBG(1, "pa4s2_open: could not open device `%s` (%s)\n",
+           dev, pa4s2_libieee1284_errorstr(result))
       port[n].in_use = Sane.FALSE
-      DBG (6, "pa4s2_open: marking port %d as unused\n", n)
+      DBG(6, "pa4s2_open: marking port %d as unused\n", n)
       *status = Sane.STATUS_ACCESS_DENIED
       return -1
     }
 
 #else
 
-  DBG (5, "pa4s2_open: getting io permissions\n")
+  DBG(5, "pa4s2_open: getting io permissions\n")
 
   /* TODO: insert FreeBSD compatible code here */
 
-  if (ioperm (port[n].base, 5, 1))
+  if(ioperm(port[n].base, 5, 1))
     {
 
-      DBG (1, "pa4s2_open: cannot get io privilege for port 0x%03lx\n",
+      DBG(1, "pa4s2_open: cannot get io privilege for port 0x%03lx\n",
       		port[n].base)
 
 
-      DBG (5, "pa4s2_open: marking port[%d] as unused\n", n)
+      DBG(5, "pa4s2_open: marking port[%d] as unused\n", n)
       port[n].in_use = Sane.FALSE
 
-      DBG (5, "pa4s2_open: returning Sane.STATUS_IO_ERROR\n")
+      DBG(5, "pa4s2_open: returning Sane.STATUS_IO_ERROR\n")
       *status = Sane.STATUS_IO_ERROR
       return -1
 
     }
 #endif
 
-  DBG (3, "pa4s2_open: device `%s` opened...\n", dev)
+  DBG(3, "pa4s2_open: device `%s` opened...\n", dev)
 
-  DBG (5, "pa4s2_open: returning Sane.STATUS_GOOD\n")
+  DBG(5, "pa4s2_open: returning Sane.STATUS_GOOD\n")
   *status = Sane.STATUS_GOOD
 
-  DBG (4, "pa4s2_open: open dev `%s` as fd %u\n", dev, n)
+  DBG(4, "pa4s2_open: open dev `%s` as fd %u\n", dev, n)
 
   return n
 
@@ -557,7 +557,7 @@ static u_char inbyte4(Int fd)
 {
   char val
   ieee1284_epp_read_data(pplist.portv[fd], 0, &val, 1)
-  return (u_char)val
+  return(u_char)val
 }
 
 #define outbyte0(fd,val)	ieee1284_write_data(pplist.portv[fd], val)
@@ -566,7 +566,7 @@ static u_char inbyte4(Int fd)
 
 static void outbyte3(Int fd, u_char val)
 {
-  ieee1284_epp_write_addr (pplist.portv[fd], 0, (char *)&val, 1)
+  ieee1284_epp_write_addr(pplist.portv[fd], 0, (char *)&val, 1)
 }
 
 #else
@@ -585,14 +585,14 @@ static void outbyte3(Int fd, u_char val)
 
 
 static void
-pa4s2_readbegin_epp (Int fd, u_char reg)
+pa4s2_readbegin_epp(Int fd, u_char reg)
 {
 
 #if defined(HAVE_LIBIEEE1284)
-  DBG (6, "pa4s2_readbegin_epp: selecting register %u at '%s'\n",
+  DBG(6, "pa4s2_readbegin_epp: selecting register %u at '%s'\n",
        (Int) reg, pplist.portv[fd]->name)
 #else
-  DBG (6, "pa4s2_readbegin_epp: selecting register %u at 0x%03lx\n",
+  DBG(6, "pa4s2_readbegin_epp: selecting register %u at 0x%03lx\n",
        (Int) reg, port[fd].base)
 #endif
 
@@ -605,16 +605,16 @@ pa4s2_readbegin_epp (Int fd, u_char reg)
 }
 
 static u_char
-pa4s2_readbyte_epp (Int fd)
+pa4s2_readbyte_epp(Int fd)
 {
 
   u_char val = inbyte4 (fd)
 
 #if defined(HAVE_LIBIEEE1284)
-  DBG (6, "pa4s2_readbyte_epp: reading value 0x%02x from '%s'\n",
+  DBG(6, "pa4s2_readbyte_epp: reading value 0x%02x from '%s'\n",
        (Int) val, pplist.portv[fd]->name)
 #else
-  DBG (6, "pa4s2_readbyte_epp: reading value 0x%02x at 0x%03lx\n",
+  DBG(6, "pa4s2_readbyte_epp: reading value 0x%02x at 0x%03lx\n",
        (Int) val, port[fd].base)
 #endif
 
@@ -623,10 +623,10 @@ pa4s2_readbyte_epp (Int fd)
 }
 
 static void
-pa4s2_readend_epp (Int fd)
+pa4s2_readend_epp(Int fd)
 {
 
-  DBG (6, "pa4s2_readend_epp: end of reading sequence\n")
+  DBG(6, "pa4s2_readend_epp: end of reading sequence\n")
 
   outbyte2 (fd, 0x04)
   outbyte2 (fd, 0x00)
@@ -635,14 +635,14 @@ pa4s2_readend_epp (Int fd)
 }
 
 static void
-pa4s2_readbegin_uni (Int fd, u_char reg)
+pa4s2_readbegin_uni(Int fd, u_char reg)
 {
 
 #if defined(HAVE_LIBIEEE1284)
-  DBG (6, "pa4s2_readbegin_uni: selecting register %u for '%s'\n",
+  DBG(6, "pa4s2_readbegin_uni: selecting register %u for '%s'\n",
        (Int) reg, pplist.portv[fd]->name)
 #else
-  DBG (6, "pa4s2_readbegin_uni: selecting register %u at 0x%03lx\n",
+  DBG(6, "pa4s2_readbegin_uni: selecting register %u at 0x%03lx\n",
        (Int) reg, port[fd].base)
 #endif
 
@@ -655,7 +655,7 @@ pa4s2_readbegin_uni (Int fd, u_char reg)
 }
 
 static u_char
-pa4s2_readbyte_uni (Int fd)
+pa4s2_readbyte_uni(Int fd)
 {
   u_char val
 
@@ -667,10 +667,10 @@ pa4s2_readbyte_uni (Int fd)
   outbyte2 (fd, 0x04)
 
 #if defined(HAVE_LIBIEEE1284)
-  DBG (6, "pa4s2_readbyte_uni: reading value 0x%02x from '%s'\n",
+  DBG(6, "pa4s2_readbyte_uni: reading value 0x%02x from '%s'\n",
        (Int) val, pplist.portv[fd]->name)
 #else
-  DBG (6, "pa4s2_readbyte_uni: reading value 0x%02x at 0x%03lx\n",
+  DBG(6, "pa4s2_readbyte_uni: reading value 0x%02x at 0x%03lx\n",
        (Int) val, port[fd].base)
 #endif
 
@@ -678,22 +678,22 @@ pa4s2_readbyte_uni (Int fd)
 }
 
 static void
-pa4s2_readend_uni (Int fd)
+pa4s2_readend_uni(Int fd)
 {
 
-  DBG (6, "pa4s2_readend_uni: end of reading sequence for fd %d\n", fd)
+  DBG(6, "pa4s2_readend_uni: end of reading sequence for fd %d\n", fd)
 
 }
 
 static void
-pa4s2_readbegin_nib (Int fd, u_char reg)
+pa4s2_readbegin_nib(Int fd, u_char reg)
 {
 
 #if defined(HAVE_LIBIEEE1284)
-  DBG (6, "pa4s2_readbegin_nib: selecting register %u at '%s'\n",
+  DBG(6, "pa4s2_readbegin_nib: selecting register %u at '%s'\n",
        (Int) reg, pplist.portv[fd]->name)
 #else
-  DBG (6, "pa4s2_readbegin_nib: selecting register %u at 0x%03lx\n",
+  DBG(6, "pa4s2_readbegin_nib: selecting register %u at 0x%03lx\n",
        (Int) reg, port[fd].base)
 #endif
 
@@ -707,7 +707,7 @@ pa4s2_readbegin_nib (Int fd, u_char reg)
 }
 
 static u_char
-pa4s2_readbyte_nib (Int fd)
+pa4s2_readbyte_nib(Int fd)
 {
 
   u_char val
@@ -722,10 +722,10 @@ pa4s2_readbyte_nib (Int fd)
   outbyte2 (fd, 0x04)
 
 #if defined(HAVE_LIBIEEE1284)
-  DBG (6, "pa4s2_readbyte_nib: reading value 0x%02x from '%s'\n",
+  DBG(6, "pa4s2_readbyte_nib: reading value 0x%02x from '%s'\n",
   	(Int) val, pplist.portv[fd]->name)
 #else
-  DBG (6, "pa4s2_readbyte_nib: reading value 0x%02x at 0x%03lx\n",
+  DBG(6, "pa4s2_readbyte_nib: reading value 0x%02x at 0x%03lx\n",
        (Int) val, port[fd].base)
 #endif
 
@@ -734,13 +734,13 @@ pa4s2_readbyte_nib (Int fd)
 }
 
 static void
-pa4s2_readend_nib (Int fd)
+pa4s2_readend_nib(Int fd)
 {
-  DBG (6, "pa4s2_readend_nib: end of reading sequence for fd %d\n", fd)
+  DBG(6, "pa4s2_readend_nib: end of reading sequence for fd %d\n", fd)
 }
 
 static void
-pa4s2_writebyte_any (Int fd, u_char reg, u_char val)
+pa4s2_writebyte_any(Int fd, u_char reg, u_char val)
 {
 
   /* somebody from Mustek asked me once, why I was writing the same
@@ -749,10 +749,10 @@ pa4s2_writebyte_any (Int fd, u_char reg, u_char val)
      delays or even left out completely.
    */
 #if defined(HAVE_LIBIEEE1284)
-  DBG (6, "pa4s2_writebyte_any: writing value 0x%02x"
+  DBG(6, "pa4s2_writebyte_any: writing value 0x%02x"
        " in reg %u to '%s'\n", (Int) val, (Int) reg, pplist.portv[fd]->name)
 #else
-  DBG (6, "pa4s2_writebyte_any: writing value 0x%02x"
+  DBG(6, "pa4s2_writebyte_any: writing value 0x%02x"
        " in reg %u at 0x%03lx\n", (Int) val, (Int) reg, port[fd].base)
 #endif
 
@@ -775,15 +775,15 @@ pa4s2_writebyte_any (Int fd, u_char reg, u_char val)
 }
 
 static Int
-pa4s2_enable (Int fd, u_char * prelock)
+pa4s2_enable(Int fd, u_char * prelock)
 {
-#if defined (HAVE_LIBIEEE1284)
+#if defined(HAVE_LIBIEEE1284)
   Int result
-  result = ieee1284_claim (pplist.portv[fd])
+  result = ieee1284_claim(pplist.portv[fd])
 
-  if (result)
+  if(result)
     {
-      DBG (1, "pa4s2_enable: failed to claim the port (%s)\n",
+      DBG(1, "pa4s2_enable: failed to claim the port(%s)\n",
       	pa4s2_libieee1284_errorstr(result))
       return -1
     }
@@ -794,7 +794,7 @@ pa4s2_enable (Int fd, u_char * prelock)
   prelock[2] = inbyte2 (fd)
   outbyte2 (fd, (prelock[2] & 0x0F) | 0x04)
 
-  DBG (6, "pa4s2_enable: prelock[] = {0x%02x, 0x%02x, 0x%02x}\n",
+  DBG(6, "pa4s2_enable: prelock[] = {0x%02x, 0x%02x, 0x%02x}\n",
        (Int) prelock[0], (Int) prelock[1], (Int) prelock[2])
 
   outbyte0 (fd, 0x15)
@@ -812,13 +812,13 @@ pa4s2_enable (Int fd, u_char * prelock)
 }
 
 static Int
-pa4s2_disable (Int fd, u_char * prelock)
+pa4s2_disable(Int fd, u_char * prelock)
 {
 
-  if ((sanei_pa4s2_interface_options & SANEI_PA4S2_OPT_ALT_LOCK) != 0)
+  if((sanei_pa4s2_interface_options & SANEI_PA4S2_OPT_ALT_LOCK) != 0)
     {
 
-      DBG (6, "pa4s2_disable: using alternative command set\n")
+      DBG(6, "pa4s2_disable: using alternative command set\n")
 
       outbyte0 (fd, 0x00)
       outbyte2 (fd, 0x04)
@@ -845,65 +845,65 @@ pa4s2_disable (Int fd, u_char * prelock)
   outbyte2 (fd, prelock[2])
 
 #if defined(HAVE_LIBIEEE1284)
-  ieee1284_release (pplist.portv[fd])
+  ieee1284_release(pplist.portv[fd])
 #endif
 
-  DBG (6, "pa4s2_disable: state restored\n")
+  DBG(6, "pa4s2_disable: state restored\n")
 
   return 0
 
 }
 
 static Int
-pa4s2_close (Int fd, Sane.Status * status)
+pa4s2_close(Int fd, Sane.Status * status)
 {
 #if defined(HAVE_LIBIEEE1284)
   Int result
 #endif
-  DBG (4, "pa4s2_close: fd=%d\n", fd)
+  DBG(4, "pa4s2_close: fd=%d\n", fd)
 
 #if defined(HAVE_LIBIEEE1284)
-  DBG (6, "pa4s2_close: this is port '%s'\n", pplist.portv[fd]->name)
+  DBG(6, "pa4s2_close: this is port '%s'\n", pplist.portv[fd]->name)
 #else
-  DBG (6, "pa4s2_close: this is port 0x%03lx\n", port[fd].base)
+  DBG(6, "pa4s2_close: this is port 0x%03lx\n", port[fd].base)
 #endif
 
-  DBG (5, "pa4s2_close: checking whether port is enabled\n")
+  DBG(5, "pa4s2_close: checking whether port is enabled\n")
 
-  if (port[fd].enabled == Sane.TRUE)
+  if(port[fd].enabled == Sane.TRUE)
     {
 
-      DBG (6, "pa4s2_close: disabling port\n")
-      pa4s2_disable (fd, port[fd].prelock)
+      DBG(6, "pa4s2_close: disabling port\n")
+      pa4s2_disable(fd, port[fd].prelock)
 
     }
 
-  DBG (5, "pa4s2_close: trying to free io port\n")
+  DBG(5, "pa4s2_close: trying to free io port\n")
 #if defined(HAVE_LIBIEEE1284)
-  if ((result = ieee1284_close(pplist.portv[fd])) < 0)
+  if((result = ieee1284_close(pplist.portv[fd])) < 0)
 #else
-  if (ioperm (port[fd].base, 5, 0))
+  if(ioperm(port[fd].base, 5, 0))
 #endif
     {
 
 #if defined(HAVE_LIBIEEE1284)
-      DBG (1, "pa4s2_close: can't free port '%s' (%s)\n",
+      DBG(1, "pa4s2_close: can't free port '%s' (%s)\n",
       		pplist.portv[fd]->name, pa4s2_libieee1284_errorstr(result))
 #else
-      DBG (1, "pa4s2_close: can't free port 0x%03lx\n", port[fd].base)
+      DBG(1, "pa4s2_close: can't free port 0x%03lx\n", port[fd].base)
 #endif
 
-      DBG (5, "pa4s2_close: returning Sane.STATUS_IO_ERROR\n")
+      DBG(5, "pa4s2_close: returning Sane.STATUS_IO_ERROR\n")
       *status = Sane.STATUS_IO_ERROR
       return -1
 
     }
 
-  DBG (5, "pa4s2_close: marking port as unused\n")
+  DBG(5, "pa4s2_close: marking port as unused\n")
 
   port[fd].in_use = Sane.FALSE
 
-  DBG (5, "pa4s2_close: returning Sane.STATUS_GOOD\n")
+  DBG(5, "pa4s2_close: returning Sane.STATUS_GOOD\n")
 
   *status = Sane.STATUS_GOOD
 
@@ -921,36 +921,36 @@ sanei_pa4s2_devices()
 
   TEST_DBG_INIT()
 
-  DBG (4, "sanei_pa4s2_devices: invoked\n")
+  DBG(4, "sanei_pa4s2_devices: invoked\n")
 
-  if ((n = pa4s2_init(&status)) != 0)
+  if((n = pa4s2_init(&status)) != 0)
     {
 
-      DBG (1, "sanei_pa4s2_devices: failed to initialize (%s)\n",
+      DBG(1, "sanei_pa4s2_devices: failed to initialize(%s)\n",
       		Sane.strstatus(status))
       return calloc(1, sizeof(char *))
     }
 
 #if defined(HAVE_LIBIEEE1284)
 
-  if ((devices = calloc((pplist.portc + 1), sizeof(char *))) == NULL)
+  if((devices = calloc((pplist.portc + 1), sizeof(char *))) == NULL)
     {
-      DBG (2, "sanei_pa4s2_devices: not enough free memory\n")
+      DBG(2, "sanei_pa4s2_devices: not enough free memory\n")
       return calloc(1, sizeof(char *))
     }
 
-  for (n=0; n<pplist.portc; n++)
+  for(n=0; n<pplist.portc; n++)
     devices[n] = pplist.portv[n]->name
 
 #else
 
-  if ((devices = calloc((NELEMS (port) + 1), sizeof(char *))) == NULL)
+  if((devices = calloc((NELEMS(port) + 1), sizeof(char *))) == NULL)
     {
-      DBG (2, "sanei_pa4s2_devices: not enough free memory\n")
+      DBG(2, "sanei_pa4s2_devices: not enough free memory\n")
       return calloc(1, sizeof(char *))
     }
 
-  for (n=0 ; n<NELEMS (port) ; n++)
+  for(n=0 ; n<NELEMS(port) ; n++)
     devices[n] = (char *)port[n].name
 #endif
 
@@ -958,61 +958,61 @@ sanei_pa4s2_devices()
 }
 
 /*
- * Needed for SCSI-over-parallel scanners (Paragon 600 II EP)
+ * Needed for SCSI-over-parallel scanners(Paragon 600 II EP)
  */
 Sane.Status
 sanei_pa4s2_scsi_pp_get_status(Int fd, u_char *status)
 {
   u_char stat
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
-  DBG (6, "sanei_pa4s2_scsi_pp_get_status: called for fd %d\n",
+  DBG(6, "sanei_pa4s2_scsi_pp_get_status: called for fd %d\n",
        fd)
 
 #if defined(HAVE_LIBIEEE1284)
-  if ((fd < 0) || (fd >= pplist.portc))
+  if((fd < 0) || (fd >= pplist.portc))
 #else
-  if ((fd < 0) || (fd >= NELEMS (port)))
+  if((fd < 0) || (fd >= NELEMS(port)))
 #endif
     {
 
-      DBG (2, "sanei_pa4s2_scsi_pp_get_status: invalid fd %d\n", fd)
-      DBG (6, "sanei_pa4s2_scsi_pp_get_status: returning Sane.STATUS_INVAL\n")
+      DBG(2, "sanei_pa4s2_scsi_pp_get_status: invalid fd %d\n", fd)
+      DBG(6, "sanei_pa4s2_scsi_pp_get_status: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  if (port[fd].in_use == Sane.FALSE)
+  if(port[fd].in_use == Sane.FALSE)
     {
 
-      DBG (2, "sanei_pa4s2_scsi_pp_get_status: port is not in use\n")
+      DBG(2, "sanei_pa4s2_scsi_pp_get_status: port is not in use\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG (4, "sanei_pa4s2_scsi_pp_get_status: port is '%s'\n",
+      DBG(4, "sanei_pa4s2_scsi_pp_get_status: port is '%s'\n",
       		pplist.portv[fd]->name)
 #else
-      DBG (6, "sanei_pa4s2_scsi_pp_get_status: port is 0x%03lx\n",
+      DBG(6, "sanei_pa4s2_scsi_pp_get_status: port is 0x%03lx\n",
 	   port[fd].base)
 #endif
-      DBG (5, "sanei_pa4s2_scsi_pp_get_status: returning Sane.STATUS_INVAL\n")
+      DBG(5, "sanei_pa4s2_scsi_pp_get_status: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  if (port[fd].enabled == Sane.FALSE)
+  if(port[fd].enabled == Sane.FALSE)
     {
 
-      DBG (2, "sanei_pa4s2_scsi_pp_get_status: port is not enabled\n")
+      DBG(2, "sanei_pa4s2_scsi_pp_get_status: port is not enabled\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG (4, "sanei_pa4s2_scsi_pp_get_status: port is '%s'\n",
+      DBG(4, "sanei_pa4s2_scsi_pp_get_status: port is '%s'\n",
       		pplist.portv[fd]->name)
 #else
-      DBG (6, "sanei_pa4s2_scsi_pp_get_status: port is 0x%03lx\n",
+      DBG(6, "sanei_pa4s2_scsi_pp_get_status: port is 0x%03lx\n",
 	   port[fd].base)
 #endif
-      DBG (5, "sanei_pa4s2_scsi_pp_get_status: returning Sane.STATUS_INVAL\n")
+      DBG(5, "sanei_pa4s2_scsi_pp_get_status: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
@@ -1021,8 +1021,8 @@ sanei_pa4s2_scsi_pp_get_status(Int fd, u_char *status)
   outbyte2 (fd, 0x4)
   stat = inbyte1 (fd)^0x80
   *status = (stat&0x2f)|((stat&0x10)<<2)|((stat&0x40)<<1)|((stat&0x80)>>3)
-  DBG (5, "sanei_pa4s2_scsi_pp_get_status: status=0x%02X\n", *status)
-  DBG (6, "sanei_pa4s2_scsi_pp_get_status: returning Sane.STATUS_GOOD\n")
+  DBG(5, "sanei_pa4s2_scsi_pp_get_status: status=0x%02X\n", *status)
+  DBG(6, "sanei_pa4s2_scsi_pp_get_status: returning Sane.STATUS_GOOD\n")
 
   return Sane.STATUS_GOOD
 }
@@ -1032,63 +1032,63 @@ sanei_pa4s2_scsi_pp_get_status(Int fd, u_char *status)
  * selected
  */
 Sane.Status
-sanei_pa4s2_scsi_pp_reg_select (Int fd, Int reg)
+sanei_pa4s2_scsi_pp_reg_select(Int fd, Int reg)
 {
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
 #if defined(HAVE_LIBIEEE1284)
-  if ((fd < 0) || (fd >= pplist.portc))
+  if((fd < 0) || (fd >= pplist.portc))
 #else
-  if ((fd < 0) || (fd >= NELEMS (port)))
+  if((fd < 0) || (fd >= NELEMS(port)))
 #endif
     {
 
-      DBG (2, "sanei_pa4s2_scsi_pp_reg_select: invalid fd %d\n", fd)
-      DBG (6, "sanei_pa4s2_scsi_pp_reg_select: returning Sane.STATUS_INVAL\n")
+      DBG(2, "sanei_pa4s2_scsi_pp_reg_select: invalid fd %d\n", fd)
+      DBG(6, "sanei_pa4s2_scsi_pp_reg_select: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  if (port[fd].in_use == Sane.FALSE)
+  if(port[fd].in_use == Sane.FALSE)
     {
 
-      DBG (2, "sanei_pa4s2_scsi_pp_reg_select: port is not in use\n")
+      DBG(2, "sanei_pa4s2_scsi_pp_reg_select: port is not in use\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG (4, "sanei_pa4s2_scsi_pp_get_status: port is '%s'\n",
+      DBG(4, "sanei_pa4s2_scsi_pp_get_status: port is '%s'\n",
       		pplist.portv[fd]->name)
 #else
-      DBG (6, "sanei_pa4s2_scsi_pp_get_status: port is 0x%03lx\n",
+      DBG(6, "sanei_pa4s2_scsi_pp_get_status: port is 0x%03lx\n",
 	   port[fd].base)
 #endif
-      DBG (5, "sanei_pa4s2_scsi_pp_reg_select: returning Sane.STATUS_INVAL\n")
+      DBG(5, "sanei_pa4s2_scsi_pp_reg_select: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  if (port[fd].enabled == Sane.FALSE)
+  if(port[fd].enabled == Sane.FALSE)
     {
 
-      DBG (2, "sanei_pa4s2_scsi_pp_reg_select: port is not enabled\n")
+      DBG(2, "sanei_pa4s2_scsi_pp_reg_select: port is not enabled\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG (4, "sanei_pa4s2_scsi_pp_get_status: port is '%s'\n",
+      DBG(4, "sanei_pa4s2_scsi_pp_get_status: port is '%s'\n",
       		pplist.portv[fd]->name)
 #else
-      DBG (6, "sanei_pa4s2_scsi_pp_get_status: port is 0x%03lx\n",
+      DBG(6, "sanei_pa4s2_scsi_pp_get_status: port is 0x%03lx\n",
 	   port[fd].base)
 #endif
-      DBG (5, "sanei_pa4s2_scsi_pp_reg_select: returning Sane.STATUS_INVAL\n")
+      DBG(5, "sanei_pa4s2_scsi_pp_reg_select: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
 #if defined(HAVE_LIBIEEE1284)
-  DBG (6, "sanei_pa4s2_scsi_pp_reg_select: selecting register %u at port '%s'\n",
+  DBG(6, "sanei_pa4s2_scsi_pp_reg_select: selecting register %u at port '%s'\n",
        (Int) reg, pplist.portv[fd]->name)
 #else
-  DBG (6, "sanei_pa4s2_scsi_pp_reg_select: selecting register %u at 0x%03lx\n",
+  DBG(6, "sanei_pa4s2_scsi_pp_reg_select: selecting register %u at 0x%03lx\n",
        (Int) reg, (u_long)port[fd].base)
 #endif
 
@@ -1107,183 +1107,183 @@ sanei_pa4s2_scsi_pp_reg_select (Int fd, Int reg)
  * used for detecting valid read modes
  */
 Sane.Status
-sanei_pa4s2_scsi_pp_open (const char *dev, Int *fd)
+sanei_pa4s2_scsi_pp_open(const char *dev, Int *fd)
 {
 
   u_char val
   Sane.Status status
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
   DBG(4, "sanei_pa4s2_scsi_pp_open: called for device '%s'\n", dev)
   DBG(5, "sanei_pa4s2_scsi_pp_open: trying to connect to port\n")
 
-  if ((*fd = pa4s2_open (dev, &status)) == -1)
+  if((*fd = pa4s2_open(dev, &status)) == -1)
     {
 
-      DBG (5, "sanei_pa4s2_scsi_pp_open: connection failed\n")
+      DBG(5, "sanei_pa4s2_scsi_pp_open: connection failed\n")
 
       return status
 
     }
 
-  DBG (6, "sanei_pa4s2_scsi_pp_open: connected to device using fd %u\n", *fd)
+  DBG(6, "sanei_pa4s2_scsi_pp_open: connected to device using fd %u\n", *fd)
 
-  DBG (5, "sanei_pa4s2_scsi_pp_open: checking for scanner\n")
+  DBG(5, "sanei_pa4s2_scsi_pp_open: checking for scanner\n")
 
-  if (sanei_pa4s2_enable (*fd, Sane.TRUE)!=Sane.STATUS_GOOD)
+  if(sanei_pa4s2_enable(*fd, Sane.TRUE)!=Sane.STATUS_GOOD)
     {
-      DBG (3, "sanei_pa4s2_scsi_pp_open: error enabling device\n")
+      DBG(3, "sanei_pa4s2_scsi_pp_open: error enabling device\n")
       return Sane.STATUS_IO_ERROR
     }
 
   /*
    * Instead of checking ASIC ID, check device status
    */
-  if (sanei_pa4s2_scsi_pp_get_status(*fd, &val)!=Sane.STATUS_GOOD)
+  if(sanei_pa4s2_scsi_pp_get_status(*fd, &val)!=Sane.STATUS_GOOD)
     {
-      DBG (3, "sanei_pa4s2_scsi_pp_open: error getting device status\n")
-      sanei_pa4s2_enable (*fd, Sane.FALSE)
+      DBG(3, "sanei_pa4s2_scsi_pp_open: error getting device status\n")
+      sanei_pa4s2_enable(*fd, Sane.FALSE)
       return Sane.STATUS_IO_ERROR
     }
   val&=0xf0
 
-  if ((val==0xf0)||(val&0x40)||(!(val&0x20)))
+  if((val==0xf0)||(val&0x40)||(!(val&0x20)))
     {
-      DBG (3, "sanei_pa4s2_scsi_pp_open: device returned status 0x%02X\n", val)
-      sanei_pa4s2_enable (*fd, Sane.FALSE)
+      DBG(3, "sanei_pa4s2_scsi_pp_open: device returned status 0x%02X\n", val)
+      sanei_pa4s2_enable(*fd, Sane.FALSE)
       return Sane.STATUS_DEVICE_BUSY
     }
 
-  if (sanei_pa4s2_enable (*fd, Sane.FALSE)!=Sane.STATUS_GOOD)
+  if(sanei_pa4s2_enable(*fd, Sane.FALSE)!=Sane.STATUS_GOOD)
     {
-      DBG (3, "sanei_pa4s2_scsi_pp_open: error disabling device\n")
+      DBG(3, "sanei_pa4s2_scsi_pp_open: error disabling device\n")
       return Sane.STATUS_IO_ERROR
     }
 
   /* FIXME: it would be nice to try to use a better mode here, but how to
    * know if it's going to work? */
 
-  DBG (4, "sanei_pa4s2_scsi_pp_open: returning Sane.STATUS_GOOD\n")
+  DBG(4, "sanei_pa4s2_scsi_pp_open: returning Sane.STATUS_GOOD\n")
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-sanei_pa4s2_open (const char *dev, Int *fd)
+sanei_pa4s2_open(const char *dev, Int *fd)
 {
 
   u_char asic, val
   Sane.Status status
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
   DBG(4, "sanei_pa4s2_open: called for device '%s'\n", dev)
   DBG(5, "sanei_pa4s2_open: trying to connect to port\n")
 
-  if ((*fd = pa4s2_open (dev, &status)) == -1)
+  if((*fd = pa4s2_open(dev, &status)) == -1)
     {
 
-      DBG (5, "sanei_pa4s2_open: connection failed\n")
+      DBG(5, "sanei_pa4s2_open: connection failed\n")
 
       return status
 
     }
 
-  DBG (6, "sanei_pa4s2_open: connected to device using fd %u\n", *fd)
+  DBG(6, "sanei_pa4s2_open: connected to device using fd %u\n", *fd)
 
-  DBG (5, "sanei_pa4s2_open: checking for scanner\n")
+  DBG(5, "sanei_pa4s2_open: checking for scanner\n")
 
-  sanei_pa4s2_enable (*fd, Sane.TRUE)
+  sanei_pa4s2_enable(*fd, Sane.TRUE)
 
-  DBG (6, "sanei_pa4s2_open: reading ASIC id\n")
+  DBG(6, "sanei_pa4s2_open: reading ASIC id\n")
 
-  sanei_pa4s2_readbegin (*fd, 0)
+  sanei_pa4s2_readbegin(*fd, 0)
 
-  sanei_pa4s2_readbyte (*fd, &asic)
+  sanei_pa4s2_readbyte(*fd, &asic)
 
-  sanei_pa4s2_readend (*fd)
+  sanei_pa4s2_readend(*fd)
 
-  switch (asic)
+  switch(asic)
     {
 
     case PA4S2_ASIC_ID_1013:
-      DBG (3, "sanei_pa4s2_open: detected ASIC id 1013\n")
+      DBG(3, "sanei_pa4s2_open: detected ASIC id 1013\n")
       break
 
     case PA4S2_ASIC_ID_1015:
-      DBG (3, "sanei_pa4s2_open: detected ASIC id 1015\n")
+      DBG(3, "sanei_pa4s2_open: detected ASIC id 1015\n")
       break
 
     case PA4S2_ASIC_ID_1505:
-      DBG (3, "sanei_pa4s2_open: detected ASIC id 1505\n")
+      DBG(3, "sanei_pa4s2_open: detected ASIC id 1505\n")
       break
 
     default:
-      DBG (1, "sanei_pa4s2_open: could not find scanner\n")
-      DBG (3, "sanei_pa4s2_open: reported ASIC id 0x%02x\n",
+      DBG(1, "sanei_pa4s2_open: could not find scanner\n")
+      DBG(3, "sanei_pa4s2_open: reported ASIC id 0x%02x\n",
 	   asic)
 
-      sanei_pa4s2_enable (*fd, Sane.FALSE)
-      DBG (5, "sanei_pa4s2_open: closing port\n")
+      sanei_pa4s2_enable(*fd, Sane.FALSE)
+      DBG(5, "sanei_pa4s2_open: closing port\n")
 
-      sanei_pa4s2_close (*fd)
+      sanei_pa4s2_close(*fd)
 
-      DBG (5, "sanei_pa4s2_open: returning Sane.STATUS_INVAL\n")
+      DBG(5, "sanei_pa4s2_open: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  sanei_pa4s2_enable (*fd, Sane.FALSE)
+  sanei_pa4s2_enable(*fd, Sane.FALSE)
 
-  DBG (4, "sanei_pa4s2_open: trying better modes\n")
+  DBG(4, "sanei_pa4s2_open: trying better modes\n")
 
-  while (port[*fd].mode <= PA4S2_MODE_EPP)
+  while(port[*fd].mode <= PA4S2_MODE_EPP)
     {
 
-      if ((port[*fd].mode == PA4S2_MODE_UNI) &&
+      if((port[*fd].mode == PA4S2_MODE_UNI) &&
       ((sanei_pa4s2_interface_options & SANEI_PA4S2_OPT_TRY_MODE_UNI) == 0))
 	{
 
-	  DBG (3, "sanei_pa4s2_open: skipping mode UNI\n")
+	  DBG(3, "sanei_pa4s2_open: skipping mode UNI\n")
 	  port[*fd].mode++
 	  continue
 
 	}
 
-      if ((port[*fd].mode == PA4S2_MODE_EPP) &&
+      if((port[*fd].mode == PA4S2_MODE_EPP) &&
       ((sanei_pa4s2_interface_options & SANEI_PA4S2_OPT_NO_EPP) != 0))
 	{
-	  DBG (3, "sanei_pa4s2_open: skipping mode EPP\n")
+	  DBG(3, "sanei_pa4s2_open: skipping mode EPP\n")
 	  break
 	}
 
 
-      DBG (5, "sanei_pa4s2_open: trying mode %u\n", port[*fd].mode)
+      DBG(5, "sanei_pa4s2_open: trying mode %u\n", port[*fd].mode)
 
-      sanei_pa4s2_enable (*fd, Sane.TRUE)
+      sanei_pa4s2_enable(*fd, Sane.TRUE)
 
-      sanei_pa4s2_readbegin (*fd, 0)
+      sanei_pa4s2_readbegin(*fd, 0)
 
-      sanei_pa4s2_readbyte (*fd, &val)
+      sanei_pa4s2_readbyte(*fd, &val)
 
-      if (val != asic)
+      if(val != asic)
 	{
 
-	  sanei_pa4s2_readend (*fd)
-	  sanei_pa4s2_enable (*fd, Sane.FALSE)
-	  DBG (5, "sanei_pa4s2_open: mode failed\n")
-	  DBG (6, "sanei_pa4s2_open: returned ASIC-ID 0x%02x\n",
+	  sanei_pa4s2_readend(*fd)
+	  sanei_pa4s2_enable(*fd, Sane.FALSE)
+	  DBG(5, "sanei_pa4s2_open: mode failed\n")
+	  DBG(6, "sanei_pa4s2_open: returned ASIC-ID 0x%02x\n",
 	       (Int) val)
 	  break
 
 	}
 
-      sanei_pa4s2_readend (*fd)
-      sanei_pa4s2_enable (*fd, Sane.FALSE)
+      sanei_pa4s2_readend(*fd)
+      sanei_pa4s2_enable(*fd, Sane.FALSE)
 
-      DBG (5, "sanei_pa4s2_open: mode works\n")
+      DBG(5, "sanei_pa4s2_open: mode works\n")
 
       port[*fd].mode++
 
@@ -1291,159 +1291,159 @@ sanei_pa4s2_open (const char *dev, Int *fd)
 
   port[*fd].mode--
 
-  if ((port[*fd].mode == PA4S2_MODE_UNI) &&
+  if((port[*fd].mode == PA4S2_MODE_UNI) &&
       ((sanei_pa4s2_interface_options & SANEI_PA4S2_OPT_TRY_MODE_UNI) == 0))
     {
       port[*fd].mode--
     }
 
-  DBG (5, "sanei_pa4s2_open: using mode %u\n", port[*fd].mode)
+  DBG(5, "sanei_pa4s2_open: using mode %u\n", port[*fd].mode)
 
-  DBG (4, "sanei_pa4s2_open: returning Sane.STATUS_GOOD\n")
+  DBG(4, "sanei_pa4s2_open: returning Sane.STATUS_GOOD\n")
 
   return Sane.STATUS_GOOD
 
 }
 
 void
-sanei_pa4s2_close (Int fd)
+sanei_pa4s2_close(Int fd)
 {
 
   Sane.Status status
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
-  DBG (4, "sanei_pa4s2_close: fd = %d\n", fd)
+  DBG(4, "sanei_pa4s2_close: fd = %d\n", fd)
 
 #if defined(HAVE_LIBIEEE1284)
-  if ((fd < 0) || (fd >= pplist.portc))
+  if((fd < 0) || (fd >= pplist.portc))
 #else
-  if ((fd < 0) || (fd >= NELEMS (port)))
+  if((fd < 0) || (fd >= NELEMS(port)))
 #endif
     {
 
-      DBG (2, "sanei_pa4s2_close: fd %d is invalid\n", fd)
-      DBG (5, "sanei_pa4s2_close: failed\n")
+      DBG(2, "sanei_pa4s2_close: fd %d is invalid\n", fd)
+      DBG(5, "sanei_pa4s2_close: failed\n")
       return
 
     }
 
-  if (port[fd].in_use == Sane.FALSE)
+  if(port[fd].in_use == Sane.FALSE)
     {
 
-      DBG (2, "sanei_pa4s2_close: port is not in use\n")
+      DBG(2, "sanei_pa4s2_close: port is not in use\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG (6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
 #else
-      DBG (6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
+      DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
-      DBG (5, "sanei_pa4s2_close: failed\n")
+      DBG(5, "sanei_pa4s2_close: failed\n")
       return
 
     }
 
-  DBG (5, "sanei_pa4s2_close: freeing resources\n")
+  DBG(5, "sanei_pa4s2_close: freeing resources\n")
 
-  if (pa4s2_close (fd, &status) == -1)
+  if(pa4s2_close(fd, &status) == -1)
     {
 
-      DBG (2, "sanei_pa4s2_close: could not close scanner\n")
-      DBG (5, "sanei_pa4s2_close: failed\n")
+      DBG(2, "sanei_pa4s2_close: could not close scanner\n")
+      DBG(5, "sanei_pa4s2_close: failed\n")
       return
     }
 
-  DBG (5, "sanei_pa4s2_close: finished\n")
+  DBG(5, "sanei_pa4s2_close: finished\n")
 
 }
 
 Sane.Status
-sanei_pa4s2_enable (Int fd, Int enable)
+sanei_pa4s2_enable(Int fd, Int enable)
 {
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
-  DBG (4, "sanei_pa4s2_enable: called for fd %d with value %d\n",
+  DBG(4, "sanei_pa4s2_enable: called for fd %d with value %d\n",
        fd, enable)
 
 #if defined(HAVE_LIBIEEE1284)
-  if ((fd < 0) || (fd >= pplist.portc))
+  if((fd < 0) || (fd >= pplist.portc))
 #else
-  if ((fd < 0) || (fd >= NELEMS (port)))
+  if((fd < 0) || (fd >= NELEMS(port)))
 #endif
     {
 
-      DBG (2, "sanei_pa4s2_enable: fd %d is invalid\n", fd)
-      DBG (5, "sanei_pa4s2_enable: returning Sane.STATUS_INVAL\n")
+      DBG(2, "sanei_pa4s2_enable: fd %d is invalid\n", fd)
+      DBG(5, "sanei_pa4s2_enable: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  if (port[fd].in_use == Sane.FALSE)
+  if(port[fd].in_use == Sane.FALSE)
     {
 
-      DBG (2, "sanei_pa4s2_enable: port is not in use\n")
+      DBG(2, "sanei_pa4s2_enable: port is not in use\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG (6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
 #else
-      DBG (6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
+      DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
-      DBG (5, "sanei_pa4s2_enable: returning Sane.STATUS_INVAL\n")
+      DBG(5, "sanei_pa4s2_enable: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  if ((enable != Sane.TRUE) && (enable != Sane.FALSE))
+  if((enable != Sane.TRUE) && (enable != Sane.FALSE))
     {
 
-      DBG (2, "sanei_pa4s2_enable: invalid value %d\n", enable)
-      DBG (5, "sanei_pa4s2_enable: returning Sane.STATUS_INVAL\n")
+      DBG(2, "sanei_pa4s2_enable: invalid value %d\n", enable)
+      DBG(5, "sanei_pa4s2_enable: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  if ((unsigned Int) enable == port[fd].enabled)
+  if((unsigned Int) enable == port[fd].enabled)
     {
 
-      DBG (3, "sanei_pa4s2_enable: senseless call...\n")
-      DBG (4, "sanei_pa4s2_enable: aborting\n")
-      DBG (5, "sanei_pa4s2_enable: returning Sane.STATUS_GOOD\n")
+      DBG(3, "sanei_pa4s2_enable: senseless call...\n")
+      DBG(4, "sanei_pa4s2_enable: aborting\n")
+      DBG(5, "sanei_pa4s2_enable: returning Sane.STATUS_GOOD\n")
 
       return Sane.STATUS_GOOD
 
     }
 
-  if (enable == Sane.TRUE)
+  if(enable == Sane.TRUE)
     {
 
 #if defined(HAVE_LIBIEEE1284)
-      DBG (4, "sanei_pa4s2_enable: enable port '%s'\n", pplist.portv[fd]->name)
+      DBG(4, "sanei_pa4s2_enable: enable port '%s'\n", pplist.portv[fd]->name)
 #else
-      DBG (4, "sanei_pa4s2_enable: enable port 0x%03lx\n", port[fd].base)
+      DBG(4, "sanei_pa4s2_enable: enable port 0x%03lx\n", port[fd].base)
 
-      /* io-permissions are not inherited after fork (at least not on
+      /* io-permissions are not inherited after fork(at least not on
          linux 2.2, although they seem to be inherited on linux 2.4),
          so we should make sure we get the permission */
 
-      if (ioperm (port[fd].base, 5, 1))
+      if(ioperm(port[fd].base, 5, 1))
       {
-          DBG (1, "sanei_pa4s2_enable: cannot get io privilege for port"
+          DBG(1, "sanei_pa4s2_enable: cannot get io privilege for port"
 	       " 0x%03lx\n", port[fd].base)
 
-          DBG (5, "sanei_pa4s2_enable:: marking port[%d] as unused\n", fd)
+          DBG(5, "sanei_pa4s2_enable:: marking port[%d] as unused\n", fd)
           port[fd].in_use = Sane.FALSE
 
-          DBG (5, "sanei_pa4s2_enable:: returning Sane.STATUS_IO_ERROR\n")
+          DBG(5, "sanei_pa4s2_enable:: returning Sane.STATUS_IO_ERROR\n")
           return Sane.STATUS_IO_ERROR
       }
 #endif
 
-      if (pa4s2_enable (fd, port[fd].prelock) != 0)
+      if(pa4s2_enable(fd, port[fd].prelock) != 0)
         {
-     	  DBG (1, "sanei_pa4s2_enable: failed to enable port\n")
-	  DBG (5, "sanei_pa4s2_enable: returning Sane.STATUS_IO_ERROR\n")
+     	  DBG(1, "sanei_pa4s2_enable: failed to enable port\n")
+	  DBG(5, "sanei_pa4s2_enable: returning Sane.STATUS_IO_ERROR\n")
 
 	  return Sane.STATUS_IO_ERROR
 	}
@@ -1453,434 +1453,434 @@ sanei_pa4s2_enable (Int fd, Int enable)
     {
 
 #if defined(HAVE_LIBIEEE1284)
-      DBG (4, "sanei_pa4s2_enable: disable port '%s'\n",
+      DBG(4, "sanei_pa4s2_enable: disable port '%s'\n",
       		pplist.portv[fd]->name)
 #else
-      DBG (4, "sanei_pa4s2_enable: disable port 0x%03lx\n", port[fd].base)
+      DBG(4, "sanei_pa4s2_enable: disable port 0x%03lx\n", port[fd].base)
 #endif
 
-      pa4s2_disable (fd, port[fd].prelock)
+      pa4s2_disable(fd, port[fd].prelock)
 
     }
 
   port[fd].enabled = enable
 
-  DBG (5, "sanei_pa4s2_enable: returning Sane.STATUS_GOOD\n")
+  DBG(5, "sanei_pa4s2_enable: returning Sane.STATUS_GOOD\n")
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-sanei_pa4s2_readbegin (Int fd, u_char reg)
+sanei_pa4s2_readbegin(Int fd, u_char reg)
 {
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
-  DBG (4, "sanei_pa4s2_readbegin: called for fd %d and register %u\n",
+  DBG(4, "sanei_pa4s2_readbegin: called for fd %d and register %u\n",
        fd, (Int) reg)
 
 #if defined(HAVE_LIBIEEE1284)
-  if ((fd < 0) || (fd >= pplist.portc))
+  if((fd < 0) || (fd >= pplist.portc))
 #else
-  if ((fd < 0) || (fd >= NELEMS (port)))
+  if((fd < 0) || (fd >= NELEMS(port)))
 #endif
     {
 
-      DBG (2, "sanei_pa4s2_readbegin: invalid fd %d\n", fd)
-      DBG (5, "sanei_pa4s2_readbegin: returning Sane.STATUS_INVAL\n")
+      DBG(2, "sanei_pa4s2_readbegin: invalid fd %d\n", fd)
+      DBG(5, "sanei_pa4s2_readbegin: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  if (port[fd].in_use == Sane.FALSE)
+  if(port[fd].in_use == Sane.FALSE)
     {
 
-      DBG (2, "sanei_pa4s2_readbegin: port is not in use\n")
+      DBG(2, "sanei_pa4s2_readbegin: port is not in use\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG (6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
 #else
-      DBG (6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
+      DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
-      DBG (5, "sanei_pa4s2_readbegin: returning Sane.STATUS_INVAL\n")
+      DBG(5, "sanei_pa4s2_readbegin: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  if (port[fd].enabled == Sane.FALSE)
+  if(port[fd].enabled == Sane.FALSE)
     {
 
-      DBG (2, "sanei_pa4s2_readbegin: port is not enabled\n")
+      DBG(2, "sanei_pa4s2_readbegin: port is not enabled\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG (6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
 #else
-      DBG (6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
+      DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
-      DBG (5, "sanei_pa4s2_readbegin: returning Sane.STATUS_INVAL\n")
+      DBG(5, "sanei_pa4s2_readbegin: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  switch (port[fd].mode)
+  switch(port[fd].mode)
     {
 
     case PA4S2_MODE_EPP:
 
-      DBG (5, "sanei_pa4s2_readbegin: EPP readbegin\n")
-      pa4s2_readbegin_epp (fd, reg)
+      DBG(5, "sanei_pa4s2_readbegin: EPP readbegin\n")
+      pa4s2_readbegin_epp(fd, reg)
       break
 
     case PA4S2_MODE_UNI:
 
-      DBG (5, "sanei_pa4s2_readbegin: UNI readbegin\n")
-      pa4s2_readbegin_uni (fd, reg)
+      DBG(5, "sanei_pa4s2_readbegin: UNI readbegin\n")
+      pa4s2_readbegin_uni(fd, reg)
       break
 
     case PA4S2_MODE_NIB:
 
-      DBG (5, "sanei_pa4s2_readbegin: NIB readbegin\n")
-      pa4s2_readbegin_nib (fd, reg)
+      DBG(5, "sanei_pa4s2_readbegin: NIB readbegin\n")
+      pa4s2_readbegin_nib(fd, reg)
       break
 
     default:
 
-      DBG (1, "sanei_pa4s2_readbegin: port info broken\n")
-      DBG (3, "sanei_pa4s2_readbegin: invalid port mode\n")
+      DBG(1, "sanei_pa4s2_readbegin: port info broken\n")
+      DBG(3, "sanei_pa4s2_readbegin: invalid port mode\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG (6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
 #else
-      DBG (6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
+      DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
-      DBG (5, "sanei_pa4s2_readbegin: return Sane.STATUS_INVAL\n")
+      DBG(5, "sanei_pa4s2_readbegin: return Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  DBG (5, "sanei_pa4s2_readbegin: returning Sane.STATUS_GOOD\n")
+  DBG(5, "sanei_pa4s2_readbegin: returning Sane.STATUS_GOOD\n")
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-sanei_pa4s2_readbyte (Int fd, u_char * val)
+sanei_pa4s2_readbyte(Int fd, u_char * val)
 {
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
-  DBG (4, "sanei_pa4s2_readbyte: called with fd %d\n", fd)
+  DBG(4, "sanei_pa4s2_readbyte: called with fd %d\n", fd)
 
-  if (val == NULL)
+  if(val == NULL)
     {
 
-      DBG (1, "sanei_pa4s2_readbyte: got NULL pointer as result buffer\n")
+      DBG(1, "sanei_pa4s2_readbyte: got NULL pointer as result buffer\n")
       return Sane.STATUS_INVAL
 
     }
 
 #if defined(HAVE_LIBIEEE1284)
-  if ((fd < 0) || (fd >= pplist.portc))
+  if((fd < 0) || (fd >= pplist.portc))
 #else
-  if ((fd < 0) || (fd >= NELEMS (port)))
+  if((fd < 0) || (fd >= NELEMS(port)))
 #endif
     {
 
-      DBG (2, "sanei_pa4s2_readbyte: invalid fd %d\n", fd)
-      DBG (5, "sanei_pa4s2_readbyte: returning Sane.STATUS_INVAL\n")
+      DBG(2, "sanei_pa4s2_readbyte: invalid fd %d\n", fd)
+      DBG(5, "sanei_pa4s2_readbyte: returning Sane.STATUS_INVAL\n")
       return Sane.STATUS_INVAL
 
     }
 
-  if (port[fd].in_use == Sane.FALSE)
+  if(port[fd].in_use == Sane.FALSE)
     {
 
-      DBG (2, "sanei_pa4s2_readbyte: port is not in use\n")
+      DBG(2, "sanei_pa4s2_readbyte: port is not in use\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG (6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
 #else
-      DBG (6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
+      DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
-      DBG (5, "sanei_pa4s2_readbyte: returning Sane.STATUS_INVAL\n")
+      DBG(5, "sanei_pa4s2_readbyte: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  if (port[fd].enabled == Sane.FALSE)
+  if(port[fd].enabled == Sane.FALSE)
     {
 
-      DBG (2, "sanei_pa4s2_readbyte: port is not enabled\n")
+      DBG(2, "sanei_pa4s2_readbyte: port is not enabled\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG (6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
 #else
-      DBG (6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
+      DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
-      DBG (5, "sanei_pa4s2_readbyte: returning Sane.STATUS_INVAL\n")
+      DBG(5, "sanei_pa4s2_readbyte: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  DBG (4, "sanei_pa4s2_readbyte: we hope, the backend called\n")
-  DBG (4, "sanei_pa4s2_readbyte: readbegin, so the port is ok...\n")
+  DBG(4, "sanei_pa4s2_readbyte: we hope, the backend called\n")
+  DBG(4, "sanei_pa4s2_readbyte: readbegin, so the port is ok...\n")
 
-  DBG (6, "sanei_pa4s2_readbyte: this means, I did not check it - it's\n")
-  DBG (6, "sanei_pa4s2_readbyte: not my fault, if your PC burns down.\n")
+  DBG(6, "sanei_pa4s2_readbyte: this means, I did not check it - it's\n")
+  DBG(6, "sanei_pa4s2_readbyte: not my fault, if your PC burns down.\n")
 
-  switch (port[fd].mode)
+  switch(port[fd].mode)
     {
 
     case PA4S2_MODE_EPP:
 
-      DBG (5, "sanei_pa4s2_readbyte: read in EPP mode\n")
-      *val = pa4s2_readbyte_epp (fd)
+      DBG(5, "sanei_pa4s2_readbyte: read in EPP mode\n")
+      *val = pa4s2_readbyte_epp(fd)
       break
 
 
     case PA4S2_MODE_UNI:
 
-      DBG (5, "sanei_pa4s2_readbyte: read in UNI mode\n")
-      *val = pa4s2_readbyte_uni (fd)
+      DBG(5, "sanei_pa4s2_readbyte: read in UNI mode\n")
+      *val = pa4s2_readbyte_uni(fd)
       break
 
 
     case PA4S2_MODE_NIB:
 
-      DBG (5, "sanei_pa4s2_readbyte: read in NIB mode\n")
-      *val = pa4s2_readbyte_nib (fd)
+      DBG(5, "sanei_pa4s2_readbyte: read in NIB mode\n")
+      *val = pa4s2_readbyte_nib(fd)
       break
 
     default:
 
-      DBG (1, "sanei_pa4s2_readbyte: port info broken\n")
-      DBG (2, "sanei_pa4s2_readbyte: probably the port wasn't"
+      DBG(1, "sanei_pa4s2_readbyte: port info broken\n")
+      DBG(2, "sanei_pa4s2_readbyte: probably the port wasn't"
 	   " correct configured...\n")
-      DBG (3, "sanei_pa4s2_readbyte: invalid port mode\n")
-      DBG (6, "sanei_pa4s2_readbyte: port mode %u\n",
+      DBG(3, "sanei_pa4s2_readbyte: invalid port mode\n")
+      DBG(6, "sanei_pa4s2_readbyte: port mode %u\n",
 	   port[fd].mode)
-      DBG (6, "sanei_pa4s2_readbyte: I told you!!!\n")
-      DBG (5, "sanei_pa4s2_readbyte: return"
+      DBG(6, "sanei_pa4s2_readbyte: I told you!!!\n")
+      DBG(5, "sanei_pa4s2_readbyte: return"
 	   " Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
     }
 
-  DBG (5, "sanei_pa4s2_readbyte: read finished\n")
+  DBG(5, "sanei_pa4s2_readbyte: read finished\n")
 
-  DBG (6, "sanei_pa4s2_readbyte: got value 0x%02x\n", (Int) *val)
+  DBG(6, "sanei_pa4s2_readbyte: got value 0x%02x\n", (Int) *val)
 
-  DBG (5, "sanei_pa4s2_readbyte: returning Sane.STATUS_GOOD\n")
+  DBG(5, "sanei_pa4s2_readbyte: returning Sane.STATUS_GOOD\n")
 
   return Sane.STATUS_GOOD
 
 }
 
 Sane.Status
-sanei_pa4s2_readend (Int fd)
+sanei_pa4s2_readend(Int fd)
 {
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
-  DBG (4, "sanei_pa4s2_readend: called for fd %d\n", fd)
+  DBG(4, "sanei_pa4s2_readend: called for fd %d\n", fd)
 
 #if defined(HAVE_LIBIEEE1284)
-  if ((fd < 0) || (fd >= pplist.portc))
+  if((fd < 0) || (fd >= pplist.portc))
 #else
-  if ((fd < 0) || (fd >= NELEMS (port)))
+  if((fd < 0) || (fd >= NELEMS(port)))
 #endif
     {
 
-      DBG (2, "sanei_pa4s2_readend: invalid fd %d\n", fd)
-      DBG (5, "sanei_pa4s2_readend: returning Sane.STATUS_INVAL\n")
+      DBG(2, "sanei_pa4s2_readend: invalid fd %d\n", fd)
+      DBG(5, "sanei_pa4s2_readend: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  if (port[fd].in_use == Sane.FALSE)
+  if(port[fd].in_use == Sane.FALSE)
     {
 
-      DBG (2, "sanei_pa4s2_readend: port is not in use\n")
+      DBG(2, "sanei_pa4s2_readend: port is not in use\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG (6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
 #else
-      DBG (6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
+      DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
-      DBG (5, "sanei_pa4s2_readend: returning Sane.STATUS_INVAL\n")
+      DBG(5, "sanei_pa4s2_readend: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  if (port[fd].enabled == Sane.FALSE)
+  if(port[fd].enabled == Sane.FALSE)
     {
 
-      DBG (2, "sanei_pa4s2_readend: port is not enabled\n")
+      DBG(2, "sanei_pa4s2_readend: port is not enabled\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG (6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
 #else
-      DBG (6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
+      DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
-      DBG (5, "sanei_pa4s2_readend: returning Sane.STATUS_INVAL\n")
+      DBG(5, "sanei_pa4s2_readend: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  DBG (4, "sanei_pa4s2_readend: we hope, the backend called\n")
-  DBG (4, "sanei_pa4s2_readend: readbegin, so the port is ok...\n")
+  DBG(4, "sanei_pa4s2_readend: we hope, the backend called\n")
+  DBG(4, "sanei_pa4s2_readend: readbegin, so the port is ok...\n")
 
-  DBG (6, "sanei_pa4s2_readend: this means, I did not check it - it's\n")
-  DBG (6, "sanei_pa4s2_readend: not my fault, if your PC burns down.\n")
+  DBG(6, "sanei_pa4s2_readend: this means, I did not check it - it's\n")
+  DBG(6, "sanei_pa4s2_readend: not my fault, if your PC burns down.\n")
 
-  switch (port[fd].mode)
+  switch(port[fd].mode)
     {
 
     case PA4S2_MODE_EPP:
 
-      DBG (5, "sanei_pa4s2_readend: EPP mode readend\n")
-      pa4s2_readend_epp (fd)
+      DBG(5, "sanei_pa4s2_readend: EPP mode readend\n")
+      pa4s2_readend_epp(fd)
       break
 
 
     case PA4S2_MODE_UNI:
 
-      DBG (5, "sanei_pa4s2_readend: UNI mode readend\n")
-      pa4s2_readend_uni (fd)
+      DBG(5, "sanei_pa4s2_readend: UNI mode readend\n")
+      pa4s2_readend_uni(fd)
       break
 
 
     case PA4S2_MODE_NIB:
 
-      DBG (5, "sanei_pa4s2_readend: NIB mode readend\n")
-      pa4s2_readend_nib (fd)
+      DBG(5, "sanei_pa4s2_readend: NIB mode readend\n")
+      pa4s2_readend_nib(fd)
       break
 
     default:
 
-      DBG (1, "sanei_pa4s2_readend: port info broken\n")
-      DBG (2, "sanei_pa4s2_readend: probably the port wasn't"
+      DBG(1, "sanei_pa4s2_readend: port info broken\n")
+      DBG(2, "sanei_pa4s2_readend: probably the port wasn't"
 	   " correct configured...\n")
-      DBG (3, "sanei_pa4s2_readend: invalid port mode\n")
-      DBG (6, "sanei_pa4s2_readend: port mode %u\n",
+      DBG(3, "sanei_pa4s2_readend: invalid port mode\n")
+      DBG(6, "sanei_pa4s2_readend: port mode %u\n",
 	   port[fd].mode)
-      DBG (6, "sanei_pa4s2_readend: I told you!!!\n")
-      DBG (5, "sanei_pa4s2_readend: return"
+      DBG(6, "sanei_pa4s2_readend: I told you!!!\n")
+      DBG(5, "sanei_pa4s2_readend: return"
 	   " Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
     }
 
 
-  DBG (5, "sanei_pa4s2_readend: returning Sane.STATUS_GOOD\n")
+  DBG(5, "sanei_pa4s2_readend: returning Sane.STATUS_GOOD\n")
 
   return Sane.STATUS_GOOD
 
 }
 
 Sane.Status
-sanei_pa4s2_writebyte (Int fd, u_char reg, u_char val)
+sanei_pa4s2_writebyte(Int fd, u_char reg, u_char val)
 {
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
-  DBG (4, "sanei_pa4s2_writebyte: called for fd %d, reg %u and val %u\n",
+  DBG(4, "sanei_pa4s2_writebyte: called for fd %d, reg %u and val %u\n",
        fd, (Int) reg, (Int) val)
 
 #if defined(HAVE_LIBIEEE1284)
-  if ((fd < 0) || (fd >= pplist.portc))
+  if((fd < 0) || (fd >= pplist.portc))
 #else
-  if ((fd < 0) || (fd >= NELEMS (port)))
+  if((fd < 0) || (fd >= NELEMS(port)))
 #endif
     {
 
-      DBG (2, "sanei_pa4s2_writebyte: invalid fd %d\n", fd)
-      DBG (5, "sanei_pa4s2_writebyte: returning Sane.STATUS_INVAL\n")
+      DBG(2, "sanei_pa4s2_writebyte: invalid fd %d\n", fd)
+      DBG(5, "sanei_pa4s2_writebyte: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  if (port[fd].in_use == Sane.FALSE)
+  if(port[fd].in_use == Sane.FALSE)
     {
 
-      DBG (2, "sanei_pa4s2_writebyte: port is not in use\n")
+      DBG(2, "sanei_pa4s2_writebyte: port is not in use\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG (6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
 #else
-      DBG (6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
+      DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
-      DBG (5, "sanei_pa4s2_writebyte: returning Sane.STATUS_INVAL\n")
+      DBG(5, "sanei_pa4s2_writebyte: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  if (port[fd].enabled == Sane.FALSE)
+  if(port[fd].enabled == Sane.FALSE)
     {
 
-      DBG (2, "sanei_pa4s2_writebyte: port is not enabled\n")
+      DBG(2, "sanei_pa4s2_writebyte: port is not enabled\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG (6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
 #else
-      DBG (6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
+      DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
-      DBG (5, "sanei_pa4s2_readbegin: returning Sane.STATUS_INVAL\n")
+      DBG(5, "sanei_pa4s2_readbegin: returning Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  switch (port[fd].mode)
+  switch(port[fd].mode)
     {
 
     case PA4S2_MODE_EPP:
     case PA4S2_MODE_UNI:
     case PA4S2_MODE_NIB:
 
-      DBG (5, "sanei_pa4s2_writebyte: NIB/UNI/EPP write\n")
-      pa4s2_writebyte_any (fd, reg, val)
+      DBG(5, "sanei_pa4s2_writebyte: NIB/UNI/EPP write\n")
+      pa4s2_writebyte_any(fd, reg, val)
       break
 
     default:
 
-      DBG (1, "sanei_pa4s2_writebyte: port info broken\n")
-      DBG (3, "sanei_pa4s2_writebyte: invalid port mode\n")
-      DBG (6, "sanei_pa4s2_writebyte: port mode %u\n",
+      DBG(1, "sanei_pa4s2_writebyte: port info broken\n")
+      DBG(3, "sanei_pa4s2_writebyte: invalid port mode\n")
+      DBG(6, "sanei_pa4s2_writebyte: port mode %u\n",
 	   port[fd].mode)
-      DBG (5, "sanei_pa4s2_writebyte: return"
+      DBG(5, "sanei_pa4s2_writebyte: return"
 	   " Sane.STATUS_INVAL\n")
 
       return Sane.STATUS_INVAL
 
     }
 
-  DBG (5, "sanei_pa4s2_writebyte: returning Sane.STATUS_GOOD\n")
+  DBG(5, "sanei_pa4s2_writebyte: returning Sane.STATUS_GOOD\n")
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-sanei_pa4s2_options (u_int * options, Int set)
+sanei_pa4s2_options(u_int * options, Int set)
 {
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
-  DBG (4, "sanei_pa4s2_options: called with options %u and set = %d\n",
+  DBG(4, "sanei_pa4s2_options: called with options %u and set = %d\n",
        *options, set)
 
-  if ((set != Sane.TRUE) && (set != Sane.FALSE))
-    DBG (2, "sanei_pa4s2_options: value of set is invalid\n")
+  if((set != Sane.TRUE) && (set != Sane.FALSE))
+    DBG(2, "sanei_pa4s2_options: value of set is invalid\n")
 
-  if ((set == Sane.TRUE) && (*options > 7))
-    DBG (2, "sanei_pa4s2_options: value of *options is invalid\n")
+  if((set == Sane.TRUE) && (*options > 7))
+    DBG(2, "sanei_pa4s2_options: value of *options is invalid\n")
 
-  if (set == Sane.TRUE)
+  if(set == Sane.TRUE)
     {
 
-      DBG (5, "sanei_pa4s2_options: setting options to %u\n", *options)
+      DBG(5, "sanei_pa4s2_options: setting options to %u\n", *options)
 
       sanei_pa4s2_interface_options = *options
 
@@ -1888,14 +1888,14 @@ sanei_pa4s2_options (u_int * options, Int set)
   else
     {
 
-      DBG (5, "sanei_pa4s2_options: options are set to %u\n",
+      DBG(5, "sanei_pa4s2_options: options are set to %u\n",
 	   sanei_pa4s2_interface_options)
 
       *options = sanei_pa4s2_interface_options
 
     }
 
-  DBG (5, "sanei_pa4s2_options: returning Sane.STATUS_GOOD\n")
+  DBG(5, "sanei_pa4s2_options: returning Sane.STATUS_GOOD\n")
 
   return Sane.STATUS_GOOD
 
@@ -1905,153 +1905,153 @@ sanei_pa4s2_options (u_int * options, Int set)
 
 
 Sane.Status
-sanei_pa4s2_open (const char *dev, Int *fd)
+sanei_pa4s2_open(const char *dev, Int *fd)
 {
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
-  if (fd)
+  if(fd)
   	*fd = -1
 
-  DBG (4, "sanei_pa4s2_open: called for device `%s`\n", dev)
-  DBG (3, "sanei_pa4s2_open: A4S2 support not compiled\n")
-  DBG (6, "sanei_pa4s2_open: basically, this backend does only compile\n")
-  DBG (6, "sanei_pa4s2_open: on x86 architectures. Furthermore it\n")
-  DBG (6, "sanei_pa4s2_open: needs ioperm() and inb()/outb() calls.\n")
-  DBG (6, "sanei_pa4s2_open: alternatively it makes use of libieee1284\n")
-  DBG (6, "sanei_pa4s2_open: (which isn't present either)\n")
-  DBG (5, "sanei_pa4s2_open: returning Sane.STATUS_INVAL\n")
+  DBG(4, "sanei_pa4s2_open: called for device `%s`\n", dev)
+  DBG(3, "sanei_pa4s2_open: A4S2 support not compiled\n")
+  DBG(6, "sanei_pa4s2_open: basically, this backend does only compile\n")
+  DBG(6, "sanei_pa4s2_open: on x86 architectures. Furthermore it\n")
+  DBG(6, "sanei_pa4s2_open: needs ioperm() and inb()/outb() calls.\n")
+  DBG(6, "sanei_pa4s2_open: alternatively it makes use of libieee1284\n")
+  DBG(6, "sanei_pa4s2_open: (which isn't present either)\n")
+  DBG(5, "sanei_pa4s2_open: returning Sane.STATUS_INVAL\n")
 
   return Sane.STATUS_INVAL
 
 }
 
 void
-sanei_pa4s2_close (Int fd)
+sanei_pa4s2_close(Int fd)
 {
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
-  DBG (4, "sanei_pa4s2_close: called for fd %d\n", fd)
-  DBG (2, "sanei_pa4s2_close: fd %d is invalid\n", fd)
-  DBG (3, "sanei_pa4s2_close: A4S2 support not compiled\n")
-  DBG (6, "sanei_pa4s2_close: so I wonder, why this function is called"
+  DBG(4, "sanei_pa4s2_close: called for fd %d\n", fd)
+  DBG(2, "sanei_pa4s2_close: fd %d is invalid\n", fd)
+  DBG(3, "sanei_pa4s2_close: A4S2 support not compiled\n")
+  DBG(6, "sanei_pa4s2_close: so I wonder, why this function is called"
        " anyway.\n")
-  DBG (6, "sanei_pa4s2_close: maybe this is a bug in the backend.\n")
-  DBG (5, "sanei_pa4s2_close: returning\n")
+  DBG(6, "sanei_pa4s2_close: maybe this is a bug in the backend.\n")
+  DBG(5, "sanei_pa4s2_close: returning\n")
 
   return
 }
 
 Sane.Status
-sanei_pa4s2_enable (Int fd, Int enable)
+sanei_pa4s2_enable(Int fd, Int enable)
 {
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
-  DBG (4, "sanei_pa4s2_enable: called for fd %d with value=%d\n",
+  DBG(4, "sanei_pa4s2_enable: called for fd %d with value=%d\n",
        fd, enable)
-  DBG (2, "sanei_pa4s2_enable: fd %d is invalid\n", fd)
+  DBG(2, "sanei_pa4s2_enable: fd %d is invalid\n", fd)
 
-  if ((enable != Sane.TRUE) && (enable != Sane.FALSE))
-    DBG (2, "sanei_pa4s2_enable: value %d is invalid\n", enable)
+  if((enable != Sane.TRUE) && (enable != Sane.FALSE))
+    DBG(2, "sanei_pa4s2_enable: value %d is invalid\n", enable)
 
-  DBG (3, "sanei_pa4s2_enable: A4S2 support not compiled\n")
-  DBG (6, "sanei_pa4s2_enable: oops, I think there's someone going to\n")
-  DBG (6, "sanei_pa4s2_enable: produce a lot of garbage...\n")
-  DBG (5, "sanei_pa4s2_enable: returning Sane.STATUS_INVAL\n")
+  DBG(3, "sanei_pa4s2_enable: A4S2 support not compiled\n")
+  DBG(6, "sanei_pa4s2_enable: oops, I think there's someone going to\n")
+  DBG(6, "sanei_pa4s2_enable: produce a lot of garbage...\n")
+  DBG(5, "sanei_pa4s2_enable: returning Sane.STATUS_INVAL\n")
 
   return Sane.STATUS_INVAL
 }
 
 Sane.Status
-sanei_pa4s2_readbegin (Int fd, u_char reg)
+sanei_pa4s2_readbegin(Int fd, u_char reg)
 {
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
-  DBG (4, "sanei_pa4s2_readbegin: called for fd %d and register %d\n",
+  DBG(4, "sanei_pa4s2_readbegin: called for fd %d and register %d\n",
        fd, (Int) reg)
-  DBG (2, "sanei_pa4s2_readbegin: fd %d is invalid\n", fd)
+  DBG(2, "sanei_pa4s2_readbegin: fd %d is invalid\n", fd)
 
-  DBG (3, "sanei_pa4s2_readbegin: A4S2 support not compiled\n")
-  DBG (6, "sanei_pa4s2_readbegin: don't look - this is going to be\n")
-  DBG (6, "sanei_pa4s2_readbegin: worse then you'd expect...\n")
-  DBG (5, "sanei_pa4s2_readbegin: returning Sane.STATUS_INVAL\n")
+  DBG(3, "sanei_pa4s2_readbegin: A4S2 support not compiled\n")
+  DBG(6, "sanei_pa4s2_readbegin: don't look - this is going to be\n")
+  DBG(6, "sanei_pa4s2_readbegin: worse then you'd expect...\n")
+  DBG(5, "sanei_pa4s2_readbegin: returning Sane.STATUS_INVAL\n")
 
   return Sane.STATUS_INVAL
 
 }
 
 Sane.Status
-sanei_pa4s2_readbyte (Int fd, u_char * val)
+sanei_pa4s2_readbyte(Int fd, u_char * val)
 {
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
-  if (val)
+  if(val)
   	*val = 0
 
-  DBG (4, "sanei_pa4s2_readbyte: called for fd %d\n", fd)
-  DBG (2, "sanei_pa4s2_readbyte: fd %d is invalid\n", fd)
-  DBG (3, "sanei_pa4s2_readbyte: A4S2 support not compiled\n")
-  DBG (6, "sanei_pa4s2_readbyte: shit happens\n")
-  DBG (5, "sanei_pa4s2_readbyte: returning Sane.STATUS_INVAL\n")
+  DBG(4, "sanei_pa4s2_readbyte: called for fd %d\n", fd)
+  DBG(2, "sanei_pa4s2_readbyte: fd %d is invalid\n", fd)
+  DBG(3, "sanei_pa4s2_readbyte: A4S2 support not compiled\n")
+  DBG(6, "sanei_pa4s2_readbyte: shit happens\n")
+  DBG(5, "sanei_pa4s2_readbyte: returning Sane.STATUS_INVAL\n")
 
   return Sane.STATUS_INVAL
 }
 
 Sane.Status
-sanei_pa4s2_readend (Int fd)
+sanei_pa4s2_readend(Int fd)
 {
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
-  DBG (4, "sanei_pa4s2_readend: called for fd %d\n", fd)
-  DBG (2, "sanei_pa4s2_readend: fd %d is invalid\n", fd)
-  DBG (3, "sanei_pa4s2_readend: A4S2 support not compiled\n")
-  DBG (6, "sanei_pa4s2_readend: it's too late anyway\n")
-  DBG (5, "sanei_pa4s2_readend: returning Sane.STATUS_INVAL\n")
+  DBG(4, "sanei_pa4s2_readend: called for fd %d\n", fd)
+  DBG(2, "sanei_pa4s2_readend: fd %d is invalid\n", fd)
+  DBG(3, "sanei_pa4s2_readend: A4S2 support not compiled\n")
+  DBG(6, "sanei_pa4s2_readend: it's too late anyway\n")
+  DBG(5, "sanei_pa4s2_readend: returning Sane.STATUS_INVAL\n")
 
   return Sane.STATUS_INVAL
 
 }
 
 Sane.Status
-sanei_pa4s2_writebyte (Int fd, u_char reg, u_char val)
+sanei_pa4s2_writebyte(Int fd, u_char reg, u_char val)
 {
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
-  DBG (4, "sanei_pa4s2_writebyte: called for fd %d and register %d, "
+  DBG(4, "sanei_pa4s2_writebyte: called for fd %d and register %d, "
        "value = %u\n", fd, (Int) reg, (Int) val)
-  DBG (2, "sanei_pa4s2_writebyte: fd %d is invalid\n", fd)
-  DBG (3, "sanei_pa4s2_writebyte: A4S2 support not compiled\n")
-  DBG (6, "sanei_pa4s2_writebyte: whatever backend you're using, tell\n")
-  DBG (6, "sanei_pa4s2_writebyte: the maintainer his code has bugs...\n")
-  DBG (5, "sanei_pa4s2_writebyte: returning Sane.STATUS_INVAL\n")
+  DBG(2, "sanei_pa4s2_writebyte: fd %d is invalid\n", fd)
+  DBG(3, "sanei_pa4s2_writebyte: A4S2 support not compiled\n")
+  DBG(6, "sanei_pa4s2_writebyte: whatever backend you're using, tell\n")
+  DBG(6, "sanei_pa4s2_writebyte: the maintainer his code has bugs...\n")
+  DBG(5, "sanei_pa4s2_writebyte: returning Sane.STATUS_INVAL\n")
 
   return Sane.STATUS_INVAL
 
 }
 
 Sane.Status
-sanei_pa4s2_options (u_int * options, Int set)
+sanei_pa4s2_options(u_int * options, Int set)
 {
 
-  TEST_DBG_INIT ()
+  TEST_DBG_INIT()
 
-  DBG (4, "sanei_pa4s2_options: called with options %u and set = %d\n",
+  DBG(4, "sanei_pa4s2_options: called with options %u and set = %d\n",
        *options, set)
 
-  if ((set != Sane.TRUE) && (set != Sane.FALSE))
-    DBG (2, "sanei_pa4s2_options: value of set is invalid\n")
+  if((set != Sane.TRUE) && (set != Sane.FALSE))
+    DBG(2, "sanei_pa4s2_options: value of set is invalid\n")
 
-  if ((set == Sane.TRUE) && (*options > 3))
-    DBG (2, "sanei_pa4s2_options: value of *options is invalid\n")
+  if((set == Sane.TRUE) && (*options > 3))
+    DBG(2, "sanei_pa4s2_options: value of *options is invalid\n")
 
-  DBG (3, "sanei_pa4s2_options: A4S2 support not compiled\n")
-  DBG (5, "sanei_pa4s2_options: returning Sane.STATUS_INVAL\n")
+  DBG(3, "sanei_pa4s2_options: A4S2 support not compiled\n")
+  DBG(5, "sanei_pa4s2_options: returning Sane.STATUS_INVAL\n")
 
   return Sane.STATUS_INVAL
 
@@ -2060,11 +2060,11 @@ sanei_pa4s2_options (u_int * options, Int set)
 const char **
 sanei_pa4s2_devices()
 {
-  TEST_DBG_INIT ()
-  DBG (4, "sanei_pa4s2_devices: invoked\n")
+  TEST_DBG_INIT()
+  DBG(4, "sanei_pa4s2_devices: invoked\n")
 
-  DBG (3, "sanei_pa4s2_devices: A4S2 support not compiled\n")
-  DBG (5, "sanei_pa4s2_devices: returning empty list\n")
+  DBG(3, "sanei_pa4s2_devices: A4S2 support not compiled\n")
+  DBG(5, "sanei_pa4s2_devices: returning empty list\n")
 
   return calloc(1, sizeof(char *))
 }
@@ -2072,30 +2072,30 @@ sanei_pa4s2_devices()
 Sane.Status
 sanei_pa4s2_scsi_pp_get_status(Int fd, u_char *status)
 {
-  TEST_DBG_INIT ()
-  DBG (4, "sanei_pa4s2_scsi_pp_get_status: fd=%d, status=%p\n",
+  TEST_DBG_INIT()
+  DBG(4, "sanei_pa4s2_scsi_pp_get_status: fd=%d, status=%p\n",
        fd, (void *) status)
-  DBG (3, "sanei_pa4s2_scsi_pp_get_status: A4S2 support not compiled\n")
+  DBG(3, "sanei_pa4s2_scsi_pp_get_status: A4S2 support not compiled\n")
   return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-sanei_pa4s2_scsi_pp_reg_select (Int fd, Int reg)
+sanei_pa4s2_scsi_pp_reg_select(Int fd, Int reg)
 {
-  TEST_DBG_INIT ()
-  DBG (4, "sanei_pa4s2_scsi_pp_reg_select: fd=%d, reg=%d\n",
+  TEST_DBG_INIT()
+  DBG(4, "sanei_pa4s2_scsi_pp_reg_select: fd=%d, reg=%d\n",
        fd, reg)
-  DBG (3, "sanei_pa4s2_devices: A4S2 support not compiled\n")
+  DBG(3, "sanei_pa4s2_devices: A4S2 support not compiled\n")
   return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-sanei_pa4s2_scsi_pp_open (const char *dev, Int *fd)
+sanei_pa4s2_scsi_pp_open(const char *dev, Int *fd)
 {
-  TEST_DBG_INIT ()
-  DBG (4, "sanei_pa4s2_scsi_pp_open: dev=%s, fd=%p\n",
+  TEST_DBG_INIT()
+  DBG(4, "sanei_pa4s2_scsi_pp_open: dev=%s, fd=%p\n",
        dev, (void *) fd)
-  DBG (3, "sanei_pa4s2_scsi_pp_open: A4S2 support not compiled\n")
+  DBG(3, "sanei_pa4s2_scsi_pp_open: A4S2 support not compiled\n")
   return Sane.STATUS_UNSUPPORTED
 }
 

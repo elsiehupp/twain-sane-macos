@@ -1,16 +1,16 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2000 Mustek.
+   Copyright(C) 2000 Mustek.
    Originally maintained by Tom Wang <tom.wang@mustek.com.tw>
 
-   Copyright (C) 2001, 2002 by Henning Meier-Geinitz.
+   Copyright(C) 2001, 2002 by Henning Meier-Geinitz.
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -58,13 +58,13 @@ import mustek_usb_mid
 
 struct Mustek_Usb_Device
 
-typedef Sane.Status (*Powerdelay_Function) (ma1017 *, Sane.Byte)
+typedef Sane.Status(*Powerdelay_Function) (ma1017 *, Sane.Byte)
 
 typedef Sane.Status
   (*Getline_Function) (struct Mustek_Usb_Device * dev, Sane.Byte *,
 		       Bool is_order_invert)
 
-typedef Sane.Status (*Backtrack_Function) (struct Mustek_Usb_Device * dev)
+typedef Sane.Status(*Backtrack_Function) (struct Mustek_Usb_Device * dev)
 
 typedef enum Colormode
 {
@@ -331,7 +331,7 @@ typedef struct Mustek_Usb_Scanner
   double tl_y
   double width
   double height
-  /* scan window in dots (at current resolution):
+  /* scan window in dots(at current resolution):
      top left x+y and width+height */
   Int tl_x_dots
   Int tl_y_dots
@@ -364,170 +364,170 @@ Mustek_Usb_Scanner
 
 
 static Sane.Status
-usb_high_cal_init (Calibrator * cal, Sane.Byte type, Sane.Word target_white,
+usb_high_cal_init(Calibrator * cal, Sane.Byte type, Sane.Word target_white,
 		   Sane.Word target_dark)
 
-static Sane.Status usb_high_cal_exit (Calibrator * cal)
+static Sane.Status usb_high_cal_exit(Calibrator * cal)
 
 static Sane.Status
-usb_high_cal_embed_gamma (Calibrator * cal, Sane.Word * gamma_table)
+usb_high_cal_embed_gamma(Calibrator * cal, Sane.Word * gamma_table)
 
 static Sane.Status
-usb_high_cal_prepare (Calibrator * cal, Sane.Word max_width)
+usb_high_cal_prepare(Calibrator * cal, Sane.Word max_width)
 
 static Sane.Status
-usb_high_cal_setup (Calibrator * cal, Sane.Word major_average,
+usb_high_cal_setup(Calibrator * cal, Sane.Word major_average,
 		    Sane.Word minor_average, Sane.Word filter,
 		    Sane.Word width, Sane.Word * white_needed,
 		    Sane.Word * dark_needed)
 
 static Sane.Status
-usb_high_cal_evaluate_white (Calibrator * cal, double factor)
+usb_high_cal_evaluate_white(Calibrator * cal, double factor)
 
 static Sane.Status
-usb_high_cal_evaluate_dark (Calibrator * cal, double factor)
+usb_high_cal_evaluate_dark(Calibrator * cal, double factor)
 
-static Sane.Status usb_high_cal_evaluate_calibrator (Calibrator * cal)
+static Sane.Status usb_high_cal_evaluate_calibrator(Calibrator * cal)
 
 static Sane.Status
-usb_high_cal_fill_in_white (Calibrator * cal, Sane.Word major,
+usb_high_cal_fill_in_white(Calibrator * cal, Sane.Word major,
 			    Sane.Word minor, void *white_pattern)
 
 static Sane.Status
-usb_high_cal_fill_in_dark (Calibrator * cal, Sane.Word major,
+usb_high_cal_fill_in_dark(Calibrator * cal, Sane.Word major,
 			   Sane.Word minor, void *dark_pattern)
 
 static Sane.Status
-usb_high_cal_calibrate (Calibrator * cal, void *src, void *target)
+usb_high_cal_calibrate(Calibrator * cal, void *src, void *target)
 
 static Sane.Status
-usb_high_cal_i8o8_fill_in_white (Calibrator * cal, Sane.Word major,
+usb_high_cal_i8o8_fill_in_white(Calibrator * cal, Sane.Word major,
 				 Sane.Word minor, void *white_pattern)
 
 static Sane.Status
-usb_high_cal_i8o8_fill_in_dark (Calibrator * cal, Sane.Word major,
+usb_high_cal_i8o8_fill_in_dark(Calibrator * cal, Sane.Word major,
 				Sane.Word minor, void *dark_pattern)
 
 static Sane.Status
-usb_high_cal_i8o8_mono_calibrate (Calibrator * cal, void *src, void *target)
+usb_high_cal_i8o8_mono_calibrate(Calibrator * cal, void *src, void *target)
 
 static Sane.Status
-usb_high_cal_i8o8_rgb_calibrate (Calibrator * cal, void *src, void *target)
+usb_high_cal_i8o8_rgb_calibrate(Calibrator * cal, void *src, void *target)
 
 static Sane.Status
-usb_high_cal_i4o1_fill_in_white (Calibrator * cal, Sane.Word major,
+usb_high_cal_i4o1_fill_in_white(Calibrator * cal, Sane.Word major,
 				 Sane.Word minor, void *white_pattern)
 
 static Sane.Status
-usb_high_cal_i4o1_fill_in_dark (Calibrator * cal, Sane.Word major,
+usb_high_cal_i4o1_fill_in_dark(Calibrator * cal, Sane.Word major,
 				Sane.Word minor, void *dark_pattern)
 
 static Sane.Status
-usb_high_cal_i4o1_calibrate (Calibrator * cal, void *src, void *target)
+usb_high_cal_i4o1_calibrate(Calibrator * cal, void *src, void *target)
 
 /* -------------------- scanning function declarations -------------------- */
 
-static Sane.Status usb_high_scan_init (Mustek_Usb_Device * dev)
+static Sane.Status usb_high_scan_init(Mustek_Usb_Device * dev)
 
-static Sane.Status usb_high_scan_exit (Mustek_Usb_Device * dev)
+static Sane.Status usb_high_scan_exit(Mustek_Usb_Device * dev)
 
-static Sane.Status usb_high_scan_prepare (Mustek_Usb_Device * dev)
+static Sane.Status usb_high_scan_prepare(Mustek_Usb_Device * dev)
 
-static Sane.Status usb_high_scan_clearup (Mustek_Usb_Device * dev)
-
-static Sane.Status
-usb_high_scan_turn_power (Mustek_Usb_Device * dev, Bool is_on)
-
-static Sane.Status usb_high_scan_back_home (Mustek_Usb_Device * dev)
+static Sane.Status usb_high_scan_clearup(Mustek_Usb_Device * dev)
 
 static Sane.Status
-usb_high_scan_set_threshold (Mustek_Usb_Device * dev, Sane.Byte threshold)
+usb_high_scan_turn_power(Mustek_Usb_Device * dev, Bool is_on)
+
+static Sane.Status usb_high_scan_back_home(Mustek_Usb_Device * dev)
 
 static Sane.Status
-usb_high_scan_embed_gamma (Mustek_Usb_Device * dev, Sane.Word * gamma_table)
-
-static Sane.Status usb_high_scan_reset (Mustek_Usb_Device * dev)
+usb_high_scan_set_threshold(Mustek_Usb_Device * dev, Sane.Byte threshold)
 
 static Sane.Status
-usb_high_scan_suggest_parameters (Mustek_Usb_Device * dev, Sane.Word dpi,
+usb_high_scan_embed_gamma(Mustek_Usb_Device * dev, Sane.Word * gamma_table)
+
+static Sane.Status usb_high_scan_reset(Mustek_Usb_Device * dev)
+
+static Sane.Status
+usb_high_scan_suggest_parameters(Mustek_Usb_Device * dev, Sane.Word dpi,
 				  Sane.Word x, Sane.Word y, Sane.Word width,
 				  Sane.Word height, Colormode color_mode)
-static Sane.Status usb_high_scan_detect_sensor (Mustek_Usb_Device * dev)
+static Sane.Status usb_high_scan_detect_sensor(Mustek_Usb_Device * dev)
 
 static Sane.Status
-usb_high_scan_setup_scan (Mustek_Usb_Device * dev, Colormode color_mode,
+usb_high_scan_setup_scan(Mustek_Usb_Device * dev, Colormode color_mode,
 			  Sane.Word x_dpi, Sane.Word y_dpi,
 			  Bool is_invert, Sane.Word x, Sane.Word y,
 			  Sane.Word width)
 
 static Sane.Status
-usb_high_scan_get_rows (Mustek_Usb_Device * dev, Sane.Byte * block,
+usb_high_scan_get_rows(Mustek_Usb_Device * dev, Sane.Byte * block,
 			Sane.Word rows, Bool is_order_invert)
 
-static Sane.Status usb_high_scan_stop_scan (Mustek_Usb_Device * dev)
+static Sane.Status usb_high_scan_stop_scan(Mustek_Usb_Device * dev)
 
 static Sane.Status
-usb_high_scan_step_forward (Mustek_Usb_Device * dev, Int step_count)
+usb_high_scan_step_forward(Mustek_Usb_Device * dev, Int step_count)
 
 static Sane.Status
-usb_high_scan_safe_forward (Mustek_Usb_Device * dev, Int step_count)
+usb_high_scan_safe_forward(Mustek_Usb_Device * dev, Int step_count)
 
 static Sane.Status
-usb_high_scan_init_asic (Mustek_Usb_Device * dev, Sensor_Type sensor)
+usb_high_scan_init_asic(Mustek_Usb_Device * dev, Sensor_Type sensor)
 
-static Sane.Status usb_high_scan_wait_carriage_home (Mustek_Usb_Device * dev)
+static Sane.Status usb_high_scan_wait_carriage_home(Mustek_Usb_Device * dev)
 
 static Sane.Status
-usb_high_scan_hardware_calibration (Mustek_Usb_Device * dev)
+usb_high_scan_hardware_calibration(Mustek_Usb_Device * dev)
 
-static Sane.Status usb_high_scan_line_calibration (Mustek_Usb_Device * dev)
+static Sane.Status usb_high_scan_line_calibration(Mustek_Usb_Device * dev)
 
-static Sane.Status usb_high_scan_prepare_scan (Mustek_Usb_Device * dev)
+static Sane.Status usb_high_scan_prepare_scan(Mustek_Usb_Device * dev)
 
 static Sane.Word
-usb_high_scan_calculate_max_rgb_600_expose (Mustek_Usb_Device * dev,
+usb_high_scan_calculate_max_rgb_600_expose(Mustek_Usb_Device * dev,
 					    Sane.Byte * ideal_red_pd,
 					    Sane.Byte * ideal_green_pd,
 					    Sane.Byte * ideal_blue_pd)
 
 static Sane.Word
-usb_high_scan_calculate_max_mono_600_expose (Mustek_Usb_Device * dev,
+usb_high_scan_calculate_max_mono_600_expose(Mustek_Usb_Device * dev,
 					     Sane.Byte * ideal_red_pd,
 					     Sane.Byte * ideal_green_pd,
 					     Sane.Byte * ideal_blue_pd)
 
 static Sane.Status
-usb_high_scan_prepare_rgb_signal_600_dpi (Mustek_Usb_Device * dev)
+usb_high_scan_prepare_rgb_signal_600_dpi(Mustek_Usb_Device * dev)
 
 static Sane.Status
-usb_high_scan_prepare_mono_signal_600_dpi (Mustek_Usb_Device * dev)
+usb_high_scan_prepare_mono_signal_600_dpi(Mustek_Usb_Device * dev)
 
 static Sane.Word
-usb_high_scan_calculate_max_rgb_300_expose (Mustek_Usb_Device * dev,
+usb_high_scan_calculate_max_rgb_300_expose(Mustek_Usb_Device * dev,
 					    Sane.Byte * ideal_red_pd,
 					    Sane.Byte * ideal_green_pd,
 					    Sane.Byte * ideal_blue_pd)
 
 static Sane.Word
-usb_high_scan_calculate_max_mono_300_expose (Mustek_Usb_Device * dev,
+usb_high_scan_calculate_max_mono_300_expose(Mustek_Usb_Device * dev,
 					     Sane.Byte * ideal_red_pd,
 					     Sane.Byte * ideal_green_pd,
 					     Sane.Byte * ideal_blue_pd)
 
 static Sane.Status
-usb_high_scan_prepare_rgb_signal_300_dpi (Mustek_Usb_Device * dev)
+usb_high_scan_prepare_rgb_signal_300_dpi(Mustek_Usb_Device * dev)
 
 static Sane.Status
-usb_high_scan_prepare_mono_signal_300_dpi (Mustek_Usb_Device * dev)
+usb_high_scan_prepare_mono_signal_300_dpi(Mustek_Usb_Device * dev)
 
 static Sane.Status
-usb_high_scan_evaluate_max_level (Mustek_Usb_Device * dev,
+usb_high_scan_evaluate_max_level(Mustek_Usb_Device * dev,
 				  Sane.Word sample_lines,
 				  Int sample_length,
 				  Sane.Byte * ret_max_level)
 
 static Sane.Status
-usb_high_scan_bssc_power_delay (Mustek_Usb_Device * dev,
+usb_high_scan_bssc_power_delay(Mustek_Usb_Device * dev,
 				Powerdelay_Function set_power_delay,
 				Signal_State * signal_state,
 				Sane.Byte * target, Sane.Byte max,
@@ -535,34 +535,34 @@ usb_high_scan_bssc_power_delay (Mustek_Usb_Device * dev,
 				Int length)
 
 static Sane.Status
-usb_high_scan_adjust_rgb_600_power_delay (Mustek_Usb_Device * dev)
+usb_high_scan_adjust_rgb_600_power_delay(Mustek_Usb_Device * dev)
 
 static Sane.Status
-usb_high_scan_adjust_mono_600_power_delay (Mustek_Usb_Device * dev)
+usb_high_scan_adjust_mono_600_power_delay(Mustek_Usb_Device * dev)
 
 static Sane.Status
-usb_high_scan_adjust_mono_600_exposure (Mustek_Usb_Device * dev)
+usb_high_scan_adjust_mono_600_exposure(Mustek_Usb_Device * dev)
 
 #if 0
 /* CCD */
 static Sane.Status
-usb_high_scan_adjust_mono_600_offset (Mustek_Usb_Device * dev)
+usb_high_scan_adjust_mono_600_offset(Mustek_Usb_Device * dev)
 
 static Sane.Status
-usb_high_scan_adjust_mono_600_pga (Mustek_Usb_Device * dev)
+usb_high_scan_adjust_mono_600_pga(Mustek_Usb_Device * dev)
 
 static Sane.Status
-usb_high_scan_adjust_mono_600_skips_per_row (Mustek_Usb_Device * dev)
+usb_high_scan_adjust_mono_600_skips_per_row(Mustek_Usb_Device * dev)
 #endif
 
 static Sane.Status
-usb_high_scan_adjust_rgb_300_power_delay (Mustek_Usb_Device * dev)
+usb_high_scan_adjust_rgb_300_power_delay(Mustek_Usb_Device * dev)
 
 static Sane.Status
-usb_high_scan_adjust_mono_300_power_delay (Mustek_Usb_Device * dev)
+usb_high_scan_adjust_mono_300_power_delay(Mustek_Usb_Device * dev)
 
 static Sane.Status
-usb_high_scan_evaluate_pixel_rate (Mustek_Usb_Device * dev)
+usb_high_scan_evaluate_pixel_rate(Mustek_Usb_Device * dev)
 
 static Sane.Status usb_high_scan_calibration_rgb_24 (Mustek_Usb_Device * dev)
 
@@ -573,12 +573,12 @@ static Sane.Status usb_high_scan_prepare_rgb_24 (Mustek_Usb_Device * dev)
 static Sane.Status usb_high_scan_prepare_mono_8 (Mustek_Usb_Device * dev)
 
 static Sane.Status
-usb_high_scan_get_rgb_24_bit_line (Mustek_Usb_Device * dev,
+usb_high_scan_get_rgb_24_bit_line(Mustek_Usb_Device * dev,
 				   Sane.Byte * line,
 				   Bool is_order_invert)
 
 static Sane.Status
-usb_high_scan_get_mono_8_bit_line (Mustek_Usb_Device * dev,
+usb_high_scan_get_mono_8_bit_line(Mustek_Usb_Device * dev,
 				   Sane.Byte * line,
 				   Bool is_order_invert)
 

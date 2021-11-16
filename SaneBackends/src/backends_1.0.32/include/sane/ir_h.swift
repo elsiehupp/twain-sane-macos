@@ -3,12 +3,12 @@
  * This file provides an interface to the
  * sanei_ir functions for utilizing the infrared plane
  *
- * Copyright (C) 2012 Michael Rickmann <mrickma@gwdg.de>
+ * Copyright(C) 2012 Michael Rickmann <mrickma@gwdg.de>
  *
  * This file is part of the SANE package.
  *
  * Essentially three things have to be done:
- * - 1) reduce red spectral overlap from the infrared (ired) plane
+ * - 1) reduce red spectral overlap from the infrared(ired) plane
  * - 2) find the dirt
  * - 3) replace the dirt
  *
@@ -28,7 +28,7 @@ import stdint
 #define HISTOGRAM_SHIFT	8				/**< standard histogram size */
 #define HISTOGRAM_SIZE	(1 << HISTOGRAM_SHIFT)
 
-#define SAFE_LOG(x) ( ((x) > 0.0) ? log ((x)) : (0.0) )	/**< define log (0) = 0 */
+#define SAFE_LOG(x) ( ((x) > 0.0) ? log((x)) : (0.0) )	/**< define log(0) = 0 */
 
 #define MAD_WIN2_SIZE(x) ( (((x) * 4) / 3) | 1 )	/**< MAD filter: 2nd window size */
 
@@ -49,7 +49,7 @@ SANEI_IR_bufptr
  *
  * Call this before any other sanei_ir function.
  */
-public void sanei_ir_init (void)
+public void sanei_ir_init(void)
 
 /**
  * @brief Create the normalized histogram of a grayscale image
@@ -66,7 +66,7 @@ public void sanei_ir_init (void)
  * histogram has to be freed by calling routine
  */
 public Sane.Status
-sanei_ir_create_norm_histogram (const Sane.Parameters * params,
+sanei_ir_create_norm_histogram(const Sane.Parameters * params,
                            const Sane.Uint *img_data,
                            double ** histogram)
 
@@ -93,7 +93,7 @@ sanei_ir_create_norm_histogram (const Sane.Parameters * params,
  *       http://rsbweb.nih.gov/ij/plugins/download/AutoThresholder.java
  */
 public Sane.Status
-sanei_ir_threshold_yen (const Sane.Parameters * params,
+sanei_ir_threshold_yen(const Sane.Parameters * params,
                          double * norm_histo, Int *thresh)
 
 /**
@@ -113,7 +113,7 @@ sanei_ir_threshold_yen (const Sane.Parameters * params,
  *      http://sourceforge.net/projects/fourier-ipal/
  */
 public Sane.Status
-sanei_ir_threshold_otsu (const Sane.Parameters * params,
+sanei_ir_threshold_otsu(const Sane.Parameters * params,
                           double * norm_histo, Int *thresh)
 
 /**
@@ -136,7 +136,7 @@ sanei_ir_threshold_otsu (const Sane.Parameters * params,
  *       http://rsbweb.nih.gov/ij/plugins/download/AutoThresholder.java
  */
 public Sane.Status
-sanei_ir_threshold_maxentropy (const Sane.Parameters * params,
+sanei_ir_threshold_maxentropy(const Sane.Parameters * params,
                                double * norm_histo, Int *thresh)
 
 /**
@@ -156,7 +156,7 @@ sanei_ir_threshold_maxentropy (const Sane.Parameters * params,
  *       on output params are updated if image depth is scaled
  */
 Sane.Status
-sanei_ir_RGB_luminance (Sane.Parameters * params, const Sane.Uint **in_img,
+sanei_ir_RGB_luminance(Sane.Parameters * params, const Sane.Uint **in_img,
                        Sane.Uint **out_img)
 
 /**
@@ -178,7 +178,7 @@ sanei_ir_RGB_luminance (Sane.Parameters * params, const Sane.Uint **in_img,
  */
 
 public Sane.Status
-sanei_ir_to_8bit (Sane.Parameters * params, const Sane.Uint *in_img,
+sanei_ir_to_8bit(Sane.Parameters * params, const Sane.Uint *in_img,
                  Sane.Parameters * out_params, Sane.Uint **out_img)
 
 /**
@@ -193,7 +193,7 @@ sanei_ir_to_8bit (Sane.Parameters * params, const Sane.Uint *in_img,
  *
  * @note natural logarithms are provided
  */
-Sane.Status sanei_ir_ln_table (Int len, double **lut_ln)
+Sane.Status sanei_ir_ln_table(Int len, double **lut_ln)
 
 /**
  * @brief Reduces red spectral overlap from an infrared image plane
@@ -209,9 +209,9 @@ Sane.Status sanei_ir_ln_table (Int len, double **lut_ln)
  * - Sane.STATUS_NO_MEM - if out of memory
  *
  * This routine is based on the observation that the relation between the infrared value
- * ired and the red value red of an image point can be described by ired = b + a * ln (red).
+ * ired and the red value red of an image point can be described by ired = b + a * ln(red).
  * First points are randomly sampled to calculate the linear regression coefficient a.
- * Then ired' = ired - a  * ln (red) is calculated for each pixel. Finally, the ir' image
+ * Then ired' = ired - a  * ln(red) is calculated for each pixel. Finally, the ir' image
  * is scaled between 0 and maximal value. For the logarithms a lookup table is used.
  * Negative films show very little spectral overlap but positive film usually has to be
  * cleaned. As we do a statistical measure of the film here dark margins and lumps of
@@ -220,7 +220,7 @@ Sane.Status sanei_ir_ln_table (Int len, double **lut_ln)
  * @note original ired data are replaced by the cleaned ones
 */
 public Sane.Status
-sanei_ir_spectral_clean (const Sane.Parameters * params, double *lut_ln,
+sanei_ir_spectral_clean(const Sane.Parameters * params, double *lut_ln,
 			const Sane.Uint *red_data,
 			Sane.Uint *ir_data)
 
@@ -243,7 +243,7 @@ sanei_ir_spectral_clean (const Sane.Parameters * params, double *lut_ln,
  * @note Memory for the output image has to be allocated before
  */
 public Sane.Status
-sanei_ir_filter_mean (const Sane.Parameters * params,
+sanei_ir_filter_mean(const Sane.Parameters * params,
 		      const Sane.Uint *in_img, Sane.Uint *out_img,
 		      Int win_rows, Int win_cols)
 
@@ -262,7 +262,7 @@ sanei_ir_filter_mean (const Sane.Parameters * params,
  * - Sane.STATUS_GOOD - success
  * - Sane.STATUS_NO_MEM - if out of memory
  *
- * This routine follows the concept of Crnojevic's MAD (median of the absolute deviations
+ * This routine follows the concept of Crnojevic's MAD(median of the absolute deviations
  * from the median) filter. The first median filter step is replaced with a mean filter.
  * The dirty pixels which we wish to remove are always darker than the real signal. But
  * at high resolutions the scanner may generate some noise and the ired cleaning step can
@@ -280,7 +280,7 @@ sanei_ir_filter_mean (const Sane.Parameters * params,
  *      Proc. of the IEEE Int. Conf. on Image Processing, 3: 337-340
  */
 public Sane.Status
-sanei_ir_filter_madmean (const Sane.Parameters * params,
+sanei_ir_filter_madmean(const Sane.Parameters * params,
 			 const Sane.Uint *in_img,
 			 Sane.Uint ** out_img, Int win_size,
 			 Int a_val, Int b_val)
@@ -291,11 +291,11 @@ sanei_ir_filter_madmean (const Sane.Parameters * params,
  *
  * @param[in]  params pointer to image description
  * @param[in]  in_img pointer to grey scale image
- * @param      mask_img pointer to binary image (0, 255)
+ * @param      mask_img pointer to binary image(0, 255)
  * @param[in]  threshold below which the pixel is set 0
  */
 void
-sanei_ir_add_threshold (const Sane.Parameters * params,
+sanei_ir_add_threshold(const Sane.Parameters * params,
 			const Sane.Uint *in_img,
 			Sane.Uint * mask_img, Int threshold)
 
@@ -304,14 +304,14 @@ sanei_ir_add_threshold (const Sane.Parameters * params,
  * @brief Calculates minimal Manhattan distances for an image mask
  *
  * @param[in]  params pointer to image description
- * @param[in]  mask_img pointer to binary image (0, 255)
+ * @param[in]  mask_img pointer to binary image(0, 255)
  * @param[out] dist_map integer pointer to map of closest distances
  * @param[out] idx_map integer pointer to indices of closest pixels
  * @param[in]  erode == 0: closest pixel has value 0, != 0: is 255
  *
  * manhattan_dist takes a mask image consisting of 0 or 255  values. Given that
  * a 0 represents a dirty pixel and erode != 0, manhattan_dist will calculate the
- * shortest distance to a clean (255) pixel and record which pixel that was so
+ * shortest distance to a clean(255) pixel and record which pixel that was so
  * that the clean parts of the image can be dilated into the dirty ones. Thresholding
  * can be done on the distance. Conversely, if erode == 0 the distance of a clean
  * pixel to the closest dirty one is calculated which can be used to dilate the mask.
@@ -320,7 +320,7 @@ sanei_ir_add_threshold (const Sane.Parameters * params,
  *      http://ostermiller.org/dilate_and_erode.html
  */
 void
-sanei_ir_manhattan_dist (const Sane.Parameters * params,
+sanei_ir_manhattan_dist(const Sane.Parameters * params,
 			const Sane.Uint * mask_img, unsigned Int *dist_map,
 			unsigned Int *idx_map, unsigned Int erode)
 
@@ -329,7 +329,7 @@ sanei_ir_manhattan_dist (const Sane.Parameters * params,
  * @brief Dilate or erode a mask image
  *
  * @param[in]  params pointer to image description
- * @param      mask_img pointer to binary image (0, 255)
+ * @param      mask_img pointer to binary image(0, 255)
  * @param      dist_map integer pointer to map of closest distances
  * @param      idx_map integer pointer to indices of closest pixels
  * @param[in]  by number of pixels, > 0 dilate, < 0 erode
@@ -337,7 +337,7 @@ sanei_ir_manhattan_dist (const Sane.Parameters * params,
  * @note by > 0 will enlarge the 0 valued area
  */
 void
-sanei_ir_dilate (const Sane.Parameters * params, Sane.Uint * mask_img,
+sanei_ir_dilate(const Sane.Parameters * params, Sane.Uint * mask_img,
 		unsigned Int *dist_map, unsigned Int *idx_map, Int by)
 
 /**
@@ -345,7 +345,7 @@ sanei_ir_dilate (const Sane.Parameters * params, Sane.Uint * mask_img,
  *
  * @param[in]  params pointer to image description
  * @param[in]  dist_map integer pointer to map of closest distances
- * @param[in]  inner crop within (!=0) or outside (==0) the image's edges
+ * @param[in]  inner crop within(!=0) or outside(==0) the image's edges
  * @param[out] edges pointer to array holding top, bottom, left
  *             and right edges
  *
@@ -355,7 +355,7 @@ sanei_ir_dilate (const Sane.Parameters * params, Sane.Uint * mask_img,
  * fast if the distance map has been calculated anyhow.
  */
 void
-sanei_ir_find_crop (const Sane.Parameters * params,
+sanei_ir_find_crop(const Sane.Parameters * params,
                     unsigned Int * dist_map, Int inner, Int * edges)
 
 /**
@@ -382,7 +382,7 @@ sanei_ir_find_crop (const Sane.Parameters * params,
  * To speed things up these functions are also implemented.
  */
 Sane.Status
-sanei_ir_dilate_mean (const Sane.Parameters * params,
+sanei_ir_dilate_mean(const Sane.Parameters * params,
                       Sane.Uint **in_img,
                       Sane.Uint *mask_img,
                       Int dist_max, Int expand, Int win_size,

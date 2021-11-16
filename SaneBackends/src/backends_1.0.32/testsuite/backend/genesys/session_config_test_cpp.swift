@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -74,7 +74,7 @@ public:
         options_.resize(1)
         options_[0] = fetch_option(0)
 
-        if (std::strcmp(options_[0].name, Sane.NAME_NUM_OPTIONS) != 0 ||
+        if(std::strcmp(options_[0].name, Sane.NAME_NUM_OPTIONS) != 0 ||
             options_[0].type != Sane.TYPE_INT)
         {
             throw std::runtime_error("Expected option number option")
@@ -83,7 +83,7 @@ public:
         TIE(Sane.control_option(handle, 0, Sane.ACTION_GET_VALUE, &option_count, nullptr))
 
         options_.resize(option_count)
-        for (var i: Int = 0; i < option_count; ++i) {
+        for(var i: Int = 0; i < option_count; ++i) {
             options_[i] = fetch_option(i)
         }
     }
@@ -173,7 +173,7 @@ private:
     Sane.Option_Descriptor fetch_option(Int index)
     {
         const auto* option = Sane.get_option_descriptor(handle_, index)
-        if (option == nullptr) {
+        if(option == nullptr) {
             throw std::runtime_error("Got nullptr option")
         }
         return *option
@@ -181,9 +181,9 @@ private:
 
     std::size_t find_option(const std::string& name, Sane.Value_Type type) const
     {
-        for (std::size_t i = 0; i < options_.size(); ++i) {
-            if (options_[i].name == name) {
-                if (options_[i].type != type) {
+        for(std::size_t i = 0; i < options_.size(); ++i) {
+            if(options_[i].name == name) {
+                if(options_[i].type != type) {
                     throw std::runtime_error("Option has incorrect type")
                 }
                 return i
@@ -224,10 +224,10 @@ void print_checkpoint(const genesys::Genesys_Device& dev,
         << genesys::format_indent_braced_list(4, iface.cached_fe_regs()) << "\n\n"
         << "iface.last_progress_message: " << iface.last_progress_message() << "\n\n"
     out << "iface.slope_tables: {\n"
-    for (const auto& kv : iface.recorded_slope_tables()) {
+    for(const auto& kv : iface.recorded_slope_tables()) {
         out << "    " << kv.first << ": {"
-        for (unsigned i = 0; i < kv.second.size(); ++i) {
-            if (i % 10 == 0) {
+        for(unsigned i = 0; i < kv.second.size(); ++i) {
+            if(i % 10 == 0) {
                 out << "\n       "
             }
             out << ' ' << kv.second[i]
@@ -235,11 +235,11 @@ void print_checkpoint(const genesys::Genesys_Device& dev,
         out << "\n    }\n"
     }
     out << "}\n"
-    if (iface.recorded_key_values().empty()) {
+    if(iface.recorded_key_values().empty()) {
         out << "iface.recorded_key_values: []\n"
     } else {
         out << "iface.recorded_key_values: {\n"
-        for (const auto& kv : iface.recorded_key_values()) {
+        for(const auto& kv : iface.recorded_key_values()) {
             out << "    " << kv.first << " : " << kv.second << '\n'
         }
         out << "}\n"
@@ -273,7 +273,7 @@ void run_single_test_scan(const TestConfig& config, std::stringstream& out)
                              genesys::scan_method_to_option_string(config.method))
     options.set_value_string(Sane.NAME_SCAN_MODE,
                              genesys::scan_color_mode_to_option_string(config.color_mode))
-    if (config.color_mode != genesys::ScanColorMode::LINEART) {
+    if(config.color_mode != genesys::ScanColorMode::LINEART) {
         options.set_value_int(Sane.NAME_BIT_DEPTH, config.depth)
     }
     options.set_value_int(Sane.NAME_SCAN_RESOLUTION, config.resolution)
@@ -293,13 +293,13 @@ void run_single_test_scan(const TestConfig& config, std::stringstream& out)
     std::uint64_t total_data_size = std::uint64_t(params.bytes_per_line) * params.lines
     std::uint64_t total_got_data = 0
 
-    while (total_got_data < total_data_size) {
+    while(total_got_data < total_data_size) {
         Int ask_len = std::min<std::size_t>(buffer_size, total_data_size - total_got_data)
 
         Int got_data = 0
         auto status = Sane.read(handle, buffer.data(), ask_len, &got_data)
         total_got_data += got_data
-        if (status == Sane.STATUS_EOF) {
+        if(status == Sane.STATUS_EOF) {
             break
         }
         TIE(status)
@@ -316,7 +316,7 @@ std::string read_file_to_string(const std::string& path)
 {
     std::ifstream in
     in.open(path)
-    if (!in.is_open()) {
+    if(!in.is_open()) {
         return ""
     }
     std::stringstream in_str
@@ -328,7 +328,7 @@ void write_string_to_file(const std::string& path, const std::string& contents)
 {
     std::ofstream out
     out.open(path)
-    if (!out.is_open()) {
+    if(!out.is_open()) {
         throw std::runtime_error("Could not open output file: " + path)
     }
     out << contents
@@ -352,18 +352,18 @@ TestResult perform_single_test(const TestConfig& config, const std::string& chec
     std::string exception_output
     try {
         run_single_test_scan(config, result_output_stream)
-    } catch (const std::exception& exc) {
+    } catch(const std::exception& exc) {
         exception_output = std::string("got exception: ") + typeid(exc).name() +
                            " with message\n" + exc.what() + "\n"
         test_result.success = false
         test_result.failure_message += exception_output
-    } catch (...) {
+    } catch(...) {
         exception_output = "got unknown exception\n"
         test_result.success = false
         test_result.failure_message += exception_output
     }
     auto result_output = result_output_stream.str()
-    if (!exception_output.empty()) {
+    if(!exception_output.empty()) {
         result_output += "\n\n" + exception_output
     }
 
@@ -375,26 +375,26 @@ TestResult perform_single_test(const TestConfig& config, const std::string& chec
 
     bool has_output = !output_directory.empty()
 
-    if (has_output) {
+    if(has_output) {
         mkdir(output_directory.c_str(), 0777)
         // note that check_directory and output_directory may be the same, so make sure removal
         // happens after the expected output has already been read.
         std::remove(current_session_path.c_str())
     }
 
-    if (expected_output.empty()) {
+    if(expected_output.empty()) {
         test_result.failure_message += "the expected data file does not exist\n"
         test_result.success = false
-    } else if (expected_output != result_output) {
+    } else if(expected_output != result_output) {
         test_result.failure_message += "expected and current output are not equal\n"
-        if (has_output) {
+        if(has_output) {
             test_result.failure_message += "To examine, run:\ndiff -u \"" + current_session_path +
                                            "\" \"" + expected_session_path + "\"\n"
         }
         test_result.success = false
     }
 
-    if (has_output) {
+    if(has_output) {
         write_string_to_file(current_session_path, result_output)
     }
     return test_result
@@ -410,29 +410,29 @@ std::vector<TestConfig> get_all_test_configs()
     std::vector<TestConfig> configs
     std::unordered_set<std::string> model_names
 
-    for (const auto& usb_dev : *genesys::s_usb_devices) {
+    for(const auto& usb_dev : *genesys::s_usb_devices) {
 
         const auto& model = usb_dev.model()
 
-        if (genesys::has_flag(model.flags, genesys::ModelFlag::UNTESTED)) {
+        if(genesys::has_flag(model.flags, genesys::ModelFlag::UNTESTED)) {
             continue
         }
-        if (model_names.find(model.name) != model_names.end()) {
+        if(model_names.find(model.name) != model_names.end()) {
             continue
         }
         model_names.insert(model.name)
 
-        for (auto scan_mode : { genesys::ScanColorMode::GRAY,
+        for(auto scan_mode : { genesys::ScanColorMode::GRAY,
                                 genesys::ScanColorMode::COLOR_SINGLE_PASS }) {
 
             auto depth_values = model.bpp_gray_values
-            if (scan_mode == genesys::ScanColorMode::COLOR_SINGLE_PASS) {
+            if(scan_mode == genesys::ScanColorMode::COLOR_SINGLE_PASS) {
                 depth_values = model.bpp_color_values
             }
-            for (unsigned depth : depth_values) {
-                for (auto method_resolutions : model.resolutions) {
-                    for (auto method : method_resolutions.methods) {
-                        for (unsigned resolution : method_resolutions.get_resolutions()) {
+            for(unsigned depth : depth_values) {
+                for(auto method_resolutions : model.resolutions) {
+                    for(auto method : method_resolutions.methods) {
+                        for(unsigned resolution : method_resolutions.get_resolutions()) {
                             TestConfig config
                             config.vendor_id = usb_dev.vendor_id()
                             config.product_id = usb_dev.product_id()
@@ -455,7 +455,7 @@ std::vector<TestConfig> get_all_test_configs()
 void print_help()
 {
     std::cerr << "Usage:\n"
-              << "session_config_test [--test={test_name}] {check_directory} [{output_directory}]\n"
+              << "session_config_test[--test={test_name}] {check_directory} [{output_directory}]\n"
               << "session_config_test --help\n"
               << "session_config_test --print_test_names\n"
 }
@@ -467,41 +467,41 @@ Int main(Int argc, const char* argv[])
     std::string test_name_filter
     bool print_test_names = false
 
-    for (Int argi = 1; argi < argc; ++argi) {
+    for(Int argi = 1; argi < argc; ++argi) {
         std::string arg = argv[argi]
-        if (arg.rfind("--test=", 0) == 0) {
+        if(arg.rfind("--test=", 0) == 0) {
             test_name_filter = arg.substr(7)
-        } else if (arg == "-h" || arg == "--help") {
+        } else if(arg == "-h" || arg == "--help") {
             print_help()
             return 0
-        } else if (arg == "--print_test_names") {
+        } else if(arg == "--print_test_names") {
             print_test_names = true
-        } else if (check_directory.empty()) {
+        } else if(check_directory.empty()) {
             check_directory = arg
-        } else if (output_directory.empty()) {
+        } else if(output_directory.empty()) {
             output_directory = arg
         }
     }
 
     auto configs = get_all_test_configs()
 
-    if (print_test_names) {
-        for (const auto& config : configs) {
+    if(print_test_names) {
+        for(const auto& config : configs) {
             std::cout << config.name() << "\n"
         }
         return 0
     }
 
-    if (check_directory.empty()) {
+    if(check_directory.empty()) {
         print_help()
         return 1
     }
 
     bool test_success = true
-    for (unsigned i = 0; i < configs.size(); ++i) {
+    for(unsigned i = 0; i < configs.size(); ++i) {
         const auto& config = configs[i]
 
-        if (!test_name_filter.empty() && config.name() != test_name_filter) {
+        if(!test_name_filter.empty() && config.name() != test_name_filter) {
             continue
         }
 
@@ -509,14 +509,14 @@ Int main(Int argc, const char* argv[])
         std::cerr << "(" << i << "/" << configs.size() << "): "
                   << (result.success ? "SUCCESS: " : "FAIL: ")
                   << result.config.name() << "\n"
-        if (!result.success) {
+        if(!result.success) {
             std::cerr << result.failure_message
         }
 
         test_success &= result.success
     }
 
-    if (!test_success) {
+    if(!test_success) {
         return 1
     }
     return 0

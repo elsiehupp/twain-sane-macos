@@ -2,7 +2,7 @@
  * @brief here we have the whole code to initialize the CCD and DAC stuff
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (c) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(c) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.01 - initial version
@@ -14,7 +14,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -352,7 +352,7 @@ static void fnCCDInitSamsung3797( U12_Device *dev )
 {
 	if(!(dev.DataInf.dwScanFlag & _SCANDEF_TPA)) {
 
-		if (!(dev.shade.intermediate & _ScanMode_AverageOut)) {
+		if(!(dev.shade.intermediate & _ScanMode_AverageOut)) {
 
 			if( dev.PCBID == _OPTICWORKS2000 ) {
         		dev.shade.pCcdDac.GainResize.Colors.Red = 102
@@ -431,7 +431,7 @@ static void fnCCDInitWolfson3799( U12_Device *dev )
 {
     if(!(dev.DataInf.dwScanFlag & _SCANDEF_Negative)) {
 
-        if (!(dev.shade.intermediate & _ScanMode_AverageOut)) {
+        if(!(dev.shade.intermediate & _ScanMode_AverageOut)) {
 
     	    dev.shade.pCcdDac.GainResize.Colors.Red = 103
 	        dev.shade.pCcdDac.GainResize.Colors.Green = 102
@@ -485,7 +485,7 @@ static void fnCCDInitWolfson3799( U12_Device *dev )
  */
 static void fnCCDInitWolfson548( U12_Device *dev )
 {
-    if (!(dev.shade.intermediate & _ScanMode_AverageOut)) {
+    if(!(dev.shade.intermediate & _ScanMode_AverageOut)) {
 
  	    dev.shade.pCcdDac.GainResize.Colors.Red   = 103
         dev.shade.pCcdDac.GainResize.Colors.Green = 102
@@ -528,7 +528,7 @@ static void fnCCDInitSamsung3777( U12_Device *dev )
 {
     if(!(dev.DataInf.dwScanFlag & _SCANDEF_Negative)) {
 
-        if (!(dev.shade.intermediate & _ScanMode_AverageOut)) {
+        if(!(dev.shade.intermediate & _ScanMode_AverageOut)) {
 
     	    dev.shade.pCcdDac.GainResize.Colors.Red = 109
 	        dev.shade.pCcdDac.GainResize.Colors.Green = 108
@@ -584,7 +584,7 @@ static void fnCCDInitSamsung3799( U12_Device *dev )
 {
     if(!(dev.DataInf.dwScanFlag & _SCANDEF_TPA)) {
 
-        if (!(dev.shade.intermediate & _ScanMode_AverageOut)) {
+        if(!(dev.shade.intermediate & _ScanMode_AverageOut)) {
 
     	    if( dev.PCBID == _SCANNER2Button ) {
         		dev.shade.pCcdDac.GainResize.Colors.Red = 109
@@ -663,7 +663,7 @@ static void fnCCDInitESIC3799( U12_Device *dev )
 {
     if(!(dev.DataInf.dwScanFlag & _SCANDEF_Negative)) {
 
-        if (!(dev.shade.intermediate & _ScanMode_AverageOut)) {
+        if(!(dev.shade.intermediate & _ScanMode_AverageOut)) {
 
     	    dev.shade.pCcdDac.GainResize.Colors.Red = 100
 	        dev.shade.pCcdDac.GainResize.Colors.Green = 99
@@ -729,7 +729,7 @@ fnDarkOffsetWolfson3797( U12_Device *dev, ShadingVarDef *sTbl, u_long dwCh )
 static void
 fnDarkOffsetSamsung3777( U12_Device *dev, ShadingVarDef *sTbl, u_long dwCh )
 {
-	dev.shade.DarkOffset.wColors[dwCh] += sTbl.DarkOffSub.wColors [dwCh]
+	dev.shade.DarkOffset.wColors[dwCh] += sTbl.DarkOffSub.wColors[dwCh]
 }
 
 /**
@@ -769,7 +769,7 @@ static void fnDACDarkWolfson( U12_Device *dev, ShadingVarDef *sTbl,
 		else
 			w++
 
-		if (w > 0xff)
+		if(w > 0xff)
 			w = 0xff
 
 		if(w != (u_short)dev.shade.DarkDAC.bColors[dwCh] ) {
@@ -784,11 +784,11 @@ static void fnDACDarkWolfson( U12_Device *dev, ShadingVarDef *sTbl,
 			else
 				w = (u_short)dev.shade.DarkDAC.bColors[dwCh] - dev.shade.wDarkLevels
 
-			if ((short) w < 0)
+			if((short) w < 0)
 				w = 0
 
 			if( w != (u_short)dev.shade.DarkDAC.bColors[dwCh] ) {
-				dev.shade.DarkDAC.bColors [dwCh] = (Sane.Byte)w
+				dev.shade.DarkDAC.bColors[dwCh] = (Sane.Byte)w
 				dev.shade.fStop                  = Sane.FALSE
 			}
 		}
@@ -815,7 +815,7 @@ static void fnDACDarkSamsung( U12_Device *dev, ShadingVarDef *sTbl,
 			w = 0
 
 		if(w != (u_short)dev.shade.DarkDAC.bColors[dwCh]) {
-			dev.shade.DarkDAC.bColors [dwCh] = (Sane.Byte)w
+			dev.shade.DarkDAC.bColors[dwCh] = (Sane.Byte)w
 	        dev.shade.fStop                  = Sane.FALSE
 		}
 	} else {
@@ -826,7 +826,7 @@ static void fnDACDarkSamsung( U12_Device *dev, ShadingVarDef *sTbl,
 			else
 				w = dev.shade.wDarkLevels + (u_short)dev.shade.DarkDAC.bColors[dwCh]
 
-			if (w > 0xff)
+			if(w > 0xff)
 				w = 0xff
 
 			if(w != (u_short)dev.shade.DarkDAC.bColors[dwCh]) {
@@ -914,7 +914,7 @@ static void u12ccd_InitCCDandDAC( U12_Device *dev, Bool shading )
 		else
 			WolfsonDAC8143[2].val = 0x42
 
-		if (dev.shade.intermediate == _ScanMode_Mono )
+		if(dev.shade.intermediate == _ScanMode_Mono )
 			WolfsonDAC8143[0].val = 7
 		else
 			WolfsonDAC8143[0].val = 3
@@ -1098,7 +1098,7 @@ static void u12ccd_InitCCDandDAC( U12_Device *dev, Bool shading )
 	/* as we now have the correct init function, call it */
 	u12ccd_InitFunc( dev )
 
-	DBG( _DBG_INFO, "* Programming DAC (%u regs)\n", dev.numDACRegs )
+	DBG( _DBG_INFO, "* Programming DAC(%u regs)\n", dev.numDACRegs )
 
 	for( w = 0; w < dev.numDACRegs; w++ ) {
 

@@ -2,13 +2,13 @@
 
 /* umax-scsidef.h: scsi-definiton header file for UMAX scanner driver.
 
-    Copyright (C) 1996-1997 Michael K. Johnson
-    Copyright (C) 1997-2002 Oliver Rauch
+    Copyright(C) 1996-1997 Michael K. Johnson
+    Copyright(C) 1997-2002 Oliver Rauch
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
     published by the Free Software Foundation; either version 2 of the
-    License, or (at your option) any later version.
+    License, or(at your option) any later version.
 
     This program is distributed in the hope that it will be useful, but
     WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -62,7 +62,7 @@ static inline void resetbitfield(unsigned char * pageaddr, Int mask, Int shift, 
 { *pageaddr = (*pageaddr & ~(mask << shift)) | (((!val) & mask) << shift); }
 
 static inline Int getbitfield(unsigned char * pageaddr, Int mask, Int shift) \
-{ return ((*pageaddr >> shift) & mask); }
+{ return((*pageaddr >> shift) & mask); }
 
 /* ------------------------------------------------------------------------- */
 
@@ -567,9 +567,9 @@ static unsigned char window_descriptor_blockC[] =
 #  define WD_padding_byte		0x03
 #  define WD_padding_word		0x07
 
-/* 0x1e */  0x00, 0x00,							/* Bit Ordering (0 = left to right;) */
-/* 0x20 */  0x00,							      /* Compression Type (reserved) */
-/* 0x21 */  0x00,							       /* Compr. Argument (reserved) */
+/* 0x1e */  0x00, 0x00,							/* Bit Ordering(0 = left to right;) */
+/* 0x20 */  0x00,							      /* Compression Type(reserved) */
+/* 0x21 */  0x00,							       /* Compr. Argument(reserved) */
 /* 0x22 */  0x00, 0x00, 0x00, 0x00, 0x00, 0x00,							 /* Reserved */
 /* 0x28 */  0x01,										    /* Speed */
 #define set_WD_speed(sb, val)				sb[0x28] = val
@@ -622,7 +622,7 @@ static unsigned char window_descriptor_blockC[] =
 #define set_WD_RMIF(sb, val)				setbitfield(sb + 0x30, 1, 2, val) /* Reverse Multil Image Frmt */
 #define set_WD_FDC(sb, val)				setbitfield(sb + 0x30, 1, 3, val) /* document calibration */
 #define set_WD_PF(sb, val)				setbitfield(sb + 0x30, 1, 4, val) /* PF pre focus */
-#define set_WD_LCL(sb, val)				setbitfield(sb + 0x30, 1, 5, val) /* LCL (focus position) */
+#define set_WD_LCL(sb, val)				setbitfield(sb + 0x30, 1, 5, val) /* LCL(focus position) */
 #define set_WD_DOR(sb, val)				setbitfield(sb + 0x30, 1, 6, val) /* Double Optical Resolution */
 #define set_WD_HBT(sb, val)				setbitfield(sb + 0x30, 1, 7, val) /* High Byte Transfer */
 #  define WD_HBT_HBF			0x00
@@ -637,7 +637,7 @@ static unsigned char window_descriptor_blockC[] =
 /* 0x35 */  0x00,										 /* reserved */
 /* 0x36 */  0x00,										 /* reserved */
 /* 0x37 */  0x00,										 /* reserved */
-/* 0x38 */  0x00,							      /* reserved (For Autoexposure) */
+/* 0x38 */  0x00,							      /* reserved(For Autoexposure) */
 
 /* 0x39 */  0x00,							   /* BS, reserved, Calibration Mode */
 #define set_WD_batch(sb, val)				setbitfield(sb + 0x39, 1, 7, val)
@@ -669,7 +669,7 @@ static unsigned char window_descriptor_blockC[] =
 #  define WD_color_ordering_plane       0x04
 #  define WD_color_ordering_line_w_ccd  0x08
 
-/* 0x3b */  0x00,							   /* analog gamma code (set to 1.0) */
+/* 0x3b */  0x00,							   /* analog gamma code(set to 1.0) */
 #define set_WD_analog_gamma(sb, gamma)			sb[0x3b] = gamma	   /* see analog_gamma_table */
 
 /* 0x3c */  0x00,										 /* Reserved */
@@ -861,7 +861,7 @@ static scsiblk get_data_buffer_status = { get_data_buffer_statusC, sizeof(get_da
 
   /* DBSD are the Data Buffer Status Descriptors, the records that
    * are returned following the DBS header. */
-  /* order is the number of the DBSD, from 1 to (length/8) */
+  /* order is the number of the DBSD, from 1 to(length/8) */
 #define get_DBSD_winid(sb, order)			sb[4 + ((order - 1) * 8)]
 #define get_DBSD_available_data_buffer(sb,order)	getnbyte(sb+4+((order-1)*8)+2,3)
 #define get_DBSD_filled_data_buffer(sb,order)		getnbyte(sb+4+((order-1)*8)+5,3)
@@ -943,12 +943,12 @@ static scsiblk request_sense = { request_senseC, sizeof(request_senseC) ]
 
 static char *cbhs_str[]       = { "0-50","0-255", "0-255 autoexposure", "reserved" ]
 
-static char *scanmode_str[]   = { "flatbed (FB)", "automatic document feeder (ADF)" ]
+static char *scanmode_str[]   = { "flatbed(FB)", "automatic document feeder(ADF)" ]
 
 static char *gamma_lines_str[]= { "reserved",
-                            "one line (gray), three pass (color) download",
+                            "one line(gray), three pass(color) download",
                             "reserved",
-                            "one line (gray), three lines (color) download" ]
+                            "one line(gray), three lines(color) download" ]
 
 static char *color_sequence_str[]= { "R.G.B","R.B.G",
                                      "G.B.R","G.R.B",
@@ -1004,7 +1004,7 @@ static char *scanner_error_str[] =
  "dark error",
  "dim error",
  "light error",
- "lamp adjust control error (by darken)",
+ "lamp adjust control error(by darken)",
  "err 25",
  "err 26",
  "err 27",
@@ -1054,8 +1054,8 @@ static char *scanner_error_str[] =
  "fb home or motor sensor error",
  "fb filter or motor sensor error",
  "fb lens or motor sensor error"
- "first line position error (LER error, vertical)",
- "first pixel position error (SER error, horizontal)",
+ "first line position error(LER error, vertical)",
+ "first pixel position error(SER error, horizontal)",
  "first pixel position error for lens 2 (SER2 error, horizontal)",
  "err 77",
  "err 78",

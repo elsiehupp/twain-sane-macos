@@ -1,24 +1,24 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2003 Oliver Rauch
-   Copyright (C) 2003-2005 Henning Meier-Geinitz <henning@meier-geinitz.de>
-   Copyright (C) 2004, 2005 Gerhard Jaeger <gerhard@gjaeger.de>
-   Copyright (C) 2004-2013 Stéphane Voltz <stef.dev@free.fr>
-   Copyright (C) 2005-2009 Pierre Willenbrock <pierre@pirsoft.dnsalias.org>
-   Copyright (C) 2007 Luke <iceyfor@gmail.com>
-   Copyright (C) 2010 Jack McGill <jmcgill85258@yahoo.com>
-   Copyright (C) 2010 Andrey Loginov <avloginov@gmail.com>,
+   Copyright(C) 2003 Oliver Rauch
+   Copyright(C) 2003-2005 Henning Meier-Geinitz <henning@meier-geinitz.de>
+   Copyright(C) 2004, 2005 Gerhard Jaeger <gerhard@gjaeger.de>
+   Copyright(C) 2004-2013 Stéphane Voltz <stef.dev@free.fr>
+   Copyright(C) 2005-2009 Pierre Willenbrock <pierre@pirsoft.dnsalias.org>
+   Copyright(C) 2007 Luke <iceyfor@gmail.com>
+   Copyright(C) 2010 Jack McGill <jmcgill85258@yahoo.com>
+   Copyright(C) 2010 Andrey Loginov <avloginov@gmail.com>,
                    xerox travelscan device entry
-   Copyright (C) 2010 Chris Berry <s0457957@sms.ed.ac.uk> and Michael Rickmann <mrickma@gwdg.de>
+   Copyright(C) 2010 Chris Berry <s0457957@sms.ed.ac.uk> and Michael Rickmann <mrickma@gwdg.de>
                  for Plustek Opticbook 3600 support
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -65,9 +65,9 @@ void genesys_init_usb_device_tables()
 
         on many scanners scanning a single line takes around 10ms. In order not to take excessive
         amount of time, the sizes of the calibration area are limited as follows:
-        2400 dpi or less: 4mm (would take ~4 seconds on 2400 dpi)
-        4800 dpi or less: 3mm (would take ~6 seconds on 4800 dpi)
-        anything more: 2mm (would take ~7 seconds on 9600 dpi)
+        2400 dpi or less: 4mm(would take ~4 seconds on 2400 dpi)
+        4800 dpi or less: 3mm(would take ~6 seconds on 4800 dpi)
+        anything more: 2mm(would take ~7 seconds on 9600 dpi)
 
         Optional properties
         -------------------
@@ -2676,7 +2676,7 @@ void genesys_init_usb_device_tables()
 
     // same as 7500i
     model.name = "plustek-opticfilm-7600i-v1"
-    model.model = "OpticFilm 7600i (v1)"
+    model.model = "OpticFilm 7600i(v1)"
     s_usb_devices.emplace_back(0x07b3, 0x0c3b, 0x0400, model)
 
 
@@ -2746,7 +2746,7 @@ void genesys_init_usb_device_tables()
 
     // same as 8200i
     model.name = "plustek-opticfilm-7600i-v2"
-    model.model = "OpticFilm 7600i (v2)"
+    model.model = "OpticFilm 7600i(v2)"
     s_usb_devices.emplace_back(0x07b3, 0x0c3b, 0x0605, model)
 
 
@@ -2910,22 +2910,22 @@ void genesys_init_usb_device_tables()
 
 void verify_usb_device_tables()
 {
-    for (const auto& device : *s_usb_devices) {
+    for(const auto& device : *s_usb_devices) {
         const auto& model = device.model()
 
-        if (model.x_size_calib_mm == 0.0f) {
+        if(model.x_size_calib_mm == 0.0f) {
             throw SaneException("Calibration width can't be zero")
         }
 
-        if (model.has_method(ScanMethod::FLATBED)) {
-            if (model.y_size_calib_mm == 0.0f) {
+        if(model.has_method(ScanMethod::FLATBED)) {
+            if(model.y_size_calib_mm == 0.0f) {
                 throw SaneException("Calibration size can't be zero")
             }
         }
-        if (model.has_method(ScanMethod::TRANSPARENCY) ||
+        if(model.has_method(ScanMethod::TRANSPARENCY) ||
             model.has_method(ScanMethod::TRANSPARENCY_INFRARED))
         {
-            if (model.y_size_calib_ta_mm == 0.0f) {
+            if(model.y_size_calib_ta_mm == 0.0f) {
                 throw SaneException("Calibration size can't be zero")
             }
         }

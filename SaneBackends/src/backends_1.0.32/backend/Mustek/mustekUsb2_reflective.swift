@@ -1,6 +1,6 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2005 Mustek.
+   Copyright(C) 2005 Mustek.
    Originally maintained by Mustek
    Author:Jack Roy 2005.5.24
 
@@ -9,7 +9,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -45,17 +45,17 @@
 
 /* forward declarations */
 
-static Bool Reflective_Reset (void)
-static Bool Reflective_ScanSuggest (PTARGETIMAGE pTarget, PSUGGESTSETTING pSuggest)
-static Bool Reflective_SetupScan (COLORMODE ColorMode, unsigned short XDpi, unsigned short YDpi,
+static Bool Reflective_Reset(void)
+static Bool Reflective_ScanSuggest(PTARGETIMAGE pTarget, PSUGGESTSETTING pSuggest)
+static Bool Reflective_SetupScan(COLORMODE ColorMode, unsigned short XDpi, unsigned short YDpi,
 				  Bool isInvert, unsigned short X, unsigned short Y, unsigned short Width,
 				  unsigned short Height)
-static Bool Reflective_StopScan (void)
-static Bool Reflective_GetRows (Sane.Byte * lpBlock, unsigned short * Rows, Bool isOrderInvert)
-static Bool Reflective_AdjustAD (void)
-static Bool Reflective_FindTopLeft (unsigned short * lpwStartX, unsigned short * lpwStartY)
-static Bool Reflective_LineCalibration16Bits (void)
-static Bool Reflective_PrepareScan (void)
+static Bool Reflective_StopScan(void)
+static Bool Reflective_GetRows(Sane.Byte * lpBlock, unsigned short * Rows, Bool isOrderInvert)
+static Bool Reflective_AdjustAD(void)
+static Bool Reflective_FindTopLeft(unsigned short * lpwStartX, unsigned short * lpwStartY)
+static Bool Reflective_LineCalibration16Bits(void)
+static Bool Reflective_PrepareScan(void)
 
 /*function description*/
 
@@ -72,43 +72,43 @@ Return value:
 	return FALSE
 ***********************************************************************/
 static Bool
-Reflective_Reset ()
+Reflective_Reset()
 {
-  DBG (DBG_FUNC, "Reflective_Reset: call in\n")
+  DBG(DBG_FUNC, "Reflective_Reset: call in\n")
 
-  if (g_bOpened)
+  if(g_bOpened)
     {
-      DBG (DBG_FUNC, "Reflective_Reset: scanner has been opened\n")
+      DBG(DBG_FUNC, "Reflective_Reset: scanner has been opened\n")
       return FALSE
     }
 
-  if (STATUS_GOOD != Asic_Open (&g_chip, g_pDeviceFile))
+  if(STATUS_GOOD != Asic_Open(&g_chip, g_pDeviceFile))
     {
-      DBG (DBG_FUNC, "Reflective_Reset: Asic_Open return error\n")
+      DBG(DBG_FUNC, "Reflective_Reset: Asic_Open return error\n")
       return FALSE
     }
 
-  if (STATUS_GOOD != Asic_Reset (&g_chip))
+  if(STATUS_GOOD != Asic_Reset(&g_chip))
     {
-      DBG (DBG_FUNC, "Reflective_Reset: Asic_Reset return error\n")
+      DBG(DBG_FUNC, "Reflective_Reset: Asic_Reset return error\n")
       return FALSE
     }
 
-  if (STATUS_GOOD != Asic_SetSource (&g_chip, LS_REFLECTIVE))
+  if(STATUS_GOOD != Asic_SetSource(&g_chip, LS_REFLECTIVE))
     {
-      DBG (DBG_FUNC, "Reflective_Reset: Asic_SetSource return error\n")
+      DBG(DBG_FUNC, "Reflective_Reset: Asic_SetSource return error\n")
       return FALSE
     }
 
-  if (STATUS_GOOD != Asic_TurnLamp (&g_chip, TRUE))
+  if(STATUS_GOOD != Asic_TurnLamp(&g_chip, TRUE))
     {
-      DBG (DBG_FUNC, "Reflective_Reset: Asic_TurnLamp return error\n")
+      DBG(DBG_FUNC, "Reflective_Reset: Asic_TurnLamp return error\n")
       return FALSE
     }
 
-  if (STATUS_GOOD != Asic_Close (&g_chip))
+  if(STATUS_GOOD != Asic_Close(&g_chip))
     {
-      DBG (DBG_FUNC, "Reflective_Reset: Asic_Close return error\n")
+      DBG(DBG_FUNC, "Reflective_Reset: Asic_Close return error\n")
       return FALSE
     }
 
@@ -125,13 +125,13 @@ Reflective_Reset ()
 
   g_pGammaTable = NULL
 
-  if (NULL != g_pDeviceFile)
+  if(NULL != g_pDeviceFile)
     {
-      free (g_pDeviceFile)
+      free(g_pDeviceFile)
       g_pDeviceFile = NULL
     }
 
-  DBG (DBG_FUNC, "Reflective_Reset: exit\n")
+  DBG(DBG_FUNC, "Reflective_Reset: exit\n")
 
   return TRUE
 }
@@ -150,52 +150,52 @@ Return value:
 	return FALSE
 ***********************************************************************/
 static Bool
-Reflective_ScanSuggest (PTARGETIMAGE pTarget, PSUGGESTSETTING pSuggest)
+Reflective_ScanSuggest(PTARGETIMAGE pTarget, PSUGGESTSETTING pSuggest)
 {
   var i: Int
   unsigned short wMaxWidth, wMaxHeight
 
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: call in\n")
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: call in\n")
 
-  if (NULL == pTarget || NULL == pSuggest)
+  if(NULL == pTarget || NULL == pSuggest)
     {
-      DBG (DBG_FUNC, "Reflective_ScanSuggest: parameters error\n")
+      DBG(DBG_FUNC, "Reflective_ScanSuggest: parameters error\n")
       return FALSE
     }
 
   /*1. Looking up Optical Y Resolution */
-  for (i = 0; s_wOpticalYDpi[i] != 0; i++)
+  for(i = 0; s_wOpticalYDpi[i] != 0; i++)
     {
-      if (s_wOpticalYDpi[i] <= pTarget.wDpi)
+      if(s_wOpticalYDpi[i] <= pTarget.wDpi)
 	{
 	  pSuggest.wYDpi = s_wOpticalYDpi[i]
 	  break
 	}
     }
-  if (s_wOpticalYDpi[i] == 0)
+  if(s_wOpticalYDpi[i] == 0)
     {
       i--
       pSuggest.wYDpi = s_wOpticalYDpi[i]
     }
 
   /*2. Looking up Optical X Resolution */
-  for (i = 0; s_wOpticalXDpi[i] != 0; i++)
+  for(i = 0; s_wOpticalXDpi[i] != 0; i++)
     {
-      if (s_wOpticalXDpi[i] <= pTarget.wDpi)
+      if(s_wOpticalXDpi[i] <= pTarget.wDpi)
 	{
 	  pSuggest.wXDpi = s_wOpticalXDpi[i]
 	  break
 	}
     }
-  if (s_wOpticalXDpi[i] == 0)
+  if(s_wOpticalXDpi[i] == 0)
     {
       i--
       pSuggest.wXDpi = s_wOpticalXDpi[i]
     }
 
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: pTarget.wDpi = %d\n",
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: pTarget.wDpi = %d\n",
        pTarget.wDpi)
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: pSuggest.wXDpi = %d\n",
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: pSuggest.wXDpi = %d\n",
        pSuggest.wXDpi)
 
 
@@ -204,7 +204,7 @@ Reflective_ScanSuggest (PTARGETIMAGE pTarget, PSUGGESTSETTING pSuggest)
 
 
 
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: pSuggest.wYDpi = %d\n",
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: pSuggest.wYDpi = %d\n",
        pSuggest.wYDpi)
 
   /*3. suggest scan area */
@@ -223,24 +223,24 @@ Reflective_ScanSuggest (PTARGETIMAGE pTarget, PSUGGESTSETTING pSuggest)
 
   pSuggest.wWidth = (pSuggest.wWidth / 2) * 2
 
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: pTarget.wX = %d\n", pTarget.wX)
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: pTarget.wY = %d\n", pTarget.wY)
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: pTarget.wWidth = %d\n",
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: pTarget.wX = %d\n", pTarget.wX)
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: pTarget.wY = %d\n", pTarget.wY)
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: pTarget.wWidth = %d\n",
        pTarget.wWidth)
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: pTarget.wHeight = %d\n",
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: pTarget.wHeight = %d\n",
        pTarget.wHeight)
 
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: pSuggest.wX = %d\n", pSuggest.wX)
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: pSuggest.wY = %d\n", pSuggest.wY)
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: pSuggest.wWidth = %d\n",
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: pSuggest.wX = %d\n", pSuggest.wX)
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: pSuggest.wY = %d\n", pSuggest.wY)
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: pSuggest.wWidth = %d\n",
        pSuggest.wWidth)
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: pSuggest.wHeight = %d\n",
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: pSuggest.wHeight = %d\n",
        pSuggest.wHeight)
 
-  if (pTarget.cmColorMode == CM_TEXT)
+  if(pTarget.cmColorMode == CM_TEXT)
     {
       pSuggest.wWidth = ((pSuggest.wWidth + 7) >> 3) << 3
-      if (pSuggest.wWidth < 8)
+      if(pSuggest.wWidth < 8)
 	pSuggest.wWidth = 8
     }
 
@@ -248,35 +248,35 @@ Reflective_ScanSuggest (PTARGETIMAGE pTarget, PSUGGESTSETTING pSuggest)
   wMaxWidth = (MAX_SCANNING_WIDTH * pSuggest.wXDpi) / 300
   wMaxHeight = (3480 * pSuggest.wYDpi) / 300;	/* 3480 for bumping */
 
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: wMaxWidth = %d\n", wMaxWidth)
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: wMaxHeight = %d\n", wMaxHeight)
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: wMaxWidth = %d\n", wMaxWidth)
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: wMaxHeight = %d\n", wMaxHeight)
 
-  if (CM_TEXT == pTarget.cmColorMode)
+  if(CM_TEXT == pTarget.cmColorMode)
     {
       wMaxWidth = (wMaxWidth >> 3) << 3
     }
-  if (pSuggest.wWidth > wMaxWidth)
+  if(pSuggest.wWidth > wMaxWidth)
     {
       pSuggest.wWidth = wMaxWidth
     }
 
 
-  if (pSuggest.wHeight > wMaxHeight)
+  if(pSuggest.wHeight > wMaxHeight)
     {
       pSuggest.wHeight = wMaxHeight
     }
 
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: g_Width=%d\n", g_Width)
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: g_Width=%d\n", g_Width)
 
   g_Width = ((pSuggest.wWidth + 15) >> 4) << 4;	/*Real Scan Width */
 
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: again, g_Width=%d\n", g_Width)
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: again, g_Width=%d\n", g_Width)
 
   g_Height = pSuggest.wHeight
 
-  if (pTarget.isOptimalSpeed)
+  if(pTarget.isOptimalSpeed)
     {
-      switch (pTarget.cmColorMode)
+      switch(pTarget.cmColorMode)
 	{
 	case CM_RGB48:
 	  pSuggest.cmScanMode = CM_RGB48
@@ -304,7 +304,7 @@ Reflective_ScanSuggest (PTARGETIMAGE pTarget, PSUGGESTSETTING pSuggest)
     }
   else
     {
-      switch (pTarget.cmColorMode)
+      switch(pTarget.cmColorMode)
 	{
 	case CM_RGB48:
 	  pSuggest.cmScanMode = CM_RGB48
@@ -331,9 +331,9 @@ Reflective_ScanSuggest (PTARGETIMAGE pTarget, PSUGGESTSETTING pSuggest)
 	}
     }
 
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: pSuggest.dwBytesPerRow = %d\n",
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: pSuggest.dwBytesPerRow = %d\n",
        pSuggest.dwBytesPerRow)
-  DBG (DBG_FUNC, "Reflective_ScanSuggest: leave Reflective_ScanSuggest\n")
+  DBG(DBG_FUNC, "Reflective_ScanSuggest: leave Reflective_ScanSuggest\n")
   return TRUE
 }
 
@@ -357,21 +357,21 @@ Return value:
 	return FALSE
 ***********************************************************************/
 static Bool
-Reflective_SetupScan (COLORMODE ColorMode,
+Reflective_SetupScan(COLORMODE ColorMode,
 		      unsigned short XDpi,
 		      unsigned short YDpi,
 		      Bool isInvert, unsigned short X, unsigned short Y, unsigned short Width, unsigned short Height)
 {
   isInvert = isInvert
-  DBG (DBG_FUNC, "Reflective_SetupScan: Call in\n")
-  if (g_bOpened)
+  DBG(DBG_FUNC, "Reflective_SetupScan: Call in\n")
+  if(g_bOpened)
     {
-      DBG (DBG_FUNC, "Reflective_SetupScan: scanner has been opened\n")
+      DBG(DBG_FUNC, "Reflective_SetupScan: scanner has been opened\n")
       return FALSE
     }
-  if (!g_bPrepared)
+  if(!g_bPrepared)
     {
-      DBG (DBG_FUNC, "Reflective_SetupScan: scanner not prepared\n")
+      DBG(DBG_FUNC, "Reflective_SetupScan: scanner not prepared\n")
       return FALSE
     }
 
@@ -381,7 +381,7 @@ Reflective_SetupScan (COLORMODE ColorMode,
   g_SWWidth = Width
   g_SWHeight = Height
 
-  switch (g_YDpi)
+  switch(g_YDpi)
     {
     case 1200:
       g_wPixelDistance = 4;	/*even & odd sensor problem */
@@ -410,7 +410,7 @@ Reflective_SetupScan (COLORMODE ColorMode,
       g_wLineDistance = 0
     }
 
-  switch (g_ScanMode)
+  switch(g_ScanMode)
     {
     case CM_RGB48:
       g_BytesPerRow = 6 * g_Width
@@ -439,35 +439,35 @@ Reflective_SetupScan (COLORMODE ColorMode,
       break
     }
 
-  if (Asic_Open (&g_chip, g_pDeviceFile) != STATUS_GOOD)
+  if(Asic_Open(&g_chip, g_pDeviceFile) != STATUS_GOOD)
     {
-      DBG (DBG_FUNC, "Reflective_SetupScan: Asic_Open return error\n")
+      DBG(DBG_FUNC, "Reflective_SetupScan: Asic_Open return error\n")
       return FALSE
     }
 
-  DBG (DBG_FUNC, "Reflective_SetupScan: Asic_Open successfully\n")
+  DBG(DBG_FUNC, "Reflective_SetupScan: Asic_Open successfully\n")
 
   g_bOpened = TRUE
 
-  Asic_TurnLamp (&g_chip, FALSE)
-  Asic_TurnTA (&g_chip, FALSE)
-  Asic_TurnLamp (&g_chip, TRUE)
+  Asic_TurnLamp(&g_chip, FALSE)
+  Asic_TurnTA(&g_chip, FALSE)
+  Asic_TurnLamp(&g_chip, TRUE)
 
-  if (1200 == g_XDpi)
+  if(1200 == g_XDpi)
     {
       g_XDpi = 600
 
-      if (Reflective_AdjustAD () == FALSE)
+      if(Reflective_AdjustAD() == FALSE)
 	{
 
-	  DBG (DBG_FUNC,
+	  DBG(DBG_FUNC,
 	       "Reflective_SetupScan: Reflective_AdjustAD return error\n")
 	  return FALSE
 	}
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_SetupScan: Reflective_AdjustAD successfully\n")
 
-      if (Reflective_FindTopLeft (&g_X, &g_Y) == FALSE)
+      if(Reflective_FindTopLeft(&g_X, &g_Y) == FALSE)
 	{
 	  g_X = 187
 	  g_Y = 43
@@ -475,26 +475,26 @@ Reflective_SetupScan (COLORMODE ColorMode,
 
       g_XDpi = 1200
 
-      if (Reflective_AdjustAD () == FALSE)
+      if(Reflective_AdjustAD() == FALSE)
 	{
-	  DBG (DBG_FUNC,
+	  DBG(DBG_FUNC,
 	       "Reflective_SetupScan: Reflective_AdjustAD return error\n")
 	  return FALSE
 	}
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_SetupScan: Reflective_AdjustAD successfully\n")
     }
   else
     {
-      if (Reflective_AdjustAD () == FALSE)
+      if(Reflective_AdjustAD() == FALSE)
 	{
-	  DBG (DBG_FUNC,
+	  DBG(DBG_FUNC,
 	       "Reflective_SetupScan: Reflective_AdjustAD return error\n")
 	  return FALSE
 	}
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_SetupScan: Reflective_AdjustAD successfully\n")
-      if (Reflective_FindTopLeft (&g_X, &g_Y) == FALSE)
+      if(Reflective_FindTopLeft(&g_X, &g_Y) == FALSE)
 	{
 	  g_X = 187
 	  g_Y = 43
@@ -502,9 +502,9 @@ Reflective_SetupScan (COLORMODE ColorMode,
     }
 
 
-  DBG (DBG_FUNC, "after find top left,g_X=%d,g_Y=%d\n", g_X, g_Y)
+  DBG(DBG_FUNC, "after find top left,g_X=%d,g_Y=%d\n", g_X, g_Y)
 
-  if (1200 == g_XDpi)
+  if(1200 == g_XDpi)
     {
       g_X =
 	g_X * 1200 / FIND_LEFT_TOP_CALIBRATE_RESOLUTION + X * 1200 / g_XDpi +
@@ -513,7 +513,7 @@ Reflective_SetupScan (COLORMODE ColorMode,
     }
   else
     {
-      if (75 == g_XDpi)
+      if(75 == g_XDpi)
 	{
 	  g_X = g_X + X * 600 / g_XDpi
 	}
@@ -527,40 +527,40 @@ Reflective_SetupScan (COLORMODE ColorMode,
     g_Y * 1200 / FIND_LEFT_TOP_CALIBRATE_RESOLUTION + Y * 1200 / g_YDpi + 47
 
 
-  DBG (DBG_FUNC, "before line calibration,g_X=%d,g_Y=%d\n", g_X, g_Y)
+  DBG(DBG_FUNC, "before line calibration,g_X=%d,g_Y=%d\n", g_X, g_Y)
 
-  if (Reflective_LineCalibration16Bits () == FALSE)
+  if(Reflective_LineCalibration16Bits() == FALSE)
     {
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_SetupScan: Reflective_LineCalibration16Bits return error\n")
       return FALSE
     }
 
-  DBG (DBG_FUNC,
+  DBG(DBG_FUNC,
        "Reflective_SetupScan: after Reflective_LineCalibration16Bits,g_X=%d,g_Y=%d\n",
        g_X, g_Y)
 
-  DBG (DBG_FUNC, "Reflective_SetupScan: before Asic_SetWindow\n")
+  DBG(DBG_FUNC, "Reflective_SetupScan: before Asic_SetWindow\n")
 
-  DBG (DBG_FUNC,
+  DBG(DBG_FUNC,
        "Reflective_SetupScan: g_bScanBits=%d, g_XDpi=%d, g_YDpi=%d, g_X=%d, g_Y=%d, g_Width=%d, g_Height=%d\n",
        g_bScanBits, g_XDpi, g_YDpi, g_X, g_Y, g_Width, g_Height)
 
-  if (g_Y > 300)
+  if(g_Y > 300)
     {
-      Asic_MotorMove (&g_chip, TRUE, g_Y - 300)
+      Asic_MotorMove(&g_chip, TRUE, g_Y - 300)
     }
   else
     {
-      Asic_MotorMove (&g_chip, FALSE, 300 - g_Y)
+      Asic_MotorMove(&g_chip, FALSE, 300 - g_Y)
     }
   g_Y = 300
 
-  Asic_SetWindow (&g_chip, g_bScanBits, g_XDpi, g_YDpi, g_X, g_Y, g_Width,
+  Asic_SetWindow(&g_chip, g_bScanBits, g_XDpi, g_YDpi, g_X, g_Y, g_Width,
 		  g_Height)
 
-  DBG (DBG_FUNC, "Reflective_SetupScan: leave Reflective_SetupScan\n")
-  return Reflective_PrepareScan ()
+  DBG(DBG_FUNC, "Reflective_SetupScan: leave Reflective_SetupScan\n")
+  return Reflective_PrepareScan()
 }
 
 /**********************************************************************
@@ -576,7 +576,7 @@ Return value:
 	return FALSE
 ***********************************************************************/
 static Bool
-Reflective_AdjustAD ()
+Reflective_AdjustAD()
 {
   Sane.Byte * lpCalData
   unsigned short wCalWidth
@@ -597,15 +597,15 @@ Reflective_AdjustAD ()
 #endif
   unsigned short wAdjustADResolution
 
-  DBG (DBG_FUNC, "Reflective_AdjustAD: call in\n")
-  if (!g_bOpened)
+  DBG(DBG_FUNC, "Reflective_AdjustAD: call in\n")
+  if(!g_bOpened)
     {
-      DBG (DBG_FUNC, "Reflective_AdjustAD: scanner has been opened\n")
+      DBG(DBG_FUNC, "Reflective_AdjustAD: scanner has been opened\n")
       return FALSE
     }
-  if (!g_bPrepared)
+  if(!g_bPrepared)
     {
-      DBG (DBG_FUNC, "Reflective_AdjustAD: scanner not prepared\n")
+      DBG(DBG_FUNC, "Reflective_AdjustAD: scanner not prepared\n")
       return FALSE
     }
 
@@ -620,7 +620,7 @@ Reflective_AdjustAD ()
   g_chip.AD.OffsetG = 56
   g_chip.AD.OffsetB = 8
 
-  if (g_XDpi <= 600)
+  if(g_XDpi <= 600)
     {
       wAdjustADResolution = 600
     }
@@ -630,131 +630,131 @@ Reflective_AdjustAD ()
     }
   wCalWidth = 10240
 
-  lpCalData = (Sane.Byte *) malloc (sizeof (Sane.Byte) * wCalWidth * 3)
-  if (lpCalData == NULL)
+  lpCalData = (Sane.Byte *) malloc(sizeof(Sane.Byte) * wCalWidth * 3)
+  if(lpCalData == NULL)
     {
-      DBG (DBG_FUNC, "Reflective_AdjustAD: lpCalData malloc error\n")
+      DBG(DBG_FUNC, "Reflective_AdjustAD: lpCalData malloc error\n")
       return FALSE
     }
 
-  Asic_SetMotorType (&g_chip, FALSE, TRUE)
+  Asic_SetMotorType(&g_chip, FALSE, TRUE)
 
-  Asic_SetCalibrate (&g_chip, 24, wAdjustADResolution, wAdjustADResolution, 0,
+  Asic_SetCalibrate(&g_chip, 24, wAdjustADResolution, wAdjustADResolution, 0,
 		     0, wCalWidth, 1, FALSE)
-  MustScanner_PrepareCalculateMaxMin (wAdjustADResolution)
+  MustScanner_PrepareCalculateMaxMin(wAdjustADResolution)
   nTimesOfCal = 0
 
 #ifdef DEBUG_SAVE_IMAGE
-  Asic_SetAFEGainOffset (&g_chip)
-  Asic_ScanStart (&g_chip)
-  Asic_ReadCalibrationData (&g_chip, lpCalData, wCalWidth * 3, 24)
-  Asic_ScanStop (&g_chip)
+  Asic_SetAFEGainOffset(&g_chip)
+  Asic_ScanStart(&g_chip)
+  Asic_ReadCalibrationData(&g_chip, lpCalData, wCalWidth * 3, 24)
+  Asic_ScanStop(&g_chip)
 
   FILE *stream = NULL
-  Sane.Byte * lpBuf = (Sane.Byte *) malloc (50)
-  if (NULL == lpBuf)
+  Sane.Byte * lpBuf = (Sane.Byte *) malloc(50)
+  if(NULL == lpBuf)
     {
       return FALSE
     }
-  memset (lpBuf, 0, 50)
+  memset(lpBuf, 0, 50)
 
-  stream = fopen ("/root/AD(Ref).pnm\n", "wb+\n")
-  sprintf (lpBuf, "P6\n%d %d\n255\n\n", wCalWidth, 1)
-  fwrite (lpBuf, sizeof (Sane.Byte), strlen (lpBuf), stream)
-  fwrite (lpCalData, sizeof (Sane.Byte), wCalWidth * 3, stream)
-  fclose (stream)
-  free (lpBuf)
+  stream = fopen("/root/AD(Ref).pnm\n", "wb+\n")
+  sprintf(lpBuf, "P6\n%d %d\n255\n\n", wCalWidth, 1)
+  fwrite(lpBuf, sizeof(Sane.Byte), strlen(lpBuf), stream)
+  fwrite(lpCalData, sizeof(Sane.Byte), wCalWidth * 3, stream)
+  fclose(stream)
+  free(lpBuf)
 #endif
 
   do
     {
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_AdjustAD: run in first adjust offset do-while\n")
-      Asic_SetAFEGainOffset (&g_chip)
-      Asic_ScanStart (&g_chip)
-      Asic_ReadCalibrationData (&g_chip, lpCalData, wCalWidth * 3, 24)
-      Asic_ScanStop (&g_chip)
+      Asic_SetAFEGainOffset(&g_chip)
+      Asic_ScanStart(&g_chip)
+      Asic_ReadCalibrationData(&g_chip, lpCalData, wCalWidth * 3, 24)
+      Asic_ScanStop(&g_chip)
 
-      MustScanner_CalculateMaxMin (lpCalData, &wMaxValueR, &wMinValueR,
+      MustScanner_CalculateMaxMin(lpCalData, &wMaxValueR, &wMinValueR,
 				   wAdjustADResolution)
-      MustScanner_CalculateMaxMin (lpCalData + wCalWidth, &wMaxValueG,
+      MustScanner_CalculateMaxMin(lpCalData + wCalWidth, &wMaxValueG,
 				   &wMinValueG, wAdjustADResolution)
-      MustScanner_CalculateMaxMin (lpCalData + wCalWidth * 2, &wMaxValueB,
+      MustScanner_CalculateMaxMin(lpCalData + wCalWidth * 2, &wMaxValueB,
 				   &wMinValueB, wAdjustADResolution)
 
-      if (g_chip.AD.DirectionR == 0)
+      if(g_chip.AD.DirectionR == 0)
 	{
-	  if (wMinValueR > 15)
+	  if(wMinValueR > 15)
 	    {
-	      if (g_chip.AD.OffsetR < 8)
+	      if(g_chip.AD.OffsetR < 8)
 		g_chip.AD.DirectionR = 1
 	      else
 		g_chip.AD.OffsetR -= 8
 	    }
-	  else if (wMinValueR < 5)
+	  else if(wMinValueR < 5)
 	    g_chip.AD.OffsetR += 8
 	}
       else
 	{
-	  if (wMinValueR > 15)
+	  if(wMinValueR > 15)
 	    g_chip.AD.OffsetR += 8
-	  else if (wMinValueR < 5)
+	  else if(wMinValueR < 5)
 	    g_chip.AD.OffsetR -= 8
 	}
 
-      if (g_chip.AD.DirectionG == 0)
+      if(g_chip.AD.DirectionG == 0)
 	{
-	  if (wMinValueG > 15)
+	  if(wMinValueG > 15)
 	    {
-	      if (g_chip.AD.OffsetG < 8)
+	      if(g_chip.AD.OffsetG < 8)
 		g_chip.AD.DirectionG = 1
 	      else
 		g_chip.AD.OffsetG -= 8
 	    }
-	  else if (wMinValueG < 5)
+	  else if(wMinValueG < 5)
 	    g_chip.AD.OffsetG += 8
 	}
       else
 	{
-	  if (wMinValueG > 15)
+	  if(wMinValueG > 15)
 	    g_chip.AD.OffsetG += 8
-	  else if (wMinValueG < 5)
+	  else if(wMinValueG < 5)
 	    g_chip.AD.OffsetG -= 8
 	}
 
-      if (g_chip.AD.DirectionB == 0)
+      if(g_chip.AD.DirectionB == 0)
 	{
-	  if (wMinValueB > 15)
+	  if(wMinValueB > 15)
 	    {
-	      if (g_chip.AD.OffsetB < 8)
+	      if(g_chip.AD.OffsetB < 8)
 		g_chip.AD.DirectionB = 1
 	      else
 		g_chip.AD.OffsetB -= 8
 	    }
 
-	  else if (wMinValueB < 5)
+	  else if(wMinValueB < 5)
 	    g_chip.AD.OffsetB += 8
 	}
       else
 	{
-	  if (wMinValueB > 15)
+	  if(wMinValueB > 15)
 	    g_chip.AD.OffsetB += 8
-	  else if (wMinValueB < 5)
+	  else if(wMinValueB < 5)
 	    g_chip.AD.OffsetB -= 8
 	}
 
       nTimesOfCal++
-      if (nTimesOfCal > 10)
+      if(nTimesOfCal > 10)
 	break
     }
-  while (wMinValueR > 15 || wMinValueR < 5
+  while(wMinValueR > 15 || wMinValueR < 5
 	 || wMinValueG > 15 || wMinValueG < 5
 	 || wMinValueB > 15 || wMinValueB < 5)
 
-  DBG (DBG_FUNC,
+  DBG(DBG_FUNC,
        "Reflective_AdjustAD: run out first adjust offset do-while\n")
 
-  DBG (DBG_FUNC, "Reflective_AdjustAD: \
+  DBG(DBG_FUNC, "Reflective_AdjustAD: \
 					   g_chip.AD.OffsetR=%d,\
 					   g_chip.AD.OffsetG=%d,\
 					   g_chip.AD.OffsetB=%d\n", g_chip.AD.OffsetR, g_chip.AD.OffsetG, g_chip.AD.OffsetB)
@@ -771,14 +771,14 @@ Reflective_AdjustAD ()
     0 ? (Sane.Byte) (((1 - (double) (wMaxValueB - wMinValueB) / 210)) * 63 * 6 /
 		5) : 0
 
-  if (g_chip.AD.GainR > 63)
+  if(g_chip.AD.GainR > 63)
     g_chip.AD.GainR = 63
-  if (g_chip.AD.GainG > 63)
+  if(g_chip.AD.GainG > 63)
     g_chip.AD.GainG = 63
-  if (g_chip.AD.GainB > 63)
+  if(g_chip.AD.GainB > 63)
     g_chip.AD.GainB = 63
 
-  DBG (DBG_FUNC, "Reflective_AdjustAD: "
+  DBG(DBG_FUNC, "Reflective_AdjustAD: "
        "g_chip.AD.GainR = %d,"
        "g_chip.AD.GainG = %d,"
        "g_chip.AD.GainB = %d\n",
@@ -787,57 +787,57 @@ Reflective_AdjustAD ()
   nTimesOfCal = 0
   do
     {
-      Asic_SetAFEGainOffset (&g_chip)
-      Asic_ScanStart (&g_chip)
-      Asic_ReadCalibrationData (&g_chip, lpCalData, wCalWidth * 3, 24)
-      Asic_ScanStop (&g_chip)
+      Asic_SetAFEGainOffset(&g_chip)
+      Asic_ScanStart(&g_chip)
+      Asic_ReadCalibrationData(&g_chip, lpCalData, wCalWidth * 3, 24)
+      Asic_ScanStop(&g_chip)
 
-      MustScanner_CalculateMaxMin (lpCalData, &wMaxValueR, &wMinValueR,
+      MustScanner_CalculateMaxMin(lpCalData, &wMaxValueR, &wMinValueR,
 				   wAdjustADResolution)
-      MustScanner_CalculateMaxMin (lpCalData + wCalWidth, &wMaxValueG,
+      MustScanner_CalculateMaxMin(lpCalData + wCalWidth, &wMaxValueG,
 				   &wMinValueG, wAdjustADResolution)
-      MustScanner_CalculateMaxMin (lpCalData + wCalWidth * 2, &wMaxValueB,
+      MustScanner_CalculateMaxMin(lpCalData + wCalWidth * 2, &wMaxValueB,
 				   &wMinValueB, wAdjustADResolution)
 
-      DBG (DBG_FUNC, "Reflective_AdjustAD: "
+      DBG(DBG_FUNC, "Reflective_AdjustAD: "
 	   "RGain=%d, ROffset=%d, RDir=%d  GGain=%d, GOffset=%d, GDir=%d  BGain=%d, BOffset=%d, BDir=%d\n",
 	   g_chip.AD.GainR, g_chip.AD.OffsetR, g_chip.AD.DirectionR,
 	   g_chip.AD.GainG, g_chip.AD.OffsetG, g_chip.AD.DirectionG,
 	   g_chip.AD.GainB, g_chip.AD.OffsetB, g_chip.AD.DirectionB)
 
-      DBG (DBG_FUNC, "Reflective_AdjustAD: "
+      DBG(DBG_FUNC, "Reflective_AdjustAD: "
 	   "MaxR=%d, MinR=%d  MaxG=%d, MinG=%d  MaxB=%d, MinB=%d\n",
 	   wMaxValueR, wMinValueR, wMaxValueG, wMinValueG, wMaxValueB,
 	   wMinValueB)
 
       /*R Channel */
-      if ((wMaxValueR - wMinValueR) > REFL_MAX_LEVEL_RANGE)
+      if((wMaxValueR - wMinValueR) > REFL_MAX_LEVEL_RANGE)
 	{
-	  if (g_chip.AD.GainR > 0)
+	  if(g_chip.AD.GainR > 0)
 	    g_chip.AD.GainR--
 	}
       else
 	{
-	  if ((wMaxValueR - wMinValueR) < REFL_MIN_LEVEL_RANGE)
+	  if((wMaxValueR - wMinValueR) < REFL_MIN_LEVEL_RANGE)
 	    {
-	      if (wMaxValueR < REFL_WHITE_MIN_LEVEL)
+	      if(wMaxValueR < REFL_WHITE_MIN_LEVEL)
 		{
 		  g_chip.AD.GainR++
-		  if (g_chip.AD.GainR > 63)
+		  if(g_chip.AD.GainR > 63)
 		    g_chip.AD.GainR = 63
 		}
 	      else
 		{
-		  if (wMaxValueR > REFL_WHITE_MAX_LEVEL)
+		  if(wMaxValueR > REFL_WHITE_MAX_LEVEL)
 		    {
-		      if (g_chip.AD.GainR < 1)
+		      if(g_chip.AD.GainR < 1)
 			g_chip.AD.GainR = 0
 		      else
 			g_chip.AD.GainR--
 		    }
 		  else
 		    {
-		      if (g_chip.AD.GainR > 63)
+		      if(g_chip.AD.GainR > 63)
 			g_chip.AD.GainR = 63
 		      else
 			g_chip.AD.GainR++
@@ -846,17 +846,17 @@ Reflective_AdjustAD ()
 	    }
 	  else
 	    {
-	      if (wMaxValueR > REFL_WHITE_MAX_LEVEL)
+	      if(wMaxValueR > REFL_WHITE_MAX_LEVEL)
 		{
-		  if (g_chip.AD.GainR < 1)
+		  if(g_chip.AD.GainR < 1)
 		    g_chip.AD.GainR = 0
 		  else
 		    g_chip.AD.GainR--
 		}
 
-	      if (wMaxValueR < REFL_WHITE_MIN_LEVEL)
+	      if(wMaxValueR < REFL_WHITE_MIN_LEVEL)
 		{
-		  if (g_chip.AD.GainR > 63)
+		  if(g_chip.AD.GainR > 63)
 		    g_chip.AD.GainR = 63
 		  else
 		    g_chip.AD.GainR++
@@ -865,33 +865,33 @@ Reflective_AdjustAD ()
 	}
 
       /*G Channel */
-      if ((wMaxValueG - wMinValueG) > REFL_MAX_LEVEL_RANGE)
+      if((wMaxValueG - wMinValueG) > REFL_MAX_LEVEL_RANGE)
 	{
-	  if (g_chip.AD.GainG > 0)
+	  if(g_chip.AD.GainG > 0)
 	    g_chip.AD.GainG--
 	}
       else
 	{
-	  if ((wMaxValueG - wMinValueG) < REFL_MIN_LEVEL_RANGE)
+	  if((wMaxValueG - wMinValueG) < REFL_MIN_LEVEL_RANGE)
 	    {
-	      if (wMaxValueG < REFL_WHITE_MIN_LEVEL)
+	      if(wMaxValueG < REFL_WHITE_MIN_LEVEL)
 		{
 		  g_chip.AD.GainG++
-		  if (g_chip.AD.GainG > 63)
+		  if(g_chip.AD.GainG > 63)
 		    g_chip.AD.GainG = 63
 		}
 	      else
 		{
-		  if (wMaxValueG > REFL_WHITE_MAX_LEVEL)
+		  if(wMaxValueG > REFL_WHITE_MAX_LEVEL)
 		    {
-		      if (g_chip.AD.GainG < 1)
+		      if(g_chip.AD.GainG < 1)
 			g_chip.AD.GainG = 0
 		      else
 			g_chip.AD.GainG--
 		    }
 		  else
 		    {
-		      if (g_chip.AD.GainG > 63)
+		      if(g_chip.AD.GainG > 63)
 			g_chip.AD.GainG = 63
 		      else
 			g_chip.AD.GainG++
@@ -900,17 +900,17 @@ Reflective_AdjustAD ()
 	    }
 	  else
 	    {
-	      if (wMaxValueG > REFL_WHITE_MAX_LEVEL)
+	      if(wMaxValueG > REFL_WHITE_MAX_LEVEL)
 		{
-		  if (g_chip.AD.GainG < 1)
+		  if(g_chip.AD.GainG < 1)
 		    g_chip.AD.GainG = 0
 		  else
 		    g_chip.AD.GainG--
 		}
 
-	      if (wMaxValueG < REFL_WHITE_MIN_LEVEL)
+	      if(wMaxValueG < REFL_WHITE_MIN_LEVEL)
 		{
-		  if (g_chip.AD.GainG > 63)
+		  if(g_chip.AD.GainG > 63)
 		    g_chip.AD.GainG = 63
 		  else
 		    g_chip.AD.GainG++
@@ -919,33 +919,33 @@ Reflective_AdjustAD ()
 	}
 
       /* B Channel */
-      if ((wMaxValueB - wMinValueB) > REFL_MAX_LEVEL_RANGE)
+      if((wMaxValueB - wMinValueB) > REFL_MAX_LEVEL_RANGE)
 	{
-	  if (g_chip.AD.GainB > 0)
+	  if(g_chip.AD.GainB > 0)
 	    g_chip.AD.GainB--
 	}
       else
 	{
-	  if ((wMaxValueB - wMinValueB) < REFL_MIN_LEVEL_RANGE)
+	  if((wMaxValueB - wMinValueB) < REFL_MIN_LEVEL_RANGE)
 	    {
-	      if (wMaxValueB < REFL_WHITE_MIN_LEVEL)
+	      if(wMaxValueB < REFL_WHITE_MIN_LEVEL)
 		{
 		  g_chip.AD.GainB++
-		  if (g_chip.AD.GainB > 63)
+		  if(g_chip.AD.GainB > 63)
 		    g_chip.AD.GainB = 63
 		}
 	      else
 		{
-		  if (wMaxValueB > REFL_WHITE_MAX_LEVEL)
+		  if(wMaxValueB > REFL_WHITE_MAX_LEVEL)
 		    {
-		      if (g_chip.AD.GainB < 1)
+		      if(g_chip.AD.GainB < 1)
 			g_chip.AD.GainB = 0
 		      else
 			g_chip.AD.GainB--
 		    }
 		  else
 		    {
-		      if (g_chip.AD.GainB > 63)
+		      if(g_chip.AD.GainB > 63)
 			g_chip.AD.GainB = 63
 		      else
 			g_chip.AD.GainB++
@@ -954,18 +954,18 @@ Reflective_AdjustAD ()
 	    }
 	  else
 	    {
-	      if (wMaxValueB > REFL_WHITE_MAX_LEVEL)
+	      if(wMaxValueB > REFL_WHITE_MAX_LEVEL)
 
 		{
-		  if (g_chip.AD.GainB < 1)
+		  if(g_chip.AD.GainB < 1)
 		    g_chip.AD.GainB = 0
 		  else
 		    g_chip.AD.GainB--
 		}
 
-	      if (wMaxValueB < REFL_WHITE_MIN_LEVEL)
+	      if(wMaxValueB < REFL_WHITE_MIN_LEVEL)
 		{
-		  if (g_chip.AD.GainB > 63)
+		  if(g_chip.AD.GainB > 63)
 		    g_chip.AD.GainB = 63
 		  else
 		    g_chip.AD.GainB++
@@ -973,10 +973,10 @@ Reflective_AdjustAD ()
 	    }
 	}
       nTimesOfCal++
-      if (nTimesOfCal > 10)
+      if(nTimesOfCal > 10)
 	break
     }
-  while ((wMaxValueR - wMinValueR) > REFL_MAX_LEVEL_RANGE
+  while((wMaxValueR - wMinValueR) > REFL_MAX_LEVEL_RANGE
 	 || (wMaxValueR - wMinValueR) < REFL_MIN_LEVEL_RANGE
 	 || (wMaxValueG - wMinValueG) > REFL_MAX_LEVEL_RANGE
 	 || (wMaxValueG - wMinValueG) < REFL_MIN_LEVEL_RANGE
@@ -987,114 +987,114 @@ Reflective_AdjustAD ()
   nTimesOfCal = 0
   do
     {
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_AdjustAD: run in second adjust offset do-while\n")
-      Asic_SetAFEGainOffset (&g_chip)
-      Asic_ScanStart (&g_chip)
-      Asic_ReadCalibrationData (&g_chip, lpCalData, wCalWidth * 3, 24)
-      Asic_ScanStop (&g_chip)
+      Asic_SetAFEGainOffset(&g_chip)
+      Asic_ScanStart(&g_chip)
+      Asic_ReadCalibrationData(&g_chip, lpCalData, wCalWidth * 3, 24)
+      Asic_ScanStop(&g_chip)
 
-      MustScanner_CalculateMaxMin (lpCalData, &wMaxValueR, &wMinValueR,
+      MustScanner_CalculateMaxMin(lpCalData, &wMaxValueR, &wMinValueR,
 				   wAdjustADResolution)
-      MustScanner_CalculateMaxMin (lpCalData + wCalWidth, &wMaxValueG,
+      MustScanner_CalculateMaxMin(lpCalData + wCalWidth, &wMaxValueG,
 				   &wMinValueG, wAdjustADResolution)
-      MustScanner_CalculateMaxMin (lpCalData + wCalWidth * 2, &wMaxValueB,
+      MustScanner_CalculateMaxMin(lpCalData + wCalWidth * 2, &wMaxValueB,
 				   &wMinValueB, wAdjustADResolution)
 
-      DBG (DBG_FUNC, "Reflective_AdjustAD: "
+      DBG(DBG_FUNC, "Reflective_AdjustAD: "
 	   "RGain=%d, ROffset=%d, RDir=%d  GGain=%d, GOffset=%d, GDir=%d  BGain=%d, BOffset=%d, BDir=%d\n",
 	   g_chip.AD.GainR, g_chip.AD.OffsetR, g_chip.AD.DirectionR,
 	   g_chip.AD.GainG, g_chip.AD.OffsetG, g_chip.AD.DirectionG,
 	   g_chip.AD.GainB, g_chip.AD.OffsetB, g_chip.AD.DirectionB)
 
-      DBG (DBG_FUNC, "Reflective_AdjustAD: "
+      DBG(DBG_FUNC, "Reflective_AdjustAD: "
 	   "MaxR=%d, MinR=%d  MaxG=%d, MinG=%d  MaxB=%d, MinB=%d\n",
 	   wMaxValueR, wMinValueR, wMaxValueG, wMinValueG, wMaxValueB,
 	   wMinValueB)
 
-      if (g_chip.AD.DirectionR == 0)
+      if(g_chip.AD.DirectionR == 0)
 	{
-	  if (wMinValueR > 20)
+	  if(wMinValueR > 20)
 	    {
-	      if (g_chip.AD.OffsetR < 8)
+	      if(g_chip.AD.OffsetR < 8)
 		g_chip.AD.DirectionR = 1
 	      else
 		g_chip.AD.OffsetR -= 8
 	    }
 
-	  else if (wMinValueR < 10)
+	  else if(wMinValueR < 10)
 	    g_chip.AD.OffsetR += 8
 	}
       else
 	{
-	  if (wMinValueR > 20)
+	  if(wMinValueR > 20)
 	    g_chip.AD.OffsetR += 8
-	  else if (wMinValueR < 10)
+	  else if(wMinValueR < 10)
 	    g_chip.AD.OffsetR -= 8
 	}
 
-      if (g_chip.AD.DirectionG == 0)
+      if(g_chip.AD.DirectionG == 0)
 	{
-	  if (wMinValueG > 20)
+	  if(wMinValueG > 20)
 	    {
-	      if (g_chip.AD.OffsetG < 8)
+	      if(g_chip.AD.OffsetG < 8)
 		g_chip.AD.DirectionG = 1
 	      else
 		g_chip.AD.OffsetG -= 8
 	    }
-	  else if (wMinValueG < 10)
+	  else if(wMinValueG < 10)
 	    g_chip.AD.OffsetG += 8
 	}
       else
 	{
-	  if (wMinValueG > 20)
+	  if(wMinValueG > 20)
 	    g_chip.AD.OffsetG += 8
-	  else if (wMinValueG < 10)
+	  else if(wMinValueG < 10)
 	    g_chip.AD.OffsetG -= 8
 	}
 
-      if (g_chip.AD.DirectionB == 0)
+      if(g_chip.AD.DirectionB == 0)
 	{
-	  if (wMinValueB > 20)
+	  if(wMinValueB > 20)
 	    {
-	      if (g_chip.AD.OffsetB < 8)
+	      if(g_chip.AD.OffsetB < 8)
 		g_chip.AD.DirectionB = 1
 	      else
 		g_chip.AD.OffsetB -= 8
 	    }
-	  else if (wMinValueB < 10)
+	  else if(wMinValueB < 10)
 	    g_chip.AD.OffsetB += 8
 	}
       else
 	{
-	  if (wMinValueB > 20)
+	  if(wMinValueB > 20)
 	    g_chip.AD.OffsetB += 8
-	  else if (wMinValueB < 10)
+	  else if(wMinValueB < 10)
 	    g_chip.AD.OffsetB -= 8
 	}
 
       nTimesOfCal++
-      if (nTimesOfCal > 8)
+      if(nTimesOfCal > 8)
 	break
 
     }
-  while (wMinValueR > 20 || wMinValueR < 10
+  while(wMinValueR > 20 || wMinValueR < 10
 	 || wMinValueG > 20 || wMinValueG < 10
 	 || wMinValueB > 20 || wMinValueB < 10)
 
-  DBG (DBG_FUNC,
+  DBG(DBG_FUNC,
        "Reflective_AdjustAD: run in second adjust offset do-while\n")
 
-  DBG (DBG_FUNC, "Reflective_AdjustAD:after ad gain\n")
-  DBG (DBG_FUNC, "Reflective_AdjustAD: "
+  DBG(DBG_FUNC, "Reflective_AdjustAD:after ad gain\n")
+  DBG(DBG_FUNC, "Reflective_AdjustAD: "
        "g_chip.AD.GainR = %d,"
        "g_chip.AD.GainG = %d,"
        "g_chip.AD.GainB = %d\n",
        g_chip.AD.GainR, g_chip.AD.GainG, g_chip.AD.GainB)
 
-  free (lpCalData)
+  free(lpCalData)
 
-  DBG (DBG_FUNC, "Reflective_AdjustAD: leave Reflective_AdjustAD\n")
+  DBG(DBG_FUNC, "Reflective_AdjustAD: leave Reflective_AdjustAD\n")
   return TRUE
 }
 
@@ -1112,7 +1112,7 @@ Return value:
 	return FALSE
 ***********************************************************************/
 static Bool
-Reflective_FindTopLeft (unsigned short * lpwStartX, unsigned short * lpwStartY)
+Reflective_FindTopLeft(unsigned short * lpwStartX, unsigned short * lpwStartY)
 {
   unsigned short wCalWidth = FIND_LEFT_TOP_WIDTH_IN_DIP
   unsigned short wCalHeight = FIND_LEFT_TOP_HEIGHT_IN_DIP
@@ -1125,93 +1125,93 @@ Reflective_FindTopLeft (unsigned short * lpwStartX, unsigned short * lpwStartY)
   unsigned Int dwTotalSize
   unsigned short wXResolution, wYResolution
 
-  DBG (DBG_FUNC, "Reflective_FindTopLeft: call in\n")
-  if (!g_bOpened)
+  DBG(DBG_FUNC, "Reflective_FindTopLeft: call in\n")
+  if(!g_bOpened)
     {
-      DBG (DBG_FUNC, "Reflective_FindTopLeft: scanner has been opened\n")
+      DBG(DBG_FUNC, "Reflective_FindTopLeft: scanner has been opened\n")
       return FALSE
     }
-  if (!g_bPrepared)
+  if(!g_bPrepared)
     {
-      DBG (DBG_FUNC, "Reflective_FindTopLeft: scanner not prepared\n")
+      DBG(DBG_FUNC, "Reflective_FindTopLeft: scanner not prepared\n")
       return FALSE
     }
 
   wXResolution = wYResolution = FIND_LEFT_TOP_CALIBRATE_RESOLUTION
 
-  lpCalData = (Sane.Byte *) malloc (sizeof (Sane.Byte) * wCalWidth * wCalHeight)
-  if (lpCalData == NULL)
+  lpCalData = (Sane.Byte *) malloc(sizeof(Sane.Byte) * wCalWidth * wCalHeight)
+  if(lpCalData == NULL)
     {
-      DBG (DBG_FUNC, "Reflective_FindTopLeft: lpCalData malloc error\n")
+      DBG(DBG_FUNC, "Reflective_FindTopLeft: lpCalData malloc error\n")
       return FALSE
     }
 
   dwTotalSize = wCalWidth * wCalHeight
   nScanBlock = (Int) (dwTotalSize / g_dwCalibrationSize)
 
-  Asic_SetMotorType (&g_chip, TRUE, TRUE)
-  Asic_SetCalibrate (&g_chip, 8, wXResolution, wYResolution, 0, 0, wCalWidth,
+  Asic_SetMotorType(&g_chip, TRUE, TRUE)
+  Asic_SetCalibrate(&g_chip, 8, wXResolution, wYResolution, 0, 0, wCalWidth,
 		     wCalHeight, FALSE)
-  Asic_SetAFEGainOffset (&g_chip)
-  if (Asic_ScanStart (&g_chip) != STATUS_GOOD)
+  Asic_SetAFEGainOffset(&g_chip)
+  if(Asic_ScanStart(&g_chip) != STATUS_GOOD)
     {
-      DBG (DBG_FUNC, "Reflective_FindTopLeft: Asic_ScanStart return error\n")
-      free (lpCalData)
+      DBG(DBG_FUNC, "Reflective_FindTopLeft: Asic_ScanStart return error\n")
+      free(lpCalData)
       return FALSE
     }
 
-  for (i = 0; i < nScanBlock; i++)
+  for(i = 0; i < nScanBlock; i++)
     {
-      if (STATUS_GOOD !=
-	  Asic_ReadCalibrationData (&g_chip,
+      if(STATUS_GOOD !=
+	  Asic_ReadCalibrationData(&g_chip,
 				    lpCalData + i * g_dwCalibrationSize,
 				    g_dwCalibrationSize, 8))
 	{
-	  DBG (DBG_FUNC,
+	  DBG(DBG_FUNC,
 	       "Reflective_FindTopLeft: Asic_ReadCalibrationData return error\n")
-	  free (lpCalData)
+	  free(lpCalData)
 	  return FALSE
 	}
     }
 
-  if (STATUS_GOOD !=
-      Asic_ReadCalibrationData (&g_chip,
+  if(STATUS_GOOD !=
+      Asic_ReadCalibrationData(&g_chip,
 				lpCalData +
 				(nScanBlock) * g_dwCalibrationSize,
 				(dwTotalSize -
 				 g_dwCalibrationSize * nScanBlock), 8))
     {
 
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_FindTopLeft: Asic_ReadCalibrationData return error\n")
-      free (lpCalData)
+      free(lpCalData)
       return FALSE
     }
 
-  Asic_ScanStop (&g_chip)
+  Asic_ScanStop(&g_chip)
 
 #ifdef DEBUG_SAVE_IMAGE
   FILE *stream = NULL
-  stream = fopen ("/root/bound(Ref).pnm", "wb+\n")
-  Sane.Byte * lpBuf = (Sane.Byte *) malloc (50)
-  if (NULL == lpBuf)
+  stream = fopen("/root/bound(Ref).pnm", "wb+\n")
+  Sane.Byte * lpBuf = (Sane.Byte *) malloc(50)
+  if(NULL == lpBuf)
     {
       return FALSE
     }
-  memset (lpBuf, 0, 50)
-  sprintf (lpBuf, "P5\n%d %d\n255\n", wCalWidth, wCalHeight)
-  fwrite (lpBuf, sizeof (Sane.Byte), strlen (lpBuf), stream)
-  fwrite (lpCalData, sizeof (Sane.Byte), wCalWidth * wCalHeight, stream)
+  memset(lpBuf, 0, 50)
+  sprintf(lpBuf, "P5\n%d %d\n255\n", wCalWidth, wCalHeight)
+  fwrite(lpBuf, sizeof(Sane.Byte), strlen(lpBuf), stream)
+  fwrite(lpCalData, sizeof(Sane.Byte), wCalWidth * wCalHeight, stream)
 
-  fclose (stream)
-  free (lpBuf)
+  fclose(stream)
+  free(lpBuf)
 #endif
 
   wLeftSide = 0
   wTopSide = 0
 
   /* Find Left Side */
-  for (i = wCalWidth - 1; i > 0; i--)
+  for(i = wCalWidth - 1; i > 0; i--)
     {
       wLeftSide = *(lpCalData + i)
       wLeftSide += *(lpCalData + wCalWidth * 2 + i)
@@ -1219,9 +1219,9 @@ Reflective_FindTopLeft (unsigned short * lpwStartX, unsigned short * lpwStartY)
       wLeftSide += *(lpCalData + wCalWidth * 6 + i)
       wLeftSide += *(lpCalData + wCalWidth * 8 + i)
       wLeftSide /= 5
-      if (wLeftSide < 60)
+      if(wLeftSide < 60)
 	{
-	  if (i == wCalWidth - 1)
+	  if(i == wCalWidth - 1)
 	    {
 	      break
 	    }
@@ -1233,7 +1233,7 @@ Reflective_FindTopLeft (unsigned short * lpwStartX, unsigned short * lpwStartY)
     }
 
   /*Find Top Side i=left side */
-  for (j = 0; j < wCalHeight; j++)
+  for(j = 0; j < wCalHeight; j++)
     {
       wTopSide = *(lpCalData + wCalWidth * j + i - 2)
       wTopSide += *(lpCalData + wCalWidth * j + i - 4)
@@ -1242,9 +1242,9 @@ Reflective_FindTopLeft (unsigned short * lpwStartX, unsigned short * lpwStartY)
       wTopSide += *(lpCalData + wCalWidth * j + i - 10)
 
       wTopSide /= 5
-      if (wTopSide > 60)
+      if(wTopSide > 60)
 	{
-	  if (j == 0)
+	  if(j == 0)
 	    {
 	      break
 	    }
@@ -1255,27 +1255,27 @@ Reflective_FindTopLeft (unsigned short * lpwStartX, unsigned short * lpwStartY)
 	}
     }
 
-  if ((*lpwStartX < 100) || (*lpwStartX > 250))
+  if((*lpwStartX < 100) || (*lpwStartX > 250))
     {
       *lpwStartX = 187
     }
 
-  if ((*lpwStartY < 10) || (*lpwStartY > 100))
+  if((*lpwStartY < 10) || (*lpwStartY > 100))
     {
       *lpwStartY = 43
     }
 
-  DBG (DBG_FUNC,
+  DBG(DBG_FUNC,
        "Reflective_FindTopLeft: *lpwStartY = %d, *lpwStartX = %d\n",
        *lpwStartY, *lpwStartX)
-  Asic_MotorMove (&g_chip, FALSE,
+  Asic_MotorMove(&g_chip, FALSE,
 		  (wCalHeight - *lpwStartY +
 		   BEFORE_SCANNING_MOTOR_FORWARD_PIXEL) * 1200 /
 		  wYResolution)
 
-  free (lpCalData)
+  free(lpCalData)
 
-  DBG (DBG_FUNC, "Reflective_FindTopLeft: leave Reflective_FindTopLeft\n")
+  DBG(DBG_FUNC, "Reflective_FindTopLeft: leave Reflective_FindTopLeft\n")
   return TRUE
 
 }
@@ -1293,35 +1293,35 @@ Return value:
 	return FALSE
 ***********************************************************************/
 static Bool
-Reflective_StopScan ()
+Reflective_StopScan()
 {
-  DBG (DBG_FUNC, "Reflective_StopScan: call in\n")
-  if (!g_bOpened)
+  DBG(DBG_FUNC, "Reflective_StopScan: call in\n")
+  if(!g_bOpened)
     {
-      DBG (DBG_FUNC, "Reflective_StopScan: scanner not opened\n")
+      DBG(DBG_FUNC, "Reflective_StopScan: scanner not opened\n")
 
       return FALSE
     }
-  if (!g_bPrepared)
+  if(!g_bPrepared)
     {
-      DBG (DBG_FUNC, "Reflective_StopScan: scanner not prepared\n")
+      DBG(DBG_FUNC, "Reflective_StopScan: scanner not prepared\n")
 
       return FALSE
     }
 
   g_isCanceled = TRUE;		/*tell parent process stop read image */
 
-  pthread_cancel (g_threadid_readimage)
-  pthread_join (g_threadid_readimage, NULL)
+  pthread_cancel(g_threadid_readimage)
+  pthread_join(g_threadid_readimage, NULL)
 
-  DBG (DBG_FUNC, "Reflective_StopScan: thread exit\n")
+  DBG(DBG_FUNC, "Reflective_StopScan: thread exit\n")
 
-  Asic_ScanStop (&g_chip)
-  Asic_Close (&g_chip)
+  Asic_ScanStop(&g_chip)
+  Asic_Close(&g_chip)
 
   g_bOpened = FALSE
 
-  DBG (DBG_FUNC, "Reflective_StopScan: leave Reflective_StopScan\n")
+  DBG(DBG_FUNC, "Reflective_StopScan: leave Reflective_StopScan\n")
   return TRUE
 }
 
@@ -1338,7 +1338,7 @@ Return value:
 	return FALSE
 ***********************************************************************/
 static Bool
-Reflective_LineCalibration16Bits ()
+Reflective_LineCalibration16Bits()
 {
   STATUS status
   Sane.Byte * lpWhiteData
@@ -1367,17 +1367,17 @@ Reflective_LineCalibration16Bits ()
   unsigned short * lpBDarkSort
   var i: Int, j
 
-  DBG (DBG_FUNC, "Reflective_LineCalibration16Bits: call in\n")
-  if (!g_bOpened)
+  DBG(DBG_FUNC, "Reflective_LineCalibration16Bits: call in\n")
+  if(!g_bOpened)
     {
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_LineCalibration16Bits: scanner not opened\n")
 
       return FALSE
     }
-  if (!g_bPrepared)
+  if(!g_bPrepared)
     {
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_LineCalibration16Bits: scanner not prepared\n")
 
       return FALSE
@@ -1387,173 +1387,173 @@ Reflective_LineCalibration16Bits ()
 
   dwWhiteTotalSize = wCalWidth * wCalHeight * 3 * 2
   dwDarkTotalSize = wCalWidth * wCalHeight * 3 * 2
-  lpWhiteData = (Sane.Byte *) malloc (sizeof (Sane.Byte) * dwWhiteTotalSize)
-  lpDarkData = (Sane.Byte *) malloc (sizeof (Sane.Byte) * dwDarkTotalSize)
+  lpWhiteData = (Sane.Byte *) malloc(sizeof(Sane.Byte) * dwWhiteTotalSize)
+  lpDarkData = (Sane.Byte *) malloc(sizeof(Sane.Byte) * dwDarkTotalSize)
 
-  if (lpWhiteData == NULL || lpDarkData == NULL)
+  if(lpWhiteData == NULL || lpDarkData == NULL)
     {
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_LineCalibration16Bits: lpWhiteData or lpDarkData malloc error \n")
 
       return FALSE
     }
 
-  Asic_SetMotorType (&g_chip, TRUE, TRUE)
-  Asic_SetAFEGainOffset (&g_chip)
+  Asic_SetMotorType(&g_chip, TRUE, TRUE)
+  Asic_SetAFEGainOffset(&g_chip)
   status =
-    Asic_SetCalibrate (&g_chip, 48, g_XDpi, g_YDpi, g_X, 0, wCalWidth,
+    Asic_SetCalibrate(&g_chip, 48, g_XDpi, g_YDpi, g_X, 0, wCalWidth,
 		       wCalHeight, TRUE)
-  if (status != STATUS_GOOD)
+  if(status != STATUS_GOOD)
     {
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_LineCalibration16Bits: Asic_SetCalibrate return error \n")
 
-      free (lpWhiteData)
+      free(lpWhiteData)
 
-      free (lpDarkData)
+      free(lpDarkData)
       return FALSE
     }
 
-  status = Asic_ScanStart (&g_chip)
-  if (status != STATUS_GOOD)
+  status = Asic_ScanStart(&g_chip)
+  if(status != STATUS_GOOD)
     {
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_LineCalibration16Bits: Asic_ScanStart return error \n")
 
-      free (lpWhiteData)
-      free (lpDarkData)
+      free(lpWhiteData)
+      free(lpDarkData)
       return FALSE
     }
 
   status =
-    Asic_ReadCalibrationData (&g_chip, lpWhiteData, dwWhiteTotalSize, 8)
-  if (status != STATUS_GOOD)
+    Asic_ReadCalibrationData(&g_chip, lpWhiteData, dwWhiteTotalSize, 8)
+  if(status != STATUS_GOOD)
     {
-      free (lpWhiteData)
-      free (lpDarkData)
+      free(lpWhiteData)
+      free(lpDarkData)
       return FALSE
     }
 
-  Asic_ScanStop (&g_chip)
+  Asic_ScanStop(&g_chip)
 
   /*Read dark level data */
-  status = Asic_SetMotorType (&g_chip, FALSE, TRUE)
-  if (status != STATUS_GOOD)
+  status = Asic_SetMotorType(&g_chip, FALSE, TRUE)
+  if(status != STATUS_GOOD)
     {
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_LineCalibration16Bits: Asic_SetMotorType return error \n")
 
-      free (lpWhiteData)
-      free (lpDarkData)
+      free(lpWhiteData)
+      free(lpDarkData)
       return FALSE
     }
 
   status =
-    Asic_SetCalibrate (&g_chip, 48, g_XDpi, g_YDpi, g_X, 0, wCalWidth,
+    Asic_SetCalibrate(&g_chip, 48, g_XDpi, g_YDpi, g_X, 0, wCalWidth,
 		       wCalHeight, TRUE)
-  if (status != STATUS_GOOD)
+  if(status != STATUS_GOOD)
     {
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_LineCalibration16Bits: Asic_SetCalibrate return error \n")
 
-      free (lpWhiteData)
-      free (lpDarkData)
+      free(lpWhiteData)
+      free(lpDarkData)
       return FALSE
     }
 
-  status = Asic_TurnLamp (&g_chip, FALSE)
-  if (status != STATUS_GOOD)
+  status = Asic_TurnLamp(&g_chip, FALSE)
+  if(status != STATUS_GOOD)
     {
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_LineCalibration16Bits: Asic_TurnLamp return error \n")
 
-      free (lpWhiteData)
-      free (lpDarkData)
+      free(lpWhiteData)
+      free(lpDarkData)
       return FALSE
     }
 
-  usleep (500000)
+  usleep(500000)
 
-  status = Asic_ScanStart (&g_chip)
-  if (status != STATUS_GOOD)
+  status = Asic_ScanStart(&g_chip)
+  if(status != STATUS_GOOD)
     {
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_LineCalibration16Bits: Asic_ScanStart return error \n")
 
-      free (lpWhiteData)
-      free (lpDarkData)
+      free(lpWhiteData)
+      free(lpDarkData)
       return FALSE
     }
 
-  status = Asic_ReadCalibrationData (&g_chip, lpDarkData, dwDarkTotalSize, 8)
-  if (status != STATUS_GOOD)
+  status = Asic_ReadCalibrationData(&g_chip, lpDarkData, dwDarkTotalSize, 8)
+  if(status != STATUS_GOOD)
     {
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_LineCalibration16Bits: Asic_ReadCalibrationData return error \n")
 
-      free (lpWhiteData)
-      free (lpDarkData)
+      free(lpWhiteData)
+      free(lpDarkData)
       return FALSE
     }
 
-  Asic_ScanStop (&g_chip)
+  Asic_ScanStop(&g_chip)
 
   /* Turn on lamp */
-  status = Asic_TurnLamp (&g_chip, TRUE)
-  if (status != STATUS_GOOD)
+  status = Asic_TurnLamp(&g_chip, TRUE)
+  if(status != STATUS_GOOD)
     {
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_LineCalibration16Bits: Asic_TurnLamp return error \n")
 
-      free (lpWhiteData)
-      free (lpDarkData)
+      free(lpWhiteData)
+      free(lpDarkData)
       return FALSE
     }
 
 #ifdef DEBUG_SAVE_IMAGE
   FILE *stream = NULL
-  Sane.Byte * lpBuf = (Sane.Byte *) malloc (50)
-  if (NULL == lpBuf)
+  Sane.Byte * lpBuf = (Sane.Byte *) malloc(50)
+  if(NULL == lpBuf)
     {
       return FALSE
 
     }
-  memset (lpBuf, 0, 50)
-  stream = fopen ("/root/whiteshading(Ref).pnm", "wb+\n")
-  sprintf (lpBuf, "P6\n%d %d\n65535\n", wCalWidth, wCalHeight)
-  fwrite (lpBuf, sizeof (Sane.Byte), strlen (lpBuf), stream)
-  fwrite (lpWhiteData, sizeof (Sane.Byte), wCalWidth * wCalHeight * 3 * 2, stream)
-  fclose (stream)
+  memset(lpBuf, 0, 50)
+  stream = fopen("/root/whiteshading(Ref).pnm", "wb+\n")
+  sprintf(lpBuf, "P6\n%d %d\n65535\n", wCalWidth, wCalHeight)
+  fwrite(lpBuf, sizeof(Sane.Byte), strlen(lpBuf), stream)
+  fwrite(lpWhiteData, sizeof(Sane.Byte), wCalWidth * wCalHeight * 3 * 2, stream)
+  fclose(stream)
 
-  memset (lpBuf, 0, 50)
-  stream = fopen ("/root/darkshading(Ref).pnm", "wb+\n")
-  sprintf (lpBuf, "P6\n%d %d\n65535\n", wCalWidth, wCalHeight)
-  fwrite (lpBuf, sizeof (Sane.Byte), strlen (lpBuf), stream)
-  fwrite (lpDarkData, sizeof (Sane.Byte), wCalWidth * wCalHeight * 3 * 2, stream)
-  fclose (stream)
-  free (lpBuf)
+  memset(lpBuf, 0, 50)
+  stream = fopen("/root/darkshading(Ref).pnm", "wb+\n")
+  sprintf(lpBuf, "P6\n%d %d\n65535\n", wCalWidth, wCalHeight)
+  fwrite(lpBuf, sizeof(Sane.Byte), strlen(lpBuf), stream)
+  fwrite(lpDarkData, sizeof(Sane.Byte), wCalWidth * wCalHeight * 3 * 2, stream)
+  fclose(stream)
+  free(lpBuf)
 #endif
 
-  sleep (1)
+  sleep(1)
 
-  lpWhiteShading = (unsigned short *) malloc (sizeof (unsigned short) * wCalWidth * 3)
-  lpDarkShading = (unsigned short *) malloc (sizeof (unsigned short) * wCalWidth * 3)
+  lpWhiteShading = (unsigned short *) malloc(sizeof(unsigned short) * wCalWidth * 3)
+  lpDarkShading = (unsigned short *) malloc(sizeof(unsigned short) * wCalWidth * 3)
 
-  lpRWhiteSort = (unsigned short *) malloc (sizeof (unsigned short) * wCalHeight)
-  lpGWhiteSort = (unsigned short *) malloc (sizeof (unsigned short) * wCalHeight)
-  lpBWhiteSort = (unsigned short *) malloc (sizeof (unsigned short) * wCalHeight)
-  lpRDarkSort = (unsigned short *) malloc (sizeof (unsigned short) * wCalHeight)
-  lpGDarkSort = (unsigned short *) malloc (sizeof (unsigned short) * wCalHeight)
-  lpBDarkSort = (unsigned short *) malloc (sizeof (unsigned short) * wCalHeight)
+  lpRWhiteSort = (unsigned short *) malloc(sizeof(unsigned short) * wCalHeight)
+  lpGWhiteSort = (unsigned short *) malloc(sizeof(unsigned short) * wCalHeight)
+  lpBWhiteSort = (unsigned short *) malloc(sizeof(unsigned short) * wCalHeight)
+  lpRDarkSort = (unsigned short *) malloc(sizeof(unsigned short) * wCalHeight)
+  lpGDarkSort = (unsigned short *) malloc(sizeof(unsigned short) * wCalHeight)
+  lpBDarkSort = (unsigned short *) malloc(sizeof(unsigned short) * wCalHeight)
 
-  if (lpWhiteShading == NULL || lpDarkShading == NULL
+  if(lpWhiteShading == NULL || lpDarkShading == NULL
       || lpRWhiteSort == NULL || lpGWhiteSort == NULL || lpBWhiteSort == NULL
       || lpRDarkSort == NULL || lpGDarkSort == NULL || lpBDarkSort == NULL)
     {
-      DBG (DBG_FUNC, "Reflective_LineCalibration16Bits: malloc error \n")
+      DBG(DBG_FUNC, "Reflective_LineCalibration16Bits: malloc error \n")
 
-      free (lpWhiteData)
-      free (lpDarkData)
+      free(lpWhiteData)
+      free(lpDarkData)
       return FALSE
     }
 
@@ -1565,13 +1565,13 @@ Reflective_LineCalibration16Bits ()
   dwGEvenDarkLevel = 0
   dwBEvenDarkLevel = 0
 
-  DBG (DBG_FUNC,
+  DBG(DBG_FUNC,
        "Reflective_LineCalibration16Bits: wCalWidth = %d, wCalHeight = %d\n",
        wCalWidth, wCalHeight)
 
-  for (i = 0; i < wCalWidth; i++)
+  for(i = 0; i < wCalWidth; i++)
     {
-      for (j = 0; j < wCalHeight; j++)
+      for(j = 0; j < wCalHeight; j++)
 	{
 	  lpRDarkSort[j] =
 	    (unsigned short) (*(lpDarkData + j * wCalWidth * 6 + i * 6 + 0))
@@ -1589,33 +1589,33 @@ Reflective_LineCalibration16Bits ()
 	    (unsigned short) (*(lpDarkData + j * wCalWidth * 6 + i * 6 + 5) << 8)
 	}
 
-      if (g_XDpi == 1200)
+      if(g_XDpi == 1200)
 	{
 
 	  /*do dark shading table with mean */
-	  if (i % 2)
+	  if(i % 2)
 	    {
 	      dwRDarkLevel +=
-		(unsigned Int) MustScanner_FiltLower (lpRDarkSort, wCalHeight, 20,
+		(unsigned Int) MustScanner_FiltLower(lpRDarkSort, wCalHeight, 20,
 					       30)
 	      dwGDarkLevel +=
-		(unsigned Int) MustScanner_FiltLower (lpGDarkSort, wCalHeight, 20,
+		(unsigned Int) MustScanner_FiltLower(lpGDarkSort, wCalHeight, 20,
 					       30)
 	      dwBDarkLevel +=
-		(unsigned Int) MustScanner_FiltLower (lpBDarkSort, wCalHeight, 20,
+		(unsigned Int) MustScanner_FiltLower(lpBDarkSort, wCalHeight, 20,
 					       30)
 	    }
 	  else
 	    {
 	      dwREvenDarkLevel +=
-		(unsigned Int) MustScanner_FiltLower (lpRDarkSort, wCalHeight, 20,
+		(unsigned Int) MustScanner_FiltLower(lpRDarkSort, wCalHeight, 20,
 					       30)
 
 	      dwGEvenDarkLevel +=
-		(unsigned Int) MustScanner_FiltLower (lpGDarkSort, wCalHeight, 20,
+		(unsigned Int) MustScanner_FiltLower(lpGDarkSort, wCalHeight, 20,
 					       30)
 	      dwBEvenDarkLevel +=
-		(unsigned Int) MustScanner_FiltLower (lpBDarkSort, wCalHeight, 20,
+		(unsigned Int) MustScanner_FiltLower(lpBDarkSort, wCalHeight, 20,
 					       30)
 	    }
 	}
@@ -1623,15 +1623,15 @@ Reflective_LineCalibration16Bits ()
 	{
 
 	  dwRDarkLevel +=
-	    (unsigned Int) MustScanner_FiltLower (lpRDarkSort, wCalHeight, 20, 30)
+	    (unsigned Int) MustScanner_FiltLower(lpRDarkSort, wCalHeight, 20, 30)
 	  dwGDarkLevel +=
-	    (unsigned Int) MustScanner_FiltLower (lpGDarkSort, wCalHeight, 20, 30)
+	    (unsigned Int) MustScanner_FiltLower(lpGDarkSort, wCalHeight, 20, 30)
 	  dwBDarkLevel +=
-	    (unsigned Int) MustScanner_FiltLower (lpBDarkSort, wCalHeight, 20, 30)
+	    (unsigned Int) MustScanner_FiltLower(lpBDarkSort, wCalHeight, 20, 30)
 	}
     }
 
-  if (g_XDpi == 1200)
+  if(g_XDpi == 1200)
     {
       dwRDarkLevel = (unsigned Int) (dwRDarkLevel / (wCalWidth / 2))
       dwGDarkLevel = (unsigned Int) (dwGDarkLevel / (wCalWidth / 2))
@@ -1648,13 +1648,13 @@ Reflective_LineCalibration16Bits ()
     }
 
   /*Create white shading */
-  for (i = 0; i < wCalWidth; i++)
+  for(i = 0; i < wCalWidth; i++)
     {
       wRWhiteLevel = 0
       wGWhiteLevel = 0
       wBWhiteLevel = 0
 
-      for (j = 0; j < wCalHeight; j++)
+      for(j = 0; j < wCalHeight; j++)
 	{
 	  lpRWhiteSort[j] =
 	    (unsigned short) (*(lpWhiteData + j * wCalWidth * 2 * 3 + i * 6 + 0))
@@ -1672,9 +1672,9 @@ Reflective_LineCalibration16Bits ()
 	    (unsigned short) (*(lpWhiteData + j * wCalWidth * 2 * 3 + i * 6 + 5) << 8)
 	}
 
-      if (g_XDpi == 1200)
+      if(g_XDpi == 1200)
 	{
-	  if (i % 2)
+	  if(i % 2)
 	    {
 	      *(lpDarkShading + i * 3 + 0) = (unsigned short) dwRDarkLevel
 	      *(lpDarkShading + i * 3 + 1) = (unsigned short) dwGDarkLevel
@@ -1697,50 +1697,50 @@ Reflective_LineCalibration16Bits ()
 
       /*Create white shading */
       wRWhiteLevel =
-	(double) (MustScanner_FiltLower (lpRWhiteSort, wCalHeight, 20, 30) -
+	(double) (MustScanner_FiltLower(lpRWhiteSort, wCalHeight, 20, 30) -
 		  *(lpDarkShading + i * 3 + 0))
       wGWhiteLevel =
-	(double) (MustScanner_FiltLower (lpGWhiteSort, wCalHeight, 20, 30) -
+	(double) (MustScanner_FiltLower(lpGWhiteSort, wCalHeight, 20, 30) -
 		  *(lpDarkShading + i * 3 + 1))
       wBWhiteLevel =
-	(double) (MustScanner_FiltLower (lpBWhiteSort, wCalHeight, 20, 30) -
+	(double) (MustScanner_FiltLower(lpBWhiteSort, wCalHeight, 20, 30) -
 		  *(lpDarkShading + i * 3 + 2))
 
-      if (wRWhiteLevel > 0)
+      if(wRWhiteLevel > 0)
 	*(lpWhiteShading + i * 3 + 0) =
 	  (unsigned short) (((float) 65535 / wRWhiteLevel * 0x2000))
       else
 	*(lpWhiteShading + i * 3 + 0) = 0x2000
 
-      if (wGWhiteLevel > 0)
+      if(wGWhiteLevel > 0)
 	*(lpWhiteShading + i * 3 + 1) =
 	  (unsigned short) (((float) 65535 / wGWhiteLevel * 0x2000))
       else
 	*(lpWhiteShading + i * 3 + 1) = 0x2000
 
-      if (wBWhiteLevel > 0)
+      if(wBWhiteLevel > 0)
 	*(lpWhiteShading + i * 3 + 2) =
 	  (unsigned short) (((float) 65535 / wBWhiteLevel * 0x2000))
       else
 	*(lpWhiteShading + i * 3 + 2) = 0x2000
     }
 
-  free (lpWhiteData)
-  free (lpDarkData)
-  free (lpRWhiteSort)
-  free (lpGWhiteSort)
-  free (lpBWhiteSort)
-  free (lpRDarkSort)
-  free (lpGDarkSort)
-  free (lpBDarkSort)
+  free(lpWhiteData)
+  free(lpDarkData)
+  free(lpRWhiteSort)
+  free(lpGWhiteSort)
+  free(lpBWhiteSort)
+  free(lpRDarkSort)
+  free(lpGDarkSort)
+  free(lpBDarkSort)
 
-  Asic_SetShadingTable (&g_chip, lpWhiteShading, lpDarkShading, g_XDpi,
+  Asic_SetShadingTable(&g_chip, lpWhiteShading, lpDarkShading, g_XDpi,
 			wCalWidth, 0)
 
-  free (lpWhiteShading)
-  free (lpDarkShading)
+  free(lpWhiteShading)
+  free(lpDarkShading)
 
-  DBG (DBG_FUNC,
+  DBG(DBG_FUNC,
        "Reflective_LineCalibration16Bits: leave Reflective_LineCalibration16Bits\n")
   return TRUE
 }
@@ -1758,7 +1758,7 @@ Return value:
 	return FALSE
 ***********************************************************************/
 static Bool
-Reflective_PrepareScan ()
+Reflective_PrepareScan()
 {
   g_wScanLinesPerBlock = g_dwBufferSize / g_BytesPerRow
   g_wMaxScanLines = g_dwImageBufferSize / g_BytesPerRow
@@ -1775,20 +1775,20 @@ Reflective_PrepareScan ()
   g_wReadyShadingLine = 0
   g_wStartShadingLinePos = 0
 
-  switch (g_ScanMode)
+  switch(g_ScanMode)
     {
     case CM_RGB48:
       g_wtheReadyLines = g_wLineDistance * 2 + g_wPixelDistance
-      DBG (DBG_FUNC, "Reflective_PrepareScan:g_wtheReadyLines=%d\n",
+      DBG(DBG_FUNC, "Reflective_PrepareScan:g_wtheReadyLines=%d\n",
 	   g_wtheReadyLines)
 
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_PrepareScan:g_lpReadImageHead malloc %d Bytes\n",
 	   g_dwImageBufferSize)
-      g_lpReadImageHead = (Sane.Byte *) malloc (g_dwImageBufferSize)
-      if (g_lpReadImageHead == NULL)
+      g_lpReadImageHead = (Sane.Byte *) malloc(g_dwImageBufferSize)
+      if(g_lpReadImageHead == NULL)
 	{
-	  DBG (DBG_FUNC,
+	  DBG(DBG_FUNC,
 	       "Reflective_PrepareScan: g_lpReadImageHead malloc error \n")
 	  return FALSE
 	}
@@ -1796,64 +1796,64 @@ Reflective_PrepareScan ()
 
     case CM_RGB24ext:
       g_wtheReadyLines = g_wLineDistance * 2 + g_wPixelDistance
-      DBG (DBG_FUNC, "Reflective_PrepareScan:g_wtheReadyLines=%d\n",
+      DBG(DBG_FUNC, "Reflective_PrepareScan:g_wtheReadyLines=%d\n",
 	   g_wtheReadyLines)
 
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_PrepareScan:g_lpReadImageHead malloc %d Bytes\n",
 	   g_dwImageBufferSize)
-      g_lpReadImageHead = (Sane.Byte *) malloc (g_dwImageBufferSize)
-      if (g_lpReadImageHead == NULL)
+      g_lpReadImageHead = (Sane.Byte *) malloc(g_dwImageBufferSize)
+      if(g_lpReadImageHead == NULL)
 	{
-	  DBG (DBG_FUNC,
+	  DBG(DBG_FUNC,
 	       "Reflective_PrepareScan: g_lpReadImageHead malloc error \n")
 	  return FALSE
 	}
       break
     case CM_GRAY16ext:
       g_wtheReadyLines = g_wPixelDistance
-      DBG (DBG_FUNC, "Reflective_PrepareScan:g_wtheReadyLines=%d\n",
+      DBG(DBG_FUNC, "Reflective_PrepareScan:g_wtheReadyLines=%d\n",
 	   g_wtheReadyLines)
 
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_PrepareScan:g_lpReadImageHead malloc %d Bytes\n",
 	   g_dwImageBufferSize)
-      g_lpReadImageHead = (Sane.Byte *) malloc (g_dwImageBufferSize)
-      if (g_lpReadImageHead == NULL)
+      g_lpReadImageHead = (Sane.Byte *) malloc(g_dwImageBufferSize)
+      if(g_lpReadImageHead == NULL)
 	{
-	  DBG (DBG_FUNC,
+	  DBG(DBG_FUNC,
 	       "Reflective_PrepareScan: g_lpReadImageHead malloc error \n")
 	  return FALSE
 	}
       break
     case CM_GRAY8ext:
       g_wtheReadyLines = g_wPixelDistance
-      DBG (DBG_FUNC, "Reflective_PrepareScan:g_wtheReadyLines=%d\n",
+      DBG(DBG_FUNC, "Reflective_PrepareScan:g_wtheReadyLines=%d\n",
 	   g_wtheReadyLines)
 
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_PrepareScan:g_lpReadImageHead malloc %d Bytes\n",
 	   g_dwImageBufferSize)
-      g_lpReadImageHead = (Sane.Byte *) malloc (g_dwImageBufferSize)
-      if (g_lpReadImageHead == NULL)
+      g_lpReadImageHead = (Sane.Byte *) malloc(g_dwImageBufferSize)
+      if(g_lpReadImageHead == NULL)
 	{
-	  DBG (DBG_FUNC,
+	  DBG(DBG_FUNC,
 	       "Reflective_PrepareScan: g_lpReadImageHead malloc error \n")
 	  return FALSE
 	}
       break
     case CM_TEXT:
       g_wtheReadyLines = g_wPixelDistance
-      DBG (DBG_FUNC, "Reflective_PrepareScan:g_wtheReadyLines=%d\n",
+      DBG(DBG_FUNC, "Reflective_PrepareScan:g_wtheReadyLines=%d\n",
 	   g_wtheReadyLines)
 
-      DBG (DBG_FUNC,
+      DBG(DBG_FUNC,
 	   "Reflective_PrepareScan:g_lpReadImageHead malloc %d Bytes\n",
 	   g_dwImageBufferSize)
-      g_lpReadImageHead = (Sane.Byte *) malloc (g_dwImageBufferSize)
-      if (g_lpReadImageHead == NULL)
+      g_lpReadImageHead = (Sane.Byte *) malloc(g_dwImageBufferSize)
+      if(g_lpReadImageHead == NULL)
 	{
-	  DBG (DBG_FUNC,
+	  DBG(DBG_FUNC,
 	       "Reflective_PrepareScan: g_lpReadImageHead malloc error \n")
 	  return FALSE
 	}
@@ -1862,7 +1862,7 @@ Reflective_PrepareScan ()
       break
     }
 
-  Asic_ScanStart (&g_chip)
+  Asic_ScanStart(&g_chip)
   return TRUE
 }
 
@@ -1882,60 +1882,60 @@ Return value:
 	return FALSE
 ***********************************************************************/
 static Bool
-Reflective_GetRows (Sane.Byte * lpBlock, unsigned short * Rows, Bool isOrderInvert)
+Reflective_GetRows(Sane.Byte * lpBlock, unsigned short * Rows, Bool isOrderInvert)
 {
-  DBG (DBG_FUNC, "Reflective_GetRows: call in \n")
-  if (!g_bOpened)
+  DBG(DBG_FUNC, "Reflective_GetRows: call in \n")
+  if(!g_bOpened)
     {
-      DBG (DBG_FUNC, "Reflective_GetRows: scanner not opened \n")
+      DBG(DBG_FUNC, "Reflective_GetRows: scanner not opened \n")
       return FALSE
     }
-  if (!g_bPrepared)
+  if(!g_bPrepared)
     {
-      DBG (DBG_FUNC, "Reflective_GetRows: scanner not prepared \n")
+      DBG(DBG_FUNC, "Reflective_GetRows: scanner not prepared \n")
       return FALSE
     }
 
-  switch (g_ScanMode)
+  switch(g_ScanMode)
     {
     case CM_RGB48:
-      if (g_XDpi == 1200)
-	return MustScanner_GetRgb48BitLine1200DPI (lpBlock, isOrderInvert,
+      if(g_XDpi == 1200)
+	return MustScanner_GetRgb48BitLine1200DPI(lpBlock, isOrderInvert,
 						   Rows)
       else
-	return MustScanner_GetRgb48BitLine (lpBlock, isOrderInvert, Rows)
+	return MustScanner_GetRgb48BitLine(lpBlock, isOrderInvert, Rows)
 
     case CM_RGB24ext:
-      if (g_XDpi == 1200)
-	return MustScanner_GetRgb24BitLine1200DPI (lpBlock, isOrderInvert,
+      if(g_XDpi == 1200)
+	return MustScanner_GetRgb24BitLine1200DPI(lpBlock, isOrderInvert,
 						   Rows)
       else
-	return MustScanner_GetRgb24BitLine (lpBlock, isOrderInvert, Rows)
+	return MustScanner_GetRgb24BitLine(lpBlock, isOrderInvert, Rows)
 
     case CM_GRAY16ext:
-      if (g_XDpi == 1200)
-	return MustScanner_GetMono16BitLine1200DPI (lpBlock, isOrderInvert,
+      if(g_XDpi == 1200)
+	return MustScanner_GetMono16BitLine1200DPI(lpBlock, isOrderInvert,
 						    Rows)
       else
-	return MustScanner_GetMono16BitLine (lpBlock, isOrderInvert, Rows)
+	return MustScanner_GetMono16BitLine(lpBlock, isOrderInvert, Rows)
 
     case CM_GRAY8ext:
-      if (g_XDpi == 1200)
-	return MustScanner_GetMono8BitLine1200DPI (lpBlock, isOrderInvert,
+      if(g_XDpi == 1200)
+	return MustScanner_GetMono8BitLine1200DPI(lpBlock, isOrderInvert,
 						   Rows)
       else
-	return MustScanner_GetMono8BitLine (lpBlock, isOrderInvert, Rows)
+	return MustScanner_GetMono8BitLine(lpBlock, isOrderInvert, Rows)
 
     case CM_TEXT:
-      if (g_XDpi == 1200)
-	return MustScanner_GetMono1BitLine1200DPI (lpBlock, isOrderInvert,
+      if(g_XDpi == 1200)
+	return MustScanner_GetMono1BitLine1200DPI(lpBlock, isOrderInvert,
 						   Rows)
       else
-	return MustScanner_GetMono1BitLine (lpBlock, isOrderInvert, Rows)
+	return MustScanner_GetMono1BitLine(lpBlock, isOrderInvert, Rows)
     default:
       return FALSE
     }
 
-  DBG (DBG_FUNC, "Reflective_GetRows: leave Reflective_GetRows \n")
+  DBG(DBG_FUNC, "Reflective_GetRows: leave Reflective_GetRows \n")
   return FALSE
 }				/* end of the file ScannerReflective.c */

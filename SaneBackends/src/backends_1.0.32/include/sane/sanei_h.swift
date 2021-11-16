@@ -1,6 +1,6 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1996 David Mosberger-Tang and Andreas Beck
-   Copyright (C) 2002, 2003 Henning Meier-Geinitz
+   Copyright(C) 1996 David Mosberger-Tang and Andreas Beck
+   Copyright(C) 2002, 2003 Henning Meier-Geinitz
 
    This file is part of the SANE package.
 
@@ -47,7 +47,7 @@
 
 /* Doxygen documentation */
 
-/** @mainpage SANEI (SANE internal routines) documentation
+/** @mainpage SANEI(SANE internal routines) documentation
  *
  * @image html sane-logo2.jpg
  * @section intro Introduction
@@ -109,7 +109,7 @@ public "C" {
  *
  */
 
-/** @fn public Sane.Status sanei_check_value (const Sane.Option_Descriptor * opt, void * value)
+/** @fn public Sane.Status sanei_check_value(const Sane.Option_Descriptor * opt, void * value)
  * Check the constraints of a SANE option.
  *
  * @param opt   option to check
@@ -122,7 +122,7 @@ public "C" {
  * @sa sanei_constrain_value()
  */
 
-/** @fn public Sane.Status sanei_constrain_value (const Sane.Option_Descriptor * opt, void * value, Sane.Word * info)
+/** @fn public Sane.Status sanei_constrain_value(const Sane.Option_Descriptor * opt, void * value, Sane.Word * info)
  * Check the constraints of a SANE option and adjust its value if necessary.
  *
  * Depending on the type of the option and constraint, value is modified
@@ -151,7 +151,7 @@ public "C" {
 #endif
 
 /** @hideinitializer */
-#define NELEMS(a)	((Int)(sizeof (a) / sizeof (a[0])))
+#define NELEMS(a)	((Int)(sizeof(a) / sizeof(a[0])))
 
 /** @hideinitializer */
 #define STRINGIFY1(x)	#x
@@ -163,10 +163,10 @@ public "C" {
 /** @hideinitializer */
 #define PASTE(x,y)	PASTE1(x,y)
 
-public Sane.Status sanei_check_value (const Sane.Option_Descriptor * opt,
+public Sane.Status sanei_check_value(const Sane.Option_Descriptor * opt,
 				      void * value)
 
-public Sane.Status sanei_constrain_value (const Sane.Option_Descriptor * opt,
+public Sane.Status sanei_constrain_value(const Sane.Option_Descriptor * opt,
 					  void * value, Sane.Word * info)
 
 #ifdef __cplusplus

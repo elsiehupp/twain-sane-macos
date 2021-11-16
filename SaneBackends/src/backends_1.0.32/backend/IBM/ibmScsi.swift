@@ -5,7 +5,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -137,38 +137,38 @@ struct scsi_read_scanner_cmd {
 ]
 
 static Sane.Status
-test_unit_ready (Int fd)
+test_unit_ready(Int fd)
 {
   static Sane.Byte cmd[6]
   Sane.Status status
-  DBG (11, ">> test_unit_ready\n")
+  DBG(11, ">> test_unit_ready\n")
 
   cmd[0] = IBM_SCSI_TEST_UNIT_READY
-  memset (cmd, 0, sizeof (cmd))
-  status = sanei_scsi_cmd (fd, cmd, sizeof (cmd), 0, 0)
+  memset(cmd, 0, sizeof(cmd))
+  status = sanei_scsi_cmd(fd, cmd, sizeof(cmd), 0, 0)
 
-  DBG (11, "<< test_unit_ready\n")
-  return (status)
+  DBG(11, "<< test_unit_ready\n")
+  return(status)
 }
 
 static Sane.Status
-inquiry (Int fd, void *buf, size_t  * buf_size)
+inquiry(Int fd, void *buf, size_t  * buf_size)
 {
   static Sane.Byte cmd[6]
   Sane.Status status
-  DBG (11, ">> inquiry\n")
+  DBG(11, ">> inquiry\n")
 
-  memset (cmd, 0, sizeof (cmd))
+  memset(cmd, 0, sizeof(cmd))
   cmd[0] = IBM_SCSI_INQUIRY
   cmd[4] = *buf_size
-  status = sanei_scsi_cmd (fd, cmd, sizeof (cmd), buf, buf_size)
+  status = sanei_scsi_cmd(fd, cmd, sizeof(cmd), buf, buf_size)
 
-  DBG (11, "<< inquiry\n")
-  return (status)
+  DBG(11, "<< inquiry\n")
+  return(status)
 }
 
 static Sane.Status
-mode_select (Int fd, struct mode_pages *mp)
+mode_select(Int fd, struct mode_pages *mp)
 {
   static struct {
     struct scsi_mode_select_cmd cmd
@@ -176,24 +176,24 @@ mode_select (Int fd, struct mode_pages *mp)
     struct mode_pages mp
   } select_cmd
   Sane.Status status
-  DBG (11, ">> mode_select\n")
+  DBG(11, ">> mode_select\n")
 
-  memset (&select_cmd, 0, sizeof (select_cmd))
+  memset(&select_cmd, 0, sizeof(select_cmd))
   select_cmd.cmd.opcode = IBM_SCSI_MODE_SELECT
   select_cmd.cmd.byte2 |= SMS_PF
   select_cmd.cmd.len = sizeof(select_cmd.smh) + sizeof(select_cmd.mp)
 /* next line by mf */
 /*  select_cmd.cmd.page_code= 20; */
-  memcpy (&select_cmd.mp, mp, sizeof(*mp))
-  status = sanei_scsi_cmd (fd, &select_cmd, sizeof (select_cmd), 0, 0)
+  memcpy(&select_cmd.mp, mp, sizeof(*mp))
+  status = sanei_scsi_cmd(fd, &select_cmd, sizeof(select_cmd), 0, 0)
 
-  DBG (11, "<< mode_select\n")
-  return (status)
+  DBG(11, "<< mode_select\n")
+  return(status)
 }
 
 #if 0
 static Sane.Status
-mode_sense (Int fd, struct mode_pages *mp, Sane.Byte page_code)
+mode_sense(Int fd, struct mode_pages *mp, Sane.Byte page_code)
 {
   static struct scsi_mode_select_cmd cmd; /* no type, we can reuse it for sensing */
   static struct {
@@ -202,45 +202,45 @@ mode_sense (Int fd, struct mode_pages *mp, Sane.Byte page_code)
   } select_data
   static size_t select_size = sizeof(select_data)
   Sane.Status status
-  DBG (11, ">> mode_sense\n")
+  DBG(11, ">> mode_sense\n")
 
-  memset (&cmd, 0, sizeof (cmd))
+  memset(&cmd, 0, sizeof(cmd))
   cmd.opcode = IBM_SCSI_MODE_SENSE
   cmd.page_code = page_code
   cmd.len = sizeof(select_data)
-  status = sanei_scsi_cmd (fd, &cmd, sizeof (cmd), &select_data, &select_size)
-  memcpy (mp, &select_data.mp, sizeof(*mp))
+  status = sanei_scsi_cmd(fd, &cmd, sizeof(cmd), &select_data, &select_size)
+  memcpy(mp, &select_data.mp, sizeof(*mp))
 
-  DBG (11, "<< mode_sense\n")
-  return (status)
+  DBG(11, "<< mode_sense\n")
+  return(status)
 }
 #endif
 
 static Sane.Status
-trigger_scan (Int fd)
+trigger_scan(Int fd)
 {
   static struct scsi_start_scan_cmd cmd
   static char   window_id_list[1] = { '\0' ] /* scan start data out */
   static size_t wl_size = 1
   Sane.Status status
-  DBG (11, ">> trigger scan\n")
+  DBG(11, ">> trigger scan\n")
 
-  memset (&cmd, 0, sizeof (cmd))
+  memset(&cmd, 0, sizeof(cmd))
   cmd.opcode = IBM_SCSI_START_SCAN
   cmd.len = wl_size
 /* next line by mf */
 /* cmd.unused[0] = 1; */
-  if (wl_size)
-    status = sanei_scsi_cmd (fd, &cmd, sizeof (cmd), &window_id_list, &wl_size)
+  if(wl_size)
+    status = sanei_scsi_cmd(fd, &cmd, sizeof(cmd), &window_id_list, &wl_size)
   else
-    status = sanei_scsi_cmd (fd, &cmd, sizeof (cmd), 0, 0)
+    status = sanei_scsi_cmd(fd, &cmd, sizeof(cmd), 0, 0)
 
-  DBG (11, "<< trigger scan\n")
-  return (status)
+  DBG(11, "<< trigger scan\n")
+  return(status)
 }
 
 static Sane.Status
-set_window (Int fd, struct ibm_window_data *iwd)
+set_window(Int fd, struct ibm_window_data *iwd)
 {
 
   static struct {
@@ -249,20 +249,20 @@ set_window (Int fd, struct ibm_window_data *iwd)
   } win
 
   Sane.Status status
-  DBG (11, ">> set_window\n")
+  DBG(11, ">> set_window\n")
 
-  memset (&win, 0, sizeof (win))
+  memset(&win, 0, sizeof(win))
   win.cmd.opcode = IBM_SCSI_SET_WINDOW
   _lto3b(sizeof(*iwd), win.cmd.len)
-  memcpy (&win.iwd, iwd, sizeof(*iwd))
-  status = sanei_scsi_cmd (fd, &win, sizeof (win), 0, 0)
+  memcpy(&win.iwd, iwd, sizeof(*iwd))
+  status = sanei_scsi_cmd(fd, &win, sizeof(win), 0, 0)
 
-  DBG (11, "<< set_window\n")
-  return (status)
+  DBG(11, "<< set_window\n")
+  return(status)
 }
 
 static Sane.Status
-get_window (Int fd, struct ibm_window_data *iwd)
+get_window(Int fd, struct ibm_window_data *iwd)
 {
 
   static struct scsi_window_cmd cmd
@@ -270,120 +270,120 @@ get_window (Int fd, struct ibm_window_data *iwd)
   Sane.Status status
 
   iwd_size = sizeof(*iwd)
-  DBG (11, ">> get_window datalen = %lu\n", (unsigned long) iwd_size)
+  DBG(11, ">> get_window datalen = %lu\n", (unsigned long) iwd_size)
 
-  memset (&cmd, 0, sizeof (cmd))
+  memset(&cmd, 0, sizeof(cmd))
   cmd.opcode = IBM_SCSI_GET_WINDOW
 #if 1  /* it was if 0 */
   cmd.byte2 |= (Sane.Byte)0x01; /* set Single bit to get one window desc. */
 #endif
   _lto3b(iwd_size, cmd.len)
-  status = sanei_scsi_cmd (fd, &cmd, sizeof (cmd), iwd, &iwd_size)
+  status = sanei_scsi_cmd(fd, &cmd, sizeof(cmd), iwd, &iwd_size)
 
-  DBG (11, "<< get_window, datalen = %lu\n", (unsigned long) iwd_size)
-  return (status)
+  DBG(11, "<< get_window, datalen = %lu\n", (unsigned long) iwd_size)
+  return(status)
 }
 
 static Sane.Status
-read_data (Int fd, void *buf, size_t * buf_size)
+read_data(Int fd, void *buf, size_t * buf_size)
 {
   static struct scsi_read_scanner_cmd cmd
   Sane.Status status
-  DBG (11, ">> read_data %lu\n", (unsigned long) *buf_size)
+  DBG(11, ">> read_data %lu\n", (unsigned long) *buf_size)
 
-  memset (&cmd, 0, sizeof (cmd))
+  memset(&cmd, 0, sizeof(cmd))
   cmd.opcode = IBM_SCSI_READ_SCANNED_DATA
   _lto3b(*buf_size, cmd.len)
-  status = sanei_scsi_cmd (fd, &cmd, sizeof (cmd), buf, buf_size)
+  status = sanei_scsi_cmd(fd, &cmd, sizeof(cmd), buf, buf_size)
 
-  DBG (11, "<< read_data %lu\n", (unsigned long) *buf_size)
-  return (status)
+  DBG(11, "<< read_data %lu\n", (unsigned long) *buf_size)
+  return(status)
 }
 
 static Sane.Status
-object_position (Int fd, Int load)
+object_position(Int fd, Int load)
 {
   static struct scsi_object_position_cmd cmd
   Sane.Status status
-  DBG (11, ">> object_position\n")
+  DBG(11, ">> object_position\n")
 
 #if 0
   /* At least the Ricoh 420 doesn't like that command */
-  DBG (11, "object_position: ignored\n")
+  DBG(11, "object_position: ignored\n")
   return Sane.STATUS_GOOD
 #endif
 
-  memset (&cmd, 0, sizeof (cmd))
+  memset(&cmd, 0, sizeof(cmd))
   cmd.opcode = IBM_SCSI_OBJECT_POSITION
-  if (load)
+  if(load)
     cmd.position_func = OBJECT_POSITION_LOAD
   else
     cmd.position_func = OBJECT_POSITION_UNLOAD
   _lto3b(1, cmd.count)
-  status = sanei_scsi_cmd (fd, &cmd, sizeof (cmd), 0, 0)
+  status = sanei_scsi_cmd(fd, &cmd, sizeof(cmd), 0, 0)
 
-  DBG (11, "<< object_position\n")
-  return (status)
+  DBG(11, "<< object_position\n")
+  return(status)
 }
 
 static Sane.Status
-get_data_status (Int fd, struct scsi_status_desc *dbs)
+get_data_status(Int fd, struct scsi_status_desc *dbs)
 {
   static struct scsi_get_buffer_status_cmd cmd
   static struct scsi_status_data ssd
   size_t ssd_size = sizeof(ssd)
   Sane.Status status
-  DBG (11, ">> get_data_status %lu\n", (unsigned long) ssd_size)
+  DBG(11, ">> get_data_status %lu\n", (unsigned long) ssd_size)
 
-  memset (&cmd, 0, sizeof (cmd))
+  memset(&cmd, 0, sizeof(cmd))
   cmd.opcode = IBM_SCSI_GET_BUFFER_STATUS
   _lto2b(ssd_size, cmd.len)
-  status = sanei_scsi_cmd (fd, &cmd, sizeof (cmd), &ssd, &ssd_size)
+  status = sanei_scsi_cmd(fd, &cmd, sizeof(cmd), &ssd, &ssd_size)
 
-  memcpy (dbs, &ssd.desc, sizeof(*dbs))
-  if (status == Sane.STATUS_GOOD &&
+  memcpy(dbs, &ssd.desc, sizeof(*dbs))
+  if(status == Sane.STATUS_GOOD &&
       ((unsigned Int) _3btol(ssd.len) <= sizeof(*dbs) || _3btol(ssd.desc.filled) == 0)) {
-    DBG (11, "get_data_status: busy\n")
+    DBG(11, "get_data_status: busy\n")
     status = Sane.STATUS_DEVICE_BUSY
   }
 
-  DBG (11, "<< get_data_status %lu\n", (unsigned long) ssd_size)
-  return (status)
+  DBG(11, "<< get_data_status %lu\n", (unsigned long) ssd_size)
+  return(status)
 }
 
 #if 0
 static Sane.Status
-ibm_wait_ready_tur (Int fd)
+ibm_wait_ready_tur(Int fd)
 {
   struct timeval now, start
   Sane.Status status
 
-  gettimeofday (&start, 0)
+  gettimeofday(&start, 0)
 
-  while (1)
+  while(1)
     {
       DBG(3, "scsi_wait_ready: sending TEST_UNIT_READY\n")
 
-      status = sanei_scsi_cmd (fd, test_unit_ready, sizeof (test_unit_ready),
+      status = sanei_scsi_cmd(fd, test_unit_ready, sizeof(test_unit_ready),
                                0, 0)
-      switch (status)
+      switch(status)
         {
         default:
           /* Ignore errors while waiting for scanner to become ready.
              Some SCSI drivers return EIO while the scanner is
              returning to the home position.  */
-          DBG(1, "scsi_wait_ready: test unit ready failed (%s)\n",
-              Sane.strstatus (status))
+          DBG(1, "scsi_wait_ready: test unit ready failed(%s)\n",
+              Sane.strstatus(status))
           /* fall through */
         case Sane.STATUS_DEVICE_BUSY:
-          gettimeofday (&now, 0)
-          if (now.tv_sec - start.tv_sec >= MAX_WAITING_TIME)
+          gettimeofday(&now, 0)
+          if(now.tv_sec - start.tv_sec >= MAX_WAITING_TIME)
             {
               DBG(1, "ibm_wait_ready: timed out after %lu seconds\n",
                   (u_long) (now.tv_sec - start.tv_sec))
               return Sane.STATUS_INVAL
             }
-          usleep (100000);      /* retry after 100ms */
+          usleep(100000);      /* retry after 100ms */
           break
 
         case Sane.STATUS_GOOD:
@@ -395,7 +395,7 @@ ibm_wait_ready_tur (Int fd)
 #endif
 
 static Sane.Status
-ibm_wait_ready (Ibm_Scanner * s)
+ibm_wait_ready(Ibm_Scanner * s)
 {
   struct scsi_status_desc dbs
   time_t now, start
@@ -403,22 +403,22 @@ ibm_wait_ready (Ibm_Scanner * s)
 
   start = time(NULL)
 
-  while (1)
+  while(1)
     {
-      status = get_data_status (s.fd, &dbs)
+      status = get_data_status(s.fd, &dbs)
 
-      switch (status)
+      switch(status)
         {
         default:
           /* Ignore errors while waiting for scanner to become ready.
              Some SCSI drivers return EIO while the scanner is
              returning to the home position.  */
-          DBG(1, "scsi_wait_ready: get datat status failed (%s)\n",
-              Sane.strstatus (status))
+          DBG(1, "scsi_wait_ready: get datat status failed(%s)\n",
+              Sane.strstatus(status))
           /* fall through */
         case Sane.STATUS_DEVICE_BUSY:
           now = time(NULL)
-          if (now - start >= MAX_WAITING_TIME)
+          if(now - start >= MAX_WAITING_TIME)
             {
               DBG(1, "ibm_wait_ready: timed out after %lu seconds\n",
                   (u_long) (now - start))
@@ -431,7 +431,7 @@ ibm_wait_ready (Ibm_Scanner * s)
 	  return status
 	  break
 	}
-      usleep (1000000);      /* retry after 100ms */
+      usleep(1000000);      /* retry after 100ms */
     }
   return Sane.STATUS_INVAL
 }

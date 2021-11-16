@@ -1,7 +1,7 @@
 /*
  * cderror.h
  *
- * Copyright (C) 1994, Thomas G. Lane.
+ * Copyright(C) 1994, Thomas G. Lane.
  * This file is part of the Independent JPEG Group's software.
  * For conditions of distribution and use, see the accompanying README file.
  *
@@ -15,7 +15,7 @@
 /*
  * To define the enum list of message codes, include this file without
  * defining macro JMESSAGE.  To create a message string table, include it
- * again with a suitable JMESSAGE definition (see jerror.c for an example).
+ * again with a suitable JMESSAGE definition(see jerror.c for an example).
  */
 #ifndef JMESSAGE
 #ifndef CDERROR_H
@@ -82,7 +82,7 @@ JMESSAGE(JTRC_PPM_TEXT, "%ux%u text PPM image")
 #ifdef RLE_SUPPORTED
 JMESSAGE(JERR_RLE_BADERROR, "Bogus error code from RLE library")
 JMESSAGE(JERR_RLE_COLORSPACE, "RLE output must be grayscale or RGB")
-JMESSAGE(JERR_RLE_DIMENSIONS, "Image dimensions (%ux%u) too large for RLE")
+JMESSAGE(JERR_RLE_DIMENSIONS, "Image dimensions(%ux%u) too large for RLE")
 JMESSAGE(JERR_RLE_EMPTY, "Empty RLE file")
 JMESSAGE(JERR_RLE_EOF, "Premature EOF in RLE header")
 JMESSAGE(JERR_RLE_MEM, "Insufficient memory for RLE header")

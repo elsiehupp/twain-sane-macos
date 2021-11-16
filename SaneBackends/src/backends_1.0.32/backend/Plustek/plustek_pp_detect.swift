@@ -2,8 +2,8 @@
  * @brief automatic scanner detection
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 1998 Plustek Inc.
- * Copyright (C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 1998 Plustek Inc.
+ * Copyright(C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
  * also based on the work done by Rick Bronson
  *
  * History:
@@ -33,7 +33,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -106,7 +106,7 @@ static Int detectScannerConnection( pScanData ps )
 
 	/*
 	 * as we're called during InitPorts, we can be sure
-	 * to operate in EPP-mode (hopefully ;-)
+	 * to operate in EPP-mode(hopefully ;-)
 	 */
 	control = _INB_CTRL( ps )
 
@@ -121,7 +121,7 @@ static Int detectScannerConnection( pScanData ps )
 
 	data = _INB_DATA( ps )
 
-	if (0x55 == data) {
+	if(0x55 == data) {
 
 		DBG( DBG_HIGH, "Test 0x55\n" )
 
@@ -130,7 +130,7 @@ static Int detectScannerConnection( pScanData ps )
 
 	   	data = _INB_DATA( ps )
 
-    	if (0xAA == data) {
+    	if(0xAA == data) {
 
 			DBG( DBG_HIGH, "Test 0xAA\n" )
 
@@ -176,7 +176,7 @@ static Int detectScannerConnection( pScanData ps )
 	}
 
 	/* work on the result */
-	if ( _OK == retval ) {
+	if( _OK == retval ) {
 #ifdef __KERNEL__
 		ps.sCaps.wIOBase = ps.IO.pbSppDataPort
 #else
@@ -207,7 +207,7 @@ static Int detectSetupBuffers( pScanData ps )
 
     /* bad news ?
      */
-    if ( 0 == ps.TotalBufferRequire ) {
+    if( 0 == ps.TotalBufferRequire ) {
 
 #ifdef __KERNEL__
 		_PRINT(
@@ -226,7 +226,7 @@ static Int detectSetupBuffers( pScanData ps )
 		DBG(DBG_LOW,"Driverbuf(%u bytes) needed !\n", ps.TotalBufferRequire)
         ps.driverbuf = (pUChar)_VMALLOC(ps.TotalBufferRequire)
 
-        if ( NULL == ps.driverbuf ) {
+        if( NULL == ps.driverbuf ) {
 
 #ifdef __KERNEL__
 		_PRINT(
@@ -255,7 +255,7 @@ static Int detectSetupBuffers( pScanData ps )
 			(unsigned long)ps.pColorRunTable,
 			(unsigned long)((pUChar)ps.driverbuf + ps.TotalBufferRequire))
 
-    if ( _ASIC_IS_98001 == ps.sCaps.AsicID ) {
+    if( _ASIC_IS_98001 == ps.sCaps.AsicID ) {
 
 		DBG( DBG_LOW, "Adjust for 98001 ASIC\n" )
 
@@ -274,7 +274,7 @@ static Int detectSetupBuffers( pScanData ps )
 
         ps.Shade.pHilight = _VMALLOC( ps.dwShadow )
 
-        if ( NULL != ps.Shade.pHilight ) {
+        if( NULL != ps.Shade.pHilight ) {
 
 			memset( ps.Shade.pHilight, 0, ps.dwShadow )
 
@@ -286,7 +286,7 @@ static Int detectSetupBuffers( pScanData ps )
             ps.dwHilightCh = ps.dwHilight / 3UL
             ps.dwShadowCh  = ps.dwShadow  / 3UL
         }
-    } else if ( _ASIC_IS_98003 == ps.sCaps.AsicID ) {
+    } else if( _ASIC_IS_98003 == ps.sCaps.AsicID ) {
 
 		DBG( DBG_LOW, "Adjust for 98003 ASIC\n" )
 
@@ -407,7 +407,7 @@ _LOC Int DetectScanner( pScanData ps, Int mode )
 	if((ps.IO.portMode != _PORT_EPP) && (ps.IO.portMode != _PORT_SPP) &&
 	   (ps.IO.portMode != _PORT_BIDI)) {
 
-		DBG( DBG_LOW, "!!! Portmode (%u)not supported !!!\n", ps.IO.portMode )
+		DBG( DBG_LOW, "!!! Portmode(%u)not supported !!!\n", ps.IO.portMode )
 		return _E_INTERNAL
 	}
 
@@ -489,17 +489,17 @@ _LOC Int DetectScanner( pScanData ps, Int mode )
          */
 		if( _ASIC_IS_98001 == mode ) {
 
-			DBG( DBG_HIGH, "Starting Scanner-detection (ASIC 98001)\n" )
+			DBG( DBG_HIGH, "Starting Scanner-detection(ASIC 98001)\n" )
 			result = detectAsic98001( ps )
 
         } else if( _ASIC_IS_98003 == mode ) {
 
-			DBG( DBG_HIGH, "Starting Scanner-detection (ASIC 98003)\n" )
+			DBG( DBG_HIGH, "Starting Scanner-detection(ASIC 98003)\n" )
 			result = detectAsic98003( ps )
 
 		} else {
 
-			DBG( DBG_HIGH, "Starting Scanner-detection (ASIC 96001/3)\n" )
+			DBG( DBG_HIGH, "Starting Scanner-detection(ASIC 96001/3)\n" )
 			result = detectP48xx( ps )
 		}
 	}

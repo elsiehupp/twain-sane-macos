@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 Geoffrey T. Dairiki
+   Copyright(C) 1997 Geoffrey T. Dairiki
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -37,7 +37,7 @@
    If you do not wish that, delete this exception notice.
 
    This file is part of a SANE backend for HP Scanners supporting
-   HP Scanner Control Language (SCL).
+   HP Scanner Control Language(SCL).
 */
 
 #ifndef HP_H_INCLUDED
@@ -73,20 +73,20 @@ import Sane.sanei_debug
 #define UNSUPPORTED(status)	(status == Sane.STATUS_UNSUPPORTED)
 #define RETURN_IF_FAIL(try)	do {					\
   Sane.Status status = (try);						\
-  if (FAILED(status))							\
+  if(FAILED(status))							\
       return status;							\
-} while (0)
+} while(0)
 #define CATCH_RET_FAIL(try, catch) do {					\
   Sane.Status status = (try);						\
-  if (FAILED(status)) { (catch); return status; }			\
-} while (0)
+  if(FAILED(status)) { (catch); return status; }			\
+} while(0)
 
 #ifndef DBG_LEVEL
 #define DBG_LEVEL	PASTE(sanei_debug_, BACKEND_NAME)
 #endif
 #ifndef NDEBUG
 # define DBGDUMP(level, buf, size) \
-    do { if (DBG_LEVEL >= (level)) sanei_hp_dbgdump(buf, size); } while (0)
+    do { if(DBG_LEVEL >= (level)) sanei_hp_dbgdump(buf, size); } while(0)
 #else
 # define DBGDUMP(level, buf, size)
 #endif
@@ -146,7 +146,7 @@ typedef struct
   Int        max_model
 } HpDeviceInfo
 
-HpDeviceInfo *sanei_hp_device_info_get (const char *dev_name)
+HpDeviceInfo *sanei_hp_device_info_get(const char *dev_name)
 
 /* hp-scl.c */
 #if INT_MAX > 30000
@@ -155,7 +155,7 @@ typedef	Int HpScl
 typedef long Int HpScl
 #endif
 
-void sanei_hp_init_openfd (void)
+void sanei_hp_init_openfd(void)
 
 typedef struct
 {
@@ -185,8 +185,8 @@ typedef struct hp_accessor_choice_s *	HpAccessorChoice
 
 /* hp-device.c */
 typedef struct hp_device_s *	HpDevice
-hp_bool_t sanei_hp_device_simulate_get (const char *devname, HpScl scl)
-HpDevice sanei_hp_device_get (const char *dev_name)
+hp_bool_t sanei_hp_device_simulate_get(const char *devname, HpScl scl)
+HpDevice sanei_hp_device_get(const char *dev_name)
 
 /* hp-handle.c */
 typedef struct hp_handle_s *	HpHandle
@@ -195,15 +195,15 @@ typedef struct hp_handle_s *	HpHandle
 typedef struct hp_scsi_s * 	HpScsi
 
 /* hp-scl.c */
-hp_bool_t sanei_hp_is_active_xpa (HpScsi scsi)
-Int sanei_hp_get_max_model (HpScsi scsi)
-Int sanei_hp_is_flatbed_adf (HpScsi scsi)
-HpConnect sanei_hp_get_connect (const char *devname)
-HpConnect sanei_hp_scsi_get_connect (HpScsi this)
+hp_bool_t sanei_hp_is_active_xpa(HpScsi scsi)
+Int sanei_hp_get_max_model(HpScsi scsi)
+Int sanei_hp_is_flatbed_adf(HpScsi scsi)
+HpConnect sanei_hp_get_connect(const char *devname)
+HpConnect sanei_hp_scsi_get_connect(HpScsi this)
 
 /* hp.c */
 #ifndef NDEBUG
-void sanei_hp_dbgdump (const void * bufp, size_t len)
+void sanei_hp_dbgdump(const void * bufp, size_t len)
 #endif
 
 /* hp-hpmem.c */
@@ -219,14 +219,14 @@ void	sanei_hp_free_all(void)
 
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 Geoffrey T. Dairiki
+   Copyright(C) 1997 Geoffrey T. Dairiki
    Support for HP PhotoSmart Photoscanner by Peter Kirchgessner
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -258,7 +258,7 @@ void	sanei_hp_free_all(void)
    If you do not wish that, delete this exception notice.
 
    This file is part of a SANE backend for HP Scanners supporting
-   HP Scanner Control Language (SCL).
+   HP Scanner Control Language(SCL).
 */
 
 static char *hp_backend_version = "1.06"
@@ -275,7 +275,7 @@ static char *hp_backend_version = "1.06"
    Rename global function hp_init_openfd to sanei_hp_init_openfd
 
    Revision 1.20  2004/03/27 13:52:39  kig-guest
-   Keep USB-connection open (was problem with Linux 2.6.x)
+   Keep USB-connection open(was problem with Linux 2.6.x)
 
 
    V 1.05:
@@ -284,50 +284,50 @@ static char *hp_backend_version = "1.06"
 
    Revision 1.18  2003/10/09 19:37:29  kig-guest
    Redo when TEST UNIT READY failed
-   Redo when read returns with 0 bytes (non-SCSI only)
+   Redo when read returns with 0 bytes(non-SCSI only)
    Bug #300241: fix inverse image on 3c/4c/6100C at 10 bit depth
 
    Revision 1.17  2003/10/06 19:54:07  kig-guest
    Bug #300248: correct "Negatives" to "Negative" in option description
 
 
-   V 1.04, 24-Jul-2003, PK (peter@kirchgessner.net)
+   V 1.04, 24-Jul-2003, PK(peter@kirchgessner.net)
       - Add internationalization
 
-   V 1.03, 14-Apr-2003, PK (peter@kirchgessner.net)
+   V 1.03, 14-Apr-2003, PK(peter@kirchgessner.net)
       - check valp in call of Sane.control_option()
 
-   V 1.02, 02-Feb-2003, PK (peter@kirchgessner.net)
+   V 1.02, 02-Feb-2003, PK(peter@kirchgessner.net)
       - add OS/2-support by Franz Bakan
 
-   V 1.01, 06-Dec-2002, PK (peter@kirchgessner.net)
+   V 1.01, 06-Dec-2002, PK(peter@kirchgessner.net)
       - add option dumb-read to work around problems
-        with BusLogic SCSI driver (error during device I/O)
+        with BusLogic SCSI driver(error during device I/O)
 
-   V 1.00, 17-Nov-2002, PK (peter@kirchgessner.net)
+   V 1.00, 17-Nov-2002, PK(peter@kirchgessner.net)
       - add libusb support
 
-   V 0.96, 05-Aug-2002, PK (peter@kirchgessner.net)
+   V 0.96, 05-Aug-2002, PK(peter@kirchgessner.net)
       - check USB device names
 
-   V 0.95, 07-Jul-2001, PK (peter@kirchgessner.net)
+   V 0.95, 07-Jul-2001, PK(peter@kirchgessner.net)
       - add support for active XPA
       - check if paper in ADF for ADF scan
       - add option lamp off
       - remove some really unused parameters
 
-   V 0.94, 31-Dec-2000, PK (peter@kirchgessner.net)
+   V 0.94, 31-Dec-2000, PK(peter@kirchgessner.net)
       - always switch off lamp after scan
 
-   V 0.93, 04-Dec-2000, PK (peter@kirchgessner.net)
+   V 0.93, 04-Dec-2000, PK(peter@kirchgessner.net)
       - fix problem with ADF-support on ScanJet 6350 (and maybe others)
 
-   V 0.92, 03-Oct-2000, Rupert W. Curwen (rcurwen@uk.research.att.com):
-      - try to not allocate accessors twice (only for accessors
+   V 0.92, 03-Oct-2000, Rupert W. Curwen(rcurwen@uk.research.att.com):
+      - try to not allocate accessors twice(only for accessors
         that have fixed length)
       - fix problem with leaving connection open for some error conditions
 
-   V 0.91, 04-Sep-2000, David Paschal (paschal@rcsis.com):
+   V 0.91, 04-Sep-2000, David Paschal(paschal@rcsis.com):
       - Added support for flatbed HP OfficeJets
       - (PK) fix problem with cancel preview
 
@@ -336,7 +336,7 @@ static char *hp_backend_version = "1.06"
       - change fprintf(stderr,...) to DBG
       - change include <sane..> to "sane.." in hp.h
       - change handling of options that have global effects.
-        i.e. if option scanmode is received (has global effect),
+        i.e. if option scanmode is received(has global effect),
         all options that "may change" are send to the scanner again.
         This fixes a problem that --resolution specified infront of
         --mode on command line of scanimage was ignored.
@@ -371,17 +371,17 @@ static char *hp_backend_version = "1.06"
       - change keyword -scantype to -source
       - fix problem with multiple definition of sanei_debug_hp
    V 0.83, 04-Jul-99, PK:
-      - reset scanner before downloading parameters (fixes problem
+      - reset scanner before downloading parameters(fixes problem
         with sleep mode of scanners)
       - fix problem with coredump if non-scanner HP SCSI devices
-        are connected (CDR)
+        are connected(CDR)
       - option scan-from-adf replaced by scantype normal/adf/xpa
       - change value "Film strip" to "Film-strip" for option
         --media-type
       - PhotoScanner: allow only scanning at multiple of 300 dpi
         for scanning slides/film strips. This also fixes a problem with the
         preview which uses arbitrary resolutions.
-      - Marian Szebenyi: close pipe (endless loop on Digital UNIX)
+      - Marian Szebenyi: close pipe(endless loop on Digital UNIX)
 
    V 0.82, 28-Feb-99, Ewald de Wit <ewald@pobox.com>:
       - add options 'exposure time' and 'data width'
@@ -400,7 +400,7 @@ static char *hp_backend_version = "1.06"
    V 0.72, 25-Dec-98, PK:
       - add patches from mike@easysw.com to fix problems:
         - core dumps by memory alignment
-        - config file to accept matching devices (scsi HP)
+        - config file to accept matching devices(scsi HP)
       - add simulation for brightness/contrast/custom gamma table
         if not supported by scanner
       - add configuration options for connect-...
@@ -430,7 +430,7 @@ static char *hp_backend_version = "1.06"
 
    V 0.64, 12-Jul-98 PK:
       - only download calibration file for media = 1 (prints)
-      - Changes for VACPP-Compiler (check macros __IBMC__, __IBMCPP__)
+      - Changes for VACPP-Compiler(check macros __IBMC__, __IBMCPP__)
 
    V 0.63, 07-Jun-98 PK:
       - fix problem with custom gamma table
@@ -469,28 +469,28 @@ import hp-handle
 #ifndef NDEBUG
 import ctype
 void
-sanei_hp_dbgdump (const void * bufp, size_t len)
+sanei_hp_dbgdump(const void * bufp, size_t len)
 {
   const hp_byte_t *buf	= bufp
   Int		offset	= 0
   Int		i
   char line[128], pt[32]
 
-  for (offset = 0; offset < (Int)len; offset += 16)
+  for(offset = 0; offset < (Int)len; offset += 16)
     {
-      sprintf (line," 0x%04X ", offset)
-      for (i = offset; i < offset + 16 && i < (Int)len; i++)
+      sprintf(line," 0x%04X ", offset)
+      for(i = offset; i < offset + 16 && i < (Int)len; i++)
       {
-	  sprintf (pt," %02X", buf[i])
-          strcat (line, pt)
+	  sprintf(pt," %02X", buf[i])
+          strcat(line, pt)
       }
-      while (i++ < offset + 16)
-	  strcat (line, "   ")
-      strcat (line, "  ")
-      for (i = offset; i < offset + 16 && i < (Int)len; i++)
+      while(i++ < offset + 16)
+	  strcat(line, "   ")
+      strcat(line, "  ")
+      for(i = offset; i < offset + 16 && i < (Int)len; i++)
       {
-	  sprintf (pt, "%c", isprint(buf[i]) ? buf[i] : '.')
-          strcat (line, pt)
+	  sprintf(pt, "%c", isprint(buf[i]) ? buf[i] : '.')
+          strcat(line, pt)
       }
       DBG(16,"%s\n",line)
     }
@@ -530,7 +530,7 @@ static struct hp_global_s {
 /* Get the info structure for a device. If not available in global list */
 /* add new entry and return it */
 static HpDeviceInfo *
-hp_device_info_create (const char *devname)
+hp_device_info_create(const char *devname)
 
 {
  HpDeviceInfoList  *infolist = &(global.infolist)
@@ -538,16 +538,16 @@ hp_device_info_create (const char *devname)
  HpDeviceInfo *info
  Int k, found
 
- if (!global.is_up) return 0
+ if(!global.is_up) return 0
 
  found = 0
  infolistelement = 0
  info = 0
- while (*infolist)
+ while(*infolist)
  {
    infolistelement = *infolist
    info = &(infolistelement.info)
-   if (strcmp (info.devname, devname) == 0)  /* Already in list ? */
+   if(strcmp(info.devname, devname) == 0)  /* Already in list ? */
    {
      found = 1
      break
@@ -555,21 +555,21 @@ hp_device_info_create (const char *devname)
    infolist = &(infolistelement.next)
  }
 
- if (found)  /* Clear old entry */
+ if(found)  /* Clear old entry */
  {
-   memset (infolistelement, 0, sizeof (*infolistelement))
+   memset(infolistelement, 0, sizeof(*infolistelement))
  }
  else   /* New element */
  {
    infolistelement = (HpDeviceInfoList)
-                        sanei_hp_allocz (sizeof (*infolistelement))
-   if (!infolistelement) return 0
+                        sanei_hp_allocz(sizeof(*infolistelement))
+   if(!infolistelement) return 0
    info = &(infolistelement.info)
    *infolist = infolistelement
  }
 
- k = sizeof (info.devname)
- strncpy (info.devname, devname, k)
+ k = sizeof(info.devname)
+ strncpy(info.devname, devname, k)
  info.devname[k-1] = '\0'
  info.max_model = -1
  info.active_xpa = -1
@@ -578,10 +578,10 @@ hp_device_info_create (const char *devname)
 }
 
 static void
-hp_init_config (HpDeviceConfig *config)
+hp_init_config(HpDeviceConfig *config)
 
 {
-  if (config)
+  if(config)
   {
     config.connect = HP_CONNECT_SCSI
     config.use_scsi_request = 1
@@ -592,42 +592,42 @@ hp_init_config (HpDeviceConfig *config)
 }
 
 static HpDeviceConfig *
-hp_global_config_get (void)
+hp_global_config_get(void)
 
 {
- if (!global.is_up) return 0
+ if(!global.is_up) return 0
  return &(global.config)
 }
 
 static Sane.Status
-hp_device_config_add (const char *devname)
+hp_device_config_add(const char *devname)
 
 {
  HpDeviceInfo *info
  HpDeviceConfig *config
 
- info = hp_device_info_create (devname)
- if (!info) return Sane.STATUS_INVAL
+ info = hp_device_info_create(devname)
+ if(!info) return Sane.STATUS_INVAL
 
- config = hp_global_config_get ()
+ config = hp_global_config_get()
 
- if (config)
+ if(config)
  {
-   memcpy (&(info.config), config, sizeof (info.config))
+   memcpy(&(info.config), config, sizeof(info.config))
    info.config_is_up = 1
  }
  else     /* Initialize with default configuration */
  {
    DBG(3, "hp_device_config_add: No configuration found for device %s.\n\tUseing default\n",
        devname)
-   hp_init_config (&(info.config))
+   hp_init_config(&(info.config))
    info.config_is_up = 1
  }
  return Sane.STATUS_GOOD
 }
 
 HpDeviceInfo *
-sanei_hp_device_info_get (const char *devname)
+sanei_hp_device_info_get(const char *devname)
 
 {
  HpDeviceInfoList  *infolist
@@ -635,7 +635,7 @@ sanei_hp_device_info_get (const char *devname)
  HpDeviceInfo *info
  Int retries = 1
 
- if (!global.is_up)
+ if(!global.is_up)
  {
    DBG(17, "sanei_hp_device_info_get: global.is_up = %d\n", (Int)global.is_up)
    return 0
@@ -645,12 +645,12 @@ sanei_hp_device_info_get (const char *devname)
  do
  {
  infolist = &(global.infolist)
- while (*infolist)
+ while(*infolist)
  {
    infolistelement = *infolist
    info = &(infolistelement.info)
    DBG(250, "sanei_hp_device_info_get: check %s\n", info.devname)
-   if (strcmp (info.devname, devname) == 0)  /* Found ? */
+   if(strcmp(info.devname, devname) == 0)  /* Found ? */
    {
      return info
    }
@@ -660,49 +660,49 @@ sanei_hp_device_info_get (const char *devname)
  /* No configuration found. Assume default */
  DBG(1, "hp_device_info_get: device %s not configured. Using default\n",
      devname)
- if (hp_device_config_add (devname) != Sane.STATUS_GOOD)
+ if(hp_device_config_add(devname) != Sane.STATUS_GOOD)
    return 0
  }
- while (retries-- > 0)
+ while(retries-- > 0)
 
  return 0
 }
 
 HpDevice
-sanei_hp_device_get (const char *devname)
+sanei_hp_device_get(const char *devname)
 {
   HpDeviceList  ptr
 
-  for (ptr = global.device_list; ptr; ptr = ptr.next)
-      if (strcmp(sanei_hp_device_sanedevice(ptr.dev)->name, devname) == 0)
+  for(ptr = global.device_list; ptr; ptr = ptr.next)
+      if(strcmp(sanei_hp_device_sanedevice(ptr.dev)->name, devname) == 0)
 	  return ptr.dev
 
   return 0
 }
 
 static void
-hp_device_info_remove (void)
+hp_device_info_remove(void)
 {
  HpDeviceInfoList  next, infolistelement = global.infolist
 
- if (!global.is_up) return
+ if(!global.is_up) return
 
- while (infolistelement)
+ while(infolistelement)
  {
    next = infolistelement.next
-   sanei_hp_free (infolistelement)
+   sanei_hp_free(infolistelement)
    infolistelement = next
  }
 }
 
 static Sane.Status
-hp_device_list_add (HpDeviceList * list, HpDevice dev)
+hp_device_list_add(HpDeviceList * list, HpDevice dev)
 {
   HpDeviceList new = sanei_hp_alloc(sizeof(*new))
 
-  if (!new)
+  if(!new)
       return Sane.STATUS_NO_MEM
-  while (*list)
+  while(*list)
       list = &(*list)->next
 
   *list = new
@@ -712,14 +712,14 @@ hp_device_list_add (HpDeviceList * list, HpDevice dev)
 }
 
 static Sane.Status
-hp_device_list_remove (HpDeviceList * list, HpDevice dev)
+hp_device_list_remove(HpDeviceList * list, HpDevice dev)
 {
   HpDeviceList old
 
-  while (*list && (*list)->dev != dev)
+  while(*list && (*list)->dev != dev)
       list = &(*list)->next
 
-  if (!*list)
+  if(!*list)
       return Sane.STATUS_INVAL
 
   old = *list
@@ -729,13 +729,13 @@ hp_device_list_remove (HpDeviceList * list, HpDevice dev)
 }
 
 static Sane.Status
-hp_handle_list_add (HpDeviceList * list, HpHandle h)
+hp_handle_list_add(HpDeviceList * list, HpHandle h)
 {
   return hp_device_list_add(list, (HpDevice)h)
 }
 
 static Sane.Status
-hp_handle_list_remove (HpDeviceList * list, HpHandle h)
+hp_handle_list_remove(HpDeviceList * list, HpHandle h)
 {
   return hp_device_list_remove(list, (HpDevice)h)
 }
@@ -744,7 +744,7 @@ hp_handle_list_remove (HpDeviceList * list, HpHandle h)
 
 
 static Sane.Status
-hp_init (void)
+hp_init(void)
 {
   memset(&global, 0, sizeof(global))
   global.is_up++
@@ -753,16 +753,16 @@ hp_init (void)
 }
 
 static void
-hp_destroy (void)
+hp_destroy(void)
 {
-  if (global.is_up)
+  if(global.is_up)
     {
       /* Close open handles */
-      while (global.handle_list)
+      while(global.handle_list)
 	  Sane.close(global.handle_list.dev)
 
       /* Remove device infos */
-      hp_device_info_remove ()
+      hp_device_info_remove()
 
       sanei_hp_free_all()
       global.is_up = 0
@@ -771,7 +771,7 @@ hp_destroy (void)
 }
 
 static Sane.Status
-hp_get_dev (const char *devname, HpDevice* devp)
+hp_get_dev(const char *devname, HpDevice* devp)
 {
   HpDeviceList  ptr
   HpDevice	new
@@ -780,36 +780,36 @@ hp_get_dev (const char *devname, HpDevice* devp)
   HpConnect     hp_connect
   Sane.Status   status
 
-  for (ptr = global.device_list; ptr; ptr = ptr.next)
-      if (strcmp(sanei_hp_device_sanedevice(ptr.dev)->name, devname) == 0)
+  for(ptr = global.device_list; ptr; ptr = ptr.next)
+      if(strcmp(sanei_hp_device_sanedevice(ptr.dev)->name, devname) == 0)
 	{
-	  if (devp)
+	  if(devp)
 	      *devp = ptr.dev
 	  return Sane.STATUS_GOOD
 	}
 
-  info = sanei_hp_device_info_get (devname)
+  info = sanei_hp_device_info_get(devname)
   hp_connect = info.config.connect
 
-  if (hp_connect == HP_CONNECT_SCSI) connect = "scsi"
-  else if (hp_connect == HP_CONNECT_DEVICE) connect = "device"
-  else if (hp_connect == HP_CONNECT_PIO) connect = "pio"
-  else if (hp_connect == HP_CONNECT_USB) connect = "usb"
-  else if (hp_connect == HP_CONNECT_RESERVE) connect = "reserve"
+  if(hp_connect == HP_CONNECT_SCSI) connect = "scsi"
+  else if(hp_connect == HP_CONNECT_DEVICE) connect = "device"
+  else if(hp_connect == HP_CONNECT_PIO) connect = "pio"
+  else if(hp_connect == HP_CONNECT_USB) connect = "usb"
+  else if(hp_connect == HP_CONNECT_RESERVE) connect = "reserve"
   else connect = "unknown"
 
   DBG(3, "hp_get_dev: New device %s, connect-%s, scsi-request=%lu\n",
       devname, connect, (unsigned long)info.config.use_scsi_request)
 
-  if (!ptr)
+  if(!ptr)
   {
-     status =  sanei_hp_device_new (&new, devname)
+     status =  sanei_hp_device_new(&new, devname)
 
-     if ( status != Sane.STATUS_GOOD )
+     if( status != Sane.STATUS_GOOD )
        return status
   }
 
-  if (devp)
+  if(devp)
       *devp = new
 
   RETURN_IF_FAIL( hp_device_list_add(&global.device_list, new) )
@@ -818,39 +818,39 @@ hp_get_dev (const char *devname, HpDevice* devp)
 }
 
 static Sane.Status
-hp_attach (const char *devname)
+hp_attach(const char *devname)
 {
   DBG(7,"hp_attach: \"%s\"\n", devname)
-  hp_device_config_add (devname)
-  return hp_get_dev (devname, 0)
+  hp_device_config_add(devname)
+  return hp_get_dev(devname, 0)
 }
 
 static void
-hp_attach_matching_devices (HpDeviceConfig *config, const char *devname)
+hp_attach_matching_devices(HpDeviceConfig *config, const char *devname)
 {
  static Int usb_initialized = 0
 
- if (strncmp (devname, "usb", 3) == 0)
+ if(strncmp(devname, "usb", 3) == 0)
  {
    config.connect = HP_CONNECT_USB
    config.use_scsi_request = 0
    DBG(1,"hp_attach_matching_devices: usb attach matching \"%s\"\n",devname)
-   if (!usb_initialized)
+   if(!usb_initialized)
    {
-      sanei_usb_init ()
+      sanei_usb_init()
       usb_initialized = 1
    }
-   sanei_usb_attach_matching_devices (devname, hp_attach)
+   sanei_usb_attach_matching_devices(devname, hp_attach)
  }
  else
  {
    DBG(1, "hp_attach_matching_devices: attach matching %s\n", devname)
-   sanei_config_attach_matching_devices (devname, hp_attach)
+   sanei_config_attach_matching_devices(devname, hp_attach)
  }
 }
 
 static Sane.Status
-hp_read_config (void)
+hp_read_config(void)
 {
   FILE *	fp
   char		 buf[PATH_MAX], arg1[PATH_MAX], arg2[PATH_MAX], arg3[PATH_MAX]
@@ -859,13 +859,13 @@ hp_read_config (void)
   hp_bool_t     is_df_config
   char          cu_device[PATH_MAX]
 
-  if (!global.is_up)
+  if(!global.is_up)
       return Sane.STATUS_INVAL
-  if (global.config_read)
+  if(global.config_read)
       return Sane.STATUS_GOOD
 
   /* The default config will keep options set up until the first device is specified */
-  hp_init_config (&df_config)
+  hp_init_config(&df_config)
   config = &df_config
   is_df_config = 1
   cu_device[0] = '\0'
@@ -873,17 +873,17 @@ hp_read_config (void)
   DBG(1, "hp_read_config: hp backend v%s starts reading config file\n",
       hp_backend_version)
 
-  if ((fp = sanei_config_open(HP_CONFIG_FILE)) != 0)
+  if((fp = sanei_config_open(HP_CONFIG_FILE)) != 0)
     {
-      while (sanei_config_read(buf, sizeof(buf), fp))
+      while(sanei_config_read(buf, sizeof(buf), fp))
 	{
 	  char *dev_name
 
-          nl = strlen (buf)
-          while (nl > 0)
+          nl = strlen(buf)
+          while(nl > 0)
           {
             nl--
-            if (   (buf[nl] == ' ') || (buf[nl] == '\t')
+            if(   (buf[nl] == ' ') || (buf[nl] == '\t')
                 || (buf[nl] == '\r') || (buf[nl] == '\n'))
               buf[nl] = '\0'
             else
@@ -892,50 +892,50 @@ hp_read_config (void)
 
           DBG(1, "hp_read_config: processing line <%s>\n", buf)
 
-          nargs = sscanf (buf, "%s%s%s", arg1, arg2, arg3)
-          if ((nargs <= 0) || (arg1[0] == '#')) continue
+          nargs = sscanf(buf, "%s%s%s", arg1, arg2, arg3)
+          if((nargs <= 0) || (arg1[0] == '#')) continue
 
           /* Option to process ? */
-          if ((strcmp (arg1, "option") == 0) && (nargs >= 2))
+          if((strcmp(arg1, "option") == 0) && (nargs >= 2))
           {
-            if (strcmp (arg2, "connect-scsi") == 0)
+            if(strcmp(arg2, "connect-scsi") == 0)
             {
               config.connect = HP_CONNECT_SCSI
               config.got_connect_type = 1
             }
-            else if (strcmp (arg2, "connect-device") == 0)
+            else if(strcmp(arg2, "connect-device") == 0)
             {
               config.connect = HP_CONNECT_DEVICE
               config.got_connect_type = 1
               config.use_scsi_request = 0
             }
-            else if (strcmp (arg2, "connect-pio") == 0)
+            else if(strcmp(arg2, "connect-pio") == 0)
             {
               config.connect = HP_CONNECT_PIO
               config.got_connect_type = 1
               config.use_scsi_request = 0
             }
-            else if (strcmp (arg2, "connect-usb") == 0)
+            else if(strcmp(arg2, "connect-usb") == 0)
             {
               config.connect = HP_CONNECT_USB
               config.got_connect_type = 1
               config.use_scsi_request = 0
             }
-            else if (strcmp (arg2, "connect-reserve") == 0)
+            else if(strcmp(arg2, "connect-reserve") == 0)
             {
               config.connect = HP_CONNECT_RESERVE
               config.got_connect_type = 1
               config.use_scsi_request = 0
             }
-            else if (strcmp (arg2, "disable-scsi-request") == 0)
+            else if(strcmp(arg2, "disable-scsi-request") == 0)
             {
               config.use_scsi_request = 0
             }
-            else if (strcmp (arg2, "enable-image-buffering") == 0)
+            else if(strcmp(arg2, "enable-image-buffering") == 0)
             {
               config.use_image_buffering = 1
             }
-            else if (strcmp (arg2, "dumb-read") == 0)
+            else if(strcmp(arg2, "dumb-read") == 0)
             {
               config.dumb_read = 1
             }
@@ -946,46 +946,46 @@ hp_read_config (void)
           }
           else   /* No option. This is the start of a new device */
           {
-            if (is_df_config) /* Did we only read default configurations ? */
+            if(is_df_config) /* Did we only read default configurations ? */
             {
               is_df_config = 0;  /* Stop reading default config */
                           /* Initialize device config with default-config */
-              memcpy (&dev_config, &df_config, sizeof (dev_config))
+              memcpy(&dev_config, &df_config, sizeof(dev_config))
               config = &dev_config;   /* Start reading a device config */
             }
-            if (cu_device[0] != '\0')  /* Did we work on a device ? */
+            if(cu_device[0] != '\0')  /* Did we work on a device ? */
             {
-              memcpy (hp_global_config_get(), &dev_config,sizeof (dev_config))
-              hp_attach_matching_devices (hp_global_config_get(), cu_device)
+              memcpy(hp_global_config_get(), &dev_config,sizeof(dev_config))
+              hp_attach_matching_devices(hp_global_config_get(), cu_device)
               cu_device[0] = '\0'
             }
 
             /* Initialize new device with default config */
-            memcpy (&dev_config, &df_config, sizeof (dev_config))
+            memcpy(&dev_config, &df_config, sizeof(dev_config))
 
             /* Cut off leading blanks of device name */
-            dev_name = buf+strspn (buf, " \t\n\r")
-            strcpy (cu_device, dev_name);    /* Save the device name */
+            dev_name = buf+strspn(buf, " \t\n\r")
+            strcpy(cu_device, dev_name);    /* Save the device name */
           }
         }
-        if (cu_device[0] != '\0')  /* Did we work on a device ? */
+        if(cu_device[0] != '\0')  /* Did we work on a device ? */
         {
-          memcpy (hp_global_config_get (), &dev_config, sizeof (dev_config))
+          memcpy(hp_global_config_get(), &dev_config, sizeof(dev_config))
           DBG(1, "hp_read_config: attach %s\n", cu_device)
-          hp_attach_matching_devices (hp_global_config_get (), cu_device)
+          hp_attach_matching_devices(hp_global_config_get(), cu_device)
           cu_device[0] = '\0'
         }
-      fclose (fp)
+      fclose(fp)
       DBG(1, "hp_read_config: reset to default config\n")
-      memcpy (hp_global_config_get (), &df_config, sizeof (df_config))
+      memcpy(hp_global_config_get(), &df_config, sizeof(df_config))
     }
   else
     {
       /* default to /dev/scanner instead of insisting on config file */
       char *dev_name = "/dev/scanner"
 
-      memcpy (hp_global_config_get (), &df_config, sizeof (df_config))
-      hp_attach_matching_devices (hp_global_config_get (), dev_name)
+      memcpy(hp_global_config_get(), &df_config, sizeof(df_config))
+      hp_attach_matching_devices(hp_global_config_get(), dev_name)
     }
 
   global.config_read++
@@ -993,7 +993,7 @@ hp_read_config (void)
 }
 
 static Sane.Status
-hp_update_devlist (void)
+hp_update_devlist(void)
 {
   HpDeviceList	devp
   const Sane.Device **devlist
@@ -1001,18 +1001,18 @@ hp_update_devlist (void)
 
   RETURN_IF_FAIL( hp_read_config() )
 
-  if (global.devlist)
+  if(global.devlist)
       sanei_hp_free(global.devlist)
 
-  for (devp = global.device_list; devp; devp = devp.next)
+  for(devp = global.device_list; devp; devp = devp.next)
       count++
 
-  if (!(devlist = sanei_hp_alloc((count + 1) * sizeof(*devlist))))
+  if(!(devlist = sanei_hp_alloc((count + 1) * sizeof(*devlist))))
       return Sane.STATUS_NO_MEM
 
   global.devlist = devlist
 
-  for (devp = global.device_list; devp; devp = devp.next)
+  for(devp = global.device_list; devp; devp = devp.next)
       *devlist++ = sanei_hp_device_sanedevice(devp.dev)
   *devlist = 0
 
@@ -1025,26 +1025,26 @@ hp_update_devlist (void)
  */
 
 Sane.Status
-Sane.init (Int *version_code, Sane.Auth_Callback __Sane.unused__ authorize)
+Sane.init(Int *version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 {Sane.Status status
 
   DBG_INIT()
   DBG(3, "Sane.init called\n")
-  sanei_thread_init ()
+  sanei_thread_init()
 
-  sanei_hp_init_openfd ()
+  sanei_hp_init_openfd()
   hp_destroy()
 
-  if (version_code)
-    *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, VERSIO)
+  if(version_code)
+    *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, VERSIO)
 
   status = hp_init()
-  DBG(3, "Sane.init will finish with %s\n", Sane.strstatus (status))
+  DBG(3, "Sane.init will finish with %s\n", Sane.strstatus(status))
   return status
 }
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   DBG(3, "Sane.exit called\n")
   hp_destroy()
@@ -1052,7 +1052,7 @@ Sane.exit (void)
 }
 
 Sane.Status
-Sane.get_devices (const Sane.Device ***device_list,
+Sane.get_devices(const Sane.Device ***device_list,
                   Bool __Sane.unused__ local_only)
 {
   DBG(3, "Sane.get_devices called\n")
@@ -1060,12 +1060,12 @@ Sane.get_devices (const Sane.Device ***device_list,
   RETURN_IF_FAIL( hp_update_devlist() )
   *device_list = global.devlist
   DBG(3, "Sane.get_devices will finish with %s\n",
-      Sane.strstatus (Sane.STATUS_GOOD))
+      Sane.strstatus(Sane.STATUS_GOOD))
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.open (Sane.String_Const devicename, Sane.Handle *handle)
+Sane.open(Sane.String_Const devicename, Sane.Handle *handle)
 {
   HpDevice	dev	= 0
   HpHandle	h
@@ -1074,42 +1074,42 @@ Sane.open (Sane.String_Const devicename, Sane.Handle *handle)
 
   RETURN_IF_FAIL( hp_read_config() )
 
-  if (devicename[0])
+  if(devicename[0])
       RETURN_IF_FAIL( hp_get_dev(devicename, &dev) )
   else
     {
       /* empty devicname -> use first device */
-      if (global.device_list)
+      if(global.device_list)
 	  dev = global.device_list.dev
     }
-  if (!dev)
+  if(!dev)
       return Sane.STATUS_INVAL
 
-  if (!(h = sanei_hp_handle_new(dev)))
+  if(!(h = sanei_hp_handle_new(dev)))
       return Sane.STATUS_NO_MEM
 
   RETURN_IF_FAIL( hp_handle_list_add(&global.handle_list, h) )
 
   *handle = h
-  DBG(3, "Sane.open will finish with %s\n", Sane.strstatus (Sane.STATUS_GOOD))
+  DBG(3, "Sane.open will finish with %s\n", Sane.strstatus(Sane.STATUS_GOOD))
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
   HpHandle	h  = handle
 
   DBG(3, "Sane.close called\n")
 
-  if (!FAILED( hp_handle_list_remove(&global.handle_list, h) ))
+  if(!FAILED( hp_handle_list_remove(&global.handle_list, h) ))
       sanei_hp_handle_destroy(h)
 
   DBG(3, "Sane.close will finish\n")
 }
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int optnum)
+Sane.get_option_descriptor(Sane.Handle handle, Int optnum)
 {
   HpHandle 	h = handle
   const Sane.Option_Descriptor *optd
@@ -1124,7 +1124,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int optnum)
 }
 
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int optnum,
+Sane.control_option(Sane.Handle handle, Int optnum,
 		     Sane.Action action, void *valp, Int *info)
 {
   HpHandle h = handle
@@ -1135,12 +1135,12 @@ Sane.control_option (Sane.Handle handle, Int optnum,
   status = sanei_hp_handle_control(h, optnum, action, valp, info)
 
   DBG(10, "Sane.control_option will finish with %s\n",
-      Sane.strstatus (status))
+      Sane.strstatus(status))
   return status
 }
 
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters *params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
 {
   HpHandle h = handle
   Sane.Status status
@@ -1150,12 +1150,12 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters *params)
   status = sanei_hp_handle_getParameters(h, params)
 
   DBG(10, "Sane.get_parameters will finish with %s\n",
-      Sane.strstatus (status))
+      Sane.strstatus(status))
   return status
 }
 
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   HpHandle h = handle
   Sane.Status status
@@ -1164,12 +1164,12 @@ Sane.start (Sane.Handle handle)
 
   status = sanei_hp_handle_startScan(h)
 
-  DBG(3, "Sane.start will finish with %s\n", Sane.strstatus (status))
+  DBG(3, "Sane.start will finish with %s\n", Sane.strstatus(status))
   return status
 }
 
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte *buf, Int max_len, Int *len)
+Sane.read(Sane.Handle handle, Sane.Byte *buf, Int max_len, Int *len)
 {
   HpHandle	h 	= handle
   size_t	length	= max_len
@@ -1180,12 +1180,12 @@ Sane.read (Sane.Handle handle, Sane.Byte *buf, Int max_len, Int *len)
   status =  sanei_hp_handle_read(h, buf, &length)
   *len = length
 
-  DBG(16, "Sane.read will finish with %s\n", Sane.strstatus (status))
+  DBG(16, "Sane.read will finish with %s\n", Sane.strstatus(status))
   return status
 }
 
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   HpHandle h = handle
 
@@ -1197,7 +1197,7 @@ Sane.cancel (Sane.Handle handle)
 }
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 {
   HpHandle h = handle
   Sane.Status status
@@ -1207,12 +1207,12 @@ Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
   status = sanei_hp_handle_setNonblocking(h, non_blocking)
 
   DBG(3, "Sane.set_io_mode will finish with %s\n",
-      Sane.strstatus (status))
+      Sane.strstatus(status))
   return status
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle handle, Int *fd)
+Sane.get_select_fd(Sane.Handle handle, Int *fd)
 {
   HpHandle h = handle
   Sane.Status status
@@ -1222,6 +1222,6 @@ Sane.get_select_fd (Sane.Handle handle, Int *fd)
   status = sanei_hp_handle_getPipefd(h, fd)
 
   DBG(10, "Sane.get_select_fd will finish with %s\n",
-      Sane.strstatus (status))
+      Sane.strstatus(status))
   return status
 }

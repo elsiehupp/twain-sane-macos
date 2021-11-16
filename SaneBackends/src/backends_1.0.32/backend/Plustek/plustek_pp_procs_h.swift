@@ -2,8 +2,8 @@
  *  @brief here are the prototypes of all exported functions
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 1998 Plustek Inc.
- * Copyright (C) 2000-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 1998 Plustek Inc.
+ * Copyright(C) 2000-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  * also based on the work done by Rick Bronson <rick@efn.org>
  *
  * History:
@@ -36,7 +36,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -85,8 +85,8 @@ _LOC Int       MiscReinitStruct      ( pScanData ps )
 
 _LOC Int  MiscInitPorts  ( pScanData ps, Int port )
 _LOC void MiscRestorePort( pScanData ps )
-_LOC void MiscStartTimer ( pTimerDef timer, unsigned long us )
-_LOC Int  MiscCheckTimer ( pTimerDef timer )
+_LOC void MiscStartTimer( pTimerDef timer, unsigned long us )
+_LOC Int  MiscCheckTimer( pTimerDef timer )
 
 _LOC Int  MiscRegisterPort       ( pScanData ps, Int portAddr )
 _LOC void MiscUnregisterPort     ( pScanData ps )
@@ -148,7 +148,7 @@ _LOC void DacP98FillShadingDarkToShadingRegister( pScanData ps )
 
 _LOC void DacP96WriteBackToGammaShadingRAM( pScanData ps )
 
-_LOC void DacP98003FillToDAC (pScanData ps, pRGBByteDef regs, pColorByte data)
+_LOC void DacP98003FillToDAC(pScanData ps, pRGBByteDef regs, pColorByte data)
 _LOC void DacP98003AdjustGain(pScanData ps, ULong color, Byte hilight )
 _LOC Byte DacP98003SumGains  ( pUChar pb, ULong pixelsLine )
 
@@ -157,7 +157,7 @@ _LOC Byte DacP98003SumGains  ( pUChar pb, ULong pixelsLine )
  */
 _LOC Int  MotorInitialize	 ( pScanData ps )
 _LOC void MotorSetConstantMove( pScanData ps, Byte bMovePerStep )
-_LOC void MotorToHomePosition ( pScanData ps )
+_LOC void MotorToHomePosition( pScanData ps )
 
 _LOC void MotorP98GoFullStep  ( pScanData ps, ULong dwStep )
 
@@ -174,7 +174,7 @@ _LOC void MotorP98003PositionYProc        ( pScanData ps, ULong steps)
 /*
  * implementation in plustek-pp_map.c
  */
-_LOC void MapInitialize ( pScanData ps )
+_LOC void MapInitialize( pScanData ps )
 _LOC void MapSetupDither( pScanData ps )
 _LOC void MapAdjust     ( pScanData ps, Int which )
 
@@ -194,7 +194,7 @@ _LOC void IOGetCurrentStateCount( pScanData, pScanState pScanStep)
 _LOC Int  IOIsReadyForScan      ( pScanData ps )
 
 _LOC void  IOSetXStepLineScanTime( pScanData ps, Byte b )
-_LOC void  IOSetToMotorStepCount ( pScanData ps )
+_LOC void  IOSetToMotorStepCount( pScanData ps )
 _LOC void  IOSelectLampSource    ( pScanData ps )
 _LOC Bool  IOReadOneShadingLine  ( pScanData ps, pUChar pBuf, ULong len )
 _LOC ULong IOReadFifoLength      ( pScanData ps )
@@ -205,13 +205,13 @@ _LOC void  IOReadColorData       ( pScanData ps, pUChar pBuf, ULong len )
  * implementation in plustek-pp_io.c
  */
 _LOC Int  IOInitialize        ( pScanData ps )
-_LOC void IOMoveDataToScanner ( pScanData ps, pUChar pBuffer, ULong size )
+_LOC void IOMoveDataToScanner( pScanData ps, pUChar pBuffer, ULong size )
 _LOC void IODownloadScanStates( pScanData ps )
 _LOC void IODataToScanner     ( pScanData, Byte bValue )
 _LOC void IODataToRegister    ( pScanData ps, Byte bReg, Byte bData )
 _LOC Byte IODataFromRegister  ( pScanData ps, Byte bReg )
-_LOC void IORegisterToScanner ( pScanData ps, Byte bReg )
-_LOC void IODataRegisterToDAC ( pScanData ps, Byte bReg, Byte bData )
+_LOC void IORegisterToScanner( pScanData ps, Byte bReg )
+_LOC void IODataRegisterToDAC( pScanData ps, Byte bReg, Byte bData )
 
 _LOC Byte IODataRegisterFromScanner( pScanData ps, Byte bReg )
 _LOC void IOCmdRegisterToScanner   ( pScanData ps, Byte bReg, Byte bData )
@@ -223,14 +223,14 @@ _LOC void IOReadScannerImageData   ( pScanData ps, pUChar pBuf, ULong size )
 _LOC void IOOut       ( Byte data, UShort port )
 _LOC void IOOutDelayed( Byte data, UShort port )
 _LOC Byte IOIn        ( UShort port )
-_LOC Byte IOInDelayed ( UShort port )
+_LOC Byte IOInDelayed( UShort port )
 #endif
 
 /*
  * implementation in plustek-pp_tpa.c
  */
 _LOC void TPAP98001AverageShadingData( pScanData ps )
-_LOC void TPAP98003FindCenterPointer ( pScanData ps )
+_LOC void TPAP98003FindCenterPointer( pScanData ps )
 _LOC void TPAP98003Reshading         ( pScanData ps )
 
 /*
@@ -239,7 +239,7 @@ _LOC void TPAP98003Reshading         ( pScanData ps )
 _LOC void ScaleX( pScanData ps, pUChar inBuf, pUChar outBuf )
 
 /*
- * implementation in plustek-pp_procfs.c (Kernel-mode only)
+ * implementation in plustek-pp_procfs.c(Kernel-mode only)
  */
 #ifdef __KERNEL__
 Int  ProcFsInitialize      ( void )

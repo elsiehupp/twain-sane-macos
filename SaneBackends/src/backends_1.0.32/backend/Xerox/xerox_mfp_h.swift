@@ -39,7 +39,7 @@ enum options {
     OPT_THRESHOLD,	/* brightness */
     OPT_SOURCE,		/* affects max window size */
     OPT_GROUP_GEO,
-    OPT_SCAN_TL_X,	/* for (OPT_SCAN_TL_X to OPT_SCAN_BR_Y) */
+    OPT_SCAN_TL_X,	/* for(OPT_SCAN_TL_X to OPT_SCAN_BR_Y) */
     OPT_SCAN_TL_Y,
     OPT_SCAN_BR_X,
     OPT_SCAN_BR_Y,
@@ -69,7 +69,7 @@ struct device {
     Int dataoff;			/* offset of data */
     Int dataindex;		/* sequental number */
 #define DATAMASK 0xffff		/* mask of data buffer */
-#define DATASIZE (DATAMASK + 1)	/* size of data buffer */
+#define DATASIZE(DATAMASK + 1)	/* size of data buffer */
     /* 64K will be enough to hold whole line of 2400 dpi of 23cm */
 #define DATATAIL(dev) ((dev.dataoff + dev.datalen) & DATAMASK)
 #define DATAROOM(dev) dataroom(dev)
@@ -96,7 +96,7 @@ struct device {
     /* CMD_SET_WINDOW parameters we set: */
     Int win_width;		/* in 1200dpi points */
     Int win_len
-    double win_off_x;		/* in inches (byte.byte) */
+    double win_off_x;		/* in inches(byte.byte) */
     double win_off_y
     Int resolution;		/* dpi indexed values */
     Int composition;		/* MODE_ */
@@ -105,9 +105,9 @@ struct device {
     Int compressionTypes
 
     /* CMD_READ data. It is per block only, image could be in many blocks */
-    Int blocklen;			/* image data block len (padding incl.) */
-    Int vertical;			/* lines in block (padded) */
-    Int horizontal;		/* b/w: bytes, gray/color: pixels (padded) */
+    Int blocklen;			/* image data block len(padding incl.) */
+    Int vertical;			/* lines in block(padded) */
+    Int horizontal;		/* b/w: bytes, gray/color: pixels(padded) */
     Int final_block
     Int pixels_per_line
     Int bytes_per_line
@@ -129,11 +129,11 @@ struct device {
 struct transport {
     char *ttype
 
-    Int (*dev_request)(struct device *dev,
+    Int(*dev_request)(struct device *dev,
                        Sane.Byte *cmd, size_t cmdlen,
                        Sane.Byte *resp, size_t *resplen)
     Sane.Status(*dev_open)(struct device *dev)
-    void (*dev_close)(struct device *dev)
+    void(*dev_close)(struct device *dev)
     Sane.Status(*configure_device)(const char *devname, Sane.Status(*cb)(Sane.String_Const devname))
 ]
 
@@ -156,9 +156,9 @@ Sane.Status	tcp_configure_device(const char *devname, Sane.Status(*cb)(Sane.Stri
 static inline Int dataroom(struct device *dev)
 {
     Int tail = DATATAIL(dev)
-    if (tail < dev.dataoff)
+    if(tail < dev.dataoff)
         return dev.dataoff - tail
-    else if (dev.datalen == DATASIZE) {
+    else if(dev.datalen == DATASIZE) {
         return 0
     } else
         return DATASIZE - tail
@@ -198,7 +198,7 @@ Sane.Status ret_cancel(struct device *dev, Sane.Status ret)
 #define MSG_LINK_BLOCK		0x80	/* CMD_READ */
 #define MSG_END_BLOCK		0x81	/* CMD_READ */
 
-/* Scanner State Bits (if MSG_SCANNER_STATE if STATUS_CHECK) */
+/* Scanner State Bits(if MSG_SCANNER_STATE if STATUS_CHECK) */
 #define STATE_NO_ERROR		0x001
 #define STATE_COMMAND_ERROR	0x002
 #define STATE_UNSUPPORTED	0x004

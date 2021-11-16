@@ -1,14 +1,14 @@
 /* sane - Scanner Access Now Easy.
 
    based on sources acquired from Plustek Inc.
-   Copyright (C) 2002-2003 Gerhard Jaeger <gerhard@gjaeger.de>
+   Copyright(C) 2002-2003 Gerhard Jaeger <gerhard@gjaeger.de>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -59,17 +59,17 @@ import Sane.sane
 /**
  * Read one data byte from a specific LM983x register.
  *
- * @param fd    - device file descriptor (Int)
- * @param reg   - number of register (Sane.Byte)
- * @param value - byte value to be written (Sane.Byte *)
+ * @param fd    - device file descriptor(Int)
+ * @param reg   - number of register(Sane.Byte)
+ * @param value - byte value to be written(Sane.Byte *)
  *
- * @return The SANE status code for the operation (Sane.Status):
+ * @return The SANE status code for the operation(Sane.Status):
  * - Sane.STATUS_GOOD     - on success
  * - Sane.STATUS_IO_ERROR - system write function failed
  * - Sane.STATUS_INVAL    - register out of range
  */
 #define sanei_lm983x_read_byte(fd, reg, value) \
-          sanei_lm983x_read (fd, reg, value, 1, 0)
+          sanei_lm983x_read(fd, reg, value, 1, 0)
 
 /**
  * Initialize sanei_lm983x.

@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -51,8 +51,8 @@ bool CommandSetCommon::is_head_home(Genesys_Device& dev, ScanHeadId scan_head) c
         },
     ]
 
-    for (const auto& setting : settings) {
-        if (setting.model_id == dev.model.model_id &&
+    for(const auto& setting : settings) {
+        if(setting.model_id == dev.model.model_id &&
             setting.scan_head == scan_head)
         {
             auto reg_backup = apply_reg_settings_to_device_with_backup(dev, setting.regs)
@@ -139,8 +139,8 @@ void CommandSetCommon::set_xpa_lamp_power(Genesys_Device& dev, bool set) const
         },
     ]
 
-    for (const auto& setting : settings) {
-        if (setting.model_id == dev.model.model_id &&
+    for(const auto& setting : settings) {
+        if(setting.model_id == dev.model.model_id &&
             setting.scan_method == dev.settings.scan_method)
         {
             apply_reg_settings_to_device(dev, set ? setting.regs_on : setting.regs_off)
@@ -217,11 +217,11 @@ void CommandSetCommon::set_motor_mode(Genesys_Device& dev, Genesys_Register_Set&
         {   ModelId::PLUSTEK_OPTICFILM_8200I, VALUE_FILTER_ANY, {}, {}, {} },
     ]
 
-    for (const auto& setting : settings) {
-        if (setting.model_id == dev.model.model_id &&
+    for(const auto& setting : settings) {
+        if(setting.model_id == dev.model.model_id &&
             setting.resolutions.matches(dev.session.output_resolution))
         {
-            switch (mode) {
+            switch(mode) {
                 case MotorMode::PRIMARY: {
                     apply_reg_settings_to_device(dev, setting.regs_primary)
                     break

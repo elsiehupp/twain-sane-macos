@@ -1,15 +1,15 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2000 Adrian Perez Jorge
-   Copyright (C) 2001 Frank Zago
-   Copyright (C) 2001 Marcio Teixeira
+   Copyright(C) 2000 Adrian Perez Jorge
+   Copyright(C) 2001 Frank Zago
+   Copyright(C) 2001 Marcio Teixeira
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -75,20 +75,20 @@ typedef enum
 }
 SANEI_PV_Index
 
-public void sanei_pv8630_init (void)
-public Sane.Status sanei_pv8630_write_byte (Int fd, SANEI_PV_Index index,
+public void sanei_pv8630_init(void)
+public Sane.Status sanei_pv8630_write_byte(Int fd, SANEI_PV_Index index,
 					    Sane.Byte byte)
-public Sane.Status sanei_pv8630_read_byte (Int fd, SANEI_PV_Index index,
+public Sane.Status sanei_pv8630_read_byte(Int fd, SANEI_PV_Index index,
 					   Sane.Byte * byte)
-public Sane.Status sanei_pv8630_prep_bulkread (Int fd, Int len)
-public Sane.Status sanei_pv8630_prep_bulkwrite (Int fd, Int len)
-public Sane.Status sanei_pv8630_flush_buffer (Int fd)
-public Sane.Status sanei_pv8630_bulkwrite (Int fd, const void *data,
+public Sane.Status sanei_pv8630_prep_bulkread(Int fd, Int len)
+public Sane.Status sanei_pv8630_prep_bulkwrite(Int fd, Int len)
+public Sane.Status sanei_pv8630_flush_buffer(Int fd)
+public Sane.Status sanei_pv8630_bulkwrite(Int fd, const void *data,
 					   size_t * len)
-public Sane.Status sanei_pv8630_bulkread (Int fd, void *data, size_t * len)
-public Sane.Status sanei_pv8630_xpect_byte (Int fd, SANEI_PV_Index index,
+public Sane.Status sanei_pv8630_bulkread(Int fd, void *data, size_t * len)
+public Sane.Status sanei_pv8630_xpect_byte(Int fd, SANEI_PV_Index index,
 					    Sane.Byte value, Sane.Byte mask)
-public Sane.Status sanei_pv8630_wait_byte (Int fd, SANEI_PV_Index index,
+public Sane.Status sanei_pv8630_wait_byte(Int fd, SANEI_PV_Index index,
 					   Sane.Byte value, Sane.Byte mask,
 					   Int timeout)
 #endif /* sanei_pv8630_h */

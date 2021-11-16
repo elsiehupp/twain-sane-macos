@@ -9,7 +9,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -67,28 +67,28 @@ region_type
 #define HIBYTE(x)  ((uint8_t)((x) >> 8))
 
 /* Static low function proto-types */
-static Sane.Status low_usb_bulk_write (Int devnum,
+static Sane.Status low_usb_bulk_write(Int devnum,
 				       Sane.Byte * cmd, size_t * size)
-static Sane.Status low_usb_bulk_read (Int devnum,
+static Sane.Status low_usb_bulk_read(Int devnum,
 				      Sane.Byte * buf, size_t * size)
-static Sane.Status low_write_all_regs (Int devnum, Sane.Byte * regs)
-static Bool low_is_home_line (Lexmark_Device * dev,
+static Sane.Status low_write_all_regs(Int devnum, Sane.Byte * regs)
+static Bool low_is_home_line(Lexmark_Device * dev,
 				   unsigned char *buffer)
-static Sane.Status low_get_start_loc (Int resolution,
+static Sane.Status low_get_start_loc(Int resolution,
 				      Int * vert_start,
 				      Int * hor_start, Int offset,
 				      Lexmark_Device * dev)
-static void low_rewind (Lexmark_Device * dev, Sane.Byte * regs)
-static Sane.Status low_start_mvmt (Int devnum)
-static Sane.Status low_stop_mvmt (Int devnum)
+static void low_rewind(Lexmark_Device * dev, Sane.Byte * regs)
+static Sane.Status low_start_mvmt(Int devnum)
+static Sane.Status low_stop_mvmt(Int devnum)
 static Sane.Status low_clr_c6 (Int devnum)
-static Sane.Status low_simple_scan (Lexmark_Device * dev,
+static Sane.Status low_simple_scan(Lexmark_Device * dev,
 				    Sane.Byte * regs,
 				    Int xoffset,
 				    Int pixels,
 				    Int yoffset,
 				    Int lines, Sane.Byte ** data)
-static void low_set_scan_area (Int res,
+static void low_set_scan_area(Int res,
 			       Int tlx,
 			       Int tly,
 			       Int brx,
@@ -98,19 +98,19 @@ static void low_set_scan_area (Int res,
 			       Sane.Byte * regs, Lexmark_Device * dev)
 
 /* Static Read Buffer Proto-types */
-static Sane.Status read_buffer_init (Lexmark_Device * dev, Int bytesperline)
-static Sane.Status read_buffer_free (Read_Buffer * rb)
-static size_t read_buffer_bytes_available (Read_Buffer * rb)
-static Sane.Status read_buffer_add_byte (Read_Buffer * rb,
+static Sane.Status read_buffer_init(Lexmark_Device * dev, Int bytesperline)
+static Sane.Status read_buffer_free(Read_Buffer * rb)
+static size_t read_buffer_bytes_available(Read_Buffer * rb)
+static Sane.Status read_buffer_add_byte(Read_Buffer * rb,
 					 Sane.Byte * byte_pointer)
-static Sane.Status read_buffer_add_byte_gray (Read_Buffer * rb,
+static Sane.Status read_buffer_add_byte_gray(Read_Buffer * rb,
 					      Sane.Byte * byte_pointer)
-static Sane.Status read_buffer_add_bit_lineart (Read_Buffer * rb,
+static Sane.Status read_buffer_add_bit_lineart(Read_Buffer * rb,
 						Sane.Byte * byte_pointer,
 						Sane.Byte threshold)
-static size_t read_buffer_get_bytes (Read_Buffer * rb, Sane.Byte * buffer,
+static size_t read_buffer_get_bytes(Read_Buffer * rb, Sane.Byte * buffer,
 				     size_t rqst_size)
-static Bool read_buffer_is_empty (Read_Buffer * rb)
+static Bool read_buffer_is_empty(Read_Buffer * rb)
 
 
 /*
@@ -124,29 +124,29 @@ static Bool read_buffer_is_empty (Read_Buffer * rb)
  * registers helpers to avoid direct access
  */
 static Bool
-rts88xx_is_color (Sane.Byte * regs)
+rts88xx_is_color(Sane.Byte * regs)
 {
-  if ((regs[0x2f] & 0x11) == 0x11)
+  if((regs[0x2f] & 0x11) == 0x11)
     return Sane.TRUE
   return Sane.FALSE
 }
 
 static void
-rts88xx_set_gray_scan (Sane.Byte * regs)
+rts88xx_set_gray_scan(Sane.Byte * regs)
 {
   regs[0x2f] = (regs[0x2f] & 0x0f) | 0x20
 }
 
 #if 0
 static void
-rts88xx_set_color_scan (Sane.Byte * regs)
+rts88xx_set_color_scan(Sane.Byte * regs)
 {
   regs[0x2f] = (regs[0x2f] & 0x0f) | 0x10
 }
 #endif
 
 static void
-rts88xx_set_offset (Sane.Byte * regs, Sane.Byte red, Sane.Byte green,
+rts88xx_set_offset(Sane.Byte * regs, Sane.Byte red, Sane.Byte green,
 		    Sane.Byte blue)
 {
   /* offset for odd pixels */
@@ -161,7 +161,7 @@ rts88xx_set_offset (Sane.Byte * regs, Sane.Byte red, Sane.Byte green,
 }
 
 static void
-rts88xx_set_gain (Sane.Byte * regs, Sane.Byte red, Sane.Byte green,
+rts88xx_set_gain(Sane.Byte * regs, Sane.Byte red, Sane.Byte green,
 		  Sane.Byte blue)
 {
   regs[0x08] = red
@@ -171,7 +171,7 @@ rts88xx_set_gain (Sane.Byte * regs, Sane.Byte red, Sane.Byte green,
 
 /* set # of head moves per CIS read */
 static Int
-rts88xx_set_scan_frequency (Sane.Byte * regs, Int frequency)
+rts88xx_set_scan_frequency(Sane.Byte * regs, Int frequency)
 {
   regs[0x64] = (regs[0x64] & 0xf0) | (frequency & 0x0f)
   return 0
@@ -181,7 +181,7 @@ rts88xx_set_scan_frequency (Sane.Byte * regs, Int frequency)
  * read one register at given index
  */
 static Sane.Status
-rts88xx_read_reg (Int devnum, Int index, Sane.Byte * reg)
+rts88xx_read_reg(Int devnum, Int index, Sane.Byte * reg)
 {
   Sane.Status status = Sane.STATUS_GOOD
   unsigned char cmd[] = { 0x80, 0x00, 0x00, 0x01 ]
@@ -193,25 +193,25 @@ rts88xx_read_reg (Int devnum, Int index, Sane.Byte * reg)
 #ifdef FAKE_USB
   status = Sane.STATUS_GOOD
 #else
-  status = sanei_usb_write_bulk (devnum, cmd, &size)
+  status = sanei_usb_write_bulk(devnum, cmd, &size)
 #endif
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (5, "rts88xx_read_reg: bulk write failed\n")
+      DBG(5, "rts88xx_read_reg: bulk write failed\n")
       return status
     }
   size = 1
 #ifdef FAKE_USB
   status = Sane.STATUS_GOOD
 #else
-  status = sanei_usb_read_bulk (devnum, reg, &size)
+  status = sanei_usb_read_bulk(devnum, reg, &size)
 #endif
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (5, "rts88xx_read_reg: bulk read failed\n")
+      DBG(5, "rts88xx_read_reg: bulk read failed\n")
       return status
     }
-  DBG (15, "rts88xx_read_reg: reg[0x%02x]=0x%02x\n", index, *reg)
+  DBG(15, "rts88xx_read_reg: reg[0x%02x]=0x%02x\n", index, *reg)
   return status
 }
 
@@ -219,7 +219,7 @@ rts88xx_read_reg (Int devnum, Int index, Sane.Byte * reg)
  * write one register at given index
  */
 static Sane.Status
-rts88xx_write_reg (Int devnum, Int index, Sane.Byte * reg)
+rts88xx_write_reg(Int devnum, Int index, Sane.Byte * reg)
 {
   Sane.Status status = Sane.STATUS_GOOD
   unsigned char cmd[] = { 0x88, 0x00, 0x00, 0x01 ]
@@ -231,25 +231,25 @@ rts88xx_write_reg (Int devnum, Int index, Sane.Byte * reg)
 #ifdef FAKE_USB
   status = Sane.STATUS_GOOD
 #else
-  status = sanei_usb_write_bulk (devnum, cmd, &size)
+  status = sanei_usb_write_bulk(devnum, cmd, &size)
 #endif
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (5, "rts88xx_write_reg: bulk write failed\n")
+      DBG(5, "rts88xx_write_reg: bulk write failed\n")
       return status
     }
   size = 1
 #ifdef FAKE_USB
   status = Sane.STATUS_GOOD
 #else
-  status = sanei_usb_write_bulk (devnum, reg, &size)
+  status = sanei_usb_write_bulk(devnum, reg, &size)
 #endif
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (5, "rts88xx_write_reg: bulk write failed\n")
+      DBG(5, "rts88xx_write_reg: bulk write failed\n")
       return status
     }
-  DBG (15, "rts88xx_write_reg: reg[0x%02x]=0x%02x\n", index, *reg)
+  DBG(15, "rts88xx_write_reg: reg[0x%02x]=0x%02x\n", index, *reg)
   return status
 }
 
@@ -259,19 +259,19 @@ rts88xx_write_reg (Int devnum, Int index, Sane.Byte * reg)
  * write if it belongs to the register set sent
  */
 static Sane.Status
-rts88xx_write_regs (Int devnum, Int start, Sane.Byte * source,
+rts88xx_write_regs(Int devnum, Int start, Sane.Byte * source,
 		    Int length)
 {
   size_t size = 0
 
   /* when writing several registers at a time, we avoid writing 0xb3
      register */
-  if ((start + length > 0xb3) && (length > 1))
+  if((start + length > 0xb3) && (length > 1))
     {
       size = 0xb3 - start
-      if (low_usb_bulk_write (devnum, source, &size) != Sane.STATUS_GOOD)
+      if(low_usb_bulk_write(devnum, source, &size) != Sane.STATUS_GOOD)
 	{
-	  DBG (5, "rts88xx_write_regs : write registers part 1 failed ...\n")
+	  DBG(5, "rts88xx_write_regs : write registers part 1 failed ...\n")
 	  return Sane.STATUS_IO_ERROR
 	}
 
@@ -281,9 +281,9 @@ rts88xx_write_regs (Int devnum, Int start, Sane.Byte * source,
       source = source + size
     }
   size = length - size
-  if (low_usb_bulk_write (devnum, source, &size) != Sane.STATUS_GOOD)
+  if(low_usb_bulk_write(devnum, source, &size) != Sane.STATUS_GOOD)
     {
-      DBG (5, "rts88xx_write_regs : write registers part 2 failed ...\n")
+      DBG(5, "rts88xx_write_regs : write registers part 2 failed ...\n")
       return Sane.STATUS_IO_ERROR
     }
 
@@ -296,7 +296,7 @@ rts88xx_write_regs (Int devnum, Int start, Sane.Byte * source,
  * is returned in 'size'
  */
 static Sane.Status
-rts88xx_read_data (Int devnum, size_t needed, Sane.Byte * data,
+rts88xx_read_data(Int devnum, size_t needed, Sane.Byte * data,
 		   size_t * size)
 {
   Sane.Byte read_cmd[] = { 0x91, 0x00, 0x00, 0x00 ]
@@ -304,7 +304,7 @@ rts88xx_read_data (Int devnum, size_t needed, Sane.Byte * data,
   Sane.Status status = Sane.STATUS_GOOD
 
   /* this block would deserve to be a function */
-  if (needed > MAX_XFER_SIZE)
+  if(needed > MAX_XFER_SIZE)
     *size = MAX_XFER_SIZE
   else
     *size = needed
@@ -314,46 +314,46 @@ rts88xx_read_data (Int devnum, size_t needed, Sane.Byte * data,
 
   /* send header for 'get scanned data' */
   cmd_size = 4
-  status = low_usb_bulk_write (devnum, read_cmd, &cmd_size)
-  if (status != Sane.STATUS_GOOD)
+  status = low_usb_bulk_write(devnum, read_cmd, &cmd_size)
+  if(status != Sane.STATUS_GOOD)
     {
       *size = 0
-      DBG (5, "rts88xx_read_data : header sending failed ...\n")
+      DBG(5, "rts88xx_read_data : header sending failed ...\n")
       return status
     }
   /* get actual scanned data */
-  status = low_usb_bulk_read (devnum, data, size)
-  if (status != Sane.STATUS_GOOD)
+  status = low_usb_bulk_read(devnum, data, size)
+  if(status != Sane.STATUS_GOOD)
     {
       *size = 0
-      DBG (5, "rts88xx_read_data : data reading failed ...\n")
+      DBG(5, "rts88xx_read_data : data reading failed ...\n")
     }
   return status
 }
 
 /* starts scan by sending color depth, stopping head, the starting it */
 static Sane.Status
-rts88xx_commit (Int devnum, Sane.Byte depth)
+rts88xx_commit(Int devnum, Sane.Byte depth)
 {
   Sane.Status status
   Sane.Byte reg
 
-  DBG (2, "rts88xx_commit: start\n")
+  DBG(2, "rts88xx_commit: start\n")
 
   /* send color depth depth ??
    * X1100 -> 0x0f
    * X1100/B2 -> 0x0d
    * X1200 -> 0x01 */
   reg = depth
-  rts88xx_write_reg (devnum, 0x2c, &reg)
+  rts88xx_write_reg(devnum, 0x2c, &reg)
 
   /* stop before starting */
-  low_stop_mvmt (devnum)
+  low_stop_mvmt(devnum)
 
   /* effective start */
-  status = low_start_mvmt (devnum)
+  status = low_start_mvmt(devnum)
 
-  DBG (2, "rts88xx_commit: end\n")
+  DBG(2, "rts88xx_commit: end\n")
 
   return status
 }
@@ -368,15 +368,15 @@ rts88xx_commit (Int devnum, Sane.Byte depth)
  * sets the scanner idle
  */
 static Sane.Status
-lexmark_low_set_idle (Int devnum)
+lexmark_low_set_idle(Int devnum)
 {
   Sane.Byte regs[14] =
     { 0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x60
   ]
-  if (rts88xx_write_regs (devnum, 16, regs, 14) != Sane.STATUS_GOOD)
+  if(rts88xx_write_regs(devnum, 16, regs, 14) != Sane.STATUS_GOOD)
     {
-      DBG (5, "lexmark_low_set_idle : register write failed ...\n")
+      DBG(5, "lexmark_low_set_idle : register write failed ...\n")
       return Sane.STATUS_IO_ERROR
     }
   return Sane.STATUS_GOOD
@@ -386,19 +386,19 @@ lexmark_low_set_idle (Int devnum)
 /* wake up scanner */
 #if 0
 static Sane.Status
-lexmark_low_wake_up (Lexmark_Device * dev)
+lexmark_low_wake_up(Lexmark_Device * dev)
 {
   Sane.Byte regs[5] = { 0x12, 0x14, 0x16, 0x18, 0x1a ]
   Sane.Byte values[5] = { 0x0f, 0x00, 0x07, 0x00, 0x00 ]
   var i: Int
 
   /* send the wake-up sequence, one reg at at time */
-  for (i = 0; i < 10; i++)
+  for(i = 0; i < 10; i++)
     {
-      if (rts88xx_write_reg (dev.devnum, regs[i], values + i) !=
+      if(rts88xx_write_reg(dev.devnum, regs[i], values + i) !=
 	  Sane.STATUS_GOOD)
 	{
-	  DBG (5,
+	  DBG(5,
 	       "lexmark_low_wake_up : register write pass %d failed ...\n",
 	       i)
 	  return Sane.STATUS_IO_ERROR
@@ -414,38 +414,38 @@ lexmark_low_wake_up (Lexmark_Device * dev)
  */
 #ifdef DEEP_DEBUG
 static void
-write_pnm_file (char *title, Int pixels, Int lines, Int color,
+write_pnm_file(char *title, Int pixels, Int lines, Int color,
 		unsigned char *data)
 {
   FILE *fdbg
   Int x, y
 
-  fdbg = fopen (title, "wb")
-  if (fdbg == NULL)
+  fdbg = fopen(title, "wb")
+  if(fdbg == NULL)
     return
 
-  if (color)
+  if(color)
     {
-      fprintf (fdbg, "P6\n%d %d\n255\n", pixels, lines)
-      for (y = 0; y < lines; y++)
+      fprintf(fdbg, "P6\n%d %d\n255\n", pixels, lines)
+      for(y = 0; y < lines; y++)
 	{
-	  for (x = 0; x < pixels; x += 2)
+	  for(x = 0; x < pixels; x += 2)
 	    {
-	      fputc (data[y * pixels * 3 + x + 1], fdbg)
-	      fputc (data[y * pixels * 3 + x + 1 + pixels], fdbg)
-	      fputc (data[y * pixels * 3 + x + 1 + pixels * 2], fdbg)
-	      fputc (data[y * pixels * 3 + x], fdbg)
-	      fputc (data[y * pixels * 3 + x + pixels], fdbg)
-	      fputc (data[y * pixels * 3 + x + pixels * 2], fdbg)
+	      fputc(data[y * pixels * 3 + x + 1], fdbg)
+	      fputc(data[y * pixels * 3 + x + 1 + pixels], fdbg)
+	      fputc(data[y * pixels * 3 + x + 1 + pixels * 2], fdbg)
+	      fputc(data[y * pixels * 3 + x], fdbg)
+	      fputc(data[y * pixels * 3 + x + pixels], fdbg)
+	      fputc(data[y * pixels * 3 + x + pixels * 2], fdbg)
 	    }
 	}
     }
   else
     {
-      fprintf (fdbg, "P5\n%d %d\n255\n", pixels, lines)
-      fwrite (data, pixels, lines, fdbg)
+      fprintf(fdbg, "P5\n%d %d\n255\n", pixels, lines)
+      fwrite(data, pixels, lines, fdbg)
     }
-  fclose (fdbg)
+  fclose(fdbg)
 }
 #endif
 
@@ -456,18 +456,18 @@ write_pnm_file (char *title, Int pixels, Int lines, Int color,
  * model init
  */
 Sane.Status
-sanei_lexmark_low_init (Lexmark_Device * dev)
+sanei_lexmark_low_init(Lexmark_Device * dev)
 {
   var i: Int
   Sane.Status status
 
-  DBG_INIT ()
+  DBG_INIT()
 
   status = Sane.STATUS_UNSUPPORTED
-  DBG (2, "low_init: start\n")
+  DBG(2, "low_init: start\n")
 
   /* clear all registers first */
-  for (i = 0; i < 255; i++)
+  for(i = 0; i < 255; i++)
     {
       dev.shadow_regs[i] = 0
     }
@@ -476,7 +476,7 @@ sanei_lexmark_low_init (Lexmark_Device * dev)
   dev.shadow_regs[0xf3] = 0xf8
   dev.shadow_regs[0xf4] = 0x7f
 
-  switch (dev.model.sensor_type)
+  switch(dev.model.sensor_type)
     {
     case X74_SENSOR:
       dev.shadow_regs[0x00] = 0x04
@@ -830,23 +830,23 @@ sanei_lexmark_low_init (Lexmark_Device * dev)
       dev.shadow_regs[0xf4] = 0x0f
       break
     }
-  DBG (5, "sanei_lexmark_low_init: init done for model %s/%s\n",
+  DBG(5, "sanei_lexmark_low_init: init done for model %s/%s\n",
        dev.model.model, dev.model.name)
-  DBG (2, "low_init: done\n")
+  DBG(2, "low_init: done\n")
   return status
 }
 
 void
-sanei_lexmark_low_destroy (Lexmark_Device * dev)
+sanei_lexmark_low_destroy(Lexmark_Device * dev)
 {
   /* free the read buffer */
-  if (dev.read_buffer != NULL)
-    read_buffer_free (dev.read_buffer)
+  if(dev.read_buffer != NULL)
+    read_buffer_free(dev.read_buffer)
 }
 
 
 Sane.Status
-low_usb_bulk_write (Int devnum, Sane.Byte * cmd, size_t * size)
+low_usb_bulk_write(Int devnum, Sane.Byte * cmd, size_t * size)
 {
   Sane.Status status
   size_t cmd_size
@@ -855,20 +855,20 @@ low_usb_bulk_write (Int devnum, Sane.Byte * cmd, size_t * size)
 #ifdef FAKE_USB
   status = Sane.STATUS_GOOD
 #else
-  status = sanei_usb_write_bulk (devnum, cmd, size)
+  status = sanei_usb_write_bulk(devnum, cmd, size)
 #endif
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (5,
-	   "low_usb_bulk_write: returned %s (size = %lu, expected %lu)\n",
-	   Sane.strstatus (status), (u_long) * size, (u_long) cmd_size)
+      DBG(5,
+	   "low_usb_bulk_write: returned %s(size = %lu, expected %lu)\n",
+	   Sane.strstatus(status), (u_long) * size, (u_long) cmd_size)
       /* F.O. should reset the pipe here... */
     }
   return status
 }
 
 Sane.Status
-low_usb_bulk_read (Int devnum, Sane.Byte * buf, size_t * size)
+low_usb_bulk_read(Int devnum, Sane.Byte * buf, size_t * size)
 {
   Sane.Status status
   size_t exp_size
@@ -877,46 +877,46 @@ low_usb_bulk_read (Int devnum, Sane.Byte * buf, size_t * size)
 #ifdef FAKE_USB
   status = Sane.STATUS_GOOD
 #else
-  status = sanei_usb_read_bulk (devnum, buf, size)
+  status = sanei_usb_read_bulk(devnum, buf, size)
 #endif
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (5,
-	   "low_usb_bulk_read: returned %s (size = %lu, expected %lu)\n",
-	   Sane.strstatus (status), (u_long) * size, (u_long) exp_size)
+      DBG(5,
+	   "low_usb_bulk_read: returned %s(size = %lu, expected %lu)\n",
+	   Sane.strstatus(status), (u_long) * size, (u_long) exp_size)
       /* F.O. should reset the pipe here... */
     }
-  DBG (7, "low_usb_bulk_read: returned size = %lu (required %lu)\n",
+  DBG(7, "low_usb_bulk_read: returned size = %lu(required %lu)\n",
        (u_long) * size, (u_long) exp_size)
   return status
 }
 
 
 Sane.Status
-low_start_mvmt (Int devnum)
+low_start_mvmt(Int devnum)
 {
   Sane.Status status
   Sane.Byte reg
 
   reg = 0x68
-  rts88xx_write_reg (devnum, 0xb3, &reg)
-  status = rts88xx_write_reg (devnum, 0xb3, &reg)
+  rts88xx_write_reg(devnum, 0xb3, &reg)
+  status = rts88xx_write_reg(devnum, 0xb3, &reg)
   return status
 }
 
 Sane.Status
-low_stop_mvmt (Int devnum)
+low_stop_mvmt(Int devnum)
 {
   Sane.Status status
   Sane.Byte reg
 
   /* Stop scanner - clear reg 0xb3: */
   reg = 0x02
-  rts88xx_write_reg (devnum, 0xb3, &reg)
-  rts88xx_write_reg (devnum, 0xb3, &reg)
+  rts88xx_write_reg(devnum, 0xb3, &reg)
+  rts88xx_write_reg(devnum, 0xb3, &reg)
   reg = 0x00
-  rts88xx_write_reg (devnum, 0xb3, &reg)
-  status = rts88xx_write_reg (devnum, 0xb3, &reg)
+  rts88xx_write_reg(devnum, 0xb3, &reg)
+  status = rts88xx_write_reg(devnum, 0xb3, &reg)
   return status
 }
 
@@ -928,61 +928,61 @@ low_clr_c6 (Int devnum)
 
   /* Clear register 0xC6 */
   /* cmd_size = 0x05
-     return low_usb_bulk_write (devnum, clearC6_command_block, &cmd_size); */
+     return low_usb_bulk_write(devnum, clearC6_command_block, &cmd_size); */
 
   reg = 0x00
-  status = rts88xx_write_reg (devnum, 0xc6, &reg)
+  status = rts88xx_write_reg(devnum, 0xc6, &reg)
   return status
 }
 
 /* stops current scan */
 static Sane.Status
-low_cancel (Int devnum)
+low_cancel(Int devnum)
 {
   Sane.Status status
 
-  DBG (2, "low_cancel: start\n")
-  status = low_stop_mvmt (devnum)
-  if (status != Sane.STATUS_GOOD)
+  DBG(2, "low_cancel: start\n")
+  status = low_stop_mvmt(devnum)
+  if(status != Sane.STATUS_GOOD)
     return status
   status = low_clr_c6 (devnum)
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     return status
-  DBG (2, "low_cancel: end.\n")
+  DBG(2, "low_cancel: end.\n")
   return status
 }
 
 static Sane.Status
-low_start_scan (Int devnum, Sane.Byte * regs)
+low_start_scan(Int devnum, Sane.Byte * regs)
 {
   Sane.Status status
 
-  DBG (2, "low_start_scan: start\n")
+  DBG(2, "low_start_scan: start\n")
 
   /* writes registers to scanner */
   regs[0x32] = 0x00
-  status = low_write_all_regs (devnum, regs)
-  if (status != Sane.STATUS_GOOD)
+  status = low_write_all_regs(devnum, regs)
+  if(status != Sane.STATUS_GOOD)
     return status
   regs[0x32] = 0x40
-  status = low_write_all_regs (devnum, regs)
-  if (status != Sane.STATUS_GOOD)
+  status = low_write_all_regs(devnum, regs)
+  if(status != Sane.STATUS_GOOD)
     return status
 
   /* Stop scanner - clear reg 0xb3: */
-  /* status = low_stop_mvmt (devnum)
-     if (status != Sane.STATUS_GOOD)
+  /* status = low_stop_mvmt(devnum)
+     if(status != Sane.STATUS_GOOD)
      return status; */
 
   /* then start */
-  status = rts88xx_commit (devnum, regs[0x2c])
-  DBG (2, "low_start_scan: end.\n")
+  status = rts88xx_commit(devnum, regs[0x2c])
+  DBG(2, "low_start_scan: end.\n")
   return status
 }
 
 /* wait for scan data being available */
 static Sane.Status
-low_poll_data (Int devnum)
+low_poll_data(Int devnum)
 {
   Sane.Status status
   Int loops = 0
@@ -992,34 +992,34 @@ low_poll_data (Int devnum)
   Sane.Word count
 
   /* Poll the available byte count until not 0 */
-  while (loops < 1000)
+  while(loops < 1000)
     {
       /* 10 ms sleep */
-      usleep (10000)
+      usleep(10000)
 
       /* as stated in sanei_lexmark_low_search_home_bwd, we read
        * available data count twice */
       size = 4
-      status = low_usb_bulk_write (devnum, command4_block, &size)
-      if (status != Sane.STATUS_GOOD)
+      status = low_usb_bulk_write(devnum, command4_block, &size)
+      if(status != Sane.STATUS_GOOD)
 	return status
       size = 0x3
-      status = low_usb_bulk_read (devnum, result, &size)
-      if (status != Sane.STATUS_GOOD)
+      status = low_usb_bulk_read(devnum, result, &size)
+      if(status != Sane.STATUS_GOOD)
 	return status
       size = 4
       /* read available data size again */
-      status = low_usb_bulk_write (devnum, command4_block, &size)
-      if (status != Sane.STATUS_GOOD)
+      status = low_usb_bulk_write(devnum, command4_block, &size)
+      if(status != Sane.STATUS_GOOD)
 	return status
       size = 0x3
-      status = low_usb_bulk_read (devnum, result, &size)
-      if (status != Sane.STATUS_GOOD)
+      status = low_usb_bulk_read(devnum, result, &size)
+      if(status != Sane.STATUS_GOOD)
 	return status
       count = result[0] + (result[1] << 8) + (result[2] << 16)
-      if (count != 0)
+      if(count != 0)
 	{
-	  DBG (15, "low_poll_data: %d bytes available\n", count)
+	  DBG(15, "low_poll_data: %d bytes available\n", count)
 	  return Sane.STATUS_GOOD
 	}
       loops++
@@ -1032,7 +1032,7 @@ low_poll_data (Int devnum)
  * the function
  */
 static Sane.Status
-low_simple_scan (Lexmark_Device * dev, Sane.Byte * regs, Int xoffset,
+low_simple_scan(Lexmark_Device * dev, Sane.Byte * regs, Int xoffset,
 		 Int pixels, Int yoffset, Int lines, Sane.Byte ** data)
 {
   Sane.Status status = Sane.STATUS_GOOD
@@ -1040,106 +1040,106 @@ low_simple_scan (Lexmark_Device * dev, Sane.Byte * regs, Int xoffset,
   size_t size, read, needed
   var i: Int, bpl, yend
 
-  DBG (2, "low_simple_scan: start\n")
-  DBG (15, "low_simple_scan: x=%d, pixels=%d (ex=%d), y=%d, lines=%d\n",
+  DBG(2, "low_simple_scan: start\n")
+  DBG(15, "low_simple_scan: x=%d, pixels=%d(ex=%d), y=%d, lines=%d\n",
        xoffset, pixels, xoffset + pixels * regs[0x7a], yoffset, lines)
 
   /* set up registers */
-  regs[0x60] = LOBYTE (yoffset)
-  regs[0x61] = HIBYTE (yoffset)
+  regs[0x60] = LOBYTE(yoffset)
+  regs[0x61] = HIBYTE(yoffset)
   yend = yoffset + lines
-  if ((dev.model.motor_type == A920_MOTOR
-       || dev.model.motor_type == X74_MOTOR) && rts88xx_is_color (regs)
+  if((dev.model.motor_type == A920_MOTOR
+       || dev.model.motor_type == X74_MOTOR) && rts88xx_is_color(regs)
       && dev.val[OPT_RESOLUTION].w == 600)
     yend *= 2
-  regs[0x62] = LOBYTE (yend)
-  regs[0x63] = HIBYTE (yend)
+  regs[0x62] = LOBYTE(yend)
+  regs[0x63] = HIBYTE(yend)
 
-  regs[0x66] = LOBYTE (xoffset)
-  regs[0x67] = HIBYTE (xoffset)
+  regs[0x66] = LOBYTE(xoffset)
+  regs[0x67] = HIBYTE(xoffset)
 
-  regs[0x6c] = LOBYTE (xoffset + pixels * regs[0x7a])
-  regs[0x6d] = HIBYTE (xoffset + pixels * regs[0x7a])
+  regs[0x6c] = LOBYTE(xoffset + pixels * regs[0x7a])
+  regs[0x6d] = HIBYTE(xoffset + pixels * regs[0x7a])
 
   /* allocate memory */
-  if (rts88xx_is_color (regs))
+  if(rts88xx_is_color(regs))
     bpl = 3 * pixels
   else
     bpl = pixels
-  *data = (Sane.Byte *) malloc (bpl * lines)
-  if (*data == NULL)
+  *data = (Sane.Byte *) malloc(bpl * lines)
+  if(*data == NULL)
     {
-      DBG (2,
+      DBG(2,
 	   "low_simple_scan: failed to allocate %d bytes !\n", bpl * lines)
       return Sane.STATUS_NO_MEM
     }
 
   /* start scan */
-  status = low_cancel (dev.devnum)
-  if (status != Sane.STATUS_GOOD)
+  status = low_cancel(dev.devnum)
+  if(status != Sane.STATUS_GOOD)
     return status
 
 
-  status = low_start_scan (dev.devnum, regs)
-  if (status != Sane.STATUS_GOOD)
+  status = low_start_scan(dev.devnum, regs)
+  if(status != Sane.STATUS_GOOD)
     return status
 
   /* wait for data */
-  status = low_poll_data (dev.devnum)
-  if (status != Sane.STATUS_GOOD)
+  status = low_poll_data(dev.devnum)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "low_simple_scan: time-out while waiting for data.\n")
+      DBG(1, "low_simple_scan: time-out while waiting for data.\n")
       return status
     }
 
   /* data reading loop */
   needed = bpl * lines
-  DBG (1, "low_simple_scan: bpl=%d, lines=%d, needed=%lu.\n", bpl, lines,
+  DBG(1, "low_simple_scan: bpl=%d, lines=%d, needed=%lu.\n", bpl, lines,
        (u_long) needed)
   read = 0
   do
     {
       /* this block would deserve to be a function */
       status =
-	rts88xx_read_data (dev.devnum, needed - read, (*data) + read, &size)
-      if (status != Sane.STATUS_GOOD)
+	rts88xx_read_data(dev.devnum, needed - read, (*data) + read, &size)
+      if(status != Sane.STATUS_GOOD)
 	return status
       read += size
     }
-  while (read < needed)
+  while(read < needed)
 
   /* if needed, wait for motor to stop */
-  if (regs[0xc3] & 0x80)
+  if(regs[0xc3] & 0x80)
     {
       i = 0
       do
 	{
-	  if (rts88xx_read_reg (dev.devnum, 0xb3, &reg) != Sane.STATUS_GOOD)
+	  if(rts88xx_read_reg(dev.devnum, 0xb3, &reg) != Sane.STATUS_GOOD)
 	    {
-	      DBG (5, "low_simple_scan: register read failed ...\n")
+	      DBG(5, "low_simple_scan: register read failed ...\n")
 	      return Sane.STATUS_IO_ERROR
 	    }
-	  usleep (100000)
+	  usleep(100000)
 	  i++
 	}
-      while ((reg & 0x08) && (i < 100))
-      if (reg & 0x08)
+      while((reg & 0x08) && (i < 100))
+      if(reg & 0x08)
 	{
-	  DBG (5,
+	  DBG(5,
 	       "low_simple_scan : timeout waiting for motor to stop ...\n")
 	  return Sane.STATUS_IO_ERROR
 	}
     }
 
   /* stop scan */
-  status = low_cancel (dev.devnum)
-  if (status != Sane.STATUS_GOOD)
+  status = low_cancel(dev.devnum)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "low_simple_scan: cancel failed.\n")
+      DBG(1, "low_simple_scan: cancel failed.\n")
       return status
     }
 
-  DBG (2, "low_simple_scan: end.\n")
+  DBG(2, "low_simple_scan: end.\n")
   return status
 }
 
@@ -1147,7 +1147,7 @@ low_simple_scan (Lexmark_Device * dev, Sane.Byte * regs, Int xoffset,
  * open USB device ,read initial registers values and probe sensor
  */
 Sane.Status
-sanei_lexmark_low_open_device (Lexmark_Device * dev)
+sanei_lexmark_low_open_device(Lexmark_Device * dev)
 {
   /* This function calls the Sane Interface to open this usb device.
      It also needlessly does what the Windows driver does and reads
@@ -1173,49 +1173,49 @@ sanei_lexmark_low_open_device (Lexmark_Device * dev)
   shadow_regs[0xf3] = 0xf8
   shadow_regs[0xf4] = 0x7f
 #else
-  result = sanei_usb_open (dev.sane.name, &(dev.devnum))
+  result = sanei_usb_open(dev.sane.name, &(dev.devnum))
 #endif
-  DBG (2, "sanei_lexmark_low_open_device: devnum=%d\n", dev.devnum)
+  DBG(2, "sanei_lexmark_low_open_device: devnum=%d\n", dev.devnum)
 
   size = 4
-  low_usb_bulk_write (dev.devnum, command_block, &size)
+  low_usb_bulk_write(dev.devnum, command_block, &size)
   size = 0xFF
-  memset (shadow_regs, 0, sizeof (shadow_regs))
-  low_usb_bulk_read (dev.devnum, shadow_regs, &size)
+  memset(shadow_regs, 0, sizeof(shadow_regs))
+  low_usb_bulk_read(dev.devnum, shadow_regs, &size)
 
-  if (DBG_LEVEL > 2)
+  if(DBG_LEVEL > 2)
     {
-      DBG (2, "sanei_lexmark_low_open_device: initial registers values\n")
-      for (i = 0; i < 255; i++)
+      DBG(2, "sanei_lexmark_low_open_device: initial registers values\n")
+      for(i = 0; i < 255; i++)
 	{
-	  sprintf (msg + i * 5, "0x%02x ", shadow_regs[i])
+	  sprintf(msg + i * 5, "0x%02x ", shadow_regs[i])
 	}
-      DBG (3, "%s\n", msg)
+      DBG(3, "%s\n", msg)
     }
 
   /* it seems that at first read after reset, registers hold information
    * about the scanner. Register 0x00 is overwritten with 0, so only first read
    * after USB plug-in gives this value */
-  if (shadow_regs[0] == 0x91)
+  if(shadow_regs[0] == 0x91)
     {
       sx = shadow_regs[0x67] * 256 + shadow_regs[0x66]
       ex = shadow_regs[0x6d] * 256 + shadow_regs[0x6c]
-      DBG (7, "startx=%d, endx=%d, pixels=%d, coef=%d, r2f=0x%02x\n", sx, ex,
+      DBG(7, "startx=%d, endx=%d, pixels=%d, coef=%d, r2f=0x%02x\n", sx, ex,
 	   ex - sx, dev.shadow_regs[0x7a], shadow_regs[0x2f])
       sy = shadow_regs[0x61] * 256 + shadow_regs[0x60]
       ey = shadow_regs[0x63] * 256 + shadow_regs[0x62]
-      DBG (7, "starty=%d, endy=%d, lines=%d\n", sy, ey, ey - sy)
+      DBG(7, "starty=%d, endy=%d, lines=%d\n", sy, ey, ey - sy)
     }
 
   /* we use register 0xb0 to identify details about models   */
   /* this register isn't overwritten during normal operation */
-  if (shadow_regs[0xb0] == 0x2c && dev.model.sensor_type == X1100_B2_SENSOR)
+  if(shadow_regs[0xb0] == 0x2c && dev.model.sensor_type == X1100_B2_SENSOR)
     {
       variant = shadow_regs[0xb0]
     }
   /* now the same with register 0x10 */
   /* which most likely signals USB2.0/USB1.1 */
-  if ((dev.model.sensor_type == X1200_SENSOR) && (shadow_regs[0x10] == 0x97))
+  if((dev.model.sensor_type == X1200_SENSOR) && (shadow_regs[0x10] == 0x97))
     {
       variant = shadow_regs[0x10]
     }
@@ -1223,30 +1223,30 @@ sanei_lexmark_low_open_device (Lexmark_Device * dev)
   /* if find a case where default model given is inappropriate, reassign it
    * since we have now the information to get the real one.
    * We could avoid this if attach() did open and read registers, not init */
-  if (variant != 0)
+  if(variant != 0)
     {
-      DBG (3,
+      DBG(3,
 	   "sanei_lexmark_low_open_device: reassign model/sensor for variant 0x%02x\n",
 	   variant)
-      sanei_lexmark_low_assign_model (dev, dev.sane.name,
+      sanei_lexmark_low_assign_model(dev, dev.sane.name,
 				      dev.model.vendor_id,
 				      dev.model.product_id, variant)
       /* since model has changed, run init again */
-      sanei_lexmark_low_init (dev)
+      sanei_lexmark_low_init(dev)
     }
-  DBG (2, "sanei_lexmark_low_open_device: end\n")
+  DBG(2, "sanei_lexmark_low_open_device: end\n")
   return result
 }
 
 void
-sanei_lexmark_low_close_device (Lexmark_Device * dev)
+sanei_lexmark_low_close_device(Lexmark_Device * dev)
 {
   /* put scanner in idle state */
-  lexmark_low_set_idle (dev.devnum)
+  lexmark_low_set_idle(dev.devnum)
 
   /* This function calls the Sane USB library to close this usb device */
 #ifndef FAKE_USB
-  sanei_usb_close (dev.devnum)
+  sanei_usb_close(dev.devnum)
 #endif
   return
 }
@@ -1255,7 +1255,7 @@ sanei_lexmark_low_close_device (Lexmark_Device * dev)
 /* This function writes the contents of the given registers to the
      scanner. */
 Sane.Status
-low_write_all_regs (Int devnum, Sane.Byte * regs)
+low_write_all_regs(Int devnum, Sane.Byte * regs)
 {
   var i: Int
   Sane.Status status
@@ -1266,7 +1266,7 @@ low_write_all_regs (Int devnum, Sane.Byte * regs)
   command_block1[1] = 0x00
   command_block1[2] = 0x00
   command_block1[3] = 0xb3
-  for (i = 0; i < 0xb3; i++)
+  for(i = 0; i < 0xb3; i++)
     {
       command_block1[i + 4] = regs[i]
     }
@@ -1274,34 +1274,34 @@ low_write_all_regs (Int devnum, Sane.Byte * regs)
   command_block2[1] = 0xb4
   command_block2[2] = 0x00
   command_block2[3] = 0x4b
-  for (i = 0; i < 0x4b; i++)
+  for(i = 0; i < 0x4b; i++)
     {
       command_block2[i + 4] = regs[i + 0xb4]
     }
   size = 0xb7
 
 #ifdef DEEP_DEBUG
-  fprintf (stderr, "write_all(0x00,255)=")
-  for (i = 0; i < 255; i++)
+  fprintf(stderr, "write_all(0x00,255)=")
+  for(i = 0; i < 255; i++)
     {
-      fprintf (stderr, "0x%02x ", regs[i])
+      fprintf(stderr, "0x%02x ", regs[i])
     }
-  fprintf (stderr, "\n")
+  fprintf(stderr, "\n")
 #endif
 
-  status = low_usb_bulk_write (devnum, command_block1, &size)
-  if (status != Sane.STATUS_GOOD)
+  status = low_usb_bulk_write(devnum, command_block1, &size)
+  if(status != Sane.STATUS_GOOD)
     return status
   size = 0x4f
-  status = low_usb_bulk_write (devnum, command_block2, &size)
-  if (status != Sane.STATUS_GOOD)
+  status = low_usb_bulk_write(devnum, command_block2, &size)
+  if(status != Sane.STATUS_GOOD)
     return status
   return Sane.STATUS_GOOD
 }
 
 
 Bool
-low_is_home_line (Lexmark_Device * dev, unsigned char *buffer)
+low_is_home_line(Lexmark_Device * dev, unsigned char *buffer)
 {
   /*
      This function assumes the buffer has a size of 2500 bytes.It is
@@ -1312,8 +1312,8 @@ low_is_home_line (Lexmark_Device * dev, unsigned char *buffer)
      Go through the buffer finding low and high values, which are computed by
      comparing to the average:
      average = (lowest value + highest value)/2
-     High bytes are changed to 0xFF (white), lower or equal bytes are changed
-     to 0x00 (black),so that the buffer only contains white (0xFF) or black
+     High bytes are changed to 0xFF(white), lower or equal bytes are changed
+     to 0x00 (black),so that the buffer only contains white(0xFF) or black
      (0x00) values.
 
      Next, we go through the buffer. We use a tolerance of 5 bytes on each end
@@ -1325,9 +1325,9 @@ low_is_home_line (Lexmark_Device * dev, unsigned char *buffer)
      transitions when we reach the end we return Sane.FALSE.
 
      The final check compares the transition indices to the nominal values
-     plus or minus the tolerance. For the first transition (white to black
+     plus or minus the tolerance. For the first transition(white to black
      index) the value must lie in the range 1235-30 (1205) to 1235+30 (1265).
-     For the second transition (black to white) the value must lie in the range
+     For the second transition(black to white) the value must lie in the range
      1258-30 (1228) to 1258+30 (1288). If the indices are out of range we
      return Sane.FALSE. Otherwise, we return Sane.TRUE.
    */
@@ -1349,34 +1349,34 @@ low_is_home_line (Lexmark_Device * dev, unsigned char *buffer)
   static Int numero = 0
   char titre[80]
   FILE *trace = NULL
-  sprintf (titre, "lgn%03d.pnm", numero)
-  trace = fopen (titre, "wb")
-  if (trace)
+  sprintf(titre, "lgn%03d.pnm", numero)
+  trace = fopen(titre, "wb")
+  if(trace)
     {
-      fprintf (trace, "P5\n2500 1\n255\n")
-      fwrite (buffer, 2500, 1, trace)
-      fclose (trace)
+      fprintf(trace, "P5\n2500 1\n255\n")
+      fwrite(buffer, 2500, 1, trace)
+      fclose(trace)
     }
   numero++
 #endif
 
-  DBG (15, "low_is_home_line: start\n")
+  DBG(15, "low_is_home_line: start\n")
   /* Find the max and the min */
-  for (i = 0; i < 2500; i++)
+  for(i = 0; i < 2500; i++)
     {
-      if (*(buffer + i) > max_byte)
+      if(*(buffer + i) > max_byte)
 	max_byte = *(buffer + i)
-      if (*(buffer + i) < min_byte)
+      if(*(buffer + i) < min_byte)
 	min_byte = *(buffer + i)
     }
 
   /* The average */
   average = ((max_byte + min_byte) / 2)
 
-  /* Set bytes as white (0xFF) or black (0x00) */
-  for (i = 0; i < 2500; i++)
+  /* Set bytes as white(0xFF) or black(0x00) */
+  for(i = 0; i < 2500; i++)
     {
-      if (*(buffer + i) > average)
+      if(*(buffer + i) > average)
 	*(buffer + i) = 0xFF
       else
 	*(buffer + i) = 0x00
@@ -1388,12 +1388,12 @@ low_is_home_line (Lexmark_Device * dev, unsigned char *buffer)
   /* Go through the check region - bytes 5 to 2495 */
   /* XXX STEF XXX shrink the area to where the dot should be
    * +-100 around the 1250 expected location */
-  for (i = 1150; i <= 1350; i++)
+  for(i = 1150; i <= 1350; i++)
     {
       /* Check for transition to black */
-      if ((region == white) && (*(buffer + i) == 0))
+      if((region == white) && (*(buffer + i) == 0))
 	{
-	  if (transition_counter < 2)
+	  if(transition_counter < 2)
 	    {
 	      region = black
 	      index1 = i
@@ -1401,14 +1401,14 @@ low_is_home_line (Lexmark_Device * dev, unsigned char *buffer)
 	    }
 	  else
 	    {
-	      DBG (15, "low_is_home_line: no transition to black \n")
+	      DBG(15, "low_is_home_line: no transition to black \n")
 	      return Sane.FALSE
 	    }
 	}
       /* Check for transition to white */
-      else if ((region == black) && (*(buffer + i) == 0xFF))
+      else if((region == black) && (*(buffer + i) == 0xFF))
 	{
-	  if (transition_counter < 2)
+	  if(transition_counter < 2)
 	    {
 	      region = white
 	      index2 = i
@@ -1416,16 +1416,16 @@ low_is_home_line (Lexmark_Device * dev, unsigned char *buffer)
 	    }
 	  else
 	    {
-	      DBG (15, "low_is_home_line: no transition to white \n")
+	      DBG(15, "low_is_home_line: no transition to white \n")
 	      return Sane.FALSE
 	    }
 	}
     }
 
   /* Check that the number of transitions is 2 */
-  if (transition_counter != 2)
+  if(transition_counter != 2)
     {
-      DBG (15, "low_is_home_line: transitions!=2 (%d)\n", transition_counter)
+      DBG(15, "low_is_home_line: transitions!=2 (%d)\n", transition_counter)
       return Sane.FALSE
     }
 
@@ -1437,9 +1437,9 @@ low_is_home_line (Lexmark_Device * dev, unsigned char *buffer)
   low_range = home_point1 - HomeTolerance
   high_range = home_point1 + HomeTolerance
 
-  if ((index1 < low_range) || (index1 > high_range))
+  if((index1 < low_range) || (index1 > high_range))
     {
-      DBG (15, "low_is_home_line: index1=%d out of range\n", index1)
+      DBG(15, "low_is_home_line: index1=%d out of range\n", index1)
       return Sane.FALSE
     }
 
@@ -1449,19 +1449,19 @@ low_is_home_line (Lexmark_Device * dev, unsigned char *buffer)
   low_range = home_point2 - HomeTolerance
   high_range = home_point2 + HomeTolerance
 
-  if ((index2 < low_range) || (index2 > high_range))
+  if((index2 < low_range) || (index2 > high_range))
     {
-      DBG (15, "low_is_home_line: index2=%d out of range.\n", index2)
+      DBG(15, "low_is_home_line: index2=%d out of range.\n", index2)
       return Sane.FALSE
     }
 
   /* We made it this far, so its a good home line. Return True */
-  DBG (15, "low_is_home_line: success\n")
+  DBG(15, "low_is_home_line: success\n")
   return Sane.TRUE
 }
 
 void
-sanei_lexmark_low_move_fwd (Int distance, Lexmark_Device * dev,
+sanei_lexmark_low_move_fwd(Int distance, Lexmark_Device * dev,
 			    Sane.Byte * regs)
 {
   /*
@@ -1482,7 +1482,7 @@ sanei_lexmark_low_move_fwd (Int distance, Lexmark_Device * dev,
   Bool scan_head_moving
   Sane.Byte read_result
 
-  DBG (2, "sanei_lexmark_low_move_fwd: \n")
+  DBG(2, "sanei_lexmark_low_move_fwd: \n")
   devnum = dev.devnum
 
 
@@ -1490,10 +1490,10 @@ sanei_lexmark_low_move_fwd (Int distance, Lexmark_Device * dev,
   regs[0x2c] = 0x00
   regs[0x2d] = 0x41
   regs[0x65] = 0x80
-  switch (dev.model.sensor_type)
+  switch(dev.model.sensor_type)
     {
     case X74_SENSOR:
-      rts88xx_set_scan_frequency (regs, 0)
+      rts88xx_set_scan_frequency(regs, 0)
       regs[0x93] = 0x06
       break
     case X1100_B2_SENSOR:
@@ -1502,22 +1502,22 @@ sanei_lexmark_low_move_fwd (Int distance, Lexmark_Device * dev,
       regs[0x93] = 0x06
       break
     case X1100_2C_SENSOR:
-      rts88xx_set_scan_frequency (regs, 0)
+      rts88xx_set_scan_frequency(regs, 0)
       regs[0x93] = 0x06
       break
     case A920_SENSOR:
-      rts88xx_set_scan_frequency (regs, 0)
+      rts88xx_set_scan_frequency(regs, 0)
       regs[0x8b] = 0xff
       regs[0x8c] = 0x02
       regs[0x93] = 0x0e
       break
     case X1200_SENSOR:
       dev.shadow_regs[0x2d] = 0x01
-      rts88xx_set_scan_frequency (regs, 0)
+      rts88xx_set_scan_frequency(regs, 0)
       break
     case X1200_USB2_SENSOR:
       dev.shadow_regs[0x2d] = 0x4f
-      rts88xx_set_scan_frequency (regs, 0)
+      rts88xx_set_scan_frequency(regs, 0)
       break
     }
 
@@ -1533,10 +1533,10 @@ sanei_lexmark_low_move_fwd (Int distance, Lexmark_Device * dev,
   /* set motor resolution divisor */
   regs[0x39] = 0x00
   /* set vertical start/end positions */
-  regs[0x60] = LOBYTE (distance - 1)
-  regs[0x61] = HIBYTE (distance - 1)
-  regs[0x62] = LOBYTE (distance)
-  regs[0x63] = HIBYTE (distance)
+  regs[0x60] = LOBYTE(distance - 1)
+  regs[0x61] = HIBYTE(distance - 1)
+  regs[0x62] = LOBYTE(distance)
+  regs[0x63] = HIBYTE(distance)
   /* set horizontal start position */
   regs[0x66] = 0x64
   regs[0x67] = 0x00
@@ -1559,7 +1559,7 @@ sanei_lexmark_low_move_fwd (Int distance, Lexmark_Device * dev,
   regs[0xc5] = 0x0a
 
 
-  switch (dev.model.motor_type)
+  switch(dev.model.motor_type)
     {
     case X1100_MOTOR:
     case A920_MOTOR:
@@ -1606,31 +1606,31 @@ sanei_lexmark_low_move_fwd (Int distance, Lexmark_Device * dev,
 
   /* prepare for register write */
   low_clr_c6 (devnum)
-  low_stop_mvmt (devnum)
+  low_stop_mvmt(devnum)
 
 /* Move Forward without scanning: */
   regs[0x32] = 0x00
-  low_write_all_regs (devnum, regs)
+  low_write_all_regs(devnum, regs)
   regs[0x32] = 0x40
-  low_write_all_regs (devnum, regs)
+  low_write_all_regs(devnum, regs)
 
   /* Stop scanner - clear reg 0xb3: */
-  /* low_stop_mvmt (devnum); */
+  /* low_stop_mvmt(devnum); */
 
-  rts88xx_commit (devnum, regs[0x2c])
+  rts88xx_commit(devnum, regs[0x2c])
 
   /* Poll for scanner stopped - return value(3:0) = 0: */
   scan_head_moving = Sane.TRUE
-  while (scan_head_moving)
+  while(scan_head_moving)
     {
 #ifdef FAKE_USB
       scan_head_moving = Sane.FALSE
 #else
       cmd_size = 0x04
-      low_usb_bulk_write (devnum, pollstopmoving_command_block, &cmd_size)
+      low_usb_bulk_write(devnum, pollstopmoving_command_block, &cmd_size)
       cmd_size = 0x1
-      low_usb_bulk_read (devnum, &read_result, &cmd_size)
-      if ((read_result & 0xF) == 0x0)
+      low_usb_bulk_read(devnum, &read_result, &cmd_size)
+      if((read_result & 0xF) == 0x0)
 	{
 	  scan_head_moving = Sane.FALSE
 	}
@@ -1638,14 +1638,14 @@ sanei_lexmark_low_move_fwd (Int distance, Lexmark_Device * dev,
     }
 
   /* this is needed to find the start line properly */
-  if (dev.model.sensor_type == X74_SENSOR)
-    low_stop_mvmt (devnum)
+  if(dev.model.sensor_type == X74_SENSOR)
+    low_stop_mvmt(devnum)
 
-  DBG (2, "sanei_lexmark_low_move_fwd: end.\n")
+  DBG(2, "sanei_lexmark_low_move_fwd: end.\n")
 }
 
 Bool
-sanei_lexmark_low_search_home_fwd (Lexmark_Device * dev)
+sanei_lexmark_low_search_home_fwd(Lexmark_Device * dev)
 {
   /* This function actually searches backwards one line looking for home */
 
@@ -1665,10 +1665,10 @@ sanei_lexmark_low_search_home_fwd (Lexmark_Device * dev)
 
   devnum = dev.devnum
 
-  DBG (2, "sanei_lexmark_low_search_home_fwd:\n")
+  DBG(2, "sanei_lexmark_low_search_home_fwd:\n")
 
   /* set up registers according to the sensor type */
-  switch (dev.model.sensor_type)
+  switch(dev.model.sensor_type)
     {
     case X74_SENSOR:
       dev.shadow_regs[0x2c] = 0x03
@@ -1811,12 +1811,12 @@ sanei_lexmark_low_search_home_fwd (Lexmark_Device * dev)
   dev.shadow_regs[0xed] = 0x00
   dev.shadow_regs[0xee] = 0x00
 
-  rts88xx_set_gain (dev.shadow_regs, dev.sensor.default_gain,
+  rts88xx_set_gain(dev.shadow_regs, dev.sensor.default_gain,
 		    dev.sensor.default_gain, dev.sensor.default_gain)
-  rts88xx_set_offset (dev.shadow_regs, 0x80, 0x80, 0x80)
+  rts88xx_set_offset(dev.shadow_regs, 0x80, 0x80, 0x80)
 
   /* set grayscale scan */
-  rts88xx_set_gray_scan (dev.shadow_regs)
+  rts88xx_set_gray_scan(dev.shadow_regs)
 
   /* set motor resolution divisor */
   dev.shadow_regs[0x39] = 0x07
@@ -1828,7 +1828,7 @@ sanei_lexmark_low_search_home_fwd (Lexmark_Device * dev)
   dev.shadow_regs[0x63] = 0x00
 
   /* set # of head moves per CIS read */
-  rts88xx_set_scan_frequency (dev.shadow_regs, 1)
+  rts88xx_set_scan_frequency(dev.shadow_regs, 1)
 
   /* set horizontal start position */
   dev.shadow_regs[0x66] = 0x6a;	/* 0x88 for X1200 */
@@ -1844,7 +1844,7 @@ sanei_lexmark_low_search_home_fwd (Lexmark_Device * dev)
   /* Movement direction & step size */
   dev.shadow_regs[0xc6] = 0x01
 
-  switch (dev.model.motor_type)
+  switch(dev.model.motor_type)
     {
     case A920_MOTOR:
     case X1100_MOTOR:
@@ -1879,26 +1879,26 @@ sanei_lexmark_low_search_home_fwd (Lexmark_Device * dev)
     }
 
   /* Stop the scanner */
-  low_stop_mvmt (devnum)
+  low_stop_mvmt(devnum)
 
   /* write regs out twice */
   dev.shadow_regs[0x32] = 0x00
-  low_write_all_regs (devnum, dev.shadow_regs)
+  low_write_all_regs(devnum, dev.shadow_regs)
   dev.shadow_regs[0x32] = 0x40
-  low_write_all_regs (devnum, dev.shadow_regs)
+  low_write_all_regs(devnum, dev.shadow_regs)
 
   /* Start Scan */
-  rts88xx_commit (devnum, dev.shadow_regs[0x2c])
+  rts88xx_commit(devnum, dev.shadow_regs[0x2c])
 
   /* Poll the available byte count until not 0 */
   got_line = Sane.FALSE
-  while (!got_line)
+  while(!got_line)
     {
       cmd_size = 4
-      low_usb_bulk_write (devnum, command4_block, &cmd_size)
+      low_usb_bulk_write(devnum, command4_block, &cmd_size)
       cmd_size = 0x3
-      low_usb_bulk_read (devnum, poll_result, &cmd_size)
-      if (!
+      low_usb_bulk_read(devnum, poll_result, &cmd_size)
+      if(!
 	  (poll_result[0] == 0 && poll_result[1] == 0 && poll_result[2] == 0))
 	{
 	  /* if result != 00 00 00 we got data */
@@ -1907,8 +1907,8 @@ sanei_lexmark_low_search_home_fwd (Lexmark_Device * dev)
     }
 
   /* create buffer for scan data */
-  buffer = calloc (2500, sizeof (char))
-  if (buffer == NULL)
+  buffer = calloc(2500, sizeof(char))
+  if(buffer == NULL)
     {
       return Sane.FALSE
     }
@@ -1916,13 +1916,13 @@ sanei_lexmark_low_search_home_fwd (Lexmark_Device * dev)
   /* Tell the scanner to send the data */
   /* Write: 91 00 09 c4 */
   cmd_size = 4
-  low_usb_bulk_write (devnum, command5_block, &cmd_size)
+  low_usb_bulk_write(devnum, command5_block, &cmd_size)
   /* Read it */
   cmd_size = 0x09c4
-  low_usb_bulk_read (devnum, buffer, &cmd_size)
+  low_usb_bulk_read(devnum, buffer, &cmd_size)
 
   /* Reverse order of bytes in words of buffer */
-  for (i = 0; i < 2500; i = i + 2)
+  for(i = 0; i < 2500; i = i + 2)
     {
       temp_byte = *(buffer + i)
       *(buffer + i) = *(buffer + i + 1)
@@ -1930,20 +1930,20 @@ sanei_lexmark_low_search_home_fwd (Lexmark_Device * dev)
     }
 
   /* check for home position */
-  ret_val = low_is_home_line (dev, buffer)
+  ret_val = low_is_home_line(dev, buffer)
 
-  if (ret_val)
-    DBG (2, "sanei_lexmark_low_search_home_fwd: !!!HOME POSITION!!!\n")
+  if(ret_val)
+    DBG(2, "sanei_lexmark_low_search_home_fwd: !!!HOME POSITION!!!\n")
 
   /* free the buffer */
-  free (buffer)
-  DBG (2, "sanei_lexmark_low_search_home_fwd: end.\n")
+  free(buffer)
+  DBG(2, "sanei_lexmark_low_search_home_fwd: end.\n")
 
   return ret_val
 }
 
 Bool
-sanei_lexmark_low_search_home_bwd (Lexmark_Device * dev)
+sanei_lexmark_low_search_home_bwd(Lexmark_Device * dev)
 {
 /* This function must only be called if the scan head is past the home dot.
    It could damage the scanner if not.
@@ -1955,12 +1955,12 @@ sanei_lexmark_low_search_home_bwd (Lexmark_Device * dev)
    The scan is set to read between vertical coordinates from 0x0a to 0x0f46,
    or 3900 lines. This equates to 13" at 300dpi, so we must stop the scan
    before it bangs against the end. A line limit is set so that a maximum of
-   0x0F3C (13"*300dpi) lines can be read.
+   0x0F3C(13"*300dpi) lines can be read.
 
    To read the scan data we create a buffer space large enough to hold 10
    lines of data. For each read we poll twice, ignoring the first poll. This
    is required for timing. We repeat the double poll until there is data
-   available. The number of lines (or number of buffers in our buffer space)
+   available. The number of lines(or number of buffers in our buffer space)
    is calculated from the size of the data available from the scanner. The
    number of buffers is calculated as the space required to hold 1.5 times
    the size of the data available from the scanner.
@@ -2000,10 +2000,10 @@ sanei_lexmark_low_search_home_bwd (Lexmark_Device * dev)
 
   devnum = dev.devnum
 
-  DBG (2, "sanei_lexmark_low_search_home_bwd:\n")
+  DBG(2, "sanei_lexmark_low_search_home_bwd:\n")
 
   /* set up registers */
-  switch (dev.model.sensor_type)
+  switch(dev.model.sensor_type)
     {
     case X74_SENSOR:
       dev.shadow_regs[0x2c] = 0x03
@@ -2075,7 +2075,7 @@ sanei_lexmark_low_search_home_bwd (Lexmark_Device * dev)
       dev.shadow_regs[0x93] = 0x06
       break
     }
-  rts88xx_set_gain (dev.shadow_regs, dev.sensor.default_gain,
+  rts88xx_set_gain(dev.shadow_regs, dev.sensor.default_gain,
 		    dev.sensor.default_gain, dev.sensor.default_gain)
   dev.shadow_regs[0x65] = 0x80
   dev.shadow_regs[0x8b] = 0xff
@@ -2083,7 +2083,7 @@ sanei_lexmark_low_search_home_bwd (Lexmark_Device * dev)
   dev.shadow_regs[0xb2] = 0x00
 
   /* set calibration */
-  rts88xx_set_offset (dev.shadow_regs, 0x80, 0x80, 0x80)
+  rts88xx_set_offset(dev.shadow_regs, 0x80, 0x80, 0x80)
 
   /* set grayscale  scan  */
   dev.shadow_regs[0x2f] = 0x21
@@ -2095,7 +2095,7 @@ sanei_lexmark_low_search_home_bwd (Lexmark_Device * dev)
   dev.shadow_regs[0x62] = 0x46
   dev.shadow_regs[0x63] = 0x0f
   /* set # of head moves per CIS read */
-  rts88xx_set_scan_frequency (dev.shadow_regs, 2)
+  rts88xx_set_scan_frequency(dev.shadow_regs, 2)
   /* set horizontal start position */
   dev.shadow_regs[0x66] = 0x6a;	/* 0x88 for X1200 */
   dev.shadow_regs[0x67] = 0x00
@@ -2111,7 +2111,7 @@ sanei_lexmark_low_search_home_bwd (Lexmark_Device * dev)
   /* Motor enable & Coordinate space denominator */
   dev.shadow_regs[0xc3] = 0x81
 
-  switch (dev.model.motor_type)
+  switch(dev.model.motor_type)
     {
     case X74_MOTOR:
       dev.shadow_regs[0xc4] = 0x20
@@ -2159,20 +2159,20 @@ sanei_lexmark_low_search_home_bwd (Lexmark_Device * dev)
     }
 
   /* Stop the scanner */
-  low_stop_mvmt (devnum)
+  low_stop_mvmt(devnum)
 
   /* write regs out twice */
   dev.shadow_regs[0x32] = 0x00
-  low_write_all_regs (devnum, dev.shadow_regs)
+  low_write_all_regs(devnum, dev.shadow_regs)
   dev.shadow_regs[0x32] = 0x40
-  low_write_all_regs (devnum, dev.shadow_regs)
+  low_write_all_regs(devnum, dev.shadow_regs)
 
   /* Start Scan */
-  status = rts88xx_commit (devnum, dev.shadow_regs[0x2c])
+  status = rts88xx_commit(devnum, dev.shadow_regs[0x2c])
 
   /* create buffer to hold up to 10 lines of  scan data */
-  buffer = calloc (10 * 2500, sizeof (char))
-  if (buffer == NULL)
+  buffer = calloc(10 * 2500, sizeof(char))
+  if(buffer == NULL)
     {
       return Sane.FALSE
     }
@@ -2181,33 +2181,33 @@ sanei_lexmark_low_search_home_bwd (Lexmark_Device * dev)
   in_home_region = Sane.FALSE
 
 #ifdef DEEP_DEBUG
-  img = fopen ("find_bwd.pnm", "wb")
-  fprintf (img, "P5\n2500 100\n255\n")
+  img = fopen("find_bwd.pnm", "wb")
+  fprintf(img, "P5\n2500 100\n255\n")
 #endif
-  while (buffer_count < buffer_limit)
+  while(buffer_count < buffer_limit)
     {
       size_returned = 0
       got_line = Sane.FALSE
-      while (!got_line)
+      while(!got_line)
 	{
-	  /* always poll twice (needed for timing) - disregard 1st poll */
+	  /* always poll twice(needed for timing) - disregard 1st poll */
 	  cmd_size = 4
-	  status = low_usb_bulk_write (devnum, command4_block, &cmd_size)
-	  if (status != Sane.STATUS_GOOD)
+	  status = low_usb_bulk_write(devnum, command4_block, &cmd_size)
+	  if(status != Sane.STATUS_GOOD)
 	    return Sane.FALSE
 	  cmd_size = 0x3
-	  status = low_usb_bulk_read (devnum, poll_result, &cmd_size)
-	  if (status != Sane.STATUS_GOOD)
+	  status = low_usb_bulk_read(devnum, poll_result, &cmd_size)
+	  if(status != Sane.STATUS_GOOD)
 	    return Sane.FALSE
 	  cmd_size = 4
-	  status = low_usb_bulk_write (devnum, command4_block, &cmd_size)
-	  if (status != Sane.STATUS_GOOD)
+	  status = low_usb_bulk_write(devnum, command4_block, &cmd_size)
+	  if(status != Sane.STATUS_GOOD)
 	    return Sane.FALSE
 	  cmd_size = 0x3
-	  status = low_usb_bulk_read (devnum, poll_result, &cmd_size)
-	  if (status != Sane.STATUS_GOOD)
+	  status = low_usb_bulk_read(devnum, poll_result, &cmd_size)
+	  if(status != Sane.STATUS_GOOD)
 	    return Sane.FALSE
-	  if (!
+	  if(!
 	      (poll_result[0] == 0 && poll_result[1] == 0
 	       && poll_result[2] == 0))
 	    {
@@ -2228,9 +2228,9 @@ sanei_lexmark_low_search_home_bwd (Lexmark_Device * dev)
       /* force 1 buffer at a time to improve accuracy, which slow downs search */
       no_of_buffers = 1
 
-      if (no_of_buffers < 1)
+      if(no_of_buffers < 1)
 	no_of_buffers = 1
-      else if (no_of_buffers > 10)
+      else if(no_of_buffers > 10)
 	no_of_buffers = 10
       buffer_count = buffer_count + no_of_buffers
 
@@ -2243,77 +2243,77 @@ sanei_lexmark_low_search_home_bwd (Lexmark_Device * dev)
       command5_block[3] = (Sane.Byte) (size_requested & 0xFF)
 
       cmd_size = 4
-      status = low_usb_bulk_write (devnum, command5_block, &cmd_size)
-      if (status != Sane.STATUS_GOOD)
+      status = low_usb_bulk_write(devnum, command5_block, &cmd_size)
+      if(status != Sane.STATUS_GOOD)
 	return Sane.FALSE
       /* Read it */
       cmd_size = size_requested
-      status = low_usb_bulk_read (devnum, buffer, &cmd_size)
-      if (status != Sane.STATUS_GOOD)
+      status = low_usb_bulk_read(devnum, buffer, &cmd_size)
+      if(status != Sane.STATUS_GOOD)
 	return Sane.FALSE
-      for (i = 0; i < no_of_buffers; i++)
+      for(i = 0; i < no_of_buffers; i++)
 	{
 	  buffer_start = buffer + (i * 2500)
 	  /* Reverse order of bytes in words of buffer */
-	  for (j = 0; j < 2500; j = j + 2)
+	  for(j = 0; j < 2500; j = j + 2)
 	    {
 	      temp_byte = *(buffer_start + j)
 	      *(buffer_start + j) = *(buffer_start + j + 1)
 	      *(buffer_start + j + 1) = temp_byte
 	    }
 #ifdef DEEP_DEBUG
-	  fwrite (buffer + (i * 2500), 2500, 1, img)
+	  fwrite(buffer + (i * 2500), 2500, 1, img)
 #endif
-	  if (low_is_home_line (dev, buffer_start))
+	  if(low_is_home_line(dev, buffer_start))
 	    {
 	      home_line_count++
-	      if (home_line_count > 7)
+	      if(home_line_count > 7)
 		in_home_region = Sane.TRUE
 	    }
-	  if (in_home_region)
+	  if(in_home_region)
 	    {
 	      /* slow down scanning : on purpose backtracking */
-	      if (home_line_count)
-		sleep (1)
-	      free (buffer)
+	      if(home_line_count)
+		sleep(1)
+	      free(buffer)
 #ifdef DEEP_DEBUG
-	      fflush (img)
-	      i = ftell (img) / 2500
-	      rewind (img)
-	      DBG (2, "sanei_lexmark_low_search_home_bwd: offset=%d\n", i)
-	      fprintf (img, "P5\n2500 %03d\n", i)
-	      fclose (img)
+	      fflush(img)
+	      i = ftell(img) / 2500
+	      rewind(img)
+	      DBG(2, "sanei_lexmark_low_search_home_bwd: offset=%d\n", i)
+	      fprintf(img, "P5\n2500 %03d\n", i)
+	      fclose(img)
 #endif
-	      low_stop_mvmt (devnum)
-	      DBG (2,
+	      low_stop_mvmt(devnum)
+	      DBG(2,
 		   "sanei_lexmark_low_search_home_bwd: in home region, end.\n")
 	      return Sane.TRUE
 	    }
 	}
-    }				/*   end while (buffer_count > buffer_limit); */
-  free (buffer)
+    }				/*   end while(buffer_count > buffer_limit); */
+  free(buffer)
 #ifdef DEEP_DEBUG
-  fflush (img)
-  i = ftell (img) / 2500
-  rewind (img)
-  fprintf (img, "P5\n2500 %03d\n", i)
-  fclose (img)
+  fflush(img)
+  i = ftell(img) / 2500
+  rewind(img)
+  fprintf(img, "P5\n2500 %03d\n", i)
+  fclose(img)
 #endif
-  low_stop_mvmt (devnum)
+  low_stop_mvmt(devnum)
 
-  DBG (2, "sanei_lexmark_low_search_home_bwd: end.\n")
+  DBG(2, "sanei_lexmark_low_search_home_bwd: end.\n")
 
   return Sane.FALSE
 }
 
 Sane.Status
-low_get_start_loc (Int resolution, Int * vert_start,
+low_get_start_loc(Int resolution, Int * vert_start,
 		   Int * hor_start, Int offset,
 		   Lexmark_Device * dev)
 {
   Int start_600
 
-  switch (dev.model.sensor_type)
+  switch(dev.model.sensor_type)
     {
     case X1100_2C_SENSOR:
     case X1200_USB2_SENSOR:
@@ -2324,7 +2324,7 @@ low_get_start_loc (Int resolution, Int * vert_start,
       break
     case X1100_B2_SENSOR:
       start_600 = 195 - offset
-      switch (resolution)
+      switch(resolution)
 	{
 	case 75:
 	  *hor_start = 0x68
@@ -2348,7 +2348,7 @@ low_get_start_loc (Int resolution, Int * vert_start,
       break
     case X74_SENSOR:
       start_600 = 268 - offset
-      switch (resolution)
+      switch(resolution)
 	{
 	case 75:
 	  *hor_start = 0x48
@@ -2372,7 +2372,7 @@ low_get_start_loc (Int resolution, Int * vert_start,
       return Sane.STATUS_INVAL
     }
   /* Calculate vertical start distance at 600dpi */
-  switch (resolution)
+  switch(resolution)
     {
     case 75:
       *vert_start = start_600 / 8
@@ -2398,7 +2398,7 @@ low_get_start_loc (Int resolution, Int * vert_start,
 }
 
 void
-low_set_scan_area (Int res,
+low_set_scan_area(Int res,
 		   Int tlx,
 		   Int tly,
 		   Int brx,
@@ -2413,7 +2413,7 @@ low_set_scan_area (Int res,
   Int vert_end
   Int hor_end
 
-  low_get_start_loc (res, &vert_start, &hor_start, offset, dev)
+  low_get_start_loc(res, &vert_start, &hor_start, offset, dev)
 
   /* convert pixel height to vertical location coordinates */
   vert_end = vert_start + (bry * res) / 600
@@ -2421,40 +2421,40 @@ low_set_scan_area (Int res,
 
   /* scan area size : for A920, 600 color scans are done at 1200 y dpi */
   /* this follow what was found in usb logs                            */
-  if (half_step)
+  if(half_step)
     {
       vert_end = vert_end * 2
       vert_start = vert_start * 2
     }
 
   /* set vertical start position registers */
-  regs[0x60] = LOBYTE (vert_start)
-  regs[0x61] = HIBYTE (vert_start)
+  regs[0x60] = LOBYTE(vert_start)
+  regs[0x61] = HIBYTE(vert_start)
   /* set vertical end position registers */
-  regs[0x62] = LOBYTE (vert_end)
-  regs[0x63] = HIBYTE (vert_end)
+  regs[0x62] = LOBYTE(vert_end)
+  regs[0x63] = HIBYTE(vert_end)
 
   /* convert pixel width to horizontal location coordinates */
 
   hor_end = hor_start + brx
   hor_start += tlx
 
-  regs[0x66] = LOBYTE (hor_start)
-  regs[0x67] = HIBYTE (hor_start)
+  regs[0x66] = LOBYTE(hor_start)
+  regs[0x67] = HIBYTE(hor_start)
   /* set horizontal end position registers */
-  regs[0x6c] = LOBYTE (hor_end)
-  regs[0x6d] = HIBYTE (hor_end)
+  regs[0x6c] = LOBYTE(hor_end)
+  regs[0x6d] = HIBYTE(hor_end)
 
   /* Debug */
-  DBG (2, "low_set_scan_area: vert_start: %d (tly=%d)\n", vert_start, tly)
-  DBG (2, "low_set_scan_area: vert_end: %d\n", vert_end)
-  DBG (2, "low_set_scan_area: hor_start: %d\n", hor_start)
-  DBG (2, "low_set_scan_area: hor_end: %d\n", hor_end)
+  DBG(2, "low_set_scan_area: vert_start: %d(tly=%d)\n", vert_start, tly)
+  DBG(2, "low_set_scan_area: vert_end: %d\n", vert_end)
+  DBG(2, "low_set_scan_area: hor_start: %d\n", hor_start)
+  DBG(2, "low_set_scan_area: hor_end: %d\n", hor_end)
 
 }
 
 Int
-sanei_lexmark_low_find_start_line (Lexmark_Device * dev)
+sanei_lexmark_low_find_start_line(Lexmark_Device * dev)
 {
   /*
      This function scans forward 59 lines, reading 88 bytes per line from the
@@ -2480,11 +2480,11 @@ sanei_lexmark_low_find_start_line (Lexmark_Device * dev)
      Go through the buffer finding low and high values, which are computed by
      comparing to the weighted average:
      weighted_average = (lowest value + (highest value - lowest value)/4)
-     Low bytes are changed to 0xFF (white), higher of equal bytes are changed
-     to 0x00 (black),so that the buffer only contains white (0xFF) or black
+     Low bytes are changed to 0xFF(white), higher of equal bytes are changed
+     to 0x00 (black),so that the buffer only contains white(0xFF) or black
      (0x00) values.
 
-     Next, we go through the buffer a line (88 bytes) at a time for 59 lines
+     Next, we go through the buffer a line(88 bytes) at a time for 59 lines
      to read the entire buffer. For each byte in a line we check if the
      byte is black. If it is we increment the black byte counter.
 
@@ -2519,11 +2519,11 @@ sanei_lexmark_low_find_start_line (Lexmark_Device * dev)
   size_t cmd_size
   Bool got_line
 
-  DBG (2, "sanei_lexmark_low_find_start_line:\n")
+  DBG(2, "sanei_lexmark_low_find_start_line:\n")
 
 
   /* set up registers */
-  switch (dev.model.sensor_type)
+  switch(dev.model.sensor_type)
     {
     case X74_SENSOR:
       dev.shadow_regs[0x2c] = 0x04
@@ -2534,7 +2534,7 @@ sanei_lexmark_low_find_start_line (Lexmark_Device * dev)
       dev.shadow_regs[0x37] = 0x0b
       dev.shadow_regs[0x38] = 0x11
       dev.shadow_regs[0x40] = 0x40
-      rts88xx_set_gain (dev.shadow_regs, 6, 6, 6)
+      rts88xx_set_gain(dev.shadow_regs, 6, 6, 6)
       break
     case X1100_B2_SENSOR:
       dev.shadow_regs[0x2c] = 0x0f
@@ -2547,10 +2547,10 @@ sanei_lexmark_low_find_start_line (Lexmark_Device * dev)
       dev.shadow_regs[0x65] = 0x80
       dev.shadow_regs[0x85] = 0x00
       dev.shadow_regs[0x93] = 0x06
-      rts88xx_set_gain (dev.shadow_regs, 6, 6, 6)
+      rts88xx_set_gain(dev.shadow_regs, 6, 6, 6)
       break
     case X1100_2C_SENSOR:
-      rts88xx_set_gain (dev.shadow_regs, 10, 10, 10)
+      rts88xx_set_gain(dev.shadow_regs, 10, 10, 10)
       dev.shadow_regs[0x28] = 0xf5
       dev.shadow_regs[0x29] = 0xf7
       dev.shadow_regs[0x2a] = 0xf5
@@ -2587,7 +2587,7 @@ sanei_lexmark_low_find_start_line (Lexmark_Device * dev)
       dev.shadow_regs[0x88] = 0x44
       dev.shadow_regs[0x92] = 0x85
       dev.shadow_regs[0x93] = 0x0e
-      rts88xx_set_gain (dev.shadow_regs, 6, 6, 6)
+      rts88xx_set_gain(dev.shadow_regs, 6, 6, 6)
       break
     case X1200_SENSOR:
       dev.shadow_regs[0x2c] = 0x01
@@ -2608,7 +2608,7 @@ sanei_lexmark_low_find_start_line (Lexmark_Device * dev)
       dev.shadow_regs[0x87] = 0xff
       dev.shadow_regs[0x88] = 0x02
       dev.shadow_regs[0x92] = 0x00
-      rts88xx_set_gain (dev.shadow_regs, 10, 10, 10)
+      rts88xx_set_gain(dev.shadow_regs, 10, 10, 10)
       break
     case X1200_USB2_SENSOR:
       dev.shadow_regs[0x2c] = 0x01
@@ -2620,12 +2620,12 @@ sanei_lexmark_low_find_start_line (Lexmark_Device * dev)
       dev.shadow_regs[0x38] = 0x29
       dev.shadow_regs[0xea] = 0x00
       dev.shadow_regs[0xeb] = 0x00
-      rts88xx_set_gain (dev.shadow_regs, 10, 10, 10)
+      rts88xx_set_gain(dev.shadow_regs, 10, 10, 10)
       break
     }
 
   /* set offset to a safe value */
-  rts88xx_set_offset (dev.shadow_regs, 0x80, 0x80, 0x80)
+  rts88xx_set_offset(dev.shadow_regs, 0x80, 0x80, 0x80)
   /* set grayscale  scan  */
   dev.shadow_regs[0x2f] = 0x21
   /* set motor resolution divisor */
@@ -2636,7 +2636,7 @@ sanei_lexmark_low_find_start_line (Lexmark_Device * dev)
   dev.shadow_regs[0x62] = 0x3e
   dev.shadow_regs[0x63] = 0x00
   /* set # of head moves per CIS read */
-  rts88xx_set_scan_frequency (dev.shadow_regs, 1)
+  rts88xx_set_scan_frequency(dev.shadow_regs, 1)
   /* set horizontal start position */
   dev.shadow_regs[0x66] = 0xd4;	/* 0xf2 for X1200 */
   dev.shadow_regs[0x67] = 0x09
@@ -2654,7 +2654,7 @@ sanei_lexmark_low_find_start_line (Lexmark_Device * dev)
 
 
 
-  switch (dev.model.motor_type)
+  switch(dev.model.motor_type)
     {
     case X1100_MOTOR:
     case A920_MOTOR:
@@ -2724,26 +2724,26 @@ sanei_lexmark_low_find_start_line (Lexmark_Device * dev)
 
 
   /* Stop the scanner */
-  low_stop_mvmt (dev.devnum)
+  low_stop_mvmt(dev.devnum)
 
   /* write regs out twice */
   dev.shadow_regs[0x32] = 0x00
-  low_write_all_regs (dev.devnum, dev.shadow_regs)
+  low_write_all_regs(dev.devnum, dev.shadow_regs)
   dev.shadow_regs[0x32] = 0x40
-  low_write_all_regs (dev.devnum, dev.shadow_regs)
+  low_write_all_regs(dev.devnum, dev.shadow_regs)
 
   /* Start Scan */
-  rts88xx_commit (dev.devnum, dev.shadow_regs[0x2c])
+  rts88xx_commit(dev.devnum, dev.shadow_regs[0x2c])
 
   /* Poll the available byte count until not 0 */
   got_line = Sane.FALSE
-  while (!got_line)
+  while(!got_line)
     {
       cmd_size = 4
-      low_usb_bulk_write (dev.devnum, command4_block, &cmd_size)
+      low_usb_bulk_write(dev.devnum, command4_block, &cmd_size)
       cmd_size = 0x3
-      low_usb_bulk_read (dev.devnum, poll_result, &cmd_size)
-      if (!
+      low_usb_bulk_read(dev.devnum, poll_result, &cmd_size)
+      if(!
 	  (poll_result[0] == 0 && poll_result[1] == 0 && poll_result[2] == 0))
 	{
 	  /* if result != 00 00 00 we got data */
@@ -2756,8 +2756,8 @@ sanei_lexmark_low_find_start_line (Lexmark_Device * dev)
 
 
   /* create buffer for scan data */
-  buffer = calloc (5192, sizeof (char))
-  if (buffer == NULL)
+  buffer = calloc(5192, sizeof(char))
+  if(buffer == NULL)
     {
       return -1
     }
@@ -2765,17 +2765,17 @@ sanei_lexmark_low_find_start_line (Lexmark_Device * dev)
   /* Tell the scanner to send the data */
   /* Write: 91 00 14 48 */
   cmd_size = 4
-  low_usb_bulk_write (dev.devnum, command5_block, &cmd_size)
+  low_usb_bulk_write(dev.devnum, command5_block, &cmd_size)
   /* Read it */
   cmd_size = 0x1448
-  low_usb_bulk_read (dev.devnum, buffer, &cmd_size)
+  low_usb_bulk_read(dev.devnum, buffer, &cmd_size)
 
   /* Stop the scanner */
-  low_stop_mvmt (dev.devnum)
+  low_stop_mvmt(dev.devnum)
 
 
   /* Reverse order of bytes in words of buffer */
-  for (i = 0; i < 5192; i = i + 2)
+  for(i = 0; i < 5192; i = i + 2)
     {
       temp_byte = *(buffer + i)
       *(buffer + i) = *(buffer + i + 1)
@@ -2783,59 +2783,59 @@ sanei_lexmark_low_find_start_line (Lexmark_Device * dev)
     }
 
 #ifdef DEEP_DEBUG
-  fdbg = fopen ("find_start.pnm", "wb")
-  if (fdbg != NULL)
+  fdbg = fopen("find_start.pnm", "wb")
+  if(fdbg != NULL)
     {
-      fprintf (fdbg, "P5\n%d %d\n255\n", 88, 59)
-      fwrite (buffer, 5192, 1, fdbg)
-      fclose (fdbg)
+      fprintf(fdbg, "P5\n%d %d\n255\n", 88, 59)
+      fwrite(buffer, 5192, 1, fdbg)
+      fclose(fdbg)
     }
 #endif
 
   /* Find the max and the min */
-  for (i = 0; i < 5192; i++)
+  for(i = 0; i < 5192; i++)
     {
-      if (*(buffer + i) > max_byte)
+      if(*(buffer + i) > max_byte)
 	max_byte = *(buffer + i)
-      if (*(buffer + i) < min_byte)
+      if(*(buffer + i) < min_byte)
 	min_byte = *(buffer + i)
     }
 
   weighted_average = min_byte + ((max_byte - min_byte) / 4)
 
-  /* Set bytes as black (0x00) or white (0xFF) */
-  for (i = 0; i < 5192; i++)
+  /* Set bytes as black(0x00) or white(0xFF) */
+  for(i = 0; i < 5192; i++)
     {
-      if (*(buffer + i) > weighted_average)
+      if(*(buffer + i) > weighted_average)
 	*(buffer + i) = 0xFF
       else
 	*(buffer + i) = 0x00
     }
 
 #ifdef DEEP_DEBUG
-  fdbg = fopen ("find_start_after.pnm", "wb")
-  if (fdbg != NULL)
+  fdbg = fopen("find_start_after.pnm", "wb")
+  if(fdbg != NULL)
     {
-      fprintf (fdbg, "P5\n%d %d\n255\n", 88, 59)
-      fwrite (buffer, 5192, 1, fdbg)
-      fclose (fdbg)
+      fprintf(fdbg, "P5\n%d %d\n255\n", 88, 59)
+      fwrite(buffer, 5192, 1, fdbg)
+      fclose(fdbg)
     }
 #endif
 
   /* Go through 59 lines */
-  for (j = 0; j < 59; j++)
+  for(j = 0; j < 59; j++)
     {
       blackByteCounter = 0
       /* Go through 88 bytes per line */
-      for (i = 0; i < 88; i++)
+      for(i = 0; i < 88; i++)
 	{
 	  /* Is byte black? */
-	  if (*(buffer + (j * 88) + i) == 0)
+	  if(*(buffer + (j * 88) + i) == 0)
 	    {
 	      blackByteCounter++
 	    }
 	}			/* end for line */
-      if (blackByteCounter > 0)
+      if(blackByteCounter > 0)
 	{
 	  /* This was a black line */
 	  blackLineCount++
@@ -2849,35 +2849,35 @@ sanei_lexmark_low_find_start_line (Lexmark_Device * dev)
 	}
     }				/* end for buffer */
 
-  free (buffer)
+  free(buffer)
   /* Stop the scanner.
      This is needed to get the right distance to the scanning area */
-  if (dev.model.sensor_type == X74_SENSOR)
-    low_stop_mvmt (dev.devnum)
+  if(dev.model.sensor_type == X74_SENSOR)
+    low_stop_mvmt(dev.devnum)
 
-  DBG (2, "sanei_lexmark_low_find_start_line: end.\n")
+  DBG(2, "sanei_lexmark_low_find_start_line: end.\n")
   return whiteLineCount
 }
 
 
 Sane.Status
-sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
+sanei_lexmark_low_set_scan_regs(Lexmark_Device * dev, Int resolution,
 				 Int offset, Bool calibrated)
 {
   Bool isColourScan
 
-  DBG (2, "sanei_lexmark_low_set_scan_regs:\n")
+  DBG(2, "sanei_lexmark_low_set_scan_regs:\n")
 
-  DBG (7, "sanei_lexmark_low_set_scan_regs: resolution=%d DPI\n", resolution)
+  DBG(7, "sanei_lexmark_low_set_scan_regs: resolution=%d DPI\n", resolution)
 
   /* colour mode */
-  if (strcmp (dev.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_COLOR) == 0)
+  if(strcmp(dev.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_COLOR) == 0)
     isColourScan = Sane.TRUE
   else
     isColourScan = Sane.FALSE
 
   /* set up registers */
-  switch (dev.model.sensor_type)
+  switch(dev.model.sensor_type)
     {
     case X74_SENSOR:
       dev.shadow_regs[0x2c] = 0x03
@@ -2905,7 +2905,7 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
       break
     }
 
-  low_set_scan_area (resolution,
+  low_set_scan_area(resolution,
 		     dev.val[OPT_TL_X].w,
 		     dev.val[OPT_TL_Y].w,
 		     dev.val[OPT_BR_X].w,
@@ -2916,19 +2916,19 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
 		     && (resolution == 600), dev.shadow_regs, dev)
 
   /* may be we could use a sensor descriptor that would held the max horiz dpi */
-  if (dev.val[OPT_RESOLUTION].w < 600)
+  if(dev.val[OPT_RESOLUTION].w < 600)
     dev.shadow_regs[0x7a] = 600 / dev.val[OPT_RESOLUTION].w
   else
     dev.shadow_regs[0x7a] = 1
 
   /* 75dpi x 75dpi */
-  if (resolution == 75)
+  if(resolution == 75)
     {
-      DBG (5, "sanei_lexmark_low_set_scan_regs(): 75 DPI resolution\n")
+      DBG(5, "sanei_lexmark_low_set_scan_regs(): 75 DPI resolution\n")
 
-      if (isColourScan)
+      if(isColourScan)
 	{
-	  switch (dev.model.sensor_type)
+	  switch(dev.model.sensor_type)
 	    {
 	    case X74_SENSOR:
 
@@ -3042,7 +3042,7 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
 	      break
 	    }
 
-	  switch (dev.model.motor_type)
+	  switch(dev.model.motor_type)
 	    {
 	    case X74_MOTOR:
 	      dev.shadow_regs[0xc2] = 0x80
@@ -3125,7 +3125,7 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
 	}
       else			/* 75 dpi gray */
 	{
-	  switch (dev.model.sensor_type)
+	  switch(dev.model.sensor_type)
 	    {
 	    case X74_SENSOR:
 
@@ -3238,7 +3238,7 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
 	      dev.shadow_regs[0x92] = 0x00
 	      break
 	    }
-	  switch (dev.model.motor_type)
+	  switch(dev.model.motor_type)
 	    {
 	    case X74_MOTOR:
 	      /*  ? */
@@ -3333,23 +3333,23 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
       dev.shadow_regs[0x39] = 0x0f
 
       /* set # of head moves per CIS read */
-      rts88xx_set_scan_frequency (dev.shadow_regs, 1)
+      rts88xx_set_scan_frequency(dev.shadow_regs, 1)
 
       /* set horizontal resolution */
-      if (dev.model.sensor_type != X1200_SENSOR)
+      if(dev.model.sensor_type != X1200_SENSOR)
 	dev.shadow_regs[0x79] = 0x08
 
     }
 
   /* 150dpi x 150dpi */
-  if (resolution == 150)
+  if(resolution == 150)
     {
-      DBG (5, "sanei_lexmark_low_set_scan_regs(): 150 DPI resolution\n")
+      DBG(5, "sanei_lexmark_low_set_scan_regs(): 150 DPI resolution\n")
 
-      if (isColourScan)
+      if(isColourScan)
 	{
 
-	  switch (dev.model.sensor_type)
+	  switch(dev.model.sensor_type)
 	    {
 	    case X74_SENSOR:
 	      dev.shadow_regs[0x34] = 0x08
@@ -3474,7 +3474,7 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
 	      dev.shadow_regs[0x92] = 0x92
 	      break
 	    }			/* switch */
-	  switch (dev.model.motor_type)
+	  switch(dev.model.motor_type)
 	    {
 	    case X74_MOTOR:
 	      dev.shadow_regs[0xc2] = 0x80
@@ -3559,10 +3559,10 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
 	  /* Motor enable & Coordinate space denominator */
 	  dev.shadow_regs[0xc3] = 0x83
 
-	}			/* if (isColourScan) */
+	}			/* if(isColourScan) */
       else
 	{
-	  switch (dev.model.sensor_type)
+	  switch(dev.model.sensor_type)
 	    {
 	    case X74_SENSOR:
 
@@ -3678,7 +3678,7 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
 	      dev.shadow_regs[0x92] = 0x92
 	      break
 	    }			/* switch */
-	  switch (dev.model.motor_type)
+	  switch(dev.model.motor_type)
 	    {
 	    case X74_MOTOR:
 	      /*  ? */
@@ -3767,29 +3767,29 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
 
 	  /* Motor enable & Coordinate space denominator */
 	  dev.shadow_regs[0xc3] = 0x81
-	}			/* else (greyscale) */
+	}			/* else(greyscale) */
 
 
 
 
       /* set # of head moves per CIS read */
-      rts88xx_set_scan_frequency (dev.shadow_regs, 1)
+      rts88xx_set_scan_frequency(dev.shadow_regs, 1)
 
       /* hum, horizontal resolution different for X1200 ? */
-      /* if (dev.model.sensor_type != X1200_SENSOR)
+      /* if(dev.model.sensor_type != X1200_SENSOR)
          dev.shadow_regs[0x79] = 0x20; */
 
     }
 
   /*300dpi x 300dpi */
-  if (resolution == 300)
+  if(resolution == 300)
     {
-      DBG (5, "sanei_lexmark_low_set_scan_regs(): 300 DPI resolution\n")
+      DBG(5, "sanei_lexmark_low_set_scan_regs(): 300 DPI resolution\n")
 
-      if (isColourScan)
+      if(isColourScan)
 	{
 
-	  switch (dev.model.sensor_type)
+	  switch(dev.model.sensor_type)
 	    {
 	    case X74_SENSOR:
 	      dev.shadow_regs[0x34] = 0x08
@@ -3903,7 +3903,7 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
 	      dev.shadow_regs[0x82] = 0x06
 	      break
 	    }
-	  switch (dev.model.motor_type)
+	  switch(dev.model.motor_type)
 	    {
 	    case X74_MOTOR:
 	      /*  ? */
@@ -3993,7 +3993,7 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
       else			/* greyscale */
 	{
 
-	  switch (dev.model.sensor_type)
+	  switch(dev.model.sensor_type)
 	    {
 	    case X74_SENSOR:
 	      dev.shadow_regs[0x34] = 0x04
@@ -4074,7 +4074,7 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
 	      dev.shadow_regs[0x38] = 0x06
 	      break
 	    }
-	  switch (dev.model.motor_type)
+	  switch(dev.model.motor_type)
 	    {
 	    case X74_MOTOR:
 	      /*  ? */
@@ -4164,28 +4164,28 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
 	  dev.shadow_regs[0xc3] = 0x81
 
 
-	}			/* else (gray) */
+	}			/* else(gray) */
 
       /* set # of head moves per CIS read */
-      rts88xx_set_scan_frequency (dev.shadow_regs, 1)
+      rts88xx_set_scan_frequency(dev.shadow_regs, 1)
       /* set horizontal resolution */
       dev.shadow_regs[0x79] = 0x20
     }
 
   /* 600dpi x 600dpi */
-  if (resolution == 600)
+  if(resolution == 600)
     {
-      DBG (5, "sanei_lexmark_low_set_scan_regs(): 600 DPI resolution\n")
+      DBG(5, "sanei_lexmark_low_set_scan_regs(): 600 DPI resolution\n")
 
 
 
-      if (isColourScan)
+      if(isColourScan)
 	{
 	  /* 600 dpi color doesn't work for X74 yet */
-	  if (dev.model.sensor_type == X74_SENSOR)
+	  if(dev.model.sensor_type == X74_SENSOR)
 	    return Sane.STATUS_INVAL
 
-	  switch (dev.model.sensor_type)
+	  switch(dev.model.sensor_type)
 	    {
 	    case X74_SENSOR:
 	      dev.shadow_regs[0x34] = 0x10
@@ -4328,7 +4328,7 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
 	      dev.shadow_regs[0xca] = 0x0a
 	      break
 	    }
-	  switch (dev.model.motor_type)
+	  switch(dev.model.motor_type)
 	    {
 	    case X74_MOTOR:
 	      /* Motor enable & Coordinate space denominator */
@@ -4415,13 +4415,13 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
 	  /* set motor resolution divisor */
 	  dev.shadow_regs[0x39] = 0x03
 	  /* set # of head moves per CIS read */
-	  rts88xx_set_scan_frequency (dev.shadow_regs, 2)
+	  rts88xx_set_scan_frequency(dev.shadow_regs, 2)
 
 
 	}
       else
 	{
-	  switch (dev.model.sensor_type)
+	  switch(dev.model.sensor_type)
 	    {
 	    case X74_SENSOR:
 	      dev.shadow_regs[0x2c] = 0x04
@@ -4530,11 +4530,11 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
 	      dev.shadow_regs[0x92] = 0x00
 	      break
 	    }
-	  switch (dev.model.motor_type)
+	  switch(dev.model.motor_type)
 	    {
 	    case X74_MOTOR:
 	      /* set # of head moves per CIS read */
-	      rts88xx_set_scan_frequency (dev.shadow_regs, 1)
+	      rts88xx_set_scan_frequency(dev.shadow_regs, 1)
 	      /*  ? */
 	      dev.shadow_regs[0xc4] = 0x20
 	      dev.shadow_regs[0xc5] = 0x22
@@ -4621,35 +4621,35 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
 	  dev.shadow_regs[0x39] = 0x01
 
 	  /* set # of head moves per CIS read */
-	  rts88xx_set_scan_frequency (dev.shadow_regs, 1)
+	  rts88xx_set_scan_frequency(dev.shadow_regs, 1)
 
 	  /* Motor enable & Coordinate space denominator */
 	  dev.shadow_regs[0xc3] = 0x81
-	}			/* else (grayscale) */
+	}			/* else(grayscale) */
 
       /* set horizontal resolution */
       dev.shadow_regs[0x79] = 0x40
 
     }
   /*600dpi x 1200dpi */
-  if (resolution == 1200)
+  if(resolution == 1200)
     {
-      DBG (5, "sanei_lexmark_low_set_scan_regs(): 1200 DPI resolution\n")
+      DBG(5, "sanei_lexmark_low_set_scan_regs(): 1200 DPI resolution\n")
 
       /* 1200 dpi doesn't work for X74 yet */
-      if (dev.model.sensor_type == X74_SENSOR)
+      if(dev.model.sensor_type == X74_SENSOR)
 	return Sane.STATUS_INVAL
 
-      if (isColourScan)
+      if(isColourScan)
 	{
 	  /* set colour scan */
 	  dev.shadow_regs[0x2f] = 0x11
 	  /* set motor resolution divisor */
 	  dev.shadow_regs[0x39] = 0x01
 	  /* set # of head moves per CIS read */
-	  rts88xx_set_scan_frequency (dev.shadow_regs, 2)
+	  rts88xx_set_scan_frequency(dev.shadow_regs, 2)
 
-	  if (dev.model.sensor_type == X1100_B2_SENSOR)
+	  if(dev.model.sensor_type == X1100_B2_SENSOR)
 	    {
 	      /* set ? */
 	      dev.shadow_regs[0x34] = 0x29
@@ -4738,7 +4738,7 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
 	  /* set motor resolution divisor */
 	  dev.shadow_regs[0x39] = 0x01
 	  /* set # of head moves per CIS read */
-	  rts88xx_set_scan_frequency (dev.shadow_regs, 0)
+	  rts88xx_set_scan_frequency(dev.shadow_regs, 0)
 
 	  /* set ? only for colour? */
 	  dev.shadow_regs[0x80] = 0x00
@@ -4791,32 +4791,32 @@ sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev, Int resolution,
     }
 
   /* is calibration has been done, we override fixed settings with detected ones */
-  if (calibrated)
+  if(calibrated)
     {
       /* override fixed values with ones from calibration */
-      if (rts88xx_is_color (dev.shadow_regs))
+      if(rts88xx_is_color(dev.shadow_regs))
 	{
-	  rts88xx_set_offset (dev.shadow_regs,
+	  rts88xx_set_offset(dev.shadow_regs,
 			      dev.offset.red,
 			      dev.offset.green, dev.offset.blue)
-	  rts88xx_set_gain (dev.shadow_regs,
+	  rts88xx_set_gain(dev.shadow_regs,
 			    dev.gain.red, dev.gain.green, dev.gain.blue)
 	}
       else
 	{
-	  rts88xx_set_offset (dev.shadow_regs,
+	  rts88xx_set_offset(dev.shadow_regs,
 			      dev.offset.gray,
 			      dev.offset.gray, dev.offset.gray)
-	  rts88xx_set_gain (dev.shadow_regs,
+	  rts88xx_set_gain(dev.shadow_regs,
 			    dev.gain.gray, dev.gain.gray, dev.gain.gray)
 	}
     }
-  DBG (2, "sanei_lexmark_low_set_scan_regs: end.\n")
+  DBG(2, "sanei_lexmark_low_set_scan_regs: end.\n")
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-sanei_lexmark_low_start_scan (Lexmark_Device * dev)
+sanei_lexmark_low_start_scan(Lexmark_Device * dev)
 {
   Int devnum
 
@@ -4832,18 +4832,18 @@ sanei_lexmark_low_start_scan (Lexmark_Device * dev)
   devnum = dev.devnum
 
   dev.transfer_buffer = NULL;	/* No data xferred yet */
-  DBG (2, "sanei_lexmark_low_start_scan:\n")
+  DBG(2, "sanei_lexmark_low_start_scan:\n")
 
 
   /* 80 b3 00 01  - poll for scanner not moving */
   scan_head_moving = Sane.TRUE
-  while (scan_head_moving)
+  while(scan_head_moving)
     {
       size = 4
-      low_usb_bulk_write (devnum, command5_block, &size)
+      low_usb_bulk_write(devnum, command5_block, &size)
       size = 0x1
-      low_usb_bulk_read (devnum, &read_result, &size)
-      if ((read_result & 0xF) == 0x0)
+      low_usb_bulk_read(devnum, &read_result, &size)
+      if((read_result & 0xF) == 0x0)
 	{
 	  scan_head_moving = Sane.FALSE
 	}
@@ -4856,16 +4856,16 @@ sanei_lexmark_low_start_scan (Lexmark_Device * dev)
   /* Clear C6 */
   low_clr_c6 (devnum)
   /* Stop the scanner */
-  low_stop_mvmt (devnum)
+  low_stop_mvmt(devnum)
 
   /*Set regs x2 */
   dev.shadow_regs[0x32] = 0x00
-  low_write_all_regs (devnum, dev.shadow_regs)
+  low_write_all_regs(devnum, dev.shadow_regs)
   dev.shadow_regs[0x32] = 0x40
-  low_write_all_regs (devnum, dev.shadow_regs)
+  low_write_all_regs(devnum, dev.shadow_regs)
 
   /* Start Scan */
-  rts88xx_commit (devnum, dev.shadow_regs[0x2c])
+  rts88xx_commit(devnum, dev.shadow_regs[0x2c])
 
   /* We start with 0 bytes remaining to be read */
   dev.bytes_remaining = 0
@@ -4874,43 +4874,43 @@ sanei_lexmark_low_start_scan (Lexmark_Device * dev)
   dev.bytes_read = 0
 
   /* Poll the available byte count until not 0 */
-  while (1)
+  while(1)
     {
       size = 4
-      low_usb_bulk_write (devnum, command4_block, &size)
+      low_usb_bulk_write(devnum, command4_block, &size)
       size = 0x3
-      low_usb_bulk_read (devnum, poll_result, &size)
-      if (!
+      low_usb_bulk_read(devnum, poll_result, &size)
+      if(!
 	  (poll_result[0] == 0 && poll_result[1] == 0 && poll_result[2] == 0))
 	{
 	  /* if result != 00 00 00 we got data */
 
 	  /* data_size should be used to set bytes_remaining */
-	  /* data_size is set from Sane.get_parameters () */
+	  /* data_size is set from Sane.get_parameters() */
 	  dev.bytes_remaining = dev.data_size
 	  /* Initialize the read buffer */
-	  read_buffer_init (dev, dev.params.bytes_per_line)
+	  read_buffer_init(dev, dev.params.bytes_per_line)
 	  return Sane.STATUS_GOOD
 
 	}
       size = 4
       /* I'm not sure why the Windows driver does this - probably a timeout? */
-      low_usb_bulk_write (devnum, command5_block, &size)
+      low_usb_bulk_write(devnum, command5_block, &size)
       size = 0x1
-      low_usb_bulk_read (devnum, &read_result, &size)
-      if (read_result != 0x68)
+      low_usb_bulk_read(devnum, &read_result, &size)
+      if(read_result != 0x68)
 	{
 	  dev.bytes_remaining = 0
 	  return Sane.STATUS_IO_ERROR
 	}
     }
 
-  DBG (2, "sanei_lexmark_low_start_scan: end.\n")
+  DBG(2, "sanei_lexmark_low_start_scan: end.\n")
   return Sane.STATUS_GOOD
 }
 
 long
-sanei_lexmark_low_read_scan_data (Sane.Byte * data, Int size,
+sanei_lexmark_low_read_scan_data(Sane.Byte * data, Int size,
 				  Lexmark_Device * dev)
 {
   Bool isColourScan, isGrayScan
@@ -4921,26 +4921,26 @@ sanei_lexmark_low_read_scan_data (Sane.Byte * data, Int size,
   Sane.Status status
   var i: Int, k, val
 
-  DBG (2, "sanei_lexmark_low_read_scan_data:\n")
+  DBG(2, "sanei_lexmark_low_read_scan_data:\n")
 
   /* colour mode */
   isGrayScan = Sane.FALSE
-  if (strcmp (dev.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_COLOR) == 0)
+  if(strcmp(dev.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_COLOR) == 0)
     isColourScan = Sane.TRUE
   else
     {
       isColourScan = Sane.FALSE
       /* grayscale  mode */
-      if (strcmp (dev.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_GRAY) == 0)
+      if(strcmp(dev.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_GRAY) == 0)
 	isGrayScan = Sane.TRUE
     }
 
   /* Check if we have a transfer buffer. Create one and fill it if we don't */
-  if (dev.transfer_buffer == NULL)
+  if(dev.transfer_buffer == NULL)
     {
-      if (dev.bytes_remaining > 0)
+      if(dev.bytes_remaining > 0)
 	{
-	  if (dev.bytes_remaining > MAX_XFER_SIZE)
+	  if(dev.bytes_remaining > MAX_XFER_SIZE)
 	    xfer_request = MAX_XFER_SIZE
 	  else
 	    xfer_request = dev.bytes_remaining
@@ -4949,39 +4949,39 @@ sanei_lexmark_low_read_scan_data (Sane.Byte * data, Int size,
 	  command1_block[3] = (Sane.Byte) (xfer_request & 0xFF)
 
 	  /* wait for data */
-	  status = low_poll_data (dev.devnum)
-	  if (status != Sane.STATUS_GOOD)
+	  status = low_poll_data(dev.devnum)
+	  if(status != Sane.STATUS_GOOD)
 	    {
-	      DBG (1,
+	      DBG(1,
 		   "sanei_lexmark_low_read_scan_data: time-out while waiting for data.\n")
 	      return status
 	    }
 
 	  /* Create buffer to hold the amount we will request */
-	  dev.transfer_buffer = (Sane.Byte *) malloc (MAX_XFER_SIZE)
-	  if (dev.transfer_buffer == NULL)
+	  dev.transfer_buffer = (Sane.Byte *) malloc(MAX_XFER_SIZE)
+	  if(dev.transfer_buffer == NULL)
 	    return Sane.STATUS_NO_MEM
 
 	  /* Fill it */
 	  /* Write: 91 00 (xfer_size) */
 	  cmd_size = 4
-	  low_usb_bulk_write (dev.devnum, command1_block, &cmd_size)
+	  low_usb_bulk_write(dev.devnum, command1_block, &cmd_size)
 
 	  /* Read: xfer_size  bytes */
 	  cmd_size = xfer_request
-	  low_usb_bulk_read (dev.devnum, dev.transfer_buffer, &cmd_size)
+	  low_usb_bulk_read(dev.devnum, dev.transfer_buffer, &cmd_size)
 
 	  /* apply shading coefficients */
 	  k = dev.bytes_read % dev.read_buffer.linesize
-	  for (i = 0; i < (Int) cmd_size; i++)
+	  for(i = 0; i < (Int) cmd_size; i++)
 	    {
 	      val = dev.transfer_buffer[i]
 	      val = (Int) ((float) val * dev.shading_coeff[k] + 0.5)
-	      if (val > 255)
+	      if(val > 255)
 		val = 255
 	      dev.transfer_buffer[i] = val
 	      k++
-	      if ((size_t) k == dev.read_buffer.linesize)
+	      if((size_t) k == dev.read_buffer.linesize)
 		k = 0
 	    }
 
@@ -4990,121 +4990,121 @@ sanei_lexmark_low_read_scan_data (Sane.Byte * data, Int size,
 	  dev.bytes_remaining -= cmd_size
 	  dev.bytes_in_buffer = cmd_size
 	  dev.read_pointer = dev.transfer_buffer
-	  DBG (2, "sanei_lexmark_low_read_scan_data:\n")
-	  DBG (2, "   Filled a buffer from the scanner\n")
-	  DBG (2, "   bytes_remaining: %lu\n", (u_long) dev.bytes_remaining)
-	  DBG (2, "   bytes_in_buffer: %lu\n", (u_long) dev.bytes_in_buffer)
-	  DBG (2, "   read_pointer: %p\n", dev.read_pointer)
+	  DBG(2, "sanei_lexmark_low_read_scan_data:\n")
+	  DBG(2, "   Filled a buffer from the scanner\n")
+	  DBG(2, "   bytes_remaining: %lu\n", (u_long) dev.bytes_remaining)
+	  DBG(2, "   bytes_in_buffer: %lu\n", (u_long) dev.bytes_in_buffer)
+	  DBG(2, "   read_pointer: %p\n", dev.read_pointer)
 	}
     }
 
-  DBG (5, "READ BUFFER INFO: \n")
-  DBG (5, "   write ptr:     %p\n", dev.read_buffer.writeptr)
-  DBG (5, "   read ptr:      %p\n", dev.read_buffer.readptr)
-  DBG (5, "   max write ptr: %p\n", dev.read_buffer.max_writeptr)
-  DBG (5, "   buffer size:   %lu\n", (u_long) dev.read_buffer.size)
-  DBG (5, "   line size:     %lu\n", (u_long) dev.read_buffer.linesize)
-  DBG (5, "   empty:         %d\n", dev.read_buffer.empty)
-  DBG (5, "   line no:       %d\n", dev.read_buffer.image_line_no)
+  DBG(5, "READ BUFFER INFO: \n")
+  DBG(5, "   write ptr:     %p\n", dev.read_buffer.writeptr)
+  DBG(5, "   read ptr:      %p\n", dev.read_buffer.readptr)
+  DBG(5, "   max write ptr: %p\n", dev.read_buffer.max_writeptr)
+  DBG(5, "   buffer size:   %lu\n", (u_long) dev.read_buffer.size)
+  DBG(5, "   line size:     %lu\n", (u_long) dev.read_buffer.linesize)
+  DBG(5, "   empty:         %d\n", dev.read_buffer.empty)
+  DBG(5, "   line no:       %d\n", dev.read_buffer.image_line_no)
 
 
   /* If there is space in the read buffer, copy the transfer buffer over */
-  if (read_buffer_bytes_available (dev.read_buffer) >= dev.bytes_in_buffer)
+  if(read_buffer_bytes_available(dev.read_buffer) >= dev.bytes_in_buffer)
     {
       even_byte = Sane.TRUE
-      while (dev.bytes_in_buffer)
+      while(dev.bytes_in_buffer)
 	{
 
 	  /* Colour Scan */
-	  if (isColourScan)
+	  if(isColourScan)
 	    {
-	      if (even_byte)
-		read_buffer_add_byte (dev.read_buffer,
+	      if(even_byte)
+		read_buffer_add_byte(dev.read_buffer,
 				      dev.read_pointer + 1)
 	      else
-		read_buffer_add_byte (dev.read_buffer,
+		read_buffer_add_byte(dev.read_buffer,
 				      dev.read_pointer - 1)
 	      even_byte = !even_byte
 	    }
 	  /* Gray Scan */
-	  else if (isGrayScan)
+	  else if(isGrayScan)
 	    {
-	      if (even_byte)
-		read_buffer_add_byte_gray (dev.read_buffer,
+	      if(even_byte)
+		read_buffer_add_byte_gray(dev.read_buffer,
 					   dev.read_pointer + 1)
 	      else
-		read_buffer_add_byte_gray (dev.read_buffer,
+		read_buffer_add_byte_gray(dev.read_buffer,
 					   dev.read_pointer - 1)
 	      even_byte = !even_byte
 	    }
 	  /* Lineart Scan */
 	  else
 	    {
-	      if (even_byte)
-		read_buffer_add_bit_lineart (dev.read_buffer,
+	      if(even_byte)
+		read_buffer_add_bit_lineart(dev.read_buffer,
 					     dev.read_pointer + 1,
 					     dev.threshold)
 	      else
-		read_buffer_add_bit_lineart (dev.read_buffer,
+		read_buffer_add_bit_lineart(dev.read_buffer,
 					     dev.read_pointer - 1,
 					     dev.threshold)
 	      even_byte = !even_byte
 	    }
-	  dev.read_pointer = dev.read_pointer + sizeof (Sane.Byte)
+	  dev.read_pointer = dev.read_pointer + sizeof(Sane.Byte)
 	  dev.bytes_in_buffer--
 	}
       /* free the transfer buffer */
-      free (dev.transfer_buffer)
+      free(dev.transfer_buffer)
       dev.transfer_buffer = NULL
     }
 
-  DBG (5, "READ BUFFER INFO: \n")
-  DBG (5, "   write ptr:     %p\n", dev.read_buffer.writeptr)
-  DBG (5, "   read ptr:      %p\n", dev.read_buffer.readptr)
-  DBG (5, "   max write ptr: %p\n", dev.read_buffer.max_writeptr)
-  DBG (5, "   buffer size:   %lu\n", (u_long) dev.read_buffer.size)
-  DBG (5, "   line size:     %lu\n", (u_long) dev.read_buffer.linesize)
-  DBG (5, "   empty:         %d\n", dev.read_buffer.empty)
-  DBG (5, "   line no:       %d\n", dev.read_buffer.image_line_no)
+  DBG(5, "READ BUFFER INFO: \n")
+  DBG(5, "   write ptr:     %p\n", dev.read_buffer.writeptr)
+  DBG(5, "   read ptr:      %p\n", dev.read_buffer.readptr)
+  DBG(5, "   max write ptr: %p\n", dev.read_buffer.max_writeptr)
+  DBG(5, "   buffer size:   %lu\n", (u_long) dev.read_buffer.size)
+  DBG(5, "   line size:     %lu\n", (u_long) dev.read_buffer.linesize)
+  DBG(5, "   empty:         %d\n", dev.read_buffer.empty)
+  DBG(5, "   line no:       %d\n", dev.read_buffer.image_line_no)
 
   /* Read blocks out of read buffer */
-  bytes_read = read_buffer_get_bytes (dev.read_buffer, data, size)
+  bytes_read = read_buffer_get_bytes(dev.read_buffer, data, size)
 
-  DBG (2, "sanei_lexmark_low_read_scan_data:\n")
-  DBG (2, "    Copying lines from buffer to data\n")
-  DBG (2, "    bytes_remaining: %lu\n", (u_long) dev.bytes_remaining)
-  DBG (2, "    bytes_in_buffer: %lu\n", (u_long) dev.bytes_in_buffer)
-  DBG (2, "    read_pointer: %p\n", dev.read_buffer.readptr)
-  DBG (2, "    bytes_read %lu\n", (u_long) bytes_read)
+  DBG(2, "sanei_lexmark_low_read_scan_data:\n")
+  DBG(2, "    Copying lines from buffer to data\n")
+  DBG(2, "    bytes_remaining: %lu\n", (u_long) dev.bytes_remaining)
+  DBG(2, "    bytes_in_buffer: %lu\n", (u_long) dev.bytes_in_buffer)
+  DBG(2, "    read_pointer: %p\n", dev.read_buffer.readptr)
+  DBG(2, "    bytes_read %lu\n", (u_long) bytes_read)
 
   /* if no more bytes to xfer and read buffer empty we're at the end */
-  if ((dev.bytes_remaining == 0) && read_buffer_is_empty (dev.read_buffer))
+  if((dev.bytes_remaining == 0) && read_buffer_is_empty(dev.read_buffer))
     {
-      if (!dev.eof)
+      if(!dev.eof)
 	{
-	  DBG (2,
+	  DBG(2,
 	       "sanei_lexmark_low_read_scan_data: EOF- parking the scanner\n")
 	  dev.eof = Sane.TRUE
-	  low_rewind (dev, dev.shadow_regs)
+	  low_rewind(dev, dev.shadow_regs)
 	}
       else
 	{
-	  DBG (2, "ERROR: Why are we trying to set eof more than once?\n")
+	  DBG(2, "ERROR: Why are we trying to set eof more than once?\n")
 	}
     }
 
-  DBG (2, "sanei_lexmark_low_read_scan_data: end.\n")
+  DBG(2, "sanei_lexmark_low_read_scan_data: end.\n")
   return bytes_read
 }
 
 void
-low_rewind (Lexmark_Device * dev, Sane.Byte * regs)
+low_rewind(Lexmark_Device * dev, Sane.Byte * regs)
 {
   Int new_location
   Int location
   Int scale
 
-  DBG (2, "low_rewind: \n")
+  DBG(2, "low_rewind: \n")
 
   /* We rewind at 1200dpi resolution. We rely on content of shadow registers
      to compute the number of lines at 1200 dpi to go back */
@@ -5114,22 +5114,22 @@ low_rewind (Lexmark_Device * dev, Sane.Byte * regs)
   new_location = ((dev.val[OPT_BR_Y].w / scale) * scale) * 2
 
   /* then add distance to go to the "origin dot" */
-  if (rts88xx_is_color (regs))
+  if(rts88xx_is_color(regs))
     new_location += 400
   else
     new_location += 420
 
-  if (dev.model.sensor_type == X74_SENSOR)
+  if(dev.model.sensor_type == X74_SENSOR)
     new_location += 150
 
 
   location = new_location - 1
-  DBG (2, "low_rewind: %d=>new_location=%d\n", dev.val[OPT_BR_Y].w,
+  DBG(2, "low_rewind: %d=>new_location=%d\n", dev.val[OPT_BR_Y].w,
        new_location)
 
   /* stops any pending scan */
   low_clr_c6 (dev.devnum)
-  low_cancel (dev.devnum)
+  low_cancel(dev.devnum)
 
   /* set regs for rewind */
   regs[0x2f] = 0xa1
@@ -5139,12 +5139,12 @@ low_rewind (Lexmark_Device * dev, Sane.Byte * regs)
   /* all other regs are always the same. these ones change with parameters */
   /* the following 4 regs are the location 61,60 and the location+1 63,62 */
 
-  regs[0x60] = LOBYTE (location)
-  regs[0x61] = HIBYTE (location)
-  regs[0x62] = LOBYTE (new_location)
-  regs[0x63] = HIBYTE (new_location)
+  regs[0x60] = LOBYTE(location)
+  regs[0x61] = HIBYTE(location)
+  regs[0x62] = LOBYTE(new_location)
+  regs[0x63] = HIBYTE(new_location)
 
-  switch (dev.model.motor_type)
+  switch(dev.model.motor_type)
     {
     case X74_MOTOR:
       regs[0xc3] = 0x81
@@ -5190,20 +5190,20 @@ low_rewind (Lexmark_Device * dev, Sane.Byte * regs)
 
 
   /* starts scan */
-  low_start_scan (dev.devnum, regs)
-  DBG (2, "low_rewind: end.\n")
+  low_start_scan(dev.devnum, regs)
+  DBG(2, "low_rewind: end.\n")
 }
 
 
 Sane.Status
-read_buffer_init (Lexmark_Device * dev, Int bytesperline)
+read_buffer_init(Lexmark_Device * dev, Int bytesperline)
 {
   size_t no_lines_in_buffer
 
-  DBG (2, "read_buffer_init: Start\n")
+  DBG(2, "read_buffer_init: Start\n")
 
-  dev.read_buffer = (Read_Buffer *) malloc (sizeof (Read_Buffer))
-  if (dev.read_buffer == NULL)
+  dev.read_buffer = (Read_Buffer *) malloc(sizeof(Read_Buffer))
+  if(dev.read_buffer == NULL)
     return Sane.STATUS_NO_MEM
   dev.read_buffer.linesize = bytesperline
   dev.read_buffer.gray_offset = 0
@@ -5217,8 +5217,8 @@ read_buffer_init (Lexmark_Device * dev, Int bytesperline)
   dev.read_buffer.max_blue_offset = bytesperline - 1
   no_lines_in_buffer = 3 * MAX_XFER_SIZE / bytesperline
   dev.read_buffer.size = bytesperline * no_lines_in_buffer
-  dev.read_buffer.data = (Sane.Byte *) malloc (dev.read_buffer.size)
-  if (dev.read_buffer.data == NULL)
+  dev.read_buffer.data = (Sane.Byte *) malloc(dev.read_buffer.size)
+  if(dev.read_buffer.data == NULL)
     return Sane.STATUS_NO_MEM
   dev.read_buffer.readptr = dev.read_buffer.data
   dev.read_buffer.writeptr = dev.read_buffer.data
@@ -5232,111 +5232,111 @@ read_buffer_init (Lexmark_Device * dev, Int bytesperline)
 }
 
 Sane.Status
-read_buffer_free (Read_Buffer * read_buffer)
+read_buffer_free(Read_Buffer * read_buffer)
 {
-  DBG (2, "read_buffer_free:\n")
-  if (read_buffer)
+  DBG(2, "read_buffer_free:\n")
+  if(read_buffer)
     {
-      free (read_buffer.data)
-      free (read_buffer)
+      free(read_buffer.data)
+      free(read_buffer)
       read_buffer = NULL
     }
   return Sane.STATUS_GOOD
 }
 
 size_t
-read_buffer_bytes_available (Read_Buffer * rb)
+read_buffer_bytes_available(Read_Buffer * rb)
 {
 
-  DBG (2, "read_buffer_bytes_available:\n")
+  DBG(2, "read_buffer_bytes_available:\n")
 
-  if (rb.empty)
+  if(rb.empty)
     return rb.size
-  else if ((size_t) abs (rb.writeptr - rb.readptr) < rb.linesize)
+  else if((size_t) abs(rb.writeptr - rb.readptr) < rb.linesize)
     return 0;			/* ptrs are less than one line apart */
-  else if (rb.writeptr < rb.readptr)
-    return (rb.readptr - rb.writeptr - rb.linesize)
+  else if(rb.writeptr < rb.readptr)
+    return(rb.readptr - rb.writeptr - rb.linesize)
   else
-    return (rb.size + rb.readptr - rb.writeptr - rb.linesize)
+    return(rb.size + rb.readptr - rb.writeptr - rb.linesize)
 }
 
 Sane.Status
-read_buffer_add_byte (Read_Buffer * rb, Sane.Byte * byte_pointer)
+read_buffer_add_byte(Read_Buffer * rb, Sane.Byte * byte_pointer)
 {
 
   /* DBG(2, "read_buffer_add_byte:\n"); */
   /* F.O. Need to fix the endian byte ordering here */
 
-  switch (rb.region)
+  switch(rb.region)
     {
     case RED:
       *(rb.writeptr + rb.red_offset) = *byte_pointer
-      if (rb.red_offset == rb.max_red_offset)
+      if(rb.red_offset == rb.max_red_offset)
 	{
 	  rb.red_offset = 0
 	  rb.region = GREEN
 	}
       else
-	rb.red_offset = rb.red_offset + (3 * sizeof (Sane.Byte))
+	rb.red_offset = rb.red_offset + (3 * sizeof(Sane.Byte))
       return Sane.STATUS_GOOD
     case GREEN:
       *(rb.writeptr + rb.green_offset) = *byte_pointer
-      if (rb.green_offset == rb.max_green_offset)
+      if(rb.green_offset == rb.max_green_offset)
 	{
 	  rb.green_offset = 1
 	  rb.region = BLUE
 	}
       else
-	rb.green_offset = rb.green_offset + (3 * sizeof (Sane.Byte))
+	rb.green_offset = rb.green_offset + (3 * sizeof(Sane.Byte))
       return Sane.STATUS_GOOD
     case BLUE:
       *(rb.writeptr + rb.blue_offset) = *byte_pointer
-      if (rb.blue_offset == rb.max_blue_offset)
+      if(rb.blue_offset == rb.max_blue_offset)
 	{
 	  rb.image_line_no++
 	  /* finished a line. read_buffer no longer empty */
 	  rb.empty = Sane.FALSE
 	  rb.blue_offset = 2
 	  rb.region = RED
-	  if (rb.writeptr == rb.max_writeptr)
+	  if(rb.writeptr == rb.max_writeptr)
 	    rb.writeptr = rb.data;	/* back to beginning of buffer */
 	  else
 	    rb.writeptr = rb.writeptr + rb.linesize;	/* next line */
 	}
       else
-	rb.blue_offset = rb.blue_offset + (3 * sizeof (Sane.Byte))
+	rb.blue_offset = rb.blue_offset + (3 * sizeof(Sane.Byte))
       return Sane.STATUS_GOOD
     }
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-read_buffer_add_byte_gray (Read_Buffer * rb, Sane.Byte * byte_pointer)
+read_buffer_add_byte_gray(Read_Buffer * rb, Sane.Byte * byte_pointer)
 {
 
   /*  DBG(2, "read_buffer_add_byte_gray:\n"); */
 
   *(rb.writeptr + rb.gray_offset) = *byte_pointer
 
-  if (rb.gray_offset == rb.max_gray_offset)
+  if(rb.gray_offset == rb.max_gray_offset)
     {
       rb.image_line_no++
       /* finished a line. read_buffer no longer empty */
       rb.empty = Sane.FALSE
       rb.gray_offset = 0
 
-      if (rb.writeptr == rb.max_writeptr)
+      if(rb.writeptr == rb.max_writeptr)
 	rb.writeptr = rb.data;	/* back to beginning of buffer */
       else
 	rb.writeptr = rb.writeptr + rb.linesize;	/* next line */
     }
   else
-    rb.gray_offset = rb.gray_offset + (1 * sizeof (Sane.Byte))
+    rb.gray_offset = rb.gray_offset + (1 * sizeof(Sane.Byte))
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-read_buffer_add_bit_lineart (Read_Buffer * rb, Sane.Byte * byte_pointer,
+read_buffer_add_bit_lineart(Read_Buffer * rb, Sane.Byte * byte_pointer,
 			     Sane.Byte threshold)
 {
   Sane.Byte tmpByte
@@ -5348,7 +5348,7 @@ read_buffer_add_bit_lineart (Read_Buffer * rb, Sane.Byte * byte_pointer,
   /* threshold = 0x80;  */
   tmpByte = 0
   /* Create a bit by comparing incoming byte to threshold */
-  if (*byte_pointer <= threshold)
+  if(*byte_pointer <= threshold)
     {
       tmpByte = 128
     }
@@ -5361,20 +5361,20 @@ read_buffer_add_bit_lineart (Read_Buffer * rb, Sane.Byte * byte_pointer,
   currentBytePtr = rb.writeptr + rb.gray_offset
 
   /* If this is the first write to this byte, clear the byte */
-  if (bitIndex == 0)
+  if(bitIndex == 0)
     *currentBytePtr = 0
   /* Set the value of the bit in the current byte */
   *currentBytePtr = *currentBytePtr | tmpByte
 
   /* last bit in the line? */
-  if (rb.bit_counter == rb.max_lineart_offset)
+  if(rb.bit_counter == rb.max_lineart_offset)
     {
       /* Check if we're at the last byte of the line - error if not */
-      if (rb.gray_offset != rb.max_gray_offset)
+      if(rb.gray_offset != rb.max_gray_offset)
 	{
-	  DBG (5, "read_buffer_add_bit_lineart:\n")
-	  DBG (5, "  Last bit of line is not last byte.\n")
-	  DBG (5, "  Bit Index: %d, Byte Index: %d. \n", rb.bit_counter,
+	  DBG(5, "read_buffer_add_bit_lineart:\n")
+	  DBG(5, "  Last bit of line is not last byte.\n")
+	  DBG(5, "  Bit Index: %d, Byte Index: %d. \n", rb.bit_counter,
 	       rb.max_gray_offset)
 	  return Sane.STATUS_INVAL
 	}
@@ -5383,7 +5383,7 @@ read_buffer_add_bit_lineart (Read_Buffer * rb, Sane.Byte * byte_pointer,
       rb.empty = Sane.FALSE
       rb.gray_offset = 0
       /* are we at the last line in the read buffer ? */
-      if (rb.writeptr == rb.max_writeptr)
+      if(rb.writeptr == rb.max_writeptr)
 	rb.writeptr = rb.data;	/* back to beginning of buffer */
       else
 	rb.writeptr = rb.writeptr + rb.linesize;	/* next line */
@@ -5391,10 +5391,10 @@ read_buffer_add_bit_lineart (Read_Buffer * rb, Sane.Byte * byte_pointer,
       rb.bit_counter = 0
     }
   /* last bit in the byte? */
-  else if (bitIndex == 7)
+  else if(bitIndex == 7)
     {
       /* Not at the end of the line, but byte done. Increment byte offset */
-      rb.gray_offset = rb.gray_offset + (1 * sizeof (Sane.Byte))
+      rb.gray_offset = rb.gray_offset + (1 * sizeof(Sane.Byte))
       /* increment bit counter */
       rb.bit_counter++
     }
@@ -5409,21 +5409,21 @@ read_buffer_add_bit_lineart (Read_Buffer * rb, Sane.Byte * byte_pointer,
 
 
 size_t
-read_buffer_get_bytes (Read_Buffer * rb, Sane.Byte * buffer, size_t rqst_size)
+read_buffer_get_bytes(Read_Buffer * rb, Sane.Byte * buffer, size_t rqst_size)
 {
   /* Read_Buffer *rb; */
   size_t available_bytes
 
   /* rb = read_buffer; */
-  if (rb.empty)
+  if(rb.empty)
     return 0
-  else if (rb.writeptr > rb.readptr)
+  else if(rb.writeptr > rb.readptr)
     {
       available_bytes = rb.writeptr - rb.readptr
-      if (available_bytes <= rqst_size)
+      if(available_bytes <= rqst_size)
 	{
 	  /* We can read from the read pointer up to the write pointer */
-	  memcpy (buffer, rb.readptr, available_bytes)
+	  memcpy(buffer, rb.readptr, available_bytes)
 	  rb.readptr = rb.writeptr
 	  rb.empty = Sane.TRUE
 	  return available_bytes
@@ -5431,7 +5431,7 @@ read_buffer_get_bytes (Read_Buffer * rb, Sane.Byte * buffer, size_t rqst_size)
       else
 	{
 	  /* We can read from the full request size */
-	  memcpy (buffer, rb.readptr, rqst_size)
+	  memcpy(buffer, rb.readptr, rqst_size)
 	  rb.readptr = rb.readptr + rqst_size
 	  return rqst_size
 	}
@@ -5442,21 +5442,21 @@ read_buffer_get_bytes (Read_Buffer * rb, Sane.Byte * buffer, size_t rqst_size)
       /* We can read to the end of the buffer and make a recursive call to */
       /* read any available lines at the beginning of the buffer */
       available_bytes = rb.data + rb.size - rb.readptr
-      if (available_bytes <= rqst_size)
+      if(available_bytes <= rqst_size)
 	{
 	  /* We can read from the read pointer up to the end of the buffer */
-	  memcpy (buffer, rb.readptr, available_bytes)
+	  memcpy(buffer, rb.readptr, available_bytes)
 	  rb.readptr = rb.data
-	  if (rb.writeptr == rb.readptr)
+	  if(rb.writeptr == rb.readptr)
 	    rb.empty = Sane.TRUE
 	  return available_bytes +
-	    read_buffer_get_bytes (rb, buffer + available_bytes,
+	    read_buffer_get_bytes(rb, buffer + available_bytes,
 				   rqst_size - available_bytes)
 	}
       else
 	{
 	  /* We can read from the full request size */
-	  memcpy (buffer, rb.readptr, rqst_size)
+	  memcpy(buffer, rb.readptr, rqst_size)
 	  rb.readptr = rb.readptr + rqst_size
 	  return rqst_size
 	}
@@ -5464,7 +5464,7 @@ read_buffer_get_bytes (Read_Buffer * rb, Sane.Byte * buffer, size_t rqst_size)
 }
 
 Bool
-read_buffer_is_empty (Read_Buffer * read_buffer)
+read_buffer_is_empty(Read_Buffer * read_buffer)
 {
   return read_buffer.empty
 }
@@ -5474,7 +5474,7 @@ read_buffer_is_empty (Read_Buffer * read_buffer)
  * return values in given pointers
  */
 static Int
-average_area (Sane.Byte * regs, Sane.Byte * data, Int width, Int height,
+average_area(Sane.Byte * regs, Sane.Byte * data, Int width, Int height,
 	      Int *ra, Int *ga, Int *ba)
 {
   Int x, y
@@ -5487,10 +5487,10 @@ average_area (Sane.Byte * regs, Sane.Byte * data, Int width, Int height,
   rc = 0
   gc = 0
   bc = 0
-  if (rts88xx_is_color (regs))
+  if(rts88xx_is_color(regs))
     {
-      for (x = 0; x < width; x++)
-	for (y = 0; y < height; y++)
+      for(x = 0; x < width; x++)
+	for(y = 0; y < height; y++)
 	  {
 	    rc += data[3 * width * y + x]
 	    gc += data[3 * width * y + width + x]
@@ -5503,15 +5503,15 @@ average_area (Sane.Byte * regs, Sane.Byte * data, Int width, Int height,
     }
   else
     {
-      for (x = 0; x < width; x++)
-	for (y = 0; y < height; y++)
+      for(x = 0; x < width; x++)
+	for(y = 0; y < height; y++)
 	  {
 	    gc += data[width * y + x]
 	  }
       global = gc / (width * height)
       *ga = gc / (width * height)
     }
-  DBG (7, "average_area: global=%d, red=%d, green=%d, blue=%d\n", global, *ra,
+  DBG(7, "average_area: global=%d, red=%d, green=%d, blue=%d\n", global, *ra,
        *ga, *ba)
   return global
 }
@@ -5520,7 +5520,7 @@ average_area (Sane.Byte * regs, Sane.Byte * data, Int width, Int height,
  * we scan a dark area with gain minimum to detect offset
  */
 Sane.Status
-sanei_lexmark_low_offset_calibration (Lexmark_Device * dev)
+sanei_lexmark_low_offset_calibration(Lexmark_Device * dev)
 {
   Sane.Byte regs[255];		/* we have our own copy of shadow registers */
   Sane.Status status = Sane.STATUS_GOOD
@@ -5537,9 +5537,9 @@ sanei_lexmark_low_offset_calibration (Lexmark_Device * dev)
   char title[20]
 #endif
 
-  DBG (2, "sanei_lexmark_low_offset_calibration: start\n")
+  DBG(2, "sanei_lexmark_low_offset_calibration: start\n")
   /* copy registers */
-  for (i = 0; i < 255; i++)
+  for(i = 0; i < 255; i++)
     regs[i] = dev.shadow_regs[i]
 
   /* we clear movement bit */
@@ -5560,16 +5560,16 @@ sanei_lexmark_low_offset_calibration (Lexmark_Device * dev)
    */
 
   /* minimal gains */
-  DBG (3,
-       "sanei_lexmark_low_offset_calibration: setting gains to (1,1,1).\n")
-  rts88xx_set_gain (regs, 1, 1, 1)
+  DBG(3,
+       "sanei_lexmark_low_offset_calibration: setting gains to(1,1,1).\n")
+  rts88xx_set_gain(regs, 1, 1, 1)
 
   i = OFFSET_RANGES
   average = 255
 
   /* loop on ranges until one fits. Then adjust offset, first loop is
    * always done. TODO detect overflow by 'noise looking' data pattern */
-  while (((i > 0) && (average > dev.sensor.offset_threshold))
+  while(((i > 0) && (average > dev.sensor.offset_threshold))
 	 || (i == OFFSET_RANGES))
     {
       /* next range  */
@@ -5579,66 +5579,66 @@ sanei_lexmark_low_offset_calibration (Lexmark_Device * dev)
       ro = top[i]
       go = top[i]
       bo = top[i]
-      rts88xx_set_offset (regs, ro, ro, ro)
-      DBG (3,
-	   "sanei_lexmark_low_offset_calibration: setting offsets to (%d,%d,%d).\n",
+      rts88xx_set_offset(regs, ro, ro, ro)
+      DBG(3,
+	   "sanei_lexmark_low_offset_calibration: setting offsets to(%d,%d,%d).\n",
 	   ro, ro, ro)
 
       status =
-	low_simple_scan (dev, regs, dev.sensor.offset_startx, pixels,
+	low_simple_scan(dev, regs, dev.sensor.offset_startx, pixels,
 			 yoffset, lines, &data)
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1,
+	  DBG(1,
 	       "sanei_lexmark_low_offset_calibration: low_simple_scan failed!\n")
-	  if (data != NULL)
-	    free (data)
+	  if(data != NULL)
+	    free(data)
 	  return status
 	}
 #ifdef DEEP_DEBUG
-      sprintf (title, "offset%02x.pnm", ro)
-      write_pnm_file (title, pixels, lines, rts88xx_is_color (regs), data)
+      sprintf(title, "offset%02x.pnm", ro)
+      write_pnm_file(title, pixels, lines, rts88xx_is_color(regs), data)
 #endif
-      average = average_area (regs, data, pixels, lines, &ra, &ga, &ba)
-      free (data)
+      average = average_area(regs, data, pixels, lines, &ra, &ga, &ba)
+      free(data)
     }
-  if (i == 0)
+  if(i == 0)
     {
-      DBG (2, "sanei_lexmark_low_offset_calibration: failed !\n")
+      DBG(2, "sanei_lexmark_low_offset_calibration: failed !\n")
       failed = 1
     }
 
   /* increase gain and scan again */
   /* increase gain for fine offset tuning */
-  rts88xx_set_gain (regs, 6, 6, 6)
+  rts88xx_set_gain(regs, 6, 6, 6)
   status =
-    low_simple_scan (dev, regs, dev.sensor.offset_startx, pixels, yoffset,
+    low_simple_scan(dev, regs, dev.sensor.offset_startx, pixels, yoffset,
 		     lines, &data)
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1,
+      DBG(1,
 	   "sanei_lexmark_low_offset_calibration: low_simple_scan failed!\n")
-      if (data != NULL)
-	free (data)
+      if(data != NULL)
+	free(data)
       return status
     }
-  average_area (regs, data, pixels, lines, &ra, &ga, &ba)
+  average_area(regs, data, pixels, lines, &ra, &ga, &ba)
 #ifdef DEEP_DEBUG
-  write_pnm_file ("offset-final.pnm", pixels, lines, rts88xx_is_color (regs),
+  write_pnm_file("offset-final.pnm", pixels, lines, rts88xx_is_color(regs),
 		  data)
 #endif
 
-  /* this "law" is a guess, may (should?) be changed ... */
-  if (!failed)
+  /* this "law" is a guess, may(should?) be changed ... */
+  if(!failed)
     {
-      if (ro > ra)
+      if(ro > ra)
 	dev.offset.red = ro - ra
-      if (go > ga)
+      if(go > ga)
 	{
 	  dev.offset.green = go - ga
 	  dev.offset.gray = go - ga
 	}
-      if (bo > ba)
+      if(bo > ba)
 	dev.offset.blue = bo - ba
     }
   else
@@ -5647,12 +5647,12 @@ sanei_lexmark_low_offset_calibration (Lexmark_Device * dev)
       dev.offset.green = dev.sensor.offset_fallback
       dev.offset.blue = dev.sensor.offset_fallback
     }
-  DBG (7,
+  DBG(7,
        "sanei_lexmark_low_offset_calibration: offset=(0x%02x,0x%02x,0x%02x).\n",
        dev.offset.red, dev.offset.green, dev.offset.blue)
 
-  DBG (2, "sanei_lexmark_low_offset_calibration: end.\n")
-  free (data)
+  DBG(2, "sanei_lexmark_low_offset_calibration: end.\n")
+  free(data)
   return status
 }
 
@@ -5662,7 +5662,7 @@ sanei_lexmark_low_offset_calibration (Lexmark_Device * dev)
  * ie max-min is maximum
  */
 Sane.Status
-sanei_lexmark_low_gain_calibration (Lexmark_Device * dev)
+sanei_lexmark_low_gain_calibration(Lexmark_Device * dev)
 {
   Sane.Byte regs[255];		/* we have our own copy of shadow registers */
   Sane.Status status = Sane.STATUS_GOOD
@@ -5677,9 +5677,9 @@ sanei_lexmark_low_gain_calibration (Lexmark_Device * dev)
   char title[20]
 #endif
 
-  DBG (2, "sanei_lexmark_low_gain_calibration: start\n")
+  DBG(2, "sanei_lexmark_low_gain_calibration: start\n")
   /* copy registers */
-  for (i = 0; i < 255; i++)
+  for(i = 0; i < 255; i++)
     regs[i] = dev.shadow_regs[i]
 
   /* we clear movement bit */
@@ -5693,7 +5693,7 @@ sanei_lexmark_low_gain_calibration (Lexmark_Device * dev)
   red = 6
   green = 6
   blue = 6
-  rts88xx_set_gain (regs, red, green, blue)
+  rts88xx_set_gain(regs, red, green, blue)
 
   /* init loop */
   i = 0
@@ -5701,51 +5701,51 @@ sanei_lexmark_low_gain_calibration (Lexmark_Device * dev)
   ba = 0
   ga = 0
 
-  status = low_cancel (dev.devnum)
-  if (status != Sane.STATUS_GOOD)
+  status = low_cancel(dev.devnum)
+  if(status != Sane.STATUS_GOOD)
     return status
 
   /* we do a simple scan all 3 averages give the chosen level */
-  while (((rts88xx_is_color (regs)
+  while(((rts88xx_is_color(regs)
 	   && ((ra < dev.sensor.red_gain_target)
 	       || (ga < dev.sensor.green_gain_target)
 	       || (ba < dev.sensor.blue_gain_target)))
-	  || (!rts88xx_is_color (regs)
+	  || (!rts88xx_is_color(regs)
 	      && (ga < dev.sensor.gray_gain_target))) && (i < 25))
     {
-      status = low_simple_scan (dev, regs, sx, pixels, yoffset, lines, &data)
-      if (status != Sane.STATUS_GOOD)
+      status = low_simple_scan(dev, regs, sx, pixels, yoffset, lines, &data)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1,
+	  DBG(1,
 	       "sanei_lexmark_low_gain_calibration: low_simple_scan failed!\n")
-	  if (data != NULL)
-	    free (data)
+	  if(data != NULL)
+	    free(data)
 	  return status
 	}
 #ifdef DEEP_DEBUG
-      sprintf (title, "gain%02d.pnm", i)
-      write_pnm_file (title, pixels, lines, rts88xx_is_color (regs), data)
+      sprintf(title, "gain%02d.pnm", i)
+      write_pnm_file(title, pixels, lines, rts88xx_is_color(regs), data)
 #endif
-      average_area (regs, data, pixels, lines, &ra, &ga, &ba)
-      free (data)
-      if (ra < dev.sensor.red_gain_target)
+      average_area(regs, data, pixels, lines, &ra, &ga, &ba)
+      free(data)
+      if(ra < dev.sensor.red_gain_target)
 	red++
-      if (ga < dev.sensor.green_gain_target
-	  || (dev.sensor.gray_gain_target && !rts88xx_is_color (regs)))
+      if(ga < dev.sensor.green_gain_target
+	  || (dev.sensor.gray_gain_target && !rts88xx_is_color(regs)))
 	green++
-      if (ba < dev.sensor.blue_gain_target)
+      if(ba < dev.sensor.blue_gain_target)
 	blue++
-      rts88xx_set_gain (regs, red, green, blue)
+      rts88xx_set_gain(regs, red, green, blue)
       i++
     }
   dev.gain.red = red
   dev.gain.green = green
   dev.gain.blue = blue
   dev.gain.gray = green
-  DBG (7,
+  DBG(7,
        "sanei_lexmark_low_gain_calibration: gain=(0x%02x,0x%02x,0x%02x).\n",
        dev.gain.red, dev.gain.green, dev.gain.blue)
-  DBG (2, "sanei_lexmark_low_gain_calibration: end.\n")
+  DBG(2, "sanei_lexmark_low_gain_calibration: end.\n")
   return status
 }
 
@@ -5758,7 +5758,7 @@ sanei_lexmark_low_gain_calibration (Lexmark_Device * dev)
  * start position.
  */
 Sane.Status
-sanei_lexmark_low_shading_calibration (Lexmark_Device * dev)
+sanei_lexmark_low_shading_calibration(Lexmark_Device * dev)
 {
   Sane.Byte regs[255];		/* we have our own copy of shadow registers */
   var i: Int, j, pixels, bpl
@@ -5774,9 +5774,9 @@ sanei_lexmark_low_shading_calibration (Lexmark_Device * dev)
   Int x, y
   float rtarget, btarget, gtarget
 
-  DBG (2, "sanei_lexmark_low_shading_calibration: start\n")
+  DBG(2, "sanei_lexmark_low_shading_calibration: start\n")
   /* copy registers */
-  for (i = 0; i < 255; i++)
+  for(i = 0; i < 255; i++)
     regs[i] = dev.shadow_regs[i]
 
   /* allocate memory for scan */
@@ -5784,11 +5784,11 @@ sanei_lexmark_low_shading_calibration (Lexmark_Device * dev)
   ex = regs[0x6d] * 256 + regs[0x6c]
 
 
-  DBG (7, "startx=%d, endx=%d, coef=%d, r2f=0x%02x\n",
+  DBG(7, "startx=%d, endx=%d, coef=%d, r2f=0x%02x\n",
        sx, ex, regs[0x7a], regs[0x2f])
 
   pixels = (ex - sx) / regs[0x7a]
-  if (rts88xx_is_color (regs))
+  if(rts88xx_is_color(regs))
     bpl = 3 * pixels
   else
     bpl = pixels
@@ -5798,24 +5798,24 @@ sanei_lexmark_low_shading_calibration (Lexmark_Device * dev)
   lineoffset = (8 * lineoffset) / regs[0x7a]
   linetotal = (8 * linetotal) / regs[0x7a]
 
-  data = (Sane.Byte *) malloc (bpl * lines)
-  DBG (7, "pixels=%d, lines=%d, size=%d\n", pixels, lines, bpl * lines)
-  if (data == NULL)
+  data = (Sane.Byte *) malloc(bpl * lines)
+  DBG(7, "pixels=%d, lines=%d, size=%d\n", pixels, lines, bpl * lines)
+  if(data == NULL)
     {
-      DBG (2,
+      DBG(2,
 	   "sanei_lexmark_low_shading_calibration: failed to allocate %d bytes !\n",
 	   bpl * lines)
       return Sane.STATUS_NO_MEM
     }
-  if (dev.shading_coeff != NULL)
-    free (dev.shading_coeff)
-  dev.shading_coeff = (float *) malloc (bpl * sizeof (float))
-  if (dev.shading_coeff == NULL)
+  if(dev.shading_coeff != NULL)
+    free(dev.shading_coeff)
+  dev.shading_coeff = (float *) malloc(bpl * sizeof(float))
+  if(dev.shading_coeff == NULL)
     {
-      DBG (2,
+      DBG(2,
 	   "sanei_lexmark_low_shading_calibration: failed to allocate %d floats !\n",
 	   bpl)
-      free (data)
+      free(data)
       return Sane.STATUS_NO_MEM
     }
 
@@ -5823,13 +5823,13 @@ sanei_lexmark_low_shading_calibration (Lexmark_Device * dev)
   regs[0xc3] = regs[0xc3] | 0x80
 
   /* execute scan */
-  status = low_simple_scan (dev, regs, sx, pixels, lineoffset, lines, &data)
-  if (status != Sane.STATUS_GOOD)
+  status = low_simple_scan(dev, regs, sx, pixels, lineoffset, lines, &data)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1,
+      DBG(1,
 	   "sanei_lexmark_low_shading_calibration: low_simple_scan failed!\n")
-      if (data != NULL)
-	free (data)
+      if(data != NULL)
+	free(data)
       return status
     }
 
@@ -5838,21 +5838,21 @@ sanei_lexmark_low_shading_calibration (Lexmark_Device * dev)
    * locate park position. We find the first line free of it in the scan.
    * We can't use is_home_line since it modifies data.
    */
-  for (y = 0; (y < lines) && (yoffset == y - 1); y++)
+  for(y = 0; (y < lines) && (yoffset == y - 1); y++)
     {
-      if (rts88xx_is_color (regs))
+      if(rts88xx_is_color(regs))
 	{
-	  for (x = 0; x < 3 * pixels; x++)
+	  for(x = 0; x < 3 * pixels; x++)
 	    {
-	      if (data[x + y * 3 * pixels] < 30)
+	      if(data[x + y * 3 * pixels] < 30)
 		yoffset = y
 	    }
 	}
       else
 	{
-	  for (x = 0; x < pixels; x++)
+	  for(x = 0; x < pixels; x++)
 	    {
-	      if (data[x + y * pixels] < 30)
+	      if(data[x + y * pixels] < 30)
 		yoffset = y
 	    }
 	}
@@ -5861,9 +5861,9 @@ sanei_lexmark_low_shading_calibration (Lexmark_Device * dev)
   yoffset++
 
   /* yoffset is index of last dot line, go to first white line */
-  if (yoffset >= lines - 1)
+  if(yoffset >= lines - 1)
     {
-      DBG (7,
+      DBG(7,
 	   "sanei_lexmark_low_shading_calibration: failed to detect yoffset.\n")
       /* fail safe fallback, picture will be altered at dot position,
          but scanner is safe */
@@ -5871,10 +5871,10 @@ sanei_lexmark_low_shading_calibration (Lexmark_Device * dev)
     }
   else
     yoffset++
-  DBG (7, "sanei_lexmark_low_shading_calibration: yoffset=%d.\n", yoffset)
+  DBG(7, "sanei_lexmark_low_shading_calibration: yoffset=%d.\n", yoffset)
 
 #ifdef DEEP_DEBUG
-  write_pnm_file ("shading.pnm", pixels, lines, rts88xx_is_color (regs),
+  write_pnm_file("shading.pnm", pixels, lines, rts88xx_is_color(regs),
 		  data)
 #endif
 
@@ -5882,34 +5882,34 @@ sanei_lexmark_low_shading_calibration (Lexmark_Device * dev)
   /* there are 8 lines usable for shading calibration at 150 dpi, between
      bottom of "home position" dot and the start of the scanner's window
      assembly, we only use 7 of them */
-  if (yoffset + (8 * 4) / regs[0x7a] < lines)
+  if(yoffset + (8 * 4) / regs[0x7a] < lines)
     lines = yoffset + (8 * 4) / regs[0x7a]
   rtarget = dev.sensor.red_shading_target
   gtarget = dev.sensor.green_shading_target
   btarget = dev.sensor.blue_shading_target
-  for (i = 0; i < pixels; i++)
+  for(i = 0; i < pixels; i++)
     {
       /* we computes the coefficient needed to move the scanned value to
          the target value */
-      if (rts88xx_is_color (dev.shadow_regs))
+      if(rts88xx_is_color(dev.shadow_regs))
 	{
 	  /* RED */
 	  dev.shading_coeff[i] = 0
-	  for (j = yoffset; j < lines; j++)
+	  for(j = yoffset; j < lines; j++)
 	    dev.shading_coeff[i] += data[i + j * bpl]
 	  dev.shading_coeff[i] =
 	    (rtarget / (dev.shading_coeff[i] / (lines - yoffset)))
 
 	  /* GREEN */
 	  dev.shading_coeff[i + pixels] = 0
-	  for (j = yoffset; j < lines; j++)
+	  for(j = yoffset; j < lines; j++)
 	    dev.shading_coeff[i + pixels] += data[i + j * bpl + pixels]
 	  dev.shading_coeff[i + pixels] =
 	    ((gtarget / dev.shading_coeff[i + pixels]) * (lines - yoffset))
 
 	  /* BLUE */
 	  dev.shading_coeff[i + 2 * pixels] = 0
-	  for (j = yoffset; j < lines; j++)
+	  for(j = yoffset; j < lines; j++)
 	    dev.shading_coeff[i + 2 * pixels] +=
 	      data[i + j * bpl + 2 * pixels]
 	  dev.shading_coeff[i + 2 * pixels] =
@@ -5919,7 +5919,7 @@ sanei_lexmark_low_shading_calibration (Lexmark_Device * dev)
       else
 	{
 	  dev.shading_coeff[i] = 0
-	  for (j = yoffset; j < lines; j++)
+	  for(j = yoffset; j < lines; j++)
 	    {
 	      dev.shading_coeff[i] += data[i + j * bpl]
 	    }
@@ -5933,14 +5933,14 @@ sanei_lexmark_low_shading_calibration (Lexmark_Device * dev)
   regs[0xc6] &= 0xF7
   lines = (8 * 8) / regs[0x7a]
   /* it should use linetotal to account for the lineoffset */
-  if (dev.model.sensor_type == X74_SENSOR)
+  if(dev.model.sensor_type == X74_SENSOR)
     lines = linetotal
 
   /* execute scan */
-  status = low_simple_scan (dev, regs, sx, pixels, 1, lines, &data)
-  if (status != Sane.STATUS_GOOD)
+  status = low_simple_scan(dev, regs, sx, pixels, 1, lines, &data)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1,
+      DBG(1,
 	   "sanei_lexmark_low_shading_calibration: low_simple_scan failed!\n")
       if(data!=NULL)
 	free(data)
@@ -5948,44 +5948,44 @@ sanei_lexmark_low_shading_calibration (Lexmark_Device * dev)
     }
 
 #ifdef DEEP_DEBUG
-  write_pnm_file ("shading_bwd.pnm", pixels, lines, rts88xx_is_color (regs),
+  write_pnm_file("shading_bwd.pnm", pixels, lines, rts88xx_is_color(regs),
 		  data)
 #endif
-  free (data)
+  free(data)
 
-  DBG (2, "sanei_lexmark_low_shading_calibration: end.\n")
+  DBG(2, "sanei_lexmark_low_shading_calibration: end.\n")
   return status
 }
 
 
 Sane.Status
-sanei_lexmark_low_calibration (Lexmark_Device * dev)
+sanei_lexmark_low_calibration(Lexmark_Device * dev)
 {
   Sane.Status status
 
-  DBG (2, "sanei_lexmark_low_calibration: start.\n")
-  status = sanei_lexmark_low_offset_calibration (dev)
-  if (status != Sane.STATUS_GOOD)
+  DBG(2, "sanei_lexmark_low_calibration: start.\n")
+  status = sanei_lexmark_low_offset_calibration(dev)
+  if(status != Sane.STATUS_GOOD)
     return status
 
   /* we put the offset just computed in scanning regs */
-  if (rts88xx_is_color (dev.shadow_regs))
+  if(rts88xx_is_color(dev.shadow_regs))
     {
-      rts88xx_set_offset (dev.shadow_regs,
+      rts88xx_set_offset(dev.shadow_regs,
 			  dev.offset.red,
 			  dev.offset.green, dev.offset.blue)
     }
   else
     {
-      rts88xx_set_offset (dev.shadow_regs,
+      rts88xx_set_offset(dev.shadow_regs,
 			  dev.offset.gray,
 			  dev.offset.gray, dev.offset.gray)
     }
 
   /* if manual gain settings, no gain calibration */
-  if (dev.val[OPT_MANUAL_GAIN].w == Sane.TRUE)
+  if(dev.val[OPT_MANUAL_GAIN].w == Sane.TRUE)
     {
-      if (rts88xx_is_color (dev.shadow_regs))
+      if(rts88xx_is_color(dev.shadow_regs))
 	{
 	  dev.gain.red = dev.val[OPT_RED_GAIN].w
 	  dev.gain.green = dev.val[OPT_GREEN_GAIN].w
@@ -5996,53 +5996,53 @@ sanei_lexmark_low_calibration (Lexmark_Device * dev)
     }
   else
     {
-      status = sanei_lexmark_low_gain_calibration (dev)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_lexmark_low_gain_calibration(dev)
+      if(status != Sane.STATUS_GOOD)
 	return status
     }
 
   /* put the calibrated or manual settings before shading calibration
      which must be done with final setting values */
-  if (rts88xx_is_color (dev.shadow_regs))
+  if(rts88xx_is_color(dev.shadow_regs))
     {
-      rts88xx_set_gain (dev.shadow_regs, dev.gain.red, dev.gain.green,
+      rts88xx_set_gain(dev.shadow_regs, dev.gain.red, dev.gain.green,
 			dev.gain.blue)
     }
   else
     {
-      rts88xx_set_gain (dev.shadow_regs, dev.gain.gray, dev.gain.gray,
+      rts88xx_set_gain(dev.shadow_regs, dev.gain.gray, dev.gain.gray,
 			dev.gain.gray)
     }
 
-  status = sanei_lexmark_low_shading_calibration (dev)
+  status = sanei_lexmark_low_shading_calibration(dev)
 
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     return status
 
-  DBG (2, "sanei_lexmark_low_calibration: end.\n")
+  DBG(2, "sanei_lexmark_low_calibration: end.\n")
   return Sane.STATUS_GOOD
 }
 
 /* assign sensor data */
 static Sane.Status
-sanei_lexmark_low_assign_sensor (Lexmark_Device * dev)
+sanei_lexmark_low_assign_sensor(Lexmark_Device * dev)
 {
   Int dn
 
   /* init sensor data */
   dn = 0
-  while (sensor_list[dn].id != 0
+  while(sensor_list[dn].id != 0
 	 && sensor_list[dn].id != dev.model.sensor_type)
     dn++
-  if (sensor_list[dn].id == 0)
+  if(sensor_list[dn].id == 0)
     {
-      DBG (1,
+      DBG(1,
 	   "sanei_lexmark_low_assign_sensor: unknown sensor %d\n",
 	   dev.model.sensor_type)
       return Sane.STATUS_UNSUPPORTED
     }
   dev.sensor = &(sensor_list[dn])
-  DBG (1, "sanei_lexmark_low_assign_sensor: assigned sensor number %d\n",
+  DBG(1, "sanei_lexmark_low_assign_sensor: assigned sensor number %d\n",
        dev.model.sensor_type)
   return Sane.STATUS_GOOD
 }
@@ -6050,58 +6050,58 @@ sanei_lexmark_low_assign_sensor (Lexmark_Device * dev)
 /* assign model description, based on USB id, and register content when
  * available */
 Sane.Status
-sanei_lexmark_low_assign_model (Lexmark_Device * dev,
+sanei_lexmark_low_assign_model(Lexmark_Device * dev,
 				Sane.String_Const devname, Int vendor,
 				Int product, Sane.Byte mainboard)
 {
   Int dn
   Bool found = Sane.FALSE
 
-  DBG_INIT ()
+  DBG_INIT()
 
-  DBG (2, "sanei_lexmark_low_assign_model: start\n")
-  DBG (3,
+  DBG(2, "sanei_lexmark_low_assign_model: start\n")
+  DBG(3,
        "sanei_lexmark_low_assign_model: assigning %04x:%04x, variant %d\n",
        vendor, product, mainboard)
 
   dn = 0
   /* walk the list of known devices */
-  while (!found && model_list[dn].vendor_id != 0)
+  while(!found && model_list[dn].vendor_id != 0)
     {
-      /* no mainboard id given (at attach time) */
-      if (mainboard == 0
+      /* no mainboard id given(at attach time) */
+      if(mainboard == 0
 	  && vendor == model_list[dn].vendor_id
 	  && product == model_list[dn].product_id)
 	found = Sane.TRUE
-      /* mainboard given (init time) */
-      if (mainboard != 0
+      /* mainboard given(init time) */
+      if(mainboard != 0
 	  && mainboard == model_list[dn].mainboard_id
 	  && vendor == model_list[dn].vendor_id
 	  && product == model_list[dn].product_id)
 	found = Sane.TRUE
 
-      if (!found)
+      if(!found)
 	dn++
     }
 
   /* we hit the end of list, so we don't know about the current model */
-  if (!found)
+  if(!found)
     {
-      DBG (1,
+      DBG(1,
 	   "sanei_lexmark_low_assign_model: unknown device 0x%04x:0x%04x\n",
 	   vendor, product)
       return Sane.STATUS_UNSUPPORTED
     }
 
-  dev.sane.name = strdup (devname)
+  dev.sane.name = strdup(devname)
   dev.sane.vendor = model_list[dn].vendor
   dev.sane.model = model_list[dn].model
   dev.model = model_list[dn]
   dev.sane.type = "flatbed scanner"
 
-  DBG (3, "sanei_lexmark_low_assign_model: assigned %s\n", dev.model.model)
+  DBG(3, "sanei_lexmark_low_assign_model: assigned %s\n", dev.model.model)
 
   /* init sensor data */
-  DBG (2, "sanei_lexmark_low_assign_model: end.\n")
-  return sanei_lexmark_low_assign_sensor (dev)
+  DBG(2, "sanei_lexmark_low_assign_model: end.\n")
+  return sanei_lexmark_low_assign_sensor(dev)
 }

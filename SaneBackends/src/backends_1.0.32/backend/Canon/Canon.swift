@@ -1,5 +1,5 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 BYTEC GmbH Germany
+   Copyright(C) 1997 BYTEC GmbH Germany
    Written by Helmut Koeberle, Email: helmut.koeberle@bytec.de
    Modified by Manuel Panea <Manuel.Panea@rzg.mpg.de>,
    Markus Mertinat <Markus.Mertinat@Physik.Uni-Augsburg.DE>,
@@ -10,7 +10,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -400,7 +400,7 @@ static char *option_name = [
 
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 BYTEC GmbH Germany
+   Copyright(C) 1997 BYTEC GmbH Germany
    Written by Helmut Koeberle, Email: helmut.koeberle@bytec.de
    Modified by Manuel Panea <Manuel.Panea@rzg.mpg.de>
    and Markus Mertinat <Markus.Mertinat@Physik.Uni-Augsburg.DE>
@@ -414,7 +414,7 @@ static char *option_name = [
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -459,7 +459,7 @@ static char *option_name = [
    . .
    . . - Sane.start() : start image acquisition
    . .   - Sane.get_parameters() : returns actual scan-parameters
-   . .   - Sane.read() : read image-data (from pipe)
+   . .   - Sane.read() : read image-data(from pipe)
    . . - Sane.cancel() : cancel operation, kill reader_process
 
    . - Sane.close() : close opened scanner-device, do_cancel, free buffer and handle
@@ -485,7 +485,7 @@ static char *option_name = [
  - Sane.control_option() : change option values
  - Sane.start() : start image acquisition
    - Sane.get_parameters() : returns actual scan-parameters
-   - Sane.read() : read image-data (from pipe)
+   - Sane.read() : read image-data(from pipe)
    - Sane.cancel() : cancel operation, kill reader_process
  - Sane.close() : close opened scanner-device, do_cancel, free buffer and handle
  - Sane.exit() : terminate use of backend, free devicename and device-struture
@@ -605,48 +605,48 @@ import canon-scsi.c"
 /**************************************************************************/
 
 static size_t
-max_string_size (const Sane.String_Const strings[])
+max_string_size(const Sane.String_Const strings[])
 {
   size_t size, max_size = 0
   var i: Int
-  DBG (11, ">> max_string_size\n")
+  DBG(11, ">> max_string_size\n")
 
-  for (i = 0; strings[i]; ++i)
+  for(i = 0; strings[i]; ++i)
     {
-      size = strlen (strings[i]) + 1
-      if (size > max_size)
+      size = strlen(strings[i]) + 1
+      if(size > max_size)
 	max_size = size
     }
 
-  DBG (11, "<< max_string_size\n")
+  DBG(11, "<< max_string_size\n")
   return max_size
 }
 
 /**************************************************************************/
 
 static void
-get_tpu_stat (Int fd, CANON_Device * dev)
+get_tpu_stat(Int fd, CANON_Device * dev)
 {
   unsigned char tbuf[12 + 5]
   size_t buf_size, i
   Sane.Status status
 
-  DBG (3, ">> get tpu stat\n")
+  DBG(3, ">> get tpu stat\n")
 
-  memset (tbuf, 0, sizeof (tbuf))
-  buf_size = sizeof (tbuf)
-  status = get_scan_mode (fd, TRANSPARENCY_UNIT, tbuf, &buf_size)
-  if (status != Sane.STATUS_GOOD)
+  memset(tbuf, 0, sizeof(tbuf))
+  buf_size = sizeof(tbuf)
+  status = get_scan_mode(fd, TRANSPARENCY_UNIT, tbuf, &buf_size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "get scan mode failed: %s\n", Sane.strstatus (status))
+      DBG(1, "get scan mode failed: %s\n", Sane.strstatus(status))
       return
     }
 
-  for (i = 0; i < buf_size; i++)
-    DBG (3, "scan mode control byte[%d] = %d\n", (Int) i, tbuf[i])
+  for(i = 0; i < buf_size; i++)
+    DBG(3, "scan mode control byte[%d] = %d\n", (Int) i, tbuf[i])
   dev.tpu.Status = (tbuf[2 + 4 + 5] >> 7) ?
     TPU_STAT_INACTIVE : TPU_STAT_NONE
-  if (dev.tpu.Status != TPU_STAT_NONE)	/* TPU available */
+  if(dev.tpu.Status != TPU_STAT_NONE)	/* TPU available */
     {
       dev.tpu.Status = (tbuf[2 + 4 + 5] & 0x04) ?
 	TPU_STAT_INACTIVE : TPU_STAT_ACTIVE
@@ -658,13 +658,13 @@ get_tpu_stat (Int fd, CANON_Device * dev)
   if(dev.tpu.FilmType > 3)
     dev.tpu.FilmType = 0
 
-  DBG (11, "TPU Status: %d\n", dev.tpu.Status)
-  DBG (11, "TPU ControlMode: %d\n", dev.tpu.ControlMode)
-  DBG (11, "TPU Transparency: %d\n", dev.tpu.Transparency)
-  DBG (11, "TPU PosNeg: %d\n", dev.tpu.PosNeg)
-  DBG (11, "TPU FilmType: %d\n", dev.tpu.FilmType)
+  DBG(11, "TPU Status: %d\n", dev.tpu.Status)
+  DBG(11, "TPU ControlMode: %d\n", dev.tpu.ControlMode)
+  DBG(11, "TPU Transparency: %d\n", dev.tpu.Transparency)
+  DBG(11, "TPU PosNeg: %d\n", dev.tpu.PosNeg)
+  DBG(11, "TPU FilmType: %d\n", dev.tpu.FilmType)
 
-  DBG (3, "<< get tpu stat\n")
+  DBG(3, "<< get tpu stat\n")
 
   return
 }
@@ -672,30 +672,30 @@ get_tpu_stat (Int fd, CANON_Device * dev)
 /**************************************************************************/
 
 static void
-get_adf_stat (Int fd, CANON_Device * dev)
+get_adf_stat(Int fd, CANON_Device * dev)
 {
   size_t buf_size = 0x0C, i
   unsigned char abuf[0x0C]
   Sane.Status status
 
-  DBG (3, ">> get adf stat\n")
+  DBG(3, ">> get adf stat\n")
 
-  memset (abuf, 0, buf_size)
-  status = get_scan_mode (fd, AUTO_DOC_FEEDER_UNIT, abuf, &buf_size)
-  if (status != Sane.STATUS_GOOD)
+  memset(abuf, 0, buf_size)
+  status = get_scan_mode(fd, AUTO_DOC_FEEDER_UNIT, abuf, &buf_size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "get scan mode failed: %s\n", Sane.strstatus (status))
-      perror ("get scan mode failed")
+      DBG(1, "get scan mode failed: %s\n", Sane.strstatus(status))
+      perror("get scan mode failed")
       return
     }
 
-  for (i = 0; i < buf_size; i++)
-    DBG (3, "scan mode control byte[%d] = %d\n", (Int) i, abuf[i])
+  for(i = 0; i < buf_size; i++)
+    DBG(3, "scan mode control byte[%d] = %d\n", (Int) i, abuf[i])
 
   dev.adf.Status = (abuf[ADF_Status] & ADF_NOT_PRESENT) ?
     ADF_STAT_NONE : ADF_STAT_INACTIVE
 
-  if (dev.adf.Status != ADF_STAT_NONE)	/* ADF available / INACTIVE */
+  if(dev.adf.Status != ADF_STAT_NONE)	/* ADF available / INACTIVE */
     {
       dev.adf.Status = (abuf[ADF_Status] & ADF_PROBLEM) ?
 	ADF_STAT_INACTIVE : ADF_STAT_ACTIVE
@@ -704,19 +704,19 @@ get_adf_stat (Int fd, CANON_Device * dev)
   dev.adf.Priority = (abuf[ADF_Settings] & ADF_PRIORITY)
   dev.adf.Feeder = (abuf[ADF_Settings] & ADF_FEEDER)
 
-  DBG (11, "ADF Status: %d\n", dev.adf.Status)
-  DBG (11, "ADF Priority: %d\n", dev.adf.Priority)
-  DBG (11, "ADF Problem: %d\n", dev.adf.Problem)
-  DBG (11, "ADF Feeder: %d\n", dev.adf.Feeder)
+  DBG(11, "ADF Status: %d\n", dev.adf.Status)
+  DBG(11, "ADF Priority: %d\n", dev.adf.Priority)
+  DBG(11, "ADF Problem: %d\n", dev.adf.Problem)
+  DBG(11, "ADF Feeder: %d\n", dev.adf.Feeder)
 
-  DBG (3, "<< get adf stat\n")
+  DBG(3, "<< get adf stat\n")
   return
 }
 
 /**************************************************************************/
 
 static Sane.Status
-sense_handler (Int scsi_fd, u_char * result, void *arg)
+sense_handler(Int scsi_fd, u_char * result, void *arg)
 {
   static char me[] = "canon_sense_handler"
   u_char sense
@@ -724,10 +724,10 @@ sense_handler (Int scsi_fd, u_char * result, void *arg)
   char *sense_str = NULL
   Sane.Status status
 
-  DBG (1, ">> sense_handler\n")
-  DBG (11, "%s(%ld, %p, %p)\n", me, (long) scsi_fd, (void *) result,
+  DBG(1, ">> sense_handler\n")
+  DBG(11, "%s(%ld, %p, %p)\n", me, (long) scsi_fd, (void *) result,
     (void *) arg)
-  DBG (11, "sense buffer: %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x "
+  DBG(11, "sense buffer: %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x "
     "%02x %02x %02x %02x %02x %02x\n", result[0], result[1], result[2],
     result[3], result[4], result[5], result[6], result[7], result[8],
     result[9], result[10], result[11], result[12], result[13], result[14],
@@ -737,14 +737,14 @@ sense_handler (Int scsi_fd, u_char * result, void *arg)
 
   DBG(11, "sense data interpretation for SCSI-2 devices\n")
   sense = result[2] & 0x0f;		/* extract the sense key */
-  if (result[7] > 3)		/* additional sense code available? */
+  if(result[7] > 3)		/* additional sense code available? */
     {
       asc = (result[12] << 8) + result[13];	/* 12: additional sense code */
     }					/* 13: a.s.c. qualifier */
   else
     asc = 0xffff
 
-  switch (sense)
+  switch(sense)
     {
     case 0x00:
       DBG(11, "sense category: no error\n")
@@ -753,7 +753,7 @@ sense_handler (Int scsi_fd, u_char * result, void *arg)
 
     case 0x01:
       DBG(11, "sense category: recovered error\n")
-      switch (asc)
+      switch(asc)
         {
         case 0x3700:
           sense_str = Sane.I18N("rounded parameter")
@@ -766,7 +766,7 @@ sense_handler (Int scsi_fd, u_char * result, void *arg)
 
     case 0x03:
       DBG(11, "sense category: medium error\n")
-      switch (asc)
+      switch(asc)
         {
         case 0x8000:
           sense_str = Sane.I18N("ADF jam")
@@ -782,7 +782,7 @@ sense_handler (Int scsi_fd, u_char * result, void *arg)
 
     case 0x04:
       DBG(11, "sense category: hardware error\n")
-      switch (asc)
+      switch(asc)
         {
         case 0x6000:
           sense_str = Sane.I18N("lamp failure")
@@ -817,7 +817,7 @@ sense_handler (Int scsi_fd, u_char * result, void *arg)
 
     case 0x05:
       DBG(11, "sense category: illegal request\n")
-      switch (asc)
+      switch(asc)
         {
         case 0x1a00:
           sense_str = Sane.I18N("parameter list length error")
@@ -867,7 +867,7 @@ sense_handler (Int scsi_fd, u_char * result, void *arg)
 
     case 0x06:
       DBG(11, "sense category: unit attention\n")
-      switch (asc)
+      switch(asc)
         {
         case 0x2900:
           sense_str = Sane.I18N("power on reset / bus device reset")
@@ -885,7 +885,7 @@ sense_handler (Int scsi_fd, u_char * result, void *arg)
 
     case 0x0b:
       DBG(11, "sense category: non-standard\n")
-      switch (asc)
+      switch(asc)
         {
         case 0x0000:
           sense_str = Sane.I18N("no additional sense information")
@@ -928,17 +928,17 @@ sense_handler (Int scsi_fd, u_char * result, void *arg)
     default:
       DBG(11, "sense category: else\n")
     }
-  DBG (11, "sense message: %s\n", sense_str)
+  DBG(11, "sense message: %s\n", sense_str)
 #if 0					/* superfluous? [U.D.] */
   s.sense_str = sense_str
 #endif
-  DBG (1, "<< sense_handler\n")
+  DBG(1, "<< sense_handler\n")
   return status
 }
 
 /***************************************************************/
 static Sane.Status
-do_gamma (CANON_Scanner * s)
+do_gamma(CANON_Scanner * s)
 {
   Sane.Status status
   u_char gbuf[256]
@@ -946,85 +946,85 @@ do_gamma (CANON_Scanner * s)
   var i: Int, j, neg, transfer_data_type, from
 
 
-  DBG (7, "sending SET_DENSITY_CURVE\n")
-  buf_size = 256 * sizeof (u_char)
+  DBG(7, "sending SET_DENSITY_CURVE\n")
+  buf_size = 256 * sizeof(u_char)
   transfer_data_type = 0x03
 
   neg = (s.hw.info.is_filmscanner) ?
-    strcmp (filmtype_list[1], s.val[OPT_NEGATIVE].s)
+    strcmp(filmtype_list[1], s.val[OPT_NEGATIVE].s)
     : s.val[OPT_HNEGATIVE].w
 
-  if (!strcmp (s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_GRAY))
+  if(!strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_GRAY))
     {
       /* If scanning in gray mode, use the first curve for the
          scanner's monochrome gamma component                    */
-      for (j = 0; j < 256; j++)
+      for(j = 0; j < 256; j++)
 	{
-	  if (!neg)
+	  if(!neg)
 	    {
 	      gbuf[j] = (u_char) s.gamma_table[0][j]
-	      DBG (22, "set_density %d: gbuf[%d] = [%d]\n", 0, j, gbuf[j])
+	      DBG(22, "set_density %d: gbuf[%d] = [%d]\n", 0, j, gbuf[j])
 	    }
 	  else
 	    {
 	      gbuf[255 - j] = (u_char) (255 - s.gamma_table[0][j])
-	      DBG (22, "set_density %d: gbuf[%d] = [%d]\n", 0, 255 - j,
+	      DBG(22, "set_density %d: gbuf[%d] = [%d]\n", 0, 255 - j,
 		   gbuf[255 - j])
 	    }
 	}
-      if ((status = set_density_curve (s.fd, 0, gbuf, &buf_size,
+      if((status = set_density_curve(s.fd, 0, gbuf, &buf_size,
 	transfer_data_type)) != Sane.STATUS_GOOD)
 	{
-	  DBG (7, "SET_DENSITY_CURVE\n")
-	  sanei_scsi_close (s.fd)
+	  DBG(7, "SET_DENSITY_CURVE\n")
+	  sanei_scsi_close(s.fd)
 	  s.fd = -1
-	  return (Sane.STATUS_INVAL)
+	  return(Sane.STATUS_INVAL)
 	}
     }
   else
     {				/* colour mode */
       /* If in RGB mode but with gamma bind, use the first curve
          for all 3 colors red, green, blue */
-      for (i = 1; i < 4; i++)
+      for(i = 1; i < 4; i++)
 	{
 	  from = (s.val[OPT_CUSTOM_GAMMA_BIND].w) ? 0 : i
-	  for (j = 0; j < 256; j++)
+	  for(j = 0; j < 256; j++)
 	    {
-	      if (!neg)
+	      if(!neg)
 		{
 		  gbuf[j] = (u_char) s.gamma_table[from][j]
-		  DBG (22, "set_density %d: gbuf[%d] = [%d]\n", i, j, gbuf[j])
+		  DBG(22, "set_density %d: gbuf[%d] = [%d]\n", i, j, gbuf[j])
 		}
 	      else
 		{
 		  gbuf[255 - j] = (u_char) (255 - s.gamma_table[from][j])
-		  DBG (22, "set_density %d: gbuf[%d] = [%d]\n", i, 255 - j,
+		  DBG(22, "set_density %d: gbuf[%d] = [%d]\n", i, 255 - j,
 		       gbuf[255 - j])
 		}
 	    }
-	  if (s.hw.info.model == FS2710)
+	  if(s.hw.info.model == FS2710)
 	    status = set_density_curve_fs2710 (s, i, gbuf)
 	  else
 	    {
-	      if ((status = set_density_curve (s.fd, i, gbuf, &buf_size,
+	      if((status = set_density_curve(s.fd, i, gbuf, &buf_size,
 		transfer_data_type)) != Sane.STATUS_GOOD)
 		{
-		  DBG (7, "SET_DENSITY_CURVE\n")
-		  sanei_scsi_close (s.fd)
+		  DBG(7, "SET_DENSITY_CURVE\n")
+		  sanei_scsi_close(s.fd)
 		  s.fd = -1
-		  return (Sane.STATUS_INVAL)
+		  return(Sane.STATUS_INVAL)
 		}
 	    }
 	}
     }
 
-  return (Sane.STATUS_GOOD)
+  return(Sane.STATUS_GOOD)
 }
 
 /**************************************************************************/
 
 static Sane.Status
-attach (const char *devnam, CANON_Device ** devp)
+attach(const char *devnam, CANON_Device ** devp)
 {
   Sane.Status status
   CANON_Device *dev
@@ -1034,213 +1034,213 @@ attach (const char *devnam, CANON_Device ** devp)
   size_t buf_size, i
   char *str
 
-  DBG (1, ">> attach\n")
+  DBG(1, ">> attach\n")
 
-  for (dev = first_dev; dev; dev = dev.next)
+  for(dev = first_dev; dev; dev = dev.next)
     {
-      if (!strcmp (dev.sane.name, devnam))
+      if(!strcmp(dev.sane.name, devnam))
 	{
-	  if (devp) *devp = dev
-	  return (Sane.STATUS_GOOD)
+	  if(devp) *devp = dev
+	  return(Sane.STATUS_GOOD)
 	}
     }
 
-  DBG (3, "attach: opening %s\n", devnam)
-  status = sanei_scsi_open (devnam, &fd, sense_handler, dev)
-  if (status != Sane.STATUS_GOOD)
+  DBG(3, "attach: opening %s\n", devnam)
+  status = sanei_scsi_open(devnam, &fd, sense_handler, dev)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: open failed: %s\n", Sane.strstatus (status))
-      return (status)
+      DBG(1, "attach: open failed: %s\n", Sane.strstatus(status))
+      return(status)
     }
 
-  DBG (3, "attach: sending (standard) INQUIRY\n")
-  memset (ibuf, 0, sizeof (ibuf))
-  buf_size = sizeof (ibuf)
-  status = inquiry (fd, 0, ibuf, &buf_size)
-  if (status != Sane.STATUS_GOOD)
+  DBG(3, "attach: sending(standard) INQUIRY\n")
+  memset(ibuf, 0, sizeof(ibuf))
+  buf_size = sizeof(ibuf)
+  status = inquiry(fd, 0, ibuf, &buf_size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: inquiry failed: %s\n", Sane.strstatus (status))
-      sanei_scsi_close (fd)
+      DBG(1, "attach: inquiry failed: %s\n", Sane.strstatus(status))
+      sanei_scsi_close(fd)
       fd = -1
-      return (status)
+      return(status)
     }
 
-  if (ibuf[0] != 6
-      || strncmp ((char *) (ibuf + 8), "CANON", 5) != 0
-      || strncmp ((char *) (ibuf + 16), "IX-", 3) != 0)
+  if(ibuf[0] != 6
+      || strncmp((char *) (ibuf + 8), "CANON", 5) != 0
+      || strncmp((char *) (ibuf + 16), "IX-", 3) != 0)
     {
-      DBG (1, "attach: device doesn't look like a Canon scanner\n")
-      sanei_scsi_close (fd)
+      DBG(1, "attach: device doesn't look like a Canon scanner\n")
+      sanei_scsi_close(fd)
       fd = -1
-      return (Sane.STATUS_INVAL)
+      return(Sane.STATUS_INVAL)
     }
 
-  DBG (3, "attach: sending TEST_UNIT_READY\n")
-  status = test_unit_ready (fd)
-  if (status != Sane.STATUS_GOOD)
+  DBG(3, "attach: sending TEST_UNIT_READY\n")
+  status = test_unit_ready(fd)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: test unit ready failed (%s)\n",
-	   Sane.strstatus (status))
-      sanei_scsi_close (fd)
+      DBG(1, "attach: test unit ready failed(%s)\n",
+	   Sane.strstatus(status))
+      sanei_scsi_close(fd)
       fd = -1
-      return (status)
+      return(status)
     }
 
 #if 0
-  DBG (3, "attach: sending REQUEST SENSE\n")
-  memset (sbuf, 0, sizeof (sbuf))
-  buf_size = sizeof (sbuf)
-  status = request_sense (fd, sbuf, &buf_size)
-  if (status != Sane.STATUS_GOOD)
+  DBG(3, "attach: sending REQUEST SENSE\n")
+  memset(sbuf, 0, sizeof(sbuf))
+  buf_size = sizeof(sbuf)
+  status = request_sense(fd, sbuf, &buf_size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: REQUEST_SENSE failed\n")
-      sanei_scsi_close (fd)
+      DBG(1, "attach: REQUEST_SENSE failed\n")
+      sanei_scsi_close(fd)
       fd = -1
-      return (Sane.STATUS_INVAL)
+      return(Sane.STATUS_INVAL)
     }
 
-  DBG (3, "attach: sending MEDIUM POSITION\n")
-  status = medium_position (fd)
-  if (status != Sane.STATUS_GOOD)
+  DBG(3, "attach: sending MEDIUM POSITION\n")
+  status = medium_position(fd)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: MEDIUM POSITION failed\n")
-      sanei_scsi_close (fd)
+      DBG(1, "attach: MEDIUM POSITION failed\n")
+      sanei_scsi_close(fd)
       fd = -1
-      return (Sane.STATUS_INVAL)
+      return(Sane.STATUS_INVAL)
     }
 /*   s.val[OPT_AF_NOW].w == Sane.TRUE; */
 #endif
 
-  DBG (3, "attach: sending RESERVE UNIT\n")
-  status = reserve_unit (fd)
-  if (status != Sane.STATUS_GOOD)
+  DBG(3, "attach: sending RESERVE UNIT\n")
+  status = reserve_unit(fd)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: RESERVE UNIT failed\n")
-      sanei_scsi_close (fd)
+      DBG(1, "attach: RESERVE UNIT failed\n")
+      sanei_scsi_close(fd)
       fd = -1
-      return (Sane.STATUS_INVAL)
+      return(Sane.STATUS_INVAL)
     }
 
 #if 0
-  DBG (3, "attach: sending GET SCAN MODE for transparency unit\n")
-  memset (ebuf, 0, sizeof (ebuf))
-  buf_size = sizeof (ebuf)
+  DBG(3, "attach: sending GET SCAN MODE for transparency unit\n")
+  memset(ebuf, 0, sizeof(ebuf))
+  buf_size = sizeof(ebuf)
   buf_size = 12
-  status = get_scan_mode (fd, TRANSPARENCY_UNIT, ebuf, &buf_size)
-  if (status != Sane.STATUS_GOOD)
+  status = get_scan_mode(fd, TRANSPARENCY_UNIT, ebuf, &buf_size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: GET SCAN MODE for transparency unit failed\n")
-      sanei_scsi_close (fd)
-      return (Sane.STATUS_INVAL)
+      DBG(1, "attach: GET SCAN MODE for transparency unit failed\n")
+      sanei_scsi_close(fd)
+      return(Sane.STATUS_INVAL)
     }
-  for (i = 0; i < buf_size; i++)
+  for(i = 0; i < buf_size; i++)
     DBG(3, "scan mode trans byte[%d] = %d\n", i, ebuf[i])
 #endif
 
-  DBG (3, "attach: sending GET SCAN MODE for scan control conditions\n")
-  memset (ebuf, 0, sizeof (ebuf))
-  buf_size = sizeof (ebuf)
-  status = get_scan_mode (fd, SCAN_CONTROL_CONDITIONS, ebuf, &buf_size)
-  if (status != Sane.STATUS_GOOD)
+  DBG(3, "attach: sending GET SCAN MODE for scan control conditions\n")
+  memset(ebuf, 0, sizeof(ebuf))
+  buf_size = sizeof(ebuf)
+  status = get_scan_mode(fd, SCAN_CONTROL_CONDITIONS, ebuf, &buf_size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: GET SCAN MODE for scan control conditions failed\n")
-      sanei_scsi_close (fd)
-      return (Sane.STATUS_INVAL)
+      DBG(1, "attach: GET SCAN MODE for scan control conditions failed\n")
+      sanei_scsi_close(fd)
+      return(Sane.STATUS_INVAL)
     }
-  for (i = 0; i < buf_size; i++)
+  for(i = 0; i < buf_size; i++)
     {
-      DBG (3, "scan mode byte[%d] = %d\n", (Int) i, ebuf[i])
+      DBG(3, "scan mode byte[%d] = %d\n", (Int) i, ebuf[i])
     }
 
-  DBG (3, "attach: sending (extended) INQUIRY\n")
-  memset (ebuf, 0, sizeof (ebuf))
-  buf_size = sizeof (ebuf)
-  status = inquiry (fd, 1, ebuf, &buf_size)
-  if (status != Sane.STATUS_GOOD)
+  DBG(3, "attach: sending(extended) INQUIRY\n")
+  memset(ebuf, 0, sizeof(ebuf))
+  buf_size = sizeof(ebuf)
+  status = inquiry(fd, 1, ebuf, &buf_size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: (extended) INQUIRY failed\n")
-      sanei_scsi_close (fd)
+      DBG(1, "attach: (extended) INQUIRY failed\n")
+      sanei_scsi_close(fd)
       fd = -1
-      return (Sane.STATUS_INVAL)
+      return(Sane.STATUS_INVAL)
     }
 
 #if 0
-  DBG (3, "attach: sending GET SCAN MODE for transparency unit\n")
-  memset (ebuf, 0, sizeof (ebuf))
+  DBG(3, "attach: sending GET SCAN MODE for transparency unit\n")
+  memset(ebuf, 0, sizeof(ebuf))
   buf_size = 64
-  status = get_scan_mode (fd, ALL_SCAN_MODE_PAGES,	/* transparency unit */
+  status = get_scan_mode(fd, ALL_SCAN_MODE_PAGES,	/* transparency unit */
 			  ebuf, &buf_size)
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: GET SCAN MODE for scan control conditions failed\n")
-      sanei_scsi_close (fd)
-      return (Sane.STATUS_INVAL)
+      DBG(1, "attach: GET SCAN MODE for scan control conditions failed\n")
+      sanei_scsi_close(fd)
+      return(Sane.STATUS_INVAL)
     }
-  for (i = 0; i < buf_size; i++)
-    DBG (3, "scan mode control byte[%d] = %d\n", i, ebuf[i])
-#endif
-
-#if 0
-  DBG (3, "attach: sending GET SCAN MODE for all scan mode pages\n")
-  memset (ebuf, 0, sizeof (ebuf))
-  buf_size = 32
-  status = get_scan_mode (fd, (u_char)ALL_SCAN_MODE_PAGES, ebuf, &buf_size)
-  if (status != Sane.STATUS_GOOD)
-    {
-      DBG (1, "attach: GET SCAN MODE for scan control conditions failed\n")
-      sanei_scsi_close (fd)
-      return (Sane.STATUS_INVAL)
-    }
-  for (i = 0; i < buf_size; i++)
+  for(i = 0; i < buf_size; i++)
     DBG(3, "scan mode control byte[%d] = %d\n", i, ebuf[i])
 #endif
 
-  DBG (3, "attach: sending MODE SENSE\n")
-  memset (mbuf, 0, sizeof (mbuf))
-  buf_size = sizeof (mbuf)
-  status = mode_sense (fd, mbuf, &buf_size)
-  if (status != Sane.STATUS_GOOD)
+#if 0
+  DBG(3, "attach: sending GET SCAN MODE for all scan mode pages\n")
+  memset(ebuf, 0, sizeof(ebuf))
+  buf_size = 32
+  status = get_scan_mode(fd, (u_char)ALL_SCAN_MODE_PAGES, ebuf, &buf_size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: MODE_SENSE failed\n")
-      sanei_scsi_close (fd)
+      DBG(1, "attach: GET SCAN MODE for scan control conditions failed\n")
+      sanei_scsi_close(fd)
+      return(Sane.STATUS_INVAL)
+    }
+  for(i = 0; i < buf_size; i++)
+    DBG(3, "scan mode control byte[%d] = %d\n", i, ebuf[i])
+#endif
+
+  DBG(3, "attach: sending MODE SENSE\n")
+  memset(mbuf, 0, sizeof(mbuf))
+  buf_size = sizeof(mbuf)
+  status = mode_sense(fd, mbuf, &buf_size)
+  if(status != Sane.STATUS_GOOD)
+    {
+      DBG(1, "attach: MODE_SENSE failed\n")
+      sanei_scsi_close(fd)
       fd = -1
-      return (Sane.STATUS_INVAL)
+      return(Sane.STATUS_INVAL)
     }
 
-  dev = malloc (sizeof (*dev))
-  if (!dev)
+  dev = malloc(sizeof(*dev))
+  if(!dev)
     {
-      sanei_scsi_close (fd)
+      sanei_scsi_close(fd)
       fd = -1
-      return (Sane.STATUS_NO_MEM)
+      return(Sane.STATUS_NO_MEM)
     }
-  memset (dev, 0, sizeof (*dev))
+  memset(dev, 0, sizeof(*dev))
 
-  dev.sane.name = strdup (devnam)
+  dev.sane.name = strdup(devnam)
   dev.sane.vendor = "CANON"
-  if ((str = calloc (16 + 1, 1)) == NULL)
+  if((str = calloc(16 + 1, 1)) == NULL)
     {
-      sanei_scsi_close (fd)
+      sanei_scsi_close(fd)
       fd = -1
-      return (Sane.STATUS_NO_MEM)
+      return(Sane.STATUS_NO_MEM)
     }
-  strncpy (str, (char *) (ibuf + 16), 16)
+  strncpy(str, (char *) (ibuf + 16), 16)
   dev.sane.model = str
 
   /* Register the fixed properties of the scanner below:
      - whether it is a film scanner or a flatbed scanner
-     - whether it can have an automatic document feeder (ADF)
-     - whether it can be equipped with a transparency unit (TPU)
+     - whether it can have an automatic document feeder(ADF)
+     - whether it can be equipped with a transparency unit(TPU)
      - whether it has got focus control
-     - whether it can optimize image parameters (autoexposure)
+     - whether it can optimize image parameters(autoexposure)
      - whether it can calibrate itself
      - whether it can diagnose itself
      - whether it can eject the media
      - whether it can mirror the scanned data
-     - whether it is a film scanner (or can be used as one)
+     - whether it is a film scanner(or can be used as one)
      - whether it has fixed, hardware-set scan resolutions only
   */
-  if (!strncmp (str, "IX-27015", 8))		/* FS2700S */
+  if(!strncmp(str, "IX-27015", 8))		/* FS2700S */
     {
       dev.info.model = CS2700
       dev.sane.type = Sane.I18N("film scanner")
@@ -1255,7 +1255,7 @@ attach (const char *devnam, CANON_Device ** devp)
       dev.info.is_filmscanner = Sane.TRUE
       dev.info.has_fixed_resolutions = Sane.TRUE
     }
-  else if (!strncmp (str, "IX-27025E", 9))	/* FS2710S */
+  else if(!strncmp(str, "IX-27025E", 9))	/* FS2710S */
     {
       dev.info.model = FS2710
       dev.sane.type = Sane.I18N("film scanner")
@@ -1270,7 +1270,7 @@ attach (const char *devnam, CANON_Device ** devp)
       dev.info.is_filmscanner = Sane.TRUE
       dev.info.has_fixed_resolutions = Sane.TRUE
     }
-  else if (!strncmp (str, "IX-06035E", 9))	/* FB620S */
+  else if(!strncmp(str, "IX-06035E", 9))	/* FB620S */
     {
       dev.info.model = FB620
       dev.sane.type = Sane.I18N("flatbed scanner")
@@ -1285,7 +1285,7 @@ attach (const char *devnam, CANON_Device ** devp)
       dev.info.is_filmscanner = Sane.FALSE
       dev.info.has_fixed_resolutions = Sane.TRUE
     }
-  else if (!strncmp (str, "IX-12015E", 9))	/* FB1200S */
+  else if(!strncmp(str, "IX-12015E", 9))	/* FB1200S */
     {
       dev.info.model = FB1200
       dev.sane.type = Sane.I18N("flatbed scanner")
@@ -1300,7 +1300,7 @@ attach (const char *devnam, CANON_Device ** devp)
       dev.info.is_filmscanner = Sane.FALSE
       dev.info.has_fixed_resolutions = Sane.TRUE
     }
-  else if (!strncmp (str, "IX-4015", 7))	/* IX-4015 */
+  else if(!strncmp(str, "IX-4015", 7))	/* IX-4015 */
     {
       dev.info.model = IX4015
       dev.sane.type = Sane.I18N("flatbed scanner")
@@ -1331,61 +1331,61 @@ attach (const char *devnam, CANON_Device ** devp)
       dev.info.has_fixed_resolutions = Sane.FALSE
     }
 
-  DBG (5, "dev.sane.name = '%s'\n", dev.sane.name)
-  DBG (5, "dev.sane.vendor = '%s'\n", dev.sane.vendor)
-  DBG (5, "dev.sane.model = '%s'\n", dev.sane.model)
-  DBG (5, "dev.sane.type = '%s'\n", dev.sane.type)
+  DBG(5, "dev.sane.name = '%s'\n", dev.sane.name)
+  DBG(5, "dev.sane.vendor = '%s'\n", dev.sane.vendor)
+  DBG(5, "dev.sane.model = '%s'\n", dev.sane.model)
+  DBG(5, "dev.sane.type = '%s'\n", dev.sane.type)
 
-  if (dev.tpu.Status != TPU_STAT_NONE)
-    get_tpu_stat (fd, dev);		/* Query TPU */
-  if (dev.adf.Status != ADF_STAT_NONE)
-    get_adf_stat (fd, dev);		/* Query ADF */
+  if(dev.tpu.Status != TPU_STAT_NONE)
+    get_tpu_stat(fd, dev);		/* Query TPU */
+  if(dev.adf.Status != ADF_STAT_NONE)
+    get_adf_stat(fd, dev);		/* Query ADF */
 
   dev.info.bmu = mbuf[6]
-  DBG (5, "bmu=%d\n", dev.info.bmu)
+  DBG(5, "bmu=%d\n", dev.info.bmu)
   dev.info.mud = (mbuf[8] << 8) + mbuf[9]
-  DBG (5, "mud=%d\n", dev.info.mud)
+  DBG(5, "mud=%d\n", dev.info.mud)
 
   dev.info.xres_default = (ebuf[5] << 8) + ebuf[6]
-  DBG (5, "xres_default=%d\n", dev.info.xres_default)
+  DBG(5, "xres_default=%d\n", dev.info.xres_default)
   dev.info.xres_range.max = (ebuf[10] << 8) + ebuf[11]
-  DBG (5, "xres_range.max=%d\n", dev.info.xres_range.max)
+  DBG(5, "xres_range.max=%d\n", dev.info.xres_range.max)
   dev.info.xres_range.min = (ebuf[14] << 8) + ebuf[15]
-  DBG (5, "xres_range.min=%d\n", dev.info.xres_range.min)
+  DBG(5, "xres_range.min=%d\n", dev.info.xres_range.min)
   dev.info.xres_range.quant = ebuf[9] >> 4
-  DBG (5, "xres_range.quant=%d\n", dev.info.xres_range.quant)
+  DBG(5, "xres_range.quant=%d\n", dev.info.xres_range.quant)
 
   dev.info.yres_default = (ebuf[7] << 8) + ebuf[8]
-  DBG (5, "yres_default=%d\n", dev.info.yres_default)
+  DBG(5, "yres_default=%d\n", dev.info.yres_default)
   dev.info.yres_range.max = (ebuf[12] << 8) + ebuf[13]
-  DBG (5, "yres_range.max=%d\n", dev.info.yres_range.max)
+  DBG(5, "yres_range.max=%d\n", dev.info.yres_range.max)
   dev.info.yres_range.min = (ebuf[16] << 8) + ebuf[17]
-  DBG (5, "yres_range.min=%d\n", dev.info.yres_range.min)
+  DBG(5, "yres_range.min=%d\n", dev.info.yres_range.min)
   dev.info.yres_range.quant = ebuf[9] & 0x0f
-  DBG (5, "xres_range.quant=%d\n", dev.info.xres_range.quant)
+  DBG(5, "xres_range.quant=%d\n", dev.info.xres_range.quant)
 
-  dev.info.x_range.min = Sane.FIX (0.0)
+  dev.info.x_range.min = Sane.FIX(0.0)
   dev.info.x_range.max = (ebuf[20] << 24) + (ebuf[21] << 16)
     + (ebuf[22] << 8) + ebuf[23] - 1
   dev.info.x_range.max =
-    Sane.FIX (dev.info.x_range.max * MM_PER_INCH / dev.info.mud)
-  DBG (5, "x_range.max=%d\n", dev.info.x_range.max)
+    Sane.FIX(dev.info.x_range.max * MM_PER_INCH / dev.info.mud)
+  DBG(5, "x_range.max=%d\n", dev.info.x_range.max)
   dev.info.x_range.quant = 0
 
-  dev.info.y_range.min = Sane.FIX (0.0)
+  dev.info.y_range.min = Sane.FIX(0.0)
   dev.info.y_range.max = (ebuf[24] << 24) + (ebuf[25] << 16)
     + (ebuf[26] << 8) + ebuf[27] - 1
   dev.info.y_range.max =
-    Sane.FIX (dev.info.y_range.max * MM_PER_INCH / dev.info.mud)
-  DBG (5, "y_range.max=%d\n", dev.info.y_range.max)
+    Sane.FIX(dev.info.y_range.max * MM_PER_INCH / dev.info.mud)
+  DBG(5, "y_range.max=%d\n", dev.info.y_range.max)
   dev.info.y_range.quant = 0
 
   dev.info.x_adf_range.max = (ebuf[30] << 24) + (ebuf[31] << 16)
     + (ebuf[32] << 8) + ebuf[33] - 1
-  DBG (5, "x_adf_range.max=%d\n", dev.info.x_adf_range.max)
+  DBG(5, "x_adf_range.max=%d\n", dev.info.x_adf_range.max)
   dev.info.y_adf_range.max = (ebuf[34] << 24) + (ebuf[35] << 16)
     + (ebuf[36] << 8) + ebuf[37] - 1
-  DBG (5, "y_adf_range.max=%d\n", dev.info.y_adf_range.max)
+  DBG(5, "y_adf_range.max=%d\n", dev.info.y_adf_range.max)
 
   dev.info.brightness_range.min = 0
   dev.info.brightness_range.max = 255
@@ -1431,101 +1431,101 @@ attach (const char *devnam, CANON_Device ** devp)
   dev.info.TPU_Transparency_range.max = 10000
   dev.info.TPU_Transparency_range.quant = 100
 
-  sanei_scsi_close (fd)
+  sanei_scsi_close(fd)
   fd = -1
 
   ++num_devices
   dev.next = first_dev
   first_dev = dev
 
-  if (devp)
+  if(devp)
     *devp = dev
 
-  DBG (1, "<< attach\n")
-  return (Sane.STATUS_GOOD)
+  DBG(1, "<< attach\n")
+  return(Sane.STATUS_GOOD)
 }
 
 /**************************************************************************/
 
 static Sane.Status
-do_cancel (CANON_Scanner * s)
+do_cancel(CANON_Scanner * s)
 {
   Sane.Status status
 
-  DBG (1, ">> do_cancel\n")
+  DBG(1, ">> do_cancel\n")
 
   s.scanning = Sane.FALSE
 
-  if (s.fd >= 0)
+  if(s.fd >= 0)
     {
-      if (s.val[OPT_EJECT_AFTERSCAN].w && !(s.val[OPT_PREVIEW].w
+      if(s.val[OPT_EJECT_AFTERSCAN].w && !(s.val[OPT_PREVIEW].w
 	&& s.hw.info.is_filmscanner))
 	{
-	  DBG (3, "do_cancel: sending MEDIUM POSITION\n")
-	  status = medium_position (s.fd)
-	  if (status != Sane.STATUS_GOOD)
+	  DBG(3, "do_cancel: sending MEDIUM POSITION\n")
+	  status = medium_position(s.fd)
+	  if(status != Sane.STATUS_GOOD)
 	    {
-	      DBG (1, "do_cancel: MEDIUM POSITION failed\n")
-	      return (Sane.STATUS_INVAL)
+	      DBG(1, "do_cancel: MEDIUM POSITION failed\n")
+	      return(Sane.STATUS_INVAL)
 	    }
 	  s.AF_NOW = Sane.TRUE
-	  DBG (1, "do_cancel AF_NOW = '%d'\n", s.AF_NOW)
+	  DBG(1, "do_cancel AF_NOW = '%d'\n", s.AF_NOW)
 	}
 
-      DBG (21, "do_cancel: reset_flag = %d\n", s.reset_flag)
-      if ((s.reset_flag == 1) && (s.hw.info.model == FB620))
+      DBG(21, "do_cancel: reset_flag = %d\n", s.reset_flag)
+      if((s.reset_flag == 1) && (s.hw.info.model == FB620))
 	{
-	  status = reset_scanner (s.fd)
-	  if (status != Sane.STATUS_GOOD)
+	  status = reset_scanner(s.fd)
+	  if(status != Sane.STATUS_GOOD)
 	    {
-	      DBG (21, "RESET SCANNER failed\n")
-	      sanei_scsi_close (s.fd)
+	      DBG(21, "RESET SCANNER failed\n")
+	      sanei_scsi_close(s.fd)
 	      s.fd = -1
-	      return (Sane.STATUS_INVAL)
+	      return(Sane.STATUS_INVAL)
 	    }
-	  DBG (21, "RESET SCANNER\n")
+	  DBG(21, "RESET SCANNER\n")
 	  s.reset_flag = 0
-	  DBG (21, "do_cancel: reset_flag = %d\n", s.reset_flag)
+	  DBG(21, "do_cancel: reset_flag = %d\n", s.reset_flag)
 	  s.time0 = -1
-	  DBG (21, "time0 = %ld\n", s.time0)
+	  DBG(21, "time0 = %ld\n", s.time0)
 	}
 
-      if (s.hw.info.model == FB1200)
+      if(s.hw.info.model == FB1200)
 	{
-	  DBG (3, "CANCEL FB1200S\n")
-	  status = cancel (s.fd)
-	  if (status != Sane.STATUS_GOOD)
+	  DBG(3, "CANCEL FB1200S\n")
+	  status = cancel(s.fd)
+	  if(status != Sane.STATUS_GOOD)
 	    {
-	      DBG (1, "CANCEL FB1200S failed\n")
-	      return (Sane.STATUS_INVAL)
+	      DBG(1, "CANCEL FB1200S failed\n")
+	      return(Sane.STATUS_INVAL)
 	    }
-	  DBG (3, "CANCEL FB1200S OK\n")
+	  DBG(3, "CANCEL FB1200S OK\n")
 	}
 
-      sanei_scsi_close (s.fd)
+      sanei_scsi_close(s.fd)
       s.fd = -1
     }
 
-  DBG (1, "<< do_cancel\n")
-  return (Sane.STATUS_CANCELLED)
+  DBG(1, "<< do_cancel\n")
+  return(Sane.STATUS_CANCELLED)
 }
 
 /**************************************************************************/
 
 static Sane.Status
-init_options (CANON_Scanner * s)
+init_options(CANON_Scanner * s)
 {
   var i: Int
-  DBG (1, ">> init_options\n")
+  DBG(1, ">> init_options\n")
 
-  memset (s.opt, 0, sizeof (s.opt))
-  memset (s.val, 0, sizeof (s.val))
+  memset(s.opt, 0, sizeof(s.opt))
+  memset(s.val, 0, sizeof(s.val))
 
   s.AF_NOW = Sane.TRUE
 
-  for (i = 0; i < NUM_OPTIONS; ++i)
+  for(i = 0; i < NUM_OPTIONS; ++i)
     {
-      s.opt[i].size = sizeof (Sane.Word)
+      s.opt[i].size = sizeof(Sane.Word)
       s.opt[i].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     }
 
@@ -1549,27 +1549,27 @@ init_options (CANON_Scanner * s)
   s.opt[OPT_MODE].type = Sane.TYPE_STRING
   s.opt[OPT_MODE].constraint_type = Sane.CONSTRAINT_STRING_LIST
 
-  switch (s.hw.info.model)
+  switch(s.hw.info.model)
     {
     case FB620:
-      s.opt[OPT_MODE].size = max_string_size (mode_list_fb620)
+      s.opt[OPT_MODE].size = max_string_size(mode_list_fb620)
       s.opt[OPT_MODE].constraint.string_list = mode_list_fb620
-      s.val[OPT_MODE].s = strdup (mode_list_fb620[3])
+      s.val[OPT_MODE].s = strdup(mode_list_fb620[3])
       break
     case FB1200:
-      s.opt[OPT_MODE].size = max_string_size (mode_list_fb1200)
+      s.opt[OPT_MODE].size = max_string_size(mode_list_fb1200)
       s.opt[OPT_MODE].constraint.string_list = mode_list_fb1200
-      s.val[OPT_MODE].s = strdup (mode_list_fb1200[2])
+      s.val[OPT_MODE].s = strdup(mode_list_fb1200[2])
       break
     case FS2710:
-      s.opt[OPT_MODE].size = max_string_size (mode_list_fs2710)
+      s.opt[OPT_MODE].size = max_string_size(mode_list_fs2710)
       s.opt[OPT_MODE].constraint.string_list = mode_list_fs2710
-      s.val[OPT_MODE].s = strdup (mode_list_fs2710[0])
+      s.val[OPT_MODE].s = strdup(mode_list_fs2710[0])
       break
     default:
-      s.opt[OPT_MODE].size = max_string_size (mode_list)
+      s.opt[OPT_MODE].size = max_string_size(mode_list)
       s.opt[OPT_MODE].constraint.string_list = mode_list
-      s.val[OPT_MODE].s = strdup (mode_list[3])
+      s.val[OPT_MODE].s = strdup(mode_list[3])
     }
 
   /* Slides or negatives */
@@ -1578,37 +1578,37 @@ init_options (CANON_Scanner * s)
   s.opt[OPT_NEGATIVE].desc = Sane.I18N("Selects the film type, i.e. "
   "negatives or slides")
   s.opt[OPT_NEGATIVE].type = Sane.TYPE_STRING
-  s.opt[OPT_NEGATIVE].size = max_string_size (filmtype_list)
+  s.opt[OPT_NEGATIVE].size = max_string_size(filmtype_list)
   s.opt[OPT_NEGATIVE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_NEGATIVE].constraint.string_list = filmtype_list
   s.opt[OPT_NEGATIVE].cap |=
     (s.hw.info.is_filmscanner)? 0 : Sane.CAP_INACTIVE
-  s.val[OPT_NEGATIVE].s = strdup (filmtype_list[1])
+  s.val[OPT_NEGATIVE].s = strdup(filmtype_list[1])
 
   /* Negative film type */
   s.opt[OPT_NEGATIVE_TYPE].name = "negative-film-type"
   s.opt[OPT_NEGATIVE_TYPE].title = Sane.I18N("Negative film type")
   s.opt[OPT_NEGATIVE_TYPE].desc = Sane.I18N("Selects the negative film type")
   s.opt[OPT_NEGATIVE_TYPE].type = Sane.TYPE_STRING
-  s.opt[OPT_NEGATIVE_TYPE].size = max_string_size (negative_filmtype_list)
+  s.opt[OPT_NEGATIVE_TYPE].size = max_string_size(negative_filmtype_list)
   s.opt[OPT_NEGATIVE_TYPE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_NEGATIVE_TYPE].constraint.string_list = negative_filmtype_list
   s.opt[OPT_NEGATIVE_TYPE].cap |= Sane.CAP_INACTIVE
-  s.val[OPT_NEGATIVE_TYPE].s = strdup (negative_filmtype_list[0])
+  s.val[OPT_NEGATIVE_TYPE].s = strdup(negative_filmtype_list[0])
 
   /* Scanning speed */
   s.opt[OPT_SCANNING_SPEED].name = Sane.NAME_SCAN_SPEED
   s.opt[OPT_SCANNING_SPEED].title = Sane.TITLE_SCAN_SPEED
   s.opt[OPT_SCANNING_SPEED].desc = Sane.DESC_SCAN_SPEED
   s.opt[OPT_SCANNING_SPEED].type = Sane.TYPE_STRING
-  s.opt[OPT_SCANNING_SPEED].size = max_string_size (scanning_speed_list)
+  s.opt[OPT_SCANNING_SPEED].size = max_string_size(scanning_speed_list)
   s.opt[OPT_SCANNING_SPEED].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_SCANNING_SPEED].constraint.string_list = scanning_speed_list
   s.opt[OPT_SCANNING_SPEED].cap |=
     (s.hw.info.model == CS2700) ? 0 : Sane.CAP_INACTIVE
-  if (s.hw.info.model != CS2700)
+  if(s.hw.info.model != CS2700)
     s.opt[OPT_SCANNING_SPEED].cap &= ~Sane.CAP_SOFT_SELECT
-  s.val[OPT_SCANNING_SPEED].s = strdup (scanning_speed_list[0])
+  s.val[OPT_SCANNING_SPEED].s = strdup(scanning_speed_list[0])
 
 
   /* "Resolution" group: */
@@ -1641,7 +1641,7 @@ init_options (CANON_Scanner * s)
   s.opt[OPT_X_RESOLUTION].desc = Sane.DESC_SCAN_RESOLUTION
   s.opt[OPT_X_RESOLUTION].type = Sane.TYPE_INT
   s.opt[OPT_X_RESOLUTION].unit = Sane.UNIT_DPI
-  if (s.hw.info.has_fixed_resolutions)
+  if(s.hw.info.has_fixed_resolutions)
     {
       Int iCnt
       float iRes;		/* modification for FB620S */
@@ -1649,14 +1649,14 @@ init_options (CANON_Scanner * s)
       iCnt = 0
 
       iRes = s.hw.info.xres_range.max
-      DBG (5, "hw.info.xres_range.max=%d\n", s.hw.info.xres_range.max)
+      DBG(5, "hw.info.xres_range.max=%d\n", s.hw.info.xres_range.max)
       s.opt[OPT_X_RESOLUTION].constraint.word_list = s.xres_word_list
 
       /* go to minimum resolution by dividing by 2 */
-      while (iRes >= s.hw.info.xres_range.min)
+      while(iRes >= s.hw.info.xres_range.min)
 	iRes /= 2
       /* fill array up to maximum resolution */
-      while (iRes < s.hw.info.xres_range.max)
+      while(iRes < s.hw.info.xres_range.max)
 	{
 	  iRes *= 2
 	  s.xres_word_list[++iCnt] = iRes
@@ -1678,7 +1678,7 @@ init_options (CANON_Scanner * s)
   s.opt[OPT_Y_RESOLUTION].type = Sane.TYPE_INT
   s.opt[OPT_Y_RESOLUTION].unit = Sane.UNIT_DPI
   s.opt[OPT_Y_RESOLUTION].cap |= Sane.CAP_INACTIVE
-  if (s.hw.info.has_fixed_resolutions)
+  if(s.hw.info.has_fixed_resolutions)
     {
       Int iCnt
       float iRes;		/* modification for FB620S */
@@ -1686,14 +1686,14 @@ init_options (CANON_Scanner * s)
       iCnt = 0
 
       iRes = s.hw.info.yres_range.max
-      DBG (5, "hw.info.yres_range.max=%d\n", s.hw.info.yres_range.max)
+      DBG(5, "hw.info.yres_range.max=%d\n", s.hw.info.yres_range.max)
       s.opt[OPT_Y_RESOLUTION].constraint.word_list = s.yres_word_list
 
       /* go to minimum resolution by dividing by 2 */
-      while (iRes >= s.hw.info.yres_range.min)
+      while(iRes >= s.hw.info.yres_range.min)
 	iRes /= 2
       /* fill array up to maximum resolution */
-      while (iRes < s.hw.info.yres_range.max)
+      while(iRes < s.hw.info.yres_range.max)
 	{
 	  iRes *= 2
 	  s.yres_word_list[++iCnt] = iRes
@@ -1738,7 +1738,7 @@ init_options (CANON_Scanner * s)
   s.opt[OPT_FOCUS].name = "focus"
   s.opt[OPT_FOCUS].title = Sane.I18N("Manual focus position")
   s.opt[OPT_FOCUS].desc = Sane.I18N("Set the optical system's focus "
-  "position by hand (default: 128).")
+  "position by hand(default: 128).")
   s.opt[OPT_FOCUS].type = Sane.TYPE_INT
   s.opt[OPT_FOCUS].unit = Sane.UNIT_NONE
   s.opt[OPT_FOCUS].constraint_type = Sane.CONSTRAINT_RANGE
@@ -1957,7 +1957,7 @@ init_options (CANON_Scanner * s)
   s.opt[OPT_GAMMA_VECTOR].type = Sane.TYPE_INT
   s.opt[OPT_GAMMA_VECTOR].cap |= Sane.CAP_INACTIVE
   s.opt[OPT_GAMMA_VECTOR].unit = Sane.UNIT_NONE
-  s.opt[OPT_GAMMA_VECTOR].size = 256 * sizeof (Sane.Word)
+  s.opt[OPT_GAMMA_VECTOR].size = 256 * sizeof(Sane.Word)
   s.opt[OPT_GAMMA_VECTOR].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_GAMMA_VECTOR].constraint.range = &u8_range
   s.val[OPT_GAMMA_VECTOR].wa = &s.gamma_table[0][0]
@@ -1969,7 +1969,7 @@ init_options (CANON_Scanner * s)
   s.opt[OPT_GAMMA_VECTOR_R].type = Sane.TYPE_INT
   s.opt[OPT_GAMMA_VECTOR_R].cap |= Sane.CAP_INACTIVE
   s.opt[OPT_GAMMA_VECTOR_R].unit = Sane.UNIT_NONE
-  s.opt[OPT_GAMMA_VECTOR_R].size = 256 * sizeof (Sane.Word)
+  s.opt[OPT_GAMMA_VECTOR_R].size = 256 * sizeof(Sane.Word)
   s.opt[OPT_GAMMA_VECTOR_R].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_GAMMA_VECTOR_R].constraint.range = &u8_range
   s.val[OPT_GAMMA_VECTOR_R].wa = &s.gamma_table[1][0]
@@ -1981,7 +1981,7 @@ init_options (CANON_Scanner * s)
   s.opt[OPT_GAMMA_VECTOR_G].type = Sane.TYPE_INT
   s.opt[OPT_GAMMA_VECTOR_G].cap |= Sane.CAP_INACTIVE
   s.opt[OPT_GAMMA_VECTOR_G].unit = Sane.UNIT_NONE
-  s.opt[OPT_GAMMA_VECTOR_G].size = 256 * sizeof (Sane.Word)
+  s.opt[OPT_GAMMA_VECTOR_G].size = 256 * sizeof(Sane.Word)
   s.opt[OPT_GAMMA_VECTOR_G].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_GAMMA_VECTOR_G].constraint.range = &u8_range
   s.val[OPT_GAMMA_VECTOR_G].wa = &s.gamma_table[2][0]
@@ -1993,7 +1993,7 @@ init_options (CANON_Scanner * s)
   s.opt[OPT_GAMMA_VECTOR_B].type = Sane.TYPE_INT
   s.opt[OPT_GAMMA_VECTOR_B].cap |= Sane.CAP_INACTIVE
   s.opt[OPT_GAMMA_VECTOR_B].unit = Sane.UNIT_NONE
-  s.opt[OPT_GAMMA_VECTOR_B].size = 256 * sizeof (Sane.Word)
+  s.opt[OPT_GAMMA_VECTOR_B].size = 256 * sizeof(Sane.Word)
   s.opt[OPT_GAMMA_VECTOR_B].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_GAMMA_VECTOR_B].constraint.range = &u8_range
   s.val[OPT_GAMMA_VECTOR_B].wa = &s.gamma_table[3][0]
@@ -2049,7 +2049,7 @@ init_options (CANON_Scanner * s)
   s.opt[OPT_RESET_SCANNER].constraint.range = NULL
 
 
-  /* "Eject" group (active only for film scanners) */
+  /* "Eject" group(active only for film scanners) */
   s.opt[OPT_EJECT_GROUP].title = Sane.I18N("Medium handling")
   s.opt[OPT_EJECT_GROUP].desc = ""
   s.opt[OPT_EJECT_GROUP].type = Sane.TYPE_GROUP
@@ -2103,7 +2103,7 @@ init_options (CANON_Scanner * s)
   "and use flatbed only")
   s.opt[OPT_FLATBED_ONLY].type = Sane.TYPE_BOOL
   s.opt[OPT_FLATBED_ONLY].unit = Sane.UNIT_NONE
-  s.opt[OPT_FLATBED_ONLY].size = sizeof (Sane.Word)
+  s.opt[OPT_FLATBED_ONLY].size = sizeof(Sane.Word)
   s.opt[OPT_FLATBED_ONLY].cap |=
     (s.hw.adf.Status == ADF_STAT_NONE) ? Sane.CAP_INACTIVE : 0
   s.val[OPT_FLATBED_ONLY].w = Sane.FALSE
@@ -2117,7 +2117,7 @@ init_options (CANON_Scanner * s)
   s.opt[OPT_TPU_GROUP].cap |=
     (s.hw.tpu.Status != TPU_STAT_NONE) ? 0 : Sane.CAP_INACTIVE
 
-  /* Transparency Unit (FAU, Film Adapter Unit) */
+  /* Transparency Unit(FAU, Film Adapter Unit) */
   s.opt[OPT_TPU_ON].name = "transparency-unit-on-off"
   s.opt[OPT_TPU_ON].title = Sane.I18N("Transparency unit")
   s.opt[OPT_TPU_ON].desc = Sane.I18N("Switch on/off the transparency unit "
@@ -2143,10 +2143,10 @@ init_options (CANON_Scanner * s)
   s.opt[OPT_TPU_DCM].title = Sane.I18N("Density control")
   s.opt[OPT_TPU_DCM].desc = Sane.I18N("Set density control mode")
   s.opt[OPT_TPU_DCM].type = Sane.TYPE_STRING
-  s.opt[OPT_TPU_DCM].size = max_string_size (tpu_dc_mode_list)
+  s.opt[OPT_TPU_DCM].size = max_string_size(tpu_dc_mode_list)
   s.opt[OPT_TPU_DCM].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_TPU_DCM].constraint.string_list = tpu_dc_mode_list
-  s.val[OPT_TPU_DCM].s = strdup (tpu_dc_mode_list[s.hw.tpu.ControlMode])
+  s.val[OPT_TPU_DCM].s = strdup(tpu_dc_mode_list[s.hw.tpu.ControlMode])
   s.opt[OPT_TPU_DCM].cap |=
     (s.hw.tpu.Status == TPU_STAT_ACTIVE) ? 0 : Sane.CAP_INACTIVE
 
@@ -2169,11 +2169,11 @@ init_options (CANON_Scanner * s)
   s.opt[OPT_TPU_FILMTYPE].title = Sane.I18N("Select film type")
   s.opt[OPT_TPU_FILMTYPE].desc = Sane.I18N("Select the film type")
   s.opt[OPT_TPU_FILMTYPE].type = Sane.TYPE_STRING
-  s.opt[OPT_TPU_FILMTYPE].size = max_string_size (tpu_filmtype_list)
+  s.opt[OPT_TPU_FILMTYPE].size = max_string_size(tpu_filmtype_list)
   s.opt[OPT_TPU_FILMTYPE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_TPU_FILMTYPE].constraint.string_list = tpu_filmtype_list
   s.val[OPT_TPU_FILMTYPE].s =
-    strdup (tpu_filmtype_list[s.hw.tpu.FilmType])
+    strdup(tpu_filmtype_list[s.hw.tpu.FilmType])
   s.opt[OPT_TPU_FILMTYPE].cap |=
     (s.hw.tpu.Status == TPU_STAT_ACTIVE && s.hw.tpu.ControlMode == 1) ?
     0 : Sane.CAP_INACTIVE
@@ -2187,87 +2187,87 @@ init_options (CANON_Scanner * s)
   s.opt[OPT_PREVIEW].cap = Sane.CAP_SOFT_DETECT | Sane.CAP_SOFT_SELECT
   s.val[OPT_PREVIEW].w = Sane.FALSE
 
-  DBG (1, "<< init_options\n")
+  DBG(1, "<< init_options\n")
   return Sane.STATUS_GOOD
 }
 
 /**************************************************************************/
 
 static Sane.Status
-attach_one (const char *dev)
+attach_one(const char *dev)
 {
-  DBG (1, ">> attach_one\n")
-  attach (dev, 0)
-  DBG (1, "<< attach_one\n")
+  DBG(1, ">> attach_one\n")
+  attach(dev, 0)
+  DBG(1, "<< attach_one\n")
   return Sane.STATUS_GOOD
 }
 
 /**************************************************************************/
 
 static Sane.Status
-do_focus (CANON_Scanner * s)
+do_focus(CANON_Scanner * s)
 {
   Sane.Status status
   u_char ebuf[74]
   size_t buf_size
 
-  DBG (3, "do_focus: sending GET FILM STATUS\n")
-  memset (ebuf, 0, sizeof (ebuf))
+  DBG(3, "do_focus: sending GET FILM STATUS\n")
+  memset(ebuf, 0, sizeof(ebuf))
   buf_size = 4
-  status = get_film_status (s.fd, ebuf, &buf_size)
-  if (status != Sane.STATUS_GOOD)
+  status = get_film_status(s.fd, ebuf, &buf_size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "do_focus: GET FILM STATUS failed\n")
-      if (status == Sane.STATUS_UNSUPPORTED)
-	return (Sane.STATUS_GOOD)
+      DBG(1, "do_focus: GET FILM STATUS failed\n")
+      if(status == Sane.STATUS_UNSUPPORTED)
+	return(Sane.STATUS_GOOD)
       else
 	{
-	  DBG (1, "do_focus: ... for unknown reasons\n")
-	  sanei_scsi_close (s.fd)
+	  DBG(1, "do_focus: ... for unknown reasons\n")
+	  sanei_scsi_close(s.fd)
 	  s.fd = -1
-	  return (Sane.STATUS_INVAL)
+	  return(Sane.STATUS_INVAL)
 	}
     }
-  DBG (3, "focus point before autofocus : %d\n", ebuf[3])
+  DBG(3, "focus point before autofocus : %d\n", ebuf[3])
 
-  status = execute_auto_focus (s.fd, s.val[OPT_AF].w,
+  status = execute_auto_focus(s.fd, s.val[OPT_AF].w,
     (s.scanning_speed == 0 && !s.RIF && s.hw.info.model == CS2700),
     (Int) s.AE, s.val[OPT_FOCUS].w)
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (7, "execute_auto_focus failed\n")
-      if (status == Sane.STATUS_UNSUPPORTED)
-	  return (Sane.STATUS_GOOD)
+      DBG(7, "execute_auto_focus failed\n")
+      if(status == Sane.STATUS_UNSUPPORTED)
+	  return(Sane.STATUS_GOOD)
       else
 	{
-	  DBG (1, "do_focus: ... for unknown reasons\n")
-	  sanei_scsi_close (s.fd)
+	  DBG(1, "do_focus: ... for unknown reasons\n")
+	  sanei_scsi_close(s.fd)
 	  s.fd = -1
-	  return (Sane.STATUS_INVAL)
+	  return(Sane.STATUS_INVAL)
 	}
     }
 
-  DBG (3, "do_focus: sending GET FILM STATUS\n")
-  memset (ebuf, 0, sizeof (ebuf))
+  DBG(3, "do_focus: sending GET FILM STATUS\n")
+  memset(ebuf, 0, sizeof(ebuf))
   buf_size = 4
-  status = get_film_status (s.fd, ebuf, &buf_size)
-  if (status != Sane.STATUS_GOOD)
+  status = get_film_status(s.fd, ebuf, &buf_size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "do_focus: GET FILM STATUS failed\n")
-      if (status == Sane.STATUS_UNSUPPORTED)
-	  return (Sane.STATUS_GOOD)
+      DBG(1, "do_focus: GET FILM STATUS failed\n")
+      if(status == Sane.STATUS_UNSUPPORTED)
+	  return(Sane.STATUS_GOOD)
       else
 	{
-	  DBG (1, "do_focus: ... for unknown reasons\n")
-	  sanei_scsi_close (s.fd)
+	  DBG(1, "do_focus: ... for unknown reasons\n")
+	  sanei_scsi_close(s.fd)
 	  s.fd = -1
-	  return (Sane.STATUS_INVAL)
+	  return(Sane.STATUS_INVAL)
 	}
     }
   else
-      DBG (3, "focus point after autofocus : %d\n", ebuf[3])
+      DBG(3, "focus point after autofocus : %d\n", ebuf[3])
 
-  return (Sane.STATUS_GOOD)
+  return(Sane.STATUS_GOOD)
 }
 
 /**************************************************************************/

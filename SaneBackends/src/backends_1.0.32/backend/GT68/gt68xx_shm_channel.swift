@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2002 Sergey Vlasov <vsu@altlinux.ru>
+   Copyright(C) 2002 Sergey Vlasov <vsu@altlinux.ru>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -51,52 +51,52 @@ import Sane.sane
 typedef struct Shm_Channel Shm_Channel
 
 static Sane.Status
-shm_channel_new (Int buf_size,
+shm_channel_new(Int buf_size,
 		 Int buf_count, Shm_Channel ** shm_channel_return)
 
-static Sane.Status shm_channel_free (Shm_Channel * shm_channel)
+static Sane.Status shm_channel_free(Shm_Channel * shm_channel)
 
 
-static Sane.Status shm_channel_writer_init (Shm_Channel * shm_channel)
+static Sane.Status shm_channel_writer_init(Shm_Channel * shm_channel)
 
 static Sane.Status
-shm_channel_writer_get_buffer (Shm_Channel * shm_channel,
+shm_channel_writer_get_buffer(Shm_Channel * shm_channel,
 			       Int * buffer_id_return,
 			       Sane.Byte ** buffer_addr_return)
 
 static Sane.Status
-shm_channel_writer_put_buffer (Shm_Channel * shm_channel,
+shm_channel_writer_put_buffer(Shm_Channel * shm_channel,
 			       Int buffer_id, Int buffer_bytes)
 
-static Sane.Status shm_channel_writer_close (Shm_Channel * shm_channel)
+static Sane.Status shm_channel_writer_close(Shm_Channel * shm_channel)
 
 
-static Sane.Status shm_channel_reader_init (Shm_Channel * shm_channel)
+static Sane.Status shm_channel_reader_init(Shm_Channel * shm_channel)
 
 #if 0
 static Sane.Status
-shm_channel_reader_set_io_mode (Shm_Channel * shm_channel,
+shm_channel_reader_set_io_mode(Shm_Channel * shm_channel,
 				Bool non_blocking)
 
 static Sane.Status
-shm_channel_reader_get_select_fd (Shm_Channel * shm_channel,
+shm_channel_reader_get_select_fd(Shm_Channel * shm_channel,
 				  Int * fd_return)
 
 #endif
 
-static Sane.Status shm_channel_reader_start (Shm_Channel * shm_channel)
+static Sane.Status shm_channel_reader_start(Shm_Channel * shm_channel)
 
 static Sane.Status
-shm_channel_reader_get_buffer (Shm_Channel * shm_channel,
+shm_channel_reader_get_buffer(Shm_Channel * shm_channel,
 			       Int * buffer_id_return,
 			       Sane.Byte ** buffer_addr_return,
 			       Int * buffer_bytes_return)
 
 static Sane.Status
-shm_channel_reader_put_buffer (Shm_Channel * shm_channel, Int buffer_id)
+shm_channel_reader_put_buffer(Shm_Channel * shm_channel, Int buffer_id)
 
 #if 0
-static Sane.Status shm_channel_reader_close (Shm_Channel * shm_channel)
+static Sane.Status shm_channel_reader_close(Shm_Channel * shm_channel)
 #endif
 
 #endif /* not GT68XX_SHM_CHANNEL_H */
@@ -106,14 +106,14 @@ static Sane.Status shm_channel_reader_close (Shm_Channel * shm_channel)
 
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2002 Sergey Vlasov <vsu@altlinux.ru>
+   Copyright(C) 2002 Sergey Vlasov <vsu@altlinux.ru>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -186,22 +186,22 @@ union Shm_Channel_Align
   var i: Int
   long l
   void *ptr
-  void (*func_ptr) (void)
+  void(*func_ptr) (void)
   double d
 ]
 
 /** Check if shm_channel is valid */
 #define SHM_CHANNEL_CHECK(shm_channel, func_name)               \
   do {                                                          \
-    if ((shm_channel) == NULL)                                  \
+    if((shm_channel) == NULL)                                  \
       {                                                         \
-        DBG (3, "%s: BUG: shm_channel==NULL\n", (func_name));   \
+        DBG(3, "%s: BUG: shm_channel==NULL\n", (func_name));   \
         return Sane.STATUS_INVAL;                               \
       }                                                         \
-  } while (Sane.FALSE)
+  } while(Sane.FALSE)
 
 /** Alignment for shared memory contents */
-#define SHM_CHANNEL_ALIGNMENT   (sizeof (union Shm_Channel_Align))
+#define SHM_CHANNEL_ALIGNMENT   (sizeof(union Shm_Channel_Align))
 
 /** Align the given size up to a multiple of the given alignment */
 #define SHM_CHANNEL_ROUND_UP(size, align) \
@@ -214,29 +214,29 @@ union Shm_Channel_Align
 /** Close a file descriptor if it is currently open.
  *
  * This function checks if the file descriptor is not -1, and sets it to -1
- * after close (so that it will not be closed twice).
+ * after close(so that it will not be closed twice).
  *
  * @param fd_var Pointer to a variable holding the file descriptor.
  */
 static void
-shm_channel_fd_safe_close (Int *fd_var)
+shm_channel_fd_safe_close(Int *fd_var)
 {
-  if (*fd_var != -1)
+  if(*fd_var != -1)
     {
-      close (*fd_var)
+      close(*fd_var)
       *fd_var = -1
     }
 }
 
 static Sane.Status
-shm_channel_fd_set_close_on_exec (Int fd)
+shm_channel_fd_set_close_on_exec(Int fd)
 {
   long value
 
-  value = fcntl (fd, F_GETFD, 0L)
-  if (value == -1)
+  value = fcntl(fd, F_GETFD, 0L)
+  if(value == -1)
     return Sane.STATUS_IO_ERROR
-  if (fcntl (fd, F_SETFD, value | FD_CLOEXEC) == -1)
+  if(fcntl(fd, F_SETFD, value | FD_CLOEXEC) == -1)
     return Sane.STATUS_IO_ERROR
 
   return Sane.STATUS_GOOD
@@ -244,20 +244,20 @@ shm_channel_fd_set_close_on_exec (Int fd)
 
 #if 0
 static Sane.Status
-shm_channel_fd_set_non_blocking (Int fd, Bool non_blocking)
+shm_channel_fd_set_non_blocking(Int fd, Bool non_blocking)
 {
   long value
 
-  value = fcntl (fd, F_GETFL, 0L)
-  if (value == -1)
+  value = fcntl(fd, F_GETFL, 0L)
+  if(value == -1)
     return Sane.STATUS_IO_ERROR
 
-  if (non_blocking)
+  if(non_blocking)
     value |= O_NONBLOCK
   else
     value &= ~O_NONBLOCK
 
-  if (fcntl (fd, F_SETFL, value) == -1)
+  if(fcntl(fd, F_SETFL, value) == -1)
     return Sane.STATUS_IO_ERROR
 
   return Sane.STATUS_GOOD
@@ -269,11 +269,11 @@ shm_channel_fd_set_non_blocking (Int fd, Bool non_blocking)
  * This function should be called before the fork to set up the shared memory.
  *
  * @param buf_size  Size of each shared memory buffer in bytes.
- * @param buf_count Number of shared memory buffers (up to 255).
+ * @param buf_count Number of shared memory buffers(up to 255).
  * @param shm_channel_return Returned shared memory channel object.
  */
 Sane.Status
-shm_channel_new (Int buf_size,
+shm_channel_new(Int buf_size,
 		 Int buf_count, Shm_Channel ** shm_channel_return)
 {
   Shm_Channel *shm_channel
@@ -284,28 +284,28 @@ shm_channel_new (Int buf_size,
   Int shm_id
   var i: Int
 
-  if (buf_size <= 0)
+  if(buf_size <= 0)
     {
-      DBG (3, "shm_channel_new: invalid buf_size=%d\n", buf_size)
+      DBG(3, "shm_channel_new: invalid buf_size=%d\n", buf_size)
       return Sane.STATUS_INVAL
     }
-  if (buf_count <= 0 || buf_count > 255)
+  if(buf_count <= 0 || buf_count > 255)
     {
-      DBG (3, "shm_channel_new: invalid buf_count=%d\n", buf_count)
+      DBG(3, "shm_channel_new: invalid buf_count=%d\n", buf_count)
       return Sane.STATUS_INVAL
     }
-  if (!shm_channel_return)
+  if(!shm_channel_return)
     {
-      DBG (3, "shm_channel_new: BUG: shm_channel_return==NULL\n")
+      DBG(3, "shm_channel_new: BUG: shm_channel_return==NULL\n")
       return Sane.STATUS_INVAL
     }
 
   *shm_channel_return = NULL
 
-  shm_channel = (Shm_Channel *) malloc (sizeof (Shm_Channel))
-  if (!shm_channel)
+  shm_channel = (Shm_Channel *) malloc(sizeof(Shm_Channel))
+  if(!shm_channel)
     {
-      DBG (3, "shm_channel_new: no memory for Shm_Channel\n")
+      DBG(3, "shm_channel_new: no memory for Shm_Channel\n")
       return Sane.STATUS_NO_MEM
     }
 
@@ -318,65 +318,65 @@ shm_channel_new (Int buf_size,
   shm_channel.reader_put_pipe[0] = shm_channel.reader_put_pipe[1] = -1
 
   shm_channel.buffers =
-    (Sane.Byte **) malloc (sizeof (Sane.Byte *) * buf_count)
-  if (!shm_channel.buffers)
+    (Sane.Byte **) malloc(sizeof(Sane.Byte *) * buf_count)
+  if(!shm_channel.buffers)
     {
-      DBG (3, "shm_channel_new: no memory for buffer pointers\n")
-      shm_channel_free (shm_channel)
+      DBG(3, "shm_channel_new: no memory for buffer pointers\n")
+      shm_channel_free(shm_channel)
       return Sane.STATUS_NO_MEM
     }
 
-  if (pipe (shm_channel.writer_put_pipe) == -1)
+  if(pipe(shm_channel.writer_put_pipe) == -1)
     {
-      DBG (3, "shm_channel_new: cannot create writer put pipe: %s\n",
-	   strerror (errno))
-      shm_channel_free (shm_channel)
+      DBG(3, "shm_channel_new: cannot create writer put pipe: %s\n",
+	   strerror(errno))
+      shm_channel_free(shm_channel)
       return Sane.STATUS_NO_MEM
     }
 
-  if (pipe (shm_channel.reader_put_pipe) == -1)
+  if(pipe(shm_channel.reader_put_pipe) == -1)
     {
-      DBG (3, "shm_channel_new: cannot create reader put pipe: %s\n",
-	   strerror (errno))
-      shm_channel_free (shm_channel)
+      DBG(3, "shm_channel_new: cannot create reader put pipe: %s\n",
+	   strerror(errno))
+      shm_channel_free(shm_channel)
       return Sane.STATUS_NO_MEM
     }
 
-  shm_channel_fd_set_close_on_exec (shm_channel.reader_put_pipe[0])
-  shm_channel_fd_set_close_on_exec (shm_channel.reader_put_pipe[1])
-  shm_channel_fd_set_close_on_exec (shm_channel.writer_put_pipe[0])
-  shm_channel_fd_set_close_on_exec (shm_channel.writer_put_pipe[1])
+  shm_channel_fd_set_close_on_exec(shm_channel.reader_put_pipe[0])
+  shm_channel_fd_set_close_on_exec(shm_channel.reader_put_pipe[1])
+  shm_channel_fd_set_close_on_exec(shm_channel.writer_put_pipe[0])
+  shm_channel_fd_set_close_on_exec(shm_channel.writer_put_pipe[1])
 
-  shm_buffer_bytes_size = SHM_CHANNEL_ALIGN (sizeof (Int) * buf_count)
-  shm_buffer_size = SHM_CHANNEL_ALIGN (buf_size)
+  shm_buffer_bytes_size = SHM_CHANNEL_ALIGN(sizeof(Int) * buf_count)
+  shm_buffer_size = SHM_CHANNEL_ALIGN(buf_size)
   shm_size = shm_buffer_bytes_size + buf_count * shm_buffer_size
 
-  shm_id = shmget (IPC_PRIVATE, shm_size, IPC_CREAT | SHM_R | SHM_W)
-  if (shm_id == -1)
+  shm_id = shmget(IPC_PRIVATE, shm_size, IPC_CREAT | SHM_R | SHM_W)
+  if(shm_id == -1)
     {
-      DBG (3, "shm_channel_new: cannot create shared memory segment: %s\n",
-	   strerror (errno))
-      shm_channel_free (shm_channel)
+      DBG(3, "shm_channel_new: cannot create shared memory segment: %s\n",
+	   strerror(errno))
+      shm_channel_free(shm_channel)
       return Sane.STATUS_NO_MEM
     }
 
-  shm_area = shmat (shm_id, NULL, 0)
-  if (shm_area == (void *) -1)
+  shm_area = shmat(shm_id, NULL, 0)
+  if(shm_area == (void *) -1)
     {
-      DBG (3, "shm_channel_new: cannot attach to shared memory segment: %s\n",
-	   strerror (errno))
-      shmctl (shm_id, IPC_RMID, NULL)
-      shm_channel_free (shm_channel)
+      DBG(3, "shm_channel_new: cannot attach to shared memory segment: %s\n",
+	   strerror(errno))
+      shmctl(shm_id, IPC_RMID, NULL)
+      shm_channel_free(shm_channel)
       return Sane.STATUS_NO_MEM
     }
 
-  if (shmctl (shm_id, IPC_RMID, NULL) == -1)
+  if(shmctl(shm_id, IPC_RMID, NULL) == -1)
     {
-      DBG (3, "shm_channel_new: cannot remove shared memory segment id: %s\n",
-	   strerror (errno))
-      shmdt (shm_area)
-      shmctl (shm_id, IPC_RMID, NULL)
-      shm_channel_free (shm_channel)
+      DBG(3, "shm_channel_new: cannot remove shared memory segment id: %s\n",
+	   strerror(errno))
+      shmdt(shm_area)
+      shmctl(shm_id, IPC_RMID, NULL)
+      shm_channel_free(shm_channel)
       return Sane.STATUS_NO_MEM
     }
 
@@ -384,7 +384,7 @@ shm_channel_new (Int buf_size,
 
   shm_channel.buffer_bytes = (Int *) shm_area
   shm_data = ((Sane.Byte *) shm_area) + shm_buffer_bytes_size
-  for (i = 0; i < shm_channel.buf_count; ++i)
+  for(i = 0; i < shm_channel.buf_count; ++i)
     {
       shm_channel.buffers[i] = shm_data
       shm_data += shm_buffer_size
@@ -399,26 +399,26 @@ shm_channel_new (Int buf_size,
  * @param shm_channel Shared memory channel object.
  */
 Sane.Status
-shm_channel_free (Shm_Channel * shm_channel)
+shm_channel_free(Shm_Channel * shm_channel)
 {
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_free")
+  SHM_CHANNEL_CHECK(shm_channel, "shm_channel_free")
 
-  if (shm_channel.shm_area)
+  if(shm_channel.shm_area)
     {
-      shmdt (shm_channel.shm_area)
+      shmdt(shm_channel.shm_area)
       shm_channel.shm_area = NULL
     }
 
-  if (shm_channel.buffers)
+  if(shm_channel.buffers)
     {
-      free (shm_channel.buffers)
+      free(shm_channel.buffers)
       shm_channel.buffers = NULL
     }
 
-  shm_channel_fd_safe_close (&shm_channel.reader_put_pipe[0])
-  shm_channel_fd_safe_close (&shm_channel.reader_put_pipe[1])
-  shm_channel_fd_safe_close (&shm_channel.writer_put_pipe[0])
-  shm_channel_fd_safe_close (&shm_channel.writer_put_pipe[1])
+  shm_channel_fd_safe_close(&shm_channel.reader_put_pipe[0])
+  shm_channel_fd_safe_close(&shm_channel.reader_put_pipe[1])
+  shm_channel_fd_safe_close(&shm_channel.writer_put_pipe[0])
+  shm_channel_fd_safe_close(&shm_channel.writer_put_pipe[1])
 
   return Sane.STATUS_GOOD
 }
@@ -431,19 +431,19 @@ shm_channel_free (Shm_Channel * shm_channel)
  * @param shm_channel Shared memory channel object.
  */
 Sane.Status
-shm_channel_writer_init (Shm_Channel * shm_channel)
+shm_channel_writer_init(Shm_Channel * shm_channel)
 {
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_writer_init")
+  SHM_CHANNEL_CHECK(shm_channel, "shm_channel_writer_init")
 
-  shm_channel_fd_safe_close (&shm_channel.writer_put_pipe[0])
-  shm_channel_fd_safe_close (&shm_channel.reader_put_pipe[1])
+  shm_channel_fd_safe_close(&shm_channel.writer_put_pipe[0])
+  shm_channel_fd_safe_close(&shm_channel.reader_put_pipe[1])
 
   return Sane.STATUS_GOOD
 }
 
 /** Get a free shared memory buffer for writing.
  *
- * This function may block waiting for a free buffer (if the reader process
+ * This function may block waiting for a free buffer(if the reader process
  * does not process the data fast enough).
  *
  * After successful call to this function the writer process should fill the
@@ -455,30 +455,30 @@ shm_channel_writer_init (Shm_Channel * shm_channel)
  * @param buffer_addr_return Returned buffer address.
  *
  * @return
- * - Sane.STATUS_GOOD - a free buffer was available (or became available after
+ * - Sane.STATUS_GOOD - a free buffer was available(or became available after
  *   waiting for it); @a buffer_id_return and @a buffer_addr_return are filled
  *   with valid values.
  * - Sane.STATUS_EOF - the reader process has closed its half of the channel.
  * - Sane.STATUS_IO_ERROR - an I/O error occurred.
  */
 Sane.Status
-shm_channel_writer_get_buffer (Shm_Channel * shm_channel,
+shm_channel_writer_get_buffer(Shm_Channel * shm_channel,
 			       Int * buffer_id_return,
 			       Sane.Byte ** buffer_addr_return)
 {
   Sane.Byte buf_index
   Int bytes_read
 
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_writer_get_buffer")
+  SHM_CHANNEL_CHECK(shm_channel, "shm_channel_writer_get_buffer")
 
   do
-    bytes_read = read (shm_channel.reader_put_pipe[0], &buf_index, 1)
-  while (bytes_read == -1 && errno == EINTR)
+    bytes_read = read(shm_channel.reader_put_pipe[0], &buf_index, 1)
+  while(bytes_read == -1 && errno == EINTR)
 
-  if (bytes_read == 1)
+  if(bytes_read == 1)
     {
       Int index = buf_index
-      if (index < shm_channel.buf_count)
+      if(index < shm_channel.buf_count)
 	{
 	  *buffer_id_return = index
 	  *buffer_addr_return = shm_channel.buffers[index]
@@ -488,7 +488,7 @@ shm_channel_writer_get_buffer (Shm_Channel * shm_channel,
 
   *buffer_id_return = -1
   *buffer_addr_return = NULL
-  if (bytes_read == 0)
+  if(bytes_read == 0)
     return Sane.STATUS_EOF
   else
     return Sane.STATUS_IO_ERROR
@@ -506,17 +506,17 @@ shm_channel_writer_get_buffer (Shm_Channel * shm_channel,
  *   channel, or another I/O error occurred.
  */
 Sane.Status
-shm_channel_writer_put_buffer (Shm_Channel * shm_channel,
+shm_channel_writer_put_buffer(Shm_Channel * shm_channel,
 			       Int buffer_id, Int buffer_bytes)
 {
   Sane.Byte buf_index
   Int bytes_written
 
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_writer_put_buffer")
+  SHM_CHANNEL_CHECK(shm_channel, "shm_channel_writer_put_buffer")
 
-  if (buffer_id < 0 || buffer_id >= shm_channel.buf_count)
+  if(buffer_id < 0 || buffer_id >= shm_channel.buf_count)
     {
-      DBG (3, "shm_channel_writer_put_buffer: BUG: buffer_id=%d\n",
+      DBG(3, "shm_channel_writer_put_buffer: BUG: buffer_id=%d\n",
 	   buffer_id)
       return Sane.STATUS_INVAL
     }
@@ -525,10 +525,10 @@ shm_channel_writer_put_buffer (Shm_Channel * shm_channel,
 
   buf_index = (Sane.Byte) buffer_id
   do
-    bytes_written = write (shm_channel.writer_put_pipe[1], &buf_index, 1)
-  while ((bytes_written == 0) || (bytes_written == -1 && errno == EINTR))
+    bytes_written = write(shm_channel.writer_put_pipe[1], &buf_index, 1)
+  while((bytes_written == 0) || (bytes_written == -1 && errno == EINTR))
 
-  if (bytes_written == 1)
+  if(bytes_written == 1)
     return Sane.STATUS_GOOD
   else
     return Sane.STATUS_IO_ERROR
@@ -539,11 +539,11 @@ shm_channel_writer_put_buffer (Shm_Channel * shm_channel,
  * @param shm_channel Shared memory channel object.
  */
 Sane.Status
-shm_channel_writer_close (Shm_Channel * shm_channel)
+shm_channel_writer_close(Shm_Channel * shm_channel)
 {
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_writer_close")
+  SHM_CHANNEL_CHECK(shm_channel, "shm_channel_writer_close")
 
-  shm_channel_fd_safe_close (&shm_channel.writer_put_pipe[1])
+  shm_channel_fd_safe_close(&shm_channel.writer_put_pipe[1])
 
   return Sane.STATUS_GOOD
 }
@@ -557,16 +557,16 @@ shm_channel_writer_close (Shm_Channel * shm_channel)
  * @param shm_channel Shared memory channel object.
  */
 Sane.Status
-shm_channel_reader_init (Shm_Channel * shm_channel)
+shm_channel_reader_init(Shm_Channel * shm_channel)
 {
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_reader_init")
+  SHM_CHANNEL_CHECK(shm_channel, "shm_channel_reader_init")
 
-  shm_channel_fd_safe_close (&shm_channel.writer_put_pipe[1])
+  shm_channel_fd_safe_close(&shm_channel.writer_put_pipe[1])
 
   /* Don't close reader_put_pipe[0] here.  Otherwise, if the channel writer
    * process dies early, this process might get SIGPIPE - and I don't want to
    * mess with signals in the main process. */
-  /* shm_channel_fd_safe_close (&shm_channel.reader_put_pipe[0]); */
+  /* shm_channel_fd_safe_close(&shm_channel.reader_put_pipe[0]); */
 
   return Sane.STATUS_GOOD
 }
@@ -584,12 +584,12 @@ shm_channel_reader_init (Shm_Channel * shm_channel)
  * - Sane.STATUS_IO_ERROR - error setting the requested mode.
  */
 Sane.Status
-shm_channel_reader_set_io_mode (Shm_Channel * shm_channel,
+shm_channel_reader_set_io_mode(Shm_Channel * shm_channel,
 				Bool non_blocking)
 {
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_reader_set_io_mode")
+  SHM_CHANNEL_CHECK(shm_channel, "shm_channel_reader_set_io_mode")
 
-  return shm_channel_fd_set_non_blocking (shm_channel.writer_put_pipe[0],
+  return shm_channel_fd_set_non_blocking(shm_channel.writer_put_pipe[0],
 					  non_blocking)
 }
 
@@ -607,10 +607,10 @@ shm_channel_reader_set_io_mode (Shm_Channel * shm_channel,
  * - Sane.STATUS_GOOD - the file descriptor was returned.
  */
 Sane.Status
-shm_channel_reader_get_select_fd (Shm_Channel * shm_channel,
+shm_channel_reader_get_select_fd(Shm_Channel * shm_channel,
 				  Int * fd_return)
 {
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_reader_get_select_fd")
+  SHM_CHANNEL_CHECK(shm_channel, "shm_channel_reader_get_select_fd")
 
   *fd_return = shm_channel.writer_put_pipe[0]
 
@@ -628,25 +628,25 @@ shm_channel_reader_get_select_fd (Shm_Channel * shm_channel,
  * @param shm_channel Shared memory channel object.
  */
 Sane.Status
-shm_channel_reader_start (Shm_Channel * shm_channel)
+shm_channel_reader_start(Shm_Channel * shm_channel)
 {
   var i: Int, bytes_written
   Sane.Byte buffer_id
 
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_reader_start")
+  SHM_CHANNEL_CHECK(shm_channel, "shm_channel_reader_start")
 
-  for (i = 0; i < shm_channel.buf_count; ++i)
+  for(i = 0; i < shm_channel.buf_count; ++i)
     {
       buffer_id = i
       do
 	bytes_written =
-	  write (shm_channel.reader_put_pipe[1], &buffer_id, 1)
-      while ((bytes_written == 0) || (bytes_written == -1 && errno == EINTR))
+	  write(shm_channel.reader_put_pipe[1], &buffer_id, 1)
+      while((bytes_written == 0) || (bytes_written == -1 && errno == EINTR))
 
-      if (bytes_written == -1)
+      if(bytes_written == -1)
 	{
-	  DBG (3, "shm_channel_reader_start: write error at buffer %d: %s\n",
-	       i, strerror (errno))
+	  DBG(3, "shm_channel_reader_start: write error at buffer %d: %s\n",
+	       i, strerror(errno))
 	  return Sane.STATUS_IO_ERROR
 	}
     }
@@ -661,7 +661,7 @@ shm_channel_reader_start (Shm_Channel * shm_channel)
  * this function will place NULL in @a *buffer_addr_return and return
  * Sane.STATUS_GOOD if a buffer is not available immediately.
  *
- * After successful completion of this function (return value is
+ * After successful completion of this function(return value is
  * Sane.STATUS_GOOD and @a *buffer_addr_return is not NULL) the reader process
  * should process the data in the buffer and then call
  * shm_channel_reader_put_buffer() to release the buffer.
@@ -680,7 +680,7 @@ shm_channel_reader_start (Shm_Channel * shm_channel)
  * - Sane.STATUS_IO_ERROR - an I/O error occurred.
  */
 Sane.Status
-shm_channel_reader_get_buffer (Shm_Channel * shm_channel,
+shm_channel_reader_get_buffer(Shm_Channel * shm_channel,
 			       Int * buffer_id_return,
 			       Sane.Byte ** buffer_addr_return,
 			       Int * buffer_bytes_return)
@@ -688,16 +688,16 @@ shm_channel_reader_get_buffer (Shm_Channel * shm_channel,
   Sane.Byte buf_index
   Int bytes_read
 
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_reader_get_buffer")
+  SHM_CHANNEL_CHECK(shm_channel, "shm_channel_reader_get_buffer")
 
   do
-    bytes_read = read (shm_channel.writer_put_pipe[0], &buf_index, 1)
-  while (bytes_read == -1 && errno == EINTR)
+    bytes_read = read(shm_channel.writer_put_pipe[0], &buf_index, 1)
+  while(bytes_read == -1 && errno == EINTR)
 
-  if (bytes_read == 1)
+  if(bytes_read == 1)
     {
       Int index = buf_index
-      if (index < shm_channel.buf_count)
+      if(index < shm_channel.buf_count)
 	{
 	  *buffer_id_return = index
 	  *buffer_addr_return = shm_channel.buffers[index]
@@ -709,7 +709,7 @@ shm_channel_reader_get_buffer (Shm_Channel * shm_channel,
   *buffer_id_return = -1
   *buffer_addr_return = NULL
   *buffer_bytes_return = 0
-  if (bytes_read == 0)
+  if(bytes_read == 0)
     return Sane.STATUS_EOF
   else
     return Sane.STATUS_IO_ERROR
@@ -734,26 +734,26 @@ shm_channel_reader_get_buffer (Shm_Channel * shm_channel,
  *   channel, or an unexpected I/O error occurred.
  */
 Sane.Status
-shm_channel_reader_put_buffer (Shm_Channel * shm_channel, Int buffer_id)
+shm_channel_reader_put_buffer(Shm_Channel * shm_channel, Int buffer_id)
 {
   Sane.Byte buf_index
   Int bytes_written
 
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_reader_put_buffer")
+  SHM_CHANNEL_CHECK(shm_channel, "shm_channel_reader_put_buffer")
 
-  if (buffer_id < 0 || buffer_id >= shm_channel.buf_count)
+  if(buffer_id < 0 || buffer_id >= shm_channel.buf_count)
     {
-      DBG (3, "shm_channel_reader_put_buffer: BUG: buffer_id=%d\n",
+      DBG(3, "shm_channel_reader_put_buffer: BUG: buffer_id=%d\n",
 	   buffer_id)
       return Sane.STATUS_INVAL
     }
 
   buf_index = (Sane.Byte) buffer_id
   do
-    bytes_written = write (shm_channel.reader_put_pipe[1], &buf_index, 1)
-  while ((bytes_written == 0) || (bytes_written == -1 && errno == EINTR))
+    bytes_written = write(shm_channel.reader_put_pipe[1], &buf_index, 1)
+  while((bytes_written == 0) || (bytes_written == -1 && errno == EINTR))
 
-  if (bytes_written == 1)
+  if(bytes_written == 1)
     return Sane.STATUS_GOOD
   else
     return Sane.STATUS_IO_ERROR
@@ -765,11 +765,11 @@ shm_channel_reader_put_buffer (Shm_Channel * shm_channel, Int buffer_id)
  * @param shm_channel Shared memory channel object.
  */
 Sane.Status
-shm_channel_reader_close (Shm_Channel * shm_channel)
+shm_channel_reader_close(Shm_Channel * shm_channel)
 {
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_reader_close")
+  SHM_CHANNEL_CHECK(shm_channel, "shm_channel_reader_close")
 
-  shm_channel_fd_safe_close (&shm_channel.reader_put_pipe[1])
+  shm_channel_fd_safe_close(&shm_channel.reader_put_pipe[1])
 
   return Sane.STATUS_GOOD
 }

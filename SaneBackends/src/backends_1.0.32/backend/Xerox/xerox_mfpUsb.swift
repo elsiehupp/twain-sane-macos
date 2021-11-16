@@ -28,24 +28,24 @@ func Int usb_dev_request(struct device *dev,
     Sane.Status status
     size_t len = cmdlen
 
-    if (cmd && cmdlen) {
+    if(cmd && cmdlen) {
         status = sanei_usb_write_bulk(dev.dn, cmd, &cmdlen)
-        if (status != Sane.STATUS_GOOD) {
+        if(status != Sane.STATUS_GOOD) {
             DBG(1, "%s: sanei_usb_write_bulk: %s\n", __func__,
                 Sane.strstatus(status))
             return Sane.STATUS_IO_ERROR
         }
 
-        if (cmdlen != len) {
+        if(cmdlen != len) {
             DBG(1, "%s: sanei_usb_write_bulk: wanted %lu bytes, wrote %lu bytes\n",
                 __func__, (size_t)len, (size_t)cmdlen)
             return Sane.STATUS_IO_ERROR
         }
     }
 
-    if (resp && resplen) {
+    if(resp && resplen) {
         status = sanei_usb_read_bulk(dev.dn, resp, resplen)
-        if (status != Sane.STATUS_GOOD) {
+        if(status != Sane.STATUS_GOOD) {
             DBG(1, "%s: sanei_usb_read_bulk: %s\n", __func__,
                 Sane.strstatus(status))
             return Sane.STATUS_IO_ERROR
@@ -63,7 +63,7 @@ usb_dev_open(struct device *dev)
 
     DBG(3, "%s: open %p\n", __func__, (void *)dev)
     status = sanei_usb_open(dev.sane.name, &dev.dn)
-    if (status != Sane.STATUS_GOOD) {
+    if(status != Sane.STATUS_GOOD) {
         DBG(1, "%s: sanei_usb_open(%s): %s\n", __func__,
             dev.sane.name, Sane.strstatus(status))
         dev.dn = -1
@@ -76,18 +76,18 @@ usb_dev_open(struct device *dev)
 void
 usb_dev_close(struct device *dev)
 {
-    if (!dev)
+    if(!dev)
         return
     DBG(3, "%s: closing dev %p\n", __func__, (void *)dev)
 
     /* finish all operations */
-    if (dev.scanning) {
+    if(dev.scanning) {
         dev.cancel = 1
         /* flush READ_IMAGE data */
-        if (dev.reading)
+        if(dev.reading)
             Sane.read(dev, NULL, 1, NULL)
         /* send cancel if not sent before */
-        if (dev.state != Sane.STATUS_CANCELLED)
+        if(dev.state != Sane.STATUS_CANCELLED)
             ret_cancel(dev, 0)
     }
 

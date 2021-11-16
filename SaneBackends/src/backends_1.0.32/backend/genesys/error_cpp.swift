@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -50,7 +50,7 @@ namespace genesys {
 public "C" void sanei_debug_msg(Int level, Int max_level, const char *be, const char *fmt,
                                 std::va_list ap)
 
-#if (defined(__GNUC__) || defined(__CLANG__)) && (defined(__linux__) || defined(__APPLE__))
+#if(defined(__GNUC__) || defined(__CLANG__)) && (defined(__linux__) || defined(__APPLE__))
 public "C" char* __cxa_get_globals()
 #endif
 
@@ -59,7 +59,7 @@ static unsigned num_uncaught_exceptions()
 #if __cplusplus >= 201703L
     Int count = std::uncaught_exceptions()
     return count >= 0 ? count : 0
-#elif (defined(__GNUC__) || defined(__CLANG__)) && (defined(__linux__) || defined(__APPLE__))
+#elif(defined(__GNUC__) || defined(__CLANG__)) && (defined(__linux__) || defined(__APPLE__))
     // the format of the __cxa_eh_globals struct is enshrined into the Itanium C++ ABI and it's
     // very unlikely we'll get issues referencing it directly
     char* cxa_eh_globals_ptr = __cxa_get_globals()
@@ -118,7 +118,7 @@ void SaneException::set_msg(const char* format, std::va_list vlist)
     Int msg_len = std::vsnprintf(nullptr, 0, format, vlist2)
     va_end(vlist2)
 
-    if (msg_len < 0) {
+    if(msg_len < 0) {
         const char* formatting_error_msg = "(error formatting arguments)"
         msg_.reserve(std::strlen(formatting_error_msg) + 3 + status_msg_len)
         msg_ = formatting_error_msg
@@ -162,8 +162,8 @@ DebugMessageHelper::DebugMessageHelper(const char* func, const char* format, ...
 
 DebugMessageHelper::~DebugMessageHelper()
 {
-    if (num_exceptions_on_enter_ < num_uncaught_exceptions()) {
-        if (msg_[0] != '\0') {
+    if(num_exceptions_on_enter_ < num_uncaught_exceptions()) {
+        if(msg_[0] != '\0') {
             DBG(DBG_error, "%s: failed during %s\n", func_, msg_)
         } else {
             DBG(DBG_error, "%s: failed\n", func_)
@@ -196,7 +196,7 @@ void DebugMessageHelper::vlog(unsigned level, const char* format, ...)
     Int msg_len = std::vsnprintf(nullptr, 0, format, args)
     va_end(args)
 
-    if (msg_len < 0) {
+    if(msg_len < 0) {
         DBG(level, "%s: error formatting error message: %s\n", func_, format)
         return
     }
@@ -223,17 +223,17 @@ static LogImageDataStatus s_log_image_data_setting = LogImageDataStatus::NOT_SET
 LogImageDataStatus dbg_read_log_image_data_setting()
 {
     auto* setting = std::getenv("Sane.DEBUG_GENESYS_IMAGE")
-    if (!setting)
+    if(!setting)
         return LogImageDataStatus::DISABLED
     auto setting_int = std::strtol(setting, nullptr, 10)
-    if (setting_int == 0)
+    if(setting_int == 0)
         return LogImageDataStatus::DISABLED
     return LogImageDataStatus::ENABLED
 }
 
 bool dbg_log_image_data()
 {
-    if (s_log_image_data_setting == LogImageDataStatus::NOT_SET) {
+    if(s_log_image_data_setting == LogImageDataStatus::NOT_SET) {
         s_log_image_data_setting = dbg_read_log_image_data_setting()
     }
     return s_log_image_data_setting == LogImageDataStatus::ENABLED

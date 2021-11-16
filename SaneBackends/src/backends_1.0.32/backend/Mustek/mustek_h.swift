@@ -1,5 +1,5 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1996, 1997 David Mosberger-Tang, 1998 Andreas Bolsch for
+   Copyright(C) 1996, 1997 David Mosberger-Tang, 1998 Andreas Bolsch for
    extension to ScanExpress models version 0.5,
    2000 - 2005 Henning Meier-Geinitz.
    This file is part of the SANE package.
@@ -7,7 +7,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -65,8 +65,8 @@ import sys/types
 #define MUSTEK_FLAG_SE		 (1 << 3)	/* ScanExpress scanner */
 #define MUSTEK_FLAG_SE_PLUS    	 (1 << 4)	/* ScanExpress Plus scanner */
 #define MUSTEK_FLAG_PRO          (1 << 5)	/* Professional series scanner */
-#define MUSTEK_FLAG_N		 (1 << 6)	/* N-type scanner (non SCSI) */
-#define MUSTEK_FLAG_SCSI_PP      (1 << 22)	/* SCSI over parallel (e.g. 600 II EP) */
+#define MUSTEK_FLAG_N		 (1 << 6)	/* N-type scanner(non SCSI) */
+#define MUSTEK_FLAG_SCSI_PP      (1 << 22)	/* SCSI over parallel(e.g. 600 II EP) */
 /* Additional equipment */
 #define MUSTEK_FLAG_ADF		 (1 << 7)	/* automatic document feeder */
 #define MUSTEK_FLAG_ADF_READY	 (1 << 8)	/* paper present */
@@ -82,10 +82,10 @@ import sys/types
 #define MUSTEK_FLAG_USE_EIGHTS	 (1 << 16)	/* use 1/8" lengths */
 #define MUSTEK_FLAG_FORCE_GAMMA  (1 << 17)	/* force gamma table upload */
 #define MUSTEK_FLAG_ENLARGE_X    (1 << 18)	/* need to enlarge x-res */
-#define MUSTEK_FLAG_COVER_SENSOR (1 << 19)	/* scanner can detect open cover */
+#define MUSTEK_FLAG_COVER_SENSOR(1 << 19)	/* scanner can detect open cover */
 #define MUSTEK_FLAG_USE_BLOCK	 (1 << 20)	/* use blockmode */
 #define MUSTEK_FLAG_LEGAL_SIZE	 (1 << 21)	/* scanner has legal size */
-#define MUSTEK_FLAG_NO_BACKTRACK (1 << 21)	/* scanner has legal size */
+#define MUSTEK_FLAG_NO_BACKTRACK(1 << 21)	/* scanner has legal size */
 
 /* Source values: */
 #define MUSTEK_SOURCE_FLATBED	0
@@ -104,7 +104,7 @@ import sys/types
 #define MUSTEK_CODE_GREEN	2
 #define MUSTEK_CODE_BLUE	3
 
-/* SCSI commands that the Mustek scanners understand (or not): */
+/* SCSI commands that the Mustek scanners understand(or not): */
 #define MUSTEK_SCSI_TEST_UNIT_READY	0x00
 #define MUSTEK_SCSI_REQUEST_SENSE       0x03
 #define MUSTEK_SCSI_AREA_AND_WINDOWS	0x04
@@ -130,21 +130,21 @@ import sys/types
 #endif
 #define MIN(a,b)	((a) < (b) ? (a) : (b))
 #define MAX(a,b)	((a) > (b) ? (a) : (b))
-/* Copy values to memory ('L' = little endian, 'B' = big endian */
+/* Copy values to memory('L' = little endian, 'B' = big endian */
 #define STORE16L(cp,v)				\
 do {						\
     Int value = (v);				\
 						\
     *(cp)++ = (value >> 0) & 0xff;		\
     *(cp)++ = (value >> 8) & 0xff;		\
-} while (0)
+} while(0)
 #define STORE16B(cp,v)				\
 do {						\
     Int value = (v);				\
 						\
     *(cp)++ = (value >> 8) & 0xff;		\
     *(cp)++ = (value >> 0) & 0xff;		\
-} while (0)
+} while(0)
 #define STORE32B(cp,v)				\
 do {						\
     long Int value = (v);			\
@@ -153,7 +153,7 @@ do {						\
     *(cp)++ = (value >> 16) & 0xff;		\
     *(cp)++ = (value >>  8) & 0xff;		\
     *(cp)++ = (value >>  0) & 0xff;		\
-} while (0)
+} while(0)
 
 /* declarations */
 enum Mustek_Option
@@ -217,7 +217,7 @@ typedef struct Mustek_Device
   Int gamma_length
   /* values actually used by scanner, not necessarily the desired! */
   Int bpl, lines
-  /* what is needed for calibration (ScanExpress and Pro series) */
+  /* what is needed for calibration(ScanExpress and Pro series) */
   struct
   {
     Int bytes

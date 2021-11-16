@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1998 David Mosberger
+   Copyright(C) 1998 David Mosberger
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -59,93 +59,93 @@ import Sane.sanei_scsi
    uses sanei_config() wants to depend on this function.  */
 
 void
-sanei_config_attach_matching_devices (const char *name,
-				      Sane.Status (*attach) (const char *dev))
+sanei_config_attach_matching_devices(const char *name,
+				      Sane.Status(*attach) (const char *dev))
 {
   Int bus = -1, channel = -1, id = -1, lun = -1
   char *vendor = 0, *model = 0, *type = 0, *end
 
-  if (strncmp (name, "scsi", 4) == 0)
+  if(strncmp(name, "scsi", 4) == 0)
     {
       name += 4
 
-      name = sanei_config_skip_whitespace (name)
-      if (*name)
+      name = sanei_config_skip_whitespace(name)
+      if(*name)
 	{
-	  name = sanei_config_get_string (name, &vendor)
-	  if (vendor && strcmp (vendor, "*") == 0)
+	  name = sanei_config_get_string(name, &vendor)
+	  if(vendor && strcmp(vendor, "*") == 0)
 	    {
-	      free (vendor)
+	      free(vendor)
 	      vendor = 0
 	    }
-	  name = sanei_config_skip_whitespace (name)
+	  name = sanei_config_skip_whitespace(name)
 	}
 
-      name = sanei_config_skip_whitespace (name)
-      if (*name)
+      name = sanei_config_skip_whitespace(name)
+      if(*name)
 	{
-	  name = sanei_config_get_string (name, &model)
-	  if (model && strcmp (model, "*") == 0)
+	  name = sanei_config_get_string(name, &model)
+	  if(model && strcmp(model, "*") == 0)
 	    {
-	      free (model)
+	      free(model)
 	      model = 0
 	    }
-	  name = sanei_config_skip_whitespace (name)
+	  name = sanei_config_skip_whitespace(name)
 	}
 
-      name = sanei_config_skip_whitespace (name)
-      if (*name)
+      name = sanei_config_skip_whitespace(name)
+      if(*name)
 	{
-	  name = sanei_config_get_string (name, &type)
-	  if (type && strcmp (type, "*") == 0)
+	  name = sanei_config_get_string(name, &type)
+	  if(type && strcmp(type, "*") == 0)
 	    {
-	      free (type)
+	      free(type)
 	      type = 0
 	    }
-	  name = sanei_config_skip_whitespace (name)
+	  name = sanei_config_skip_whitespace(name)
 	}
 
-      if (isdigit (*name))
+      if(isdigit(*name))
 	{
-	  bus = strtol (name, &end, 10)
-	  name = sanei_config_skip_whitespace (end)
+	  bus = strtol(name, &end, 10)
+	  name = sanei_config_skip_whitespace(end)
 	}
-      else if (*name == '*')
-	name = sanei_config_skip_whitespace (++name)
+      else if(*name == '*')
+	name = sanei_config_skip_whitespace(++name)
 
-      if (isdigit (*name))
+      if(isdigit(*name))
 	{
-	  channel = strtol (name, &end, 10)
-	  name = sanei_config_skip_whitespace (end)
+	  channel = strtol(name, &end, 10)
+	  name = sanei_config_skip_whitespace(end)
 	}
-      else if (*name == '*')
-	name = sanei_config_skip_whitespace (++name)
+      else if(*name == '*')
+	name = sanei_config_skip_whitespace(++name)
 
-      if (isdigit (*name))
+      if(isdigit(*name))
 	{
-	  id = strtol (name, &end, 10)
-	  name = sanei_config_skip_whitespace (end)
+	  id = strtol(name, &end, 10)
+	  name = sanei_config_skip_whitespace(end)
 	}
-      else if (*name == '*')
-	name = sanei_config_skip_whitespace (++name)
+      else if(*name == '*')
+	name = sanei_config_skip_whitespace(++name)
 
-      if (isdigit (*name))
+      if(isdigit(*name))
 	{
-	  lun = strtol (name, &end, 10)
-	  name = sanei_config_skip_whitespace (end)
+	  lun = strtol(name, &end, 10)
+	  name = sanei_config_skip_whitespace(end)
 	}
-      else if (*name == '*')
-	name = sanei_config_skip_whitespace (++name)
+      else if(*name == '*')
+	name = sanei_config_skip_whitespace(++name)
 
-      sanei_scsi_find_devices (vendor, model, type, bus, channel, id, lun,
+      sanei_scsi_find_devices(vendor, model, type, bus, channel, id, lun,
 			       attach)
 
-      if (vendor)
-	free (vendor)
-      if (model)
-	free (model)
-      if (type)
-	free (type)
+      if(vendor)
+	free(vendor)
+      if(model)
+	free(model)
+      if(type)
+	free(type)
     }
   else
     (*attach) (name)

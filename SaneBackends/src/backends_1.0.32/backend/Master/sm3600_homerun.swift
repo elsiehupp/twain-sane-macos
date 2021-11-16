@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) Marian Eichholz 2001
+   Copyright(C) Marian Eichholz 2001
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -61,7 +61,7 @@ import math
 
 typedef enum { ltHome, ltUnknown, ltBed, ltError } TLineType
 
-#define INST_ASSERT2() { if (this.nErrorState) return ltError; }
+#define INST_ASSERT2() { if(this.nErrorState) return ltError; }
 
 static unsigned char auchRegsSingleLine[]={
   0x00 /*0x01*/, 0x00 /*0x02*/, 0x3F /*0x03*/,
@@ -116,47 +116,47 @@ static TLineType GetLineType(TInstance *this)
   /*     dprintf(DEBUG_SCAN,"originate-%d...",iStripe); */
   RegWrite(this,R_CTL, 1, 0x59);    /* #2496[062.5] */
   RegWrite(this,R_CTL, 1, 0xD9);    /* #2497[062.5] */
-  i=WaitWhileScanning(this,5); if (i) return i
+  i=WaitWhileScanning(this,5); if(i) return i
 
   cchBulk=MAX_PIXEL_PER_SCANLINE
   /*
   cchBulk=RegRead(this,R_STAT, 2)
-  if (cchBulk!=MAX_PIXEL_PER_SCANLINE)
+  if(cchBulk!=MAX_PIXEL_PER_SCANLINE)
     return SetError(this,Sane.STATUS_INVAL,
-		    "illegal scan line width reported (%d)",cchBulk)
+		    "illegal scan line width reported(%d)",cchBulk)
   */
   puchBuffer=(unsigned char*)calloc(1,cchBulk)
   CHECK_POINTER(puchBuffer)
-  if (BulkReadBuffer(this,puchBuffer, cchBulk)!=cchBulk)
+  if(BulkReadBuffer(this,puchBuffer, cchBulk)!=cchBulk)
     {
       free(puchBuffer)
       return SetError(this,Sane.STATUS_IO_ERROR,"truncated bulk")
     }
   lSum=0
-  for (i=0; i<cchBulk; i++)
+  for(i=0; i<cchBulk; i++)
     lSum+=puchBuffer[i]; /* gives total white level */
-  for (i=0; i<CCH_BONSAI; i++)
+  for(i=0; i<CCH_BONSAI; i++)
     {
       Int iBulk=i*(cchBulk)/CCH_BONSAI
       achLine[i]=puchBuffer[iBulk+40]; /* simple, basta */
     }
   /* the bonsai line is supported only for curiosity */
-  for (i=0; i<CCH_BONSAI; i++)
+  for(i=0; i<CCH_BONSAI; i++)
     achLine[i]=achLine[i]/26+'0'; /* '0'...'9' */
   achLine[CCH_BONSAI]='\0'
 
   i=200
   iHole=0
   dprintf(DEBUG_ORIG,"")
-  while (i<MAX_PIXEL_PER_SCANLINE && iHole<3)
+  while(i<MAX_PIXEL_PER_SCANLINE && iHole<3)
     {
       Int c
-      while (i<MAX_PIXEL_PER_SCANLINE && puchBuffer[i]>BLACK_HOLE_GRAY) i++; /* not very black */
+      while(i<MAX_PIXEL_PER_SCANLINE && puchBuffer[i]>BLACK_HOLE_GRAY) i++; /* not very black */
       c=0
       dprintf(DEBUG_ORIG,"~ i=%d",i)
-      while (i<MAX_PIXEL_PER_SCANLINE && puchBuffer[i]<=BLACK_HOLE_GRAY) { i++; c++; }
+      while(i<MAX_PIXEL_PER_SCANLINE && puchBuffer[i]<=BLACK_HOLE_GRAY) { i++; c++; }
       dprintf(DEBUG_ORIG,"~ c=%d",c)
-      if (c>90) /* 90% of min hole diameter */
+      if(c>90) /* 90% of min hole diameter */
 	{
 	  axHoles[iHole]=i-c/2; /* store the middle of the hole */
 	  dprintf(DEBUG_ORIG,"~ #%d=%d",iHole,axHoles[iHole])
@@ -164,16 +164,16 @@ static TLineType GetLineType(TInstance *this)
 	  i+=10; /* some hysteresis */
 	}
     }
-  if (iHole==3)
+  if(iHole==3)
     {
       bHolesOk=true
-      for (i=0; i<2; i++)
+      for(i=0; i<2; i++)
 	{
 	  Int xDistance=axHoles[i+1]-axHoles[i]
-	  if (xDistance<1050 || xDistance>1400)
+	  if(xDistance<1050 || xDistance>1400)
 	    bHolesOk=false
 	}
-      if (axHoles[0]<350 || axHoles[0]>900) /* >2 cm tolerance */
+      if(axHoles[0]<350 || axHoles[0]>900) /* >2 cm tolerance */
 	bHolesOk=false
     }
   else
@@ -181,11 +181,11 @@ static TLineType GetLineType(TInstance *this)
   lMedian=lSum/cchBulk
   /* this is *definitely* dirty style. We should pass the information
      by other means... */
-  if (bHolesOk)
+  if(bHolesOk)
     {
       /* black reference */
       this.calibration.nHoleGray=puchBuffer[axHoles[0]]
-      switch (this.model)
+      switch(this.model)
 	{
 	case sm3600:
 	  /* bed corner */
@@ -204,10 +204,10 @@ static TLineType GetLineType(TInstance *this)
 	  achLine,
 	  lMedian)
   free(puchBuffer)
-  i=WaitWhileBusy(this,2); if (i) return i
-  if (bHolesOk && lMedian>CHASSIS_GRAY_LEVEL)
+  i=WaitWhileBusy(this,2); if(i) return i
+  if(bHolesOk && lMedian>CHASSIS_GRAY_LEVEL)
     return ltHome
-  if (lMedian<=BLACK_BED_LEVEL)
+  if(lMedian<=BLACK_BED_LEVEL)
     return ltBed
   return ltUnknown
 }
@@ -227,13 +227,13 @@ Thus a test scan of the scanner's inside is possible.
 __SM3600EXPORT__
 TState FakeCalibration(TInstance *this)
 {
-  if (this.calibration.bCalibrated)
+  if(this.calibration.bCalibrated)
     return Sane.STATUS_GOOD
   this.calibration.bCalibrated=true
-  if (!this.calibration.achStripeY)
+  if(!this.calibration.achStripeY)
     {
       this.calibration.achStripeY=calloc(1,MAX_PIXEL_PER_SCANLINE)
-      if (!this.calibration.achStripeY)
+      if(!this.calibration.achStripeY)
 	return SetError(this,Sane.STATUS_NO_MEM,"no memory for calib Y")
     }
   memset(this.calibration.achStripeY,0xC0,MAX_PIXEL_PER_SCANLINE)
@@ -254,7 +254,7 @@ DoCalibration() and friends
 #define SM3600_CALIB_APPLY_HANNING_WINDOW
 
 #ifdef SM3600_CALIB_USE_MEDIAN
-typedef Int (*TQSortProc)(const void *, const void *)
+typedef Int(*TQSortProc)(const void *, const void *)
 
 static
 Int CompareProc(const unsigned char *p1, const unsigned char *p2)
@@ -282,10 +282,10 @@ TState DoCalibration(TInstance *this)
   Int    iLine,i
   Int    yStart,cStripes,cyGap
   TState rc
-  if (this.calibration.bCalibrated)
+  if(this.calibration.bCalibrated)
     return Sane.STATUS_GOOD
 
-  switch (this.model)
+  switch(this.model)
     {
     case sm3600:
       yStart=200
@@ -303,24 +303,24 @@ TState DoCalibration(TInstance *this)
 
   DoJog(this,yStart)
   /* scan a gray line at 600 DPI */
-  if (!this.calibration.achStripeY)
+  if(!this.calibration.achStripeY)
     {
       this.calibration.achStripeY=calloc(1,MAX_PIXEL_PER_SCANLINE)
-      if (!this.calibration.achStripeY)
+      if(!this.calibration.achStripeY)
 	return SetError(this,Sane.STATUS_NO_MEM,"no memory for calib Y")
     }
 #ifdef SM3600_CALIB_USE_RMS
   memset(aulSum,0,sizeof(aulSum))
 #endif
-  for (iLine=0; iLine<cStripes; iLine++)
+  for(iLine=0; iLine<cStripes; iLine++)
     {
       dprintf(DEBUG_CALIB,"calibrating %i...\n",iLine)
       RegWriteArray(this,R_ALL, 74, auchRegsSingleLine)
       INST_ASSERT()
       RegWrite(this,R_CTL, 1, 0x59);    /* #2496[062.5] */
       RegWrite(this,R_CTL, 1, 0xD9);    /* #2497[062.5] */
-      rc=WaitWhileScanning(this,5); if (rc) { return rc; }
-      if (BulkReadBuffer(this,
+      rc=WaitWhileScanning(this,5); if(rc) { return rc; }
+      if(BulkReadBuffer(this,
 #ifdef SM3600_CALIB_USE_RMS
 			 this.calibration.achStripeY,
 #endif
@@ -331,21 +331,21 @@ TState DoCalibration(TInstance *this)
 	  !=MAX_PIXEL_PER_SCANLINE)
 	return SetError(this,Sane.STATUS_IO_ERROR,"truncated bulk")
 #ifdef SM3600_CALIB_USE_RMS
-      for (i=0; i<MAX_PIXEL_PER_SCANLINE; i++)
+      for(i=0; i<MAX_PIXEL_PER_SCANLINE; i++)
 	aulSum[i]+=(long)this.calibration.achStripeY[i]*
 	  (long)this.calibration.achStripeY[i]
 #endif
       DoJog(this,cyGap)
     }
 #ifdef SM3600_CALIB_USE_RMS
-  for (i=0; i<MAX_PIXEL_PER_SCANLINE; i++)
+  for(i=0; i<MAX_PIXEL_PER_SCANLINE; i++)
     this.calibration.achStripeY[i]=(unsigned char)(Int)sqrt(aulSum[i]/cStripes)
 #endif
 #ifdef SM3600_CALIB_USE_MEDIAN
   /* process the collected lines rowwise. Use intermediate buffer for qsort */
-  for (i=0; i<MAX_PIXEL_PER_SCANLINE; i++)
+  for(i=0; i<MAX_PIXEL_PER_SCANLINE; i++)
     {
-      for (iLine=0; iLine<cStripes; iLine++)
+      for(iLine=0; iLine<cStripes; iLine++)
 	auchRow[iLine]=aauchY[iLine][i]
       qsort(auchRow,cStripes, sizeof(unsigned char), (TQSortProc)CompareProc)
       this.calibration.achStripeY[i]=auchRow[(cStripes-1)/2]
@@ -353,7 +353,7 @@ TState DoCalibration(TInstance *this)
 #endif
 #ifdef SM3600_CALIB_APPLY_HANNING_WINDOW
   memcpy(auchHanning,this.calibration.achStripeY,sizeof(auchHanning))
-  for (i=1; i<MAX_PIXEL_PER_SCANLINE-1; i++)
+  for(i=1; i<MAX_PIXEL_PER_SCANLINE-1; i++)
     this.calibration.achStripeY[i]=(unsigned char)
       ((2*(Int)auchHanning[i]+auchHanning[i-1]+auchHanning[i+1])/4)
 #endif
@@ -377,20 +377,20 @@ __SM3600EXPORT__
 TState DoOriginate(TInstance *this, TBool bStepOut)
 {
   TLineType lt
-  if (this.bVerbose)
+  if(this.bVerbose)
     fprintf(stderr,"carriage return...\n")
   DBG(DEBUG_INFO,"DoOriginate()\n")
   INST_ASSERT()
   lt=GetLineType(this)
   /* if we are already at home, fine. If not, first jump a bit forward */
   DBG(DEBUG_JUNK,"lt1=%d\n",(Int)lt)
-  if (lt!=ltHome && bStepOut) DoJog(this,150)
-  while (lt!=ltHome && !this.state.bCanceled)
+  if(lt!=ltHome && bStepOut) DoJog(this,150)
+  while(lt!=ltHome && !this.state.bCanceled)
     {
       lt=GetLineType(this)
       DBG(DEBUG_JUNK,"lt2=%d\n",(Int)lt)
       INST_ASSERT()
-      switch (lt)
+      switch(lt)
 	{
 	case ltHome: continue
 	case ltBed:  DoJog(this,-240); break; /* worst case: 1 cm */
@@ -399,7 +399,7 @@ TState DoOriginate(TInstance *this, TBool bStepOut)
     }
   DoJog(this,1); INST_ASSERT(); /* Correction for 1 check line */
   DBG(DEBUG_JUNK,"lt3=%d\n",(Int)lt)
-  if (this.state.bCanceled)
+  if(this.state.bCanceled)
     return Sane.STATUS_CANCELLED
   return DoCalibration(this)
 }
@@ -418,7 +418,7 @@ TState DoJog(TInstance *this, Int nDistance)
   Int cSteps
   Int nSpeed,nRest
   dprintf(DEBUG_SCAN,"jogging %d units...\n",nDistance)
-  if (!nDistance) return 0
+  if(!nDistance) return 0
   RegWrite(this,0x34, 1, 0x63)
   RegWrite(this,0x49, 1, 0x96)
   WaitWhileBusy(this,2)
@@ -460,13 +460,13 @@ TState DoJog(TInstance *this, Int nDistance)
   INST_ASSERT()
   RegWrite(this,R_STPS,2,cSteps)
   /* do some magic for slider acceleration */
-  if (cSteps>600) /* only large movements are accelerated */
+  if(cSteps>600) /* only large movements are accelerated */
     {
       RegWrite(this,0x34, 1, 0xC3)
       RegWrite(this,0x47, 2, 0xA000);    /* initial speed */
     }
   /* start back or forth movement */
-  if (nDistance>0)
+  if(nDistance>0)
     {
       RegWrite(this,R_CTL, 1, 0x39);    /* #2588[065.4] */
       RegWrite(this,R_CTL, 1, 0x79);    /* #2589[065.4] */
@@ -479,10 +479,10 @@ TState DoJog(TInstance *this, Int nDistance)
     }
   INST_ASSERT()
   /* accelerate the slider each 100 us */
-  if (cSteps>600)
+  if(cSteps>600)
     {
       nRest=cSteps
-      for (nSpeed=0x9800; nRest>600 && nSpeed>=0x4000; nSpeed-=0x800)
+      for(nSpeed=0x9800; nRest>600 && nSpeed>=0x4000; nSpeed-=0x800)
 	{
 	  nRest=RegRead(this,R_POS, 2)
 	  usleep(100)

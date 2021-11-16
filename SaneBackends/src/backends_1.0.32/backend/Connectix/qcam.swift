@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 David Mosberger-Tang
+   Copyright(C) 1997 David Mosberger-Tang
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -43,11 +43,11 @@
    Portions of this code are derived from Scott Laird's qcam driver.
    It's copyright notice is reproduced here:
 
-   Copyright (C) 1996 by Scott Laird
+   Copyright(C) 1996 by Scott Laird
 
    Permission is hereby granted, free of charge, to any person
    obtaining a copy of this software and associated documentation
-   files (the "Software"), to deal in the Software without
+   files(the "Software"), to deal in the Software without
    restriction, including without limitation the rights to use, copy,
    modify, merge, publish, distribute, sublicense, and/or sell copies
    of the Software, and to permit persons to whom the Software is
@@ -191,7 +191,7 @@ static const Sane.Range odd_bw_x_range = { 1, 335, 2 ]
 static const Sane.Range bw_y_range = { 0, 241, 1 ]
 static const Sane.Range odd_bw_y_range = { 1, 242, 1 ]
 
-#if defined(HAVE_SYS_IO_H) || defined(HAVE_ASM_IO_H) || defined (HAVE_SYS_HW_H)
+#if defined(HAVE_SYS_IO_H) || defined(HAVE_ASM_IO_H) || defined(HAVE_SYS_HW_H)
 
 #ifdef HAVE_SYS_IO_H
 import sys/io		/* GNU libc based OS */
@@ -203,30 +203,30 @@ import sys/hw		/* OS/2 */
 
 #endif /* <sys/io || <asm/io || <sys/hw */
 
-#define read_lpdata(d)		inb ((d)->port)
-#define read_lpstatus(d)	inb ((d)->port + 1)
-#define read_lpcontrol(d)	inb ((d)->port + 2)
-#define write_lpdata(d,v)	outb ((v), (d)->port)
-#define write_lpcontrol(d,v)	outb ((v), (d)->port + 2)
+#define read_lpdata(d)		inb((d)->port)
+#define read_lpstatus(d)	inb((d)->port + 1)
+#define read_lpcontrol(d)	inb((d)->port + 2)
+#define write_lpdata(d,v)	outb((v), (d)->port)
+#define write_lpcontrol(d,v)	outb((v), (d)->port + 2)
 
 
 static Sane.Status
-enable_ports (QC_Device * q)
+enable_ports(QC_Device * q)
 {
   /* better safe than sorry */
-  if (q.port < 0x278 || q.port > 0x3bc)
+  if(q.port < 0x278 || q.port > 0x3bc)
     return Sane.STATUS_INVAL
 
-  if (ioperm (q.port, 3, 1) < 0)
+  if(ioperm(q.port, 3, 1) < 0)
     return Sane.STATUS_INVAL
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-disable_ports (QC_Device * q)
+disable_ports(QC_Device * q)
 {
-  if (ioperm (q.port, 3, 0) < 0)
+  if(ioperm(q.port, 3, 0) < 0)
     return Sane.STATUS_INVAL
 
   return Sane.STATUS_GOOD
@@ -244,9 +244,9 @@ disable_ports (QC_Device * q)
    any worse... */
 
 static Int
-qc_wait (QC_Device * q)
+qc_wait(QC_Device * q)
 {
-  return read_lpstatus (q)
+  return read_lpstatus(q)
 }
 
 
@@ -258,12 +258,12 @@ qc_wait (QC_Device * q)
    desired so that the next process need not re-creat(2)e it... just
    lock it.)  The wait argument indicates whether or not this function
    should "block" waiting for the previous lock to be relinquished.
-   This is ideal so that multiple processes (eg. qcam) taking
+   This is ideal so that multiple processes(eg. qcam) taking
    "snapshots" can peacefully coexist.
 
-   -- Dave Plonka (plonka@carroll1.cc.edu) */
+   -- Dave Plonka(plonka@carroll1.cc.edu) */
 static Sane.Status
-qc_lock_wait (QC_Device * q, Int wait)
+qc_lock_wait(QC_Device * q, Int wait)
 {
 #ifdef F_SETLK
 
@@ -280,22 +280,22 @@ qc_lock_wait (QC_Device * q, Int wait)
   struct flock sfl
 #endif
 
-  DBG (3, "qc_lock_wait: acquiring lock for 0x%x\n", q.port)
+  DBG(3, "qc_lock_wait: acquiring lock for 0x%x\n", q.port)
 
 #ifdef F_SETLK
-  memset (&sfl, 0, sizeof (sfl))
+  memset(&sfl, 0, sizeof(sfl))
 #endif
 
-  if (q.lock_fd < 0)
+  if(q.lock_fd < 0)
     {
       char lockfile[128]
 
-      sprintf (lockfile, "/tmp/LOCK.qcam.0x%x", q.port)
-      q.lock_fd = open (lockfile, O_WRONLY | O_CREAT | O_EXCL, 0666)
-      if (q.lock_fd < 0)
+      sprintf(lockfile, "/tmp/LOCK.qcam.0x%x", q.port)
+      q.lock_fd = open(lockfile, O_WRONLY | O_CREAT | O_EXCL, 0666)
+      if(q.lock_fd < 0)
 	{
-	  DBG (1, "qc_lock_wait: failed to open %s (%s)\n",
-	       lockfile, strerror (errno))
+	  DBG(1, "qc_lock_wait: failed to open %s(%s)\n",
+	       lockfile, strerror(errno))
 	  return Sane.STATUS_INVAL
 	}
 
@@ -303,20 +303,20 @@ qc_lock_wait (QC_Device * q, Int wait)
 
 #ifdef F_SETLK
   sfl.l_type = F_WRLCK
-  if (fcntl (q.lock_fd, wait ? F_SETLKW : F_SETLK, &sfl) != 0)
+  if(fcntl(q.lock_fd, wait ? F_SETLKW : F_SETLK, &sfl) != 0)
     {
-      DBG (1, "qc_lock_wait: failed to acquire lock (%s)\n",
-	   strerror (errno))
+      DBG(1, "qc_lock_wait: failed to acquire lock(%s)\n",
+	   strerror(errno))
       return Sane.STATUS_INVAL
     }
 #endif
 
-  DBG (3, "qc_lock_wait: got lock for 0x%x\n", q.port)
+  DBG(3, "qc_lock_wait: got lock for 0x%x\n", q.port)
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-qc_unlock (QC_Device * q)
+qc_unlock(QC_Device * q)
 {
   Sane.Status status
   char lockfile[128]
@@ -334,14 +334,14 @@ qc_unlock (QC_Device * q)
   struct flock sfl
 #endif
 
-  DBG (3, "qc_unlock: releasing lock for 0x%x\n", q.port)
+  DBG(3, "qc_unlock: releasing lock for 0x%x\n", q.port)
 
 #ifdef F_SETLK
-  memset (&sfl, 0, sizeof (sfl))
+  memset(&sfl, 0, sizeof(sfl))
 #endif
-  if (q.lock_fd < 0)
+  if(q.lock_fd < 0)
     {
-      DBG (3, "qc_unlock; port was not locked\n")
+      DBG(3, "qc_unlock; port was not locked\n")
       return Sane.STATUS_INVAL
     }
   /* clear the exclusive lock */
@@ -349,41 +349,41 @@ qc_unlock (QC_Device * q)
 #ifdef F_SETLK
   sfl.l_type = F_UNLCK
 
-  if (fcntl (q.lock_fd, F_SETLK, &sfl) != 0)
+  if(fcntl(q.lock_fd, F_SETLK, &sfl) != 0)
     {
-      DBG (3, "qc_unlock: failed to release lock (%s)\n", strerror (errno))
+      DBG(3, "qc_unlock: failed to release lock(%s)\n", strerror(errno))
       return Sane.STATUS_INVAL
     }
 #endif
-  sprintf (lockfile, "/tmp/LOCK.qcam.0x%x", q.port)
-  DBG (1, "qc_unlock: /tmp/LOCK.qcam.0x%x\n", q.port)
-  unlink (lockfile)
-  close (q.lock_fd)
+  sprintf(lockfile, "/tmp/LOCK.qcam.0x%x", q.port)
+  DBG(1, "qc_unlock: /tmp/LOCK.qcam.0x%x\n", q.port)
+  unlink(lockfile)
+  close(q.lock_fd)
   q.lock_fd = -1
-  DBG (1, "qc_unlock: exit\n")
+  DBG(1, "qc_unlock: exit\n")
   status = Sane.STATUS_GOOD
   return status
 }
 
 static Sane.Status
-qc_lock (QC_Device * q)
+qc_lock(QC_Device * q)
 {
-  return qc_lock_wait (q, 1)
+  return qc_lock_wait(q, 1)
 }
 
 /* Busy-waits for a handshake signal from the QuickCam.  Almost all
    communication with the camera requires handshaking.  This is why
    qcam is a CPU hog.  */
 static Int
-qc_waithand (QC_Device * q, Int val)
+qc_waithand(QC_Device * q, Int val)
 {
   Int status
 
-  while (((status = read_lpstatus (q)) & CamRdy1) != val)
+  while(((status = read_lpstatus(q)) & CamRdy1) != val)
   return status
 }
 
-/* This is used when the qcam is in bidirectional ("byte") mode, and
+/* This is used when the qcam is in bidirectional("byte") mode, and
    the handshaking signal is CamRdy2 (bit 0 of data reg) instead of
    CamRdy1 (bit 3 of status register).  It also returns the last value
    read, since this data is useful.  */
@@ -394,81 +394,81 @@ qc_waithand2 (QC_Device * q, Int val)
 
   do
     {
-      status = read_lpdata (q)
+      status = read_lpdata(q)
     }
-  while ((status & CamRdy2) != (unsigned Int) val)
+  while((status & CamRdy2) != (unsigned Int) val)
   return status
 }
 
 static unsigned Int
-qc_send (QC_Device * q, unsigned Int byte)
+qc_send(QC_Device * q, unsigned Int byte)
 {
   unsigned Int echo
   Int n1, n2
 
-  write_lpdata (q, byte)
-  qc_wait (q)
-  write_lpcontrol (q, Autofeed | Reset_N)
-  qc_wait (q)
+  write_lpdata(q, byte)
+  qc_wait(q)
+  write_lpcontrol(q, Autofeed | Reset_N)
+  qc_wait(q)
 
-  n1 = qc_waithand (q, CamRdy1)
+  n1 = qc_waithand(q, CamRdy1)
 
-  write_lpcontrol (q, Autofeed | Reset_N | PCAck)
-  qc_wait (q)
-  n2 = qc_waithand (q, 0)
+  write_lpcontrol(q, Autofeed | Reset_N | PCAck)
+  qc_wait(q)
+  n2 = qc_waithand(q, 0)
 
   echo = (n1 & 0xf0) | ((n2 & 0xf0) >> 4)
 #ifndef NDEBUG
-  if (echo != byte)
+  if(echo != byte)
     {
-      DBG (1, "qc_send: sent 0x%02x, camera echoed 0x%02x\n", byte, echo)
-      n2 = read_lpstatus (q)
+      DBG(1, "qc_send: sent 0x%02x, camera echoed 0x%02x\n", byte, echo)
+      n2 = read_lpstatus(q)
       echo = (n1 & 0xf0) | ((n2 & 0xf0) >> 4)
-      if (echo != byte)
-	DBG (1, "qc_send: (re-read does not help)\n")
+      if(echo != byte)
+	DBG(1, "qc_send: (re-read does not help)\n")
       else
-	DBG (1, "qc_send: (fixed on re-read)\n")
+	DBG(1, "qc_send: (fixed on re-read)\n")
     }
 #endif
   return echo
 }
 
 static Int
-qc_readparam (QC_Device * q)
+qc_readparam(QC_Device * q)
 {
   Int n1, n2
   Int cmd
 
-  write_lpcontrol (q, Autofeed | Reset_N);	/* clear PCAck */
-  n1 = qc_waithand (q, CamRdy1)
+  write_lpcontrol(q, Autofeed | Reset_N);	/* clear PCAck */
+  n1 = qc_waithand(q, CamRdy1)
 
-  write_lpcontrol (q, Autofeed | Reset_N | PCAck);	/* set PCAck */
-  n2 = qc_waithand (q, 0)
+  write_lpcontrol(q, Autofeed | Reset_N | PCAck);	/* set PCAck */
+  n2 = qc_waithand(q, 0)
 
   cmd = (n1 & 0xf0) | ((n2 & 0xf0) >> 4)
   return cmd
 }
 
 static unsigned Int
-qc_getstatus (QC_Device * q)
+qc_getstatus(QC_Device * q)
 {
   unsigned Int status
 
-  qc_send (q, QC_SEND_STATUS)
-  status = qc_readparam (q)
-  DBG (3, "qc_getstatus: status=0x%02x\n", status)
+  qc_send(q, QC_SEND_STATUS)
+  status = qc_readparam(q)
+  DBG(3, "qc_getstatus: status=0x%02x\n", status)
   return status
 }
 
 static void
-qc_setscanmode (QC_Scanner * s, u_int * modep)
+qc_setscanmode(QC_Scanner * s, u_int * modep)
 {
   QC_Device *q = s.hw
   u_int mode = 0
 
-  if (q.version != QC_COLOR)
+  if(q.version != QC_COLOR)
     {
-      switch (s.val[OPT_XFER_SCALE].w)
+      switch(s.val[OPT_XFER_SCALE].w)
 	{
 	case 1:
 	  mode = 0
@@ -480,7 +480,7 @@ qc_setscanmode (QC_Scanner * s, u_int * modep)
 	  mode = 8
 	  break
 	}
-      switch (s.val[OPT_DEPTH].w)
+      switch(s.val[OPT_DEPTH].w)
 	{
 	case 4:
 	  break
@@ -491,7 +491,7 @@ qc_setscanmode (QC_Scanner * s, u_int * modep)
     }
   else
     {
-      switch (s.val[OPT_XFER_SCALE].w)
+      switch(s.val[OPT_XFER_SCALE].w)
 	{
 	case 1:
 	  mode = 0
@@ -503,20 +503,20 @@ qc_setscanmode (QC_Scanner * s, u_int * modep)
 	  mode = 4
 	  break
 	}
-      if (s.resolution == QC_RES_LOW)
+      if(s.resolution == QC_RES_LOW)
 	mode |= 0x18;		/* millions mode */
       else
 	mode |= 0x10;		/* billions mode */
     }
-  if (s.val[OPT_TEST].w)
+  if(s.val[OPT_TEST].w)
     mode |= 0x40;		/* test mode */
 
-  if (q.port_mode == QC_BIDIR)
+  if(q.port_mode == QC_BIDIR)
     mode |= 1
 
-  DBG (2, "scanmode (before increment): 0x%x\n", mode)
+  DBG(2, "scanmode(before increment): 0x%x\n", mode)
 
-  if (q.version == QC_COLOR)
+  if(q.version == QC_COLOR)
     ++mode
 
   *modep = mode
@@ -527,38 +527,38 @@ qc_setscanmode (QC_Scanner * s, u_int * modep)
    either 1, 3 or 6.  On failure, 0 is returned.  If buffer is 0, the
    internal state-machine is reset.  */
 static size_t
-qc_readbytes (QC_Scanner * s, unsigned char buffer[])
+qc_readbytes(QC_Scanner * s, unsigned char buffer[])
 {
   QC_Device *q = s.hw
   unsigned Int hi, lo
   unsigned Int hi2, lo2
   size_t bytes = 0
 
-  if (!buffer)
+  if(!buffer)
     {
       s.readbytes_state = 0
       return 0
     }
 
-  switch (q.port_mode)
+  switch(q.port_mode)
     {
     case QC_BIDIR:
       /* bi-directional port */
 
       /* read off 24 bits: */
-      write_lpcontrol (q, Autofeed | Reset_N | BiDir)
+      write_lpcontrol(q, Autofeed | Reset_N | BiDir)
       lo = qc_waithand2 (q, 1) >> 1
-      hi = (read_lpstatus (q) >> 3) & 0x1f
-      write_lpcontrol (q, Autofeed | Reset_N | PCAck | BiDir)
+      hi = (read_lpstatus(q) >> 3) & 0x1f
+      write_lpcontrol(q, Autofeed | Reset_N | PCAck | BiDir)
       lo2 = qc_waithand2 (q, 0) >> 1
-      hi2 = (read_lpstatus (q) >> 3) & 0x1f
-      if (q.version == QC_COLOR)
+      hi2 = (read_lpstatus(q) >> 3) & 0x1f
+      if(q.version == QC_COLOR)
 	{
 	  /* is Nibble3 inverted for color quickcams only? */
 	  hi ^= 0x10
 	  hi2 ^= 0x10
 	}
-      switch (s.val[OPT_DEPTH].w)
+      switch(s.val[OPT_DEPTH].w)
 	{
 	case 4:
 	  buffer[0] = lo & 0xf
@@ -588,19 +588,19 @@ qc_readbytes (QC_Scanner * s, unsigned char buffer[])
       break
 
     case QC_UNIDIR:		/* Unidirectional Port */
-      write_lpcontrol (q, Autofeed | Reset_N)
-      lo = (qc_waithand (q, CamRdy1) & 0xf0) >> 4
-      write_lpcontrol (q, Autofeed | Reset_N | PCAck)
-      hi = (qc_waithand (q, 0) & 0xf0) >> 4
+      write_lpcontrol(q, Autofeed | Reset_N)
+      lo = (qc_waithand(q, CamRdy1) & 0xf0) >> 4
+      write_lpcontrol(q, Autofeed | Reset_N | PCAck)
+      hi = (qc_waithand(q, 0) & 0xf0) >> 4
 
-      if (q.version == QC_COLOR)
+      if(q.version == QC_COLOR)
 	{
 	  /* invert Nibble3 */
 	  hi ^= 8
 	  lo ^= 8
 	}
 
-      switch (s.val[OPT_DEPTH].w)
+      switch(s.val[OPT_DEPTH].w)
 	{
 	case 4:
 	  buffer[0] = lo
@@ -609,7 +609,7 @@ qc_readbytes (QC_Scanner * s, unsigned char buffer[])
 	  break
 
 	case 6:
-	  switch (s.readbytes_state)
+	  switch(s.readbytes_state)
 	    {
 	    case 0:
 	      buffer[0] = (lo << 2) | ((hi & 0xc) >> 2)
@@ -633,7 +633,7 @@ qc_readbytes (QC_Scanner * s, unsigned char buffer[])
 	      break
 
 	    default:
-	      DBG (1, "qc_readbytes: bad unidir 6-bit stat %d\n",
+	      DBG(1, "qc_readbytes: bad unidir 6-bit stat %d\n",
 		   s.readbytes_state)
 	      break
 	    }
@@ -645,51 +645,51 @@ qc_readbytes (QC_Scanner * s, unsigned char buffer[])
 	  break
 
 	default:
-	  DBG (1, "qc_readbytes: bad unidir bit depth %d\n",
+	  DBG(1, "qc_readbytes: bad unidir bit depth %d\n",
 	       s.val[OPT_DEPTH].w)
 	  break
 	}
       break
 
     default:
-      DBG (1, "qc_readbytes: bad port_mode %d\n", q.port_mode)
+      DBG(1, "qc_readbytes: bad port_mode %d\n", q.port_mode)
       break
     }
   return bytes
 }
 
 static void
-qc_reset (QC_Device * q)
+qc_reset(QC_Device * q)
 {
-  write_lpcontrol (q, Strobe | Autofeed | Reset_N | PCAck)
-  qc_wait (q)
-  write_lpcontrol (q, Strobe | Autofeed | PCAck)
-  qc_wait (q)
-  write_lpcontrol (q, Strobe | Autofeed | Reset_N | PCAck)
+  write_lpcontrol(q, Strobe | Autofeed | Reset_N | PCAck)
+  qc_wait(q)
+  write_lpcontrol(q, Strobe | Autofeed | PCAck)
+  qc_wait(q)
+  write_lpcontrol(q, Strobe | Autofeed | Reset_N | PCAck)
 }
 
 /* This function is executed as a child process.  The reason this is
    executed as a subprocess is because the qcam interface directly reads
-   off of a I/O port (rather than a filedescriptor).  Thus, to have
+   off of a I/O port(rather than a filedescriptor).  Thus, to have
    something to select() on, we transfer the data through a pipe.
 
    WARNING: Since this is executed as a subprocess, it's NOT possible
-   to update any of the variables in the main process (in particular
+   to update any of the variables in the main process(in particular
    the scanner state cannot be updated).  */
 
 static jmp_buf env
 
 static void
-sighandler (Int signal)
+sighandler(Int signal)
 {
-  DBG (3, "sighandler: got signal %d\n", signal)
-  longjmp (env, 1)
+  DBG(3, "sighandler: got signal %d\n", signal)
+  longjmp(env, 1)
 }
 
 /* Original despeckling code by Patrick Reynolds <patrickr@virginia.edu> */
 
 static void
-despeckle (Int width, Int height, Sane.Byte * in, Sane.Byte * out)
+despeckle(Int width, Int height, Sane.Byte * in, Sane.Byte * out)
 {
   long x, i
   /* The light-check threshold.  Higher numbers remove more lights but
@@ -707,33 +707,33 @@ despeckle (Int width, Int height, Sane.Byte * in, Sane.Byte * out)
 # define nG	in[i*3+4]
 # define nB	in[i*3+5]
 
-  DBG (1, "despeckle: width=%d, height=%d\n", width, height)
+  DBG(1, "despeckle: width=%d, height=%d\n", width, height)
 
-  for (x = i = 0; i < width * height; ++i)
+  for(x = i = 0; i < width * height; ++i)
     {
-      if (x == 0 || x == width - 1)
-	memcpy (&out[i * 3], &in[i * 3], 3)
+      if(x == 0 || x == width - 1)
+	memcpy(&out[i * 3], &in[i * 3], 3)
       else
 	{
-	  if (R - (G + B) / 2 >
+	  if(R - (G + B) / 2 >
 	      NO_LIGHTS + ((pR - (pG + pB) / 2) + (nR - (nG + nB) / 2)))
 	    out[i * 3] = (pR + nR) / 2
 	  else
 	    out[i * 3] = R
 
-	  if (G - (R + B) / 2 >
+	  if(G - (R + B) / 2 >
 	      NO_LIGHTS + ((pG - (pR + pB) / 2) + (nG - (nR + nB) / 2)))
 	    out[i * 3 + 1] = (pG + nG) / 2
 	  else
 	    out[i * 3 + 1] = G
 
-	  if (B - (G + R) / 2 >
+	  if(B - (G + R) / 2 >
 	      NO_LIGHTS + ((pB - (pG + pR) / 2) + (nB - (nG + nR) / 2)))
 	    out[i * 3 + 2] = (pB + nB) / 2
 	  else
 	    out[i * 3 + 2] = B
 	}
-      if (++x >= width)
+      if(++x >= width)
 	x = 0
     }
 # undef R
@@ -765,46 +765,46 @@ despeckle32 (Int width, Int height, Sane.Byte * in, Sane.Byte * out)
 # define nGb	in[i*4 + 5]	/* ignore Gb and use Ga instead---Gb is weird */
 # define nR	in[i*4 + 7]
 
-  DBG (1, "despeckle32: width=%d, height=%d\n", width, height)
+  DBG(1, "despeckle32: width=%d, height=%d\n", width, height)
 
-  for (x = i = 0; i < width * height; ++i)
+  for(x = i = 0; i < width * height; ++i)
     {
-      if (x == 0 || x == width - 1)
-	memcpy (&out[i * 4], &in[i * 4], 4)
+      if(x == 0 || x == width - 1)
+	memcpy(&out[i * 4], &in[i * 4], 4)
       else
 	{
-	  if (x >= width - 2)
+	  if(x >= width - 2)
 	    /* the last red pixel seems to be black at all times, use
 	       R instead: */
 	    nR = R
 
-	  if (R - ((Ga + Gb) / 2 + B) / 2 >
+	  if(R - ((Ga + Gb) / 2 + B) / 2 >
 	      NO_LIGHTS + ((pR - ((pGa + pGb) / 2 + pB) / 2) +
 			   (nR - ((nGa + nGb) / 2 + nB) / 2)))
 	    out[i * 4 + 3] = (pR + nR) / 2
 	  else
 	    out[i * 4 + 3] = R
 
-	  if (Ga - (R + B) / 2 > NO_LIGHTS + ((pGa - (pR + pB) / 2) +
+	  if(Ga - (R + B) / 2 > NO_LIGHTS + ((pGa - (pR + pB) / 2) +
 					      (nGa - (nR + nB) / 2)))
 	    out[i * 4 + 1] = (pGa + nGa) / 2
 	  else
 	    out[i * 4 + 1] = Ga
 
-	  if (Gb - (R + B) / 2 > NO_LIGHTS + ((pGb - (pR + pB) / 2) +
+	  if(Gb - (R + B) / 2 > NO_LIGHTS + ((pGb - (pR + pB) / 2) +
 					      (nGb - (nR + nB) / 2)))
 	    out[i * 4 + 2] = (pGb + nGb) / 2
 	  else
 	    out[i * 4 + 2] = Gb
 
-	  if (B - ((Ga + Gb) / 2 + R) / 2 >
+	  if(B - ((Ga + Gb) / 2 + R) / 2 >
 	      NO_LIGHTS + ((pB - ((pGa + pGb) / 2 + pR) / 2) +
 			   (nB - ((nGa + nGb) / 2 + nR) / 2)))
 	    out[i * 4 + 0] = (pB + nB) / 2
 	  else
 	    out[i * 4 + 0] = B
 	}
-      if (++x >= width)
+      if(++x >= width)
 	x = 0
     }
 # undef R
@@ -822,7 +822,7 @@ despeckle32 (Int width, Int height, Sane.Byte * in, Sane.Byte * out)
 }
 
 static Int
-reader_process (QC_Scanner * s, Int in_fd, Int out_fd)
+reader_process(QC_Scanner * s, Int in_fd, Int out_fd)
 {
   static Sane.Byte *buffer = 0, *extra = 0
   static size_t buffer_size = 0
@@ -833,91 +833,91 @@ reader_process (QC_Scanner * s, Int in_fd, Int out_fd)
   Sane.Byte *src
   FILE *ofp
 
-  DBG (5, "reader_process: enter\n")
+  DBG(5, "reader_process: enter\n")
 
-  enable_ports (q)
+  enable_ports(q)
 
-  ofp = fdopen (out_fd, "w")
-  if (!ofp)
+  ofp = fdopen(out_fd, "w")
+  if(!ofp)
     return 1
 
-  while (1)
+  while(1)
     {
-      if (setjmp (env))
+      if(setjmp(env))
 	{
 	  char ch
 
 	  /* acknowledge the signal: */
-	  DBG (1, "reader_process: sending signal ACK\n")
-	  fwrite (&ch, 1, 1, ofp)
-	  fflush (ofp);		/* force everything out the pipe */
+	  DBG(1, "reader_process: sending signal ACK\n")
+	  fwrite(&ch, 1, 1, ofp)
+	  fflush(ofp);		/* force everything out the pipe */
 	  continue
 	}
-      signal (SIGINT, sighandler)
+      signal(SIGINT, sighandler)
 
       /* the main process gets us started by writing a size_t giving
          the number of bytes we should expect: */
-      if (read (in_fd, &req, sizeof (req)) != sizeof (req))
+      if(read(in_fd, &req, sizeof(req)) != sizeof(req))
 	{
-	  perror ("read")
+	  perror("read")
 	  return 1
 	}
       num_bytes = req.num_bytes
 
-      DBG (3, "reader_process: got request for %lu bytes\n",
+      DBG(3, "reader_process: got request for %lu bytes\n",
 	   (u_long) num_bytes)
 
       /* Don't do this in Sane.start() since there may be a long
          timespan between it and the first Sane.read(), which would
          result in poor images.  */
-      qc_send (q, QC_SEND_VIDEO_FRAME)
-      qc_send (q, req.mode)
+      qc_send(q, QC_SEND_VIDEO_FRAME)
+      qc_send(q, req.mode)
 
-      if (req.despeckle
+      if(req.despeckle
 	  && (!extra || buffer_size < num_bytes
 	      || buffer_size >= 2 * num_bytes))
 	{
-	  if (extra)
-	    extra = realloc (extra, num_bytes)
+	  if(extra)
+	    extra = realloc(extra, num_bytes)
 	  else
-	    extra = malloc (num_bytes)
-	  if (!extra)
+	    extra = malloc(num_bytes)
+	  if(!extra)
 	    {
-	      DBG (1, "reader_process: malloc(%ld) failed\n",
+	      DBG(1, "reader_process: malloc(%ld) failed\n",
 		   (long) num_bytes)
-	      exit (1)
+	      exit(1)
 	    }
 	}
 
-      if (buffer_size < num_bytes || buffer_size >= 2 * num_bytes)
+      if(buffer_size < num_bytes || buffer_size >= 2 * num_bytes)
 	{
-	  if (buffer)
-	    buffer = realloc (buffer, num_bytes)
+	  if(buffer)
+	    buffer = realloc(buffer, num_bytes)
 	  else
-	    buffer = malloc (num_bytes)
-	  if (!buffer)
+	    buffer = malloc(num_bytes)
+	  if(!buffer)
 	    {
-	      DBG (1, "reader_process: malloc(%ld) failed\n",
+	      DBG(1, "reader_process: malloc(%ld) failed\n",
 		   (long) num_bytes)
-	      exit (1)
+	      exit(1)
 	    }
 	  buffer_size = num_bytes
 	}
 
-      if (q.port_mode == QC_BIDIR)
+      if(q.port_mode == QC_BIDIR)
 	{
 	  /* turn port into input port */
-	  write_lpcontrol (q, Autofeed | Reset_N | PCAck | BiDir)
-	  usleep (3)
-	  write_lpcontrol (q, Autofeed | Reset_N | BiDir)
-	  qc_waithand (q, CamRdy1)
-	  write_lpcontrol (q, Autofeed | Reset_N | PCAck | BiDir)
-	  qc_waithand (q, 0)
+	  write_lpcontrol(q, Autofeed | Reset_N | PCAck | BiDir)
+	  usleep(3)
+	  write_lpcontrol(q, Autofeed | Reset_N | BiDir)
+	  qc_waithand(q, CamRdy1)
+	  write_lpcontrol(q, Autofeed | Reset_N | PCAck | BiDir)
+	  qc_waithand(q, 0)
 	}
 
-      if (q.version == QC_COLOR)
-	for (len = 0; len < num_bytes; len += count)
-	  count = qc_readbytes (s, buffer + len)
+      if(q.version == QC_COLOR)
+	for(len = 0; len < num_bytes; len += count)
+	  count = qc_readbytes(s, buffer + len)
       else
 	{
 	  /* strange -- should be 15:63 below, but 4bpp is odd */
@@ -925,7 +925,7 @@ reader_process (QC_Scanner * s, Int in_fd, Int out_fd)
 	  unsigned var i: Int
 	  u_char val
 
-	  switch (s.val[OPT_DEPTH].w)
+	  switch(s.val[OPT_DEPTH].w)
 	    {
 	    case 4:
 	      invert = 16
@@ -938,40 +938,40 @@ reader_process (QC_Scanner * s, Int in_fd, Int out_fd)
 	      break
 
 	    default:
-	      DBG (1, "reader_process: unexpected depth %d\n",
+	      DBG(1, "reader_process: unexpected depth %d\n",
 		   s.val[OPT_DEPTH].w)
 	      return 1
 	    }
 
-	  for (len = 0; len < num_bytes; len += count)
+	  for(len = 0; len < num_bytes; len += count)
 	    {
-	      count = qc_readbytes (s, buffer + len)
-	      for (i = 0; i < count; ++i)
+	      count = qc_readbytes(s, buffer + len)
+	      for(i = 0; i < count; ++i)
 		{
-		  /* 4bpp is odd (again) -- inverter is 16, not 15,
+		  /* 4bpp is odd(again) -- inverter is 16, not 15,
 		     but output must be 0-15 */
 		  val = buffer[len + i]
-		  if (val > 0 || invert != 16)
+		  if(val > 0 || invert != 16)
 		    val = invert - val
 		  buffer[len + i] = (val << shift) | (val >> (8 - 2 * shift))
 		}
 	    }
-	  qc_readbytes (s, 0);	/* reset state machine */
+	  qc_readbytes(s, 0);	/* reset state machine */
 	}
       /* we're done reading this frame: */
-      DBG (2, "reader_process: frame complete\n")
+      DBG(2, "reader_process: frame complete\n")
 
-      if (q.port_mode == QC_BIDIR)
+      if(q.port_mode == QC_BIDIR)
 	{
 	  /* return port to output mode */
-	  write_lpcontrol (q, Autofeed)
-	  usleep (3)
-	  write_lpcontrol (q, Autofeed | Reset_N)
-	  usleep (3)
-	  write_lpcontrol (q, Autofeed | Reset_N | PCAck)
+	  write_lpcontrol(q, Autofeed)
+	  usleep(3)
+	  write_lpcontrol(q, Autofeed | Reset_N)
+	  usleep(3)
+	  write_lpcontrol(q, Autofeed | Reset_N | PCAck)
 	}
 
-      if (req.resolution == QC_RES_HIGH)
+      if(req.resolution == QC_RES_HIGH)
 	{
 	  Sane.Byte buf[6]
 	  Int x, y
@@ -981,26 +981,26 @@ reader_process (QC_Scanner * s, Int in_fd, Int out_fd)
 	  width = req.params.pixels_per_line
 	  height = req.params.lines
 
-	  if (req.despeckle)
+	  if(req.despeckle)
 	    {
 	      despeckle32 (width / 2, req.params.lines / 2, buffer, extra)
 	      src = extra
 	    }
 
-	  assert (!(width & 1));	/* width must be even */
+	  assert(!(width & 1));	/* width must be even */
 
-	  for (y = 0; y < height; ++y)
+	  for(y = 0; y < height; ++y)
 	    {
 	      /* even line */
 
-	      for (x = 0; x < width; x += 2)
+	      for(x = 0; x < width; x += 2)
 		{
 		  Int red1, green1, blue1, green2, blue2
 
 		  blue1 = src[0]
 		  green1 = src[1]
 		  red1 = src[3]
-		  if (x >= width - 2)
+		  if(x >= width - 2)
 		    {
 		      red1 = src[-1];	/* last red seems to be missing */
 		      blue2 = blue1
@@ -1019,33 +1019,33 @@ reader_process (QC_Scanner * s, Int in_fd, Int out_fd)
 		  buf[3] = red1
 		  buf[4] = green2
 		  buf[5] = blue2
-		  if (fwrite (buf, 1, 6, ofp) != 6)
+		  if(fwrite(buf, 1, 6, ofp) != 6)
 		    {
-		      perror ("fwrite: short write")
+		      perror("fwrite: short write")
 		      return 1
 		    }
 		}
-	      if (++y >= height)
+	      if(++y >= height)
 		break
 
 	      src -= 2 * width;	/* 4 bytes/pixel -> 2 pixels of 3 bytes each */
 
 	      /* odd line */
-	      for (x = 0; x < width; x += 2)
+	      for(x = 0; x < width; x += 2)
 		{
 		  Int red1, green3, blue3, green4, blue4
 		  Int yoff
 
-		  if (x >= width - 2)
+		  if(x >= width - 2)
 		    red1 = src[-1];	/* last red seems to be missing */
 		  else
 		    red1 = src[3]
 		  yoff = 2 * width
-		  if (y >= height - 1)
+		  if(y >= height - 1)
 		    yoff = 0
 		  green3 = src[yoff + 1]
 		  blue3 = src[yoff + 0]
-		  if (x >= width - 2)
+		  if(x >= width - 2)
 		    {
 		      blue4 = blue3
 		      green4 = green3
@@ -1063,9 +1063,9 @@ reader_process (QC_Scanner * s, Int in_fd, Int out_fd)
 		  buf[3] = red1
 		  buf[4] = green4
 		  buf[5] = blue4
-		  if (fwrite (buf, 1, 6, ofp) != 6)
+		  if(fwrite(buf, 1, 6, ofp) != 6)
 		    {
-		      perror ("fwrite: short write")
+		      perror("fwrite: short write")
 		      return 1
 		    }
 		}
@@ -1074,144 +1074,144 @@ reader_process (QC_Scanner * s, Int in_fd, Int out_fd)
       else
 	{
 	  src = buffer
-	  if (req.despeckle)
+	  if(req.despeckle)
 	    {
-	      despeckle (req.params.pixels_per_line, req.params.lines,
+	      despeckle(req.params.pixels_per_line, req.params.lines,
 			 buffer, extra)
 	      src = extra
 	    }
 
 	  /* now write the whole thing to the main process: */
-	  if (fwrite (src, 1, num_bytes, ofp) != num_bytes)
+	  if(fwrite(src, 1, num_bytes, ofp) != num_bytes)
 	    {
-	      perror ("fwrite: short write")
+	      perror("fwrite: short write")
 	      return 1
 	    }
 	}
-      fflush (ofp)
+      fflush(ofp)
     }
-  assert (Sane.FALSE);		/* not reached */
-  DBG (5, "reader_process: exit\n")
+  assert(Sane.FALSE);		/* not reached */
+  DBG(5, "reader_process: exit\n")
   return 1
 }
 
 static Sane.Status
-attach (const char *devname, QC_Device ** devp)
+attach(const char *devname, QC_Device ** devp)
 {
   var i: Int, n1, n2, s1, s2, cmd, port, force_unidir
   Sane.Status result, status
   QC_Device *q
   char *endp
 
-  DBG (3, "attach: enter\n")
+  DBG(3, "attach: enter\n")
   errno = 0
   force_unidir = 0
-  if (devname[0] == 'u')
+  if(devname[0] == 'u')
     {
       force_unidir = 1
       ++devname
     }
-  port = strtol (devname, &endp, 0)
-  if (endp == devname || errno == ERANGE)
+  port = strtol(devname, &endp, 0)
+  if(endp == devname || errno == ERANGE)
     {
-      DBG (1, "attach: invalid port address `%s'\n", devname)
+      DBG(1, "attach: invalid port address `%s'\n", devname)
       return Sane.STATUS_INVAL
     }
 
-  for (q = first_dev; q; q = q.next)
-    if (port == q.port)
+  for(q = first_dev; q; q = q.next)
+    if(port == q.port)
       {
-	if (devp)
+	if(devp)
 	  *devp = q
 	return Sane.STATUS_GOOD
       }
 
-  q = malloc (sizeof (*q))
-  if (!q)
+  q = malloc(sizeof(*q))
+  if(!q)
     return Sane.STATUS_NO_MEM
 
-  memset (q, 0, sizeof (*q))
+  memset(q, 0, sizeof(*q))
   q.port = port
   q.lock_fd = -1
 
-  result = enable_ports (q)
-  if (result != Sane.STATUS_GOOD)
+  result = enable_ports(q)
+  if(result != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: cannot enable ports (%s)\n", strerror (errno))
-      free (q)
+      DBG(1, "attach: cannot enable ports(%s)\n", strerror(errno))
+      free(q)
       return Sane.STATUS_INVAL
     }
 
   /* lock camera while we determine its version: */
-  qc_lock (q)
+  qc_lock(q)
 
-  qc_reset (q)
+  qc_reset(q)
 
-  write_lpdata (q, QC_SEND_VERSION)
-  qc_wait (q)
-  write_lpcontrol (q, Autofeed | Reset_N);	/* make PCAck inactive */
-  qc_wait (q)
+  write_lpdata(q, QC_SEND_VERSION)
+  qc_wait(q)
+  write_lpcontrol(q, Autofeed | Reset_N);	/* make PCAck inactive */
+  qc_wait(q)
 
-  for (i = 0; (i < 1000) && !(s1 = (n1 = read_lpstatus (q)) & CamRdy1); i++)
-  if (!s1)
+  for(i = 0; (i < 1000) && !(s1 = (n1 = read_lpstatus(q)) & CamRdy1); i++)
+  if(!s1)
     {
-      DBG (2, "attach: failed to get CamRdy1 at port 0x%x\n", q.port)
+      DBG(2, "attach: failed to get CamRdy1 at port 0x%x\n", q.port)
       goto unlock_and_fail
     }
 
-  write_lpcontrol (q, Autofeed | Reset_N | PCAck)
-  qc_wait (q)
+  write_lpcontrol(q, Autofeed | Reset_N | PCAck)
+  qc_wait(q)
 
-  for (i = 0; (i < 1000) && (s2 = (n2 = read_lpstatus (q)) & CamRdy1); i++)
-  if (s2)
+  for(i = 0; (i < 1000) && (s2 = (n2 = read_lpstatus(q)) & CamRdy1); i++)
+  if(s2)
     {
-      DBG (2, "attach: CamRdy1 failed to clear at port 0x%x\n", q.port)
+      DBG(2, "attach: CamRdy1 failed to clear at port 0x%x\n", q.port)
       goto unlock_and_fail
     }
 
   cmd = (n1 & 0xf0) | ((n2 & 0xf0) >> 4)
 
-  if (cmd != QC_SEND_VERSION)
+  if(cmd != QC_SEND_VERSION)
     {
-      DBG (2, "attach: got 0x%02x instead of 0x%02x\n", cmd, QC_SEND_VERSION)
+      DBG(2, "attach: got 0x%02x instead of 0x%02x\n", cmd, QC_SEND_VERSION)
       goto unlock_and_fail
     }
 
-  q.version = qc_readparam (q)
-  DBG (1, "attach: found QuickCam version 0x%02x\n", q.version)
+  q.version = qc_readparam(q)
+  DBG(1, "attach: found QuickCam version 0x%02x\n", q.version)
 
   q.port_mode = QC_UNIDIR
-  if (!force_unidir)
+  if(!force_unidir)
     {
-      write_lpcontrol (q, BiDir)
-      write_lpdata (q, 0x75)
-      if (read_lpdata (q) != 0x75)
+      write_lpcontrol(q, BiDir)
+      write_lpdata(q, 0x75)
+      if(read_lpdata(q) != 0x75)
 	q.port_mode = QC_BIDIR
     }
 
   /* For some reason the color quickcam needs two set-black commands
      after a reset.  Thus, we now set the black-level to some
-     reasonable value (0) so that the next set-black level command
+     reasonable value(0) so that the next set-black level command
      will really go through.  */
-  if (q.version == QC_COLOR)
+  if(q.version == QC_COLOR)
     {
-      qc_send (q, QC_SET_BLACK)
-      qc_send (q, 0)
+      qc_send(q, QC_SET_BLACK)
+      qc_send(q, 0)
 
-      DBG (3, "attach: resetting black_level\n")
+      DBG(3, "attach: resetting black_level\n")
 
       /* wait for set black level command to finish: */
-      while (qc_getstatus (q) & (CameraNotReady | BlackBalanceInProgress))
-	usleep (10000)
+      while(qc_getstatus(q) & (CameraNotReady | BlackBalanceInProgress))
+	usleep(10000)
     }
 
-  status = qc_unlock (q)
-  if (status != Sane.STATUS_GOOD)
+  status = qc_unlock(q)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: status qc_unlock NOK\n")
+      DBG(1, "attach: status qc_unlock NOK\n")
       /* status = Sane.STATUS_GOOD;  */
     }
-  q.sane.name = strdup (devname)
+  q.sane.name = strdup(devname)
   q.sane.vendor = "Connectix"
   q.sane.model =
     (q.version == QC_COLOR) ? "Color QuickCam" : "B&W QuickCam"
@@ -1221,38 +1221,38 @@ attach (const char *devname, QC_Device ** devp)
   q.next = first_dev
   first_dev = q
 
-  if (devp)
+  if(devp)
     *devp = q
-  DBG (3, "attach: exit status OK\n")
+  DBG(3, "attach: exit status OK\n")
   status = Sane.STATUS_GOOD
   return status
 
 
 unlock_and_fail:
-  status = qc_unlock (q)
-  if (status != Sane.STATUS_GOOD)
+  status = qc_unlock(q)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: unlock_and_fail status qc_unlock NOK\n")
+      DBG(1, "attach: unlock_and_fail status qc_unlock NOK\n")
     }
-  free (q)
-  DBG (3, "attach: exit status NOK\n")
+  free(q)
+  DBG(3, "attach: exit status NOK\n")
   status = Sane.STATUS_INVAL
   return status
 }
 
 static Sane.Status
-init_options (QC_Scanner * s)
+init_options(QC_Scanner * s)
 {
   var i: Int
 
-  DBG (3, "init_options: enter\n")
+  DBG(3, "init_options: enter\n")
 
-  memset (s.opt, 0, sizeof (s.opt))
-  memset (s.val, 0, sizeof (s.val))
+  memset(s.opt, 0, sizeof(s.opt))
+  memset(s.val, 0, sizeof(s.val))
 
-  for (i = 0; i < NUM_OPTIONS; ++i)
+  for(i = 0; i < NUM_OPTIONS; ++i)
     {
-      s.opt[i].size = sizeof (Sane.Word)
+      s.opt[i].size = sizeof(Sane.Word)
       s.opt[i].cap = (Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT)
     }
 
@@ -1279,7 +1279,7 @@ init_options (QC_Scanner * s)
   s.opt[OPT_RESOLUTION].unit = Sane.UNIT_NONE
   s.opt[OPT_RESOLUTION].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_RESOLUTION].constraint.string_list = resolution_list
-  s.val[OPT_RESOLUTION].s = strdup (resolution_list[QC_RES_LOW])
+  s.val[OPT_RESOLUTION].s = strdup(resolution_list[QC_RES_LOW])
 
   /* bit-depth */
   s.opt[OPT_DEPTH].name = Sane.NAME_BIT_DEPTH
@@ -1289,7 +1289,7 @@ init_options (QC_Scanner * s)
   s.opt[OPT_DEPTH].unit = Sane.UNIT_BIT
   s.opt[OPT_DEPTH].constraint_type = Sane.CONSTRAINT_WORD_LIST
   s.opt[OPT_DEPTH].constraint.word_list = color_depth_list
-  s.val[OPT_DEPTH].w = color_depth_list[NELEMS (color_depth_list) - 1]
+  s.val[OPT_DEPTH].w = color_depth_list[NELEMS(color_depth_list) - 1]
 
   /* test */
   s.opt[OPT_TEST].name = "test-image"
@@ -1408,7 +1408,7 @@ init_options (QC_Scanner * s)
   s.opt[OPT_BLACK_LEVEL].title = Sane.TITLE_BLACK_LEVEL
   s.opt[OPT_BLACK_LEVEL].desc = Sane.DESC_BLACK_LEVEL
     " This value should be selected so that black areas just start "
-    "to look really black (not gray)."
+    "to look really black(not gray)."
   s.opt[OPT_BLACK_LEVEL].type = Sane.TYPE_INT
   s.opt[OPT_BLACK_LEVEL].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_BLACK_LEVEL].constraint.range = &u8_range
@@ -1419,7 +1419,7 @@ init_options (QC_Scanner * s)
   s.opt[OPT_WHITE_LEVEL].title = Sane.TITLE_WHITE_LEVEL
   s.opt[OPT_WHITE_LEVEL].desc = Sane.DESC_WHITE_LEVEL
     " This value should be selected so that white areas just start "
-    "to look really white (not gray)."
+    "to look really white(not gray)."
   s.opt[OPT_WHITE_LEVEL].type = Sane.TYPE_INT
   s.opt[OPT_WHITE_LEVEL].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_WHITE_LEVEL].constraint.range = &u8_range
@@ -1443,130 +1443,130 @@ init_options (QC_Scanner * s)
   s.opt[OPT_SATURATION].constraint.range = &u8_range
   s.val[OPT_SATURATION].w = 100
 
-  DBG (3, "init_options: exit\n")
+  DBG(3, "init_options: exit\n")
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 {
   char dev_name[PATH_MAX], *str
   size_t len
   FILE *fp
   authorize = authorize;	/* silence compilation warnings */
 
-  DBG_INIT ()
+  DBG_INIT()
 
-  DBG (1, "Sane.init: enter\n")
+  DBG(1, "Sane.init: enter\n")
 
-  if (version_code)
-    *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, 0)
+  if(version_code)
+    *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, 0)
 
-  fp = sanei_config_open (QCAM_CONFIG_FILE)
-  if (!fp)
+  fp = sanei_config_open(QCAM_CONFIG_FILE)
+  if(!fp)
     {
-      DBG (1, "Sane.init: file `%s' not accessible\n", QCAM_CONFIG_FILE)
+      DBG(1, "Sane.init: file `%s' not accessible\n", QCAM_CONFIG_FILE)
       return Sane.STATUS_INVAL
     }
 
-  while (sanei_config_read (dev_name, sizeof (dev_name), fp))
+  while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if (dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == '#')	/* ignore line comments */
 	continue
-      len = strlen (dev_name)
+      len = strlen(dev_name)
 
-      if (!len)
+      if(!len)
 	continue;		/* ignore empty lines */
 
-      for (str = dev_name; *str && !isspace (*str) && *str != '#'; ++str)
+      for(str = dev_name; *str && !isspace(*str) && *str != '#'; ++str)
       *str = '\0'
 
-      attach (dev_name, 0)
+      attach(dev_name, 0)
     }
-  fclose (fp)
+  fclose(fp)
 
-  DBG (1, "Sane.init: exit\n")
+  DBG(1, "Sane.init: exit\n")
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   QC_Device *dev, *next
   static const Sane.Device **devlist
 
-  DBG (5, "Sane.exit: enter\n")
+  DBG(5, "Sane.exit: enter\n")
 
-  for (dev = first_dev; dev; dev = next)
+  for(dev = first_dev; dev; dev = next)
     {
       next = dev.next
-      free ((void *) dev.sane.name)
-      disable_ports (dev)
-      free (dev)
+      free((void *) dev.sane.name)
+      disable_ports(dev)
+      free(dev)
     }
-  if (devlist) {
-	  free (devlist)
+  if(devlist) {
+	  free(devlist)
           devlist = NULL
   }
-  DBG (5, "Sane.exit: exit\n")
+  DBG(5, "Sane.exit: exit\n")
 }
 
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 {
   static const Sane.Device **devlist = 0
   QC_Device *dev
   var i: Int
 
-  DBG (5, "Sane.get_devices: enter\n")
+  DBG(5, "Sane.get_devices: enter\n")
 
   local_only = local_only;	/* silence compilation warnings */
 
-  if (devlist)
-    free (devlist)
+  if(devlist)
+    free(devlist)
 
-  devlist = malloc ((num_devices + 1) * sizeof (devlist[0]))
-  if (!devlist)
+  devlist = malloc((num_devices + 1) * sizeof(devlist[0]))
+  if(!devlist)
     return Sane.STATUS_NO_MEM
 
   i = 0
-  for (dev = first_dev; i < num_devices; dev = dev.next)
+  for(dev = first_dev; i < num_devices; dev = dev.next)
     devlist[i++] = &dev.sane
   devlist[i++] = 0
 
   *device_list = devlist
 
-  DBG (5, "Sane.get_devices: exit\n")
+  DBG(5, "Sane.get_devices: exit\n")
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
+Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 {
   Sane.Status status
   QC_Device *dev
   QC_Scanner *s
 
-  DBG (5, "Sane.open: enter: (devicename = %s)\n", devicename)
-  if (devicename[0])
+  DBG(5, "Sane.open: enter: (devicename = %s)\n", devicename)
+  if(devicename[0])
     {
-      status = attach (devicename, &dev)
-      if (status != Sane.STATUS_GOOD)
+      status = attach(devicename, &dev)
+      if(status != Sane.STATUS_GOOD)
 	return status
     }
   else
     /* empty devicname -> use first device */
     dev = first_dev
 
-  if (!dev)
+  if(!dev)
     return Sane.STATUS_INVAL
 
-  s = malloc (sizeof (*s))
-  if (!s)
+  s = malloc(sizeof(*s))
+  if(!s)
     return Sane.STATUS_NO_MEM
-  memset (s, 0, sizeof (*s))
+  memset(s, 0, sizeof(*s))
   s.user_corner = 0
   s.hw = dev
   s.value_changed = ~0;	/* ensure all options get updated */
@@ -1575,12 +1575,12 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
   s.from_child = -1
   s.read_fd = -1
 
-  init_options (s)
+  init_options(s)
 
   /* The contrast option seems to have an effect for b&w cameras only,
      so don't give the user the impression that this is a useful thing
      to set... */
-  if (s.hw.version == QC_COLOR)
+  if(s.hw.version == QC_COLOR)
     s.opt[OPT_CONTRAST].cap |= Sane.CAP_INACTIVE
   else
     {
@@ -1596,7 +1596,7 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
       s.opt[OPT_TEST].cap |= Sane.CAP_INACTIVE
 
       s.opt[OPT_DEPTH].constraint.word_list = mono_depth_list
-      s.val[OPT_DEPTH].w = mono_depth_list[NELEMS (mono_depth_list) - 1]
+      s.val[OPT_DEPTH].w = mono_depth_list[NELEMS(mono_depth_list) - 1]
       s.opt[OPT_TL_X].constraint.range = &bw_x_range
       s.val[OPT_TL_X].w = 14
       s.opt[OPT_TL_Y].constraint.range = &bw_y_range
@@ -1617,75 +1617,75 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
 
   *handle = s
 
-  DBG (5, "Sane.open: exit\n")
+  DBG(5, "Sane.open: exit\n")
 
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
   QC_Scanner *prev, *s
 
-  DBG (5, "Sane.close: enter\n")
+  DBG(5, "Sane.close: enter\n")
 
   /* remove handle from list of open handles: */
   prev = 0
-  for (s = first_handle; s; s = s.next)
+  for(s = first_handle; s; s = s.next)
     {
-      if (s == handle)
+      if(s == handle)
 	break
       prev = s
     }
-  if (!s)
+  if(!s)
     {
-      DBG (1, "Sane.close: bad handle %p\n", handle)
+      DBG(1, "Sane.close: bad handle %p\n", handle)
       return;			/* oops, not a handle we know about */
     }
-  if (prev)
+  if(prev)
     prev.next = s.next
   else
     first_handle = s.next
 
-  if (s.scanning)
-    Sane.cancel (handle)
+  if(s.scanning)
+    Sane.cancel(handle)
 
-  if (s.reader_pid >= 0)
+  if(s.reader_pid >= 0)
     {
-      kill (s.reader_pid, SIGTERM)
-      waitpid (s.reader_pid, 0, 0)
+      kill(s.reader_pid, SIGTERM)
+      waitpid(s.reader_pid, 0, 0)
       s.reader_pid = 0
     }
-  if (s.to_child >= 0)
-    close (s.to_child)
-  if (s.from_child >= 0)
-    close (s.from_child)
-  if (s.read_fd >= 0)
-    close (s.read_fd)
+  if(s.to_child >= 0)
+    close(s.to_child)
+  if(s.from_child >= 0)
+    close(s.from_child)
+  if(s.read_fd >= 0)
+    close(s.read_fd)
 
-  free (s)
+  free(s)
 
-  DBG (5, "Sane.close: exit\n")
+  DBG(5, "Sane.close: exit\n")
 
 }
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
   QC_Scanner *s = handle
 
-  DBG (5, "Sane.get_option_descriptor: enter\n")
+  DBG(5, "Sane.get_option_descriptor: enter\n")
 
-  if ((unsigned) option >= NUM_OPTIONS)
+  if((unsigned) option >= NUM_OPTIONS)
     return 0
 
-  DBG (5, "Sane.get_option_descriptor: exit\n")
+  DBG(5, "Sane.get_option_descriptor: exit\n")
 
   return s.opt + option
 }
 
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
 		     Sane.Action action, void *val, Int * info)
 {
   QC_Scanner *s = handle
@@ -1695,22 +1695,22 @@ Sane.control_option (Sane.Handle handle, Int option,
   char *old_val
   var i: Int
 
-  DBG (5, "Sane.control_option: enter\n")
+  DBG(5, "Sane.control_option: enter\n")
 
-  if (info)
+  if(info)
     *info = 0
 
-  if (option >= NUM_OPTIONS)
+  if(option >= NUM_OPTIONS)
     return Sane.STATUS_INVAL
 
   cap = s.opt[option].cap
 
-  if (!Sane.OPTION_IS_ACTIVE (cap))
+  if(!Sane.OPTION_IS_ACTIVE(cap))
     return Sane.STATUS_INVAL
 
-  if (action == Sane.ACTION_GET_VALUE)
+  if(action == Sane.ACTION_GET_VALUE)
     {
-      switch (option)
+      switch(option)
 	{
 	  /* word options: */
 	case OPT_NUM_OPTS:
@@ -1733,29 +1733,29 @@ Sane.control_option (Sane.Handle handle, Int option,
 
 	  /* string options: */
 	case OPT_RESOLUTION:
-	  strcpy (val, s.val[option].s)
+	  strcpy(val, s.val[option].s)
 	  return Sane.STATUS_GOOD
 
 	default:
-	  DBG (1, "control_option: option %d unknown\n", option)
+	  DBG(1, "control_option: option %d unknown\n", option)
 	}
     }
-  else if (action == Sane.ACTION_SET_VALUE)
+  else if(action == Sane.ACTION_SET_VALUE)
     {
-      if (!Sane.OPTION_IS_SETTABLE (cap))
+      if(!Sane.OPTION_IS_SETTABLE(cap))
 	return Sane.STATUS_INVAL
 
-      status = sanei_constrain_value (s.opt + option, val, info)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_constrain_value(s.opt + option, val, info)
+      if(status != Sane.STATUS_GOOD)
 	return status
 
-      if (option >= OPT_TL_X && option <= OPT_BR_Y)
+      if(option >= OPT_TL_X && option <= OPT_BR_Y)
 	s.user_corner |= 1 << (option - OPT_TL_X)
 
-      assert (option <= 31)
+      assert(option <= 31)
       s.value_changed |= 1 << option
 
-      switch (option)
+      switch(option)
 	{
 	  /* (mostly) side-effect-free word options: */
 	case OPT_TL_X:
@@ -1764,7 +1764,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_BR_Y:
 	case OPT_XFER_SCALE:
 	case OPT_DEPTH:
-	  if (!s.scanning && info && s.val[option].w != *(Sane.Word *) val)
+	  if(!s.scanning && info && s.val[option].w != *(Sane.Word *) val)
 	    /* only signal the reload params if we're not scanning---no point
 	       in creating the frontend useless work */
 	    *info |= Sane.INFO_RELOAD_PARAMS
@@ -1785,22 +1785,22 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_RESOLUTION:
 	  old_val = s.val[OPT_RESOLUTION].s
 
-	  if (strcmp (old_val, val) != 0)
+	  if(strcmp(old_val, val) != 0)
 	    return Sane.STATUS_GOOD;	/* no change */
 
-	  if (info)
+	  if(info)
 	    {
 	      *info |= Sane.INFO_RELOAD_OPTIONS
-	      if (!s.scanning)
+	      if(!s.scanning)
 		*info |= Sane.INFO_RELOAD_PARAMS
 	    }
-	  free (old_val)
-	  s.val[OPT_RESOLUTION].s = strdup (val)
+	  free(old_val)
+	  s.val[OPT_RESOLUTION].s = strdup(val)
 
 	  /* low-resolution mode: */
 	  old_res = s.resolution
 	  s.resolution = QC_RES_LOW
-	  if (strcmp (val, resolution_list[QC_RES_HIGH]) == 0)
+	  if(strcmp(val, resolution_list[QC_RES_HIGH]) == 0)
 	    /* high-resolution mode: */
 	    s.resolution = QC_RES_HIGH
 	  s.opt[OPT_TL_X].constraint.range = &x_range[s.resolution]
@@ -1808,42 +1808,42 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  s.opt[OPT_TL_Y].constraint.range = &y_range[s.resolution]
 	  s.opt[OPT_BR_Y].constraint.range = &odd_y_range[s.resolution]
 
-	  if (old_res == QC_RES_LOW && s.resolution == QC_RES_HIGH)
+	  if(old_res == QC_RES_LOW && s.resolution == QC_RES_HIGH)
 	    {
-	      for (i = OPT_TL_X; i <= OPT_BR_Y; ++i)
+	      for(i = OPT_TL_X; i <= OPT_BR_Y; ++i)
 		s.val[i].w *= 2
 	      s.val[OPT_BR_X].w += 1
 	      s.val[OPT_BR_Y].w += 1
 	      s.opt[OPT_TEST].cap |= Sane.CAP_INACTIVE
 	    }
-	  else if (old_res == QC_RES_HIGH && s.resolution == QC_RES_LOW)
+	  else if(old_res == QC_RES_HIGH && s.resolution == QC_RES_LOW)
 	    {
-	      for (i = OPT_TL_X; i <= OPT_BR_Y; ++i)
+	      for(i = OPT_TL_X; i <= OPT_BR_Y; ++i)
 		s.val[i].w /= 2
 	      s.opt[OPT_TEST].cap &= ~Sane.CAP_INACTIVE
 	    }
 
-	  if (!(s.user_corner & 0x4))
+	  if(!(s.user_corner & 0x4))
 	    s.val[OPT_BR_X].w = odd_x_range[s.resolution].max
-	  if (!(s.user_corner & 0x8))
+	  if(!(s.user_corner & 0x8))
 	    s.val[OPT_BR_Y].w = odd_y_range[s.resolution].max - 4
 
 	  /* make sure the affected options have valid values: */
-	  for (i = OPT_TL_X; i <= OPT_BR_Y; ++i)
-	    if (s.val[i].w > s.opt[i].constraint.range.max)
+	  for(i = OPT_TL_X; i <= OPT_BR_Y; ++i)
+	    if(s.val[i].w > s.opt[i].constraint.range.max)
 	      s.val[i].w = s.opt[i].constraint.range.max
 
-          DBG (5, "Sane.control_option: exit\n")
+          DBG(5, "Sane.control_option: exit\n")
 	  return Sane.STATUS_GOOD
 	}
     }
-  else if (action == Sane.ACTION_SET_AUTO)
+  else if(action == Sane.ACTION_SET_AUTO)
     {
-      switch (option)
+      switch(option)
 	{
 	case OPT_BRIGHTNESS:
 	  /* not implemented yet */
-          DBG (5, "Sane.control_option: exit\n")
+          DBG(5, "Sane.control_option: exit\n")
 	  return Sane.STATUS_GOOD
 
 	default:
@@ -1851,28 +1851,28 @@ Sane.control_option (Sane.Handle handle, Int option,
 	}
     }
 
-  DBG (5, "Sane.control_option: NOK exit\n")
+  DBG(5, "Sane.control_option: NOK exit\n")
   return Sane.STATUS_INVAL
 }
 
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
   QC_Scanner *s = handle
   QC_Device *q = s.hw
   Int xfer_scale
   size_t Bpp = 3;		/* # of bytes per pixel */
 
-  DBG (5, "Sane.get_parameters: enter\n")
+  DBG(5, "Sane.get_parameters: enter\n")
 
-  if (!s.scanning)
+  if(!s.scanning)
     {
       /* Only compute new parameters when not scanning---allows
          changing width/height etc while scan is in progress.  */
       xfer_scale = s.val[OPT_XFER_SCALE].w
 
       s.params.format = Sane.FRAME_RGB
-      if (q.version != QC_COLOR)
+      if(q.version != QC_COLOR)
 	{
 	  s.params.format = Sane.FRAME_GRAY
 	  Bpp = 1
@@ -1882,134 +1882,134 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
       s.params.pixels_per_line = s.val[OPT_BR_X].w - s.val[OPT_TL_X].w + 1
       s.params.pixels_per_line /= xfer_scale
       s.params.pixels_per_line &= ~1UL;	/* ensure it's even */
-      if (s.params.pixels_per_line < 2)
+      if(s.params.pixels_per_line < 2)
 	s.params.pixels_per_line = 2
 
       s.params.lines = s.val[OPT_BR_Y].w - s.val[OPT_TL_Y].w + 1
       s.params.lines /= xfer_scale
-      if (s.params.lines < 1)
+      if(s.params.lines < 1)
 	s.params.lines = 1
 
       s.params.bytes_per_line = Bpp * s.params.pixels_per_line
       s.params.depth = 8
     }
-  if (params)
+  if(params)
     *params = s.params
 
-  DBG (5, "Sane.get_parameters: exit\n")
+  DBG(5, "Sane.get_parameters: exit\n")
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   Int top, left, width, height, undecimated_width, undecimated_height
   QC_Scanner *s = handle
   QC_Device *q = s.hw
   QC_Scan_Request req
 
-  DBG (5, "Sane.start: enter\n")
+  DBG(5, "Sane.start: enter\n")
 
-  if (s.scanning)
+  if(s.scanning)
     return Sane.STATUS_DEVICE_BUSY
 
-  if (s.reader_pid < 0)
+  if(s.reader_pid < 0)
     {
       Int p2c_pipe[2];		/* parent.child pipe */
       Int c2p_pipe[2];		/* child.parent pipe */
 
-      if (pipe (p2c_pipe) < 0 || pipe (c2p_pipe) < 0)
+      if(pipe(p2c_pipe) < 0 || pipe(c2p_pipe) < 0)
 	{
-	  DBG (3, "start: failed to create pipes\n")
+	  DBG(3, "start: failed to create pipes\n")
 	  return Sane.STATUS_IO_ERROR
 	}
 
-      s.reader_pid = fork ()
-      if (s.reader_pid == 0)
+      s.reader_pid = fork()
+      if(s.reader_pid == 0)
 	{
 	  /* this is the child */
-	  signal (SIGHUP, SIG_DFL)
-	  signal (SIGINT, SIG_DFL)
-	  signal (SIGPIPE, SIG_DFL)
-	  signal (SIGTERM, SIG_DFL)
-	  _exit (reader_process (s, p2c_pipe[0], c2p_pipe[1]))
+	  signal(SIGHUP, SIG_DFL)
+	  signal(SIGINT, SIG_DFL)
+	  signal(SIGPIPE, SIG_DFL)
+	  signal(SIGTERM, SIG_DFL)
+	  _exit(reader_process(s, p2c_pipe[0], c2p_pipe[1]))
 	}
-      close (p2c_pipe[0])
-      close (c2p_pipe[1])
+      close(p2c_pipe[0])
+      close(c2p_pipe[1])
       s.to_child = p2c_pipe[1]
       s.from_child = c2p_pipe[0]
     }
 
-  s.read_fd = dup (s.from_child)
-  Sane.get_parameters (s, 0);	/* ensure up-to-date parameters */
+  s.read_fd = dup(s.from_child)
+  Sane.get_parameters(s, 0);	/* ensure up-to-date parameters */
 
-  qc_lock (q)
+  qc_lock(q)
   s.holding_lock = Sane.TRUE
 
-  if (q.version == QC_COLOR)
+  if(q.version == QC_COLOR)
     {
-      qc_send (q, QC_SET_SPEED)
-      qc_send (q, 2)
+      qc_send(q, QC_SET_SPEED)
+      qc_send(q, 2)
 
       /* wait for camera to become ready: */
-      while (qc_getstatus (q) & CameraNotReady)
-	usleep (10000)
+      while(qc_getstatus(q) & CameraNotReady)
+	usleep(10000)
 
       /* Only send black_level if necessary; this optimization may
          fail if two applications access the camera in an interleaved
          fashion; but the black-level command is slow enough that it
          cannot be issued for every image acquisition.  */
-      if (s.value_changed & (1 << OPT_BLACK_LEVEL))
+      if(s.value_changed & (1 << OPT_BLACK_LEVEL))
 	{
 	  s.value_changed &= ~(1 << OPT_BLACK_LEVEL)
 
-	  qc_send (q, QC_SET_BLACK)
-	  qc_send (q, s.val[OPT_BLACK_LEVEL].w)
+	  qc_send(q, QC_SET_BLACK)
+	  qc_send(q, s.val[OPT_BLACK_LEVEL].w)
 
-	  DBG (3, "start: black_level=%d\n", s.val[OPT_BLACK_LEVEL].w)
+	  DBG(3, "start: black_level=%d\n", s.val[OPT_BLACK_LEVEL].w)
 
 	  /* wait for set black level command to finish: */
-	  while (qc_getstatus (q) & (CameraNotReady | BlackBalanceInProgress))
-	    usleep (10000)
+	  while(qc_getstatus(q) & (CameraNotReady | BlackBalanceInProgress))
+	    usleep(10000)
 	}
 
-      if (s.value_changed & (1 << OPT_HUE))
+      if(s.value_changed & (1 << OPT_HUE))
 	{
 	  s.value_changed &= ~(1 << OPT_HUE)
-	  qc_send (q, QC_COL_SET_HUE)
-	  qc_send (q, s.val[OPT_HUE].w)
+	  qc_send(q, QC_COL_SET_HUE)
+	  qc_send(q, s.val[OPT_HUE].w)
 	}
 
-      if (s.value_changed & (1 << OPT_SATURATION))
+      if(s.value_changed & (1 << OPT_SATURATION))
 	{
 	  s.value_changed &= ~(1 << OPT_SATURATION)
-	  qc_send (q, QC_SET_SATURATION)
-	  qc_send (q, s.val[OPT_SATURATION].w)
+	  qc_send(q, QC_SET_SATURATION)
+	  qc_send(q, s.val[OPT_SATURATION].w)
 	}
     }
 
-  if (q.version != QC_COLOR)
-    qc_reset (q)
+  if(q.version != QC_COLOR)
+    qc_reset(q)
 
-  if (s.value_changed & (1 << OPT_CONTRAST))
+  if(s.value_changed & (1 << OPT_CONTRAST))
     {
       s.value_changed &= ~(1 << OPT_CONTRAST)
-      qc_send (q, ((q.version == QC_COLOR)
+      qc_send(q, ((q.version == QC_COLOR)
 		   ? QC_COL_SET_CONTRAST : QC_MONO_SET_CONTRAST))
-      qc_send (q, s.val[OPT_CONTRAST].w)
+      qc_send(q, s.val[OPT_CONTRAST].w)
     }
 
-  if (s.value_changed & (1 << OPT_BRIGHTNESS))
+  if(s.value_changed & (1 << OPT_BRIGHTNESS))
     {
       s.value_changed &= ~(1 << OPT_BRIGHTNESS)
-      qc_send (q, QC_SET_BRIGHTNESS)
-      qc_send (q, s.val[OPT_BRIGHTNESS].w)
+      qc_send(q, QC_SET_BRIGHTNESS)
+      qc_send(q, s.val[OPT_BRIGHTNESS].w)
     }
 
   width = s.params.pixels_per_line
   height = s.params.lines
-  if (s.resolution == QC_RES_HIGH)
+  if(s.resolution == QC_RES_HIGH)
     {
       width /= 2;		/* the expansion occurs through oversampling */
       height /= 2;		/* we acquire only half the lines that we generate */
@@ -2020,19 +2020,19 @@ Sane.start (Sane.Handle handle)
   s.num_bytes = 0
   s.bytes_per_frame = s.params.lines * s.params.bytes_per_line
 
-  qc_send (q, QC_SET_NUM_V)
-  qc_send (q, undecimated_height)
+  qc_send(q, QC_SET_NUM_V)
+  qc_send(q, undecimated_height)
 
-  if (q.version == QC_COLOR)
+  if(q.version == QC_COLOR)
     {
-      qc_send (q, QC_SET_NUM_H)
-      qc_send (q, undecimated_width / 2)
+      qc_send(q, QC_SET_NUM_H)
+      qc_send(q, undecimated_width / 2)
     }
   else
     {
       Int val, val2
 
-      if (q.port_mode == QC_UNIDIR && s.val[OPT_DEPTH].w == 6)
+      if(q.port_mode == QC_UNIDIR && s.val[OPT_DEPTH].w == 6)
 	{
 	  val = undecimated_width
 	  val2 = s.val[OPT_XFER_SCALE].w * 4
@@ -2044,46 +2044,46 @@ Sane.start (Sane.Handle handle)
 	    ((q.port_mode == QC_BIDIR) ? 24 : 8) * s.val[OPT_XFER_SCALE].w
 	}
       val = (val + val2 - 1) / val2
-      qc_send (q, QC_SET_NUM_H)
-      qc_send (q, val)
+      qc_send(q, QC_SET_NUM_H)
+      qc_send(q, val)
     }
 
   left = s.val[OPT_TL_X].w / 2
   top = s.val[OPT_TL_Y].w
-  if (s.resolution == QC_RES_HIGH)
+  if(s.resolution == QC_RES_HIGH)
     {
       left /= 2
       top /= 2
     }
 
-  DBG (3, "Sane.start: top=%d, left=%d, white=%d, bright=%d, contr=%d\n",
+  DBG(3, "Sane.start: top=%d, left=%d, white=%d, bright=%d, contr=%d\n",
        top, left, s.val[OPT_WHITE_LEVEL].w, s.val[OPT_BRIGHTNESS].w,
        s.val[OPT_CONTRAST].w)
 
-  qc_send (q, QC_SET_LEFT)
-  qc_send (q, left)
+  qc_send(q, QC_SET_LEFT)
+  qc_send(q, left)
 
-  qc_send (q, QC_SET_TOP)
-  qc_send (q, top + 1);		/* not sure why this is so... ;-( */
+  qc_send(q, QC_SET_TOP)
+  qc_send(q, top + 1);		/* not sure why this is so... ;-( */
 
-  if (s.value_changed & (1 << OPT_WHITE_LEVEL))
+  if(s.value_changed & (1 << OPT_WHITE_LEVEL))
     {
       s.value_changed &= ~(1 << OPT_WHITE_LEVEL)
-      qc_send (q, QC_SET_WHITE)
-      qc_send (q, s.val[OPT_WHITE_LEVEL].w)
+      qc_send(q, QC_SET_WHITE)
+      qc_send(q, s.val[OPT_WHITE_LEVEL].w)
     }
 
-  DBG (2, "start: %s %d lines of %d pixels each (%ld bytes) => %dx%d\n",
+  DBG(2, "start: %s %d lines of %d pixels each(%ld bytes) => %dx%d\n",
        (q.port_mode == QC_BIDIR) ? "bidir" : "unidir",
        height, width, (long) s.bytes_per_frame,
        s.params.pixels_per_line, s.params.lines)
 
   /* send scan request to reader process: */
-  qc_setscanmode (s, &req.mode)
+  qc_setscanmode(s, &req.mode)
   req.num_bytes = width * height
-  if (q.version == QC_COLOR)
+  if(q.version == QC_COLOR)
     {
-      if (s.resolution == QC_RES_LOW)
+      if(s.resolution == QC_RES_LOW)
 	req.num_bytes *= 3
       else
 	req.num_bytes *= 4
@@ -2091,18 +2091,18 @@ Sane.start (Sane.Handle handle)
   req.resolution = s.resolution
   req.params = s.params
   req.despeckle = s.val[OPT_DESPECKLE].w
-  write (s.to_child, &req, sizeof (req))
+  write(s.to_child, &req, sizeof(req))
 
   s.scanning = Sane.TRUE
   s.deliver_eof = 0
 
-  DBG (5, "Sane.start: exit\n")
+  DBG(5, "Sane.start: exit\n")
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
+Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
 	   Int * lenp)
 {
   Sane.Status status
@@ -2111,152 +2111,152 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
   ssize_t nread
   size_t len
 
-  DBG (5, "Sane.read: enter\n")
+  DBG(5, "Sane.read: enter\n")
 
   *lenp = 0
 
-  if (s.deliver_eof)
+  if(s.deliver_eof)
     {
       s.deliver_eof = 0
       return Sane.STATUS_EOF
     }
 
-  if (!s.scanning)
+  if(!s.scanning)
     return Sane.STATUS_CANCELLED
 
   len = max_len
-  if (s.num_bytes + len > s.bytes_per_frame)
+  if(s.num_bytes + len > s.bytes_per_frame)
     len = s.bytes_per_frame - s.num_bytes
 
-  DBG (8, "read(buf=%p,num_bytes=%ld,max_len=%d,len=%ld)\n",
+  DBG(8, "read(buf=%p,num_bytes=%ld,max_len=%d,len=%ld)\n",
        buf, (long) s.num_bytes, max_len, (long) len)
 
-  nread = read (s.read_fd, buf, len)
-  if (nread <= 0)
+  nread = read(s.read_fd, buf, len)
+  if(nread <= 0)
     {
-      if (nread == 0 || errno == EAGAIN)
+      if(nread == 0 || errno == EAGAIN)
 	{
-	  DBG (3, "read: no more data available\n")
+	  DBG(3, "read: no more data available\n")
 	  return Sane.STATUS_GOOD
 	}
-      DBG (3, "read: short read (%s)\n", strerror (errno))
+      DBG(3, "read: short read(%s)\n", strerror(errno))
       return Sane.STATUS_IO_ERROR
     }
 
-  if (nread > 0 && s.holding_lock)
+  if(nread > 0 && s.holding_lock)
     {
-      status = qc_unlock (q);	/* now we can unlock the camera */
-      if (status != Sane.STATUS_GOOD)
+      status = qc_unlock(q);	/* now we can unlock the camera */
+      if(status != Sane.STATUS_GOOD)
 	      DBG(3, "Sane.read: qc_unlock error\n")
       s.holding_lock = Sane.FALSE
     }
 
   s.num_bytes += nread
-  if (s.num_bytes >= s.bytes_per_frame)
+  if(s.num_bytes >= s.bytes_per_frame)
     {
       s.scanning = Sane.FALSE
-      close (s.read_fd)
+      close(s.read_fd)
       s.read_fd = -1
       s.deliver_eof = 1
     }
 
-  if (lenp)
+  if(lenp)
     *lenp = nread
 
-  DBG (5, "Sane.read: exit, read got %d bytes\n", *lenp)
+  DBG(5, "Sane.read: exit, read got %d bytes\n", *lenp)
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   QC_Scanner *s = handle
   Bool was_scanning
   Sane.Status status
 
-  DBG (5, "Sane.cancel: enter\n")
+  DBG(5, "Sane.cancel: enter\n")
 
   was_scanning = s.scanning
   s.scanning = Sane.FALSE
   s.deliver_eof = 0
-  if (s.read_fd >= 0)
+  if(s.read_fd >= 0)
     {
-      close (s.read_fd)
+      close(s.read_fd)
       s.read_fd = -1
     }
 
-  if (s.reader_pid >= 0 && was_scanning)
+  if(s.reader_pid >= 0 && was_scanning)
     {
       char buf[1024]
       ssize_t nread
       Int flags
 
-      DBG (1, "cancel: cancelling read request\n")
+      DBG(1, "cancel: cancelling read request\n")
 
-      kill (s.reader_pid, SIGINT);	/* tell reader to stop reading */
+      kill(s.reader_pid, SIGINT);	/* tell reader to stop reading */
 
       /* save non-blocking i/o flags: */
-      flags = fcntl (s.from_child, F_GETFL, 0)
+      flags = fcntl(s.from_child, F_GETFL, 0)
 
       /* block until we read at least one byte: */
-      read (s.from_child, buf, 1)
+      read(s.from_child, buf, 1)
 
       /* put descriptor in non-blocking i/o: */
-      fcntl (s.from_child, F_SETFL, O_NONBLOCK)
+      fcntl(s.from_child, F_SETFL, O_NONBLOCK)
 
       /* read what's left over in the pipe/file buffer: */
       do
 	{
-	  while ((nread = read (s.from_child, buf, sizeof (buf))) > 0)
-	  usleep (100000)
-	  nread = read (s.from_child, buf, sizeof (buf))
+	  while((nread = read(s.from_child, buf, sizeof(buf))) > 0)
+	  usleep(100000)
+	  nread = read(s.from_child, buf, sizeof(buf))
 	}
-      while (nread > 0)
+      while(nread > 0)
 
       /* now restore non-blocking i/o flag: */
-      fcntl (s.from_child, F_SETFL, flags & O_NONBLOCK)
+      fcntl(s.from_child, F_SETFL, flags & O_NONBLOCK)
 
-      waitpid (s.reader_pid, 0, 0)
+      waitpid(s.reader_pid, 0, 0)
       s.reader_pid = 0
 
-      DBG (1, "cancel: cancellation completed\n")
+      DBG(1, "cancel: cancellation completed\n")
     }
-  if (s.holding_lock)
+  if(s.holding_lock)
     {
-      status = qc_unlock (s.hw)
-      if (status != Sane.STATUS_GOOD)
+      status = qc_unlock(s.hw)
+      if(status != Sane.STATUS_GOOD)
 	      DBG(3, "Sane.cancel: qc_unlock error\n")
       s.holding_lock = Sane.FALSE
     }
-  DBG (5, "Sane.cancel: exit\n")
+  DBG(5, "Sane.cancel: exit\n")
 }
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 {
   QC_Scanner *s = handle
 
-  DBG (5, "Sane.set_io_mode: enter\n")
+  DBG(5, "Sane.set_io_mode: enter\n")
 
-  if (!s.scanning)
+  if(!s.scanning)
     return Sane.STATUS_INVAL
 
-  if (fcntl (s.read_fd, F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0)
+  if(fcntl(s.read_fd, F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0)
     return Sane.STATUS_IO_ERROR
-  DBG (5, "Sane.set_io_mode: exit\n")
+  DBG(5, "Sane.set_io_mode: exit\n")
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle handle, Int * fd)
+Sane.get_select_fd(Sane.Handle handle, Int * fd)
 {
   QC_Scanner *s = handle
 
-  DBG (5, "Sane.get_select_fd: enter\n")
-  if (!s.scanning)
+  DBG(5, "Sane.get_select_fd: enter\n")
+  if(!s.scanning)
     return Sane.STATUS_INVAL
 
   *fd = s.read_fd
-  DBG (5, "Sane.get_select_fd: exit\n")
+  DBG(5, "Sane.get_select_fd: exit\n")
   return Sane.STATUS_GOOD
 }

@@ -3,8 +3,8 @@
  *        and a lot of register settings
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 1998 Plustek Inc.
- * Copyright (C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 1998 Plustek Inc.
+ * Copyright(C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
  * also based on the work done by Rick Bronson <rick@efn.org>
  *.............................................................................
  * History:
@@ -54,7 +54,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -164,7 +164,7 @@ typedef struct scandata
 	Int   lOffonEnd
 
 	/*
-	 * CHECK for controlling the ECP-mode (not used now)
+	 * CHECK for controlling the ECP-mode(not used now)
 	 */
 #if 0
 	Byte	bOldECR
@@ -297,7 +297,7 @@ typedef struct scandata
 	Byte 		bSetScanModeFlag;	/* see Section 5 - Scanmodes --> ps.Shade.bIntermediate*/
 
 	/*
-	 * some admin vals (they used to be global vars in the original driver)
+	 * some admin vals(they used to be global vars in the original driver)
 	 */
 	Bool	fScanningStatus
 	Byte	bLastLampStatus
@@ -403,28 +403,28 @@ typedef struct scandata
 	/*
 	 * here we have pointers to the functions to call
 	 */
-	Bool (*OpenScanPath) 	 	  	 (pScanData)
-	void (*CloseScanPath)	 	  	 (pScanData)
+	Bool(*OpenScanPath) 	 	  	 (pScanData)
+	void(*CloseScanPath)	 	  	 (pScanData)
 	Int  (*ReadWriteTest)	 	  	 (pScanData)
-	void (*PutToIdleMode)	 	  	 (pScanData)
+	void(*PutToIdleMode)	 	  	 (pScanData)
 	Int  (*Calibration) 	 	  	 (pScanData)
-	void (*SetupScannerVariables) 	 (pScanData)
+	void(*SetupScannerVariables) 	 (pScanData)
 	Int  (*SetupScanSettings)     	 (pScanData, pScanInfo pInf )
-	void (*GetImageInfo)    	  	 (pScanData, pImgDef pInf )
-	Bool (*WaitForShading)		  	 (pScanData)
-	void (*WaitForPositionY) 	  	 (pScanData)
-	void (*InitialSetCurrentSpeed)	 (pScanData)
-	Bool (*GotoShadingPosition)   	 (pScanData)
-	void (*SetupScanningCondition)	 (pScanData)
-	void (*SetMotorSpeed) 		  	 (pScanData,Byte bSpeed,Bool fSetRunState)
-	void (*FillRunNewAdrPointer)  	 (pScanData)
-	void (*SetupMotorRunTable)       (pScanData)
-	void (*PauseColorMotorRunStates) (pScanData)
-	void (*UpdateDataCurrentReadLine)(pScanData)
-	Bool (*ReadOneImageLine)		 (pScanData)
+	void(*GetImageInfo)    	  	 (pScanData, pImgDef pInf )
+	Bool(*WaitForShading)		  	 (pScanData)
+	void(*WaitForPositionY) 	  	 (pScanData)
+	void(*InitialSetCurrentSpeed)	 (pScanData)
+	Bool(*GotoShadingPosition)   	 (pScanData)
+	void(*SetupScanningCondition)	 (pScanData)
+	void(*SetMotorSpeed) 		  	 (pScanData,Byte bSpeed,Bool fSetRunState)
+	void(*FillRunNewAdrPointer)  	 (pScanData)
+	void(*SetupMotorRunTable)       (pScanData)
+	void(*PauseColorMotorRunStates) (pScanData)
+	void(*UpdateDataCurrentReadLine)(pScanData)
+	Bool(*ReadOneImageLine)		 (pScanData)
 
 	/* used only by ASIC9800x Part of the driver ! */
-	void (*ReInitAsic)				 (pScanData, Bool shading)
+	void(*ReInitAsic)				 (pScanData, Bool shading)
 
 	/* value used to read nibble's */
 	Byte CtrlReadHighNibble
@@ -473,14 +473,14 @@ typedef struct scandata
 #define _MotorIgnorePF	     0x04	/* motor rolling don't care  */
 						            /* paper define flag         */
 #define _MotorFreeRun	     0x80	/*ScanState count don't stop */
-	    /* Following bits (bit 3 & 4 are depended on StatusPort  */
+	    /* Following bits(bit 3 & 4 are depended on StatusPort  */
 	    /* bit-7:MotorType when it is 1:                         */
 #define _Motor1FullStep	     0x08	/* bit 4 is ignored          */
 	                                /* When it is 0:             */
-#define _Motor0FullStepWeak      0  /* Full step (driving weak)  */
+#define _Motor0FullStepWeak      0  /* Full step(driving weak)  */
 #define _Motor0HalfStep	      0x10	/* 1/2 step                  */
 #define _Motor0QuarterStep	  0x08	/* 1/4 step                  */
-#define _Motor0FullStepStrong 0x18	/* Full step (driving strong)*/
+#define _Motor0FullStepStrong 0x18	/* Full step(driving strong)*/
 #define _MotorStepMask	      0xe7
 	/* for 96001 */
 #define _MotorFullStep96001   0x02

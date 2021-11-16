@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -53,12 +53,12 @@ TestScannerInterface::TestScannerInterface(Genesys_Device* dev, uint16_t vendor_
     usb_dev_{vendor_id, product_id, bcd_device}
 {
     // initialize status registers
-    if (dev_->model.asic_type == AsicType::GL124) {
+    if(dev_->model.asic_type == AsicType::GL124) {
         write_register(0x101, 0x00)
     } else {
         write_register(0x41, 0x00)
     }
-    if (dev_->model.asic_type == AsicType::GL841 ||
+    if(dev_->model.asic_type == AsicType::GL841 ||
         dev_->model.asic_type == AsicType::GL842 ||
         dev_->model.asic_type == AsicType::GL843 ||
         dev_->model.asic_type == AsicType::GL845 ||
@@ -69,14 +69,14 @@ TestScannerInterface::TestScannerInterface(Genesys_Device* dev, uint16_t vendor_
     }
 
     // initialize other registers that we read on init
-    if (dev_->model.asic_type == AsicType::GL124) {
+    if(dev_->model.asic_type == AsicType::GL124) {
         write_register(0x33, 0x00)
         write_register(0xbd, 0x00)
         write_register(0xbe, 0x00)
         write_register(0x100, 0x00)
     }
 
-    if (dev_->model.asic_type == AsicType::GL845 ||
+    if(dev_->model.asic_type == AsicType::GL845 ||
         dev_->model.asic_type == AsicType::GL846 ||
         dev_->model.asic_type == AsicType::GL847)
     {
@@ -216,7 +216,7 @@ std::map<std::string, std::string>& TestScannerInterface::recorded_key_values()
 
 void TestScannerInterface::test_checkpoint(const std::string& name)
 {
-    if (checkpoint_callback_) {
+    if(checkpoint_callback_) {
         checkpoint_callback_(*dev_, *this, name)
     }
 }

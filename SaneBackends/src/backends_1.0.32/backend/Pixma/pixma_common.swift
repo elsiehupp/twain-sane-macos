@@ -1,15 +1,15 @@
 /* SANE - Scanner Access Now Easy.
 
-   Copyright (C) 2011-2020 Rolf Bensch <rolf at bensch hyphen online dot de>
-   Copyright (C) 2007-2008 Nicolas Martin, <nicols-guest at alioth dot debian dot org>
-   Copyright (C) 2006-2007 Wittawat Yamwong <wittawat@web.de>
+   Copyright(C) 2011-2020 Rolf Bensch <rolf at bensch hyphen online dot de>
+   Copyright(C) 2007-2008 Nicolas Martin, <nicols-guest at alioth dot debian dot org>
+   Copyright(C) 2006-2007 Wittawat Yamwong <wittawat@web.de>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -93,7 +93,7 @@ static Int debug_level = 1
 #ifndef NDEBUG
 
 static void
-u8tohex (uint8_t x, char *str)
+u8tohex(uint8_t x, char *str)
 {
   static const char hdigit[16] =
     { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
@@ -105,82 +105,82 @@ u8tohex (uint8_t x, char *str)
 }
 
 static void
-u32tohex (uint32_t x, char *str)
+u32tohex(uint32_t x, char *str)
 {
-  u8tohex (x >> 24, str)
-  u8tohex (x >> 16, str + 2)
-  u8tohex (x >> 8, str + 4)
-  u8tohex (x, str + 6)
+  u8tohex(x >> 24, str)
+  u8tohex(x >> 16, str + 2)
+  u8tohex(x >> 8, str + 4)
+  u8tohex(x, str + 6)
 }
 
 void
-pixma_hexdump (Int level, const void *d_, unsigned len)
+pixma_hexdump(Int level, const void *d_, unsigned len)
 {
   const uint8_t *d = (const uint8_t *) (d_)
   unsigned ofs, c, plen
   char line[100];		/* actually only 1+8+1+8*3+1+8*3+1 = 61 bytes needed */
 
-  if (level > debug_level)
+  if(level > debug_level)
     return
-  if (level == debug_level)
+  if(level == debug_level)
     /* if debuglevel == exact match and buffer contains more than 3 lines, print 2 lines + .... */
     plen = (len > 64) ? 32: len
   else
     plen = len
   ofs = 0
-  while (ofs < plen)
+  while(ofs < plen)
     {
       char *p
       line[0] = ' '
-      u32tohex (ofs, line + 1)
+      u32tohex(ofs, line + 1)
       line[9] = ':'
       p = line + 10
-      for (c = 0; c != 16 && (ofs + c) < plen; c++)
+      for(c = 0; c != 16 && (ofs + c) < plen; c++)
         {
-          u8tohex (d[ofs + c], p)
+          u8tohex(d[ofs + c], p)
           p[2] = ' '
           p += 3
-          if (c == 7)
+          if(c == 7)
             {
               p[0] = ' '
               p++
             }
         }
-      for (c = 0; c < 4; c++)
+      for(c = 0; c < 4; c++)
         {
           p[0] = ' '
           p++
         }
-      for (c = 0; c != 16 && (ofs + c) < plen; c++)
+      for(c = 0; c != 16 && (ofs + c) < plen; c++)
         {
-          if (isprint(d[ofs + c]))
+          if(isprint(d[ofs + c]))
             p[0] = d[ofs + c]
           else
             p[0] = '.'
           p++
-          if (c == 7)
+          if(c == 7)
             {
               p[0] = ' '
               p++
             }
         }
       p[0] = '\0'
-      pixma_dbg (level, "%s\n", line)
+      pixma_dbg(level, "%s\n", line)
       ofs += c
     }
-  if (len > plen)
+  if(len > plen)
     pixma_dbg(level, "......\n")
 }
 
 static void
-time2str (char *buf, unsigned size)
+time2str(char *buf, unsigned size)
 {
   time_t sec
   uint32_t usec
 
-  pixma_get_time (&sec, &usec)
+  pixma_get_time(&sec, &usec)
   sec -= tstart_sec
-  if (usec >= tstart_usec)
+  if(usec >= tstart_usec)
     {
       usec -= tstart_usec
     }
@@ -189,36 +189,36 @@ time2str (char *buf, unsigned size)
       usec = 1000000 + usec - tstart_usec
       sec--
     }
-  snprintf (buf, size, "%lu.%03u", (unsigned long) sec,
+  snprintf(buf, size, "%lu.%03u", (unsigned long) sec,
 	    (unsigned) (usec / 1000))
 }
 
 void
-pixma_dump (Int level, const char *type, const void *data, Int len,
+pixma_dump(Int level, const char *type, const void *data, Int len,
 	    Int size, Int max)
 {
   Int actual_len, print_len
   char buf[20]
 
-  if (level > debug_level)
+  if(level > debug_level)
     return
-  if (debug_level >= 20)
+  if(debug_level >= 20)
     max = -1;			/* dump every bytes */
 
-  time2str (buf, sizeof (buf))
-  pixma_dbg (level, "%s T=%s len=%d\n", type, buf, len)
+  time2str(buf, sizeof(buf))
+  pixma_dbg(level, "%s T=%s len=%d\n", type, buf, len)
 
   actual_len = (size >= 0) ? size : len
   print_len = (max >= 0 && max < actual_len) ? max : actual_len
-  if (print_len >= 0)
+  if(print_len >= 0)
     {
-      pixma_hexdump (level, data, print_len)
-      if (print_len < actual_len)
-	pixma_dbg (level, " ...\n")
+      pixma_hexdump(level, data, print_len)
+      if(print_len < actual_len)
+	pixma_dbg(level, " ...\n")
     }
-  if (len < 0)
-    pixma_dbg (level, "  ERROR: %s\n", pixma_strerror (len))
-  pixma_dbg (level, "\n")
+  if(len < 0)
+    pixma_dbg(level, "  ERROR: %s\n", pixma_strerror(len))
+  pixma_dbg(level, "\n")
 }
 
 
@@ -226,12 +226,12 @@ pixma_dump (Int level, const char *type, const void *data, Int len,
 
 /* NOTE: non-reentrant */
 const char *
-pixma_strerror (Int error)
+pixma_strerror(Int error)
 {
   static char buf[50]
 
   /* TODO: more human friendly messages */
-  switch (error)
+  switch(error)
     {
     case PIXMA_EIO:
       return "EIO"
@@ -262,12 +262,12 @@ pixma_strerror (Int error)
     case PIXMA_EOF:
       return "EEOF"
     }
-  snprintf (buf, sizeof (buf), "EUNKNOWN:%d", error)
+  snprintf(buf, sizeof(buf), "EUNKNOWN:%d", error)
   return buf
 }
 
 void
-pixma_set_debug_level (Int level)
+pixma_set_debug_level(Int level)
 {
   debug_level = level
 }
@@ -291,40 +291,40 @@ pixma_set_be32 (uint32_t x, uint8_t * buf)
 uint16_t
 pixma_get_be16 (const uint8_t * buf)
 {
-  return ((uint16_t) buf[0] << 8) | buf[1]
+  return((uint16_t) buf[0] << 8) | buf[1]
 }
 
 uint32_t
 pixma_get_be32 (const uint8_t * buf)
 {
-  return ((uint32_t) buf[0] << 24) + ((uint32_t) buf[1] << 16) +
+  return((uint32_t) buf[0] << 24) + ((uint32_t) buf[1] << 16) +
     ((uint32_t) buf[2] << 8) + buf[3]
 }
 
 uint8_t
-pixma_sum_bytes (const void *data, unsigned len)
+pixma_sum_bytes(const void *data, unsigned len)
 {
   const uint8_t *d = (const uint8_t *) data
   unsigned i, sum = 0
-  for (i = 0; i != len; i++)
+  for(i = 0; i != len; i++)
     sum += d[i]
   return sum
 }
 
 void
-pixma_sleep (unsigned long usec)
+pixma_sleep(unsigned long usec)
 {
-  usleep (usec)
+  usleep(usec)
 }
 
 void
-pixma_get_time (time_t * sec, uint32_t * usec)
+pixma_get_time(time_t * sec, uint32_t * usec)
 {
   struct timeval tv
-  gettimeofday (&tv, NULL)
-  if (sec)
+  gettimeofday(&tv, NULL)
+  if(sec)
     *sec = tv.tv_sec
-  if (usec)
+  if(usec)
     *usec = tv.tv_usec
 }
 
@@ -339,16 +339,16 @@ pixma_get_time (time_t * sec, uint32_t * usec)
  * c == 6: 48 bit RGB -> 16 bit ir
  */
 uint8_t *
-pixma_r_to_ir (uint8_t * gptr, uint8_t * sptr, unsigned w, unsigned c)
+pixma_r_to_ir(uint8_t * gptr, uint8_t * sptr, unsigned w, unsigned c)
 {
   unsigned i
 
-  /* PDBG (pixma_dbg (4, "*pixma_rgb_to_ir*****\n")); */
+  /* PDBG(pixma_dbg(4, "*pixma_rgb_to_ir*****\n")); */
 
-  for (i = 0; i < w; i++)
+  for(i = 0; i < w; i++)
     {
       *gptr++ = *sptr++
-      if (c == 6) *gptr++ = *sptr++;            /* 48 bit RGB: high byte */
+      if(c == 6) *gptr++ = *sptr++;            /* 48 bit RGB: high byte */
       sptr += (c == 6) ? 4 : 2;                 /* drop G + B */
     }
   return gptr
@@ -364,15 +364,15 @@ pixma_r_to_ir (uint8_t * gptr, uint8_t * sptr, unsigned w, unsigned c)
  * c == 6: 48 bit RGB -> 16 bit gray
  */
 uint8_t *
-pixma_rgb_to_gray (uint8_t * gptr, uint8_t * sptr, unsigned w, unsigned c)
+pixma_rgb_to_gray(uint8_t * gptr, uint8_t * sptr, unsigned w, unsigned c)
 {
   unsigned i, g
 
-  /* PDBG (pixma_dbg (4, "*pixma_rgb_to_gray*****\n")); */
+  /* PDBG(pixma_dbg(4, "*pixma_rgb_to_gray*****\n")); */
 
-  for (i = 0; i < w; i++)
+  for(i = 0; i < w; i++)
     {
-      if (c == 6)
+      if(c == 6)
         { /* 48 bit RGB */
           unsigned r = sptr[0] + (sptr[1] << 8)
           unsigned y = sptr[2] + (sptr[3] << 8)
@@ -389,7 +389,7 @@ pixma_rgb_to_gray (uint8_t * gptr, uint8_t * sptr, unsigned w, unsigned c)
       g /= 10000;                               /* 8 and 16 bit gray */
 
       *gptr++ = g
-      if (c == 6) *gptr++ = (g >> 8);           /* 16 bit gray: high byte */
+      if(c == 6) *gptr++ = (g >> 8);           /* 16 bit gray: high byte */
     }
   return gptr
 }
@@ -415,30 +415,30 @@ pixma_binarize_line(pixma_scan_param_t * sp, uint8_t * dst, uint8_t * src, unsig
   unsigned char mask
   uint8_t min, max
 
-  /* PDBG (pixma_dbg (4, "*pixma_binarize_line***** src = %u, dst = %u, width = %u, c = %u, threshold = %u, threshold_curve = %u *****\n",
+  /* PDBG(pixma_dbg(4, "*pixma_binarize_line***** src = %u, dst = %u, width = %u, c = %u, threshold = %u, threshold_curve = %u *****\n",
                       src, dst, width, c, sp.threshold, sp.threshold_curve)); */
 
   /* 16 bit grayscale not supported */
-  if (c == 6)
+  if(c == 6)
     {
-      PDBG (pixma_dbg (1, "*pixma_binarize_line***** Error: 16 bit grayscale not supported\n"))
+      PDBG(pixma_dbg(1, "*pixma_binarize_line***** Error: 16 bit grayscale not supported\n"))
       return dst
     }
 
   /* first, color convert to grayscale */
-    if (c != 1)
+    if(c != 1)
       pixma_rgb_to_gray(dst, src, width, c)
 
   /* second, normalize line */
     min = 255
     max = 0
-    for (x = 0; x < width; x++)
+    for(x = 0; x < width; x++)
       {
-        if (src[x] > max)
+        if(src[x] > max)
           {
             max = src[x]
           }
-        if (src[x] < min)
+        if(src[x] < min)
           {
             min = src[x]
           }
@@ -449,7 +449,7 @@ pixma_binarize_line(pixma_scan_param_t * sp, uint8_t * dst, uint8_t * src, unsig
         min=0
     if(max<80)
         max=255
-    for (x = 0; x < width; x++)
+    for(x = 0; x < width; x++)
       {
         src[x] = ((src[x] - min) * 255) / (max - min)
       }
@@ -457,18 +457,18 @@ pixma_binarize_line(pixma_scan_param_t * sp, uint8_t * dst, uint8_t * src, unsig
   /* third, create sliding window, prefill the sliding sum */
     /* ~1mm works best, but the window needs to have odd # of pixels */
     windowX = (6 * sp.xdpi) / 150
-    if (!(windowX % 2))
+    if(!(windowX % 2))
       windowX++
 
     /* to avoid conflicts with *dst start with offset */
     offsetX = 1 + (windowX / 2) / 8
-    for (j = offsetX; j <= windowX; j++)
+    for(j = offsetX; j <= windowX; j++)
       sum += src[j]
-    /* PDBG (pixma_dbg (4, " *pixma_binarize_line***** windowX = %u, startX = %u, sum = %u\n",
+    /* PDBG(pixma_dbg(4, " *pixma_binarize_line***** windowX = %u, startX = %u, sum = %u\n",
                      windowX, startX, sum)); */
 
   /* fourth, walk the input buffer, output bits */
-    for (j = 0; j < width; j++)
+    for(j = 0; j < width; j++)
       {
         /* output image location */
         offset = j % 8
@@ -476,39 +476,39 @@ pixma_binarize_line(pixma_scan_param_t * sp, uint8_t * dst, uint8_t * src, unsig
         threshold = sp.threshold
 
         /* move sum/update threshold only if there is a curve */
-        if (sp.threshold_curve)
+        if(sp.threshold_curve)
           {
             addCol = j + windowX / 2
             dropCol = addCol - windowX
 
-            if (dropCol >= offsetX && addCol < width)
+            if(dropCol >= offsetX && addCol < width)
               {
                 sum += src[addCol]
                 sum -= (sum < src[dropCol] ? sum : src[dropCol]);       /* no negative sum */
               }
             threshold = sp.lineart_lut[sum / windowX]
-            /* PDBG (pixma_dbg (4, " *pixma_binarize_line***** addCol = %u, dropCol = %d, sum = %u, windowX = %u, lut-element = %d, threshold = %u\n",
+            /* PDBG(pixma_dbg(4, " *pixma_binarize_line***** addCol = %u, dropCol = %d, sum = %u, windowX = %u, lut-element = %d, threshold = %u\n",
                              addCol, dropCol, sum, windowX, sum/windowX, threshold)); */
           }
 
         /* lookup threshold */
-        if (src[j] > threshold)
+        if(src[j] > threshold)
             *dst &= ~mask;      /* white */
         else
             *dst |= mask;       /* black */
 
-        if (offset == 7)
+        if(offset == 7)
             dst++
       }
 
-  /* PDBG (pixma_dbg (4, " *pixma_binarize_line***** ready: src = %u, dst = %u *****\n", src, dst)); */
+  /* PDBG(pixma_dbg(4, " *pixma_binarize_line***** ready: src = %u, dst = %u *****\n", src, dst)); */
 
   return dst
 }
 
 /**
    This code was taken from the genesys backend
-   Function to build a lookup table (LUT), often
+   Function to build a lookup table(LUT), often
    used by scanners to implement brightness/contrast/gamma
    or by backends to speed binarization/thresholding
 
@@ -541,7 +541,7 @@ pixma_binarize_line(pixma_scan_param_t * sp, uint8_t * dst, uint8_t * src, unsig
    0 and 255 are good defaults otherwise.
   * */
 static Sane.Status
-load_lut (unsigned char * lut,
+load_lut(unsigned char * lut,
   Int in_bits, Int out_bits,
   Int out_min, Int out_max,
   Int slope, Int offset)
@@ -552,12 +552,12 @@ load_lut (unsigned char * lut,
   Int max_out_val = (1 << out_bits) - 1
   unsigned char * lut_p = lut
 
-  /* PDBG (pixma_dbg (4, "*load_lut***** start %d %d *****\n", slope, offset)); */
+  /* PDBG(pixma_dbg(4, "*load_lut***** start %d %d *****\n", slope, offset)); */
 
   /* slope is converted to rise per unit run:
-   * first [-127,127] to [-1,1]
+   * first[-127,127] to[-1,1]
    * then multiply by PI/2 to convert to radians
-   * then take the tangent (T.O.A)
+   * then take the tangent(T.O.A)
    * then multiply by the normal linear slope
    * because the table may not be square, i.e. 1024x256*/
   rise = tan((double)slope/127 * M_PI/2) * max_out_val / max_in_val
@@ -567,8 +567,8 @@ load_lut (unsigned char * lut,
   shift = (double)max_out_val/2 - (rise*max_in_val/2)
 
   /* convert the user offset setting to scale of output
-   * first [-127,127] to [-1,1]
-   * then to [-max_out_val/2,max_out_val/2]*/
+   * first[-127,127] to[-1,1]
+   * then to[-max_out_val/2,max_out_val/2]*/
   shift += (double)offset / 127 * max_out_val / 2
 
   for(i=0;i<=max_in_val;i++){
@@ -585,15 +585,15 @@ load_lut (unsigned char * lut,
     lut_p++
   }
 
-  /* PDBG (pixma_dbg (4, "*load_lut***** finish *****\n")); */
-  /* PDBG (pixma_hexdump (4, lut, max_in_val+1)); */
+  /* PDBG(pixma_dbg(4, "*load_lut***** finish *****\n")); */
+  /* PDBG(pixma_hexdump(4, lut, max_in_val+1)); */
 
   return Sane.STATUS_GOOD
 }
 
-func Int pixma_map_status_errno (unsigned status)
+func Int pixma_map_status_errno(unsigned status)
 {
-  switch (status)
+  switch(status)
     {
     case PIXMA_STATUS_OK:
       return 0
@@ -606,7 +606,7 @@ func Int pixma_map_status_errno (unsigned status)
     }
 }
 
-func Int pixma_check_result (pixma_cmdbuf_t * cb)
+func Int pixma_check_result(pixma_cmdbuf_t * cb)
 {
   const uint8_t *r = cb.buf
   unsigned header_len = cb.res_header_len
@@ -614,18 +614,18 @@ func Int pixma_check_result (pixma_cmdbuf_t * cb)
   Int error
   unsigned len
 
-  if (cb.reslen < 0)
+  if(cb.reslen < 0)
     return cb.reslen
 
   len = (unsigned) cb.reslen
-  if (len >= header_len)
+  if(len >= header_len)
     {
-      error = pixma_map_status_errno (pixma_get_be16 (r))
-      if (expected_reslen != 0)
+      error = pixma_map_status_errno(pixma_get_be16 (r))
+      if(expected_reslen != 0)
         {
-          if (len == expected_reslen)
+          if(len == expected_reslen)
             {
-              if (pixma_sum_bytes (r + header_len, len - header_len) != 0)
+              if(pixma_sum_bytes(r + header_len, len - header_len) != 0)
                  error = PIXMA_EPROTO
             }
           else
@@ -633,7 +633,7 @@ func Int pixma_check_result (pixma_cmdbuf_t * cb)
               /* This case will happen when a command cannot be completely
                  executed, e.g. because you press the cancel button. The
                  device will return only a header with PIXMA_STATUS_FAILED. */
-              if (len != header_len)
+              if(len != header_len)
                  error = PIXMA_EPROTO
             }
         }
@@ -642,28 +642,28 @@ func Int pixma_check_result (pixma_cmdbuf_t * cb)
     error = PIXMA_EPROTO
 
 #ifndef NDEBUG
-  if (error == PIXMA_EPROTO)
+  if(error == PIXMA_EPROTO)
     {
-      pixma_dbg (1, "WARNING: result len=%d expected %d\n",
+      pixma_dbg(1, "WARNING: result len=%d expected %d\n",
 		 len, cb.expected_reslen)
-      pixma_hexdump (1, r, MIN (len, 64))
+      pixma_hexdump(1, r, MIN(len, 64))
     }
 #endif
   return error
 }
 
-func Int pixma_cmd_transaction (pixma_t * s, const void *cmd, unsigned cmdlen,
+func Int pixma_cmd_transaction(pixma_t * s, const void *cmd, unsigned cmdlen,
 		       void *data, unsigned expected_len)
 {
   Int error, tmo
 
-  error = pixma_write (s.io, cmd, cmdlen)
-  if (error != (Int) cmdlen)
+  error = pixma_write(s.io, cmd, cmdlen)
+  if(error != (Int) cmdlen)
     {
-      if (error >= 0)
+      if(error >= 0)
         {
           /* Write timeout is too low? */
-          PDBG (pixma_dbg
+          PDBG(pixma_dbg
           (1, "ERROR: incomplete write, %u out of %u written\n",
            (unsigned) error, cmdlen))
           error = PIXMA_ETIMEDOUT
@@ -682,196 +682,196 @@ func Int pixma_cmd_transaction (pixma_t * s, const void *cmd, unsigned cmdlen,
   tmo = s.rec_tmo
   do
     {
-      error = pixma_read (s.io, data, expected_len)
-      if (error == PIXMA_ETIMEDOUT)
+      error = pixma_read(s.io, data, expected_len)
+      if(error == PIXMA_ETIMEDOUT)
       {
-        PDBG (pixma_dbg (2, "No response yet. Timed out in %d sec.\n", tmo))
+        PDBG(pixma_dbg(2, "No response yet. Timed out in %d sec.\n", tmo))
 
 #ifndef HAVE_SANEI_USB_SET_TIMEOUT
         /* 1s timeout
            Only needed, if sanei_usb_set_timeout() isn't available.
            pixma_read() has an internal timeout of 1 sec. */
-        pixma_sleep (1000000)
+        pixma_sleep(1000000)
 #endif
       }
     }
-  while (error == PIXMA_ETIMEDOUT && --tmo != 0)
-  if (error < 0)
+  while(error == PIXMA_ETIMEDOUT && --tmo != 0)
+  if(error < 0)
     {
-      PDBG (pixma_dbg (1, "WARNING: Error in response phase. cmd:%02x%02x\n",
+      PDBG(pixma_dbg(1, "WARNING: Error in response phase. cmd:%02x%02x\n",
 		       ((const uint8_t *) cmd)[0],
 		       ((const uint8_t *) cmd)[1]))
-      PDBG (pixma_dbg (1,"  If the scanner hangs, reset it and/or unplug the "
+      PDBG(pixma_dbg(1,"  If the scanner hangs, reset it and/or unplug the "
 	                       "USB cable.\n"))
     }
   return error;			/* length of the result packet or error */
 }
 
 uint8_t *
-pixma_newcmd (pixma_cmdbuf_t * cb, unsigned cmd,
+pixma_newcmd(pixma_cmdbuf_t * cb, unsigned cmd,
 	      unsigned dataout, unsigned datain)
 {
   unsigned cmdlen = cb.cmd_header_len + dataout
   unsigned reslen = cb.res_header_len + datain
 
-  if (cmdlen > cb.size || reslen > cb.size)
+  if(cmdlen > cb.size || reslen > cb.size)
     return NULL
-  memset (cb.buf, 0, cmdlen)
+  memset(cb.buf, 0, cmdlen)
   cb.cmdlen = cmdlen
   cb.expected_reslen = reslen
   pixma_set_be16 (cmd, cb.buf)
   pixma_set_be16 (dataout + datain, cb.buf + cb.cmd_len_field_ofs)
-  if (dataout != 0)
+  if(dataout != 0)
     return cb.buf + cb.cmd_header_len
   else
     return cb.buf + cb.res_header_len
 }
 
-func Int pixma_exec (pixma_t * s, pixma_cmdbuf_t * cb)
+func Int pixma_exec(pixma_t * s, pixma_cmdbuf_t * cb)
 {
-  if (cb.cmdlen > cb.cmd_header_len)
-    pixma_fill_checksum (cb.buf + cb.cmd_header_len,
+  if(cb.cmdlen > cb.cmd_header_len)
+    pixma_fill_checksum(cb.buf + cb.cmd_header_len,
 			 cb.buf + cb.cmdlen - 1)
   cb.reslen =
-    pixma_cmd_transaction (s, cb.buf, cb.cmdlen, cb.buf,
+    pixma_cmd_transaction(s, cb.buf, cb.cmdlen, cb.buf,
 			   cb.expected_reslen)
-  return pixma_check_result (cb)
+  return pixma_check_result(cb)
 }
 
-func Int pixma_exec_short_cmd (pixma_t * s, pixma_cmdbuf_t * cb, unsigned cmd)
+func Int pixma_exec_short_cmd(pixma_t * s, pixma_cmdbuf_t * cb, unsigned cmd)
 {
-  pixma_newcmd (cb, cmd, 0, 0)
-  return pixma_exec (s, cb)
+  pixma_newcmd(cb, cmd, 0, 0)
+  return pixma_exec(s, cb)
 }
 
-func Int pixma_check_dpi (unsigned dpi, unsigned max)
+func Int pixma_check_dpi(unsigned dpi, unsigned max)
 {
   /* valid dpi = 75 * 2^n */
   unsigned temp = dpi / 75
-  if (dpi > max || dpi < 75 || 75 * temp != dpi || (temp & (temp - 1)) != 0)
+  if(dpi > max || dpi < 75 || 75 * temp != dpi || (temp & (temp - 1)) != 0)
     return PIXMA_EINVAL
   return 0
 }
 
 
-func Int pixma_init (void)
+func Int pixma_init(void)
 {
-  PDBG (pixma_dbg (2, "pixma version %d.%d.%d\n", PIXMA_VERSION_MAJOR,
+  PDBG(pixma_dbg(2, "pixma version %d.%d.%d\n", PIXMA_VERSION_MAJOR,
 		   PIXMA_VERSION_MINOR, PIXMA_VERSION_BUILD))
-  PASSERT (first_pixma == NULL)
-  if (tstart_sec == 0)
-    pixma_get_time (&tstart_sec, &tstart_usec)
-  return pixma_io_init ()
+  PASSERT(first_pixma == NULL)
+  if(tstart_sec == 0)
+    pixma_get_time(&tstart_sec, &tstart_usec)
+  return pixma_io_init()
 }
 
 void
-pixma_cleanup (void)
+pixma_cleanup(void)
 {
-  while (first_pixma)
-    pixma_close (first_pixma)
-  pixma_io_cleanup ()
+  while(first_pixma)
+    pixma_close(first_pixma)
+  pixma_io_cleanup()
 }
 
-func Int pixma_open (unsigned devnr, pixma_t ** handle)
+func Int pixma_open(unsigned devnr, pixma_t ** handle)
 {
   Int error
   pixma_t *s
   const pixma_config_t *cfg
 
   *handle = NULL
-  cfg = pixma_get_device_config (devnr)
-  if (!cfg)
+  cfg = pixma_get_device_config(devnr)
+  if(!cfg)
     return PIXMA_EINVAL;	/* invalid devnr */
-  PDBG (pixma_dbg (2, "pixma_open(): %s\n", cfg.name))
+  PDBG(pixma_dbg(2, "pixma_open(): %s\n", cfg.name))
 
-  s = (pixma_t *) calloc (1, sizeof (s[0]))
-  if (!s)
+  s = (pixma_t *) calloc(1, sizeof(s[0]))
+  if(!s)
     return PIXMA_ENOMEM
   s.next = first_pixma
   first_pixma = s
 
   s.cfg = cfg
   s.rec_tmo = 8;               /* set receive timeout to 8 seconds */
-  error = pixma_connect (devnr, &s.io)
-  if (error < 0)
+  error = pixma_connect(devnr, &s.io)
+  if(error < 0)
     {
-      PDBG (pixma_dbg
-	    (2, "pixma_connect() failed %s\n", pixma_strerror (error)))
+      PDBG(pixma_dbg
+	    (2, "pixma_connect() failed %s\n", pixma_strerror(error)))
       goto rollback
     }
-  strncpy (s.id, pixma_get_device_id (devnr), sizeof (s.id) - 1)
+  strncpy(s.id, pixma_get_device_id(devnr), sizeof(s.id) - 1)
   s.ops = s.cfg.ops
   s.scanning = 0
   s.last_source = PIXMA_SOURCE_NONE
-  error = s.ops.open (s)
-  if (error < 0)
+  error = s.ops.open(s)
+  if(error < 0)
     goto rollback
-  error = pixma_deactivate (s.io)
-  if (error < 0)
+  error = pixma_deactivate(s.io)
+  if(error < 0)
     goto rollback
   *handle = s
   return 0
 
 rollback:
-  PDBG (pixma_dbg (2, "pixma_open() failed %s\n", pixma_strerror (error)))
-  pixma_close (s)
+  PDBG(pixma_dbg(2, "pixma_open() failed %s\n", pixma_strerror(error)))
+  pixma_close(s)
   return error
 }
 
 void
-pixma_close (pixma_t * s)
+pixma_close(pixma_t * s)
 {
   pixma_t **p
 
-  if (!s)
+  if(!s)
     return
-  for (p = &first_pixma; *p && *p != s; p = &((*p)->next))
+  for(p = &first_pixma; *p && *p != s; p = &((*p)->next))
     {
     }
-  PASSERT (*p)
-  if (!(*p))
+  PASSERT(*p)
+  if(!(*p))
     return
-  PDBG (pixma_dbg (2, "pixma_close(): %s\n", s.cfg.name))
-  if (s.io)
+  PDBG(pixma_dbg(2, "pixma_close(): %s\n", s.cfg.name))
+  if(s.io)
     {
-      if (s.scanning)
+      if(s.scanning)
 	{
-	  PDBG (pixma_dbg (3, "pixma_close(): scanning in progress, call"
+	  PDBG(pixma_dbg(3, "pixma_close(): scanning in progress, call"
 			   " finish_scan()\n"))
-	  s.ops.finish_scan (s)
+	  s.ops.finish_scan(s)
 	}
-      s.ops.close (s)
-      pixma_disconnect (s.io)
+      s.ops.close(s)
+      pixma_disconnect(s.io)
     }
   *p = s.next
-  free (s)
+  free(s)
 }
 
-func Int pixma_scan (pixma_t * s, pixma_scan_param_t * sp)
+func Int pixma_scan(pixma_t * s, pixma_scan_param_t * sp)
 {
   Int error
 
-  error = pixma_check_scan_param (s, sp)
-  if (error < 0)
+  error = pixma_check_scan_param(s, sp)
+  if(error < 0)
     return error
 
-  if (sp.mode == PIXMA_SCAN_MODE_LINEART)
+  if(sp.mode == PIXMA_SCAN_MODE_LINEART)
     {
       load_lut(sp.lineart_lut, 8, 8, 50, 205,
                sp.threshold_curve, sp.threshold-127)
     }
 
 #ifndef NDEBUG
-  pixma_dbg (3, "\n")
-  pixma_dbg (3, "pixma_scan(): start\n")
-  pixma_dbg (3, "  line_size=%"PRIu64" image_size=%"PRIu64" channels=%u depth=%u\n",
+  pixma_dbg(3, "\n")
+  pixma_dbg(3, "pixma_scan(): start\n")
+  pixma_dbg(3, "  line_size=%"PRIu64" image_size=%"PRIu64" channels=%u depth=%u\n",
 	     sp.line_size, sp.image_size, sp.channels, sp.depth)
-  pixma_dbg (3, "  dpi=%ux%u offset=(%u,%u) dimension=%ux%u\n",
+  pixma_dbg(3, "  dpi=%ux%u offset=(%u,%u) dimension=%ux%u\n",
 	     sp.xdpi, sp.ydpi, sp.x, sp.y, sp.w, sp.h)
-  pixma_dbg (3, "  gamma=%f gamma_table=%p source=%d\n", sp.gamma, sp.gamma_table, sp.source)
-  pixma_dbg (3, "  threshold=%d threshold_curve=%d\n", sp.threshold, sp.threshold_curve)
-  pixma_dbg (3, "  adf-wait=%d\n", sp.adf_wait)
-  pixma_dbg (3, "  ADF page count: %d\n", sp.adf_pageid)
+  pixma_dbg(3, "  gamma=%f gamma_table=%p source=%d\n", sp.gamma, sp.gamma_table, sp.source)
+  pixma_dbg(3, "  threshold=%d threshold_curve=%d\n", sp.threshold, sp.threshold_curve)
+  pixma_dbg(3, "  adf-wait=%d\n", sp.adf_wait)
+  pixma_dbg(3, "  ADF page count: %d\n", sp.adf_pageid)
 #endif
 
   s.param = sp
@@ -882,43 +882,43 @@ func Int pixma_scan (pixma_t * s, pixma_scan_param_t * sp)
   s.imagebuf.rptr = NULL
   s.imagebuf.rend = NULL
   s.underrun = 0
-  error = s.ops.scan (s)
-  if (error >= 0)
+  error = s.ops.scan(s)
+  if(error >= 0)
     {
       s.scanning = 1
     }
   else
     {
-      PDBG (pixma_dbg
-	    (3, "pixma_scan() failed %s\n", pixma_strerror (error)))
+      PDBG(pixma_dbg
+	    (3, "pixma_scan() failed %s\n", pixma_strerror(error)))
     }
 
   return error
 }
 
 static uint8_t *
-fill_pixels (pixma_t * s, uint8_t * ptr, uint8_t * end, uint8_t value)
+fill_pixels(pixma_t * s, uint8_t * ptr, uint8_t * end, uint8_t value)
 {
-  if (s.cur_image_size < s.param.image_size)
+  if(s.cur_image_size < s.param.image_size)
     {
       long n = s.param.image_size - s.cur_image_size
-      if (n > (end - ptr))
+      if(n > (end - ptr))
 	n = end - ptr
-      memset (ptr, value, n)
+      memset(ptr, value, n)
       s.cur_image_size += n
       ptr += n
     }
   return ptr
 }
 
-func Int pixma_read_image (pixma_t * s, void *buf, unsigned len)
+func Int pixma_read_image(pixma_t * s, void *buf, unsigned len)
 {
   Int result
   pixma_imagebuf_t ib
 
-  if (!s.scanning)
+  if(!s.scanning)
     return 0
-  if (s.cancel)
+  if(s.cancel)
     {
       result = PIXMA_ECANCELED
       goto cancel
@@ -928,68 +928,68 @@ func Int pixma_read_image (pixma_t * s, void *buf, unsigned len)
   ib.wptr = (uint8_t *) buf
   ib.wend = ib.wptr + len
 
-  if (s.underrun)
+  if(s.underrun)
     {
-      if (s.cur_image_size < s.param.image_size)
+      if(s.cur_image_size < s.param.image_size)
         {
-          ib.wptr = fill_pixels (s, ib.wptr, ib.wend, 0xff)
+          ib.wptr = fill_pixels(s, ib.wptr, ib.wend, 0xff)
         }
       else
         {
-          PDBG (pixma_dbg
-          (3, "pixma_read_image(): completed (underrun detected)\n"))
+          PDBG(pixma_dbg
+          (3, "pixma_read_image(): completed(underrun detected)\n"))
           s.scanning = 0
         }
       return ib.wptr - (uint8_t *) buf
     }
 
-  while (ib.wptr != ib.wend)
+  while(ib.wptr != ib.wend)
     {
-      if (ib.rptr == ib.rend)
+      if(ib.rptr == ib.rend)
         {
           ib.rptr = ib.rend = NULL
-          result = s.ops.fill_buffer (s, &ib)
-          if (result < 0)
+          result = s.ops.fill_buffer(s, &ib)
+          if(result < 0)
             goto cancel
-          if (result == 0)
+          if(result == 0)
             {			/* end of image? */
-              s.ops.finish_scan (s)
+              s.ops.finish_scan(s)
               /* set last source after successful scan */
               s.last_source = s.param.source
-              if ((s.cur_image_size != s.param.image_size) && !s.param.mode_jpeg)
+              if((s.cur_image_size != s.param.image_size) && !s.param.mode_jpeg)
                 {
-                  pixma_dbg (1, "WARNING:image size mismatches\n")
-                  pixma_dbg (1,
-                       "    %"PRIu64" expected (%d lines) but %"PRIu64" received (%"PRIu64" lines)\n",
+                  pixma_dbg(1, "WARNING:image size mismatches\n")
+                  pixma_dbg(1,
+                       "    %"PRIu64" expected(%d lines) but %"PRIu64" received(%"PRIu64" lines)\n",
                        s.param.image_size, s.param.h,
                        s.cur_image_size,
                        s.cur_image_size / s.param.line_size)
-                  if ((s.cur_image_size % s.param.line_size) != 0)
+                  if((s.cur_image_size % s.param.line_size) != 0)
                     {
-                      pixma_dbg (1,
+                      pixma_dbg(1,
                      "BUG:received data not multiple of line_size\n")
                     }
                 }
-              if ((s.cur_image_size < s.param.image_size) && !s.param.mode_jpeg)
+              if((s.cur_image_size < s.param.image_size) && !s.param.mode_jpeg)
                 {
                   s.underrun = 1
-                  ib.wptr = fill_pixels (s, ib.wptr, ib.wend, 0xff)
+                  ib.wptr = fill_pixels(s, ib.wptr, ib.wend, 0xff)
                 }
               else
                 {
-                  PDBG (pixma_dbg (3, "pixma_read_image():completed\n"))
+                  PDBG(pixma_dbg(3, "pixma_read_image():completed\n"))
                   s.scanning = 0
                 }
               break
             }
           s.cur_image_size += result
 
-          PASSERT (s.cur_image_size <= s.param.image_size)
+          PASSERT(s.cur_image_size <= s.param.image_size)
         }
-      if (ib.rptr)
+      if(ib.rptr)
         {
-          unsigned count = MIN (ib.rend - ib.rptr, ib.wend - ib.wptr)
-          memcpy (ib.wptr, ib.rptr, count)
+          unsigned count = MIN(ib.rend - ib.rptr, ib.wend - ib.wptr)
+          memcpy(ib.wptr, ib.rptr, count)
           ib.rptr += count
           ib.wptr += count
         }
@@ -998,49 +998,49 @@ func Int pixma_read_image (pixma_t * s, void *buf, unsigned len)
   return ib.wptr - (uint8_t *) buf
 
 cancel:
-  s.ops.finish_scan (s)
+  s.ops.finish_scan(s)
   s.scanning = 0
-  if (result == PIXMA_ECANCELED)
+  if(result == PIXMA_ECANCELED)
     {
-      PDBG (pixma_dbg (3, "pixma_read_image(): cancelled by %sware\n",
+      PDBG(pixma_dbg(3, "pixma_read_image(): cancelled by %sware\n",
 		       (s.cancel) ? "soft" : "hard"))
     }
   else
     {
-      PDBG (pixma_dbg (3, "pixma_read_image() failed %s\n",
-		       pixma_strerror (result)))
+      PDBG(pixma_dbg(3, "pixma_read_image() failed %s\n",
+		       pixma_strerror(result)))
     }
   return result
 }
 
 void
-pixma_cancel (pixma_t * s)
+pixma_cancel(pixma_t * s)
 {
   s.cancel = 1
 }
 
-func Int pixma_enable_background (pixma_t * s, Int enabled)
+func Int pixma_enable_background(pixma_t * s, Int enabled)
 {
-  return pixma_set_interrupt_mode (s.io, enabled)
+  return pixma_set_interrupt_mode(s.io, enabled)
 }
 
 func Int pixma_activate_connection(pixma_t * s)
 {
-  return pixma_activate (s.io)
+  return pixma_activate(s.io)
 }
 
 func Int pixma_deactivate_connection(pixma_t * s)
 {
-  return pixma_deactivate (s.io)
+  return pixma_deactivate(s.io)
 }
 
 uint32_t
-pixma_wait_event (pixma_t * s, Int timeout /*ms */ )
+pixma_wait_event(pixma_t * s, Int timeout /*ms */ )
 {
   unsigned events
 
-  if (s.events == PIXMA_EV_NONE && s.ops.wait_event)
-    s.ops.wait_event (s, timeout)
+  if(s.events == PIXMA_EV_NONE && s.ops.wait_event)
+    s.ops.wait_event(s, timeout)
   events = s.events
   s.events = PIXMA_EV_NONE
   return events
@@ -1050,14 +1050,14 @@ pixma_wait_event (pixma_t * s, Int timeout /*ms */ )
     unsigned m = (max) * (dpi) / 75;		\
     x = MIN(x, m - min);			\
     w = MIN(w, m - x);				\
-    if (w < min)  w = min;			\
+    if(w < min)  w = min;			\
 } while(0)
 
-func Int pixma_check_scan_param (pixma_t * s, pixma_scan_param_t * sp)
+func Int pixma_check_scan_param(pixma_t * s, pixma_scan_param_t * sp)
 {
   unsigned cfg_xdpi
 
-  if (!(sp.channels == 3 ||
+  if(!(sp.channels == 3 ||
 	(sp.channels == 1 && (s.cfg.cap & PIXMA_CAP_GRAY) != 0)))
     return PIXMA_EINVAL
 
@@ -1067,17 +1067,17 @@ func Int pixma_check_scan_param (pixma_t * s, pixma_scan_param_t * sp)
                || s.cfg.adftpu_max_dpi == 0) ? s.cfg.xdpi
                                                : s.cfg.adftpu_max_dpi)
 
-  if (pixma_check_dpi (sp.xdpi, cfg_xdpi) < 0 ||
-      pixma_check_dpi (sp.ydpi, s.cfg.ydpi) < 0)
+  if(pixma_check_dpi(sp.xdpi, cfg_xdpi) < 0 ||
+      pixma_check_dpi(sp.ydpi, s.cfg.ydpi) < 0)
     return PIXMA_EINVAL
 
   /* xdpi must be equal to ydpi except that
      xdpi = max_xdpi and ydpi = max_ydpi. */
-  if (!(sp.xdpi == sp.ydpi ||
+  if(!(sp.xdpi == sp.ydpi ||
 	(sp.xdpi == cfg_xdpi && sp.ydpi == s.cfg.ydpi)))
     return PIXMA_EINVAL
 
-  if (s.ops.check_param (s, sp) < 0)
+  if(s.ops.check_param(s, sp) < 0)
     return PIXMA_EINVAL
 
   /* FIXME: I assume the same minimum width and height for every model.
@@ -1086,33 +1086,33 @@ func Int pixma_check_scan_param (pixma_t * s, pixma_scan_param_t * sp)
   CLAMP2 (sp.x, sp.w, 16, s.cfg.width, sp.xdpi)
   CLAMP2 (sp.y, sp.h, 16, s.cfg.height, sp.ydpi)
 
-  switch (sp.source)
+  switch(sp.source)
     {
     case PIXMA_SOURCE_FLATBED:
       break
 
     case PIXMA_SOURCE_TPU:
-      if ((s.cfg.cap & PIXMA_CAP_TPU) != PIXMA_CAP_TPU)
+      if((s.cfg.cap & PIXMA_CAP_TPU) != PIXMA_CAP_TPU)
         {
           sp.source = PIXMA_SOURCE_FLATBED
-          PDBG (pixma_dbg
+          PDBG(pixma_dbg
           (1, "WARNING: TPU unsupported, fallback to flatbed.\n"))
         }
       break
 
     case PIXMA_SOURCE_ADF:
-      if ((s.cfg.cap & PIXMA_CAP_ADF) != PIXMA_CAP_ADF)
+      if((s.cfg.cap & PIXMA_CAP_ADF) != PIXMA_CAP_ADF)
         {
           sp.source = PIXMA_SOURCE_FLATBED
-          PDBG (pixma_dbg
+          PDBG(pixma_dbg
           (1, "WARNING: ADF unsupported, fallback to flatbed.\n"))
         }
       break
 
     case PIXMA_SOURCE_ADFDUP:
-      if ((s.cfg.cap & PIXMA_CAP_ADFDUP) != PIXMA_CAP_ADFDUP)
+      if((s.cfg.cap & PIXMA_CAP_ADFDUP) != PIXMA_CAP_ADFDUP)
         {
-          if (s.cfg.cap & PIXMA_CAP_ADF)
+          if(s.cfg.cap & PIXMA_CAP_ADF)
             {
               sp.source = PIXMA_SOURCE_ADF
             }
@@ -1120,7 +1120,7 @@ func Int pixma_check_scan_param (pixma_t * s, pixma_scan_param_t * sp)
             {
               sp.source = PIXMA_SOURCE_FLATBED
             }
-          PDBG (pixma_dbg
+          PDBG(pixma_dbg
           (1, "WARNING: ADF duplex unsupported, fallback to %d.\n",
            sp.source))
         }
@@ -1130,30 +1130,30 @@ func Int pixma_check_scan_param (pixma_t * s, pixma_scan_param_t * sp)
       break
     }
 
-  if (sp.depth == 0)
+  if(sp.depth == 0)
     sp.depth = 8
-  if ((sp.depth % 8) != 0 && sp.depth != 1)
+  if((sp.depth % 8) != 0 && sp.depth != 1)
     return PIXMA_EINVAL
 
   sp.line_size = 0
 
-  if (s.ops.check_param (s, sp) < 0)
+  if(s.ops.check_param(s, sp) < 0)
     return PIXMA_EINVAL
 
-  if (sp.line_size == 0)
+  if(sp.line_size == 0)
     sp.line_size = sp.depth / 8 * sp.channels * sp.w
   sp.image_size = sp.line_size * sp.h
 
   /* image_size for software lineart is counted in bits */
-  if (sp.software_lineart == 1)
+  if(sp.software_lineart == 1)
     sp.image_size /= 8
   return 0
 }
 
 const char *
-pixma_get_string (pixma_t * s, pixma_string_index_t i)
+pixma_get_string(pixma_t * s, pixma_string_index_t i)
 {
-  switch (i)
+  switch(i)
     {
     case PIXMA_STRING_MODEL:
       return s.cfg.name
@@ -1166,13 +1166,13 @@ pixma_get_string (pixma_t * s, pixma_string_index_t i)
 }
 
 const pixma_config_t *
-pixma_get_config (pixma_t * s)
+pixma_get_config(pixma_t * s)
 {
   return s.cfg
 }
 
 void
-pixma_fill_gamma_table (double gamma, uint8_t * table, unsigned n)
+pixma_fill_gamma_table(double gamma, uint8_t * table, unsigned n)
 {
   unsigned i
   double r_gamma = 1.0 / gamma
@@ -1181,13 +1181,13 @@ pixma_fill_gamma_table (double gamma, uint8_t * table, unsigned n)
   /* 8-bits gamma table
    * for generation 1 scanners
    */
-  if (n == 4096)
+  if(n == 4096)
     {
       double out_scale = 255.0
 
-      for (i = 0; (unsigned) i != n; i++)
+      for(i = 0; (unsigned) i != n; i++)
         {
-          table[i] = (Int) (out_scale * pow (i * in_scale, r_gamma) + 0.5)
+          table[i] = (Int) (out_scale * pow(i * in_scale, r_gamma) + 0.5)
         }
     }
 
@@ -1197,46 +1197,46 @@ pixma_fill_gamma_table (double gamma, uint8_t * table, unsigned n)
       double out_scale = 65535.0
       uint16_t value
 
-      for (i = 0; i < n; i++)
+      for(i = 0; i < n; i++)
         {
-          value = (uint16_t) (out_scale * pow (i * in_scale, r_gamma) + 0.5)
+          value = (uint16_t) (out_scale * pow(i * in_scale, r_gamma) + 0.5)
           table[2 * i] = (uint8_t) (value & 0xff)
           table[2 * i + 1] = (uint8_t) (value >> 8)
         }
     }
 }
 
-func Int pixma_find_scanners (const char **conf_devices, Bool local_only)
+func Int pixma_find_scanners(const char **conf_devices, Bool local_only)
 {
-  return pixma_collect_devices (conf_devices, pixma_devices, local_only)
+  return pixma_collect_devices(conf_devices, pixma_devices, local_only)
 }
 
 const char *
-pixma_get_device_model (unsigned devnr)
+pixma_get_device_model(unsigned devnr)
 {
-  const pixma_config_t *cfg = pixma_get_device_config (devnr)
-  return (cfg) ? cfg.name : NULL
+  const pixma_config_t *cfg = pixma_get_device_config(devnr)
+  return(cfg) ? cfg.name : NULL
 }
 
 
-func Int pixma_get_device_status (pixma_t * s, pixma_device_status_t * status)
+func Int pixma_get_device_status(pixma_t * s, pixma_device_status_t * status)
 {
-  if (!status)
+  if(!status)
     return PIXMA_EINVAL
-  memset (status, 0, sizeof (*status))
-  return s.ops.get_status (s, status)
+  memset(status, 0, sizeof(*status))
+  return s.ops.get_status(s, status)
 }
 
 unsigned
-pixma_calc_calibrate (pixma_t * p)
+pixma_calc_calibrate(pixma_t * p)
 {
     pixma_scan_param_t * sp = p.param
-    if (sp.calibrate == PIXMA_CALIBRATE_ALWAYS)
+    if(sp.calibrate == PIXMA_CALIBRATE_ALWAYS)
         return 0x01
-    if (sp.calibrate == PIXMA_CALIBRATE_NEVER)
+    if(sp.calibrate == PIXMA_CALIBRATE_NEVER)
         return 0x00
     /* sp.calibrate == PIXMA_CALIBRATE_ONCE */
-    if (sp.source == PIXMA_SOURCE_ADF || sp.source == PIXMA_SOURCE_ADFDUP)
+    if(sp.source == PIXMA_SOURCE_ADF || sp.source == PIXMA_SOURCE_ADFDUP)
         return sp.adf_pageid == 0 ? 0x01 : 0x00
     /* sp.source == PIXMA_SOURCE_FLATBED | TPU */
     return sp.source == p.last_source ? 0x00 : 0x01
@@ -1246,16 +1246,16 @@ pixma_calc_calibrate (pixma_t * p)
 static const char *
 format_xml_response(const char *resp_details)
 {
-  if (strcmp(resp_details, "DeviceBusy") == 0)
+  if(strcmp(resp_details, "DeviceBusy") == 0)
     /* https://cromwell-intl.com/open-source/canon-pixma-printer-scanner.html */
-    return "DeviceBusy - Device not initialized (yet). " \
+    return "DeviceBusy - Device not initialized(yet). " \
       "Please check the USB power, try a different port or install the Ink Cartridges if the device supports them."
-  else if (strcmp(resp_details, "ScannerCarriageLockError") == 0)
+  else if(strcmp(resp_details, "ScannerCarriageLockError") == 0)
     return "ScannerCarriageLockError - Please consult the manual to unlock the Carriage Lock."
-  else if (strcmp(resp_details, "PCScanning") == 0)
+  else if(strcmp(resp_details, "PCScanning") == 0)
     return "PCScanning - Previous scan attempt was not completed. Try disconnecting and reconnecting the scanner. " \
       "If the problem persists, consider reporting it as a bug at http://www.sane-project.org/bugs.html."
-  else if (strcmp(resp_details, "DeviceCheckError") == 0)
+  else if(strcmp(resp_details, "DeviceCheckError") == 0)
     return "DeviceCheckError - Device detected a fault. Contact the repair center."
   else
     return resp_details
@@ -1269,61 +1269,61 @@ func Int pixma_parse_xml_response(const char *xml_message)
   xmlChar *content = NULL
 
   doc = xmlReadMemory(xml_message, strlen(xml_message), "mem:device-resp.xml", NULL, 0)
-  if (doc == NULL) {
+  if(doc == NULL) {
     PDBG(pixma_dbg(10, "unable to parse xml response\n"))
     status = PIXMA_EINVAL
     goto clean
   }
 
   node = xmlDocGetRootElement(doc)
-  if (node == NULL) {
+  if(node == NULL) {
     status = PIXMA_EPROTO
     goto clean
   }
 
   /* /cmd */
-  for (; node; node = node.next) {
-    if (strcmp((const char*)node.name, "cmd") == 0)
+  for(; node; node = node.next) {
+    if(strcmp((const char*)node.name, "cmd") == 0)
       break
   }
-  if (!node) {
+  if(!node) {
     status = PIXMA_EPROTO
     goto clean
   }
 
   /* /cmd/contents */
-  for (node = node.children; node; node = node.next) {
-    if (strcmp((const char*)node.name, "contents") == 0)
+  for(node = node.children; node; node = node.next) {
+    if(strcmp((const char*)node.name, "contents") == 0)
       break
   }
-  if (!node) {
+  if(!node) {
     status = PIXMA_EPROTO
     goto clean
   }
 
   /* /cmd/contents/param_set */
-  for (node = node.children; node; node = node.next) {
-    if (strcmp((const char*)node.name, "param_set") == 0)
+  for(node = node.children; node; node = node.next) {
+    if(strcmp((const char*)node.name, "param_set") == 0)
       break
   }
-  if (!node) {
+  if(!node) {
     status = PIXMA_EPROTO
     goto clean
   }
 
   /* /cmd/contents/param_set/response... */
-  for (node = node.children; node; node = node.next)
+  for(node = node.children; node; node = node.next)
   {
-    if (strcmp((const char*)node.name, "response") == 0) {
+    if(strcmp((const char*)node.name, "response") == 0) {
       content = xmlNodeGetContent(node)
-      if (strcmp((const char*)content, "OK") == 0)
+      if(strcmp((const char*)content, "OK") == 0)
         status = PIXMA_STATUS_OK
       else
         status = PIXMA_EINVAL
       xmlFree(content)
-    } else if (strcmp((const char*)node.name, "response_detail") == 0) {
+    } else if(strcmp((const char*)node.name, "response_detail") == 0) {
       content = xmlNodeGetContent(node)
-      if (strlen((const char*)content) > 0) {
+      if(strlen((const char*)content) > 0) {
         PDBG(pixma_dbg(0, "device response: %s\n",
                       format_xml_response((const char*)content)))
       }

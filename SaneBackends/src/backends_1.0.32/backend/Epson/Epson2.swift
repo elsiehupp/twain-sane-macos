@@ -5,7 +5,7 @@
  * Work on epson.[ch] file from the SANE package.
  * Please see those files for original copyrights.
  *
- * Copyright (C) 2006 Tower Technologies
+ * Copyright(C) 2006 Tower Technologies
  * Author: Alessandro Zummo <a.zummo@towertech.it>
  *
  * This file is part of the SANE package.
@@ -51,7 +51,7 @@ import sane/sanei_debug
 #define EPSON2_CONFIG_FILE "epson2.conf"
 
 #ifndef PATH_MAX
-#define PATH_MAX (1024)
+#define PATH_MAX(1024)
 #endif
 
 #ifndef XtNumber
@@ -60,8 +60,8 @@ import sane/sanei_debug
 #define XtOffsetOf(s_type, field)  XtOffset(s_type*, field)
 #endif
 
-#define NUM_OF_HEX_ELEMENTS (16)        /* number of hex numbers per line for data dump */
-#define DEVICE_NAME_LEN (16)    /* length of device name in extended status */
+#define NUM_OF_HEX_ELEMENTS(16)        /* number of hex numbers per line for data dump */
+#define DEVICE_NAME_LEN(16)    /* length of device name in extended status */
 
 
 /* string constants for GUI elements that are not defined SANE-wide */
@@ -84,7 +84,7 @@ import sane/sanei_debug
 #define CMD_SIZE_EXT_STATUS	42
 
 #define FOCUS_ON_GLASS 64
-#define FOCUS_ABOVE_25MM (64 + 25)
+#define FOCUS_ABOVE_25MM(64 + 25)
 
 /* NOTE: you can find these codes with "man ascii". */
 #define STX	0x02
@@ -111,7 +111,7 @@ import sane/sanei_debug
 #define EXT_STATUS_FBF		0x40	/* flat bed scanner */
 #define EXT_STATUS_ADFT		0x20	/* page type ADF */
 #define EXT_STATUS_ADFS		0x10	/* ADF is duplex capable */
-#define EXT_STATUS_ADFO		0x08	/* ADF loads from the first sheet (page type only) */
+#define EXT_STATUS_ADFO		0x08	/* ADF loads from the first sheet(page type only) */
 #define EXT_STATUS_LID		0x04	/* lid is open */
 #define EXT_STATUS_WU		0x02	/* warming up */
 #define EXT_STATUS_PB		0x01	/* scanner has a push button */
@@ -127,7 +127,7 @@ import sane/sanei_debug
 #define EXT_IDTY_CAP1_NOTFBF	0x40	/* not a flat bed scanner */
 #define EXT_IDTY_CAP1_ADFT	0x20	/* page type ADF ? */
 #define EXT_IDTY_CAP1_ADFS	0x10	/* ADF is duplex capable */
-#define EXT_IDTY_CAP1_ADFO	0x08	/* ADF loads from the first sheet (page type only) */
+#define EXT_IDTY_CAP1_ADFO	0x08	/* ADF loads from the first sheet(page type only) */
 #define EXT_IDTY_CAP1_LID	0x04	/* lid type option ? */
 #define EXT_IDTY_CAP1_TPIR	0x02	/* TPU with infrared */
 #define EXT_IDTY_CAP1_PB	0x01	/* scanner has a push button */
@@ -139,7 +139,7 @@ import sane/sanei_debug
 #define FSF_STATUS_MAIN_FER	0x80	/* system error */
 #define FSF_STATUS_MAIN_NR	0x40	/* not ready */
 #define FSF_STATUS_MAIN_WU	0x02	/* warming up */
-#define FSF_STATUS_MAIN_CWU	0x01	/* warm up can be cancelled (?) */
+#define FSF_STATUS_MAIN_CWU	0x01	/* warm up can be cancelled(?) */
 
 #define FSF_STATUS_ADF_IST	0x80	/* installed */
 #define FSF_STATUS_ADF_EN	0x40	/* enabled */
@@ -180,7 +180,7 @@ import sane/sanei_debug
 
 /* there is also a function level "A5", which I'm ignoring here until somebody can
  * convince me that this is still needed. The A5 level was for the GT-300, which
- * was (is) a monochrome only scanner. So if somebody really wants to use this
+ * was(is) a monochrome only scanner. So if somebody really wants to use this
  * scanner with SANE get in touch with me and we can work something out - khk
  */
 
@@ -432,7 +432,7 @@ enum {
  * Work on epson.[ch] file from the SANE package.
  * Please see those files for additional copyrights.
  *
- * Copyright (C) 2006-10 Tower Technologies
+ * Copyright(C) 2006-10 Tower Technologies
  * Author: Alessandro Zummo <a.zummo@towertech.it>
  *
  * This file is part of the SANE package.
@@ -545,7 +545,7 @@ static const Sane.String_Const adf_mode_list[] = {
 #define ADF_STR	Sane.I18N("Automatic Document Feeder")
 
 /*
- * source list need one dummy entry (save device settings is crashing).
+ * source list need one dummy entry(save device settings is crashing).
  * NOTE: no const - this list gets created while exploring the capabilities
  * of the scanner.
  */
@@ -584,33 +584,33 @@ const Int halftone_params[] = {
 
 static const Sane.String_Const halftone_list[] = {
 	Sane.I18N("None"),
-	Sane.I18N("Halftone A (Hard Tone)"),
-	Sane.I18N("Halftone B (Soft Tone)"),
-	Sane.I18N("Halftone C (Net Screen)"),
+	Sane.I18N("Halftone A(Hard Tone)"),
+	Sane.I18N("Halftone B(Soft Tone)"),
+	Sane.I18N("Halftone C(Net Screen)"),
 	NULL
 ]
 
 static const Sane.String_Const halftone_list_4[] = {
 	Sane.I18N("None"),
-	Sane.I18N("Halftone A (Hard Tone)"),
-	Sane.I18N("Halftone B (Soft Tone)"),
-	Sane.I18N("Halftone C (Net Screen)"),
-	Sane.I18N("Dither A (4x4 Bayer)"),
-	Sane.I18N("Dither B (4x4 Spiral)"),
-	Sane.I18N("Dither C (4x4 Net Screen)"),
-	Sane.I18N("Dither D (8x4 Net Screen)"),
+	Sane.I18N("Halftone A(Hard Tone)"),
+	Sane.I18N("Halftone B(Soft Tone)"),
+	Sane.I18N("Halftone C(Net Screen)"),
+	Sane.I18N("Dither A(4x4 Bayer)"),
+	Sane.I18N("Dither B(4x4 Spiral)"),
+	Sane.I18N("Dither C(4x4 Net Screen)"),
+	Sane.I18N("Dither D(8x4 Net Screen)"),
 	NULL
 ]
 
 static const Sane.String_Const halftone_list_7[] = {
 	Sane.I18N("None"),
-	Sane.I18N("Halftone A (Hard Tone)"),
-	Sane.I18N("Halftone B (Soft Tone)"),
-	Sane.I18N("Halftone C (Net Screen)"),
-	Sane.I18N("Dither A (4x4 Bayer)"),
-	Sane.I18N("Dither B (4x4 Spiral)"),
-	Sane.I18N("Dither C (4x4 Net Screen)"),
-	Sane.I18N("Dither D (8x4 Net Screen)"),
+	Sane.I18N("Halftone A(Hard Tone)"),
+	Sane.I18N("Halftone B(Soft Tone)"),
+	Sane.I18N("Halftone C(Net Screen)"),
+	Sane.I18N("Dither A(4x4 Bayer)"),
+	Sane.I18N("Dither B(4x4 Spiral)"),
+	Sane.I18N("Dither C(4x4 Net Screen)"),
+	Sane.I18N("Dither D(8x4 Net Screen)"),
 	Sane.I18N("Text Enhanced Technology"),
 	Sane.I18N("Download pattern A"),
 	Sane.I18N("Download pattern B"),
@@ -694,8 +694,8 @@ static Int gamma_params_d[] = {
 ]
 
 static const Sane.String_Const gamma_list_d[] = {
-	Sane.I18N("User defined (Gamma=1.0)"),
-	Sane.I18N("User defined (Gamma=1.8)"),
+	Sane.I18N("User defined(Gamma=1.0)"),
+	Sane.I18N("User defined(Gamma=1.8)"),
 	NULL
 ]
 
@@ -743,9 +743,9 @@ max_string_size(const Sane.String_Const strings[])
 	size_t size, max_size = 0
 	var i: Int
 
-	for (i = 0; strings[i]; i++) {
+	for(i = 0; strings[i]; i++) {
 		size = strlen(strings[i]) + 1
-		if (size > max_size)
+		if(size > max_size)
 			max_size = size
 	}
 	return max_size
@@ -779,33 +779,33 @@ close_scanner(Epson_Scanner *s)
 
 	DBG(7, "%s: fd = %d\n", __func__, s.fd)
 
-	if (s.fd == -1)
+	if(s.fd == -1)
 		goto free
 
 	/* send a request_status. This toggles w_cmd_count and r_cmd_count */
-	if (r_cmd_count % 2)
+	if(r_cmd_count % 2)
 		esci_request_status(s, NULL)
 
 	/* request extended status. This toggles w_cmd_count only */
-	if (w_cmd_count % 2)
+	if(w_cmd_count % 2)
 		esci_request_extended_status(s, NULL, NULL)
 
-	if (s.hw.connection == Sane.EPSON_NET) {
+	if(s.hw.connection == Sane.EPSON_NET) {
 		sanei_Espon_net_unlock(s)
 		sanei_tcp_close(s.fd)
-	} else if (s.hw.connection == Sane.EPSON_SCSI) {
+	} else if(s.hw.connection == Sane.EPSON_SCSI) {
 		sanei_scsi_close(s.fd)
-	} else if (s.hw.connection == Sane.EPSON_PIO) {
+	} else if(s.hw.connection == Sane.EPSON_PIO) {
 		sanei_pio_close(s.fd)
-	} else if (s.hw.connection == Sane.EPSON_USB) {
+	} else if(s.hw.connection == Sane.EPSON_USB) {
 		sanei_usb_close(s.fd)
 	}
 
 	s.fd = -1
 
 free:
-	for (i = 0; i < LINES_SHUFFLE_MAX; i++) {
-		if (s.line_buffer[i] != NULL)
+	for(i = 0; i < LINES_SHUFFLE_MAX; i++) {
+		if(s.line_buffer[i] != NULL)
 			free(s.line_buffer[i])
 	}
 
@@ -825,7 +825,7 @@ e2_network_discovery(void)
 	struct timeval to
 
 	status = sanei_udp_open_broadcast(&fd)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return
 
 	sanei_udp_write_broadcast(fd, 3289, (unsigned char *) query, 15)
@@ -839,12 +839,12 @@ e2_network_discovery(void)
 	FD_SET(fd, &rfds)
 
 	sanei_udp_set_nonblock(fd, Sane.TRUE)
-	while (select(fd + 1, &rfds, NULL, NULL, &to) > 0) {
-		if ((len = sanei_udp_recvfrom(fd, buf, 76, &ip)) == 76) {
+	while(select(fd + 1, &rfds, NULL, NULL, &to) > 0) {
+		if((len = sanei_udp_recvfrom(fd, buf, 76, &ip)) == 76) {
 			DBG(5, " response from %s\n", ip)
 
 			/* minimal check, protocol unknown */
-			if (strncmp((char *) buf, "EPSON", 5) == 0)
+			if(strncmp((char *) buf, "EPSON", 5) == 0)
 				attach_one_net(ip)
 		}
 	}
@@ -868,17 +868,17 @@ open_scanner(Epson_Scanner *s)
 
 	DBG(7, "%s: %s\n", __func__, s.hw.sane.name)
 
-	if (s.fd != -1) {
+	if(s.fd != -1) {
 		DBG(5, "scanner is already open: fd = %d\n", s.fd)
 		return Sane.STATUS_GOOD;	/* no need to open the scanner */
 	}
 
-	if (s.hw.connection == Sane.EPSON_NET) {
+	if(s.hw.connection == Sane.EPSON_NET) {
 		unsigned char buf[5]
 
 		/* device name has the form net:ipaddr */
 		status = sanei_tcp_open(&s.hw.sane.name[4], 1865, &s.fd)
-		if (status == Sane.STATUS_GOOD) {
+		if(status == Sane.STATUS_GOOD) {
 
 			ssize_t read
 			struct timeval tv
@@ -894,7 +894,7 @@ open_scanner(Epson_Scanner *s)
 
 			/* the scanner sends a kind of welcome msg */
 			read = e2_recv(s, buf, 5, &status)
-			if (read != 5) {
+			if(read != 5) {
 				sanei_tcp_close(s.fd)
 				s.fd = -1
 				return Sane.STATUS_IO_ERROR
@@ -904,7 +904,7 @@ open_scanner(Epson_Scanner *s)
 
 			/* lock the scanner for use by sane */
 			status = sanei_Espon_net_lock(s)
-			if (status != Sane.STATUS_GOOD) {
+			if(status != Sane.STATUS_GOOD) {
 				DBG(1, "%s cannot lock scanner: %s\n", s.hw.sane.name,
 					Sane.strstatus(status))
 
@@ -917,24 +917,24 @@ open_scanner(Epson_Scanner *s)
 			DBG(32, "scanner locked\n")
 		}
 
-	} else if (s.hw.connection == Sane.EPSON_SCSI)
+	} else if(s.hw.connection == Sane.EPSON_SCSI)
 		status = sanei_scsi_open(s.hw.sane.name, &s.fd,
 					 sanei_epson2_scsi_sense_handler,
 					 NULL)
-	else if (s.hw.connection == Sane.EPSON_PIO)
+	else if(s.hw.connection == Sane.EPSON_PIO)
 		/* device name has the form pio:0xnnn */
 		status = sanei_pio_open(&s.hw.sane.name[4], &s.fd)
 
-	else if (s.hw.connection == Sane.EPSON_USB)
+	else if(s.hw.connection == Sane.EPSON_USB)
 		status = sanei_usb_open(s.hw.sane.name, &s.fd)
 
-	if (status == Sane.STATUS_ACCESS_DENIED) {
+	if(status == Sane.STATUS_ACCESS_DENIED) {
 		DBG(1, "please check that you have permissions on the device.\n")
 		DBG(1, "if this is a multi-function device with a printer,\n")
-		DBG(1, "disable any conflicting driver (like usblp).\n")
+		DBG(1, "disable any conflicting driver(like usblp).\n")
 	}
 
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		DBG(1, "%s open failed: %s\n", s.hw.sane.name,
 			Sane.strstatus(status))
 	else
@@ -956,7 +956,7 @@ static Sane.Status detect_scsi(struct Epson_Scanner *s)
 	char *rev = buf + 32
 
 	status = sanei_epson2_scsi_inquiry(s.fd, buf, &buf_size)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "%s: inquiry failed: %s\n", __func__,
 		    Sane.strstatus(status))
 		return status
@@ -968,20 +968,20 @@ static Sane.Status detect_scsi(struct Epson_Scanner *s)
 	DBG(1, " model   : %.16s\n", model)
 	DBG(1, " revision: %.4s\n", rev)
 
-	if (buf[0] != TYPE_PROCESSOR) {
-		DBG(1, "%s: device is not of processor type (%d)\n",
+	if(buf[0] != TYPE_PROCESSOR) {
+		DBG(1, "%s: device is not of processor type(%d)\n",
 		    __func__, buf[0])
 		return Sane.STATUS_INVAL
 	}
 
-	if (strncmp(vendor, "EPSON", 5) != 0) {
+	if(strncmp(vendor, "EPSON", 5) != 0) {
 		DBG(1,
 		    "%s: device doesn't look like an EPSON scanner\n",
 		    __func__)
 		return Sane.STATUS_INVAL
 	}
 
-	if (strncmp(model, "SCANNER ", 8) != 0
+	if(strncmp(model, "SCANNER ", 8) != 0
 	    && strncmp(model, "FilmScan 200", 12) != 0
 	    && strncmp(model, "Perfection", 10) != 0
 	    && strncmp(model, "Expression", 10) != 0
@@ -991,7 +991,7 @@ static Sane.Status detect_scsi(struct Epson_Scanner *s)
 		return Sane.STATUS_INVAL
 	}
 
-	if (strncmp(model, "FilmScan 200", 12) == 0) {
+	if(strncmp(model, "FilmScan 200", 12) == 0) {
 		dev.sane.type = "film scanner"
 		e2_set_model(s, (unsigned char *) model, 12)
 	}
@@ -1019,15 +1019,15 @@ detect_usb(struct Epson_Scanner *s, Bool assume_valid)
 	 */
 
 	status = sanei_usb_get_vendor_product(s.fd, &vendor, &product)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "the device cannot be verified - will continue\n")
 	 	return Sane.STATUS_GOOD
 	}
 
 	/* check the vendor ID to see if we are dealing with an EPSON device */
-	if (vendor != Sane.EPSON_VENDOR_ID) {
+	if(vendor != Sane.EPSON_VENDOR_ID) {
 		/* this is not a supported vendor ID */
-		DBG(1, "not an Epson device at %s (vendor id=0x%x)\n",
+		DBG(1, "not an Epson device at %s(vendor id=0x%x)\n",
 			s.hw.sane.name, vendor)
 		return Sane.STATUS_INVAL
 	}
@@ -1037,21 +1037,21 @@ detect_usb(struct Epson_Scanner *s, Bool assume_valid)
 
 	/* check all known product IDs to verify that we know
 	   about the device */
-	while (i != numIds) {
-		if (product == sanei_Espon_usb_product_ids[i]) {
+	while(i != numIds) {
+		if(product == sanei_Espon_usb_product_ids[i]) {
 			is_valid = Sane.TRUE
 			break
 		}
 		i++
 	}
 
-	if (is_valid == Sane.FALSE) {
-		DBG(1, "the device at %s is not supported (product id=0x%x)\n",
+	if(is_valid == Sane.FALSE) {
+		DBG(1, "the device at %s is not supported(product id=0x%x)\n",
 			s.hw.sane.name, product)
 		return Sane.STATUS_INVAL
 	}
 
-	DBG(1, "found valid Epson scanner: 0x%x/0x%x (vendorID/productID)\n",
+	DBG(1, "found valid Epson scanner: 0x%x/0x%x(vendorID/productID)\n",
 		vendor, product)
 
 	return Sane.STATUS_GOOD
@@ -1066,7 +1066,7 @@ scanner_create(struct Epson_Device *dev, Sane.Status *status)
 	struct Epson_Scanner *s
 
 	s = malloc(sizeof(struct Epson_Scanner))
-	if (s == NULL) {
+	if(s == NULL) {
 		*status = Sane.STATUS_NO_MEM
 		return NULL
 	}
@@ -1086,40 +1086,40 @@ device_detect(const char *name, Int type, Bool assume_valid, Sane.Status *status
 	struct Epson_Device *dev
 
 	/* try to find the device in our list */
-	for (dev = first_dev; dev; dev = dev.next) {
-		if (strcmp(dev.sane.name, name) == 0) {
+	for(dev = first_dev; dev; dev = dev.next) {
+		if(strcmp(dev.sane.name, name) == 0) {
 
 			/* the device might have been just probed,
 			 * sleep a bit.
 			 */
-			if (dev.connection == Sane.EPSON_NET)
+			if(dev.connection == Sane.EPSON_NET)
 				sleep(1)
 
 			return scanner_create(dev, status)
 		}
 	}
 
-	if (type == Sane.EPSON_NODEV) {
+	if(type == Sane.EPSON_NODEV) {
 		*status = Sane.STATUS_INVAL
 		return NULL
 	}
 
 	/* alloc and clear our device structure */
 	dev = malloc(sizeof(*dev))
-	if (!dev) {
+	if(!dev) {
 		*status = Sane.STATUS_NO_MEM
 		return NULL
 	}
 	memset(dev, 0x00, sizeof(struct Epson_Device))
 
 	s = scanner_create(dev, status)
-	if (s == NULL)
+	if(s == NULL)
 		return NULL
 
 	e2_dev_init(dev, name, type)
 
 	*status = open_scanner(s)
-	if (*status != Sane.STATUS_GOOD) {
+	if(*status != Sane.STATUS_GOOD) {
 		free(s)
 		return NULL
 	}
@@ -1127,20 +1127,20 @@ device_detect(const char *name, Int type, Bool assume_valid, Sane.Status *status
 	/* from now on, close_scanner() must be called */
 
 	/* SCSI and USB requires special care */
-	if (dev.connection == Sane.EPSON_SCSI) {
+	if(dev.connection == Sane.EPSON_SCSI) {
 
 		*status = detect_scsi(s)
 
-	} else if (dev.connection == Sane.EPSON_USB) {
+	} else if(dev.connection == Sane.EPSON_USB) {
 
 		*status = detect_usb(s, assume_valid)
 	}
 
-	if (*status != Sane.STATUS_GOOD)
+	if(*status != Sane.STATUS_GOOD)
 		goto close
 
-	/* set name and model (if not already set) */
-	if (dev.model == NULL)
+	/* set name and model(if not already set) */
+	if(dev.model == NULL)
 		e2_set_model(s, (unsigned char *) "generic", 7)
 
 	dev.name = strdup(name)
@@ -1148,14 +1148,14 @@ device_detect(const char *name, Int type, Bool assume_valid, Sane.Status *status
 
 	/* ESC @, reset */
 	*status = esci_reset(s)
-	if (*status != Sane.STATUS_GOOD)
+	if(*status != Sane.STATUS_GOOD)
 		goto close
 
 	*status = e2_discover_capabilities(s)
-	if (*status != Sane.STATUS_GOOD)
+	if(*status != Sane.STATUS_GOOD)
 		goto close
 
-	if (source_list[0] == NULL || dev.dpi_range.min == 0) {
+	if(source_list[0] == NULL || dev.dpi_range.min == 0) {
 		DBG(1, "something is wrong in the discovery process, aborting.\n")
 		*status = Sane.STATUS_IO_ERROR
 		goto close
@@ -1164,7 +1164,7 @@ device_detect(const char *name, Int type, Bool assume_valid, Sane.Status *status
 	e2_dev_post_init(dev)
 
 	*status = esci_reset(s)
-	if (*status != Sane.STATUS_GOOD)
+	if(*status != Sane.STATUS_GOOD)
 		goto close
 
 	DBG(1, "scanner model: %s\n", dev.model)
@@ -1242,44 +1242,44 @@ attach_one_config(SANEI_Config __Sane.unused__ *config, const char *line,
 
 	DBG(7, "%s: len = %d, line = %s\n", __func__, len, line)
 
-	if (sscanf(line, "usb %i %i", &vendor, &product) == 2) {
+	if(sscanf(line, "usb %i %i", &vendor, &product) == 2) {
 
 		/* add the vendor and product IDs to the list of
 		   known devices before we call the attach function */
 
 		Int numIds = sanei_Espon_getNumberOfUSBProductIds()
 
-		if (vendor != 0x4b8)
+		if(vendor != 0x4b8)
 			return Sane.STATUS_INVAL; /* this is not an EPSON device */
 
 		sanei_Espon_usb_product_ids[numIds - 1] = product
 		sanei_usb_attach_matching_devices(line, attach_one_usb)
 
-	} else if (strncmp(line, "usb", 3) == 0 && len == 3) {
+	} else if(strncmp(line, "usb", 3) == 0 && len == 3) {
 
 		var i: Int, numIds
 
 		numIds = sanei_Espon_getNumberOfUSBProductIds()
 
-		for (i = 0; i < numIds; i++) {
+		for(i = 0; i < numIds; i++) {
 			sanei_usb_find_devices(0x4b8,
 					sanei_Espon_usb_product_ids[i], attach_one_usb)
 		}
 
-	} else if (strncmp(line, "net", 3) == 0) {
+	} else if(strncmp(line, "net", 3) == 0) {
 
-		if (!local_only) {
+		if(!local_only) {
 			/* remove the "net" sub string */
 			const char *name =
 				sanei_config_skip_whitespace(line + 3)
 
-			if (strncmp(name, "autodiscovery", 13) == 0)
+			if(strncmp(name, "autodiscovery", 13) == 0)
 				e2_network_discovery()
 			else
 				attach_one_net(name)
 		}
 
-	} else if (strncmp(line, "pio", 3) == 0) {
+	} else if(strncmp(line, "pio", 3) == 0) {
 
 		/* remove the "pio" sub string */
 		const char *name = sanei_config_skip_whitespace(line + 3)
@@ -1300,7 +1300,7 @@ free_devices(void)
 
 	DBG(5, "%s\n", __func__)
 
-	for (dev = first_dev; dev; dev = next) {
+	for(dev = first_dev; dev; dev = next) {
 		next = dev.next
 		free(dev.name)
 		free(dev.model)
@@ -1332,7 +1332,7 @@ Sane.init(Int *version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 	DBG(1, "epson2 backend, version %i.%i.%i\n",
 		EPSON2_VERSION, EPSON2_REVISION, EPSON2_BUILD)
 
-	if (version_code != NULL)
+	if(version_code != NULL)
 		*version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR,
 					  EPSON2_BUILD)
 
@@ -1360,15 +1360,15 @@ Sane.get_devices(const Sane.Device ***device_list, Bool local_only)
 	probe_devices(local_only)
 
 	devlist = malloc((num_devices + 1) * sizeof(devlist[0]))
-	if (!devlist) {
-		DBG(1, "out of memory (line %d)\n", __LINE__)
+	if(!devlist) {
+		DBG(1, "out of memory(line %d)\n", __LINE__)
 		return Sane.STATUS_NO_MEM
 	}
 
 	DBG(5, "%s - results:\n", __func__)
 
-	for (i = 0, dev = first_dev; i < num_devices && dev; dev = dev.next, i++) {
-		DBG(1, " %d (%d): %s\n", i, dev.connection, dev.model)
+	for(i = 0, dev = first_dev; i < num_devices && dev; dev = dev.next, i++) {
+		DBG(1, " %d(%d): %s\n", i, dev.connection, dev.model)
 		devlist[i] = &dev.sane
 	}
 
@@ -1384,7 +1384,7 @@ init_options(Epson_Scanner *s)
 {
 	var i: Int
 
-	for (i = 0; i < NUM_OPTIONS; i++) {
+	for(i = 0; i < NUM_OPTIONS; i++) {
 		s.opt[i].size = sizeof(Sane.Word)
 		s.opt[i].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 	}
@@ -1413,7 +1413,7 @@ init_options(Epson_Scanner *s)
 	s.val[OPT_MODE].w = 0;	/* Lineart */
 
 	/* disable infrared on unsupported scanners */
-	if (!e2_model(s, "GT-X800") && !e2_model(s, "GT-X700") && !e2_model(s, "GT-X900") && !e2_model(s, "GT-X980"))
+	if(!e2_model(s, "GT-X800") && !e2_model(s, "GT-X700") && !e2_model(s, "GT-X900") && !e2_model(s, "GT-X980"))
 		mode_list[MODE_INFRARED] = NULL
 
 	/* bit depth */
@@ -1439,16 +1439,16 @@ init_options(Epson_Scanner *s)
 	s.opt[OPT_HALFTONE].constraint_type = Sane.CONSTRAINT_STRING_LIST
 
 	/* XXX use defines */
-	if (s.hw.level >= 7)
+	if(s.hw.level >= 7)
 		s.opt[OPT_HALFTONE].constraint.string_list = halftone_list_7
-	else if (s.hw.level >= 4)
+	else if(s.hw.level >= 4)
 		s.opt[OPT_HALFTONE].constraint.string_list = halftone_list_4
 	else
 		s.opt[OPT_HALFTONE].constraint.string_list = halftone_list
 
 	s.val[OPT_HALFTONE].w = 1;	/* Halftone A */
 
-	if (!s.hw.cmd.set_halftoning)
+	if(!s.hw.cmd.set_halftoning)
 		s.opt[OPT_HALFTONE].cap |= Sane.CAP_INACTIVE
 
 	/* dropout */
@@ -1474,7 +1474,7 @@ init_options(Epson_Scanner *s)
 	s.opt[OPT_BRIGHTNESS].constraint.range = &s.hw.cmd.bright_range
 	s.val[OPT_BRIGHTNESS].w = 0;	/* Normal */
 
-	if (!s.hw.cmd.set_bright)
+	if(!s.hw.cmd.set_bright)
 		s.opt[OPT_BRIGHTNESS].cap |= Sane.CAP_INACTIVE
 
 	/* sharpness */
@@ -1488,7 +1488,7 @@ init_options(Epson_Scanner *s)
 	s.opt[OPT_SHARPNESS].constraint.range = &outline_emphasis_range
 	s.val[OPT_SHARPNESS].w = 0;	/* Normal */
 
-	if (!s.hw.cmd.set_outline_emphasis)
+	if(!s.hw.cmd.set_outline_emphasis)
 		s.opt[OPT_SHARPNESS].cap |= Sane.CAP_INACTIVE
 
 	/* gamma */
@@ -1506,7 +1506,7 @@ init_options(Epson_Scanner *s)
 	 * behave the same way. This has to be confirmed with the next D-level
 	 * scanner
 	 */
-	if (s.hw.cmd.level[0] == 'D') {
+	if(s.hw.cmd.level[0] == 'D') {
 		s.opt[OPT_GAMMA_CORRECTION].size =
 			max_string_size(gamma_list_d)
 		s.opt[OPT_GAMMA_CORRECTION].constraint.string_list =
@@ -1524,7 +1524,7 @@ init_options(Epson_Scanner *s)
 		gamma_params = gamma_params_ab
 	}
 
-	if (!s.hw.cmd.set_gamma)
+	if(!s.hw.cmd.set_gamma)
 		s.opt[OPT_GAMMA_CORRECTION].cap |= Sane.CAP_INACTIVE
 
 	/* red gamma vector */
@@ -1564,7 +1564,7 @@ init_options(Epson_Scanner *s)
 	s.opt[OPT_GAMMA_VECTOR_B].constraint.range = &u8_range
 	s.val[OPT_GAMMA_VECTOR_B].wa = &s.gamma_table[2][0]
 
-	if (s.hw.cmd.set_gamma_table
+	if(s.hw.cmd.set_gamma_table
 	    && gamma_userdefined[s.val[OPT_GAMMA_CORRECTION].w] ==
 	    Sane.TRUE) {
 
@@ -1584,7 +1584,7 @@ init_options(Epson_Scanner *s)
 	memset(&s.gamma_table[2], 0, 256 * sizeof(Sane.Word))
 
 /*	memset(&s.gamma_table[3], 0, 256 * sizeof(Sane.Word)); */
-	for (i = 0; i < 256; i++) {
+	for(i = 0; i < 256; i++) {
 		s.gamma_table[0][i] = i
 		s.gamma_table[1][i] = i
 		s.gamma_table[2][i] = i
@@ -1606,7 +1606,7 @@ init_options(Epson_Scanner *s)
 	s.opt[OPT_COLOR_CORRECTION].constraint.string_list = correction_list
 	s.val[OPT_COLOR_CORRECTION].w = CORR_AUTO
 
-	if (!s.hw.cmd.set_color_correction)
+	if(!s.hw.cmd.set_color_correction)
 		s.opt[OPT_COLOR_CORRECTION].cap |= Sane.CAP_INACTIVE
 
 	/* resolution */
@@ -1631,7 +1631,7 @@ init_options(Epson_Scanner *s)
 	s.opt[OPT_THRESHOLD].constraint.range = &u8_range
 	s.val[OPT_THRESHOLD].w = 0x80
 
-	if (!s.hw.cmd.set_threshold)
+	if(!s.hw.cmd.set_threshold)
 		s.opt[OPT_THRESHOLD].cap |= Sane.CAP_INACTIVE
 
 
@@ -1669,7 +1669,7 @@ init_options(Epson_Scanner *s)
 	s.opt[OPT_CCT_PROFILE].size = 9 * sizeof(Sane.Word)
 	s.val[OPT_CCT_PROFILE].wa = s.cct_table
 
-/*	if (!s.hw.cmd.set_color_correction)
+/*	if(!s.hw.cmd.set_color_correction)
 		s.opt[OPT_FILM_TYPE].cap |= Sane.CAP_INACTIVE
 */
 
@@ -1681,7 +1681,7 @@ init_options(Epson_Scanner *s)
 	s.opt[OPT_MIRROR].type = Sane.TYPE_BOOL
 	s.val[OPT_MIRROR].w = Sane.FALSE
 
-	if (!s.hw.cmd.mirror_image)
+	if(!s.hw.cmd.mirror_image)
 		s.opt[OPT_MIRROR].cap |= Sane.CAP_INACTIVE
 
 	/* auto area segmentation */
@@ -1693,7 +1693,7 @@ init_options(Epson_Scanner *s)
 	s.opt[OPT_AAS].type = Sane.TYPE_BOOL
 	s.val[OPT_AAS].w = Sane.TRUE
 
-	if (!s.hw.cmd.control_auto_area_segmentation)
+	if(!s.hw.cmd.control_auto_area_segmentation)
 		s.opt[OPT_AAS].cap |= Sane.CAP_INACTIVE
 
 	/* "Preview settings" group: */
@@ -1785,7 +1785,7 @@ init_options(Epson_Scanner *s)
 	s.val[OPT_FOCUS_POS].w = FOCUS_ON_GLASS
 	s.opt[OPT_FOCUS_POS].cap |= Sane.CAP_ADVANCED
 
-	if (s.hw.focusSupport == Sane.TRUE) {
+	if(s.hw.focusSupport == Sane.TRUE) {
 		s.opt[OPT_FOCUS_POS].cap &= ~Sane.CAP_INACTIVE
 		s.opt[OPT_AUTOFOCUS].cap &= ~Sane.CAP_INACTIVE
 	} else {
@@ -1810,7 +1810,7 @@ init_options(Epson_Scanner *s)
 	s.opt[OPT_SOURCE].constraint_type = Sane.CONSTRAINT_STRING_LIST
 	s.opt[OPT_SOURCE].constraint.string_list = source_list
 
-	if (!s.hw.extension)
+	if(!s.hw.extension)
 		s.opt[OPT_SOURCE].cap |= Sane.CAP_INACTIVE
 
 	s.val[OPT_SOURCE].w = 0;	/* always use Flatbed as default */
@@ -1826,7 +1826,7 @@ init_options(Epson_Scanner *s)
 	s.opt[OPT_FILM_TYPE].constraint.string_list = film_list
 	s.val[OPT_FILM_TYPE].w = 0
 
-	if (!s.hw.cmd.set_bay)
+	if(!s.hw.cmd.set_bay)
 		s.opt[OPT_FILM_TYPE].cap |= Sane.CAP_INACTIVE
 
 	/* forward feed / eject */
@@ -1835,7 +1835,7 @@ init_options(Epson_Scanner *s)
 	s.opt[OPT_EJECT].desc = Sane.I18N("Eject the sheet in the ADF")
 	s.opt[OPT_EJECT].type = Sane.TYPE_BUTTON
 
-	if ((!s.hw.ADF) && (!s.hw.cmd.set_bay)) {	/* Hack: Using set_bay to indicate. */
+	if((!s.hw.ADF) && (!s.hw.cmd.set_bay)) {	/* Hack: Using set_bay to indicate. */
 		s.opt[OPT_EJECT].cap |= Sane.CAP_INACTIVE
 	}
 
@@ -1849,21 +1849,21 @@ init_options(Epson_Scanner *s)
 	s.opt[OPT_AUTO_EJECT].type = Sane.TYPE_BOOL
 	s.val[OPT_AUTO_EJECT].w = Sane.FALSE
 
-	if (!s.hw.ADF)
+	if(!s.hw.ADF)
 		s.opt[OPT_AUTO_EJECT].cap |= Sane.CAP_INACTIVE
 
 
 	s.opt[OPT_ADF_MODE].name = "adf-mode"
 	s.opt[OPT_ADF_MODE].title = Sane.I18N("ADF Mode")
 	s.opt[OPT_ADF_MODE].desc =
-		Sane.I18N("Selects the ADF mode (simplex/duplex)")
+		Sane.I18N("Selects the ADF mode(simplex/duplex)")
 	s.opt[OPT_ADF_MODE].type = Sane.TYPE_STRING
 	s.opt[OPT_ADF_MODE].size = max_string_size(adf_mode_list)
 	s.opt[OPT_ADF_MODE].constraint_type = Sane.CONSTRAINT_STRING_LIST
 	s.opt[OPT_ADF_MODE].constraint.string_list = adf_mode_list
 	s.val[OPT_ADF_MODE].w = 0;	/* simplex */
 
-	if ((!s.hw.ADF) || (s.hw.duplex == Sane.FALSE))
+	if((!s.hw.ADF) || (s.hw.duplex == Sane.FALSE))
 		s.opt[OPT_ADF_MODE].cap |= Sane.CAP_INACTIVE
 
 	/* select bay */
@@ -1876,7 +1876,7 @@ init_options(Epson_Scanner *s)
 	s.opt[OPT_BAY].constraint.string_list = bay_list
 	s.val[OPT_BAY].w = 0;	/* Bay 1 */
 
-	if (!s.hw.cmd.set_bay)
+	if(!s.hw.cmd.set_bay)
 		s.opt[OPT_BAY].cap |= Sane.CAP_INACTIVE
 
 
@@ -1890,7 +1890,7 @@ init_options(Epson_Scanner *s)
 	s.opt[OPT_WAIT_FOR_BUTTON].constraint.range = NULL
 	s.opt[OPT_WAIT_FOR_BUTTON].cap |= Sane.CAP_ADVANCED
 
-	if (!s.hw.cmd.request_push_button_status)
+	if(!s.hw.cmd.request_push_button_status)
 		s.opt[OPT_WAIT_FOR_BUTTON].cap |= Sane.CAP_INACTIVE
 
 	return Sane.STATUS_GOOD
@@ -1909,36 +1909,36 @@ Sane.open(Sane.String_Const name, Sane.Handle *handle)
 	*handle = NULL
 
 	/* probe if empty device name provided */
-	if (l == 0) {
+	if(l == 0) {
 
 		probe_devices(Sane.FALSE)
 
-		if (first_dev == NULL) {
+		if(first_dev == NULL) {
 			DBG(1, "no device detected\n")
 			return Sane.STATUS_INVAL
 		}
 
 		s = device_detect(first_dev.sane.name, first_dev.connection,
 					0, &status)
-		if (s == NULL) {
-			DBG(1, "cannot open a perfectly valid device (%s),"
+		if(s == NULL) {
+			DBG(1, "cannot open a perfectly valid device(%s),"
 				" please report to the authors\n", name)
 			return Sane.STATUS_INVAL
 		}
 
 	} else {
 
-		if (strncmp(name, "net:", 4) == 0) {
+		if(strncmp(name, "net:", 4) == 0) {
 			s = device_detect(name, Sane.EPSON_NET, 0, &status)
-			if (s == NULL)
+			if(s == NULL)
 				return status
-		} else if (strncmp(name, "libusb:", 7) == 0) {
+		} else if(strncmp(name, "libusb:", 7) == 0) {
 			s = device_detect(name, Sane.EPSON_USB, 1, &status)
-			if (s == NULL)
+			if(s == NULL)
 				return status
-		} else if (strncmp(name, "pio:", 4) == 0) {
+		} else if(strncmp(name, "pio:", 4) == 0) {
 			s = device_detect(name, Sane.EPSON_PIO, 0, &status)
-			if (s == NULL)
+			if(s == NULL)
 				return status
 		} else {
 
@@ -1947,11 +1947,11 @@ Sane.open(Sane.String_Const name, Sane.Handle *handle)
 			 * devices and platforms without libusb.
 			 */
 
-			if (first_dev == NULL)
+			if(first_dev == NULL)
 				probe_devices(Sane.FALSE)
 
 			s = device_detect(name, Sane.EPSON_NODEV, 0, &status)
-			if (s == NULL) {
+			if(s == NULL) {
 				DBG(1, "invalid device name: %s\n", name)
 				return Sane.STATUS_INVAL
 			}
@@ -1966,13 +1966,13 @@ Sane.open(Sane.String_Const name, Sane.Handle *handle)
 	init_options(s)
 
 	status = open_scanner(s)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		free(s)
 		return status
 	}
 
 	status = esci_reset(s)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		close_scanner(s)
 		return status
 	}
@@ -2004,7 +2004,7 @@ Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
 	Epson_Scanner *s = (Epson_Scanner *) handle
 
-	if (option < 0 || option >= NUM_OPTIONS)
+	if(option < 0 || option >= NUM_OPTIONS)
 		return NULL
 
 	return s.opt + option
@@ -2013,10 +2013,10 @@ Sane.get_option_descriptor(Sane.Handle handle, Int option)
 static const Sane.String_Const *
 search_string_list(const Sane.String_Const *list, String value)
 {
-	while (*list != NULL && strcmp(value, *list) != 0)
+	while(*list != NULL && strcmp(value, *list) != 0)
 		list++
 
-	return ((*list == NULL) ? NULL : list)
+	return((*list == NULL) ? NULL : list)
 }
 
 /*
@@ -2029,7 +2029,7 @@ search_string_list(const Sane.String_Const *list, String value)
 static void
 activateOption(Epson_Scanner *s, Int option, Bool *change)
 {
-	if (!Sane.OPTION_IS_ACTIVE(s.opt[option].cap)) {
+	if(!Sane.OPTION_IS_ACTIVE(s.opt[option].cap)) {
 		s.opt[option].cap &= ~Sane.CAP_INACTIVE
 		*change = Sane.TRUE
 	}
@@ -2038,7 +2038,7 @@ activateOption(Epson_Scanner *s, Int option, Bool *change)
 static void
 deactivateOption(Epson_Scanner *s, Int option, Bool *change)
 {
-	if (Sane.OPTION_IS_ACTIVE(s.opt[option].cap)) {
+	if(Sane.OPTION_IS_ACTIVE(s.opt[option].cap)) {
 		s.opt[option].cap |= Sane.CAP_INACTIVE
 		*change = Sane.TRUE
 	}
@@ -2048,7 +2048,7 @@ static void
 setOptionState(Epson_Scanner *s, Bool state, Int option,
 	       Bool *change)
 {
-	if (state)
+	if(state)
 		activateOption(s, option, change)
 	else
 		deactivateOption(s, option, change)
@@ -2063,7 +2063,7 @@ getvalue(Sane.Handle handle, Int option, void *value)
 
 	DBG(17, "%s: option = %d\n", __func__, option)
 
-	switch (option) {
+	switch(option) {
 
 	case OPT_GAMMA_VECTOR_R:
 	case OPT_GAMMA_VECTOR_G:
@@ -2114,7 +2114,7 @@ getvalue(Sane.Handle handle, Int option, void *value)
 
 /*
  * This routine handles common options between OPT_MODE and
- * OPT_HALFTONE.  These options are TET (a HALFTONE mode), AAS
+ * OPT_HALFTONE.  These options are TET(a HALFTONE mode), AAS
  * - auto area segmentation, and threshold.  Apparently AAS
  * is some method to differentiate between text and photos.
  * Or something like that.
@@ -2135,15 +2135,15 @@ handle_depth_halftone(Epson_Scanner *s, Bool *reload)
 	/* this defaults to false */
 	setOptionState(s, thresh, OPT_THRESHOLD, reload)
 
-	if (!s.hw.cmd.control_auto_area_segmentation)
+	if(!s.hw.cmd.control_auto_area_segmentation)
 		return
 
-	if (mode_params[mdi].depth == 1) {
+	if(mode_params[mdi].depth == 1) {
 
-		if (halftone_params[hti] != HALFTONE_TET)
+		if(halftone_params[hti] != HALFTONE_TET)
 			aas = Sane.TRUE
 
-		if (halftone_params[hti] == HALFTONE_NONE)
+		if(halftone_params[hti] == HALFTONE_NONE)
 			thresh = Sane.TRUE
 	}
 	setOptionState(s, aas, OPT_AAS, reload)
@@ -2151,8 +2151,8 @@ handle_depth_halftone(Epson_Scanner *s, Bool *reload)
 }
 
 /*
- * Handles setting the source (flatbed, transparency adapter (TPU),
- * or auto document feeder (ADF)).
+ * Handles setting the source(flatbed, transparency adapter(TPU),
+ * or auto document feeder(ADF)).
  *
  * For newer scanners it also sets the focus according to the
  * glass / TPU settings.
@@ -2169,46 +2169,46 @@ change_source(Epson_Scanner *s, Int optindex, char *value)
 
 	/* reset the scanner when we are changing the source setting -
 	   this is necessary for the Perfection 1650 */
-	if (s.hw.need_reset_on_source_change)
+	if(s.hw.need_reset_on_source_change)
 		esci_reset(s)
 
-	if (s.val[OPT_SOURCE].w == optindex)
+	if(s.val[OPT_SOURCE].w == optindex)
 		return
 
 	s.val[OPT_SOURCE].w = optindex
 
-	if (s.val[OPT_TL_X].w == s.hw.x_range.min
+	if(s.val[OPT_TL_X].w == s.hw.x_range.min
 	    && s.val[OPT_TL_Y].w == s.hw.y_range.min
 	    && s.val[OPT_BR_X].w == s.hw.x_range.max
 	    && s.val[OPT_BR_Y].w == s.hw.y_range.max) {
 		force_max = Sane.TRUE
 	}
 
-	if (strcmp(ADF_STR, value) == 0) {
+	if(strcmp(ADF_STR, value) == 0) {
 		s.hw.x_range = &s.hw.adf_x_range
 		s.hw.y_range = &s.hw.adf_y_range
 		s.hw.use_extension = Sane.TRUE
 		/* disable film type option */
 		deactivateOption(s, OPT_FILM_TYPE, &dummy)
 		s.val[OPT_FOCUS_POS].w = FOCUS_ON_GLASS
-		if (s.hw.duplex) {
+		if(s.hw.duplex) {
 			activateOption(s, OPT_ADF_MODE, &dummy)
 		} else {
 			deactivateOption(s, OPT_ADF_MODE, &dummy)
 			s.val[OPT_ADF_MODE].w = 0
 		}
 
-		DBG(1, "adf activated (ext: %d, duplex: %d)\n",
+		DBG(1, "adf activated(ext: %d, duplex: %d)\n",
 			s.hw.use_extension,
 			s.hw.duplex)
 
-	} else if (strcmp(TPU_STR, value) == 0 || strcmp(TPU_STR2, value) == 0) {
-	        if (strcmp(TPU_STR, value) == 0) {
+	} else if(strcmp(TPU_STR, value) == 0 || strcmp(TPU_STR2, value) == 0) {
+	        if(strcmp(TPU_STR, value) == 0) {
 	  	        s.hw.x_range = &s.hw.tpu_x_range
 		        s.hw.y_range = &s.hw.tpu_y_range
 			s.hw.TPU2 = Sane.FALSE
                 }
-	        if (strcmp(TPU_STR2, value) == 0) {
+	        if(strcmp(TPU_STR2, value) == 0) {
 	  	        s.hw.x_range = &s.hw.tpu2_x_range
 		        s.hw.y_range = &s.hw.tpu2_y_range
 			s.hw.TPU2 = Sane.TRUE
@@ -2216,13 +2216,13 @@ change_source(Epson_Scanner *s, Int optindex, char *value)
 		s.hw.use_extension = Sane.TRUE
 
 		/* enable film type option only if the scanner supports it */
-		if (s.hw.cmd.set_film_type != 0)
+		if(s.hw.cmd.set_film_type != 0)
 			activateOption(s, OPT_FILM_TYPE, &dummy)
 		else
 			deactivateOption(s, OPT_FILM_TYPE, &dummy)
 
 		/* enable focus position if the scanner supports it */
-		if (s.hw.focusSupport)
+		if(s.hw.focusSupport)
 			s.val[OPT_FOCUS_POS].w = FOCUS_ABOVE_25MM
 
 		deactivateOption(s, OPT_ADF_MODE, &dummy)
@@ -2241,22 +2241,22 @@ change_source(Epson_Scanner *s, Int optindex, char *value)
 	}
 
 	/* special handling for FilmScan 200 */
-	if (s.hw.cmd.level[0] == 'F')
+	if(s.hw.cmd.level[0] == 'F')
 		activateOption(s, OPT_FILM_TYPE, &dummy)
 
 	s.opt[OPT_BR_X].constraint.range = s.hw.x_range
 	s.opt[OPT_BR_Y].constraint.range = s.hw.y_range
 
-	if (s.val[OPT_TL_X].w < s.hw.x_range.min || force_max)
+	if(s.val[OPT_TL_X].w < s.hw.x_range.min || force_max)
 		s.val[OPT_TL_X].w = s.hw.x_range.min
 
-	if (s.val[OPT_TL_Y].w < s.hw.y_range.min || force_max)
+	if(s.val[OPT_TL_Y].w < s.hw.y_range.min || force_max)
 		s.val[OPT_TL_Y].w = s.hw.y_range.min
 
-	if (s.val[OPT_BR_X].w > s.hw.x_range.max || force_max)
+	if(s.val[OPT_BR_X].w > s.hw.x_range.max || force_max)
 		s.val[OPT_BR_X].w = s.hw.x_range.max
 
-	if (s.val[OPT_BR_Y].w > s.hw.y_range.max || force_max)
+	if(s.val[OPT_BR_Y].w > s.hw.y_range.max || force_max)
 		s.val[OPT_BR_Y].w = s.hw.y_range.max
 
 	setOptionState(s, s.hw.ADF
@@ -2280,23 +2280,23 @@ setvalue(Sane.Handle handle, Int option, void *value, Int *info)
 	DBG(17, "%s: option = %d, value = %p\n", __func__, option, value)
 
 	status = sanei_constrain_value(sopt, value, info)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
-	if (info && value && (*info & Sane.INFO_INEXACT)
+	if(info && value && (*info & Sane.INFO_INEXACT)
 	    && sopt.type == Sane.TYPE_INT)
 		DBG(17, "%s: constrained val = %d\n", __func__,
 		    *(Sane.Word *) value)
 
-	if (sopt.constraint_type == Sane.CONSTRAINT_STRING_LIST) {
+	if(sopt.constraint_type == Sane.CONSTRAINT_STRING_LIST) {
 		optval = search_string_list(sopt.constraint.string_list,
 					    (char *) value)
-		if (optval == NULL)
+		if(optval == NULL)
 			return Sane.STATUS_INVAL
 		optindex = optval - sopt.constraint.string_list
 	}
 
-	switch (option) {
+	switch(option) {
 
 	case OPT_GAMMA_VECTOR_R:
 	case OPT_GAMMA_VECTOR_G:
@@ -2326,7 +2326,7 @@ setvalue(Sane.Handle handle, Int option, void *value, Int *info)
 
 	case OPT_BR_X:
 	case OPT_BR_Y:
-		if (Sane.UNFIX(*((Sane.Word *) value)) == 0) {
+		if(Sane.UNFIX(*((Sane.Word *) value)) == 0) {
 			DBG(17, "invalid br-x or br-y\n")
 			return Sane.STATUS_INVAL
 		}
@@ -2335,7 +2335,7 @@ setvalue(Sane.Handle handle, Int option, void *value, Int *info)
 	case OPT_TL_Y:
 		sval.w = *((Sane.Word *) value)
 		DBG(17, "setting size to %f\n", Sane.UNFIX(sval.w))
-		if (NULL != info)
+		if(NULL != info)
 			*info |= Sane.INFO_RELOAD_PARAMS
 		break
 
@@ -2353,23 +2353,23 @@ setvalue(Sane.Handle handle, Int option, void *value, Int *info)
 		DBG(17, "%s: setting mode to %d\n", __func__, optindex)
 
 		/* halftoning available only on bw scans */
-		if (s.hw.cmd.set_halftoning != 0)
+		if(s.hw.cmd.set_halftoning != 0)
 			setOptionState(s, mode_params[optindex].depth == 1,
 				       OPT_HALFTONE, &reload)
 
 		/* disable dropout on non-color scans */
 		setOptionState(s, !isColor, OPT_DROPOUT, &reload)
 
-		if (s.hw.cmd.set_color_correction)
+		if(s.hw.cmd.set_color_correction)
 			setOptionState(s, isColor,
 				       OPT_COLOR_CORRECTION, &reload)
 
 		/* if binary, then disable the bit depth selection */
-		if (optindex == 0) {
+		if(optindex == 0) {
 			DBG(17, "%s: disabling bit depth selection\n", __func__)
 			s.opt[OPT_BIT_DEPTH].cap |= Sane.CAP_INACTIVE
 		} else {
-			if (s.hw.depth_list[0] == 1) {
+			if(s.hw.depth_list[0] == 1) {
 				DBG(17, "%s: only one depth is available\n", __func__)
 				s.opt[OPT_BIT_DEPTH].cap |= Sane.CAP_INACTIVE
 			} else {
@@ -2439,7 +2439,7 @@ setvalue(Sane.Handle handle, Int option, void *value, Int *info)
 		return Sane.STATUS_INVAL
 	}
 
-	if (reload && info != NULL)
+	if(reload && info != NULL)
 		*info |= Sane.INFO_RELOAD_OPTIONS | Sane.INFO_RELOAD_PARAMS
 
 	DBG(17, "%s: end\n", __func__)
@@ -2453,13 +2453,13 @@ Sane.control_option(Sane.Handle handle, Int option, Sane.Action action,
 {
 	DBG(17, "%s: action = %x, option = %d\n", __func__, action, option)
 
-	if (option < 0 || option >= NUM_OPTIONS)
+	if(option < 0 || option >= NUM_OPTIONS)
 		return Sane.STATUS_INVAL
 
-	if (info != NULL)
+	if(info != NULL)
 		*info = 0
 
-	switch (action) {
+	switch(action) {
 	case Sane.ACTION_GET_VALUE:
 		return getvalue(handle, option, value)
 
@@ -2480,7 +2480,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
 
 	DBG(5, "%s\n", __func__)
 
-	if (params == NULL)
+	if(params == NULL)
 		DBG(1, "%s: params is NULL\n", __func__)
 
 	/*
@@ -2488,14 +2488,14 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
 	 * from the scanner data structure
 	 */
 
-	if (!s.eof && s.ptr != NULL) {
+	if(!s.eof && s.ptr != NULL) {
 		DBG(5, "scan in progress, returning saved params structure\n")
 	} else {
 		/* otherwise initialize the params structure and gather the data */
 		e2_init_parameters(s)
 	}
 
-	if (params != NULL)
+	if(params != NULL)
 		*params = s.params
 
 	print_params(s.params)
@@ -2535,34 +2535,34 @@ Sane.start(Sane.Handle handle)
 
 	/* check if we just have finished working with the ADF */
 	status = e2_check_adf(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	/* calc scanning parameters */
 	status = e2_init_parameters(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	print_params(s.params)
 
 	/* enable infrared */
-	if (s.val[OPT_MODE].w == MODE_INFRARED)
+	if(s.val[OPT_MODE].w == MODE_INFRARED)
 		esci_enable_infrared(handle)
 
 	/* ESC , bay */
-	if (Sane.OPTION_IS_ACTIVE(s.opt[OPT_BAY].cap)) {
+	if(Sane.OPTION_IS_ACTIVE(s.opt[OPT_BAY].cap)) {
 		status = esci_set_bay(s, s.val[OPT_BAY].w)
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 			return status
 	}
 
 	/* set scanning parameters */
-	if (dev.extended_commands)
+	if(dev.extended_commands)
 		status = e2_set_extended_scanning_parameters(s)
 	else
 		status = e2_set_scanning_parameters(s)
 
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	/*
@@ -2571,8 +2571,8 @@ Sane.start(Sane.Handle handle)
 	 * support a defined x,y position for autofocus, we'd need to send
 	 * specific scanning paramters just for autofocus.
 	 */
-	if (s.hw.focusSupport == Sane.TRUE) {
-		if (s.val[OPT_AUTOFOCUS].w) {
+	if(s.hw.focusSupport == Sane.TRUE) {
+		if(s.val[OPT_AUTOFOCUS].w) {
 			DBG(1, "setting autofocus\n")
 			status = esci_set_focus_position(s, 0xff)
 		} else {
@@ -2580,33 +2580,33 @@ Sane.start(Sane.Handle handle)
 			status = esci_set_focus_position(s, s.val[OPT_FOCUS_POS].w)
 		}
 
-		if (status != Sane.STATUS_GOOD) {
+		if(status != Sane.STATUS_GOOD) {
 			DBG(1, "setting focus failed\n")
 			return status
 		}
 	}
 
 	/* ESC z, user defined gamma table */
-	if (dev.cmd.set_gamma_table
+	if(dev.cmd.set_gamma_table
 	    && gamma_userdefined[s.val[OPT_GAMMA_CORRECTION].w]) {
 		status = esci_set_gamma_table(s)
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 			return status
 	}
 
 
-	if (s.val[OPT_COLOR_CORRECTION].w == CORR_AUTO) { /* Automatic */
+	if(s.val[OPT_COLOR_CORRECTION].w == CORR_AUTO) { /* Automatic */
 
 		DBG(1, "using built in CCT profile\n")
 
-		if (dev.model_id == 0)
+		if(dev.model_id == 0)
 			DBG(1, " specific profile not available, using default\n")
 
 
-		if (0) { /* XXX TPU */
+		if(0) { /* XXX TPU */
 
 		        /* XXX check this */
-			if (s.val[OPT_FILM_TYPE].w == 0)
+			if(s.val[OPT_FILM_TYPE].w == 0)
 				e2_load_cct_profile(s, CCTP_COLORPOS)
 			else
 				e2_load_cct_profile(s, CCTP_COLORNEG)
@@ -2617,12 +2617,12 @@ Sane.start(Sane.Handle handle)
 	}
 
 	/* ESC m, user defined color correction */
-	if (s.hw.cmd.set_color_correction_coefficients
+	if(s.hw.cmd.set_color_correction_coefficients
 		&& correction_userdefined[s.val[OPT_COLOR_CORRECTION].w]) {
 
 		status = esci_set_color_correction_coefficients(s,
                                                         s.cct_table)
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 			return status
 	}
 
@@ -2631,7 +2631,7 @@ Sane.start(Sane.Handle handle)
 	 * set up with scanning parameters
 	 */
 	status = e2_check_adf(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	/*
@@ -2639,11 +2639,11 @@ Sane.start(Sane.Handle handle)
 	 * Wait until the button is pressed. If the button was already
 	 * pressed, then we will get the button pressed event right away.
 	 */
-	if (s.val[OPT_WAIT_FOR_BUTTON].w == Sane.TRUE)
+	if(s.val[OPT_WAIT_FOR_BUTTON].w == Sane.TRUE)
 		e2_wait_button(s)
 
 	/* for debug, request command parameter */
-/*	if (DBG_LEVEL) {
+/*	if(DBG_LEVEL) {
 		unsigned char buf[45]
 		request_command_parameter(s, buf)
 	}
@@ -2652,17 +2652,17 @@ Sane.start(Sane.Handle handle)
 	s.retry_count = 0
 
 	/* allocate buffers for color shuffling */
-	if (dev.color_shuffle == Sane.TRUE) {
+	if(dev.color_shuffle == Sane.TRUE) {
 		var i: Int
 		/* initialize the line buffers */
-		for (i = 0; i < s.line_distance * 2 + 1; i++) {
+		for(i = 0; i < s.line_distance * 2 + 1; i++) {
 
-			if (s.line_buffer[i] != NULL)
+			if(s.line_buffer[i] != NULL)
 				free(s.line_buffer[i])
 
 			s.line_buffer[i] = malloc(s.params.bytes_per_line)
-			if (s.line_buffer[i] == NULL) {
-				DBG(1, "out of memory (line %d)\n", __LINE__)
+			if(s.line_buffer[i] == NULL) {
+				DBG(1, "out of memory(line %d)\n", __LINE__)
 				return Sane.STATUS_NO_MEM
 			}
 		}
@@ -2674,47 +2674,47 @@ Sane.start(Sane.Handle handle)
 	 * an error code in the extended handshaking mode.
 	 */
 	s.buf = realloc(s.buf, (s.lcount * s.params.bytes_per_line) + 1)
-	if (s.buf == NULL)
+	if(s.buf == NULL)
 		return Sane.STATUS_NO_MEM
 
 	s.ptr = s.end = s.buf
 
 	/* feed the first sheet in the ADF */
-	if (dev.ADF && dev.use_extension && dev.cmd.feed) {
+	if(dev.ADF && dev.use_extension && dev.cmd.feed) {
 		status = esci_feed(s)
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 			return status
 	}
 
 	/* this seems to work only for some devices */
 	status = e2_wait_warm_up(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
-	if (s.hw.focusSupport == Sane.TRUE && s.val[OPT_AUTOFOCUS].w) {
+	if(s.hw.focusSupport == Sane.TRUE && s.val[OPT_AUTOFOCUS].w) {
 		status = esci_request_focus_position(s, &s.currentFocusPosition)
-		if (status == Sane.STATUS_GOOD)
+		if(status == Sane.STATUS_GOOD)
 			s.val[OPT_FOCUS_POS].w = s.currentFocusPosition
 	}
 
 	/* start scanning */
 	DBG(1, "%s: scanning...\n", __func__)
 
-	if (dev.extended_commands) {
+	if(dev.extended_commands) {
 		status = e2_start_ext_scan(s)
 
 		/* sometimes the scanner gives an io error when
 		 * it's warming up.
 		 */
-		if (status == Sane.STATUS_IO_ERROR) {
+		if(status == Sane.STATUS_IO_ERROR) {
 			status = e2_wait_warm_up(s)
-			if (status == Sane.STATUS_GOOD)
+			if(status == Sane.STATUS_GOOD)
 				status = e2_start_ext_scan(s)
 		}
 	} else
 		status = e2_start_std_scan(s)
 
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(1, "%s: start failed: %s\n", __func__,
 		    Sane.strstatus(status))
 
@@ -2722,7 +2722,7 @@ Sane.start(Sane.Handle handle)
 	}
 
 	/* this is a kind of read request */
-	if (dev.connection == Sane.EPSON_NET) {
+	if(dev.connection == Sane.EPSON_NET) {
 		sanei_Espon_net_write(s, 0x2000, NULL, 0,
 		      s.ext_block_len + 1, &status)
 	}
@@ -2733,7 +2733,7 @@ Sane.start(Sane.Handle handle)
 static inline Int
 get_color(Int status)
 {
-	switch ((status >> 2) & 0x03) {
+	switch((status >> 2) & 0x03) {
 	case 1:
 		return 1
 	case 2:
@@ -2758,14 +2758,14 @@ Sane.read(Sane.Handle handle, Sane.Byte *data, Int max_length,
 		__func__, s.eof, s.canceling)
 
 	/* Sane.read called before Sane.start? */
-	if (s.buf == NULL) {
+	if(s.buf == NULL) {
 		DBG(1, "%s: buffer is NULL", __func__)
 		return Sane.STATUS_INVAL
 	}
 
 	*length = 0
 
-	if (s.hw.extended_commands)
+	if(s.hw.extended_commands)
 		status = e2_ext_read(s)
 	else
 		status = e2_block_read(s)
@@ -2773,14 +2773,14 @@ Sane.read(Sane.Handle handle, Sane.Byte *data, Int max_length,
 	/* The scanning operation might be canceled by the scanner itself
 	 * or the fronted program
 	 */
-	if (status == Sane.STATUS_CANCELLED || s.canceling) {
+	if(status == Sane.STATUS_CANCELLED || s.canceling) {
 		e2_scan_finish(s)
 		return Sane.STATUS_CANCELLED
 	}
 
 	/* XXX if FS G and STATUS_IOERR, use e2_check_extended_status */
 
-	DBG(18, "moving data %p %p, %d (%d lines)\n",
+	DBG(18, "moving data %p %p, %d(%d lines)\n",
 		s.ptr, s.end,
 		max_length, max_length / s.params.bytes_per_line)
 
@@ -2791,7 +2791,7 @@ Sane.read(Sane.Handle handle, Sane.Byte *data, Int max_length,
 		s.canceling, s.eof, status)
 
 	/* continue reading if appropriate */
-	if (status == Sane.STATUS_GOOD)
+	if(status == Sane.STATUS_GOOD)
 		return status
 
 	e2_scan_finish(s)

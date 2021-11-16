@@ -2,8 +2,8 @@
  * @brief model specific stuff
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 1998 Plustek Inc.
- * Copyright (C) 2000-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 1998 Plustek Inc.
+ * Copyright(C) 2000-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  * also based on the work done by Rick Bronson
  *
  * History:
@@ -41,7 +41,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -91,7 +91,7 @@ static void modelInitPageSettings( pScanData ps )
 	else
 		ps.dwScannerSize = _SCANSIZE_A4
 
-    /* default width for all but A3 - 8.5"* 300dpi (_MEASURE_BASE) */
+    /* default width for all but A3 - 8.5"* 300dpi(_MEASURE_BASE) */
 	ps.sCaps.wMaxExtentX = 2550
 
     /* this applies to all scanners but the A3 model */
@@ -266,7 +266,7 @@ _LOC void ModelSet4800( pScanData ps )
 	ps.GreenDataReady = _GREEN_DATA_READY
 
     /*
-     * used for shading stuff (see dac.c)
+     * used for shading stuff(see dac.c)
      */
 	ps.FBKScanLineBlks	    = 5
 	ps.FBKScanLineLenBase  = 1024
@@ -282,7 +282,7 @@ _LOC void ModelSet4800( pScanData ps )
 	ps.OneScanLineLen      = (ps.BufferSizePerModel * 3)
 
     modelInitMotor( ps )
-    modelInitCaps ( ps )
+    modelInitCaps( ps )
 	modelInitPageSettings( ps )
 
 	DBG( DBG_LOW, "ModelSet4800() done.\n" )
@@ -325,7 +325,7 @@ _LOC void ModelSet4830( pScanData ps )
 	ps.GreenDataReady = _GREEN_DATA_READY
 
     /*
-     * used for shading stuff (see dac.c)
+     * used for shading stuff(see dac.c)
      */
 	ps.FBKScanLineBlks	    = 5
 	ps.FBKScanLineLenBase  = 1024
@@ -341,7 +341,7 @@ _LOC void ModelSet4830( pScanData ps )
 	ps.OneScanLineLen      = (ps.BufferSizePerModel * 3)
 
     modelInitMotor( ps )
-    modelInitCaps ( ps )
+    modelInitCaps( ps )
 	modelInitPageSettings( ps )
 
 	DBG( DBG_LOW, "ModelSet4830() done.\n" )
@@ -385,7 +385,7 @@ _LOC void ModelSet600( pScanData ps )
 }
 
 /*.............................................................................
- * set the model to 12000P, 96000P (tested on a OP96000P)
+ * set the model to 12000P, 96000P(tested on a OP96000P)
  */
 _LOC void ModelSet12000( pScanData ps )
 {

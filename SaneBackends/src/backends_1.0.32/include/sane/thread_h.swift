@@ -1,12 +1,12 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1998-2001 Yuri Dario
-   Copyright (C) 2002-2003 Henning Meier-Geinitz (documentation)
-   Copyright (C) 2003-2004 Gerhard Jaeger (pthread/process support)
+   Copyright(C) 1998-2001 Yuri Dario
+   Copyright(C) 2002-2003 Henning Meier-Geinitz(documentation)
+   Copyright(C) 2003-2004 Gerhard Jaeger(pthread/process support)
    This file is part of the SANE package.
 
    SANE is free software; you can redistribute it and/or modify it under
    the terms of the GNU General Public License as published by the Free
-   Software Foundation; either version 2 of the License, or (at your
+   Software Foundation; either version 2 of the License, or(at your
    option) any later version.
 
    SANE is distributed in the hope that it will be useful, but WITHOUT
@@ -71,17 +71,17 @@ typedef Int Sane.Pid
  *
  * This function must be called before any other sanei_thread function.
  */
-public void sanei_thread_init (void)
+public void sanei_thread_init(void)
 
 /** Do we use processes or threads?
  *
  * This function can be used to check if processes or threads are used.
  *
  * @return
- * - Sane.TRUE - if processes are used (fork)
+ * - Sane.TRUE - if processes are used(fork)
  * - Sane.FALSE - i threads are used
  */
-public Bool sanei_thread_is_forked (void)
+public Bool sanei_thread_is_forked(void)
 
 /** Is Sane.Pid valid pid?
  *
@@ -92,7 +92,7 @@ public Bool sanei_thread_is_forked (void)
  * - Sane.TRUE - if pid is a valid process
  * - Sane.FALSE - if pid is not a valid process
  */
-public Bool sanei_thread_is_valid (Sane.Pid pid)
+public Bool sanei_thread_is_valid(Sane.Pid pid)
 
 /** Invalidate a Sane.Pid
  *
@@ -131,13 +131,13 @@ public Bool sanei_thread_is_valid (Sane.Pid pid)
  * This function should be used to start a new task.
  *
  * @param func() function to call as child task
- * @param args argument of the function (only one!)
+ * @param args argument of the function(only one!)
  *
  * @return
  * - task id
  * - -1 if creating the new task failed
  */
-public Sane.Pid sanei_thread_begin (Int (*func) (void *args), void *args)
+public Sane.Pid sanei_thread_begin(Int(*func) (void *args), void *args)
 
 /** Terminate spawned task.
  *
@@ -152,7 +152,7 @@ public Sane.Pid sanei_thread_begin (Int (*func) (void *args), void *args)
  * - 0 on success
  * - any other value if an error occurred while terminating the task
  */
-public Int sanei_thread_kill (Sane.Pid pid)
+public Int sanei_thread_kill(Sane.Pid pid)
 
 /** Send a signal to a task.
  *
@@ -167,7 +167,7 @@ public Int sanei_thread_kill (Sane.Pid pid)
  * - 0 - on success
  * - any other value - if an error occurred while sending the signal
  */
-public Int sanei_thread_sendsig (Sane.Pid pid, Int sig)
+public Int sanei_thread_sendsig(Sane.Pid pid, Int sig)
 
 /** Wait for task termination.
  *
@@ -181,7 +181,7 @@ public Int sanei_thread_sendsig (Sane.Pid pid, Int sig)
  * @return
  * - the pid of the task we have been waiting for
  */
-public Sane.Pid sanei_thread_waitpid (Sane.Pid pid, Int *status)
+public Sane.Pid sanei_thread_waitpid(Sane.Pid pid, Int *status)
 
 /** Check the current status of the spawned task
  *
@@ -192,6 +192,6 @@ public Sane.Pid sanei_thread_waitpid (Sane.Pid pid, Int *status)
  * - Sane.STATUS_GOOD - if the task finished without errors
  * - any other value - if the task finished unexpectantly or hasn't finished yet
  */
-public Sane.Status sanei_thread_get_status (Sane.Pid pid)
+public Sane.Status sanei_thread_get_status(Sane.Pid pid)
 
 #endif /* sanei_thread_h */

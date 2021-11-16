@@ -7,7 +7,7 @@
  *  @brief Functions to control the scanner hardware.
  *
  * Based on sources acquired from Plustek Inc.<br>
- * Copyright (C) 2001-2013 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 2001-2013 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.40 - starting version of the USB support
@@ -45,7 +45,7 @@
  *        - added usb_UpdateButtonStatus()
  * - 0.50 - added button support for Plustek/Genius devices
  *        - changed behaviour of usb_IsScannerReady
- *        - added special misc I/O setup for CIS devices (usb_ResetRegisters)
+ *        - added special misc I/O setup for CIS devices(usb_ResetRegisters)
  * - 0.51 - change usb_AdjustLamps() and use it now in usb_switchLamp()
  *        - added usb_Wait4ScanSample() and usb_InCalibrationMode()
  *        - tweaked EjectPaper to work correctly with the supported sheet-fed
@@ -54,7 +54,7 @@
  *          some more debug output to that code path
  * - 0.52 - changed DCapsDef, lamp -> misc_io
  *        - hammer in output bit, when using misc io pins for lamp switching
- *        - increased wait time for sheet-fed scanner (needed for Q-SCAN A6,
+ *        - increased wait time for sheet-fed scanner(needed for Q-SCAN A6,
  *          patch by Hiroshi Miura)
  * .
  * <hr>
@@ -63,7 +63,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -117,7 +117,7 @@ usb_HostSwap( void )
 	u_short        pattern  = 0xfeed; /* deadbeef */
 	unsigned char *bytewise = (unsigned char *)&pattern
 
-	if ( bytewise[0] == 0xfe ) {
+	if( bytewise[0] == 0xfe ) {
 		DBG( _DBG_READ, "We're big-endian!  No need to swap!\n" )
 		return 0
 	}
@@ -198,7 +198,7 @@ usb_MotorOn( Plustek_Device *dev, Bool fOn )
 static Bool
 usb_IsCISDevice( Plustek_Device *dev )
 {
-	return ( dev.usbDev.HwSetting.bReg_0x26 & _ONE_CH_COLOR )
+	return( dev.usbDev.HwSetting.bReg_0x26 & _ONE_CH_COLOR )
 }
 
 /**
@@ -206,7 +206,7 @@ usb_IsCISDevice( Plustek_Device *dev )
 static Bool
 usb_IsSheetFedDevice( Plustek_Device *dev )
 {
-	return ( dev.usbDev.Caps.wFlags & DEVCAPSFLAG_SheetFed )
+	return( dev.usbDev.Caps.wFlags & DEVCAPSFLAG_SheetFed )
 }
 
 /**
@@ -284,7 +284,7 @@ usb_SensorAdf( Plustek_Device *dev )
 
 	usbio_ReadReg( dev.fd, 0x02, &value )
 
-	return (value & 0x20)
+	return(value & 0x20)
 }
 
 /**
@@ -300,7 +300,7 @@ usb_SensorPaper( Plustek_Device *dev )
 	if( usb_IsSheetFedDevice(dev))
 		mask = _GET_PAPERSENSE_PORT(sc.misc_io)
 
-	return (val & mask)
+	return(val & mask)
 }
 
 /** function for sheet-fed devices, to make sure, that there's
@@ -382,9 +382,9 @@ usb_WaitPos( Plustek_Device *dev, u_long to, Bool stay )
 		DBG( _DBG_INFO2, ">>>> CURRENT MCLK_DIV = %u\n", mclk_div )
 		DBG( _DBG_INFO2, ">>>> MCH              = %u\n", mch )
 		DBG( _DBG_INFO2, ">>>> FFS              = %u\n", ffs )
-		DBG( _DBG_INFO2, ">>>> HIGH-SPEED       = %.3f (%.3f)\n",
+		DBG( _DBG_INFO2, ">>>> HIGH-SPEED       = %.3f(%.3f)\n",
 		                  speed, hw.dHighSpeed)
-		DBG( _DBG_INFO2, ">>>> MIN_FFS          = %u (%.3f)\n", min_ffs, maxf)
+		DBG( _DBG_INFO2, ">>>> MIN_FFS          = %u(%.3f)\n", min_ffs, maxf)
 	}
 
 	gettimeofday( &start_time, NULL )
@@ -397,7 +397,7 @@ usb_WaitPos( Plustek_Device *dev, u_long to, Bool stay )
 		usleep( 1000 )
 		_UIO( usbio_ReadReg( dev.fd, 0x07, &value ))
 
-		if (!value)
+		if(!value)
 			return Sane.TRUE
 
 		gettimeofday(&t2, NULL)
@@ -476,7 +476,7 @@ usb_ModuleMove( Plustek_Device *dev, u_char action, u_long dwStep )
 		double d = hw.dMaxMoveSpeed
 
 		/* FIXME */
-		if (hw.motorModel == MODEL_QSCAN_A6){
+		if(hw.motorModel == MODEL_QSCAN_A6){
 			DBG( _DBG_INFO2, "Q-SCAN-A6 may not be able to detect ejected papers\n")
 			return Sane.TRUE
 		}
@@ -488,7 +488,7 @@ usb_ModuleMove( Plustek_Device *dev, u_char action, u_long dwStep )
 		ejected = Sane.FALSE
 		do {
 			if( usb_SensorPaper(dev)) {
-				if (!usb_ModuleMove(dev,MOVE_SkipPaperSensor, 0 )) {
+				if(!usb_ModuleMove(dev,MOVE_SkipPaperSensor, 0 )) {
 					hw.dMaxMoveSpeed = d
 					return Sane.FALSE
 				}
@@ -511,7 +511,7 @@ usb_ModuleMove( Plustek_Device *dev, u_char action, u_long dwStep )
 		 * to make sure, that the scanned sheet is out of the scanner
 		 * BUT: not at startup
 		 */
-		if (dev.initialized >= 0 || ejected) {
+		if(dev.initialized >= 0 || ejected) {
 			DBG(_DBG_INFO2, "... MORE EJECT...\n")
 			if(!usb_ModuleMove( dev, MOVE_Forward, 300 /* *3 */)) {
 				hw.dMaxMoveSpeed = d
@@ -627,7 +627,7 @@ usb_ModuleMove( Plustek_Device *dev, u_char action, u_long dwStep )
 				if( usb_SensorPaper( dev )) {
 					usbio_WriteReg( dev.fd, 0x07, 0 )
 					usbio_WriteReg( dev.fd, 0x58, regs[0x58] )
-					usbio_ReadReg ( dev.fd, 0x02, &bReg2 )
+					usbio_ReadReg( dev.fd, 0x02, &bReg2 )
 					return Sane.TRUE
 				}
 
@@ -642,7 +642,7 @@ usb_ModuleMove( Plustek_Device *dev, u_char action, u_long dwStep )
 				if( !usb_SensorPaper( dev )) {
 					usbio_WriteReg( dev.fd, 0x07, 0 )
 					usbio_WriteReg( dev.fd, 0x58, regs[0x58] )
-					usbio_ReadReg ( dev.fd, 0x02, &bReg2 )
+					usbio_ReadReg( dev.fd, 0x02, &bReg2 )
 					return Sane.TRUE
 				}
 
@@ -656,7 +656,7 @@ usb_ModuleMove( Plustek_Device *dev, u_char action, u_long dwStep )
 		}
 
 		usbio_WriteReg( dev.fd, 0x58, regs[0x58] )
-		usbio_ReadReg ( dev.fd, 0x02, &bReg2 )
+		usbio_ReadReg( dev.fd, 0x02, &bReg2 )
 	}
 
 	if( !retval )
@@ -681,7 +681,7 @@ usb_ModuleToHome( Plustek_Device *dev, Bool fWait )
 
 	/* Check if merlin is ready for setting command */
 	usbio_WriteReg( dev.fd, 0x58, hw.bReg_0x58 )
-	usbio_ReadReg ( dev.fd, 2, &value )
+	usbio_ReadReg( dev.fd, 2, &value )
 	if( value & 1 ) {
 		dev.usbDev.fModFirstHome = Sane.FALSE
 		return Sane.TRUE
@@ -759,7 +759,7 @@ usb_ModuleToHome( Plustek_Device *dev, Bool fWait )
 		}
 
 		/* Compute fast feed step size, use equation 3 and equation 8
-		 * assumptions: MCLK = 6, Lineratemode (CM=1)
+		 * assumptions: MCLK = 6, Lineratemode(CM=1)
 		 */
 		wFastFeedStepSize = (u_short)(CRYSTAL_FREQ / (mclk_div * 8 * 1 *
 		                              hw.dMaxMotorSpeed * 4 * hw.wMotorDpi))
@@ -819,15 +819,15 @@ usb_ModuleToHome( Plustek_Device *dev, Bool fWait )
 #if 0
 		if( hw.motorModel == MODEL_Tokyo600) {
 
-			u_long	dwSpeedUp = GetTickCount () + 250
+			u_long	dwSpeedUp = GetTickCount() + 250
 
-			/* while(GetTickCount () < dwSpeedUp) */
-			while((Int)(dwSpeedUp - GetTickCount ()) > 0)
+			/* while(GetTickCount() < dwSpeedUp) */
+			while((Int)(dwSpeedUp - GetTickCount()) > 0)
 			{
-				Sleep (10)
-				if (!ReadRegister (0x07, &value))
+				Sleep(10)
+				if(!ReadRegister(0x07, &value))
 					return FALSE
-				if (!value)
+				if(!value)
 					return TRUE
 			}
 			wFastFeedStepSize = (WORD)(CRYSTAL_FREQ /
@@ -1083,7 +1083,7 @@ usb_GetLampStatus( Plustek_Device *dev )
 			/* check if the lamp is on */
 			usbio_ReadReg( dev.fd, reg, &val )
 
-			DBG( _DBG_INFO2, "LAMP-REG[0x%02x] = 0x%02x (msk=0x%02x)\n",
+			DBG( _DBG_INFO2, "LAMP-REG[0x%02x] = 0x%02x(msk=0x%02x)\n",
 			                  reg,val,msk)
 			if( val & msk )
 				iLampStatus |= DEV_LampReflection
@@ -1092,9 +1092,9 @@ usb_GetLampStatus( Plustek_Device *dev )
 			if( sc.wFlags & DEVCAPSFLAG_TPA ) {
 
 				usb_GetLampRegAndMask( _GET_TPALAMP(sc.misc_io), &reg, &msk )
-				if (reg) {
+				if(reg) {
 					usbio_ReadReg( dev.fd, reg, &val )
-					DBG( _DBG_INFO2, "TPA-REG[0x%02x] = 0x%02x (msk=0x%02x)\n",
+					DBG( _DBG_INFO2, "TPA-REG[0x%02x] = 0x%02x(msk=0x%02x)\n",
 					                  reg,val,msk)
 					if( val & msk )
 						iLampStatus |= DEV_LampTPA
@@ -1129,7 +1129,7 @@ usb_GetLampStatus( Plustek_Device *dev )
 		}
 	}
 
-	DBG( _DBG_INFO, "LAMP-STATUS: 0x%08x (%s)\n",
+	DBG( _DBG_INFO, "LAMP-STATUS: 0x%08x(%s)\n",
 	                 iLampStatus, iLampStatus?"on":"off" )
 	return iLampStatus
 }
@@ -1158,7 +1158,7 @@ usb_switchLampX( Plustek_Device *dev, Bool on, Bool tpa )
 		/* in fact the output bit should be set by the default settings
 		 * but we make sure, that it is set anyway...
 		 */
-		if (msk & 0x08)
+		if(msk & 0x08)
 			msk |= 0x01
 		else
 			msk |= 0x10
@@ -1591,13 +1591,13 @@ usb_StartLampTimer( Plustek_Device *dev )
 	if( 0 != dev.usbDev.dwLampOnPeriod ) {
 		dev_xxx = dev
 		setitimer( ITIMER_REAL, &interval, &dev.saveSettings )
-		DBG( _DBG_INFO, "Lamp-Timer started (using ITIMER)\n" )
+		DBG( _DBG_INFO, "Lamp-Timer started(using ITIMER)\n" )
 	}
 #else
 	if( 0 != dev.usbDev.dwLampOnPeriod ) {
 		dev_xxx = dev
 		alarm( dev.usbDev.dwLampOnPeriod )
-		DBG( _DBG_INFO, "Lamp-Timer started (using ALARM)\n" )
+		DBG( _DBG_INFO, "Lamp-Timer started(using ALARM)\n" )
 	}
 #endif
 }
@@ -1665,7 +1665,7 @@ usb_Wait4Warmup( Plustek_Device *dev )
 	return Sane.TRUE
 }
 
-/** function for TPA autodection (EPSON & UMAX devices)
+/** function for TPA autodection(EPSON & UMAX devices)
  */
 static Bool
 usb_HasTPA( Plustek_Device *dev )
@@ -1676,11 +1676,11 @@ usb_HasTPA( Plustek_Device *dev )
 	if( dev.usbDev.vendor == 0x04B8 ) {         /* the EPSON section */
 
 		usb_switchLampX( dev, Sane.FALSE, Sane.TRUE )
-		usbio_WriteReg ( dev.fd, 0x58, 0x1d )
-		usbio_WriteReg ( dev.fd, 0x59, 0x49 )
+		usbio_WriteReg( dev.fd, 0x58, 0x1d )
+		usbio_WriteReg( dev.fd, 0x59, 0x49 )
 		usbio_ReadReg  ( dev.fd, 0x02, &val )
-		usbio_WriteReg ( dev.fd, 0x58, dev.usbDev.HwSetting.bReg_0x58 )
-		usbio_WriteReg ( dev.fd, 0x59, dev.usbDev.HwSetting.bReg_0x59 )
+		usbio_WriteReg( dev.fd, 0x58, dev.usbDev.HwSetting.bReg_0x58 )
+		usbio_WriteReg( dev.fd, 0x59, dev.usbDev.HwSetting.bReg_0x59 )
 
 		DBG( _DBG_INFO, "REG[0x02] = 0x%02x\n", val )
 
@@ -1702,9 +1702,9 @@ usb_HasTPA( Plustek_Device *dev )
 			usbio_ReadReg  ( dev.fd, 0x02, &val )
 			DBG( _DBG_INFO, "REG[0x02] = 0x%02x\n", val )
 
-			usbio_WriteReg ( dev.fd, 0x58, dev.usbDev.HwSetting.bReg_0x58 )
-			usbio_WriteReg ( dev.fd, 0x5a, dev.usbDev.HwSetting.bReg_0x5a )
-			usbio_WriteReg ( dev.fd, 0x5b, dev.usbDev.HwSetting.bReg_0x5b )
+			usbio_WriteReg( dev.fd, 0x58, dev.usbDev.HwSetting.bReg_0x58 )
+			usbio_WriteReg( dev.fd, 0x5a, dev.usbDev.HwSetting.bReg_0x5a )
+			usbio_WriteReg( dev.fd, 0x5b, dev.usbDev.HwSetting.bReg_0x5b )
 
 			usbio_ReadReg  ( dev.fd, 0x02, &val )
 			DBG( _DBG_INFO, "REG[0x02] = 0x%02x\n", val )
@@ -1739,7 +1739,7 @@ usb_UpdateButtonStatus( Plustek_Scanner *s )
 	Plustek_Device *dev  = s.hw
 	DCapsDef       *caps = &dev.usbDev.Caps
 
-	if (caps.bButtons == 0)
+	if(caps.bButtons == 0)
 		return Sane.FALSE
 
 	status = sanei_access_lock( dev.sane.name, 3 )
@@ -1776,10 +1776,10 @@ usb_UpdateButtonStatus( Plustek_Scanner *s )
 			for( i = 0; i < caps.bButtons; i++ )
 				s.val[OPT_BUTTON_0 + i].w = 0
 
-			if (caps.bButtons == 2 || caps.bButtons == 5) {
+			if(caps.bButtons == 2 || caps.bButtons == 5) {
 				val >>= 2
 				val &= 0x07
-				DBG( _DBG_INFO2, "Button Value=0x%02x (2/5)\n", val )
+				DBG( _DBG_INFO2, "Button Value=0x%02x(2/5)\n", val )
 
 				switch( val ) {
 					case 1: s.val[OPT_BUTTON_1].w = 1; break
@@ -1788,10 +1788,10 @@ usb_UpdateButtonStatus( Plustek_Scanner *s )
 					case 4: s.val[OPT_BUTTON_3].w = 1; break
 					case 6: s.val[OPT_BUTTON_4].w = 1; break
 				}
-			} else if (caps.bButtons == 4 ) {
+			} else if(caps.bButtons == 4 ) {
 				val >>= 5
 				val &= 0x07
-				DBG( _DBG_INFO2, "Button Value=0x%02x (4)\n", val )
+				DBG( _DBG_INFO2, "Button Value=0x%02x(4)\n", val )
 
 				switch( val ) {
 					case 1: s.val[OPT_BUTTON_0].w = 1; break
@@ -1828,7 +1828,7 @@ usb_UpdateButtonStatus( Plustek_Scanner *s )
 
 					if((mio[i] & mask) == 0) {
 						DBG( _DBG_INFO2, "* port %u configured as input,"
-						     " status: %s (%u)\n", (i*2)+j+1,
+						     " status: %s(%u)\n", (i*2)+j+1,
 							 ((val & 1)?"PRESSED":"RELEASED"), (OPT_BUTTON_0 + bc))
 						s.val[OPT_BUTTON_0 + bc].w = val & 1
 						bc++

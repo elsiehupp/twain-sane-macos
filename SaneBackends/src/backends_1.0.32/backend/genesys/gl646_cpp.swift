@@ -1,12 +1,12 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2003 Oliver Rauch
-   Copyright (C) 2003, 2004 Henning Meier-Geinitz <henning@meier-geinitz.de>
-   Copyright (C) 2004 Gerhard Jaeger <gerhard@gjaeger.de>
-   Copyright (C) 2004-2013 Stéphane Voltz <stef.dev@free.fr>
-   Copyright (C) 2005-2009 Pierre Willenbrock <pierre@pirsoft.dnsalias.org>
-   Copyright (C) 2007 Luke <iceyfor@gmail.com>
-   Copyright (C) 2011 Alexey Osipov <simba@lerlan.ru> for HP2400 description
+   Copyright(C) 2003 Oliver Rauch
+   Copyright(C) 2003, 2004 Henning Meier-Geinitz <henning@meier-geinitz.de>
+   Copyright(C) 2004 Gerhard Jaeger <gerhard@gjaeger.de>
+   Copyright(C) 2004-2013 Stéphane Voltz <stef.dev@free.fr>
+   Copyright(C) 2005-2009 Pierre Willenbrock <pierre@pirsoft.dnsalias.org>
+   Copyright(C) 2007 Luke <iceyfor@gmail.com>
+   Copyright(C) 2011 Alexey Osipov <simba@lerlan.ru> for HP2400 description
                       and tuning
 
    This file is part of the SANE package.
@@ -14,7 +14,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -438,9 +438,9 @@ static void gl646_stop_motor(Genesys_Device* dev)
  */
 static Int get_cksel(SensorId sensor_id, Int required, unsigned channels)
 {
-    for (const auto& sensor : *s_sensors) {
+    for(const auto& sensor : *s_sensors) {
         // exit on perfect match
-        if (sensor.sensor_id == sensor_id && sensor.resolutions.matches(required) &&
+        if(sensor.sensor_id == sensor_id && sensor.resolutions.matches(required) &&
             sensor.matches_channel_count(channels))
         {
             unsigned cksel = sensor.ccd_pixels_per_system_pixel()
@@ -470,15 +470,15 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
 
   /* for the given resolution, search for master
    * motor mode setting */
-    for (unsigned i = 0; i < sizeof (motor_master) / sizeof (Motor_Master); ++i) {
-        if (dev.model.motor_id == motor_master[i].motor_id &&
+    for(unsigned i = 0; i < sizeof(motor_master) / sizeof(Motor_Master); ++i) {
+        if(dev.model.motor_id == motor_master[i].motor_id &&
             motor_master[i].dpi == session.params.yres &&
             motor_master[i].channels == session.params.channels)
         {
             motor = &motor_master[i]
         }
     }
-    if (motor == nullptr) {
+    if(motor == nullptr) {
         throw SaneException("unable to find settings for motor %d at %d dpi, color=%d",
                             static_cast<unsigned>(dev.model.motor_id),
                             session.params.yres, session.params.channels)
@@ -495,17 +495,17 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
                                                      get_slope_table_max_size(AsicType::GL646))
 
   /* R01 */
-  /* now setup other registers for final scan (ie with shading enabled) */
+  /* now setup other registers for final scan(ie with shading enabled) */
   /* watch dog + shading + scan enable */
     regs.find_reg(0x01).value |= REG_0x01_DOGENB | REG_0x01_SCAN
-    if (dev.model.is_cis) {
+    if(dev.model.is_cis) {
         regs.find_reg(0x01).value |= REG_0x01_CISSET
     } else {
         regs.find_reg(0x01).value &= ~REG_0x01_CISSET
     }
 
     // if device has no calibration, don't enable shading correction
-    if (has_flag(dev.model.flags, ModelFlag::DISABLE_SHADING_CALIBRATION) ||
+    if(has_flag(dev.model.flags, ModelFlag::DISABLE_SHADING_CALIBRATION) ||
         has_flag(session.params.flags, ScanFlag::DISABLE_SHADING))
     {
         regs.find_reg(0x01).value &= ~REG_0x01_DVDSET
@@ -514,13 +514,13 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
     }
 
     regs.find_reg(0x01).value &= ~REG_0x01_FASTMOD
-    if (motor.fastmod) {
+    if(motor.fastmod) {
         regs.find_reg(0x01).value |= REG_0x01_FASTMOD
     }
 
   /* R02 */
   /* allow moving when buffer full by default */
-    if (!dev.model.is_sheetfed) {
+    if(!dev.model.is_sheetfed) {
         dev.reg.find_reg(0x02).value &= ~REG_0x02_ACDCDIS
     } else {
         dev.reg.find_reg(0x02).value |= REG_0x02_ACDCDIS
@@ -529,14 +529,14 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
   /* setup motor power and direction */
   sanei_genesys_set_motor_power(*regs, true)
 
-    if (has_flag(session.params.flags, ScanFlag::REVERSE)) {
+    if(has_flag(session.params.flags, ScanFlag::REVERSE)) {
         regs.find_reg(0x02).value |= REG_0x02_MTRREV
     } else {
         regs.find_reg(0x02).value &= ~REG_0x02_MTRREV
     }
 
-  /* fastfed enabled (2 motor slope tables) */
-    if (motor.fastfed) {
+  /* fastfed enabled(2 motor slope tables) */
+    if(motor.fastfed) {
         regs.find_reg(0x02).value |= REG_0x02_FASTFED
     } else {
         regs.find_reg(0x02).value &= ~REG_0x02_FASTFED
@@ -544,7 +544,7 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
 
   /* step type */
     regs.find_reg(0x02).value &= ~REG_0x02_STEPSEL
-  switch (motor.steptype)
+  switch(motor.steptype)
     {
     case StepType::FULL:
       break
@@ -559,7 +559,7 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
       break
     }
 
-    if (dev.model.is_sheetfed || !has_flag(session.params.flags, ScanFlag::AUTO_GO_HOME)) {
+    if(dev.model.is_sheetfed || !has_flag(session.params.flags, ScanFlag::AUTO_GO_HOME)) {
         regs.find_reg(0x02).value &= ~REG_0x02_AGOHOME
     } else {
         regs.find_reg(0x02).value |= REG_0x02_AGOHOME
@@ -572,14 +572,14 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
 
   /* select XPA */
     regs.find_reg(0x03).value &= ~REG_0x03_XPASEL
-    if ((session.params.flags & ScanFlag::USE_XPA) != ScanFlag::NONE) {
+    if((session.params.flags & ScanFlag::USE_XPA) != ScanFlag::NONE) {
         regs.find_reg(0x03).value |= REG_0x03_XPASEL
     }
     regs.state.is_xpa_on = (session.params.flags & ScanFlag::USE_XPA) != ScanFlag::NONE
 
   /* R04 */
   /* monochrome / color scan */
-    switch (session.params.depth) {
+    switch(session.params.depth) {
     case 8:
             regs.find_reg(0x04).value &= ~(REG_0x04_LINEART | REG_0x04_BITSET)
             break
@@ -592,11 +592,11 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
     sanei_genesys_set_dpihw(*regs, sensor.full_resolution)
 
   /* gamma enable for scans */
-    if (has_flag(dev.model.flags, ModelFlag::GAMMA_14BIT)) {
+    if(has_flag(dev.model.flags, ModelFlag::GAMMA_14BIT)) {
         regs.find_reg(0x05).value |= REG_0x05_GMM14BIT
     }
 
-    if (!has_flag(session.params.flags, ScanFlag::DISABLE_GAMMA) &&
+    if(!has_flag(session.params.flags, ScanFlag::DISABLE_GAMMA) &&
         session.params.depth < 16)
     {
         regs.find_reg(REG_0x05).value |= REG_0x05_GMMENB
@@ -605,7 +605,7 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
     }
 
   /* true CIS gray if needed */
-    if (dev.model.is_cis && session.params.channels == 1 && dev.settings.true_gray) {
+    if(dev.model.is_cis && session.params.channels == 1 && dev.settings.true_gray) {
         regs.find_reg(0x05).value |= REG_0x05_LEDADD
     } else {
         regs.find_reg(0x05).value &= ~REG_0x05_LEDADD
@@ -613,10 +613,10 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
 
   /* HP2400 1200dpi mode tuning */
 
-    if (dev.model.sensor_id == SensorId::CCD_HP2400) {
+    if(dev.model.sensor_id == SensorId::CCD_HP2400) {
       /* reset count of dummy lines to zero */
         regs.find_reg(0x1e).value &= ~REG_0x1E_LINESEL
-        if (session.params.xres >= 1200) {
+        if(session.params.xres >= 1200) {
           /* there must be one dummy line */
             regs.find_reg(0x1e).value |= 1 & REG_0x1E_LINESEL
 
@@ -636,28 +636,28 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
 
     // the steps count must be different by at most 128, otherwise it's impossible to construct
     // a proper backtracking curve. We're using slightly lower limit to allow at least a minimum
-    // distance between accelerations (forward_steps, backward_steps)
-    if (slope_table1.table.size() > slope_table2.table.size() + 100) {
+    // distance between accelerations(forward_steps, backward_steps)
+    if(slope_table1.table.size() > slope_table2.table.size() + 100) {
         slope_table2.expand_table(slope_table1.table.size() - 100, 1)
     }
-    if (slope_table2.table.size() > slope_table1.table.size() + 100) {
+    if(slope_table2.table.size() > slope_table1.table.size() + 100) {
         slope_table1.expand_table(slope_table2.table.size() - 100, 1)
     }
 
-    if (slope_table1.table.size() >= slope_table2.table.size()) {
+    if(slope_table1.table.size() >= slope_table2.table.size()) {
         backward_steps += (slope_table1.table.size() - slope_table2.table.size()) * 2
     } else {
         forward_steps += (slope_table2.table.size() - slope_table1.table.size()) * 2
     }
 
-    if (forward_steps > 255) {
-        if (backward_steps < (forward_steps - 255)) {
+    if(forward_steps > 255) {
+        if(backward_steps < (forward_steps - 255)) {
             throw SaneException("Can't set backtracking parameters without skipping image")
         }
         backward_steps -= forward_steps - 255
     }
-    if (backward_steps > 255) {
-        if (forward_steps < (backward_steps - 255)) {
+    if(backward_steps > 255) {
+        if(forward_steps < (backward_steps - 255)) {
             throw SaneException("Can't set backtracking parameters without skipping image")
         }
         forward_steps -= backward_steps - 255
@@ -671,7 +671,7 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
   /* CIS scanners read one line per color channel
    * since gray mode use 'add' we also read 3 channels even not in
    * color mode */
-    if (dev.model.is_cis) {
+    if(dev.model.is_cis) {
         regs.set24(REG_LINCNT, session.output_line_count * 3)
     } else {
         regs.set24(REG_LINCNT, session.output_line_count)
@@ -693,10 +693,10 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
    * read to reorder data */
   feedl = move
 
-    if (session.num_staggered_lines + session.max_color_shift_lines > 0 && feedl != 0) {
+    if(session.num_staggered_lines + session.max_color_shift_lines > 0 && feedl != 0) {
         unsigned total_lines = session.max_color_shift_lines + session.num_staggered_lines
         Int feed_offset = (total_lines * dev.motor.base_ydpi) / motor.dpi
-        if (feedl > feed_offset) {
+        if(feedl > feed_offset) {
             feedl = feedl - feed_offset
         }
     }
@@ -706,13 +706,13 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
      feedl = feed_steps - fast_slope_steps*2 -
      (slow_slope_steps >> scan_step_type); */
   /* but head has moved due to shading calibration => dev.scanhead_position_primary */
-  if (feedl > 0)
+  if(feedl > 0)
     {
       /* TODO clean up this when I'll fully understand.
        * for now, special casing each motor */
-        switch (dev.model.motor_id) {
+        switch(dev.model.motor_id) {
             case MotorId::MD_5345:
-                    switch (motor.dpi) {
+                    switch(motor.dpi) {
 	    case 200:
 	      feedl -= 70
 	      break
@@ -736,7 +736,7 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
 	    }
 	  break
             case MotorId::HP2300:
-                    switch (motor.dpi) {
+                    switch(motor.dpi) {
 	    case 75:
 	      feedl -= 180
 	      break
@@ -757,7 +757,7 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
 	    }
 	  break
             case MotorId::HP2400:
-                    switch (motor.dpi) {
+                    switch(motor.dpi) {
 	    case 150:
 	      feedl += 150
 	      break
@@ -785,7 +785,7 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
         default: {
             unsigned step_shift = static_cast<unsigned>(motor.steptype)
 
-	  if (motor.fastfed)
+	  if(motor.fastfed)
         {
                 feedl = feedl - 2 * slope_table2.table.size() -
                         (slope_table1.table.size() >> step_shift)
@@ -798,7 +798,7 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
         }
 	}
       /* security */
-      if (feedl < 0)
+      if(feedl < 0)
 	feedl = 0
     }
 
@@ -813,7 +813,7 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
                                   move, motor.fwdbwd, &z1, &z2)
 
   /* no z1/z2 for sheetfed scanners */
-    if (dev.model.is_sheetfed) {
+    if(dev.model.is_sheetfed) {
       z1 = 0
       z2 = 0
     }
@@ -840,8 +840,8 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
 
     /* select color filter based on settings */
     regs.find_reg(0x04).value &= ~REG_0x04_FILTER
-    if (session.params.channels == 1) {
-        switch (session.params.color_filter) {
+    if(session.params.channels == 1) {
+        switch(session.params.color_filter) {
             case ColorFilter::RED:
                 regs.find_reg(0x04).value |= 0x04
                 break
@@ -865,7 +865,7 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
  * @param dev scannerr's device to set
  */
 static void
-gl646_init_regs (Genesys_Device * dev)
+gl646_init_regs(Genesys_Device * dev)
 {
   Int addr
 
@@ -873,25 +873,25 @@ gl646_init_regs (Genesys_Device * dev)
 
     dev.reg.clear()
 
-    for (addr = 1; addr <= 0x0b; addr++)
+    for(addr = 1; addr <= 0x0b; addr++)
         dev.reg.init_reg(addr, 0)
-    for (addr = 0x10; addr <= 0x29; addr++)
+    for(addr = 0x10; addr <= 0x29; addr++)
         dev.reg.init_reg(addr, 0)
-    for (addr = 0x2c; addr <= 0x39; addr++)
+    for(addr = 0x2c; addr <= 0x39; addr++)
         dev.reg.init_reg(addr, 0)
-    for (addr = 0x3d; addr <= 0x3f; addr++)
+    for(addr = 0x3d; addr <= 0x3f; addr++)
         dev.reg.init_reg(addr, 0)
-    for (addr = 0x52; addr <= 0x5e; addr++)
+    for(addr = 0x52; addr <= 0x5e; addr++)
         dev.reg.init_reg(addr, 0)
-    for (addr = 0x60; addr <= 0x6d; addr++)
+    for(addr = 0x60; addr <= 0x6d; addr++)
         dev.reg.init_reg(addr, 0)
 
     dev.reg.find_reg(0x01).value = 0x20 /*0x22 */ ;	/* enable shading, CCD, color, 1M */
     dev.reg.find_reg(0x02).value = 0x30 /*0x38 */ ;	/* auto home, one-table-move, full step */
-    if (dev.model.motor_id == MotorId::MD_5345) {
+    if(dev.model.motor_id == MotorId::MD_5345) {
         dev.reg.find_reg(0x02).value |= 0x01; // half-step
     }
-    switch (dev.model.motor_id) {
+    switch(dev.model.motor_id) {
         case MotorId::MD_5345:
       dev.reg.find_reg(0x02).value |= 0x01;	/* half-step */
       break
@@ -904,7 +904,7 @@ gl646_init_regs (Genesys_Device * dev)
     }
     dev.reg.find_reg(0x03).value = 0x1f /*0x17 */ ;	/* lamp on */
     dev.reg.find_reg(0x04).value = 0x13 /*0x03 */ ;	/* 8 bits data, 16 bits A/D, color, Wolfson fe *//* todo: according to spec, 0x0 is reserved? */
-  switch (dev.model.adc_id)
+  switch(dev.model.adc_id)
     {
     case AdcId::AD_XP200:
       dev.reg.find_reg(0x04).value = 0x12
@@ -920,14 +920,14 @@ gl646_init_regs (Genesys_Device * dev)
   dev.reg.find_reg(0x05).value = 0x00;	/* 12 bits gamma, disable gamma, 24 clocks/pixel */
     sanei_genesys_set_dpihw(dev.reg, sensor.full_resolution)
 
-    if (has_flag(dev.model.flags, ModelFlag::GAMMA_14BIT)) {
+    if(has_flag(dev.model.flags, ModelFlag::GAMMA_14BIT)) {
         dev.reg.find_reg(0x05).value |= REG_0x05_GMM14BIT
     }
-    if (dev.model.adc_id == AdcId::AD_XP200) {
+    if(dev.model.adc_id == AdcId::AD_XP200) {
         dev.reg.find_reg(0x05).value |= 0x01;	/* 12 clocks/pixel */
     }
 
-    if (dev.model.sensor_id == SensorId::CCD_HP2300) {
+    if(dev.model.sensor_id == SensorId::CCD_HP2300) {
         dev.reg.find_reg(0x06).value = 0x00; // PWRBIT off, shading gain=4, normal AFE image capture
     } else {
         dev.reg.find_reg(0x06).value = 0x18; // PWRBIT on, shading gain=8, normal AFE image capture
@@ -937,7 +937,7 @@ gl646_init_regs (Genesys_Device * dev)
 
   dev.reg.find_reg(0x1e).value = 0xf0;	/* watch-dog time */
 
-  switch (dev.model.sensor_id)
+  switch(dev.model.sensor_id)
     {
     case SensorId::CCD_HP2300:
       dev.reg.find_reg(0x1e).value = 0xf0
@@ -970,26 +970,26 @@ gl646_init_regs (Genesys_Device * dev)
   dev.reg.find_reg(0x22).value = 0x10 /*0x08 */ ;	/* steps number of the forward steps for start/stop */
   dev.reg.find_reg(0x23).value = 0x10 /*0x08 */ ;	/* steps number of the backward steps for start/stop */
   dev.reg.find_reg(0x24).value = 0x08 /*0x20 */ ;	/* table one steps number backward slope curve of the acc/dec */
-  dev.reg.find_reg(0x25).value = 0x00;	/* scan line numbers (7000) */
+  dev.reg.find_reg(0x25).value = 0x00;	/* scan line numbers(7000) */
   dev.reg.find_reg(0x26).value = 0x00 /*0x1b */ 
   dev.reg.find_reg(0x27).value = 0xd4 /*0x58 */ 
   dev.reg.find_reg(0x28).value = 0x01;	/* PWM duty for lamp control */
   dev.reg.find_reg(0x29).value = 0xff
 
-  dev.reg.find_reg(0x2c).value = 0x02;	/* set resolution (600 DPI) */
+  dev.reg.find_reg(0x2c).value = 0x02;	/* set resolution(600 DPI) */
   dev.reg.find_reg(0x2d).value = 0x58
   dev.reg.find_reg(0x2e).value = 0x78;	/* set black&white threshold high level */
   dev.reg.find_reg(0x2f).value = 0x7f;	/* set black&white threshold low level */
 
-  dev.reg.find_reg(0x30).value = 0x00;	/* begin pixel position (16) */
+  dev.reg.find_reg(0x30).value = 0x00;	/* begin pixel position(16) */
   dev.reg.find_reg(0x31).value = sensor.dummy_pixel /*0x10 */ ;	/* TGW + 2*TG_SHLD + x  */
-  dev.reg.find_reg(0x32).value = 0x2a /*0x15 */ ;	/* end pixel position (5390) */
+  dev.reg.find_reg(0x32).value = 0x2a /*0x15 */ ;	/* end pixel position(5390) */
   dev.reg.find_reg(0x33).value = 0xf8 /*0x0e */ ;	/* TGW + 2*TG_SHLD + y   */
   dev.reg.find_reg(0x34).value = sensor.dummy_pixel
-  dev.reg.find_reg(0x35).value = 0x01 /*0x00 */ ;	/* set maximum word size per line, for buffer full control (10800) */
+  dev.reg.find_reg(0x35).value = 0x01 /*0x00 */ ;	/* set maximum word size per line, for buffer full control(10800) */
   dev.reg.find_reg(0x36).value = 0x00 /*0x2a */ 
   dev.reg.find_reg(0x37).value = 0x00 /*0x30 */ 
-  dev.reg.find_reg(0x38).value = 0x2a; // line period (exposure time = 11000 pixels) */
+  dev.reg.find_reg(0x38).value = 0x2a; // line period(exposure time = 11000 pixels) */
   dev.reg.find_reg(0x39).value = 0xf8
   dev.reg.find_reg(0x3d).value = 0x00;	/* set feed steps number of motor move */
   dev.reg.find_reg(0x3e).value = 0x00
@@ -1000,17 +1000,17 @@ gl646_init_regs (Genesys_Device * dev)
   dev.reg.find_reg(0x62).value = 0x00;	/* Z2MODE, 62h:63h:(6D b2:b0), remainder for start scan */
   dev.reg.find_reg(0x63).value = 0x00;	/* (3Dh+3Eh+3Fh)/LPeriod for one-table mode,(21h+1Fh)/LPeriod */
   dev.reg.find_reg(0x64).value = 0x00;	/* motor PWM frequency */
-  dev.reg.find_reg(0x65).value = 0x00;	/* PWM duty cycle for table one motor phase (63 = max) */
-    if (dev.model.motor_id == MotorId::MD_5345) {
-        // PWM duty cycle for table one motor phase (63 = max)
+  dev.reg.find_reg(0x65).value = 0x00;	/* PWM duty cycle for table one motor phase(63 = max) */
+    if(dev.model.motor_id == MotorId::MD_5345) {
+        // PWM duty cycle for table one motor phase(63 = max)
         dev.reg.find_reg(0x65).value = 0x02
     }
 
-    for (const auto& reg : dev.gpo.regs) {
+    for(const auto& reg : dev.gpo.regs) {
         dev.reg.set8(reg.address, reg.value)
     }
 
-    switch (dev.model.motor_id) {
+    switch(dev.model.motor_id) {
         case MotorId::HP2300:
         case MotorId::HP2400:
       dev.reg.find_reg(0x6a).value = 0x7f;	/* table two steps number for acc/dec */
@@ -1020,12 +1020,12 @@ gl646_init_regs (Genesys_Device * dev)
         case MotorId::MD_5345:
       dev.reg.find_reg(0x6a).value = 0x42;	/* table two fast moving step type, PWM duty for table two */
       dev.reg.find_reg(0x6b).value = 0xff;	/* table two steps number for acc/dec */
-      dev.reg.find_reg(0x6d).value = 0x41;	/* select deceleration steps whenever go home (0), accel/decel stop time (31 * LPeriod) */
+      dev.reg.find_reg(0x6d).value = 0x41;	/* select deceleration steps whenever go home(0), accel/decel stop time(31 * LPeriod) */
       break
         case MotorId::XP200:
       dev.reg.find_reg(0x6a).value = 0x7f;	/* table two fast moving step type, PWM duty for table two */
       dev.reg.find_reg(0x6b).value = 0x08;	/* table two steps number for acc/dec */
-      dev.reg.find_reg(0x6d).value = 0x01;	/* select deceleration steps whenever go home (0), accel/decel stop time (31 * LPeriod) */
+      dev.reg.find_reg(0x6d).value = 0x01;	/* select deceleration steps whenever go home(0), accel/decel stop time(31 * LPeriod) */
       break
         case MotorId::HP3670:
       dev.reg.find_reg(0x6a).value = 0x41;	/* table two steps number for acc/dec */
@@ -1035,10 +1035,10 @@ gl646_init_regs (Genesys_Device * dev)
         default:
       dev.reg.find_reg(0x6a).value = 0x40;	/* table two fast moving step type, PWM duty for table two */
       dev.reg.find_reg(0x6b).value = 0xff;	/* table two steps number for acc/dec */
-      dev.reg.find_reg(0x6d).value = 0x01;	/* select deceleration steps whenever go home (0), accel/decel stop time (31 * LPeriod) */
+      dev.reg.find_reg(0x6d).value = 0x01;	/* select deceleration steps whenever go home(0), accel/decel stop time(31 * LPeriod) */
       break
     }
-  dev.reg.find_reg(0x6c).value = 0x00;	/* period times for LPeriod, expR,expG,expB, Z1MODE, Z2MODE (one period time) */
+  dev.reg.find_reg(0x6c).value = 0x00;	/* period times for LPeriod, expR,expG,expB, Z1MODE, Z2MODE(one period time) */
 }
 
 // Set values of Analog Device type frontend
@@ -1047,7 +1047,7 @@ static void gl646_set_ad_fe(Genesys_Device* dev, uint8_t set)
     DBG_HELPER(dbg)
   var i: Int
 
-    if (set == AFE_INIT) {
+    if(set == AFE_INIT) {
 
         dev.frontend = dev.frontend_initial
 
@@ -1055,17 +1055,17 @@ static void gl646_set_ad_fe(Genesys_Device* dev, uint8_t set)
         dev.interface.write_fe_register(0x00, dev.frontend.regs.get_value(0x00))
         dev.interface.write_fe_register(0x01, dev.frontend.regs.get_value(0x01))
     }
-  if (set == AFE_SET)
+  if(set == AFE_SET)
     {
-        for (i = 0; i < 3; i++) {
+        for(i = 0; i < 3; i++) {
             dev.interface.write_fe_register(0x02 + i, dev.frontend.get_gain(i))
         }
-        for (i = 0; i < 3; i++) {
+        for(i = 0; i < 3; i++) {
             dev.interface.write_fe_register(0x05 + i, dev.frontend.get_offset(i))
         }
     }
   /*
-     if (set == AFE_POWER_SAVE)
+     if(set == AFE_POWER_SAVE)
      {
         dev.interface.write_fe_register(0x00, dev.frontend.reg[0] | 0x04)
      } */
@@ -1083,7 +1083,7 @@ static void gl646_wm_hp3670(Genesys_Device* dev, const Genesys_Sensor& sensor, u
     DBG_HELPER(dbg)
   var i: Int
 
-  switch (set)
+  switch(set)
     {
     case AFE_INIT:
         dev.interface.write_fe_register(0x04, 0x80)
@@ -1102,21 +1102,21 @@ static void gl646_wm_hp3670(Genesys_Device* dev, const Genesys_Sensor& sensor, u
     default:			/* AFE_SET */
       /* mode setup */
       i = dev.frontend.regs.get_value(0x03)
-            if (dpi > sensor.full_resolution / 2) {
+            if(dpi > sensor.full_resolution / 2) {
       /* fe_reg_0x03 must be 0x12 for 1200 dpi in WOLFSON_HP3670.
        * WOLFSON_HP2400 in 1200 dpi mode works well with
 	   * fe_reg_0x03 set to 0x32 or 0x12 but not to 0x02 */
 	  i = 0x12
 	}
         dev.interface.write_fe_register(0x03, i)
-      /* offset and sign (or msb/lsb ?) */
-        for (i = 0; i < 3; i++) {
+      /* offset and sign(or msb/lsb ?) */
+        for(i = 0; i < 3; i++) {
             dev.interface.write_fe_register(0x20 + i, dev.frontend.get_offset(i))
             dev.interface.write_fe_register(0x24 + i, dev.frontend.regs.get_value(0x24 + i))
         }
 
         // gain
-        for (i = 0; i < 3; i++) {
+        for(i = 0; i < 3; i++) {
             dev.interface.write_fe_register(0x28 + i, dev.frontend.get_gain(i))
         }
     }
@@ -1137,18 +1137,18 @@ static void gl646_set_fe(Genesys_Device* dev, const Genesys_Sensor& sensor, uint
 
   /* Analog Device type frontend */
     uint8_t frontend_type = dev.reg.find_reg(0x04).value & REG_0x04_FESET
-    if (frontend_type == 0x02) {
+    if(frontend_type == 0x02) {
         gl646_set_ad_fe(dev, set)
         return
     }
 
   /* Wolfson type frontend */
-    if (frontend_type != 0x03) {
+    if(frontend_type != 0x03) {
         throw SaneException("unsupported frontend type %d", frontend_type)
     }
 
   /* per frontend function to keep code clean */
-  switch (dev.model.adc_id)
+  switch(dev.model.adc_id)
     {
     case AdcId::WOLFSON_HP3670:
     case AdcId::WOLFSON_HP2400:
@@ -1160,14 +1160,14 @@ static void gl646_set_fe(Genesys_Device* dev, const Genesys_Sensor& sensor, uint
     }
 
   /* initialize analog frontend */
-    if (set == AFE_INIT) {
+    if(set == AFE_INIT) {
         dev.frontend = dev.frontend_initial
 
         // reset only done on init
         dev.interface.write_fe_register(0x04, 0x80)
 
       /* enable GPIO for some models */
-        if (dev.model.sensor_id == SensorId::CCD_HP2300) {
+        if(dev.model.sensor_id == SensorId::CCD_HP2300) {
 	  val = 0x07
             gl646_gpio_output_enable(dev.interface.get_usb_device(), val)
 	}
@@ -1175,14 +1175,14 @@ static void gl646_set_fe(Genesys_Device* dev, const Genesys_Sensor& sensor, uint
     }
 
     // set fontend to power saving mode
-    if (set == AFE_POWER_SAVE) {
+    if(set == AFE_POWER_SAVE) {
         dev.interface.write_fe_register(0x01, 0x02)
         return
     }
 
   /* here starts AFE_SET */
   /* TODO :  base this test on cfg reg3 or a CCD family flag to be created */
-  /* if (dev.model.ccd_type != SensorId::CCD_HP2300
+  /* if(dev.model.ccd_type != SensorId::CCD_HP2300
      && dev.model.ccd_type != SensorId::CCD_HP3670
      && dev.model.ccd_type != SensorId::CCD_HP2400) */
   {
@@ -1193,10 +1193,10 @@ static void gl646_set_fe(Genesys_Device* dev, const Genesys_Sensor& sensor, uint
     // start with reg3
     dev.interface.write_fe_register(0x03, dev.frontend.regs.get_value(0x03))
 
-  switch (dev.model.sensor_id)
+  switch(dev.model.sensor_id)
     {
     default:
-            for (i = 0; i < 3; i++) {
+            for(i = 0; i < 3; i++) {
                 dev.interface.write_fe_register(0x24 + i, dev.frontend.regs.get_value(0x24 + i))
                 dev.interface.write_fe_register(0x28 + i, dev.frontend.get_gain(i))
                 dev.interface.write_fe_register(0x20 + i, dev.frontend.get_offset(i))
@@ -1239,7 +1239,7 @@ void CommandSetGl646::save_power(Genesys_Device* dev, bool enable) const
 
   const auto& sensor = sanei_genesys_find_sensor_any(dev)
 
-  if (enable)
+  if(enable)
     {
         // gl646_set_fe(dev, sensor, AFE_POWER_SAVE)
     }
@@ -1262,9 +1262,9 @@ void CommandSetGl646::set_powersaving(Genesys_Device* dev, Int delay /* in minut
   local_reg.init_reg(0x39, 0x00); //line period high
   local_reg.init_reg(0x6c, 0x00); // period times for LPeriod, expR,expG,expB, Z1MODE, Z2MODE
 
-  if (!delay)
+  if(!delay)
     local_reg.find_reg(0x03).value &= 0xf0;	/* disable lampdog and set lamptime = 0 */
-  else if (delay < 20)
+  else if(delay < 20)
     local_reg.find_reg(0x03).value = (local_reg.get8(0x03) & 0xf0) | 0x09;	/* enable lampdog and set lamptime = 1 */
   else
     local_reg.find_reg(0x03).value = (local_reg.get8(0x03) & 0xf0) | 0x0f;	/* enable lampdog and set lamptime = 7 */
@@ -1275,17 +1275,17 @@ void CommandSetGl646::set_powersaving(Genesys_Device* dev, Int delay /* in minut
          1024.0) + 0.5))
   /* 32000 = system clock, 24 = clocks per pixel */
   rate = (exposure_time + 65536) / 65536
-  if (rate > 4)
+  if(rate > 4)
     {
       rate = 8
       tgtime = 3
     }
-  else if (rate > 2)
+  else if(rate > 2)
     {
       rate = 4
       tgtime = 2
     }
-  else if (rate > 1)
+  else if(rate > 1)
     {
       rate = 2
       tgtime = 1
@@ -1299,7 +1299,7 @@ void CommandSetGl646::set_powersaving(Genesys_Device* dev, Int delay /* in minut
   local_reg.find_reg(0x6c).value |= tgtime << 6
   exposure_time /= rate
 
-  if (exposure_time > 65535)
+  if(exposure_time > 65535)
     exposure_time = 65535
 
   local_reg.find_reg(0x38).value = exposure_time / 256
@@ -1312,7 +1312,7 @@ void CommandSetGl646::set_powersaving(Genesys_Device* dev, Int delay /* in minut
 /**
  * loads document into scanner
  * currently only used by XP200
- * bit2 (0x04) of gpio is paper event (document in/out) on XP200
+ * bit2 (0x04) of gpio is paper event(document in/out) on XP200
  * HOMESNR is set if no document in front of sensor, the sequence of events is
  * paper event -> document is in the sheet feeder
  * HOMESNR becomes 0 -> document reach sensor
@@ -1328,7 +1328,7 @@ void CommandSetGl646::load_document(Genesys_Device* dev) const
     unsigned count
 
   /* no need to load document is flatbed scanner */
-    if (!dev.model.is_sheetfed) {
+    if(!dev.model.is_sheetfed) {
       DBG(DBG_proc, "%s: nothing to load\n", __func__)
       DBG(DBG_proc, "%s: end\n", __func__)
       return
@@ -1337,7 +1337,7 @@ void CommandSetGl646::load_document(Genesys_Device* dev) const
     auto status = scanner_read_status(*dev)
 
     // home sensor is set if a document is inserted
-    if (status.is_at_home) {
+    if(status.is_at_home) {
       /* if no document, waits for a paper event to start loading */
       /* with a 60 seconde minutes timeout                        */
       count = 0
@@ -1346,15 +1346,15 @@ void CommandSetGl646::load_document(Genesys_Device* dev) const
             gl646_gpio_read(dev.interface.get_usb_device(), &val)
 
 	  DBG(DBG_info, "%s: GPIO=0x%02x\n", __func__, val)
-	  if ((val & 0x04) != 0x04)
+	  if((val & 0x04) != 0x04)
 	    {
               DBG(DBG_warn, "%s: no paper detected\n", __func__)
 	    }
             dev.interface.sleep_ms(200)
             count++
         }
-      while (((val & 0x04) != 0x04) && (count < 300));	/* 1 min time out */
-      if (count == 300)
+      while(((val & 0x04) != 0x04) && (count < 300));	/* 1 min time out */
+      if(count == 300)
 	{
         throw SaneException(Sane.STATUS_NO_DOCS, "timeout waiting for document")
     }
@@ -1404,9 +1404,9 @@ void CommandSetGl646::load_document(Genesys_Device* dev) const
         status = scanner_read_status(*dev)
         dev.interface.sleep_ms(200)
       count++
-    } while (status.is_motor_enabled && (count < 300))
+    } while(status.is_motor_enabled && (count < 300))
 
-  if (count == 300)
+  if(count == 300)
     {
       throw SaneException(Sane.STATUS_JAMMED, "can't load document")
     }
@@ -1440,7 +1440,7 @@ void CommandSetGl646::detect_document_end(Genesys_Device* dev) const
 
   /* detect document event. There one event when the document go in,
    * then another when it leaves */
-    if (dev.document && (gpio & 0x04) && (dev.total_bytes_read > 0)) {
+    if(dev.document && (gpio & 0x04) && (dev.total_bytes_read > 0)) {
       DBG(DBG_info, "%s: no more document\n", __func__)
         dev.document = false
 
@@ -1465,7 +1465,7 @@ void CommandSetGl646::detect_document_end(Genesys_Device* dev) const
 
         bytes_left = remaining_lines * dev.session.output_line_bytes_raw
 
-        if (bytes_left < dev.get_pipeline_source().remaining_bytes()) {
+        if(bytes_left < dev.get_pipeline_source().remaining_bytes()) {
             dev.get_pipeline_source().set_remaining_bytes(bytes_left)
             dev.total_bytes_to_read = dev.total_bytes_read + bytes_left
         }
@@ -1501,7 +1501,7 @@ void CommandSetGl646::eject_document(Genesys_Device* dev) const
     auto status = scanner_read_status(*dev)
 
     // home sensor is set when document is inserted
-    if (status.is_at_home) {
+    if(status.is_at_home) {
         dev.document = false
         DBG(DBG_info, "%s: no more document to eject\n", __func__)
         return
@@ -1515,7 +1515,7 @@ void CommandSetGl646::eject_document(Genesys_Device* dev) const
         dev.interface.sleep_ms(200)
         status = scanner_read_status(*dev)
     }
-    while (status.is_motor_enabled)
+    while(status.is_motor_enabled)
 
   /* set up to fast move before scan then move until document is detected */
   regs.init_reg(0x01, 0xb0)
@@ -1564,7 +1564,7 @@ void CommandSetGl646::eject_document(Genesys_Device* dev) const
 
         dev.interface.sleep_ms(200)
       count++
-    } while (!status.is_at_home && (count < 150))
+    } while(!status.is_at_home && (count < 150))
 
     // read GPIO on exit
     gl646_gpio_read(dev.interface.get_usb_device(), &gpio)
@@ -1584,7 +1584,7 @@ void CommandSetGl646::begin_scan(Genesys_Device* dev, const Genesys_Sensor& sens
     local_reg.init_reg(0x03, reg.get8(0x03))
     local_reg.init_reg(0x01, reg.get8(0x01) | REG_0x01_SCAN)
 
-    if (start_motor) {
+    if(start_motor) {
         local_reg.init_reg(0x0f, 0x01)
     } else {
         local_reg.init_reg(0x0f, 0x00); // do not start motor yet
@@ -1607,22 +1607,22 @@ static void end_scan_impl(Genesys_Device* dev, Genesys_Register_Set* reg, bool c
     unsigned wait_limit_seconds = 30
 
   /* for sheetfed scanners, we may have to eject document */
-    if (dev.model.is_sheetfed) {
-        if (eject && dev.document) {
+    if(dev.model.is_sheetfed) {
+        if(eject && dev.document) {
             dev.cmd_set.eject_document(dev)
         }
         wait_limit_seconds = 3
     }
 
-    if (is_testing_mode()) {
+    if(is_testing_mode()) {
         return
     }
 
     dev.interface.sleep_ms(100)
 
-    if (check_stop) {
-        for (unsigned i = 0; i < wait_limit_seconds * 10; i++) {
-            if (scanner_is_motor_stopped(*dev)) {
+    if(check_stop) {
+        for(unsigned i = 0; i < wait_limit_seconds * 10; i++) {
+            if(scanner_is_motor_stopped(*dev)) {
                 return
             }
 
@@ -1652,38 +1652,38 @@ void CommandSetGl646::move_back_home(Genesys_Device* dev, bool wait_until_home) 
 
     auto status = scanner_read_status(*dev)
 
-    if (status.is_at_home) {
+    if(status.is_at_home) {
       DBG(DBG_info, "%s: end since already at home\n", __func__)
         dev.set_head_pos_zero(ScanHeadId::PRIMARY)
         return
     }
 
   /* stop motor if needed */
-    if (status.is_motor_enabled) {
+    if(status.is_motor_enabled) {
         gl646_stop_motor(dev)
         dev.interface.sleep_ms(200)
     }
 
   /* when scanhead is moving then wait until scanhead stops or timeout */
   DBG(DBG_info, "%s: ensuring that motor is off\n", __func__)
-    for (i = 400; i > 0; i--) {
+    for(i = 400; i > 0; i--) {
         // do not wait longer than 40 seconds, count down to get i = 0 when busy
 
         status = scanner_read_status(*dev)
 
-        if (!status.is_motor_enabled && status.is_at_home) {
+        if(!status.is_motor_enabled && status.is_at_home) {
             DBG(DBG_info, "%s: already at home and not moving\n", __func__)
             dev.set_head_pos_zero(ScanHeadId::PRIMARY)
             return
         }
-        if (!status.is_motor_enabled) {
+        if(!status.is_motor_enabled) {
             break
         }
 
         dev.interface.sleep_ms(100)
     }
 
-  if (!i)			/* the loop counted down to 0, scanner still is busy */
+  if(!i)			/* the loop counted down to 0, scanner still is busy */
     {
         dev.set_head_pos_unknown(ScanHeadId::PRIMARY | ScanHeadId::SECONDARY)
         throw SaneException(Sane.STATUS_DEVICE_BUSY, "motor is still on: device busy")
@@ -1710,7 +1710,7 @@ void CommandSetGl646::move_back_home(Genesys_Device* dev, bool wait_until_home) 
     session.params.flags = ScanFlag::REVERSE |
                            ScanFlag::AUTO_GO_HOME |
                            ScanFlag::DISABLE_GAMMA
-    if (dev.model.default_method == ScanMethod::TRANSPARENCY) {
+    if(dev.model.default_method == ScanMethod::TRANSPARENCY) {
         session.params.flags |= ScanFlag::USE_XPA
     }
     compute_session(dev, session, sensor)
@@ -1726,12 +1726,12 @@ void CommandSetGl646::move_back_home(Genesys_Device* dev, bool wait_until_home) 
   /* write scan registers */
     try {
         dev.interface.write_registers(dev.reg)
-    } catch (...) {
+    } catch(...) {
         DBG(DBG_error, "%s: failed to bulk write registers\n", __func__)
     }
 
   /* registers are restored to an iddl state, give up if no head to park */
-    if (dev.model.is_sheetfed) {
+    if(dev.model.is_sheetfed) {
         return
     }
 
@@ -1750,20 +1750,20 @@ void CommandSetGl646::move_back_home(Genesys_Device* dev, bool wait_until_home) 
         dev.interface.write_registers(scan_local_reg)
     }
 
-    if (is_testing_mode()) {
+    if(is_testing_mode()) {
         dev.interface.test_checkpoint("move_back_home")
         dev.set_head_pos_zero(ScanHeadId::PRIMARY)
         return
     }
 
   /* loop until head parked */
-  if (wait_until_home)
+  if(wait_until_home)
     {
-      while (loop < 300)		/* do not wait longer then 30 seconds */
+      while(loop < 300)		/* do not wait longer then 30 seconds */
 	{
             auto status = scanner_read_status(*dev)
 
-            if (status.is_at_home) {
+            if(status.is_at_home) {
 	      DBG(DBG_info, "%s: reached home position\n", __func__)
                 dev.interface.sleep_ms(500)
                 dev.set_head_pos_zero(ScanHeadId::PRIMARY)
@@ -1775,7 +1775,7 @@ void CommandSetGl646::move_back_home(Genesys_Device* dev, bool wait_until_home) 
 
         // when we come here then the scanner needed too much time for this, so we better
         // stop the motor
-        catch_all_exceptions(__func__, [&](){ gl646_stop_motor (dev); })
+        catch_all_exceptions(__func__, [&](){ gl646_stop_motor(dev); })
         catch_all_exceptions(__func__, [&](){ end_scan_impl(dev, &dev.reg, true, false); })
         dev.set_head_pos_unknown(ScanHeadId::PRIMARY | ScanHeadId::SECONDARY)
         throw SaneException(Sane.STATUS_IO_ERROR, "timeout while waiting for scanhead to go home")
@@ -1827,7 +1827,7 @@ void CommandSetGl646::init_regs_for_shading(Genesys_Device* dev, const Genesys_S
                            ScanFlag::DISABLE_GAMMA |
                            ScanFlag::IGNORE_COLOR_OFFSET |
                            ScanFlag::IGNORE_STAGGER_OFFSET
-    if (dev.settings.scan_method == ScanMethod::TRANSPARENCY) {
+    if(dev.settings.scan_method == ScanMethod::TRANSPARENCY) {
         session.params.flags |= ScanFlag::USE_XPA
     }
     compute_session(dev, session, calib_sensor)
@@ -1859,7 +1859,7 @@ void CommandSetGl646::send_gamma_table(Genesys_Device* dev, const Genesys_Sensor
   Int address
   Int bits
 
-     if (has_flag(dev.model.flags, ModelFlag::GAMMA_14BIT)) {
+     if(has_flag(dev.model.flags, ModelFlag::GAMMA_14BIT)) {
       size = 16384
       bits = 14
     }
@@ -1875,7 +1875,7 @@ void CommandSetGl646::send_gamma_table(Genesys_Device* dev, const Genesys_Sensor
     sanei_genesys_generate_gamma_buffer(dev, sensor, bits, size-1, size, gamma.data())
 
   /* table address */
-  switch (dev.reg.find_reg(0x05).value >> 6)
+  switch(dev.reg.find_reg(0x05).value >> 6)
     {
     case 0:			/* 600 dpi */
       address = 0x09000
@@ -1912,7 +1912,7 @@ SensorExposure CommandSetGl646::led_calibration(Genesys_Device* dev, const Genes
     unsigned channels = dev.settings.get_channels()
 
     ScanColorMode scan_mode = ScanColorMode::COLOR_SINGLE_PASS
-    if (dev.settings.scan_mode != ScanColorMode::COLOR_SINGLE_PASS) {
+    if(dev.settings.scan_mode != ScanColorMode::COLOR_SINGLE_PASS) {
         scan_mode = ScanColorMode::GRAY
     }
 
@@ -1932,7 +1932,7 @@ SensorExposure CommandSetGl646::led_calibration(Genesys_Device* dev, const Genes
     session.params.scan_mode = scan_mode
     session.params.color_filter = ColorFilter::RED
     session.params.flags = ScanFlag::DISABLE_SHADING
-    if (dev.settings.scan_method == ScanMethod::TRANSPARENCY) {
+    if(dev.settings.scan_method == ScanMethod::TRANSPARENCY) {
         session.params.flags |= ScanFlag::USE_XPA
     }
     compute_session(dev, session, sensor)
@@ -1968,11 +1968,11 @@ SensorExposure CommandSetGl646::led_calibration(Genesys_Device* dev, const Genes
         dev.cmd_set.init_regs_for_scan_session(dev, calib_sensor, &dev.reg, session)
         simple_scan(dev, calib_sensor, session, false, line, "led_calibration")
 
-        if (is_testing_mode()) {
+        if(is_testing_mode()) {
             return calib_sensor.exposure
         }
 
-        if (dbg_log_image_data()) {
+        if(dbg_log_image_data()) {
             char fn[30]
             std::snprintf(fn, 30, "gl646_led_%02d.tiff", turn)
             write_tiff_file(fn, line.data(), 16, channels, pixels, 1)
@@ -1980,11 +1980,11 @@ SensorExposure CommandSetGl646::led_calibration(Genesys_Device* dev, const Genes
 
         acceptable = true
 
-      for (j = 0; j < channels; j++)
+      for(j = 0; j < channels; j++)
 	{
 	  avg[j] = 0
-            for (i = 0; i < pixels; i++) {
-                if (dev.model.is_cis) {
+            for(i = 0; i < pixels; i++) {
+                if(dev.model.is_cis) {
                     val = line[i * 2 + j * 2 * pixels + 1] * 256 + line[i * 2 + j * 2 * pixels]
                 } else {
                     val = line[i * 2 * channels + 2 * j + 1] * 256 + line[i * 2 * channels + 2 * j]
@@ -1999,7 +1999,7 @@ SensorExposure CommandSetGl646::led_calibration(Genesys_Device* dev, const Genes
 
         acceptable = true
 
-      if (!acceptable)
+      if(!acceptable)
 	{
 	  avga = (avg[0] + avg[1] + avg[2]) / 3
 	  expr = (expr * avga) / avg[0]
@@ -2008,13 +2008,13 @@ SensorExposure CommandSetGl646::led_calibration(Genesys_Device* dev, const Genes
 
 	  /* keep exposure time in a working window */
 	  avge = (expr + expg + expb) / 3
-	  if (avge > 0x2000)
+	  if(avge > 0x2000)
 	    {
 	      expr = (expr * 0x2000) / avge
 	      expg = (expg * 0x2000) / avge
 	      expb = (expb * 0x2000) / avge
 	    }
-	  if (avge < 0x400)
+	  if(avge < 0x400)
 	    {
 	      expr = (expr * 0x400) / avge
 	      expg = (expg * 0x400) / avge
@@ -2025,7 +2025,7 @@ SensorExposure CommandSetGl646::led_calibration(Genesys_Device* dev, const Genes
       turn++
 
     }
-  while (!acceptable && turn < 100)
+  while(!acceptable && turn < 100)
 
   DBG(DBG_info,"%s: acceptable exposure: 0x%04x,0x%04x,0x%04x\n", __func__, expr, expg, expb)
     // BUG: we don't store the result of the last iteration to the sensor
@@ -2036,7 +2036,7 @@ SensorExposure CommandSetGl646::led_calibration(Genesys_Device* dev, const Genes
  * average dark pixels of a scan
  */
 static Int
-dark_average (uint8_t * data, unsigned Int pixels, unsigned Int lines,
+dark_average(uint8_t * data, unsigned Int pixels, unsigned Int lines,
 	      unsigned Int channels, unsigned Int black)
 {
   unsigned var i: Int, j, k, average, count
@@ -2044,25 +2044,25 @@ dark_average (uint8_t * data, unsigned Int pixels, unsigned Int lines,
   uint8_t val
 
   /* computes average value on black margin */
-  for (k = 0; k < channels; k++)
+  for(k = 0; k < channels; k++)
     {
       avg[k] = 0
       count = 0
-      for (i = 0; i < lines; i++)
+      for(i = 0; i < lines; i++)
 	{
-	  for (j = 0; j < black; j++)
+	  for(j = 0; j < black; j++)
 	    {
 	      val = data[i * channels * pixels + j + k]
 	      avg[k] += val
 	      count++
 	    }
 	}
-      if (count)
+      if(count)
 	avg[k] /= count
       DBG(DBG_info, "%s: avg[%d] = %d\n", __func__, k, avg[k])
     }
   average = 0
-  for (i = 0; i < channels; i++)
+  for(i = 0; i < channels; i++)
     average += avg[i]
   average /= channels
   DBG(DBG_info, "%s: average = %d\n", __func__, average)
@@ -2094,7 +2094,7 @@ static void ad_fe_offset_calibration(Genesys_Device* dev, const Genesys_Sensor& 
     unsigned pixels = dev.model.x_size_calib_mm * sensor.full_resolution / MM_PER_INCH
     unsigned lines = CALIBRATION_LINES
 
-    if (dev.model.is_cis) {
+    if(dev.model.is_cis) {
         lines = ((lines + 2) / 3) * 3
     }
 
@@ -2111,7 +2111,7 @@ static void ad_fe_offset_calibration(Genesys_Device* dev, const Genesys_Sensor& 
     session.params.scan_mode = ScanColorMode::COLOR_SINGLE_PASS
     session.params.color_filter = ColorFilter::RED
     session.params.flags = ScanFlag::DISABLE_SHADING
-    if (dev.settings.scan_method == ScanMethod::TRANSPARENCY) {
+    if(dev.settings.scan_method == ScanMethod::TRANSPARENCY) {
         session.params.flags |= ScanFlag::USE_XPA
     }
     compute_session(dev, session, calib_sensor)
@@ -2135,25 +2135,25 @@ static void ad_fe_offset_calibration(Genesys_Device* dev, const Genesys_Sensor& 
         dev.cmd_set.init_regs_for_scan_session(dev, calib_sensor, &dev.reg, session)
         simple_scan(dev, calib_sensor, session, false, line, "ad_fe_offset_calibration")
 
-        if (is_testing_mode()) {
+        if(is_testing_mode()) {
             return
         }
 
-        if (dbg_log_image_data()) {
+        if(dbg_log_image_data()) {
             char title[30]
             std::snprintf(title, 30, "gl646_offset%03d.tiff", static_cast<Int>(bottom))
             write_tiff_file(title, line.data(), 8, channels, pixels, lines)
         }
 
       min = 0
-        for (unsigned y = 0; y < lines; y++) {
-            for (unsigned x = 0; x < black_pixels; x++) {
+        for(unsigned y = 0; y < lines; y++) {
+            for(unsigned x = 0; x < black_pixels; x++) {
                 adr = (x + y * pixels) * channels
-	      if (line[adr] > min)
+	      if(line[adr] > min)
 		min = line[adr]
-	      if (line[adr + 1] > min)
+	      if(line[adr + 1] > min)
 		min = line[adr + 1]
-	      if (line[adr + 2] > min)
+	      if(line[adr + 2] > min)
 		min = line[adr + 2]
 	    }
 	}
@@ -2161,8 +2161,8 @@ static void ad_fe_offset_calibration(Genesys_Device* dev, const Genesys_Sensor& 
       DBG(DBG_info, "%s: pass=%d, min=%d\n", __func__, pass, min)
       bottom++
     }
-  while (pass < 128 && min == 0)
-  if (pass == 128)
+  while(pass < 128 && min == 0)
+  if(pass == 128)
     {
         throw SaneException(Sane.STATUS_INVAL, "failed to find correct offset")
     }
@@ -2190,7 +2190,7 @@ void CommandSetGl646::offset_calibration(Genesys_Device* dev, const Genesys_Sens
   Int topavg, bottomavg
   Int top, bottom, black_pixels
 
-    if (dev.model.adc_id == AdcId::AD_XP200) {
+    if(dev.model.adc_id == AdcId::AD_XP200) {
         ad_fe_offset_calibration(dev, sensor)
         return
     }
@@ -2206,7 +2206,7 @@ void CommandSetGl646::offset_calibration(Genesys_Device* dev, const Genesys_Sens
 
     unsigned pixels = dev.model.x_size_calib_mm * resolution / MM_PER_INCH
     unsigned lines = CALIBRATION_LINES
-    if (dev.model.is_cis) {
+    if(dev.model.is_cis) {
         lines = ((lines + 2) / 3) * 3
     }
 
@@ -2223,7 +2223,7 @@ void CommandSetGl646::offset_calibration(Genesys_Device* dev, const Genesys_Sens
     session.params.scan_mode = ScanColorMode::COLOR_SINGLE_PASS
     session.params.color_filter = ColorFilter::RED
     session.params.flags = ScanFlag::DISABLE_SHADING
-    if (dev.settings.scan_method == ScanMethod::TRANSPARENCY) {
+    if(dev.settings.scan_method == ScanMethod::TRANSPARENCY) {
         session.params.flags |= ScanFlag::USE_XPA
     }
     compute_session(dev, session, sensor)
@@ -2245,7 +2245,7 @@ void CommandSetGl646::offset_calibration(Genesys_Device* dev, const Genesys_Sens
     dev.cmd_set.init_regs_for_scan_session(dev, sensor, &dev.reg, session)
     simple_scan(dev, calib_sensor, session, false, first_line, "offset_first_line")
 
-    if (dbg_log_image_data()) {
+    if(dbg_log_image_data()) {
         char title[30]
         std::snprintf(title, 30, "gl646_offset%03d.tiff", bottom)
         write_tiff_file(title, first_line.data(), 8, channels, pixels, lines)
@@ -2261,7 +2261,7 @@ void CommandSetGl646::offset_calibration(Genesys_Device* dev, const Genesys_Sens
     dev.cmd_set.init_regs_for_scan_session(dev, calib_sensor, &dev.reg, session)
     simple_scan(dev, calib_sensor, session, false, second_line, "offset_second_line")
 
-    if (dbg_log_image_data()) {
+    if(dbg_log_image_data()) {
         char title[30]
         std::snprintf(title, 30, "gl646_offset%03d.tiff", top)
         write_tiff_file(title, second_line.data(), 8, channels, pixels, lines)
@@ -2269,12 +2269,12 @@ void CommandSetGl646::offset_calibration(Genesys_Device* dev, const Genesys_Sens
     topavg = dark_average(second_line.data(), pixels, lines, channels, black_pixels)
     DBG(DBG_info, "%s: top avg=%d\n", __func__, topavg)
 
-    if (is_testing_mode()) {
+    if(is_testing_mode()) {
         return
     }
 
   /* loop until acceptable level */
-  while ((pass < 32) && (top - bottom > 1))
+  while((pass < 32) && (top - bottom > 1))
     {
       pass++
 
@@ -2288,7 +2288,7 @@ void CommandSetGl646::offset_calibration(Genesys_Device* dev, const Genesys_Sens
         simple_scan(dev, calib_sensor, session, false, second_line,
                     "offset_calibration_i")
 
-        if (dbg_log_image_data()) {
+        if(dbg_log_image_data()) {
             char title[30]
             std::snprintf(title, 30, "gl646_offset%03d.tiff", dev.frontend.get_offset(1))
             write_tiff_file(title, second_line.data(), 8, channels, pixels, lines)
@@ -2298,7 +2298,7 @@ void CommandSetGl646::offset_calibration(Genesys_Device* dev, const Genesys_Sens
       DBG(DBG_info, "%s: avg=%d offset=%d\n", __func__, avg, dev.frontend.get_offset(1))
 
       /* compute new boundaries */
-      if (topavg == avg)
+      if(topavg == avg)
 	{
 	  topavg = avg
           top = dev.frontend.get_offset(1)
@@ -2345,7 +2345,7 @@ void CommandSetGl646::coarse_gain_calibration(Genesys_Device* dev, const Genesys
 
     unsigned pixels = 0
     float start = 0
-    if (dev.settings.scan_method == ScanMethod::FLATBED) {
+    if(dev.settings.scan_method == ScanMethod::FLATBED) {
         pixels = dev.model.x_size_calib_mm * dev.settings.xres / MM_PER_INCH
     } else {
         start = dev.model.x_offset_ta
@@ -2355,7 +2355,7 @@ void CommandSetGl646::coarse_gain_calibration(Genesys_Device* dev, const Genesys
 
     unsigned lines = CALIBRATION_LINES
     // round up to multiple of 3 in case of CIS scanner
-    if (dev.model.is_cis) {
+    if(dev.model.is_cis) {
         lines = ((lines + 2) / 3) * 3
     }
 
@@ -2374,7 +2374,7 @@ void CommandSetGl646::coarse_gain_calibration(Genesys_Device* dev, const Genesys
     session.params.scan_mode = ScanColorMode::COLOR_SINGLE_PASS
     session.params.color_filter = ColorFilter::RED
     session.params.flags = ScanFlag::DISABLE_SHADING
-    if (dev.settings.scan_method == ScanMethod::TRANSPARENCY) {
+    if(dev.settings.scan_method == ScanMethod::TRANSPARENCY) {
         session.params.flags |= ScanFlag::USE_XPA
     }
     compute_session(dev, session, calib_sensor)
@@ -2393,7 +2393,7 @@ void CommandSetGl646::coarse_gain_calibration(Genesys_Device* dev, const Genesys
   std::vector<uint8_t> line
 
   /* loop until each channel raises to acceptable level */
-    while (((average[0] < calib_sensor.gain_white_ref) ||
+    while(((average[0] < calib_sensor.gain_white_ref) ||
             (average[1] < calib_sensor.gain_white_ref) ||
             (average[2] < calib_sensor.gain_white_ref)) && (pass < 30))
     {
@@ -2401,7 +2401,7 @@ void CommandSetGl646::coarse_gain_calibration(Genesys_Device* dev, const Genesys
         dev.cmd_set.init_regs_for_scan_session(dev, calib_sensor, &dev.reg, session)
         simple_scan(dev, calib_sensor, session, false, line, "coarse_gain_calibration")
 
-        if (dbg_log_image_data()) {
+        if(dbg_log_image_data()) {
             std::sprintf(title, "gl646_gain%02d.tiff", pass)
             write_tiff_file(title, line.data(), 8, channels, pixels, lines)
         }
@@ -2409,13 +2409,13 @@ void CommandSetGl646::coarse_gain_calibration(Genesys_Device* dev, const Genesys
 
         // average high level for each channel and compute gain to reach the target code
         // we only use the central half of the CCD data
-        for (unsigned k = 0; k < channels; k++) {
+        for(unsigned k = 0; k < channels; k++) {
 
             // we find the maximum white value, so we can deduce a threshold
             // to average white values
             unsigned maximum = 0
-            for (unsigned i = 0; i < lines; i++) {
-                for (unsigned j = 0; j < pixels; j++) {
+            for(unsigned i = 0; i < lines; i++) {
+                for(unsigned j = 0; j < pixels; j++) {
                     unsigned val = line[i * channels * pixels + j + k]
                     maximum = std::max(maximum, val)
                 }
@@ -2426,11 +2426,11 @@ void CommandSetGl646::coarse_gain_calibration(Genesys_Device* dev, const Genesys
             // computes white average
             average[k] = 0
             unsigned count = 0
-            for (unsigned i = 0; i < lines; i++) {
-                for (unsigned j = 0; j < pixels; j++) {
+            for(unsigned i = 0; i < lines; i++) {
+                for(unsigned j = 0; j < pixels; j++) {
                     // averaging only white points allow us not to care about dark margins
                     unsigned val = line[i * channels * pixels + j + k]
-                    if (val > maximum) {
+                    if(val > maximum) {
                         average[k] += val
                         count++
                     }
@@ -2439,7 +2439,7 @@ void CommandSetGl646::coarse_gain_calibration(Genesys_Device* dev, const Genesys
             average[k] = average[k] / count
 
             // adjusts gain for the channel
-            if (average[k] < calib_sensor.gain_white_ref) {
+            if(average[k] < calib_sensor.gain_white_ref) {
                 dev.frontend.set_gain(k, dev.frontend.get_gain(k) + 1)
             }
 
@@ -2487,7 +2487,7 @@ void CommandSetGl646::init_regs_for_warmup(Genesys_Device* dev, const Genesys_Se
     session.params.color_filter =  ColorFilter::RED
     session.params.flags = ScanFlag::DISABLE_SHADING |
                            ScanFlag::DISABLE_GAMMA
-    if (dev.settings.scan_method == ScanMethod::TRANSPARENCY) {
+    if(dev.settings.scan_method == ScanMethod::TRANSPARENCY) {
         session.params.flags |= ScanFlag::USE_XPA
     }
     compute_session(dev, session, local_sensor)
@@ -2522,9 +2522,9 @@ void CommandSetGl646::init(Genesys_Device* dev) const
   size_t len
 
     // to detect real power up condition, we write to REG_0x41 with pwrbit set, then read it back.
-    // When scanner is cold (just replugged) PWRBIT will be set in the returned value
+    // When scanner is cold(just replugged) PWRBIT will be set in the returned value
     auto status = scanner_read_status(*dev)
-    if (status.is_replugged) {
+    if(status.is_replugged) {
       DBG(DBG_info, "%s: device is cold\n", __func__)
     } else {
       DBG(DBG_info, "%s: device is hot\n", __func__)
@@ -2533,7 +2533,7 @@ void CommandSetGl646::init(Genesys_Device* dev) const
   const auto& sensor = sanei_genesys_find_sensor_any(dev)
 
   /* if scanning session hasn't been initialized, set it up */
-  if (!dev.already_initialized)
+  if(!dev.already_initialized)
     {
       dev.dark_average_data.clear()
       dev.white_average_data.clear()
@@ -2541,7 +2541,7 @@ void CommandSetGl646::init(Genesys_Device* dev) const
       dev.settings.color_filter = ColorFilter::GREEN
 
       /* Set default values for registers */
-      gl646_init_regs (dev)
+      gl646_init_regs(dev)
 
         // Init shading data
         sanei_genesys_init_shading_data(dev, sensor,
@@ -2552,7 +2552,7 @@ void CommandSetGl646::init(Genesys_Device* dev) const
     }
 
     // execute physical unit init only if cold
-    if (status.is_replugged)
+    if(status.is_replugged)
     {
       DBG(DBG_info, "%s: device is cold\n", __func__)
 
@@ -2578,7 +2578,7 @@ void CommandSetGl646::init(Genesys_Device* dev) const
     gl646_set_fe(dev, sensor, AFE_INIT, 0)
 
   /* GPO enabling for XP200 */
-    if (dev.model.sensor_id == SensorId::CIS_XP200) {
+    if(dev.model.sensor_id == SensorId::CIS_XP200) {
         dev.interface.write_register(0x68, dev.gpo.regs.get_value(0x68))
         dev.interface.write_register(0x69, dev.gpo.regs.get_value(0x69))
 
@@ -2598,10 +2598,10 @@ void CommandSetGl646::init(Genesys_Device* dev) const
 
   /* MD6471/G2410 and XP200 read/write data from an undocumented memory area which
    * is after the second slope table */
-    if (dev.model.gpio_id != GpioId::HP3670 &&
+    if(dev.model.gpio_id != GpioId::HP3670 &&
         dev.model.gpio_id != GpioId::HP2400)
     {
-      switch (sensor.full_resolution)
+      switch(sensor.full_resolution)
 	{
 	case 600:
 	  addr = 0x08200
@@ -2615,16 +2615,16 @@ void CommandSetGl646::init(Genesys_Device* dev) const
 	}
     sanei_genesys_set_buffer_address(dev, addr)
 
-      sanei_usb_set_timeout (2 * 1000)
+      sanei_usb_set_timeout(2 * 1000)
       len = 6
         // for some reason, read fails here for MD6471, HP2300 and XP200 one time out of
         // 2 scanimage launches
         try {
             dev.interface.bulk_read_data(0x45, dev.control, len)
-        } catch (...) {
+        } catch(...) {
             dev.interface.bulk_read_data(0x45, dev.control, len)
         }
-      sanei_usb_set_timeout (30 * 1000)
+      sanei_usb_set_timeout(30 * 1000)
     }
   else
     /* HP2400 and HP3670 case */
@@ -2638,7 +2638,7 @@ void CommandSetGl646::init(Genesys_Device* dev) const
     }
 
   /* ensure head is correctly parked, and check lock */
-    if (!dev.model.is_sheetfed) {
+    if(!dev.model.is_sheetfed) {
         move_back_home(dev, true)
     }
 
@@ -2651,7 +2651,7 @@ static void simple_scan(Genesys_Device* dev, const Genesys_Sensor& sensor,
                         std::vector<uint8_t>& data, const char* scan_identifier)
 {
     unsigned lines = session.output_line_count
-    if (!dev.model.is_cis) {
+    if(!dev.model.is_cis) {
         lines++
     }
 
@@ -2671,12 +2671,12 @@ static void simple_scan(Genesys_Device* dev, const Genesys_Sensor& sensor,
   /* one table movement for simple scan */
     dev.reg.find_reg(0x02).value &= ~REG_0x02_FASTFED
 
-    if (!move) {
+    if(!move) {
         sanei_genesys_set_motor_power(dev.reg, false)
     }
 
   /* no automatic go home when using XPA */
-    if (session.params.scan_method == ScanMethod::TRANSPARENCY) {
+    if(session.params.scan_method == ScanMethod::TRANSPARENCY) {
         dev.reg.find_reg(0x02).value &= ~REG_0x02_AGOHOME
     }
 
@@ -2686,7 +2686,7 @@ static void simple_scan(Genesys_Device* dev, const Genesys_Sensor& sensor,
     // starts scan
     dev.cmd_set.begin_scan(dev, sensor, &dev.reg, move)
 
-    if (is_testing_mode()) {
+    if(is_testing_mode()) {
         dev.interface.test_checkpoint(scan_identifier)
         return
     }
@@ -2697,15 +2697,15 @@ static void simple_scan(Genesys_Device* dev, const Genesys_Sensor& sensor,
     sanei_genesys_read_data_from_scanner(dev, data.data(), size)
 
   /* in case of CIS scanner, we must reorder data */
-    if (dev.model.is_cis && session.params.scan_mode == ScanColorMode::COLOR_SINGLE_PASS) {
+    if(dev.model.is_cis && session.params.scan_mode == ScanColorMode::COLOR_SINGLE_PASS) {
         auto pixels_count = session.params.pixels
 
         std::vector<uint8_t> buffer(pixels_count * 3 * bpp)
 
-        if (bpp == 1) {
-            for (unsigned y = 0; y < lines; y++) {
+        if(bpp == 1) {
+            for(unsigned y = 0; y < lines; y++) {
                 // reorder line
-                for (unsigned x = 0; x < pixels_count; x++) {
+                for(unsigned x = 0; x < pixels_count; x++) {
                     buffer[x * 3] = data[y * pixels_count * 3 + x]
                     buffer[x * 3 + 1] = data[y * pixels_count * 3 + pixels_count + x]
                     buffer[x * 3 + 2] = data[y * pixels_count * 3 + 2 * pixels_count + x]
@@ -2714,10 +2714,10 @@ static void simple_scan(Genesys_Device* dev, const Genesys_Sensor& sensor,
                 std::memcpy(data.data() + pixels_count * 3 * y, buffer.data(), pixels_count * 3)
             }
         } else {
-            for (unsigned y = 0; y < lines; y++) {
+            for(unsigned y = 0; y < lines; y++) {
                 // reorder line
                 auto pixels_count = session.params.pixels
-                for (unsigned x = 0; x < pixels_count; x++) {
+                for(unsigned x = 0; x < pixels_count; x++) {
                     buffer[x * 6] = data[y * pixels_count * 6 + x * 2]
                     buffer[x * 6 + 1] = data[y * pixels_count * 6 + x * 2 + 1]
                     buffer[x * 6 + 2] = data[y * pixels_count * 6 + 2 * pixels_count + x * 2]
@@ -2731,7 +2731,7 @@ static void simple_scan(Genesys_Device* dev, const Genesys_Sensor& sensor,
         }
     }
 
-    // end scan , waiting the motor to stop if needed (if moving), but without ejecting doc
+    // end scan , waiting the motor to stop if needed(if moving), but without ejecting doc
     end_scan_impl(dev, &dev.reg, true, false)
 }
 
@@ -2750,8 +2750,8 @@ void CommandSetGl646::update_hardware_sensors(Genesys_Scanner* session) const
     DBG(DBG_io, "%s: GPIO=0x%02x\n", __func__, value)
 
     // scan button
-    if (dev.model.buttons & GENESYS_HAS_SCAN_SW) {
-        switch (dev.model.gpio_id) {
+    if(dev.model.buttons & GENESYS_HAS_SCAN_SW) {
+        switch(dev.model.gpio_id) {
         case GpioId::XP200:
             session.buttons[BUTTON_SCAN_SW].write((value & 0x02) != 0)
             break
@@ -2771,8 +2771,8 @@ void CommandSetGl646::update_hardware_sensors(Genesys_Scanner* session) const
     }
 
     // email button
-    if (dev.model.buttons & GENESYS_HAS_EMAIL_SW) {
-        switch (dev.model.gpio_id) {
+    if(dev.model.buttons & GENESYS_HAS_EMAIL_SW) {
+        switch(dev.model.gpio_id) {
         case GpioId::MD_5345:
             session.buttons[BUTTON_EMAIL_SW].write(value == 0x12)
             break
@@ -2786,8 +2786,8 @@ void CommandSetGl646::update_hardware_sensors(Genesys_Scanner* session) const
     }
 
     // copy button
-    if (dev.model.buttons & GENESYS_HAS_COPY_SW) {
-        switch (dev.model.gpio_id) {
+    if(dev.model.buttons & GENESYS_HAS_COPY_SW) {
+        switch(dev.model.gpio_id) {
         case GpioId::MD_5345:
             session.buttons[BUTTON_COPY_SW].write(value == 0x11)
             break
@@ -2804,8 +2804,8 @@ void CommandSetGl646::update_hardware_sensors(Genesys_Scanner* session) const
     }
 
     // power button
-    if (dev.model.buttons & GENESYS_HAS_POWER_SW) {
-        switch (dev.model.gpio_id) {
+    if(dev.model.buttons & GENESYS_HAS_POWER_SW) {
+        switch(dev.model.gpio_id) {
         case GpioId::MD_5345:
             session.buttons[BUTTON_POWER_SW].write(value == 0x14)
             break
@@ -2815,8 +2815,8 @@ void CommandSetGl646::update_hardware_sensors(Genesys_Scanner* session) const
     }
 
     // ocr button
-    if (dev.model.buttons & GENESYS_HAS_OCR_SW) {
-        switch (dev.model.gpio_id) {
+    if(dev.model.buttons & GENESYS_HAS_OCR_SW) {
+        switch(dev.model.gpio_id) {
     case GpioId::MD_5345:
             session.buttons[BUTTON_OCR_SW].write(value == 0x13)
             break
@@ -2826,8 +2826,8 @@ void CommandSetGl646::update_hardware_sensors(Genesys_Scanner* session) const
     }
 
     // document detection
-    if (dev.model.buttons & GENESYS_HAS_PAGE_LOADED_SW) {
-        switch (dev.model.gpio_id) {
+    if(dev.model.buttons & GENESYS_HAS_PAGE_LOADED_SW) {
+        switch(dev.model.gpio_id) {
         case GpioId::XP200:
             session.buttons[BUTTON_PAGE_LOADED_SW].write((value & 0x04) != 0)
             break
@@ -2837,12 +2837,12 @@ void CommandSetGl646::update_hardware_sensors(Genesys_Scanner* session) const
     }
 
   /* XPA detection */
-    if (dev.model.has_method(ScanMethod::TRANSPARENCY)) {
-        switch (dev.model.gpio_id) {
+    if(dev.model.has_method(ScanMethod::TRANSPARENCY)) {
+        switch(dev.model.gpio_id) {
             case GpioId::HP3670:
             case GpioId::HP2400:
 	  /* test if XPA is plugged-in */
-            if ((value & 0x40) == 0) {
+            if((value & 0x40) == 0) {
                 session.opt[OPT_SOURCE].cap &= ~Sane.CAP_INACTIVE
             } else {
                 session.opt[OPT_SOURCE].cap |= Sane.CAP_INACTIVE
@@ -2867,13 +2867,13 @@ static void write_control(Genesys_Device* dev, const Genesys_Sensor& sensor, Int
   uint32_t addr = 0xdead
 
   /* 2300 does not write to 'control' */
-    if (dev.model.motor_id == MotorId::HP2300) {
+    if(dev.model.motor_id == MotorId::HP2300) {
         return
     }
 
   /* MD6471/G2410/HP2300 and XP200 read/write data from an undocumented memory area which
    * is after the second slope table */
-  switch (sensor.full_resolution)
+  switch(sensor.full_resolution)
     {
     case 600:
       addr = 0x08200
@@ -2889,7 +2889,7 @@ static void write_control(Genesys_Device* dev, const Genesys_Sensor& sensor, Int
     }
 
   /* XP200 sets dpi, what other scanner put is unknown yet */
-  switch (dev.model.motor_id)
+  switch(dev.model.motor_id)
     {
         case MotorId::XP200:
       /* we put scan's dpi, not motor one */
@@ -2933,20 +2933,20 @@ ScanSession CommandSetGl646::calculate_scan_session(const Genesys_Device* dev,
 {
     // compute distance to move
     float move = 0
-    if (!dev.model.is_sheetfed) {
+    if(!dev.model.is_sheetfed) {
         move = dev.model.y_offset
         // add tl_y to base movement
     }
     move += settings.tl_y
 
-    if (move < 0) {
+    if(move < 0) {
         DBG(DBG_error, "%s: overriding negative move value %f\n", __func__, move)
         move = 0
     }
 
     move = static_cast<float>((move * dev.motor.base_ydpi) / MM_PER_INCH)
     float start = settings.tl_x
-    if (settings.scan_method == ScanMethod::FLATBED) {
+    if(settings.scan_method == ScanMethod::FLATBED) {
         start += dev.model.x_offset
     } else {
         start += dev.model.x_offset_ta
@@ -2967,7 +2967,7 @@ ScanSession CommandSetGl646::calculate_scan_session(const Genesys_Device* dev,
     session.params.scan_mode = settings.scan_mode
     session.params.color_filter = settings.color_filter
     session.params.flags = ScanFlag::AUTO_GO_HOME
-    if (settings.scan_method == ScanMethod::TRANSPARENCY) {
+    if(settings.scan_method == ScanMethod::TRANSPARENCY) {
         session.params.flags |= ScanFlag::USE_XPA
     }
     compute_session(dev, session, sensor)

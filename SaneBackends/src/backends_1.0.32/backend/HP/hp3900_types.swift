@@ -1,13 +1,13 @@
 /* HP Scanjet 3900 series - Structures and global variables
 
-   Copyright (C) 2005-2009 Jonathan Bravo Lopez <jkdsoft@gmail.com>
+   Copyright(C) 2005-2009 Jonathan Bravo Lopez <jkdsoft@gmail.com>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
    as published by the Free Software Foundation; either version 2
-   of the License, or (at your option) any later version.
+   of the License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -740,7 +740,7 @@ Int bw_threshold = 0x00
 struct st_scanparams scan
 struct st_scanparams scan2
 
-Int bytesperline;		/* width * (3 colors [RGB]) */
+Int bytesperline;		/* width * (3 colors[RGB]) */
 Int imagewidth3
 Int lineart_width
 Int imagesize;		/* bytesperline * coords.height */

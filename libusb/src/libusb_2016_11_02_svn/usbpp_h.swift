@@ -17,7 +17,7 @@ import usb
  * \brief Classes to access Universal Serial Bus devices
  *
  * The USB Namespace provides a number of classes to work
- * with Universal Serial Bus (USB) devices attached to the
+ * with Universal Serial Bus(USB) devices attached to the
  * system.
  *
  * \author Brad Hards
@@ -80,7 +80,7 @@ namespace USB {
 		/**
 		 * \brief Clear halt
 		 *
-		 * This method clears a halt (stall) on the endpoint.
+		 * This method clears a halt(stall) on the endpoint.
 		 */
 		Int clearHalt(void)
 
@@ -189,7 +189,7 @@ namespace USB {
 		 * \brief Claim this interface
 		 *
 		 * This method claims the interface. You have to claim the
-		 * interface before performing any operations on the interface (or
+		 * interface before performing any operations on the interface(or
 		 * on endpoints that are part of the interface).
 		 *
 		 * \return 0 on success or negative number on error.
@@ -200,7 +200,7 @@ namespace USB {
 		 * \brief Release this interface
 		 *
 		 * This method releases the interface. You should release the
-		 * interface after all operations on it (and any lower level
+		 * interface after all operations on it(and any lower level
 		 * endpoints) are completed.
 		 *
 		 * \return 0 on success or negative number on error.
@@ -252,14 +252,14 @@ namespace USB {
 		 * \code
 		 * USB.Configuration *this_Configuration
 		 * this_Configuration = device.firstConfiguration()
-		 * for (i=0; i < device.numConfigurations(); i++) {
+		 * for(i=0; i < device.numConfigurations(); i++) {
 		 *	 this_Configuration.dumpDescriptor()
 		 *   USB.Interface *this_Interface
 		 *   this_Interface = this_Configuration.firstInterface()
-		 *   for (j=0; j < this_Configuration.numInterfaces(); j++) {
+		 *   for(j=0; j < this_Configuration.numInterfaces(); j++) {
 		 *     USB.AltSetting *this_AltSetting
 		 *     this_AltSetting = this_Interface.firstAltSetting()
-		 *     for (k=0; k < this_Interface.numAltSettings(); k++) {
+		 *     for(k=0; k < this_Interface.numAltSettings(); k++) {
 		 *       // do something with this_AltSetting
 		 *       this_AltSetting = this_Interface.nextAltSetting()
 		 *     }
@@ -356,9 +356,9 @@ namespace USB {
 		 * \code
 		 * USB.Configuration *this_Configuration
 		 * this_Configuration = device.firstConfiguration()
-		 * for (i=0; i < device.numConfigurations(); i++) {
+		 * for(i=0; i < device.numConfigurations(); i++) {
 		 *	 this_Interface = this_Configuration.firstInterface()
-		 *	 for (j=0; j < this_Configuration.numInterfaces(); j++) {
+		 *	 for(j=0; j < this_Configuration.numInterfaces(); j++) {
 		 *     // do something with this_Interface
 		 *     this_Interface = this_Configuration.nextInterface()
 		 *   }
@@ -435,7 +435,7 @@ namespace USB {
 		 * with filename().
 		 *
 		 * On Linux, the filename is usually something like 002, which
-		 * represents the second device (usually the first real device,
+		 * represents the second device(usually the first real device,
 		 * after the root hub pseudo-device) on the bus.
 		 *
 		 * \see Bus.directoryName()
@@ -483,11 +483,11 @@ namespace USB {
 		 * This method returns a number containing the device's class.
 		 * These are defined by the USB Implementer's Forum.
 		 *
-		 * A code of Zero is special (and common) - it means that the
+		 * A code of Zero is special(and common) - it means that the
 		 * class is found in the Interface descriptor, rather than in the
 		 * Device descriptor.
 		 * 
-		 * A code of 0xFF is also special (and far too common) - it means
+		 * A code of 0xFF is also special(and far too common) - it means
 		 * that the manufacturer didn't conform to one of the defined 
 		 * class specifications, and chose to implement a vendor specified
 		 * protocol.
@@ -519,11 +519,11 @@ namespace USB {
 		 * \brief The vendor name string, as provided by the device.
 		 *
 		 * This method returns a string containing the name of the 
-		 * device's vendor (manufacturer), as encoded into the device.
+		 * device's vendor(manufacturer), as encoded into the device.
 		 *
 		 * Note that not all devices contain a vendor name, and also
 		 * that under some operating systems you may not be able to
-		 * read the vendor name without elevated privledges (typically
+		 * read the vendor name without elevated privledges(typically
 		 * root privledges).
 		 *
 		 * \see idVendor()
@@ -538,7 +538,7 @@ namespace USB {
 		 *
 		 * Note that not all devices contain a product name, and also
 		 * that under some operating systems you may not be able to
-		 * read the vendor name without elevated privledges (typically
+		 * read the vendor name without elevated privledges(typically
 		 * root privledges).
 		 * 
 		 * \see idProduct()
@@ -553,7 +553,7 @@ namespace USB {
 		 *
 		 * Note that few devices contain a serial number string, and also
 		 * that under some operating systems you may not be able to
-		 * read the serial number without elevated privledges (typically
+		 * read the serial number without elevated privledges(typically
 		 * root privledges). The USB specification requires that serial
 		 * numbers are unique if they are provided, but adherence to this
 		 * requirement by manufacturers is not universal.
@@ -603,7 +603,7 @@ namespace USB {
 		 * \code
 		 * USB.Configuration *this_Configuration
 		 * this_Configuration = device.firstConfiguration()
-		 * for (i=0; i < device.numConfigurations(); i++) {
+		 * for(i=0; i < device.numConfigurations(); i++) {
 		 *   // do something with this_Configuration
 		 *   this_Configuration.nextConfiguration()
 		 * }
@@ -727,10 +727,10 @@ namespace USB {
 	/**
 	 * \brief A vendor/product ID pair
 	 *
-	 * DeviceID provides a list of (vendor, product) identification
+	 * DeviceID provides a list of(vendor, product) identification
 	 * pairs. It is intended for use in a list of device numbers to
 	 * search for, but there is no reason why it couldn't be used for a
-	 * general purpose (vendor,product) tuple if you had some reason for
+	 * general purpose(vendor,product) tuple if you had some reason for
 	 * this.
 	 *
 	 * The description for Busses.match() provides an example of how
@@ -744,7 +744,7 @@ namespace USB {
 		/** 
 		 * \brief Standard constructor
 		 *
-		 * This constructor takes (vendor, product) tuple, which are
+		 * This constructor takes(vendor, product) tuple, which are
 		 * stored away.
 		 *
 		 * \param vendor the 16 bit vendor number for the device
@@ -775,7 +775,7 @@ namespace USB {
 	 * \brief A list of vendor/product pairs
 	 *
 	 * DeviceIDList provides a list of DeviceID classes, which is
-	 * essentially a list of (vendor, product) identification pairs.
+	 * essentially a list of(vendor, product) identification pairs.
 	 *
 	 * \see DeviceID
 	 */
@@ -816,7 +816,7 @@ namespace USB {
 		 *
 		 * This method searches every device on every bus, and returns a
 		 * list of pointers to the devices that have a matching device
-		 * ID. That is, if the (vendor, product) tuple of a device matches
+		 * ID. That is, if the(vendor, product) tuple of a device matches
 		 * one of the tuples on the list, then the device will be added to
 		 * the list of matches.  
 		 *
@@ -833,7 +833,7 @@ namespace USB {
 		 *
 		 * miceFound = buslist.match(mouseList)
 		 *
-		 * for ( device = miceFound.first(); device; device = miceFound.next() ) {
+		 * for( device = miceFound.first(); device; device = miceFound.next() ) {
 		 *     // do something with each mouse that matched
 		 * }
 		 * FIXME: This is incorrect now

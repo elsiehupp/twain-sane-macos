@@ -1,11 +1,11 @@
 /* SANE - Scanner Access Now Easy.
 
-   Copyright (C) 2008 by Louis Lagendijk
+   Copyright(C) 2008 by Louis Lagendijk
 
    This file is part of the SANE package.
 
    Data structures and definitions for
-   bjnp backend for the Common UNIX Printing System (CUPS).
+   bjnp backend for the Common UNIX Printing System(CUPS).
 
    These coded instructions, statements, and computer programs are the
    property of Louis Lagendijk and are protected by Federal copyright
@@ -86,7 +86,7 @@
 #define BJNP_TCP_CONNECT_INTERVAL 100   /* TCP retry interval in ms */
 
 /* retries */
-#define BJNP_MAX_SELECT_ATTEMPTS 3   	/* max nr of retries on select (EINTR) */
+#define BJNP_MAX_SELECT_ATTEMPTS 3   	/* max nr of retries on select(EINTR) */
 #define BJNP_MAX_BROADCAST_ATTEMPTS 2	/* number of broadcast packets to be sent */
 #define BJNP_UDP_RETRY_MAX 3		/* max nt of retries on a udp command */
 
@@ -364,7 +364,7 @@ typedef struct device_s
 
   /* TCP bulk read state information */
 
-  size_t blocksize;		/* size of (TCP) blocks returned by the scanner */
+  size_t blocksize;		/* size of(TCP) blocks returned by the scanner */
   size_t scanner_data_left;	/* TCP data left from last read request */
   char last_block;		/* last TCP read command was shorter than blocksize */
 
@@ -373,7 +373,7 @@ typedef struct device_s
  		 		/* mac-address, used as device serial no */
   bjnp_sockaddr_t * addr;	/* ip-address of the scanner */
   Int address_level;		/* link local, public or has a FQDN */
-  Int bjnp_scanner_timeout;	/* timeout (msec) for next poll command */
+  Int bjnp_scanner_timeout;	/* timeout(msec) for next poll command */
   Int bjnp_ip_timeout;		/* device specific min timeout for the IP-protocol */
 
 #ifdef PIXMA_BJNP_USE_STATUS

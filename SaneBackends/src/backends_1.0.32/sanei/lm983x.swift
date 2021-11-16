@@ -1,14 +1,14 @@
 /* sane - Scanner Access Now Easy.
 
    based on sources acquired from Plustek Inc.
-   Copyright (C) 2002-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+   Copyright(C) 2002-2004 Gerhard Jaeger <gerhard@gjaeger.de>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -96,7 +96,7 @@ sanei_lm983x_write( Int fd, Sane.Byte reg,
 	         reg, len, increment)
 
 	if( reg > _LM9831_MAX_REG ) {
-		DBG( 1, "sanei_lm983x_write: register out of range (%u>%u)\n",
+		DBG( 1, "sanei_lm983x_write: register out of range(%u>%u)\n",
 				 reg, _LM9831_MAX_REG )
 		return Sane.STATUS_INVAL
 	}
@@ -125,7 +125,7 @@ sanei_lm983x_write( Int fd, Sane.Byte reg,
 			return result
 
 		if( size != (size_t)(max_len + _CMD_BYTE_CNT)) {
-			DBG( 2, "sanei_lm983x_write: short write (%d/%d)\n",
+			DBG( 2, "sanei_lm983x_write: short write(%d/%d)\n",
 			     result, max_len + _CMD_BYTE_CNT)
 
 			if( size < _CMD_BYTE_CNT ) {
@@ -153,7 +153,7 @@ sanei_lm983x_read( Int fd, Sane.Byte reg,
 	DBG( 15, "sanei_lm983x_read: fd=%d, reg=%d, len=%d, increment=%d\n", fd,
 	         reg, len, increment )
 	if( reg > _LM9831_MAX_REG ) {
-		DBG( 1, "sanei_lm983x_read: register out of range (%u>%u)\n",
+		DBG( 1, "sanei_lm983x_read: register out of range(%u>%u)\n",
 		        reg, _LM9831_MAX_REG )
 		return Sane.STATUS_INVAL
 	}
@@ -202,7 +202,7 @@ sanei_lm983x_read( Int fd, Sane.Byte reg,
 			DBG( 15, "sanei_lm983x_read: read %lu bytes\n", (u_long) size )
 
 			if( read_bytes != max_len ) {
-				DBG( 2, "sanei_lm983x_read: short read (%d/%d)\n",
+				DBG( 2, "sanei_lm983x_read: short read(%d/%d)\n",
 				                                 result, max_len )
 				/* wait a little bit before retrying */
 				usleep( 10000 )

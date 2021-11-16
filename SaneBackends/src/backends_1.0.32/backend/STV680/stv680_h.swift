@@ -1,8 +1,8 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2004 -2006 Gerard Klaver (gerard at gkall dot hobby dot nl)
+   Copyright(C) 2004 -2006 Gerard Klaver(gerard at gkall dot hobby dot nl)
 
-   The teco2 and gl646 backend (Frank Zago) are used as a template for
+   The teco2 and gl646 backend(Frank Zago) are used as a template for
    this backend.
 
    For the usb commands and bayer decoding parts of the following
@@ -15,14 +15,14 @@
 
    For the stv680_add_text routine the add_text routine and font_6x11.h file
    are taken from the webcam.c file, part of xawtv program,
-   (c) 1998-2002 Gerd Knorr (GNU GPL license 2).
+   (c) 1998-2002 Gerd Knorr(GNU GPL license 2).
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -39,9 +39,9 @@
 /*--------------------------------------------------------------------------*/
 
 static inline Int
-getbitfield (unsigned char *pageaddr, Int mask, Int shift)
+getbitfield(unsigned char *pageaddr, Int mask, Int shift)
 {
-  return ((*pageaddr >> shift) & mask)
+  return((*pageaddr >> shift) & mask)
 }
 
 /*--------------------------------------------------------------------------*/

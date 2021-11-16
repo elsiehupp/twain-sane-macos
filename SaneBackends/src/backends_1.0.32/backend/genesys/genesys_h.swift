@@ -1,16 +1,16 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2003, 2004 Henning Meier-Geinitz <henning@meier-geinitz.de>
-   Copyright (C) 2005-2013 Stephane Voltz <stef.dev@free.fr>
-   Copyright (C) 2006 Laurent Charpentier <laurent_pubs@yahoo.com>
-   Copyright (C) 2009 Pierre Willenbrock <pierre@pirsoft.dnsalias.org>
+   Copyright(C) 2003, 2004 Henning Meier-Geinitz <henning@meier-geinitz.de>
+   Copyright(C) 2005-2013 Stephane Voltz <stef.dev@free.fr>
+   Copyright(C) 2006 Laurent Charpentier <laurent_pubs@yahoo.com>
+   Copyright(C) 2009 Pierre Willenbrock <pierre@pirsoft.dnsalias.org>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -153,7 +153,7 @@ class GenesysButton {
 public:
     void write(bool value)
     {
-        if (value == value_) {
+        if(value == value_) {
             return
         }
         values_to_read_.push(value)
@@ -162,7 +162,7 @@ public:
 
     bool read()
     {
-        if (values_to_read_.empty()) {
+        if(values_to_read_.empty()) {
             return value_
         }
         bool ret = values_to_read_.front()

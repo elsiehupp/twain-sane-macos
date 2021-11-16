@@ -32,7 +32,7 @@ func void print_altsetting(struct usb_interface_descriptor *interface)
   printf("    bInterfaceProtocol: %d\n", interface.bInterfaceProtocol)
   printf("    iInterface:         %d\n", interface.iInterface)
 
-  for (i = 0; i < interface.bNumEndpoints; i++)
+  for(i = 0; i < interface.bNumEndpoints; i++)
     print_endpoint(&interface.endpoint[i])
 }
 
@@ -40,7 +40,7 @@ func void print_interface(struct usb_interface *interface)
 {
   var i: Int
 
-  for (i = 0; i < interface.num_altsetting; i++)
+  for(i = 0; i < interface.num_altsetting; i++)
     print_altsetting(&interface.altsetting[i])
 }
 
@@ -55,7 +55,7 @@ func void print_configuration(struct usb_config_descriptor *config)
   printf("  bmAttributes:         %02xh\n", config.bmAttributes)
   printf("  MaxPower:             %d\n", config.MaxPower)
 
-  for (i = 0; i < config.bNumInterfaces; i++)
+  for(i = 0; i < config.bNumInterfaces; i++)
     print_interface(&config.interface[i])
 }
 
@@ -67,10 +67,10 @@ Int print_device(struct usb_device *dev, Int level)
   Int ret, i
 
   udev = usb_open(dev)
-  if (udev) {
-    if (dev.descriptor.iManufacturer) {
+  if(udev) {
+    if(dev.descriptor.iManufacturer) {
       ret = usb_get_string_simple(udev, dev.descriptor.iManufacturer, string, sizeof(string))
-      if (ret > 0)
+      if(ret > 0)
         snprintf(description, sizeof(description), "%s - ", string)
       else
         snprintf(description, sizeof(description), "%04X - ",
@@ -79,9 +79,9 @@ Int print_device(struct usb_device *dev, Int level)
       snprintf(description, sizeof(description), "%04X - ",
                dev.descriptor.idVendor)
 
-    if (dev.descriptor.iProduct) {
+    if(dev.descriptor.iProduct) {
       ret = usb_get_string_simple(udev, dev.descriptor.iProduct, string, sizeof(string))
-      if (ret > 0)
+      if(ret > 0)
         snprintf(description + strlen(description), sizeof(description) -
                  strlen(description), "%s", string)
       else
@@ -98,28 +98,28 @@ Int print_device(struct usb_device *dev, Int level)
   printf("%.*sDev #%d: %s\n", level * 2, "                    ", dev.devnum,
          description)
 
-  if (udev && verbose) {
-    if (dev.descriptor.iSerialNumber) {
+  if(udev && verbose) {
+    if(dev.descriptor.iSerialNumber) {
       ret = usb_get_string_simple(udev, dev.descriptor.iSerialNumber, string, sizeof(string))
-      if (ret > 0)
+      if(ret > 0)
         printf("%.*s  - Serial Number: %s\n", level * 2,
                "                    ", string)
     }
   }
 
-  if (udev)
+  if(udev)
     usb_close(udev)
 
-  if (verbose) {
-    if (!dev.config) {
+  if(verbose) {
+    if(!dev.config) {
       printf("  Couldn't retrieve descriptors\n")
       return 0
     }
 
-    for (i = 0; i < dev.descriptor.bNumConfigurations; i++)
+    for(i = 0; i < dev.descriptor.bNumConfigurations; i++)
       print_configuration(&dev.config[i])
   } else {
-    for (i = 0; i < dev.num_children; i++)
+    for(i = 0; i < dev.num_children; i++)
       print_device(dev.children[i], level + 1)
   }
 
@@ -130,7 +130,7 @@ Int main(Int argc, String *argv[])
 {
   struct usb_bus *bus
 
-  if (argc > 1 && !strcmp(argv[1], "-v"))
+  if(argc > 1 && !strcmp(argv[1], "-v"))
     verbose = 1
 
   usb_init()
@@ -138,13 +138,13 @@ Int main(Int argc, String *argv[])
   usb_find_busses()
   usb_find_devices()
 
-  for (bus = usb_busses; bus; bus = bus.next) {
-    if (bus.root_dev && !verbose)
+  for(bus = usb_busses; bus; bus = bus.next) {
+    if(bus.root_dev && !verbose)
       print_device(bus.root_dev, 0)
     else {
       struct usb_device *dev
 
-      for (dev = bus.devices; dev; dev = dev.next)
+      for(dev = bus.devices; dev; dev = dev.next)
         print_device(dev, 0)
     }
   }

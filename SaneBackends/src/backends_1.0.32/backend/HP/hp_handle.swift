@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 Geoffrey T. Dairiki
+   Copyright(C) 1997 Geoffrey T. Dairiki
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -37,40 +37,40 @@
    If you do not wish that, delete this exception notice.
 
    This file is part of a SANE backend for HP Scanners supporting
-   HP Scanner Control Language (SCL).
+   HP Scanner Control Language(SCL).
 */
 
 #ifndef HP_HANDLE_INCLUDED
 #define HP_HANDLE_INCLUDED
 import hp
 
-HpHandle sanei_hp_handle_new (HpDevice dev)
+HpHandle sanei_hp_handle_new(HpDevice dev)
 
-void sanei_hp_handle_destroy (HpHandle this)
-const Sane.Option_Descriptor * sanei_hp_handle_saneoption (HpHandle this,
+void sanei_hp_handle_destroy(HpHandle this)
+const Sane.Option_Descriptor * sanei_hp_handle_saneoption(HpHandle this,
                          Int optnum)
 Sane.Status sanei_hp_handle_control(HpHandle this, Int optnum,
                          Sane.Action action, void *valp, Int *info)
-Sane.Status sanei_hp_handle_getParameters (HpHandle this,
+Sane.Status sanei_hp_handle_getParameters(HpHandle this,
                          Sane.Parameters *params)
-Sane.Status sanei_hp_handle_startScan (HpHandle this)
-Sane.Status sanei_hp_handle_read (HpHandle this, void * buf, size_t *lengthp)
-void        sanei_hp_handle_cancel (HpHandle this)
-Sane.Status sanei_hp_handle_setNonblocking (HpHandle this,
+Sane.Status sanei_hp_handle_startScan(HpHandle this)
+Sane.Status sanei_hp_handle_read(HpHandle this, void * buf, size_t *lengthp)
+void        sanei_hp_handle_cancel(HpHandle this)
+Sane.Status sanei_hp_handle_setNonblocking(HpHandle this,
                          hp_bool_t non_blocking)
-Sane.Status sanei_hp_handle_getPipefd (HpHandle this, Int *fd)
+Sane.Status sanei_hp_handle_getPipefd(HpHandle this, Int *fd)
 
 #endif /*  HP_HANDLE_INCLUDED */
 
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 Geoffrey T. Dairiki
+   Copyright(C) 1997 Geoffrey T. Dairiki
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -102,7 +102,7 @@ Sane.Status sanei_hp_handle_getPipefd (HpHandle this, Int *fd)
    If you do not wish that, delete this exception notice.
 
    This file is part of a SANE backend for HP Scanners supporting
-   HP Scanner Control Language (SCL).
+   HP Scanner Control Language(SCL).
 */
 
 /* #define STUBS
@@ -153,7 +153,7 @@ struct hp_handle_s
 
 
 static hp_bool_t
-hp_handle_isScanning (HpHandle this)
+hp_handle_isScanning(HpHandle this)
 {
   return this.reader_pid != 0
 }
@@ -162,27 +162,27 @@ hp_handle_isScanning (HpHandle this)
  * reader thread. Used when threads are used
  */
 static Int
-reader_thread (void *data)
+reader_thread(void *data)
 {
   struct hp_handle_s *this = (struct hp_handle_s *) data
   struct SIGACTION	act
   Sane.Status status
 
-  DBG (1, "reader_thread: thread started\n"
+  DBG(1, "reader_thread: thread started\n"
    "  parameters: scsi = 0x%08lx, pipe_write_fd = %d\n",
           (long) this.scsi, this.pipe_write_fd)
 
   memset(&act, 0, sizeof(act))
   sigaction(SIGTERM, &act, 0)
 
-  DBG (1, "Starting sanei_hp_scsi_pipeout()\n")
-  status = sanei_hp_scsi_pipeout (this.scsi, this.pipe_write_fd,
+  DBG(1, "Starting sanei_hp_scsi_pipeout()\n")
+  status = sanei_hp_scsi_pipeout(this.scsi, this.pipe_write_fd,
                                   &(this.procdata))
-  DBG (1, "sanei_hp_scsi_pipeout finished with %s\n", Sane.strstatus (status))
+  DBG(1, "sanei_hp_scsi_pipeout finished with %s\n", Sane.strstatus(status))
 
-  close (this.pipe_write_fd)
+  close(this.pipe_write_fd)
   this.pipe_write_fd = -1
-  sanei_hp_scsi_destroy (this.scsi, 0)
+  sanei_hp_scsi_destroy(this.scsi, 0)
   return status
 }
 
@@ -190,7 +190,7 @@ reader_thread (void *data)
  * reader process. Used when forking child.
  */
 static Int
-reader_process (void *data)
+reader_process(void *data)
 {
   struct hp_handle_s *this = (struct hp_handle_s *) data
   struct SIGACTION	sa
@@ -198,7 +198,7 @@ reader_process (void *data)
 
   /* Here we are in a forked child. The thread will not come up to here. */
   /* Forked child must close read end of pipe */
-  close (this.pipe_read_fd)
+  close(this.pipe_read_fd)
   this.pipe_read_fd = -1
 
   memset(&sa, 0, sizeof(sa))
@@ -208,16 +208,16 @@ reader_process (void *data)
   sigprocmask(SIG_SETMASK, &(this.sig_set), 0)
 
   /* not closing writing end of pipe gives an infinite loop on Digital UNIX */
-  status = sanei_hp_scsi_pipeout (this.scsi, this.pipe_write_fd,
+  status = sanei_hp_scsi_pipeout(this.scsi, this.pipe_write_fd,
                                   &(this.procdata))
-  close (this.pipe_write_fd)
+  close(this.pipe_write_fd)
   this.pipe_write_fd = -1
-  DBG(3,"reader_process: Exiting child (%s)\n",Sane.strstatus(status))
-  return (status)
+  DBG(3,"reader_process: Exiting child(%s)\n",Sane.strstatus(status))
+  return(status)
 }
 
 static Sane.Status
-hp_handle_startReader (HpHandle this, HpScsi scsi)
+hp_handle_startReader(HpHandle this, HpScsi scsi)
 {
   Int	fds[2]
   sigset_t 		old_set
@@ -226,7 +226,7 @@ hp_handle_startReader (HpHandle this, HpScsi scsi)
   this.cancelled = 0
   this.pipe_write_fd = this.pipe_read_fd = -1
 
-  if (pipe(fds))
+  if(pipe(fds))
       return Sane.STATUS_IO_ERROR
 
   sigfillset(&(this.sig_set))
@@ -237,32 +237,32 @@ hp_handle_startReader (HpHandle this, HpScsi scsi)
   this.pipe_read_fd = fds[0]
 
   /* Will child be forked ? */
-  this.child_forked = sanei_thread_is_forked ()
+  this.child_forked = sanei_thread_is_forked()
 
   /* Start a thread or fork a child. None of them will return here. */
   /* Returning means to be in the parent or thread/fork failed */
-  this.reader_pid = sanei_thread_begin (this.child_forked ? reader_process :
+  this.reader_pid = sanei_thread_begin(this.child_forked ? reader_process :
                                          reader_thread, (void *) this)
-  if (this.reader_pid != 0)
+  if(this.reader_pid != 0)
     {
       /* Here we are in the parent */
       sigprocmask(SIG_SETMASK, &old_set, 0)
 
-      if ( this.child_forked )
+      if( this.child_forked )
       { /* After fork(), parent must close writing end of pipe */
         DBG(3, "hp_handle_startReader: parent closes write end of pipe\n")
-        close (this.pipe_write_fd)
+        close(this.pipe_write_fd)
         this.pipe_write_fd = -1
       }
 
-      if (!sanei_thread_is_valid (this.reader_pid))
+      if(!sanei_thread_is_valid(this.reader_pid))
 	{
-          if ( !this.child_forked )
+          if( !this.child_forked )
           {
-            close (this.pipe_write_fd)
+            close(this.pipe_write_fd)
             this.pipe_write_fd = -1
           }
-	  close (this.pipe_read_fd)
+	  close(this.pipe_read_fd)
           this.pipe_read_fd = -1
 
           DBG(1, "hp_handle_startReader: fork() failed\n")
@@ -279,18 +279,18 @@ hp_handle_startReader (HpHandle this, HpScsi scsi)
 }
 
 static Sane.Status
-hp_handle_stopScan (HpHandle this)
+hp_handle_stopScan(HpHandle this)
 {
   HpScsi	scsi
 
   this.cancelled = 0
   this.bytes_left = 0
 
-  if (this.reader_pid)
+  if(this.reader_pid)
     {
       Int info
-      DBG(3, "hp_handle_stopScan: killing child (%ld)\n", (long) this.reader_pid)
-      sanei_thread_kill (this.reader_pid)
+      DBG(3, "hp_handle_stopScan: killing child(%ld)\n", (long) this.reader_pid)
+      sanei_thread_kill(this.reader_pid)
       sanei_thread_waitpid(this.reader_pid, &info)
 
       DBG(1, "hp_handle_stopScan: child %s = %d\n",
@@ -299,9 +299,9 @@ hp_handle_stopScan (HpHandle this)
       close(this.pipe_read_fd)
       this.reader_pid = 0
 
-      if ( !FAILED( sanei_hp_scsi_new(&scsi, this.dev.sanedev.name)) )
+      if( !FAILED( sanei_hp_scsi_new(&scsi, this.dev.sanedev.name)) )
       {
-        if (WIFSIGNALED(info))
+        if(WIFSIGNALED(info))
 	{
 	  /*
 	  sanei_hp_scl_set(scsi, SCL_CLEAR_ERRORS, 0)
@@ -320,7 +320,7 @@ hp_handle_stopScan (HpHandle this)
 }
 
 static Sane.Status
-hp_handle_uploadParameters (HpHandle this, HpScsi scsi, Int *scan_depth,
+hp_handle_uploadParameters(HpHandle this, HpScsi scsi, Int *scan_depth,
                             hp_bool_t *soft_invert, hp_bool_t *out8)
 {
   Sane.Parameters * p	 = &this.scan_params
@@ -343,7 +343,7 @@ hp_handle_uploadParameters (HpHandle this, HpScsi scsi, Int *scan_depth,
   RETURN_IF_FAIL( sanei_hp_scl_inquire(scsi, SCL_DATA_WIDTH,
                                 &data_width,0,0))
 
-  switch (sanei_hp_optset_scanmode(this.dev.options, this.data)) {
+  switch(sanei_hp_optset_scanmode(this.dev.options, this.data)) {
   case HP_SCANMODE_LINEART: /* Lineart */
   case HP_SCANMODE_HALFTONE: /* Halftone */
       p.format = Sane.FRAME_GRAY
@@ -352,7 +352,7 @@ hp_handle_uploadParameters (HpHandle this, HpScsi scsi, Int *scan_depth,
 
       /* The OfficeJets don't seem to handle SCL_INVERSE_IMAGE, so we'll
        * have to invert in software. */
-      if ((sanei_hp_device_probe (&compat, scsi) == Sane.STATUS_GOOD)
+      if((sanei_hp_device_probe(&compat, scsi) == Sane.STATUS_GOOD)
           && (compat & HP_COMPAT_OJ_1150C)) {
            *soft_invert=1
       }
@@ -364,11 +364,11 @@ hp_handle_uploadParameters (HpHandle this, HpScsi scsi, Int *scan_depth,
       *scan_depth = data_width
 
       /* 8 bit output forced ? */
-      if ( *scan_depth > 8 )
+      if( *scan_depth > 8 )
       {
-        *out8 = sanei_hp_optset_output_8bit (this.dev.options, this.data)
+        *out8 = sanei_hp_optset_output_8bit(this.dev.options, this.data)
         DBG(1,"hp_handle_uploadParameters: out8=%d\n", (Int)*out8)
-        if (*out8)
+        if(*out8)
         {
           p.depth = 8
           p.bytes_per_line /= 2
@@ -381,19 +381,19 @@ hp_handle_uploadParameters (HpHandle this, HpScsi scsi, Int *scan_depth,
       *scan_depth = data_width / 3
 
       /* 8 bit output forced ? */
-      if ( *scan_depth > 8 )
+      if( *scan_depth > 8 )
       {
-        *out8 = sanei_hp_optset_output_8bit (this.dev.options, this.data)
+        *out8 = sanei_hp_optset_output_8bit(this.dev.options, this.data)
         DBG(1,"hp_handle_uploadParameters: out8=%d\n", (Int)*out8)
-        if (*out8)
+        if(*out8)
         {
           p.depth = 8
           p.bytes_per_line /= 2
         }
       }
       /* HP PhotoSmart does not invert when depth > 8. Lets do it by software */
-      if (   (*scan_depth > 8)
-          && (sanei_hp_device_probe (&compat, scsi) == Sane.STATUS_GOOD)
+      if(   (*scan_depth > 8)
+          && (sanei_hp_device_probe(&compat, scsi) == Sane.STATUS_GOOD)
           && (compat & HP_COMPAT_PS) )
         *soft_invert = 1
       DBG(1, "hp_handle_uploadParameters: data width %d\n", data_width)
@@ -409,14 +409,14 @@ hp_handle_uploadParameters (HpHandle this, HpScsi scsi, Int *scan_depth,
 
 
 HpHandle
-sanei_hp_handle_new (HpDevice dev)
+sanei_hp_handle_new(HpDevice dev)
 {
   HpHandle new	= sanei_hp_allocz(sizeof(*new))
 
-  if (!new)
+  if(!new)
       return 0
 
-  if (!(new.data = sanei_hp_data_dup(dev.data)))
+  if(!(new.data = sanei_hp_data_dup(dev.data)))
     {
       sanei_hp_free(new)
       return 0
@@ -427,7 +427,7 @@ sanei_hp_handle_new (HpDevice dev)
 }
 
 void
-sanei_hp_handle_destroy (HpHandle this)
+sanei_hp_handle_destroy(HpHandle this)
 {
   HpScsi scsi=0
 
@@ -435,7 +435,7 @@ sanei_hp_handle_destroy (HpHandle this)
 
   hp_handle_stopScan(this)
 
-  if (sanei_hp_scsi_new(&scsi,this.dev.sanedev.name)==Sane.STATUS_GOOD &&
+  if(sanei_hp_scsi_new(&scsi,this.dev.sanedev.name)==Sane.STATUS_GOOD &&
       scsi) {
 	sanei_hp_scsi_destroy(scsi,1)
   }
@@ -445,9 +445,9 @@ sanei_hp_handle_destroy (HpHandle this)
 }
 
 const Sane.Option_Descriptor *
-sanei_hp_handle_saneoption (HpHandle this, Int optnum)
+sanei_hp_handle_saneoption(HpHandle this, Int optnum)
 {
-  if (this.cancelled)
+  if(this.cancelled)
   {
     DBG(1, "sanei_hp_handle_saneoption: cancelled. Stop scan\n")
     hp_handle_stopScan(this)
@@ -463,13 +463,13 @@ sanei_hp_handle_control(HpHandle this, Int optnum,
   HpScsi  scsi
   hp_bool_t immediate
 
-  if (this.cancelled)
+  if(this.cancelled)
   {
     DBG(1, "sanei_hp_handle_control: cancelled. Stop scan\n")
     RETURN_IF_FAIL( hp_handle_stopScan(this) )
   }
 
-  if (hp_handle_isScanning(this))
+  if(hp_handle_isScanning(this))
     return Sane.STATUS_DEVICE_BUSY
 
   RETURN_IF_FAIL( sanei_hp_scsi_new(&scsi, this.dev.sanedev.name) )
@@ -479,26 +479,26 @@ sanei_hp_handle_control(HpHandle this, Int optnum,
   status = sanei_hp_optset_control(this.dev.options, this.data,
                                    optnum, action, valp, info, scsi,
                                    immediate)
-  sanei_hp_scsi_destroy ( scsi,0 )
+  sanei_hp_scsi_destroy( scsi,0 )
 
   return status
 }
 
 Sane.Status
-sanei_hp_handle_getParameters (HpHandle this, Sane.Parameters *params)
+sanei_hp_handle_getParameters(HpHandle this, Sane.Parameters *params)
 {
   Sane.Status   status
 
-  if (!params)
+  if(!params)
       return Sane.STATUS_GOOD
 
-  if (this.cancelled)
+  if(this.cancelled)
   {
     DBG(1, "sanei_hp_handle_getParameters: cancelled. Stop scan\n")
     RETURN_IF_FAIL( hp_handle_stopScan(this) )
   }
 
-  if (hp_handle_isScanning(this))
+  if(hp_handle_isScanning(this))
     {
       *params = this.scan_params
       return Sane.STATUS_GOOD
@@ -509,11 +509,11 @@ sanei_hp_handle_getParameters (HpHandle this, Sane.Parameters *params)
 #ifdef INQUIRE_AFTER_SCAN
   /* Photosmart: this gives the correct number of lines when doing
      an update of the SANE parameters right after a preview */
-  if (!strcmp("C5100A", this.dev.sanedev.model)) {
+  if(!strcmp("C5100A", this.dev.sanedev.model)) {
       HpScsi        scsi
       Sane.Parameters * p    = &this.scan_params
 
-    if (!FAILED( sanei_hp_scsi_new(&scsi, this.dev.sanedev.name) )) {
+    if(!FAILED( sanei_hp_scsi_new(&scsi, this.dev.sanedev.name) )) {
       RETURN_IF_FAIL( sanei_hp_scl_inquire(scsi, SCL_NUMBER_OF_LINES,
            &p.lines,0,0))
       sanei_hp_scsi_destroy(scsi,0)
@@ -525,7 +525,7 @@ sanei_hp_handle_getParameters (HpHandle this, Sane.Parameters *params)
 }
 
 Sane.Status
-sanei_hp_handle_startScan (HpHandle this)
+sanei_hp_handle_startScan(HpHandle this)
 {
   Sane.Status	status
   HpScsi	scsi
@@ -535,7 +535,7 @@ sanei_hp_handle_startScan (HpHandle this)
 
   /* FIXME: setup preview mode stuff? */
 
-  if (hp_handle_isScanning(this))
+  if(hp_handle_isScanning(this))
   {
       DBG(3,"sanei_hp_handle_startScan: Stop current scan\n")
       RETURN_IF_FAIL( hp_handle_stopScan(this) )
@@ -545,28 +545,28 @@ sanei_hp_handle_startScan (HpHandle this)
 
   status = sanei_hp_optset_download(this.dev.options, this.data, scsi)
 
-  if (!FAILED(status))
+  if(!FAILED(status))
      status = hp_handle_uploadParameters(this, scsi,
                                          &(procdata.bits_per_channel),
                                          &(procdata.invert),
                                          &(procdata.out8))
 
-  if (FAILED(status))
+  if(FAILED(status))
     {
       sanei_hp_scsi_destroy(scsi,0)
       return status
     }
 
   procdata.mirror_vertical =
-     sanei_hp_optset_mirror_vert (this.dev.options, this.data, scsi)
+     sanei_hp_optset_mirror_vert(this.dev.options, this.data, scsi)
   DBG(1, "start: %s to mirror image vertically\n", procdata.mirror_vertical ?
          "Request" : "No request" )
 
-  scl = sanei_hp_optset_scan_type (this.dev.options, this.data)
+  scl = sanei_hp_optset_scan_type(this.dev.options, this.data)
   adfscan = (scl ==  SCL_ADF_SCAN)
 
   /* For ADF scan we should check if there is paper available */
-  if ( adfscan )
+  if( adfscan )
   {Int adfstat = 0
    Int can_check_paper = 0
    Int is_flatbed = 0
@@ -585,10 +585,10 @@ sanei_hp_handle_startScan (HpHandle this)
      */
 
     /* Check the IIp group */
-    if (   (sanei_hp_device_support_get (this.dev.sanedev.name,
+    if(   (sanei_hp_device_support_get(this.dev.sanedev.name,
                                        SCL_UNLOAD, &minval, &maxval)
               != Sane.STATUS_GOOD )
-        && (sanei_hp_device_support_get (this.dev.sanedev.name,
+        && (sanei_hp_device_support_get(this.dev.sanedev.name,
                                        SCL_CHANGE_DOC, &minval, &maxval)
               != Sane.STATUS_GOOD ) )
     {
@@ -601,11 +601,11 @@ sanei_hp_handle_startScan (HpHandle this)
       is_flatbed = 0
     }
 /*
-    else if ( sanei_hp_device_support_get (this.dev.sanedev.name,
+    else if( sanei_hp_device_support_get(this.dev.sanedev.name,
                                        SCL_PRELOAD_ADF, &minval, &maxval)
               != Sane.STATUS_GOOD )
 */
-    else if ( sanei_hp_is_flatbed_adf (scsi) )
+    else if( sanei_hp_is_flatbed_adf(scsi) )
     {
       DBG(3, "start: Request for ADF scan without support of preload doc.\n")
       DBG(3, "       Seems to be a flatbed ADF.\n")
@@ -626,7 +626,7 @@ sanei_hp_handle_startScan (HpHandle this)
     }
 
     /* Check if the ADF is ready */
-    if (  sanei_hp_scl_inquire(scsi, SCL_ADF_READY, &adfstat, 0, 0)
+    if(  sanei_hp_scl_inquire(scsi, SCL_ADF_READY, &adfstat, 0, 0)
             != Sane.STATUS_GOOD )
     {
       DBG(1, "start: Error checking if ADF is ready\n")
@@ -634,7 +634,7 @@ sanei_hp_handle_startScan (HpHandle this)
       return Sane.STATUS_UNSUPPORTED
     }
 
-    if ( adfstat != 1 )
+    if( adfstat != 1 )
     {
       DBG(1, "start: ADF is not ready. Finished.\n")
       sanei_hp_scsi_destroy(scsi,0)
@@ -642,9 +642,9 @@ sanei_hp_handle_startScan (HpHandle this)
     }
 
     /* Check paper in ADF */
-    if ( can_check_paper )
+    if( can_check_paper )
     {
-      if (  sanei_hp_scl_inquire(scsi, SCL_ADF_BIN, &adfstat, 0, 0)
+      if(  sanei_hp_scl_inquire(scsi, SCL_ADF_BIN, &adfstat, 0, 0)
               != Sane.STATUS_GOOD )
       {
         DBG(1, "start: Error checking if paper in ADF\n")
@@ -652,16 +652,16 @@ sanei_hp_handle_startScan (HpHandle this)
         return Sane.STATUS_UNSUPPORTED
       }
 
-      if ( adfstat != 1 )
+      if( adfstat != 1 )
       {
         DBG(1, "start: No paper in ADF bin. Finished.\n")
         sanei_hp_scsi_destroy(scsi,0)
         return Sane.STATUS_NO_DOCS
       }
 
-      if ( is_flatbed )
+      if( is_flatbed )
       {
-        if ( sanei_hp_scl_set(scsi, SCL_CHANGE_DOC, 0) != Sane.STATUS_GOOD )
+        if( sanei_hp_scl_set(scsi, SCL_CHANGE_DOC, 0) != Sane.STATUS_GOOD )
         {
           DBG(1, "start: Error changing document\n")
           sanei_hp_scsi_destroy(scsi,0)
@@ -681,7 +681,7 @@ sanei_hp_handle_startScan (HpHandle this)
       this.scan_params.pixels_per_line, this.scan_params.bytes_per_line,
       this.scan_params.lines)
   procdata.bytes_per_line = (Int)this.scan_params.bytes_per_line
-  if (procdata.out8)
+  if(procdata.out8)
   {
     procdata.bytes_per_line *= 2
     DBG(1,"(scanner will send %d bytes per line, 8 bit output forced)\n",
@@ -692,7 +692,7 @@ sanei_hp_handle_startScan (HpHandle this)
   /* Wait for front-panel button push ? */
   status = sanei_hp_optset_start_wait(this.dev.options, this.data)
 
-  if (status)   /* Wait for front button push ? Start scan in reader process */
+  if(status)   /* Wait for front button push ? Start scan in reader process */
   {
     procdata.startscan = scl
     status = Sane.STATUS_GOOD
@@ -703,13 +703,13 @@ sanei_hp_handle_startScan (HpHandle this)
     status = sanei_hp_scl_startScan(scsi, scl)
   }
 
-  if (!FAILED( status ))
+  if(!FAILED( status ))
   {
       status = hp_handle_startReader(this, scsi)
   }
 
   /* Close SCSI-connection in forked environment */
-  if (this.child_forked)
+  if(this.child_forked)
     sanei_hp_scsi_destroy(scsi,0)
 
   return status
@@ -717,7 +717,7 @@ sanei_hp_handle_startScan (HpHandle this)
 
 
 Sane.Status
-sanei_hp_handle_read (HpHandle this, void * buf, size_t *lengthp)
+sanei_hp_handle_read(HpHandle this, void * buf, size_t *lengthp)
 {
   ssize_t	nread
   Sane.Status	status
@@ -725,29 +725,29 @@ sanei_hp_handle_read (HpHandle this, void * buf, size_t *lengthp)
   DBG(3, "sanei_hp_handle_read: trying to read %lu bytes\n",
       (unsigned long) *lengthp)
 
-  if (!hp_handle_isScanning(this))
+  if(!hp_handle_isScanning(this))
     {
       DBG(1, "sanei_hp_handle_read: not scanning\n")
       return Sane.STATUS_INVAL
     }
 
-  if (this.cancelled)
+  if(this.cancelled)
     {
       DBG(1, "sanei_hp_handle_read: cancelled. Stop scan\n")
       RETURN_IF_FAIL( hp_handle_stopScan(this) )
       return Sane.STATUS_CANCELLED
     }
 
-  if (*lengthp == 0)
+  if(*lengthp == 0)
       return Sane.STATUS_GOOD
 
-  if (*lengthp > this.bytes_left)
+  if(*lengthp > this.bytes_left)
       *lengthp = this.bytes_left
 
-  if ((nread = read(this.pipe_read_fd, buf, *lengthp)) < 0)
+  if((nread = read(this.pipe_read_fd, buf, *lengthp)) < 0)
     {
       *lengthp = 0
-      if (errno == EAGAIN)
+      if(errno == EAGAIN)
 	  return Sane.STATUS_GOOD
       DBG(1, "sanei_hp_handle_read: read from pipe: %s. Stop scan\n",
           strerror(errno))
@@ -757,7 +757,7 @@ sanei_hp_handle_read (HpHandle this, void * buf, size_t *lengthp)
 
   this.bytes_left -= (*lengthp = nread)
 
-  if (nread > 0)
+  if(nread > 0)
     {
       DBG(3, "sanei_hp_handle_read: read %lu bytes\n", (unsigned long) nread)
       return Sane.STATUS_GOOD
@@ -768,18 +768,18 @@ sanei_hp_handle_read (HpHandle this, void * buf, size_t *lengthp)
   RETURN_IF_FAIL( hp_handle_stopScan(this) )
 
   /* Switch off lamp and check unload after scan */
-  if (status == Sane.STATUS_EOF)
+  if(status == Sane.STATUS_EOF)
   {
     const HpDeviceInfo *hpinfo
     HpScsi scsi
 
-    if ( sanei_hp_scsi_new(&scsi, this.dev.sanedev.name) == Sane.STATUS_GOOD )
+    if( sanei_hp_scsi_new(&scsi, this.dev.sanedev.name) == Sane.STATUS_GOOD )
     {
-      hpinfo = sanei_hp_device_info_get ( this.dev.sanedev.name )
+      hpinfo = sanei_hp_device_info_get( this.dev.sanedev.name )
 
-      if ( hpinfo )
+      if( hpinfo )
       {
-        if ( hpinfo.unload_after_scan )
+        if( hpinfo.unload_after_scan )
           sanei_hp_scl_set(scsi, SCL_UNLOAD, 0)
       }
 
@@ -790,48 +790,48 @@ sanei_hp_handle_read (HpHandle this, void * buf, size_t *lengthp)
 }
 
 void
-sanei_hp_handle_cancel (HpHandle this)
+sanei_hp_handle_cancel(HpHandle this)
 {
   this.cancelled = 1
   /* The OfficeJet K series may not deliver enough data. */
   /* Therefore the read might not return until it is interrupted. */
   DBG(3,"sanei_hp_handle_cancel: compat flags: 0x%04x\n",
       (Int)this.dev.compat)
-  if (    (this.reader_pid)
+  if(    (this.reader_pid)
        && (this.dev.compat & HP_COMPAT_OJ_1150C) )
   {
-     DBG(3,"sanei_hp_handle_cancel: send SIGTERM to child (%ld)\n",
+     DBG(3,"sanei_hp_handle_cancel: send SIGTERM to child(%ld)\n",
          (long) this.reader_pid)
      sanei_thread_kill(this.reader_pid)
   }
 }
 
 Sane.Status
-sanei_hp_handle_setNonblocking (HpHandle this, hp_bool_t non_blocking)
+sanei_hp_handle_setNonblocking(HpHandle this, hp_bool_t non_blocking)
 {
-  if (!hp_handle_isScanning(this))
+  if(!hp_handle_isScanning(this))
       return Sane.STATUS_INVAL
 
-  if (this.cancelled)
+  if(this.cancelled)
     {
       DBG(3,"sanei_hp_handle_setNonblocking: cancelled. Stop scan\n")
       RETURN_IF_FAIL( hp_handle_stopScan(this) )
       return Sane.STATUS_CANCELLED
     }
 
-  if (fcntl(this.pipe_read_fd, F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0)
+  if(fcntl(this.pipe_read_fd, F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0)
       return Sane.STATUS_IO_ERROR
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-sanei_hp_handle_getPipefd (HpHandle this, Int *fd)
+sanei_hp_handle_getPipefd(HpHandle this, Int *fd)
 {
-  if (! hp_handle_isScanning(this))
+  if(! hp_handle_isScanning(this))
       return Sane.STATUS_INVAL
 
-  if (this.cancelled)
+  if(this.cancelled)
     {
       DBG(3,"sanei_hp_handle_getPipefd: cancelled. Stop scan\n")
       RETURN_IF_FAIL( hp_handle_stopScan(this) )

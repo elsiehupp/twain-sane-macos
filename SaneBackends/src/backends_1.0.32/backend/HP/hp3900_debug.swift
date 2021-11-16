@@ -1,13 +1,13 @@
 /* HP Scanjet 3900 series - Debugging functions for standalone
 
-   Copyright (C) 2005-2008 Jonathan Bravo Lopez <jkdsoft@gmail.com>
+   Copyright(C) 2005-2008 Jonathan Bravo Lopez <jkdsoft@gmail.com>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
    as published by the Free Software Foundation; either version 2
-   of the License, or (at your option) any later version.
+   of the License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -53,30 +53,30 @@ import tiffio		/* dbg_tiff_save */
 
 /* headers */
 
-static void dump_shading (struct st_calibration *myCalib)
-static char *dbg_scantype (Int type)
-static void dbg_scanmodes (struct st_device *dev)
-static void dbg_motorcurves (struct st_device *dev)
-static void dbg_motormoves (struct st_device *dev)
-static void dbg_hwdcfg (struct st_hwdconfig *params)
-static void dbg_ScanParams (struct st_scanparams *params)
-static void dbg_calibtable (struct st_gain_offset *params)
-static char *dbg_colour (Int colour)
-static void dbg_motorcfg (struct st_motorcfg *motorcfg)
-static void dbg_buttons (struct st_buttons *buttons)
-static void dbg_sensor (struct st_sensorcfg *sensor)
-static void dbg_timing (struct st_timing *mt)
-static void dbg_sensorclock (struct st_cph *cph)
-static void dbg_tiff_save (char *sFile, Int width, Int height,
+static void dump_shading(struct st_calibration *myCalib)
+static char *dbg_scantype(Int type)
+static void dbg_scanmodes(struct st_device *dev)
+static void dbg_motorcurves(struct st_device *dev)
+static void dbg_motormoves(struct st_device *dev)
+static void dbg_hwdcfg(struct st_hwdconfig *params)
+static void dbg_ScanParams(struct st_scanparams *params)
+static void dbg_calibtable(struct st_gain_offset *params)
+static char *dbg_colour(Int colour)
+static void dbg_motorcfg(struct st_motorcfg *motorcfg)
+static void dbg_buttons(struct st_buttons *buttons)
+static void dbg_sensor(struct st_sensorcfg *sensor)
+static void dbg_timing(struct st_timing *mt)
+static void dbg_sensorclock(struct st_cph *cph)
+static void dbg_tiff_save(char *sFile, Int width, Int height,
 			   Int depth, Int colortype, Int res_x,
 			   Int res_y, Sane.Byte * buffer, Int size)
-static void dbg_autoref (struct st_scanparams *scancfg, Sane.Byte * pattern,
+static void dbg_autoref(struct st_scanparams *scancfg, Sane.Byte * pattern,
 			 Int ser1, Int ser2, Int ler)
 
 #ifdef developing
-static void dbg_buffer (Int level, char *title, Sane.Byte * buffer,
+static void dbg_buffer(Int level, char *title, Sane.Byte * buffer,
 			Int size, Int start)
-static void dbg_registers (Sane.Byte * buffer)
+static void dbg_registers(Sane.Byte * buffer)
 #endif
 
 #ifdef STANDALONE
@@ -86,15 +86,15 @@ static void dbg_registers (Sane.Byte * buffer)
 Int DBG_LEVEL = 0
 
 static void
-DBG (Int level, const char *msg, ...)
+DBG(Int level, const char *msg, ...)
 {
   va_list ap
-  va_start (ap, msg)
+  va_start(ap, msg)
 
-  if (level <= DBG_LEVEL)
-    vfprintf (stderr, msg, ap)
+  if(level <= DBG_LEVEL)
+    vfprintf(stderr, msg, ap)
 
-  va_end (ap)
+  va_end(ap)
 }
 
 #endif
@@ -102,35 +102,35 @@ DBG (Int level, const char *msg, ...)
 /* debugging functions */
 
 static void
-dump_shading (struct st_calibration *myCalib)
+dump_shading(struct st_calibration *myCalib)
 {
-  if (myCalib != NULL)
+  if(myCalib != NULL)
     {
       Int colour, a
       FILE *shadingfile[3]
 
-      shadingfile[0] = fopen ("RShading.txt", "w")
-      shadingfile[1] = fopen ("GShading.txt", "w")
-      shadingfile[2] = fopen ("BShading.txt", "w")
+      shadingfile[0] = fopen("RShading.txt", "w")
+      shadingfile[1] = fopen("GShading.txt", "w")
+      shadingfile[2] = fopen("BShading.txt", "w")
 
-      for (colour = 0; colour < 3; colour++)
+      for(colour = 0; colour < 3; colour++)
 	{
-	  if (shadingfile[colour] != NULL)
+	  if(shadingfile[colour] != NULL)
 	    {
-	      for (a = 0; a < myCalib.shadinglength; a++)
-		fprintf (shadingfile[colour], "%04i: %04x %04x\n", a,
+	      for(a = 0; a < myCalib.shadinglength; a++)
+		fprintf(shadingfile[colour], "%04i: %04x %04x\n", a,
 			 (unsigned Int) myCalib.white_shading[colour][a],
 			 (unsigned Int) myCalib.black_shading[colour][a])
-	      fclose (shadingfile[colour])
+	      fclose(shadingfile[colour])
 	    }
 	}
     }
 }
 
 static char *
-dbg_scantype (Int type)
+dbg_scantype(Int type)
 {
-  switch (type)
+  switch(type)
     {
     case ST_NORMAL:
       return "ST_NORMAL"
@@ -148,58 +148,58 @@ dbg_scantype (Int type)
 }
 
 static void
-dbg_sensorclock (struct st_cph *cph)
+dbg_sensorclock(struct st_cph *cph)
 {
-  if (cph != NULL)
+  if(cph != NULL)
     {
-      DBG (DBG_FNC, " -> cph.p1 = %f\n", cph.p1)
-      DBG (DBG_FNC, " -> cph.p2 = %f\n", cph.p2)
-      DBG (DBG_FNC, " -> cph.ps = %i\n", cph.ps)
-      DBG (DBG_FNC, " -> cph.ge = %i\n", cph.ge)
-      DBG (DBG_FNC, " -> cph.go = %i\n", cph.go)
+      DBG(DBG_FNC, " -> cph.p1 = %f\n", cph.p1)
+      DBG(DBG_FNC, " -> cph.p2 = %f\n", cph.p2)
+      DBG(DBG_FNC, " -> cph.ps = %i\n", cph.ps)
+      DBG(DBG_FNC, " -> cph.ge = %i\n", cph.ge)
+      DBG(DBG_FNC, " -> cph.go = %i\n", cph.go)
     }
   else
-    DBG (DBG_FNC, " -> cph is NULL\n")
+    DBG(DBG_FNC, " -> cph is NULL\n")
 }
 
 static void
-dbg_timing (struct st_timing *mt)
+dbg_timing(struct st_timing *mt)
 {
-  if (mt != NULL)
+  if(mt != NULL)
     {
-      DBG (DBG_FNC, " -> mt.cdss[0]   = %i\n", _B0 (mt.cdss[0]))
-      DBG (DBG_FNC, " -> mt.cdsc[0]   = %i\n", _B0 (mt.cdsc[0]))
-      DBG (DBG_FNC, " -> mt.cdss[1]   = %i\n", _B0 (mt.cdss[1]))
-      DBG (DBG_FNC, " -> mt.cdsc[1]   = %i\n", _B0 (mt.cdsc[1]))
-      DBG (DBG_FNC, " -> mt.cnpp      = %i\n", _B0 (mt.cnpp))
-      DBG (DBG_FNC, " -> mt.cvtrp0    = %i\n", _B0 (mt.cvtrp[0]))
-      DBG (DBG_FNC, " -> mt.cvtrp1    = %i\n", _B0 (mt.cvtrp[1]))
-      DBG (DBG_FNC, " -> mt.cvtrp2    = %i\n", _B0 (mt.cvtrp[2]))
-      DBG (DBG_FNC, " -> mt.cvtrfpw   = %i\n", _B0 (mt.cvtrfpw))
-      DBG (DBG_FNC, " -> mt.cvtrbpw   = %i\n", _B0 (mt.cvtrbpw))
-      DBG (DBG_FNC, " -> mt.cvtrw     = %i\n", _B0 (mt.cvtrw))
-      DBG (DBG_FNC, " -> mt.clamps    = 0x%08x\n", mt.clamps)
-      DBG (DBG_FNC, " -> mt.clampe    = 0x%08x\n", mt.clampe)
-      DBG (DBG_FNC, " -> mt.adcclkp0  = %f\n", mt.adcclkp[0])
-      DBG (DBG_FNC, " -> mt.adcclkp1  = %f\n", mt.adcclkp[1])
-      DBG (DBG_FNC, " -> mt.adcclkp2e = %i\n", mt.adcclkp2e)
-      DBG (DBG_FNC, " -> mt.cphbp2s   = %i\n", mt.cphbp2s)
-      DBG (DBG_FNC, " -> mt.cphbp2e   = %i\n", mt.cphbp2e)
+      DBG(DBG_FNC, " -> mt.cdss[0]   = %i\n", _B0 (mt.cdss[0]))
+      DBG(DBG_FNC, " -> mt.cdsc[0]   = %i\n", _B0 (mt.cdsc[0]))
+      DBG(DBG_FNC, " -> mt.cdss[1]   = %i\n", _B0 (mt.cdss[1]))
+      DBG(DBG_FNC, " -> mt.cdsc[1]   = %i\n", _B0 (mt.cdsc[1]))
+      DBG(DBG_FNC, " -> mt.cnpp      = %i\n", _B0 (mt.cnpp))
+      DBG(DBG_FNC, " -> mt.cvtrp0    = %i\n", _B0 (mt.cvtrp[0]))
+      DBG(DBG_FNC, " -> mt.cvtrp1    = %i\n", _B0 (mt.cvtrp[1]))
+      DBG(DBG_FNC, " -> mt.cvtrp2    = %i\n", _B0 (mt.cvtrp[2]))
+      DBG(DBG_FNC, " -> mt.cvtrfpw   = %i\n", _B0 (mt.cvtrfpw))
+      DBG(DBG_FNC, " -> mt.cvtrbpw   = %i\n", _B0 (mt.cvtrbpw))
+      DBG(DBG_FNC, " -> mt.cvtrw     = %i\n", _B0 (mt.cvtrw))
+      DBG(DBG_FNC, " -> mt.clamps    = 0x%08x\n", mt.clamps)
+      DBG(DBG_FNC, " -> mt.clampe    = 0x%08x\n", mt.clampe)
+      DBG(DBG_FNC, " -> mt.adcclkp0  = %f\n", mt.adcclkp[0])
+      DBG(DBG_FNC, " -> mt.adcclkp1  = %f\n", mt.adcclkp[1])
+      DBG(DBG_FNC, " -> mt.adcclkp2e = %i\n", mt.adcclkp2e)
+      DBG(DBG_FNC, " -> mt.cphbp2s   = %i\n", mt.cphbp2s)
+      DBG(DBG_FNC, " -> mt.cphbp2e   = %i\n", mt.cphbp2e)
     }
   else
-    DBG (DBG_FNC, " -> mt is NULL\n")
+    DBG(DBG_FNC, " -> mt is NULL\n")
 }
 
 static void
-dbg_sensor (struct st_sensorcfg *sensor)
+dbg_sensor(struct st_sensorcfg *sensor)
 {
-  if (sensor != NULL)
+  if(sensor != NULL)
     {
-      DBG (DBG_FNC,
+      DBG(DBG_FNC,
 	   " -> type, name, res , {chn_color }, {chn_gray}, {rgb_order }, line_dist, evnodd_dist\n")
-      DBG (DBG_FNC,
+      DBG(DBG_FNC,
 	   " -> ----, ----, --- , {--, --, --}, {--, --  }, {--, --, --}, ---------, -----------\n")
-      DBG (DBG_FNC,
+      DBG(DBG_FNC,
 	   " -> %4i, %4i, %4i, {%2i, %2i, %2i}, {%2i, %2i  }, {%2i, %2i, %2i}, %9i, %11i\n",
 	   sensor.type, sensor.name, sensor.resolution,
 	   sensor.channel_color[0], sensor.channel_color[1],
@@ -209,46 +209,46 @@ dbg_sensor (struct st_sensorcfg *sensor)
 	   sensor.evenodd_distance)
     }
   else
-    DBG (DBG_FNC, " -> sensor is NULL\n")
+    DBG(DBG_FNC, " -> sensor is NULL\n")
 }
 
 static void
-dbg_buttons (struct st_buttons *buttons)
+dbg_buttons(struct st_buttons *buttons)
 {
-  if (buttons != NULL)
+  if(buttons != NULL)
     {
-      DBG (DBG_FNC, " -> count, btn1, btn2, btn3, btn4, btn5, btn6\n")
-      DBG (DBG_FNC, " -> -----, ----, ----, ----, ----, ----, ----\n")
-      DBG (DBG_FNC, " -> %5i, %4i, %4i, %4i, %4i, %4i, %4i\n",
+      DBG(DBG_FNC, " -> count, btn1, btn2, btn3, btn4, btn5, btn6\n")
+      DBG(DBG_FNC, " -> -----, ----, ----, ----, ----, ----, ----\n")
+      DBG(DBG_FNC, " -> %5i, %4i, %4i, %4i, %4i, %4i, %4i\n",
 	   buttons.count, buttons.mask[0], buttons.mask[1],
 	   buttons.mask[2], buttons.mask[3], buttons.mask[4],
 	   buttons.mask[5])
     }
   else
-    DBG (DBG_FNC, " -> buttons is NULL\n")
+    DBG(DBG_FNC, " -> buttons is NULL\n")
 }
 
 static void
-dbg_scanmodes (struct st_device *dev)
+dbg_scanmodes(struct st_device *dev)
 {
-  if (dev.scanmodes_count > 0)
+  if(dev.scanmodes_count > 0)
     {
       Int a
       struct st_scanmode *reg
 
-      DBG (DBG_FNC,
+      DBG(DBG_FNC,
 	   " -> ##, ST       , CM        , RES , TM, CV, SR, CLK, CTPC  , BKS , STT, DML, {   Exposure times     }, { Max exposure times   }, MP , MExp16, MExpF, MExp, MRI, MSI, MMTIR, MMTIRH, SK\n")
-      DBG (DBG_FNC,
+      DBG(DBG_FNC,
 	   " -> --, ---------, ----------, --- , --, --, --, ---, ------, ----, ---, ---, {------  ------  ------}, {------  ------  ------}, ---, ------, -----, ----, ---, ---, -----, ------, --\n")
-      for (a = 0; a < dev.scanmodes_count; a++)
+      for(a = 0; a < dev.scanmodes_count; a++)
 	{
 	  reg = dev.scanmodes[a]
-	  if (reg != NULL)
+	  if(reg != NULL)
 	    {
-	      DBG (DBG_FNC,
+	      DBG(DBG_FNC,
 		   " -> %2i, %9s, %10s, %4i, %2i, %2i, %2i, %3i, %6i, %4i, %3i, %3i, {%6i, %6i, %6i}, {%6i, %6i, %6i}, %3i, %6i, %5i, %4i, %3i, %3i, %5i, %6i, %2i\n",
-		   a, dbg_scantype (reg.scantype),
-		   dbg_colour (reg.colormode), reg.resolution, reg.timing,
+		   a, dbg_scantype(reg.scantype),
+		   dbg_colour(reg.colormode), reg.resolution, reg.timing,
 		   reg.motorcurve, reg.samplerate, reg.systemclock,
 		   reg.ctpc, reg.motorbackstep, reg.scanmotorsteptype,
 		   reg.dummyline, reg.expt[0], reg.expt[1], reg.expt[2],
@@ -263,145 +263,145 @@ dbg_scanmodes (struct st_device *dev)
 }
 
 static void
-dbg_motorcurves (struct st_device *dev)
+dbg_motorcurves(struct st_device *dev)
 {
-  if (dev.mtrsetting != NULL)
+  if(dev.mtrsetting != NULL)
     {
       struct st_motorcurve *mtc
       Int a = 0
 
-      while (a < dev.mtrsetting_count)
+      while(a < dev.mtrsetting_count)
 	{
-	  DBG (DBG_FNC, " -> Motorcurve %2i: ", a)
+	  DBG(DBG_FNC, " -> Motorcurve %2i: ", a)
 	  mtc = dev.mtrsetting[a]
-	  if (mtc != NULL)
+	  if(mtc != NULL)
 	    {
-	      DBG (DBG_FNC, "mri=%i msi=%i skip=%i bckstp=%i\n", mtc.mri,
+	      DBG(DBG_FNC, "mri=%i msi=%i skip=%i bckstp=%i\n", mtc.mri,
 		   mtc.msi, mtc.skiplinecount, mtc.motorbackstep)
-	      if (mtc.curve_count > 0)
+	      if(mtc.curve_count > 0)
 		{
-		  char *sdata = (char *) malloc (256)
-		  if (sdata != NULL)
+		  char *sdata = (char *) malloc(256)
+		  if(sdata != NULL)
 		    {
-		      char *sline = (char *) malloc (256)
-		      if (sline != NULL)
+		      char *sline = (char *) malloc(256)
+		      if(sline != NULL)
 			{
 			  Int count
 			  struct st_curve *crv
 
-			  DBG (DBG_FNC,
+			  DBG(DBG_FNC,
 			       " ->  ##, dir, type      , count, from, to  , steps\n")
-			  DBG (DBG_FNC,
+			  DBG(DBG_FNC,
 			       " ->  --, ---, ----------, -----, ----, ----, -----\n")
 
 			  count = 0
-			  while (count < mtc.curve_count)
+			  while(count < mtc.curve_count)
 			    {
-			      memset (sline, 0, 256)
+			      memset(sline, 0, 256)
 
-			      snprintf (sdata, 256, " ->  %02i, ", count)
-			      strcat (sline, sdata)
+			      snprintf(sdata, 256, " ->  %02i, ", count)
+			      strcat(sline, sdata)
 
 			      crv = mtc.curve[count]
-			      if (crv != NULL)
+			      if(crv != NULL)
 				{
-				  if (crv.crv_speed == ACC_CURVE)
-				    strcat (sline, "ACC, ")
+				  if(crv.crv_speed == ACC_CURVE)
+				    strcat(sline, "ACC, ")
 				  else
-				    strcat (sline, "DEC, ")
+				    strcat(sline, "DEC, ")
 
-				  switch (crv.crv_type)
+				  switch(crv.crv_type)
 				    {
 				    case CRV_NORMALSCAN:
-				      strcat (sline, "NORMALSCAN, ")
+				      strcat(sline, "NORMALSCAN, ")
 				      break
 				    case CRV_PARKHOME:
-				      strcat (sline, "PARKHOME  , ")
+				      strcat(sline, "PARKHOME  , ")
 				      break
 				    case CRV_SMEARING:
-				      strcat (sline, "SMEARING  , ")
+				      strcat(sline, "SMEARING  , ")
 				      break
 				    case CRV_BUFFERFULL:
-				      strcat (sline, "BUFFERFULL, ")
+				      strcat(sline, "BUFFERFULL, ")
 				      break
 				    default:
-				      snprintf (sdata, 256, "unknown %2i, ",
+				      snprintf(sdata, 256, "unknown %2i, ",
 						crv.crv_type)
-				      strcat (sline, sdata)
+				      strcat(sline, sdata)
 				      break
 				    }
 
-				  snprintf (sdata, 256, "%5i, ",
+				  snprintf(sdata, 256, "%5i, ",
 					    crv.step_count)
-				  strcat (sline, sdata)
-				  if (crv.step_count > 0)
+				  strcat(sline, sdata)
+				  if(crv.step_count > 0)
 				    {
 				      Int stpcount = 0
 
-				      snprintf (sdata, 256, "%4i, %4i| ",
+				      snprintf(sdata, 256, "%4i, %4i| ",
 						crv.step[0],
 						crv.step[crv.step_count -
 							  1])
-				      strcat (sline, sdata)
+				      strcat(sline, sdata)
 
-				      while (stpcount < crv.step_count)
+				      while(stpcount < crv.step_count)
 					{
-					  if (stpcount == 10)
+					  if(stpcount == 10)
 					    {
-					      strcat (sline, "...")
+					      strcat(sline, "...")
 					      break
 					    }
-					  if (stpcount > 0)
-					    strcat (sline, ", ")
+					  if(stpcount > 0)
+					    strcat(sline, ", ")
 
-					  snprintf (sdata, 256, "%4i",
+					  snprintf(sdata, 256, "%4i",
 						    crv.step[stpcount])
-					  strcat (sline, sdata)
+					  strcat(sline, sdata)
 
 					  stpcount++
 					}
-				      strcat (sline, "\n")
+				      strcat(sline, "\n")
 				    }
 				  else
-				    strcat (sline, "NONE\n")
+				    strcat(sline, "NONE\n")
 				}
 			      else
-				strcat (sline, "NULL ...\n")
+				strcat(sline, "NULL ...\n")
 
-			      DBG (DBG_FNC, "%s", sline)
+			      DBG(DBG_FNC, "%s", sline)
 
 			      count++
 			    }
 
-			  free (sline)
+			  free(sline)
 			}
-		      free (sdata)
+		      free(sdata)
 		    }
 		}
 	    }
 	  else
-	    DBG (DBG_FNC, "NULL\n")
+	    DBG(DBG_FNC, "NULL\n")
 	  a++
 	}
     }
 }
 
 static void
-dbg_motormoves (struct st_device *dev)
+dbg_motormoves(struct st_device *dev)
 {
-  if (dev.motormove_count > 0)
+  if(dev.motormove_count > 0)
     {
       Int a
       struct st_motormove *reg
 
-      DBG (DBG_FNC, " -> ##, CLK, CTPC, STT, CV\n")
-      DBG (DBG_FNC, " -> --, ---, ----, ---, --\n")
-      for (a = 0; a < dev.motormove_count; a++)
+      DBG(DBG_FNC, " -> ##, CLK, CTPC, STT, CV\n")
+      DBG(DBG_FNC, " -> --, ---, ----, ---, --\n")
+      for(a = 0; a < dev.motormove_count; a++)
 	{
 	  reg = dev.motormove[a]
-	  if (reg != NULL)
+	  if(reg != NULL)
 	    {
-	      DBG (DBG_FNC, " -> %2i, %3i, %4i, %3i, %2i\n",
+	      DBG(DBG_FNC, " -> %2i, %3i, %4i, %3i, %2i\n",
 		   a, reg.systemclock, reg.ctpc,
 		   reg.scanmotorsteptype, reg.motorcurve)
 	    }
@@ -410,103 +410,103 @@ dbg_motormoves (struct st_device *dev)
 }
 
 static void
-dbg_hwdcfg (struct st_hwdconfig *params)
+dbg_hwdcfg(struct st_hwdconfig *params)
 {
-  if (params != NULL)
+  if(params != NULL)
     {
-      DBG (DBG_FNC, " -> Low level config:\n")
-      DBG (DBG_FNC, " -> startpos              = %i\n", params.startpos)
-      DBG (DBG_FNC, " -> arrangeline           = %s\n",
+      DBG(DBG_FNC, " -> Low level config:\n")
+      DBG(DBG_FNC, " -> startpos              = %i\n", params.startpos)
+      DBG(DBG_FNC, " -> arrangeline           = %s\n",
 	   (params.arrangeline ==
 	    FIX_BY_SOFT) ? "FIX_BY_SOFT" : (params.arrangeline ==
 					    FIX_BY_HARD) ? "FIX_BY_HARD" :
 	   "FIX_BY_NONE")
-      DBG (DBG_FNC, " -> scantype              = %s\n",
-	   dbg_scantype (params.scantype))
-      DBG (DBG_FNC, " -> compression           = %i\n", params.compression)
-      DBG (DBG_FNC, " -> use_gamma_tables      = %i\n",
+      DBG(DBG_FNC, " -> scantype              = %s\n",
+	   dbg_scantype(params.scantype))
+      DBG(DBG_FNC, " -> compression           = %i\n", params.compression)
+      DBG(DBG_FNC, " -> use_gamma_tables      = %i\n",
 	   params.use_gamma_tables)
-      DBG (DBG_FNC, " -> gamma_tablesize       = %i\n",
+      DBG(DBG_FNC, " -> gamma_tablesize       = %i\n",
 	   params.gamma_tablesize)
-      DBG (DBG_FNC, " -> white_shading         = %i\n",
+      DBG(DBG_FNC, " -> white_shading         = %i\n",
 	   params.white_shading)
-      DBG (DBG_FNC, " -> black_shading         = %i\n",
+      DBG(DBG_FNC, " -> black_shading         = %i\n",
 	   params.black_shading)
-      DBG (DBG_FNC, " -> unk3                  = %i\n", params.unk3)
-      DBG (DBG_FNC, " -> motorplus             = %i\n", params.motorplus)
-      DBG (DBG_FNC, " -> static_head           = %i\n", params.static_head)
-      DBG (DBG_FNC, " -> motor_direction       = %s\n",
+      DBG(DBG_FNC, " -> unk3                  = %i\n", params.unk3)
+      DBG(DBG_FNC, " -> motorplus             = %i\n", params.motorplus)
+      DBG(DBG_FNC, " -> static_head           = %i\n", params.static_head)
+      DBG(DBG_FNC, " -> motor_direction       = %s\n",
 	   (params.motor_direction == MTR_FORWARD) ? "FORWARD" : "BACKWARD")
-      DBG (DBG_FNC, " -> dummy_scan            = %i\n", params.dummy_scan)
-      DBG (DBG_FNC, " -> highresolution        = %i\n",
+      DBG(DBG_FNC, " -> dummy_scan            = %i\n", params.dummy_scan)
+      DBG(DBG_FNC, " -> highresolution        = %i\n",
 	   params.highresolution)
-      DBG (DBG_FNC, " -> sensorevenodddistance = %i\n",
+      DBG(DBG_FNC, " -> sensorevenodddistance = %i\n",
 	   params.sensorevenodddistance)
-      DBG (DBG_FNC, " -> calibrate             = %i\n", params.calibrate)
+      DBG(DBG_FNC, " -> calibrate             = %i\n", params.calibrate)
     }
 }
 
 static void
-dbg_ScanParams (struct st_scanparams *params)
+dbg_ScanParams(struct st_scanparams *params)
 {
-  if (params != NULL)
+  if(params != NULL)
     {
-      DBG (DBG_FNC, " -> Scan params:\n")
-      DBG (DBG_FNC, " -> colormode        = %s\n",
-	   dbg_colour (params.colormode))
-      DBG (DBG_FNC, " -> depth            = %i\n", params.depth)
-      DBG (DBG_FNC, " -> samplerate       = %i\n", params.samplerate)
-      DBG (DBG_FNC, " -> timing           = %i\n", params.timing)
-      DBG (DBG_FNC, " -> channel          = %i\n", params.channel)
-      DBG (DBG_FNC, " -> sensorresolution = %i\n", params.sensorresolution)
-      DBG (DBG_FNC, " -> resolution_x     = %i\n", params.resolution_x)
-      DBG (DBG_FNC, " -> resolution_y     = %i\n", params.resolution_y)
-      DBG (DBG_FNC, " -> left             = %i\n", params.coord.left)
-      DBG (DBG_FNC, " -> width            = %i\n", params.coord.width)
-      DBG (DBG_FNC, " -> top              = %i\n", params.coord.top)
-      DBG (DBG_FNC, " -> height           = %i\n", params.coord.height)
-      DBG (DBG_FNC, " -> shadinglength    = %i\n", params.shadinglength)
-      DBG (DBG_FNC, " -> v157c            = %i\n", params.v157c)
-      DBG (DBG_FNC, " -> bytesperline     = %i\n", params.bytesperline)
-      DBG (DBG_FNC, " -> expt             = %i\n", params.expt)
-      DBG (DBG_FNC, " *> startpos         = %i\n", params.startpos)
-      DBG (DBG_FNC, " *> leftleading      = %i\n", params.leftleading)
-      DBG (DBG_FNC, " *> ser              = %i\n", params.ser)
-      DBG (DBG_FNC, " *> ler              = %i\n", params.ler)
-      DBG (DBG_FNC, " *> scantype         = %s\n",
-	   dbg_scantype (params.scantype))
+      DBG(DBG_FNC, " -> Scan params:\n")
+      DBG(DBG_FNC, " -> colormode        = %s\n",
+	   dbg_colour(params.colormode))
+      DBG(DBG_FNC, " -> depth            = %i\n", params.depth)
+      DBG(DBG_FNC, " -> samplerate       = %i\n", params.samplerate)
+      DBG(DBG_FNC, " -> timing           = %i\n", params.timing)
+      DBG(DBG_FNC, " -> channel          = %i\n", params.channel)
+      DBG(DBG_FNC, " -> sensorresolution = %i\n", params.sensorresolution)
+      DBG(DBG_FNC, " -> resolution_x     = %i\n", params.resolution_x)
+      DBG(DBG_FNC, " -> resolution_y     = %i\n", params.resolution_y)
+      DBG(DBG_FNC, " -> left             = %i\n", params.coord.left)
+      DBG(DBG_FNC, " -> width            = %i\n", params.coord.width)
+      DBG(DBG_FNC, " -> top              = %i\n", params.coord.top)
+      DBG(DBG_FNC, " -> height           = %i\n", params.coord.height)
+      DBG(DBG_FNC, " -> shadinglength    = %i\n", params.shadinglength)
+      DBG(DBG_FNC, " -> v157c            = %i\n", params.v157c)
+      DBG(DBG_FNC, " -> bytesperline     = %i\n", params.bytesperline)
+      DBG(DBG_FNC, " -> expt             = %i\n", params.expt)
+      DBG(DBG_FNC, " *> startpos         = %i\n", params.startpos)
+      DBG(DBG_FNC, " *> leftleading      = %i\n", params.leftleading)
+      DBG(DBG_FNC, " *> ser              = %i\n", params.ser)
+      DBG(DBG_FNC, " *> ler              = %i\n", params.ler)
+      DBG(DBG_FNC, " *> scantype         = %s\n",
+	   dbg_scantype(params.scantype))
     }
 }
 
 static void
-dbg_calibtable (struct st_gain_offset *params)
+dbg_calibtable(struct st_gain_offset *params)
 {
-  if (params != NULL)
+  if(params != NULL)
     {
-      DBG (DBG_FNC, " -> Calib table:\n")
-      DBG (DBG_FNC, " -> type     R     G     B\n")
-      DBG (DBG_FNC, " -> -----   ---   ---   ---B\n")
-      DBG (DBG_FNC, " -> edcg1 = %3i , %3i , %3i\n", params.edcg1[0],
+      DBG(DBG_FNC, " -> Calib table:\n")
+      DBG(DBG_FNC, " -> type     R     G     B\n")
+      DBG(DBG_FNC, " -> -----   ---   ---   ---B\n")
+      DBG(DBG_FNC, " -> edcg1 = %3i , %3i , %3i\n", params.edcg1[0],
 	   params.edcg1[1], params.edcg1[2])
-      DBG (DBG_FNC, " -> edcg2 = %3i , %3i , %3i\n", params.edcg2[0],
+      DBG(DBG_FNC, " -> edcg2 = %3i , %3i , %3i\n", params.edcg2[0],
 	   params.edcg2[1], params.edcg2[2])
-      DBG (DBG_FNC, " -> odcg1 = %3i , %3i , %3i\n", params.odcg1[0],
+      DBG(DBG_FNC, " -> odcg1 = %3i , %3i , %3i\n", params.odcg1[0],
 	   params.odcg1[1], params.odcg1[2])
-      DBG (DBG_FNC, " -> odcg2 = %3i , %3i , %3i\n", params.odcg2[0],
+      DBG(DBG_FNC, " -> odcg2 = %3i , %3i , %3i\n", params.odcg2[0],
 	   params.odcg2[1], params.odcg2[2])
-      DBG (DBG_FNC, " -> pag   = %3i , %3i , %3i\n", params.pag[0],
+      DBG(DBG_FNC, " -> pag   = %3i , %3i , %3i\n", params.pag[0],
 	   params.pag[1], params.pag[2])
-      DBG (DBG_FNC, " -> vgag1 = %3i , %3i , %3i\n", params.vgag1[0],
+      DBG(DBG_FNC, " -> vgag1 = %3i , %3i , %3i\n", params.vgag1[0],
 	   params.vgag1[1], params.vgag1[2])
-      DBG (DBG_FNC, " -> vgag2 = %3i , %3i , %3i\n", params.vgag2[0],
+      DBG(DBG_FNC, " -> vgag2 = %3i , %3i , %3i\n", params.vgag2[0],
 	   params.vgag2[1], params.vgag2[2])
     }
 }
 
 static char *
-dbg_colour (Int colour)
+dbg_colour(Int colour)
 {
-  switch (colour)
+  switch(colour)
     {
     case CM_COLOR:
       return "CM_COLOR"
@@ -524,15 +524,15 @@ dbg_colour (Int colour)
 }
 
 static void
-dbg_motorcfg (struct st_motorcfg *motorcfg)
+dbg_motorcfg(struct st_motorcfg *motorcfg)
 {
-  if (motorcfg != NULL)
+  if(motorcfg != NULL)
     {
-      DBG (DBG_FNC,
+      DBG(DBG_FNC,
 	   " -> type, res , freq, speed, base, high, park, change\n")
-      DBG (DBG_FNC,
+      DBG(DBG_FNC,
 	   " -> ----, --- , ----, -----, ----, ----, ----, ------\n")
-      DBG (DBG_FNC, " -> %4i, %4i, %4i, %5i, %4i, %4i, %4i, %6i\n",
+      DBG(DBG_FNC, " -> %4i, %4i, %4i, %5i, %4i, %4i, %4i, %6i\n",
 	   motorcfg.type, motorcfg.resolution, motorcfg.pwmfrequency,
 	   motorcfg.basespeedpps, motorcfg.basespeedmotormove,
 	   motorcfg.highspeedmotormove, motorcfg.parkhomemotormove,
@@ -541,24 +541,24 @@ dbg_motorcfg (struct st_motorcfg *motorcfg)
 }
 
 static void
-dbg_tiff_save (char *sFile, Int width, Int height, Int depth,
+dbg_tiff_save(char *sFile, Int width, Int height, Int depth,
 	       Int colortype, Int res_x, Int res_y,
 	       Sane.Byte * buffer, Int size)
 {
 #ifdef HAVE_TIFFIO_H
-  if (buffer != NULL)
+  if(buffer != NULL)
     {
-      char *path = getenv ("HOME")
+      char *path = getenv("HOME")
 
-      if (path != NULL)
+      if(path != NULL)
 	{
 	  char filename[512]
 	  TIFF *image
 
-	  if (snprintf (filename, 512, "%s/%s", path, sFile) > 0)
+	  if(snprintf(filename, 512, "%s/%s", path, sFile) > 0)
 	    {
 	      /* Open the TIFF file */
-	      if ((image = TIFFOpen (filename, "w")) != NULL)
+	      if((image = TIFFOpen(filename, "w")) != NULL)
 		{
 		  char desc[256]
 
@@ -567,35 +567,35 @@ dbg_tiff_save (char *sFile, Int width, Int height, Int depth,
 		    (colortype ==
 		     CM_GRAY) ? PHOTOMETRIC_MINISBLACK : PHOTOMETRIC_RGB
 
-		  snprintf (desc, 256, "Created with hp3900 %s",
+		  snprintf(desc, 256, "Created with hp3900 %s",
 			    BACKEND_VRSN)
 
 		  /* We need to set some values for basic tags before we can add any data */
-		  TIFFSetField (image, TIFFTAG_IMAGEWIDTH, width)
-		  TIFFSetField (image, TIFFTAG_IMAGELENGTH, height)
-		  TIFFSetField (image, TIFFTAG_BITSPERSAMPLE, depth)
-		  TIFFSetField (image, TIFFTAG_SAMPLESPERPIXEL, spp)
+		  TIFFSetField(image, TIFFTAG_IMAGEWIDTH, width)
+		  TIFFSetField(image, TIFFTAG_IMAGELENGTH, height)
+		  TIFFSetField(image, TIFFTAG_BITSPERSAMPLE, depth)
+		  TIFFSetField(image, TIFFTAG_SAMPLESPERPIXEL, spp)
 
-		  TIFFSetField (image, TIFFTAG_PHOTOMETRIC, ct)
-		  TIFFSetField (image, TIFFTAG_FILLORDER, FILLORDER_MSB2LSB)
-		  TIFFSetField (image, TIFFTAG_PLANARCONFIG,
+		  TIFFSetField(image, TIFFTAG_PHOTOMETRIC, ct)
+		  TIFFSetField(image, TIFFTAG_FILLORDER, FILLORDER_MSB2LSB)
+		  TIFFSetField(image, TIFFTAG_PLANARCONFIG,
 				PLANARCONFIG_CONTIG)
 
-		  TIFFSetField (image, TIFFTAG_XRESOLUTION, (double) res_x)
-		  TIFFSetField (image, TIFFTAG_YRESOLUTION, (double) res_y)
-		  TIFFSetField (image, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH)
-		  TIFFSetField (image, TIFFTAG_IMAGEDESCRIPTION, desc)
+		  TIFFSetField(image, TIFFTAG_XRESOLUTION, (double) res_x)
+		  TIFFSetField(image, TIFFTAG_YRESOLUTION, (double) res_y)
+		  TIFFSetField(image, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH)
+		  TIFFSetField(image, TIFFTAG_IMAGEDESCRIPTION, desc)
 
 		  /* Write the information to the file */
-		  TIFFWriteRawStrip (image, 0, buffer, size)
-		  TIFFClose (image)
+		  TIFFWriteRawStrip(image, 0, buffer, size)
+		  TIFFClose(image)
 		}
 	    }
 	  else
-	    DBG (DBG_ERR, "- dbg_tiff_save: Error generating filename\n")
+	    DBG(DBG_ERR, "- dbg_tiff_save: Error generating filename\n")
 	}
       else
-	DBG (DBG_ERR,
+	DBG(DBG_ERR,
 	     "- dbg_tiff_save: Environment HOME variable does not exist\n")
     }
 #else
@@ -610,25 +610,25 @@ dbg_tiff_save (char *sFile, Int width, Int height, Int depth,
   buffer = buffer
   size = size
 
-  DBG (DBG_ERR, "- dbg_tiff_save: tiffio not supported\n")
+  DBG(DBG_ERR, "- dbg_tiff_save: tiffio not supported\n")
 #endif
 }
 
 static void
-dbg_autoref (struct st_scanparams *scancfg, Sane.Byte * pattern,
+dbg_autoref(struct st_scanparams *scancfg, Sane.Byte * pattern,
 	     Int ser1, Int ser2, Int ler)
 {
   /* this function generates post-autoref.tiff */
   Sane.Byte *img =
-    malloc (sizeof (Sane.Byte) *
+    malloc(sizeof(Sane.Byte) *
 	    (scancfg.coord.width * scancfg.coord.height * 3))
 
-  if (img != NULL)
+  if(img != NULL)
     {
       Int c, value
 
       /* generate image from 1 gray channel to 3 color channels */
-      for (c = 0; c < (scancfg.coord.width * scancfg.coord.height); c++)
+      for(c = 0; c < (scancfg.coord.width * scancfg.coord.height); c++)
 	{
 	  value = *(pattern + c)
 	  *(img + (3 * c)) = value
@@ -636,10 +636,10 @@ dbg_autoref (struct st_scanparams *scancfg, Sane.Byte * pattern,
 	  *(img + (3 * c) + 2) = value
 	}
 
-      for (c = 0; c < scancfg.coord.height; c++)
+      for(c = 0; c < scancfg.coord.height; c++)
 	{
 	  /* line for first SER */
-	  if (c < (ler + 5))
+	  if(c < (ler + 5))
 	    {
 	      *(img + (scancfg.coord.width * c * 3) + (3 * ser1)) = 0
 	      *(img + (scancfg.coord.width * c * 3) + (3 * ser1) + 1) = 255
@@ -647,7 +647,7 @@ dbg_autoref (struct st_scanparams *scancfg, Sane.Byte * pattern,
 	    }
 
 	  /* line for second SER */
-	  if (c > (ler - 5))
+	  if(c > (ler - 5))
 	    {
 	      *(img + (scancfg.coord.width * c * 3) + (3 * ser2)) = 90
 	      *(img + (scancfg.coord.width * c * 3) + (3 * ser2) + 1) = 90
@@ -655,9 +655,9 @@ dbg_autoref (struct st_scanparams *scancfg, Sane.Byte * pattern,
 	    }
 
 	  /* vertical lines of the pointer */
-	  if ((c > (ler - 5)) && (c < (ler + 5)))
+	  if((c > (ler - 5)) && (c < (ler + 5)))
 	    {
-	      if ((ser2 - 5) >= 0)
+	      if((ser2 - 5) >= 0)
 		{
 		  *(img + (scancfg.coord.width * c * 3) + (3 * (ser2 - 5))) =
 		    255
@@ -667,7 +667,7 @@ dbg_autoref (struct st_scanparams *scancfg, Sane.Byte * pattern,
 		    2) = 0
 		}
 
-	      if ((ser2 + 5) < scancfg.coord.width)
+	      if((ser2 + 5) < scancfg.coord.width)
 		{
 		  *(img + (scancfg.coord.width * c * 3) + (3 * (ser2 + 5))) =
 		    255
@@ -680,11 +680,11 @@ dbg_autoref (struct st_scanparams *scancfg, Sane.Byte * pattern,
 	}
 
       /* line for first LER */
-      for (c = 0; c < scancfg.coord.width; c++)
+      for(c = 0; c < scancfg.coord.width; c++)
 	{
-	  if ((c > (ser1 - 5)) && (c < (ser2 + 5)))
+	  if((c > (ser1 - 5)) && (c < (ser2 + 5)))
 	    {
-	      if (c != (ser2 - 5))
+	      if(c != (ser2 - 5))
 		{
 		  *(img + (scancfg.coord.width * ler * 3) + (3 * c)) = 255
 		  *(img + (scancfg.coord.width * ler * 3) + (3 * c) + 1) =
@@ -694,9 +694,9 @@ dbg_autoref (struct st_scanparams *scancfg, Sane.Byte * pattern,
 		}
 
 	      /* horizontal lines of the pointer */
-	      if ((c > (ser2 - 5)) && (c < (ser2 + 5)))
+	      if((c > (ser2 - 5)) && (c < (ser2 + 5)))
 		{
-		  if ((ler - 5) >= 0)
+		  if((ler - 5) >= 0)
 		    {
 		      *(img + (scancfg.coord.width * (ler - 5) * 3) +
 			(3 * c)) = 255
@@ -706,7 +706,7 @@ dbg_autoref (struct st_scanparams *scancfg, Sane.Byte * pattern,
 			(3 * c) + 2) = 0
 		    }
 
-		  if ((ler + 5) < scancfg.coord.height)
+		  if((ler + 5) < scancfg.coord.height)
 		    {
 		      *(img + (scancfg.coord.width * (ler + 5) * 3) +
 			(3 * c)) = 255
@@ -719,26 +719,26 @@ dbg_autoref (struct st_scanparams *scancfg, Sane.Byte * pattern,
 	    }
 	}
 
-      dbg_tiff_save ("post-autoref.tiff", scancfg.coord.width,
+      dbg_tiff_save("post-autoref.tiff", scancfg.coord.width,
 		     scancfg.coord.height, 8, CM_COLOR,
 		     scancfg.resolution_x, scancfg.resolution_y, img,
 		     scancfg.coord.height * scancfg.coord.width * 3)
 
       /* free generated image */
-      free (img)
+      free(img)
     }
 }
 
 #ifdef developing
 
 static void
-dbg_buffer (Int level, char *title, Sane.Byte * buffer, Int size,
+dbg_buffer(Int level, char *title, Sane.Byte * buffer, Int size,
 	    Int start)
 {
-  if (level <= DBG_LEVEL)
+  if(level <= DBG_LEVEL)
     {
-      DBG (level, "%s    ", title)
-      if ((size > 0) && (buffer != NULL))
+      DBG(level, "%s    ", title)
+      if((size > 0) && (buffer != NULL))
 	{
 	  Int cont, data, offset = 0
 	  Int col = 0
@@ -746,64 +746,64 @@ dbg_buffer (Int level, char *title, Sane.Byte * buffer, Int size,
 	  char *sline = NULL
 	  char *sdata = NULL
 
-	  sline = (char *) malloc (81)
-	  if (sline != NULL)
+	  sline = (char *) malloc(81)
+	  if(sline != NULL)
 	    {
-	      sdata = (char *) malloc (81)
-	      if (sdata != NULL)
+	      sdata = (char *) malloc(81)
+	      if(sdata != NULL)
 		{
-		  for (cont = 0; cont < size; cont++)
+		  for(cont = 0; cont < size; cont++)
 		    {
-		      if (col == 0)
+		      if(col == 0)
 			{
-			  if (cont == 0)
-			    snprintf (sline, 80, " BF: ")
+			  if(cont == 0)
+			    snprintf(sline, 80, " BF: ")
 			  else
-			    snprintf (sline, 80, "               ")
-			  memset (&text, 0, sizeof (text))
+			    snprintf(sline, 80, "               ")
+			  memset(&text, 0, sizeof(text))
 			}
 		      data = _B0 (buffer[cont])
 		      text[col] = (data > 31) ? data : '·'
-		      snprintf (sdata, 80, "%02x ", data)
-		      sline = strcat (sline, sdata)
+		      snprintf(sdata, 80, "%02x ", data)
+		      sline = strcat(sline, sdata)
 		      col++
 		      offset++
-		      if (col == 8)
+		      if(col == 8)
 			{
 			  col = 0
-			  snprintf (sdata, 80, " : %s : 0x%04x\n", text,
+			  snprintf(sdata, 80, " : %s : 0x%04x\n", text,
 				    start + offset - 8)
-			  sline = strcat (sline, sdata)
-			  DBG (level, "%s", sline)
-			  memset (sline, 0, 81)
+			  sline = strcat(sline, sdata)
+			  DBG(level, "%s", sline)
+			  memset(sline, 0, 81)
 			}
 		    }
-		  if (col > 0)
+		  if(col > 0)
 		    {
-		      for (cont = col; cont < 8; cont++)
+		      for(cont = col; cont < 8; cont++)
 			{
-			  snprintf (sdata, 80, "-- ")
-			  sline = strcat (sline, sdata)
+			  snprintf(sdata, 80, "-- ")
+			  sline = strcat(sline, sdata)
 			  offset++
 			}
-		      snprintf (sdata, 80, " : %s : 0x%04x\n", text,
+		      snprintf(sdata, 80, " : %s : 0x%04x\n", text,
 				start + offset - 8)
-		      sline = strcat (sline, sdata)
-		      DBG (level, "%s", sline)
-		      memset (sline, 0, 81)
+		      sline = strcat(sline, sdata)
+		      DBG(level, "%s", sline)
+		      memset(sline, 0, 81)
 		    }
-		  free (sdata)
+		  free(sdata)
 		}
-	      free (sline)
+	      free(sline)
 	    }
 	}
       else
-	DBG (level, "           BF: Empty buffer\n")
+	DBG(level, "           BF: Empty buffer\n")
     }
 }
 
 static void
-dbg_registers (Sane.Byte * buffer)
+dbg_registers(Sane.Byte * buffer)
 {
   /* buffer size must be RT_BUFFER_LEN bytes */
   /*Int iValue, iValue2
@@ -837,10 +837,10 @@ dbg_registers (Sane.Byte * buffer)
 
      iValue = data_lsb_get(&buffer[0x011], 1)
      DBG(DBG_FNC, "\n0x0011   bit[0..6] = ?: 0x%02x\n", iValue & 0x3f)
-     DBG(DBG_FNC, "         bit[7]    = 0x%02x : sensor type (CCD=0|CIS=1)\n", (iValue >> 7) & 1)
+     DBG(DBG_FNC, "         bit[7]    = 0x%02x : sensor type(CCD=0|CIS=1)\n", (iValue >> 7) & 1)
 
      iValue = data_lsb_get(&buffer[0x012], 1)
-     DBG(DBG_FNC, "0x0012   bit[0..5] = 0x%02x [0x%02x,0x%02x,0x%02x] rgb channel order\n", (iValue & 0x3f), (iValue >> 4) & 3, (iValue >> 2) & 3, iValue & 3)
+     DBG(DBG_FNC, "0x0012   bit[0..5] = 0x%02x[0x%02x,0x%02x,0x%02x] rgb channel order\n", (iValue & 0x3f), (iValue >> 4) & 3, (iValue >> 2) & 3, iValue & 3)
      DBG(DBG_FNC, "         bit[6..7] = channels_per_dot : 0x%02x\n", (iValue >> 6) & 3)
 
      iValue = data_lsb_get(&buffer[0x013], 1)
@@ -1198,7 +1198,7 @@ dbg_registers (Sane.Byte * buffer)
      DBG(DBG_FNC, "         bit[0..35] = timing.adcclkp[1]: %.0f.\n", dValue)
      iValue = data_lsb_get(&buffer[0x0c5], 0x01)
      DBG(DBG_FNC, "         bits[36..39] = 0x%02x\n", (iValue >> 0x04) & 0x0f)
-     DBG(DBG_FNC, "         bit[36] = ?: 0x%02x (equal to bit[32])\n", (iValue >> 0x04) & 0x01)
+     DBG(DBG_FNC, "         bit[36] = ?: 0x%02x(equal to bit[32])\n", (iValue >> 0x04) & 0x01)
      DBG(DBG_FNC, "         bit[37] = ?: 0x%02x\n", (iValue >> 0x05) & 0x01)
      DBG(DBG_FNC, "         bit[38] = ?: 0x%02x\n", (iValue >> 0x06) & 0x01)
      DBG(DBG_FNC, "         bit[39] = ?: 0x%02x\n", (iValue >> 0x07) & 0x01)
@@ -1227,14 +1227,14 @@ dbg_registers (Sane.Byte * buffer)
      DBG(DBG_FNC, "   bit[0..5] = motor pwm frequency: 0x%02x\n", iValue & 0x3f)
      DBG(DBG_FNC, "         bit[6]    = ?: 0x%02x\n", (iValue >> 6) & 1)
      DBG(DBG_FNC, "         bit[7]    = motor type: 0x%02x ", (iValue >> 7) & 1)
-     if (((iValue >> 7) & 1) == MT_OUTPUTSTATE)
+     if(((iValue >> 7) & 1) == MT_OUTPUTSTATE)
      DBG(DBG_FNC, ": Output state machine\n")
      else DBG(DBG_FNC, "On-Chip PWM\n")
 
      iValue = data_lsb_get(&buffer[0x0d8], 0x01)
      DBG(DBG_FNC, "\n0x00d8")
      DBG(DBG_FNC, "   bit[0..5] = ?: 0x%02x\n", iValue & 0x3f)
-     DBG(DBG_FNC, "         bit[6]    = scantype (0=Normal|1=TMA) : 0x%02x\n", (iValue >> 6) & 1)
+     DBG(DBG_FNC, "         bit[6]    = scantype(0=Normal|1=TMA) : 0x%02x\n", (iValue >> 6) & 1)
      DBG(DBG_FNC, "         bit[7]    = enable head movement : 0x%02x :", (iValue >> 7) & 1)
 
      iValue = data_lsb_get(&buffer[0x0d9], 0x01)
@@ -1246,12 +1246,12 @@ dbg_registers (Sane.Byte * buffer)
      {
      case 0:  DBG(DBG_FNC, "full  (1)\n"); break
      case 1:  DBG(DBG_FNC, "half  (1/2)\n"); break
-     case 2:  DBG(DBG_FNC, "quart (1/4)\n"); break
+     case 2:  DBG(DBG_FNC, "quart(1/4)\n"); break
      case 3:  DBG(DBG_FNC, "(1/8)\n"); break
      default: DBG(DBG_FNC, "unknown\n"); break
      }
      DBG(DBG_FNC, "         bit[7]    = Motor direction: 0x%02x = ", (iValue >> 7) & 1)
-     if (((iValue >> 7) & 1) == 0)
+     if(((iValue >> 7) & 1) == 0)
      DBG(DBG_FNC, "Backward\n")
      else DBG(DBG_FNC, "Forward\n")
 
@@ -1268,7 +1268,7 @@ dbg_registers (Sane.Byte * buffer)
      iValue = data_lsb_get(&buffer[0x0dd], 0x01)
      DBG(DBG_FNC, "0x00dd")
      DBG(DBG_FNC, "         bit[7]    = Motor enabled?: 0x%02x = ", (iValue >> 7) & 1)
-     if (((iValue >> 7) & 1) == 0)
+     if(((iValue >> 7) & 1) == 0)
      DBG(DBG_FNC, "Yes\n")
      else DBG(DBG_FNC, "No\n")
 
@@ -1352,13 +1352,13 @@ dbg_registers (Sane.Byte * buffer)
      DBG(DBG_FNC, "         bit[5]    = ? : 0x%02x\n", (iValue >> 5) & 1)
      DBG(DBG_FNC, "         bit[6]    = lamp turned on? : 0x%02x\n", (iValue >> 6) & 1)
      DBG(DBG_FNC, "         bit[7]    = sensor type : 0x%02x ", (iValue >> 7) & 1)
-     if (((iValue >> 7) & 1) != 0)
+     if(((iValue >> 7) & 1) != 0)
      DBG(DBG_FNC, "CCD\n")
      else DBG(DBG_FNC, "CIS\n")
 
      iValue = data_lsb_get(&buffer[0x147], 1)
      DBG(DBG_FNC, "\n0x0147")
-     DBG(DBG_FNC, "   time to turn off lamp =  0x%02x (minutes * 2.682163611980331)\n", iValue)
+     DBG(DBG_FNC, "   time to turn off lamp =  0x%02x(minutes * 2.682163611980331)\n", iValue)
 
      iValue = data_lsb_get(&buffer[0x148], 1)
      DBG(DBG_FNC, "\n0x0148")
@@ -1408,7 +1408,7 @@ dbg_registers (Sane.Byte * buffer)
      DBG(DBG_FNC, "\n0x0155")
      DBG(DBG_FNC, "   bit[0..3] = ?: 0x%02x\n", iValue & 0x0f)
      DBG(DBG_FNC, "         bit[4]    = 0x%02x : ", (iValue >> 4) & 1)
-     if (((iValue >> 4) & 1) == 0)
+     if(((iValue >> 4) & 1) == 0)
      DBG(DBG_FNC, "flb lamp\n")
      else DBG(DBG_FNC, "tma lamp\n")
      DBG(DBG_FNC, "         bit[5..7] = ? : 0x%02x\n", (iValue >> 5) & 7)
@@ -1418,7 +1418,7 @@ dbg_registers (Sane.Byte * buffer)
      iValue = data_lsb_get(&buffer[0x158], 1)
      DBG(DBG_FNC, "\n0x0158")
      DBG(DBG_FNC, "   bit[0..3] = %02x : Scanner buttons ", iValue & 0x0f)
-     if ((iValue & 0x0f) == 0x0f)
+     if((iValue & 0x0f) == 0x0f)
      DBG(DBG_FNC, "enabled\n")
      else DBG(DBG_FNC, "disabled\n")
      DBG(DBG_FNC, "         bit[4..7] = ? : 0x%02x\n", (iValue >> 4) & 0x0f)
@@ -1489,17 +1489,17 @@ dbg_registers (Sane.Byte * buffer)
 
      iValue = data_lsb_get(&buffer[0x1b4], 2)
      DBG(DBG_FNC, "\n0x01b4")
-     DBG(DBG_FNC, "   bit[00..13] = Ptr to red gamma table (table_size * 0) : 0x%04x\n", (iValue & 0x3fff))
+     DBG(DBG_FNC, "   bit[00..13] = Ptr to red gamma table(table_size * 0) : 0x%04x\n", (iValue & 0x3fff))
      DBG(DBG_FNC, "         bit[14..15] = ? : 0x%02x\n", (iValue >> 14) & 3)
 
      iValue = data_lsb_get(&buffer[0x1b6], 2)
      DBG(DBG_FNC, "0x01b6")
-     DBG(DBG_FNC, "   bit[00..13] = Ptr to green gamma table (table_size * 1) : 0x%04x\n", (iValue & 0x3fff))
+     DBG(DBG_FNC, "   bit[00..13] = Ptr to green gamma table(table_size * 1) : 0x%04x\n", (iValue & 0x3fff))
      DBG(DBG_FNC, "         bit[14..15] = ? : 0x%02x\n", (iValue >> 14) & 3)
 
      iValue = data_lsb_get(&buffer[0x1b8], 2)
      DBG(DBG_FNC, "0x01b8")
-     DBG(DBG_FNC, "   bit[00..13] = Ptr to blue gamma table (table_size * 2) : 0x%04x\n", (iValue & 0x3fff))
+     DBG(DBG_FNC, "   bit[00..13] = Ptr to blue gamma table(table_size * 2) : 0x%04x\n", (iValue & 0x3fff))
      DBG(DBG_FNC, "         bit[14..15] = ? : 0x%02x\n", (iValue >> 14) & 3)
 
      iValue = data_lsb_get(&buffer[0x1ba], 1)
@@ -1537,11 +1537,11 @@ dbg_registers (Sane.Byte * buffer)
      iValue = data_lsb_get(&buffer[0x1cf], 3)
      DBG(DBG_FNC, "\n0x01cf")
      DBG(DBG_FNC, "   bit[0] = ? : 0x%02x\n", iValue  & 1)
-     DBG(DBG_FNC, "         bit[1]    = shading base (0 = 0x4000|1= 0x2000) : 0x%02x\n", (iValue >> 1) & 1)
+     DBG(DBG_FNC, "         bit[1]    = shading base(0 = 0x4000|1= 0x2000) : 0x%02x\n", (iValue >> 1) & 1)
      DBG(DBG_FNC, "         bit[2]    = white shading correction : 0x%02x\n", (iValue >> 2) & 1)
      DBG(DBG_FNC, "         bit[3]    = black shading correction : 0x%02x\n", (iValue >> 3) & 1)
      DBG(DBG_FNC, "         bit[4..5] = 0x%02x : ", (iValue >> 4) & 3)
-     switch ((iValue >> 4) & 3)
+     switch((iValue >> 4) & 3)
      {
      case 0: DBG(DBG_FNC, "8 bits per channel"); break
      case 1: DBG(DBG_FNC, "12 bits per channel"); break
@@ -1550,7 +1550,7 @@ dbg_registers (Sane.Byte * buffer)
      }
      DBG(DBG_FNC, "\n")
      DBG(DBG_FNC, "         bit[6]    = samplerate: 0x%02x ", (iValue >> 6) & 1)
-     if (((iValue >> 6) & 1) == PIXEL_RATE)
+     if(((iValue >> 6) & 1) == PIXEL_RATE)
      DBG(DBG_FNC, "PIXEL_RATE\n")
      else DBG(DBG_FNC, "LINE_RATE\n")
      DBG(DBG_FNC, "         bit[7]    = ? : 0x%02x\n", (iValue >> 7) & 1)
@@ -1560,7 +1560,7 @@ dbg_registers (Sane.Byte * buffer)
      DBG(DBG_FNC, "   bit[0]    = 0x%02x\n", iValue  & 1)
      DBG(DBG_FNC, "         bit[1]    = 0x%02x\n", (iValue >> 1)  & 1)
      DBG(DBG_FNC, "         bit[2..3] = gamma table size : 0x%02x ", (iValue >> 2) & 3)
-     switch ((iValue >> 2)  & 3)
+     switch((iValue >> 2)  & 3)
      {
      case 0: DBG(DBG_FNC, "bit[0] + 0x100") ;break
      case 1: DBG(DBG_FNC, "bit[0] + 0x400") ;break

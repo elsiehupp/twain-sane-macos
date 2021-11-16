@@ -1,12 +1,12 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Thierry HUCHARD <thierry@ordissimo.com>
+   Copyright(C) 2019 Thierry HUCHARD <thierry@ordissimo.com>
 
    This file is part of the SANE package.
 
    SANE is free software; you can redistribute it and/or modify it under
    the terms of the GNU General Public License as published by the Free
-   Software Foundation; either version 3 of the License, or (at your
+   Software Foundation; either version 3 of the License, or(at your
    option) any later version.
 
    SANE is distributed in the hope that it will be useful, but WITHOUT
@@ -58,13 +58,13 @@ next_file_escl(fz_context *ctx, fz_stream *stm, size_t n)
 
 	/* n is only a hint, that we can safely ignore */
 	n = fread(state.buffer, 1, sizeof(state.buffer), state.file)
-	if (n < sizeof(state.buffer) && ferror(state.file))
+	if(n < sizeof(state.buffer) && ferror(state.file))
 		fz_throw(ctx, FZ_ERROR_GENERIC, "read error: %s", strerror(errno))
 	stm.rp = state.buffer
 	stm.wp = state.buffer + n
 	stm.pos += (int64_t)n
 
-	if (n == 0)
+	if(n == 0)
 		return EOF
 	return *stm.rp++
 }
@@ -74,7 +74,7 @@ drop_file_escl(fz_context *ctx, void *state_)
 {
 	fz_file_stream_escl *state = state_
 	Int n = fclose(state.file)
-	if (n < 0)
+	if(n < 0)
 		fz_warn(ctx, "close error: %s", strerror(errno))
 	fz_free(ctx, state)
 }
@@ -88,7 +88,7 @@ seek_file_escl(fz_context *ctx, fz_stream *stm, int64_t offset, Int whence)
 #else
 	int64_t n = fseeko(state.file, offset, whence)
 #endif
-	if (n < 0)
+	if(n < 0)
 		fz_throw(ctx, FZ_ERROR_GENERIC, "cannot seek: %s", strerror(errno))
 #ifdef _WIN32
 	stm.pos = _ftelli64(state.file)
@@ -118,7 +118,7 @@ fz_open_file_ptr_escl(fz_context *ctx, FILE *file)
  *  to read the image.
  *        This function is called in the "Sane.read" function.
  *
- * \return Sane.STATUS_GOOD (if everything is OK, otherwise,
+ * \return Sane.STATUS_GOOD(if everything is OK, otherwise,
  *  Sane.STATUS_NO_MEM/Sane.STATUS_INVAL)
  */
 Sane.Status
@@ -135,7 +135,7 @@ get_PDF_data(capabilities_t *scanner, Int *width, Int *height, Int *bps)
 
     /* Create a context to hold the exception stack and various caches. */
     ctx = fz_new_context(NULL, NULL, FZ_STORE_UNLIMITED)
-    if (!ctx)
+    if(!ctx)
     {
     	DBG(1, "cannot create mupdf context\n")
     	status =  Sane.STATUS_INVAL
@@ -192,9 +192,9 @@ get_PDF_data(capabilities_t *scanner, Int *width, Int *height, Int *bps)
 	goto drop_document
     }
 
-    if (page_number < 0 || page_number >= page_count)
+    if(page_number < 0 || page_number >= page_count)
     {
-	DBG(1, "page number out of range: %d (page count %d)\n", page_number + 1, page_count)
+	DBG(1, "page number out of range: %d(page count %d)\n", page_number + 1, page_count)
     	status =  Sane.STATUS_INVAL
 	goto drop_document
     }
@@ -219,7 +219,7 @@ get_PDF_data(capabilities_t *scanner, Int *width, Int *height, Int *bps)
 
     // If necessary, trim the image.
     surface = escl_crop_surface(scanner, surface, pix.w, pix.h, pix.n, width, height)
-    if (!surface)  {
+    if(!surface)  {
         DBG( 1, "Escl Pdf : Surface Memory allocation problem\n")
         status = Sane.STATUS_NO_MEM
 	goto drop_pix
@@ -237,7 +237,7 @@ drop_context:
     fz_drop_context(ctx)
 
 close_file:
-    if (scanner.tmp)
+    if(scanner.tmp)
         fclose(scanner.tmp)
     scanner.tmp = NULL
     return status
@@ -250,7 +250,7 @@ get_PDF_data(capabilities_t __Sane.unused__ *scanner,
               Int __Sane.unused__ *height,
               Int __Sane.unused__ *bps)
 {
-	return (Sane.STATUS_INVAL)
+	return(Sane.STATUS_INVAL)
 }
 
 #endif

@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -68,7 +68,7 @@ public:
 
     virtual bool eof() const = 0
 
-    // returns true if the row was filled successfully, false otherwise (e.g. if not enough data
+    // returns true if the row was filled successfully, false otherwise(e.g. if not enough data
     // was available.
     virtual bool get_next_row_data(std::uint8_t* out_data) = 0
 ]
@@ -367,7 +367,7 @@ private:
     RowBuffer buffer_
 ]
 
-// A pipeline node that shifts pixels across lines by the given offsets (performs vertical
+// A pipeline node that shifts pixels across lines by the given offsets(performs vertical
 // unstaggering)
 class ImagePipelineNodePixelShiftLines : public ImagePipelineNode
 {
@@ -556,7 +556,7 @@ public:
     template<class Node, class... Args>
     Node& push_first_node(Args&&... args)
     {
-        if (!nodes_.empty()) {
+        if(!nodes_.empty()) {
             throw SaneException("Trying to append first node when there are existing nodes")
         }
         nodes_.emplace_back(std::unique_ptr<Node>(new Node(std::forward<Args>(args)...)))

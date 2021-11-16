@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2007-2008 Philippe Rétornaz
+   Copyright(C) 2007-2008 Philippe Rétornaz
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -183,17 +183,17 @@ static Sane.Device **devlist = NULL
 static double
 round2(double x)
 {
-    return (double)(x >= 0.0) ? (Int)(x+0.5) : (Int)(x-0.5)
+    return(double)(x >= 0.0) ? (Int)(x+0.5) : (Int)(x-0.5)
 }
 
 static void
-update_img_size (struct device_s *dev)
+update_img_size(struct device_s *dev)
 {
   Int dx, dy
 
   /* Only update the width when not scanning,
    * otherwise the scanner give us the correct width */
-  if (dev.status == STATUS_SCANNING)
+  if(dev.status == STATUS_SCANNING)
     {
       dev.height = -1
       return
@@ -202,7 +202,7 @@ update_img_size (struct device_s *dev)
   dx = dev.optionw[X2_OFFSET] - dev.optionw[X1_OFFSET]
   dy = dev.optionw[Y2_OFFSET] - dev.optionw[Y1_OFFSET]
 
-  switch (dev.optionw[RES_OFFSET])
+  switch(dev.optionw[RES_OFFSET])
     {
     case 75:
       dev.width = round2 ((dx / ((double) MAX_X_S)) * 640)
@@ -240,15 +240,15 @@ update_img_size (struct device_s *dev)
 
 /* This function is copy/pasted from the Epson backend */
 static size_t
-max_string_size (const Sane.String_Const strings[])
+max_string_size(const Sane.String_Const strings[])
 {
   size_t size, max_size = 0
   var i: Int
 
-  for (i = 0; strings[i]; i++)
+  for(i = 0; strings[i]; i++)
     {
-      size = strlen (strings[i]) + 1
-      if (size > max_size)
+      size = strlen(strings[i]) + 1
+      if(size > max_size)
 	max_size = size
     }
   return max_size
@@ -256,14 +256,14 @@ max_string_size (const Sane.String_Const strings[])
 
 
 static Sane.Status
-attach (Sane.String_Const devname)
+attach(Sane.String_Const devname)
 {
   struct device_s *dev
 
-  dev = malloc (sizeof (struct device_s))
-  if (!dev)
+  dev = malloc(sizeof(struct device_s))
+  if(!dev)
     return Sane.STATUS_NO_MEM
-  memset (dev, 0, sizeof (struct device_s))
+  memset(dev, 0, sizeof(struct device_s))
 
   dev.devname = devname
   DBG(1,"New device found: %s\n",dev.devname)
@@ -275,7 +275,7 @@ attach (Sane.String_Const devname)
   dev.optiond[0].desc = NULL
   dev.optiond[0].type = Sane.TYPE_INT
   dev.optiond[0].unit = Sane.UNIT_NONE
-  dev.optiond[0].size = sizeof (Sane.Word)
+  dev.optiond[0].size = sizeof(Sane.Word)
   dev.optionw[0] = OPTION_MAX
 
   /* resolution */
@@ -285,7 +285,7 @@ attach (Sane.String_Const devname)
   dev.optiond[RES_OFFSET].type = Sane.TYPE_INT
   dev.optiond[RES_OFFSET].unit = Sane.UNIT_DPI
   dev.optiond[RES_OFFSET].type = Sane.TYPE_INT
-  dev.optiond[RES_OFFSET].size = sizeof (Sane.Word)
+  dev.optiond[RES_OFFSET].size = sizeof(Sane.Word)
   dev.optiond[RES_OFFSET].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   dev.optiond[RES_OFFSET].constraint_type = Sane.CONSTRAINT_WORD_LIST
   dev.optiond[RES_OFFSET].constraint.word_list = resolution_list
@@ -297,7 +297,7 @@ attach (Sane.String_Const devname)
   dev.optiond[X1_OFFSET].desc = "tl-x"
   dev.optiond[X1_OFFSET].type = Sane.TYPE_INT
   dev.optiond[X1_OFFSET].unit = Sane.UNIT_MM
-  dev.optiond[X1_OFFSET].size = sizeof (Sane.Word)
+  dev.optiond[X1_OFFSET].size = sizeof(Sane.Word)
   dev.optiond[X1_OFFSET].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   dev.optiond[X1_OFFSET].constraint_type = Sane.CONSTRAINT_RANGE
   dev.optiond[X1_OFFSET].constraint.range = &range_x
@@ -308,7 +308,7 @@ attach (Sane.String_Const devname)
   dev.optiond[Y1_OFFSET].desc = "tl-y"
   dev.optiond[Y1_OFFSET].type = Sane.TYPE_INT
   dev.optiond[Y1_OFFSET].unit = Sane.UNIT_MM
-  dev.optiond[Y1_OFFSET].size = sizeof (Sane.Word)
+  dev.optiond[Y1_OFFSET].size = sizeof(Sane.Word)
   dev.optiond[Y1_OFFSET].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   dev.optiond[Y1_OFFSET].constraint_type = Sane.CONSTRAINT_RANGE
   dev.optiond[Y1_OFFSET].constraint.range = &range_y
@@ -319,7 +319,7 @@ attach (Sane.String_Const devname)
   dev.optiond[X2_OFFSET].desc = "br-x"
   dev.optiond[X2_OFFSET].type = Sane.TYPE_INT
   dev.optiond[X2_OFFSET].unit = Sane.UNIT_MM
-  dev.optiond[X2_OFFSET].size = sizeof (Sane.Word)
+  dev.optiond[X2_OFFSET].size = sizeof(Sane.Word)
   dev.optiond[X2_OFFSET].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   dev.optiond[X2_OFFSET].constraint_type = Sane.CONSTRAINT_RANGE
   dev.optiond[X2_OFFSET].constraint.range = &range_x
@@ -330,7 +330,7 @@ attach (Sane.String_Const devname)
   dev.optiond[Y2_OFFSET].desc = "br-y"
   dev.optiond[Y2_OFFSET].type = Sane.TYPE_INT
   dev.optiond[Y2_OFFSET].unit = Sane.UNIT_MM
-  dev.optiond[Y2_OFFSET].size = sizeof (Sane.Word)
+  dev.optiond[Y2_OFFSET].size = sizeof(Sane.Word)
   dev.optiond[Y2_OFFSET].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   dev.optiond[Y2_OFFSET].constraint_type = Sane.CONSTRAINT_RANGE
   dev.optiond[Y2_OFFSET].constraint.range = &range_y
@@ -342,7 +342,7 @@ attach (Sane.String_Const devname)
   dev.optiond[BRIGH_OFFSET].desc = "Set the brightness"
   dev.optiond[BRIGH_OFFSET].type = Sane.TYPE_INT
   dev.optiond[BRIGH_OFFSET].unit = Sane.UNIT_NONE
-  dev.optiond[BRIGH_OFFSET].size = sizeof (Sane.Word)
+  dev.optiond[BRIGH_OFFSET].size = sizeof(Sane.Word)
   dev.optiond[BRIGH_OFFSET].cap =
     Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   dev.optiond[BRIGH_OFFSET].constraint_type = Sane.CONSTRAINT_RANGE
@@ -355,7 +355,7 @@ attach (Sane.String_Const devname)
   dev.optiond[CONTR_OFFSET].desc = "Set the contrast"
   dev.optiond[CONTR_OFFSET].type = Sane.TYPE_INT
   dev.optiond[CONTR_OFFSET].unit = Sane.UNIT_NONE
-  dev.optiond[CONTR_OFFSET].size = sizeof (Sane.Word)
+  dev.optiond[CONTR_OFFSET].size = sizeof(Sane.Word)
   dev.optiond[CONTR_OFFSET].cap =
     Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   dev.optiond[CONTR_OFFSET].constraint_type = Sane.CONSTRAINT_RANGE
@@ -367,7 +367,7 @@ attach (Sane.String_Const devname)
   dev.optiond[COLOR_OFFSET].title = Sane.TITLE_SCAN_MODE
   dev.optiond[COLOR_OFFSET].desc = Sane.DESC_SCAN_MODE
   dev.optiond[COLOR_OFFSET].type = Sane.TYPE_STRING
-  dev.optiond[COLOR_OFFSET].size = max_string_size (mode_list)
+  dev.optiond[COLOR_OFFSET].size = max_string_size(mode_list)
   dev.optiond[COLOR_OFFSET].cap =
     Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   dev.optiond[COLOR_OFFSET].constraint_type = Sane.CONSTRAINT_STRING_LIST
@@ -387,51 +387,51 @@ attach (Sane.String_Const devname)
 }
 
 Sane.Status
-Sane.init (Int * version_code,
+Sane.init(Int * version_code,
 	   Sane.Auth_Callback __Sane.unused__ authorize)
 {
 
-  if (version_code != NULL)
-    *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, BUILD)
+  if(version_code != NULL)
+    *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, BUILD)
 
   DBG_INIT()
 
-  sanei_usb_init ()
+  sanei_usb_init()
 
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   /* free everything */
   struct device_s *iter
 
-  if (devlist)
+  if(devlist)
     {
       var i: Int
-      for (i = 0; devlist[i]; i++)
-	free (devlist[i])
-      free (devlist)
+      for(i = 0; devlist[i]; i++)
+	free(devlist[i])
+      free(devlist)
       devlist = NULL
     }
-  if (devlist_head)
+  if(devlist_head)
     {
       iter = devlist_head.next
-      free (devlist_head)
+      free(devlist_head)
       devlist_head = NULL
-      while (iter)
+      while(iter)
 	{
 	  struct device_s *tmp = iter
 	  iter = iter.next
-	  free (tmp)
+	  free(tmp)
 	}
     }
   devlist_count = 0
 }
 
 Sane.Status
-Sane.get_devices (const Sane.Device * **device_list,
+Sane.get_devices(const Sane.Device * **device_list,
 		  Bool __Sane.unused__ local_only)
 {
   struct device_s *iter
@@ -439,47 +439,47 @@ Sane.get_devices (const Sane.Device * **device_list,
 
   devlist_count = 0
 
-  if (devlist_head)
+  if(devlist_head)
     {
       iter = devlist_head.next
-      free (devlist_head)
+      free(devlist_head)
       devlist_head = NULL
-      while (iter)
+      while(iter)
 	{
 	  struct device_s *tmp = iter
 	  iter = iter.next
-	  free (tmp)
+	  free(tmp)
 	}
     }
 
   /* Rebuild our internal scanner list */
-  for (cur_idx = 0; usbid[cur_idx].vendor_id; cur_idx++)
-    sanei_usb_find_devices (usbid[cur_idx].vendor_id,
+  for(cur_idx = 0; usbid[cur_idx].vendor_id; cur_idx++)
+    sanei_usb_find_devices(usbid[cur_idx].vendor_id,
 			    usbid[cur_idx].product_id, attach)
 
-  if (devlist)
+  if(devlist)
     {
-      for (i = 0; devlist[i]; i++)
-	free (devlist[i])
-      free (devlist)
+      for(i = 0; devlist[i]; i++)
+	free(devlist[i])
+      free(devlist)
     }
 
   /* rebuild the sane-API scanner list array */
-  devlist = malloc (sizeof (devlist[0]) * (devlist_count + 1))
-  if (!devlist)
+  devlist = malloc(sizeof(devlist[0]) * (devlist_count + 1))
+  if(!devlist)
     return Sane.STATUS_NO_MEM
 
-  memset (devlist, 0, sizeof (devlist[0]) * (devlist_count + 1))
+  memset(devlist, 0, sizeof(devlist[0]) * (devlist_count + 1))
 
-  for (i = 0, iter = devlist_head; i < devlist_count; i++, iter = iter.next)
+  for(i = 0, iter = devlist_head; i < devlist_count; i++, iter = iter.next)
     {
-      devlist[i] = malloc (sizeof (Sane.Device))
-      if (!devlist[i])
+      devlist[i] = malloc(sizeof(Sane.Device))
+      if(!devlist[i])
 	{
 	  Int j
-	  for (j = 0; j < i; j++)
-	    free (devlist[j])
-	  free (devlist)
+	  for(j = 0; j < i; j++)
+	    free(devlist[j])
+	  free(devlist)
 	  devlist = NULL
 	  return Sane.STATUS_NO_MEM
 	}
@@ -488,13 +488,13 @@ Sane.get_devices (const Sane.Device * **device_list,
       devlist[i]->model = usbid[iter.idx].model_s
       devlist[i]->type = usbid[iter.idx].type_s
     }
-  if (device_list)
+  if(device_list)
     *device_list = (const Sane.Device **) devlist
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.open (Sane.String_Const name, Sane.Handle * h)
+Sane.open(Sane.String_Const name, Sane.Handle * h)
 {
   struct device_s *dev
   Int ret
@@ -504,12 +504,12 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 
   dev = devlist_head
 
-  if (strlen (name))
-    for (; dev; dev = dev.next)
-      if (!strcmp (name, dev.devname))
+  if(strlen(name))
+    for(; dev; dev = dev.next)
+      if(!strcmp(name, dev.devname))
 	break
 
-  if (!dev) {
+  if(!dev) {
     DBG(1,"Unable to find device %s\n",name)
     return Sane.STATUS_INVAL
   }
@@ -517,24 +517,24 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
   DBG(1,"Found device %s\n",name)
 
   /* Now open the usb device */
-  ret = sanei_usb_open (name, &(dev.dn))
-  if (ret != Sane.STATUS_GOOD) {
+  ret = sanei_usb_open(name, &(dev.dn))
+  if(ret != Sane.STATUS_GOOD) {
     DBG(1,"Unable to open device %s\n",name)
     return ret
   }
 
   /* Claim the first interface */
-  ret = sanei_usb_claim_interface (dev.dn, 0)
-  if (ret != Sane.STATUS_GOOD)
+  ret = sanei_usb_claim_interface(dev.dn, 0)
+  if(ret != Sane.STATUS_GOOD)
     {
-      sanei_usb_close (dev.dn)
+      sanei_usb_close(dev.dn)
       /* if we cannot claim the interface, this is because
          someone else is using it */
       DBG(1,"Unable to claim scanner interface on device %s\n",name)
       return Sane.STATUS_DEVICE_BUSY
     }
 #ifdef HAVE_SANEI_USB_SET_TIMEOUT
-  sanei_usb_set_timeout (30000);	/* 30s timeout */
+  sanei_usb_set_timeout(30000);	/* 30s timeout */
 #endif
 
   *h = dev
@@ -543,43 +543,43 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 }
 
 void
-Sane.close (Sane.Handle h)
+Sane.close(Sane.Handle h)
 {
   struct device_s *dev = (struct device_s *) h
 
   /* Just in case if Sane.cancel() is called
    * after starting a scan but not while a Sane.read
    */
-  if (dev.status == STATUS_CANCELING)
+  if(dev.status == STATUS_CANCELING)
     {
        do_cancel(dev)
     }
 
-  sanei_usb_release_interface (dev.dn, 0)
-  sanei_usb_close (dev.dn)
+  sanei_usb_release_interface(dev.dn, 0)
+  sanei_usb_close(dev.dn)
 
 }
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle h, Int option)
+Sane.get_option_descriptor(Sane.Handle h, Int option)
 {
   struct device_s *dev = (struct device_s *) h
 
-  if (option >= OPTION_MAX || option < 0)
+  if(option >= OPTION_MAX || option < 0)
     return NULL
   return &(dev.optiond[option])
 }
 
 static Sane.Status
-getvalue (Sane.Handle h, Int option, void *v)
+getvalue(Sane.Handle h, Int option, void *v)
 {
   struct device_s *dev = (struct device_s *) h
 
-  if (option != COLOR_OFFSET)
+  if(option != COLOR_OFFSET)
     *((Sane.Word *) v) = dev.optionw[option]
   else
     {
-      strcpy ((char *) v,
+      strcpy((char *) v,
 	      dev.optiond[option].constraint.string_list[dev->
 							  optionw[option]])
     }
@@ -587,27 +587,27 @@ getvalue (Sane.Handle h, Int option, void *v)
 }
 
 static Sane.Status
-setvalue (Sane.Handle h, Int option, void *value, Int * info)
+setvalue(Sane.Handle h, Int option, void *value, Int * info)
 {
   struct device_s *dev = (struct device_s *) h
   Sane.Status status = Sane.STATUS_GOOD
   Int s_unit
   Int s_unit_2
 
-  if (option == 0)
+  if(option == 0)
     return Sane.STATUS_UNSUPPORTED
 
 
-  status = sanei_constrain_value (&(dev.optiond[option]), value, info)
+  status = sanei_constrain_value(&(dev.optiond[option]), value, info)
 
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     return status
 
 
 
-  if (info)
+  if(info)
     *info |= Sane.INFO_RELOAD_PARAMS
-  switch (option)
+  switch(option)
     {
     case X1_OFFSET:
       dev.optionw[option] = *((Sane.Word *) value)
@@ -615,10 +615,10 @@ setvalue (Sane.Handle h, Int option, void *value, Int * info)
 			    * MAX_X_H)
       s_unit_2 = (Int) round2 ((dev.optionw[X2_OFFSET] / ((double) MAX_X_S))
 			      * MAX_X_H)
-      if (abs (s_unit_2 - s_unit) < MIN_SCAN_ZONE)
+      if(abs(s_unit_2 - s_unit) < MIN_SCAN_ZONE)
 	s_unit = s_unit_2 - MIN_SCAN_ZONE
       dev.optionw[option] = round2 ((s_unit / ((double) MAX_X_H)) * MAX_X_S)
-      if (info)
+      if(info)
 	*info |= Sane.INFO_INEXACT
       break
 
@@ -631,10 +631,10 @@ setvalue (Sane.Handle h, Int option, void *value, Int * info)
 			    * MAX_X_H)
       s_unit_2 = (Int) round2 ((dev.optionw[X1_OFFSET] / ((double) MAX_X_S))
 			      * MAX_X_H)
-      if (abs (s_unit_2 - s_unit) < MIN_SCAN_ZONE)
+      if(abs(s_unit_2 - s_unit) < MIN_SCAN_ZONE)
 	s_unit = s_unit_2 + MIN_SCAN_ZONE
       dev.optionw[option] = round2 ((s_unit / ((double) MAX_X_H)) * MAX_X_S)
-      if (info)
+      if(info)
 	*info |= Sane.INFO_INEXACT
       break
     case Y1_OFFSET:
@@ -646,11 +646,11 @@ setvalue (Sane.Handle h, Int option, void *value, Int * info)
 
       s_unit_2 = (Int) round2 ((dev.optionw[Y2_OFFSET] / ((double) MAX_Y_S))
 			      * MAX_Y_H)
-      if (abs (s_unit_2 - s_unit) < MIN_SCAN_ZONE)
+      if(abs(s_unit_2 - s_unit) < MIN_SCAN_ZONE)
 	s_unit = s_unit_2 - MIN_SCAN_ZONE
 
       dev.optionw[option] = round2 ((s_unit / ((double) MAX_Y_H)) * MAX_Y_S)
-      if (info)
+      if(info)
 	*info |= Sane.INFO_INEXACT
       break
     case Y2_OFFSET:
@@ -662,17 +662,17 @@ setvalue (Sane.Handle h, Int option, void *value, Int * info)
 
       s_unit_2 = (Int) round2 ((dev.optionw[Y1_OFFSET] / ((double) MAX_Y_S))
 			      * MAX_Y_H)
-      if (abs (s_unit_2 - s_unit) < MIN_SCAN_ZONE)
+      if(abs(s_unit_2 - s_unit) < MIN_SCAN_ZONE)
 	s_unit = s_unit_2 + MIN_SCAN_ZONE
 
       dev.optionw[option] = round2 ((s_unit / ((double) MAX_Y_H)) * MAX_Y_S)
-      if (info)
+      if(info)
 	*info |= Sane.INFO_INEXACT
       break
     case COLOR_OFFSET:
-      if (!strcmp ((char *) value, mode_list[0]))
+      if(!strcmp((char *) value, mode_list[0]))
 	dev.optionw[option] = GRAY;	/* Gray */
-      else if (!strcmp ((char *) value, mode_list[1]))
+      else if(!strcmp((char *) value, mode_list[1]))
 	dev.optionw[option] = RGB;	/* RGB */
       else
 	return Sane.STATUS_INVAL
@@ -684,24 +684,24 @@ setvalue (Sane.Handle h, Int option, void *value, Int * info)
 }
 
 Sane.Status
-Sane.control_option (Sane.Handle h, Int option,
+Sane.control_option(Sane.Handle h, Int option,
 		     Sane.Action a, void *v, Int * i)
 {
 
-  if (option < 0 || option >= OPTION_MAX)
+  if(option < 0 || option >= OPTION_MAX)
     return Sane.STATUS_INVAL
 
-  if (i)
+  if(i)
     *i = 0
 
 
-  switch (a)
+  switch(a)
     {
     case Sane.ACTION_GET_VALUE:
-      return getvalue (h, option, v)
+      return getvalue(h, option, v)
 
     case Sane.ACTION_SET_VALUE:
-      return setvalue (h, option, v, i)
+      return setvalue(h, option, v, i)
 
     default:
       return Sane.STATUS_INVAL
@@ -709,11 +709,11 @@ Sane.control_option (Sane.Handle h, Int option,
 }
 
 Sane.Status
-Sane.get_parameters (Sane.Handle h, Sane.Parameters * p)
+Sane.get_parameters(Sane.Handle h, Sane.Parameters * p)
 {
   struct device_s *dev = (struct device_s *) h
 
-  if (!p)
+  if(!p)
     return Sane.STATUS_INVAL
 
   p.format =
@@ -721,35 +721,35 @@ Sane.get_parameters (Sane.Handle h, Sane.Parameters * p)
   p.last_frame = Sane.TRUE
   p.depth = 8
 
-  update_img_size (dev)
+  update_img_size(dev)
   p.pixels_per_line = dev.width
   p.lines = dev.height
   p.bytes_per_line = p.pixels_per_line
-  if (p.format == Sane.FRAME_RGB)
+  if(p.format == Sane.FRAME_RGB)
     p.bytes_per_line *= 3
 
   return Sane.STATUS_GOOD
 }
 
 static void
-send_pkt (Int command, Int data_size, struct device_s *dev)
+send_pkt(Int command, Int data_size, struct device_s *dev)
 {
   size_t size = 32
 
   DBG(100,"Sending packet %d, next data size %d, device %s\n", command, data_size, dev.devname)
 
-  memset (dev.packet_data, 0, size)
-  dev.packet_data[0] = htonl (MAGIC_NUMBER)
-  dev.packet_data[1] = htonl (command)
-  dev.packet_data[5] = htonl (data_size)
-  sanei_usb_write_bulk (dev.dn, (unsigned char *) dev.packet_data, &size)
+  memset(dev.packet_data, 0, size)
+  dev.packet_data[0] = htonl(MAGIC_NUMBER)
+  dev.packet_data[1] = htonl(command)
+  dev.packet_data[5] = htonl(data_size)
+  sanei_usb_write_bulk(dev.dn, (unsigned char *) dev.packet_data, &size)
 }
 
 
 /* s: printer status */
 /* Return the next packet size */
 static Int
-wait_ack (struct device_s *dev, Int *s)
+wait_ack(struct device_s *dev, Int *s)
 {
   Sane.Status ret
   size_t size
@@ -758,17 +758,17 @@ wait_ack (struct device_s *dev, Int *s)
     {
       size = 32
       ret =
-	sanei_usb_read_bulk (dev.dn, (unsigned char *) dev.packet_data,
+	sanei_usb_read_bulk(dev.dn, (unsigned char *) dev.packet_data,
 			     &size)
     }
-  while (Sane.STATUS_EOF == ret || size == 0)
-  if (s)
-    *s = ntohl (dev.packet_data[4])
-  return ntohl (dev.packet_data[5])
+  while(Sane.STATUS_EOF == ret || size == 0)
+  if(s)
+    *s = ntohl(dev.packet_data[4])
+  return ntohl(dev.packet_data[5])
 }
 
 static void
-send_conf (struct device_s *dev)
+send_conf(struct device_s *dev)
 {
   Int y1, y2, x1, x2
   size_t size = 100
@@ -782,90 +782,90 @@ send_conf (struct device_s *dev)
   DBG(100,"\t brightness: %d, contrast: %d\n", dev.optionw[BRIGH_OFFSET], dev.optionw[CONTR_OFFSET])
   DBG(100,"\t resolution: %d\n",dev.optionw[RES_OFFSET])
 
-  dev.conf_data[0] = htonl (0x15)
-  dev.conf_data[1] = htonl (dev.optionw[BRIGH_OFFSET])
-  dev.conf_data[2] = htonl (dev.optionw[CONTR_OFFSET])
-  dev.conf_data[3] = htonl (dev.optionw[RES_OFFSET])
-  dev.conf_data[4] = htonl (0x1)
-  dev.conf_data[5] = htonl (0x1)
-  dev.conf_data[6] = htonl (0x1)
-  dev.conf_data[7] = htonl (0x1)
+  dev.conf_data[0] = htonl(0x15)
+  dev.conf_data[1] = htonl(dev.optionw[BRIGH_OFFSET])
+  dev.conf_data[2] = htonl(dev.optionw[CONTR_OFFSET])
+  dev.conf_data[3] = htonl(dev.optionw[RES_OFFSET])
+  dev.conf_data[4] = htonl(0x1)
+  dev.conf_data[5] = htonl(0x1)
+  dev.conf_data[6] = htonl(0x1)
+  dev.conf_data[7] = htonl(0x1)
   dev.conf_data[8] = 0
   dev.conf_data[9] = 0
-  dev.conf_data[10] = htonl (0x8)
+  dev.conf_data[10] = htonl(0x8)
   dev.conf_data[11] = 0
   dev.conf_data[12] = 0
   dev.conf_data[13] = 0
   dev.conf_data[14] = 0
-  dev.conf_data[16] = htonl (y1)
-  dev.conf_data[17] = htonl (x1)
-  dev.conf_data[18] = htonl (y2)
-  dev.conf_data[19] = htonl (x2)
+  dev.conf_data[16] = htonl(y1)
+  dev.conf_data[17] = htonl(x1)
+  dev.conf_data[18] = htonl(y2)
+  dev.conf_data[19] = htonl(x2)
   dev.conf_data[20] = 0
   dev.conf_data[21] = 0
-  dev.conf_data[22] = htonl (0x491)
-  dev.conf_data[23] = htonl (0x352)
+  dev.conf_data[22] = htonl(0x491)
+  dev.conf_data[23] = htonl(0x352)
 
-  if (dev.optionw[COLOR_OFFSET] == RGB)
+  if(dev.optionw[COLOR_OFFSET] == RGB)
     {
-      dev.conf_data[15] = htonl (0x2)
-      dev.conf_data[24] = htonl (0x1)
+      dev.conf_data[15] = htonl(0x2)
+      dev.conf_data[24] = htonl(0x1)
       DBG(100,"\t Scanning in RGB format\n")
     }
   else
     {
-      dev.conf_data[15] = htonl (0x6)
-      dev.conf_data[24] = htonl (0x0)
+      dev.conf_data[15] = htonl(0x6)
+      dev.conf_data[24] = htonl(0x0)
       DBG(100,"\t Scanning in Grayscale format\n")
     }
-  sanei_usb_write_bulk (dev.dn, (unsigned char *) dev.conf_data, &size)
+  sanei_usb_write_bulk(dev.dn, (unsigned char *) dev.conf_data, &size)
 }
 
 static Sane.Status
-get_data (struct device_s *dev)
+get_data(struct device_s *dev)
 {
   Int color
   size_t size
   Int packet_size
   unsigned char *buffer = (unsigned char *) dev.packet_data
-  if (dev.status == STATUS_IDLE)
+  if(dev.status == STATUS_IDLE)
     return Sane.STATUS_IO_ERROR
   /* first wait a standard data pkt */
   do
     {
       size = 32
-      sanei_usb_read_bulk (dev.dn, buffer, &size)
-      if (size)
+      sanei_usb_read_bulk(dev.dn, buffer, &size)
+      if(size)
 	{
-	  if (ntohl (dev.packet_data[0]) == MAGIC_NUMBER)
+	  if(ntohl(dev.packet_data[0]) == MAGIC_NUMBER)
 	    {
-	      if (ntohl (dev.packet_data[1]) == PKT_DATA)
+	      if(ntohl(dev.packet_data[1]) == PKT_DATA)
 		break
-	      if (ntohl (dev.packet_data[1]) == PKT_END_DATA)
+	      if(ntohl(dev.packet_data[1]) == PKT_END_DATA)
 		{
 		  dev.status = STATUS_IDLE
 		  DBG(100,"End of scan encountered on device %s\n",dev.devname)
-		  send_pkt (PKT_GO_IDLE, 0, dev)
-		  wait_ack (dev, NULL)
-		  wait_ack (dev, NULL)
-		  send_pkt (PKT_UNKNOW_1, 0, dev)
-		  wait_ack (dev, NULL)
-		  send_pkt (PKT_RESET, 0, dev)
-		  sleep (2);	/* Time for the scanning head to go back home */
+		  send_pkt(PKT_GO_IDLE, 0, dev)
+		  wait_ack(dev, NULL)
+		  wait_ack(dev, NULL)
+		  send_pkt(PKT_UNKNOW_1, 0, dev)
+		  wait_ack(dev, NULL)
+		  send_pkt(PKT_RESET, 0, dev)
+		  sleep(2);	/* Time for the scanning head to go back home */
 		  return Sane.STATUS_EOF
 		}
 	    }
 	}
     }
-  while (1)
-  packet_size = ntohl (dev.packet_data[5])
-  if (!dev.buffer)
+  while(1)
+  packet_size = ntohl(dev.packet_data[5])
+  if(!dev.buffer)
     {
       dev.bufs = packet_size - 24 /* size of header */ 
-      if (dev.optionw[COLOR_OFFSET] == RGB)
+      if(dev.optionw[COLOR_OFFSET] == RGB)
 	dev.bufs *= 3
-      dev.buffer = malloc (dev.bufs)
-      if (!dev.buffer)
+      dev.buffer = malloc(dev.bufs)
+      if(!dev.buffer)
 	return Sane.STATUS_NO_MEM
       dev.write_offset_r = 0
       dev.write_offset_g = 1
@@ -876,12 +876,12 @@ get_data (struct device_s *dev)
   do
     {
       size = 24
-      sanei_usb_read_bulk (dev.dn, buffer, &size)
+      sanei_usb_read_bulk(dev.dn, buffer, &size)
     }
-  while (!size)
-  color = ntohl (dev.packet_data[0])
+  while(!size)
+  color = ntohl(dev.packet_data[0])
   packet_size -= size
-  dev.width = ntohl (dev.packet_data[5])
+  dev.width = ntohl(dev.packet_data[5])
   DBG(100,"Got data size %d on device %s. Scan width: %d\n",packet_size, dev.devname, dev.width)
   /* Now, read the data */
   do
@@ -892,51 +892,51 @@ get_data (struct device_s *dev)
       do
 	{
 	  size = packet_size > 512 ? 512 : packet_size
-	  ret = sanei_usb_read_bulk (dev.dn, buffer, &size)
+	  ret = sanei_usb_read_bulk(dev.dn, buffer, &size)
 	}
-      while (!size || ret != Sane.STATUS_GOOD)
+      while(!size || ret != Sane.STATUS_GOOD)
       packet_size -= size
-      switch (color)
+      switch(color)
 	{
 	case RED_LAYER:
 	  DBG(101,"Got red layer data on device %s\n",dev.devname)
 	  i = dev.write_offset_r + 3 * size
-	  if (i > dev.bufs)
+	  if(i > dev.bufs)
 	    i = dev.bufs
-	  for (j = 0; dev.write_offset_r < i; dev.write_offset_r += 3)
+	  for(j = 0; dev.write_offset_r < i; dev.write_offset_r += 3)
 	    dev.buffer[dev.write_offset_r] = buffer[j++]
 	  break
 	case GREEN_LAYER:
 	  DBG(101,"Got green layer data on device %s\n",dev.devname)
 	  i = dev.write_offset_g + 3 * size
-	  if (i > dev.bufs)
+	  if(i > dev.bufs)
 	    i = dev.bufs
-	  for (j = 0; dev.write_offset_g < i; dev.write_offset_g += 3)
+	  for(j = 0; dev.write_offset_g < i; dev.write_offset_g += 3)
 	    dev.buffer[dev.write_offset_g] = buffer[j++]
 	  break
 	case BLUE_LAYER:
           DBG(101,"Got blue layer data on device %s\n",dev.devname)
 	  i = dev.write_offset_b + 3 * size
-	  if (i > dev.bufs)
+	  if(i > dev.bufs)
 	    i = dev.bufs
-	  for (j = 0; dev.write_offset_b < i; dev.write_offset_b += 3)
+	  for(j = 0; dev.write_offset_b < i; dev.write_offset_b += 3)
 	    dev.buffer[dev.write_offset_b] = buffer[j++]
 	  break
 	case GRAY_LAYER:
 	  DBG(101,"Got gray layer data on device %s\n",dev.devname)
-	  if (dev.write_offset_r + (Int)size >= dev.bufs)
+	  if(dev.write_offset_r + (Int)size >= dev.bufs)
 	    size = dev.bufs - dev.write_offset_r
-	  memcpy (dev.buffer + dev.write_offset_r, buffer, size)
+	  memcpy(dev.buffer + dev.write_offset_r, buffer, size)
 	  dev.write_offset_r += size
 	  break
 	}
     }
-  while (packet_size > 0)
+  while(packet_size > 0)
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.start (Sane.Handle h)
+Sane.start(Sane.Handle h)
 {
   struct device_s *dev = (struct device_s *) h
   Int status
@@ -947,52 +947,52 @@ Sane.start (Sane.Handle h)
   dev.write_offset_g = 1
   dev.write_offset_b = 2
 
-  free (dev.buffer)
+  free(dev.buffer)
   dev.buffer = NULL
 
 
-  send_pkt (PKT_RESET, 0, dev)
-  send_pkt (PKT_READ_STATUS, 0, dev)
-  wait_ack (dev, &status)
-  if (status)
+  send_pkt(PKT_RESET, 0, dev)
+  send_pkt(PKT_READ_STATUS, 0, dev)
+  wait_ack(dev, &status)
+  if(status)
     return Sane.STATUS_IO_ERROR
 
-  send_pkt (PKT_READCONF, 0, dev)
+  send_pkt(PKT_READCONF, 0, dev)
 
-  if ((size = wait_ack (dev, NULL)))
+  if((size = wait_ack(dev, NULL)))
     {
-      sanei_usb_read_bulk (dev.dn, (unsigned char *) dev.conf_data, &size)
+      sanei_usb_read_bulk(dev.dn, (unsigned char *) dev.conf_data, &size)
     }
-  send_pkt (PKT_SETCONF, 100, dev)
-  send_conf (dev)
-  wait_ack (dev, NULL)
+  send_pkt(PKT_SETCONF, 100, dev)
+  send_conf(dev)
+  wait_ack(dev, NULL)
 
-  send_pkt (PKT_START_SCAN, 0, dev)
-  wait_ack (dev, NULL)
-  if ((size = wait_ack (dev, NULL)))
+  send_pkt(PKT_START_SCAN, 0, dev)
+  wait_ack(dev, NULL)
+  if((size = wait_ack(dev, NULL)))
     {
-      sanei_usb_read_bulk (dev.dn, (unsigned char *) dev.conf_data, &size)
+      sanei_usb_read_bulk(dev.dn, (unsigned char *) dev.conf_data, &size)
     }
-  if ((size = wait_ack (dev, NULL)))
+  if((size = wait_ack(dev, NULL)))
     {
-      sanei_usb_read_bulk (dev.dn, (unsigned char *) dev.conf_data, &size)
+      sanei_usb_read_bulk(dev.dn, (unsigned char *) dev.conf_data, &size)
     }
-  if ((size = wait_ack (dev, NULL)))
+  if((size = wait_ack(dev, NULL)))
     {
-      sanei_usb_read_bulk (dev.dn, (unsigned char *) dev.conf_data, &size)
+      sanei_usb_read_bulk(dev.dn, (unsigned char *) dev.conf_data, &size)
     }
 
   dev.status = STATUS_SCANNING
   /* Get the first data */
-  return get_data (dev)
+  return get_data(dev)
 }
 
 
 static void
 do_cancel(struct device_s *dev)
 {
-  while (get_data (dev) == Sane.STATUS_GOOD)
-  free (dev.buffer)
+  while(get_data(dev) == Sane.STATUS_GOOD)
+  free(dev.buffer)
   dev.buffer = NULL
 }
 
@@ -1002,31 +1002,31 @@ min3 (Int r, Int g, Int b)
   /* Optimize me ! */
   g--
   b -= 2
-  if (r < g && r < b)
+  if(r < g && r < b)
     return r
-  if (b < r && b < g)
+  if(b < r && b < g)
     return b
   return g
 }
 
 Sane.Status
-Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
+Sane.read(Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 {
   struct device_s *dev = (struct device_s *) h
   Int available
   Int ret
   *len = 0
-  if (dev.status == STATUS_IDLE)
+  if(dev.status == STATUS_IDLE)
     return Sane.STATUS_IO_ERROR
-  if (dev.optionw[COLOR_OFFSET] == RGB)
+  if(dev.optionw[COLOR_OFFSET] == RGB)
     {
-      while (min3 (dev.write_offset_r, dev.write_offset_g,
+      while(min3 (dev.write_offset_r, dev.write_offset_g,
 		   dev.write_offset_b) <= dev.read_offset)
 	{
-	  ret = get_data (dev)
-	  if (ret != Sane.STATUS_GOOD)
+	  ret = get_data(dev)
+	  if(ret != Sane.STATUS_GOOD)
 	    {
-	      if (min3 (dev.write_offset_r,
+	      if(min3 (dev.write_offset_r,
 			dev.write_offset_g,
 			dev.write_offset_b) <= dev.read_offset)
 		return ret
@@ -1037,23 +1037,23 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
     }
   else
     {
-      while (dev.write_offset_r <= dev.read_offset)
+      while(dev.write_offset_r <= dev.read_offset)
 	{
-	  ret = get_data (dev)
-	  if (ret != Sane.STATUS_GOOD)
-	    if (dev.write_offset_r <= dev.read_offset)
+	  ret = get_data(dev)
+	  if(ret != Sane.STATUS_GOOD)
+	    if(dev.write_offset_r <= dev.read_offset)
 	      return ret
 	}
       available = dev.write_offset_r
     }
   *len = available - dev.read_offset
-  if (*len > maxlen)
+  if(*len > maxlen)
     *len = maxlen
-  memcpy (buf, dev.buffer + dev.read_offset, *len)
+  memcpy(buf, dev.buffer + dev.read_offset, *len)
   dev.read_offset += *len
-  if (dev.read_offset == dev.bufs)
+  if(dev.read_offset == dev.bufs)
     {
-      free (dev.buffer)
+      free(dev.buffer)
       dev.buffer = NULL
       dev.read_offset = 0
       dev.write_offset_r = 0
@@ -1062,7 +1062,7 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
     }
 
   /* Special case where Sane.cancel is called while scanning */
-  if (dev.status == STATUS_CANCELING)
+  if(dev.status == STATUS_CANCELING)
     {
        do_cancel(dev)
        return Sane.STATUS_CANCELLED
@@ -1071,30 +1071,30 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 }
 
 void
-Sane.cancel (Sane.Handle h)
+Sane.cancel(Sane.Handle h)
 {
   struct device_s *dev = (struct device_s *) h
 
 
-  if (dev.status == STATUS_SCANNING)
+  if(dev.status == STATUS_SCANNING)
     {
       dev.status = STATUS_CANCELING
       return
     }
 
-  free (dev.buffer)
+  free(dev.buffer)
   dev.buffer = NULL
 }
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle __Sane.unused__ handle,
+Sane.set_io_mode(Sane.Handle __Sane.unused__ handle,
 		  Bool __Sane.unused__ non_blocking)
 {
   return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle __Sane.unused__ handle,
+Sane.get_select_fd(Sane.Handle __Sane.unused__ handle,
 		    Int __Sane.unused__ * fd)
 {
   return Sane.STATUS_UNSUPPORTED

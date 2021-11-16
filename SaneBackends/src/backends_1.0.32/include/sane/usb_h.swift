@@ -1,8 +1,8 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2001, 2002 Henning Meier-Geinitz
-   Copyright (C) 2003, 2005 Rene Rebe (sanei_read_int,sanei_set_timeout)
-   Copyright (C) 2008 m. allan noah (sanei_usb_clear_halt)
-   Copyright (C) 2011 Reinhold Kainhofer (sanei_usb_set_endpoint)
+   Copyright(C) 2001, 2002 Henning Meier-Geinitz
+   Copyright(C) 2003, 2005 Rene Rebe(sanei_read_int,sanei_set_timeout)
+   Copyright(C) 2008 m. allan noah(sanei_usb_clear_halt)
+   Copyright(C) 2011 Reinhold Kainhofer(sanei_usb_set_endpoint)
    This file is part of the SANE package.
 
    SANE is free software; you can redistribute it and/or modify it
@@ -49,7 +49,7 @@
  * files as used by the Linux kernel USB scanner driver is supported. FreeBSD
  * and OpenBSD with their uscanner drivers also work this way. However,
  * detection and control messages aren't supported on these platforms.
- * - Access using libusb (where available).
+ * - Access using libusb(where available).
  *
  * A general remark: Do not mix sanei_usb functions with "normal" file-related
  * libc functions like open() or close.  The device numbers used in sanei_usb
@@ -248,20 +248,20 @@ public void sanei_usb_testing_record_message(Sane.String_Const message)
  *
  * Call this before any other sanei_usb function.
  */
-public void sanei_usb_init (void)
+public void sanei_usb_init(void)
 
 /** End sanei_usb use, freeing resources when needed.
  *
  * When the use count of sanei_usb reach 0, free resources and end
  * sanei_usb use.
  */
-public void sanei_usb_exit (void)
+public void sanei_usb_exit(void)
 
 /** Search for USB devices.
  *
  * Search USB buses for scanner devices.
  */
-public void sanei_usb_scan_devices (void)
+public void sanei_usb_scan_devices(void)
 
 /** Get the vendor and product ids by device name.
  *
@@ -276,7 +276,7 @@ public void sanei_usb_scan_devices (void)
  *   access method
  */
 Sane.Status
-sanei_usb_get_vendor_product_byname (Sane.String_Const devname,
+sanei_usb_get_vendor_product_byname(Sane.String_Const devname,
 				     Sane.Word * vendor, Sane.Word * product)
 
 /** Get the vendor and product ids.
@@ -294,7 +294,7 @@ sanei_usb_get_vendor_product_byname (Sane.String_Const devname,
  * - Sane.STATUS_UNSUPPORTED - if the OS doesn't support detection of ids
  */
 public Sane.Status
-sanei_usb_get_vendor_product (Int dn, Sane.Word * vendor,
+sanei_usb_get_vendor_product(Int dn, Sane.Word * vendor,
 			      Sane.Word * product)
 
 /** Find devices that match given vendor and product ids.
@@ -306,11 +306,11 @@ sanei_usb_get_vendor_product (Int dn, Sane.Word * vendor,
  * @param product product id
  * @param attach attach function
  *
- * @return Sane.STATUS_GOOD - on success (even if no scanner was found)
+ * @return Sane.STATUS_GOOD - on success(even if no scanner was found)
  */
 public Sane.Status
-sanei_usb_find_devices (Int vendor, Int product,
-			Sane.Status (*attach) (Sane.String_Const devname))
+sanei_usb_find_devices(Int vendor, Int product,
+			Sane.Status(*attach) (Sane.String_Const devname))
 
 /** Open a USB device.
  *
@@ -318,7 +318,7 @@ sanei_usb_find_devices (Int vendor, Int product,
  * returned in dn on success.
  *
  * Device names can be either device file names for direct access over
- * kernel drivers (like /dev/usb/scanner) or libusb names. The libusb format
+ * kernel drivers(like /dev/usb/scanner) or libusb names. The libusb format
  * looks like this: "libusb:bus-id:device-id". Bus-id and device-id are
  * platform-dependent. An example could look like this: "libusb:001:002"
  * (Linux).
@@ -332,21 +332,21 @@ sanei_usb_find_devices (Int vendor, Int product,
  *   permissions
  * - Sane.STATUS_INVAL - on every other error
  */
-public Sane.Status sanei_usb_open (Sane.String_Const devname, Int * dn)
+public Sane.Status sanei_usb_open(Sane.String_Const devname, Int * dn)
 
 /** Set the endpoint for the USB communication
  *
  * Allows to switch to a different endpoint for the USB communication than
- * the default (auto-detected) endpoint. This function can only be called
+ * the default(auto-detected) endpoint. This function can only be called
  * after sanei_usb_open.
  *
  * @param dn device number
- * @param ep_type type of endpoint to set (bitwise or of USB_DIR_IN/OUT and
+ * @param ep_type type of endpoint to set(bitwise or of USB_DIR_IN/OUT and
  *                USB_ENDPOINT_TYPE_BULK/CONTROL/INTERRUPT/ISOCHRONOUS
  * @param ep endpoint to use for the given type
  *
  */
-public void sanei_usb_set_endpoint (Int dn, Int ep_type, Int ep)
+public void sanei_usb_set_endpoint(Int dn, Int ep_type, Int ep)
 
 /** Retrieve the endpoint used for the USB communication
  *
@@ -354,24 +354,24 @@ public void sanei_usb_set_endpoint (Int dn, Int ep_type, Int ep)
  * This function can only be called after sanei_usb_open.
  *
  * @param dn device number
- * @param ep_type type of endpoint to retrieve (bitwise or of USB_DIR_IN/OUT
+ * @param ep_type type of endpoint to retrieve(bitwise or of USB_DIR_IN/OUT
  *                and USB_ENDPOINT_TYPE_BULK/CONTROL/INTERRUPT/ISOCHRONOUS
  * @return endpoint used for the given type
  *
  */
-public Int sanei_usb_get_endpoint (Int dn, Int ep_type)
+public Int sanei_usb_get_endpoint(Int dn, Int ep_type)
 
 /** Close a USB device.
  *
  * @param dn device number
  */
-public void sanei_usb_close (Int dn)
+public void sanei_usb_close(Int dn)
 
 /** Set the libusb timeout for bulk and interrupt reads.
  *
  * @param timeout the new timeout in ms
  */
-public void sanei_usb_set_timeout (Int timeout)
+public void sanei_usb_set_timeout(Int timeout)
 
 /** Check if sanei_usb_set_timeout() is available.
  */
@@ -381,7 +381,7 @@ public void sanei_usb_set_timeout (Int timeout)
  *
  * @param dn device number
  */
-public Sane.Status sanei_usb_clear_halt (Int dn)
+public Sane.Status sanei_usb_clear_halt(Int dn)
 
 /** Check if sanei_usb_clear_halt() is available.
  */
@@ -391,7 +391,7 @@ public Sane.Status sanei_usb_clear_halt (Int dn)
  *
  * @param dn device number
  */
-public Sane.Status sanei_usb_reset (Int dn)
+public Sane.Status sanei_usb_reset(Int dn)
 
 /** Initiate a bulk transfer read.
  *
@@ -410,7 +410,7 @@ public Sane.Status sanei_usb_reset (Int dn)
  *
  */
 public Sane.Status
-sanei_usb_read_bulk (Int dn, Sane.Byte * buffer, size_t * size)
+sanei_usb_read_bulk(Int dn, Sane.Byte * buffer, size_t * size)
 
 /** Initiate a bulk transfer write.
  *
@@ -427,7 +427,7 @@ sanei_usb_read_bulk (Int dn, Sane.Byte * buffer, size_t * size)
  * - Sane.STATUS_INVAL - on every other error
  */
 public Sane.Status
-sanei_usb_write_bulk (Int dn, const Sane.Byte * buffer, size_t * size)
+sanei_usb_write_bulk(Int dn, const Sane.Byte * buffer, size_t * size)
 
 /** Send/receive a control message to/from a USB device.
  *
@@ -438,11 +438,11 @@ sanei_usb_write_bulk (Int dn, const Sane.Byte * buffer, size_t * size)
  * www.usb.org developers information page</a>.
  *
  * @param dn device number
- * @param rtype specifies the characteristics of the request (e.g. data
+ * @param rtype specifies the characteristics of the request(e.g. data
  *    direction)
  * @param req actual request
  * @param value parameter specific to the request
- * @param index parameter specific to the request (often used to select
+ * @param index parameter specific to the request(often used to select
  *     endpoint)
  * @param len length of data to send/receive
  * @param data buffer to send/receive data
@@ -454,7 +454,7 @@ sanei_usb_write_bulk (Int dn, const Sane.Byte * buffer, size_t * size)
  *   SANE.
  */
 public Sane.Status
-sanei_usb_control_msg (Int dn, Int rtype, Int req,
+sanei_usb_control_msg(Int dn, Int rtype, Int req,
 		       Int value, Int index, Int len,
 		       Sane.Byte * data)
 
@@ -476,11 +476,11 @@ sanei_usb_control_msg (Int dn, Int rtype, Int req,
  */
 
 public Sane.Status
-sanei_usb_read_int (Int dn, Sane.Byte * buffer, size_t * size)
+sanei_usb_read_int(Int dn, Sane.Byte * buffer, size_t * size)
 
 /** Expand device name patterns into a list of devices.
  *
- * Apart from a normal device name (such as /dev/usb/scanner0 or
+ * Apart from a normal device name(such as /dev/usb/scanner0 or
  * libusb:002:003), this function currently supports USB device
  * specifications of the form:
  *
@@ -495,8 +495,8 @@ sanei_usb_read_int (Int dn, Sane.Byte * buffer, size_t * size)
  *
  */
 public void
-sanei_usb_attach_matching_devices (const char *name,
-				   Sane.Status (*attach) (const char *dev))
+sanei_usb_attach_matching_devices(const char *name,
+				   Sane.Status(*attach) (const char *dev))
 
 /** Initiate set configuration.
  *
@@ -514,7 +514,7 @@ sanei_usb_attach_matching_devices (const char *name,
  */
 
 public Sane.Status
-sanei_usb_set_configuration (Int dn, Int configuration)
+sanei_usb_set_configuration(Int dn, Int configuration)
 
 /** Initiate claim interface.
  *
@@ -532,7 +532,7 @@ sanei_usb_set_configuration (Int dn, Int configuration)
  */
 
 public Sane.Status
-sanei_usb_claim_interface (Int dn, Int interface_number)
+sanei_usb_claim_interface(Int dn, Int interface_number)
 
 /** Initiate release interface.
  *
@@ -550,7 +550,7 @@ sanei_usb_claim_interface (Int dn, Int interface_number)
  */
 
 public Sane.Status
-sanei_usb_release_interface (Int dn, Int interface_number)
+sanei_usb_release_interface(Int dn, Int interface_number)
 
 /** Initiate a set altinterface.
  *
@@ -568,7 +568,7 @@ sanei_usb_release_interface (Int dn, Int interface_number)
  */
 
 public Sane.Status
-sanei_usb_set_altinterface (Int dn, Int alternate)
+sanei_usb_set_altinterface(Int dn, Int alternate)
 
 /** Get some information from the device descriptor
  *

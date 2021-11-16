@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 Geoffrey T. Dairiki
+   Copyright(C) 1997 Geoffrey T. Dairiki
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -37,7 +37,7 @@
    If you do not wish that, delete this exception notice.
 
    This file is part of a SANE backend for HP Scanners supporting
-   HP Scanner Control Language (SCL).
+   HP Scanner Control Language(SCL).
 */
 
 #ifndef HP_DEVICE_INCLUDED
@@ -70,22 +70,22 @@ struct hp_device_s
     enum hp_device_compat_e compat
 ]
 
-Sane.Status	sanei_hp_device_new (HpDevice * new, const char * devname)
+Sane.Status	sanei_hp_device_new(HpDevice * new, const char * devname)
 
-const Sane.Device * sanei_hp_device_sanedevice (HpDevice this)
+const Sane.Device * sanei_hp_device_sanedevice(HpDevice this)
 
-void            sanei_hp_device_simulate_clear (const char *devname)
-Sane.Status     sanei_hp_device_simulate_set (const char *devname, HpScl scl,
+void            sanei_hp_device_simulate_clear(const char *devname)
+Sane.Status     sanei_hp_device_simulate_set(const char *devname, HpScl scl,
                                               Int flag)
-Sane.Status     sanei_hp_device_support_get (const char *devname, HpScl scl,
+Sane.Status     sanei_hp_device_support_get(const char *devname, HpScl scl,
                                              Int *minval, Int *maxval)
-Sane.Status     sanei_hp_device_support_probe (HpScsi scsi)
-Sane.Status     sanei_hp_device_probe_model (enum hp_device_compat_e *compat,
+Sane.Status     sanei_hp_device_support_probe(HpScsi scsi)
+Sane.Status     sanei_hp_device_probe_model(enum hp_device_compat_e *compat,
                                              HpScsi scsi, Int *model_num,
                                              const char **model_name)
-Sane.Status     sanei_hp_device_probe (enum hp_device_compat_e *compat,
+Sane.Status     sanei_hp_device_probe(enum hp_device_compat_e *compat,
                                        HpScsi scsi)
-hp_bool_t	sanei_hp_device_compat (HpDevice this,
+hp_bool_t	sanei_hp_device_compat(HpDevice this,
                                         enum hp_device_compat_e c)
 
 
@@ -93,13 +93,13 @@ hp_bool_t	sanei_hp_device_compat (HpDevice this,
 
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 Geoffrey T. Dairiki
+   Copyright(C) 1997 Geoffrey T. Dairiki
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -131,7 +131,7 @@ hp_bool_t	sanei_hp_device_compat (HpDevice this,
    If you do not wish that, delete this exception notice.
 
    This file is part of a SANE backend for HP Scanners supporting
-   HP Scanner Control Language (SCL).
+   HP Scanner Control Language(SCL).
 */
 
 /*#define STUBS
@@ -150,13 +150,13 @@ import hp-scl
 
 /* Mark an scl-command to be simulated */
 Sane.Status
-sanei_hp_device_simulate_set (const char *devname, HpScl scl, Int flag)
+sanei_hp_device_simulate_set(const char *devname, HpScl scl, Int flag)
 
 {HpDeviceInfo *info
  Int inqid
 
- info = sanei_hp_device_info_get ( devname )
- if (!info) return Sane.STATUS_INVAL
+ info = sanei_hp_device_info_get( devname )
+ if(!info) return Sane.STATUS_INVAL
 
  inqid = SCL_INQ_ID(scl)-HP_SCL_INQID_MIN
  info.simulate.sclsimulate[inqid] = flag
@@ -169,35 +169,35 @@ sanei_hp_device_simulate_set (const char *devname, HpScl scl, Int flag)
 
 /* Clear all simulation flags */
 void
-sanei_hp_device_simulate_clear (const char *devname)
+sanei_hp_device_simulate_clear(const char *devname)
 
 {HpDeviceInfo *info
 
- info = sanei_hp_device_info_get ( devname )
- if (!info) return
+ info = sanei_hp_device_info_get( devname )
+ if(!info) return
 
- memset (&(info.simulate.sclsimulate[0]), 0,
-         sizeof (info.simulate.sclsimulate))
+ memset(&(info.simulate.sclsimulate[0]), 0,
+         sizeof(info.simulate.sclsimulate))
 
  info.simulate.gamma_simulate = 0
 }
 
 /* Get simulate flag for an scl-command */
 hp_bool_t
-sanei_hp_device_simulate_get (const char *devname, HpScl scl)
+sanei_hp_device_simulate_get(const char *devname, HpScl scl)
 
 {HpDeviceInfo *info
  Int inqid
 
- info = sanei_hp_device_info_get ( devname )
- if (!info) return 0
+ info = sanei_hp_device_info_get( devname )
+ if(!info) return 0
 
  inqid = SCL_INQ_ID(scl)-HP_SCL_INQID_MIN
  return info.simulate.sclsimulate[inqid]
 }
 
 Sane.Status
-sanei_hp_device_support_get (const char *devname, HpScl scl,
+sanei_hp_device_support_get(const char *devname, HpScl scl,
                              Int *minval, Int *maxval)
 
 {HpDeviceInfo *info
@@ -206,33 +206,33 @@ sanei_hp_device_support_get (const char *devname, HpScl scl,
 
 /* #define HP_TEST_SIMULATE */
 #ifdef HP_TEST_SIMULATE
-  if (scl == SCL_BRIGHTNESS) return Sane.STATUS_UNSUPPORTED
-  if (scl == SCL_CONTRAST) return Sane.STATUS_UNSUPPORTED
-  if (scl == SCL_DOWNLOAD_TYPE)
+  if(scl == SCL_BRIGHTNESS) return Sane.STATUS_UNSUPPORTED
+  if(scl == SCL_CONTRAST) return Sane.STATUS_UNSUPPORTED
+  if(scl == SCL_DOWNLOAD_TYPE)
   {
      *minval = 2; *maxval = 14
      return Sane.STATUS_GOOD
   }
 #endif
 
- info = sanei_hp_device_info_get ( devname )
- if (!info) return Sane.STATUS_INVAL
+ info = sanei_hp_device_info_get( devname )
+ if(!info) return Sane.STATUS_INVAL
 
  inqid = SCL_INQ_ID(scl)-HP_SCL_INQID_MIN
  sclsupport = &(info.sclsupport[inqid])
 
- if ( !(sclsupport.checked) ) return Sane.STATUS_INVAL
- if ( !(sclsupport.is_supported) ) return Sane.STATUS_UNSUPPORTED
+ if( !(sclsupport.checked) ) return Sane.STATUS_INVAL
+ if( !(sclsupport.is_supported) ) return Sane.STATUS_UNSUPPORTED
 
- if (minval) *minval = sclsupport.minval
- if (maxval) *maxval = sclsupport.maxval
+ if(minval) *minval = sclsupport.minval
+ if(maxval) *maxval = sclsupport.maxval
 
  return Sane.STATUS_GOOD
 }
 
 /* Update the list of supported commands */
 Sane.Status
-sanei_hp_device_support_probe (HpScsi scsi)
+sanei_hp_device_support_probe(HpScsi scsi)
 
 {HpDeviceInfo *info
  HpSclSupport *sclsupport
@@ -274,18 +274,18 @@ sanei_hp_device_support_probe (HpScsi scsi)
  enum hp_device_compat_e compat
 
  DBG(1, "hp_device_support_probe: Check supported commands for %s\n",
-     sanei_hp_scsi_devicename (scsi) )
+     sanei_hp_scsi_devicename(scsi) )
 
- info = sanei_hp_device_info_get ( sanei_hp_scsi_devicename (scsi) )
- assert (info)
+ info = sanei_hp_device_info_get( sanei_hp_scsi_devicename(scsi) )
+ assert(info)
 
- memset (&(info.sclsupport[0]), 0, sizeof (info.sclsupport))
+ memset(&(info.sclsupport[0]), 0, sizeof(info.sclsupport))
 
- for (k = 0; k < (Int)(sizeof (sclprobe) / sizeof (sclprobe[0])); k++)
+ for(k = 0; k < (Int)(sizeof(sclprobe) / sizeof(sclprobe[0])); k++)
  {
    inqid = SCL_INQ_ID(sclprobe[k])-HP_SCL_INQID_MIN
    sclsupport = &(info.sclsupport[inqid])
-   status = sanei_hp_scl_inquire (scsi, sclprobe[k], &val,
+   status = sanei_hp_scl_inquire(scsi, sclprobe[k], &val,
                                   &(sclsupport.minval),
                                   &(sclsupport.maxval))
    sclsupport.is_supported = (status == Sane.STATUS_GOOD)
@@ -293,15 +293,15 @@ sanei_hp_device_support_probe (HpScsi scsi)
 
    /* The OfficeJets seem to ignore brightness and contrast settings,
     * so we'll pretend they're not supported at all. */
-   if (((sclprobe[k]==SCL_BRIGHTNESS) || (sclprobe[k]==SCL_CONTRAST)) &&
-       (sanei_hp_device_probe (&compat, scsi) == Sane.STATUS_GOOD) &&
+   if(((sclprobe[k]==SCL_BRIGHTNESS) || (sclprobe[k]==SCL_CONTRAST)) &&
+       (sanei_hp_device_probe(&compat, scsi) == Sane.STATUS_GOOD) &&
        (compat & HP_COMPAT_OJ_1150C)) {
 	 sclsupport.is_supported=0
    }
 
-   if (sclsupport.is_supported)
+   if(sclsupport.is_supported)
    {
-     DBG(1, "hp_device_support_probe: %d supported (%d..%d, %d)\n",
+     DBG(1, "hp_device_support_probe: %d supported(%d..%d, %d)\n",
          inqid+HP_SCL_INQID_MIN, sclsupport.minval, sclsupport.maxval, val)
    }
    else
@@ -315,7 +315,7 @@ sanei_hp_device_support_probe (HpScsi scsi)
 }
 
 Sane.Status
-sanei_hp_device_probe_model (enum hp_device_compat_e *compat, HpScsi scsi,
+sanei_hp_device_probe_model(enum hp_device_compat_e *compat, HpScsi scsi,
                              Int *model_num, const char **model_name)
 {
   static struct {
@@ -348,86 +348,86 @@ sanei_hp_device_probe_model (enum hp_device_compat_e *compat, HpScsi scsi,
   static const char *last_model_name = "Model Unknown"
 
   assert(scsi)
-  DBG(1, "probe_scanner: Probing %s\n", sanei_hp_scsi_devicename (scsi))
+  DBG(1, "probe_scanner: Probing %s\n", sanei_hp_scsi_devicename(scsi))
 
-  if (last_device != NULL)  /* Look if we already probed the device */
+  if(last_device != NULL)  /* Look if we already probed the device */
   {
-    if (strcmp (last_device, sanei_hp_scsi_devicename (scsi)) == 0)
+    if(strcmp(last_device, sanei_hp_scsi_devicename(scsi)) == 0)
     {
       DBG(3, "probe_scanner: use cached compatibility flags\n")
       *compat = last_compat
-      if (model_num) *model_num = last_model_num
-      if (model_name) *model_name = last_model_name
+      if(model_num) *model_num = last_model_num
+      if(model_name) *model_name = last_model_name
       return Sane.STATUS_GOOD
     }
-    sanei_hp_free (last_device)
+    sanei_hp_free(last_device)
     last_device = NULL
   }
   *compat = 0
   last_model_num = -1
   last_model_name = "Model Unknown"
-  for (i = 0; i < (Int)(sizeof(probes)/sizeof(probes[0])); i++)
+  for(i = 0; i < (Int)(sizeof(probes)/sizeof(probes[0])); i++)
     {
       DBG(1,"probing %s\n",probes[i].model)
 
-      if (!FAILED( status = sanei_hp_scl_upload(scsi, probes[i].cmd,
+      if(!FAILED( status = sanei_hp_scl_upload(scsi, probes[i].cmd,
 					  buf, sizeof(buf)) ))
 	{
-	  DBG(1, "probe_scanner: %s compatible (%5s)\n", probes[i].model, buf)
+	  DBG(1, "probe_scanner: %s compatible(%5s)\n", probes[i].model, buf)
           last_model_name = probes[i].model
           /* Some scanners have different responses */
-          if (probes[i].model_num == 9)
+          if(probes[i].model_num == 9)
           {
-            if (strncmp (buf, "5110A", 5) == 0)
+            if(strncmp(buf, "5110A", 5) == 0)
               last_model_name = "ScanJet 5p"
-            else if (strncmp (buf, "5190A", 5) == 0)
+            else if(strncmp(buf, "5190A", 5) == 0)
               last_model_name = "ScanJet 5100C"
-            else if (strncmp (buf, "6290A", 5) == 0)
+            else if(strncmp(buf, "6290A", 5) == 0)
               last_model_name = "ScanJet 4100C"
           }
 	  *compat |= probes[i].flag
           last_model_num = probes[i].model_num
 	}
-      else if (!UNSUPPORTED( status ))
+      else if(!UNSUPPORTED( status ))
 	  return status;	/* SCL inquiry failed */
     }
   /* Save values for next call */
-  last_device = sanei_hp_strdup (sanei_hp_scsi_devicename (scsi))
+  last_device = sanei_hp_strdup(sanei_hp_scsi_devicename(scsi))
   last_compat = *compat
-  if (model_num) *model_num = last_model_num
-  if (model_name) *model_name = last_model_name
+  if(model_num) *model_num = last_model_num
+  if(model_name) *model_name = last_model_name
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-sanei_hp_device_probe (enum hp_device_compat_e *compat, HpScsi scsi)
+sanei_hp_device_probe(enum hp_device_compat_e *compat, HpScsi scsi)
 {
-  return sanei_hp_device_probe_model (compat, scsi, 0, 0)
+  return sanei_hp_device_probe_model(compat, scsi, 0, 0)
 }
 
 hp_bool_t
-sanei_hp_device_compat (HpDevice this, enum hp_device_compat_e which)
+sanei_hp_device_compat(HpDevice this, enum hp_device_compat_e which)
 {
-  return (this.compat & which) != 0
+  return(this.compat & which) != 0
 }
 
 static Sane.Status
-hp_nonscsi_device_new (HpDevice * newp, const char * devname, HpConnect connect)
+hp_nonscsi_device_new(HpDevice * newp, const char * devname, HpConnect connect)
 {
   HpDevice	this
   HpScsi	scsi
   Sane.Status	status
   const char *  model_name = "ScanJet"
 
-  if (FAILED( sanei_hp_nonscsi_new(&scsi, devname, connect) ))
+  if(FAILED( sanei_hp_nonscsi_new(&scsi, devname, connect) ))
   {
     DBG(1, "%s: Can't open nonscsi device\n", devname)
     return Sane.STATUS_INVAL;	/* Can't open device */
   }
 
   /* reset scanner; returns all parameters to defaults */
-  if (FAILED( sanei_hp_scl_reset(scsi) ))
+  if(FAILED( sanei_hp_scl_reset(scsi) ))
     {
       DBG(1, "hp_nonscsi_device_new: SCL reset failed\n")
       sanei_hp_scsi_destroy(scsi,1)
@@ -438,31 +438,31 @@ hp_nonscsi_device_new (HpDevice * newp, const char * devname, HpConnect connect)
   this = sanei_hp_allocz(sizeof(*this))
   this.data = sanei_hp_data_new()
 
-  if (!this || !this.data)
+  if(!this || !this.data)
       return Sane.STATUS_NO_MEM
 
   this.sanedev.name = sanei_hp_strdup(devname)
-  if (!this.sanedev.name)
+  if(!this.sanedev.name)
       return Sane.STATUS_NO_MEM
   this.sanedev.vendor = "Hewlett-Packard"
   this.sanedev.type   = "flatbed scanner"
 
-  status = sanei_hp_device_probe_model (&(this.compat), scsi, 0, &model_name)
-  if (!FAILED(status))
+  status = sanei_hp_device_probe_model(&(this.compat), scsi, 0, &model_name)
+  if(!FAILED(status))
   {
-      sanei_hp_device_support_probe (scsi)
+      sanei_hp_device_support_probe(scsi)
       status = sanei_hp_optset_new(&(this.options), scsi, this)
   }
   sanei_hp_scsi_destroy(scsi,1)
 
-  if (!model_name) model_name = "ScanJet"
-  this.sanedev.model = sanei_hp_strdup (model_name)
-  if (!this.sanedev.model)
+  if(!model_name) model_name = "ScanJet"
+  this.sanedev.model = sanei_hp_strdup(model_name)
+  if(!this.sanedev.model)
       return Sane.STATUS_NO_MEM
 
-  if (FAILED(status))
+  if(FAILED(status))
     {
-      DBG(1, "hp_nonscsi_device_new: %s: probe failed (%s)\n",
+      DBG(1, "hp_nonscsi_device_new: %s: probe failed(%s)\n",
 	  devname, Sane.strstatus(status))
       sanei_hp_data_destroy(this.data)
       sanei_hp_free((void *)this.sanedev.name)
@@ -479,7 +479,7 @@ hp_nonscsi_device_new (HpDevice * newp, const char * devname, HpConnect connect)
 }
 
 Sane.Status
-sanei_hp_device_new (HpDevice * newp, const char * devname)
+sanei_hp_device_new(HpDevice * newp, const char * devname)
 {
   HpDevice	this
   HpScsi	scsi
@@ -489,17 +489,17 @@ sanei_hp_device_new (HpDevice * newp, const char * devname)
 
   DBG(3, "sanei_hp_device_new: %s\n", devname)
 
-  connect = sanei_hp_get_connect (devname)
-  if ( connect != HP_CONNECT_SCSI )
-    return hp_nonscsi_device_new (newp, devname, connect)
+  connect = sanei_hp_get_connect(devname)
+  if( connect != HP_CONNECT_SCSI )
+    return hp_nonscsi_device_new(newp, devname, connect)
 
-  if (FAILED( sanei_hp_scsi_new(&scsi, devname) ))
+  if(FAILED( sanei_hp_scsi_new(&scsi, devname) ))
     {
       DBG(1, "%s: Can't open scsi device\n", devname)
       return Sane.STATUS_INVAL;	/* Can't open device */
     }
 
-  if (sanei_hp_scsi_inq(scsi)[0] != 0x03
+  if(sanei_hp_scsi_inq(scsi)[0] != 0x03
       || memcmp(sanei_hp_scsi_vendor(scsi), "HP      ", 8) != 0)
     {
       DBG(1, "%s: does not seem to be an HP scanner\n", devname)
@@ -508,7 +508,7 @@ sanei_hp_device_new (HpDevice * newp, const char * devname)
     }
 
   /* reset scanner; returns all parameters to defaults */
-  if (FAILED( sanei_hp_scl_reset(scsi) ))
+  if(FAILED( sanei_hp_scl_reset(scsi) ))
     {
       DBG(1, "sanei_hp_device_new: SCL reset failed\n")
       sanei_hp_scsi_destroy(scsi,1)
@@ -519,30 +519,30 @@ sanei_hp_device_new (HpDevice * newp, const char * devname)
   this = sanei_hp_allocz(sizeof(*this))
   this.data = sanei_hp_data_new()
 
-  if (!this || !this.data)
+  if(!this || !this.data)
       return Sane.STATUS_NO_MEM
 
   this.sanedev.name = sanei_hp_strdup(devname)
   str = sanei_hp_strdup(sanei_hp_scsi_model(scsi))
-  if (!this.sanedev.name || !str)
+  if(!this.sanedev.name || !str)
       return Sane.STATUS_NO_MEM
   this.sanedev.model = str
-  if ((str = strchr(str, ' ')) != 0)
+  if((str = strchr(str, ' ')) != 0)
       *str = '\0'
   this.sanedev.vendor = "Hewlett-Packard"
   this.sanedev.type   = "flatbed scanner"
 
   status = sanei_hp_device_probe(&(this.compat), scsi)
-  if (!FAILED(status))
+  if(!FAILED(status))
   {
-      sanei_hp_device_support_probe (scsi)
+      sanei_hp_device_support_probe(scsi)
       status = sanei_hp_optset_new(&this.options, scsi, this)
   }
   sanei_hp_scsi_destroy(scsi,1)
 
-  if (FAILED(status))
+  if(FAILED(status))
     {
-      DBG(1, "sanei_hp_device_new: %s: probe failed (%s)\n",
+      DBG(1, "sanei_hp_device_new: %s: probe failed(%s)\n",
 	  devname, Sane.strstatus(status))
       sanei_hp_data_destroy(this.data)
       sanei_hp_free((void *)this.sanedev.name)
@@ -559,7 +559,7 @@ sanei_hp_device_new (HpDevice * newp, const char * devname)
 }
 
 const Sane.Device *
-sanei_hp_device_sanedevice (HpDevice this)
+sanei_hp_device_sanedevice(HpDevice this)
 {
   return &this.sanedev
 }

@@ -2,8 +2,8 @@
  * @brief here we have the whole code to initialize the CCD and DAC stuff
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 2000 Plustek Inc.
- * Copyright (C) 2001-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 2000 Plustek Inc.
+ * Copyright(C) 2001-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.38 - initial version
@@ -21,7 +21,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -346,7 +346,7 @@ static void fnCCDInitWolfson3797( pScanData ps )
     if( ps.Shade.bIntermediate & _ScanMode_Mono )
     	ps.Shade.pCcdDac.DarkDAC.Colors.Green = 0xcc
     else
-    	if (ps.Shade.bIntermediate & _ScanMode_AverageOut)
+    	if(ps.Shade.bIntermediate & _ScanMode_AverageOut)
 	        ps.Shade.pCcdDac.DarkDAC.Colors.Green = 0x68
     	else
   	        ps.Shade.pCcdDac.DarkDAC.Colors.Green = 0xa0
@@ -365,7 +365,7 @@ static void fnCCDInitSamsung3797( pScanData ps )
 {
     if(!(ps.DataInf.dwScanFlag & SCANDEF_TPA)) {
 
-        if (!(ps.Shade.bIntermediate & _ScanMode_AverageOut)) {
+        if(!(ps.Shade.bIntermediate & _ScanMode_AverageOut)) {
 
     	    if( ps.Device.bPCBID == _OPTICWORKS2000 ) {
         		ps.Shade.pCcdDac.GainResize.Colors.Red = 102
@@ -445,7 +445,7 @@ static void fnCCDInitWolfson3799( pScanData ps )
 {
     if(!(ps.DataInf.dwScanFlag & SCANDEF_Negative)) {
 
-        if (!(ps.Shade.bIntermediate & _ScanMode_AverageOut)) {
+        if(!(ps.Shade.bIntermediate & _ScanMode_AverageOut)) {
 
     	    ps.Shade.pCcdDac.GainResize.Colors.Red = 103
 	        ps.Shade.pCcdDac.GainResize.Colors.Green = 102
@@ -500,7 +500,7 @@ static void fnCCDInitWolfson3799( pScanData ps )
  */
 static void fnCCDInitWolfson548( pScanData ps )
 {
-    if (!(ps.Shade.bIntermediate & _ScanMode_AverageOut)) {
+    if(!(ps.Shade.bIntermediate & _ScanMode_AverageOut)) {
 
  	    ps.Shade.pCcdDac.GainResize.Colors.Red   = 103
         ps.Shade.pCcdDac.GainResize.Colors.Green = 102
@@ -544,7 +544,7 @@ static void fnCCDInitSamsung3777( pScanData ps )
 {
     if(!(ps.DataInf.dwScanFlag & SCANDEF_Negative)) {
 
-        if (!(ps.Shade.bIntermediate & _ScanMode_AverageOut)) {
+        if(!(ps.Shade.bIntermediate & _ScanMode_AverageOut)) {
 
     	    ps.Shade.pCcdDac.GainResize.Colors.Red = 109
 	        ps.Shade.pCcdDac.GainResize.Colors.Green = 108
@@ -601,7 +601,7 @@ static void fnCCDInitSamsung3799( pScanData ps )
 {
     if(!(ps.DataInf.dwScanFlag & SCANDEF_TPA)) {
 
-        if (!(ps.Shade.bIntermediate & _ScanMode_AverageOut)) {
+        if(!(ps.Shade.bIntermediate & _ScanMode_AverageOut)) {
 
     	    if( ps.Device.bPCBID == _SCANNER2Button ) {
         		ps.Shade.pCcdDac.GainResize.Colors.Red = 109
@@ -681,7 +681,7 @@ static void fnCCDInitESIC3799( pScanData ps )
 {
     if(!(ps.DataInf.dwScanFlag & SCANDEF_Negative)) {
 
-        if (!(ps.Shade.bIntermediate & _ScanMode_AverageOut)) {
+        if(!(ps.Shade.bIntermediate & _ScanMode_AverageOut)) {
 
     	    ps.Shade.pCcdDac.GainResize.Colors.Red = 100
 	        ps.Shade.pCcdDac.GainResize.Colors.Green = 99
@@ -760,7 +760,7 @@ static void fnDarkOffsetWolfson3799( pScanData ps, pDACTblDef pDacTbl, ULong dwC
  */
 static void fnDarkOffsetSamsung3777( pScanData ps, pDACTblDef pDacTbl, ULong dwCh )
 {
-    ps.Shade.DarkOffset.wColors[dwCh] += pDacTbl.DarkOffSub.wColors [dwCh]
+    ps.Shade.DarkOffset.wColors[dwCh] += pDacTbl.DarkOffSub.wColors[dwCh]
 }
 
 /*.............................................................................
@@ -795,15 +795,15 @@ static void fnDACDarkWolfson( pScanData ps, pDACTblDef pDacTbl,
 
     w = ps.Shade.DarkDAC.bColors[dwCh]
 
-    if (wDarkest > pDacTbl.DarkCmpHi.wColors[dwCh] ) {
+    if(wDarkest > pDacTbl.DarkCmpHi.wColors[dwCh] ) {
 
     	wDarkest -= pDacTbl.DarkCmpHi.wColors[dwCh]
-    	if (wDarkest > ps.Shade.wDarkLevels)
+    	if(wDarkest > ps.Shade.wDarkLevels)
 	        w += (UShort)wDarkest / ps.Shade.wDarkLevels
     	else
 	        w++
 
-        if (w > 0xff)
+        if(w > 0xff)
 	        w = 0xff
 
         if(w != (UShort)ps.Shade.DarkDAC.bColors[dwCh] ) {
@@ -813,15 +813,15 @@ static void fnDACDarkWolfson( pScanData ps, pDACTblDef pDacTbl,
     } else
     	if((wDarkest < pDacTbl.DarkCmpLo.wColors[dwCh]) &&
                                 	        ps.Shade.DarkDAC.bColors[dwCh]) {
-    	    if (wDarkest)
+    	    if(wDarkest)
 	        	w = (UShort)ps.Shade.DarkDAC.bColors[dwCh] - 2U
     	    else
 	        	w = (UShort)ps.Shade.DarkDAC.bColors[dwCh] - ps.Shade.wDarkLevels
 
-    	    if ((short) w < 0)
+    	    if((short) w < 0)
 	        	w = 0
-    	    if (w != (UShort)ps.Shade.DarkDAC.bColors[dwCh] ) {
-        		ps.Shade.DarkDAC.bColors [dwCh] = (Byte)w
+    	    if(w != (UShort)ps.Shade.DarkDAC.bColors[dwCh] ) {
+        		ps.Shade.DarkDAC.bColors[dwCh] = (Byte)w
 		        ps.Shade.fStop                  = _FALSE
 	        }
 	}
@@ -837,8 +837,8 @@ static void fnDACDarkSamsung( pScanData ps, pDACTblDef pDacTbl,
 
     if( wDarkest > pDacTbl.DarkCmpHi.wColors[dwCh] ) {
 
-    	wDarkest -= pDacTbl.DarkCmpHi.wColors [dwCh]
-    	if (wDarkest > ps.Shade.wDarkLevels)
+    	wDarkest -= pDacTbl.DarkCmpHi.wColors[dwCh]
+    	if(wDarkest > ps.Shade.wDarkLevels)
 	        w = (UShort)ps.Shade.DarkDAC.bColors[dwCh] -
 	                                        wDarkest / ps.Shade.wDarkLevels
     	else
@@ -848,18 +848,18 @@ static void fnDACDarkSamsung( pScanData ps, pDACTblDef pDacTbl,
 	        w = 0
 
     	if(w != (UShort)ps.Shade.DarkDAC.bColors[dwCh]) {
-    	    ps.Shade.DarkDAC.bColors [dwCh] = (Byte)w
+    	    ps.Shade.DarkDAC.bColors[dwCh] = (Byte)w
 	        ps.Shade.fStop                  = _FALSE
     	}
     } else
     	if((wDarkest < pDacTbl.DarkCmpLo.wColors[dwCh]) &&
                                     	    ps.Shade.DarkDAC.bColors[dwCh]) {
-    	    if (wDarkest)
+    	    if(wDarkest)
 	        	w = (UShort)ps.Shade.DarkDAC.bColors[dwCh] + 2U
     	    else
-	    	w = ps.Shade.wDarkLevels + (UShort)ps.Shade.DarkDAC.bColors [dwCh]
+	    	w = ps.Shade.wDarkLevels + (UShort)ps.Shade.DarkDAC.bColors[dwCh]
 
-    	    if (w > 0xff)
+    	    if(w > 0xff)
 	        	w = 0xff
 
     	    if(w != (UShort)ps.Shade.DarkDAC.bColors[dwCh]) {
@@ -945,7 +945,7 @@ _LOC void P12InitCCDandDAC( pScanData ps, Bool shading )
 	    else
     		WolfsonDAC8143[2].bParam = 0x42
 
-	    if (ps.Shade.bIntermediate == _ScanMode_Mono )
+	    if(ps.Shade.bIntermediate == _ScanMode_Mono )
     		WolfsonDAC8143 [0].bParam = 7
 	    else
 		    WolfsonDAC8143 [0].bParam = 3
@@ -1132,7 +1132,7 @@ _LOC void P12InitCCDandDAC( pScanData ps, Bool shading )
     /* as we now have the correct init function, call it */
     p12ccdInitFunc( ps )
 
-    DBG( DBG_IO, "Programming DAC (%u regs)\n", ps.Device.wNumDACRegs )
+    DBG( DBG_IO, "Programming DAC(%u regs)\n", ps.Device.wNumDACRegs )
 
     for(w = 0; w < ps.Device.wNumDACRegs; w++ ) {
 

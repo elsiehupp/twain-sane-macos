@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Touboul Nathane
-   Copyright (C) 2019 Thierry HUCHARD <thierry@ordissimo.com>
+   Copyright(C) 2019 Touboul Nathane
+   Copyright(C) 2019 Thierry HUCHARD <thierry@ordissimo.com>
 
    This file is part of the SANE package.
 
    SANE is free software; you can redistribute it and/or modify it under
    the terms of the GNU General Public License as published by the Free
-   Software Foundation; either version 3 of the License, or (at your
+   Software Foundation; either version 3 of the License, or(at your
    option) any later version.
 
    SANE is distributed in the hope that it will be useful, but WITHOUT
@@ -58,7 +58,7 @@ typedef struct
  * \fn static boolean fill_input_buffer(j_decompress_ptr cinfo)
  * \brief Called in the "skip_input_data" function.
  *
- * \return TRUE (everything is OK)
+ * \return TRUE(everything is OK)
  */
 static boolean
 fill_input_buffer(j_decompress_ptr cinfo)
@@ -67,14 +67,14 @@ fill_input_buffer(j_decompress_ptr cinfo)
     Int nbytes = 0
 
     nbytes = fread(src.buffer, 1, INPUT_BUFFER_SIZE, src.ctx)
-    if (nbytes <= 0) {
+    if(nbytes <= 0) {
         src.buffer[0] = (unsigned char) 0xFF
         src.buffer[1] = (unsigned char) JPEG_EOI
         nbytes = 2
     }
     src.pub.next_input_byte = src.buffer
     src.pub.bytes_in_buffer = nbytes
-    return (TRUE)
+    return(TRUE)
 }
 
 /**
@@ -86,8 +86,8 @@ skip_input_data(j_decompress_ptr cinfo, long num_bytes)
 {
     my_source_mgr *src = (my_source_mgr *) cinfo.src
 
-    if (num_bytes > 0) {
-        while (num_bytes > (long) src.pub.bytes_in_buffer) {
+    if(num_bytes > 0) {
+        while(num_bytes > (long) src.pub.bytes_in_buffer) {
             num_bytes -= (long) src.pub.bytes_in_buffer
             (void) src.pub.fill_input_buffer(cinfo)
         }
@@ -117,7 +117,7 @@ jpeg_RW_src(j_decompress_ptr cinfo, FILE *ctx)
 {
     my_source_mgr *src
 
-    if (cinfo.src == NULL) {
+    if(cinfo.src == NULL) {
         cinfo.src = (struct jpeg_source_mgr *)(*cinfo.mem.alloc_small)
             ((j_common_ptr) cinfo, JPOOL_PERMANENT, sizeof(my_source_mgr))
     }
@@ -150,7 +150,7 @@ output_no_message(j_common_ptr __Sane.unused__ cinfo)
  * \brief Function that aims to decompress the jpeg image to SANE be able to read the image.
  *        This function is called in the "Sane.read" function.
  *
- * \return Sane.STATUS_GOOD (if everything is OK, otherwise, Sane.STATUS_NO_MEM/Sane.STATUS_INVAL)
+ * \return Sane.STATUS_GOOD(if everything is OK, otherwise, Sane.STATUS_NO_MEM/Sane.STATUS_INVAL)
  */
 Sane.Status
 get_JPEG_data(capabilities_t *scanner, Int *width, Int *height, Int *bps)
@@ -167,24 +167,24 @@ get_JPEG_data(capabilities_t *scanner, Int *width, Int *height, Int *bps)
     JDIMENSION h = 0
     Int pos = 0
 
-    if (scanner.tmp == NULL)
-        return (Sane.STATUS_INVAL)
+    if(scanner.tmp == NULL)
+        return(Sane.STATUS_INVAL)
     fseek(scanner.tmp, SEEK_SET, 0)
     start = ftell(scanner.tmp)
     cinfo.err = jpeg_std_error(&jerr.errmgr)
     jerr.errmgr.error_exit = my_error_exit
     jerr.errmgr.output_message = output_no_message
-    if (setjmp(jerr.escape)) {
+    if(setjmp(jerr.escape)) {
         jpeg_destroy_decompress(&cinfo)
-        if (surface != NULL)
+        if(surface != NULL)
             free(surface)
 	fseek(scanner.tmp, start, SEEK_SET)
         DBG( 1, "Escl Jpeg : Error reading jpeg\n")
-        if (scanner.tmp) {
+        if(scanner.tmp) {
            fclose(scanner.tmp)
            scanner.tmp = NULL
         }
-        return (Sane.STATUS_INVAL)
+        return(Sane.STATUS_INVAL)
     }
     jpeg_create_decompress(&cinfo)
     jpeg_RW_src(&cinfo, scanner.tmp)
@@ -192,22 +192,22 @@ get_JPEG_data(capabilities_t *scanner, Int *width, Int *height, Int *bps)
     cinfo.out_color_space = JCS_RGB
     cinfo.quantize_colors = FALSE
     jpeg_calc_output_dimensions(&cinfo)
-    if (cinfo.output_width < (unsigned Int)scanner.caps[scanner.source].width)
+    if(cinfo.output_width < (unsigned Int)scanner.caps[scanner.source].width)
           scanner.caps[scanner.source].width = cinfo.output_width
-    if (scanner.caps[scanner.source].pos_x < 0)
+    if(scanner.caps[scanner.source].pos_x < 0)
           scanner.caps[scanner.source].pos_x = 0
 
-    if (cinfo.output_height < (unsigned Int)scanner.caps[scanner.source].height)
+    if(cinfo.output_height < (unsigned Int)scanner.caps[scanner.source].height)
            scanner.caps[scanner.source].height = cinfo.output_height
-    if (scanner.caps[scanner.source].pos_y < 0)
+    if(scanner.caps[scanner.source].pos_y < 0)
           scanner.caps[scanner.source].pos_y = 0
-    DBG(10, "1-JPEF Geometry [%dx%d|%dx%d]\n",
+    DBG(10, "1-JPEF Geometry[%dx%d|%dx%d]\n",
 	        scanner.caps[scanner.source].pos_x,
 	        scanner.caps[scanner.source].pos_y,
 	        scanner.caps[scanner.source].width,
 	        scanner.caps[scanner.source].height)
     x_off = scanner.caps[scanner.source].pos_x
-    if (x_off > (unsigned Int)scanner.caps[scanner.source].width) {
+    if(x_off > (unsigned Int)scanner.caps[scanner.source].width) {
        w = scanner.caps[scanner.source].width
        x_off = 0
     }
@@ -220,29 +220,29 @@ get_JPEG_data(capabilities_t *scanner, Int *width, Int *height, Int *bps)
     }
     else
        h = scanner.caps[scanner.source].height - y_off
-    DBG(10, "2-JPEF Geometry [%dx%d|%dx%d]\n",
+    DBG(10, "2-JPEF Geometry[%dx%d|%dx%d]\n",
 	        x_off,
 	        y_off,
 	        w,
 	        h)
     surface = malloc(w * h * cinfo.output_components)
-    if (surface == NULL) {
+    if(surface == NULL) {
         jpeg_destroy_decompress(&cinfo)
         DBG( 1, "Escl Jpeg : Memory allocation problem\n")
-        if (scanner.tmp) {
+        if(scanner.tmp) {
            fclose(scanner.tmp)
            scanner.tmp = NULL
         }
-        return (Sane.STATUS_NO_MEM)
+        return(Sane.STATUS_NO_MEM)
     }
     jpeg_start_decompress(&cinfo)
-    if (x_off > 0 || w < cinfo.output_width)
+    if(x_off > 0 || w < cinfo.output_width)
        jpeg_crop_scanline(&cinfo, &x_off, &w)
     lineSize = w * cinfo.output_components
-    if (y_off > 0)
+    if(y_off > 0)
         jpeg_skip_scanlines(&cinfo, y_off)
     pos = 0
-    while (cinfo.output_scanline < (unsigned Int)scanner.caps[scanner.source].height) {
+    while(cinfo.output_scanline < (unsigned Int)scanner.caps[scanner.source].height) {
         rowptr[0] = (JSAMPROW)surface + (lineSize * pos); // ..cinfo.output_scanline)
         jpeg_read_scanlines(&cinfo, rowptr, (JDIMENSION) 1)
        pos++
@@ -257,7 +257,7 @@ get_JPEG_data(capabilities_t *scanner, Int *width, Int *height, Int *bps)
     jpeg_destroy_decompress(&cinfo)
     fclose(scanner.tmp)
     scanner.tmp = NULL
-    return (Sane.STATUS_GOOD)
+    return(Sane.STATUS_GOOD)
 }
 #else
 
@@ -267,7 +267,7 @@ get_JPEG_data(capabilities_t __Sane.unused__ *scanner,
               Int __Sane.unused__ *height,
               Int __Sane.unused__ *bps)
 {
-    return (Sane.STATUS_INVAL)
+    return(Sane.STATUS_INVAL)
 }
 
 #endif

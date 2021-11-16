@@ -2,14 +2,14 @@
 
    pieusb_usb.c
 
-   Copyright (C) 2012-2015 Jan Vleeshouwers, Michael Rickmann, Klaus Kaempf
+   Copyright(C) 2012-2015 Jan Vleeshouwers, Michael Rickmann, Klaus Kaempf
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -60,7 +60,7 @@ static Sane.Status _ieee_command(Int device_number, Sane.Byte command)
 /* Defines for use in USB functions */
 
 #define REQUEST_TYPE_IN	(USB_TYPE_VENDOR | USB_DIR_IN)
-#define REQUEST_TYPE_OUT (USB_TYPE_VENDOR | USB_DIR_OUT)
+#define REQUEST_TYPE_OUT(USB_TYPE_VENDOR | USB_DIR_OUT)
 #define REQUEST_REGISTER 0x0c
 #define REQUEST_BUFFER 0x04
 #define ANYINDEX 0x00 /* wIndex value for USB control transfer - value is irrelevant */
@@ -138,8 +138,8 @@ static struct code_text_t scsi_code_text[] = {
 static char *
 code_to_text(struct code_text_t *list, Int code)
 {
-  while (list && list.text) {
-    if (list.code == code)
+  while(list && list.text) {
+    if(list.code == code)
       return list.text
     list++
   }
@@ -152,7 +152,7 @@ code_to_text(struct code_text_t *list, Int code)
 Sane.Status
 sanei_pieusb_convert_status(PIEUSB_Status status)
 {
-  return (Sane.Status)status
+  return(Sane.Status)status
 }
 
 
@@ -167,47 +167,47 @@ _hexdump(char *msg, unsigned char *ptr, Int size)
   long start = 0
   long clipped = 0
 
-  if (DBG_info_proc > DBG_LEVEL)
+  if(DBG_info_proc > DBG_LEVEL)
     return
 
-  if (size > 127) {
+  if(size > 127) {
     clipped = size
     size = 128
   }
-    while (size-- > 0)
+    while(size-- > 0)
     {
-	if ((count % 16) == 0)
+	if((count % 16) == 0)
 	{
-	    fprintf (stderr, "%s\t%08lx:", msg?msg:"", start)
+	    fprintf(stderr, "%s\t%08lx:", msg?msg:"", start)
 	    msg = NULL
 	}
-	fprintf (stderr, " %02x", *ptr++)
+	fprintf(stderr, " %02x", *ptr++)
 	count++
 	start++
-	if (size == 0)
+	if(size == 0)
 	{
-	    while ((count % 16) != 0)
+	    while((count % 16) != 0)
 	    {
-		fprintf (stderr, "   ")
+		fprintf(stderr, "   ")
 		count++
 	    }
 	}
-	if ((count % 16) == 0)
+	if((count % 16) == 0)
 	{
-	    fprintf (stderr, " ")
-	    while (lptr < ptr)
+	    fprintf(stderr, " ")
+	    while(lptr < ptr)
 	    {
 	        unsigned char c = *lptr & 0x7f
-		fprintf (stderr, "%c", ((c < 0x20)||(c == 0x7f)) ? '.' : c)
+		fprintf(stderr, "%c", ((c < 0x20)||(c == 0x7f)) ? '.' : c)
 		lptr++
 	    }
-	    fprintf (stderr, "\n")
+	    fprintf(stderr, "\n")
 	}
     }
-    if ((count % 16) != 0)
-	fprintf (stderr, "\n")
-    if (clipped > 0)
-	fprintf (stderr, "\t%08lx bytes clipped\n", clipped)
+    if((count % 16) != 0)
+	fprintf(stderr, "\n")
+    if(clipped > 0)
+	fprintf(stderr, "\t%08lx bytes clipped\n", clipped)
 
     fflush(stderr)
     return
@@ -244,34 +244,34 @@ sanei_pieusb_command(Int device_number, Sane.Byte command[], Sane.Byte data[], I
   Sane.Byte usbstat
   PIEUSB_USB_Status usb_status = USB_STATUS_AGAIN
 
-  DBG (DBG_info_usb, "*** sanei_pieusb_command(%02x:%s): size 0x%02x\n", command[0], code_to_text (scsi_code_text, command[0]), size)
+  DBG(DBG_info_usb, "*** sanei_pieusb_command(%02x:%s): size 0x%02x\n", command[0], code_to_text(scsi_code_text, command[0]), size)
 
   start = time(NULL)
-  while ((time(NULL)-start) < MAXTIME) {
-    DBG (DBG_info_usb, "\tsanei_pieusb_command loop, status %d:%s\n", usb_status, code_to_text (usb_code_text, usb_status))
-    if (usb_status == USB_STATUS_AGAIN) {
-      usb_status = _pieusb_scsi_command (device_number, command, data, size)
-      DBG (DBG_info_usb, "\t_pieusb_scsi_command returned %d:%s\n", usb_status, code_to_text (usb_code_text, usb_status))
+  while((time(NULL)-start) < MAXTIME) {
+    DBG(DBG_info_usb, "\tsanei_pieusb_command loop, status %d:%s\n", usb_status, code_to_text(usb_code_text, usb_status))
+    if(usb_status == USB_STATUS_AGAIN) {
+      usb_status = _pieusb_scsi_command(device_number, command, data, size)
+      DBG(DBG_info_usb, "\t_pieusb_scsi_command returned %d:%s\n", usb_status, code_to_text(usb_code_text, usb_status))
       continue
     }
-    if (usb_status == USB_STATUS_OK) {
+    if(usb_status == USB_STATUS_OK) {
       ret = PIEUSB_STATUS_GOOD
       break
     }
-    if (usb_status == USB_STATUS_READ) {
-      DBG (DBG_error, "\tsanei_pieusb_command() 2nd STATUS_READ ?!\n")
+    if(usb_status == USB_STATUS_READ) {
+      DBG(DBG_error, "\tsanei_pieusb_command() 2nd STATUS_READ ?!\n")
       ret = PIEUSB_STATUS_IO_ERROR
       break
     }
-    if (usb_status == USB_STATUS_CHECK) {
+    if(usb_status == USB_STATUS_CHECK) {
       /* check condition */
       struct Pieusb_Sense sense
       struct Pieusb_Command_Status senseStatus
 
 #define SCSI_REQUEST_SENSE      0x03
 
-      if (command[0] == SCSI_REQUEST_SENSE) {
-        DBG (DBG_error, "\tsanei_pieusb_command() recursive SCSI_REQUEST_SENSE\n")
+      if(command[0] == SCSI_REQUEST_SENSE) {
+        DBG(DBG_error, "\tsanei_pieusb_command() recursive SCSI_REQUEST_SENSE\n")
         ret = PIEUSB_STATUS_INVAL
         break
       }
@@ -281,53 +281,53 @@ sanei_pieusb_command(Int device_number, Sane.Byte command[], Sane.Byte data[], I
        * default. The calling function should interpret
        * PIEUSB_STATUS_CHECK_SENSE as 'sense data available'. */
 
-      sanei_pieusb_cmd_get_sense (device_number, &sense, &senseStatus, &ret)
-      if (senseStatus.pieusb_status != PIEUSB_STATUS_GOOD) {
-        DBG (DBG_error, "\tsanei_pieusb_command(): CHECK CONDITION, but REQUEST SENSE fails\n")
+      sanei_pieusb_cmd_get_sense(device_number, &sense, &senseStatus, &ret)
+      if(senseStatus.pieusb_status != PIEUSB_STATUS_GOOD) {
+        DBG(DBG_error, "\tsanei_pieusb_command(): CHECK CONDITION, but REQUEST SENSE fails\n")
         ret = senseStatus.pieusb_status
       }
       break
     }
-    if (usb_status == USB_STATUS_BUSY) {
+    if(usb_status == USB_STATUS_BUSY) {
       /* wait on usb */
-      Sane.status = _ctrl_in_byte (device_number, &usbstat)
-      if (Sane.status != Sane.STATUS_GOOD) {
-        DBG (DBG_error, "\tpieusb_scsi_command() fails status in: %d\n", Sane.status)
+      Sane.status = _ctrl_in_byte(device_number, &usbstat)
+      if(Sane.status != Sane.STATUS_GOOD) {
+        DBG(DBG_error, "\tpieusb_scsi_command() fails status in: %d\n", Sane.status)
         ret = PIEUSB_STATUS_IO_ERROR
         break
       }
       usb_status = usbstat
-      if (usb_status == USB_STATUS_AGAIN) {
+      if(usb_status == USB_STATUS_AGAIN) {
         sleep(1)
       }
       continue
     }
-    if (usb_status == USB_STATUS_AGAIN) {
+    if(usb_status == USB_STATUS_AGAIN) {
       /* re-send scsi cmd */
       continue
     }
-    if (usb_status == USB_STATUS_FAIL) {
-      DBG (DBG_error, "\tsanei_pieusb_command() usb status again2\n")
+    if(usb_status == USB_STATUS_FAIL) {
+      DBG(DBG_error, "\tsanei_pieusb_command() usb status again2\n")
       usb_status = USB_STATUS_ERROR
       sanei_pieusb_usb_reset(device_number)
       ret = PIEUSB_STATUS_IO_ERROR
       break
     }
-    if (usb_status == USB_STATUS_ERROR) {
+    if(usb_status == USB_STATUS_ERROR) {
       sanei_pieusb_usb_reset(device_number)
       ret = PIEUSB_STATUS_IO_ERROR
       break
     }
 
-    DBG (DBG_error, "\tsanei_pieusb_command() unhandled usb status 0x%02x\n", usb_status)
+    DBG(DBG_error, "\tsanei_pieusb_command() unhandled usb status 0x%02x\n", usb_status)
     ret = PIEUSB_STATUS_IO_ERROR
     break
   }
-  if ((time(NULL)-start) > MAXTIME) {
-    DBG (DBG_info_usb, "\tsanei_pieusb_command() timeout !\n")
+  if((time(NULL)-start) > MAXTIME) {
+    DBG(DBG_info_usb, "\tsanei_pieusb_command() timeout !\n")
   }
 
-  DBG (DBG_info_usb, "\tsanei_pieusb_command() finished with state %d\n", ret)
+  DBG(DBG_info_usb, "\tsanei_pieusb_command() finished with state %d\n", ret)
   return ret
 }
 
@@ -341,8 +341,8 @@ sanei_pieusb_command(Int device_number, Sane.Byte command[], Sane.Byte data[], I
 Sane.Status
 sanei_pieusb_usb_reset(Int device_number)
 {
-  DBG (DBG_info_sane, "\tsanei_pieusb_usb_reset()\n")
-  return _ieee_command (device_number, IEEE1284_RESET)
+  DBG(DBG_info_sane, "\tsanei_pieusb_usb_reset()\n")
+  return _ieee_command(device_number, IEEE1284_RESET)
 }
 
 /* http://www.t10.org/lists/2sensekey.htm */
@@ -381,47 +381,47 @@ sanei_pieusb_decode_sense(struct Pieusb_Sense* sense, PIEUSB_Status *status)
 {
     Sane.Char* desc = malloc(200)
     Sane.Char* ptr
-    strcpy (desc, code_to_text (sense_code_text, sense.senseKey))
+    strcpy(desc, code_to_text(sense_code_text, sense.senseKey))
     ptr = desc + strlen(desc)
 
-  switch (sense.senseKey) {
+  switch(sense.senseKey) {
    case SCSI_SENSE_NOT_READY:
-    if (sense.senseCode == SENSE_CODE_WARMING_UP && sense.senseQualifier == 1) {
-      strcpy (ptr, ": Logical unit is in the process of becoming ready")
+    if(sense.senseCode == SENSE_CODE_WARMING_UP && sense.senseQualifier == 1) {
+      strcpy(ptr, ": Logical unit is in the process of becoming ready")
       *status = PIEUSB_STATUS_WARMING_UP
     }
     else {
-      sprintf (ptr, ": senseCode 0x%02x, senseQualifier 0x%02x", sense.senseCode, sense.senseQualifier)
+      sprintf(ptr, ": senseCode 0x%02x, senseQualifier 0x%02x", sense.senseCode, sense.senseQualifier)
       *status = PIEUSB_STATUS_INVAL
     }
     break
    case SCSI_SENSE_UNIT_ATTENTION:
-    if (sense.senseCode == 0x1a && sense.senseQualifier == 0) {
-        strcpy (ptr, ": Invalid field in parameter list")
+    if(sense.senseCode == 0x1a && sense.senseQualifier == 0) {
+        strcpy(ptr, ": Invalid field in parameter list")
         *status = PIEUSB_STATUS_INVAL
       break
-    } else if (sense.senseCode == 0x20 && sense.senseQualifier == 0) {
-        strcpy (ptr, ": Invalid command operation code")
+    } else if(sense.senseCode == 0x20 && sense.senseQualifier == 0) {
+        strcpy(ptr, ": Invalid command operation code")
         *status = PIEUSB_STATUS_INVAL
       break
-    } else if (sense.senseCode == 0x82 && sense.senseQualifier == 0) {
-        strcpy (ptr, ": Calibration disable not granted")
+    } else if(sense.senseCode == 0x82 && sense.senseQualifier == 0) {
+        strcpy(ptr, ": Calibration disable not granted")
         *status = PIEUSB_STATUS_MUST_CALIBRATE
       break
-    } else if (sense.senseCode == 0x00 && sense.senseQualifier == 6) {
-        strcpy (ptr, ": I/O process terminated")
+    } else if(sense.senseCode == 0x00 && sense.senseQualifier == 6) {
+        strcpy(ptr, ": I/O process terminated")
         *status = PIEUSB_STATUS_IO_ERROR
       break
-    } else if (sense.senseCode == 0x26 && sense.senseQualifier == 0x82) {
-        strcpy (ptr, ": MODE SELECT value invalid: resolution too high (vs)")
+    } else if(sense.senseCode == 0x26 && sense.senseQualifier == 0x82) {
+        strcpy(ptr, ": MODE SELECT value invalid: resolution too high(vs)")
         *status = PIEUSB_STATUS_INVAL
       break
-    } else if (sense.senseCode == 0x26 && sense.senseQualifier == 0x83) {
-        strcpy (ptr, ": MODE SELECT value invalid: select only one color (vs)")
+    } else if(sense.senseCode == 0x26 && sense.senseQualifier == 0x83) {
+        strcpy(ptr, ": MODE SELECT value invalid: select only one color(vs)")
         *status = PIEUSB_STATUS_INVAL
       break
-    } else if (sense.senseCode == 0x26 && sense.senseQualifier == 0x83) {
-        strcpy (ptr, ": MODE SELECT value invalid: unsupported bit depth (vs)")
+    } else if(sense.senseCode == 0x26 && sense.senseQualifier == 0x83) {
+        strcpy(ptr, ": MODE SELECT value invalid: unsupported bit depth(vs)")
         *status = PIEUSB_STATUS_INVAL
       break
     }
@@ -441,7 +441,7 @@ sanei_pieusb_decode_sense(struct Pieusb_Sense* sense, PIEUSB_Status *status)
    case SCSI_SENSE_MISCOMPARE:
    case SCSI_SENSE_COMPLETED:
    default:
-      sprintf (ptr, ": senseCode 0x%02x, senseQualifier 0x%02x", sense.senseCode, sense.senseQualifier)
+      sprintf(ptr, ": senseCode 0x%02x, senseQualifier 0x%02x", sense.senseCode, sense.senseQualifier)
       *status = PIEUSB_STATUS_INVAL
   }
   return desc
@@ -465,31 +465,31 @@ _ieee_command(Int device_number, Sane.Byte command)
   unsigned var i: Int
     /* 2 x 4 + 3 bytes preceding command, then SCSI_COMMAND_LEN bytes command */
     /* IEEE1284 command, see hpsj5s.c:cpp_daisy() */
-  for (i = 0; i < SEQUENCE_LEN; ++i) {
-    st = _ctrl_out_byte (device_number, PORT_PAR_DATA, sequence[i])
-    if (st != Sane.STATUS_GOOD) {
-      DBG (DBG_error, "\t\t_ieee_command fails after %d bytes\n", i)
+  for(i = 0; i < SEQUENCE_LEN; ++i) {
+    st = _ctrl_out_byte(device_number, PORT_PAR_DATA, sequence[i])
+    if(st != Sane.STATUS_GOOD) {
+      DBG(DBG_error, "\t\t_ieee_command fails after %d bytes\n", i)
       return st
     }
   }
-  st = _ctrl_out_byte (device_number, PORT_PAR_DATA, command)
-  if (st == Sane.STATUS_GOOD) {
+  st = _ctrl_out_byte(device_number, PORT_PAR_DATA, command)
+  if(st == Sane.STATUS_GOOD) {
     usleep(3000); /* 3.000 usec -> 3 msec */
-    st = _ctrl_out_byte (device_number, PORT_PAR_CTRL, C1284_NINIT|C1284_NSTROBE); /* CTRL_VAL_FINAL */
-    if (st == Sane.STATUS_GOOD) {
-      st = _ctrl_out_byte (device_number, PORT_PAR_CTRL, C1284_NINIT)
-      if (st == Sane.STATUS_GOOD) {
-	st = _ctrl_out_byte (device_number, PORT_PAR_DATA, 0xff)
-	if (st != Sane.STATUS_GOOD) {
-	  DBG (DBG_error, "\t\t_ieee_command fails to write final data\n")
+    st = _ctrl_out_byte(device_number, PORT_PAR_CTRL, C1284_NINIT|C1284_NSTROBE); /* CTRL_VAL_FINAL */
+    if(st == Sane.STATUS_GOOD) {
+      st = _ctrl_out_byte(device_number, PORT_PAR_CTRL, C1284_NINIT)
+      if(st == Sane.STATUS_GOOD) {
+	st = _ctrl_out_byte(device_number, PORT_PAR_DATA, 0xff)
+	if(st != Sane.STATUS_GOOD) {
+	  DBG(DBG_error, "\t\t_ieee_command fails to write final data\n")
 	}
       }
       else {
-	DBG (DBG_error, "\t\t_ieee_command fails to reset strobe\n")
+	DBG(DBG_error, "\t\t_ieee_command fails to reset strobe\n")
       }
     }
     else {
-      DBG (DBG_error, "\t\t_ieee_command fails to set strobe\n")
+      DBG(DBG_error, "\t\t_ieee_command fails to set strobe\n")
     }
   }
 
@@ -515,53 +515,53 @@ _pieusb_scsi_command(Int device_number, Sane.Byte command[], Sane.Byte data[], I
   Sane.Byte usbstat
   var i: Int
 
-  DBG (DBG_info_usb, "\t\t_pieusb_scsi_command(): %02x:%s\n", command[0], code_to_text (scsi_code_text, command[0]))
+  DBG(DBG_info_usb, "\t\t_pieusb_scsi_command(): %02x:%s\n", command[0], code_to_text(scsi_code_text, command[0]))
 
-  st = _ieee_command (device_number, IEEE1284_SCSI)
-  if (st != Sane.STATUS_GOOD) {
-    DBG (DBG_error, "\t\t_pieusb_scsi_command can't prep scsi cmd: %d\n", st)
+  st = _ieee_command(device_number, IEEE1284_SCSI)
+  if(st != Sane.STATUS_GOOD) {
+    DBG(DBG_error, "\t\t_pieusb_scsi_command can't prep scsi cmd: %d\n", st)
     return USB_STATUS_ERROR
   }
 
   /* output command */
-  for (i = 0; i < SCSI_COMMAND_LEN; ++i) {
+  for(i = 0; i < SCSI_COMMAND_LEN; ++i) {
     Sane.Status st
-    st = _ctrl_out_byte (device_number, PORT_SCSI_CMD, command[i])
-    if (st != Sane.STATUS_GOOD) {
-      DBG (DBG_error, "\t\t_pieusb_scsi_command fails command out, after %d bytes: %d\n", i, st)
+    st = _ctrl_out_byte(device_number, PORT_SCSI_CMD, command[i])
+    if(st != Sane.STATUS_GOOD) {
+      DBG(DBG_error, "\t\t_pieusb_scsi_command fails command out, after %d bytes: %d\n", i, st)
       return USB_STATUS_ERROR
     }
   }
-  _hexdump ("Cmd", command, SCSI_COMMAND_LEN)
+  _hexdump("Cmd", command, SCSI_COMMAND_LEN)
 
   /* Verify this sequence */
-  st = _ctrl_in_byte (device_number, &usbstat)
-  if (st != Sane.STATUS_GOOD) {
-    DBG (DBG_error, "\t\t_pieusb_scsi_command fails status after command out: %d\n", st)
+  st = _ctrl_in_byte(device_number, &usbstat)
+  if(st != Sane.STATUS_GOOD) {
+    DBG(DBG_error, "\t\t_pieusb_scsi_command fails status after command out: %d\n", st)
     return USB_STATUS_ERROR
   }
   /* Process rest of the data, if present; either input or output, possibly bulk */
-  DBG (DBG_info_usb, "\t\t_pieusb_scsi_command usbstat 0x%02x\n", usbstat)
-  if (usbstat == USB_STATUS_OK && size > 0) {
+  DBG(DBG_info_usb, "\t\t_pieusb_scsi_command usbstat 0x%02x\n", usbstat)
+  if(usbstat == USB_STATUS_OK && size > 0) {
     /*
      * send additional data to usb
      */
-    _hexdump ("Out", data, size)
-    for (i = 0; i < size; ++i) {
-      st = _ctrl_out_byte (device_number, PORT_SCSI_CMD, data[i])
-      if (st != Sane.STATUS_GOOD) {
-	DBG (DBG_error, "\t\t_pieusb_scsi_command fails data out after %d bytes: %d\n", i, st)
+    _hexdump("Out", data, size)
+    for(i = 0; i < size; ++i) {
+      st = _ctrl_out_byte(device_number, PORT_SCSI_CMD, data[i])
+      if(st != Sane.STATUS_GOOD) {
+	DBG(DBG_error, "\t\t_pieusb_scsi_command fails data out after %d bytes: %d\n", i, st)
 	return USB_STATUS_ERROR
       }
     }
     /* Verify data out */
-    st = _ctrl_in_byte (device_number, &usbstat)
-    if (st != Sane.STATUS_GOOD) {
-      DBG (DBG_error, "\t\t_pieusb_scsi_command fails status after data out: %d\n", st)
+    st = _ctrl_in_byte(device_number, &usbstat)
+    if(st != Sane.STATUS_GOOD) {
+      DBG(DBG_error, "\t\t_pieusb_scsi_command fails status after data out: %d\n", st)
       return USB_STATUS_ERROR
     }
   }
-  else if (usbstat == USB_STATUS_READ) {
+  else if(usbstat == USB_STATUS_READ) {
     /* Intermediate status OK, device has made data available for reading */
     /* Read data */
     size_t remsize
@@ -569,31 +569,31 @@ _pieusb_scsi_command(Int device_number, Sane.Byte command[], Sane.Byte data[], I
 
     remsize = (size_t)size
 
-    DBG (DBG_info_usb, "\t\t_pieusb_scsi_command data in\n")
-    while (remsize > 0) {
+    DBG(DBG_info_usb, "\t\t_pieusb_scsi_command data in\n")
+    while(remsize > 0) {
       partsize = remsize > 0x1000000 ? 0x1000000 : remsize; /* 0xc000 must be multiples of 0x4000, see _bulk_in() */
       /* send expected length */
-      st = _bulk_size (device_number, partsize)
-      if (st != Sane.STATUS_GOOD) {
-	DBG (DBG_error, "\t\t_pieusb_scsi_command prepare read data failed for size %u: %d\n", (unsigned Int)partsize, st)
+      st = _bulk_size(device_number, partsize)
+      if(st != Sane.STATUS_GOOD) {
+	DBG(DBG_error, "\t\t_pieusb_scsi_command prepare read data failed for size %u: %d\n", (unsigned Int)partsize, st)
 	return USB_STATUS_ERROR
       }
       /* read expected length bytes */
-      st = _bulk_in (device_number, data + size - remsize, &partsize)
-      if (st != Sane.STATUS_GOOD) {
-	DBG (DBG_error, "\t\t_pieusb_scsi_command read data failed for size %u: %d\n", (unsigned Int)partsize, st)
+      st = _bulk_in(device_number, data + size - remsize, &partsize)
+      if(st != Sane.STATUS_GOOD) {
+	DBG(DBG_error, "\t\t_pieusb_scsi_command read data failed for size %u: %d\n", (unsigned Int)partsize, st)
 	return USB_STATUS_ERROR
       }
       remsize -= partsize
-/*      DBG (DBG_info, "\t\t_pieusb_scsi_command partsize %08x, remsize %08x\n", (unsigned Int)partsize, (unsigned Int)remsize); */
+/*      DBG(DBG_info, "\t\t_pieusb_scsi_command partsize %08x, remsize %08x\n", (unsigned Int)partsize, (unsigned Int)remsize); */
     }
     /* Verify data in */
-    st = _ctrl_in_byte (device_number, &usbstat)
-    if (st != Sane.STATUS_GOOD) {
-      DBG (DBG_error, "\t\t_pieusb_scsi_command fails status after data in: %d\n", st)
+    st = _ctrl_in_byte(device_number, &usbstat)
+    if(st != Sane.STATUS_GOOD) {
+      DBG(DBG_error, "\t\t_pieusb_scsi_command fails status after data in: %d\n", st)
       return USB_STATUS_ERROR
     }
-    _hexdump ("In", data, size)
+    _hexdump("In", data, size)
   }
 
   return usbstat
@@ -617,7 +617,7 @@ static Sane.Status _ctrl_out_byte(Int device_number, Int port, Sane.Byte b) {
  * Simplified control transfer for port/wValue = 0x82 - prepare bulk
  *
  * @param device_number device number
- * @param size Size of bulk transfer which follows (number of bytes)
+ * @param size Size of bulk transfer which follows(number of bytes)
  * @return SANE status
  */
 static Sane.Status _bulk_size(Int device_number, unsigned Int size) {
@@ -651,7 +651,7 @@ static Sane.Status _ctrl_in_byte(Int device_number, Sane.Byte* b) {
  * Bulk in transfer for data, in parts of 0x4000 bytes max
  *
  * @param device_number device number
- * @param data array holding or receiving data (must be preallocated)
+ * @param data array holding or receiving data(must be preallocated)
  * @param size ptr to size of the data array / actual size on output
  * @return SANE status
  */
@@ -662,15 +662,15 @@ _bulk_in(Int device_number, Sane.Byte *data, size_t *size) {
     size_t part
 
     remaining = *size
-    while (remaining > 0) {
+    while(remaining > 0) {
         /* Determine bulk size */
         part = (remaining >= 0x4000) ? 0x4000 : remaining; /* max 16k per chunk */
-/*        DBG (DBG_info, "\t\t_bulk_in: %08x @ %p, %08x rem\n", (unsigned Int)part, data, (unsigned Int)remaining); */
+/*        DBG(DBG_info, "\t\t_bulk_in: %08x @ %p, %08x rem\n", (unsigned Int)part, data, (unsigned Int)remaining); */
         r = sanei_usb_read_bulk(device_number, data, &part)
-        if (r != Sane.STATUS_GOOD) {
+        if(r != Sane.STATUS_GOOD) {
             break
         }
-/*        DBG (DBG_info, "\t\t_bulk_in: -> %d : %08x\n", r, (unsigned Int)part);*/
+/*        DBG(DBG_info, "\t\t_bulk_in: -> %d : %08x\n", r, (unsigned Int)part);*/
         remaining -= part
         data += part
     }

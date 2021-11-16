@@ -4,14 +4,14 @@ vim: ts=4 sw=4 noexpandtab
 
 /* st400.c - SANE module for Siemens ST400 flatbed scanner
 
-   Copyright (C) 1999-2000 Ingo Wilken (Ingo.Wilken@informatik.uni-oldenburg.de)
+   Copyright(C) 1999-2000 Ingo Wilken(Ingo.Wilken@informatik.uni-oldenburg.de)
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -39,22 +39,22 @@ vim: ts=4 sw=4 noexpandtab
    This file implements a SANE backend for the Siemens ST400 flatbed scanner.
 
    Unfortunately, I have no documentation for this scanner.  All I have
-   is an old PC Pascal source and an Amiga C source (derived from the
+   is an old PC Pascal source and an Amiga C source(derived from the
    Pascal source).  Both are quite primitive, and so is this backend...
 
    Version numbers of this backend follow SANE version scheme:  The first
-   number is SANE's major version (i.e. the version of the SANE API that
+   number is SANE's major version(i.e. the version of the SANE API that
    this backend conforms to), the second is the version of this backend.
    Thus, version 1.2 is the second release of this backend for SANE v1.
 
    1.0 (08 Mar 1999): First public release, for SANE v1.0.0
-   1.1 (12 Mar 1999): Fixed some stupid bugs (caused crash if accessed via net).
+   1.1 (12 Mar 1999): Fixed some stupid bugs(caused crash if accessed via net).
    1.2 (23 Apr 1999): Oops, got threshold backwards.
                       Tested with SANE 1.0.1.
    1.3 (27 Apr 1999): Seems the separate MODE SELECT to switch the light on
                       is not necessary.  Removed debugging output via syslog,
                       it was only used to track down a bug in saned.  Some
-					  minor cleanups.  Removed illegal version check (only
+					  minor cleanups.  Removed illegal version check(only
 					  frontends should do this).  Made "maxread" and "delay"
 					  config options instead of compile-time #define's.
 					  Added model check via INQUIRY, and related changes.
@@ -108,7 +108,7 @@ static const Sane.Device **st400_device_array = NULL
 /* The array pointer must stay valid between calls to Sane.get_devices().
  * So we cannot modify or deallocate the array when a new device is attached
  * - until the next call to Sane.get_devices().  The array_valid bit indicates
- * whether the array is still in sync with the device list or not (if new
+ * whether the array is still in sync with the device list or not(if new
  * devices have been attached in the meantime).
  */
 static struct {
@@ -203,21 +203,21 @@ st400_inquiry( Int fd, ST400_Model **modelP )
 	scsi_cmd.cmd = CMD_INQUIRY
 	scsi_cmd.tr_len = inqlen
 
-	DBG(DSCSI, "SCSI: sending INQUIRY (%lu bytes)\n", (u_long)inqlen)
+	DBG(DSCSI, "SCSI: sending INQUIRY(%lu bytes)\n", (u_long)inqlen)
 	status = sanei_scsi_cmd(fd, &scsi_cmd, sizeof(scsi_cmd), &inqdata, &inqlen)
-	DBG(DSCSI, "SCSI: result=%s (%lu bytes)\n", Sane.strstatus(status), (u_long)inqlen)
+	DBG(DSCSI, "SCSI: result=%s(%lu bytes)\n", Sane.strstatus(status), (u_long)inqlen)
 	if( status != Sane.STATUS_GOOD )
 		return status
 
 	if( st400_dump_data ) {
-		const char *home = getenv ("HOME")
+		const char *home = getenv("HOME")
 		char basename[] = "st400.dump"
 		char *name
 		FILE *fp
 
-		if (home) {
-			name = malloc (strlen (home) + sizeof (basename) + 1)
-			sprintf (name, "%s/%s", home, basename)
+		if(home) {
+			name = malloc(strlen(home) + sizeof(basename) + 1)
+			sprintf(name, "%s/%s", home, basename)
 		} else name = basename
 
 		fp = fopen(name, "ab")
@@ -226,8 +226,8 @@ st400_inquiry( Int fd, ST400_Model **modelP )
 			fclose(fp)
 		}
 
-		if (name != basename)
-			free (name)
+		if(name != basename)
+			free(name)
 	}
 
 	if( inqlen != sizeof(inqdata) )
@@ -254,7 +254,7 @@ st400_cmd6( Int fd, Sane.Byte cmd, Sane.Byte ctrl )
 	scsi_cmd.cmd = cmd
 	scsi_cmd.ctrl = ctrl
 
-	DBG(DSCSI, "SCSI: sending cmd6 0x%02x (ctrl=%d)\n", (Int)cmd, (Int)ctrl)
+	DBG(DSCSI, "SCSI: sending cmd6 0x%02x(ctrl=%d)\n", (Int)cmd, (Int)ctrl)
 	status = sanei_scsi_cmd(fd, &scsi_cmd, sizeof(scsi_cmd), 0, 0)
 	DBG(DSCSI, "SCSI: result=%s\n", Sane.strstatus(status))
 
@@ -331,7 +331,7 @@ st400_set_window( ST400_Device *dev )
 
 	/* These offsets seem to be required to avoid damaging the scanner:
 	 * If a scan with 0/0 as the top left corner is started, the scanner
-	 * seems to try to move the carriage over the bottom end (not a
+	 * seems to try to move the carriage over the bottom end(not a
 	 * pretty sound).
 	 */
 	xoff = (11L * dev.val[OPT_RESOLUTION]) / 100
@@ -349,7 +349,7 @@ st400_set_window( ST400_Device *dev )
 	scsi_cmd.halftone = (dev.val[OPT_DEPTH] == 1) ? 0 : 2
 	scsi_cmd.bitsperpixel = dev.val[OPT_DEPTH]
 
-	DBG(DSCSI, "SCSI: sending SET_WINDOW (x=%hu y=%hu w=%hu h=%hu wy=%hu wh=%hu th=%d\n", dev.x, dev.y, dev.w, dev.h, dev.wy, dev.wh, (Int)th)
+	DBG(DSCSI, "SCSI: sending SET_WINDOW(x=%hu y=%hu w=%hu h=%hu wy=%hu wh=%hu th=%d\n", dev.x, dev.y, dev.w, dev.h, dev.wy, dev.wh, (Int)th)
 	status = sanei_scsi_cmd(dev.fd, &scsi_cmd, sizeof(scsi_cmd), 0, 0)
 	DBG(DSCSI, "SCSI: result=%s\n", Sane.strstatus(status))
 
@@ -368,7 +368,7 @@ st400_read10( Int fd, Sane.Byte *buf, size_t *lenP )
 
 	DBG(DSCSI, "SCSI: sending READ10 (%lu bytes)\n", (u_long)(*lenP))
 	status = sanei_scsi_cmd(fd, &scsi_cmd, sizeof(scsi_cmd), buf, lenP)
-	DBG(DSCSI, "SCSI: result=%s (%lu bytes)\n", Sane.strstatus(status), (u_long)(*lenP))
+	DBG(DSCSI, "SCSI: result=%s(%lu bytes)\n", Sane.strstatus(status), (u_long)(*lenP))
 
 	return status
 }
@@ -471,7 +471,7 @@ st400_sense_handler( Int fd, Sane.Byte *result, void *arg )
 			status = Sane.STATUS_CANCELLED;	/* ?? */
 			break
 		default:
-			DBG(DSENSE, "SCSI: sense unknown (%d)\n", result[0] & 0x0f)
+			DBG(DSENSE, "SCSI: sense unknown(%d)\n", result[0] & 0x0f)
 			status = Sane.STATUS_IO_ERROR
 			break
 	}
@@ -985,7 +985,7 @@ Sane.control_option( Sane.Handle handle, Int optnum,
 	switch( action ) {
 		case Sane.ACTION_GET_VALUE:
 
-			DBG(DOPT, "getting option %d (value=%d)\n", (Int)optnum, (Int)dev.val[optnum])
+			DBG(DOPT, "getting option %d(value=%d)\n", (Int)optnum, (Int)dev.val[optnum])
 
 			switch( optnum ) {
 				case OPT_NUM_OPTS:
@@ -1245,7 +1245,7 @@ Sane.read( Sane.Handle handle, Sane.Byte *buf, Int maxlen, Int *lenP )
 
 		if( dev.val[OPT_DEPTH] == 1 || dev.model.bits == 8 ) {
 			/* This is simple.  We made sure the scanning are is aligned to
-			 * 8 pixels (see Sane.get_parameters()), so we can simply copy
+			 * 8 pixels(see Sane.get_parameters()), so we can simply copy
 			 * the stuff - only need to invert it.
 			 */
 			for( i = 0; i < r; i++ )
@@ -1254,14 +1254,14 @@ Sane.read( Sane.Handle handle, Sane.Byte *buf, Int maxlen, Int *lenP )
 		else {
 			Sane.Byte mv
 
-			/* The scanner sends bytes with 6bit-values (0..63), where 0 means
-			 * white.  To convert to 8bit, we invert the values (so 0 means
+			/* The scanner sends bytes with 6bit-values(0..63), where 0 means
+			 * white.  To convert to 8bit, we invert the values(so 0 means
 			 * black) and then shift them two bits to the left and replicate
 			 * the most- significant bits in the lowest two bits of the
 			 * 8bit-value:
 			 *     bit-pattern x x 5 4 3 2 1 0  becomes  5 4 3 2 1 0 5 4
 			 * This is more accurate than simply shifting the values two bits
-			 * to the left (e.g. 6bit-white 00111111 gets converted to 8bit-
+			 * to the left(e.g. 6bit-white 00111111 gets converted to 8bit-
 			 * white 11111111 instead of almost-white 11111100) and is still
 			 * reasonably fast.
 			 */
@@ -1284,7 +1284,7 @@ Sane.read( Sane.Handle handle, Sane.Byte *buf, Int maxlen, Int *lenP )
 
 
 /*********************************************************************
- * Advanced functions (not supported)
+ * Advanced functions(not supported)
  *********************************************************************/
 
 Sane.Status

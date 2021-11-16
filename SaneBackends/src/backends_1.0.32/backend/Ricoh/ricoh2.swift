@@ -1,6 +1,6 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2018, 2019 Stanislav Yuzvinsky
+   Copyright(C) 2018, 2019 Stanislav Yuzvinsky
    Based on the work done by viruxx
 
    This file is part of the SANE package.
@@ -8,7 +8,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -62,7 +62,7 @@ import ricoh2_buffer.c"
 #define USB_TIMEOUT_MS          20000
 #define MAX_COMMAND_SIZE        64
 
-#define CHECK_IF(x) if (!(x)) return Sane.STATUS_INVAL
+#define CHECK_IF(x) if(!(x)) return Sane.STATUS_INVAL
 
 typedef enum
 {
@@ -139,9 +139,9 @@ lookup_handle(Sane.Handle handle)
 {
   Ricoh2_Device *device
 
-  for (device = ricoh2_devices; device; device = device.next)
+  for(device = ricoh2_devices; device; device = device.next)
     {
-      if (device == handle)
+      if(device == handle)
         return device
     }
 
@@ -151,9 +151,9 @@ lookup_handle(Sane.Handle handle)
 static Sane.String_Const get_model_by_productid(Int id)
 {
   size_t i = 0
-  for (; i < sizeof (supported_devices) / sizeof (supported_devices[0]); ++i)
+  for(; i < sizeof(supported_devices) / sizeof(supported_devices[0]); ++i)
     {
-      if (supported_devices[i].product_id == id)
+      if(supported_devices[i].product_id == id)
         {
           return supported_devices[i].device_name
         }
@@ -163,51 +163,51 @@ static Sane.String_Const get_model_by_productid(Int id)
 }
 
 static Sane.Status
-attach (Sane.String_Const devname)
+attach(Sane.String_Const devname)
 {
   Int dn = -1
   Sane.Status status = Sane.STATUS_GOOD
   Ricoh2_Device *device = NULL
   Int vendor, product
 
-  for (device = ricoh2_devices; device; device = device.next)
+  for(device = ricoh2_devices; device; device = device.next)
     {
-      if (strcmp (device.sane.name, devname) == 0)
+      if(strcmp(device.sane.name, devname) == 0)
         {
           device.active = Sane.TRUE
           return Sane.STATUS_GOOD
         }
     }
 
-  device = (Ricoh2_Device *) malloc (sizeof (Ricoh2_Device))
-  if (!device)
+  device = (Ricoh2_Device *) malloc(sizeof(Ricoh2_Device))
+  if(!device)
     {
       return Sane.STATUS_NO_MEM
     }
 
-  DBG (8, "attach %s\n", devname)
-  status = sanei_usb_open (devname, &dn)
-  if (status != Sane.STATUS_GOOD)
+  DBG(8, "attach %s\n", devname)
+  status = sanei_usb_open(devname, &dn)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: couldn't open device `%s': %s\n", devname,
-           Sane.strstatus (status))
+      DBG(1, "attach: couldn't open device `%s': %s\n", devname,
+           Sane.strstatus(status))
       return status
     }
 
-  status = sanei_usb_get_vendor_product (dn, &vendor, &product)
-  if (status != Sane.STATUS_GOOD)
+  status = sanei_usb_get_vendor_product(dn, &vendor, &product)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1,
+      DBG(1,
            "attach: couldn't get vendor and product ids of device `%s': %s\n",
-           devname, Sane.strstatus (status))
-      sanei_usb_close (dn)
+           devname, Sane.strstatus(status))
+      sanei_usb_close(dn)
       return status
     }
 
-  sanei_usb_close (dn)
-  device.sane.name = strdup (devname)
+  sanei_usb_close(dn)
+  device.sane.name = strdup(devname)
   device.sane.vendor = "Ricoh"
-  device.sane.model = get_model_by_productid (product)
+  device.sane.model = get_model_by_productid(product)
   device.sane.type = "flatbed scanner"
   device.active = Sane.TRUE
   device.buffer = NULL
@@ -215,7 +215,7 @@ attach (Sane.String_Const devname)
   device.next = ricoh2_devices
   ricoh2_devices = device
 
-  DBG (2, "Found device %s\n", device.sane.name)
+  DBG(2, "Found device %s\n", device.sane.name)
   ++num_devices
 
   return Sane.STATUS_GOOD
@@ -226,7 +226,7 @@ init_options(Ricoh2_Device *dev)
 {
   Sane.Option_Descriptor *od
 
-  DBG (8, "init_options: dev = %p\n", (void *) dev)
+  DBG(8, "init_options: dev = %p\n", (void *) dev)
 
   /* number of options */
   od = &(dev.opt[OPT_NUM_OPTS])
@@ -235,7 +235,7 @@ init_options(Ricoh2_Device *dev)
   od.desc = Sane.DESC_NUM_OPTIONS
   od.type = Sane.TYPE_INT
   od.unit = Sane.UNIT_NONE
-  od.size = sizeof (Sane.Word)
+  od.size = sizeof(Sane.Word)
   od.cap = Sane.CAP_SOFT_DETECT
   od.constraint_type = Sane.CONSTRAINT_NONE
   od.constraint.range = 0
@@ -252,10 +252,10 @@ init_options(Ricoh2_Device *dev)
   od.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_SOFT_SELECT
   od.constraint_type = Sane.CONSTRAINT_STRING_LIST
   od.constraint.string_list = mode_list
-  dev.val[OPT_MODE].s = malloc (od.size)
-  if (!dev.val[OPT_MODE].s)
+  dev.val[OPT_MODE].s = malloc(od.size)
+  if(!dev.val[OPT_MODE].s)
     return Sane.STATUS_NO_MEM
-  strcpy (dev.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_COLOR)
+  strcpy(dev.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_COLOR)
 
   /* resolution */
   od = &(dev.opt[OPT_RESOLUTION])
@@ -264,7 +264,7 @@ init_options(Ricoh2_Device *dev)
   od.desc = Sane.DESC_SCAN_RESOLUTION
   od.type = Sane.TYPE_INT
   od.unit = Sane.UNIT_DPI
-  od.size = sizeof (Sane.Word)
+  od.size = sizeof(Sane.Word)
   od.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_SOFT_SELECT
   od.constraint_type = Sane.CONSTRAINT_WORD_LIST
   od.constraint.word_list = resolution_list
@@ -274,26 +274,26 @@ init_options(Ricoh2_Device *dev)
 }
 
 Sane.Status
-Sane.init (Int *vc, Sane.Auth_Callback __Sane.unused__ cb)
+Sane.init(Int *vc, Sane.Auth_Callback __Sane.unused__ cb)
 {
   size_t i = 0
 
-  DBG_INIT ()
+  DBG_INIT()
 
   DBG(8, ">Sane.init\n")
 
-  sanei_usb_init ()
-  sanei_usb_set_timeout (USB_TIMEOUT_MS)
+  sanei_usb_init()
+  sanei_usb_set_timeout(USB_TIMEOUT_MS)
 
   num_devices = 0
 
-  for (; i < sizeof (supported_devices) / sizeof (supported_devices[0]); ++i)
+  for(; i < sizeof(supported_devices) / sizeof(supported_devices[0]); ++i)
     {
-      sanei_usb_find_devices (0x5ca, supported_devices[i].product_id, attach)
+      sanei_usb_find_devices(0x5ca, supported_devices[i].product_id, attach)
     }
 
-  if (vc)
-    *vc = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, 0)
+  if(vc)
+    *vc = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, 0)
   DBG(8, "<Sane.init\n")
 
   initialized = Sane.TRUE
@@ -302,7 +302,7 @@ Sane.init (Int *vc, Sane.Auth_Callback __Sane.unused__ cb)
 }
 
 Sane.Status
-Sane.get_devices (const Sane.Device ***dl,
+Sane.get_devices(const Sane.Device ***dl,
                   Bool __Sane.unused__ local)
 {
   Ricoh2_Device *device = NULL
@@ -311,19 +311,19 @@ Sane.get_devices (const Sane.Device ***dl,
   DBG(8, ">Sane.get_devices\n")
 
   num_devices = 0
-  sanei_usb_find_devices (0x5ca, 0x042c, attach)
-  sanei_usb_find_devices (0x5ca, 0x0448, attach)
+  sanei_usb_find_devices(0x5ca, 0x042c, attach)
+  sanei_usb_find_devices(0x5ca, 0x0448, attach)
 
-  if (Sane.devices)
-    free (Sane.devices)
+  if(Sane.devices)
+    free(Sane.devices)
 
-  Sane.devices = (const Sane.Device **) malloc (sizeof (const Sane.Device *)
+  Sane.devices = (const Sane.Device **) malloc(sizeof(const Sane.Device *)
                                                * (num_devices + 1))
-  if (!Sane.devices)
+  if(!Sane.devices)
     return Sane.STATUS_NO_MEM
 
-  for (device = ricoh2_devices; device; device = device.next)
-    if (device.active)
+  for(device = ricoh2_devices; device; device = device.next)
+    if(device.active)
       {
         Sane.devices[i++] = &(device.sane)
       }
@@ -338,67 +338,67 @@ Sane.get_devices (const Sane.Device ***dl,
 }
 
 Sane.Status
-Sane.open (Sane.String_Const name, Sane.Handle *handle)
+Sane.open(Sane.String_Const name, Sane.Handle *handle)
 {
   Ricoh2_Device *device
   Sane.Status status
 
-  DBG (8, ">Sane.open: devicename=\"%s\", handle=%p\n", name,
+  DBG(8, ">Sane.open: devicename=\"%s\", handle=%p\n", name,
        (void *) handle)
 
-  CHECK_IF (initialized)
-  CHECK_IF (handle)
+  CHECK_IF(initialized)
+  CHECK_IF(handle)
 
   /* walk the linked list of scanner device until there is a match
    * with the device name */
-  for (device = ricoh2_devices; device; device = device.next)
+  for(device = ricoh2_devices; device; device = device.next)
     {
-      DBG (2, "Sane.open: devname from list: %s\n",
+      DBG(2, "Sane.open: devname from list: %s\n",
            device.sane.name)
-      if (strcmp (name, "") == 0
-          || strcmp (name, "ricoh") == 0
-          || strcmp (name, device.sane.name) == 0)
+      if(strcmp(name, "") == 0
+          || strcmp(name, "ricoh") == 0
+          || strcmp(name, device.sane.name) == 0)
         break
     }
 
   *handle = device
 
-  if (!device)
+  if(!device)
     {
-      DBG (1, "Sane.open: Not a Ricoh device\n")
+      DBG(1, "Sane.open: Not a Ricoh device\n")
       return Sane.STATUS_INVAL
     }
 
-  status = init_options (device)
-  if (status != Sane.STATUS_GOOD)
+  status = init_options(device)
+  if(status != Sane.STATUS_GOOD)
     return status
 
-  DBG (8, "<Sane.open\n")
+  DBG(8, "<Sane.open\n")
 
   return Sane.STATUS_GOOD
 }
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
   Ricoh2_Device *device
 
-  DBG (8, "<Sane.get_option_descriptor: handle=%p, option = %d\n",
+  DBG(8, "<Sane.get_option_descriptor: handle=%p, option = %d\n",
        (void *) handle, option)
 
-  if (!initialized)
+  if(!initialized)
     return NULL
 
   /* Check for valid option number */
-  if ((option < 0) || (option >= NUM_OPTIONS))
+  if((option < 0) || (option >= NUM_OPTIONS))
     return NULL
 
- if (!(device = lookup_handle(handle)))
+ if(!(device = lookup_handle(handle)))
     return NULL
 
-  if (device.opt[option].name)
+  if(device.opt[option].name)
     {
-      DBG (8, ">Sane.get_option_descriptor: name=%s\n",
+      DBG(8, ">Sane.get_option_descriptor: name=%s\n",
            device.opt[option].name)
     }
 
@@ -406,7 +406,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 }
 
 Sane.Status
-Sane.control_option (Sane.Handle handle,
+Sane.control_option(Sane.Handle handle,
                      Int    option,
                      Sane.Action action,
                      void       *value,
@@ -415,27 +415,27 @@ Sane.control_option (Sane.Handle handle,
   Ricoh2_Device *device
   Sane.Status status
 
-  DBG (8,
+  DBG(8,
        ">Sane.control_option: handle=%p, opt=%d, act=%d, val=%p, info=%p\n",
        (void *) handle, option, action, (void *) value, (void *) info)
 
-  CHECK_IF (initialized)
-  device = lookup_handle (handle)
-  CHECK_IF (device)
-  CHECK_IF (value)
-  CHECK_IF (option >= 0 && option < NUM_OPTIONS)
-  CHECK_IF (device.opt[option].type != Sane.TYPE_GROUP)
+  CHECK_IF(initialized)
+  device = lookup_handle(handle)
+  CHECK_IF(device)
+  CHECK_IF(value)
+  CHECK_IF(option >= 0 && option < NUM_OPTIONS)
+  CHECK_IF(device.opt[option].type != Sane.TYPE_GROUP)
 
-  switch (action)
+  switch(action)
     {
     case Sane.ACTION_SET_AUTO:
-      CHECK_IF (Sane.OPTION_IS_SETTABLE (device.opt[option].cap))
-      CHECK_IF (device.opt[option].cap & Sane.CAP_AUTOMATIC)
+      CHECK_IF(Sane.OPTION_IS_SETTABLE(device.opt[option].cap))
+      CHECK_IF(device.opt[option].cap & Sane.CAP_AUTOMATIC)
 
-      switch (option)
+      switch(option)
         {
         case OPT_RESOLUTION:
-          DBG (2,
+          DBG(2,
                "Setting value to default value of '%d' for option '%s'\n",
                default_resolution,
                device.opt[option].name)
@@ -443,11 +443,11 @@ Sane.control_option (Sane.Handle handle,
           break
 
         case OPT_MODE:
-          DBG (2,
+          DBG(2,
                "Setting value to default value of '%s' for option '%s'\n",
                (Sane.String_Const) default_mode,
                device.opt[option].name)
-          strcpy (device.val[option].s, default_mode)
+          strcpy(device.val[option].s, default_mode)
           break
 
         default:
@@ -456,25 +456,25 @@ Sane.control_option (Sane.Handle handle,
       break
 
     case Sane.ACTION_SET_VALUE:
-      CHECK_IF (Sane.OPTION_IS_SETTABLE (device.opt[option].cap))
+      CHECK_IF(Sane.OPTION_IS_SETTABLE(device.opt[option].cap))
 
-      if (device.opt[option].type == Sane.TYPE_BOOL)
+      if(device.opt[option].type == Sane.TYPE_BOOL)
         {
           Bool bool_value = *(Bool *) value
-          CHECK_IF (bool_value == Sane.TRUE || bool_value == Sane.FALSE)
+          CHECK_IF(bool_value == Sane.TRUE || bool_value == Sane.FALSE)
         }
 
-      if (device.opt[option].constraint_type == Sane.CONSTRAINT_RANGE)
+      if(device.opt[option].constraint_type == Sane.CONSTRAINT_RANGE)
         {
-          status = sanei_constrain_value (&(device.opt[option]), value, info)
-          CHECK_IF (status == Sane.STATUS_GOOD)
+          status = sanei_constrain_value(&(device.opt[option]), value, info)
+          CHECK_IF(status == Sane.STATUS_GOOD)
         }
 
 
-      switch (option)
+      switch(option)
         {
         case OPT_RESOLUTION:
-          DBG (2,
+          DBG(2,
                "Setting value to '%d' for option '%s'\n",
                *(Sane.Word *) value,
                device.opt[option].name)
@@ -482,11 +482,11 @@ Sane.control_option (Sane.Handle handle,
           break
 
         case OPT_MODE:
-          DBG (2,
+          DBG(2,
                "Setting value to '%s' for option '%s'\n",
                (Sane.String_Const)value,
                device.opt[option].name)
-          strcpy (device.val[option].s, value)
+          strcpy(device.val[option].s, value)
           break
 
         default:
@@ -496,16 +496,16 @@ Sane.control_option (Sane.Handle handle,
 
     case Sane.ACTION_GET_VALUE:
 
-      switch (option)
+      switch(option)
         {
         case OPT_NUM_OPTS:
         case OPT_RESOLUTION:
           *(Sane.Word *) value = device.val[option].w
-          DBG (2, "Option value = %d (%s)\n", *(Sane.Word *) value,
+          DBG(2, "Option value = %d(%s)\n", *(Sane.Word *) value,
                device.opt[option].name)
           break
         case OPT_MODE:
-          strcpy (value, device.val[option].s)
+          strcpy(value, device.val[option].s)
           break
         default:
           return Sane.STATUS_INVAL
@@ -516,15 +516,15 @@ Sane.control_option (Sane.Handle handle,
       return Sane.STATUS_INVAL
     }
 
-  DBG (8, "<Sane.control_option\n")
+  DBG(8, "<Sane.control_option\n")
   return Sane.STATUS_GOOD
 }
 
 static void
-update_scan_params (Ricoh2_Device *device)
+update_scan_params(Ricoh2_Device *device)
 {
   /* Scan mode: color or grayscale */
-  if (strcmp(device.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_COLOR) == 0)
+  if(strcmp(device.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_COLOR) == 0)
     {
       device.mode = SCAN_MODE_COLOR
     }
@@ -539,19 +539,19 @@ update_scan_params (Ricoh2_Device *device)
 
 
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters *params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
 {
   Ricoh2_Device *device
 
-  DBG (8, "Sane.get_parameters: handle=%p, params=%p\n", (void *) handle,
+  DBG(8, "Sane.get_parameters: handle=%p, params=%p\n", (void *) handle,
        (void *) params)
 
-  CHECK_IF (initialized)
-  device = lookup_handle (handle)
-  CHECK_IF (device)
-  CHECK_IF (params)
+  CHECK_IF(initialized)
+  device = lookup_handle(handle)
+  CHECK_IF(device)
+  CHECK_IF(params)
 
-  update_scan_params (device)
+  update_scan_params(device)
 
   params.format =
     device.mode == SCAN_MODE_COLOR ? Sane.FRAME_RGB : Sane.FRAME_GRAY
@@ -562,19 +562,19 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters *params)
   params.lines = HEIGHT_PIXELS_300DPI
   params.depth = 8
 
-  if (device.resolution == 600)
+  if(device.resolution == 600)
     {
       params.bytes_per_line *= 2
       params.pixels_per_line *= 2
       params.lines *= 2
     }
 
-  if (device.mode == SCAN_MODE_COLOR)
+  if(device.mode == SCAN_MODE_COLOR)
     {
       params.bytes_per_line *= 3
     }
 
-  DBG (8, ">Sane.get_parameters: format = %s bytes_per_line = %d "
+  DBG(8, ">Sane.get_parameters: format = %s bytes_per_line = %d "
           "depth = %d "
           "pixels_per_line = %d "
           "lines = %d\n",
@@ -597,7 +597,7 @@ typedef struct
 Send_Receive_Pair
 
 static Sane.Status
-send_receive (Int dn, Send_Receive_Pair *transfer)
+send_receive(Int dn, Send_Receive_Pair *transfer)
 {
   Sane.Status status
   size_t io_size
@@ -609,30 +609,30 @@ send_receive (Int dn, Send_Receive_Pair *transfer)
 
   /* send a command */
   io_size = MAX_COMMAND_SIZE
-  DBG (128, "sending a packet of size %lu\n", io_size)
-  memcpy (send_buffer, transfer.send_buffer, transfer.to_send)
-  status = sanei_usb_write_bulk (dn, send_buffer, &io_size)
-  if (status != Sane.STATUS_GOOD)
+  DBG(128, "sending a packet of size %lu\n", io_size)
+  memcpy(send_buffer, transfer.send_buffer, transfer.to_send)
+  status = sanei_usb_write_bulk(dn, send_buffer, &io_size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "could not send packet: %s\n", Sane.strstatus (status))
+      DBG(1, "could not send packet: %s\n", Sane.strstatus(status))
       return status
     }
 
   /* receive a result */
   io_size = transfer.to_receive
-  DBG (128, "receiving a packet of size %lu\n", io_size)
-  if (io_size)
+  DBG(128, "receiving a packet of size %lu\n", io_size)
+  if(io_size)
     {
-      status = sanei_usb_read_bulk (dn, transfer.receive_buffer, &io_size)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_usb_read_bulk(dn, transfer.receive_buffer, &io_size)
+      if(status != Sane.STATUS_GOOD)
         {
-          DBG (1, "could not get a response for packet: %s\n",
-               Sane.strstatus (status))
+          DBG(1, "could not get a response for packet: %s\n",
+               Sane.strstatus(status))
           return status
         }
-      if (io_size != transfer.to_receive)
+      if(io_size != transfer.to_receive)
         {
-          DBG (1, "unexpected size of received packet: expected %lu, "
+          DBG(1, "unexpected size of received packet: expected %lu, "
                   "received %lu\n", transfer.to_receive, io_size)
           return Sane.STATUS_IO_ERROR
         }
@@ -658,26 +658,26 @@ init_scan(Int dn, Scan_Mode mode, Int resolution)
 
   Send_Receive_Pair transfer[] =
   {
-    { urb_init, sizeof (urb_init), dummy_buffer,  1 },
-    { magic0,   sizeof (magic0),   dummy_buffer, 11 },
-    { magic1,   sizeof (magic1),   dummy_buffer,  0 },
-    { magic2,   sizeof (magic2),   dummy_buffer,  8 },
-    { magic3,   sizeof (magic3),   dummy_buffer,  0 }
+    { urb_init, sizeof(urb_init), dummy_buffer,  1 },
+    { magic0,   sizeof(magic0),   dummy_buffer, 11 },
+    { magic1,   sizeof(magic1),   dummy_buffer,  0 },
+    { magic2,   sizeof(magic2),   dummy_buffer,  8 },
+    { magic3,   sizeof(magic3),   dummy_buffer,  0 }
   ]
 
-  if (resolution == 600)
+  if(resolution == 600)
     magic1[6] = 0x02
 
-  if (mode == SCAN_MODE_COLOR)
+  if(mode == SCAN_MODE_COLOR)
     magic1[7] = 0x03
 
-  for (i = 0
-       i < sizeof (transfer) / sizeof (transfer[0])
+  for(i = 0
+       i < sizeof(transfer) / sizeof(transfer[0])
        && (status == Sane.STATUS_GOOD)
        ++i)
     {
-      DBG (128, "sending initialization packet %zi\n", i)
-      status = send_receive (dn, transfer + i)
+      DBG(128, "sending initialization packet %zi\n", i)
+      status = send_receive(dn, transfer + i)
     }
 
   return status
@@ -691,79 +691,79 @@ teardown_scan(Int dn)
   Sane.Byte dummy_buffer
   Send_Receive_Pair transfer
 
-  DBG (128, "Sending cancel command\n")
+  DBG(128, "Sending cancel command\n")
   transfer.send_buffer = cancel_command
-  transfer.to_send = sizeof (cancel_command)
+  transfer.to_send = sizeof(cancel_command)
   transfer.receive_buffer = &dummy_buffer
   transfer.to_receive = 0
-  send_receive (dn, &transfer)
+  send_receive(dn, &transfer)
 
   transfer.send_buffer = end_command
-  transfer.to_send = sizeof (end_command)
+  transfer.to_send = sizeof(end_command)
   transfer.receive_buffer = &dummy_buffer
   transfer.to_receive = 1
-  send_receive (dn, &transfer)
+  send_receive(dn, &transfer)
 }
 
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   Ricoh2_Device *device
   Sane.Status status
   Int pixels_per_line
   Int resolution_factor = 1
 
-  DBG (8, ">Sane.start: handle=%p\n", (void *) handle)
+  DBG(8, ">Sane.start: handle=%p\n", (void *) handle)
 
-  CHECK_IF (initialized)
-  device = lookup_handle (handle)
-  CHECK_IF (device)
+  CHECK_IF(initialized)
+  device = lookup_handle(handle)
+  CHECK_IF(device)
 
-  update_scan_params (device)
+  update_scan_params(device)
   device.cancelled = Sane.FALSE
 
-  status = sanei_usb_open (device.sane.name, &(device.dn))
-  if (status != Sane.STATUS_GOOD)
+  status = sanei_usb_open(device.sane.name, &(device.dn))
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "could not open device %s: %s\n",
-           device.sane.name, Sane.strstatus (status))
+      DBG(1, "could not open device %s: %s\n",
+           device.sane.name, Sane.strstatus(status))
       return status
     }
 
-  DBG (2, "usb device %s opened, device number is %d\n",
+  DBG(2, "usb device %s opened, device number is %d\n",
       device.sane.name, device.dn)
 
-  status = sanei_usb_claim_interface (device.dn, 0)
-  if (status != Sane.STATUS_GOOD)
+  status = sanei_usb_claim_interface(device.dn, 0)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "could not claim interface 0: %s\n",
-           Sane.strstatus (status))
-      sanei_usb_close (device.dn)
+      DBG(1, "could not claim interface 0: %s\n",
+           Sane.strstatus(status))
+      sanei_usb_close(device.dn)
       return status
     }
 
-  sanei_usb_set_endpoint (device.dn,
+  sanei_usb_set_endpoint(device.dn,
                           USB_DIR_OUT | USB_ENDPOINT_TYPE_BULK,
                           0x03)
 
-  sanei_usb_set_endpoint (device.dn,
+  sanei_usb_set_endpoint(device.dn,
                           USB_DIR_IN | USB_ENDPOINT_TYPE_BULK,
                           0x85)
 
-  status = sanei_usb_reset (device.dn)
-  if (status != Sane.STATUS_GOOD)
+  status = sanei_usb_reset(device.dn)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "could not reset device %s: %s\n",
-           device.sane.name, Sane.strstatus (status))
-      sanei_usb_close (device.dn)
+      DBG(1, "could not reset device %s: %s\n",
+           device.sane.name, Sane.strstatus(status))
+      sanei_usb_close(device.dn)
       return status
     }
 
 
-  status = init_scan (device.dn, device.mode, device.resolution)
-  if (status != Sane.STATUS_GOOD)
+  status = init_scan(device.dn, device.mode, device.resolution)
+  if(status != Sane.STATUS_GOOD)
     {
-      sanei_usb_close (device.dn)
+      sanei_usb_close(device.dn)
       return status
     }
 
@@ -777,18 +777,18 @@ Sane.start (Sane.Handle handle)
       * (device.mode == SCAN_MODE_COLOR ? 3 : 1)
 
   device.buffer =
-      ricoh2_buffer_create (MAX_LINE_SIZE,
+      ricoh2_buffer_create(MAX_LINE_SIZE,
                             pixels_per_line,
                             INFO_SIZE * resolution_factor,
                             device.mode == SCAN_MODE_COLOR)
 
-  DBG (8, "<Sane.start: %lu bytes to read\n", device.bytes_to_read)
+  DBG(8, "<Sane.start: %lu bytes to read\n", device.bytes_to_read)
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.read (Sane.Handle handle,
+Sane.read(Sane.Handle handle,
            Sane.Byte  *data,
            Int    maxlen,
            Int   *length)
@@ -799,172 +799,172 @@ Sane.read (Sane.Handle handle,
   Sane.Status status
   Send_Receive_Pair transfer
 
-  DBG (16, ">Sane.read: handle=%p, data=%p, maxlen = %d, length=%p\n",
+  DBG(16, ">Sane.read: handle=%p, data=%p, maxlen = %d, length=%p\n",
        (void *) handle, (void *) data, maxlen, (void *) length)
 
-  CHECK_IF (initialized)
-  device = lookup_handle (handle)
-  CHECK_IF (device)
-  CHECK_IF (length)
-  CHECK_IF (maxlen)
+  CHECK_IF(initialized)
+  device = lookup_handle(handle)
+  CHECK_IF(device)
+  CHECK_IF(length)
+  CHECK_IF(maxlen)
 
   /*
   EOF has already been reached before or acquisition process hasn't
   been initiated at all
   */
-  if (device.bytes_to_read <= 0)
+  if(device.bytes_to_read <= 0)
     {
       return Sane.STATUS_EOF
     }
 
-  if (!ricoh2_buffer_get_bytes_remain (device.buffer))
+  if(!ricoh2_buffer_get_bytes_remain(device.buffer))
     {
       transfer.send_buffer = read_next_command
-      transfer.to_send = sizeof (read_next_command)
+      transfer.to_send = sizeof(read_next_command)
       transfer.receive_buffer =
-          ricoh2_buffer_get_internal_buffer (device.buffer)
+          ricoh2_buffer_get_internal_buffer(device.buffer)
       transfer.to_receive = MAX_LINE_SIZE
       read_next_command[7] = transfer.to_receive / 256
 
-      DBG (128, "Receiving data of size %zi\n", transfer.to_receive)
+      DBG(128, "Receiving data of size %zi\n", transfer.to_receive)
 
-      status = send_receive (device.dn, &transfer)
-      if (status != Sane.STATUS_GOOD)
+      status = send_receive(device.dn, &transfer)
+      if(status != Sane.STATUS_GOOD)
         {
           device.bytes_to_read = 0
           return status
         }
     }
 
-  *length = ricoh2_buffer_get_data (device.buffer,
+  *length = ricoh2_buffer_get_data(device.buffer,
                                     data,
                                     min(maxlen, device.bytes_to_read))
 
   device.bytes_to_read -= *length
 
-  DBG (128,
+  DBG(128,
        "Read length %d, left to read %lu\n",
        *length,
        device.bytes_to_read)
 
-  DBG (128,
+  DBG(128,
        "%d bytes remain in the buffer\n",
        ricoh2_buffer_get_bytes_remain(device.buffer))
 
   /* we've just reached expected data size */
-  if (device.bytes_to_read <= 0)
+  if(device.bytes_to_read <= 0)
     {
       ricoh2_buffer_dispose(device.buffer)
       device.buffer = NULL
       return Sane.STATUS_EOF
     }
 
-  DBG (16, "<Sane.read\n")
+  DBG(16, "<Sane.read\n")
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 {
   Ricoh2_Device *device
-  DBG (8, "Sane.set_io_mode: handle = %p, non_blocking = %d\n",
+  DBG(8, "Sane.set_io_mode: handle = %p, non_blocking = %d\n",
        (void *) handle, non_blocking)
 
-  CHECK_IF (initialized)
-  device = lookup_handle (handle)
-  CHECK_IF (device)
+  CHECK_IF(initialized)
+  device = lookup_handle(handle)
+  CHECK_IF(device)
 
-  if (non_blocking)
+  if(non_blocking)
     return Sane.STATUS_UNSUPPORTED
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle handle, Int *fd)
+Sane.get_select_fd(Sane.Handle handle, Int *fd)
 {
   Ricoh2_Device *device
-  DBG (8, "Sane.get_select_fd: handle = %p, fd %s 0\n", (void *) handle,
+  DBG(8, "Sane.get_select_fd: handle = %p, fd %s 0\n", (void *) handle,
        fd ? "!=" : "=")
 
-  CHECK_IF (initialized)
-  device = lookup_handle (handle)
-  CHECK_IF (device)
+  CHECK_IF(initialized)
+  device = lookup_handle(handle)
+  CHECK_IF(device)
 
   return Sane.STATUS_UNSUPPORTED
 }
 
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   Ricoh2_Device *device
 
-  DBG (8, ">Sane.cancel: handle = %p\n", (void *) handle)
+  DBG(8, ">Sane.cancel: handle = %p\n", (void *) handle)
 
-  if (!initialized)
+  if(!initialized)
     return
 
-  if (!(device = lookup_handle (handle)))
+  if(!(device = lookup_handle(handle)))
     return
 
-  if (device.cancelled)
+  if(device.cancelled)
 	return
 
   device.cancelled = Sane.TRUE
 
-  teardown_scan (device.dn)
-  if (device.buffer)
+  teardown_scan(device.dn)
+  if(device.buffer)
     {
-      ricoh2_buffer_dispose (device.buffer)
+      ricoh2_buffer_dispose(device.buffer)
       device.buffer = NULL
     }
 
   sanei_usb_close(device.dn)
 
-  DBG (8, "<Sane.cancel\n")
+  DBG(8, "<Sane.cancel\n")
 }
 
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
   Ricoh2_Device *device
 
-  DBG (8, ">Sane.close\n")
+  DBG(8, ">Sane.close\n")
 
-  if (!initialized)
+  if(!initialized)
     return
 
-  device = lookup_handle (handle)
-  if (!device)
+  device = lookup_handle(handle)
+  if(!device)
     return
 
   /* noop */
 
-  DBG (8, "<Sane.close\n")
+  DBG(8, "<Sane.close\n")
 }
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   Ricoh2_Device *device, *next
 
-  DBG (8, ">Sane.exit\n")
+  DBG(8, ">Sane.exit\n")
 
-  if (!initialized)
+  if(!initialized)
     return
 
-  for (device = ricoh2_devices, next = device; device; device = next)
+  for(device = ricoh2_devices, next = device; device; device = next)
     {
       next = device.next
-      free (device)
+      free(device)
     }
 
-  if (Sane.devices)
-    free (Sane.devices)
+  if(Sane.devices)
+    free(Sane.devices)
 
-  sanei_usb_exit ()
+  sanei_usb_exit()
   initialized = Sane.FALSE
 
-  DBG (8, "<Sane.exit\n")
+  DBG(8, "<Sane.exit\n")
 }

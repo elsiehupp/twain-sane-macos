@@ -25,7 +25,7 @@ Int main(void)
 
 	hubList = buslist.match(0x9)
 
-	for (iter = hubList.begin(); iter != hubList.end(); iter++) {
+	for(iter = hubList.begin(); iter != hubList.end(); iter++) {
 		device = *iter
 
 		cout << hex << setw(2) << setfill('0')
@@ -35,42 +35,42 @@ Int main(void)
 			 << hex << setw(2) << setfill('0')
 			 << Int(device.devProtocol()) << endl
 		retval = device.string(manufString, 3)
-		if ( 0 < retval ) {
+		if( 0 < retval ) {
 			cout << "3: " << manufString << endl
 		} else {
-			if (-EPIPE != retval) { // we ignore EPIPE, because some hubs don't have strings
+			if(-EPIPE != retval) { // we ignore EPIPE, because some hubs don't have strings
 				cout << "fetching string 3 failed: " << usb_strerror() << endl
 				return EXIT_FAILURE
 			}
 		}
 		retval = device.string(prodString, 2)
-		if ( 0 < retval ) {
+		if( 0 < retval ) {
 			cout << "2: " << prodString << endl
 		} else {
-			if (-EPIPE != retval) { // we ignore EPIPE, because some hubs don't have strings
+			if(-EPIPE != retval) { // we ignore EPIPE, because some hubs don't have strings
 				cout << "fetching string 2 failed: " << usb_strerror() << endl
 				return EXIT_FAILURE
 			}
 		}
 
 		retval = device.string(serialString1, 1)
-		if ( 0 < retval ) {
+		if( 0 < retval ) {
 			cout << "1a: " << serialString1 << endl
 		} else {
-			if (-EPIPE != retval) { // we ignore EPIPE, because some hubs don't have strings
+			if(-EPIPE != retval) { // we ignore EPIPE, because some hubs don't have strings
 				cout << "fetching string 1a failed: " << usb_strerror() << endl
 				return EXIT_FAILURE
 			}
 		}
 
 		retval = device.string(serialString2, 1, 0x0409)
-		if ( 0 < retval ) {
+		if( 0 < retval ) {
 			cout << "1b: " << serialString2 << endl
-			if (serialString2 != serialString1) {
+			if(serialString2 != serialString1) {
 				cout << "String fetch with explicit language ID produced different result" << endl
 			}
 		} else {
-			if (-EPIPE != retval) { // we ignore EPIPE, because some hubs don't have strings
+			if(-EPIPE != retval) { // we ignore EPIPE, because some hubs don't have strings
 				cout << "fetching string 1b failed: " << usb_strerror() << endl
 				return EXIT_FAILURE
 			}

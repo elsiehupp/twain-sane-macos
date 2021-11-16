@@ -1,7 +1,7 @@
 /** @file u12-hwdef.h
  *  @brief Definitions for the ASIC.
  *
- * Copyright (c) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(c) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.01 - initial version
@@ -13,7 +13,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -170,23 +170,23 @@
 
 #define REG_TESTMODE            0xf0
 
-/* Register RegStepControl (Addr: 0x14) */
+/* Register RegStepControl(Addr: 0x14) */
 #define _MOTOR0_ONESTEP         0x01
 #define _MOTOR0_SCANSTATE       0x02
 #define _MOTOR_FREERUN          0x40
 #define _MOTOR_NOFREERUN        0x00
 
-/* Register RegGetScanState (Addr: 0x17)*/
+/* Register RegGetScanState(Addr: 0x17)*/
 #define _SCANSTATE_MASK         0x3f	/* bit 0-5 */
 #define _SCANSTATE_STOP         0x80
 
-/* Register RegMemoryLow/High (Addr: 0x19/0x1a)*/
+/* Register RegMemoryLow/High(Addr: 0x19/0x1a)*/
 #define _MAP_ADDR_RED           0x00
 #define _MAP_ADDR_GREEN         0x40
 #define _MAP_ADDR_BLUE          0x80
 #define _MAP_ADDR_SIZE          0x40
 
-/* Register RegModeControl (Addr: 0x1b)*/
+/* Register RegModeControl(Addr: 0x1b)*/
 #define _ModeScan               0x00
 #define _ModeIdle               0x01
 #define _ModeShadingMem         0x02
@@ -197,11 +197,11 @@
 #define _ModeFifoBSel           0x10
 #define _ModeFifoClose          0x18
 
-/* Register RegLineControl (Addr: 0x1c) */
+/* Register RegLineControl(Addr: 0x1c) */
 #define _LINE_SCANTIME_MASK     0x3f	/* bit 0-6              */
 #define _LINE_CDSINVERSE        0x80	/* Color Drive Signal   */
 
-/* Register RegScanControl (Addr: 0x1d) */
+/* Register RegScanControl(Addr: 0x1d) */
 #define _SCAN_BITMODE           0x00
 #define _SCAN_BYTEMODE          0x01    /* Gray/Color mode                  */
 #define _SCAN_12BITMODE         0x02
@@ -215,7 +215,7 @@
 #define _SCAN_LAMPS_ON          (_SCAN_NORMALLAMP_ON | _SCAN_TPALAMP_ON)
 #define _SCAN_LAMP_MASK         _SCAN_LAMPS_ON
 
-/* Register RegMotor0Control (Addr: 0x15) */
+/* Register RegMotor0Control(Addr: 0x15) */
 #define _MotorDirForward        0x01
 #define _MotorDirBackward       0x00
 #define _MotorOn                0x02
@@ -231,10 +231,10 @@
 
 #define _FORWARD_MOTOR  (_MotorDirForward + _MotorOn + \
                          _MotorHQuarterStep + _MotorPowerEnable)
-#define _BACKWARD_MOTOR (_MotorDirBackward + _MotorOn + _MotorHHomeStop + \
+#define _BACKWARD_MOTOR(_MotorDirBackward + _MotorOn + _MotorHHomeStop + \
                          _MotorHQuarterStep + _MotorPowerEnable)
 
-/* Register RegConfiguration (Addr: 0x1e) */
+/* Register RegConfiguration(Addr: 0x1e) */
 #define _P98_CCD_TYPE_ID       0x07
 #define _P98_NEC_MACHINE       0x08
 #define _P98_PCBID             0xF0
@@ -252,7 +252,7 @@
 #define _CCD_3777               6
 #define _CCD_548                7
 
-/* PCB-IDs (from parport driver)...  */
+/* PCB-IDs(from parport driver)...  */
 #define _OPTICWORKS2000         0x00
 #define _PLUSTEK_SCANNER        0x10
 #define _SCANNER_WITH_TPA       0x20
@@ -266,7 +266,7 @@
 #define _AGFA_SCANNER           0xf0
 #define _AGFA_PCB               0x1f
 
-/* Register RegModelControl (Addr: 0x1f) */
+/* Register RegModelControl(Addr: 0x1f) */
 #define _HOME_SENSOR_POLARITY   0x01
 #define _LED_CONTROL            0x02
 #define _LED_ACTIVITY           0x04
@@ -278,7 +278,7 @@
 #define _MODEL_DPI1200          0x28
 #define _DUMMY_12BIT            0x40
 
-/* Register RegModel1Control (Addr: 0x20) */
+/* Register RegModel1Control(Addr: 0x20) */
 #define _SCAN_GRAYTYPE          0x01
 #define _CCD_SHIFT_GATE         0x02
 #define _CCD_SHIFT_PULSE        0x04
@@ -287,10 +287,10 @@
 #define _MOTOR_2916             0x10
 #define _MOTOR_7042             0x20
 
-/* Register RegThresholdGapControl (Addr: 0x29) */
+/* Register RegThresholdGapControl(Addr: 0x29) */
 #define _THRESHOLDGAP_MASK      0x0f
 
-/* Register RegResetConfig (Addr: 0x2e) */
+/* Register RegResetConfig(Addr: 0x2e) */
 #define _ADC_MASK               0x07
 #define _DA_WOLFSON8143         0x00
 #define _DA_ESIC                0x04
@@ -306,11 +306,11 @@
 #define _MOTOR1_2916            0x20
 #define _MOTOR1_7042            0x40
 
-/* Status Register (Addr: 0x30) */
+/* Status Register(Addr: 0x30) */
 #define _FLAG_PAPER             0x01
 #define _FLAG_KEY               0x80
 
-/* Register RegFifoFullLength (Addr: 0x54) */
+/* Register RegFifoFullLength(Addr: 0x54) */
 #define _RED_FULLSIZE           0x00
 #define _GREEN_FULLSIZE         0x08
 #define _BLUE_FULLSIZE          0x10
@@ -321,7 +321,7 @@
 #define _MFRC_RUNSCANSTATE      0x04
 #define _MFRC_BY_XSTEP          0x08
 
-/* Register RegMotorDriverType (Addr: 0x64) */
+/* Register RegMotorDriverType(Addr: 0x64) */
 #define _MOTORS_MASK            0x33
 #define _MOTORR_MASK            0xf3
 #define _MOTORR_WEAK            0x04
@@ -347,7 +347,7 @@
 #define _BYTES_PER_CHANNEL    5500UL
 #define _SIZE_DATA_BUF        (u_long)(_BYTES_PER_CHANNEL * 3 * 2)
 #define _SIZE_TPA_DATA_BUF    (u_long)(_BYTES_PER_CHANNEL * 3 * 2)
-#define _SIZE_SHADING_SUM_BUF (u_long)(_BYTES_PER_CHANNEL * 3 * 4)
+#define _SIZE_SHADING_SUM_BUF(u_long)(_BYTES_PER_CHANNEL * 3 * 4)
 #define _SIZE_TOTAL_BUF       (u_long)(_SIZE_DATA_BUF + _SIZE_SHADING_SUM_BUF)
 #define _SIZE_TOTAL_BUF_TPA   (u_long)(_SIZE_TOTAL_BUF + _SIZE_TPA_DATA_BUF)
 

@@ -8,7 +8,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -41,7 +41,7 @@
 
    This file implements a SANE backend for Nikon Coolscan film scanners.
 
-   Written by András Major (andras@users.sourceforge.net), 2001-2002.
+   Written by András Major(andras@users.sourceforge.net), 2001-2002.
 
    The developers wish to express their thanks to Nikon Corporation
    for providing technical information and thus making this backend
@@ -100,7 +100,7 @@ import Sane.sanei_backend	/* must be last */
 #define CS2_REVISION 8
 #define CS2_CONFIG_FILE "coolscan2.conf"
 
-#define WSIZE (sizeof (Sane.Word))
+#define WSIZE(sizeof(Sane.Word))
 
 /*
 #define CS2_BLEEDING_EDGE
@@ -292,35 +292,35 @@ cs2_t
 /* ========================================================================= */
 /* prototypes */
 
-static Sane.Status cs2_open (const char *device, cs2_interface_t interface,
+static Sane.Status cs2_open(const char *device, cs2_interface_t interface,
 			     cs2_t ** sp)
-static void cs2_close (cs2_t * s)
-static Sane.Status cs2_attach (const char *dev)
-static Sane.Status cs2_scsi_sense_handler (Int fd, u_char * sense_buffer,
+static void cs2_close(cs2_t * s)
+static Sane.Status cs2_attach(const char *dev)
+static Sane.Status cs2_scsi_sense_handler(Int fd, u_char * sense_buffer,
 					   void *arg)
-static Sane.Status cs2_parse_sense_data (cs2_t * s)
-static void cs2_init_buffer (cs2_t * s)
-static Sane.Status cs2_pack_byte (cs2_t * s, Sane.Byte byte)
-static Sane.Status cs2_parse_cmd (cs2_t * s, char *text)
-static Sane.Status cs2_grow_send_buffer (cs2_t * s)
-static Sane.Status cs2_issue_cmd (cs2_t * s)
-static cs2_phase_t cs2_phase_check (cs2_t * s)
-static Sane.Status cs2_set_boundary (cs2_t *s)
-static Sane.Status cs2_scanner_ready (cs2_t * s, Int flags)
-static Sane.Status cs2_page_inquiry (cs2_t * s, Int page)
-static Sane.Status cs2_full_inquiry (cs2_t * s)
-static Sane.Status cs2_execute (cs2_t * s)
-static Sane.Status cs2_load (cs2_t * s)
-static Sane.Status cs2_eject (cs2_t * s)
-static Sane.Status cs2_reset (cs2_t * s)
-static Sane.Status cs2_focus (cs2_t * s)
-static Sane.Status cs2_autofocus (cs2_t * s)
-static Sane.Status cs2_get_exposure (cs2_t * s)
-static Sane.Status cs2_convert_options (cs2_t * s)
-static Sane.Status cs2_scan (cs2_t * s, cs2_scan_t type)
-static void *cs2_xmalloc (size_t size)
-static void *cs2_xrealloc (void *p, size_t size)
-static void cs2_xfree (const void *p)
+static Sane.Status cs2_parse_sense_data(cs2_t * s)
+static void cs2_init_buffer(cs2_t * s)
+static Sane.Status cs2_pack_byte(cs2_t * s, Sane.Byte byte)
+static Sane.Status cs2_parse_cmd(cs2_t * s, char *text)
+static Sane.Status cs2_grow_send_buffer(cs2_t * s)
+static Sane.Status cs2_issue_cmd(cs2_t * s)
+static cs2_phase_t cs2_phase_check(cs2_t * s)
+static Sane.Status cs2_set_boundary(cs2_t *s)
+static Sane.Status cs2_scanner_ready(cs2_t * s, Int flags)
+static Sane.Status cs2_page_inquiry(cs2_t * s, Int page)
+static Sane.Status cs2_full_inquiry(cs2_t * s)
+static Sane.Status cs2_execute(cs2_t * s)
+static Sane.Status cs2_load(cs2_t * s)
+static Sane.Status cs2_eject(cs2_t * s)
+static Sane.Status cs2_reset(cs2_t * s)
+static Sane.Status cs2_focus(cs2_t * s)
+static Sane.Status cs2_autofocus(cs2_t * s)
+static Sane.Status cs2_get_exposure(cs2_t * s)
+static Sane.Status cs2_convert_options(cs2_t * s)
+static Sane.Status cs2_scan(cs2_t * s, cs2_scan_t type)
+static void *cs2_xmalloc(size_t size)
+static void *cs2_xrealloc(void *p, size_t size)
+static void cs2_xfree(const void *p)
 
 
 /* ========================================================================= */
@@ -338,91 +338,91 @@ static Int open_devices = 0
 /* SANE entry points */
 
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 {
-  DBG_INIT ()
-  DBG (10, "Sane.init() called.\n")
-  DBG (1, "coolscan2 backend, version %i.%i.%i initializing.\n", CS2_VERSION_MAJOR, CS2_VERSION_MINOR, CS2_REVISION)
+  DBG_INIT()
+  DBG(10, "Sane.init() called.\n")
+  DBG(1, "coolscan2 backend, version %i.%i.%i initializing.\n", CS2_VERSION_MAJOR, CS2_VERSION_MINOR, CS2_REVISION)
 
   authorize = authorize;	/* to shut up compiler */
 
-  if (version_code)
+  if(version_code)
     *version_code =
-      Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, 0)
+      Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, 0)
 
-  sanei_usb_init ()
+  sanei_usb_init()
 
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   var i: Int
 
-  DBG (10, "Sane.exit() called.\n")
+  DBG(10, "Sane.exit() called.\n")
 
-  for (i = 0; i < n_device_list; i++)
+  for(i = 0; i < n_device_list; i++)
     {
-      cs2_xfree (device_list[i]->name)
-      cs2_xfree (device_list[i]->vendor)
-      cs2_xfree (device_list[i]->model)
-      cs2_xfree (device_list[i])
+      cs2_xfree(device_list[i]->name)
+      cs2_xfree(device_list[i]->vendor)
+      cs2_xfree(device_list[i]->model)
+      cs2_xfree(device_list[i])
     }
-  cs2_xfree (device_list)
+  cs2_xfree(device_list)
 }
 
 Sane.Status
-Sane.get_devices (const Sane.Device *** list, Bool local_only)
+Sane.get_devices(const Sane.Device *** list, Bool local_only)
 {
   char line[PATH_MAX], *p
   FILE *config
 
   local_only = local_only;	/* to shut up compiler */
 
-  DBG (10, "Sane.get_devices() called.\n")
+  DBG(10, "Sane.get_devices() called.\n")
 
-  if (device_list)
-    DBG (6,
+  if(device_list)
+    DBG(6,
 	 "Sane.get_devices(): Device list already populated, not probing again.\n")
   else
     {
-      if (open_devices)
+      if(open_devices)
 	{
-	  DBG (4,
+	  DBG(4,
 	       "Sane.get_devices(): Devices open, not scanning for scanners.\n")
 	  return Sane.STATUS_IO_ERROR
 	}
 
-      config = sanei_config_open (CS2_CONFIG_FILE)
-      if (config)
+      config = sanei_config_open(CS2_CONFIG_FILE)
+      if(config)
 	{
-	  DBG (4, "Sane.get_devices(): Reading config file.\n")
-	  while (sanei_config_read (line, sizeof (line), config))
+	  DBG(4, "Sane.get_devices(): Reading config file.\n")
+	  while(sanei_config_read(line, sizeof(line), config))
 	    {
 	      p = line
-	      p += strspn (line, " \t")
-	      if (strlen (p) && (p[0] != '\n') && (p[0] != '#'))
-		cs2_open (line, CS2_INTERFACE_UNKNOWN, NULL)
+	      p += strspn(line, " \t")
+	      if(strlen(p) && (p[0] != '\n') && (p[0] != '#'))
+		cs2_open(line, CS2_INTERFACE_UNKNOWN, NULL)
 	    }
-	  fclose (config)
+	  fclose(config)
 	}
       else
 	{
-	  DBG (4, "Sane.get_devices(): No config file found.\n")
-	  cs2_open ("auto", CS2_INTERFACE_UNKNOWN, NULL)
+	  DBG(4, "Sane.get_devices(): No config file found.\n")
+	  cs2_open("auto", CS2_INTERFACE_UNKNOWN, NULL)
 	}
 
-      switch (n_device_list)
+      switch(n_device_list)
 	{
 	case 0:
-	  DBG (6, "Sane.get_devices(): No devices detected.\n")
+	  DBG(6, "Sane.get_devices(): No devices detected.\n")
 	  break
 	case 1:
-	  DBG (6, "Sane.get_devices(): 1 device detected.\n")
+	  DBG(6, "Sane.get_devices(): 1 device detected.\n")
 	  break
 	default:
-	  DBG (6, "Sane.get_devices(): %i devices detected.\n",
+	  DBG(6, "Sane.get_devices(): %i devices detected.\n",
 	       n_device_list)
 	  break
 	}
@@ -434,7 +434,7 @@ Sane.get_devices (const Sane.Device *** list, Bool local_only)
 }
 
 Sane.Status
-Sane.open (Sane.String_Const name, Sane.Handle * h)
+Sane.open(Sane.String_Const name, Sane.Handle * h)
 {
   Sane.Status status
   cs2_t *s
@@ -445,10 +445,10 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
   Sane.Range *range = NULL
   Int alloc_failed = 0
 
-  DBG (10, "Sane.open() called.\n")
+  DBG(10, "Sane.open() called.\n")
 
-  status = cs2_open (name, CS2_INTERFACE_UNKNOWN, &s)
-  if (status)
+  status = cs2_open(name, CS2_INTERFACE_UNKNOWN, &s)
+  if(status)
     return status
 
   *h = (Sane.Handle) s
@@ -459,18 +459,18 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
   s.resx_list = s.resy_list = NULL
   s.resx_n_list = s.resy_n_list = 0
 
-  status = cs2_full_inquiry (s)
-  if (status)
+  status = cs2_full_inquiry(s)
+  if(status)
     return status
 
   /* option descriptors */
 
-  for (i_option = 0; i_option < CS2_N_OPTIONS; i_option++)
+  for(i_option = 0; i_option < CS2_N_OPTIONS; i_option++)
     {
       o.name = o.title = o.desc = NULL
       o.type = o.unit = o.cap = o.constraint_type = o.size = 0
       o.constraint.range = NULL;	/* only one union member needs to be NULLed */
-      switch (i_option)
+      switch(i_option)
 	{
 	case CS2_OPTION_NUM:
 	  o.name = ""
@@ -516,12 +516,12 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.unit = Sane.UNIT_NONE
 	  o.size = WSIZE
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
-	  if (s.type != CS2_TYPE_LS2000 && s.type != CS2_TYPE_LS4000
+	  if(s.type != CS2_TYPE_LS2000 && s.type != CS2_TYPE_LS4000
 		  && s.type != CS2_TYPE_LS5000 && s.type != CS2_TYPE_LS8000)
 		o.cap |= Sane.CAP_INACTIVE
 	  o.constraint_type = Sane.CONSTRAINT_RANGE
-	  range = (Sane.Range *) cs2_xmalloc (sizeof (Sane.Range))
-	  if (! range)
+	  range = (Sane.Range *) cs2_xmalloc(sizeof(Sane.Range))
+	  if(! range)
 		alloc_failed = 1
 	  else
 		{
@@ -540,8 +540,8 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.size = WSIZE
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 	  o.constraint_type = Sane.CONSTRAINT_WORD_LIST
-	  word_list = (Sane.Word *) cs2_xmalloc (2 * sizeof (Sane.Word))
-	  if (!word_list)
+	  word_list = (Sane.Word *) cs2_xmalloc(2 * sizeof(Sane.Word))
+	  if(!word_list)
 	    alloc_failed = 1
 	  else
 	    {
@@ -560,14 +560,14 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.size = WSIZE
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 	  o.constraint_type = Sane.CONSTRAINT_RANGE
-	  range = (Sane.Range *) cs2_xmalloc (sizeof (Sane.Range))
-	  if (!range)
+	  range = (Sane.Range *) cs2_xmalloc(sizeof(Sane.Range))
+	  if(!range)
 	    alloc_failed = 1
 	  else
 	    {
-	      range.min = Sane.FIX (0.)
-	      range.max = Sane.FIX (10.)
-	      range.quant = Sane.FIX (0.1)
+	      range.min = Sane.FIX(0.)
+	      range.max = Sane.FIX(10.)
+	      range.quant = Sane.FIX(0.1)
 	      o.constraint.range = range
 	    }
 	  break
@@ -580,14 +580,14 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.size = WSIZE
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 	  o.constraint_type = Sane.CONSTRAINT_RANGE
-	  range = (Sane.Range *) cs2_xmalloc (sizeof (Sane.Range))
-	  if (!range)
+	  range = (Sane.Range *) cs2_xmalloc(sizeof(Sane.Range))
+	  if(!range)
 	    alloc_failed = 1
 	  else
 	    {
-	      range.min = Sane.FIX (50.)
-	      range.max = Sane.FIX (20000.)
-	      range.quant = Sane.FIX (10.)
+	      range.min = Sane.FIX(50.)
+	      range.max = Sane.FIX(20000.)
+	      range.quant = Sane.FIX(10.)
 	      o.constraint.range = range
 	    }
 	  break
@@ -600,14 +600,14 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.size = WSIZE
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 	  o.constraint_type = Sane.CONSTRAINT_RANGE
-	  range = (Sane.Range *) cs2_xmalloc (sizeof (Sane.Range))
-	  if (!range)
+	  range = (Sane.Range *) cs2_xmalloc(sizeof(Sane.Range))
+	  if(!range)
 	    alloc_failed = 1
 	  else
 	    {
-	      range.min = Sane.FIX (50.)
-	      range.max = Sane.FIX (20000.)
-	      range.quant = Sane.FIX (10.)
+	      range.min = Sane.FIX(50.)
+	      range.max = Sane.FIX(20000.)
+	      range.quant = Sane.FIX(10.)
 	      o.constraint.range = range
 	    }
 	  break
@@ -620,14 +620,14 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.size = WSIZE
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 	  o.constraint_type = Sane.CONSTRAINT_RANGE
-	  range = (Sane.Range *) cs2_xmalloc (sizeof (Sane.Range))
-	  if (!range)
+	  range = (Sane.Range *) cs2_xmalloc(sizeof(Sane.Range))
+	  if(!range)
 	    alloc_failed = 1
 	  else
 	    {
-	      range.min = Sane.FIX (50.)
-	      range.max = Sane.FIX (20000.)
-	      range.quant = Sane.FIX (10.)
+	      range.min = Sane.FIX(50.)
+	      range.max = Sane.FIX(20000.)
+	      range.quant = Sane.FIX(10.)
 	      o.constraint.range = range
 	    }
 	  break
@@ -639,8 +639,8 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.size = s.n_lut * WSIZE
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 	  o.constraint_type = Sane.CONSTRAINT_RANGE
-	  range = (Sane.Range *) cs2_xmalloc (sizeof (Sane.Range))
-	  if (!range)
+	  range = (Sane.Range *) cs2_xmalloc(sizeof(Sane.Range))
+	  if(!range)
 	    alloc_failed = 1
 	  else
 	    {
@@ -658,8 +658,8 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.size = s.n_lut * WSIZE
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 	  o.constraint_type = Sane.CONSTRAINT_RANGE
-	  range = (Sane.Range *) cs2_xmalloc (sizeof (Sane.Range))
-	  if (!range)
+	  range = (Sane.Range *) cs2_xmalloc(sizeof(Sane.Range))
+	  if(!range)
 	    alloc_failed = 1
 	  else
 	    {
@@ -677,8 +677,8 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.size = s.n_lut * WSIZE
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 	  o.constraint_type = Sane.CONSTRAINT_RANGE
-	  range = (Sane.Range *) cs2_xmalloc (sizeof (Sane.Range))
-	  if (!range)
+	  range = (Sane.Range *) cs2_xmalloc(sizeof(Sane.Range))
+	  if(!range)
 	    alloc_failed = 1
 	  else
 	    {
@@ -712,14 +712,14 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	case CS2_OPTION_RESX:
 	case CS2_OPTION_RES:
 	case CS2_OPTION_PREVIEW_RESOLUTION:
-	  if (i_option == CS2_OPTION_PREVIEW_RESOLUTION)
+	  if(i_option == CS2_OPTION_PREVIEW_RESOLUTION)
 	    {
 	      o.name = "preview-resolution"
 	      o.title = "Preview resolution"
 	      o.desc =
 		"Scanning resolution for preview mode in dpi, affecting both x and y directions"
 	    }
-	  else if (i_option == CS2_OPTION_RES)
+	  else if(i_option == CS2_OPTION_RES)
 	    {
 	      o.name = "resolution"
 	      o.title = "Resolution"
@@ -737,19 +737,19 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.unit = Sane.UNIT_DPI
 	  o.size = WSIZE
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
-	  if (i_option == CS2_OPTION_RESX)
+	  if(i_option == CS2_OPTION_RESX)
 	    o.cap |= Sane.CAP_INACTIVE | Sane.CAP_ADVANCED
-	  if (i_option == CS2_OPTION_PREVIEW_RESOLUTION)
+	  if(i_option == CS2_OPTION_PREVIEW_RESOLUTION)
 	    o.cap |= Sane.CAP_ADVANCED
 	  o.constraint_type = Sane.CONSTRAINT_WORD_LIST
 	  word_list =
-	    (Sane.Word *) cs2_xmalloc ((s.resx_n_list + 1) *
-				       sizeof (Sane.Word))
-	  if (!word_list)
+	    (Sane.Word *) cs2_xmalloc((s.resx_n_list + 1) *
+				       sizeof(Sane.Word))
+	  if(!word_list)
 	    alloc_failed = 1
 	  else
 	    {
-	      for (i_list = 0; i_list < s.resx_n_list; i_list++)
+	      for(i_list = 0; i_list < s.resx_n_list; i_list++)
 		word_list[i_list + 1] = s.resx_list[i_list]
 	      word_list[0] = s.resx_n_list
 	      o.constraint.word_list = word_list
@@ -767,13 +767,13 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	    Sane.CAP_ADVANCED
 	  o.constraint_type = Sane.CONSTRAINT_WORD_LIST
 	  word_list =
-	    (Sane.Word *) cs2_xmalloc ((s.resy_n_list + 1) *
-				       sizeof (Sane.Word))
-	  if (!word_list)
+	    (Sane.Word *) cs2_xmalloc((s.resy_n_list + 1) *
+				       sizeof(Sane.Word))
+	  if(!word_list)
 	    alloc_failed = 1
 	  else
 	    {
-	      for (i_list = 0; i_list < s.resy_n_list; i_list++)
+	      for(i_list = 0; i_list < s.resy_n_list; i_list++)
 		word_list[i_list + 1] = s.resy_list[i_list]
 	      word_list[0] = s.resy_n_list
 	      o.constraint.word_list = word_list
@@ -798,11 +798,11 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.unit = Sane.UNIT_NONE
 	  o.size = WSIZE
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
-	  if (s.n_frames <= 1)
+	  if(s.n_frames <= 1)
 	    o.cap |= Sane.CAP_INACTIVE
 	  o.constraint_type = Sane.CONSTRAINT_RANGE
-	  range = (Sane.Range *) cs2_xmalloc (sizeof (Sane.Range))
-	  if (!range)
+	  range = (Sane.Range *) cs2_xmalloc(sizeof(Sane.Range))
+	  if(!range)
 	    alloc_failed = 1
 	  else
 	    {
@@ -821,14 +821,14 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.size = WSIZE
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 	  o.constraint_type = Sane.CONSTRAINT_RANGE
-	  range = (Sane.Range *) cs2_xmalloc (sizeof (Sane.Range))
-	  if (!range)
+	  range = (Sane.Range *) cs2_xmalloc(sizeof(Sane.Range))
+	  if(!range)
 	    alloc_failed = 1
 	  else
 	    {
-	      range.min = Sane.FIX (0.)
-	      range.max = Sane.FIX ((s.boundaryy - 1) * s.unit_mm)
-	      range.quant = Sane.FIX (0.)
+	      range.min = Sane.FIX(0.)
+	      range.max = Sane.FIX((s.boundaryy - 1) * s.unit_mm)
+	      range.quant = Sane.FIX(0.)
 	      o.constraint.range = range
 	    }
 	  break
@@ -841,11 +841,11 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.size = WSIZE
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 	  o.constraint_type = Sane.CONSTRAINT_RANGE
-	  if (!range)
+	  if(!range)
 	    alloc_failed = 1
 	  else
 	    {
-	      range = (Sane.Range *) cs2_xmalloc (sizeof (Sane.Range))
+	      range = (Sane.Range *) cs2_xmalloc(sizeof(Sane.Range))
 	      range.min = 0
 	      range.max = s.boundaryx - 1
 	      range.quant = 1
@@ -861,8 +861,8 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.size = WSIZE
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 	  o.constraint_type = Sane.CONSTRAINT_RANGE
-	  range = (Sane.Range *) cs2_xmalloc (sizeof (Sane.Range))
-	  if (!range)
+	  range = (Sane.Range *) cs2_xmalloc(sizeof(Sane.Range))
+	  if(!range)
 	    alloc_failed = 1
 	  else
 	    {
@@ -881,8 +881,8 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.size = WSIZE
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 	  o.constraint_type = Sane.CONSTRAINT_RANGE
-	  range = (Sane.Range *) cs2_xmalloc (sizeof (Sane.Range))
-	  if (!range)
+	  range = (Sane.Range *) cs2_xmalloc(sizeof(Sane.Range))
+	  if(!range)
 	    alloc_failed = 1
 	  else
 	    {
@@ -901,8 +901,8 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.size = WSIZE
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 	  o.constraint_type = Sane.CONSTRAINT_RANGE
-	  range = (Sane.Range *) cs2_xmalloc (sizeof (Sane.Range))
-	  if (!range)
+	  range = (Sane.Range *) cs2_xmalloc(sizeof(Sane.Range))
+	  if(!range)
 	    alloc_failed = 1
 	  else
 	    {
@@ -930,8 +930,8 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.size = WSIZE
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 	  o.constraint_type = Sane.CONSTRAINT_RANGE
-	  range = (Sane.Range *) cs2_xmalloc (sizeof (Sane.Range))
-	  if (!range)
+	  range = (Sane.Range *) cs2_xmalloc(sizeof(Sane.Range))
+	  if(!range)
 	    alloc_failed = 1
 	  else
 	    {
@@ -958,8 +958,8 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.cap =
 	    Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_INACTIVE
 	  o.constraint_type = Sane.CONSTRAINT_RANGE
-	  range = (Sane.Range *) cs2_xmalloc (sizeof (Sane.Range))
-	  if (!range)
+	  range = (Sane.Range *) cs2_xmalloc(sizeof(Sane.Range))
+	  if(!range)
 	    alloc_failed = 1
 	  else
 	    {
@@ -979,8 +979,8 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.cap =
 	    Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_INACTIVE
 	  o.constraint_type = Sane.CONSTRAINT_RANGE
-	  range = (Sane.Range *) cs2_xmalloc (sizeof (Sane.Range))
-	  if (!range)
+	  range = (Sane.Range *) cs2_xmalloc(sizeof(Sane.Range))
+	  if(!range)
 	    alloc_failed = 1
 	  else
 	    {
@@ -1005,7 +1005,7 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 	  o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 	  break
 	default:
-	  DBG (1, "BUG: Sane.open(): Unknown option number.\n")
+	  DBG(1, "BUG: Sane.open(): Unknown option number.\n")
 	  return Sane.STATUS_INVAL
 	  break
 	}
@@ -1024,7 +1024,7 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
   s.resy = s.resy_max
   s.res_independent = Sane.FALSE
   s.res_preview = s.resx_max / 10
-  if (s.res_preview < s.resx_min)
+  if(s.res_preview < s.resx_min)
     s.res_preview = s.resx_min
   s.xmin = 0
   s.xmax = s.boundaryx - 1
@@ -1045,9 +1045,9 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
   s.line_buf = NULL
   s.n_line_buf = 0
 
-  if (alloc_failed)
+  if(alloc_failed)
     {
-      cs2_close (s)
+      cs2_close(s)
       return Sane.STATUS_NO_MEM
     }
 
@@ -1055,30 +1055,30 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 }
 
 void
-Sane.close (Sane.Handle h)
+Sane.close(Sane.Handle h)
 {
   cs2_t *s = (cs2_t *) h
 
-  DBG (10, "Sane.close() called.\n")
+  DBG(10, "Sane.close() called.\n")
 
-  cs2_close (s)
+  cs2_close(s)
 }
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle h, Int n)
+Sane.get_option_descriptor(Sane.Handle h, Int n)
 {
   cs2_t *s = (cs2_t *) h
 
-  DBG (10, "Sane.get_option_descriptor() called, option #%i.\n", n)
+  DBG(10, "Sane.get_option_descriptor() called, option #%i.\n", n)
 
-  if ((n >= 0) && (n < CS2_N_OPTIONS))
+  if((n >= 0) && (n < CS2_N_OPTIONS))
     return &s.option_list[n]
   else
     return NULL
 }
 
 Sane.Status
-Sane.control_option (Sane.Handle h, Int n, Sane.Action a, void *v,
+Sane.control_option(Sane.Handle h, Int n, Sane.Action a, void *v,
 		     Int * i)
 {
   cs2_t *s = (cs2_t *) h
@@ -1087,13 +1087,13 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action a, void *v,
   Sane.Status status
   Sane.Option_Descriptor o = s.option_list[n]
 
-  DBG (10, "Sane.control_option() called, option #%i, action #%i.\n", n, a)
+  DBG(10, "Sane.control_option() called, option #%i, action #%i.\n", n, a)
 
-  switch (a)
+  switch(a)
     {
     case Sane.ACTION_GET_VALUE:
 
-      switch (n)
+      switch(n)
 	{
 	case CS2_OPTION_NUM:
 	  *(Sane.Word *) v = CS2_N_OPTIONS
@@ -1114,33 +1114,33 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action a, void *v,
 	  *(Sane.Word *) v = s.preview
 	  break
 	case CS2_OPTION_EXPOSURE:
-	  *(Sane.Word *) v = Sane.FIX (s.exposure)
+	  *(Sane.Word *) v = Sane.FIX(s.exposure)
 	  break
 	case CS2_OPTION_EXPOSURE_R:
-	  *(Sane.Word *) v = Sane.FIX (s.exposure_r)
+	  *(Sane.Word *) v = Sane.FIX(s.exposure_r)
 	  break
 	case CS2_OPTION_EXPOSURE_G:
-	  *(Sane.Word *) v = Sane.FIX (s.exposure_g)
+	  *(Sane.Word *) v = Sane.FIX(s.exposure_g)
 	  break
 	case CS2_OPTION_EXPOSURE_B:
-	  *(Sane.Word *) v = Sane.FIX (s.exposure_b)
+	  *(Sane.Word *) v = Sane.FIX(s.exposure_b)
 	  break
 	case CS2_OPTION_LUT_R:
-	  if (!(s.lut_r))
+	  if(!(s.lut_r))
 	    return Sane.STATUS_INVAL
-	  for (pixel = 0; pixel < s.n_lut; pixel++)
+	  for(pixel = 0; pixel < s.n_lut; pixel++)
 	    ((Sane.Word *) v)[pixel] = s.lut_r[pixel]
 	  break
 	case CS2_OPTION_LUT_G:
-	  if (!(s.lut_g))
+	  if(!(s.lut_g))
 	    return Sane.STATUS_INVAL
-	  for (pixel = 0; pixel < s.n_lut; pixel++)
+	  for(pixel = 0; pixel < s.n_lut; pixel++)
 	    ((Sane.Word *) v)[pixel] = s.lut_g[pixel]
 	  break
 	case CS2_OPTION_LUT_B:
-	  if (!(s.lut_b))
+	  if(!(s.lut_b))
 	    return Sane.STATUS_INVAL
-	  for (pixel = 0; pixel < s.n_lut; pixel++)
+	  for(pixel = 0; pixel < s.n_lut; pixel++)
 	    ((Sane.Word *) v)[pixel] = s.lut_b[pixel]
 	  break
 	case CS2_OPTION_EJECT:
@@ -1153,7 +1153,7 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action a, void *v,
 	  *(Sane.Word *) v = s.i_frame
 	  break
 	case CS2_OPTION_SUBFRAME:
-	  *(Sane.Word *) v = Sane.FIX (s.subframe)
+	  *(Sane.Word *) v = Sane.FIX(s.subframe)
 	  break
 	case CS2_OPTION_RES:
 	  *(Sane.Word *) v = s.res
@@ -1201,33 +1201,33 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action a, void *v,
 	case CS2_OPTION_SCAN_AE_WB:
 	  break
 	default:
-	  DBG (4, "Error: Sane.control_option(): Unknown option (bug?).\n")
+	  DBG(4, "Error: Sane.control_option(): Unknown option(bug?).\n")
 	  return Sane.STATUS_INVAL
 	}
       break
 
     case Sane.ACTION_SET_VALUE:
-      if (s.scanning)
+      if(s.scanning)
 	return Sane.STATUS_INVAL
 /* XXXXXXXXXXXXXXXXX do this for all elements of arrays */
-      switch (o.type)
+      switch(o.type)
 	{
 	case Sane.TYPE_BOOL:
-	  if ((*(Sane.Word *) v != Sane.TRUE)
+	  if((*(Sane.Word *) v != Sane.TRUE)
 	      && (*(Sane.Word *) v != Sane.FALSE))
 	    return Sane.STATUS_INVAL
 	  break
 	case Sane.TYPE_INT:
 	case Sane.TYPE_FIXED:
-	  switch (o.constraint_type)
+	  switch(o.constraint_type)
 	    {
 	    case Sane.CONSTRAINT_RANGE:
-	      if (*(Sane.Word *) v < o.constraint.range.min)
+	      if(*(Sane.Word *) v < o.constraint.range.min)
 		{
 		  *(Sane.Word *) v = o.constraint.range.min
 		  flags |= Sane.INFO_INEXACT
 		}
-	      else if (*(Sane.Word *) v > o.constraint.range.max)
+	      else if(*(Sane.Word *) v > o.constraint.range.max)
 		{
 		  *(Sane.Word *) v = o.constraint.range.max
 		  flags |= Sane.INFO_INEXACT
@@ -1246,7 +1246,7 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action a, void *v,
 	case Sane.TYPE_GROUP:
 	  break
 	}
-      switch (n)
+      switch(n)
 	{
 	case CS2_OPTION_NUM:
 	  return Sane.STATUS_INVAL
@@ -1269,49 +1269,49 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action a, void *v,
 	  s.preview = *(Sane.Word *) v
 	  break
 	case CS2_OPTION_EXPOSURE:
-	  s.exposure = Sane.UNFIX (*(Sane.Word *) v)
+	  s.exposure = Sane.UNFIX(*(Sane.Word *) v)
 	  break
 	case CS2_OPTION_EXPOSURE_R:
-	  s.exposure_r = Sane.UNFIX (*(Sane.Word *) v)
+	  s.exposure_r = Sane.UNFIX(*(Sane.Word *) v)
 	  break
 	case CS2_OPTION_EXPOSURE_G:
-	  s.exposure_g = Sane.UNFIX (*(Sane.Word *) v)
+	  s.exposure_g = Sane.UNFIX(*(Sane.Word *) v)
 	  break
 	case CS2_OPTION_EXPOSURE_B:
-	  s.exposure_b = Sane.UNFIX (*(Sane.Word *) v)
+	  s.exposure_b = Sane.UNFIX(*(Sane.Word *) v)
 	  break
 	case CS2_OPTION_LUT_R:
-	  if (!(s.lut_r))
+	  if(!(s.lut_r))
 	    return Sane.STATUS_INVAL
-	  for (pixel = 0; pixel < s.n_lut; pixel++)
+	  for(pixel = 0; pixel < s.n_lut; pixel++)
 	    s.lut_r[pixel] = ((Sane.Word *) v)[pixel]
 	  break
 	case CS2_OPTION_LUT_G:
-	  if (!(s.lut_g))
+	  if(!(s.lut_g))
 	    return Sane.STATUS_INVAL
-	  for (pixel = 0; pixel < s.n_lut; pixel++)
+	  for(pixel = 0; pixel < s.n_lut; pixel++)
 	    s.lut_g[pixel] = ((Sane.Word *) v)[pixel]
 	  break
 	case CS2_OPTION_LUT_B:
-	  if (!(s.lut_b))
+	  if(!(s.lut_b))
 	    return Sane.STATUS_INVAL
-	  for (pixel = 0; pixel < s.n_lut; pixel++)
+	  for(pixel = 0; pixel < s.n_lut; pixel++)
 	    s.lut_b[pixel] = ((Sane.Word *) v)[pixel]
 	  break
 	case CS2_OPTION_LOAD:
-	  cs2_load (s)
+	  cs2_load(s)
 	  break
 	case CS2_OPTION_EJECT:
-	  cs2_eject (s)
+	  cs2_eject(s)
 	  break
 	case CS2_OPTION_RESET:
-	  cs2_reset (s)
+	  cs2_reset(s)
 	  break
 	case CS2_OPTION_FRAME:
 	  s.i_frame = *(Sane.Word *) v
 	  break
 	case CS2_OPTION_SUBFRAME:
-	  s.subframe = Sane.UNFIX (*(Sane.Word *) v)
+	  s.subframe = Sane.UNFIX(*(Sane.Word *) v)
 	  break
 	case CS2_OPTION_RES:
 	  s.res = *(Sane.Word *) v
@@ -1351,7 +1351,7 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action a, void *v,
 	  break
 	case CS2_OPTION_FOCUS_ON_CENTRE:
 	  s.focus_on_centre = *(Sane.Word *) v
-	  if (s.focus_on_centre)
+	  if(s.focus_on_centre)
 	    {
 	      s.option_list[CS2_OPTION_FOCUSX].cap |= Sane.CAP_INACTIVE
 	      s.option_list[CS2_OPTION_FOCUSY].cap |= Sane.CAP_INACTIVE
@@ -1367,7 +1367,7 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action a, void *v,
 	  s.focus = *(Sane.Word *) v
 	  break
 	case CS2_OPTION_AUTOFOCUS:
-	  cs2_autofocus (s)
+	  cs2_autofocus(s)
 	  flags |= Sane.INFO_RELOAD_OPTIONS
 	  break
 	case CS2_OPTION_FOCUSX:
@@ -1377,12 +1377,12 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action a, void *v,
 	  s.focusy = *(Sane.Word *) v
 	  break
 	case CS2_OPTION_SCAN_AE:
-	  cs2_scanner_ready (s, CS2_STATUS_NO_DOCS)
-	  status = cs2_scan (s, CS2_SCAN_AE)
-	  if (status)
+	  cs2_scanner_ready(s, CS2_STATUS_NO_DOCS)
+	  status = cs2_scan(s, CS2_SCAN_AE)
+	  if(status)
 	    return status
-	  status = cs2_get_exposure (s)
-	  if (status)
+	  status = cs2_get_exposure(s)
+	  if(status)
 	    return status
 	  s.exposure = 1.
 	  s.exposure_r = s.real_exposure[1] / 100.
@@ -1391,12 +1391,12 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action a, void *v,
 	  flags |= Sane.INFO_RELOAD_OPTIONS
 	  break
 	case CS2_OPTION_SCAN_AE_WB:
-	  cs2_scanner_ready (s, CS2_STATUS_NO_DOCS)
-	  status = cs2_scan (s, CS2_SCAN_AE_WB)
-	  if (status)
+	  cs2_scanner_ready(s, CS2_STATUS_NO_DOCS)
+	  status = cs2_scan(s, CS2_SCAN_AE_WB)
+	  if(status)
 	    return status
-	  status = cs2_get_exposure (s)
-	  if (status)
+	  status = cs2_get_exposure(s)
+	  if(status)
 	    return status
 	  s.exposure = 1.
 	  s.exposure_r = s.real_exposure[1] / 100.
@@ -1405,41 +1405,41 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action a, void *v,
 	  flags |= Sane.INFO_RELOAD_OPTIONS
 	  break
 	default:
-	  DBG (4,
-	       "Error: Sane.control_option(): Unknown option number (bug?).\n")
+	  DBG(4,
+	       "Error: Sane.control_option(): Unknown option number(bug?).\n")
 	  return Sane.STATUS_INVAL
 	  break
 	}
       break
 
     default:
-      DBG (1, "BUG: Sane.control_option(): Unknown action number.\n")
+      DBG(1, "BUG: Sane.control_option(): Unknown action number.\n")
       return Sane.STATUS_INVAL
       break
     }
 
-  if (i)
+  if(i)
     *i = flags
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.get_parameters (Sane.Handle h, Sane.Parameters * p)
+Sane.get_parameters(Sane.Handle h, Sane.Parameters * p)
 {
   cs2_t *s = (cs2_t *) h
   Sane.Status status
 
-  DBG (10, "Sane.get_parameters() called.\n")
+  DBG(10, "Sane.get_parameters() called.\n")
 
-  if (!s.scanning)		/* only recalculate when not scanning */
+  if(!s.scanning)		/* only recalculate when not scanning */
     {
-      status = cs2_convert_options (s)
-      if (status)
+      status = cs2_convert_options(s)
+      if(status)
 	return status
     }
 
-  if (s.infrared_stage == CS2_INFRARED_OUT)
+  if(s.infrared_stage == CS2_INFRARED_OUT)
     {
       p.format = Sane.FRAME_GRAY
       p.bytes_per_line = s.logical_width * s.bytes_per_pixel
@@ -1459,18 +1459,18 @@ Sane.get_parameters (Sane.Handle h, Sane.Parameters * p)
 }
 
 Sane.Status
-Sane.start (Sane.Handle h)
+Sane.start(Sane.Handle h)
 {
   cs2_t *s = (cs2_t *) h
   Sane.Status status
 
-  DBG (10, "Sane.start() called.\n")
+  DBG(10, "Sane.start() called.\n")
 
-  if (s.scanning)
+  if(s.scanning)
     return Sane.STATUS_INVAL
 
-  status = cs2_convert_options (s)
-  if (status)
+  status = cs2_convert_options(s)
+  if(status)
     return status
 
   s.infrared_index = 0
@@ -1479,14 +1479,14 @@ Sane.start (Sane.Handle h)
 
   s.scanning = Sane.TRUE
 
-  if (s.infrared_stage == CS2_INFRARED_OUT)
+  if(s.infrared_stage == CS2_INFRARED_OUT)
     return Sane.STATUS_GOOD
   else
-    return cs2_scan (s, CS2_SCAN_NORMAL)
+    return cs2_scan(s, CS2_SCAN_NORMAL)
 }
 
 Sane.Status
-Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
+Sane.read(Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 {
   cs2_t *s = (cs2_t *) h
   Sane.Status status
@@ -1498,48 +1498,48 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
   double m_avg_sum
   Sane.Byte *line_buf_new
 
-  DBG (10, "Sane.read() called, maxlen = %i.\n", maxlen)
+  DBG(10, "Sane.read() called, maxlen = %i.\n", maxlen)
 
-  if (!s.scanning) {
+  if(!s.scanning) {
     *len = 0
     return Sane.STATUS_CANCELLED
   }
 
-  if (s.infrared_stage == CS2_INFRARED_OUT)
+  if(s.infrared_stage == CS2_INFRARED_OUT)
     {
       xfer_len_out = maxlen
 
-      if (s.xfer_position + xfer_len_out > s.n_infrared_buf)
+      if(s.xfer_position + xfer_len_out > s.n_infrared_buf)
 	xfer_len_out = s.n_infrared_buf - s.xfer_position
 
-      if (xfer_len_out == 0)	/* no more data */
+      if(xfer_len_out == 0)	/* no more data */
 	{
 	  *len = 0
 	s.scanning = Sane.FALSE
 	  return Sane.STATUS_EOF
 	}
 
-      memcpy (buf, &(s.infrared_buf[s.xfer_position]), xfer_len_out)
+      memcpy(buf, &(s.infrared_buf[s.xfer_position]), xfer_len_out)
 
       s.xfer_position += xfer_len_out
 
-      if (s.xfer_position >= s.n_infrared_buf)
+      if(s.xfer_position >= s.n_infrared_buf)
 	s.infrared_next = CS2_INFRARED_OFF
 
       *len = xfer_len_out
       return Sane.STATUS_GOOD
     }
 
-  if (s.i_line_buf > 0)
+  if(s.i_line_buf > 0)
     {
       xfer_len_out = s.n_line_buf - s.i_line_buf
-      if (xfer_len_out > maxlen)
+      if(xfer_len_out > maxlen)
 	xfer_len_out = maxlen
 
-      memcpy (buf, &(s.line_buf[s.i_line_buf]), xfer_len_out)
+      memcpy(buf, &(s.line_buf[s.i_line_buf]), xfer_len_out)
 
       s.i_line_buf += xfer_len_out
-      if (s.i_line_buf >= s.n_line_buf)
+      if(s.i_line_buf >= s.n_line_buf)
 	s.i_line_buf = 0
 
       *len = xfer_len_out
@@ -1551,32 +1551,32 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
     s.n_colour_in * s.logical_width * s.bytes_per_pixel +
     s.n_colour_in * s.odd_padding
   /* Do not change the behaviour of older models */
-  if ((s.type == CS2_TYPE_LS50) || (s.type == CS2_TYPE_LS5000))
+  if((s.type == CS2_TYPE_LS50) || (s.type == CS2_TYPE_LS5000))
     {
       /* Ariel - Check, win driver uses multiple of 64, docu seems to say 512? */
       ssize_t i
       xfer_len_in += s.block_padding
       i = (xfer_len_in & 0x3f)
-      if (i != 0)
-        DBG (1, "BUG: Sane.read(): Read size is not a multiple of 64. (0x%06lx)\n", (long) i)
+      if(i != 0)
+        DBG(1, "BUG: Sane.read(): Read size is not a multiple of 64. (0x%06lx)\n", (long) i)
     }
 
-  if (s.xfer_position + xfer_len_line > s.xfer_bytes_total)
+  if(s.xfer_position + xfer_len_line > s.xfer_bytes_total)
     xfer_len_line = s.xfer_bytes_total - s.xfer_position; /* just in case */
 
-  if (xfer_len_line == 0)	/* no more data */
+  if(xfer_len_line == 0)	/* no more data */
     {
       *len = 0
 	s.scanning = Sane.FALSE
       return Sane.STATUS_EOF
     }
 
-  if (xfer_len_line != s.n_line_buf)
+  if(xfer_len_line != s.n_line_buf)
     {
       line_buf_new =
-	(Sane.Byte *) cs2_xrealloc (s.line_buf,
-				    xfer_len_line * sizeof (Sane.Byte))
-      if (!line_buf_new)
+	(Sane.Byte *) cs2_xrealloc(s.line_buf,
+				    xfer_len_line * sizeof(Sane.Byte))
+      if(!line_buf_new)
 	{
 	  *len = 0
 	  return Sane.STATUS_NO_MEM
@@ -1588,17 +1588,17 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
   /* adapt for multi-sampling */
   xfer_len_in *= s.samples_per_scan
 
-  cs2_scanner_ready (s, CS2_STATUS_READY)
-  cs2_init_buffer (s)
-  cs2_parse_cmd (s, "28 00 00 00 00 00")
-  cs2_pack_byte (s, (xfer_len_in >> 16) & 0xff)
-  cs2_pack_byte (s, (xfer_len_in >> 8) & 0xff)
-  cs2_pack_byte (s, xfer_len_in & 0xff)
-  cs2_parse_cmd (s, "00")
+  cs2_scanner_ready(s, CS2_STATUS_READY)
+  cs2_init_buffer(s)
+  cs2_parse_cmd(s, "28 00 00 00 00 00")
+  cs2_pack_byte(s, (xfer_len_in >> 16) & 0xff)
+  cs2_pack_byte(s, (xfer_len_in >> 8) & 0xff)
+  cs2_pack_byte(s, xfer_len_in & 0xff)
+  cs2_parse_cmd(s, "00")
   s.n_recv = xfer_len_in
-  status = cs2_issue_cmd (s)
+  status = cs2_issue_cmd(s)
 
-  if (status)
+  if(status)
     {
       *len = 0
       return status
@@ -1607,24 +1607,24 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
   n_colours = s.n_colour_out +
 	  (s.infrared_stage == CS2_INFRARED_IN ? 1 : 0)
 
-  for (index = 0; index < s.logical_width; index++)
-    for (colour = 0; colour < n_colours; colour++) {
+  for(index = 0; index < s.logical_width; index++)
+    for(colour = 0; colour < n_colours; colour++) {
 	  m_avg_sum = 0.0
-      switch (s.bytes_per_pixel)
+      switch(s.bytes_per_pixel)
 	{
 	case 1:
 	  /* calculate target address */
-	  if ((s.infrared_stage == CS2_INFRARED_IN)
+	  if((s.infrared_stage == CS2_INFRARED_IN)
 	      && (colour == s.n_colour_out))
 	    s8 = (uint8_t *) & (s.infrared_buf[s.infrared_index++])
 	  else
 	    s8 =
 	      (uint8_t *) & (s.line_buf[s.n_colour_out * index + colour])
 
-	  if (s.samples_per_scan > 1)
+	  if(s.samples_per_scan > 1)
 		{
 		  /* calculate average of multi samples */
-		  for (sample_pass = 0
+		  for(sample_pass = 0
 			   sample_pass < s.samples_per_scan
 			   sample_pass++)
 			m_avg_sum += (double)
@@ -1642,7 +1642,7 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 	  break
 	case 2:
 	  /* calculate target address */
-	  if ((s.infrared_stage == CS2_INFRARED_IN)
+	  if((s.infrared_stage == CS2_INFRARED_IN)
 	      && (colour == s.n_colour_out))
 	    s16 =
 	      (uint16_t *) & (s.infrared_buf[2 * (s.infrared_index++)])
@@ -1652,10 +1652,10 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 			       line_buf[2 *
 					(s.n_colour_out * index + colour)])
 
-	  if (s.samples_per_scan > 1)
+	  if(s.samples_per_scan > 1)
 		{
 		  /* calculate average of multi samples */
-		  for (sample_pass = 0
+		  for(sample_pass = 0
 			   s.samples_per_scan > 1 && sample_pass < s.samples_per_scan
 			   sample_pass++)
 			m_avg_sum += (double)
@@ -1672,7 +1672,7 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 	  *s16 <<= s.shift_bits
 	  break
 	default:
-	  DBG (1, "BUG: Sane.read(): Unknown number of bytes per pixel.\n")
+	  DBG(1, "BUG: Sane.read(): Unknown number of bytes per pixel.\n")
 	  *len = 0
 	  return Sane.STATUS_INVAL
 	  break
@@ -1681,14 +1681,14 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
   s.xfer_position += xfer_len_line
 
   xfer_len_out = xfer_len_line
-  if (xfer_len_out > maxlen)
+  if(xfer_len_out > maxlen)
     xfer_len_out = maxlen
 
-  memcpy (buf, s.line_buf, xfer_len_out)
-  if (xfer_len_out < xfer_len_line)
+  memcpy(buf, s.line_buf, xfer_len_out)
+  if(xfer_len_out < xfer_len_line)
     s.i_line_buf = xfer_len_out; /* data left in the line buffer, read out next time */
 
-  if ((s.infrared_stage == CS2_INFRARED_IN)
+  if((s.infrared_stage == CS2_INFRARED_IN)
       && (s.xfer_position >= s.n_infrared_buf))
     s.infrared_next = CS2_INFRARED_OUT
 
@@ -1697,46 +1697,46 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 }
 
 void
-Sane.cancel (Sane.Handle h)
+Sane.cancel(Sane.Handle h)
 {
   cs2_t *s = (cs2_t *) h
 
-  if (s.scanning)
-    DBG (10, "Sane.cancel() called while scanning.\n")
+  if(s.scanning)
+    DBG(10, "Sane.cancel() called while scanning.\n")
   else
-    DBG (10, "Sane.cancel() called while not scanning.\n")
+    DBG(10, "Sane.cancel() called while not scanning.\n")
 
-  if (s.scanning && (s.infrared_stage != CS2_INFRARED_OUT))
+  if(s.scanning && (s.infrared_stage != CS2_INFRARED_OUT))
     {
-      cs2_init_buffer (s)
-      cs2_parse_cmd (s, "c0 00 00 00 00 00")
-      cs2_issue_cmd (s)
+      cs2_init_buffer(s)
+      cs2_parse_cmd(s, "c0 00 00 00 00 00")
+      cs2_issue_cmd(s)
     }
 
   s.scanning = Sane.FALSE
 }
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle h, Bool m)
+Sane.set_io_mode(Sane.Handle h, Bool m)
 {
   cs2_t *s = (cs2_t *) h
 
-  DBG (10, "Sane.set_io_mode() called.\n")
+  DBG(10, "Sane.set_io_mode() called.\n")
 
-  if (!s.scanning)
+  if(!s.scanning)
     return Sane.STATUS_INVAL
-  if (m == Sane.FALSE)
+  if(m == Sane.FALSE)
     return Sane.STATUS_GOOD
   else
     return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle h, Int * fd)
+Sane.get_select_fd(Sane.Handle h, Int * fd)
 {
   cs2_t *s = (cs2_t *) h
 
-  DBG (10, "Sane.get_select_fd() called.\n")
+  DBG(10, "Sane.get_select_fd() called.\n")
 
   fd = fd;			/* to shut up compiler */
   s = s;			/* to shut up compiler */
@@ -1749,7 +1749,7 @@ Sane.get_select_fd (Sane.Handle h, Int * fd)
 /* private functions */
 
 static Sane.Status
-cs2_open (const char *device, cs2_interface_t interface, cs2_t ** sp)
+cs2_open(const char *device, cs2_interface_t interface, cs2_t ** sp)
 {
   Sane.Status status
   cs2_t *s
@@ -1759,32 +1759,32 @@ cs2_open (const char *device, cs2_interface_t interface, cs2_t ** sp)
   Int alloc_failed = 0
   Sane.Device **device_list_new
 
-  DBG (6, "cs2_open() called, with device = %s and interface = %i\n", device,
+  DBG(6, "cs2_open() called, with device = %s and interface = %i\n", device,
        interface)
 
-  if (!strncmp (device, "auto", 5))
+  if(!strncmp(device, "auto", 5))
     {
       try_interface = CS2_INTERFACE_SCSI
-      sanei_config_attach_matching_devices ("scsi Nikon *", cs2_attach)
+      sanei_config_attach_matching_devices("scsi Nikon *", cs2_attach)
       try_interface = CS2_INTERFACE_USB
-      sanei_usb_attach_matching_devices ("usb 0x04b0 0x4000", cs2_attach)
-      sanei_usb_attach_matching_devices ("usb 0x04b0 0x4001", cs2_attach)
-      sanei_usb_attach_matching_devices ("usb 0x04b0 0x4002", cs2_attach)
+      sanei_usb_attach_matching_devices("usb 0x04b0 0x4000", cs2_attach)
+      sanei_usb_attach_matching_devices("usb 0x04b0 0x4001", cs2_attach)
+      sanei_usb_attach_matching_devices("usb 0x04b0 0x4002", cs2_attach)
       return Sane.STATUS_GOOD
     }
 
-  if ((s = (cs2_t *) cs2_xmalloc (sizeof (cs2_t))) == NULL)
+  if((s = (cs2_t *) cs2_xmalloc(sizeof(cs2_t))) == NULL)
     return Sane.STATUS_NO_MEM
-  memset (s, 0, sizeof (cs2_t))
+  memset(s, 0, sizeof(cs2_t))
   s.send_buf = s.recv_buf = NULL
   s.send_buf_size = s.recv_buf_size = 0
 
-  switch (interface)
+  switch(interface)
     {
     case CS2_INTERFACE_UNKNOWN:
-      for (i = 0; i < 2; i++)
+      for(i = 0; i < 2; i++)
 	{
-	  switch (i)
+	  switch(i)
 	    {
 	    case 1:
 	      prefix = "usb:"
@@ -1795,112 +1795,112 @@ cs2_open (const char *device, cs2_interface_t interface, cs2_t ** sp)
 	      try_interface = CS2_INTERFACE_SCSI
 	      break
 	    }
-	  if (!strncmp (device, prefix, strlen (prefix)))
+	  if(!strncmp(device, prefix, strlen(prefix)))
 	    {
-	      device2 = device + strlen (prefix)
-	      cs2_xfree (s)
-	      return cs2_open (device2, try_interface, sp)
+	      device2 = device + strlen(prefix)
+	      cs2_xfree(s)
+	      return cs2_open(device2, try_interface, sp)
 	    }
 	}
-      cs2_xfree (s)
+      cs2_xfree(s)
       return Sane.STATUS_INVAL
       break
     case CS2_INTERFACE_SCSI:
       s.interface = CS2_INTERFACE_SCSI
-      DBG (6,
+      DBG(6,
 	   "cs2_open(): Trying to open %s, assuming SCSI or SBP2 interface ...\n",
 	   device)
-      status = sanei_scsi_open (device, &s.fd, cs2_scsi_sense_handler, s)
-      if (status)
+      status = sanei_scsi_open(device, &s.fd, cs2_scsi_sense_handler, s)
+      if(status)
 	{
-	  DBG (6, "cs2_open(): ... failed: %s.\n", Sane.strstatus (status))
-	  cs2_xfree (s)
+	  DBG(6, "cs2_open(): ... failed: %s.\n", Sane.strstatus(status))
+	  cs2_xfree(s)
 	  return status
 	}
       break
     case CS2_INTERFACE_USB:
       s.interface = CS2_INTERFACE_USB
-      DBG (6, "cs2_open(): Trying to open %s, assuming USB interface ...\n",
+      DBG(6, "cs2_open(): Trying to open %s, assuming USB interface ...\n",
 	   device)
-      status = sanei_usb_open (device, &s.fd)
-      if (status)
+      status = sanei_usb_open(device, &s.fd)
+      if(status)
 	{
-	  DBG (6, "cs2_open(): ... failed: %s.\n", Sane.strstatus (status))
-	  cs2_xfree (s)
+	  DBG(6, "cs2_open(): ... failed: %s.\n", Sane.strstatus(status))
+	  cs2_xfree(s)
 	  return status
 	}
       break
     }
 
   open_devices++
-  DBG (6, "cs2_open(): ... looks OK, trying to identify device.\n")
+  DBG(6, "cs2_open(): ... looks OK, trying to identify device.\n")
 
   /* identify scanner */
-  status = cs2_page_inquiry (s, -1)
-  if (status)
+  status = cs2_page_inquiry(s, -1)
+  if(status)
     {
-      DBG (4, "Error: cs2_open(): failed to get page: %s.\n",
-	   Sane.strstatus (status))
-      cs2_close (s)
+      DBG(4, "Error: cs2_open(): failed to get page: %s.\n",
+	   Sane.strstatus(status))
+      cs2_close(s)
       return status
     }
 
-  strncpy (s.vendor_string, (char *)s.recv_buf + 8, 8)
+  strncpy(s.vendor_string, (char *)s.recv_buf + 8, 8)
   s.vendor_string[8] = '\0'
-  strncpy (s.product_string, (char *)s.recv_buf + 16, 16)
+  strncpy(s.product_string, (char *)s.recv_buf + 16, 16)
   s.product_string[16] = '\0'
-  strncpy (s.revision_string, (char *)s.recv_buf + 32, 4)
+  strncpy(s.revision_string, (char *)s.recv_buf + 32, 4)
   s.revision_string[4] = '\0'
 
-  DBG (10,
+  DBG(10,
        "cs2_open(): Inquiry reveals: vendor = '%s', product = '%s', revision = '%s'.\n",
        s.vendor_string, s.product_string, s.revision_string)
 
-  if (!strncmp (s.product_string, "COOLSCANIII     ", 16))
+  if(!strncmp(s.product_string, "COOLSCANIII     ", 16))
     s.type = CS2_TYPE_LS30
-  else if (!strncmp (s.product_string, "LS-40 ED        ", 16))
+  else if(!strncmp(s.product_string, "LS-40 ED        ", 16))
     s.type = CS2_TYPE_LS40
-  else if (!strncmp (s.product_string, "LS-50 ED        ", 16))
+  else if(!strncmp(s.product_string, "LS-50 ED        ", 16))
     s.type = CS2_TYPE_LS50
-  else if (!strncmp (s.product_string, "LS-2000         ", 16))
+  else if(!strncmp(s.product_string, "LS-2000         ", 16))
     s.type = CS2_TYPE_LS2000
-  else if (!strncmp (s.product_string, "LS-4000 ED      ", 16))
+  else if(!strncmp(s.product_string, "LS-4000 ED      ", 16))
     s.type = CS2_TYPE_LS4000
-  else if (!strncmp (s.product_string, "LS-5000 ED      ", 16))
+  else if(!strncmp(s.product_string, "LS-5000 ED      ", 16))
     s.type = CS2_TYPE_LS5000
-  else if (!strncmp (s.product_string, "LS-8000 ED      ", 16))
+  else if(!strncmp(s.product_string, "LS-8000 ED      ", 16))
     s.type = CS2_TYPE_LS8000
 
-  if (s.type != CS2_TYPE_UNKOWN)
-    DBG (10, "cs2_open(): Device identified as coolscan2 type #%i.\n",
+  if(s.type != CS2_TYPE_UNKOWN)
+    DBG(10, "cs2_open(): Device identified as coolscan2 type #%i.\n",
 	 s.type)
   else
     {
-      DBG (10, "cs2_open(): Device not identified.\n")
-      cs2_close (s)
+      DBG(10, "cs2_open(): Device not identified.\n")
+      cs2_close(s)
       return Sane.STATUS_UNSUPPORTED
     }
 
-  if (sp)
+  if(sp)
     *sp = s
   else
     {
       device_list_new =
-	(Sane.Device **) cs2_xrealloc (device_list,
+	(Sane.Device **) cs2_xrealloc(device_list,
 				       (n_device_list +
-					2) * sizeof (Sane.Device *))
-      if (!device_list_new)
+					2) * sizeof(Sane.Device *))
+      if(!device_list_new)
 	return Sane.STATUS_NO_MEM
       device_list = device_list_new
       device_list[n_device_list] =
-	(Sane.Device *) cs2_xmalloc (sizeof (Sane.Device))
-      if (!device_list[n_device_list])
+	(Sane.Device *) cs2_xmalloc(sizeof(Sane.Device))
+      if(!device_list[n_device_list])
 	return Sane.STATUS_NO_MEM
-      switch (interface)
+      switch(interface)
 	{
 	case CS2_INTERFACE_UNKNOWN:
-	  DBG (1, "BUG: cs2_open(): unknown interface.\n")
-	  cs2_close (s)
+	  DBG(1, "BUG: cs2_open(): unknown interface.\n")
+	  cs2_close(s)
 	  return Sane.STATUS_UNSUPPORTED
 	  break
 	case CS2_INTERFACE_SCSI:
@@ -1911,95 +1911,95 @@ cs2_open (const char *device, cs2_interface_t interface, cs2_t ** sp)
 	  break
 	}
 
-      line = (char *) cs2_xmalloc (strlen (device) + strlen (prefix) + 1)
-      if (!line)
+      line = (char *) cs2_xmalloc(strlen(device) + strlen(prefix) + 1)
+      if(!line)
 	alloc_failed = 1
       else
 	{
-	  strcpy (line, prefix)
-	  strcat (line, device)
+	  strcpy(line, prefix)
+	  strcat(line, device)
 	  device_list[n_device_list]->name = line
 	}
 
-      line = (char *) cs2_xmalloc (strlen (s.vendor_string) + 1)
-      if (!line)
+      line = (char *) cs2_xmalloc(strlen(s.vendor_string) + 1)
+      if(!line)
 	alloc_failed = 1
       else
 	{
-	  strcpy (line, s.vendor_string)
+	  strcpy(line, s.vendor_string)
 	  device_list[n_device_list]->vendor = line
 	}
 
-      line = (char *) cs2_xmalloc (strlen (s.product_string) + 1)
-      if (!line)
+      line = (char *) cs2_xmalloc(strlen(s.product_string) + 1)
+      if(!line)
 	alloc_failed = 1
       else
 	{
-	  strcpy (line, s.product_string)
+	  strcpy(line, s.product_string)
 	  device_list[n_device_list]->model = line
 	}
 
       device_list[n_device_list]->type = "film scanner"
 
-      if (alloc_failed)
+      if(alloc_failed)
 	{
-	  cs2_xfree (device_list[n_device_list]->name)
-	  cs2_xfree (device_list[n_device_list]->vendor)
-	  cs2_xfree (device_list[n_device_list]->model)
-	  cs2_xfree (device_list[n_device_list])
+	  cs2_xfree(device_list[n_device_list]->name)
+	  cs2_xfree(device_list[n_device_list]->vendor)
+	  cs2_xfree(device_list[n_device_list]->model)
+	  cs2_xfree(device_list[n_device_list])
 	}
       else
 	n_device_list++
       device_list[n_device_list] = NULL
 
-      cs2_close (s)
+      cs2_close(s)
     }
 
   return Sane.STATUS_GOOD
 }
 
 void
-cs2_close (cs2_t * s)
+cs2_close(cs2_t * s)
 {
-  cs2_xfree (s.lut_r)
-  cs2_xfree (s.lut_g)
-  cs2_xfree (s.lut_b)
-  cs2_xfree (s.lut_neutral)
-  cs2_xfree (s.infrared_buf)
-  cs2_xfree (s.line_buf)
+  cs2_xfree(s.lut_r)
+  cs2_xfree(s.lut_g)
+  cs2_xfree(s.lut_b)
+  cs2_xfree(s.lut_neutral)
+  cs2_xfree(s.infrared_buf)
+  cs2_xfree(s.line_buf)
 
-  switch (s.interface)
+  switch(s.interface)
     {
     case CS2_INTERFACE_UNKNOWN:
-      DBG (1, "BUG: cs2_close(): Unknown interface number.\n")
+      DBG(1, "BUG: cs2_close(): Unknown interface number.\n")
       break
     case CS2_INTERFACE_SCSI:
-      sanei_scsi_close (s.fd)
+      sanei_scsi_close(s.fd)
       open_devices--
       break
     case CS2_INTERFACE_USB:
-      sanei_usb_close (s.fd)
+      sanei_usb_close(s.fd)
       open_devices--
       break
     }
 
-  cs2_xfree (s)
+  cs2_xfree(s)
 }
 
 static Sane.Status
-cs2_attach (const char *dev)
+cs2_attach(const char *dev)
 {
   Sane.Status status
 
-  if (try_interface == CS2_INTERFACE_UNKNOWN)
+  if(try_interface == CS2_INTERFACE_UNKNOWN)
     return Sane.STATUS_UNSUPPORTED
 
-  status = cs2_open (dev, try_interface, NULL)
+  status = cs2_open(dev, try_interface, NULL)
   return status
 }
 
 static Sane.Status
-cs2_scsi_sense_handler (Int fd, u_char * sense_buffer, void *arg)
+cs2_scsi_sense_handler(Int fd, u_char * sense_buffer, void *arg)
 {
   cs2_t *s = (cs2_t *) arg
 
@@ -2012,11 +2012,11 @@ cs2_scsi_sense_handler (Int fd, u_char * sense_buffer, void *arg)
   s.sense_ascq = sense_buffer[13]
   s.sense_info = sense_buffer[3]
 
-  return cs2_parse_sense_data (s)
+  return cs2_parse_sense_data(s)
 }
 
 static Sane.Status
-cs2_parse_sense_data (cs2_t * s)
+cs2_parse_sense_data(cs2_t * s)
 {
   Sane.Status status = Sane.STATUS_GOOD
 
@@ -2024,17 +2024,17 @@ cs2_parse_sense_data (cs2_t * s)
     (s.sense_key << 24) + (s.sense_asc << 16) + (s.sense_ascq << 8) +
     s.sense_info
 
-  if (s.sense_key)
-    DBG (10, "Sense code: %02lx-%02lx-%02lx-%02lx\n", s.sense_key,
+  if(s.sense_key)
+    DBG(10, "Sense code: %02lx-%02lx-%02lx-%02lx\n", s.sense_key,
 	 s.sense_asc, s.sense_ascq, s.sense_info)
 
-  switch (s.sense_key)
+  switch(s.sense_key)
     {
     case 0x00:
       s.status = CS2_STATUS_READY
       break
     case 0x02:
-      switch (s.sense_asc)
+      switch(s.sense_asc)
 	{
 	case 0x04:
 	  s.status = CS2_STATUS_PROCESSING
@@ -2054,14 +2054,14 @@ cs2_parse_sense_data (cs2_t * s)
       break
     }
 
-  if ((s.sense_code == 0x09800600) || (s.sense_code == 0x09800601))
+  if((s.sense_code == 0x09800600) || (s.sense_code == 0x09800601))
     s.status = CS2_STATUS_REISSUE
 
   return status
 }
 
 static void
-cs2_init_buffer (cs2_t * s)
+cs2_init_buffer(cs2_t * s)
 {
   s.n_cmd = 0
   s.n_send = 0
@@ -2069,14 +2069,14 @@ cs2_init_buffer (cs2_t * s)
 }
 
 static Sane.Status
-cs2_pack_byte (cs2_t * s, Sane.Byte byte)
+cs2_pack_byte(cs2_t * s, Sane.Byte byte)
 {
-  while (s.send_buf_size <= s.n_send)
+  while(s.send_buf_size <= s.n_send)
     {
       s.send_buf_size += 16
       s.send_buf =
-	(Sane.Byte *) cs2_xrealloc (s.send_buf, s.send_buf_size)
-      if (!s.send_buf)
+	(Sane.Byte *) cs2_xrealloc(s.send_buf, s.send_buf_size)
+      if(!s.send_buf)
 	return Sane.STATUS_NO_MEM
     }
 
@@ -2086,32 +2086,32 @@ cs2_pack_byte (cs2_t * s, Sane.Byte byte)
 }
 
 static Sane.Status
-cs2_parse_cmd (cs2_t * s, char *text)
+cs2_parse_cmd(cs2_t * s, char *text)
 {
   size_t i, j
   char c, h
   Sane.Status status
 
-  for (i = 0; i < strlen (text); i += 2)
-    if (text[i] == ' ')
+  for(i = 0; i < strlen(text); i += 2)
+    if(text[i] == ' ')
       i--;			/* a bit dirty... advance by -1+2=1 */
     else
       {
-	if ((!isxdigit (text[i])) || (!isxdigit (text[i + 1])))
-	  DBG (1, "BUG: cs2_parse_cmd(): Parser got invalid character.\n")
+	if((!isxdigit(text[i])) || (!isxdigit(text[i + 1])))
+	  DBG(1, "BUG: cs2_parse_cmd(): Parser got invalid character.\n")
 	c = 0
-	for (j = 0; j < 2; j++)
+	for(j = 0; j < 2; j++)
 	  {
-	    h = tolower (text[i + j])
-	    if ((h >= 'a') && (h <= 'f'))
+	    h = tolower(text[i + j])
+	    if((h >= 'a') && (h <= 'f'))
 	      c += 10 + h - 'a'
 	    else
 	      c += h - '0'
-	    if (j == 0)
+	    if(j == 0)
 	      c <<= 4
 	  }
-	status = cs2_pack_byte (s, c)
-	if (status)
+	status = cs2_pack_byte(s, c)
+	if(status)
 	  return status
       }
 
@@ -2119,14 +2119,14 @@ cs2_parse_cmd (cs2_t * s, char *text)
 }
 
 static Sane.Status
-cs2_grow_send_buffer (cs2_t * s)
+cs2_grow_send_buffer(cs2_t * s)
 {
-  if (s.n_send > s.send_buf_size)
+  if(s.n_send > s.send_buf_size)
     {
       s.send_buf_size = s.n_send
       s.send_buf =
-	(Sane.Byte *) cs2_xrealloc (s.send_buf, s.send_buf_size)
-      if (!s.send_buf)
+	(Sane.Byte *) cs2_xrealloc(s.send_buf, s.send_buf_size)
+      if(!s.send_buf)
 	return Sane.STATUS_NO_MEM
     }
 
@@ -2134,20 +2134,20 @@ cs2_grow_send_buffer (cs2_t * s)
 }
 
 static Sane.Status
-cs2_issue_cmd (cs2_t * s)
+cs2_issue_cmd(cs2_t * s)
 {
   Sane.Status status = Sane.STATUS_INVAL
   size_t n_data, n_status
   static Sane.Byte status_buf[8]
   Int status_only = 0
 
-  DBG (20, "cs2_issue_cmd(): opcode = 0x%02x, n_send = %lu, n_recv = %lu.\n",
+  DBG(20, "cs2_issue_cmd(): opcode = 0x%02x, n_send = %lu, n_recv = %lu.\n",
        s.send_buf[0], (unsigned long) s.n_send, (unsigned long) s.n_recv)
 
   s.status = CS2_STATUS_READY
 
-  if (!s.n_cmd)
-    switch (s.send_buf[0])
+  if(!s.n_cmd)
+    switch(s.send_buf[0])
       {
       case 0x00:
       case 0x12:
@@ -2171,24 +2171,24 @@ cs2_issue_cmd (cs2_t * s)
 	s.n_cmd = 10
 	break
       default:
-	DBG (1, "BUG: cs2_issue_cmd(): Unknown command opcode 0x%02x.\n",
+	DBG(1, "BUG: cs2_issue_cmd(): Unknown command opcode 0x%02x.\n",
 	     s.send_buf[0])
 	break
       }
 
-  if (s.n_send < s.n_cmd)
+  if(s.n_send < s.n_cmd)
     {
-      DBG (1,
+      DBG(1,
 	   "BUG: cs2_issue_cmd(): Negative number of data out bytes requested.\n")
       return Sane.STATUS_INVAL
     }
 
   n_data = s.n_send - s.n_cmd
-  if (s.n_recv > 0)
+  if(s.n_recv > 0)
     {
-      if (n_data > 0)
+      if(n_data > 0)
 	{
-	  DBG (1,
+	  DBG(1,
 	       "BUG: cs2_issue_cmd(): Both data in and data out requested.\n")
 	  return Sane.STATUS_INVAL
 	}
@@ -2198,14 +2198,14 @@ cs2_issue_cmd (cs2_t * s)
 	}
     }
 
-  s.recv_buf = (Sane.Byte *) cs2_xrealloc (s.recv_buf, s.n_recv)
-  if (!s.recv_buf)
+  s.recv_buf = (Sane.Byte *) cs2_xrealloc(s.recv_buf, s.n_recv)
+  if(!s.recv_buf)
     return Sane.STATUS_NO_MEM
 
-  switch (s.interface)
+  switch(s.interface)
     {
     case CS2_INTERFACE_UNKNOWN:
-      DBG (1,
+      DBG(1,
 	   "BUG: cs2_issue_cmd(): Unknown or uninitialized interface number.\n")
       break
     case CS2_INTERFACE_SCSI:
@@ -2214,49 +2214,49 @@ cs2_issue_cmd (cs2_t * s)
       status = Sane.STATUS_GOOD
       break
     case CS2_INTERFACE_USB:
-      status = sanei_usb_write_bulk (s.fd, s.send_buf, &s.n_cmd)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_usb_write_bulk(s.fd, s.send_buf, &s.n_cmd)
+      if(status != Sane.STATUS_GOOD)
         {
-          DBG (1, "Error: cs2_issue_cmd(): Could not write command.\n")
+          DBG(1, "Error: cs2_issue_cmd(): Could not write command.\n")
           return Sane.STATUS_IO_ERROR
         }
-      switch (cs2_phase_check (s))
+      switch(cs2_phase_check(s))
 	{
 	case CS2_PHASE_OUT:
-	  if (s.n_send - s.n_cmd < n_data || !n_data)
+	  if(s.n_send - s.n_cmd < n_data || !n_data)
 	    {
-	      DBG (4, "Error: cs2_issue_cmd(): Unexpected data out phase.\n")
+	      DBG(4, "Error: cs2_issue_cmd(): Unexpected data out phase.\n")
 	      return Sane.STATUS_IO_ERROR
 	    }
 	  status =
-	    sanei_usb_write_bulk (s.fd, s.send_buf + s.n_cmd, &n_data)
+	    sanei_usb_write_bulk(s.fd, s.send_buf + s.n_cmd, &n_data)
 	  break
 	case CS2_PHASE_IN:
-	  if (s.n_recv < n_data || !n_data)
+	  if(s.n_recv < n_data || !n_data)
 	    {
-	      DBG (4, "Error: cs2_issue_cmd(): Unexpected data in phase.\n")
+	      DBG(4, "Error: cs2_issue_cmd(): Unexpected data in phase.\n")
 	      return Sane.STATUS_IO_ERROR
 	    }
-	  status = sanei_usb_read_bulk (s.fd, s.recv_buf, &n_data)
+	  status = sanei_usb_read_bulk(s.fd, s.recv_buf, &n_data)
 	  s.n_recv = n_data
 	  break
 	case CS2_PHASE_NONE:
-	  DBG (4, "Error: cs2_issue_cmd(): No command received!\n")
+	  DBG(4, "Error: cs2_issue_cmd(): No command received!\n")
 	  return Sane.STATUS_IO_ERROR
 	default:
-	  if (n_data)
+	  if(n_data)
 	    {
-	      DBG (4,
+	      DBG(4,
 		   "Error: cs2_issue_cmd(): Unexpected non-data phase, but n_data != 0.\n")
 	      status_only = 1
 	    }
 	  break
 	}
       n_status = 8
-      status = sanei_usb_read_bulk (s.fd, status_buf, &n_status)
-      if (n_status != 8)
+      status = sanei_usb_read_bulk(s.fd, status_buf, &n_status)
+      if(n_status != 8)
 	{
-	  DBG (4,
+	  DBG(4,
 	       "Error: cs2_issue_cmd(): Failed to read 8 status bytes from USB.\n")
 	  return Sane.STATUS_IO_ERROR
 	}
@@ -2264,37 +2264,37 @@ cs2_issue_cmd (cs2_t * s)
       s.sense_asc = status_buf[2] & 0xff
       s.sense_ascq = status_buf[3] & 0xff
       s.sense_info = status_buf[4] & 0xff
-      cs2_parse_sense_data (s)
+      cs2_parse_sense_data(s)
       break
     }
 
-  if (status_only)
+  if(status_only)
     return Sane.STATUS_IO_ERROR
   else
     return status
 }
 
 static cs2_phase_t
-cs2_phase_check (cs2_t * s)
+cs2_phase_check(cs2_t * s)
 {
   static Sane.Byte phase_send_buf[1] = { 0xd0 }, phase_recv_buf[1]
   Sane.Status status = 0
   size_t n = 1
 
-  status = sanei_usb_write_bulk (s.fd, phase_send_buf, &n)
-  status |= sanei_usb_read_bulk (s.fd, phase_recv_buf, &n)
+  status = sanei_usb_write_bulk(s.fd, phase_send_buf, &n)
+  status |= sanei_usb_read_bulk(s.fd, phase_recv_buf, &n)
 
-  DBG (6, "cs2_phase_check(): Phase check returned phase = 0x%02x.\n",
+  DBG(6, "cs2_phase_check(): Phase check returned phase = 0x%02x.\n",
        phase_recv_buf[0])
 
-  if (status)
+  if(status)
     return -1
   else
     return phase_recv_buf[0]
 }
 
 static Sane.Status
-cs2_scanner_ready (cs2_t * s, Int flags)
+cs2_scanner_ready(cs2_t * s, Int flags)
 {
   Sane.Status status = Sane.STATUS_GOOD
   var i: Int = -1
@@ -2303,49 +2303,49 @@ cs2_scanner_ready (cs2_t * s, Int flags)
 
   do
     {
-      if (i >= 0)		/* dirty !!! */
-	usleep (500000)
-      cs2_init_buffer (s)
-      for (i = 0; i < 6; i++)
-	cs2_pack_byte (s, 0x00)
-      status = cs2_issue_cmd (s)
-      if (status)
-	if (--retry < 0)
+      if(i >= 0)		/* dirty !!! */
+	usleep(500000)
+      cs2_init_buffer(s)
+      for(i = 0; i < 6; i++)
+	cs2_pack_byte(s, 0x00)
+      status = cs2_issue_cmd(s)
+      if(status)
+	if(--retry < 0)
 	  return status
-      if (++count > 240)
+      if(++count > 240)
 	{			/* 120s timeout */
-	  DBG (4, "Error: cs2_scanner_ready(): Timeout expired.\n")
+	  DBG(4, "Error: cs2_scanner_ready(): Timeout expired.\n")
 	  status = Sane.STATUS_IO_ERROR
 	  break
 	}
     }
-  while (s.status & ~flags);	/* until all relevant bits are 0 */
+  while(s.status & ~flags);	/* until all relevant bits are 0 */
 
   return status
 }
 
 static Sane.Status
-cs2_page_inquiry (cs2_t * s, Int page)
+cs2_page_inquiry(cs2_t * s, Int page)
 {
   Sane.Status status
 
   size_t n
 
-  if (page >= 0)
+  if(page >= 0)
     {
 
-      cs2_scanner_ready (s, CS2_STATUS_NO_DOCS)
-      cs2_init_buffer (s)
-      cs2_parse_cmd (s, "12 01")
-      cs2_pack_byte (s, page)
-      cs2_parse_cmd (s, "00 04 00")
+      cs2_scanner_ready(s, CS2_STATUS_NO_DOCS)
+      cs2_init_buffer(s)
+      cs2_parse_cmd(s, "12 01")
+      cs2_pack_byte(s, page)
+      cs2_parse_cmd(s, "00 04 00")
       s.n_recv = 4
-      status = cs2_issue_cmd (s)
-      if (status)
+      status = cs2_issue_cmd(s)
+      if(status)
 	{
-	  DBG (4,
+	  DBG(4,
 	       "Error: cs2_page_inquiry(): Inquiry of page size failed: %s.\n",
-	       Sane.strstatus (status))
+	       Sane.strstatus(status))
 	  return status
 	}
 
@@ -2355,24 +2355,24 @@ cs2_page_inquiry (cs2_t * s, Int page)
   else
     n = 36
 
-  cs2_scanner_ready (s, CS2_STATUS_NO_DOCS)
-  cs2_init_buffer (s)
-  if (page >= 0)
+  cs2_scanner_ready(s, CS2_STATUS_NO_DOCS)
+  cs2_init_buffer(s)
+  if(page >= 0)
     {
-      cs2_parse_cmd (s, "12 01")
-      cs2_pack_byte (s, page)
-      cs2_parse_cmd (s, "00")
+      cs2_parse_cmd(s, "12 01")
+      cs2_pack_byte(s, page)
+      cs2_parse_cmd(s, "00")
     }
   else
-    cs2_parse_cmd (s, "12 00 00 00")
-  cs2_pack_byte (s, n)
-  cs2_parse_cmd (s, "00")
+    cs2_parse_cmd(s, "12 00 00 00")
+  cs2_pack_byte(s, n)
+  cs2_parse_cmd(s, "00")
   s.n_recv = n
-  status = cs2_issue_cmd (s)
-  if (status)
+  status = cs2_issue_cmd(s)
+  if(status)
     {
-      DBG (4, "Error: cs2_page_inquiry(): Inquiry of page failed: %s.\n",
-	   Sane.strstatus (status))
+      DBG(4, "Error: cs2_page_inquiry(): Inquiry of page failed: %s.\n",
+	   Sane.strstatus(status))
       return status
     }
 
@@ -2380,46 +2380,46 @@ cs2_page_inquiry (cs2_t * s, Int page)
 }
 
 static Sane.Status
-cs2_full_inquiry (cs2_t * s)
+cs2_full_inquiry(cs2_t * s)
 {
   Sane.Status status
   Int pitch, pitch_max
   cs2_pixel_t pixel
 
-  status = cs2_page_inquiry (s, 0xc1)
-  if (status)
+  status = cs2_page_inquiry(s, 0xc1)
+  if(status)
     {
-      DBG (4, "Error: cs2_full_inquiry(): Failed to get page: %s\n",
-	   Sane.strstatus (status))
+      DBG(4, "Error: cs2_full_inquiry(): Failed to get page: %s\n",
+	   Sane.strstatus(status))
       return status
     }
 
   s.maxbits = s.recv_buf[82]
-  if (s.type == CS2_TYPE_LS30)	/* must be overridden, LS-30 claims to have 12 bits */
+  if(s.type == CS2_TYPE_LS30)	/* must be overridden, LS-30 claims to have 12 bits */
     s.maxbits = 10
 
   s.n_lut = 1
   s.n_lut <<= s.maxbits
   s.lut_r =
-    (cs2_pixel_t *) cs2_xrealloc (s.lut_r, s.n_lut * sizeof (cs2_pixel_t))
+    (cs2_pixel_t *) cs2_xrealloc(s.lut_r, s.n_lut * sizeof(cs2_pixel_t))
   s.lut_g =
-    (cs2_pixel_t *) cs2_xrealloc (s.lut_g, s.n_lut * sizeof (cs2_pixel_t))
+    (cs2_pixel_t *) cs2_xrealloc(s.lut_g, s.n_lut * sizeof(cs2_pixel_t))
   s.lut_b =
-    (cs2_pixel_t *) cs2_xrealloc (s.lut_b, s.n_lut * sizeof (cs2_pixel_t))
+    (cs2_pixel_t *) cs2_xrealloc(s.lut_b, s.n_lut * sizeof(cs2_pixel_t))
   s.lut_neutral =
-    (cs2_pixel_t *) cs2_xrealloc (s.lut_neutral,
-				  s.n_lut * sizeof (cs2_pixel_t))
+    (cs2_pixel_t *) cs2_xrealloc(s.lut_neutral,
+				  s.n_lut * sizeof(cs2_pixel_t))
 
-  if (!s.lut_r || !s.lut_g || !s.lut_b || !s.lut_neutral)
+  if(!s.lut_r || !s.lut_g || !s.lut_b || !s.lut_neutral)
     {
-      cs2_xfree (s.lut_r)
-      cs2_xfree (s.lut_g)
-      cs2_xfree (s.lut_b)
-      cs2_xfree (s.lut_neutral)
+      cs2_xfree(s.lut_r)
+      cs2_xfree(s.lut_g)
+      cs2_xfree(s.lut_b)
+      cs2_xfree(s.lut_neutral)
       return Sane.STATUS_NO_MEM
     }
 
-  for (pixel = 0; pixel < s.n_lut; pixel++)
+  for(pixel = 0; pixel < s.n_lut; pixel++)
     s.lut_r[pixel] = s.lut_g[pixel] = s.lut_b[pixel] =
       s.lut_neutral[pixel] = pixel
 
@@ -2445,19 +2445,19 @@ cs2_full_inquiry (cs2_t * s)
   s.frame_offset = s.resy_max * 1.5 + 1;	/* works for LS-30, maybe not for others */
 
   /* generate resolution list for x */
-  s.resx_n_list = pitch_max = floor (s.resx_max / (double) s.resx_min)
+  s.resx_n_list = pitch_max = floor(s.resx_max / (double) s.resx_min)
   s.resx_list =
-    (unsigned Int *) cs2_xrealloc (s.resx_list,
-				   pitch_max * sizeof (unsigned Int))
-  for (pitch = 1; pitch <= pitch_max; pitch++)
+    (unsigned Int *) cs2_xrealloc(s.resx_list,
+				   pitch_max * sizeof(unsigned Int))
+  for(pitch = 1; pitch <= pitch_max; pitch++)
     s.resx_list[pitch - 1] = s.resx_max / pitch
 
   /* generate resolution list for y */
-  s.resy_n_list = pitch_max = floor (s.resy_max / (double) s.resy_min)
+  s.resy_n_list = pitch_max = floor(s.resy_max / (double) s.resy_min)
   s.resy_list =
-    (unsigned Int *) cs2_xrealloc (s.resy_list,
-				   pitch_max * sizeof (unsigned Int))
-  for (pitch = 1; pitch <= pitch_max; pitch++)
+    (unsigned Int *) cs2_xrealloc(s.resy_list,
+				   pitch_max * sizeof(unsigned Int))
+  for(pitch = 1; pitch <= pitch_max; pitch++)
     s.resy_list[pitch - 1] = s.resy_max / pitch
 
   s.unit_dpi = s.resx_max
@@ -2467,124 +2467,124 @@ cs2_full_inquiry (cs2_t * s)
 }
 
 static Sane.Status
-cs2_execute (cs2_t * s)
+cs2_execute(cs2_t * s)
 {
-  cs2_scanner_ready (s, CS2_STATUS_NO_DOCS)
-  cs2_init_buffer (s)
-  cs2_parse_cmd (s, "c1 00 00 00 00 00")
-  return cs2_issue_cmd (s)
+  cs2_scanner_ready(s, CS2_STATUS_NO_DOCS)
+  cs2_init_buffer(s)
+  cs2_parse_cmd(s, "c1 00 00 00 00 00")
+  return cs2_issue_cmd(s)
 }
 
 static Sane.Status
-cs2_load (cs2_t * s)
+cs2_load(cs2_t * s)
 {
   Sane.Status status
 
-  cs2_scanner_ready (s, CS2_STATUS_NO_DOCS)
-  cs2_init_buffer (s)
-  cs2_parse_cmd (s, "e0 00 d1 00 00 00 00 00 0d 00")
+  cs2_scanner_ready(s, CS2_STATUS_NO_DOCS)
+  cs2_init_buffer(s)
+  cs2_parse_cmd(s, "e0 00 d1 00 00 00 00 00 0d 00")
   s.n_send += 13
-  status = cs2_grow_send_buffer (s)
-  if (status)
+  status = cs2_grow_send_buffer(s)
+  if(status)
     return status
-  status = cs2_issue_cmd (s)
-  if (status)
+  status = cs2_issue_cmd(s)
+  if(status)
     return status
 
-  return cs2_execute (s)
+  return cs2_execute(s)
 }
 
 static Sane.Status
-cs2_eject (cs2_t * s)
+cs2_eject(cs2_t * s)
 {
   Sane.Status status
 
-  cs2_scanner_ready (s, CS2_STATUS_NO_DOCS)
-  cs2_init_buffer (s)
-  cs2_parse_cmd (s, "e0 00 d0 00 00 00 00 00 0d 00")
+  cs2_scanner_ready(s, CS2_STATUS_NO_DOCS)
+  cs2_init_buffer(s)
+  cs2_parse_cmd(s, "e0 00 d0 00 00 00 00 00 0d 00")
   s.n_send += 13
-  status = cs2_grow_send_buffer (s)
-  if (status)
+  status = cs2_grow_send_buffer(s)
+  if(status)
     return status
-  status = cs2_issue_cmd (s)
-  if (status)
+  status = cs2_issue_cmd(s)
+  if(status)
     return status
 
-  return cs2_execute (s)
+  return cs2_execute(s)
 }
 
 static Sane.Status
-cs2_reset (cs2_t * s)
+cs2_reset(cs2_t * s)
 {
   Sane.Status status
 
-  cs2_scanner_ready (s, CS2_STATUS_NO_DOCS)
-  cs2_init_buffer (s)
-  cs2_parse_cmd (s, "e0 00 80 00 00 00 00 00 0d 00")
+  cs2_scanner_ready(s, CS2_STATUS_NO_DOCS)
+  cs2_init_buffer(s)
+  cs2_parse_cmd(s, "e0 00 80 00 00 00 00 00 0d 00")
   s.n_send += 13
-  status = cs2_grow_send_buffer (s)
-  if (status)
+  status = cs2_grow_send_buffer(s)
+  if(status)
     return status
-  status = cs2_issue_cmd (s)
-  if (status)
+  status = cs2_issue_cmd(s)
+  if(status)
     return status
 
-  return cs2_execute (s)
+  return cs2_execute(s)
 }
 
 static Sane.Status
-cs2_focus (cs2_t * s)
+cs2_focus(cs2_t * s)
 {
   Sane.Status status
 
-  cs2_scanner_ready (s, CS2_STATUS_READY)
-  cs2_init_buffer (s)
-  cs2_parse_cmd (s, "e0 00 c1 00 00 00 00 00 0d 00 00")
-  cs2_pack_byte (s, (s.focus >> 24) & 0xff)
-  cs2_pack_byte (s, (s.focus >> 16) & 0xff)
-  cs2_pack_byte (s, (s.focus >> 8) & 0xff)
-  cs2_pack_byte (s, s.focus & 0xff)
-  cs2_parse_cmd (s, "00 00 00 00 00 00 00 00")
-  status = cs2_issue_cmd (s)
-  if (status)
+  cs2_scanner_ready(s, CS2_STATUS_READY)
+  cs2_init_buffer(s)
+  cs2_parse_cmd(s, "e0 00 c1 00 00 00 00 00 0d 00 00")
+  cs2_pack_byte(s, (s.focus >> 24) & 0xff)
+  cs2_pack_byte(s, (s.focus >> 16) & 0xff)
+  cs2_pack_byte(s, (s.focus >> 8) & 0xff)
+  cs2_pack_byte(s, s.focus & 0xff)
+  cs2_parse_cmd(s, "00 00 00 00 00 00 00 00")
+  status = cs2_issue_cmd(s)
+  if(status)
     return status
 
-  return cs2_execute (s)
+  return cs2_execute(s)
 }
 
 static Sane.Status
-cs2_autofocus (cs2_t * s)
+cs2_autofocus(cs2_t * s)
 {
   Sane.Status status
 
-  cs2_convert_options (s)
+  cs2_convert_options(s)
 
-  cs2_scanner_ready (s, CS2_STATUS_READY)
-  cs2_init_buffer (s)
-  cs2_parse_cmd (s, "e0 00 a0 00 00 00 00 00 0d 00 00")
-  cs2_pack_byte (s, (s.real_focusx >> 24) & 0xff)
-  cs2_pack_byte (s, (s.real_focusx >> 16) & 0xff)
-  cs2_pack_byte (s, (s.real_focusx >> 8) & 0xff)
-  cs2_pack_byte (s, s.real_focusx & 0xff)
-  cs2_pack_byte (s, (s.real_focusy >> 24) & 0xff)
-  cs2_pack_byte (s, (s.real_focusy >> 16) & 0xff)
-  cs2_pack_byte (s, (s.real_focusy >> 8) & 0xff)
-  cs2_pack_byte (s, s.real_focusy & 0xff)
-  cs2_parse_cmd (s, "00 00 00 00")
-  status = cs2_issue_cmd (s)
-  if (status)
+  cs2_scanner_ready(s, CS2_STATUS_READY)
+  cs2_init_buffer(s)
+  cs2_parse_cmd(s, "e0 00 a0 00 00 00 00 00 0d 00 00")
+  cs2_pack_byte(s, (s.real_focusx >> 24) & 0xff)
+  cs2_pack_byte(s, (s.real_focusx >> 16) & 0xff)
+  cs2_pack_byte(s, (s.real_focusx >> 8) & 0xff)
+  cs2_pack_byte(s, s.real_focusx & 0xff)
+  cs2_pack_byte(s, (s.real_focusy >> 24) & 0xff)
+  cs2_pack_byte(s, (s.real_focusy >> 16) & 0xff)
+  cs2_pack_byte(s, (s.real_focusy >> 8) & 0xff)
+  cs2_pack_byte(s, s.real_focusy & 0xff)
+  cs2_parse_cmd(s, "00 00 00 00")
+  status = cs2_issue_cmd(s)
+  if(status)
     return status
 
-  status = cs2_execute (s)
-  if (status)
+  status = cs2_execute(s)
+  if(status)
     return status
 
-  cs2_scanner_ready (s, CS2_STATUS_READY)
-  cs2_init_buffer (s)
-  cs2_parse_cmd (s, "e1 00 c1 00 00 00 00 00 0d 00")
+  cs2_scanner_ready(s, CS2_STATUS_READY)
+  cs2_init_buffer(s)
+  cs2_parse_cmd(s, "e1 00 c1 00 00 00 00 00 0d 00")
   s.n_recv = 13
-  status = cs2_issue_cmd (s)
-  if (status)
+  status = cs2_issue_cmd(s)
+  if(status)
     return status
 
   s.focus =
@@ -2595,36 +2595,36 @@ cs2_autofocus (cs2_t * s)
 }
 
 static Sane.Status
-cs2_get_exposure (cs2_t * s)
+cs2_get_exposure(cs2_t * s)
 {
   Sane.Status status
   Int i_colour
 
-  for (i_colour = 0; i_colour < 3; i_colour++)
+  for(i_colour = 0; i_colour < 3; i_colour++)
     {				/* XXXXXXXXXXXXX CCCCCCCCCCCCC */
-      cs2_scanner_ready (s, CS2_STATUS_NO_DOCS)
+      cs2_scanner_ready(s, CS2_STATUS_NO_DOCS)
 
-      cs2_init_buffer (s)
-      cs2_parse_cmd (s, "25 01 00 00 00")
-      cs2_pack_byte (s, cs2_colour_list[i_colour])
-      cs2_parse_cmd (s, "00 00 3a 00")
+      cs2_init_buffer(s)
+      cs2_parse_cmd(s, "25 01 00 00 00")
+      cs2_pack_byte(s, cs2_colour_list[i_colour])
+      cs2_parse_cmd(s, "00 00 3a 00")
       s.n_recv = 58
-      status = cs2_issue_cmd (s)
-      if (status)
+      status = cs2_issue_cmd(s)
+      if(status)
 	return status
 
       s.real_exposure[cs2_colour_list[i_colour]] =
 	65536 * (256 * s.recv_buf[54] + s.recv_buf[55]) +
 	256 * s.recv_buf[56] + s.recv_buf[57]
 
-      DBG (6, "cs2_get_exposure(): exposure for colour %i: %li * 10ns\n", cs2_colour_list[i_colour], s.real_exposure[cs2_colour_list[i_colour]])
+      DBG(6, "cs2_get_exposure(): exposure for colour %i: %li * 10ns\n", cs2_colour_list[i_colour], s.real_exposure[cs2_colour_list[i_colour]])
     }
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-cs2_convert_options (cs2_t * s)
+cs2_convert_options(cs2_t * s)
 {
   Int i_colour
   unsigned long xmin, xmax, ymin, ymax
@@ -2634,12 +2634,12 @@ cs2_convert_options (cs2_t * s)
   s.bytes_per_pixel = (s.real_depth > 8 ? 2 : 1)
   s.shift_bits = 8 * s.bytes_per_pixel - s.real_depth
 
-  if (s.preview)
+  if(s.preview)
     {
       s.real_resx = s.res_preview
       s.real_resy = s.res_preview
     }
-  else if (s.res_independent)
+  else if(s.res_independent)
     {
       s.real_resx = s.resx
       s.real_resy = s.resy
@@ -2655,9 +2655,9 @@ cs2_convert_options (cs2_t * s)
   s.real_resx = s.resx_max / s.real_pitchx
   s.real_resy = s.resy_max / s.real_pitchy
 
-  /* The prefix "real_" refers to data in device units (1/maxdpi), "logical_" refers to resolution-dependent data. */
+  /* The prefix "real_" refers to data in device units(1/maxdpi), "logical_" refers to resolution-dependent data. */
 
-  if (s.xmin < s.xmax)
+  if(s.xmin < s.xmax)
     {
       xmin = s.xmin
       xmax = s.xmax
@@ -2668,7 +2668,7 @@ cs2_convert_options (cs2_t * s)
       xmax = s.xmin
     }
 
-  if (s.ymin < s.ymax)
+  if(s.ymin < s.ymax)
     {
       ymin = s.ymin
       ymax = s.ymax
@@ -2688,11 +2688,11 @@ cs2_convert_options (cs2_t * s)
   s.real_height = s.logical_height * s.real_pitchy
 
   s.odd_padding = 0
-  if ((s.bytes_per_pixel == 1) && (s.logical_width & 0x01)
+  if((s.bytes_per_pixel == 1) && (s.logical_width & 0x01)
       && (s.type != CS2_TYPE_LS30) && (s.type != CS2_TYPE_LS2000))
     s.odd_padding = 1
 
-  if (s.focus_on_centre)
+  if(s.focus_on_centre)
     {
       s.real_focusx = s.real_xoffset + s.real_width / 2
       s.real_focusy = s.real_yoffset + s.real_height / 2
@@ -2709,8 +2709,8 @@ cs2_convert_options (cs2_t * s)
   s.real_exposure[2] = s.exposure * s.exposure_g * 100.
   s.real_exposure[3] = s.exposure * s.exposure_b * 100.
 
-  for (i_colour = 0; i_colour < 3; i_colour++)
-    if (s.real_exposure[cs2_colour_list[i_colour]] < 1)
+  for(i_colour = 0; i_colour < 3; i_colour++)
+    if(s.real_exposure[cs2_colour_list[i_colour]] < 1)
       s.real_exposure[cs2_colour_list[i_colour]] = 1
 
   s.n_colour_out = s.n_colour_in = 3;	/* XXXXXXXXXXXXXX CCCCCCCCCCCCCC */
@@ -2719,23 +2719,23 @@ cs2_convert_options (cs2_t * s)
     s.bytes_per_pixel * s.n_colour_out * s.logical_width *
     s.logical_height
 
-  if (s.preview)
+  if(s.preview)
     s.infrared_stage = s.infrared_next = CS2_INFRARED_OFF
   else
     {
-      if ((s.infrared) && (s.infrared_stage == CS2_INFRARED_OFF))
+      if((s.infrared) && (s.infrared_stage == CS2_INFRARED_OFF))
 	s.infrared_next = CS2_INFRARED_IN
 
       s.infrared_stage = s.infrared_next
 
-      if (s.infrared)
+      if(s.infrared)
 	{
 	  s.n_colour_in ++
 	  s.n_infrared_buf =
 	    s.bytes_per_pixel * s.logical_width * s.logical_height
 	  infrared_buf_new =
-	    (Sane.Byte *) cs2_xrealloc (s.infrared_buf, s.n_infrared_buf)
-	  if (infrared_buf_new)
+	    (Sane.Byte *) cs2_xrealloc(s.infrared_buf, s.n_infrared_buf)
+	  if(infrared_buf_new)
 	    s.infrared_buf = infrared_buf_new
 	  else
 	    return Sane.STATUS_NO_MEM
@@ -2746,7 +2746,7 @@ cs2_convert_options (cs2_t * s)
 }
 
 static Sane.Status
-cs2_set_boundary (cs2_t *s)
+cs2_set_boundary(cs2_t *s)
 {
   Sane.Status status
   Int i_boundary
@@ -2754,53 +2754,53 @@ cs2_set_boundary (cs2_t *s)
 
 /* Ariel - Check this function */
 
-  cs2_scanner_ready (s, CS2_STATUS_READY)
-  cs2_init_buffer (s)
-  cs2_parse_cmd (s, "2a 00 88 00 00 03")
-  cs2_pack_byte (s, ((4 + s.n_frames * 16) >> 16) & 0xff)
-  cs2_pack_byte (s, ((4 + s.n_frames * 16) >> 8) & 0xff)
-  cs2_pack_byte (s, (4 + s.n_frames * 16) & 0xff)
-  cs2_parse_cmd (s, "00")
+  cs2_scanner_ready(s, CS2_STATUS_READY)
+  cs2_init_buffer(s)
+  cs2_parse_cmd(s, "2a 00 88 00 00 03")
+  cs2_pack_byte(s, ((4 + s.n_frames * 16) >> 16) & 0xff)
+  cs2_pack_byte(s, ((4 + s.n_frames * 16) >> 8) & 0xff)
+  cs2_pack_byte(s, (4 + s.n_frames * 16) & 0xff)
+  cs2_parse_cmd(s, "00")
 
-  cs2_pack_byte (s, ((4 + s.n_frames * 16) >> 8) & 0xff)
-  cs2_pack_byte (s, (4 + s.n_frames * 16) & 0xff)
-  cs2_pack_byte (s, s.n_frames)
-  cs2_pack_byte (s, s.n_frames)
-  for (i_boundary = 0; i_boundary < s.n_frames; i_boundary++)
+  cs2_pack_byte(s, ((4 + s.n_frames * 16) >> 8) & 0xff)
+  cs2_pack_byte(s, (4 + s.n_frames * 16) & 0xff)
+  cs2_pack_byte(s, s.n_frames)
+  cs2_pack_byte(s, s.n_frames)
+  for(i_boundary = 0; i_boundary < s.n_frames; i_boundary++)
     {
       lvalue = s.frame_offset * i_boundary + s.subframe / s.unit_mm
-      cs2_pack_byte (s, (lvalue >> 24) & 0xff)
-      cs2_pack_byte (s, (lvalue >> 16) & 0xff)
-      cs2_pack_byte (s, (lvalue >> 8) & 0xff)
-      cs2_pack_byte (s, lvalue & 0xff)
+      cs2_pack_byte(s, (lvalue >> 24) & 0xff)
+      cs2_pack_byte(s, (lvalue >> 16) & 0xff)
+      cs2_pack_byte(s, (lvalue >> 8) & 0xff)
+      cs2_pack_byte(s, lvalue & 0xff)
 
       lvalue = 0
-      cs2_pack_byte (s, (lvalue >> 24) & 0xff)
-      cs2_pack_byte (s, (lvalue >> 16) & 0xff)
-      cs2_pack_byte (s, (lvalue >> 8) & 0xff)
-      cs2_pack_byte (s, lvalue & 0xff)
+      cs2_pack_byte(s, (lvalue >> 24) & 0xff)
+      cs2_pack_byte(s, (lvalue >> 16) & 0xff)
+      cs2_pack_byte(s, (lvalue >> 8) & 0xff)
+      cs2_pack_byte(s, lvalue & 0xff)
 
       lvalue = s.frame_offset * i_boundary + s.subframe / s.unit_mm + s.frame_offset - 1
-      cs2_pack_byte (s, (lvalue >> 24) & 0xff)
-      cs2_pack_byte (s, (lvalue >> 16) & 0xff)
-      cs2_pack_byte (s, (lvalue >> 8) & 0xff)
-      cs2_pack_byte (s, lvalue & 0xff)
+      cs2_pack_byte(s, (lvalue >> 24) & 0xff)
+      cs2_pack_byte(s, (lvalue >> 16) & 0xff)
+      cs2_pack_byte(s, (lvalue >> 8) & 0xff)
+      cs2_pack_byte(s, lvalue & 0xff)
 
       lvalue = s.boundaryx - 1
-      cs2_pack_byte (s, (lvalue >> 24) & 0xff)
-      cs2_pack_byte (s, (lvalue >> 16) & 0xff)
-      cs2_pack_byte (s, (lvalue >> 8) & 0xff)
-      cs2_pack_byte (s, lvalue & 0xff)
+      cs2_pack_byte(s, (lvalue >> 24) & 0xff)
+      cs2_pack_byte(s, (lvalue >> 16) & 0xff)
+      cs2_pack_byte(s, (lvalue >> 8) & 0xff)
+      cs2_pack_byte(s, lvalue & 0xff)
     }
-  status = cs2_issue_cmd (s)
-  if (status)
+  status = cs2_issue_cmd(s)
+  if(status)
     return status
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-cs2_scan (cs2_t * s, cs2_scan_t type)
+cs2_scan(cs2_t * s, cs2_scan_t type)
 {
   Sane.Status status
   Int i_colour
@@ -2809,46 +2809,46 @@ cs2_scan (cs2_t * s, cs2_scan_t type)
 
   /* wait for device to be ready with document, and set device unit */
 
-  status = cs2_scanner_ready (s, CS2_STATUS_NO_DOCS)
-  if (status)
+  status = cs2_scanner_ready(s, CS2_STATUS_NO_DOCS)
+  if(status)
     return status
-  if (s.status & CS2_STATUS_NO_DOCS)
+  if(s.status & CS2_STATUS_NO_DOCS)
     return Sane.STATUS_NO_DOCS
 
-  cs2_scanner_ready (s, CS2_STATUS_READY)
-  cs2_init_buffer (s)
+  cs2_scanner_ready(s, CS2_STATUS_READY)
+  cs2_init_buffer(s)
   /* Ariel - the '0b' byte in the 'else' part seems to be wrong, should be 0 */
-  if ((s.type == CS2_TYPE_LS50) || (s.type == CS2_TYPE_LS5000))
-    cs2_parse_cmd (s, "15 10 00 00 14 00 00 00 00 08 00 00 00 00 00 00 00 01 03 06 00 00")
+  if((s.type == CS2_TYPE_LS50) || (s.type == CS2_TYPE_LS5000))
+    cs2_parse_cmd(s, "15 10 00 00 14 00 00 00 00 08 00 00 00 00 00 00 00 01 03 06 00 00")
   else
-    cs2_parse_cmd (s, "15 10 00 00 0c 00 0b 00 00 00 03 06 00 00")
-  cs2_pack_byte (s, (s.unit_dpi >> 8) & 0xff)
-  cs2_pack_byte (s, s.unit_dpi & 0xff)
-  cs2_parse_cmd (s, "00 00")
-  status = cs2_issue_cmd (s)
-  if (status)
+    cs2_parse_cmd(s, "15 10 00 00 0c 00 0b 00 00 00 03 06 00 00")
+  cs2_pack_byte(s, (s.unit_dpi >> 8) & 0xff)
+  cs2_pack_byte(s, s.unit_dpi & 0xff)
+  cs2_parse_cmd(s, "00 00")
+  status = cs2_issue_cmd(s)
+  if(status)
     return status
 
-  status = cs2_convert_options (s)
-  if (status)
+  status = cs2_convert_options(s)
+  if(status)
     return status
 
   /* Ariel - Is this the best place to initialize it? */
   s.block_padding = 0
 
-  status = cs2_set_boundary (s)
-  if (status)
+  status = cs2_set_boundary(s)
+  if(status)
     return status
 
-  switch (type)
+  switch(type)
     {
     case CS2_SCAN_NORMAL:
 
-      for (i_colour = 0; i_colour < s.n_colour_in; i_colour++)
+      for(i_colour = 0; i_colour < s.n_colour_in; i_colour++)
 	{
-	  cs2_scanner_ready (s, CS2_STATUS_READY)
+	  cs2_scanner_ready(s, CS2_STATUS_READY)
 
-	  switch (i_colour)
+	  switch(i_colour)
 	    {
 	    case 0:
 	      lut = s.lut_r
@@ -2863,29 +2863,29 @@ cs2_scan (cs2_t * s, cs2_scan_t type)
 	      lut = s.lut_neutral
 	      break
 	    default:
-	      DBG (1,
+	      DBG(1,
 		   "BUG: cs2_scan(): Unknown colour number for LUT download.\n")
 	      return Sane.STATUS_INVAL
 	      break
 	    }
 
-	  cs2_init_buffer (s)
-	  cs2_parse_cmd (s, "2a 00 03 00")
-	  cs2_pack_byte (s, cs2_colour_list[i_colour])
-	  cs2_pack_byte (s, 2 - 1);	/* XXXXXXXXXX number of bytes per data point - 1 */
-	  cs2_pack_byte (s, ((2 * s.n_lut) >> 16) & 0xff);	/* XXXXXXXXXX 2 bytes per point */
-	  cs2_pack_byte (s, ((2 * s.n_lut) >> 8) & 0xff);	/* XXXXXXXXXX 2 bytes per point */
-	  cs2_pack_byte (s, (2 * s.n_lut) & 0xff);	/* XXXXXXXXXX 2 bytes per point */
-	  cs2_pack_byte (s, 0x00)
+	  cs2_init_buffer(s)
+	  cs2_parse_cmd(s, "2a 00 03 00")
+	  cs2_pack_byte(s, cs2_colour_list[i_colour])
+	  cs2_pack_byte(s, 2 - 1);	/* XXXXXXXXXX number of bytes per data point - 1 */
+	  cs2_pack_byte(s, ((2 * s.n_lut) >> 16) & 0xff);	/* XXXXXXXXXX 2 bytes per point */
+	  cs2_pack_byte(s, ((2 * s.n_lut) >> 8) & 0xff);	/* XXXXXXXXXX 2 bytes per point */
+	  cs2_pack_byte(s, (2 * s.n_lut) & 0xff);	/* XXXXXXXXXX 2 bytes per point */
+	  cs2_pack_byte(s, 0x00)
 
-	  for (pixel = 0; pixel < s.n_lut; pixel++)
+	  for(pixel = 0; pixel < s.n_lut; pixel++)
 	    {			/* XXXXXXXXXXXXXXX 2 bytes per point */
-	      cs2_pack_byte (s, (lut[pixel] >> 8) & 0xff)
-	      cs2_pack_byte (s, lut[pixel] & 0xff)
+	      cs2_pack_byte(s, (lut[pixel] >> 8) & 0xff)
+	      cs2_pack_byte(s, lut[pixel] & 0xff)
 	    }
 
-	  status = cs2_issue_cmd (s)
-	  if (status)
+	  status = cs2_issue_cmd(s)
+	  if(status)
 	    return status
 	}
 
@@ -2895,159 +2895,159 @@ cs2_scan (cs2_t * s, cs2_scan_t type)
       break
     }
 
-  for (i_colour = 0; i_colour < s.n_colour_in; i_colour++)
+  for(i_colour = 0; i_colour < s.n_colour_in; i_colour++)
     {
-      cs2_scanner_ready (s, CS2_STATUS_READY)
+      cs2_scanner_ready(s, CS2_STATUS_READY)
 
-      cs2_init_buffer (s)
-      if ((s.type == CS2_TYPE_LS40) || (s.type == CS2_TYPE_LS4000))
-	cs2_parse_cmd (s, "24 00 00 00 00 00 00 00 3a 80")
+      cs2_init_buffer(s)
+      if((s.type == CS2_TYPE_LS40) || (s.type == CS2_TYPE_LS4000))
+	cs2_parse_cmd(s, "24 00 00 00 00 00 00 00 3a 80")
       else
-	cs2_parse_cmd (s, "24 00 00 00 00 00 00 00 3a 00")
-      cs2_parse_cmd (s, "00 00 00 00 00 00 00 32")
+	cs2_parse_cmd(s, "24 00 00 00 00 00 00 00 3a 00")
+      cs2_parse_cmd(s, "00 00 00 00 00 00 00 32")
 
-      cs2_pack_byte (s, cs2_colour_list[i_colour])
+      cs2_pack_byte(s, cs2_colour_list[i_colour])
 
-      cs2_pack_byte (s, 0x00)
+      cs2_pack_byte(s, 0x00)
 
-      cs2_pack_byte (s, s.real_resx >> 8)
-      cs2_pack_byte (s, s.real_resx & 0xff)
-      cs2_pack_byte (s, s.real_resy >> 8)
-      cs2_pack_byte (s, s.real_resy & 0xff)
+      cs2_pack_byte(s, s.real_resx >> 8)
+      cs2_pack_byte(s, s.real_resx & 0xff)
+      cs2_pack_byte(s, s.real_resy >> 8)
+      cs2_pack_byte(s, s.real_resy & 0xff)
 
-      cs2_pack_byte (s, (s.real_xoffset >> 24) & 0xff)
-      cs2_pack_byte (s, (s.real_xoffset >> 16) & 0xff)
-      cs2_pack_byte (s, (s.real_xoffset >> 8) & 0xff)
-      cs2_pack_byte (s, s.real_xoffset & 0xff)
+      cs2_pack_byte(s, (s.real_xoffset >> 24) & 0xff)
+      cs2_pack_byte(s, (s.real_xoffset >> 16) & 0xff)
+      cs2_pack_byte(s, (s.real_xoffset >> 8) & 0xff)
+      cs2_pack_byte(s, s.real_xoffset & 0xff)
 
-      cs2_pack_byte (s, (s.real_yoffset >> 24) & 0xff)
-      cs2_pack_byte (s, (s.real_yoffset >> 16) & 0xff)
-      cs2_pack_byte (s, (s.real_yoffset >> 8) & 0xff)
-      cs2_pack_byte (s, s.real_yoffset & 0xff)
+      cs2_pack_byte(s, (s.real_yoffset >> 24) & 0xff)
+      cs2_pack_byte(s, (s.real_yoffset >> 16) & 0xff)
+      cs2_pack_byte(s, (s.real_yoffset >> 8) & 0xff)
+      cs2_pack_byte(s, s.real_yoffset & 0xff)
 
-      cs2_pack_byte (s, (s.real_width >> 24) & 0xff)
-      cs2_pack_byte (s, (s.real_width >> 16) & 0xff)
-      cs2_pack_byte (s, (s.real_width >> 8) & 0xff)
-      cs2_pack_byte (s, s.real_width & 0xff)
+      cs2_pack_byte(s, (s.real_width >> 24) & 0xff)
+      cs2_pack_byte(s, (s.real_width >> 16) & 0xff)
+      cs2_pack_byte(s, (s.real_width >> 8) & 0xff)
+      cs2_pack_byte(s, s.real_width & 0xff)
 
-      cs2_pack_byte (s, (s.real_height >> 24) & 0xff)
-      cs2_pack_byte (s, (s.real_height >> 16) & 0xff)
-      cs2_pack_byte (s, (s.real_height >> 8) & 0xff)
-      cs2_pack_byte (s, s.real_height & 0xff)
+      cs2_pack_byte(s, (s.real_height >> 24) & 0xff)
+      cs2_pack_byte(s, (s.real_height >> 16) & 0xff)
+      cs2_pack_byte(s, (s.real_height >> 8) & 0xff)
+      cs2_pack_byte(s, s.real_height & 0xff)
 
-      cs2_pack_byte (s, 0x00);	/* brightness, etc. */
-      cs2_pack_byte (s, 0x00)
-      cs2_pack_byte (s, 0x00)
-      cs2_pack_byte (s, 0x05);	/* image composition CCCCCCC */
-      cs2_pack_byte (s, s.real_depth);	/* pixel composition */
-      cs2_parse_cmd (s, "00 00 00 00 00 00 00 00 00 00 00 00 00")
-      cs2_pack_byte (s, ((s.samples_per_scan - 1) << 4) + 0x00);	/* multiread, ordering */
+      cs2_pack_byte(s, 0x00);	/* brightness, etc. */
+      cs2_pack_byte(s, 0x00)
+      cs2_pack_byte(s, 0x00)
+      cs2_pack_byte(s, 0x05);	/* image composition CCCCCCC */
+      cs2_pack_byte(s, s.real_depth);	/* pixel composition */
+      cs2_parse_cmd(s, "00 00 00 00 00 00 00 00 00 00 00 00 00")
+      cs2_pack_byte(s, ((s.samples_per_scan - 1) << 4) + 0x00);	/* multiread, ordering */
       /* No need to use an undocumented bit in LS50 */
-      if ((s.type == CS2_TYPE_LS50) || (s.type == CS2_TYPE_LS5000))
-        cs2_pack_byte (s, 0x00 + (s.negative ? 0 : 1));	/* averaging, pos/neg */
+      if((s.type == CS2_TYPE_LS50) || (s.type == CS2_TYPE_LS5000))
+        cs2_pack_byte(s, 0x00 + (s.negative ? 0 : 1));	/* averaging, pos/neg */
       else
-        cs2_pack_byte (s, 0x80 + (s.negative ? 0 : 1));	/* averaging, pos/neg */
+        cs2_pack_byte(s, 0x80 + (s.negative ? 0 : 1));	/* averaging, pos/neg */
 
-      switch (type)
+      switch(type)
 	{			/* scanning kind */
 	case CS2_SCAN_NORMAL:
-	  cs2_pack_byte (s, 0x01)
+	  cs2_pack_byte(s, 0x01)
 	  break
 	case CS2_SCAN_AE:
-	  cs2_pack_byte (s, 0x20)
+	  cs2_pack_byte(s, 0x20)
 	  break
 	case CS2_SCAN_AE_WB:
-	  cs2_pack_byte (s, 0x40)
+	  cs2_pack_byte(s, 0x40)
 	  break
 	default:
-	  DBG (1, "BUG: cs2_scan(): Unknown scanning type.\n")
+	  DBG(1, "BUG: cs2_scan(): Unknown scanning type.\n")
 	  return Sane.STATUS_INVAL
 	}
-      if (s.samples_per_scan == 1)
-        cs2_pack_byte (s, 0x02);	/* scanning mode single */
+      if(s.samples_per_scan == 1)
+        cs2_pack_byte(s, 0x02);	/* scanning mode single */
       else
-        cs2_pack_byte (s, 0x10);	/* scanning mode multi */
-      cs2_pack_byte (s, 0x02);	/* colour interleaving */
-      cs2_pack_byte (s, 0xff);	/* (ae) */
-      if (i_colour == 3)	/* infrared */
-	cs2_parse_cmd (s, "00 00 00 00");	/* automatic */
+        cs2_pack_byte(s, 0x10);	/* scanning mode multi */
+      cs2_pack_byte(s, 0x02);	/* colour interleaving */
+      cs2_pack_byte(s, 0xff);	/* (ae) */
+      if(i_colour == 3)	/* infrared */
+	cs2_parse_cmd(s, "00 00 00 00");	/* automatic */
       else
 	{
-	  cs2_pack_byte (s,
+	  cs2_pack_byte(s,
 			 (s->
 			  real_exposure[cs2_colour_list[i_colour]] >> 24) &
 			 0xff)
-	  cs2_pack_byte (s,
+	  cs2_pack_byte(s,
 			 (s->
 			  real_exposure[cs2_colour_list[i_colour]] >> 16) &
 			 0xff)
-	  cs2_pack_byte (s,
+	  cs2_pack_byte(s,
 			 (s->
 			  real_exposure[cs2_colour_list[i_colour]] >> 8) &
 			 0xff)
-	  cs2_pack_byte (s,
+	  cs2_pack_byte(s,
 			 s.real_exposure[cs2_colour_list[i_colour]] & 0xff)
 	}
-      status = cs2_issue_cmd (s)
-      if (status)
+      status = cs2_issue_cmd(s)
+      if(status)
 	return status
     }
 
-  cs2_scanner_ready (s, CS2_STATUS_READY)
-  cs2_focus (s)
+  cs2_scanner_ready(s, CS2_STATUS_READY)
+  cs2_focus(s)
 
-  cs2_scanner_ready (s, CS2_STATUS_READY)
-  cs2_init_buffer (s)
-  switch (s.n_colour_in)
+  cs2_scanner_ready(s, CS2_STATUS_READY)
+  cs2_init_buffer(s)
+  switch(s.n_colour_in)
     {
     case 3:
-      cs2_parse_cmd (s, "1b 00 00 00 03 00 01 02 03")
+      cs2_parse_cmd(s, "1b 00 00 00 03 00 01 02 03")
       break
     case 4:
-      cs2_parse_cmd (s, "1b 00 00 00 04 00 01 02 03 09")
+      cs2_parse_cmd(s, "1b 00 00 00 04 00 01 02 03 09")
       break
     default:
-      DBG (1, "BUG: cs2_scan(): Unknown number of input colours.\n")
+      DBG(1, "BUG: cs2_scan(): Unknown number of input colours.\n")
       break
     }
-  status = cs2_issue_cmd (s)
-  if (status)
+  status = cs2_issue_cmd(s)
+  if(status)
     return status
-  if (s.status == CS2_STATUS_REISSUE)
+  if(s.status == CS2_STATUS_REISSUE)
     {
       /* Make sure we don't affect the behaviour for other scanners */
-      if ((s.type == CS2_TYPE_LS50) || (s.type == CS2_TYPE_LS5000))
+      if((s.type == CS2_TYPE_LS50) || (s.type == CS2_TYPE_LS5000))
         {
-          cs2_init_buffer (s)
-          cs2_parse_cmd (s, "28 00 87 00 00 00 00 00 06 00")
+          cs2_init_buffer(s)
+          cs2_parse_cmd(s, "28 00 87 00 00 00 00 00 06 00")
           s.n_recv = 6
-          status = cs2_issue_cmd (s)
-          if (status)
+          status = cs2_issue_cmd(s)
+          if(status)
             return status
-          cs2_init_buffer (s)
-          cs2_parse_cmd (s, "28 00 87 00 00 00 00 00")
-          cs2_pack_byte (s, s.recv_buf[5] + 6)
-          cs2_parse_cmd (s, "00")
+          cs2_init_buffer(s)
+          cs2_parse_cmd(s, "28 00 87 00 00 00 00 00")
+          cs2_pack_byte(s, s.recv_buf[5] + 6)
+          cs2_parse_cmd(s, "00")
           s.n_recv = s.recv_buf[5] + 6
-          status = cs2_issue_cmd (s)
-          if (status)
+          status = cs2_issue_cmd(s)
+          if(status)
             return status
-          if ((s.recv_buf[11] != 0x08) || (s.recv_buf[12] != 0x00))
-            DBG (1, "BUG: cs2_scan(): Unexpected block_padding position.\n")
+          if((s.recv_buf[11] != 0x08) || (s.recv_buf[12] != 0x00))
+            DBG(1, "BUG: cs2_scan(): Unexpected block_padding position.\n")
           s.block_padding = 256 * s.recv_buf[19] + s.recv_buf[20]
-          cs2_init_buffer (s)
-          switch (s.n_colour_in)
+          cs2_init_buffer(s)
+          switch(s.n_colour_in)
             {
             case 3:
-              cs2_parse_cmd (s, "1b 00 00 00 03 00 01 02 03")
+              cs2_parse_cmd(s, "1b 00 00 00 03 00 01 02 03")
               break
             case 4:
-              cs2_parse_cmd (s, "1b 00 00 00 04 00 01 02 03 09")
+              cs2_parse_cmd(s, "1b 00 00 00 04 00 01 02 03 09")
               break
             }
         }
-      status = cs2_issue_cmd (s)
-      if (status)
+      status = cs2_issue_cmd(s)
+      if(status)
 	return status
     }
 
@@ -3055,37 +3055,37 @@ cs2_scan (cs2_t * s, cs2_scan_t type)
 }
 
 static void *
-cs2_xmalloc (size_t size)
+cs2_xmalloc(size_t size)
 {
-  register void *value = malloc (size)
+  register void *value = malloc(size)
 
-  if (!value)
-    DBG (0, "Error: cs2_xmalloc(): Failed to malloc() %lu bytes.\n",
+  if(!value)
+    DBG(0, "Error: cs2_xmalloc(): Failed to malloc() %lu bytes.\n",
 	 (unsigned long) size)
 
   return value
 }
 
 static void *
-cs2_xrealloc (void *p, size_t size)
+cs2_xrealloc(void *p, size_t size)
 {
   register void *value
 
-  if (!size)
+  if(!size)
     return p
 
-  value = realloc (p, size)
+  value = realloc(p, size)
 
-  if (!value)
-    DBG (0, "Error: cs2_xrealloc(): Failed to realloc() %lu bytes.\n",
+  if(!value)
+    DBG(0, "Error: cs2_xrealloc(): Failed to realloc() %lu bytes.\n",
 	 (unsigned long) size)
 
   return value
 }
 
 static void
-cs2_xfree (const void *p)
+cs2_xfree(const void *p)
 {
-  if (p)
-    free ((void *) p)
+  if(p)
+    free((void *) p)
 }

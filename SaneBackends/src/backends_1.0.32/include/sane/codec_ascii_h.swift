@@ -1,10 +1,10 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1996 David Mosberger-Tang and Andreas Beck
+   Copyright(C) 1996 David Mosberger-Tang and Andreas Beck
    This file is part of the SANE package.
 
    SANE is free software; you can redistribute it and/or modify it under
    the terms of the GNU General Public License as published by the Free
-   Software Foundation; either version 2 of the License, or (at your
+   Software Foundation; either version 2 of the License, or(at your
    option) any later version.
 
    SANE is distributed in the hope that it will be useful, but WITHOUT
@@ -57,6 +57,6 @@
  *
  * @param w Wire
  */
-public void sanei_codec_ascii_init (Wire *w)
+public void sanei_codec_ascii_init(Wire *w)
 
 #endif /* sanei_codec_ascii_h */

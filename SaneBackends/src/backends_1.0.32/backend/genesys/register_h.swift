@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -96,14 +96,14 @@ public:
 
     RegisterContainer(Options opts) : RegisterContainer()
     {
-        if ((opts & SEQUENTIAL) == SEQUENTIAL) {
+        if((opts & SEQUENTIAL) == SEQUENTIAL) {
             sorted_ = false
         }
     }
 
     void init_reg(std::uint16_t address, Value default_value)
     {
-        if (find_reg_index(address) >= 0) {
+        if(find_reg_index(address) >= 0) {
             set(address, default_value)
             return
         }
@@ -111,7 +111,7 @@ public:
         reg.address = address
         reg.value = default_value
         registers_.push_back(reg)
-        if (sorted_)
+        if(sorted_)
             std::sort(registers_.begin(), registers_.end())
     }
 
@@ -123,7 +123,7 @@ public:
     void remove_reg(std::uint16_t address)
     {
         var i: Int = find_reg_index(address)
-        if (i < 0) {
+        if(i < 0) {
             throw std::runtime_error("the register does not exist")
         }
         registers_.erase(registers_.begin() + i)
@@ -132,7 +132,7 @@ public:
     RegisterType& find_reg(std::uint16_t address)
     {
         var i: Int = find_reg_index(address)
-        if (i < 0) {
+        if(i < 0) {
             throw std::runtime_error("the register does not exist")
         }
         return registers_[i]
@@ -141,7 +141,7 @@ public:
     const RegisterType& find_reg(std::uint16_t address) const
     {
         var i: Int = find_reg_index(address)
-        if (i < 0) {
+        if(i < 0) {
             throw std::runtime_error("the register does not exist")
         }
         return registers_[i]
@@ -170,9 +170,9 @@ public:
 private:
     Int find_reg_index(std::uint16_t address) const
     {
-        if (!sorted_) {
-            for (std::size_t i = 0; i < registers_.size(); i++) {
-                if (registers_[i].address == address) {
+        if(!sorted_) {
+            for(std::size_t i = 0; i < registers_.size(); i++) {
+                if(registers_[i].address == address) {
                     return i
                 }
             }
@@ -182,9 +182,9 @@ private:
         RegisterType search
         search.address = address
         auto it = std::lower_bound(registers_.begin(), registers_.end(), search)
-        if (it == registers_.end())
+        if(it == registers_.end())
             return -1
-        if (it.address != address)
+        if(it.address != address)
             return -1
         return std::distance(registers_.begin(), it)
     }
@@ -203,7 +203,7 @@ std::ostream& operator<<(std::ostream& out, const RegisterContainer<Value>& cont
     out << std::hex
     out.fill('0')
 
-    for (const auto& reg : container) {
+    for(const auto& reg : container) {
         unsigned address_width = sizeof(reg.address) * 2
         unsigned value_width = sizeof(reg.value) * 2
 
@@ -307,12 +307,12 @@ public:
 
     std::uint16_t get16(std::uint16_t address) const
     {
-        return (find_reg(address).value << 8) | find_reg(address + 1).value
+        return(find_reg(address).value << 8) | find_reg(address + 1).value
     }
 
     std::uint32_t get24(std::uint16_t address) const
     {
-        return (find_reg(address).value << 16) |
+        return(find_reg(address).value << 16) |
                (find_reg(address + 1).value << 8) |
                 find_reg(address + 2).value
     }
@@ -408,7 +408,7 @@ public:
 
     void merge(const RegisterSettingSet& other)
     {
-        for (const auto& reg : other) {
+        for(const auto& reg : other) {
             set_value(reg.address, reg.value)
         }
     }
@@ -421,7 +421,7 @@ public:
     SettingType& find_reg(AddressType address)
     {
         var i: Int = find_reg_index(address)
-        if (i < 0) {
+        if(i < 0) {
             throw std::runtime_error("the register does not exist")
         }
         return registers_[i]
@@ -430,7 +430,7 @@ public:
     const SettingType& find_reg(AddressType address) const
     {
         var i: Int = find_reg_index(address)
-        if (i < 0) {
+        if(i < 0) {
             throw std::runtime_error("the register does not exist")
         }
         return registers_[i]
@@ -439,7 +439,7 @@ public:
     ValueType get_value(AddressType address) const
     {
         Int index = find_reg_index(address)
-        if (index >= 0) {
+        if(index >= 0) {
             return registers_[index].value
         }
         throw std::out_of_range("Unknown register")
@@ -448,7 +448,7 @@ public:
     void set_value(AddressType address, ValueType value)
     {
         Int index = find_reg_index(address)
-        if (index >= 0) {
+        if(index >= 0) {
             registers_[index].value = value
             return
         }
@@ -469,8 +469,8 @@ private:
 
     Int find_reg_index(AddressType address) const
     {
-        for (std::size_t i = 0; i < registers_.size(); i++) {
-            if (registers_[i].address == address) {
+        for(std::size_t i = 0; i < registers_.size(); i++) {
+            if(registers_[i].address == address) {
                 return i
             }
         }
@@ -492,7 +492,7 @@ std::ostream& operator<<(std::ostream& out, const RegisterSettingSet<Value>& con
     out << std::hex
     out.fill('0')
 
-    for (const auto& reg : container) {
+    for(const auto& reg : container) {
         unsigned address_width = sizeof(reg.address) * 2
         unsigned value_width = sizeof(reg.value) * 2
         unsigned mask_width = sizeof(reg.mask) * 2
@@ -525,11 +525,11 @@ template<class F, class Value>
 void apply_registers_ordered(const RegisterSettingSet<Value>& set,
                              std::initializer_list<std::uint16_t> order, F f)
 {
-    for (std::uint16_t addr : order) {
+    for(std::uint16_t addr : order) {
         f(set.find_reg(addr))
     }
-    for (const auto& reg : set) {
-        if (std::find(order.begin(), order.end(), reg.address) != order.end()) {
+    for(const auto& reg : set) {
+        if(std::find(order.begin(), order.end(), reg.address) != order.end()) {
             continue
         }
         f(reg)

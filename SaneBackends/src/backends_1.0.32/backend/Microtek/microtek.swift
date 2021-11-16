@@ -10,7 +10,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -125,18 +125,18 @@ static Sane.String_Const gamma_mode_list[4] = {
 
 /* These are for the E6.  Does this hold for other models? */
 static Sane.String_Const halftone_mode_list[13] = {
-  " 1 53-dot screen (53 gray levels)",
-  " 2 Horiz. screen (65 gray levels)",
-  " 3 Vert. screen (65 gray levels)",
-  " 4 Mixed page (33 gray levels)",
-  " 5 71-dot screen (29 gray levels)",
+  " 1 53-dot screen(53 gray levels)",
+  " 2 Horiz. screen(65 gray levels)",
+  " 3 Vert. screen(65 gray levels)",
+  " 4 Mixed page(33 gray levels)",
+  " 5 71-dot screen(29 gray levels)",
   " 6 60-dot #1 (26 gray levels)",
   " 7 60-dot #2 (26 gray levels)",
   " 8 Fine detail #1 (17 gray levels)",
   " 9 Fine detail #2 (17 gray levels)",
-  "10 Slant line (17 gray levels)",
-  "11 Posterizing (10 gray levels)",
-  "12 High Contrast (5 gray levels)",
+  "10 Slant line(17 gray levels)",
+  "11 Posterizing(10 gray levels)",
+  "12 High Contrast(5 gray levels)",
   NULL
 ]
 
@@ -188,14 +188,14 @@ static void MDBG_FINISH(Int dbglvl)
 /********************************************************************/
 /********************************************************************/
 
-static size_t max_string_size (const Sane.String_Const strings[])
+static size_t max_string_size(const Sane.String_Const strings[])
 {
   size_t size, max_size = 0
   var i: Int
 
-  for (i = 0; strings[i]; ++i) {
+  for(i = 0; strings[i]; ++i) {
     size = strlen(strings[i]) + 1
-    if (size > max_size) max_size = size
+    if(size > max_size) max_size = size
   }
   return max_size
 }
@@ -206,14 +206,14 @@ static size_t max_string_size (const Sane.String_Const strings[])
 /* Allocate/create a new ring buffer                                */
 /********************************************************************/
 static ring_buffer *
-ring_alloc (size_t initial_size, size_t bpl, size_t ppl)
+ring_alloc(size_t initial_size, size_t bpl, size_t ppl)
 {
   ring_buffer *rb
   uint8_t *buff
 
-  if ((rb = (ring_buffer *)malloc(sizeof(*rb))) == NULL)
+  if((rb = (ring_buffer *)malloc(sizeof(*rb))) == NULL)
     return NULL
-  if ((buff = (uint8_t *)malloc(initial_size * sizeof(*buff))) == NULL) {
+  if((buff = (uint8_t *)malloc(initial_size * sizeof(*buff))) == NULL) {
     free(rb)
     return NULL
   }
@@ -242,14 +242,14 @@ ring_alloc (size_t initial_size, size_t bpl, size_t ppl)
 /* Enlarge an existing ring buffer                                  */
 /********************************************************************/
 static Sane.Status
-ring_expand (ring_buffer *rb, size_t amount)
+ring_expand(ring_buffer *rb, size_t amount)
 {
   uint8_t *buff
   size_t oldsize
 
-  if (rb == NULL) return Sane.STATUS_INVAL
+  if(rb == NULL) return Sane.STATUS_INVAL
   buff = (uint8_t *)realloc(rb.base, (rb.size + amount) * sizeof(*buff))
-  if (buff == NULL) return Sane.STATUS_NO_MEM
+  if(buff == NULL) return Sane.STATUS_NO_MEM
 
   rb.base = buff
   oldsize = rb.size
@@ -263,7 +263,7 @@ ring_expand (ring_buffer *rb, size_t amount)
   /* if necessary, move data and fix up them pointers */
   /* (will break subtly if ring is filled with G or B bytes,
      and tail_g or tail_b have rolled over...) */
-  if (((rb.complete_count) ||
+  if(((rb.complete_count) ||
        (rb.red_extra) ||
        (rb.green_extra) ||
        (rb.blue_extra)) && ((rb.tail_red <= rb.head_complete) ||
@@ -272,15 +272,15 @@ ring_expand (ring_buffer *rb, size_t amount)
     memmove(rb.base + rb.head_complete + amount,
 	    rb.base + rb.head_complete,
 	    oldsize - rb.head_complete)
-    if ((rb.tail_red > rb.head_complete) ||
+    if((rb.tail_red > rb.head_complete) ||
 	((rb.tail_red == rb.head_complete) &&
 	 !(rb.complete_count) && !(rb.red_extra)))
       rb.tail_red += amount
-    if ((rb.tail_green > rb.head_complete) ||
+    if((rb.tail_green > rb.head_complete) ||
 	((rb.tail_green == rb.head_complete) &&
 	 !(rb.complete_count) && !(rb.green_extra)))
       rb.tail_green += amount
-    if ((rb.tail_blue > rb.head_complete) ||
+    if((rb.tail_blue > rb.head_complete) ||
 	((rb.tail_blue == rb.head_complete) &&
 	 !(rb.complete_count) && !(rb.blue_extra)))
       rb.tail_blue += amount
@@ -297,7 +297,7 @@ ring_expand (ring_buffer *rb, size_t amount)
 /* Deallocate a ring buffer                                         */
 /********************************************************************/
 static void
-ring_free (ring_buffer *rb)
+ring_free(ring_buffer *rb)
 {
   free(rb.base)
   free(rb)
@@ -318,7 +318,7 @@ ring_free (ring_buffer *rb)
 /*   typically misinterpreted/munged by the low-level scsi driver)  */
 /********************************************************************/
 static Sane.Status
-sense_handler (Int scsi_fd, u_char *sense, void *arg)
+sense_handler(Int scsi_fd, u_char *sense, void *arg)
 {
   Int *sense_flags = (Int *)arg
   Sane.Status stat
@@ -331,46 +331,46 @@ sense_handler (Int scsi_fd, u_char *sense, void *arg)
     return Sane.STATUS_GOOD
   case 0x81:           /* COMMAND/DATA ERROR */
     stat = Sane.STATUS_GOOD
-    if (sense[1] & 0x01) {
-      if ((sense_flags != NULL) && (*sense_flags & MS_SENSE_IGNORE))
+    if(sense[1] & 0x01) {
+      if((sense_flags != NULL) && (*sense_flags & MS_SENSE_IGNORE))
 	DBG(10, "sense:  ERR_SCSICMD -- ignored\n")
       else {
 	DBG(10, "sense:  ERR_SCSICMD\n")
 	stat = Sane.STATUS_IO_ERROR
       }
     }
-    if (sense[1] & 0x02) {
+    if(sense[1] & 0x02) {
       DBG(10, "sense:  ERR_TOOMANY\n")
       stat = Sane.STATUS_IO_ERROR
     }
     return stat
   case 0x82 :           /* SCANNER HARDWARE ERROR */
-    if (sense[1] & 0x01) DBG(10, "sense:  ERR_CPURAMFAIL\n")
-    if (sense[1] & 0x02) DBG(10, "sense:  ERR_SYSRAMFAIL\n")
-    if (sense[1] & 0x04) DBG(10, "sense:  ERR_IMGRAMFAIL\n")
-    if (sense[1] & 0x10) DBG(10, "sense:  ERR_CALIBRATE\n")
-    if (sense[1] & 0x20) DBG(10, "sense:  ERR_LAMPFAIL\n")
-    if (sense[1] & 0x40) DBG(10, "sense:  ERR_MOTORFAIL\n")
-    if (sense[1] & 0x80) DBG(10, "sense:  ERR_FEEDERFAIL\n")
-    if (sense[2] & 0x01) DBG(10, "sense:  ERR_POWERFAIL\n")
-    if (sense[2] & 0x02) DBG(10, "sense:  ERR_ILAMPFAIL\n")
-    if (sense[2] & 0x04) DBG(10, "sense:  ERR_IMOTORFAIL\n")
-    if (sense[2] & 0x08) DBG(10, "sense:  ERR_PAPERFAIL\n")
-    if (sense[2] & 0x10) DBG(10, "sense:  ERR_FILTERFAIL\n")
+    if(sense[1] & 0x01) DBG(10, "sense:  ERR_CPURAMFAIL\n")
+    if(sense[1] & 0x02) DBG(10, "sense:  ERR_SYSRAMFAIL\n")
+    if(sense[1] & 0x04) DBG(10, "sense:  ERR_IMGRAMFAIL\n")
+    if(sense[1] & 0x10) DBG(10, "sense:  ERR_CALIBRATE\n")
+    if(sense[1] & 0x20) DBG(10, "sense:  ERR_LAMPFAIL\n")
+    if(sense[1] & 0x40) DBG(10, "sense:  ERR_MOTORFAIL\n")
+    if(sense[1] & 0x80) DBG(10, "sense:  ERR_FEEDERFAIL\n")
+    if(sense[2] & 0x01) DBG(10, "sense:  ERR_POWERFAIL\n")
+    if(sense[2] & 0x02) DBG(10, "sense:  ERR_ILAMPFAIL\n")
+    if(sense[2] & 0x04) DBG(10, "sense:  ERR_IMOTORFAIL\n")
+    if(sense[2] & 0x08) DBG(10, "sense:  ERR_PAPERFAIL\n")
+    if(sense[2] & 0x10) DBG(10, "sense:  ERR_FILTERFAIL\n")
     return Sane.STATUS_IO_ERROR
   case 0x83 :           /* OPERATION ERROR */
-    if (sense[1] & 0x01) DBG(10, "sense:  ERR_ILLGRAIN\n")
-    if (sense[1] & 0x02) DBG(10, "sense:  ERR_ILLRES\n")
-    if (sense[1] & 0x04) DBG(10, "sense:  ERR_ILLCOORD\n")
-    if (sense[1] & 0x10) DBG(10, "sense:  ERR_ILLCNTR\n")
-    if (sense[1] & 0x20) DBG(10, "sense:  ERR_ILLLENGTH\n")
-    if (sense[1] & 0x40) DBG(10, "sense:  ERR_ILLADJUST\n")
-    if (sense[1] & 0x80) DBG(10, "sense:  ERR_ILLEXPOSE\n")
-    if (sense[2] & 0x01) DBG(10, "sense:  ERR_ILLFILTER\n")
-    if (sense[2] & 0x02) DBG(10, "sense:  ERR_NOPAPER\n")
-    if (sense[2] & 0x04) DBG(10, "sense:  ERR_ILLTABLE\n")
-    if (sense[2] & 0x08) DBG(10, "sense:  ERR_ILLOFFSET\n")
-    if (sense[2] & 0x10) DBG(10, "sense:  ERR_ILLBPP\n")
+    if(sense[1] & 0x01) DBG(10, "sense:  ERR_ILLGRAIN\n")
+    if(sense[1] & 0x02) DBG(10, "sense:  ERR_ILLRES\n")
+    if(sense[1] & 0x04) DBG(10, "sense:  ERR_ILLCOORD\n")
+    if(sense[1] & 0x10) DBG(10, "sense:  ERR_ILLCNTR\n")
+    if(sense[1] & 0x20) DBG(10, "sense:  ERR_ILLLENGTH\n")
+    if(sense[1] & 0x40) DBG(10, "sense:  ERR_ILLADJUST\n")
+    if(sense[1] & 0x80) DBG(10, "sense:  ERR_ILLEXPOSE\n")
+    if(sense[2] & 0x01) DBG(10, "sense:  ERR_ILLFILTER\n")
+    if(sense[2] & 0x02) DBG(10, "sense:  ERR_NOPAPER\n")
+    if(sense[2] & 0x04) DBG(10, "sense:  ERR_ILLTABLE\n")
+    if(sense[2] & 0x08) DBG(10, "sense:  ERR_ILLOFFSET\n")
+    if(sense[2] & 0x10) DBG(10, "sense:  ERR_ILLBPP\n")
     return Sane.STATUS_IO_ERROR
   default :
     DBG(10, "sense: unknown error\n")
@@ -382,7 +382,7 @@ sense_handler (Int scsi_fd, u_char *sense, void *arg)
 
 
 /********************************************************************/
-/* wait (via polling) until scanner seems "ready"                   */
+/* wait(via polling) until scanner seems "ready"                   */
 /********************************************************************/
 static Sane.Status
 wait_ready(Microtek_Scanner *ms)
@@ -392,10 +392,10 @@ wait_ready(Microtek_Scanner *ms)
   Int retry = 0
 
   DBG(23, ".wait_ready %d...\n", ms.sfd)
-  while ((status = sanei_scsi_cmd(ms.sfd, comm, 6, 0, 0))
+  while((status = sanei_scsi_cmd(ms.sfd, comm, 6, 0, 0))
 	 != Sane.STATUS_GOOD) {
-    DBG(23, "wait_ready failed (%d)\n", retry)
-    if (retry > 5) return Sane.STATUS_IO_ERROR; /* XXXXXXXX */
+    DBG(23, "wait_ready failed(%d)\n", retry)
+    if(retry > 5) return Sane.STATUS_IO_ERROR; /* XXXXXXXX */
     retry++
     sleep(3)
   }
@@ -418,8 +418,8 @@ scanning_frame(Microtek_Scanner *ms)
   x2 = ms.x2
   y1 = ms.y1
   y2 = ms.y2
-  /* E6 weirdness (other models too?) */
-  if (ms.unit_type == MS_UNIT_18INCH) {
+  /* E6 weirdness(other models too?) */
+  if(ms.unit_type == MS_UNIT_18INCH) {
     x1 /= 2
     x2 /= 2
     y1 /= 2
@@ -441,15 +441,15 @@ scanning_frame(Microtek_Scanner *ms)
   data[6] = (x2 >> 8) & 0xFF
   data[7] = y2 & 0xFF
   data[8] = (y2 >> 8) & 0xFF
-  if (DBG_LEVEL >= 192) {
+  if(DBG_LEVEL >= 192) {
     var i: Int
 #if 0
     fprintf(stderr, "SF: ")
-    for (i=0;i<6+0x09;i++) fprintf(stderr, "%2x ", comm[i])
+    for(i=0;i<6+0x09;i++) fprintf(stderr, "%2x ", comm[i])
     fprintf(stderr, "\n")
 #endif
     MDBG_INIT("SF: ")
-    for (i=0;i<6+0x09;i++) MDBG_ADD("%2x ", comm[i])
+    for(i=0;i<6+0x09;i++) MDBG_ADD("%2x ", comm[i])
     MDBG_FINISH(192)
   }
   return sanei_scsi_cmd(ms.sfd, comm, 6 + 0x09, 0, 0)
@@ -485,15 +485,15 @@ mode_select(Microtek_Scanner *ms)
   /* set command/data length */
   comm[4] = (ms.midtone_support) ? 0x0B : 0x0A
 
-  if (DBG_LEVEL >= 192) {
+  if(DBG_LEVEL >= 192) {
     var i: Int
 #if 0
     fprintf(stderr, "MSL: ")
-    for (i=0;i<6+comm[4];i++) fprintf(stderr, "%2x ", comm[i])
+    for(i=0;i<6+comm[4];i++) fprintf(stderr, "%2x ", comm[i])
     fprintf(stderr, "\n")
 #endif
     MDBG_INIT("MSL: ")
-    for (i=0;i<6+comm[4];i++) MDBG_ADD("%2x ", comm[i])
+    for(i=0;i<6+comm[4];i++) MDBG_ADD("%2x ", comm[i])
     MDBG_FINISH(192)
   }
   return sanei_scsi_cmd(ms.sfd, comm, 6 + comm[4], 0, 0)
@@ -515,15 +515,15 @@ mode_select_1(Microtek_Scanner *ms)
   data[1] = ms.bright_r
   data[3] = ((ms.allow_calibrate) ? 0 : 0x02); /* | 0x01; */
 
-  if (DBG_LEVEL >= 192) {
+  if(DBG_LEVEL >= 192) {
     var i: Int
 #if 0
     fprintf(stderr, "MSL1: ")
-    for (i=0;i<6+0x0A;i++) fprintf(stderr, "%2x ", comm[i])
+    for(i=0;i<6+0x0A;i++) fprintf(stderr, "%2x ", comm[i])
     fprintf(stderr, "\n")
 #endif
     MDBG_INIT("MSL1: ")
-    for (i=0;i<6+0x0A;i++) MDBG_ADD("%2x ", comm[i])
+    for(i=0;i<6+0x0A;i++) MDBG_ADD("%2x ", comm[i])
     MDBG_FINISH(192)
   }
   return sanei_scsi_cmd(ms.sfd, comm, 6 + 0x0A, 0, 0)
@@ -545,23 +545,23 @@ save_mode_sense(Microtek_Scanner *ms)
   var i: Int
 
   DBG(23, ".save_mode_sense %d...\n", ms.sfd)
-  if (ms.onepass) comm[4] = 0x13
-  else if (ms.midtone_support) comm[4] = 0x0B
+  if(ms.onepass) comm[4] = 0x13
+  else if(ms.midtone_support) comm[4] = 0x0B
   else comm[4] = 0x0A
   lenp = comm[4]
 
   status = sanei_scsi_cmd(ms.sfd, comm, 6, data, &lenp)
-  for (i=0; i<10; i++) ms.mode_sense_cache[i] = data[i]
+  for(i=0; i<10; i++) ms.mode_sense_cache[i] = data[i]
 
-  if (DBG_LEVEL >= 192) {
+  if(DBG_LEVEL >= 192) {
     unsigned var i: Int
 #if 0
     fprintf(stderr, "SMS: ")
-    for (i=0;i<lenp;i++) fprintf(stderr, "%2x ", data[i])
+    for(i=0;i<lenp;i++) fprintf(stderr, "%2x ", data[i])
     fprintf(stderr, "\n")
 #endif
     MDBG_INIT("SMS: ")
-    for (i=0;i<lenp;i++) MDBG_ADD("%2x ", data[i])
+    for(i=0;i<lenp;i++) MDBG_ADD("%2x ", data[i])
     MDBG_FINISH(192)
   }
 
@@ -581,27 +581,27 @@ compare_mode_sense(Microtek_Scanner *ms, Int *match)
   var i: Int
 
   DBG(23, ".compare_mode_sense %d...\n", ms.sfd)
-  if (ms.onepass) comm[4] = 0x13
-  else if (ms.midtone_support) comm[4] = 0x0B
+  if(ms.onepass) comm[4] = 0x13
+  else if(ms.midtone_support) comm[4] = 0x0B
   else comm[4] = 0x0A
   lenp = comm[4]
 
   status = sanei_scsi_cmd(ms.sfd, comm, 6, data, &lenp)
   *match = 1
-  for (i=0; i<10; i++)
+  for(i=0; i<10; i++)
     *match = *match && (ms.mode_sense_cache[i] == data[i])
 
-  if (DBG_LEVEL >= 192) {
+  if(DBG_LEVEL >= 192) {
     unsigned var i: Int
 #if 0
     fprintf(stderr, "CMS: ")
-    for (i=0;i<lenp;i++) fprintf(stderr, "%2x(%2x) ",
+    for(i=0;i<lenp;i++) fprintf(stderr, "%2x(%2x) ",
 				 data[i],
 				 ms.mode_sense_cache[i])
     fprintf(stderr, "\n")
 #endif
     MDBG_INIT("CMS: ")
-    for (i=0;i<lenp;i++) MDBG_ADD("%2x(%2x) ",
+    for(i=0;i<lenp;i++) MDBG_ADD("%2x(%2x) ",
 				  data[i],
 				  ms.mode_sense_cache[i])
     MDBG_FINISH(192)
@@ -625,10 +625,10 @@ mode_sense_1(Microtek_Scanner *ms)
   data[1] = ms.bright_r
   data[2] = ms.bright_g
   data[3] = ms.bright_b
-  if (DBG_LEVEL >= 192) {
+  if(DBG_LEVEL >= 192) {
     var i: Int
     fprintf(stderr, "MS1: ")
-    for (i=0;i<6+0x1E;i++) fprintf(stderr, "%2x ", comm[i])
+    for(i=0;i<6+0x1E;i++) fprintf(stderr, "%2x ", comm[i])
     fprintf(stderr, "\n")
   }
   return sanei_scsi_cmd(ms.sfd, comm, 6 + 0x1E, 0, 0)
@@ -652,15 +652,15 @@ accessory(Microtek_Scanner *ms)
     ((ms.transparency) ? 0x24 : 0x20) |
     ((ms.allowbacktrack) ? 0x82 : 0x80)
 
-  if (DBG_LEVEL >= 192) {
+  if(DBG_LEVEL >= 192) {
     var i: Int
 #if 0
     fprintf(stderr, "AC: ")
-    for (i=0;i<6;i++) fprintf(stderr, "%2x ", comm[i])
+    for(i=0;i<6;i++) fprintf(stderr, "%2x ", comm[i])
     fprintf(stderr, "\n")
 #endif
     MDBG_INIT("AC: ")
-    for (i=0;i<6;i++) MDBG_ADD("%2x ", comm[i])
+    for(i=0;i<6;i++) MDBG_ADD("%2x ", comm[i])
     MDBG_FINISH(192)
   }
   return sanei_scsi_cmd(ms.sfd, comm, 6, 0, 0)
@@ -688,15 +688,15 @@ start_scan(Microtek_Scanner *ms)
     ((ms.filter == MS_FILT_GREEN) ? 0x10 : 0) |
     ((ms.filter == MS_FILT_BLUE) ? 0x18 : 0) 
 
-  if (DBG_LEVEL >= 192) {
+  if(DBG_LEVEL >= 192) {
     var i: Int
 #if 0
     fprintf(stderr, "SS: ")
-    for (i=0;i<6;i++) fprintf(stderr, "%2x ", comm[i])
+    for(i=0;i<6;i++) fprintf(stderr, "%2x ", comm[i])
     fprintf(stderr, "\n")
 #endif
     MDBG_INIT("SS: ")
-    for (i=0;i<6;i++) MDBG_ADD("%2x ", comm[i])
+    for(i=0;i<6;i++) MDBG_ADD("%2x ", comm[i])
     MDBG_FINISH(192)
   }
   return sanei_scsi_cmd(ms.sfd, comm, 6, 0, 0)
@@ -713,15 +713,15 @@ stop_scan(Microtek_Scanner *ms)
   uint8_t comm[6] = { 0x1B, 0, 0, 0, 0, 0 ]
 
   DBG(23, ".stop_scan...\n")
-  if (DBG_LEVEL >= 192) {
+  if(DBG_LEVEL >= 192) {
     var i: Int
 #if 0
     fprintf(stderr, "SPS:")
-    for (i=0;i<6;i++) fprintf(stderr, "%2x ", comm[i])
+    for(i=0;i<6;i++) fprintf(stderr, "%2x ", comm[i])
     fprintf(stderr, "\n")
 #endif
     MDBG_INIT("SPS:")
-    for (i=0;i<6;i++) MDBG_ADD("%2x ", comm[i])
+    for(i=0;i<6;i++) MDBG_ADD("%2x ", comm[i])
     MDBG_FINISH(192)
   }
   return sanei_scsi_cmd(ms.sfd, comm, 6, 0, 0)
@@ -749,7 +749,7 @@ get_scan_status(Microtek_Scanner *ms,
     lenp = 6
     /* do some retry stuff in here, too */
     status = sanei_scsi_cmd(ms.sfd, comm, 6, data, &lenp)
-    if (status != Sane.STATUS_GOOD) {
+    if(status != Sane.STATUS_GOOD) {
       DBG(20, "get_scan_status:  scsi error\n")
       return status
     }
@@ -761,15 +761,15 @@ get_scan_status(Microtek_Scanner *ms,
 	(u_long) lenp, *busy, *bytes_per_line, *lines, retry)
     DBG(20, "> %2x %2x %2x %2x %2x %2x\n",
 	    data[0], data[1], data[2], data[3], data[4], data[5])
-    if (*busy != 0) {
+    if(*busy != 0) {
       retry++
       DBG(23, "get_scan_status:  busy, retry in %d...\n",
 	  M_GSS_WAIT * retry)
       sleep(M_GSS_WAIT * retry)
     }
-  } while ((*busy != 0) && (retry < 4))
+  } while((*busy != 0) && (retry < 4))
 
-  if (*busy == 0) return status
+  if(*busy == 0) return status
   else return Sane.STATUS_IO_ERROR
 }
 
@@ -797,7 +797,7 @@ read_scan_data(Microtek_Scanner *ms,
 
 
 /********************************************************************/
-/* download color LUT to scanner (if it takes one)                  */
+/* download color LUT to scanner(if it takes one)                  */
 /********************************************************************/
 static Sane.Status
 download_gamma(Microtek_Scanner *ms)
@@ -812,11 +812,11 @@ download_gamma(Microtek_Scanner *ms)
 
   DBG(23, ".download_gamma...\n")
   /* skip if scanner doesn't take 'em */
-  if (!(ms.gamma_entries)) {
+  if(!(ms.gamma_entries)) {
     DBG(23, ".download_gamma:  no entries; skipping\n")
     return Sane.STATUS_GOOD
   }
-  if ((ms.gamma_entry_size != 1) && (ms.gamma_entry_size != 2)) {
+  if((ms.gamma_entry_size != 1) && (ms.gamma_entry_size != 2)) {
     DBG(23, ".download_gamma:  entry size %d?!?!?\n", ms.gamma_entry_size)
     return Sane.STATUS_INVAL; /* XXXXXXXxx */
   }
@@ -827,7 +827,7 @@ download_gamma(Microtek_Scanner *ms)
       ms.gamma_entries, ms.gamma_entry_size, max_entry)
   commsize = 10 + (ms.gamma_entries * ms.gamma_entry_size)
   comm = calloc(commsize, sizeof(uint8_t))
-  if (comm == NULL) {
+  if(comm == NULL) {
     DBG(23, ".download_gamma:  couldn't allocate %d bytes for comm buffer!\n",
 	commsize)
     return Sane.STATUS_NO_MEM
@@ -845,17 +845,17 @@ download_gamma(Microtek_Scanner *ms)
   comm[8] = (ms.gamma_entries * ms.gamma_entry_size) & 0xFF
   comm[9] = (ms.gamma_entry_size == 2) ? 1 : 0
 
-  if (!(strcmp(ms.val[OPT_CUSTOM_GAMMA].s, M_TABLE))) {
+  if(!(strcmp(ms.val[OPT_CUSTOM_GAMMA].s, M_TABLE))) {
     /***** Gamma by TABLE *****/
     Int table_shift = (ms.gamma_bit_depth - bit_depth)
 
-    DBG(23, ".download_gamma: by table (%d bpe, %d shift)\n",
+    DBG(23, ".download_gamma: by table(%d bpe, %d shift)\n",
 	ms.gamma_bit_depth, table_shift)
 
-    if (ms.val[OPT_GAMMA_BIND].w == Sane.TRUE) {
-      for (i=0; i<ms.gamma_entries; i++) {
+    if(ms.val[OPT_GAMMA_BIND].w == Sane.TRUE) {
+      for(i=0; i<ms.gamma_entries; i++) {
 	Int val = ms.gray_lut[i] >> table_shift
-	switch (ms.gamma_entry_size) {
+	switch(ms.gamma_entry_size) {
 	case 1:
 	  data[i] = (uint8_t) val
 	  break
@@ -870,7 +870,7 @@ download_gamma(Microtek_Scanner *ms)
       pl = 1
       do {
 	Int *pl_lut
-	switch (pl) {
+	switch(pl) {
 	case 1: pl_lut = ms.red_lut;   break
 	case 2: pl_lut = ms.green_lut; break
 	case 3: pl_lut = ms.blue_lut;  break
@@ -880,9 +880,9 @@ download_gamma(Microtek_Scanner *ms)
 	  return Sane.STATUS_INVAL; /* XXXXXXXxx */
 	  break
 	}
-	for (i=0; i<ms.gamma_entries; i++) {
+	for(i=0; i<ms.gamma_entries; i++) {
 	  Int val = pl_lut[i] >> table_shift
-	  switch (ms.gamma_entry_size) {
+	  switch(ms.gamma_entry_size) {
 	  case 1:
 	    data[i] = (uint8_t) val
 	    break
@@ -896,18 +896,18 @@ download_gamma(Microtek_Scanner *ms)
 	comm[9] = (comm[9] & 0x3F) | (pl << 6)
 	status = sanei_scsi_cmd(ms.sfd, comm, commsize, 0, 0)
 	pl++
-      } while ((pl < 4) && (status == Sane.STATUS_GOOD))
+      } while((pl < 4) && (status == Sane.STATUS_GOOD))
     }
-  } else if (!(strcmp(ms.val[OPT_CUSTOM_GAMMA].s, M_SCALAR))) {
+  } else if(!(strcmp(ms.val[OPT_CUSTOM_GAMMA].s, M_SCALAR))) {
     /***** Gamma by SCALAR *****/
     DBG(23, ".download_gamma: by scalar\n")
-    if (ms.val[OPT_GAMMA_BIND].w == Sane.TRUE) {
+    if(ms.val[OPT_GAMMA_BIND].w == Sane.TRUE) {
       double gamma = Sane.UNFIX(ms.val[OPT_ANALOG_GAMMA].w)
-      for (i=0; i<ms.gamma_entries; i++) {
+      for(i=0; i<ms.gamma_entries; i++) {
 	Int val =  (max_entry *
 		    pow((double) i / ((double) ms.gamma_entries - 1.0),
 			1.0 / gamma))
-	switch (ms.gamma_entry_size) {
+	switch(ms.gamma_entry_size) {
 	case 1:
 	  data[i] = (uint8_t) val
 	  break
@@ -922,17 +922,17 @@ download_gamma(Microtek_Scanner *ms)
       double gamma
       pl = 1
       do {
-	switch (pl) {
+	switch(pl) {
 	case 1: gamma = Sane.UNFIX(ms.val[OPT_ANALOG_GAMMA_R].w); break
 	case 2: gamma = Sane.UNFIX(ms.val[OPT_ANALOG_GAMMA_G].w); break
 	case 3: gamma = Sane.UNFIX(ms.val[OPT_ANALOG_GAMMA_B].w); break
 	default: gamma = 1.0; break; /* should never happen */
 	}
-	for (i=0; i<ms.gamma_entries; i++) {
+	for(i=0; i<ms.gamma_entries; i++) {
 	  Int val =  (max_entry *
 		      pow((double) i / ((double) ms.gamma_entries - 1.0),
 			  1.0 / gamma))
-	  switch (ms.gamma_entry_size) {
+	  switch(ms.gamma_entry_size) {
 	    case 1:
 	      data[i] = (uint8_t) val
 	      break
@@ -945,18 +945,18 @@ download_gamma(Microtek_Scanner *ms)
 	comm[9] = (comm[9] & 0x3F) | (pl << 6)
 	status = sanei_scsi_cmd(ms.sfd, comm, commsize, 0, 0)
 	pl++
-      } while ((pl < 4) && (status == Sane.STATUS_GOOD))
+      } while((pl < 4) && (status == Sane.STATUS_GOOD))
     }
   } else {
     /***** No custom Gamma *****/
     DBG(23, ".download_gamma: by default\n")
-    for (i=0; i<ms.gamma_entries; i++) {
+    for(i=0; i<ms.gamma_entries; i++) {
       /*      Int val =  (((double) max_entry * (double) i /
 	      ((double) ms.gamma_entries - 1.0)) + 0.5);     ROUNDING????*/
       Int val =
 	(double) max_entry * (double) i /
 	((double) ms.gamma_entries - 1.0)
-      switch (ms.gamma_entry_size) {
+      switch(ms.gamma_entry_size) {
       case 1:
 	data[i] = (uint8_t) val
 	break
@@ -982,15 +982,15 @@ start_calibration(Microtek_Scanner *ms)
   uint8_t comm[8] = { 0x11, 0x00, 0x00, 0x00, 0x02, 0x00, 0x01, 0x0a ]
 
   DBG(23, ".start_calibrate...\n")
-  if (DBG_LEVEL >= 192) {
+  if(DBG_LEVEL >= 192) {
     var i: Int
 #if 0
     fprintf(stderr, "STCal:")
-    for (i=0;i<8;i++) fprintf(stderr, "%2x ", comm[i])
+    for(i=0;i<8;i++) fprintf(stderr, "%2x ", comm[i])
     fprintf(stderr, "\n")
 #endif
     MDBG_INIT("STCal:")
-    for (i=0;i<8;i++) MDBG_ADD("%2x ", comm[i])
+    for(i=0;i<8;i++) MDBG_ADD("%2x ", comm[i])
     MDBG_FINISH(192)
   }
   return sanei_scsi_cmd(ms.sfd, comm, 8, 0, 0)
@@ -1015,7 +1015,7 @@ download_calibration(Microtek_Scanner *ms, uint8_t *comm,
   comm[5] = 0x00
 
   comm[6] = 0x00
-  switch (letter) {
+  switch(letter) {
   case 'R': comm[7] = 0x40; break
   case 'G': comm[7] = 0x80; break
   case 'B': comm[7] = 0xc0; break
@@ -1052,7 +1052,7 @@ init_options(Microtek_Scanner *ms)
   memset(ms.sod, 0, sizeof(ms.sod))
   memset(ms.val, 0, sizeof(ms.val))
   /* default:  software selectable word options... */
-  for (i=0; i<NUM_OPTIONS; i++) {
+  for(i=0; i<NUM_OPTIONS; i++) {
     sod[i].size = sizeof(Sane.Word)
     sod[i].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   }
@@ -1062,7 +1062,7 @@ init_options(Microtek_Scanner *ms)
   sod[OPT_NUM_OPTS].desc =   Sane.DESC_NUM_OPTIONS
   sod[OPT_NUM_OPTS].type =   Sane.TYPE_INT
   sod[OPT_NUM_OPTS].unit =   Sane.UNIT_NONE
-  sod[OPT_NUM_OPTS].size =   sizeof (Sane.Word)
+  sod[OPT_NUM_OPTS].size =   sizeof(Sane.Word)
   sod[OPT_NUM_OPTS].cap =    Sane.CAP_SOFT_DETECT
   sod[OPT_NUM_OPTS].constraint_type = Sane.CONSTRAINT_NONE
 
@@ -1082,12 +1082,12 @@ init_options(Microtek_Scanner *ms)
   {
     Sane.String_Const *mode_list
     mode_list = (Sane.String_Const *) malloc(5 * sizeof(Sane.String_Const))
-    if (mode_list == NULL) return Sane.STATUS_NO_MEM
+    if(mode_list == NULL) return Sane.STATUS_NO_MEM
     i = 0
-    if (ms.dev.info.modes & MI_MODES_COLOR)    mode_list[i++] = M_COLOR
-    if (ms.dev.info.modes & MI_MODES_GRAY)     mode_list[i++] = M_GRAY
-    if (ms.dev.info.modes & MI_MODES_HALFTONE) mode_list[i++] = M_HALFTONE
-    if (ms.dev.info.modes & MI_MODES_LINEART)  mode_list[i++] = M_LINEART
+    if(ms.dev.info.modes & MI_MODES_COLOR)    mode_list[i++] = M_COLOR
+    if(ms.dev.info.modes & MI_MODES_GRAY)     mode_list[i++] = M_GRAY
+    if(ms.dev.info.modes & MI_MODES_HALFTONE) mode_list[i++] = M_HALFTONE
+    if(ms.dev.info.modes & MI_MODES_LINEART)  mode_list[i++] = M_LINEART
     mode_list[i] = NULL
     sod[OPT_MODE].constraint.string_list = mode_list
     sod[OPT_MODE].size                   = max_string_size(mode_list)
@@ -1105,7 +1105,7 @@ init_options(Microtek_Scanner *ms)
 
     ms.res_range.max = Sane.FIX(maxres)
     ms.exp_res_range.max = Sane.FIX(2 * maxres)
-    if (ms.dev.info.res_step & MI_RESSTEP_1PER) {
+    if(ms.dev.info.res_step & MI_RESSTEP_1PER) {
       DBG(23, "init_options:  quant yes\n")
       ms.res_range.min = Sane.FIX( maxres / 100 )
       ms.res_range.quant = ms.res_range.min
@@ -1159,17 +1159,17 @@ init_options(Microtek_Scanner *ms)
   {
     Sane.String_Const *source_list
     source_list = (Sane.String_Const *) malloc(4 * sizeof(Sane.String_Const))
-    if (source_list == NULL) return Sane.STATUS_NO_MEM
+    if(source_list == NULL) return Sane.STATUS_NO_MEM
     i = 0
     source_list[i++] = M_OPAQUE
-    if (ms.dev.info.source_options & MI_SRC_HAS_TRANS)
+    if(ms.dev.info.source_options & MI_SRC_HAS_TRANS)
       source_list[i++] = M_TRANS
-    if (ms.dev.info.source_options & MI_SRC_HAS_FEED)
+    if(ms.dev.info.source_options & MI_SRC_HAS_FEED)
       source_list[i++] = M_AUTOFEED
     source_list[i] = NULL
     sod[OPT_SOURCE].constraint.string_list = source_list
     sod[OPT_SOURCE].size                   = max_string_size(source_list)
-    if (i < 2)
+    if(i < 2)
       sod[OPT_SOURCE].cap |= Sane.CAP_INACTIVE
     val[OPT_SOURCE].s = strdup(source_list[0])
   }
@@ -1300,7 +1300,7 @@ init_options(Microtek_Scanner *ms)
   sod[OPT_SHADOW].constraint.range      = &u8_range
   val[OPT_SHADOW].w     = 0
 
-  if (ms.dev.info.enhance_cap & MI_ENH_CAP_SHADOW) {
+  if(ms.dev.info.enhance_cap & MI_ENH_CAP_SHADOW) {
     sod[OPT_HIGHLIGHT].cap |= Sane.CAP_ADVANCED
     sod[OPT_SHADOW].cap    |= Sane.CAP_ADVANCED
   } else {
@@ -1317,13 +1317,13 @@ init_options(Microtek_Scanner *ms)
   sod[OPT_MIDTONE].constraint_type = Sane.CONSTRAINT_RANGE
   sod[OPT_MIDTONE].constraint.range      = &u8_range
   val[OPT_MIDTONE].w     = 128
-  if (ms.midtone_support) {
+  if(ms.midtone_support) {
     sod[OPT_MIDTONE].cap   |= Sane.CAP_ADVANCED
   } else {
     sod[OPT_MIDTONE].cap   |= Sane.CAP_INACTIVE
   }
   /* XXXXXXXX is this supported by all scanners??
-  if ((strcmp(M_COLOR, val[OPT_MODE].s)) &&
+  if((strcmp(M_COLOR, val[OPT_MODE].s)) &&
       (strcmp(M_GRAY, val[OPT_MODE].s))) {
     sod[OPT_HIGHLIGHT].cap |= Sane.CAP_INACTIVE
     sod[OPT_SHADOW].cap    |= Sane.CAP_INACTIVE
@@ -1335,7 +1335,7 @@ init_options(Microtek_Scanner *ms)
   sod[OPT_GAMMA_GROUP].title = "Gamma Control"
   sod[OPT_GAMMA_GROUP].desc  = ""
   sod[OPT_GAMMA_GROUP].type  = Sane.TYPE_GROUP
-  if (!(ms.gamma_entries))
+  if(!(ms.gamma_entries))
     sod[OPT_CUSTOM_GAMMA].cap |= Sane.CAP_INACTIVE
   sod[OPT_GAMMA_GROUP].constraint_type = Sane.CONSTRAINT_NONE
 
@@ -1346,7 +1346,7 @@ init_options(Microtek_Scanner *ms)
   sod[OPT_CUSTOM_GAMMA].size  = max_string_size(gamma_mode_list)
   sod[OPT_CUSTOM_GAMMA].constraint_type = Sane.CONSTRAINT_STRING_LIST
   sod[OPT_CUSTOM_GAMMA].constraint.string_list = gamma_mode_list
-  if (!(ms.gamma_entries))
+  if(!(ms.gamma_entries))
     sod[OPT_CUSTOM_GAMMA].cap |= Sane.CAP_INACTIVE
   val[OPT_CUSTOM_GAMMA].s = strdup(gamma_mode_list[0])
 
@@ -1450,7 +1450,7 @@ init_options(Microtek_Scanner *ms)
   sod[OPT_EXP_RES].desc  = "Enable double-resolution scans"
   sod[OPT_EXP_RES].type  = Sane.TYPE_BOOL
   sod[OPT_EXP_RES].cap   |= Sane.CAP_ADVANCED
-  if (!(ms.dev.info.expanded_resolution))
+  if(!(ms.dev.info.expanded_resolution))
     sod[OPT_EXP_RES].cap |= Sane.CAP_INACTIVE
   val[OPT_EXP_RES].w     = Sane.FALSE
 
@@ -1460,7 +1460,7 @@ init_options(Microtek_Scanner *ms)
     "(toggle off/on to cause calibration on next scan)"
   sod[OPT_CALIB_ONCE].type  = Sane.TYPE_BOOL
   sod[OPT_CALIB_ONCE].cap   |= Sane.CAP_ADVANCED
-  if (!(ms.do_real_calib)) {
+  if(!(ms.do_real_calib)) {
     sod[OPT_CALIB_ONCE].cap |= Sane.CAP_INACTIVE
     val[OPT_CALIB_ONCE].w     = Sane.FALSE
   } else
@@ -1528,15 +1528,15 @@ parse_inquiry(Microtek_Info *mi, unsigned char *result)
   mi.doc_size_code              = (Sane.Byte)result[60]
   /* we'll compute the max sizes after we know base resolution... */
 
-  /* why are these things set in two places (and probably wrong anyway)? */
+  /* why are these things set in two places(and probably wrong anyway)? */
   mi.cont_settings              = (Int)((result[61] & 0xf0) >> 4)
-  if ((Int)(result[72]))
+  if((Int)(result[72]))
     mi.cont_settings            = (Int)(result[72])
   mi.min_contrast = -42
   mi.max_contrast = (mi.cont_settings * 7) - 49
 
   mi.exp_settings               = (Int)(result[61] & 0x0f)
-  if ((Int)(result[73]))
+  if((Int)(result[73]))
     mi.exp_settings             = (Int)(result[73])
   mi.min_exposure  = -18
   mi.max_exposure  = (mi.exp_settings * 3) - 21
@@ -1544,24 +1544,24 @@ parse_inquiry(Microtek_Info *mi, unsigned char *result)
   mi.contrast_vals              = (Int)(result[72])
   mi.min_contrast = -42
   mi.max_contrast =  49
-  if (mi.contrast_vals)
+  if(mi.contrast_vals)
     mi.max_contrast = (mi.contrast_vals * 7) - 49
 
   mi.exposure_vals              = (Int)(result[73])
   mi.min_exposure  = -18
   mi.max_exposure  =  21
-  if (mi.exposure_vals)
+  if(mi.exposure_vals)
     mi.max_exposure  = (mi.exposure_vals * 3) - 21
 #endif
 
   mi.model_code                 = (Sane.Byte)(result[62])
-  switch (mi.model_code) {
+  switch(mi.model_code) {
   case 0x16: /* the other ScanMaker 600ZS */
   case 0x50: /* ScanMaker II/IIXE */
   case 0x54: /* ScanMaker IISP    */
   case 0x55: /* ScanMaker IIER    */
   case 0x58: /* ScanMaker IIG     */
-  case 0x5a: /* Agfa StudioScan (untested!)    */
+  case 0x5a: /* Agfa StudioScan(untested!)    */
   case 0x5f: /* ScanMaker E3      */
   case 0x56: /* ScanMaker A3t     */
   case 0x64: /* ScanMaker E2 (,Vobis RealScan) */
@@ -1569,7 +1569,7 @@ parse_inquiry(Microtek_Info *mi, unsigned char *result)
   case 0xC8: /* ScanMaker 600ZS */
     mi.base_resolution = 300
     break
-  case 0x5b: /* Agfa StudioScan II/IIsi (untested!) */
+  case 0x5b: /* Agfa StudioScan II/IIsi(untested!) */
     mi.base_resolution = 400
     break
   case 0x57: /* ScanMaker IIHR    */
@@ -1599,7 +1599,7 @@ parse_inquiry(Microtek_Info *mi, unsigned char *result)
 
   /* Our max_x,y is in pixels. `Some scanners think in 1/8", though.' */
   /* max pixel is, of course, total - 1                               */
-  switch (mi.doc_size_code) {
+  switch(mi.doc_size_code) {
   case 0x00:
     mi.max_x = 8.5 * mi.base_resolution - 1
     mi.max_y = 14.0 * mi.base_resolution - 1
@@ -1669,13 +1669,13 @@ parse_inquiry(Microtek_Info *mi, unsigned char *result)
 
   mi.expanded_resolution        = (result[64] & 0x01)
   /* my E6 reports exp-res capability incorrectly */
-  if ((mi.model_code == 0x66) || (mi.model_code == 0x63)) {
+  if((mi.model_code == 0x66) || (mi.model_code == 0x63)) {
     mi.expanded_resolution = 0xFF
     DBG(4, "parse_inquiry:  E6 falsely denies expanded resolution.\n")
   }
   /* the StudioScan II(si) does the expanded-mode aspect correction
      within the scanner... (do others too?) */
-  if (mi.model_code == 0x5b) {
+  if(mi.model_code == 0x5b) {
     DBG(4, "parse_inquiry:  does expanded-mode expansion internally.\n")
     mi.does_expansion = 1
   } else
@@ -1684,7 +1684,7 @@ parse_inquiry(Microtek_Info *mi, unsigned char *result)
   mi.enhance_cap                = (result[65] & 0x03)
 
   /*
-  switch (result[66] & 0x0F) {
+  switch(result[66] & 0x0F) {
   case 0x00: mi.max_lookup_size =     0; break
   case 0x01: mi.max_lookup_size =   256; break
   case 0x03: mi.max_lookup_size =  1024; break
@@ -1707,25 +1707,25 @@ parse_inquiry(Microtek_Info *mi, unsigned char *result)
      All-in-all, it doesn't matter, since we take the largest
      allowed LUT size anyway.
   */
-  if (result[66] & 0x08)
+  if(result[66] & 0x08)
     mi.max_lookup_size = 65536
-  else if (result[66] & 0x04)
+  else if(result[66] & 0x04)
     mi.max_lookup_size = 4096
-  else if (result[66] & 0x02)
+  else if(result[66] & 0x02)
     mi.max_lookup_size = 1024
-  else if (result[66] & 0x01)
+  else if(result[66] & 0x01)
     mi.max_lookup_size = 256
   else
     mi.max_lookup_size = 0
 
   /* my E6 reports incorrectly */
-  if ((mi.model_code == 0x66) || (mi.model_code == 0x63)) {
+  if((mi.model_code == 0x66) || (mi.model_code == 0x63)) {
     mi.max_lookup_size = 1024
     DBG(4, "parse_inquiry:  E6 falsely denies 1024-byte LUT.\n")
   }
 
   /*
-  switch (result[66] >> 5) {
+  switch(result[66] >> 5) {
   case 0x00: mi.max_gamma_val =   255;  mi.gamma_size = 1;  break
   case 0x01: mi.max_gamma_val =  1023;  mi.gamma_size = 2;  break
   case 0x02: mi.max_gamma_val =  4095;  mi.gamma_size = 2;  break
@@ -1736,7 +1736,7 @@ parse_inquiry(Microtek_Info *mi, unsigned char *result)
 	result[66])
   }
   */
-  switch (result[66] >> 5) {
+  switch(result[66] >> 5) {
   case 0x00: mi.max_gamma_bit_depth =  8;  mi.gamma_size = 1;  break
   case 0x01: mi.max_gamma_bit_depth = 10;  mi.gamma_size = 2;  break
   case 0x02: mi.max_gamma_bit_depth = 12;  mi.gamma_size = 2;  break
@@ -1756,15 +1756,15 @@ parse_inquiry(Microtek_Info *mi, unsigned char *result)
   mi.bit_formats                = (Sane.Byte)(result[74] & 0x0F)
   mi.extra_cap                  = (Sane.Byte)(result[75] & 0x07)
 
-  /* XXXXXX a quick hack to disable any [pre/real]cal stuff for
+  /* XXXXXX a quick hack to disable any[pre/real]cal stuff for
      anything but an E6... */
-  if (!((mi.model_code == 0x66) || (mi.model_code == 0x63))) {
+  if(!((mi.model_code == 0x66) || (mi.model_code == 0x63))) {
     mi.extra_cap &= ~MI_EXCAP_DIS_RECAL
     DBG(4, "parse_inquiry:  Not an E6 -- pretend recal cannot be disabled.\n")
   }
 
   /* The E2 lies... */
-  if (mi.model_code == 0x64) {
+  if(mi.model_code == 0x64) {
     DBG(4, "parse_inquiry:  The E2 lies about it's 3-pass heritage.\n")
     mi.does_3pass = 1
     mi.modes &= ~MI_MODES_ONEPASS
@@ -1787,10 +1787,10 @@ dump_inquiry(Microtek_Info *mi, unsigned char *result)
   DBG(1, " === SANE/Microtek backend v%d.%d.%d ===\n",
 	  MICROTEK_MAJOR, MICROTEK_MINOR, MICROTEK_PATCH)
   DBG(1, "========== Scanner Inquiry Block ========mm\n")
-  for (i=0; i<96; ) {
-    if (!(i % 16)) MDBG_INIT("")
+  for(i=0; i<96; ) {
+    if(!(i % 16)) MDBG_INIT("")
     MDBG_ADD("%02x ", (Int)result[i++])
-    if (!(i % 16)) MDBG_FINISH(1)
+    if(!(i % 16)) MDBG_FINISH(1)
   }
   DBG(1, "========== Scanner Inquiry Report ==========\n")
   DBG(1, "===== Scanner ID...\n")
@@ -1848,11 +1848,11 @@ dump_inquiry(Microtek_Info *mi, unsigned char *result)
 	  (mi.extra_cap & MI_EXCAP_OFF_CTL) ? "yes" : "no")
   /*
   fprintf(stderr,
-	  "Gamma Table Size: %d entries of %d bytes (max. value: %d)\n",
+	  "Gamma Table Size: %d entries of %d bytes(max. value: %d)\n",
 	  mi.max_lookup_size, mi.gamma_size, mi.max_gamma_val)
   */
   DBG(1,
-	  "Gamma Table Size: %d entries of %d bytes (max. depth: %d)\n",
+	  "Gamma Table Size: %d entries of %d bytes(max. depth: %d)\n",
 	  mi.max_lookup_size, mi.gamma_size, mi.max_gamma_bit_depth)
 
   DBG(1, "===== Source Options...\n")
@@ -1879,9 +1879,9 @@ dump_inquiry(Microtek_Info *mi, unsigned char *result)
   DBG(1, "Selectable Transfer Format? %s\n",
 	  (mi.xfer_format_select) ? "yes" : "no")
   MDBG_INIT("Color Transfer Sequence: ")
-  switch (mi.color_sequence) {
+  switch(mi.color_sequence) {
   case MI_COLSEQ_PLANE:
-    MDBG_ADD("plane-by-plane (3-pass)"); break
+    MDBG_ADD("plane-by-plane(3-pass)"); break
   case MI_COLSEQ_PIXEL:
     MDBG_ADD("pixel-by-pixel RGB"); break
   case MI_COLSEQ_RGB:
@@ -1891,10 +1891,10 @@ dump_inquiry(Microtek_Info *mi, unsigned char *result)
   case MI_COLSEQ_2PIXEL:
     MDBG_ADD("2pixel-by-2pixel RRGGBB"); break
   default:
-    MDBG_ADD("UNKNOWN CODE (0x%02x)", mi.color_sequence)
+    MDBG_ADD("UNKNOWN CODE(0x%02x)", mi.color_sequence)
   }
   MDBG_FINISH(1)
-  /*  if (mi.modes & MI_MODES_ONEPASS) XXXXXXXXXXX */
+  /*  if(mi.modes & MI_MODES_ONEPASS) XXXXXXXXXXX */
   DBG(1, "Three pass scan support? %s\n",
 	  (mi.does_3pass ? "yes" : "no"))
   DBG(1, "ModeSelect-1 and ModeSense-1 Support? %s\n",
@@ -1934,14 +1934,14 @@ dump_suspect_inquiry(unsigned char *result)
   DBG(1, " === SANE/Microtek backend v%d.%d.%d ===\n",
 	  MICROTEK_MAJOR, MICROTEK_MINOR, MICROTEK_PATCH)
   DBG(1, "========== Scanner Inquiry Block ========mm\n")
-  for (i=0; i<96; ) {
-    if (!(i % 16)) MDBG_INIT("")
+  for(i=0; i<96; ) {
+    if(!(i % 16)) MDBG_INIT("")
     MDBG_ADD("%02x ", (Int)result[i++])
-    if (!(i % 16)) MDBG_FINISH(1)
+    if(!(i % 16)) MDBG_FINISH(1)
   }
 #if 0
-  for (i=0; i<96; i++) {
-    if (!(i % 16) && (i)) fprintf(stderr, "\n")
+  for(i=0; i<96; i++) {
+    if(!(i % 16) && (i)) fprintf(stderr, "\n")
     fprintf(stderr, "%02x ", (Int)result[i])
   }
   fprintf(stderr, "\n\n")
@@ -1978,7 +1978,7 @@ dump_suspect_inquiry(unsigned char *result)
 
 
 /********************************************************************/
-/* Determine if device is a Microtek Scanner (from INQUIRY info)    */
+/* Determine if device is a Microtek Scanner(from INQUIRY info)    */
 /********************************************************************/
 static Sane.Status
 id_microtek(uint8_t *result, char **model_string)
@@ -1989,12 +1989,12 @@ id_microtek(uint8_t *result, char **model_string)
   DBG(15, "id_microtek...\n")
   /* check device type first... */
   device_type = (Sane.Byte)(result[0] & 0x1f)
-  if (device_type != 0x06) {
+  if(device_type != 0x06) {
     DBG(15, "id_microtek:  not even a scanner:  dev_type = %d\n",
 	device_type)
     return Sane.STATUS_INVAL
   }
-  if (!(strncmp("MICROTEK", (char *)&(result[8]), 8)) ||
+  if(!(strncmp("MICROTEK", (char *)&(result[8]), 8)) ||
       !(strncmp("MII SC31", (char *)&(result[8]), 8)) ||  /* the IISP */
       !(strncmp("MII SC21", (char *)&(result[8]), 8)) ||  /* the 600ZS */
       !(strncmp("MII SC23", (char *)&(result[8]), 8)) ||  /* the other 600ZS */
@@ -2003,7 +2003,7 @@ id_microtek(uint8_t *result, char **model_string)
       !(strncmp("Microtek", (char *)&(result[8]), 8)) ||  /* some 35t+'s */
       !(strncmp("Polaroid", (char *)&(result[8]), 8)) ||  /* SprintScan 35LE */
       !(strncmp("        ", (char *)&(result[8]), 8)) ) {
-    switch (result[62]) {
+    switch(result[62]) {
     case 0x16 :
       *model_string = "ScanMaker 600ZS";    break
     case 0x50 :
@@ -2033,7 +2033,7 @@ id_microtek(uint8_t *result, char **model_string)
     case 0x5f :
       *model_string = "ScanMaker E3";       break
     case 0x62 :
-      if (!(strncmp("Polaroid", (char *)&(result[8]), 8)))
+      if(!(strncmp("Polaroid", (char *)&(result[8]), 8)))
 	*model_string = "Polaroid SprintScan 35/LE"
       else
 	*model_string = "ScanMaker 35t+"
@@ -2062,9 +2062,9 @@ id_microtek(uint8_t *result, char **model_string)
       /* this might be a newer scanner, which uses the SCSI II command set. */
       /* that's unfortunate, but we'll warn the user anyway....             */
       response_data_format = (Sane.Byte)(result[3])
-      if (response_data_format == 0x02) {
+      if(response_data_format == 0x02) {
 	DBG(15, "id_microtek:  (uses new SCSI II command set)\n")
-	if (DBG_LEVEL >= 15) {
+	if(DBG_LEVEL >= 15) {
 	  DBG(1, "\n")
 	  DBG(1, "\n")
 	  DBG(1, "\n")
@@ -2081,7 +2081,7 @@ id_microtek(uint8_t *result, char **model_string)
       }
       return Sane.STATUS_INVAL
     }
-    if (forcewarn) {
+    if(forcewarn) {
       /* force debugging on, to encourage user to send in a report */
 #ifndef NDEBUG
       DBG_LEVEL = 1
@@ -2134,16 +2134,16 @@ attach_scanner(const char *devicename, Microtek_Device **devp)
 
   DBG(15,"attach_scanner:  %s\n", devicename)
   /* check if device is already known... */
-  for (dev = first_dev; dev; dev = dev.next) {
-    if (strcmp(dev.sane.name, devicename) == 0) {
-      if (devp) *devp = dev
+  for(dev = first_dev; dev; dev = dev.next) {
+    if(strcmp(dev.sane.name, devicename) == 0) {
+      if(devp) *devp = dev
       return Sane.STATUS_GOOD
     }
   }
 
   /* open scsi device... */
   DBG(20, "attach_scanner:  opening %s\n", devicename)
-  if (sanei_scsi_open(devicename, &sfd, sense_handler, NULL) != 0) {
+  if(sanei_scsi_open(devicename, &sfd, sense_handler, NULL) != 0) {
     DBG(20, "attach_scanner:  open failed\n")
     return Sane.STATUS_INVAL
   }
@@ -2152,24 +2152,24 @@ attach_scanner(const char *devicename, Microtek_Device **devp)
   DBG(20, "attach_scanner:  sending INQUIRY\n")
   size = sizeof(result)
   status = sanei_scsi_cmd(sfd, inquiry, sizeof(inquiry), result, &size)
-  sanei_scsi_close (sfd)
-  if (status != Sane.STATUS_GOOD || size != 0x60) {
-    DBG(20, "attach_scanner:  inquiry failed (%s)\n", Sane.strstatus (status))
+  sanei_scsi_close(sfd)
+  if(status != Sane.STATUS_GOOD || size != 0x60) {
+    DBG(20, "attach_scanner:  inquiry failed(%s)\n", Sane.strstatus(status))
     return status
   }
 
-  if (id_microtek(result, &model_string) != Sane.STATUS_GOOD) {
+  if(id_microtek(result, &model_string) != Sane.STATUS_GOOD) {
       DBG(15, "attach_scanner:  device doesn't look like a Microtek scanner.")
-      if (DBG_LEVEL >= 5) dump_suspect_inquiry(result)
+      if(DBG_LEVEL >= 5) dump_suspect_inquiry(result)
       return Sane.STATUS_INVAL
   }
 
   dev=malloc(sizeof(*dev))
-  if (!dev) return Sane.STATUS_NO_MEM
+  if(!dev) return Sane.STATUS_NO_MEM
   memset(dev, 0, sizeof(*dev))
 
   parse_inquiry(&(dev.info), result)
-  if (DBG_LEVEL > 0) dump_inquiry(&(dev.info), result)
+  if(DBG_LEVEL > 0) dump_inquiry(&(dev.info), result)
 
   /* initialize dev structure */
   dev.sane.name   = strdup(devicename)
@@ -2181,7 +2181,7 @@ attach_scanner(const char *devicename, Microtek_Device **devp)
   ++num_devices
   dev.next = first_dev
   first_dev = dev
-  if (devp) *devp = dev
+  if(devp) *devp = dev
 
   DBG(15, "attach_scanner:  happy.\n")
 
@@ -2190,12 +2190,12 @@ attach_scanner(const char *devicename, Microtek_Device **devp)
 
 
 /********************************************************************/
-/* Attach a scanner (convenience wrapper for find_scanners...)      */
+/* Attach a scanner(convenience wrapper for find_scanners...)      */
 /********************************************************************/
 static Sane.Status
-attach_one (const char *dev)
+attach_one(const char *dev)
 {
-  attach_scanner (dev, 0)
+  attach_scanner(dev, 0)
   return Sane.STATUS_GOOD
 }
 
@@ -2210,32 +2210,32 @@ static Sane.Status end_scan(Microtek_Scanner *s, Sane.Status ostat)
   Sane.Status status
 
   DBG(15, "end_scan...\n")
-  if (s.scanning) {
+  if(s.scanning) {
     s.scanning = Sane.FALSE
     /* stop the scanner */
-    if (s.scan_started) {
+    if(s.scan_started) {
       status = stop_scan(s)
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	DBG(23, "end_scan:  OY! on stop_scan\n")
       s.scan_started = Sane.FALSE
     }
     /* close the SCSI device */
-    if (s.sfd != -1) {
+    if(s.sfd != -1) {
       sanei_scsi_close(s.sfd)
       s.sfd = -1
     }
     /* free the buffers we malloc'ed */
-    if (s.scsi_buffer != NULL) {
+    if(s.scsi_buffer != NULL) {
       free(s.scsi_buffer)
       s.scsi_buffer = NULL
     }
-    if (s.rb != NULL) {
+    if(s.rb != NULL) {
       ring_free(s.rb)
       s.rb = NULL
     }
   }
   /* if this -was- pass 3, or cancel, then we must be done */
-  if ((s.this_pass == 3) || (s.cancel))
+  if((s.this_pass == 3) || (s.cancel))
     s.this_pass = 0
   return ostat
 }
@@ -2257,7 +2257,7 @@ static Sane.Status end_scan(Microtek_Scanner *s, Sane.Status ostat)
 
 static Int comparo(const void *a, const void *b)
 {
-  return (*(const Int *)a - *(const Int *)b)
+  return(*(const Int *)a - *(const Int *)b)
 }
 
 
@@ -2266,7 +2266,7 @@ static Int comparo(const void *a, const void *b)
 static void sort_values(Int *result, uint8_t *scanline[], Int pix)
 {
   var i: Int
-  for (i=0; i<STRIPS; i++) result[i] = (scanline[i])[pix]
+  for(i=0; i<STRIPS; i++) result[i] = (scanline[i])[pix]
   qsort(result, STRIPS, sizeof(result[0]), comparo)
 }
 
@@ -2290,7 +2290,7 @@ static void calc_calibration(uint8_t *caldata, uint8_t *scanline[],
   Int sorted[STRIPS]
 
   DBG(23, ".calc_calibration...\n")
-  for (i=0; i<pixels; i++) {
+  for(i=0; i<pixels; i++) {
     Int q1, q3
     Int bot, top
     Int sum = 0
@@ -2302,19 +2302,19 @@ static void calc_calibration(uint8_t *caldata, uint8_t *scanline[],
     bot = q1 - 3 * (q3 - q1) / 2;  /* quick'n'easy bounds */
     top = q3 + 3 * (q3 - q1) / 2
 
-    for (j=0; j<STRIPS; j++) {
-      if ((sorted[j] >= bot) && (sorted[j] <= top)) {
+    for(j=0; j<STRIPS; j++) {
+      if((sorted[j] >= bot) && (sorted[j] <= top)) {
 	sum += sorted[j]
 	count++
       }
     }
-    if (count)
+    if(count)
       caldata[i] = (sum + (count / 2)) / count
     else {
       DBG(23, "zero: i=%d b/t=%d/%d ", i, bot, top)
-      if (DBG_LEVEL >= 23) {
+      if(DBG_LEVEL >= 23) {
 	MDBG_INIT("")
-	for (j=0; j<STRIPS; j++) MDBG_ADD(" %3d", sorted[j])
+	for(j=0; j<STRIPS; j++) MDBG_ADD(" %3d", sorted[j])
 	MDBG_FINISH(23)
       }
       caldata[i] = 0
@@ -2345,8 +2345,8 @@ static Sane.Status do_real_calibrate(Microtek_Scanner *s)
   DBG(10, "do_real_calibrate...\n")
 
   /* tell scanner to read it's little chart */
-  if ((status = start_calibration(s)) != Sane.STATUS_GOOD) return status
-  if ((status = get_scan_status(s, &busy, &linewidth, &lines))
+  if((status = start_calibration(s)) != Sane.STATUS_GOOD) return status
+  if((status = get_scan_status(s, &busy, &linewidth, &lines))
       != Sane.STATUS_GOOD) {
     DBG(23, "do_real_cal:  get_scan_status failed!\n")
     return status
@@ -2354,7 +2354,7 @@ static Sane.Status do_real_calibrate(Microtek_Scanner *s)
   /* make room for data in and data out */
   input = calloc(STRIPS * 3 * linewidth, sizeof(input[0]))
   combuff = calloc(linewidth + 6, sizeof(combuff[0]))
-  if ((input == NULL) || (combuff == NULL)) {
+  if((input == NULL) || (combuff == NULL)) {
     DBG(23, "do_real_cal:  bad calloc %p %p\n", input, combuff)
     free(input)
     free(combuff)
@@ -2362,33 +2362,33 @@ static Sane.Status do_real_calibrate(Microtek_Scanner *s)
   }
   /* read STRIPS lines of R, G, B ccd data */
   nmax = SCSI_BUFF_SIZE / (3 * linewidth)
-  DBG(23, "do_real_cal:  getting data (max=%d)\n", nmax)
-  for (nleft = STRIPS, spot=0
+  DBG(23, "do_real_cal:  getting data(max=%d)\n", nmax)
+  for(nleft = STRIPS, spot=0
        nleft > 0
        nleft -= ntoget, spot += buffsize) {
     ntoget = (nleft > nmax) ? nmax : nleft
     buffsize = ntoget * 3 * linewidth
     DBG(23, "...nleft %d  toget %d  size %lu  spot %d  input+spot %p\n",
 	nleft, ntoget, (u_long) buffsize, spot, input+spot)
-    if ((statusA = read_scan_data(s, ntoget, input+spot, &buffsize))
+    if((statusA = read_scan_data(s, ntoget, input+spot, &buffsize))
 	!= Sane.STATUS_GOOD) {
       DBG(23, "...read scan failed\n")
       break
     }
   }
   status = stop_scan(s)
-  if ((statusA != Sane.STATUS_GOOD) || (status != Sane.STATUS_GOOD)) {
+  if((statusA != Sane.STATUS_GOOD) || (status != Sane.STATUS_GOOD)) {
     free(input)
     free(combuff)
-    return ((statusA != Sane.STATUS_GOOD) ? statusA : status)
+    return((statusA != Sane.STATUS_GOOD) ? statusA : status)
   }
   /* calculate calibration data for each element and download */
-  for (letter = 'R'; letter != 'X'; ) {
+  for(letter = 'R'; letter != 'X'; ) {
     DBG(23, "do_real_calibrate:  working on %c\n", letter)
-    for (spot=0, i=0; spot < linewidth * STRIPS * 3; spot += linewidth) {
-      if (input[spot+1] == letter) {
-	DBG(23, "   found %d (at %d)\n", i, spot)
-	if (i >= STRIPS) {
+    for(spot=0, i=0; spot < linewidth * STRIPS * 3; spot += linewidth) {
+      if(input[spot+1] == letter) {
+	DBG(23, "   found %d(at %d)\n", i, spot)
+	if(i >= STRIPS) {
 	  DBG(23, "WHOA!!!  %i have already been found!\n", i)
 	  break
 	}
@@ -2397,14 +2397,14 @@ static Sane.Status do_real_calibrate(Microtek_Scanner *s)
       }
     }
     calc_calibration(combuff + 8, scanline, linewidth - 2)
-    if ((status = download_calibration(s, combuff, letter, linewidth))
+    if((status = download_calibration(s, combuff, letter, linewidth))
 	!= Sane.STATUS_GOOD) {
       DBG(23, "...download_calibration failed\n")
       free(input)
       free(combuff)
       return status
     }
-    switch (letter) {
+    switch(letter) {
     case 'R': letter = 'G'; break
     case 'G': letter = 'B'; break
     case 'B':
@@ -2432,7 +2432,7 @@ static Sane.Status do_precalibrate(Sane.Handle handle)
 
   DBG(10, "do_precalibrate...\n")
 
-  if ((status = wait_ready(s)) != Sane.STATUS_GOOD) return status
+  if((status = wait_ready(s)) != Sane.STATUS_GOOD) return status
   {
     Int y1 = s.y1
     Int y2 = s.y2
@@ -2445,35 +2445,35 @@ static Sane.Status do_precalibrate(Sane.Handle handle)
     status = scanning_frame(s)
     s.y1 = y1
     s.y2 = y2
-    if (status != Sane.STATUS_GOOD) return status
+    if(status != Sane.STATUS_GOOD) return status
   }
 
-  if (s.dev.info.source_options &
+  if(s.dev.info.source_options &
       (MI_SRC_FEED_BT | MI_SRC_HAS_TRANS |
        MI_SRC_FEED_SUPP | MI_SRC_HAS_FEED)) { /* ZZZZZZZZZZZ */
-    if ((status = accessory(s)) != Sane.STATUS_GOOD) return status
+    if((status = accessory(s)) != Sane.STATUS_GOOD) return status
   }
-  if ((status = mode_select(s)) != Sane.STATUS_GOOD) return status
+  if((status = mode_select(s)) != Sane.STATUS_GOOD) return status
   /* why would we even try if this were not true?... */
-  /*if (s.dev.info.extra_cap & MI_EXCAP_DIS_RECAL) */
+  /*if(s.dev.info.extra_cap & MI_EXCAP_DIS_RECAL) */
   {
     Bool allow_calibrate = s.allow_calibrate
     s.allow_calibrate = Sane.TRUE
     status = mode_select_1(s)
     s.allow_calibrate = allow_calibrate
-    if (status != Sane.STATUS_GOOD) return status
+    if(status != Sane.STATUS_GOOD) return status
   }
 
-  if ((status = wait_ready(s)) != Sane.STATUS_GOOD) return status
-  if ((status = start_scan(s))     != Sane.STATUS_GOOD) return status
-  if ((statusA = get_scan_status(s, &busy,
+  if((status = wait_ready(s)) != Sane.STATUS_GOOD) return status
+  if((status = start_scan(s))     != Sane.STATUS_GOOD) return status
+  if((statusA = get_scan_status(s, &busy,
 				&linewidth, &lines)) != Sane.STATUS_GOOD) {
     DBG(10, "do_precalibrate:  get_scan_status fails\n")
   }
-  if ((status = stop_scan(s)) != Sane.STATUS_GOOD) return status
-  if ((status = wait_ready(s)) != Sane.STATUS_GOOD) return status
+  if((status = stop_scan(s)) != Sane.STATUS_GOOD) return status
+  if((status = wait_ready(s)) != Sane.STATUS_GOOD) return status
   DBG(10, "do_precalibrate done.\n")
-  if (statusA != Sane.STATUS_GOOD)
+  if(statusA != Sane.STATUS_GOOD)
     return statusA
   else
     return Sane.STATUS_GOOD
@@ -2494,10 +2494,10 @@ static Sane.Status finagle_precal(Sane.Handle handle)
      (either for real, or via a fake scan, with calibration */
   /* (but only bother if you *could* disable calibration) */
   DBG(23, "finagle_precal...\n")
-  if ((s.do_clever_precal) || (s.do_real_calib)) {
-    if ((status = compare_mode_sense(s, &match)) != Sane.STATUS_GOOD)
+  if((s.do_clever_precal) || (s.do_real_calib)) {
+    if((status = compare_mode_sense(s, &match)) != Sane.STATUS_GOOD)
       return status
-    if (((s.do_real_calib) && (!s.calib_once)) || /* user want recal */
+    if(((s.do_real_calib) && (!s.calib_once)) || /* user want recal */
 	(!match) ||                             /* or, possible reset  */
 	((s.mode == MS_MODE_COLOR) &&          /* or, other weirdness */
 	 (s.precal_record < MS_PRECAL_COLOR)) ||
@@ -2506,15 +2506,15 @@ static Sane.Status finagle_precal(Sane.Handle handle)
 	 (s.precal_record < MS_PRECAL_EXP_COLOR))) {
       DBG(23, "finagle_precal:  must precalibrate!\n")
       s.precal_record = MS_PRECAL_NONE
-      if (s.do_real_calib) {    /* do a real calibration if allowed */
-	if ((status = do_real_calibrate(s)) != Sane.STATUS_GOOD)
+      if(s.do_real_calib) {    /* do a real calibration if allowed */
+	if((status = do_real_calibrate(s)) != Sane.STATUS_GOOD)
 	  return status
-      } else if (s.do_clever_precal) {/* otherwise do the fake-scan version */
-	if ((status = do_precalibrate(s)) != Sane.STATUS_GOOD)
+      } else if(s.do_clever_precal) {/* otherwise do the fake-scan version */
+	if((status = do_precalibrate(s)) != Sane.STATUS_GOOD)
 	  return status
       }
-      if (s.mode == MS_MODE_COLOR) {
-	if (s.expandedresolution)
+      if(s.mode == MS_MODE_COLOR) {
+	if(s.expandedresolution)
 	  s.precal_record = MS_PRECAL_EXP_COLOR
 	else
 	  s.precal_record = MS_PRECAL_COLOR
@@ -2529,17 +2529,17 @@ static Sane.Status finagle_precal(Sane.Handle handle)
 
 
 /********************************************************************/
-/* Set pass-dependent parameters (for 3-pass color scans)           */
+/* Set pass-dependent parameters(for 3-pass color scans)           */
 /********************************************************************/
 static void
-set_pass_parameters (Sane.Handle handle)
+set_pass_parameters(Sane.Handle handle)
 {
   Microtek_Scanner *s = handle
 
-  if (s.threepasscolor) {
+  if(s.threepasscolor) {
     s.this_pass += 1
     DBG(23, "set_pass_parameters:  three-pass, on %d\n", s.this_pass)
-    switch (s.this_pass) {
+    switch(s.this_pass) {
     case 1:
       s.filter = MS_FILT_RED
       s.params.format = Sane.FRAME_RED
@@ -2577,7 +2577,7 @@ set_pass_parameters (Sane.Handle handle)
 
 
 /********************************************************************/
-/* Process flat (byte-by-byte) data                                 */
+/* Process flat(byte-by-byte) data                                 */
 /********************************************************************/
 static Sane.Status pack_flat_data(Microtek_Scanner *s, size_t nlines)
 {
@@ -2592,14 +2592,14 @@ static Sane.Status pack_flat_data(Microtek_Scanner *s, size_t nlines)
     (rb.size - start + rb.head_complete)
   size_t length = MIN(nbytes, max_xfer)
 
-  if (nbytes > max_xfer) {
+  if(nbytes > max_xfer) {
     DBG(23, "pack_flat: must expand ring, %lu + %lu\n",
 	(u_long)rb.size, (u_long)(nbytes - max_xfer))
     status = ring_expand(rb, (nbytes - max_xfer))
-    if (status != Sane.STATUS_GOOD) return status
+    if(status != Sane.STATUS_GOOD) return status
   }
 
-  if (s.doexpansion) {
+  if(s.doexpansion) {
     unsigned Int line, bit
     Sane.Byte *sb, *db, byte
 
@@ -2609,15 +2609,15 @@ static Sane.Status pack_flat_data(Microtek_Scanner *s, size_t nlines)
     db = rb.base
     pos = start
 
-    if (!(s.multibit)) {
-      for (line=0; line<nlines; line++) {
+    if(!(s.multibit)) {
+      for(line=0; line<nlines; line++) {
 	size_t i
 	double x1, x2, n1, n2
-	for (i = 0, x1 = 0.0, x2 = s.exp_aspect, n1 = 0.0, n2 = floor(x2)
+	for(i = 0, x1 = 0.0, x2 = s.exp_aspect, n1 = 0.0, n2 = floor(x2)
 	     i < rb.bpl
 	     i++) {
 	  byte = 0
-	  for (bit=0
+	  for(bit=0
 	       bit < 8
 	       bit++, x1 = x2, n1 = n2, x2 += s.exp_aspect, n2 = floor(x2)) {
 	    /* #define getbit(byte, index) (((byte)>>(index))&1) */
@@ -2631,15 +2631,15 @@ static Sane.Status pack_flat_data(Microtek_Scanner *s, size_t nlines)
 		) > 0.5) << (7 - bit)
 	  }
 	  db[pos] = byte
-	  if (++pos >= rb.size) pos = 0
+	  if(++pos >= rb.size) pos = 0
 	}
 	sb += s.pixel_bpl
       }
-    } else { /* multibit scan (8 is assumed!) */
-      for (line=0; line<nlines; line++) {
+    } else { /* multibit scan(8 is assumed!) */
+      for(line=0; line<nlines; line++) {
 	double x1, x2, n1, n2
 	var i: Int
-	for (i = 0, x1 = 0.0, x2 = s.exp_aspect, n1 = 0.0, n2 = floor(x2)
+	for(i = 0, x1 = 0.0, x2 = s.exp_aspect, n1 = 0.0, n2 = floor(x2)
 	     i < s.dest_ppl
 	     i++, x1 = x2, n1 = n2, x2 += s.exp_aspect, n2 = floor(x2)) {
 	  db[pos] =
@@ -2647,14 +2647,14 @@ static Sane.Status pack_flat_data(Microtek_Scanner *s, size_t nlines)
 	    sb[(Int)n1] :
 	    (Int)(((double)sb[(Int)n1] * (n2 - x1) +
 		   (double)sb[(Int)n2] * (x2 - n2)) / s.exp_aspect)
-	  if (++pos >= rb.size) pos = 0
+	  if(++pos >= rb.size) pos = 0
 	}
 	sb += s.pixel_bpl
       }
     }
   } else {
     /* adjust for rollover!!! */
-    if ((start + length) < rb.size) {
+    if((start + length) < rb.size) {
       memcpy(rb.base + start, s.scsi_buffer, length)
     } else {
       size_t chunk1 = rb.size - start
@@ -2669,10 +2669,10 @@ static Sane.Status pack_flat_data(Microtek_Scanner *s, size_t nlines)
 
 
 /********************************************************************/
-/* Process sequential R-G-B scan lines (who uses this??? )          */
+/* Process sequential R-G-B scan lines(who uses this??? )          */
 /********************************************************************/
 static Sane.Status
-pack_seqrgb_data (Microtek_Scanner *s, size_t nlines)
+pack_seqrgb_data(Microtek_Scanner *s, size_t nlines)
 {
   ring_buffer *rb = s.rb
   unsigned Int seg
@@ -2695,22 +2695,22 @@ pack_seqrgb_data (Microtek_Scanner *s, size_t nlines)
 	(u_long)dr, (u_long)ar,
 	(u_long)dg, (u_long)ag,
 	(u_long)db, (u_long)ab)
-    if ((dr > ar) ||
+    if((dr > ar) ||
 	(dg > ag) ||
 	(db > ab)) {
       size_t increase = 0
-      if (dr > ar) increase = (dr - ar)
-      if (dg > ag) increase = MAX(increase, (dg - ag))
-      if (db > ab) increase = MAX(increase, (db - ab))
+      if(dr > ar) increase = (dr - ar)
+      if(dg > ag) increase = MAX(increase, (dg - ag))
+      if(db > ab) increase = MAX(increase, (db - ab))
       DBG(23, "pack_seq: must expand ring, %lu + %lu\n",
 	  (u_long)rb.size, (u_long)increase)
       status = ring_expand(rb, increase)
-      if (status != Sane.STATUS_GOOD) return status
+      if(status != Sane.STATUS_GOOD) return status
     }
   }
 
-  for (seg = 0, id = 0; seg < nlines * 3; seg++, id = (id+1)%3) {
-    switch (id) {
+  for(seg = 0, id = 0; seg < nlines * 3; seg++, id = (id+1)%3) {
+    switch(id) {
     case 0: spot = rb.tail_red;  break
     case 1: spot = rb.tail_green;  break
     case 2: spot = rb.tail_blue;  break
@@ -2719,10 +2719,10 @@ pack_seqrgb_data (Microtek_Scanner *s, size_t nlines)
       return Sane.STATUS_IO_ERROR
     }
 
-    if (s.doexpansion) {
+    if(s.doexpansion) {
       var i: Int
       double x1, x2, n1, n2
-      for (i = 0, x1 = 0.0, x2 = s.exp_aspect, n1 = 0.0, n2 = floor(x2)
+      for(i = 0, x1 = 0.0, x2 = s.exp_aspect, n1 = 0.0, n2 = floor(x2)
 	   i < s.dest_ppl
 	   i++, x1 = x2, n1 = n2, x2 += s.exp_aspect, n2 = floor(x2)) {
 	db[spot] =
@@ -2730,19 +2730,19 @@ pack_seqrgb_data (Microtek_Scanner *s, size_t nlines)
 	  sb[(Int)n1] :
 	  (Int)(((double)sb[(Int)n1] * (n2 - x1) +
 		 (double)sb[(Int)n2] * (x2 - n2)) / s.exp_aspect)
-	if ((spot += 3) >= rb.size) spot -= rb.size
+	if((spot += 3) >= rb.size) spot -= rb.size
       }
       sb += s.ppl
     } else {
       size_t i
-      for (i=0; i < rb.ppl; i++) {
+      for(i=0; i < rb.ppl; i++) {
 	db[spot] = *sb
 	sb++
-	if ((spot += 3) >= rb.size) spot -= rb.size
+	if((spot += 3) >= rb.size) spot -= rb.size
       }
     }
 
-    switch (id) {
+    switch(id) {
     case 0: rb.tail_red   = spot; rb.red_extra   += rb.ppl; break
     case 1: rb.tail_green = spot; rb.green_extra += rb.ppl; break
     case 2: rb.tail_blue  = spot; rb.blue_extra  += rb.ppl; break
@@ -2787,10 +2787,10 @@ pack_goofyrgb_data(Microtek_Scanner *s, size_t nlines)
     Sane.Status status
     Sane.Byte *pt
 
-    for (dr = dg = db = 0, seg = 0, pt = s.scsi_buffer + 1
+    for(dr = dg = db = 0, seg = 0, pt = s.scsi_buffer + 1
 	 seg < nlines * 3
 	 seg++, pt += s.ppl + 2) {
-      switch (*pt) {
+      switch(*pt) {
       case 'R': dr += rb.bpl;  break
       case 'G': dg += rb.bpl;  break
       case 'B': db += rb.bpl;  break
@@ -2804,25 +2804,25 @@ pack_goofyrgb_data(Microtek_Scanner *s, size_t nlines)
 	(u_long)dg, (u_long)ag,
 	(u_long)db, (u_long)ab)
     /* >, or >= ???????? */
-    if ((dr > ar) ||
+    if((dr > ar) ||
 	(dg > ag) ||
 	(db > ab)) {
       size_t increase = 0
-      if (dr > ar) increase = (dr - ar)
-      if (dg > ag) increase = MAX(increase, (dg - ag))
-      if (db > ab) increase = MAX(increase, (db - ab))
+      if(dr > ar) increase = (dr - ar)
+      if(dg > ag) increase = MAX(increase, (dg - ag))
+      if(db > ab) increase = MAX(increase, (db - ab))
       DBG(23, "pack_goofy: must expand ring, %lu + %lu\n",
 	  (u_long)rb.size, (u_long)increase)
       status = ring_expand(rb, increase)
-      if (status != Sane.STATUS_GOOD) return status
+      if(status != Sane.STATUS_GOOD) return status
     }
   }
 
   db = rb.base
-  for (seg = 0; seg < nlines * 3; seg++) {
-    sb++; /* skip first byte in line (two byte header) */
+  for(seg = 0; seg < nlines * 3; seg++) {
+    sb++; /* skip first byte in line(two byte header) */
     id = *sb
-    switch (id) {
+    switch(id) {
     case 'R': spot = rb.tail_red;  break
     case 'G': spot = rb.tail_green;  break
     case 'B': spot = rb.tail_blue;  break
@@ -2832,10 +2832,10 @@ pack_goofyrgb_data(Microtek_Scanner *s, size_t nlines)
     }
     sb++; /* skip the other header byte */
 
-    if (s.doexpansion) {
+    if(s.doexpansion) {
       var i: Int
       double x1, x2, n1, n2
-      for (i = 0, x1 = 0.0, x2 = s.exp_aspect, n1 = 0.0, n2 = floor(x2)
+      for(i = 0, x1 = 0.0, x2 = s.exp_aspect, n1 = 0.0, n2 = floor(x2)
 	   i < s.dest_ppl
 	   i++, x1 = x2, n1 = n2, x2 += s.exp_aspect, n2 = floor(x2)) {
 	db[spot] =
@@ -2843,18 +2843,18 @@ pack_goofyrgb_data(Microtek_Scanner *s, size_t nlines)
 	  sb[(Int)n1] :
 	  (Int)(((double)sb[(Int)n1] * (n2 - x1) +
 		 (double)sb[(Int)n2] * (x2 - n2)) / s.exp_aspect)
-	if ((spot += 3) >= rb.size) spot -= rb.size
+	if((spot += 3) >= rb.size) spot -= rb.size
       }
       sb += s.ppl
     } else {
       unsigned var i: Int
-      for (i=0; i < rb.ppl; i++) {
+      for(i=0; i < rb.ppl; i++) {
 	db[spot] = *sb
 	sb++
-	if ((spot += 3) >= rb.size) spot -= rb.size
+	if((spot += 3) >= rb.size) spot -= rb.size
       }
     }
-    switch (id) {
+    switch(id) {
     case 'R': rb.tail_red   = spot; rb.red_extra   += rb.ppl; break
     case 'G': rb.tail_green = spot; rb.green_extra += rb.ppl; break
     case 'B': rb.tail_blue  = spot; rb.blue_extra  += rb.ppl; break
@@ -2880,7 +2880,7 @@ pack_goofyrgb_data(Microtek_Scanner *s, size_t nlines)
 
 
 /********************************************************************/
-/* Process R1R2-G1G2-B1B2 double pixels (AGFA StudioStar)           */
+/* Process R1R2-G1G2-B1B2 double pixels(AGFA StudioStar)           */
 /********************************************************************/
 
 static Sane.Status
@@ -2897,11 +2897,11 @@ pack_seq2r2g2b_data(Microtek_Scanner *s, size_t nlines)
     (rb.size - start + rb.head_complete)
   size_t length = MIN(nbytes, max_xfer)
 
-  if (nbytes > max_xfer) {
+  if(nbytes > max_xfer) {
     DBG(23, "pack_2r2g2b: must expand ring, %lu + %lu\n",
 	(u_long)rb.size, (u_long)(nbytes - max_xfer))
     status = ring_expand(rb, (nbytes - max_xfer))
-    if (status != Sane.STATUS_GOOD) return status
+    if(status != Sane.STATUS_GOOD) return status
   }
   {
     unsigned Int line
@@ -2910,22 +2910,22 @@ pack_seq2r2g2b_data(Microtek_Scanner *s, size_t nlines)
     Sane.Byte *sb = s.scsi_buffer
     Sane.Byte *db = rb.base
 
-    for (line = 0; line < nlines; line++) {
-      for (p = 0; p < s.dest_ppl; p += 2){
+    for(line = 0; line < nlines; line++) {
+      for(p = 0; p < s.dest_ppl; p += 2){
 	/* first pixel */
 	db[pos] = sb[0]
-	if (++pos >= rb.size) pos = 0; /* watch out for ringbuff end? */
+	if(++pos >= rb.size) pos = 0; /* watch out for ringbuff end? */
 	db[pos] = sb[2]
-	if (++pos >= rb.size) pos = 0
+	if(++pos >= rb.size) pos = 0
 	db[pos] = sb[4]
-	if (++pos >= rb.size) pos = 0
+	if(++pos >= rb.size) pos = 0
 	/* second pixel */
 	db[pos] = sb[1]
-	if (++pos >= rb.size) pos = 0
+	if(++pos >= rb.size) pos = 0
 	db[pos] = sb[3]
-	if (++pos >= rb.size) pos = 0
+	if(++pos >= rb.size) pos = 0
 	db[pos] = sb[5]
-	if (++pos >= rb.size) pos = 0
+	if(++pos >= rb.size) pos = 0
 	sb += 6
       }
     }
@@ -2944,19 +2944,19 @@ pack_seq2r2g2b_data(Microtek_Scanner *s, size_t nlines)
 
 
 /********************************************************************/
-/* Request bytes from scanner (and put in scsi_buffer)              */
+/* Request bytes from scanner(and put in scsi_buffer)              */
 /********************************************************************/
 static Sane.Status
-read_from_scanner (Microtek_Scanner *s, Int *nlines)
+read_from_scanner(Microtek_Scanner *s, Int *nlines)
 {
   Sane.Status status
   Int busy, linewidth, remaining
   size_t buffsize
 
   DBG(23, "read_from_scanner...\n")
-  if (s.unscanned_lines > 0) {
+  if(s.unscanned_lines > 0) {
     status = get_scan_status(s, &busy, &linewidth, &remaining)
-    if (status != Sane.STATUS_GOOD) {
+    if(status != Sane.STATUS_GOOD) {
       DBG(18, "read_from_scanner:  bad get_scan_status!\n")
       return status
     }
@@ -2972,10 +2972,10 @@ read_from_scanner (Microtek_Scanner *s, Int *nlines)
       s.max_scsi_lines, remaining, *nlines)
 
   /* grab them bytes! (only if the scanner still has bytes to give...) */
-  if (*nlines > 0) {
+  if(*nlines > 0) {
     buffsize = *nlines * (s.pixel_bpl + s.header_bpl);/* == "* linewidth" */
     status = read_scan_data(s, *nlines, s.scsi_buffer, &buffsize)
-    if (status != Sane.STATUS_GOOD) {
+    if(status != Sane.STATUS_GOOD) {
       DBG(18, "Sane.read:  bad read_scan_data!\n")
       return status
     }
@@ -2997,7 +2997,7 @@ pack_into_ring(Microtek_Scanner *s, Int nlines)
   Sane.Status status
 
   DBG(23, "pack_into_ring...\n")
-  switch (s.line_format) {
+  switch(s.line_format) {
   case MS_LNFMT_FLAT:
     status = pack_flat_data(s, nlines);  break
   case MS_LNFMT_SEQ_RGB:
@@ -3026,7 +3026,7 @@ pack_into_dest(Sane.Byte *dest_buffer, size_t dest_length, ring_buffer *rb)
   DBG(23, "pack_into_dest:  rl: %lu  sz: %lu  hc: %lu\n",
       (u_long)ret_length, (u_long)rb.size, (u_long)rb.head_complete)
   /* adjust for rollover!!! */
-  if ((rb.head_complete + ret_length) < rb.size) {
+  if((rb.head_complete + ret_length) < rb.size) {
     memcpy(dest_buffer, rb.base + rb.head_complete, ret_length)
     rb.head_complete += ret_length
   } else {
@@ -3064,37 +3064,37 @@ Sane.init(Int *version_code, Sane.Auth_Callback authorize)
   DBG(1, "Sane.init:  MICROTEK says hello! (v%d.%d.%d)\n",
       MICROTEK_MAJOR, MICROTEK_MINOR, MICROTEK_PATCH)
   /* return the SANE version we got compiled under */
-  if (version_code)
-    *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, 0)
+  if(version_code)
+    *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, 0)
 
   /* parse config file */
-  fp = sanei_config_open (MICROTEK_CONFIG_FILE)
-  if (!fp) {
+  fp = sanei_config_open(MICROTEK_CONFIG_FILE)
+  if(!fp) {
     /* default to /dev/scanner instead of insisting on config file */
     DBG(1, "Sane.init:  missing config file '%s'\n", MICROTEK_CONFIG_FILE)
     attach_scanner("/dev/scanner", 0)
     return Sane.STATUS_GOOD
   }
-  while (sanei_config_read(dev_name, sizeof (dev_name), fp)) {
+  while(sanei_config_read(dev_name, sizeof(dev_name), fp)) {
     DBG(23, "Sane.init:  config-> %s\n", dev_name)
-    if (dev_name[0] == '#') continue;	/* ignore comments */
-    if (!(strncmp("noprecal", dev_name, 8))) {
+    if(dev_name[0] == '#') continue;	/* ignore comments */
+    if(!(strncmp("noprecal", dev_name, 8))) {
       DBG(23,
 	  "Sane.init:  Clever Precalibration will be forcibly disabled...\n")
       inhibit_clever_precal = Sane.TRUE
       continue
     }
-    if (!(strncmp("norealcal", dev_name, 9))) {
+    if(!(strncmp("norealcal", dev_name, 9))) {
       DBG(23,
 	  "Sane.init:  Real calibration will be forcibly disabled...\n")
       inhibit_real_calib = Sane.TRUE
       continue
     }
-    len = strlen (dev_name)
-    if (!len) continue;			/* ignore empty lines */
-    sanei_config_attach_matching_devices (dev_name, attach_one)
+    len = strlen(dev_name)
+    if(!len) continue;			/* ignore empty lines */
+    sanei_config_attach_matching_devices(dev_name, attach_one)
     }
-  fclose (fp)
+  fclose(fp)
   return Sane.STATUS_GOOD
 }
 
@@ -3113,13 +3113,13 @@ Sane.get_devices(const Sane.Device ***device_list,
   local_only = local_only
   DBG(10, "Sane.get_devices\n")
   /* we keep an internal copy */
-  if (devlist)
+  if(devlist)
     free(devlist);  /* hmm, free it if we want a new one, I guess.  YYYYY*/
 
   devlist = malloc((num_devices + 1) * sizeof(devlist[0]))
-  if (!devlist) return Sane.STATUS_NO_MEM
+  if(!devlist) return Sane.STATUS_NO_MEM
 
-  for (i=0, dev=first_dev; i < num_devices; dev = dev.next)
+  for(i=0, dev=first_dev; i < num_devices; dev = dev.next)
     devlist[i++] = &dev.sane
   devlist[i++] = 0
 
@@ -3143,24 +3143,24 @@ Sane.open(Sane.String_Const devicename,
   DBG(10, "Sane.open\n")
   /* find device... */
   DBG(23, "Sane.open:  find device...\n")
-  if (devicename[0]) {
-    for (dev = first_dev; dev; dev = dev.next) {
-      if (strcmp(dev.sane.name, devicename) == 0)
+  if(devicename[0]) {
+    for(dev = first_dev; dev; dev = dev.next) {
+      if(strcmp(dev.sane.name, devicename) == 0)
 	break
     }
-    if (!dev) {  /* not in list, try manually... */
+    if(!dev) {  /* not in list, try manually... */
       status = attach_scanner(devicename, &dev)
-      if (status != Sane.STATUS_GOOD) return status
+      if(status != Sane.STATUS_GOOD) return status
     }
   } else {  /* no device specified, so use first */
     dev = first_dev
   }
-  if (!dev) return Sane.STATUS_INVAL
+  if(!dev) return Sane.STATUS_INVAL
 
   /* create a scanner... */
   DBG(23, "Sane.open:  create scanner...\n")
   scanner = malloc(sizeof(*scanner))
-  if (!scanner) return Sane.STATUS_NO_MEM
+  if(!scanner) return Sane.STATUS_NO_MEM
   memset(scanner, 0, sizeof(*scanner))
 
   /* initialize scanner dependent stuff */
@@ -3186,13 +3186,13 @@ Sane.open(Sane.String_Const devicename,
   scanner.bright_b = 0
 
   /* calibration shenanigans */
-  if ((dev.info.extra_cap & MI_EXCAP_DIS_RECAL) &&
+  if((dev.info.extra_cap & MI_EXCAP_DIS_RECAL) &&
       (!(inhibit_real_calib))) {
     DBG(23, "Sane.open:  Real calibration enabled.\n")
     scanner.allow_calibrate = Sane.FALSE
     scanner.do_real_calib = Sane.TRUE
     scanner.do_clever_precal = Sane.FALSE
-  } else if ((dev.info.extra_cap & MI_EXCAP_DIS_RECAL) &&
+  } else if((dev.info.extra_cap & MI_EXCAP_DIS_RECAL) &&
 	     (!(inhibit_clever_precal))) {
     DBG(23, "Sane.open:  Clever precalibration enabled.\n")
     scanner.allow_calibrate = Sane.FALSE
@@ -3212,7 +3212,7 @@ Sane.open(Sane.String_Const devicename,
   scanner.bits_per_color = 8
 
   /* init gamma tables */
-  if (dev.info.max_lookup_size) {
+  if(dev.info.max_lookup_size) {
     Int j, v, max_entry
     DBG(23, "Sane.open:  init gamma tables...\n")
     scanner.gamma_entries = dev.info.max_lookup_size
@@ -3231,7 +3231,7 @@ Sane.open(Sane.String_Const devicename,
 			       sizeof(scanner.green_lut[0]))
     scanner.blue_lut  = calloc(scanner.gamma_entries,
 			       sizeof(scanner.blue_lut[0]))
-    if ((scanner.gray_lut == NULL) ||
+    if((scanner.gray_lut == NULL) ||
 	(scanner.red_lut == NULL) ||
 	(scanner.green_lut == NULL) ||
 	(scanner.blue_lut == NULL)) {
@@ -3243,7 +3243,7 @@ Sane.open(Sane.String_Const devicename,
       free(scanner.green_lut)
       free(scanner.blue_lut)
     }
-    for (j=0; j<scanner.gamma_entries; j += scanner.gamma_entry_size) {
+    for(j=0; j<scanner.gamma_entries; j += scanner.gamma_entry_size) {
       v = (Int)
 	((double) j * (double) max_entry /
 	 ((double) scanner.gamma_entries - 1.0) + 0.5)
@@ -3276,13 +3276,13 @@ Sane.open(Sane.String_Const devicename,
   /* clear out that clever cache, so it doesn't match anything */
   {
     Int j
-    for (j=0; j<10; j++)
+    for(j=0; j<10; j++)
       scanner.mode_sense_cache[j] = 0
     scanner.precal_record = MS_PRECAL_NONE
   }
 
   DBG(23, "Sane.open:  initialize options:  \n")
-  if ((status = init_options(scanner)) != Sane.STATUS_GOOD) return status
+  if((status = init_options(scanner)) != Sane.STATUS_GOOD) return status
 
   scanner.next = first_handle
   first_handle = scanner
@@ -3296,12 +3296,12 @@ Sane.open(Sane.String_Const devicename,
 /* Sane.close                                                       */
 /********************************************************************/
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
   Microtek_Scanner *ms = handle
 
   DBG(10, "Sane.close...\n")
-  /* free malloc'ed stuff (strdup counts too!) */
+  /* free malloc'ed stuff(strdup counts too!) */
   free((void *) ms.sod[OPT_MODE].constraint.string_list)
   free((void *) ms.sod[OPT_SOURCE].constraint.string_list)
   free(ms.val[OPT_MODE].s)
@@ -3313,11 +3313,11 @@ Sane.close (Sane.Handle handle)
   free(ms.green_lut)
   free(ms.blue_lut)
   /* remove Scanner from linked list */
-  if (first_handle == ms)
+  if(first_handle == ms)
     first_handle = ms.next
   else {
     Microtek_Scanner *ts = first_handle
-    while ((ts != NULL) && (ts.next != ms)) ts = ts.next
+    while((ts != NULL) && (ts.next != ms)) ts = ts.next
     ts.next = ts.next.next; /* == ms.next */
   }
   /* finally, say goodbye to the Scanner */
@@ -3330,13 +3330,13 @@ Sane.close (Sane.Handle handle)
 /* Sane.get_option_descriptor                                       */
 /********************************************************************/
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle,
+Sane.get_option_descriptor(Sane.Handle handle,
 			    Int option)
 {
   Microtek_Scanner *scanner = handle
 
-  DBG(96, "Sane.get_option_descriptor (%d)...\n", option)
-  if ((unsigned)option >= NUM_OPTIONS) return NULL
+  DBG(96, "Sane.get_option_descriptor(%d)...\n", option)
+  if((unsigned)option >= NUM_OPTIONS) return NULL
   return &(scanner.sod[option])
 }
 
@@ -3346,7 +3346,7 @@ Sane.get_option_descriptor (Sane.Handle handle,
 /* Sane.control_option                                              */
 /********************************************************************/
 Sane.Status
-Sane.control_option (Sane.Handle handle,
+Sane.control_option(Sane.Handle handle,
 		     Int option,
 		     Sane.Action action,
 		     void *value,
@@ -3357,28 +3357,28 @@ Sane.control_option (Sane.Handle handle,
   Option_Value  *val
   Sane.Status status
 
-  DBG(96, "Sane.control_option (opt=%d,act=%d,val=%p,info=%p)\n",
+  DBG(96, "Sane.control_option(opt=%d,act=%d,val=%p,info=%p)\n",
       option, action, value, (void*) info)
 
   sod = scanner.sod
   val = scanner.val
 
   /* no changes while in mid-pass! */
-  if (scanner.scanning) return Sane.STATUS_DEVICE_BUSY
+  if(scanner.scanning) return Sane.STATUS_DEVICE_BUSY
   /* and... no changes while in middle of three-pass series! */
-  if (scanner.this_pass != 0) return Sane.STATUS_DEVICE_BUSY
+  if(scanner.this_pass != 0) return Sane.STATUS_DEVICE_BUSY
 
-  if ( ((option >= NUM_OPTIONS) || (option < 0)) ||
+  if( ((option >= NUM_OPTIONS) || (option < 0)) ||
        (!Sane.OPTION_IS_ACTIVE(scanner.sod[option].cap)) )
     return Sane.STATUS_INVAL
 
-  if (info) *info = 0
+  if(info) *info = 0
 
   /* choose by action */
-  switch (action) {
+  switch(action) {
 
   case Sane.ACTION_GET_VALUE:
-    switch (option) {
+    switch(option) {
       /* word options... */
     case OPT_RESOLUTION:
     case OPT_SPEED:
@@ -3430,17 +3430,17 @@ Sane.control_option (Sane.Handle handle,
 
   case Sane.ACTION_SET_VALUE: {
     status = sanei_constrain_value(sod + option, value, info)
-    if (status != Sane.STATUS_GOOD)
+    if(status != Sane.STATUS_GOOD)
       return status
 
-    switch (option) {
+    switch(option) {
       /* set word options... */
     case OPT_TL_X:
     case OPT_TL_Y:
     case OPT_BR_X:
     case OPT_BR_Y:
     case OPT_RESOLUTION:
-      if (info)
+      if(info)
 	*info |= Sane.INFO_RELOAD_PARAMS
       // fall through
     case OPT_SPEED:
@@ -3461,23 +3461,23 @@ Sane.control_option (Sane.Handle handle,
     case OPT_SHADOW:
     case OPT_MIDTONE:
       val[option].w = *(Sane.Word *)value
-      /* we need to (silently) make sure shadow <= midtone <= highlight */
-      if (scanner.midtone_support) {
-	if (val[OPT_SHADOW].w > val[OPT_MIDTONE].w) {
-	  if (option == OPT_SHADOW)
+      /* we need to(silently) make sure shadow <= midtone <= highlight */
+      if(scanner.midtone_support) {
+	if(val[OPT_SHADOW].w > val[OPT_MIDTONE].w) {
+	  if(option == OPT_SHADOW)
 	    val[OPT_SHADOW].w = val[OPT_MIDTONE].w
 	  else
 	    val[OPT_MIDTONE].w = val[OPT_SHADOW].w
 	}
-	if (val[OPT_HIGHLIGHT].w < val[OPT_MIDTONE].w) {
-	  if (option == OPT_HIGHLIGHT)
+	if(val[OPT_HIGHLIGHT].w < val[OPT_MIDTONE].w) {
+	  if(option == OPT_HIGHLIGHT)
 	    val[OPT_HIGHLIGHT].w = val[OPT_MIDTONE].w
 	  else
 	    val[OPT_MIDTONE].w = val[OPT_HIGHLIGHT].w
 	}
       } else {
-	if (val[OPT_SHADOW].w > val[OPT_HIGHLIGHT].w) {
-	  if (option == OPT_SHADOW)
+	if(val[OPT_SHADOW].w > val[OPT_HIGHLIGHT].w) {
+	  if(option == OPT_SHADOW)
 	    val[OPT_SHADOW].w = val[OPT_HIGHLIGHT].w
 	  else
 	    val[OPT_HIGHLIGHT].w = val[OPT_SHADOW].w
@@ -3486,10 +3486,10 @@ Sane.control_option (Sane.Handle handle,
       return Sane.STATUS_GOOD
 
     case OPT_EXP_RES:
-      if (val[option].w != *(Sane.Word *) value) {
+      if(val[option].w != *(Sane.Word *) value) {
 	val[option].w = *(Sane.Word *)value
-	if (info) *info |= Sane.INFO_RELOAD_OPTIONS | Sane.INFO_RELOAD_PARAMS
-	if (val[OPT_EXP_RES].w) {
+	if(info) *info |= Sane.INFO_RELOAD_OPTIONS | Sane.INFO_RELOAD_PARAMS
+	if(val[OPT_EXP_RES].w) {
 	  sod[OPT_RESOLUTION].constraint.range = &(scanner.exp_res_range)
 	  val[OPT_RESOLUTION].w *= 2
 	} else {
@@ -3502,39 +3502,39 @@ Sane.control_option (Sane.Handle handle,
     case OPT_CALIB_ONCE:
       val[option].w = *(Sane.Word *)value
       /* toggling off and on should force a recalibration... */
-      if (!(val[option].w)) scanner.precal_record = MS_PRECAL_NONE
+      if(!(val[option].w)) scanner.precal_record = MS_PRECAL_NONE
       return Sane.STATUS_GOOD
 
     case OPT_GAMMA_BIND:
     case OPT_CUSTOM_GAMMA:
-      if (option == OPT_GAMMA_BIND) {
-	if (val[option].w != *(Sane.Word *) value)
-	  if (info) *info |= Sane.INFO_RELOAD_OPTIONS
+      if(option == OPT_GAMMA_BIND) {
+	if(val[option].w != *(Sane.Word *) value)
+	  if(info) *info |= Sane.INFO_RELOAD_OPTIONS
 	val[option].w = *(Sane.Word *) value
-      } else if (option == OPT_CUSTOM_GAMMA) {
-	if (val[option].s) {
-	  if (strcmp(value, val[option].s))
-	    if (info) *info |= Sane.INFO_RELOAD_OPTIONS
+      } else if(option == OPT_CUSTOM_GAMMA) {
+	if(val[option].s) {
+	  if(strcmp(value, val[option].s))
+	    if(info) *info |= Sane.INFO_RELOAD_OPTIONS
 	  free(val[option].s)
 	}
 	val[option].s = strdup(value)
       }
-      if ( !(strcmp(val[OPT_CUSTOM_GAMMA].s, M_NONE)) ||
+      if( !(strcmp(val[OPT_CUSTOM_GAMMA].s, M_NONE)) ||
 	   !(strcmp(val[OPT_CUSTOM_GAMMA].s, M_SCALAR)) ) {
 	sod[OPT_GAMMA_VECTOR].cap |= Sane.CAP_INACTIVE
 	sod[OPT_GAMMA_VECTOR_R].cap |= Sane.CAP_INACTIVE
 	sod[OPT_GAMMA_VECTOR_G].cap |= Sane.CAP_INACTIVE
 	sod[OPT_GAMMA_VECTOR_B].cap |= Sane.CAP_INACTIVE
       }
-      if ( !(strcmp(val[OPT_CUSTOM_GAMMA].s, M_NONE)) ||
+      if( !(strcmp(val[OPT_CUSTOM_GAMMA].s, M_NONE)) ||
 	   !(strcmp(val[OPT_CUSTOM_GAMMA].s, M_TABLE)) ) {
 	sod[OPT_ANALOG_GAMMA].cap |= Sane.CAP_INACTIVE
 	sod[OPT_ANALOG_GAMMA_R].cap |= Sane.CAP_INACTIVE
 	sod[OPT_ANALOG_GAMMA_G].cap |= Sane.CAP_INACTIVE
 	sod[OPT_ANALOG_GAMMA_B].cap |= Sane.CAP_INACTIVE
       }
-      if (!(strcmp(val[OPT_CUSTOM_GAMMA].s, M_SCALAR))) {
-	if (val[OPT_GAMMA_BIND].w == Sane.TRUE) {
+      if(!(strcmp(val[OPT_CUSTOM_GAMMA].s, M_SCALAR))) {
+	if(val[OPT_GAMMA_BIND].w == Sane.TRUE) {
 	  sod[OPT_ANALOG_GAMMA].cap &= ~Sane.CAP_INACTIVE
 	  sod[OPT_ANALOG_GAMMA_R].cap |= Sane.CAP_INACTIVE
 	  sod[OPT_ANALOG_GAMMA_G].cap |= Sane.CAP_INACTIVE
@@ -3546,8 +3546,8 @@ Sane.control_option (Sane.Handle handle,
 	  sod[OPT_ANALOG_GAMMA_B].cap &= ~Sane.CAP_INACTIVE
 	}
       }
-      if (!(strcmp(val[OPT_CUSTOM_GAMMA].s, M_TABLE))) {
-	if (val[OPT_GAMMA_BIND].w == Sane.TRUE) {
+      if(!(strcmp(val[OPT_CUSTOM_GAMMA].s, M_TABLE))) {
+	if(val[OPT_GAMMA_BIND].w == Sane.TRUE) {
 	  sod[OPT_GAMMA_VECTOR].cap &= ~Sane.CAP_INACTIVE
 	  sod[OPT_GAMMA_VECTOR_R].cap |= Sane.CAP_INACTIVE
 	  sod[OPT_GAMMA_VECTOR_G].cap |= Sane.CAP_INACTIVE
@@ -3559,27 +3559,27 @@ Sane.control_option (Sane.Handle handle,
 	  sod[OPT_GAMMA_VECTOR_B].cap &= ~Sane.CAP_INACTIVE
 	}
       }
-      if (!(strcmp(val[OPT_CUSTOM_GAMMA].s, M_NONE)))
+      if(!(strcmp(val[OPT_CUSTOM_GAMMA].s, M_NONE)))
 	sod[OPT_GAMMA_BIND].cap |= Sane.CAP_INACTIVE
-      else if (!(strcmp(val[OPT_MODE].s, M_COLOR)))
+      else if(!(strcmp(val[OPT_MODE].s, M_COLOR)))
 	sod[OPT_GAMMA_BIND].cap &= ~Sane.CAP_INACTIVE
       return Sane.STATUS_GOOD
 
 
     case OPT_MODE:
-      if (val[option].s) {
-	if (strcmp(val[option].s, value))
-	  if (info)
+      if(val[option].s) {
+	if(strcmp(val[option].s, value))
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_OPTIONS | Sane.INFO_RELOAD_PARAMS
 	free(val[option].s)
       }
       val[option].s = strdup(value)
-      if (strcmp(val[option].s, M_HALFTONE)) {
+      if(strcmp(val[option].s, M_HALFTONE)) {
 	sod[OPT_HALFTONE_PATTERN].cap |= Sane.CAP_INACTIVE
       } else {
 	sod[OPT_HALFTONE_PATTERN].cap &= ~Sane.CAP_INACTIVE
       }
-      if (strcmp(val[option].s, M_COLOR)) { /* not color */
+      if(strcmp(val[option].s, M_COLOR)) { /* not color */
         /*val[OPT_GAMMA_BIND].w = Sane.TRUE;*/
 	DBG(23, "FLIP ma LID!  bind is %d\n", val[OPT_GAMMA_BIND].w)
 	{
@@ -3597,14 +3597,14 @@ Sane.control_option (Sane.Handle handle,
 	/*	sod[OPT_FORCE_3PASS].cap |= Sane.CAP_INACTIVE;*/
       } else {
 	sod[OPT_GAMMA_BIND].cap &= ~Sane.CAP_INACTIVE
-	/*	if (scanner.dev.info.modes & MI_MODES_ONEPASS)
+	/*	if(scanner.dev.info.modes & MI_MODES_ONEPASS)
 	  sod[OPT_FORCE_3PASS].cap &= ~Sane.CAP_INACTIVE;*/
       }
       return Sane.STATUS_GOOD
 
     case OPT_HALFTONE_PATTERN:
     case OPT_SOURCE:
-      if (val[option].s) free(val[option].s)
+      if(val[option].s) free(val[option].s)
       val[option].s = strdup(value)
       return Sane.STATUS_GOOD
     case OPT_GAMMA_VECTOR:
@@ -3631,26 +3631,26 @@ Sane.control_option (Sane.Handle handle,
 /* Sane.get_parameters                                              */
 /********************************************************************/
 Sane.Status
-Sane.get_parameters (Sane.Handle handle,
+Sane.get_parameters(Sane.Handle handle,
 		     Sane.Parameters *params)
 {
   Microtek_Scanner *s = handle
 
   DBG(23, "Sane.get_parameters...\n")
 
-  if (!s.scanning) {
+  if(!s.scanning) {
     /* decipher scan mode */
-    if (!(strcmp(s.val[OPT_MODE].s, M_LINEART)))
+    if(!(strcmp(s.val[OPT_MODE].s, M_LINEART)))
       s.mode = MS_MODE_LINEART
-    else if (!(strcmp(s.val[OPT_MODE].s, M_HALFTONE)))
+    else if(!(strcmp(s.val[OPT_MODE].s, M_HALFTONE)))
       s.mode = MS_MODE_HALFTONE
-    else if (!(strcmp(s.val[OPT_MODE].s, M_GRAY)))
+    else if(!(strcmp(s.val[OPT_MODE].s, M_GRAY)))
       s.mode = MS_MODE_GRAY
-    else if (!(strcmp(s.val[OPT_MODE].s, M_COLOR)))
+    else if(!(strcmp(s.val[OPT_MODE].s, M_COLOR)))
       s.mode = MS_MODE_COLOR
 
-    if (s.mode == MS_MODE_COLOR) {
-      if (s.onepass) {
+    if(s.mode == MS_MODE_COLOR) {
+      if(s.onepass) {
 	/* regular one-pass */
 	DBG(23, "Sane.get_parameters:  regular 1-pass color\n")
 	s.threepasscolor = Sane.FALSE
@@ -3677,13 +3677,13 @@ Sane.get_parameters (Sane.Handle handle,
     s.expandedresolution = (s.val[OPT_EXP_RES].w)
     s.doexpansion = (s.expandedresolution && !(s.dev.info.does_expansion))
 
-    if (s.res_type == MS_RES_1PER) {
+    if(s.res_type == MS_RES_1PER) {
       s.resolution = (Int)(Sane.UNFIX(s.val[OPT_RESOLUTION].w))
       s.resolution_code =
 	0xFF & ((s.resolution * 100) /
 		s.dev.info.base_resolution /
 		(s.expandedresolution ? 2 : 1))
-      DBG(23, "Sane.get_parameters:  res_code = %d (%2x)\n",
+      DBG(23, "Sane.get_parameters:  res_code = %d(%2x)\n",
 	      s.resolution_code, s.resolution_code)
     } else {
       DBG(23, "Sane.get_parameters:  5 percent!!!\n")
@@ -3700,9 +3700,9 @@ Sane.get_parameters (Sane.Handle handle,
     s.shadow    = s.val[OPT_SHADOW].w
     s.highlight = s.val[OPT_HIGHLIGHT].w
     s.midtone   = s.val[OPT_MIDTONE].w
-    if (Sane.OPTION_IS_ACTIVE(s.sod[OPT_BRIGHTNESS].cap)) {
+    if(Sane.OPTION_IS_ACTIVE(s.sod[OPT_BRIGHTNESS].cap)) {
 #if 1  /* this is _not_ what the docs specify! */
-      if (s.val[OPT_BRIGHTNESS].w >= 0)
+      if(s.val[OPT_BRIGHTNESS].w >= 0)
 	s.bright_r = (Sane.Byte) (s.val[OPT_BRIGHTNESS].w)
       else
 	s.bright_r = (Sane.Byte) (0x80 | (- s.val[OPT_BRIGHTNESS].w))
@@ -3716,9 +3716,9 @@ Sane.get_parameters (Sane.Handle handle,
       s.bright_r = s.bright_g = s.bright_b = 0
     }
     /* figure out halftone pattern selection... */
-    if (s.mode == MS_MODE_HALFTONE) {
+    if(s.mode == MS_MODE_HALFTONE) {
       var i: Int = 0
-      while ((halftone_mode_list[i] != NULL) &&
+      while((halftone_mode_list[i] != NULL) &&
 	     (strcmp(halftone_mode_list[i], s.val[OPT_HALFTONE_PATTERN].s)))
 	i++
       s.pattern = ((i < s.dev.info.pattern_count) ? i : 0)
@@ -3748,13 +3748,13 @@ Sane.get_parameters (Sane.Handle handle,
       s.x2 = (Int)(Sane.UNFIX(s.val[OPT_BR_X].w) * units_per_mm + 0.5)
       s.y2 = (Int)(Sane.UNFIX(s.val[OPT_BR_Y].w) * units_per_mm + 0.5)
       /* bug out if length or width is <= zero... */
-      if ((s.x1 >= s.x2) || (s.y1 >= s.y2))
+      if((s.x1 >= s.x2) || (s.y1 >= s.y2))
 	return Sane.STATUS_INVAL
 
       /* these are just an estimate... (but *should* be completely accurate)
        * real values come from scanner after Sane.start.
        */
-      if (s.unit_type == MS_UNIT_18INCH) {
+      if(s.unit_type == MS_UNIT_18INCH) {
 	/* who *knows* what happens */
 	widthpix =
 	  (Int)((double)(s.x2 - s.x1 + 1) / 8.0 *
@@ -3764,16 +3764,16 @@ Sane.get_parameters (Sane.Handle handle,
 		     (double)s.resolution)
       } else {
 	/* calculate pixels per scanline returned by scanner... */
-	/* scanner (E6 at least) always seems to return
+	/* scanner(E6 at least) always seems to return
 	   an -even- number of -bytes- */
-	if (s.resolution <= s.dev.info.base_resolution)
+	if(s.resolution <= s.dev.info.base_resolution)
 	  widthpix =
 	    (Int)((double)(s.x2 - s.x1 + 1) *
 		       (double)(s.resolution) /
 		       (double)(s.dev.info.base_resolution))
 	else
 	  widthpix = (s.x2 - s.x1 + 1)
-	if ((s.mode == MS_MODE_LINEART) ||
+	if((s.mode == MS_MODE_LINEART) ||
 	    (s.mode == MS_MODE_HALFTONE)) {
 	  DBG(23, "WIDTHPIX:  before: %d", widthpix)
 	  widthpix = ((widthpix / 8) & ~0x1) * 8
@@ -3783,7 +3783,7 @@ Sane.get_parameters (Sane.Handle handle,
 	}
 	DBG(23, "WIDTHPIX:  before exp: %d\n", widthpix)
 	/* ok, now fix up expanded-mode conversions */
-	if (s.resolution > s.dev.info.base_resolution)
+	if(s.resolution > s.dev.info.base_resolution)
 	  widthpix = (Int) ((double)widthpix *
 				 (double)s.resolution /
 				 (double)s.dev.info.base_resolution)
@@ -3795,7 +3795,7 @@ Sane.get_parameters (Sane.Handle handle,
       }
     }
 
-    switch (s.mode) {
+    switch(s.mode) {
     case MS_MODE_LINEART:
     case MS_MODE_HALFTONE:
       s.multibit = Sane.FALSE
@@ -3813,7 +3813,7 @@ Sane.get_parameters (Sane.Handle handle,
       break
     case MS_MODE_COLOR:
       s.multibit = Sane.TRUE
-      if (s.onepasscolor) { /* a single-pass color scan */
+      if(s.onepasscolor) { /* a single-pass color scan */
 	s.params.format = Sane.FRAME_RGB
 	s.params.depth = s.bits_per_color
 	s.filter = MS_FILT_CLEAR
@@ -3834,7 +3834,7 @@ Sane.get_parameters (Sane.Handle handle,
     s.params.last_frame = Sane.TRUE;  /* ?? XXXXXXXX */
   }
 
-  if (params)
+  if(params)
     *params = s.params
 
   return Sane.STATUS_GOOD
@@ -3846,7 +3846,7 @@ Sane.get_parameters (Sane.Handle handle,
 /* Sane.start                                                       */
 /********************************************************************/
 static Sane.Status
-Sane.start_guts (Sane.Handle handle)
+Sane.start_guts(Sane.Handle handle)
 {
   Microtek_Scanner *s = handle
   Sane.Status status
@@ -3854,12 +3854,12 @@ Sane.start_guts (Sane.Handle handle)
 
   DBG(10, "Sane.start...\n")
 
-  if (s.sfd != -1) {
+  if(s.sfd != -1) {
     DBG(23, "Sane.start:  sfd already set!\n")
     return Sane.STATUS_DEVICE_BUSY
   }
 
-  if ((status = Sane.get_parameters(s, 0)) != Sane.STATUS_GOOD)
+  if((status = Sane.get_parameters(s, 0)) != Sane.STATUS_GOOD)
     return end_scan(s, status)
   set_pass_parameters(s)
 
@@ -3870,48 +3870,48 @@ Sane.start_guts (Sane.Handle handle)
 			   &(s.sfd),
 			   sense_handler,
 			   &(s.sense_flags))
-  if (status != Sane.STATUS_GOOD) {
+  if(status != Sane.STATUS_GOOD) {
     DBG(10, "Sane.start: open of %s failed: %s\n",
-	s.dev.sane.name, Sane.strstatus (status))
+	s.dev.sane.name, Sane.strstatus(status))
     s.sfd = -1
     return end_scan(s, status)
   }
 
-  if ((status = wait_ready(s)) != Sane.STATUS_GOOD) return end_scan(s, status)
+  if((status = wait_ready(s)) != Sane.STATUS_GOOD) return end_scan(s, status)
 
-  if ((status = finagle_precal(s)) != Sane.STATUS_GOOD)
+  if((status = finagle_precal(s)) != Sane.STATUS_GOOD)
     return end_scan(s, status)
 
-  if ((status = scanning_frame(s)) != Sane.STATUS_GOOD) return end_scan(s, status)
-  if (s.dev.info.source_options &
+  if((status = scanning_frame(s)) != Sane.STATUS_GOOD) return end_scan(s, status)
+  if(s.dev.info.source_options &
       (MI_SRC_FEED_BT | MI_SRC_HAS_TRANS |
        MI_SRC_FEED_SUPP | MI_SRC_HAS_FEED)) { /* ZZZZZZZZZZZ */
-    if ((status = accessory(s)) != Sane.STATUS_GOOD) return end_scan(s, status)
+    if((status = accessory(s)) != Sane.STATUS_GOOD) return end_scan(s, status)
     /* if SWslct ????  XXXXXXXXXXXXXXX */
   }
-  if ((status = download_gamma(s)) != Sane.STATUS_GOOD)
+  if((status = download_gamma(s)) != Sane.STATUS_GOOD)
     return end_scan(s, status)
-  if ((status = mode_select(s)) != Sane.STATUS_GOOD)
+  if((status = mode_select(s)) != Sane.STATUS_GOOD)
     return end_scan(s, status)
-  if (s.dev.info.does_mode1) {
-    if ((status = mode_select_1(s)) != Sane.STATUS_GOOD)
+  if(s.dev.info.does_mode1) {
+    if((status = mode_select_1(s)) != Sane.STATUS_GOOD)
       return end_scan(s, status)
   }
-  if ((s.do_clever_precal) || (s.do_real_calib)) {
-    if ((status = save_mode_sense(s)) != Sane.STATUS_GOOD)
+  if((s.do_clever_precal) || (s.do_real_calib)) {
+    if((status = save_mode_sense(s)) != Sane.STATUS_GOOD)
       return end_scan(s, status)
   }
-  if ((status = wait_ready(s)) != Sane.STATUS_GOOD) return end_scan(s, status)
+  if((status = wait_ready(s)) != Sane.STATUS_GOOD) return end_scan(s, status)
   s.scan_started = Sane.TRUE
-  if ((status = start_scan(s)) != Sane.STATUS_GOOD) return end_scan(s, status)
-  if ((status = get_scan_status(s, &busy,
+  if((status = start_scan(s)) != Sane.STATUS_GOOD) return end_scan(s, status)
+  if((status = get_scan_status(s, &busy,
 				&linewidth, &(s.unscanned_lines))) !=
       Sane.STATUS_GOOD) {
     DBG(10, "Sane.start:  get_scan_status fails\n")
     return end_scan(s, status)
   }
   /* check for a bizarre linecount */
-  if ((s.unscanned_lines < 0) ||
+  if((s.unscanned_lines < 0) ||
       (s.unscanned_lines >
        (s.params.lines * 2 * (s.expandedresolution ? 2 : 1)))) {
     DBG(10, "Sane.start:  get_scan_status returns weird line count %d\n",
@@ -3921,7 +3921,7 @@ Sane.start_guts (Sane.Handle handle)
 
 
   /* figure out image format parameters */
-  switch (s.mode) {
+  switch(s.mode) {
   case MS_MODE_LINEART:
   case MS_MODE_HALFTONE:
     s.pixel_bpl = linewidth
@@ -3931,7 +3931,7 @@ Sane.start_guts (Sane.Handle handle)
     s.line_format = MS_LNFMT_FLAT
     break
   case MS_MODE_GRAY:
-    if (s.bits_per_color < 8) {
+    if(s.bits_per_color < 8) {
       s.pixel_bpl = linewidth
       s.ppl = linewidth * (8 / s.bits_per_color)
     }	else {
@@ -3943,7 +3943,7 @@ Sane.start_guts (Sane.Handle handle)
     s.line_format = MS_LNFMT_FLAT
     break
   case MS_MODE_COLOR:
-    switch (s.color_seq) {
+    switch(s.color_seq) {
     case MI_COLSEQ_PLANE:
       s.pixel_bpl = linewidth * ((s.bits_per_color + 7) / 8)
       s.ppl = linewidth
@@ -3990,7 +3990,7 @@ Sane.start_guts (Sane.Handle handle)
     return end_scan(s, Sane.STATUS_INVAL)
   }
 
-  if ((s.doexpansion) &&
+  if((s.doexpansion) &&
       (s.resolution > s.dev.info.base_resolution)) {
     s.dest_ppl = (Int) ((double)s.ppl *
 			 (double)s.resolution /
@@ -4018,13 +4018,13 @@ Sane.start_guts (Sane.Handle handle)
 
   /* calculate maximum line capacity of SCSI buffer */
   s.max_scsi_lines = SCSI_BUFF_SIZE / (s.pixel_bpl + s.header_bpl)
-  if (s.max_scsi_lines < 1) {
+  if(s.max_scsi_lines < 1) {
     DBG(10, "Sane.start:  SCSI buffer smaller that one scan line!\n")
     return end_scan(s, Sane.STATUS_NO_MEM)
   }
 
   s.scsi_buffer = (uint8_t *) malloc(SCSI_BUFF_SIZE * sizeof(uint8_t))
-  if (s.scsi_buffer == NULL) return Sane.STATUS_NO_MEM
+  if(s.scsi_buffer == NULL) return Sane.STATUS_NO_MEM
 
   /* what's a good initial size for this? */
   s.rb = ring_alloc(s.max_scsi_lines * s.dest_pixel_bpl,
@@ -4045,7 +4045,7 @@ Sane.start_guts (Sane.Handle handle)
 
 
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   Microtek_Scanner *s = handle
   Sane.Status status
@@ -4062,7 +4062,7 @@ Sane.start (Sane.Handle handle)
 /* Sane.read                                                        */
 /********************************************************************/
 static Sane.Status
-Sane.read_guts (Sane.Handle handle, Sane.Byte *dest_buffer,
+Sane.read_guts(Sane.Handle handle, Sane.Byte *dest_buffer,
 		Int dest_length, Int *ret_length)
 {
   Microtek_Scanner *s = handle
@@ -4074,19 +4074,19 @@ Sane.read_guts (Sane.Handle handle, Sane.Byte *dest_buffer,
 
   *ret_length = 0; /* default: no data */
   /* we have been cancelled... */
-  if (s.cancel) return end_scan(s, Sane.STATUS_CANCELLED)
+  if(s.cancel) return end_scan(s, Sane.STATUS_CANCELLED)
   /* we're not really scanning!... */
-  if (!(s.scanning)) return Sane.STATUS_INVAL
+  if(!(s.scanning)) return Sane.STATUS_INVAL
   /* we are done scanning... */
-  if (s.undelivered_bytes <= 0) return end_scan(s, Sane.STATUS_EOF)
+  if(s.undelivered_bytes <= 0) return end_scan(s, Sane.STATUS_EOF)
 
   /* get more bytes if our ring is empty... */
-  while (rb.complete_count == 0) {
-    if ((status = read_from_scanner(s, &nlines)) != Sane.STATUS_GOOD) {
+  while(rb.complete_count == 0) {
+    if((status = read_from_scanner(s, &nlines)) != Sane.STATUS_GOOD) {
       DBG(18, "Sane.read:  read_from_scanner failed.\n")
       return end_scan(s, status)
     }
-    if ((status = pack_into_ring(s, nlines)) != Sane.STATUS_GOOD) {
+    if((status = pack_into_ring(s, nlines)) != Sane.STATUS_GOOD) {
       DBG(18, "Sane.read:  pack_into_ring failed.\n")
       return end_scan(s, status)
     }
@@ -4095,14 +4095,14 @@ Sane.read_guts (Sane.Handle handle, Sane.Byte *dest_buffer,
   *ret_length = pack_into_dest(dest_buffer, dest_length, rb)
   s.undelivered_bytes -= *ret_length
 
-  if (s.cancel) return end_scan(s, Sane.STATUS_CANCELLED)
+  if(s.cancel) return end_scan(s, Sane.STATUS_CANCELLED)
 
   return Sane.STATUS_GOOD
 }
 
 
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte *dest_buffer,
+Sane.read(Sane.Handle handle, Sane.Byte *dest_buffer,
 	   Int dest_length, Int *ret_length)
 {
   Microtek_Scanner *s = handle
@@ -4120,17 +4120,17 @@ Sane.read (Sane.Handle handle, Sane.Byte *dest_buffer,
 /* Sane.exit                                                        */
 /********************************************************************/
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   Microtek_Device *next
 
   DBG(10, "Sane.exit...\n")
   /* close all leftover Scanners */
   /*(beware of how Sane.close interacts with linked list) */
-  while (first_handle != NULL)
+  while(first_handle != NULL)
     Sane.close(first_handle)
   /* free up device list */
-  while (first_dev != NULL) {
+  while(first_dev != NULL) {
     next = first_dev.next
     free((void *) first_dev.sane.name)
     free((void *) first_dev.sane.model)
@@ -4148,12 +4148,12 @@ Sane.exit (void)
 /* Sane.cancel                                                      */
 /********************************************************************/
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   Microtek_Scanner *ms = handle
   DBG(10, "Sane.cancel...\n")
   ms.cancel = Sane.TRUE
-  if (!(ms.woe)) end_scan(ms, Sane.STATUS_CANCELLED)
+  if(!(ms.woe)) end_scan(ms, Sane.STATUS_CANCELLED)
 }
 
 
@@ -4162,11 +4162,11 @@ Sane.cancel (Sane.Handle handle)
 /* Sane.set_io_mode                                                 */
 /********************************************************************/
 Sane.Status
-Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 {
   DBG(10, "Sane.set_io_mode...\n")
   handle = handle
-  if (non_blocking)
+  if(non_blocking)
     return Sane.STATUS_UNSUPPORTED
   else
     return Sane.STATUS_GOOD
@@ -4178,7 +4178,7 @@ Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
 /* Sane.get_select_fd                                               */
 /********************************************************************/
 Sane.Status
-Sane.get_select_fd (Sane.Handle handle, Int * fd)
+Sane.get_select_fd(Sane.Handle handle, Int * fd)
 {
   DBG(10, "Sane.get_select_fd...\n")
   handle = handle, fd = fd

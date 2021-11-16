@@ -11,34 +11,34 @@
 /* helper char array manipulation functions */
 
 static void
-setbitfield (unsigned char *pageaddr, Int mask, Int shift, Int val)
+setbitfield(unsigned char *pageaddr, Int mask, Int shift, Int val)
 {
     *pageaddr = (*pageaddr & ~(mask << shift)) | ((val & mask) << shift)
 }
 
 static Int
-getbitfield (unsigned char *pageaddr, Int shift, Int mask)
+getbitfield(unsigned char *pageaddr, Int shift, Int mask)
 {
-    return ((*pageaddr >> shift) & mask)
+    return((*pageaddr >> shift) & mask)
 }
 
 static Int
-getnbyte (unsigned char *pnt, Int nbytes)
+getnbyte(unsigned char *pnt, Int nbytes)
 {
     unsigned Int result = 0
     var i: Int
 
-    for (i = 0; i < nbytes; i++)
+    for(i = 0; i < nbytes; i++)
         result = (result << 8) | (pnt[i] & 0xff)
     return result
 }
 
 static void
-putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
+putnbyte(unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 {
     var i: Int
 
-    for (i = nbytes - 1; i >= 0; i--) {
+    for(i = nbytes - 1; i >= 0; i--) {
         pnt[i] = value & 0xff
         value = value >> 8
     }
@@ -225,7 +225,7 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 #define SET_WINDOW_code         0x24
 #define SET_WINDOW_len          10
 
-/* transfer length is header+descriptor (8+64) */
+/* transfer length is header+descriptor(8+64) */
 #define set_SW_xferlen(sb, len) putnbyte(sb + 0x06, len, 3)
 
 /* ==================================================================== */
@@ -237,7 +237,7 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 #define set_GW_single(sb, val) setbitfield(sb + 1, 1, 0, val)
 #define set_GW_wid(sb, len) sb[5] = len
 
-/* window transfer length is for following header+descriptor (8+64) */
+/* window transfer length is for following header+descriptor(8+64) */
 #define set_GW_xferlen(sb, len) putnbyte(sb + 0x06, len, 3)
 
 /* ==================================================================== */
@@ -245,7 +245,7 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 
 #define WINDOW_HEADER_len       8
 
-/* header transfer length is for following descriptor (64) */
+/* header transfer length is for following descriptor(64) */
 #define set_WH_data_len(sb, len)  putnbyte(sb, len, 2)
 #define set_WH_desc_len(sb, len)  putnbyte(sb + 0x06, len, 2)
 

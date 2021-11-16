@@ -1,5 +1,5 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 David Mosberger-Tang
+   Copyright(C) 1997 David Mosberger-Tang
    This file is part of the SANE package.
 
    As a special exception, the authors of SANE give permission for
@@ -26,11 +26,11 @@
    Portions of this code are derived from Scott Laird's qcam driver.
    It's copyright notice is reproduced here:
 
-   Copyright (C) 1996 by Scott Laird
+   Copyright(C) 1996 by Scott Laird
 
    Permission is hereby granted, free of charge, to any person
    obtaining a copy of this software and associated documentation
-   files (the "Software"), to deal in the Software without
+   files(the "Software"), to deal in the Software without
    restriction, including without limitation the rights to use, copy,
    modify, merge, publish, distribute, sublicense, and/or sell copies
    of the Software, and to permit persons to whom the Software is
@@ -143,7 +143,7 @@ typedef struct
     size_t num_bytes;		/* # of bytes to read */
     QC_Resolution resolution;	/* high-resolution? */
     Sane.Parameters params;	/* other parameters */
-    u_int mode;			/* qcam scan code (get video data command) */
+    u_int mode;			/* qcam scan code(get video data command) */
     Int despeckle;		/* apply despeckling filter? */
   }
 QC_Scan_Request
@@ -177,7 +177,7 @@ typedef struct QC_Scanner
     size_t num_bytes;		/* # of bytes read so far */
     size_t bytes_per_frame;	/* total number of bytes in frame */
     /* state relating to the reader-process */
-    Int reader_pid;		/* -1 if there is no reader process (yet) */
+    Int reader_pid;		/* -1 if there is no reader process(yet) */
     Int from_child;		/* fd to read from child process*/
     Int to_child;		/* fd to write to child */
     Int read_fd;		/* used to read data */

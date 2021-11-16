@@ -1,11 +1,11 @@
 ﻿/* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2003 Oliver Rauch
-   Copyright (C) 2003, 2004 Henning Meier-Geinitz <henning@meier-geinitz.de>
-   Copyright (C) 2004, 2005 Gerhard Jaeger <gerhard@gjaeger.de>
-   Copyright (C) 2004-2013 Stéphane Voltz <stef.dev@free.fr>
-   Copyright (C) 2005-2009 Pierre Willenbrock <pierre@pirsoft.dnsalias.org>
-   Copyright (C) 2006 Laurent Charpentier <laurent_pubs@yahoo.com>
+   Copyright(C) 2003 Oliver Rauch
+   Copyright(C) 2003, 2004 Henning Meier-Geinitz <henning@meier-geinitz.de>
+   Copyright(C) 2004, 2005 Gerhard Jaeger <gerhard@gjaeger.de>
+   Copyright(C) 2004-2013 Stéphane Voltz <stef.dev@free.fr>
+   Copyright(C) 2005-2009 Pierre Willenbrock <pierre@pirsoft.dnsalias.org>
+   Copyright(C) 2006 Laurent Charpentier <laurent_pubs@yahoo.com>
    Parts of the structs have been taken from the gt68xx backend by
    Sergey Vlasov <vsu@altlinux.ru> et al.
 
@@ -14,7 +14,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -177,11 +177,11 @@ public:
 
     bool matches(std::uint16_t vendor_id, std::uint16_t product_id, std::uint16_t bcd_device)
     {
-        if (vendor_ != vendor_id)
+        if(vendor_ != vendor_id)
             return false
-        if (product_ != product_id)
+        if(product_ != product_id)
             return false
-        if (bcd_device_ != BCD_DEVICE_NOT_SET && bcd_device != BCD_DEVICE_NOT_SET &&
+        if(bcd_device_ != BCD_DEVICE_NOT_SET && bcd_device != BCD_DEVICE_NOT_SET &&
             bcd_device_ != bcd_device)
         {
             return false
@@ -226,7 +226,7 @@ void scanner_register_rw_bits(Genesys_Device& dev, std::uint16_t address,
 public void sanei_genesys_write_ahb(Genesys_Device* dev, uint32_t addr, uint32_t size,
                                     uint8_t* data)
 
-public void sanei_genesys_init_structs (Genesys_Device * dev)
+public void sanei_genesys_init_structs(Genesys_Device * dev)
 
 const Genesys_Sensor& sanei_genesys_find_sensor_any(const Genesys_Device* dev)
 const Genesys_Sensor& sanei_genesys_find_sensor(const Genesys_Device* dev, unsigned dpi,

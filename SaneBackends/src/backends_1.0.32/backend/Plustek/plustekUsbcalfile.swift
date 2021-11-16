@@ -6,7 +6,7 @@
 /** @file plustek-usbcalfile.c
  *  @brief Functions for saving/restoring calibration settings
  *
- * Copyright (C) 2001-2007 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 2001-2007 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.46 - first version
@@ -24,7 +24,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -506,7 +506,7 @@ usb_SaveCalData( Plustek_Device *dev )
 	DBG( _DBG_INFO, "- Saving coarse calibration data to file\n" )
 	DBG( _DBG_INFO, "  %s\n", fn )
 
-	usb_PrepCalData ( dev, &cal )
+	usb_PrepCalData( dev, &cal )
 	usb_CreatePrefix( dev, pfx, Sane.TRUE )
 	DBG( _DBG_INFO2, "- PFX: >%s<\n", pfx )
 
@@ -537,7 +537,7 @@ usb_SaveCalData( Plustek_Device *dev )
 					/* read the rest... */
 					other_tmp = usb_ReadOtherLines( fp, pfx )
 				} else {
-					DBG( _DBG_INFO2, "- Versions do not match (0x%04x)\n", version )
+					DBG( _DBG_INFO2, "- Versions do not match(0x%04x)\n", version )
 				}
 			} else {
 				DBG( _DBG_INFO2, "- cannot decode version\n" )
@@ -613,7 +613,7 @@ usb_SaveFineCalData( Plustek_Device *dev, Int dpi,
 					/* read the rest... */
 					other_tmp = usb_ReadOtherLines( fp, pfx )
 				} else {
-					DBG( _DBG_INFO2, "- Versions do not match (0x%04x)\n", version )
+					DBG( _DBG_INFO2, "- Versions do not match(0x%04x)\n", version )
 				}
 			} else {
 				DBG( _DBG_INFO2, "- cannot decode version\n" )
@@ -734,15 +734,15 @@ usb_get_shading_part(u_short *buf, u_long offs, u_long src_len, Int dst_len)
 	u_short *p_src, *p_dst
 	Int      i, j
 
-	if (src_len == 0 || dst_len == 0)
+	if(src_len == 0 || dst_len == 0)
 		return
 
 	p_dst = buf
-	for (i=0; i<3; i++) {
+	for(i=0; i<3; i++) {
 
 		p_src = buf + src_len * i + offs
 
-		for (j=0; j<dst_len; j++) {
+		for(j=0; j<dst_len; j++) {
 
 			*(p_dst++) = *(p_src++)
 		}
@@ -826,7 +826,7 @@ usb_SaveCalSetShading( Plustek_Device *dev, ScanParam *tmp_sp )
 	DBG( _DBG_INFO2, "Origin.X  = %u\n",  sp.Origin.x )
 	DBG( _DBG_INFO2, "Offset    = %lu\n", offs )
 
-	if (!usb_InCalibrationMode(dev)) {
+	if(!usb_InCalibrationMode(dev)) {
 
 		usb_get_shading_part( a_wDarkShading, offs,
 		                      tmp_sp.Size.dwPixels, sp.Size.dwPhyPixels )

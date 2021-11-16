@@ -158,7 +158,7 @@ struct fujitsu
   char version_name[5];         /* raw data as returned by SCSI inquiry.   */
 
   Int color_raster_offset;      /* offset between r and b scan line and    */
-                                /* between b and g scan line (0 or 4)      */
+                                /* between b and g scan line(0 or 4)      */
 
   Int duplex_raster_offset;     /* offset between front and rear page when */
                                 /* when scanning 3091 style duplex         */
@@ -308,7 +308,7 @@ struct fujitsu
 
   /* --------------------------------------------------------------------- */
   /* immutable values which are hard coded because they are not in vpd     */
-  /* this section replaces all the old 'switch (s.model)' code            */
+  /* this section replaces all the old 'switch(s.model)' code            */
 
   /* the scan size in 1/1200th inches, NOT basic_units or sane units */
   Int max_x
@@ -553,7 +553,7 @@ struct fujitsu
   Int bytes_tx[2]
   Int eof_tx[2]
 
-  /*size of buffers (can be smaller than above*/
+  /*size of buffers(can be smaller than above*/
   Int buff_tot[2]
   Int buff_rx[2]
   Int buff_tx[2]
@@ -566,7 +566,7 @@ struct fujitsu
   Int req_driv_lut
 
   /* --------------------------------------------------------------------- */
-  /* values used by the software enhancement code (deskew, crop, etc)      */
+  /* values used by the software enhancement code(deskew, crop, etc)      */
   Sane.Status deskew_stat
   Int deskew_vals[2]
   double deskew_slope
@@ -582,7 +582,7 @@ struct fujitsu
   Int jpeg_x_byte
 
   /* --------------------------------------------------------------------- */
-  /* values which used by the command and data sending functions (scsi/usb)*/
+  /* values which used by the command and data sending functions(scsi/usb)*/
   Int fd;                      /* The scanner device file descriptor.     */
   size_t rs_info
   Int rs_eom
@@ -718,57 +718,57 @@ struct fujitsu
 
 /* ------------------------------------------------------------------------- */
 
-Sane.Status Sane.init (Int * version_code, Sane.Auth_Callback authorize)
+Sane.Status Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 
-Sane.Status Sane.get_devices (const Sane.Device *** device_list,
+Sane.Status Sane.get_devices(const Sane.Device *** device_list,
                               Bool local_only)
 
-Sane.Status Sane.open (Sane.String_Const name, Sane.Handle * handle)
+Sane.Status Sane.open(Sane.String_Const name, Sane.Handle * handle)
 
-Sane.Status Sane.set_io_mode (Sane.Handle h, Bool non_blocking)
+Sane.Status Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
 
-Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fdp)
+Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fdp)
 
-const Sane.Option_Descriptor * Sane.get_option_descriptor (Sane.Handle handle,
+const Sane.Option_Descriptor * Sane.get_option_descriptor(Sane.Handle handle,
                                                           Int option)
 
-Sane.Status Sane.control_option (Sane.Handle handle, Int option,
+Sane.Status Sane.control_option(Sane.Handle handle, Int option,
                                  Sane.Action action, void *val,
                                  Int * info)
 
-Sane.Status Sane.start (Sane.Handle handle)
+Sane.Status Sane.start(Sane.Handle handle)
 
-Sane.Status Sane.get_parameters (Sane.Handle handle,
+Sane.Status Sane.get_parameters(Sane.Handle handle,
                                  Sane.Parameters * params)
 
-Sane.Status Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
+Sane.Status Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
                        Int * len)
 
-void Sane.cancel (Sane.Handle h)
+void Sane.cancel(Sane.Handle h)
 
-void Sane.close (Sane.Handle h)
+void Sane.close(Sane.Handle h)
 
-void Sane.exit (void)
+void Sane.exit(void)
 
 /* ------------------------------------------------------------------------- */
 
-static Sane.Status attach_one_scsi (const char *name)
-static Sane.Status attach_one_usb (const char *name)
-static Sane.Status attach_one (const char *devicename, Int connType)
+static Sane.Status attach_one_scsi(const char *name)
+static Sane.Status attach_one_usb(const char *name)
+static Sane.Status attach_one(const char *devicename, Int connType)
 
-static Sane.Status connect_fd (struct fujitsu *s)
-static Sane.Status disconnect_fd (struct fujitsu *s)
+static Sane.Status connect_fd(struct fujitsu *s)
+static Sane.Status disconnect_fd(struct fujitsu *s)
 
-static Sane.Status sense_handler (Int scsi_fd, u_char * result, void *arg)
+static Sane.Status sense_handler(Int scsi_fd, u_char * result, void *arg)
 
-static Sane.Status init_inquire (struct fujitsu *s)
-static Sane.Status init_vpd (struct fujitsu *s)
-static Sane.Status init_ms (struct fujitsu *s)
-static Sane.Status init_model (struct fujitsu *s)
-static Sane.Status init_user (struct fujitsu *s)
-static Sane.Status init_options (struct fujitsu *scanner)
-static Sane.Status init_interlace (struct fujitsu *scanner)
-static Sane.Status init_serial (struct fujitsu *scanner)
+static Sane.Status init_inquire(struct fujitsu *s)
+static Sane.Status init_vpd(struct fujitsu *s)
+static Sane.Status init_ms(struct fujitsu *s)
+static Sane.Status init_model(struct fujitsu *s)
+static Sane.Status init_user(struct fujitsu *s)
+static Sane.Status init_options(struct fujitsu *scanner)
+static Sane.Status init_interlace(struct fujitsu *scanner)
+static Sane.Status init_serial(struct fujitsu *scanner)
 
 static Sane.Status
 do_cmd(struct fujitsu *s, Int runRS, Int shortTime,
@@ -791,12 +791,12 @@ do_usb_cmd(struct fujitsu *s, Int runRS, Int shortTime,
  unsigned char * inBuff, size_t * inLen
 )
 
-static Sane.Status wait_scanner (struct fujitsu *s)
+static Sane.Status wait_scanner(struct fujitsu *s)
 
-static Sane.Status object_position (struct fujitsu *s, Int action)
+static Sane.Status object_position(struct fujitsu *s, Int action)
 
-static Sane.Status scanner_control (struct fujitsu *s, Int function)
-static Sane.Status scanner_control_ric (struct fujitsu *s, Int bytes, Int side)
+static Sane.Status scanner_control(struct fujitsu *s, Int function)
+static Sane.Status scanner_control_ric(struct fujitsu *s, Int bytes, Int side)
 
 static Sane.Status mode_select_df(struct fujitsu *s)
 
@@ -804,32 +804,32 @@ static Sane.Status mode_select_dropout(struct fujitsu *s)
 
 static Sane.Status mode_select_bg(struct fujitsu *s)
 
-static Sane.Status mode_select_buff (struct fujitsu *s)
+static Sane.Status mode_select_buff(struct fujitsu *s)
 
-static Sane.Status mode_select_prepick (struct fujitsu *s)
+static Sane.Status mode_select_prepick(struct fujitsu *s)
 
-static Sane.Status mode_select_auto (struct fujitsu *s)
+static Sane.Status mode_select_auto(struct fujitsu *s)
 
 static Sane.Status set_sleep_mode(struct fujitsu *s)
 static Sane.Status set_off_mode(struct fujitsu *s)
 
-static Int must_downsample (struct fujitsu *s)
-static Int must_fully_buffer (struct fujitsu *s)
-static Int get_page_width (struct fujitsu *s)
-static Int get_page_height (struct fujitsu *s)
-static Int get_ipc_mode (struct fujitsu *s)
-static Int set_max_y (struct fujitsu *s)
+static Int must_downsample(struct fujitsu *s)
+static Int must_fully_buffer(struct fujitsu *s)
+static Int get_page_width(struct fujitsu *s)
+static Int get_page_height(struct fujitsu *s)
+static Int get_ipc_mode(struct fujitsu *s)
+static Int set_max_y(struct fujitsu *s)
 
-static Sane.Status send_lut (struct fujitsu *s)
-static Sane.Status send_endorser (struct fujitsu *s)
-static Sane.Status endorser (struct fujitsu *s)
-static Sane.Status set_window (struct fujitsu *s)
+static Sane.Status send_lut(struct fujitsu *s)
+static Sane.Status send_endorser(struct fujitsu *s)
+static Sane.Status endorser(struct fujitsu *s)
+static Sane.Status set_window(struct fujitsu *s)
 static Sane.Status get_pixelsize(struct fujitsu *s, Int actual)
 
-static Sane.Status update_params (struct fujitsu *s)
-static Sane.Status update_u_params (struct fujitsu *s)
+static Sane.Status update_params(struct fujitsu *s)
+static Sane.Status update_u_params(struct fujitsu *s)
 
-static Sane.Status start_scan (struct fujitsu *s)
+static Sane.Status start_scan(struct fujitsu *s)
 
 static Sane.Status check_for_cancel(struct fujitsu *s)
 
@@ -844,18 +844,18 @@ static Sane.Status copy_buffer(struct fujitsu *s, unsigned char * buf, Int len, 
 static Sane.Status read_from_buffer(struct fujitsu *s, Sane.Byte * buf, Int max_len, Int * len, Int side)
 static Sane.Status downsample_from_buffer(struct fujitsu *s, Sane.Byte * buf, Int max_len, Int * len, Int side)
 
-static Sane.Status setup_buffers (struct fujitsu *s)
+static Sane.Status setup_buffers(struct fujitsu *s)
 
-static Sane.Status get_hardware_status (struct fujitsu *s, Int option)
+static Sane.Status get_hardware_status(struct fujitsu *s, Int option)
 
 static Sane.Status buffer_deskew(struct fujitsu *s, Int side)
 static Sane.Status buffer_crop(struct fujitsu *s, Int side)
 static Sane.Status buffer_despeck(struct fujitsu *s, Int side)
 static Int buffer_isblank(struct fujitsu *s, Int side)
 
-static void hexdump (Int level, char *comment, unsigned char *p, Int l)
+static void hexdump(Int level, char *comment, unsigned char *p, Int l)
 
-static size_t maxStringSize (const Sane.String_Const strings[])
+static size_t maxStringSize(const Sane.String_Const strings[])
 
 #endif /* FUJITSU_H */
 
@@ -865,10 +865,10 @@ static size_t maxStringSize (const Sane.String_Const strings[])
    This file is part of the SANE package, and implements a SANE backend
    for various Fujitsu scanners.
 
-   Copyright (C) 2000 Randolph Bentson
-   Copyright (C) 2001 Frederik Ramm
-   Copyright (C) 2001-2004 Oliver Schirrmeister
-   Copyright (C) 2003-2019 m. allan noah
+   Copyright(C) 2000 Randolph Bentson
+   Copyright(C) 2001 Frederik Ramm
+   Copyright(C) 2001-2004 Oliver Schirrmeister
+   Copyright(C) 2003-2019 m. allan noah
 
    JPEG output and low memory usage support funded by:
      Archivista GmbH, www.archivista.ch
@@ -884,7 +884,7 @@ static size_t maxStringSize (const Sane.String_Const strings[])
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -943,12 +943,12 @@ static size_t maxStringSize (const Sane.String_Const strings[])
          - bugfix. reader_generic_passthrough ignored the number of bytes
            returned by the scanner
       v3, 2002-09-13, OS
-         - 3092 support (mgoppold a t tbz-pariv.de)
+         - 3092 support(mgoppold a t tbz-pariv.de)
          - tested 4097 support
          - changed some functions to receive compressed data
       v4, 2003-02-13, OS
-         - fi-4220C support (ron a t roncemer.com)
-         - SCSI over USB support (ron a t roncemer.com)
+         - fi-4220C support(ron a t roncemer.com)
+         - SCSI over USB support(ron a t roncemer.com)
       v5, 2003-02-20, OS
          - set availability of options THRESHOLD und VARIANCE
          - option RIF is available for 3091 and 3092
@@ -988,19 +988,19 @@ static size_t maxStringSize (const Sane.String_Const strings[])
       v16 2004-02-20, OS
          - merged the 3092-routines with the 3091-routines
          - inverted the image in mode color and grayscale
-         - jpg hardware compression support (fi-4530C)
+         - jpg hardware compression support(fi-4530C)
       v17 2004-03-04, OS
          - enabled option dropoutcolor for the fi-4530C, and fi-4x20C
       v18 2004-06-02, OS
          - bugfix: can read duplex color now
       v19 2004-06-28, MAN
-         - 4220 use model code not strcmp (stan a t saticed.me.uk)
+         - 4220 use model code not strcmp(stan a t saticed.me.uk)
       v20 2004-08-24, OS
          - bugfix: 3091 did not work since 15.12.2003
-         - M4099 supported (bw only)
+         - M4099 supported(bw only)
       v21 2006-05-01, MAN
          - Complete rewrite, half code size
-         - better (read: correct) usb command support
+         - better(read: correct) usb command support
          - basic support for most fi-series
          - most scanner capabilities read from VPD
          - reduced model-specific code
@@ -1032,20 +1032,20 @@ static size_t maxStringSize (const Sane.String_Const strings[])
          - use sanei_scsi_open_extended() to set buffer size
          - fix some compiler warns: 32&64 bit gcc
       v26 2006-05-23, MAN
-         - don't send scanner control (F1) if unsupported
+         - don't send scanner control(F1) if unsupported
       v27 2006-05-30, MAN
-         - speed up hexdump (adeuring A T gmx D O T net)
+         - speed up hexdump(adeuring A T gmx D O T net)
          - duplex request same size block from both sides
          - don't #include or call sanei_thread
          - split usb/scsi command DBG into 25 and 30
       v28 2006-06-01, MAN
          - Sane.read() usleep if scanner is busy
-         - do_*_cmd() no looping (only one caller used it),
+         - do_*_cmd() no looping(only one caller used it),
            remove unneeded casts, cleanup/add error messages
          - scanner_control() look at correct has_cmd_* var,
            handles own looping on busy
       v29 2006-06-04, MAN
-         - M3091/2 Color mode support (duplex still broken)
+         - M3091/2 Color mode support(duplex still broken)
          - all sensors option names start with 'button-'
          - rewrite Sane.read and helpers to use buffers,
            currently an extreme waste of ram, but should
@@ -1053,8 +1053,8 @@ static size_t maxStringSize (const Sane.String_Const strings[])
          - merge color conversion funcs into read_from_buf()
          - compare bytes tx v/s rx instead of storing EOFs
          - remove scanner cmd buf, use buf per func instead
-         - print color and duplex raster offsets (inquiry)
-         - print EOM, ILI, and info bytes (request sense)
+         - print color and duplex raster offsets(inquiry)
+         - print EOM, ILI, and info bytes(request sense)
       v30 2006-06-06, MAN
          - M3091/2 duplex support, color/gray/ht/lineart ok
          - Sane.read helpers share code, report more errors
@@ -1068,7 +1068,7 @@ static size_t maxStringSize (const Sane.String_Const strings[])
          - run ghs/rs every second instead of every other
       v32 2006-06-14, MAN
          - add 4220C2 usb id
-      v33 2006-06-14, MAN (SANE v1.0.18)
+      v33 2006-06-14, MAN(SANE v1.0.18)
          - add Fi-5900 usb id and init_model section
       v34 2006-07-04, MAN
          - add S500 usb id
@@ -1087,7 +1087,7 @@ static size_t maxStringSize (const Sane.String_Const strings[])
          - brightness/contrast support via LUT
          - merge global mode page buffers
       v38 2006-07-15, MAN
-         - add 'useless noise' debug level (35)
+         - add 'useless noise' debug level(35)
          - move mode sense probe errors to DBG 35
       v39 2006-07-17, MAN
          - rewrite contrast slope math for readability
@@ -1099,14 +1099,14 @@ static size_t maxStringSize (const Sane.String_Const strings[])
            and to use ptr to return read in length
          - new init_user function split from init_model
          - init_vpd allows short vpd block for older models
-         - support MS buffer (s.scipioni AT harvardgroup DOT it)
+         - support MS buffer(s.scipioni AT harvardgroup DOT it)
          - support MS prepick
          - read only 1 byte of mode sense output
       v41 2006-08-28, MAN
          - do_usb_cmd() returns io error on cmd/out/status/rs EOF
          - fix bug in MS buffer/prepick scsi data block
       v42 2006-08-31, MAN
-         - fix bug in get_hardware_status (#303798)
+         - fix bug in get_hardware_status(#303798)
       v43 2006-09-19, MAN
          - add model-specific code to init_vpd for M3099
       v44 2007-01-26, MAN
@@ -1141,15 +1141,15 @@ static size_t maxStringSize (const Sane.String_Const strings[])
 	 - call send_lut() from Sane.control_option instead of Sane.start
       v53 2007-11-18, MAN
          - add S510 usb id
-	 - OPT_NUM_OPTS type is Sane.TYPE_INT (jblache)
+	 - OPT_NUM_OPTS type is Sane.TYPE_INT(jblache)
       v54 2007-12-29, MAN
 	 - disable Sane.FRAME_JPEG support until SANE 1.1.0
-      v55 2007-12-29, MAN (SANE v1.0.19)
+      v55 2007-12-29, MAN(SANE v1.0.19)
 	 - add S500M usb id
       v56 2008-02-14, MAN
-	 - sanei_config_read has already cleaned string (#310597)
+	 - sanei_config_read has already cleaned string(#310597)
       v57 2008-02-24, MAN
-         - fi-5900 does not (initially) interlace colors
+         - fi-5900 does not(initially) interlace colors
 	 - add mode sense for color interlacing? (page code 32)
 	 - more debug output in init_ms()
       v58 2008-04-19, MAN
@@ -1184,7 +1184,7 @@ static size_t maxStringSize (const Sane.String_Const strings[])
       v64 2008-05-28, MAN
          - strcpy device_name[] instead of strdup/free *device_name
 	 - add send/read diag commands to get scanner serial number
-	 - use model and serial to build sane.name (idea from Ryan Duryea)
+	 - use model and serial to build sane.name(idea from Ryan Duryea)
 	 - allow both serial_name and device_name to Sane.open scanner
 	 - correct mode select/sense 6 vs 10 booleans
 	 - rename product_name to model_name
@@ -1218,7 +1218,7 @@ static size_t maxStringSize (const Sane.String_Const strings[])
       v69 2008-07-03, MAN
          - support hot-unplugging scanners
       v70 2008-07-05, MAN
-         - fix bug in Sane.get_parameters (failed to copy values)
+         - fix bug in Sane.get_parameters(failed to copy values)
 	 - autodetect jpeg duplex interlacing mode by inspecting scan width
       v71 2008-07-13, MAN
          - disable overscan option if vpd does not tell overscan size
@@ -1246,7 +1246,7 @@ static size_t maxStringSize (const Sane.String_Const strings[])
 	 - set Sane.CAP_INACTIVE on all disabled options
          - fix bug in mode_select page for sleep timer
       v78 2008-08-26, MAN
-	 - recent model names (fi-6xxx) don't end in 'C'
+	 - recent model names(fi-6xxx) don't end in 'C'
          - simplify flatbed area overrides
          - call scanner_control to change source during Sane.start
       v79 2008-10-01, MAN
@@ -1291,8 +1291,8 @@ static size_t maxStringSize (const Sane.String_Const strings[])
       v91 2009-03-20, MAN
          - remove unused temp file code
       v92 2009-04-12, MAN
-	 - disable Sane.FRAME_JPEG support (again)
-      v93 2009-04-14, MAN (SANE 1.0.20)
+	 - disable Sane.FRAME_JPEG support(again)
+      v93 2009-04-14, MAN(SANE 1.0.20)
          - return cmd status for reads on sensors
          - ignore errors in scanner_control(),
            M3091 has not worked since sane 1.0.19, due to this.
@@ -1311,7 +1311,7 @@ static size_t maxStringSize (const Sane.String_Const strings[])
          - support hardware based auto length detection
       v97 2009-09-14, MAN
          - use sanei_magic to provide software deskew, autocrop and despeckle
-      v98 2010-02-09, MAN (SANE 1.0.21)
+      v98 2010-02-09, MAN(SANE 1.0.21)
          - clean up #include lines and copyright
          - add Sane.I18N to static strings
          - don't fail if scsi buffer is too small
@@ -1341,7 +1341,7 @@ static size_t maxStringSize (const Sane.String_Const strings[])
          - backup and restore image params around image processing code
          - cache software crop/deskew parameters for use on backside of duplex
          - fi-6110 does not support bgcolor or prepick
-      v106 2011-01-30, MAN (SANE 1.0.22)
+      v106 2011-01-30, MAN(SANE 1.0.22)
          - don't call mode_select with a page code the scanner does not support
       v107 2011-11-03, MAN
          - M3091 does not support scanner_control(adf)
@@ -1369,12 +1369,12 @@ static size_t maxStringSize (const Sane.String_Const strings[])
          - add recent model VPD params
          - only set params.lines = -1 when using ald without buffering
          - fix bugs in background color when using software deskew
-      v111 2012-05-10, MAN (SANE 1.0.23)
+      v111 2012-05-10, MAN(SANE 1.0.23)
          - call send_* and mode_select_* from Sane.start
          - split read payloads into new debug level
          - add paper-protect, staple-detect and df-recovery options
       v112 2013-02-22, MAN
-         - some scanners (fi-6x70 and later) don't enable IPC by default
+         - some scanners(fi-6x70 and later) don't enable IPC by default
       v113 2013-02-24, MAN
          - support for ScanSnap iX500
          - fix bug with jpeg de-interlacing code
@@ -1389,14 +1389,14 @@ static size_t maxStringSize (const Sane.String_Const strings[])
       v115 2013-03-09, MAN
          - separate s.mode into s_mode and u_mode
          - separate s.params into s_params and u_params
-         - generate grayscale and binary in software if required (iX500)
+         - generate grayscale and binary in software if required(iX500)
       v116 2013-03-23, MAN
          - call set_mode() in init_interlace
          - add swskip option
-      v117 2013-06-11, MAN (SANE 1.0.24)
+      v117 2013-06-11, MAN(SANE 1.0.24)
          - default buffer-mode to off
          - improved error handling in Sane.start
-         - image width must be multiple of 8 when swcrop is used before binarization (iX500)
+         - image width must be multiple of 8 when swcrop is used before binarization(iX500)
          - check hopper sensor before calling object_position(load) on iX500
       v118 2013-12-09, MAN
          - support fi-7160, fi-7260, fi-7180 and fi-7280
@@ -1427,14 +1427,14 @@ static size_t maxStringSize (const Sane.String_Const strings[])
          - workaround Linux USB3 bugs by adding command counting code and
            sending an even number of reads and writes during disconnect_fd
       v124 2014-12-09, MAN
-         - support resolution controlled max page-height (fi-6/7xxx scanners)
+         - support resolution controlled max page-height(fi-6/7xxx scanners)
          - reorder scanner sections in init_model chronologically
       v125 2014-12-16, MAN
          - remove USB packet counting code from v123, fix sanei_usb instead
       v126 2015-08-23, MAN
          - initial support for iX100
          - add late_lut support for iX500/iX100
-      v127 2015-08-25, MAN (SANE 1.0.25)
+      v127 2015-08-25, MAN(SANE 1.0.25)
          - separate iX100 from iX500 settings
          - iX100 has gray and lineart
       v128 2015-11-08, MAN
@@ -1463,16 +1463,16 @@ static size_t maxStringSize (const Sane.String_Const strings[])
       v134 2019-02-23, MAN
          - rewrite init_vpd for scanners which fail to report
            overscan correctly
-      v135 2019-11-10, MAN (SANE 1.0.29)
+      v135 2019-11-10, MAN(SANE 1.0.29)
          - set has_MS_lamp=0 for fi-72x0, bug #134
       v136 2020-02-07, MAN
          - add support for fi-800R
-         - add support for card scanning slot (Return Path)
+         - add support for card scanning slot(Return Path)
          - fix bug with reading hardware sensors on first invocation
       v137 2020-09-23, MAN
          - fix JPEG duplex memory corruption
-         - change window_gamma init (fixes bright/contrast for iX1500)
-         - only call send_lut after set_window (remove late_lut)
+         - change window_gamma init(fixes bright/contrast for iX1500)
+         - only call send_lut after set_window(remove late_lut)
 
    SANE FLOW DIAGRAM
 
@@ -1489,7 +1489,7 @@ static size_t maxStringSize (const Sane.String_Const strings[])
    . .
    . . - Sane.start() : start image acquisition
    . .   - Sane.get_parameters() : returns actual scan parameters
-   . .   - Sane.read() : read image data (from pipe)
+   . .   - Sane.read() : read image data(from pipe)
    . . (Sane.read called multiple times; after Sane.read returns EOF,
    . . loop may continue with Sane.start which may return a 2nd page
    . . when doing duplex scans, or load the next page from the ADF)
@@ -1624,22 +1624,22 @@ static struct fujitsu *fujitsu_devList = NULL
  * not support authentication.
  */
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 {
   authorize = authorize;        /* get rid of compiler warning */
 
-  DBG_INIT ()
-  DBG (10, "Sane.init: start\n")
+  DBG_INIT()
+  DBG(10, "Sane.init: start\n")
 
-  if (version_code)
-    *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, BUILD)
+  if(version_code)
+    *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, BUILD)
 
-  DBG (5, "Sane.init: fujitsu backend %d.%d.%d, from %s\n",
+  DBG(5, "Sane.init: fujitsu backend %d.%d.%d, from %s\n",
     Sane.CURRENT_MAJOR, V_MINOR, BUILD, PACKAGE_STRING)
 
   sanei_magic_init()
 
-  DBG (10, "Sane.init: finish\n")
+  DBG(10, "Sane.init: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -1652,11 +1652,11 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
  * available. If the function executes successfully, it stores a
  * pointer to a NULL terminated array of pointers to Sane.Device
  * structures in *device_list. The returned list is guaranteed to
- * remain unchanged and valid until (a) another call to this function
- * is performed or (b) a call to Sane.exit() is performed. This
+ * remain unchanged and valid until(a) another call to this function
+ * is performed or(b) a call to Sane.exit() is performed. This
  * function can be called repeatedly to detect when new devices become
  * available. If argument local_only is true, only local devices are
- * returned (devices directly attached to the machine that SANE is
+ * returned(devices directly attached to the machine that SANE is
  * running on). If it is false, the device list includes all remote
  * devices that are accessible to the SANE library.
  *
@@ -1670,7 +1670,7 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
  * and store in global device structs
  */
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 {
   Sane.Status ret = Sane.STATUS_GOOD
   struct fujitsu * s
@@ -1683,10 +1683,10 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
 
   local_only = local_only;        /* get rid of compiler warning */
 
-  DBG (10, "Sane.get_devices: start\n")
+  DBG(10, "Sane.get_devices: start\n")
 
   /* mark all existing scanners as missing, attach_one will remove mark */
-  for (s = fujitsu_devList; s; s = s.next) {
+  for(s = fujitsu_devList; s; s = s.next) {
     s.missing = 1
   }
 
@@ -1695,78 +1695,78 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
   /* set this to 64K before reading the file */
   global_buffer_size = 64 * 1024
 
-  fp = sanei_config_open (FUJITSU_CONFIG_FILE)
+  fp = sanei_config_open(FUJITSU_CONFIG_FILE)
 
-  if (fp) {
+  if(fp) {
 
-      DBG (15, "Sane.get_devices: reading config file %s\n",
+      DBG(15, "Sane.get_devices: reading config file %s\n",
         FUJITSU_CONFIG_FILE)
 
-      while (sanei_config_read (line, PATH_MAX, fp)) {
+      while(sanei_config_read(line, PATH_MAX, fp)) {
 
           lp = line
 
           /* ignore comments */
-          if (*lp == '#')
+          if(*lp == '#')
             continue
 
           /* skip empty lines */
-          if (*lp == 0)
+          if(*lp == 0)
             continue
 
-          if ((strncmp ("option", lp, 6) == 0) && isspace (lp[6])) {
+          if((strncmp("option", lp, 6) == 0) && isspace(lp[6])) {
 
               lp += 6
-              lp = sanei_config_skip_whitespace (lp)
+              lp = sanei_config_skip_whitespace(lp)
 
               /* we allow setting buffersize too big */
-              if ((strncmp (lp, "buffer-size", 11) == 0) && isspace (lp[11])) {
+              if((strncmp(lp, "buffer-size", 11) == 0) && isspace(lp[11])) {
 
                   Int buf
                   lp += 11
-                  lp = sanei_config_skip_whitespace (lp)
-                  buf = atoi (lp)
+                  lp = sanei_config_skip_whitespace(lp)
+                  buf = atoi(lp)
 
-                  if (buf < 4096) {
-                    DBG (5, "Sane.get_devices: config option \"buffer-size\" (%d) is < 4096, ignoring!\n", buf)
+                  if(buf < 4096) {
+                    DBG(5, "Sane.get_devices: config option \"buffer-size\" (%d) is < 4096, ignoring!\n", buf)
                     continue
                   }
 
-                  if (buf > 64*1024) {
-                    DBG (5, "Sane.get_devices: config option \"buffer-size\" (%d) is > %d, warning!\n", buf, 64*1024)
+                  if(buf > 64*1024) {
+                    DBG(5, "Sane.get_devices: config option \"buffer-size\" (%d) is > %d, warning!\n", buf, 64*1024)
                   }
 
-                  DBG (15, "Sane.get_devices: setting \"buffer-size\" to %d\n", buf)
+                  DBG(15, "Sane.get_devices: setting \"buffer-size\" to %d\n", buf)
                   global_buffer_size = buf
               }
               else {
-                  DBG (5, "Sane.get_devices: config option \"%s\" unrecognized - ignored.\n", lp)
+                  DBG(5, "Sane.get_devices: config option \"%s\" unrecognized - ignored.\n", lp)
               }
           }
-          else if ((strncmp ("usb", lp, 3) == 0) && isspace (lp[3])) {
-              DBG (15, "Sane.get_devices: looking for '%s'\n", lp)
+          else if((strncmp("usb", lp, 3) == 0) && isspace(lp[3])) {
+              DBG(15, "Sane.get_devices: looking for '%s'\n", lp)
               sanei_usb_attach_matching_devices(lp, attach_one_usb)
           }
-          else if ((strncmp ("scsi", lp, 4) == 0) && isspace (lp[4])) {
-              DBG (15, "Sane.get_devices: looking for '%s'\n", lp)
-              sanei_config_attach_matching_devices (lp, attach_one_scsi)
+          else if((strncmp("scsi", lp, 4) == 0) && isspace(lp[4])) {
+              DBG(15, "Sane.get_devices: looking for '%s'\n", lp)
+              sanei_config_attach_matching_devices(lp, attach_one_scsi)
           }
           else{
-              DBG (5, "Sane.get_devices: config line \"%s\" unrecognized - ignored.\n", lp)
+              DBG(5, "Sane.get_devices: config line \"%s\" unrecognized - ignored.\n", lp)
           }
       }
-      fclose (fp)
+      fclose(fp)
   }
 
   else {
-      DBG (5, "Sane.get_devices: missing required config file '%s'!\n",
+      DBG(5, "Sane.get_devices: missing required config file '%s'!\n",
         FUJITSU_CONFIG_FILE)
   }
 
   /*delete missing scanners from list*/
-  for (s = fujitsu_devList; s;) {
+  for(s = fujitsu_devList; s;) {
     if(s.missing){
-      DBG (5, "Sane.get_devices: missing scanner %s\n",s.device_name)
+      DBG(5, "Sane.get_devices: missing scanner %s\n",s.device_name)
 
       /*splice s out of list by changing pointer in prev to next*/
       if(prev){
@@ -1791,21 +1791,21 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
     }
   }
 
-  for (s = fujitsu_devList; s; s=s.next) {
-    DBG (15, "Sane.get_devices: found scanner %s\n",s.device_name)
+  for(s = fujitsu_devList; s; s=s.next) {
+    DBG(15, "Sane.get_devices: found scanner %s\n",s.device_name)
     num_devices++
   }
 
-  DBG (15, "Sane.get_devices: found %d scanner(s)\n",num_devices)
+  DBG(15, "Sane.get_devices: found %d scanner(s)\n",num_devices)
 
-  if (Sane.devArray)
-    free (Sane.devArray)
+  if(Sane.devArray)
+    free(Sane.devArray)
 
-  Sane.devArray = calloc (num_devices + 1, sizeof (Sane.Device*))
-  if (!Sane.devArray)
+  Sane.devArray = calloc(num_devices + 1, sizeof(Sane.Device*))
+  if(!Sane.devArray)
     return Sane.STATUS_NO_MEM
 
-  for (s = fujitsu_devList; s; s=s.next) {
+  for(s = fujitsu_devList; s; s=s.next) {
     Sane.devArray[i++] = (Sane.Device *)&s.sane
   }
   Sane.devArray[i] = 0
@@ -1814,20 +1814,20 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
       *device_list = Sane.devArray
   }
 
-  DBG (10, "Sane.get_devices: finish\n")
+  DBG(10, "Sane.get_devices: finish\n")
 
   return ret
 }
 
 /* callbacks used by Sane.get_devices */
 static Sane.Status
-attach_one_scsi (const char *device_name)
+attach_one_scsi(const char *device_name)
 {
   return attach_one(device_name,CONNECTION_SCSI)
 }
 
 static Sane.Status
-attach_one_usb (const char *device_name)
+attach_one_usb(const char *device_name)
 {
   return attach_one(device_name,CONNECTION_USB)
 }
@@ -1836,100 +1836,100 @@ attach_one_usb (const char *device_name)
  * unless struct is already loaded, then pretend
  */
 static Sane.Status
-attach_one (const char *device_name, Int connType)
+attach_one(const char *device_name, Int connType)
 {
   struct fujitsu *s
   Int ret
 
-  DBG (10, "attach_one: start\n")
-  DBG (15, "attach_one: looking for '%s'\n", device_name)
+  DBG(10, "attach_one: start\n")
+  DBG(15, "attach_one: looking for '%s'\n", device_name)
 
-  for (s = fujitsu_devList; s; s = s.next) {
-    if (strcmp (s.device_name, device_name) == 0){
-      DBG (10, "attach_one: already attached!\n")
+  for(s = fujitsu_devList; s; s = s.next) {
+    if(strcmp(s.device_name, device_name) == 0){
+      DBG(10, "attach_one: already attached!\n")
       s.missing = 0
       return Sane.STATUS_GOOD
     }
   }
 
   /* build a fujitsu struct to hold it */
-  if ((s = calloc (sizeof (*s), 1)) == NULL)
+  if((s = calloc(sizeof(*s), 1)) == NULL)
     return Sane.STATUS_NO_MEM
 
   /* scsi command/data buffer */
   s.buffer_size = global_buffer_size
 
   /* copy the device name */
-  strcpy (s.device_name, device_name)
+  strcpy(s.device_name, device_name)
 
   /* connect the fd */
   s.connection = connType
   s.fd = -1
   ret = connect_fd(s)
   if(ret != Sane.STATUS_GOOD){
-    free (s)
+    free(s)
     return ret
   }
 
   /* Now query the device to load its vendor/model/version */
-  ret = init_inquire (s)
-  if (ret != Sane.STATUS_GOOD) {
+  ret = init_inquire(s)
+  if(ret != Sane.STATUS_GOOD) {
     disconnect_fd(s)
-    free (s)
-    DBG (5, "attach_one: inquiry failed\n")
+    free(s)
+    DBG(5, "attach_one: inquiry failed\n")
     return ret
   }
 
   /* load detailed specs/capabilities from the device */
-  ret = init_vpd (s)
-  if (ret != Sane.STATUS_GOOD) {
+  ret = init_vpd(s)
+  if(ret != Sane.STATUS_GOOD) {
     disconnect_fd(s)
-    free (s)
-    DBG (5, "attach_one: vpd failed\n")
+    free(s)
+    DBG(5, "attach_one: vpd failed\n")
     return ret
   }
 
   /* clean up the scanner struct based on model */
   /* this is the only piece of model specific code */
-  ret = init_model (s)
-  if (ret != Sane.STATUS_GOOD) {
+  ret = init_model(s)
+  if(ret != Sane.STATUS_GOOD) {
     disconnect_fd(s)
-    free (s)
-    DBG (5, "attach_one: model failed\n")
+    free(s)
+    DBG(5, "attach_one: model failed\n")
     return ret
   }
 
   /* see what mode pages device supports */
-  ret = init_ms (s)
-  if (ret != Sane.STATUS_GOOD) {
+  ret = init_ms(s)
+  if(ret != Sane.STATUS_GOOD) {
     disconnect_fd(s)
-    free (s)
-    DBG (5, "attach_one: ms failed\n")
+    free(s)
+    DBG(5, "attach_one: ms failed\n")
     return ret
   }
 
   /* sets SANE option 'values' to good defaults */
-  ret = init_user (s)
-  if (ret != Sane.STATUS_GOOD) {
+  ret = init_user(s)
+  if(ret != Sane.STATUS_GOOD) {
     disconnect_fd(s)
-    free (s)
-    DBG (5, "attach_one: user failed\n")
+    free(s)
+    DBG(5, "attach_one: user failed\n")
     return ret
   }
 
-  ret = init_options (s)
-  if (ret != Sane.STATUS_GOOD) {
+  ret = init_options(s)
+  if(ret != Sane.STATUS_GOOD) {
     disconnect_fd(s)
-    free (s)
-    DBG (5, "attach_one: options failed\n")
+    free(s)
+    DBG(5, "attach_one: options failed\n")
     return ret
   }
 
-  ret = init_interlace (s)
-  if (ret != Sane.STATUS_GOOD) {
+  ret = init_interlace(s)
+  if(ret != Sane.STATUS_GOOD) {
     disconnect_fd(s)
-    free (s)
-    DBG (5, "attach_one: interlace failed\n")
+    free(s)
+    DBG(5, "attach_one: interlace failed\n")
     return ret
   }
 
@@ -1940,12 +1940,12 @@ attach_one (const char *device_name, Int connType)
   s.sane.type = "scanner"
 
   /* change name in Sane.device struct if scanner has serial number */
-  ret = init_serial (s)
-  if (ret == Sane.STATUS_GOOD) {
+  ret = init_serial(s)
+  if(ret == Sane.STATUS_GOOD) {
     s.sane.name = s.serial_name
   }
   else{
-    DBG (5, "attach_one: serial number unsupported?\n")
+    DBG(5, "attach_one: serial number unsupported?\n")
   }
 
   /* we close the connection, so that another backend can talk to scanner */
@@ -1955,7 +1955,7 @@ attach_one (const char *device_name, Int connType)
   s.next = fujitsu_devList
   fujitsu_devList = s
 
-  DBG (10, "attach_one: finish\n")
+  DBG(10, "attach_one: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -1964,27 +1964,27 @@ attach_one (const char *device_name, Int connType)
  * connect the fd in the scanner struct
  */
 static Sane.Status
-connect_fd (struct fujitsu *s)
+connect_fd(struct fujitsu *s)
 {
   Sane.Status ret
   Int buffer_size = s.buffer_size
 
-  DBG (10, "connect_fd: start\n")
+  DBG(10, "connect_fd: start\n")
 
   if(s.fd > -1){
-    DBG (5, "connect_fd: already open\n")
+    DBG(5, "connect_fd: already open\n")
     ret = Sane.STATUS_GOOD
   }
-  else if (s.connection == CONNECTION_USB) {
-    DBG (15, "connect_fd: opening USB device\n")
-    ret = sanei_usb_open (s.device_name, &(s.fd))
+  else if(s.connection == CONNECTION_USB) {
+    DBG(15, "connect_fd: opening USB device\n")
+    ret = sanei_usb_open(s.device_name, &(s.fd))
   }
   else {
-    DBG (15, "connect_fd: opening SCSI device\n")
-    ret = sanei_scsi_open_extended (s.device_name, &(s.fd), sense_handler, s,
+    DBG(15, "connect_fd: opening SCSI device\n")
+    ret = sanei_scsi_open_extended(s.device_name, &(s.fd), sense_handler, s,
       &s.buffer_size)
     if(!ret && buffer_size != s.buffer_size){
-      DBG (5, "connect_fd: cannot get requested buffer size (%d/%d)\n",
+      DBG(5, "connect_fd: cannot get requested buffer size(%d/%d)\n",
         buffer_size, s.buffer_size)
     }
   }
@@ -1995,17 +1995,17 @@ connect_fd (struct fujitsu *s)
      * properly after last use. very first commands sent to device
      * must be prepared to correct this- see wait_scanner() */
     ret = wait_scanner(s)
-    if (ret != Sane.STATUS_GOOD) {
-      DBG (5, "connect_fd: could not wait_scanner\n")
+    if(ret != Sane.STATUS_GOOD) {
+      DBG(5, "connect_fd: could not wait_scanner\n")
       disconnect_fd(s)
     }
 
   }
   else{
-    DBG (5, "connect_fd: could not open device: %d\n", ret)
+    DBG(5, "connect_fd: could not open device: %d\n", ret)
   }
 
-  DBG (10, "connect_fd: finish\n")
+  DBG(10, "connect_fd: finish\n")
 
   return ret
 }
@@ -2015,7 +2015,7 @@ connect_fd (struct fujitsu *s)
  * It also copies interesting data from INQUIRY into the handle structure
  */
 static Sane.Status
-init_inquire (struct fujitsu *s)
+init_inquire(struct fujitsu *s)
 {
   var i: Int
   Sane.Status ret
@@ -2026,76 +2026,76 @@ init_inquire (struct fujitsu *s)
   unsigned char in[INQUIRY_std_len]
   size_t inLen = INQUIRY_std_len
 
-  DBG (10, "init_inquire: start\n")
+  DBG(10, "init_inquire: start\n")
 
   memset(cmd,0,cmdLen)
   set_SCSI_opcode(cmd, INQUIRY_code)
-  set_IN_return_size (cmd, inLen)
-  set_IN_evpd (cmd, 0)
-  set_IN_page_code (cmd, 0)
+  set_IN_return_size(cmd, inLen)
+  set_IN_evpd(cmd, 0)
+  set_IN_page_code(cmd, 0)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     NULL, 0,
     in, &inLen
   )
 
-  if (ret != Sane.STATUS_GOOD){
+  if(ret != Sane.STATUS_GOOD){
     return ret
   }
 
-  if (get_IN_periph_devtype (in) != IN_periph_devtype_scanner){
-    DBG (5, "The device at '%s' is not a scanner.\n", s.device_name)
+  if(get_IN_periph_devtype(in) != IN_periph_devtype_scanner){
+    DBG(5, "The device at '%s' is not a scanner.\n", s.device_name)
     return Sane.STATUS_INVAL
   }
 
-  get_IN_vendor (in, s.vendor_name)
-  get_IN_product (in, s.model_name)
-  get_IN_version (in, s.version_name)
+  get_IN_vendor(in, s.vendor_name)
+  get_IN_product(in, s.model_name)
+  get_IN_version(in, s.version_name)
 
   s.vendor_name[8] = 0
   s.model_name[16] = 0
   s.version_name[4] = 0
 
   /* gobble trailing spaces */
-  for (i = 7; s.vendor_name[i] == ' ' && i >= 0; i--)
+  for(i = 7; s.vendor_name[i] == ' ' && i >= 0; i--)
     s.vendor_name[i] = 0
-  for (i = 15; s.model_name[i] == ' ' && i >= 0; i--)
+  for(i = 15; s.model_name[i] == ' ' && i >= 0; i--)
     s.model_name[i] = 0
-  for (i = 3; s.version_name[i] == ' ' && i >= 0; i--)
+  for(i = 3; s.version_name[i] == ' ' && i >= 0; i--)
     s.version_name[i] = 0
 
-  if (strcmp ("FUJITSU", s.vendor_name)) {
-    DBG (5, "The device at '%s' is reported to be made by '%s'\n", s.device_name, s.vendor_name)
-    DBG (5, "This backend only supports Fujitsu products.\n")
+  if(strcmp("FUJITSU", s.vendor_name)) {
+    DBG(5, "The device at '%s' is reported to be made by '%s'\n", s.device_name, s.vendor_name)
+    DBG(5, "This backend only supports Fujitsu products.\n")
     return Sane.STATUS_INVAL
   }
 
-  DBG (15, "init_inquire: Found %s scanner %s version %s at %s\n",
+  DBG(15, "init_inquire: Found %s scanner %s version %s at %s\n",
     s.vendor_name, s.model_name, s.version_name, s.device_name)
 
   /*some scanners list random data here*/
-  DBG (15, "inquiry options\n")
+  DBG(15, "inquiry options\n")
 
   s.color_raster_offset = get_IN_color_offset(in)
-  DBG (15, "  color offset: %d lines\n",s.color_raster_offset)
+  DBG(15, "  color offset: %d lines\n",s.color_raster_offset)
 
   /* FIXME: we don't store all of these? */
-  DBG (15, "  long gray scan: %d\n",get_IN_long_gray(in))
-  DBG (15, "  long color scan: %d\n",get_IN_long_color(in))
+  DBG(15, "  long gray scan: %d\n",get_IN_long_gray(in))
+  DBG(15, "  long color scan: %d\n",get_IN_long_color(in))
 
-  DBG (15, "  emulation mode: %d\n",get_IN_emulation(in))
-  DBG (15, "  CMP/CGA: %d\n",get_IN_cmp_cga(in))
-  DBG (15, "  background back: %d\n",get_IN_bg_back(in))
-  DBG (15, "  background front: %d\n",get_IN_bg_front(in))
-  DBG (15, "  background fb: %d\n",get_IN_bg_fb(in))
-  DBG (15, "  back only scan: %d\n",get_IN_has_back(in))
+  DBG(15, "  emulation mode: %d\n",get_IN_emulation(in))
+  DBG(15, "  CMP/CGA: %d\n",get_IN_cmp_cga(in))
+  DBG(15, "  background back: %d\n",get_IN_bg_back(in))
+  DBG(15, "  background front: %d\n",get_IN_bg_front(in))
+  DBG(15, "  background fb: %d\n",get_IN_bg_fb(in))
+  DBG(15, "  back only scan: %d\n",get_IN_has_back(in))
 
   s.duplex_raster_offset = get_IN_duplex_offset(in)
-  DBG (15, "  duplex offset: %d lines\n",s.duplex_raster_offset)
+  DBG(15, "  duplex offset: %d lines\n",s.duplex_raster_offset)
 
-  DBG (10, "init_inquire: finish\n")
+  DBG(10, "init_inquire: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -2104,7 +2104,7 @@ init_inquire (struct fujitsu *s)
  * Use INQUIRY VPD to setup more detail about the scanner
  */
 static Sane.Status
-init_vpd (struct fujitsu *s)
+init_vpd(struct fujitsu *s)
 {
   Sane.Status ret
 
@@ -2116,16 +2116,16 @@ init_vpd (struct fujitsu *s)
 
   Int payload_len, payload_off
 
-  DBG (10, "init_vpd: start\n")
+  DBG(10, "init_vpd: start\n")
 
   /* get EVPD */
   memset(cmd,0,cmdLen)
   set_SCSI_opcode(cmd, INQUIRY_code)
-  set_IN_return_size (cmd, inLen)
-  set_IN_evpd (cmd, 1)
-  set_IN_page_code (cmd, 0xf0)
+  set_IN_return_size(cmd, inLen)
+  set_IN_evpd(cmd, 1)
+  set_IN_page_code(cmd, 0xf0)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     NULL, 0,
@@ -2133,10 +2133,10 @@ init_vpd (struct fujitsu *s)
   )
 
   /*FIXME no vpd, set some defaults? */
-  if (ret != Sane.STATUS_GOOD && ret != Sane.STATUS_EOF) {
-    DBG (5, "init_vpd: Your scanner does not support VPD?\n")
-    DBG (5, "init_vpd: Please contact kitno455 at gmail dot com\n")
-    DBG (5, "init_vpd: with details of your scanner model.\n")
+  if(ret != Sane.STATUS_GOOD && ret != Sane.STATUS_EOF) {
+    DBG(5, "init_vpd: Your scanner does not support VPD?\n")
+    DBG(5, "init_vpd: Please contact kitno455 at gmail dot com\n")
+    DBG(5, "init_vpd: with details of your scanner model.\n")
     return ret
   }
 
@@ -2144,16 +2144,16 @@ init_vpd (struct fujitsu *s)
    * the payload. But, this value is often bogus. */
   payload_len = get_IN_page_length(in)
 
-  DBG (15, "init_vpd: length=%0x\n", payload_len)
+  DBG(15, "init_vpd: length=%0x\n", payload_len)
 
   /* M3099 gives all data, but wrong length */
-  if (strstr (s.model_name, "M3099") && payload_len == 0x19){
-    DBG (5, "init_vpd: M3099 repair\n")
+  if(strstr(s.model_name, "M3099") && payload_len == 0x19){
+    DBG(5, "init_vpd: M3099 repair\n")
     payload_len = 0x5f
   }
 
   /* M3097G has short vpd, fill in missing part */
-  else if (strstr (s.model_name, "M3097G") && payload_len == 0x19){
+  else if(strstr(s.model_name, "M3097G") && payload_len == 0x19){
     unsigned char vpd3097g[] = {
 0, 0,
 0xc2, 0x08, 0, 0, 0, 0, 0, 0, 0xed, 0xbf, 0, 0, 0, 0, 0, 0,
@@ -2163,13 +2163,13 @@ init_vpd (struct fujitsu *s)
 0, 0, 0, 0
     ]
 
-    DBG (5, "init_vpd: M3097G repair\n")
+    DBG(5, "init_vpd: M3097G repair\n")
     payload_len = 0x5f
     memcpy(in+0x1e,vpd3097g,sizeof(vpd3097g))
 
     /*IPC*/
-    if(strstr (s.model_name, "i")){
-      DBG (5, "init_vpd: M3097G IPC repair\n")
+    if(strstr(s.model_name, "i")){
+      DBG(5, "init_vpd: M3097G IPC repair\n")
 
       /*subwin cmd*/
       in[0x2b] = 1
@@ -2182,8 +2182,8 @@ init_vpd (struct fujitsu *s)
     }
 
     /*CMP*/
-    if(strstr (s.model_name, "m")){
-      DBG (5, "init_vpd: M3097G CMP repair\n")
+    if(strstr(s.model_name, "m")){
+      DBG(5, "init_vpd: M3097G CMP repair\n")
 
       /*4megs*/
       in[0x23] = 0x40
@@ -2195,10 +2195,10 @@ init_vpd (struct fujitsu *s)
 
   /* all other known scanners have at least 0x5f,
    * less would require software changes like above */
-  else if (payload_len < 0x5f) {
-    DBG (5, "init_vpd: Your scanner supports only partial VPD?\n")
-    DBG (5, "init_vpd: Please contact kitno455 at gmail dot com\n")
-    DBG (5, "init_vpd: with details of your scanner model.\n")
+  else if(payload_len < 0x5f) {
+    DBG(5, "init_vpd: Your scanner supports only partial VPD?\n")
+    DBG(5, "init_vpd: Please contact kitno455 at gmail dot com\n")
+    DBG(5, "init_vpd: with details of your scanner model.\n")
     return Sane.STATUS_INVAL
   }
 
@@ -2208,7 +2208,7 @@ init_vpd (struct fujitsu *s)
    * Scanners that don't support overscan seem to have all zeros
    * in these bytes, so no harm is done.
    * This may be an 'off-by-four' error in the firmware. */
-  else if (payload_len == 0x5f){
+  else if(payload_len == 0x5f){
     payload_len += 4
   }
 
@@ -2218,80 +2218,80 @@ init_vpd (struct fujitsu *s)
   payload_off = payload_len + 4
 
   /* everything that appears in bytes 0 to 0x1d */
-  DBG (15, "standard options\n")
+  DBG(15, "standard options\n")
 
-  s.basic_x_res = get_IN_basic_x_res (in)
-  DBG (15, "  basic x res: %d dpi\n",s.basic_x_res)
+  s.basic_x_res = get_IN_basic_x_res(in)
+  DBG(15, "  basic x res: %d dpi\n",s.basic_x_res)
 
-  s.basic_y_res = get_IN_basic_y_res (in)
-  DBG (15, "  basic y res: %d dpi\n",s.basic_y_res)
+  s.basic_y_res = get_IN_basic_y_res(in)
+  DBG(15, "  basic y res: %d dpi\n",s.basic_y_res)
 
-  s.step_x_res[MODE_LINEART] = get_IN_step_x_res (in)
-  DBG (15, "  step x res: %d dpi\n", s.step_x_res[MODE_LINEART])
+  s.step_x_res[MODE_LINEART] = get_IN_step_x_res(in)
+  DBG(15, "  step x res: %d dpi\n", s.step_x_res[MODE_LINEART])
 
-  s.step_y_res[MODE_LINEART] = get_IN_step_y_res (in)
-  DBG (15, "  step y res: %d dpi\n", s.step_y_res[MODE_LINEART])
+  s.step_y_res[MODE_LINEART] = get_IN_step_y_res(in)
+  DBG(15, "  step y res: %d dpi\n", s.step_y_res[MODE_LINEART])
 
-  s.max_x_res = get_IN_max_x_res (in)
-  DBG (15, "  max x res: %d dpi\n", s.max_x_res)
+  s.max_x_res = get_IN_max_x_res(in)
+  DBG(15, "  max x res: %d dpi\n", s.max_x_res)
 
-  s.max_y_res = get_IN_max_y_res (in)
-  DBG (15, "  max y res: %d dpi\n", s.max_y_res)
+  s.max_y_res = get_IN_max_y_res(in)
+  DBG(15, "  max y res: %d dpi\n", s.max_y_res)
 
-  s.min_x_res = get_IN_min_x_res (in)
-  DBG (15, "  min x res: %d dpi\n", s.min_x_res)
+  s.min_x_res = get_IN_min_x_res(in)
+  DBG(15, "  min x res: %d dpi\n", s.min_x_res)
 
-  s.min_y_res = get_IN_min_y_res (in)
-  DBG (15, "  min y res: %d dpi\n", s.min_y_res)
+  s.min_y_res = get_IN_min_y_res(in)
+  DBG(15, "  min y res: %d dpi\n", s.min_y_res)
 
   /* some scanners list B&W resolutions. */
   s.std_res[0] = get_IN_std_res_60 (in)
-  DBG (15, "  60 dpi: %d\n", s.std_res[0])
+  DBG(15, "  60 dpi: %d\n", s.std_res[0])
 
   s.std_res[1] = get_IN_std_res_75 (in)
-  DBG (15, "  75 dpi: %d\n", s.std_res[1])
+  DBG(15, "  75 dpi: %d\n", s.std_res[1])
 
   s.std_res[2] = get_IN_std_res_100 (in)
-  DBG (15, "  100 dpi: %d\n", s.std_res[2])
+  DBG(15, "  100 dpi: %d\n", s.std_res[2])
 
   s.std_res[3] = get_IN_std_res_120 (in)
-  DBG (15, "  120 dpi: %d\n", s.std_res[3])
+  DBG(15, "  120 dpi: %d\n", s.std_res[3])
 
   s.std_res[4] = get_IN_std_res_150 (in)
-  DBG (15, "  150 dpi: %d\n", s.std_res[4])
+  DBG(15, "  150 dpi: %d\n", s.std_res[4])
 
   s.std_res[5] = get_IN_std_res_160 (in)
-  DBG (15, "  160 dpi: %d\n", s.std_res[5])
+  DBG(15, "  160 dpi: %d\n", s.std_res[5])
 
   s.std_res[6] = get_IN_std_res_180 (in)
-  DBG (15, "  180 dpi: %d\n", s.std_res[6])
+  DBG(15, "  180 dpi: %d\n", s.std_res[6])
 
   s.std_res[7] = get_IN_std_res_200 (in)
-  DBG (15, "  200 dpi: %d\n", s.std_res[7])
+  DBG(15, "  200 dpi: %d\n", s.std_res[7])
 
   s.std_res[8] = get_IN_std_res_240 (in)
-  DBG (15, "  240 dpi: %d\n", s.std_res[8])
+  DBG(15, "  240 dpi: %d\n", s.std_res[8])
 
   s.std_res[9] = get_IN_std_res_300 (in)
-  DBG (15, "  300 dpi: %d\n", s.std_res[9])
+  DBG(15, "  300 dpi: %d\n", s.std_res[9])
 
   s.std_res[10] = get_IN_std_res_320 (in)
-  DBG (15, "  320 dpi: %d\n", s.std_res[10])
+  DBG(15, "  320 dpi: %d\n", s.std_res[10])
 
   s.std_res[11] = get_IN_std_res_400 (in)
-  DBG (15, "  400 dpi: %d\n", s.std_res[11])
+  DBG(15, "  400 dpi: %d\n", s.std_res[11])
 
   s.std_res[12] = get_IN_std_res_480 (in)
-  DBG (15, "  480 dpi: %d\n", s.std_res[12])
+  DBG(15, "  480 dpi: %d\n", s.std_res[12])
 
   s.std_res[13] = get_IN_std_res_600 (in)
-  DBG (15, "  600 dpi: %d\n", s.std_res[13])
+  DBG(15, "  600 dpi: %d\n", s.std_res[13])
 
   s.std_res[14] = get_IN_std_res_800 (in)
-  DBG (15, "  800 dpi: %d\n", s.std_res[14])
+  DBG(15, "  800 dpi: %d\n", s.std_res[14])
 
   s.std_res[15] = get_IN_std_res_1200 (in)
-  DBG (15, "  1200 dpi: %d\n", s.std_res[15])
+  DBG(15, "  1200 dpi: %d\n", s.std_res[15])
 
   /* maximum window width and length are reported in basic units.*/
   s.max_x_basic = get_IN_window_width(in)
@@ -2302,403 +2302,403 @@ init_vpd (struct fujitsu *s)
 
   /* known modes */
   s.can_overflow = get_IN_overflow(in)
-  DBG (15, "  overflow: %d\n", s.can_overflow)
+  DBG(15, "  overflow: %d\n", s.can_overflow)
 
-  s.can_mode[MODE_LINEART] = get_IN_monochrome (in)
-  DBG (15, "  monochrome: %d\n", s.can_mode[MODE_LINEART])
+  s.can_mode[MODE_LINEART] = get_IN_monochrome(in)
+  DBG(15, "  monochrome: %d\n", s.can_mode[MODE_LINEART])
 
-  s.can_mode[MODE_HALFTONE] = get_IN_half_tone (in)
-  DBG (15, "  halftone: %d\n", s.can_mode[MODE_HALFTONE])
+  s.can_mode[MODE_HALFTONE] = get_IN_half_tone(in)
+  DBG(15, "  halftone: %d\n", s.can_mode[MODE_HALFTONE])
 
-  s.can_mode[MODE_GRAYSCALE] = get_IN_multilevel (in)
-  DBG (15, "  grayscale: %d\n", s.can_mode[MODE_GRAYSCALE])
+  s.can_mode[MODE_GRAYSCALE] = get_IN_multilevel(in)
+  DBG(15, "  grayscale: %d\n", s.can_mode[MODE_GRAYSCALE])
 
-  DBG (15, "  color_monochrome: %d\n", get_IN_monochrome_rgb(in))
-  DBG (15, "  color_halftone: %d\n", get_IN_half_tone_rgb(in))
+  DBG(15, "  color_monochrome: %d\n", get_IN_monochrome_rgb(in))
+  DBG(15, "  color_halftone: %d\n", get_IN_half_tone_rgb(in))
 
-  s.can_mode[MODE_COLOR] = get_IN_multilevel_rgb (in)
-  DBG (15, "  color_grayscale: %d\n", s.can_mode[MODE_COLOR])
+  s.can_mode[MODE_COLOR] = get_IN_multilevel_rgb(in)
+  DBG(15, "  color_grayscale: %d\n", s.can_mode[MODE_COLOR])
 
   /* now we look at vendor specific data in bytes 0x1e onward */
-  DBG (15, "vendor options\n")
+  DBG(15, "vendor options\n")
 
   s.has_adf = get_IN_adf(in)
-  DBG (15, "  adf: %d\n", s.has_adf)
+  DBG(15, "  adf: %d\n", s.has_adf)
 
   s.has_flatbed = get_IN_flatbed(in)
-  DBG (15, "  flatbed: %d\n", s.has_flatbed)
+  DBG(15, "  flatbed: %d\n", s.has_flatbed)
 
   s.has_transparency = get_IN_transparency(in)
-  DBG (15, "  transparency: %d\n", s.has_transparency)
+  DBG(15, "  transparency: %d\n", s.has_transparency)
 
   s.has_duplex = get_IN_duplex(in)
   s.has_back = s.has_duplex
-  DBG (15, "  duplex: %d\n", s.has_duplex)
+  DBG(15, "  duplex: %d\n", s.has_duplex)
 
   s.has_endorser_b = get_IN_endorser_b(in)
-  DBG (15, "  back endorser: %d\n", s.has_endorser_b)
+  DBG(15, "  back endorser: %d\n", s.has_endorser_b)
 
   s.has_barcode = get_IN_barcode(in)
-  DBG (15, "  barcode: %d\n", s.has_barcode)
+  DBG(15, "  barcode: %d\n", s.has_barcode)
 
   s.has_operator_panel = get_IN_operator_panel(in)
-  DBG (15, "  operator panel: %d\n", s.has_operator_panel)
+  DBG(15, "  operator panel: %d\n", s.has_operator_panel)
 
   s.has_endorser_f = get_IN_endorser_f(in)
-  DBG (15, "  front endorser: %d\n", s.has_endorser_f)
+  DBG(15, "  front endorser: %d\n", s.has_endorser_f)
 
-  DBG (15, "  multi-purpose stacker: %d\n", get_IN_mp_stacker(in))
+  DBG(15, "  multi-purpose stacker: %d\n", get_IN_mp_stacker(in))
 
-  DBG (15, "  prepick: %d\n", get_IN_prepick(in))
-  DBG (15, "  mf detect: %d\n", get_IN_mf_detect(in))
+  DBG(15, "  prepick: %d\n", get_IN_prepick(in))
+  DBG(15, "  mf detect: %d\n", get_IN_mf_detect(in))
 
   s.has_paper_protect = get_IN_paperprot(in)
-  DBG (15, "  paper protection: %d\n", s.has_paper_protect)
+  DBG(15, "  paper protection: %d\n", s.has_paper_protect)
 
   s.adbits = get_IN_adbits(in)
-  DBG (15, "  A/D bits: %d\n",s.adbits)
+  DBG(15, "  A/D bits: %d\n",s.adbits)
 
   s.buffer_bytes = get_IN_buffer_bytes(in)
-  DBG (15, "  buffer bytes: %d\n",s.buffer_bytes)
+  DBG(15, "  buffer bytes: %d\n",s.buffer_bytes)
 
-  DBG (15, "Standard commands\n")
+  DBG(15, "Standard commands\n")
 
   /* std scsi command support byte 26*/
   s.has_cmd_msen10 = get_IN_has_cmd_msen10(in)
-  DBG (15, "  mode_sense_10 cmd: %d\n", s.has_cmd_msen10)
+  DBG(15, "  mode_sense_10 cmd: %d\n", s.has_cmd_msen10)
 
   s.has_cmd_msel10 = get_IN_has_cmd_msel10(in)
-  DBG (15, "  mode_select_10 cmd: %d\n", s.has_cmd_msel10)
+  DBG(15, "  mode_select_10 cmd: %d\n", s.has_cmd_msel10)
 
   /* std scsi command support byte 27*/
   s.has_cmd_lsen = get_IN_has_cmd_lsen(in)
-  DBG (15, "  log_sense cmd: %d\n", s.has_cmd_lsen)
+  DBG(15, "  log_sense cmd: %d\n", s.has_cmd_lsen)
 
   s.has_cmd_lsel = get_IN_has_cmd_lsel(in)
-  DBG (15, "  log_select cmd: %d\n", s.has_cmd_lsel)
+  DBG(15, "  log_select cmd: %d\n", s.has_cmd_lsel)
 
   s.has_cmd_change = get_IN_has_cmd_change(in)
-  DBG (15, "  change cmd: %d\n", s.has_cmd_change)
+  DBG(15, "  change cmd: %d\n", s.has_cmd_change)
 
   s.has_cmd_rbuff = get_IN_has_cmd_rbuff(in)
-  DBG (15, "  read_buffer cmd: %d\n", s.has_cmd_rbuff)
+  DBG(15, "  read_buffer cmd: %d\n", s.has_cmd_rbuff)
 
   s.has_cmd_wbuff = get_IN_has_cmd_wbuff(in)
-  DBG (15, "  write_buffer cmd: %d\n", s.has_cmd_wbuff)
+  DBG(15, "  write_buffer cmd: %d\n", s.has_cmd_wbuff)
 
   s.has_cmd_cav = get_IN_has_cmd_cav(in)
-  DBG (15, "  copy_and_verify cmd: %d\n", s.has_cmd_cav)
+  DBG(15, "  copy_and_verify cmd: %d\n", s.has_cmd_cav)
 
   s.has_cmd_comp = get_IN_has_cmd_comp(in)
-  DBG (15, "  compare cmd: %d\n", s.has_cmd_comp)
+  DBG(15, "  compare cmd: %d\n", s.has_cmd_comp)
 
   s.has_cmd_gdbs = get_IN_has_cmd_gdbs(in)
-  DBG (15, "  get_d_b_status cmd: %d\n", s.has_cmd_gdbs)
+  DBG(15, "  get_d_b_status cmd: %d\n", s.has_cmd_gdbs)
 
   /* std scsi command support byte 28*/
   s.has_cmd_op = get_IN_has_cmd_op(in)
-  DBG (15, "  object_pos cmd: %d\n", s.has_cmd_op)
+  DBG(15, "  object_pos cmd: %d\n", s.has_cmd_op)
 
   s.has_cmd_send = get_IN_has_cmd_send(in)
-  DBG (15, "  send cmd: %d\n", s.has_cmd_send)
+  DBG(15, "  send cmd: %d\n", s.has_cmd_send)
 
   s.has_cmd_read = get_IN_has_cmd_read(in)
-  DBG (15, "  read cmd: %d\n", s.has_cmd_read)
+  DBG(15, "  read cmd: %d\n", s.has_cmd_read)
 
   s.has_cmd_gwin = get_IN_has_cmd_gwin(in)
-  DBG (15, "  get_window cmd: %d\n", s.has_cmd_gwin)
+  DBG(15, "  get_window cmd: %d\n", s.has_cmd_gwin)
 
   s.has_cmd_swin = get_IN_has_cmd_swin(in)
-  DBG (15, "  set_window cmd: %d\n", s.has_cmd_swin)
+  DBG(15, "  set_window cmd: %d\n", s.has_cmd_swin)
 
   s.has_cmd_sdiag = get_IN_has_cmd_sdiag(in)
-  DBG (15, "  send_diag cmd: %d\n", s.has_cmd_sdiag)
+  DBG(15, "  send_diag cmd: %d\n", s.has_cmd_sdiag)
 
   s.has_cmd_rdiag = get_IN_has_cmd_rdiag(in)
-  DBG (15, "  read_diag cmd: %d\n", s.has_cmd_rdiag)
+  DBG(15, "  read_diag cmd: %d\n", s.has_cmd_rdiag)
 
   s.has_cmd_scan = get_IN_has_cmd_scan(in)
-  DBG (15, "  scan cmd: %d\n", s.has_cmd_scan)
+  DBG(15, "  scan cmd: %d\n", s.has_cmd_scan)
 
   /* std scsi command support byte 29*/
   s.has_cmd_msen6 = get_IN_has_cmd_msen6(in)
-  DBG (15, "  mode_sense_6 cmd: %d\n", s.has_cmd_msen6)
+  DBG(15, "  mode_sense_6 cmd: %d\n", s.has_cmd_msen6)
 
   s.has_cmd_copy = get_IN_has_cmd_copy(in)
-  DBG (15, "  copy cmd: %d\n", s.has_cmd_copy)
+  DBG(15, "  copy cmd: %d\n", s.has_cmd_copy)
 
   s.has_cmd_rel = get_IN_has_cmd_rel(in)
-  DBG (15, "  release cmd: %d\n", s.has_cmd_rel)
+  DBG(15, "  release cmd: %d\n", s.has_cmd_rel)
 
   s.has_cmd_runit = get_IN_has_cmd_runit(in)
-  DBG (15, "  reserve_unit cmd: %d\n", s.has_cmd_runit)
+  DBG(15, "  reserve_unit cmd: %d\n", s.has_cmd_runit)
 
   s.has_cmd_msel6 = get_IN_has_cmd_msel6(in)
-  DBG (15, "  mode_select_6 cmd: %d\n", s.has_cmd_msel6)
+  DBG(15, "  mode_select_6 cmd: %d\n", s.has_cmd_msel6)
 
   s.has_cmd_inq = get_IN_has_cmd_inq(in)
-  DBG (15, "  inquiry cmd: %d\n", s.has_cmd_inq)
+  DBG(15, "  inquiry cmd: %d\n", s.has_cmd_inq)
 
   s.has_cmd_rs = get_IN_has_cmd_rs(in)
-  DBG (15, "  request_sense cmd: %d\n", s.has_cmd_rs)
+  DBG(15, "  request_sense cmd: %d\n", s.has_cmd_rs)
 
   s.has_cmd_tur = get_IN_has_cmd_tur(in)
-  DBG (15, "  test_unit_ready cmd: %d\n", s.has_cmd_tur)
+  DBG(15, "  test_unit_ready cmd: %d\n", s.has_cmd_tur)
 
   /* vendor added scsi command support */
   /* FIXME: there are more of these... */
-  DBG (15, "Vendor commands\n")
+  DBG(15, "Vendor commands\n")
 
   s.has_cmd_subwindow = get_IN_has_cmd_subwindow(in)
-  DBG (15, "  subwindow cmd: %d\n", s.has_cmd_subwindow)
+  DBG(15, "  subwindow cmd: %d\n", s.has_cmd_subwindow)
 
   s.has_cmd_endorser = get_IN_has_cmd_endorser(in)
-  DBG (15, "  endorser cmd: %d\n", s.has_cmd_endorser)
+  DBG(15, "  endorser cmd: %d\n", s.has_cmd_endorser)
 
-  s.has_cmd_hw_status = get_IN_has_cmd_hw_status (in)
-  DBG (15, "  hardware status cmd: %d\n", s.has_cmd_hw_status)
+  s.has_cmd_hw_status = get_IN_has_cmd_hw_status(in)
+  DBG(15, "  hardware status cmd: %d\n", s.has_cmd_hw_status)
 
   s.has_cmd_hw_status_2 = get_IN_has_cmd_hw_status_2 (in)
-  DBG (15, "  hardware status 2 cmd: %d\n", s.has_cmd_hw_status_2)
+  DBG(15, "  hardware status 2 cmd: %d\n", s.has_cmd_hw_status_2)
 
   s.has_cmd_hw_status_3 = get_IN_has_cmd_hw_status_3 (in)
-  DBG (15, "  hardware status 3 cmd: %d\n", s.has_cmd_hw_status_3)
+  DBG(15, "  hardware status 3 cmd: %d\n", s.has_cmd_hw_status_3)
 
   s.has_cmd_scanner_ctl = get_IN_has_cmd_scanner_ctl(in)
-  DBG (15, "  scanner control cmd: %d\n", s.has_cmd_scanner_ctl)
+  DBG(15, "  scanner control cmd: %d\n", s.has_cmd_scanner_ctl)
 
   s.has_cmd_device_restart = get_IN_has_cmd_device_restart(in)
-  DBG (15, "  device restart cmd: %d\n", s.has_cmd_device_restart)
+  DBG(15, "  device restart cmd: %d\n", s.has_cmd_device_restart)
 
   /* get threshold, brightness and contrast ranges. */
   s.brightness_steps = get_IN_brightness_steps(in)
-  DBG (15, "  brightness steps: %d\n", s.brightness_steps)
+  DBG(15, "  brightness steps: %d\n", s.brightness_steps)
 
   s.threshold_steps = get_IN_threshold_steps(in)
-  DBG (15, "  threshold steps: %d\n", s.threshold_steps)
+  DBG(15, "  threshold steps: %d\n", s.threshold_steps)
 
   s.contrast_steps = get_IN_contrast_steps(in)
-  DBG (15, "  contrast steps: %d\n", s.contrast_steps)
+  DBG(15, "  contrast steps: %d\n", s.contrast_steps)
 
   /* dither/gamma patterns */
-  s.num_internal_gamma = get_IN_num_gamma_internal (in)
-  DBG (15, "  built in gamma patterns: %d\n", s.num_internal_gamma)
+  s.num_internal_gamma = get_IN_num_gamma_internal(in)
+  DBG(15, "  built in gamma patterns: %d\n", s.num_internal_gamma)
 
-  s.num_download_gamma = get_IN_num_gamma_download (in)
-  DBG (15, "  download gamma patterns: %d\n", s.num_download_gamma)
+  s.num_download_gamma = get_IN_num_gamma_download(in)
+  DBG(15, "  download gamma patterns: %d\n", s.num_download_gamma)
 
-  s.num_internal_dither = get_IN_num_dither_internal (in)
-  DBG (15, "  built in dither patterns: %d\n", s.num_internal_dither)
+  s.num_internal_dither = get_IN_num_dither_internal(in)
+  DBG(15, "  built in dither patterns: %d\n", s.num_internal_dither)
 
-  s.num_download_dither = get_IN_num_dither_download (in)
-  DBG (15, "  download dither patterns: %d\n", s.num_download_dither)
+  s.num_download_dither = get_IN_num_dither_download(in)
+  DBG(15, "  download dither patterns: %d\n", s.num_download_dither)
 
   /* ipc functions */
-  s.has_rif = get_IN_ipc_bw_rif (in)
-  DBG (15, "  RIF: %d\n", s.has_rif)
+  s.has_rif = get_IN_ipc_bw_rif(in)
+  DBG(15, "  RIF: %d\n", s.has_rif)
 
   s.has_dtc = get_IN_ipc_dtc(in)
-  DBG (15, "  DTC (AutoI): %d\n", s.has_dtc)
+  DBG(15, "  DTC(AutoI): %d\n", s.has_dtc)
 
   s.has_sdtc = get_IN_ipc_sdtc(in)
-  DBG (15, "  SDTC (AutoII): %d\n", s.has_sdtc)
+  DBG(15, "  SDTC(AutoII): %d\n", s.has_sdtc)
 
-  s.has_outline = get_IN_ipc_outline_extraction (in)
-  DBG (15, "  outline extraction: %d\n", s.has_outline)
+  s.has_outline = get_IN_ipc_outline_extraction(in)
+  DBG(15, "  outline extraction: %d\n", s.has_outline)
 
-  s.has_emphasis = get_IN_ipc_image_emphasis (in)
-  DBG (15, "  image emphasis: %d\n", s.has_emphasis)
+  s.has_emphasis = get_IN_ipc_image_emphasis(in)
+  DBG(15, "  image emphasis: %d\n", s.has_emphasis)
 
-  s.has_autosep = get_IN_ipc_auto_separation (in)
-  DBG (15, "  automatic separation: %d\n", s.has_autosep)
+  s.has_autosep = get_IN_ipc_auto_separation(in)
+  DBG(15, "  automatic separation: %d\n", s.has_autosep)
 
-  s.has_mirroring = get_IN_ipc_mirroring (in)
-  DBG (15, "  mirror image: %d\n", s.has_mirroring)
+  s.has_mirroring = get_IN_ipc_mirroring(in)
+  DBG(15, "  mirror image: %d\n", s.has_mirroring)
 
-  s.has_wl_follow = get_IN_ipc_wl_follow (in)
-  DBG (15, "  white level follower: %d\n", s.has_wl_follow)
+  s.has_wl_follow = get_IN_ipc_wl_follow(in)
+  DBG(15, "  white level follower: %d\n", s.has_wl_follow)
 
   /* byte 58 */
-  s.has_subwindow = get_IN_ipc_subwindow (in)
-  DBG (15, "  subwindow: %d\n", s.has_subwindow)
+  s.has_subwindow = get_IN_ipc_subwindow(in)
+  DBG(15, "  subwindow: %d\n", s.has_subwindow)
 
-  s.has_diffusion = get_IN_ipc_diffusion (in)
-  DBG (15, "  diffusion: %d\n", s.has_diffusion)
+  s.has_diffusion = get_IN_ipc_diffusion(in)
+  DBG(15, "  diffusion: %d\n", s.has_diffusion)
 
   s.has_ipc3 = get_IN_ipc_ipc3 (in)
-  DBG (15, "  ipc3: %d\n", s.has_ipc3)
+  DBG(15, "  ipc3: %d\n", s.has_ipc3)
 
-  s.has_rotation = get_IN_ipc_rotation (in)
-  DBG (15, "  rotation: %d\n", s.has_rotation)
+  s.has_rotation = get_IN_ipc_rotation(in)
+  DBG(15, "  rotation: %d\n", s.has_rotation)
 
   s.has_hybrid_crop_deskew = get_IN_ipc_hybrid_crop_deskew(in)
-  DBG (15, "  hybrid crop deskew: %d\n", s.has_hybrid_crop_deskew)
+  DBG(15, "  hybrid crop deskew: %d\n", s.has_hybrid_crop_deskew)
 
   /* this one is weird, overrides the payload length from scanner */
-  DBG (15, "  vpd extends to byte 6f: %d\n", get_IN_vpd_thru_byte_6f(in))
+  DBG(15, "  vpd extends to byte 6f: %d\n", get_IN_vpd_thru_byte_6f(in))
   if(get_IN_vpd_thru_byte_6f(in) && payload_off < 0x6f){
     payload_off = 0x6f
   }
 
   /* compression modes */
-  s.has_comp_MH = get_IN_compression_MH (in)
-  DBG (15, "  compression MH: %d\n", s.has_comp_MH)
+  s.has_comp_MH = get_IN_compression_MH(in)
+  DBG(15, "  compression MH: %d\n", s.has_comp_MH)
 
-  s.has_comp_MR = get_IN_compression_MR (in)
-  DBG (15, "  compression MR: %d\n", s.has_comp_MR)
+  s.has_comp_MR = get_IN_compression_MR(in)
+  DBG(15, "  compression MR: %d\n", s.has_comp_MR)
 
-  s.has_comp_MMR = get_IN_compression_MMR (in)
-  DBG (15, "  compression MMR: %d\n", s.has_comp_MMR)
+  s.has_comp_MMR = get_IN_compression_MMR(in)
+  DBG(15, "  compression MMR: %d\n", s.has_comp_MMR)
 
-  s.has_comp_JBIG = get_IN_compression_JBIG (in)
-  DBG (15, "  compression JBIG: %d\n", s.has_comp_JBIG)
+  s.has_comp_JBIG = get_IN_compression_JBIG(in)
+  DBG(15, "  compression JBIG: %d\n", s.has_comp_JBIG)
 
-  s.has_comp_JPG1 = get_IN_compression_JPG_BASE (in)
-  DBG (15, "  compression JPG1: %d\n", s.has_comp_JPG1)
+  s.has_comp_JPG1 = get_IN_compression_JPG_BASE(in)
+  DBG(15, "  compression JPG1: %d\n", s.has_comp_JPG1)
 #ifdef Sane.JPEG_DISABLED
-  DBG (15, "  (Disabled)\n")
+  DBG(15, "  (Disabled)\n")
 #endif
 
-  s.has_comp_JPG2 = get_IN_compression_JPG_EXT (in)
-  DBG (15, "  compression JPG2: %d\n", s.has_comp_JPG2)
+  s.has_comp_JPG2 = get_IN_compression_JPG_EXT(in)
+  DBG(15, "  compression JPG2: %d\n", s.has_comp_JPG2)
 
-  s.has_comp_JPG3 = get_IN_compression_JPG_INDEP (in)
-  DBG (15, "  compression JPG3: %d\n", s.has_comp_JPG3)
+  s.has_comp_JPG3 = get_IN_compression_JPG_INDEP(in)
+  DBG(15, "  compression JPG3: %d\n", s.has_comp_JPG3)
 
   /* FIXME: we don't store these? */
-  DBG (15, "  back endorser mech: %d\n", get_IN_endorser_b_mech(in))
-  DBG (15, "  back endorser stamp: %d\n", get_IN_endorser_b_stamp(in))
-  DBG (15, "  back endorser elec: %d\n", get_IN_endorser_b_elec(in))
-  DBG (15, "  endorser max id: %d\n", get_IN_endorser_max_id(in))
+  DBG(15, "  back endorser mech: %d\n", get_IN_endorser_b_mech(in))
+  DBG(15, "  back endorser stamp: %d\n", get_IN_endorser_b_stamp(in))
+  DBG(15, "  back endorser elec: %d\n", get_IN_endorser_b_elec(in))
+  DBG(15, "  endorser max id: %d\n", get_IN_endorser_max_id(in))
 
-  DBG (15, "  front endorser mech: %d\n", get_IN_endorser_f_mech(in))
-  DBG (15, "  front endorser stamp: %d\n", get_IN_endorser_f_stamp(in))
-  DBG (15, "  front endorser elec: %d\n", get_IN_endorser_f_elec(in))
+  DBG(15, "  front endorser mech: %d\n", get_IN_endorser_f_mech(in))
+  DBG(15, "  front endorser stamp: %d\n", get_IN_endorser_f_stamp(in))
+  DBG(15, "  front endorser elec: %d\n", get_IN_endorser_f_elec(in))
 
   s.endorser_type_b = get_IN_endorser_b_type(in)
-  DBG (15, "  back endorser type: %d\n", s.endorser_type_b)
+  DBG(15, "  back endorser type: %d\n", s.endorser_type_b)
 
   s.endorser_type_f = get_IN_endorser_f_type(in)
-  DBG (15, "  back endorser type: %d\n", s.endorser_type_f)
+  DBG(15, "  back endorser type: %d\n", s.endorser_type_f)
 
-  DBG (15, "  connection type: %d\n", get_IN_connection(in))
+  DBG(15, "  connection type: %d\n", get_IN_connection(in))
 
-  DBG (15, "  endorser ext: %d\n", get_IN_endorser_type_ext(in))
-  DBG (15, "  endorser pr_b: %d\n", get_IN_endorser_pre_back(in))
-  DBG (15, "  endorser pr_f: %d\n", get_IN_endorser_pre_front(in))
-  DBG (15, "  endorser po_b: %d\n", get_IN_endorser_post_back(in))
-  DBG (15, "  endorser po_f: %d\n", get_IN_endorser_post_front(in))
+  DBG(15, "  endorser ext: %d\n", get_IN_endorser_type_ext(in))
+  DBG(15, "  endorser pr_b: %d\n", get_IN_endorser_pre_back(in))
+  DBG(15, "  endorser pr_f: %d\n", get_IN_endorser_pre_front(in))
+  DBG(15, "  endorser po_b: %d\n", get_IN_endorser_post_back(in))
+  DBG(15, "  endorser po_f: %d\n", get_IN_endorser_post_front(in))
 
   s.os_x_basic = get_IN_x_overscan_size(in)
-  DBG (15, "  horizontal overscan: %d\n", s.os_x_basic)
+  DBG(15, "  horizontal overscan: %d\n", s.os_x_basic)
 
   s.os_y_basic = get_IN_y_overscan_size(in)
-  DBG (15, "  vertical overscan: %d\n", s.os_y_basic)
+  DBG(15, "  vertical overscan: %d\n", s.os_y_basic)
 
   /* not all scanners go this far */
-  if (payload_off >= 0x68) {
-    DBG (15, "  default bg adf b: %d\n", get_IN_default_bg_adf_b(in))
-    DBG (15, "  default bg adf f: %d\n", get_IN_default_bg_adf_f(in))
-    DBG (15, "  default bg fb: %d\n", get_IN_default_bg_fb(in))
+  if(payload_off >= 0x68) {
+    DBG(15, "  default bg adf b: %d\n", get_IN_default_bg_adf_b(in))
+    DBG(15, "  default bg adf f: %d\n", get_IN_default_bg_adf_f(in))
+    DBG(15, "  default bg fb: %d\n", get_IN_default_bg_fb(in))
   }
 
-  if (payload_off >= 0x69) {
-    DBG (15, "  auto color: %d\n", get_IN_auto_color(in))
-    DBG (15, "  blank skip: %d\n", get_IN_blank_skip(in))
-    DBG (15, "  multi image: %d\n", get_IN_multi_image(in))
-    DBG (15, "  f b type indep: %d\n", get_IN_f_b_type_indep(in))
-    DBG (15, "  f b res indep: %d\n", get_IN_f_b_res_indep(in))
+  if(payload_off >= 0x69) {
+    DBG(15, "  auto color: %d\n", get_IN_auto_color(in))
+    DBG(15, "  blank skip: %d\n", get_IN_blank_skip(in))
+    DBG(15, "  multi image: %d\n", get_IN_multi_image(in))
+    DBG(15, "  f b type indep: %d\n", get_IN_f_b_type_indep(in))
+    DBG(15, "  f b res indep: %d\n", get_IN_f_b_res_indep(in))
   }
 
-  if (payload_off >= 0x6a) {
-    DBG (15, "  dropout spec: %d\n", get_IN_dropout_spec(in))
-    DBG (15, "  dropout non: %d\n", get_IN_dropout_non(in))
-    DBG (15, "  dropout white: %d\n", get_IN_dropout_white(in))
+  if(payload_off >= 0x6a) {
+    DBG(15, "  dropout spec: %d\n", get_IN_dropout_spec(in))
+    DBG(15, "  dropout non: %d\n", get_IN_dropout_non(in))
+    DBG(15, "  dropout white: %d\n", get_IN_dropout_white(in))
   }
 
-  if (payload_off >= 0x6d) {
-    DBG (15, "  skew check: %d\n", get_IN_skew_check(in))
-    DBG (15, "  new feed roller: %d\n", get_IN_new_fd_roll(in))
+  if(payload_off >= 0x6d) {
+    DBG(15, "  skew check: %d\n", get_IN_skew_check(in))
+    DBG(15, "  new feed roller: %d\n", get_IN_new_fd_roll(in))
     s.has_adv_paper_prot = get_IN_paper_prot_2(in)
-    DBG (15, "  paper protection: %d\n", s.has_adv_paper_prot)
+    DBG(15, "  paper protection: %d\n", s.has_adv_paper_prot)
   }
 
   /* this one is weird, overrides the payload length from scanner,
    * but the enlarged area is just null bytes, so we ignore this */
-  if (payload_off >= 0x6f) {
-    DBG (15, "  extra evpd length: %d\n", get_IN_evpd_len(in))
+  if(payload_off >= 0x6f) {
+    DBG(15, "  extra evpd length: %d\n", get_IN_evpd_len(in))
   }
 
-  if (payload_off >= 0x70) {
-    DBG (15, "  paper count: %d\n", get_IN_paper_count(in))
-    DBG (15, "  paper number: %d\n", get_IN_paper_number(in))
-    DBG (15, "  ext send to: %d\n", get_IN_ext_send_to(in))
+  if(payload_off >= 0x70) {
+    DBG(15, "  paper count: %d\n", get_IN_paper_count(in))
+    DBG(15, "  paper number: %d\n", get_IN_paper_number(in))
+    DBG(15, "  ext send to: %d\n", get_IN_ext_send_to(in))
 
     s.has_staple_detect = get_IN_staple_det(in)
-    DBG (15, "  staple det: %d\n", s.has_staple_detect)
+    DBG(15, "  staple det: %d\n", s.has_staple_detect)
 
-    DBG (15, "  pause host: %d\n", get_IN_pause_host(in))
-    DBG (15, "  pause panel: %d\n", get_IN_pause_panel(in))
-    DBG (15, "  pause conf: %d\n", get_IN_pause_conf(in))
-    DBG (15, "  hq print: %d\n", get_IN_hq_print(in))
+    DBG(15, "  pause host: %d\n", get_IN_pause_host(in))
+    DBG(15, "  pause panel: %d\n", get_IN_pause_panel(in))
+    DBG(15, "  pause conf: %d\n", get_IN_pause_conf(in))
+    DBG(15, "  hq print: %d\n", get_IN_hq_print(in))
   }
 
-  if (payload_off >= 0x71) {
-    DBG (15, "  ext GHS len: %d\n", get_IN_ext_GHS_len(in))
+  if(payload_off >= 0x71) {
+    DBG(15, "  ext GHS len: %d\n", get_IN_ext_GHS_len(in))
   }
 
-  if (payload_off >= 0x72) {
-    DBG (15, "  smbc func: %d\n", get_IN_smbc_func(in))
-    DBG (15, "  imprint chk b: %d\n", get_IN_imprint_chk_b(in))
-    DBG (15, "  imprint chk f: %d\n", get_IN_imprint_chk_f(in))
-    DBG (15, "  force w bg: %d\n", get_IN_force_w_bg(in))
+  if(payload_off >= 0x72) {
+    DBG(15, "  smbc func: %d\n", get_IN_smbc_func(in))
+    DBG(15, "  imprint chk b: %d\n", get_IN_imprint_chk_b(in))
+    DBG(15, "  imprint chk f: %d\n", get_IN_imprint_chk_f(in))
+    DBG(15, "  force w bg: %d\n", get_IN_force_w_bg(in))
 
     s.has_df_recovery = get_IN_mf_recover_lvl(in)
-    DBG (15, "  mf recover lvl: %d\n", s.has_df_recovery)
+    DBG(15, "  mf recover lvl: %d\n", s.has_df_recovery)
   }
 
-  if (payload_off >= 0x73) {
-    DBG (15, "  first read time: %d\n", get_IN_first_read_time(in))
-    DBG (15, "  div scanning: %d\n", get_IN_div_scanning(in))
-    DBG (15, "  start job: %d\n", get_IN_start_job(in))
-    DBG (15, "  lifetime log: %d\n", get_IN_lifetime_log(in))
-    DBG (15, "  imff save rest: %d\n", get_IN_imff_save_rest(in))
-    DBG (15, "  wide scsi type: %d\n", get_IN_wide_scsi_type(in))
+  if(payload_off >= 0x73) {
+    DBG(15, "  first read time: %d\n", get_IN_first_read_time(in))
+    DBG(15, "  div scanning: %d\n", get_IN_div_scanning(in))
+    DBG(15, "  start job: %d\n", get_IN_start_job(in))
+    DBG(15, "  lifetime log: %d\n", get_IN_lifetime_log(in))
+    DBG(15, "  imff save rest: %d\n", get_IN_imff_save_rest(in))
+    DBG(15, "  wide scsi type: %d\n", get_IN_wide_scsi_type(in))
   }
 
-  if (payload_off >= 0x74) {
-    DBG (15, "  lut hybrid crop: %d\n", get_IN_lut_hybrid_crop(in))
-    DBG (15, "  over under amt: %d\n", get_IN_over_under_amt(in))
-    DBG (15, "  rgb lut: %d\n", get_IN_rgb_lut(in))
-    DBG (15, "  num lut dl: %d\n", get_IN_num_lut_dl(in))
+  if(payload_off >= 0x74) {
+    DBG(15, "  lut hybrid crop: %d\n", get_IN_lut_hybrid_crop(in))
+    DBG(15, "  over under amt: %d\n", get_IN_over_under_amt(in))
+    DBG(15, "  rgb lut: %d\n", get_IN_rgb_lut(in))
+    DBG(15, "  num lut dl: %d\n", get_IN_num_lut_dl(in))
   }
 
   /* Various items below are poorly documented or missing */
 
-  if (payload_off >= 0x76) {
+  if(payload_off >= 0x76) {
     s.has_off_mode = get_IN_erp_lot6_supp(in)
-    DBG (15, "  ErP Lot6 (power off timer): %d\n", s.has_off_mode)
-    DBG (15, "  sync next feed: %d\n", get_IN_sync_next_feed(in))
+    DBG(15, "  ErP Lot6 (power off timer): %d\n", s.has_off_mode)
+    DBG(15, "  sync next feed: %d\n", get_IN_sync_next_feed(in))
   }
 
-  if (payload_off >= 0x79) {
-    DBG (15, "  battery: %d\n", get_IN_battery(in))
-    DBG (15, "  battery save: %d\n", get_IN_battery_save(in))
-    DBG (15, "  object position reverse: %d\n", get_IN_op_reverse(in))
+  if(payload_off >= 0x79) {
+    DBG(15, "  battery: %d\n", get_IN_battery(in))
+    DBG(15, "  battery save: %d\n", get_IN_battery_save(in))
+    DBG(15, "  object position reverse: %d\n", get_IN_op_reverse(in))
   }
 
-  if (payload_off >= 0x7a) {
+  if(payload_off >= 0x7a) {
     s.has_op_halt = get_IN_op_halt(in)
-    DBG (15, "  object position halt: %d\n", s.has_op_halt)
+    DBG(15, "  object position halt: %d\n", s.has_op_halt)
   }
 
-  if (payload_off >= 0x7c) {
+  if(payload_off >= 0x7c) {
     s.has_return_path = get_IN_return_path(in)
-    DBG (15, "  return path (card) scanning: %d\n", s.has_return_path)
-    DBG (15, "  energy star 3: %d\n", get_IN_energy_star3(in))
+    DBG(15, "  return path(card) scanning: %d\n", s.has_return_path)
+    DBG(15, "  energy star 3: %d\n", get_IN_energy_star3(in))
   }
 
-  DBG (10, "init_vpd: finish\n")
+  DBG(10, "init_vpd: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -2715,10 +2715,10 @@ init_ms(struct fujitsu *s)
   unsigned char in[MODE_SENSE_data_len]
   size_t inLen = MODE_SENSE_data_len
 
-  DBG (10, "init_ms: start\n")
+  DBG(10, "init_ms: start\n")
 
   if(!s.has_cmd_msen6){
-    DBG (10, "init_ms: unsupported\n")
+    DBG(10, "init_ms: unsupported\n")
     return Sane.STATUS_GOOD
   }
 
@@ -2731,12 +2731,12 @@ init_ms(struct fujitsu *s)
 
   memset(cmd,0,cmdLen)
   set_SCSI_opcode(cmd, MODE_SENSE_code)
-  set_MSEN_xfer_length (cmd, inLen)
+  set_MSEN_xfer_length(cmd, inLen)
 
   if(s.has_MS_autocolor){
-    DBG (35, "init_ms: autocolor\n")
+    DBG(35, "init_ms: autocolor\n")
     set_MSEN_pc(cmd, MS_pc_autocolor)
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
@@ -2748,10 +2748,10 @@ init_ms(struct fujitsu *s)
   }
 
   if(s.has_MS_prepick){
-    DBG (35, "init_ms: prepick\n")
+    DBG(35, "init_ms: prepick\n")
     set_MSEN_pc(cmd, MS_pc_prepick)
     inLen = MODE_SENSE_data_len
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
@@ -2763,10 +2763,10 @@ init_ms(struct fujitsu *s)
   }
 
   if(s.has_MS_sleep){
-    DBG (35, "init_ms: sleep\n")
+    DBG(35, "init_ms: sleep\n")
     set_MSEN_pc(cmd, MS_pc_sleep)
     inLen = MODE_SENSE_data_len
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
@@ -2778,10 +2778,10 @@ init_ms(struct fujitsu *s)
   }
 
   if(s.has_MS_duplex){
-    DBG (35, "init_ms: duplex\n")
+    DBG(35, "init_ms: duplex\n")
     set_MSEN_pc(cmd, MS_pc_duplex)
     inLen = MODE_SENSE_data_len
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
@@ -2793,10 +2793,10 @@ init_ms(struct fujitsu *s)
   }
 
   if(s.has_MS_rand){
-    DBG (35, "init_ms: rand\n")
+    DBG(35, "init_ms: rand\n")
     set_MSEN_pc(cmd, MS_pc_rand)
     inLen = MODE_SENSE_data_len
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
@@ -2808,10 +2808,10 @@ init_ms(struct fujitsu *s)
   }
 
   if(s.has_MS_bg){
-    DBG (35, "init_ms: bg\n")
+    DBG(35, "init_ms: bg\n")
     set_MSEN_pc(cmd, MS_pc_bg)
     inLen = MODE_SENSE_data_len
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
@@ -2823,10 +2823,10 @@ init_ms(struct fujitsu *s)
   }
 
   if(s.has_MS_df){
-    DBG (35, "init_ms: df\n")
+    DBG(35, "init_ms: df\n")
     set_MSEN_pc(cmd, MS_pc_df)
     inLen = MODE_SENSE_data_len
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
@@ -2838,10 +2838,10 @@ init_ms(struct fujitsu *s)
   }
 
   if(s.has_MS_dropout){
-    DBG (35, "init_ms: dropout\n")
+    DBG(35, "init_ms: dropout\n")
     set_MSEN_pc(cmd, MS_pc_dropout)
     inLen = MODE_SENSE_data_len
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
@@ -2853,10 +2853,10 @@ init_ms(struct fujitsu *s)
   }
 
   if(s.has_MS_buff){
-    DBG (35, "init_ms: buffer\n")
+    DBG(35, "init_ms: buffer\n")
     set_MSEN_pc(cmd, MS_pc_buff)
     inLen = MODE_SENSE_data_len
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
@@ -2868,10 +2868,10 @@ init_ms(struct fujitsu *s)
   }
 
   if(s.has_MS_auto){
-    DBG (35, "init_ms: auto\n")
+    DBG(35, "init_ms: auto\n")
     set_MSEN_pc(cmd, MS_pc_auto)
     inLen = MODE_SENSE_data_len
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
@@ -2883,10 +2883,10 @@ init_ms(struct fujitsu *s)
   }
 
   if(s.has_MS_lamp){
-    DBG (35, "init_ms: lamp\n")
+    DBG(35, "init_ms: lamp\n")
     set_MSEN_pc(cmd, MS_pc_lamp)
     inLen = MODE_SENSE_data_len
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
@@ -2898,10 +2898,10 @@ init_ms(struct fujitsu *s)
   }
 
   if(s.has_MS_jobsep){
-    DBG (35, "init_ms: jobsep\n")
+    DBG(35, "init_ms: jobsep\n")
     set_MSEN_pc(cmd, MS_pc_jobsep)
     inLen = MODE_SENSE_data_len
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
@@ -2912,22 +2912,22 @@ init_ms(struct fujitsu *s)
     }
   }
 
-  IF_DBG (DBG_LEVEL = oldDbg;)
+  IF_DBG(DBG_LEVEL = oldDbg;)
 
-  DBG (15, "  autocolor: %d\n", s.has_MS_autocolor)
-  DBG (15, "  prepick: %d\n", s.has_MS_prepick)
-  DBG (15, "  sleep: %d\n", s.has_MS_sleep)
-  DBG (15, "  duplex: %d\n", s.has_MS_duplex)
-  DBG (15, "  rand: %d\n", s.has_MS_rand)
-  DBG (15, "  bg: %d\n", s.has_MS_bg)
-  DBG (15, "  df: %d\n", s.has_MS_df)
-  DBG (15, "  dropout: %d\n", s.has_MS_dropout)
-  DBG (15, "  buff: %d\n", s.has_MS_buff)
-  DBG (15, "  auto: %d\n", s.has_MS_auto)
-  DBG (15, "  lamp: %d\n", s.has_MS_lamp)
-  DBG (15, "  jobsep: %d\n", s.has_MS_jobsep)
+  DBG(15, "  autocolor: %d\n", s.has_MS_autocolor)
+  DBG(15, "  prepick: %d\n", s.has_MS_prepick)
+  DBG(15, "  sleep: %d\n", s.has_MS_sleep)
+  DBG(15, "  duplex: %d\n", s.has_MS_duplex)
+  DBG(15, "  rand: %d\n", s.has_MS_rand)
+  DBG(15, "  bg: %d\n", s.has_MS_bg)
+  DBG(15, "  df: %d\n", s.has_MS_df)
+  DBG(15, "  dropout: %d\n", s.has_MS_dropout)
+  DBG(15, "  buff: %d\n", s.has_MS_buff)
+  DBG(15, "  auto: %d\n", s.has_MS_auto)
+  DBG(15, "  lamp: %d\n", s.has_MS_lamp)
+  DBG(15, "  jobsep: %d\n", s.has_MS_jobsep)
 
-  DBG (10, "init_ms: finish\n")
+  DBG(10, "init_ms: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -2937,11 +2937,11 @@ init_ms(struct fujitsu *s)
  * errors in vpd data. struct is already initialized to 0.
  */
 static Sane.Status
-init_model (struct fujitsu *s)
+init_model(struct fujitsu *s)
 {
   var i: Int
 
-  DBG (10, "init_model: start\n")
+  DBG(10, "init_model: start\n")
 
   /* for most scanners these are good defaults */
   if(s.can_mode[MODE_LINEART]
@@ -2969,13 +2969,13 @@ init_model (struct fujitsu *s)
   s.ppl_mod_by_mode[MODE_GRAYSCALE] = 1
   s.ppl_mod_by_mode[MODE_COLOR] = 1
 
-  /* we prefer to use the downloaded (LUT) gamma table (0x80) if possible.
-   * but if scanner has only built-in gamma tables, we use the first one (0) */
-  if (s.num_download_gamma){
+  /* we prefer to use the downloaded(LUT) gamma table(0x80) if possible.
+   * but if scanner has only built-in gamma tables, we use the first one(0) */
+  if(s.num_download_gamma){
     s.window_gamma = 0x80
   }
 
-  /* endorser type tells string length (among other things) */
+  /* endorser type tells string length(among other things) */
   if(s.has_endorser_b){
     /*old-style is 40 bytes*/
     if(s.endorser_type_b == ET_OLD){
@@ -3035,14 +3035,14 @@ init_model (struct fujitsu *s)
 
   /* these two scanners lie about their capabilities,
    * and/or differ significantly from most other models */
-  if (strstr (s.model_name, "M3091")
-   || strstr (s.model_name, "M3092")) {
+  if(strstr(s.model_name, "M3091")
+   || strstr(s.model_name, "M3092")) {
 
     /* lies */
     s.has_rif = 1
     s.has_back = 0
     s.adbits = 8
-    if (strstr (s.model_name, "M3092"))
+    if(strstr(s.model_name, "M3092"))
       s.has_flatbed = 1
 
     /*actually does have res range in non-color modes */
@@ -3076,7 +3076,7 @@ init_model (struct fujitsu *s)
     s.reverse_by_mode[MODE_COLOR] = 0
   }
 
-  else if (strstr (s.model_name, "M3093")){
+  else if(strstr(s.model_name, "M3093")){
 
     /* lies */
     s.has_back = 0
@@ -3086,8 +3086,8 @@ init_model (struct fujitsu *s)
     s.duplex_interlace = DUPLEX_INTERLACE_NONE
   }
 
-  else if ( strstr (s.model_name, "M309")
-   || strstr (s.model_name, "M409")){
+  else if( strstr(s.model_name, "M309")
+   || strstr(s.model_name, "M409")){
 
     /* weirdness */
     s.broken_diag_serial = 1
@@ -3096,8 +3096,8 @@ init_model (struct fujitsu *s)
     s.adbits = 8
   }
 
-  else if (strstr (s.model_name, "fi-4120C2")
-   || strstr (s.model_name, "fi-4220C2") ) {
+  else if(strstr(s.model_name, "fi-4120C2")
+   || strstr(s.model_name, "fi-4220C2") ) {
 
     /* missing from vpd */
     s.os_x_basic = 118
@@ -3105,21 +3105,21 @@ init_model (struct fujitsu *s)
     s.max_y_fb = 14032
   }
 
-  else if (strstr (s.model_name, "fi-4220C")){
+  else if(strstr(s.model_name, "fi-4220C")){
 
     /* missing from vpd */
     s.max_y_fb = 14032
   }
 
-  else if (strstr (s.model_name,"fi-4340")
-   || strstr (s.model_name, "fi-4750") ) {
+  else if(strstr(s.model_name,"fi-4340")
+   || strstr(s.model_name, "fi-4750") ) {
     /* weirdness */
     s.broken_diag_serial = 1
   }
 
   /* some firmware versions use capital f? */
-  else if (strstr (s.model_name, "Fi-4860")
-   || strstr (s.model_name, "fi-4860") ) {
+  else if(strstr(s.model_name, "Fi-4860")
+   || strstr(s.model_name, "fi-4860") ) {
 
     /* weirdness */
     s.broken_diag_serial = 1
@@ -3131,8 +3131,8 @@ init_model (struct fujitsu *s)
   }
 
   /* some firmware versions use capital f? */
-  else if (strstr (s.model_name, "Fi-4990")
-   || strstr (s.model_name, "fi-4990") ) {
+  else if(strstr(s.model_name, "Fi-4990")
+   || strstr(s.model_name, "fi-4990") ) {
 
     /* weirdness */
     s.duplex_interlace = DUPLEX_INTERLACE_NONE
@@ -3144,36 +3144,36 @@ init_model (struct fujitsu *s)
     s.ppl_mod_by_mode[MODE_COLOR] = 4
   }
 
-  else if (strstr (s.model_name,"fi-5110C")){
+  else if(strstr(s.model_name,"fi-5110C")){
 
     /* missing from vpd */
     s.os_x_basic = 147
     s.os_y_basic = 147
   }
 
-  else if (strstr (s.model_name,"fi-5110EOX")){
+  else if(strstr(s.model_name,"fi-5110EOX")){
 
     /* weirdness */
     s.cropping_mode = CROP_ABSOLUTE
   }
 
-  else if (strstr (s.model_name,"fi-5220C")){
+  else if(strstr(s.model_name,"fi-5220C")){
 
     /* missing from vpd */
     s.max_x_fb = 10764
     s.max_y_fb = 14032
   }
 
-  else if (strstr (s.model_name,"fi-5530")
-    || strstr (s.model_name,"fi-5650")
-    || strstr (s.model_name,"fi-5750")){
+  else if(strstr(s.model_name,"fi-5530")
+    || strstr(s.model_name,"fi-5650")
+    || strstr(s.model_name,"fi-5750")){
 
     /* lies - usb only */
     if(s.connection == CONNECTION_USB)
       s.adbits = 8
   }
 
-  else if (strstr (s.model_name,"S1500")){
+  else if(strstr(s.model_name,"S1500")){
 
     /*lies*/
     s.has_MS_bg=0
@@ -3181,8 +3181,8 @@ init_model (struct fujitsu *s)
   }
 
   /* also includes the 'Z' models */
-  else if (strstr (s.model_name,"fi-6130")
-   || strstr (s.model_name,"fi-6140")){
+  else if(strstr(s.model_name,"fi-6130")
+   || strstr(s.model_name,"fi-6140")){
 
     /* weirdness */
     /* these machines have longer max paper at lower res */
@@ -3191,8 +3191,8 @@ init_model (struct fujitsu *s)
   }
 
   /* also includes the 'Z' models */
-  else if (strstr (s.model_name,"fi-6230")
-   || strstr (s.model_name,"fi-6240")){
+  else if(strstr(s.model_name,"fi-6230")
+   || strstr(s.model_name,"fi-6240")){
 
     /* weirdness */
     /* these machines have longer max paper at lower res */
@@ -3204,7 +3204,7 @@ init_model (struct fujitsu *s)
     s.max_y_fb = 14032; /* some scanners can be slightly more? */
   }
 
-  else if (strstr (s.model_name,"fi-6110")){
+  else if(strstr(s.model_name,"fi-6110")){
 
     /* weirdness */
     /* these machines have longer max paper at lower res */
@@ -3216,12 +3216,12 @@ init_model (struct fujitsu *s)
     s.has_MS_prepick=0
   }
 
-  else if (strstr (s.model_name,"fi-6800")
-   || strstr (s.model_name,"fi-5900")){
+  else if(strstr(s.model_name,"fi-6800")
+   || strstr(s.model_name,"fi-5900")){
     /* do not need overrides */
   }
 
-  else if (strstr (s.model_name,"iX500")){
+  else if(strstr(s.model_name,"iX500")){
     /* locks up scanner if we try to auto detect */
     s.has_MS_lamp = 0
 
@@ -3244,7 +3244,7 @@ init_model (struct fujitsu *s)
   }
 
   /*mostly copied from iX500*/
-  else if (strstr (s.model_name,"iX100")){
+  else if(strstr(s.model_name,"iX100")){
     /* locks up scanner if we try to auto detect */
     s.has_MS_lamp = 0
 
@@ -3262,8 +3262,8 @@ init_model (struct fujitsu *s)
     s.can_mode[MODE_HALFTONE] = 0
   }
 
-  else if (strstr (s.model_name,"fi-7180")
-   || strstr (s.model_name,"fi-7160")){
+  else if(strstr(s.model_name,"fi-7180")
+   || strstr(s.model_name,"fi-7160")){
     /* locks up scanner if we try to auto detect */
     s.has_MS_lamp = 0
 
@@ -3277,8 +3277,8 @@ init_model (struct fujitsu *s)
     s.max_y_by_res[3].len = 266268
   }
 
-  else if (strstr (s.model_name,"fi-7280")
-   || strstr (s.model_name,"fi-7260")){
+  else if(strstr(s.model_name,"fi-7280")
+   || strstr(s.model_name,"fi-7260")){
     /* locks up scanner if we try to auto detect */
     s.has_MS_lamp = 0
 
@@ -3296,8 +3296,8 @@ init_model (struct fujitsu *s)
     s.max_y_fb = 14032; /* some scanners can be slightly more? */
   }
 
-  else if (strstr (s.model_name,"fi-7480")
-   || strstr (s.model_name,"fi-7460")){
+  else if(strstr(s.model_name,"fi-7480")
+   || strstr(s.model_name,"fi-7460")){
 
     /* weirdness */
     /* these machines have longer max paper at lower res */
@@ -3309,7 +3309,7 @@ init_model (struct fujitsu *s)
     s.max_y_by_res[3].len = 266268
   }
 
-  else if (strstr (s.model_name,"fi-7030")){
+  else if(strstr(s.model_name,"fi-7030")){
 
     /* weirdness */
     /* these machines have longer max paper at lower res */
@@ -3321,8 +3321,8 @@ init_model (struct fujitsu *s)
     s.max_y_by_res[3].len = 264000
   }
 
-  else if (strstr (s.model_name,"fi-7700")
-   || strstr (s.model_name,"fi-7600")){
+  else if(strstr(s.model_name,"fi-7700")
+   || strstr(s.model_name,"fi-7600")){
 
     /* weirdness */
     /* these machines have longer max paper at lower res */
@@ -3334,13 +3334,13 @@ init_model (struct fujitsu *s)
     s.max_y_by_res[3].len = 264000
   }
 
-  DBG (10, "init_model: finish\n")
+  DBG(10, "init_model: finish\n")
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-set_mode (struct fujitsu *s, Int mode)
+set_mode(struct fujitsu *s, Int mode)
 {
   var i: Int
   /* give the user what they asked for */
@@ -3361,10 +3361,10 @@ set_mode (struct fujitsu *s, Int mode)
  * struct is already initialized to 0.
  */
 static Sane.Status
-init_user (struct fujitsu *s)
+init_user(struct fujitsu *s)
 {
 
-  DBG (10, "init_user: start\n")
+  DBG(10, "init_user: start\n")
 
   /* source */
   if(s.has_flatbed)
@@ -3447,7 +3447,7 @@ init_user (struct fujitsu *s)
 
   s.off_time = 240
 
-  DBG (10, "init_user: finish\n")
+  DBG(10, "init_user: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -3456,16 +3456,16 @@ init_user (struct fujitsu *s)
  * This function presets the "option" array to blank
  */
 static Sane.Status
-init_options (struct fujitsu *s)
+init_options(struct fujitsu *s)
 {
   var i: Int
 
-  DBG (10, "init_options: start\n")
+  DBG(10, "init_options: start\n")
 
-  memset (s.opt, 0, sizeof (s.opt))
-  for (i = 0; i < NUM_OPTIONS; ++i) {
+  memset(s.opt, 0, sizeof(s.opt))
+  for(i = 0; i < NUM_OPTIONS; ++i) {
       s.opt[i].name = "filler"
-      s.opt[i].size = sizeof (Sane.Word)
+      s.opt[i].size = sizeof(Sane.Word)
       s.opt[i].cap = Sane.CAP_INACTIVE
   }
 
@@ -3479,7 +3479,7 @@ init_options (struct fujitsu *s)
   s.opt[OPT_NUM_OPTS].type = Sane.TYPE_INT
   s.opt[OPT_NUM_OPTS].cap = Sane.CAP_SOFT_DETECT
 
-  DBG (10, "init_options: finish\n")
+  DBG(10, "init_options: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -3489,21 +3489,21 @@ init_options (struct fujitsu *s)
  * searching for valid color interlacing mode
  */
 static Sane.Status
-init_interlace (struct fujitsu *s)
+init_interlace(struct fujitsu *s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
   Int curr_mode = s.u_mode
   Int oldDbg=0
 
-  DBG (10, "init_interlace: start\n")
+  DBG(10, "init_interlace: start\n")
 
   if(s.color_interlace != COLOR_INTERLACE_UNK){
-    DBG (10, "init_interlace: already loaded\n")
+    DBG(10, "init_interlace: already loaded\n")
     return Sane.STATUS_GOOD
   }
 
   if(!s.has_vuid_color){
-    DBG (10, "init_interlace: color unsupported\n")
+    DBG(10, "init_interlace: color unsupported\n")
     return Sane.STATUS_GOOD
   }
 
@@ -3512,8 +3512,8 @@ init_interlace (struct fujitsu *s)
 
   /* load our own private copy of scan params */
   ret = update_params(s)
-  if (ret != Sane.STATUS_GOOD) {
-    DBG (5, "init_interlace: ERROR: cannot update params\n")
+  if(ret != Sane.STATUS_GOOD) {
+    DBG(5, "init_interlace: ERROR: cannot update params\n")
     return ret
   }
 
@@ -3531,27 +3531,27 @@ init_interlace (struct fujitsu *s)
 
     ret = set_window(s)
 
-    IF_DBG (DBG_LEVEL = oldDbg;)
+    IF_DBG(DBG_LEVEL = oldDbg;)
 
-    if (ret == Sane.STATUS_GOOD){
+    if(ret == Sane.STATUS_GOOD){
       break
     }
     else{
-      DBG (15, "init_interlace: not %d\n", s.color_interlace)
+      DBG(15, "init_interlace: not %d\n", s.color_interlace)
     }
   }
 
-  if (ret != Sane.STATUS_GOOD){
-    DBG (5, "init_interlace: no valid interlacings\n")
+  if(ret != Sane.STATUS_GOOD){
+    DBG(5, "init_interlace: no valid interlacings\n")
     return Sane.STATUS_INVAL
   }
 
-  DBG (15, "init_interlace: color_interlace: %d\n",s.color_interlace)
+  DBG(15, "init_interlace: color_interlace: %d\n",s.color_interlace)
 
   /* restore mode */
   set_mode(s,curr_mode)
 
-  DBG (10, "init_interlace: finish\n")
+  DBG(10, "init_interlace: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -3561,7 +3561,7 @@ init_interlace (struct fujitsu *s)
  * use it to build a unique name for scanner in s.serial_name
  */
 static Sane.Status
-init_serial (struct fujitsu *s)
+init_serial(struct fujitsu *s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
   unsigned Int sn = 0
@@ -3575,10 +3575,10 @@ init_serial (struct fujitsu *s)
   unsigned char in[RD_gdi_len]
   size_t inLen = RD_gdi_len
 
-  DBG (10, "init_serial: start\n")
+  DBG(10, "init_serial: start\n")
 
-  if (!s.has_cmd_sdiag || !s.has_cmd_rdiag || s.broken_diag_serial){
-    DBG (5, "init_serial: send/read diag not supported, returning\n")
+  if(!s.has_cmd_sdiag || !s.has_cmd_rdiag || s.broken_diag_serial){
+    DBG(5, "init_serial: send/read diag not supported, returning\n")
     return Sane.STATUS_INVAL
   }
 
@@ -3589,15 +3589,15 @@ init_serial (struct fujitsu *s)
 
   memcpy(out,SD_gdi_string,outLen)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     out, outLen,
     NULL, NULL
   )
 
-  if (ret != Sane.STATUS_GOOD){
-    DBG (5, "init_serial: send diag error: %d\n", ret)
+  if(ret != Sane.STATUS_GOOD){
+    DBG(5, "init_serial: send diag error: %d\n", ret)
     return ret
   }
 
@@ -3605,27 +3605,27 @@ init_serial (struct fujitsu *s)
   set_SCSI_opcode(cmd, READ_DIAGNOSTIC_code)
   set_RD_xferlen(cmd, inLen)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     NULL, 0,
     in, &inLen
   )
 
-  if (ret != Sane.STATUS_GOOD){
-    DBG (5, "init_serial: read diag error: %d\n", ret)
+  if(ret != Sane.STATUS_GOOD){
+    DBG(5, "init_serial: read diag error: %d\n", ret)
     return ret
   }
 
   sn = get_RD_id_serial(in)
 
-  DBG (15, "init_serial: found sn %d\n",sn)
+  DBG(15, "init_serial: found sn %d\n",sn)
 
   sprintf(s.serial_name, "%s:%d", s.model_name, sn)
 
-  DBG (15, "init_serial: serial_name: %s\n",s.serial_name)
+  DBG(15, "init_serial: serial_name: %s\n",s.serial_name)
 
-  DBG (10, "init_serial: finish\n")
+  DBG(10, "init_serial: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -3640,19 +3640,19 @@ init_serial (struct fujitsu *s)
  * (if there is such a device).
  */
 Sane.Status
-Sane.open (Sane.String_Const name, Sane.Handle * handle)
+Sane.open(Sane.String_Const name, Sane.Handle * handle)
 {
   struct fujitsu *dev = NULL
   struct fujitsu *s = NULL
   Sane.Status ret
 
-  DBG (10, "Sane.open: start\n")
+  DBG(10, "Sane.open: start\n")
 
   if(fujitsu_devList){
-    DBG (15, "Sane.open: searching currently attached scanners\n")
+    DBG(15, "Sane.open: searching currently attached scanners\n")
   }
   else{
-    DBG (15, "Sane.open: no scanners currently attached, attaching\n")
+    DBG(15, "Sane.open: no scanners currently attached, attaching\n")
 
     ret = Sane.get_devices(NULL,0)
     if(ret != Sane.STATUS_GOOD){
@@ -3661,27 +3661,27 @@ Sane.open (Sane.String_Const name, Sane.Handle * handle)
   }
 
   if(!name || !name[0]){
-    DBG (15, "Sane.open: no device requested, using default\n")
+    DBG(15, "Sane.open: no device requested, using default\n")
     s = fujitsu_devList
   }
   else{
-    DBG (15, "Sane.open: device %s requested\n", name)
+    DBG(15, "Sane.open: device %s requested\n", name)
 
-    for (dev = fujitsu_devList; dev; dev = dev.next) {
-      if (strcmp (dev.sane.name, name) == 0
-       || strcmp (dev.device_name, name) == 0) { /*always allow sanei devname*/
+    for(dev = fujitsu_devList; dev; dev = dev.next) {
+      if(strcmp(dev.sane.name, name) == 0
+       || strcmp(dev.device_name, name) == 0) { /*always allow sanei devname*/
         s = dev
         break
       }
     }
   }
 
-  if (!s) {
-    DBG (5, "Sane.open: no device found\n")
+  if(!s) {
+    DBG(5, "Sane.open: no device found\n")
     return Sane.STATUS_INVAL
   }
 
-  DBG (15, "Sane.open: device %s found\n", s.sane.name)
+  DBG(15, "Sane.open: device %s found\n", s.sane.name)
 
   *handle = s
 
@@ -3691,7 +3691,7 @@ Sane.open (Sane.String_Const name, Sane.Handle * handle)
     return ret
   }
 
-  DBG (10, "Sane.open: finish\n")
+  DBG(10, "Sane.open: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -3708,21 +3708,21 @@ Sane.open (Sane.String_Const name, Sane.Handle * handle)
  * returns the option descriptor for option number n of the device
  * represented by handle h. Option number 0 is guaranteed to be a
  * valid option. Its value is an integer that specifies the number of
- * options that are available for device handle h (the count includes
+ * options that are available for device handle h(the count includes
  * option 0). If n is not a valid option index, the function returns
  * NULL. The returned option descriptor is guaranteed to remain valid
  * (and at the returned address) until the device is closed.
  */
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
   struct fujitsu *s = handle
   var i: Int,j
   Sane.Option_Descriptor *opt = &s.opt[option]
 
-  DBG (20, "Sane.get_option_descriptor: %d\n", option)
+  DBG(20, "Sane.get_option_descriptor: %d\n", option)
 
-  if ((unsigned) option >= NUM_OPTIONS)
+  if((unsigned) option >= NUM_OPTIONS)
     return NULL
 
   /* "Mode" group -------------------------------------------------------- */
@@ -3768,7 +3768,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     opt.type = Sane.TYPE_STRING
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.source_list
-    opt.size = maxStringSize (opt.constraint.string_list)
+    opt.size = maxStringSize(opt.constraint.string_list)
     opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   }
 
@@ -3795,7 +3795,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     opt.type = Sane.TYPE_STRING
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.mode_list
-    opt.size = maxStringSize (opt.constraint.string_list)
+    opt.size = maxStringSize(opt.constraint.string_list)
     opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
   }
 
@@ -3992,9 +3992,9 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     opt.constraint.range = &s.brightness_range
     s.brightness_range.quant=1
 
-    /* some have hardware brightness (always 0 to 255?) */
-    /* some use LUT or GT (-127 to +127)*/
-    if (s.brightness_steps || s.num_download_gamma){
+    /* some have hardware brightness(always 0 to 255?) */
+    /* some use LUT or GT(-127 to +127)*/
+    if(s.brightness_steps || s.num_download_gamma){
       s.brightness_range.min=-127
       s.brightness_range.max=127
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
@@ -4015,9 +4015,9 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     opt.constraint.range = &s.contrast_range
     s.contrast_range.quant=1
 
-    /* some have hardware contrast (always 0 to 255?) */
-    /* some use LUT or GT (-127 to +127)*/
-    if (s.contrast_steps || s.num_download_gamma){
+    /* some have hardware contrast(always 0 to 255?) */
+    /* some use LUT or GT(-127 to +127)*/
+    if(s.contrast_steps || s.num_download_gamma){
       s.contrast_range.min=-127
       s.contrast_range.max=127
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
@@ -4030,8 +4030,8 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
   /* gamma */
   if(option==OPT_GAMMA){
     opt.name = "gamma"
-    opt.title = Sane.I18N ("Gamma function exponent")
-    opt.desc = Sane.I18N ("Changes intensity of midtones")
+    opt.title = Sane.I18N("Gamma function exponent")
+    opt.desc = Sane.I18N("Changes intensity of midtones")
     opt.type = Sane.TYPE_FIXED
     opt.unit = Sane.UNIT_NONE
     opt.constraint_type = Sane.CONSTRAINT_RANGE
@@ -4043,7 +4043,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.gamma_range.max=Sane.FIX(5)
 
     /* scanner has gamma via LUT or GT */
-    /*if (s.num_download_gamma){
+    /*if(s.num_download_gamma){
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     }
     else {
@@ -4066,7 +4066,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.threshold_range.max=s.threshold_steps
     s.threshold_range.quant=1
 
-    if (s.threshold_steps){
+    if(s.threshold_steps){
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
       if(s.u_mode != MODE_LINEART){
         opt.cap |= Sane.CAP_INACTIVE
@@ -4080,11 +4080,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
   /* =============== common ipc params ================================ */
   if(option==OPT_RIF){
     opt.name = "rif"
-    opt.title = Sane.I18N ("RIF")
-    opt.desc = Sane.I18N ("Reverse image format")
+    opt.title = Sane.I18N("RIF")
+    opt.desc = Sane.I18N("Reverse image format")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_rif)
+    if(s.has_rif)
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -4098,14 +4098,14 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.ht_type_list[i]=NULL
 
     opt.name = "ht-type"
-    opt.title = Sane.I18N ("Halftone type")
-    opt.desc = Sane.I18N ("Control type of halftone filter")
+    opt.title = Sane.I18N("Halftone type")
+    opt.desc = Sane.I18N("Control type of halftone filter")
     opt.type = Sane.TYPE_STRING
     opt.unit = Sane.UNIT_NONE
 
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.ht_type_list
-    opt.size = maxStringSize (opt.constraint.string_list)
+    opt.size = maxStringSize(opt.constraint.string_list)
 
     if(s.has_diffusion){
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
@@ -4119,8 +4119,8 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_HT_PATTERN){
     opt.name = "ht-pattern"
-    opt.title = Sane.I18N ("Halftone pattern")
-    opt.desc = Sane.I18N ("Control pattern of halftone filter")
+    opt.title = Sane.I18N("Halftone pattern")
+    opt.desc = Sane.I18N("Control pattern of halftone filter")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
 
@@ -4130,7 +4130,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.ht_pattern_range.max=s.num_internal_dither - 1
     s.ht_pattern_range.quant=1
 
-    if (s.num_internal_dither){
+    if(s.num_internal_dither){
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
       if(s.s_mode != MODE_HALFTONE){
         opt.cap |= Sane.CAP_INACTIVE
@@ -4142,11 +4142,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_OUTLINE){
     opt.name = "outline"
-    opt.title = Sane.I18N ("Outline")
-    opt.desc = Sane.I18N ("Perform outline extraction")
+    opt.title = Sane.I18N("Outline")
+    opt.desc = Sane.I18N("Perform outline extraction")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_outline)
+    if(s.has_outline)
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -4154,8 +4154,8 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_EMPHASIS){
     opt.name = "emphasis"
-    opt.title = Sane.I18N ("Emphasis")
-    opt.desc = Sane.I18N ("Negative to smooth or positive to sharpen image")
+    opt.title = Sane.I18N("Emphasis")
+    opt.desc = Sane.I18N("Negative to smooth or positive to sharpen image")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
 
@@ -4165,7 +4165,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.emphasis_range.max=127
     s.emphasis_range.quant=1
 
-    if (s.has_emphasis)
+    if(s.has_emphasis)
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -4173,11 +4173,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_SEPARATION){
     opt.name = "separation"
-    opt.title = Sane.I18N ("Separation")
-    opt.desc = Sane.I18N ("Enable automatic separation of image and text")
+    opt.title = Sane.I18N("Separation")
+    opt.desc = Sane.I18N("Enable automatic separation of image and text")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_autosep)
+    if(s.has_autosep)
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -4185,11 +4185,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_MIRRORING){
     opt.name = "mirroring"
-    opt.title = Sane.I18N ("Mirroring")
-    opt.desc = Sane.I18N ("Reflect output image horizontally")
+    opt.title = Sane.I18N("Mirroring")
+    opt.desc = Sane.I18N("Reflect output image horizontally")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_mirroring)
+    if(s.has_mirroring)
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -4203,31 +4203,31 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.wl_follow_list[i]=NULL
 
     opt.name = "wl-follow"
-    opt.title = Sane.I18N ("White level follower")
-    opt.desc = Sane.I18N ("Control white level follower")
+    opt.title = Sane.I18N("White level follower")
+    opt.desc = Sane.I18N("Control white level follower")
     opt.type = Sane.TYPE_STRING
     opt.unit = Sane.UNIT_NONE
 
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.wl_follow_list
-    opt.size = maxStringSize (opt.constraint.string_list)
+    opt.size = maxStringSize(opt.constraint.string_list)
 
-    if (s.has_wl_follow)
+    if(s.has_wl_follow)
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     else
       opt.cap = Sane.CAP_INACTIVE
   }
 
   /* =============== DTC params ================================ */
-  /* enabled when in dtc mode (manually or by default) */
+  /* enabled when in dtc mode(manually or by default) */
   if(option==OPT_BP_FILTER){
     opt.name = "bp-filter"
-    opt.title = Sane.I18N ("BP filter")
-    opt.desc = Sane.I18N ("Improves quality of high resolution ball-point pen text")
+    opt.title = Sane.I18N("BP filter")
+    opt.desc = Sane.I18N("Improves quality of high resolution ball-point pen text")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
 
-    if ( s.has_dtc ){
+    if( s.has_dtc ){
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
       if(get_ipc_mode(s) == WD_ipc_SDTC){
         opt.cap |= Sane.CAP_INACTIVE
@@ -4239,12 +4239,12 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_SMOOTHING){
     opt.name = "smoothing"
-    opt.title = Sane.I18N ("Smoothing")
-    opt.desc = Sane.I18N ("Enable smoothing for improved OCR")
+    opt.title = Sane.I18N("Smoothing")
+    opt.desc = Sane.I18N("Enable smoothing for improved OCR")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
 
-    if ( s.has_dtc ){
+    if( s.has_dtc ){
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
       if(get_ipc_mode(s) == WD_ipc_SDTC){
         opt.cap |= Sane.CAP_INACTIVE
@@ -4256,8 +4256,8 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_GAMMA_CURVE){
     opt.name = "gamma-curve"
-    opt.title = Sane.I18N ("Gamma curve")
-    opt.desc = Sane.I18N ("Gamma curve, from light to dark, but upper two may not work")
+    opt.title = Sane.I18N("Gamma curve")
+    opt.desc = Sane.I18N("Gamma curve, from light to dark, but upper two may not work")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
 
@@ -4267,7 +4267,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.gamma_curve_range.max=3
     s.gamma_curve_range.quant=1
 
-    if ( s.has_dtc ){
+    if( s.has_dtc ){
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
       if(get_ipc_mode(s) == WD_ipc_SDTC){
         opt.cap |= Sane.CAP_INACTIVE
@@ -4279,8 +4279,8 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_THRESHOLD_CURVE){
     opt.name = "threshold-curve"
-    opt.title = Sane.I18N ("Threshold curve")
-    opt.desc = Sane.I18N ("Threshold curve, from light to dark, but upper two may not be linear")
+    opt.title = Sane.I18N("Threshold curve")
+    opt.desc = Sane.I18N("Threshold curve, from light to dark, but upper two may not be linear")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
 
@@ -4290,7 +4290,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.threshold_curve_range.max=7
     s.threshold_curve_range.quant=1
 
-    if ( s.has_dtc ){
+    if( s.has_dtc ){
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
       if(get_ipc_mode(s) == WD_ipc_SDTC){
         opt.cap |= Sane.CAP_INACTIVE
@@ -4302,12 +4302,12 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_THRESHOLD_WHITE){
     opt.name = "threshold-white"
-    opt.title = Sane.I18N ("Threshold white")
-    opt.desc = Sane.I18N ("Set pixels equal to threshold to white instead of black")
+    opt.title = Sane.I18N("Threshold white")
+    opt.desc = Sane.I18N("Set pixels equal to threshold to white instead of black")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
 
-    if ( s.has_dtc ){
+    if( s.has_dtc ){
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
       if(get_ipc_mode(s) == WD_ipc_SDTC){
         opt.cap |= Sane.CAP_INACTIVE
@@ -4319,12 +4319,12 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_NOISE_REMOVAL){
     opt.name = "noise-removal"
-    opt.title = Sane.I18N ("Noise removal")
-    opt.desc = Sane.I18N ("Noise removal")
+    opt.title = Sane.I18N("Noise removal")
+    opt.desc = Sane.I18N("Noise removal")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
 
-    if ( s.has_dtc ){
+    if( s.has_dtc ){
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
       if(get_ipc_mode(s) == WD_ipc_SDTC){
         opt.cap |= Sane.CAP_INACTIVE
@@ -4336,12 +4336,12 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_MATRIX_5){
     opt.name = "matrix-5x5"
-    opt.title = Sane.I18N ("Matrix 5x5")
-    opt.desc = Sane.I18N ("Remove 5 pixel square noise")
+    opt.title = Sane.I18N("Matrix 5x5")
+    opt.desc = Sane.I18N("Remove 5 pixel square noise")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
 
-    if ( s.has_dtc ){
+    if( s.has_dtc ){
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
       if(!s.noise_removal){
         opt.cap |= Sane.CAP_INACTIVE
@@ -4353,12 +4353,12 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_MATRIX_4){
     opt.name = "matrix-4x4"
-    opt.title = Sane.I18N ("Matrix 4x4")
-    opt.desc = Sane.I18N ("Remove 4 pixel square noise")
+    opt.title = Sane.I18N("Matrix 4x4")
+    opt.desc = Sane.I18N("Remove 4 pixel square noise")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
 
-    if ( s.has_dtc ){
+    if( s.has_dtc ){
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
       if(!s.noise_removal){
         opt.cap |= Sane.CAP_INACTIVE
@@ -4370,12 +4370,12 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_MATRIX_3){
     opt.name = "matrix-3x3"
-    opt.title = Sane.I18N ("Matrix 3x3")
-    opt.desc = Sane.I18N ("Remove 3 pixel square noise")
+    opt.title = Sane.I18N("Matrix 3x3")
+    opt.desc = Sane.I18N("Remove 3 pixel square noise")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
 
-    if ( s.has_dtc ){
+    if( s.has_dtc ){
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
       if(!s.noise_removal){
         opt.cap |= Sane.CAP_INACTIVE
@@ -4387,12 +4387,12 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_MATRIX_2){
     opt.name = "matrix-2x2"
-    opt.title = Sane.I18N ("Matrix 2x2")
-    opt.desc = Sane.I18N ("Remove 2 pixel square noise")
+    opt.title = Sane.I18N("Matrix 2x2")
+    opt.desc = Sane.I18N("Remove 2 pixel square noise")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
 
-    if ( s.has_dtc ){
+    if( s.has_dtc ){
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
       if(!s.noise_removal){
         opt.cap |= Sane.CAP_INACTIVE
@@ -4403,12 +4403,12 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
   }
 
   /* =============== SDTC param ================================ */
-  /* enabled when in sdtc mode (manually or by default) */
+  /* enabled when in sdtc mode(manually or by default) */
   /* called variance with ipc2, sensitivity with ipc3 */
   if(option==OPT_VARIANCE){
     opt.name = "variance"
-    opt.title = Sane.I18N ("Variance")
-    opt.desc = Sane.I18N ("Set SDTC variance rate (sensitivity), 0 equals 127")
+    opt.title = Sane.I18N("Variance")
+    opt.desc = Sane.I18N("Set SDTC variance rate(sensitivity), 0 equals 127")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
 
@@ -4418,7 +4418,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.variance_range.max=255
     s.variance_range.quant=1
 
-    if ( s.has_sdtc ){
+    if( s.has_sdtc ){
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
       if(get_ipc_mode(s) == WD_ipc_DTC){
         opt.cap |= Sane.CAP_INACTIVE
@@ -4441,14 +4441,14 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
   if(option==OPT_AWD){
 
     opt.name = "awd"
-    opt.title = Sane.I18N ("Auto width detection")
-    opt.desc = Sane.I18N ("Scanner detects paper sides. May reduce scanning speed.")
+    opt.title = Sane.I18N("Auto width detection")
+    opt.desc = Sane.I18N("Scanner detects paper sides. May reduce scanning speed.")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
     opt.constraint_type = Sane.CONSTRAINT_NONE
 
     /* this option is useless by itself? */
-    if (0 && s.has_MS_auto && s.has_hybrid_crop_deskew){
+    if(0 && s.has_MS_auto && s.has_hybrid_crop_deskew){
      opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
     }
     else
@@ -4459,13 +4459,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
   if(option==OPT_ALD){
 
     opt.name = "ald"
-    opt.title = Sane.I18N ("Auto length detection")
-    opt.desc = Sane.I18N ("Scanner detects paper lower edge. May confuse some frontends.")
+    opt.title = Sane.I18N("Auto length detection")
+    opt.desc = Sane.I18N("Scanner detects paper lower edge. May confuse some frontends.")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
     opt.constraint_type = Sane.CONSTRAINT_NONE
 
-    if (s.has_MS_auto){
+    if(s.has_MS_auto){
      opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
     }
     else
@@ -4486,16 +4486,16 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.compress_list[i]=NULL
 
     opt.name = "compression"
-    opt.title = Sane.I18N ("Compression")
-    opt.desc = Sane.I18N ("Enable compressed data. May crash your front-end program")
+    opt.title = Sane.I18N("Compression")
+    opt.desc = Sane.I18N("Enable compressed data. May crash your front-end program")
     opt.type = Sane.TYPE_STRING
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.compress_list
-    opt.size = maxStringSize (opt.constraint.string_list)
+    opt.size = maxStringSize(opt.constraint.string_list)
 
-    if (i > 1){
+    if(i > 1){
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
-      if ( must_downsample(s) || s.s_mode < MODE_GRAYSCALE ){
+      if( must_downsample(s) || s.s_mode < MODE_GRAYSCALE ){
         opt.cap |= Sane.CAP_INACTIVE
       }
     }
@@ -4507,8 +4507,8 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
   if(option==OPT_COMPRESS_ARG){
 
     opt.name = "compression-arg"
-    opt.title = Sane.I18N ("Compression argument")
-    opt.desc = Sane.I18N ("Level of JPEG compression. 1 is small file, 7 is large file. 0 (default) is same as 4")
+    opt.title = Sane.I18N("Compression argument")
+    opt.desc = Sane.I18N("Level of JPEG compression. 1 is small file, 7 is large file. 0 (default) is same as 4")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
     opt.constraint_type = Sane.CONSTRAINT_RANGE
@@ -4538,14 +4538,14 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.df_action_list[3] = NULL
 
     opt.name = "df-action"
-    opt.title = Sane.I18N ("DF action")
-    opt.desc = Sane.I18N ("Action following double feed error")
+    opt.title = Sane.I18N("DF action")
+    opt.desc = Sane.I18N("Action following double feed error")
     opt.type = Sane.TYPE_STRING
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.df_action_list
-    opt.size = maxStringSize (opt.constraint.string_list)
+    opt.size = maxStringSize(opt.constraint.string_list)
 
-    if (s.has_MS_df)
+    if(s.has_MS_df)
      opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
     else
      opt.cap = Sane.CAP_INACTIVE
@@ -4555,13 +4555,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
   if(option==OPT_DF_SKEW){
 
     opt.name = "df-skew"
-    opt.title = Sane.I18N ("DF skew")
-    opt.desc = Sane.I18N ("Enable double feed error due to skew")
+    opt.title = Sane.I18N("DF skew")
+    opt.desc = Sane.I18N("Enable double feed error due to skew")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
     opt.constraint_type = Sane.CONSTRAINT_NONE
 
-    if (s.has_MS_df){
+    if(s.has_MS_df){
      opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
      if(!s.df_action)
        opt.cap |= Sane.CAP_INACTIVE
@@ -4574,13 +4574,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
   if(option==OPT_DF_THICKNESS){
 
     opt.name = "df-thickness"
-    opt.title = Sane.I18N ("DF thickness")
-    opt.desc = Sane.I18N ("Enable double feed error due to paper thickness")
+    opt.title = Sane.I18N("DF thickness")
+    opt.desc = Sane.I18N("Enable double feed error due to paper thickness")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
     opt.constraint_type = Sane.CONSTRAINT_NONE
 
-    if (s.has_MS_df){
+    if(s.has_MS_df){
      opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
      if(!s.df_action)
        opt.cap |= Sane.CAP_INACTIVE
@@ -4593,13 +4593,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
   if(option==OPT_DF_LENGTH){
 
     opt.name = "df-length"
-    opt.title = Sane.I18N ("DF length")
-    opt.desc = Sane.I18N ("Enable double feed error due to paper length")
+    opt.title = Sane.I18N("DF length")
+    opt.desc = Sane.I18N("Enable double feed error due to paper length")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
     opt.constraint_type = Sane.CONSTRAINT_NONE
 
-    if (s.has_MS_df){
+    if(s.has_MS_df){
      opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
      if(!s.df_action)
        opt.cap |= Sane.CAP_INACTIVE
@@ -4617,14 +4617,14 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.df_diff_list[4] = NULL
 
     opt.name = "df-diff"
-    opt.title = Sane.I18N ("DF length difference")
-    opt.desc = Sane.I18N ("Difference in page length to trigger double feed error")
+    opt.title = Sane.I18N("DF length difference")
+    opt.desc = Sane.I18N("Difference in page length to trigger double feed error")
     opt.type = Sane.TYPE_STRING
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.df_diff_list
-    opt.size = maxStringSize (opt.constraint.string_list)
+    opt.size = maxStringSize(opt.constraint.string_list)
 
-    if (s.has_MS_df){
+    if(s.has_MS_df){
      opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
      if(!s.df_action || !s.df_diff)
        opt.cap |= Sane.CAP_INACTIVE
@@ -4641,13 +4641,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.df_recovery_list[3] = NULL
 
     opt.name = "df-recovery"
-    opt.title = Sane.I18N ("DF recovery mode")
-    opt.desc = Sane.I18N ("Request scanner to reverse feed on paper jam")
+    opt.title = Sane.I18N("DF recovery mode")
+    opt.desc = Sane.I18N("Request scanner to reverse feed on paper jam")
     opt.type = Sane.TYPE_STRING
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.df_recovery_list
-    opt.size = maxStringSize (opt.constraint.string_list)
-    if (s.has_MS_df && s.has_df_recovery)
+    opt.size = maxStringSize(opt.constraint.string_list)
+    if(s.has_MS_df && s.has_df_recovery)
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -4661,13 +4661,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.paper_protect_list[3] = NULL
 
     opt.name = "paper-protect"
-    opt.title = Sane.I18N ("Paper protection")
-    opt.desc = Sane.I18N ("Request scanner to predict jams in the ADF")
+    opt.title = Sane.I18N("Paper protection")
+    opt.desc = Sane.I18N("Request scanner to predict jams in the ADF")
     opt.type = Sane.TYPE_STRING
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.paper_protect_list
-    opt.size = maxStringSize (opt.constraint.string_list)
-    if (s.has_MS_df && s.has_paper_protect)
+    opt.size = maxStringSize(opt.constraint.string_list)
+    if(s.has_MS_df && s.has_paper_protect)
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -4681,13 +4681,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.adv_paper_prot_list[3] = NULL
 
     opt.name = "adv-paper-protect"
-    opt.title = Sane.I18N ("Advanced paper protection")
-    opt.desc = Sane.I18N ("Request scanner to predict jams in the ADF using improved sensors")
+    opt.title = Sane.I18N("Advanced paper protection")
+    opt.desc = Sane.I18N("Request scanner to predict jams in the ADF using improved sensors")
     opt.type = Sane.TYPE_STRING
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.adv_paper_prot_list
-    opt.size = maxStringSize (opt.constraint.string_list)
-    if (s.has_MS_df && s.has_adv_paper_prot)
+    opt.size = maxStringSize(opt.constraint.string_list)
+    if(s.has_MS_df && s.has_adv_paper_prot)
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -4701,13 +4701,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.staple_detect_list[3] = NULL
 
     opt.name = "staple-detect"
-    opt.title = Sane.I18N ("Staple detection")
-    opt.desc = Sane.I18N ("Request scanner to detect jams in the ADF caused by staples")
+    opt.title = Sane.I18N("Staple detection")
+    opt.desc = Sane.I18N("Request scanner to detect jams in the ADF caused by staples")
     opt.type = Sane.TYPE_STRING
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.staple_detect_list
-    opt.size = maxStringSize (opt.constraint.string_list)
-    if (s.has_MS_df && s.has_staple_detect)
+    opt.size = maxStringSize(opt.constraint.string_list)
+    if(s.has_MS_df && s.has_staple_detect)
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -4721,13 +4721,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.bg_color_list[3] = NULL
 
     opt.name = "bgcolor"
-    opt.title = Sane.I18N ("Background color")
-    opt.desc = Sane.I18N ("Set color of background for scans. May conflict with overscan option")
+    opt.title = Sane.I18N("Background color")
+    opt.desc = Sane.I18N("Set color of background for scans. May conflict with overscan option")
     opt.type = Sane.TYPE_STRING
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.bg_color_list
-    opt.size = maxStringSize (opt.constraint.string_list)
-    if (s.has_MS_bg)
+    opt.size = maxStringSize(opt.constraint.string_list)
+    if(s.has_MS_bg)
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -4742,14 +4742,14 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.do_color_list[4] = NULL
 
     opt.name = "dropoutcolor"
-    opt.title = Sane.I18N ("Dropout color")
-    opt.desc = Sane.I18N ("One-pass scanners use only one color during gray or binary scanning, useful for colored paper or ink")
+    opt.title = Sane.I18N("Dropout color")
+    opt.desc = Sane.I18N("One-pass scanners use only one color during gray or binary scanning, useful for colored paper or ink")
     opt.type = Sane.TYPE_STRING
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.do_color_list
-    opt.size = maxStringSize (opt.constraint.string_list)
+    opt.size = maxStringSize(opt.constraint.string_list)
 
-    if (s.has_MS_dropout || s.has_vuid_3091 || must_downsample(s)){
+    if(s.has_MS_dropout || s.has_vuid_3091 || must_downsample(s)){
       opt.cap = Sane.CAP_SOFT_SELECT|Sane.CAP_SOFT_DETECT|Sane.CAP_ADVANCED
       if(s.u_mode == MODE_COLOR)
         opt.cap |= Sane.CAP_INACTIVE
@@ -4766,13 +4766,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.buff_mode_list[3] = NULL
 
     opt.name = "buffermode"
-    opt.title = Sane.I18N ("Buffer mode")
-    opt.desc = Sane.I18N ("Request scanner to read pages quickly from ADF into internal memory")
+    opt.title = Sane.I18N("Buffer mode")
+    opt.desc = Sane.I18N("Request scanner to read pages quickly from ADF into internal memory")
     opt.type = Sane.TYPE_STRING
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.buff_mode_list
-    opt.size = maxStringSize (opt.constraint.string_list)
-    if (s.has_MS_buff)
+    opt.size = maxStringSize(opt.constraint.string_list)
+    if(s.has_MS_buff)
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -4786,13 +4786,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.prepick_list[3] = NULL
 
     opt.name = "prepick"
-    opt.title = Sane.I18N ("Prepick")
-    opt.desc = Sane.I18N ("Request scanner to grab next page from ADF")
+    opt.title = Sane.I18N("Prepick")
+    opt.desc = Sane.I18N("Request scanner to grab next page from ADF")
     opt.type = Sane.TYPE_STRING
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.prepick_list
-    opt.size = maxStringSize (opt.constraint.string_list)
-    if (s.has_MS_prepick)
+    opt.size = maxStringSize(opt.constraint.string_list)
+    if(s.has_MS_prepick)
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -4806,13 +4806,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.overscan_list[3] = NULL
 
     opt.name = "overscan"
-    opt.title = Sane.I18N ("Overscan")
-    opt.desc = Sane.I18N ("Collect a few mm of background on top side of scan, before paper enters ADF, and increase maximum scan area beyond paper size, to allow collection on remaining sides. May conflict with bgcolor option")
+    opt.title = Sane.I18N("Overscan")
+    opt.desc = Sane.I18N("Collect a few mm of background on top side of scan, before paper enters ADF, and increase maximum scan area beyond paper size, to allow collection on remaining sides. May conflict with bgcolor option")
     opt.type = Sane.TYPE_STRING
     opt.constraint_type = Sane.CONSTRAINT_STRING_LIST
     opt.constraint.string_list = s.overscan_list
-    opt.size = maxStringSize (opt.constraint.string_list)
-    if (s.has_MS_auto && (s.os_x_basic || s.os_y_basic))
+    opt.size = maxStringSize(opt.constraint.string_list)
+    if(s.has_MS_auto && (s.os_x_basic || s.os_y_basic))
       opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -4825,8 +4825,8 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.sleep_time_range.quant = 1
 
     opt.name = "sleeptimer"
-    opt.title = Sane.I18N ("Sleep timer")
-    opt.desc = Sane.I18N ("Time in minutes until the internal power supply switches to sleep mode")
+    opt.title = Sane.I18N("Sleep timer")
+    opt.desc = Sane.I18N("Time in minutes until the internal power supply switches to sleep mode")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
     opt.constraint_type = Sane.CONSTRAINT_RANGE
@@ -4844,8 +4844,8 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.off_time_range.quant = 1
 
     opt.name = "offtimer"
-    opt.title = Sane.I18N ("Off timer")
-    opt.desc = Sane.I18N ("Time in minutes until the internal power supply switches the scanner off. Will be rounded to nearest 15 minutes. Zero means never power off.")
+    opt.title = Sane.I18N("Off timer")
+    opt.desc = Sane.I18N("Time in minutes until the internal power supply switches the scanner off. Will be rounded to nearest 15 minutes. Zero means never power off.")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
     opt.constraint_type = Sane.CONSTRAINT_RANGE
@@ -4863,8 +4863,8 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.duplex_offset_range.quant = 1
 
     opt.name = "duplexoffset"
-    opt.title = Sane.I18N ("Duplex offset")
-    opt.desc = Sane.I18N ("Adjust front/back offset")
+    opt.title = Sane.I18N("Duplex offset")
+    opt.desc = Sane.I18N("Adjust front/back offset")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
     opt.constraint_type = Sane.CONSTRAINT_RANGE
@@ -4881,8 +4881,8 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.green_offset_range.quant = 1
 
     opt.name = "greenoffset"
-    opt.title = Sane.I18N ("Green offset")
-    opt.desc = Sane.I18N ("Adjust green/red offset")
+    opt.title = Sane.I18N("Green offset")
+    opt.desc = Sane.I18N("Adjust green/red offset")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
     opt.constraint_type = Sane.CONSTRAINT_RANGE
@@ -4899,8 +4899,8 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.blue_offset_range.quant = 1
 
     opt.name = "blueoffset"
-    opt.title = Sane.I18N ("Blue offset")
-    opt.desc = Sane.I18N ("Adjust blue/red offset")
+    opt.title = Sane.I18N("Blue offset")
+    opt.desc = Sane.I18N("Adjust blue/red offset")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
     opt.constraint_type = Sane.CONSTRAINT_RANGE
@@ -4913,13 +4913,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_LOW_MEM){
     opt.name = "lowmemory"
-    opt.title = Sane.I18N ("Low Memory")
-    opt.desc = Sane.I18N ("Limit driver memory usage for use in embedded systems. Causes some duplex transfers to alternate sides on each call to Sane.read. Value of option 'side' can be used to determine correct image. This option should only be used with custom front-end software.")
+    opt.title = Sane.I18N("Low Memory")
+    opt.desc = Sane.I18N("Limit driver memory usage for use in embedded systems. Causes some duplex transfers to alternate sides on each call to Sane.read. Value of option 'side' can be used to determine correct image. This option should only be used with custom front-end software.")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
     opt.size = sizeof(Sane.Word)
 
-    if (1)
+    if(1)
       opt.cap= Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -4929,8 +4929,8 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_SIDE){
     opt.name = "side"
-    opt.title = Sane.I18N ("Duplex side")
-    opt.desc = Sane.I18N ("Tells which side (0=front, 1=back) of a duplex scan the next call to Sane.read will return.")
+    opt.title = Sane.I18N("Duplex side")
+    opt.desc = Sane.I18N("Tells which side(0=front, 1=back) of a duplex scan the next call to Sane.read will return.")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
     opt.size = sizeof(Sane.Word)
@@ -4941,10 +4941,10 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
   /*deskew and crop by hardware*/
   if(option==OPT_HWDESKEWCROP){
     opt.name = "hwdeskewcrop"
-    opt.title = Sane.I18N ("Hardware deskew and crop")
-    opt.desc = Sane.I18N ("Request scanner to rotate and crop pages digitally.")
+    opt.title = Sane.I18N("Hardware deskew and crop")
+    opt.desc = Sane.I18N("Request scanner to rotate and crop pages digitally.")
     opt.type = Sane.TYPE_BOOL
-    if (s.has_hybrid_crop_deskew)
+    if(s.has_hybrid_crop_deskew)
      opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
     else
      opt.cap = Sane.CAP_INACTIVE
@@ -4953,10 +4953,10 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
   /*deskew by software*/
   if(option==OPT_SWDESKEW){
     opt.name = "swdeskew"
-    opt.title = Sane.I18N ("Software deskew")
-    opt.desc = Sane.I18N ("Request driver to rotate skewed pages digitally.")
+    opt.title = Sane.I18N("Software deskew")
+    opt.desc = Sane.I18N("Request driver to rotate skewed pages digitally.")
     opt.type = Sane.TYPE_BOOL
-    if (1)
+    if(1)
      opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
     else
      opt.cap = Sane.CAP_INACTIVE
@@ -4966,8 +4966,8 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
   if(option==OPT_SWDESPECK){
 
     opt.name = "swdespeck"
-    opt.title = Sane.I18N ("Software despeckle diameter")
-    opt.desc = Sane.I18N ("Maximum diameter of lone dots to remove from scan.")
+    opt.title = Sane.I18N("Software despeckle diameter")
+    opt.desc = Sane.I18N("Maximum diameter of lone dots to remove from scan.")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
     opt.constraint_type = Sane.CONSTRAINT_RANGE
@@ -4986,10 +4986,10 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
   /*crop by software*/
   if(option==OPT_SWCROP){
     opt.name = "swcrop"
-    opt.title = Sane.I18N ("Software crop")
-    opt.desc = Sane.I18N ("Request driver to remove border from pages digitally.")
+    opt.title = Sane.I18N("Software crop")
+    opt.desc = Sane.I18N("Request driver to remove border from pages digitally.")
     opt.type = Sane.TYPE_BOOL
-    if (1)
+    if(1)
      opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
     else
      opt.cap = Sane.CAP_INACTIVE
@@ -4999,7 +4999,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
   if(option==OPT_SWSKIP){
 
     opt.name = "swskip"
-    opt.title = Sane.I18N ("Software blank skip percentage")
+    opt.title = Sane.I18N("Software blank skip percentage")
     opt.desc = Sane.I18N("Request driver to discard pages with low percentage of dark pixels")
     opt.type = Sane.TYPE_FIXED
     opt.unit = Sane.UNIT_PERCENT
@@ -5016,10 +5016,10 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
   /*halt scanner feeder when cancelling*/
   if(option==OPT_HALT_ON_CANCEL){
     opt.name = "halt-on-cancel"
-    opt.title = Sane.I18N ("Halt on Cancel")
-    opt.desc = Sane.I18N ("Request driver to halt the paper feed instead of eject during a cancel.")
+    opt.title = Sane.I18N("Halt on Cancel")
+    opt.desc = Sane.I18N("Request driver to halt the paper feed instead of eject during a cancel.")
     opt.type = Sane.TYPE_BOOL
-    if (s.has_op_halt)
+    if(s.has_op_halt)
      opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
     else
      opt.cap = Sane.CAP_INACTIVE
@@ -5028,25 +5028,25 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
   /* "Endorser" group ------------------------------------------------------ */
   if(option==OPT_ENDORSER_GROUP){
     opt.name = "endorser-options"
-    opt.title = Sane.I18N ("Endorser Options")
-    opt.desc = Sane.I18N ("Controls for endorser unit")
+    opt.title = Sane.I18N("Endorser Options")
+    opt.desc = Sane.I18N("Controls for endorser unit")
     opt.type = Sane.TYPE_GROUP
     opt.constraint_type = Sane.CONSTRAINT_NONE
 
     /*flaming hack to get scanimage to hide group*/
-    if ( !(s.has_endorser_f || s.has_endorser_b) )
+    if( !(s.has_endorser_f || s.has_endorser_b) )
       opt.type = Sane.TYPE_BOOL
   }
 
   if(option==OPT_ENDORSER){
     opt.name = "endorser"
-    opt.title = Sane.I18N ("Endorser")
-    opt.desc = Sane.I18N ("Enable endorser unit")
+    opt.title = Sane.I18N("Endorser")
+    opt.desc = Sane.I18N("Enable endorser unit")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
     opt.size = sizeof(Sane.Word)
 
-    if (s.has_endorser_f || s.has_endorser_b)
+    if(s.has_endorser_f || s.has_endorser_b)
       opt.cap= Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5056,14 +5056,14 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_ENDORSER_BITS){
     opt.name = "endorser-bits"
-    opt.title = Sane.I18N ("Endorser bits")
-    opt.desc = Sane.I18N ("Determines maximum endorser counter value.")
+    opt.title = Sane.I18N("Endorser bits")
+    opt.desc = Sane.I18N("Determines maximum endorser counter value.")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
     opt.size = sizeof(Sane.Word)
 
     /*old type can't do this?*/
-    if ((s.has_endorser_f && s.endorser_type_f != ET_OLD)
+    if((s.has_endorser_f && s.endorser_type_f != ET_OLD)
      || (s.has_endorser_b && s.endorser_type_b != ET_OLD)){
       opt.cap=Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
       if(!s.u_endorser)
@@ -5082,13 +5082,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_ENDORSER_VAL){
     opt.name = "endorser-val"
-    opt.title = Sane.I18N ("Endorser value")
-    opt.desc = Sane.I18N ("Initial endorser counter value.")
+    opt.title = Sane.I18N("Endorser value")
+    opt.desc = Sane.I18N("Initial endorser counter value.")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
     opt.size = sizeof(Sane.Word)
 
-    if (s.has_endorser_f || s.has_endorser_b){
+    if(s.has_endorser_f || s.has_endorser_b){
       opt.cap=Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
       if(!s.u_endorser)
         opt.cap |= Sane.CAP_INACTIVE
@@ -5106,13 +5106,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_ENDORSER_STEP){
     opt.name = "endorser-step"
-    opt.title = Sane.I18N ("Endorser step")
-    opt.desc = Sane.I18N ("Change endorser counter value by this much for each page.")
+    opt.title = Sane.I18N("Endorser step")
+    opt.desc = Sane.I18N("Change endorser counter value by this much for each page.")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
     opt.size = sizeof(Sane.Word)
 
-    if (s.has_endorser_f || s.has_endorser_b){
+    if(s.has_endorser_f || s.has_endorser_b){
       opt.cap=Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
       if(!s.u_endorser)
         opt.cap |= Sane.CAP_INACTIVE
@@ -5130,13 +5130,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_ENDORSER_Y){
     opt.name = "endorser-y"
-    opt.title = Sane.I18N ("Endorser Y")
-    opt.desc = Sane.I18N ("Endorser print offset from top of paper.")
+    opt.title = Sane.I18N("Endorser Y")
+    opt.desc = Sane.I18N("Endorser print offset from top of paper.")
     opt.type = Sane.TYPE_FIXED
     opt.unit = Sane.UNIT_MM
     opt.size = sizeof(Sane.Word)
 
-    if (s.has_endorser_f || s.has_endorser_b){
+    if(s.has_endorser_f || s.has_endorser_b){
       opt.cap=Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
       if(!s.u_endorser)
         opt.cap |= Sane.CAP_INACTIVE
@@ -5156,13 +5156,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_ENDORSER_FONT){
     opt.name = "endorser-font"
-    opt.title = Sane.I18N ("Endorser font")
-    opt.desc = Sane.I18N ("Endorser printing font.")
+    opt.title = Sane.I18N("Endorser font")
+    opt.desc = Sane.I18N("Endorser printing font.")
     opt.type = Sane.TYPE_STRING
     opt.unit = Sane.UNIT_NONE
 
     /*only newest can do this?*/
-    if ((s.has_endorser_f && s.endorser_type_f == ET_40)
+    if((s.has_endorser_f && s.endorser_type_f == ET_40)
      || (s.has_endorser_b && s.endorser_type_b == ET_40)){
       opt.cap=Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
       if(!s.u_endorser)
@@ -5181,17 +5181,17 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.endorser_font_list[4] = STRING_VERTICALBOLD
     s.endorser_font_list[5] = NULL
 
-    opt.size = maxStringSize (opt.constraint.string_list)
+    opt.size = maxStringSize(opt.constraint.string_list)
   }
 
   if(option==OPT_ENDORSER_DIR){
     opt.name = "endorser-dir"
-    opt.title = Sane.I18N ("Endorser direction")
-    opt.desc = Sane.I18N ("Endorser printing direction.")
+    opt.title = Sane.I18N("Endorser direction")
+    opt.desc = Sane.I18N("Endorser printing direction.")
     opt.type = Sane.TYPE_STRING
     opt.unit = Sane.UNIT_NONE
 
-    if (s.has_endorser_f || s.has_endorser_b){
+    if(s.has_endorser_f || s.has_endorser_b){
       opt.cap=Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
       if(!s.u_endorser)
         opt.cap |= Sane.CAP_INACTIVE
@@ -5206,18 +5206,18 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.endorser_dir_list[1] = STRING_BOTTOMTOTOP
     s.endorser_dir_list[2] = NULL
 
-    opt.size = maxStringSize (opt.constraint.string_list)
+    opt.size = maxStringSize(opt.constraint.string_list)
   }
 
   if(option==OPT_ENDORSER_SIDE){
     opt.name = "endorser-side"
-    opt.title = Sane.I18N ("Endorser side")
-    opt.desc = Sane.I18N ("Endorser printing side, requires hardware support to change")
+    opt.title = Sane.I18N("Endorser side")
+    opt.desc = Sane.I18N("Endorser printing side, requires hardware support to change")
     opt.type = Sane.TYPE_STRING
     opt.unit = Sane.UNIT_NONE
 
     /* only show if both endorsers are installed */
-    if (s.has_endorser_f && s.has_endorser_b){
+    if(s.has_endorser_f && s.has_endorser_b){
       opt.cap=Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
       if(!s.u_endorser)
         opt.cap |= Sane.CAP_INACTIVE
@@ -5232,18 +5232,18 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     s.endorser_side_list[1] = STRING_BACK
     s.endorser_side_list[2] = NULL
 
-    opt.size = maxStringSize (opt.constraint.string_list)
+    opt.size = maxStringSize(opt.constraint.string_list)
   }
 
   if(option==OPT_ENDORSER_STRING){
     opt.name = "endorser-string"
-    opt.title = Sane.I18N ("Endorser string")
-    opt.desc = Sane.I18N ("Endorser alphanumeric print format. %05ud or %08ud at the end will be replaced by counter value.")
+    opt.title = Sane.I18N("Endorser string")
+    opt.desc = Sane.I18N("Endorser alphanumeric print format. %05ud or %08ud at the end will be replaced by counter value.")
     opt.type = Sane.TYPE_STRING
     opt.unit = Sane.UNIT_NONE
     opt.size = s.endorser_string_len + 1
 
-    if (s.has_endorser_f || s.has_endorser_b){
+    if(s.has_endorser_f || s.has_endorser_b){
       opt.cap=Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
       if(!s.u_endorser)
         opt.cap |= Sane.CAP_INACTIVE
@@ -5265,11 +5265,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_TOP){
     opt.name = "top-edge"
-    opt.title = Sane.I18N ("Top edge")
-    opt.desc = Sane.I18N ("Paper is pulled partly into ADF")
+    opt.title = Sane.I18N("Top edge")
+    opt.desc = Sane.I18N("Paper is pulled partly into ADF")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status || s.ghs_in_rs)
+    if(s.has_cmd_hw_status || s.ghs_in_rs)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5277,11 +5277,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_A3){
     opt.name = "a3-paper"
-    opt.title = Sane.I18N ("A3 paper")
-    opt.desc = Sane.I18N ("A3 paper detected")
+    opt.title = Sane.I18N("A3 paper")
+    opt.desc = Sane.I18N("A3 paper detected")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status)
+    if(s.has_cmd_hw_status)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5289,11 +5289,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_B4){
     opt.name = "b4-paper"
-    opt.title = Sane.I18N ("B4 paper")
-    opt.desc = Sane.I18N ("B4 paper detected")
+    opt.title = Sane.I18N("B4 paper")
+    opt.desc = Sane.I18N("B4 paper detected")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status)
+    if(s.has_cmd_hw_status)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5301,11 +5301,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_A4){
     opt.name = "a4-paper"
-    opt.title = Sane.I18N ("A4 paper")
-    opt.desc = Sane.I18N ("A4 paper detected")
+    opt.title = Sane.I18N("A4 paper")
+    opt.desc = Sane.I18N("A4 paper detected")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status)
+    if(s.has_cmd_hw_status)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5313,11 +5313,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_B5){
     opt.name = "b5-paper"
-    opt.title = Sane.I18N ("B5 paper")
-    opt.desc = Sane.I18N ("B5 paper detected")
+    opt.title = Sane.I18N("B5 paper")
+    opt.desc = Sane.I18N("B5 paper detected")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status)
+    if(s.has_cmd_hw_status)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5329,7 +5329,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     opt.desc = Sane.DESC_PAGE_LOADED
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status || s.ghs_in_rs)
+    if(s.has_cmd_hw_status || s.ghs_in_rs)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5337,11 +5337,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_OMR){
     opt.name = "omr-df"
-    opt.title = Sane.I18N ("OMR or DF")
-    opt.desc = Sane.I18N ("OMR or double feed detected")
+    opt.title = Sane.I18N("OMR or DF")
+    opt.desc = Sane.I18N("OMR or double feed detected")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status)
+    if(s.has_cmd_hw_status)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5353,7 +5353,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     opt.desc = Sane.DESC_COVER_OPEN
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status || s.ghs_in_rs)
+    if(s.has_cmd_hw_status || s.ghs_in_rs)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5361,11 +5361,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_CARD_LOADED){
     opt.name = "card-loaded"
-    opt.title = Sane.I18N ("Card loaded")
-    opt.desc = Sane.I18N ("Card slot contains paper")
+    opt.title = Sane.I18N("Card loaded")
+    opt.desc = Sane.I18N("Card slot contains paper")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status && s.has_return_path)
+    if(s.has_cmd_hw_status && s.has_return_path)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5373,11 +5373,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_SLEEP){
     opt.name = "power-save"
-    opt.title = Sane.I18N ("Power saving")
-    opt.desc = Sane.I18N ("Scanner in power saving mode")
+    opt.title = Sane.I18N("Power saving")
+    opt.desc = Sane.I18N("Scanner in power saving mode")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status)
+    if(s.has_cmd_hw_status)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5389,7 +5389,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     opt.desc = Sane.DESC_EMAIL
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status || s.ghs_in_rs)
+    if(s.has_cmd_hw_status || s.ghs_in_rs)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5397,11 +5397,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_MANUAL_FEED){
     opt.name = "manual-feed"
-    opt.title = Sane.I18N ("Manual feed")
-    opt.desc = Sane.I18N ("Manual feed selected")
+    opt.title = Sane.I18N("Manual feed")
+    opt.desc = Sane.I18N("Manual feed selected")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status)
+    if(s.has_cmd_hw_status)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5413,7 +5413,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
     opt.desc = Sane.DESC_SCAN
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status || s.ghs_in_rs)
+    if(s.has_cmd_hw_status || s.ghs_in_rs)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5421,11 +5421,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_FUNCTION){
     opt.name = "function"
-    opt.title = Sane.I18N ("Function")
-    opt.desc = Sane.I18N ("Function character on screen")
+    opt.title = Sane.I18N("Function")
+    opt.desc = Sane.I18N("Function character on screen")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status || s.ghs_in_rs)
+    if(s.has_cmd_hw_status || s.ghs_in_rs)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5433,11 +5433,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_INK_EMPTY){
     opt.name = "ink-low"
-    opt.title = Sane.I18N ("Ink low")
-    opt.desc = Sane.I18N ("Imprinter ink running low")
+    opt.title = Sane.I18N("Ink low")
+    opt.desc = Sane.I18N("Imprinter ink running low")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status && (s.has_endorser_f || s.has_endorser_b))
+    if(s.has_cmd_hw_status && (s.has_endorser_f || s.has_endorser_b))
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5445,11 +5445,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_DOUBLE_FEED){
     opt.name = "double-feed"
-    opt.title = Sane.I18N ("Double feed")
-    opt.desc = Sane.I18N ("Double feed detected")
+    opt.title = Sane.I18N("Double feed")
+    opt.desc = Sane.I18N("Double feed detected")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status || s.ghs_in_rs)
+    if(s.has_cmd_hw_status || s.ghs_in_rs)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5457,11 +5457,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_ERROR_CODE){
     opt.name = "error-code"
-    opt.title = Sane.I18N ("Error code")
-    opt.desc = Sane.I18N ("Hardware error code")
+    opt.title = Sane.I18N("Error code")
+    opt.desc = Sane.I18N("Hardware error code")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status)
+    if(s.has_cmd_hw_status)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5469,11 +5469,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_SKEW_ANGLE){
     opt.name = "skew-angle"
-    opt.title = Sane.I18N ("Skew angle")
-    opt.desc = Sane.I18N ("Requires black background for scanning")
+    opt.title = Sane.I18N("Skew angle")
+    opt.desc = Sane.I18N("Requires black background for scanning")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status)
+    if(s.has_cmd_hw_status)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5481,11 +5481,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_INK_REMAIN){
     opt.name = "ink-remain"
-    opt.title = Sane.I18N ("Ink remaining")
-    opt.desc = Sane.I18N ("Imprinter ink level")
+    opt.title = Sane.I18N("Ink remaining")
+    opt.desc = Sane.I18N("Imprinter ink level")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
-    if (s.has_cmd_hw_status && (s.has_endorser_f || s.has_endorser_b))
+    if(s.has_cmd_hw_status && (s.has_endorser_f || s.has_endorser_b))
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5493,11 +5493,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_DENSITY_SW){
     opt.name = "density"
-    opt.title = Sane.I18N ("Density")
-    opt.desc = Sane.I18N ("Density dial")
+    opt.title = Sane.I18N("Density")
+    opt.desc = Sane.I18N("Density dial")
     opt.type = Sane.TYPE_INT
     opt.unit = Sane.UNIT_NONE
-    if (s.ghs_in_rs)
+    if(s.ghs_in_rs)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5505,11 +5505,11 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 
   if(option==OPT_DUPLEX_SW){
     opt.name = "duplex"
-    opt.title = Sane.I18N ("Duplex switch")
-    opt.desc = Sane.I18N ("Duplex switch")
+    opt.title = Sane.I18N("Duplex switch")
+    opt.desc = Sane.I18N("Duplex switch")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
-    if (s.ghs_in_rs)
+    if(s.ghs_in_rs)
       opt.cap = Sane.CAP_SOFT_DETECT | Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
     else
       opt.cap = Sane.CAP_INACTIVE
@@ -5529,7 +5529,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
  * below.  The value of the option is passed through argument val. It
  * is a pointer to the memory that holds the option value. The memory
  * area pointed to by v must be big enough to hold the entire option
- * value (determined by member size in the corresponding option
+ * value(determined by member size in the corresponding option
  * descriptor).
  *
  * The only exception to this rule is that when setting the value of a
@@ -5540,42 +5540,42 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
  * well the request has been met.
  */
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
                      Sane.Action action, void *val, Int * info)
 {
   struct fujitsu *s = (struct fujitsu *) handle
   Int dummy = 0
   Sane.Status ret = Sane.STATUS_GOOD
 
-  /* Make sure that all those statements involving *info cannot break (better
-   * than having to do "if (info) ..." everywhere!)
+  /* Make sure that all those statements involving *info cannot break(better
+   * than having to do "if(info) ..." everywhere!)
    */
-  if (info == 0)
+  if(info == 0)
     info = &dummy
 
   /*blast info in case frontend forgot*/
   *info = 0
 
-  if (option >= NUM_OPTIONS) {
-    DBG (5, "Sane.control_option: %d too big\n", option)
+  if(option >= NUM_OPTIONS) {
+    DBG(5, "Sane.control_option: %d too big\n", option)
     return Sane.STATUS_INVAL
   }
 
-  if (!Sane.OPTION_IS_ACTIVE (s.opt[option].cap)) {
-    DBG (5, "Sane.control_option: %d inactive\n", option)
+  if(!Sane.OPTION_IS_ACTIVE(s.opt[option].cap)) {
+    DBG(5, "Sane.control_option: %d inactive\n", option)
     return Sane.STATUS_INVAL
   }
 
   /*
    * Sane.ACTION_GET_VALUE: We have to find out the current setting and
-   * return it in a human-readable form (often, text).
+   * return it in a human-readable form(often, text).
    */
-  if (action == Sane.ACTION_GET_VALUE) {
+  if(action == Sane.ACTION_GET_VALUE) {
       Sane.Word * val_p = (Sane.Word *) val
 
-      DBG (20, "Sane.control_option: get value for '%s' (%d)\n", s.opt[option].name,option)
+      DBG(20, "Sane.control_option: get value for '%s' (%d)\n", s.opt[option].name,option)
 
-      switch (option) {
+      switch(option) {
 
         case OPT_NUM_OPTS:
           *val_p = NUM_OPTIONS
@@ -5583,40 +5583,40 @@ Sane.control_option (Sane.Handle handle, Int option,
 
         case OPT_SOURCE:
           if(s.source == SOURCE_FLATBED){
-            strcpy (val, STRING_FLATBED)
+            strcpy(val, STRING_FLATBED)
           }
           else if(s.source == SOURCE_ADF_FRONT){
-            strcpy (val, STRING_ADFFRONT)
+            strcpy(val, STRING_ADFFRONT)
           }
           else if(s.source == SOURCE_ADF_BACK){
-            strcpy (val, STRING_ADFBACK)
+            strcpy(val, STRING_ADFBACK)
           }
           else if(s.source == SOURCE_ADF_DUPLEX){
-            strcpy (val, STRING_ADFDUPLEX)
+            strcpy(val, STRING_ADFDUPLEX)
           }
           else if(s.source == SOURCE_CARD_FRONT){
-            strcpy (val, STRING_CARDFRONT)
+            strcpy(val, STRING_CARDFRONT)
           }
           else if(s.source == SOURCE_CARD_BACK){
-            strcpy (val, STRING_CARDBACK)
+            strcpy(val, STRING_CARDBACK)
           }
           else if(s.source == SOURCE_CARD_DUPLEX){
-            strcpy (val, STRING_CARDDUPLEX)
+            strcpy(val, STRING_CARDDUPLEX)
           }
           return Sane.STATUS_GOOD
 
         case OPT_MODE:
           if(s.u_mode == MODE_LINEART){
-            strcpy (val, STRING_LINEART)
+            strcpy(val, STRING_LINEART)
           }
           else if(s.u_mode == MODE_HALFTONE){
-            strcpy (val, STRING_HALFTONE)
+            strcpy(val, STRING_HALFTONE)
           }
           else if(s.u_mode == MODE_GRAYSCALE){
-            strcpy (val, STRING_GRAYSCALE)
+            strcpy(val, STRING_GRAYSCALE)
           }
           else if(s.u_mode == MODE_COLOR){
-            strcpy (val, STRING_COLOR)
+            strcpy(val, STRING_COLOR)
           }
           return Sane.STATUS_GOOD
 
@@ -5670,15 +5670,15 @@ Sane.control_option (Sane.Handle handle, Int option,
           return Sane.STATUS_GOOD
 
         case OPT_HT_TYPE:
-          switch (s.ht_type) {
+          switch(s.ht_type) {
             case WD_ht_type_DEFAULT:
-              strcpy (val, STRING_DEFAULT)
+              strcpy(val, STRING_DEFAULT)
               break
             case WD_ht_type_DITHER:
-              strcpy (val, STRING_DITHER)
+              strcpy(val, STRING_DITHER)
               break
             case WD_ht_type_DIFFUSION:
-              strcpy (val, STRING_DIFFUSION)
+              strcpy(val, STRING_DIFFUSION)
               break
           }
           return Sane.STATUS_GOOD
@@ -5704,15 +5704,15 @@ Sane.control_option (Sane.Handle handle, Int option,
           return Sane.STATUS_GOOD
 
         case OPT_WL_FOLLOW:
-          switch (s.wl_follow) {
+          switch(s.wl_follow) {
             case WD_wl_follow_DEFAULT:
-              strcpy (val, STRING_DEFAULT)
+              strcpy(val, STRING_DEFAULT)
               break
             case WD_wl_follow_ON:
-              strcpy (val, STRING_ON)
+              strcpy(val, STRING_ON)
               break
             case WD_wl_follow_OFF:
-              strcpy (val, STRING_OFF)
+              strcpy(val, STRING_OFF)
               break
           }
           return Sane.STATUS_GOOD
@@ -5774,10 +5774,10 @@ Sane.control_option (Sane.Handle handle, Int option,
 
         case OPT_COMPRESS:
           if(s.compress == COMP_JPEG){
-            strcpy (val, STRING_JPEG)
+            strcpy(val, STRING_JPEG)
           }
           else{
-            strcpy (val, STRING_NONE)
+            strcpy(val, STRING_NONE)
           }
           return Sane.STATUS_GOOD
 
@@ -5786,15 +5786,15 @@ Sane.control_option (Sane.Handle handle, Int option,
           return Sane.STATUS_GOOD
 
         case OPT_DF_ACTION:
-          switch (s.df_action) {
+          switch(s.df_action) {
             case DF_DEFAULT:
-              strcpy (val, STRING_DEFAULT)
+              strcpy(val, STRING_DEFAULT)
               break
             case DF_CONTINUE:
-              strcpy (val, STRING_CONTINUE)
+              strcpy(val, STRING_CONTINUE)
               break
             case DF_STOP:
-              strcpy (val, STRING_STOP)
+              strcpy(val, STRING_STOP)
               break
           }
           return Sane.STATUS_GOOD
@@ -5812,147 +5812,147 @@ Sane.control_option (Sane.Handle handle, Int option,
           return Sane.STATUS_GOOD
 
         case OPT_DF_DIFF:
-          switch (s.df_diff) {
+          switch(s.df_diff) {
             case MSEL_df_diff_DEFAULT:
-              strcpy (val, STRING_DEFAULT)
+              strcpy(val, STRING_DEFAULT)
               break
             case MSEL_df_diff_10MM:
-              strcpy (val, STRING_10MM)
+              strcpy(val, STRING_10MM)
               break
             case MSEL_df_diff_15MM:
-              strcpy (val, STRING_15MM)
+              strcpy(val, STRING_15MM)
               break
             case MSEL_df_diff_20MM:
-              strcpy (val, STRING_20MM)
+              strcpy(val, STRING_20MM)
               break
           }
           return Sane.STATUS_GOOD
 
         case OPT_DF_RECOVERY:
-          switch (s.df_recovery) {
+          switch(s.df_recovery) {
             case MSEL_DEFAULT:
-              strcpy (val, STRING_DEFAULT)
+              strcpy(val, STRING_DEFAULT)
               break
             case MSEL_ON:
-              strcpy (val, STRING_ON)
+              strcpy(val, STRING_ON)
               break
             case MSEL_OFF:
-              strcpy (val, STRING_OFF)
+              strcpy(val, STRING_OFF)
               break
           }
           return Sane.STATUS_GOOD
 
         case OPT_PAPER_PROTECT:
-          switch (s.paper_protect) {
+          switch(s.paper_protect) {
             case MSEL_DEFAULT:
-              strcpy (val, STRING_DEFAULT)
+              strcpy(val, STRING_DEFAULT)
               break
             case MSEL_ON:
-              strcpy (val, STRING_ON)
+              strcpy(val, STRING_ON)
               break
             case MSEL_OFF:
-              strcpy (val, STRING_OFF)
+              strcpy(val, STRING_OFF)
               break
           }
           return Sane.STATUS_GOOD
 
         case OPT_ADV_PAPER_PROT:
-          switch (s.adv_paper_prot) {
+          switch(s.adv_paper_prot) {
             case MSEL_DEFAULT:
-              strcpy (val, STRING_DEFAULT)
+              strcpy(val, STRING_DEFAULT)
               break
             case MSEL_ON:
-              strcpy (val, STRING_ON)
+              strcpy(val, STRING_ON)
               break
             case MSEL_OFF:
-              strcpy (val, STRING_OFF)
+              strcpy(val, STRING_OFF)
               break
           }
           return Sane.STATUS_GOOD
 
         case OPT_STAPLE_DETECT:
-          switch (s.staple_detect) {
+          switch(s.staple_detect) {
             case MSEL_DEFAULT:
-              strcpy (val, STRING_DEFAULT)
+              strcpy(val, STRING_DEFAULT)
               break
             case MSEL_ON:
-              strcpy (val, STRING_ON)
+              strcpy(val, STRING_ON)
               break
             case MSEL_OFF:
-              strcpy (val, STRING_OFF)
+              strcpy(val, STRING_OFF)
               break
           }
           return Sane.STATUS_GOOD
 
         case OPT_BG_COLOR:
-          switch (s.bg_color) {
+          switch(s.bg_color) {
             case COLOR_DEFAULT:
-              strcpy (val, STRING_DEFAULT)
+              strcpy(val, STRING_DEFAULT)
               break
             case COLOR_WHITE:
-              strcpy (val, STRING_WHITE)
+              strcpy(val, STRING_WHITE)
               break
             case COLOR_BLACK:
-              strcpy (val, STRING_BLACK)
+              strcpy(val, STRING_BLACK)
               break
           }
           return Sane.STATUS_GOOD
 
         case OPT_DROPOUT_COLOR:
-          switch (s.dropout_color) {
+          switch(s.dropout_color) {
             case COLOR_DEFAULT:
-              strcpy (val, STRING_DEFAULT)
+              strcpy(val, STRING_DEFAULT)
               break
             case COLOR_RED:
-              strcpy (val, STRING_RED)
+              strcpy(val, STRING_RED)
               break
             case COLOR_GREEN:
-              strcpy (val, STRING_GREEN)
+              strcpy(val, STRING_GREEN)
               break
             case COLOR_BLUE:
-              strcpy (val, STRING_BLUE)
+              strcpy(val, STRING_BLUE)
               break
           }
           return Sane.STATUS_GOOD
 
         case OPT_BUFF_MODE:
-          switch (s.buff_mode) {
+          switch(s.buff_mode) {
             case MSEL_DEFAULT:
-              strcpy (val, STRING_DEFAULT)
+              strcpy(val, STRING_DEFAULT)
               break
             case MSEL_ON:
-              strcpy (val, STRING_ON)
+              strcpy(val, STRING_ON)
               break
             case MSEL_OFF:
-              strcpy (val, STRING_OFF)
+              strcpy(val, STRING_OFF)
               break
           }
           return Sane.STATUS_GOOD
 
         case OPT_PREPICK:
-          switch (s.prepick) {
+          switch(s.prepick) {
             case MSEL_DEFAULT:
-              strcpy (val, STRING_DEFAULT)
+              strcpy(val, STRING_DEFAULT)
               break
             case MSEL_ON:
-              strcpy (val, STRING_ON)
+              strcpy(val, STRING_ON)
               break
             case MSEL_OFF:
-              strcpy (val, STRING_OFF)
+              strcpy(val, STRING_OFF)
               break
           }
           return Sane.STATUS_GOOD
 
         case OPT_OVERSCAN:
-          switch (s.overscan) {
+          switch(s.overscan) {
             case MSEL_DEFAULT:
-              strcpy (val, STRING_DEFAULT)
+              strcpy(val, STRING_DEFAULT)
               break
             case MSEL_ON:
-              strcpy (val, STRING_ON)
+              strcpy(val, STRING_ON)
               break
             case MSEL_OFF:
-              strcpy (val, STRING_OFF)
+              strcpy(val, STRING_OFF)
               break
           }
           return Sane.STATUS_GOOD
@@ -6031,43 +6031,43 @@ Sane.control_option (Sane.Handle handle, Int option,
           return Sane.STATUS_GOOD
 
         case OPT_ENDORSER_FONT:
-          switch (s.u_endorser_font) {
+          switch(s.u_endorser_font) {
             case FONT_H:
-              strcpy (val, STRING_HORIZONTAL)
+              strcpy(val, STRING_HORIZONTAL)
               break
             case FONT_HB:
-              strcpy (val, STRING_HORIZONTALBOLD)
+              strcpy(val, STRING_HORIZONTALBOLD)
               break
             case FONT_HN:
-              strcpy (val, STRING_HORIZONTALNARROW)
+              strcpy(val, STRING_HORIZONTALNARROW)
               break
             case FONT_V:
-              strcpy (val, STRING_VERTICAL)
+              strcpy(val, STRING_VERTICAL)
               break
             case FONT_VB:
-              strcpy (val, STRING_VERTICALBOLD)
+              strcpy(val, STRING_VERTICALBOLD)
               break
           }
           return Sane.STATUS_GOOD
 
         case OPT_ENDORSER_DIR:
-          switch (s.u_endorser_dir) {
+          switch(s.u_endorser_dir) {
             case DIR_TTB:
-              strcpy (val, STRING_TOPTOBOTTOM)
+              strcpy(val, STRING_TOPTOBOTTOM)
               break
             case DIR_BTT:
-              strcpy (val, STRING_BOTTOMTOTOP)
+              strcpy(val, STRING_BOTTOMTOTOP)
               break
           }
           return Sane.STATUS_GOOD
 
         case OPT_ENDORSER_SIDE:
-          switch (s.u_endorser_side) {
+          switch(s.u_endorser_side) {
             case ED_front:
-              strcpy (val, STRING_FRONT)
+              strcpy(val, STRING_FRONT)
               break
             case ED_back:
-              strcpy (val, STRING_BACK)
+              strcpy(val, STRING_BACK)
               break
           }
           return Sane.STATUS_GOOD
@@ -6188,26 +6188,26 @@ Sane.control_option (Sane.Handle handle, Int option,
 
       }
   }
-  else if (action == Sane.ACTION_SET_VALUE) {
+  else if(action == Sane.ACTION_SET_VALUE) {
       Int tmp
       Sane.Word val_c
       Sane.Status status
 
-      DBG (20, "Sane.control_option: set value for '%s' (%d)\n", s.opt[option].name,option)
+      DBG(20, "Sane.control_option: set value for '%s' (%d)\n", s.opt[option].name,option)
 
-      if ( s.started ) {
-        DBG (5, "Sane.control_option: can't set, device busy\n")
+      if( s.started ) {
+        DBG(5, "Sane.control_option: can't set, device busy\n")
         return Sane.STATUS_DEVICE_BUSY
       }
 
-      if (!Sane.OPTION_IS_SETTABLE (s.opt[option].cap)) {
-        DBG (5, "Sane.control_option: not settable\n")
+      if(!Sane.OPTION_IS_SETTABLE(s.opt[option].cap)) {
+        DBG(5, "Sane.control_option: not settable\n")
         return Sane.STATUS_INVAL
       }
 
-      status = sanei_constrain_value (s.opt + option, val, info)
-      if (status != Sane.STATUS_GOOD) {
-        DBG (5, "Sane.control_option: bad value\n")
+      status = sanei_constrain_value(s.opt + option, val, info)
+      if(status != Sane.STATUS_GOOD) {
+        DBG(5, "Sane.control_option: bad value\n")
         return status
       }
 
@@ -6221,33 +6221,33 @@ Sane.control_option (Sane.Handle handle, Int option,
        * sanei_constrain_value does. Hence no "else: invalid" branches
        * below.
        */
-      switch (option) {
+      switch(option) {
 
         /* Mode Group */
         case OPT_SOURCE:
-          if (!strcmp (val, STRING_ADFFRONT)) {
+          if(!strcmp(val, STRING_ADFFRONT)) {
             tmp = SOURCE_ADF_FRONT
           }
-          else if (!strcmp (val, STRING_ADFBACK)) {
+          else if(!strcmp(val, STRING_ADFBACK)) {
             tmp = SOURCE_ADF_BACK
           }
-          else if (!strcmp (val, STRING_ADFDUPLEX)) {
+          else if(!strcmp(val, STRING_ADFDUPLEX)) {
             tmp = SOURCE_ADF_DUPLEX
           }
-	  else if (!strcmp (val, STRING_CARDFRONT)) {
+	  else if(!strcmp(val, STRING_CARDFRONT)) {
             tmp = SOURCE_CARD_FRONT
           }
-          else if (!strcmp (val, STRING_CARDBACK)) {
+          else if(!strcmp(val, STRING_CARDBACK)) {
             tmp = SOURCE_CARD_BACK
           }
-          else if (!strcmp (val, STRING_CARDDUPLEX)) {
+          else if(!strcmp(val, STRING_CARDDUPLEX)) {
             tmp = SOURCE_CARD_DUPLEX
           }
           else{
             tmp = SOURCE_FLATBED
           }
 
-          if (s.source == tmp)
+          if(s.source == tmp)
               return Sane.STATUS_GOOD
 
           s.source = tmp
@@ -6255,20 +6255,20 @@ Sane.control_option (Sane.Handle handle, Int option,
           return Sane.STATUS_GOOD
 
         case OPT_MODE:
-          if (!strcmp (val, STRING_LINEART)) {
+          if(!strcmp(val, STRING_LINEART)) {
             tmp = MODE_LINEART
           }
-          else if (!strcmp (val, STRING_HALFTONE)) {
+          else if(!strcmp(val, STRING_HALFTONE)) {
             tmp = MODE_HALFTONE
           }
-          else if (!strcmp (val, STRING_GRAYSCALE)) {
+          else if(!strcmp(val, STRING_GRAYSCALE)) {
             tmp = MODE_GRAYSCALE
           }
           else{
             tmp = MODE_COLOR
           }
 
-          if (tmp == s.u_mode)
+          if(tmp == s.u_mode)
               return Sane.STATUS_GOOD
 
           set_mode(s,tmp)
@@ -6278,7 +6278,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 
         case OPT_RES:
 
-          if (s.resolution_x == val_c)
+          if(s.resolution_x == val_c)
               return Sane.STATUS_GOOD
 
           s.resolution_x = val_c
@@ -6290,7 +6290,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 
         /* Geometry Group */
         case OPT_TL_X:
-          if (s.tl_x == FIXED_MM_TO_SCANNER_UNIT(val_c))
+          if(s.tl_x == FIXED_MM_TO_SCANNER_UNIT(val_c))
               return Sane.STATUS_GOOD
 
           s.tl_x = FIXED_MM_TO_SCANNER_UNIT(val_c)
@@ -6299,7 +6299,7 @@ Sane.control_option (Sane.Handle handle, Int option,
           return Sane.STATUS_GOOD
 
         case OPT_TL_Y:
-          if (s.tl_y == FIXED_MM_TO_SCANNER_UNIT(val_c))
+          if(s.tl_y == FIXED_MM_TO_SCANNER_UNIT(val_c))
               return Sane.STATUS_GOOD
 
           s.tl_y = FIXED_MM_TO_SCANNER_UNIT(val_c)
@@ -6308,7 +6308,7 @@ Sane.control_option (Sane.Handle handle, Int option,
           return Sane.STATUS_GOOD
 
         case OPT_BR_X:
-          if (s.br_x == FIXED_MM_TO_SCANNER_UNIT(val_c))
+          if(s.br_x == FIXED_MM_TO_SCANNER_UNIT(val_c))
               return Sane.STATUS_GOOD
 
           s.br_x = FIXED_MM_TO_SCANNER_UNIT(val_c)
@@ -6317,7 +6317,7 @@ Sane.control_option (Sane.Handle handle, Int option,
           return Sane.STATUS_GOOD
 
         case OPT_BR_Y:
-          if (s.br_y == FIXED_MM_TO_SCANNER_UNIT(val_c))
+          if(s.br_y == FIXED_MM_TO_SCANNER_UNIT(val_c))
               return Sane.STATUS_GOOD
 
           s.br_y = FIXED_MM_TO_SCANNER_UNIT(val_c)
@@ -6326,13 +6326,13 @@ Sane.control_option (Sane.Handle handle, Int option,
           return Sane.STATUS_GOOD
 
         case OPT_PAGE_WIDTH:
-          if (s.page_width == FIXED_MM_TO_SCANNER_UNIT(val_c))
+          if(s.page_width == FIXED_MM_TO_SCANNER_UNIT(val_c))
               return Sane.STATUS_GOOD
 
           /* if full width image, and paper size is changed,
              change the image size to match new paper */
-          if (s.tl_x == 0 && s.br_x == s.page_width){
-              DBG (20, "Sane.control_option: br_x tracking page_width\n")
+          if(s.tl_x == 0 && s.br_x == s.page_width){
+              DBG(20, "Sane.control_option: br_x tracking page_width\n")
               s.br_x = FIXED_MM_TO_SCANNER_UNIT(val_c)
               *info |= Sane.INFO_RELOAD_PARAMS
           }
@@ -6342,13 +6342,13 @@ Sane.control_option (Sane.Handle handle, Int option,
           return Sane.STATUS_GOOD
 
         case OPT_PAGE_HEIGHT:
-          if (s.page_height == FIXED_MM_TO_SCANNER_UNIT(val_c))
+          if(s.page_height == FIXED_MM_TO_SCANNER_UNIT(val_c))
               return Sane.STATUS_GOOD
 
           /* if full height image, and paper size is changed,
              change the image size to match new paper */
-          if (s.tl_y == 0 && s.br_y == s.page_height){
-              DBG (20, "Sane.control_option: br_y tracking page_height\n")
+          if(s.tl_y == 0 && s.br_y == s.page_height){
+              DBG(20, "Sane.control_option: br_y tracking page_height\n")
               s.br_y = FIXED_MM_TO_SCANNER_UNIT(val_c)
               *info |= Sane.INFO_RELOAD_PARAMS
           }
@@ -6380,11 +6380,11 @@ Sane.control_option (Sane.Handle handle, Int option,
           return Sane.STATUS_GOOD
 
         case OPT_HT_TYPE:
-          if (!strcmp(val, STRING_DEFAULT))
+          if(!strcmp(val, STRING_DEFAULT))
             s.ht_type = WD_ht_type_DEFAULT
-          else if (!strcmp(val, STRING_DITHER))
+          else if(!strcmp(val, STRING_DITHER))
             s.ht_type = WD_ht_type_DITHER
-          else if (!strcmp(val, STRING_DIFFUSION))
+          else if(!strcmp(val, STRING_DIFFUSION))
             s.ht_type = WD_ht_type_DIFFUSION
           return Sane.STATUS_GOOD
 
@@ -6409,11 +6409,11 @@ Sane.control_option (Sane.Handle handle, Int option,
           return Sane.STATUS_GOOD
 
         case OPT_WL_FOLLOW:
-          if (!strcmp(val, STRING_DEFAULT))
+          if(!strcmp(val, STRING_DEFAULT))
             s.wl_follow = WD_wl_follow_DEFAULT
-          else if (!strcmp(val, STRING_ON))
+          else if(!strcmp(val, STRING_ON))
             s.wl_follow = WD_wl_follow_ON
-          else if (!strcmp(val, STRING_OFF))
+          else if(!strcmp(val, STRING_OFF))
             s.wl_follow = WD_wl_follow_OFF
           return Sane.STATUS_GOOD
 
@@ -6482,14 +6482,14 @@ Sane.control_option (Sane.Handle handle, Int option,
           return Sane.STATUS_GOOD
 
         case OPT_COMPRESS:
-          if (!strcmp (val, STRING_JPEG)) {
+          if(!strcmp(val, STRING_JPEG)) {
             tmp = COMP_JPEG
           }
           else{
             tmp = COMP_NONE
           }
 
-          if (tmp == s.compress)
+          if(tmp == s.compress)
               return Sane.STATUS_GOOD
 
           s.compress = tmp
@@ -6500,11 +6500,11 @@ Sane.control_option (Sane.Handle handle, Int option,
           return Sane.STATUS_GOOD
 
         case OPT_DF_ACTION:
-          if (!strcmp(val, STRING_DEFAULT))
+          if(!strcmp(val, STRING_DEFAULT))
             s.df_action = DF_DEFAULT
-          else if (!strcmp(val, STRING_CONTINUE))
+          else if(!strcmp(val, STRING_CONTINUE))
             s.df_action = DF_CONTINUE
-          else if (!strcmp(val, STRING_STOP))
+          else if(!strcmp(val, STRING_STOP))
             s.df_action = DF_STOP
           *info |= Sane.INFO_RELOAD_OPTIONS
           return Sane.STATUS_GOOD
@@ -6522,96 +6522,96 @@ Sane.control_option (Sane.Handle handle, Int option,
           return Sane.STATUS_GOOD
 
         case OPT_DF_DIFF:
-          if (!strcmp(val, STRING_DEFAULT))
+          if(!strcmp(val, STRING_DEFAULT))
             s.df_diff = MSEL_df_diff_DEFAULT
-          else if (!strcmp(val, STRING_10MM))
+          else if(!strcmp(val, STRING_10MM))
             s.df_diff = MSEL_df_diff_10MM
-          else if (!strcmp(val, STRING_15MM))
+          else if(!strcmp(val, STRING_15MM))
             s.df_diff = MSEL_df_diff_15MM
-          else if (!strcmp(val, STRING_20MM))
+          else if(!strcmp(val, STRING_20MM))
             s.df_diff = MSEL_df_diff_20MM
           return Sane.STATUS_GOOD
 
         case OPT_DF_RECOVERY:
-          if (!strcmp(val, STRING_DEFAULT))
+          if(!strcmp(val, STRING_DEFAULT))
             s.df_recovery = MSEL_DEFAULT
-          else if (!strcmp(val, STRING_ON))
+          else if(!strcmp(val, STRING_ON))
             s.df_recovery = MSEL_ON
-          else if (!strcmp(val, STRING_OFF))
+          else if(!strcmp(val, STRING_OFF))
             s.df_recovery = MSEL_OFF
           return Sane.STATUS_GOOD
 
         case OPT_PAPER_PROTECT:
-          if (!strcmp(val, STRING_DEFAULT))
+          if(!strcmp(val, STRING_DEFAULT))
             s.paper_protect = MSEL_DEFAULT
-          else if (!strcmp(val, STRING_ON))
+          else if(!strcmp(val, STRING_ON))
             s.paper_protect = MSEL_ON
-          else if (!strcmp(val, STRING_OFF))
+          else if(!strcmp(val, STRING_OFF))
             s.paper_protect = MSEL_OFF
           return Sane.STATUS_GOOD
 
         case OPT_ADV_PAPER_PROT:
-          if (!strcmp(val, STRING_DEFAULT))
+          if(!strcmp(val, STRING_DEFAULT))
             s.adv_paper_prot = MSEL_DEFAULT
-          else if (!strcmp(val, STRING_ON))
+          else if(!strcmp(val, STRING_ON))
             s.adv_paper_prot = MSEL_ON
-          else if (!strcmp(val, STRING_OFF))
+          else if(!strcmp(val, STRING_OFF))
             s.adv_paper_prot = MSEL_OFF
           return Sane.STATUS_GOOD
 
         case OPT_STAPLE_DETECT:
-          if (!strcmp(val, STRING_DEFAULT))
+          if(!strcmp(val, STRING_DEFAULT))
             s.staple_detect = MSEL_DEFAULT
-          else if (!strcmp(val, STRING_ON))
+          else if(!strcmp(val, STRING_ON))
             s.staple_detect = MSEL_ON
-          else if (!strcmp(val, STRING_OFF))
+          else if(!strcmp(val, STRING_OFF))
             s.staple_detect = MSEL_OFF
           return Sane.STATUS_GOOD
 
         case OPT_BG_COLOR:
-          if (!strcmp(val, STRING_DEFAULT))
+          if(!strcmp(val, STRING_DEFAULT))
             s.bg_color = COLOR_DEFAULT
-          else if (!strcmp(val, STRING_WHITE))
+          else if(!strcmp(val, STRING_WHITE))
             s.bg_color = COLOR_WHITE
-          else if (!strcmp(val, STRING_BLACK))
+          else if(!strcmp(val, STRING_BLACK))
             s.bg_color = COLOR_BLACK
           return Sane.STATUS_GOOD
 
         case OPT_DROPOUT_COLOR:
-          if (!strcmp(val, STRING_DEFAULT))
+          if(!strcmp(val, STRING_DEFAULT))
             s.dropout_color = COLOR_DEFAULT
-          else if (!strcmp(val, STRING_RED))
+          else if(!strcmp(val, STRING_RED))
             s.dropout_color = COLOR_RED
-          else if (!strcmp(val, STRING_GREEN))
+          else if(!strcmp(val, STRING_GREEN))
             s.dropout_color = COLOR_GREEN
-          else if (!strcmp(val, STRING_BLUE))
+          else if(!strcmp(val, STRING_BLUE))
             s.dropout_color = COLOR_BLUE
           return Sane.STATUS_GOOD
 
         case OPT_BUFF_MODE:
-          if (!strcmp(val, STRING_DEFAULT))
+          if(!strcmp(val, STRING_DEFAULT))
             s.buff_mode = MSEL_DEFAULT
-          else if (!strcmp(val, STRING_ON))
+          else if(!strcmp(val, STRING_ON))
             s.buff_mode= MSEL_ON
-          else if (!strcmp(val, STRING_OFF))
+          else if(!strcmp(val, STRING_OFF))
             s.buff_mode= MSEL_OFF
           return Sane.STATUS_GOOD
 
         case OPT_PREPICK:
-          if (!strcmp(val, STRING_DEFAULT))
+          if(!strcmp(val, STRING_DEFAULT))
             s.prepick = MSEL_DEFAULT
-          else if (!strcmp(val, STRING_ON))
+          else if(!strcmp(val, STRING_ON))
             s.prepick = MSEL_ON
-          else if (!strcmp(val, STRING_OFF))
+          else if(!strcmp(val, STRING_OFF))
             s.prepick = MSEL_OFF
           return Sane.STATUS_GOOD
 
         case OPT_OVERSCAN:
-          if (!strcmp(val, STRING_DEFAULT))
+          if(!strcmp(val, STRING_DEFAULT))
             s.overscan = MSEL_DEFAULT
-          else if (!strcmp(val, STRING_ON))
+          else if(!strcmp(val, STRING_ON))
             s.overscan = MSEL_ON
-          else if (!strcmp(val, STRING_OFF))
+          else if(!strcmp(val, STRING_OFF))
             s.overscan = MSEL_OFF
 
           *info |= Sane.INFO_RELOAD_OPTIONS
@@ -6694,38 +6694,38 @@ Sane.control_option (Sane.Handle handle, Int option,
 
         case OPT_ENDORSER_FONT:
 
-          if (!strcmp (val, STRING_HORIZONTAL)){
+          if(!strcmp(val, STRING_HORIZONTAL)){
             s.u_endorser_font = FONT_H
           }
-          else if (!strcmp (val, STRING_HORIZONTALBOLD)){
+          else if(!strcmp(val, STRING_HORIZONTALBOLD)){
             s.u_endorser_font = FONT_HB
           }
-          else if (!strcmp (val, STRING_HORIZONTALNARROW)){
+          else if(!strcmp(val, STRING_HORIZONTALNARROW)){
             s.u_endorser_font = FONT_HN
           }
-          else if (!strcmp (val, STRING_VERTICAL)){
+          else if(!strcmp(val, STRING_VERTICAL)){
             s.u_endorser_font = FONT_V
           }
-          else if (!strcmp (val, STRING_VERTICALBOLD)){
+          else if(!strcmp(val, STRING_VERTICALBOLD)){
             s.u_endorser_font = FONT_VB
           }
           return Sane.STATUS_GOOD
 
         case OPT_ENDORSER_DIR:
-          if (!strcmp (val, STRING_TOPTOBOTTOM)){
+          if(!strcmp(val, STRING_TOPTOBOTTOM)){
             s.u_endorser_dir = DIR_TTB
           }
-          else if (!strcmp (val, STRING_BOTTOMTOTOP)){
+          else if(!strcmp(val, STRING_BOTTOMTOTOP)){
             s.u_endorser_dir = DIR_BTT
           }
           return Sane.STATUS_GOOD
 
 	/*this val not used in send_endorser*/
         case OPT_ENDORSER_SIDE:
-          if (!strcmp (val, STRING_FRONT)){
+          if(!strcmp(val, STRING_FRONT)){
             s.u_endorser_side = ED_front
           }
-          else if (!strcmp (val, STRING_BACK)){
+          else if(!strcmp(val, STRING_BACK)){
             s.u_endorser_side = ED_back
           }
           return Sane.STATUS_GOOD
@@ -6755,7 +6755,7 @@ set_sleep_mode(struct fujitsu *s)
   size_t outLen = MSEL_header_len + MSEL_data_min_len
   unsigned char * page = out+MSEL_header_len
 
-  DBG (10, "set_sleep_mode: start\n")
+  DBG(10, "set_sleep_mode: start\n")
 
   memset(cmd,0,cmdLen)
   set_SCSI_opcode(cmd, MODE_SELECT_code)
@@ -6767,14 +6767,14 @@ set_sleep_mode(struct fujitsu *s)
   set_MSEL_page_len(page, MSEL_data_min_len-2)
   set_MSEL_sleep_mode(page, s.sleep_time)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     out, outLen,
     NULL, NULL
   )
 
-  DBG (10, "set_sleep_mode: finish\n")
+  DBG(10, "set_sleep_mode: finish\n")
 
   return ret
 }
@@ -6790,10 +6790,10 @@ set_off_mode(struct fujitsu *s)
   unsigned char out[SD_powoff_len]
   size_t outLen = SD_powoff_len
 
-  DBG (10, "set_off_mode: start\n")
+  DBG(10, "set_off_mode: start\n")
 
-  if (!s.has_cmd_sdiag || !s.has_cmd_rdiag || !s.has_off_mode){
-    DBG (5, "set_off_mode: not supported, returning\n")
+  if(!s.has_cmd_sdiag || !s.has_cmd_rdiag || !s.has_off_mode){
+    DBG(5, "set_off_mode: not supported, returning\n")
     return ret
   }
 
@@ -6806,40 +6806,40 @@ set_off_mode(struct fujitsu *s)
   set_SD_powoff_disable(out,!s.off_time)
   set_SD_powoff_interval(out,s.off_time/15)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     out, outLen,
     NULL, NULL
   )
 
-  if (ret != Sane.STATUS_GOOD){
-    DBG (5, "set_off_mode: send diag error: %d\n", ret)
+  if(ret != Sane.STATUS_GOOD){
+    DBG(5, "set_off_mode: send diag error: %d\n", ret)
     return ret
   }
 
-  DBG (10, "set_off_mode: finish\n")
+  DBG(10, "set_off_mode: finish\n")
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-get_hardware_status (struct fujitsu *s, Int option)
+get_hardware_status(struct fujitsu *s, Int option)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
-  DBG (10, "get_hardware_status: start\n")
+  DBG(10, "get_hardware_status: start\n")
 
   /* only run this if frontend has already read the last time we got it */
-  /* or if we don't care for such bookkeeping (private use) */
-  if (!option || !s.hw_data_avail[option-OPT_TOP]) {
+  /* or if we don't care for such bookkeeping(private use) */
+  if(!option || !s.hw_data_avail[option-OPT_TOP]) {
 
-      DBG (15, "get_hardware_status: running\n")
+      DBG(15, "get_hardware_status: running\n")
 
       /* mark all values as available */
       memset(s.hw_data_avail,1,sizeof(s.hw_data_avail))
 
-      if (s.has_cmd_hw_status){
+      if(s.has_cmd_hw_status){
           unsigned char cmd[GET_HW_STATUS_len]
           size_t cmdLen = GET_HW_STATUS_len
 
@@ -6850,16 +6850,16 @@ get_hardware_status (struct fujitsu *s, Int option)
           set_SCSI_opcode(cmd, GET_HW_STATUS_code)
           set_GHS_allocation_length(cmd, inLen)
 
-          DBG (15, "get_hardware_status: calling ghs\n")
+          DBG(15, "get_hardware_status: calling ghs\n")
 
-          ret = do_cmd (
+          ret = do_cmd(
             s, 1, 0,
             cmd, cmdLen,
             NULL, 0,
             in, &inLen
           )
 
-          if (ret == Sane.STATUS_GOOD || ret == Sane.STATUS_EOF) {
+          if(ret == Sane.STATUS_GOOD || ret == Sane.STATUS_EOF) {
 
               s.hw_top = get_GHS_top(in)
               s.hw_A3 = get_GHS_A3(in)
@@ -6895,7 +6895,7 @@ get_hardware_status (struct fujitsu *s, Int option)
       }
 
       /* 3091/2 put hardware status in RS data */
-      else if (s.ghs_in_rs){
+      else if(s.ghs_in_rs){
           unsigned char cmd[REQUEST_SENSE_len]
           size_t cmdLen = REQUEST_SENSE_len
 
@@ -6929,7 +6929,7 @@ get_hardware_status (struct fujitsu *s, Int option)
               s.hw_density_sw = get_RS_density(in)
             }
             else{
-              DBG (10, "get_hardware_status: unexpected RS values\n")
+              DBG(10, "get_hardware_status: unexpected RS values\n")
             }
           }
       }
@@ -6938,7 +6938,7 @@ get_hardware_status (struct fujitsu *s, Int option)
   if(option)
     s.hw_data_avail[option-OPT_TOP] = 0
 
-  DBG (10, "get_hardware_status: finish\n")
+  DBG(10, "get_hardware_status: finish\n")
 
   return ret
 }
@@ -6956,10 +6956,10 @@ send_endorser(struct fujitsu *s)
   unsigned char out[S_e_data_max_len]; /*we probably send less below*/
   size_t outLen = S_e_data_min_len + strLen; /*fi-5900 might want 1 more byte?*/
 
-  DBG (10, "send_endorser: start\n")
+  DBG(10, "send_endorser: start\n")
 
-  if (!s.has_endorser_f && !s.has_endorser_b){
-    DBG (10, "send_endorser: unsupported\n")
+  if(!s.has_endorser_f && !s.has_endorser_b){
+    DBG(10, "send_endorser: unsupported\n")
     return ret
   }
 
@@ -6995,7 +6995,7 @@ send_endorser(struct fujitsu *s)
   set_S_endorser_ulx(out,0)
   set_S_endorser_uly(out,s.u_endorser_y)
 
-  switch (s.u_endorser_font) {
+  switch(s.u_endorser_font) {
     case FONT_H:
       set_S_endorser_font(out,S_e_font_horiz)
       set_S_endorser_bold(out,0)
@@ -7034,17 +7034,17 @@ send_endorser(struct fujitsu *s)
   /*build the command*/
   memset(cmd,0,cmdLen)
   set_SCSI_opcode(cmd, SEND_code)
-  set_S_xfer_datatype (cmd, S_datatype_endorser_data)
-  set_S_xfer_length (cmd, outLen)
+  set_S_xfer_datatype(cmd, S_datatype_endorser_data)
+  set_S_xfer_length(cmd, outLen)
 
-  ret = do_cmd (
+  ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       out, outLen,
       NULL, NULL
   )
 
-  DBG (10, "send_endorser: finish %d\n", ret)
+  DBG(10, "send_endorser: finish %d\n", ret)
 
   return ret
 }
@@ -7075,7 +7075,7 @@ send_endorser(struct fujitsu *s)
             in             in
   */
 static Sane.Status
-send_lut (struct fujitsu *s)
+send_lut(struct fujitsu *s)
 {
   var i: Int, j, bytes = 1 << s.adbits
   double b, slope, offset
@@ -7089,17 +7089,17 @@ send_lut (struct fujitsu *s)
   size_t outLen = S_lut_header_len + S_lut_data_max_len
   unsigned char * p = out + S_lut_header_len
 
-  DBG (10, "send_lut: start\n")
+  DBG(10, "send_lut: start\n")
 
   if(!s.num_download_gamma || !s.adbits){
-    DBG (10, "send_lut: unsupported\n")
+    DBG(10, "send_lut: unsupported\n")
     return ret
   }
 
-  /* contrast is converted to a slope [0,90] degrees:
-   * first [-127,127] to [0,254] then to [0,1]
+  /* contrast is converted to a slope[0,90] degrees:
+   * first[-127,127] to[0,254] then to[0,1]
    * then multiply by PI/2 to convert to radians
-   * then take the tangent to get slope (T.O.A)
+   * then take the tangent to get slope(T.O.A)
    * then multiply by the normal linear slope
    * because the table may not be square, i.e. 1024x256*/
   slope = tan(((double)s.contrast+127)/254 * M_PI/2) * 256/bytes
@@ -7108,12 +7108,12 @@ send_lut (struct fujitsu *s)
    * out vertical offset at central input value */
   offset = 127.5-(slope*bytes/2)
 
-  /* convert the user brightness setting (-127 to +127)
+  /* convert the user brightness setting(-127 to +127)
    * into a scale that covers the range required
    * to slide the contrast curve entirely off the table */
   b = ((double)s.brightness/127) * (256 - offset)
 
-  DBG (15, "send_lut: %d %f %d %f %f\n", s.brightness, b,
+  DBG(15, "send_lut: %d %f %d %f %f\n", s.brightness, b,
     s.contrast, slope, offset)
 
   outLen = S_lut_header_len + bytes
@@ -7121,13 +7121,13 @@ send_lut (struct fujitsu *s)
   memset(cmd,0,cmdLen)
   set_SCSI_opcode(cmd, SEND_code)
 
-  set_S_xfer_datatype (cmd, S_datatype_lut_data)
-  set_S_xfer_length (cmd, outLen)
+  set_S_xfer_datatype(cmd, S_datatype_lut_data)
+  set_S_xfer_length(cmd, outLen)
 
   memset(out,0,outLen)
-  set_S_lut_order (out, S_lut_order_single)
-  set_S_lut_ssize (out, bytes)
-  set_S_lut_dsize (out, 256)
+  set_S_lut_order(out, S_lut_order_single)
+  set_S_lut_ssize(out, bytes)
+  set_S_lut_dsize(out, 256)
 
   for(i=0;i<bytes;i++){
     j=slope*i + offset + b
@@ -7144,20 +7144,20 @@ send_lut (struct fujitsu *s)
     p++
   }
 
-  ret = do_cmd (
+  ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       out, outLen,
       NULL, NULL
   )
 
-  DBG (10, "send_lut: finish\n")
+  DBG(10, "send_lut: finish\n")
 
   return ret
 }
 
 static Sane.Status
-send_q_table (struct fujitsu *s)
+send_q_table(struct fujitsu *s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
@@ -7190,27 +7190,27 @@ send_q_table (struct fujitsu *s)
  0x1d, 0x1d, 0x1d, 0x1d, 0x1d, 0x1d, 0x1d, 0x1d,
  0x1d, 0x1d, 0x1d, 0x1d, 0x1d, 0x1d, 0x1d, 0x1d ]
 
-  DBG (10, "send_q_table: start\n")
+  DBG(10, "send_q_table: start\n")
 
   memset(cmd,0,cmdLen)
   set_SCSI_opcode(cmd, SEND_code)
-  set_S_xfer_datatype (cmd, S_datatype_jpg_q_table)
-  set_S_xfer_length (cmd, outLen)
+  set_S_xfer_datatype(cmd, S_datatype_jpg_q_table)
+  set_S_xfer_length(cmd, outLen)
 
   memset(out,0,outLen)
-  set_S_q_table_y_len (out, S_q_table_y_len)
-  set_S_q_table_uv_len (out, S_q_table_uv_len)
-  memcpy (yp, ydata, S_q_table_y_len)
-  memcpy (uvp, uvdata, S_q_table_uv_len)
+  set_S_q_table_y_len(out, S_q_table_y_len)
+  set_S_q_table_uv_len(out, S_q_table_uv_len)
+  memcpy(yp, ydata, S_q_table_y_len)
+  memcpy(uvp, uvdata, S_q_table_uv_len)
 
-  ret = do_cmd (
+  ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       out, outLen,
       NULL, NULL
   )
 
-  DBG (10, "send_q_table: finish\n")
+  DBG(10, "send_q_table: finish\n")
 
   return ret
 }
@@ -7218,7 +7218,7 @@ send_q_table (struct fujitsu *s)
 /* only used by iX500? */
 #if 0
 static Sane.Status
-mode_select_unk (struct fujitsu *s, Int foo)
+mode_select_unk(struct fujitsu *s, Int foo)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
@@ -7229,10 +7229,10 @@ mode_select_unk (struct fujitsu *s, Int foo)
   size_t outLen = MSEL_header_len + MSEL_data_min_len
   unsigned char * page = out+MSEL_header_len
 
-  DBG (10, "mode_select_unk: start\n")
+  DBG(10, "mode_select_unk: start\n")
 
-  /*if (!s.has_MS_unk){
-    DBG (10, "mode_select_unk: unsupported\n")
+  /*if(!s.has_MS_unk){
+    DBG(10, "mode_select_unk: unsupported\n")
     return Sane.STATUS_GOOD
   }*/
 
@@ -7247,14 +7247,14 @@ mode_select_unk (struct fujitsu *s, Int foo)
 
   *(page + 0x02) = foo
 
-  ret = do_cmd (
+  ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       out, outLen,
       NULL, NULL
   )
 
-  DBG (10, "mode_select_unk: finish\n")
+  DBG(10, "mode_select_unk: finish\n")
 
   return ret
 }
@@ -7262,7 +7262,7 @@ mode_select_unk (struct fujitsu *s, Int foo)
 
 /* only used by iX500? */
 static Sane.Status
-diag_preread (struct fujitsu *s)
+diag_preread(struct fujitsu *s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
@@ -7272,10 +7272,10 @@ diag_preread (struct fujitsu *s)
   unsigned char out[SD_preread_len]
   size_t outLen = SD_preread_len
 
-  DBG (10, "diag_preread: start\n")
+  DBG(10, "diag_preread: start\n")
 
-  if (!s.has_cmd_sdiag || !s.has_cmd_rdiag || !s.need_diag_preread){
-    DBG (5, "diag_preread: not supported, returning\n")
+  if(!s.has_cmd_sdiag || !s.has_cmd_rdiag || !s.need_diag_preread){
+    DBG(5, "diag_preread: not supported, returning\n")
     return ret
   }
 
@@ -7293,25 +7293,25 @@ diag_preread (struct fujitsu *s)
   set_SD_preread_paper_length(out, s.page_height)
   set_SD_preread_composition(out, s.s_mode)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     out, outLen,
     NULL, NULL
   )
 
-  if (ret != Sane.STATUS_GOOD){
-    DBG (5, "diag_preread: send diag error: %d\n", ret)
+  if(ret != Sane.STATUS_GOOD){
+    DBG(5, "diag_preread: send diag error: %d\n", ret)
     return ret
   }
 
-  DBG (10, "diag_preread: finish\n")
+  DBG(10, "diag_preread: finish\n")
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-mode_select_df (struct fujitsu *s)
+mode_select_df(struct fujitsu *s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
@@ -7322,10 +7322,10 @@ mode_select_df (struct fujitsu *s)
   size_t outLen = MSEL_header_len + MSEL_data_min_len
   unsigned char * page = out+MSEL_header_len
 
-  DBG (10, "mode_select_df: start\n")
+  DBG(10, "mode_select_df: start\n")
 
   if(!s.has_MS_df){
-    DBG (10, "mode_select_df: unsupported\n")
+    DBG(10, "mode_select_df: unsupported\n")
     return Sane.STATUS_GOOD
   }
 
@@ -7340,27 +7340,27 @@ mode_select_df (struct fujitsu *s)
 
   /* continue/stop */
   if(s.df_action != DF_DEFAULT){
-    set_MSEL_df_enable (page, 1)
+    set_MSEL_df_enable(page, 1)
 
     /* continue */
     if(s.df_action == DF_CONTINUE){
-      set_MSEL_df_continue (page, 1)
+      set_MSEL_df_continue(page, 1)
     }
 
     /* skew */
     if(s.df_skew){
-      set_MSEL_df_skew (page, 1)
+      set_MSEL_df_skew(page, 1)
     }
 
     /* thickness */
     if(s.df_thickness){
-      set_MSEL_df_thickness (page, 1)
+      set_MSEL_df_thickness(page, 1)
     }
 
     /* length */
     if(s.df_length){
-      set_MSEL_df_length (page, 1)
-      set_MSEL_df_diff (page, s.df_diff)
+      set_MSEL_df_length(page, 1)
+      set_MSEL_df_diff(page, s.df_diff)
     }
   }
 
@@ -7369,20 +7369,20 @@ mode_select_df (struct fujitsu *s)
   set_MSEL_df_recovery(page,s.df_recovery)
   set_MSEL_df_paperprot2(page,s.adv_paper_prot)
 
-  ret = do_cmd (
+  ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       out, outLen,
       NULL, NULL
   )
 
-  DBG (10, "mode_select_df: finish\n")
+  DBG(10, "mode_select_df: finish\n")
 
   return ret
 }
 
 static Sane.Status
-mode_select_bg (struct fujitsu *s)
+mode_select_bg(struct fujitsu *s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
@@ -7393,10 +7393,10 @@ mode_select_bg (struct fujitsu *s)
   size_t outLen = MSEL_header_len + MSEL_data_min_len
   unsigned char * page = out+MSEL_header_len
 
-  DBG (10, "mode_select_bg: start\n")
+  DBG(10, "mode_select_bg: start\n")
 
   if(!s.has_MS_bg){
-    DBG (10, "mode_select_bg: unsupported\n")
+    DBG(10, "mode_select_bg: unsupported\n")
     return Sane.STATUS_GOOD
   }
 
@@ -7410,29 +7410,29 @@ mode_select_bg (struct fujitsu *s)
   set_MSEL_page_len(page, MSEL_data_min_len-2)
 
   if(s.bg_color != COLOR_DEFAULT){
-    set_MSEL_bg_enable (page, 1)
+    set_MSEL_bg_enable(page, 1)
 
     if(s.bg_color == COLOR_BLACK){
-      set_MSEL_bg_front (page, 1)
-      set_MSEL_bg_back (page, 1)
-      set_MSEL_bg_fb (page, 1)
+      set_MSEL_bg_front(page, 1)
+      set_MSEL_bg_back(page, 1)
+      set_MSEL_bg_fb(page, 1)
     }
   }
 
-  ret = do_cmd (
+  ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       out, outLen,
       NULL, NULL
   )
 
-  DBG (10, "mode_select_bg: finish\n")
+  DBG(10, "mode_select_bg: finish\n")
 
   return ret
 }
 
 static Sane.Status
-mode_select_dropout (struct fujitsu *s)
+mode_select_dropout(struct fujitsu *s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
@@ -7443,10 +7443,10 @@ mode_select_dropout (struct fujitsu *s)
   size_t outLen = MSEL_header_len + MSEL_data_max_len
   unsigned char * page = out+MSEL_header_len
 
-  DBG (10, "mode_select_dropout: start\n")
+  DBG(10, "mode_select_dropout: start\n")
 
   if(!s.has_MS_dropout){
-    DBG (10, "mode_select_dropout: unsupported\n")
+    DBG(10, "mode_select_dropout: unsupported\n")
     return Sane.STATUS_GOOD
   }
 
@@ -7459,23 +7459,23 @@ mode_select_dropout (struct fujitsu *s)
   set_MSEL_pc(page, MS_pc_dropout)
   set_MSEL_page_len(page, MSEL_data_max_len-2)
 
-  set_MSEL_dropout_front (page, s.dropout_color)
-  set_MSEL_dropout_back (page, s.dropout_color)
+  set_MSEL_dropout_front(page, s.dropout_color)
+  set_MSEL_dropout_back(page, s.dropout_color)
 
-  ret = do_cmd (
+  ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       out, outLen,
       NULL, NULL
   )
 
-  DBG (10, "mode_select_dropout: finish\n")
+  DBG(10, "mode_select_dropout: finish\n")
 
   return ret
 }
 
 static Sane.Status
-mode_select_buff (struct fujitsu *s)
+mode_select_buff(struct fujitsu *s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
@@ -7486,10 +7486,10 @@ mode_select_buff (struct fujitsu *s)
   size_t outLen = MSEL_header_len + MSEL_data_min_len
   unsigned char * page = out+MSEL_header_len
 
-  DBG (10, "mode_select_buff: start\n")
+  DBG(10, "mode_select_buff: start\n")
 
-  if (!s.has_MS_buff){
-    DBG (10, "mode_select_buff: unsupported\n")
+  if(!s.has_MS_buff){
+    DBG(10, "mode_select_buff: unsupported\n")
     return Sane.STATUS_GOOD
   }
 
@@ -7505,20 +7505,20 @@ mode_select_buff (struct fujitsu *s)
   set_MSEL_buff_mode(page, s.buff_mode)
   set_MSEL_buff_clear(page, 3)
 
-  ret = do_cmd (
+  ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       out, outLen,
       NULL, NULL
   )
 
-  DBG (10, "mode_select_buff: finish\n")
+  DBG(10, "mode_select_buff: finish\n")
 
   return ret
 }
 
 static Sane.Status
-mode_select_prepick (struct fujitsu *s)
+mode_select_prepick(struct fujitsu *s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
@@ -7529,10 +7529,10 @@ mode_select_prepick (struct fujitsu *s)
   size_t outLen = MSEL_header_len + MSEL_data_min_len
   unsigned char * page = out+MSEL_header_len
 
-  DBG (10, "mode_select_prepick: start\n")
+  DBG(10, "mode_select_prepick: start\n")
 
-  if (!s.has_MS_prepick){
-    DBG (10, "mode_select_prepick: unsupported\n")
+  if(!s.has_MS_prepick){
+    DBG(10, "mode_select_prepick: unsupported\n")
     return Sane.STATUS_GOOD
   }
 
@@ -7547,20 +7547,20 @@ mode_select_prepick (struct fujitsu *s)
 
   set_MSEL_prepick(page, s.prepick)
 
-  ret = do_cmd (
+  ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       out, outLen,
       NULL, NULL
   )
 
-  DBG (10, "mode_select_prepick: finish\n")
+  DBG(10, "mode_select_prepick: finish\n")
 
   return ret
 }
 
 static Sane.Status
-mode_select_auto (struct fujitsu *s)
+mode_select_auto(struct fujitsu *s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
@@ -7571,10 +7571,10 @@ mode_select_auto (struct fujitsu *s)
   size_t outLen = MSEL_header_len + MSEL_data_min_len
   unsigned char * page = out+MSEL_header_len
 
-  DBG (10, "mode_select_auto: start\n")
+  DBG(10, "mode_select_auto: start\n")
 
   if(!s.has_MS_auto){
-    DBG (10, "mode_select_auto: unsupported\n")
+    DBG(10, "mode_select_auto: unsupported\n")
     return Sane.STATUS_GOOD
   }
 
@@ -7593,14 +7593,14 @@ mode_select_auto (struct fujitsu *s)
   set_MSEL_req_driv_crop(page, s.hwdeskewcrop && (s.swcrop || s.swdeskew))
   set_MSEL_deskew(page, s.hwdeskewcrop)
 
-  ret = do_cmd (
+  ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       out, outLen,
       NULL, NULL
   )
 
-  DBG (10, "mode_select_auto: finish\n")
+  DBG(10, "mode_select_auto: finish\n")
 
   return ret
 }
@@ -7616,7 +7616,7 @@ mode_select_auto (struct fujitsu *s)
  * From the SANE spec:
  * This function is used to obtain the current scan parameters. The
  * returned parameters are guaranteed to be accurate between the time
- * a scan has been started (Sane.start() has been called) and the
+ * a scan has been started(Sane.start() has been called) and the
  * completion of that request. Outside of that window, the returned
  * values are best-effort estimates of what the parameters will be
  * when Sane.start() gets invoked.
@@ -7628,12 +7628,12 @@ mode_select_auto (struct fujitsu *s)
  * to a parameter structure.
  */
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
   Sane.Status ret = Sane.STATUS_GOOD
   struct fujitsu *s = (struct fujitsu *) handle
 
-  DBG (10, "Sane.get_parameters: start\n")
+  DBG(10, "Sane.get_parameters: start\n")
 
   /* not started? update param data from user settings */
   if(!s.started){
@@ -7651,23 +7651,23 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 
   /* we won't know the end until we get to it */
   if(s.ald && !must_fully_buffer(s)){
-    DBG (15, "Sane.get_parameters: hand-scanner mode\n")
+    DBG(15, "Sane.get_parameters: hand-scanner mode\n")
     params.lines = -1
   }
 
-  DBG (10, "Sane.get_parameters: finish\n")
+  DBG(10, "Sane.get_parameters: finish\n")
   return ret
 }
 
 /* set s_params and u_params data based on user settings
  * and scanner capabilities. */
 Sane.Status
-update_params (struct fujitsu * s)
+update_params(struct fujitsu * s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
   Sane.Parameters * params = &(s.s_params)
 
-  DBG (10, "update_params: start\n")
+  DBG(10, "update_params: start\n")
 
   /* first, we setup s_params to describe the image to the scanner */
   /* this backend only sends single frame images */
@@ -7681,7 +7681,7 @@ update_params (struct fujitsu * s)
   params.lines = s.resolution_y * (s.br_y - s.tl_y) / 1200
   params.lines -= params.lines % 2
 
-  if (s.s_mode == MODE_COLOR) {
+  if(s.s_mode == MODE_COLOR) {
     params.depth = 8
 
     /* jpeg requires 8x8 squares */
@@ -7698,7 +7698,7 @@ update_params (struct fujitsu * s)
 
     params.bytes_per_line = params.pixels_per_line * 3
   }
-  else if (s.s_mode == MODE_GRAYSCALE) {
+  else if(s.s_mode == MODE_GRAYSCALE) {
     params.depth = 8
 
     /* jpeg requires 8x8 squares */
@@ -7742,18 +7742,18 @@ update_params (struct fujitsu * s)
   /* use a helper function cause it is called elsewhere */
   ret = update_u_params(s)
 
-  DBG (10, "update_params: finish\n")
+  DBG(10, "update_params: finish\n")
   return ret
 }
 
 /* set u_param data based on user settings, and s_params */
 Sane.Status
-update_u_params (struct fujitsu * s)
+update_u_params(struct fujitsu * s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
   Sane.Parameters * params = &(s.u_params)
 
-  DBG (10, "update_u_params: start\n")
+  DBG(10, "update_u_params: start\n")
 
   /* for most machines, it is the same, so we just copy */
   memcpy(&(s.u_params), &(s.s_params), sizeof(Sane.Parameters))
@@ -7763,12 +7763,12 @@ update_u_params (struct fujitsu * s)
   if(must_downsample(s)){
 
     /* making gray from a color scan */
-    if (s.u_mode == MODE_GRAYSCALE) {
+    if(s.u_mode == MODE_GRAYSCALE) {
       params.format = Sane.FRAME_GRAY
       params.bytes_per_line = params.pixels_per_line
     }
     /* making binary from a gray or color scan */
-    else if (s.u_mode == MODE_LINEART) {
+    else if(s.u_mode == MODE_LINEART) {
       params.depth = 1
       params.format = Sane.FRAME_GRAY
       params.bytes_per_line = params.pixels_per_line / 8
@@ -7790,13 +7790,13 @@ update_u_params (struct fujitsu * s)
       params.format, params.depth, params.last_frame)
   }
 
-  DBG (10, "update_u_params: finish\n")
+  DBG(10, "update_u_params: finish\n")
   return ret
 }
 
 /*
  * Called by SANE when a page acquisition operation is to be started.
- * commands: scanner control (lampon), send (lut), send (dither),
+ * commands: scanner control(lampon), send(lut), send(dither),
  * set window, object pos, and scan
  *
  * this will be called between sides of a duplex scan,
@@ -7804,13 +7804,13 @@ update_u_params (struct fujitsu * s)
  * hence, we spend a lot of time playing with s.started, etc.
  */
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   struct fujitsu *s = handle
   Sane.Status ret = Sane.STATUS_GOOD
 
-  DBG (10, "Sane.start: start\n")
-  DBG (15, "started=%d, side=%d, source=%d\n", s.started, s.side, s.source)
+  DBG(10, "Sane.start: start\n")
+  DBG(15, "started=%d, side=%d, source=%d\n", s.started, s.side, s.source)
 
   /* undo any prior Sane.cancel calls */
   s.cancelled=0
@@ -7819,7 +7819,7 @@ Sane.start (Sane.Handle handle)
   s.reading=1
 
   /* not finished with current side, error */
-  if (s.started && !s.eof_tx[s.side]) {
+  if(s.started && !s.eof_tx[s.side]) {
       DBG(5,"Sane.start: previous transfer not finished?")
       ret = Sane.STATUS_INVAL
       goto errors
@@ -7845,104 +7845,104 @@ Sane.start (Sane.Handle handle)
 
       /* load our own private copy of scan params */
       ret = update_params(s)
-      if (ret != Sane.STATUS_GOOD) {
-        DBG (5, "Sane.start: ERROR: cannot update params\n")
+      if(ret != Sane.STATUS_GOOD) {
+        DBG(5, "Sane.start: ERROR: cannot update params\n")
         goto errors
       }
 
       /* switch source */
       if(s.source == SOURCE_FLATBED){
         ret = scanner_control(s, SC_function_fb)
-        if (ret != Sane.STATUS_GOOD) {
-          DBG (5, "Sane.start: ERROR: cannot control fb, ignoring\n")
+        if(ret != Sane.STATUS_GOOD) {
+          DBG(5, "Sane.start: ERROR: cannot control fb, ignoring\n")
         }
       }
       else if(s.source == SOURCE_CARD_FRONT || s.source == SOURCE_CARD_BACK || s.source == SOURCE_CARD_DUPLEX){
         ret = scanner_control(s, SC_function_rpath)
-        if (ret != Sane.STATUS_GOOD) {
-          DBG (5, "Sane.start: ERROR: cannot control rp, ignoring\n")
+        if(ret != Sane.STATUS_GOOD) {
+          DBG(5, "Sane.start: ERROR: cannot control rp, ignoring\n")
         }
       }
       else{
         ret = scanner_control(s, SC_function_adf)
-        if (ret != Sane.STATUS_GOOD) {
-          DBG (5, "Sane.start: ERROR: cannot control ADF, ignoring\n")
+        if(ret != Sane.STATUS_GOOD) {
+          DBG(5, "Sane.start: ERROR: cannot control ADF, ignoring\n")
         }
       }
 
       /* required for hi res scans on iX500? */
       ret = diag_preread(s)
-      if (ret != Sane.STATUS_GOOD)
-        DBG (5, "Sane.start: WARNING: cannot diag_preread %d\n", ret)
+      if(ret != Sane.STATUS_GOOD)
+        DBG(5, "Sane.start: WARNING: cannot diag_preread %d\n", ret)
 
       /* enable overscan/auto detection */
       ret = mode_select_auto(s)
-      if (ret != Sane.STATUS_GOOD)
-        DBG (5, "Sane.start: WARNING: cannot mode_select_auto %d\n", ret)
+      if(ret != Sane.STATUS_GOOD)
+        DBG(5, "Sane.start: WARNING: cannot mode_select_auto %d\n", ret)
 
       /* enable double feed detection */
       ret = mode_select_df(s)
-      if (ret != Sane.STATUS_GOOD)
-        DBG (5, "Sane.start: WARNING: cannot mode_select_df %d\n", ret)
+      if(ret != Sane.STATUS_GOOD)
+        DBG(5, "Sane.start: WARNING: cannot mode_select_df %d\n", ret)
 
       /* enable background color setting */
       ret = mode_select_bg(s)
-      if (ret != Sane.STATUS_GOOD)
-        DBG (5, "Sane.start: WARNING: cannot mode_select_bg %d\n", ret)
+      if(ret != Sane.STATUS_GOOD)
+        DBG(5, "Sane.start: WARNING: cannot mode_select_bg %d\n", ret)
 
       /* enable dropout color setting */
       ret = mode_select_dropout(s)
-      if (ret != Sane.STATUS_GOOD)
-        DBG (5, "Sane.start: WARNING: cannot mode_select_dropout %d\n", ret)
+      if(ret != Sane.STATUS_GOOD)
+        DBG(5, "Sane.start: WARNING: cannot mode_select_dropout %d\n", ret)
 
       /* enable buffering setting */
       ret = mode_select_buff(s)
-      if (ret != Sane.STATUS_GOOD)
-        DBG (5, "Sane.start: WARNING: cannot mode_select_buff %d\n", ret)
+      if(ret != Sane.STATUS_GOOD)
+        DBG(5, "Sane.start: WARNING: cannot mode_select_buff %d\n", ret)
 
       /* enable prepick setting */
       ret = mode_select_prepick(s)
-      if (ret != Sane.STATUS_GOOD)
-        DBG (5, "Sane.start: WARNING: cannot mode_select_prepick %d\n", ret)
+      if(ret != Sane.STATUS_GOOD)
+        DBG(5, "Sane.start: WARNING: cannot mode_select_prepick %d\n", ret)
 
       /* send endorser config */
       ret = send_endorser(s)
-      if (ret != Sane.STATUS_GOOD)
-        DBG (5, "Sane.start: WARNING: cannot send_endorser %d\n", ret)
+      if(ret != Sane.STATUS_GOOD)
+        DBG(5, "Sane.start: WARNING: cannot send_endorser %d\n", ret)
 
       /* set window command */
       ret = set_window(s)
-      if (ret != Sane.STATUS_GOOD) {
-        DBG (5, "Sane.start: ERROR: cannot set window\n")
+      if(ret != Sane.STATUS_GOOD) {
+        DBG(5, "Sane.start: ERROR: cannot set window\n")
         goto errors
       }
 
       /* send lut if scanner has no hardware brightness/contrast,
        * or we are going to ask it to use a downloaded gamma table */
-      if (!s.brightness_steps || !s.contrast_steps || s.window_gamma & 0x80){
+      if(!s.brightness_steps || !s.contrast_steps || s.window_gamma & 0x80){
         ret = send_lut(s)
-        if (ret != Sane.STATUS_GOOD)
-          DBG (5, "Sane.start: WARNING: cannot late send_lut %d\n", ret)
+        if(ret != Sane.STATUS_GOOD)
+          DBG(5, "Sane.start: WARNING: cannot late send_lut %d\n", ret)
       }
 
       /* some scanners need the q table sent, even when not scanning jpeg */
-      if (s.need_q_table){
+      if(s.need_q_table){
         ret = send_q_table(s)
-        if (ret != Sane.STATUS_GOOD)
-          DBG (5, "Sane.start: WARNING: cannot send_q_table %d\n", ret)
+        if(ret != Sane.STATUS_GOOD)
+          DBG(5, "Sane.start: WARNING: cannot send_q_table %d\n", ret)
       }
 
       /* start/stop endorser */
       ret = endorser(s)
-      if (ret != Sane.STATUS_GOOD) {
-        DBG (5, "Sane.start: ERROR: cannot start/stop endorser\n")
+      if(ret != Sane.STATUS_GOOD) {
+        DBG(5, "Sane.start: ERROR: cannot start/stop endorser\n")
         goto errors
       }
 
       /* turn lamp on */
       ret = scanner_control(s, SC_function_lamp_on)
-      if (ret != Sane.STATUS_GOOD) {
-        DBG (5, "Sane.start: WARNING: cannot start lamp, ignoring\n")
+      if(ret != Sane.STATUS_GOOD) {
+        DBG(5, "Sane.start: WARNING: cannot start lamp, ignoring\n")
       }
 
       /* iX500 errors if op is called with no paper
@@ -7951,7 +7951,7 @@ Sane.start (Sane.Handle handle)
         ret = get_hardware_status(s,0)
         if(!s.hw_hopper){
           ret = Sane.STATUS_NO_DOCS
-          DBG (5, "Sane.start: ERROR: hopper empty\n")
+          DBG(5, "Sane.start: ERROR: hopper empty\n")
           goto errors
         }
       }
@@ -7964,7 +7964,7 @@ Sane.start (Sane.Handle handle)
   /* set clean defaults with new sheet of paper */
   /* don't reset the transfer vars on backside of duplex page */
   /* otherwise buffered back page will be lost */
-  /* ingest paper with adf (no-op for fb) */
+  /* ingest paper with adf(no-op for fb) */
   /* don't call object pos or scan on back side of duplex scan */
   if(s.side == SIDE_FRONT || s.source == SOURCE_ADF_BACK || s.source == SOURCE_CARD_BACK){
 
@@ -7994,27 +7994,27 @@ Sane.start (Sane.Handle handle)
       s.jpeg_front_rst = 0
       s.jpeg_back_rst = 0
 
-      ret = object_position (s, OP_Feed)
-      if (ret != Sane.STATUS_GOOD) {
-        DBG (5, "Sane.start: ERROR: cannot load page\n")
+      ret = object_position(s, OP_Feed)
+      if(ret != Sane.STATUS_GOOD) {
+        DBG(5, "Sane.start: ERROR: cannot load page\n")
         goto errors
       }
 
-      ret = start_scan (s)
-      if (ret != Sane.STATUS_GOOD) {
-        DBG (5, "Sane.start: ERROR: cannot start_scan\n")
+      ret = start_scan(s)
+      if(ret != Sane.STATUS_GOOD) {
+        DBG(5, "Sane.start: ERROR: cannot start_scan\n")
         goto errors
       }
 
       /* try to read scan size from scanner */
       ret = get_pixelsize(s,0)
-      if (ret != Sane.STATUS_GOOD) {
-        DBG (5, "Sane.start: ERROR: cannot get pixelsize\n")
+      if(ret != Sane.STATUS_GOOD) {
+        DBG(5, "Sane.start: ERROR: cannot get pixelsize\n")
         goto errors
       }
 
       /* store the number of front bytes */
-      if ( s.source != SOURCE_ADF_BACK && s.source != SOURCE_CARD_BACK ){
+      if( s.source != SOURCE_ADF_BACK && s.source != SOURCE_CARD_BACK ){
         s.bytes_tot[SIDE_FRONT] = s.s_params.bytes_per_line * s.s_params.lines
         s.buff_tot[SIDE_FRONT] = s.buffer_size
 
@@ -8033,7 +8033,7 @@ Sane.start (Sane.Handle handle)
       }
 
       /* store the number of back bytes */
-      if ( s.source == SOURCE_ADF_DUPLEX || s.source == SOURCE_ADF_BACK
+      if( s.source == SOURCE_ADF_DUPLEX || s.source == SOURCE_ADF_BACK
 	|| s.source == SOURCE_CARD_DUPLEX || s.source == SOURCE_CARD_BACK ){
         s.bytes_tot[SIDE_BACK] = s.s_params.bytes_per_line * s.s_params.lines
         s.buff_tot[SIDE_BACK] = s.bytes_tot[SIDE_BACK]
@@ -8054,8 +8054,8 @@ Sane.start (Sane.Handle handle)
       /* and set started flag */
       if(!s.started){
           ret = setup_buffers(s)
-          if (ret != Sane.STATUS_GOOD) {
-              DBG (5, "Sane.start: ERROR: cannot load buffers\n")
+          if(ret != Sane.STATUS_GOOD) {
+              DBG(5, "Sane.start: ERROR: cannot load buffers\n")
               goto errors
           }
 
@@ -8065,13 +8065,13 @@ Sane.start (Sane.Handle handle)
   else{
       /* try to read scan size from scanner */
       ret = get_pixelsize(s,0)
-      if (ret != Sane.STATUS_GOOD) {
-        DBG (5, "Sane.start: ERROR: cannot get pixelsize\n")
+      if(ret != Sane.STATUS_GOOD) {
+        DBG(5, "Sane.start: ERROR: cannot get pixelsize\n")
         goto errors
       }
   }
 
-  DBG (15, "started=%d, side=%d, source=%d\n", s.started, s.side, s.source)
+  DBG(15, "started=%d, side=%d, source=%d\n", s.started, s.side, s.source)
 
   /* certain options require the entire image to
    * be collected from the scanner before we can
@@ -8087,17 +8087,17 @@ Sane.start (Sane.Handle handle)
     }
 
     /* check for errors */
-    if (ret != Sane.STATUS_GOOD) {
-      DBG (5, "Sane.start: ERROR: cannot buffer image\n")
+    if(ret != Sane.STATUS_GOOD) {
+      DBG(5, "Sane.start: ERROR: cannot buffer image\n")
       goto errors
     }
 
-    DBG (5, "Sane.start: OK: done buffering\n")
+    DBG(5, "Sane.start: OK: done buffering\n")
 
     /* hardware deskew will tell image size after transfer */
     ret = get_pixelsize(s,1)
-    if (ret != Sane.STATUS_GOOD) {
-      DBG (5, "Sane.start: ERROR: cannot get final pixelsize\n")
+    if(ret != Sane.STATUS_GOOD) {
+      DBG(5, "Sane.start: ERROR: cannot get final pixelsize\n")
       goto errors
     }
 
@@ -8131,11 +8131,11 @@ Sane.start (Sane.Handle handle)
   /* unprotect this block from Sane.cancel */
   s.reading=0
 
-  DBG (10, "Sane.start: finish %d\n", ret)
+  DBG(10, "Sane.start: finish %d\n", ret)
   return ret
 
   errors:
-    DBG (10, "Sane.start: error %d\n", ret)
+    DBG(10, "Sane.start: error %d\n", ret)
 
     /* if we are started, but something went wrong,
      * chances are there is image data inside scanner,
@@ -8162,14 +8162,14 @@ endorser(struct fujitsu *s)
   unsigned char out[ED_max_len]
   size_t outLen = ED_max_len
 
-  DBG (10, "endorser: start\n")
+  DBG(10, "endorser: start\n")
 
   memset(cmd,0,cmdLen)
   set_SCSI_opcode(cmd, ENDORSER_code)
 
   memset(out,0,outLen)
 
-  if (s.has_endorser_f || s.has_endorser_b){
+  if(s.has_endorser_f || s.has_endorser_b){
 
     /*fi-5900 front side uses 0x80, assume all others*/
     if(s.u_endorser_side == ED_front){
@@ -8200,7 +8200,7 @@ endorser(struct fujitsu *s)
     }
 
     set_E_xferlen(cmd, outLen)
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       out, outLen,
@@ -8208,13 +8208,13 @@ endorser(struct fujitsu *s)
     )
   }
 
-  DBG (10, "endorser: finish %d\n", ret)
+  DBG(10, "endorser: finish %d\n", ret)
 
   return ret
 }
 
 static Sane.Status
-scanner_control (struct fujitsu *s, Int function)
+scanner_control(struct fujitsu *s, Int function)
 {
   Sane.Status ret = Sane.STATUS_GOOD
   Int tries = 0
@@ -8222,7 +8222,7 @@ scanner_control (struct fujitsu *s, Int function)
   unsigned char cmd[SCANNER_CONTROL_len]
   size_t cmdLen = SCANNER_CONTROL_len
 
-  DBG (10, "scanner_control: start\n")
+  DBG(10, "scanner_control: start\n")
 
   if(s.has_cmd_scanner_ctl){
 
@@ -8231,19 +8231,19 @@ scanner_control (struct fujitsu *s, Int function)
     set_SC_function_1 (cmd, function)
     set_SC_function_2 (cmd, function)
 
-    DBG (15, "scanner_control: function %d\n",function)
+    DBG(15, "scanner_control: function %d\n",function)
 
     /* don't really need to ask for adf if that's the only option */
     /* doing so causes the 3091 to complain */
     if(function == SC_function_adf && !s.has_flatbed && !s.has_return_path){
-      DBG (10, "scanner_control: adf function not required\n")
+      DBG(10, "scanner_control: adf function not required\n")
       return ret
     }
 
     /* extremely long retry period */
     while(tries++ < 120){
 
-      ret = do_cmd (
+      ret = do_cmd(
         s, 1, 0,
         cmd, cmdLen,
         NULL, 0,
@@ -8258,20 +8258,20 @@ scanner_control (struct fujitsu *s, Int function)
     }
 
     if(ret == Sane.STATUS_GOOD){
-      DBG (15, "scanner_control: success, tries %d, ret %d\n",tries,ret)
+      DBG(15, "scanner_control: success, tries %d, ret %d\n",tries,ret)
     }
     else{
-      DBG (5, "scanner_control: error, tries %d, ret %d\n",tries,ret)
+      DBG(5, "scanner_control: error, tries %d, ret %d\n",tries,ret)
     }
   }
 
-  DBG (10, "scanner_control: finish\n")
+  DBG(10, "scanner_control: finish\n")
 
   return ret
 }
 
 static Sane.Status
-scanner_control_ric (struct fujitsu *s, Int bytes, Int side)
+scanner_control_ric(struct fujitsu *s, Int bytes, Int side)
 {
   Sane.Status ret = Sane.STATUS_GOOD
   Int tries = 0
@@ -8279,7 +8279,7 @@ scanner_control_ric (struct fujitsu *s, Int bytes, Int side)
   unsigned char cmd[SCANNER_CONTROL_len]
   size_t cmdLen = SCANNER_CONTROL_len
 
-  DBG (10, "scanner_control_ric: start\n")
+  DBG(10, "scanner_control_ric: start\n")
 
   if(s.has_cmd_scanner_ctl){
 
@@ -8287,7 +8287,7 @@ scanner_control_ric (struct fujitsu *s, Int bytes, Int side)
     set_SCSI_opcode(cmd, SCANNER_CONTROL_code)
 
     set_SC_ric(cmd, 1)
-    if (side == SIDE_BACK) {
+    if(side == SIDE_BACK) {
         set_SC_ric_dtq(cmd, WD_wid_back)
     }
     else{
@@ -8296,12 +8296,12 @@ scanner_control_ric (struct fujitsu *s, Int bytes, Int side)
 
     set_SC_ric_len(cmd, bytes)
 
-    DBG (15, "scanner_control_ric: %d %d\n",bytes,side)
+    DBG(15, "scanner_control_ric: %d %d\n",bytes,side)
 
     /* extremely long retry period */
     while(tries++ < 120){
 
-      ret = do_cmd (
+      ret = do_cmd(
         s, 1, 0,
         cmd, cmdLen,
         NULL, 0,
@@ -8316,22 +8316,22 @@ scanner_control_ric (struct fujitsu *s, Int bytes, Int side)
     }
 
     if(ret == Sane.STATUS_GOOD){
-      DBG (15, "scanner_control_ric: success, tries %d, ret %d\n",tries,ret)
+      DBG(15, "scanner_control_ric: success, tries %d, ret %d\n",tries,ret)
     }
     /* some errors pass thru unchanged */
     else if(ret == Sane.STATUS_CANCELLED || ret == Sane.STATUS_JAMMED
       || ret == Sane.STATUS_NO_DOCS || ret == Sane.STATUS_COVER_OPEN
     ){
-      DBG (5, "scanner_control_ric: error, tries %d, ret %d\n",tries,ret)
+      DBG(5, "scanner_control_ric: error, tries %d, ret %d\n",tries,ret)
     }
     /* other errors are ignored, since scanner may not support RIC */
     else{
-      DBG (5, "scanner_control_ric: ignoring, tries %d, ret %d\n",tries,ret)
+      DBG(5, "scanner_control_ric: ignoring, tries %d, ret %d\n",tries,ret)
       ret = Sane.STATUS_GOOD
     }
   }
 
-  DBG (10, "scanner_control_ric: finish\n")
+  DBG(10, "scanner_control_ric: finish\n")
 
   return ret
 }
@@ -8340,33 +8340,33 @@ scanner_control_ric (struct fujitsu *s, Int bytes, Int side)
  * callocs a buffer to hold the scan data
  */
 static Sane.Status
-setup_buffers (struct fujitsu *s)
+setup_buffers(struct fujitsu *s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
   Int side
 
-  DBG (10, "setup_buffers: start\n")
+  DBG(10, "setup_buffers: start\n")
 
   for(side=0;side<2;side++){
 
     /* free old mem */
-    if (s.buffers[side]) {
-      DBG (15, "setup_buffers: free buffer %d.\n",side)
+    if(s.buffers[side]) {
+      DBG(15, "setup_buffers: free buffer %d.\n",side)
       free(s.buffers[side])
       s.buffers[side] = NULL
     }
 
     if(s.buff_tot[side]){
-      s.buffers[side] = calloc (1,s.buff_tot[side])
+      s.buffers[side] = calloc(1,s.buff_tot[side])
 
-      if (!s.buffers[side]) {
-        DBG (5, "setup_buffers: Error, no buffer %d.\n",side)
+      if(!s.buffers[side]) {
+        DBG(5, "setup_buffers: Error, no buffer %d.\n",side)
         return Sane.STATUS_NO_MEM
       }
     }
   }
 
-  DBG (10, "setup_buffers: finish\n")
+  DBG(10, "setup_buffers: finish\n")
 
   return ret
 }
@@ -8376,7 +8376,7 @@ setup_buffers (struct fujitsu *s)
  * values currently in the scanner data structure.
  */
 static Sane.Status
-set_window (struct fujitsu *s)
+set_window(struct fujitsu *s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
@@ -8398,7 +8398,7 @@ set_window (struct fujitsu *s)
 
   Int length = 0
 
-  DBG (10, "set_window: start\n")
+  DBG(10, "set_window: start\n")
 
   /*build the payload*/
   memset(out,0,outLen)
@@ -8407,25 +8407,25 @@ set_window (struct fujitsu *s)
   set_WPDB_wdblen(header, SW_desc_len)
 
   /* init the window block */
-  if (s.source == SOURCE_ADF_BACK || s.source == SOURCE_CARD_BACK) {
-    set_WD_wid (desc1, WD_wid_back)
+  if(s.source == SOURCE_ADF_BACK || s.source == SOURCE_CARD_BACK) {
+    set_WD_wid(desc1, WD_wid_back)
   }
   else{
-    set_WD_wid (desc1, WD_wid_front)
+    set_WD_wid(desc1, WD_wid_front)
   }
 
-  set_WD_Xres (desc1, s.resolution_x)
-  set_WD_Yres (desc1, s.resolution_y)
+  set_WD_Xres(desc1, s.resolution_x)
+  set_WD_Yres(desc1, s.resolution_y)
 
-  set_WD_ULX (desc1, s.tl_x)
+  set_WD_ULX(desc1, s.tl_x)
   /* low-end scanners ignore paper-size,
    * so we have to center the window ourselves */
   if(s.cropping_mode == CROP_ABSOLUTE){
-    set_WD_ULX (desc1, s.tl_x + (s.max_x - s.page_width) / 2)
+    set_WD_ULX(desc1, s.tl_x + (s.max_x - s.page_width) / 2)
   }
 
-  set_WD_ULY (desc1, s.tl_y)
-  set_WD_width (desc1, s.s_params.pixels_per_line * 1200/s.resolution_x)
+  set_WD_ULY(desc1, s.tl_y)
+  set_WD_width(desc1, s.s_params.pixels_per_line * 1200/s.resolution_x)
 
   length = s.s_params.lines * 1200/s.resolution_y
 
@@ -8435,34 +8435,34 @@ set_window (struct fujitsu *s)
     length += (s.color_raster_offset+s.green_offset) * 1200/300 * 2
     DBG(5,"set_window: Increasing length to %d\n",length)
   }
-  set_WD_length (desc1, length)
+  set_WD_length(desc1, length)
 
-  set_WD_brightness (desc1, 0)
+  set_WD_brightness(desc1, 0)
   if(s.brightness_steps){
     /*convert our common -127 to +127 range into HW's range
      *FIXME: this code assumes hardware range of 0-255 */
-    set_WD_brightness (desc1, s.brightness+128)
+    set_WD_brightness(desc1, s.brightness+128)
   }
 
-  set_WD_threshold (desc1, s.threshold)
+  set_WD_threshold(desc1, s.threshold)
 
-  set_WD_contrast (desc1, 0)
+  set_WD_contrast(desc1, 0)
   if(s.contrast_steps){
     /*convert our common -127 to +127 range into HW's range
      *FIXME: this code assumes hardware range of 0-255 */
-    set_WD_contrast (desc1, s.contrast+128)
+    set_WD_contrast(desc1, s.contrast+128)
   }
 
-  set_WD_composition (desc1, s.s_mode)
+  set_WD_composition(desc1, s.s_mode)
 
-  set_WD_bitsperpixel (desc1, s.s_params.depth)
+  set_WD_bitsperpixel(desc1, s.s_params.depth)
 
   if(s.s_mode == MODE_HALFTONE){
     set_WD_ht_type(desc1, s.ht_type)
     set_WD_ht_pattern(desc1, s.ht_pattern)
   }
 
-  set_WD_rif (desc1, s.rif)
+  set_WD_rif(desc1, s.rif)
 
   set_WD_compress_type(desc1, COMP_NONE)
   set_WD_compress_arg(desc1, 0)
@@ -8478,22 +8478,22 @@ set_window (struct fujitsu *s)
 
   /*vuid c0*/
   if(s.has_vuid_3091){
-    set_WD_vendor_id_code (desc1, WD_VUID_3091)
-    set_WD_gamma (desc1, s.window_gamma)
+    set_WD_vendor_id_code(desc1, WD_VUID_3091)
+    set_WD_gamma(desc1, s.window_gamma)
 
-    if (s.s_mode != MODE_COLOR){
-      switch (s.dropout_color) {
+    if(s.s_mode != MODE_COLOR){
+      switch(s.dropout_color) {
         case COLOR_RED:
-          set_WD_lamp_color (desc1, WD_LAMP_RED)
+          set_WD_lamp_color(desc1, WD_LAMP_RED)
           break
         case COLOR_GREEN:
-          set_WD_lamp_color (desc1, WD_LAMP_GREEN)
+          set_WD_lamp_color(desc1, WD_LAMP_GREEN)
           break
         case COLOR_BLUE:
-          set_WD_lamp_color (desc1, WD_LAMP_BLUE)
+          set_WD_lamp_color(desc1, WD_LAMP_BLUE)
           break
         default:
-          set_WD_lamp_color (desc1, WD_LAMP_DEFAULT)
+          set_WD_lamp_color(desc1, WD_LAMP_DEFAULT)
           break
       }
     }
@@ -8502,23 +8502,23 @@ set_window (struct fujitsu *s)
 
   /*vuid c1*/
   else if(s.s_mode == MODE_COLOR && s.has_vuid_color){
-    set_WD_vendor_id_code (desc1, WD_VUID_COLOR)
-    set_WD_gamma (desc1, s.window_gamma)
+    set_WD_vendor_id_code(desc1, WD_VUID_COLOR)
+    set_WD_gamma(desc1, s.window_gamma)
 
     if(s.color_interlace == COLOR_INTERLACE_RGB){
-      set_WD_scanning_order (desc1, WD_SCAN_ORDER_DOT)
-      set_WD_scanning_order_arg (desc1, WD_SCAN_ARG_RGB)
+      set_WD_scanning_order(desc1, WD_SCAN_ORDER_DOT)
+      set_WD_scanning_order_arg(desc1, WD_SCAN_ARG_RGB)
     }
     else if(s.color_interlace == COLOR_INTERLACE_BGR){
-      set_WD_scanning_order (desc1, WD_SCAN_ORDER_DOT)
-      set_WD_scanning_order_arg (desc1, WD_SCAN_ARG_BGR)
+      set_WD_scanning_order(desc1, WD_SCAN_ORDER_DOT)
+      set_WD_scanning_order_arg(desc1, WD_SCAN_ARG_BGR)
     }
     else if(s.color_interlace == COLOR_INTERLACE_RRGGBB){
-      set_WD_scanning_order (desc1, WD_SCAN_ORDER_LINE)
-      set_WD_scanning_order_arg (desc1, WD_SCAN_ARG_RGB)
+      set_WD_scanning_order(desc1, WD_SCAN_ORDER_LINE)
+      set_WD_scanning_order_arg(desc1, WD_SCAN_ARG_RGB)
     }
     else{
-      DBG (5,"set_window: unknown color interlacing\n")
+      DBG(5,"set_window: unknown color interlacing\n")
       return Sane.STATUS_INVAL
     }
 
@@ -8537,8 +8537,8 @@ set_window (struct fujitsu *s)
 
   /*vuid 00*/
   else if(s.has_vuid_mono){
-    set_WD_vendor_id_code (desc1, WD_VUID_MONO)
-    set_WD_gamma (desc1, s.window_gamma)
+    set_WD_vendor_id_code(desc1, WD_VUID_MONO)
+    set_WD_gamma(desc1, s.window_gamma)
 
     set_WD_outline(desc1,s.outline)
 
@@ -8553,10 +8553,10 @@ set_window (struct fujitsu *s)
     set_WD_separation(desc1,s.separation)
     set_WD_mirroring(desc1,s.mirroring)
 
-    if (get_ipc_mode(s) == WD_ipc_SDTC)
+    if(get_ipc_mode(s) == WD_ipc_SDTC)
       set_WD_variance(desc1,s.variance)
 
-    else if (get_ipc_mode(s) == WD_ipc_DTC){
+    else if(get_ipc_mode(s) == WD_ipc_DTC){
       set_WD_filtering(desc1,s.bp_filter)
       set_WD_smoothing(desc1,s.smoothing)
       set_WD_gamma_curve(desc1,s.gamma_curve)
@@ -8577,7 +8577,7 @@ set_window (struct fujitsu *s)
   }
 
   else{
-    DBG (5,"set_window: no vuid to send?\n")
+    DBG(5,"set_window: no vuid to send?\n")
     return Sane.STATUS_INVAL
   }
 
@@ -8586,25 +8586,25 @@ set_window (struct fujitsu *s)
     set_WD_paper_selection(desc1,WD_paper_SEL_UNDEFINED)
   }
   else{
-    set_WD_paper_selection (desc1, WD_paper_SEL_NON_STANDARD)
+    set_WD_paper_selection(desc1, WD_paper_SEL_NON_STANDARD)
 
     /* call helper function, scanner wants lies about paper width */
-    set_WD_paper_width_X (desc1, get_page_width(s))
+    set_WD_paper_width_X(desc1, get_page_width(s))
 
     /* don't call helper function, scanner wants actual length?  */
-    set_WD_paper_length_Y (desc1, s.page_height)
+    set_WD_paper_length_Y(desc1, s.page_height)
   }
 
   /* when in duplex mode, copy first desc block into second */
-  if (s.source == SOURCE_ADF_DUPLEX || s.source == SOURCE_CARD_DUPLEX) {
-      memcpy (desc2, desc1, SW_desc_len)
+  if(s.source == SOURCE_ADF_DUPLEX || s.source == SOURCE_CARD_DUPLEX) {
+      memcpy(desc2, desc1, SW_desc_len)
 
-      set_WD_wid (desc2, WD_wid_back)
+      set_WD_wid(desc2, WD_wid_back)
 
       /* FIXME: do we really need these on back of page? */
-      set_WD_paper_selection (desc2, WD_paper_SEL_UNDEFINED)
-      set_WD_paper_width_X (desc2, 0)
-      set_WD_paper_length_Y (desc2, 0)
+      set_WD_paper_selection(desc2, WD_paper_SEL_UNDEFINED)
+      set_WD_paper_width_X(desc2, 0)
+      set_WD_paper_length_Y(desc2, 0)
   }
   /* output shorter if not using duplex */
   else{
@@ -8616,14 +8616,14 @@ set_window (struct fujitsu *s)
   set_SCSI_opcode(cmd, SET_WINDOW_code)
   set_SW_xferlen(cmd, outLen)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     out, outLen,
     NULL, NULL
   )
 
-  DBG (10, "set_window: finish\n")
+  DBG(10, "set_window: finish\n")
 
   return ret
 }
@@ -8641,32 +8641,32 @@ get_pixelsize(struct fujitsu *s, Int actual)
     unsigned char in[R_PSIZE_len]
     size_t inLen = R_PSIZE_len
 
-    DBG (10, "get_pixelsize: start %d\n",actual)
+    DBG(10, "get_pixelsize: start %d\n",actual)
 
-    if (!s.has_pixelsize){
-      DBG (10, "get_pixelsize: unsupported\n")
+    if(!s.has_pixelsize){
+      DBG(10, "get_pixelsize: unsupported\n")
       return Sane.STATUS_GOOD
     }
 
     memset(cmd,0,cmdLen)
     set_SCSI_opcode(cmd, READ_code)
-    set_R_datatype_code (cmd, R_datatype_pixelsize)
+    set_R_datatype_code(cmd, R_datatype_pixelsize)
 
     if(s.side == SIDE_BACK){
-      set_R_window_id (cmd, WD_wid_back)
+      set_R_window_id(cmd, WD_wid_back)
     }
     else{
-      set_R_window_id (cmd, WD_wid_front)
+      set_R_window_id(cmd, WD_wid_front)
     }
-    set_R_xfer_length (cmd, inLen)
+    set_R_xfer_length(cmd, inLen)
 
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
       in, &inLen
     )
-    if (ret == Sane.STATUS_GOOD){
+    if(ret == Sane.STATUS_GOOD){
 
       /* when we are called post-scan, the scanner may give
        * more accurate data in other fields */
@@ -8695,10 +8695,10 @@ get_pixelsize(struct fujitsu *s, Int actual)
       }
 
       /* bytes per line differs by mode */
-      if (s.s_mode == MODE_COLOR) {
+      if(s.s_mode == MODE_COLOR) {
         s.s_params.bytes_per_line = s.s_params.pixels_per_line * 3
       }
-      else if (s.s_mode == MODE_GRAYSCALE) {
+      else if(s.s_mode == MODE_GRAYSCALE) {
         s.s_params.bytes_per_line = s.s_params.pixels_per_line
       }
       else {
@@ -8713,7 +8713,7 @@ get_pixelsize(struct fujitsu *s, Int actual)
           s.req_driv_crop,s.req_driv_lut)
       }
 
-      DBG (15, "get_pixelsize: scan_x=%d, Bpl=%d, scan_y=%d\n",
+      DBG(15, "get_pixelsize: scan_x=%d, Bpl=%d, scan_y=%d\n",
         s.s_params.pixels_per_line, s.s_params.bytes_per_line, s.s_params.lines )
 
       /* the user params are usually the same */
@@ -8721,10 +8721,10 @@ get_pixelsize(struct fujitsu *s, Int actual)
       s.u_params.lines = s.s_params.lines
 
       /* bytes per line differs by mode */
-      if (s.u_mode == MODE_COLOR) {
+      if(s.u_mode == MODE_COLOR) {
         s.u_params.bytes_per_line = s.u_params.pixels_per_line * 3
       }
-      else if (s.u_mode == MODE_GRAYSCALE) {
+      else if(s.u_mode == MODE_GRAYSCALE) {
         s.u_params.bytes_per_line = s.u_params.pixels_per_line
       }
       else {
@@ -8733,12 +8733,12 @@ get_pixelsize(struct fujitsu *s, Int actual)
 
     }
     else{
-      DBG (10, "get_pixelsize: got bad status %d, ignoring\n", ret)
+      DBG(10, "get_pixelsize: got bad status %d, ignoring\n", ret)
       s.has_pixelsize = 0
       ret = Sane.STATUS_GOOD
     }
 
-    DBG (10, "get_pixelsize: finish\n")
+    DBG(10, "get_pixelsize: finish\n")
 
     return ret
 }
@@ -8747,37 +8747,37 @@ get_pixelsize(struct fujitsu *s, Int actual)
  * Issues the SCSI OBJECT POSITION command if an ADF or card scanner is in use.
  */
 static Sane.Status
-object_position (struct fujitsu *s, Int action)
+object_position(struct fujitsu *s, Int action)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
   unsigned char cmd[OBJECT_POSITION_len]
   size_t cmdLen = OBJECT_POSITION_len
 
-  DBG (10, "object_position: start %d\n", action)
+  DBG(10, "object_position: start %d\n", action)
 
-  if (s.source == SOURCE_FLATBED && action < OP_Halt) {
-    DBG (10, "object_position: flatbed no-op\n")
+  if(s.source == SOURCE_FLATBED && action < OP_Halt) {
+    DBG(10, "object_position: flatbed no-op\n")
     return Sane.STATUS_GOOD
   }
 
   memset(cmd,0,cmdLen)
   set_SCSI_opcode(cmd, OBJECT_POSITION_code)
-  set_OP_action (cmd, action)
+  set_OP_action(cmd, action)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     NULL, 0,
     NULL, NULL
   )
-  if (ret != Sane.STATUS_GOOD)
+  if(ret != Sane.STATUS_GOOD)
     return ret
 
   if(!s.no_wait_after_op)
-    wait_scanner (s)
+    wait_scanner(s)
 
-  DBG (10, "object_position: finish\n")
+  DBG(10, "object_position: finish\n")
 
   return ret
 }
@@ -8789,7 +8789,7 @@ object_position (struct fujitsu *s, Int action)
  * to start scanning.)
  */
 static Sane.Status
-start_scan (struct fujitsu *s)
+start_scan(struct fujitsu *s)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
@@ -8799,9 +8799,9 @@ start_scan (struct fujitsu *s)
   unsigned char out[] = {WD_wid_front, WD_wid_back]
   size_t outLen = 2
 
-  DBG (10, "start_scan: start\n")
+  DBG(10, "start_scan: start\n")
 
-  if (s.source != SOURCE_ADF_DUPLEX && s.source != SOURCE_CARD_DUPLEX) {
+  if(s.source != SOURCE_ADF_DUPLEX && s.source != SOURCE_CARD_DUPLEX) {
     outLen--
     if(s.source == SOURCE_ADF_BACK || s.source == SOURCE_CARD_BACK) {
       out[0] = WD_wid_back
@@ -8810,16 +8810,16 @@ start_scan (struct fujitsu *s)
 
   memset(cmd,0,cmdLen)
   set_SCSI_opcode(cmd, SCAN_code)
-  set_SC_xfer_length (cmd, outLen)
+  set_SC_xfer_length(cmd, outLen)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     out, outLen,
     NULL, NULL
   )
 
-  DBG (10, "start_scan: finish\n")
+  DBG(10, "start_scan: finish\n")
 
   return ret
 }
@@ -8832,38 +8832,38 @@ check_for_cancel(struct fujitsu *s)
 {
   Sane.Status ret=Sane.STATUS_GOOD
 
-  DBG (10, "check_for_cancel: start %d %d\n",s.started,s.cancelled)
+  DBG(10, "check_for_cancel: start %d %d\n",s.started,s.cancelled)
 
   if(s.started && s.cancelled){
 
     /* halt scan */
     if(s.halt_on_cancel){
-      DBG (15, "check_for_cancel: halting\n")
-      ret = object_position (s, OP_Halt)
+      DBG(15, "check_for_cancel: halting\n")
+      ret = object_position(s, OP_Halt)
     }
     /* cancel scan */
     else{
-      DBG (15, "check_for_cancel: cancelling\n")
+      DBG(15, "check_for_cancel: cancelling\n")
       ret = scanner_control(s, SC_function_cancel)
     }
 
-    if (ret == Sane.STATUS_GOOD || ret == Sane.STATUS_CANCELLED) {
+    if(ret == Sane.STATUS_GOOD || ret == Sane.STATUS_CANCELLED) {
       ret = Sane.STATUS_CANCELLED
     }
     else{
-      DBG (5, "check_for_cancel: ERROR: cannot cancel\n")
+      DBG(5, "check_for_cancel: ERROR: cannot cancel\n")
     }
 
     s.started = 0
     s.cancelled = 0
   }
   else if(s.cancelled){
-    DBG (15, "check_for_cancel: already cancelled\n")
+    DBG(15, "check_for_cancel: already cancelled\n")
     ret = Sane.STATUS_CANCELLED
     s.cancelled = 0
   }
 
-  DBG (10, "check_for_cancel: finish %d\n",ret)
+  DBG(10, "check_for_cancel: finish %d\n",ret)
   return ret
 }
 
@@ -8875,31 +8875,31 @@ check_for_cancel(struct fujitsu *s)
  * represented by handle h.  Argument buf is a pointer to a memory
  * area that is at least maxlen bytes long.  The number of bytes
  * returned is stored in *len. A backend must set this to zero when
- * the call fails (i.e., when a status other than Sane.STATUS_GOOD is
+ * the call fails(i.e., when a status other than Sane.STATUS_GOOD is
  * returned).
  *
  * When the call succeeds, the number of bytes returned can be
  * anywhere in the range from 0 to maxlen bytes.
  */
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
+Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
 {
   struct fujitsu *s = (struct fujitsu *) handle
   Sane.Status ret=Sane.STATUS_GOOD
 
-  DBG (10, "Sane.read: start\n")
+  DBG(10, "Sane.read: start\n")
 
   *len=0
 
   /* maybe cancelled? */
   if(!s.started){
-    DBG (5, "Sane.read: not started, call Sane.start\n")
+    DBG(5, "Sane.read: not started, call Sane.start\n")
     return Sane.STATUS_CANCELLED
   }
 
   /* Sane.start required between sides */
   if(s.eof_rx[s.side] && s.bytes_tx[s.side] == s.bytes_rx[s.side]){
-    DBG (15, "Sane.read: returning eof\n")
+    DBG(15, "Sane.read: returning eof\n")
     s.eof_tx[s.side] = 1
 
     /* swap sides if user asked for low-mem mode, we are duplexing,
@@ -8992,7 +8992,7 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
   if(s.buff_tx[s.side] == s.buff_rx[s.side]
     && s.buff_tot[s.side] < s.bytes_tot[s.side]
   ){
-    DBG (15, "Sane.read: reset buffers\n")
+    DBG(15, "Sane.read: reset buffers\n")
     s.buff_rx[s.side] = 0
     s.buff_tx[s.side] = 0
   }
@@ -9014,7 +9014,7 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
   /* unprotect this block from Sane.cancel */
   s.reading = 0
 
-  DBG (10, "Sane.read: finish %d\n", ret)
+  DBG(10, "Sane.read: finish %d\n", ret)
   return ret
 }
 
@@ -9031,7 +9031,7 @@ inject_jfif_header(struct fujitsu *s, Int side)
   ]
   size_t outLen=JFIF_APP0_LENGTH
 
-  DBG (10, "inject_jfif_header: start %d\n", side)
+  DBG(10, "inject_jfif_header: start %d\n", side)
 
   putnbyte(out + 12, s.resolution_x, 2)
   putnbyte(out + 14, s.resolution_y, 2)
@@ -9040,7 +9040,7 @@ inject_jfif_header(struct fujitsu *s, Int side)
   s.buff_rx[side] += outLen
   s.bytes_rx[side] += outLen
 
-  DBG (10, "inject_jfif_header: finish %d\n", ret)
+  DBG(10, "inject_jfif_header: finish %d\n", ret)
 
   return ret
 }
@@ -9059,15 +9059,15 @@ read_from_JPEGduplex(struct fujitsu *s)
     Int bytes = s.buffer_size
     var i: Int = 0
 
-    DBG (10, "read_from_JPEGduplex: start\n")
+    DBG(10, "read_from_JPEGduplex: start\n")
 
     if(s.eof_rx[SIDE_FRONT] && s.eof_rx[SIDE_BACK]){
-      DBG (10, "read_from_JPEGduplex: already have eofs, done\n")
+      DBG(10, "read_from_JPEGduplex: already have eofs, done\n")
       return ret
     }
 
     /* we don't know if the following read will give us front or back data
-     * so we only get enough to fill whichever is smaller (and not yet done) */
+     * so we only get enough to fill whichever is smaller(and not yet done) */
     if(!s.eof_rx[SIDE_FRONT]){
       Int avail = s.buff_tot[SIDE_FRONT] - s.buff_rx[SIDE_FRONT]
       if(bytes > avail){
@@ -9100,7 +9100,7 @@ read_from_JPEGduplex(struct fujitsu *s)
 
     /* fi-6770A gets mad if you 'read' too soon on usb, see if it is ready */
     if(!s.bytes_rx[SIDE_FRONT] && s.connection == CONNECTION_USB){
-      DBG (15, "read: start of usb page, checking RIC\n")
+      DBG(15, "read: start of usb page, checking RIC\n")
       ret = scanner_control_ric(s,bytes,SIDE_FRONT)
       if(ret){
         DBG(5,"read: ric returning %d\n",ret)
@@ -9117,22 +9117,22 @@ read_from_JPEGduplex(struct fujitsu *s)
 
     memset(cmd,0,cmdLen)
     set_SCSI_opcode(cmd, READ_code)
-    set_R_datatype_code (cmd, R_datatype_imagedata)
+    set_R_datatype_code(cmd, R_datatype_imagedata)
     /* interlaced jpeg duplex always reads from front */
-    set_R_window_id (cmd, WD_wid_front)
-    set_R_xfer_length (cmd, inLen)
+    set_R_window_id(cmd, WD_wid_front)
+    set_R_xfer_length(cmd, inLen)
 
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
       in, &inLen
     )
 
-    if (ret == Sane.STATUS_GOOD || ret == Sane.STATUS_EOF) {
+    if(ret == Sane.STATUS_GOOD || ret == Sane.STATUS_EOF) {
         DBG(15, "read_from_JPEGduplex: got GOOD/EOF, returning GOOD\n")
     }
-    else if (ret == Sane.STATUS_DEVICE_BUSY) {
+    else if(ret == Sane.STATUS_DEVICE_BUSY) {
         DBG(5, "read_from_JPEGduplex: got BUSY, returning GOOD\n")
         inLen = 0
         ret = Sane.STATUS_GOOD
@@ -9166,7 +9166,7 @@ read_from_JPEGduplex(struct fujitsu *s)
                 DBG(15, "read_from_JPEGduplex: stage SOI\n")
             }
 
-            /* headers (HuffTab/QTab/DRI), in both sides */
+            /* headers(HuffTab/QTab/DRI), in both sides */
             else if(in[i] == 0xc4 || in[i] == 0xdb || in[i] == 0xdd){
                 s.jpeg_stage = JPEG_STAGE_HEAD
                 DBG(15, "read_from_JPEGduplex: stage head\n")
@@ -9190,7 +9190,7 @@ read_from_JPEGduplex(struct fujitsu *s)
             else if(in[i] >= 0xd0 && in[i] <= 0xd7
               && s.jpeg_interlace == JPEG_INTERLACE_NONE){
                 s.jpeg_stage = JPEG_STAGE_FRONT
-                DBG(35, "read_from_JPEGduplex: stage front (all)\n")
+                DBG(35, "read_from_JPEGduplex: stage front(all)\n")
             }
 
             /* found even numbered image block. */
@@ -9345,7 +9345,7 @@ read_from_JPEGduplex(struct fujitsu *s)
       ret = Sane.STATUS_GOOD
     }
 
-    DBG (10, "read_from_JPEGduplex: finish\n")
+    DBG(10, "read_from_JPEGduplex: finish\n")
 
     return ret
 }
@@ -9366,15 +9366,15 @@ read_from_3091duplex(struct fujitsu *s)
   Int off = (s.duplex_raster_offset+s.duplex_offset) * s.resolution_y/300
   unsigned var i: Int
 
-  DBG (10, "read_from_3091duplex: start\n")
+  DBG(10, "read_from_3091duplex: start\n")
 
   if(s.eof_rx[SIDE_FRONT] && s.eof_rx[SIDE_BACK]){
-    DBG (10, "read_from_3091duplex: already have eofs, done\n")
+    DBG(10, "read_from_3091duplex: already have eofs, done\n")
     return ret
   }
 
   /* we don't know if the following read will give us front,back or both data
-   * so we only get enough to fill whichever is smaller (and not yet done) */
+   * so we only get enough to fill whichever is smaller(and not yet done) */
   if(!s.eof_rx[SIDE_FRONT]){
     Int avail = s.buff_tot[SIDE_FRONT] - s.buff_rx[SIDE_FRONT]
     if(bytes > avail)
@@ -9424,22 +9424,22 @@ read_from_3091duplex(struct fujitsu *s)
 
   memset(cmd,0,cmdLen)
   set_SCSI_opcode(cmd, READ_code)
-  set_R_datatype_code (cmd, R_datatype_imagedata)
+  set_R_datatype_code(cmd, R_datatype_imagedata)
   /* 3091 duplex always reads from front */
-  set_R_window_id (cmd, WD_wid_front)
-  set_R_xfer_length (cmd, inLen)
+  set_R_window_id(cmd, WD_wid_front)
+  set_R_xfer_length(cmd, inLen)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 1, 0,
     cmd, cmdLen,
     NULL, 0,
     in, &inLen
   )
 
-  if (ret == Sane.STATUS_GOOD || ret == Sane.STATUS_EOF) {
+  if(ret == Sane.STATUS_GOOD || ret == Sane.STATUS_EOF) {
     DBG(15, "read_from_3091duplex: got GOOD/EOF, returning GOOD\n")
   }
-  else if (ret == Sane.STATUS_DEVICE_BUSY) {
+  else if(ret == Sane.STATUS_DEVICE_BUSY) {
     DBG(5, "read_from_3091duplex: got BUSY, returning GOOD\n")
     inLen = 0
     ret = Sane.STATUS_GOOD
@@ -9476,7 +9476,7 @@ read_from_3091duplex(struct fujitsu *s)
         copy_3091 (s, in + i*s.s_params.bytes_per_line, s.s_params.bytes_per_line, side)
       }
       else{
-        copy_buffer (s, in + i*s.s_params.bytes_per_line, s.s_params.bytes_per_line, side)
+        copy_buffer(s, in + i*s.s_params.bytes_per_line, s.s_params.bytes_per_line, side)
       }
   }
 
@@ -9489,7 +9489,7 @@ read_from_3091duplex(struct fujitsu *s)
 
   free(in)
 
-  DBG (10, "read_from_3091duplex: finish\n")
+  DBG(10, "read_from_3091duplex: finish\n")
 
   return ret
 }
@@ -9509,10 +9509,10 @@ read_from_scanner(struct fujitsu *s, Int side)
     Int avail = s.buff_tot[side] - s.buff_rx[side]
     Int remain = s.bytes_tot[side] - s.bytes_rx[side]
 
-    DBG (10, "read_from_scanner: start %d\n", side)
+    DBG(10, "read_from_scanner: start %d\n", side)
 
     if(s.eof_rx[side]){
-      DBG (10, "read_from_scanner: already have eof, done\n")
+      DBG(10, "read_from_scanner: already have eof, done\n")
       return ret
     }
 
@@ -9552,7 +9552,7 @@ read_from_scanner(struct fujitsu *s, Int side)
 
     /* fi-6770A gets mad if you 'read' too soon on usb, see if it is ready */
     if(!s.bytes_rx[side] && s.connection == CONNECTION_USB){
-      DBG (15, "read_from_scanner: start of usb page, checking RIC\n")
+      DBG(15, "read_from_scanner: start of usb page, checking RIC\n")
       ret = scanner_control_ric(s,bytes,side)
       if(ret){
         DBG(5,"read_from_scanner: ric returning %d\n",ret)
@@ -9569,29 +9569,29 @@ read_from_scanner(struct fujitsu *s, Int side)
 
     memset(cmd,0,cmdLen)
     set_SCSI_opcode(cmd, READ_code)
-    set_R_datatype_code (cmd, R_datatype_imagedata)
+    set_R_datatype_code(cmd, R_datatype_imagedata)
 
-    if (side == SIDE_BACK) {
-        set_R_window_id (cmd, WD_wid_back)
+    if(side == SIDE_BACK) {
+        set_R_window_id(cmd, WD_wid_back)
     }
     else{
-        set_R_window_id (cmd, WD_wid_front)
+        set_R_window_id(cmd, WD_wid_front)
     }
 
-    set_R_xfer_length (cmd, inLen)
+    set_R_xfer_length(cmd, inLen)
 
-    ret = do_cmd (
+    ret = do_cmd(
       s, 1, 0,
       cmd, cmdLen,
       NULL, 0,
       in, &inLen
     )
 
-    if (ret == Sane.STATUS_GOOD || ret == Sane.STATUS_EOF) {
+    if(ret == Sane.STATUS_GOOD || ret == Sane.STATUS_EOF) {
         DBG(15, "read_from_scanner: got GOOD/EOF, returning GOOD\n")
         ret = Sane.STATUS_GOOD
     }
-    else if (ret == Sane.STATUS_DEVICE_BUSY) {
+    else if(ret == Sane.STATUS_DEVICE_BUSY) {
         DBG(5, "read_from_scanner: got BUSY, returning GOOD\n")
         inLen = 0
         ret = Sane.STATUS_GOOD
@@ -9608,10 +9608,10 @@ read_from_scanner(struct fujitsu *s, Int side)
             copy_3091 (s, in, inLen, side)
         }
         else if(s.s_params.format == Sane.FRAME_JPEG){
-            copy_JPEG (s, in, inLen, side)
+            copy_JPEG(s, in, inLen, side)
         }
         else{
-            copy_buffer (s, in, inLen, side)
+            copy_buffer(s, in, inLen, side)
         }
     }
 
@@ -9641,7 +9641,7 @@ read_from_scanner(struct fujitsu *s, Int side)
       }
     }
 
-    DBG (10, "read_from_scanner: finish\n")
+    DBG(10, "read_from_scanner: finish\n")
 
     return ret
 }
@@ -9652,7 +9652,7 @@ copy_3091(struct fujitsu *s, unsigned char * buf, Int len, Int side)
   Sane.Status ret=Sane.STATUS_GOOD
   var i: Int, j, dest, boff, goff
 
-  DBG (10, "copy_3091: start\n")
+  DBG(10, "copy_3091: start\n")
 
   /* Data is RR...GG...BB... on each line,
    * green is back 8 lines from red at 300 dpi
@@ -9674,7 +9674,7 @@ copy_3091(struct fujitsu *s, unsigned char * buf, Int len, Int side)
       dest = s.lines_rx[side] * s.s_params.bytes_per_line
 
       if(dest >= 0 && dest < s.bytes_tot[side]){
-        for (j=0; j<s.s_params.pixels_per_line; j++){
+        for(j=0; j<s.s_params.pixels_per_line; j++){
           s.buffers[side][dest+j*3] = buf[i+j]
         }
       }
@@ -9683,7 +9683,7 @@ copy_3091(struct fujitsu *s, unsigned char * buf, Int len, Int side)
       dest = (s.lines_rx[side] - goff) * s.s_params.bytes_per_line
 
       if(dest >= 0 && dest < s.bytes_tot[side]){
-        for (j=0; j<s.s_params.pixels_per_line; j++){
+        for(j=0; j<s.s_params.pixels_per_line; j++){
           s.buffers[side][dest+j*3+1] = buf[i+s.s_params.pixels_per_line+j]
         }
       }
@@ -9692,7 +9692,7 @@ copy_3091(struct fujitsu *s, unsigned char * buf, Int len, Int side)
       dest = (s.lines_rx[side] - boff) * s.s_params.bytes_per_line
 
       if(dest >= 0 && dest < s.bytes_tot[side]){
-        for (j=0; j<s.s_params.pixels_per_line; j++){
+        for(j=0; j<s.s_params.pixels_per_line; j++){
           s.buffers[side][dest+j*3+2] = buf[i+2*s.s_params.pixels_per_line+j]
         }
       }
@@ -9717,7 +9717,7 @@ copy_3091(struct fujitsu *s, unsigned char * buf, Int len, Int side)
     side, s.bytes_rx[side], s.buff_rx[side], s.lines_rx[side],
     s.eof_rx[side])
 
-  DBG (10, "copy_3091: finish\n")
+  DBG(10, "copy_3091: finish\n")
 
   return ret
 }
@@ -9728,7 +9728,7 @@ copy_JPEG(struct fujitsu *s, unsigned char * buf, Int len, Int side)
   Sane.Status ret=Sane.STATUS_GOOD
   var i: Int, seen = 0
 
-  DBG (10, "copy_JPEG: start\n")
+  DBG(10, "copy_JPEG: start\n")
 
   /* A jpeg image starts with the SOI marker, FF D8.
    * This is optionally followed by the JFIF APP0
@@ -9740,7 +9740,7 @@ copy_JPEG(struct fujitsu *s, unsigned char * buf, Int len, Int side)
     && buf[2] == 0xFF && buf[3] != 0xE0
   ){
     /* SOI marker */
-    for (i=0; i<2; i++){
+    for(i=0; i<2; i++){
       s.buffers[side][s.buff_rx[side]++] = buf[i]
       s.bytes_rx[side]++
       seen++
@@ -9759,7 +9759,7 @@ copy_JPEG(struct fujitsu *s, unsigned char * buf, Int len, Int side)
     s.eof_rx[side] = 1
   }
 
-  DBG (10, "copy_JPEG: finish\n")
+  DBG(10, "copy_JPEG: finish\n")
 
   return ret
 }
@@ -9772,7 +9772,7 @@ copy_buffer(struct fujitsu *s, unsigned char * buf, Int len, Int side)
   Int bwidth = s.s_params.bytes_per_line
   Int pwidth = s.s_params.pixels_per_line
 
-  DBG (10, "copy_buffer: start\n")
+  DBG(10, "copy_buffer: start\n")
 
   /* invert image if scanner needs it for this mode */
   /* jpeg data does not use inverting */
@@ -9785,12 +9785,12 @@ copy_buffer(struct fujitsu *s, unsigned char * buf, Int len, Int side)
   /* scanners interlace colors in many different ways */
   if(s.s_params.format == Sane.FRAME_RGB){
 
-    switch (s.color_interlace) {
+    switch(s.color_interlace) {
 
       /* scanner returns pixel data as bgrbgr... */
       case COLOR_INTERLACE_BGR:
         for(i=0; i<len; i+=bwidth){
-          for (j=0; j<pwidth; j++){
+          for(j=0; j<pwidth; j++){
             s.buffers[side][s.buff_rx[side]++] = buf[i+j*3+2]
             s.buffers[side][s.buff_rx[side]++] = buf[i+j*3+1]
             s.buffers[side][s.buff_rx[side]++] = buf[i+j*3]
@@ -9801,7 +9801,7 @@ copy_buffer(struct fujitsu *s, unsigned char * buf, Int len, Int side)
       /* one line has the following format: rrr...rrrggg...gggbbb...bbb */
       case COLOR_INTERLACE_RRGGBB:
         for(i=0; i<len; i+=bwidth){
-          for (j=0; j<pwidth; j++){
+          for(j=0; j<pwidth; j++){
             s.buffers[side][s.buff_rx[side]++] = buf[i+j]
             s.buffers[side][s.buff_rx[side]++] = buf[i+pwidth+j]
             s.buffers[side][s.buff_rx[side]++] = buf[i+2*pwidth+j]
@@ -9829,7 +9829,7 @@ copy_buffer(struct fujitsu *s, unsigned char * buf, Int len, Int side)
     s.eof_rx[side] = 1
   }
 
-  DBG (10, "copy_buffer: finish\n")
+  DBG(10, "copy_buffer: finish\n")
 
   return ret
 }
@@ -9842,7 +9842,7 @@ read_from_buffer(struct fujitsu *s, Sane.Byte * buf,
     Int bytes = max_len
     Int remain = s.buff_rx[side] - s.buff_tx[side]
 
-    DBG (10, "read_from_buffer: start\n")
+    DBG(10, "read_from_buffer: start\n")
 
     /* figure out the max amount to transfer */
     if(bytes > remain){
@@ -9870,7 +9870,7 @@ read_from_buffer(struct fujitsu *s, Sane.Byte * buf,
     s.buff_tx[side] += bytes
     s.bytes_tx[side] += bytes
 
-    DBG (10, "read_from_buffer: finish\n")
+    DBG(10, "read_from_buffer: finish\n")
 
     return ret
 }
@@ -9884,7 +9884,7 @@ downsample_from_buffer(struct fujitsu *s, Sane.Byte * buf,
 {
     Sane.Status ret=Sane.STATUS_GOOD
 
-    DBG (10, "downsample_from_buffer: start %d %d %d %d\n", s.bytes_rx[side], s.bytes_tx[side], s.buff_rx[side], s.buff_tx[side])
+    DBG(10, "downsample_from_buffer: start %d %d %d %d\n", s.bytes_rx[side], s.bytes_tx[side], s.buff_rx[side], s.buff_tx[side])
 
     if(s.s_mode == MODE_COLOR && s.u_mode == MODE_GRAYSCALE){
 
@@ -9892,7 +9892,7 @@ downsample_from_buffer(struct fujitsu *s, Sane.Byte * buf,
 
         Int gray = 0
 
-        switch (s.dropout_color) {
+        switch(s.dropout_color) {
           case COLOR_RED:
             gray = *(s.buffers[side]+s.buff_tx[side]) * 3
             break
@@ -9934,7 +9934,7 @@ downsample_from_buffer(struct fujitsu *s, Sane.Byte * buf,
 
           Int gray = 0
 
-          switch (s.dropout_color) {
+          switch(s.dropout_color) {
             case COLOR_RED:
               gray = *(s.buffers[side]+s.buff_tx[side]) * 3
               break
@@ -9968,11 +9968,11 @@ downsample_from_buffer(struct fujitsu *s, Sane.Byte * buf,
     }
 
     else{
-      DBG (5, "downsample_from_buffer: invalid mode combination\n")
+      DBG(5, "downsample_from_buffer: invalid mode combination\n")
       ret = Sane.STATUS_INVAL
     }
 
-    DBG (10, "downsample_from_buffer: finish %d %d %d %d\n", s.bytes_rx[side], s.bytes_tx[side], s.buff_rx[side], s.buff_tx[side])
+    DBG(10, "downsample_from_buffer: finish %d %d %d %d\n", s.bytes_rx[side], s.bytes_tx[side], s.buff_rx[side], s.buff_tx[side])
 
     return ret
 }
@@ -9989,7 +9989,7 @@ downsample_from_buffer(struct fujitsu *s, Sane.Byte * buf,
  * batch - quoting David Mosberger-Tang:
  *
  * > In other words, the idea is to have Sane.start() be called, and
- * > collect as many images as the frontend wants (which could in turn
+ * > collect as many images as the frontend wants(which could in turn
  * > consist of multiple frames each as indicated by frame-type) and
  * > when the frontend is done, it should call Sane.cancel().
  * > Sometimes it's better to think of Sane.cancel() as "Sane.stop()"
@@ -9997,7 +9997,7 @@ downsample_from_buffer(struct fujitsu *s, Sane.Byte * buf,
  * > well, that's why we stuck with "cancel".
  *
  * The current consensus regarding duplex and ADF scans seems to be
- * the following call sequence: Sane.start; Sane.read (repeat until
+ * the following call sequence: Sane.start; Sane.read(repeat until
  * EOF); Sane.start; Sane.read...  and then call Sane.cancel if the
  * batch is at an end. I.e. do not call Sane.cancel during the run but
  * as soon as you get a Sane.STATUS_NO_DOCS.
@@ -10005,32 +10005,32 @@ downsample_from_buffer(struct fujitsu *s, Sane.Byte * buf,
  * From the SANE spec:
  * This function is used to immediately or as quickly as possible
  * cancel the currently pending operation of the device represented by
- * handle h.  This function can be called at any time (as long as
+ * handle h.  This function can be called at any time(as long as
  * handle h is a valid handle) but usually affects long-running
- * operations only (such as image is acquisition). It is safe to call
- * this function asynchronously (e.g., from within a signal handler).
+ * operations only(such as image is acquisition). It is safe to call
+ * this function asynchronously(e.g., from within a signal handler).
  * It is important to note that completion of this operation does not
  * imply that the currently pending operation has been cancelled. It
  * only guarantees that cancellation has been initiated. Cancellation
- * completes only when the cancelled call returns (typically with a
+ * completes only when the cancelled call returns(typically with a
  * status value of Sane.STATUS_CANCELLED).  Since the SANE API does
  * not require any other operations to be re-entrant, this implies
  * that a frontend must not call any other operation until the
  * cancelled operation has returned.
  */
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   struct fujitsu * s = (struct fujitsu *) handle
 
-  DBG (10, "Sane.cancel: start\n")
+  DBG(10, "Sane.cancel: start\n")
   s.cancelled = 1
 
   /* if there is no other running function to check, we do it */
   if(!s.reading)
     check_for_cancel(s)
 
-  DBG (10, "Sane.cancel: finish\n")
+  DBG(10, "Sane.cancel: finish\n")
 }
 
 /*
@@ -10043,35 +10043,35 @@ Sane.cancel (Sane.Handle handle)
  * this function returns, handle h must not be used anymore.
  */
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
   struct fujitsu * s = (struct fujitsu *) handle
 
-  DBG (10, "Sane.close: start\n")
+  DBG(10, "Sane.close: start\n")
   /*clears any held scans*/
   mode_select_buff(s)
   disconnect_fd(s)
-  DBG (10, "Sane.close: finish\n")
+  DBG(10, "Sane.close: finish\n")
 }
 
 static Sane.Status
-disconnect_fd (struct fujitsu *s)
+disconnect_fd(struct fujitsu *s)
 {
-  DBG (10, "disconnect_fd: start\n")
+  DBG(10, "disconnect_fd: start\n")
 
   if(s.fd > -1){
-    if (s.connection == CONNECTION_USB) {
-      DBG (15, "disconnecting usb device\n")
-      sanei_usb_close (s.fd)
+    if(s.connection == CONNECTION_USB) {
+      DBG(15, "disconnecting usb device\n")
+      sanei_usb_close(s.fd)
     }
-    else if (s.connection == CONNECTION_SCSI) {
-      DBG (15, "disconnecting scsi device\n")
-      sanei_scsi_close (s.fd)
+    else if(s.connection == CONNECTION_SCSI) {
+      DBG(15, "disconnecting scsi device\n")
+      sanei_scsi_close(s.fd)
     }
     s.fd = -1
   }
 
-  DBG (10, "disconnect_fd: finish\n")
+  DBG(10, "disconnect_fd: finish\n")
 
   return Sane.STATUS_GOOD
 }
@@ -10082,7 +10082,7 @@ disconnect_fd (struct fujitsu *s)
  * From the SANE spec:
  * This function must be called to terminate use of a backend. The
  * function will first close all device handles that still might be
- * open (it is recommended to close device handles explicitly through
+ * open(it is recommended to close device handles explicitly through
  * a call to Sane.close(), but backends are required to release all
  * resources upon a call to this function). After this function
  * returns, no function other than Sane.init() may be called
@@ -10091,25 +10091,25 @@ disconnect_fd (struct fujitsu *s)
  * released properly.
  */
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   struct fujitsu *dev, *next
 
-  DBG (10, "Sane.exit: start\n")
+  DBG(10, "Sane.exit: start\n")
 
-  for (dev = fujitsu_devList; dev; dev = next) {
+  for(dev = fujitsu_devList; dev; dev = next) {
       disconnect_fd(dev)
       next = dev.next
-      free (dev)
+      free(dev)
   }
 
-  if (Sane.devArray)
-    free (Sane.devArray)
+  if(Sane.devArray)
+    free(Sane.devArray)
 
   fujitsu_devList = NULL
   Sane.devArray = NULL
 
-  DBG (10, "Sane.exit: finish\n")
+  DBG(10, "Sane.exit: finish\n")
 }
 
 /*
@@ -10122,46 +10122,46 @@ Sane.exit (void)
  * and copies the sense buffer into the scanner struct
  */
 static Sane.Status
-sense_handler (Int fd, unsigned char * sensed_data, void *arg)
+sense_handler(Int fd, unsigned char * sensed_data, void *arg)
 {
   struct fujitsu *s = arg
-  unsigned Int sense = get_RS_sense_key (sensed_data)
-  unsigned Int asc = get_RS_ASC (sensed_data)
-  unsigned Int ascq = get_RS_ASCQ (sensed_data)
+  unsigned Int sense = get_RS_sense_key(sensed_data)
+  unsigned Int asc = get_RS_ASC(sensed_data)
+  unsigned Int ascq = get_RS_ASCQ(sensed_data)
 
-  DBG (5, "sense_handler: start\n")
+  DBG(5, "sense_handler: start\n")
 
   /* kill compiler warning */
   fd = fd
 
   /* copy the rs return data into the scanner struct
      so that the caller can use it if he wants */
-  s.rs_info = get_RS_information (sensed_data)
-  s.rs_eom = get_RS_EOM (sensed_data)
-  s.rs_ili = get_RS_ILI (sensed_data)
+  s.rs_info = get_RS_information(sensed_data)
+  s.rs_eom = get_RS_EOM(sensed_data)
+  s.rs_ili = get_RS_ILI(sensed_data)
 
-  DBG (5, "Sense=%#02x, ASC=%#02x, ASCQ=%#02x, EOM=%d, ILI=%d, info=%#08lx\n", sense, asc, ascq, s.rs_eom, s.rs_ili, (unsigned long)s.rs_info)
+  DBG(5, "Sense=%#02x, ASC=%#02x, ASCQ=%#02x, EOM=%d, ILI=%d, info=%#08lx\n", sense, asc, ascq, s.rs_eom, s.rs_ili, (unsigned long)s.rs_info)
 
-  switch (sense) {
+  switch(sense) {
     case 0x0:
-      if (0x80 == asc) {
+      if(0x80 == asc) {
         DBG  (5, "No sense: hardware status bits?\n")
         return Sane.STATUS_GOOD
       }
-      if (0x00 != asc) {
+      if(0x00 != asc) {
         DBG  (5, "No sense: unknown asc\n")
         return Sane.STATUS_IO_ERROR
       }
-      if (0x00 != ascq) {
+      if(0x00 != ascq) {
         DBG  (5, "No sense: unknown ascq\n")
         return Sane.STATUS_IO_ERROR
       }
       /* ready, but short read */
-      if (s.rs_ili) {
+      if(s.rs_ili) {
         DBG  (5, "No sense: ILI remainder:%lu\n",(unsigned long)s.rs_info)
       }
       /* ready, but end of paper */
-      if (s.rs_eom) {
+      if(s.rs_eom) {
         DBG  (5, "No sense: EOM\n")
         return Sane.STATUS_EOF
       }
@@ -10169,11 +10169,11 @@ sense_handler (Int fd, unsigned char * sensed_data, void *arg)
       return Sane.STATUS_GOOD
 
     case 0x2:
-      if (0x00 != asc) {
+      if(0x00 != asc) {
         DBG  (5, "Not ready: unknown asc\n")
         return Sane.STATUS_IO_ERROR
       }
-      if (0x00 != ascq) {
+      if(0x00 != ascq) {
         DBG  (5, "Not ready: unknown ascq\n")
         return Sane.STATUS_IO_ERROR
       }
@@ -10182,75 +10182,75 @@ sense_handler (Int fd, unsigned char * sensed_data, void *arg)
       break
 
     case 0x3:
-      if (0x80 != asc) {
+      if(0x80 != asc) {
         DBG  (5, "Medium error: unknown asc\n")
         return Sane.STATUS_IO_ERROR
       }
-      if (0x01 == ascq) {
+      if(0x01 == ascq) {
         DBG  (5, "Medium error: paper jam\n")
         return Sane.STATUS_JAMMED
       }
-      if (0x02 == ascq) {
+      if(0x02 == ascq) {
         DBG  (5, "Medium error: cover open\n")
         return Sane.STATUS_COVER_OPEN
       }
-      if (0x03 == ascq) {
+      if(0x03 == ascq) {
         DBG  (5, "Medium error: hopper empty\n")
         return Sane.STATUS_NO_DOCS
       }
-      if (0x04 == ascq) {
+      if(0x04 == ascq) {
         DBG  (5, "Medium error: unusual paper\n")
         return Sane.STATUS_JAMMED
       }
-      if (0x07 == ascq) {
+      if(0x07 == ascq) {
         DBG  (5, "Medium error: double feed\n")
         return Sane.STATUS_JAMMED
       }
-      if (0x08 == ascq) {
+      if(0x08 == ascq) {
         DBG  (5, "Medium error: ADF setup error\n")
         return Sane.STATUS_JAMMED
       }
-      if (0x09 == ascq) {
+      if(0x09 == ascq) {
         DBG  (5, "Medium error: Carrier sheet\n")
         return Sane.STATUS_JAMMED
       }
-      if (0x0c == ascq) {
+      if(0x0c == ascq) {
         DBG  (5, "Medium error: ADF blocked by card\n")
         return Sane.STATUS_JAMMED
       }
-      if (0x10 == ascq) {
+      if(0x10 == ascq) {
         DBG  (5, "Medium error: no ink cartridge\n")
         return Sane.STATUS_IO_ERROR
       }
-      if (0x13 == ascq) {
+      if(0x13 == ascq) {
         DBG  (5, "Medium error: temporary no data\n")
         return Sane.STATUS_DEVICE_BUSY
       }
-      if (0x14 == ascq) {
+      if(0x14 == ascq) {
         DBG  (5, "Medium error: endorser error\n")
         return Sane.STATUS_IO_ERROR
       }
-      if (0x20 == ascq) {
+      if(0x20 == ascq) {
         DBG  (5, "Medium error: Stop button\n")
         return Sane.STATUS_NO_DOCS
       }
-      if (0x22 == ascq) {
+      if(0x22 == ascq) {
         DBG  (5, "Medium error: scanning halted\n")
         return Sane.STATUS_CANCELLED
       }
-      if (0x30 == ascq) {
+      if(0x30 == ascq) {
         DBG  (5, "Medium error: Not enough paper\n")
         return Sane.STATUS_NO_DOCS
       }
-      if (0x31 == ascq) {
+      if(0x31 == ascq) {
         DBG  (5, "Medium error: scanning disabled\n")
         return Sane.STATUS_IO_ERROR
       }
-      if (0x32 == ascq) {
+      if(0x32 == ascq) {
         DBG  (5, "Medium error: scanning paused\n")
         return Sane.STATUS_DEVICE_BUSY
       }
-      if (0x33 == ascq) {
+      if(0x33 == ascq) {
         DBG  (5, "Medium error: WiFi control error\n")
         return Sane.STATUS_IO_ERROR
       }
@@ -10259,63 +10259,63 @@ sense_handler (Int fd, unsigned char * sensed_data, void *arg)
       break
 
     case 0x4:
-      if (0x80 != asc && 0x44 != asc) {
+      if(0x80 != asc && 0x44 != asc) {
         DBG  (5, "Hardware error: unknown asc\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x44 == asc) && (0x00 == ascq)) {
+      if((0x44 == asc) && (0x00 == ascq)) {
         DBG  (5, "Hardware error: EEPROM error\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x80 == asc) && (0x01 == ascq)) {
+      if((0x80 == asc) && (0x01 == ascq)) {
         DBG  (5, "Hardware error: FB motor fuse\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x80 == asc) && (0x02 == ascq)) {
+      if((0x80 == asc) && (0x02 == ascq)) {
         DBG  (5, "Hardware error: heater fuse\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x80 == asc) && (0x03 == ascq)) {
+      if((0x80 == asc) && (0x03 == ascq)) {
         DBG  (5, "Hardware error: lamp fuse\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x80 == asc) && (0x04 == ascq)) {
+      if((0x80 == asc) && (0x04 == ascq)) {
         DBG  (5, "Hardware error: ADF motor fuse\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x80 == asc) && (0x05 == ascq)) {
+      if((0x80 == asc) && (0x05 == ascq)) {
         DBG  (5, "Hardware error: mechanical error\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x80 == asc) && (0x06 == ascq)) {
+      if((0x80 == asc) && (0x06 == ascq)) {
         DBG  (5, "Hardware error: optical error\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x80 == asc) && (0x07 == ascq)) {
+      if((0x80 == asc) && (0x07 == ascq)) {
         DBG  (5, "Hardware error: Fan error\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x80 == asc) && (0x08 == ascq)) {
+      if((0x80 == asc) && (0x08 == ascq)) {
         DBG  (5, "Hardware error: IPC option error\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x80 == asc) && (0x10 == ascq)) {
+      if((0x80 == asc) && (0x10 == ascq)) {
         DBG  (5, "Hardware error: endorser error\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x80 == asc) && (0x11 == ascq)) {
+      if((0x80 == asc) && (0x11 == ascq)) {
         DBG  (5, "Hardware error: endorser fuse\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x80 == asc) && (0x80 == ascq)) {
+      if((0x80 == asc) && (0x80 == ascq)) {
         DBG  (5, "Hardware error: interface board timeout\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x80 == asc) && (0x81 == ascq)) {
+      if((0x80 == asc) && (0x81 == ascq)) {
         DBG  (5, "Hardware error: interface board error 1\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x80 == asc) && (0x82 == ascq)) {
+      if((0x80 == asc) && (0x82 == ascq)) {
         DBG  (5, "Hardware error: interface board error 2\n")
         return Sane.STATUS_IO_ERROR
       }
@@ -10324,43 +10324,43 @@ sense_handler (Int fd, unsigned char * sensed_data, void *arg)
       break
 
     case 0x5:
-      if ((0x00 == asc) && (0x00 == ascq)) {
+      if((0x00 == asc) && (0x00 == ascq)) {
         DBG  (5, "Illegal request: paper edge detected too soon\n")
         return Sane.STATUS_INVAL
       }
-      if ((0x1a == asc) && (0x00 == ascq)) {
+      if((0x1a == asc) && (0x00 == ascq)) {
         DBG  (5, "Illegal request: Parameter list error\n")
         return Sane.STATUS_INVAL
       }
-      if ((0x20 == asc) && (0x00 == ascq)) {
+      if((0x20 == asc) && (0x00 == ascq)) {
         DBG  (5, "Illegal request: invalid command\n")
         return Sane.STATUS_INVAL
       }
-      if ((0x24 == asc) && (0x00 == ascq)) {
+      if((0x24 == asc) && (0x00 == ascq)) {
         DBG  (5, "Illegal request: invalid CDB field\n")
         return Sane.STATUS_INVAL
       }
-      if ((0x25 == asc) && (0x00 == ascq)) {
+      if((0x25 == asc) && (0x00 == ascq)) {
         DBG  (5, "Illegal request: unsupported logical unit\n")
         return Sane.STATUS_UNSUPPORTED
       }
-      if ((0x26 == asc) && (0x00 == ascq)) {
+      if((0x26 == asc) && (0x00 == ascq)) {
         DBG  (5, "Illegal request: invalid field in parm list\n")
-        if (get_RS_additional_length(sensed_data) >= 0x0a) {
-          DBG (5, "Offending byte is %#02x\n", get_RS_offending_byte(sensed_data))
+        if(get_RS_additional_length(sensed_data) >= 0x0a) {
+          DBG(5, "Offending byte is %#02x\n", get_RS_offending_byte(sensed_data))
 
           /* move this to set_window() ? */
-          if (get_RS_offending_byte(sensed_data) >= 8) {
-            DBG (5, "Window desc block? byte %#02x\n",get_RS_offending_byte(sensed_data)-8)
+          if(get_RS_offending_byte(sensed_data) >= 8) {
+            DBG(5, "Window desc block? byte %#02x\n",get_RS_offending_byte(sensed_data)-8)
           }
         }
         return Sane.STATUS_INVAL
       }
-      if ((0x2C == asc) && (0x00 == ascq)) {
+      if((0x2C == asc) && (0x00 == ascq)) {
         DBG  (5, "Illegal request: command sequence error\n")
         return Sane.STATUS_INVAL
       }
-      if ((0x2C == asc) && (0x02 == ascq)) {
+      if((0x2C == asc) && (0x02 == ascq)) {
         DBG  (5, "Illegal request: wrong window combination \n")
         return Sane.STATUS_INVAL
       }
@@ -10369,11 +10369,11 @@ sense_handler (Int fd, unsigned char * sensed_data, void *arg)
       break
 
     case 0x6:
-      if ((0x00 == asc) && (0x00 == ascq)) {
+      if((0x00 == asc) && (0x00 == ascq)) {
         DBG  (5, "Unit attention: device reset\n")
         return Sane.STATUS_GOOD
       }
-      if ((0x80 == asc) && (0x01 == ascq)) {
+      if((0x80 == asc) && (0x01 == ascq)) {
         DBG  (5, "Unit attention: power saving\n")
         return Sane.STATUS_GOOD
       }
@@ -10382,31 +10382,31 @@ sense_handler (Int fd, unsigned char * sensed_data, void *arg)
       break
 
     case 0xb:
-      if ((0x43 == asc) && (0x00 == ascq)) {
+      if((0x43 == asc) && (0x00 == ascq)) {
         DBG  (5, "Aborted command: message error\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x45 == asc) && (0x00 == ascq)) {
+      if((0x45 == asc) && (0x00 == ascq)) {
         DBG  (5, "Aborted command: select failure\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x47 == asc) && (0x00 == ascq)) {
+      if((0x47 == asc) && (0x00 == ascq)) {
         DBG  (5, "Aborted command: SCSI parity error\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x48 == asc) && (0x00 == ascq)) {
+      if((0x48 == asc) && (0x00 == ascq)) {
         DBG  (5, "Aborted command: initiator error message\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x4e == asc) && (0x00 == ascq)) {
+      if((0x4e == asc) && (0x00 == ascq)) {
         DBG  (5, "Aborted command: overlapped commands\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x80 == asc) && (0x01 == ascq)) {
+      if((0x80 == asc) && (0x01 == ascq)) {
         DBG  (5, "Aborted command: image transfer error\n")
         return Sane.STATUS_IO_ERROR
       }
-      if ((0x80 == asc) && (0x03 == ascq)) {
+      if((0x80 == asc) && (0x03 == ascq)) {
         DBG  (5, "Aborted command: JPEG overflow error\n")
         return Sane.STATUS_NO_MEM
       }
@@ -10415,11 +10415,11 @@ sense_handler (Int fd, unsigned char * sensed_data, void *arg)
       break
 
     default:
-      DBG (5, "Unknown Sense Code\n")
+      DBG(5, "Unknown Sense Code\n")
       return Sane.STATUS_IO_ERROR
   }
 
-  DBG (5, "sense_handler: should never happen!\n")
+  DBG(5, "sense_handler: should never happen!\n")
 
   return Sane.STATUS_IO_ERROR
 }
@@ -10440,14 +10440,14 @@ do_cmd(struct fujitsu *s, Int runRS, Int shortTime,
     s.rs_ili = 0
     s.rs_eom = 0
 
-    if (s.connection == CONNECTION_SCSI) {
+    if(s.connection == CONNECTION_SCSI) {
         return do_scsi_cmd(s, runRS, shortTime,
                  cmdBuff, cmdLen,
                  outBuff, outLen,
                  inBuff, inLen
         )
     }
-    if (s.connection == CONNECTION_USB) {
+    if(s.connection == CONNECTION_USB) {
         return do_usb_cmd(s, runRS, shortTime,
                  cmdBuff, cmdLen,
                  outBuff, outLen,
@@ -10479,7 +10479,7 @@ do_scsi_cmd(struct fujitsu *s, Int runRS, Int shortTime,
     DBG(25, "out: writing %d bytes\n", (Int)outLen)
     hexdump(30, "out: >>", outBuff, outLen)
   }
-  if (inBuff && inLen){
+  if(inBuff && inLen){
     DBG(25, "in: reading %d bytes\n", (Int)*inLen)
     memset(inBuff,0,*inLen)
   }
@@ -10492,7 +10492,7 @@ do_scsi_cmd(struct fujitsu *s, Int runRS, Int shortTime,
   }
 
   /* FIXME: should we look at s.rs_info here? */
-  if (inBuff && inLen){
+  if(inBuff && inLen){
     hexdump(30, "in: <<", inBuff, *inLen)
     DBG(25, "in: read %d bytes\n", (Int)*inLen)
   }
@@ -10528,7 +10528,7 @@ do_usb_cmd(struct fujitsu *s, Int runRS, Int shortTime,
     Int ret = 0
     Int ret2 = 0
 
-    DBG (10, "do_usb_cmd: start\n")
+    DBG(10, "do_usb_cmd: start\n")
 
     if(shortTime){
         cmdTime = USB_COMMAND_TIME/60
@@ -10708,7 +10708,7 @@ do_usb_cmd(struct fujitsu *s, Int runRS, Int shortTime,
       }
     }
 
-    DBG (10, "do_usb_cmd: finish\n")
+    DBG(10, "do_usb_cmd: finish\n")
 
     return ret
 }
@@ -10721,30 +10721,30 @@ wait_scanner(struct fujitsu *s)
   unsigned char cmd[TEST_UNIT_READY_len]
   size_t cmdLen = TEST_UNIT_READY_len
 
-  DBG (10, "wait_scanner: start\n")
+  DBG(10, "wait_scanner: start\n")
 
   memset(cmd,0,cmdLen)
   set_SCSI_opcode(cmd,TEST_UNIT_READY_code)
 
-  ret = do_cmd (
+  ret = do_cmd(
     s, 0, 1,
     cmd, cmdLen,
     NULL, 0,
     NULL, NULL
   )
 
-  if (ret != Sane.STATUS_GOOD) {
+  if(ret != Sane.STATUS_GOOD) {
     DBG(5,"WARNING: Brain-dead scanner. Hitting with stick\n")
-    ret = do_cmd (
+    ret = do_cmd(
       s, 0, 1,
       cmd, cmdLen,
       NULL, 0,
       NULL, NULL
     )
   }
-  if (ret != Sane.STATUS_GOOD) {
+  if(ret != Sane.STATUS_GOOD) {
     DBG(5,"WARNING: Brain-dead scanner. Hitting with stick again\n")
-    ret = do_cmd (
+    ret = do_cmd(
       s, 0, 1,
       cmd, cmdLen,
       NULL, 0,
@@ -10752,11 +10752,11 @@ wait_scanner(struct fujitsu *s)
     )
   }
 
-  if (ret != Sane.STATUS_GOOD) {
-    DBG (5, "wait_scanner: error '%s'\n", Sane.strstatus (ret))
+  if(ret != Sane.STATUS_GOOD) {
+    DBG(5, "wait_scanner: error '%s'\n", Sane.strstatus(ret))
   }
 
-  DBG (10, "wait_scanner: finish\n")
+  DBG(10, "wait_scanner: finish\n")
 
   return ret
 }
@@ -10863,7 +10863,7 @@ get_page_height(struct fujitsu *s)
 static Int
 get_ipc_mode(struct fujitsu *s)
 {
-  if ( s.bp_filter
+  if( s.bp_filter
     || s.smoothing
     || s.gamma_curve
     || s.threshold_curve
@@ -10912,14 +10912,14 @@ set_max_y(struct fujitsu *s)
  * Convenience method to determine longest string size in a list.
  */
 static size_t
-maxStringSize (const Sane.String_Const strings[])
+maxStringSize(const Sane.String_Const strings[])
 {
   size_t size, max_size = 0
   var i: Int
 
-  for (i = 0; strings[i]; ++i) {
-    size = strlen (strings[i]) + 1
-    if (size > max_size)
+  for(i = 0; strings[i]; ++i) {
+    size = strlen(strings[i]) + 1
+    if(size > max_size)
       max_size = size
   }
 
@@ -10930,7 +10930,7 @@ maxStringSize (const Sane.String_Const strings[])
  * Prints a hex dump of the given buffer onto the debug output stream.
  */
 static void
-hexdump (Int level, char *comment, unsigned char *p, Int l)
+hexdump(Int level, char *comment, unsigned char *p, Int l)
 {
   var i: Int
   char line[70]; /* 'xxx: xx xx ... xx xx abc */
@@ -10940,16 +10940,16 @@ hexdump (Int level, char *comment, unsigned char *p, Int l)
   if(DBG_LEVEL < level)
     return
 
-  DBG (level, "%s\n", comment)
+  DBG(level, "%s\n", comment)
 
-  for (i = 0; i < l; i++, p++) {
+  for(i = 0; i < l; i++, p++) {
 
     /* at start of line */
-    if ((i % 16) == 0) {
+    if((i % 16) == 0) {
 
       /* not at start of first line, print current, reset */
-      if (i) {
-        DBG (level, "%s\n", line)
+      if(i) {
+        DBG(level, "%s\n", line)
       }
 
       memset(line,0x20,69)
@@ -10957,11 +10957,11 @@ hexdump (Int level, char *comment, unsigned char *p, Int l)
       hex = line + 4
       bin = line + 53
 
-      sprintf (line, "%3.3x:", i)
+      sprintf(line, "%3.3x:", i)
     }
 
     /* the hex section */
-    sprintf (hex, " %2.2x", *p)
+    sprintf(hex, " %2.2x", *p)
     hex += 3
     *hex = ' '
 
@@ -10975,19 +10975,19 @@ hexdump (Int level, char *comment, unsigned char *p, Int l)
     bin++
   }
 
-  /* print last (partial) line */
-  if (i)
-    DBG (level, "%s\n", line)
+  /* print last(partial) line */
+  if(i)
+    DBG(level, "%s\n", line)
 }
 
 /**
  * An advanced method we don't support but have to define.
  */
 Sane.Status
-Sane.set_io_mode (Sane.Handle h, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
 {
-  DBG (10, "Sane.set_io_mode\n")
-  DBG (15, "%d %p\n", non_blocking, h)
+  DBG(10, "Sane.set_io_mode\n")
+  DBG(15, "%d %p\n", non_blocking, h)
   return Sane.STATUS_UNSUPPORTED
 }
 
@@ -10995,10 +10995,10 @@ Sane.set_io_mode (Sane.Handle h, Bool non_blocking)
  * An advanced method we don't support but have to define.
  */
 Sane.Status
-Sane.get_select_fd (Sane.Handle h, Int *fdp)
+Sane.get_select_fd(Sane.Handle h, Int *fdp)
 {
-  DBG (10, "Sane.get_select_fd\n")
-  DBG (15, "%p %d\n", h, *fdp)
+  DBG(10, "Sane.get_select_fd\n")
+  DBG(15, "%p %d\n", h, *fdp)
   return Sane.STATUS_UNSUPPORTED
 }
 
@@ -11016,7 +11016,7 @@ buffer_deskew(struct fujitsu *s, Int side)
 
   Int bg_color = 0xd6
 
-  DBG (10, "buffer_deskew: start\n")
+  DBG(10, "buffer_deskew: start\n")
 
   /*only find skew on first image from a page, or if first image had error */
   if(s.side == SIDE_FRONT
@@ -11028,7 +11028,7 @@ buffer_deskew(struct fujitsu *s, Int side)
       &s.deskew_vals[0],&s.deskew_vals[1],&s.deskew_slope)
 
     if(s.deskew_stat){
-      DBG (5, "buffer_deskew: bad findSkew, bailing\n")
+      DBG(5, "buffer_deskew: bad findSkew, bailing\n")
       goto cleanup
     }
   }
@@ -11058,7 +11058,7 @@ buffer_deskew(struct fujitsu *s, Int side)
   }
 
   cleanup:
-  DBG (10, "buffer_deskew: finish\n")
+  DBG(10, "buffer_deskew: finish\n")
   return ret
 }
 
@@ -11070,24 +11070,24 @@ buffer_crop(struct fujitsu *s, Int side)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
-  DBG (10, "buffer_crop: start\n")
+  DBG(10, "buffer_crop: start\n")
 
   ret = sanei_magic_findEdges(
     &s.s_params,s.buffers[side],s.resolution_x,s.resolution_y,
     &s.crop_vals[0],&s.crop_vals[1],&s.crop_vals[2],&s.crop_vals[3])
 
   if(ret){
-    DBG (5, "buffer_crop: bad edges, bailing\n")
+    DBG(5, "buffer_crop: bad edges, bailing\n")
     ret = Sane.STATUS_GOOD
     goto cleanup
   }
 
-  DBG (15, "buffer_crop: t:%d b:%d l:%d r:%d\n",
+  DBG(15, "buffer_crop: t:%d b:%d l:%d r:%d\n",
     s.crop_vals[0],s.crop_vals[1],s.crop_vals[2],s.crop_vals[3])
 
   /* if we will later binarize this image, make sure the width
    * is a multiple of 8 pixels, by adjusting the right side */
-  if ( must_downsample(s) && s.u_mode < MODE_GRAYSCALE ){
+  if( must_downsample(s) && s.u_mode < MODE_GRAYSCALE ){
     s.crop_vals[3] -= (s.crop_vals[3]-s.crop_vals[2]) % 8
   }
 
@@ -11096,7 +11096,7 @@ buffer_crop(struct fujitsu *s, Int side)
       s.crop_vals[0],s.crop_vals[1],s.crop_vals[2],s.crop_vals[3])
 
   if(ret){
-    DBG (5, "buffer_crop: bad crop, bailing\n")
+    DBG(5, "buffer_crop: bad crop, bailing\n")
     ret = Sane.STATUS_GOOD
     goto cleanup
   }
@@ -11109,7 +11109,7 @@ buffer_crop(struct fujitsu *s, Int side)
   s.buff_rx[side] = s.bytes_rx[side]
 
   cleanup:
-  DBG (10, "buffer_crop: finish\n")
+  DBG(10, "buffer_crop: finish\n")
   return ret
 }
 
@@ -11121,17 +11121,17 @@ buffer_despeck(struct fujitsu *s, Int side)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
-  DBG (10, "buffer_despeck: start\n")
+  DBG(10, "buffer_despeck: start\n")
 
   ret = sanei_magic_despeck(&s.s_params,s.buffers[side],s.swdespeck)
   if(ret){
-    DBG (5, "buffer_despeck: bad despeck, bailing\n")
+    DBG(5, "buffer_despeck: bad despeck, bailing\n")
     ret = Sane.STATUS_GOOD
     goto cleanup
   }
 
   cleanup:
-  DBG (10, "buffer_despeck: finish\n")
+  DBG(10, "buffer_despeck: finish\n")
   return ret
 }
 
@@ -11142,19 +11142,19 @@ buffer_isblank(struct fujitsu *s, Int side)
   Sane.Status ret = Sane.STATUS_GOOD
   Int status = 0
 
-  DBG (10, "buffer_isblank: start\n")
+  DBG(10, "buffer_isblank: start\n")
 
   ret = sanei_magic_isBlank2(&s.s_params, s.buffers[side],
     s.resolution_x, s.resolution_y, s.swskip)
 
   if(ret == Sane.STATUS_NO_DOCS){
-    DBG (5, "buffer_isblank: blank!\n")
+    DBG(5, "buffer_isblank: blank!\n")
     status = 1
   }
   else if(ret){
-    DBG (5, "buffer_isblank: error %d\n",ret)
+    DBG(5, "buffer_isblank: error %d\n",ret)
   }
 
-  DBG (10, "buffer_isblank: finished\n")
+  DBG(10, "buffer_isblank: finished\n")
   return status
 }

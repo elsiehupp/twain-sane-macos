@@ -2,8 +2,8 @@
  * @brief all functions for motor control
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 1998 Plustek Inc.
- * Copyright (C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 1998 Plustek Inc.
+ * Copyright(C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
  * also based on the work done by Rick Bronson
  *
  * History:
@@ -45,7 +45,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -114,9 +114,9 @@ import plustek-pp_scan
 
 static TimerDef p98003MotorTimer
 
-static UShort 	a_wMoveStepTable [_NUMBER_OF_SCANSTEPS]
+static UShort 	a_wMoveStepTable[_NUMBER_OF_SCANSTEPS]
 static Byte		a_bScanStateTable[_SCANSTATE_TABLE_SIZE]
-static Byte		a_bHalfStepTable [_NUMBER_OF_SCANSTEPS]
+static Byte		a_bHalfStepTable[_NUMBER_OF_SCANSTEPS]
 static Byte		a_bColorByteTable[_NUMBER_OF_SCANSTEPS]
 static Byte		a_bColorsSum[8] = {0, 1, 1, 2, 1, 2, 2, 3]
 
@@ -213,14 +213,14 @@ static Bool motorCheckMotorPresetLength( pScanData ps )
 
 		bScanState = IOGetScanState( ps, _FALSE )
 
-		if (ps.fFullLength) {
-		    if (!(bScanState & _SCANSTATE_STOP)) /* still running */
-				if ((ULong)(bScanState & _SCANSTATE_MASK) != ps.dwScanStateCount )
+		if(ps.fFullLength) {
+		    if(!(bScanState & _SCANSTATE_STOP)) /* still running */
+				if((ULong)(bScanState & _SCANSTATE_MASK) != ps.dwScanStateCount )
 				    continue
 		    return ps.fFullLength
 		}
 
- 		if (bScanState & _SCANSTATE_STOP)
+ 		if(bScanState & _SCANSTATE_STOP)
 		    break
 
 		/*
@@ -228,16 +228,16 @@ static Bool motorCheckMotorPresetLength( pScanData ps )
 		 */
 		if( _ASIC_IS_98001 == ps.sCaps.AsicID ) {
 
-			if (bScanState < ps.bOldStateCount)
+			if(bScanState < ps.bOldStateCount)
 			    bScanState += _NUMBER_OF_SCANSTEPS
 
 			bScanState -= ps.bOldStateCount
 
-			if (bScanState >= 40)
+			if(bScanState >= 40)
 			    return ps.fFullLength
 		}
 
-    } while ( !MiscCheckTimer( &timer ))
+    } while( !MiscCheckTimer( &timer ))
 
 	_DODELAY(1);			 /* delay one ms */
 
@@ -262,21 +262,21 @@ static void motorClearColorByteTableLoop0( pScanData ps, Byte bColors )
 	ULong  dw
    	pUChar pb
 
-    if ((ps.bCurrentLineCount + bColors) >= _NUMBER_OF_SCANSTEPS) {
+    if((ps.bCurrentLineCount + bColors) >= _NUMBER_OF_SCANSTEPS) {
 		pb = a_bColorByteTable + (ULong)(ps.bCurrentLineCount + bColors -
 							 _NUMBER_OF_SCANSTEPS)
 	} else {
 		pb = a_bColorByteTable + (ULong)(ps.bCurrentLineCount + bColors)
 	}
 
-    for (dw = _NUMBER_OF_SCANSTEPS - bColors; dw; dw--) {
+    for(dw = _NUMBER_OF_SCANSTEPS - bColors; dw; dw--) {
 
 		*pb++ = 0
-		if (pb >= pbEndColorByteTable)
+		if(pb >= pbEndColorByteTable)
 	    	pb = a_bColorByteTable
     }
 
-    if ((ps.bCurrentLineCount+ps.bCurrentSpeed/2+1) >= _NUMBER_OF_SCANSTEPS) {
+    if((ps.bCurrentLineCount+ps.bCurrentSpeed/2+1) >= _NUMBER_OF_SCANSTEPS) {
 
 		pb = a_bHalfStepTable + (ULong)(ps.bCurrentLineCount +
 								ps.bCurrentSpeed / 2 + 1 - _NUMBER_OF_SCANSTEPS)
@@ -285,9 +285,9 @@ static void motorClearColorByteTableLoop0( pScanData ps, Byte bColors )
 			 (ULong)(ps.bCurrentLineCount + ps.bCurrentSpeed / 2 + 1)
 	}
 
-    for (dw = _NUMBER_OF_SCANSTEPS - ps.bMotorSpeedData / 2 - 1; dw; dw--) {
+    for(dw = _NUMBER_OF_SCANSTEPS - ps.bMotorSpeedData / 2 - 1; dw; dw--) {
 		*pb++ = 0
-		if (pb >= pbEndHalfStepTable)
+		if(pb >= pbEndHalfStepTable)
 	    	pb = a_bHalfStepTable
     }
 }
@@ -316,14 +316,14 @@ static void motorClearColorByteTableLoop1( pScanData ps )
 	ULong  dw = _NUMBER_OF_SCANSTEPS - 1
     pUChar pb
 
-    if (ps.bNewGap > ps.bNewCurrentLineCountGap) {
+    if(ps.bNewGap > ps.bNewCurrentLineCountGap) {
 		ps.bNewGap = ps.bNewGap - ps.bNewCurrentLineCountGap - 1
 		dw -= (ULong)ps.bNewGap
     } else {
 		ps.bNewGap = 0
 	}
 
-    if ((ps.bCurrentLineCount + ps.bNewGap + 1) >= _NUMBER_OF_SCANSTEPS) {
+    if((ps.bCurrentLineCount + ps.bNewGap + 1) >= _NUMBER_OF_SCANSTEPS) {
 		pb = a_bColorByteTable +
 				(ULong)(ps.bCurrentLineCount+ps.bNewGap+1-_NUMBER_OF_SCANSTEPS)
     } else {
@@ -331,13 +331,13 @@ static void motorClearColorByteTableLoop1( pScanData ps )
 							(ULong)(ps.bCurrentLineCount + ps.bNewGap + 1)
 	}
 
-    for (; dw; dw--) {
+    for(; dw; dw--) {
 		*pb++ = 0
-		if (pb >= pbEndColorByteTable)
+		if(pb >= pbEndColorByteTable)
 	    	pb = a_bColorByteTable
     }
 
-   	if (ps.bCurrentSpeed > ps.bNewCurrentLineCountGap) {
+   	if(ps.bCurrentSpeed > ps.bNewCurrentLineCountGap) {
 		ps.bNewGap = ps.bCurrentSpeed - ps.bNewCurrentLineCountGap
 		dw = _NUMBER_OF_SCANSTEPS - 1 - (ULong)ps.bNewGap
     } else {
@@ -345,16 +345,16 @@ static void motorClearColorByteTableLoop1( pScanData ps )
 		ps.bNewGap = 0
     }
 
-   	if ((ps.bCurrentLineCount + ps.bNewGap + 1) >= _NUMBER_OF_SCANSTEPS) {
+   	if((ps.bCurrentLineCount + ps.bNewGap + 1) >= _NUMBER_OF_SCANSTEPS) {
 		pb = a_bHalfStepTable + (ULong)(ps.bCurrentLineCount +
 								ps.bNewGap + 1 - _NUMBER_OF_SCANSTEPS)
 	} else {
 		pb = a_bHalfStepTable + (ULong)(ps.bCurrentLineCount+ps.bNewGap +1)
 	}
 
-    for (; dw; dw--) {
+    for(; dw; dw--) {
 		*pb++ = 0
-		if (pb >= pbEndHalfStepTable)
+		if(pb >= pbEndHalfStepTable)
 	    	pb = a_bHalfStepTable
     }
 }
@@ -418,22 +418,22 @@ static void motorP98FillDataToColorTable( pScanData ps,
     Byte	bColor
     UShort	w
 
-    for ( pb = &a_bColorByteTable[bIndex],
+    for( pb = &a_bColorByteTable[bIndex],
 				 		pw = &a_wMoveStepTable[bIndex]; dwSteps; dwSteps-- ) {
 
-		if (*pw) {				/* valid state */
+		if(*pw) {				/* valid state */
 
 			if( *pw >= ps.BufferForColorRunTable ) {
 				DBG( DBG_LOW, "*pw = %u > %u !!\n",
 						*pw, ps.BufferForColorRunTable )
 			} else {
 			    bColor = ps.pColorRunTable[*pw];  		/* get the colors 	 */
-			    if (a_bColorsSum[bColor & 7])		    /* need to read data */
+			    if(a_bColorsSum[bColor & 7])		    /* need to read data */
 					*pb = bColor & 7
 			}
 		}
 
-		if (++pw >= pwEndMoveStepTable)	{
+		if(++pw >= pwEndMoveStepTable)	{
 		    pw = a_wMoveStepTable
 		    pb = a_bColorByteTable
 		} else
@@ -443,16 +443,16 @@ static void motorP98FillDataToColorTable( pScanData ps,
     /* ToCondense */
     pb = a_bColorByteTable
 
-    for (w = 0; w < _SCANSTATE_BYTES; w++, pb += 2)
+    for(w = 0; w < _SCANSTATE_BYTES; w++, pb += 2)
 		ps.a_nbNewAdrPointer[w] = (Byte)((*pb & 7) + ((*(pb + 1) & 7) << 4))
 
     /* ToCondenseMotor */
-    for (pb = a_bHalfStepTable, w = 0; w < _SCANSTATE_BYTES; w++) {
-		if (*pb++)
-			ps.a_nbNewAdrPointer [w] |= 8
+    for(pb = a_bHalfStepTable, w = 0; w < _SCANSTATE_BYTES; w++) {
+		if(*pb++)
+			ps.a_nbNewAdrPointer[w] |= 8
 
-		if (*pb++)
-		    ps.a_nbNewAdrPointer [w] |= 0x80
+		if(*pb++)
+		    ps.a_nbNewAdrPointer[w] |= 0x80
     }
 }
 
@@ -466,40 +466,40 @@ static void motorP98FillHalfStepTable( pScanData ps )
     DataType Data
     ULong	 dw
 
-    if (1 == ps.bMotorSpeedData) {
-		for (dw = 0; dw < _NUMBER_OF_SCANSTEPS; dw++)
-		    a_bHalfStepTable [dw] =
-						(a_wMoveStepTable [dw] > ps.wMaxMoveStep) ? 0: 1
+    if(1 == ps.bMotorSpeedData) {
+		for(dw = 0; dw < _NUMBER_OF_SCANSTEPS; dw++)
+		    a_bHalfStepTable[dw] =
+						(a_wMoveStepTable[dw] > ps.wMaxMoveStep) ? 0: 1
     } else {
 		pwMoveStep 	  = &a_wMoveStepTable[ps.bCurrentLineCount]
 		pbHalfStepTbl = &a_bHalfStepTable[ps.bCurrentLineCount]
 
-		if (ps.DataInf.wAppDataType >= COLOR_TRUE24)
+		if(ps.DataInf.wAppDataType >= COLOR_TRUE24)
 		    Data.dwValue = _NUMBER_OF_SCANSTEPS - 1
 		else
 		    Data.dwValue = _NUMBER_OF_SCANSTEPS
 
-		for (; Data.dwValue; Data.dwValue--, pbHalfStepTbl++, pwMoveStep++ ) {
+		for(; Data.dwValue; Data.dwValue--, pbHalfStepTbl++, pwMoveStep++ ) {
 
-		    if (pwMoveStep >= pwEndMoveStepTable) {
+		    if(pwMoveStep >= pwEndMoveStepTable) {
 				pbHalfStepTbl = a_bHalfStepTable
 				pwMoveStep    = a_wMoveStepTable
 		    }
 
-		    if (*pwMoveStep) {		/* need to exposure */
+		    if(*pwMoveStep) {		/* need to exposure */
 
 				dw = (ULong)ps.bMotorSpeedData
-				if (Data.bValue < ps.bMotorSpeedData)
+				if(Data.bValue < ps.bMotorSpeedData)
 				    *pwMoveStep = 0
 				else {
 				    *pbHalfStepTbl = 1
 
-				    if (ps.dwFullStateSpeed) {
+				    if(ps.dwFullStateSpeed) {
 						dw -= ps.dwFullStateSpeed
-						for (pb = pbHalfStepTbl; dw
+						for(pb = pbHalfStepTbl; dw
 												dw -= ps.dwFullStateSpeed) {
 						    pb += ps.dwFullStateSpeed
-						    if (pb >= pbEndHalfStepTable)
+						    if(pb >= pbEndHalfStepTable)
 								pb -= _NUMBER_OF_SCANSTEPS
 			    			*pb = 1
 						}
@@ -517,7 +517,7 @@ static void motorP98FillBackColorDataTable( pScanData ps )
 {
 	Byte bIndex
 
-    if ((bIndex = ps.bCurrentLineCount + ps.bNewCurrentLineCountGap + 1) >=
+    if((bIndex = ps.bCurrentLineCount + ps.bNewCurrentLineCountGap + 1) >=
                         							     _NUMBER_OF_SCANSTEPS) {
 		bIndex -= _NUMBER_OF_SCANSTEPS
 	}
@@ -539,26 +539,26 @@ static void motorP98FillBackColorDataTable( pScanData ps )
 static void motorP98FillBackLoop( pScanData ps,
 								  pUChar pScanStep, ULong dwStates )
 {
-    for (ps.fFullLength = _FALSE; dwStates; dwStates--) {
+    for(ps.fFullLength = _FALSE; dwStates; dwStates--) {
 
-		if (*pScanStep == 0xff ) {
+		if(*pScanStep == 0xff ) {
 
 		    ULong dw = ps.dwScanStateCount
 
-		    for (; dwStates; dwStates--) {
-				ps.a_nbNewAdrPointer [dw / 2] &= ((dw & 1) ? 0x7f: 0xf7)
+		    for(; dwStates; dwStates--) {
+				ps.a_nbNewAdrPointer[dw / 2] &= ((dw & 1) ? 0x7f: 0xf7)
 				dw = (dw + 1U) & _SCANSTATE_MASK
 		    }
-		    if (!ps.dwScanStateCount)
+		    if(!ps.dwScanStateCount)
 				ps.dwScanStateCount = _NUMBER_OF_SCANSTEPS
 
 		    ps.dwScanStateCount--
 		    ps.fFullLength = _TRUE
 	    	break
 		} else {
-		    ps.a_nbNewAdrPointer [ps.dwScanStateCount / 2] |=
+		    ps.a_nbNewAdrPointer[ps.dwScanStateCount / 2] |=
 					       ((ps.dwScanStateCount & 1) ? 0x80 : 0x08)
-	    	if (++ps.dwScanStateCount == _NUMBER_OF_SCANSTEPS)
+	    	if(++ps.dwScanStateCount == _NUMBER_OF_SCANSTEPS)
 				ps.dwScanStateCount = 0;	/* reset to begin */
 
 			pScanStep++
@@ -579,7 +579,7 @@ static void motorP98SetRunFullStep( pScanData ps )
 					  ps.AsicReg.RD_StepControl )
     IODataToRegister( ps, ps.RegLineControl, 96 )
 
-    if ( ps.bFastMoveFlag == _FastMove_Low_C75_G150_Back ) {
+    if( ps.bFastMoveFlag == _FastMove_Low_C75_G150_Back ) {
 		IODataToRegister( ps, ps.RegMotor0Control,
 						  (_MotorHQuarterStep + _MotorOn + _MotorDirBackward))
 	} else {
@@ -587,10 +587,10 @@ static void motorP98SetRunFullStep( pScanData ps )
 						  (_MotorHQuarterStep + _MotorOn + _MotorDirForward))
 	}
 
-    if (ps.bFastMoveFlag == _FastMove_Film_150) {
+    if(ps.bFastMoveFlag == _FastMove_Film_150) {
 		ps.AsicReg.RD_XStepTime = 12
 	} else {
-		if (ps.bFastMoveFlag == _FastMove_Fast_C50_G100) {
+		if(ps.bFastMoveFlag == _FastMove_Fast_C50_G100) {
 		    ps.AsicReg.RD_XStepTime =
 				((ps.DataInf.wPhyDataType >= COLOR_TRUE24) ? 4 : 8)
 		} else {
@@ -639,11 +639,11 @@ static Int motorP98BackToHomeSensor( pScanData ps )
 	IODataToRegister( ps, ps.RegXStepTime, ps.AsicReg.RD_XStepTime )
     IORegisterToScanner( ps, ps.RegRefreshScanState )
 
-	/* CHANGE: We allow up to 25 seconds for returning (org. val was 10) */
+	/* CHANGE: We allow up to 25 seconds for returning(org. val was 10) */
 	MiscStartTimer( &timer, _SECOND * 25 )
 
     do {
-		if (IODataFromRegister( ps, ps.RegStatus) & _FLAG_P98_PAPER ) {
+		if(IODataFromRegister( ps, ps.RegStatus) & _FLAG_P98_PAPER ) {
 		    IODataToRegister( ps, ps.RegModelControl,
 				   	(Byte)(ps.AsicReg.RD_ModelControl | _HOME_SENSOR_POLARITY))
 		    if(!(IODataFromRegister(ps, ps.RegStatus) & _FLAG_P98_PAPER))
@@ -651,7 +651,7 @@ static Int motorP98BackToHomeSensor( pScanData ps )
 		}
 		_DODELAY( 10 );			/* delay 10 ms */
 
-    } while ( !(result = MiscCheckTimer( &timer )))
+    } while( !(result = MiscCheckTimer( &timer )))
 
     ps.CloseScanPath( ps )
 
@@ -676,8 +676,8 @@ static void motorP98FillRunNewAdrPointer1( pScanData ps )
 
     IOGetCurrentStateCount( ps, &sState)
     bTemp = sState.bStep
-    if (sState.bStep < ps.bOldStateCount) {
-		sState.bStep += _NUMBER_OF_SCANSTEPS;/* over table (table just can	 */
+    if(sState.bStep < ps.bOldStateCount) {
+		sState.bStep += _NUMBER_OF_SCANSTEPS;/* over table(table just can	 */
 	}										 /* holds 64 step, then reset to */
 											 /* 0, so if less than means over*/
 											 /* the table)                   */
@@ -742,7 +742,7 @@ static Int motorP98CheckSensorInHome( pScanData ps )
 {
 	Int result
 
-    if (!(IODataRegisterFromScanner(ps,ps.RegStatus) & _FLAG_P98_PAPER)){
+    if(!(IODataRegisterFromScanner(ps,ps.RegStatus) & _FLAG_P98_PAPER)){
 
 		MotorSetConstantMove( ps, 1 )
 		ps.Scan.fMotorBackward  = _FALSE
@@ -781,8 +781,8 @@ static void motorP98WaitForPositionY( pScanData ps )
 						  _MotorHQuarterStep + _MotorDirForward))
 		ps.CloseScanPath( ps )
 
-		for (dw=1000; dw; dw--) {
-	    	if (IODataRegisterFromScanner( ps, ps.RegStatus) & _FLAG_P98_PAPER) {
+		for(dw=1000; dw; dw--) {
+	    	if(IODataRegisterFromScanner( ps, ps.RegStatus) & _FLAG_P98_PAPER) {
 				IORegisterDirectToScanner( ps, ps.RegForceStep )
 				_DODELAY( 1000 / 400 )
 	    	}
@@ -798,7 +798,7 @@ static void motorP98WaitForPositionY( pScanData ps )
 		ps.bExtraMotorCtrl = 0
 		ps.bFastMoveFlag 	= _FastMove_Film_150
 
-		if (ps.DataInf.dwScanFlag & SCANDEF_Negative) {
+		if(ps.DataInf.dwScanFlag & SCANDEF_Negative) {
 	    	MotorP98GoFullStep(ps, (ps.DataInf.crImage.y+_NEG_SCANNINGPOS)/2)
 		} else {
 		    MotorP98GoFullStep(ps, (ps.DataInf.crImage.y+_POS_SCANNINGPOS)/2)
@@ -824,17 +824,17 @@ static void motorP98WaitForPositionY( pScanData ps )
 	 * CHANGE: when checking out the values from the NT registry
 	 *		   I found that the values are NOT 0
 	 */
-    switch (ps.DataInf.wPhyDataType) {
+    switch(ps.DataInf.wPhyDataType) {
 		case COLOR_BW:		dw += _BW_ORIGIN;    break
 		case COLOR_256GRAY:	dw += _GRAY_ORIGIN;	 break
 		default:			dw += _COLOR_ORIGIN; break
     }
 
-    if (dw & 0x80000000)
+    if(dw & 0x80000000)
 		dw = 0; 		/* negative */
 
-    if (dw > 180) {
-		if (ps.bSetScanModeFlag & _ScanMode_Mono) {
+    if(dw > 180) {
+		if(ps.bSetScanModeFlag & _ScanMode_Mono) {
 		    dwBX = 90;				/* go via 150 dpi, so 180 / 2 = 90 */
 		    dwDX = (dw -180) % 3
 	    	dw   = (dw -180) / 3; 	/* 100 dpi */
@@ -853,7 +853,7 @@ static void motorP98WaitForPositionY( pScanData ps )
 		ps.bFastMoveFlag = _FastMove_Low_C75_G150
 		MotorP98GoFullStep( ps, dwDX)
 
-		if (dw) {
+		if(dw) {
 			DBG( DBG_LOW, "FAST MOVE MODE !!!\n" )
 		    ps.bFastMoveFlag = _FastMove_Fast_C50_G100
 	    	MotorP98GoFullStep( ps, dw)
@@ -920,26 +920,26 @@ static Bool motorP98GotoShadingPosition( pScanData ps )
 static void motorP98SetMaxDpiAndLength( pScanData ps,
 									    pUShort wLengthY, pUShort wBaseDpi )
 {
-    if (ps.DataInf.xyAppDpi.y > 600)
+    if(ps.DataInf.xyAppDpi.y > 600)
 		*wLengthY = ps.LensInf.rExtentY.wMax * 4 + 200
     else
 		*wLengthY = ps.LensInf.rExtentY.wMax * 2 + 200
 
-    if ((ps.DataInf.wPhyDataType >= COLOR_TRUE24) &&
+    if((ps.DataInf.wPhyDataType >= COLOR_TRUE24) &&
 							     (ps.DataInf.xyAppDpi.y <= ps.wMinCmpDpi)) {
 		*wBaseDpi = ps.wMinCmpDpi
 	} else {
-		if ((ps.DataInf.wPhyDataType < COLOR_TRUE24) &&
+		if((ps.DataInf.wPhyDataType < COLOR_TRUE24) &&
 											(ps.DataInf.xyAppDpi.y <= 75)) {
 	    	*wBaseDpi = 75
 		} else {
-		    if (ps.DataInf.xyAppDpi.y <= 150) {
+		    if(ps.DataInf.xyAppDpi.y <= 150) {
 				*wBaseDpi = 150
 			} else {
-				if (ps.DataInf.xyAppDpi.y <= 300) {
+				if(ps.DataInf.xyAppDpi.y <= 300) {
 				    *wBaseDpi = 300
 				} else {
-				    if (ps.DataInf.xyAppDpi.y <= 600)
+				    if(ps.DataInf.xyAppDpi.y <= 600)
 						*wBaseDpi = 600
 		    		else
 						*wBaseDpi = 1200
@@ -960,11 +960,11 @@ static void motorP98FillGBColorRunTable( pScanData ps, pUChar pTable,
 
     if( ps.Device.f0_8_16 ) {
 
-		if (wBaseDpi == ps.wMinCmpDpi) {
+		if(wBaseDpi == ps.wMinCmpDpi) {
 		    *pTable |= bHi
 		    *(pTable + 1) |= bLo
 		} else {
-			switch (wBaseDpi) {
+			switch(wBaseDpi) {
 		    case 150:
 				*(pTable + 2) |= bHi
 				*(pTable + 4) |= bLo
@@ -988,7 +988,7 @@ static void motorP98FillGBColorRunTable( pScanData ps, pUChar pTable,
 		}
     } else {
 
-		if (wBaseDpi == ps.wMinCmpDpi) {
+		if(wBaseDpi == ps.wMinCmpDpi) {
 		    *pTable |= bHi
 		    *(pTable + 1) |= bLo
 		} else {
@@ -1064,12 +1064,12 @@ static void motorP98UpdateDataCurrentReadLine( pScanData ps )
 
 		Byte b
 
-		if (ps.Scan.bNowScanState >= ps.bCurrentLineCount)
+		if(ps.Scan.bNowScanState >= ps.bCurrentLineCount)
 		    b = ps.Scan.bNowScanState - ps.bCurrentLineCount
 		else
 	    	b = ps.Scan.bNowScanState + _NUMBER_OF_SCANSTEPS - ps.bCurrentLineCount
 
-		if (b < 40)
+		if(b < 40)
 		    return
     }
 
@@ -1080,8 +1080,8 @@ static void motorP98UpdateDataCurrentReadLine( pScanData ps )
 }
 
 /*.............................................................................
- *	Byte - Scan State Index (0-63) and StopStep bit
- *	pScanState.bStep - Scan State Index (0-63)
+ *	Byte - Scan State Index(0-63) and StopStep bit
+ *	pScanState.bStep - Scan State Index(0-63)
  *	pScanState.bStatus - Scanner Status Register value
  */
 static void motorP96GetScanStateAndStatus( pScanData ps, pScanState pScanStep )
@@ -1117,13 +1117,13 @@ static Byte motorP96ReadDarkData( pScanData ps )
 			IOReadScannerImageData( ps, ps.pScanBuffer1, 512UL)
 
 		    /* 320 = 192 + 128 (128 is size to fetch data) */
-		    for (w = 192, wSum = 0; w < 320; w++)
+		    for(w = 192, wSum = 0; w < 320; w++)
 				wSum += (UShort)ps.pScanBuffer1[w];/* average data from 	  */
 													/* offset 192 and size 128*/
-		    return (Byte)(wSum >> 7);				/* divided by 128 		  */
+		    return(Byte)(wSum >> 7);				/* divided by 128 		  */
 		}
 
-    } while (!MiscCheckTimer(&timer))
+    } while(!MiscCheckTimer(&timer))
 
     return 0xff;					/* timed-out */
 }
@@ -1146,7 +1146,7 @@ static void motorP96PositionYProc( pScanData ps, ULong dwStates )
 	IOGetCurrentStateCount( ps, &sState )
     ps.bOldStateCount = sState.bStep
 
-    /* TurnOnMotorAndSetDirection (); */
+    /* TurnOnMotorAndSetDirection(); */
     if( ps.Scan.fMotorBackward ) {
 		IOCmdRegisterToScanner( ps, ps.RegMotorControl,
 										(Byte)(ps.IgnorePF | ps.MotorOn))
@@ -1159,7 +1159,7 @@ static void motorP96PositionYProc( pScanData ps, ULong dwStates )
     do {
 		ps.FillRunNewAdrPointer( ps )
 
-    } while (!motorCheckMotorPresetLength( ps ))
+    } while(!motorCheckMotorPresetLength( ps ))
 }
 
 /*.............................................................................
@@ -1198,7 +1198,7 @@ static void motorP96WaitForPositionY( pScanData ps )
 
 		dw -= 100UL
 		dw <<= 1
-	    /* GoFullStep (dw); */
+	    /* GoFullStep(dw); */
 
 		memset( ps.pColorRunTable, 1, dw )
 		memset( ps.pColorRunTable + dw, 0xff, ps.BufferForColorRunTable - dw )
@@ -1206,10 +1206,10 @@ static void motorP96WaitForPositionY( pScanData ps )
 		IOGetCurrentStateCount( ps, &sState )
 		ps.bOldStateCount = sState.bStep
 
-		/* AdjustMotorTime () */
+		/* AdjustMotorTime() */
 		IOCmdRegisterToScanner( ps, ps.RegLineControl, 31 )
 
-		/* SetRunHalfStep () */
+		/* SetRunHalfStep() */
 		if( ps.Scan.fMotorBackward )
 		    IOCmdRegisterToScanner( ps, ps.RegMotorControl, _Motor1FullStep |
 								    ps.IgnorePF | ps.MotorOn )
@@ -1222,9 +1222,9 @@ static void motorP96WaitForPositionY( pScanData ps )
 		do {
 			ps.FillRunNewAdrPointer( ps )
 
-		} while (!motorCheckMotorPresetLength(ps))
+		} while(!motorCheckMotorPresetLength(ps))
 
-		/* RestoreMotorTime () */
+		/* RestoreMotorTime() */
 		IOCmdRegisterToScanner( ps, ps.RegLineControl,
 								ps.AsicReg.RD_LineControl )
 
@@ -1244,7 +1244,7 @@ static void motorP96WaitForPositionY( pScanData ps )
 	TimerDef  timer
 
 	MiscStartTimer( &timer, _SECOND / 4)
-    while (!MiscCheckTimer( &timer ))
+    while(!MiscCheckTimer( &timer ))
 
     memset( ps.a_nbNewAdrPointer, 0, _SCANSTATE_BYTES )
 
@@ -1252,13 +1252,13 @@ static void motorP96WaitForPositionY( pScanData ps )
     ps.Scan.fMotorBackward = _FALSE
     ps.bExtraMotorCtrl     = ps.IgnorePF
 
-    if ((ps.DataInf.wPhyDataType >= COLOR_TRUE24) ||
+    if((ps.DataInf.wPhyDataType >= COLOR_TRUE24) ||
 											(ps.DataInf.xyAppDpi.y <= 300)) {
 		dw = 6UL
 
     } else {
 
-		if (ps.DataInf.xyAppDpi.y <= 600) {
+		if(ps.DataInf.xyAppDpi.y <= 600) {
 			/* 50 is from 6/300 */
 		    dw = (ULong)ps.DataInf.xyAppDpi.y / 50UL + 3UL
 		} else
@@ -1267,10 +1267,10 @@ static void motorP96WaitForPositionY( pScanData ps )
 
     dw += ps.DataInf.crImage.y
 
-    if (dw >= 180UL) {
+    if(dw >= 180UL) {
 
 		dw -= 180UL
-    	/* GoFullStep (ps, dw);----------------------------------------------*/
+    	/* GoFullStep(ps, dw);----------------------------------------------*/
 		memset( ps.pColorRunTable, 1, dw )
 #ifdef DEBUG
 		if( dw > 8000UL )
@@ -1281,7 +1281,7 @@ static void motorP96WaitForPositionY( pScanData ps )
 		IOGetCurrentStateCount( ps, &sState )
 		ps.bOldStateCount = sState.bStep
 
-		/* SetRunFullStep (ps) */
+		/* SetRunFullStep(ps) */
 		if( ps.Scan.fMotorBackward ) {
 		    IOCmdRegisterToScanner( ps, ps.RegMotorControl,
 						  (Byte)(ps.FullStep | ps.IgnorePF | ps.MotorOn))
@@ -1294,16 +1294,16 @@ static void motorP96WaitForPositionY( pScanData ps )
 		ps.pScanState = ps.pColorRunTable
 
 		do {
-			ps.FillRunNewAdrPointer (ps)
+			ps.FillRunNewAdrPointer(ps)
 
-		} while (!motorCheckMotorPresetLength(ps))
+		} while(!motorCheckMotorPresetLength(ps))
 
 		/*-------------------------------------------------------------------*/
 
 		dw = 180UL
     }
 
-	if (ps.DataInf.wPhyDataType != COLOR_TRUE24)
+	if(ps.DataInf.wPhyDataType != COLOR_TRUE24)
 		dw = dw * 2 + 16
     else
 		dw *= 2
@@ -1313,7 +1313,7 @@ static void motorP96WaitForPositionY( pScanData ps )
 }
 
 /*.............................................................................
- * Position Scan Module to specified line number (Forward or Backward & wait
+ * Position Scan Module to specified line number(Forward or Backward & wait
  * for paper flag ON)
  */
 static void motorP96ConstantMoveProc1( pScanData ps, ULong dwLines )
@@ -1356,25 +1356,25 @@ static void motorP96ConstantMoveProc1( pScanData ps, ULong dwLines )
 
     do {
 
-		/* GetStatusAndScanStateAddr () */
+		/* GetStatusAndScanStateAddr() */
 		motorP96GetScanStateAndStatus( ps, &StateStatus )
-		if (StateStatus.bStatus & _FLAG_P96_PAPER ) {
-		    if (wQuotient)  {
+		if(StateStatus.bStatus & _FLAG_P96_PAPER ) {
+		    if(wQuotient)  {
 
-				if (StateStatus.bStep != bLastState) {
+				if(StateStatus.bStep != bLastState) {
 				    bLastState = StateStatus.bStep
 
-				    if (!bLastState)
+				    if(!bLastState)
 						wQuotient--
 				}
 		    } else
-				if (StateStatus.bStep >= bRemainder)
+				if(StateStatus.bStep >= bRemainder)
 				    break
 			} else
 			    break
-    } while (!(fTimeout = MiscCheckTimer( &timer )))
+    } while(!(fTimeout = MiscCheckTimer( &timer )))
 
-    if (!fTimeout) {
+    if(!fTimeout) {
 		memset( ps.a_nbNewAdrPointer, 0, _SCANSTATE_BYTES )
 		IOSetToMotorRegister( ps )
     }
@@ -1402,7 +1402,7 @@ static Bool motorP96GotoShadingPosition( pScanData ps )
 
 	MotorP96ConstantMoveProc( ps, 15 * 12 ); 	/* forward 180 lines */
 
-    if (IODataRegisterFromScanner(ps, ps.RegStatus) & _FLAG_P96_PAPER ) {
+    if(IODataRegisterFromScanner(ps, ps.RegStatus) & _FLAG_P96_PAPER ) {
 		ps.Asic96Reg.RD_MotorControl = 0
 		IOCmdRegisterToScanner( ps, ps.RegMotorControl, 0 )
 
@@ -1429,7 +1429,7 @@ static Bool motorP96GotoShadingPosition( pScanData ps )
 
 	} else {
 		/* forward 24 + pScanData.wOverBlue lines */
-    	if (!ps.fColorMoreRedFlag)
+    	if(!ps.fColorMoreRedFlag)
 			motorP96PositionYProc( ps, ps.wOverBlue + 12 * 2)
 	}
 
@@ -1450,7 +1450,7 @@ static Bool motorP96GotoShadingPosition( pScanData ps )
 static void motorP96FillHalfStepTable( pScanData ps )
 {
 #ifdef _A3I_EN
-	if ( ps.Scan.bModuleState == _MotorInStopState ) {
+	if( ps.Scan.bModuleState == _MotorInStopState ) {
 
 		/* clear the table and get the step value */
 		memset( a_bHalfStepTable, 0, _NUMBER_OF_SCANSTEPS )
@@ -1491,7 +1491,7 @@ static void motorP96FillHalfStepTable( pScanData ps )
 				    /* AdjustHalfStepStart */
 				    if( ps.DataInf.wAppDataType == COLOR_TRUE24 ) {
 
-						if (bHalfSteps >= 2)
+						if(bHalfSteps >= 2)
 						    pb -= (bHalfSteps - 1)
 				    }
 				    if( pb >= pbEndHalfStepTable )
@@ -1528,7 +1528,7 @@ static void motorP96FillHalfStepTable( pScanData ps )
 					   "wP96BaseDpi == 0 !!!!\n" )
 #endif
 
-	if ( ps.Scan.bModuleState == _MotorInStopState ) {
+	if( ps.Scan.bModuleState == _MotorInStopState ) {
 
 		/* clear the table and get the step value */
 		memset( a_bHalfStepTable, 0, _NUMBER_OF_SCANSTEPS )
@@ -1552,29 +1552,29 @@ static void motorP96FillHalfStepTable( pScanData ps )
 		pwMoveStep    = &a_wMoveStepTable[ps.bCurrentLineCount]
 		pbHalfStepTbl = &a_bHalfStepTable[ps.bCurrentLineCount]
 
-		if (ps.DataInf.wAppDataType == COLOR_TRUE24)
+		if(ps.DataInf.wAppDataType == COLOR_TRUE24)
 		    Data.dwValue = _NUMBER_OF_SCANSTEPS - 1
 		else
 		    Data.dwValue = _NUMBER_OF_SCANSTEPS
 
 		/* FillDataToHalfStepTable */
-		for (; Data.dwValue; Data.dwValue--) {
+		for(; Data.dwValue; Data.dwValue--) {
 
-		    if (*pwMoveStep) {		/* need to exposure */
+		    if(*pwMoveStep) {		/* need to exposure */
 
-				if (Data.bValue >= *pbHalfStepContent) {
+				if(Data.bValue >= *pbHalfStepContent) {
 
 				    pUChar pb = pbHalfStepTbl + *pbHalfStepContent
 
-					if (pb >= pbEndHalfStepTable)
+					if(pb >= pbEndHalfStepTable)
 						pb -= _NUMBER_OF_SCANSTEPS
 
 				    /* JudgeStep1 () */
-				    if ((wP96BaseDpi != 600) && (*pwMoveStep != 2)) {
-						if (ps.Scan.bModuleState != _MotorInStopState) {
+				    if((wP96BaseDpi != 600) && (*pwMoveStep != 2)) {
+						if(ps.Scan.bModuleState != _MotorInStopState) {
 						    *pb = 1
 						} else {
-						    if (ps.bMotorStepTableNo) {
+						    if(ps.bMotorStepTableNo) {
 								ps.bMotorStepTableNo--
 								*pb = 1
 			    			}
@@ -1582,12 +1582,12 @@ static void motorP96FillHalfStepTable( pScanData ps )
 					}
 
 				    pb += *pbHalfStepContent
-				    if (pb >= pbEndHalfStepTable)
+				    if(pb >= pbEndHalfStepTable)
 						pb -= _NUMBER_OF_SCANSTEPS
 
 				    /* JudgeStep2 () */
-				    if (ps.Scan.bModuleState == _MotorInStopState) {
-						if (ps.bMotorStepTableNo) {
+				    if(ps.Scan.bModuleState == _MotorInStopState) {
+						if(ps.bMotorStepTableNo) {
 						    ps.bMotorStepTableNo--
 						    *pb = 1
 						}
@@ -1601,7 +1601,7 @@ static void motorP96FillHalfStepTable( pScanData ps )
 				}
 			}
 
-		    if (++pwMoveStep >= pwEndMoveStepTable) {
+		    if(++pwMoveStep >= pwEndMoveStepTable) {
 				pwMoveStep = a_wMoveStepTable
 				pbHalfStepTbl = a_bHalfStepTable
 		    } else {
@@ -1623,39 +1623,39 @@ static void motorP96FillDataToColorTable( pScanData ps,
 	pUShort	 pw
     DataType Data
 
-    for (pb = &a_bColorByteTable[bIndex],
+    for(pb = &a_bColorByteTable[bIndex],
 		 pw = &a_wMoveStepTable[bIndex]; dwSteps; dwSteps--) {
 
-		if (*pw) {				/* valid state */
+		if(*pw) {				/* valid state */
 
 			if( *pw >= ps.BufferForColorRunTable ) {
 				DBG( DBG_LOW, "*pw = %u > %u !!\n",
 						*pw, ps.BufferForColorRunTable )
 			} else {
 
-			    bColor  = ps.pColorRunTable [*pw];	/* get the colors	*/
-			    bColors = a_bColorsSum [bColor & 7];/* number of colors */
+			    bColor  = ps.pColorRunTable[*pw];	/* get the colors	*/
+			    bColors = a_bColorsSum[bColor & 7];/* number of colors */
 
-			    if (bColors) {						/* need to read data */
-					if (dwSteps >= bColors) { 		/* enough room 		 */
+			    if(bColors) {						/* need to read data */
+					if(dwSteps >= bColors) { 		/* enough room 		 */
 
 		    			/* separate the colors to byte */
 					    pb1 = pb
-				    	if (bColor & ps.b1stColor) {
+				    	if(bColor & ps.b1stColor) {
 
 							*pb1 = ps.b1stColorByte
-							if (++pb1 >= pbEndColorByteTable)
+							if(++pb1 >= pbEndColorByteTable)
 							    pb1 = a_bColorByteTable
 					    }
 
-					    if (bColor & ps.b2ndColor) {
+					    if(bColor & ps.b2ndColor) {
 
 							*pb1 = ps.b2ndColorByte
-							if (++pb1 >= pbEndColorByteTable)
+							if(++pb1 >= pbEndColorByteTable)
 							    pb1 = a_bColorByteTable
 					    }
 
-				    	if (bColor & ps.b3rdColor)
+				    	if(bColor & ps.b3rdColor)
 							*pb1 = ps.b3rdColorByte
 					} else
 					    *pw = 0
@@ -1663,7 +1663,7 @@ static void motorP96FillDataToColorTable( pScanData ps,
 			}
 		}
 
-		if (++pw >= pwEndMoveStepTable) {
+		if(++pw >= pwEndMoveStepTable) {
 		    pw = a_wMoveStepTable
 		    pb = a_bColorByteTable
 		} else
@@ -1673,7 +1673,7 @@ static void motorP96FillDataToColorTable( pScanData ps,
 /*     ps.bOldSpeed = ps.bMotorRunStatus; non functional */
 
     /* ToCondense, CondenseColorByteTable */
-    for (dwSteps = _SCANSTATE_BYTES, pw = (pUShort)a_bColorByteTable,
+    for(dwSteps = _SCANSTATE_BYTES, pw = (pUShort)a_bColorByteTable,
 		 pb = ps.a_nbNewAdrPointer; dwSteps; dwSteps--, pw++, pb++) {
 
 		Data.wValue = *pw & 0x0303
@@ -1681,13 +1681,13 @@ static void motorP96FillDataToColorTable( pScanData ps,
     }
 
     /* ToCondenseMotor */
-    for (dwSteps = _SCANSTATE_BYTES, pb1 = a_bHalfStepTable,
+    for(dwSteps = _SCANSTATE_BYTES, pb1 = a_bHalfStepTable,
 		 pb = ps.a_nbNewAdrPointer; dwSteps; dwSteps--, pb1++, pb++) {
 
-		if (*pb1++)
+		if(*pb1++)
 		    *pb |= 4
 
-		if (*pb1)
+		if(*pb1)
 		    *pb |= 0x40
     }
 }
@@ -1700,7 +1700,7 @@ static void motorP96FillBackColorDataTable( pScanData ps )
 	Byte	bIndex
 	ULong	dw
 
-    if ((ps.bCurrentLineCount + ps.bNewCurrentLineCountGap + 1) >=
+    if((ps.bCurrentLineCount + ps.bNewCurrentLineCountGap + 1) >=
     													_NUMBER_OF_SCANSTEPS){
 		bIndex = ps.bCurrentLineCount + ps.bNewCurrentLineCountGap + 1 -
 				 _NUMBER_OF_SCANSTEPS
@@ -1725,15 +1725,15 @@ static void motorP96FillBackColorDataTable( pScanData ps )
 static void motorP96FillBackLoop( pScanData ps,
 								  pUChar pScanStep, ULong dwStates )
 {
-    for (; dwStates; dwStates--) {
+    for(; dwStates; dwStates--) {
 
-		if (*pScanStep == 0xff)
+		if(*pScanStep == 0xff)
 		    break;					/* end of states */
 
-		if (*pScanStep) {
-		    if (*pScanStep == 1) {	/* speed == 1, this state has to step */
+		if(*pScanStep) {
+		    if(*pScanStep == 1) {	/* speed == 1, this state has to step */
 
-				if (ps.dwScanStateCount & 1)
+				if(ps.dwScanStateCount & 1)
 				    ps.a_nbNewAdrPointer[ps.dwScanStateCount / 2] |= 0x40
 				else
 				    ps.a_nbNewAdrPointer[ps.dwScanStateCount / 2] |= 0x04
@@ -1741,16 +1741,16 @@ static void motorP96FillBackLoop( pScanData ps,
 
 		    *pScanStep -= 1;		/* speed decrease by 1 */
 
-		    if (!(*pScanStep))
+		    if(!(*pScanStep))
 				pScanStep++;		/* state processed */
 		} else
 		    pScanStep++;			/* skip this state */
 
-		if (++ps.dwScanStateCount == _NUMBER_OF_SCANSTEPS)
+		if(++ps.dwScanStateCount == _NUMBER_OF_SCANSTEPS)
 		    ps.dwScanStateCount = 0;					/* reset to begin */
 	}
 
-    if (*pScanStep != 0xff)
+    if(*pScanStep != 0xff)
 		ps.fFullLength = _FALSE
     else
 		ps.fFullLength = _TRUE
@@ -1770,8 +1770,8 @@ static void motorP96FillRunNewAdrPointer( pScanData ps )
 
 	IOGetCurrentStateCount( ps, &sState )
 
-    if (sState.bStep < ps.bOldStateCount )
-		sState.bStep += _NUMBER_OF_SCANSTEPS;/* over table (table just can   */
+    if(sState.bStep < ps.bOldStateCount )
+		sState.bStep += _NUMBER_OF_SCANSTEPS;/* over table(table just can   */
 											 /* holds 64 step, then reset to */
 											 /* 0, so if less than means over*/
 											 /* the table)					*/
@@ -1783,7 +1783,7 @@ static void motorP96FillRunNewAdrPointer( pScanData ps )
 	 * if current state != no stepped or stepped a cycle, fill the table with
 	 * 1 in NOT STEPPED length. (1 means to this state has to be processing).
 	 */
-    if (sState.bStep && sState.bStep != (_NUMBER_OF_SCANSTEPS - 1))
+    if(sState.bStep && sState.bStep != (_NUMBER_OF_SCANSTEPS - 1))
 		memset( ps.pScanState, 1, _NUMBER_OF_SCANSTEPS - sState.bStep - 1 )
 
 	IOGetCurrentStateCount( ps, &sState)
@@ -1806,7 +1806,7 @@ static void motorP96SetupRunTable( pScanData ps )
 
 	DBG( DBG_LOW, "motorP96SetupRunTable()\n" )
 
-    /* SetMaxDpiAndLength (ps) */
+    /* SetMaxDpiAndLength(ps) */
 #ifdef _A3I_EN
     if( ps.DataInf.xyPhyDpi.y > ps.PhysicalDpi ) {
 
@@ -1829,7 +1829,7 @@ static void motorP96SetupRunTable( pScanData ps )
 
 	DBG( DBG_LOW, "wLengthY = %u, wP96BaseDpi = %u\n", wLengthY, wP96BaseDpi )
 
-    /* ClearColorRunTable (ps) */
+    /* ClearColorRunTable(ps) */
 	memset( ps.pColorRunTable, 0, ps.BufferForColorRunTable ); /*wLengthY + 0x60 ); */
 
     p.pb = ps.pColorRunTable + _SCANSTATE_BYTES
@@ -1840,9 +1840,9 @@ static void motorP96SetupRunTable( pScanData ps )
 #endif
     siSum = (Short)wP96BaseDpi
 
-    if (ps.DataInf.wPhyDataType != COLOR_TRUE24) {
-		for (; wLoop; wLoop--, p.pb++)	{
-		    if ((siSum -= (Short)ps.DataInf.xyPhyDpi.y) <= 0) {
+    if(ps.DataInf.wPhyDataType != COLOR_TRUE24) {
+		for(; wLoop; wLoop--, p.pb++)	{
+		    if((siSum -= (Short)ps.DataInf.xyPhyDpi.y) <= 0) {
 				siSum += (Short)wP96BaseDpi
 				*p.pb = _COLORRUNTABLE_GREEN
 	    	}
@@ -1856,7 +1856,7 @@ static void motorP96SetupRunTable( pScanData ps )
 		/* CalColorRunTable */
 		DataType Data
 
-		if (ps.fSonyCCD) {
+		if(ps.fSonyCCD) {
 
 			if((ps.sCaps.Model == MODEL_OP_12000P) ||
                                            (ps.sCaps.Model == MODEL_OP_A3I)) {
@@ -1868,9 +1868,9 @@ static void motorP96SetupRunTable( pScanData ps )
 			Data.wValue = (_COLORRUNTABLE_BLUE << 8) | _COLORRUNTABLE_GREEN
 		}
 
-		for (; wLoop; wLoop--, p.pb++)	{
+		for(; wLoop; wLoop--, p.pb++)	{
 
-		    if ((siSum -= (Short)ps.DataInf.xyPhyDpi.y) <= 0) {
+		    if((siSum -= (Short)ps.DataInf.xyPhyDpi.y) <= 0) {
 				siSum += (Short)wP96BaseDpi
 
     			if((ps.sCaps.Model == MODEL_OP_12000P)||
@@ -1890,37 +1890,37 @@ static void motorP96SetupRunTable( pScanData ps )
 		memset( ps.pColorRunTable + _NUMBER_OF_SCANSTEPS / 8 + wLengthY,
 																0x77, 0x100 )
 #endif
-		if (ps.DataInf.xyPhyDpi.y < 100) {
+		if(ps.DataInf.xyPhyDpi.y < 100) {
 
 		    Byte bColor
 
-		    /* CheckColorTable () */
-		    if (ps.fSonyCCD)
+		    /* CheckColorTable() */
+		    if(ps.fSonyCCD)
 				Data.wValue = 0xdd22
 		    else
 				Data.wValue = 0xbb44
 
-		    for (wLoop = wLengthY - _SCANSTATE_BYTES,
+		    for(wLoop = wLengthY - _SCANSTATE_BYTES,
 				 p.pb = ps.pColorRunTable + _SCANSTATE_BYTES
 												 wLoop; wLoop--, p.pb++) {
 				bColor = 0
 
-				switch (a_bColorsSum[*p.pb & 0x0f]) {
+				switch(a_bColorsSum[*p.pb & 0x0f]) {
 
 			    case 3:
-					if (*(p.pb + 2))
+					if(*(p.pb + 2))
 					    bColor = 1
                                         // fall through
 			    case 2:
-					if (*(p.pb + 1))
+					if(*(p.pb + 1))
 			    		bColor++
-					if (bColor == 2) {
+					if(bColor == 2) {
 					    *p.pb &= ~_COLORRUNTABLE_RED
 					    *(p.pb - 2) = _COLORRUNTABLE_RED
 					}
 
-					if (bColor) {
-				    	if (*p.pb & ps.RedDataReady) {
+					if(bColor) {
+				    	if(*p.pb & ps.RedDataReady) {
 							*p.pb &= ~_COLORRUNTABLE_RED
 							*(p.pb - 1) = _COLORRUNTABLE_RED
 					    } else {
@@ -1945,28 +1945,28 @@ static void motorP96UpdateDataCurrentReadLine( pScanData ps )
 	IOGetCurrentStateCount( ps, &State1 )
 	IOGetCurrentStateCount( ps, &State2 )
 
-    if (State1.bStatus == State2.bStatus) {
+    if(State1.bStatus == State2.bStatus) {
 
-		if (!(State2.bStatus & _SCANSTATE_STOP)) {
+		if(!(State2.bStatus & _SCANSTATE_STOP)) {
 
 		    /* motor still running */
-		    if (State2.bStep < ps.bCurrentLineCount) {
+		    if(State2.bStep < ps.bCurrentLineCount) {
 				State2.bStep = State2.bStep + _NUMBER_OF_SCANSTEPS -
 												       ps.bCurrentLineCount
 			} else
 				State2.bStep -= ps.bCurrentLineCount
 
-		    if (State2.bStep >= (_NUMBER_OF_SCANSTEPS - 3)) {
+		    if(State2.bStep >= (_NUMBER_OF_SCANSTEPS - 3)) {
 
 				MiscStartTimer( &timer, _SECOND )
 
 				do {
 				    State2.bStatus = IOGetScanState( ps, _FALSE )
 
-				} while (!(State2.bStatus & _SCANSTATE_STOP) &&
+				} while(!(State2.bStatus & _SCANSTATE_STOP) &&
 						 !MiscCheckTimer( &timer ))
 		    } else
-				if (State2.bStep < 40)
+				if(State2.bStep < 40)
 				    return
 		}
 
@@ -2028,11 +2028,11 @@ static void motorGoHalfStep1( pScanData ps )
 
 		ps.FillRunNewAdrPointer( ps )
 
-		while (!motorCheckMotorPresetLength(ps))
+		while(!motorCheckMotorPresetLength(ps))
 			motorP98FillRunNewAdrPointer1( ps )
 	} else {
 
-	    while (!motorCheckMotorPresetLength( ps ))
+	    while(!motorCheckMotorPresetLength( ps ))
 			ps.FillRunNewAdrPointer( ps )
 	}
 }
@@ -2049,7 +2049,7 @@ static void motorP96WaitBack( pScanData ps )
 	UShort		w
 	UShort		wStayMaxStep
 
-    /* FindMaxMoveStepIndex () */
+    /* FindMaxMoveStepIndex() */
 
     p.pw = a_wMoveStepTable
 
@@ -2089,17 +2089,17 @@ static void motorP96WaitBack( pScanData ps )
     ps.Scan.fMotorBackward = _FALSE
     motorGoHalfStep1( ps );			/* move forward */
 
-    /* GetNowStepTable () */
+    /* GetNowStepTable() */
     ps.bCurrentLineCount = IOGetScanState( ps, _FALSE ) & _SCANSTATE_MASK
     ps.bNewCurrentLineCountGap = 0
 
-    /* ClearColorByteTable () */
+    /* ClearColorByteTable() */
     memset( a_bColorByteTable, 0, _NUMBER_OF_SCANSTEPS )
 
-    /* ClearHalfStepTable () */
+    /* ClearHalfStepTable() */
     memset( a_bHalfStepTable, 0, _NUMBER_OF_SCANSTEPS )
 
-    /* FillWaitMoveStepTable () */
+    /* FillWaitMoveStepTable() */
     p.pw = &a_wMoveStepTable[((ps.bCurrentLineCount + 1) & 0x3f)]
     *p.pw = 1
     p.pw++
@@ -2109,7 +2109,7 @@ static void motorP96WaitBack( pScanData ps )
 		if( p.pw >= pwEndMoveStepTable ) /* make sure pointer in range */
 		    p.pw = a_wMoveStepTable
 
-		if (--Data.bValue)
+		if(--Data.bValue)
 		    *p.pw = 0;			    			/* don't step */
 		else {
 		    Data.bValue = ps.bMotorSpeedData;  /* speed value       		 */
@@ -2138,11 +2138,11 @@ static void motorP98WaitBack( pScanData ps )
 
     p.pw = &a_wMoveStepTable[ps.bCurrentLineCount]
 
-    if (0 == *p.pw) {
+    if(0 == *p.pw) {
 
-		for (w = _NUMBER_OF_SCANSTEPS; w && !*p.pw; w--) {
+		for(w = _NUMBER_OF_SCANSTEPS; w && !*p.pw; w--) {
 		    p.pw--
-		    if (p.pw < a_wMoveStepTable)
+		    if(p.pw < a_wMoveStepTable)
 				p.pw = &a_wMoveStepTable[_NUMBER_OF_SCANSTEPS - 1]
 		}
 		wStayMaxStep = *p.pw + 1
@@ -2183,9 +2183,9 @@ static void motorP98WaitBack( pScanData ps )
 
     p.pw = &a_wMoveStepTable[ps.bCurrentLineCount]
 
-    for (w = wStayMaxStep, Data.bValue = ps.bMotorSpeedData,
+    for(w = wStayMaxStep, Data.bValue = ps.bMotorSpeedData,
 							    			dw = _NUMBER_OF_SCANSTEPS; dw; dw--) {
-		if (--Data.bValue) {
+		if(--Data.bValue) {
 		    *p.pw = 0;			    	/* don't step */
 		} else {
 
@@ -2195,7 +2195,7 @@ static void motorP98WaitBack( pScanData ps )
 		    w++;			    			/* pointer++                    */
 	}
 	/* make sure pointer in range */
-	if (++p.pw >= pwEndMoveStepTable)
+	if(++p.pw >= pwEndMoveStepTable)
 	    p.pw = a_wMoveStepTable
     }
 
@@ -2217,15 +2217,15 @@ static void motorFillMoveStepTable( pScanData ps,
     UShort w
     Byte   b
 
-    if (++pw >= pwEndMoveStepTable )
+    if(++pw >= pwEndMoveStepTable )
 		pw = a_wMoveStepTable
 
     wIndex++
 
     b = ps.bMotorSpeedData
 
-    for (w = _NUMBER_OF_SCANSTEPS - bStep; w; w--) {
-		if (b == 1) {
+    for(w = _NUMBER_OF_SCANSTEPS - bStep; w; w--) {
+		if(b == 1) {
 		    b = ps.bMotorSpeedData
 		    *pw = wIndex
 	    	wIndex++
@@ -2233,7 +2233,7 @@ static void motorFillMoveStepTable( pScanData ps,
 		    b--
 		    *pw = 0
 		}
-		if (++pw >= pwEndMoveStepTable)
+		if(++pw >= pwEndMoveStepTable)
 	    	pw = a_wMoveStepTable
     }
 
@@ -2242,7 +2242,7 @@ static void motorFillMoveStepTable( pScanData ps,
 	else
 		motorP96FillHalfStepTable( ps )
 
-    if ((ps.bCurrentLineCount + 1) >= _NUMBER_OF_SCANSTEPS) {
+    if((ps.bCurrentLineCount + 1) >= _NUMBER_OF_SCANSTEPS) {
 		b = ps.bCurrentLineCount + 1 - _NUMBER_OF_SCANSTEPS
     } else {
 		b = ps.bCurrentLineCount + 1
@@ -2277,9 +2277,9 @@ static void noMotorRunStatusStop( pScanData ps, Byte bScanState )
     b1 	 = 0
     w 	 = _NUMBER_OF_SCANSTEPS
 
-    if (*pw) {
-		b = a_bColorsSum[pb [*pw] >> 4]
-		if (b) {
+    if(*pw) {
+		b = a_bColorsSum[pb[*pw] >> 4]
+		if(b) {
 		    motorClearColorByteTableLoop0( ps, b )
 		    ps.bNewCurrentLineCountGap = b
 
@@ -2289,31 +2289,31 @@ static void noMotorRunStatusStop( pScanData ps, Byte bScanState )
 		b1++
 		bCur--
 
-		if (--pw < a_wMoveStepTable) {
-		    pw = &a_wMoveStepTable [_NUMBER_OF_SCANSTEPS - 1]
+		if(--pw < a_wMoveStepTable) {
+		    pw = &a_wMoveStepTable[_NUMBER_OF_SCANSTEPS - 1]
 		    bCur = _NUMBER_OF_SCANSTEPS - 1
 		}
     }
 
     for(; w; w--) {
-		if (*pw) {
-		    if (*pw < _SCANSTATE_BYTES) {
+		if(*pw) {
+		    if(*pw < _SCANSTATE_BYTES) {
 				b = 0
 				break
 		    } else
-				if ((b = a_bColorsSum [pb [*pw] >> 4]))
+				if((b = a_bColorsSum[pb[*pw] >> 4]))
 				    break
 		}
 		b1++
 		bCur--
 
-		if (--pw < a_wMoveStepTable) {
-		    pw = &a_wMoveStepTable [_NUMBER_OF_SCANSTEPS - 1]
+		if(--pw < a_wMoveStepTable) {
+		    pw = &a_wMoveStepTable[_NUMBER_OF_SCANSTEPS - 1]
 	   		bCur = _NUMBER_OF_SCANSTEPS - 1
 		}
 	}
 
-	if (b1 == _NUMBER_OF_SCANSTEPS) {
+	if(b1 == _NUMBER_OF_SCANSTEPS) {
 		ps.bNewCurrentLineCountGap = 0
 		ps.bNewGap = 0
 	} else {
@@ -2352,8 +2352,8 @@ static void motorP96SetSpeed( pScanData ps, Byte bSpeed, Bool fSetRunState )
 
 		MiscStartTimer( &timer, (_SECOND /2))
 
-		while (!MiscCheckTimer(&timer)) {
-		    if ((bState = IOGetScanState( ps, _FALSE)) & _SCANSTATE_STOP) {
+		while(!MiscCheckTimer(&timer)) {
+		    if((bState = IOGetScanState( ps, _FALSE)) & _SCANSTATE_STOP) {
 				ps.bCurrentLineCount = bState & ~_SCANSTATE_STOP
 				motorP96WaitBack( ps )
 				return
@@ -2367,16 +2367,16 @@ static void motorP96SetSpeed( pScanData ps, Byte bSpeed, Bool fSetRunState )
 												!(bState & _SCANSTATE_STOP)) {
 
 		/* Try to find the available step for all rest steps.
-		 * 1) if current step is valid (with data request), fill all steps
+		 * 1) if current step is valid(with data request), fill all steps
 		 *    after it
-		 * 2) if current step is NULL (for delay purpose), backward search the
+		 * 2) if current step is NULL(for delay purpose), backward search the
 		 *    valid entry, then fill all steps after it
 		 * 3) if no step is valid, fill all entries
     	 */
 		Byte   bColors = 0
    		UShort w
 
-		/* NoMotorRunStatusStop () */
+		/* NoMotorRunStatusStop() */
 		ps.bCurrentLineCount  = (bState &= _SCANSTATE_MASK)
 		ps.Scan.fRefreshState = _TRUE
 
@@ -2415,11 +2415,11 @@ static void motorP96SetSpeed( pScanData ps, Byte bSpeed, Bool fSetRunState )
 		while( dw-- ) {
 
 		    if( (wMoveStep = *pw) ) {
-				if (wMoveStep < (_NUMBER_OF_SCANSTEPS / 2)) {
+				if(wMoveStep < (_NUMBER_OF_SCANSTEPS / 2)) {
 				    bColors = 0
 				    break
 				}
-				if((bColors = a_bColorsSum [ps.pColorRunTable[wMoveStep] / 16]))
+				if((bColors = a_bColorsSum[ps.pColorRunTable[wMoveStep] / 16]))
 				    break
 		    }
 
@@ -2432,7 +2432,7 @@ static void motorP96SetSpeed( pScanData ps, Byte bSpeed, Bool fSetRunState )
 				bState--
 		}
 
-		if (bData == _NUMBER_OF_SCANSTEPS )
+		if(bData == _NUMBER_OF_SCANSTEPS )
 		    bData = bColors = 0
 
 		ps.bNewCurrentLineCountGap = bData
@@ -2440,8 +2440,8 @@ static void motorP96SetSpeed( pScanData ps, Byte bSpeed, Bool fSetRunState )
 		motorClearColorByteTableLoop1( ps )
 		bColors = 0
 
-		/* use pw (new pointer) and new speed to recreate MoveStepTable
-		 * wMoveStep = Index number from a_wMoveStepTable ([esi])
+		/* use pw(new pointer) and new speed to recreate MoveStepTable
+		 * wMoveStep = Index number from a_wMoveStepTable([esi])
 		 * bColors = number of steps should be reserved
 		 * pw = where to fill
 		 */
@@ -2458,7 +2458,7 @@ FillMoveStepTable:
 	    	ps.bMotorStepTableNo++
 		}
 
-		if (++pw >= pwEndMoveStepTable)
+		if(++pw >= pwEndMoveStepTable)
 		    pw = a_wMoveStepTable
 
 		for( dw = _NUMBER_OF_SCANSTEPS - bColors, wMoveStep++,
@@ -2482,7 +2482,7 @@ FillMoveStepTable:
 		    }
 		    *pw = w
 
-		    if (++pw >= pwEndMoveStepTable)
+		    if(++pw >= pwEndMoveStepTable)
 				pw = a_wMoveStepTable
 		}
 
@@ -2624,7 +2624,7 @@ static void motorP98003WaitForPositionY( pScanData ps )
     motorP98003Force16Steps( ps)
     dwBeginY -= 16
 
-    if (dwBeginY > (_RFT_SCANNING_ORG + _P98003_YOFFSET) &&
+    if(dwBeginY > (_RFT_SCANNING_ORG + _P98003_YOFFSET) &&
                 						  bXStep < ps.AsicReg.RD_XStepTime) {
 
     	IODataToRegister( ps, ps.RegMotorDriverType, ps.Scan.motorPower )
@@ -2817,7 +2817,7 @@ _LOC void MotorSetConstantMove( pScanData ps, Byte bMovePerStep )
     switch( bMovePerStep )
     {
 	case 0: 	/* doesn't move at all */
-	    for (dw = _NUMBER_OF_SCANSTEPS / 8; dw; dw--, p.pdw++) {
+	    for(dw = _NUMBER_OF_SCANSTEPS / 8; dw; dw--, p.pdw++) {
 
 			if( _ASIC_IS_98001 == ps.sCaps.AsicID )
 				*p.pdw &= 0x77777777
@@ -2827,7 +2827,7 @@ _LOC void MotorSetConstantMove( pScanData ps, Byte bMovePerStep )
 	    break
 
 	case 1:
-	    for (dw = _NUMBER_OF_SCANSTEPS / 8; dw; dw--, p.pdw++) {
+	    for(dw = _NUMBER_OF_SCANSTEPS / 8; dw; dw--, p.pdw++) {
 			if( _ASIC_IS_98001 == ps.sCaps.AsicID )
 				*p.pdw |= 0x88888888
 			else
@@ -2836,7 +2836,7 @@ _LOC void MotorSetConstantMove( pScanData ps, Byte bMovePerStep )
 	    break
 
 	case 2:
-	    for (dw = _NUMBER_OF_SCANSTEPS / 8; dw; dw--, p.pdw++) {
+	    for(dw = _NUMBER_OF_SCANSTEPS / 8; dw; dw--, p.pdw++) {
 			if( _ASIC_IS_98001 == ps.sCaps.AsicID )
 				*p.pdw |= 0x80808080
 			else
@@ -2848,15 +2848,15 @@ _LOC void MotorSetConstantMove( pScanData ps, Byte bMovePerStep )
 	    {
 			Byte bMoves = bMovePerStep
 
-			for (dw = _SCANSTATE_BYTES; dw; dw--, p.pb++) {
-		    	if (!(--bMoves)) {
+			for(dw = _SCANSTATE_BYTES; dw; dw--, p.pb++) {
+		    	if(!(--bMoves)) {
 					if( _ASIC_IS_98001 == ps.sCaps.AsicID )
 						*p.pb |= 8
 					else
 						*p.pb |= 4
 					bMoves = bMovePerStep
 			    }
-			    if (!(--bMoves)) {
+			    if(!(--bMoves)) {
 					if( _ASIC_IS_98001 == ps.sCaps.AsicID )
 						*p.pb |= 0x80
 					else
@@ -2882,7 +2882,7 @@ _LOC void MotorToHomePosition( pScanData ps )
 
 	if( _ASIC_IS_98001 == ps.sCaps.AsicID ) {
 
-    	if (!(IODataRegisterFromScanner(ps,ps.RegStatus) & _FLAG_P98_PAPER)){
+    	if(!(IODataRegisterFromScanner(ps,ps.RegStatus) & _FLAG_P98_PAPER)){
 			ps.GotoShadingPosition( ps )
 		}
     } else if( _ASIC_IS_98003 == ps.sCaps.AsicID ) {
@@ -2920,7 +2920,7 @@ _LOC void MotorToHomePosition( pScanData ps )
 
 			motorP96GetScanStateAndStatus( ps, &StateStatus )
 
-			if ( StateStatus.bStatus & _FLAG_P96_PAPER ) {
+			if( StateStatus.bStatus & _FLAG_P96_PAPER ) {
 			    break
 			}
 
@@ -2973,18 +2973,18 @@ _LOC void MotorP96SetSpeedToStopProc( pScanData ps )
 
 		bData = IODataRegisterFromScanner( ps, ps.RegFifoOffset )
 
-		if ((bData > ps.bMinReadFifo) && (bData != ps.bFifoCount))
+		if((bData > ps.bMinReadFifo) && (bData != ps.bFifoCount))
 		    break
     }
     bData = IOGetScanState( ps, _FALSE )
 
-    if (!(bData & _SCANSTATE_STOP)) {
+    if(!(bData & _SCANSTATE_STOP)) {
 
 		MiscStartTimer( &timer, (_SECOND / 2))
 
-		while (!MiscCheckTimer( &timer )) {
+		while(!MiscCheckTimer( &timer )) {
 
-		    if (IOGetScanState( ps, _FALSE) != bData )
+		    if(IOGetScanState( ps, _FALSE) != bData )
 				break
 		}
     }
@@ -2996,7 +2996,7 @@ _LOC void MotorP96SetSpeedToStopProc( pScanData ps )
 }
 
 /*.............................................................................
- * Position Scan Module to specified line number (Forward or Backward & wait
+ * Position Scan Module to specified line number(Forward or Backward & wait
  * for paper flag ON)
  */
 _LOC void MotorP96ConstantMoveProc( pScanData ps, ULong dwLines )
@@ -3048,16 +3048,16 @@ _LOC void MotorP96ConstantMoveProc( pScanData ps, ULong dwLines )
 			 * 1) Forward will not reach the sensor.
 			 * 2) Backwarding, doesn't reach the sensor
 			 */
-		    if (wQuotient) {
+		    if(wQuotient) {
 
 				/* stepped */
-				if (StateStatus.bStep != bLastState) {
+				if(StateStatus.bStep != bLastState) {
 				    bLastState = StateStatus.bStep
-				    if (!bLastState)	/* done a cycle! */
+				    if(!bLastState)	/* done a cycle! */
 						wQuotient--
 				}
 		    } else {
-				if (StateStatus.bStep >= bRemainder) {
+				if(StateStatus.bStep >= bRemainder) {
 			    	break
 				}
 			}
@@ -3065,9 +3065,9 @@ _LOC void MotorP96ConstantMoveProc( pScanData ps, ULong dwLines )
 
 		fTimeout = MiscCheckTimer( &timer )
 
-	} while ( _OK == fTimeout )
+	} while( _OK == fTimeout )
 
-    if ( _OK == fTimeout ) {
+    if( _OK == fTimeout ) {
 		memset( ps.a_nbNewAdrPointer, 0, _SCANSTATE_BYTES )
 		IOSetToMotorRegister( ps )
     }
@@ -3087,11 +3087,11 @@ _LOC Bool MotorP96AheadToDarkArea( pScanData ps )
 	ps.fColorMoreBlueFlag = _FALSE
     ps.wOverBlue = 0
 
-    /* FillToDarkCounter () */
+    /* FillToDarkCounter() */
     memset( ps.a_nbNewAdrPointer, 0x30, _SCANSTATE_BYTES)
     MotorSetConstantMove( ps, 2 )
 
-    /* SetToDarkRegister () */
+    /* SetToDarkRegister() */
     ps.AsicReg.RD_ModeControl    = _ModeScan
     ps.AsicReg.RD_ScanControl    = ps.bLampOn | _SCAN_BYTEMODE
     ps.Asic96Reg.RD_MotorControl = _MotorDirForward | ps.FullStep
@@ -3132,21 +3132,21 @@ _LOC Bool MotorP96AheadToDarkArea( pScanData ps )
 		}
     }
 #else
-    while (!MiscCheckTimer( &timer )) {
+    while(!MiscCheckTimer( &timer )) {
 
 		bDark = motorP96ReadDarkData( ps )
 
 		wTotalLastLine++
-		if (((ps.sCaps.AsicID == _ASIC_IS_96001) && (bDark > 0x80)) ||
+		if(((ps.sCaps.AsicID == _ASIC_IS_96001) && (bDark > 0x80)) ||
 			((ps.sCaps.AsicID != _ASIC_IS_96001) && (bDark < 0x80)) ||
                                             (wTotalLastLine==wTL)) {
 
 		    IOCmdRegisterToScanner( ps, ps.RegModeControl, _ModeProgram )
 
-		    if (wTotalLastLine <= 24)
+		    if(wTotalLastLine <= 24)
 				ps.fColorMoreRedFlag = _TRUE
 		    else
-				if (wTotalLastLine >= 120) {
+				if(wTotalLastLine >= 120) {
 				    ps.wOverBlue = wTotalLastLine - 80
 				    ps.fColorMoreBlueFlag = _TRUE
 				}
@@ -3164,9 +3164,9 @@ _LOC Bool MotorP96AheadToDarkArea( pScanData ps )
  */
 _LOC void MotorP96AdjustCurrentSpeed( pScanData ps, Byte bSpeed )
 {
-    if (bSpeed != 1) {
+    if(bSpeed != 1) {
 
-		if (bSpeed > 34)
+		if(bSpeed > 34)
 		    ps.bCurrentSpeed = 34
 		else
 		    ps.bCurrentSpeed = (bSpeed + 1) & 0xfe
@@ -3222,7 +3222,7 @@ _LOC void MotorP98003BackToHomeSensor( pScanData ps )
 
     ps.AsicReg.RD_ModeControl = _ModeScan
 
-    if (!(ps.DataInf.dwScanFlag & SCANDEF_TPA)) {
+    if(!(ps.DataInf.dwScanFlag & SCANDEF_TPA)) {
         IODataToRegister( ps, ps.RegLineControl, _LOBYTE(ps.Shade.wExposure))
         IODataToRegister( ps, ps.RegXStepTime,   _LOBYTE(ps.Shade.wXStep))
 
@@ -3277,7 +3277,7 @@ _LOC void MotorP98003ModuleForwardBackward( pScanData ps )
 
 	case _MotorGoBackward:
 	    if( MiscCheckTimer(& p98003MotorTimer)) {
-    		if (!(IOGetExtendedStatus( ps ) & _STILL_FREE_RUNNING )) {
+    		if(!(IOGetExtendedStatus( ps ) & _STILL_FREE_RUNNING )) {
     		    ps.Scan.bModuleState = _MotorInStopState
 	    	    MiscStartTimer( &p98003MotorTimer, (50 *_MSECOND))
 		    }
@@ -3302,7 +3302,7 @@ _LOC void MotorP98003ModuleForwardBackward( pScanData ps )
     		if( !(IOGetScanState( ps, _TRUE ) & _SCANSTATE_STOP))
 	    	    ps.Scan.bModuleState = _MotorInNormalState
     		else {
-    		    if (!(IOGetExtendedStatus( ps ) & _STILL_FREE_RUNNING )) {
+    		    if(!(IOGetExtendedStatus( ps ) & _STILL_FREE_RUNNING )) {
         			IORegisterToScanner( ps, ps.RegRefreshScanState )
 		        	ps.Scan.bModuleState = _MotorInNormalState
                 }
@@ -3335,7 +3335,7 @@ _LOC void MotorP98003PositionYProc( pScanData ps, ULong steps)
 	MiscStartTimer( &timer, _SECOND * 30 )
 
     do  {
-    	if (!(IOGetExtendedStatus( ps ) & _STILL_FREE_RUNNING) ||
+    	if(!(IOGetExtendedStatus( ps ) & _STILL_FREE_RUNNING) ||
                     	        !(IOGetScanState( ps, _TRUE ) & _SCANSTATE_STOP))
 	    break
 

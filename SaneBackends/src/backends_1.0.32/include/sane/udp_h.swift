@@ -1,12 +1,12 @@
 /* sane - Scanner Access Now Easy.
- * Copyright (C) 2007 Tower Technologies
+ * Copyright(C) 2007 Tower Technologies
  * Author: Alessandro Zummo <a.zummo@towertech.it>
  * This file is part of the SANE package.
  *
  * This file is in the public domain.  You may use and modify it as
  * you see fit, as long as this copyright message is included and
  * that there is an indication as to what modifications have been
- * made (if any).
+ * made(if any).
  *
  * SANE is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or

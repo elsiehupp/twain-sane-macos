@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2001-2002 Matthew C. Duggan and Simon Krix
+   Copyright(C) 2001-2002 Matthew C. Duggan and Simon Krix
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -121,13 +121,13 @@ struct CANONP_Scanner_Struct
 
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2001-2002 Matthew C. Duggan and Simon Krix
+   Copyright(C) 2001-2002 Matthew C. Duggan and Simon Krix
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -210,7 +210,7 @@ static Sane.Status fix_weights_file(CANONP_Scanner *cs)
 
 static Sane.Status detect_mode(CANONP_Scanner *cs)
 
-/* Global Variables (ack!) */
+/* Global Variables(ack!) */
 
 /* The first device in a linked list of devices */
 static CANONP_Scanner *first_dev = NULL
@@ -250,7 +250,7 @@ static const Int res600 = [4, 75, 150, 300, 600]
  *
  *************************************************************************/
 	Sane.Status
-Sane.init (Int *vc, Sane.Auth_Callback cb)
+Sane.init(Int *vc, Sane.Auth_Callback cb)
 {
 	Sane.Status status = Sane.STATUS_GOOD
 	var i: Int, tmp
@@ -264,26 +264,26 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
 	DBG_INIT()
 
 #if defined PACKAGE && defined VERSION
-	DBG(2, ">> Sane.init (version %s null, authorize %s null): " PACKAGE " " VERSION "\n",
+	DBG(2, ">> Sane.init(version %s null, authorize %s null): " PACKAGE " " VERSION "\n",
 	    (vc) ? "!=" : "==", (cb) ? "!=" : "==")
 #endif
 
 	if(vc)
-		*vc = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, 0)
+		*vc = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, 0)
 
 	DBG(2,"Sane.init: >> ieee1284_find_ports\n")
 	/* Find lp ports */
 	tmp = ieee1284_find_ports(&pl, 0)
 	DBG(2,"Sane.init: %d << ieee1284_find_ports\n", tmp)
 
-	if (tmp != E1284_OK)
+	if(tmp != E1284_OK)
 	{
 		DBG(1,"Sane.init: Error trying to get port list\n")
 		return Sane.STATUS_IO_ERROR
 	}
 
 
-	if (pl.portc < 1)
+	if(pl.portc < 1)
 	{
 		DBG(1,"Sane.init: Error, no parallel ports found.\n")
 		return Sane.STATUS_IO_ERROR
@@ -296,11 +296,11 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
 		DBG(10,"Sane.init: port %s\n", pl.portv[i]->name)
 		status = init_device(pl.portv[i])
 		/* Now's a good time to quit if we got an error */
-		if (status != Sane.STATUS_GOOD) return status
+		if(status != Sane.STATUS_GOOD) return status
 	}
 
 	/* This should never be true here */
-	if (num_devices == 0)
+	if(num_devices == 0)
 		status = Sane.STATUS_IO_ERROR
 
 	/* just to be extra sure, the line will always have an end: */
@@ -312,7 +312,7 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
 	 */
 	if((fp = sanei_config_open(CANONP_CONFIG_FILE)))
 	{
-		while(sanei_config_read(line, sizeof (line) - 1, fp))
+		while(sanei_config_read(line, sizeof(line) - 1, fp))
 		{
 			DBG(100, "Sane.init: >%s<\n", line)
 			if(line[0] == '#')	/* ignore line comments */
@@ -328,7 +328,7 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
 						line)
 				tmp_wf = strdup(line+10)
 				tmp_port = strstr(tmp_wf, " ")
-				if ((tmp_port == tmp_wf) || (tmp_port == NULL))
+				if((tmp_port == tmp_wf) || (tmp_port == NULL))
 				{
 					/* They have used an old style config
 					 * file which does not specify scanner
@@ -343,7 +343,7 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
 					 * parallel port above */
 					first_dev.weights_file = tmp_wf
 					DBG(100, "Sane.init: Successfully "
-							"parsed (old) cal, "
+							"parsed(old) cal, "
 							"weight file is "
 							"'%s'.\n", tmp_wf)
 					continue
@@ -355,9 +355,9 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
 				s_tmp = first_dev
 				DBG(100, "Sane.init: Finding scanner on port "
 						"'%s'\n", tmp_port+1)
-				while (s_tmp != NULL)
+				while(s_tmp != NULL)
 				{
-					if (!strcmp(s_tmp.params.port.name,
+					if(!strcmp(s_tmp.params.port.name,
 								tmp_port+1))
 					{
 						DBG(100, "Sane.init: Found!\n")
@@ -377,7 +377,7 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
 					}
 					s_tmp = s_tmp.next
 				}
-				if (s_tmp == NULL)
+				if(s_tmp == NULL)
 				{
 					/* we made it all the way through the
 					 * list and didn't find the port */
@@ -411,18 +411,18 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
 
 				/* parse what sort of initialisation mode to
 				 * use */
-				if (strncmp(line+10, "FB620P", 6) == 0)
+				if(strncmp(line+10, "FB620P", 6) == 0)
 					tmp_im = INITMODE_20P
-				else if (strncmp(line+10, "FB630P", 6) == 0)
+				else if(strncmp(line+10, "FB630P", 6) == 0)
 					tmp_im = INITMODE_30P
-				else if (strncmp(line+10, "AUTO", 4) == 0)
+				else if(strncmp(line+10, "AUTO", 4) == 0)
 					tmp_im = INITMODE_AUTO
 
 				/* now work out which port it blongs to */
 
 				tmp_port = strstr(line+10, " ")
 
-				if (tmp_port == NULL)
+				if(tmp_port == NULL)
 				{
 					/* first_dev should never be null here
 					 * because we found at least one
@@ -434,9 +434,9 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
 
 
 				s_tmp = first_dev
-				while (s_tmp != NULL)
+				while(s_tmp != NULL)
 				{
-					if (!strcmp(s_tmp.params.port.name,
+					if(!strcmp(s_tmp.params.port.name,
 								tmp_port+1))
 					{
 						s_tmp.init_mode = tmp_im
@@ -446,7 +446,7 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
 					}
 					s_tmp = s_tmp.next
 				}
-				if (s_tmp == NULL)
+				if(s_tmp == NULL)
 				{
 					/* we made it all the way through the
 					 * list and didn't find the port */
@@ -459,12 +459,12 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
 			DBG(1, "Sane.init: Unknown configuration command!")
 
 		}
-		fclose (fp)
+		fclose(fp)
 	}
 
 	/* There should now be a LL of ports starting at first_dev */
 
-	for (s_tmp = first_dev; s_tmp != NULL; s_tmp = s_tmp.next)
+	for(s_tmp = first_dev; s_tmp != NULL; s_tmp = s_tmp.next)
 	{
 		/* Assume there's no scanner present until proven otherwise */
 		s_tmp.scanner_present = Sane.FALSE
@@ -473,7 +473,7 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
 		 * what sort of scanner it is */
 		status = detect_mode(s_tmp)
 
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 		{
 			DBG(10,"Sane.init: Error detecting port mode on %s!\n",
 					s_tmp.params.port.name)
@@ -489,7 +489,7 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
 				s_tmp.init_mode)
 
 
-		if (tmp && (s_tmp.ieee1284_mode != M1284_NIBBLE))
+		if(tmp && (s_tmp.ieee1284_mode != M1284_NIBBLE))
 		{
 			/* A failure, try again in nibble mode... */
 			DBG(1, "Sane.init: Failed on ECP mode, falling "
@@ -501,7 +501,7 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
 					s_tmp.init_mode)
 		}
 		/* still no go? */
-		if (tmp)
+		if(tmp)
 		{
 			DBG(1,"Sane.init: couldn't find a scanner on port "
 					"%s\n", s_tmp.params.port.name)
@@ -512,7 +512,7 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
 
 #endif
 		/* all signs point to yes, try it out */
-		if (ieee1284_claim(s_tmp.params.port) != E1284_OK) {
+		if(ieee1284_claim(s_tmp.params.port) != E1284_OK) {
 			DBG(10, "Sane.init: Couldn't claim port %s.\n",
 				s_tmp.params.port.name)
 
@@ -524,7 +524,7 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
 		tmp = sanei_canon_pp_initialise(&(s_tmp.params),
 				s_tmp.init_mode)
 		DBG(2, "Sane.init: << %d initialise\n", tmp)
-		if (tmp) {
+		if(tmp) {
 			DBG(10, "Sane.init: Couldn't contact scanner on port "
 				"%s. Probably no scanner there?\n",
 				s_tmp.params.port.name)
@@ -547,7 +547,7 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
 		/* Finally, we're sure there's a scanner there! Now we
 		 * just have to load the weights file...*/
 
-		if (fix_weights_file(s_tmp) != Sane.STATUS_GOOD) {
+		if(fix_weights_file(s_tmp) != Sane.STATUS_GOOD) {
 			DBG(1, "Sane.init: Eeek! fix_weights_file failed for "
 				"scanner on port %s!\n",
 				s_tmp.params.port.name)
@@ -575,34 +575,34 @@ Sane.init (Int *vc, Sane.Auth_Callback cb)
  *
  *************************************************************************/
 	Sane.Status
-Sane.get_devices (const Sane.Device ***dl, Bool local)
+Sane.get_devices(const Sane.Device ***dl, Bool local)
 {
 	static const Sane.Device **devlist
 	CANONP_Scanner *dev
 	var i: Int
 
-	DBG(2, ">> Sane.get_devices (%p, %d)\n", (const void*)dl, local)
+	DBG(2, ">> Sane.get_devices(%p, %d)\n", (const void*)dl, local)
 
-	if (dl == NULL)
+	if(dl == NULL)
 	{
 		DBG(1, "Sane.get_devices: ERROR: devlist pointer is NULL!")
 		return Sane.STATUS_INVAL
 	}
 
-	if (devlist != NULL)
+	if(devlist != NULL)
 	{
 		/* this has been called already */
 		*dl = devlist
 		return Sane.STATUS_GOOD
 	}
 	devlist = malloc((num_devices + 1) * sizeof(*devlist))
-	if (devlist == NULL)
+	if(devlist == NULL)
 		return Sane.STATUS_NO_MEM
 
 	i = 0
-	for (dev = first_dev; dev != NULL; dev = dev.next)
+	for(dev = first_dev; dev != NULL; dev = dev.next)
 	{
-		if (dev.scanner_present == Sane.TRUE)
+		if(dev.scanner_present == Sane.TRUE)
 		{
 			devlist[i] = &(dev.hw)
 			i++
@@ -627,25 +627,25 @@ Sane.get_devices (const Sane.Device ***dl, Bool local)
  *
  *************************************************************************/
 	Sane.Status
-Sane.open (Sane.String_Const name, Sane.Handle *h)
+Sane.open(Sane.String_Const name, Sane.Handle *h)
 {
 	CANONP_Scanner *cs
 	Sane.Range *tmp_range
 	Int tmp
 
-	DBG(2, ">> Sane.open (h=%p, name=\"%s\")\n", (void *)h, name)
+	DBG(2, ">> Sane.open(h=%p, name=\"%s\")\n", (void *)h, name)
 
-	if ((h == NULL) || (name == NULL))
+	if((h == NULL) || (name == NULL))
 	{
 		DBG(2,"Sane.open: Null pointer received!\n")
 		return Sane.STATUS_INVAL
 	}
 
-	if (!strlen(name))
+	if(!strlen(name))
 	{
 		DBG(10,"Sane.open: Empty name given, assuming first/"
 				"default scanner\n")
-		if (def_scanner == NULL)
+		if(def_scanner == NULL)
 			name = first_dev.params.port.name
 		else
 			name = def_scanner
@@ -659,7 +659,7 @@ Sane.open (Sane.String_Const name, Sane.Handle *h)
 
 		/* if we didn't find the port they want, or there's no scanner
 		 * there, we just want to find _any_ scanner */
-		if ((cs == NULL) || (cs.scanner_present != Sane.TRUE))
+		if((cs == NULL) || (cs.scanner_present != Sane.TRUE))
 		{
 			cs = first_dev
 			while((cs != NULL) &&
@@ -677,19 +677,19 @@ Sane.open (Sane.String_Const name, Sane.Handle *h)
 	}
 
 
-	if (cs == NULL)
+	if(cs == NULL)
 	{
 		DBG(2,"Sane.open: No scanner found or requested port "
-				"doesn't exist (%s)\n", name)
+				"doesn't exist(%s)\n", name)
 		return Sane.STATUS_IO_ERROR
 	}
-	if (cs.scanner_present == Sane.FALSE)
+	if(cs.scanner_present == Sane.FALSE)
 	{
 		DBG(1,"Sane.open: Request to open port with no scanner "
 				"(%s)\n", name)
 		return Sane.STATUS_IO_ERROR
 	}
-	if (cs.opened == Sane.TRUE)
+	if(cs.opened == Sane.TRUE)
 	{
 		DBG(2,"Sane.open; Oi!, That scanner's already open.\n")
 		return Sane.STATUS_DEVICE_BUSY
@@ -697,7 +697,7 @@ Sane.open (Sane.String_Const name, Sane.Handle *h)
 
 	/* If the scanner has already been opened once, we don't have to do
 	 * this setup again */
-	if (cs.setup == Sane.TRUE)
+	if(cs.setup == Sane.TRUE)
 	{
 		cs.opened = Sane.TRUE
 		*h = (Sane.Handle)cs
@@ -705,7 +705,7 @@ Sane.open (Sane.String_Const name, Sane.Handle *h)
 	}
 
 	tmp = ieee1284_claim(cs.params.port)
-	if (tmp != E1284_OK) {
+	if(tmp != E1284_OK) {
 		DBG(1, "Sane.open: Could not claim port!\n")
 		return Sane.STATUS_IO_ERROR
 	}
@@ -715,7 +715,7 @@ Sane.open (Sane.String_Const name, Sane.Handle *h)
 	DBG(2, "Sane.open: >> initialise\n")
 	tmp = sanei_canon_pp_initialise(&(cs.params), cs.init_mode)
 	DBG(2, "Sane.open: << %d initialise\n", tmp)
-	if (tmp != 0) {
+	if(tmp != 0) {
 		DBG(1, "Sane.open: initialise returned %d, something is "
 				"wrong with the scanner!\n", tmp)
 
@@ -726,7 +726,7 @@ Sane.open (Sane.String_Const name, Sane.Handle *h)
 		return Sane.STATUS_IO_ERROR
 	}
 
-	if (cs.weights_file != NULL)
+	if(cs.weights_file != NULL)
 		DBG(2, "Sane.open: >> load_weights(%s, %p)\n",
 				cs.weights_file,
 				(const void *)(&(cs.params)))
@@ -736,7 +736,7 @@ Sane.open (Sane.String_Const name, Sane.Handle *h)
 	tmp = sanei_canon_pp_load_weights(cs.weights_file, &(cs.params))
 	DBG(2, "Sane.open: << %d load_weights\n", tmp)
 
-	if (tmp != 0) {
+	if(tmp != 0) {
 		DBG(1, "Sane.open: WARNING: Error on load_weights: "
 				"returned %d.  This could be due to a corrupt "
 				"calibration file.  Try recalibrating and if "
@@ -748,7 +748,7 @@ Sane.open (Sane.String_Const name, Sane.Handle *h)
 		DBG(10, "Sane.open: loadweights successful, uploading gamma"
 				" profile...\n")
 		tmp = sanei_canon_pp_adjust_gamma(&(cs.params))
-		if (tmp != 0)
+		if(tmp != 0)
 			DBG(1, "Sane.open: WARNING: adjust_gamma returned "
 					"%d!\n", tmp)
 
@@ -761,7 +761,7 @@ Sane.open (Sane.String_Const name, Sane.Handle *h)
 
 	/* Resolution - determined by magic number */
 
-	if (cs.params.scanheadwidth == 2552)
+	if(cs.params.scanheadwidth == 2552)
 		cs.opt[OPT_RESOLUTION].constraint.word_list = res300
 	else
 		cs.opt[OPT_RESOLUTION].constraint.word_list = res600
@@ -814,32 +814,32 @@ Sane.open (Sane.String_Const name, Sane.Handle *h)
  *
  *************************************************************************/
 	const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle h, Int opt)
+Sane.get_option_descriptor(Sane.Handle h, Int opt)
 {
 	CANONP_Scanner *cs = ((CANONP_Scanner *)h)
-	/*DBG(2, ">> Sane.get_option_descriptor (h=%p, opt=%d)\n", h, opt);*/
+	/*DBG(2, ">> Sane.get_option_descriptor(h=%p, opt=%d)\n", h, opt);*/
 
-	if (h == NULL) {
+	if(h == NULL) {
 		DBG(10,"Sane.get_option_descriptor: WARNING: h==NULL!\n")
 		return NULL
 	}
 
-	if ((unsigned)opt >= NUM_OPTIONS) {
+	if((unsigned)opt >= NUM_OPTIONS) {
 		DBG(10,"Sane.get_option_descriptor: Note: opt >= "
 				"NUM_OPTIONS!\n")
 		return NULL
 	}
 
-	if (cs.opened == Sane.FALSE)
+	if(cs.opened == Sane.FALSE)
 	{
-		DBG(1,"Sane.get_option_descriptor: That scanner (%p) ain't "
+		DBG(1,"Sane.get_option_descriptor: That scanner(%p) ain't "
 				"open yet\n", h)
 		return NULL
 	}
 
 	/*DBG(2, "<< Sane.get_option_descriptor\n");*/
 
-	return (cs.opt + opt)
+	return(cs.opt + opt)
 }
 
 
@@ -851,17 +851,17 @@ Sane.get_option_descriptor (Sane.Handle h, Int opt)
  *
  *************************************************************************/
 Sane.Status
-Sane.control_option (Sane.Handle h, Int opt, Sane.Action act,
+Sane.control_option(Sane.Handle h, Int opt, Sane.Action act,
 		void *val, Sane.Word *info)
 {
 	CANONP_Scanner *cs = ((CANONP_Scanner *)h)
 	var i: Int = 0, tmp, maxresi
 
-	DBG(2, ">> Sane.control_option (h=%p, opt=%d, act=%d)\n",
+	DBG(2, ">> Sane.control_option(h=%p, opt=%d, act=%d)\n",
 			h,opt,act)
 	/* Do some sanity checks on the parameters
 	 * note that val can be null for buttons */
-	if ((h == NULL) || ((val == NULL) && (opt != OPT_CAL)))
+	if((h == NULL) || ((val == NULL) && (opt != OPT_CAL)))
 		/* || (info == NULL))  - Don't check this any more..
 		 * frontends seem to like passing a null */
 	{
@@ -871,22 +871,22 @@ Sane.control_option (Sane.Handle h, Int opt, Sane.Action act,
 		return Sane.STATUS_INVAL
 	}
 
-	if (((unsigned)opt) >= NUM_OPTIONS)
+	if(((unsigned)opt) >= NUM_OPTIONS)
 	{
 		DBG(1,"Sane.control_option: I don't do option %d.\n", opt)
 		return Sane.STATUS_INVAL
 	}
 
-	if (cs.opened == Sane.FALSE)
+	if(cs.opened == Sane.FALSE)
 	{
-		DBG(1,"Sane.control_option: That scanner (%p) ain't "
+		DBG(1,"Sane.control_option: That scanner(%p) ain't "
 				"open yet\n", h)
 		return Sane.STATUS_INVAL
 	}
 
-	if (cs.scanning == Sane.TRUE)
+	if(cs.scanning == Sane.TRUE)
 	{
-		DBG(1,"Sane.control_option: That scanner (%p) is scanning!\n",
+		DBG(1,"Sane.control_option: That scanner(%p) is scanning!\n",
 				h)
 		return Sane.STATUS_DEVICE_BUSY
 	}
@@ -894,7 +894,7 @@ Sane.control_option (Sane.Handle h, Int opt, Sane.Action act,
 	switch(act)
 	{
 		case Sane.ACTION_GET_VALUE:
-			switch (opt)
+			switch(opt)
 			{
 				case OPT_COLOUR_MODE:
 					strcpy((char *)val,
@@ -914,9 +914,9 @@ Sane.control_option (Sane.Handle h, Int opt, Sane.Action act,
 			break
 		case Sane.ACTION_SET_VALUE:
 			/* val has been checked for NULL if opt != OPT_CAL */
-			if (opt != OPT_CAL) i = *((Int *)val)
-			if (info != NULL) *info = 0
-			switch (opt) {
+			if(opt != OPT_CAL) i = *((Int *)val)
+			if(info != NULL) *info = 0
+			switch(opt) {
 				case OPT_NUM_OPTIONS:
 					/* you can't set that! */
 					return Sane.STATUS_INVAL
@@ -926,53 +926,53 @@ Sane.control_option (Sane.Handle h, Int opt, Sane.Action act,
 					maxresi = cs.opt[OPT_RESOLUTION].
 						constraint.word_list[0]
 
-					while ((cs.vals[opt] <= maxresi) &&
+					while((cs.vals[opt] <= maxresi) &&
 							(res600[cs.vals[opt]]
 							 < *((Int *)val)))
 					{
 						cs.vals[opt] += 1
 					}
 
-					if (res600[cs.vals[opt]] !=
+					if(res600[cs.vals[opt]] !=
 							*((Int *)val))
 					{
-						if (info != NULL) *info |=
+						if(info != NULL) *info |=
 							Sane.INFO_INEXACT
 					}
 					break
 				case OPT_COLOUR_MODE:
 					cs.vals[opt] = 0
-					while ((cmodes[cs.vals[opt]] != NULL)
+					while((cmodes[cs.vals[opt]] != NULL)
 							&& strcmp(cmodes[cs.vals[opt]],
 								(char *)val))
 					{
 						cs.vals[opt] += 1
 					}
-					if (info != NULL) *info |=
+					if(info != NULL) *info |=
 						Sane.INFO_RELOAD_PARAMS
 					break
 				case OPT_DEPTH:
 					cs.vals[opt] = 0
-					while ((depths[cs.vals[opt]] != NULL)
+					while((depths[cs.vals[opt]] != NULL)
 							&& strcmp(depths[cs.vals[opt]],
 								(char *)val))
 					{
 						cs.vals[opt] += 1
 					}
-					if (info != NULL) *info |=
+					if(info != NULL) *info |=
 						Sane.INFO_RELOAD_PARAMS
 					break
 				case OPT_TL_X:
 				case OPT_BR_X:
 				case OPT_TL_Y:
 				case OPT_BR_Y:
-					if ((i<cs.opt[opt].constraint.range.min) || (i>cs.opt[opt].constraint.range.max))
+					if((i<cs.opt[opt].constraint.range.min) || (i>cs.opt[opt].constraint.range.max))
 						return Sane.STATUS_INVAL
 					cs.vals[opt] = i
 					break
 				case OPT_CAL:
 					/* Call the calibration code */
-					if ((cs.weights_file==NULL) ||
+					if((cs.weights_file==NULL) ||
 							cs.cal_readonly
 					   )
 						DBG(2, ">> calibrate(x, "
@@ -982,7 +982,7 @@ Sane.control_option (Sane.Handle h, Int opt, Sane.Action act,
 								"%s)\n",
 								cs.weights_file)
 
-					if (cs.cal_readonly) tmp =
+					if(cs.cal_readonly) tmp =
 						sanei_canon_pp_calibrate(
 								&(cs.params),
 								NULL)
@@ -992,7 +992,7 @@ Sane.control_option (Sane.Handle h, Int opt, Sane.Action act,
 
 					DBG(2, "<< %d calibrate\n",
 							tmp)
-					if (tmp != 0) {
+					if(tmp != 0) {
 						DBG(1, "Sane.control_option: "
 								"WARNING: "
 								"calibrate "
@@ -1008,7 +1008,7 @@ Sane.control_option (Sane.Handle h, Int opt, Sane.Action act,
 
 					break
 					/*case OPT_PREVIEW:
-					  if (i) cs.vals[opt] = 1
+					  if(i) cs.vals[opt] = 1
 					  else cs.vals[opt] = 0
 					  break;*/
 				default:
@@ -1040,18 +1040,18 @@ Sane.control_option (Sane.Handle h, Int opt, Sane.Action act,
  *
  *************************************************************************/
 	Sane.Status
-Sane.get_parameters (Sane.Handle h, Sane.Parameters *params)
+Sane.get_parameters(Sane.Handle h, Sane.Parameters *params)
 {
 	Int res, max_width, max_height, max_res
         CANONP_Scanner *cs = ((CANONP_Scanner *)h)
-	DBG(2, ">> Sane.get_parameters (h=%p, params=%p)\n", (void*)h,
+	DBG(2, ">> Sane.get_parameters(h=%p, params=%p)\n", (void*)h,
 			(void*)params)
 
-	if (h == NULL) return Sane.STATUS_INVAL
+	if(h == NULL) return Sane.STATUS_INVAL
 
-	if (cs.opened == Sane.FALSE)
+	if(cs.opened == Sane.FALSE)
 	{
-		DBG(1,"Sane.get_parameters: That scanner (%p) ain't "
+		DBG(1,"Sane.get_parameters: That scanner(%p) ain't "
 				"open yet\n", h)
 		return Sane.STATUS_INVAL
 	}
@@ -1080,7 +1080,7 @@ Sane.get_parameters (Sane.Handle h, Sane.Parameters *params)
 	params.pixels_per_line -= (params.pixels_per_line%4)
 
         /* Can't scan less than 64 */
-        if (params.pixels_per_line < 64) params.pixels_per_line = 64
+        if(params.pixels_per_line < 64) params.pixels_per_line = 64
 
 	max_width = cs.params.scanheadwidth / (max_res / res)
 
@@ -1094,7 +1094,7 @@ Sane.get_parameters (Sane.Handle h, Sane.Parameters *params)
 
 	params.depth = cs.vals[OPT_DEPTH] ? 16 : 8
 
-	switch (cs.vals[OPT_COLOUR_MODE])
+	switch(cs.vals[OPT_COLOUR_MODE])
 	{
 		case 0:
 			params.format = Sane.FRAME_GRAY
@@ -1108,7 +1108,7 @@ Sane.get_parameters (Sane.Handle h, Sane.Parameters *params)
 	}
 
 
-	if (!(params.pixels_per_line)) {
+	if(!(params.pixels_per_line)) {
 		params.last_frame = Sane.TRUE
 		params.lines = 0
 	}
@@ -1139,18 +1139,18 @@ Sane.get_parameters (Sane.Handle h, Sane.Parameters *params)
  *
  *************************************************************************/
 	Sane.Status
-Sane.start (Sane.Handle h)
+Sane.start(Sane.Handle h)
 {
 	unsigned var i: Int, res, max_width, max_height, max_res, tmp
 	CANONP_Scanner *cs = ((CANONP_Scanner *)h)
-	DBG(2, ">> Sane.start (h=%p)\n", h)
+	DBG(2, ">> Sane.start(h=%p)\n", h)
 
-	if (h == NULL) return Sane.STATUS_INVAL
+	if(h == NULL) return Sane.STATUS_INVAL
 
-	if (cs.scanning) return Sane.STATUS_DEVICE_BUSY
-	if (cs.opened == Sane.FALSE)
+	if(cs.scanning) return Sane.STATUS_DEVICE_BUSY
+	if(cs.opened == Sane.FALSE)
 	{
-		DBG(1,"Sane.start: That scanner (%p) ain't "
+		DBG(1,"Sane.start: That scanner(%p) ain't "
 				"open yet\n", h)
 		return Sane.STATUS_INVAL
 	}
@@ -1171,7 +1171,7 @@ Sane.start (Sane.Handle h)
 
         /*
          * These values have to pass the requirements of not exceeding
-         * dimensions (simple clipping) and both width values have to be some
+         * dimensions(simple clipping) and both width values have to be some
          * integer multiple of 4
          */
 
@@ -1184,17 +1184,17 @@ Sane.start (Sane.Handle h)
 	cs.scan.xoffset -= (cs.scan.xoffset%4)
 
 	/* Can't scan less than 64 */
-        if (cs.scan.width < 64) cs.scan.width = 64
+        if(cs.scan.width < 64) cs.scan.width = 64
 
 	max_width = cs.params.scanheadwidth / (max_res / res)
 
 	max_height = (cs.params.scanheadwidth == 2552 ? 3508 : 7016) /
                                         (max_res / res)
 
-        if (cs.scan.width > max_width) cs.scan.width = max_width
-	if (cs.scan.width + cs.scan.xoffset > max_width) cs.scan.xoffset =
+        if(cs.scan.width > max_width) cs.scan.width = max_width
+	if(cs.scan.width + cs.scan.xoffset > max_width) cs.scan.xoffset =
 		max_width - cs.scan.width
-        if (cs.scan.height > max_height) cs.scan.height = max_height
+        if(cs.scan.height > max_height) cs.scan.height = max_height
 
 	/* We pass a value to init_scan which is the power of 2 that 75
 	 * is multiplied by for the resolution.  ie:
@@ -1208,7 +1208,7 @@ Sane.start (Sane.Handle h)
 	 */
 
 	i = 0
-	while (res > 75)
+	while(res > 75)
 	{
 		i++
 		res = res >> 1
@@ -1218,7 +1218,7 @@ Sane.start (Sane.Handle h)
 	cs.scan.xresolution = i
 	cs.scan.yresolution = i
 
-	if (((cs.vals[OPT_BR_Y] - cs.vals[OPT_TL_Y]) <= 0) ||
+	if(((cs.vals[OPT_BR_Y] - cs.vals[OPT_TL_Y]) <= 0) ||
 			((cs.vals[OPT_BR_X] - cs.vals[OPT_TL_X]) <= 0))
 	{
 		DBG(1,"Sane.start: height = %d, Width = %d. "
@@ -1233,7 +1233,7 @@ Sane.start (Sane.Handle h)
 	tmp = sanei_canon_pp_init_scan(&(cs.params), &(cs.scan))
 	DBG(10, "<< %d init_scan\n", tmp)
 
-	if (tmp != 0) {
+	if(tmp != 0) {
 		DBG(1,"Sane.start: WARNING: init_scan returned %d!", tmp)
 		return Sane.STATUS_IO_ERROR
 	}
@@ -1257,7 +1257,7 @@ Sane.start (Sane.Handle h)
  *
  *************************************************************************/
 	Sane.Status
-Sane.read (Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
+Sane.read(Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
 {
 	CANONP_Scanner *cs = ((CANONP_Scanner *)h)
 	image_segment *is
@@ -1270,13 +1270,13 @@ Sane.read (Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
 	static Sane.Byte *lbuf
 	static unsigned Int bytesleft
 
-	DBG(2, ">> Sane.read (h=%p, buf=%p, maxlen=%d)\n", h,
+	DBG(2, ">> Sane.read(h=%p, buf=%p, maxlen=%d)\n", h,
 			(const void *)buf, maxlen)
 
 	/* default to returning 0 - for errors */
 	*lenp = 0
 
-	if ((h == NULL) || (buf == NULL) || (lenp == NULL))
+	if((h == NULL) || (buf == NULL) || (lenp == NULL))
 	{
 		DBG(1, "Sane.read: This frontend's passing me dodgy gear! "
 				"(h=%p, buf=%p, lenp=%p)\n",
@@ -1286,7 +1286,7 @@ Sane.read (Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
 
 	/* Now we have to see if we have some leftover from last time */
 
-	if (read_leftover != NULL)
+	if(read_leftover != NULL)
 	{
 		/* feed some more data in until we've run out - don't care
 		 * whether or not we _think_ the scanner is scanning now,
@@ -1294,7 +1294,7 @@ Sane.read (Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
 		DBG(200, "Sane.read: didn't send it all last time\n")
 
 		/* Now feed it some data from lbuf */
-		if (bytesleft <= (unsigned Int)maxlen)
+		if(bytesleft <= (unsigned Int)maxlen)
 		{
 			/* enough buffer to send the lot */
 			memcpy(buf, read_leftover, bytesleft)
@@ -1321,8 +1321,8 @@ Sane.read (Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
 	}
 
 
-	/* Has the last scan ended (other than by cancelling)? */
-	if (((unsigned)cs.scan.height <= (unsigned)cs.lines_scanned)
+	/* Has the last scan ended(other than by cancelling)? */
+	if(((unsigned)cs.scan.height <= (unsigned)cs.lines_scanned)
 	    || (cs.sent_eof) || !(cs.scanning))
 	{
 		cs.sent_eof = Sane.TRUE
@@ -1339,7 +1339,7 @@ Sane.read (Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
 	 * to leave the scanner consistent */
 
 	/* Decide how many lines we can fit into this buffer */
-	if (cs.vals[OPT_DEPTH] == 0)
+	if(cs.vals[OPT_DEPTH] == 0)
 		bpl = cs.scan.width * (cs.vals[OPT_COLOUR_MODE] ? 3 : 1)
 	else
 		bpl = cs.scan.width * (cs.vals[OPT_COLOUR_MODE] ? 6 : 2)
@@ -1349,10 +1349,10 @@ Sane.read (Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
          * scanners crack the shits if we ask for too many small packets */
 	lines = (BUF_MAX * 4 / 5) / bpl
 
-	if (lines > (cs.scan.height - cs.lines_scanned))
+	if(lines > (cs.scan.height - cs.lines_scanned))
 		lines = cs.scan.height - cs.lines_scanned
 
-	if (!lines)
+	if(!lines)
 	{
 		/* can't fit a whole line into the buffer
                  * (should never happen!) */
@@ -1362,7 +1362,7 @@ Sane.read (Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
 	bytes = lines * bpl
 
 	/* Allocate a local buffer to hold the data while we play */
-	if ((lbuf = malloc(bytes)) == NULL)
+	if((lbuf = malloc(bytes)) == NULL)
 	{
 		DBG(10, "Sane.read: Not enough memory to hold a "
 				"local buffer.  You're doomed\n")
@@ -1395,8 +1395,8 @@ Sane.read (Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
 			cs.scan.height - cs.lines_scanned)
 	DBG(2, "<< %d read_segment\n", tmp)
 
-	if (tmp != 0) {
-		if (cs.cancelled)
+	if(tmp != 0) {
+		if(cs.cancelled)
 		{
 			DBG(10, "Sane.read: cancelling.\n")
 			cs.sent_eof = Sane.TRUE
@@ -1414,16 +1414,16 @@ Sane.read (Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
 	cs.lines_scanned += lines
 
 	/* translate data out of buffer */
-	if (cs.vals[OPT_DEPTH] == 0)
+	if(cs.vals[OPT_DEPTH] == 0)
 	{
 		/* 8bpp */
 		for(i = 0; i < bytes; i++)
 		{
 			charptr = lbuf + i
-			if (cs.vals[OPT_COLOUR_MODE])
+			if(cs.vals[OPT_COLOUR_MODE])
 			{
-				if (i % 3 == 0) charptr += 2
-				if (i % 3 == 2) charptr -= 2
+				if(i % 3 == 0) charptr += 2
+				if(i % 3 == 2) charptr -= 2
 			}
 			*charptr = *((char *)(is.image_data) + (i*2))
 		}
@@ -1434,10 +1434,10 @@ Sane.read (Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
 		for(i = 0; i < (bytes/2); i++)
 		{
 			shortptr = ((short *)lbuf + i)
-			if (cs.vals[OPT_COLOUR_MODE])
+			if(cs.vals[OPT_COLOUR_MODE])
 			{
-				if (i % 3 == 0) shortptr += 2
-				if (i % 3 == 2) shortptr -= 2
+				if(i % 3 == 0) shortptr += 2
+				if(i % 3 == 2) shortptr -= 2
 			}
 			*shortptr = MAKE_SHORT(
 					*((char *)(is.image_data) + (i*2)),
@@ -1451,7 +1451,7 @@ Sane.read (Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
 	free(is)
 
 	/* Now feed it some data from lbuf */
-	if (bytes <= (unsigned Int)maxlen)
+	if(bytes <= (unsigned Int)maxlen)
 	{
 		/* enough buffer to send the lot */
 		memcpy(buf, lbuf, bytes)
@@ -1473,7 +1473,7 @@ Sane.read (Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
                         maxlen, bytesleft)
 	}
 
-	if ((unsigned)cs.lines_scanned >= cs.scan.height)
+	if((unsigned)cs.lines_scanned >= cs.scan.height)
 	{
 		/* The scan is over! Don't need to call anything in the
 		 * hardware, it will sort itself out */
@@ -1496,19 +1496,19 @@ Sane.read (Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
  *
  *************************************************************************/
 	void
-Sane.cancel (Sane.Handle h)
+Sane.cancel(Sane.Handle h)
 {
 	/* Note: assume handle is valid apart from NULLs */
 	CANONP_Scanner *cs = ((CANONP_Scanner *)h)
 
-	DBG(2, ">> Sane.cancel (h=%p)\n", h)
-	if (h == NULL) return
+	DBG(2, ">> Sane.cancel(h=%p)\n", h)
+	if(h == NULL) return
 
 	read_leftover = NULL
 
-	if (!(cs.scanning))
+	if(!(cs.scanning))
 	{
-		DBG(2, "<< Sane.cancel (not scanning)\n")
+		DBG(2, "<< Sane.cancel(not scanning)\n")
 		return
 	}
 
@@ -1527,16 +1527,16 @@ Sane.cancel (Sane.Handle h)
  *
  *************************************************************************/
 	void
-Sane.close (Sane.Handle h)
+Sane.close(Sane.Handle h)
 {
 	/* Note: assume handle is valid apart from NULLs */
 	CANONP_Scanner *cs = ((CANONP_Scanner *)h)
-	DBG(2, ">> Sane.close (h=%p)\n", h)
-	if (h == NULL) return
+	DBG(2, ">> Sane.close(h=%p)\n", h)
+	if(h == NULL) return
 
-	if (cs.opened == Sane.FALSE)
+	if(cs.opened == Sane.FALSE)
 	{
-		DBG(1,"Sane.close: That scanner (%p) ain't "
+		DBG(1,"Sane.close: That scanner(%p) ain't "
 				"open yet\n", h)
 		return
 	}
@@ -1564,13 +1564,13 @@ Sane.close (Sane.Handle h)
  *
  *************************************************************************/
 	void
-Sane.exit (void)
+Sane.exit(void)
 {
 	CANONP_Scanner *dev, *next
 
 	DBG(2, ">> Sane.exit\n")
 
-	for (dev = first_dev; dev != NULL; dev = next)
+	for(dev = first_dev; dev != NULL; dev = next)
 	{
 		next = dev.next
 
@@ -1580,7 +1580,7 @@ Sane.exit (void)
 		 * this case we're about to free the whole structure so
 		 * there's not a lot of point. */
 
-		/* Constraints (mostly) allocated when the scanner is opened */
+		/* Constraints(mostly) allocated when the scanner is opened */
 		if(dev.opt[OPT_TL_X].constraint.range)
 			free((void *)(dev.opt[OPT_TL_X].constraint.range))
 		if(dev.opt[OPT_TL_Y].constraint.range)
@@ -1591,12 +1591,12 @@ Sane.exit (void)
 			free((void *)(dev.opt[OPT_BR_Y].constraint.range))
 
 		/* Weights file now on a per-scanner basis */
-		if (dev.weights_file != NULL)
+		if(dev.weights_file != NULL)
 			free(dev.weights_file)
 
-		if (dev.scanner_present)
+		if(dev.scanner_present)
 		{
-			if (dev.opened == Sane.TRUE)
+			if(dev.opened == Sane.TRUE)
 			{
 				/* naughty boys, should have closed first */
 				ieee1284_release(dev.params.port)
@@ -1604,7 +1604,7 @@ Sane.exit (void)
 			ieee1284_close(dev.params.port)
 		}
 
-		free (dev)
+		free(dev)
 	}
 
 	first_dev = NULL
@@ -1690,14 +1690,14 @@ static Sane.Status init_device(struct parport *pp)
 	DBG(2, ">> init_device\n")
 
 	cs = malloc(sizeof(*cs))
-	if (cs == NULL)
+	if(cs == NULL)
 	{
 		return Sane.STATUS_NO_MEM
 	}
 	memset(cs, 0, sizeof(*cs))
 
 #if 0
-	if ((cs.params.port = malloc(sizeof(*(cs.params.port)))) == NULL)
+	if((cs.params.port = malloc(sizeof(*(cs.params.port)))) == NULL)
 		return Sane.STATUS_NO_MEM
 
 	memcpy(cs.params.port, pp, sizeof(*pp))
@@ -1728,7 +1728,7 @@ static Sane.Status init_device(struct parport *pp)
 	DBG(10, "init_device: [configuring options]\n")
 
 	/* take a punt at each option, then we change it later */
-	for (i = 0; i < NUM_OPTIONS; i++)
+	for(i = 0; i < NUM_OPTIONS; i++)
 	{
 		cs.opt[i].name = opt_names[i]
 		cs.opt[i].title = opt_titles[i]
@@ -1747,19 +1747,19 @@ static Sane.Status init_device(struct parport *pp)
 
 	DBG(100, "init_device: configuring opt: resolution\n")
 
-	/* The resolution of scanning (X res == Y res for now)*/
+	/* The resolution of scanning(X res == Y res for now)*/
 	cs.opt[OPT_RESOLUTION].unit = Sane.UNIT_DPI
 	cs.opt[OPT_RESOLUTION].constraint_type = Sane.CONSTRAINT_WORD_LIST
-	/* should never point at first element (wordlist size) */
+	/* should never point at first element(wordlist size) */
 	cs.vals[OPT_RESOLUTION] = 1
 
 	DBG(100, "init_device: configuring opt: colour mode\n")
 
-	/* The colour mode (0=grey 1=rgb) */
+	/* The colour mode(0=grey 1=rgb) */
 	cs.opt[OPT_COLOUR_MODE].type = Sane.TYPE_STRING
 	cs.opt[OPT_COLOUR_MODE].size = 20
 	cs.opt[OPT_COLOUR_MODE].constraint_type = Sane.CONSTRAINT_STRING_LIST
-	/* Set this one here because it doesn't change by scanner (yet) */
+	/* Set this one here because it doesn't change by scanner(yet) */
 	cs.opt[OPT_COLOUR_MODE].constraint.string_list = cmodes
 
 	DBG(100, "init_device: configuring opt: bit depth\n")
@@ -1803,11 +1803,11 @@ static Sane.Status init_device(struct parport *pp)
 	/* The calibration button */
 	cs.opt[OPT_CAL].type = Sane.TYPE_BUTTON
 	cs.opt[OPT_CAL].constraint_type = Sane.CONSTRAINT_NONE
-	if (cs.cal_readonly)
+	if(cs.cal_readonly)
 		cs.opt[OPT_CAL].cap |= Sane.CAP_INACTIVE
 
 #if 0
-	/* the gamma values (once we do them) */
+	/* the gamma values(once we do them) */
 	cs.opt[OPT_GAMMA_R].caps |= Sane.CAP_ADVANCED
 	cs.opt[OPT_GAMMA_G].caps |= Sane.CAP_ADVANCED
 	cs.opt[OPT_GAMMA_B].caps |= Sane.CAP_ADVANCED
@@ -1838,12 +1838,12 @@ static Sane.Status init_device(struct parport *pp)
  *
  *************************************************************************/
 	Sane.Status
-Sane.set_io_mode (Sane.Handle h, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
 {
-	DBG(2, ">> Sane.set_io_mode (%p, %d) (not really supported)\n",
+	DBG(2, ">> Sane.set_io_mode(%p, %d) (not really supported)\n",
 			h, non_blocking)
 
-	if (non_blocking == Sane.FALSE)
+	if(non_blocking == Sane.FALSE)
 		return Sane.STATUS_GOOD
 
 	DBG(2, "<< Sane.set_io_mode\n")
@@ -1851,9 +1851,9 @@ Sane.set_io_mode (Sane.Handle h, Bool non_blocking)
 }
 
 	Sane.Status
-Sane.get_select_fd (Sane.Handle h, Int *fdp)
+Sane.get_select_fd(Sane.Handle h, Int *fdp)
 {
-	DBG(2, ">> Sane.get_select_fd (%p, %p) (not supported)\n", h,
+	DBG(2, ">> Sane.get_select_fd(%p, %p) (not supported)\n", h,
 			(const void *)fdp)
 	DBG(2, "<< Sane.get_select_fd\n")
 	return Sane.STATUS_UNSUPPORTED
@@ -1871,22 +1871,22 @@ static Int init_cal(char *file)
 	char *tmp, *path
 	Int f, i
 
-	if ((f = open(file, O_CREAT | O_WRONLY, 0600)) < 0)
+	if((f = open(file, O_CREAT | O_WRONLY, 0600)) < 0)
 	{
-		if (errno == ENOENT)
+		if(errno == ENOENT)
 		{
 			/* we need to try and make ~/.sane perhaps -
 			 * find the last / in the file path, and try
 			 * to create it */
-			if ((tmp = strrchr(file, '/')) == NULL)
+			if((tmp = strrchr(file, '/')) == NULL)
 				return -1
 			path = strdup(file)
 			*(path + (tmp-file)) = '\0'
 			i = mkdir(path, 0777)
 			free(path)
-			if (i) return -1
+			if(i) return -1
 			/* Path has been created, now try this again.. */
-			if ((f = open(file, O_CREAT | O_WRONLY, 0600)) < 0)
+			if((f = open(file, O_CREAT | O_WRONLY, 0600)) < 0)
 				return -1
 		}
 		else
@@ -1914,7 +1914,7 @@ static Sane.Status fix_weights_file(CANONP_Scanner *cs)
 	struct stat *f_stat
 
 
-	if (cs == NULL)
+	if(cs == NULL)
 	{
 		DBG(0, "fix_weights_file: FATAL: NULL passed by my code, "
 				"please report this!\n")
@@ -1924,7 +1924,7 @@ static Sane.Status fix_weights_file(CANONP_Scanner *cs)
 	/* Assume this is false and then correct it */
 	cs.cal_readonly = Sane.FALSE
 
-	if (cs.weights_file == NULL)
+	if(cs.weights_file == NULL)
 	{
 		/* Will be of form canon_pp-calibration-parport0 or -0x378 */
 		sprintf(buf, "~/.sane/canon_pp-calibration-%s",
@@ -1933,11 +1933,11 @@ static Sane.Status fix_weights_file(CANONP_Scanner *cs)
 	}
 
 	/* Get the user's home dir if they used ~ */
-	if (cs.weights_file[0] == '~')
+	if(cs.weights_file[0] == '~')
 	{
-		if ((tmp = malloc(PATH_MAX)) == NULL)
+		if((tmp = malloc(PATH_MAX)) == NULL)
 			return Sane.STATUS_NO_MEM
-		if ((myhome = getenv("HOME")) == NULL)
+		if((myhome = getenv("HOME")) == NULL)
 		{
 			DBG(0,"fix_weights_file: FATAL: ~ used, but $HOME not"
 					" set!\n")
@@ -1953,14 +1953,14 @@ static Sane.Status fix_weights_file(CANONP_Scanner *cs)
 		cs.weights_file = tmp
 	}
 
-	if ((f_stat = malloc(sizeof(*f_stat))) == NULL)
+	if((f_stat = malloc(sizeof(*f_stat))) == NULL)
 		return Sane.STATUS_NO_MEM
 
 	if(stat(cs.weights_file, f_stat))
 	{
 		/* this non-intuitive if basically is if we got some error that
 		 * wasn't no-such-file, or we can't create the file.. */
-		if ((errno != ENOENT) || init_cal(cs.weights_file))
+		if((errno != ENOENT) || init_cal(cs.weights_file))
 		{
 			/* Some nasty error returned. Give up. */
 			DBG(2,"fix_weights_file: error stating cal file"
@@ -1976,15 +1976,15 @@ static Sane.Status fix_weights_file(CANONP_Scanner *cs)
 
 		/* No error returned.. Check read/writability */
 		i = open(cs.weights_file, O_RDWR | O_APPEND)
-		if (i <= 0)
+		if(i <= 0)
 		{
 			DBG(10,"fix_weighs_file: Note: Changes to cal data "
 					"won't be saved!\n")
 			i = open(cs.weights_file, O_RDONLY)
-			if (i <= 0)
+			if(i <= 0)
 			{
 				/*
-				 * Open failed (do i care why?)
+				 * Open failed(do i care why?)
 				 */
 				DBG(2,"fix_weights_file: error opening cal "
 						"(%s)\n", strerror(errno))
@@ -2031,9 +2031,9 @@ Sane.Status detect_mode(CANONP_Scanner *cs)
 
 	tmp = ieee1284_open(cs.params.port, 0, &capabilities)
 
-	if (tmp != E1284_OK)
+	if(tmp != E1284_OK)
 	{
-		switch (tmp)
+		switch(tmp)
 		{
 			case E1284_INVALIDPORT:
 				DBG(1, "detect_mode: Invalid port.\n")
@@ -2054,7 +2054,7 @@ Sane.Status detect_mode(CANONP_Scanner *cs)
 
 	DBG(10,"detect_mode: Claiming port.\n")
 
-	if (ieee1284_claim(cs.params.port) != E1284_OK)
+	if(ieee1284_claim(cs.params.port) != E1284_OK)
 	{
 		DBG(1,"detect_mode: Unable to claim port\n")
 		ieee1284_close(cs.params.port)
@@ -2062,10 +2062,10 @@ Sane.Status detect_mode(CANONP_Scanner *cs)
 	}
 
 
-	/* Check that compatibility-mode (required) is supported */
-	if (!(capabilities & CAP1284_COMPAT))
+	/* Check that compatibility-mode(required) is supported */
+	if(!(capabilities & CAP1284_COMPAT))
 	{
-		DBG(0,"detect_mode: Compatibility mode (required) not "
+		DBG(0,"detect_mode: Compatibility mode(required) not "
 				"supported.\n")
 		ieee1284_release(cs.params.port)
 		ieee1284_close(cs.params.port)
@@ -2073,27 +2073,27 @@ Sane.Status detect_mode(CANONP_Scanner *cs)
 	}
 
 	/* Check capabilities which will enchance speed */
-	if (capabilities & CAP1284_ECP)
+	if(capabilities & CAP1284_ECP)
 		DBG(2, "detect_mode: Port supports ECP-H.\n")
-	else if (capabilities & CAP1284_ECPSWE)
+	else if(capabilities & CAP1284_ECPSWE)
 		DBG(2, "detect_mode: Port supports ECP-S.\n")
-	if (capabilities & CAP1284_IRQ)
+	if(capabilities & CAP1284_IRQ)
 		DBG(2, "detect_mode: Port supports interrupts.\n")
-	if (capabilities & CAP1284_DMA)
+	if(capabilities & CAP1284_DMA)
 		DBG(2, "detect_mode: Port supports DMA.\n")
 
 	/* Check whether ECP mode is possible */
-	if (capabilities & CAP1284_ECP)
+	if(capabilities & CAP1284_ECP)
 	{
 		cs.ieee1284_mode = M1284_ECP
 		DBG(10, "detect_mode: Using ECP-H Mode\n")
 	}
-	else if (capabilities & CAP1284_ECPSWE)
+	else if(capabilities & CAP1284_ECPSWE)
 	{
 		cs.ieee1284_mode = M1284_ECPSWE
 		DBG(10, "detect_mode: Using ECP-S Mode\n")
 	}
-	else if (capabilities & CAP1284_NIBBLE)
+	else if(capabilities & CAP1284_NIBBLE)
 	{
 		cs.ieee1284_mode = M1284_NIBBLE
 		DBG(10, "detect_mode: Using nibble mode\n")
@@ -2114,7 +2114,7 @@ Sane.Status detect_mode(CANONP_Scanner *cs)
 	/* Disabled check entirely.. check now in initialise when we
 	 * actually do a read */
 #if 0
-	if ((cs.ieee1284_mode == M1284_ECP) ||
+	if((cs.ieee1284_mode == M1284_ECP) ||
 			(cs.ieee1284_mode == M1284_ECPSWE))
 	{
 		DBG(1, "detect_mode: attempting a 0 byte read, if we hang "
@@ -2129,7 +2129,7 @@ Sane.Status detect_mode(CANONP_Scanner *cs)
 		 * I have sent email to twaugh about it, should be fixed in
 		 * 2.4.19 and above.
 		 */
-		if (ieee1284_ecp_read_data(cs.params.port, 0, NULL, 0) ==
+		if(ieee1284_ecp_read_data(cs.params.port, 0, NULL, 0) ==
 				E1284_NOTIMPL)
 		{
 			DBG(10, "detect_mode: Your version of libieee1284 "
@@ -2140,7 +2140,7 @@ Sane.Status detect_mode(CANONP_Scanner *cs)
 	}
 #endif
 
-	if (force_nibble == Sane.TRUE) {
+	if(force_nibble == Sane.TRUE) {
 		DBG(10, "detect_mode: Nibble mode force in effect.\n")
 		cs.ieee1284_mode = M1284_NIBBLE
 	}

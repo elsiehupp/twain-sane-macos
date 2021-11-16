@@ -1,12 +1,12 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1998 Christian Bucher
-   Copyright (C) 1998 Kling & Hautzinger GmbH
+   Copyright(C) 1998 Christian Bucher
+   Copyright(C) 1998 Kling & Hautzinger GmbH
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -58,7 +58,7 @@ import unistd
 import sys/types
 
 #ifdef HAVE_SYS_IO_H
-import sys/io	/* use where available (glibc 2.x, for example) */
+import sys/io	/* use where available(glibc 2.x, for example) */
 # ifndef Sane.HAVE_SYS_IO_H_WITH_INB_OUTB
 #  define IO_SUPPORT_MISSING
 # endif
@@ -66,16 +66,16 @@ import sys/io	/* use where available (glibc 2.x, for example) */
 import asm/io		/* ugly, but backwards compatible */
 #elif HAVE_SYS_HW_H
 import sys/hw
-#elif defined(__i386__)  && defined (__GNUC__)
+#elif defined(__i386__)  && defined(__GNUC__)
 
 static __inline__ void
-outb (u_char value, u_long port)
+outb(u_char value, u_long port)
 {
   __asm__ __volatile__ ("outb %0,%1"::"a" (value), "d" ((u_short) port))
 }
 
 static __inline__ u_char
-inb (u_long port)
+inb(u_long port)
 {
   u_char value
 
@@ -91,7 +91,7 @@ import Sane.sane
 import Sane.sanei
 import Sane.sanei_pio
 
-#if defined (HAVE_IOPERM) && !defined (IO_SUPPORT_MISSING)
+#if defined(HAVE_IOPERM) && !defined(IO_SUPPORT_MISSING)
 
 import errno
 import fcntl
@@ -115,7 +115,7 @@ import Sane.saneopts
       offs    0       1       2
       len     1       1       1     */
 
-/* Port definitions (`N' at end begin of label means negated signal) */
+/* Port definitions(`N' at end begin of label means negated signal) */
 
 #define PIO_IOPORT		0	/* rel. addr io port      */
 
@@ -128,7 +128,7 @@ import Sane.saneopts
 #define PIO_CTRL_IRQE		(1<<4)	/* enable IRQ             */
 #define PIO_CTRL_DIR		(1<<3)	/* DIR pin, DIR=1 => out */
 #define PIO_CTRL_NINIT		(1<<2)	/* reset output           */
-#define PIO_CTRL_FDXT		(1<<1)	/* Paper FEED (unused)    */
+#define PIO_CTRL_FDXT		(1<<1)	/* Paper FEED(unused)    */
 #define PIO_CTRL_NSTROBE	(1<<0)	/* strobe pin             */
 
 #define PIO_APPLYRESET		2000	/* reset in 10us at init time  */
@@ -159,265 +159,265 @@ static PortRec port[] =
     {0x278, -1, 0, 0}
   ]
 
-public Int setuid (uid_t)
+public Int setuid(uid_t)
 
-static inline Int pio_outb (const Port port, u_char val, u_long addr)
-static inline Int pio_inb (const Port port, u_char * val, u_long addr)
-static inline Int pio_wait (const Port port, u_char val, u_char mask)
-static inline void pio_ctrl (const Port port, u_char val)
-static inline void pio_delay (const Port port)
-static inline void pio_init (const Port port)
-static void pio_reset (const Port port)
-static Int pio_write (const Port port, const u_char * buf, Int n)
-static Int pio_read (const Port port, u_char * buf, Int n)
-static Int pio_open (const char *dev, Sane.Status * status)
+static inline Int pio_outb(const Port port, u_char val, u_long addr)
+static inline Int pio_inb(const Port port, u_char * val, u_long addr)
+static inline Int pio_wait(const Port port, u_char val, u_char mask)
+static inline void pio_ctrl(const Port port, u_char val)
+static inline void pio_delay(const Port port)
+static inline void pio_init(const Port port)
+static void pio_reset(const Port port)
+static Int pio_write(const Port port, const u_char * buf, Int n)
+static Int pio_read(const Port port, u_char * buf, Int n)
+static Int pio_open(const char *dev, Sane.Status * status)
 
 static inline Int
-pio_outb (const Port port, u_char val, u_long addr)
+pio_outb(const Port port, u_char val, u_long addr)
 {
 
-  if (-1 == port.fd)
-    outb (val, addr)
+  if(-1 == port.fd)
+    outb(val, addr)
   else
     {
-      if (addr != (u_long)lseek (port.fd, addr, SEEK_SET))
+      if(addr != (u_long)lseek(port.fd, addr, SEEK_SET))
 	return -1
-      if (1 != write (port.fd, &val, 1))
+      if(1 != write(port.fd, &val, 1))
 	return -1
     }
   return 0
 }
 
 static inline Int
-pio_inb (const Port port, u_char * val, u_long addr)
+pio_inb(const Port port, u_char * val, u_long addr)
 {
 
-  if (-1 == port.fd)
-    *val = inb (addr)
+  if(-1 == port.fd)
+    *val = inb(addr)
   else
     {
-      if (addr != (u_long)lseek (port.fd, addr, SEEK_SET))
+      if(addr != (u_long)lseek(port.fd, addr, SEEK_SET))
 	return -1
-      if (1 != read (port.fd, val, 1))
+      if(1 != read(port.fd, val, 1))
 	return -1
     }
   return 0
 }
 
 static inline Int
-pio_wait (const Port port, u_char val, u_char mask)
+pio_wait(const Port port, u_char val, u_char mask)
 {
   Int stat = 0
   long poll_count = 0
   time_t start = time(NULL)
 
-  DBG (DL60, "wait on port 0x%03lx for %02x mask %02x\n",
+  DBG(DL60, "wait on port 0x%03lx for %02x mask %02x\n",
        port.base, (Int) val, (Int) mask)
-  DBG (DL61, "   BUSY    %s\n", (mask & PIO_STAT_BUSY) ?
+  DBG(DL61, "   BUSY    %s\n", (mask & PIO_STAT_BUSY) ?
        (val & PIO_STAT_BUSY ? "on" : "off") : "-")
-  DBG (DL61, "   NACKNLG %s\n",
+  DBG(DL61, "   NACKNLG %s\n",
        (mask & PIO_STAT_NACKNLG) ? (val & PIO_STAT_NACKNLG ? "on" : "off")
        : "-")
-  for (;;)
+  for(;;)
     {
       ++poll_count
-      stat = inb (port.base + PIO_STAT)
-      if ((stat & mask) == (val & mask))
+      stat = inb(port.base + PIO_STAT)
+      if((stat & mask) == (val & mask))
 	{
-	  DBG (DL60, "got %02x after %ld tries\n", stat, poll_count)
-	  DBG (DL61, "   BUSY    %s\n", stat & PIO_STAT_BUSY ? "on" : "off")
-	  DBG (DL61, "   NACKNLG %s\n",
+	  DBG(DL60, "got %02x after %ld tries\n", stat, poll_count)
+	  DBG(DL61, "   BUSY    %s\n", stat & PIO_STAT_BUSY ? "on" : "off")
+	  DBG(DL61, "   NACKNLG %s\n",
 	       stat & PIO_STAT_NACKNLG ? "on" : "off")
 
 	  return stat
 	}
       if(poll_count>1000)
         {
-          if ((port.max_time_seconds>0) && (time(NULL)-start >= port.max_time_seconds))
+          if((port.max_time_seconds>0) && (time(NULL)-start >= port.max_time_seconds))
 	    break
           usleep(1)
         }
 
     }
-  DBG (DL60, "got %02x aborting after %ld\n", stat, poll_count)
-  DBG (DL61, "   BUSY    %s\n", stat & PIO_STAT_BUSY ? "on" : "off")
-  DBG (DL61, "   NACKNLG %s\n", stat & PIO_STAT_NACKNLG ? "on" : "off")
-  DBG (1, "polling time out, abort\n")
-  exit (-1)
+  DBG(DL60, "got %02x aborting after %ld\n", stat, poll_count)
+  DBG(DL61, "   BUSY    %s\n", stat & PIO_STAT_BUSY ? "on" : "off")
+  DBG(DL61, "   NACKNLG %s\n", stat & PIO_STAT_NACKNLG ? "on" : "off")
+  DBG(1, "polling time out, abort\n")
+  exit(-1)
 }
 
 static inline void
-pio_ctrl (const Port port, u_char val)
+pio_ctrl(const Port port, u_char val)
 {
-  DBG (DL60, "ctrl on port 0x%03lx %02x %02x\n",
+  DBG(DL60, "ctrl on port 0x%03lx %02x %02x\n",
        port.base, (Int) val, (Int) val ^ PIO_CTRL_NINIT)
 
   val ^= PIO_CTRL_NINIT
 
-  DBG (DL61, "   IE      %s\n", val & PIO_CTRL_IE ? "on" : "off")
-  DBG (DL61, "   IRQE    %s\n", val & PIO_CTRL_IRQE ? "on" : "off")
-  DBG (DL61, "   DIR     %s\n", val & PIO_CTRL_DIR ? "on" : "off")
-  DBG (DL61, "   NINIT   %s\n", val & PIO_CTRL_NINIT ? "on" : "off")
-  DBG (DL61, "   FDXT    %s\n", val & PIO_CTRL_FDXT ? "on" : "off")
-  DBG (DL61, "   NSTROBE %s\n", val & PIO_CTRL_NSTROBE ? "on" : "off")
+  DBG(DL61, "   IE      %s\n", val & PIO_CTRL_IE ? "on" : "off")
+  DBG(DL61, "   IRQE    %s\n", val & PIO_CTRL_IRQE ? "on" : "off")
+  DBG(DL61, "   DIR     %s\n", val & PIO_CTRL_DIR ? "on" : "off")
+  DBG(DL61, "   NINIT   %s\n", val & PIO_CTRL_NINIT ? "on" : "off")
+  DBG(DL61, "   FDXT    %s\n", val & PIO_CTRL_FDXT ? "on" : "off")
+  DBG(DL61, "   NSTROBE %s\n", val & PIO_CTRL_NSTROBE ? "on" : "off")
 
-  outb (val, port.base + PIO_CTRL)
-
-  return
-}
-
-static inline void
-pio_delay (const Port port)
-{
-  inb (port.base + PIO_STAT);	/* delay */
+  outb(val, port.base + PIO_CTRL)
 
   return
 }
 
 static inline void
-pio_init (const Port port)
+pio_delay(const Port port)
 {
-  pio_ctrl (port, PIO_CTRL_IE)
+  inb(port.base + PIO_STAT);	/* delay */
+
+  return
+}
+
+static inline void
+pio_init(const Port port)
+{
+  pio_ctrl(port, PIO_CTRL_IE)
   return
 }
 
 static void
-pio_reset (const Port port)
+pio_reset(const Port port)
 {
   Int n
 
-  DBG (DL40, "reset\n")
+  DBG(DL40, "reset\n")
 
-  for (n = PIO_APPLYRESET; --n >= 0;)
+  for(n = PIO_APPLYRESET; --n >= 0;)
     {
-      outb ((PIO_CTRL_IE | PIO_CTRL_NINIT) ^ PIO_CTRL_NINIT,
+      outb((PIO_CTRL_IE | PIO_CTRL_NINIT) ^ PIO_CTRL_NINIT,
 	    port.base + PIO_CTRL)
     }
-  pio_init (port)
+  pio_init(port)
 
-  DBG (DL40, "end reset\n")
+  DBG(DL40, "end reset\n")
 
   return
 }
 
 static Int
-pio_write (const Port port, const u_char * buf, Int n)
+pio_write(const Port port, const u_char * buf, Int n)
 {
   Int k
 
-  DBG (DL40, "write\n")
+  DBG(DL40, "write\n")
 
-  pio_wait (port, PIO_STAT_BUSY, PIO_STAT_BUSY);	/* busy */
-  pio_ctrl (port, PIO_CTRL_DIR | PIO_CTRL_IE);		/* praeoutput */
-  pio_wait (port, PIO_STAT_NACKNLG, PIO_STAT_NACKNLG);	/* acknlg */
-  pio_ctrl (port, PIO_CTRL_DIR);			/* output */
+  pio_wait(port, PIO_STAT_BUSY, PIO_STAT_BUSY);	/* busy */
+  pio_ctrl(port, PIO_CTRL_DIR | PIO_CTRL_IE);		/* praeoutput */
+  pio_wait(port, PIO_STAT_NACKNLG, PIO_STAT_NACKNLG);	/* acknlg */
+  pio_ctrl(port, PIO_CTRL_DIR);			/* output */
 
-  for (k = 0; k < n; k++, buf++)
+  for(k = 0; k < n; k++, buf++)
     {
-      DBG (DL40, "write byte\n")
+      DBG(DL40, "write byte\n")
 #ifdef HANDSHAKE_BUSY
-      pio_wait (port, PIO_STAT_BUSY, PIO_STAT_BUSY);	/* busy */
+      pio_wait(port, PIO_STAT_BUSY, PIO_STAT_BUSY);	/* busy */
 #else
-      pio_wait (port, PIO_STAT_BUSY | PIO_STAT_NACKNLG,
+      pio_wait(port, PIO_STAT_BUSY | PIO_STAT_NACKNLG,
 		PIO_STAT_BUSY | PIO_STAT_NACKNLG);	/* busyack */
 #endif
-      DBG (DL60, "out  %02x\n", (Int) *buf)
+      DBG(DL60, "out  %02x\n", (Int) *buf)
 
-      outb (*buf, port.base + PIO_IOPORT)
+      outb(*buf, port.base + PIO_IOPORT)
 
-      pio_delay (port)
-      pio_delay (port)
-      pio_delay (port)
-      pio_ctrl (port, PIO_CTRL_DIR | PIO_CTRL_NSTROBE);	/* outputstrobe */
+      pio_delay(port)
+      pio_delay(port)
+      pio_delay(port)
+      pio_ctrl(port, PIO_CTRL_DIR | PIO_CTRL_NSTROBE);	/* outputstrobe */
 
-      pio_delay (port)
-      pio_delay (port)
-      pio_delay (port)
-      pio_ctrl (port, PIO_CTRL_DIR);	/* output */
+      pio_delay(port)
+      pio_delay(port)
+      pio_delay(port)
+      pio_ctrl(port, PIO_CTRL_DIR);	/* output */
 
-      pio_delay (port)
-      pio_delay (port)
-      pio_delay (port)
+      pio_delay(port)
+      pio_delay(port)
+      pio_delay(port)
 
-      DBG (DL40, "end write byte\n")
+      DBG(DL40, "end write byte\n")
     }
 
 #ifdef HANDSHAKE_BUSY
-  pio_wait (port, PIO_STAT_BUSY, PIO_STAT_BUSY);	/* busy */
+  pio_wait(port, PIO_STAT_BUSY, PIO_STAT_BUSY);	/* busy */
 #else
-  pio_wait (port, PIO_STAT_BUSY | PIO_STAT_NACKNLG,
+  pio_wait(port, PIO_STAT_BUSY | PIO_STAT_NACKNLG,
 	    PIO_STAT_BUSY | PIO_STAT_NACKNLG);	/* busyack */
 #endif
 
-  pio_ctrl (port, PIO_CTRL_DIR | PIO_CTRL_IE);	/* praeoutput */
-  DBG (DL40, "end write\n")
+  pio_ctrl(port, PIO_CTRL_DIR | PIO_CTRL_IE);	/* praeoutput */
+  DBG(DL40, "end write\n")
   return k
 }
 
 static Int
-pio_read (const Port port, u_char * buf, Int n)
+pio_read(const Port port, u_char * buf, Int n)
 {
   Int k
 
-  DBG (DL40, "read\n")
+  DBG(DL40, "read\n")
 
-  pio_wait (port, PIO_STAT_BUSY, PIO_STAT_BUSY);	/* busy */
-  pio_ctrl (port, PIO_CTRL_IE);	/* input */
+  pio_wait(port, PIO_STAT_BUSY, PIO_STAT_BUSY);	/* busy */
+  pio_ctrl(port, PIO_CTRL_IE);	/* input */
 
-  for (k = 0; k < n; k++, buf++)
+  for(k = 0; k < n; k++, buf++)
     {
-      DBG (DL40, "read byte\n")
+      DBG(DL40, "read byte\n")
 
 #ifdef HANDSHAKE_BUSY
-      pio_wait (port, PIO_STAT_BUSY, PIO_STAT_BUSY);	/* busy */
+      pio_wait(port, PIO_STAT_BUSY, PIO_STAT_BUSY);	/* busy */
 #else
-      pio_wait (port, PIO_STAT_BUSY, PIO_STAT_BUSY | PIO_STAT_NACKNLG)
+      pio_wait(port, PIO_STAT_BUSY, PIO_STAT_BUSY | PIO_STAT_NACKNLG)
       /* busynack */
 #endif
-      pio_ctrl (port, PIO_CTRL_IE | PIO_CTRL_NSTROBE);	/* inputstrobe */
+      pio_ctrl(port, PIO_CTRL_IE | PIO_CTRL_NSTROBE);	/* inputstrobe */
 
-      pio_delay (port)
-      pio_delay (port)
-      pio_delay (port)
-      pio_ctrl (port, PIO_CTRL_IE);	/* input */
+      pio_delay(port)
+      pio_delay(port)
+      pio_delay(port)
+      pio_ctrl(port, PIO_CTRL_IE);	/* input */
 #ifdef HANDSHAKE_BUSY
-      pio_wait (port, PIO_STAT_BUSY, PIO_STAT_BUSY);	/* busy */
+      pio_wait(port, PIO_STAT_BUSY, PIO_STAT_BUSY);	/* busy */
 #else
-      pio_wait (port, PIO_STAT_BUSY, PIO_STAT_BUSY | PIO_STAT_NACKNLG)
+      pio_wait(port, PIO_STAT_BUSY, PIO_STAT_BUSY | PIO_STAT_NACKNLG)
       /* busynack */
 #endif
 
-      *buf = inb (port.base + PIO_IOPORT)
-      DBG (DL60, "in   %02x\n", (Int) *buf)
-      DBG (DL40, "end read byte\n")
+      *buf = inb(port.base + PIO_IOPORT)
+      DBG(DL60, "in   %02x\n", (Int) *buf)
+      DBG(DL40, "end read byte\n")
     }
 
-  pio_wait (port, PIO_STAT_BUSY, PIO_STAT_BUSY);	/* busy */
-  pio_ctrl (port, PIO_CTRL_IE);	/* input */
-  DBG (DL40, "end read\n")
+  pio_wait(port, PIO_STAT_BUSY, PIO_STAT_BUSY);	/* busy */
+  pio_ctrl(port, PIO_CTRL_IE);	/* input */
+  DBG(DL40, "end read\n")
   return k
 }
 
 /*
-     Open the device, <dev> must contain a valid port number (as string).
+     Open the device, <dev> must contain a valid port number(as string).
  */
 
 static Int
-pio_open (const char *dev, Sane.Status * status)
+pio_open(const char *dev, Sane.Status * status)
 {
   static Int first_time = 1
   u_long base
   Int n
 
-  if (first_time)
+  if(first_time)
     {
       first_time = 0
 
-      DBG_INIT ()
+      DBG_INIT()
       /* set root uid */
-      if (0 > setuid (0))
+      if(0 > setuid(0))
 	{
-	  DBG (1, "sanei_pio_open: setuid failed: errno = %d\n", errno)
+	  DBG(1, "sanei_pio_open: setuid failed: errno = %d\n", errno)
 	  *status = Sane.STATUS_INVAL
 	  return -1
 	}
@@ -426,37 +426,37 @@ pio_open (const char *dev, Sane.Status * status)
   {
     char *end
 
-    base = strtol (dev, &end, 0)
+    base = strtol(dev, &end, 0)
 
-    if ((end == dev) || *end)
+    if((end == dev) || *end)
       {
-	DBG (1, "sanei_pio_open: `%s' is not a valid port number\n", dev)
+	DBG(1, "sanei_pio_open: `%s' is not a valid port number\n", dev)
 	*status = Sane.STATUS_INVAL
 	return -1
       }
   }
 
-  if (0 == base)
+  if(0 == base)
     {
-      DBG (1, "sanei_pio_open: 0x%03lx is not a valid base address\n", base)
+      DBG(1, "sanei_pio_open: 0x%03lx is not a valid base address\n", base)
       *status = Sane.STATUS_INVAL
       return -1
     }
 
-  for (n = 0; n < NELEMS (port); n++)
-    if (port[n].base == base)
+  for(n = 0; n < NELEMS(port); n++)
+    if(port[n].base == base)
       break
 
-  if (NELEMS (port) <= n)
+  if(NELEMS(port) <= n)
     {
-      DBG (1, "sanei_pio_open: 0x%03lx is not a valid base address\n", base)
+      DBG(1, "sanei_pio_open: 0x%03lx is not a valid base address\n", base)
       *status = Sane.STATUS_INVAL
       return -1
     }
 
-  if (port[n].in_use)
+  if(port[n].in_use)
     {
-      DBG (1, "sanei_pio_open: port 0x%03lx is already in use\n", base)
+      DBG(1, "sanei_pio_open: port 0x%03lx is already in use\n", base)
       *status = Sane.STATUS_DEVICE_BUSY
       return -1
     }
@@ -465,43 +465,43 @@ pio_open (const char *dev, Sane.Status * status)
   port[n].max_time_seconds = 10
   port[n].in_use = 1
 
-  if (ioperm (port[n].base, 3, 1))
+  if(ioperm(port[n].base, 3, 1))
     {
-      DBG (1, "sanei_pio_open: cannot get io privilege for port 0x%03lx\n",
+      DBG(1, "sanei_pio_open: cannot get io privilege for port 0x%03lx\n",
 	   port[n].base)
       *status = Sane.STATUS_IO_ERROR
       return -1
     }
 
-  pio_reset (&port[n])
+  pio_reset(&port[n])
 
   *status = Sane.STATUS_GOOD
   return n
 }
 
 Sane.Status
-sanei_pio_open (const char *dev, Int *fdp)
+sanei_pio_open(const char *dev, Int *fdp)
 {
   Sane.Status status
 
-  *fdp = pio_open (dev, &status)
+  *fdp = pio_open(dev, &status)
   return status
 }
 
 void
-sanei_pio_close (Int fd)
+sanei_pio_close(Int fd)
 {
   Port p = port + fd
 
-  if ((0 > fd) || (NELEMS (port) <= fd))
+  if((0 > fd) || (NELEMS(port) <= fd))
     return
 
-  if (!p.in_use)
+  if(!p.in_use)
     return
 
-  if (-1 != p.fd)
+  if(-1 != p.fd)
     {
-      close (p.fd)
+      close(p.fd)
       p.fd = -1
     }
 
@@ -510,26 +510,26 @@ sanei_pio_close (Int fd)
   return
 }
 
-func Int sanei_pio_read (Int fd, u_char * buf, Int n)
+func Int sanei_pio_read(Int fd, u_char * buf, Int n)
 {
-  if ((0 > fd) || (NELEMS (port) <= fd))
+  if((0 > fd) || (NELEMS(port) <= fd))
     return -1
 
-  if (!port[fd].in_use)
+  if(!port[fd].in_use)
     return -1
 
-  return pio_read (&port[fd], buf, n)
+  return pio_read(&port[fd], buf, n)
 }
 
-func Int sanei_pio_write (Int fd, const u_char * buf, Int n)
+func Int sanei_pio_write(Int fd, const u_char * buf, Int n)
 {
-  if ((0 > fd) || (NELEMS (port) <= fd))
+  if((0 > fd) || (NELEMS(port) <= fd))
     return -1
 
-  if (!port[fd].in_use)
+  if(!port[fd].in_use)
     return -1
 
-  return pio_write (&port[fd], buf, n)
+  return pio_write(&port[fd], buf, n)
 }
 
 #else /* !HAVE_IOPERM */
@@ -539,7 +539,7 @@ func Int sanei_pio_write (Int fd, const u_char * buf, Int n)
 import fcntl
 
 Sane.Status
-sanei_pio_open (const char *dev, Int *fdp)
+sanei_pio_open(const char *dev, Int *fdp)
 {
 	Int fp
 
@@ -553,18 +553,18 @@ sanei_pio_open (const char *dev, Int *fdp)
 
 
 void
-sanei_pio_close (Int fd)
+sanei_pio_close(Int fd)
 {
 	close(fd)
 	return
 }
 
-func Int sanei_pio_read (Int fd, u_char * buf, Int n)
+func Int sanei_pio_read(Int fd, u_char * buf, Int n)
 {
 	return(read(fd,buf,n))
 }
 
-func Int sanei_pio_write (Int fd, const u_char * buf, Int n)
+func Int sanei_pio_write(Int fd, const u_char * buf, Int n)
 {
   	return(write(fd,buf,n))
 }
@@ -572,7 +572,7 @@ func Int sanei_pio_write (Int fd, const u_char * buf, Int n)
 #else /* !__BEOS__ */
 
 Sane.Status
-sanei_pio_open (const char *dev, Int *fdp)
+sanei_pio_open(const char *dev, Int *fdp)
 {
   *fdp = -1
   return Sane.STATUS_INVAL
@@ -580,17 +580,17 @@ sanei_pio_open (const char *dev, Int *fdp)
 
 
 void
-sanei_pio_close (Int fd)
+sanei_pio_close(Int fd)
 {
   return
 }
 
-func Int sanei_pio_read (Int fd, u_char * buf, Int n)
+func Int sanei_pio_read(Int fd, u_char * buf, Int n)
 {
   return -1
 }
 
-func Int sanei_pio_write (Int fd, const u_char * buf, Int n)
+func Int sanei_pio_write(Int fd, const u_char * buf, Int n)
 {
   return -1
 }

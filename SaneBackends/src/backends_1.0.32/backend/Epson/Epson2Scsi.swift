@@ -56,7 +56,7 @@ sanei_epson2_scsi_sense_handler(Int scsi_fd,
 	scsi_fd = scsi_fd
 	arg = arg
 
-	if (result[0] && result[0] != 0x70) {
+	if(result[0] && result[0] != 0x70) {
 		DBG(2, "%s: sense code = 0x%02x\n",
 			__func__, result[0])
 		return Sane.STATUS_IO_ERROR
@@ -102,7 +102,7 @@ func Int sanei_epson2_scsi_read(Int fd, void *buf, size_t buf_size,
 	cmd[4] = buf_size
 
 	*status = sanei_scsi_cmd2(fd, cmd, sizeof(cmd), NULL, 0, buf, &buf_size)
-	if (*status == Sane.STATUS_GOOD)
+	if(*status == Sane.STATUS_GOOD)
 		return buf_size
 
 	return 0
@@ -120,7 +120,7 @@ func Int sanei_epson2_scsi_write(Int fd, const void *buf, size_t buf_size,
 	cmd[4] = buf_size
 
 	*status = sanei_scsi_cmd2(fd, cmd, sizeof(cmd), buf, buf_size, NULL, NULL)
-	if (*status == Sane.STATUS_GOOD)
+	if(*status == Sane.STATUS_GOOD)
 		return buf_size
 
 	return 0

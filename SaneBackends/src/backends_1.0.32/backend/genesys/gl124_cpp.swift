@@ -1,6 +1,6 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2010-2016 Stéphane Voltz <stef.dev@free.fr>
+   Copyright(C) 2010-2016 Stéphane Voltz <stef.dev@free.fr>
 
 
    This file is part of the SANE package.
@@ -8,7 +8,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -90,7 +90,7 @@ static Gpio_layout gpios[] = {
  * @param dev device structure holding register set to initialize
  */
 static void
-gl124_init_registers (Genesys_Device * dev)
+gl124_init_registers(Genesys_Device * dev)
 {
     DBG_HELPER(dbg)
 
@@ -191,7 +191,7 @@ gl124_init_registers (Genesys_Device * dev)
     dev.reg.init_reg(0x6e, 0x00)
     dev.reg.init_reg(0x6f, 0x00)
 
-    if (dev.model.sensor_id != SensorId::CIS_CANON_LIDE_120) {
+    if(dev.model.sensor_id != SensorId::CIS_CANON_LIDE_120) {
         dev.reg.init_reg(0x6d, 0xd0)
         dev.reg.init_reg(0x71, 0x08)
     } else {
@@ -218,7 +218,7 @@ gl124_init_registers (Genesys_Device * dev)
     dev.reg.init_reg(0x7e, 0x08)
     dev.reg.init_reg(0x7f, 0x58)
 
-    if (dev.model.sensor_id != SensorId::CIS_CANON_LIDE_120) {
+    if(dev.model.sensor_id != SensorId::CIS_CANON_LIDE_120) {
         dev.reg.init_reg(0x80, 0x00)
         dev.reg.init_reg(0x81, 0x14)
     } else {
@@ -305,7 +305,7 @@ gl124_init_registers (Genesys_Device * dev)
     dev.reg.init_reg(0xce, 0x00)
      */
 
-    if (dev.model.sensor_id == SensorId::CIS_CANON_LIDE_120) {
+    if(dev.model.sensor_id == SensorId::CIS_CANON_LIDE_120) {
         dev.reg.init_reg(0xc5, 0x20)
         dev.reg.init_reg(0xc6, 0xeb)
         dev.reg.init_reg(0xc7, 0x20)
@@ -381,7 +381,7 @@ static void gl124_set_ti_fe(Genesys_Device* dev, uint8_t set)
     DBG_HELPER(dbg)
   var i: Int
 
-    if (set == AFE_INIT) {
+    if(set == AFE_INIT) {
         dev.frontend = dev.frontend_initial
     }
 
@@ -389,7 +389,7 @@ static void gl124_set_ti_fe(Genesys_Device* dev, uint8_t set)
     dev.interface.write_fe_register(0x00, 0x80)
 
   /* write values to analog frontend */
-  for (uint16_t addr = 0x01; addr < 0x04; addr++)
+  for(uint16_t addr = 0x01; addr < 0x04; addr++)
     {
         dev.interface.write_fe_register(addr, dev.frontend.regs.get_value(addr))
     }
@@ -397,12 +397,12 @@ static void gl124_set_ti_fe(Genesys_Device* dev, uint8_t set)
     dev.interface.write_fe_register(0x04, 0x00)
 
   /* these are not really sign for this AFE */
-  for (i = 0; i < 3; i++)
+  for(i = 0; i < 3; i++)
     {
         dev.interface.write_fe_register(0x05 + i, dev.frontend.regs.get_value(0x24 + i))
     }
 
-    if (dev.model.adc_id == AdcId::CANON_LIDE_120) {
+    if(dev.model.adc_id == AdcId::CANON_LIDE_120) {
         dev.interface.write_fe_register(0x00, 0x01)
     }
   else
@@ -421,14 +421,14 @@ void CommandSetGl124::set_fe(Genesys_Device* dev, const Genesys_Sensor& sensor, 
     (void) sensor
   uint8_t val
 
-    if (set == AFE_INIT) {
+    if(set == AFE_INIT) {
         dev.frontend = dev.frontend_initial
     }
 
     val = dev.interface.read_register(REG_0x0A)
 
   /* route to correct analog FE */
-    switch ((val & REG_0x0A_SIFSEL) >> REG_0x0AS_SIFSEL) {
+    switch((val & REG_0x0A_SIFSEL) >> REG_0x0AS_SIFSEL) {
     case 3:
             gl124_set_ti_fe(dev, set)
       break
@@ -472,7 +472,7 @@ static void gl124_init_motor_regs_scan(Genesys_Device* dev,
 
   /* enforce motor minimal scan speed
    * @TODO extend motor struct for this value */
-  if (scan_mode == ScanColorMode::COLOR_SINGLE_PASS)
+  if(scan_mode == ScanColorMode::COLOR_SINGLE_PASS)
     {
       min_speed = 900
     }
@@ -516,21 +516,21 @@ static void gl124_init_motor_regs_scan(Genesys_Device* dev,
   /* compute register 02 value */
     uint8_t r02 = REG_0x02_NOTHOME
 
-    if (use_fast_fed) {
+    if(use_fast_fed) {
         r02 |= REG_0x02_FASTFED
     } else {
         r02 &= ~REG_0x02_FASTFED
     }
 
-    if (has_flag(flags, ScanFlag::AUTO_GO_HOME)) {
+    if(has_flag(flags, ScanFlag::AUTO_GO_HOME)) {
         r02 |= REG_0x02_AGOHOME
     }
 
-    if (has_flag(flags, ScanFlag::DISABLE_BUFFER_FULL_MOVE) || (yres >= sensor.full_resolution))
+    if(has_flag(flags, ScanFlag::DISABLE_BUFFER_FULL_MOVE) || (yres >= sensor.full_resolution))
     {
         r02 |= REG_0x02_ACDCDIS
     }
-    if (has_flag(flags, ScanFlag::REVERSE)) {
+    if(has_flag(flags, ScanFlag::REVERSE)) {
         r02 |= REG_0x02_MTRREV
     }
 
@@ -551,7 +551,7 @@ static void gl124_init_motor_regs_scan(Genesys_Device* dev,
   fast_dpi=yres
 
   /*
-  if (scan_mode != ScanColorMode::COLOR_SINGLE_PASS)
+  if(scan_mode != ScanColorMode::COLOR_SINGLE_PASS)
     {
       fast_dpi*=3
     }
@@ -570,15 +570,15 @@ static void gl124_init_motor_regs_scan(Genesys_Device* dev,
     feedl <<= static_cast<unsigned>(motor_profile.step_type)
 
     dist = scan_table.table.size()
-    if (has_flag(flags, ScanFlag::FEEDING)) {
+    if(has_flag(flags, ScanFlag::FEEDING)) {
         dist *= 2
     }
-    if (use_fast_fed) {
+    if(use_fast_fed) {
         dist += fast_table.table.size() * 2
     }
 
   /* get sure we don't use insane value */
-    if (dist < feedl) {
+    if(dist < feedl) {
         feedl -= dist
     } else {
         feedl = 0
@@ -620,7 +620,7 @@ static void gl124_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
 
   /* enable shading */
     regs_set_optical_off(dev.model.asic_type, *reg)
-    if (has_flag(session.params.flags, ScanFlag::DISABLE_SHADING) ||
+    if(has_flag(session.params.flags, ScanFlag::DISABLE_SHADING) ||
         has_flag(dev.model.flags, ModelFlag::DISABLE_SHADING_CALIBRATION))
     {
         reg.find_reg(REG_0x01).value &= ~REG_0x01_DVDSET
@@ -628,7 +628,7 @@ static void gl124_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
         reg.find_reg(REG_0x01).value |= REG_0x01_DVDSET
     }
 
-    if ((dev.model.sensor_id != SensorId::CIS_CANON_LIDE_120) && (session.params.xres>=600)) {
+    if((dev.model.sensor_id != SensorId::CIS_CANON_LIDE_120) && (session.params.xres>=600)) {
         reg.find_reg(REG_0x03).value &= ~REG_0x03_AVEENB
     } else {
         // BUG: the following is likely incorrect
@@ -643,7 +643,7 @@ static void gl124_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
     dev.interface.write_register(REG_0x115, 0x7f)
 
   /* monochrome / color scan */
-    switch (session.params.depth) {
+    switch(session.params.depth) {
     case 8:
             reg.find_reg(REG_0x04).value &= ~(REG_0x04_LINEART | REG_0x04_BITSET)
             break
@@ -654,9 +654,9 @@ static void gl124_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
     }
 
     reg.find_reg(REG_0x04).value &= ~REG_0x04_FILTER
-  if (session.params.channels == 1)
+  if(session.params.channels == 1)
     {
-      switch (session.params.color_filter)
+      switch(session.params.color_filter)
 	{
             case ColorFilter::RED:
                 reg.find_reg(REG_0x04).value |= 0x10
@@ -677,7 +677,7 @@ static void gl124_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
                                                          session.params.scan_method)
     sanei_genesys_set_dpihw(*reg, dpihw_sensor.register_dpihw)
 
-    if (should_enable_gamma(session, sensor)) {
+    if(should_enable_gamma(session, sensor)) {
         reg.find_reg(REG_0x05).value |= REG_0x05_GMMENB
     } else {
         reg.find_reg(REG_0x05).value &= ~REG_0x05_GMMENB
@@ -689,9 +689,9 @@ static void gl124_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
 
   /* CIS scanners can do true gray by setting LEDADD */
   /* we set up LEDADD only when asked */
-    if (dev.model.is_cis) {
+    if(dev.model.is_cis) {
         reg.find_reg(REG_0x60).value &= ~REG_0x60_LEDADD
-        if (session.enable_ledadd) {
+        if(session.enable_ledadd) {
             reg.find_reg(REG_0x60).value |= REG_0x60_LEDADD
             expmax = reg.get24(REG_EXPR)
             expmax = std::max(expmax, reg.get24(REG_EXPG))
@@ -703,7 +703,7 @@ static void gl124_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
         }
       /* RGB weighting, REG_TRUER,G and B are to be set  */
         reg.find_reg(0x01).value &= ~REG_0x01_TRUEGRAY
-        if (session.enable_ledadd) {
+        if(session.enable_ledadd) {
             reg.find_reg(0x01).value |= REG_0x01_TRUEGRAY
             dev.interface.write_register(REG_TRUER, 0x80)
             dev.interface.write_register(REG_TRUEG, 0x80)
@@ -712,7 +712,7 @@ static void gl124_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
     }
 
     std::uint32_t pixel_endx = session.pixel_endx
-    if (pixel_endx == reg.get24(REG_SEGCNT)) {
+    if(pixel_endx == reg.get24(REG_SEGCNT)) {
         pixel_endx = 0
     }
     reg.set24(REG_STRPIXEL, session.pixel_startx)
@@ -744,13 +744,13 @@ void CommandSetGl124::init_regs_for_scan_session(Genesys_Device* dev, const Gene
   Int slope_dpi = 0
 
     /* cis color scan is effectively a gray scan with 3 gray lines per color line and a FILTER of 0 */
-    if (dev.model.is_cis) {
+    if(dev.model.is_cis) {
         slope_dpi = session.params.yres * session.params.channels
     } else {
         slope_dpi = session.params.yres
     }
 
-    if (has_flag(session.params.flags, ScanFlag::FEEDING)) {
+    if(has_flag(session.params.flags, ScanFlag::FEEDING)) {
         exposure_time = 2304
     } else {
         exposure_time = sensor.exposure_lperiod
@@ -849,7 +849,7 @@ void CommandSetGl124::set_powersaving(Genesys_Device* dev, Int delay /* in minut
 }
 
 /** @brief setup GPIOs for scan
- * Setup GPIO values to drive motor (or light) needed for the
+ * Setup GPIO values to drive motor(or light) needed for the
  * target resolution
  * @param *dev device to set up
  * @param resolution dpi of the target scan
@@ -932,14 +932,14 @@ void CommandSetGl124::end_scan(Genesys_Device* dev, Genesys_Register_Set* reg,
     (void) reg
     DBG_HELPER_ARGS(dbg, "check_stop = %d", check_stop)
 
-    if (!dev.model.is_sheetfed) {
+    if(!dev.model.is_sheetfed) {
         scanner_stop_action(*dev)
     }
 }
 
 
 /** Park head
- * Moves the slider to the home (top) position slowly
+ * Moves the slider to the home(top) position slowly
  * @param dev device to park
  * @param wait_until_home true to make the function waiting for head
  * to be home before returning, if fals returne immediately
@@ -966,7 +966,7 @@ void CommandSetGl124::init_regs_for_shading(Genesys_Device* dev, const Genesys_S
 
   /* distance to move to reach white target at high resolution */
     unsigned move=0
-    if (dev.settings.yres >= 1200) {
+    if(dev.settings.yres >= 1200) {
         move = static_cast<Int>(dev.model.y_offset_calib_white)
         move = static_cast<Int>((move * (dev.motor.base_ydpi/4)) / MM_PER_INCH)
     }
@@ -990,7 +990,7 @@ void CommandSetGl124::init_regs_for_shading(Genesys_Device* dev, const Genesys_S
 
     try {
         init_regs_for_scan_session(dev, calib_sensor, &regs, session)
-    } catch (...) {
+    } catch(...) {
         catch_all_exceptions(__func__, [&](){ sanei_genesys_set_motor_power(regs, false); })
         throw
     }
@@ -1006,7 +1006,7 @@ void CommandSetGl124::wait_for_motor_stop(Genesys_Device* dev) const
     auto status = scanner_read_status(*dev)
     uint8_t val40 = dev.interface.read_register(REG_0x100)
 
-    if (!status.is_motor_enabled && (val40 & REG_0x100_MOTMFLG) == 0) {
+    if(!status.is_motor_enabled && (val40 & REG_0x100_MOTMFLG) == 0) {
         return
     }
 
@@ -1014,7 +1014,7 @@ void CommandSetGl124::wait_for_motor_stop(Genesys_Device* dev) const
         dev.interface.sleep_ms(10)
         status = scanner_read_status(*dev)
         val40 = dev.interface.read_register(REG_0x100)
-    } while (status.is_motor_enabled ||(val40 & REG_0x100_MOTMFLG))
+    } while(status.is_motor_enabled ||(val40 & REG_0x100_MOTMFLG))
     dev.interface.sleep_ms(50)
 }
 
@@ -1049,7 +1049,7 @@ void CommandSetGl124::send_shading_data(Genesys_Device* dev, const Genesys_Senso
     dev.interface.record_key_value("shading_segment_count",
                                      std::to_string(dev.session.segment_count))
 
-  DBG( DBG_io2, "%s: using chunks of %d bytes (%d shading data pixels)\n",__func__,length, length/4)
+  DBG( DBG_io2, "%s: using chunks of %d bytes(%d shading data pixels)\n",__func__,length, length/4)
     std::vector<uint8_t> buffer(pixels * dev.session.segment_count, 0)
 
   /* write actual red data */
@@ -1060,12 +1060,12 @@ void CommandSetGl124::send_shading_data(Genesys_Device* dev, const Genesys_Senso
       ptr = buffer.data()
 
       /* iterate on both sensor segment */
-        for (unsigned x = 0; x < pixels; x += 4 * sensor.shading_factor) {
+        for(unsigned x = 0; x < pixels; x += 4 * sensor.shading_factor) {
           /* coefficient source */
           src=data+x+strpixel+i*length
 
           /* iterate over all the segments */
-          for (unsigned s = 0; s < dev.session.segment_count; s++)
+          for(unsigned s = 0; s < dev.session.segment_count; s++)
             {
               unsigned segnum = dev.session.segment_count > 1 ? sensor.segment_order[s] : 0
               ptr[0+pixels*s]=src[0+segcnt*segnum]
@@ -1128,10 +1128,10 @@ void move_to_calibration_area(Genesys_Device* dev, const Genesys_Sensor& sensor,
     // write registers and scan data
     dev.interface.write_registers(regs)
 
-  DBG (DBG_info, "%s: starting line reading\n", __func__)
+  DBG(DBG_info, "%s: starting line reading\n", __func__)
     dev.cmd_set.begin_scan(dev, move_sensor, &regs, true)
 
-    if (is_testing_mode()) {
+    if(is_testing_mode()) {
         dev.interface.test_checkpoint("move_to_calibration_area")
         scanner_stop_action(*dev)
         return
@@ -1142,7 +1142,7 @@ void move_to_calibration_area(Genesys_Device* dev, const Genesys_Sensor& sensor,
     // stop scanning
     scanner_stop_action(*dev)
 
-    if (dbg_log_image_data()) {
+    if(dbg_log_image_data()) {
         write_tiff_file("gl124_movetocalarea.tiff", image)
     }
 }
@@ -1184,7 +1184,7 @@ void CommandSetGl124::init_regs_for_warmup(Genesys_Device* dev, const Genesys_Se
                  ScanFlag::SINGLE_LINE |
                  ScanFlag::IGNORE_STAGGER_OFFSET |
                  ScanFlag::IGNORE_COLOR_OFFSET
-    if (dev.settings.scan_method == ScanMethod::TRANSPARENCY ||
+    if(dev.settings.scan_method == ScanMethod::TRANSPARENCY ||
         dev.settings.scan_method == ScanMethod::TRANSPARENCY_INFRARED)
     {
         flags |= ScanFlag::USE_XPA
@@ -1221,9 +1221,9 @@ static void gl124_init_gpio(Genesys_Device* dev)
   Int idx
 
   /* per model GPIO layout */
-    if (dev.model.model_id == ModelId::CANON_LIDE_110) {
+    if(dev.model.model_id == ModelId::CANON_LIDE_110) {
       idx = 0
-    } else if (dev.model.model_id == ModelId::CANON_LIDE_120) {
+    } else if(dev.model.model_id == ModelId::CANON_LIDE_120) {
       idx = 2
     }
   else
@@ -1256,7 +1256,7 @@ static void gl124_init_memory_layout(Genesys_Device* dev)
  */
 void CommandSetGl124::init(Genesys_Device* dev) const
 {
-  DBG_INIT ()
+  DBG_INIT()
     DBG_HELPER(dbg)
 
     sanei_genesys_asic_init(dev)
@@ -1271,7 +1271,7 @@ void CommandSetGl124::asic_boot(Genesys_Device* dev, bool cold) const
     DBG_HELPER(dbg)
 
     // reset ASIC in case of cold boot
-    if (cold) {
+    if(cold) {
         dev.interface.write_register(0x0e, 0x01)
         dev.interface.write_register(0x0e, 0x00)
     }
@@ -1286,13 +1286,13 @@ void CommandSetGl124::asic_boot(Genesys_Device* dev, bool cold) const
 
     // test CHKVER
     val = dev.interface.read_register(REG_0x100)
-    if (val & REG_0x100_CHKVER) {
+    if(val & REG_0x100_CHKVER) {
         val = dev.interface.read_register(0x00)
         DBG(DBG_info, "%s: reported version for genesys chip is 0x%02x\n", __func__, val)
     }
 
   /* Set default values for registers */
-  gl124_init_registers (dev)
+  gl124_init_registers(dev)
 
     // Write initial registers
     dev.interface.write_registers(dev.reg)
@@ -1329,7 +1329,7 @@ void CommandSetGl124::update_hardware_sensors(Genesys_Scanner* s) const
    * add another per scanner button profile struct to avoid growing
    * hard-coded button mapping here.
    */
-    if ((s.dev.model.gpio_id == GpioId::CANON_LIDE_110) ||
+    if((s.dev.model.gpio_id == GpioId::CANON_LIDE_110) ||
         (s.dev.model.gpio_id == GpioId::CANON_LIDE_120))
     {
         s.buttons[BUTTON_SCAN_SW].write((val & 0x01) == 0)

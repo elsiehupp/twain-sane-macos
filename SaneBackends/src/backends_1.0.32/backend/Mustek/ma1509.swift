@@ -1,14 +1,14 @@
 /* sane - Scanner Access Now Easy.
    (C) 2003 Henning Meier-Geinitz <henning@meier-geinitz.de>.
 
-   Based on the mustek (SCSI) backend.
+   Based on the mustek(SCSI) backend.
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -103,7 +103,7 @@ static Sane.String_Const mode_list[] = {
 ]
 
 static Sane.String_Const ta_source_list[] = {
-  Sane.I18N ("Flatbed"), Sane.I18N ("Transparency Adapter"),
+  Sane.I18N("Flatbed"), Sane.I18N("Transparency Adapter"),
   0
 ]
 
@@ -132,137 +132,137 @@ static const Sane.Byte scsi_set_window[] = {
 
 
 static void
-print_data_buffer (const Sane.Byte * buffer, size_t len)
+print_data_buffer(const Sane.Byte * buffer, size_t len)
 {
   Sane.Byte buffer_byte_list[50]
   Sane.Byte buffer_byte[5]
   const Sane.Byte *pp
 
   buffer_byte_list[0] = '\0'
-  for (pp = buffer; pp < (buffer + len); pp++)
+  for(pp = buffer; pp < (buffer + len); pp++)
     {
-      sprintf ((String) buffer_byte, " %02x", *pp)
-      strcat ((String) buffer_byte_list, (String) buffer_byte)
-      if (((pp - buffer) % 0x10 == 0x0f) || (pp >= (buffer + len - 1)))
+      sprintf((String) buffer_byte, " %02x", *pp)
+      strcat((String) buffer_byte_list, (String) buffer_byte)
+      if(((pp - buffer) % 0x10 == 0x0f) || (pp >= (buffer + len - 1)))
 	{
-	  DBG (5, "buffer: %s\n", buffer_byte_list)
+	  DBG(5, "buffer: %s\n", buffer_byte_list)
 	  buffer_byte_list[0] = '\0'
 	}
     }
 }
 
 static Sane.Status
-ma1509_cmd (Ma1509_Scanner * s, const Sane.Byte * cmd, Sane.Byte * data,
+ma1509_cmd(Ma1509_Scanner * s, const Sane.Byte * cmd, Sane.Byte * data,
 	    size_t * data_size)
 {
   Sane.Status status
   size_t size
-#define MA1509_WRITE_LIMIT (1024 * 64)
-#define MA1509_READ_LIMIT (1024 * 256)
+#define MA1509_WRITE_LIMIT(1024 * 64)
+#define MA1509_READ_LIMIT(1024 * 256)
 
-  DBG (5, "ma1509_cmd: fd=%d, cmd=%p, data=%p, data_size=%ld\n",
+  DBG(5, "ma1509_cmd: fd=%d, cmd=%p, data=%p, data_size=%ld\n",
        s.fd, cmd, data, (long Int) (data_size ? *data_size : 0))
-  DBG (5, "ma1509_cmd: cmd = %02x %02x %02x %02x %02x %02x %02x %02x \n",
+  DBG(5, "ma1509_cmd: cmd = %02x %02x %02x %02x %02x %02x %02x %02x \n",
        cmd[0], cmd[1], cmd[2], cmd[3], cmd[4], cmd[5], cmd[6], cmd[7])
 
 
   size = MA1509_COMMAND_LENGTH
-  status = sanei_usb_write_bulk (s.fd, cmd, &size)
-  if (status != Sane.STATUS_GOOD || size != MA1509_COMMAND_LENGTH)
+  status = sanei_usb_write_bulk(s.fd, cmd, &size)
+  if(status != Sane.STATUS_GOOD || size != MA1509_COMMAND_LENGTH)
     {
-      DBG (5,
-	   "ma1509_cmd: sanei_usb_write_bulk returned %s (size = %ld, expected %d)\n",
-	   Sane.strstatus (status), (long Int) size, MA1509_COMMAND_LENGTH)
+      DBG(5,
+	   "ma1509_cmd: sanei_usb_write_bulk returned %s(size = %ld, expected %d)\n",
+	   Sane.strstatus(status), (long Int) size, MA1509_COMMAND_LENGTH)
       return status
     }
 
-  if (cmd[1] == 1)
+  if(cmd[1] == 1)
     {
       /* receive data */
-      if (data && data_size && *data_size)
+      if(data && data_size && *data_size)
 	{
 	  size_t bytes_left = *data_size
-	  DBG (5, "ma1509_cmd: trying to receive %ld bytes of data\n",
+	  DBG(5, "ma1509_cmd: trying to receive %ld bytes of data\n",
 	       (long Int) *data_size)
 
-	  while (status == Sane.STATUS_GOOD && bytes_left > 0)
+	  while(status == Sane.STATUS_GOOD && bytes_left > 0)
 	    {
 	      size = bytes_left
-	      if (size > MA1509_READ_LIMIT)
+	      if(size > MA1509_READ_LIMIT)
 		size = MA1509_READ_LIMIT
 
 	      status =
-		sanei_usb_read_bulk (s.fd, data + *data_size - bytes_left,
+		sanei_usb_read_bulk(s.fd, data + *data_size - bytes_left,
 				     &size)
 
-	      if (status != Sane.STATUS_GOOD)
+	      if(status != Sane.STATUS_GOOD)
 		{
-		  DBG (1, "ma1509_cmd: sanei_usb_read_bulk returned %s\n",
-		       Sane.strstatus (status))
+		  DBG(1, "ma1509_cmd: sanei_usb_read_bulk returned %s\n",
+		       Sane.strstatus(status))
 		  return status
 		}
 	      bytes_left -= size
-	      DBG (5, "ma1509_cmd: read %ld bytes, %ld bytes to go\n",
+	      DBG(5, "ma1509_cmd: read %ld bytes, %ld bytes to go\n",
 		   (long Int) size, (long Int) bytes_left)
 	    }
-	  if (debug_level >= 5)
-	    print_data_buffer (data, *data_size)
+	  if(debug_level >= 5)
+	    print_data_buffer(data, *data_size)
 	}
     }
   else
     {
       /* send data */
-      if (data && data_size && *data_size)
+      if(data && data_size && *data_size)
 	{
 	  size_t bytes_left = *data_size
 
-	  DBG (5, "ma1509_cmd: sending %ld bytes of data\n",
+	  DBG(5, "ma1509_cmd: sending %ld bytes of data\n",
 	       (long Int) *data_size)
-	  if (debug_level >= 5)
-	    print_data_buffer (data, *data_size)
+	  if(debug_level >= 5)
+	    print_data_buffer(data, *data_size)
 
-	  while (status == Sane.STATUS_GOOD && bytes_left > 0)
+	  while(status == Sane.STATUS_GOOD && bytes_left > 0)
 	    {
 	      size = bytes_left
-	      if (size > MA1509_WRITE_LIMIT)
+	      if(size > MA1509_WRITE_LIMIT)
 		size = MA1509_WRITE_LIMIT
 	      status =
-		sanei_usb_write_bulk (s.fd, data + *data_size - bytes_left,
+		sanei_usb_write_bulk(s.fd, data + *data_size - bytes_left,
 				      &size)
-	      if (status != Sane.STATUS_GOOD)
+	      if(status != Sane.STATUS_GOOD)
 		{
-		  DBG (1, "ma1509_cmd: sanei_usb_write_bulk returned %s\n",
-		       Sane.strstatus (status))
+		  DBG(1, "ma1509_cmd: sanei_usb_write_bulk returned %s\n",
+		       Sane.strstatus(status))
 		  return status
 		}
 	      bytes_left -= size
-	      DBG (5, "ma1509_cmd: wrote %ld bytes, %ld bytes to go\n",
+	      DBG(5, "ma1509_cmd: wrote %ld bytes, %ld bytes to go\n",
 		   (long Int) size, (long Int) bytes_left)
 	    }
 
 	}
     }
 
-  DBG (5, "ma1509_cmd: finished: data_size=%ld, status=%s\n",
-       (long Int) (data_size ? *data_size : 0), Sane.strstatus (status))
+  DBG(5, "ma1509_cmd: finished: data_size=%ld, status=%s\n",
+       (long Int) (data_size ? *data_size : 0), Sane.strstatus(status))
   return status
 }
 
 static Sane.Status
-test_unit_ready (Ma1509_Scanner * s)
+test_unit_ready(Ma1509_Scanner * s)
 {
   Sane.Status status
   Sane.Byte buffer[0x04]
-  size_t size = sizeof (buffer)
+  size_t size = sizeof(buffer)
 
-  status = ma1509_cmd (s, scsi_test_unit_ready, buffer, &size)
-  if (status != Sane.STATUS_GOOD)
+  status = ma1509_cmd(s, scsi_test_unit_ready, buffer, &size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "test_unit_ready: ma1509_cmd failed: %s\n",
-	   Sane.strstatus (status))
+      DBG(1, "test_unit_ready: ma1509_cmd failed: %s\n",
+	   Sane.strstatus(status))
       return status
     }
-  if (buffer[1] == 0x14)
+  if(buffer[1] == 0x14)
     s.hw.has_adf = Sane.TRUE
   else
     s.hw.has_adf = Sane.FALSE
@@ -271,7 +271,7 @@ test_unit_ready (Ma1509_Scanner * s)
 }
 
 static Sane.Status
-attach (Sane.String_Const devname, Ma1509_Device ** devp)
+attach(Sane.String_Const devname, Ma1509_Device ** devp)
 {
   Int fw_revision
   Sane.Byte result[INQ_LEN]
@@ -285,99 +285,99 @@ attach (Sane.String_Const devname, Ma1509_Device ** devp)
   Sane.Byte *pp
   Sane.Word vendor, product
 
-  if (devp)
+  if(devp)
     *devp = 0
 
-  for (dev = first_dev; dev; dev = dev.next)
-    if (strcmp (dev.sane.name, devname) == 0)
+  for(dev = first_dev; dev; dev = dev.next)
+    if(strcmp(dev.sane.name, devname) == 0)
       {
-	if (devp)
+	if(devp)
 	  *devp = dev
 	return Sane.STATUS_GOOD
       }
 
-  memset (&new_dev, 0, sizeof (new_dev))
-  memset (&s, 0, sizeof (s))
+  memset(&new_dev, 0, sizeof(new_dev))
+  memset(&s, 0, sizeof(s))
   s.hw = &new_dev
 
-  DBG (3, "attach: trying device %s\n", devname)
+  DBG(3, "attach: trying device %s\n", devname)
 
-  status = sanei_usb_open (devname, &s.fd)
-  if (status != Sane.STATUS_GOOD)
+  status = sanei_usb_open(devname, &s.fd)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: sanei_usb_open failed: %s\n", Sane.strstatus (status))
+      DBG(1, "attach: sanei_usb_open failed: %s\n", Sane.strstatus(status))
       return status
     }
 
-  status = sanei_usb_get_vendor_product (s.fd, &vendor, &product)
-  if (status != Sane.STATUS_GOOD && status != Sane.STATUS_UNSUPPORTED)
+  status = sanei_usb_get_vendor_product(s.fd, &vendor, &product)
+  if(status != Sane.STATUS_GOOD && status != Sane.STATUS_UNSUPPORTED)
     {
-      DBG (1, "attach: sanei_usb_get_vendor_product failed: %s\n",
-	   Sane.strstatus (status))
-      sanei_usb_close (s.fd)
+      DBG(1, "attach: sanei_usb_get_vendor_product failed: %s\n",
+	   Sane.strstatus(status))
+      sanei_usb_close(s.fd)
       return status
     }
-  if (status == Sane.STATUS_UNSUPPORTED)
+  if(status == Sane.STATUS_UNSUPPORTED)
     {
-      DBG (3, "attach: can't detect vendor/product, trying anyway\n")
+      DBG(3, "attach: can't detect vendor/product, trying anyway\n")
     }
-  else if (vendor != 0x055f || product != 0x0010)
+  else if(vendor != 0x055f || product != 0x0010)
     {
-      DBG (1, "attach: unknown vendor/product (0x%x/0x%x)\n", vendor,
+      DBG(1, "attach: unknown vendor/product(0x%x/0x%x)\n", vendor,
 	   product)
-      sanei_usb_close (s.fd)
+      sanei_usb_close(s.fd)
       return Sane.STATUS_UNSUPPORTED
     }
 
-  DBG (4, "attach: sending TEST_UNIT_READY\n")
-  status = test_unit_ready (&s)
-  if (status != Sane.STATUS_GOOD)
+  DBG(4, "attach: sending TEST_UNIT_READY\n")
+  status = test_unit_ready(&s)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: test_unit_ready device %s failed (%s)\n", devname,
-	   Sane.strstatus (status))
-      sanei_usb_close (s.fd)
+      DBG(1, "attach: test_unit_ready device %s failed(%s)\n", devname,
+	   Sane.strstatus(status))
+      sanei_usb_close(s.fd)
       return status
     }
 
-  DBG (4, "attach: sending INQUIRY\n")
-  size = sizeof (result)
-  memset (result, 0, sizeof (result))
-  status = ma1509_cmd (&s, scsi_inquiry, result, &size)
-  if (status != Sane.STATUS_GOOD || size != INQ_LEN)
+  DBG(4, "attach: sending INQUIRY\n")
+  size = sizeof(result)
+  memset(result, 0, sizeof(result))
+  status = ma1509_cmd(&s, scsi_inquiry, result, &size)
+  if(status != Sane.STATUS_GOOD || size != INQ_LEN)
     {
-      DBG (1, "attach: inquiry for device %s failed (%s)\n", devname,
-	   Sane.strstatus (status))
-      sanei_usb_close (s.fd)
+      DBG(1, "attach: inquiry for device %s failed(%s)\n", devname,
+	   Sane.strstatus(status))
+      sanei_usb_close(s.fd)
       return status
     }
 
-  sanei_usb_close (s.fd)
+  sanei_usb_close(s.fd)
 
-  if ((result[0] & 0x1f) != 0x06)
+  if((result[0] & 0x1f) != 0x06)
     {
-      DBG (1, "attach: device %s doesn't look like a scanner at all (%d)\n",
+      DBG(1, "attach: device %s doesn't look like a scanner at all(%d)\n",
 	   devname, result[0] & 0x1f)
       return Sane.STATUS_INVAL
     }
 
-  if (debug_level >= 5)
+  if(debug_level >= 5)
     {
       /* print out inquiry */
-      DBG (5, "attach: inquiry output:\n")
+      DBG(5, "attach: inquiry output:\n")
       inquiry_byte_list[0] = '\0'
       inquiry_text_list[0] = '\0'
-      for (pp = result; pp < (result + INQ_LEN); pp++)
+      for(pp = result; pp < (result + INQ_LEN); pp++)
 	{
-	  sprintf ((String) inquiry_text, "%c",
+	  sprintf((String) inquiry_text, "%c",
 		   (*pp < 127) && (*pp > 31) ? *pp : '.')
-	  strcat ((String) inquiry_text_list,
+	  strcat((String) inquiry_text_list,
 		  (String) inquiry_text)
-	  sprintf ((String) inquiry_byte, " %02x", *pp)
-	  strcat ((String) inquiry_byte_list,
+	  sprintf((String) inquiry_byte, " %02x", *pp)
+	  strcat((String) inquiry_byte_list,
 		  (String) inquiry_byte)
-	  if ((pp - result) % 0x10 == 0x0f)
+	  if((pp - result) % 0x10 == 0x0f)
 	    {
-	      DBG (5, "%s  %s\n", inquiry_byte_list, inquiry_text_list)
+	      DBG(5, "%s  %s\n", inquiry_byte_list, inquiry_text_list)
 	      inquiry_byte_list[0] = '\0'
 	      inquiry_text_list[0] = '\0'
 	    }
@@ -387,17 +387,17 @@ attach (Sane.String_Const devname, Ma1509_Device ** devp)
   /* get firmware revision as BCD number:             */
   fw_revision = (result[32] - '0') << 8 | (result[34] - '0') << 4
     | (result[35] - '0')
-  DBG (4, "attach: firmware revision %d.%02x\n", fw_revision >> 8,
+  DBG(4, "attach: firmware revision %d.%02x\n", fw_revision >> 8,
        fw_revision & 0xff)
 
-  dev = malloc (sizeof (*dev))
-  if (!dev)
+  dev = malloc(sizeof(*dev))
+  if(!dev)
     return Sane.STATUS_NO_MEM
 
-  memcpy (dev, &new_dev, sizeof (*dev))
+  memcpy(dev, &new_dev, sizeof(*dev))
 
-  dev.name = strdup (devname)
-  if (!dev.name)
+  dev.name = strdup(devname)
+  if(!dev.name)
     return Sane.STATUS_NO_MEM
   dev.sane.name = (Sane.String_Const) dev.name
   dev.sane.vendor = "Mustek"
@@ -405,46 +405,46 @@ attach (Sane.String_Const devname, Ma1509_Device ** devp)
 
   dev.x_range.min = 0
   dev.y_range.min = 0
-  dev.x_range.quant = Sane.FIX (0.1)
-  dev.y_range.quant = Sane.FIX (0.1)
+  dev.x_range.quant = Sane.FIX(0.1)
+  dev.y_range.quant = Sane.FIX(0.1)
   dev.x_trans_range.min = 0
   dev.y_trans_range.min = 0
   /* default to something really small to be on the safe side: */
-  dev.x_trans_range.max = Sane.FIX (8.0 * MM_PER_INCH)
-  dev.y_trans_range.max = Sane.FIX (5.0 * MM_PER_INCH)
-  dev.x_trans_range.quant = Sane.FIX (0.1)
-  dev.y_trans_range.quant = Sane.FIX (0.1)
+  dev.x_trans_range.max = Sane.FIX(8.0 * MM_PER_INCH)
+  dev.y_trans_range.max = Sane.FIX(5.0 * MM_PER_INCH)
+  dev.x_trans_range.quant = Sane.FIX(0.1)
+  dev.y_trans_range.quant = Sane.FIX(0.1)
 
-  DBG (3, "attach: scanner id: %.11s\n", model_name)
+  DBG(3, "attach: scanner id: %.11s\n", model_name)
 
-  /* BearPaw 1200F (SCSI-over-USB) */
-  if (strncmp ((String) model_name, " B06", 4) == 0)
+  /* BearPaw 1200F(SCSI-over-USB) */
+  if(strncmp((String) model_name, " B06", 4) == 0)
     {
-      dev.x_range.max = Sane.FIX (211.3)
-      dev.y_range.min = Sane.FIX (0)
-      dev.y_range.max = Sane.FIX (296.7)
+      dev.x_range.max = Sane.FIX(211.3)
+      dev.y_range.min = Sane.FIX(0)
+      dev.y_range.max = Sane.FIX(296.7)
 
-      dev.x_trans_range.min = Sane.FIX (0)
-      dev.y_trans_range.min = Sane.FIX (0)
-      dev.x_trans_range.max = Sane.FIX (150.0)
-      dev.y_trans_range.max = Sane.FIX (175.0)
+      dev.x_trans_range.min = Sane.FIX(0)
+      dev.y_trans_range.min = Sane.FIX(0)
+      dev.x_trans_range.max = Sane.FIX(150.0)
+      dev.y_trans_range.max = Sane.FIX(175.0)
 
       dev.sane.model = "BearPaw 1200F"
     }
   else
     {
-      DBG (0, "attach: this scanner (ID: %s) is not supported yet\n",
+      DBG(0, "attach: this scanner(ID: %s) is not supported yet\n",
 	   model_name)
-      DBG (0, "attach: please set the debug level to 5 and send a debug "
+      DBG(0, "attach: please set the debug level to 5 and send a debug "
 	   "report\n")
-      DBG (0, "attach: to henning@meier-geinitz.de (export "
+      DBG(0, "attach: to henning@meier-geinitz.de(export "
 	   "Sane.DEBUG_MA1509=5\n")
-      DBG (0, "attach: scanimage -L 2>debug.txt). Thank you.\n")
-      free (dev)
+      DBG(0, "attach: scanimage -L 2>debug.txt). Thank you.\n")
+      free(dev)
       return Sane.STATUS_INVAL
     }
 
-  DBG (2, "attach: found Mustek %s %s %s%s\n",
+  DBG(2, "attach: found Mustek %s %s %s%s\n",
        dev.sane.model, dev.sane.type, dev.has_ta ? "(TA)" : "",
        dev.has_adf ? "(ADF)" : "")
 
@@ -452,22 +452,22 @@ attach (Sane.String_Const devname, Ma1509_Device ** devp)
   dev.next = first_dev
   first_dev = dev
 
-  if (devp)
+  if(devp)
     *devp = dev
   return Sane.STATUS_GOOD
 }
 
 
 static size_t
-max_string_size (const Sane.String_Const strings[])
+max_string_size(const Sane.String_Const strings[])
 {
   size_t size, max_size = 0
   Int i
 
-  for (i = 0; strings[i]; ++i)
+  for(i = 0; strings[i]; ++i)
     {
-      size = strlen (strings[i]) + 1
-      if (size > max_size)
+      size = strlen(strings[i]) + 1
+      if(size > max_size)
 	max_size = size
     }
   return max_size
@@ -475,16 +475,16 @@ max_string_size (const Sane.String_Const strings[])
 
 
 static Sane.Status
-init_options (Ma1509_Scanner * s)
+init_options(Ma1509_Scanner * s)
 {
   Int i
 
-  memset (s.opt, 0, sizeof (s.opt))
-  memset (s.val, 0, sizeof (s.val))
+  memset(s.opt, 0, sizeof(s.opt))
+  memset(s.val, 0, sizeof(s.val))
 
-  for (i = 0; i < NUM_OPTIONS; ++i)
+  for(i = 0; i < NUM_OPTIONS; ++i)
     {
-      s.opt[i].size = sizeof (Sane.Word)
+      s.opt[i].size = sizeof(Sane.Word)
       s.opt[i].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     }
 
@@ -496,7 +496,7 @@ init_options (Ma1509_Scanner * s)
   s.val[OPT_NUM_OPTS].w = NUM_OPTIONS
 
   /* "Mode" group: */
-  s.opt[OPT_MODE_GROUP].title = Sane.I18N ("Scan Mode")
+  s.opt[OPT_MODE_GROUP].title = Sane.I18N("Scan Mode")
   s.opt[OPT_MODE_GROUP].desc = ""
   s.opt[OPT_MODE_GROUP].type = Sane.TYPE_GROUP
   s.opt[OPT_MODE_GROUP].cap = 0
@@ -509,10 +509,10 @@ init_options (Ma1509_Scanner * s)
   s.opt[OPT_MODE].desc = Sane.DESC_SCAN_MODE
   s.opt[OPT_MODE].type = Sane.TYPE_STRING
   s.opt[OPT_MODE].constraint_type = Sane.CONSTRAINT_STRING_LIST
-  s.opt[OPT_MODE].size = max_string_size (mode_list)
+  s.opt[OPT_MODE].size = max_string_size(mode_list)
   s.opt[OPT_MODE].constraint.string_list = mode_list
-  s.val[OPT_MODE].s = strdup (mode_list[1])
-  if (!s.val[OPT_MODE].s)
+  s.val[OPT_MODE].s = strdup(mode_list[1])
+  if(!s.val[OPT_MODE].s)
     return Sane.STATUS_NO_MEM
 
   /* resolution */
@@ -530,11 +530,11 @@ init_options (Ma1509_Scanner * s)
   s.opt[OPT_SOURCE].title = Sane.TITLE_SCAN_SOURCE
   s.opt[OPT_SOURCE].desc = Sane.DESC_SCAN_SOURCE
   s.opt[OPT_SOURCE].type = Sane.TYPE_STRING
-  s.opt[OPT_SOURCE].size = max_string_size (ta_source_list)
+  s.opt[OPT_SOURCE].size = max_string_size(ta_source_list)
   s.opt[OPT_SOURCE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_SOURCE].constraint.string_list = ta_source_list
-  s.val[OPT_SOURCE].s = strdup (ta_source_list[0])
-  if (!s.val[OPT_SOURCE].s)
+  s.val[OPT_SOURCE].s = strdup(ta_source_list[0])
+  if(!s.val[OPT_SOURCE].s)
     return Sane.STATUS_NO_MEM
   s.opt[OPT_SOURCE].cap |= Sane.CAP_INACTIVE
 
@@ -546,7 +546,7 @@ init_options (Ma1509_Scanner * s)
   s.val[OPT_PREVIEW].w = 0
 
   /* "Geometry" group: */
-  s.opt[OPT_GEOMETRY_GROUP].title = Sane.I18N ("Geometry")
+  s.opt[OPT_GEOMETRY_GROUP].title = Sane.I18N("Geometry")
   s.opt[OPT_GEOMETRY_GROUP].desc = ""
   s.opt[OPT_GEOMETRY_GROUP].type = Sane.TYPE_GROUP
   s.opt[OPT_GEOMETRY_GROUP].cap = Sane.CAP_ADVANCED
@@ -594,7 +594,7 @@ init_options (Ma1509_Scanner * s)
   s.val[OPT_BR_Y].w = s.hw.y_range.max
 
   /* "Enhancement" group: */
-  s.opt[OPT_ENHANCEMENT_GROUP].title = Sane.I18N ("Enhancement")
+  s.opt[OPT_ENHANCEMENT_GROUP].title = Sane.I18N("Enhancement")
   s.opt[OPT_ENHANCEMENT_GROUP].desc = ""
   s.opt[OPT_ENHANCEMENT_GROUP].type = Sane.TYPE_GROUP
   s.opt[OPT_ENHANCEMENT_GROUP].size = 0
@@ -625,12 +625,12 @@ init_options (Ma1509_Scanner * s)
   s.opt[OPT_GAMMA_VECTOR_R].desc = Sane.DESC_GAMMA_VECTOR_R
   s.opt[OPT_GAMMA_VECTOR_R].type = Sane.TYPE_INT
   s.opt[OPT_GAMMA_VECTOR_R].unit = Sane.UNIT_NONE
-  s.opt[OPT_GAMMA_VECTOR_R].size = MA1509_GAMMA_SIZE * sizeof (Sane.Word)
+  s.opt[OPT_GAMMA_VECTOR_R].size = MA1509_GAMMA_SIZE * sizeof(Sane.Word)
   s.val[OPT_GAMMA_VECTOR_R].wa = &s.red_gamma_table[0]
   s.opt[OPT_GAMMA_VECTOR_R].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_GAMMA_VECTOR_R].constraint.range = &u8_range
   s.opt[OPT_GAMMA_VECTOR_R].cap |= Sane.CAP_INACTIVE
-  for (i = 0; i < MA1509_GAMMA_SIZE; i++)
+  for(i = 0; i < MA1509_GAMMA_SIZE; i++)
     s.red_gamma_table[i] = i * MA1509_GAMMA_SIZE / 256
 
   /* green gamma vector */
@@ -639,12 +639,12 @@ init_options (Ma1509_Scanner * s)
   s.opt[OPT_GAMMA_VECTOR_G].desc = Sane.DESC_GAMMA_VECTOR_G
   s.opt[OPT_GAMMA_VECTOR_G].type = Sane.TYPE_INT
   s.opt[OPT_GAMMA_VECTOR_G].unit = Sane.UNIT_NONE
-  s.opt[OPT_GAMMA_VECTOR_G].size = MA1509_GAMMA_SIZE * sizeof (Sane.Word)
+  s.opt[OPT_GAMMA_VECTOR_G].size = MA1509_GAMMA_SIZE * sizeof(Sane.Word)
   s.val[OPT_GAMMA_VECTOR_G].wa = &s.green_gamma_table[0]
   s.opt[OPT_GAMMA_VECTOR_G].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_GAMMA_VECTOR_G].constraint.range = &u8_range
   s.opt[OPT_GAMMA_VECTOR_G].cap |= Sane.CAP_INACTIVE
-  for (i = 0; i < MA1509_GAMMA_SIZE; i++)
+  for(i = 0; i < MA1509_GAMMA_SIZE; i++)
     s.green_gamma_table[i] = i * MA1509_GAMMA_SIZE / 256
 
   /* blue gamma vector */
@@ -653,38 +653,38 @@ init_options (Ma1509_Scanner * s)
   s.opt[OPT_GAMMA_VECTOR_B].desc = Sane.DESC_GAMMA_VECTOR_B
   s.opt[OPT_GAMMA_VECTOR_B].type = Sane.TYPE_INT
   s.opt[OPT_GAMMA_VECTOR_B].unit = Sane.UNIT_NONE
-  s.opt[OPT_GAMMA_VECTOR_B].size = MA1509_GAMMA_SIZE * sizeof (Sane.Word)
+  s.opt[OPT_GAMMA_VECTOR_B].size = MA1509_GAMMA_SIZE * sizeof(Sane.Word)
   s.val[OPT_GAMMA_VECTOR_B].wa = &s.blue_gamma_table[0]
   s.opt[OPT_GAMMA_VECTOR_B].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_GAMMA_VECTOR_B].constraint.range = &u8_range
   s.opt[OPT_GAMMA_VECTOR_B].cap |= Sane.CAP_INACTIVE
-  for (i = 0; i < MA1509_GAMMA_SIZE; i++)
+  for(i = 0; i < MA1509_GAMMA_SIZE; i++)
     s.blue_gamma_table[i] = i * MA1509_GAMMA_SIZE / 256
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-attach_one_device (Sane.String_Const devname)
+attach_one_device(Sane.String_Const devname)
 {
   Ma1509_Device *dev
 
-  attach (devname, &dev)
-  if (dev)
+  attach(devname, &dev)
+  if(dev)
     {
       /* Keep track of newly attached devices so we can set options as
          necessary.  */
-      if (new_dev_len >= new_dev_alloced)
+      if(new_dev_len >= new_dev_alloced)
 	{
 	  new_dev_alloced += 4
-	  if (new_dev)
+	  if(new_dev)
 	    new_dev =
-	      realloc (new_dev, new_dev_alloced * sizeof (new_dev[0]))
+	      realloc(new_dev, new_dev_alloced * sizeof(new_dev[0]))
 	  else
-	    new_dev = malloc (new_dev_alloced * sizeof (new_dev[0]))
-	  if (!new_dev)
+	    new_dev = malloc(new_dev_alloced * sizeof(new_dev[0]))
+	  if(!new_dev)
 	    {
-	      DBG (1, "attach_one_device: out of memory\n")
+	      DBG(1, "attach_one_device: out of memory\n")
 	      return Sane.STATUS_NO_MEM
 	    }
 	}
@@ -694,11 +694,11 @@ attach_one_device (Sane.String_Const devname)
 }
 
 static Sane.Status
-set_window (Ma1509_Scanner * s)
+set_window(Ma1509_Scanner * s)
 {
   Sane.Byte buffer[0x30], *cp
   double pixels_per_mm
-  size_t size = sizeof (buffer)
+  size_t size = sizeof(buffer)
   Sane.Status status
   Int tlx, tly, width, height
   Int offset = 0
@@ -706,64 +706,64 @@ set_window (Ma1509_Scanner * s)
   long remaining_time
 
   /* check if lamp is warmed up */
-  gettimeofday (&now, 0)
+  gettimeofday(&now, 0)
   remaining_time = warmup_time - (now.tv_sec - s.lamp_time)
-  if (remaining_time > 0)
+  if(remaining_time > 0)
     {
-      DBG (0, "Warm-up in progress: please wait %2ld seconds\n",
+      DBG(0, "Warm-up in progress: please wait %2ld seconds\n",
 	   remaining_time)
-      sleep (remaining_time)
+      sleep(remaining_time)
     }
 
-  memset (buffer, 0, size)
+  memset(buffer, 0, size)
   cp = buffer
 
-  STORE16B (cp, 0);		/* window identifier            */
-  STORE16B (cp, s.val[OPT_RESOLUTION].w)
-  STORE16B (cp, 0);		/* not used acc. to specs       */
+  STORE16B(cp, 0);		/* window identifier            */
+  STORE16B(cp, s.val[OPT_RESOLUTION].w)
+  STORE16B(cp, 0);		/* not used acc. to specs       */
 
   pixels_per_mm = s.val[OPT_RESOLUTION].w / MM_PER_INCH
 
-  tlx = Sane.UNFIX (s.val[OPT_TL_X].w) * pixels_per_mm + 0.5
-  tly = Sane.UNFIX (s.val[OPT_TL_Y].w) * pixels_per_mm + 0.5
+  tlx = Sane.UNFIX(s.val[OPT_TL_X].w) * pixels_per_mm + 0.5
+  tly = Sane.UNFIX(s.val[OPT_TL_Y].w) * pixels_per_mm + 0.5
 
-  width = (Sane.UNFIX (s.val[OPT_BR_X].w) - Sane.UNFIX (s.val[OPT_TL_X].w))
+  width = (Sane.UNFIX(s.val[OPT_BR_X].w) - Sane.UNFIX(s.val[OPT_TL_X].w))
     * pixels_per_mm + 0.5
-  height = (Sane.UNFIX (s.val[OPT_BR_Y].w) - Sane.UNFIX (s.val[OPT_TL_Y].w))
+  height = (Sane.UNFIX(s.val[OPT_BR_Y].w) - Sane.UNFIX(s.val[OPT_TL_Y].w))
     * pixels_per_mm + 0.5 + offset
 
-  if (strcmp (s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART) == 0)
+  if(strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART) == 0)
     {
       width /= 64
       width *= 64
-      if (!width)
+      if(!width)
 	width = 64
     }
   else
     {
       width /= 8
       width *= 8
-      if (!width)
+      if(!width)
 	width = 8
     }
 
 
-  DBG (4, "set_window: tlx=%d (%d mm); tly=%d (%d mm); width=%d (%d mm); "
-       "height=%d (%d mm)\n", tlx, (Int) (tlx / pixels_per_mm), tly,
+  DBG(4, "set_window: tlx=%d(%d mm); tly=%d(%d mm); width=%d(%d mm); "
+       "height=%d(%d mm)\n", tlx, (Int) (tlx / pixels_per_mm), tly,
        (Int) (tly / pixels_per_mm), width, (Int) (width / pixels_per_mm),
        height, (Int) (height / pixels_per_mm))
 
 
-  STORE16B (cp, 0)
-  STORE16B (cp, tlx)
-  STORE16B (cp, 0)
-  STORE16B (cp, tly)
+  STORE16B(cp, 0)
+  STORE16B(cp, tlx)
+  STORE16B(cp, 0)
+  STORE16B(cp, tly)
   *cp++ = 0x14
   *cp++ = 0xc0
-  STORE16B (cp, width)
+  STORE16B(cp, width)
   *cp++ = 0x28
   *cp++ = 0x20
-  STORE16B (cp, height)
+  STORE16B(cp, height)
 
   s.hw.ppl = width
   s.hw.bpl = s.hw.ppl
@@ -772,7 +772,7 @@ set_window (Ma1509_Scanner * s)
 
   *cp++ = 0x00;			/* brightness, not impl.        */
   /* threshold */
-  if (strcmp (s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART) == 0)
+  if(strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART) == 0)
     *cp++ = (Sane.Byte) s.val[OPT_THRESHOLD].w
   else
     *cp++ = 0x80
@@ -780,13 +780,13 @@ set_window (Ma1509_Scanner * s)
   *cp++ = 0x00;			/* ???               .          */
 
   /* Note that 'image composition' has no meaning for the SE series     */
-  /* Mode selection is accomplished solely by bits/pixel (1, 8, 24)     */
-  if (strcmp (s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_COLOR) == 0)
+  /* Mode selection is accomplished solely by bits/pixel(1, 8, 24)     */
+  if(strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_COLOR) == 0)
     {
       *cp++ = 24;		/* 24 bits/pixel in color mode  */
       s.hw.bpl *= 3
     }
-  else if (strcmp (s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_GRAY) == 0)
+  else if(strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_GRAY) == 0)
     *cp++ = 8;			/* 8 bits/pixel in gray mode    */
   else
     {
@@ -796,20 +796,20 @@ set_window (Ma1509_Scanner * s)
 
   cp += 13;			/* skip reserved bytes          */
   *cp++ = 0x00;			/* lamp mode  */
-  if (strcmp (s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART) != 0)
+  if(strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART) != 0)
     *cp++ = 0x02;		/* ???  */
 
-  status = ma1509_cmd (s, scsi_set_window, buffer, &size)
-  if (status != Sane.STATUS_GOOD)
+  status = ma1509_cmd(s, scsi_set_window, buffer, &size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "set_window: ma1509_cmd failed: %s\n", Sane.strstatus (status))
+      DBG(1, "set_window: ma1509_cmd failed: %s\n", Sane.strstatus(status))
       return status
     }
   return status
 }
 
 static Sane.Status
-calibration (Ma1509_Scanner * s)
+calibration(Ma1509_Scanner * s)
 {
   Sane.Byte cmd[0x08], *buffer, *calibration_buffer
   Sane.Status status
@@ -818,17 +818,17 @@ calibration (Ma1509_Scanner * s)
   size_t total_size = lines * ppl
   Int color, column, line
 
-  buffer = malloc (total_size * 3)
-  if (!buffer)
+  buffer = malloc(total_size * 3)
+  if(!buffer)
     {
-      DBG (1,
+      DBG(1,
 	   "calibration: couldn't malloc %lu bytes for calibration buffer\n",
 	   (u_long) (total_size * 3))
       return Sane.STATUS_NO_MEM
     }
-  memset (buffer, 0x00, total_size)
+  memset(buffer, 0x00, total_size)
 
-  memset (cmd, 0, 8)
+  memset(cmd, 0, 8)
   cmd[0] = 0x28;		/* read data */
   cmd[1] = 0x01;		/* read */
   cmd[2] = 0x01;		/* calibration */
@@ -836,222 +836,222 @@ calibration (Ma1509_Scanner * s)
   cmd[5] = (total_size >> 8) & 0xff
   cmd[6] = total_size & 0xff
   total_size *= 3
-  status = ma1509_cmd (s, cmd, buffer, &total_size)
-  if (status != Sane.STATUS_GOOD)
+  status = ma1509_cmd(s, cmd, buffer, &total_size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "calibration: ma1509_cmd read data failed: %s\n",
-	   Sane.strstatus (status))
-      free (buffer)
+      DBG(1, "calibration: ma1509_cmd read data failed: %s\n",
+	   Sane.strstatus(status))
+      free(buffer)
       return status
     }
 
-  calibration_buffer = malloc (ppl)
-  if (!calibration_buffer)
+  calibration_buffer = malloc(ppl)
+  if(!calibration_buffer)
     {
-      DBG (1,
+      DBG(1,
 	   "calibration: couldn't malloc %d bytes for calibration buffer\n",
 	   ppl)
       return Sane.STATUS_NO_MEM
     }
-  memset (calibration_buffer, 0x00, ppl)
+  memset(calibration_buffer, 0x00, ppl)
 
-  memset (cmd, 0, 8)
+  memset(cmd, 0, 8)
   cmd[0] = 0x2a;		/* send data */
   cmd[1] = 0x00;		/* write */
   cmd[2] = 0x01;		/* calibration */
   cmd[5] = (ppl >> 8) & 0xff
   cmd[6] = ppl & 0xff
 
-  for (color = 1; color < 4; color++)
+  for(color = 1; color < 4; color++)
     {
       cmd[4] = color
 
-      for (column = 0; column < ppl; column++)
+      for(column = 0; column < ppl; column++)
 	{
 	  Int average = 0
 
-	  for (line = 0; line < lines; line++)
+	  for(line = 0; line < lines; line++)
 	    average += buffer[line * ppl * 3 + column * 3 + (color - 1)]
 	  average /= lines
-	  if (average < 1)
+	  if(average < 1)
 	    average = 1
-	  if (average > 255)
+	  if(average > 255)
 	    average = 255
 
 	  average = (256 * 256) / average - 256
-	  if (average < 0)
+	  if(average < 0)
 	    average = 0
-	  if (average > 255)
+	  if(average > 255)
 	    average = 255
 	  calibration_buffer[column] = average
 	}
 
       total_size = ppl
-      status = ma1509_cmd (s, cmd, calibration_buffer, &total_size)
-      if (status != Sane.STATUS_GOOD)
+      status = ma1509_cmd(s, cmd, calibration_buffer, &total_size)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "calibration: ma1509_cmd send data failed: %s\n",
-	       Sane.strstatus (status))
-	  free (buffer)
-	  free (calibration_buffer)
+	  DBG(1, "calibration: ma1509_cmd send data failed: %s\n",
+	       Sane.strstatus(status))
+	  free(buffer)
+	  free(calibration_buffer)
 	  return status
 	}
     }
-  free (buffer)
-  free (calibration_buffer)
-  DBG (4, "calibration: done\n")
+  free(buffer)
+  free(calibration_buffer)
+  DBG(4, "calibration: done\n")
   return status
 }
 
 
 static Sane.Status
-send_gamma (Ma1509_Scanner * s)
+send_gamma(Ma1509_Scanner * s)
 {
   Sane.Byte cmd[0x08], *buffer
   Sane.Status status
   size_t total_size = MA1509_GAMMA_SIZE
   Int color
 
-  buffer = malloc (total_size)
-  if (!buffer)
+  buffer = malloc(total_size)
+  if(!buffer)
     {
-      DBG (1, "send_gamma: couldn't malloc %lu bytes for gamma  buffer\n",
+      DBG(1, "send_gamma: couldn't malloc %lu bytes for gamma  buffer\n",
 	   (u_long) total_size)
       return Sane.STATUS_NO_MEM
     }
 
-  memset (cmd, 0, 8)
+  memset(cmd, 0, 8)
   cmd[0] = 0x2a;		/* send data */
   cmd[1] = 0x00;		/* write */
   cmd[2] = 0x03;		/* gamma */
   cmd[5] = (total_size >> 8) & 0xff
   cmd[6] = total_size & 0xff
-  for (color = 1; color < 4; color++)
+  for(color = 1; color < 4; color++)
     {
       unsigned var i: Int
 
-      if (s.val[OPT_CUSTOM_GAMMA].w)
+      if(s.val[OPT_CUSTOM_GAMMA].w)
 	{
 	  Int *int_buffer
 
-	  if (color == 1)
+	  if(color == 1)
 	    int_buffer = s.red_gamma_table
-	  else if (color == 2)
+	  else if(color == 2)
 	    int_buffer = s.green_gamma_table
 	  else
 	    int_buffer = s.blue_gamma_table
-	  for (i = 0; i < total_size; i++)
+	  for(i = 0; i < total_size; i++)
 	    buffer[i] = int_buffer[i]
 	}
       else
 	{
 	  /* linear tables */
-	  for (i = 0; i < total_size; i++)
+	  for(i = 0; i < total_size; i++)
 	    buffer[i] = i * 256 / total_size
 	}
 
       cmd[4] = color
-      status = ma1509_cmd (s, cmd, buffer, &total_size)
-      if (status != Sane.STATUS_GOOD)
+      status = ma1509_cmd(s, cmd, buffer, &total_size)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "send_gamma: ma1509_cmd send data failed: %s\n",
-	       Sane.strstatus (status))
-	  free (buffer)
+	  DBG(1, "send_gamma: ma1509_cmd send data failed: %s\n",
+	       Sane.strstatus(status))
+	  free(buffer)
 	  return status
 	}
     }
-  if (!s.val[OPT_CUSTOM_GAMMA].w)
-    free (buffer)
-  DBG (4, "send_gamma: done\n")
+  if(!s.val[OPT_CUSTOM_GAMMA].w)
+    free(buffer)
+  DBG(4, "send_gamma: done\n")
   return status
 }
 
 
 static Sane.Status
-start_scan (Ma1509_Scanner * s)
+start_scan(Ma1509_Scanner * s)
 {
   Sane.Byte cmd[8]
   Sane.Status status
 
-  DBG (4, "start_scan\n")
-  memset (cmd, 0, 8)
+  DBG(4, "start_scan\n")
+  memset(cmd, 0, 8)
 
   cmd[0] = 0x1b
   cmd[1] = 0x01
   cmd[2] = 0x01
 
-  status = ma1509_cmd (s, cmd, NULL, NULL)
-  if (status != Sane.STATUS_GOOD)
+  status = ma1509_cmd(s, cmd, NULL, NULL)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "start_scan: ma1509_cmd failed: %s\n", Sane.strstatus (status))
+      DBG(1, "start_scan: ma1509_cmd failed: %s\n", Sane.strstatus(status))
       return status
     }
   return status
 }
 
 static Sane.Status
-turn_lamp (Ma1509_Scanner * s, Bool is_on)
+turn_lamp(Ma1509_Scanner * s, Bool is_on)
 {
   Sane.Status status
   Sane.Byte buffer[0x30]
-  size_t size = sizeof (buffer)
+  size_t size = sizeof(buffer)
   struct timeval lamp_time
 
-  DBG (4, "turn_lamp %s\n", is_on ? "on" : "off")
-  memset (buffer, 0, size)
-  if (is_on)
+  DBG(4, "turn_lamp %s\n", is_on ? "on" : "off")
+  memset(buffer, 0, size)
+  if(is_on)
     buffer[0x28] = 0x01
   else
     buffer[0x28] = 0x02
 
-  status = ma1509_cmd (s, scsi_set_window, buffer, &size)
-  if (status != Sane.STATUS_GOOD)
+  status = ma1509_cmd(s, scsi_set_window, buffer, &size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "turn_lamp: ma1509_cmd set_window failed: %s\n",
-	   Sane.strstatus (status))
+      DBG(1, "turn_lamp: ma1509_cmd set_window failed: %s\n",
+	   Sane.strstatus(status))
       return status
     }
-  gettimeofday (&lamp_time, 0)
+  gettimeofday(&lamp_time, 0)
   s.lamp_time = lamp_time.tv_sec
   return status
 }
 
 static Sane.Status
-stop_scan (Ma1509_Scanner * s)
+stop_scan(Ma1509_Scanner * s)
 {
   Sane.Byte cmd[8]
   Sane.Status status
 
-  DBG (4, "stop_scan\n")
-  memset (cmd, 0, 8)
+  DBG(4, "stop_scan\n")
+  memset(cmd, 0, 8)
 
   cmd[0] = 0x1b
   cmd[1] = 0x01
   cmd[2] = 0x00
 
-  status = ma1509_cmd (s, cmd, NULL, NULL)
-  if (status != Sane.STATUS_GOOD)
+  status = ma1509_cmd(s, cmd, NULL, NULL)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "stop_scan: ma1509_cmd failed: %s\n", Sane.strstatus (status))
+      DBG(1, "stop_scan: ma1509_cmd failed: %s\n", Sane.strstatus(status))
       return status
     }
 
-  DBG (4, "stop_scan: scan stopped\n")
+  DBG(4, "stop_scan: scan stopped\n")
   return status
 }
 
 
 static Sane.Status
-start_read_data (Ma1509_Scanner * s)
+start_read_data(Ma1509_Scanner * s)
 {
   Sane.Byte cmd[8]
   Sane.Status status
   Int total_size = s.hw.ppl * s.hw.lines
 
-  if (strcmp (s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART) == 0)
+  if(strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART) == 0)
     total_size /= 8
 
-  memset (cmd, 0, 8)
+  memset(cmd, 0, 8)
 
   cmd[0] = 0x28;		/* read data */
   cmd[1] = 0x01;		/* read */
@@ -1060,26 +1060,26 @@ start_read_data (Ma1509_Scanner * s)
   cmd[4] = (total_size >> 16) & 0xff
   cmd[5] = (total_size >> 8) & 0xff
   cmd[6] = total_size & 0xff
-  status = ma1509_cmd (s, cmd, NULL, NULL)
-  if (status != Sane.STATUS_GOOD)
+  status = ma1509_cmd(s, cmd, NULL, NULL)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "stop_scan: ma1509_cmd failed: %s\n", Sane.strstatus (status))
+      DBG(1, "stop_scan: ma1509_cmd failed: %s\n", Sane.strstatus(status))
       return status
     }
   return status
 }
 
 static Sane.Status
-read_data (Ma1509_Scanner * s, Sane.Byte * buffer, Int * size)
+read_data(Ma1509_Scanner * s, Sane.Byte * buffer, Int * size)
 {
   size_t local_size = *size
   Sane.Status status
 
-  status = sanei_usb_read_bulk (s.fd, buffer, &local_size)
-  if (status != Sane.STATUS_GOOD)
+  status = sanei_usb_read_bulk(s.fd, buffer, &local_size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "read_data: sanei_usb_read_bulk failed: %s\n",
-	   Sane.strstatus (status))
+      DBG(1, "read_data: sanei_usb_read_bulk failed: %s\n",
+	   Sane.strstatus(status))
       return status
     }
   *size = local_size
@@ -1094,14 +1094,14 @@ read_data (Ma1509_Scanner * s, Sane.Byte * buffer, Int * size)
 /**************************************************************************/
 
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 {
   Sane.Char line[PATH_MAX], *word, *end
   Sane.String_Const cp
   Int linenumber
   FILE *fp
 
-  DBG_INIT ()
+  DBG_INIT()
 
 #ifdef DBG_LEVEL
   debug_level = DBG_LEVEL
@@ -1109,15 +1109,15 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
   debug_level = 0
 #endif
 
-  DBG (2, "SANE ma1509 backend version %d.%d build %d from %s\n", Sane.CURRENT_MAJOR,
+  DBG(2, "SANE ma1509 backend version %d.%d build %d from %s\n", Sane.CURRENT_MAJOR,
        V_MINOR, BUILD, PACKAGE_STRING)
 
-  if (version_code)
-    *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, BUILD)
+  if(version_code)
+    *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, BUILD)
 
-  DBG (4, "Sane.init: authorize %s null\n", authorize ? "!=" : "==")
+  DBG(4, "Sane.init: authorize %s null\n", authorize ? "!=" : "==")
 
-  sanei_usb_init ()
+  sanei_usb_init()
 
   num_devices = 0
   first_dev = 0
@@ -1127,195 +1127,195 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
   new_dev_len = 0
   new_dev_alloced = 0
 
-  fp = sanei_config_open (MA1509_CONFIG_FILE)
-  if (!fp)
+  fp = sanei_config_open(MA1509_CONFIG_FILE)
+  if(!fp)
     {
       /* default to /dev/usb/scanner0 instead of insisting on config file */
-      DBG (3, "Sane.init: couldn't find config file (%s), trying "
+      DBG(3, "Sane.init: couldn't find config file(%s), trying "
 	   "/dev/usb/scanner0 directly\n", MA1509_CONFIG_FILE)
-      attach ("/dev/usb/scanner0", 0)
+      attach("/dev/usb/scanner0", 0)
       return Sane.STATUS_GOOD
     }
   linenumber = 0
-  DBG (4, "Sane.init: reading config file `%s'\n", MA1509_CONFIG_FILE)
-  while (sanei_config_read (line, sizeof (line), fp))
+  DBG(4, "Sane.init: reading config file `%s'\n", MA1509_CONFIG_FILE)
+  while(sanei_config_read(line, sizeof(line), fp))
     {
       word = 0
       linenumber++
 
-      cp = sanei_config_get_string (line, &word)
-      if (!word || cp == line)
+      cp = sanei_config_get_string(line, &word)
+      if(!word || cp == line)
 	{
-	  DBG (5, "Sane.init: config file line %d: ignoring empty line\n",
+	  DBG(5, "Sane.init: config file line %d: ignoring empty line\n",
 	       linenumber)
-	  if (word)
-	    free (word)
+	  if(word)
+	    free(word)
 	  continue
 	}
-      if (word[0] == '#')
+      if(word[0] == '#')
 	{
-	  DBG (5, "Sane.init: config file line %d: ignoring comment line\n",
+	  DBG(5, "Sane.init: config file line %d: ignoring comment line\n",
 	       linenumber)
-	  free (word)
+	  free(word)
 	  continue
 	}
-      if (strcmp (word, "option") == 0)
+      if(strcmp(word, "option") == 0)
 	{
-	  free (word)
+	  free(word)
 	  word = 0
-	  cp = sanei_config_get_string (cp, &word)
+	  cp = sanei_config_get_string(cp, &word)
 
-	  if (!word)
+	  if(!word)
 	    {
-	      DBG (1, "Sane.init: config file line %d: missing quotation mark?\n",
+	      DBG(1, "Sane.init: config file line %d: missing quotation mark?\n",
 		   linenumber)
 	      continue
 	    }
 
-	  if (strcmp (word, "warmup-time") == 0)
+	  if(strcmp(word, "warmup-time") == 0)
 	    {
 	      long local_warmup_time
 
-	      free (word)
+	      free(word)
 	      word = 0
-	      cp = sanei_config_get_string (cp, &word)
+	      cp = sanei_config_get_string(cp, &word)
 
-	      if (!word)
+	      if(!word)
 		{
-		  DBG (1, "Sane.init: config file line %d: missing quotation mark?\n",
+		  DBG(1, "Sane.init: config file line %d: missing quotation mark?\n",
 		       linenumber)
 		  continue
 		}
 
 	      errno = 0
-	      local_warmup_time = strtol (word, &end, 0)
+	      local_warmup_time = strtol(word, &end, 0)
 
-	      if (end == word)
+	      if(end == word)
 		{
-		  DBG (3, "sane-init: config file line %d: warmup-time must "
-		       "have a parameter; using default (%d)\n",
+		  DBG(3, "sane-init: config file line %d: warmup-time must "
+		       "have a parameter; using default(%d)\n",
 		       linenumber, warmup_time)
 		}
-	      else if (errno)
+	      else if(errno)
 		{
-		  DBG (3, "sane-init: config file line %d: warmup-time `%s' "
-		       "is invalid (%s); using default (%d)\n", linenumber,
-		       word, strerror (errno), warmup_time)
+		  DBG(3, "sane-init: config file line %d: warmup-time `%s' "
+		       "is invalid(%s); using default(%d)\n", linenumber,
+		       word, strerror(errno), warmup_time)
 		}
 	      else
 		{
 		  warmup_time = local_warmup_time
-		  DBG (4,
+		  DBG(4,
 		       "Sane.init: config file line %d: warmup-time set "
 		       "to %d seconds\n", linenumber, warmup_time)
 
 		}
-	      if (word)
-		free (word)
+	      if(word)
+		free(word)
 	      word = 0
 	    }
 	  else
 	    {
-	      DBG (3, "Sane.init: config file line %d: ignoring unknown "
+	      DBG(3, "Sane.init: config file line %d: ignoring unknown "
 		   "option `%s'\n", linenumber, word)
-	      if (word)
-		free (word)
+	      if(word)
+		free(word)
 	      word = 0
 	    }
 	}
       else
 	{
 	  new_dev_len = 0
-	  DBG (4, "Sane.init: config file line %d: trying to attach `%s'\n",
+	  DBG(4, "Sane.init: config file line %d: trying to attach `%s'\n",
 	       linenumber, line)
-	  sanei_usb_attach_matching_devices (line, attach_one_device)
-	  if (word)
-	    free (word)
+	  sanei_usb_attach_matching_devices(line, attach_one_device)
+	  if(word)
+	    free(word)
 	  word = 0
 	}
     }
 
-  if (new_dev_alloced > 0)
+  if(new_dev_alloced > 0)
     {
       new_dev_len = new_dev_alloced = 0
-      free (new_dev)
+      free(new_dev)
     }
-  fclose (fp)
+  fclose(fp)
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   Ma1509_Device *dev, *next
 
-  DBG (4, "Sane.exit\n")
-  for (dev = first_dev; dev; dev = next)
+  DBG(4, "Sane.exit\n")
+  for(dev = first_dev; dev; dev = next)
     {
       next = dev.next
-      free (dev.name)
-      free (dev)
+      free(dev.name)
+      free(dev)
     }
-  if (devlist)
-    free (devlist)
+  if(devlist)
+    free(devlist)
   devlist = 0
   first_dev = 0
 }
 
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 {
   Ma1509_Device *dev
   Int i
 
-  DBG (4, "Sane.get_devices: %d devices %s\n", num_devices,
+  DBG(4, "Sane.get_devices: %d devices %s\n", num_devices,
        local_only ? "(local only)" : "")
-  if (devlist)
-    free (devlist)
+  if(devlist)
+    free(devlist)
 
-  devlist = malloc ((num_devices + 1) * sizeof (devlist[0]))
-  if (!devlist)
+  devlist = malloc((num_devices + 1) * sizeof(devlist[0]))
+  if(!devlist)
     return Sane.STATUS_NO_MEM
 
   i = 0
-  for (dev = first_dev; i < num_devices; dev = dev.next)
+  for(dev = first_dev; i < num_devices; dev = dev.next)
     devlist[i++] = &dev.sane
   devlist[i++] = 0
 
   *device_list = devlist
-  DBG (5, "Sane.get_devices: end\n")
+  DBG(5, "Sane.get_devices: end\n")
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
+Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 {
   Ma1509_Device *dev
   Sane.Status status
   Ma1509_Scanner *s
 
-  if (!devicename)
+  if(!devicename)
     {
-      DBG (1, "Sane.open: devicename is null!\n")
+      DBG(1, "Sane.open: devicename is null!\n")
       return Sane.STATUS_INVAL
     }
-  if (!handle)
+  if(!handle)
     {
-      DBG (1, "Sane.open: handle is null!\n")
+      DBG(1, "Sane.open: handle is null!\n")
       return Sane.STATUS_INVAL
     }
-  DBG (4, "Sane.open: devicename=%s\n", devicename)
+  DBG(4, "Sane.open: devicename=%s\n", devicename)
 
-  if (devicename[0])
+  if(devicename[0])
     {
-      for (dev = first_dev; dev; dev = dev.next)
-	if (strcmp (dev.sane.name, devicename) == 0)
+      for(dev = first_dev; dev; dev = dev.next)
+	if(strcmp(dev.sane.name, devicename) == 0)
 	  break
 
-      if (!dev)
+      if(!dev)
 	{
-	  status = attach (devicename, &dev)
-	  if (status != Sane.STATUS_GOOD)
+	  status = attach(devicename, &dev)
+	  if(status != Sane.STATUS_GOOD)
 	    return status
 	}
     }
@@ -1323,120 +1323,120 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
     /* empty devicname -> use first device */
     dev = first_dev
 
-  if (!dev)
+  if(!dev)
     {
-      DBG (1, "Sane.open: %s doesn't seem to exist\n", devicename)
+      DBG(1, "Sane.open: %s doesn't seem to exist\n", devicename)
       return Sane.STATUS_INVAL
     }
 
-  s = malloc (sizeof (*s))
-  if (!s)
+  s = malloc(sizeof(*s))
+  if(!s)
     return Sane.STATUS_NO_MEM
-  memset (s, 0, sizeof (*s))
+  memset(s, 0, sizeof(*s))
   s.fd = -1
   s.hw = dev
-  init_options (s)
+  init_options(s)
 
   /* insert newly opened handle into list of open handles: */
   s.next = first_handle
   first_handle = s
 
-  status = sanei_usb_open (s.hw.sane.name, &s.fd)
-  if (status != Sane.STATUS_GOOD)
+  status = sanei_usb_open(s.hw.sane.name, &s.fd)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "Sane.open: couldn't open %s: %s\n", s.hw.sane.name,
-	   Sane.strstatus (status))
+      DBG(1, "Sane.open: couldn't open %s: %s\n", s.hw.sane.name,
+	   Sane.strstatus(status))
       return status
     }
 
-  status = turn_lamp (s, Sane.TRUE)
-  if (status != Sane.STATUS_GOOD)
+  status = turn_lamp(s, Sane.TRUE)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "Sane.open: couldn't turn on lamp: %s\n",
-	   Sane.strstatus (status))
+      DBG(1, "Sane.open: couldn't turn on lamp: %s\n",
+	   Sane.strstatus(status))
       return status
     }
 
-  status = turn_lamp (s, Sane.TRUE)
-  if (status != Sane.STATUS_GOOD)
+  status = turn_lamp(s, Sane.TRUE)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "Sane.open: couldn't turn on lamp: %s\n",
-	   Sane.strstatus (status))
+      DBG(1, "Sane.open: couldn't turn on lamp: %s\n",
+	   Sane.strstatus(status))
       return status
     }
 
   *handle = s
-  DBG (5, "Sane.open: finished (handle=%p)\n", (void *) s)
+  DBG(5, "Sane.open: finished(handle=%p)\n", (void *) s)
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
   Ma1509_Scanner *prev, *s
   Sane.Status status
 
-  DBG (4, "Sane.close: handle=%p\n", handle)
+  DBG(4, "Sane.close: handle=%p\n", handle)
 
   /* remove handle from list of open handles: */
   prev = 0
-  for (s = first_handle; s; s = s.next)
+  for(s = first_handle; s; s = s.next)
     {
-      if (s == handle)
+      if(s == handle)
 	break
       prev = s
     }
-  if (!s)
+  if(!s)
     {
-      DBG (1, "Sane.close: invalid handle %p\n", handle)
+      DBG(1, "Sane.close: invalid handle %p\n", handle)
       return;			/* oops, not a handle we know about */
     }
 
-  if (s.val[OPT_MODE].s)
-    free (s.val[OPT_MODE].s)
-  if (s.val[OPT_SOURCE].s)
-    free (s.val[OPT_SOURCE].s)
+  if(s.val[OPT_MODE].s)
+    free(s.val[OPT_MODE].s)
+  if(s.val[OPT_SOURCE].s)
+    free(s.val[OPT_SOURCE].s)
 
-  status = turn_lamp (s, Sane.FALSE)
-  if (status != Sane.STATUS_GOOD)
+  status = turn_lamp(s, Sane.FALSE)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "Sane.close: couldn't turn off lamp: %s\n",
-	   Sane.strstatus (status))
+      DBG(1, "Sane.close: couldn't turn off lamp: %s\n",
+	   Sane.strstatus(status))
       return
     }
-  sanei_usb_close (s.fd)
+  sanei_usb_close(s.fd)
 
-  if (prev)
+  if(prev)
     prev.next = s.next
   else
     first_handle = s.next
-  free (handle)
+  free(handle)
   handle = 0
 }
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
   Ma1509_Scanner *s = handle
 
-  if (((unsigned) option >= NUM_OPTIONS) || (option < 0))
+  if(((unsigned) option >= NUM_OPTIONS) || (option < 0))
     {
-      DBG (3, "Sane.get_option_descriptor: option %d >= NUM_OPTIONS or < 0\n",
+      DBG(3, "Sane.get_option_descriptor: option %d >= NUM_OPTIONS or < 0\n",
 	   option)
       return 0
     }
-  if (!s)
+  if(!s)
     {
-      DBG (1, "Sane.get_option_descriptor: handle is null!\n")
+      DBG(1, "Sane.get_option_descriptor: handle is null!\n")
       return 0
     }
-  if (s.opt[option].name && s.opt[option].name[0] != 0)
-    DBG (4, "Sane.get_option_descriptor for option %s (%sactive%s)\n",
+  if(s.opt[option].name && s.opt[option].name[0] != 0)
+    DBG(4, "Sane.get_option_descriptor for option %s(%sactive%s)\n",
 	 s.opt[option].name,
 	 s.opt[option].cap & Sane.CAP_INACTIVE ? "in" : "",
 	 s.opt[option].cap & Sane.CAP_ADVANCED ? ", advanced" : "")
   else
-    DBG (4, "Sane.get_option_descriptor for option \"%s\" (%sactive%s)\n",
+    DBG(4, "Sane.get_option_descriptor for option \"%s\" (%sactive%s)\n",
 	 s.opt[option].title,
 	 s.opt[option].cap & Sane.CAP_INACTIVE ? "in" : "",
 	 s.opt[option].cap & Sane.CAP_ADVANCED ? ", advanced" : "")
@@ -1444,7 +1444,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
 }
 
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
 		     Sane.Action action, void *val, Int * info)
 {
   Ma1509_Scanner *s = handle
@@ -1452,56 +1452,56 @@ Sane.control_option (Sane.Handle handle, Int option,
   Sane.Word cap
   Sane.Word w
 
-  if (((unsigned) option >= NUM_OPTIONS) || (option < 0))
+  if(((unsigned) option >= NUM_OPTIONS) || (option < 0))
     {
-      DBG (3, "Sane.control_option: option %d < 0 or >= NUM_OPTIONS\n",
+      DBG(3, "Sane.control_option: option %d < 0 or >= NUM_OPTIONS\n",
 	   option)
       return Sane.STATUS_INVAL
     }
-  if (!s)
+  if(!s)
     {
-      DBG (1, "Sane.control_option: handle is null!\n")
+      DBG(1, "Sane.control_option: handle is null!\n")
       return Sane.STATUS_INVAL
     }
-  if (!val && s.opt[option].type != Sane.TYPE_BUTTON)
+  if(!val && s.opt[option].type != Sane.TYPE_BUTTON)
     {
-      DBG (1, "Sane.control_option: val is null!\n")
+      DBG(1, "Sane.control_option: val is null!\n")
       return Sane.STATUS_INVAL
     }
 
-  if (s.opt[option].name && s.opt[option].name[0] != 0)
-    DBG (4, "Sane.control_option (%s option %s)\n",
+  if(s.opt[option].name && s.opt[option].name[0] != 0)
+    DBG(4, "Sane.control_option(%s option %s)\n",
 	 action == Sane.ACTION_GET_VALUE ? "get" :
 	 (action == Sane.ACTION_SET_VALUE ? "set" : "unknown action with"),
 	 s.opt[option].name)
   else
-    DBG (4, "Sane.control_option (%s option \"%s\")\n",
+    DBG(4, "Sane.control_option(%s option \"%s\")\n",
 	 action == Sane.ACTION_GET_VALUE ? "get" :
 	 (action == Sane.ACTION_SET_VALUE ? "set" : "unknown action with"),
 	 s.opt[option].title)
 
-  if (info)
+  if(info)
     *info = 0
 
-  if (s.scanning)
+  if(s.scanning)
     {
-      DBG (3, "Sane.control_option: don't use while scanning (option %s)\n",
+      DBG(3, "Sane.control_option: don't use while scanning(option %s)\n",
 	   s.opt[option].name)
       return Sane.STATUS_DEVICE_BUSY
     }
 
   cap = s.opt[option].cap
 
-  if (!Sane.OPTION_IS_ACTIVE (cap))
+  if(!Sane.OPTION_IS_ACTIVE(cap))
     {
-      DBG (3, "Sane.control_option: option %s is inactive\n",
+      DBG(3, "Sane.control_option: option %s is inactive\n",
 	   s.opt[option].name)
       return Sane.STATUS_INVAL
     }
 
-  if (action == Sane.ACTION_GET_VALUE)
+  if(action == Sane.ACTION_GET_VALUE)
     {
-      switch (option)
+      switch(option)
 	{
 	  /* word options: */
 	case OPT_PREVIEW:
@@ -1520,34 +1520,34 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_GAMMA_VECTOR_R:
 	case OPT_GAMMA_VECTOR_G:
 	case OPT_GAMMA_VECTOR_B:
-	  memcpy (val, s.val[option].wa, s.opt[option].size)
+	  memcpy(val, s.val[option].wa, s.opt[option].size)
 	  return Sane.STATUS_GOOD
 
 	  /* string options: */
 	case OPT_SOURCE:
 	case OPT_MODE:
-	  strcpy (val, s.val[option].s)
+	  strcpy(val, s.val[option].s)
 	  return Sane.STATUS_GOOD
 	}
     }
-  else if (action == Sane.ACTION_SET_VALUE)
+  else if(action == Sane.ACTION_SET_VALUE)
     {
-      if (!Sane.OPTION_IS_SETTABLE (cap))
+      if(!Sane.OPTION_IS_SETTABLE(cap))
 	{
-	  DBG (3, "Sane.control_option: option %s is not setable\n",
+	  DBG(3, "Sane.control_option: option %s is not setable\n",
 	       s.opt[option].name)
 	  return Sane.STATUS_INVAL
 	}
 
-      status = sanei_constrain_value (s.opt + option, val, info)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_constrain_value(s.opt + option, val, info)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (4, "Sane.control_option: constrain_value error (option %s)\n",
+	  DBG(4, "Sane.control_option: constrain_value error(option %s)\n",
 	       s.opt[option].name)
 	  return status
 	}
 
-      switch (option)
+      switch(option)
 	{
 	  /* (mostly) side-effect-free word options: */
 	case OPT_RESOLUTION:
@@ -1555,7 +1555,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_BR_X:
 	case OPT_TL_Y:
 	case OPT_BR_Y:
-	  if (info)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 	  /* fall through */
 	case OPT_THRESHOLD:
@@ -1567,24 +1567,24 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_GAMMA_VECTOR_R:
 	case OPT_GAMMA_VECTOR_G:
 	case OPT_GAMMA_VECTOR_B:
-	  memcpy (s.val[option].wa, val, s.opt[option].size)
+	  memcpy(s.val[option].wa, val, s.opt[option].size)
 	  return Sane.STATUS_GOOD
 
 	case OPT_MODE:
 	  {
 	    Sane.Char *old_val = s.val[option].s
 
-	    if (old_val)
+	    if(old_val)
 	      {
-		if (strcmp (old_val, val) == 0)
+		if(strcmp(old_val, val) == 0)
 		  return Sane.STATUS_GOOD;	/* no change */
-		free (old_val)
+		free(old_val)
 	      }
-	    if (info)
+	    if(info)
 	      *info |= Sane.INFO_RELOAD_OPTIONS | Sane.INFO_RELOAD_PARAMS
 
-	    s.val[option].s = strdup (val)
-	    if (!s.val[option].s)
+	    s.val[option].s = strdup(val)
+	    if(!s.val[option].s)
 	      return Sane.STATUS_NO_MEM
 
 	    s.opt[OPT_GAMMA_VECTOR_R].cap |= Sane.CAP_INACTIVE
@@ -1593,14 +1593,14 @@ Sane.control_option (Sane.Handle handle, Int option,
 	    s.opt[OPT_CUSTOM_GAMMA].cap |= Sane.CAP_INACTIVE
 	    s.opt[OPT_THRESHOLD].cap |= Sane.CAP_INACTIVE
 
-	    if (strcmp (s.val[option].s, Sane.VALUE_SCAN_MODE_LINEART) == 0)
+	    if(strcmp(s.val[option].s, Sane.VALUE_SCAN_MODE_LINEART) == 0)
 	      {
 		s.opt[OPT_THRESHOLD].cap &= ~Sane.CAP_INACTIVE
 	      }
 	    else
 	      {
 		s.opt[OPT_CUSTOM_GAMMA].cap &= ~Sane.CAP_INACTIVE
-		if (s.val[OPT_CUSTOM_GAMMA].w)
+		if(s.val[OPT_CUSTOM_GAMMA].w)
 		  {
 		    s.opt[OPT_GAMMA_VECTOR_R].cap &= ~Sane.CAP_INACTIVE
 		    s.opt[OPT_GAMMA_VECTOR_G].cap &= ~Sane.CAP_INACTIVE
@@ -1611,15 +1611,15 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  }
 
 	case OPT_SOURCE:
-	  if (info)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_OPTIONS
-	  if (s.val[option].s)
-	    free (s.val[option].s)
-	  s.val[option].s = strdup (val)
-	  if (!s.val[option].s)
+	  if(s.val[option].s)
+	    free(s.val[option].s)
+	  s.val[option].s = strdup(val)
+	  if(!s.val[option].s)
 	    return Sane.STATUS_NO_MEM
 
-	  if (strcmp (val, "Transparency Adapter") == 0)
+	  if(strcmp(val, "Transparency Adapter") == 0)
 	    {
 	      s.opt[OPT_TL_X].constraint.range = &s.hw.x_trans_range
 	      s.opt[OPT_TL_Y].constraint.range = &s.hw.y_trans_range
@@ -1639,10 +1639,10 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_CUSTOM_GAMMA:
 	  w = *(Sane.Word *) val
 
-	  if (w == s.val[OPT_CUSTOM_GAMMA].w)
+	  if(w == s.val[OPT_CUSTOM_GAMMA].w)
 	    return Sane.STATUS_GOOD;	/* no change */
 
-	  if (info)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_OPTIONS
 
 	  s.val[OPT_CUSTOM_GAMMA].w = w
@@ -1651,7 +1651,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  s.opt[OPT_GAMMA_VECTOR_G].cap |= Sane.CAP_INACTIVE
 	  s.opt[OPT_GAMMA_VECTOR_B].cap |= Sane.CAP_INACTIVE
 
-	  if (w && strcmp (s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART) != 0)
+	  if(w && strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART) != 0)
 	    {
 	      s.opt[OPT_GAMMA_VECTOR_R].cap &= ~Sane.CAP_INACTIVE
 	      s.opt[OPT_GAMMA_VECTOR_G].cap &= ~Sane.CAP_INACTIVE
@@ -1661,36 +1661,36 @@ Sane.control_option (Sane.Handle handle, Int option,
 	}
 
     }
-  DBG (4, "Sane.control_option: unknown action for option %s\n",
+  DBG(4, "Sane.control_option: unknown action for option %s\n",
        s.opt[option].name)
   return Sane.STATUS_INVAL
 }
 
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
   Ma1509_Scanner *s = handle
   Sane.String_Const mode
 
-  if (!s)
+  if(!s)
     {
-      DBG (1, "Sane.get_parameters: handle is null!\n")
+      DBG(1, "Sane.get_parameters: handle is null!\n")
       return Sane.STATUS_INVAL
     }
 
-  if (!s.scanning)
+  if(!s.scanning)
     {
       double width, height, dpi
 
-      memset (&s.params, 0, sizeof (s.params))
+      memset(&s.params, 0, sizeof(s.params))
 
-      width = Sane.UNFIX (s.val[OPT_BR_X].w - s.val[OPT_TL_X].w)
-      height = Sane.UNFIX (s.val[OPT_BR_Y].w - s.val[OPT_TL_Y].w)
+      width = Sane.UNFIX(s.val[OPT_BR_X].w - s.val[OPT_TL_X].w)
+      height = Sane.UNFIX(s.val[OPT_BR_Y].w - s.val[OPT_TL_Y].w)
       dpi = s.val[OPT_RESOLUTION].w
 
       /* make best-effort guess at what parameters will look like once
          scanning starts.  */
-      if (dpi > 0.0 && width > 0.0 && height > 0.0)
+      if(dpi > 0.0 && width > 0.0 && height > 0.0)
 	{
 	  double dots_per_mm = dpi / MM_PER_INCH
 
@@ -1698,13 +1698,13 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 	  s.params.lines = height * dots_per_mm
 	}
       mode = s.val[OPT_MODE].s
-      if (strcmp (mode, Sane.VALUE_SCAN_MODE_LINEART) == 0)
+      if(strcmp(mode, Sane.VALUE_SCAN_MODE_LINEART) == 0)
 	{
 	  s.params.format = Sane.FRAME_GRAY
 	  s.params.bytes_per_line = (s.params.pixels_per_line + 7) / 8
 	  s.params.depth = 1
 	}
-      else if (strcmp (mode, Sane.VALUE_SCAN_MODE_GRAY) == 0)
+      else if(strcmp(mode, Sane.VALUE_SCAN_MODE_GRAY) == 0)
 	{
 	  s.params.format = Sane.FRAME_GRAY
 	  s.params.bytes_per_line = s.params.pixels_per_line
@@ -1720,52 +1720,52 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 	}
     }
   s.params.last_frame = Sane.TRUE
-  if (params)
+  if(params)
     *params = s.params
-  DBG (4, "Sane.get_parameters: frame = %d; last_frame = %s; depth = %d\n",
+  DBG(4, "Sane.get_parameters: frame = %d; last_frame = %s; depth = %d\n",
        s.params.format, s.params.last_frame ? "true" : "false",
        s.params.depth)
-  DBG (4, "Sane.get_parameters: lines = %d; ppl = %d; bpl = %d\n",
+  DBG(4, "Sane.get_parameters: lines = %d; ppl = %d; bpl = %d\n",
        s.params.lines, s.params.pixels_per_line, s.params.bytes_per_line)
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   Ma1509_Scanner *s = handle
   Sane.Status status
   struct timeval start
 
-  if (!s)
+  if(!s)
     {
-      DBG (1, "Sane.start: handle is null!\n")
+      DBG(1, "Sane.start: handle is null!\n")
       return Sane.STATUS_INVAL
     }
 
-  DBG (4, "Sane.start\n")
+  DBG(4, "Sane.start\n")
 
-  status = Sane.get_parameters (s, 0)
-  if (status != Sane.STATUS_GOOD)
+  status = Sane.get_parameters(s, 0)
+  if(status != Sane.STATUS_GOOD)
     return status
 
   /* Check for inconsistencies */
 
-  if (s.val[OPT_TL_X].w > s.val[OPT_BR_X].w)
+  if(s.val[OPT_TL_X].w > s.val[OPT_BR_X].w)
     {
-      DBG (0, "Sane.start: %s (%.1f mm) is bigger than %s (%.1f mm) "
+      DBG(0, "Sane.start: %s(%.1f mm) is bigger than %s(%.1f mm) "
 	   "-- aborting\n",
-	   s.opt[OPT_TL_X].title, Sane.UNFIX (s.val[OPT_TL_X].w),
-	   s.opt[OPT_BR_X].title, Sane.UNFIX (s.val[OPT_BR_X].w))
+	   s.opt[OPT_TL_X].title, Sane.UNFIX(s.val[OPT_TL_X].w),
+	   s.opt[OPT_BR_X].title, Sane.UNFIX(s.val[OPT_BR_X].w))
       return Sane.STATUS_INVAL
     }
-  if (s.val[OPT_TL_Y].w > s.val[OPT_BR_Y].w)
+  if(s.val[OPT_TL_Y].w > s.val[OPT_BR_Y].w)
     {
-      DBG (0, "Sane.start: %s (%.1f mm) is bigger than %s (%.1f mm) "
+      DBG(0, "Sane.start: %s(%.1f mm) is bigger than %s(%.1f mm) "
 	   "-- aborting\n",
-	   s.opt[OPT_TL_Y].title, Sane.UNFIX (s.val[OPT_TL_Y].w),
-	   s.opt[OPT_BR_Y].title, Sane.UNFIX (s.val[OPT_BR_Y].w))
+	   s.opt[OPT_TL_Y].title, Sane.UNFIX(s.val[OPT_TL_Y].w),
+	   s.opt[OPT_BR_Y].title, Sane.UNFIX(s.val[OPT_BR_Y].w))
       return Sane.STATUS_INVAL
     }
 
@@ -1773,40 +1773,40 @@ Sane.start (Sane.Handle handle)
   s.read_bytes = 0
 
   /* save start time */
-  gettimeofday (&start, 0)
+  gettimeofday(&start, 0)
   s.start_time = start.tv_sec
 
-  status = set_window (s)
-  if (status != Sane.STATUS_GOOD)
+  status = set_window(s)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "Sane.start: set window command failed: %s\n",
-	   Sane.strstatus (status))
+      DBG(1, "Sane.start: set window command failed: %s\n",
+	   Sane.strstatus(status))
       goto stop_scanner_and_return
     }
 
-  status = test_unit_ready (s)
-  if (status != Sane.STATUS_GOOD)
+  status = test_unit_ready(s)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "Sane.start: test_unit_ready failed: %s\n",
-	   Sane.strstatus (status))
+      DBG(1, "Sane.start: test_unit_ready failed: %s\n",
+	   Sane.strstatus(status))
       goto stop_scanner_and_return
     }
 
-  if (strcmp (s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART) != 0)
+  if(strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART) != 0)
     {
-      status = calibration (s)
-      if (status != Sane.STATUS_GOOD)
+      status = calibration(s)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "Sane.start: calibration failed: %s\n",
-	       Sane.strstatus (status))
+	  DBG(1, "Sane.start: calibration failed: %s\n",
+	       Sane.strstatus(status))
 	  goto stop_scanner_and_return
 	}
 
-      status = send_gamma (s)
-      if (status != Sane.STATUS_GOOD)
+      status = send_gamma(s)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "Sane.start: send_gamma failed: %s\n",
-	       Sane.strstatus (status))
+	  DBG(1, "Sane.start: send_gamma failed: %s\n",
+	       Sane.strstatus(status))
 	  goto stop_scanner_and_return
 	}
     }
@@ -1814,47 +1814,47 @@ Sane.start (Sane.Handle handle)
   s.scanning = Sane.TRUE
   s.cancelled = Sane.FALSE
 
-  status = start_scan (s)
-  if (status != Sane.STATUS_GOOD)
+  status = start_scan(s)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "Sane.start: start_scan command failed: %s\n",
-	   Sane.strstatus (status))
+      DBG(1, "Sane.start: start_scan command failed: %s\n",
+	   Sane.strstatus(status))
       goto stop_scanner_and_return
     }
 
-  status = start_read_data (s)
-  if (status != Sane.STATUS_GOOD)
+  status = start_read_data(s)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "Sane.start: start_read_data command failed: %s\n",
-	   Sane.strstatus (status))
+      DBG(1, "Sane.start: start_read_data command failed: %s\n",
+	   Sane.strstatus(status))
       goto stop_scanner_and_return
     }
 
   s.params.bytes_per_line = s.hw.bpl
   s.params.pixels_per_line = s.params.bytes_per_line
-  if (strcmp (s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_COLOR) == 0)
+  if(strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_COLOR) == 0)
     s.params.pixels_per_line /= 3
-  else if (strcmp (s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART) == 0)
+  else if(strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART) == 0)
     s.params.pixels_per_line *= 8
 
   s.params.lines = s.hw.lines
 
-  s.buffer = (Sane.Byte *) malloc (MA1509_BUFFER_SIZE)
-  if (!s.buffer)
+  s.buffer = (Sane.Byte *) malloc(MA1509_BUFFER_SIZE)
+  if(!s.buffer)
     return Sane.STATUS_NO_MEM
   s.buffer_bytes = 0
 
-  DBG (5, "Sane.start: finished\n")
+  DBG(5, "Sane.start: finished\n")
   return Sane.STATUS_GOOD
 
 stop_scanner_and_return:
-  sanei_usb_close (s.fd)
+  sanei_usb_close(s.fd)
   s.scanning = Sane.FALSE
   return status
 }
 
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
+Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
 	   Int * len)
 {
   Ma1509_Scanner *s = handle
@@ -1862,58 +1862,58 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
   Int total_size = s.hw.lines * s.hw.bpl
   Int i
 
-  if (!s)
+  if(!s)
     {
-      DBG (1, "Sane.read: handle is null!\n")
+      DBG(1, "Sane.read: handle is null!\n")
       return Sane.STATUS_INVAL
     }
 
-  if (!buf)
+  if(!buf)
     {
-      DBG (1, "Sane.read: buf is null!\n")
+      DBG(1, "Sane.read: buf is null!\n")
       return Sane.STATUS_INVAL
     }
 
-  if (!len)
+  if(!len)
     {
-      DBG (1, "Sane.read: len is null!\n")
+      DBG(1, "Sane.read: len is null!\n")
       return Sane.STATUS_INVAL
     }
 
-  DBG (5, "Sane.read\n")
+  DBG(5, "Sane.read\n")
   *len = 0
 
-  if (s.cancelled)
+  if(s.cancelled)
     {
-      DBG (4, "Sane.read: scan was cancelled\n")
+      DBG(4, "Sane.read: scan was cancelled\n")
       return Sane.STATUS_CANCELLED
     }
 
-  if (!s.scanning)
+  if(!s.scanning)
     {
-      DBG (1, "Sane.read: must call Sane.start before Sane.read\n")
+      DBG(1, "Sane.read: must call Sane.start before Sane.read\n")
       return Sane.STATUS_INVAL
     }
 
-  if (total_size - s.read_bytes <= 0)
+  if(total_size - s.read_bytes <= 0)
     {
-      DBG (4, "Sane.read: EOF\n")
-      stop_scan (s)
+      DBG(4, "Sane.read: EOF\n")
+      stop_scan(s)
       s.scanning = Sane.FALSE
       return Sane.STATUS_EOF
     }
 
-  if (s.buffer_bytes == 0)
+  if(s.buffer_bytes == 0)
     {
       Int size = MA1509_BUFFER_SIZE
-      if (size > (total_size - s.total_bytes))
+      if(size > (total_size - s.total_bytes))
 	size = total_size - s.total_bytes
-      DBG (4, "Sane.read: trying to read %d bytes\n", size)
-      status = read_data (s, s.buffer, &size)
-      if (status != Sane.STATUS_GOOD)
+      DBG(4, "Sane.read: trying to read %d bytes\n", size)
+      status = read_data(s, s.buffer, &size)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "Sane.read: read_data failed: %s\n",
-	       Sane.strstatus (status))
+	  DBG(1, "Sane.read: read_data failed: %s\n",
+	       Sane.strstatus(status))
 	  *len = 0
 	  return status
 	}
@@ -1923,92 +1923,92 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
     }
 
   *len = max_len
-  if (*len > s.buffer_bytes)
+  if(*len > s.buffer_bytes)
     *len = s.buffer_bytes
 
-  memcpy (buf, s.buffer_start, *len)
+  memcpy(buf, s.buffer_start, *len)
   s.buffer_start += (*len)
   s.buffer_bytes -= (*len)
   s.read_bytes += (*len)
 
   /* invert for lineart mode */
-  if (strcmp (s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART) == 0)
+  if(strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART) == 0)
     {
-      for (i = 0; i < *len; i++)
+      for(i = 0; i < *len; i++)
 	buf[i] = ~buf[i]
     }
 
-  DBG (4, "Sane.read: read %d/%d bytes (%d bytes to go, %d total)\n", *len,
+  DBG(4, "Sane.read: read %d/%d bytes(%d bytes to go, %d total)\n", *len,
        max_len, total_size - s.read_bytes, total_size)
 
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   Ma1509_Scanner *s = handle
 
-  if (!s)
+  if(!s)
     {
-      DBG (1, "Sane.cancel: handle is null!\n")
+      DBG(1, "Sane.cancel: handle is null!\n")
       return
     }
 
-  DBG (4, "Sane.cancel\n")
-  if (s.scanning)
+  DBG(4, "Sane.cancel\n")
+  if(s.scanning)
     {
       s.cancelled = Sane.TRUE
-      stop_scan (s)
-      free (s.buffer)
+      stop_scan(s)
+      free(s.buffer)
     }
   s.scanning = Sane.FALSE
-  DBG (4, "Sane.cancel finished\n")
+  DBG(4, "Sane.cancel finished\n")
 }
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 {
   Ma1509_Scanner *s = handle
 
-  if (!s)
+  if(!s)
     {
-      DBG (1, "Sane.set_io_mode: handle is null!\n")
+      DBG(1, "Sane.set_io_mode: handle is null!\n")
       return Sane.STATUS_INVAL
     }
 
-  DBG (4, "Sane.set_io_mode: %s\n",
+  DBG(4, "Sane.set_io_mode: %s\n",
        non_blocking ? "non-blocking" : "blocking")
 
-  if (!s.scanning)
+  if(!s.scanning)
     {
-      DBG (1, "Sane.set_io_mode: call Sane.start before Sane.set_io_mode")
+      DBG(1, "Sane.set_io_mode: call Sane.start before Sane.set_io_mode")
       return Sane.STATUS_INVAL
     }
 
-  if (non_blocking)
+  if(non_blocking)
     return Sane.STATUS_UNSUPPORTED
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle handle, Int * fd)
+Sane.get_select_fd(Sane.Handle handle, Int * fd)
 {
   Ma1509_Scanner *s = handle
 
-  if (!s)
+  if(!s)
     {
-      DBG (1, "Sane.get_select_fd: handle is null!\n")
+      DBG(1, "Sane.get_select_fd: handle is null!\n")
       return Sane.STATUS_INVAL
     }
-  if (!fd)
+  if(!fd)
     {
-      DBG (1, "Sane.get_select_fd: fd is null!\n")
+      DBG(1, "Sane.get_select_fd: fd is null!\n")
       return Sane.STATUS_INVAL
     }
 
-  DBG (4, "Sane.get_select_fd\n")
-  if (!s.scanning)
+  DBG(4, "Sane.get_select_fd\n")
+  if(!s.scanning)
     return Sane.STATUS_INVAL
 
   return Sane.STATUS_UNSUPPORTED

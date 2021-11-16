@@ -3,8 +3,8 @@
  *        models.
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 1998 Plustek Inc.
- * Copyright (C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 1998 Plustek Inc.
+ * Copyright(C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
  * also based on the work done by Rick Bronson
  *
  * History:
@@ -16,7 +16,7 @@
  *        - fixed a bug in p48xxDoTest
  *        - disabled RD_WatchDogControl, lamp will be controlled by driver
  * - 0.33 - added function p48xxSetAsicRegisters()
- *        - fixed a bug in p48xxDoTest (reset the ASIC registers)
+ *        - fixed a bug in p48xxDoTest(reset the ASIC registers)
  *        - removed p48xxPositionLamp
  * - 0.34 - added some comments
  * - 0.35 - added some comments
@@ -44,7 +44,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -80,7 +80,7 @@ import plustek-pp_scan
 
 /*************************** some definitions ********************************/
 
-#define _TEST_SZ   2048  	  /* always use 2048 for mem size (= one bank)   */
+#define _TEST_SZ   2048  	  /* always use 2048 for mem size(= one bank)   */
 #define _START_VAL 0x12345678 /* pick a non-zero starting value for our long */
 
 #define _BankAndSizeForTest	_MemBankSize2k  /* always use 2k for mem test */
@@ -126,12 +126,12 @@ static Int p48xxDoTest( pScanData ps )
 	 * do a memory test to determine how much memory this unit has, in the
      * process we can figure out if it's a 4830 or a 9630.  NOTE: the ram
      * seems to be mirrored such that if you have a unit with only 32k it's
-     * mirrored 4 times to fill the 128k (2k * (_MemBankMask + 1)) space,
+     * mirrored 4 times to fill the 128k(2k * (_MemBankMask + 1)) space,
      * so we will run a 32 bit incrementing pattern over the entire 128k and
-     * look for the 1st page (2k) to fail
+     * look for the 1st page(2k) to fail
   	 */
  	adder = 0
-    for (cntr = _BankAndSizeForTest
+    for(cntr = _BankAndSizeForTest
          cntr < _BankAndSizeForTest + _MemBanks; cntr++) {
 
     	ps.OpenScanPath( ps )
@@ -139,7 +139,7 @@ static Int p48xxDoTest( pScanData ps )
 		p48xxSetMemoryBankForProgram( ps, cntr )
 
 		/* prepare content, incrementing 32 val */
-   		for (ul = 0; ul < _TEST_SZ / sizeof(ULong); ul++)
+   		for(ul = 0; ul < _TEST_SZ / sizeof(ULong); ul++)
        		buffer[ul] = ul + adder + _START_VAL
 
 		/* fill to buffer */
@@ -157,14 +157,14 @@ static Int p48xxDoTest( pScanData ps )
    		IOReadScannerImageData( ps, (pUChar)buffer, _TEST_SZ )
 
 		/* check */
-   		for (ul = 0; ul < _TEST_SZ / sizeof(ULong); ul++) {
-      		if (buffer[ul] != ul + _START_VAL) {
+   		for(ul = 0; ul < _TEST_SZ / sizeof(ULong); ul++) {
+      		if(buffer[ul] != ul + _START_VAL) {
        			break
 			}
 		}
 
 		/* if fail 	*/
-   		if (ul != _TEST_SZ / sizeof (ULong)) {
+   		if(ul != _TEST_SZ / sizeof(ULong)) {
 			DBG( DBG_LOW, "Bank 0 overwritten\n" )
        		break
 		}
@@ -184,8 +184,8 @@ static Int p48xxDoTest( pScanData ps )
 		}
 
 		/* check if fail */
-   		if (ul != _TEST_SZ / sizeof(ULong)) {
-			DBG( DBG_LOW, "Bank not present, error at pos %u (%u)\n", ul,
+   		if(ul != _TEST_SZ / sizeof(ULong)) {
+			DBG( DBG_LOW, "Bank not present, error at pos %u(%u)\n", ul,
 				 (ULong)(_TEST_SZ / sizeof(ULong)))
        		break
 		}
@@ -213,14 +213,14 @@ static Int p48xxDoTest( pScanData ps )
 				   tmpByte, cntr, ps.sCaps.AsicID )
 
 	/* 128k */
-    if ((_TEST_SZ * (cntr - _BankAndSizeForTest) == 1 << 17) &&
+    if((_TEST_SZ * (cntr - _BankAndSizeForTest) == 1 << 17) &&
 								       (ps.sCaps.AsicID ==  _ASIC_IS_96003)) {
 
         /*
 		 * if 128k then must be a 9630 or above
 		 * hack, test for 12000P, The 9630 returns an 0x08
 		 */
-       	if ( tmpByte == 0x02 ) {
+       	if( tmpByte == 0x02 ) {
 
             /*
              * as we currently can't automagically detect an A3I we have to
@@ -246,11 +246,11 @@ static Int p48xxDoTest( pScanData ps )
 
 		DBG( DBG_LOW, "Scanner is not a 9630 or above\n")
 
-      	if ( tmpByte != 0x0f  ) {
+      	if( tmpByte != 0x0f  ) {
 
 			DBG( DBG_LOW, "Looks like a 600!\n" )
 
-			if (( 0x08 == tmpByte ) &&
+			if(( 0x08 == tmpByte ) &&
 				((_TEST_SZ * (cntr - _BankAndSizeForTest)) == 32768 )) {
 	       		DBG( DBG_LOW, "But it is a 4830P!!! "
 							  "(by mkochano@ee.pw.edu.pl)\n" )
@@ -271,7 +271,7 @@ static Int p48xxDoTest( pScanData ps )
 }
 
 /*.............................................................................
- * setup ASIC registers and clear all scan states (no stepping)
+ * setup ASIC registers and clear all scan states(no stepping)
  */
 static void p48xxSetAsicRegisters( pScanData ps )
 {
@@ -311,7 +311,7 @@ static Int p48xxCheck4800Memory( pScanData ps )
 	ps.OpenScanPath( ps )
 	p48xxSetMemoryBankForProgram( ps, _BankAndSizeForTest )
 
-	for (ul = 0; ul < 1280; ul++)
+	for(ul = 0; ul < 1280; ul++)
 	    buffer[ul] = (UChar)ul;			      /* prepare content */
 
 	IOMoveDataToScanner( ps, buffer, 1280 );  /* fill to buffer  */
@@ -323,7 +323,7 @@ static Int p48xxCheck4800Memory( pScanData ps )
 
 	for( ul = 0; ul < 1280; ul++ ) {
 		if( buffer[ul] != buffer[ul+1280] ) {
-			DBG( DBG_HIGH, "Error in memory test at pos %u (%u != %u)\n",
+			DBG( DBG_HIGH, "Error in memory test at pos %u(%u != %u)\n",
 							 ul, buffer[ul], buffer[ul+1280] )
 			retval = _E_NO_DEV
 			break
@@ -382,7 +382,7 @@ static Int p48xxReadWriteTest( pScanData ps )
 	DBG( DBG_LOW, "p48xxReadWriteTest()\n" )
 
 	/*
-     * determine the model by the ASIC type (except for 4830/9630)
+     * determine the model by the ASIC type(except for 4830/9630)
      * might want to make a SetModelCommon() someday for this...
    	 */
 	ps.RedDataReady   = 0x01;  /* normal for Red and Green */
@@ -391,14 +391,14 @@ static Int p48xxReadWriteTest( pScanData ps )
 	ps.AsicGreenColor = 0x03
 
 	/*
- 	 * if not already set, try to find ASIC type (96001 or 96003)
+ 	 * if not already set, try to find ASIC type(96001 or 96003)
 	 */
-  	if ( _NO_BASE == ps.sCaps.wIOBase ) {
+  	if( _NO_BASE == ps.sCaps.wIOBase ) {
 
 		/* get copy of asic id */
 	    ps.sCaps.AsicID = IODataRegisterFromScanner( ps, ps.RegAsicID )
 
-    	if ( _ASIC_IS_96003 == ps.sCaps.AsicID ) {
+    	if( _ASIC_IS_96003 == ps.sCaps.AsicID ) {
 
 			/* actually either a 4830, 9630, 12000, find out later */
        		DBG( DBG_LOW, "Found a 96003 ASIC at Reg 0x%x\n", ps.RegAsicID )
@@ -406,7 +406,7 @@ static Int p48xxReadWriteTest( pScanData ps )
 
     	} else {
 
-      		if ( _ASIC_IS_96001 == ps.sCaps.AsicID ) {
+      		if( _ASIC_IS_96001 == ps.sCaps.AsicID ) {
 	       		DBG( DBG_LOW, "Found a 96001 ASIC at Reg 0x%x\n",
 															   ps.RegAsicID )
         		ModelSet4800( ps )
@@ -423,7 +423,7 @@ static Int p48xxReadWriteTest( pScanData ps )
 	 */
 	p48xxSetAsicRegisters( ps )
 
-   	if ( _ASIC_IS_96003 == ps.sCaps.AsicID ) {
+   	if( _ASIC_IS_96003 == ps.sCaps.AsicID ) {
 		retval = p48xxDoTest( ps )
 
 		/*
@@ -451,11 +451,11 @@ static Int p48xxReadWriteTest( pScanData ps )
  * 2) Determine which type of CCD we are using
  * 3) According to the CCD, prepare the CCD dependent veriables
  *  SONY CCD:
- *	The color exposure sequence: Red, Green (after 11 red lines),
- *	Blue (after 8 green lines)
+ *	The color exposure sequence: Red, Green(after 11 red lines),
+ *	Blue(after 8 green lines)
  *  TOSHIBA CCD:
- *  The color exposure sequence: Red, Blue (after 11 red lines),
- *	Green (after 8 blue lines)
+ *  The color exposure sequence: Red, Blue(after 11 red lines),
+ *	Green(after 8 blue lines)
  */
 static void p48xxSetupScannerVariables( pScanData ps )
 {
@@ -510,7 +510,7 @@ static void p48xxSetupScannerVariables( pScanData ps )
     ps.b1stColorByte = ps.AsicRedColor
     ps.b1stColor 	  = ps.RedDataReady
 
-	if (ps.fSonyCCD) {
+	if(ps.fSonyCCD) {
 
 		ps.b2ndColorByte = ps.AsicGreenColor
 		ps.b2ndColor 	  = ps.GreenDataReady
@@ -535,7 +535,7 @@ static void p48xxSetupScannerVariables( pScanData ps )
     /*
 	 * calculate I/O Timer
      * if we cannot read 200 lines within 1 second, the I/O time has to add 2
-     * CalculateIOTime ()
+     * CalculateIOTime()
 	 */
     if( _PORT_SPP != ps.IO.portMode ) {
 
@@ -544,7 +544,7 @@ static void p48xxSetupScannerVariables( pScanData ps )
 
 		pBuf = _KALLOC((_BUF_SIZE_BASE_CONST * 2), GFP_KERNEL )
 
-		if ( NULL != pBuf ) {
+		if( NULL != pBuf ) {
 
 			MiscStartTimer( &timer, _SECOND )
 
@@ -552,7 +552,7 @@ static void p48xxSetupScannerVariables( pScanData ps )
 				IOReadScannerImageData( ps, pBuf, (_BUF_SIZE_BASE_CONST * 2))
 
 				wLines--
-		    } while (!MiscCheckTimer( &timer) && wLines)
+		    } while(!MiscCheckTimer( &timer) && wLines)
 
 		    if( !wLines )
 				ps.bExtraAdd = 0
@@ -583,11 +583,11 @@ static void p48xxSetGeneralRegister( pScanData ps )
 
 /* WORK: ps.PhysicalDpi should be correct, but the we have to work
  *       on motor.c again to use other running-tables
- *    if ( ps.DataInf.xyAppDpi.y <= ps.PhysicalDpi ) {
+ *    if( ps.DataInf.xyAppDpi.y <= ps.PhysicalDpi ) {
  */
-	if ( ps.DataInf.xyAppDpi.y <= 300 ) {
+	if( ps.DataInf.xyAppDpi.y <= 300 ) {
 /* HEINER:A3I
- 	if ( ps.DataInf.xyAppDpi.y <= ps.PhysicalDpi ) {
+ 	if( ps.DataInf.xyAppDpi.y <= ps.PhysicalDpi ) {
 */
 		ps.Asic96Reg.RD_MotorControl = (ps.FullStep | ps.IgnorePF |
 									     ps.MotorOn | _MotorDirForward)
@@ -596,21 +596,21 @@ static void p48xxSetGeneralRegister( pScanData ps )
 										 _MotorDirForward)
 	}
 
-    if ( ps.DataInf.wPhyDataType == COLOR_BW ) {
+    if( ps.DataInf.wPhyDataType == COLOR_BW ) {
         ps.AsicReg.RD_ScanControl = ps.bLampOn
 
-	    if (!(ps.DataInf.dwScanFlag & SCANDEF_Inverse))
+	    if(!(ps.DataInf.dwScanFlag & SCANDEF_Inverse))
     	    ps.AsicReg.RD_ScanControl |= _P96_SCANDATA_INVERT
 
     } else {
 
         ps.AsicReg.RD_ScanControl = ps.bLampOn | _SCAN_BYTEMODE
 
-	    if (ps.DataInf.dwScanFlag & SCANDEF_Inverse)
+	    if(ps.DataInf.dwScanFlag & SCANDEF_Inverse)
     	    ps.AsicReg.RD_ScanControl |=  _P96_SCANDATA_INVERT
     }
 
-    if (ps.DataInf.xyPhyDpi.x <= 200)
+    if(ps.DataInf.xyPhyDpi.x <= 200)
         ps.AsicReg.RD_ScanControl |= _SCAN_1ST_AVERAGE
 
 	DBG( DBG_LOW, "RD_ModeControl  = 0x%02x\n", ps.AsicReg.RD_ModeControl  )
@@ -627,7 +627,7 @@ static void p48xxSetupScanningCondition( pScanData ps )
 
 	IORegisterDirectToScanner( ps, ps.RegInitDataFifo )
 
-   /* Cal64kTime (); */
+   /* Cal64kTime(); */
 	if( MODEL_OP_A3I == ps.sCaps.Model )
 	    ps.wLinesPer64kTime = (UShort)(65555UL / ps.DataInf.dwAsicBytesPerPlane *
 				 			        5UL)
@@ -661,11 +661,11 @@ static void p48xxSetupScanningCondition( pScanData ps )
     ps.AsicReg.RD_Dpi = ps.DataInf.xyPhyDpi.x
 	DBG( DBG_LOW, "RD_Dpi = %u\n", ps.AsicReg.RD_Dpi )
 
-    /* SetStartStopRegister (ps) */
+    /* SetStartStopRegister(ps) */
     ps.AsicReg.RD_Origin = (UShort)(ps.Offset70 + ps.Device.DataOriginX +
 					                 ps.DataInf.crImage.x)
 
-    if (ps.DataInf.wPhyDataType < COLOR_256GRAY) {
+    if(ps.DataInf.wPhyDataType < COLOR_256GRAY) {
 		ps.AsicReg.RD_Pixels =
 					(UShort)(ps.DataInf.dwAsicPixelsPerPlane + 7) & 0xfff8
 	} else {
@@ -674,7 +674,7 @@ static void p48xxSetupScanningCondition( pScanData ps )
 
 	DBG( DBG_LOW, "RD_Pixels = %u\n", ps.AsicReg.RD_Pixels )
 
-    /* SetupMotorStart () */
+    /* SetupMotorStart() */
 	IORegisterDirectToScanner( ps, ps.RegInitDataFifo)
     ps.SetupMotorRunTable( ps )
 
@@ -710,7 +710,7 @@ static void p48xxSetupScanningCondition( pScanData ps )
  */
 static void p48xxPutToIdleMode( pScanData ps )
 {
-    DBG( DBG_LOW, "Putting Scanner (ASIC 96001/3) into Idle-Mode\n" )
+    DBG( DBG_LOW, "Putting Scanner(ASIC 96001/3) into Idle-Mode\n" )
 
     /*
      * turn off motor
@@ -721,7 +721,7 @@ static void p48xxPutToIdleMode( pScanData ps )
 
 /*.............................................................................
  * for P96001/3 ASIC
- * do all the preliminary stuff here (calibrate the scanner and move the
+ * do all the preliminary stuff here(calibrate the scanner and move the
  * sensor to it´s start position, also setup the driver for the
  * current run)
  */
@@ -731,10 +731,10 @@ static Int p48xxCalibration( pScanData ps )
 
     ps.Scan.bFifoSelect = ps.RegGFifoOffset
 
-	while (_TRUE) {
+	while(_TRUE) {
 
 		_ASSERT(ps.WaitForShading)
-        if (ps.WaitForShading( ps )) {
+        if(ps.WaitForShading( ps )) {
 
         	if(!(ps.DataInf.dwScanFlag & SCANDEF_TPA)) {
 
@@ -744,10 +744,10 @@ static Int p48xxCalibration( pScanData ps )
                     if( ps.Scan.fRefreshState ) {
                         ps.Scan.fRefreshState = _FALSE
 
-          			if (!ps.fReshaded) {
+          			if(!ps.fReshaded) {
                         ps.fReshaded = _TRUE
 
-    	    		    if (ps.fColorMoreRedFlag || ps.fColorMoreBlueFlag) {
+    	    		    if(ps.fColorMoreRedFlag || ps.fColorMoreBlueFlag) {
            					continue
 						}
     	            }

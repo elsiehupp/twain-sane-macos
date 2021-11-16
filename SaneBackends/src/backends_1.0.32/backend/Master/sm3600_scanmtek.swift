@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) Marian Eichholz 2001
+   Copyright(C) Marian Eichholz 2001
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -63,9 +63,9 @@ TModel GetScannerModel(unsigned short idVendor,
 		       unsigned short idProduct)
 {
   var i: Int
-  if (idVendor!=SCANNER_VENDOR) return unknown
-  for (i=0; aScanners[i].model!=unknown; i++)
-    if (aScanners[i].idProduct==idProduct)
+  if(idVendor!=SCANNER_VENDOR) return unknown
+  for(i=0; aScanners[i].model!=unknown; i++)
+    if(aScanners[i].idProduct==idProduct)
       return aScanners[i].model
   return unknown
 }
@@ -74,7 +74,7 @@ TModel GetScannerModel(unsigned short idVendor,
 
 DoInit()
 
-Replay the first initialisation block (no slider movement).
+Replay the first initialisation block(no slider movement).
 
 ********************************************************************** */
 
@@ -186,9 +186,9 @@ TState WaitWhileBusy(TInstance *this, Int cSecs)
   Int cTimeOut=cSecs*10
   Int value
   INST_ASSERT()
-  while (cTimeOut--)
+  while(cTimeOut--)
     {
-      if ((value=(Int)RegRead(this,R_CTL,1)) & 0x80)
+      if((value=(Int)RegRead(this,R_CTL,1)) & 0x80)
 	usleep(50)
       else
 	return 0
@@ -210,9 +210,9 @@ TState WaitWhileScanning(TInstance *this, Int cSecs)
   Int cTimeOut=cSecs*10
   Int value
   INST_ASSERT()
-  while (cTimeOut--)
+  while(cTimeOut--)
     {
-      if ((value=(Int)RegRead(this,R_CSTAT, 1)) & 0x80)
+      if((value=(Int)RegRead(this,R_CSTAT, 1)) & 0x80)
 	return 0
       else
 	usleep(50)
@@ -254,16 +254,16 @@ TState UploadGammaTable(TInstance *this, Int iByteAddress, Int *pnGamma)
   rc=Sane.STATUS_GOOD
   INST_ASSERT()
   puchGamma=malloc(0x2000)
-  if (!puchGamma) return SetError(this,Sane.STATUS_NO_MEM,"gamma buffer")
+  if(!puchGamma) return SetError(this,Sane.STATUS_NO_MEM,"gamma buffer")
   DBG(DEBUG_INFO,"uploading gamma to %d\n",iByteAddress)
-  for (i=0; i<0x1000; i++)
+  for(i=0; i<0x1000; i++)
     {
       Int nVal=pnGamma[i]
       /* nVal=i; */
       puchGamma[2*i+1]=nVal>>8
       puchGamma[2*i+0]=nVal&0xFF
     }
-  for (i=0; rc==Sane.STATUS_GOOD && i<0x2000; i+=0x1000)
+  for(i=0; rc==Sane.STATUS_GOOD && i<0x2000; i+=0x1000)
     rc=MemWriteArray(this,(i+iByteAddress)>>1,0x1000,puchGamma+i)
   free(puchGamma)
   return rc
@@ -293,13 +293,13 @@ TState UploadGainCorrection(TInstance *this, Int iTableOffset)
     memset(aGain,0xFF,sizeof(aGain))
     RegWrite(this,0x3D,1,0x0F | 0x80); /* 10XXXXXX : one offset table */
     RegWrite(this,0x3F,1, iTableOffset==0x6000 ? 0x18 : 0x08); /* 16KB gain at 0x06000 or 0x02000 */
-    for (i=iOff; i<MAX_PIXEL_PER_SCANLINE; i++)
+    for(i=iOff; i<MAX_PIXEL_PER_SCANLINE; i++)
       {
 	uwGain=this.calibration.achStripeY[i]<<4
 	aGain[i-iOff].uchLow =(unsigned char)(uwGain&0xFF)
 	aGain[i-iOff].uchHigh=(unsigned char)(uwGain>>8)
       }
-    for (i=0; i<0x4000; i+=0x1000)
+    for(i=0; i<0x4000; i+=0x1000)
       MemWriteArray(this,(iTableOffset+i)>>1,0x1000,((unsigned char*)aGain)+i)
   }
   return Sane.STATUS_GOOD

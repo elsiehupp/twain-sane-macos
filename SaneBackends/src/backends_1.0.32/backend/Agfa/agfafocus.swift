@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   This file (C) 1997 Ingo Schneider
+   This file(C) 1997 Ingo Schneider
              (C) 1998 Karl Anders Øygard
 
    This file is part of the SANE package.
 
    SANE is free software; you can redistribute it and/or modify it under
    the terms of the GNU General Public License as published by the Free
-   Software Foundation; either version 2 of the License, or (at your
+   Software Foundation; either version 2 of the License, or(at your
    option) any later version.
 
    SANE is distributed in the hope that it will be useful, but WITHOUT
@@ -134,14 +134,14 @@ AgfaFocus_Scanner
 
 /* sane - Scanner Access Now Easy.
 
-   This file (C) 1997 Ingo Schneider
+   This file(C) 1997 Ingo Schneider
              (C) 1998 Karl Anders Øygard
 
    This file is part of the SANE package.
 
    SANE is free software; you can redistribute it and/or modify it under
    the terms of the GNU General Public License as published by the Free
-   Software Foundation; either version 2 of the License, or (at your
+   Software Foundation; either version 2 of the License, or(at your
    option) any later version.
 
    SANE is distributed in the hope that it will be useful, but WITHOUT
@@ -191,31 +191,31 @@ static AgfaFocus_Device *agfafocus_devices
 
 static const Sane.String_Const focus_mode_list[] =
 {
-  "Lineart", "Gray (6 bit)",
+  "Lineart", "Gray(6 bit)",
   0
 ]
 
 static const Sane.String_Const focusii_mode_list[] =
 {
-  "Lineart", "Gray (6 bit)", "Gray (8 bit)",
+  "Lineart", "Gray(6 bit)", "Gray(8 bit)",
   0
 ]
 
 static const Sane.String_Const focuscolor_mode_list[] =
 {
-  "Lineart", "Gray (6 bit)", "Gray (8 bit)", "Color (18 bit)", "Color (24 bit)",
+  "Lineart", "Gray(6 bit)", "Gray(8 bit)", "Color(18 bit)", "Color(24 bit)",
   0
 ]
 
 static const Sane.String_Const halftone_list[] =
 {
-  "None", "Dispersed dot 4x4", "Round (Clustered dot 4x4)", "Diamond (Clustered dot 4x4)",
+  "None", "Dispersed dot 4x4", "Round(Clustered dot 4x4)", "Diamond(Clustered dot 4x4)",
   0
 ]
 
 static const Sane.String_Const halftone_upload_list[] =
 {
-  "None", "Dispersed dot 4x4", "Round (Clustered dot 4x4)", "Diamond (Clustered dot 4x4)",
+  "None", "Dispersed dot 4x4", "Round(Clustered dot 4x4)", "Diamond(Clustered dot 4x4)",
   0
 ]
 
@@ -232,30 +232,30 @@ static const Sane.String_Const quality_list[] =
 ]
 
 static size_t
-max_string_size (const Sane.String_Const strings[])
+max_string_size(const Sane.String_Const strings[])
 {
   size_t size, max_size = 0
   var i: Int
-  DBG (11, ">> max_string_size\n")
+  DBG(11, ">> max_string_size\n")
 
-  for (i = 0; strings[i]; ++i)
+  for(i = 0; strings[i]; ++i)
     {
-      size = strlen (strings[i]) + 1
-      if (size > max_size)
+      size = strlen(strings[i]) + 1
+      if(size > max_size)
         max_size = size
     }
 
-  DBG (11, "<< max_string_size\n")
+  DBG(11, "<< max_string_size\n")
   return max_size
 }
 
 /* sets loc_s bytes long value at offset loc in scsi command to value size  */
 static void
-set_size (Byte * loc, Int loc_s, size_t size)
+set_size(Byte * loc, Int loc_s, size_t size)
 {
   var i: Int
 
-  for (i = 0; i < loc_s; i++)
+  for(i = 0; i < loc_s; i++)
     {
       loc[loc_s - i - 1] = (size >> (i * 8)) & 0xff
     }
@@ -263,12 +263,12 @@ set_size (Byte * loc, Int loc_s, size_t size)
 
 /* gets loc_s bytes long value from loc in scsi command */
 static Int
-get_size (Byte * loc, Int loc_s)
+get_size(Byte * loc, Int loc_s)
 {
   var i: Int
   Int j = 0
 
-  for (i = 0; i < loc_s; i++)
+  for(i = 0; i < loc_s; i++)
     {
       j = (j << 8) + (loc[i] & 0xff)
     }
@@ -277,7 +277,7 @@ get_size (Byte * loc, Int loc_s)
 }
 
 static long
-reserve_unit (Int fd)
+reserve_unit(Int fd)
 {
   struct
   {
@@ -290,16 +290,16 @@ reserve_unit (Int fd)
   }
   scsi_reserve
 
-  memset (&scsi_reserve, 0, sizeof (scsi_reserve))
+  memset(&scsi_reserve, 0, sizeof(scsi_reserve))
 
   scsi_reserve.cmd = 0x16; /* RELEASE */
 
-  DBG (3, "reserve_unit()\n")
-  return sanei_scsi_cmd (fd, &scsi_reserve, sizeof (scsi_reserve), 0, 0)
+  DBG(3, "reserve_unit()\n")
+  return sanei_scsi_cmd(fd, &scsi_reserve, sizeof(scsi_reserve), 0, 0)
 }
 
 static long
-release_unit (Int fd)
+release_unit(Int fd)
 {
   struct
   {
@@ -312,16 +312,16 @@ release_unit (Int fd)
   }
   scsi_release
 
-  memset (&scsi_release, 0, sizeof (scsi_release))
+  memset(&scsi_release, 0, sizeof(scsi_release))
 
   scsi_release.cmd = 0x17; /* RELEASE */
 
-  DBG (3, "release_unit()\n")
-  return sanei_scsi_cmd (fd, &scsi_release, sizeof (scsi_release), 0, 0)
+  DBG(3, "release_unit()\n")
+  return sanei_scsi_cmd(fd, &scsi_release, sizeof(scsi_release), 0, 0)
 }
 
 static Sane.Status
-test_ready (Int fd)
+test_ready(Int fd)
 {
   Sane.Status status
   Int try
@@ -337,45 +337,45 @@ test_ready (Int fd)
   }
   scsi_test_ready
 
-  memset (&scsi_test_ready, 0, sizeof (scsi_test_ready))
+  memset(&scsi_test_ready, 0, sizeof(scsi_test_ready))
 
   scsi_test_ready.cmd = 0x00; /* TEST UNIT READY */
 
-  for (try = 0; try < 1000; ++try)
+  for(try = 0; try < 1000; ++try)
     {
-      DBG (3, "test_ready: sending TEST_UNIT_READY\n")
-      status = sanei_scsi_cmd (fd, &scsi_test_ready, sizeof (scsi_test_ready),
+      DBG(3, "test_ready: sending TEST_UNIT_READY\n")
+      status = sanei_scsi_cmd(fd, &scsi_test_ready, sizeof(scsi_test_ready),
 			       0, 0)
 
-      switch (status)
+      switch(status)
 	{
 	case Sane.STATUS_DEVICE_BUSY:
-	  usleep (100000);	/* retry after 100ms */
+	  usleep(100000);	/* retry after 100ms */
 	  break
 
 	case Sane.STATUS_GOOD:
 	  return status
 
 	default:
-	  DBG (1, "test_ready: test unit ready failed (%s)\n",
-	       Sane.strstatus (status))
+	  DBG(1, "test_ready: test unit ready failed(%s)\n",
+	       Sane.strstatus(status))
 	  return status
 	}
     }
 
-  DBG (1, "test_ready: timed out after %d attempts\n", try)
+  DBG(1, "test_ready: timed out after %d attempts\n", try)
   return Sane.STATUS_IO_ERROR
 }
 
 static Sane.Status
-sense_handler (Int scsi_fd, u_char *result, void *arg)
+sense_handler(Int scsi_fd, u_char *result, void *arg)
 {
   scsi_fd = scsi_fd;			/* silence gcc */
   arg = arg;					/* silence gcc */
 
-  if (result[0])
+  if(result[0])
     {
-      DBG (0, "sense_handler() : sense code = %02x\n", result[0])
+      DBG(0, "sense_handler() : sense code = %02x\n", result[0])
       return Sane.STATUS_IO_ERROR
     }
   else
@@ -385,7 +385,7 @@ sense_handler (Int scsi_fd, u_char *result, void *arg)
 }
 
 static Sane.Status
-stop_scan (Int fd)
+stop_scan(Int fd)
 {
   fd = fd;						/* silence gcc */
 
@@ -395,8 +395,8 @@ stop_scan (Int fd)
   {
     0x01, 0x00, 0x00, 0x00, 0x00, 0x00
   ]
-  DBG (1, "Trying to stop scanner...\n")
-  return sanei_scsi_cmd (fd, scsi_rewind, sizeof (scsi_rewind), 0, 0)
+  DBG(1, "Trying to stop scanner...\n")
+  return sanei_scsi_cmd(fd, scsi_rewind, sizeof(scsi_rewind), 0, 0)
 #else
   return Sane.STATUS_GOOD
 #endif
@@ -404,7 +404,7 @@ stop_scan (Int fd)
 
 
 static Sane.Status
-start_scan (Int fd, Bool cont)
+start_scan(Int fd, Bool cont)
 {
   struct
   {
@@ -420,19 +420,19 @@ start_scan (Int fd, Bool cont)
   }
   scsi_start_scan
 
-  memset (&scsi_start_scan, 0, sizeof (scsi_start_scan))
+  memset(&scsi_start_scan, 0, sizeof(scsi_start_scan))
 
   scsi_start_scan.cmd = 0x1b; /* SCAN */
   scsi_start_scan.tr_len = 1
   scsi_start_scan.wid = 0
   scsi_start_scan.ctrl = (cont == Sane.TRUE) ? 0x80 : 0x00
 
-  DBG (1, "Starting scanner ...\n")
-  return sanei_scsi_cmd (fd, &scsi_start_scan, sizeof (scsi_start_scan), 0, 0)
+  DBG(1, "Starting scanner ...\n")
+  return sanei_scsi_cmd(fd, &scsi_start_scan, sizeof(scsi_start_scan), 0, 0)
 }
 
 static void
-wait_ready (Int fd)
+wait_ready(Int fd)
 {
   struct
   {
@@ -440,7 +440,7 @@ wait_ready (Int fd)
     Byte scan[2];		/* ms to complete - driver sleep time */
   } result
 
-  size_t size = sizeof (result)
+  size_t size = sizeof(result)
   Sane.Status status
 
   struct {
@@ -452,19 +452,19 @@ wait_ready (Int fd)
     Byte ctrl
   } cmd
 
-  memset (&cmd, 0, sizeof (cmd))
+  memset(&cmd, 0, sizeof(cmd))
 
   cmd.cmd = 0x28;       /* READ */
   cmd.data_type = 0x80; /* get scan time */
 
-  set_size (cmd.tr_len, 3, sizeof (result))
+  set_size(cmd.tr_len, 3, sizeof(result))
 
-  while (1)
+  while(1)
     {
-      status = sanei_scsi_cmd (fd, &cmd, sizeof (cmd),
+      status = sanei_scsi_cmd(fd, &cmd, sizeof(cmd),
 			       &result, &size)
 
-      if (status != Sane.STATUS_GOOD || size != sizeof (result))
+      if(status != Sane.STATUS_GOOD || size != sizeof(result))
 	{
 	  /*
 	     Command failed, the assembler code of the windows scan library
@@ -476,17 +476,17 @@ wait_ready (Int fd)
 	{
 	  /* left is the amount of seconds left till the scanner is
              ready * 100 */
-	  Int left = get_size (result.scan, 2)
+	  Int left = get_size(result.scan, 2)
 
-	  DBG (1, "wait_ready() : %d left...\n", left)
+	  DBG(1, "wait_ready() : %d left...\n", left)
 
-	  if (!left)
+	  if(!left)
 	    break
 	  /* We delay only for half the given time */
-	  else if (left < 200)
-	    usleep (left * 5000)
+	  else if(left < 200)
+	    usleep(left * 5000)
 	  else
-	    sleep (left / 200)
+	    sleep(left / 200)
 	}
     }
 
@@ -494,7 +494,7 @@ wait_ready (Int fd)
 }
 
 static Sane.Status
-get_read_sizes (Int fd, Int *lines_available, Int *bpl, Int *total_lines)
+get_read_sizes(Int fd, Int *lines_available, Int *bpl, Int *total_lines)
 {
   struct {
     Byte reserved1[8]
@@ -510,36 +510,36 @@ get_read_sizes (Int fd, Int *lines_available, Int *bpl, Int *total_lines)
     0x28, 0x00,				/* opcode, lun */
     0x81,				/* data type 81 == read time left */
     0x00, 0x00, 0x00,			/* reserved */
-    0x00, 0x00, sizeof (read_sizes),	/* transfer length */
+    0x00, 0x00, sizeof(read_sizes),	/* transfer length */
     0x00,				/* control byte */
   ]
 
-  size_t size = sizeof (read_sizes)
+  size_t size = sizeof(read_sizes)
   Sane.Status status
 
-  status = sanei_scsi_cmd (fd, scsi_read, sizeof (scsi_read), &read_sizes, &size)
+  status = sanei_scsi_cmd(fd, scsi_read, sizeof(scsi_read), &read_sizes, &size)
 
-  if (status != Sane.STATUS_GOOD || size != sizeof (read_sizes))
+  if(status != Sane.STATUS_GOOD || size != sizeof(read_sizes))
     {
       /* Command failed */
       return Sane.STATUS_IO_ERROR
     }
   else
     {
-      *lines_available = get_size (read_sizes.lines_this_block, 2)
-      *bpl = get_size (read_sizes.cur_line, 2)
-      if (total_lines)
-	*total_lines = get_size (read_sizes.total_lines, 2)
+      *lines_available = get_size(read_sizes.lines_this_block, 2)
+      *bpl = get_size(read_sizes.cur_line, 2)
+      if(total_lines)
+	*total_lines = get_size(read_sizes.total_lines, 2)
     }
 
-  DBG (1, "get_read_sizes() : %d of %d, %d\n",
+  DBG(1, "get_read_sizes() : %d of %d, %d\n",
        *lines_available, total_lines ? *total_lines : -1, *bpl)
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-set_window (AgfaFocus_Scanner * s)
+set_window(AgfaFocus_Scanner * s)
 /* This function sets and sends the window for scanning */
 {
   double pixels_per_mm = (double) s.val[OPT_RESOLUTION].w / MM_PER_INCH
@@ -548,19 +548,19 @@ set_window (AgfaFocus_Scanner * s)
   Bool auto_contr = s.val[OPT_AUTO_CONTRAST].b
 
   /* ranges down 255 (dark) down to 1(bright) */
-  Int brightness = auto_bright ? 0 : (Sane.UNFIX (s.val[OPT_BRIGHTNESS].w)
+  Int brightness = auto_bright ? 0 : (Sane.UNFIX(s.val[OPT_BRIGHTNESS].w)
 				      * -1.27 + 128.5)
   /* ranges from 1 (little contrast) up to 255 (much contrast) */
-  Int contrast = auto_contr ? 0 : (Sane.UNFIX (s.val[OPT_CONTRAST].w)
+  Int contrast = auto_contr ? 0 : (Sane.UNFIX(s.val[OPT_CONTRAST].w)
 				   * 1.27 + 128.5)
 
   Int width
 
   /* ranges from 40 (dark) down to 0 (bright) */
-  Int bright_adjust = (Sane.UNFIX (s.val[OPT_BRIGHTNESS].w) * -20.0) / 100.0 + 20.0
+  Int bright_adjust = (Sane.UNFIX(s.val[OPT_BRIGHTNESS].w) * -20.0) / 100.0 + 20.0
 
   /* ranges from 20 (little contrast) down to -20 = 235 (much contrast) */
-  Int contr_adjust = (Sane.UNFIX (s.val[OPT_CONTRAST].w) * -20.0) / 100.0
+  Int contr_adjust = (Sane.UNFIX(s.val[OPT_CONTRAST].w) * -20.0) / 100.0
 
   /* Warning ! The following structure SEEMS to be a valid SCSI-2 SET_WINDOW
      command.  But e.g. the limits for the window are only 2 Bytes instead
@@ -596,19 +596,19 @@ set_window (AgfaFocus_Scanner * s)
 	  Byte dummy1
 	  Byte intensity;                /* Intensity */
 
-	  Byte image_comp;               /* Image composition (0, 2, 5) */
+	  Byte image_comp;               /* Image composition(0, 2, 5) */
 	  Byte bpp;                      /* Bits per pixel */
 
-          Byte tonecurve;                /* Tone curve (0 - 8) */
+          Byte tonecurve;                /* Tone curve(0 - 8) */
 	  Byte ht_pattern;               /* Halftone pattern */
 	  Byte paddingtype;              /* Padding type */
 
-          Byte bitordering[2];           /* Bit ordering (0 = left to right) */
+          Byte bitordering[2];           /* Bit ordering(0 = left to right) */
           Byte comprtype;                /* Compression type */
           Byte comprarg;                 /* Compression argument */
 
 	  Byte dummy2[6]
-	  Byte edge;                     /* Sharpening (0 - 7) */
+	  Byte edge;                     /* Sharpening(0 - 7) */
 	  Byte dummy3
 
 	  Byte bright_adjust;            /*  */
@@ -644,48 +644,48 @@ set_window (AgfaFocus_Scanner * s)
     }
   cmd
 
-  memset (&cmd, 0, sizeof (cmd))
+  memset(&cmd, 0, sizeof(cmd))
 
   cmd.cmd = 0x24; /* SET WINDOW PARAMETERS */
 
-  switch (s.hw.type)
+  switch(s.hw.type)
     {
     case AGFAGRAY64:
     case AGFALINEART:
     case AGFAGRAY256:
-      set_size (cmd.tr_len, 3, 36 + 8)
-      set_size (cmd.wd_len, 2, 36)
+      set_size(cmd.tr_len, 3, 36 + 8)
+      set_size(cmd.wd_len, 2, 36)
       break
 
     case AGFACOLOR:
-      set_size (cmd.tr_len, 3, 65 + 8)
-      set_size (cmd.wd_len, 2, 65)
+      set_size(cmd.tr_len, 3, 65 + 8)
+      set_size(cmd.wd_len, 2, 65)
       break
     }
 
   /* Resolution.  Original comment in German: Aufloesung */
-  set_size (cmd.wd.x_axis_res, 2, s.val[OPT_RESOLUTION].w)
-  set_size (cmd.wd.y_axis_res, 2, s.val[OPT_RESOLUTION].w)
+  set_size(cmd.wd.x_axis_res, 2, s.val[OPT_RESOLUTION].w)
+  set_size(cmd.wd.y_axis_res, 2, s.val[OPT_RESOLUTION].w)
 
   /* Scan window position/size.  Original comment in German:
      Fensterposition / Groesse */
-  set_size (cmd.wd.x_axis_ul, 2,
-	    Sane.UNFIX (s.val[OPT_TL_X].w) * pixels_per_mm + 0.5)
-  set_size (cmd.wd.y_axis_ul, 2,
-	    Sane.UNFIX (s.val[OPT_TL_Y].w) * pixels_per_mm + 0.5)
+  set_size(cmd.wd.x_axis_ul, 2,
+	    Sane.UNFIX(s.val[OPT_TL_X].w) * pixels_per_mm + 0.5)
+  set_size(cmd.wd.y_axis_ul, 2,
+	    Sane.UNFIX(s.val[OPT_TL_Y].w) * pixels_per_mm + 0.5)
 
-  width = (Sane.UNFIX (s.val[OPT_BR_X].w - s.val[OPT_TL_X].w) * pixels_per_mm) + 0.5
+  width = (Sane.UNFIX(s.val[OPT_BR_X].w - s.val[OPT_TL_X].w) * pixels_per_mm) + 0.5
 
-  if (s.bpp == 1 && width % 8)
+  if(s.bpp == 1 && width % 8)
     width += 8 - width % 8
 
-  set_size (cmd.wd.wwidth, 2, width)
-  set_size (cmd.wd.wlength, 2, Sane.UNFIX (s.val[OPT_BR_Y].w - s.val[OPT_TL_Y].w)
+  set_size(cmd.wd.wwidth, 2, width)
+  set_size(cmd.wd.wlength, 2, Sane.UNFIX(s.val[OPT_BR_Y].w - s.val[OPT_TL_Y].w)
 	    * pixels_per_mm + 0.5)
 
   cmd.wd.bpp = s.bpp
 
-  if (s.mode == COLOR18BIT ||
+  if(s.mode == COLOR18BIT ||
       s.mode == COLOR24BIT)
     {
       cmd.wd.paddingtype = 3
@@ -696,23 +696,23 @@ set_window (AgfaFocus_Scanner * s)
       cmd.wd.green_att = s.b_att
       cmd.wd.color_planes = 0x0e
 
-      set_size (cmd.wd.exposure, 2, s.exposure)
+      set_size(cmd.wd.exposure, 2, s.exposure)
 
       cmd.wd.packing_word_length = 1
       cmd.wd.packing_number_of_pixels = 1
       cmd.wd.packing_color_mode = 2
 
-      if (s.bpp == 6)
+      if(s.bpp == 6)
 	cmd.wd.edge = s.edge
 
-      DBG (3,
-	   "Setting parameters: imc %d, bpp %d, res %d, exp %d, attenuation [%d, %d, %d], edge %d\n",
+      DBG(3,
+	   "Setting parameters: imc %d, bpp %d, res %d, exp %d, attenuation[%d, %d, %d], edge %d\n",
 	   s.image_composition, s.bpp, s.val[OPT_RESOLUTION].w,
 	   s.exposure, cmd.wd.red_att, cmd.wd.blue_att, cmd.wd.green_att, s.edge)
     }
   else
     {
-      if (s.bpp == 1)
+      if(s.bpp == 1)
 	cmd.wd.ht_pattern = s.halftone
       else
 	cmd.wd.ht_pattern = 3
@@ -727,10 +727,10 @@ set_window (AgfaFocus_Scanner * s)
       cmd.wd.paddingtype = 3
       cmd.wd.edge = s.edge
 
-      if (s.lin_log)
+      if(s.lin_log)
 	cmd.wd.dummy3 = 0x02
 
-      DBG (3,
+      DBG(3,
 	   "Setting parameters: imc %d, bpp %d, res %d, bri %d, con %d, bad %d, cad %d, ht %d, edge %d\n",
 	   s.image_composition, s.bpp, s.val[OPT_RESOLUTION].w,
 	   brightness, contrast, bright_adjust, contr_adjust, s.halftone, s.edge)
@@ -740,28 +740,28 @@ set_window (AgfaFocus_Scanner * s)
   cmd.wd.quality_type = s.quality
   cmd.wd.orig_type = s.original
 
-  return sanei_scsi_cmd (s.fd, &cmd, sizeof (cmd), 0, 0)
+  return sanei_scsi_cmd(s.fd, &cmd, sizeof(cmd), 0, 0)
 }
 
 /* Tell scanner to scan more data. */
 
 static Sane.Status
-request_more_data (AgfaFocus_Scanner * s)
+request_more_data(AgfaFocus_Scanner * s)
 {
   Sane.Status status
   Int lines_available
   Int bytes_per_line
 
-  status = start_scan (s.fd, Sane.TRUE)
-  if (status != Sane.STATUS_GOOD)
+  status = start_scan(s.fd, Sane.TRUE)
+  if(status != Sane.STATUS_GOOD)
     return status
 
-  if (!s.hw.disconnect)
-    wait_ready (s.fd)
+  if(!s.hw.disconnect)
+    wait_ready(s.fd)
 
-  status = get_read_sizes (s.fd, &lines_available, &bytes_per_line, 0)
+  status = get_read_sizes(s.fd, &lines_available, &bytes_per_line, 0)
 
-  if (!lines_available)
+  if(!lines_available)
     return Sane.STATUS_INVAL
 
   s.lines_available = lines_available
@@ -770,7 +770,7 @@ request_more_data (AgfaFocus_Scanner * s)
 }
 
 static Sane.Status
-upload_dither_matrix (AgfaFocus_Scanner * s, Int rows, Int cols, Int *dither_matrix)
+upload_dither_matrix(AgfaFocus_Scanner * s, Int rows, Int cols, Int *dither_matrix)
 {
   struct {
     Byte cmd
@@ -793,32 +793,32 @@ upload_dither_matrix (AgfaFocus_Scanner * s, Int rows, Int cols, Int *dither_mat
   Sane.Status status
   var i: Int
 
-  memset (&cmd, 0, sizeof (cmd))
+  memset(&cmd, 0, sizeof(cmd))
 
   cmd.cmd = 0x2a;       /* WRITE */
   cmd.data_type = 0x81; /* upload dither matrix */
 
-  set_size (cmd.tr_len, 3, 4 + (2 * rows * cols))
-  set_size (cmd.wd.nrrows, 2, rows)
-  set_size (cmd.wd.nrcols, 2, cols)
+  set_size(cmd.tr_len, 3, 4 + (2 * rows * cols))
+  set_size(cmd.wd.nrrows, 2, rows)
+  set_size(cmd.wd.nrcols, 2, cols)
 
-  for (i = 0; i < cols * rows; ++i)
-    set_size (cmd.wd.element[i].data, 2, dither_matrix[i])
+  for(i = 0; i < cols * rows; ++i)
+    set_size(cmd.wd.element[i].data, 2, dither_matrix[i])
 
-  status = sanei_scsi_cmd (s.fd, &cmd, sizeof (cmd), 0, 0)
+  status = sanei_scsi_cmd(s.fd, &cmd, sizeof(cmd), 0, 0)
 
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     /* Command failed */
     return Sane.STATUS_IO_ERROR
 
-  DBG (1, "upload_dither_matrix(): uploaded dither matrix: %d, %d\n", rows, cols)
+  DBG(1, "upload_dither_matrix(): uploaded dither matrix: %d, %d\n", rows, cols)
 
   return Sane.STATUS_GOOD
 }
 
 #if 0
 static Sane.Status
-upload_tonecurve (AgfaFocus_Scanner * s, Int color_type, Int input, Int output, Int dither_matrix[256])
+upload_tonecurve(AgfaFocus_Scanner * s, Int color_type, Int input, Int output, Int dither_matrix[256])
 {
   struct {
    Byte cmd
@@ -844,25 +844,25 @@ upload_tonecurve (AgfaFocus_Scanner * s, Int color_type, Int input, Int output, 
   Sane.Status status
   var i: Int, j
 
-  memset (&cmd, 0, sizeof (cmd))
+  memset(&cmd, 0, sizeof(cmd))
 
   cmd.cmd = 0x80
 
-  set_size (cmd.tr_len, 3, sizeof (cmd.wd))
-  set_size (cmd.wd.nrrows, 2, rows)
-  set_size (cmd.wd.nrrows, 2, cols)
+  set_size(cmd.tr_len, 3, sizeof(cmd.wd))
+  set_size(cmd.wd.nrrows, 2, rows)
+  set_size(cmd.wd.nrrows, 2, cols)
 
-  for (i = 0; i < cols; ++i)
-    for (j = 0; j < rows; ++j)
-      set_size (cmd.wd.element[j + i * rows].data, 2, dither_matrix[j + i * rows])
+  for(i = 0; i < cols; ++i)
+    for(j = 0; j < rows; ++j)
+      set_size(cmd.wd.element[j + i * rows].data, 2, dither_matrix[j + i * rows])
 
-  status = sanei_scsi_cmd (s.fd, &cmd, sizeof (cmd), 0, 0)
+  status = sanei_scsi_cmd(s.fd, &cmd, sizeof(cmd), 0, 0)
 
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
   /*    * Command failed * */
     return Sane.STATUS_IO_ERROR
 
-  DBG (1, "upload_dither_matrix(): uploaded dither matrix\n")
+  DBG(1, "upload_dither_matrix(): uploaded dither matrix\n")
 
   return Sane.STATUS_GOOD
 }
@@ -874,7 +874,7 @@ upload_tonecurve (AgfaFocus_Scanner * s, Int color_type, Int input, Int output, 
    Original comment in German: Darf nur aufgerufen werden, wenn
    wirklich noch Zeilen zu scannen/lesen sind !  */
 static Sane.Status
-read_data (AgfaFocus_Scanner * s, Sane.Byte *buf, Int lines, Int bpl)
+read_data(AgfaFocus_Scanner * s, Sane.Byte *buf, Int lines, Int bpl)
 {
   struct {
    Byte cmd
@@ -888,38 +888,38 @@ read_data (AgfaFocus_Scanner * s, Sane.Byte *buf, Int lines, Int bpl)
   size_t size
   unsigned var i: Int
 
-  memset (&cmd, 0, sizeof (cmd))
+  memset(&cmd, 0, sizeof(cmd))
 
   cmd.cmd = 0x28; /* READ */
 
-  set_size (cmd.tr_len, 3, lines)
+  set_size(cmd.tr_len, 3, lines)
   size = lines * bpl
 
-  status = sanei_scsi_cmd (s.fd, &cmd, sizeof (cmd), buf, &size)
+  status = sanei_scsi_cmd(s.fd, &cmd, sizeof(cmd), buf, &size)
 
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "sanei_scsi_cmd() = %d\n", status)
+      DBG(1, "sanei_scsi_cmd() = %d\n", status)
       return Sane.STATUS_IO_ERROR
     }
 
-  if (size != ((unsigned Int) lines * bpl))
+  if(size != ((unsigned Int) lines * bpl))
     {
-      DBG (1, "sanei_scsi_cmd(): got %lu bytes, expected %d\n",
+      DBG(1, "sanei_scsi_cmd(): got %lu bytes, expected %d\n",
 	   (u_long) size, lines * bpl)
       return Sane.STATUS_INVAL
     }
 
-  DBG (1, "Got %lu bytes\n", (u_long) size)
+  DBG(1, "Got %lu bytes\n", (u_long) size)
 
   /* Reverse: */
-  if (s.bpp != 1)
+  if(s.bpp != 1)
     {
-      if (s.bpp != 6)
-	for (i = 0; i < size; i++)
+      if(s.bpp != 6)
+	for(i = 0; i < size; i++)
 	  buf[i] = 255 - buf[i]
       else
-	for (i = 0; i < size; i++)
+	for(i = 0; i < size; i++)
 	  buf[i] = 255 - ((buf[i] * 256.0f) / 64.0f)
     }
 
@@ -930,7 +930,7 @@ read_data (AgfaFocus_Scanner * s, Sane.Byte *buf, Int lines, Int bpl)
 
 
 static Sane.Status
-attach (const char *devname, AgfaFocus_Device ** devp)
+attach(const char *devname, AgfaFocus_Device ** devp)
 {
 #define ATTACH_SCSI_INQ_LEN 55
   const Byte scsi_inquiry[] =
@@ -945,36 +945,36 @@ attach (const char *devname, AgfaFocus_Device ** devp)
   size_t size
   var i: Int
 
-  for (dev = agfafocus_devices; dev; dev = dev.next)
-    if (strcmp (dev.sane.name, devname) == 0)
+  for(dev = agfafocus_devices; dev; dev = dev.next)
+    if(strcmp(dev.sane.name, devname) == 0)
       {
-	if (devp)
+	if(devp)
 	  *devp = dev
 	return Sane.STATUS_GOOD
       }
 
-  DBG (3, "attach: opening %s\n", devname)
-  status = sanei_scsi_open (devname, &fd, sense_handler, 0)
-  if (status != Sane.STATUS_GOOD)
+  DBG(3, "attach: opening %s\n", devname)
+  status = sanei_scsi_open(devname, &fd, sense_handler, 0)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "attach: open failed (%s)\n", Sane.strstatus (status))
+      DBG(1, "attach: open failed(%s)\n", Sane.strstatus(status))
       return Sane.STATUS_INVAL
     }
 
-  DBG (4, "attach: sending INQUIRY\n")
-  size = sizeof (result)
-  status = sanei_scsi_cmd (fd, scsi_inquiry, sizeof (scsi_inquiry),
+  DBG(4, "attach: sending INQUIRY\n")
+  size = sizeof(result)
+  status = sanei_scsi_cmd(fd, scsi_inquiry, sizeof(scsi_inquiry),
 			   result, &size)
-  if (status != Sane.STATUS_GOOD || size != ATTACH_SCSI_INQ_LEN)
+  if(status != Sane.STATUS_GOOD || size != ATTACH_SCSI_INQ_LEN)
     {
-      DBG (1, "attach: inquiry failed (%s)\n", Sane.strstatus (status))
-      sanei_scsi_close (fd)
+      DBG(1, "attach: inquiry failed(%s)\n", Sane.strstatus(status))
+      sanei_scsi_close(fd)
       return status
     }
 
-  status = test_ready (fd)
-  sanei_scsi_close (fd)
-  if (status != Sane.STATUS_GOOD)
+  status = test_ready(fd)
+  sanei_scsi_close(fd)
+  if(status != Sane.STATUS_GOOD)
     return status
 
   /* The structure send by the scanner after inquiry is not SCSI-2
@@ -982,51 +982,51 @@ attach (const char *devname, AgfaFocus_Device ** devp)
      strings, but ?  At offset 36 my SIEMENS scanner identifies as an
      AGFA one ?!   */
 
-  if (result[0] != 6 || strncmp ((char *)result + 36, "AGFA0", 5))
+  if(result[0] != 6 || strncmp((char *)result + 36, "AGFA0", 5))
     {
-      DBG (1, "attach: device doesn't look like a Siemens 9036 scanner\n")
+      DBG(1, "attach: device doesn't look like a Siemens 9036 scanner\n")
       return Sane.STATUS_INVAL
     }
 
-  DBG (4, "Inquiry data:\n")
-  DBG (4, "-----------\n")
-  for (i = 5; i < 55; i += 10)
-    DBG (4, "%02x %02x %02x %02x %02x %02x %02x %02x %02x %02x\n",
+  DBG(4, "Inquiry data:\n")
+  DBG(4, "-----------\n")
+  for(i = 5; i < 55; i += 10)
+    DBG(4, "%02x %02x %02x %02x %02x %02x %02x %02x %02x %02x\n",
       result[i], result[i + 1], result[i + 2], result[i + 3], result[i + 4],
 	 result[i + 5], result[i + 6], result[i + 7], result[i + 8],
 	 result[i + 9])
 
-  dev = malloc (sizeof (*dev))
+  dev = malloc(sizeof(*dev))
 
-  if (!dev)
+  if(!dev)
     return Sane.STATUS_NO_MEM
 
-  memset (dev, 0, sizeof (*dev))
+  memset(dev, 0, sizeof(*dev))
 
-  dev.sane.name = strdup (devname)
-  if (!strncmp ((char *)result + 36, "AGFA01", 6)) {
+  dev.sane.name = strdup(devname)
+  if(!strncmp((char *)result + 36, "AGFA01", 6)) {
     dev.sane.vendor = "AGFA"
-    dev.sane.model = "Focus GS Scanner (6 bit)"
+    dev.sane.model = "Focus GS Scanner(6 bit)"
     dev.upload_user_defines = Sane.TRUE
     dev.type = AGFAGRAY64
-  } else if (!strncmp ((char *)result + 36, "AGFA02", 6)) {
+  } else if(!strncmp((char *)result + 36, "AGFA02", 6)) {
     dev.sane.vendor = "AGFA"
     dev.sane.model = "Focus Lineart Scanner"
     dev.upload_user_defines = Sane.FALSE
     dev.type = AGFALINEART
-  } else if (!strncmp ((char *)result + 36, "AGFA03", 6)) {
+  } else if(!strncmp((char *)result + 36, "AGFA03", 6)) {
     dev.sane.vendor = "AGFA"
     dev.sane.model = "Focus II"
     dev.upload_user_defines = Sane.TRUE
     dev.type = AGFAGRAY256
-  } else if (!strncmp ((char *)result + 36, "AGFA04", 6)) {
+  } else if(!strncmp((char *)result + 36, "AGFA04", 6)) {
     dev.sane.vendor = "AGFA"
     dev.sane.model = "Focus Color"
     dev.upload_user_defines = Sane.TRUE
     dev.type = AGFACOLOR
   } else {
-    free (dev)
-    DBG (1, "attach: device looks like an AGFA scanner, but wasn't recognised\n")
+    free(dev)
+    DBG(1, "attach: device looks like an AGFA scanner, but wasn't recognised\n")
     return Sane.STATUS_INVAL
   }
   dev.sane.type = "flatbed scanner"
@@ -1037,36 +1037,36 @@ attach (const char *devname, AgfaFocus_Device ** devp)
   dev.quality =     result[47] & 0x40 ? Sane.TRUE : Sane.FALSE
   dev.disconnect =  result[47] & 0x80 ? Sane.TRUE : Sane.FALSE
 
-  DBG (4, "\n")
-  DBG (4, "scan modes:\n")
-  DBG (4, "-----------\n")
-  DBG (4, "three pass color mode: %s\n", dev.type >= AGFACOLOR ? "yes" : "no")
-  DBG (4, "8 bit gray mode: %s\n", dev.type >= AGFAGRAY64 ? "yes" : "no")
-  DBG (4, "uploadable matrices: %s\n", dev.upload_user_defines ? "yes" : "no")
-  DBG (4, "transparency: %s\n", dev.transparent ? "yes" : "no")
-  DBG (4, "disconnect: %s\n", dev.disconnect ? "yes" : "no")
-  DBG (4, "quality calibration: %s\n", dev.quality ? "yes" : "no")
+  DBG(4, "\n")
+  DBG(4, "scan modes:\n")
+  DBG(4, "-----------\n")
+  DBG(4, "three pass color mode: %s\n", dev.type >= AGFACOLOR ? "yes" : "no")
+  DBG(4, "8 bit gray mode: %s\n", dev.type >= AGFAGRAY64 ? "yes" : "no")
+  DBG(4, "uploadable matrices: %s\n", dev.upload_user_defines ? "yes" : "no")
+  DBG(4, "transparency: %s\n", dev.transparent ? "yes" : "no")
+  DBG(4, "disconnect: %s\n", dev.disconnect ? "yes" : "no")
+  DBG(4, "quality calibration: %s\n", dev.quality ? "yes" : "no")
 
   dev.handle = 0
 
-  DBG (3, "attach: found AgfaFocus scanner model\n")
+  DBG(3, "attach: found AgfaFocus scanner model\n")
 
   ++num_devices
   dev.next = agfafocus_devices
   agfafocus_devices = dev
 
-  if (devp)
+  if(devp)
     *devp = dev
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-do_eof (AgfaFocus_Scanner *s)
+do_eof(AgfaFocus_Scanner *s)
 {
-  if (s.pipe >= 0)
+  if(s.pipe >= 0)
     {
-      close (s.pipe)
+      close(s.pipe)
       s.pipe = -1
     }
   return Sane.STATUS_EOF
@@ -1074,28 +1074,28 @@ do_eof (AgfaFocus_Scanner *s)
 
 
 static Sane.Status
-do_cancel (AgfaFocus_Scanner * s)
+do_cancel(AgfaFocus_Scanner * s)
 {
   s.scanning = Sane.FALSE
   s.pass = 0
 
-  do_eof (s)
+  do_eof(s)
 
-  if (sanei_thread_is_valid (s.reader_pid))
+  if(sanei_thread_is_valid(s.reader_pid))
     {
       Int exit_status
 
       /* ensure child knows it's time to stop: */
-      sanei_thread_kill (s.reader_pid)
-      sanei_thread_waitpid (s.reader_pid, &exit_status)
+      sanei_thread_kill(s.reader_pid)
+      sanei_thread_waitpid(s.reader_pid, &exit_status)
       sanei_thread_invalidate(s.reader_pid)
     }
 
-  if (s.fd >= 0)
+  if(s.fd >= 0)
     {
-      stop_scan (s.fd)
-      release_unit (s.fd)
-      sanei_scsi_close (s.fd)
+      stop_scan(s.fd)
+      release_unit(s.fd)
+      sanei_scsi_close(s.fd)
       s.fd = -1
     }
 
@@ -1104,7 +1104,7 @@ do_cancel (AgfaFocus_Scanner * s)
 
 
 static Sane.Status
-init_options (AgfaFocus_Scanner * s)
+init_options(AgfaFocus_Scanner * s)
 {
   var i: Int
 
@@ -1132,18 +1132,18 @@ init_options (AgfaFocus_Scanner * s)
 
 
   static const Sane.Range x_range =
-  {0, Sane.FIX (8.27 * MM_PER_INCH), 0]
+  {0, Sane.FIX(8.27 * MM_PER_INCH), 0]
   static const Sane.Range y_range =
-  {0, Sane.FIX (12.72 * MM_PER_INCH), 0]
+  {0, Sane.FIX(12.72 * MM_PER_INCH), 0]
 
   /* ------ */
 
-  memset (s.opt, 0, sizeof (s.opt))
-  memset (s.val, 0, sizeof (s.val))
+  memset(s.opt, 0, sizeof(s.opt))
+  memset(s.val, 0, sizeof(s.val))
 
-  for (i = 0; i < NUM_OPTIONS; ++i)
+  for(i = 0; i < NUM_OPTIONS; ++i)
     {
-      s.opt[i].size = sizeof (Sane.Word)
+      s.opt[i].size = sizeof(Sane.Word)
       s.opt[i].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     }
 
@@ -1167,22 +1167,22 @@ init_options (AgfaFocus_Scanner * s)
   s.opt[OPT_MODE].desc = Sane.DESC_SCAN_MODE
   s.opt[OPT_MODE].type = Sane.TYPE_STRING
 
-  switch (s.hw.type)
+  switch(s.hw.type)
     {
     case AGFACOLOR:
-      s.opt[OPT_MODE].size = max_string_size (focuscolor_mode_list)
+      s.opt[OPT_MODE].size = max_string_size(focuscolor_mode_list)
       s.opt[OPT_MODE].constraint.string_list = focuscolor_mode_list
-      s.val[OPT_MODE].s = strdup (focuscolor_mode_list[0])
+      s.val[OPT_MODE].s = strdup(focuscolor_mode_list[0])
       break
     case AGFAGRAY256:
-      s.opt[OPT_MODE].size = max_string_size (focusii_mode_list)
+      s.opt[OPT_MODE].size = max_string_size(focusii_mode_list)
       s.opt[OPT_MODE].constraint.string_list = focusii_mode_list
-      s.val[OPT_MODE].s = strdup (focusii_mode_list[0])
+      s.val[OPT_MODE].s = strdup(focusii_mode_list[0])
       break
     default:
-      s.opt[OPT_MODE].size = max_string_size (focus_mode_list)
+      s.opt[OPT_MODE].size = max_string_size(focus_mode_list)
       s.opt[OPT_MODE].constraint.string_list = focus_mode_list
-      s.val[OPT_MODE].s = strdup (focus_mode_list[0])
+      s.val[OPT_MODE].s = strdup(focus_mode_list[0])
       break
     }
 
@@ -1203,14 +1203,14 @@ init_options (AgfaFocus_Scanner * s)
   s.opt[OPT_SOURCE].desc  = Sane.DESC_SCAN_SOURCE
   s.opt[OPT_SOURCE].type  = Sane.TYPE_STRING
   s.opt[OPT_SOURCE].unit  = Sane.UNIT_NONE
-  if (!s.hw.transparent)
+  if(!s.hw.transparent)
     s.opt[OPT_SOURCE].cap |= Sane.CAP_INACTIVE
   else
     s.opt[OPT_SOURCE].cap &= ~Sane.CAP_INACTIVE
   s.opt[OPT_SOURCE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_SOURCE].constraint.string_list = source_list
-  s.opt[OPT_SOURCE].size  = max_string_size (source_list)
-  s.val[OPT_SOURCE].s     = strdup (source_list[0])
+  s.opt[OPT_SOURCE].size  = max_string_size(source_list)
+  s.val[OPT_SOURCE].s     = strdup(source_list[0])
 
   /* "Geometry" group: */
   s.opt[OPT_GEOMETRY_GROUP].title = "Geometry"
@@ -1324,15 +1324,15 @@ init_options (AgfaFocus_Scanner * s)
   s.opt[OPT_HALFTONE_PATTERN].type = Sane.TYPE_STRING
   s.opt[OPT_HALFTONE_PATTERN].size = 32
   s.opt[OPT_HALFTONE_PATTERN].constraint_type = Sane.CONSTRAINT_STRING_LIST
-  if (s.hw.upload_user_defines)
+  if(s.hw.upload_user_defines)
     {
       s.opt[OPT_HALFTONE_PATTERN].constraint.string_list = halftone_upload_list
-      s.val[OPT_HALFTONE_PATTERN].s = strdup (halftone_upload_list[0])
+      s.val[OPT_HALFTONE_PATTERN].s = strdup(halftone_upload_list[0])
     }
   else
     {
       s.opt[OPT_HALFTONE_PATTERN].constraint.string_list = halftone_list
-      s.val[OPT_HALFTONE_PATTERN].s = strdup (halftone_list[0])
+      s.val[OPT_HALFTONE_PATTERN].s = strdup(halftone_list[0])
     }
 
   /* red-attenuation */
@@ -1345,7 +1345,7 @@ init_options (AgfaFocus_Scanner * s)
   s.opt[OPT_ATTENUATION_RED].unit = Sane.UNIT_PERCENT
   s.opt[OPT_ATTENUATION_RED].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_ATTENUATION_RED].constraint.range = &attenuation_range
-  s.val[OPT_ATTENUATION_RED].w = Sane.FIX (50.0)
+  s.val[OPT_ATTENUATION_RED].w = Sane.FIX(50.0)
 
   /* green-attenuation */
   s.opt[OPT_ATTENUATION_GREEN].name  = "green-attenuation"
@@ -1357,7 +1357,7 @@ init_options (AgfaFocus_Scanner * s)
   s.opt[OPT_ATTENUATION_GREEN].unit = Sane.UNIT_PERCENT
   s.opt[OPT_ATTENUATION_GREEN].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_ATTENUATION_GREEN].constraint.range = &attenuation_range
-  s.val[OPT_ATTENUATION_GREEN].w = Sane.FIX (50.0)
+  s.val[OPT_ATTENUATION_GREEN].w = Sane.FIX(50.0)
 
   /* blue-attenuation */
   s.opt[OPT_ATTENUATION_BLUE].name  = "blue-attenuation"
@@ -1369,7 +1369,7 @@ init_options (AgfaFocus_Scanner * s)
   s.opt[OPT_ATTENUATION_BLUE].unit = Sane.UNIT_PERCENT
   s.opt[OPT_ATTENUATION_BLUE].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_ATTENUATION_BLUE].constraint.range = &attenuation_range
-  s.val[OPT_ATTENUATION_BLUE].w = Sane.FIX (50.0)
+  s.val[OPT_ATTENUATION_BLUE].w = Sane.FIX(50.0)
 
   /* quality-calibration */
   s.opt[OPT_QUALITY].name  = Sane.NAME_QUALITY_CAL
@@ -1378,13 +1378,13 @@ init_options (AgfaFocus_Scanner * s)
         "scanner.  Less calibration result in faster scanner times."
   s.opt[OPT_QUALITY].type = Sane.TYPE_STRING
   s.opt[OPT_QUALITY].size = 32
-  if (!s.hw.quality)
+  if(!s.hw.quality)
     s.opt[OPT_QUALITY].cap |= Sane.CAP_INACTIVE
   else
     s.opt[OPT_QUALITY].cap &= ~Sane.CAP_INACTIVE
   s.opt[OPT_QUALITY].constraint_type = Sane.CONSTRAINT_STRING_LIST
   s.opt[OPT_QUALITY].constraint.string_list = quality_list
-  s.val[OPT_QUALITY].s = strdup (quality_list[1])
+  s.val[OPT_QUALITY].s = strdup(quality_list[1])
 
   /* sharpening */
   s.opt[OPT_SHARPEN].name = "sharpen"
@@ -1401,14 +1401,14 @@ init_options (AgfaFocus_Scanner * s)
 }
 
 static Sane.Status
-attach_one (const char *dev)
+attach_one(const char *dev)
 {
-  attach (dev, 0)
+  attach(dev, 0)
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 {
   char dev_name[PATH_MAX]
   size_t len
@@ -1416,69 +1416,69 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
 
   authorize = authorize;		/* silence gcc */
 
-  DBG_INIT ()
+  DBG_INIT()
 
-  sanei_thread_init ()
+  sanei_thread_init()
 
-  if (version_code)
-    *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, 0)
+  if(version_code)
+    *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, 0)
 
-  fp = sanei_config_open ("agfafocus.conf")
-  if (!fp)
+  fp = sanei_config_open("agfafocus.conf")
+  if(!fp)
     {
       /* default to /dev/scanner instead of insisting on config file */
-      attach ("/dev/scanner", 0)
+      attach("/dev/scanner", 0)
       return Sane.STATUS_GOOD
     }
 
-  while (sanei_config_read (dev_name, sizeof (dev_name), fp))
+  while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if (dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == '#')	/* ignore line comments */
 	continue
-      len = strlen (dev_name)
+      len = strlen(dev_name)
 
-      if (!len)
+      if(!len)
 	continue;		/* ignore empty lines */
 
-      sanei_config_attach_matching_devices (dev_name, attach_one)
+      sanei_config_attach_matching_devices(dev_name, attach_one)
     }
-  fclose (fp)
+  fclose(fp)
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   AgfaFocus_Device *dev, *next
 
-  for (dev = agfafocus_devices; dev; dev = next)
+  for(dev = agfafocus_devices; dev; dev = next)
     {
       next = dev.next
-      if (dev.handle)
-	Sane.close (dev.handle)
-      free (dev)
+      if(dev.handle)
+	Sane.close(dev.handle)
+      free(dev)
     }
 
-  if (devlist)
-    free (devlist)
+  if(devlist)
+    free(devlist)
 }
 
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 {
   AgfaFocus_Device *dev
   var i: Int
 
   local_only = local_only;		/* silence gcc */
 
-  if (devlist)
-    free (devlist)
+  if(devlist)
+    free(devlist)
 
-  devlist = malloc ((num_devices + 1) * sizeof (devlist[0]))
-  if (!devlist)
+  devlist = malloc((num_devices + 1) * sizeof(devlist[0]))
+  if(!devlist)
     return Sane.STATUS_NO_MEM
 
-  for (dev = agfafocus_devices, i = 0; i < num_devices; dev = dev.next)
+  for(dev = agfafocus_devices, i = 0; i < num_devices; dev = dev.next)
     devlist[i++] = &dev.sane
   devlist[i++] = 0
 
@@ -1487,16 +1487,16 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
 }
 
 Sane.Status
-Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
+Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 {
   AgfaFocus_Device *dev
   Sane.Status status
   AgfaFocus_Scanner *s
 
-  if (devicename[0])
+  if(devicename[0])
     {
-      status = attach (devicename, &dev)
-      if (status != Sane.STATUS_GOOD)
+      status = attach(devicename, &dev)
+      if(status != Sane.STATUS_GOOD)
 	return status
     }
   else
@@ -1505,71 +1505,71 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
       dev = agfafocus_devices
     }
 
-  if (!dev)
+  if(!dev)
     return Sane.STATUS_INVAL
 
-  if (dev.handle)
+  if(dev.handle)
     return Sane.STATUS_DEVICE_BUSY
 
-  s = malloc (sizeof (*s))
-  if (!s)
+  s = malloc(sizeof(*s))
+  if(!s)
     return Sane.STATUS_NO_MEM
 
-  memset (s, 0, sizeof (*s))
+  memset(s, 0, sizeof(*s))
   s.scanning = Sane.FALSE
 
   s.fd = -1
   s.hw = dev
   s.hw.handle = s
 
-  init_options (s)
+  init_options(s)
 
   *handle = s
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
   AgfaFocus_Scanner *s = handle
 
-  if (s.scanning)
-    do_cancel (handle)
+  if(s.scanning)
+    do_cancel(handle)
 
   s.hw.handle = 0
 
-  free (handle)
+  free(handle)
 }
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
   AgfaFocus_Scanner *s = handle
 
-  if ((unsigned) option >= NUM_OPTIONS)
+  if((unsigned) option >= NUM_OPTIONS)
     return 0
   return s.opt + option
 }
 
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
 		     Sane.Action action, void *val, Int * info)
 {
   AgfaFocus_Scanner *s = handle
   Sane.Status status
 
-  if (info)
+  if(info)
     *info = 0
 
-  if (s.scanning)
+  if(s.scanning)
     return Sane.STATUS_DEVICE_BUSY
 
-  if (option >= NUM_OPTIONS || !Sane.OPTION_IS_ACTIVE (s.opt[option].cap))
+  if(option >= NUM_OPTIONS || !Sane.OPTION_IS_ACTIVE(s.opt[option].cap))
     return Sane.STATUS_UNSUPPORTED
 
-  if (action == Sane.ACTION_GET_VALUE)
+  if(action == Sane.ACTION_GET_VALUE)
     {
-      switch (option)
+      switch(option)
 	{
 	case OPT_RESOLUTION:
 	case OPT_TL_X:
@@ -1594,30 +1594,30 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_HALFTONE_PATTERN:
 	case OPT_QUALITY:
 	case OPT_SOURCE:
-          strcpy (val, s.val[option].s)
-          return (Sane.STATUS_GOOD)
+          strcpy(val, s.val[option].s)
+          return(Sane.STATUS_GOOD)
 	default:
 	  return Sane.STATUS_UNSUPPORTED
 	}
 
     }
-  else if (action == Sane.ACTION_SET_VALUE)
+  else if(action == Sane.ACTION_SET_VALUE)
     {
-      if (!Sane.OPTION_IS_SETTABLE (s.opt[option].cap))
+      if(!Sane.OPTION_IS_SETTABLE(s.opt[option].cap))
 	return Sane.STATUS_UNSUPPORTED
 
-      status = sanei_constrain_value (s.opt + option, val, info)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_constrain_value(s.opt + option, val, info)
+      if(status != Sane.STATUS_GOOD)
 	return status
 
-      switch (option)
+      switch(option)
 	{
 	case OPT_RESOLUTION:
 	case OPT_TL_X:
 	case OPT_TL_Y:
 	case OPT_BR_X:
 	case OPT_BR_Y:
-	  if (info)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
           // fall through
 	case OPT_SHARPEN:
@@ -1634,28 +1634,28 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  s.val[option].b = *(Bool *) val
 	  break
         case OPT_MODE:
-	  if (strcmp (s.val[option].s, (String) val))
+	  if(strcmp(s.val[option].s, (String) val))
 	    {
-	      if (info)
+	      if(info)
 		*info |= Sane.INFO_RELOAD_OPTIONS | Sane.INFO_RELOAD_PARAMS
 
-	      if (s.val[option].s)
-		free (s.val[option].s)
+	      if(s.val[option].s)
+		free(s.val[option].s)
 
-	      s.val[option].s = strdup (val)
+	      s.val[option].s = strdup(val)
 
-	      if (strcmp (s.val[option].s, "Gray (6 bit)") == 0)
+	      if(strcmp(s.val[option].s, "Gray(6 bit)") == 0)
 		s.mode = GRAY6BIT
-	      else if (strcmp (s.val[option].s, "Gray (8 bit)") == 0)
+	      else if(strcmp(s.val[option].s, "Gray(8 bit)") == 0)
 		s.mode = GRAY8BIT
-	      else if (strcmp (s.val[option].s, "Color (18 bit)") == 0)
+	      else if(strcmp(s.val[option].s, "Color(18 bit)") == 0)
 		s.mode = COLOR18BIT
-	      else if (strcmp (s.val[option].s, "Color (24 bit)") == 0)
+	      else if(strcmp(s.val[option].s, "Color(24 bit)") == 0)
 		s.mode = COLOR24BIT
 	      else
 		s.mode = LINEART
 
-	      switch (s.mode)
+	      switch(s.mode)
 		{
 		case LINEART:
 		  s.opt[OPT_HALFTONE_PATTERN].cap &= ~Sane.CAP_INACTIVE
@@ -1727,11 +1727,11 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_SOURCE:
 	case OPT_QUALITY:
 	case OPT_HALFTONE_PATTERN:
-          if (info && strcmp (s.val[option].s, (String) val))
+          if(info && strcmp(s.val[option].s, (String) val))
             *info |= Sane.INFO_RELOAD_OPTIONS | Sane.INFO_RELOAD_PARAMS
-          if (s.val[option].s)
-            free (s.val[option].s)
-          s.val[option].s = strdup (val)
+          if(s.val[option].s)
+            free(s.val[option].s)
+          s.val[option].s = strdup(val)
 	  break
 	default:
 	  return Sane.STATUS_UNSUPPORTED
@@ -1747,25 +1747,25 @@ Sane.control_option (Sane.Handle handle, Int option,
 }
 
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
   AgfaFocus_Scanner *s = handle
 
-  if (!s.scanning)
+  if(!s.scanning)
     {
       double width, height, dpi
       const char *quality
       const char *original
 
-      memset (&s.params, 0, sizeof (s.params))
+      memset(&s.params, 0, sizeof(s.params))
 
-      width = Sane.UNFIX (s.val[OPT_BR_X].w - s.val[OPT_TL_X].w)
-      height = Sane.UNFIX (s.val[OPT_BR_Y].w - s.val[OPT_TL_Y].w)
+      width = Sane.UNFIX(s.val[OPT_BR_X].w - s.val[OPT_TL_X].w)
+      height = Sane.UNFIX(s.val[OPT_BR_Y].w - s.val[OPT_TL_Y].w)
       dpi = s.val[OPT_RESOLUTION].w
 
       /* make best-effort guess at what parameters will look like once
          scanning starts.  */
-      if (dpi > 0.0 && width > 0.0 && height > 0.0)
+      if(dpi > 0.0 && width > 0.0 && height > 0.0)
 	{
 	  double dots_per_mm = dpi / MM_PER_INCH
 
@@ -1775,13 +1775,13 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 
       /* Should we specify calibration quality? */
 
-      if (Sane.OPTION_IS_ACTIVE (s.opt[OPT_QUALITY].cap))
+      if(Sane.OPTION_IS_ACTIVE(s.opt[OPT_QUALITY].cap))
         {
           DBG(3, " -------------- setting quality\n")
           quality = s.val[OPT_QUALITY].s
-          if (strcmp (quality, "Low") == 0 )
+          if(strcmp(quality, "Low") == 0 )
 	    s.quality = 255
-          else if (strcmp (quality, "High") == 0)
+          else if(strcmp(quality, "High") == 0)
 	    s.quality = 1
           else
 	    s.quality = 0
@@ -1791,11 +1791,11 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 
       /* Should we select source type? */
 
-      if (Sane.OPTION_IS_ACTIVE (s.opt[OPT_SOURCE].cap))
+      if(Sane.OPTION_IS_ACTIVE(s.opt[OPT_SOURCE].cap))
         {
           DBG(3, " -------------- setting source\n")
           original = s.val[OPT_SOURCE].s
-          if (strcmp (original, "Transparency") == 0)
+          if(strcmp(original, "Transparency") == 0)
 	    s.original = 0
           else
 	    s.original = 1
@@ -1804,12 +1804,12 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
         s.original = 0
 
       s.exposure = ((s.val[OPT_EXPOSURE].w * (255.0f - 80.0f)) / 100.0f) + 80.0f
-      s.r_att = (Sane.UNFIX (s.val[OPT_ATTENUATION_RED].w) * 20.0f) / 100.0f
-      s.g_att = (Sane.UNFIX (s.val[OPT_ATTENUATION_GREEN].w) * 20.0f) / 100.0f
-      s.b_att = (Sane.UNFIX (s.val[OPT_ATTENUATION_BLUE].w) * 20.0f) / 100.0f
+      s.r_att = (Sane.UNFIX(s.val[OPT_ATTENUATION_RED].w) * 20.0f) / 100.0f
+      s.g_att = (Sane.UNFIX(s.val[OPT_ATTENUATION_GREEN].w) * 20.0f) / 100.0f
+      s.b_att = (Sane.UNFIX(s.val[OPT_ATTENUATION_BLUE].w) * 20.0f) / 100.0f
       s.tonecurve = 0
 
-      switch (s.mode)
+      switch(s.mode)
 	{
 	case LINEART:
 	  {
@@ -1819,7 +1819,7 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 
 	    /* in 1 bpp mode, lines need to be 8 pixel length */
 
-	    if (s.params.pixels_per_line % 8)
+	    if(s.params.pixels_per_line % 8)
 	      s.params.pixels_per_line += 8 - (s.params.pixels_per_line % 8)
 
 	    s.params.format = Sane.FRAME_GRAY
@@ -1827,15 +1827,15 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 	    s.bpp = s.params.depth = 1
 
 	    halftone = s.val[OPT_HALFTONE_PATTERN].s
-	    if (strcmp (halftone, "1") == 0 )
+	    if(strcmp(halftone, "1") == 0 )
 	      s.halftone = 1
-	    else if (strcmp (halftone, "Dispersed dot 4x4") == 0)
+	    else if(strcmp(halftone, "Dispersed dot 4x4") == 0)
 	      s.halftone = 2
-	    else if (strcmp (halftone, "Round (Clustered dot 4x4)") == 0)
+	    else if(strcmp(halftone, "Round(Clustered dot 4x4)") == 0)
 	      s.halftone = 3
-	    else if (strcmp (halftone, "Diamond (Clustered dot 4x4)") == 0)
+	    else if(strcmp(halftone, "Diamond(Clustered dot 4x4)") == 0)
 	      s.halftone = 4
-	    else if (strcmp (halftone, "User defined") == 0)
+	    else if(strcmp(halftone, "User defined") == 0)
 	      s.halftone = 5
 	    else
 	      s.halftone = 0
@@ -1892,19 +1892,19 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 	/ (8 / s.params.depth);*/
     }
   else
-    if (s.mode == COLOR18BIT ||
+    if(s.mode == COLOR18BIT ||
 	s.mode == COLOR24BIT)
       s.params.format = Sane.FRAME_RED + s.pass
 
   s.params.last_frame = (s.params.format != Sane.FRAME_RED && s.params.format != Sane.FRAME_GREEN)
 
-  if (params)
+  if(params)
     *params = s.params
   return Sane.STATUS_GOOD
 }
 
 /* This function is executed as a child process.  The reason this is
-   executed as a subprocess is because some (most?) generic SCSI
+   executed as a subprocess is because some(most?) generic SCSI
    interfaces block a SCSI request until it has completed.  With a
    subprocess, we can let it block waiting for the request to finish
    while the main process can go about to do more important things
@@ -1912,10 +1912,10 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 
 
    WARNING: Since this is executed as a subprocess, it's NOT possible
-   to update any of the variables in the main process (in particular
+   to update any of the variables in the main process(in particular
    the scanner state cannot be updated).  */
 static Int
-reader_process (void *scanner)
+reader_process(void *scanner)
 {
   AgfaFocus_Scanner *s = (AgfaFocus_Scanner *) scanner
   Int fd = s.reader_pipe
@@ -1930,113 +1930,113 @@ reader_process (void *scanner)
   sigset_t ignore_set
   struct SIGACTION act
 
-  if (sanei_thread_is_forked()) close (s.pipe)
+  if(sanei_thread_is_forked()) close(s.pipe)
 
-  sigfillset (&ignore_set)
-  sigdelset (&ignore_set, SIGTERM)
-#if defined (__APPLE__) && defined (__MACH__)
-  sigdelset (&ignore_set, SIGUSR2)
+  sigfillset(&ignore_set)
+  sigdelset(&ignore_set, SIGTERM)
+#if defined(__APPLE__) && defined(__MACH__)
+  sigdelset(&ignore_set, SIGUSR2)
 #endif
-  sigprocmask (SIG_SETMASK, &ignore_set, 0)
+  sigprocmask(SIG_SETMASK, &ignore_set, 0)
 
-  memset (&act, 0, sizeof (act))
-  sigaction (SIGTERM, &act, 0)
+  memset(&act, 0, sizeof(act))
+  sigaction(SIGTERM, &act, 0)
 
-  sigemptyset (&sigterm_set)
-  sigaddset (&sigterm_set, SIGTERM)
+  sigemptyset(&sigterm_set)
+  sigaddset(&sigterm_set, SIGTERM)
 
-  if (!s.hw.disconnect)
-    wait_ready (s.fd)
+  if(!s.hw.disconnect)
+    wait_ready(s.fd)
 
-  status = get_read_sizes (s.fd, &s.lines_available, &bytes_per_line, &total_lines)
-  if (status != Sane.STATUS_GOOD)
+  status = get_read_sizes(s.fd, &s.lines_available, &bytes_per_line, &total_lines)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (1, "open: get_read_sizes() failed: %s\n",
-	   Sane.strstatus (status))
-      do_cancel (s)
-      close (fd)
+      DBG(1, "open: get_read_sizes() failed: %s\n",
+	   Sane.strstatus(status))
+      do_cancel(s)
+      close(fd)
       return 1
     }
 
-  if (!s.lines_available || !bytes_per_line || !total_lines || bytes_per_line < s.params.bytes_per_line)
+  if(!s.lines_available || !bytes_per_line || !total_lines || bytes_per_line < s.params.bytes_per_line)
     {
-      DBG (1, "open: invalid sizes: %d, %d, %d\n",
+      DBG(1, "open: invalid sizes: %d, %d, %d\n",
 	   s.lines_available, bytes_per_line, total_lines)
-      do_cancel (s)
-      close (fd)
+      do_cancel(s)
+      close(fd)
       return 1
     }
 
   lines_per_buffer = sanei_scsi_max_request_size / bytes_per_line
-  if (!lines_per_buffer)
+  if(!lines_per_buffer)
     {
-      close (fd)
+      close(fd)
       return 2;			/* resolution is too high */
     }
 
-  data = malloc (lines_per_buffer * bytes_per_line)
-  if (!data)
+  data = malloc(lines_per_buffer * bytes_per_line)
+  if(!data)
     {
-      DBG (1, "open  malloc(%lu) failed.\n", (u_long) lines_per_buffer * bytes_per_line)
-      do_cancel (s)
-      close (fd)
+      DBG(1, "open  malloc(%lu) failed.\n", (u_long) lines_per_buffer * bytes_per_line)
+      do_cancel(s)
+      close(fd)
       return 1
     }
 
-  while (lines_read < s.params.lines)
+  while(lines_read < s.params.lines)
     {
       Int lines = lines_per_buffer
 
-      if (s.lines_available == 0)
+      if(s.lines_available == 0)
 	{
 	  /* No lines in scanner?  Scan some more */
-	  status = request_more_data (s)
+	  status = request_more_data(s)
 
-	  if (status != Sane.STATUS_GOOD)
+	  if(status != Sane.STATUS_GOOD)
 	    {
-	      close (fd)
+	      close(fd)
 	      return 1
 	    }
 	}
 
       /* We only request as many lines as there are already scanned */
-      if (lines > s.lines_available)
+      if(lines > s.lines_available)
 	lines = s.lines_available
 
-      DBG (1, "Requesting %d lines, in scanner: %d, total: %d\n", lines,
+      DBG(1, "Requesting %d lines, in scanner: %d, total: %d\n", lines,
 	   s.lines_available, s.params.lines)
 
-      status = read_data (s, data, lines, bytes_per_line)
+      status = read_data(s, data, lines, bytes_per_line)
 
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "Sane.read: read_data() failed (%s)\n",
-	       Sane.strstatus (status))
-	  do_cancel (s)
-	  close (fd)
+	  DBG(1, "Sane.read: read_data() failed(%s)\n",
+	       Sane.strstatus(status))
+	  do_cancel(s)
+	  close(fd)
 	  return 1
 	}
 
       /* Sometimes the scanner will return more bytes per line than
          requested, so we copy only what we wanted. */
 
-      for (i = 0; i < lines; i++)
-	if (write (fd, data + i * bytes_per_line, s.params.bytes_per_line) != s.params.bytes_per_line)
+      for(i = 0; i < lines; i++)
+	if(write(fd, data + i * bytes_per_line, s.params.bytes_per_line) != s.params.bytes_per_line)
 	  {
-	    do_cancel (s)
-	    close (fd)
+	    do_cancel(s)
+	    close(fd)
 	    return 1
 	  }
 
       lines_read += lines
     }
 
-  close (fd)
+  close(fd)
   return 0
 }
 
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   AgfaFocus_Scanner *s = handle
   Sane.Status status
@@ -2045,50 +2045,50 @@ Sane.start (Sane.Handle handle)
   /* First make sure we have a current parameter set.  Some of the
      parameters will be overwritten below, but that's OK.  */
 
-  status = Sane.get_parameters (s, 0)
-  if (status != Sane.STATUS_GOOD)
+  status = Sane.get_parameters(s, 0)
+  if(status != Sane.STATUS_GOOD)
     return status
 
   /* don't initialise scanner if we're doing a three-pass scan */
 
-  if (s.pass == 0)
+  if(s.pass == 0)
     {
-      if (s.fd < 0)
+      if(s.fd < 0)
 	{
-	  status = sanei_scsi_open (s.hw.sane.name, &s.fd, sense_handler, 0)
-	  if (status != Sane.STATUS_GOOD)
+	  status = sanei_scsi_open(s.hw.sane.name, &s.fd, sense_handler, 0)
+	  if(status != Sane.STATUS_GOOD)
 	    {
-	      DBG (1, "open: open of %s failed: %s\n",
-		   s.hw.sane.name, Sane.strstatus (status))
+	      DBG(1, "open: open of %s failed: %s\n",
+		   s.hw.sane.name, Sane.strstatus(status))
 	      s.fd = -1
 	      return status
 	    }
 	}
 
-      status = test_ready (s.fd)
-      if (status != Sane.STATUS_GOOD)
+      status = test_ready(s.fd)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "open: test_ready() failed: %s\n", Sane.strstatus (status))
-	  sanei_scsi_close (s.fd)
+	  DBG(1, "open: test_ready() failed: %s\n", Sane.strstatus(status))
+	  sanei_scsi_close(s.fd)
 	  s.fd = -1
 	  return status
 	}
 
-      status = reserve_unit (s.fd)
-      if (status != Sane.STATUS_GOOD)
+      status = reserve_unit(s.fd)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "open: reserve_unit() failed: %s\n", Sane.strstatus (status))
-	  sanei_scsi_close (s.fd)
+	  DBG(1, "open: reserve_unit() failed: %s\n", Sane.strstatus(status))
+	  sanei_scsi_close(s.fd)
 	  s.fd = -1
 	  return status
 	}
 
-      status = set_window (s)
-      if (status != Sane.STATUS_GOOD)
+      status = set_window(s)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "open: set_window() failed: %s\n", Sane.strstatus (status))
-	  release_unit (s.fd)
-	  sanei_scsi_close (s.fd)
+	  DBG(1, "open: set_window() failed: %s\n", Sane.strstatus(status))
+	  release_unit(s.fd)
+	  sanei_scsi_close(s.fd)
 	  s.fd = -1
 	  return status
 	}
@@ -2105,12 +2105,12 @@ Sane.start (Sane.Handle handle)
 	  44, 28, 40, 24, 41, 25, 37, 21
 	]
 
-	status = upload_dither_matrix (s, 8, 8, matrix)
-	if (status != Sane.STATUS_GOOD)
+	status = upload_dither_matrix(s, 8, 8, matrix)
+	if(status != Sane.STATUS_GOOD)
 	  {
-	    DBG (1, "open: upload_dither_matrix() failed: %s\n", Sane.strstatus (status))
-	    release_unit (s.fd)
-	    sanei_scsi_close (s.fd)
+	    DBG(1, "open: upload_dither_matrix() failed: %s\n", Sane.strstatus(status))
+	    release_unit(s.fd)
+	    sanei_scsi_close(s.fd)
 	    s.fd = -1
 	    return status
 	  }
@@ -2118,11 +2118,11 @@ Sane.start (Sane.Handle handle)
 
       s.scanning = Sane.TRUE
 
-      status = start_scan (s.fd, Sane.FALSE)
-      if (status != Sane.STATUS_GOOD)
+      status = start_scan(s.fd, Sane.FALSE)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "open: start_scan() failed: %s\n", Sane.strstatus (status))
-	  do_cancel (s)
+	  DBG(1, "open: start_scan() failed: %s\n", Sane.strstatus(status))
+	  do_cancel(s)
 	  return status
 	}
     }
@@ -2130,29 +2130,29 @@ Sane.start (Sane.Handle handle)
     {
       /* continue three-pass scan */
 
-      status = start_scan (s.fd, Sane.TRUE)
-      if (status != Sane.STATUS_GOOD)
+      status = start_scan(s.fd, Sane.TRUE)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "open: start_scan() failed: %s\n", Sane.strstatus (status))
-	  do_cancel (s)
+	  DBG(1, "open: start_scan() failed: %s\n", Sane.strstatus(status))
+	  do_cancel(s)
 	  return status
 	}
     }
 
-  if (pipe (fds) < 0)
+  if(pipe(fds) < 0)
     return Sane.STATUS_IO_ERROR
 
   s.pipe = fds[0]
   s.reader_pipe = fds[1]
-  s.reader_pid = sanei_thread_begin (reader_process, (void *) s)
+  s.reader_pid = sanei_thread_begin(reader_process, (void *) s)
 
-  if (sanei_thread_is_forked()) close (s.reader_pipe)
+  if(sanei_thread_is_forked()) close(s.reader_pipe)
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
+Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
 	   Int * len)
 {
   AgfaFocus_Scanner *s = handle
@@ -2160,60 +2160,60 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
 
   *len = 0
 
-  nread = read (s.pipe, buf, max_len)
-  DBG (3, "read %ld bytes\n", (long) nread)
+  nread = read(s.pipe, buf, max_len)
+  DBG(3, "read %ld bytes\n", (long) nread)
 
-  if (!s.scanning)
-    return do_cancel (s)
+  if(!s.scanning)
+    return do_cancel(s)
 
-  if (nread < 0) {
-    if (errno == EAGAIN) {
+  if(nread < 0) {
+    if(errno == EAGAIN) {
       return Sane.STATUS_GOOD
     } else {
-      do_cancel (s)
+      do_cancel(s)
       return Sane.STATUS_IO_ERROR
     }
   }
 
   *len = nread
 
-  if (nread == 0) {
+  if(nread == 0) {
     s.pass++
-    return do_eof (s)
+    return do_eof(s)
   }
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   AgfaFocus_Scanner *s = handle
 
-  if (sanei_thread_is_valid (s.reader_pid))
-    sanei_thread_kill (s.reader_pid)
+  if(sanei_thread_is_valid(s.reader_pid))
+    sanei_thread_kill(s.reader_pid)
   s.scanning = Sane.FALSE
 }
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 {
   AgfaFocus_Scanner *s = handle
 
-  if (!s.scanning)
+  if(!s.scanning)
     return Sane.STATUS_INVAL
 
-  if (fcntl (s.pipe, F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0)
+  if(fcntl(s.pipe, F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0)
     return Sane.STATUS_IO_ERROR
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle handle, Int * fd)
+Sane.get_select_fd(Sane.Handle handle, Int * fd)
 {
   AgfaFocus_Scanner *s = handle
 
-  if (!s.scanning)
+  if(!s.scanning)
     return Sane.STATUS_INVAL
 
   *fd = s.pipe

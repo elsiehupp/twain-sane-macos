@@ -1,7 +1,7 @@
 /* @file plustek-pp_procfs.c
  * @brief this is the interface to the proc filesystem
  *
- * Copyright (C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.37 - initial version
@@ -22,7 +22,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -77,13 +77,13 @@ static ULong                  devcount
 static char *procfsPortModes[] = {
 	"EPP",
 	"SPP",
-	"BiDi (PS/2)",
+	"BiDi(PS/2)",
 	"ECP"
 	"unknown",
 	NULL
 ]
 
-/** CCD-Types (as for ASIC 98001 based series) */
+/** CCD-Types(as for ASIC 98001 based series) */
 static TabDef procfsCCDTypes98001[] = {
 
 	{ _CCD_3797, "3797" },
@@ -95,7 +95,7 @@ static TabDef procfsCCDTypes98001[] = {
     { -1 ,       "unknown" }
 ]
 
-/** CCD-Types (as for ASIC 98003 based series) */
+/** CCD-Types(as for ASIC 98003 based series) */
 static TabDef procfsCCDTypes98003[] = {
 
 	{ _CCD_3797, "3797" },
@@ -113,7 +113,7 @@ static TabDef procfsCCDTypes98003[] = {
 
 #ifndef LINUX_24
 /** This is called as the fill_inode function when an inode
- * is going into (fill = 1) or out of service (fill = 0).
+ * is going into(fill = 1) or out of service(fill = 0).
  *
  * Note: only the top-level directory needs to do this; if
  * a lower level is referenced, the parent will be as well.
@@ -194,7 +194,7 @@ static Int procfsInfoReadProc( char *buf, char **start, off_t offset,
 		len += sprintf( buf+len, "Model       : %s\n",
 					    MiscGetModelName(ps.sCaps.Model))
 		len += sprintf( buf+len, "Portaddress : 0x%X\n", ps.IO.portBase )
-		len += sprintf( buf+len, "Portmode    : %s (%s I/O, %s)\n",
+		len += sprintf( buf+len, "Portmode    : %s(%s I/O, %s)\n",
 					    procfsGetMode(ps.IO.portMode),
 						(ps.IO.slowIO == _TRUE?"delayed":"fast"),
                         (ps.IO.forceMode == 0?"autodetect":"forced"))
@@ -229,7 +229,7 @@ static Int procfsButtonsReadProc( char *buf, char **start, off_t offset,
 	/* Check the buttons... */
 	if( 0 != bc ) {
 
-		if ( _ASIC_IS_96003 == ps.sCaps.AsicID ) {
+		if( _ASIC_IS_96003 == ps.sCaps.AsicID ) {
 			MiscClaimPort( ps )
 			b = IODataRegisterFromScanner( ps, ps.RegStatus )
 			if(_FLAG_P96_KEY == (b & _FLAG_P96_KEY))
@@ -258,9 +258,9 @@ static struct proc_dir_entry *new_entry( const char *name, mode_t mode,
 #endif
 	struct proc_dir_entry *ent
 
-	if (mode == S_IFDIR)
+	if(mode == S_IFDIR)
 		mode |= S_IRUGO | S_IXUGO
-	else if (mode == 0)
+	else if(mode == 0)
 		mode = S_IFREG | S_IRUGO
 
 #ifndef LINUX_24
@@ -280,7 +280,7 @@ static struct proc_dir_entry *new_entry( const char *name, mode_t mode,
 	ent.namelen = strlen(name)
 	ent.mode    = mode
 
-	if (S_ISDIR(mode)) {
+	if(S_ISDIR(mode)) {
 		ent.nlink      = 2
 		ent.fill_inode = &procfsFillFunc
 	} else {
@@ -289,7 +289,7 @@ static struct proc_dir_entry *new_entry( const char *name, mode_t mode,
 
 	proc_register( parent, ent )
 #else
-	if (mode == S_IFDIR)
+	if(mode == S_IFDIR)
 		ent = proc_mkdir( name, parent )
 	else
 		ent = create_proc_entry( name, mode, parent )

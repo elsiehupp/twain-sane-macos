@@ -9,9 +9,9 @@
  * Based on Kazuhiro Sasayama previous work on
  * plustek.[ch] file from the SANE package.<br>
  * Original code taken from sane-0.71<br>
- * Copyright (C) 1997 Hypercore Software Design, Ltd.<br>
+ * Copyright(C) 1997 Hypercore Software Design, Ltd.<br>
  * Also based on the work done by Rick Bronson<br>
- * Copyright (C) 2000-2007 Gerhard Jaeger <gerhard@gjaeger.de><br>
+ * Copyright(C) 2000-2007 Gerhard Jaeger <gerhard@gjaeger.de><br>
  *
  * History:
  * - 0.30 - initial version
@@ -33,7 +33,7 @@
  *          before scanning
  *        - applied Michaels' patch to solve the Sane.get_parameter problem<br>
  *        - getting X-size of scan area from driver<br>
- *        - applied Michaels patch for OPT_RESOLUTION (Sane.INFO_INEXACT stuff)
+ *        - applied Michaels patch for OPT_RESOLUTION(Sane.INFO_INEXACT stuff)
  * - 0.38 - now using the information from the driver
  *        - some minor fixes<br>
  *        - removed dropout stuff<br>
@@ -64,7 +64,7 @@
  *        - removed parallelport support --> new backend: plustek_pp
  *        - cleanup
  *        - added sanei_thread support
- * - 0.47 - added mov-option (model override)
+ * - 0.47 - added mov-option(model override)
  *        - removed drvOpen
  *        - added call to usb_StartLampTimer, when we're using
  *          SIGALRM for lamp timer
@@ -91,7 +91,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -216,8 +216,8 @@ static const Sane.Device **devlist = 0
 static unsigned long       tsecs   = 0
 static Plustek_Scanner    *sc = NULL
 
-static const Int bpp_lm9832_list [] = { 2, 8, 14 ]
-static const Int bpp_lm9833_list [] = { 2, 8, 16 ]
+static const Int bpp_lm9832_list[] = { 2, 8, 14 ]
+static const Int bpp_lm9833_list[] = { 2, 8, 16 ]
 
 static const Sane.String_Const mode_list[] =
 {
@@ -367,14 +367,14 @@ getScanMode( Plustek_Scanner *scanner )
 /** return the len of the largest string in the array
  */
 static size_t
-max_string_size (const Sane.String_Const strings[])
+max_string_size(const Sane.String_Const strings[])
 {
 	size_t size, max_size = 0
 	Int i
 
-	for (i = 0; strings[i]; ++i) {
-		size = strlen (strings[i]) + 1
-		if (size > max_size)
+	for(i = 0; strings[i]; ++i) {
+		size = strlen(strings[i]) + 1
+		if(size > max_size)
 			max_size = size
 	}
 	return max_size
@@ -387,13 +387,13 @@ close_pipe( Plustek_Scanner *scanner )
 {
 	if( scanner.r_pipe >= 0 ) {
 
-		DBG( _DBG_PROC, "close_pipe (r_pipe)\n" )
+		DBG( _DBG_PROC, "close_pipe(r_pipe)\n" )
 		close( scanner.r_pipe )
 		scanner.r_pipe = -1
 	}
 	if( scanner.w_pipe >= 0 ) {
 
-		DBG( _DBG_PROC, "close_pipe (w_pipe)\n" )
+		DBG( _DBG_PROC, "close_pipe(w_pipe)\n" )
 		close( scanner.w_pipe )
 		scanner.w_pipe = -1
 	}
@@ -405,8 +405,8 @@ close_pipe( Plustek_Scanner *scanner )
 static void
 sig_chldhandler( Int signo )
 {
-	DBG( _DBG_PROC, "(SIG) Child is down (signal=%d)\n", signo )
-	if (sc) {
+	DBG( _DBG_PROC, "(SIG) Child is down(signal=%d)\n", signo )
+	if(sc) {
 		sc.calibrating = Sane.FALSE
 		sc = NULL
 	}
@@ -443,14 +443,14 @@ thread_entry(void)
 	struct SIGACTION act
 	sigset_t         ignore_set
 
-	sigfillset ( &ignore_set )
+	sigfillset( &ignore_set )
 	sigdelset  ( &ignore_set, SIGTERM )
-#if defined (__APPLE__) && defined (__MACH__)
+#if defined(__APPLE__) && defined(__MACH__)
 	sigdelset  ( &ignore_set, SIGUSR2 )
 #endif
 	sigprocmask( SIG_SETMASK, &ignore_set, 0 )
 
-	memset(&act, 0, sizeof (act))
+	memset(&act, 0, sizeof(act))
 	sigaction( SIGTERM, &act, 0 )
 
 	cancelRead = Sane.FALSE
@@ -483,11 +483,11 @@ reader_process( void *args )
 #endif
 
 	if( sanei_thread_is_forked()) {
-		DBG( _DBG_PROC, "reader_process started (forked)\n" )
+		DBG( _DBG_PROC, "reader_process started(forked)\n" )
 		close( scanner.r_pipe )
 		scanner.r_pipe = -1
 	} else {
-		DBG( _DBG_PROC, "reader_process started (as thread)\n" )
+		DBG( _DBG_PROC, "reader_process started(as thread)\n" )
 	}
 
 	thread_entry()
@@ -495,7 +495,7 @@ reader_process( void *args )
 	data_length = scanner.params.lines * scanner.params.bytes_per_line
 
 	DBG( _DBG_PROC, "reader_process:"
-					"starting to READ data (%lu bytes)\n", data_length )
+					"starting to READ data(%lu bytes)\n", data_length )
 	DBG( _DBG_PROC, "buf = 0x%08lx\n", (unsigned long)scanner.buf )
 
 	if( NULL == scanner.buf ) {
@@ -570,7 +570,7 @@ do_cancel( Plustek_Scanner *scanner, Bool closepipe )
 	DBG( _DBG_PROC,"do_cancel\n" )
 	scanner.scanning = Sane.FALSE
 
-	if( sanei_thread_is_valid (scanner.reader_pid) ) {
+	if( sanei_thread_is_valid(scanner.reader_pid) ) {
 
                 DBG( _DBG_PROC, "---- killing reader_process ----\n" )
 
@@ -640,7 +640,7 @@ initGammaSettings( Plustek_Scanner *s )
 	s.gamma_range.max   = 255
 	s.gamma_range.quant = 0
 
-	DBG( _DBG_INFO, "Presetting Gamma tables (len=%u)\n", s.gamma_length )
+	DBG( _DBG_INFO, "Presetting Gamma tables(len=%u)\n", s.gamma_length )
 
 	/* preset the gamma maps
 	 */
@@ -702,7 +702,7 @@ init_options( Plustek_Scanner *s )
 	memset(s.opt, 0, sizeof(s.opt))
 
 	for( i = 0; i < NUM_OPTIONS; ++i ) {
-		s.opt[i].size = sizeof (Sane.Word)
+		s.opt[i].size = sizeof(Sane.Word)
 		s.opt[i].cap  = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 		s.opt[i].unit = Sane.UNIT_NONE
 	}
@@ -737,7 +737,7 @@ init_options( Plustek_Scanner *s )
 	s.opt[OPT_BIT_DEPTH].desc  = Sane.DESC_BIT_DEPTH
 	s.opt[OPT_BIT_DEPTH].type  = Sane.TYPE_INT
 	s.opt[OPT_BIT_DEPTH].unit  = Sane.UNIT_BIT
-	s.opt[OPT_BIT_DEPTH].size  = sizeof (Sane.Word)
+	s.opt[OPT_BIT_DEPTH].size  = sizeof(Sane.Word)
 	s.opt[OPT_BIT_DEPTH].constraint_type = Sane.CONSTRAINT_WORD_LIST
 	if( _LM9833 == dev.usbDev.HwSetting.chip )
 		s.opt[OPT_BIT_DEPTH].constraint.word_list = bpp_lm9833_list
@@ -745,7 +745,7 @@ init_options( Plustek_Scanner *s )
 		s.opt[OPT_BIT_DEPTH].constraint.word_list = bpp_lm9832_list
 	s.val[OPT_BIT_DEPTH].w = 8
 
-	if (caps.workaroundFlag & _WAF_ONLY_8BIT)
+	if(caps.workaroundFlag & _WAF_ONLY_8BIT)
 		_DISABLE(OPT_BIT_DEPTH)
 
 	/* scan source */
@@ -926,7 +926,7 @@ init_options( Plustek_Scanner *s )
 	s.opt[OPT_LOFF4DARK].type  = Sane.TYPE_BOOL
 	s.val[OPT_LOFF4DARK].w     = adj.skipDarkStrip
 
-	if (dev.usbDev.Caps.Normal.DarkShadOrgY < 0)
+	if(dev.usbDev.Caps.Normal.DarkShadOrgY < 0)
 		_DISABLE(OPT_LOFF4DARK)
 
 	s.opt[OPT_CACHECAL].name  = "calibration-cache"
@@ -939,7 +939,7 @@ init_options( Plustek_Scanner *s )
 	s.opt[OPT_CALIBRATE].title = Sane.I18N("Calibrate")
 	s.opt[OPT_CALIBRATE].desc  = Sane.I18N("Performs calibration")
 	s.opt[OPT_CALIBRATE].type  = Sane.TYPE_BUTTON
-	s.opt[OPT_CALIBRATE].size = sizeof (Sane.Word)
+	s.opt[OPT_CALIBRATE].size = sizeof(Sane.Word)
 	s.opt[OPT_CALIBRATE].constraint_type = Sane.CONSTRAINT_NONE
 	s.opt[OPT_CALIBRATE].constraint.range = 0
 	s.opt[OPT_CALIBRATE].cap = Sane.CAP_SOFT_DETECT | Sane.CAP_SOFT_SELECT |
@@ -1083,12 +1083,12 @@ init_options( Plustek_Scanner *s )
 	/* scanner buttons */
 	for( i = OPT_BUTTON_0; i <= OPT_BUTTON_LAST; i++ ) {
 
-		char buf [128]
+		char buf[128]
 
-		snprintf (buf, sizeof(buf), "button %d", i - OPT_BUTTON_0)
+		snprintf(buf, sizeof(buf), "button %d", i - OPT_BUTTON_0)
 		s.opt[i].name  = strdup(buf)
 
-		snprintf (buf, sizeof(buf), "Scanner button %d", i - OPT_BUTTON_0)
+		snprintf(buf, sizeof(buf), "Scanner button %d", i - OPT_BUTTON_0)
 		s.opt[i].title = strdup(buf)
 
 		s.opt[i].desc  = Sane.I18N("This option reflects the status "
@@ -1096,11 +1096,11 @@ init_options( Plustek_Scanner *s )
 		s.opt[i].type = Sane.TYPE_BOOL
 		s.opt[i].cap  = Sane.CAP_SOFT_DETECT |
 		                 Sane.CAP_HARD_SELECT | Sane.CAP_ADVANCED
-		if (i - OPT_BUTTON_0 >= dev.usbDev.Caps.bButtons )
+		if(i - OPT_BUTTON_0 >= dev.usbDev.Caps.bButtons )
 			_DISABLE(i)
 
 		s.opt[i].unit = Sane.UNIT_NONE
-		s.opt[i].size = sizeof (Sane.Word)
+		s.opt[i].size = sizeof(Sane.Word)
 		s.opt[i].constraint_type = Sane.CONSTRAINT_NONE
 		s.opt[i].constraint.range = 0
 		s.val[i].w = Sane.FALSE
@@ -1156,7 +1156,7 @@ decodeUsbIDs( char *src, char **dest )
 
 		/* create what we need to go through our device list...*/
 		sprintf( *dest, "0x%04X-0x%04X", vi, pi )
-		DBG( _DBG_Sane.INIT, "next device is a USB device (%s)\n", *dest )
+		DBG( _DBG_Sane.INIT, "next device is a USB device(%s)\n", *dest )
 	}
 }
 
@@ -1276,7 +1276,7 @@ attach( const char *dev_name, CnfDef *cnf, Plustek_Device **devp )
 	Int             handle
 	Plustek_Device *dev
 
-	DBG( _DBG_Sane.INIT, "attach (%s, %p, %p)\n",
+	DBG( _DBG_Sane.INIT, "attach(%s, %p, %p)\n",
 	                                      dev_name, (void *)cnf, (void *)devp)
 	/* already attached ?*/
 	for( dev = first_dev; dev; dev = dev.next ) {
@@ -1290,13 +1290,13 @@ attach( const char *dev_name, CnfDef *cnf, Plustek_Device **devp )
 	}
 
 	/* allocate some memory for the device */
-	dev = malloc( sizeof (*dev))
+	dev = malloc( sizeof(*dev))
 	if( NULL == dev )
 		return Sane.STATUS_NO_MEM
 
 	/* assign all the stuff we need for this device... */
 
-	memset(dev, 0, sizeof (*dev))
+	memset(dev, 0, sizeof(*dev))
 
 	dev.fd           = -1
 	dev.name         = strdup(dev_name);    /* hold it double to avoid   */
@@ -1358,9 +1358,9 @@ attach( const char *dev_name, CnfDef *cnf, Plustek_Device **devp )
 	 */
 	dev.res_list = (Int *)
 	                 calloc((((dev.usbDev.Caps.OpticDpi.x*16)-_DEF_DPI)/25+1),
-	                 sizeof (Int))
+	                 sizeof(Int))
 
-	if (NULL == dev.res_list) {
+	if(NULL == dev.res_list) {
 		DBG( _DBG_ERROR, "calloc failed: %s\n", strerror(errno))
 		usbDev_close(dev)
 		return Sane.STATUS_INVAL
@@ -1388,7 +1388,7 @@ attach( const char *dev_name, CnfDef *cnf, Plustek_Device **devp )
 	dev.next = first_dev
 	first_dev = dev
 
-	if (devp)
+	if(devp)
 		*devp = dev
 
 	return Sane.STATUS_GOOD
@@ -1577,7 +1577,7 @@ Sane.init( Int *version_code, Sane.Auth_Callback authorize )
 		/* ignore other stuff... */
 		DBG( _DBG_Sane.INIT, "ignoring >%s<\n", str )
 	}
-	fclose (fp)
+	fclose(fp)
 
 	/* try to attach the last device in the config file... */
 	if( config.devName[0] != '\0' )
@@ -1643,19 +1643,19 @@ Sane.get_devices(const Sane.Device ***device_list, Bool local_only )
 	Int             i
 	Plustek_Device *dev
 
-	DBG(_DBG_Sane.INIT, "Sane.get_devices (%p, %ld)\n",
+	DBG(_DBG_Sane.INIT, "Sane.get_devices(%p, %ld)\n",
                                        (void *)device_list, (long) local_only)
 
 	/* already called, so cleanup */
 	if( devlist )
 		free( devlist )
 
-	devlist = malloc((num_devices + 1) * sizeof (devlist[0]))
-	if ( NULL == devlist )
+	devlist = malloc((num_devices + 1) * sizeof(devlist[0]))
+	if( NULL == devlist )
 		return Sane.STATUS_NO_MEM
 
 	i = 0
-	for (dev = first_dev; i < num_devices; dev = dev.next)
+	for(dev = first_dev; i < num_devices; dev = dev.next)
 		devlist[i++] = &dev.sane
 	devlist[i++] = 0
 
@@ -1697,11 +1697,11 @@ Sane.open( Sane.String_Const devicename, Sane.Handle* handle )
 	if( !dev )
 		return Sane.STATUS_INVAL
 
-	s = malloc (sizeof (*s))
+	s = malloc(sizeof(*s))
 	if( NULL == s )
 		return Sane.STATUS_NO_MEM
 
-	memset(s, 0, sizeof (*s))
+	memset(s, 0, sizeof(*s))
 	s.r_pipe      = -1
 	s.w_pipe      = -1
 	s.hw          = dev
@@ -1739,7 +1739,7 @@ Sane.close( Sane.Handle handle )
 		prev = s
 	}
 
-	if (!s) {
+	if(!s) {
 		DBG( _DBG_ERROR, "close: invalid handle %p\n", handle)
 		return
 	}
@@ -1751,7 +1751,7 @@ Sane.close( Sane.Handle handle )
 
 	drvclose( s.hw )
 
-	if (prev)
+	if(prev)
 		prev.next = s.next
 	else
 		first_handle = s.next
@@ -1791,16 +1791,16 @@ do_calibration( void *args )
 	/* if the device does only support color scanning, there's no need
 	 * to calibrate the gray modes
 	 */
-	if (caps.workaroundFlag & _WAF_GRAY_FROM_COLOR)
+	if(caps.workaroundFlag & _WAF_GRAY_FROM_COLOR)
 		scanmode = 3
 	else
 		scanmode = 0
 
-	for ( ; scanmode < 5; scanmode++ ) {
+	for( ; scanmode < 5; scanmode++ ) {
 
-		if (caps.workaroundFlag & _WAF_ONLY_8BIT) {
+		if(caps.workaroundFlag & _WAF_ONLY_8BIT) {
 
-			if ((modes[scanmode] == COLOR_GRAY16) ||
+			if((modes[scanmode] == COLOR_GRAY16) ||
 			    (modes[scanmode] == COLOR_TRUE48)) {
 				continue
 			}
@@ -1808,12 +1808,12 @@ do_calibration( void *args )
 
 		dev.scanning.dwFlag |= SCANFLAG_Calibration
 
-		if (Sane.STATUS_GOOD == local_Sane.start(s, modes[scanmode])) {
+		if(Sane.STATUS_GOOD == local_Sane.start(s, modes[scanmode])) {
 
 			/* prepare for scanning: speed-test, warmup, calibration */
 			rc = usbDev_Prepare( dev, s.buf )
 			if( rc != 0 || scanmode == 4) {
-				if (rc != 0 )
+				if(rc != 0 )
 					DBG(_DBG_INFO,"Calibration canceled!\n")
 				m_fStart    = Sane.TRUE
 				m_fAutoPark = Sane.TRUE
@@ -1848,13 +1848,13 @@ Sane.control_option( Sane.Handle handle, Int option,
 	const Sane.String_Const *optval
 	Int                      scanmode
 
-	if (s.scanning)
+	if(s.scanning)
 		return Sane.STATUS_DEVICE_BUSY
 
 	/* in calibration mode, we do not allow setting any value! */
 	if(s.calibrating) {
-		if (action == Sane.ACTION_SET_VALUE) {
-			if (option == OPT_CALIBRATE) {
+		if(action == Sane.ACTION_SET_VALUE) {
+			if(option == OPT_CALIBRATE) {
 				if( NULL != info )
 					*info |= Sane.INFO_RELOAD_OPTIONS
 				do_cancel(s, Sane.TRUE)
@@ -1862,7 +1862,7 @@ Sane.control_option( Sane.Handle handle, Int option,
 			}
 
 			/* okay, we need some exceptions */
-			switch (option) {
+			switch(option) {
 				case OPT_TL_X:
 				case OPT_TL_Y:
 				case OPT_BR_X:
@@ -1872,17 +1872,17 @@ Sane.control_option( Sane.Handle handle, Int option,
 		}
 	}
 
-	if ((option < 0) || (option >= NUM_OPTIONS))
+	if((option < 0) || (option >= NUM_OPTIONS))
 		return Sane.STATUS_INVAL
 
-	if (NULL != info)
+	if(NULL != info)
 		*info = 0
 
 	switch( action ) {
 
 		case Sane.ACTION_GET_VALUE:
 
-			switch (option) {
+			switch(option) {
 			case OPT_PREVIEW:
 			case OPT_NUM_OPTS:
 			case OPT_RESOLUTION:
@@ -1933,7 +1933,7 @@ Sane.control_option( Sane.Handle handle, Int option,
 
 			case OPT_MODE:
 			case OPT_EXT_MODE:
-				strcpy ((char *) value,
+				strcpy((char *) value,
 					  s.opt[option].constraint.string_list[s.val[option].w])
 				break
 
@@ -1976,7 +1976,7 @@ Sane.control_option( Sane.Handle handle, Int option,
 					return Sane.STATUS_INVAL
 			}
 
-			switch (option) {
+			switch(option) {
 
 				case OPT_RESOLUTION: {
 					Int n
@@ -2031,7 +2031,7 @@ Sane.control_option( Sane.Handle handle, Int option,
 					break
 
 				case OPT_CALIBRATE:
-					if (s.calibrating) {
+					if(s.calibrating) {
 						do_cancel( s, Sane.FALSE )
 						s.calibrating = Sane.FALSE
 					} else {
@@ -2042,7 +2042,7 @@ Sane.control_option( Sane.Handle handle, Int option,
 						s.calibrating = Sane.TRUE
 						signal( SIGCHLD, sig_chldhandler )
 					}
-					if (NULL != info)
+					if(NULL != info)
 						*info |= Sane.INFO_RELOAD_OPTIONS
 					break
 
@@ -2171,13 +2171,13 @@ Sane.control_option( Sane.Handle handle, Int option,
 					_ENABLE(OPT_CONTRAST)
 					_ENABLE(OPT_BIT_DEPTH)
 					_ENABLE(OPT_CUSTOM_GAMMA)
-					if (scanmode == COLOR_BW) {
+					if(scanmode == COLOR_BW) {
 						_DISABLE(OPT_CONTRAST)
 						_DISABLE(OPT_CUSTOM_GAMMA)
 						_DISABLE(OPT_BIT_DEPTH)
 					}
 
-					if (caps.workaroundFlag & _WAF_ONLY_8BIT)
+					if(caps.workaroundFlag & _WAF_ONLY_8BIT)
 						_DISABLE(OPT_BIT_DEPTH)
 
 					_DISABLE(OPT_GAMMA_VECTOR)
@@ -2341,7 +2341,7 @@ Sane.get_parameters( Sane.Handle handle, Sane.Parameters *params )
 	 */
 	if((NULL == params) || (s.scanning != Sane.TRUE)) {
 
-		memset(&s.params, 0, sizeof (Sane.Parameters))
+		memset(&s.params, 0, sizeof(Sane.Parameters))
 
 		ndpi = s.val[OPT_RESOLUTION].w
 
@@ -2362,7 +2362,7 @@ Sane.get_parameters( Sane.Handle handle, Sane.Parameters *params )
 			s.params.bytes_per_line = 3 * s.params.pixels_per_line
 		} else {
 			s.params.format = Sane.FRAME_GRAY
-			if (s.params.depth == 1)
+			if(s.params.depth == 1)
 				s.params.bytes_per_line = (s.params.pixels_per_line + 7) / 8
 			else
 				s.params.bytes_per_line = s.params.pixels_per_line *
@@ -2371,7 +2371,7 @@ Sane.get_parameters( Sane.Handle handle, Sane.Parameters *params )
 
 		/* if Sane.get_parameters() was called before Sane.start() */
 		/* pass new values to the caller                           */
-		if ((NULL != params) && (s.scanning != Sane.TRUE))
+		if((NULL != params) && (s.scanning != Sane.TRUE))
 			*params = s.params
 	} else {
 		*params = s.params
@@ -2401,7 +2401,7 @@ local_Sane.start(Plustek_Scanner *s, Int scanmode )
 	dev = s.hw
 
 	/* check if we're called from the option dialog! */
-	if (usb_InCalibrationMode(dev))
+	if(usb_InCalibrationMode(dev))
 		crop.ImgDef.dwFlag = SCANFLAG_Calibration
 
 	/* open the driver and get some information about the scanner
@@ -2449,13 +2449,13 @@ local_Sane.start(Plustek_Scanner *s, Int scanmode )
 	dpi_x = (double)dev.usbDev.Caps.OpticDpi.x
 	dpi_y = (double)dev.usbDev.Caps.OpticDpi.x * 2
 
-	left   = (Int)(Sane.UNFIX (s.val[OPT_TL_X].w)*dpi_x/
+	left   = (Int)(Sane.UNFIX(s.val[OPT_TL_X].w)*dpi_x/
 	                                            (MM_PER_INCH*(dpi_x/300.0)))
-	top    = (Int)(Sane.UNFIX (s.val[OPT_TL_Y].w)*dpi_y/
+	top    = (Int)(Sane.UNFIX(s.val[OPT_TL_Y].w)*dpi_y/
 	                                            (MM_PER_INCH*(dpi_y/300.0)))
-	width  = (Int)(Sane.UNFIX (s.val[OPT_BR_X].w - s.val[OPT_TL_X].w) *
+	width  = (Int)(Sane.UNFIX(s.val[OPT_BR_X].w - s.val[OPT_TL_X].w) *
 	                                    dpi_x / (MM_PER_INCH *(dpi_x/300.0)))
-	height = (Int)(Sane.UNFIX (s.val[OPT_BR_Y].w - s.val[OPT_TL_Y].w) *
+	height = (Int)(Sane.UNFIX(s.val[OPT_BR_Y].w - s.val[OPT_TL_Y].w) *
 	                                    dpi_y / (MM_PER_INCH *(dpi_y/300.0)))
 
 	/* adjust mode list according to the model we use and the
@@ -2540,13 +2540,13 @@ local_Sane.start(Plustek_Scanner *s, Int scanmode )
 	DBG( _DBG_Sane.INIT, "Bytes per Line = %d\n", s.params.bytes_per_line )
 	DBG( _DBG_Sane.INIT, "Bitdepth       = %d\n", s.params.depth )
 
-	if (usb_InCalibrationMode(dev)) {
-		if (s.buf)
+	if(usb_InCalibrationMode(dev)) {
+		if(s.buf)
 			free(s.buf)
 		s.buf = NULL
 	} else {
 
-		if (s.params.lines == 0 || s.params.bytes_per_line == 0) {
+		if(s.params.lines == 0 || s.params.bytes_per_line == 0) {
 			DBG( _DBG_ERROR, "nothing to scan!\n" )
 			usbDev_close( dev )
 			sanei_access_unlock( dev.sane.name )
@@ -2581,28 +2581,28 @@ Sane.start( Sane.Handle handle )
 
 	DBG( _DBG_Sane.INIT, "Sane.start\n" )
 
-	if (s.scanning)
+	if(s.scanning)
 		return Sane.STATUS_DEVICE_BUSY
 
 	/* in the end we wait until the calibration is done... */
-	if (s.calibrating) {
-		while (s.calibrating) {
+	if(s.calibrating) {
+		while(s.calibrating) {
 			sleep(1)
 		}
 
 		/* we have been cancelled? */
-		if (cancelRead)
+		if(cancelRead)
 			return Sane.STATUS_CANCELLED
 	}
 
-	status = Sane.get_parameters (handle, NULL)
-	if (status != Sane.STATUS_GOOD) {
+	status = Sane.get_parameters(handle, NULL)
+	if(status != Sane.STATUS_GOOD) {
 		DBG( _DBG_ERROR, "Sane.get_parameters failed\n" )
 		return status
 	}
 
 	status = local_Sane.start(s, getScanMode(s))
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		return status
 	}
 
@@ -2628,7 +2628,7 @@ Sane.start( Sane.Handle handle )
 
 	cancelRead = Sane.FALSE
 
-	if( !sanei_thread_is_valid (s.reader_pid) ) {
+	if( !sanei_thread_is_valid(s.reader_pid) ) {
 		DBG( _DBG_ERROR, "ERROR: could not start reader task\n" )
 		s.scanning = Sane.FALSE
 		usbDev_close( dev )
@@ -2693,7 +2693,7 @@ Sane.read( Sane.Handle handle, Sane.Byte *data,
 	/* here we read all data from the driver... */
 	nread = read( s.r_pipe, data, max_length )
 	DBG( _DBG_READ, "Sane.read - read %ld bytes\n", (long)nread )
-	if (!(s.scanning)) {
+	if(!(s.scanning)) {
 		return do_cancel( s, Sane.TRUE )
 	}
 
@@ -2750,7 +2750,7 @@ Sane.cancel( Sane.Handle handle )
 
 	DBG( _DBG_Sane.INIT, "Sane.cancel\n" )
 
-	if (s.scanning || s.calibrating)
+	if(s.scanning || s.calibrating)
 		do_cancel( s, Sane.FALSE )
 }
 
@@ -2763,7 +2763,7 @@ Sane.set_io_mode( Sane.Handle handle, Bool non_blocking )
 
 	DBG( _DBG_Sane.INIT, "Sane.set_io_mode: non_blocking=%d\n",non_blocking )
 
-	if ( !s.scanning ) {
+	if( !s.scanning ) {
 		DBG( _DBG_ERROR, "ERROR: not scanning !\n" )
 		return Sane.STATUS_INVAL
 	}
@@ -2773,7 +2773,7 @@ Sane.set_io_mode( Sane.Handle handle, Bool non_blocking )
 		return Sane.STATUS_UNSUPPORTED
 	}
 
-	if( fcntl (s.r_pipe, F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0) {
+	if( fcntl(s.r_pipe, F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0) {
 		DBG( _DBG_ERROR, "ERROR: could not set to non-blocking mode !\n" )
 		return Sane.STATUS_IO_ERROR
 	}

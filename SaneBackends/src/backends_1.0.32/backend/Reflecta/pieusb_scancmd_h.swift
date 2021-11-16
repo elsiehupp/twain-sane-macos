@@ -2,14 +2,14 @@
 
    pieusb_scancmd.h
 
-   Copyright (C) 2012-2015 Jan Vleeshouwers, Michael Rickmann, Klaus Kaempf
+   Copyright(C) 2012-2015 Jan Vleeshouwers, Michael Rickmann, Klaus Kaempf
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -65,7 +65,7 @@ struct Pieusb_Scanner_Properties {
     /* 1st Vendor-specific block, 20 bytes, see pie_get_inquiry_values(), partially: */
     Int maxResolutionX; /* 7200 maximum scan resolution in x direction */
     Int maxResolutionY; /* 7200 maximum scan resolution in y direction */
-    Int maxScanWidth; /* 10680 flatbed_max_scan_width (& calibration block size) */
+    Int maxScanWidth; /* 10680 flatbed_max_scan_width(& calibration block size) */
     Int maxScanHeight; /* 6888 flatbed_max_scan_height */
     Sane.Byte filters; /* 0x9e = 10011110 ?-0-0-OnePassColor-B-G-R-N => additional infrared? */
     Sane.Byte colorDepths; /* 0x35 = 00110101 0-0-16-12-10-8-4-1 */
@@ -90,11 +90,11 @@ struct Pieusb_Scanner_Properties {
     Sane.Byte gammaBits; /* 0x0c = 00001100 = 12 ? used when downloading gamma table ... does not happen */
     Sane.Byte lastFilter; /* 0x00 = ? no info in pie.c, not used */
     Int previewScanResolution; /* 0x2c01 = 300 fast preview scan resolution */
-    /* Reserved (56-95) */
+    /* Reserved(56-95) */
     /* Sane.Byte div_56[40]; */
-    /* 2nd vendor specific block (36 bytes at offset 96) */
+    /* 2nd vendor specific block(36 bytes at offset 96) */
     Sane.Char firmwareVersion[5]; /* actually 4 bytes, not null terminated "1.05" */
-    Sane.Byte halftones; /* 0x08 = halftones (4 LSbits) = 00001000 ? */
+    Sane.Byte halftones; /* 0x08 = halftones(4 LSbits) = 00001000 ? */
     Sane.Byte minumumHighlight; /* 0x64 = 100 */
     Sane.Byte maximumShadow; /* 0x64 = 100 */
     Sane.Byte calibrationEquation; /* 0x01 ? see pie_perform_cal() */
@@ -126,7 +126,7 @@ struct Pieusb_Sense {
 struct Pieusb_Scanner_State {
     Sane.Byte buttonPushed; /* 0x01 if pushed */
     Sane.Byte warmingUp; /* 0x01 if warming up, 0x00 if not */
-    Sane.Byte scanning; /* bit 6 set if SCAN active, bit 7 motor direction inverted (not analysed in detail) */
+    Sane.Byte scanning; /* bit 6 set if SCAN active, bit 7 motor direction inverted(not analysed in detail) */
 ]
 
 struct Pieusb_Scan_Parameters {
@@ -146,13 +146,13 @@ struct Pieusb_Mode {
     Int resolution; /* in dpi */
     Sane.Byte passes
       /* 0x80 = One pass color; 0x90 = One pass RGBI
-       * bit 7 : one-pass-color bit (equivalent to RGB all set?)
+       * bit 7 : one-pass-color bit(equivalent to RGB all set?)
        * bit 6 & 5: unused
        * bit 4 : Infrared
        * bit 3 : Blue
        * bit 2 : Green
        * bit 1 : Red
-       * bit 0: Neutral (not supported, ignored) */
+       * bit 0: Neutral(not supported, ignored) */
     Sane.Byte colorDepth
       /* 0x04 = 8, 0x20 = 16 bit
        * bit 7 & 6 : 0 (unused)
@@ -166,7 +166,7 @@ struct Pieusb_Mode {
       /* 0x04 = index, cf. INQUIRY
        * bit 7-3 : 0 (unused)
        * bit 2 : Index = scanned data are lines preceded by a two-byte index, 'RR', 'GG', 'BB', or 'II'
-       * bit 1 : Line =  scanned data are (probably) lines in RGBI order (needs testing)
+       * bit 1 : Line =  scanned data are(probably) lines in RGBI order(needs testing)
        * bit 0 : Pixel = scanned data are always RGB-pixels, i.e. 3x2 bytes at depth = 16 bits, 3 bytes
        *                 at depth = 8 bits, and 3 packed bytes at depth = 1. This is also the case in
        *                 a single color or gray scale scan; in these cases only the first pixel contains
@@ -177,9 +177,9 @@ struct Pieusb_Mode {
     Bool fastInfrared; /* byte 9 bit 7 */
       /* bit 7 : “fast infrared” flag
        * bit 6,5,4 : 0 (unused)
-       * bit 3 : “skip calibration” flag (skip collecting shading information)
+       * bit 3 : “skip calibration” flag(skip collecting shading information)
        * bit 2 : 0 (unused)
-       * bit 1 : “sharpen” flag (only effective with fastInfrared off, one-pass-color and no extra BADF-entries)
+       * bit 1 : “sharpen” flag(only effective with fastInfrared off, one-pass-color and no extra BADF-entries)
        * bit 0 : 0 (unused) */
     Sane.Byte halftonePattern; /* 0x00 = no halftone pattern */
     Sane.Byte lineThreshold; /* 0xFF = 100% */
@@ -189,7 +189,7 @@ struct Pieusb_Settings {
     Int saturationLevel[3]
       /* The average pixel values for the three colors Red, Green and Blue,
        * which are the result of optimizing the Timer 1 counts so that Red and
-       * Blue values are least 90% of full scale (58981) and the Green value is
+       * Blue values are least 90% of full scale(58981) and the Green value is
        * at least 80% (52428). These levels are only determined during warming up. */
     Int exposureTime[4]
       /* Optimized exposure times for Red, Green and Blue. The exposure times are
@@ -197,7 +197,7 @@ struct Pieusb_Settings {
        * only determined at startup.
        * Exposure time for Infrared. The value is optimized and set at startup
        * with the other exposure times. Quite often, it is subsequently reset to
-       * a default value (0x0B79). */
+       * a default value(0x0B79). */
     Sane.Word offset[4]
       /* Optimized offsets for Red, Green and Blue. See above. These values are
        * also updated before outputting the CCD-mask.
@@ -209,13 +209,13 @@ struct Pieusb_Settings {
       /* Current light level. The stability of the light source is tested during
        * warming up. The check starts with a light value 7 or 6, and decrements
        * it when the light warms up. At a light value of 4, the scanner produces
-       * stable scans (i.e. successive “white” scan values don't differ more
+       * stable scans(i.e. successive “white” scan values don't differ more
        * than 0x200). */
     Int minimumExposureTime
       /* Fixed value: 0x0b79 (2937) */
     Sane.Byte extraEntries
     Sane.Byte doubleTimes
-      /* Originally 20 unused bytes (uninitialized memory)
+      /* Originally 20 unused bytes(uninitialized memory)
        * To complete the mapping to the Pieusb_Settings_Condensed struct,
        * the last two bytes are given an explicit meaning. */
     /* Int exposureTimeIR; */
@@ -223,7 +223,7 @@ struct Pieusb_Settings {
     /* Sane.Byte gainIR; */
 ]
 
-/* Not used, Pieusb_Settings contains the same fields (after a bit of juggling) */
+/* Not used, Pieusb_Settings contains the same fields(after a bit of juggling) */
 struct Pieusb_Settings_Condensed {
     Int exposureTime[4]; /* => Pieusb_Settings.exposureTime */
     Sane.Byte offset[4]; /* => Pieusb_Settings.offset */
@@ -239,7 +239,7 @@ struct Pieusb_Halftone_Pattern {
 ]
 
 struct Pieusb_Scan_Frame {
-    Int index; /* scan frame index (0-7) */
+    Int index; /* scan frame index(0-7) */
     Int x0; /* top left, is origin */
     Int y0
     Int x1; /* bottom right */
@@ -279,9 +279,9 @@ struct Pieusb_Shading_Parameters_Info {
 #define SHADING_PARAMETERS_INFO_COUNT 4
 struct Pieusb_Shading_Parameters {
     Sane.Byte code; /* 0x95 */
-    Int size; /* number of bytes in rest of structure (0x1c=28) */
-    Sane.Byte calInfoCount; /* number of individual info structures (=0x04) */
-    Sane.Byte calInfoSize; /* size of individual info structure (=0x06) */
+    Int size; /* number of bytes in rest of structure(0x1c=28) */
+    Sane.Byte calInfoCount; /* number of individual info structures(=0x04) */
+    Sane.Byte calInfoSize; /* size of individual info structure(=0x06) */
     Int div_6; /* 0x0004, meaning not clear */
     struct Pieusb_Shading_Parameters_Info cal[SHADING_PARAMETERS_INFO_COUNT]
 ]
@@ -291,8 +291,8 @@ typedef enum {
   PIEUSB_STATUS_UNSUPPORTED,	/*  1 operation is not supported */
   PIEUSB_STATUS_CANCELLED,	/*  2 operation was cancelled */
   PIEUSB_STATUS_DEVICE_BUSY,	/*  3 device is busy; try again later */
-  PIEUSB_STATUS_INVAL,		/*  4 data is invalid (includes no dev at open) */
-  PIEUSB_STATUS_EOF,		/*  5 no more data available (end-of-file) */
+  PIEUSB_STATUS_INVAL,		/*  4 data is invalid(includes no dev at open) */
+  PIEUSB_STATUS_EOF,		/*  5 no more data available(end-of-file) */
   PIEUSB_STATUS_JAMMED,		/*  6 document feeder jammed */
   PIEUSB_STATUS_NO_DOCS,	/*  7 document feeder out of documents */
   PIEUSB_STATUS_COVER_OPEN,	/*  8 scanner cover is open */

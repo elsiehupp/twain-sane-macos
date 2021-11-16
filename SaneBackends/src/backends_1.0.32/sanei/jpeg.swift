@@ -27,7 +27,7 @@ typedef ppm_dest_struct *ppm_dest_ptr
  * For 12-bit JPEG data, we either downscale the values to 8 bits
  * (to write standard byte-per-sample PPM/PGM files), or output
  * nonstandard word-per-sample PPM/PGM files.  Downscaling is done
- * if PPM_NORAWWORD is defined (this can be done in the Makefile
+ * if PPM_NORAWWORD is defined(this can be done in the Makefile
  * or in jconfig.h).
  * (When the core library supports data precision reduction, a cleaner
  * implementation will be to ask for that instead.)
@@ -50,12 +50,12 @@ typedef ppm_dest_struct *ppm_dest_ptr
 		*ptr++=(char) ((val_ >> 8) & 0xFF);	\
 	}
 #define BYTESPERSAMPLE 2
-#define PPM_MAXVAL ((1<<BITS_IN_JSAMPLE)-1)
+#define PPM_MAXVAL((1<<BITS_IN_JSAMPLE)-1)
 #endif
 #endif
 
-METHODDEF (void)
-sanei_jpeg_start_output_ppm (j_decompress_ptr cinfo, djpeg_dest_ptr dinfo)
+METHODDEF(void)
+sanei_jpeg_start_output_ppm(j_decompress_ptr cinfo, djpeg_dest_ptr dinfo)
 {
   cinfo = cinfo
   dinfo = dinfo
@@ -63,8 +63,8 @@ sanei_jpeg_start_output_ppm (j_decompress_ptr cinfo, djpeg_dest_ptr dinfo)
 
 }
 
-METHODDEF (void)
-sanei_jpeg_finish_output_ppm (j_decompress_ptr cinfo, djpeg_dest_ptr dinfo)
+METHODDEF(void)
+sanei_jpeg_finish_output_ppm(j_decompress_ptr cinfo, djpeg_dest_ptr dinfo)
 {
   cinfo = cinfo
   dinfo = dinfo
@@ -80,8 +80,8 @@ sanei_jpeg_finish_output_ppm (j_decompress_ptr cinfo, djpeg_dest_ptr dinfo)
  * output buffer is physically the same as the fwrite buffer.
  */
 
-METHODDEF (void)
-sanei_jpeg_put_pixel_rows (j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
+METHODDEF(void)
+sanei_jpeg_put_pixel_rows(j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
 			   JDIMENSION rows_supplied, char *data)
 {
   ppm_dest_ptr dest = (ppm_dest_ptr) dinfo
@@ -89,7 +89,7 @@ sanei_jpeg_put_pixel_rows (j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
   dinfo = dinfo
   rows_supplied = rows_supplied
 
-  memcpy (data, dest.iobuffer, dest.buffer_width)
+  memcpy(data, dest.iobuffer, dest.buffer_width)
 }
 
 
@@ -98,8 +98,8 @@ sanei_jpeg_put_pixel_rows (j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
  * format translation.  Typically this only happens in 12-bit mode.
  */
 
-METHODDEF (void)
-sanei_jpeg_copy_pixel_rows (j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
+METHODDEF(void)
+sanei_jpeg_copy_pixel_rows(j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
 			    JDIMENSION rows_supplied, char *data)
 {
   ppm_dest_ptr dest = (ppm_dest_ptr) dinfo
@@ -113,11 +113,11 @@ sanei_jpeg_copy_pixel_rows (j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
 
   ptr = dest.pub.buffer[0]
   bufferptr = dest.iobuffer
-  for (col = dest.samples_per_row; col > 0; col--)
+  for(col = dest.samples_per_row; col > 0; col--)
     {
-      PUTPPMSAMPLE (bufferptr, GETJSAMPLE (*ptr++))
+      PUTPPMSAMPLE(bufferptr, GETJSAMPLE(*ptr++))
     }
-  memcpy (data, dest.iobuffer, dest.buffer_width)
+  memcpy(data, dest.iobuffer, dest.buffer_width)
 }
 
 
@@ -126,8 +126,8 @@ sanei_jpeg_copy_pixel_rows (j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
  * We have to demap the color index values to straight data.
  */
 
-METHODDEF (void)
-sanei_jpeg_put_demapped_rgb (j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
+METHODDEF(void)
+sanei_jpeg_put_demapped_rgb(j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
 			     JDIMENSION rows_supplied, char *data)
 {
 
@@ -144,19 +144,19 @@ sanei_jpeg_put_demapped_rgb (j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
 
   ptr = dest.pub.buffer[0]
   bufferptr = dest.iobuffer
-  for (col = cinfo.output_width; col > 0; col--)
+  for(col = cinfo.output_width; col > 0; col--)
     {
-      pixval = GETJSAMPLE (*ptr++)
-      PUTPPMSAMPLE (bufferptr, GETJSAMPLE (color_map0[pixval]))
-      PUTPPMSAMPLE (bufferptr, GETJSAMPLE (color_map1[pixval]))
-      PUTPPMSAMPLE (bufferptr, GETJSAMPLE (color_map2[pixval]))
+      pixval = GETJSAMPLE(*ptr++)
+      PUTPPMSAMPLE(bufferptr, GETJSAMPLE(color_map0[pixval]))
+      PUTPPMSAMPLE(bufferptr, GETJSAMPLE(color_map1[pixval]))
+      PUTPPMSAMPLE(bufferptr, GETJSAMPLE(color_map2[pixval]))
     }
-  memcpy (data, dest.iobuffer, dest.buffer_width)
+  memcpy(data, dest.iobuffer, dest.buffer_width)
 }
 
 
-METHODDEF (void)
-sanei_jpeg_put_demapped_gray (j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
+METHODDEF(void)
+sanei_jpeg_put_demapped_gray(j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
 			      JDIMENSION rows_supplied, char *data)
 {
   ppm_dest_ptr dest = (ppm_dest_ptr) dinfo
@@ -169,16 +169,16 @@ sanei_jpeg_put_demapped_gray (j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
 
   ptr = dest.pub.buffer[0]
   bufferptr = dest.iobuffer
-  for (col = cinfo.output_width; col > 0; col--)
+  for(col = cinfo.output_width; col > 0; col--)
     {
-      PUTPPMSAMPLE (bufferptr,
-		    GETJSAMPLE (color_map[GETJSAMPLE (*ptr++)]))
+      PUTPPMSAMPLE(bufferptr,
+		    GETJSAMPLE(color_map[GETJSAMPLE(*ptr++)]))
     }
-  memcpy (data, dest.iobuffer, dest.buffer_width)
+  memcpy(data, dest.iobuffer, dest.buffer_width)
 }
 
-GLOBAL (djpeg_dest_ptr)
-sanei_jpeg_jinit_write_ppm (j_decompress_ptr cinfo)
+GLOBAL(djpeg_dest_ptr)
+sanei_jpeg_jinit_write_ppm(j_decompress_ptr cinfo)
 {
 
   ppm_dest_ptr dest
@@ -186,21 +186,21 @@ sanei_jpeg_jinit_write_ppm (j_decompress_ptr cinfo)
   /* Create module interface object, fill in method pointers */
   dest = (ppm_dest_ptr)
     (*cinfo.mem.alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-				SIZEOF (ppm_dest_struct))
+				SIZEOF(ppm_dest_struct))
   dest.pub.start_output = sanei_jpeg_start_output_ppm
   dest.pub.finish_output = sanei_jpeg_finish_output_ppm
 
   /* Calculate output image dimensions so we can allocate space */
-  jpeg_calc_output_dimensions (cinfo)
+  jpeg_calc_output_dimensions(cinfo)
 
   /* Create physical I/O buffer.  Note we make this near on a PC. */
   dest.samples_per_row = cinfo.output_width * cinfo.out_color_components
-  dest.buffer_width = dest.samples_per_row * (BYTESPERSAMPLE * SIZEOF (char))
+  dest.buffer_width = dest.samples_per_row * (BYTESPERSAMPLE * SIZEOF(char))
   dest.iobuffer = (char *) (*cinfo.mem.alloc_small)
     ((j_common_ptr) cinfo, JPOOL_IMAGE, dest.buffer_width)
 
-  if (cinfo.quantize_colors || BITS_IN_JSAMPLE != 8 ||
-      SIZEOF (JSAMPLE) != SIZEOF (char))
+  if(cinfo.quantize_colors || BITS_IN_JSAMPLE != 8 ||
+      SIZEOF(JSAMPLE) != SIZEOF(char))
     {
       /* When quantizing, we need an output buffer for clrmap indexes
        * that's separate from the physical I/O buffer.  We also need a
@@ -211,9 +211,9 @@ sanei_jpeg_jinit_write_ppm (j_decompress_ptr cinfo)
 	 cinfo.output_width * cinfo.output_components,
 	 (JDIMENSION) 1)
       dest.pub.buffer_height = 1
-      if (!cinfo.quantize_colors)
+      if(!cinfo.quantize_colors)
 	dest.pub.put_pixel_rows = sanei_jpeg_copy_pixel_rows
-      else if (cinfo.out_color_space == JCS_GRAYSCALE)
+      else if(cinfo.out_color_space == JCS_GRAYSCALE)
 	dest.pub.put_pixel_rows = sanei_jpeg_put_demapped_gray
       else
 	dest.pub.put_pixel_rows = sanei_jpeg_put_demapped_rgb
@@ -229,7 +229,7 @@ sanei_jpeg_jinit_write_ppm (j_decompress_ptr cinfo)
       dest.pub.put_pixel_rows = sanei_jpeg_put_pixel_rows
     }
 
-  return (djpeg_dest_ptr) dest
+  return(djpeg_dest_ptr) dest
 }
 
 #endif

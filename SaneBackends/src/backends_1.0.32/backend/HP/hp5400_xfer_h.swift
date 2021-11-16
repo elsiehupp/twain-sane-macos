@@ -2,19 +2,19 @@
 #define _HP5400_XFER_H_
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2003 Martijn van Oosterhout <kleptog@svana.org>
-   Copyright (C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
+   Copyright(C) 2003 Martijn van Oosterhout <kleptog@svana.org>
+   Copyright(C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
 
    Originally copied from HP3300 testtools. Original notice follows:
 
-   Copyright (C) 2001 Bertrik Sikken (bertrik@zonnet.nl)
+   Copyright(C) 2001 Bertrik Sikken(bertrik@zonnet.nl)
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
    as published by the Free Software Foundation; either version 2
-   of the License, or (at your option) any later version.
+   of the License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -52,25 +52,25 @@
 
 import stdio
 
-HP5400_Sane.STATIC Int hp5400_open (const char *filename)
-HP5400_Sane.STATIC void hp5400_close (Int iHandle)
+HP5400_Sane.STATIC Int hp5400_open(const char *filename)
+HP5400_Sane.STATIC void hp5400_close(Int iHandle)
 
-HP5400_Sane.STATIC Int hp5400_command_verify (Int iHandle, Int iCmd)
-HP5400_Sane.STATIC Int hp5400_command_read (Int iHandle, Int iCmd, Int iLen, void *pbData)
-HP5400_Sane.STATIC Int hp5400_command_read_noverify (Int iHandle, Int iCmd, Int iLen,
+HP5400_Sane.STATIC Int hp5400_command_verify(Int iHandle, Int iCmd)
+HP5400_Sane.STATIC Int hp5400_command_read(Int iHandle, Int iCmd, Int iLen, void *pbData)
+HP5400_Sane.STATIC Int hp5400_command_read_noverify(Int iHandle, Int iCmd, Int iLen,
 						     void *pbData)
-HP5400_Sane.STATIC Int hp5400_command_write (Int iHandle, Int iCmd, Int iLen, void *pbData)
-HP5400_Sane.STATIC void hp5400_command_write_noverify (Int fd, Int iValue, void *pabData,
+HP5400_Sane.STATIC Int hp5400_command_write(Int iHandle, Int iCmd, Int iLen, void *pbData)
+HP5400_Sane.STATIC void hp5400_command_write_noverify(Int fd, Int iValue, void *pabData,
 						       Int iSize)
 #ifdef STANDALONE
-HP5400_Sane.STATIC Int hp5400_bulk_read (Int iHandle, size_t size, Int block, FILE * file)
+HP5400_Sane.STATIC Int hp5400_bulk_read(Int iHandle, size_t size, Int block, FILE * file)
 #endif
-HP5400_Sane.STATIC Int hp5400_bulk_read_block (Int iHandle, Int iCmd, void *cmd, Int cmdlen,
+HP5400_Sane.STATIC Int hp5400_bulk_read_block(Int iHandle, Int iCmd, void *cmd, Int cmdlen,
 					       void *buffer, Int len)
-HP5400_Sane.STATIC Int hp5400_bulk_command_write (Int iHandle, Int iCmd, void *cmd, Int cmdlen,
+HP5400_Sane.STATIC Int hp5400_bulk_command_write(Int iHandle, Int iCmd, void *cmd, Int cmdlen,
 						  Int len, Int block, char *data)
 #ifdef STANDALONE
-HP5400_Sane.STATIC Int hp5400_isOn (Int iHandle)
+HP5400_Sane.STATIC Int hp5400_isOn(Int iHandle)
 #endif
 
 #endif

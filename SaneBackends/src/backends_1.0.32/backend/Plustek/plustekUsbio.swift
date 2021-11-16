@@ -7,12 +7,12 @@
  *  @brief Some I/O stuff.
  *
  * Based on sources acquired from Plustek Inc.<br>
- * Copyright (C) 2001-2007 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 2001-2007 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * History:
  * - 0.40 - starting version of the USB support
- * - 0.41 - moved some functions to a sane library (sanei_lm983x.c)
+ * - 0.41 - moved some functions to a sane library(sanei_lm983x.c)
  * - 0.42 - no changes
  * - 0.43 - no changes
  * - 0.44 - added dump registers and dumpPic functions
@@ -35,7 +35,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -75,14 +75,14 @@ import Sane.sanei_lm983x
     {                                         \
         Sane.Status status;                   \
         status = func;                        \
-        if (status != Sane.STATUS_GOOD) {     \
+        if(status != Sane.STATUS_GOOD) {     \
             DBG( _DBG_ERROR, "UIO error\n" ); \
             return Sane.FALSE;                \
         }                                     \
     }
 
 #define usbio_ReadReg(fd, reg, value) \
-  sanei_lm983x_read (fd, reg, value, 1, 0)
+  sanei_lm983x_read(fd, reg, value, 1, 0)
 
 typedef struct {
 
@@ -113,7 +113,7 @@ static void dumpPic( char* name, Sane.Byte *buffer, u_long len, Int is_gray )
 
 			if( 0 != dPix.x ) {
 
-				if (is_gray)
+				if(is_gray)
 					type = 5
 				else
 					type = 6
@@ -291,7 +291,7 @@ static Sane.Status usbio_DetectLM983x( Int fd, Sane.Byte *version )
 	}
 
 	value &= 7
-	if (version)
+	if(version)
 		*version = value
 
 	res = Sane.STATUS_GOOD
@@ -330,7 +330,7 @@ static Sane.Status usbio_ResetLM983x( Plustek_Device *dev )
 		_UIO( sanei_lm983x_write_byte( dev.fd, 0x07,0x20))
 		_UIO( sanei_lm983x_write_byte( dev.fd, 0x07, 0))
 		_UIO( usbio_ReadReg( dev.fd, 0x07, &value))
-		if (value != 0) {
+		if(value != 0) {
  			DBG( _DBG_ERROR, "usbio_ResetLM983x: reset was not "
 			                 "successful, status=%d\n", value )
 			return Sane.STATUS_INVAL
@@ -338,7 +338,7 @@ static Sane.Status usbio_ResetLM983x( Plustek_Device *dev )
 
 	} else {
 		_UIO( usbio_ReadReg( dev.fd, 0x07, &value))
-		if (value != 0 ) {
+		if(value != 0 ) {
 			DBG( _DBG_INFO," * setting device to idle state!\n")
 			_UIO( sanei_lm983x_write_byte( dev.fd, 0x07, 0))
 		}

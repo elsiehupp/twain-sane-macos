@@ -23,7 +23,7 @@ Int main(void)
 
 	hubList = buslist.match(0x9)
 
-	for (iter = hubList.begin(); iter != hubList.end(); iter++) {
+	for(iter = hubList.begin(); iter != hubList.end(); iter++) {
 		device = *iter
 		cout << hex << setw(2) << setfill('0')
 			 << Int(device.devClass()) << "      " 

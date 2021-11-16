@@ -2,14 +2,14 @@
 
    pieusb_scancmd.c
 
-   Copyright (C) 2012-2015 Jan Vleeshouwers, Michael Rickmann, Klaus Kaempf
+   Copyright(C) 2012-2015 Jan Vleeshouwers, Michael Rickmann, Klaus Kaempf
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -147,7 +147,7 @@ _set_int(Sane.Word val, Sane.Byte* array, Sane.Byte offset) {
 static void
 _copy_bytes(Sane.Byte* dst, Sane.Byte* src, Sane.Byte count) {
     Sane.Byte k
-    for (k=0; k<count; k++) {
+    for(k=0; k<count; k++) {
         *dst++ = *src++
     }
 }
@@ -161,7 +161,7 @@ _copy_bytes(Sane.Byte* dst, Sane.Byte* src, Sane.Byte count) {
 static void
 _get_shorts(Sane.Word* dst, Sane.Byte* src, Sane.Byte count) {
     Sane.Byte k
-    for (k=0; k<count; k++) {
+    for(k=0; k<count; k++) {
         *dst = *(src+2*k+1)
         *dst <<= 8
         *dst++ += *(src+2*k)
@@ -176,7 +176,7 @@ _get_shorts(Sane.Word* dst, Sane.Byte* src, Sane.Byte count) {
 static void
 _set_shorts(Sane.Word* src, Sane.Byte* dst, Sane.Byte count) {
     Sane.Byte k
-    for (k=0; k<count; k++) {
+    for(k=0; k<count; k++) {
         *(dst+2*k) = *src & 0xFF
         *(dst+2*k+1) = ((*src++)>>8) & 0xFF
     }
@@ -184,7 +184,7 @@ _set_shorts(Sane.Word* src, Sane.Byte* dst, Sane.Byte count) {
 
 
 /**
- * Perform a TEST UNIT READY (SCSI command code 0x00)
+ * Perform a TEST UNIT READY(SCSI command code 0x00)
  * Returns status.pieusb_status:
  * - PIEUSB_STATUS_GOOD if device is ready
  * - PIEUSB_STATUS_DEVICE_BUSY if device is still busy after timeout
@@ -199,13 +199,13 @@ sanei_pieusb_cmd_test_unit_ready(Int device_number, struct Pieusb_Command_Status
 {
     Sane.Byte command[SCSI_COMMAND_LEN]
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_test_unit_ready()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_test_unit_ready()\n")
 
-    _prep_scsi_cmd (command, SCSI_TEST_UNIT_READY, 0)
+    _prep_scsi_cmd(command, SCSI_TEST_UNIT_READY, 0)
 
-    status.pieusb_status = sanei_pieusb_command (device_number, command, NULL, 0)
+    status.pieusb_status = sanei_pieusb_command(device_number, command, NULL, 0)
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_test_unit_ready() return status = %s\n", Sane.strstatus(status.pieusb_status))
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_test_unit_ready() return status = %s\n", Sane.strstatus(status.pieusb_status))
 }
 
 /**
@@ -221,7 +221,7 @@ sanei_pieusb_cmd_slide(Int device_number, slide_action action, struct Pieusb_Com
 #define SLIDE_DATA_SIZE 4
     Sane.Byte data[SLIDE_DATA_SIZE]
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_slide(0x%02x)\n", action)
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_slide(0x%02x)\n", action)
 
     _prep_scsi_cmd(command, SCSI_SLIDE, SLIDE_DATA_SIZE)
     memset(data, '\0', SLIDE_DATA_SIZE)
@@ -233,7 +233,7 @@ sanei_pieusb_cmd_slide(Int device_number, slide_action action, struct Pieusb_Com
 }
 
 /**
- * Perform a REQUEST SENSE (SCSI command code 0x03)
+ * Perform a REQUEST SENSE(SCSI command code 0x03)
  * Returns status.pieusb_status:
  * - PIEUSB_STATUS_GOOD is the command executes OK
  * - other SANE status code if REQUEST SENSE fails
@@ -255,40 +255,40 @@ sanei_pieusb_cmd_get_sense(Int device_number, struct Pieusb_Sense* sense, struct
     PIEUSB_Status st
   Sane.Char* sd
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_get_sense()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_get_sense()\n")
 
     _prep_scsi_cmd(command, SCSI_REQUEST_SENSE, size)
 
     memset(data, '\0', size)
     st = sanei_pieusb_command(device_number, command, data, size)
-    if (st != PIEUSB_STATUS_GOOD) {
+    if(st != PIEUSB_STATUS_GOOD) {
       status.pieusb_status = st
       /*FIXME*/
         return
     }
 
     /* Decode data received */
-    sense.errorCode = _get_byte (data, 0)
-    sense.segment = _get_byte (data, 1)
-    sense.senseKey = _get_byte (data, 2)
-    _copy_bytes (sense.info, data+3, 4)
-    sense.addLength = _get_byte (data, 7)
-    _copy_bytes (sense.cmdInfo, data+8, 4)
-    sense.senseCode = _get_byte (data, 12)
-    sense.senseQualifier = _get_byte (data, 13)
+    sense.errorCode = _get_byte(data, 0)
+    sense.segment = _get_byte(data, 1)
+    sense.senseKey = _get_byte(data, 2)
+    _copy_bytes(sense.info, data+3, 4)
+    sense.addLength = _get_byte(data, 7)
+    _copy_bytes(sense.cmdInfo, data+8, 4)
+    sense.senseCode = _get_byte(data, 12)
+    sense.senseQualifier = _get_byte(data, 13)
     status.pieusb_status = PIEUSB_STATUS_GOOD
 #undef DATA_SIZE
-  DBG (DBG_info_scan, "\tsense details:\n")
-  DBG (DBG_info_scan, "\t\terror......... : 0x%02x\n", sense.errorCode)
-  DBG (DBG_info_scan, "\t\tsegment....... : %d\n", sense.segment)
-  DBG (DBG_info_scan, "\t\tsenseKey...... : 0x%02x\n", sense.senseKey)
-  DBG (DBG_info_scan, "\t\tinfo.......... : %02x %02x %02x %02x\n", sense.info[0], sense.info[1], sense.info[2], sense.info[3])
-  DBG (DBG_info_scan, "\t\taddLength..... : %d\n", sense.addLength)
-  DBG (DBG_info_scan, "\t\tcmdInfo....... : %02x %02x %02x %02x\n", sense.cmdInfo[0], sense.cmdInfo[1], sense.cmdInfo[2], sense.cmdInfo[3])
-  DBG (DBG_info_scan, "\t\tsenseCode..... : 0x%02x\n", sense.senseCode)
-  DBG (DBG_info_scan, "\t\tsenseQualifier : 0x%02x\n", sense.senseQualifier)
-  sd = sanei_pieusb_decode_sense (sense, ret?ret:&st)
-  DBG (DBG_info_scan, "\tsense: %s\n", sd)
+  DBG(DBG_info_scan, "\tsense details:\n")
+  DBG(DBG_info_scan, "\t\terror......... : 0x%02x\n", sense.errorCode)
+  DBG(DBG_info_scan, "\t\tsegment....... : %d\n", sense.segment)
+  DBG(DBG_info_scan, "\t\tsenseKey...... : 0x%02x\n", sense.senseKey)
+  DBG(DBG_info_scan, "\t\tinfo.......... : %02x %02x %02x %02x\n", sense.info[0], sense.info[1], sense.info[2], sense.info[3])
+  DBG(DBG_info_scan, "\t\taddLength..... : %d\n", sense.addLength)
+  DBG(DBG_info_scan, "\t\tcmdInfo....... : %02x %02x %02x %02x\n", sense.cmdInfo[0], sense.cmdInfo[1], sense.cmdInfo[2], sense.cmdInfo[3])
+  DBG(DBG_info_scan, "\t\tsenseCode..... : 0x%02x\n", sense.senseCode)
+  DBG(DBG_info_scan, "\t\tsenseQualifier : 0x%02x\n", sense.senseQualifier)
+  sd = sanei_pieusb_decode_sense(sense, ret?ret:&st)
+  DBG(DBG_info_scan, "\tsense: %s\n", sd)
   free(sd)
 }
 
@@ -310,38 +310,38 @@ sanei_pieusb_cmd_get_scan_frame(Int device_number, Int index, struct Pieusb_Scan
     Sane.Byte data[FRAME_SIZE]
     PIEUSB_Status st
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_get_scan_frame()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_get_scan_frame()\n")
 
     /* Ask scanner to prepare the scan frame with the given index. Only SCSI_COMMAND_LEN bytes of data. */
-    _prep_scsi_cmd (command, SCSI_WRITE, SCSI_COMMAND_LEN)
-    memset (data, '\0', SCSI_COMMAND_LEN)
+    _prep_scsi_cmd(command, SCSI_WRITE, SCSI_COMMAND_LEN)
+    memset(data, '\0', SCSI_COMMAND_LEN)
     data[0] = SCSI_SCAN_FRAME | 0x80; /* set bit 7 means prepare read */
     data[4] = index
 
-    st = sanei_pieusb_command (device_number, command, data, SCSI_COMMAND_LEN)
-    if (st != PIEUSB_STATUS_GOOD) {
+    st = sanei_pieusb_command(device_number, command, data, SCSI_COMMAND_LEN)
+    if(st != PIEUSB_STATUS_GOOD) {
       status.pieusb_status = st
       /* FIXME */
         return
     }
 
     /* Read scan frame */
-    _prep_scsi_cmd (command, SCSI_READ, size)
+    _prep_scsi_cmd(command, SCSI_READ, size)
 
     memset(data, '\0', size)
-    status.pieusb_status = sanei_pieusb_command (device_number, command, data, size)
+    status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
 
     /* Decode data */
-    frame.index = _get_byte (data, 4)
-    frame.x0 = _get_short (data, 6)
-    frame.y0 = _get_short (data, 8)
-    frame.x1 = _get_short (data, 10)
-    frame.y1 = _get_short (data, 12)
+    frame.index = _get_byte(data, 4)
+    frame.x0 = _get_short(data, 6)
+    frame.y0 = _get_short(data, 8)
+    frame.x1 = _get_short(data, 10)
+    frame.y1 = _get_short(data, 12)
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_get_scan_frame() set:\n")
-    DBG (DBG_info_scan, " x0,y0 = %d,%d\n", frame.x0, frame.y0)
-    DBG (DBG_info_scan, " x1,y1 = %d,%d\n", frame.x1, frame.y1)
-    DBG (DBG_info_scan, " index = %d\n", frame.index)
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_get_scan_frame() set:\n")
+    DBG(DBG_info_scan, " x0,y0 = %d,%d\n", frame.x0, frame.y0)
+    DBG(DBG_info_scan, " x1,y1 = %d,%d\n", frame.x1, frame.y1)
+    DBG(DBG_info_scan, " index = %d\n", frame.index)
 #undef FRAME_SIZE
 }
 
@@ -356,18 +356,18 @@ sanei_pieusb_cmd_17(Int device_number, Int value, struct Pieusb_Command_Status *
 #define CMD_17_SIZE 6
     Sane.Byte data[CMD_17_SIZE]
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_17(%d)\n", value)
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_17(%d)\n", value)
 
-    _prep_scsi_cmd (command, SCSI_WRITE, CMD_17_SIZE)
-    memset (data, '\0', CMD_17_SIZE)
-    _set_short (SCSI_CMD_17, data, 0)
-    _set_short (2, data, 2)
-    _set_short (value, data, 4)
+    _prep_scsi_cmd(command, SCSI_WRITE, CMD_17_SIZE)
+    memset(data, '\0', CMD_17_SIZE)
+    _set_short(SCSI_CMD_17, data, 0)
+    _set_short(2, data, 2)
+    _set_short(value, data, 4)
 
-    status.pieusb_status = sanei_pieusb_command (device_number, command, data, CMD_17_SIZE)
+    status.pieusb_status = sanei_pieusb_command(device_number, command, data, CMD_17_SIZE)
 #undef CMD_17_SIZE
-    if (status.pieusb_status != PIEUSB_STATUS_GOOD) {
-      DBG (DBG_info_scan, "sanei_pieusb_cmd_17 failed: 0x%02x\n", status.pieusb_status)
+    if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
+      DBG(DBG_info_scan, "sanei_pieusb_cmd_17 failed: 0x%02x\n", status.pieusb_status)
       return
     }
 }
@@ -391,28 +391,28 @@ sanei_pieusb_cmd_get_shading_parms(Int device_number, struct Pieusb_Shading_Para
     Sane.Byte data[SHADING_SIZE]
     Int k
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_get_shading_parms()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_get_shading_parms()\n")
 
     /* Ask scanner to prepare the scan frame with the given index. Only SCSI_COMMAND_LEN bytes of data. */
-    _prep_scsi_cmd (command, SCSI_WRITE, SCSI_COMMAND_LEN)
-    memset (data, '\0', PREP_READ_SIZE)
+    _prep_scsi_cmd(command, SCSI_WRITE, SCSI_COMMAND_LEN)
+    memset(data, '\0', PREP_READ_SIZE)
     data[0] = SCSI_CALIBRATION_INFO | 0x80; /* set bit 7 means prepare read */
 
-    status.pieusb_status = sanei_pieusb_command (device_number, command, data, PREP_READ_SIZE)
-    if (status.pieusb_status != PIEUSB_STATUS_GOOD) {
+    status.pieusb_status = sanei_pieusb_command(device_number, command, data, PREP_READ_SIZE)
+    if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
       return
     }
 
     /* Read shading parameters */
     _prep_scsi_cmd(command, SCSI_READ, size)
 
-    memset (data, '\0', size)
-    status.pieusb_status = sanei_pieusb_command (device_number, command, data, size)
-    if (status.pieusb_status != PIEUSB_STATUS_GOOD) {
+    memset(data, '\0', size)
+    status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
+    if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
       return
     }
 
-    /* Decode data [32 bytes]
+    /* Decode data[32 bytes]
        0: 95 00 type
        2: 1c 00 payload len
        4: 04    entries
@@ -423,12 +423,12 @@ sanei_pieusb_cmd_get_shading_parms(Int device_number, struct Pieusb_Shading_Para
       20: 10 10 10 14 1a 1d
       26: 20 10 10 14 1a 1d
      */
-    for (k = 0; k < data[4]; k++) {
-        shading[k].type = _get_byte (data, 8 + data[5]*k)
-        shading[k].sendBits = _get_byte (data, 9 + data[5]*k)
-        shading[k].recieveBits = _get_byte (data, 10 + data[5]*k)
-        shading[k].nLines = _get_byte (data, 11 + data[5]*k)
-        shading[k].pixelsPerLine = _get_short (data, 12 + data[5]*k)
+    for(k = 0; k < data[4]; k++) {
+        shading[k].type = _get_byte(data, 8 + data[5]*k)
+        shading[k].sendBits = _get_byte(data, 9 + data[5]*k)
+        shading[k].recieveBits = _get_byte(data, 10 + data[5]*k)
+        shading[k].nLines = _get_byte(data, 11 + data[5]*k)
+        shading[k].pixelsPerLine = _get_short(data, 12 + data[5]*k)
     }
 #undef PREP_READ_SIZE
 #undef SHADING_SIZE
@@ -444,7 +444,7 @@ sanei_pieusb_cmd_get_shading_parms(Int device_number, struct Pieusb_Shading_Para
  * (if so, it is approximately 2Mb in size). I haven't tried what happens if you
  * start reading after a stop. Reading to fast causes the scanner to return
  * a busy status, which is not a problem.
- * This is a SCSI READ command (code 0x08). It is distinguished from the other
+ * This is a SCSI READ command(code 0x08). It is distinguished from the other
  * READ commands by the context in which it is issued: see sanei_pieusb_cmd_start_scan().
  *
  * @param device_number
@@ -458,20 +458,20 @@ sanei_pieusb_cmd_get_scanned_lines(Int device_number, Sane.Byte* data, Int lines
 {
     Sane.Byte command[SCSI_COMMAND_LEN]
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_get_scanned_lines(): %d lines (%d bytes)\n", lines, size)
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_get_scanned_lines(): %d lines(%d bytes)\n", lines, size)
 
-    _prep_scsi_cmd (command, SCSI_READ, lines)
-    memset (data, '\0', size)
+    _prep_scsi_cmd(command, SCSI_READ, lines)
+    memset(data, '\0', size)
 
-    status.pieusb_status = sanei_pieusb_command (device_number, command, data, size)
+    status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
 }
 
 /**
  * Set the scan frame with the given index to the frame. The command is a SCSI
- * WRITE command (code SCSI_WRITE, write code SCSI_SCAN_FRAME).
+ * WRITE command(code SCSI_WRITE, write code SCSI_SCAN_FRAME).
  *
  * @param device_number Device number
- * @param index Frame index (0-7)
+ * @param index Frame index(0-7)
  * @param frame Scan frame
  * @return Pieusb_Command_Status
  * @see Pieusb_Scan_Frame
@@ -484,32 +484,32 @@ sanei_pieusb_cmd_set_scan_frame(Int device_number, Int index, struct Pieusb_Scan
     Int size = FRAME_SIZE
     Sane.Byte data[FRAME_SIZE]
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_set_scan_frame()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_set_scan_frame()\n")
 
     _prep_scsi_cmd(command, SCSI_WRITE, size)
 
-    DBG (DBG_info_scan, " x0,y0 = %d,%d\n", frame.x0, frame.y0)
-    DBG (DBG_info_scan, " x1,y1 = %d,%d\n", frame.x1, frame.y1)
-    DBG (DBG_info_scan, " index = %d\n", index)
+    DBG(DBG_info_scan, " x0,y0 = %d,%d\n", frame.x0, frame.y0)
+    DBG(DBG_info_scan, " x1,y1 = %d,%d\n", frame.x1, frame.y1)
+    DBG(DBG_info_scan, " index = %d\n", index)
 
     /* Code data */
-    memset (data, '\0', size)
-    _set_short (SCSI_SCAN_FRAME, data, 0)
-    _set_short (size-4, data, 2); /* size: one frame, 5 shorts */
-    _set_short (index, data, 4)
-    _set_short (frame.x0, data, 6)
-    _set_short (frame.y0, data, 8)
-    _set_short (frame.x1, data, 10)
-    _set_short (frame.y1, data, 12)
+    memset(data, '\0', size)
+    _set_short(SCSI_SCAN_FRAME, data, 0)
+    _set_short(size-4, data, 2); /* size: one frame, 5 shorts */
+    _set_short(index, data, 4)
+    _set_short(frame.x0, data, 6)
+    _set_short(frame.y0, data, 8)
+    _set_short(frame.x1, data, 10)
+    _set_short(frame.y1, data, 12)
 
-    status.pieusb_status = sanei_pieusb_command (device_number, command, data, size)
+    status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
 #undef FRAME_SIZE
 }
 
 /**
  * Set the relative exposure time to the given values. Only the first
  * Pieusb_Exposure_Time_Color is used. The command is a SCSI
- * WRITE command (code SCSI_WRITE, write code SCSI_EXPOSURE).
+ * WRITE command(code SCSI_WRITE, write code SCSI_EXPOSURE).
  *
  * @param device_number Device number
  * @param time Relative exposure time
@@ -525,18 +525,18 @@ sanei_pieusb_cmd_set_exposure_time(Int device_number, struct Pieusb_Exposure_Tim
     struct Pieusb_Exposure_Time_Color *exptime
     var i: Int
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_set_exposure_time()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_set_exposure_time()\n")
 
-    for (i = 0; i < 3; ++i) { /* R, G, B */
-      _prep_scsi_cmd (command, SCSI_WRITE, EXPOSURE_DATA_SIZE)
-      memset (data, '\0', EXPOSURE_DATA_SIZE)
+    for(i = 0; i < 3; ++i) { /* R, G, B */
+      _prep_scsi_cmd(command, SCSI_WRITE, EXPOSURE_DATA_SIZE)
+      memset(data, '\0', EXPOSURE_DATA_SIZE)
       exptime = &(time.color[i])
-      _set_short (SCSI_EXPOSURE, data, 0)
-      _set_short (EXPOSURE_DATA_SIZE-4, data, 2); /* short: RGB, short: value */
-      _set_short (exptime.filter, data, 4);      /* 1: neutral, 2: R, 4: G, 8: B */
-      _set_short (exptime.value, data, 6)
-      status.pieusb_status = sanei_pieusb_command (device_number, command, data, EXPOSURE_DATA_SIZE)
-      if (status.pieusb_status != PIEUSB_STATUS_GOOD)
+      _set_short(SCSI_EXPOSURE, data, 0)
+      _set_short(EXPOSURE_DATA_SIZE-4, data, 2); /* short: RGB, short: value */
+      _set_short(exptime.filter, data, 4);      /* 1: neutral, 2: R, 4: G, 8: B */
+      _set_short(exptime.value, data, 6)
+      status.pieusb_status = sanei_pieusb_command(device_number, command, data, EXPOSURE_DATA_SIZE)
+      if(status.pieusb_status != PIEUSB_STATUS_GOOD)
 	break
     }
 
@@ -546,7 +546,7 @@ sanei_pieusb_cmd_set_exposure_time(Int device_number, struct Pieusb_Exposure_Tim
 /**
  * Set the highlight and shadow levels to the given values. Only the first
  * Pieusb_Highlight_Shadow_Color is used. The command is a SCSI
- * WRITE command (code SCSI_WRITE, write code SCSI_HIGHLIGHT_SHADOW).
+ * WRITE command(code SCSI_WRITE, write code SCSI_HIGHLIGHT_SHADOW).
  *
  * @param device_number Device number
  * @param hgltshdw highlight and shadow level
@@ -562,18 +562,18 @@ sanei_pieusb_cmd_set_highlight_shadow(Int device_number, struct Pieusb_Highlight
     struct Pieusb_Highlight_Shadow_Color *color
     var i: Int
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_set_highlight_shadow()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_set_highlight_shadow()\n")
 
-    for (i = 0; i < 3; ++i) { /* R, G, B */
-      _prep_scsi_cmd (command, SCSI_WRITE, HIGHLIGHT_SHADOW_SIZE)
-      memset (data, '\0', HIGHLIGHT_SHADOW_SIZE)
+    for(i = 0; i < 3; ++i) { /* R, G, B */
+      _prep_scsi_cmd(command, SCSI_WRITE, HIGHLIGHT_SHADOW_SIZE)
+      memset(data, '\0', HIGHLIGHT_SHADOW_SIZE)
       color = &(hgltshdw.color[i])
-      _set_short (SCSI_HIGHLIGHT_SHADOW, data, 0)
-      _set_short (HIGHLIGHT_SHADOW_SIZE-4, data, 2); /* short: RGB, short: value */
-      _set_short (color.filter, data, 4);      /* 1: neutral, 2: R, 4: G, 8: B */
-      _set_short (color.value, data, 6)
-      status.pieusb_status = sanei_pieusb_command (device_number, command, data, HIGHLIGHT_SHADOW_SIZE)
-      if (status.pieusb_status != PIEUSB_STATUS_GOOD)
+      _set_short(SCSI_HIGHLIGHT_SHADOW, data, 0)
+      _set_short(HIGHLIGHT_SHADOW_SIZE-4, data, 2); /* short: RGB, short: value */
+      _set_short(color.filter, data, 4);      /* 1: neutral, 2: R, 4: G, 8: B */
+      _set_short(color.value, data, 6)
+      status.pieusb_status = sanei_pieusb_command(device_number, command, data, HIGHLIGHT_SHADOW_SIZE)
+      if(status.pieusb_status != PIEUSB_STATUS_GOOD)
 	break
     }
 
@@ -599,13 +599,13 @@ sanei_pieusb_cmd_get_parameters(Int device_number, struct Pieusb_Scan_Parameters
     Int size = PARAMETER_SIZE
     Sane.Byte data[PARAMETER_SIZE]
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_get_parameters()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_get_parameters()\n")
 
-    _prep_scsi_cmd (command, SCSI_PARAM, size)
-    memset (data, '\0', size)
+    _prep_scsi_cmd(command, SCSI_PARAM, size)
+    memset(data, '\0', size)
 
     status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
-    if (status.pieusb_status != PIEUSB_STATUS_GOOD) {
+    if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
         return
     }
 
@@ -630,18 +630,18 @@ sanei_pieusb_cmd_get_parameters(Int device_number, struct Pieusb_Scan_Parameters
     parameters.scsiTransferRate = _get_short(data, 12); /* unused */
     parameters.availableLines = _get_short(data, 14)
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_get_parameters() read:\n")
-    DBG (DBG_info_scan, " width = %d\n", parameters.width)
-    DBG (DBG_info_scan, " lines = %d\n", parameters.lines)
-    DBG (DBG_info_scan, " bytes = %d\n", parameters.bytes)
-    DBG (DBG_info_scan, " offset1 = %d\n", parameters.filterOffset1)
-    DBG (DBG_info_scan, " offset2 = %d\n", parameters.filterOffset2)
-    DBG (DBG_info_scan, " available lines = %d\n", parameters.availableLines)
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_get_parameters() read:\n")
+    DBG(DBG_info_scan, " width = %d\n", parameters.width)
+    DBG(DBG_info_scan, " lines = %d\n", parameters.lines)
+    DBG(DBG_info_scan, " bytes = %d\n", parameters.bytes)
+    DBG(DBG_info_scan, " offset1 = %d\n", parameters.filterOffset1)
+    DBG(DBG_info_scan, " offset2 = %d\n", parameters.filterOffset2)
+    DBG(DBG_info_scan, " available lines = %d\n", parameters.availableLines)
 #undef PARAMETER_SIZE
 }
 
 /**
- * Read INQUIRY block from device (SCSI command code 0x12). This block contains
+ * Read INQUIRY block from device(SCSI command code 0x12). This block contains
  * information about the properties of the scanner.
  * Returns status.pieusb_status:
  * - PIEUSB_STATUS_GOOD if the INQUIRY command succeeded
@@ -663,13 +663,13 @@ sanei_pieusb_cmd_inquiry(Int device_number, struct Pieusb_Scanner_Properties* in
     Sane.Byte data[INQUIRY_SIZE]
     Int k
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_inquiry()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_inquiry()\n")
 
-    _prep_scsi_cmd (command, SCSI_INQUIRY, size)
-    memset (data, '\0', INQUIRY_SIZE); /* size may be less than INQUIRY_SIZE, so prevent returning noise */
+    _prep_scsi_cmd(command, SCSI_INQUIRY, size)
+    memset(data, '\0', INQUIRY_SIZE); /* size may be less than INQUIRY_SIZE, so prevent returning noise */
 
-    status.pieusb_status = sanei_pieusb_command (device_number, command, data, size)
-    if (status.pieusb_status != PIEUSB_STATUS_GOOD) {
+    status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
+    if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
         return
     }
 
@@ -694,7 +694,7 @@ sanei_pieusb_cmd_inquiry(Int device_number, struct Pieusb_Scanner_Properties* in
     inq.gammaBits = _get_byte(data, 52)
     inq.lastFilter = _get_byte(data, 53)
     inq.previewScanResolution = _get_short(data, 54)
-    /* 2nd vendor specific block (36 bytes at offset 96) */
+    /* 2nd vendor specific block(36 bytes at offset 96) */
     _copy_bytes((Sane.Byte*)(inq.firmwareVersion), data+96, 4); inq.firmwareVersion[4]=0x00
     inq.halftones = _get_byte(data, 100)
     inq.minumumHighlight = _get_byte(data, 101)
@@ -711,13 +711,13 @@ sanei_pieusb_cmd_inquiry(Int device_number, struct Pieusb_Scanner_Properties* in
     _copy_bytes((Sane.Byte*)(inq.timestamp), data+124, 20)
     _copy_bytes((Sane.Byte*)(inq.signature), data+144, 40)
     /* remove newline in signature */
-    for (k=0; k<40; k++) if (inq.signature[k]==0x0a || inq.signature[k]==0x0d) inq.signature[k]=' '
+    for(k=0; k<40; k++) if(inq.signature[k]==0x0a || inq.signature[k]==0x0d) inq.signature[k]=' '
 #undef INQUIRY_SIZE
 }
 
 /**
  * Set scan mode parameters, such as resolution, colors to scan, color depth,
- * color format, and a couple of scan quality settings (sharpen, skip
+ * color format, and a couple of scan quality settings(sharpen, skip
  * calibration, fast infrared). It performs the SCSI-command MODE SELECT,
  * code 0x15.
  *
@@ -735,27 +735,27 @@ sanei_pieusb_cmd_set_mode(Int device_number, struct Pieusb_Mode* mode, struct Pi
     Sane.Byte data[MODE_SIZE]
     Sane.Byte quality
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_set_mode()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_set_mode()\n")
 
     _prep_scsi_cmd(command, SCSI_MODE_SELECT, size)
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_set_mode() set:\n")
-    DBG (DBG_info_scan, " resolution = %d\n", mode.resolution)
-    DBG (DBG_info_scan, " passes = %02x\n", mode.passes)
-    DBG (DBG_info_scan, " depth = %02x\n", mode.colorDepth)
-    DBG (DBG_info_scan, " color format = %02x\n", mode.colorFormat)
-    DBG (DBG_info_scan, " sharpen = %d\n", mode.sharpen)
-    DBG (DBG_info_scan, " skip calibration = %d\n", mode.skipShadingAnalysis)
-    DBG (DBG_info_scan, " fast infrared = %d\n", mode.fastInfrared)
-    DBG (DBG_info_scan, " halftone pattern = %d\n", mode.halftonePattern)
-    DBG (DBG_info_scan, " line threshold = %d\n", mode.lineThreshold)
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_set_mode() set:\n")
+    DBG(DBG_info_scan, " resolution = %d\n", mode.resolution)
+    DBG(DBG_info_scan, " passes = %02x\n", mode.passes)
+    DBG(DBG_info_scan, " depth = %02x\n", mode.colorDepth)
+    DBG(DBG_info_scan, " color format = %02x\n", mode.colorFormat)
+    DBG(DBG_info_scan, " sharpen = %d\n", mode.sharpen)
+    DBG(DBG_info_scan, " skip calibration = %d\n", mode.skipShadingAnalysis)
+    DBG(DBG_info_scan, " fast infrared = %d\n", mode.fastInfrared)
+    DBG(DBG_info_scan, " halftone pattern = %d\n", mode.halftonePattern)
+    DBG(DBG_info_scan, " line threshold = %d\n", mode.lineThreshold)
 
     /* Code data */
     /* cyberview
      * 00 0f entries
      * f4 01 resolution 500
-     * 80    RGB (90: RGBI)
-     * 04    color depth (4: 8 bit, 20: 16 bit)
+     * 80    RGB(90: RGBI)
+     * 04    color depth(4: 8 bit, 20: 16 bit)
      * 04    color format
      * 00
      * 01    byte order
@@ -779,23 +779,23 @@ sanei_pieusb_cmd_set_mode(Int device_number, struct Pieusb_Mode* mode, struct Pi
      * d: 7f    line threshold
      * e: 00 00
      */
-    memset (data, '\0', size)
-    _set_byte (size-1, data, 1)
-    _set_short (mode.resolution, data, 2)
-    _set_byte (mode.passes, data, 4)
-    _set_byte (mode.colorDepth, data, 5)
-    _set_byte (mode.colorFormat, data, 6)
-    _set_byte (mode.byteOrder, data, 8)
+    memset(data, '\0', size)
+    _set_byte(size-1, data, 1)
+    _set_short(mode.resolution, data, 2)
+    _set_byte(mode.passes, data, 4)
+    _set_byte(mode.colorDepth, data, 5)
+    _set_byte(mode.colorFormat, data, 6)
+    _set_byte(mode.byteOrder, data, 8)
     quality = 0x00
-    if (mode.sharpen) quality |= 0x02
-    if (mode.skipShadingAnalysis) quality |= 0x08
-    if (mode.fastInfrared) quality |= 0x80
-    _set_byte (quality, data, 9)
-    _set_byte (mode.halftonePattern, data, 12)
-    _set_byte (mode.lineThreshold, data, 13)
-    _set_byte (0x10, data, 14); /* ? */
+    if(mode.sharpen) quality |= 0x02
+    if(mode.skipShadingAnalysis) quality |= 0x08
+    if(mode.fastInfrared) quality |= 0x80
+    _set_byte(quality, data, 9)
+    _set_byte(mode.halftonePattern, data, 12)
+    _set_byte(mode.lineThreshold, data, 13)
+    _set_byte(0x10, data, 14); /* ? */
 
-    status.pieusb_status = sanei_pieusb_command (device_number, command, data, size)
+    status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
 #undef MODE_SIZE
 }
 
@@ -808,7 +808,7 @@ sanei_pieusb_cmd_set_mode(Int device_number, struct Pieusb_Mode* mode, struct Pi
  * The number of 0x00 bytes equals the number of pixels on a line.\n
  * The mask begins with a number of 0x70 bytes equal to the scan frame x0-value
  * divided by 2.\n
- * The SCSI-command COPY (code 0x18) is used for function.
+ * The SCSI-command COPY(code 0x18) is used for function.
  *
  * @param device_number Device number
  * @param mask
@@ -819,17 +819,17 @@ sanei_pieusb_cmd_get_ccd_mask(Int device_number, Sane.Byte* mask, Int mask_size,
 {
     Sane.Byte command[SCSI_COMMAND_LEN]
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_get_ccd_mask()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_get_ccd_mask()\n")
 
-    _prep_scsi_cmd (command, SCSI_COPY, mask_size)
+    _prep_scsi_cmd(command, SCSI_COPY, mask_size)
 
-    memset (mask, '\0', mask_size)
-    status.pieusb_status = sanei_pieusb_command (device_number, command, mask, mask_size)
+    memset(mask, '\0', mask_size)
+    status.pieusb_status = sanei_pieusb_command(device_number, command, mask, mask_size)
 }
 
 /**
  * Get scan mode parameters, such as resolution, colors to scan, color depth,
- * color format, and a couple of scan quality settings (sharpen, skip
+ * color format, and a couple of scan quality settings(sharpen, skip
  * calibration, fast infrared). It performs the SCSI-command MODE SELECT,
  * code 0x1A.
  *
@@ -847,44 +847,44 @@ sanei_pieusb_cmd_get_mode(Int device_number, struct Pieusb_Mode* mode, struct Pi
     Sane.Byte data[MODE_SIZE]
     Sane.Byte quality
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_get_mode()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_get_mode()\n")
 
-    _prep_scsi_cmd (command, SCSI_MODE_SENSE, size)
-    memset (data, '\0', size)
+    _prep_scsi_cmd(command, SCSI_MODE_SENSE, size)
+    memset(data, '\0', size)
 
     status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
-    if (status.pieusb_status != PIEUSB_STATUS_GOOD) {
+    if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
         return
     }
 
     /* Decode data received */
-    mode.resolution = _get_short (data, 2)
-    mode.passes = _get_byte (data, 4)
-    mode.colorDepth = _get_byte (data, 5)
-    mode.colorFormat = _get_byte (data, 6)
-    mode.byteOrder = _get_byte (data, 8)
-    quality = _get_byte (data, 9)
+    mode.resolution = _get_short(data, 2)
+    mode.passes = _get_byte(data, 4)
+    mode.colorDepth = _get_byte(data, 5)
+    mode.colorFormat = _get_byte(data, 6)
+    mode.byteOrder = _get_byte(data, 8)
+    quality = _get_byte(data, 9)
     mode.sharpen = (quality |= 0x02) ? Sane.TRUE : Sane.FALSE
     mode.skipShadingAnalysis = (quality |= 0x08) ? Sane.TRUE : Sane.FALSE
     mode.fastInfrared = (quality |= 0x80) ? Sane.TRUE : Sane.FALSE
-    mode.halftonePattern = _get_byte (data, 12)
-    mode.lineThreshold = _get_byte (data, 13)
+    mode.halftonePattern = _get_byte(data, 12)
+    mode.lineThreshold = _get_byte(data, 13)
 
-    DBG (DBG_info_scan, "cmdGetMode():\n")
-    DBG (DBG_info_scan, " resolution = %d\n", mode.resolution)
-    DBG (DBG_info_scan, " passes = %02x\n", mode.passes)
-    DBG (DBG_info_scan, " depth = %02x\n", mode.colorDepth)
-    DBG (DBG_info_scan, " color format = %02x\n", mode.colorFormat)
-    DBG (DBG_info_scan, " sharpen = %d\n", mode.sharpen)
-    DBG (DBG_info_scan, " skip calibration = %d\n", mode.skipShadingAnalysis)
-    DBG (DBG_info_scan, " fast infrared = %d\n", mode.fastInfrared)
-    DBG (DBG_info_scan, " halftone pattern = %d\n", mode.halftonePattern)
-    DBG (DBG_info_scan, " line threshold = %d\n", mode.lineThreshold)
+    DBG(DBG_info_scan, "cmdGetMode():\n")
+    DBG(DBG_info_scan, " resolution = %d\n", mode.resolution)
+    DBG(DBG_info_scan, " passes = %02x\n", mode.passes)
+    DBG(DBG_info_scan, " depth = %02x\n", mode.colorDepth)
+    DBG(DBG_info_scan, " color format = %02x\n", mode.colorFormat)
+    DBG(DBG_info_scan, " sharpen = %d\n", mode.sharpen)
+    DBG(DBG_info_scan, " skip calibration = %d\n", mode.skipShadingAnalysis)
+    DBG(DBG_info_scan, " fast infrared = %d\n", mode.fastInfrared)
+    DBG(DBG_info_scan, " halftone pattern = %d\n", mode.halftonePattern)
+    DBG(DBG_info_scan, " line threshold = %d\n", mode.lineThreshold)
 #undef MODE_SIZE
 }
 
 /**
- * Start a scan (SCSI SCAN command, code 0x1B, size byte = 0x01).\n
+ * Start a scan(SCSI SCAN command, code 0x1B, size byte = 0x01).\n
  * There are four phases in a scan process. During each phase a limited number of
  * commands is available. The phases are:\n
  * 1. Calibration phase: make previously collected shading correction data available\n
@@ -921,11 +921,11 @@ sanei_pieusb_cmd_start_scan(Int device_number, struct Pieusb_Command_Status *sta
 {
     Sane.Byte command[SCSI_COMMAND_LEN]
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_start_scan()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_start_scan()\n")
 
-    _prep_scsi_cmd (command, SCSI_SCAN, 1)
+    _prep_scsi_cmd(command, SCSI_SCAN, 1)
 
-    status.pieusb_status = sanei_pieusb_command (device_number, command, NULL, 0)
+    status.pieusb_status = sanei_pieusb_command(device_number, command, NULL, 0)
 }
 
 /**
@@ -940,11 +940,11 @@ sanei_pieusb_cmd_stop_scan(Int device_number, struct Pieusb_Command_Status *stat
 {
     Sane.Byte command[SCSI_COMMAND_LEN]
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_stop_scan()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_stop_scan()\n")
 
-    _prep_scsi_cmd (command, SCSI_SCAN, 0)
+    _prep_scsi_cmd(command, SCSI_SCAN, 0)
 
-    status.pieusb_status = sanei_pieusb_command (device_number, command, NULL, 0)
+    status.pieusb_status = sanei_pieusb_command(device_number, command, NULL, 0)
 }
 
 /**
@@ -956,8 +956,8 @@ sanei_pieusb_cmd_stop_scan(Int device_number, struct Pieusb_Command_Status *stat
  * but it is a bit unpredictable to what position. The scanner may attempt to
  * move the head past its physical end position. The mode is not implemented.\n
  * mode = 3: This command positions the scan head to the start of the slide.\n
- * mode = 4 or 5: The command forwards (4) or retreats (5) the scan head the
- * given amount of steps (in size).\n
+ * mode = 4 or 5: The command forwards(4) or retreats(5) the scan head the
+ * given amount of steps(in size).\n
  * The SCSI code is 0xD2, there is no related command name.
  *
  * @param device_number Device number
@@ -973,18 +973,18 @@ sanei_pieusb_cmd_set_scan_head(Int device_number, Int mode, Int steps, struct Pi
     Int size = SCAN_HEAD_SIZE
     Sane.Byte data[SCAN_HEAD_SIZE]
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_set_scan_head()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_set_scan_head()\n")
 
-    _prep_scsi_cmd (command, SCSI_SET_SCAN_HEAD, size)
+    _prep_scsi_cmd(command, SCSI_SET_SCAN_HEAD, size)
 
     /* Code data */
-    memset (data, '\0', size)
-    switch (mode) {
+    memset(data, '\0', size)
+    switch(mode) {
         case 1:
             data[0] = 2
             break
         case 2:
-            DBG (DBG_error, "sanei_pieusb_cmd_set_scan_head() mode 2 unreliable, possibly dangerous\n")
+            DBG(DBG_error, "sanei_pieusb_cmd_set_scan_head() mode 2 unreliable, possibly dangerous\n")
             status.pieusb_status = PIEUSB_STATUS_INVAL
             return
         case 3:
@@ -1008,7 +1008,7 @@ sanei_pieusb_cmd_set_scan_head(Int device_number, Int mode, Int steps, struct Pi
 
 /**
  * Get internal scanner settings which have resulted from an auto-calibration
- * procedure. This procedure only runs when calibrating (Scan phase 1), so the
+ * procedure. This procedure only runs when calibrating(Scan phase 1), so the
  * data returned are relatively static.\n
  * The SCSI code is 0xD7, there is no related command name.
  *
@@ -1027,37 +1027,37 @@ sanei_pieusb_cmd_get_gain_offset(Int device_number, struct Pieusb_Settings* sett
     Int k
     Sane.Byte val[3]
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_get_gain_offset()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_get_gain_offset()\n")
 
-    _prep_scsi_cmd (command, SCSI_READ_GAIN_OFFSET, size)
+    _prep_scsi_cmd(command, SCSI_READ_GAIN_OFFSET, size)
 
-    memset (data, '\0', size)
+    memset(data, '\0', size)
     status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
-    if (status.pieusb_status != PIEUSB_STATUS_GOOD) {
+    if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
         return
     }
 
     /* Decode data received */
-    _get_shorts (settings.saturationLevel, data+54, 3)
-    _get_shorts (settings.exposureTime, data+60, 3)
-    _copy_bytes (val, data+66, 3)
-    for (k = 0; k < 3; k++) settings.offset[k] = val[k]
-    _copy_bytes (val, data+72, 3)
-    for (k = 0; k < 3; k++) settings.gain[k] = val[k]
-    settings.light = _get_byte (data, 75)
-    settings.exposureTime[3] = _get_short (data, 98)
-    settings.offset[3] = _get_byte (data, 100)
-    settings.gain[3] = _get_byte (data, 102)
+    _get_shorts(settings.saturationLevel, data+54, 3)
+    _get_shorts(settings.exposureTime, data+60, 3)
+    _copy_bytes(val, data+66, 3)
+    for(k = 0; k < 3; k++) settings.offset[k] = val[k]
+    _copy_bytes(val, data+72, 3)
+    for(k = 0; k < 3; k++) settings.gain[k] = val[k]
+    settings.light = _get_byte(data, 75)
+    settings.exposureTime[3] = _get_short(data, 98)
+    settings.offset[3] = _get_byte(data, 100)
+    settings.gain[3] = _get_byte(data, 102)
 
-    DBG (DBG_info, "sanei_pieusb_cmd_get_gain_offset() set:\n")
-    DBG (DBG_info, " saturationlevels = %d-%d-%d\n", settings.saturationLevel[0], settings.saturationLevel[1], settings.saturationLevel[2])
-    DBG (DBG_info, " ---\n")
-    DBG (DBG_info, " exposure times = %d-%d-%d-%d\n", settings.exposureTime[0], settings.exposureTime[1], settings.exposureTime[2], settings.exposureTime[3])
-    DBG (DBG_info, " gain = %d-%d-%d-%d\n", settings.gain[0], settings.gain[1], settings.gain[2], settings.gain[3])
-    DBG (DBG_info, " offset = %d-%d-%d-%d\n", settings.offset[0], settings.offset[1], settings.offset[2], settings.offset[3])
-    DBG (DBG_info, " light = %02x\n", settings.light)
-    DBG (DBG_info, " double times = %02x\n", settings.doubleTimes)
-    DBG (DBG_info, " extra entries = %02x\n", settings.extraEntries)
+    DBG(DBG_info, "sanei_pieusb_cmd_get_gain_offset() set:\n")
+    DBG(DBG_info, " saturationlevels = %d-%d-%d\n", settings.saturationLevel[0], settings.saturationLevel[1], settings.saturationLevel[2])
+    DBG(DBG_info, " ---\n")
+    DBG(DBG_info, " exposure times = %d-%d-%d-%d\n", settings.exposureTime[0], settings.exposureTime[1], settings.exposureTime[2], settings.exposureTime[3])
+    DBG(DBG_info, " gain = %d-%d-%d-%d\n", settings.gain[0], settings.gain[1], settings.gain[2], settings.gain[3])
+    DBG(DBG_info, " offset = %d-%d-%d-%d\n", settings.offset[0], settings.offset[1], settings.offset[2], settings.offset[3])
+    DBG(DBG_info, " light = %02x\n", settings.light)
+    DBG(DBG_info, " double times = %02x\n", settings.doubleTimes)
+    DBG(DBG_info, " extra entries = %02x\n", settings.extraEntries)
 #undef GAIN_OFFSET_SIZE
 }
 
@@ -1066,7 +1066,7 @@ sanei_pieusb_cmd_get_gain_offset(Int device_number, struct Pieusb_Settings* sett
  * Set internal scanner settings such as gain and offset.\n
  * There are two effective moments for this command:\n
  * 1. For a scan without calibration phase: before the sanei_pieusb_cmd_start_scan() command
- * 2. For a sccan with calibration phase: before (or during) reading the shading reference data.
+ * 2. For a sccan with calibration phase: before(or during) reading the shading reference data.
  * The SCSI code is 0xDC, there is no related command name.
  *
  * @param device_number Device number
@@ -1084,35 +1084,35 @@ sanei_pieusb_cmd_set_gain_offset(Int device_number, struct Pieusb_Settings* sett
     Int k
     Sane.Byte val[3]
 
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_set_gain_offset()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_set_gain_offset()\n")
 
-    _prep_scsi_cmd (command, SCSI_WRITE_GAIN_OFFSET, size)
+    _prep_scsi_cmd(command, SCSI_WRITE_GAIN_OFFSET, size)
 
-    DBG (DBG_info, "sanei_pieusb_cmd_set_gain_offset() set:\n")
-    DBG (DBG_info, " exposure times = %d-%d-%d-%d\n", settings.exposureTime[0], settings.exposureTime[1], settings.exposureTime[2], settings.exposureTime[3])
-    DBG (DBG_info, " gain = %d-%d-%d-%d\n", settings.gain[0], settings.gain[1], settings.gain[2], settings.gain[3])
-    DBG (DBG_info, " offset = %d-%d-%d-%d\n", settings.offset[0], settings.offset[1], settings.offset[2], settings.offset[3])
-    DBG (DBG_info, " light = %02x\n", settings.light)
-    DBG (DBG_info, " double times = %02x\n", settings.doubleTimes)
-    DBG (DBG_info, " extra entries = %02x\n", settings.extraEntries)
+    DBG(DBG_info, "sanei_pieusb_cmd_set_gain_offset() set:\n")
+    DBG(DBG_info, " exposure times = %d-%d-%d-%d\n", settings.exposureTime[0], settings.exposureTime[1], settings.exposureTime[2], settings.exposureTime[3])
+    DBG(DBG_info, " gain = %d-%d-%d-%d\n", settings.gain[0], settings.gain[1], settings.gain[2], settings.gain[3])
+    DBG(DBG_info, " offset = %d-%d-%d-%d\n", settings.offset[0], settings.offset[1], settings.offset[2], settings.offset[3])
+    DBG(DBG_info, " light = %02x\n", settings.light)
+    DBG(DBG_info, " double times = %02x\n", settings.doubleTimes)
+    DBG(DBG_info, " extra entries = %02x\n", settings.extraEntries)
 
     /* Code data */
-    memset (data, '\0', size)
-    _set_shorts (settings.exposureTime, data, 3)
-    for (k = 0; k < 3; k++) {
+    memset(data, '\0', size)
+    _set_shorts(settings.exposureTime, data, 3)
+    for(k = 0; k < 3; k++) {
       val[k] = settings.offset[k]
     }
-    _copy_bytes (data + 6, val, 3)
-    for (k = 0; k < 3; k++) {
+    _copy_bytes(data + 6, val, 3)
+    for(k = 0; k < 3; k++) {
       val[k] = settings.gain[k]
     }
-    _copy_bytes (data + 12, val, 3)
-    _set_byte (settings.light, data, 15)
-    _set_byte (settings.extraEntries, data, 16)
-    _set_byte (settings.doubleTimes, data, 17)
-    _set_short (settings.exposureTime[3], data, 18)
-    _set_byte (settings.offset[3], data, 20)
-    _set_byte (settings.gain[3], data, 22)
+    _copy_bytes(data + 12, val, 3)
+    _set_byte(settings.light, data, 15)
+    _set_byte(settings.extraEntries, data, 16)
+    _set_byte(settings.doubleTimes, data, 17)
+    _set_short(settings.exposureTime[3], data, 18)
+    _set_byte(settings.offset[3], data, 20)
+    _set_byte(settings.gain[3], data, 22)
     /*
      * pieusb-get_gain_offset:
      *  00000000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
@@ -1171,14 +1171,14 @@ sanei_pieusb_cmd_read_state(Int device_number, struct Pieusb_Scanner_State* stat
     Int size = GET_STATE_SIZE
 
     /* Execute READ STATUS command */
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_read_state()\n")
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_read_state()\n")
 
-    _prep_scsi_cmd (command, SCSI_READ_STATE, size)
+    _prep_scsi_cmd(command, SCSI_READ_STATE, size)
 
-    memset (data, '\0', size)
-    status.pieusb_status = sanei_pieusb_command (device_number, command, data, size)
+    memset(data, '\0', size)
+    status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
 
-    if (status.pieusb_status == PIEUSB_STATUS_WARMING_UP
+    if(status.pieusb_status == PIEUSB_STATUS_WARMING_UP
         || status.pieusb_status == PIEUSB_STATUS_DEVICE_BUSY) {
       data[5] = 1
       status.pieusb_status = PIEUSB_STATUS_GOOD
@@ -1188,7 +1188,7 @@ sanei_pieusb_cmd_read_state(Int device_number, struct Pieusb_Scanner_State* stat
     state.warmingUp = _get_byte(data, 5)
     state.scanning = _get_byte(data, 6)
 /*    state.busy = _get_byte(data, 8); */
-    DBG (DBG_info_scan, "sanei_pieusb_cmd_read_state(): button %d, warmingUp %d, scanning %d, busy? %d\n", state.buttonPushed, state.warmingUp, state.scanning, _get_byte(data, 8))
+    DBG(DBG_info_scan, "sanei_pieusb_cmd_read_state(): button %d, warmingUp %d, scanning %d, busy? %d\n", state.buttonPushed, state.warmingUp, state.scanning, _get_byte(data, 8))
 #undef GET_STATE_SIZE
 }
 

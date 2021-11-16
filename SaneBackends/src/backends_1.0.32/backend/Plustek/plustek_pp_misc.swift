@@ -2,8 +2,8 @@
  * @brief here we have some helpful functions
 *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 1998 Plustek Inc.
- * Copyright (C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 1998 Plustek Inc.
+ * Copyright(C) 2000-2013 Gerhard Jaeger <gerhard@gjaeger.de>
  * also based on the work done by Rick Bronson
  *
  * History:
@@ -14,13 +14,13 @@
  *        - for selecting the port-mode this driver uses
  * - 0.33 - added code to use faster portmodes
  * - 0.34 - added sample code for changing from ECP to PS/2 bidi mode
- * - 0.35 - added Kevins' changes (new function miscSetFastMode())
+ * - 0.35 - added Kevins' changes(new function miscSetFastMode())
  *        - moved function initPageSettings() to module models.c
  * - 0.36 - added random generator
  *        - added additional debug messages
  *        - changed prototype of MiscInitPorts()
  *        - added miscPreemptionCallback()
- * - 0.37 - changed inb_p/outb_p to macro calls (kernel-mode)
+ * - 0.37 - changed inb_p/outb_p to macro calls(kernel-mode)
  *        - added MiscGetModelName()
  *        - added miscShowPortModes()
  * - 0.38 - fixed a small bug in MiscGetModelName()
@@ -41,7 +41,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -110,7 +110,7 @@ static long randomnum    = 1
 #ifdef __KERNEL__
 static Int portIsClaimed[_MAX_PTDEVS] = { [0 ... (_MAX_PTDEVS-1)] = 0 ]
 
-MODELSTR;	/**< a static char array (see plustek-pp.h) */
+MODELSTR;	/**< a static char array(see plustek-pp.h) */
 
 #else
 static Int portIsClaimed[_MAX_PTDEVS] = { 0, 0, 0, 0 ]
@@ -132,7 +132,7 @@ static void misc_attach(struct parport *port)
 
 	__ps.pp = NULL
 	if( port.base == (unsigned long)__pa ) {
-		DBG( DBG_LOW, "Requested port (0x%02x) found\n", __pa )
+		DBG( DBG_LOW, "Requested port(0x%02x) found\n", __pa )
 		DBG( DBG_LOW, "Port mode reported: (0x%04x)\n",  port.modes )
 		__ps.pp = port
 	}
@@ -223,11 +223,11 @@ static Int miscSetFastMode( pScanData ps )
 	/*
 	 *  when previously found the EPP mode, break right here
 	 */
-	if (( _PORT_EPP == ps.IO.portMode ) && (!(port_feature & PARPORT_MODE_PCECR)))
+	if(( _PORT_EPP == ps.IO.portMode ) && (!(port_feature & PARPORT_MODE_PCECR)))
  		return _OK
 
- 	/* CHECK REMOVE: from here we should have SPP (Paranoia Code !) */
-	if (( _PORT_SPP != ps.IO.portMode ) && (!(port_feature & PARPORT_MODE_PCECR)))
+ 	/* CHECK REMOVE: from here we should have SPP(Paranoia Code !) */
+	if(( _PORT_SPP != ps.IO.portMode ) && (!(port_feature & PARPORT_MODE_PCECR)))
  		return _OK
 
 	DBG(DBG_LOW, "Trying faster mode...\n" )
@@ -253,12 +253,12 @@ static Int miscSetFastMode( pScanData ps )
 		 */
         b = _INB_ECTL(ps);					/* check to see if port set */
         if( a == b ) {
-            DBG( DBG_LOW, "Port is set to (ECP) EPP mode.\n" )
+            DBG( DBG_LOW, "Port is set to(ECP) EPP mode.\n" )
             ps.IO.portMode = _PORT_EPP
 			return _OK
 
         } else {
-            DBG( DBG_LOW, "Port could not be set to (ECP) EPP mode. "
+            DBG( DBG_LOW, "Port could not be set to(ECP) EPP mode. "
 														"Using SPP mode.\n" )
             _OUTB_ECTL(ps,(Byte)ps.IO.lastPortMode); 		/* restore */
 			_DO_UDELAY(1)
@@ -287,12 +287,12 @@ static Int miscSetFastMode( pScanData ps )
 		 * but it makes me feel better
 		 */
         b = _INB_ECTL(ps);					/* check to see if port set */
-        if (a == b) {
-            DBG(DBG_LOW, "Port is set to (ECP) PS2 bidirectional mode.\n")
+        if(a == b) {
+            DBG(DBG_LOW, "Port is set to(ECP) PS2 bidirectional mode.\n")
             ps.IO.portMode = _PORT_BIDI
 			return _OK
         } else {
-        	DBG(DBG_LOW, "Port could not be set to (ECP) PS2 mode. "
+        	DBG(DBG_LOW, "Port could not be set to(ECP) PS2 mode. "
 														"Using SPP mode.\n")
 			a = ps.IO.lastPortMode & 0x1F
             _OUTB_ECTL(ps, a);					/* set ECP ctrl to SPP */
@@ -304,10 +304,10 @@ static Int miscSetFastMode( pScanData ps )
 	}
 
 	/*
-	 * Some BIOS/cards have only a Bi-directional/PS2 mode (no EPP).
+	 * Some BIOS/cards have only a Bi-directional/PS2 mode(no EPP).
 	 * Make one last attempt to set to PS2 mode.
 	 */
-	if ( port_feature & PARPORT_MODE_PCPS2 ){
+	if( port_feature & PARPORT_MODE_PCPS2 ){
 
 		DBG(DBG_LOW, "Attempting to set PS2 mode.\n" )
 
@@ -320,13 +320,13 @@ static Int miscSetFastMode( pScanData ps )
 
 		_OUTB_DATA(ps,0x55)
 		_DO_UDELAY(1)
-		if ((inb(ps.IO.portBase)) != 0x55)	/* read data */
+		if((inb(ps.IO.portBase)) != 0x55)	/* read data */
 			a++
 
 		_OUTB_DATA(ps,0xAA)
 		_DO_UDELAY(1)
 
-		if (_INB_DATA(ps) != 0xAA)   /* read data */
+		if(_INB_DATA(ps) != 0xAA)   /* read data */
 			a++
 
 		if( 2 == a ) {
@@ -409,7 +409,7 @@ static Int miscSetPortMode( pScanData ps )
 **  and "Two Fast Implementations of the 'Minimal Standard' Random
 **  Number Generator", David G. Carta, Comm. ACM 33, 1 (Jan 1990), p. 87-88
 **
-**  linear congruential generator f(z) = 16807 z mod (2 ** 31 - 1)
+**  linear congruential generator f(z) = 16807 z mod(2 ** 31 - 1)
 **
 **  uses L. Schrage's method to avoid overflow problems
 */
@@ -420,18 +420,18 @@ static Long miscNextLongRand( Long seed )
     lo = _PP_A * (Long)(seed & 0xFFFF)
     hi = _PP_A * (Long)((ULong)seed >> 16)
     lo += (hi & 0x7FFF) << 16
-    if (lo > _PP_M) {
+    if(lo > _PP_M) {
 
 		lo &= _PP_M
         ++lo
 	}
     lo += hi >> 15
-    if (lo > _PP_M) {
+    if(lo > _PP_M) {
 		lo &= _PP_M
         ++lo
 	}
 
-	return (Long)lo
+	return(Long)lo
 }
 
 /** initialize the random number generator
@@ -630,7 +630,7 @@ _LOC Int MiscCheckTimer( TimerDef *timer )
 	gettimeofday(&current_time, NULL)
 #endif
 
-    if ((TimerDef)current_time.tv_sec * 1000000 + (TimerDef)current_time.tv_usec > *timer) {
+    if((TimerDef)current_time.tv_sec * 1000000 + (TimerDef)current_time.tv_usec > *timer) {
 		return _E_TIMEOUT
     } else {
 #ifdef __KERNEL__
@@ -658,7 +658,7 @@ _LOC Bool MiscAllPointersSet( pScanData ps )
 		 ptr <= (unsigned long *)&ps.ReadOneImageLine; ptr++, i++ ) {
 
 		if( NULL == (pVoid)*ptr ) {
-			DBG( DBG_HIGH, "Function pointer not set (pos = %d) !\n", i )
+			DBG( DBG_HIGH, "Function pointer not set(pos = %d) !\n", i )
 			return _FALSE
 		}
 	}
@@ -706,7 +706,7 @@ _LOC Int MiscRegisterPort( pScanData ps, Int portAddr )
 	for( ps.pp = NULL; NULL != pp; ) {
 
 		if( pp.base == (unsigned long)portAddr ) {
-			DBG( DBG_LOW, "Requested port (0x%02x) found\n", portAddr )
+			DBG( DBG_LOW, "Requested port(0x%02x) found\n", portAddr )
 			DBG( DBG_LOW, "Port mode reported: (0x%04x)\n",  pp.modes )
 			ps.pp = pp
 			break

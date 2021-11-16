@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2000-2003 Jochen Eisinger <jochen.eisinger@gmx.net>
+   Copyright(C) 2000-2003 Jochen Eisinger <jochen.eisinger@gmx.net>
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -127,7 +127,7 @@ static Sane.Word               mustek_pp_depths[5] = {4, 8, 10, 12, 16]
 static void free_cfg_options(Int *numoptions, Mustek_pp_config_option** options)
 static Sane.Status do_eof(Mustek_pp_Handle *hndl)
 static Sane.Status do_stop(Mustek_pp_Handle *hndl)
-static Int reader_process (Mustek_pp_Handle * hndl, Int pipe)
+static Int reader_process(Mustek_pp_Handle * hndl, Int pipe)
 static Sane.Status Sane.attach(Sane.String_Const port, Sane.String_Const name,
 			Int driver, Int info)
 static void init_options(Mustek_pp_Handle *hndl)
@@ -142,14 +142,14 @@ static void
 free_cfg_options(Int *numoptions, Mustek_pp_config_option** options)
 {
    var i: Int
-   if (*numoptions)
+   if(*numoptions)
    {
-      for (i=0; i<*numoptions; ++i)
+      for(i=0; i<*numoptions; ++i)
       {
-         free ((*options)[i].name)
-         free ((*options)[i].value)
+         free((*options)[i].name)
+         free((*options)[i].value)
       }
-      free (*options)
+      free(*options)
    }
    *options = NULL
    *numoptions = 0
@@ -159,14 +159,14 @@ free_cfg_options(Int *numoptions, Mustek_pp_config_option** options)
  * 	closes the pipeline
  *
  * Description:
- * 	closes the pipe (read-only end)
+ * 	closes the pipe(read-only end)
  */
 static Sane.Status
-do_eof (Mustek_pp_Handle *hndl)
+do_eof(Mustek_pp_Handle *hndl)
 {
-	if (hndl.pipe >= 0) {
+	if(hndl.pipe >= 0) {
 
-		close (hndl.pipe)
+		close(hndl.pipe)
 		hndl.pipe = -1
 	}
 
@@ -185,26 +185,26 @@ do_stop(Mustek_pp_Handle *hndl)
 
 	Int	exit_status
 
-	do_eof (hndl)
+	do_eof(hndl)
 
-	if (hndl.reader > 0) {
+	if(hndl.reader > 0) {
 
-		DBG (3, "do_stop: terminating reader process\n")
-		kill (hndl.reader, SIGTERM)
+		DBG(3, "do_stop: terminating reader process\n")
+		kill(hndl.reader, SIGTERM)
 
-		while (wait (&exit_status) != hndl.reader)
+		while(wait(&exit_status) != hndl.reader)
 
-		DBG ((exit_status == Sane.STATUS_GOOD ? 3 : 1),
+		DBG((exit_status == Sane.STATUS_GOOD ? 3 : 1),
 			       "do_stop: reader_process terminated with status ``%s''\n",
 			       Sane.strstatus(exit_status))
 		hndl.reader = 0
-		hndl.dev.func.stop (hndl)
+		hndl.dev.func.stop(hndl)
 
 		return exit_status
 
 	}
 
-	hndl.dev.func.stop (hndl)
+	hndl.dev.func.stop(hndl)
 
 	return Sane.STATUS_GOOD
 }
@@ -218,7 +218,7 @@ do_stop(Mustek_pp_Handle *hndl)
  * EDG - Jan 14, 2004:
  *      Make sure that the parport is released again by the child process
  *      under all circumstances, because otherwise the parent process may no
- *      longer be able to claim it (they share the same file descriptor, and
+ *      longer be able to claim it(they share the same file descriptor, and
  *      the kernel doesn't release the child's claim because the file
  *      descriptor isn't cleaned up). If that would happen, the lamp may stay
  *      on and may not return to its home position, unless the scanner
@@ -230,10 +230,10 @@ do_stop(Mustek_pp_Handle *hndl)
 static Int fd_to_release = 0
 /*ARGSUSED*/
 static void
-sigterm_handler (Int signal __UNUSED__)
+sigterm_handler(Int signal __UNUSED__)
 {
 	sanei_pa4s2_enable(fd_to_release, Sane.FALSE)
-	_exit (Sane.STATUS_GOOD)
+	_exit(Sane.STATUS_GOOD)
 }
 
 /* reader_process:
@@ -244,7 +244,7 @@ sigterm_handler (Int signal __UNUSED__)
  *
  */
 static Int
-reader_process (Mustek_pp_Handle * hndl, Int pipe)
+reader_process(Mustek_pp_Handle * hndl, Int pipe)
 {
 	sigset_t	sigterm_set
 	struct SIGACTION act
@@ -255,50 +255,50 @@ reader_process (Mustek_pp_Handle * hndl, Int pipe)
 
 	Sane.Byte *buffer
 
-	sigemptyset (&sigterm_set)
-	sigaddset (&sigterm_set, SIGTERM)
+	sigemptyset(&sigterm_set)
+	sigaddset(&sigterm_set, SIGTERM)
 
-	if (!(buffer = malloc (hndl.params.bytes_per_line)))
+	if(!(buffer = malloc(hndl.params.bytes_per_line)))
 		return Sane.STATUS_NO_MEM
 
-	if (!(fp = fdopen(pipe, "w")))
+	if(!(fp = fdopen(pipe, "w")))
 		return Sane.STATUS_IO_ERROR
 
 	fd_to_release = hndl.fd
-	memset (&act, 0, sizeof(act))
+	memset(&act, 0, sizeof(act))
 	act.sa_handler = sigterm_handler
-	sigaction (SIGTERM, &act, NULL)
+	sigaction(SIGTERM, &act, NULL)
 
-	if ((status = hndl.dev.func.start (hndl)) != Sane.STATUS_GOOD)
+	if((status = hndl.dev.func.start(hndl)) != Sane.STATUS_GOOD)
 		return status
 
         size = hndl.params.bytes_per_line
   	elem = 1
 
-	for (line=0; line<hndl.params.lines ; line++) {
+	for(line=0; line<hndl.params.lines ; line++) {
 
-		sigprocmask (SIG_BLOCK, &sigterm_set, NULL)
+		sigprocmask(SIG_BLOCK, &sigterm_set, NULL)
 
-		hndl.dev.func.read (hndl, buffer)
+		hndl.dev.func.read(hndl, buffer)
 
-                if (getppid() == 1) {
-                    /* The parent process has died. Stop the scan (to make
+                if(getppid() == 1) {
+                    /* The parent process has died. Stop the scan(to make
                        sure that the lamp is off and returns home). This is
                        a safety measure to make sure that we don't break
                        the scanner in case the frontend crashes. */
-		    DBG (1, "reader_process: front-end died; aborting.\n")
-                    hndl.dev.func.stop (hndl)
+		    DBG(1, "reader_process: front-end died; aborting.\n")
+                    hndl.dev.func.stop(hndl)
                     return Sane.STATUS_CANCELLED
                 }
 
-		sigprocmask (SIG_UNBLOCK, &sigterm_set, NULL)
+		sigprocmask(SIG_UNBLOCK, &sigterm_set, NULL)
 
-		fwrite (buffer, size, elem, fp)
+		fwrite(buffer, size, elem, fp)
 	}
 
-	fclose (fp)
+	fclose(fp)
 
-	free (buffer)
+	free(buffer)
 
 	return Sane.STATUS_GOOD
 }
@@ -318,30 +318,30 @@ reader_process (Mustek_pp_Handle * hndl, Int pipe)
  *
  */
 static Sane.Status
-Sane.attach (Sane.String_Const port, Sane.String_Const name, Int driver, Int info)
+Sane.attach(Sane.String_Const port, Sane.String_Const name, Int driver, Int info)
 {
 	Mustek_pp_Device	*dev
 
-	DBG (3, "Sane.attach: attaching device ``%s'' to port %s (driver %s v%s by %s)\n",
+	DBG(3, "Sane.attach: attaching device ``%s'' to port %s(driver %s v%s by %s)\n",
 			name, port, Mustek_pp_Drivers[driver].driver,
 				Mustek_pp_Drivers[driver].version,
 				Mustek_pp_Drivers[driver].author)
 
-	if ((dev = malloc (sizeof (Mustek_pp_Device))) == NULL) {
+	if((dev = malloc(sizeof(Mustek_pp_Device))) == NULL) {
 
-		DBG (1, "Sane.attach: not enough free memory\n")
+		DBG(1, "Sane.attach: not enough free memory\n")
 		return Sane.STATUS_NO_MEM
 
 	}
 
-	memset (dev, 0, sizeof (Mustek_pp_Device))
+	memset(dev, 0, sizeof(Mustek_pp_Device))
 
-	memset (&dev.sane, 0, sizeof (Sane.Device))
+	memset(&dev.sane, 0, sizeof(Sane.Device))
 
 	dev.func = &Mustek_pp_Drivers[driver]
 
-	dev.sane.name = dev.name = strdup (name)
-	dev.port = strdup (port)
+	dev.sane.name = dev.name = strdup(name)
+	dev.port = strdup(port)
         dev.info = info; /* Modified by EDG */
 
         /* Transfer the options parsed from the configuration file */
@@ -350,7 +350,7 @@ Sane.attach (Sane.String_Const port, Sane.String_Const name, Int driver, Int inf
         numcfgoptions = 0
         cfgoptions = NULL
 
-	dev.func.capabilities (info, &dev.model, &dev.vendor, &dev.type,
+	dev.func.capabilities(info, &dev.model, &dev.vendor, &dev.type,
 			&dev.maxres, &dev.minres, &dev.maxhsize, &dev.maxvsize,
 			&dev.caps)
 
@@ -377,12 +377,12 @@ init_options(Mustek_pp_Handle *hndl)
 {
   var i: Int
 
-  memset (hndl.opt, 0, sizeof (hndl.opt))
-  memset (hndl.val, 0, sizeof (hndl.val))
+  memset(hndl.opt, 0, sizeof(hndl.opt))
+  memset(hndl.val, 0, sizeof(hndl.val))
 
-  for (i = 0; i < NUM_OPTIONS; ++i)
+  for(i = 0; i < NUM_OPTIONS; ++i)
     {
-      hndl.opt[i].size = sizeof (Sane.Word)
+      hndl.opt[i].size = sizeof(Sane.Word)
       hndl.opt[i].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     }
 
@@ -410,7 +410,7 @@ init_options(Mustek_pp_Handle *hndl)
   hndl.opt[OPT_MODE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   hndl.opt[OPT_MODE].size = mustek_pp_modes_size
   hndl.opt[OPT_MODE].constraint.string_list = mustek_pp_modes
-  hndl.val[OPT_MODE].s = strdup (mustek_pp_modes[2])
+  hndl.val[OPT_MODE].s = strdup(mustek_pp_modes[2])
 
   /* resolution */
   hndl.opt[OPT_RESOLUTION].name = Sane.NAME_SCAN_RESOLUTION
@@ -420,10 +420,10 @@ init_options(Mustek_pp_Handle *hndl)
   hndl.opt[OPT_RESOLUTION].unit = Sane.UNIT_DPI
   hndl.opt[OPT_RESOLUTION].constraint_type = Sane.CONSTRAINT_RANGE
   hndl.opt[OPT_RESOLUTION].constraint.range = &hndl.dpi_range
-  hndl.val[OPT_RESOLUTION].w = Sane.FIX (hndl.dev.minres)
-  hndl.dpi_range.min = Sane.FIX (hndl.dev.minres)
-  hndl.dpi_range.max = Sane.FIX (hndl.dev.maxres)
-  hndl.dpi_range.quant = Sane.FIX (1)
+  hndl.val[OPT_RESOLUTION].w = Sane.FIX(hndl.dev.minres)
+  hndl.dpi_range.min = Sane.FIX(hndl.dev.minres)
+  hndl.dpi_range.max = Sane.FIX(hndl.dev.maxres)
+  hndl.dpi_range.quant = Sane.FIX(1)
 
   /* speed */
   hndl.opt[OPT_SPEED].name = Sane.NAME_SCAN_SPEED
@@ -433,9 +433,9 @@ init_options(Mustek_pp_Handle *hndl)
   hndl.opt[OPT_SPEED].size = mustek_pp_speeds_size
   hndl.opt[OPT_SPEED].constraint_type = Sane.CONSTRAINT_STRING_LIST
   hndl.opt[OPT_SPEED].constraint.string_list = mustek_pp_speeds
-  hndl.val[OPT_SPEED].s = strdup (mustek_pp_speeds[2])
+  hndl.val[OPT_SPEED].s = strdup(mustek_pp_speeds[2])
 
-  if (! (hndl.dev.caps & CAP_SPEED_SELECT))
+  if(! (hndl.dev.caps & CAP_SPEED_SELECT))
 	  hndl.opt[OPT_SPEED].cap |= Sane.CAP_INACTIVE
 
   /* preview */
@@ -456,8 +456,8 @@ init_options(Mustek_pp_Handle *hndl)
   hndl.opt[OPT_DEPTH].name = Sane.NAME_BIT_DEPTH
   hndl.opt[OPT_DEPTH].title = Sane.TITLE_BIT_DEPTH
   hndl.opt[OPT_DEPTH].desc =
-	  "Number of bits per sample for color scans, typical values are 8 for truecolor (24bpp)"
-	  "up to 16 for far-to-many-color (48bpp)."
+	  "Number of bits per sample for color scans, typical values are 8 for truecolor(24bpp)"
+	  "up to 16 for far-to-many-color(48bpp)."
   hndl.opt[OPT_DEPTH].type = Sane.TYPE_INT
   hndl.opt[OPT_DEPTH].constraint_type = Sane.CONSTRAINT_WORD_LIST
   hndl.opt[OPT_DEPTH].constraint.word_list = mustek_pp_depths
@@ -465,7 +465,7 @@ init_options(Mustek_pp_Handle *hndl)
   hndl.opt[OPT_DEPTH].size = sizeof(Sane.Word)
   hndl.val[OPT_DEPTH].w = 8
 
-  if ( !(hndl.dev.caps & CAP_DEPTH))
+  if( !(hndl.dev.caps & CAP_DEPTH))
 	  hndl.opt[OPT_DEPTH].cap |= Sane.CAP_INACTIVE
 
 
@@ -486,8 +486,8 @@ init_options(Mustek_pp_Handle *hndl)
   hndl.opt[OPT_TL_X].unit = Sane.UNIT_MM
   hndl.opt[OPT_TL_X].constraint_type = Sane.CONSTRAINT_RANGE
   hndl.opt[OPT_TL_X].constraint.range = &hndl.x_range
-  hndl.x_range.min = Sane.FIX (0)
-  hndl.x_range.max = Sane.FIX (PIXEL_TO_MM(hndl.dev.maxhsize,hndl.dev.maxres))
+  hndl.x_range.min = Sane.FIX(0)
+  hndl.x_range.max = Sane.FIX(PIXEL_TO_MM(hndl.dev.maxhsize,hndl.dev.maxres))
   hndl.x_range.quant = 0
   hndl.val[OPT_TL_X].w = hndl.x_range.min
 
@@ -541,7 +541,7 @@ init_options(Mustek_pp_Handle *hndl)
   hndl.opt[OPT_CUSTOM_GAMMA].type = Sane.TYPE_BOOL
   hndl.val[OPT_CUSTOM_GAMMA].w = Sane.FALSE
 
-  if ( !(hndl.dev.caps & CAP_GAMMA_CORRECT))
+  if( !(hndl.dev.caps & CAP_GAMMA_CORRECT))
 	  hndl.opt[OPT_CUSTOM_GAMMA].cap |= Sane.CAP_INACTIVE
 
   /* grayscale gamma vector */
@@ -551,7 +551,7 @@ init_options(Mustek_pp_Handle *hndl)
   hndl.opt[OPT_GAMMA_VECTOR].type = Sane.TYPE_INT
   hndl.opt[OPT_GAMMA_VECTOR].cap |= Sane.CAP_INACTIVE
   hndl.opt[OPT_GAMMA_VECTOR].unit = Sane.UNIT_NONE
-  hndl.opt[OPT_GAMMA_VECTOR].size = 256 * sizeof (Sane.Word)
+  hndl.opt[OPT_GAMMA_VECTOR].size = 256 * sizeof(Sane.Word)
   hndl.opt[OPT_GAMMA_VECTOR].constraint_type = Sane.CONSTRAINT_RANGE
   hndl.opt[OPT_GAMMA_VECTOR].constraint.range = &hndl.gamma_range
   hndl.val[OPT_GAMMA_VECTOR].wa = &hndl.gamma_table[0][0]
@@ -563,7 +563,7 @@ init_options(Mustek_pp_Handle *hndl)
   hndl.opt[OPT_GAMMA_VECTOR_R].type = Sane.TYPE_INT
   hndl.opt[OPT_GAMMA_VECTOR_R].cap |= Sane.CAP_INACTIVE
   hndl.opt[OPT_GAMMA_VECTOR_R].unit = Sane.UNIT_NONE
-  hndl.opt[OPT_GAMMA_VECTOR_R].size = 256 * sizeof (Sane.Word)
+  hndl.opt[OPT_GAMMA_VECTOR_R].size = 256 * sizeof(Sane.Word)
   hndl.opt[OPT_GAMMA_VECTOR_R].constraint_type = Sane.CONSTRAINT_RANGE
   hndl.opt[OPT_GAMMA_VECTOR_R].constraint.range = &hndl.gamma_range
   hndl.val[OPT_GAMMA_VECTOR_R].wa = &hndl.gamma_table[1][0]
@@ -575,7 +575,7 @@ init_options(Mustek_pp_Handle *hndl)
   hndl.opt[OPT_GAMMA_VECTOR_G].type = Sane.TYPE_INT
   hndl.opt[OPT_GAMMA_VECTOR_G].cap |= Sane.CAP_INACTIVE
   hndl.opt[OPT_GAMMA_VECTOR_G].unit = Sane.UNIT_NONE
-  hndl.opt[OPT_GAMMA_VECTOR_G].size = 256 * sizeof (Sane.Word)
+  hndl.opt[OPT_GAMMA_VECTOR_G].size = 256 * sizeof(Sane.Word)
   hndl.opt[OPT_GAMMA_VECTOR_G].constraint_type = Sane.CONSTRAINT_RANGE
   hndl.opt[OPT_GAMMA_VECTOR_G].constraint.range = &hndl.gamma_range
   hndl.val[OPT_GAMMA_VECTOR_G].wa = &hndl.gamma_table[2][0]
@@ -587,7 +587,7 @@ init_options(Mustek_pp_Handle *hndl)
   hndl.opt[OPT_GAMMA_VECTOR_B].type = Sane.TYPE_INT
   hndl.opt[OPT_GAMMA_VECTOR_B].cap |= Sane.CAP_INACTIVE
   hndl.opt[OPT_GAMMA_VECTOR_B].unit = Sane.UNIT_NONE
-  hndl.opt[OPT_GAMMA_VECTOR_B].size = 256 * sizeof (Sane.Word)
+  hndl.opt[OPT_GAMMA_VECTOR_B].size = 256 * sizeof(Sane.Word)
   hndl.opt[OPT_GAMMA_VECTOR_B].constraint_type = Sane.CONSTRAINT_RANGE
   hndl.opt[OPT_GAMMA_VECTOR_B].constraint.range = &hndl.gamma_range
   hndl.val[OPT_GAMMA_VECTOR_B].wa = &hndl.gamma_table[3][0]
@@ -602,7 +602,7 @@ init_options(Mustek_pp_Handle *hndl)
   hndl.opt[OPT_INVERT].type = Sane.TYPE_BOOL
   hndl.val[OPT_INVERT].w = Sane.FALSE
 
-  if (! (hndl.dev.caps & CAP_INVERT))
+  if(! (hndl.dev.caps & CAP_INVERT))
 	  hndl.opt[OPT_INVERT].cap |= Sane.CAP_INACTIVE
 
 
@@ -624,25 +624,25 @@ attach_device(String *driver, String *name,
   Int found = 0, driver_no, port_no
   const char **ports
 
-  if (!strcmp (*port, "*"))
+  if(!strcmp(*port, "*"))
     {
       ports = sanei_pa4s2_devices()
-      DBG (3, "sanei_init: auto probing port\n")
+      DBG(3, "sanei_init: auto probing port\n")
     }
   else
     {
-      ports = malloc (sizeof(char *) * 2)
+      ports = malloc(sizeof(char *) * 2)
       ports[0] = *port
       ports[1] = NULL
     }
 
-  for (port_no=0; ports[port_no] != NULL; port_no++)
+  for(port_no=0; ports[port_no] != NULL; port_no++)
     {
-      for (driver_no=0 ; driver_no<MUSTEK_PP_NUM_DRIVERS ; driver_no++)
+      for(driver_no=0 ; driver_no<MUSTEK_PP_NUM_DRIVERS ; driver_no++)
         {
-          if (strcasecmp (Mustek_pp_Drivers[driver_no].driver, *driver) == 0)
+          if(strcasecmp(Mustek_pp_Drivers[driver_no].driver, *driver) == 0)
    	     {
-   	       Mustek_pp_Drivers[driver_no].init (
+   	       Mustek_pp_Drivers[driver_no].init(
    	         (*option_ta == 0 ? CAP_NOTHING : CAP_TA),
    	         ports[port_no], *name, Sane.attach)
    	       found = 1
@@ -651,19 +651,19 @@ attach_device(String *driver, String *name,
         }
     }
 
-  free (ports)
+  free(ports)
 
-  if (found == 0)
+  if(found == 0)
     {
-      DBG (1, "Sane.init: no scanner detected\n")
-      DBG (3, "Sane.init: either the driver name ``%s'' is invalid, or no scanner was detected\n", *driver)
+      DBG(1, "Sane.init: no scanner detected\n")
+      DBG(3, "Sane.init: either the driver name ``%s'' is invalid, or no scanner was detected\n", *driver)
     }
 
-  free (*name)
-  free (*port)
-  free (*driver)
-  if (*option_ta)
-    free (*option_ta)
+  free(*name)
+  free(*port)
+  free(*driver)
+  if(*option_ta)
+    free(*option_ta)
   *name = *port = *driver = *option_ta = 0
 
   /* In case of a successful initialization, the configuration options
@@ -681,7 +681,7 @@ attach_device(String *driver, String *name,
  * 	the global variable Sane.auth.
  *
  * 	Next the configuration file is read. If it isn't present, all drivers
- * 	are auto-probed with default values (port 0x378, with and without TA).
+ * 	are auto-probed with default values(port 0x378, with and without TA).
  *
  * 	The configuration file is expected to contain lines of the form
  *
@@ -696,7 +696,7 @@ attach_device(String *driver, String *name,
  */
 
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 {
   FILE *fp
   char config_line[1024]
@@ -704,36 +704,36 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
   Int line=0, driver_no
   char *driver = 0, *port = 0, *name = 0, *option_ta = 0
 
-  DBG_INIT ()
-  DBG (3, "sane-mustek_pp, version 0.%d-%s. build for SANE %s\n",
+  DBG_INIT()
+  DBG(3, "sane-mustek_pp, version 0.%d-%s. build for SANE %s\n",
 	MUSTEK_PP_BUILD, MUSTEK_PP_STATE, VERSION)
-  DBG (3, "backend by Jochen Eisinger <jochen.eisinger@gmx.net>\n")
+  DBG(3, "backend by Jochen Eisinger <jochen.eisinger@gmx.net>\n")
 
-  if (version_code != NULL)
-    *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, MUSTEK_PP_BUILD)
+  if(version_code != NULL)
+    *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, MUSTEK_PP_BUILD)
 
   Sane.auth = authorize
 
 
-  fp = sanei_config_open (MUSTEK_PP_CONFIG_FILE)
+  fp = sanei_config_open(MUSTEK_PP_CONFIG_FILE)
 
-  if (fp == NULL)
+  if(fp == NULL)
     {
       char driver_name[64]
       const char **devices = sanei_pa4s2_devices()
       Int device_no
 
-      DBG (2, "Sane.init: could not open configuration file\n")
+      DBG(2, "Sane.init: could not open configuration file\n")
 
-      for (device_no = 0; devices[device_no] != NULL; device_no++)
+      for(device_no = 0; devices[device_no] != NULL; device_no++)
         {
-	  DBG (3, "Sane.init: trying ``%s''\n", devices[device_no])
-          for (driver_no=0 ; driver_no<MUSTEK_PP_NUM_DRIVERS ; driver_no++)
+	  DBG(3, "Sane.init: trying ``%s''\n", devices[device_no])
+          for(driver_no=0 ; driver_no<MUSTEK_PP_NUM_DRIVERS ; driver_no++)
 	    {
 	      Mustek_pp_Drivers[driver_no].init(CAP_NOTHING, devices[device_no],
 	  	        Mustek_pp_Drivers[driver_no].driver, Sane.attach)
 
-	      snprintf (driver_name, 64, "%s-ta",
+	      snprintf(driver_name, 64, "%s-ta",
 		    Mustek_pp_Drivers[driver_no].driver)
 
 	      Mustek_pp_Drivers[driver_no].init(CAP_TA, devices[device_no],
@@ -741,135 +741,135 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
 	    }
 	}
 
-      free (devices)
+      free(devices)
       return Sane.STATUS_GOOD
     }
 
-  while (sanei_config_read (config_line, 1023, fp))
+  while(sanei_config_read(config_line, 1023, fp))
     {
       line++
-      if ((!*config_line) || (*config_line == '#'))
+      if((!*config_line) || (*config_line == '#'))
 	continue
 
       config_line_ptr = config_line
 
-      if (strncmp(config_line_ptr, "scanner", 7) == 0)
+      if(strncmp(config_line_ptr, "scanner", 7) == 0)
 	{
 	  config_line_ptr += 7
 
-          if (name)
+          if(name)
           {
              /* Parsing of previous scanner + options is finished. Attach
                 the device before we parse the next section. */
              attach_device(&driver, &name, &port, &option_ta)
           }
 
-	  config_line_ptr = sanei_config_skip_whitespace (config_line_ptr)
-	  if (!*config_line_ptr)
+	  config_line_ptr = sanei_config_skip_whitespace(config_line_ptr)
+	  if(!*config_line_ptr)
 	    {
-	      DBG (1, "Sane.init: parse error in line %d after ``scanner''\n",
+	      DBG(1, "Sane.init: parse error in line %d after ``scanner''\n",
 		line)
 	      continue
 	    }
 
-	  config_line_ptr = sanei_config_get_string (config_line_ptr, &name)
-	  if ((name == NULL) || (!*name))
+	  config_line_ptr = sanei_config_get_string(config_line_ptr, &name)
+	  if((name == NULL) || (!*name))
 	    {
-	      DBG (1, "Sane.init: parse error in line %d after ``scanner''\n",
+	      DBG(1, "Sane.init: parse error in line %d after ``scanner''\n",
 		line)
-	      if (name != NULL)
-		free (name)
+	      if(name != NULL)
+		free(name)
 	      name = 0
 	      continue
 	    }
 
-	  config_line_ptr = sanei_config_skip_whitespace (config_line_ptr)
-	  if (!*config_line_ptr)
+	  config_line_ptr = sanei_config_skip_whitespace(config_line_ptr)
+	  if(!*config_line_ptr)
 	    {
-	      DBG (1, "Sane.init: parse error in line %d after "
+	      DBG(1, "Sane.init: parse error in line %d after "
 		"``scanner %s''\n", line, name)
-	      free (name)
+	      free(name)
 	      name = 0
 	      continue
 	    }
 
-	  config_line_ptr = sanei_config_get_string (config_line_ptr, &port)
-	  if ((port == NULL) || (!*port))
+	  config_line_ptr = sanei_config_get_string(config_line_ptr, &port)
+	  if((port == NULL) || (!*port))
 	    {
-	      DBG (1, "Sane.init: parse error in line %d after "
+	      DBG(1, "Sane.init: parse error in line %d after "
 		"``scanner %s''\n", line, name)
-	      free (name)
+	      free(name)
 	      name = 0
-	      if (port != NULL)
-		free (port)
+	      if(port != NULL)
+		free(port)
 	      port = 0
 	      continue
 	    }
 
-	  config_line_ptr = sanei_config_skip_whitespace (config_line_ptr)
-	  if (!*config_line_ptr)
+	  config_line_ptr = sanei_config_skip_whitespace(config_line_ptr)
+	  if(!*config_line_ptr)
 	    {
-	      DBG (1, "Sane.init: parse error in line %d after "
+	      DBG(1, "Sane.init: parse error in line %d after "
 		"``scanner %s %s''\n", line, name, port)
-	      free (name)
-	      free (port)
+	      free(name)
+	      free(port)
 	      name = 0
 	      port = 0
 	      continue
 	    }
 
-	  config_line_ptr = sanei_config_get_string (config_line_ptr, &driver)
-	  if ((driver == NULL) || (!*driver))
+	  config_line_ptr = sanei_config_get_string(config_line_ptr, &driver)
+	  if((driver == NULL) || (!*driver))
 	    {
-	      DBG (1, "Sane.init: parse error in line %d after "
+	      DBG(1, "Sane.init: parse error in line %d after "
 		"``scanner %s %s''\n", line, name, port)
-	      free (name)
+	      free(name)
 	      name = 0
-	      free (port)
+	      free(port)
 	      port = 0
-	      if (driver != NULL)
-		free (driver)
+	      if(driver != NULL)
+		free(driver)
 	      driver = 0
 	      continue
 	    }
 
-	  config_line_ptr = sanei_config_skip_whitespace (config_line_ptr)
+	  config_line_ptr = sanei_config_skip_whitespace(config_line_ptr)
 
-	  if (*config_line_ptr)
+	  if(*config_line_ptr)
 	    {
-	      config_line_ptr = sanei_config_get_string (config_line_ptr,
+	      config_line_ptr = sanei_config_get_string(config_line_ptr,
 							&option_ta)
 
-	      if ((option_ta == NULL) || (!*option_ta) ||
-		  (strcasecmp (option_ta, "use_ta") != 0))
+	      if((option_ta == NULL) || (!*option_ta) ||
+		  (strcasecmp(option_ta, "use_ta") != 0))
 		{
-		  DBG (1, "Sane.init: parse error in line %d after "
+		  DBG(1, "Sane.init: parse error in line %d after "
 			"``scanner %s %s %s''\n", line, name, port, driver)
-		  free (name)
-		  free (port)
-		  free (driver)
-		  if (option_ta)
-		    free (option_ta)
+		  free(name)
+		  free(port)
+		  free(driver)
+		  if(option_ta)
+		    free(option_ta)
 		  name = port = driver = option_ta = 0
 		  continue
 		}
 	    }
 
-	  if (*config_line_ptr)
+	  if(*config_line_ptr)
 	    {
-	      DBG (1, "Sane.init: parse error in line %d after "
+	      DBG(1, "Sane.init: parse error in line %d after "
 			"``scanner %s %s %s %s\n", line, name, port, driver,
 			(option_ta == 0 ? "" : option_ta))
-	      free (name)
-	      free (port)
-	      free (driver)
-	      if (option_ta)
-		free (option_ta)
+	      free(name)
+	      free(port)
+	      free(driver)
+	      if(option_ta)
+		free(option_ta)
 	      name = port = driver = option_ta = 0
 	      continue
 	    }
         }
-      else if (strncmp(config_line_ptr, "option", 6) == 0)
+      else if(strncmp(config_line_ptr, "option", 6) == 0)
         {
           /* Format for options: option <name> [<value>]
              Note that the value is optional. */
@@ -877,82 +877,82 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
           Mustek_pp_config_option *tmpoptions
 
           config_line_ptr += 6
-          config_line_ptr = sanei_config_skip_whitespace (config_line_ptr)
-          if (!*config_line_ptr)
+          config_line_ptr = sanei_config_skip_whitespace(config_line_ptr)
+          if(!*config_line_ptr)
 	    {
-	      DBG (1, "Sane.init: parse error in line %d after ``option''\n",
+	      DBG(1, "Sane.init: parse error in line %d after ``option''\n",
 	        line)
 	      continue
 	    }
 
-          config_line_ptr = sanei_config_get_string (config_line_ptr, &optname)
-          if ((optname == NULL) || (!*optname))
+          config_line_ptr = sanei_config_get_string(config_line_ptr, &optname)
+          if((optname == NULL) || (!*optname))
 	    {
-	      DBG (1, "Sane.init: parse error in line %d after ``option''\n",
+	      DBG(1, "Sane.init: parse error in line %d after ``option''\n",
 	        line)
-	      if (optname != NULL)
-	        free (optname)
+	      if(optname != NULL)
+	        free(optname)
 	      continue
 	    }
 
-          config_line_ptr = sanei_config_skip_whitespace (config_line_ptr)
-          if (*config_line_ptr)
+          config_line_ptr = sanei_config_skip_whitespace(config_line_ptr)
+          if(*config_line_ptr)
 	    {
               /* The option has a value.
                  No need to check the value; that's up to the backend */
-	      config_line_ptr = sanei_config_get_string (config_line_ptr,
+	      config_line_ptr = sanei_config_get_string(config_line_ptr,
                                                          &optval)
 
-   	      config_line_ptr = sanei_config_skip_whitespace (config_line_ptr)
+   	      config_line_ptr = sanei_config_skip_whitespace(config_line_ptr)
 	    }
 
-          if (*config_line_ptr)
+          if(*config_line_ptr)
 	    {
-	      DBG (1, "Sane.init: parse error in line %d after "
+	      DBG(1, "Sane.init: parse error in line %d after "
 		        "``option %s %s''\n", line, optname,
 		        (optval == 0 ? "" : optval))
-	      free (optname)
-	      if (optval)
-                 free (optval)
+	      free(optname)
+	      if(optval)
+                 free(optval)
 	      continue
 	    }
 
-	  if (!strcmp (optname, "no_epp"))
+	  if(!strcmp(optname, "no_epp"))
 	    {
 	      u_int pa4s2_options
-	      if (name)
-		DBG (2, "Sane.init: global option found in local scope, "
+	      if(name)
+		DBG(2, "Sane.init: global option found in local scope, "
 			"executing anyway\n")
-	      free (optname)
-	      if (optval)
+	      free(optname)
+	      if(optval)
 	        {
-	          DBG (1, "Sane.init: unexpected value for option no_epp\n")
-	          free (optval)
+	          DBG(1, "Sane.init: unexpected value for option no_epp\n")
+	          free(optval)
 	          continue
 	        }
-	      DBG (3, "Sane.init: disabling mode EPP\n")
-	      sanei_pa4s2_options (&pa4s2_options, Sane.FALSE)
+	      DBG(3, "Sane.init: disabling mode EPP\n")
+	      sanei_pa4s2_options(&pa4s2_options, Sane.FALSE)
 	      pa4s2_options |= SANEI_PA4S2_OPT_NO_EPP
-	      sanei_pa4s2_options (&pa4s2_options, Sane.TRUE)
+	      sanei_pa4s2_options(&pa4s2_options, Sane.TRUE)
 	      continue
 	    }
-	  else if (!name)
+	  else if(!name)
 	    {
-	      DBG (1, "Sane.init: parse error in line %d: unexpected "
+	      DBG(1, "Sane.init: parse error in line %d: unexpected "
                       " ``option''\n", line)
-	      free (optname)
-	      if (optval)
-                 free (optval)
+	      free(optname)
+	      if(optval)
+                 free(optval)
 	      continue
 	    }
 
 
-          /* Extend the (global) array of options */
+          /* Extend the(global) array of options */
           tmpoptions = realloc(cfgoptions,
                                (numcfgoptions+1)*sizeof(cfgoptions[0]))
-          if (!tmpoptions)
+          if(!tmpoptions)
           {
-             DBG (1, "Sane.init: not enough memory for device options\n")
+             DBG(1, "Sane.init: not enough memory for device options\n")
              free_cfg_options(&numcfgoptions, &cfgoptions)
              return Sane.STATUS_NO_MEM
           }
@@ -964,7 +964,7 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
         }
       else
 	{
-	  DBG (1, "Sane.init: parse error at beginning of line %d\n", line)
+	  DBG(1, "Sane.init: parse error at beginning of line %d\n", line)
 	  continue
 	}
 
@@ -972,7 +972,7 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
 
   /* If we hit the end of the file, we still may have to process the
      last driver */
-  if (name)
+  if(name)
      attach_device(&driver, &name, &port, &option_ta)
 
   fclose(fp)
@@ -990,41 +990,41 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
  */
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   Mustek_pp_Handle *hndl
   Mustek_pp_Device *dev
 
-  if (first_hndl)
-    DBG (3, "Sane.exit: closing open devices\n")
+  if(first_hndl)
+    DBG(3, "Sane.exit: closing open devices\n")
 
-  while (first_hndl)
+  while(first_hndl)
     {
       hndl = first_hndl
-      Sane.close (hndl)
+      Sane.close(hndl)
     }
 
   dev = devlist
   num_devices = 0
   devlist = NULL
 
-  while (dev) {
+  while(dev) {
 
-	  free (dev.port)
-	  free (dev.name)
-	  free (dev.vendor)
-	  free (dev.model)
-	  free (dev.type)
-          free_cfg_options (&dev.numcfgoptions, &dev.cfgoptions)
+	  free(dev.port)
+	  free(dev.name)
+	  free(dev.vendor)
+	  free(dev.model)
+	  free(dev.type)
+          free_cfg_options(&dev.numcfgoptions, &dev.cfgoptions)
 	  dev = dev.next
 
   }
 
-  if (devarray != NULL)
-    free (devarray)
+  if(devarray != NULL)
+    free(devarray)
   devarray = NULL
 
-  DBG (3, "Sane.exit: all drivers unloaded\n")
+  DBG(3, "Sane.exit: all drivers unloaded\n")
 
 }
 
@@ -1038,26 +1038,26 @@ Sane.exit (void)
  */
 /*ARGSUSED*/
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list,
+Sane.get_devices(const Sane.Device *** device_list,
 		  Bool local_only __UNUSED__)
 {
   Int ctr
   Mustek_pp_Device *dev
 
-  if (devarray != NULL)
-    free (devarray)
+  if(devarray != NULL)
+    free(devarray)
 
-  devarray = malloc ((num_devices + 1) * sizeof (devarray[0]))
+  devarray = malloc((num_devices + 1) * sizeof(devarray[0]))
 
-  if (devarray == NULL)
+  if(devarray == NULL)
     {
-      DBG (1, "Sane.get_devices: not enough memory for device list\n")
+      DBG(1, "Sane.get_devices: not enough memory for device list\n")
       return Sane.STATUS_NO_MEM
     }
 
   dev = devlist
 
-  for (ctr=0 ; ctr<num_devices ; ctr++) {
+  for(ctr=0 ; ctr<num_devices ; ctr++) {
 	  devarray[ctr] = &dev.sane
 	  dev = dev.next
   }
@@ -1083,7 +1083,7 @@ Sane.get_devices (const Sane.Device *** device_list,
  */
 
 Sane.Status
-Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
+Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 {
 
 	Mustek_pp_Handle *hndl
@@ -1091,47 +1091,47 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
 	Sane.Status status
 	Int	fd, i
 
-	if (devicename[0]) {
+	if(devicename[0]) {
 
 		dev = devlist
 
-		while (dev) {
+		while(dev) {
 
-			if (strcmp (dev.name, devicename) == 0)
+			if(strcmp(dev.name, devicename) == 0)
 				break
 
 			dev = dev.next
 
 		}
 
-		if (!dev) {
+		if(!dev) {
 
-			DBG (1, "Sane.open: unknown devicename ``%s''\n", devicename)
+			DBG(1, "Sane.open: unknown devicename ``%s''\n", devicename)
 			return Sane.STATUS_INVAL
 
 		}
 	} else
 		dev = devlist
 
-	if (!dev) {
-		DBG (1, "Sane.open: no devices present...\n")
+	if(!dev) {
+		DBG(1, "Sane.open: no devices present...\n")
 		return Sane.STATUS_INVAL
 	}
 
-	DBG (3, "Sane.open: Using device ``%s'' (driver %s v%s by %s)\n",
+	DBG(3, "Sane.open: Using device ``%s'' (driver %s v%s by %s)\n",
 			dev.name, dev.func.driver, dev.func.version, dev.func.author)
 
-	if ((hndl = malloc (sizeof (Mustek_pp_Handle))) == NULL) {
+	if((hndl = malloc(sizeof(Mustek_pp_Handle))) == NULL) {
 
-		DBG (1, "Sane.open: not enough free memory for the handle\n")
+		DBG(1, "Sane.open: not enough free memory for the handle\n")
 		return Sane.STATUS_NO_MEM
 
 	}
 
-	if ((status = dev.func.open (dev.port, dev.caps, &fd)) != Sane.STATUS_GOOD) {
+	if((status = dev.func.open(dev.port, dev.caps, &fd)) != Sane.STATUS_GOOD) {
 
-		DBG (1, "Sane.open: could not open device (%s)\n",
-				Sane.strstatus (status))
+		DBG(1, "Sane.open: could not open device(%s)\n",
+				Sane.strstatus(status))
 		return status
 
 	}
@@ -1142,22 +1142,22 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
 	hndl.state = STATE_IDLE
 	hndl.pipe = -1
 
-	init_options (hndl)
+	init_options(hndl)
 
-	dev.func.setup (hndl)
+	dev.func.setup(hndl)
 
         /* Initialize driver-specific configuration options. This must be
            done after calling the setup() function because only then the
            driver is guaranteed to be fully initialized */
-        for (i = 0; i<dev.numcfgoptions; ++i)
+        for(i = 0; i<dev.numcfgoptions; ++i)
         {
-           status = dev.func.config (hndl,
+           status = dev.func.config(hndl,
 		  		       dev.cfgoptions[i].name,
 				       dev.cfgoptions[i].value)
-           if (status != Sane.STATUS_GOOD)
+           if(status != Sane.STATUS_GOOD)
            {
-              DBG (1, "Sane.open: could not set option %s for device (%s)\n",
-            		dev.cfgoptions[i].name, Sane.strstatus (status))
+              DBG(1, "Sane.open: could not set option %s for device(%s)\n",
+            		dev.cfgoptions[i].name, Sane.strstatus(status))
 
               /* Question: should the initialization be aborted when an
                  option cannot be handled ?
@@ -1190,45 +1190,45 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
  * 	Afterwards the selected handle is closed
  */
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
   Mustek_pp_Handle *prev, *hndl
 
   prev = NULL
 
-  for (hndl = first_hndl; hndl; hndl = hndl.next)
+  for(hndl = first_hndl; hndl; hndl = hndl.next)
     {
-      if (hndl == handle)
+      if(hndl == handle)
 	break
       prev = hndl
     }
 
-  if (hndl == NULL)
+  if(hndl == NULL)
     {
-      DBG (2, "Sane.close: unknown device handle\n")
+      DBG(2, "Sane.close: unknown device handle\n")
       return
     }
 
-  if (hndl.state == STATE_SCANNING) {
-    Sane.cancel (handle)
-    do_eof (handle)
+  if(hndl.state == STATE_SCANNING) {
+    Sane.cancel(handle)
+    do_eof(handle)
   }
 
-  if (prev != NULL)
+  if(prev != NULL)
     prev.next = hndl.next
   else
     first_hndl = hndl.next
 
-  DBG (3, "Sane.close: maybe waiting for lamp...\n")
-  if (hndl.lamp_on)
-    while (time (NULL) - hndl.lamp_on < 2)
-      sleep (1)
+  DBG(3, "Sane.close: maybe waiting for lamp...\n")
+  if(hndl.lamp_on)
+    while(time(NULL) - hndl.lamp_on < 2)
+      sleep(1)
 
-  hndl.dev.func.close (hndl)
+  hndl.dev.func.close(hndl)
 
-  DBG (3, "Sane.close: device closed\n")
+  DBG(3, "Sane.close: device closed\n")
 
-  free (handle)
+  free(handle)
 
 }
 
@@ -1240,13 +1240,13 @@ Sane.close (Sane.Handle handle)
  */
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
   Mustek_pp_Handle *hndl = handle
 
-  if ((unsigned) option >= NUM_OPTIONS)
+  if((unsigned) option >= NUM_OPTIONS)
     {
-      DBG (2, "Sane.get_option_descriptor: option %d doesn't exist\n", option)
+      DBG(2, "Sane.get_option_descriptor: option %d doesn't exist\n", option)
       return NULL
     }
 
@@ -1263,7 +1263,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
  *	check whether the request is valid is done.
  *
  *	Depending on ``action'' the value of the option is either read
- *	(in the first block) or written (in the second block). auto
+ *	(in the first block) or written(in the second block). auto
  *	values aren't supported.
  *
  *	before a value is written, some checks are performed. Depending
@@ -1271,40 +1271,40 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
  *
  */
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
 		     Sane.Action action, void *val, Int * info)
 {
   Mustek_pp_Handle *hndl = handle
   Sane.Status status
   Sane.Word w, cap
 
-  if (info)
+  if(info)
     *info = 0
 
-  if (hndl.state == STATE_SCANNING)
+  if(hndl.state == STATE_SCANNING)
     {
-      DBG (2, "Sane.control_option: device is scanning\n")
+      DBG(2, "Sane.control_option: device is scanning\n")
       return Sane.STATUS_DEVICE_BUSY
     }
 
-  if ((unsigned Int) option >= NUM_OPTIONS)
+  if((unsigned Int) option >= NUM_OPTIONS)
     {
-      DBG (2, "Sane.control_option: option %d doesn't exist\n", option)
+      DBG(2, "Sane.control_option: option %d doesn't exist\n", option)
       return Sane.STATUS_INVAL
     }
 
   cap = hndl.opt[option].cap
 
-  if (!Sane.OPTION_IS_ACTIVE (cap))
+  if(!Sane.OPTION_IS_ACTIVE(cap))
     {
-      DBG (2, "Sane.control_option: option %d isn't active\n", option)
+      DBG(2, "Sane.control_option: option %d isn't active\n", option)
       return Sane.STATUS_INVAL
     }
 
-  if (action == Sane.ACTION_GET_VALUE)
+  if(action == Sane.ACTION_GET_VALUE)
     {
 
-      switch (option)
+      switch(option)
 	{
 	  /* word options: */
 	case OPT_PREVIEW:
@@ -1328,37 +1328,37 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_GAMMA_VECTOR_G:
 	case OPT_GAMMA_VECTOR_B:
 
-	  memcpy (val, hndl.val[option].wa, hndl.opt[option].size)
+	  memcpy(val, hndl.val[option].wa, hndl.opt[option].size)
 	  return Sane.STATUS_GOOD
 
 	  /* string options: */
 	case OPT_MODE:
 	case OPT_SPEED:
 
-	  strcpy (val, hndl.val[option].s)
+	  strcpy(val, hndl.val[option].s)
 	  return Sane.STATUS_GOOD
 	}
     }
-  else if (action == Sane.ACTION_SET_VALUE)
+  else if(action == Sane.ACTION_SET_VALUE)
     {
 
-      if (!Sane.OPTION_IS_SETTABLE (cap))
+      if(!Sane.OPTION_IS_SETTABLE(cap))
 	{
-	  DBG (2, "Sane.control_option: option can't be set (%s)\n",
+	  DBG(2, "Sane.control_option: option can't be set(%s)\n",
 			  hndl.opt[option].name)
 	  return Sane.STATUS_INVAL
 	}
 
-      status = sanei_constrain_value (hndl.opt + option, val, info)
+      status = sanei_constrain_value(hndl.opt + option, val, info)
 
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (2, "Sane.control_option: constrain_value failed (%s)\n",
-	       Sane.strstatus (status))
+	  DBG(2, "Sane.control_option: constrain_value failed(%s)\n",
+	       Sane.strstatus(status))
 	  return status
 	}
 
-      switch (option)
+      switch(option)
 	{
 	  /* (mostly) side-effect-free word options: */
 	case OPT_RESOLUTION:
@@ -1371,7 +1371,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_INVERT:
 	case OPT_DEPTH:
 
-	  if (info)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 
 	  hndl.val[option].w = *(Sane.Word *) val
@@ -1383,16 +1383,16 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_GAMMA_VECTOR_G:
 	case OPT_GAMMA_VECTOR_B:
 
-	  memcpy (hndl.val[option].wa, val, hndl.opt[option].size)
+	  memcpy(hndl.val[option].wa, val, hndl.opt[option].size)
 	  return Sane.STATUS_GOOD
 
 	  /* side-effect-free string options: */
 	case OPT_SPEED:
 
-	  if (hndl.val[option].s)
-		  free (hndl.val[option].s)
+	  if(hndl.val[option].s)
+		  free(hndl.val[option].s)
 
-	  hndl.val[option].s = strdup (val)
+	  hndl.val[option].s = strdup(val)
 	  return Sane.STATUS_GOOD
 
 
@@ -1401,21 +1401,21 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_CUSTOM_GAMMA:
 	  w = *(Sane.Word *) val
 
-	  if (w == hndl.val[OPT_CUSTOM_GAMMA].w)
+	  if(w == hndl.val[OPT_CUSTOM_GAMMA].w)
 	    return Sane.STATUS_GOOD;	/* no change */
 
-	  if (info)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_OPTIONS
 
 	  hndl.val[OPT_CUSTOM_GAMMA].w = w
 
-	  if (w == Sane.TRUE)
+	  if(w == Sane.TRUE)
 	    {
 	      const char *mode = hndl.val[OPT_MODE].s
 
-	      if (strcmp (mode, Sane.VALUE_SCAN_MODE_GRAY) == 0)
+	      if(strcmp(mode, Sane.VALUE_SCAN_MODE_GRAY) == 0)
 		hndl.opt[OPT_GAMMA_VECTOR].cap &= ~Sane.CAP_INACTIVE
-	      else if (strcmp (mode, Sane.VALUE_SCAN_MODE_COLOR) == 0)
+	      else if(strcmp(mode, Sane.VALUE_SCAN_MODE_COLOR) == 0)
 		{
 		  hndl.opt[OPT_GAMMA_VECTOR].cap &= ~Sane.CAP_INACTIVE
 		  hndl.opt[OPT_GAMMA_VECTOR_R].cap &= ~Sane.CAP_INACTIVE
@@ -1437,18 +1437,18 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  {
 	    char *old_val = hndl.val[option].s
 
-	    if (old_val)
+	    if(old_val)
 	      {
-		if (strcmp (old_val, val) == 0)
+		if(strcmp(old_val, val) == 0)
 		  return Sane.STATUS_GOOD;	/* no change */
 
-		free (old_val)
+		free(old_val)
 	      }
 
-	    if (info)
+	    if(info)
 	      *info |= Sane.INFO_RELOAD_OPTIONS | Sane.INFO_RELOAD_PARAMS
 
-	    hndl.val[option].s = strdup (val)
+	    hndl.val[option].s = strdup(val)
 
 	    hndl.opt[OPT_CUSTOM_GAMMA].cap |= Sane.CAP_INACTIVE
 	    hndl.opt[OPT_GAMMA_VECTOR].cap |= Sane.CAP_INACTIVE
@@ -1458,20 +1458,20 @@ Sane.control_option (Sane.Handle handle, Int option,
 
 	    hndl.opt[OPT_DEPTH].cap |= Sane.CAP_INACTIVE
 
-	    if ((hndl.dev.caps & CAP_DEPTH) && (strcmp(val, Sane.VALUE_SCAN_MODE_COLOR) == 0))
+	    if((hndl.dev.caps & CAP_DEPTH) && (strcmp(val, Sane.VALUE_SCAN_MODE_COLOR) == 0))
 		    hndl.opt[OPT_DEPTH].cap &= ~Sane.CAP_INACTIVE
 
-	    if (!(hndl.dev.caps & CAP_GAMMA_CORRECT))
+	    if(!(hndl.dev.caps & CAP_GAMMA_CORRECT))
 		    return Sane.STATUS_GOOD
 
-	    if (strcmp (val, Sane.VALUE_SCAN_MODE_LINEART) != 0)
+	    if(strcmp(val, Sane.VALUE_SCAN_MODE_LINEART) != 0)
 	      hndl.opt[OPT_CUSTOM_GAMMA].cap &= ~Sane.CAP_INACTIVE
 
-	    if (hndl.val[OPT_CUSTOM_GAMMA].w == Sane.TRUE)
+	    if(hndl.val[OPT_CUSTOM_GAMMA].w == Sane.TRUE)
 	      {
-		if (strcmp (val, Sane.VALUE_SCAN_MODE_GRAY) == 0)
+		if(strcmp(val, Sane.VALUE_SCAN_MODE_GRAY) == 0)
 		  hndl.opt[OPT_GAMMA_VECTOR].cap &= ~Sane.CAP_INACTIVE
-		else if (strcmp (val, Sane.VALUE_SCAN_MODE_COLOR) == 0)
+		else if(strcmp(val, Sane.VALUE_SCAN_MODE_COLOR) == 0)
 		  {
 		    hndl.opt[OPT_GAMMA_VECTOR].cap &= ~Sane.CAP_INACTIVE
 		    hndl.opt[OPT_GAMMA_VECTOR_R].cap &= ~Sane.CAP_INACTIVE
@@ -1485,7 +1485,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	}
     }
 
-  DBG (2, "Sane.control_option: unknown action\n")
+  DBG(2, "Sane.control_option: unknown action\n")
   return Sane.STATUS_INVAL
 }
 
@@ -1507,7 +1507,7 @@ Sane.control_option (Sane.Handle handle, Int option,
  * 		scanmode:	according to the option SCANMODE, but
  * 				24bit color, if PREVIEW is selected and
  * 				grayscale if GRAY_PREVIEW is selected
- * 		depth:		the bit depth for color modes (if
+ * 		depth:		the bit depth for color modes(if
  * 				supported) or 24bit by default
  * 				(ignored in bw/grayscale or if not
  * 				supported)
@@ -1515,7 +1515,7 @@ Sane.control_option (Sane.Handle handle, Int option,
  * 		invert:		if supported else defaults to false
  * 		gamma:		if supported and selected
  * 		ta:		if supported by the device
- * 		speed:		selected speed (or fastest if not
+ * 		speed:		selected speed(or fastest if not
  * 				supported)
  * 		scanarea:	the scanarea is calculated from the
  * 				selections the user has mode. note
@@ -1528,47 +1528,47 @@ Sane.control_option (Sane.Handle handle, Int option,
  * 	structure.
  */
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
   Mustek_pp_Handle *hndl = handle
   char *mode
       Int dpi, ctr
 
-  if (hndl.state != STATE_SCANNING)
+  if(hndl.state != STATE_SCANNING)
     {
 
 
-      memset (&hndl.params, 0, sizeof (hndl.params))
+      memset(&hndl.params, 0, sizeof(hndl.params))
 
 
-      if ((hndl.dev.caps & CAP_DEPTH) && (hndl.mode == MODE_COLOR))
+      if((hndl.dev.caps & CAP_DEPTH) && (hndl.mode == MODE_COLOR))
 	hndl.depth = hndl.val[OPT_DEPTH].w
       else
 	hndl.depth = 8
 
-      dpi = (Int) (Sane.UNFIX (hndl.val[OPT_RESOLUTION].w) + 0.5)
+      dpi = (Int) (Sane.UNFIX(hndl.val[OPT_RESOLUTION].w) + 0.5)
 
       hndl.res = dpi
 
-      if (hndl.dev.caps & CAP_INVERT)
+      if(hndl.dev.caps & CAP_INVERT)
 	hndl.invert = hndl.val[OPT_INVERT].w
       else
 	hndl.invert = Sane.FALSE
 
-      if (hndl.dev.caps & CAP_TA)
+      if(hndl.dev.caps & CAP_TA)
 	hndl.use_ta = Sane.TRUE
       else
 	hndl.use_ta = Sane.FALSE
 
-      if ((hndl.dev.caps & CAP_GAMMA_CORRECT) && (hndl.val[OPT_CUSTOM_GAMMA].w == Sane.TRUE))
+      if((hndl.dev.caps & CAP_GAMMA_CORRECT) && (hndl.val[OPT_CUSTOM_GAMMA].w == Sane.TRUE))
 	      hndl.do_gamma = Sane.TRUE
       else
 	      hndl.do_gamma = Sane.FALSE
 
-      if (hndl.dev.caps & CAP_SPEED_SELECT) {
+      if(hndl.dev.caps & CAP_SPEED_SELECT) {
 
-	      for (ctr=SPEED_SLOWEST; ctr<=SPEED_FASTEST; ctr++)
-		      if (strcmp(mustek_pp_speeds[ctr], hndl.val[OPT_SPEED].s) == 0)
+	      for(ctr=SPEED_SLOWEST; ctr<=SPEED_FASTEST; ctr++)
+		      if(strcmp(mustek_pp_speeds[ctr], hndl.val[OPT_SPEED].s) == 0)
 			      hndl.speed = ctr
 
 
@@ -1578,23 +1578,23 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 
       mode = hndl.val[OPT_MODE].s
 
-      if (strcmp (mode, Sane.VALUE_SCAN_MODE_LINEART) == 0)
+      if(strcmp(mode, Sane.VALUE_SCAN_MODE_LINEART) == 0)
 	hndl.mode = MODE_BW
-      else if (strcmp (mode, Sane.VALUE_SCAN_MODE_GRAY) == 0)
+      else if(strcmp(mode, Sane.VALUE_SCAN_MODE_GRAY) == 0)
 	hndl.mode = MODE_GRAYSCALE
       else
 	hndl.mode = MODE_COLOR
 
-      if (hndl.val[OPT_PREVIEW].w == Sane.TRUE)
+      if(hndl.val[OPT_PREVIEW].w == Sane.TRUE)
 	{
 
 			hndl.speed = SPEED_FASTEST
 			hndl.depth = 8
-			if (! hndl.use_ta)
+			if(! hndl.use_ta)
 			hndl.invert = Sane.FALSE
 			hndl.do_gamma = Sane.FALSE
 
-	  if (hndl.val[OPT_GRAY_PREVIEW].w == Sane.TRUE)
+	  if(hndl.val[OPT_GRAY_PREVIEW].w == Sane.TRUE)
 	    hndl.mode = MODE_GRAYSCALE
 	  else {
 	    hndl.mode = MODE_COLOR
@@ -1603,31 +1603,31 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 	}
 
       hndl.topX =
-	MIN ((Int)
-	     (MM_TO_PIXEL (Sane.UNFIX(hndl.val[OPT_TL_X].w), hndl.dev.maxres) +
+	MIN((Int)
+	     (MM_TO_PIXEL(Sane.UNFIX(hndl.val[OPT_TL_X].w), hndl.dev.maxres) +
 	      0.5), hndl.dev.maxhsize)
       hndl.topY =
-	MIN ((Int)
-	     (MM_TO_PIXEL (Sane.UNFIX(hndl.val[OPT_TL_Y].w), hndl.dev.maxres) +
+	MIN((Int)
+	     (MM_TO_PIXEL(Sane.UNFIX(hndl.val[OPT_TL_Y].w), hndl.dev.maxres) +
 	      0.5), hndl.dev.maxvsize)
 
       hndl.bottomX =
-	MIN ((Int)
-	     (MM_TO_PIXEL (Sane.UNFIX(hndl.val[OPT_BR_X].w), hndl.dev.maxres) +
+	MIN((Int)
+	     (MM_TO_PIXEL(Sane.UNFIX(hndl.val[OPT_BR_X].w), hndl.dev.maxres) +
 	      0.5), hndl.dev.maxhsize)
       hndl.bottomY =
-	MIN ((Int)
-	     (MM_TO_PIXEL (Sane.UNFIX(hndl.val[OPT_BR_Y].w), hndl.dev.maxres) +
+	MIN((Int)
+	     (MM_TO_PIXEL(Sane.UNFIX(hndl.val[OPT_BR_Y].w), hndl.dev.maxres) +
 	      0.5), hndl.dev.maxvsize)
 
       /* If necessary, swap the upper and lower boundaries to avoid negative
          distances. */
-      if (hndl.topX > hndl.bottomX) {
+      if(hndl.topX > hndl.bottomX) {
 	Int tmp = hndl.topX
 	hndl.topX = hndl.bottomX
 	hndl.bottomX = tmp
       }
-      if (hndl.topY > hndl.bottomY) {
+      if(hndl.topY > hndl.bottomY) {
 	Int tmp = hndl.topY
 	hndl.topY = hndl.bottomY
 	hndl.bottomY = tmp
@@ -1638,13 +1638,13 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 
       hndl.params.bytes_per_line = hndl.params.pixels_per_line
 
-      switch (hndl.mode)
+      switch(hndl.mode)
 	{
 
 	case MODE_BW:
 	  hndl.params.bytes_per_line /= 8
 
-	  if ((hndl.params.pixels_per_line % 8) != 0)
+	  if((hndl.params.pixels_per_line % 8) != 0)
 	    hndl.params.bytes_per_line++
 
 	  hndl.params.depth = 1
@@ -1658,7 +1658,7 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 	case MODE_COLOR:
 	  hndl.params.depth = hndl.depth
 	  hndl.params.bytes_per_line *= 3
-	  if (hndl.depth > 8)
+	  if(hndl.depth > 8)
 	    hndl.params.bytes_per_line *= 2
 	  hndl.params.format = Sane.FRAME_RGB
 	  break
@@ -1671,9 +1671,9 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 	hndl.dev.maxres
     }
   else
-      DBG (2, "Sane.get_parameters: can't set parameters while scanning\n")
+      DBG(2, "Sane.get_parameters: can't set parameters while scanning\n")
 
-  if (params != NULL)
+  if(params != NULL)
     *params = hndl.params
 
   return Sane.STATUS_GOOD
@@ -1688,46 +1688,46 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
  *
  */
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   Mustek_pp_Handle	*hndl = handle
   Int			pipeline[2]
 
-  if (hndl.state == STATE_SCANNING) {
-	  DBG (2, "Sane.start: device is already scanning\n")
+  if(hndl.state == STATE_SCANNING) {
+	  DBG(2, "Sane.start: device is already scanning\n")
 	  return Sane.STATUS_DEVICE_BUSY
 
   }
 
-	Sane.get_parameters (hndl, NULL)
+	Sane.get_parameters(hndl, NULL)
 
-	if (pipe(pipeline) < 0) {
-		DBG (1, "Sane.start: could not initialize pipe (%s)\n",
+	if(pipe(pipeline) < 0) {
+		DBG(1, "Sane.start: could not initialize pipe(%s)\n",
 				strerror(errno))
 		return Sane.STATUS_IO_ERROR
 	}
 
 	hndl.reader = fork()
 
-	if (hndl.reader == 0) {
+	if(hndl.reader == 0) {
 
 		sigset_t	ignore_set
 		struct SIGACTION	act
 
-		close (pipeline[0])
+		close(pipeline[0])
 
-		sigfillset (&ignore_set)
-		sigdelset (&ignore_set, SIGTERM)
-		sigprocmask (SIG_SETMASK, &ignore_set, NULL)
+		sigfillset(&ignore_set)
+		sigdelset(&ignore_set, SIGTERM)
+		sigprocmask(SIG_SETMASK, &ignore_set, NULL)
 
-		memset (&act, 0, sizeof(act))
-		sigaction (SIGTERM, &act, NULL)
+		memset(&act, 0, sizeof(act))
+		sigaction(SIGTERM, &act, NULL)
 
-		_exit (reader_process (hndl, pipeline[1]))
+		_exit(reader_process(hndl, pipeline[1]))
 
 	}
 
-	close (pipeline[1])
+	close(pipeline[1])
 
 	hndl.pipe = pipeline[0]
 
@@ -1745,48 +1745,48 @@ Sane.start (Sane.Handle handle)
  * 	ditto
  */
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
+Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
 	   Int * len)
 {
   Mustek_pp_Handle	*hndl = handle
   Int		nread
 
 
-  if (hndl.state == STATE_CANCELLED) {
-	  DBG (2, "Sane.read: device already cancelled\n")
-	  do_eof (hndl)
+  if(hndl.state == STATE_CANCELLED) {
+	  DBG(2, "Sane.read: device already cancelled\n")
+	  do_eof(hndl)
 	  hndl.state = STATE_IDLE
 	  return Sane.STATUS_CANCELLED
   }
 
-  if (hndl.state != STATE_SCANNING) {
-	  DBG (1, "Sane.read: device isn't scanning\n")
+  if(hndl.state != STATE_SCANNING) {
+	  DBG(1, "Sane.read: device isn't scanning\n")
 	  return Sane.STATUS_INVAL
   }
 
 
   *len = nread = 0
 
-  while (*len < max_len) {
+  while(*len < max_len) {
 
 	  nread = read(hndl.pipe, buf + *len, max_len - *len)
 
-	  if (hndl.state == STATE_CANCELLED) {
+	  if(hndl.state == STATE_CANCELLED) {
 
 		  *len = 0
 		  DBG(3, "Sane.read: scan was cancelled\n")
 
-		  do_eof (hndl)
+		  do_eof(hndl)
 		  hndl.state = STATE_IDLE
 		  return Sane.STATUS_CANCELLED
 
 	  }
 
-	  if (nread < 0) {
+	  if(nread < 0) {
 
-		  if (errno == EAGAIN) {
+		  if(errno == EAGAIN) {
 
-			  if (*len == 0)
+			  if(*len == 0)
 				  DBG(3, "Sane.read: no data at the moment\n")
 			  else
 				  DBG(3, "Sane.read: %d bytes read\n", *len)
@@ -1795,12 +1795,12 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
 
 		  } else {
 
-			  DBG(1, "Sane.read: IO error (%s)\n", strerror(errno))
+			  DBG(1, "Sane.read: IO error(%s)\n", strerror(errno))
 
 			  hndl.state = STATE_IDLE
 			  do_stop(hndl)
 
-			  do_eof (hndl)
+			  do_eof(hndl)
 
 			  *len = 0
 			  return Sane.STATUS_IO_ERROR
@@ -1810,11 +1810,11 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
 
 	  *len += nread
 
-	  if (nread == 0) {
+	  if(nread == 0) {
 
-		  if (*len == 0) {
+		  if(*len == 0) {
 
-			DBG (3, "Sane.read: read finished\n")
+			DBG(3, "Sane.read: read finished\n")
 			do_stop(hndl)
 
 			hndl.state = STATE_IDLE
@@ -1845,16 +1845,16 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
  *
  */
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   Mustek_pp_Handle *hndl = handle
 
-  if (hndl.state != STATE_SCANNING)
+  if(hndl.state != STATE_SCANNING)
 	 return
 
   hndl.state = STATE_CANCELLED
 
-  do_stop (hndl)
+  do_stop(hndl)
 
 }
 
@@ -1866,16 +1866,16 @@ Sane.cancel (Sane.Handle handle)
  *
  */
 Sane.Status
-Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 {
 
 	Mustek_pp_Handle	*hndl=handle
 
-	if (hndl.state != STATE_SCANNING)
+	if(hndl.state != STATE_SCANNING)
 		return Sane.STATUS_INVAL
 
 
-	if (fcntl (hndl.pipe, F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0) {
+	if(fcntl(hndl.pipe, F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0) {
 
 		DBG(1, "Sane.set_io_mode: can't set io mode\n")
 
@@ -1895,11 +1895,11 @@ Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
  * 	can read from the pipeline itself
  */
 Sane.Status
-Sane.get_select_fd (Sane.Handle handle, Int * fd)
+Sane.get_select_fd(Sane.Handle handle, Int * fd)
 {
 	Mustek_pp_Handle	*hndl=handle
 
-	if (hndl.state != STATE_SCANNING)
+	if(hndl.state != STATE_SCANNING)
 		return Sane.STATUS_INVAL
 
 	*fd = hndl.pipe

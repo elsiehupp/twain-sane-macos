@@ -19,7 +19,7 @@ public Sane.Status epsonds_net_request_read(epsonds_scanner *s, size_t len)
 /*
  * epsonds-net.c - SANE library for Epson scanners.
  *
- * Copyright (C) 2006-2016 Tower Technologies
+ * Copyright(C) 2006-2016 Tower Technologies
  * Author: Alessandro Zummo <a.zummo@towertech.it>
  *
  * This file is part of the SANE package.
@@ -66,7 +66,7 @@ epsonds_net_read_raw(epsonds_scanner *s, unsigned char *buf, ssize_t wanted,
 	FD_SET(s.fd, &readable)
 
 	ready = select(s.fd + 1, &readable, NULL, NULL, &tv)
-	if (ready > 0) {
+	if(ready > 0) {
 		read = sanei_tcp_read(s.fd, buf, wanted)
 	} else {
 		DBG(15, "%s: select failed: %d\n", __func__, ready)
@@ -74,7 +74,7 @@ epsonds_net_read_raw(epsonds_scanner *s, unsigned char *buf, ssize_t wanted,
 
 	*status = Sane.STATUS_GOOD
 
-	if (read < wanted) {
+	if(read < wanted) {
 		*status = Sane.STATUS_IO_ERROR
 	}
 
@@ -90,7 +90,7 @@ epsonds_net_read_buf(epsonds_scanner *s, unsigned char *buf, ssize_t wanted,
 	DBG(23, "%s: reading up to %lu from buffer at %p, %lu available\n",
 		__func__, (u_long) wanted, s.netptr, (u_long) s.netlen)
 
-	if ((size_t) wanted > s.netlen) {
+	if((size_t) wanted > s.netlen) {
 		*status = Sane.STATUS_IO_ERROR
 		wanted = s.netlen
 	}
@@ -101,7 +101,7 @@ epsonds_net_read_buf(epsonds_scanner *s, unsigned char *buf, ssize_t wanted,
 	s.netptr += read
 	s.netlen -= read
 
-	if (s.netlen == 0) {
+	if(s.netlen == 0) {
 		DBG(23, "%s: freeing %p\n", __func__, s.netbuf)
 		free(s.netbuf)
 		s.netbuf = s.netptr = NULL
@@ -115,7 +115,7 @@ ssize_t
 epsonds_net_read(epsonds_scanner *s, unsigned char *buf, ssize_t wanted,
 		       Sane.Status * status)
 {
-	if (wanted < 0) {
+	if(wanted < 0) {
 		*status = Sane.STATUS_INVAL
 		return 0
 	}
@@ -125,18 +125,18 @@ epsonds_net_read(epsonds_scanner *s, unsigned char *buf, ssize_t wanted,
 	unsigned char header[12]
 
 	/* read from remainder of buffer */
-	if (s.netptr) {
+	if(s.netptr) {
 		return epsonds_net_read_buf(s, buf, wanted, status)
 	}
 
 	/* receive net header */
 	read = epsonds_net_read_raw(s, header, 12, status)
-	if (read != 12) {
+	if(read != 12) {
 		return 0
 	}
 
 	/* validate header */
-	if (header[0] != 'I' || header[1] != 'S') {
+	if(header[0] != 'I' || header[1] != 'S') {
 		DBG(1, "header mismatch: %02X %02x\n", header[0], header[1])
 		*status = Sane.STATUS_IO_ERROR
 		return 0
@@ -147,12 +147,12 @@ epsonds_net_read(epsonds_scanner *s, unsigned char *buf, ssize_t wanted,
 
 	*status = Sane.STATUS_GOOD
 
-	if (!s.netbuf) {
+	if(!s.netbuf) {
 		DBG(15, "%s: direct read\n", __func__)
 		DBG(23, "%s: wanted = %lu, available = %lu\n", __func__,
 			(u_long) wanted, (u_long) size)
 
-		if ((size_t) wanted > size) {
+		if((size_t) wanted > size) {
 			wanted = size
 		}
 
@@ -162,7 +162,7 @@ epsonds_net_read(epsonds_scanner *s, unsigned char *buf, ssize_t wanted,
 		DBG(23, "%s: bufferable = %lu, available = %lu\n", __func__,
 			(u_long) s.netlen, (u_long) size)
 
-		if (s.netlen > size) {
+		if(s.netlen > size) {
 			s.netlen = size
 		}
 
@@ -193,7 +193,7 @@ epsonds_net_write(epsonds_scanner *s, unsigned Int cmd, const unsigned char *buf
 	unsigned char *h1, *h2
 	unsigned char *packet = malloc(12 + 8)
 
-	if (!packet) {
+	if(!packet) {
 		*status = Sane.STATUS_NO_MEM
 		return 0
 	}
@@ -201,8 +201,8 @@ epsonds_net_write(epsonds_scanner *s, unsigned Int cmd, const unsigned char *buf
 	h1 = packet;		// packet header
 	h2 = packet + 12;	// data header
 
-	if (reply_len) {
-		if (s.netbuf) {
+	if(reply_len) {
+		if(s.netbuf) {
 			DBG(23, "%s, freeing %p, %ld bytes unprocessed\n",
 				__func__, s.netbuf, (u_long) s.netlen)
 			free(s.netbuf)
@@ -210,7 +210,7 @@ epsonds_net_write(epsonds_scanner *s, unsigned Int cmd, const unsigned char *buf
 			s.netlen = 0
 		}
 		s.netbuf = malloc(reply_len)
-		if (!s.netbuf) {
+		if(!s.netbuf) {
 			free(packet)
 			*status = Sane.STATUS_NO_MEM
 			return 0
@@ -240,23 +240,23 @@ epsonds_net_write(epsonds_scanner *s, unsigned Int cmd, const unsigned char *buf
 	// 0x20 passthru
 	// 0x21 job control
 
-	if (buf_size) {
+	if(buf_size) {
 		htobe32a(&h1[6], buf_size)
 	}
 
 	if((cmd >> 8) == 0x20) {
 
-		htobe32a(&h1[6], buf_size + 8);	// data size (data header + payload)
+		htobe32a(&h1[6], buf_size + 8);	// data size(data header + payload)
 
 		htobe32a(&h2[0], buf_size);	// payload size
 		htobe32a(&h2[4], reply_len);	// expected answer size
 
-		DBG(24, "H1[6]: %02x %02x %02x %02x (%lu)\n", h1[6], h1[7], h1[8], h1[9], (u_long) (buf_size + 8))
-		DBG(24, "H2[0]: %02x %02x %02x %02x (%lu)\n", h2[0], h2[1], h2[2], h2[3], (u_long) buf_size)
-		DBG(24, "H2[4]: %02x %02x %02x %02x (%lu)\n", h2[4], h2[5], h2[6], h2[7], (u_long) reply_len)
+		DBG(24, "H1[6]: %02x %02x %02x %02x(%lu)\n", h1[6], h1[7], h1[8], h1[9], (u_long) (buf_size + 8))
+		DBG(24, "H2[0]: %02x %02x %02x %02x(%lu)\n", h2[0], h2[1], h2[2], h2[3], (u_long) buf_size)
+		DBG(24, "H2[4]: %02x %02x %02x %02x(%lu)\n", h2[4], h2[5], h2[6], h2[7], (u_long) reply_len)
 	}
 
-	if ((cmd >> 8) == 0x20 && (buf_size || reply_len)) {
+	if((cmd >> 8) == 0x20 && (buf_size || reply_len)) {
 
 		// send header + data header
 		sanei_tcp_write(s.fd, packet, 12 + 8)
@@ -266,7 +266,7 @@ epsonds_net_write(epsonds_scanner *s, unsigned Int cmd, const unsigned char *buf
 	}
 
 	// send payload
-	if (buf_size)
+	if(buf_size)
 		sanei_tcp_write(s.fd, buf, buf_size)
 
 	free(packet)

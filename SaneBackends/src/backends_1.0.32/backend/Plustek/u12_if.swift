@@ -1,7 +1,7 @@
 /** @file u12-if.c
  *  @brief The interface functions to the U12 backend stuff.
  *
- * Copyright (c) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(c) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.01 - initial version
@@ -16,7 +16,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -143,7 +143,7 @@ static void u12if_shutdown( U12_Device *dev  )
 	Int handle
 	TimerDef timer
 
-	DBG( _DBG_INFO, "Shutdown called (dev.fd=%d, %s)\n",
+	DBG( _DBG_INFO, "Shutdown called(dev.fd=%d, %s)\n",
 													dev.fd, dev.sane.name )
 	if( Sane.STATUS_GOOD == sanei_usb_open( dev.sane.name, &handle )) {
 
@@ -443,9 +443,9 @@ static Sane.Status u12if_getCaps( U12_Device *dev )
 	 */
 	dev.res_list = (Int *)
 					calloc((((res_x * 16)-_DEF_DPI)/25+1),
-						sizeof (Int))
+						sizeof(Int))
 
-	if (NULL == dev.res_list) {
+	if(NULL == dev.res_list) {
 		DBG( _DBG_ERROR, "alloc fail, resolution problem\n" )
 		u12if_close(dev)
 		return Sane.STATUS_INVAL

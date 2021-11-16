@@ -17,7 +17,7 @@
 
 /*static inline void */
 static void
-setbitfield (unsigned char *pageaddr, Int mask, Int shift, Int val)
+setbitfield(unsigned char *pageaddr, Int mask, Int shift, Int val)
 {
   *pageaddr = (*pageaddr & ~(mask << shift)) | ((val & mask) << shift)
 }
@@ -26,23 +26,23 @@ setbitfield (unsigned char *pageaddr, Int mask, Int shift, Int val)
 
 /*static inline Int */
 static Int
-getbitfield (unsigned char *pageaddr, Int mask, Int shift)
+getbitfield(unsigned char *pageaddr, Int mask, Int shift)
 {
-  return ((*pageaddr >> shift) & mask)
+  return((*pageaddr >> shift) & mask)
 }
 
 /* ------------------------------------------------------------------------- */
 
 static Int
-getnbyte (unsigned char *pnt, Int nbytes)
+getnbyte(unsigned char *pnt, Int nbytes)
 {
   unsigned Int result = 0
   var i: Int
 
 #ifdef DEBUG
-  assert (nbytes < 5)
+  assert(nbytes < 5)
 #endif
-  for (i = 0; i < nbytes; i++)
+  for(i = 0; i < nbytes; i++)
     result = (result << 8) | (pnt[i] & 0xff)
   return result
 }
@@ -51,14 +51,14 @@ getnbyte (unsigned char *pnt, Int nbytes)
 
 /*static inline void */
 static void
-putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
+putnbyte(unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 {
   var i: Int
 
 #ifdef DEBUG
-  assert (nbytes < 5)
+  assert(nbytes < 5)
 #endif
-  for (i = nbytes - 1; i >= 0; i--)
+  for(i = nbytes - 1; i >= 0; i--)
 
     {
       pnt[i] = value & 0xff
@@ -353,14 +353,14 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 #define SSM_PAGE_len                    0x0e
 #define set_SSM_page_len(sb, val)       sb[0x05] = val
 
-/* for DF (0x30) page */
+/* for DF(0x30) page */
 #define set_SSM_DF_deskew_roll(sb, val) setbitfield(sb+7, 1, 5, val)
 #define set_SSM_DF_staple(sb, val)      setbitfield(sb+7, 1, 4, val)
 #define set_SSM_DF_thick(sb, val)       setbitfield(sb+7, 1, 2, val)
 #define set_SSM_DF_len(sb, val)         setbitfield(sb+7, 1, 0, val)
 #define set_SSM_DF_textdir(sb, val)     setbitfield(sb+9, 0xf, 0, val)
 
-/* for BUFFER (0x32) page */
+/* for BUFFER(0x32) page */
 #define set_SSM_BUFF_duplex(sb, val)    setbitfield(sb+6, 1, 1, val)
 #define set_SSM_BUFF_unk(sb, val)       sb[0x07] = val
 #define set_SSM_BUFF_async(sb, val)     setbitfield(sb+0x0a, 1, 6, val)
@@ -368,7 +368,7 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 #define set_SSM_BUFF_fb(sb, val)        setbitfield(sb+0x0a, 1, 4, val)
 #define set_SSM_BUFF_card(sb, val)      setbitfield(sb+0x0a, 1, 3, val)
 
-/* for DO (0x36) page */
+/* for DO(0x36) page */
 #define SSM_DO_none                     0
 #define SSM_DO_red                      1
 #define SSM_DO_green                    2
@@ -419,7 +419,7 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 #define set_CC_exp_b_g2(sb, val)    putnbyte(sb + 0x1c, val, 2)
 #define set_CC_exp_b_b2(sb, val)    putnbyte(sb + 0x1e, val, 2)
 
-/* the 'version 3' payload (P-208 and P-215) */
+/* the 'version 3' payload(P-208 and P-215) */
 #define CC3_pay_len                  0x28
 #define CC3_pay_ver                  0x03
 
@@ -466,25 +466,25 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 /* the payload */
 #define SSM2_PAY_len                     0x10
 
-/* for DF (0x00) page */
+/* for DF(0x00) page */
 #define set_SSM2_DF_thick(sb, val)       setbitfield(sb+3, 1, 2, val)
 #define set_SSM2_DF_len(sb, val)         setbitfield(sb+3, 1, 0, val)
 #define set_SSM2_DF_staple(sb, val)      setbitfield(sb+3, 1, 4, val)
 
-/* for ULTRA (0x01) page */
+/* for ULTRA(0x01) page */
 #define set_SSM2_ULTRA_top(sb, val)      putnbyte(sb + 0x07, val, 2)
 #define set_SSM2_ULTRA_bot(sb, val)      putnbyte(sb + 0x09, val, 2)
 
-/* for BUFFER (0x02) page */
+/* for BUFFER(0x02) page */
 #define set_SSM2_BUFF_unk(sb, val)           sb[0x03] = val
 #define set_SSM2_BUFF_unk2(sb, val)          sb[0x06] = val
 #define set_SSM2_BUFF_sync(sb, val)          sb[0x09] = val
 
-/* for HARDWARE ENHANCEMENT (0x03) */
+/* for HARDWARE ENHANCEMENT(0x03) */
 #define set_SSM2_roller_deskew(sb, val)      setbitfield(sb+6, 1, 3, val)
 #define set_SSM2_hw_crop(sb, val)            setbitfield(sb+6, 1, 5, val)
 
-/* for DROPOUT (0x06) page */
+/* for DROPOUT(0x06) page */
 #define set_SSM2_DO_do(sb, val)              sb[0x09] = val
 #define set_SSM2_DO_en(sb, val)              sb[0x0a] = val
 #define set_SSM2_DO_side(sb, val)            sb[0x05] = val
@@ -501,7 +501,7 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 #define WD_wid_front 0x00
 #define WD_wid_back 0x01
 
-  /* 0x01 - Reserved (bits 7-1), AUTO (bit 0) */
+  /* 0x01 - Reserved(bits 7-1), AUTO(bit 0) */
 #define set_WD_auto(sb, val) setbitfield(sb + 0x01, 1, 0, val)
 #define get_WD_auto(sb)	getbitfield(sb + 0x01, 1, 0)
 
@@ -541,7 +541,7 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 #define set_WD_contrast(sb, val) sb[0x18] = val
 #define get_WD_contrast(sb) sb[0x18]
 
-  /* 0x19 - Image Composition (color mode) */
+  /* 0x19 - Image Composition(color mode) */
 #define set_WD_composition(sb, val)  sb[0x19] = val
 #define get_WD_composition(sb) sb[0x19]
 #define WD_comp_LA 0

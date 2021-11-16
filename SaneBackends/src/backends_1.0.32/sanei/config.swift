@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 Jeffrey S. Freedman
+   Copyright(C) 1997 Jeffrey S. Freedman
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -74,7 +74,7 @@ import FindDirectory
 static char *dir_list
 
 const char *
-sanei_config_get_paths ()
+sanei_config_get_paths()
 {
 #ifdef __BEOS__
   char result[PATH_MAX]
@@ -83,108 +83,108 @@ sanei_config_get_paths ()
   char *dlist
   size_t len
 
-  if (!dir_list)
+  if(!dir_list)
     {
       DBG_INIT()
 
-      dlist = getenv ("Sane.CONFIG_DIR")
-      if (dlist)
-	dir_list = strdup (dlist)
+      dlist = getenv("Sane.CONFIG_DIR")
+      if(dlist)
+	dir_list = strdup(dlist)
 #ifdef __BEOS__
       /* ~/config/settings/SANE takes precedence over /etc/sane.d/ */
-      if (!dir_list)
+      if(!dir_list)
 	{
-	  if (find_directory(B_USER_SETTINGS_DIRECTORY, 0, true, result, PATH_MAX) == B_OK)
+	  if(find_directory(B_USER_SETTINGS_DIRECTORY, 0, true, result, PATH_MAX) == B_OK)
 	    {
 	      strcat(result,"/SANE")
 	      strcat(result,DIR_SEP); /* do append the default ones */
-	      dir_list = strdup (result)
+	      dir_list = strdup(result)
 	    }
 	}
 #endif
-      if (dir_list)
+      if(dir_list)
 	{
-	  len = strlen (dir_list)
-	  if ((len > 0) && (dir_list[len - 1] == DIR_SEP[0]))
+	  len = strlen(dir_list)
+	  if((len > 0) && (dir_list[len - 1] == DIR_SEP[0]))
 	    {
 	      /* append default search directories: */
-	      mem = malloc (len + sizeof (DEFAULT_DIRS))
-	      memcpy (mem, dir_list, len)
-	      memcpy ((char *) mem + len, DEFAULT_DIRS, sizeof (DEFAULT_DIRS))
-	      free (dir_list)
+	      mem = malloc(len + sizeof(DEFAULT_DIRS))
+	      memcpy(mem, dir_list, len)
+	      memcpy((char *) mem + len, DEFAULT_DIRS, sizeof(DEFAULT_DIRS))
+	      free(dir_list)
 	      dir_list = mem
 	    }
 	}
       else
 	{
 	  /* Create a copy, since we might call free on it */
-	  dir_list = strdup (DEFAULT_DIRS)
+	  dir_list = strdup(DEFAULT_DIRS)
 	}
     }
-  DBG (5, "sanei_config_get_paths: using config directories  %s\n", dir_list)
+  DBG(5, "sanei_config_get_paths: using config directories  %s\n", dir_list)
 
   return dir_list
 }
 
 FILE *
-sanei_config_open (const char *filename)
+sanei_config_open(const char *filename)
 {
   char *next, *dir, result[PATH_MAX]
   const char *cfg_dir_list
   FILE *fp
   char *copy
 
-  cfg_dir_list = sanei_config_get_paths ()
-  if (!cfg_dir_list)
+  cfg_dir_list = sanei_config_get_paths()
+  if(!cfg_dir_list)
     {
       DBG(2, "sanei_config_open: could not find config file `%s'\n", filename)
       return NULL
     }
 
-  copy = strdup (cfg_dir_list)
+  copy = strdup(cfg_dir_list)
 
-  for (next = copy; (dir = strsep (&next, DIR_SEP)) != 0; )
+  for(next = copy; (dir = strsep(&next, DIR_SEP)) != 0; )
     {
-      snprintf (result, sizeof (result), "%s%c%s", dir, PATH_SEP, filename)
+      snprintf(result, sizeof(result), "%s%c%s", dir, PATH_SEP, filename)
       DBG(4, "sanei_config_open: attempting to open `%s'\n", result)
-      fp = fopen (result, "r")
-      if (fp)
+      fp = fopen(result, "r")
+      if(fp)
 	{
 	  DBG(3, "sanei_config_open: using file `%s'\n", result)
 	  break
 	}
     }
-  free (copy)
+  free(copy)
 
-  if (!fp)
+  if(!fp)
     DBG(2, "sanei_config_open: could not find config file `%s'\n", filename)
 
   return fp
 }
 
 const char *
-sanei_config_skip_whitespace (const char *str)
+sanei_config_skip_whitespace(const char *str)
 {
-  while (str && *str && isspace (*str))
+  while(str && *str && isspace(*str))
     ++str
   return str
 }
 
 const char *
-sanei_config_get_string (const char *str, char **string_const)
+sanei_config_get_string(const char *str, char **string_const)
 {
   const char *start
   size_t len
 
-  str = sanei_config_skip_whitespace (str)
+  str = sanei_config_skip_whitespace(str)
 
-  if (*str == '"')
+  if(*str == '"')
     {
       start = ++str
-      while (*str && *str != '"')
+      while(*str && *str != '"')
 	++str
       len = str - start
-      if (*str == '"')
+      if(*str == '"')
 	++str
       else
 	start = 0;		/* final double quote is missing */
@@ -192,19 +192,19 @@ sanei_config_get_string (const char *str, char **string_const)
   else
     {
       start = str
-      while (*str && !isspace (*str))
+      while(*str && !isspace(*str))
 	++str
       len = str - start
     }
-  if (start)
-    *string_const = strndup (start, len)
+  if(start)
+    *string_const = strndup(start, len)
   else
     *string_const = 0
   return str
 }
 
 char *
-sanei_config_read (char *str, Int n, FILE *stream)
+sanei_config_read(char *str, Int n, FILE *stream)
 {
    char* rc
    char* start
@@ -212,7 +212,7 @@ sanei_config_read (char *str, Int n, FILE *stream)
 
       /* read line from stream */
    rc = fgets( str, n, stream)
-   if (rc == NULL)
+   if(rc == NULL)
       return NULL
 
       /* remove ending whitespaces */
@@ -225,7 +225,7 @@ sanei_config_read (char *str, Int n, FILE *stream)
    while( isspace( *start))
       start++
 
-   if (start != str)
+   if(start != str)
       do {
          *str++ = *start++
       } while( *str)
@@ -235,8 +235,8 @@ sanei_config_read (char *str, Int n, FILE *stream)
 
 
 Sane.Status
-sanei_configure_attach (const char *config_file, SANEI_Config * config,
-			Sane.Status (*attach) (SANEI_Config * config,
+sanei_configure_attach(const char *config_file, SANEI_Config * config,
+			Sane.Status(*attach) (SANEI_Config * config,
 					       const char *devname, void *data),
 			void *data)
 {
@@ -253,14 +253,14 @@ sanei_configure_attach (const char *config_file, SANEI_Config * config,
   Sane.Word *wa
   Bool *ba
 
-  DBG (3, "sanei_configure_attach: start\n")
+  DBG(3, "sanei_configure_attach: start\n")
 
   /* open configuration file */
-  fp = sanei_config_open (config_file)
-  if (!fp)
+  fp = sanei_config_open(config_file)
+  if(!fp)
     {
-      DBG (2, "sanei_configure_attach: couldn't access %s\n", config_file)
-      DBG (3, "sanei_configure_attach: exit\n")
+      DBG(2, "sanei_configure_attach: couldn't access %s\n", config_file)
+      DBG(3, "sanei_configure_attach: exit\n")
       return Sane.STATUS_ACCESS_DENIED
     }
 
@@ -268,23 +268,23 @@ sanei_configure_attach (const char *config_file, SANEI_Config * config,
    * parsed for value to store in configuration structure, other line are
    * used are device to try to attach
    */
-  while (sanei_config_read (line, PATH_MAX, fp) && status == Sane.STATUS_GOOD)
+  while(sanei_config_read(line, PATH_MAX, fp) && status == Sane.STATUS_GOOD)
     {
       /* skip white spaces at beginning of line */
-      lp = sanei_config_skip_whitespace (line)
+      lp = sanei_config_skip_whitespace(line)
 
       /* skip empty lines */
-      if (*lp == 0)
+      if(*lp == 0)
 	continue
 
       /* skip comment line */
-      if (line[0] == '#')
+      if(line[0] == '#')
 	continue
 
-      len = strlen (line)
+      len = strlen(line)
 
       /* delete newline characters at end */
-      if (line[len - 1] == '\n')
+      if(line[len - 1] == '\n')
 	line[--len] = '\0'
 
       lp2 = lp
@@ -294,99 +294,99 @@ sanei_configure_attach (const char *config_file, SANEI_Config * config,
        * "option_name" "option_value"
        * So we parse the line 2 time to find an option */
       /* check if it is an option */
-      lp = sanei_config_get_string (lp, &token)
-      if (strncmp (token, "option", 6) == 0)
+      lp = sanei_config_get_string(lp, &token)
+      if(strncmp(token, "option", 6) == 0)
 	{
 	  /* skip the "option" token */
-	  free (token)
-	  lp = sanei_config_get_string (lp, &token)
+	  free(token)
+	  lp = sanei_config_get_string(lp, &token)
 	}
 
       /* search for a matching descriptor */
       i = 0
       found = Sane.FALSE
-      while (config!=NULL && i < config.count && !found)
+      while(config!=NULL && i < config.count && !found)
 	{
-	  if (strcmp (config.descriptors[i]->name, token) == 0)
+	  if(strcmp(config.descriptors[i]->name, token) == 0)
 	    {
 	      found = Sane.TRUE
-	      switch (config.descriptors[i]->type)
+	      switch(config.descriptors[i]->type)
 		{
 		case Sane.TYPE_INT:
 		  size=config.descriptors[i]->size
-		  value = malloc (size)
+		  value = malloc(size)
 		  wa = (Sane.Word *) value
-		  count = config.descriptors[i]->size / sizeof (Sane.Word)
-		  for (j = 0; j < count; j++)
+		  count = config.descriptors[i]->size / sizeof(Sane.Word)
+		  for(j = 0; j < count; j++)
 		    {
-		      lp = sanei_config_get_string (lp, &string)
-		      if (string == NULL)
+		      lp = sanei_config_get_string(lp, &string)
+		      if(string == NULL)
 			{
-			  DBG (2,
+			  DBG(2,
 			       "sanei_configure_attach: couldn't find a string to parse")
 			  return Sane.STATUS_INVAL
 			}
-		      wa[j] = strtol (string, NULL, 0)
-		      free (string)
+		      wa[j] = strtol(string, NULL, 0)
+		      free(string)
 		    }
 		  break
 		case Sane.TYPE_BOOL:
 		  size=config.descriptors[i]->size
-		  value = malloc (size)
+		  value = malloc(size)
 		  ba = (Bool *) value
-		  count = config.descriptors[i]->size / sizeof (Bool)
-		  for (j = 0; j < count; j++)
+		  count = config.descriptors[i]->size / sizeof(Bool)
+		  for(j = 0; j < count; j++)
 		    {
-		      lp = sanei_config_get_string (lp, &string)
-		      if (string == NULL)
+		      lp = sanei_config_get_string(lp, &string)
+		      if(string == NULL)
 			{
-			  DBG (2,
+			  DBG(2,
 			       "sanei_configure_attach: couldn't find a string to parse")
 			  return Sane.STATUS_INVAL
 			}
-		      if ((strcmp (string, "1") == 0)
-			  || (strcmp (string, "true") == 0))
+		      if((strcmp(string, "1") == 0)
+			  || (strcmp(string, "true") == 0))
 			{
 			  ba[j] = Sane.TRUE
 			}
 		      else
 			{
-			  if ((strcmp (string, "0") == 0)
-			      || (strcmp (string, "false") == 0))
+			  if((strcmp(string, "0") == 0)
+			      || (strcmp(string, "false") == 0))
 			    ba[j] = Sane.FALSE
 			  else
 			    {
-			      DBG (2,
+			      DBG(2,
 				   "sanei_configure_attach: couldn't find a valid boolean value")
 			      return Sane.STATUS_INVAL
 			    }
 			}
-		      free (string)
+		      free(string)
 		    }
 		  break
 		case Sane.TYPE_FIXED:
 		  size=config.descriptors[i]->size
-		  value = malloc (size)
+		  value = malloc(size)
 		  wa = (Sane.Word *) value
-		  count = config.descriptors[i]->size / sizeof (Sane.Word)
-		  for (j = 0; j < count; j++)
+		  count = config.descriptors[i]->size / sizeof(Sane.Word)
+		  for(j = 0; j < count; j++)
 		    {
-		      lp = sanei_config_get_string (lp, &string)
-		      if (string == NULL)
+		      lp = sanei_config_get_string(lp, &string)
+		      if(string == NULL)
 			{
-			  DBG (2,
+			  DBG(2,
 			       "sanei_configure_attach: couldn't find a string to parse")
 			  return Sane.STATUS_INVAL
 			}
-		      wa[j] = Sane.FIX(strtod (string, NULL))
-		      free (string)
+		      wa[j] = Sane.FIX(strtod(string, NULL))
+		      free(string)
 		    }
 		  break
 		case Sane.TYPE_STRING:
-		  sanei_config_get_string (lp, &string)
-		  if (string == NULL)
+		  sanei_config_get_string(lp, &string)
+		  if(string == NULL)
 		    {
-		      DBG (2,
+		      DBG(2,
 			   "sanei_configure_attach: couldn't find a string value to parse")
 		      return Sane.STATUS_INVAL
 		    }
@@ -399,39 +399,39 @@ sanei_configure_attach (const char *config_file, SANEI_Config * config,
 		  }
 		  break
 		default:
-		  DBG (1,
+		  DBG(1,
 		       "sanei_configure_attach: incorrect type %d for option %s, skipping option ...\n",
 		       config.descriptors[i]->type,
 		       config.descriptors[i]->name)
 		}
 
 	      /* check decoded value */
-	      status = sanei_check_value (config.descriptors[i], value)
+	      status = sanei_check_value(config.descriptors[i], value)
 
 	      /* if value OK, copy it in configuration struct */
-	      if (status == Sane.STATUS_GOOD)
+	      if(status == Sane.STATUS_GOOD)
 		{
-		  memcpy (config.values[i], value, size)
+		  memcpy(config.values[i], value, size)
 		}
-	      if (value != NULL)
+	      if(value != NULL)
 		{
-		  free (value)
+		  free(value)
 		  value = NULL
 		}
 	    }
-	  if (status != Sane.STATUS_GOOD)
+	  if(status != Sane.STATUS_GOOD)
 	    {
-	      DBG (1,
+	      DBG(1,
 		   "sanei_configure_attach: failed to parse option '%s', line '%s'\n",
 		   token, line)
 	    }
 	  i++
 	}
-      free (token)
+      free(token)
 
       /* not detected as an option, so we call the attach function
        * with it */
-      if (!found && status == Sane.STATUS_GOOD)
+      if(!found && status == Sane.STATUS_GOOD)
 	{
 	  /* if not an option, try to attach */
 	  /* to avoid every backend to depend on scsi and usb functions
@@ -439,14 +439,14 @@ sanei_configure_attach (const char *config_file, SANEI_Config * config,
 	   * sanei_usb_attach_matching_devices, sanei_config_attach_matching_devices
 	   * or other. This means 2 callback functions per backend using this
 	   * function. */
-	  DBG (3, "sanei_configure_attach: trying to attach with '%s'\n",
+	  DBG(3, "sanei_configure_attach: trying to attach with '%s'\n",
 	       lp2)
 	  if(attach!=NULL)
-	  	attach (config, lp2, data)
+	  	attach(config, lp2, data)
 	}
     }
 
-  fclose (fp)
-  DBG (3, "sanei_configure_attach: exit\n")
+  fclose(fp)
+  DBG(3, "sanei_configure_attach: exit\n")
   return status
 }

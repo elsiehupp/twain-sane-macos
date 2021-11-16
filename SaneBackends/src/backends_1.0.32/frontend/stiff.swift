@@ -1,12 +1,12 @@
 /* Create SANE/tiff headers TIFF interfacing routines for SANE
-   Copyright (C) 2000 Peter Kirchgessner
-   Copyright (C) 2002 Oliver Rauch: added tiff ICC profile
-   Copyright (C) 2017 Aaron Muir Hamilton <aaron@correspondwith.me>
+   Copyright(C) 2000 Peter Kirchgessner
+   Copyright(C) 2002 Oliver Rauch: added tiff ICC profile
+   Copyright(C) 2017 Aaron Muir Hamilton <aaron@correspondwith.me>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -51,21 +51,21 @@ typedef struct {
 #define IFDE_TYP_ASCII    (2)
 #define IFDE_TYP_SHORT    (3)
 #define IFDE_TYP_LONG     (4)
-#define IFDE_TYP_RATIONAL (5)
+#define IFDE_TYP_RATIONAL(5)
 
 static IFD *
-create_ifd (void)
+create_ifd(void)
 
 {   IFD *ifd
     Int maxtags = 10
 
-    ifd = (IFD *)malloc (sizeof (IFD))
-    if (ifd == NULL) return NULL
+    ifd = (IFD *)malloc(sizeof(IFD))
+    if(ifd == NULL) return NULL
 
-    ifd.ifde = (IFD_ENTRY *)malloc (maxtags * sizeof (IFD_ENTRY))
-    if (ifd.ifde == NULL)
+    ifd.ifde = (IFD_ENTRY *)malloc(maxtags * sizeof(IFD_ENTRY))
+    if(ifd.ifde == NULL)
     {
-        free (ifd)
+        free(ifd)
         return NULL
     }
     ifd.ntags = 0
@@ -75,31 +75,31 @@ create_ifd (void)
 }
 
 static void
-free_ifd (IFD *ifd)
+free_ifd(IFD *ifd)
 
 {
-    if (ifd == NULL) return
-    if (ifd.ifde != NULL)
+    if(ifd == NULL) return
+    if(ifd.ifde != NULL)
     {
-        free (ifd.ifde)
+        free(ifd.ifde)
         ifd.ifde = NULL
     }
-    free (ifd)
+    free(ifd)
     ifd = NULL
 }
 
 static void
-add_ifd_entry (IFD *ifd, Int tag, Int typ, Int nvals, Int val)
+add_ifd_entry(IFD *ifd, Int tag, Int typ, Int nvals, Int val)
 
 {   IFD_ENTRY *ifde
     Int add_entries = 10
 
-    if (ifd == NULL) return
-    if (ifd.ntags == ifd.maxtags)
+    if(ifd == NULL) return
+    if(ifd.ntags == ifd.maxtags)
     {
-        ifde = (IFD_ENTRY *)realloc (ifd.ifde,
-                                     (ifd.maxtags+add_entries)*sizeof (IFD_ENTRY))
-        if (ifde == NULL) return
+        ifde = (IFD_ENTRY *)realloc(ifd.ifde,
+                                     (ifd.maxtags+add_entries)*sizeof(IFD_ENTRY))
+        if(ifde == NULL) return
         ifd.ifde = ifde
         ifd.maxtags += add_entries
     }
@@ -114,15 +114,15 @@ add_ifd_entry (IFD *ifd, Int tag, Int typ, Int nvals, Int val)
 static void
 write_i2 (FILE *fptr, Int val, Int motorola)
 {
-    if (motorola)
+    if(motorola)
     {
-        putc ((val >> 8) & 0xff, fptr)
-        putc (val & 0xff, fptr)
+        putc((val >> 8) & 0xff, fptr)
+        putc(val & 0xff, fptr)
     }
     else
     {
-        putc (val & 0xff, fptr)
-        putc ((val >> 8) & 0xff, fptr)
+        putc(val & 0xff, fptr)
+        putc((val >> 8) & 0xff, fptr)
     }
 }
 
@@ -130,43 +130,43 @@ write_i2 (FILE *fptr, Int val, Int motorola)
 static void
 write_i4 (FILE *fptr, Int val, Int motorola)
 {
-    if (motorola)
+    if(motorola)
     {
-        putc ((val >> 24) & 0xff, fptr)
-        putc ((val >> 16) & 0xff, fptr)
-        putc ((val >> 8) & 0xff, fptr)
-        putc (val & 0xff, fptr)
+        putc((val >> 24) & 0xff, fptr)
+        putc((val >> 16) & 0xff, fptr)
+        putc((val >> 8) & 0xff, fptr)
+        putc(val & 0xff, fptr)
     }
     else
     {
-        putc (val & 0xff, fptr)
-        putc ((val >> 8) & 0xff, fptr)
-        putc ((val >> 16) & 0xff, fptr)
-        putc ((val >> 24) & 0xff, fptr)
+        putc(val & 0xff, fptr)
+        putc((val >> 8) & 0xff, fptr)
+        putc((val >> 16) & 0xff, fptr)
+        putc((val >> 24) & 0xff, fptr)
     }
 }
 
 static void
-write_ifd (FILE *fptr, IFD *ifd, Int motorola)
+write_ifd(FILE *fptr, IFD *ifd, Int motorola)
 {Int k
     IFD_ENTRY *ifde
 
-    if (!ifd) return
+    if(!ifd) return
 
-    if (motorola) putc ('M', fptr), putc ('M', fptr)
-    else putc ('I', fptr), putc ('I', fptr)
+    if(motorola) putc('M', fptr), putc('M', fptr)
+    else putc('I', fptr), putc('I', fptr)
 
     write_i2 (fptr, 42, motorola);  /* Magic */
     write_i4 (fptr, 8, motorola);   /* Offset to first IFD */
     write_i2 (fptr, ifd.ntags, motorola)
 
-    for (k = 0; k < ifd.ntags; k++)
+    for(k = 0; k < ifd.ntags; k++)
     {
         ifde = &(ifd.ifde[k])
         write_i2 (fptr, ifde.tag, motorola)
         write_i2 (fptr, ifde.typ, motorola)
         write_i4 (fptr, ifde.nvals, motorola)
-        if ((ifde.typ == IFDE_TYP_SHORT) && (ifde.nvals == 1))
+        if((ifde.typ == IFDE_TYP_SHORT) && (ifde.nvals == 1))
         {
             write_i2 (fptr, ifde.val, motorola)
             write_i2 (fptr, 0, motorola)
@@ -181,7 +181,7 @@ write_ifd (FILE *fptr, IFD *ifd, Int motorola)
 
 
 static void
-write_tiff_bw_header (FILE *fptr, Int width, Int height, Int resolution)
+write_tiff_bw_header(FILE *fptr, Int width, Int height, Int resolution)
 {IFD *ifd
     Int header_size = 8, ifd_size
     Int strip_offset, data_offset, data_size
@@ -189,14 +189,14 @@ write_tiff_bw_header (FILE *fptr, Int width, Int height, Int resolution)
     Int ntags
     Int motorola
 
-    ifd = create_ifd ()
+    ifd = create_ifd()
 
     strip_bytecount = ((width+7)/8) * height
 
     /* the following values must be known in advance */
     ntags = 12
     data_size = 0
-    if (resolution > 0)
+    if(resolution > 0)
     {
         ntags += 3
         data_size += 2*4 + 2*4
@@ -207,52 +207,52 @@ write_tiff_bw_header (FILE *fptr, Int width, Int height, Int resolution)
     strip_offset = data_offset + data_size
 
     /* New subfile type */
-    add_ifd_entry (ifd, 254, IFDE_TYP_LONG, 1, 0)
+    add_ifd_entry(ifd, 254, IFDE_TYP_LONG, 1, 0)
     /* image width */
-    add_ifd_entry (ifd, 256, (width > 0xffff) ? IFDE_TYP_LONG : IFDE_TYP_SHORT,
+    add_ifd_entry(ifd, 256, (width > 0xffff) ? IFDE_TYP_LONG : IFDE_TYP_SHORT,
                    1, width)
     /* image length */
-    add_ifd_entry (ifd, 257, (height > 0xffff) ? IFDE_TYP_LONG : IFDE_TYP_SHORT,
+    add_ifd_entry(ifd, 257, (height > 0xffff) ? IFDE_TYP_LONG : IFDE_TYP_SHORT,
                    1, height)
     /* bits per sample */
-    add_ifd_entry (ifd, 258, IFDE_TYP_SHORT, 1, 1)
-    /* compression (uncompressed) */
-    add_ifd_entry (ifd, 259, IFDE_TYP_SHORT, 1, 1)
+    add_ifd_entry(ifd, 258, IFDE_TYP_SHORT, 1, 1)
+    /* compression(uncompressed) */
+    add_ifd_entry(ifd, 259, IFDE_TYP_SHORT, 1, 1)
     /* photometric interpretation */
-    add_ifd_entry (ifd, 262, IFDE_TYP_SHORT, 1, 0)
+    add_ifd_entry(ifd, 262, IFDE_TYP_SHORT, 1, 0)
     /* fill order */
-    add_ifd_entry (ifd, 266, IFDE_TYP_SHORT, 1, 1)
+    add_ifd_entry(ifd, 266, IFDE_TYP_SHORT, 1, 1)
     /* strip offset */
-    add_ifd_entry (ifd, 273, IFDE_TYP_LONG, 1, strip_offset)
+    add_ifd_entry(ifd, 273, IFDE_TYP_LONG, 1, strip_offset)
     /* orientation */
-    add_ifd_entry (ifd, 274, IFDE_TYP_SHORT, 1, 1)
+    add_ifd_entry(ifd, 274, IFDE_TYP_SHORT, 1, 1)
     /* samples per pixel */
-    add_ifd_entry (ifd, 277, IFDE_TYP_SHORT, 1, 1)
+    add_ifd_entry(ifd, 277, IFDE_TYP_SHORT, 1, 1)
     /* rows per strip */
-    add_ifd_entry (ifd, 278, IFDE_TYP_LONG, 1, height)
+    add_ifd_entry(ifd, 278, IFDE_TYP_LONG, 1, height)
     /* strip bytecount */
-    add_ifd_entry (ifd, 279, IFDE_TYP_LONG, 1, strip_bytecount)
-    if (resolution > 0)
+    add_ifd_entry(ifd, 279, IFDE_TYP_LONG, 1, strip_bytecount)
+    if(resolution > 0)
     {
         /* x resolution */
-        add_ifd_entry (ifd, 282, IFDE_TYP_RATIONAL, 1, data_offset)
+        add_ifd_entry(ifd, 282, IFDE_TYP_RATIONAL, 1, data_offset)
         data_offset += 2*4
         /* y resolution */
-        add_ifd_entry (ifd, 283, IFDE_TYP_RATIONAL, 1, data_offset)
+        add_ifd_entry(ifd, 283, IFDE_TYP_RATIONAL, 1, data_offset)
         data_offset += 2*4
     }
-    if (resolution > 0)
+    if(resolution > 0)
     {
-        /* resolution unit (dpi) */
-        add_ifd_entry (ifd, 296, IFDE_TYP_SHORT, 1, 2)
+        /* resolution unit(dpi) */
+        add_ifd_entry(ifd, 296, IFDE_TYP_SHORT, 1, 2)
     }
 
     /* I prefer motorola format. Its human readable. */
     motorola = 1
-    write_ifd (fptr, ifd, motorola)
+    write_ifd(fptr, ifd, motorola)
 
     /* Write x/y resolution */
-    if (resolution > 0)
+    if(resolution > 0)
     {
         write_i4 (fptr, resolution, motorola)
         write_i4 (fptr, 1, motorola)
@@ -260,11 +260,11 @@ write_tiff_bw_header (FILE *fptr, Int width, Int height, Int resolution)
         write_i4 (fptr, 1, motorola)
     }
 
-    free_ifd (ifd)
+    free_ifd(ifd)
 }
 
 static void
-write_tiff_grey_header (FILE *fptr, Int width, Int height, Int depth,
+write_tiff_grey_header(FILE *fptr, Int width, Int height, Int depth,
                         Int resolution, const char *icc_profile)
 {IFD *ifd
     Int header_size = 8, ifd_size
@@ -275,12 +275,12 @@ write_tiff_grey_header (FILE *fptr, Int width, Int height, Int depth,
     void *icc_buffer = NULL
     size_t icc_size = 0
 
-    if (icc_profile)
+    if(icc_profile)
     {
       icc_buffer = sanei_load_icc_profile(icc_profile, &icc_size)
     }
 
-    ifd = create_ifd ()
+    ifd = create_ifd()
 
     bps = (depth <= 8) ? 1 : 2;  /* Bytes per sample */
     maxsamplevalue = (depth <= 8) ? 255 : 65535
@@ -289,13 +289,13 @@ write_tiff_grey_header (FILE *fptr, Int width, Int height, Int depth,
     /* the following values must be known in advance */
     ntags = 13
     data_size = 0
-    if (resolution > 0)
+    if(resolution > 0)
     {
         ntags += 3
         data_size += 2*4 + 2*4
     }
 
-    if (icc_size > 0) /* if icc profile exists add memory for tag */
+    if(icc_size > 0) /* if icc profile exists add memory for tag */
     {
         ntags += 1
         data_size += icc_size
@@ -306,49 +306,49 @@ write_tiff_grey_header (FILE *fptr, Int width, Int height, Int depth,
     strip_offset = data_offset + data_size
 
     /* New subfile type */
-    add_ifd_entry (ifd, 254, IFDE_TYP_LONG, 1, 0)
+    add_ifd_entry(ifd, 254, IFDE_TYP_LONG, 1, 0)
     /* image width */
-    add_ifd_entry (ifd, 256, (width > 0xffff) ? IFDE_TYP_LONG : IFDE_TYP_SHORT,
+    add_ifd_entry(ifd, 256, (width > 0xffff) ? IFDE_TYP_LONG : IFDE_TYP_SHORT,
                    1, width)
     /* image length */
-    add_ifd_entry (ifd, 257, (height > 0xffff) ? IFDE_TYP_LONG : IFDE_TYP_SHORT,
+    add_ifd_entry(ifd, 257, (height > 0xffff) ? IFDE_TYP_LONG : IFDE_TYP_SHORT,
                    1, height)
     /* bits per sample */
-    add_ifd_entry (ifd, 258, IFDE_TYP_SHORT, 1, depth)
-    /* compression (uncompressed) */
-    add_ifd_entry (ifd, 259, IFDE_TYP_SHORT, 1, 1)
+    add_ifd_entry(ifd, 258, IFDE_TYP_SHORT, 1, depth)
+    /* compression(uncompressed) */
+    add_ifd_entry(ifd, 259, IFDE_TYP_SHORT, 1, 1)
     /* photometric interpretation */
-    add_ifd_entry (ifd, 262, IFDE_TYP_SHORT, 1, 1)
+    add_ifd_entry(ifd, 262, IFDE_TYP_SHORT, 1, 1)
     /* strip offset */
-    add_ifd_entry (ifd, 273, IFDE_TYP_LONG, 1, strip_offset)
+    add_ifd_entry(ifd, 273, IFDE_TYP_LONG, 1, strip_offset)
     /* orientation */
-    add_ifd_entry (ifd, 274, IFDE_TYP_SHORT, 1, 1)
+    add_ifd_entry(ifd, 274, IFDE_TYP_SHORT, 1, 1)
     /* samples per pixel */
-    add_ifd_entry (ifd, 277, IFDE_TYP_SHORT, 1, 1)
+    add_ifd_entry(ifd, 277, IFDE_TYP_SHORT, 1, 1)
     /* rows per strip */
-    add_ifd_entry (ifd, 278, IFDE_TYP_LONG, 1, height)
+    add_ifd_entry(ifd, 278, IFDE_TYP_LONG, 1, height)
     /* strip bytecount */
-    add_ifd_entry (ifd, 279, IFDE_TYP_LONG, 1, strip_bytecount)
+    add_ifd_entry(ifd, 279, IFDE_TYP_LONG, 1, strip_bytecount)
     /* min sample value */
-    add_ifd_entry (ifd, 280, IFDE_TYP_SHORT, 1, 0)
+    add_ifd_entry(ifd, 280, IFDE_TYP_SHORT, 1, 0)
     /* max sample value */
-    add_ifd_entry (ifd, 281, IFDE_TYP_SHORT, 1, maxsamplevalue)
-    if (resolution > 0)
+    add_ifd_entry(ifd, 281, IFDE_TYP_SHORT, 1, maxsamplevalue)
+    if(resolution > 0)
     {
         /* x resolution */
-        add_ifd_entry (ifd, 282, IFDE_TYP_RATIONAL, 1, data_offset)
+        add_ifd_entry(ifd, 282, IFDE_TYP_RATIONAL, 1, data_offset)
         data_offset += 2*4
         /* y resolution */
-        add_ifd_entry (ifd, 283, IFDE_TYP_RATIONAL, 1, data_offset)
+        add_ifd_entry(ifd, 283, IFDE_TYP_RATIONAL, 1, data_offset)
         data_offset += 2*4
     }
-    if (resolution > 0)
+    if(resolution > 0)
     {
-        /* resolution unit (dpi) */
-        add_ifd_entry (ifd, 296, IFDE_TYP_SHORT, 1, 2)
+        /* resolution unit(dpi) */
+        add_ifd_entry(ifd, 296, IFDE_TYP_SHORT, 1, 2)
     }
 
-    if (icc_size > 0) /* add ICC-profile TAG */
+    if(icc_size > 0) /* add ICC-profile TAG */
     {
       add_ifd_entry(ifd, 34675, 7, (Int) icc_size, data_offset)
       data_offset += icc_size
@@ -356,7 +356,7 @@ write_tiff_grey_header (FILE *fptr, Int width, Int height, Int depth,
 
     /* I prefer motorola format. Its human readable. But for 16 bit, */
     /* the image format is defined by SANE to be the native byte order */
-    if (bps == 1)
+    if(bps == 1)
     {
         motorola = 1
     }
@@ -365,10 +365,10 @@ write_tiff_grey_header (FILE *fptr, Int width, Int height, Int depth,
         motorola = ((*((char *)&check)) == 0)
     }
 
-    write_ifd (fptr, ifd, motorola)
+    write_ifd(fptr, ifd, motorola)
 
     /* Write x/y resolution */
-    if (resolution > 0)
+    if(resolution > 0)
     {
         write_i4 (fptr, resolution, motorola)
         write_i4 (fptr, 1, motorola)
@@ -376,18 +376,18 @@ write_tiff_grey_header (FILE *fptr, Int width, Int height, Int depth,
         write_i4 (fptr, 1, motorola)
     }
 
-    if (icc_size > 0)
+    if(icc_size > 0)
     {
       fwrite(icc_buffer, icc_size, 1, fptr)
     }
 
     free(icc_buffer)
 
-    free_ifd (ifd)
+    free_ifd(ifd)
 }
 
 static void
-write_tiff_color_header (FILE *fptr, Int width, Int height, Int depth,
+write_tiff_color_header(FILE *fptr, Int width, Int height, Int depth,
                          Int resolution, const char *icc_profile)
 {IFD *ifd
     Int header_size = 8, ifd_size
@@ -398,13 +398,13 @@ write_tiff_color_header (FILE *fptr, Int width, Int height, Int depth,
     void *icc_buffer = NULL
     size_t icc_size = 0
 
-    if (icc_profile)
+    if(icc_profile)
     {
       icc_buffer = sanei_load_icc_profile(icc_profile, &icc_size)
     }
 
 
-    ifd = create_ifd ()
+    ifd = create_ifd()
 
     bps = (depth <= 8) ? 1 : 2;  /* Bytes per sample */
     maxsamplevalue = (depth <= 8) ? 255 : 65535
@@ -414,13 +414,13 @@ write_tiff_color_header (FILE *fptr, Int width, Int height, Int depth,
     ntags = 13
     data_size = 3*2 + 3*2 + 3*2
 
-    if (resolution > 0)
+    if(resolution > 0)
     {
         ntags += 3
         data_size += 2*4 + 2*4
     }
 
-    if (icc_size > 0) /* if icc profile exists add memory for tag */
+    if(icc_size > 0) /* if icc profile exists add memory for tag */
     {
         ntags += 1
         data_size += icc_size
@@ -432,54 +432,54 @@ write_tiff_color_header (FILE *fptr, Int width, Int height, Int depth,
     strip_offset = data_offset + data_size
 
     /* New subfile type */
-    add_ifd_entry (ifd, 254, IFDE_TYP_LONG, 1, 0)
+    add_ifd_entry(ifd, 254, IFDE_TYP_LONG, 1, 0)
     /* image width */
-    add_ifd_entry (ifd, 256, (width > 0xffff) ? IFDE_TYP_LONG : IFDE_TYP_SHORT,
+    add_ifd_entry(ifd, 256, (width > 0xffff) ? IFDE_TYP_LONG : IFDE_TYP_SHORT,
                    1, width)
     /* image length */
-    add_ifd_entry (ifd, 257, (height > 0xffff) ? IFDE_TYP_LONG : IFDE_TYP_SHORT,
+    add_ifd_entry(ifd, 257, (height > 0xffff) ? IFDE_TYP_LONG : IFDE_TYP_SHORT,
                    1, height)
     /* bits per sample */
-    add_ifd_entry (ifd, 258, IFDE_TYP_SHORT, 3, data_offset)
+    add_ifd_entry(ifd, 258, IFDE_TYP_SHORT, 3, data_offset)
     data_offset += 3*2
-    /* compression (uncompressed) */
-    add_ifd_entry (ifd, 259, IFDE_TYP_SHORT, 1, 1)
+    /* compression(uncompressed) */
+    add_ifd_entry(ifd, 259, IFDE_TYP_SHORT, 1, 1)
     /* photometric interpretation */
-    add_ifd_entry (ifd, 262, IFDE_TYP_SHORT, 1, 2)
+    add_ifd_entry(ifd, 262, IFDE_TYP_SHORT, 1, 2)
     /* strip offset */
-    add_ifd_entry (ifd, 273, IFDE_TYP_LONG, 1, strip_offset)
+    add_ifd_entry(ifd, 273, IFDE_TYP_LONG, 1, strip_offset)
     /* orientation */
-    add_ifd_entry (ifd, 274, IFDE_TYP_SHORT, 1, 1)
+    add_ifd_entry(ifd, 274, IFDE_TYP_SHORT, 1, 1)
     /* samples per pixel */
-    add_ifd_entry (ifd, 277, IFDE_TYP_SHORT, 1, 3)
+    add_ifd_entry(ifd, 277, IFDE_TYP_SHORT, 1, 3)
     /* rows per strip */
-    add_ifd_entry (ifd, 278, IFDE_TYP_LONG, 1, height)
+    add_ifd_entry(ifd, 278, IFDE_TYP_LONG, 1, height)
     /* strip bytecount */
-    add_ifd_entry (ifd, 279, IFDE_TYP_LONG, 1, strip_bytecount)
+    add_ifd_entry(ifd, 279, IFDE_TYP_LONG, 1, strip_bytecount)
     /* min sample value */
-    add_ifd_entry (ifd, 280, IFDE_TYP_SHORT, 3, data_offset)
+    add_ifd_entry(ifd, 280, IFDE_TYP_SHORT, 3, data_offset)
     data_offset += 3*2
     /* max sample value */
-    add_ifd_entry (ifd, 281, IFDE_TYP_SHORT, 3, data_offset)
+    add_ifd_entry(ifd, 281, IFDE_TYP_SHORT, 3, data_offset)
     data_offset += 3*2
 
-    if (resolution > 0)
+    if(resolution > 0)
     {
         /* x resolution */
-        add_ifd_entry (ifd, 282, IFDE_TYP_RATIONAL, 1, data_offset)
+        add_ifd_entry(ifd, 282, IFDE_TYP_RATIONAL, 1, data_offset)
         data_offset += 2*4
         /* y resolution */
-        add_ifd_entry (ifd, 283, IFDE_TYP_RATIONAL, 1, data_offset)
+        add_ifd_entry(ifd, 283, IFDE_TYP_RATIONAL, 1, data_offset)
         data_offset += 2*4
     }
 
-    if (resolution > 0)
+    if(resolution > 0)
     {
-        /* resolution unit (dpi) */
-        add_ifd_entry (ifd, 296, IFDE_TYP_SHORT, 1, 2)
+        /* resolution unit(dpi) */
+        add_ifd_entry(ifd, 296, IFDE_TYP_SHORT, 1, 2)
     }
 
-    if (icc_size > 0) /* add ICC-profile TAG */
+    if(icc_size > 0) /* add ICC-profile TAG */
     {
       add_ifd_entry(ifd, 34675, 7, (Int) icc_size, data_offset)
       data_offset += icc_size
@@ -488,7 +488,7 @@ write_tiff_color_header (FILE *fptr, Int width, Int height, Int depth,
 
     /* I prefer motorola format. Its human readable. But for 16 bit, */
     /* the image format is defined by SANE to be the native byte order */
-    if (bps == 1)
+    if(bps == 1)
     {
         motorola = 1
     }
@@ -497,7 +497,7 @@ write_tiff_color_header (FILE *fptr, Int width, Int height, Int depth,
         motorola = ((*((char *)&check)) == 0)
     }
 
-    write_ifd (fptr, ifd, motorola)
+    write_ifd(fptr, ifd, motorola)
 
     /* Write bits per sample value values */
     write_i2 (fptr, depth, motorola)
@@ -515,7 +515,7 @@ write_tiff_color_header (FILE *fptr, Int width, Int height, Int depth,
     write_i2 (fptr, maxsamplevalue, motorola)
 
     /* Write x/y resolution */
-    if (resolution > 0)
+    if(resolution > 0)
     {
         write_i4 (fptr, resolution, motorola)
         write_i4 (fptr, 1, motorola)
@@ -524,38 +524,38 @@ write_tiff_color_header (FILE *fptr, Int width, Int height, Int depth,
     }
 
     /* Write ICC profile */
-    if (icc_size > 0)
+    if(icc_size > 0)
     {
       fwrite(icc_buffer, icc_size, 1, fptr)
     }
 
     free(icc_buffer)
 
-    free_ifd (ifd)
+    free_ifd(ifd)
 }
 
 
 void
-sanei_write_tiff_header (Sane.Frame format, Int width, Int height, Int depth,
+sanei_write_tiff_header(Sane.Frame format, Int width, Int height, Int depth,
 			 Int resolution, const char *icc_profile, FILE *ofp)
 {
 #ifdef __EMX__	/* OS2 - write in binary mode. */
     _fsetmode(ofp, "b")
 #endif
-    switch (format)
+    switch(format)
     {
     case Sane.FRAME_RED:
     case Sane.FRAME_GREEN:
     case Sane.FRAME_BLUE:
     case Sane.FRAME_RGB:
-        write_tiff_color_header (ofp, width, height, depth, resolution, icc_profile)
+        write_tiff_color_header(ofp, width, height, depth, resolution, icc_profile)
         break
 
     default:
-        if (depth == 1)
-            write_tiff_bw_header (ofp, width, height, resolution)
+        if(depth == 1)
+            write_tiff_bw_header(ofp, width, height, resolution)
         else
-            write_tiff_grey_header (ofp, width, height, depth, resolution, icc_profile)
+            write_tiff_grey_header(ofp, width, height, depth, resolution, icc_profile)
         break
     }
 }

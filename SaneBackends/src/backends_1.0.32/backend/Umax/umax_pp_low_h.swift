@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2001-2012 Stéphane Voltz <stef.dev@free.fr>
+   Copyright(C) 2001-2012 Stéphane Voltz <stef.dev@free.fr>
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -44,16 +44,16 @@ import Sane.config
 /*****************************************************************************/
 /*                 set port to 'idle state' and get iopl                     */
 /*****************************************************************************/
-public Int sanei_umax_pp_initPort (Int port, const char *name)
-public Int sanei_umax_pp_initScanner (Int recover)
-public Int sanei_umax_pp_initTransport (Int recover)
-public Int sanei_umax_pp_endSession (void)
-public Int sanei_umax_pp_initCancel (void)
-public Int sanei_umax_pp_cancel (void)
-public Int sanei_umax_pp_checkModel (void)
-public Int sanei_umax_pp_getauto (void)
-public Int sanei_umax_pp_UTA (void)
-public void sanei_umax_pp_setauto (Int mode)
+public Int sanei_umax_pp_initPort(Int port, const char *name)
+public Int sanei_umax_pp_initScanner(Int recover)
+public Int sanei_umax_pp_initTransport(Int recover)
+public Int sanei_umax_pp_endSession(void)
+public Int sanei_umax_pp_initCancel(void)
+public Int sanei_umax_pp_cancel(void)
+public Int sanei_umax_pp_checkModel(void)
+public Int sanei_umax_pp_getauto(void)
+public Int sanei_umax_pp_UTA(void)
+public void sanei_umax_pp_setauto(Int mode)
 
 #ifndef __GLOBALES__
 
@@ -85,37 +85,37 @@ public void sanei_umax_pp_setauto (Int mode)
 
 #endif
 
-public Int sanei_umax_pp_scan (Int x, Int y, Int width, Int height, Int dpi,
+public Int sanei_umax_pp_scan(Int x, Int y, Int width, Int height, Int dpi,
 			       Int color, Int gain, Int offset)
-public Int sanei_umax_pp_move (Int distance, Int precision,
+public Int sanei_umax_pp_move(Int distance, Int precision,
 			       unsigned char *buffer)
-public Int sanei_umax_pp_setLamp (Int on)
-public Int sanei_umax_pp_completionWait (void)
-public Int sanei_umax_pp_commitScan (void)
-public Int sanei_umax_pp_park (void)
-public Int sanei_umax_pp_parkWait (void)
-public Int sanei_umax_pp_readBlock (long len, Int window, Int dpi, Int last,
+public Int sanei_umax_pp_setLamp(Int on)
+public Int sanei_umax_pp_completionWait(void)
+public Int sanei_umax_pp_commitScan(void)
+public Int sanei_umax_pp_park(void)
+public Int sanei_umax_pp_parkWait(void)
+public Int sanei_umax_pp_readBlock(long len, Int window, Int dpi, Int last,
 				    unsigned char *buffer)
-public Int sanei_umax_pp_startScan (Int x, Int y, Int width, Int height,
+public Int sanei_umax_pp_startScan(Int x, Int y, Int width, Int height,
 				    Int dpi, Int color, Int gain,
 				    Int offset, Int *rbpp, Int *rtw,
 				    Int *rth)
 
-public void sanei_umax_pp_setport (Int port)
-public Int sanei_umax_pp_getport (void)
-public void sanei_umax_pp_setparport (Int fd)
-public Int sanei_umax_pp_getparport (void)
-public void sanei_umax_pp_setastra (Int mod)
-public Int sanei_umax_pp_getastra (void)
-public void sanei_umax_pp_setLeft (Int mod)
-public Int sanei_umax_pp_getLeft (void)
-public void sanei_umax_pp_setfull (Int mod)
-public Int sanei_umax_pp_getfull (void)
-public Int sanei_umax_pp_scannerStatus (void)
-public Int sanei_umax_pp_probeScanner (Int recover)
+public void sanei_umax_pp_setport(Int port)
+public Int sanei_umax_pp_getport(void)
+public void sanei_umax_pp_setparport(Int fd)
+public Int sanei_umax_pp_getparport(void)
+public void sanei_umax_pp_setastra(Int mod)
+public Int sanei_umax_pp_getastra(void)
+public void sanei_umax_pp_setLeft(Int mod)
+public Int sanei_umax_pp_getLeft(void)
+public void sanei_umax_pp_setfull(Int mod)
+public Int sanei_umax_pp_getfull(void)
+public Int sanei_umax_pp_scannerStatus(void)
+public Int sanei_umax_pp_probeScanner(Int recover)
 
-public char **sanei_parport_find_port (void)
-public char **sanei_parport_find_device (void)
+public char **sanei_parport_find_port(void)
+public char **sanei_parport_find_device(void)
 
-public Int sanei_umax_pp_cmdSync (Int cmd)
-public void sanei_umax_pp_gamma (Int *red, Int *green, Int *blue)
+public Int sanei_umax_pp_cmdSync(Int cmd)
+public void sanei_umax_pp_gamma(Int *red, Int *green, Int *blue)

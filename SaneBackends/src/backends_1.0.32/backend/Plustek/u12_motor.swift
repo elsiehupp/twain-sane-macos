@@ -2,7 +2,7 @@
  * @brief all functions for motor control
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.01 - initial version
@@ -14,7 +14,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -504,7 +504,7 @@ static void u12motor_ModuleForwardBackward( U12_Device *dev )
 			if( !(u12io_GetScanState( dev ) & _SCANSTATE_STOP))
 				dev.scan.bModuleState = _MotorInNormalState
 			else {
-				if (!(u12io_GetExtendedStatus( dev ) & _STILL_FREE_RUNNING )) {
+				if(!(u12io_GetExtendedStatus( dev ) & _STILL_FREE_RUNNING )) {
 					u12io_RegisterToScanner( dev, REG_REFRESHSCANSTATE )
 					dev.scan.bModuleState = _MotorInNormalState
 				}

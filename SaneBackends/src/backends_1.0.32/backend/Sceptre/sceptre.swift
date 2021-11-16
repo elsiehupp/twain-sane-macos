@@ -1,14 +1,14 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2002 Frank Zago (sane at zago dot net)
-   Copyright (C) 2002 Other SANE contributors
+   Copyright(C) 2002 Frank Zago(sane at zago dot net)
+   Copyright(C) 2002 Other SANE contributors
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -41,7 +41,7 @@
 */
 
 /*
-   Sceptre S1200 SCSI scanner (sometimes also called S120)
+   Sceptre S1200 SCSI scanner(sometimes also called S120)
 */
 
 /*--------------------------------------------------------------------------*/
@@ -134,233 +134,233 @@ static const Sane.Device **devlist = NULL
 
 /* Display a buffer in the log. */
 static void
-hexdump (Int level, const char *comment, unsigned char *p, Int l)
+hexdump(Int level, const char *comment, unsigned char *p, Int l)
 {
   var i: Int
   char line[128]
   char *ptr
 
-  DBG (level, "%s\n", comment)
+  DBG(level, "%s\n", comment)
   ptr = line
-  for (i = 0; i < l; i++, p++)
+  for(i = 0; i < l; i++, p++)
     {
-      if ((i % 16) == 0)
+      if((i % 16) == 0)
 	{
-	  if (ptr != line)
+	  if(ptr != line)
 	    {
 	      *ptr = '\0'
-	      DBG (level, "%s\n", line)
+	      DBG(level, "%s\n", line)
 	      ptr = line
 	    }
-	  sprintf (ptr, "%3.3d:", i)
+	  sprintf(ptr, "%3.3d:", i)
 	  ptr += 4
 	}
-      sprintf (ptr, " %2.2x", *p)
+      sprintf(ptr, " %2.2x", *p)
       ptr += 3
     }
   *ptr = '\0'
-  DBG (level, "%s\n", line)
+  DBG(level, "%s\n", line)
 }
 
 /* Initialize a scanner entry. Return an allocated scanner with some
  * preset values. */
 static Sceptre_Scanner *
-sceptre_init (void)
+sceptre_init(void)
 {
   Sceptre_Scanner *dev
 
-  DBG (DBG_proc, "sceptre_init: enter\n")
+  DBG(DBG_proc, "sceptre_init: enter\n")
 
   /* Allocate a new scanner entry. */
-  dev = malloc (sizeof (Sceptre_Scanner))
-  if (dev == NULL)
+  dev = malloc(sizeof(Sceptre_Scanner))
+  if(dev == NULL)
     {
       return NULL
     }
 
-  memset (dev, 0, sizeof (Sceptre_Scanner))
+  memset(dev, 0, sizeof(Sceptre_Scanner))
 
   /* Allocate the buffer used to transfer the SCSI data. */
   dev.buffer_size = 64 * 1024
-  dev.buffer = malloc (dev.buffer_size)
-  if (dev.buffer == NULL)
+  dev.buffer = malloc(dev.buffer_size)
+  if(dev.buffer == NULL)
     {
-      free (dev)
+      free(dev)
       return NULL
     }
 
   dev.sfd = -1
 
-  DBG (DBG_proc, "sceptre_init: exit\n")
+  DBG(DBG_proc, "sceptre_init: exit\n")
 
-  return (dev)
+  return(dev)
 }
 
 /* Closes an open scanner. */
 static void
-sceptre_close (Sceptre_Scanner * dev)
+sceptre_close(Sceptre_Scanner * dev)
 {
-  DBG (DBG_proc, "sceptre_close: enter\n")
+  DBG(DBG_proc, "sceptre_close: enter\n")
 
-  if (dev.sfd != -1)
+  if(dev.sfd != -1)
     {
-      sanei_scsi_close (dev.sfd)
+      sanei_scsi_close(dev.sfd)
       dev.sfd = -1
     }
 
-  DBG (DBG_proc, "sceptre_close: exit\n")
+  DBG(DBG_proc, "sceptre_close: exit\n")
 }
 
 /* Frees the memory used by a scanner. */
 static void
-sceptre_free (Sceptre_Scanner * dev)
+sceptre_free(Sceptre_Scanner * dev)
 {
   var i: Int
 
-  DBG (DBG_proc, "sceptre_free: enter\n")
+  DBG(DBG_proc, "sceptre_free: enter\n")
 
-  if (dev == NULL)
+  if(dev == NULL)
     return
 
-  sceptre_close (dev)
-  if (dev.devicename)
+  sceptre_close(dev)
+  if(dev.devicename)
     {
-      free (dev.devicename)
+      free(dev.devicename)
     }
-  if (dev.buffer)
+  if(dev.buffer)
     {
-      free (dev.buffer)
+      free(dev.buffer)
     }
-  if (dev.image)
+  if(dev.image)
     {
-      free (dev.image)
+      free(dev.image)
     }
-  for (i = 1; i < OPT_NUM_OPTIONS; i++)
+  for(i = 1; i < OPT_NUM_OPTIONS; i++)
     {
-      if (dev.opt[i].type == Sane.TYPE_STRING && dev.val[i].s)
+      if(dev.opt[i].type == Sane.TYPE_STRING && dev.val[i].s)
 	{
-	  free (dev.val[i].s)
+	  free(dev.val[i].s)
 	}
     }
 
-  free (dev)
+  free(dev)
 
-  DBG (DBG_proc, "sceptre_free: exit\n")
+  DBG(DBG_proc, "sceptre_free: exit\n")
 }
 
 /* Inquiry a device and returns TRUE if is supported. */
 static Int
-sceptre_identify_scanner (Sceptre_Scanner * dev)
+sceptre_identify_scanner(Sceptre_Scanner * dev)
 {
   CDB cdb
   Sane.Status status
   size_t size
   var i: Int
 
-  DBG (DBG_proc, "sceptre_identify_scanner: enter\n")
+  DBG(DBG_proc, "sceptre_identify_scanner: enter\n")
 
   size = 36
-  MKSCSI_INQUIRY (cdb, size)
+  MKSCSI_INQUIRY(cdb, size)
   status = sanei_scsi_cmd2 (dev.sfd, cdb.data, cdb.len,
 			    NULL, 0, dev.buffer, &size)
 
-  if (status)
+  if(status)
     {
-      DBG (DBG_error,
+      DBG(DBG_error,
 	   "sceptre_identify_scanner: inquiry failed with status %s\n",
-	   Sane.strstatus (status))
-      return (Sane.FALSE)
+	   Sane.strstatus(status))
+      return(Sane.FALSE)
     }
 
-  if (size < 36)
+  if(size < 36)
     {
-      DBG (DBG_error,
+      DBG(DBG_error,
 	   "sceptre_identify_scanner: not enough data to identify device\n")
-      return (Sane.FALSE)
+      return(Sane.FALSE)
     }
 
   dev.scsi_type = dev.buffer[0] & 0x1f
-  memcpy (dev.scsi_vendor, dev.buffer + 0x08, 0x08)
+  memcpy(dev.scsi_vendor, dev.buffer + 0x08, 0x08)
   dev.scsi_vendor[0x08] = 0
-  memcpy (dev.scsi_product, dev.buffer + 0x10, 0x010)
+  memcpy(dev.scsi_product, dev.buffer + 0x10, 0x010)
   dev.scsi_product[0x10] = 0
-  memcpy (dev.scsi_version, dev.buffer + 0x20, 0x04)
+  memcpy(dev.scsi_version, dev.buffer + 0x20, 0x04)
   dev.scsi_version[0x04] = 0
 
-  DBG (DBG_info, "device is \"%s\" \"%s\" \"%s\"\n",
+  DBG(DBG_info, "device is \"%s\" \"%s\" \"%s\"\n",
        dev.scsi_vendor, dev.scsi_product, dev.scsi_version)
 
   /* Lookup through the supported scanners table to find if this
    * backend supports that one. */
-  for (i = 0; i < NELEMS (scanners); i++)
+  for(i = 0; i < NELEMS(scanners); i++)
     {
-      if (dev.scsi_type == scanners[i].scsi_type &&
-	  strcmp (dev.scsi_vendor, scanners[i].scsi_vendor) == 0 &&
-	  strcmp (dev.scsi_product, scanners[i].scsi_product) == 0)
+      if(dev.scsi_type == scanners[i].scsi_type &&
+	  strcmp(dev.scsi_vendor, scanners[i].scsi_vendor) == 0 &&
+	  strcmp(dev.scsi_product, scanners[i].scsi_product) == 0)
 	{
 
-	  DBG (DBG_error, "sceptre_identify_scanner: scanner supported\n")
+	  DBG(DBG_error, "sceptre_identify_scanner: scanner supported\n")
 
 	  dev.scnum = i
 
-	  return (Sane.TRUE)
+	  return(Sane.TRUE)
 	}
     }
 
-  DBG (DBG_proc, "sceptre_identify_scanner: exit\n")
+  DBG(DBG_proc, "sceptre_identify_scanner: exit\n")
 
-  return (Sane.FALSE)
+  return(Sane.FALSE)
 }
 
 /* Return the number of bytes left to read. */
 static Sane.Status
-sceptre_get_status (Sceptre_Scanner * dev, size_t * data_left)
+sceptre_get_status(Sceptre_Scanner * dev, size_t * data_left)
 {
   size_t size
   CDB cdb
   Sane.Status status
 
-  DBG (DBG_proc, "sceptre_get_status: enter\n")
+  DBG(DBG_proc, "sceptre_get_status: enter\n")
 
   /* Get status. */
   size = 0x10
-  MKSCSI_GET_DATA_BUFFER_STATUS (cdb, 1, size)
+  MKSCSI_GET_DATA_BUFFER_STATUS(cdb, 1, size)
   status = sanei_scsi_cmd2 (dev.sfd, cdb.data, cdb.len,
 			    NULL, 0, dev.buffer, &size)
 
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "sceptre_get_status: cannot get buffer status\n")
+      DBG(DBG_error, "sceptre_get_status: cannot get buffer status\n")
       *data_left = 0
-      return (Sane.STATUS_IO_ERROR)
+      return(Sane.STATUS_IO_ERROR)
     }
 
-  if (size != 16)
+  if(size != 16)
     {
-      DBG (DBG_error,
-	   "sceptre_get_status: invalid data size returned (%ld)\n",
+      DBG(DBG_error,
+	   "sceptre_get_status: invalid data size returned(%ld)\n",
 	   (long) size)
-      return (Sane.STATUS_IO_ERROR)
+      return(Sane.STATUS_IO_ERROR)
     }
 
-  hexdump (DBG_info2, "GET BUFFER STATUS result", dev.buffer, 16)
+  hexdump(DBG_info2, "GET BUFFER STATUS result", dev.buffer, 16)
 
   /* Read the size left. The scanner returns the rest of the
    * bytes to read, not just what's in its buffers. */
-  *data_left = B32TOI (&dev.buffer[8])
+  *data_left = B32TOI(&dev.buffer[8])
 
-  if (dev.raster_real == 0)
+  if(dev.raster_real == 0)
     {
       /* First call. Set the correct parameters. */
-      dev.raster_real = B16TOI (&dev.buffer[12]) * 3
-      dev.params.lines = B16TOI (&dev.buffer[12])
-      dev.params.pixels_per_line = B16TOI (&dev.buffer[14])
+      dev.raster_real = B16TOI(&dev.buffer[12]) * 3
+      dev.params.lines = B16TOI(&dev.buffer[12])
+      dev.params.pixels_per_line = B16TOI(&dev.buffer[14])
     }
 
-  DBG (DBG_proc, "sceptre_get_status: exit, data_left=%ld\n",
+  DBG(DBG_proc, "sceptre_get_status: exit, data_left=%ld\n",
        (long) *data_left)
 
-  return (Sane.STATUS_GOOD)
+  return(Sane.STATUS_GOOD)
 }
 
 /*
@@ -368,7 +368,7 @@ sceptre_get_status (Sceptre_Scanner * dev, size_t * data_left)
  * because the scanner does not present a format sane can interpret
  * directly.
  *
- * The scanner sends the colors by rasters (R then G then B), whereas
+ * The scanner sends the colors by rasters(R then G then B), whereas
  * sane is waiting for a group of 3 bytes per color. To make things
  * funnier, the rasters are shifted. This shift factor depends on the
  * resolution used. The format of those raster is:
@@ -379,7 +379,7 @@ sceptre_get_status (Sceptre_Scanner * dev, size_t * data_left)
  * length of the valid data in dev.buffer.
  */
 static void
-sceptre_adjust_raster (Sceptre_Scanner * dev, size_t size_in)
+sceptre_adjust_raster(Sceptre_Scanner * dev, size_t size_in)
 {
   Int nb_rasters;		/* number of rasters in dev.buffer */
 
@@ -388,24 +388,24 @@ sceptre_adjust_raster (Sceptre_Scanner * dev, size_t size_in)
   Int colour;			/* colour for that raster */
   size_t offset
 
-  DBG (DBG_proc, "sceptre_adjust_raster: enter\n")
+  DBG(DBG_proc, "sceptre_adjust_raster: enter\n")
 
-  assert (dev.scan_mode == SCEPTRE_COLOR)
-  assert ((size_in % dev.params.bytes_per_line) == 0)
+  assert(dev.scan_mode == SCEPTRE_COLOR)
+  assert((size_in % dev.params.bytes_per_line) == 0)
 
-  if (size_in == 0)
+  if(size_in == 0)
     {
       return
     }
 
   /*
-   * The color coding is one line for each color (in the RGB order).
+   * The color coding is one line for each color(in the RGB order).
    * Recombine that stuff to create a RGB value for each pixel.
    */
 
   nb_rasters = size_in / dev.raster_size
 
-  for (raster = 0; raster < nb_rasters; raster++)
+  for(raster = 0; raster < nb_rasters; raster++)
     {
 
       /*
@@ -417,16 +417,16 @@ sceptre_adjust_raster (Sceptre_Scanner * dev, size_t size_in)
        * When blue comes, it always finishes the current line
        */
       line = 0
-      if (dev.raster_num < dev.color_shift)
+      if(dev.raster_num < dev.color_shift)
 	{
 	  colour = 0;		/* Red */
 	  line = dev.raster_num
 	}
-      else if (dev.raster_num < (3 * dev.color_shift))
+      else if(dev.raster_num < (3 * dev.color_shift))
 	{
 	  /* even = red, odd = green */
 	  colour = (dev.raster_num - dev.color_shift) % 2
-	  if (colour)
+	  if(colour)
 	    {
 	      /* Green */
 	      line = (dev.raster_num - dev.color_shift) / 2
@@ -437,18 +437,18 @@ sceptre_adjust_raster (Sceptre_Scanner * dev, size_t size_in)
 	      line = (dev.raster_num + dev.color_shift) / 2
 	    }
 	}
-      else if (dev.raster_num >= dev.raster_real - dev.color_shift)
+      else if(dev.raster_num >= dev.raster_real - dev.color_shift)
 	{
 	  /* Blue */
 	  colour = 2
 	  line = dev.line
 	}
-      else if (dev.raster_num >= dev.raster_real - 3 * dev.color_shift)
+      else if(dev.raster_num >= dev.raster_real - 3 * dev.color_shift)
 	{
 	  /* Green or Blue */
 	  colour =
 	    (dev.raster_real - dev.raster_num - dev.color_shift) % 2 + 1
-	  if (colour == 1)
+	  if(colour == 1)
 	    {
 	      /* Green */
 	      line = dev.line + dev.color_shift
@@ -462,7 +462,7 @@ sceptre_adjust_raster (Sceptre_Scanner * dev, size_t size_in)
       else
 	{
 	  colour = (dev.raster_num - 3 * dev.color_shift) % 3
-	  switch (colour)
+	  switch(colour)
 	    {
 	    case 0:
 	      /* Red */
@@ -484,7 +484,7 @@ sceptre_adjust_raster (Sceptre_Scanner * dev, size_t size_in)
 
       offset = dev.image_end + line * dev.params.bytes_per_line
 
-      assert (offset <= (dev.image_size - dev.raster_size))
+      assert(offset <= (dev.image_size - dev.raster_size))
 
       /* Copy the raster to the temporary image. */
       {
@@ -492,7 +492,7 @@ sceptre_adjust_raster (Sceptre_Scanner * dev, size_t size_in)
 	unsigned char *src = dev.buffer + raster * dev.raster_size
 	unsigned char *dest = dev.image + offset + colour
 
-	for (i = 0; i < dev.raster_size; i++)
+	for(i = 0; i < dev.raster_size; i++)
 	  {
 	    *dest = *src
 	    src++
@@ -500,7 +500,7 @@ sceptre_adjust_raster (Sceptre_Scanner * dev, size_t size_in)
 	  }
       }
 
-      if (colour == 2)
+      if(colour == 2)
 	{
 	  /* This blue raster completes a new line */
 	  dev.line++
@@ -510,7 +510,7 @@ sceptre_adjust_raster (Sceptre_Scanner * dev, size_t size_in)
       dev.raster_num++
     }
 
-  DBG (DBG_proc, "sceptre_adjust_raster: exit\n")
+  DBG(DBG_proc, "sceptre_adjust_raster: exit\n")
 }
 
 /* SCSI sense handler. Callback for SANE.
@@ -518,80 +518,80 @@ sceptre_adjust_raster (Sceptre_Scanner * dev, size_t size_in)
  * Since this scanner does not have REQUEST SENSE, it is always an
  * error if this function is called.*/
 static Sane.Status
-sceptre_sense_handler (Int scsi_fd, unsigned char __Sane.unused__ *result, void __Sane.unused__ *arg)
+sceptre_sense_handler(Int scsi_fd, unsigned char __Sane.unused__ *result, void __Sane.unused__ *arg)
 {
-  DBG (DBG_proc, "sceptre_sense_handler (scsi_fd = %d)\n", scsi_fd)
+  DBG(DBG_proc, "sceptre_sense_handler(scsi_fd = %d)\n", scsi_fd)
 
   return Sane.STATUS_IO_ERROR
 }
 
 /* Attach a scanner to this backend. */
 static Sane.Status
-attach_scanner (const char *devicename, Sceptre_Scanner ** devp)
+attach_scanner(const char *devicename, Sceptre_Scanner ** devp)
 {
   Sceptre_Scanner *dev
   Int sfd
 
-  DBG (DBG_Sane.proc, "attach_scanner: %s\n", devicename)
+  DBG(DBG_Sane.proc, "attach_scanner: %s\n", devicename)
 
-  if (devp)
+  if(devp)
     *devp = NULL
 
   /* Check if we know this device name. */
-  for (dev = first_dev; dev; dev = dev.next)
+  for(dev = first_dev; dev; dev = dev.next)
     {
-      if (strcmp (dev.sane.name, devicename) == 0)
+      if(strcmp(dev.sane.name, devicename) == 0)
 	{
-	  if (devp)
+	  if(devp)
 	    {
 	      *devp = dev
 	    }
-	  DBG (DBG_info, "device is already known\n")
+	  DBG(DBG_info, "device is already known\n")
 	  return Sane.STATUS_GOOD
 	}
     }
 
   /* Allocate a new scanner entry. */
-  dev = sceptre_init ()
-  if (dev == NULL)
+  dev = sceptre_init()
+  if(dev == NULL)
     {
-      DBG (DBG_error, "ERROR: not enough memory\n")
+      DBG(DBG_error, "ERROR: not enough memory\n")
       return Sane.STATUS_NO_MEM
     }
 
-  DBG (DBG_info, "attach_scanner: opening %s\n", devicename)
+  DBG(DBG_info, "attach_scanner: opening %s\n", devicename)
 
-  if (sanei_scsi_open (devicename, &sfd, sceptre_sense_handler, dev) != 0)
+  if(sanei_scsi_open(devicename, &sfd, sceptre_sense_handler, dev) != 0)
     {
-      DBG (DBG_error, "ERROR: attach_scanner: open failed\n")
-      sceptre_free (dev)
+      DBG(DBG_error, "ERROR: attach_scanner: open failed\n")
+      sceptre_free(dev)
       return Sane.STATUS_INVAL
     }
 
   /* Fill some scanner specific values. */
-  dev.devicename = strdup (devicename)
+  dev.devicename = strdup(devicename)
   dev.sfd = sfd
 
   /* Now, check that it is a scanner we support. */
-  if (sceptre_identify_scanner (dev) == Sane.FALSE)
+  if(sceptre_identify_scanner(dev) == Sane.FALSE)
     {
-      DBG (DBG_error,
+      DBG(DBG_error,
 	   "ERROR: attach_scanner: scanner-identification failed\n")
-      sceptre_free (dev)
+      sceptre_free(dev)
       return Sane.STATUS_INVAL
     }
 
-  sceptre_close (dev)
+  sceptre_close(dev)
 
   /* Set the default options for that scanner. */
   dev.sane.name = dev.devicename
   dev.sane.vendor = scanners[dev.scnum].real_vendor
   dev.sane.model = scanners[dev.scnum].real_product
-  dev.sane.type = Sane.I18N ("flatbed scanner")
+  dev.sane.type = Sane.I18N("flatbed scanner")
 
-  dev.resolution_range.min = Sane.FIX (50)
-  dev.resolution_range.max = Sane.FIX (1200)
-  dev.resolution_range.quant = Sane.FIX (1)
+  dev.resolution_range.min = Sane.FIX(50)
+  dev.resolution_range.max = Sane.FIX(1200)
+  dev.resolution_range.quant = Sane.FIX(1)
 
   /*
    * The S1200 has an area of 8.5 inches / 11.7 inches. (A4 like)
@@ -604,57 +604,57 @@ attach_scanner (const char *devicename, Sceptre_Scanner ** devp)
    *                (although the windows driver stops at 7019)
    *
    * The values are stored in mm. Inches sucks anyway.
-   *   X: 5078 dots (22 dots lost)
-   *   Y: 7015 dots (5 dots lost)
+   *   X: 5078 dots(22 dots lost)
+   *   Y: 7015 dots(5 dots lost)
    *
    * There seems to be a minimum area, but yet to be determined.
    */
-  dev.x_range.min = Sane.FIX (0)
-  dev.x_range.max = Sane.FIX (215.90);	/* in mm */
+  dev.x_range.min = Sane.FIX(0)
+  dev.x_range.max = Sane.FIX(215.90);	/* in mm */
   dev.x_range.quant = 0
 
-  dev.y_range.min = Sane.FIX (0)
-  dev.y_range.max = Sane.FIX (297.14);	/* in mm */
-  dev.y_range.quant = Sane.FIX (0)
+  dev.y_range.min = Sane.FIX(0)
+  dev.y_range.max = Sane.FIX(297.14);	/* in mm */
+  dev.y_range.quant = Sane.FIX(0)
 
   /* Link the scanner with the others. */
   dev.next = first_dev
   first_dev = dev
 
-  if (devp)
+  if(devp)
     {
       *devp = dev
     }
 
   num_devices++
 
-  DBG (DBG_proc, "attach_scanner: exit\n")
+  DBG(DBG_proc, "attach_scanner: exit\n")
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-attach_one (const char *dev)
+attach_one(const char *dev)
 {
-  attach_scanner (dev, NULL)
+  attach_scanner(dev, NULL)
   return Sane.STATUS_GOOD
 }
 
 /* Reset the options for that scanner. */
 static void
-sceptre_init_options (Sceptre_Scanner * dev)
+sceptre_init_options(Sceptre_Scanner * dev)
 {
   var i: Int
 
-  DBG (DBG_proc, "sceptre_init_options: enter\n")
+  DBG(DBG_proc, "sceptre_init_options: enter\n")
 
   /* Pre-initialize the options. */
-  memset (dev.opt, 0, sizeof (dev.opt))
-  memset (dev.val, 0, sizeof (dev.val))
+  memset(dev.opt, 0, sizeof(dev.opt))
+  memset(dev.val, 0, sizeof(dev.val))
 
-  for (i = 0; i < OPT_NUM_OPTIONS; ++i)
+  for(i = 0; i < OPT_NUM_OPTIONS; ++i)
     {
-      dev.opt[i].size = sizeof (Sane.Word)
+      dev.opt[i].size = sizeof(Sane.Word)
       dev.opt[i].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     }
 
@@ -667,7 +667,7 @@ sceptre_init_options (Sceptre_Scanner * dev)
   dev.val[OPT_NUM_OPTS].w = OPT_NUM_OPTIONS
 
   /* Mode group */
-  dev.opt[OPT_MODE_GROUP].title = Sane.I18N ("Scan Mode")
+  dev.opt[OPT_MODE_GROUP].title = Sane.I18N("Scan Mode")
   dev.opt[OPT_MODE_GROUP].desc = "";	/* not valid for a group */
   dev.opt[OPT_MODE_GROUP].type = Sane.TYPE_GROUP
   dev.opt[OPT_MODE_GROUP].cap = 0
@@ -683,7 +683,7 @@ sceptre_init_options (Sceptre_Scanner * dev)
   dev.opt[OPT_MODE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   dev.opt[OPT_MODE].constraint.string_list =
     (Sane.String_Const *) scan_mode_list
-  dev.val[OPT_MODE].s = (Sane.Char *) strdup (scan_mode_list[0])
+  dev.val[OPT_MODE].s = (Sane.Char *) strdup(scan_mode_list[0])
 
   /* Common resolution */
   dev.opt[OPT_RESOLUTION].name = Sane.NAME_SCAN_RESOLUTION
@@ -696,7 +696,7 @@ sceptre_init_options (Sceptre_Scanner * dev)
   dev.val[OPT_RESOLUTION].w = 150
 
   /* Geometry group */
-  dev.opt[OPT_GEOMETRY_GROUP].title = Sane.I18N ("Geometry")
+  dev.opt[OPT_GEOMETRY_GROUP].title = Sane.I18N("Geometry")
   dev.opt[OPT_GEOMETRY_GROUP].desc = "";	/* not valid for a group */
   dev.opt[OPT_GEOMETRY_GROUP].type = Sane.TYPE_GROUP
   dev.opt[OPT_GEOMETRY_GROUP].cap = Sane.CAP_ADVANCED
@@ -744,7 +744,7 @@ sceptre_init_options (Sceptre_Scanner * dev)
   dev.val[OPT_BR_Y].w = dev.y_range.max
 
   /* Enhancement group */
-  dev.opt[OPT_ENHANCEMENT_GROUP].title = Sane.I18N ("Enhancement")
+  dev.opt[OPT_ENHANCEMENT_GROUP].title = Sane.I18N("Enhancement")
   dev.opt[OPT_ENHANCEMENT_GROUP].desc = "";	/* not valid for a group */
   dev.opt[OPT_ENHANCEMENT_GROUP].type = Sane.TYPE_GROUP
   dev.opt[OPT_ENHANCEMENT_GROUP].cap = 0
@@ -766,7 +766,7 @@ sceptre_init_options (Sceptre_Scanner * dev)
   dev.opt[OPT_GAMMA_VECTOR_R].type = Sane.TYPE_INT
   dev.opt[OPT_GAMMA_VECTOR_R].cap |= Sane.CAP_INACTIVE
   dev.opt[OPT_GAMMA_VECTOR_R].unit = Sane.UNIT_NONE
-  dev.opt[OPT_GAMMA_VECTOR_R].size = GAMMA_LENGTH * sizeof (Sane.Word)
+  dev.opt[OPT_GAMMA_VECTOR_R].size = GAMMA_LENGTH * sizeof(Sane.Word)
   dev.opt[OPT_GAMMA_VECTOR_R].constraint_type = Sane.CONSTRAINT_RANGE
   dev.opt[OPT_GAMMA_VECTOR_R].constraint.range = &gamma_range
   dev.val[OPT_GAMMA_VECTOR_R].wa = dev.gamma_R
@@ -778,7 +778,7 @@ sceptre_init_options (Sceptre_Scanner * dev)
   dev.opt[OPT_GAMMA_VECTOR_G].type = Sane.TYPE_INT
   dev.opt[OPT_GAMMA_VECTOR_G].cap |= Sane.CAP_INACTIVE
   dev.opt[OPT_GAMMA_VECTOR_G].unit = Sane.UNIT_NONE
-  dev.opt[OPT_GAMMA_VECTOR_G].size = GAMMA_LENGTH * sizeof (Sane.Word)
+  dev.opt[OPT_GAMMA_VECTOR_G].size = GAMMA_LENGTH * sizeof(Sane.Word)
   dev.opt[OPT_GAMMA_VECTOR_G].constraint_type = Sane.CONSTRAINT_RANGE
   dev.opt[OPT_GAMMA_VECTOR_G].constraint.range = &gamma_range
   dev.val[OPT_GAMMA_VECTOR_G].wa = dev.gamma_G
@@ -790,7 +790,7 @@ sceptre_init_options (Sceptre_Scanner * dev)
   dev.opt[OPT_GAMMA_VECTOR_B].type = Sane.TYPE_INT
   dev.opt[OPT_GAMMA_VECTOR_B].cap |= Sane.CAP_INACTIVE
   dev.opt[OPT_GAMMA_VECTOR_B].unit = Sane.UNIT_NONE
-  dev.opt[OPT_GAMMA_VECTOR_B].size = GAMMA_LENGTH * sizeof (Sane.Word)
+  dev.opt[OPT_GAMMA_VECTOR_B].size = GAMMA_LENGTH * sizeof(Sane.Word)
   dev.opt[OPT_GAMMA_VECTOR_B].constraint_type = Sane.CONSTRAINT_RANGE
   dev.opt[OPT_GAMMA_VECTOR_B].constraint.range = &gamma_range
   dev.val[OPT_GAMMA_VECTOR_B].wa = dev.gamma_B
@@ -801,7 +801,7 @@ sceptre_init_options (Sceptre_Scanner * dev)
   dev.opt[OPT_THRESHOLD].desc = Sane.DESC_THRESHOLD
   dev.opt[OPT_THRESHOLD].type = Sane.TYPE_INT
   dev.opt[OPT_THRESHOLD].unit = Sane.UNIT_NONE
-  dev.opt[OPT_THRESHOLD].size = sizeof (Int)
+  dev.opt[OPT_THRESHOLD].size = sizeof(Int)
   dev.opt[OPT_THRESHOLD].cap |= Sane.CAP_INACTIVE
   dev.opt[OPT_THRESHOLD].constraint_type = Sane.CONSTRAINT_RANGE
   dev.opt[OPT_THRESHOLD].constraint.range = &threshold_range
@@ -812,7 +812,7 @@ sceptre_init_options (Sceptre_Scanner * dev)
   dev.opt[OPT_HALFTONE_PATTERN].title = Sane.TITLE_HALFTONE_PATTERN
   dev.opt[OPT_HALFTONE_PATTERN].desc = Sane.DESC_HALFTONE_PATTERN
   dev.opt[OPT_HALFTONE_PATTERN].type = Sane.TYPE_INT
-  dev.opt[OPT_HALFTONE_PATTERN].size = sizeof (Int)
+  dev.opt[OPT_HALFTONE_PATTERN].size = sizeof(Int)
   dev.opt[OPT_HALFTONE_PATTERN].cap |= Sane.CAP_INACTIVE
   dev.opt[OPT_HALFTONE_PATTERN].constraint_type = Sane.CONSTRAINT_RANGE
   dev.opt[OPT_HALFTONE_PATTERN].constraint.range = &halftone_range
@@ -828,10 +828,10 @@ sceptre_init_options (Sceptre_Scanner * dev)
 
   /* Lastly, set the default mode. This might change some values
    * previously set here. */
-  Sane.control_option (dev, OPT_MODE, Sane.ACTION_SET_VALUE,
+  Sane.control_option(dev, OPT_MODE, Sane.ACTION_SET_VALUE,
 		       (String *) COLOR_STR, NULL)
 
-  DBG (DBG_proc, "sceptre_init_options: leave\n")
+  DBG(DBG_proc, "sceptre_init_options: leave\n")
 }
 
 /* Wait until the scanner is ready.
@@ -840,22 +840,22 @@ sceptre_init_options (Sceptre_Scanner * dev)
  * moving the CCD.
  */
 static Sane.Status
-sceptre_wait_scanner (Sceptre_Scanner * dev)
+sceptre_wait_scanner(Sceptre_Scanner * dev)
 {
   Sane.Status status
   Int timeout
   CDB cdb
   size_t size
 
-  DBG (DBG_proc, "sceptre_wait_scanner: enter\n")
+  DBG(DBG_proc, "sceptre_wait_scanner: enter\n")
 
-  MKSCSI_TEST_UNIT_READY (cdb)
+  MKSCSI_TEST_UNIT_READY(cdb)
   cdb.data[4] = 1;		/* returns one byte. Non standard SCSI. */
 
   /* Set the timeout to 120 seconds. */
   timeout = 120
 
-  while (timeout > 0)
+  while(timeout > 0)
     {
 
       /* test unit ready */
@@ -864,52 +864,52 @@ sceptre_wait_scanner (Sceptre_Scanner * dev)
 	sanei_scsi_cmd2 (dev.sfd, cdb.data, cdb.len,
 			 NULL, 0, dev.buffer, &size)
 
-      if (status != Sane.STATUS_GOOD || size != 1)
+      if(status != Sane.STATUS_GOOD || size != 1)
 	{
-	  DBG (DBG_error, "sceptre_wait_scanner: TUR failed\n")
-	  return (Sane.STATUS_IO_ERROR)
+	  DBG(DBG_error, "sceptre_wait_scanner: TUR failed\n")
+	  return(Sane.STATUS_IO_ERROR)
 	}
 
       /* Apparently the scanner returns only 2 values:
        *   0x00 - ready
        *   0xff - not ready
        */
-      if (dev.buffer[0] != 0x00)
+      if(dev.buffer[0] != 0x00)
 	{
-	  sleep (1);		/* wait 1 seconds */
+	  sleep(1);		/* wait 1 seconds */
 	  timeout--
 	}
       else
 	{
-	  return (Sane.STATUS_GOOD)
+	  return(Sane.STATUS_GOOD)
 	}
     ]
 
-  DBG (DBG_proc, "sceptre_wait_scanner: scanner not ready\n")
-  return (Sane.STATUS_IO_ERROR)
+  DBG(DBG_proc, "sceptre_wait_scanner: scanner not ready\n")
+  return(Sane.STATUS_IO_ERROR)
 }
 
 /* Diagnostic the scanner. */
 static Sane.Status
-sceptre_do_diag (Sceptre_Scanner * dev)
+sceptre_do_diag(Sceptre_Scanner * dev)
 {
   Sane.Status status
   CDB cdb
   size_t size
 
-  DBG (DBG_proc, "sceptre_receive_diag enter\n")
+  DBG(DBG_proc, "sceptre_receive_diag enter\n")
 
   /* SEND DIAGNOSTIC. */
-  MKSCSI_SEND_DIAG (cdb, 0)
+  MKSCSI_SEND_DIAG(cdb, 0)
 
   /* The windows driver sets that field. This is non standard. */
   cdb.data[2] = 0x80
 
   status = sanei_scsi_cmd2 (dev.sfd, cdb.data, cdb.len, NULL, 0, NULL, NULL)
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "sceptre_do_diag: exit, status=%d\n", status)
-      return (status)
+      DBG(DBG_error, "sceptre_do_diag: exit, status=%d\n", status)
+      return(status)
     }
 
   /* RECEIVE DIAGNOSTIC */
@@ -917,86 +917,86 @@ sceptre_do_diag (Sceptre_Scanner * dev)
   /* The windows driver ask for 3 byte. This is non standard
    * SCSI. The page returned should be at least 4 bytes. */
   size = 3
-  MKSCSI_RECEIVE_DIAG (cdb, 0, size)
+  MKSCSI_RECEIVE_DIAG(cdb, 0, size)
 
   status = sanei_scsi_cmd2 (dev.sfd, cdb.data, cdb.len,
 			    NULL, 0, dev.buffer, &size)
 
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "sceptre_do_diag: exit, status=%d\n", status)
-      return (status)
+      DBG(DBG_error, "sceptre_do_diag: exit, status=%d\n", status)
+      return(status)
     }
 
-  DBG (DBG_proc, "sceptre_receive_diag exit\n")
+  DBG(DBG_proc, "sceptre_receive_diag exit\n")
 
-  return (status)
+  return(status)
 }
 
 /* I'm not sure if the command sent is really set mode. The SCSI
  * command used is MODE SELECT, but no data is sent. Again, this is
  * not standard. */
 static Sane.Status
-sceptre_set_mode (Sceptre_Scanner * dev)
+sceptre_set_mode(Sceptre_Scanner * dev)
 {
   Sane.Status status
   CDB cdb
   size_t size
 
-  DBG (DBG_proc, "sceptre_set_mode: enter\n")
+  DBG(DBG_proc, "sceptre_set_mode: enter\n")
 
   size = 0x18
-  MKSCSI_MODE_SELECT (cdb, 1, 0, size)
+  MKSCSI_MODE_SELECT(cdb, 1, 0, size)
 
   status = sanei_scsi_cmd2 (dev.sfd, cdb.data, cdb.len, NULL, 0, NULL, NULL)
 
-  DBG (DBG_proc, "sceptre_set_mode: exit, status=%d\n", status)
+  DBG(DBG_proc, "sceptre_set_mode: exit, status=%d\n", status)
 
-  return (status)
+  return(status)
 }
 
 /* Start a scan. */
 static Sane.Status
-sceptre_scan (Sceptre_Scanner * dev)
+sceptre_scan(Sceptre_Scanner * dev)
 {
   CDB cdb
   Sane.Status status
 
-  DBG (DBG_proc, "sceptre_scan: enter\n")
+  DBG(DBG_proc, "sceptre_scan: enter\n")
 
-  MKSCSI_SCAN (cdb)
+  MKSCSI_SCAN(cdb)
 
   status = sanei_scsi_cmd2 (dev.sfd, cdb.data, cdb.len, NULL, 0, NULL, NULL)
 
-  DBG (DBG_proc, "sceptre_scan: exit, status=%d\n", status)
+  DBG(DBG_proc, "sceptre_scan: exit, status=%d\n", status)
 
   return status
 }
 
 /* Set a window. */
 static Sane.Status
-sceptre_set_window (Sceptre_Scanner * dev)
+sceptre_set_window(Sceptre_Scanner * dev)
 {
   size_t size
   CDB cdb
   unsigned char window[82]
   Sane.Status status
 
-  DBG (DBG_proc, "sceptre_set_window: enter\n")
+  DBG(DBG_proc, "sceptre_set_window: enter\n")
 
-  size = sizeof (window)
-  MKSCSI_SET_WINDOW (cdb, size)
+  size = sizeof(window)
+  MKSCSI_SET_WINDOW(cdb, size)
 
-  memset (window, 0, size)
+  memset(window, 0, size)
 
-  /* size of the parameters (74 = 0x4a bytes) */
-  window[7] = sizeof (window) - 8
+  /* size of the parameters(74 = 0x4a bytes) */
+  window[7] = sizeof(window) - 8
 
   /* X and Y resolution */
   Ito16 (dev.resolution, &window[10])
   Ito16 (dev.resolution, &window[12])
 
-  /* Upper Left (X,Y) */
+  /* Upper Left(X,Y) */
   Ito32 (dev.x_tl, &window[14])
   Ito32 (dev.y_tl, &window[18])
 
@@ -1005,7 +1005,7 @@ sceptre_set_window (Sceptre_Scanner * dev)
   Ito32 (dev.length, &window[26])
 
   /* Image Composition, Halftone and Depth */
-  switch (dev.scan_mode)
+  switch(dev.scan_mode)
     {
     case SCEPTRE_LINEART:
       window[31] = dev.val[OPT_THRESHOLD].w
@@ -1038,29 +1038,29 @@ sceptre_set_window (Sceptre_Scanner * dev)
   window[32] = 0x04
   window[37] = 0x80;		/* RIF, although it looks unused. */
 
-  hexdump (DBG_info2, "windows", window, sizeof (window))
+  hexdump(DBG_info2, "windows", window, sizeof(window))
 
   status = sanei_scsi_cmd2 (dev.sfd, cdb.data, cdb.len,
-			    window, sizeof (window), NULL, NULL)
+			    window, sizeof(window), NULL, NULL)
 
-  DBG (DBG_proc, "sceptre_set_window: exit, status=%d\n", status)
+  DBG(DBG_proc, "sceptre_set_window: exit, status=%d\n", status)
 
   return status
 }
 
 /* Read the image from the scanner and fill the temporary buffer with it. */
 static Sane.Status
-sceptre_fill_image (Sceptre_Scanner * dev)
+sceptre_fill_image(Sceptre_Scanner * dev)
 {
   Sane.Status status
   size_t size
   CDB cdb
   size_t data_left
 
-  DBG (DBG_proc, "sceptre_fill_image: enter\n")
+  DBG(DBG_proc, "sceptre_fill_image: enter\n")
 
-  assert (dev.image_begin == dev.image_end)
-  assert (dev.real_bytes_left > 0)
+  assert(dev.image_begin == dev.image_end)
+  assert(dev.real_bytes_left > 0)
 
   /* Copy the complete lines, plus the imcompletes
    * ones. We don't keep the real end of data used
@@ -1068,31 +1068,31 @@ sceptre_fill_image (Sceptre_Scanner * dev)
    *
    * This is a no-op for non color images.
    */
-  memmove (dev.image, dev.image + dev.image_begin, dev.raster_ahead)
+  memmove(dev.image, dev.image + dev.image_begin, dev.raster_ahead)
   dev.image_begin = 0
   dev.image_end = 0
 
-  while (dev.real_bytes_left)
+  while(dev.real_bytes_left)
     {
 
-      if ((status = sceptre_get_status (dev, &data_left)) != Sane.STATUS_GOOD)
+      if((status = sceptre_get_status(dev, &data_left)) != Sane.STATUS_GOOD)
 	{
-	  return (status)
+	  return(status)
 	}
 
       /*
        * Try to read the maximum number of bytes.
        */
       size = data_left
-      if (size > dev.real_bytes_left)
+      if(size > dev.real_bytes_left)
 	{
 	  size = dev.real_bytes_left
 	}
-      if (size > dev.image_size - dev.raster_ahead - dev.image_end)
+      if(size > dev.image_size - dev.raster_ahead - dev.image_end)
 	{
 	  size = dev.image_size - dev.raster_ahead - dev.image_end
 	}
-      if (size > dev.buffer_size)
+      if(size > dev.buffer_size)
 	{
 	  size = dev.buffer_size
 	}
@@ -1100,38 +1100,38 @@ sceptre_fill_image (Sceptre_Scanner * dev)
       /* Round down to a multiple of line size. */
       size = size - (size % dev.params.bytes_per_line)
 
-      if (size == 0)
+      if(size == 0)
 	{
 	  /* Probably reached the end of the buffer.
 	   * Check, just in case. */
-	  assert (dev.image_end != 0)
-	  return (Sane.STATUS_GOOD)
+	  assert(dev.image_end != 0)
+	  return(Sane.STATUS_GOOD)
 	}
 
-      DBG (DBG_info, "sceptre_fill_image: to read   = %ld bytes (bpl=%d)\n",
+      DBG(DBG_info, "sceptre_fill_image: to read   = %ld bytes(bpl=%d)\n",
 	   (long) size, dev.params.bytes_per_line)
 
       MKSCSI_READ_10 (cdb, 0, 0, size)
 
-      hexdump (DBG_info2, "sceptre_fill_image: READ_10 CDB", cdb.data, 10)
+      hexdump(DBG_info2, "sceptre_fill_image: READ_10 CDB", cdb.data, 10)
 
       status = sanei_scsi_cmd2 (dev.sfd, cdb.data, cdb.len,
 				NULL, 0, dev.buffer, &size)
 
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (DBG_error,
+	  DBG(DBG_error,
 	       "sceptre_fill_image: cannot read from the scanner\n")
 	  return status
 	}
 
-      DBG (DBG_info, "sceptre_fill_image: real bytes left = %ld\n",
+      DBG(DBG_info, "sceptre_fill_image: real bytes left = %ld\n",
 	   (long)dev.real_bytes_left)
 
-      switch (dev.scan_mode)
+      switch(dev.scan_mode)
 	{
 	case SCEPTRE_COLOR:
-	  sceptre_adjust_raster (dev, size)
+	  sceptre_adjust_raster(dev, size)
 	  break
 	case SCEPTRE_LINEART:
 	case SCEPTRE_HALFTONE:
@@ -1140,7 +1140,7 @@ sceptre_fill_image (Sceptre_Scanner * dev)
 	    unsigned char *src = dev.buffer
 	    unsigned char *dest = dev.image + dev.image_end
 	    size_t i
-	    for (i = 0; i < size; i++)
+	    for(i = 0; i < size; i++)
 	      {
 		*dest = *src ^ 0xff
 		dest++
@@ -1150,14 +1150,14 @@ sceptre_fill_image (Sceptre_Scanner * dev)
 	  }
 	  break
 	default:
-	  memcpy (dev.image + dev.image_end, dev.buffer, size)
+	  memcpy(dev.image + dev.image_end, dev.buffer, size)
 	  dev.image_end += size
 	}
 
       dev.real_bytes_left -= size
     }
 
-  return (Sane.STATUS_GOOD);	/* unreachable */
+  return(Sane.STATUS_GOOD);	/* unreachable */
 }
 
 /* Copy from the raw buffer to the buffer given by the backend.
@@ -1166,30 +1166,30 @@ sceptre_fill_image (Sceptre_Scanner * dev)
  * output, is the length written into buf.
  */
 static void
-sceptre_copy_raw_to_frontend (Sceptre_Scanner * dev, Sane.Byte * buf,
+sceptre_copy_raw_to_frontend(Sceptre_Scanner * dev, Sane.Byte * buf,
 			      size_t * len)
 {
   size_t size
 
   size = dev.image_end - dev.image_begin
-  if (size > *len)
+  if(size > *len)
     {
       size = *len
     }
   *len = size
 
-  memcpy (buf, dev.image + dev.image_begin, size)
+  memcpy(buf, dev.image + dev.image_begin, size)
 
   dev.image_begin += size
 }
 
 /* Stop a scan. */
 static Sane.Status
-do_cancel (Sceptre_Scanner * dev)
+do_cancel(Sceptre_Scanner * dev)
 {
-  DBG (DBG_Sane.proc, "do_cancel enter\n")
+  DBG(DBG_Sane.proc, "do_cancel enter\n")
 
-  if (dev.scanning == Sane.TRUE)
+  if(dev.scanning == Sane.TRUE)
     {
 
       /* Reposition the CCD. */
@@ -1197,15 +1197,15 @@ do_cancel (Sceptre_Scanner * dev)
       dev.x_tl = 0
       dev.width = 0
       dev.length = 0
-      sceptre_set_window (dev)
-      sceptre_scan (dev)
+      sceptre_set_window(dev)
+      sceptre_scan(dev)
 
-      sceptre_close (dev)
+      sceptre_close(dev)
     }
 
   dev.scanning = Sane.FALSE
 
-  DBG (DBG_Sane.proc, "do_cancel exit\n")
+  DBG(DBG_Sane.proc, "do_cancel exit\n")
 
   return Sane.STATUS_CANCELLED
 }
@@ -1247,7 +1247,7 @@ static const Sane.Word gamma_init[GAMMA_LENGTH] = {
 ]
 
 static Sane.Status
-sceptre_send_gamma (Sceptre_Scanner * dev)
+sceptre_send_gamma(Sceptre_Scanner * dev)
 {
   CDB cdb
   var i: Int
@@ -1261,18 +1261,18 @@ sceptre_send_gamma (Sceptre_Scanner * dev)
   size_t size
   Sane.Status status
 
-  DBG (DBG_proc, "sceptre_send_gamma: enter\n")
+  DBG(DBG_proc, "sceptre_send_gamma: enter\n")
 
-  size = sizeof (param)
+  size = sizeof(param)
 
-  assert (size == 0x300)
+  assert(size == 0x300)
 
   MKSCSI_SEND_10 (cdb, 0x03, 0x02, size)
 
-  if (dev.val[OPT_CUSTOM_GAMMA].w)
+  if(dev.val[OPT_CUSTOM_GAMMA].w)
     {
       /* Use the custom gamma. */
-      for (i = 0; i < GAMMA_LENGTH; i++)
+      for(i = 0; i < GAMMA_LENGTH; i++)
 	{
 	  param.gamma_R[i] = dev.gamma_R[i]
 	  param.gamma_G[i] = dev.gamma_G[i]
@@ -1281,7 +1281,7 @@ sceptre_send_gamma (Sceptre_Scanner * dev)
     }
   else
     {
-      for (i = 0; i < GAMMA_LENGTH; i++)
+      for(i = 0; i < GAMMA_LENGTH; i++)
 	{
 	  param.gamma_R[i] = gamma_init[i]
 	  param.gamma_G[i] = gamma_init[i]
@@ -1289,14 +1289,14 @@ sceptre_send_gamma (Sceptre_Scanner * dev)
 	}
     }
 
-  hexdump (DBG_info2, "gamma", param.gamma_R, 3 * GAMMA_LENGTH)
+  hexdump(DBG_info2, "gamma", param.gamma_R, 3 * GAMMA_LENGTH)
 
   status = sanei_scsi_cmd2 (dev.sfd, cdb.data, cdb.len,
-			    &param, sizeof (param), NULL, NULL)
+			    &param, sizeof(param), NULL, NULL)
 
-  DBG (DBG_proc, "sceptre_send_gamma: exit, status=%d\n", status)
+  DBG(DBG_proc, "sceptre_send_gamma: exit, status=%d\n", status)
 
-  return (status)
+  return(status)
 }
 
 /*--------------------------------------------------------------------------*/
@@ -1304,104 +1304,104 @@ sceptre_send_gamma (Sceptre_Scanner * dev)
 /* Entry points */
 
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 {
   FILE *fp
   char dev_name[PATH_MAX]
   size_t len
 
-  DBG_INIT ()
+  DBG_INIT()
 
-  DBG (DBG_proc, "Sane.init: enter\n")
+  DBG(DBG_proc, "Sane.init: enter\n")
 
-  DBG (DBG_error, "This is sane-sceptre version %d.%d-%d\n", Sane.CURRENT_MAJOR,
+  DBG(DBG_error, "This is sane-sceptre version %d.%d-%d\n", Sane.CURRENT_MAJOR,
        V_MINOR, BUILD)
-  DBG (DBG_error, "(C) 2002 by Frank Zago\n")
+  DBG(DBG_error, "(C) 2002 by Frank Zago\n")
 
-  if (version_code)
+  if(version_code)
     {
-      *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, BUILD)
+      *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, BUILD)
     }
 
-  fp = sanei_config_open (SCEPTRE_CONFIG_FILE)
-  if (!fp)
+  fp = sanei_config_open(SCEPTRE_CONFIG_FILE)
+  if(!fp)
     {
       /* default to /dev/scanner instead of insisting on config file */
-      attach_scanner ("/dev/scanner", 0)
+      attach_scanner("/dev/scanner", 0)
       return Sane.STATUS_GOOD
     }
 
-  while (sanei_config_read (dev_name, sizeof (dev_name), fp))
+  while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if (dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == '#')	/* ignore line comments */
 	continue
-      len = strlen (dev_name)
+      len = strlen(dev_name)
 
-      if (!len)
+      if(!len)
 	continue;		/* ignore empty lines */
 
-      sanei_config_attach_matching_devices (dev_name, attach_one)
+      sanei_config_attach_matching_devices(dev_name, attach_one)
     }
 
-  fclose (fp)
+  fclose(fp)
 
-  DBG (DBG_proc, "Sane.init: leave\n")
+  DBG(DBG_proc, "Sane.init: leave\n")
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool __Sane.unused__ local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool __Sane.unused__ local_only)
 {
   Sceptre_Scanner *dev
   var i: Int
 
-  DBG (DBG_proc, "Sane.get_devices: enter\n")
+  DBG(DBG_proc, "Sane.get_devices: enter\n")
 
-  if (devlist)
-    free (devlist)
+  if(devlist)
+    free(devlist)
 
-  devlist = malloc ((num_devices + 1) * sizeof (devlist[0]))
-  if (!devlist)
+  devlist = malloc((num_devices + 1) * sizeof(devlist[0]))
+  if(!devlist)
     return Sane.STATUS_NO_MEM
 
   i = 0
-  for (dev = first_dev; i < num_devices; dev = dev.next)
+  for(dev = first_dev; i < num_devices; dev = dev.next)
     devlist[i++] = &dev.sane
   devlist[i++] = 0
 
   *device_list = devlist
 
-  DBG (DBG_proc, "Sane.get_devices: exit\n")
+  DBG(DBG_proc, "Sane.get_devices: exit\n")
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
+Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 {
   Sceptre_Scanner *dev
   Sane.Status status
 
-  DBG (DBG_proc, "Sane.open: enter\n")
+  DBG(DBG_proc, "Sane.open: enter\n")
 
   /* search for devicename */
-  if (devicename[0])
+  if(devicename[0])
     {
-      DBG (DBG_info, "Sane.open: devicename=%s\n", devicename)
+      DBG(DBG_info, "Sane.open: devicename=%s\n", devicename)
 
-      for (dev = first_dev; dev; dev = dev.next)
+      for(dev = first_dev; dev; dev = dev.next)
 	{
-	  if (strcmp (dev.sane.name, devicename) == 0)
+	  if(strcmp(dev.sane.name, devicename) == 0)
 	    {
 	      break
 	    }
 	}
 
-      if (!dev)
+      if(!dev)
 	{
-	  status = attach_scanner (devicename, &dev)
-	  if (status != Sane.STATUS_GOOD)
+	  status = attach_scanner(devicename, &dev)
+	  if(status != Sane.STATUS_GOOD)
 	    {
 	      return status
 	    }
@@ -1409,84 +1409,84 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
     }
   else
     {
-      DBG (DBG_Sane.info, "Sane.open: no devicename, opening first device\n")
+      DBG(DBG_Sane.info, "Sane.open: no devicename, opening first device\n")
       dev = first_dev;		/* empty devicename -> use first device */
     }
 
-  if (!dev)
+  if(!dev)
     {
-      DBG (DBG_error, "No scanner found\n")
+      DBG(DBG_error, "No scanner found\n")
 
       return Sane.STATUS_INVAL
     }
 
-  sceptre_init_options (dev)
+  sceptre_init_options(dev)
 
   /* Initialize the gamma table. */
-  memcpy (dev.gamma_R, gamma_init, dev.opt[OPT_GAMMA_VECTOR_R].size)
-  memcpy (dev.gamma_G, gamma_init, dev.opt[OPT_GAMMA_VECTOR_G].size)
-  memcpy (dev.gamma_B, gamma_init, dev.opt[OPT_GAMMA_VECTOR_B].size)
+  memcpy(dev.gamma_R, gamma_init, dev.opt[OPT_GAMMA_VECTOR_R].size)
+  memcpy(dev.gamma_G, gamma_init, dev.opt[OPT_GAMMA_VECTOR_G].size)
+  memcpy(dev.gamma_B, gamma_init, dev.opt[OPT_GAMMA_VECTOR_B].size)
 
   *handle = dev
 
-  DBG (DBG_proc, "Sane.open: exit\n")
+  DBG(DBG_proc, "Sane.open: exit\n")
 
   return Sane.STATUS_GOOD
 }
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
   Sceptre_Scanner *dev = handle
 
-  DBG (DBG_proc, "Sane.get_option_descriptor: enter, option %d\n", option)
+  DBG(DBG_proc, "Sane.get_option_descriptor: enter, option %d\n", option)
 
-  if ((unsigned) option >= OPT_NUM_OPTIONS)
+  if((unsigned) option >= OPT_NUM_OPTIONS)
     {
       return NULL
     }
 
-  DBG (DBG_proc, "Sane.get_option_descriptor: exit\n")
+  DBG(DBG_proc, "Sane.get_option_descriptor: exit\n")
 
   return dev.opt + option
 }
 
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
 		     Sane.Action action, void *val, Int * info)
 {
   Sceptre_Scanner *dev = handle
   Sane.Status status
   Sane.Word cap
 
-  DBG (DBG_proc, "Sane.control_option: enter, option %d, action %d\n",
+  DBG(DBG_proc, "Sane.control_option: enter, option %d, action %d\n",
        option, action)
 
-  if (info)
+  if(info)
     {
       *info = 0
     }
 
-  if (dev.scanning)
+  if(dev.scanning)
     {
       return Sane.STATUS_DEVICE_BUSY
     }
 
-  if (option < 0 || option >= OPT_NUM_OPTIONS)
+  if(option < 0 || option >= OPT_NUM_OPTIONS)
     {
       return Sane.STATUS_INVAL
     }
 
   cap = dev.opt[option].cap
-  if (!Sane.OPTION_IS_ACTIVE (cap))
+  if(!Sane.OPTION_IS_ACTIVE(cap))
     {
       return Sane.STATUS_INVAL
     }
 
-  if (action == Sane.ACTION_GET_VALUE)
+  if(action == Sane.ACTION_GET_VALUE)
     {
 
-      switch (option)
+      switch(option)
 	{
 	  /* word options */
 	case OPT_NUM_OPTS:
@@ -1505,36 +1505,36 @@ Sane.control_option (Sane.Handle handle, Int option,
 
 	  /* string options */
 	case OPT_MODE:
-	  strcpy (val, dev.val[option].s)
+	  strcpy(val, dev.val[option].s)
 	  return Sane.STATUS_GOOD
 
 	case OPT_GAMMA_VECTOR_R:
 	case OPT_GAMMA_VECTOR_G:
 	case OPT_GAMMA_VECTOR_B:
-	  memcpy (val, dev.val[option].wa, dev.opt[option].size)
+	  memcpy(val, dev.val[option].wa, dev.opt[option].size)
 	  return Sane.STATUS_GOOD
 
 	default:
 	  return Sane.STATUS_INVAL
 	}
     }
-  else if (action == Sane.ACTION_SET_VALUE)
+  else if(action == Sane.ACTION_SET_VALUE)
     {
 
-      if (!Sane.OPTION_IS_SETTABLE (cap))
+      if(!Sane.OPTION_IS_SETTABLE(cap))
 	{
-	  DBG (DBG_error, "could not set option, not settable\n")
+	  DBG(DBG_error, "could not set option, not settable\n")
 	  return Sane.STATUS_INVAL
 	}
 
-      status = sanei_constrain_value (dev.opt + option, val, info)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_constrain_value(dev.opt + option, val, info)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (DBG_error, "could not set option, invalid value\n")
+	  DBG(DBG_error, "could not set option, invalid value\n")
 	  return status
 	}
 
-      switch (option)
+      switch(option)
 	{
 
 	  /* Side-effect options */
@@ -1543,7 +1543,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_BR_X:
 	case OPT_BR_Y:
 	case OPT_RESOLUTION:
-	  if (info)
+	  if(info)
 	    {
 	      *info |= Sane.INFO_RELOAD_PARAMS
 	    }
@@ -1558,8 +1558,8 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  return Sane.STATUS_GOOD
 
 	case OPT_MODE:
-	  free (dev.val[OPT_MODE].s)
-	  dev.val[OPT_MODE].s = (Sane.Char *) strdup (val)
+	  free(dev.val[OPT_MODE].s)
+	  dev.val[OPT_MODE].s = (Sane.Char *) strdup(val)
 
 	  /* Set default options for the scan modes. */
 	  dev.opt[OPT_THRESHOLD].cap |= Sane.CAP_INACTIVE
@@ -1569,25 +1569,25 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  dev.opt[OPT_GAMMA_VECTOR_B].cap |= Sane.CAP_INACTIVE
 	  dev.opt[OPT_HALFTONE_PATTERN].cap |= Sane.CAP_INACTIVE
 
-	  if (strcmp (dev.val[OPT_MODE].s, LINEART_STR) == 0)
+	  if(strcmp(dev.val[OPT_MODE].s, LINEART_STR) == 0)
 	    {
 	      dev.scan_mode = SCEPTRE_LINEART
 	      dev.opt[OPT_THRESHOLD].cap &= ~Sane.CAP_INACTIVE
 	    }
-	  else if (strcmp (dev.val[OPT_MODE].s, HALFTONE_STR) == 0)
+	  else if(strcmp(dev.val[OPT_MODE].s, HALFTONE_STR) == 0)
 	    {
 	      dev.scan_mode = SCEPTRE_HALFTONE
 	      dev.opt[OPT_HALFTONE_PATTERN].cap &= ~Sane.CAP_INACTIVE
 	    }
-	  else if (strcmp (dev.val[OPT_MODE].s, GRAY_STR) == 0)
+	  else if(strcmp(dev.val[OPT_MODE].s, GRAY_STR) == 0)
 	    {
 	      dev.scan_mode = SCEPTRE_GRAYSCALE
 	    }
-	  else if (strcmp (dev.val[OPT_MODE].s, COLOR_STR) == 0)
+	  else if(strcmp(dev.val[OPT_MODE].s, COLOR_STR) == 0)
 	    {
 	      dev.scan_mode = SCEPTRE_COLOR
 	      dev.opt[OPT_CUSTOM_GAMMA].cap &= ~Sane.CAP_INACTIVE
-	      if (dev.val[OPT_CUSTOM_GAMMA].w)
+	      if(dev.val[OPT_CUSTOM_GAMMA].w)
 		{
 		  dev.opt[OPT_GAMMA_VECTOR_R].cap &= ~Sane.CAP_INACTIVE
 		  dev.opt[OPT_GAMMA_VECTOR_G].cap &= ~Sane.CAP_INACTIVE
@@ -1595,7 +1595,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 		}
 	    }
 
-	  if (info)
+	  if(info)
 	    {
 	      *info |= Sane.INFO_RELOAD_OPTIONS | Sane.INFO_RELOAD_PARAMS
 	    }
@@ -1604,12 +1604,12 @@ Sane.control_option (Sane.Handle handle, Int option,
 	case OPT_GAMMA_VECTOR_R:
 	case OPT_GAMMA_VECTOR_G:
 	case OPT_GAMMA_VECTOR_B:
-	  memcpy (dev.val[option].wa, val, dev.opt[option].size)
+	  memcpy(dev.val[option].wa, val, dev.opt[option].size)
 	  return Sane.STATUS_GOOD
 
 	case OPT_CUSTOM_GAMMA:
 	  dev.val[OPT_CUSTOM_GAMMA].w = *(Sane.Word *) val
-	  if (dev.val[OPT_CUSTOM_GAMMA].w)
+	  if(dev.val[OPT_CUSTOM_GAMMA].w)
 	    {
 	      /* use custom_gamma_table */
 	      dev.opt[OPT_GAMMA_VECTOR_R].cap &= ~Sane.CAP_INACTIVE
@@ -1622,7 +1622,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	      dev.opt[OPT_GAMMA_VECTOR_G].cap |= Sane.CAP_INACTIVE
 	      dev.opt[OPT_GAMMA_VECTOR_B].cap |= Sane.CAP_INACTIVE
 	    }
-	  if (info)
+	  if(info)
 	    {
 	      *info |= Sane.INFO_RELOAD_OPTIONS
 	    }
@@ -1633,31 +1633,31 @@ Sane.control_option (Sane.Handle handle, Int option,
 	}
     }
 
-  DBG (DBG_proc, "Sane.control_option: exit, bad\n")
+  DBG(DBG_proc, "Sane.control_option: exit, bad\n")
 
   return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
   Sceptre_Scanner *dev = handle
   Int x_dpi;			/* X-Resolution */
 
-  DBG (DBG_proc, "Sane.get_parameters: enter\n")
+  DBG(DBG_proc, "Sane.get_parameters: enter\n")
 
-  if (!(dev.scanning))
+  if(!(dev.scanning))
     {
       /* Prepare the parameters for the caller. */
-      memset (&dev.params, 0, sizeof (Sane.Parameters))
+      memset(&dev.params, 0, sizeof(Sane.Parameters))
 
-      if (dev.val[OPT_PREVIEW].w == Sane.TRUE)
+      if(dev.val[OPT_PREVIEW].w == Sane.TRUE)
 	{
 	  dev.resolution = 30;	/* Windows TWAIN does 32 */
 	  dev.x_tl = 0
 	  dev.y_tl = 0
-	  dev.x_br = mmToIlu (Sane.UNFIX (dev.x_range.max))
-	  dev.y_br = mmToIlu (Sane.UNFIX (dev.y_range.max))
+	  dev.x_br = mmToIlu(Sane.UNFIX(dev.x_range.max))
+	  dev.y_br = mmToIlu(Sane.UNFIX(dev.y_range.max))
 	}
       else
 	{
@@ -1665,21 +1665,21 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 	   * in the SET WINDOWS command. */
 	  dev.resolution = dev.val[OPT_RESOLUTION].w
 
-	  dev.x_tl = mmToIlu (Sane.UNFIX (dev.val[OPT_TL_X].w))
-	  dev.y_tl = mmToIlu (Sane.UNFIX (dev.val[OPT_TL_Y].w))
-	  dev.x_br = mmToIlu (Sane.UNFIX (dev.val[OPT_BR_X].w))
-	  dev.y_br = mmToIlu (Sane.UNFIX (dev.val[OPT_BR_Y].w))
+	  dev.x_tl = mmToIlu(Sane.UNFIX(dev.val[OPT_TL_X].w))
+	  dev.y_tl = mmToIlu(Sane.UNFIX(dev.val[OPT_TL_Y].w))
+	  dev.x_br = mmToIlu(Sane.UNFIX(dev.val[OPT_BR_X].w))
+	  dev.y_br = mmToIlu(Sane.UNFIX(dev.val[OPT_BR_Y].w))
 	}
 
       /* Check the corners are OK. */
-      if (dev.x_tl > dev.x_br)
+      if(dev.x_tl > dev.x_br)
 	{
 	  Int s
 	  s = dev.x_tl
 	  dev.x_tl = dev.x_br
 	  dev.x_br = s
 	}
-      if (dev.y_tl > dev.y_br)
+      if(dev.y_tl > dev.y_br)
 	{
 	  Int s
 	  s = dev.y_tl
@@ -1694,16 +1694,16 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
        * Adjust the "X Resolution".  The sceptre S1200 ignores the
        * Y-Resolution parameter in the windows block. X-Resolution
        * is used instead. However the limits are not the same for X
-       * (600 dpi) and Y (1200 dpi).
+       * (600 dpi) and Y(1200 dpi).
        */
       x_dpi = dev.resolution
-      if (x_dpi > 600)
+      if(x_dpi > 600)
 	{
 	  x_dpi = 600
 	}
 
       /* Set depth */
-      switch (dev.scan_mode)
+      switch(dev.scan_mode)
 	{
 	case SCEPTRE_LINEART:
 	  dev.params.format = Sane.FRAME_GRAY
@@ -1728,7 +1728,7 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
       dev.params.depth = dev.depth
 
       /* Compute the number of pixels, bytes per lines and lines. */
-      switch (dev.scan_mode)
+      switch(dev.scan_mode)
 	{
 	case SCEPTRE_LINEART:
 	case SCEPTRE_HALFTONE:
@@ -1738,7 +1738,7 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 	  dev.params.bytes_per_line = (dev.params.pixels_per_line) / 8
 
 	  dev.params.lines = ((dev.length * dev.resolution) / 600)
-	  if ((dev.params.lines) * 600 != (dev.length * dev.resolution))
+	  if((dev.params.lines) * 600 != (dev.length * dev.resolution))
 	    {
 	      /* Round up lines to 2. */
 	      dev.params.lines &= ~1
@@ -1754,9 +1754,9 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 	   *  2n + ]1.0 .. 2.0]  -> round to 2n + 2
 	   */
 	  dev.params.pixels_per_line = (dev.width * x_dpi) / 600
-	  if (dev.params.pixels_per_line & 1)
+	  if(dev.params.pixels_per_line & 1)
 	    {
-	      if ((dev.params.pixels_per_line * 600) == (dev.width * x_dpi))
+	      if((dev.params.pixels_per_line * 600) == (dev.width * x_dpi))
 		{
 		  /* 2n */
 		  dev.params.pixels_per_line--
@@ -1769,14 +1769,14 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 	    }
 
 	  dev.params.bytes_per_line = dev.params.pixels_per_line
-	  if (dev.scan_mode == SCEPTRE_COLOR)
+	  if(dev.scan_mode == SCEPTRE_COLOR)
 	    dev.params.bytes_per_line *= 3
 
 	  /* lines number rounding rules:
 	   *   2n + [0.0 .. 2.0[  -> round to 2n
 	   *
 	   * Note: the rounding is often incorrect at high
-	   * resolution (ag more than 300dpi)
+	   * resolution(ag more than 300dpi)
 	   */
 	  dev.params.lines = (dev.length * dev.resolution) / 600
 	  dev.params.lines &= ~1
@@ -1785,10 +1785,10 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 	}
 
       /* Find the proper color shifting parameter. */
-      if (dev.scan_mode == SCEPTRE_COLOR)
+      if(dev.scan_mode == SCEPTRE_COLOR)
 	{
 	  var i: Int = 1
-	  while (resolutions_list[i] != dev.resolution)
+	  while(resolutions_list[i] != dev.resolution)
 	    {
 	      i++
 	    }
@@ -1799,38 +1799,38 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 	  dev.color_shift = 0
 	}
 
-      DBG (DBG_proc, "color_shift = %d\n", dev.color_shift)
+      DBG(DBG_proc, "color_shift = %d\n", dev.color_shift)
 
       dev.bytes_left = dev.params.lines * dev.params.bytes_per_line
     }
 
   /* Return the current values. */
-  if (params)
+  if(params)
     {
       *params = (dev.params)
     }
 
-  DBG (DBG_proc, "Sane.get_parameters: exit\n")
+  DBG(DBG_proc, "Sane.get_parameters: exit\n")
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   Sceptre_Scanner *dev = handle
   Sane.Status status
 
-  DBG (DBG_proc, "Sane.start: enter\n")
+  DBG(DBG_proc, "Sane.start: enter\n")
 
-  if (!(dev.scanning))
+  if(!(dev.scanning))
     {
 
-      Sane.get_parameters (dev, NULL)
+      Sane.get_parameters(dev, NULL)
 
-      if (dev.image)
+      if(dev.image)
 	{
-	  free (dev.image)
+	  free(dev.image)
 	}
       /* Compute the length necessary in image. The first part will store
        * the complete lines, and the rest is used to stored ahead
@@ -1839,8 +1839,8 @@ Sane.start (Sane.Handle handle)
       dev.raster_ahead =
 	(2 * dev.color_shift + 1) * dev.params.bytes_per_line
       dev.image_size = dev.buffer_size + dev.raster_ahead
-      dev.image = malloc (dev.image_size)
-      if (dev.image == NULL)
+      dev.image = malloc(dev.image_size)
+      if(dev.image == NULL)
 	{
 	  return Sane.STATUS_NO_MEM
 	}
@@ -1853,60 +1853,60 @@ Sane.start (Sane.Handle handle)
       dev.line = 0
 
       /* Open again the scanner. */
-      if (sanei_scsi_open
+      if(sanei_scsi_open
 	  (dev.devicename, &(dev.sfd), sceptre_sense_handler, dev) != 0)
 	{
-	  DBG (DBG_error, "ERROR: Sane.start: open failed\n")
+	  DBG(DBG_error, "ERROR: Sane.start: open failed\n")
 	  return Sane.STATUS_INVAL
 	}
 
       /* The scanner must be ready. */
-      status = sceptre_wait_scanner (dev)
-      if (status)
+      status = sceptre_wait_scanner(dev)
+      if(status)
 	{
-	  sceptre_close (dev)
+	  sceptre_close(dev)
 	  return status
 	}
 
-      status = sceptre_do_diag (dev)
-      if (status)
+      status = sceptre_do_diag(dev)
+      if(status)
 	{
-	  sceptre_close (dev)
+	  sceptre_close(dev)
 	  return status
 	}
 
-      status = sceptre_set_mode (dev)
-      if (status)
+      status = sceptre_set_mode(dev)
+      if(status)
 	{
-	  sceptre_close (dev)
+	  sceptre_close(dev)
 	  return status
 	}
 
-      status = sceptre_set_window (dev)
-      if (status)
+      status = sceptre_set_window(dev)
+      if(status)
 	{
-	  sceptre_close (dev)
+	  sceptre_close(dev)
 	  return status
 	}
 
-      status = sceptre_send_gamma (dev)
-      if (status)
+      status = sceptre_send_gamma(dev)
+      if(status)
 	{
-	  sceptre_close (dev)
+	  sceptre_close(dev)
 	  return status
 	}
 
-      status = sceptre_scan (dev)
-      if (status)
+      status = sceptre_scan(dev)
+      if(status)
 	{
-	  sceptre_close (dev)
+	  sceptre_close(dev)
 	  return status
 	}
 
-      status = sceptre_get_status (dev, &dev.real_bytes_left)
-      if (status)
+      status = sceptre_get_status(dev, &dev.real_bytes_left)
+      if(status)
 	{
-	  sceptre_close (dev)
+	  sceptre_close(dev)
 	  return status
 	}
 
@@ -1916,13 +1916,13 @@ Sane.start (Sane.Handle handle)
 
   dev.scanning = Sane.TRUE
 
-  DBG (DBG_proc, "Sane.start: exit\n")
+  DBG(DBG_proc, "Sane.start: exit\n")
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
+Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
 	   Int * len)
 {
   Sane.Status status
@@ -1930,49 +1930,49 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
   size_t size
   Int buf_offset;		/* offset into buf */
 
-  DBG (DBG_proc, "Sane.read: enter\n")
+  DBG(DBG_proc, "Sane.read: enter\n")
 
   *len = 0
 
-  if (!(dev.scanning))
+  if(!(dev.scanning))
     {
       /* OOPS, not scanning */
-      return do_cancel (dev)
+      return do_cancel(dev)
     }
 
-  if (dev.bytes_left <= 0)
+  if(dev.bytes_left <= 0)
     {
-      return (Sane.STATUS_EOF)
+      return(Sane.STATUS_EOF)
     }
 
   buf_offset = 0
 
   do
     {
-      if (dev.image_begin == dev.image_end)
+      if(dev.image_begin == dev.image_end)
 	{
 	  /* Fill image */
-	  status = sceptre_fill_image (dev)
-	  if (status != Sane.STATUS_GOOD)
+	  status = sceptre_fill_image(dev)
+	  if(status != Sane.STATUS_GOOD)
 	    {
-	      return (status)
+	      return(status)
 	    }
 	}
 
       /* Something must have been read */
-      if (dev.image_begin == dev.image_end)
+      if(dev.image_begin == dev.image_end)
 	{
-	  DBG (DBG_info, "Sane.read: nothing read\n")
+	  DBG(DBG_info, "Sane.read: nothing read\n")
 	  return Sane.STATUS_IO_ERROR
 	}
 
       /* Copy the data to the frontend buffer. */
       size = max_len - buf_offset
-      if (size > dev.bytes_left)
+      if(size > dev.bytes_left)
 	{
 	  size = dev.bytes_left
 	}
-      sceptre_copy_raw_to_frontend (dev, buf + buf_offset, &size)
+      sceptre_copy_raw_to_frontend(dev, buf + buf_offset, &size)
 
       buf_offset += size
 
@@ -1980,27 +1980,27 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf, Int max_len,
       *len += size
 
     }
-  while ((buf_offset != max_len) && dev.bytes_left)
+  while((buf_offset != max_len) && dev.bytes_left)
 
-  DBG (DBG_info, "Sane.read: leave, bytes_left=%ld\n", (long)dev.bytes_left)
+  DBG(DBG_info, "Sane.read: leave, bytes_left=%ld\n", (long)dev.bytes_left)
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle __Sane.unused__ handle, Bool __Sane.unused__ non_blocking)
+Sane.set_io_mode(Sane.Handle __Sane.unused__ handle, Bool __Sane.unused__ non_blocking)
 {
   Sane.Status status
   Sceptre_Scanner *dev = handle
 
-  DBG (DBG_proc, "Sane.set_io_mode: enter\n")
+  DBG(DBG_proc, "Sane.set_io_mode: enter\n")
 
-  if (dev.scanning == Sane.FALSE)
+  if(dev.scanning == Sane.FALSE)
     {
-      return (Sane.STATUS_INVAL)
+      return(Sane.STATUS_INVAL)
     }
 
-  if (non_blocking == Sane.FALSE)
+  if(non_blocking == Sane.FALSE)
     {
       status = Sane.STATUS_GOOD
     }
@@ -2009,83 +2009,83 @@ Sane.set_io_mode (Sane.Handle __Sane.unused__ handle, Bool __Sane.unused__ non_b
       status = Sane.STATUS_UNSUPPORTED
     }
 
-  DBG (DBG_proc, "Sane.set_io_mode: exit\n")
+  DBG(DBG_proc, "Sane.set_io_mode: exit\n")
 
   return status
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle __Sane.unused__ handle, Int __Sane.unused__ * fd)
+Sane.get_select_fd(Sane.Handle __Sane.unused__ handle, Int __Sane.unused__ * fd)
 {
-  DBG (DBG_proc, "Sane.get_select_fd: enter\n")
+  DBG(DBG_proc, "Sane.get_select_fd: enter\n")
 
-  DBG (DBG_proc, "Sane.get_select_fd: exit\n")
+  DBG(DBG_proc, "Sane.get_select_fd: exit\n")
 
   return Sane.STATUS_UNSUPPORTED
 }
 
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   Sceptre_Scanner *dev = handle
 
-  DBG (DBG_proc, "Sane.cancel: enter\n")
+  DBG(DBG_proc, "Sane.cancel: enter\n")
 
-  do_cancel (dev)
+  do_cancel(dev)
 
-  DBG (DBG_proc, "Sane.cancel: exit\n")
+  DBG(DBG_proc, "Sane.cancel: exit\n")
 }
 
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
   Sceptre_Scanner *dev = handle
   Sceptre_Scanner *dev_tmp
 
-  DBG (DBG_proc, "Sane.close: enter\n")
+  DBG(DBG_proc, "Sane.close: enter\n")
 
-  do_cancel (dev)
-  sceptre_close (dev)
+  do_cancel(dev)
+  sceptre_close(dev)
 
   /* Unlink dev. */
-  if (first_dev == dev)
+  if(first_dev == dev)
     {
       first_dev = dev.next
     }
   else
     {
       dev_tmp = first_dev
-      while (dev_tmp.next && dev_tmp.next != dev)
+      while(dev_tmp.next && dev_tmp.next != dev)
 	{
 	  dev_tmp = dev_tmp.next
 	}
-      if (dev_tmp.next != NULL)
+      if(dev_tmp.next != NULL)
 	{
 	  dev_tmp.next = dev_tmp.next.next
 	}
     }
 
-  sceptre_free (dev)
+  sceptre_free(dev)
   num_devices--
 
-  DBG (DBG_proc, "Sane.close: exit\n")
+  DBG(DBG_proc, "Sane.close: exit\n")
 }
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
-  DBG (DBG_proc, "Sane.exit: enter\n")
+  DBG(DBG_proc, "Sane.exit: enter\n")
 
-  while (first_dev)
+  while(first_dev)
     {
-      Sane.close (first_dev)
+      Sane.close(first_dev)
     }
 
-  if (devlist)
+  if(devlist)
     {
-      free (devlist)
+      free(devlist)
       devlist = NULL
     }
 
-  DBG (DBG_proc, "Sane.exit: exit\n")
+  DBG(DBG_proc, "Sane.exit: exit\n")
 }

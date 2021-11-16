@@ -1,14 +1,14 @@
 /*
  * sanei_magic - Image processing functions for despeckle, deskew, and autocrop
 
-   Copyright (C) 2009 m. allan noah
+   Copyright(C) 2009 m. allan noah
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -55,19 +55,19 @@ import Sane.sanei_debug
 import Sane.sanei_magic
 
 /* prototypes for utility functions defined at bottom of file */
-Int * sanei_magic_getTransY (
+Int * sanei_magic_getTransY(
   Sane.Parameters * params, Int dpi, Sane.Byte * buffer, Int top)
 
-Int * sanei_magic_getTransX (
+Int * sanei_magic_getTransX(
   Sane.Parameters * params, Int dpi, Sane.Byte * buffer, Int left)
 
-static Sane.Status getTopEdge (Int width, Int height, Int resolution,
+static Sane.Status getTopEdge(Int width, Int height, Int resolution,
   Int * buff, double * finSlope, Int * finXInter, Int * finYInter)
 
-static Sane.Status getLeftEdge (Int width, Int height, Int * top, Int * bot,
+static Sane.Status getLeftEdge(Int width, Int height, Int * top, Int * bot,
  double slope, Int * finXInter, Int * finYInter)
 
-static Sane.Status getLine (Int height, Int width, Int * buff,
+static Sane.Status getLine(Int height, Int width, Int * buff,
   Int slopes, double minSlope, double maxSlope,
   Int offsets, Int minOffset, Int maxOffset,
   double * finSlope, Int * finOffset, Int * finDensity)
@@ -80,7 +80,7 @@ sanei_magic_init( void )
 
 /* find small spots and replace them with image background color */
 Sane.Status
-sanei_magic_despeck (Sane.Parameters * params, Sane.Byte * buffer,
+sanei_magic_despeck(Sane.Parameters * params, Sane.Byte * buffer,
   Int diam)
 {
 
@@ -93,7 +93,7 @@ sanei_magic_despeck (Sane.Parameters * params, Sane.Byte * buffer,
 
   var i: Int,j,k,l,n
 
-  DBG (10, "sanei_magic_despeck: start\n")
+  DBG(10, "sanei_magic_despeck: start\n")
 
   if(params.format == Sane.FRAME_RGB){
 
@@ -261,11 +261,11 @@ sanei_magic_despeck (Sane.Parameters * params, Sane.Byte * buffer,
   }
 
   else{
-    DBG (5, "sanei_magic_despeck: unsupported format/depth\n")
+    DBG(5, "sanei_magic_despeck: unsupported format/depth\n")
     ret = Sane.STATUS_INVAL
   }
 
-  DBG (10, "sanei_magic_despeck: finish\n")
+  DBG(10, "sanei_magic_despeck: finish\n")
   return ret
 }
 
@@ -288,33 +288,33 @@ sanei_magic_findEdges(Sane.Parameters * params, Sane.Byte * buffer,
 
   var i: Int
 
-  DBG (10, "sanei_magic_findEdges: start\n")
+  DBG(10, "sanei_magic_findEdges: start\n")
 
   /* get buffers to find sides and bottom */
   topBuf = sanei_magic_getTransY(params,dpiY,buffer,1)
   if(!topBuf){
-    DBG (5, "sanei_magic_findEdges: no topBuf\n")
+    DBG(5, "sanei_magic_findEdges: no topBuf\n")
     ret = Sane.STATUS_NO_MEM
     goto cleanup
   }
 
   botBuf = sanei_magic_getTransY(params,dpiY,buffer,0)
   if(!botBuf){
-    DBG (5, "sanei_magic_findEdges: no botBuf\n")
+    DBG(5, "sanei_magic_findEdges: no botBuf\n")
     ret = Sane.STATUS_NO_MEM
     goto cleanup
   }
 
   leftBuf = sanei_magic_getTransX(params,dpiX,buffer,1)
   if(!leftBuf){
-    DBG (5, "sanei_magic_findEdges: no leftBuf\n")
+    DBG(5, "sanei_magic_findEdges: no leftBuf\n")
     ret = Sane.STATUS_NO_MEM
     goto cleanup
   }
 
   rightBuf = sanei_magic_getTransX(params,dpiX,buffer,0)
   if(!rightBuf){
-    DBG (5, "sanei_magic_findEdges: no rightBuf\n")
+    DBG(5, "sanei_magic_findEdges: no rightBuf\n")
     ret = Sane.STATUS_NO_MEM
     goto cleanup
   }
@@ -358,7 +358,7 @@ sanei_magic_findEdges(Sane.Parameters * params, Sane.Byte * buffer,
 
   /* could not find top/bot edges */
   if(*top > *bot){
-    DBG (5, "sanei_magic_findEdges: bad t/b edges\n")
+    DBG(5, "sanei_magic_findEdges: bad t/b edges\n")
     ret = Sane.STATUS_UNSUPPORTED
     goto cleanup
   }
@@ -366,8 +366,8 @@ sanei_magic_findEdges(Sane.Parameters * params, Sane.Byte * buffer,
   /* loop thru top and bottom lists, look for l and r extremes
    * NOTE: We don't look above the top or below the bottom found previously.
    * This prevents issues with adf scanners that pad the image after the
-   * paper runs out (usually with white) */
-  DBG (5, "sanei_magic_findEdges: bb0:%d tb0:%d b:%d t:%d\n",
+   * paper runs out(usually with white) */
+  DBG(5, "sanei_magic_findEdges: bb0:%d tb0:%d b:%d t:%d\n",
     botBuf[0], topBuf[0], *bot, *top)
 
   *left = width
@@ -408,12 +408,12 @@ sanei_magic_findEdges(Sane.Parameters * params, Sane.Byte * buffer,
 
   /* could not find left/right edges */
   if(*left > *right){
-    DBG (5, "sanei_magic_findEdges: bad l/r edges\n")
+    DBG(5, "sanei_magic_findEdges: bad l/r edges\n")
     ret = Sane.STATUS_UNSUPPORTED
     goto cleanup
   }
 
-  DBG (15, "sanei_magic_findEdges: t:%d b:%d l:%d r:%d\n",
+  DBG(15, "sanei_magic_findEdges: t:%d b:%d l:%d r:%d\n",
     *top,*bot,*left,*right)
 
   cleanup:
@@ -426,7 +426,7 @@ sanei_magic_findEdges(Sane.Parameters * params, Sane.Byte * buffer,
   if(rightBuf)
     free(rightBuf)
 
-  DBG (10, "sanei_magic_findEdges: finish\n")
+  DBG(10, "sanei_magic_findEdges: finish\n")
   return ret
 }
 
@@ -445,7 +445,7 @@ sanei_magic_crop(Sane.Parameters * params, Sane.Byte * buffer,
   unsigned char * line = NULL
   Int pos = 0, i
 
-  DBG (10, "sanei_magic_crop: start\n")
+  DBG(10, "sanei_magic_crop: start\n")
 
   /*convert left and right to bytes, figure new byte and pixel width */
   if(params.format == Sane.FRAME_RGB){
@@ -465,16 +465,16 @@ sanei_magic_crop(Sane.Parameters * params, Sane.Byte * buffer,
     pixels = bytes * 8
   }
   else{
-    DBG (5, "sanei_magic_crop: unsupported format/depth\n")
+    DBG(5, "sanei_magic_crop: unsupported format/depth\n")
     ret = Sane.STATUS_INVAL
     goto cleanup
   }
 
-  DBG (15, "sanei_magic_crop: l:%d r:%d p:%d b:%d\n",left,right,pixels,bytes)
+  DBG(15, "sanei_magic_crop: l:%d r:%d p:%d b:%d\n",left,right,pixels,bytes)
 
   line = malloc(bytes)
   if(!line){
-    DBG (5, "sanei_magic_crop: no line\n")
+    DBG(5, "sanei_magic_crop: no line\n")
     ret = Sane.STATUS_NO_MEM
     goto cleanup
   }
@@ -494,7 +494,7 @@ sanei_magic_crop(Sane.Parameters * params, Sane.Byte * buffer,
   if(line)
     free(line)
 
-  DBG (10, "sanei_magic_crop: finish\n")
+  DBG(10, "sanei_magic_crop: finish\n")
   return ret
 }
 
@@ -525,27 +525,27 @@ sanei_magic_findSkew(Sane.Parameters * params, Sane.Byte * buffer,
 
   Int * topBuf = NULL, * botBuf = NULL
 
-  DBG (10, "sanei_magic_findSkew: start\n")
+  DBG(10, "sanei_magic_findSkew: start\n")
 
   dpiX=dpiX
 
   /* get buffers for edge detection */
   topBuf = sanei_magic_getTransY(params,dpiY,buffer,1)
   if(!topBuf){
-    DBG (5, "sanei_magic_findSkew: can't gTY\n")
+    DBG(5, "sanei_magic_findSkew: can't gTY\n")
     ret = Sane.STATUS_NO_MEM
     goto cleanup
   }
 
   botBuf = sanei_magic_getTransY(params,dpiY,buffer,0)
   if(!botBuf){
-    DBG (5, "sanei_magic_findSkew: can't gTY\n")
+    DBG(5, "sanei_magic_findSkew: can't gTY\n")
     ret = Sane.STATUS_NO_MEM
     goto cleanup
   }
 
   /* find best top line */
-  ret = getTopEdge (pwidth, height, dpiY, topBuf,
+  ret = getTopEdge(pwidth, height, dpiY, topBuf,
     &TSlope, &TXInter, &TYInter)
   if(ret){
     DBG(5,"sanei_magic_findSkew: gTE error: %d",ret)
@@ -562,7 +562,7 @@ sanei_magic_findSkew(Sane.Parameters * params, Sane.Byte * buffer,
 
   /* find best left line, perpendicular to top line */
   LSlope = (double)-1/TSlope
-  ret = getLeftEdge (pwidth, height, topBuf, botBuf, LSlope,
+  ret = getLeftEdge(pwidth, height, topBuf, botBuf, LSlope,
     &LXInter, &LYInter)
   if(ret){
     DBG(5,"sanei_magic_findSkew: gLE error: %d",ret)
@@ -593,7 +593,7 @@ sanei_magic_findSkew(Sane.Parameters * params, Sane.Byte * buffer,
   if(botBuf)
     free(botBuf)
 
-  DBG (10, "sanei_magic_findSkew: finish\n")
+  DBG(10, "sanei_magic_findSkew: finish\n")
   return ret
 }
 
@@ -602,7 +602,7 @@ sanei_magic_findSkew(Sane.Parameters * params, Sane.Byte * buffer,
  * proper edge alignment. Unused areas filled with bg color
  * FIXME: Do in-place rotation to save memory */
 Sane.Status
-sanei_magic_rotate (Sane.Parameters * params, Sane.Byte * buffer,
+sanei_magic_rotate(Sane.Parameters * params, Sane.Byte * buffer,
   Int centerX, Int centerY, double slope, Int bg_color)
 {
 
@@ -638,22 +638,22 @@ sanei_magic_rotate (Sane.Parameters * params, Sane.Byte * buffer,
 
     memset(outbuf,bg_color,bwidth*height)
 
-    for (i=0; i<height; i++) {
+    for(i=0; i<height; i++) {
       Int shiftY = centerY - i
 
-      for (j=0; j<pwidth; j++) {
+      for(j=0; j<pwidth; j++) {
         Int shiftX = centerX - j
         Int sourceX, sourceY
 
         sourceX = centerX - (Int)(shiftX * slopeCos + shiftY * slopeSin)
-        if (sourceX < 0 || sourceX >= pwidth)
+        if(sourceX < 0 || sourceX >= pwidth)
           continue
 
         sourceY = centerY + (Int)(-shiftY * slopeCos + shiftX * slopeSin)
-        if (sourceY < 0 || sourceY >= height)
+        if(sourceY < 0 || sourceY >= height)
           continue
 
-        for (k=0; k<depth; k++) {
+        for(k=0; k<depth; k++) {
           outbuf[i*bwidth+j*depth+k]
             = buffer[sourceY*bwidth+sourceX*depth+k]
         }
@@ -668,19 +668,19 @@ sanei_magic_rotate (Sane.Parameters * params, Sane.Byte * buffer,
 
     memset(outbuf,bg_color,bwidth*height)
 
-    for (i=0; i<height; i++) {
+    for(i=0; i<height; i++) {
       Int shiftY = centerY - i
 
-      for (j=0; j<pwidth; j++) {
+      for(j=0; j<pwidth; j++) {
         Int shiftX = centerX - j
         Int sourceX, sourceY
 
         sourceX = centerX - (Int)(shiftX * slopeCos + shiftY * slopeSin)
-        if (sourceX < 0 || sourceX >= pwidth)
+        if(sourceX < 0 || sourceX >= pwidth)
           continue
 
         sourceY = centerY + (Int)(-shiftY * slopeCos + shiftX * slopeSin)
-        if (sourceY < 0 || sourceY >= height)
+        if(sourceY < 0 || sourceY >= height)
           continue
 
         /* wipe out old bit */
@@ -694,7 +694,7 @@ sanei_magic_rotate (Sane.Parameters * params, Sane.Byte * buffer,
     }
   }
   else{
-    DBG (5, "sanei_magic_rotate: unsupported format/depth\n")
+    DBG(5, "sanei_magic_rotate: unsupported format/depth\n")
     ret = Sane.STATUS_INVAL
     goto cleanup
   }
@@ -712,7 +712,7 @@ sanei_magic_rotate (Sane.Parameters * params, Sane.Byte * buffer,
 }
 
 Sane.Status
-sanei_magic_isBlank (Sane.Parameters * params, Sane.Byte * buffer,
+sanei_magic_isBlank(Sane.Parameters * params, Sane.Byte * buffer,
   double thresh)
 {
   Sane.Status ret = Sane.STATUS_GOOD
@@ -721,7 +721,7 @@ sanei_magic_isBlank (Sane.Parameters * params, Sane.Byte * buffer,
 
   DBG(10,"sanei_magic_isBlank: start: %f\n",thresh)
 
-  /*convert thresh from percent (0-100) to 0-1 range*/
+  /*convert thresh from percent(0-100) to 0-1 range*/
   thresh /= 100
 
   if(params.format == Sane.FRAME_RGB ||
@@ -759,16 +759,16 @@ sanei_magic_isBlank (Sane.Parameters * params, Sane.Byte * buffer,
 
   }
   else{
-    DBG (5, "sanei_magic_isBlank: unsupported format/depth\n")
+    DBG(5, "sanei_magic_isBlank: unsupported format/depth\n")
     ret = Sane.STATUS_INVAL
     goto cleanup
   }
 
-  DBG (5, "sanei_magic_isBlank: sum:%f lines:%d thresh:%f density:%f\n",
+  DBG(5, "sanei_magic_isBlank: sum:%f lines:%d thresh:%f density:%f\n",
     imagesum,params.lines,thresh,imagesum/params.lines)
 
   if(imagesum/params.lines <= thresh){
-    DBG (5, "sanei_magic_isBlank: blank!\n")
+    DBG(5, "sanei_magic_isBlank: blank!\n")
     ret = Sane.STATUS_NO_DOCS
   }
 
@@ -798,10 +798,10 @@ sanei_magic_isBlank2 (Sane.Parameters * params, Sane.Byte * buffer,
   Int xblocks  = (params.pixels_per_line-xhalf)/xhalf
   Int yblocks  = (params.lines-yhalf)/yhalf
 
-  /*convert thresh from percent (0-100) to 0-1 range*/
+  /*convert thresh from percent(0-100) to 0-1 range*/
   thresh /= 100
 
-  DBG (10, "sanei_magic_isBlank2: start %d %d %f %d\n",xhalf,yhalf,thresh,blockpix)
+  DBG(10, "sanei_magic_isBlank2: start %d %d %f %d\n",xhalf,yhalf,thresh,blockpix)
 
   if(params.depth == 8 &&
     (params.format == Sane.FRAME_RGB || params.format == Sane.FRAME_GRAY)
@@ -834,10 +834,10 @@ sanei_magic_isBlank2 (Sane.Parameters * params, Sane.Byte * buffer,
 
         /* block was darker than thresh, keep image */
         if(blocksum/yhalf > thresh){
-          DBG (15, "sanei_magic_isBlank2: not blank %f %d %d\n", blocksum/yhalf, yb, xb)
+          DBG(15, "sanei_magic_isBlank2: not blank %f %d %d\n", blocksum/yhalf, yb, xb)
           return Sane.STATUS_GOOD
         }
-        DBG (20, "sanei_magic_isBlank2: block blank %f %d %d\n", blocksum/yhalf, yb, xb)
+        DBG(20, "sanei_magic_isBlank2: block blank %f %d %d\n", blocksum/yhalf, yb, xb)
       }
     }
   }
@@ -868,19 +868,19 @@ sanei_magic_isBlank2 (Sane.Parameters * params, Sane.Byte * buffer,
 
         /* block was darker than thresh, keep image */
         if(blocksum/yhalf > thresh){
-          DBG (15, "sanei_magic_isBlank2: not blank %f %d %d\n", blocksum/yhalf, yb, xb)
+          DBG(15, "sanei_magic_isBlank2: not blank %f %d %d\n", blocksum/yhalf, yb, xb)
           return Sane.STATUS_GOOD
         }
-        DBG (20, "sanei_magic_isBlank2: block blank %f %d %d\n", blocksum/yhalf, yb, xb)
+        DBG(20, "sanei_magic_isBlank2: block blank %f %d %d\n", blocksum/yhalf, yb, xb)
       }
     }
   }
   else{
-    DBG (5, "sanei_magic_isBlank2: unsupported format/depth\n")
+    DBG(5, "sanei_magic_isBlank2: unsupported format/depth\n")
     return Sane.STATUS_INVAL
   }
 
-  DBG (10, "sanei_magic_isBlank2: returning blank\n")
+  DBG(10, "sanei_magic_isBlank2: returning blank\n")
   return Sane.STATUS_NO_DOCS
 }
 
@@ -915,12 +915,12 @@ sanei_magic_findTurn(Sane.Parameters * params, Sane.Byte * buffer,
         Int curr = 0
 
         /*convert color to gray*/
-        for (k=0; k<depth; k++) {
+        for(k=0; k<depth; k++) {
           curr += ptr[j*depth+k]
         }
         curr /= depth
 
-        /*convert gray to binary (with hysteresis) */
+        /*convert gray to binary(with hysteresis) */
         curr = (curr < 100)?1:
                (curr > 156)?0:color
 
@@ -951,12 +951,12 @@ sanei_magic_findTurn(Sane.Parameters * params, Sane.Byte * buffer,
         Int curr = 0
 
         /*convert color to gray*/
-        for (k=0; k<depth; k++) {
+        for(k=0; k<depth; k++) {
           curr += ptr[j*params.bytes_per_line+k]
         }
         curr /= depth
 
-        /*convert gray to binary (with hysteresis) */
+        /*convert gray to binary(with hysteresis) */
         curr = (curr < 100)?1:
                (curr > 156)?0:color
 
@@ -1032,17 +1032,17 @@ sanei_magic_findTurn(Sane.Parameters * params, Sane.Byte * buffer,
 
   }
   else{
-    DBG (5, "sanei_magic_findTurn: unsupported format/depth\n")
+    DBG(5, "sanei_magic_findTurn: unsupported format/depth\n")
     ret = Sane.STATUS_INVAL
     goto cleanup
   }
 
-  DBG (10, "sanei_magic_findTurn: vtrans=%d vtot=%d vfrac=%f htrans=%d htot=%d hfrac=%f\n",
+  DBG(10, "sanei_magic_findTurn: vtrans=%d vtot=%d vfrac=%f htrans=%d htot=%d hfrac=%f\n",
     vtrans, vtot, (double)vtrans/vtot, htrans, htot, (double)htrans/htot
   )
 
   if((double)vtrans/vtot > (double)htrans/htot){
-    DBG (10, "sanei_magic_findTurn: suggest turning 90\n")
+    DBG(10, "sanei_magic_findTurn: suggest turning 90\n")
     *angle = 90
   }
 
@@ -1083,7 +1083,7 @@ sanei_magic_turn(Sane.Parameters * params, Sane.Byte * buffer,
       oheight = ipwidth
 
       /*gray and color, 1 or 3 bytes per pixel*/
-      if ( params.format == Sane.FRAME_RGB
+      if( params.format == Sane.FRAME_RGB
         || (params.format == Sane.FRAME_GRAY && params.depth == 8)
       ){
         obwidth = opwidth*depth
@@ -1127,13 +1127,13 @@ sanei_magic_turn(Sane.Parameters * params, Sane.Byte * buffer,
     (params.format == Sane.FRAME_GRAY && params.depth == 8)
   ){
 
-    switch (angle) {
+    switch(angle) {
 
       /*rotate 90 clockwise*/
       case 1:
-        for (i=0; i<oheight; i++) {
-          for (j=0; j<opwidth; j++) {
-            for (k=0; k<depth; k++) {
+        for(i=0; i<oheight; i++) {
+          for(j=0; j<opwidth; j++) {
+            for(k=0; k<depth; k++) {
               outbuf[i*obwidth + j*depth + k]
                 = buffer[(iheight-j-1)*ibwidth + i*depth + k]
             }
@@ -1143,9 +1143,9 @@ sanei_magic_turn(Sane.Parameters * params, Sane.Byte * buffer,
 
       /*rotate 180 clockwise*/
       case 2:
-        for (i=0; i<oheight; i++) {
-          for (j=0; j<opwidth; j++) {
-            for (k=0; k<depth; k++) {
+        for(i=0; i<oheight; i++) {
+          for(j=0; j<opwidth; j++) {
+            for(k=0; k<depth; k++) {
               outbuf[i*obwidth + j*depth + k]
                 = buffer[(iheight-i-1)*ibwidth + (ipwidth-j-1)*depth + k]
             }
@@ -1155,9 +1155,9 @@ sanei_magic_turn(Sane.Parameters * params, Sane.Byte * buffer,
 
       /*rotate 270 clockwise*/
       case 3:
-        for (i=0; i<oheight; i++) {
-          for (j=0; j<opwidth; j++) {
-            for (k=0; k<depth; k++) {
+        for(i=0; i<oheight; i++) {
+          for(j=0; j<opwidth; j++) {
+            for(k=0; k<depth; k++) {
               outbuf[i*obwidth + j*depth + k]
                 = buffer[j*ibwidth + (ipwidth-i-1)*depth + k]
             }
@@ -1170,12 +1170,12 @@ sanei_magic_turn(Sane.Parameters * params, Sane.Byte * buffer,
   /*turn binary image*/
   else if(params.format == Sane.FRAME_GRAY && params.depth == 1){
 
-    switch (angle) {
+    switch(angle) {
 
       /*rotate 90 clockwise*/
       case 1:
-        for (i=0; i<oheight; i++) {
-          for (j=0; j<opwidth; j++) {
+        for(i=0; i<oheight; i++) {
+          for(j=0; j<opwidth; j++) {
             unsigned char curr
               = buffer[(iheight-j-1)*ibwidth + i/8] >> (7-(i%8)) & 1
 
@@ -1194,8 +1194,8 @@ sanei_magic_turn(Sane.Parameters * params, Sane.Byte * buffer,
 
       /*rotate 180 clockwise*/
       case 2:
-        for (i=0; i<oheight; i++) {
-          for (j=0; j<opwidth; j++) {
+        for(i=0; i<oheight; i++) {
+          for(j=0; j<opwidth; j++) {
             unsigned char curr
               = buffer[(iheight-i-1)*ibwidth + (ipwidth-j-1)/8] >> (j%8) & 1
 
@@ -1214,8 +1214,8 @@ sanei_magic_turn(Sane.Parameters * params, Sane.Byte * buffer,
 
       /*rotate 270 clockwise*/
       case 3:
-        for (i=0; i<oheight; i++) {
-          for (j=0; j<opwidth; j++) {
+        for(i=0; i<oheight; i++) {
+          for(j=0; j<opwidth; j++) {
             unsigned char curr
               = buffer[j*ibwidth + (ipwidth-i-1)/8] >> (i%8) & 1
 
@@ -1235,7 +1235,7 @@ sanei_magic_turn(Sane.Parameters * params, Sane.Byte * buffer,
   }
 
   else{
-    DBG (5, "sanei_magic_turn: unsupported format/depth\n")
+    DBG(5, "sanei_magic_turn: unsupported format/depth\n")
     ret = Sane.STATUS_INVAL
     goto cleanup
   }
@@ -1262,7 +1262,7 @@ sanei_magic_turn(Sane.Parameters * params, Sane.Byte * buffer,
 
 /* Repeatedly call getLine to find the best range of slope and offset.
  * Shift the ranges thru 4 different positions to avoid splitting data
- * across multiple bins (false positive). Home-in on the most likely upper
+ * across multiple bins(false positive). Home-in on the most likely upper
  * line of the paper inside the image. Return the 'best' edge. */
 static Sane.Status
 getTopEdge(Int width, Int height, Int resolution,
@@ -1376,7 +1376,7 @@ getTopEdge(Int width, Int height, Int resolution,
  * to divide likely edges into a 2-d array of bins. Then weight each
  * bin based on its angle and offset. Return the 'best' bin. */
 static Sane.Status
-getLine (Int height, Int width, Int * buff,
+getLine(Int height, Int width, Int * buff,
   Int slopes, double minSlope, double maxSlope,
   Int offsets, Int minOffset, Int maxOffset,
   double * finSlope, Int * finOffset, Int * finDensity)
@@ -1491,7 +1491,7 @@ getLine (Int height, Int width, Int * buff,
   for(i=0;i<width;i++){
     for(j=i+1;j<width && j<i+width/3;j++){
 
-      /*FIXME: check for invalid (min/max) values?*/
+      /*FIXME: check for invalid(min/max) values?*/
       rise = buff[j] - buff[i]
       run = j-i
 
@@ -1516,7 +1516,7 @@ getLine (Int height, Int width, Int * buff,
     }
   }
 
-  /* go thru array, and find most dense line (highest number) */
+  /* go thru array, and find most dense line(highest number) */
   for(i=0;i<slopes;i++){
     for(j=0;j<offsets;j++){
       if(lines[i][j] > maxDensity)
@@ -1531,7 +1531,7 @@ getLine (Int height, Int width, Int * buff,
   *finDensity = 0
 
   /* go thru array, and scale densities to % of maximum, plus adjust for
-   * preferred (smaller absolute value) slope and offset */
+   * preferred(smaller absolute value) slope and offset */
   for(i=0;i<slopes;i++){
     for(j=0;j<offsets;j++){
       lines[i][j] = (float)lines[i][j] / maxDensity * slopeScale[i] * offsetScale[j]
@@ -1593,7 +1593,7 @@ getLine (Int height, Int width, Int * buff,
  * one with the smallest X intercept
  * return x and y intercepts */
 static Sane.Status
-getLeftEdge (Int width, Int height, Int * top, Int * bot,
+getLeftEdge(Int width, Int height, Int * top, Int * bot,
  double slope, Int * finXInter, Int * finYInter)
 {
 
@@ -1676,7 +1676,7 @@ getLeftEdge (Int width, Int height, Int * top, Int * bot,
 /* Loop thru the image and look for first color change in each column.
  * Return a malloc'd array. Caller is responsible for freeing. */
 Int *
-sanei_magic_getTransY (
+sanei_magic_getTransY(
   Sane.Parameters * params, Int dpi, Sane.Byte * buffer, Int top)
 {
   Int * buff
@@ -1693,7 +1693,7 @@ sanei_magic_getTransY (
   Int lastLine = -1
   Int direction = -1
 
-  DBG (10, "sanei_magic_getTransY: start\n")
+  DBG(10, "sanei_magic_getTransY: start\n")
 
   /* override for top-down */
   if(top){
@@ -1705,7 +1705,7 @@ sanei_magic_getTransY (
   /* build output and preload with impossible value */
   buff = calloc(width,sizeof(Int))
   if(!buff){
-    DBG (5, "sanei_magic_getTransY: no buff\n")
+    DBG(5, "sanei_magic_getTransY: no buff\n")
     return NULL
   }
   for(i=0; i<width; i++)
@@ -1784,7 +1784,7 @@ sanei_magic_getTransY (
 
   /* some other format? */
   else{
-    DBG (5, "sanei_magic_getTransY: unsupported format/depth\n")
+    DBG(5, "sanei_magic_getTransY: unsupported format/depth\n")
     free(buff)
     return NULL
   }
@@ -1800,7 +1800,7 @@ sanei_magic_getTransY (
       buff[i] = lastLine
   }
 
-  DBG (10, "sanei_magic_getTransY: finish\n")
+  DBG(10, "sanei_magic_getTransY: finish\n")
 
   return buff
 }
@@ -1808,7 +1808,7 @@ sanei_magic_getTransY (
 /* Loop thru the image height and look for first color change in each row.
  * Return a malloc'd array. Caller is responsible for freeing. */
 Int *
-sanei_magic_getTransX (
+sanei_magic_getTransX(
   Sane.Parameters * params, Int dpi, Sane.Byte * buffer, Int left)
 {
   Int * buff
@@ -1826,7 +1826,7 @@ sanei_magic_getTransX (
   Int lastCol = -1
   Int direction = -1
 
-  DBG (10, "sanei_magic_getTransX: start\n")
+  DBG(10, "sanei_magic_getTransX: start\n")
 
   /* override for left-first*/
   if(left){
@@ -1838,7 +1838,7 @@ sanei_magic_getTransX (
   /* build output and preload with impossible value */
   buff = calloc(height,sizeof(Int))
   if(!buff){
-    DBG (5, "sanei_magic_getTransX: no buff\n")
+    DBG(5, "sanei_magic_getTransX: no buff\n")
     return NULL
   }
   for(i=0; i<height; i++)
@@ -1895,7 +1895,7 @@ sanei_magic_getTransX (
     }
   }
 
-  else if (params.format == Sane.FRAME_GRAY && params.depth == 1){
+  else if(params.format == Sane.FRAME_GRAY && params.depth == 1){
 
     Int near = 0
 
@@ -1916,7 +1916,7 @@ sanei_magic_getTransX (
 
   /* some other format? */
   else{
-    DBG (5, "sanei_magic_getTransX: unsupported format/depth\n")
+    DBG(5, "sanei_magic_getTransX: unsupported format/depth\n")
     free(buff)
     return NULL
   }
@@ -1932,7 +1932,7 @@ sanei_magic_getTransX (
       buff[i] = lastCol
   }
 
-  DBG (10, "sanei_magic_getTransX: finish\n")
+  DBG(10, "sanei_magic_getTransX: finish\n")
 
   return buff
 }

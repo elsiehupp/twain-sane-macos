@@ -1,14 +1,14 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2002 Sergey Vlasov <vsu@altlinux.ru>
-   Copyright (C) 2002 - 2007 Henning Geinitz <sane@geinitz.org>
+   Copyright(C) 2002 Sergey Vlasov <vsu@altlinux.ru>
+   Copyright(C) 2002 - 2007 Henning Geinitz <sane@geinitz.org>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -76,37 +76,37 @@ import gt68xx_shm_channel
   do \
     { \
       status = function; \
-      if (status != Sane.STATUS_GOOD) \
+      if(status != Sane.STATUS_GOOD) \
         { \
-          DBG (7, "%s: %s: %s\n", __func__, STRINGIFY(function), \
-               Sane.strstatus (status)); \
+          DBG(7, "%s: %s: %s\n", __func__, STRINGIFY(function), \
+               Sane.strstatus(status)); \
           return status; \
         } \
     } \
-  while (Sane.FALSE)
+  while(Sane.FALSE)
 
 #else
 
 #  define RIE(function)                                   \
   do { status = function;                               \
-    if (status != Sane.STATUS_GOOD) return status;      \
-  } while (Sane.FALSE)
+    if(status != Sane.STATUS_GOOD) return status;      \
+  } while(Sane.FALSE)
 
 #endif
 
 /* Flags */
 #define GT68XX_FLAG_MIRROR_X	    (1 << 0)	/* CIS unit mounted the other way round? */
-#define GT68XX_FLAG_MOTOR_HOME	    (1 << 1)	/* Use motor_home command (0x34) */
+#define GT68XX_FLAG_MOTOR_HOME	    (1 << 1)	/* Use motor_home command(0x34) */
 #define GT68XX_FLAG_OFFSET_INV      (1 << 2)	/* Offset control is inverted */
 #define GT68XX_FLAG_UNTESTED        (1 << 3)	/* Print a warning for these scanners */
 #define GT68XX_FLAG_SE_2400         (1 << 4)	/* Special quirks for SE 2400USB */
 #define GT68XX_FLAG_NO_STOP         (1 << 5)	/* Don't call stop_scan before the scan */
 #define GT68XX_FLAG_CIS_LAMP        (1 << 6)	/* CIS sensor with lamp */
-#define GT68XX_FLAG_NO_POWER_STATUS (1 << 7)	/* get_power_status_doesn't work */
+#define GT68XX_FLAG_NO_POWER_STATUS(1 << 7)	/* get_power_status_doesn't work */
 #define GT68XX_FLAG_NO_LINEMODE     (1 << 8)	/* Linemode does not work with this scanner */
 #define GT68XX_FLAG_SCAN_FROM_HOME  (1 << 9)	/* Move home after calibration */
 #define GT68XX_FLAG_USE_OPTICAL_X   (1 << 10)	/* Use optical xdpi for 50 dpi and below */
-#define GT68XX_FLAG_ALWAYS_LINEMODE (1 << 11)	/* Linemode must be used for any resolution */
+#define GT68XX_FLAG_ALWAYS_LINEMODE(1 << 11)	/* Linemode must be used for any resolution */
 #define GT68XX_FLAG_SHEET_FED       (1 << 12)	/* we have a sheet fed scanner */
 #define GT68XX_FLAG_HAS_CALIBRATE   (1 << 13)	/* for sheet fed scanners that be calibrated with
                                                    an calibration sheet */
@@ -131,11 +131,11 @@ typedef enum GT68xx_Color_Order
 }
 GT68xx_Color_Order
 
-#define GT68XX_COLOR_RED Sane.I18N ("Red")
-#define GT68XX_COLOR_GREEN Sane.I18N ("Green")
-#define GT68XX_COLOR_BLUE Sane.I18N ("Blue")
+#define GT68XX_COLOR_RED Sane.I18N("Red")
+#define GT68XX_COLOR_GREEN Sane.I18N("Green")
+#define GT68XX_COLOR_BLUE Sane.I18N("Blue")
 
-/** Scan action code (purpose of the scan).
+/** Scan action code(purpose of the scan).
  *
  * The scan action code affects various scanning mode fields in the setup
  * command.
@@ -170,14 +170,14 @@ struct GT68xx_USB_Device_Entry
  */
 static GT68xx_USB_Device_Entry gt68xx_usb_device_list[MAX_SCANNERS]
 
-/** GT68xx analog front-end (AFE) parameters.
+/** GT68xx analog front-end(AFE) parameters.
  */
 struct GT68xx_AFE_Parameters
 {
   Sane.Byte r_offset;	/**< Red channel offset */
   Sane.Byte r_pga;	/**< Red channel PGA gain */
-  Sane.Byte g_offset;	/**< Green channel offset (also used for mono) */
-  Sane.Byte g_pga;	/**< Green channel PGA gain (also used for mono) */
+  Sane.Byte g_offset;	/**< Green channel offset(also used for mono) */
+  Sane.Byte g_pga;	/**< Green channel PGA gain(also used for mono) */
   Sane.Byte b_offset;	/**< Blue channel offset */
   Sane.Byte b_pga;	/**< Blue channel PGA gain */
 ]
@@ -211,13 +211,13 @@ struct GT68xx_Command_Set
 
   /** @name USB request parameters
    *
-   * These values are used in the USB control transfer parameters (wValue and
+   * These values are used in the USB control transfer parameters(wValue and
    * wIndex fields, as in the USB specification).
    */
   /*@{ */
 
-  Sane.Byte request_type;		/**< Request type (should be 0x40, vendor spec) */
-  Sane.Byte request;			/**< Vendor spec request (0x01 or 0x04) */
+  Sane.Byte request_type;		/**< Request type(should be 0x40, vendor spec) */
+  Sane.Byte request;			/**< Vendor spec request(0x01 or 0x04) */
   Sane.Word memory_read_value;		/**< Memory read - wValue */
   Sane.Word memory_write_value;		/**< Memory write - wValue */
   Sane.Word send_cmd_value;		/**< Send normal command - wValue */
@@ -243,7 +243,7 @@ struct GT68xx_Command_Set
    * This function may allocate a command-set-specific data structure and place
    * the pointer to it into the GT68xx_Device::command_set_private field.
    */
-    Sane.Status (*activate) (GT68xx_Device * dev)
+    Sane.Status(*activate) (GT68xx_Device * dev)
 
   /** Deactivate the device.
    *
@@ -251,7 +251,7 @@ struct GT68xx_Command_Set
    * structure, this function must free all corresponding resources and set the
    * GT68xx_Device::command_set_private pointer to #NULL.
    */
-    Sane.Status (*deactivate) (GT68xx_Device * dev)
+    Sane.Status(*deactivate) (GT68xx_Device * dev)
 
   /*@} */
 
@@ -272,10 +272,10 @@ struct GT68xx_Command_Set
    * - #Sane.TRUE - the firmware is already loaded.
    * - #Sane.FALSE - the firmware is not loaded.
    */
-    Sane.Status (*check_firmware) (GT68xx_Device * dev, Bool * loaded)
+    Sane.Status(*check_firmware) (GT68xx_Device * dev, Bool * loaded)
 
   /** Download the firmware */
-    Sane.Status (*download_firmware) (GT68xx_Device * dev,
+    Sane.Status(*download_firmware) (GT68xx_Device * dev,
 				      Sane.Byte * data, Sane.Word size)
 
   /** Check whether the external power supply is connected.
@@ -287,7 +287,7 @@ struct GT68xx_Command_Set
    * - #Sane.FALSE - the external power supply is not connected, so the scanner
    *   will not work.
    */
-    Sane.Status (*get_power_status) (GT68xx_Device * dev,
+    Sane.Status(*get_power_status) (GT68xx_Device * dev,
 				     Bool * power_ok)
 
   /** Check whether a transparency adapter is attached to the scanner.
@@ -303,7 +303,7 @@ struct GT68xx_Command_Set
    * - #Sane.STATUS_UNSUPPORTED - this scanner model does not support the
    *   transparency adapter.
    * */
-    Sane.Status (*get_ta_status) (GT68xx_Device * dev,
+    Sane.Status(*get_ta_status) (GT68xx_Device * dev,
 				  Bool * ta_attached)
 
   /** Turn the lamps in the scanner and/or the transparency adapter on or off.
@@ -314,10 +314,10 @@ struct GT68xx_Command_Set
    *
    * @return
    * - #Sane.STATUS_GOOD - the command completed successfully.
-   * - #Sane.STATUS_UNSUPPORTED - unsupported request was made (like attempt to
+   * - #Sane.STATUS_UNSUPPORTED - unsupported request was made(like attempt to
    *   turn on the TA lamp on a scanner which does not support TA).
    */
-    Sane.Status (*lamp_control) (GT68xx_Device * dev, Bool fb_lamp,
+    Sane.Status(*lamp_control) (GT68xx_Device * dev, Bool fb_lamp,
 				 Bool ta_lamp)
 
   /** Check whether the scanner carriage is still moving.
@@ -331,13 +331,13 @@ struct GT68xx_Command_Set
    * - #Sane.STATUS_GOOD - the command completed successfully, the status in @a
    *   *moving is valid.
    */
-    Sane.Status (*is_moving) (GT68xx_Device * dev, Bool * moving)
+    Sane.Status(*is_moving) (GT68xx_Device * dev, Bool * moving)
 
 
   /** Move the scanner carriage by the specified number of steps.
    *
    * @param dev Device object.
-   * @param distance Number of steps to move (positive to move forward,
+   * @param distance Number of steps to move(positive to move forward,
    * negative to move backward).  The measurement unit is model-dependent
    * number of steps per inch is found in the GT68xx_Model::base_ydpi field.
    *
@@ -346,56 +346,56 @@ struct GT68xx_Command_Set
    *   started.  Call gt68xx_device_is_moving() periodically to determine when
    *   the movement is complete.
    */
-    Sane.Status (*move_relative) (GT68xx_Device * dev, Int distance)
+    Sane.Status(*move_relative) (GT68xx_Device * dev, Int distance)
 
   /** Move the scanner carriage to the home position.
    *
    * @param dev Device object.
    */
-    Sane.Status (*carriage_home) (GT68xx_Device * dev)
+    Sane.Status(*carriage_home) (GT68xx_Device * dev)
 
   /** Eject the paper at the end of the scan.
    *
    * @param dev Device object.
    */
-    Sane.Status (*paperfeed) (GT68xx_Device * dev)
+    Sane.Status(*paperfeed) (GT68xx_Device * dev)
 
   /** Start scanning the image.
    *
    * @param dev Device object.
    */
-    Sane.Status (*start_scan) (GT68xx_Device * dev)
+    Sane.Status(*start_scan) (GT68xx_Device * dev)
 
   /** Start reading the scanned image data from the scanner.
    *
    * @param dev Device object.
    * */
-    Sane.Status (*read_scanned_data) (GT68xx_Device * dev, Bool * ready)
+    Sane.Status(*read_scanned_data) (GT68xx_Device * dev, Bool * ready)
 
   /** Stop scanning the image and reading the data. */
-    Sane.Status (*stop_scan) (GT68xx_Device * dev)
+    Sane.Status(*stop_scan) (GT68xx_Device * dev)
 
   /** Set parameters for the next scan. */
-    Sane.Status (*setup_scan) (GT68xx_Device * dev,
+    Sane.Status(*setup_scan) (GT68xx_Device * dev,
 			       GT68xx_Scan_Request * request,
 			       GT68xx_Scan_Action action,
 			       GT68xx_Scan_Parameters * params)
 
-    Sane.Status (*set_afe) (GT68xx_Device * dev,
+    Sane.Status(*set_afe) (GT68xx_Device * dev,
 			    GT68xx_AFE_Parameters * params)
 
-    Sane.Status (*set_exposure_time) (GT68xx_Device * dev,
+    Sane.Status(*set_exposure_time) (GT68xx_Device * dev,
 				      GT68xx_Exposure_Parameters * params)
 
   /** Get the vendor, product and some more ids from the scanner */
-    Sane.Status (*get_id) (GT68xx_Device * dev)
+    Sane.Status(*get_id) (GT68xx_Device * dev)
 
   /** Move the paper by the amount of y offset needed to reach scan area
    *
    * @param dev Device object.
    * @param request scan request used to compute move to reach scan area
    */
-    Sane.Status (*move_paper) (GT68xx_Device * dev,
+    Sane.Status(*move_paper) (GT68xx_Device * dev,
 			       GT68xx_Scan_Request * request)
 
   /** Detect if a document is inserted in the feeder
@@ -403,7 +403,7 @@ struct GT68xx_Command_Set
    * @param dev Device object.
    * @param present
    */
-    Sane.Status (*document_present) (GT68xx_Device * dev,
+    Sane.Status(*document_present) (GT68xx_Device * dev,
 			             Bool *present)
   /*@} */
 ]
@@ -471,7 +471,7 @@ struct GT68xx_Model
 
   Sane.Fixed y_offset_calib_ta;	/* Start of white strip in TA mode in mm */
 
-  /* Line-distance correction (in pixel at optical_ydpi) for CCD scanners */
+  /* Line-distance correction(in pixel at optical_ydpi) for CCD scanners */
   Int ld_shift_r;		/* red */
   Int ld_shift_g;		/* green */
   Int ld_shift_b;		/* blue */
@@ -567,7 +567,7 @@ struct GT68xx_Scan_Request
  *
  * These parameters describe a low-level scan request; many such requests are
  * executed during calibration, and they need to have parameters separate from
- * the main request (GT68xx_Scan_Request).
+ * the main request(GT68xx_Scan_Request).
  */
 struct GT68xx_Scan_Parameters
 {
@@ -606,7 +606,7 @@ typedef Sane.Byte GT68xx_Packet[GT68XX_PACKET_SIZE]
  * - #Sane.STATUS_GOOD   - the device object was created.
  * - #Sane.STATUS_NO_MEM - not enough system resources to create the object.
  */
-static Sane.Status gt68xx_device_new (GT68xx_Device ** dev_return)
+static Sane.Status gt68xx_device_new(GT68xx_Device ** dev_return)
 
 /** Destroy the device object and release all associated resources.
  *
@@ -618,14 +618,14 @@ static Sane.Status gt68xx_device_new (GT68xx_Device ** dev_return)
  * @return
  * - #Sane.STATUS_GOOD  - success.
  */
-static Sane.Status gt68xx_device_free (GT68xx_Device * dev)
+static Sane.Status gt68xx_device_free(GT68xx_Device * dev)
 
 /** Open the scanner device.
  *
  * This function opens the device special file @a dev_name and tries to detect
  * the device model by its USB ID.
  *
- * If the device is detected successfully (its USB ID is found in the supported
+ * If the device is detected successfully(its USB ID is found in the supported
  * device list), this function sets the appropriate model parameters.
  *
  * If the USB ID is not recognized, the device remains unconfigured; an attempt
@@ -637,22 +637,22 @@ static Sane.Status gt68xx_device_free (GT68xx_Device * dev)
  * @param dev_name Scanner device name.
  *
  * @return
- * - #Sane.STATUS_GOOD - the device was opened successfully (it still may be
+ * - #Sane.STATUS_GOOD - the device was opened successfully(it still may be
  *   unconfigured).
  */
 static Sane.Status
-gt68xx_device_open (GT68xx_Device * dev, const char *dev_name)
+gt68xx_device_open(GT68xx_Device * dev, const char *dev_name)
 
 /** Close the scanner device.
  *
  * @param dev Device object.
  */
-static Sane.Status gt68xx_device_close (GT68xx_Device * dev)
+static Sane.Status gt68xx_device_close(GT68xx_Device * dev)
 
 /** Check if the device is configured.
  *
  * A device is considered configured when it has a model parameters structure
- * (GT68xx_Model) and a command set (GT68xx_Command_Set).  Normally these
+ * (GT68xx_Model) and a command set(GT68xx_Command_Set).  Normally these
  * parameters are assigned automatically by gt68xx_device_open(), if the device
  * is known.  If the USB ID of the device is not found in the list, or the OS
  * does not support identification of USB devices, the device will be
@@ -664,7 +664,7 @@ static Sane.Status gt68xx_device_close (GT68xx_Device * dev)
  * - #Sane.TRUE  - device is configured and can be activated.
  * - #Sane.FALSE - device is not configured; attempt to activate it will fail.
  */
-static Bool gt68xx_device_is_configured (GT68xx_Device * dev)
+static Bool gt68xx_device_is_configured(GT68xx_Device * dev)
 
 /** Change the device model structure.
  *
@@ -684,11 +684,11 @@ static Bool gt68xx_device_is_configured (GT68xx_Device * dev)
  *
  * @return
  * - #Sane.STATUS_GOOD  - model successfully changed.
- * - #Sane.STATUS_INVAL - invalid request (attempt to change model when the
+ * - #Sane.STATUS_INVAL - invalid request(attempt to change model when the
  *   device is already active, or not yet opened).
  */
 static Sane.Status
-gt68xx_device_set_model (GT68xx_Device * dev, GT68xx_Model * model)
+gt68xx_device_set_model(GT68xx_Device * dev, GT68xx_Model * model)
 
 /** Get model by name.
  *
@@ -702,7 +702,7 @@ gt68xx_device_set_model (GT68xx_Device * dev, GT68xx_Model * model)
  * - #Sane.FALSE - model not found.
  */
 static Bool
-gt68xx_device_get_model (String name, GT68xx_Model ** model)
+gt68xx_device_get_model(String name, GT68xx_Model ** model)
 
 #if 0
 /** Create a new private copy of the model data for this device.
@@ -716,11 +716,11 @@ gt68xx_device_get_model (String name, GT68xx_Model ** model)
  *
  * @return
  * - #Sane.STATUS_GOOD   - a private copy was made successfully.
- * - #Sane.STATUS_INVAL  - invalid request (the device was already active, or
+ * - #Sane.STATUS_INVAL  - invalid request(the device was already active, or
  *   not yet opened).
  * - #Sane.STATUS_NO_MEM - not enough memory for copy of the model parameters.
  */
-static Sane.Status gt68xx_device_unshare_model (GT68xx_Device * dev)
+static Sane.Status gt68xx_device_unshare_model(GT68xx_Device * dev)
 #endif
 
 /** Activate the device.
@@ -729,7 +729,7 @@ static Sane.Status gt68xx_device_unshare_model (GT68xx_Device * dev)
  * All device model parameters must be configured before activation; it is
  * impossible to change them after the device is active.
  *
- * This function might need to acquire resources (it calls
+ * This function might need to acquire resources(it calls
  * GT68xx_Command_Set::activate).  These resources will be released when
  * gt68xx_device_deactivate() is called.
  *
@@ -737,10 +737,10 @@ static Sane.Status gt68xx_device_unshare_model (GT68xx_Device * dev)
  *
  * @return
  * - #Sane.STATUS_GOOD  - device activated successfully.
- * - #Sane.STATUS_INVAL - invalid request (attempt to activate a closed or
+ * - #Sane.STATUS_INVAL - invalid request(attempt to activate a closed or
  *   unconfigured device).
  */
-static Sane.Status gt68xx_device_activate (GT68xx_Device * dev)
+static Sane.Status gt68xx_device_activate(GT68xx_Device * dev)
 
 /** Deactivate the device.
  *
@@ -750,9 +750,9 @@ static Sane.Status gt68xx_device_activate (GT68xx_Device * dev)
  *
  * @return
  * - #Sane.STATUS_GOOD  - device deactivated successfully.
- * - #Sane.STATUS_INVAL - invalid request (the device was not activated).
+ * - #Sane.STATUS_INVAL - invalid request(the device was not activated).
  */
-static Sane.Status gt68xx_device_deactivate (GT68xx_Device * dev)
+static Sane.Status gt68xx_device_deactivate(GT68xx_Device * dev)
 
 /** Write a data block to the GT68xx memory.
  *
@@ -767,10 +767,10 @@ static Sane.Status gt68xx_device_deactivate (GT68xx_Device * dev)
  *
  * @warning
  * @a size must be a multiple of 64 (at least with GT6816), otherwise the
- * scanner (and possibly the entire USB bus) will lock up.
+ * scanner(and possibly the entire USB bus) will lock up.
  */
 static Sane.Status
-gt68xx_device_memory_write (GT68xx_Device * dev, Sane.Word addr,
+gt68xx_device_memory_write(GT68xx_Device * dev, Sane.Word addr,
 			    Sane.Word size, Sane.Byte * data)
 
 /** Read a data block from the GT68xx memory.
@@ -786,37 +786,37 @@ gt68xx_device_memory_write (GT68xx_Device * dev, Sane.Word addr,
  *
  * @warning
  * @a size must be a multiple of 64 (at least with GT6816), otherwise the
- * scanner (and possibly the entire USB bus) will lock up.
+ * scanner(and possibly the entire USB bus) will lock up.
  */
 static Sane.Status
-gt68xx_device_memory_read (GT68xx_Device * dev, Sane.Word addr,
+gt68xx_device_memory_read(GT68xx_Device * dev, Sane.Word addr,
 			   Sane.Word size, Sane.Byte * data)
 
 /** Execute a control command.
  *
  * @param dev Device object.
  * @param cmd Command packet.
- * @param res Result packet (may point to the same buffer as @a cmd).
+ * @param res Result packet(may point to the same buffer as @a cmd).
  *
  * @return
  * - #Sane.STATUS_GOOD     - success.
  * - #Sane.STATUS_IO_ERROR - a communication error occurred.
  */
 static Sane.Status
-gt68xx_device_req (GT68xx_Device * dev, GT68xx_Packet cmd, GT68xx_Packet res)
+gt68xx_device_req(GT68xx_Device * dev, GT68xx_Packet cmd, GT68xx_Packet res)
 
 /** Execute a "small" control command.
  *
  * @param dev Device object.
  * @param cmd Command packet; only first 8 bytes are used.
- * @param res Result packet (may point to the same buffer as @a cmd).
+ * @param res Result packet(may point to the same buffer as @a cmd).
  *
  * @return
  * - #Sane.STATUS_GOOD     - success.
  * - #Sane.STATUS_IO_ERROR - a communication error occurred.
  */
 static Sane.Status
-gt68xx_device_small_req (GT68xx_Device * dev, GT68xx_Packet cmd,
+gt68xx_device_small_req(GT68xx_Device * dev, GT68xx_Packet cmd,
 			 GT68xx_Packet res)
 
 #if 0
@@ -832,11 +832,11 @@ gt68xx_device_small_req (GT68xx_Device * dev, GT68xx_Packet cmd,
  * - #Sane.STATUS_IO_ERROR - a communication error occurred.
  */
 static Sane.Status
-gt68xx_device_check_firmware (GT68xx_Device * dev, Bool * loaded)
+gt68xx_device_check_firmware(GT68xx_Device * dev, Bool * loaded)
 #endif
 
 static Sane.Status
-gt68xx_device_download_firmware (GT68xx_Device * dev,
+gt68xx_device_download_firmware(GT68xx_Device * dev,
 				 Sane.Byte * data, Sane.Word size)
 
 /** Check whether the external power supply is connected.
@@ -853,7 +853,7 @@ gt68xx_device_download_firmware (GT68xx_Device * dev,
  * - #Sane.STATUS_IO_ERROR - a communication error occurred.
  */
 static Sane.Status
-gt68xx_device_get_power_status (GT68xx_Device * dev, Bool * power_ok)
+gt68xx_device_get_power_status(GT68xx_Device * dev, Bool * power_ok)
 
 /** Check whether the transparency adapter is connected.
  *
@@ -868,7 +868,7 @@ gt68xx_device_get_power_status (GT68xx_Device * dev, Bool * power_ok)
  * - #Sane.STATUS_IO_ERROR    - a communication error occurred.
  */
 static Sane.Status
-gt68xx_device_get_ta_status (GT68xx_Device * dev, Bool * ta_attached)
+gt68xx_device_get_ta_status(GT68xx_Device * dev, Bool * ta_attached)
 
 /** Turn the lamps in the scanner and/or the transparency adapter on or off.
  *
@@ -879,11 +879,11 @@ gt68xx_device_get_ta_status (GT68xx_Device * dev, Bool * ta_attached)
  * @return
  * - #Sane.STATUS_GOOD        - success.
  * - #Sane.STATUS_IO_ERROR    - a communication error occurred.
- * - #Sane.STATUS_UNSUPPORTED - unsupported request was made (like attempt to
+ * - #Sane.STATUS_UNSUPPORTED - unsupported request was made(like attempt to
  *   turn on the TA lamp on a scanner which does not support TA).
  */
 static Sane.Status
-gt68xx_device_lamp_control (GT68xx_Device * dev, Bool fb_lamp,
+gt68xx_device_lamp_control(GT68xx_Device * dev, Bool fb_lamp,
 			    Bool ta_lamp)
 
 /** Check whether the scanner carriage is still moving.
@@ -898,13 +898,13 @@ gt68xx_device_lamp_control (GT68xx_Device * dev, Bool fb_lamp,
  * - #Sane.STATUS_IO_ERROR - a communication error occurred.
  */
 static Sane.Status
-gt68xx_device_is_moving (GT68xx_Device * dev, Bool * moving)
+gt68xx_device_is_moving(GT68xx_Device * dev, Bool * moving)
 
 #if 0
 /** Move the scanner carriage by the specified number of steps.
  *
  * @param dev Device object.
- * @param distance Number of steps to move (positive to move forward, negative
+ * @param distance Number of steps to move(positive to move forward, negative
  * to move backward).  The measurement unit is model-dependent; number of steps
  * per inch is found in the GT68xx_Model::base_ydpi field.
  *
@@ -915,7 +915,7 @@ gt68xx_device_is_moving (GT68xx_Device * dev, Bool * moving)
  * - #Sane.STATUS_IO_ERROR - a communication error occurred.
  */
 static Sane.Status
-gt68xx_device_move_relative (GT68xx_Device * dev, Int distance)
+gt68xx_device_move_relative(GT68xx_Device * dev, Int distance)
 #endif
 
 /** Move the scanner carriage to the home position.
@@ -931,7 +931,7 @@ gt68xx_device_move_relative (GT68xx_Device * dev, Int distance)
  * - #Sane.STATUS_GOOD - success; the movement is started.
  * - #Sane.STATUS_IO_ERROR - a communication error occurred.
  */
-static Sane.Status gt68xx_device_carriage_home (GT68xx_Device * dev)
+static Sane.Status gt68xx_device_carriage_home(GT68xx_Device * dev)
 
 /** Eject the paper after the end of scanning.
  *
@@ -942,7 +942,7 @@ static Sane.Status gt68xx_device_carriage_home (GT68xx_Device * dev)
  * - #Sane.STATUS_GOOD - success; the movement is started.
  * - #Sane.STATUS_IO_ERROR - a communication error occurred.
  */
-static Sane.Status gt68xx_device_paperfeed (GT68xx_Device * dev)
+static Sane.Status gt68xx_device_paperfeed(GT68xx_Device * dev)
 
 /** Start scanning the image.
  *
@@ -960,7 +960,7 @@ static Sane.Status gt68xx_device_paperfeed (GT68xx_Device * dev)
  * - #Sane.STATUS_GOOD - success.
  * - #Sane.STATUS_IO_ERROR - a communication error occurred.
  */
-static Sane.Status gt68xx_device_start_scan (GT68xx_Device * dev)
+static Sane.Status gt68xx_device_start_scan(GT68xx_Device * dev)
 
 /** Start reading the scanned image data.
  *
@@ -972,7 +972,7 @@ static Sane.Status gt68xx_device_start_scan (GT68xx_Device * dev)
  * @param dev Device object.
  * @param ready Returned status of the scanner:
  * - #Sane.TRUE  - the scanner is ready to send data.
- * - #Sane.FALSE - the scanner is not ready (e.g., the carriage has not reached
+ * - #Sane.FALSE - the scanner is not ready(e.g., the carriage has not reached
  *   the start of the scanning window).
  *
  * @return
@@ -980,7 +980,7 @@ static Sane.Status gt68xx_device_start_scan (GT68xx_Device * dev)
  * - #Sane.STATUS_IO_ERROR - a communication error occurred.
  */
 static Sane.Status
-gt68xx_device_read_scanned_data (GT68xx_Device * dev, Bool * ready)
+gt68xx_device_read_scanned_data(GT68xx_Device * dev, Bool * ready)
 
 /** Stop scanning the image.
  *
@@ -993,7 +993,7 @@ gt68xx_device_read_scanned_data (GT68xx_Device * dev, Bool * ready)
  * - #Sane.STATUS_GOOD - success.
  * - #Sane.STATUS_IO_ERROR - a communication error occurred.
  */
-static Sane.Status gt68xx_device_stop_scan (GT68xx_Device * dev)
+static Sane.Status gt68xx_device_stop_scan(GT68xx_Device * dev)
 
 /** Set parameters for the next scan.
  *
@@ -1017,12 +1017,12 @@ static Sane.Status gt68xx_device_stop_scan (GT68xx_Device * dev)
  * - #Sane.STATUS_IO_ERROR - a communication error occurred.
  */
 static Sane.Status
-gt68xx_device_setup_scan (GT68xx_Device * dev,
+gt68xx_device_setup_scan(GT68xx_Device * dev,
 			  GT68xx_Scan_Request * request,
 			  GT68xx_Scan_Action action,
 			  GT68xx_Scan_Parameters * params)
 
-/** Configure the analog front-end (AFE) of the GT68xx.
+/** Configure the analog front-end(AFE) of the GT68xx.
  *
  * @param dev Device object.
  * @param params AFE parameters.
@@ -1032,10 +1032,10 @@ gt68xx_device_setup_scan (GT68xx_Device * dev,
  * - #Sane.STATUS_IO_ERROR - a communication error occurred.
  */
 static Sane.Status
-gt68xx_device_set_afe (GT68xx_Device * dev, GT68xx_AFE_Parameters * params)
+gt68xx_device_set_afe(GT68xx_Device * dev, GT68xx_AFE_Parameters * params)
 
 static Sane.Status
-gt68xx_device_set_exposure_time (GT68xx_Device * dev,
+gt68xx_device_set_exposure_time(GT68xx_Device * dev,
 				 GT68xx_Exposure_Parameters * params)
 
 /** Read raw data from the bulk-in scanner pipe.
@@ -1051,20 +1051,20 @@ gt68xx_device_set_exposure_time (GT68xx_Device * dev,
  * - #Sane.STATUS_IO_ERROR - a communication error occurred.
  */
 static Sane.Status
-gt68xx_device_read_raw (GT68xx_Device * dev, Sane.Byte * buffer,
+gt68xx_device_read_raw(GT68xx_Device * dev, Sane.Byte * buffer,
 			size_t * size)
 
 static Sane.Status
-gt68xx_device_set_read_buffer_size (GT68xx_Device * dev, size_t buffer_size)
+gt68xx_device_set_read_buffer_size(GT68xx_Device * dev, size_t buffer_size)
 
 static Sane.Status
-gt68xx_device_read_prepare (GT68xx_Device * dev, size_t expected_count,
+gt68xx_device_read_prepare(GT68xx_Device * dev, size_t expected_count,
 			    Bool final_scan)
 
 static Sane.Status
-gt68xx_device_read (GT68xx_Device * dev, Sane.Byte * buffer, size_t * size)
+gt68xx_device_read(GT68xx_Device * dev, Sane.Byte * buffer, size_t * size)
 
-static Sane.Status gt68xx_device_read_finish (GT68xx_Device * dev)
+static Sane.Status gt68xx_device_read_finish(GT68xx_Device * dev)
 
 /** Make sure that the result of a command is ok.
  *
@@ -1076,11 +1076,11 @@ static Sane.Status gt68xx_device_read_finish (GT68xx_Device * dev)
  * - #Sane.STATUS_IO_ERROR - the command wasn't successful
 */
 static Sane.Status
-gt68xx_device_check_result (GT68xx_Packet res, Sane.Byte command)
+gt68xx_device_check_result(GT68xx_Packet res, Sane.Byte command)
 
 
 static Sane.Status
-gt68xx_device_get_id (GT68xx_Device * dev)
+gt68xx_device_get_id(GT68xx_Device * dev)
 
 /** Read the device descriptor of the scanner.
  *
@@ -1092,7 +1092,7 @@ gt68xx_device_get_id (GT68xx_Device * dev)
  * @param dev device
 */
 static void
-gt68xx_device_fix_descriptor (GT68xx_Device * dev)
+gt68xx_device_fix_descriptor(GT68xx_Device * dev)
 
 #endif /* not GT68XX_LOW_H */
 
@@ -1101,15 +1101,15 @@ gt68xx_device_fix_descriptor (GT68xx_Device * dev)
 
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2002 Sergey Vlasov <vsu@altlinux.ru>
-   Copyright (C) 2002 - 2007 Henning Geinitz <sane@geinitz.org>
+   Copyright(C) 2002 Sergey Vlasov <vsu@altlinux.ru>
+   Copyright(C) 2002 - 2007 Henning Geinitz <sane@geinitz.org>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -1162,55 +1162,55 @@ import gt68xx_shm_channel.c"
 
 /** Check that the device pointer is not NULL.
  *
- * @param dev       Pointer to the device object (GT68xx_Device).
- * @param func_name Function name (for use in debug messages).
+ * @param dev       Pointer to the device object(GT68xx_Device).
+ * @param func_name Function name(for use in debug messages).
  */
 #define CHECK_DEV_NOT_NULL(dev, func_name)                              \
   do {                                                                  \
     IF_DBG(                                                             \
-    if (!(dev))                                                         \
+    if(!(dev))                                                         \
       {                                                                 \
-        DBG (0, "BUG: NULL device\n");                                  \
+        DBG(0, "BUG: NULL device\n");                                  \
         return Sane.STATUS_INVAL;                                       \
       }                                                                 \
      )                                                                  \
-  } while (Sane.FALSE)
+  } while(Sane.FALSE)
 
 /** Check that the device is open.
  *
- * @param dev       Pointer to the device object (GT68xx_Device).
- * @param func_name Function name (for use in debug messages).
+ * @param dev       Pointer to the device object(GT68xx_Device).
+ * @param func_name Function name(for use in debug messages).
  */
 #define CHECK_DEV_OPEN(dev, func_name)                                  \
   do {                                                                  \
     IF_DBG(                                                             \
-    CHECK_DEV_NOT_NULL ((dev), (func_name));                            \
-    if ((dev)->fd == -1)                                                \
+    CHECK_DEV_NOT_NULL((dev), (func_name));                            \
+    if((dev)->fd == -1)                                                \
       {                                                                 \
-        DBG (0, "%s: BUG: device %p not open\n", (func_name),           \
+        DBG(0, "%s: BUG: device %p not open\n", (func_name),           \
              ((void *) dev));                                           \
         return Sane.STATUS_INVAL;                                       \
       }                                                                 \
     )                                                                   \
-  } while (Sane.FALSE)
+  } while(Sane.FALSE)
 
 /** Check that the device is open and active.
  *
- * @param dev       Pointer to the device (GT68xx_Device).
- * @param func_name Function name (for use in debug messages).
+ * @param dev       Pointer to the device(GT68xx_Device).
+ * @param func_name Function name(for use in debug messages).
  */
 #define CHECK_DEV_ACTIVE(dev, func_name)                                \
   do {                                                                  \
     IF_DBG(                                                             \
-    CHECK_DEV_OPEN ((dev), (func_name));                                \
-    if (!(dev)->active)                                                 \
+    CHECK_DEV_OPEN((dev), (func_name));                                \
+    if(!(dev)->active)                                                 \
       {                                                                 \
-        DBG (0, "%s: BUG: device %p not active\n", (func_name),         \
+        DBG(0, "%s: BUG: device %p not active\n", (func_name),         \
                ((void *) dev));                                         \
         return Sane.STATUS_INVAL;                                       \
       }                                                                 \
    )                                                                    \
-  } while (Sane.FALSE)
+  } while(Sane.FALSE)
 
 
 #ifndef NDEBUG
@@ -1221,14 +1221,14 @@ import gt68xx_shm_channel.c"
  * @param req    The request packet to be dumped.
  */
 static void
-dump_req (Sane.String_Const prefix, GT68xx_Packet req)
+dump_req(Sane.String_Const prefix, GT68xx_Packet req)
 {
   var i: Int
   char buf[GT68XX_PACKET_SIZE * 3 + 1]
 
-  for (i = 0; i < GT68XX_PACKET_SIZE; ++i)
-    sprintf (buf + i * 3, " %02x", req[i])
-  DBG (8, "%s%s\n", prefix, buf)
+  for(i = 0; i < GT68XX_PACKET_SIZE; ++i)
+    sprintf(buf + i * 3, " %02x", req[i])
+  DBG(8, "%s%s\n", prefix, buf)
 }
 
 #endif /* not NDEBUG */
@@ -1239,30 +1239,30 @@ dump_req (Sane.String_Const prefix, GT68xx_Packet req)
  * @param req    The request packet to be dumped.
  */
 #define DUMP_REQ(prefix, req) \
-  do { IF_DBG( if (DBG_LEVEL >= 8) dump_req ((prefix), (req)); ) } while (0)
+  do { IF_DBG( if(DBG_LEVEL >= 8) dump_req((prefix), (req)); ) } while(0)
 
 
 Sane.Status
-gt68xx_device_new (GT68xx_Device ** dev_return)
+gt68xx_device_new(GT68xx_Device ** dev_return)
 {
   GT68xx_Device *dev
 
-  DBG (7, "gt68xx_device_new: enter\n")
-  if (!dev_return)
+  DBG(7, "gt68xx_device_new: enter\n")
+  if(!dev_return)
     return Sane.STATUS_INVAL
 
-  dev = (GT68xx_Device *) malloc (sizeof (GT68xx_Device))
+  dev = (GT68xx_Device *) malloc(sizeof(GT68xx_Device))
 
-  if (!dev)
+  if(!dev)
     {
-      DBG (3, "gt68xx_device_new: couldn't malloc %lu bytes for device\n",
-	   (u_long) sizeof (GT68xx_Device))
+      DBG(3, "gt68xx_device_new: couldn't malloc %lu bytes for device\n",
+	   (u_long) sizeof(GT68xx_Device))
       *dev_return = 0
       return Sane.STATUS_NO_MEM
     }
   *dev_return = dev
 
-  memset (dev, 0, sizeof (GT68xx_Device))
+  memset(dev, 0, sizeof(GT68xx_Device))
 
   dev.fd = -1
   dev.active = Sane.FALSE
@@ -1281,44 +1281,44 @@ gt68xx_device_new (GT68xx_Device ** dev_return)
   dev.shm_channel = NULL
 #endif /* USE_FORK */
 
-  DBG (7, "gt68xx_device_new:: leave: ok\n")
+  DBG(7, "gt68xx_device_new:: leave: ok\n")
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-gt68xx_device_free (GT68xx_Device * dev)
+gt68xx_device_free(GT68xx_Device * dev)
 {
-  DBG (7, "gt68xx_device_free: enter: dev=%p\n", (void *) dev)
-  if (dev)
+  DBG(7, "gt68xx_device_free: enter: dev=%p\n", (void *) dev)
+  if(dev)
     {
-      if (dev.active)
-	gt68xx_device_deactivate (dev)
+      if(dev.active)
+	gt68xx_device_deactivate(dev)
 
-      if (dev.fd != -1)
-	gt68xx_device_close (dev)
+      if(dev.fd != -1)
+	gt68xx_device_close(dev)
 
-      if (dev.model && dev.model.allocated)
+      if(dev.model && dev.model.allocated)
 	{
-	  DBG (7, "gt68xx_device_free: freeing model data %p\n",
+	  DBG(7, "gt68xx_device_free: freeing model data %p\n",
 	       (void *) dev.model)
-	  free (dev.model)
+	  free(dev.model)
 	}
 
-      DBG (7, "gt68xx_device_free: freeing dev\n")
-      free (dev)
+      DBG(7, "gt68xx_device_free: freeing dev\n")
+      free(dev)
     }
-  DBG (7, "gt68xx_device_free: leave: ok\n")
+  DBG(7, "gt68xx_device_free: leave: ok\n")
   return Sane.STATUS_GOOD
 }
 
 static GT68xx_USB_Device_Entry *
-gt68xx_find_usb_device_entry (Sane.Word vendor, Sane.Word product)
+gt68xx_find_usb_device_entry(Sane.Word vendor, Sane.Word product)
 {
   GT68xx_USB_Device_Entry *entry
 
-  for (entry = gt68xx_usb_device_list; entry.model; ++entry)
+  for(entry = gt68xx_usb_device_list; entry.model; ++entry)
     {
-      if (vendor == entry.vendor && product == entry.product)
+      if(vendor == entry.vendor && product == entry.product)
 	return entry
     }
 
@@ -1326,32 +1326,32 @@ gt68xx_find_usb_device_entry (Sane.Word vendor, Sane.Word product)
 }
 
 static Sane.Status
-gt68xx_device_identify (GT68xx_Device * dev)
+gt68xx_device_identify(GT68xx_Device * dev)
 {
   Sane.Status status
   Sane.Word vendor, product
   GT68xx_USB_Device_Entry *entry
 
-  CHECK_DEV_OPEN (dev, "gt68xx_device_identify")
+  CHECK_DEV_OPEN(dev, "gt68xx_device_identify")
 
-  status = sanei_usb_get_vendor_product (dev.fd, &vendor, &product)
-  if (status != Sane.STATUS_GOOD)
+  status = sanei_usb_get_vendor_product(dev.fd, &vendor, &product)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (3, "gt68xx_device_identify: error getting USB id: %s\n",
-	   Sane.strstatus (status))
+      DBG(3, "gt68xx_device_identify: error getting USB id: %s\n",
+	   Sane.strstatus(status))
       return status
     }
 
-  entry = gt68xx_find_usb_device_entry (vendor, product)
+  entry = gt68xx_find_usb_device_entry(vendor, product)
 
-  if (entry)
+  if(entry)
     {
       dev.model = entry.model
     }
   else
     {
       dev.model = NULL
-      DBG (3, "gt68xx_device_identify: unknown USB device (vendor 0x%04x, "
+      DBG(3, "gt68xx_device_identify: unknown USB device(vendor 0x%04x, "
 	   "product 0x%04x)\n", vendor, product)
       return Sane.STATUS_INVAL
     }
@@ -1360,75 +1360,75 @@ gt68xx_device_identify (GT68xx_Device * dev)
 }
 
 Sane.Status
-gt68xx_device_open (GT68xx_Device * dev, const char *dev_name)
+gt68xx_device_open(GT68xx_Device * dev, const char *dev_name)
 {
   Sane.Status status
   Int fd
 
-  DBG (7, "gt68xx_device_open: enter: dev=%p\n", (void *) dev)
+  DBG(7, "gt68xx_device_open: enter: dev=%p\n", (void *) dev)
 
-  CHECK_DEV_NOT_NULL (dev, "gt68xx_device_open")
+  CHECK_DEV_NOT_NULL(dev, "gt68xx_device_open")
 
-  if (dev.fd != -1)
+  if(dev.fd != -1)
     {
-      DBG (3, "gt68xx_device_open: device already open\n")
+      DBG(3, "gt68xx_device_open: device already open\n")
       return Sane.STATUS_INVAL
     }
 
-  status = sanei_usb_open (dev_name, &fd)
-  if (status != Sane.STATUS_GOOD)
+  status = sanei_usb_open(dev_name, &fd)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (3, "gt68xx_device_open: sanei_usb_open failed: %s\n",
-	   Sane.strstatus (status))
+      DBG(3, "gt68xx_device_open: sanei_usb_open failed: %s\n",
+	   Sane.strstatus(status))
       return status
     }
 
   dev.fd = fd
 
-  if (!dev.model)
-    gt68xx_device_identify (dev)
+  if(!dev.model)
+    gt68xx_device_identify(dev)
 
-  DBG (7, "gt68xx_device_open: leave: ok\n")
+  DBG(7, "gt68xx_device_open: leave: ok\n")
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-gt68xx_device_close (GT68xx_Device * dev)
+gt68xx_device_close(GT68xx_Device * dev)
 {
-  DBG (7, "gt68xx_device_close: enter: dev=%p\n", (void *) dev)
+  DBG(7, "gt68xx_device_close: enter: dev=%p\n", (void *) dev)
 
-  CHECK_DEV_OPEN (dev, "gt68xx_device_close")
+  CHECK_DEV_OPEN(dev, "gt68xx_device_close")
 
-  if (dev.active)
-    gt68xx_device_deactivate (dev)
+  if(dev.active)
+    gt68xx_device_deactivate(dev)
 
-  sanei_usb_close (dev.fd)
+  sanei_usb_close(dev.fd)
   dev.fd = -1
 
-  DBG (7, "gt68xx_device_close: leave: ok\n")
+  DBG(7, "gt68xx_device_close: leave: ok\n")
   return Sane.STATUS_GOOD
 }
 
 Bool
-gt68xx_device_is_configured (GT68xx_Device * dev)
+gt68xx_device_is_configured(GT68xx_Device * dev)
 {
-  if (dev && dev.model && dev.model.command_set)
+  if(dev && dev.model && dev.model.command_set)
     return Sane.TRUE
   else
     return Sane.FALSE
 }
 
 Sane.Status
-gt68xx_device_set_model (GT68xx_Device * dev, GT68xx_Model * model)
+gt68xx_device_set_model(GT68xx_Device * dev, GT68xx_Model * model)
 {
-  if (dev.active)
+  if(dev.active)
     {
-      DBG (3, "gt68xx_device_set_model: device already active\n")
+      DBG(3, "gt68xx_device_set_model: device already active\n")
       return Sane.STATUS_INVAL
     }
 
-  if (dev.model && dev.model.allocated)
-    free (dev.model)
+  if(dev.model && dev.model.allocated)
+    free(dev.model)
 
   dev.model = model
 
@@ -1436,13 +1436,13 @@ gt68xx_device_set_model (GT68xx_Device * dev, GT68xx_Model * model)
 }
 
 static Bool
-gt68xx_device_get_model (String name, GT68xx_Model ** model)
+gt68xx_device_get_model(String name, GT68xx_Model ** model)
 {
   GT68xx_USB_Device_Entry *entry
 
-  for (entry = gt68xx_usb_device_list; entry.model; ++entry)
+  for(entry = gt68xx_usb_device_list; entry.model; ++entry)
     {
-      if (strcmp (name, entry.model.name) == 0)
+      if(strcmp(name, entry.model.name) == 0)
 	{
 	  *model = entry.model
 	  return Sane.TRUE
@@ -1453,121 +1453,121 @@ gt68xx_device_get_model (String name, GT68xx_Model ** model)
 
 
 Sane.Status
-gt68xx_device_activate (GT68xx_Device * dev)
+gt68xx_device_activate(GT68xx_Device * dev)
 {
   Sane.Status status
-  CHECK_DEV_OPEN (dev, "gt68xx_device_activate")
-  if (dev.active)
+  CHECK_DEV_OPEN(dev, "gt68xx_device_activate")
+  if(dev.active)
     {
-      DBG (3, "gt68xx_device_activate: device already active\n")
+      DBG(3, "gt68xx_device_activate: device already active\n")
       return Sane.STATUS_INVAL
     }
 
-  if (!gt68xx_device_is_configured (dev))
+  if(!gt68xx_device_is_configured(dev))
     {
-      DBG (3, "gt68xx_device_activate: device is not configured\n")
+      DBG(3, "gt68xx_device_activate: device is not configured\n")
       return Sane.STATUS_INVAL
     }
 
-  DBG (7, "gt68xx_device_activate: model \"%s\"\n", dev.model.name)
-  if (dev.model.command_set.activate)
+  DBG(7, "gt68xx_device_activate: model \"%s\"\n", dev.model.name)
+  if(dev.model.command_set.activate)
     {
       status = (*dev.model.command_set.activate) (dev)
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (3, "gt68xx_device_activate: command-set-specific "
-	       "activate failed: %s\n", Sane.strstatus (status))
+	  DBG(3, "gt68xx_device_activate: command-set-specific "
+	       "activate failed: %s\n", Sane.strstatus(status))
 	  return status
 	}
     }
-  dev.afe = malloc (sizeof (*dev.afe))
-  dev.exposure = malloc (sizeof (*dev.exposure))
-  if (!dev.afe || !dev.exposure)
+  dev.afe = malloc(sizeof(*dev.afe))
+  dev.exposure = malloc(sizeof(*dev.exposure))
+  if(!dev.afe || !dev.exposure)
     return Sane.STATUS_NO_MEM
-  memcpy (dev.afe, &dev.model.afe_params, sizeof (*dev.afe))
-  memcpy (dev.exposure, &dev.model.exposure, sizeof (*dev.exposure))
+  memcpy(dev.afe, &dev.model.afe_params, sizeof(*dev.afe))
+  memcpy(dev.exposure, &dev.model.exposure, sizeof(*dev.exposure))
   dev.gamma_value = dev.model.default_gamma_value
   dev.active = Sane.TRUE
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-gt68xx_device_deactivate (GT68xx_Device * dev)
+gt68xx_device_deactivate(GT68xx_Device * dev)
 {
   Sane.Status status = Sane.STATUS_GOOD
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_deactivate")
-  if (dev.read_active)
-    gt68xx_device_read_finish (dev)
-  if (dev.model.command_set.deactivate)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_deactivate")
+  if(dev.read_active)
+    gt68xx_device_read_finish(dev)
+  if(dev.model.command_set.deactivate)
     {
       status = (*dev.model.command_set.deactivate) (dev)
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (3,
+	  DBG(3,
 	       "gt68xx_device_deactivate: command set-specific deactivate failed: %s\n",
-	       Sane.strstatus (status))
+	       Sane.strstatus(status))
 	  /* proceed with deactivate anyway */
 	}
     }
-  if (dev.afe)
-    free (dev.afe)
+  if(dev.afe)
+    free(dev.afe)
   dev.afe = 0
-  if (dev.exposure)
-    free (dev.exposure)
+  if(dev.exposure)
+    free(dev.exposure)
   dev.exposure = 0
   dev.active = Sane.FALSE
   return status
 }
 
 Sane.Status
-gt68xx_device_memory_write (GT68xx_Device * dev,
+gt68xx_device_memory_write(GT68xx_Device * dev,
 			    Sane.Word addr, Sane.Word size, Sane.Byte * data)
 {
   Sane.Status status
-  DBG (8,
+  DBG(8,
        "gt68xx_device_memory_write: dev=%p, addr=0x%x, size=0x%x, data=%p\n",
        (void *) dev, addr, size, data)
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_memory_write")
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_memory_write")
   status =
-    sanei_usb_control_msg (dev.fd, 0x40,
+    sanei_usb_control_msg(dev.fd, 0x40,
 			   dev.model.command_set.request,
 			   dev.model.command_set.memory_write_value,
 			   addr, size, data)
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (3,
+      DBG(3,
 	   "gt68xx_device_memory_write: sanei_usb_control_msg failed: %s\n",
-	   Sane.strstatus (status))
+	   Sane.strstatus(status))
     }
   return status
 }
 
 Sane.Status
-gt68xx_device_memory_read (GT68xx_Device * dev,
+gt68xx_device_memory_read(GT68xx_Device * dev,
 			   Sane.Word addr, Sane.Word size, Sane.Byte * data)
 {
   Sane.Status status
-  DBG (8,
+  DBG(8,
        "gt68xx_device_memory_read: dev=%p, addr=0x%x, size=0x%x, data=%p\n",
        (void *) dev, addr, size, data)
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_memory_read")
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_memory_read")
   status =
-    sanei_usb_control_msg (dev.fd, 0xc0,
+    sanei_usb_control_msg(dev.fd, 0xc0,
 			   dev.model.command_set.request,
 			   dev.model.command_set.memory_read_value,
 			   addr, size, data)
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (3,
+      DBG(3,
 	   "gt68xx_device_memory_read: sanei_usb_control_msg failed: %s\n",
-	   Sane.strstatus (status))
+	   Sane.strstatus(status))
     }
 
   return status
 }
 
 static Sane.Status
-gt68xx_device_generic_req (GT68xx_Device * dev,
+gt68xx_device_generic_req(GT68xx_Device * dev,
 			   Sane.Byte request_type, Sane.Word request,
 			   Sane.Word cmd_value, Sane.Word cmd_index,
 			   Sane.Word res_value, Sane.Word res_index,
@@ -1575,39 +1575,39 @@ gt68xx_device_generic_req (GT68xx_Device * dev,
 			   size_t res_size)
 {
   Sane.Status status
-  DBG (7, "gt68xx_device_generic_req: command=0x%02x\n", cmd[0])
-  DUMP_REQ (">>", cmd)
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_generic_req")
-  status = sanei_usb_control_msg (dev.fd,
+  DBG(7, "gt68xx_device_generic_req: command=0x%02x\n", cmd[0])
+  DUMP_REQ(">>", cmd)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_generic_req")
+  status = sanei_usb_control_msg(dev.fd,
 				  request_type, request, cmd_value,
 				  cmd_index, GT68XX_PACKET_SIZE, cmd)
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (3, "gt68xx_device_generic_req: writing command failed: %s\n",
-	   Sane.strstatus (status))
+      DBG(3, "gt68xx_device_generic_req: writing command failed: %s\n",
+	   Sane.strstatus(status))
       return status
     }
 
-  memset (res, 0, sizeof (GT68xx_Packet))
-  status = sanei_usb_control_msg (dev.fd,
+  memset(res, 0, sizeof(GT68xx_Packet))
+  status = sanei_usb_control_msg(dev.fd,
 				  request_type | 0x80, request,
 				  res_value, res_index, res_size, res)
-  if (status != Sane.STATUS_GOOD)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (3, "gt68xx_device_generic_req: reading response failed: %s\n",
-	   Sane.strstatus (status))
+      DBG(3, "gt68xx_device_generic_req: reading response failed: %s\n",
+	   Sane.strstatus(status))
       return status
     }
 
-  DUMP_REQ ("<<", res)
+  DUMP_REQ("<<", res)
   return status
 }
 
 Sane.Status
-gt68xx_device_req (GT68xx_Device * dev, GT68xx_Packet cmd, GT68xx_Packet res)
+gt68xx_device_req(GT68xx_Device * dev, GT68xx_Packet cmd, GT68xx_Packet res)
 {
   GT68xx_Command_Set *command_set = dev.model.command_set
-  return gt68xx_device_generic_req (dev,
+  return gt68xx_device_generic_req(dev,
 				    command_set.request_type,
 				    command_set.request,
 				    command_set.send_cmd_value,
@@ -1618,15 +1618,15 @@ gt68xx_device_req (GT68xx_Device * dev, GT68xx_Packet cmd, GT68xx_Packet res)
 }
 
 Sane.Status
-gt68xx_device_small_req (GT68xx_Device * dev, GT68xx_Packet cmd,
+gt68xx_device_small_req(GT68xx_Device * dev, GT68xx_Packet cmd,
 			 GT68xx_Packet res)
 {
   GT68xx_Command_Set *command_set = dev.model.command_set
   GT68xx_Packet fixed_cmd
   var i: Int
-  for (i = 0; i < 8; ++i)
-    memcpy (fixed_cmd + i * 8, cmd, 8)
-  return gt68xx_device_generic_req (dev,
+  for(i = 0; i < 8; ++i)
+    memcpy(fixed_cmd + i * 8, cmd, 8)
+  return gt68xx_device_generic_req(dev,
 				    command_set.request_type,
 				    command_set.request,
 				    command_set.send_small_cmd_value,
@@ -1638,53 +1638,53 @@ gt68xx_device_small_req (GT68xx_Device * dev, GT68xx_Packet cmd,
 
 
 Sane.Status
-gt68xx_device_download_firmware (GT68xx_Device * dev,
+gt68xx_device_download_firmware(GT68xx_Device * dev,
 				 Sane.Byte * data, Sane.Word size)
 {
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_download_firmware")
-  if (dev.model.command_set.download_firmware)
-    return (*dev.model.command_set.download_firmware) (dev, data, size)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_download_firmware")
+  if(dev.model.command_set.download_firmware)
+    return(*dev.model.command_set.download_firmware) (dev, data, size)
   else
     return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-gt68xx_device_get_power_status (GT68xx_Device * dev, Bool * power_ok)
+gt68xx_device_get_power_status(GT68xx_Device * dev, Bool * power_ok)
 {
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_get_power_status")
-  if (dev.model.command_set.get_power_status)
-    return (*dev.model.command_set.get_power_status) (dev, power_ok)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_get_power_status")
+  if(dev.model.command_set.get_power_status)
+    return(*dev.model.command_set.get_power_status) (dev, power_ok)
   else
     return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-gt68xx_device_get_ta_status (GT68xx_Device * dev, Bool * ta_attached)
+gt68xx_device_get_ta_status(GT68xx_Device * dev, Bool * ta_attached)
 {
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_get_ta_status")
-  if (dev.model.command_set.get_ta_status)
-    return (*dev.model.command_set.get_ta_status) (dev, ta_attached)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_get_ta_status")
+  if(dev.model.command_set.get_ta_status)
+    return(*dev.model.command_set.get_ta_status) (dev, ta_attached)
   else
     return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-gt68xx_device_lamp_control (GT68xx_Device * dev, Bool fb_lamp,
+gt68xx_device_lamp_control(GT68xx_Device * dev, Bool fb_lamp,
 			    Bool ta_lamp)
 {
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_lamp_control")
-  if (dev.model.command_set.lamp_control)
-    return (*dev.model.command_set.lamp_control) (dev, fb_lamp, ta_lamp)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_lamp_control")
+  if(dev.model.command_set.lamp_control)
+    return(*dev.model.command_set.lamp_control) (dev, fb_lamp, ta_lamp)
   else
     return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-gt68xx_device_is_moving (GT68xx_Device * dev, Bool * moving)
+gt68xx_device_is_moving(GT68xx_Device * dev, Bool * moving)
 {
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_is_moving")
-  if (dev.model.command_set.is_moving)
-    return (*dev.model.command_set.is_moving) (dev, moving)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_is_moving")
+  if(dev.model.command_set.is_moving)
+    return(*dev.model.command_set.is_moving) (dev, moving)
   else
     return Sane.STATUS_UNSUPPORTED
 }
@@ -1692,46 +1692,46 @@ gt68xx_device_is_moving (GT68xx_Device * dev, Bool * moving)
 /* currently not used */
 #if 0
 static Sane.Status
-gt68xx_device_move_relative (GT68xx_Device * dev, Int distance)
+gt68xx_device_move_relative(GT68xx_Device * dev, Int distance)
 {
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_move_relative")
-  if (dev.model.command_set.move_relative)
-    return (*dev.model.command_set.move_relative) (dev, distance)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_move_relative")
+  if(dev.model.command_set.move_relative)
+    return(*dev.model.command_set.move_relative) (dev, distance)
   else
     return Sane.STATUS_UNSUPPORTED
 }
 #endif
 
 Sane.Status
-gt68xx_device_carriage_home (GT68xx_Device * dev)
+gt68xx_device_carriage_home(GT68xx_Device * dev)
 {
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_carriage_home")
-  if (dev.model.command_set.carriage_home)
-    return (*dev.model.command_set.carriage_home) (dev)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_carriage_home")
+  if(dev.model.command_set.carriage_home)
+    return(*dev.model.command_set.carriage_home) (dev)
   else
     return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-gt68xx_device_paperfeed (GT68xx_Device * dev)
+gt68xx_device_paperfeed(GT68xx_Device * dev)
 {
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_paperfeed")
-  if (dev.model.command_set.paperfeed)
-    return (*dev.model.command_set.paperfeed) (dev)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_paperfeed")
+  if(dev.model.command_set.paperfeed)
+    return(*dev.model.command_set.paperfeed) (dev)
   else
     return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-gt68xx_device_start_scan (GT68xx_Device * dev)
+gt68xx_device_start_scan(GT68xx_Device * dev)
 {
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_start_scan")
-  if (dev.model.command_set.start_scan)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_start_scan")
+  if(dev.model.command_set.start_scan)
     {
-      if (!dev.scan_started)
+      if(!dev.scan_started)
         {
           dev.scan_started = Sane.TRUE
-          return (*dev.model.command_set.start_scan) (dev)
+          return(*dev.model.command_set.start_scan) (dev)
         }
       return Sane.STATUS_DEVICE_BUSY
     }
@@ -1740,60 +1740,60 @@ gt68xx_device_start_scan (GT68xx_Device * dev)
 }
 
 Sane.Status
-gt68xx_device_read_scanned_data (GT68xx_Device * dev, Bool * ready)
+gt68xx_device_read_scanned_data(GT68xx_Device * dev, Bool * ready)
 {
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_read_scanned_data")
-  if (dev.model.command_set.read_scanned_data)
-    return (*dev.model.command_set.read_scanned_data) (dev, ready)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_read_scanned_data")
+  if(dev.model.command_set.read_scanned_data)
+    return(*dev.model.command_set.read_scanned_data) (dev, ready)
   else
     return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-gt68xx_device_setup_scan (GT68xx_Device * dev,
+gt68xx_device_setup_scan(GT68xx_Device * dev,
 			  GT68xx_Scan_Request * request,
 			  GT68xx_Scan_Action action,
 			  GT68xx_Scan_Parameters * params)
 {
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_setup_scan")
-  if (dev.model.command_set.setup_scan)
-    return (*dev.model.command_set.setup_scan) (dev, request, action,
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_setup_scan")
+  if(dev.model.command_set.setup_scan)
+    return(*dev.model.command_set.setup_scan) (dev, request, action,
 						   params)
   else
     return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-gt68xx_device_set_afe (GT68xx_Device * dev, GT68xx_AFE_Parameters * params)
+gt68xx_device_set_afe(GT68xx_Device * dev, GT68xx_AFE_Parameters * params)
 {
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_set_afe")
-  if (dev.model.command_set.set_afe)
-    return (*dev.model.command_set.set_afe) (dev, params)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_set_afe")
+  if(dev.model.command_set.set_afe)
+    return(*dev.model.command_set.set_afe) (dev, params)
   else
     return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-gt68xx_device_set_exposure_time (GT68xx_Device * dev,
+gt68xx_device_set_exposure_time(GT68xx_Device * dev,
 				 GT68xx_Exposure_Parameters * params)
 {
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_set_exposure_time")
-  if (dev.model.command_set.set_exposure_time)
-    return (*dev.model.command_set.set_exposure_time) (dev, params)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_set_exposure_time")
+  if(dev.model.command_set.set_exposure_time)
+    return(*dev.model.command_set.set_exposure_time) (dev, params)
   else
     return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-gt68xx_device_stop_scan (GT68xx_Device * dev)
+gt68xx_device_stop_scan(GT68xx_Device * dev)
 {
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_stop_scan")
-  if (dev.model.command_set.stop_scan)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_stop_scan")
+  if(dev.model.command_set.stop_scan)
     {
-      if (dev.scan_started)
+      if(dev.scan_started)
         {
           dev.scan_started = Sane.FALSE
-          return (*dev.model.command_set.stop_scan) (dev)
+          return(*dev.model.command_set.stop_scan) (dev)
         }
       return Sane.STATUS_GOOD;  // Essentially a NOP.
     }
@@ -1802,73 +1802,73 @@ gt68xx_device_stop_scan (GT68xx_Device * dev)
 }
 
 Sane.Status
-gt68xx_device_read_raw (GT68xx_Device * dev, Sane.Byte * buffer,
+gt68xx_device_read_raw(GT68xx_Device * dev, Sane.Byte * buffer,
 			size_t * size)
 {
   Sane.Status status
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_read_raw")
-  DBG (7, "gt68xx_device_read_raw: enter: size=%lu\n", (unsigned long) *size)
-  status = sanei_usb_read_bulk (dev.fd, buffer, size)
-  if (status != Sane.STATUS_GOOD)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_read_raw")
+  DBG(7, "gt68xx_device_read_raw: enter: size=%lu\n", (unsigned long) *size)
+  status = sanei_usb_read_bulk(dev.fd, buffer, size)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (3, "gt68xx_device_read_raw: bulk read failed: %s\n",
-	   Sane.strstatus (status))
+      DBG(3, "gt68xx_device_read_raw: bulk read failed: %s\n",
+	   Sane.strstatus(status))
       return status
     }
-  DBG (7, "gt68xx_device_read_raw: leave: size=%lu\n", (unsigned long) *size)
+  DBG(7, "gt68xx_device_read_raw: leave: size=%lu\n", (unsigned long) *size)
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-gt68xx_device_set_read_buffer_size (GT68xx_Device * dev, size_t buffer_size)
+gt68xx_device_set_read_buffer_size(GT68xx_Device * dev, size_t buffer_size)
 {
-  CHECK_DEV_NOT_NULL (dev, "gt68xx_device_set_read_buffer_size")
-  if (dev.read_active)
+  CHECK_DEV_NOT_NULL(dev, "gt68xx_device_set_read_buffer_size")
+  if(dev.read_active)
     {
-      DBG (3, "gt68xx_device_set_read_buffer_size: BUG: read already "
+      DBG(3, "gt68xx_device_set_read_buffer_size: BUG: read already "
 	   "active\n")
       return Sane.STATUS_INVAL
     }
 
   buffer_size = (buffer_size + 63UL) & ~63UL
-  if (buffer_size > 0)
+  if(buffer_size > 0)
     {
       dev.requested_buffer_size = buffer_size
       return Sane.STATUS_GOOD
     }
 
-  DBG (3, "gt68xx_device_set_read_buffer_size: bad buffer size\n")
+  DBG(3, "gt68xx_device_set_read_buffer_size: bad buffer size\n")
   return Sane.STATUS_INVAL
 }
 
 Sane.Status
-gt68xx_device_read_prepare (GT68xx_Device * dev,
+gt68xx_device_read_prepare(GT68xx_Device * dev,
 			    size_t expected_count, Bool final_scan)
 {
   size_t buffer_size
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_read_prepare")
-  if (dev.read_active)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_read_prepare")
+  if(dev.read_active)
     {
-      DBG (3, "gt68xx_device_read_prepare: read already active\n")
+      DBG(3, "gt68xx_device_read_prepare: read already active\n")
       return Sane.STATUS_INVAL
     }
-  DBG (5, "gt68xx_device_read_prepare: total size: %lu bytes\n",
+  DBG(5, "gt68xx_device_read_prepare: total size: %lu bytes\n",
        (unsigned long) expected_count)
   buffer_size = dev.requested_buffer_size
-  DBG (5, "gt68xx_device_read_prepare: requested buffer size: %lu\n",
+  DBG(5, "gt68xx_device_read_prepare: requested buffer size: %lu\n",
        (unsigned long) buffer_size)
-  if (buffer_size > expected_count)
+  if(buffer_size > expected_count)
     {
       buffer_size = (expected_count + 63UL) & ~63UL
     }
-  DBG (5, "gt68xx_device_read_prepare: real size: %lu\n",
+  DBG(5, "gt68xx_device_read_prepare: real size: %lu\n",
        (unsigned long) buffer_size)
   dev.read_buffer_size = buffer_size
-  dev.read_buffer = (Sane.Byte *) malloc (buffer_size)
-  if (!dev.read_buffer)
+  dev.read_buffer = (Sane.Byte *) malloc(buffer_size)
+  if(!dev.read_buffer)
     {
-      DBG (3,
-	   "gt68xx_device_read_prepare: not enough memory for the read buffer (%lu bytes)\n",
+      DBG(3,
+	   "gt68xx_device_read_prepare: not enough memory for the read buffer(%lu bytes)\n",
 	   (unsigned long) buffer_size)
       return Sane.STATUS_NO_MEM
     }
@@ -1883,7 +1883,7 @@ gt68xx_device_read_prepare (GT68xx_Device * dev,
 #ifdef USE_FORK
 
 static Sane.Status
-gt68xx_reader_process (GT68xx_Device * dev)
+gt68xx_reader_process(GT68xx_Device * dev)
 {
   Sane.Status status = Sane.STATUS_GOOD
   Int buffer_id
@@ -1891,85 +1891,85 @@ gt68xx_reader_process (GT68xx_Device * dev)
   size_t size
   Int line = 0
   size_t read_bytes_left = dev.read_bytes_left
-  shm_channel_writer_init (dev.shm_channel)
-  while (read_bytes_left > 0)
+  shm_channel_writer_init(dev.shm_channel)
+  while(read_bytes_left > 0)
     {
-      status = shm_channel_writer_get_buffer (dev.shm_channel,
+      status = shm_channel_writer_get_buffer(dev.shm_channel,
 					      &buffer_id, &buffer_addr)
-      if (status != Sane.STATUS_GOOD)
+      if(status != Sane.STATUS_GOOD)
 	break
-      DBG (9, "gt68xx_reader_process: buffer %d: get\n", buffer_id)
+      DBG(9, "gt68xx_reader_process: buffer %d: get\n", buffer_id)
       size = dev.read_buffer_size
-      DBG (9, "gt68xx_reader_process: buffer %d: trying to read %lu bytes "
+      DBG(9, "gt68xx_reader_process: buffer %d: trying to read %lu bytes "
 	   "(%lu bytes left, line %d)\n", buffer_id, (unsigned long) size,
 	   (unsigned long) read_bytes_left, line)
-      status = gt68xx_device_read_raw (dev, buffer_addr, &size)
-      if (status != Sane.STATUS_GOOD)
+      status = gt68xx_device_read_raw(dev, buffer_addr, &size)
+      if(status != Sane.STATUS_GOOD)
 	break
-      DBG (9,
-	   "gt68xx_reader_process: buffer %d: read %lu bytes (line %d)\n",
+      DBG(9,
+	   "gt68xx_reader_process: buffer %d: read %lu bytes(line %d)\n",
 	   buffer_id, (unsigned long) size, line)
       status =
-	shm_channel_writer_put_buffer (dev.shm_channel, buffer_id, size)
-      if (status != Sane.STATUS_GOOD)
+	shm_channel_writer_put_buffer(dev.shm_channel, buffer_id, size)
+      if(status != Sane.STATUS_GOOD)
 	break
-      DBG (9, "gt68xx_reader_process: buffer %d: put\n", buffer_id)
+      DBG(9, "gt68xx_reader_process: buffer %d: put\n", buffer_id)
       read_bytes_left -= size
       line++
     }
-  DBG (9, "gt68xx_reader_process: finished, now sleeping\n")
-  if (status != Sane.STATUS_GOOD)
+  DBG(9, "gt68xx_reader_process: finished, now sleeping\n")
+  if(status != Sane.STATUS_GOOD)
     return status
-  sleep (5 * 60);		/* wait until we are killed (or timeout) */
-  shm_channel_writer_close (dev.shm_channel)
+  sleep(5 * 60);		/* wait until we are killed(or timeout) */
+  shm_channel_writer_close(dev.shm_channel)
   return status
 }
 
 static Sane.Status
-gt68xx_device_read_start_fork (GT68xx_Device * dev)
+gt68xx_device_read_start_fork(GT68xx_Device * dev)
 {
   Sane.Status status
   Int pid
-  if (dev.shm_channel)
+  if(dev.shm_channel)
     {
-      DBG (3,
+      DBG(3,
 	   "gt68xx_device_read_start_fork: BUG: shm_channel already created\n")
       return Sane.STATUS_INVAL
     }
 
   status =
-    shm_channel_new (dev.read_buffer_size, SHM_BUFFERS, &dev.shm_channel)
-  if (status != Sane.STATUS_GOOD)
+    shm_channel_new(dev.read_buffer_size, SHM_BUFFERS, &dev.shm_channel)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (3,
+      DBG(3,
 	   "gt68xx_device_read_start_fork: cannot create shared memory channel: "
-	   "%s\n", Sane.strstatus (status))
+	   "%s\n", Sane.strstatus(status))
       dev.shm_channel = NULL
       return status
     }
 
-  pid = fork ()
-  if (pid == -1)
+  pid = fork()
+  if(pid == -1)
     {
-      DBG (3, "gt68xx_device_read_start_fork: cannot fork: %s\n",
-	   strerror (errno))
-      shm_channel_free (dev.shm_channel)
+      DBG(3, "gt68xx_device_read_start_fork: cannot fork: %s\n",
+	   strerror(errno))
+      shm_channel_free(dev.shm_channel)
       dev.shm_channel = NULL
       return Sane.STATUS_NO_MEM
     }
 
-  if (pid == 0)
+  if(pid == 0)
     {
       /* Child process */
-      status = gt68xx_reader_process (dev)
-      _exit (status)
+      status = gt68xx_reader_process(dev)
+      _exit(status)
     }
   else
     {
       /* Parent process */
       dev.reader_pid = pid
-      shm_channel_reader_init (dev.shm_channel)
-      shm_channel_reader_start (dev.shm_channel)
+      shm_channel_reader_init(dev.shm_channel)
+      shm_channel_reader_start(dev.shm_channel)
       return Sane.STATUS_GOOD
     }
 }
@@ -1978,19 +1978,19 @@ gt68xx_device_read_start_fork (GT68xx_Device * dev)
 
 
 static Sane.Status
-gt68xx_device_read_start (GT68xx_Device * dev)
+gt68xx_device_read_start(GT68xx_Device * dev)
 {
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_read_start")
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_read_start")
 #ifdef USE_FORK
   /* Don't fork a separate process for every calibration scan. */
-  if (dev.final_scan)
-    return gt68xx_device_read_start_fork (dev)
+  if(dev.final_scan)
+    return gt68xx_device_read_start_fork(dev)
 #endif /* USE_FORK */
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-gt68xx_device_read (GT68xx_Device * dev, Sane.Byte * buffer, size_t * size)
+gt68xx_device_read(GT68xx_Device * dev, Sane.Byte * buffer, size_t * size)
 {
   Sane.Status status
   size_t byte_count = 0
@@ -2001,47 +2001,47 @@ gt68xx_device_read (GT68xx_Device * dev, Sane.Byte * buffer, size_t * size)
   Sane.Byte *buffer_addr
   Int buffer_bytes
 #endif /* USE_FORK */
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_read")
-  if (!dev.read_active)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_read")
+  if(!dev.read_active)
     {
-      DBG (3, "gt68xx_device_read: read not active\n")
+      DBG(3, "gt68xx_device_read: read not active\n")
       return Sane.STATUS_INVAL
     }
 
-  while (left_to_read > 0)
+  while(left_to_read > 0)
     {
-      if (dev.read_bytes_in_buffer == 0)
+      if(dev.read_bytes_in_buffer == 0)
 	{
 	  block_size = dev.read_buffer_size
-	  if (block_size > dev.read_bytes_left)
+	  if(block_size > dev.read_bytes_left)
 	    block_size = dev.read_bytes_left
-	  if (block_size == 0)
+	  if(block_size == 0)
 	    break
 	  raw_block_size = (block_size + 63UL) & ~63UL
-	  DBG (7, "gt68xx_device_read: trying to read %ld bytes\n",
+	  DBG(7, "gt68xx_device_read: trying to read %ld bytes\n",
 	       (long) raw_block_size)
 #ifdef USE_FORK
-	  if (dev.shm_channel)
+	  if(dev.shm_channel)
 	    {
-	      status = shm_channel_reader_get_buffer (dev.shm_channel,
+	      status = shm_channel_reader_get_buffer(dev.shm_channel,
 						      &buffer_id,
 						      &buffer_addr,
 						      &buffer_bytes)
-	      if (status == Sane.STATUS_GOOD && buffer_addr != NULL)
+	      if(status == Sane.STATUS_GOOD && buffer_addr != NULL)
 		{
-		  DBG (9, "gt68xx_device_read: buffer %d: get\n", buffer_id)
-		  memcpy (dev.read_buffer, buffer_addr, buffer_bytes)
-		  shm_channel_reader_put_buffer (dev.shm_channel, buffer_id)
-		  DBG (9, "gt68xx_device_read: buffer %d: put\n", buffer_id)
+		  DBG(9, "gt68xx_device_read: buffer %d: get\n", buffer_id)
+		  memcpy(dev.read_buffer, buffer_addr, buffer_bytes)
+		  shm_channel_reader_put_buffer(dev.shm_channel, buffer_id)
+		  DBG(9, "gt68xx_device_read: buffer %d: put\n", buffer_id)
 		}
 	    }
 	  else
 #endif /* USE_FORK */
-	    status = gt68xx_device_read_raw (dev, dev.read_buffer,
+	    status = gt68xx_device_read_raw(dev, dev.read_buffer,
 					     &raw_block_size)
-	  if (status != Sane.STATUS_GOOD)
+	  if(status != Sane.STATUS_GOOD)
 	    {
-	      DBG (3, "gt68xx_device_read: read failed\n")
+	      DBG(3, "gt68xx_device_read: read failed\n")
 	      return status
 	    }
 	  dev.read_pos = 0
@@ -2050,11 +2050,11 @@ gt68xx_device_read (GT68xx_Device * dev, Sane.Byte * buffer, size_t * size)
 	}
 
       transfer_size = left_to_read
-      if (transfer_size > dev.read_bytes_in_buffer)
+      if(transfer_size > dev.read_bytes_in_buffer)
 	transfer_size = dev.read_bytes_in_buffer
-      if (transfer_size > 0)
+      if(transfer_size > 0)
 	{
-	  memcpy (buffer, dev.read_buffer + dev.read_pos, transfer_size)
+	  memcpy(buffer, dev.read_buffer + dev.read_pos, transfer_size)
 	  dev.read_pos += transfer_size
 	  dev.read_bytes_in_buffer -= transfer_size
 	  byte_count += transfer_size
@@ -2064,85 +2064,85 @@ gt68xx_device_read (GT68xx_Device * dev, Sane.Byte * buffer, size_t * size)
     }
 
   *size = byte_count
-  if (byte_count == 0)
+  if(byte_count == 0)
     return Sane.STATUS_EOF
   else
     return Sane.STATUS_GOOD
 }
 
 Sane.Status
-gt68xx_device_read_finish (GT68xx_Device * dev)
+gt68xx_device_read_finish(GT68xx_Device * dev)
 {
   Sane.Status status = Sane.STATUS_GOOD
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_read_finish")
-  if (!dev.read_active)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_read_finish")
+  if(!dev.read_active)
     {
-      DBG (3, "gt68xx_device_read_finish: read not active\n")
+      DBG(3, "gt68xx_device_read_finish: read not active\n")
       return Sane.STATUS_INVAL
     }
 
-  DBG (7, "gt68xx_device_read_finish: read_bytes_left = %ld\n",
+  DBG(7, "gt68xx_device_read_finish: read_bytes_left = %ld\n",
        (long) dev.read_bytes_left)
 #ifdef USE_FORK
-  if (dev.reader_pid != 0)
+  if(dev.reader_pid != 0)
     {
       Int pid_status
-      /* usleep (100000); */
-      DBG (7, "gt68xx_device_read_finish: trying to kill reader process\n")
-      kill (dev.reader_pid, SIGKILL)
-      waitpid (dev.reader_pid, &pid_status, 0)
-      if (WIFEXITED (pid_status))
-	status = WEXITSTATUS (pid_status)
-      DBG (7, "gt68xx_device_read_finish: reader process killed\n")
+      /* usleep(100000); */
+      DBG(7, "gt68xx_device_read_finish: trying to kill reader process\n")
+      kill(dev.reader_pid, SIGKILL)
+      waitpid(dev.reader_pid, &pid_status, 0)
+      if(WIFEXITED(pid_status))
+	status = WEXITSTATUS(pid_status)
+      DBG(7, "gt68xx_device_read_finish: reader process killed\n")
       dev.reader_pid = 0
     }
-  if (dev.shm_channel)
+  if(dev.shm_channel)
     {
-      shm_channel_free (dev.shm_channel)
+      shm_channel_free(dev.shm_channel)
       dev.shm_channel = NULL
     }
 
 #endif /* USE_FORK */
 
-  free (dev.read_buffer)
+  free(dev.read_buffer)
   dev.read_buffer = NULL
   dev.read_active = Sane.FALSE
-  DBG (7, "gt68xx_device_read_finish: exit (%s)\n", Sane.strstatus (status))
+  DBG(7, "gt68xx_device_read_finish: exit(%s)\n", Sane.strstatus(status))
   return status
 }
 
 static Sane.Status
-gt68xx_device_check_result (GT68xx_Packet res, Sane.Byte command)
+gt68xx_device_check_result(GT68xx_Packet res, Sane.Byte command)
 {
-  if (res[0] != 0)
+  if(res[0] != 0)
     {
-      DBG (1, "gt68xx_device_check_result: result was %2X %2X "
+      DBG(1, "gt68xx_device_check_result: result was %2X %2X "
 	   "(expected: %2X %2X)\n", res[0], res[1], 0, command)
       return Sane.STATUS_IO_ERROR
     }
   /* The Gt681xfw.usb firmware doesn't return the command byte
      in the second byte, so we can't rely on that test */
-  if (res[1] != command)
-    DBG (5, "gt68xx_device_check_result: warning: result was %2X %2X "
+  if(res[1] != command)
+    DBG(5, "gt68xx_device_check_result: warning: result was %2X %2X "
 	 "(expected: %2X %2X)\n", res[0], res[1], 0, command)
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-gt68xx_device_get_id (GT68xx_Device * dev)
+gt68xx_device_get_id(GT68xx_Device * dev)
 {
-  CHECK_DEV_ACTIVE (dev, "gt68xx_device_get_id")
-  if (dev.model.command_set.get_id)
-    return (*dev.model.command_set.get_id) (dev)
+  CHECK_DEV_ACTIVE(dev, "gt68xx_device_get_id")
+  if(dev.model.command_set.get_id)
+    return(*dev.model.command_set.get_id) (dev)
   else
     return Sane.STATUS_UNSUPPORTED
 }
 
 static void
-gt68xx_device_fix_descriptor (GT68xx_Device * dev)
+gt68xx_device_fix_descriptor(GT68xx_Device * dev)
 {
   Sane.Byte data[8]
-  sanei_usb_control_msg (dev.fd, 0x80, 0x06, 0x01 << 8, 0, 8, data)
+  sanei_usb_control_msg(dev.fd, 0x80, 0x06, 0x01 << 8, 0, 8, data)
 }
 
 

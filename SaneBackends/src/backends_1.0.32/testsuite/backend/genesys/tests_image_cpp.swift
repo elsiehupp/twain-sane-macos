@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -459,7 +459,7 @@ void test_set_raw_channel_to_row()
                           0x00, 0x00, 0x00, 0x00, 0x00, 0x00}))
     reset()
 
-    for (auto format : { PixelFormat::RGB888, PixelFormat::BGR888 }) {
+    for(auto format : { PixelFormat::RGB888, PixelFormat::BGR888 }) {
         set_raw_channel_to_row(data.data(), 0, 0, 0x12, format)
         ASSERT_EQ(data, Data({0x12, 0x00, 0x00, 0x00, 0x00, 0x00,
                               0x00, 0x00, 0x00, 0x00, 0x00, 0x00}))
@@ -501,7 +501,7 @@ void test_set_raw_channel_to_row()
                           0x00, 0x00, 0x00, 0x00, 0x00, 0x00}))
     reset()
 
-    for (auto format : { PixelFormat::RGB161616, PixelFormat::BGR161616 }) {
+    for(auto format : { PixelFormat::RGB161616, PixelFormat::BGR161616 }) {
         set_raw_channel_to_row(data.data(), 0, 0, 0x1234, format)
         ASSERT_EQ(data, Data({0x34, 0x12, 0x00, 0x00, 0x00, 0x00,
                               0x00, 0x00, 0x00, 0x00, 0x00, 0x00}))

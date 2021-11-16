@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2009-12 Stéphane Voltz <stef.dev@free.fr>
+   Copyright(C) 2009-12 Stéphane Voltz <stef.dev@free.fr>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -92,37 +92,37 @@ static const Sane.Device **devlist = 0
  * list of possible color modes
  */
 static Sane.String_Const mode_list[] = {
-  Sane.I18N (COLOR_MODE),
-  Sane.I18N (GRAY_MODE),
-  /* Sane.I18N (LINEART_MODE), not supported yet */
+  Sane.I18N(COLOR_MODE),
+  Sane.I18N(GRAY_MODE),
+  /* Sane.I18N(LINEART_MODE), not supported yet */
   0
 ]
 
 static Sane.Range x_range = {
-  Sane.FIX (0.0),		/* minimum */
-  Sane.FIX (216.0),		/* maximum */
-  Sane.FIX (0.0)		/* quantization */
+  Sane.FIX(0.0),		/* minimum */
+  Sane.FIX(216.0),		/* maximum */
+  Sane.FIX(0.0)		/* quantization */
 ]
 
 static Sane.Range y_range = {
-  Sane.FIX (0.0),		/* minimum */
-  Sane.FIX (299.0),		/* maximum */
-  Sane.FIX (0.0)		/* no quantization */
+  Sane.FIX(0.0),		/* minimum */
+  Sane.FIX(299.0),		/* maximum */
+  Sane.FIX(0.0)		/* no quantization */
 ]
 
 /**
  * finds the maximum string length in a string array.
  */
 static size_t
-max_string_size (const Sane.String_Const strings[])
+max_string_size(const Sane.String_Const strings[])
 {
   size_t size, max_size = 0
   Int i
 
-  for (i = 0; strings[i]; ++i)
+  for(i = 0; strings[i]; ++i)
     {
-      size = strlen (strings[i]) + 1
-      if (size > max_size)
+      size = strlen(strings[i]) + 1
+      if(size > max_size)
 	max_size = size
     }
   return max_size
@@ -153,7 +153,7 @@ static P5_Config p5cfg
  * not support authentication.
  */
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 {
   Sane.Status status
 
@@ -162,19 +162,19 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
   init_count++
 
   /* init backend debug */
-  DBG_INIT ()
-  DBG (DBG_info, "SANE P5 backend version %d.%d-%d\n",
+  DBG_INIT()
+  DBG(DBG_info, "SANE P5 backend version %d.%d-%d\n",
        Sane.CURRENT_MAJOR, V_MINOR, BUILD)
-  DBG (DBG_proc, "Sane.init: start\n")
-  DBG (DBG_trace, "Sane.init: init_count=%d\n", init_count)
+  DBG(DBG_proc, "Sane.init: start\n")
+  DBG(DBG_trace, "Sane.init: init_count=%d\n", init_count)
 
-  if (version_code)
-    *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, BUILD)
+  if(version_code)
+    *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, BUILD)
 
   /* cold-plugging case : probe for already plugged devices */
-  status = probe_p5_devices ()
+  status = probe_p5_devices()
 
-  DBG (DBG_proc, "Sane.init: exit\n")
+  DBG(DBG_proc, "Sane.init: exit\n")
   return status
 }
 
@@ -187,11 +187,11 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
  * available. If the function executes successfully, it stores a
  * pointer to a NULL terminated array of pointers to Sane.Device
  * structures in *device_list. The returned list is guaranteed to
- * remain unchanged and valid until (a) another call to this function
- * is performed or (b) a call to Sane.exit() is performed. This
+ * remain unchanged and valid until(a) another call to this function
+ * is performed or(b) a call to Sane.exit() is performed. This
  * function can be called repeatedly to detect when new devices become
  * available. If argument local_only is true, only local devices are
- * returned (devices directly attached to the machine that SANE is
+ * returned(devices directly attached to the machine that SANE is
  * running on). If it is false, the device list includes all remote
  * devices that are accessible to the SANE library.
  *
@@ -204,22 +204,22 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
  * @return Sane.STATUS_GOOD when successful
  */
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 {
   Int dev_num, devnr
   struct P5_Device *device
   Sane.Device *Sane.device
   var i: Int
 
-  DBG (DBG_proc, "Sane.get_devices: start: local_only = %s\n",
+  DBG(DBG_proc, "Sane.get_devices: start: local_only = %s\n",
        local_only == Sane.TRUE ? "true" : "false")
 
   /* free existing devlist first */
-  if (devlist)
+  if(devlist)
     {
-      for (i = 0; devlist[i] != NULL; i++)
-	free ((void *)devlist[i])
-      free (devlist)
+      for(i = 0; devlist[i] != NULL; i++)
+	free((void *)devlist[i])
+      free(devlist)
       devlist = NULL
     }
 
@@ -228,32 +228,32 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
    * the device detection must be run at each call. We are handling
    * hot-plugging : we probe for devices plugged since Sane.init() was called.
    */
-  probe_p5_devices ()
+  probe_p5_devices()
 
   /* if no devices detected, just return an empty list */
-  if (devices == NULL)
+  if(devices == NULL)
     {
-      devlist = malloc (sizeof (devlist[0]))
-      if (!devlist)
+      devlist = malloc(sizeof(devlist[0]))
+      if(!devlist)
 	return Sane.STATUS_NO_MEM
       devlist[0] = NULL
       *device_list = devlist
-      DBG (DBG_proc, "Sane.get_devices: exit with no device\n")
+      DBG(DBG_proc, "Sane.get_devices: exit with no device\n")
       return Sane.STATUS_GOOD
     }
 
   /* count physical devices */
   devnr = 1
   device = devices
-  while (device.next)
+  while(device.next)
     {
       devnr++
       device = device.next
     }
 
   /* allocate room for the list, plus 1 for the NULL terminator */
-  devlist = malloc ((devnr + 1) * sizeof (devlist[0]))
-  if (!devlist)
+  devlist = malloc((devnr + 1) * sizeof(devlist[0]))
+  if(!devlist)
     return Sane.STATUS_NO_MEM
 
   *device_list = devlist
@@ -262,15 +262,15 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
   device = devices
 
   /* we build a list of Sane.Device from the list of attached devices */
-  for (i = 0; i < devnr; i++)
+  for(i = 0; i < devnr; i++)
     {
       /* add device according to local only flag */
-      if ((local_only == Sane.TRUE && device.local == Sane.TRUE)
+      if((local_only == Sane.TRUE && device.local == Sane.TRUE)
 	  || local_only == Sane.FALSE)
 	{
 	  /* allocate memory to add the device */
-	  Sane.device = malloc (sizeof (*Sane.device))
-	  if (!Sane.device)
+	  Sane.device = malloc(sizeof(*Sane.device))
+	  if(!Sane.device)
 	    {
 	      return Sane.STATUS_NO_MEM
 	    }
@@ -293,7 +293,7 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
 
   *device_list = devlist
 
-  DBG (DBG_proc, "Sane.get_devices: exit\n")
+  DBG(DBG_proc, "Sane.get_devices: exit\n")
 
   return Sane.STATUS_GOOD
 }
@@ -318,78 +318,78 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
  * @return Sane.STATUS_GOOD on success
  */
 Sane.Status
-Sane.open (Sane.String_Const name, Sane.Handle * handle)
+Sane.open(Sane.String_Const name, Sane.Handle * handle)
 {
   struct P5_Session *session = NULL
   struct P5_Device *device = NULL
 
-  DBG (DBG_proc, "Sane.open: start (devicename=%s)\n", name)
+  DBG(DBG_proc, "Sane.open: start(devicename=%s)\n", name)
 
   /* check there is at least a device */
-  if (devices == NULL)
+  if(devices == NULL)
     {
-      DBG (DBG_proc, "Sane.open: exit, no device to open!\n")
+      DBG(DBG_proc, "Sane.open: exit, no device to open!\n")
       return Sane.STATUS_INVAL
     }
 
-  if (name[0] == 0 || strncmp (name, "p5", strlen ("p5")) == 0)
+  if(name[0] == 0 || strncmp(name, "p5", strlen("p5")) == 0)
     {
-      DBG (DBG_info,
+      DBG(DBG_info,
 	   "Sane.open: no specific device requested, using default\n")
-      if (devices)
+      if(devices)
 	{
 	  device = devices
-	  DBG (DBG_info, "Sane.open: device %s used as default device\n",
+	  DBG(DBG_info, "Sane.open: device %s used as default device\n",
 	       device.name)
 	}
     }
   else
     {
-      DBG (DBG_info, "Sane.open: device %s requested\n", name)
+      DBG(DBG_info, "Sane.open: device %s requested\n", name)
       /* walk the device list until we find a matching name */
       device = devices
-      while (device && strcmp (device.name, name) != 0)
+      while(device && strcmp(device.name, name) != 0)
 	{
-	  DBG (DBG_trace, "Sane.open: device %s doesn't match\n",
+	  DBG(DBG_trace, "Sane.open: device %s doesn't match\n",
 	       device.name)
 	  device = device.next
 	}
     }
 
   /* check whether we have found a match or reach the end of the device list */
-  if (!device)
+  if(!device)
     {
-      DBG (DBG_info, "Sane.open: no device found\n")
+      DBG(DBG_info, "Sane.open: no device found\n")
       return Sane.STATUS_INVAL
     }
 
   /* now we have a device, duplicate it and return it in handle */
-  DBG (DBG_info, "Sane.open: device %s found\n", name)
+  DBG(DBG_info, "Sane.open: device %s found\n", name)
 
   /* device initialization */
-  if (device.initialized == Sane.FALSE)
+  if(device.initialized == Sane.FALSE)
     {
       /**
        * call to hardware initialization function here.
        */
-      device.fd = open_pp (device.name)
-      if (device.fd < 0)
+      device.fd = open_pp(device.name)
+      if(device.fd < 0)
 	{
-	  DBG (DBG_error, "Sane.open: failed to open '%s' device!\n",
+	  DBG(DBG_error, "Sane.open: failed to open '%s' device!\n",
 	       device.name)
 	  return Sane.STATUS_INVAL
 	}
 
       /* now try to connect to scanner */
-      if (connect (device.fd) != Sane.TRUE)
+      if(connect(device.fd) != Sane.TRUE)
 	{
-	  DBG (DBG_error, "Sane.open: failed to connect!\n")
-	  close_pp (device.fd)
+	  DBG(DBG_error, "Sane.open: failed to connect!\n")
+	  close_pp(device.fd)
 	  return Sane.STATUS_INVAL
 	}
 
       /* load calibration data */
-      restore_calibration (device)
+      restore_calibration(device)
 
       /* device link is OK now */
       device.initialized = Sane.TRUE
@@ -399,10 +399,10 @@ Sane.open (Sane.String_Const name, Sane.Handle * handle)
   device.offset = NULL
 
   /* prepare handle to return */
-  session = (P5_Session *) malloc (sizeof (P5_Session))
-  if (session == NULL)
+  session = (P5_Session *) malloc(sizeof(P5_Session))
+  if(session == NULL)
     {
-      DBG (DBG_proc, "Sane.open: exit OOM\n")
+      DBG(DBG_proc, "Sane.open: exit OOM\n")
       return Sane.STATUS_NO_MEM
     }
 
@@ -412,7 +412,7 @@ Sane.open (Sane.String_Const name, Sane.Handle * handle)
   session.non_blocking = Sane.FALSE
 
   /* initialize SANE options for this session */
-  init_options (session)
+  init_options(session)
 
   /* add the handle to the linked list of sessions */
   session.next = sessions
@@ -422,7 +422,7 @@ Sane.open (Sane.String_Const name, Sane.Handle * handle)
   *handle = session
 
   /* exit success */
-  DBG (DBG_proc, "Sane.open: exit\n")
+  DBG(DBG_proc, "Sane.open: exit\n")
   return Sane.STATUS_GOOD
 }
 
@@ -432,20 +432,20 @@ Sane.open (Sane.String_Const name, Sane.Handle * handle)
  * no data is available within Sane.read(), instead of polling the scanner.
  */
 Sane.Status
-Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 {
   P5_Session *session = (P5_Session *) handle
 
-  DBG (DBG_proc, "Sane.set_io_mode: start\n")
-  if (session.scanning != Sane.TRUE)
+  DBG(DBG_proc, "Sane.set_io_mode: start\n")
+  if(session.scanning != Sane.TRUE)
     {
-      DBG (DBG_error, "Sane.set_io_mode: called out of a scan\n")
+      DBG(DBG_error, "Sane.set_io_mode: called out of a scan\n")
       return Sane.STATUS_INVAL
     }
   session.non_blocking = non_blocking
-  DBG (DBG_info, "Sane.set_io_mode: I/O mode set to %sblocking.\n",
+  DBG(DBG_info, "Sane.set_io_mode: I/O mode set to %sblocking.\n",
        non_blocking ? "non " : " ")
-  DBG (DBG_proc, "Sane.set_io_mode: exit\n")
+  DBG(DBG_proc, "Sane.set_io_mode: exit\n")
   return Sane.STATUS_GOOD
 }
 
@@ -456,15 +456,15 @@ Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
  * frontend can do select()/poll() to wait for data.
  */
 Sane.Status
-Sane.get_select_fd (Sane.Handle handle, Int * fdp)
+Sane.get_select_fd(Sane.Handle handle, Int * fdp)
 {
   /* make compiler happy ... */
   handle = handle
   fdp = fdp
 
-  DBG (DBG_proc, "Sane.get_select_fd: start\n")
-  DBG (DBG_warn, "Sane.get_select_fd: unsupported ...\n")
-  DBG (DBG_proc, "Sane.get_select_fd: exit\n")
+  DBG(DBG_proc, "Sane.get_select_fd: start\n")
+  DBG(DBG_warn, "Sane.get_select_fd: unsupported ...\n")
+  DBG(DBG_proc, "Sane.get_select_fd: exit\n")
   return Sane.STATUS_UNSUPPORTED
 }
 
@@ -477,25 +477,25 @@ Sane.get_select_fd (Sane.Handle handle, Int * fdp)
  * returns the option descriptor for option number n of the device
  * represented by handle h. Option number 0 is guaranteed to be a
  * valid option. Its value is an integer that specifies the number of
- * options that are available for device handle h (the count includes
+ * options that are available for device handle h(the count includes
  * option 0). If n is not a valid option index, the function returns
  * NULL. The returned option descriptor is guaranteed to remain valid
  * (and at the returned address) until the device is closed.
  */
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
   struct P5_Session *session = handle
 
-  DBG (DBG_proc, "Sane.get_option_descriptor: start\n")
+  DBG(DBG_proc, "Sane.get_option_descriptor: start\n")
 
-  if ((unsigned) option >= NUM_OPTIONS)
+  if((unsigned) option >= NUM_OPTIONS)
     return NULL
 
-  DBG (DBG_info, "Sane.get_option_descriptor: \"%s\"\n",
+  DBG(DBG_info, "Sane.get_option_descriptor: \"%s\"\n",
        session.options[option].descriptor.name)
 
-  DBG (DBG_proc, "Sane.get_option_descriptor: exit\n")
+  DBG(DBG_proc, "Sane.get_option_descriptor: exit\n")
   return &(session.options[option].descriptor)
 }
 
@@ -503,13 +503,13 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
  * sets automatic value for an option , called by Sane.control_option after
  * all checks have been done */
 static Sane.Status
-set_automatic_value (P5_Session * s, Int option, Int * myinfo)
+set_automatic_value(P5_Session * s, Int option, Int * myinfo)
 {
   Sane.Status status = Sane.STATUS_GOOD
   Int i, min
   Sane.Word *dpi_list
 
-  switch (option)
+  switch(option)
     {
     case OPT_TL_X:
       s.options[OPT_TL_X].value.w = x_range.min
@@ -533,9 +533,9 @@ set_automatic_value (P5_Session * s, Int option, Int * myinfo)
 	(Sane.Word *) s.options[OPT_RESOLUTION].descriptor.constraint.
 	word_list
       min = 65536
-      for (i = 1; i < dpi_list[0]; i++)
+      for(i = 1; i < dpi_list[0]; i++)
 	{
-	  if (dpi_list[i] < min)
+	  if(dpi_list[i] < min)
 	    min = dpi_list[i]
 	}
       s.options[OPT_RESOLUTION].value.w = min
@@ -546,14 +546,14 @@ set_automatic_value (P5_Session * s, Int option, Int * myinfo)
       *myinfo |= Sane.INFO_RELOAD_PARAMS
       break
     case OPT_MODE:
-      if (s.options[OPT_MODE].value.s)
-	free (s.options[OPT_MODE].value.s)
-      s.options[OPT_MODE].value.s = strdup (mode_list[0])
+      if(s.options[OPT_MODE].value.s)
+	free(s.options[OPT_MODE].value.s)
+      s.options[OPT_MODE].value.s = strdup(mode_list[0])
       *myinfo |= Sane.INFO_RELOAD_OPTIONS
       *myinfo |= Sane.INFO_RELOAD_PARAMS
       break
     default:
-      DBG (DBG_warn, "set_automatic_value: can't set unknown option %d\n",
+      DBG(DBG_warn, "set_automatic_value: can't set unknown option %d\n",
 	   option)
     }
 
@@ -564,12 +564,12 @@ set_automatic_value (P5_Session * s, Int option, Int * myinfo)
  * sets an option , called by Sane.control_option after all
  * checks have been done */
 static Sane.Status
-set_option_value (P5_Session * s, Int option, void *val, Int * myinfo)
+set_option_value(P5_Session * s, Int option, void *val, Int * myinfo)
 {
   Sane.Status status = Sane.STATUS_GOOD
   Sane.Word tmpw
 
-  switch (option)
+  switch(option)
     {
     case OPT_TL_X:
     case OPT_BR_X:
@@ -578,13 +578,13 @@ set_option_value (P5_Session * s, Int option, void *val, Int * myinfo)
       s.options[option].value.w = *(Sane.Word *) val
       /* we ensure geometry is coherent */
       /* this happens when user drags TL corner right or below the BR point */
-      if (s.options[OPT_BR_Y].value.w < s.options[OPT_TL_Y].value.w)
+      if(s.options[OPT_BR_Y].value.w < s.options[OPT_TL_Y].value.w)
 	{
 	  tmpw = s.options[OPT_BR_Y].value.w
 	  s.options[OPT_BR_Y].value.w = s.options[OPT_TL_Y].value.w
 	  s.options[OPT_TL_Y].value.w = tmpw
 	}
-      if (s.options[OPT_BR_X].value.w < s.options[OPT_TL_X].value.w)
+      if(s.options[OPT_BR_X].value.w < s.options[OPT_TL_X].value.w)
 	{
 	  tmpw = s.options[OPT_BR_X].value.w
 	  s.options[OPT_BR_X].value.w = s.options[OPT_TL_X].value.w
@@ -601,24 +601,24 @@ set_option_value (P5_Session * s, Int option, void *val, Int * myinfo)
       break
 
     case OPT_MODE:
-      if (s.options[option].value.s)
-	free (s.options[option].value.s)
-      s.options[option].value.s = strdup (val)
+      if(s.options[option].value.s)
+	free(s.options[option].value.s)
+      s.options[option].value.s = strdup(val)
       *myinfo |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
       break
 
     case OPT_CALIBRATE:
-      status = sheetfed_calibration (s.dev)
+      status = sheetfed_calibration(s.dev)
       *myinfo |= Sane.INFO_RELOAD_OPTIONS
       break
 
     case OPT_CLEAR_CALIBRATION:
-      cleanup_calibration (s.dev)
+      cleanup_calibration(s.dev)
       *myinfo |= Sane.INFO_RELOAD_OPTIONS
       break
 
     default:
-      DBG (DBG_warn, "set_option_value: can't set unknown option %d\n",
+      DBG(DBG_warn, "set_option_value: can't set unknown option %d\n",
 	   option)
     }
   return status
@@ -628,11 +628,11 @@ set_option_value (P5_Session * s, Int option, void *val, Int * myinfo)
  * gets an option , called by Sane.control_option after all checks
  * have been done */
 static Sane.Status
-get_option_value (P5_Session * s, Int option, void *val)
+get_option_value(P5_Session * s, Int option, void *val)
 {
   Sane.Status status
 
-  switch (option)
+  switch(option)
     {
       /* word or word equivalent options: */
     case OPT_NUM_OPTS:
@@ -647,13 +647,13 @@ get_option_value (P5_Session * s, Int option, void *val)
 
       /* string options: */
     case OPT_MODE:
-      strcpy (val, s.options[option].value.s)
+      strcpy(val, s.options[option].value.s)
       break
 
       /* sensor options */
     case OPT_PAGE_LOADED_SW:
-      status = test_document (s.dev.fd)
-      if (status == Sane.STATUS_GOOD)
+      status = test_document(s.dev.fd)
+      if(status == Sane.STATUS_GOOD)
 	s.options[option].value.b = Sane.TRUE
       else
 	s.options[option].value.b = Sane.FALSE
@@ -667,7 +667,7 @@ get_option_value (P5_Session * s, Int option, void *val)
 
       /* unhandled options */
     default:
-      DBG (DBG_warn, "get_option_value: can't get unknown option %d\n",
+      DBG(DBG_warn, "get_option_value: can't get unknown option %d\n",
 	   option)
     }
 
@@ -685,7 +685,7 @@ get_option_value (P5_Session * s, Int option, void *val)
  * below.  The value of the option is passed through argument val. It
  * is a pointer to the memory that holds the option value. The memory
  * area pointed to by v must be big enough to hold the entire option
- * value (determined by member size in the corresponding option
+ * value(determined by member size in the corresponding option
  * descriptor).
  *
  * The only exception to this rule is that when setting the value of a
@@ -697,7 +697,7 @@ get_option_value (P5_Session * s, Int option, void *val)
  * action is Sane.ACTION_GET_VALUE, Sane.ACTION_SET_VALUE or Sane.ACTION_SET_AUTO
  */
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
 		     Sane.Action action, void *val, Int * info)
 {
   P5_Session *s = handle
@@ -705,30 +705,30 @@ Sane.control_option (Sane.Handle handle, Int option,
   Sane.Word cap
   Int myinfo = 0
 
-  DBG (DBG_io2,
-       "Sane.control_option: start: action = %s, option = %s (%d)\n",
+  DBG(DBG_io2,
+       "Sane.control_option: start: action = %s, option = %s(%d)\n",
        (action == Sane.ACTION_GET_VALUE) ? "get" : (action ==
 						    Sane.ACTION_SET_VALUE) ?
        "set" : (action == Sane.ACTION_SET_AUTO) ? "set_auto" : "unknown",
        s.options[option].descriptor.name, option)
 
-  if (info)
+  if(info)
     *info = 0
 
   /* do checks before trying to apply action */
 
-  if (s.scanning)
+  if(s.scanning)
     {
-      DBG (DBG_warn, "Sane.control_option: don't call this function while "
-	   "scanning (option = %s (%d))\n",
+      DBG(DBG_warn, "Sane.control_option: don't call this function while "
+	   "scanning(option = %s(%d))\n",
 	   s.options[option].descriptor.name, option)
       return Sane.STATUS_DEVICE_BUSY
     }
 
   /* option must be within existing range */
-  if (option >= NUM_OPTIONS || option < 0)
+  if(option >= NUM_OPTIONS || option < 0)
     {
-      DBG (DBG_warn,
+      DBG(DBG_warn,
 	   "Sane.control_option: option %d >= NUM_OPTIONS || option < 0\n",
 	   option)
       return Sane.STATUS_INVAL
@@ -736,72 +736,72 @@ Sane.control_option (Sane.Handle handle, Int option,
 
   /* don't access an inactive option */
   cap = s.options[option].descriptor.cap
-  if (!Sane.OPTION_IS_ACTIVE (cap))
+  if(!Sane.OPTION_IS_ACTIVE(cap))
     {
-      DBG (DBG_warn, "Sane.control_option: option %d is inactive\n", option)
+      DBG(DBG_warn, "Sane.control_option: option %d is inactive\n", option)
       return Sane.STATUS_INVAL
     }
 
   /* now checks have been done, apply action */
-  switch (action)
+  switch(action)
     {
     case Sane.ACTION_GET_VALUE:
-      status = get_option_value (s, option, val)
+      status = get_option_value(s, option, val)
       break
 
     case Sane.ACTION_SET_VALUE:
-      if (!Sane.OPTION_IS_SETTABLE (cap))
+      if(!Sane.OPTION_IS_SETTABLE(cap))
 	{
-	  DBG (DBG_warn, "Sane.control_option: option %d is not settable\n",
+	  DBG(DBG_warn, "Sane.control_option: option %d is not settable\n",
 	       option)
 	  return Sane.STATUS_INVAL
 	}
 
       status =
-	sanei_constrain_value (&s.options[option].descriptor, val, &myinfo)
-      if (status != Sane.STATUS_GOOD)
+	sanei_constrain_value(&s.options[option].descriptor, val, &myinfo)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (DBG_warn,
+	  DBG(DBG_warn,
 	       "Sane.control_option: sanei_constrain_value returned %s\n",
-	       Sane.strstatus (status))
+	       Sane.strstatus(status))
 	  return status
 	}
 
       /* return immediately if no change */
-      if (s.options[option].descriptor.type == Sane.TYPE_INT
+      if(s.options[option].descriptor.type == Sane.TYPE_INT
 	  && *(Sane.Word *) val == s.options[option].value.w)
 	{
 	  status = Sane.STATUS_GOOD
 	}
       else
 	{			/* apply change */
-	  status = set_option_value (s, option, val, &myinfo)
+	  status = set_option_value(s, option, val, &myinfo)
 	}
       break
 
     case Sane.ACTION_SET_AUTO:
       /* sets automatic values */
-      if (!(cap & Sane.CAP_AUTOMATIC))
+      if(!(cap & Sane.CAP_AUTOMATIC))
 	{
-	  DBG (DBG_warn,
+	  DBG(DBG_warn,
 	       "Sane.control_option: option %d is not autosettable\n",
 	       option)
 	  return Sane.STATUS_INVAL
 	}
 
-      status = set_automatic_value (s, option, &myinfo)
+      status = set_automatic_value(s, option, &myinfo)
       break
 
     default:
-      DBG (DBG_error, "Sane.control_option: invalid action %d\n", action)
+      DBG(DBG_error, "Sane.control_option: invalid action %d\n", action)
       status = Sane.STATUS_INVAL
       break
     }
 
-  if (info)
+  if(info)
     *info = myinfo
 
-  DBG (DBG_io2, "Sane.control_option: exit\n")
+  DBG(DBG_io2, "Sane.control_option: exit\n")
   return status
 }
 
@@ -814,63 +814,63 @@ Sane.control_option (Sane.Handle handle, Int option,
  * warming up is done. Any other values returned are error status.
  */
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   struct P5_Session *session = handle
   Int status = Sane.STATUS_GOOD
   P5_Device *dev = session.dev
 
-  DBG (DBG_proc, "Sane.start: start\n")
+  DBG(DBG_proc, "Sane.start: start\n")
 
   /* if already scanning, tell we're busy */
-  if (session.scanning == Sane.TRUE)
+  if(session.scanning == Sane.TRUE)
     {
-      DBG (DBG_info, "Sane.start: device is already scanning\n")
+      DBG(DBG_info, "Sane.start: device is already scanning\n")
       return Sane.STATUS_DEVICE_BUSY
     }
 
   /* check that the device has been initialized */
-  if (dev.initialized == Sane.FALSE)
+  if(dev.initialized == Sane.FALSE)
     {
-      DBG (DBG_error, "Sane.start: device is not initialized\n")
+      DBG(DBG_error, "Sane.start: device is not initialized\n")
       return Sane.STATUS_INVAL
     }
 
   /* check if there is a document */
-  status = test_document (dev.fd)
-  if (status != Sane.STATUS_GOOD)
+  status = test_document(dev.fd)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "Sane.start: device is already scanning\n")
+      DBG(DBG_error, "Sane.start: device is already scanning\n")
       return status
     }
 
   /* we compute all the scan parameters so that */
   /* we will be able to set up the registers correctly */
-  compute_parameters (session)
+  compute_parameters(session)
 
   /* move to scan area if needed */
-  if (dev.ystart > 0)
+  if(dev.ystart > 0)
     {
-      status = move (dev)
-      if (status != Sane.STATUS_GOOD)
+      status = move(dev)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (DBG_error, "Sane.start: failed to move to scan area\n")
+	  DBG(DBG_error, "Sane.start: failed to move to scan area\n")
 	  return Sane.STATUS_INVAL
 	}
     }
 
   /* send scan command */
-  status = start_scan (dev, dev.mode, dev.ydpi, dev.xstart, dev.pixels)
-  if (status != Sane.STATUS_GOOD)
+  status = start_scan(dev, dev.mode, dev.ydpi, dev.xstart, dev.pixels)
+  if(status != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error, "Sane.start: failed to start scan\n")
+      DBG(DBG_error, "Sane.start: failed to start scan\n")
       return Sane.STATUS_INVAL
     }
 
   /* allocates work buffer */
-  if (dev.buffer != NULL)
+  if(dev.buffer != NULL)
     {
-      free (dev.buffer)
+      free(dev.buffer)
     }
 
   dev.position = 0
@@ -879,11 +879,11 @@ Sane.start (Sane.Handle handle)
   dev.bottom = dev.bytes_per_line * 2 * dev.lds
   /* computes buffer size, 66 color lines plus eventual amount needed for lds */
   dev.size = dev.pixels * 3 * 66 + dev.bottom
-  dev.buffer = (uint8_t *) malloc (dev.size)
-  if (dev.buffer == NULL)
+  dev.buffer = (uint8_t *) malloc(dev.size)
+  if(dev.buffer == NULL)
     {
-      DBG (DBG_error, "Sane.start: failed to allocate %lu bytes\n", (unsigned long)dev.size)
-      Sane.cancel (handle)
+      DBG(DBG_error, "Sane.start: failed to allocate %lu bytes\n", (unsigned long)dev.size)
+      Sane.cancel(handle)
       return Sane.STATUS_NO_MEM
     }
 
@@ -891,13 +891,13 @@ Sane.start (Sane.Handle handle)
   session.scanning = Sane.TRUE
   session.sent = 0
 
-  DBG (DBG_io, "Sane.start: to_send=%d\n", session.to_send)
-  DBG (DBG_io, "Sane.start: size=%lu\n", (unsigned long)dev.size)
-  DBG (DBG_io, "Sane.start: top=%lu\n", (unsigned long)dev.top)
-  DBG (DBG_io, "Sane.start: bottom=%lu\n", (unsigned long)dev.bottom)
-  DBG (DBG_io, "Sane.start: position=%lu\n", (unsigned long)dev.position)
+  DBG(DBG_io, "Sane.start: to_send=%d\n", session.to_send)
+  DBG(DBG_io, "Sane.start: size=%lu\n", (unsigned long)dev.size)
+  DBG(DBG_io, "Sane.start: top=%lu\n", (unsigned long)dev.top)
+  DBG(DBG_io, "Sane.start: bottom=%lu\n", (unsigned long)dev.bottom)
+  DBG(DBG_io, "Sane.start: position=%lu\n", (unsigned long)dev.position)
 
-  DBG (DBG_proc, "Sane.start: exit\n")
+  DBG(DBG_proc, "Sane.start: exit\n")
   return status
 }
 
@@ -909,7 +909,7 @@ Sane.start (Sane.Handle handle)
  * @return Sane.STATUS_GOOD on success
  */
 static Sane.Status
-compute_parameters (P5_Session * session)
+compute_parameters(P5_Session * session)
 {
   P5_Device *dev = session.dev
   Int dpi;			/* dpi for scan */
@@ -922,22 +922,22 @@ compute_parameters (P5_Session * session)
   dpi = session.options[OPT_RESOLUTION].value.w
 
   /* scan coordinates */
-  tl_x = Sane.UNFIX (session.options[OPT_TL_X].value.w)
-  tl_y = Sane.UNFIX (session.options[OPT_TL_Y].value.w)
-  br_x = Sane.UNFIX (session.options[OPT_BR_X].value.w)
-  br_y = Sane.UNFIX (session.options[OPT_BR_Y].value.w)
+  tl_x = Sane.UNFIX(session.options[OPT_TL_X].value.w)
+  tl_y = Sane.UNFIX(session.options[OPT_TL_Y].value.w)
+  br_x = Sane.UNFIX(session.options[OPT_BR_X].value.w)
+  br_y = Sane.UNFIX(session.options[OPT_BR_Y].value.w)
 
   /* only single pass scanning supported */
   session.params.last_frame = Sane.TRUE
 
   /* gray modes */
-  if (strcmp (mode, GRAY_MODE) == 0)
+  if(strcmp(mode, GRAY_MODE) == 0)
     {
       session.params.format = Sane.FRAME_GRAY
       dev.mode = MODE_GRAY
       dev.lds = 0
     }
-  else if (strcmp (mode, LINEART_MODE) == 0)
+  else if(strcmp(mode, LINEART_MODE) == 0)
     {
       session.params.format = Sane.FRAME_GRAY
       dev.mode = MODE_LINEART
@@ -953,16 +953,16 @@ compute_parameters (P5_Session * session)
 
   /* SANE level values */
   session.params.lines = ((br_y - tl_y) * dpi) / MM_PER_INCH
-  if (session.params.lines == 0)
+  if(session.params.lines == 0)
     session.params.lines = 1
   session.params.pixels_per_line = ((br_x - tl_x) * dpi) / MM_PER_INCH
-  if (session.params.pixels_per_line == 0)
+  if(session.params.pixels_per_line == 0)
     session.params.pixels_per_line = 1
 
-  DBG (DBG_data, "compute_parameters: pixels_per_line   =%d\n",
+  DBG(DBG_data, "compute_parameters: pixels_per_line   =%d\n",
        session.params.pixels_per_line)
 
-  if (strcmp (mode, LINEART_MODE) == 0)
+  if(strcmp(mode, LINEART_MODE) == 0)
     {
       session.params.depth = 1
       /* in lineart, having pixels multiple of 8 avoids a costly test */
@@ -975,7 +975,7 @@ compute_parameters (P5_Session * session)
     session.params.depth = 8
 
   /* width needs to be even */
-  if (session.params.pixels_per_line & 1)
+  if(session.params.pixels_per_line & 1)
     session.params.pixels_per_line++
 
   /* Hardware settings : they can differ from the ones at SANE level */
@@ -989,20 +989,20 @@ compute_parameters (P5_Session * session)
   dev.ydpi = dpi
 
   /* handle bounds of motor's dpi range */
-  if (dev.ydpi > dev.model.max_ydpi)
+  if(dev.ydpi > dev.model.max_ydpi)
     {
       dev.ydpi = dev.model.max_ydpi
       dev.lines = (dev.lines * dev.model.max_ydpi) / dpi
-      if (dev.lines == 0)
+      if(dev.lines == 0)
 	dev.lines = 1
 
       /* round number of lines */
       session.params.lines =
 	(session.params.lines / dev.lines) * dev.lines
-      if (session.params.lines == 0)
+      if(session.params.lines == 0)
 	session.params.lines = 1
     }
-  if (dev.ydpi < dev.model.min_ydpi)
+  if(dev.ydpi < dev.model.min_ydpi)
     {
       dev.ydpi = dev.model.min_ydpi
       dev.lines = (dev.lines * dev.model.min_ydpi) / dpi
@@ -1010,19 +1010,19 @@ compute_parameters (P5_Session * session)
 
   /* hardware values */
   dev.xstart =
-    ((Sane.UNFIX (dev.model.x_offset) + tl_x) * dpi) / MM_PER_INCH
+    ((Sane.UNFIX(dev.model.x_offset) + tl_x) * dpi) / MM_PER_INCH
   dev.ystart =
-    ((Sane.UNFIX (dev.model.y_offset) + tl_y) * dev.ydpi) / MM_PER_INCH
+    ((Sane.UNFIX(dev.model.y_offset) + tl_y) * dev.ydpi) / MM_PER_INCH
 
   /* take lds correction into account when moving to scan area */
-  if (dev.ystart > 2 * dev.lds)
+  if(dev.ystart > 2 * dev.lds)
     dev.ystart -= 2 * dev.lds
 
 
   /* computes bytes per line */
   session.params.bytes_per_line = session.params.pixels_per_line
   dev.bytes_per_line = dev.pixels
-  if (session.params.format == Sane.FRAME_RGB)
+  if(session.params.format == Sane.FRAME_RGB)
     {
       dev.bytes_per_line *= 3
     }
@@ -1030,7 +1030,7 @@ compute_parameters (P5_Session * session)
   /* in lineart mode we adjust bytes_per_line needed by frontend */
   /* we do that here because we needed sent/to_send to be as if  */
   /* there was no lineart                                        */
-  if (session.params.depth == 1)
+  if(session.params.depth == 1)
     {
       session.params.bytes_per_line =
 	(session.params.bytes_per_line + 7) / 8
@@ -1040,22 +1040,22 @@ compute_parameters (P5_Session * session)
   session.to_send = session.params.bytes_per_line * session.params.lines
   session.params.bytes_per_line = dev.bytes_per_line
 
-  DBG (DBG_data, "compute_parameters: bytes_per_line    =%d\n",
+  DBG(DBG_data, "compute_parameters: bytes_per_line    =%d\n",
        session.params.bytes_per_line)
-  DBG (DBG_data, "compute_parameters: depth             =%d\n",
+  DBG(DBG_data, "compute_parameters: depth             =%d\n",
        session.params.depth)
-  DBG (DBG_data, "compute_parameters: lines             =%d\n",
+  DBG(DBG_data, "compute_parameters: lines             =%d\n",
        session.params.lines)
-  DBG (DBG_data, "compute_parameters: image size        =%d\n",
+  DBG(DBG_data, "compute_parameters: image size        =%d\n",
        session.to_send)
 
-  DBG (DBG_data, "compute_parameters: xstart            =%d\n", dev.xstart)
-  DBG (DBG_data, "compute_parameters: ystart            =%d\n", dev.ystart)
-  DBG (DBG_data, "compute_parameters: dev lines         =%d\n", dev.lines)
-  DBG (DBG_data, "compute_parameters: dev bytes per line=%d\n",
+  DBG(DBG_data, "compute_parameters: xstart            =%d\n", dev.xstart)
+  DBG(DBG_data, "compute_parameters: ystart            =%d\n", dev.ystart)
+  DBG(DBG_data, "compute_parameters: dev lines         =%d\n", dev.lines)
+  DBG(DBG_data, "compute_parameters: dev bytes per line=%d\n",
        dev.bytes_per_line)
-  DBG (DBG_data, "compute_parameters: dev pixels        =%d\n", dev.pixels)
-  DBG (DBG_data, "compute_parameters: lds               =%d\n", dev.lds)
+  DBG(DBG_data, "compute_parameters: dev pixels        =%d\n", dev.pixels)
+  DBG(DBG_data, "compute_parameters: lds               =%d\n", dev.lds)
 
   return status
 }
@@ -1068,7 +1068,7 @@ compute_parameters (P5_Session * session)
  * From the SANE spec:
  * This function is used to obtain the current scan parameters. The
  * returned parameters are guaranteed to be accurate between the time
- * a scan has been started (Sane.start() has been called) and the
+ * a scan has been started(Sane.start() has been called) and the
  * completion of that request. Outside of that window, the returned
  * values are best-effort estimates of what the parameters will be
  * when Sane.start() gets invoked.
@@ -1080,19 +1080,19 @@ compute_parameters (P5_Session * session)
  * to a parameter structure.
  */
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
   Sane.Status status
   struct P5_Session *session = (struct P5_Session *) handle
 
-  DBG (DBG_proc, "Sane.get_parameters: start\n")
+  DBG(DBG_proc, "Sane.get_parameters: start\n")
 
   /* call parameters computing function */
-  status = compute_parameters (session)
-  if (status == Sane.STATUS_GOOD && params)
+  status = compute_parameters(session)
+  if(status == Sane.STATUS_GOOD && params)
     *params = session.params
 
-  DBG (DBG_proc, "Sane.get_parameters: exit\n")
+  DBG(DBG_proc, "Sane.get_parameters: exit\n")
   return status
 }
 
@@ -1105,7 +1105,7 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
  * represented by handle h.  Argument buf is a pointer to a memory
  * area that is at least maxlen bytes long.  The number of bytes
  * returned is stored in *len. A backend must set this to zero when
- * the call fails (i.e., when a status other than Sane.STATUS_GOOD is
+ * the call fails(i.e., when a status other than Sane.STATUS_GOOD is
  * returned).
  *
  * When the call succeeds, the number of bytes returned can be
@@ -1114,7 +1114,7 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
  * Returned data is read from working buffer.
  */
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * buf,
+Sane.read(Sane.Handle handle, Sane.Byte * buf,
 	   Int max_len, Int * len)
 {
   struct P5_Session *session = (struct P5_Session *) handle
@@ -1125,25 +1125,25 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf,
   Bool x2
   Int i
 
-  DBG (DBG_proc, "Sane.read: start\n")
-  DBG (DBG_io, "Sane.read: up to %d bytes required by frontend\n", max_len)
+  DBG(DBG_proc, "Sane.read: start\n")
+  DBG(DBG_io, "Sane.read: up to %d bytes required by frontend\n", max_len)
 
   /* some sanity checks first to protect from would be buggy frontends */
-  if (!session)
+  if(!session)
     {
-      DBG (DBG_error, "Sane.read: handle is null!\n")
+      DBG(DBG_error, "Sane.read: handle is null!\n")
       return Sane.STATUS_INVAL
     }
 
-  if (!buf)
+  if(!buf)
     {
-      DBG (DBG_error, "Sane.read: buf is null!\n")
+      DBG(DBG_error, "Sane.read: buf is null!\n")
       return Sane.STATUS_INVAL
     }
 
-  if (!len)
+  if(!len)
     {
-      DBG (DBG_error, "Sane.read: len is null!\n")
+      DBG(DBG_error, "Sane.read: len is null!\n")
       return Sane.STATUS_INVAL
     }
 
@@ -1151,51 +1151,51 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf,
   *len = 0
 
   /* check if session is scanning */
-  if (!session.scanning)
+  if(!session.scanning)
     {
-      DBG (DBG_warn,
+      DBG(DBG_warn,
 	   "Sane.read: scan was cancelled, is over or has not been initiated yet\n")
       return Sane.STATUS_CANCELLED
     }
 
   /* check for EOF, must be done before any physical read */
-  if (session.sent >= session.to_send)
+  if(session.sent >= session.to_send)
     {
-      DBG (DBG_io, "Sane.read: end of scan reached\n")
+      DBG(DBG_io, "Sane.read: end of scan reached\n")
       return Sane.STATUS_EOF
     }
 
   /* if working buffer is empty, we do a physical data read */
-  if (dev.top <= dev.bottom)
+  if(dev.top <= dev.bottom)
     {
-      DBG (DBG_io, "Sane.read: physical data read\n")
+      DBG(DBG_io, "Sane.read: physical data read\n")
       /* check is there is data available. In case of non-blocking mode we return
        * as soon it is detected there is no data yet. Reads must by done line by
        * line, so we read only when count is bigger than bytes per line
        * */
-      count = available_bytes (dev.fd)
-      DBG (DBG_io, "Sane.read: count=%d bytes\n", count)
-      if (count < dev.bytes_per_line && session.non_blocking == Sane.TRUE)
+      count = available_bytes(dev.fd)
+      DBG(DBG_io, "Sane.read: count=%d bytes\n", count)
+      if(count < dev.bytes_per_line && session.non_blocking == Sane.TRUE)
 	{
-	  DBG (DBG_io, "Sane.read: scanner hasn't enough data available\n")
-	  DBG (DBG_proc, "Sane.read: exit\n")
+	  DBG(DBG_io, "Sane.read: scanner hasn't enough data available\n")
+	  DBG(DBG_proc, "Sane.read: exit\n")
 	  return Sane.STATUS_GOOD
 	}
 
       /* now we can wait for data here */
-      while (count < dev.bytes_per_line)
+      while(count < dev.bytes_per_line)
 	{
 	  /* test if document left the feeder, so we have to terminate the scan */
-	  status = test_document (dev.fd)
-	  if (status == Sane.STATUS_NO_DOCS)
+	  status = test_document(dev.fd)
+	  if(status == Sane.STATUS_NO_DOCS)
 	    {
 	      session.to_send = session.sent
 	      return Sane.STATUS_EOF
 	    }
 
 	  /* don't call scanner too often */
-	  usleep (10000)
-	  count = available_bytes (dev.fd)
+	  usleep(10000)
+	  count = available_bytes(dev.fd)
 	}
 
       /** compute size of physical data to read
@@ -1204,14 +1204,14 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf,
        * We try to read a complete buffer */
       size = dev.size - dev.position
 
-      if (session.to_send - session.sent < size)
+      if(session.to_send - session.sent < size)
 	{
 	  /* not enough data left, so read remainder of scan */
 	  size = session.to_send - session.sent
 	}
 
       /* 600 dpi is 300x600 physical, and 400 is 200x400 */
-      if (dev.ydpi > dev.model.max_xdpi)
+      if(dev.ydpi > dev.model.max_xdpi)
 	{
 	  x2 = Sane.TRUE
 	}
@@ -1219,7 +1219,7 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf,
 	{
 	  x2 = Sane.FALSE
 	}
-      lines = read_line (dev,
+      lines = read_line(dev,
 			 dev.buffer + dev.position,
 			 dev.bytes_per_line,
 			 size / dev.bytes_per_line,
@@ -1227,34 +1227,34 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf,
 
       /* handle document end detection TODO try to recover the partial
        * buffer already read before EOD */
-      if (lines == -1)
+      if(lines == -1)
 	{
-	  DBG (DBG_io, "Sane.read: error reading line\n")
+	  DBG(DBG_io, "Sane.read: error reading line\n")
 	  return Sane.STATUS_IO_ERROR
 	}
 
       /* gather lines until we have more than needed for lds */
       dev.position += lines * dev.bytes_per_line
       dev.top = dev.position
-      if (dev.position > dev.bottom)
+      if(dev.position > dev.bottom)
 	{
 	  dev.position = dev.bottom
 	}
-      DBG (DBG_io, "Sane.read: size    =%lu\n", (unsigned long)dev.size)
-      DBG (DBG_io, "Sane.read: bottom  =%lu\n", (unsigned long)dev.bottom)
-      DBG (DBG_io, "Sane.read: position=%lu\n", (unsigned long)dev.position)
-      DBG (DBG_io, "Sane.read: top     =%lu\n", (unsigned long)dev.top)
+      DBG(DBG_io, "Sane.read: size    =%lu\n", (unsigned long)dev.size)
+      DBG(DBG_io, "Sane.read: bottom  =%lu\n", (unsigned long)dev.bottom)
+      DBG(DBG_io, "Sane.read: position=%lu\n", (unsigned long)dev.position)
+      DBG(DBG_io, "Sane.read: top     =%lu\n", (unsigned long)dev.top)
     }				/* end of physical data reading */
 
   /* logical data reading */
   /* check if there data available in working buffer */
-  if (dev.position < dev.top && dev.position >= dev.bottom)
+  if(dev.position < dev.top && dev.position >= dev.bottom)
     {
-      DBG (DBG_io, "Sane.read: logical data read\n")
+      DBG(DBG_io, "Sane.read: logical data read\n")
       /* we have more data in internal buffer than asked ,
        * then send only max data */
       size = dev.top - dev.position
-      if (max_len < size)
+      if(max_len < size)
 	{
 	  *len = max_len
 	}
@@ -1265,9 +1265,9 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf,
 	}
 
       /* data copy */
-      if (dev.lds == 0)
+      if(dev.lds == 0)
 	{
-	  memcpy (buf, dev.buffer + dev.position, *len)
+	  memcpy(buf, dev.buffer + dev.position, *len)
 	}
       else
 	{
@@ -1275,9 +1275,9 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf,
 	  count = dev.lds * dev.bytes_per_line
 
 	  /* adjust for lds as we copy data to frontend */
-	  for (i = 0; i < *len; i++)
+	  for(i = 0; i < *len; i++)
 	    {
-	      switch ((dev.position + i) % 3)
+	      switch((dev.position + i) % 3)
 		{
 		  /* red */
 		case 0:
@@ -1298,18 +1298,18 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf,
 
       /* update byte accounting */
       session.sent += *len
-      DBG (DBG_io, "Sane.read: sent %d bytes from buffer to frontend\n",
+      DBG(DBG_io, "Sane.read: sent %d bytes from buffer to frontend\n",
 	   *len)
       return Sane.STATUS_GOOD
     }
 
   /* check if we exhausted working buffer */
-  if (dev.position >= dev.top && dev.position >= dev.bottom)
+  if(dev.position >= dev.top && dev.position >= dev.bottom)
     {
       /* copy extra lines needed for lds in next buffer */
-      if (dev.position > dev.bottom && dev.lds > 0)
+      if(dev.position > dev.bottom && dev.lds > 0)
 	{
-	  memcpy (dev.buffer,
+	  memcpy(dev.buffer,
 		  dev.buffer + dev.position - dev.bottom, dev.bottom)
 	}
 
@@ -1318,12 +1318,12 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf,
       dev.top = 0
     }
 
-  DBG (DBG_io, "Sane.read: size    =%lu\n", (unsigned long)dev.size)
-  DBG (DBG_io, "Sane.read: bottom  =%lu\n", (unsigned long)dev.bottom)
-  DBG (DBG_io, "Sane.read: position=%lu\n", (unsigned long)dev.position)
-  DBG (DBG_io, "Sane.read: top     =%lu\n", (unsigned long)dev.top)
+  DBG(DBG_io, "Sane.read: size    =%lu\n", (unsigned long)dev.size)
+  DBG(DBG_io, "Sane.read: bottom  =%lu\n", (unsigned long)dev.bottom)
+  DBG(DBG_io, "Sane.read: position=%lu\n", (unsigned long)dev.position)
+  DBG(DBG_io, "Sane.read: top     =%lu\n", (unsigned long)dev.top)
 
-  DBG (DBG_proc, "Sane.read: exit\n")
+  DBG(DBG_proc, "Sane.read: exit\n")
   return status
 }
 
@@ -1334,46 +1334,46 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf,
  * From the SANE spec:
  * This function is used to immediately or as quickly as possible
  * cancel the currently pending operation of the device represented by
- * handle h.  This function can be called at any time (as long as
+ * handle h.  This function can be called at any time(as long as
  * handle h is a valid handle) but usually affects long-running
- * operations only (such as image is acquisition). It is safe to call
- * this function asynchronously (e.g., from within a signal handler).
+ * operations only(such as image is acquisition). It is safe to call
+ * this function asynchronously(e.g., from within a signal handler).
  * It is important to note that completion of this operation does not
  * imply that the currently pending operation has been cancelled. It
  * only guarantees that cancellation has been initiated. Cancellation
- * completes only when the cancelled call returns (typically with a
+ * completes only when the cancelled call returns(typically with a
  * status value of Sane.STATUS_CANCELLED).  Since the SANE API does
  * not require any other operations to be re-entrant, this implies
  * that a frontend must not call any other operation until the
  * cancelled operation has returned.
  */
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   P5_Session *session = handle
 
-  DBG (DBG_proc, "Sane.cancel: start\n")
+  DBG(DBG_proc, "Sane.cancel: start\n")
 
   /* if scanning, abort and park head */
-  if (session.scanning == Sane.TRUE)
+  if(session.scanning == Sane.TRUE)
     {
       /* detects if we are called after the scan is finished,
        * or if the scan is aborted */
-      if (session.sent < session.to_send)
+      if(session.sent < session.to_send)
 	{
-	  DBG (DBG_info, "Sane.cancel: aborting scan.\n")
+	  DBG(DBG_info, "Sane.cancel: aborting scan.\n")
 	  /* device hasn't finished scan, we are aborting it
 	   * and we may have to do something specific for it here */
 	}
       else
 	{
-	  DBG (DBG_info, "Sane.cancel: cleaning up after scan.\n")
+	  DBG(DBG_info, "Sane.cancel: cleaning up after scan.\n")
 	}
       session.scanning = Sane.FALSE
     }
-  eject (session.dev.fd)
+  eject(session.dev.fd)
 
-  DBG (DBG_proc, "Sane.cancel: exit\n")
+  DBG(DBG_proc, "Sane.cancel: exit\n")
 }
 
 
@@ -1391,72 +1391,72 @@ Sane.cancel (Sane.Handle handle)
  * Sane.exit() is called.
  */
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
   P5_Session *prev, *session
 
-  DBG (DBG_proc, "Sane.close: start\n")
+  DBG(DBG_proc, "Sane.close: start\n")
 
   /* remove handle from list of open handles: */
   prev = NULL
-  for (session = sessions; session; session = session.next)
+  for(session = sessions; session; session = session.next)
     {
-      if (session == handle)
+      if(session == handle)
 	break
       prev = session
     }
-  if (!session)
+  if(!session)
     {
-      DBG (DBG_error0, "close: invalid handle %p\n", handle)
+      DBG(DBG_error0, "close: invalid handle %p\n", handle)
       return;			/* oops, not a handle we know about */
     }
 
   /* cancel any active scan */
-  if (session.scanning == Sane.TRUE)
+  if(session.scanning == Sane.TRUE)
     {
-      Sane.cancel (handle)
+      Sane.cancel(handle)
     }
 
-  if (prev)
+  if(prev)
     prev.next = session.next
   else
     sessions = session.next
 
   /* close low level device */
-  if (session.dev.initialized == Sane.TRUE)
+  if(session.dev.initialized == Sane.TRUE)
     {
-      if (session.dev.calibrated == Sane.TRUE)
+      if(session.dev.calibrated == Sane.TRUE)
 	{
-	  save_calibration (session.dev)
+	  save_calibration(session.dev)
 	}
-      disconnect (session.dev.fd)
-      close_pp (session.dev.fd)
+      disconnect(session.dev.fd)
+      close_pp(session.dev.fd)
       session.dev.fd = -1
       session.dev.initialized = Sane.FALSE
 
       /* free device data */
-      if (session.dev.buffer != NULL)
+      if(session.dev.buffer != NULL)
 	{
-	  free (session.dev.buffer)
+	  free(session.dev.buffer)
 	}
-      if (session.dev.buffer != NULL)
+      if(session.dev.buffer != NULL)
 	{
-	  free (session.dev.gain)
-	  free (session.dev.offset)
+	  free(session.dev.gain)
+	  free(session.dev.offset)
 	}
-      if (session.dev.calibrated == Sane.TRUE)
+      if(session.dev.calibrated == Sane.TRUE)
 	{
-	  cleanup_calibration (session.dev)
+	  cleanup_calibration(session.dev)
 	}
     }
 
   /* free per session data */
-  free (session.options[OPT_MODE].value.s)
-  free ((void *)session.options[OPT_RESOLUTION].descriptor.constraint.word_list)
+  free(session.options[OPT_MODE].value.s)
+  free((void *)session.options[OPT_RESOLUTION].descriptor.constraint.word_list)
 
-  free (session)
+  free(session)
 
-  DBG (DBG_proc, "Sane.close: exit\n")
+  DBG(DBG_proc, "Sane.close: exit\n")
 }
 
 
@@ -1466,7 +1466,7 @@ Sane.close (Sane.Handle handle)
  * From the SANE spec:
  * This function must be called to terminate use of a backend. The
  * function will first close all device handles that still might be
- * open (it is recommended to close device handles explicitly through
+ * open(it is recommended to close device handles explicitly through
  * a call to Sane.close(), but backends are required to release all
  * resources upon a call to this function). After this function
  * returns, no function other than Sane.init() may be called
@@ -1475,55 +1475,55 @@ Sane.close (Sane.Handle handle)
  * released properly.
  */
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   struct P5_Session *session, *next
   struct P5_Device *dev, *nextdev
   var i: Int
 
-  DBG (DBG_proc, "Sane.exit: start\n")
+  DBG(DBG_proc, "Sane.exit: start\n")
   init_count--
 
-  if (init_count > 0)
+  if(init_count > 0)
     {
-      DBG (DBG_info,
+      DBG(DBG_info,
 	   "Sane.exit: still %d fronteds to leave before effective exit.\n",
 	   init_count)
       return
     }
 
   /* free session structs */
-  for (session = sessions; session; session = next)
+  for(session = sessions; session; session = next)
     {
       next = session.next
-      Sane.close ((Sane.Handle *) session)
-      free (session)
+      Sane.close((Sane.Handle *) session)
+      free(session)
     }
   sessions = NULL
 
   /* free devices structs */
-  for (dev = devices; dev; dev = nextdev)
+  for(dev = devices; dev; dev = nextdev)
     {
       nextdev = dev.next
-      free (dev.name)
-      free (dev)
+      free(dev.name)
+      free(dev)
     }
   devices = NULL
 
   /* now list of devices */
-  if (devlist)
+  if(devlist)
     {
       i = 0
-      while ((Sane.Device *) devlist[i])
+      while((Sane.Device *) devlist[i])
 	{
-	  free ((Sane.Device *) devlist[i])
+	  free((Sane.Device *) devlist[i])
 	  i++
 	}
-      free (devlist)
+      free(devlist)
       devlist = NULL
     }
 
-  DBG (DBG_proc, "Sane.exit: exit\n")
+  DBG(DBG_proc, "Sane.exit: exit\n")
 }
 
 
@@ -1533,7 +1533,7 @@ Sane.exit (void)
  * 'devices' list
  */
 static Sane.Status
-probe_p5_devices (void)
+probe_p5_devices(void)
 {
   /**> configuration structure used during attach */
   SANEI_Config config
@@ -1544,16 +1544,16 @@ probe_p5_devices (void)
   var i: Int
   Sane.Status status
 
-  DBG (DBG_proc, "probe_p5_devices: start\n")
+  DBG(DBG_proc, "probe_p5_devices: start\n")
 
   /* initialize configuration options */
   cfg_options[CFG_MODEL_NAME] =
-    (Sane.Option_Descriptor *) malloc (sizeof (Sane.Option_Descriptor))
+    (Sane.Option_Descriptor *) malloc(sizeof(Sane.Option_Descriptor))
   cfg_options[CFG_MODEL_NAME]->name = "modelname"
   cfg_options[CFG_MODEL_NAME]->desc = "user provided scanner's model name"
   cfg_options[CFG_MODEL_NAME]->type = Sane.TYPE_INT
   cfg_options[CFG_MODEL_NAME]->unit = Sane.UNIT_NONE
-  cfg_options[CFG_MODEL_NAME]->size = sizeof (Sane.Word)
+  cfg_options[CFG_MODEL_NAME]->size = sizeof(Sane.Word)
   cfg_options[CFG_MODEL_NAME]->cap = Sane.CAP_SOFT_SELECT
   cfg_options[CFG_MODEL_NAME]->constraint_type = Sane.CONSTRAINT_NONE
   values[CFG_MODEL_NAME] = &p5cfg.modelname
@@ -1564,15 +1564,15 @@ probe_p5_devices (void)
   config.count = NUM_CFG_OPTIONS
 
   /* generic configure and attach function */
-  status = sanei_configure_attach (P5_CONFIG_FILE, &config,
+  status = sanei_configure_attach(P5_CONFIG_FILE, &config,
                                    config_attach, NULL)
   /* free allocated options */
-  for (i = 0; i < NUM_CFG_OPTIONS; i++)
+  for(i = 0; i < NUM_CFG_OPTIONS; i++)
     {
-      free (cfg_options[i])
+      free(cfg_options[i])
     }
 
-  DBG (DBG_proc, "probe_p5_devices: end\n")
+  DBG(DBG_proc, "probe_p5_devices: end\n")
   return status
 }
 
@@ -1584,12 +1584,12 @@ probe_p5_devices (void)
  * @param devname name of the device to try to attach to, it is
  * 	          the unprocessed line of the configuration file
  *
- * @return status Sane.STATUS_GOOD if no errors (even if no matching
+ * @return status Sane.STATUS_GOOD if no errors(even if no matching
  * 	    devices found)
  * 	   Sane.STATUS_INVAL in case of error
  */
 static Sane.Status
-config_attach (SANEI_Config __Sane.unused__ * config, const char *devname,
+config_attach(SANEI_Config __Sane.unused__ * config, const char *devname,
                void __Sane.unused__ *data)
 {
   /* currently, the config is a global variable so config is useless here */
@@ -1617,7 +1617,7 @@ config_attach (SANEI_Config __Sane.unused__ * config, const char *devname,
  * @param devicename name of the device to try to attach to, it is
  * 	          the unprocessed line of the configuration file
  *
- * @return status Sane.STATUS_GOOD if no errors (even if no matching
+ * @return status Sane.STATUS_GOOD if no errors(even if no matching
  * 	    devices found)
  * 	   Sane.STATUS_NOM_MEM if there isn't enough memory to allocate the
  * 	   			device structure
@@ -1630,19 +1630,19 @@ attach_p5 (const char *devicename, SANEI_Config * config)
   struct P5_Device *device
   struct P5_Model *model
 
-  DBG (DBG_proc, "attach(%s): start\n", devicename)
+  DBG(DBG_proc, "attach(%s): start\n", devicename)
   if(config==NULL)
     {
-      DBG (DBG_warn, "attach: config is NULL\n")
+      DBG(DBG_warn, "attach: config is NULL\n")
     }
 
   /* search if we already have it attached */
-  for (device = devices; device; device = device.next)
+  for(device = devices; device; device = device.next)
     {
-      if (strcmp (device.name, devicename) == 0)
+      if(strcmp(device.name, devicename) == 0)
 	{
-	  DBG (DBG_info, "attach: device already attached\n")
-	  DBG (DBG_proc, "attach: exit\n")
+	  DBG(DBG_info, "attach: device already attached\n")
+	  DBG(DBG_proc, "attach: exit\n")
 	  return Sane.STATUS_GOOD
 	}
     }
@@ -1652,29 +1652,29 @@ attach_p5 (const char *devicename, SANEI_Config * config)
    * we allocate a device struct and give it options and model.
    * Else we return Sane.STATUS_UNSUPPORTED.
    */
-  model = probe (devicename)
-  if (model == NULL)
+  model = probe(devicename)
+  if(model == NULL)
     {
-      DBG (DBG_info,
+      DBG(DBG_info,
 	   "attach: device %s is not managed by the backend\n", devicename)
-      DBG (DBG_proc, "attach: exit\n")
+      DBG(DBG_proc, "attach: exit\n")
       return Sane.STATUS_UNSUPPORTED
     }
 
   /* allocate device struct */
-  device = malloc (sizeof (*device))
-  if (device == NULL)
+  device = malloc(sizeof(*device))
+  if(device == NULL)
     {
       return Sane.STATUS_NO_MEM
-      DBG (DBG_proc, "attach: exit\n")
+      DBG(DBG_proc, "attach: exit\n")
     }
-  memset (device, 0, sizeof (*device))
+  memset(device, 0, sizeof(*device))
   device.model = model
 
   /* name of the device */
-  device.name = strdup (devicename)
+  device.name = strdup(devicename)
 
-  DBG (DBG_info, "attach: found %s %s %s at %s\n",
+  DBG(DBG_info, "attach: found %s %s %s at %s\n",
        device.model.vendor, device.model.product, device.model.type,
        device.name)
 
@@ -1688,7 +1688,7 @@ attach_p5 (const char *devicename, SANEI_Config * config)
   device.initialized = Sane.FALSE
   device.calibrated = Sane.FALSE
 
-  DBG (DBG_proc, "attach: exit\n")
+  DBG(DBG_proc, "attach: exit\n")
   return Sane.STATUS_GOOD
 }
 
@@ -1700,19 +1700,19 @@ attach_p5 (const char *devicename, SANEI_Config * config)
  * @return Sane.STATUS_GOOD on success
  */
 static Sane.Status
-init_options (struct P5_Session *session)
+init_options(struct P5_Session *session)
 {
   Int option, i, min, idx
   Sane.Word *dpi_list
   P5_Model *model = session.dev.model
 
-  DBG (DBG_proc, "init_options: start\n")
+  DBG(DBG_proc, "init_options: start\n")
 
   /* we first initialize each options with a default value */
-  memset (session.options, 0, sizeof (session.options[OPT_NUM_OPTS]))
-  for (option = 0; option < NUM_OPTIONS; option++)
+  memset(session.options, 0, sizeof(session.options[OPT_NUM_OPTS]))
+  for(option = 0; option < NUM_OPTIONS; option++)
     {
-      session.options[option].descriptor.size = sizeof (Sane.Word)
+      session.options[option].descriptor.size = sizeof(Sane.Word)
       session.options[option].descriptor.cap =
 	Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     }
@@ -1745,9 +1745,9 @@ init_options (struct P5_Session *session)
   session.options[OPT_MODE].descriptor.cap |= Sane.CAP_AUTOMATIC
   session.options[OPT_MODE].descriptor.constraint_type =
     Sane.CONSTRAINT_STRING_LIST
-  session.options[OPT_MODE].descriptor.size = max_string_size (mode_list)
+  session.options[OPT_MODE].descriptor.size = max_string_size(mode_list)
   session.options[OPT_MODE].descriptor.constraint.string_list = mode_list
-  session.options[OPT_MODE].value.s = strdup (mode_list[0])
+  session.options[OPT_MODE].value.s = strdup(mode_list[0])
 
   /* preview */
   session.options[OPT_PREVIEW].descriptor.name = Sane.NAME_PREVIEW
@@ -1766,27 +1766,27 @@ init_options (struct P5_Session *session)
    * pixels. The SANE API allow to control x and y dpi independently, but this is
    * rarely done and may confuse both frontends and users. In case a dpi value exists
    * for one but not for the other, the backend will have to crop data so that the
-   * frontend is unaffected. A common case is that motor resolution (ydpi) is higher
-   * than sensor resolution (xdpi), so scan lines must be scaled up to keep square
+   * frontend is unaffected. A common case is that motor resolution(ydpi) is higher
+   * than sensor resolution(xdpi), so scan lines must be scaled up to keep square
    * pixel when doing Sane.read().
    * TODO this deserves a dedicated function and some unit testing
    */
 
   /* find minimum first */
   min = 65535
-  for (i = 0; i < MAX_RESOLUTIONS && model.xdpi_values[i] > 0; i++)
+  for(i = 0; i < MAX_RESOLUTIONS && model.xdpi_values[i] > 0; i++)
     {
-      if (model.xdpi_values[i] < min)
+      if(model.xdpi_values[i] < min)
 	min = model.xdpi_values[i]
     }
-  for (i = 0; i < MAX_RESOLUTIONS && model.ydpi_values[i] > 0; i++)
+  for(i = 0; i < MAX_RESOLUTIONS && model.ydpi_values[i] > 0; i++)
     {
-      if (model.ydpi_values[i] < min)
+      if(model.ydpi_values[i] < min)
 	min = model.ydpi_values[i]
     }
 
-  dpi_list = malloc ((MAX_RESOLUTIONS * 2 + 1) * sizeof (Sane.Word))
-  if (!dpi_list)
+  dpi_list = malloc((MAX_RESOLUTIONS * 2 + 1) * sizeof(Sane.Word))
+  if(!dpi_list)
     return Sane.STATUS_NO_MEM
   dpi_list[1] = min
   idx = 2
@@ -1797,25 +1797,25 @@ init_options (struct P5_Session *session)
   do
     {
       min = 65535
-      for (i = 0; i < MAX_RESOLUTIONS && model.xdpi_values[i] > 0; i++)
+      for(i = 0; i < MAX_RESOLUTIONS && model.xdpi_values[i] > 0; i++)
 	{
-	  if (model.xdpi_values[i] < min
+	  if(model.xdpi_values[i] < min
 	      && model.xdpi_values[i] > dpi_list[idx - 1])
 	    min = model.xdpi_values[i]
 	}
-      for (i = 0; i < MAX_RESOLUTIONS && model.ydpi_values[i] > 0; i++)
+      for(i = 0; i < MAX_RESOLUTIONS && model.ydpi_values[i] > 0; i++)
 	{
-	  if (model.ydpi_values[i] < min
+	  if(model.ydpi_values[i] < min
 	      && model.ydpi_values[i] > dpi_list[idx - 1])
 	    min = model.ydpi_values[i]
 	}
-      if (min < 65535)
+      if(min < 65535)
 	{
 	  dpi_list[idx] = min
 	  idx++
 	}
     }
-  while (min != 65535)
+  while(min != 65535)
   dpi_list[idx] = 0
   /* the count of different resolution is put at the beginning */
   dpi_list[0] = idx - 1
@@ -1923,9 +1923,9 @@ init_options (struct P5_Session *session)
   session.options[OPT_NEED_CALIBRATION_SW].descriptor.name =
     "need-calibration"
   session.options[OPT_NEED_CALIBRATION_SW].descriptor.title =
-    Sane.I18N ("Need calibration")
+    Sane.I18N("Need calibration")
   session.options[OPT_NEED_CALIBRATION_SW].descriptor.desc =
-    Sane.I18N ("The scanner needs calibration for the current settings")
+    Sane.I18N("The scanner needs calibration for the current settings")
   session.options[OPT_NEED_CALIBRATION_SW].descriptor.type = Sane.TYPE_BOOL
   session.options[OPT_NEED_CALIBRATION_SW].descriptor.unit = Sane.UNIT_NONE
   session.options[OPT_NEED_CALIBRATION_SW].descriptor.cap =
@@ -1934,17 +1934,17 @@ init_options (struct P5_Session *session)
 
   /* button group */
   session.options[OPT_BUTTON_GROUP].descriptor.name = "Buttons"
-  session.options[OPT_BUTTON_GROUP].descriptor.title = Sane.I18N ("Buttons")
-  session.options[OPT_BUTTON_GROUP].descriptor.desc = Sane.I18N ("Buttons")
+  session.options[OPT_BUTTON_GROUP].descriptor.title = Sane.I18N("Buttons")
+  session.options[OPT_BUTTON_GROUP].descriptor.desc = Sane.I18N("Buttons")
   session.options[OPT_BUTTON_GROUP].descriptor.type = Sane.TYPE_GROUP
   session.options[OPT_BUTTON_GROUP].descriptor.constraint_type =
     Sane.CONSTRAINT_NONE
 
   /* calibrate button */
   session.options[OPT_CALIBRATE].descriptor.name = "calibrate"
-  session.options[OPT_CALIBRATE].descriptor.title = Sane.I18N ("Calibrate")
+  session.options[OPT_CALIBRATE].descriptor.title = Sane.I18N("Calibrate")
   session.options[OPT_CALIBRATE].descriptor.desc =
-    Sane.I18N ("Start calibration using special sheet")
+    Sane.I18N("Start calibration using special sheet")
   session.options[OPT_CALIBRATE].descriptor.type = Sane.TYPE_BUTTON
   session.options[OPT_CALIBRATE].descriptor.unit = Sane.UNIT_NONE
   session.options[OPT_CALIBRATE].descriptor.cap =
@@ -1955,9 +1955,9 @@ init_options (struct P5_Session *session)
   /* clear calibration cache button */
   session.options[OPT_CLEAR_CALIBRATION].descriptor.name = "clear"
   session.options[OPT_CLEAR_CALIBRATION].descriptor.title =
-    Sane.I18N ("Clear calibration")
+    Sane.I18N("Clear calibration")
   session.options[OPT_CLEAR_CALIBRATION].descriptor.desc =
-    Sane.I18N ("Clear calibration cache")
+    Sane.I18N("Clear calibration cache")
   session.options[OPT_CLEAR_CALIBRATION].descriptor.type = Sane.TYPE_BUTTON
   session.options[OPT_CLEAR_CALIBRATION].descriptor.unit = Sane.UNIT_NONE
   session.options[OPT_CLEAR_CALIBRATION].descriptor.cap =
@@ -1966,10 +1966,10 @@ init_options (struct P5_Session *session)
   session.options[OPT_CLEAR_CALIBRATION].value.b = 0
 
   /* until work on calibration isfinished */
-  DISABLE (OPT_CALIBRATE)
-  DISABLE (OPT_CLEAR_CALIBRATION)
+  DISABLE(OPT_CALIBRATE)
+  DISABLE(OPT_CLEAR_CALIBRATION)
 
-  DBG (DBG_proc, "init_options: exit\n")
+  DBG(DBG_proc, "init_options: exit\n")
   return Sane.STATUS_GOOD
 }
 
@@ -1981,54 +1981,54 @@ init_options (struct P5_Session *session)
  * device.
  */
 P5_Model *
-probe (const char *devicename)
+probe(const char *devicename)
 {
   Int fd
 
   /* open parallel port device */
-  fd = open_pp (devicename)
-  if (fd < 0)
+  fd = open_pp(devicename)
+  if(fd < 0)
     {
-      DBG (DBG_error, "probe: failed to open '%s' device!\n", devicename)
+      DBG(DBG_error, "probe: failed to open '%s' device!\n", devicename)
       return NULL
     }
 
   /* now try to connect to scanner */
-  if (connect (fd) != Sane.TRUE)
+  if(connect(fd) != Sane.TRUE)
     {
-      DBG (DBG_error, "probe: failed to connect!\n")
-      close_pp (fd)
+      DBG(DBG_error, "probe: failed to connect!\n")
+      close_pp(fd)
       return NULL
     }
 
   /* set up for memory test */
-  write_reg (fd, REG1, 0x00)
-  write_reg (fd, REG7, 0x00)
-  write_reg (fd, REG0, 0x00)
-  write_reg (fd, REG1, 0x00)
-  write_reg (fd, REGF, 0x80)
-  if (memtest (fd, 0x0100) != Sane.TRUE)
+  write_reg(fd, REG1, 0x00)
+  write_reg(fd, REG7, 0x00)
+  write_reg(fd, REG0, 0x00)
+  write_reg(fd, REG1, 0x00)
+  write_reg(fd, REGF, 0x80)
+  if(memtest(fd, 0x0100) != Sane.TRUE)
     {
-      disconnect (fd)
-      close_pp (fd)
-      DBG (DBG_error, "probe: memory test failed!\n")
+      disconnect(fd)
+      close_pp(fd)
+      DBG(DBG_error, "probe: memory test failed!\n")
       return NULL
     }
   else
     {
-      DBG (DBG_info, "memtest() OK...\n")
+      DBG(DBG_info, "memtest() OK...\n")
     }
-  write_reg (fd, REG7, 0x00)
+  write_reg(fd, REG7, 0x00)
 
   /* check for document presence 0xC6: present, 0xC3 no document */
-  test_document (fd)
+  test_document(fd)
 
   /* release device and parport for next uses */
-  disconnect (fd)
-  close_pp (fd)
+  disconnect(fd)
+  close_pp(fd)
 
   /* for there is only one supported model, so we use hardcoded values */
-  DBG (DBG_proc, "probe: exit\n")
+  DBG(DBG_proc, "probe: exit\n")
   return &pagepartner_model
 }
 

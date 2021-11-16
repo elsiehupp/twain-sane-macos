@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2008, Panasonic Russia Ltd.
+   Copyright(C) 2008, Panasonic Russia Ltd.
 */
 /* sane - Scanner Access Now Easy.
    Panasonic KV-S1020C / KV-S1025C USB scanners.
@@ -38,9 +38,9 @@ typedef struct
 #define KV_CMD_TIMEOUT          10000
 
 static inline Int
-getbitfield (unsigned char *pageaddr, Int mask, Int shift)
+getbitfield(unsigned char *pageaddr, Int mask, Int shift)
 {
-  return ((*pageaddr >> shift) & mask)
+  return((*pageaddr >> shift) & mask)
 }
 
 /* defines for request sense return block */

@@ -1,11 +1,11 @@
 dnl Autoconf macros used by libusb
 dnl
-dnl Copyright (C) 2003 Brad Hards <bradh@frogmouth.net
-dnl Qt tests based on pinentry code Copyright (C) 2002 g10 Code GmbH
+dnl Copyright(C) 2003 Brad Hards <bradh@frogmouth.net
+dnl Qt tests based on pinentry code Copyright(C) 2002 g10 Code GmbH
 dnl
 dnl This program is free software; you can redistribute it and/or modify
 dnl it under the terms of the GNU General Public License as published by
-dnl the Free Software Foundation; either version 2, or (at your option)
+dnl the Free Software Foundation; either version 2, or(at your option)
 dnl any later version.
 dnl
 dnl This program is distributed in the hope that it will be useful,

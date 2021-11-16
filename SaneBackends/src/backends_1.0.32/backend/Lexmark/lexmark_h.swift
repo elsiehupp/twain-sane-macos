@@ -1,16 +1,16 @@
 /************************************************************************
    lexmark.h - SANE library for Lexmark scanners.
-   Copyright (C) 2003-2004 Lexmark International, Inc. (original source)
-   Copyright (C) 2005 Fred Odendaal
-   Copyright (C) 2006-2010 Stéphane Voltz	<stef.dev@free.fr>
-   Copyright (C) 2010 "Torsten Houwaart" <ToHo@gmx.de> X74 support
+   Copyright(C) 2003-2004 Lexmark International, Inc. (original source)
+   Copyright(C) 2005 Fred Odendaal
+   Copyright(C) 2006-2010 Stéphane Voltz	<stef.dev@free.fr>
+   Copyright(C) 2010 "Torsten Houwaart" <ToHo@gmx.de> X74 support
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -244,26 +244,26 @@ Lexmark_Device
 #define X1200_USB2_SENSOR 8	/* X1200 on USB 2.0 */
 #define X74_SENSOR	9
 
-/* Non-static Function Proto-types (called by lexmark.c) */
-Sane.Status sanei_lexmark_low_init (Lexmark_Device * dev)
-void sanei_lexmark_low_destroy (Lexmark_Device * dev)
-Sane.Status sanei_lexmark_low_open_device (Lexmark_Device * dev)
-void sanei_lexmark_low_close_device (Lexmark_Device * dev)
-Bool sanei_lexmark_low_search_home_fwd (Lexmark_Device * dev)
-void sanei_lexmark_low_move_fwd (Int distance, Lexmark_Device * dev,
+/* Non-static Function Proto-types(called by lexmark.c) */
+Sane.Status sanei_lexmark_low_init(Lexmark_Device * dev)
+void sanei_lexmark_low_destroy(Lexmark_Device * dev)
+Sane.Status sanei_lexmark_low_open_device(Lexmark_Device * dev)
+void sanei_lexmark_low_close_device(Lexmark_Device * dev)
+Bool sanei_lexmark_low_search_home_fwd(Lexmark_Device * dev)
+void sanei_lexmark_low_move_fwd(Int distance, Lexmark_Device * dev,
 				 Sane.Byte * regs)
-Bool sanei_lexmark_low_X74_search_home (Lexmark_Device * dev,
+Bool sanei_lexmark_low_X74_search_home(Lexmark_Device * dev,
 					     Sane.Byte * regs)
-Bool sanei_lexmark_low_search_home_bwd (Lexmark_Device * dev)
-Int sanei_lexmark_low_find_start_line (Lexmark_Device * dev)
-Sane.Status sanei_lexmark_low_set_scan_regs (Lexmark_Device * dev,
+Bool sanei_lexmark_low_search_home_bwd(Lexmark_Device * dev)
+Int sanei_lexmark_low_find_start_line(Lexmark_Device * dev)
+Sane.Status sanei_lexmark_low_set_scan_regs(Lexmark_Device * dev,
 					     Int resolution,
 					     Int offset,
 					     Bool calibrated)
-Sane.Status sanei_lexmark_low_start_scan (Lexmark_Device * dev)
-long sanei_lexmark_low_read_scan_data (Sane.Byte * data, Int size,
+Sane.Status sanei_lexmark_low_start_scan(Lexmark_Device * dev)
+long sanei_lexmark_low_read_scan_data(Sane.Byte * data, Int size,
 				       Lexmark_Device * dev)
-Sane.Status sanei_lexmark_low_assign_model (Lexmark_Device * dev,
+Sane.Status sanei_lexmark_low_assign_model(Lexmark_Device * dev,
 					    Sane.String_Const devname,
 					    Int vendor, Int product,
 					    Sane.Byte mainboard)
@@ -271,9 +271,9 @@ Sane.Status sanei_lexmark_low_assign_model (Lexmark_Device * dev,
 /*
  * scanner calibration functions
  */
-Sane.Status sanei_lexmark_low_offset_calibration (Lexmark_Device * dev)
-Sane.Status sanei_lexmark_low_gain_calibration (Lexmark_Device * dev)
-Sane.Status sanei_lexmark_low_shading_calibration (Lexmark_Device * dev)
-Sane.Status sanei_lexmark_low_calibration (Lexmark_Device * dev)
+Sane.Status sanei_lexmark_low_offset_calibration(Lexmark_Device * dev)
+Sane.Status sanei_lexmark_low_gain_calibration(Lexmark_Device * dev)
+Sane.Status sanei_lexmark_low_shading_calibration(Lexmark_Device * dev)
+Sane.Status sanei_lexmark_low_calibration(Lexmark_Device * dev)
 
 #endif /* LEXMARK_H */

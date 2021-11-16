@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -54,8 +54,8 @@ std::ostream& operator<<(std::ostream& out, const Genesys_Settings& settings)
     out << "Genesys_Settings{\n"
         << "    xres: " << settings.xres << " yres: " << settings.yres << '\n'
         << "    lines: " << settings.lines << '\n'
-        << "    pixels per line (actual): " << settings.pixels << '\n'
-        << "    pixels per line (requested): " << settings.requested_pixels << '\n'
+        << "    pixels per line(actual): " << settings.pixels << '\n'
+        << "    pixels per line(requested): " << settings.requested_pixels << '\n'
         << "    depth: " << settings.depth << '\n'
     auto prec = out.precision()
     out.precision(3)
@@ -75,8 +75,8 @@ std::ostream& operator<<(std::ostream& out, const SetupParams& params)
     out << "SetupParams{\n"
         << "    xres: " << params.xres
             << " startx: " << params.startx
-            << " pixels per line (actual): " << params.pixels
-            << " pixels per line (requested): " << params.requested_pixels << '\n'
+            << " pixels per line(actual): " << params.pixels
+            << " pixels per line(requested): " << params.requested_pixels << '\n'
 
         << "    yres: " << params.yres
             << " lines: " << params.lines

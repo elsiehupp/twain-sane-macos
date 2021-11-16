@@ -1,11 +1,11 @@
 /* sane-find-scanner.c
 
-   Copyright (C) 1997-2013 Oliver Rauch, Henning Meier-Geinitz, and others.
+   Copyright(C) 1997-2013 Oliver Rauch, Henning Meier-Geinitz, and others.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -28,13 +28,13 @@ import sys/stat
 import dirent
 import errno
 
-#if defined (HAVE_DDK_NTDDSCSI_H) || defined (HAVE_NTDDSCSI_H)
+#if defined(HAVE_DDK_NTDDSCSI_H) || defined(HAVE_NTDDSCSI_H)
 # define WIN32_SCSI
 import windows
-# if defined (HAVE_DDK_NTDDSCSI_H)
+# if defined(HAVE_DDK_NTDDSCSI_H)
 #  include <ddk/scsi
 #  include <ddk/ntddscsi
-# elif defined (HAVE_NTDDSCSI_H)
+# elif defined(HAVE_NTDDSCSI_H)
 #  include <ntddscsi
 # endif
 #endif
@@ -50,12 +50,12 @@ import lusb0_usb
 #else
 import usb
 #endif
-public char * check_usb_chip (struct usb_device *dev, Int verbosity, Bool from_file)
+public char * check_usb_chip(struct usb_device *dev, Int verbosity, Bool from_file)
 #endif
 
 #ifdef HAVE_LIBUSB
 import libusb
-public char * check_usb_chip (Int verbosity,
+public char * check_usb_chip(Int verbosity,
 			      struct libusb_device_descriptor desc,
 			      libusb_device_handle *hdl,
 			      struct libusb_config_descriptor *config0)
@@ -100,25 +100,25 @@ static unsigned char inquiryC[] = {
   INQUIRY, 0x00, 0x00, 0x00, 0xff, 0x00
 ]
 static scsiblk inquiry = {
-  inquiryC, sizeof (inquiryC)
+  inquiryC, sizeof(inquiryC)
 ]
 
 static void
-usage (char *msg)
+usage(char *msg)
 {
-  fprintf (stderr, "Usage: %s [-hvqf] [devname ...]\n", prog_name)
-  fprintf (stderr, "\t-h: print this help message\n")
-  fprintf (stderr, "\t-v: be more verbose (can be used multiple times)\n")
-  fprintf (stderr, "\t-q: be quiet (print only devices, no comments)\n")
-  fprintf (stderr, "\t-f: force opening devname as SCSI even if it looks "
+  fprintf(stderr, "Usage: %s[-hvqf] [devname ...]\n", prog_name)
+  fprintf(stderr, "\t-h: print this help message\n")
+  fprintf(stderr, "\t-v: be more verbose(can be used multiple times)\n")
+  fprintf(stderr, "\t-q: be quiet(print only devices, no comments)\n")
+  fprintf(stderr, "\t-f: force opening devname as SCSI even if it looks "
 	   "like USB\n")
-  fprintf (stderr, "\t-p: enable scanning for parallel port devices\n")
+  fprintf(stderr, "\t-p: enable scanning for parallel port devices\n")
 #ifdef HAVE_LIBUSB_LEGACY
-  fprintf (stderr, "\t-F file: try to detect chipset from given "
+  fprintf(stderr, "\t-F file: try to detect chipset from given "
 	   "/proc/bus/usb/devices file\n")
 #endif
-  if (msg)
-    fprintf (stderr, "\t%s\n", msg)
+  if(msg)
+    fprintf(stderr, "\t%s\n", msg)
 }
 
 /* if SCSI generic is optional on your OS, and there is a software test
@@ -127,26 +127,26 @@ usage (char *msg)
    available in your OS, return 1 */
 
 static Int
-check_sg (void)
+check_sg(void)
 {
 #if defined(__linux__)
   /* Assumption: /proc/devices lines are shorter than 256 characters */
   char line[256], driver[256] = ""
   FILE *stream
 
-  stream = fopen ("/proc/devices", "r")
+  stream = fopen("/proc/devices", "r")
   /* Likely reason for failure, no /proc => probably no SG either */
-  if (stream == NULL)
+  if(stream == NULL)
     return 0
 
-  while (fgets (line, sizeof (line) - 1, stream))
+  while(fgets(line, sizeof(line) - 1, stream))
     {
-      if (sscanf (line, " %*d %s\n", driver) > 0 && !strcmp (driver, "sg"))
+      if(sscanf(line, " %*d %s\n", driver) > 0 && !strcmp(driver, "sg"))
 	break
     }
-  fclose (stream)
+  fclose(stream)
 
-  if (strcmp (driver, "sg"))
+  if(strcmp(driver, "sg"))
     {
       return 0
     }
@@ -160,7 +160,7 @@ check_sg (void)
 
 /* Display a buffer in the log. Display by lines of 16 bytes. */
 static void
-hexdump (const char *comment, unsigned char *buf, const Int length)
+hexdump(const char *comment, unsigned char *buf, const Int length)
 {
   var i: Int
   char line[128]
@@ -168,39 +168,39 @@ hexdump (const char *comment, unsigned char *buf, const Int length)
   char asc_buf[17]
   char *asc_ptr
 
-  printf ("  %s\n", comment)
+  printf("  %s\n", comment)
 
   i = 0
   goto start
 
   do
     {
-      if (i < length)
+      if(i < length)
 	{
-	  ptr += sprintf (ptr, " %2.2x", *buf)
+	  ptr += sprintf(ptr, " %2.2x", *buf)
 
-	  if (*buf >= 32 && *buf <= 127)
+	  if(*buf >= 32 && *buf <= 127)
 	    {
-	      asc_ptr += sprintf (asc_ptr, "%c", *buf)
+	      asc_ptr += sprintf(asc_ptr, "%c", *buf)
 	    }
 	  else
 	    {
-	      asc_ptr += sprintf (asc_ptr, ".")
+	      asc_ptr += sprintf(asc_ptr, ".")
 	    }
 	}
       else
 	{
 	  /* After the length; do nothing. */
-	  ptr += sprintf (ptr, "   ")
+	  ptr += sprintf(ptr, "   ")
 	}
 
       i++
       buf++
 
-      if ((i % 16) == 0)
+      if((i % 16) == 0)
 	{
 	  /* It's a new line */
-	  printf ("  %s    %s\n", line, asc_buf)
+	  printf("  %s    %s\n", line, asc_buf)
 
 	start:
 	  ptr = line
@@ -208,40 +208,40 @@ hexdump (const char *comment, unsigned char *buf, const Int length)
 	  asc_ptr = asc_buf
 	  *asc_ptr = '\0'
 
-	  ptr += sprintf (ptr, "  %3.3d:", i)
+	  ptr += sprintf(ptr, "  %3.3d:", i)
 	}
 
     }
-  while (i < ((length + 15) & ~15))
+  while(i < ((length + 15) & ~15))
 }
 
 static Sane.Status
-scanner_do_scsi_inquiry (unsigned char *buffer, Int sfd)
+scanner_do_scsi_inquiry(unsigned char *buffer, Int sfd)
 {
   size_t size
   Sane.Status status
 
-  memset (buffer, '\0', 256);	/* clear buffer */
+  memset(buffer, '\0', 256);	/* clear buffer */
 
   size = 5;			/* first get only 5 bytes to get size of
 				   inquiry_return_block */
-  set_inquiry_return_size (inquiry.cmd, size)
-  status = sanei_scsi_cmd (sfd, inquiry.cmd, inquiry.size, buffer, &size)
+  set_inquiry_return_size(inquiry.cmd, size)
+  status = sanei_scsi_cmd(sfd, inquiry.cmd, inquiry.size, buffer, &size)
 
-  if (status != Sane.STATUS_GOOD)
-    return (status)
+  if(status != Sane.STATUS_GOOD)
+    return(status)
 
-  size = get_scsi_inquiry_additional_length (buffer) + 5
+  size = get_scsi_inquiry_additional_length(buffer) + 5
 
   /* then get inquiry with actual size */
-  set_inquiry_return_size (inquiry.cmd, size)
-  status = sanei_scsi_cmd (sfd, inquiry.cmd, inquiry.size, buffer, &size)
+  set_inquiry_return_size(inquiry.cmd, size)
+  status = sanei_scsi_cmd(sfd, inquiry.cmd, inquiry.size, buffer, &size)
 
-  return (status)
+  return(status)
 }
 
 static void
-scanner_identify_scsi_scanner (unsigned char *buffer, Int sfd,
+scanner_identify_scsi_scanner(unsigned char *buffer, Int sfd,
 			       char *devicename)
 {
   unsigned char vendor[9]
@@ -255,156 +255,156 @@ scanner_identify_scsi_scanner (unsigned char *buffer, Int sfd,
     "CD-drive", "scanner", "optical-drive", "jukebox",
     "communicator"
   ]
-  status = scanner_do_scsi_inquiry (buffer, sfd)
-  if (status != Sane.STATUS_GOOD)
+  status = scanner_do_scsi_inquiry(buffer, sfd)
+  if(status != Sane.STATUS_GOOD)
     {
-      if (verbose > 1)
-	printf ("inquiry for device %s failed (%s)\n",
-		devicename, Sane.strstatus (status))
+      if(verbose > 1)
+	printf("inquiry for device %s failed(%s)\n",
+		devicename, Sane.strstatus(status))
       return
     }
 
-  if (verbose > 2)
-    hexdump ("Inquiry for device:", buffer,
-	     get_scsi_inquiry_additional_length (buffer) + 5)
+  if(verbose > 2)
+    hexdump("Inquiry for device:", buffer,
+	     get_scsi_inquiry_additional_length(buffer) + 5)
 
-  devtype = get_scsi_inquiry_periph_devtype (buffer)
-  if (verbose <= 1 && devtype != IN_periph_devtype_scanner
+  devtype = get_scsi_inquiry_periph_devtype(buffer)
+  if(verbose <= 1 && devtype != IN_periph_devtype_scanner
       /* old HP scanners use the CPU id ... */
       && devtype != IN_periph_devtype_cpu)
     return;			/* no, continue searching */
 
-  get_scsi_inquiry_vendor ((char *) buffer, (char *) vendor)
-  get_scsi_inquiry_product ((char *) buffer, (char *) product)
-  get_scsi_inquiry_version ((char *) buffer, (char *) version)
+  get_scsi_inquiry_vendor((char *) buffer, (char *) vendor)
+  get_scsi_inquiry_product((char *) buffer, (char *) product)
+  get_scsi_inquiry_version((char *) buffer, (char *) version)
 
   pp = &vendor[7]
   vendor[8] = '\0'
-  while (pp >= vendor && (*pp == ' ' || *pp >= 127))
+  while(pp >= vendor && (*pp == ' ' || *pp >= 127))
     *pp-- = '\0'
 
   pp = &product[15]
   product[16] = '\0'
-  while (pp >= product && (*pp == ' ' || *pp >= 127))
+  while(pp >= product && (*pp == ' ' || *pp >= 127))
     *pp-- = '\0'
 
   pp = &version[3]
   version[4] = '\0'
-  while (pp >= version && (*pp == ' ' || *(pp - 1) >= 127))
+  while(pp >= version && (*pp == ' ' || *(pp - 1) >= 127))
     *pp-- = '\0'
 
   device_found = Sane.TRUE
-  printf ("found SCSI %s \"%s %s %s\" at %s\n",
-	  devtype < NELEMS (devtypes) ? devtypes[devtype] : "unknown device",
+  printf("found SCSI %s \"%s %s %s\" at %s\n",
+	  devtype < NELEMS(devtypes) ? devtypes[devtype] : "unknown device",
 	  vendor, product, version, devicename)
   return
 }
 
 static void
-check_scsi_file (char *file_name)
+check_scsi_file(char *file_name)
 {
   Int result
   Int sfd
   unsigned char buffer[16384]
 
-  if (strstr (file_name, "usb")
-      || strstr (file_name, "uscanner") || strstr (file_name, "ugen"))
+  if(strstr(file_name, "usb")
+      || strstr(file_name, "uscanner") || strstr(file_name, "ugen"))
     {
-      if (force)
+      if(force)
 	{
-	  if (verbose > 1)
-	    printf ("checking %s even though it looks like a USB device...",
+	  if(verbose > 1)
+	    printf("checking %s even though it looks like a USB device...",
 		    file_name)
 	}
       else
 	{
-	  if (verbose > 1)
-	    printf ("ignored %s (not a SCSI device)\n", file_name)
+	  if(verbose > 1)
+	    printf("ignored %s(not a SCSI device)\n", file_name)
 	  return
 	}
     }
-  else if (verbose > 1)
-    printf ("checking %s...", file_name)
+  else if(verbose > 1)
+    printf("checking %s...", file_name)
 
-  result = sanei_scsi_open (file_name, &sfd, NULL, NULL)
+  result = sanei_scsi_open(file_name, &sfd, NULL, NULL)
 
-  if (verbose > 1)
+  if(verbose > 1)
     {
-      if (result != 0)
-	printf (" failed to open (%s)\n", Sane.strstatus (result))
+      if(result != 0)
+	printf(" failed to open(%s)\n", Sane.strstatus(result))
       else
-	printf (" open ok\n")
+	printf(" open ok\n")
     }
 
-  if (result == Sane.STATUS_GOOD)
+  if(result == Sane.STATUS_GOOD)
     {
-      scanner_identify_scsi_scanner (buffer, sfd, file_name)
-      sanei_scsi_close (sfd)
+      scanner_identify_scsi_scanner(buffer, sfd, file_name)
+      sanei_scsi_close(sfd)
     }
   return
 }
 
 static void
-check_usb_file (char *file_name)
+check_usb_file(char *file_name)
 {
   Sane.Status result
   Sane.Word vendor, product
   Int fd
 
-  if (!strstr (file_name, "usb")
-      && !strstr (file_name, "uscanner") && !strstr (file_name, "ugen"))
+  if(!strstr(file_name, "usb")
+      && !strstr(file_name, "uscanner") && !strstr(file_name, "ugen"))
     {
-      if (force)
+      if(force)
 	{
-	  if (verbose > 1)
-	    printf ("checking %s even though doesn't look like a "
+	  if(verbose > 1)
+	    printf("checking %s even though doesn't look like a "
 		    "USB device...", file_name)
 	}
       else
 	{
-	  if (verbose > 1)
-	    printf ("ignored %s (not a USB device)\n", file_name)
+	  if(verbose > 1)
+	    printf("ignored %s(not a USB device)\n", file_name)
 	  return
 	}
     }
-  else if (verbose > 1)
-    printf ("checking %s...", file_name)
+  else if(verbose > 1)
+    printf("checking %s...", file_name)
 
-  result = sanei_usb_open (file_name, &fd)
+  result = sanei_usb_open(file_name, &fd)
 
-  if (result != Sane.STATUS_GOOD)
+  if(result != Sane.STATUS_GOOD)
     {
-      if (verbose > 1)
-	printf (" failed to open (%s)\n", Sane.strstatus (result))
+      if(verbose > 1)
+	printf(" failed to open(%s)\n", Sane.strstatus(result))
     }
   else
     {
-      result = sanei_usb_get_vendor_product (fd, &vendor, &product)
-      if (result == Sane.STATUS_GOOD)
+      result = sanei_usb_get_vendor_product(fd, &vendor, &product)
+      if(result == Sane.STATUS_GOOD)
 	{
-	  if (verbose > 1)
-	    printf (" open ok, vendor and product ids were identified\n")
-	  printf ("found USB scanner (vendor=0x%04x, "
+	  if(verbose > 1)
+	    printf(" open ok, vendor and product ids were identified\n")
+	  printf("found USB scanner(vendor=0x%04x, "
 		  "product=0x%04x) at %s\n", vendor, product, file_name)
 	}
       else
 	{
-	  if (verbose > 1)
-	    printf (" open ok, but vendor and product could NOT be "
+	  if(verbose > 1)
+	    printf(" open ok, but vendor and product could NOT be "
 		    "identified\n")
-	  printf ("found USB scanner (UNKNOWN vendor and product) "
+	  printf("found USB scanner(UNKNOWN vendor and product) "
 		  "at device %s\n", file_name)
 	  unknown_found = Sane.TRUE
 	}
       device_found = Sane.TRUE
-      sanei_usb_close (fd)
+      sanei_usb_close(fd)
     }
 }
 
 #ifdef HAVE_LIBUSB_LEGACY
 
 static char *
-get_libusb_string_descriptor (struct usb_device *dev, Int index)
+get_libusb_string_descriptor(struct usb_device *dev, Int index)
 {
   usb_dev_handle *handle
   char *buffer, short_buffer[2]
@@ -412,196 +412,196 @@ get_libusb_string_descriptor (struct usb_device *dev, Int index)
   Int size = 2
   var i: Int
 
-  if (!index)
+  if(!index)
     return 0
 
-  handle = usb_open (dev)
-  if (!handle)
+  handle = usb_open(dev)
+  if(!handle)
     return 0
 
   sd = (struct usb_string_descriptor *) short_buffer
 
-  if (usb_control_msg (handle,
+  if(usb_control_msg(handle,
 		       USB_ENDPOINT_IN + USB_TYPE_STANDARD + USB_RECIP_DEVICE,
 		       USB_REQ_GET_DESCRIPTOR,
 		       (USB_DT_STRING << 8) + index, 0, short_buffer,
 		       size, 1000) < 0)
     {
-      usb_close (handle)
+      usb_close(handle)
       return 0
     }
 
-  if (sd.bLength < 2
+  if(sd.bLength < 2
       || sd.bDescriptorType != USB_DT_STRING)
     {
-      usb_close (handle)
+      usb_close(handle)
       return 0
     }
 
   size = sd.bLength
 
-  buffer = calloc (1, size + 1)
-  if (!buffer)
+  buffer = calloc(1, size + 1)
+  if(!buffer)
     return 0
 
   sd = (struct usb_string_descriptor *) buffer
 
-  if (usb_control_msg (handle,
+  if(usb_control_msg(handle,
 		       USB_ENDPOINT_IN + USB_TYPE_STANDARD + USB_RECIP_DEVICE,
 		       USB_REQ_GET_DESCRIPTOR,
 		       (USB_DT_STRING << 8) + index, 0, buffer,
 		       size, 1000) < 0)
     {
-      usb_close (handle)
-      free (buffer)
+      usb_close(handle)
+      free(buffer)
       return 0
     }
 
-  if (sd.bLength < 2 || sd.bLength > size
+  if(sd.bLength < 2 || sd.bLength > size
       || sd.bDescriptorType != USB_DT_STRING)
     {
-      usb_close (handle)
-      free (buffer)
+      usb_close(handle)
+      free(buffer)
       return 0
     }
   size = sd.bLength - 2
-  for (i = 0; i < (size / 2); i++)
+  for(i = 0; i < (size / 2); i++)
     buffer[i] = buffer[2 + 2 * i]
   buffer[i] = 0
 
-  usb_close (handle)
+  usb_close(handle)
   return buffer
 }
 
 static char *
-get_libusb_vendor (struct usb_device *dev)
+get_libusb_vendor(struct usb_device *dev)
 {
-  return get_libusb_string_descriptor (dev, dev.descriptor.iManufacturer)
+  return get_libusb_string_descriptor(dev, dev.descriptor.iManufacturer)
 }
 
 static char *
-get_libusb_product (struct usb_device *dev)
+get_libusb_product(struct usb_device *dev)
 {
-  return get_libusb_string_descriptor (dev, dev.descriptor.iProduct)
+  return get_libusb_string_descriptor(dev, dev.descriptor.iProduct)
 }
 
 static void
-check_libusb_device (struct usb_device *dev, Bool from_file)
+check_libusb_device(struct usb_device *dev, Bool from_file)
 {
   Int is_scanner = 0
   char *vendor
   char *product
   Int interface_nr
 
-  if (!dev.config)
+  if(!dev.config)
     {
-      if (verbose > 1)
-	printf ("device 0x%04x/0x%04x is not configured\n",
+      if(verbose > 1)
+	printf("device 0x%04x/0x%04x is not configured\n",
 		dev.descriptor.idVendor, dev.descriptor.idProduct)
       return
     }
 
-  vendor = get_libusb_vendor (dev)
-  product = get_libusb_product (dev)
+  vendor = get_libusb_vendor(dev)
+  product = get_libusb_product(dev)
 
-  if (verbose > 2)
+  if(verbose > 2)
     {
       /* print everything we know about the device */
       char *buf
       Int config_nr
       struct usb_device_descriptor *d = &dev.descriptor
 
-      printf ("\n")
-      printf ("<device descriptor of 0x%04x/0x%04x at %s:%s",
+      printf("\n")
+      printf("<device descriptor of 0x%04x/0x%04x at %s:%s",
 	      d.idVendor, d.idProduct, dev.bus.dirname, dev.filename)
-      if (vendor || product)
+      if(vendor || product)
 	{
-	  printf (" (%s%s%s)", vendor ? vendor : "",
+	  printf(" (%s%s%s)", vendor ? vendor : "",
 		  (vendor && product) ? " " : "", product ? product : "")
 	}
-      printf (">\n")
-      printf ("bLength               %d\n", d.bLength)
-      printf ("bDescriptorType       %d\n", d.bDescriptorType)
-      printf ("bcdUSB                %d.%d%d\n", d.bcdUSB >> 8,
+      printf(">\n")
+      printf("bLength               %d\n", d.bLength)
+      printf("bDescriptorType       %d\n", d.bDescriptorType)
+      printf("bcdUSB                %d.%d%d\n", d.bcdUSB >> 8,
 	      (d.bcdUSB >> 4) & 15, d.bcdUSB & 15)
-      printf ("bDeviceClass          %d\n", d.bDeviceClass)
-      printf ("bDeviceSubClass       %d\n", d.bDeviceSubClass)
-      printf ("bDeviceProtocol       %d\n", d.bDeviceProtocol)
-      printf ("bMaxPacketSize0       %d\n", d.bMaxPacketSize0)
-      printf ("idVendor              0x%04X\n", d.idVendor)
-      printf ("idProduct             0x%04X\n", d.idProduct)
-      printf ("bcdDevice             %d.%d%d\n", d.bcdDevice >> 8,
+      printf("bDeviceClass          %d\n", d.bDeviceClass)
+      printf("bDeviceSubClass       %d\n", d.bDeviceSubClass)
+      printf("bDeviceProtocol       %d\n", d.bDeviceProtocol)
+      printf("bMaxPacketSize0       %d\n", d.bMaxPacketSize0)
+      printf("idVendor              0x%04X\n", d.idVendor)
+      printf("idProduct             0x%04X\n", d.idProduct)
+      printf("bcdDevice             %d.%d%d\n", d.bcdDevice >> 8,
 	      (d.bcdDevice >> 4) & 15, d.bcdDevice & 15)
-      printf ("iManufacturer         %d (%s)\n", d.iManufacturer,
+      printf("iManufacturer         %d(%s)\n", d.iManufacturer,
 	      (vendor) ? vendor : "")
-      printf ("iProduct              %d (%s)\n", d.iProduct,
+      printf("iProduct              %d(%s)\n", d.iProduct,
 	      (product) ? product : "")
 
-      buf = get_libusb_string_descriptor (dev, d.iSerialNumber)
-      printf ("iSerialNumber         %d (%s)\n", d.iSerialNumber,
+      buf = get_libusb_string_descriptor(dev, d.iSerialNumber)
+      printf("iSerialNumber         %d(%s)\n", d.iSerialNumber,
 	      (buf) ? buf : "")
-      if (buf)
-	free (buf)
-      printf ("bNumConfigurations    %d\n", d.bNumConfigurations)
+      if(buf)
+	free(buf)
+      printf("bNumConfigurations    %d\n", d.bNumConfigurations)
 
-      for (config_nr = 0; config_nr < d.bNumConfigurations; config_nr++)
+      for(config_nr = 0; config_nr < d.bNumConfigurations; config_nr++)
 	{
 	  struct usb_config_descriptor *c = &dev.config[config_nr]
 	  Int interface_nr
 
-	  printf (" <configuration %d>\n", config_nr)
-	  printf (" bLength              %d\n", c.bLength)
-	  printf (" bDescriptorType      %d\n", c.bDescriptorType)
-	  printf (" wTotalLength         %d\n", c.wTotalLength)
-	  printf (" bNumInterfaces       %d\n", c.bNumInterfaces)
-	  printf (" bConfigurationValue  %d\n", c.bConfigurationValue)
-	  buf = get_libusb_string_descriptor (dev, c.iConfiguration)
-	  printf (" iConfiguration       %d (%s)\n", c.iConfiguration,
+	  printf(" <configuration %d>\n", config_nr)
+	  printf(" bLength              %d\n", c.bLength)
+	  printf(" bDescriptorType      %d\n", c.bDescriptorType)
+	  printf(" wTotalLength         %d\n", c.wTotalLength)
+	  printf(" bNumInterfaces       %d\n", c.bNumInterfaces)
+	  printf(" bConfigurationValue  %d\n", c.bConfigurationValue)
+	  buf = get_libusb_string_descriptor(dev, c.iConfiguration)
+	  printf(" iConfiguration       %d(%s)\n", c.iConfiguration,
 		  (buf) ? buf : "")
-	  if (buf)
-	    free (buf)
-	  printf (" bmAttributes         %d (%s%s)\n", c.bmAttributes,
+	  if(buf)
+	    free(buf)
+	  printf(" bmAttributes         %d(%s%s)\n", c.bmAttributes,
 		  c.bmAttributes & 64 ? "Self-powered" : "",
 		  c.bmAttributes & 32 ? "Remote Wakeup" : "")
-	  printf (" MaxPower             %d mA\n", c.MaxPower * 2)
+	  printf(" MaxPower             %d mA\n", c.MaxPower * 2)
 
-	  for (interface_nr = 0; interface_nr < c.bNumInterfaces
+	  for(interface_nr = 0; interface_nr < c.bNumInterfaces
 	       interface_nr++)
 	    {
 	      struct usb_interface *interface = &c.interface[interface_nr]
 	      Int alt_setting_nr
 
-	      printf ("  <interface %d>\n", interface_nr)
-	      for (alt_setting_nr = 0
+	      printf("  <interface %d>\n", interface_nr)
+	      for(alt_setting_nr = 0
 		   alt_setting_nr < interface.num_altsetting
 		   alt_setting_nr++)
 		{
 		  struct usb_interface_descriptor *i
 		    = &interface.altsetting[alt_setting_nr]
 		  Int ep_nr
-		  printf ("   <altsetting %d>\n", alt_setting_nr)
-		  printf ("   bLength            %d\n", i.bLength)
-		  printf ("   bDescriptorType    %d\n", i.bDescriptorType)
-		  printf ("   bInterfaceNumber   %d\n", i.bInterfaceNumber)
-		  printf ("   bAlternateSetting  %d\n", i.bAlternateSetting)
-		  printf ("   bNumEndpoints      %d\n", i.bNumEndpoints)
-		  printf ("   bInterfaceClass    %d\n", i.bInterfaceClass)
-		  printf ("   bInterfaceSubClass %d\n",
+		  printf("   <altsetting %d>\n", alt_setting_nr)
+		  printf("   bLength            %d\n", i.bLength)
+		  printf("   bDescriptorType    %d\n", i.bDescriptorType)
+		  printf("   bInterfaceNumber   %d\n", i.bInterfaceNumber)
+		  printf("   bAlternateSetting  %d\n", i.bAlternateSetting)
+		  printf("   bNumEndpoints      %d\n", i.bNumEndpoints)
+		  printf("   bInterfaceClass    %d\n", i.bInterfaceClass)
+		  printf("   bInterfaceSubClass %d\n",
 			  i.bInterfaceSubClass)
-		  printf ("   bInterfaceProtocol %d\n",
+		  printf("   bInterfaceProtocol %d\n",
 			  i.bInterfaceProtocol)
-		  buf = get_libusb_string_descriptor (dev, i.iInterface)
-		  printf ("   iInterface         %d (%s)\n", i.iInterface,
+		  buf = get_libusb_string_descriptor(dev, i.iInterface)
+		  printf("   iInterface         %d(%s)\n", i.iInterface,
 			  (buf) ? buf : "")
-		  if (buf)
-		    free (buf)
+		  if(buf)
+		    free(buf)
 
-		  for (ep_nr = 0; ep_nr < i.bNumEndpoints; ep_nr++)
+		  for(ep_nr = 0; ep_nr < i.bNumEndpoints; ep_nr++)
 		    {
 		      struct usb_endpoint_descriptor *e = &i.endpoint[ep_nr]
 		      char *ep_type
 
-		      switch (e.bmAttributes & USB_ENDPOINT_TYPE_MASK)
+		      switch(e.bmAttributes & USB_ENDPOINT_TYPE_MASK)
 			{
 			case USB_ENDPOINT_TYPE_CONTROL:
 			  ep_type = "control"
@@ -619,23 +619,23 @@ check_libusb_device (struct usb_device *dev, Bool from_file)
 			  ep_type = "unknown"
 			  break
 			}
-		      printf ("    <endpoint %d>\n", ep_nr)
-		      printf ("    bLength           %d\n", e.bLength)
-		      printf ("    bDescriptorType   %d\n",
+		      printf("    <endpoint %d>\n", ep_nr)
+		      printf("    bLength           %d\n", e.bLength)
+		      printf("    bDescriptorType   %d\n",
 			      e.bDescriptorType)
-		      printf ("    bEndpointAddress  0x%02X (%s 0x%02X)\n",
+		      printf("    bEndpointAddress  0x%02X(%s 0x%02X)\n",
 			      e.bEndpointAddress,
 			      e.bEndpointAddress & USB_ENDPOINT_DIR_MASK ?
 			      "in" : "out",
 			      e->
 			      bEndpointAddress & USB_ENDPOINT_ADDRESS_MASK)
-		      printf ("    bmAttributes      %d (%s)\n",
+		      printf("    bmAttributes      %d(%s)\n",
 			      e.bmAttributes, ep_type)
-		      printf ("    wMaxPacketSize    %d\n",
+		      printf("    wMaxPacketSize    %d\n",
 			      e.wMaxPacketSize)
-		      printf ("    bInterval         %d ms\n", e.bInterval)
-		      printf ("    bRefresh          %d\n", e.bRefresh)
-		      printf ("    bSynchAddress     %d\n", e.bSynchAddress)
+		      printf("    bInterval         %d ms\n", e.bInterval)
+		      printf("    bRefresh          %d\n", e.bRefresh)
+		      printf("    bSynchAddress     %d\n", e.bSynchAddress)
 		    }
 		}
 	    }
@@ -644,23 +644,23 @@ check_libusb_device (struct usb_device *dev, Bool from_file)
     }
 
   /* Some heuristics, which device may be a scanner */
-  if (dev.descriptor.idVendor == 0)	/* hub */
+  if(dev.descriptor.idVendor == 0)	/* hub */
     --is_scanner
-  if (dev.descriptor.idProduct == 0)	/* hub */
+  if(dev.descriptor.idProduct == 0)	/* hub */
     --is_scanner
 
-  for (interface_nr = 0; interface_nr < dev.config[0].bNumInterfaces && is_scanner <= 0; interface_nr++)
+  for(interface_nr = 0; interface_nr < dev.config[0].bNumInterfaces && is_scanner <= 0; interface_nr++)
     {
-      switch (dev.descriptor.bDeviceClass)
+      switch(dev.descriptor.bDeviceClass)
 	{
 	case USB_CLASS_VENDOR_SPEC:
 	  ++is_scanner
 	  break
 	case USB_CLASS_PER_INTERFACE:
-	  if (dev.config[0].interface[interface_nr].num_altsetting == 0 ||
+	  if(dev.config[0].interface[interface_nr].num_altsetting == 0 ||
 	      !dev.config[0].interface[interface_nr].altsetting)
 	    break
-	  switch (dev.config[0].interface[interface_nr].altsetting[0].bInterfaceClass)
+	  switch(dev.config[0].interface[interface_nr].altsetting[0].bInterfaceClass)
 	    {
 	    case USB_CLASS_VENDOR_SPEC:
 	    case USB_CLASS_PER_INTERFACE:
@@ -672,46 +672,46 @@ check_libusb_device (struct usb_device *dev, Bool from_file)
 	}
     }
 
-  if (is_scanner > 0)
+  if(is_scanner > 0)
     {
-      char * chipset = check_usb_chip (dev, verbose, from_file)
+      char * chipset = check_usb_chip(dev, verbose, from_file)
 
-      printf ("found USB scanner (vendor=0x%04x", dev.descriptor.idVendor)
-      if (vendor)
-	printf (" [%s]", vendor)
-      printf (", product=0x%04x", dev.descriptor.idProduct)
-      if (product)
-	printf (" [%s]", product)
-      if (chipset)
-	printf (", chip=%s", chipset)
-      if (from_file)
-	printf (")\n")
+      printf("found USB scanner(vendor=0x%04x", dev.descriptor.idVendor)
+      if(vendor)
+	printf(" [%s]", vendor)
+      printf(", product=0x%04x", dev.descriptor.idProduct)
+      if(product)
+	printf(" [%s]", product)
+      if(chipset)
+	printf(", chip=%s", chipset)
+      if(from_file)
+	printf(")\n")
       else
-	printf (") at libusb:%s:%s\n", dev.bus.dirname, dev.filename)
+	printf(") at libusb:%s:%s\n", dev.bus.dirname, dev.filename)
 
       libusb_device_found = Sane.TRUE
       device_found = Sane.TRUE
     }
 
-  if (vendor)
-    free (vendor)
+  if(vendor)
+    free(vendor)
 
-  if (product)
-    free (product)
+  if(product)
+    free(product)
 }
 #endif /* HAVE_LIBUSB_LEGACY */
 
 
 #ifdef HAVE_LIBUSB
 static char *
-sfs_libusb_strerror (Int errcode)
+sfs_libusb_strerror(Int errcode)
 {
   /* Error codes & descriptions from the libusb-1.0 documentation */
 
-  switch (errcode)
+  switch(errcode)
     {
       case LIBUSB_SUCCESS:
-	return "Success (no error)"
+	return "Success(no error)"
 
       case LIBUSB_ERROR_IO:
 	return "Input/output error"
@@ -720,10 +720,10 @@ sfs_libusb_strerror (Int errcode)
 	return "Invalid parameter"
 
       case LIBUSB_ERROR_ACCESS:
-	return "Access denied (insufficient permissions)"
+	return "Access denied(insufficient permissions)"
 
       case LIBUSB_ERROR_NO_DEVICE:
-	return "No such device (it may have been disconnected)"
+	return "No such device(it may have been disconnected)"
 
       case LIBUSB_ERROR_NOT_FOUND:
 	return "Entity not found"
@@ -741,7 +741,7 @@ sfs_libusb_strerror (Int errcode)
 	return "Pipe error"
 
       case LIBUSB_ERROR_INTERRUPTED:
-	return "System call interrupted (perhaps due to signal)"
+	return "System call interrupted(perhaps due to signal)"
 
       case LIBUSB_ERROR_NO_MEM:
 	return "Insufficient memory"
@@ -758,62 +758,62 @@ sfs_libusb_strerror (Int errcode)
 }
 
 static char *
-get_libusb_string_descriptor (libusb_device_handle *hdl, Int index)
+get_libusb_string_descriptor(libusb_device_handle *hdl, Int index)
 {
   unsigned char *buffer, short_buffer[2]
   Int size
   Int ret
   var i: Int
 
-  if (!index)
+  if(!index)
     return NULL
 
-  ret = libusb_get_descriptor (hdl, LIBUSB_DT_STRING, index,
-			       short_buffer, sizeof (short_buffer))
-  if (ret < 0)
+  ret = libusb_get_descriptor(hdl, LIBUSB_DT_STRING, index,
+			       short_buffer, sizeof(short_buffer))
+  if(ret < 0)
     {
-      printf ("could not fetch string descriptor: %s\n",
-	      sfs_libusb_strerror (ret))
+      printf("could not fetch string descriptor: %s\n",
+	      sfs_libusb_strerror(ret))
       return NULL
     }
 
-  if ((short_buffer[0] < 2) /* descriptor length */
+  if((short_buffer[0] < 2) /* descriptor length */
       || (short_buffer[1] != LIBUSB_DT_STRING)) /* descriptor type */
     return NULL
 
   size = short_buffer[0]
 
-  buffer = calloc (1, size + 1)
-  if (!buffer)
+  buffer = calloc(1, size + 1)
+  if(!buffer)
     return NULL
 
-  ret = libusb_get_descriptor (hdl, LIBUSB_DT_STRING, index,
+  ret = libusb_get_descriptor(hdl, LIBUSB_DT_STRING, index,
 			       buffer, size)
-  if (ret < 0)
+  if(ret < 0)
     {
-      printf ("could not fetch string descriptor (again): %s\n",
-	      sfs_libusb_strerror (ret))
-      free (buffer)
+      printf("could not fetch string descriptor(again): %s\n",
+	      sfs_libusb_strerror(ret))
+      free(buffer)
       return NULL
     }
 
-  if ((buffer[0] < 2) || (buffer[0] > size) /* descriptor length */
+  if((buffer[0] < 2) || (buffer[0] > size) /* descriptor length */
       || (buffer[1] != LIBUSB_DT_STRING)) /* descriptor type */
     {
-      free (buffer)
+      free(buffer)
       return NULL
     }
 
   size = buffer[0] - 2
-  for (i = 0; i < (size / 2); i++)
+  for(i = 0; i < (size / 2); i++)
     buffer[i] = buffer[2 + 2 * i]
   buffer[i] = '\0'
 
-  return (char *) buffer
+  return(char *) buffer
 }
 
 static void
-check_libusb_device (libusb_device *dev, Bool from_file)
+check_libusb_device(libusb_device *dev, Bool from_file)
 {
   libusb_device_handle *hdl
   struct libusb_device_descriptor desc
@@ -828,125 +828,125 @@ check_libusb_device (libusb_device *dev, Bool from_file)
   Int intf
   Int ret
 
-  busno = libusb_get_bus_number (dev)
-  address = libusb_get_device_address (dev)
+  busno = libusb_get_bus_number(dev)
+  address = libusb_get_device_address(dev)
 
-  ret = libusb_get_device_descriptor (dev, &desc)
-  if (ret < 0)
+  ret = libusb_get_device_descriptor(dev, &desc)
+  if(ret < 0)
     {
-      printf ("could not get device descriptor for device at %03d:%03d: %s\n",
-	      busno, address, sfs_libusb_strerror (ret))
+      printf("could not get device descriptor for device at %03d:%03d: %s\n",
+	      busno, address, sfs_libusb_strerror(ret))
       return
     }
 
   vid = desc.idVendor
   pid = desc.idProduct
 
-  ret = libusb_open (dev, &hdl)
-  if (ret < 0)
+  ret = libusb_open(dev, &hdl)
+  if(ret < 0)
     {
-      printf ("could not open USB device 0x%04x/0x%04x at %03d:%03d: %s\n",
-	      vid, pid, busno, address, sfs_libusb_strerror (ret))
+      printf("could not open USB device 0x%04x/0x%04x at %03d:%03d: %s\n",
+	      vid, pid, busno, address, sfs_libusb_strerror(ret))
       return
     }
 
-  ret = libusb_get_configuration (hdl, &config)
-  if (ret < 0)
+  ret = libusb_get_configuration(hdl, &config)
+  if(ret < 0)
     {
-      printf ("could not get configuration for device 0x%04x/0x%04x at %03d:%03d: %s\n",
-	      vid, pid, busno, address, sfs_libusb_strerror (ret))
-      libusb_close (hdl)
+      printf("could not get configuration for device 0x%04x/0x%04x at %03d:%03d: %s\n",
+	      vid, pid, busno, address, sfs_libusb_strerror(ret))
+      libusb_close(hdl)
       return
     }
 
-  if (config == 0)
+  if(config == 0)
     {
-      if (verbose > 1)
-	printf ("device 0x%04x/0x%04x at %03d:%03d is not configured\n",
+      if(verbose > 1)
+	printf("device 0x%04x/0x%04x at %03d:%03d is not configured\n",
 		vid, pid, busno, address)
-      libusb_close (hdl)
+      libusb_close(hdl)
       return
     }
 
-  vendor = get_libusb_string_descriptor (hdl, desc.iManufacturer)
-  product = get_libusb_string_descriptor (hdl, desc.iProduct)
+  vendor = get_libusb_string_descriptor(hdl, desc.iManufacturer)
+  product = get_libusb_string_descriptor(hdl, desc.iProduct)
 
-  if (verbose > 2)
+  if(verbose > 2)
     {
       /* print everything we know about the device */
       char *buf
       Int config_nr
 
-      printf ("\n")
-      printf ("<device descriptor of 0x%04x/0x%04x at %03d:%03d",
+      printf("\n")
+      printf("<device descriptor of 0x%04x/0x%04x at %03d:%03d",
 	      vid, pid, busno, address)
-      if (vendor || product)
+      if(vendor || product)
 	{
-	  printf (" (%s%s%s)", (vendor) ? vendor : "",
+	  printf(" (%s%s%s)", (vendor) ? vendor : "",
 		  (vendor && product) ? " " : "", (product) ? product : "")
 	}
-      printf (">\n")
-      printf ("bLength               %d\n", desc.bLength)
-      printf ("bDescriptorType       %d\n", desc.bDescriptorType)
-      printf ("bcdUSB                %d.%d%d\n", desc.bcdUSB >> 8,
+      printf(">\n")
+      printf("bLength               %d\n", desc.bLength)
+      printf("bDescriptorType       %d\n", desc.bDescriptorType)
+      printf("bcdUSB                %d.%d%d\n", desc.bcdUSB >> 8,
 	      (desc.bcdUSB >> 4) & 15, desc.bcdUSB & 15)
-      printf ("bDeviceClass          %d\n", desc.bDeviceClass)
-      printf ("bDeviceSubClass       %d\n", desc.bDeviceSubClass)
-      printf ("bDeviceProtocol       %d\n", desc.bDeviceProtocol)
-      printf ("bMaxPacketSize0       %d\n", desc.bMaxPacketSize0)
-      printf ("idVendor              0x%04X\n", desc.idVendor)
-      printf ("idProduct             0x%04X\n", desc.idProduct)
-      printf ("bcdDevice             %d.%d%d\n", desc.bcdDevice >> 8,
+      printf("bDeviceClass          %d\n", desc.bDeviceClass)
+      printf("bDeviceSubClass       %d\n", desc.bDeviceSubClass)
+      printf("bDeviceProtocol       %d\n", desc.bDeviceProtocol)
+      printf("bMaxPacketSize0       %d\n", desc.bMaxPacketSize0)
+      printf("idVendor              0x%04X\n", desc.idVendor)
+      printf("idProduct             0x%04X\n", desc.idProduct)
+      printf("bcdDevice             %d.%d%d\n", desc.bcdDevice >> 8,
 	      (desc.bcdDevice >> 4) & 15, desc.bcdDevice & 15)
-      printf ("iManufacturer         %d (%s)\n", desc.iManufacturer,
+      printf("iManufacturer         %d(%s)\n", desc.iManufacturer,
 	      (vendor) ? vendor : "")
-      printf ("iProduct              %d (%s)\n", desc.iProduct,
+      printf("iProduct              %d(%s)\n", desc.iProduct,
 	      (product) ? product : "")
-      buf = get_libusb_string_descriptor (hdl, desc.iSerialNumber)
-      printf ("iSerialNumber         %d (%s)\n", desc.iSerialNumber,
+      buf = get_libusb_string_descriptor(hdl, desc.iSerialNumber)
+      printf("iSerialNumber         %d(%s)\n", desc.iSerialNumber,
 	      (buf) ? buf : "")
-      if (buf)
-	free (buf)
-      printf ("bNumConfigurations    %d\n", desc.bNumConfigurations)
+      if(buf)
+	free(buf)
+      printf("bNumConfigurations    %d\n", desc.bNumConfigurations)
 
-      for (config_nr = 0; config_nr < desc.bNumConfigurations; config_nr++)
+      for(config_nr = 0; config_nr < desc.bNumConfigurations; config_nr++)
 	{
 	  struct libusb_config_descriptor *c
 
-	  ret = libusb_get_config_descriptor (dev, config_nr, &c)
-	  if (ret < 0)
+	  ret = libusb_get_config_descriptor(dev, config_nr, &c)
+	  if(ret < 0)
 	    {
-	      printf ("could not get configuration descriptor %d: %s\n",
-		      config_nr, sfs_libusb_strerror (ret))
+	      printf("could not get configuration descriptor %d: %s\n",
+		      config_nr, sfs_libusb_strerror(ret))
 	      continue
 	    }
 
-	  printf (" <configuration %d>\n", config_nr)
-	  printf (" bLength              %d\n", c.bLength)
-	  printf (" bDescriptorType      %d\n", c.bDescriptorType)
-	  printf (" wTotalLength         %d\n", c.wTotalLength)
-	  printf (" bNumInterfaces       %d\n", c.bNumInterfaces)
-	  printf (" bConfigurationValue  %d\n", c.bConfigurationValue)
+	  printf(" <configuration %d>\n", config_nr)
+	  printf(" bLength              %d\n", c.bLength)
+	  printf(" bDescriptorType      %d\n", c.bDescriptorType)
+	  printf(" wTotalLength         %d\n", c.wTotalLength)
+	  printf(" bNumInterfaces       %d\n", c.bNumInterfaces)
+	  printf(" bConfigurationValue  %d\n", c.bConfigurationValue)
 
-	  buf = get_libusb_string_descriptor (hdl, c.iConfiguration)
-	  printf (" iConfiguration       %d (%s)\n", c.iConfiguration,
+	  buf = get_libusb_string_descriptor(hdl, c.iConfiguration)
+	  printf(" iConfiguration       %d(%s)\n", c.iConfiguration,
 		  (buf) ? buf : "")
-	  free (buf)
+	  free(buf)
 
-	  printf (" bmAttributes         %d (%s%s)\n", c.bmAttributes,
+	  printf(" bmAttributes         %d(%s%s)\n", c.bmAttributes,
 		  c.bmAttributes & 64 ? "Self-powered" : "",
 		  c.bmAttributes & 32 ? "Remote Wakeup" : "")
-	  printf (" MaxPower             %d mA\n", c.MaxPower * 2)
+	  printf(" MaxPower             %d mA\n", c.MaxPower * 2)
 
-	  for (intf = 0; intf < c.bNumInterfaces; intf++)
+	  for(intf = 0; intf < c.bNumInterfaces; intf++)
 	    {
 	      const struct libusb_interface *interface
 	      Int alt_setting_nr
 
 	      interface = &c.interface[intf]
 
-	      printf ("  <interface %d>\n", intf)
-	      for (alt_setting_nr = 0
+	      printf("  <interface %d>\n", intf)
+	      for(alt_setting_nr = 0
 		   alt_setting_nr < interface.num_altsetting
 		   alt_setting_nr++)
 		{
@@ -955,31 +955,31 @@ check_libusb_device (libusb_device *dev, Bool from_file)
 
 		  i = &interface.altsetting[alt_setting_nr]
 
-		  printf ("   <altsetting %d>\n", alt_setting_nr)
-		  printf ("   bLength            %d\n", i.bLength)
-		  printf ("   bDescriptorType    %d\n", i.bDescriptorType)
-		  printf ("   bInterfaceNumber   %d\n", i.bInterfaceNumber)
-		  printf ("   bAlternateSetting  %d\n", i.bAlternateSetting)
-		  printf ("   bNumEndpoints      %d\n", i.bNumEndpoints)
-		  printf ("   bInterfaceClass    %d\n", i.bInterfaceClass)
-		  printf ("   bInterfaceSubClass %d\n",
+		  printf("   <altsetting %d>\n", alt_setting_nr)
+		  printf("   bLength            %d\n", i.bLength)
+		  printf("   bDescriptorType    %d\n", i.bDescriptorType)
+		  printf("   bInterfaceNumber   %d\n", i.bInterfaceNumber)
+		  printf("   bAlternateSetting  %d\n", i.bAlternateSetting)
+		  printf("   bNumEndpoints      %d\n", i.bNumEndpoints)
+		  printf("   bInterfaceClass    %d\n", i.bInterfaceClass)
+		  printf("   bInterfaceSubClass %d\n",
 			  i.bInterfaceSubClass)
-		  printf ("   bInterfaceProtocol %d\n",
+		  printf("   bInterfaceProtocol %d\n",
 			  i.bInterfaceProtocol)
 
 		  buf = NULL
-		  buf = get_libusb_string_descriptor (hdl, i.iInterface)
-		  printf ("   iInterface         %d (%s)\n", i.iInterface,
+		  buf = get_libusb_string_descriptor(hdl, i.iInterface)
+		  printf("   iInterface         %d(%s)\n", i.iInterface,
 			  (buf) ? buf : "")
-		  free (buf)
-		  for (ep_nr = 0; ep_nr < i.bNumEndpoints; ep_nr++)
+		  free(buf)
+		  for(ep_nr = 0; ep_nr < i.bNumEndpoints; ep_nr++)
 		    {
 		      const struct libusb_endpoint_descriptor *e
 		      char *ep_type
 
 		      e = &i.endpoint[ep_nr]
 
-		      switch (e.bmAttributes & LIBUSB_TRANSFER_TYPE_MASK)
+		      switch(e.bmAttributes & LIBUSB_TRANSFER_TYPE_MASK)
 			{
 			  case LIBUSB_TRANSFER_TYPE_CONTROL:
 			    ep_type = "control"
@@ -997,23 +997,23 @@ check_libusb_device (libusb_device *dev, Bool from_file)
 			    ep_type = "unknown"
 			    break
 			}
-		      printf ("    <endpoint %d>\n", ep_nr)
-		      printf ("    bLength           %d\n", e.bLength)
-		      printf ("    bDescriptorType   %d\n",
+		      printf("    <endpoint %d>\n", ep_nr)
+		      printf("    bLength           %d\n", e.bLength)
+		      printf("    bDescriptorType   %d\n",
 			      e.bDescriptorType)
-		      printf ("    bEndpointAddress  0x%02X (%s 0x%02X)\n",
+		      printf("    bEndpointAddress  0x%02X(%s 0x%02X)\n",
 			      e.bEndpointAddress,
 			      e.bEndpointAddress & LIBUSB_ENDPOINT_DIR_MASK ?
 			      "in" : "out",
 			      e->
 			      bEndpointAddress & USB_ENDPOINT_ADDRESS_MASK)
-		      printf ("    bmAttributes      %d (%s)\n",
+		      printf("    bmAttributes      %d(%s)\n",
 			      e.bmAttributes, ep_type)
-		      printf ("    wMaxPacketSize    %d\n",
+		      printf("    wMaxPacketSize    %d\n",
 			      e.wMaxPacketSize)
-		      printf ("    bInterval         %d ms\n", e.bInterval)
-		      printf ("    bRefresh          %d\n", e.bRefresh)
-		      printf ("    bSynchAddress     %d\n", e.bSynchAddress)
+		      printf("    bInterval         %d ms\n", e.bInterval)
+		      printf("    bRefresh          %d\n", e.bRefresh)
+		      printf("    bSynchAddress     %d\n", e.bSynchAddress)
 		    }
 		}
 	    }
@@ -1022,32 +1022,32 @@ check_libusb_device (libusb_device *dev, Bool from_file)
 
 
   /* Some heuristics, which device may be a scanner */
-  if (desc.idVendor == 0)	/* hub */
+  if(desc.idVendor == 0)	/* hub */
     --is_scanner
-  if (desc.idProduct == 0)	/* hub */
+  if(desc.idProduct == 0)	/* hub */
     --is_scanner
 
-  ret = libusb_get_config_descriptor (dev, 0, &config0)
-  if (ret < 0)
+  ret = libusb_get_config_descriptor(dev, 0, &config0)
+  if(ret < 0)
     {
-      printf ("could not get config[0] descriptor: %s\n",
-	      sfs_libusb_strerror (ret))
+      printf("could not get config[0] descriptor: %s\n",
+	      sfs_libusb_strerror(ret))
 
       goto out_free
     }
 
-  for (intf = 0; (intf < config0->bNumInterfaces) && (is_scanner <= 0); intf++)
+  for(intf = 0; (intf < config0->bNumInterfaces) && (is_scanner <= 0); intf++)
     {
-      switch (desc.bDeviceClass)
+      switch(desc.bDeviceClass)
 	{
 	  case USB_CLASS_VENDOR_SPEC:
 	    ++is_scanner
 	    break
 	  case USB_CLASS_PER_INTERFACE:
-	    if ((config0->interface[intf].num_altsetting == 0)
+	    if((config0->interface[intf].num_altsetting == 0)
 		|| !config0->interface[intf].altsetting)
 	      break
-	    switch (config0->interface[intf].altsetting[0].bInterfaceClass)
+	    switch(config0->interface[intf].altsetting[0].bInterfaceClass)
 	      {
 	        case USB_CLASS_VENDOR_SPEC:
 	        case USB_CLASS_PER_INTERFACE:
@@ -1059,96 +1059,96 @@ check_libusb_device (libusb_device *dev, Bool from_file)
 	}
     }
 
-  if (is_scanner > 0)
+  if(is_scanner > 0)
     {
       char *chipset = NULL
 
       if(!from_file)
-        chipset = check_usb_chip (verbose, desc, hdl, config0)
+        chipset = check_usb_chip(verbose, desc, hdl, config0)
 
-      printf ("found USB scanner (vendor=0x%04x", vid)
-      if (vendor)
-	printf (" [%s]", vendor)
-      printf (", product=0x%04x", pid)
-      if (product)
-	printf (" [%s]", product)
-      if (chipset)
-	printf (", chip=%s", chipset)
-      if (from_file)
-	printf (")\n")
+      printf("found USB scanner(vendor=0x%04x", vid)
+      if(vendor)
+	printf(" [%s]", vendor)
+      printf(", product=0x%04x", pid)
+      if(product)
+	printf(" [%s]", product)
+      if(chipset)
+	printf(", chip=%s", chipset)
+      if(from_file)
+	printf(")\n")
       else
-	printf (") at libusb:%03d:%03d\n", busno, address)
+	printf(") at libusb:%03d:%03d\n", busno, address)
 
       libusb_device_found = Sane.TRUE
       device_found = Sane.TRUE
     }
 
-  libusb_free_config_descriptor (config0)
+  libusb_free_config_descriptor(config0)
 
  out_free:
-  libusb_close (hdl)
-  if (vendor)
-    free (vendor)
+  libusb_close(hdl)
+  if(vendor)
+    free(vendor)
 
-  if (product)
-    free (product)
+  if(product)
+    free(product)
 }
 #endif /* HAVE_LIBUSB */
 
 
 static DIR *
-scan_directory (char *dir_name)
+scan_directory(char *dir_name)
 {
   struct stat stat_buf
   DIR *dir
 
-  if (verbose > 2)
-    printf ("scanning directory %s\n", dir_name)
+  if(verbose > 2)
+    printf("scanning directory %s\n", dir_name)
 
-  if (stat (dir_name, &stat_buf) < 0)
+  if(stat(dir_name, &stat_buf) < 0)
     {
-      if (verbose > 1)
-	printf ("cannot stat `%s' (%s)\n", dir_name, strerror (errno))
+      if(verbose > 1)
+	printf("cannot stat `%s' (%s)\n", dir_name, strerror(errno))
       return 0
     }
-  if (!S_ISDIR (stat_buf.st_mode))
+  if(!S_ISDIR(stat_buf.st_mode))
     {
-      if (verbose > 1)
-	printf ("`%s' is not a directory\n", dir_name)
+      if(verbose > 1)
+	printf("`%s' is not a directory\n", dir_name)
       return 0
     }
-  if ((dir = opendir (dir_name)) == 0)
+  if((dir = opendir(dir_name)) == 0)
     {
-      if (verbose > 1)
-	printf ("cannot read directory `%s' (%s)\n", dir_name,
-		strerror (errno))
+      if(verbose > 1)
+	printf("cannot read directory `%s' (%s)\n", dir_name,
+		strerror(errno))
       return 0
     }
   return dir
 }
 
 static char *
-get_next_file (char *dir_name, DIR * dir)
+get_next_file(char *dir_name, DIR * dir)
 {
   struct dirent *dir_entry
   static char file_name[PATH_MAX]
 
   do
     {
-      dir_entry = readdir (dir)
-      if (!dir_entry)
+      dir_entry = readdir(dir)
+      if(!dir_entry)
 	return 0
     }
-  while (strcmp (dir_entry.d_name, ".") == 0
-	 || strcmp (dir_entry.d_name, "..") == 0)
+  while(strcmp(dir_entry.d_name, ".") == 0
+	 || strcmp(dir_entry.d_name, "..") == 0)
 
-  if (strlen (dir_name) + strlen (dir_entry.d_name) + 1 > PATH_MAX)
+  if(strlen(dir_name) + strlen(dir_entry.d_name) + 1 > PATH_MAX)
     {
-      if (verbose > 1)
-	printf ("filename too long\n")
+      if(verbose > 1)
+	printf("filename too long\n")
       return 0
     }
-  sprintf (file_name, "%s%s", dir_name, dir_entry.d_name)
+  sprintf(file_name, "%s%s", dir_name, dir_entry.d_name)
   return file_name
 }
 
@@ -1185,7 +1185,7 @@ static char **build_scsi_dev_list(void)
 						NULL, OPEN_EXISTING,
 						FILE_FLAG_RANDOM_ACCESS, NULL )
 
-		if (fd == INVALID_HANDLE_VALUE) {
+		if(fd == INVALID_HANDLE_VALUE) {
 			/* Assume there is no more adapter. This is wrong in the case
 			 * of hot-plug stuff, but I have yet to see it on a user
 			 * machine. */
@@ -1212,7 +1212,7 @@ static char **build_scsi_dev_list(void)
 
 		for(i = 0; i < adapter.NumberOfBuses; i++) {
 
-			if (adapter.BusData[i].InquiryDataOffset == 0) {
+			if(adapter.BusData[i].InquiryDataOffset == 0) {
 				/* No device here */
 				continue
 			}
@@ -1223,7 +1223,7 @@ static char **build_scsi_dev_list(void)
 				/* Check if it is a scanner or a processor
 				 * device. Ignore the other
 				 * device types. */
-				if (inquiry.InquiryDataLength >= 5 &&
+				if(inquiry.InquiryDataLength >= 5 &&
 					((inquiry.InquiryData[0] & 0x1f) == 3 ||
 					 (inquiry.InquiryData[0] & 0x1f) == 6)) {
 					char device_name[20]
@@ -1232,7 +1232,7 @@ static char **build_scsi_dev_list(void)
 					dev_list_index++
 				}
 
-				if (inquiry.NextInquiryDataOffset == 0) {
+				if(inquiry.NextInquiryDataOffset == 0) {
 					/* No device here */
 					break
 				} else {
@@ -1251,15 +1251,15 @@ static char **build_scsi_dev_list(void)
 }
 #endif
 
-#if defined (HAVE_IOKIT_CDB_IOSCSILIB_H) || \
-    defined (HAVE_IOKIT_SCSI_SCSICOMMANDOPERATIONCODES_H) || \
-    defined (HAVE_IOKIT_SCSI_COMMANDS_SCSICOMMANDOPERATIONCODES_H)
+#if defined(HAVE_IOKIT_CDB_IOSCSILIB_H) || \
+    defined(HAVE_IOKIT_SCSI_SCSICOMMANDOPERATIONCODES_H) || \
+    defined(HAVE_IOKIT_SCSI_COMMANDS_SCSICOMMANDOPERATIONCODES_H)
 char **scsi_dev_list
 Int scsi_dev_list_index
 
-static Sane.Status AddToSCSIDeviceList (const char *dev) {
-  if (scsi_dev_list_index < 99) {
-    scsi_dev_list [scsi_dev_list_index] = strdup (dev)
+static Sane.Status AddToSCSIDeviceList(const char *dev) {
+  if(scsi_dev_list_index < 99) {
+    scsi_dev_list[scsi_dev_list_index] = strdup(dev)
     scsi_dev_list_index++
     return Sane.STATUS_GOOD
   }
@@ -1270,66 +1270,66 @@ static Sane.Status AddToSCSIDeviceList (const char *dev) {
 static char **build_scsi_dev_list(void)
 {
   scsi_dev_list_index = 0
-  scsi_dev_list = malloc (100 * sizeof(char *))
-  sanei_scsi_find_devices (NULL, NULL, NULL, -1, -1, -1, -1,
+  scsi_dev_list = malloc(100 * sizeof(char *))
+  sanei_scsi_find_devices(NULL, NULL, NULL, -1, -1, -1, -1,
 			   AddToSCSIDeviceList)
-  scsi_dev_list [scsi_dev_list_index] = NULL
+  scsi_dev_list[scsi_dev_list_index] = NULL
   return scsi_dev_list
 }
 #endif
 
 static Int
-check_mustek_pp_device (void)
+check_mustek_pp_device(void)
 {
   const char **devices
   Int ctr = 0, found = 0, scsi = 0
 
-  if (verbose > 1)
-    printf ("searching for Mustek parallel port scanners:\n")
+  if(verbose > 1)
+    printf("searching for Mustek parallel port scanners:\n")
 
-  devices = sanei_pa4s2_devices ()
+  devices = sanei_pa4s2_devices()
 
-  while (devices[ctr] != NULL) {
+  while(devices[ctr] != NULL) {
     Int fd
     Sane.Status result
 
     /* ordinary parallel port scanner type */
-    if (verbose > 1)
-      printf ("checking %s...", devices[ctr])
+    if(verbose > 1)
+      printf("checking %s...", devices[ctr])
 
-    result = sanei_pa4s2_open (devices[ctr], &fd)
+    result = sanei_pa4s2_open(devices[ctr], &fd)
 
-    if (verbose > 1)
+    if(verbose > 1)
       {
-        if (result != 0)
-  	  printf (" failed to open (%s)\n", Sane.strstatus (result))
+        if(result != 0)
+  	  printf(" failed to open(%s)\n", Sane.strstatus(result))
         else
-	  printf (" open ok\n")
+	  printf(" open ok\n")
       }
 
-    if (result == 0) {
-      printf ("found possible Mustek parallel port scanner at \"%s\"\n",
+    if(result == 0) {
+      printf("found possible Mustek parallel port scanner at \"%s\"\n",
               devices[ctr])
       found++
       sanei_pa4s2_close(fd)
     }
 
     /* trying scsi over pp devices */
-    if (verbose > 1)
-      printf ("checking %s (SCSI emulation)...", devices[ctr])
+    if(verbose > 1)
+      printf("checking %s(SCSI emulation)...", devices[ctr])
 
-    result = sanei_pa4s2_scsi_pp_open (devices[ctr], &fd)
+    result = sanei_pa4s2_scsi_pp_open(devices[ctr], &fd)
 
-    if (verbose > 1)
+    if(verbose > 1)
       {
-        if (result != 0)
-  	  printf (" failed to open (%s)\n", Sane.strstatus (result))
+        if(result != 0)
+  	  printf(" failed to open(%s)\n", Sane.strstatus(result))
         else
-	  printf (" open ok\n")
+	  printf(" open ok\n")
       }
 
-    if (result == 0) {
-      printf ("found possible Mustek SCSI over PP scanner at \"%s\"\n",
+    if(result == 0) {
+      printf("found possible Mustek SCSI over PP scanner at \"%s\"\n",
               devices[ctr])
       scsi++
       sanei_pa4s2_close(fd)
@@ -1340,64 +1340,64 @@ check_mustek_pp_device (void)
 
   free(devices)
 
-  if (found > 0 && verbose > 0)
+  if(found > 0 && verbose > 0)
     printf("\n  # Your Mustek parallel port scanner was detected.  It may or\n"
            "  # may not be supported by SANE.  Please read the sane-mustek_pp\n"
 	   "  # man-page for setup instructions.\n")
 
-  if (scsi > 0 && verbose > 0)
+  if(scsi > 0 && verbose > 0)
     printf("\n  # Your Mustek parallel port scanner was detected.  It may or\n"
            "  # may not be supported by SANE.  Please read the sane-mustek_pp\n"
 	   "  # man-page for setup instructions.\n")
 
-  return (found > 0 || scsi > 0)
+  return(found > 0 || scsi > 0)
 }
 
 #ifdef HAVE_LIBUSB_LEGACY
 static Bool
-parse_num (char* search, const char* line, Int base, long Int * number)
+parse_num(char* search, const char* line, Int base, long Int * number)
 {
   char* start_number
 
-  start_number = strstr (line, search)
-  if (start_number == NULL)
+  start_number = strstr(line, search)
+  if(start_number == NULL)
     return Sane.FALSE
-  start_number += strlen (search)
+  start_number += strlen(search)
 
-  *number = strtol (start_number, NULL, base)
-  if (verbose > 2)
-    printf ("Found %s%ld\n", search, *number)
+  *number = strtol(start_number, NULL, base)
+  if(verbose > 2)
+    printf("Found %s%ld\n", search, *number)
   return Sane.TRUE
 }
 
 static Bool
-parse_bcd (char* search, const char* line, long Int * number)
+parse_bcd(char* search, const char* line, long Int * number)
 {
   char* start_number
   char* end_number
   Int first_part
   Int second_part
 
-  start_number = strstr (line, search)
-  if (start_number == NULL)
+  start_number = strstr(line, search)
+  if(start_number == NULL)
     return Sane.FALSE
-  start_number += strlen (search)
+  start_number += strlen(search)
 
-  first_part = strtol (start_number, &end_number, 10)
+  first_part = strtol(start_number, &end_number, 10)
   start_number = end_number + 1; /* skip colon */
-  second_part = strtol (start_number, NULL, 10)
+  second_part = strtol(start_number, NULL, 10)
   *number = ((first_part / 10) << 12) + ((first_part % 10) << 8)
     + ((second_part / 10) << 4) + (second_part % 10)
-  if (verbose > 2)
-    printf ("Found %s%ld\n", search, *number)
+  if(verbose > 2)
+    printf("Found %s%ld\n", search, *number)
   return Sane.TRUE
 }
 
 static void
-parse_file (char *filename)
+parse_file(char *filename)
 {
   FILE * parsefile
-  char line [PATH_MAX], *token
+  char line[PATH_MAX], *token
   const char * p
   struct usb_device *dev = 0
   long Int number = 0
@@ -1406,100 +1406,100 @@ parse_file (char *filename)
   Int current_as = -1
   Int current_ep = -1
 
-  if (verbose > 1)
-    printf ("trying to open %s\n", filename)
-  parsefile = fopen (filename, "r")
+  if(verbose > 1)
+    printf("trying to open %s\n", filename)
+  parsefile = fopen(filename, "r")
 
-  if (parsefile == NULL)
+  if(parsefile == NULL)
     {
-      if (verbose > 0)
-	printf ("opening %s failed: %s\n", filename, strerror (errno))
+      if(verbose > 0)
+	printf("opening %s failed: %s\n", filename, strerror(errno))
       return
     }
 
-  while (sanei_config_read (line, PATH_MAX, parsefile))
+  while(sanei_config_read(line, PATH_MAX, parsefile))
     {
-      if (verbose > 2)
-	printf ("parsing line: `%s'\n", line)
-      p = sanei_config_get_string (line, &token)
-      if (!token || !p || token[0] == '\0')
+      if(verbose > 2)
+	printf("parsing line: `%s'\n", line)
+      p = sanei_config_get_string(line, &token)
+      if(!token || !p || token[0] == '\0')
 	continue
-      if (token[1] != ':')
+      if(token[1] != ':')
 	{
-	  if (verbose > 2)
-	    printf ("missing `:'?\n")
+	  if(verbose > 2)
+	    printf("missing `:'?\n")
 	  continue
 	}
-      switch (token[0])
+      switch(token[0])
 	{
 	case 'T':
-	  if (dev)
-	    check_libusb_device (dev, Sane.TRUE)
-	  dev = calloc (1, sizeof (struct usb_device))
-	  dev.bus = calloc (1, sizeof (struct usb_bus))
+	  if(dev)
+	    check_libusb_device(dev, Sane.TRUE)
+	  dev = calloc(1, sizeof(struct usb_device))
+	  dev.bus = calloc(1, sizeof(struct usb_bus))
 	  current_config = 1
 	  current_if = -1
 	  current_as = -1
 	  current_ep = -1
 	  break
 	case 'D':
-	  if (parse_bcd ("Ver=", line, &number))
+	  if(parse_bcd("Ver=", line, &number))
 	    dev.descriptor.bcdUSB = number
-	  if (parse_num ("Cls=", line, 16, &number))
+	  if(parse_num("Cls=", line, 16, &number))
 	    dev.descriptor.bDeviceClass = number
-	  if (parse_num ("Sub=", line, 16, &number))
+	  if(parse_num("Sub=", line, 16, &number))
 	    dev.descriptor.bDeviceSubClass = number
-	  if (parse_num ("Prot=", line, 16, &number))
+	  if(parse_num("Prot=", line, 16, &number))
 	    dev.descriptor.bDeviceProtocol = number
-	  if (parse_num ("MxPS=", line, 10, &number))
+	  if(parse_num("MxPS=", line, 10, &number))
 	    dev.descriptor.bMaxPacketSize0 = number
-	  if (parse_num ("#Cfgs=", line, 10, &number))
+	  if(parse_num("#Cfgs=", line, 10, &number))
 	    dev.descriptor.bNumConfigurations = number
-	  dev.config = calloc (number, sizeof (struct usb_config_descriptor))
+	  dev.config = calloc(number, sizeof(struct usb_config_descriptor))
 	  break
 	case 'P':
-	  if (parse_num ("Vendor=", line, 16, &number))
+	  if(parse_num("Vendor=", line, 16, &number))
 	    dev.descriptor.idVendor = number
-	  if (parse_num ("ProdID=", line, 16, &number))
+	  if(parse_num("ProdID=", line, 16, &number))
 	    dev.descriptor.idProduct = number
-	  if (parse_bcd ("Rev=", line, &number))
+	  if(parse_bcd("Rev=", line, &number))
 	    dev.descriptor.bcdDevice = number
 	  break
 	case 'C':
 	  current_if = -1
 	  current_as = -1
 	  current_ep = -1
-	  if (parse_num ("Cfg#=", line, 10, &number))
+	  if(parse_num("Cfg#=", line, 10, &number))
 	    {
 	      current_config = number - 1
 	      dev.config[current_config].bConfigurationValue = number
 	    }
-	  if (parse_num ("Ifs=", line, 10, &number))
+	  if(parse_num("Ifs=", line, 10, &number))
 	    dev.config[current_config].bNumInterfaces = number
 	  dev.config[current_config].interface
-	    = calloc (number, sizeof (struct usb_interface))
-	  if (parse_num ("Atr=", line, 16, &number))
+	    = calloc(number, sizeof(struct usb_interface))
+	  if(parse_num("Atr=", line, 16, &number))
 	    dev.config[current_config].bmAttributes = number
-	  if (parse_num ("MxPwr=", line, 10, &number))
+	  if(parse_num("MxPwr=", line, 10, &number))
 	    dev.config[current_config].MaxPower = number / 2
 	  break
 	case 'I':
 	  current_ep = -1
-	  if (parse_num ("If#=", line, 10, &number))
+	  if(parse_num("If#=", line, 10, &number))
 	    {
-	      if (current_if != number)
+	      if(current_if != number)
 		{
 		  current_if = number
 		  current_as = -1
 		  dev.config[current_config].interface[current_if].altsetting
-		    = calloc (20, sizeof (struct usb_interface_descriptor))
+		    = calloc(20, sizeof(struct usb_interface_descriptor))
 		  /* Can't read number of altsettings */
 		  dev.config[current_config].interface[current_if].num_altsetting = 1
 		}
 	      else
 		dev.config[current_config].interface[current_if].num_altsetting++
 	    }
-	  if (parse_num ("Alt=", line, 10, &number))
+	  if(parse_num("Alt=", line, 10, &number))
 	    {
 	      current_as = number
 	      dev.config[current_config].interface[current_if].altsetting[current_as].bInterfaceNumber
@@ -1507,33 +1507,33 @@ parse_file (char *filename)
 	      dev.config[current_config].interface[current_if].altsetting[current_as].bAlternateSetting
 		= current_as
 	    }
-	  if (parse_num ("#EPs=", line, 10, &number))
+	  if(parse_num("#EPs=", line, 10, &number))
 	    dev.config[current_config].interface[current_if].altsetting[current_as].bNumEndpoints
 	      = number
 	  dev.config[current_config].interface[current_if].altsetting[current_as].endpoint
-	    = calloc (number, sizeof (struct usb_endpoint_descriptor))
-	  if (parse_num ("Cls=", line, 16, &number))
+	    = calloc(number, sizeof(struct usb_endpoint_descriptor))
+	  if(parse_num("Cls=", line, 16, &number))
 	    dev.config[current_config].interface[current_if].altsetting[current_as].bInterfaceClass
 	      = number
-	  if (parse_num ("Sub=", line, 16, &number))
+	  if(parse_num("Sub=", line, 16, &number))
 	    dev.config[current_config].interface[current_if].altsetting[current_as].bInterfaceSubClass
 	      = number
-	  if (parse_num ("Prot=", line, 16, &number))
+	  if(parse_num("Prot=", line, 16, &number))
 	    dev.config[current_config].interface[current_if].altsetting[current_as].bInterfaceProtocol
 	      = number
 	  break
 	case 'E':
 	  current_ep++
-	  if (parse_num ("Ad=", line, 16, &number))
+	  if(parse_num("Ad=", line, 16, &number))
 	    dev.config[current_config].interface[current_if].altsetting[current_as]
 	      .endpoint[current_ep].bEndpointAddress = number
-	  if (parse_num ("Atr=", line, 16, &number))
+	  if(parse_num("Atr=", line, 16, &number))
 	    dev.config[current_config].interface[current_if].altsetting[current_as]
 	      .endpoint[current_ep].bmAttributes = number
-	  if (parse_num ("MxPS=", line, 10, &number))
+	  if(parse_num("MxPS=", line, 10, &number))
 	    dev.config[current_config].interface[current_if].altsetting[current_as]
 	      .endpoint[current_ep].wMaxPacketSize = number
-	  if (parse_num ("Ivl=", line, 10, &number))
+	  if(parse_num("Ivl=", line, 10, &number))
 	    dev.config[current_config].interface[current_if].altsetting[current_as]
 	      .endpoint[current_ep].bInterval = number
 	  break
@@ -1541,40 +1541,40 @@ parse_file (char *filename)
 	case 'B':
 	  continue
 	default:
-	  if (verbose > 1)
-	    printf ("ignoring unknown line identifier: %c\n", token[0])
+	  if(verbose > 1)
+	    printf("ignoring unknown line identifier: %c\n", token[0])
 	  continue
 	}
-      free (token)
+      free(token)
     }
-  if (dev)
-    check_libusb_device (dev, Sane.TRUE)
-  fclose (parsefile)
+  if(dev)
+    check_libusb_device(dev, Sane.TRUE)
+  fclose(parsefile)
   return
 }
 #endif
 
-func Int main (Int argc, char **argv)
+func Int main(Int argc, char **argv)
 {
   char **dev_list, **usb_dev_list, *dev_name, **ap
   Int enable_pp_checks = Sane.FALSE
 
-  prog_name = strrchr (argv[0], '/')
-  if (prog_name)
+  prog_name = strrchr(argv[0], '/')
+  if(prog_name)
     ++prog_name
   else
     prog_name = argv[0]
 
-  for (ap = argv + 1; ap < argv + argc; ++ap)
+  for(ap = argv + 1; ap < argv + argc; ++ap)
     {
-      if ((*ap)[0] != '-')
+      if((*ap)[0] != '-')
 	break
-      switch ((*ap)[1])
+      switch((*ap)[1])
 	{
 	case '?':
 	case 'h':
-	  usage (0)
-	  exit (0)
+	  usage(0)
+	  exit(0)
 
 	case 'v':
 	  ++verbose
@@ -1594,27 +1594,27 @@ func Int main (Int argc, char **argv)
 
 	case 'F':
 #ifdef HAVE_LIBUSB_LEGACY
-	  parse_file ((char *) (*(++ap)))
+	  parse_file((char *) (*(++ap)))
 #elif defined(HAVE_LIBUSB)
-	  printf ("option -F not implemented with libusb-1.0\n")
+	  printf("option -F not implemented with libusb-1.0\n")
 #else
-	  printf ("libusb not available: option -F can't be used\n")
+	  printf("libusb not available: option -F can't be used\n")
 #endif
-	  exit (0)
+	  exit(0)
 
 	case '-':
-	  if (!strcmp((*ap), "--help"))
+	  if(!strcmp((*ap), "--help"))
 	    {
-	      usage (0)
-	      exit (0)
+	      usage(0)
+	      exit(0)
 	    }
           // fall through
 	default:
-	  printf ("unknown option: -%c, try -h for help\n", (*ap)[1])
-	  exit (0)
+	  printf("unknown option: -%c, try -h for help\n", (*ap)[1])
+	  exit(0)
 	}
     }
-  if (ap < argv + argc)
+  if(ap < argv + argc)
     {
       dev_list = ap
       usb_dev_list = ap
@@ -1850,10 +1850,10 @@ func Int main (Int argc, char **argv)
 	0
       ]
 
-#if defined (WIN32_SCSI) || \
-    defined (HAVE_IOKIT_CDB_IOSCSILIB_H) || \
-    defined (HAVE_IOKIT_SCSI_SCSICOMMANDOPERATIONCODES_H) || \
-    defined (HAVE_IOKIT_SCSI_COMMANDS_SCSICOMMANDOPERATIONCODES_H)
+#if defined(WIN32_SCSI) || \
+    defined(HAVE_IOKIT_CDB_IOSCSILIB_H) || \
+    defined(HAVE_IOKIT_SCSI_SCSICOMMANDOPERATIONCODES_H) || \
+    defined(HAVE_IOKIT_SCSI_COMMANDS_SCSICOMMANDOPERATIONCODES_H)
    /* Build a list of valid of possible scanners found */
       dev_list = build_scsi_dev_list()
 #else
@@ -1862,44 +1862,44 @@ func Int main (Int argc, char **argv)
 
       usb_dev_list = usb_default_dev_list
     }
-  if (verbose > 1)
-    printf ("This is sane-find-scanner from %s\n", PACKAGE_STRING)
+  if(verbose > 1)
+    printf("This is sane-find-scanner from %s\n", PACKAGE_STRING)
 
-  if (verbose > 0)
-    printf ("\n  # sane-find-scanner will now attempt to detect your scanner. If the"
+  if(verbose > 0)
+    printf("\n  # sane-find-scanner will now attempt to detect your scanner. If the"
 	    "\n  # result is different from what you expected, first make sure your"
 	    "\n  # scanner is powered up and properly connected to your computer.\n\n")
 
-  if (verbose > 1)
-    printf ("searching for SCSI scanners:\n")
+  if(verbose > 1)
+    printf("searching for SCSI scanners:\n")
 
-  while ((dev_name = *dev_list++))
+  while((dev_name = *dev_list++))
     {
-      if (strlen (dev_name) == 0)
+      if(strlen(dev_name) == 0)
 	continue;		/* Empty device names ... */
 
-      if (dev_name[strlen (dev_name) - 1] == '/')
+      if(dev_name[strlen(dev_name) - 1] == '/')
 	{
 	  /* check whole directories */
 	  DIR *dir
 	  char *file_name
 
-	  dir = scan_directory (dev_name)
-	  if (!dir)
+	  dir = scan_directory(dev_name)
+	  if(!dir)
 	    continue
 
-	  while ((file_name = get_next_file (dev_name, dir)))
-	    check_scsi_file (file_name)
+	  while((file_name = get_next_file(dev_name, dir)))
+	    check_scsi_file(file_name)
 	}
       else
 	{
 	  /* check device files */
-	  check_scsi_file (dev_name)
+	  check_scsi_file(dev_name)
 	}
     }
-  if (device_found)
+  if(device_found)
     {
-      if (verbose > 0)
+      if(verbose > 0)
 	printf
 	  ("  # Your SCSI scanner was detected. It may or may not be "
 	   "supported by SANE. Try\n  # scanimage -L and read the backend's "
@@ -1907,49 +1907,49 @@ func Int main (Int argc, char **argv)
     }
   else
     {
-      if (verbose > 0)
+      if(verbose > 0)
 	printf
 	  ("  # No SCSI scanners found. If you expected something different, "
 	   "make sure that\n  # you have loaded a kernel SCSI driver for your SCSI "
 	   "adapter.\n")
-      if (!check_sg ())
+      if(!check_sg())
 	{
-	  if (verbose > 0)
+	  if(verbose > 0)
 	    printf
-	      ("  # Also you need support for SCSI Generic (sg) in your "
+	      ("  # Also you need support for SCSI Generic(sg) in your "
 	       "operating system.\n  # If using Linux, try \"modprobe "
 	       "sg\".\n")
 	}
     }
-  if (verbose > 0)
-    printf ("\n")
+  if(verbose > 0)
+    printf("\n")
   device_found = Sane.FALSE
-  sanei_usb_init ()
-  if (verbose > 1)
-    printf ("searching for USB scanners:\n")
+  sanei_usb_init()
+  if(verbose > 1)
+    printf("searching for USB scanners:\n")
 
-  while ((dev_name = *usb_dev_list++))
+  while((dev_name = *usb_dev_list++))
     {
-      if (strlen (dev_name) == 0)
+      if(strlen(dev_name) == 0)
 	continue;		/* Empty device names ... */
 
-      if (dev_name[strlen (dev_name) - 1] == '/')
+      if(dev_name[strlen(dev_name) - 1] == '/')
 	{
 	  /* check whole directories */
 	  DIR *dir
 	  char *file_name
 
-	  dir = scan_directory (dev_name)
-	  if (!dir)
+	  dir = scan_directory(dev_name)
+	  if(!dir)
 	    continue
 
-	  while ((file_name = get_next_file (dev_name, dir)))
-	    check_usb_file (file_name)
+	  while((file_name = get_next_file(dev_name, dir)))
+	    check_usb_file(file_name)
 	}
       else
 	{
 	  /* check device files */
-	  check_usb_file (dev_name)
+	  check_usb_file(dev_name)
 	}
     }
 #ifdef HAVE_LIBUSB_LEGACY
@@ -1958,33 +1958,33 @@ func Int main (Int argc, char **argv)
     struct usb_bus *bus
     struct usb_device *dev
 
-    if (ap < argv + argc)
+    if(ap < argv + argc)
       {
 	/* user-specified devices not useful for libusb */
-	if (verbose > 1)
-	  printf ("ignoring libusb devices\n")
+	if(verbose > 1)
+	  printf("ignoring libusb devices\n")
       }
     else
       {
-	if (verbose > 2)
-	  printf ("trying libusb:\n")
-	for (bus = usb_get_busses (); bus; bus = bus.next)
+	if(verbose > 2)
+	  printf("trying libusb:\n")
+	for(bus = usb_get_busses(); bus; bus = bus.next)
 	  {
-	    for (dev = bus.devices; dev; dev = dev.next)
+	    for(dev = bus.devices; dev; dev = dev.next)
 	      {
-		check_libusb_device (dev, Sane.FALSE)
-	      }			/* for (dev) */
-	  }			/* for (bus) */
+		check_libusb_device(dev, Sane.FALSE)
+	      }			/* for(dev) */
+	  }			/* for(bus) */
       }
   }
 #elif defined(HAVE_LIBUSB)
   /* Now the libusb-1.0 devices */
   {
-    if (ap < argv + argc)
+    if(ap < argv + argc)
       {
 	/* user-specified devices not useful for libusb */
-	if (verbose > 1)
-	  printf ("ignoring libusb devices\n")
+	if(verbose > 1)
+	  printf("ignoring libusb devices\n")
       }
     else
       {
@@ -1993,69 +1993,69 @@ func Int main (Int argc, char **argv)
 	var i: Int
 	Int ret
 
-	if (verbose > 2)
-	  printf ("trying libusb:\n")
+	if(verbose > 2)
+	  printf("trying libusb:\n")
 
-	ret = libusb_init (&sfs_usb_ctx)
-	if (ret < 0)
+	ret = libusb_init(&sfs_usb_ctx)
+	if(ret < 0)
 	  {
-	    printf ("# Could not initialize libusb-1.0, error %d\n", ret)
-	    printf ("# Skipping libusb devices\n")
+	    printf("# Could not initialize libusb-1.0, error %d\n", ret)
+	    printf("# Skipping libusb devices\n")
 
 	    goto failed_libusb_1_0
 	  }
 
-	if (verbose > 3)
+	if(verbose > 3)
 #if LIBUSB_API_VERSION >= 0x01000106
-          libusb_set_option (sfs_usb_ctx, LIBUSB_OPTION_LOG_LEVEL,
+          libusb_set_option(sfs_usb_ctx, LIBUSB_OPTION_LOG_LEVEL,
                              LIBUSB_LOG_LEVEL_INFO)
 #else
-	  libusb_set_debug (sfs_usb_ctx, 3)
+	  libusb_set_debug(sfs_usb_ctx, 3)
 #endif
 
-	devcnt = libusb_get_device_list (sfs_usb_ctx, &devlist)
-	if (devcnt < 0)
+	devcnt = libusb_get_device_list(sfs_usb_ctx, &devlist)
+	if(devcnt < 0)
 	  {
-	    printf ("# Could not get device list, error %d\n", ret)
+	    printf("# Could not get device list, error %d\n", ret)
 
 	    goto deinit_libusb_1_0
 	  }
 
-	for (i = 0; i < devcnt; i++)
+	for(i = 0; i < devcnt; i++)
 	  {
-	    check_libusb_device (devlist[i], Sane.FALSE)
+	    check_libusb_device(devlist[i], Sane.FALSE)
 	  }
 
-	libusb_free_device_list (devlist, 1)
+	libusb_free_device_list(devlist, 1)
 
       deinit_libusb_1_0:
-	libusb_exit (sfs_usb_ctx)
+	libusb_exit(sfs_usb_ctx)
 
       failed_libusb_1_0:
 	; /* init failed, jumping here */
       }
   }
 #else /* not HAVE_LIBUSB_LEGACY && not HAVE_LIBUSB */
-  if (verbose > 1)
-    printf ("libusb not available\n")
+  if(verbose > 1)
+    printf("libusb not available\n")
 #endif /* not HAVE_LIBUSB_LEGACY && not HAVE_LIBUSB */
 
-  if (device_found)
+  if(device_found)
     {
-      if (libusb_device_found)
+      if(libusb_device_found)
 	{
-	  if (verbose > 0)
+	  if(verbose > 0)
 	    printf
-	      ("  # Your USB scanner was (probably) detected. It "
+	      ("  # Your USB scanner was(probably) detected. It "
 	       "may or may not be supported by\n  # SANE. Try scanimage "
 	       "-L and read the backend's manpage.\n")
 	}
-      else if (verbose > 0)
+      else if(verbose > 0)
 	printf
 	  ("  # Your USB scanner was detected. It may or may not "
 	   "be supported by\n  # SANE. Try scanimage -L and read the "
 	   "backend's manpage.\n")
-      if (unknown_found && verbose > 0)
+      if(unknown_found && verbose > 0)
 	printf
 	  ("  # `UNKNOWN vendor and product' means that there seems to be a "
 	   "scanner at this\n  # device file but the vendor and product ids "
@@ -2065,43 +2065,43 @@ func Int main (Int argc, char **argv)
     }
   else
     {
-      if (verbose > 0)
+      if(verbose > 0)
 	printf
 	  ("  # No USB scanners found. If you expected something different, "
 	   "make sure that\n  # you have loaded a kernel driver for your USB host "
 	   "controller and have setup\n  # the USB system correctly. "
 	   "See man sane-usb for details.\n")
 #if !defined(HAVE_LIBUSB_LEGACY) && !defined(HAVE_LIBUSB)
-      if (verbose > 0)
-	printf ("  # SANE has been built without libusb support. This may be a "
+      if(verbose > 0)
+	printf("  # SANE has been built without libusb support. This may be a "
 		"reason\n  # for not detecting USB scanners. Read README for "
 		"more details.\n")
 #endif
     }
-  if (enable_pp_checks == Sane.TRUE)
+  if(enable_pp_checks == Sane.TRUE)
     {
-      if (!check_mustek_pp_device() && verbose > 0)
-        printf ("\n  # No Mustek parallel port scanners found. If you expected"
+      if(!check_mustek_pp_device() && verbose > 0)
+        printf("\n  # No Mustek parallel port scanners found. If you expected"
                 " something\n  # different, make sure the scanner is correctly"
 	        " connected to your computer\n  # and you have appropriate"
 	        " access rights.\n")
     }
-  else if (verbose > 0)
-    printf ("\n  # Not checking for parallel port scanners.\n")
-  if (verbose > 0)
-    printf ("\n  # Most Scanners connected to the parallel port or other "
+  else if(verbose > 0)
+    printf("\n  # Not checking for parallel port scanners.\n")
+  if(verbose > 0)
+    printf("\n  # Most Scanners connected to the parallel port or other "
 	    "proprietary ports\n  # can't be detected by this program.\n")
 #ifdef HAVE_GETUID
-  if (getuid ())
-    if (verbose > 0)
+  if(getuid())
+    if(verbose > 0)
       printf
 	("\n  # You may want to run this program as root to find all devices. "
 	 "Once you\n  # found the scanner devices, be sure to adjust access "
 	 "permissions as\n  # necessary.\n")
 #endif
 
-  if (verbose > 1)
-    printf ("done\n")
+  if(verbose > 1)
+    printf("done\n")
 
   return 0
 }

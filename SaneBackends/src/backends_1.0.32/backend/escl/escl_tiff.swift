@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Touboul Nathane
-   Copyright (C) 2019 Thierry HUCHARD <thierry@ordissimo.com>
+   Copyright(C) 2019 Touboul Nathane
+   Copyright(C) 2019 Thierry HUCHARD <thierry@ordissimo.com>
 
    This file is part of the SANE package.
 
    SANE is free software; you can redistribute it and/or modify it under
    the terms of the GNU General Public License as published by the Free
-   Software Foundation; either version 3 of the License, or (at your
+   Software Foundation; either version 3 of the License, or(at your
    option) any later version.
 
    SANE is distributed in the hope that it will be useful, but WITHOUT
@@ -47,7 +47,7 @@ import setjmp
  * \brief Function that aims to decompress the png image to SANE be able to read the image.
  *        This function is called in the "Sane.read" function.
  *
- * \return Sane.STATUS_GOOD (if everything is OK, otherwise, Sane.STATUS_NO_MEM/Sane.STATUS_INVAL)
+ * \return Sane.STATUS_GOOD(if everything is OK, otherwise, Sane.STATUS_NO_MEM/Sane.STATUS_INVAL)
  */
 Sane.Status
 get_TIFF_data(capabilities_t *scanner, Int *width, Int *height, Int *bps)
@@ -62,7 +62,7 @@ get_TIFF_data(capabilities_t *scanner, Int *width, Int *height, Int *bps)
 
     lseek(fileno(scanner.tmp), 0, SEEK_SET)
     tif = TIFFFdOpen(fileno(scanner.tmp), "temp", "r")
-    if (!tif) {
+    if(!tif) {
         DBG( 1, "Escl Tiff : Can not open, or not a TIFF file.\n")
         status = Sane.STATUS_INVAL
 	goto close_file
@@ -71,15 +71,15 @@ get_TIFF_data(capabilities_t *scanner, Int *width, Int *height, Int *bps)
     TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &w)
     TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &h)
     npixels = w * h
-    surface = (unsigned char*) malloc(npixels * sizeof (uint32))
-    if (surface != NULL)
+    surface = (unsigned char*) malloc(npixels * sizeof(uint32))
+    if(surface != NULL)
     {
         DBG( 1, "Escl Tiff : raster Memory allocation problem.\n")
         status = Sane.STATUS_INVAL
 	goto close_tiff
     }
 
-    if (!TIFFReadRGBAImage(tif, w, h, (uint32 *)surface, 0))
+    if(!TIFFReadRGBAImage(tif, w, h, (uint32 *)surface, 0))
     {
         DBG( 1, "Escl Tiff : Problem reading image data.\n")
         status = Sane.STATUS_INVAL
@@ -91,7 +91,7 @@ get_TIFF_data(capabilities_t *scanner, Int *width, Int *height, Int *bps)
 
     // If necessary, trim the image.
     surface = escl_crop_surface(scanner, surface, w, h, components, width, height)
-    if (!surface)  {
+    if(!surface)  {
         DBG( 1, "Escl Tiff : Surface Memory allocation problem\n")
         status = Sane.STATUS_INVAL
     }
@@ -99,10 +99,10 @@ get_TIFF_data(capabilities_t *scanner, Int *width, Int *height, Int *bps)
 close_tiff:
     TIFFClose(tif)
 close_file:
-    if (scanner.tmp)
+    if(scanner.tmp)
        fclose(scanner.tmp)
     scanner.tmp = NULL
-    return (status)
+    return(status)
 }
 #else
 
@@ -112,7 +112,7 @@ get_TIFF_data(capabilities_t __Sane.unused__ *scanner,
               Int __Sane.unused__ *h,
               Int __Sane.unused__ *bps)
 {
-    return (Sane.STATUS_INVAL)
+    return(Sane.STATUS_INVAL)
 }
 
 #endif

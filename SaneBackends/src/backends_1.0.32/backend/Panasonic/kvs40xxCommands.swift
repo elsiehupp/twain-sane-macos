@@ -1,6 +1,6 @@
 /*
-   Copyright (C) 2009, Panasonic Russia Ltd.
-   Copyright (C) 2010,2011, m. allan noah
+   Copyright(C) 2009, Panasonic Russia Ltd.
+   Copyright(C) 2010,2011, m. allan noah
 */
 /*
    Panasonic KV-S40xx USB-SCSI scanner driver.
@@ -84,79 +84,79 @@ struct response
 ]
 
 static Sane.Status
-usb_send_command (struct scanner *s, struct cmd *c, struct response *r,
+usb_send_command(struct scanner *s, struct cmd *c, struct response *r,
 		  void *buf)
 {
   Sane.Status st
   struct bulk_header *h = (struct bulk_header *) buf
-  u8 resp[sizeof (*h) + STATUS_SIZE]
-  size_t sz = sizeof (*h) + MAX_CMD_SIZE
-  memset (h, 0, sz)
+  u8 resp[sizeof(*h) + STATUS_SIZE]
+  size_t sz = sizeof(*h) + MAX_CMD_SIZE
+  memset(h, 0, sz)
   h.length = cpu2be32 (sz)
   h.type = cpu2be16 (COMMAND_BLOCK)
   h.code = cpu2be16 (COMMAND_CODE)
-  memcpy (h + 1, c.cmd, c.cmd_size)
+  memcpy(h + 1, c.cmd, c.cmd_size)
 
-  st = sanei_usb_write_bulk (s.file, (const Sane.Byte *) h, &sz)
-  if (st)
+  st = sanei_usb_write_bulk(s.file, (const Sane.Byte *) h, &sz)
+  if(st)
     return st
 
-  if (sz != sizeof (*h) + MAX_CMD_SIZE)
+  if(sz != sizeof(*h) + MAX_CMD_SIZE)
     return Sane.STATUS_IO_ERROR
 
-  if (c.dir == CMD_IN)
+  if(c.dir == CMD_IN)
     {
       unsigned l
-      sz = sizeof (*h) + c.data_size
+      sz = sizeof(*h) + c.data_size
       c.data_size = 0
-      st = sanei_usb_read_bulk (s.file, (Sane.Byte *) h, &sz)
-      for (l = sz; !st && l != be2cpu32 (h.length); l += sz)
+      st = sanei_usb_read_bulk(s.file, (Sane.Byte *) h, &sz)
+      for(l = sz; !st && l != be2cpu32 (h.length); l += sz)
 	{
-	  DBG (DBG_WARN, "usb wrong read (%d instead %d)\n",
+	  DBG(DBG_WARN, "usb wrong read(%d instead %d)\n",
 	       c.data_size, be2cpu32 (h.length))
 	  sz = be2cpu32 (h.length) - l
-	  st = sanei_usb_read_bulk (s.file, ((Sane.Byte *) h) + l, &sz)
+	  st = sanei_usb_read_bulk(s.file, ((Sane.Byte *) h) + l, &sz)
 
 	}
 
       c.data = h + 1
 
-      if (st)
+      if(st)
 	{
-	  st = sanei_usb_release_interface (s.file, 0)
-	  if (st)
+	  st = sanei_usb_release_interface(s.file, 0)
+	  if(st)
 	    return st
-	  st = sanei_usb_claim_interface (s.file, 0)
+	  st = sanei_usb_claim_interface(s.file, 0)
 
-	  if (st)
+	  if(st)
 	    return st
 
 	  r.status = CHECK_CONDITION
 	  return Sane.STATUS_GOOD
 	}
 
-      c.data_size = sz - sizeof (*h)
+      c.data_size = sz - sizeof(*h)
 
 
     }
-  else if (c.dir == CMD_OUT)
+  else if(c.dir == CMD_OUT)
     {
-      sz = sizeof (*h) + c.data_size
-      memset (h, 0, sizeof (*h))
-      h.length = cpu2be32 (sizeof (*h) + c.data_size)
+      sz = sizeof(*h) + c.data_size
+      memset(h, 0, sizeof(*h))
+      h.length = cpu2be32 (sizeof(*h) + c.data_size)
       h.type = cpu2be16 (DATA_BLOCK)
       h.code = cpu2be16 (DATA_CODE)
-      memcpy (h + 1, c.data, c.data_size)
-      st = sanei_usb_write_bulk (s.file, (const Sane.Byte *) h, &sz)
-      if (st)
+      memcpy(h + 1, c.data, c.data_size)
+      st = sanei_usb_write_bulk(s.file, (const Sane.Byte *) h, &sz)
+      if(st)
 	return st
     }
-  sz = sizeof (resp)
-  st = sanei_usb_read_bulk (s.file, resp, &sz)
-  if (st || sz != sizeof (resp))
+  sz = sizeof(resp)
+  st = sanei_usb_read_bulk(s.file, resp, &sz)
+  if(st || sz != sizeof(resp))
     return Sane.STATUS_IO_ERROR
 
-  r.status = be2cpu32 (*((u32 *) (resp + sizeof (*h))))
+  r.status = be2cpu32 (*((u32 *) (resp + sizeof(*h))))
   return st
 }
 
@@ -246,16 +246,16 @@ static const struct
 5, 0x2c, 0x83, Sane.STATUS_INVAL},]
 
 Sane.Status
-kvs40xx_sense_handler (Int __Sane.unused__ fd,
+kvs40xx_sense_handler(Int __Sane.unused__ fd,
 		       u_char * sense_buffer, void __Sane.unused__ * arg)
 {
   unsigned i
   Sane.Status st = Sane.STATUS_GOOD
-  if (sense_buffer[2] & 0xf)
+  if(sense_buffer[2] & 0xf)
     {				/*error */
-      for (i = 0; i < sizeof (s_errors) / sizeof (s_errors[0]); i++)
+      for(i = 0; i < sizeof(s_errors) / sizeof(s_errors[0]); i++)
 	{
-	  if ((sense_buffer[2] & 0xf) == s_errors[i].sense
+	  if((sense_buffer[2] & 0xf) == s_errors[i].sense
 	      && sense_buffer[12] == s_errors[i].asc
 	      && sense_buffer[13] == s_errors[i].ascq)
 	    {
@@ -263,18 +263,18 @@ kvs40xx_sense_handler (Int __Sane.unused__ fd,
 	      break
 	    }
 	}
-      if (i == sizeof (s_errors) / sizeof (s_errors[0]))
+      if(i == sizeof(s_errors) / sizeof(s_errors[0]))
 	st = Sane.STATUS_IO_ERROR
     }
   else
     {
-      if (sense_buffer[2] & END_OF_MEDIUM)
+      if(sense_buffer[2] & END_OF_MEDIUM)
 	st = Sane.STATUS_EOF
-      else if (sense_buffer[2] & INCORRECT_LENGTH_INDICATOR)
+      else if(sense_buffer[2] & INCORRECT_LENGTH_INDICATOR)
 	st = INCORRECT_LENGTH
     }
 
-  DBG (DBG_ERR,
+  DBG(DBG_ERR,
        "send_command: CHECK_CONDITION: sense:0x%x ASC:0x%x ASCQ:0x%x\n",
        sense_buffer[2], sense_buffer[12], sense_buffer[13])
 
@@ -282,19 +282,19 @@ kvs40xx_sense_handler (Int __Sane.unused__ fd,
 }
 
 static Sane.Status
-send_command (struct scanner * s, struct cmd * c)
+send_command(struct scanner * s, struct cmd * c)
 {
   Sane.Status st = Sane.STATUS_GOOD
-  if (s.bus == USB)
+  if(s.bus == USB)
     {
       struct response r
-      memset (&r, 0, sizeof (r))
-      st = usb_send_command (s, c, &r, s.buffer)
-      if (st)
+      memset(&r, 0, sizeof(r))
+      st = usb_send_command(s, c, &r, s.buffer)
+      if(st)
 	return st
-      if (r.status)
+      if(r.status)
 	{
-	  u8 b[sizeof (struct bulk_header) + RESPONSE_SIZE]
+	  u8 b[sizeof(struct bulk_header) + RESPONSE_SIZE]
 	  struct cmd c2 = {
             {0}, 6,
 	    NULL, RESPONSE_SIZE,
@@ -303,37 +303,37 @@ send_command (struct scanner * s, struct cmd * c)
 	  c2.cmd[0] = REQUEST_SENSE
 	  c2.cmd[4] = RESPONSE_SIZE
 
-	  st = usb_send_command (s, &c2, &r, b)
-	  if (st)
+	  st = usb_send_command(s, &c2, &r, b)
+	  if(st)
 	    return st
-	  st = kvs40xx_sense_handler (0, b + sizeof (struct bulk_header), NULL)
+	  st = kvs40xx_sense_handler(0, b + sizeof(struct bulk_header), NULL)
 	}
     }
   else
     {
-      if (c.dir == CMD_OUT)
+      if(c.dir == CMD_OUT)
 	{
-	  memcpy (s.buffer, c.cmd, c.cmd_size)
-	  memcpy (s.buffer + c.cmd_size, c.data, c.data_size)
-	  st = sanei_scsi_cmd (s.file, s.buffer,
+	  memcpy(s.buffer, c.cmd, c.cmd_size)
+	  memcpy(s.buffer + c.cmd_size, c.data, c.data_size)
+	  st = sanei_scsi_cmd(s.file, s.buffer,
 			       c.cmd_size + c.data_size, NULL, NULL)
 	}
-      else if (c.dir == CMD_IN)
+      else if(c.dir == CMD_IN)
 	{
 	  c.data = s.buffer
-	  st = sanei_scsi_cmd (s.file, c.cmd, c.cmd_size,
+	  st = sanei_scsi_cmd(s.file, c.cmd, c.cmd_size,
 			       c.data, (size_t *) & c.data_size)
 	}
       else
 	{
-	  st = sanei_scsi_cmd (s.file, c.cmd, c.cmd_size, NULL, NULL)
+	  st = sanei_scsi_cmd(s.file, c.cmd, c.cmd_size, NULL, NULL)
 	}
     }
   return st
 }
 
 Sane.Status
-kvs40xx_test_unit_ready (struct scanner * s)
+kvs40xx_test_unit_ready(struct scanner * s)
 {
   struct cmd c = {
     {0}, 6,
@@ -341,14 +341,14 @@ kvs40xx_test_unit_ready (struct scanner * s)
     CMD_NONE
   ]
   c.cmd[0] = TEST_UNIT_READY
-  if (send_command (s, &c))
+  if(send_command(s, &c))
     return Sane.STATUS_DEVICE_BUSY
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-kvs40xx_set_timeout (struct scanner * s, Int timeout)
+kvs40xx_set_timeout(struct scanner * s, Int timeout)
 {
   u16 t = cpu2be16 ((u16) timeout)
   struct cmd c = {
@@ -357,18 +357,18 @@ kvs40xx_set_timeout (struct scanner * s, Int timeout)
     CMD_OUT
   ]
   c.data = &t
-  c.data_size = sizeof (t)
+  c.data_size = sizeof(t)
   c.cmd[0] = SET_TIMEOUT
   c.cmd[2] = 0x8d
-  copy16 (c.cmd + 7, cpu2be16 (sizeof (t)))
-  if (s.bus == USB)
-    sanei_usb_set_timeout (timeout * 1000)
+  copy16 (c.cmd + 7, cpu2be16 (sizeof(t)))
+  if(s.bus == USB)
+    sanei_usb_set_timeout(timeout * 1000)
 
-  return send_command (s, &c)
+  return send_command(s, &c)
 }
 
 Sane.Status
-kvs40xx_set_window (struct scanner * s, Int wnd_id)
+kvs40xx_set_window(struct scanner * s, Int wnd_id)
 {
   struct window wnd
   struct cmd c = {
@@ -377,16 +377,16 @@ kvs40xx_set_window (struct scanner * s, Int wnd_id)
     CMD_OUT
   ]
   c.data = &wnd
-  c.data_size = sizeof (wnd)
+  c.data_size = sizeof(wnd)
   c.cmd[0] = SET_WINDOW
-  copy16 (c.cmd + 7, cpu2be16 (sizeof (wnd)))
-  kvs40xx_init_window (s, &wnd, wnd_id)
+  copy16 (c.cmd + 7, cpu2be16 (sizeof(wnd)))
+  kvs40xx_init_window(s, &wnd, wnd_id)
 
-  return send_command (s, &c)
+  return send_command(s, &c)
 }
 
 Sane.Status
-kvs40xx_reset_window (struct scanner * s)
+kvs40xx_reset_window(struct scanner * s)
 {
   struct cmd c = {
     {0}, 10,
@@ -395,11 +395,11 @@ kvs40xx_reset_window (struct scanner * s)
   ]
   c.cmd[0] = SET_WINDOW
 
-  return send_command (s, &c)
+  return send_command(s, &c)
 }
 
 Sane.Status
-kvs40xx_scan (struct scanner * s)
+kvs40xx_scan(struct scanner * s)
 {
   struct cmd c = {
     {0}, 6,
@@ -407,11 +407,11 @@ kvs40xx_scan (struct scanner * s)
     CMD_NONE
   ]
   c.cmd[0] = SCAN
-  return send_command (s, &c)
+  return send_command(s, &c)
 }
 
 Sane.Status
-hopper_down (struct scanner * s)
+hopper_down(struct scanner * s)
 {
   struct cmd c = {
     {0}, 10,
@@ -421,13 +421,13 @@ hopper_down (struct scanner * s)
   c.cmd[0] = HOPPER_DOWN
   c.cmd[2] = 5
 
-  if (s.id == KV_S7075C)
+  if(s.id == KV_S7075C)
     return Sane.STATUS_GOOD
-  return send_command (s, &c)
+  return send_command(s, &c)
 }
 
 Sane.Status
-stop_adf (struct scanner * s)
+stop_adf(struct scanner * s)
 {
   struct cmd c = {
     {0}, 10,
@@ -436,11 +436,11 @@ stop_adf (struct scanner * s)
   ]
   c.cmd[0] = STOP_ADF
   c.cmd[2] = 0x8b
-  return send_command (s, &c)
+  return send_command(s, &c)
 }
 
 Sane.Status
-kvs40xx_document_exist (struct scanner * s)
+kvs40xx_document_exist(struct scanner * s)
 {
   Sane.Status status
   struct cmd c = {
@@ -452,18 +452,18 @@ kvs40xx_document_exist (struct scanner * s)
   c.cmd[0] = READ_10
   c.cmd[2] = 0x81
   set24 (c.cmd + 6, c.data_size)
-  status = send_command (s, &c)
-  if (status)
+  status = send_command(s, &c)
+  if(status)
     return status
   d = c.data
-  if (d[0] & 0x20)
+  if(d[0] & 0x20)
     return Sane.STATUS_GOOD
 
   return Sane.STATUS_NO_DOCS
 }
 
 Sane.Status
-kvs40xx_read_picture_element (struct scanner * s, unsigned side,
+kvs40xx_read_picture_element(struct scanner * s, unsigned side,
 			      Sane.Parameters * p)
 {
   Sane.Status status
@@ -478,8 +478,8 @@ kvs40xx_read_picture_element (struct scanner * s, unsigned side,
   c.cmd[5] = side
   set24 (c.cmd + 6, c.data_size)
 
-  status = send_command (s, &c)
-  if (status)
+  status = send_command(s, &c)
+  if(status)
     return status
   data = (u32 *) c.data
   p.pixels_per_line = be2cpu32 (data[0])
@@ -489,7 +489,7 @@ kvs40xx_read_picture_element (struct scanner * s, unsigned side,
 }
 
 Sane.Status
-get_buffer_status (struct scanner * s, unsigned *data_avalible)
+get_buffer_status(struct scanner * s, unsigned *data_avalible)
 {
   Sane.Status status
   struct cmd c = {
@@ -500,15 +500,15 @@ get_buffer_status (struct scanner * s, unsigned *data_avalible)
   c.cmd[0] = GET_BUFFER_STATUS
   c.cmd[7] = 12
 
-  status = send_command (s, &c)
-  if (status)
+  status = send_command(s, &c)
+  if(status)
     return status
   *data_avalible = get24 ((unsigned char *)c.data + 9)
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-kvs40xx_read_image_data (struct scanner * s, unsigned page, unsigned side,
+kvs40xx_read_image_data(struct scanner * s, unsigned page, unsigned side,
 			 void *buf, unsigned max_size, unsigned *size)
 {
   Sane.Status status
@@ -524,23 +524,23 @@ kvs40xx_read_image_data (struct scanner * s, unsigned page, unsigned side,
 
   set24 (c.cmd + 6, c.data_size)
   *size = 0
-  status = send_command (s, &c)
+  status = send_command(s, &c)
 
-  if (status && status != Sane.STATUS_EOF && status != INCORRECT_LENGTH)
+  if(status && status != Sane.STATUS_EOF && status != INCORRECT_LENGTH)
     return status
 
   *size = c.data_size
-  memcpy (buf, c.data, *size)
+  memcpy(buf, c.data, *size)
   return status
 }
 
 Sane.Status
-read_support_info (struct scanner * s, struct support_info * inf)
+read_support_info(struct scanner * s, struct support_info * inf)
 {
   Sane.Status st
   struct cmd c = {
     {0}, 10,
-    NULL, sizeof (*inf),
+    NULL, sizeof(*inf),
     CMD_IN
   ]
 
@@ -548,15 +548,15 @@ read_support_info (struct scanner * s, struct support_info * inf)
   c.cmd[2] = SUPPORT_INFO
   set24 (c.cmd + 6, c.data_size)
 
-  st = send_command (s, &c)
-  if (st)
+  st = send_command(s, &c)
+  if(st)
     return st
-  memcpy (inf, c.data, sizeof (*inf))
+  memcpy(inf, c.data, sizeof(*inf))
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-inquiry (struct scanner * s, char *id)
+inquiry(struct scanner * s, char *id)
 {
   var i: Int
   Sane.Status st
@@ -569,11 +569,11 @@ inquiry (struct scanner * s, char *id)
   c.cmd[0] = INQUIRY
   c.cmd[4] = c.data_size
 
-  st = send_command (s, &c)
-  if (st)
+  st = send_command(s, &c)
+  if(st)
     return st
-  memcpy (id, (unsigned char *)c.data + 16, 16)
-  for (i = 0; i < 15 && id[i] != ' '; i++)
+  memcpy(id, (unsigned char *)c.data + 16, 16)
+  for(i = 0; i < 15 && id[i] != ' '; i++)
   id[i] = 0
   return Sane.STATUS_GOOD
 }

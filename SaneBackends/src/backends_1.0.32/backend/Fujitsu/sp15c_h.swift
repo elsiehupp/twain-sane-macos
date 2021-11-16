@@ -8,7 +8,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -56,19 +56,19 @@
  *
  * Revision 1.5  2004/05/23 17:28:56  hmg-guest
  * Use sanei_thread instead of fork() in the unmaintained backends.
- * Patches from Mattias Ellert (bugs: 300635, 300634, 300633, 300629).
+ * Patches from Mattias Ellert(bugs: 300635, 300634, 300633, 300629).
  *
  * Revision 1.4  2003/12/27 17:48:38  hmg-guest
  * Silenced some compilation warnings.
  *
  * Revision 1.3  2000/08/12 15:09:42  pere
- * Merge devel (v1.0.3) into head branch.
+ * Merge devel(v1.0.3) into head branch.
  *
  * Revision 1.1.2.3  2000/03/14 17:47:14  abel
  * new version of the Sharp backend added.
  *
  * Revision 1.1.2.2  2000/01/26 03:51:50  pere
- * Updated backends sp15c (v1.12) and m3096g (v1.11).
+ * Updated backends sp15c(v1.12) and m3096g(v1.11).
  *
  * Revision 1.7  2000/01/05 05:22:26  bentson
  * indent to barfable GNU style
@@ -197,137 +197,137 @@ struct sp15c
 /* ------------------------------------------------------------------------- */
 
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 
 Sane.Status
-Sane.open (Sane.String_Const name, Sane.Handle * handle)
+Sane.open(Sane.String_Const name, Sane.Handle * handle)
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle h, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle h, Int * fdp)
+Sane.get_select_fd(Sane.Handle h, Int * fdp)
 
 const Sane.Option_Descriptor *
-  Sane.get_option_descriptor (Sane.Handle handle, Int option)
+  Sane.get_option_descriptor(Sane.Handle handle, Int option)
 
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
 		     Sane.Action action, void *val, Int * info)
 
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * buf,
+Sane.read(Sane.Handle handle, Sane.Byte * buf,
 	   Int max_len, Int * len)
 
 void
-  Sane.cancel (Sane.Handle h)
+  Sane.cancel(Sane.Handle h)
 
 void
-  Sane.close (Sane.Handle h)
+  Sane.close(Sane.Handle h)
 
 void
-  Sane.exit (void)
+  Sane.exit(void)
 
 /* ------------------------------------------------------------------------- */
 
 static Sane.Status
-  attach_scanner (const char *devicename, struct sp15c **devp)
+  attach_scanner(const char *devicename, struct sp15c **devp)
 
 static Sane.Status
-  sense_handler (Int scsi_fd, u_char * result, void *arg)
+  sense_handler(Int scsi_fd, u_char * result, void *arg)
 
 static Int
-  request_sense_parse (u_char * sensed_data)
+  request_sense_parse(u_char * sensed_data)
 
 static Sane.Status
-  sp15c_identify_scanner (struct sp15c *s)
+  sp15c_identify_scanner(struct sp15c *s)
 
 static Sane.Status
-  sp15c_do_inquiry (struct sp15c *s)
+  sp15c_do_inquiry(struct sp15c *s)
 
 static Sane.Status
-  do_scsi_cmd (Int fd, unsigned char *cmd, Int cmd_len, unsigned char *out, size_t out_len)
+  do_scsi_cmd(Int fd, unsigned char *cmd, Int cmd_len, unsigned char *out, size_t out_len)
 
 static void
-  hexdump (Int level, char *comment, unsigned char *p, Int l)
+  hexdump(Int level, char *comment, unsigned char *p, Int l)
 
 static Sane.Status
-  init_options (struct sp15c *scanner)
+  init_options(struct sp15c *scanner)
 
 static Int
-  sp15c_check_values (struct sp15c *s)
+  sp15c_check_values(struct sp15c *s)
 
 static Int
-  sp15c_grab_scanner (struct sp15c *s)
+  sp15c_grab_scanner(struct sp15c *s)
 
 static Int
-  sp15c_free_scanner (struct sp15c *s)
+  sp15c_free_scanner(struct sp15c *s)
 
 static Int
-  wait_scanner (struct sp15c *s)
+  wait_scanner(struct sp15c *s)
 
 static Int __Sane.unused__
-  sp15c_object_position (struct sp15c *s)
+  sp15c_object_position(struct sp15c *s)
 
 static Sane.Status
-  do_cancel (struct sp15c *scanner)
+  do_cancel(struct sp15c *scanner)
 
 static void
-  swap_res (struct sp15c *s)
+  swap_res(struct sp15c *s)
 
 static Int __Sane.unused__
-  sp15c_object_discharge (struct sp15c *s)
+  sp15c_object_discharge(struct sp15c *s)
 
 static Int
-  sp15c_set_window_param (struct sp15c *s, Int prescan)
+  sp15c_set_window_param(struct sp15c *s, Int prescan)
 
 static size_t
-  max_string_size (const Sane.String_Const strings[])
+  max_string_size(const Sane.String_Const strings[])
 
 static Int
-  sp15c_start_scan (struct sp15c *s)
+  sp15c_start_scan(struct sp15c *s)
 
 static Int
-  reader_process (void *scanner)
+  reader_process(void *scanner)
 
 static Sane.Status
-  do_eof (struct sp15c *scanner)
+  do_eof(struct sp15c *scanner)
 
 static Int
-  pixels_per_line (struct sp15c *s)
+  pixels_per_line(struct sp15c *s)
 
 static Int
-  lines_per_scan (struct sp15c *s)
+  lines_per_scan(struct sp15c *s)
 
 static Int
-  bytes_per_line (struct sp15c *s)
+  bytes_per_line(struct sp15c *s)
 
 static void
-  sp15c_trim_rowbufsize (struct sp15c *s)
+  sp15c_trim_rowbufsize(struct sp15c *s)
 
 static Int
-  sp15c_read_data_block (struct sp15c *s, unsigned Int length)
+  sp15c_read_data_block(struct sp15c *s, unsigned Int length)
 
 static Sane.Status
-  attach_one (const char *name)
+  attach_one(const char *name)
 
 static void
-  adjust_width (struct sp15c *s, Int * info)
+  adjust_width(struct sp15c *s, Int * info)
 
 static Sane.Status
-  apply_constraints (struct sp15c *s, Int opt,
+  apply_constraints(struct sp15c *s, Int opt,
 		     Int * target, Sane.Word * info)
 
 static Int
-  sp15c_media_check (struct sp15c *s)
+  sp15c_media_check(struct sp15c *s)
 
 #endif /* SP15C_H */

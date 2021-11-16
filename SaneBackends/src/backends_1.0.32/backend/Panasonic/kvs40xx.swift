@@ -2,7 +2,7 @@
 #define __KVS40XX_H
 
 /*
-   Copyright (C) 2009, Panasonic Russia Ltd.
+   Copyright(C) 2009, Panasonic Russia Ltd.
 */
 /*
    Panasonic KV-S40xx USB-SCSI scanner driver.
@@ -196,25 +196,25 @@ struct support_info
   unsigned char data[32]
 ]
 
-void kvs40xx_init_options (struct scanner *)
-Sane.Status kvs40xx_test_unit_ready (struct scanner *s)
-Sane.Status kvs40xx_set_timeout (struct scanner *s, Int timeout)
-void kvs40xx_init_window (struct scanner *s, struct window *wnd, Int wnd_id)
-Sane.Status kvs40xx_set_window (struct scanner *s, Int wnd_id)
-Sane.Status kvs40xx_reset_window (struct scanner *s)
-Sane.Status kvs40xx_read_picture_element (struct scanner *s, unsigned side,
+void kvs40xx_init_options(struct scanner *)
+Sane.Status kvs40xx_test_unit_ready(struct scanner *s)
+Sane.Status kvs40xx_set_timeout(struct scanner *s, Int timeout)
+void kvs40xx_init_window(struct scanner *s, struct window *wnd, Int wnd_id)
+Sane.Status kvs40xx_set_window(struct scanner *s, Int wnd_id)
+Sane.Status kvs40xx_reset_window(struct scanner *s)
+Sane.Status kvs40xx_read_picture_element(struct scanner *s, unsigned side,
 					  Sane.Parameters * p)
-Sane.Status read_support_info (struct scanner *s, struct support_info *inf)
-Sane.Status kvs40xx_read_image_data (struct scanner *s, unsigned page,
+Sane.Status read_support_info(struct scanner *s, struct support_info *inf)
+Sane.Status kvs40xx_read_image_data(struct scanner *s, unsigned page,
 				     unsigned side, void *buf,
 				     unsigned max_size, unsigned *size)
-Sane.Status kvs40xx_document_exist (struct scanner *s)
-Sane.Status get_buffer_status (struct scanner *s, unsigned *data_avalible)
-Sane.Status kvs40xx_scan (struct scanner *s)
-Sane.Status kvs40xx_sense_handler (Int fd, u_char * sense_buffer, void *arg)
-Sane.Status stop_adf (struct scanner *s)
-Sane.Status hopper_down (struct scanner *s)
-Sane.Status inquiry (struct scanner *s, char *id)
+Sane.Status kvs40xx_document_exist(struct scanner *s)
+Sane.Status get_buffer_status(struct scanner *s, unsigned *data_avalible)
+Sane.Status kvs40xx_scan(struct scanner *s)
+Sane.Status kvs40xx_sense_handler(Int fd, u_char * sense_buffer, void *arg)
+Sane.Status stop_adf(struct scanner *s)
+Sane.Status hopper_down(struct scanner *s)
+Sane.Status inquiry(struct scanner *s, char *id)
 
 static inline u16
 swap_bytes16 (u16 x)
@@ -231,13 +231,13 @@ swap_bytes32 (u32 x)
 static inline void
 copy16 (u8 * p, u16 x)
 {
-  memcpy (p, (u8 *) &x, sizeof (x))
+  memcpy(p, (u8 *) &x, sizeof(x))
 }
 
 static inline void
 copy32 (u8 * p, u32 x)
 {
-  memcpy (p, (u8 *) &x, sizeof (x))
+  memcpy(p, (u8 *) &x, sizeof(x))
 }
 
 #if WORDS_BIGENDIAN
@@ -291,8 +291,8 @@ get24 (u8 * p)
 
 
 /*
-   Copyright (C) 2009, Panasonic Russia Ltd.
-   Copyright (C) 2010,2011, m. allan noah
+   Copyright(C) 2009, Panasonic Russia Ltd.
+   Copyright(C) 2010,2011, m. allan noah
 */
 /*
    Panasonic KV-S40xx USB-SCSI scanner driver.
@@ -362,7 +362,7 @@ static inline Sane.Status buf_init(struct buf *b, Int sz)
 {
 	const Int num = sz / BUF_SIZE + 1
 	b.buf = (u8 **) realloc(b.buf, num * sizeof(u8 *))
-	if (!b.buf)
+	if(!b.buf)
 		return Sane.STATUS_NO_MEM
 	memset(b.buf, 0, num * sizeof(void *))
 	b.size = b.head = b.tail = 0
@@ -376,10 +376,10 @@ static inline Sane.Status buf_init(struct buf *b, Int sz)
 static inline void buf_deinit(struct buf *b)
 {
 	var i: Int
-	if (!b.buf)
+	if(!b.buf)
 		return
-	for (i = b.head; i < b.tail; i++)
-		if (b.buf[i])
+	for(i = b.head; i < b.tail; i++)
+		if(b.buf[i])
 			free(b.buf[i])
 	free(b.buf)
 	b.buf = NULL
@@ -389,7 +389,7 @@ static inline void buf_deinit(struct buf *b)
 static inline Sane.Status new_buf(struct buf *b, u8 ** p)
 {
 	b.buf[b.tail] = (u8 *) malloc(BUF_SIZE)
-	if (!b.buf[b.tail])
+	if(!b.buf[b.tail])
 		return Sane.STATUS_NO_MEM
 	*p = b.buf[b.tail]
 	++b.tail
@@ -405,7 +405,7 @@ static inline void buf_set_st(struct buf *b, Sane.Status st)
 {
 	pthread_mutex_lock(&b.mu)
 	b.st = st
-	if (buf_get_err(b))
+	if(buf_get_err(b))
 		pthread_cond_signal(&b.cond)
 	pthread_mutex_unlock(&b.mu)
 }
@@ -427,15 +427,15 @@ static inline void push_buf(struct buf *b, Int sz)
 static inline u8 *get_buf(struct buf *b, Int * sz)
 {
 	Sane.Status err = buf_get_err(b)
-	if (err)
+	if(err)
 		return NULL
 
 	pthread_mutex_lock(&b.mu)
-	while (!b.sem && !buf_get_err(b))
+	while(!b.sem && !buf_get_err(b))
 		pthread_cond_wait(&b.cond, &b.mu)
 	b.sem--
 	err = buf_get_err(b)
-	if (!err) {
+	if(!err) {
 		*sz = b.size < BUF_SIZE ? b.size : BUF_SIZE
 		b.size -= *sz
 	}
@@ -451,16 +451,16 @@ static inline void pop_buf(struct buf *b)
 }
 
 Sane.Status
-Sane.init (Int __Sane.unused__ * version_code,
+Sane.init(Int __Sane.unused__ * version_code,
 	   Sane.Auth_Callback __Sane.unused__ authorize)
 {
-  DBG_INIT ()
-  DBG (DBG_INFO, "This is panasonic kvs40xx driver\n")
+  DBG_INIT()
+  DBG(DBG_INFO, "This is panasonic kvs40xx driver\n")
 
-  *version_code = Sane.VERSION_CODE (V_MAJOR, V_MINOR, 1)
+  *version_code = Sane.VERSION_CODE(V_MAJOR, V_MINOR, 1)
 
   /* Initialize USB */
-  sanei_usb_init ()
+  sanei_usb_init()
 
   return Sane.STATUS_GOOD
 }
@@ -473,81 +473,81 @@ static Sane.Device **devlist = NULL
 static unsigned curr_scan_dev = 0
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
-  if (devlist)
+  if(devlist)
     {
       var i: Int
-      for (i = 0; devlist[i]; i++)
+      for(i = 0; devlist[i]; i++)
 	{
-	  free ((void *) devlist[i])
+	  free((void *) devlist[i])
 	}
-      free ((void *) devlist)
+      free((void *) devlist)
       devlist = NULL
     }
 }
 
 Sane.Status
-attach (Sane.String_Const devname)
+attach(Sane.String_Const devname)
 
 Sane.Status
-attach (Sane.String_Const devname)
+attach(Sane.String_Const devname)
 {
   var i: Int = 0
-  if (devlist)
+  if(devlist)
     {
-      for (; devlist[i]; i++)
-      devlist = realloc (devlist, sizeof (Sane.Device *) * (i + 1))
-      if (!devlist)
+      for(; devlist[i]; i++)
+      devlist = realloc(devlist, sizeof(Sane.Device *) * (i + 1))
+      if(!devlist)
 	return Sane.STATUS_NO_MEM
     }
   else
     {
-      devlist = malloc (sizeof (Sane.Device *) * 2)
-      if (!devlist)
+      devlist = malloc(sizeof(Sane.Device *) * 2)
+      if(!devlist)
 	return Sane.STATUS_NO_MEM
     }
-  devlist[i] = malloc (sizeof (Sane.Device))
-  if (!devlist[i])
+  devlist[i] = malloc(sizeof(Sane.Device))
+  if(!devlist[i])
     return Sane.STATUS_NO_MEM
-  memcpy (devlist[i], &known_devices[curr_scan_dev].scanner,
-	  sizeof (Sane.Device))
-  devlist[i]->name = strdup (devname)
+  memcpy(devlist[i], &known_devices[curr_scan_dev].scanner,
+	  sizeof(Sane.Device))
+  devlist[i]->name = strdup(devname)
   /* terminate device list with NULL entry: */
   devlist[i + 1] = 0
-  DBG (DBG_INFO, "%s device attached\n", devname)
+  DBG(DBG_INFO, "%s device attached\n", devname)
   return Sane.STATUS_GOOD
 }
 
 /* Get device list */
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list,
+Sane.get_devices(const Sane.Device *** device_list,
 		  Bool __Sane.unused__ local_only)
 {
-  if (devlist)
+  if(devlist)
     {
       var i: Int
-      for (i = 0; devlist[i]; i++)
+      for(i = 0; devlist[i]; i++)
 	{
-	  free ((void *) devlist[i])
+	  free((void *) devlist[i])
 	}
-      free ((void *) devlist)
+      free((void *) devlist)
       devlist = NULL
     }
 
-  for (curr_scan_dev = 0
+  for(curr_scan_dev = 0
        curr_scan_dev <
-       sizeof (known_devices) / sizeof (known_devices[0]); curr_scan_dev++)
+       sizeof(known_devices) / sizeof(known_devices[0]); curr_scan_dev++)
     {
-      sanei_usb_find_devices (PANASONIC_ID,
+      sanei_usb_find_devices(PANASONIC_ID,
 			      known_devices[curr_scan_dev].id, attach)
     }
 
-  for (curr_scan_dev = 0
+  for(curr_scan_dev = 0
        curr_scan_dev <
-       sizeof (known_devices) / sizeof (known_devices[0]); curr_scan_dev++)
+       sizeof(known_devices) / sizeof(known_devices[0]); curr_scan_dev++)
     {
-      sanei_scsi_find_devices (known_devices[curr_scan_dev].
+      sanei_scsi_find_devices(known_devices[curr_scan_dev].
 			       scanner.vendor,
 			       known_devices[curr_scan_dev].
 			       scanner.model, NULL, -1, -1, -1, -1, attach)
@@ -559,42 +559,42 @@ Sane.get_devices (const Sane.Device *** device_list,
 
 /* Open device, return the device handle */
 Sane.Status
-Sane.open (Sane.String_Const devname, Sane.Handle * handle)
+Sane.open(Sane.String_Const devname, Sane.Handle * handle)
 {
   unsigned i, j, id = 0
   struct scanner *s
   Int h, bus
   Sane.Status st = Sane.STATUS_GOOD
-  if (!devlist)
+  if(!devlist)
     {
-      st = Sane.get_devices (NULL, 0)
-      if (st)
+      st = Sane.get_devices(NULL, 0)
+      if(st)
 	return st
     }
-  for (i = 0; devlist[i]; i++)
+  for(i = 0; devlist[i]; i++)
     {
-      if (!strcmp (devlist[i]->name, devname))
+      if(!strcmp(devlist[i]->name, devname))
 	break
     }
-  if (!devlist[i])
+  if(!devlist[i])
     return Sane.STATUS_INVAL
-  for (j = 0; j < sizeof (known_devices) / sizeof (known_devices[0]); j++)
+  for(j = 0; j < sizeof(known_devices) / sizeof(known_devices[0]); j++)
     {
-      if (!strcmp (devlist[i]->model, known_devices[j].scanner.model))
+      if(!strcmp(devlist[i]->model, known_devices[j].scanner.model))
 	{
 	  id = known_devices[j].id
 	  break
 	}
     }
 
-  st = sanei_usb_open (devname, &h)
+  st = sanei_usb_open(devname, &h)
 
-  if (st == Sane.STATUS_ACCESS_DENIED)
+  if(st == Sane.STATUS_ACCESS_DENIED)
     return st
-  if (st)
+  if(st)
     {
-      st = sanei_scsi_open (devname, &h, kvs40xx_sense_handler, NULL)
-      if (st)
+      st = sanei_scsi_open(devname, &h, kvs40xx_sense_handler, NULL)
+      if(st)
 	{
 	  return st
 	}
@@ -603,50 +603,50 @@ Sane.open (Sane.String_Const devname, Sane.Handle * handle)
   else
     {
       bus = USB
-      st = sanei_usb_claim_interface (h, 0)
-      if (st)
+      st = sanei_usb_claim_interface(h, 0)
+      if(st)
 	{
-	  sanei_usb_close (h)
+	  sanei_usb_close(h)
 	  return st
 	}
     }
 
-  s = malloc (sizeof (struct scanner))
-  if (!s)
+  s = malloc(sizeof(struct scanner))
+  if(!s)
     return Sane.STATUS_NO_MEM
-  memset (s, 0, sizeof (struct scanner))
-  s.buffer = malloc (MAX_READ_DATA_SIZE + BULK_HEADER_SIZE)
-  if (!s.buffer)
+  memset(s, 0, sizeof(struct scanner))
+  s.buffer = malloc(MAX_READ_DATA_SIZE + BULK_HEADER_SIZE)
+  if(!s.buffer)
     return Sane.STATUS_NO_MEM
 
   s.file = h
   s.bus = bus
   s.id = id
-  strcpy (s.name, devname)
+  strcpy(s.name, devname)
   *handle = s
-  for (i = 0; i < 3; i++)
+  for(i = 0; i < 3; i++)
     {
-      st = kvs40xx_test_unit_ready (s)
-      if (st)
+      st = kvs40xx_test_unit_ready(s)
+      if(st)
 	{
-	  if (s.bus == SCSI)
+	  if(s.bus == SCSI)
 	    {
-	      sanei_scsi_close (s.file)
-	      st = sanei_scsi_open (devname, &h, kvs40xx_sense_handler, NULL)
-	      if (st)
+	      sanei_scsi_close(s.file)
+	      st = sanei_scsi_open(devname, &h, kvs40xx_sense_handler, NULL)
+	      if(st)
 		return st
 	    }
 	  else
 	    {
-	      sanei_usb_release_interface (s.file, 0)
-	      sanei_usb_close (s.file)
-	      st = sanei_usb_open (devname, &h)
-	      if (st)
+	      sanei_usb_release_interface(s.file, 0)
+	      sanei_usb_close(s.file)
+	      st = sanei_usb_open(devname, &h)
+	      if(st)
 		return st
-	      st = sanei_usb_claim_interface (h, 0)
-	      if (st)
+	      st = sanei_usb_claim_interface(h, 0)
+	      if(st)
 		{
-		  sanei_usb_close (h)
+		  sanei_usb_close(h)
 		  return st
 		}
 	    }
@@ -655,87 +655,87 @@ Sane.open (Sane.String_Const devname, Sane.Handle * handle)
       else
 	break
     }
-  if (i == 3)
+  if(i == 3)
     return Sane.STATUS_DEVICE_BUSY
 
-  if (id == KV_S4085C || id == KV_S4065C)
+  if(id == KV_S4085C || id == KV_S4065C)
     {
       char str[16]
-      st = inquiry (s, str)
-      if (st)
+      st = inquiry(s, str)
+      if(st)
 	goto err
-      if (id == KV_S4085C)
-	s.id = !strcmp (str, "KV-S4085CL") ? KV_S4085CL : KV_S4085CW
+      if(id == KV_S4085C)
+	s.id = !strcmp(str, "KV-S4085CL") ? KV_S4085CL : KV_S4085CW
       else
-	s.id = !strcmp (str, "KV-S4065CL") ? KV_S4065CL : KV_S4065CW
+	s.id = !strcmp(str, "KV-S4065CL") ? KV_S4065CL : KV_S4065CW
     }
-  kvs40xx_init_options (s)
-  st = kvs40xx_set_timeout (s, s.val[FEED_TIMEOUT].w)
-  if (st)
+  kvs40xx_init_options(s)
+  st = kvs40xx_set_timeout(s, s.val[FEED_TIMEOUT].w)
+  if(st)
     goto err
 
   return Sane.STATUS_GOOD
 err:
-  Sane.close (s)
+  Sane.close(s)
   return st
 }
 
 /* Close device */
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
   struct scanner *s = (struct scanner *) handle
   unsigned i
-  hopper_down (s)
-  if (s.bus == USB)
+  hopper_down(s)
+  if(s.bus == USB)
     {
-      sanei_usb_release_interface (s.file, 0)
-      sanei_usb_close (s.file)
+      sanei_usb_release_interface(s.file, 0)
+      sanei_usb_close(s.file)
     }
   else
-    sanei_scsi_close (s.file)
+    sanei_scsi_close(s.file)
 
-  for (i = 1; i < NUM_OPTIONS; i++)
+  for(i = 1; i < NUM_OPTIONS; i++)
     {
-      if (s.opt[i].type == Sane.TYPE_STRING && s.val[i].s)
-	free (s.val[i].s)
+      if(s.opt[i].type == Sane.TYPE_STRING && s.val[i].s)
+	free(s.val[i].s)
     }
 
-  for (i = 0; i < sizeof (s.buf) / sizeof (s.buf[0]); i++)
-    buf_deinit (&s.buf[i])
+  for(i = 0; i < sizeof(s.buf) / sizeof(s.buf[0]); i++)
+    buf_deinit(&s.buf[i])
 
-  free (s.buffer)
-  free (s)
+  free(s.buffer)
+  free(s)
 
 }
 
 /* Get option descriptor */
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
   struct scanner *s = handle
 
-  if ((unsigned) option >= NUM_OPTIONS || option < 0)
+  if((unsigned) option >= NUM_OPTIONS || option < 0)
     return NULL
   return s.opt + option
 }
 
 static Sane.Status
-wait_document (struct scanner *s)
+wait_document(struct scanner *s)
 {
   Sane.Status st
   var i: Int
-  if (!strcmp ("fb", s.val[SOURCE].s))
+  if(!strcmp("fb", s.val[SOURCE].s))
     return Sane.STATUS_GOOD
-  if (!strcmp ("off", s.val[MANUALFEED].s))
-    return kvs40xx_document_exist (s)
+  if(!strcmp("off", s.val[MANUALFEED].s))
+    return kvs40xx_document_exist(s)
 
-  for (i = 0; i < s.val[FEED_TIMEOUT].w; i++)
+  for(i = 0; i < s.val[FEED_TIMEOUT].w; i++)
     {
-      st = kvs40xx_document_exist (s)
-      if (st != Sane.STATUS_NO_DOCS)
+      st = kvs40xx_document_exist(s)
+      if(st != Sane.STATUS_NO_DOCS)
 	return st
-      sleep (1)
+      sleep(1)
     }
   return Sane.STATUS_NO_DOCS
 }
@@ -752,20 +752,20 @@ static Sane.Status read_image_duplex(Sane.Handle handle)
 		struct buf *buf
 	} a[2], *b
 
-	for (i = 0; i < 2; i++) {
+	for(i = 0; i < 2; i++) {
 		a[i].mx = BUF_SIZE
 		a[i].eof = 0
 		a[i].buf = &s.buf[i]
 		st = new_buf(&s.buf[i], &a[i].p)
-		if (st)
+		if(st)
 			goto err
 	}
-	for (b = &a[0], side = SIDE_FRONT; (!a[0].eof || !a[1].eof);) {
+	for(b = &a[0], side = SIDE_FRONT; (!a[0].eof || !a[1].eof);) {
 		pthread_testcancel()
-		if (b.mx == 0) {
+		if(b.mx == 0) {
 			push_buf(b.buf, BUF_SIZE)
 			st = new_buf(b.buf, &b.p)
-			if (st)
+			if(st)
 				goto err
 			b.mx = BUF_SIZE
 		}
@@ -774,12 +774,12 @@ static Sane.Status read_image_duplex(Sane.Handle handle)
 					     b.p + BUF_SIZE - b.mx, b.mx,
 					     &read)
 		b.mx -= read
-		if (st) {
-			if (st != INCORRECT_LENGTH
+		if(st) {
+			if(st != INCORRECT_LENGTH
 			    && st != Sane.STATUS_EOF)
 				goto err
 
-			if (st == Sane.STATUS_EOF) {
+			if(st == Sane.STATUS_EOF) {
 				b.eof = 1
 				push_buf(b.buf, BUF_SIZE - b.mx)
 			}
@@ -789,7 +789,7 @@ static Sane.Status read_image_duplex(Sane.Handle handle)
 	}
 
       err:
-	for (i = 0; i < 2; i++)
+	for(i = 0; i < 2; i++)
 		buf_set_st(&s.buf[i], st)
 	return st
 }
@@ -799,11 +799,11 @@ static Sane.Status read_image_simplex(Sane.Handle handle)
 	struct scanner *s = (struct scanner *) handle
 	Sane.Status st = Sane.STATUS_GOOD
 
-	for (; (!st || st == INCORRECT_LENGTH);) {
+	for(; (!st || st == INCORRECT_LENGTH);) {
 		unsigned read, mx
 		unsigned char *p = NULL
 		st = new_buf(&s.buf[0], &p)
-		for (read = 0, mx = BUF_SIZE; mx &&
+		for(read = 0, mx = BUF_SIZE; mx &&
 		     (!st || st == INCORRECT_LENGTH); mx -= read) {
 			pthread_testcancel()
 			st = kvs40xx_read_image_data(s, s.page, SIDE_FRONT,
@@ -816,7 +816,7 @@ static Sane.Status read_image_simplex(Sane.Handle handle)
 	return st
 }
 
-static void * read_data (void *arg)
+static void * read_data(void *arg)
 {
 	struct scanner *s = (struct scanner *) arg
         Sane.Status st
@@ -825,13 +825,13 @@ static void * read_data (void *arg)
 	s.side = SIDE_FRONT
 
 	st = duplex ? read_image_duplex(s) : read_image_simplex(s)
-	if (st && (st != Sane.STATUS_EOF))
+	if(st && (st != Sane.STATUS_EOF))
 		goto err
 
 	st = kvs40xx_read_picture_element(s, SIDE_FRONT, &s.params)
-	if (st)
+	if(st)
 		goto err
-	if (!s.params.lines) {
+	if(!s.params.lines) {
 		st = Sane.STATUS_INVAL
 		goto err
 	}
@@ -842,12 +842,12 @@ static void * read_data (void *arg)
 	return Sane.STATUS_GOOD
       err:
 	s.scanning = 0
-	return (void *) st
+	return(void *) st
 }
 
 /* Start scanning */
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   struct scanner *s = (struct scanner *) handle
   Sane.Status st = Sane.STATUS_GOOD
@@ -855,41 +855,41 @@ Sane.start (Sane.Handle handle)
   unsigned data_avalible
   Int start = 0
 
-  if (s.thread)
+  if(s.thread)
     {
-      pthread_join (s.thread, NULL)
+      pthread_join(s.thread, NULL)
       s.thread = 0
     }
-  if (!s.scanning)
+  if(!s.scanning)
     {
-      st = kvs40xx_test_unit_ready (s)
-      if (st)
+      st = kvs40xx_test_unit_ready(s)
+      if(st)
 	return st
 
-      st = wait_document (s)
-      if (st)
+      st = wait_document(s)
+      if(st)
 	return st
 
-      st = kvs40xx_reset_window (s)
-      if (st)
+      st = kvs40xx_reset_window(s)
+      if(st)
 	return st
-      st = kvs40xx_set_window (s, SIDE_FRONT)
+      st = kvs40xx_set_window(s, SIDE_FRONT)
 
-      if (st)
+      if(st)
 	return st
 
-      if (duplex)
+      if(duplex)
 	{
-	  st = kvs40xx_set_window (s, SIDE_BACK)
-	  if (st)
+	  st = kvs40xx_set_window(s, SIDE_BACK)
+	  if(st)
 	    return st
 	}
 
-      st = kvs40xx_scan (s)
-      if (st)
+      st = kvs40xx_scan(s)
+      if(st)
 	return st
 
-      if (s.val[CROP].b || s.val[LENGTHCTL].b || s.val[LONG_PAPER].b)
+      if(s.val[CROP].b || s.val[LENGTHCTL].b || s.val[LONG_PAPER].b)
 	{
 	  unsigned w, h, res = s.val[RESOLUTION].w
 	  Sane.Parameters *p = &s.params
@@ -900,8 +900,8 @@ Sane.start (Sane.Handle handle)
 	}
       else
 	{
-	  st = kvs40xx_read_picture_element (s, SIDE_FRONT, &s.params)
-	  if (st)
+	  st = kvs40xx_read_picture_element(s, SIDE_FRONT, &s.params)
+	  if(st)
 	    return st
 	}
 
@@ -910,10 +910,10 @@ Sane.start (Sane.Handle handle)
       s.page = 0
       s.read = 0
       s.side = SIDE_FRONT
-      Sane.get_parameters (s, NULL)
+      Sane.get_parameters(s, NULL)
     }
 
-  if (duplex && s.side == SIDE_FRONT && !start)
+  if(duplex && s.side == SIDE_FRONT && !start)
     {
       s.side = SIDE_BACK
       s.read = 0
@@ -921,27 +921,27 @@ Sane.start (Sane.Handle handle)
     }
 	do {
 		st = get_buffer_status(s, &data_avalible)
-		if (st)
+		if(st)
 			goto err
 
-	} while (!data_avalible)
+	} while(!data_avalible)
 
-  for (i = 0; i < (duplex ? 2 : 1); i++)
+  for(i = 0; i < (duplex ? 2 : 1); i++)
     {
-      st = buf_init (&s.buf[i], s.side_size)
-      if (st)
+      st = buf_init(&s.buf[i], s.side_size)
+      if(st)
 	goto err
     }
 
-  if (pthread_create (&s.thread, NULL, read_data, s))
+  if(pthread_create(&s.thread, NULL, read_data, s))
     {
       st = Sane.STATUS_IO_ERROR
       goto err
     }
 
-  if (s.val[CROP].b || s.val[LENGTHCTL].b || s.val[LONG_PAPER].b)
+  if(s.val[CROP].b || s.val[LENGTHCTL].b || s.val[LONG_PAPER].b)
     {
-      pthread_join (s.thread, NULL)
+      pthread_join(s.thread, NULL)
       s.thread = 0
     }
 
@@ -962,79 +962,79 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
 	Int inbuf = 0
 	*len = 0
 
-	if (!s.scanning)
+	if(!s.scanning)
 		return Sane.STATUS_EOF
-	if (err)
+	if(err)
 		goto out
 
-	if (s.read) {
+	if(s.read) {
 		*len =
 		    max_len <
 		    (Int) s.read ? max_len : (Int) s.read
 		memcpy(buf, s.data + BUF_SIZE - s.read, *len)
 		s.read -= *len
 
-		if (!s.read)
+		if(!s.read)
 			pop_buf(b)
 		goto out
 	}
 
 	s.data = get_buf(b, &inbuf)
-	if (!s.data)
+	if(!s.data)
 		goto out
 
 	*len = max_len < inbuf ? max_len : inbuf
-	if (*len > BUF_SIZE)
+	if(*len > BUF_SIZE)
 		*len = BUF_SIZE
 	memcpy(buf, s.data, *len)
 	s.read = inbuf > BUF_SIZE ? BUF_SIZE - *len : inbuf - *len
 
-	if (!s.read)
+	if(!s.read)
 		pop_buf(b)
       out:
 	err = *len ? Sane.STATUS_GOOD : buf_get_err(b)
-	if (err == Sane.STATUS_EOF) {
-		if (strcmp(s.val[FEEDER_MODE].s, Sane.I18N("continuous"))) {
-			if (!duplex || s.side == SIDE_BACK)
+	if(err == Sane.STATUS_EOF) {
+		if(strcmp(s.val[FEEDER_MODE].s, Sane.I18N("continuous"))) {
+			if(!duplex || s.side == SIDE_BACK)
 				s.scanning = 0
 		}
 		buf_deinit(b)
-	} else if (err) {
+	} else if(err) {
 		unsigned i
-		for (i = 0; i < sizeof(s.buf) / sizeof(s.buf[0]); i++)
+		for(i = 0; i < sizeof(s.buf) / sizeof(s.buf[0]); i++)
 			buf_deinit(&s.buf[i])
 	}
 	return err
 }
 
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   unsigned i
   struct scanner *s = (struct scanner *) handle
-  if (s.scanning && !strcmp (s.val[FEEDER_MODE].s, Sane.I18N ("continuous")))
+  if(s.scanning && !strcmp(s.val[FEEDER_MODE].s, Sane.I18N("continuous")))
     {
-      stop_adf (s)
+      stop_adf(s)
     }
-  if (s.thread)
+  if(s.thread)
     {
-      pthread_cancel (s.thread)
-      pthread_join (s.thread, NULL)
+      pthread_cancel(s.thread)
+      pthread_join(s.thread, NULL)
       s.thread = 0
     }
-  for (i = 0; i < sizeof (s.buf) / sizeof (s.buf[0]); i++)
-    buf_deinit (&s.buf[i])
+  for(i = 0; i < sizeof(s.buf) / sizeof(s.buf[0]); i++)
+    buf_deinit(&s.buf[i])
   s.scanning = 0
 }
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle __Sane.unused__ h, Bool __Sane.unused__ m)
+Sane.set_io_mode(Sane.Handle __Sane.unused__ h, Bool __Sane.unused__ m)
 {
   return Sane.STATUS_UNSUPPORTED
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle __Sane.unused__ h,
+Sane.get_select_fd(Sane.Handle __Sane.unused__ h,
 		    Int __Sane.unused__ * fd)
 {
   return Sane.STATUS_UNSUPPORTED

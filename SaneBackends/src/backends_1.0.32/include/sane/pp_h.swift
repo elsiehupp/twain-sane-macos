@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2003 Gerhard Jaeger <gerhard@gjaeger.de>
+   Copyright(C) 2003 Gerhard Jaeger <gerhard@gjaeger.de>
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -138,7 +138,7 @@ public Sane.Status sanei_pp_getmodes( Int fd, Int *mode )
  */
 public Sane.Status sanei_pp_setmode( Int fd, Int mode )
 
-/** Write data to ports (spp-data, ctrl, epp-address and epp-data)
+/** Write data to ports(spp-data, ctrl, epp-address and epp-data)
  *
  * @param fd  - handle of device to which shall be written to.
  * @param val - data to write.
@@ -147,16 +147,16 @@ public Sane.Status sanei_pp_setmode( Int fd, Int mode )
 public Sane.Status sanei_pp_outb_data( Int fd, Sane.Byte val )
 public Sane.Status sanei_pp_outb_ctrl( Int fd, Sane.Byte val )
 public Sane.Status sanei_pp_outb_addr( Int fd, Sane.Byte val )
-public Sane.Status sanei_pp_outb_epp ( Int fd, Sane.Byte val )
+public Sane.Status sanei_pp_outb_epp( Int fd, Sane.Byte val )
 
-/** Read data from ports (spp-data, status, ctrl and epp-data)
+/** Read data from ports(spp-data, status, ctrl and epp-data)
  * @param fd - handle of device who should be read from.
  * @return value got from port
  */
 public Sane.Byte sanei_pp_inb_data( Int fd )
 public Sane.Byte sanei_pp_inb_stat( Int fd )
 public Sane.Byte sanei_pp_inb_ctrl( Int fd )
-public Sane.Byte sanei_pp_inb_epp ( Int fd )
+public Sane.Byte sanei_pp_inb_epp( Int fd )
 
 /** Delay execution for some micro-seconds.
  *  Please note, that the accuracy highly depends on your system architecture

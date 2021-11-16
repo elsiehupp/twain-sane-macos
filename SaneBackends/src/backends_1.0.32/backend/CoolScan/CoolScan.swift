@@ -5,7 +5,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -147,10 +147,10 @@ typedef struct Coolscan
     Int verbose;		/* 1,2=output information */
     Int asf;			/* Automatic Slide Feeder enabled? */
 
-    Int MUD;			/* Measurement Unit Divisor (1200 or 2700) */
+    Int MUD;			/* Measurement Unit Divisor(1200 or 2700) */
 
-    Int inquiry_len;		/* length of inquiry return block [36] */
-    Int inquiry_wdb_len;	/* length of window descriptor block [117] */
+    Int inquiry_len;		/* length of inquiry return block[36] */
+    Int inquiry_wdb_len;	/* length of window descriptor block[117] */
 
     Int wdb_len;		/* use this length of WDB */
 
@@ -169,8 +169,8 @@ typedef struct Coolscan
     Int brx;			/* Right edge in ILU. */
     Int bry;			/* Bottom edge in ILU. */
 
-    Int bits_per_color;		/* bits per color (8/10/12) */
-    Int bits_per_pixel;		/* bits per pixel (24/30/40) */
+    Int bits_per_color;		/* bits per color(8/10/12) */
+    Int bits_per_pixel;		/* bits per pixel(24/30/40) */
     Int negative;		/* Negative/positive object */
     Int dropoutcolor;		/* Which color to scan when gray */
     Int transfermode;		/**/
@@ -207,43 +207,43 @@ typedef struct Coolscan
     Int low_byte_first;         /* 1 if little-endian - 0 if big-endian */
 
     /* Internal information */
-    Int adbits;			/* Number of A/D bits [8 or 12] */
-    Int outputbits;		/* Number of output image data bits [8] */
-    Int maxres;			/* Maximum resolution [2700] (dpi) */
+    Int adbits;			/* Number of A/D bits[8 or 12] */
+    Int outputbits;		/* Number of output image data bits[8] */
+    Int maxres;			/* Maximum resolution[2700] (dpi) */
     Int xmax;			/* X-axis coordinate maximum value
 				   (basic measurement unit when measurement
 				   unit divisor = 1200) [1151] */
     Int ymax;			/* Y-axis coordinate maximum value
 				   (basic measurement unit when measurement
 				   unit divisor = 1200) [1727] */
-    Int xmaxpix;		/* X-axis coordinate maximum value (pixel
+    Int xmaxpix;		/* X-axis coordinate maximum value(pixel
 				   address value) [2591] */
-    Int ymaxpix;		/* Y-axis coordinate maximum value (pixel
+    Int ymaxpix;		/* Y-axis coordinate maximum value(pixel
 				   address value) [3887] */
-    Int ycurrent;		/* Current stage position (Y-axis direction
+    Int ycurrent;		/* Current stage position(Y-axis direction
 				   pixel address) [0-7652] */
-    Int currentfocus;		/* Current focus position (focus direction
+    Int currentfocus;		/* Current focus position(focus direction
 				   address) [0-200] */
-    Int currentscanpitch;	/* Current scan pitch [1-25] */
-    Int autofeeder;		/* Provision of auto feeder [Yes: 1, No: 0] */
-    Int analoggamma;		/* Analog gamma support [Yes: 1, No: 0] */
-    Int derr[8];		/* Device error code (0 is latest, 7 oldest) */
-    Int wbetr_r;		/* White balance exposure time variable (R) */
-    Int webtr_g;		/* White balance exposure time variable (G) */
-    Int webtr_b;		/* White balance exposure time variable (B) */
-    Int pretv_r;		/* Prescan result exposure time variable (R) */
-    Int pretv_g;		/* Prescan result exposure time variable (G) */
-    Int pretv_b;		/* Prescan result exposure time variable (B) */
-    Int cetv_r;			/* Current exposure time variable (R) */
-    Int cetv_g;			/* Current exposure time variable (G) */
-    Int cetv_b;			/* Current exposure time variable (B) */
-    Int ietu_r;			/* Internal exposure time unit (R) */
-    Int ietu_g;			/* Internal exposure time unit (G) */
-    Int ietu_b;			/* Internal exposure time unit (B) */
+    Int currentscanpitch;	/* Current scan pitch[1-25] */
+    Int autofeeder;		/* Provision of auto feeder[Yes: 1, No: 0] */
+    Int analoggamma;		/* Analog gamma support[Yes: 1, No: 0] */
+    Int derr[8];		/* Device error code(0 is latest, 7 oldest) */
+    Int wbetr_r;		/* White balance exposure time variable(R) */
+    Int webtr_g;		/* White balance exposure time variable(G) */
+    Int webtr_b;		/* White balance exposure time variable(B) */
+    Int pretv_r;		/* Prescan result exposure time variable(R) */
+    Int pretv_g;		/* Prescan result exposure time variable(G) */
+    Int pretv_b;		/* Prescan result exposure time variable(B) */
+    Int cetv_r;			/* Current exposure time variable(R) */
+    Int cetv_g;			/* Current exposure time variable(G) */
+    Int cetv_b;			/* Current exposure time variable(B) */
+    Int ietu_r;			/* Internal exposure time unit(R) */
+    Int ietu_g;			/* Internal exposure time unit(G) */
+    Int ietu_b;			/* Internal exposure time unit(B) */
     Int limitcondition;		/* Condition of each limit SW, DIP SW, etc. */
-    Int offsetdata_r;		/* Offset data (R) */
-    Int offsetdata_g;		/* Offset data (G) */
-    Int offsetdata_b;		/* Offset data (B) */
+    Int offsetdata_r;		/* Offset data(R) */
+    Int offsetdata_g;		/* Offset data(G) */
+    Int offsetdata_b;		/* Offset data(B) */
     char power_on_errors[8];	/* Records of error code at power on */
     /* End of internal information */
 
@@ -330,7 +330,7 @@ static char *scanner_str[] =
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -378,7 +378,7 @@ static char *scanner_str[] =
    . .
    . . - Sane.start() : start image acquisition
    . .   - Sane.get_parameters() : returns actual scan-parameters
-   . .   - Sane.read() : read image-data (from pipe)
+   . .   - Sane.read() : read image-data(from pipe)
    . .
    . . - Sane.cancel() : cancel operation
    . - Sane.close() : close opened scanner-device
@@ -438,151 +438,151 @@ static const Int resolution_list[] =
 #define	COOLSCAN_MAX_RETRY	25
 
 
-static Sane.Status sense_handler (Int scsi_fd, unsigned char * result, void *arg)
-static Int coolscan_check_values (Coolscan_t * s)
-static Int get_internal_info (Coolscan_t *)
-static void coolscan_get_inquiry_values (Coolscan_t *)
-static void hexdump (Int level, char *comment, unsigned char *p, Int l)
-static Int swap_res (Coolscan_t * s)
+static Sane.Status sense_handler(Int scsi_fd, unsigned char * result, void *arg)
+static Int coolscan_check_values(Coolscan_t * s)
+static Int get_internal_info(Coolscan_t *)
+static void coolscan_get_inquiry_values(Coolscan_t *)
+static void hexdump(Int level, char *comment, unsigned char *p, Int l)
+static Int swap_res(Coolscan_t * s)
 /* --------------------------- COOLSCAN_DO_SCSI_CMD  ----------------------- */
 static Int
-do_scsi_cmd (Int fd, unsigned char *cmd, Int cmd_len, unsigned char *out, size_t out_len)
+do_scsi_cmd(Int fd, unsigned char *cmd, Int cmd_len, unsigned char *out, size_t out_len)
 {
   Int ret
   size_t ol = out_len
 
-  hexdump (20, "", cmd, cmd_len)
+  hexdump(20, "", cmd, cmd_len)
 
-  ret = sanei_scsi_cmd (fd, cmd, cmd_len, out, &ol)
-  if ((out_len != 0) && (out_len != ol))
+  ret = sanei_scsi_cmd(fd, cmd, cmd_len, out, &ol)
+  if((out_len != 0) && (out_len != ol))
     {
-      DBG (1, "sanei_scsi_cmd: asked %lu bytes, got %lu\n",
+      DBG(1, "sanei_scsi_cmd: asked %lu bytes, got %lu\n",
 	   (u_long) out_len, (u_long) ol)
     }
-  if (ret)
+  if(ret)
     {
-      DBG (1, "sanei_scsi_cmd: returning 0x%08x\n", ret)
+      DBG(1, "sanei_scsi_cmd: returning 0x%08x\n", ret)
     }
-  DBG (10, "sanei_scsi_cmd: returning %lu bytes:\n", (u_long) ol)
-  if (out != NULL && out_len != 0)
-    hexdump (15, "", out, (out_len > 0x60) ? 0x60 : out_len)
+  DBG(10, "sanei_scsi_cmd: returning %lu bytes:\n", (u_long) ol)
+  if(out != NULL && out_len != 0)
+    hexdump(15, "", out, (out_len > 0x60) ? 0x60 : out_len)
 
   return ret
 }
 
 
 static Int
-request_sense_parse (unsigned char *sensed_data)
+request_sense_parse(unsigned char *sensed_data)
 {
   Int ret, sense, asc, ascq
-  sense = get_RS_sense_key (sensed_data)
-  asc = get_RS_ASC (sensed_data)
-  ascq = get_RS_ASCQ (sensed_data)
+  sense = get_RS_sense_key(sensed_data)
+  asc = get_RS_ASC(sensed_data)
+  ascq = get_RS_ASCQ(sensed_data)
 
   ret = Sane.STATUS_IO_ERROR
 
-  switch (sense)
+  switch(sense)
     {
     case 0x0:
-      DBG (5, "\t%d/%d/%d: Scanner ready\n", sense, asc, ascq)
+      DBG(5, "\t%d/%d/%d: Scanner ready\n", sense, asc, ascq)
       return Sane.STATUS_GOOD
 
     case 0x1:
-      if ((0x37 == asc) && (0x00 == ascq)) {
-	DBG (1, "\t%d/%d/%d: Rounded Parameter\n", sense, asc, ascq)
+      if((0x37 == asc) && (0x00 == ascq)) {
+	DBG(1, "\t%d/%d/%d: Rounded Parameter\n", sense, asc, ascq)
         ret = Sane.STATUS_GOOD
       }
-      else if ((0x61 == asc) && (0x02 == ascq))
-	DBG (1, "\t%d/%d/%d: Out Of Focus\n", sense, asc, ascq)
+      else if((0x61 == asc) && (0x02 == ascq))
+	DBG(1, "\t%d/%d/%d: Out Of Focus\n", sense, asc, ascq)
       else
-	DBG (1, "\tUnknown - Sense=%d, ASC=%d, ASCQ=%d\n", sense, asc, ascq)
+	DBG(1, "\tUnknown - Sense=%d, ASC=%d, ASCQ=%d\n", sense, asc, ascq)
       break
 
     case 0x2:
-      if ((0x4 == asc) && (0x1 == ascq)) {
-	DBG (10, "\t%d/%d/%d: Logical unit is in process of becoming ready\n",
+      if((0x4 == asc) && (0x1 == ascq)) {
+	DBG(10, "\t%d/%d/%d: Logical unit is in process of becoming ready\n",
 	     sense, asc, ascq)
 	ret = Sane.STATUS_DEVICE_BUSY
       }
-      else if ((0x3A == asc) && (0x00 == ascq))
+      else if((0x3A == asc) && (0x00 == ascq))
 	{
-	  DBG (1, "\t%d/%d/%d: No Diapo inserted\n", sense, asc, ascq)
+	  DBG(1, "\t%d/%d/%d: No Diapo inserted\n", sense, asc, ascq)
           ret = Sane.STATUS_GOOD
 	}
-      else if ((0x60 == asc) && (0x00 == ascq))
-	DBG (1, "\t%d/%d/%d: Lamp Failure\n", sense, asc, ascq)
+      else if((0x60 == asc) && (0x00 == ascq))
+	DBG(1, "\t%d/%d/%d: Lamp Failure\n", sense, asc, ascq)
       else
 	{
-	  DBG (1, "\tUnknown - Sense=%d, ASC=%d, ASCQ=%d\n", sense, asc, ascq)
+	  DBG(1, "\tUnknown - Sense=%d, ASC=%d, ASCQ=%d\n", sense, asc, ascq)
           ret = Sane.STATUS_GOOD
 	}
       break
 
     case 0x3:
-      if ((0x3b == asc) && (0xe == ascq))
-	DBG (1, "\t%d/%d/%d: Medium source element empty\n", sense, asc, ascq)
-      else if ((0x53 == asc) && (0x00 == ascq))
-	DBG (1, "\t%d/%d/%d: Media Load of Eject Failed\n", sense, asc, ascq)
+      if((0x3b == asc) && (0xe == ascq))
+	DBG(1, "\t%d/%d/%d: Medium source element empty\n", sense, asc, ascq)
+      else if((0x53 == asc) && (0x00 == ascq))
+	DBG(1, "\t%d/%d/%d: Media Load of Eject Failed\n", sense, asc, ascq)
       else
-	DBG (1, "\tUnknown - Sense=%d, ASC=%d, ASCQ=%d\n", sense, asc, ascq)
+	DBG(1, "\tUnknown - Sense=%d, ASC=%d, ASCQ=%d\n", sense, asc, ascq)
       break
 
     case 0x4:
-      if ((0x15 == asc) && (0x1 == ascq))
-	DBG (1, "\t%d/%d/%d: Mechanical Positioning Error\n", sense, asc, ascq)
+      if((0x15 == asc) && (0x1 == ascq))
+	DBG(1, "\t%d/%d/%d: Mechanical Positioning Error\n", sense, asc, ascq)
       else
-	DBG (1, "\tUnknown - Sense=%d, ASC=%d, ASCQ=%d\n", sense, asc, ascq)
+	DBG(1, "\tUnknown - Sense=%d, ASC=%d, ASCQ=%d\n", sense, asc, ascq)
       break
 
     case 0x5:
-      if ((0x00 == asc) && (0x5 == ascq))
-	DBG (1, "\t%d/%d/%d: End-Of-Data Detected\n", sense, asc, ascq)
-      else if ((0x1a == asc) && (0x00 == ascq))
-	DBG (1, "\t%d/%d/%d: Parameter List Length Error\n", sense, asc, ascq)
-      else if ((0x20 == asc) && (0x00 == ascq))
-	DBG (1, "\t%d/%d/%d: Invalid Command Operation Code\n", sense, asc, ascq)
-      else if ((0x24 == asc) && (0x00 == ascq))
-	DBG (1, "\t%d/%d/%d: Invalid Field In CDB\n", sense, asc, ascq)
-      else if ((0x25 == asc) && (0x00 == ascq))
-	DBG (1, "\t%d/%d/%d: Logical Unit Not Supported\n", sense, asc, ascq)
-      else if ((0x26 == asc) && (0x00 == ascq))
-	DBG (1, "\t%d/%d/%d: Invalid Field in Parameter List\n", sense, asc, ascq)
-      else if ((0x2c == asc) && (0x00 == ascq))
-	DBG (1, "\t%d/%d/%d: Command Sequence Error\n", sense, asc, ascq)
-      else if ((0x39 == asc) && (0x00 == ascq))
-	DBG (1, "\t%d/%d/%d: Saving Parameters Not Supported\n", sense, asc, ascq)
-      else if ((0x3d == asc) && (0x00 == ascq))
-	DBG (1, "\t%d/%d/%d: Invalid Bits In Identify Message\n", sense, asc, ascq)
+      if((0x00 == asc) && (0x5 == ascq))
+	DBG(1, "\t%d/%d/%d: End-Of-Data Detected\n", sense, asc, ascq)
+      else if((0x1a == asc) && (0x00 == ascq))
+	DBG(1, "\t%d/%d/%d: Parameter List Length Error\n", sense, asc, ascq)
+      else if((0x20 == asc) && (0x00 == ascq))
+	DBG(1, "\t%d/%d/%d: Invalid Command Operation Code\n", sense, asc, ascq)
+      else if((0x24 == asc) && (0x00 == ascq))
+	DBG(1, "\t%d/%d/%d: Invalid Field In CDB\n", sense, asc, ascq)
+      else if((0x25 == asc) && (0x00 == ascq))
+	DBG(1, "\t%d/%d/%d: Logical Unit Not Supported\n", sense, asc, ascq)
+      else if((0x26 == asc) && (0x00 == ascq))
+	DBG(1, "\t%d/%d/%d: Invalid Field in Parameter List\n", sense, asc, ascq)
+      else if((0x2c == asc) && (0x00 == ascq))
+	DBG(1, "\t%d/%d/%d: Command Sequence Error\n", sense, asc, ascq)
+      else if((0x39 == asc) && (0x00 == ascq))
+	DBG(1, "\t%d/%d/%d: Saving Parameters Not Supported\n", sense, asc, ascq)
+      else if((0x3d == asc) && (0x00 == ascq))
+	DBG(1, "\t%d/%d/%d: Invalid Bits In Identify Message\n", sense, asc, ascq)
       else
-	DBG (1, "\tUnknown - Sense=%d, ASC=%d, ASCQ=%d\n", sense, asc, ascq)
+	DBG(1, "\tUnknown - Sense=%d, ASC=%d, ASCQ=%d\n", sense, asc, ascq)
       break
 
     case 0x6:
-      if ((0x29 == asc) && (0x0 == ascq))
-	DBG (1, "\t%d/%d/%d: Power On, Reset, or Bus Device Reset Occurred\n", sense, asc, ascq)
-      else if ((0x2a == asc) && (0x1 == ascq))
-	DBG (1, "\t%d/%d/%d: Mode Parameters Changed\n", sense, asc, ascq)
+      if((0x29 == asc) && (0x0 == ascq))
+	DBG(1, "\t%d/%d/%d: Power On, Reset, or Bus Device Reset Occurred\n", sense, asc, ascq)
+      else if((0x2a == asc) && (0x1 == ascq))
+	DBG(1, "\t%d/%d/%d: Mode Parameters Changed\n", sense, asc, ascq)
       else
-	DBG (1, "\tUnknown - Sense=%d, ASC=%d, ASCQ=%d\n", sense, asc, ascq)
+	DBG(1, "\tUnknown - Sense=%d, ASC=%d, ASCQ=%d\n", sense, asc, ascq)
       break
 
     case 0xb:
-      if ((0x43 == asc) && (0x0 == ascq))
-	DBG (1, "\t%d/%d/%d: Message Error\n", sense, asc, ascq)
-      else if ((0x47 == asc) && (0x0 == ascq))
-	DBG (1, "\t%d/%d/%d: SCSI Parity Error\n", sense, asc, ascq)
-      else if ((0x48 == asc) && (0x0 == ascq))
-	DBG (1, "\t%d/%d/%d: Initiator Detected Error Message Received\n", sense, asc, ascq)
-      else if ((0x49 == asc) && (0x0 == ascq))
-	DBG (1, "\t%d/%d/%d: Invalid Message Error\n", sense, asc, ascq)
-      else if ((0x4e == asc) && (0x0 == ascq))
-	DBG (1, "\t%d/%d/%d: Overlapped Commands Attempted\n", sense, asc, ascq)
+      if((0x43 == asc) && (0x0 == ascq))
+	DBG(1, "\t%d/%d/%d: Message Error\n", sense, asc, ascq)
+      else if((0x47 == asc) && (0x0 == ascq))
+	DBG(1, "\t%d/%d/%d: SCSI Parity Error\n", sense, asc, ascq)
+      else if((0x48 == asc) && (0x0 == ascq))
+	DBG(1, "\t%d/%d/%d: Initiator Detected Error Message Received\n", sense, asc, ascq)
+      else if((0x49 == asc) && (0x0 == ascq))
+	DBG(1, "\t%d/%d/%d: Invalid Message Error\n", sense, asc, ascq)
+      else if((0x4e == asc) && (0x0 == ascq))
+	DBG(1, "\t%d/%d/%d: Overlapped Commands Attempted\n", sense, asc, ascq)
       else
-	DBG (1, "\tUnknown - Sense=%d, ASC=%d, ASCQ=%d\n", sense, asc, ascq)
+	DBG(1, "\tUnknown - Sense=%d, ASC=%d, ASCQ=%d\n", sense, asc, ascq)
       break
 
     default:
-      DBG (1, "\tUnknown - Sense=%d, ASC=%d, ASCQ=%d\n", sense, asc, ascq)
+      DBG(1, "\tUnknown - Sense=%d, ASC=%d, ASCQ=%d\n", sense, asc, ascq)
       break
     }				/* switch */
   return ret
@@ -594,35 +594,35 @@ request_sense_parse (unsigned char *sensed_data)
  *  returns -1 on error.
  */
 static Int
-wait_scanner (Coolscan_t * s)
+wait_scanner(Coolscan_t * s)
 {
   Int ret = -1
   Int cnt = 0
-  DBG (10, "wait_scanner: Testing if scanner is ready\n")
+  DBG(10, "wait_scanner: Testing if scanner is ready\n")
 
-  while (ret != 0)
+  while(ret != 0)
     {
-      ret = do_scsi_cmd (s.sfd, test_unit_ready.cmd,
+      ret = do_scsi_cmd(s.sfd, test_unit_ready.cmd,
 			 test_unit_ready.size, 0, 0)
 
-      if (ret == Sane.STATUS_DEVICE_BUSY)
+      if(ret == Sane.STATUS_DEVICE_BUSY)
 	{
-	  usleep (500000);	/* wait 0.5 seconds */
-	  if (cnt++ > 40)
-	    {			/* 20 sec. max (prescan takes up to 15 sec. */
-	      DBG (1, "wait_scanner: scanner does NOT get ready\n")
+	  usleep(500000);	/* wait 0.5 seconds */
+	  if(cnt++ > 40)
+	    {			/* 20 sec. max(prescan takes up to 15 sec. */
+	      DBG(1, "wait_scanner: scanner does NOT get ready\n")
 	      return -1
 	    }
 	}
-      else if (ret == Sane.STATUS_GOOD)
+      else if(ret == Sane.STATUS_GOOD)
 	{
-	  DBG (10, "wait_scanner: scanner is ready\n")
+	  DBG(10, "wait_scanner: scanner is ready\n")
 	  return ret
 	}
       else
 	{
-	  DBG (1, "wait_scanner: test unit ready failed (%s)\n",
-	       Sane.strstatus (ret))
+	  DBG(1, "wait_scanner: test unit ready failed(%s)\n",
+	       Sane.strstatus(ret))
 	}
     }
   return 0
@@ -635,7 +635,7 @@ wait_scanner (Coolscan_t * s)
  * TEST UNIT READY
  *     CHECK CONDITION  \
  * REQUEST SENSE         > These should be handled automagically by
- *     UNIT ATTENTION   /  the kernel if they happen (powerup/reset)
+ *     UNIT ATTENTION   /  the kernel if they happen(powerup/reset)
  * TEST UNIT READY
  *     GOOD
  * RESERVE UNIT
@@ -646,19 +646,19 @@ wait_scanner (Coolscan_t * s)
  */
 
 static Int
-coolscan_grab_scanner (Coolscan_t * s)
+coolscan_grab_scanner(Coolscan_t * s)
 {
   Int ret
 
-  DBG (10, "grabbing scanner\n")
+  DBG(10, "grabbing scanner\n")
 
-  wait_scanner (s);		/* wait for scanner ready, if not print
+  wait_scanner(s);		/* wait for scanner ready, if not print
 				   sense and return 1 */
-  ret = do_scsi_cmd (s.sfd, reserve_unit.cmd, reserve_unit.size, NULL, 0)
-  if (ret)
+  ret = do_scsi_cmd(s.sfd, reserve_unit.cmd, reserve_unit.size, NULL, 0)
+  if(ret)
     return ret
 
-  DBG (10, "scanner reserved\n")
+  DBG(10, "scanner reserved\n")
   return 0
 }
 
@@ -667,11 +667,11 @@ coolscan_grab_scanner (Coolscan_t * s)
  */
 
 static Int
-resDivToVal (Int res_div)
+resDivToVal(Int res_div)
 {
-  if (res_div < 1 || res_div > resolution_list[0])
+  if(res_div < 1 || res_div > resolution_list[0])
     {
-      DBG (1, "Invalid resolution divisor %d \n", res_div)
+      DBG(1, "Invalid resolution divisor %d \n", res_div)
       return 2700
     }
   else
@@ -681,18 +681,18 @@ resDivToVal (Int res_div)
 }
 
 static Int
-resValToDiv (Int res_val)
+resValToDiv(Int res_val)
 {
   Int res_div
   Int max_res = resolution_list[0]
-  for (res_div = 1; res_div <= max_res; res_div++)
+  for(res_div = 1; res_div <= max_res; res_div++)
     {
-      if (resolution_list[res_div] == res_val)
+      if(resolution_list[res_div] == res_val)
 	break
     }
-  if (res_div > max_res)
+  if(res_div > max_res)
     {
-      DBG (1, "Invalid resolution value\n")
+      DBG(1, "Invalid resolution value\n")
       return 1
     }
   else
@@ -711,9 +711,9 @@ static unsigned char mode_select[] =
   3, 6, 0, 0, 0xA, 0x8C, 0, 0]
 
 static Int
-select_MUD (Coolscan_t * s)
+select_MUD(Coolscan_t * s)
 {
-  return do_scsi_cmd (s.sfd, mode_select, 26, NULL, 0)
+  return do_scsi_cmd(s.sfd, mode_select, 26, NULL, 0)
 }
 
 static Int
@@ -728,22 +728,22 @@ coolscan_autofocus_LS30 (Coolscan_t * s)
   x = s.xmaxpix - (s.brx + s.tlx) / 2
   y = (s.bry + s.tly) / 2
 
-  DBG (10, "Attempting AutoFocus at x=%d, y=%d\n", x, y)
+  DBG(10, "Attempting AutoFocus at x=%d, y=%d\n", x, y)
 
-  do_scsi_cmd (s.sfd, s.buffer,
+  do_scsi_cmd(s.sfd, s.buffer,
 	       autofocusLS30.size  + 9, NULL, 0)
   /* Trashes when used in combination with scsi-driver AM53C974.o  */
-  do_scsi_cmd (s.sfd, command_c1.cmd,
+  do_scsi_cmd(s.sfd, command_c1.cmd,
 	       command_c1.size, NULL, 0)
 
-  DBG (10, "\tWaiting end of Autofocus\n")
-  wait_scanner (s)
-  DBG (10, "AutoFocused.\n")
+  DBG(10, "\tWaiting end of Autofocus\n")
+  wait_scanner(s)
+  DBG(10, "AutoFocused.\n")
   return 0
 }
 
 static Int
-coolscan_autofocus (Coolscan_t * s)
+coolscan_autofocus(Coolscan_t * s)
 {
   Int x, y
 
@@ -757,90 +757,90 @@ coolscan_autofocus (Coolscan_t * s)
   x = s.xmaxpix - (s.brx + s.tlx) / 2
   y = (s.bry + s.tly) / 2
 
-  DBG (10, "Attempting AutoFocus at x=%d, y=%d\n", x, y)
+  DBG(10, "Attempting AutoFocus at x=%d, y=%d\n", x, y)
 
-  set_AF_XPoint (s.buffer, x)
-  set_AF_YPoint (s.buffer, y)
+  set_AF_XPoint(s.buffer, x)
+  set_AF_YPoint(s.buffer, y)
 
-  set_AF_transferlength (s.buffer, 0); /* should be 8 !*/
-  do_scsi_cmd (s.sfd, s.buffer,
+  set_AF_transferlength(s.buffer, 0); /* should be 8 !*/
+  do_scsi_cmd(s.sfd, s.buffer,
 	       autofocus.size  + AF_Point_length, NULL, 0)
 
   sleep(5);		 	/* autofocus takes a minimum of 5 sec. */
 
-  DBG (10, "\tWaiting end of Autofocus\n")
-  wait_scanner (s)
-  DBG (10, "AutoFocused.\n")
+  DBG(10, "\tWaiting end of Autofocus\n")
+  wait_scanner(s)
+  DBG(10, "AutoFocused.\n")
   return 0
 }
 
 /*
    static Int
-   coolscan_abort_scan (Coolscan_t * s)
+   coolscan_abort_scan(Coolscan_t * s)
    {
    Int ret
 
-   DBG (5, "Aborting scan...\n")
-   ret = do_scsi_cmd (s.sfd, sabort.cmd, sabort.size, NULL, 0)
-   if (ret)
-   DBG (5, "Scan Aborted\n")
+   DBG(5, "Aborting scan...\n")
+   ret = do_scsi_cmd(s.sfd, sabort.cmd, sabort.size, NULL, 0)
+   if(ret)
+   DBG(5, "Scan Aborted\n")
    else
-   DBG (5, "Not scanning\n")
+   DBG(5, "Not scanning\n")
    return 0
    }
  */
 static Int
-coolscan_mode_sense (Coolscan_t * s)
+coolscan_mode_sense(Coolscan_t * s)
 {
   Int ret, len
 
-  DBG (10, "Mode Sense...\n")
+  DBG(10, "Mode Sense...\n")
   len = 12
-  set_MS_DBD (mode_sense.cmd, 1)
-  set_MS_len (mode_sense.cmd, len)
-  ret = do_scsi_cmd (s.sfd, mode_sense.cmd, mode_sense.size,
+  set_MS_DBD(mode_sense.cmd, 1)
+  set_MS_len(mode_sense.cmd, len)
+  ret = do_scsi_cmd(s.sfd, mode_sense.cmd, mode_sense.size,
 		     s.buffer, len)
 
-  if (ret == 0)
+  if(ret == 0)
     {
-      s.MUD = get_MS_MUD (s.buffer)
-      DBG (10, "\tMode Sensed (MUD is %d)\n", s.MUD)
+      s.MUD = get_MS_MUD(s.buffer)
+      DBG(10, "\tMode Sensed(MUD is %d)\n", s.MUD)
     }
   return ret
 }
 
 static Int
-coolscan_object_discharge (Coolscan_t * s)
+coolscan_object_discharge(Coolscan_t * s)
 {
   Int ret
 
-  DBG (10, "Trying to discharge object...\n")
+  DBG(10, "Trying to discharge object...\n")
 
-  memcpy (s.buffer, object_position.cmd, object_position.size)
-  set_OP_autofeed (s.buffer, OP_Discharge)
-  ret = do_scsi_cmd (s.sfd, s.buffer,
+  memcpy(s.buffer, object_position.cmd, object_position.size)
+  set_OP_autofeed(s.buffer, OP_Discharge)
+  ret = do_scsi_cmd(s.sfd, s.buffer,
 		     object_position.size, NULL, 0)
-  wait_scanner (s)
-  DBG (10, "Object discharged.\n")
+  wait_scanner(s)
+  DBG(10, "Object discharged.\n")
   return ret
 }
 
 static Int
-coolscan_object_feed (Coolscan_t * s)
+coolscan_object_feed(Coolscan_t * s)
 {
   Int ret
-  DBG (10, "Trying to feed object...\n")
-  if (!s.asf)
+  DBG(10, "Trying to feed object...\n")
+  if(!s.asf)
     {
-      DBG (10, "\tAutofeeder not present.\n")
+      DBG(10, "\tAutofeeder not present.\n")
       return 0
     }
-  memcpy (s.buffer, object_position.cmd, object_position.size)
-  set_OP_autofeed (s.buffer, OP_Feed)
-  ret = do_scsi_cmd (s.sfd, s.buffer,
+  memcpy(s.buffer, object_position.cmd, object_position.size)
+  set_OP_autofeed(s.buffer, OP_Feed)
+  ret = do_scsi_cmd(s.sfd, s.buffer,
 		     object_position.size, NULL, 0)
-  wait_scanner (s)
-  DBG (10, "Object fed.\n")
+  wait_scanner(s)
+  DBG(10, "Object fed.\n")
   return ret
 }
 
@@ -851,13 +851,13 @@ coolscan_object_feed (Coolscan_t * s)
  *     GOOD
  */
 static Int
-coolscan_give_scanner (Coolscan_t * s)
+coolscan_give_scanner(Coolscan_t * s)
 {
-  DBG (10, "trying to release scanner ...\n")
-  coolscan_object_discharge (s)
-  wait_scanner (s)
-  do_scsi_cmd (s.sfd, release_unit.cmd, release_unit.size, NULL, 0)
-  DBG (10, "scanner released\n")
+  DBG(10, "trying to release scanner ...\n")
+  coolscan_object_discharge(s)
+  wait_scanner(s)
+  do_scsi_cmd(s.sfd, release_unit.cmd, release_unit.size, NULL, 0)
+  DBG(10, "scanner released\n")
   return 0
 }
 
@@ -868,71 +868,71 @@ coolscan_set_window_param_LS20 (Coolscan_t * s, Int prescan)
   unsigned char buffer_r[max_WDB_size]
   Int ret
 
-  wait_scanner (s)
-  memset (buffer_r, '\0', max_WDB_size);	/* clear buffer */
-  memcpy (buffer_r, window_descriptor_block.cmd,
+  wait_scanner(s)
+  memset(buffer_r, '\0', max_WDB_size);	/* clear buffer */
+  memcpy(buffer_r, window_descriptor_block.cmd,
 	  window_descriptor_block.size);	/* copy preset data */
 
-  set_WD_wid (buffer_r, WD_wid_all);	/* window identifier */
-  set_WD_auto (buffer_r, s.set_auto);	/* 0 or 1: don't know what it is */
+  set_WD_wid(buffer_r, WD_wid_all);	/* window identifier */
+  set_WD_auto(buffer_r, s.set_auto);	/* 0 or 1: don't know what it is */
 
-  set_WD_negative (buffer_r, s.negative);	/* Negative/positive slide */
+  set_WD_negative(buffer_r, s.negative);	/* Negative/positive slide */
 
-  if (prescan)
+  if(prescan)
     {
-      set_WD_scanmode (buffer_r, WD_Prescan)
+      set_WD_scanmode(buffer_r, WD_Prescan)
     }
   else
     {
-      set_WD_scanmode (buffer_r, WD_Scan)
+      set_WD_scanmode(buffer_r, WD_Scan)
 
       /* geometry */
-      set_WD_Xres (buffer_r, resDivToVal (s.x_nres));	/* x resolution in dpi */
-      set_WD_Yres (buffer_r, resDivToVal (s.y_nres));	/* y resolution in dpi */
+      set_WD_Xres(buffer_r, resDivToVal(s.x_nres));	/* x resolution in dpi */
+      set_WD_Yres(buffer_r, resDivToVal(s.y_nres));	/* y resolution in dpi */
 
       /* the coolscan  uses the upper right corner as the origin of coordinates */
       /* xmax and ymax are given in 1200 dpi */
-      set_WD_ULX (buffer_r, (s.xmaxpix - s.brx))
-      set_WD_ULY (buffer_r, s.tly);	/* upper_edge y */
-      set_WD_width (buffer_r, (s.brx - s.tlx + 1))
-      set_WD_length (buffer_r, (s.bry - s.tly + 1))
+      set_WD_ULX(buffer_r, (s.xmaxpix - s.brx))
+      set_WD_ULY(buffer_r, s.tly);	/* upper_edge y */
+      set_WD_width(buffer_r, (s.brx - s.tlx + 1))
+      set_WD_length(buffer_r, (s.bry - s.tly + 1))
 
       /* BTC */
-      if (s.brightness == 128)
+      if(s.brightness == 128)
 	{
-	  set_WD_brightness (buffer_r, 0)
+	  set_WD_brightness(buffer_r, 0)
 	}
       else
 	{
-	  set_WD_brightness (buffer_r, s.brightness);	/* brightness */
+	  set_WD_brightness(buffer_r, s.brightness);	/* brightness */
 	}
 
-      if (s.contrast == 128)
+      if(s.contrast == 128)
 	{
-	  set_WD_contrast (buffer_r, 0)
+	  set_WD_contrast(buffer_r, 0)
 	}
       else
 	{
-	  set_WD_contrast (buffer_r, s.contrast);	/* contrast */
+	  set_WD_contrast(buffer_r, s.contrast);	/* contrast */
 	}
 
       /* scanmode */
-      if (s.colormode == GREYSCALE)
-	set_WD_composition (buffer_r, WD_comp_grey);	/* GRAY composition */
+      if(s.colormode == GREYSCALE)
+	set_WD_composition(buffer_r, WD_comp_grey);	/* GRAY composition */
       else
-	set_WD_composition (buffer_r, WD_comp_rgb_full);	/* RGB composition */
+	set_WD_composition(buffer_r, WD_comp_rgb_full);	/* RGB composition */
 
-      set_WD_dropoutcolor (buffer_r, s.dropoutcolor);	/* Which color to scan with when grayscale scan */
-      set_WD_transfermode (buffer_r, WD_LineSequence)
-      set_WD_gammaselection (buffer_r, s.gammaselection);	/* monitor/linear */
+      set_WD_dropoutcolor(buffer_r, s.dropoutcolor);	/* Which color to scan with when grayscale scan */
+      set_WD_transfermode(buffer_r, WD_LineSequence)
+      set_WD_gammaselection(buffer_r, s.gammaselection);	/* monitor/linear */
 
-      set_WD_shading (buffer_r, WD_Shading_ON);		/* default for non-manufacturing */
+      set_WD_shading(buffer_r, WD_Shading_ON);		/* default for non-manufacturing */
 
-      if (1 == s.LS)
+      if(1 == s.LS)
 	{			/* Analog gamma reserved on LS-1000 */
-	  set_WD_analog_gamma_R (buffer_r, 0)
-	  set_WD_analog_gamma_G (buffer_r, 0)
-	  set_WD_analog_gamma_R (buffer_r, 0)
+	  set_WD_analog_gamma_R(buffer_r, 0)
+	  set_WD_analog_gamma_G(buffer_r, 0)
+	  set_WD_analog_gamma_R(buffer_r, 0)
 	}
       else
 	{
@@ -942,81 +942,81 @@ coolscan_set_window_param_LS20 (Coolscan_t * s, Int prescan)
 	   * other cases." */
 	  /*
 	  Int foo
-	  if ((buffer_r[48] == WD_Positive) && (buffer_r[51] == WD_Linear))
+	  if((buffer_r[48] == WD_Positive) && (buffer_r[51] == WD_Linear))
 	    foo = WD_Analog_Gamma_OFF
 	  else
 	    foo = WD_Analog_Gamma_ON
-	  set_WD_analog_gamma_R (buffer_r, foo)
-	  set_WD_analog_gamma_G (buffer_r, foo)
-	  set_WD_analog_gamma_B (buffer_r, foo)
+	  set_WD_analog_gamma_R(buffer_r, foo)
+	  set_WD_analog_gamma_G(buffer_r, foo)
+	  set_WD_analog_gamma_B(buffer_r, foo)
 	  */
-	  set_WD_analog_gamma_R (buffer_r, s.analog_gamma_r)
-	  set_WD_analog_gamma_G (buffer_r, s.analog_gamma_g)
-	  set_WD_analog_gamma_B (buffer_r, s.analog_gamma_b)
-	  if (s.gamma_bind)
+	  set_WD_analog_gamma_R(buffer_r, s.analog_gamma_r)
+	  set_WD_analog_gamma_G(buffer_r, s.analog_gamma_g)
+	  set_WD_analog_gamma_B(buffer_r, s.analog_gamma_b)
+	  if(s.gamma_bind)
 	    {
-	      set_WD_LUT_R (buffer_r, 1)
-	      set_WD_LUT_G (buffer_r, 1)
-	      set_WD_LUT_B (buffer_r, 1)
+	      set_WD_LUT_R(buffer_r, 1)
+	      set_WD_LUT_G(buffer_r, 1)
+	      set_WD_LUT_B(buffer_r, 1)
 	    }
 	  else
 	    {
-	      set_WD_LUT_R (buffer_r, 1)
-	      set_WD_LUT_G (buffer_r, 2)
-	      set_WD_LUT_B (buffer_r, 3)
+	      set_WD_LUT_R(buffer_r, 1)
+	      set_WD_LUT_G(buffer_r, 2)
+	      set_WD_LUT_B(buffer_r, 3)
 	    }
 	}
-      set_WD_averaging (buffer_r, s.averaging)
+      set_WD_averaging(buffer_r, s.averaging)
 
-      set_WD_brightness_R (buffer_r, s.brightness_R)
-      set_WD_brightness_G (buffer_r, s.brightness_G)
-      set_WD_brightness_B (buffer_r, s.brightness_B)
+      set_WD_brightness_R(buffer_r, s.brightness_R)
+      set_WD_brightness_G(buffer_r, s.brightness_G)
+      set_WD_brightness_B(buffer_r, s.brightness_B)
 
-      set_WD_contrast_R (buffer_r, s.contrast_R)
-      set_WD_contrast_G (buffer_r, s.contrast_G)
-      set_WD_contrast_B (buffer_r, s.contrast_B)
+      set_WD_contrast_R(buffer_r, s.contrast_R)
+      set_WD_contrast_G(buffer_r, s.contrast_G)
+      set_WD_contrast_B(buffer_r, s.contrast_B)
 
-      set_WD_exposure_R (buffer_r, s.exposure_R)
-      set_WD_exposure_G (buffer_r, s.exposure_G)
-      set_WD_exposure_B (buffer_r, s.exposure_B)
-      set_WD_shift_R (buffer_r, s.shift_R)
-      set_WD_shift_G (buffer_r, s.shift_G)
-      set_WD_shift_B (buffer_r, s.shift_B)
+      set_WD_exposure_R(buffer_r, s.exposure_R)
+      set_WD_exposure_G(buffer_r, s.exposure_G)
+      set_WD_exposure_B(buffer_r, s.exposure_B)
+      set_WD_shift_R(buffer_r, s.shift_R)
+      set_WD_shift_G(buffer_r, s.shift_G)
+      set_WD_shift_B(buffer_r, s.shift_B)
 
 
       /* FIXME: LUT-[RGB] */
       /* FIXME: stop on/off */
     }
 
-  DBG (10, "\tx_nres=%d, y_nres=%d, upper left-x=%d, upper left-y=%d\n",
+  DBG(10, "\tx_nres=%d, y_nres=%d, upper left-x=%d, upper left-y=%d\n",
        s.x_nres, s.y_nres, s.tlx, s.tly)
-  DBG (10, "\twindow width=%d, MUD=%d, brx=%d\n",
+  DBG(10, "\twindow width=%d, MUD=%d, brx=%d\n",
        s.brx - s.tlx, s.MUD, s.brx)
-  DBG (10, "\tcolormode=%d, bits per pixel=%d\n",
+  DBG(10, "\tcolormode=%d, bits per pixel=%d\n",
        s.colormode, s.bits_per_color)
-  DBG (10, "\tnegative=%d, dropoutcolor=%d, preview=%d, transfermode=%d, gammasel=%d\n",
+  DBG(10, "\tnegative=%d, dropoutcolor=%d, preview=%d, transfermode=%d, gammasel=%d\n",
        s.negative, s.dropoutcolor, s.preview, s.transfermode,
        s.gammaselection)
 
   /* prepare SCSI-BUFFER */
-  memcpy (s.buffer, set_window.cmd, set_window.size);	/* SET-WINDOW cmd */
-  memcpy ((s.buffer + set_window.size),	/* add WPDB */
+  memcpy(s.buffer, set_window.cmd, set_window.size);	/* SET-WINDOW cmd */
+  memcpy((s.buffer + set_window.size),	/* add WPDB */
 	  window_parameter_data_block.cmd,
 	  window_parameter_data_block.size)
-  set_WPDB_wdblen ((s.buffer + set_window.size), used_WDB_size);	/* set WD_len */
-  memcpy (s.buffer + set_window.size + window_parameter_data_block.size,
+  set_WPDB_wdblen((s.buffer + set_window.size), used_WDB_size);	/* set WD_len */
+  memcpy(s.buffer + set_window.size + window_parameter_data_block.size,
 	  buffer_r, window_descriptor_block.size)
 
-  hexdump (15, "Window set", buffer_r, s.wdb_len)
+  hexdump(15, "Window set", buffer_r, s.wdb_len)
 
-  set_SW_xferlen (s.buffer, (window_parameter_data_block.size +
+  set_SW_xferlen(s.buffer, (window_parameter_data_block.size +
 			      window_descriptor_block.size))
 
-  ret = do_scsi_cmd (s.sfd, s.buffer, set_window.size +
+  ret = do_scsi_cmd(s.sfd, s.buffer, set_window.size +
 		     window_parameter_data_block.size +
 		     window_descriptor_block.size,
 		     NULL, 0)
-  DBG (10, "window set.\n")
+  DBG(10, "window set.\n")
   return ret
 }
 
@@ -1026,23 +1026,23 @@ coolscan_set_window_param_LS30 (Coolscan_t * s, Int wid, Int prescan)
   unsigned char buffer_r[max_WDB_size]
   Int ret
 
-  wait_scanner (s)
-  memset (buffer_r, '\0', max_WDB_size);	/* clear buffer */
-  memcpy (buffer_r, window_descriptor_block_LS30.cmd,
+  wait_scanner(s)
+  memset(buffer_r, '\0', max_WDB_size);	/* clear buffer */
+  memcpy(buffer_r, window_descriptor_block_LS30.cmd,
 	  window_descriptor_block_LS30.size);	/* copy preset data */
 
-  set_WD_wid (buffer_r, wid);          	/* window identifier */
-  set_WD_auto (buffer_r, s.set_auto);	/* 0 or 1: don't know what it is */
+  set_WD_wid(buffer_r, wid);          	/* window identifier */
+  set_WD_auto(buffer_r, s.set_auto);	/* 0 or 1: don't know what it is */
 
   /* geometry */
-  set_WD_Xres (buffer_r, resDivToVal (s.x_nres));	/* x resolution in dpi */
-  set_WD_Yres (buffer_r, resDivToVal (s.y_nres));	/* y resolution in dpi */
+  set_WD_Xres(buffer_r, resDivToVal(s.x_nres));	/* x resolution in dpi */
+  set_WD_Yres(buffer_r, resDivToVal(s.y_nres));	/* y resolution in dpi */
 
-  if (prescan)
+  if(prescan)
     {
       set_WD_scanmode_LS30 (buffer_r, WD_Prescan)
-      set_WD_Xres (buffer_r, resDivToVal (1));	/* x res. in dpi */
-      set_WD_Yres (buffer_r, resDivToVal (1));	/* y res. in dpi */
+      set_WD_Xres(buffer_r, resDivToVal(1));	/* x res. in dpi */
+      set_WD_Yres(buffer_r, resDivToVal(1));	/* y res. in dpi */
       buffer_r[0x29]=0x81
       buffer_r[0x2a]=0x04
       buffer_r[0x2b]=0x02
@@ -1052,8 +1052,8 @@ coolscan_set_window_param_LS30 (Coolscan_t * s, Int wid, Int prescan)
       buffer_r[0x31]=0x00
       buffer_r[0x32]=0x00
       buffer_r[0x33]=0x00
-      set_WD_width (buffer_r,(2592))
-      set_WD_length (buffer_r,(3894))
+      set_WD_width(buffer_r,(2592))
+      set_WD_length(buffer_r,(3894))
     }
   else
     {
@@ -1062,13 +1062,13 @@ coolscan_set_window_param_LS30 (Coolscan_t * s, Int wid, Int prescan)
       /* the coolscan LS-30 uses the upper left corner
 	 as the origin of coordinates */
       /* xmax and ymax are given in 1200 dpi */
-      set_WD_ULX (buffer_r, s.tlx)
-      set_WD_ULY (buffer_r, s.tly);	/* upper_edge y */
-      set_WD_width (buffer_r, (s.brx - s.tlx+1))
-      set_WD_length (buffer_r, (s.bry - s.tly+1))
+      set_WD_ULX(buffer_r, s.tlx)
+      set_WD_ULY(buffer_r, s.tly);	/* upper_edge y */
+      set_WD_width(buffer_r, (s.brx - s.tlx+1))
+      set_WD_length(buffer_r, (s.bry - s.tly+1))
 
       /* BTC */
-      if (s.brightness == 128)
+      if(s.brightness == 128)
 	{
 	  buffer_r[0x32]=0x00
 	}
@@ -1077,7 +1077,7 @@ coolscan_set_window_param_LS30 (Coolscan_t * s, Int wid, Int prescan)
 	  buffer_r[0x32]=s.brightness;	/* brightness */
 	}
 
-      if (s.contrast == 128)
+      if(s.contrast == 128)
 	{
 	  buffer_r[0x33]=0x00
 	}
@@ -1087,12 +1087,12 @@ coolscan_set_window_param_LS30 (Coolscan_t * s, Int wid, Int prescan)
 	}
 
       /* scanmode */
-      if (s.colormode == GREYSCALE)
-	set_WD_composition (buffer_r, WD_comp_grey);	/* GRAY composition */
+      if(s.colormode == GREYSCALE)
+	set_WD_composition(buffer_r, WD_comp_grey);	/* GRAY composition */
       else
-	set_WD_composition (buffer_r, WD_comp_rgb_full);	/* RGB composition */
+	set_WD_composition(buffer_r, WD_comp_rgb_full);	/* RGB composition */
 
-      set_WD_composition (buffer_r, WD_comp_rgb_full);  /* always RGB composition */
+      set_WD_composition(buffer_r, WD_comp_rgb_full);  /* always RGB composition */
 
       /* Bits per pixel */
       set_WD_bitsperpixel(buffer_r, s.bits_per_color)
@@ -1116,56 +1116,56 @@ coolscan_set_window_param_LS30 (Coolscan_t * s, Int wid, Int prescan)
                  break
     }
 
-  DBG (10, "\texpo_r=%d, expo_g=%d, expob=%d\n",
+  DBG(10, "\texpo_r=%d, expo_g=%d, expob=%d\n",
        s.exposure_R, s.exposure_G, s.exposure_B)
-  DBG (10, "\tpre_r=%d, pre_g=%d, preb=%d\n",
+  DBG(10, "\tpre_r=%d, pre_g=%d, preb=%d\n",
        s.pretv_r, s.pretv_g, s.pretv_b)
-  DBG (10, "\tx_nres=%d, y_nres=%d, upper left-x=%d, upper left-y=%d\n",
+  DBG(10, "\tx_nres=%d, y_nres=%d, upper left-x=%d, upper left-y=%d\n",
        s.x_nres, s.y_nres, s.tlx, s.tly)
-  DBG (10, "\twindow width=%d, MUD=%d, brx=%d\n",
+  DBG(10, "\twindow width=%d, MUD=%d, brx=%d\n",
        s.brx - s.tlx, s.MUD, s.brx)
-  DBG (10, "\tcolormode=%d, bits per pixel=%d\n",
+  DBG(10, "\tcolormode=%d, bits per pixel=%d\n",
        s.colormode, s.bits_per_color)
-  DBG (10, "\tnegative=%d, dropoutcolor=%d, preview=%d, transfermode=%d, gammasel=%d\n",
+  DBG(10, "\tnegative=%d, dropoutcolor=%d, preview=%d, transfermode=%d, gammasel=%d\n",
        s.negative, s.dropoutcolor, s.preview, s.transfermode,
        s.gammaselection)
 
   /* prepare SCSI-BUFFER */
-  memcpy (s.buffer, set_window.cmd, set_window.size);	/* SET-WINDOW cmd */
-  memcpy ((s.buffer + set_window.size),	/* add WPDB */
+  memcpy(s.buffer, set_window.cmd, set_window.size);	/* SET-WINDOW cmd */
+  memcpy((s.buffer + set_window.size),	/* add WPDB */
 	  window_parameter_data_block.cmd,
 	  window_parameter_data_block.size)
-  set_WPDB_wdblen ((s.buffer + set_window.size), used_WDB_size_LS30);	/* set WD_len */
-  memcpy (s.buffer + set_window.size + window_parameter_data_block.size,
+  set_WPDB_wdblen((s.buffer + set_window.size), used_WDB_size_LS30);	/* set WD_len */
+  memcpy(s.buffer + set_window.size + window_parameter_data_block.size,
 	  buffer_r, window_descriptor_block_LS30.size)
 
-  hexdump (15, "Window set", buffer_r, s.wdb_len)
+  hexdump(15, "Window set", buffer_r, s.wdb_len)
 
-  set_SW_xferlen (s.buffer, (window_parameter_data_block.size +
+  set_SW_xferlen(s.buffer, (window_parameter_data_block.size +
 			      window_descriptor_block_LS30.size))
 
-  ret = do_scsi_cmd (s.sfd, s.buffer, set_window.size +
+  ret = do_scsi_cmd(s.sfd, s.buffer, set_window.size +
 		     window_parameter_data_block.size +
 		     window_descriptor_block_LS30.size,
 		     NULL, 0)
-  DBG (10, "window set.\n")
+  DBG(10, "window set.\n")
   return ret
 }
 
 static Int
-coolscan_set_window_param (Coolscan_t * s, Int prescan)
+coolscan_set_window_param(Coolscan_t * s, Int prescan)
 {
   Int ret
   ret=0
-  DBG (10, "set_window_param\n")
+  DBG(10, "set_window_param\n")
 
   if(s.LS<2)                   /* distinguish between old and new scanners */
   { ret=coolscan_set_window_param_LS20 (s,prescan)
   }
   else
-  {  do_scsi_cmd (s.sfd,commande1.cmd,commande1.size,s.buffer,0x0d)
-     wait_scanner (s)
-     wait_scanner (s)
+  {  do_scsi_cmd(s.sfd,commande1.cmd,commande1.size,s.buffer,0x0d)
+     wait_scanner(s)
+     wait_scanner(s)
      coolscan_set_window_param_LS30(s,1,prescan)
      ret=coolscan_set_window_param_LS30(s,2,prescan)
      ret=coolscan_set_window_param_LS30(s,3,prescan)
@@ -1187,32 +1187,32 @@ coolscan_get_window_param_LS30 (Coolscan_t * s, Int wid,Int prescanok)
   Int translen
   unsigned char *buf
 
-  DBG (10, "GET_WINDOW_PARAM\n")
-  /*  wait_scanner (s); */
+  DBG(10, "GET_WINDOW_PARAM\n")
+  /*  wait_scanner(s); */
 
   translen = window_parameter_data_block.size + window_descriptor_block_LS30.size
 
   /* prepare SCSI-BUFFER */
-  memset (s.buffer, '\0', max_WDB_size);	/* clear buffer */
+  memset(s.buffer, '\0', max_WDB_size);	/* clear buffer */
 
-  set_SW_xferlen (get_window.cmd, translen);	/* Transfer length */
+  set_SW_xferlen(get_window.cmd, translen);	/* Transfer length */
   get_window.cmd[5]= wid;                     	/* window identifier */
 
-  hexdump (15, "Get window cmd", get_window.cmd, get_window.size)
-  do_scsi_cmd (s.sfd, get_window.cmd, get_window.size,
+  hexdump(15, "Get window cmd", get_window.cmd, get_window.size)
+  do_scsi_cmd(s.sfd, get_window.cmd, get_window.size,
 		     s.buffer, translen)
 
   buf = s.buffer + window_parameter_data_block.size
-  hexdump (10, "Window get", buf, 117)
+  hexdump(10, "Window get", buf, 117)
 
   s.brightness = buf[0x32];	/* brightness */
   s.contrast = buf[0x33];	/* contrast */
-  DBG (10, "\tbrightness=%d, contrast=%d\n", s.brightness, s.contrast)
+  DBG(10, "\tbrightness=%d, contrast=%d\n", s.brightness, s.contrast)
 
   /* Useful? */
-  s.bits_per_color = get_WD_bitsperpixel (buf);	/* bits/pixel (8) */
+  s.bits_per_color = get_WD_bitsperpixel(buf);	/* bits/pixel(8) */
 
-  DBG (10, "\tcolormode=%d, bits per pixel=%d\n",
+  DBG(10, "\tcolormode=%d, bits per pixel=%d\n",
        s.colormode, s.bits_per_color)
 
   if(prescanok)
@@ -1227,17 +1227,17 @@ coolscan_get_window_param_LS30 (Coolscan_t * s, Int wid,Int prescanok)
   }
 
   /* Should this one be set at all, here? */
-  s.transfermode = get_WD_transfermode (buf)
+  s.transfermode = get_WD_transfermode(buf)
 
-  s.gammaselection = get_WD_gammaselection (buf);	/* monitor/linear */
-  DBG (10, "\tpre_r=%d, pre_g=%d, preb=%d\n",
+  s.gammaselection = get_WD_gammaselection(buf);	/* monitor/linear */
+  DBG(10, "\tpre_r=%d, pre_g=%d, preb=%d\n",
        s.pretv_r, s.pretv_g, s.pretv_b)
 
-  DBG (5, "\tnegative=%d, dropoutcolor=%d, preview=%d, transfermode=%d, gammasel=%d\n",
+  DBG(5, "\tnegative=%d, dropoutcolor=%d, preview=%d, transfermode=%d, gammasel=%d\n",
        s.negative, s.dropoutcolor, s.preview, s.transfermode,
        s.gammaselection)
 
-  DBG (10, "get_window_param - return\n")
+  DBG(10, "get_window_param - return\n")
   return 0
 }
 
@@ -1251,55 +1251,55 @@ coolscan_get_window_param_LS20 (Coolscan_t * s)
   Int translen
   unsigned char *buf
 
-  DBG (10, "GET_WINDOW_PARAM\n")
-  wait_scanner (s)
+  DBG(10, "GET_WINDOW_PARAM\n")
+  wait_scanner(s)
 
   translen = window_parameter_data_block.size + window_descriptor_block.size
 
   /* prepare SCSI-BUFFER */
-  memset (s.buffer, '\0', max_WDB_size);	/* clear buffer */
+  memset(s.buffer, '\0', max_WDB_size);	/* clear buffer */
 
-  set_SW_xferlen (get_window.cmd, translen);	/* Transfer length */
+  set_SW_xferlen(get_window.cmd, translen);	/* Transfer length */
 
-  hexdump (15, "Get window cmd", get_window.cmd, get_window.size)
-  do_scsi_cmd (s.sfd, get_window.cmd, get_window.size,
+  hexdump(15, "Get window cmd", get_window.cmd, get_window.size)
+  do_scsi_cmd(s.sfd, get_window.cmd, get_window.size,
 		     s.buffer, translen)
 
   buf = s.buffer + window_parameter_data_block.size
-  hexdump (10, "Window get", buf, 117)
+  hexdump(10, "Window get", buf, 117)
 
   /* BTC */
-  s.brightness = get_WD_brightness (buf);	/* brightness */
-  s.contrast = get_WD_contrast (buf);	/* contrast */
-  DBG (10, "\tbrightness=%d, contrast=%d\n", s.brightness, s.contrast)
+  s.brightness = get_WD_brightness(buf);	/* brightness */
+  s.contrast = get_WD_contrast(buf);	/* contrast */
+  DBG(10, "\tbrightness=%d, contrast=%d\n", s.brightness, s.contrast)
 
-  if (WD_comp_gray == get_WD_composition (buf))
+  if(WD_comp_gray == get_WD_composition(buf))
     s.colormode = GREYSCALE
   else
     s.colormode = RGB
 
   /* Useful? */
-  s.bits_per_color = get_WD_bitsperpixel (buf);	/* bits/pixel (8) */
+  s.bits_per_color = get_WD_bitsperpixel(buf);	/* bits/pixel(8) */
 
-  DBG (10, "\tcolormode=%d, bits per pixel=%d\n",
+  DBG(10, "\tcolormode=%d, bits per pixel=%d\n",
        s.colormode, s.bits_per_color)
 
 
-  s.dropoutcolor = get_WD_dropoutcolor (buf);	/* Which color to scan with when grayscale scan */
+  s.dropoutcolor = get_WD_dropoutcolor(buf);	/* Which color to scan with when grayscale scan */
 
   /* Should this one be set at all, here? */
-  s.transfermode = get_WD_transfermode (buf)
+  s.transfermode = get_WD_transfermode(buf)
 
-  s.gammaselection = get_WD_gammaselection (buf);	/* monitor/linear */
+  s.gammaselection = get_WD_gammaselection(buf);	/* monitor/linear */
 
-  DBG (5, "\tnegative=%d, dropoutcolor=%d, preview=%d, transfermode=%d, gammasel=%d\n",
+  DBG(5, "\tnegative=%d, dropoutcolor=%d, preview=%d, transfermode=%d, gammasel=%d\n",
        s.negative, s.dropoutcolor, s.preview, s.transfermode,
        s.gammaselection)
 
   /* Should this one be set at all? */
-  s.shading = get_WD_shading (buf)
-  s.averaging = get_WD_averaging (buf)
-  DBG (10, "get_window_param - return\n")
+  s.shading = get_WD_shading(buf)
+  s.averaging = get_WD_averaging(buf)
+  DBG(10, "get_window_param - return\n")
   return 0
 }
 
@@ -1308,10 +1308,10 @@ coolscan_get_window_param_LS20 (Coolscan_t * s)
  * is currently used.
  */
 static Int
-coolscan_get_window_param (Coolscan_t * s, Int prescanok)
+coolscan_get_window_param(Coolscan_t * s, Int prescanok)
 {
   Int ret
-  DBG (10, "get_window_param\n")
+  DBG(10, "get_window_param\n")
 
   ret=0
   if(s.LS<2)                   /* distinguish between old and new scanners */
@@ -1332,10 +1332,10 @@ coolscan_get_window_param (Coolscan_t * s, Int prescanok)
 static Int
 coolscan_start_scanLS30 (Coolscan_t * s)
 { Int channels
-  DBG (10, "starting scan\n")
+  DBG(10, "starting scan\n")
 
   channels=1
-  memcpy (s.buffer, scan.cmd, scan.size)
+  memcpy(s.buffer, scan.cmd, scan.size)
   switch(s.colormode)
     {  case RGB:
        case GREYSCALE:
@@ -1358,34 +1358,34 @@ coolscan_start_scanLS30 (Coolscan_t * s)
               break
     }
 
-  return do_scsi_cmd (s.sfd, s.buffer, scan.size+channels, NULL, 0)
+  return do_scsi_cmd(s.sfd, s.buffer, scan.size+channels, NULL, 0)
 }
 
 static Int
-coolscan_start_scan (Coolscan_t * s)
+coolscan_start_scan(Coolscan_t * s)
 {
-  DBG (10, "starting scan\n")
+  DBG(10, "starting scan\n")
   if(s.LS>=2)
     { return coolscan_start_scanLS30(s)
     }
-  return do_scsi_cmd (s.sfd, scan.cmd, scan.size, NULL, 0)
+  return do_scsi_cmd(s.sfd, scan.cmd, scan.size, NULL, 0)
 }
 
 
 static Int
-prescan (Coolscan_t * s)
+prescan(Coolscan_t * s)
 {
   Int ret
 
-  DBG (10, "Starting prescan...\n")
+  DBG(10, "Starting prescan...\n")
   if(s.LS<2)
-  {  coolscan_set_window_param (s, 1)
+  {  coolscan_set_window_param(s, 1)
   }
   else
   {
-     do_scsi_cmd (s.sfd,commande1.cmd,commande1.size,s.buffer,0x0d)
-     wait_scanner (s)
-     wait_scanner (s)
+     do_scsi_cmd(s.sfd,commande1.cmd,commande1.size,s.buffer,0x0d)
+     wait_scanner(s)
+     wait_scanner(s)
      coolscan_set_window_param_LS30 (s,1,1)
      coolscan_set_window_param_LS30 (s,2,1)
      coolscan_set_window_param_LS30 (s,3,1)
@@ -1394,26 +1394,26 @@ prescan (Coolscan_t * s)
   ret = coolscan_start_scan(s)
 
   sleep(8);			/* prescan takes a minimum of 10 sec. */
-  wait_scanner (s)
-  DBG (10, "Prescan done\n")
+  wait_scanner(s)
+  DBG(10, "Prescan done\n")
   return ret
 }
 
 static Sane.Status
-do_prescan_now (Coolscan_t * scanner)
+do_prescan_now(Coolscan_t * scanner)
 {
 
-  DBG (10, "do_prescan_now \n")
-  if (scanner.scanning == Sane.TRUE)
+  DBG(10, "do_prescan_now \n")
+  if(scanner.scanning == Sane.TRUE)
     return Sane.STATUS_DEVICE_BUSY
 
-  if (scanner.sfd < 0)
+  if(scanner.sfd < 0)
     {				/* first call */
-      if (sanei_scsi_open (scanner.sane.name,
+      if(sanei_scsi_open(scanner.sane.name,
 			   &(scanner.sfd),
 			   sense_handler, 0) != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "do_prescan_now: open of %s failed:\n",
+	  DBG(1, "do_prescan_now: open of %s failed:\n",
 	       scanner.sane.name)
 	  return Sane.STATUS_INVAL
 	}
@@ -1421,38 +1421,38 @@ do_prescan_now (Coolscan_t * scanner)
   scanner.scanning = Sane.TRUE
 
 
-  if (coolscan_check_values (scanner) != 0)
+  if(coolscan_check_values(scanner) != 0)
     {				/* Verify values */
-      DBG (1, "ERROR: invalid scan-values\n")
+      DBG(1, "ERROR: invalid scan-values\n")
       scanner.scanning = Sane.FALSE
-      coolscan_give_scanner (scanner)
-      sanei_scsi_close (scanner.sfd)
+      coolscan_give_scanner(scanner)
+      sanei_scsi_close(scanner.sfd)
       scanner.sfd = -1
       return Sane.STATUS_INVAL
     }
 
-  if (coolscan_grab_scanner (scanner))
+  if(coolscan_grab_scanner(scanner))
     {
-      sanei_scsi_close (scanner.sfd)
+      sanei_scsi_close(scanner.sfd)
       scanner.sfd = -1
-      DBG (5, "WARNING: unable to reserve scanner: device busy\n")
+      DBG(5, "WARNING: unable to reserve scanner: device busy\n")
       scanner.scanning = Sane.FALSE
       return Sane.STATUS_DEVICE_BUSY
     }
 
-  prescan (scanner)
+  prescan(scanner)
   if(scanner.LS<2)
     {	get_internal_info(scanner)
     }
-  coolscan_get_window_param (scanner,1)
+  coolscan_get_window_param(scanner,1)
   scanner.scanning = Sane.FALSE
-  coolscan_give_scanner (scanner)
+  coolscan_give_scanner(scanner)
   return Sane.STATUS_GOOD
 }
 
 
 static Int
-send_one_LUT (Coolscan_t * s, Sane.Word * LUT, Int reg)
+send_one_LUT(Coolscan_t * s, Sane.Word * LUT, Int reg)
 {
   var i: Int
   short lutval
@@ -1460,10 +1460,10 @@ send_one_LUT (Coolscan_t * s, Sane.Word * LUT, Int reg)
   unsigned char *gamma, *gamma_p
   unsigned short *gamma_s
 
-  DBG (10, "send LUT\n")
+  DBG(10, "send LUT\n")
 
   if(s.LS<2)
-  { set_S_datatype_code (send.cmd, R_user_reg_gamma)
+  { set_S_datatype_code(send.cmd, R_user_reg_gamma)
     bytesperval=1
   }
   else
@@ -1473,23 +1473,23 @@ send_one_LUT (Coolscan_t * s, Sane.Word * LUT, Int reg)
     bytesperval=2
   }
 
-  set_S_xfer_length (send.cmd, s.lutlength*bytesperval)
-  set_S_datatype_qual_upper (send.cmd, reg)
+  set_S_xfer_length(send.cmd, s.lutlength*bytesperval)
+  set_S_datatype_qual_upper(send.cmd, reg)
 
-  gamma = alloca (send.size + s.lutlength*2)
-  memcpy (gamma, send.cmd, send.size)
+  gamma = alloca(send.size + s.lutlength*2)
+  memcpy(gamma, send.cmd, send.size)
   if(s.LS<2)
   { gamma_p = &gamma[send.size]
-    for (i = 0; i < s.lutlength; i++)
+    for(i = 0; i < s.lutlength; i++)
     {
-      if (LUT[i] > 255)
+      if(LUT[i] > 255)
 	LUT[i] = 255;		/* broken gtk */
       *gamma_p++ = (unsigned char) LUT[i]
     }
   }
   else if(s.LS==2)
   { gamma_s = (unsigned short*)( &gamma[send.size])
-    for (i = 0; i < s.lutlength; i++)
+    for(i = 0; i < s.lutlength; i++)
     {
        if(s.negative)
        {
@@ -1499,7 +1499,7 @@ send_one_LUT (Coolscan_t * s, Sane.Word * LUT, Int reg)
        {
 	 lutval=(unsigned short)(LUT[i])
        }
-       if (LUT[i] >= s.max_lut_val)
+       if(LUT[i] >= s.max_lut_val)
        LUT[i] = s.max_lut_val-1;	          	/* broken gtk */
        if(s.low_byte_first)                                /* if on little endian machine: */
        {
@@ -1510,7 +1510,7 @@ send_one_LUT (Coolscan_t * s, Sane.Word * LUT, Int reg)
   }
   else if(s.LS==3)
   { gamma_s = (unsigned short*)( &gamma[send.size])
-    for (i = 0; i < s.lutlength; i++)
+    for(i = 0; i < s.lutlength; i++)
     {
        if(s.negative)
        {
@@ -1520,7 +1520,7 @@ send_one_LUT (Coolscan_t * s, Sane.Word * LUT, Int reg)
        {
 	 lutval=(unsigned short)(LUT[i])
        }
-       if (LUT[i] >= s.max_lut_val)
+       if(LUT[i] >= s.max_lut_val)
        LUT[i] = s.max_lut_val-1;	          	    /* broken gtk */
        if(s.low_byte_first)                                /* if on little endian machine: */
        {  lutval=((lutval&0x00ff)<<8)+((lutval&0xff00)>>8); /* inverse byteorder */
@@ -1528,33 +1528,33 @@ send_one_LUT (Coolscan_t * s, Sane.Word * LUT, Int reg)
        *gamma_s++ = lutval
     }
   }
-  return do_scsi_cmd (s.sfd, gamma, send.size + s.lutlength*bytesperval, NULL, 0)
+  return do_scsi_cmd(s.sfd, gamma, send.size + s.lutlength*bytesperval, NULL, 0)
 }
 
 
 static Int
-send_LUT (Coolscan_t * s)
+send_LUT(Coolscan_t * s)
 {
-  wait_scanner (s)
-  if (s.gamma_bind)
+  wait_scanner(s)
+  if(s.gamma_bind)
     {
-      send_one_LUT (s, s.gamma, S_DQ_Reg1)
+      send_one_LUT(s, s.gamma, S_DQ_Reg1)
       if(s.LS>=2)
-	{      send_one_LUT (s, s.gamma, S_DQ_Reg2)
-	       send_one_LUT (s, s.gamma, S_DQ_Reg3)
+	{      send_one_LUT(s, s.gamma, S_DQ_Reg2)
+	       send_one_LUT(s, s.gamma, S_DQ_Reg3)
                if(s.colormode&0x08)
-	       { send_one_LUT (s, s.gamma, S_DQ_Reg9)
+	       { send_one_LUT(s, s.gamma, S_DQ_Reg9)
 	       }
 
 	}
     }
   else
     {
-      send_one_LUT (s, s.gamma_r, S_DQ_Reg1)
-      send_one_LUT (s, s.gamma_g, S_DQ_Reg2)
-      send_one_LUT (s, s.gamma_b, S_DQ_Reg3)
+      send_one_LUT(s, s.gamma_r, S_DQ_Reg1)
+      send_one_LUT(s, s.gamma_g, S_DQ_Reg2)
+      send_one_LUT(s, s.gamma_b, S_DQ_Reg3)
       if(s.colormode&0x08)
-      { send_one_LUT (s, s.gamma_r, S_DQ_Reg9)
+      { send_one_LUT(s, s.gamma_r, S_DQ_Reg9)
       }
     }
   return 0
@@ -1562,38 +1562,38 @@ send_LUT (Coolscan_t * s)
 
 
 static Int
-coolscan_read_data_block (Coolscan_t * s, unsigned Int datatype, unsigned Int length)
+coolscan_read_data_block(Coolscan_t * s, unsigned Int datatype, unsigned Int length)
 {
   Int r
 
-  DBG (10, "read_data_block (type= %x length = %d)\n",datatype,length)
+  DBG(10, "read_data_block(type= %x length = %d)\n",datatype,length)
   /*wait_scanner(s); */
 
-  set_R_datatype_code (sread.cmd, datatype)
+  set_R_datatype_code(sread.cmd, datatype)
   sread.cmd[4]=00
   sread.cmd[5]=00
-  set_R_xfer_length (sread.cmd, length)
+  set_R_xfer_length(sread.cmd, length)
 
-  r = do_scsi_cmd (s.sfd, sread.cmd, sread.size, s.buffer, length)
-  return ((r != 0) ? -1 : (Int) length)
+  r = do_scsi_cmd(s.sfd, sread.cmd, sread.size, s.buffer, length)
+  return((r != 0) ? -1 : (Int) length)
 }
 
 
 static void
-coolscan_do_inquiry (Coolscan_t * s)
+coolscan_do_inquiry(Coolscan_t * s)
 {
   Int size
 
-  DBG (10, "do_inquiry\n")
-  memset (s.buffer, '\0', 256);	/* clear buffer */
+  DBG(10, "do_inquiry\n")
+  memset(s.buffer, '\0', 256);	/* clear buffer */
   size = 36;			/* Hardcoded, and as specified by Nikon */
   /* then get inquiry with actual size */
-  set_inquiry_return_size (inquiry.cmd, size)
-  do_scsi_cmd (s.sfd, inquiry.cmd, inquiry.size, s.buffer, size)
+  set_inquiry_return_size(inquiry.cmd, size)
+  do_scsi_cmd(s.sfd, inquiry.cmd, inquiry.size, s.buffer, size)
 }
 
 static Int
-coolscan_identify_scanner (Coolscan_t * s)
+coolscan_identify_scanner(Coolscan_t * s)
 {
   unsigned char vendor[9]
   unsigned char product[0x11]
@@ -1602,64 +1602,64 @@ coolscan_identify_scanner (Coolscan_t * s)
   var i: Int
 
   vendor[8] = product[0x10] = version[4] = 0
-  DBG (10, "identify_scanner\n")
-  coolscan_do_inquiry (s);	/* get inquiry */
-  if (get_inquiry_periph_devtype (s.buffer) != IN_periph_devtype_scanner)
+  DBG(10, "identify_scanner\n")
+  coolscan_do_inquiry(s);	/* get inquiry */
+  if(get_inquiry_periph_devtype(s.buffer) != IN_periph_devtype_scanner)
     {
-      DBG (5, "identify_scanner: not a scanner\n")
+      DBG(5, "identify_scanner: not a scanner\n")
       return 1
     }				/* no, continue searching */
 
-  coolscan_get_inquiry_values (s)
+  coolscan_get_inquiry_values(s)
 
-  get_inquiry_vendor ((char *)s.buffer, (char *)vendor)
-  get_inquiry_product ((char *)s.buffer, (char *)product)
-  get_inquiry_version ((char *)s.buffer, (char *)version)
+  get_inquiry_vendor((char *)s.buffer, (char *)vendor)
+  get_inquiry_product((char *)s.buffer, (char *)product)
+  get_inquiry_version((char *)s.buffer, (char *)version)
 
-  if (strncmp ("Nikon   ", (char *)vendor, 8))
+  if(strncmp("Nikon   ", (char *)vendor, 8))
     {
-      DBG (5, "identify_scanner: \"%s\" isn't a Nikon product\n", vendor)
+      DBG(5, "identify_scanner: \"%s\" isn't a Nikon product\n", vendor)
       return 1
     }				/* Not a Nikon product */
 
   pp = &vendor[8]
   vendor[8] = ' '
-  while (*pp == ' ')
+  while(*pp == ' ')
     {
       *pp-- = '\0'
     }
 
   pp = &product[0x10]
   product[0x10] = ' '
-  while (*(pp - 1) == ' ')
+  while(*(pp - 1) == ' ')
     {
       *pp-- = '\0'
     }				/* leave one blank at the end! */
 
   pp = &version[4]
   version[4] = ' '
-  while (*pp == ' ')
+  while(*pp == ' ')
     {
       *pp-- = '\0'
     }
 
-  DBG (10, "Found Nikon scanner %sversion %s on device %s\n",
+  DBG(10, "Found Nikon scanner %sversion %s on device %s\n",
        product, version, s.devicename)
 
   /* look for scanners that do not give all inquiry-informations */
   /* and if possible use driver-known inquiry-data  */
-  if (get_inquiry_additional_length (s.buffer) >= 0x1f)
+  if(get_inquiry_additional_length(s.buffer) >= 0x1f)
     {
       /* Now identify full supported scanners */
-      for (i = 0; i < known_scanners; i++)
+      for(i = 0; i < known_scanners; i++)
 	{
-	  if (!strncmp ((char *)product, scanner_str[i], strlen (scanner_str[i])))
+	  if(!strncmp((char *)product, scanner_str[i], strlen(scanner_str[i])))
 	    {
 	      s.LS = i
 	      return 0
 	    }
 	}
-      if (s.cont)
+      if(s.cont)
 	return 0
       else
 	return 1
@@ -1669,7 +1669,7 @@ coolscan_identify_scanner (Coolscan_t * s)
 }
 
 static Int
-pixels_per_line (Coolscan_t * s)
+pixels_per_line(Coolscan_t * s)
 {
   Int pic_dot
   if(s.LS<2)
@@ -1678,12 +1678,12 @@ pixels_per_line (Coolscan_t * s)
   else
   { pic_dot = (s.brx - s.tlx + 1) / s.x_nres
   }
-  DBG (10, "pic_dot=%d\n", pic_dot)
+  DBG(10, "pic_dot=%d\n", pic_dot)
   return pic_dot
 }
 
 static Int
-lines_per_scan (Coolscan_t * s)
+lines_per_scan(Coolscan_t * s)
 {
   Int pic_line
   if(s.LS<2)
@@ -1692,23 +1692,23 @@ lines_per_scan (Coolscan_t * s)
   else
   { pic_line = (( s.bry - s.tly + 1.0 )  / s.y_nres)
   }
-  DBG (10, "pic_line=%d\n", pic_line)
+  DBG(10, "pic_line=%d\n", pic_line)
   return pic_line
 }
 
 static Int
-scan_bytes_per_line (Coolscan_t * s)
+scan_bytes_per_line(Coolscan_t * s)
 { Int bpl
   switch(s.colormode)
     {  case RGB:
        case GREYSCALE:
-              bpl=pixels_per_line (s) * 3
+              bpl=pixels_per_line(s) * 3
               if(s.bits_per_color>8) bpl=bpl*2
               return bpl
               break
        case RGBI:
        case IRED:
-              bpl=pixels_per_line (s) * 4
+              bpl=pixels_per_line(s) * 4
               if(s.bits_per_color>8) bpl=bpl*2
               return bpl
               break
@@ -1717,22 +1717,22 @@ scan_bytes_per_line (Coolscan_t * s)
 }
 
 static Int
-write_bytes_per_line (Coolscan_t * s)
+write_bytes_per_line(Coolscan_t * s)
 { Int bpl
   switch(s.colormode)
     {  case RGB:
-              bpl=pixels_per_line (s) * 3
+              bpl=pixels_per_line(s) * 3
               if(s.bits_per_color>8) bpl=bpl*2
               return bpl
               break
        case RGBI:
-              bpl=pixels_per_line (s) * 4
+              bpl=pixels_per_line(s) * 4
               if(s.bits_per_color>8) bpl=bpl*2
               return bpl
               break
        case IRED:
        case GREYSCALE:
-              bpl= pixels_per_line (s) 
+              bpl= pixels_per_line(s) 
               if(s.bits_per_color>8) bpl=bpl*2
               return bpl
               break
@@ -1742,30 +1742,30 @@ write_bytes_per_line (Coolscan_t * s)
 
 
 static void
-coolscan_trim_rowbufsize (Coolscan_t * s)
+coolscan_trim_rowbufsize(Coolscan_t * s)
 {
   unsigned Int row_len
-  row_len = scan_bytes_per_line (s)
+  row_len = scan_bytes_per_line(s)
   s.row_bufsize = (s.row_bufsize < row_len) ? s.row_bufsize
     : s.row_bufsize - (s.row_bufsize % row_len)
-  DBG (10, "trim_bufsize to %d\n", s.row_bufsize)
+  DBG(10, "trim_bufsize to %d\n", s.row_bufsize)
 }
 
 static Int
-coolscan_check_values (Coolscan_t * s)
+coolscan_check_values(Coolscan_t * s)
 {
-  DBG (10, "check_values\n")
+  DBG(10, "check_values\n")
   /* -------------------------- asf --------------------------------- */
-  if (s.asf != 0)
+  if(s.asf != 0)
     {
-      if (s.autofeeder == 0)
+      if(s.autofeeder == 0)
 	{
-	  DBG (1, "ERROR: ASF-MODE NOT SUPPORTED BY SCANNER, ABORTING\n")
-	  return (1)
+	  DBG(1, "ERROR: ASF-MODE NOT SUPPORTED BY SCANNER, ABORTING\n")
+	  return(1)
 	}
     }
 
-  return (0)
+  return(0)
 }
 
 /* test_little_endian */
@@ -1776,7 +1776,7 @@ coolscan_test_little_endian(void)
   Int testvalue = 255
   unsigned char *firstbyte = (unsigned char *) &testvalue
 
-  if (*firstbyte == 255)
+  if(*firstbyte == 255)
   { return Sane.TRUE
   }
   return Sane.FALSE
@@ -1791,39 +1791,39 @@ get_inquiery_part_LS30 (Coolscan_t * s, unsigned char part)
   inquiry.cmd[1]=0x01
   inquiry.cmd[2]=part
   size=4
-  set_inquiry_return_size (inquiry.cmd, size)
-  do_scsi_cmd (s.sfd, inquiry.cmd, inquiry.size,
+  set_inquiry_return_size(inquiry.cmd, size)
+  do_scsi_cmd(s.sfd, inquiry.cmd, inquiry.size,
                s.buffer, size)
   size=get_inquiry_length(s.buffer)
   size+=4
   /* then get inquiry with actual size */
-  set_inquiry_return_size (inquiry.cmd, size)
-  do_scsi_cmd (s.sfd, inquiry.cmd, inquiry.size,
+  set_inquiry_return_size(inquiry.cmd, size)
+  do_scsi_cmd(s.sfd, inquiry.cmd, inquiry.size,
                s.buffer, size)
   return size
 }
 
 static Int
-coolscan_read_var_data_block (Coolscan_t * s,Int datatype)
+coolscan_read_var_data_block(Coolscan_t * s,Int datatype)
 {
   Int r
   Int size
 
-  DBG (10, "read_data_block (type= %x)\n",datatype)
+  DBG(10, "read_data_block(type= %x)\n",datatype)
   /*wait_scanner(s); */
 
   sread.cmd[2]=datatype
   sread.cmd[4]=00
   sread.cmd[5]=03
   size=6
-  set_R_xfer_length (sread.cmd, size)
-  r = do_scsi_cmd (s.sfd, sread.cmd, sread.size,
+  set_R_xfer_length(sread.cmd, size)
+  r = do_scsi_cmd(s.sfd, sread.cmd, sread.size,
 		     s.buffer, size)
   size=s.buffer[5]
-  set_R_xfer_length (sread.cmd, size)
-  r = do_scsi_cmd (s.sfd, sread.cmd, sread.size,
+  set_R_xfer_length(sread.cmd, size)
+  r = do_scsi_cmd(s.sfd, sread.cmd, sread.size,
 		     s.buffer, size)
-  return ((r != 0) ? -1 : size)
+  return((r != 0) ? -1 : size)
 }
 
 static Int
@@ -1893,7 +1893,7 @@ get_feeder_type_LS30 (Coolscan_t * s)
   }
   /* find out about Film-strip-feeder positions*/
   if(s.feeder==STRIP_FEEDER)
-  { size=coolscan_read_var_data_block (s,(Int)0x88)
+  { size=coolscan_read_var_data_block(s,(Int)0x88)
     if(size>=4)
     { s.numima=s.buffer[3]
       if(s.numima>6) s.numima=6; /* limit to 6 images for now */
@@ -1918,29 +1918,29 @@ get_internal_info_LS20 (Coolscan_t * s)
 {
   Int ret
 
-  DBG (10, "get_internal_info\n")
-  wait_scanner (s)
-  memset (s.buffer, '\0', DI_length);	/* clear buffer */
+  DBG(10, "get_internal_info\n")
+  wait_scanner(s)
+  memset(s.buffer, '\0', DI_length);	/* clear buffer */
 
-  set_R_datatype_code (sread.cmd, R_device_internal_info)
-  set_R_datatype_qual_upper (sread.cmd, R_DQ_none)
-  set_R_xfer_length (sread.cmd, DI_length)
+  set_R_datatype_code(sread.cmd, R_device_internal_info)
+  set_R_datatype_qual_upper(sread.cmd, R_DQ_none)
+  set_R_xfer_length(sread.cmd, DI_length)
   /* then get inquiry with actual size */
-  ret = do_scsi_cmd (s.sfd, sread.cmd, sread.size,
+  ret = do_scsi_cmd(s.sfd, sread.cmd, sread.size,
 		     s.buffer, DI_length)
 
-  s.adbits = get_DI_ADbits (s.buffer)
-  s.outputbits = get_DI_Outputbits (s.buffer)
-  s.maxres = get_DI_MaxResolution (s.buffer)
-  s.xmax = get_DI_Xmax (s.buffer)
-  s.ymax = get_DI_Ymax (s.buffer)
-  s.xmaxpix = get_DI_Xmaxpixel (s.buffer)
-  s.ymaxpix = get_DI_Ymaxpixel (s.buffer)
-  s.ycurrent = get_DI_currentY (s.buffer)
-  s.currentfocus = get_DI_currentFocus (s.buffer)
-  s.currentscanpitch = get_DI_currentscanpitch (s.buffer)
-  s.autofeeder = get_DI_autofeeder (s.buffer)
-  s.analoggamma = get_DI_analoggamma (s.buffer)
+  s.adbits = get_DI_ADbits(s.buffer)
+  s.outputbits = get_DI_Outputbits(s.buffer)
+  s.maxres = get_DI_MaxResolution(s.buffer)
+  s.xmax = get_DI_Xmax(s.buffer)
+  s.ymax = get_DI_Ymax(s.buffer)
+  s.xmaxpix = get_DI_Xmaxpixel(s.buffer)
+  s.ymaxpix = get_DI_Ymaxpixel(s.buffer)
+  s.ycurrent = get_DI_currentY(s.buffer)
+  s.currentfocus = get_DI_currentFocus(s.buffer)
+  s.currentscanpitch = get_DI_currentscanpitch(s.buffer)
+  s.autofeeder = get_DI_autofeeder(s.buffer)
+  s.analoggamma = get_DI_analoggamma(s.buffer)
   s.derr[0] = get_DI_deviceerror0 (s.buffer)
   s.derr[1] = get_DI_deviceerror1 (s.buffer)
   s.derr[2] = get_DI_deviceerror2 (s.buffer)
@@ -1949,25 +1949,25 @@ get_internal_info_LS20 (Coolscan_t * s)
   s.derr[5] = get_DI_deviceerror5 (s.buffer)
   s.derr[6] = get_DI_deviceerror6 (s.buffer)
   s.derr[7] = get_DI_deviceerror7 (s.buffer)
-  s.wbetr_r = get_DI_WBETR_R (s.buffer)
-  s.webtr_g = get_DI_WBETR_G (s.buffer)
-  s.webtr_b = get_DI_WBETR_B (s.buffer)
-  s.pretv_r = get_DI_PRETV_R (s.buffer)
-  s.pretv_g = get_DI_PRETV_G (s.buffer)
-  s.pretv_r = get_DI_PRETV_R (s.buffer)
-  s.cetv_r = get_DI_CETV_R (s.buffer)
-  s.cetv_g = get_DI_CETV_G (s.buffer)
-  s.cetv_b = get_DI_CETV_B (s.buffer)
-  s.ietu_r = get_DI_IETU_R (s.buffer)
-  s.ietu_g = get_DI_IETU_G (s.buffer)
-  s.ietu_b = get_DI_IETU_B (s.buffer)
-  s.limitcondition = get_DI_limitcondition (s.buffer)
-  s.offsetdata_r = get_DI_offsetdata_R (s.buffer)
-  s.offsetdata_g = get_DI_offsetdata_G (s.buffer)
-  s.offsetdata_b = get_DI_offsetdata_B (s.buffer)
-  get_DI_poweron_errors (s.buffer, s.power_on_errors)
+  s.wbetr_r = get_DI_WBETR_R(s.buffer)
+  s.webtr_g = get_DI_WBETR_G(s.buffer)
+  s.webtr_b = get_DI_WBETR_B(s.buffer)
+  s.pretv_r = get_DI_PRETV_R(s.buffer)
+  s.pretv_g = get_DI_PRETV_G(s.buffer)
+  s.pretv_r = get_DI_PRETV_R(s.buffer)
+  s.cetv_r = get_DI_CETV_R(s.buffer)
+  s.cetv_g = get_DI_CETV_G(s.buffer)
+  s.cetv_b = get_DI_CETV_B(s.buffer)
+  s.ietu_r = get_DI_IETU_R(s.buffer)
+  s.ietu_g = get_DI_IETU_G(s.buffer)
+  s.ietu_b = get_DI_IETU_B(s.buffer)
+  s.limitcondition = get_DI_limitcondition(s.buffer)
+  s.offsetdata_r = get_DI_offsetdata_R(s.buffer)
+  s.offsetdata_g = get_DI_offsetdata_G(s.buffer)
+  s.offsetdata_b = get_DI_offsetdata_B(s.buffer)
+  get_DI_poweron_errors(s.buffer, s.power_on_errors)
 
-  DBG (10,
+  DBG(10,
        "\tadbits=%d\toutputbits=%d\tmaxres=%d\txmax=%d\tymax=%d\n"
        "\txmaxpix=%d\tymaxpix=%d\tycurrent=%d\tcurrentfocus=%d\n"
        "\tautofeeder=%s\tanaloggamma=%s\tcurrentscanpitch=%d\n",
@@ -1975,15 +1975,15 @@ get_internal_info_LS20 (Coolscan_t * s)
        s.xmaxpix, s.ymaxpix, s.ycurrent, s.currentfocus,
        s.autofeeder ? "Yes" : "No", s.analoggamma ? "Yes" : "No",
        s.currentscanpitch)
-  DBG (10,
-       "\tWhite balance exposure time var [RGB]=\t%d %d %d\n"
-       "\tPrescan result exposure time var [RGB]=\t%d %d %d\n"
+  DBG(10,
+       "\tWhite balance exposure time var[RGB]=\t%d %d %d\n"
+       "\tPrescan result exposure time var[RGB]=\t%d %d %d\n"
        "\tCurrent exposure time var.[RGB]=\t%d %d %d\n"
        "\tInternal exposure time unit[RGB]=\t%d %d %d\n",
        s.wbetr_r, s.webtr_g, s.webtr_b, s.pretv_r, s.pretv_g,
        s.pretv_r, s.cetv_r, s.cetv_g, s.cetv_b, s.ietu_r,
        s.ietu_g, s.ietu_b)
-  DBG (10,
+  DBG(10,
        "\toffsetdata_[rgb]=\t0x%x 0x%x 0x%x\n"
        "\tlimitcondition=0x%x\n"
        "\tdevice error code = 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x\n"
@@ -2001,11 +2001,11 @@ get_internal_info_LS20 (Coolscan_t * s)
 }
 
 static Int
-get_internal_info (Coolscan_t * s)
+get_internal_info(Coolscan_t * s)
 {
   Int ret
 
-  DBG (10, "get_internal_info\n")
+  DBG(10, "get_internal_info\n")
 
   if(s.LS<2)                   /* distinguish between old and new scanners */
   { ret=get_internal_info_LS20 (s)
@@ -2017,46 +2017,46 @@ get_internal_info (Coolscan_t * s)
 }
 
 static void
-coolscan_get_inquiry_values (Coolscan_t * s)
+coolscan_get_inquiry_values(Coolscan_t * s)
 {
   unsigned char *inquiry_block
 
-  DBG (10, "get_inquiry_values\n")
+  DBG(10, "get_inquiry_values\n")
 
   inquiry_block = (unsigned char *) s.buffer
   s.inquiry_len = 36
 
-  get_inquiry_vendor ((char *)inquiry_block, (char *)s.vendor)
+  get_inquiry_vendor((char *)inquiry_block, (char *)s.vendor)
   s.vendor[8] = '\0'
-  get_inquiry_product ((char *)inquiry_block, (char *)s.product)
+  get_inquiry_product((char *)inquiry_block, (char *)s.product)
   s.product[16] = '\0'
-  get_inquiry_version ((char *)inquiry_block, (char *)s.version)
+  get_inquiry_version((char *)inquiry_block, (char *)s.version)
   s.version[4] = '\0'
 
-  if (s.inquiry_len < 36)
+  if(s.inquiry_len < 36)
     {
-      DBG (1, "WARNING: inquiry return block is unexpected short (%d instead of 36).\n", s.inquiry_len)
+      DBG(1, "WARNING: inquiry return block is unexpected short(%d instead of 36).\n", s.inquiry_len)
     }
   s.inquiry_wdb_len = 117
   return
 }
 
 static void
-coolscan_initialize_values (Coolscan_t * s)
+coolscan_initialize_values(Coolscan_t * s)
 {
   var i: Int
-  DBG (10, "initialize_values\n")
+  DBG(10, "initialize_values\n")
   /* Initialize us structure */
   if(s.LS<2)                   /* LS-20 or LS-10000 */
-  {  select_MUD (s);		/* must be before mode_sense - not for LS-30*/
-     coolscan_mode_sense (s);	/* Obtain MUD (Measurement Unit Divisor) */
-     get_internal_info (s);	/* MUST be called first. */
+  {  select_MUD(s);		/* must be before mode_sense - not for LS-30*/
+     coolscan_mode_sense(s);	/* Obtain MUD(Measurement Unit Divisor) */
+     get_internal_info(s);	/* MUST be called first. */
      s.wdb_len = 117
   }
   if(s.LS>=2)                  /* LS-30 */
   {
     get_inquiery_LS30(s);	/* Info about scanner*/
-    select_MUD (s);		/* must be before mode_sense */
+    select_MUD(s);		/* must be before mode_sense */
     get_feeder_type_LS30(s)
     s.wdb_len = 117
   }
@@ -2123,7 +2123,7 @@ coolscan_initialize_values (Coolscan_t * s)
             s.max_lut_val=4096
             break
   }
-  for (i = 0; i < s.lutlength; i++)
+  for(i = 0; i < s.lutlength; i++)
   {
      s.gamma[i] =((short)((((double)i)/s.lutlength)*s.max_lut_val))
      s.gamma_r[i] = s.gamma[i]
@@ -2131,7 +2131,7 @@ coolscan_initialize_values (Coolscan_t * s)
      s.gamma_b[i] = s.gamma[i]
   }
 
-  if (coolscan_test_little_endian() == Sane.TRUE)
+  if(coolscan_test_little_endian() == Sane.TRUE)
   {
     s.low_byte_first = 1;					        /* in 2 byte mode send lowbyte first */
     DBG(10,"backend runs on little endian machine\n")
@@ -2144,42 +2144,42 @@ coolscan_initialize_values (Coolscan_t * s)
 }
 
 static void
-hexdump (Int level, char *comment, unsigned char *p, Int l)
+hexdump(Int level, char *comment, unsigned char *p, Int l)
 {
   var i: Int
   char line[128]
   char *ptr
 
-  DBG (level, "%s\n", comment)
+  DBG(level, "%s\n", comment)
   ptr = line
-  for (i = 0; i < l; i++, p++)
+  for(i = 0; i < l; i++, p++)
     {
-      if ((i % 16) == 0)
+      if((i % 16) == 0)
 	{
-	  if (ptr != line)
+	  if(ptr != line)
 	    {
 	      *ptr = '\0'
-	      DBG (level, "%s\n", line)
+	      DBG(level, "%s\n", line)
 	      ptr = line
 	    }
-	  sprintf (ptr, "%3.3d:", i)
+	  sprintf(ptr, "%3.3d:", i)
 	  ptr += 4
 	}
-      sprintf (ptr, " %2.2x", *p)
+      sprintf(ptr, " %2.2x", *p)
       ptr += 3
     }
   *ptr = '\0'
-  DBG (level, "%s\n", line)
+  DBG(level, "%s\n", line)
 }
 
 
 static Sane.Status
-sense_handler (Int scsi_fd, unsigned char * result, void *arg)
+sense_handler(Int scsi_fd, unsigned char * result, void *arg)
 {
   scsi_fd = scsi_fd
   arg = arg
 
-  if (result[0] != 0x70)
+  if(result[0] != 0x70)
     {
       return Sane.STATUS_IO_ERROR;	/* we only know about this one  */
     }
@@ -2312,60 +2312,60 @@ static Coolscan_t *first_dev
 
 
 static size_t
-max_string_size (const Sane.String_Const strings[])
+max_string_size(const Sane.String_Const strings[])
 {
   size_t size, max_size = 0
   var i: Int
 
-  for (i = 0; strings[i]; ++i)
+  for(i = 0; strings[i]; ++i)
     {
-      size = strlen (strings[i]) + 1
-      if (size > max_size)
+      size = strlen(strings[i]) + 1
+      if(size > max_size)
 	max_size = size
     }
   return max_size
 }
 
 static Sane.Status
-do_eof (Coolscan_t * scanner)
+do_eof(Coolscan_t * scanner)
 {
-  DBG (10, "do_eof\n")
+  DBG(10, "do_eof\n")
 
-  if (scanner.pipe >= 0)
+  if(scanner.pipe >= 0)
     {
-      close (scanner.pipe)
+      close(scanner.pipe)
       scanner.pipe = -1
     }
   return Sane.STATUS_EOF
 }
 
 static Sane.Status
-do_cancel (Coolscan_t * scanner)
+do_cancel(Coolscan_t * scanner)
 {
-  DBG (10, "do_cancel\n")
-  swap_res (scanner)
+  DBG(10, "do_cancel\n")
+  swap_res(scanner)
   scanner.scanning = Sane.FALSE
 
-  do_eof (scanner);		/* close pipe and reposition scanner */
+  do_eof(scanner);		/* close pipe and reposition scanner */
 
-  if (sanei_thread_is_valid (scanner.reader_pid))
+  if(sanei_thread_is_valid(scanner.reader_pid))
     {
       Int exit_status
 
-      DBG (10, "do_cancel: kill reader_process\n")
+      DBG(10, "do_cancel: kill reader_process\n")
 
       /* ensure child knows it's time to stop: */
-      sanei_thread_kill (scanner.reader_pid)
-      while (sanei_thread_waitpid(scanner.reader_pid, &exit_status) !=
+      sanei_thread_kill(scanner.reader_pid)
+      while(sanei_thread_waitpid(scanner.reader_pid, &exit_status) !=
                                                         scanner.reader_pid )
-      sanei_thread_invalidate (scanner.reader_pid)
+      sanei_thread_invalidate(scanner.reader_pid)
     }
 
-  if (scanner.sfd >= 0)
+  if(scanner.sfd >= 0)
     {
-      coolscan_give_scanner (scanner)
-      DBG (10, "do_cancel: close filedescriptor\n")
-      sanei_scsi_close (scanner.sfd)
+      coolscan_give_scanner(scanner)
+      DBG(10, "do_cancel: close filedescriptor\n")
+      sanei_scsi_close(scanner.sfd)
       scanner.sfd = -1
     }
 
@@ -2373,66 +2373,66 @@ do_cancel (Coolscan_t * scanner)
 }
 
 static Sane.Status
-attach_scanner (const char *devicename, Coolscan_t ** devp)
+attach_scanner(const char *devicename, Coolscan_t ** devp)
 {
   Coolscan_t *dev
   Int sfd
 
-  DBG (10, "attach_scanner: %s\n", devicename)
+  DBG(10, "attach_scanner: %s\n", devicename)
 
-  for (dev = first_dev; dev; dev = dev.next)
+  for(dev = first_dev; dev; dev = dev.next)
     {
-      if (strcmp (dev.sane.name, devicename) == 0)
+      if(strcmp(dev.sane.name, devicename) == 0)
 	{
-	  if (devp)
+	  if(devp)
 	    {
 	      *devp = dev
 	    }
-	  DBG (5, "attach_scanner: scanner already attached (is ok)!\n")
+	  DBG(5, "attach_scanner: scanner already attached(is ok)!\n")
 	  return Sane.STATUS_GOOD
 	}
     }
 
-  DBG (10, "attach_scanner: opening %s\n", devicename)
-  if (sanei_scsi_open (devicename, &sfd, sense_handler, 0) != 0)
+  DBG(10, "attach_scanner: opening %s\n", devicename)
+  if(sanei_scsi_open(devicename, &sfd, sense_handler, 0) != 0)
     {
-      DBG (1, "attach_scanner: open failed\n")
+      DBG(1, "attach_scanner: open failed\n")
       return Sane.STATUS_INVAL
     }
 
-  if (NULL == (dev = malloc (sizeof (*dev))))
+  if(NULL == (dev = malloc(sizeof(*dev))))
     return Sane.STATUS_NO_MEM
 
 
   dev.row_bufsize = (sanei_scsi_max_request_size < (64 * 1024)) ?
   	sanei_scsi_max_request_size : 64 * 1024
 
-  if ((dev.buffer = malloc (dev.row_bufsize)) == NULL)
-/*  if ((dev.buffer = malloc (sanei_scsi_max_request_size)) == NULL)*/
+  if((dev.buffer = malloc(dev.row_bufsize)) == NULL)
+/*  if((dev.buffer = malloc(sanei_scsi_max_request_size)) == NULL)*/
     return Sane.STATUS_NO_MEM
 
-  if ((dev.obuffer = malloc (dev.row_bufsize)) == NULL)
+  if((dev.obuffer = malloc(dev.row_bufsize)) == NULL)
     return Sane.STATUS_NO_MEM
 
-  dev.devicename = strdup (devicename)
+  dev.devicename = strdup(devicename)
   dev.sfd = sfd
 
   /* Nikon manual: Step 1 */
-  if (coolscan_identify_scanner (dev) != 0)
+  if(coolscan_identify_scanner(dev) != 0)
     {
-      DBG (1, "attach_scanner: scanner-identification failed\n")
-      sanei_scsi_close (dev.sfd)
-      free (dev.buffer)
-      free (dev)
+      DBG(1, "attach_scanner: scanner-identification failed\n")
+      sanei_scsi_close(dev.sfd)
+      free(dev.buffer)
+      free(dev)
       return Sane.STATUS_INVAL
     }
 
-  /* Get MUD (via mode_sense), internal info (via get_internal_info), and
+  /* Get MUD(via mode_sense), internal info(via get_internal_info), and
    * initialize values */
-  coolscan_initialize_values (dev)
+  coolscan_initialize_values(dev)
 
   /* Why? */
-  sanei_scsi_close (dev.sfd)
+  sanei_scsi_close(dev.sfd)
   dev.sfd = -1
 
   dev.sane.name = dev.devicename
@@ -2440,47 +2440,47 @@ attach_scanner (const char *devicename, Coolscan_t ** devp)
   dev.sane.model = dev.product
   dev.sane.type = "slide scanner"
 
-  dev.x_range.min = Sane.FIX (0)
-  dev.x_range.quant = Sane.FIX (length_quant)
-  dev.x_range.max = Sane.FIX ((double) ((dev.xmaxpix) * length_quant))
+  dev.x_range.min = Sane.FIX(0)
+  dev.x_range.quant = Sane.FIX(length_quant)
+  dev.x_range.max = Sane.FIX((double) ((dev.xmaxpix) * length_quant))
 
-  dev.y_range.min = Sane.FIX (0.0)
-  dev.y_range.quant = Sane.FIX (length_quant)
-  dev.y_range.max = Sane.FIX ((double) ((dev.ymaxpix) * length_quant))
+  dev.y_range.min = Sane.FIX(0.0)
+  dev.y_range.quant = Sane.FIX(length_quant)
+  dev.y_range.max = Sane.FIX((double) ((dev.ymaxpix) * length_quant))
 
   /* ...and this?? */
-  dev.dpi_range.min = Sane.FIX (108)
-  dev.dpi_range.quant = Sane.FIX (0)
-  dev.dpi_range.max = Sane.FIX (dev.maxres)
-  DBG (10, "attach: dev.dpi_range.max = %f\n",
-       Sane.UNFIX (dev.dpi_range.max))
+  dev.dpi_range.min = Sane.FIX(108)
+  dev.dpi_range.quant = Sane.FIX(0)
+  dev.dpi_range.max = Sane.FIX(dev.maxres)
+  DBG(10, "attach: dev.dpi_range.max = %f\n",
+       Sane.UNFIX(dev.dpi_range.max))
 
   ++num_devices
   dev.next = first_dev
   first_dev = dev
 
-  if (devp)
+  if(devp)
     {
       *devp = dev
     }
 
-  DBG (10, "attach_scanner done\n")
+  DBG(10, "attach_scanner done\n")
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-attach_one (const char *devName)
+attach_one(const char *devName)
 {
   return attach_scanner(devName, 0)
 }
 
 static void
-sigterm_handler (Int signal)
+sigterm_handler(Int signal)
 {
   signal = signal
-  sanei_scsi_req_flush_all ();	/* flush SCSI queue */
-  _exit (Sane.STATUS_GOOD)
+  sanei_scsi_req_flush_all();	/* flush SCSI queue */
+  _exit(Sane.STATUS_GOOD)
 }
 
 
@@ -2491,7 +2491,7 @@ typedef struct Color_correct_s
   double sumri;         /* sum of red*ired pixel values*/
   double sumii;         /* sum of ired*ired pixel values*/
   double sumrr;         /* sum of ired*ired pixel values*/
-  Int  mr;         /* factor between red and ired values (*256) */
+  Int  mr;         /* factor between red and ired values(*256) */
   Int  br;         /* offset of ired values */
 } ColorCorrect
 
@@ -2711,16 +2711,16 @@ static Int RGBIfix16(Coolscan_t * scanner,
   task:       Convert RGB data to grey
 
   import:     unsigned char * rgbimat - RGB - matrix from scanner
-              Int size - size of input data (num pixel)
+              Int size - size of input data(num pixel)
 
   export:     unsigned char * gomat - Grey matrix
 
   written by: Andreas RICK   13.7.1999
 
   ----------------------------------------------------------------*/
-#define RtoG ((Int)(0.27*256))
-#define GtoG ((Int)(0.54*256))
-#define BtoG ((Int)(0.19*256))
+#define RtoG((Int)(0.27*256))
+#define GtoG((Int)(0.54*256))
+#define BtoG((Int)(0.19*256))
 
 static Int rgb2g(unsigned char* rgbimat,unsigned char* gomat,
 	  Int size)
@@ -2807,7 +2807,7 @@ static Int RGBIfix1(unsigned char* rgbimat,unsigned char* orgbimat,
    { double dn,dz,dm
      dz=(cc.sumri-cc.sumr*cc.sumi/cc.sum)
      dn=(cc.sumrr-cc.sumr*cc.sumr/cc.sum)
-     DBG (2, "Reg:dz:%e dn:%e\n",dz,dn)
+     DBG(2, "Reg:dz:%e dn:%e\n",dz,dn)
      if(dn!=0)
      {  dm=(dz/dn)
         cc.mr=(Int)(dm*1024)
@@ -2821,7 +2821,7 @@ static Int RGBIfix1(unsigned char* rgbimat,unsigned char* orgbimat,
    else
    { cc.mr=0
    }
-   DBG (2, "Regression: size:%d I=%d/1024*R b:%d s:%d sr:%e si:%e sii:%e sri:%e  srr:%e\n",
+   DBG(2, "Regression: size:%d I=%d/1024*R b:%d s:%d sr:%e si:%e sii:%e sri:%e  srr:%e\n",
 	size,cc.mr,cc.br,cc.sum,cc.sumr,cc.sumi,cc.sumii,cc.sumri,cc.sumrr)
    for(x=0;x<size;x++)
    {
@@ -2852,7 +2852,7 @@ static Int RGBIfix1(unsigned char* rgbimat,unsigned char* orgbimat,
 #endif
 /* This function is executed as a child process. */
 static Int
-reader_process (void *data )
+reader_process(void *data )
 {
   Int status
   unsigned var i: Int
@@ -2868,51 +2868,51 @@ reader_process (void *data )
   unsigned Int j, line
   Coolscan_t * scanner = (Coolscan_t*)data
 
-  if (sanei_thread_is_forked ())
+  if(sanei_thread_is_forked())
     {
-      DBG (10, "reader_process started (forked)\n")
-      close (scanner.pipe)
+      DBG(10, "reader_process started(forked)\n")
+      close(scanner.pipe)
       scanner.pipe = -1
 
-      sigfillset ( &ignore_set )
+      sigfillset( &ignore_set )
       sigdelset  ( &ignore_set, SIGTERM )
-#if defined (__APPLE__) && defined (__MACH__)
+#if defined(__APPLE__) && defined(__MACH__)
       sigdelset  ( &ignore_set, SIGUSR2 )
 #endif
       sigprocmask( SIG_SETMASK, &ignore_set, 0 )
 
-      memset (&act, 0, sizeof (act))
-      sigaction (SIGTERM, &act, 0)
+      memset(&act, 0, sizeof(act))
+      sigaction(SIGTERM, &act, 0)
     }
   else
     {
-      DBG (10, "reader_process started (as thread)\n")
+      DBG(10, "reader_process started(as thread)\n")
     }
 
-  sigemptyset (&sigterm_set)
-  sigaddset (&sigterm_set, SIGTERM)
+  sigemptyset(&sigterm_set)
+  sigaddset(&sigterm_set, SIGTERM)
 
-  fp = fdopen ( scanner.reader_fds, "w")
-  if (!fp)
+  fp = fdopen( scanner.reader_fds, "w")
+  if(!fp)
     {
-      DBG (1, "reader_process: couldn't open pipe!\n")
+      DBG(1, "reader_process: couldn't open pipe!\n")
       return 1
     }
 
-  DBG (10, "reader_process: starting to READ data\n")
+  DBG(10, "reader_process: starting to READ data\n")
 
-  data_left = scan_bytes_per_line (scanner) *
-    lines_per_scan (scanner)
+  data_left = scan_bytes_per_line(scanner) *
+    lines_per_scan(scanner)
 
   /*scanner.row_bufsize = sanei_scsi_max_request_size;*/
-  coolscan_trim_rowbufsize (scanner);	/* trim bufsize */
+  coolscan_trim_rowbufsize(scanner);	/* trim bufsize */
 
-  DBG (10, "reader_process: reading %u bytes in blocks of %u bytes\n",
+  DBG(10, "reader_process: reading %u bytes in blocks of %u bytes\n",
        data_left, scanner.row_bufsize)
 
-  memset (&act, 0, sizeof (act))
+  memset(&act, 0, sizeof(act))
   act.sa_handler = sigterm_handler
-  sigaction (SIGTERM, &act, 0)
+  sigaction(SIGTERM, &act, 0)
   /* wait_scanner(scanner); */
   do
     {
@@ -2921,28 +2921,28 @@ reader_process (void *data )
 
       data_to_write=data_to_read
 
-      status = coolscan_read_data_block (scanner
+      status = coolscan_read_data_block(scanner
 					 ,R_datatype_imagedata,data_to_read)
-      if (status == 0)
+      if(status == 0)
 	{
 	  continue
 	}
-      if (status == -1)
+      if(status == -1)
 	{
-	  DBG (1, "reader_process: unable to get image data from scanner!\n")
-	  fclose (fp)
-	  return (-1)
+	  DBG(1, "reader_process: unable to get image data from scanner!\n")
+	  fclose(fp)
+	  return(-1)
 	}
 
-      if (scanner.LS == 1) {	/* mirror image for LS-1000 */
+      if(scanner.LS == 1) {	/* mirror image for LS-1000 */
 	  bpl = scan_bytes_per_line(scanner)
 	  linesPerBuf = data_to_read / bpl
 
-	  for (line = 0, lineOffset = 0; line < linesPerBuf
+	  for(line = 0, lineOffset = 0; line < linesPerBuf
 	       line++, lineOffset += bpl ) {
 
-	      if (scanner.colormode == RGB) {
-		  for (j = 0; j < bpl/2 ; j += 3) {
+	      if(scanner.colormode == RGB) {
+		  for(j = 0; j < bpl/2 ; j += 3) {
 		      r_data=scanner.buffer[lineOffset + j]
 		      g_data=scanner.buffer[lineOffset + j + 1]
 		      b_data=scanner.buffer[lineOffset + j + 2]
@@ -2960,7 +2960,7 @@ reader_process (void *data )
 		  }
 	      }
 	      else {
-		  for (j = 0; j < bpl/2; j++) {
+		  for(j = 0; j < bpl/2; j++) {
 		      r_data=scanner.buffer[lineOffset + j]
 		      scanner.buffer[lineOffset + j] =
 			  scanner.buffer[lineOffset + bpl - 1 - j]
@@ -2992,7 +2992,7 @@ reader_process (void *data )
       }
       else
       { /* or just copy */
-	memcpy (scanner.obuffer, scanner.buffer,data_to_read)
+	memcpy(scanner.obuffer, scanner.buffer,data_to_read)
       }
       if((!scanner.low_byte_first)&&(scanner.bits_per_color>8))
 	{  for(i=0;i<data_to_write;i++) /* inverse byteorder */
@@ -3002,34 +3002,34 @@ reader_process (void *data )
   	     scanner.obuffer[i]=h
 	   }
 	}
-      fwrite (scanner.obuffer, 1, data_to_write, fp)
-      fflush (fp)
+      fwrite(scanner.obuffer, 1, data_to_write, fp)
+      fflush(fp)
       data_left -= data_to_read
-      DBG (10, "reader_process: buffer of %d bytes read; %d bytes to go\n",
+      DBG(10, "reader_process: buffer of %d bytes read; %d bytes to go\n",
 	   data_to_read, data_left)
     }
-  while (data_left)
+  while(data_left)
 
-  fclose (fp)
+  fclose(fp)
 
-  DBG (10, "reader_process: finished reading data\n")
+  DBG(10, "reader_process: finished reading data\n")
 
   return 0
 }
 
 static Sane.Status
-init_options (Coolscan_t * scanner)
+init_options(Coolscan_t * scanner)
 {
   var i: Int
   Int bit_depths
 
-  DBG (10, "init_options\n")
+  DBG(10, "init_options\n")
 
-  memset (scanner.opt, 0, sizeof (scanner.opt))
+  memset(scanner.opt, 0, sizeof(scanner.opt))
 
-  for (i = 0; i < NUM_OPTIONS; ++i)
+  for(i = 0; i < NUM_OPTIONS; ++i)
     {
-      scanner.opt[i].size = sizeof (Sane.Word)
+      scanner.opt[i].size = sizeof(Sane.Word)
       scanner.opt[i].cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
     }
 
@@ -3051,12 +3051,12 @@ init_options (Coolscan_t * scanner)
   scanner.opt[OPT_MODE].desc = Sane.DESC_SCAN_MODE
   scanner.opt[OPT_MODE].type = Sane.TYPE_STRING
   if(scanner.LS<2)
-  { scanner.opt[OPT_MODE].size = max_string_size (scan_mode_list_LS20)
+  { scanner.opt[OPT_MODE].size = max_string_size(scan_mode_list_LS20)
     scanner.opt[OPT_MODE].constraint_type = Sane.CONSTRAINT_STRING_LIST
     scanner.opt[OPT_MODE].constraint.string_list = scan_mode_list_LS20
   }
   else
-  { scanner.opt[OPT_MODE].size = max_string_size (scan_mode_list_LS30)
+  { scanner.opt[OPT_MODE].size = max_string_size(scan_mode_list_LS30)
     scanner.opt[OPT_MODE].constraint_type = Sane.CONSTRAINT_STRING_LIST
     scanner.opt[OPT_MODE].constraint.string_list = scan_mode_list_LS30
   }
@@ -3065,7 +3065,7 @@ init_options (Coolscan_t * scanner)
   source_list[0] = "Slide"
   source_list[1] = "Automatic Slide Feeder"
   source_list[2] = NULL
-  if (!scanner.autofeeder)
+  if(!scanner.autofeeder)
     {
       scanner.opt[OPT_SOURCE].cap = Sane.CAP_INACTIVE
     }
@@ -3074,7 +3074,7 @@ init_options (Coolscan_t * scanner)
   scanner.opt[OPT_SOURCE].title = Sane.TITLE_SCAN_SOURCE
   scanner.opt[OPT_SOURCE].desc = Sane.DESC_SCAN_SOURCE
   scanner.opt[OPT_SOURCE].type = Sane.TYPE_STRING
-  scanner.opt[OPT_SOURCE].size = max_string_size (source_list)
+  scanner.opt[OPT_SOURCE].size = max_string_size(source_list)
   scanner.opt[OPT_SOURCE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   scanner.opt[OPT_SOURCE].constraint.string_list = source_list
 
@@ -3082,9 +3082,9 @@ init_options (Coolscan_t * scanner)
   scanner.opt[OPT_TYPE].name = "type"
   scanner.opt[OPT_TYPE].title = "Film type"
   scanner.opt[OPT_TYPE].desc =
-    "Select the film type (positive (slide) or negative)"
+    "Select the film type(positive(slide) or negative)"
   scanner.opt[OPT_TYPE].type = Sane.TYPE_STRING
-  scanner.opt[OPT_TYPE].size = max_string_size (type_list)
+  scanner.opt[OPT_TYPE].size = max_string_size(type_list)
   scanner.opt[OPT_TYPE].constraint_type = Sane.CONSTRAINT_STRING_LIST
   scanner.opt[OPT_TYPE].constraint.string_list = type_list
 
@@ -3110,11 +3110,11 @@ init_options (Coolscan_t * scanner)
 
   bit_depths=0
   bit_depth_list[++bit_depths] = 8
-  if (scanner.LS==2)
+  if(scanner.LS==2)
   {
     bit_depth_list[++bit_depths] = 10
   }
-  if (scanner.LS==3)
+  if(scanner.LS==3)
   {
     bit_depth_list[++bit_depths] = 12
   }
@@ -3213,7 +3213,7 @@ init_options (Coolscan_t * scanner)
   scanner.opt[OPT_ANALOG_GAMMA].desc = "Analog Gamma"
   scanner.opt[OPT_ANALOG_GAMMA].type = Sane.TYPE_BOOL
   scanner.opt[OPT_ANALOG_GAMMA].unit = Sane.UNIT_NONE
-  if (!scanner.analoggamma)
+  if(!scanner.analoggamma)
     {
       scanner.opt[OPT_ANALOG_GAMMA].cap = Sane.CAP_INACTIVE
     }
@@ -3399,7 +3399,7 @@ init_options (Coolscan_t * scanner)
   scanner.opt[OPT_GAMMA_VECTOR].title = Sane.TITLE_GAMMA_VECTOR
   scanner.opt[OPT_GAMMA_VECTOR].desc = Sane.DESC_GAMMA_VECTOR
   scanner.opt[OPT_GAMMA_VECTOR].type = Sane.TYPE_INT
-  if (scanner.LS == 1)
+  if(scanner.LS == 1)
     {
       scanner.opt[OPT_GAMMA_VECTOR].cap = Sane.CAP_INACTIVE
     }
@@ -3422,7 +3422,7 @@ init_options (Coolscan_t * scanner)
            scanner.lutlength=4096
            break
   }
-  scanner.opt[OPT_GAMMA_VECTOR].size = scanner.lutlength * sizeof (Sane.Word)
+  scanner.opt[OPT_GAMMA_VECTOR].size = scanner.lutlength * sizeof(Sane.Word)
   scanner.opt[OPT_GAMMA_VECTOR].constraint_type = Sane.CONSTRAINT_RANGE
 
   /* red gamma vector */
@@ -3450,7 +3450,7 @@ init_options (Coolscan_t * scanner)
            scanner.lutlength=4096
            break
   }
-  scanner.opt[OPT_GAMMA_VECTOR_R].size = scanner.lutlength * sizeof (Sane.Word)
+  scanner.opt[OPT_GAMMA_VECTOR_R].size = scanner.lutlength * sizeof(Sane.Word)
   scanner.opt[OPT_GAMMA_VECTOR_R].constraint_type = Sane.CONSTRAINT_RANGE
 
   /* green gamma vector */
@@ -3478,7 +3478,7 @@ init_options (Coolscan_t * scanner)
            scanner.lutlength=4096
            break
   }
-  scanner.opt[OPT_GAMMA_VECTOR_G].size = scanner.lutlength * sizeof (Sane.Word)
+  scanner.opt[OPT_GAMMA_VECTOR_G].size = scanner.lutlength * sizeof(Sane.Word)
   scanner.opt[OPT_GAMMA_VECTOR_G].constraint_type = Sane.CONSTRAINT_RANGE
 
   /* blue gamma vector */
@@ -3506,7 +3506,7 @@ init_options (Coolscan_t * scanner)
            scanner.lutlength=4096
            break
   }
-  scanner.opt[OPT_GAMMA_VECTOR_B].size = scanner.lutlength * sizeof (Sane.Word)
+  scanner.opt[OPT_GAMMA_VECTOR_B].size = scanner.lutlength * sizeof(Sane.Word)
   scanner.opt[OPT_GAMMA_VECTOR_B].constraint_type = Sane.CONSTRAINT_RANGE
 
 
@@ -3530,7 +3530,7 @@ init_options (Coolscan_t * scanner)
   scanner.opt[OPT_AUTOFOCUS].title ="Autofocus"
   scanner.opt[OPT_AUTOFOCUS].desc = "When to do autofocussing"
   scanner.opt[OPT_AUTOFOCUS].type = Sane.TYPE_STRING
-  scanner.opt[OPT_AUTOFOCUS].size = max_string_size (autofocus_mode_list)
+  scanner.opt[OPT_AUTOFOCUS].size = max_string_size(autofocus_mode_list)
   scanner.opt[OPT_AUTOFOCUS].constraint_type = Sane.CONSTRAINT_STRING_LIST
   scanner.opt[OPT_AUTOFOCUS].constraint.string_list = autofocus_mode_list
 
@@ -3554,7 +3554,7 @@ init_options (Coolscan_t * scanner)
 
 
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 {
   char dev_name[PATH_MAX]
   size_t len
@@ -3562,59 +3562,59 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
 
   authorize = authorize
 
-  DBG_INIT ()
-  sanei_thread_init ()
+  DBG_INIT()
+  sanei_thread_init()
 
-  DBG (10, "Sane.init\n")
-  if (version_code)
-      *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, 0)
+  DBG(10, "Sane.init\n")
+  if(version_code)
+      *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, 0)
 
-  fp = sanei_config_open (COOLSCAN_CONFIG_FILE)
-  if (!fp)
+  fp = sanei_config_open(COOLSCAN_CONFIG_FILE)
+  if(!fp)
     {
-      attach_scanner ("/dev/scanner", 0); /* no config-file: /dev/scanner */
+      attach_scanner("/dev/scanner", 0); /* no config-file: /dev/scanner */
       return Sane.STATUS_GOOD
     }
 
-  while (sanei_config_read (dev_name, sizeof (dev_name), fp))
+  while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if (dev_name[0] == '#')
+      if(dev_name[0] == '#')
 	continue;		/* ignore line comments */
-      len = strlen (dev_name)
+      len = strlen(dev_name)
 
-      if (!len)
+      if(!len)
 	continue;		/* ignore empty lines */
 
-      sanei_config_attach_matching_devices (dev_name, attach_one)
-      /*attach_scanner (dev_name, 0);*/
+      sanei_config_attach_matching_devices(dev_name, attach_one)
+      /*attach_scanner(dev_name, 0);*/
     }
-  fclose (fp)
+  fclose(fp)
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   Coolscan_t *dev, *next
 
-  DBG (10, "Sane.exit\n")
+  DBG(10, "Sane.exit\n")
 
-  for (dev = first_dev; dev; dev = next)
+  for(dev = first_dev; dev; dev = next)
     {
       next = dev.next
-      free (dev.devicename)
-      free (dev.buffer)
-      free (dev.obuffer)
-      free (dev)
+      free(dev.devicename)
+      free(dev.buffer)
+      free(dev.obuffer)
+      free(dev)
     }
 
-  if (devlist)
-    free (devlist)
+  if(devlist)
+    free(devlist)
 }
 
 /* ----------------------------- SANE GET DEVICES -------------------------- */
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list,
+Sane.get_devices(const Sane.Device *** device_list,
 		  Bool local_only)
 {
   Coolscan_t *dev
@@ -3622,18 +3622,18 @@ Sane.get_devices (const Sane.Device *** device_list,
 
   local_only = local_only
 
-  DBG (10, "Sane.get_devices\n")
+  DBG(10, "Sane.get_devices\n")
 
-  if (devlist)
-    free (devlist)
+  if(devlist)
+    free(devlist)
 
-  devlist = calloc (num_devices + 1, sizeof (devlist[0]))
-  if (!devlist)
+  devlist = calloc(num_devices + 1, sizeof(devlist[0]))
+  if(!devlist)
     return Sane.STATUS_NO_MEM
 
   i = 0
 
-  for (dev = first_dev; i < num_devices; dev = dev.next)
+  for(dev = first_dev; i < num_devices; dev = dev.next)
     devlist[i++] = &dev.sane
 
   devlist[i++] = 0
@@ -3644,27 +3644,27 @@ Sane.get_devices (const Sane.Device *** device_list,
 }
 
 Sane.Status
-Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
+Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 {
   Coolscan_t *dev
   Sane.Status status
 
-  DBG (10, "Sane.open\n")
+  DBG(10, "Sane.open\n")
 
-  if (devicename[0])
+  if(devicename[0])
     {				/* search for devicename */
-      for (dev = first_dev; dev; dev = dev.next)
+      for(dev = first_dev; dev; dev = dev.next)
 	{
-	  if (strcmp (dev.sane.name, devicename) == 0)
+	  if(strcmp(dev.sane.name, devicename) == 0)
 	    {
 	      break
 	    }
 	}
 
-      if (!dev)
+      if(!dev)
 	{
-	  status = attach_scanner (devicename, &dev)
-	  if (status != Sane.STATUS_GOOD)
+	  status = attach_scanner(devicename, &dev)
+	  if(status != Sane.STATUS_GOOD)
 	    {
 	      return status
 	    }
@@ -3675,34 +3675,34 @@ Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
       dev = first_dev;		/* empty devicname -> use first device */
     }
 
-  if (!dev)
+  if(!dev)
     return Sane.STATUS_INVAL
 
   dev.sfd = -1
   dev.pipe = -1
   dev.scanning = Sane.FALSE
 
-  init_options (dev)
+  init_options(dev)
   *handle = dev
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
-  DBG (10, "Sane.close\n")
-  if (((Coolscan_t *) handle)->scanning)
-    do_cancel (handle)
+  DBG(10, "Sane.close\n")
+  if(((Coolscan_t *) handle)->scanning)
+    do_cancel(handle)
 }
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
   Coolscan_t *scanner = handle
 
-  DBG (10, "Sane.get_option_descriptor %d\n", option)
+  DBG(10, "Sane.get_option_descriptor %d\n", option)
 
-  if ((unsigned) option >= NUM_OPTIONS)
+  if((unsigned) option >= NUM_OPTIONS)
     return 0
   return &scanner.opt[option]
 }
@@ -3715,30 +3715,30 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
    char line[128]
    char *ptr
 
-   DBG (5, "%s\n", comment)
+   DBG(5, "%s\n", comment)
    ptr = line
-   for (i = 0; i < l; i++, p++)
+   for(i = 0; i < l; i++, p++)
    {
-   if ((i % 8) == 0)
+   if((i % 8) == 0)
    {
-   if (ptr != line)
+   if(ptr != line)
    {
    *ptr = '\0'
-   DBG (5, "%s\n", line)
+   DBG(5, "%s\n", line)
    ptr = line
    }
-   sprintf (ptr, "%3.3d:", i)
+   sprintf(ptr, "%3.3d:", i)
    ptr += 4
    }
-   sprintf (ptr, " %4.4d", *p)
+   sprintf(ptr, " %4.4d", *p)
    ptr += 5
    }
    *ptr = '\0'
-   DBG (5, "%s\n", line)
+   DBG(5, "%s\n", line)
    }
  */
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
 		     Sane.Action action, void *val,
 		     Int * info)
 {
@@ -3746,38 +3746,38 @@ Sane.control_option (Sane.Handle handle, Int option,
   Sane.Status status
   Sane.Word cap
 
-  if (info)
+  if(info)
     *info = 0
 
-  if (scanner.scanning)
+  if(scanner.scanning)
     return Sane.STATUS_DEVICE_BUSY
 
-  if (option >= NUM_OPTIONS)
+  if(option >= NUM_OPTIONS)
     return Sane.STATUS_INVAL
 
   cap = scanner.opt[option].cap
 
 
-  if (action == Sane.ACTION_GET_VALUE)
+  if(action == Sane.ACTION_GET_VALUE)
     {
-      DBG (10, "Sane.control_option %d, get value\n", option)
-      switch (option)
+      DBG(10, "Sane.control_option %d, get value\n", option)
+      switch(option)
 	{
 	  /* word options: */
 	case OPT_TL_X:
-	  *(Sane.Word *) val = Sane.FIX (iluToMm (scanner.tlx))
+	  *(Sane.Word *) val = Sane.FIX(iluToMm(scanner.tlx))
 	  return Sane.STATUS_GOOD
 
 	case OPT_TL_Y:
-	  *(Sane.Word *) val = Sane.FIX (iluToMm (scanner.tly))
+	  *(Sane.Word *) val = Sane.FIX(iluToMm(scanner.tly))
 	  return Sane.STATUS_GOOD
 
 	case OPT_BR_X:
-	  *(Sane.Word *) val = Sane.FIX (iluToMm (scanner.brx))
+	  *(Sane.Word *) val = Sane.FIX(iluToMm(scanner.brx))
 	  return Sane.STATUS_GOOD
 
 	case OPT_BR_Y:
-	  *(Sane.Word *) val = Sane.FIX (iluToMm (scanner.bry))
+	  *(Sane.Word *) val = Sane.FIX(iluToMm(scanner.bry))
 	  return Sane.STATUS_GOOD
 
 	case OPT_PREVIEW:
@@ -3786,13 +3786,13 @@ Sane.control_option (Sane.Handle handle, Int option,
 
 	case OPT_AUTOFOCUS:
 	  switch(scanner.autofocus)
-	    {  case AF_NEVER: strcpy (val,neverStr)
+	    {  case AF_NEVER: strcpy(val,neverStr)
   	                 break
-	       case AF_PREVIEW:strcpy (val,previewStr)
+	       case AF_PREVIEW:strcpy(val,previewStr)
   	                 break
-               case AF_SCAN:if(scanner.LS>=2) strcpy (val,scanStr)
+               case AF_SCAN:if(scanner.LS>=2) strcpy(val,scanStr)
   	                 break
-	       case AF_PREANDSCAN:if(scanner.LS>=2) strcpy (val,preandscanStr)
+	       case AF_PREANDSCAN:if(scanner.LS>=2) strcpy(val,preandscanStr)
   	                 break
 	    }
 	  return Sane.STATUS_GOOD
@@ -3802,11 +3802,11 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  return Sane.STATUS_GOOD
 
 	case OPT_RESOLUTION:
-	  *(Sane.Word *) val = resDivToVal (scanner.x_nres)
+	  *(Sane.Word *) val = resDivToVal(scanner.x_nres)
 	  return Sane.STATUS_GOOD
 
 	case OPT_PREVIEW_RESOLUTION:
-	  *(Sane.Word *) val = resDivToVal (scanner.x_p_nres)
+	  *(Sane.Word *) val = resDivToVal(scanner.x_p_nres)
 	  return Sane.STATUS_GOOD
 
 	case OPT_BIT_DEPTH:
@@ -3880,23 +3880,23 @@ Sane.control_option (Sane.Handle handle, Int option,
 
 	  /* string options: */
 	case OPT_TYPE:
-	  strcpy (val, ((scanner.negative) ? negativeStr : positiveStr))
+	  strcpy(val, ((scanner.negative) ? negativeStr : positiveStr))
 	  return Sane.STATUS_GOOD
 
 	case OPT_MODE:
 	  switch(scanner.colormode)
-	    {  case RGB: strcpy (val,colorStr)
+	    {  case RGB: strcpy(val,colorStr)
   	                 break
-	       case GREYSCALE:strcpy (val,grayStr)
+	       case GREYSCALE:strcpy(val,grayStr)
   	                 break
-               case RGBI:if(scanner.LS>=2) strcpy (val,rgbiStr)
-		         else strcpy (val,colorStr)
+               case RGBI:if(scanner.LS>=2) strcpy(val,rgbiStr)
+		         else strcpy(val,colorStr)
   	                 break
-	       case IRED:if(scanner.LS>=2) strcpy (val,iredStr)
-	                 else strcpy (val,grayStr)
+	       case IRED:if(scanner.LS>=2) strcpy(val,iredStr)
+	                 else strcpy(val,grayStr)
   	                 break
 	    }
- 	    if (info)
+ 	    if(info)
 	    {
 	      *info |= Sane.INFO_RELOAD_PARAMS
 	    }
@@ -3928,20 +3928,20 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  return Sane.STATUS_GOOD
 
 	case OPT_GAMMA_VECTOR:
-	  memcpy (val, scanner.gamma, scanner.opt[option].size)
+	  memcpy(val, scanner.gamma, scanner.opt[option].size)
 	  return Sane.STATUS_GOOD
 	case OPT_GAMMA_VECTOR_R:
-	  memcpy (val, scanner.gamma_r, scanner.opt[option].size)
+	  memcpy(val, scanner.gamma_r, scanner.opt[option].size)
 	  return Sane.STATUS_GOOD
 	case OPT_GAMMA_VECTOR_G:
-	  memcpy (val, scanner.gamma_g, scanner.opt[option].size)
+	  memcpy(val, scanner.gamma_g, scanner.opt[option].size)
 	  return Sane.STATUS_GOOD
 	case OPT_GAMMA_VECTOR_B:
-	  memcpy (val, scanner.gamma_b, scanner.opt[option].size)
+	  memcpy(val, scanner.gamma_b, scanner.opt[option].size)
 	  return Sane.STATUS_GOOD
 
 	case OPT_SOURCE:
-	  if (strcmp (val, "Automatic Slide Feeder") == 0)
+	  if(strcmp(val, "Automatic Slide Feeder") == 0)
 	    {
 	      /* Feed/Discharge/update filename/etc */
 	    }
@@ -3949,34 +3949,34 @@ Sane.control_option (Sane.Handle handle, Int option,
 	    {
 	      /* Reset above */
 	    }
-	  if (info)
+	  if(info)
 	    {
 	      *info |= Sane.INFO_RELOAD_PARAMS
 	    }
 	}
 
     }
-  else if (action == Sane.ACTION_SET_VALUE)
+  else if(action == Sane.ACTION_SET_VALUE)
     {
-      DBG (10, "Sane.control_option %d, set value\n", option)
+      DBG(10, "Sane.control_option %d, set value\n", option)
 
-      if (!Sane.OPTION_IS_ACTIVE (cap))
+      if(!Sane.OPTION_IS_ACTIVE(cap))
 	return Sane.STATUS_INVAL
 
-      if (!Sane.OPTION_IS_SETTABLE (cap))
+      if(!Sane.OPTION_IS_SETTABLE(cap))
 	return Sane.STATUS_INVAL
 
-      status = sanei_constrain_value (scanner.opt + option, val, info)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_constrain_value(scanner.opt + option, val, info)
+      if(status != Sane.STATUS_GOOD)
 	return status
 
-      switch (option)
+      switch(option)
 	{
 	case OPT_GAMMA_BIND:
 	  scanner.gamma_bind = (*(Sane.Word *) val == Sane.TRUE)
-	  if (scanner.LS != 1)
+	  if(scanner.LS != 1)
 	    {
-	      if (scanner.gamma_bind)
+	      if(scanner.gamma_bind)
 		{
 		  scanner.opt[OPT_GAMMA_VECTOR].cap &= ~Sane.CAP_INACTIVE
 		  scanner.opt[OPT_GAMMA_VECTOR_R].cap |= Sane.CAP_INACTIVE
@@ -3993,7 +3993,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 
 		}
 	    }
-	  if (info)
+	  if(info)
 	    {
 	      *info |= Sane.INFO_RELOAD_OPTIONS
 	    }
@@ -4018,14 +4018,14 @@ Sane.control_option (Sane.Handle handle, Int option,
 
 	case OPT_BIT_DEPTH:
 	   scanner.bits_per_color=(*(Sane.Word *)val)
- 	  if (info)
+ 	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 	  return Sane.STATUS_GOOD
 
 
 	case OPT_RGB_CONTROL:
 	  scanner.rgb_control = (*(Sane.Word *) val == Sane.TRUE)
-	  if (scanner.rgb_control)
+	  if(scanner.rgb_control)
 	    {
 	      scanner.opt[OPT_BRIGHTNESS].cap |= Sane.CAP_INACTIVE
 	      scanner.opt[OPT_CONTRAST].cap |= Sane.CAP_INACTIVE
@@ -4077,7 +4077,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	      scanner.opt[OPT_G_EXPOSURE].cap |= Sane.CAP_INACTIVE
 	      scanner.opt[OPT_B_EXPOSURE].cap |= Sane.CAP_INACTIVE
 	    }
-	  if (info)
+	  if(info)
 	    {
 	      *info |= Sane.INFO_RELOAD_OPTIONS
 	    }
@@ -4085,42 +4085,42 @@ Sane.control_option (Sane.Handle handle, Int option,
 
 	case OPT_RESOLUTION:
 	  scanner.y_nres = scanner.x_nres =
-	    resValToDiv (*(Sane.Word *) val)
+	    resValToDiv(*(Sane.Word *) val)
 
-	  if (info)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 	  return Sane.STATUS_GOOD
 
 	case OPT_PREVIEW_RESOLUTION:
 	  scanner.y_p_nres = scanner.x_p_nres =
-	    resValToDiv (*(Sane.Word *) val)
+	    resValToDiv(*(Sane.Word *) val)
 
-	  if (info)
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 	  return Sane.STATUS_GOOD
 
 	case OPT_TL_X:
-	  scanner.tlx = mmToIlu (Sane.UNFIX (*(Sane.Word *) val))
-	  if (info)
+	  scanner.tlx = mmToIlu(Sane.UNFIX(*(Sane.Word *) val))
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 
 	  return Sane.STATUS_GOOD
 
 	case OPT_TL_Y:
-	  scanner.tly = mmToIlu (Sane.UNFIX (*(Sane.Word *) val))
-	  if (info)
+	  scanner.tly = mmToIlu(Sane.UNFIX(*(Sane.Word *) val))
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 	  return Sane.STATUS_GOOD
 
 	case OPT_BR_X:
-	  scanner.brx = mmToIlu (Sane.UNFIX (*(Sane.Word *) val))
-	  if (info)
+	  scanner.brx = mmToIlu(Sane.UNFIX(*(Sane.Word *) val))
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 	  return Sane.STATUS_GOOD
 
 	case OPT_BR_Y:
-	  scanner.bry = mmToIlu (Sane.UNFIX (*(Sane.Word *) val))
-	  if (info)
+	  scanner.bry = mmToIlu(Sane.UNFIX(*(Sane.Word *) val))
+	  if(info)
 	    *info |= Sane.INFO_RELOAD_PARAMS
 	  return Sane.STATUS_GOOD
 
@@ -4202,12 +4202,12 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  return Sane.STATUS_GOOD
 
 	case OPT_SOURCE:
-	  scanner.asf = (strcmp (val, "Automatic...") == 0)
+	  scanner.asf = (strcmp(val, "Automatic...") == 0)
 	  return Sane.STATUS_GOOD
 
 	case OPT_TYPE:
-	  scanner.negative = (strcmp (val, negativeStr) == 0)
-	  if (info)
+	  scanner.negative = (strcmp(val, negativeStr) == 0)
+	  if(info)
 	    {
 	      *info |= Sane.INFO_RELOAD_PARAMS
 	    }
@@ -4229,29 +4229,29 @@ Sane.control_option (Sane.Handle handle, Int option,
 	    {    scanner.colormode=IRED
 	         scanner.colormode_p=GREYSCALE
 	    }
-	  if (info)
+	  if(info)
 	    {
 	      *info |= Sane.INFO_RELOAD_OPTIONS | Sane.INFO_RELOAD_PARAMS
 	    }
 	  return Sane.STATUS_GOOD
 
 	case OPT_GAMMA_VECTOR:
-	  memcpy (scanner.gamma, val, scanner.opt[option].size)
+	  memcpy(scanner.gamma, val, scanner.opt[option].size)
 	  if(scanner.LS>2)  Calc_fix_LUT(scanner)
 	  return Sane.STATUS_GOOD
 
 	case OPT_GAMMA_VECTOR_R:
-	  memcpy (scanner.gamma_r, val, scanner.opt[option].size)
+	  memcpy(scanner.gamma_r, val, scanner.opt[option].size)
 	  if(scanner.LS>2)  Calc_fix_LUT(scanner)
 	  return Sane.STATUS_GOOD
 
 	case OPT_GAMMA_VECTOR_G:
-	  memcpy (scanner.gamma_g, val, scanner.opt[option].size)
+	  memcpy(scanner.gamma_g, val, scanner.opt[option].size)
 	  if(scanner.LS>2)  Calc_fix_LUT(scanner)
 	  return Sane.STATUS_GOOD
 
 	case OPT_GAMMA_VECTOR_B:
-	  memcpy (scanner.gamma_b, val, scanner.opt[option].size)
+	  memcpy(scanner.gamma_b, val, scanner.opt[option].size)
 	  if(scanner.LS>2)  Calc_fix_LUT(scanner)
 	  return Sane.STATUS_GOOD
 
@@ -4261,11 +4261,11 @@ Sane.control_option (Sane.Handle handle, Int option,
 }
 
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
   Coolscan_t *scanner = handle
 
-  DBG (10, "Sane.get_parameters")
+  DBG(10, "Sane.get_parameters")
   switch(scanner.colormode)
     {  case RGB:
               params.format =  Sane.FRAME_RGB
@@ -4281,16 +4281,16 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
     }
 
   params.depth = scanner.bits_per_color>8?16:8
-  params.pixels_per_line = pixels_per_line (scanner)
-  params.lines = lines_per_scan (scanner)
-  params.bytes_per_line = write_bytes_per_line (scanner)
+  params.pixels_per_line = pixels_per_line(scanner)
+  params.lines = lines_per_scan(scanner)
+  params.bytes_per_line = write_bytes_per_line(scanner)
   params.last_frame = 1
   return Sane.STATUS_GOOD
 }
 static Int
-swap_res (Coolscan_t * s)
+swap_res(Coolscan_t * s)
 {
-  if (s.preview)
+  if(s.preview)
     {
       /* swap preview/scan resolutions */
       Int xres, yres, cmode
@@ -4308,22 +4308,22 @@ swap_res (Coolscan_t * s)
   return 0
 }
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   Coolscan_t *scanner = handle
   Int fds[2]
 
-  DBG (10, "Sane.start\n")
-  if (scanner.scanning == Sane.TRUE)
+  DBG(10, "Sane.start\n")
+  if(scanner.scanning == Sane.TRUE)
     return Sane.STATUS_DEVICE_BUSY
 
-  if (scanner.sfd < 0)
+  if(scanner.sfd < 0)
     {				/* first call */
-      if (sanei_scsi_open (scanner.sane.name,
+      if(sanei_scsi_open(scanner.sane.name,
 			   &(scanner.sfd),
 			   sense_handler, 0) != Sane.STATUS_GOOD)
 	{
-	  DBG (1, "Sane.start: open of %s failed:\n",
+	  DBG(1, "Sane.start: open of %s failed:\n",
 	       scanner.sane.name)
 	  return Sane.STATUS_INVAL
 	}
@@ -4331,80 +4331,80 @@ Sane.start (Sane.Handle handle)
   scanner.scanning = Sane.TRUE
 
 
-  if (coolscan_check_values (scanner) != 0)
+  if(coolscan_check_values(scanner) != 0)
     {				/* Verify values */
-      DBG (1, "ERROR: invalid scan-values\n")
+      DBG(1, "ERROR: invalid scan-values\n")
       scanner.scanning = Sane.FALSE
-      coolscan_give_scanner (scanner)
-      sanei_scsi_close (scanner.sfd)
+      coolscan_give_scanner(scanner)
+      sanei_scsi_close(scanner.sfd)
       scanner.sfd = -1
       return Sane.STATUS_INVAL
     }
 
-  if (coolscan_grab_scanner (scanner))
+  if(coolscan_grab_scanner(scanner))
     {
-      sanei_scsi_close (scanner.sfd)
+      sanei_scsi_close(scanner.sfd)
       scanner.sfd = -1
-      DBG (5, "WARNING: unable to reserve scanner: device busy\n")
+      DBG(5, "WARNING: unable to reserve scanner: device busy\n")
       scanner.scanning = Sane.FALSE
       return Sane.STATUS_DEVICE_BUSY
     }
 
   /* hoho, step 2c, -perm */
-  coolscan_object_feed (scanner)
+  coolscan_object_feed(scanner)
 
-  swap_res (scanner)
-  if (!scanner.preview)
+  swap_res(scanner)
+  if(!scanner.preview)
   { if(scanner.autofocus & 0x02)
-    {  coolscan_autofocus (scanner)
+    {  coolscan_autofocus(scanner)
     }
   }
   else
     {
       if(scanner.autofocus & 0x01)
-      {  coolscan_autofocus (scanner)
+      {  coolscan_autofocus(scanner)
       }
-      if (scanner.prescan) {
-	prescan (scanner)
+      if(scanner.prescan) {
+	prescan(scanner)
 	if(scanner.LS<2)
         {	get_internal_info(scanner)
 	}
-        coolscan_get_window_param (scanner,1)
+        coolscan_get_window_param(scanner,1)
       }
     }
   /*read_LUT(scanner); */
   if(scanner.LS<2)
-  {  send_LUT (scanner)
-     coolscan_set_window_param (scanner, 0)
-     coolscan_get_window_param (scanner,0)
-     coolscan_start_scan (scanner)
+  {  send_LUT(scanner)
+     coolscan_set_window_param(scanner, 0)
+     coolscan_get_window_param(scanner,0)
+     coolscan_start_scan(scanner)
   }
   else
-  {  coolscan_set_window_param (scanner, 0)
-     send_LUT (scanner)
+  {  coolscan_set_window_param(scanner, 0)
+     send_LUT(scanner)
      Calc_fix_LUT(scanner)
-     coolscan_start_scan (scanner)
-     wait_scanner (scanner)
-     coolscan_get_window_param (scanner,0)
+     coolscan_start_scan(scanner)
+     wait_scanner(scanner)
+     coolscan_get_window_param(scanner,0)
   }
 
-  DBG (10, "bytes per line        = %d\n", scan_bytes_per_line (scanner))
-  DBG (10, "pixels_per_line       = %d\n", pixels_per_line (scanner))
-  DBG (10, "lines                 = %d\n", lines_per_scan (scanner))
-  DBG (10, "negative              = %d\n", scanner.negative)
-  DBG (10, "brightness (halftone) = %d\n", scanner.brightness)
-  DBG (10, "contrast   (halftone) = %d\n", scanner.contrast)
-  DBG (10, "fast preview function = %d\n", scanner.preview)
+  DBG(10, "bytes per line        = %d\n", scan_bytes_per_line(scanner))
+  DBG(10, "pixels_per_line       = %d\n", pixels_per_line(scanner))
+  DBG(10, "lines                 = %d\n", lines_per_scan(scanner))
+  DBG(10, "negative              = %d\n", scanner.negative)
+  DBG(10, "brightness(halftone) = %d\n", scanner.brightness)
+  DBG(10, "contrast   (halftone) = %d\n", scanner.contrast)
+  DBG(10, "fast preview function = %d\n", scanner.preview)
 
   /* create a pipe, fds[0]=read-fd, fds[1]=write-fd */
-  if (pipe (fds) < 0)
+  if(pipe(fds) < 0)
     {
-      DBG (1, "ERROR: could not create pipe\n")
+      DBG(1, "ERROR: could not create pipe\n")
 
-      swap_res (scanner)
+      swap_res(scanner)
       scanner.scanning = Sane.FALSE
-      coolscan_give_scanner (scanner)
-      sanei_scsi_close (scanner.sfd)
+      coolscan_give_scanner(scanner)
+      sanei_scsi_close(scanner.sfd)
       scanner.sfd = -1
       return Sane.STATUS_IO_ERROR
     }
@@ -4412,16 +4412,16 @@ Sane.start (Sane.Handle handle)
   scanner.pipe       = fds[0]
   scanner.reader_fds = fds[1]
   scanner.reader_pid = sanei_thread_begin( reader_process, (void*)scanner )
-  if (!sanei_thread_is_valid (scanner.reader_pid))
+  if(!sanei_thread_is_valid(scanner.reader_pid))
     {
-      DBG (1, "Sane.start: sanei_thread_begin failed (%s)\n",
-             strerror (errno))
+      DBG(1, "Sane.start: sanei_thread_begin failed(%s)\n",
+             strerror(errno))
       return Sane.STATUS_NO_MEM
     }
 
-  if (sanei_thread_is_forked ())
+  if(sanei_thread_is_forked())
     {
-      close (scanner.reader_fds)
+      close(scanner.reader_fds)
       scanner.reader_fds = -1
     }
 
@@ -4430,7 +4430,7 @@ Sane.start (Sane.Handle handle)
 
 
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * buf,
+Sane.read(Sane.Handle handle, Sane.Byte * buf,
 	   Int max_len, Int * len)
 {
   Coolscan_t *scanner = handle
@@ -4438,75 +4438,75 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf,
 
   *len = 0
 
-  nread = read (scanner.pipe, buf, max_len)
-  DBG (10, "Sane.read: read %ld bytes\n", (long) nread)
+  nread = read(scanner.pipe, buf, max_len)
+  DBG(10, "Sane.read: read %ld bytes\n", (long) nread)
 
-  if (!(scanner.scanning))
+  if(!(scanner.scanning))
     {
-      return do_cancel (scanner)
+      return do_cancel(scanner)
     }
 
-  if (nread < 0)
+  if(nread < 0)
     {
-      if (errno == EAGAIN)
+      if(errno == EAGAIN)
 	{
 	  return Sane.STATUS_GOOD
 	}
       else
 	{
-	  do_cancel (scanner)
+	  do_cancel(scanner)
 	  return Sane.STATUS_IO_ERROR
 	}
     }
 
   *len = nread
 
-  if (nread == 0)
-    return do_eof (scanner);	/* close pipe */
+  if(nread == 0)
+    return do_eof(scanner);	/* close pipe */
 
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   Coolscan_t *s = handle
 
-  if (sanei_thread_is_valid (s.reader_pid))
+  if(sanei_thread_is_valid(s.reader_pid))
     {
       sanei_thread_kill   ( s.reader_pid )
       sanei_thread_waitpid( s.reader_pid, NULL )
-      sanei_thread_invalidate (s.reader_pid)
+      sanei_thread_invalidate(s.reader_pid)
     }
-  swap_res (s)
+  swap_res(s)
   s.scanning = Sane.FALSE
 }
 
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle handle, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 {
   Coolscan_t *scanner = handle
 
-  DBG (10, "Sane.set_io_mode: non_blocking=%d\n", non_blocking)
+  DBG(10, "Sane.set_io_mode: non_blocking=%d\n", non_blocking)
 
-  if (!scanner.scanning)
+  if(!scanner.scanning)
     return Sane.STATUS_INVAL
 
-  if (fcntl (scanner.pipe, F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0)
+  if(fcntl(scanner.pipe, F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0)
     return Sane.STATUS_IO_ERROR
 
   return Sane.STATUS_GOOD
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle handle, Int * fd)
+Sane.get_select_fd(Sane.Handle handle, Int * fd)
 {
   Coolscan_t *scanner = handle
 
-  DBG (10, "Sane.get_select_fd\n")
+  DBG(10, "Sane.get_select_fd\n")
 
-  if (!scanner.scanning)
+  if(!scanner.scanning)
     {
       return Sane.STATUS_INVAL
     }

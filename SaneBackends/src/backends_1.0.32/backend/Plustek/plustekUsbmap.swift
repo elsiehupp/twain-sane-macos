@@ -7,7 +7,7 @@
  *  @brief Creating and manipulating lookup tables.
  *
  * Based on sources acquired from Plustek Inc.<br>
- * Copyright (C) 2001-2007 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 2001-2007 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.40 - starting version of the USB support
@@ -30,7 +30,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -76,7 +76,7 @@ static void usb_MapAdjust( Plustek_Device *dev )
 
 	tabLen = _MAP_SIZE
 
-	/* adjust brightness (b) and contrast (c) using the function:
+	/* adjust brightness(b) and contrast(c) using the function:
 	 *
 	 * s(x,y) = (s(x,y) + b) * c
 	 * b = [-127, 127]

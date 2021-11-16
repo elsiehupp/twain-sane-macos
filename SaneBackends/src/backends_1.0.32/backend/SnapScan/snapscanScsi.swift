@@ -1,6 +1,6 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 1997, 1998, 2001, 2002, 2013 Franck Schnefra, Michel Roelofs,
+   Copyright(C) 1997, 1998, 2001, 2002, 2013 Franck Schnefra, Michel Roelofs,
    Emmanuel Blot, Mikko Tyolajarvi, David Mosberger-Tang, Wolfgang Goeller,
    Petter Reinholdtsen, Gary Plewa, Sebastien Sable, Mikael Magnusson,
    Max Ushakov, Andrew Goodbody, Oliver Schwartz and Kevin Charter
@@ -10,7 +10,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -52,7 +52,7 @@
 /* scanner scsi commands */
 
 static Sane.Status download_firmware(SnapScan_Scanner * pss)
-static Sane.Status wait_scanner_ready (SnapScan_Scanner * pss)
+static Sane.Status wait_scanner_ready(SnapScan_Scanner * pss)
 
 import snapscan-usb
 
@@ -65,9 +65,9 @@ static SnapScan_Model snapscani_get_model_id(char* model_str, Int fd, SnapScan_B
     var i: Int
 
     DBG(DL_CALL_TRACE, "%s(%s, %d, %d)\n",me, model_str, fd, bus_type)
-    for (i = 0;  i < known_scanners;  i++)
+    for(i = 0;  i < known_scanners;  i++)
     {
-        if (0 == strcasecmp (model_str, scanners[i].scsi_name))
+        if(0 == strcasecmp(model_str, scanners[i].scsi_name))
         {
             model_id = scanners[i].id
             break
@@ -76,15 +76,15 @@ static SnapScan_Model snapscani_get_model_id(char* model_str, Int fd, SnapScan_B
     /* Also test USB vendor and product ID numbers, since some USB models use
        identical model names.
     */
-    if ((bus_type == USB) &&
+    if((bus_type == USB) &&
         (sanei_usb_get_vendor_product(fd, &vendor_id, &product_id) == Sane.STATUS_GOOD))
     {
     	DBG(DL_MINOR_INFO,
             "%s: looking up scanner for ID 0x%04x,0x%04x.\n",
             me, vendor_id, product_id)
-        for (i = 0; i < known_usb_scanners; i++)
+        for(i = 0; i < known_usb_scanners; i++)
         {
-            if ((usb_scanners[i].vendor_id == vendor_id) &&
+            if((usb_scanners[i].vendor_id == vendor_id) &&
                 (usb_scanners[i].product_id == product_id))
             {
                 model_id = usb_scanners[i].id
@@ -99,7 +99,7 @@ static SnapScan_Model snapscani_get_model_id(char* model_str, Int fd, SnapScan_B
 /* a sensible sense handler, courtesy of Franck
    the last argument is expected to be a pointer to the associated
    SnapScan_Scanner structure */
-static Sane.Status sense_handler (Int scsi_fd, u_char * result, void *arg)
+static Sane.Status sense_handler(Int scsi_fd, u_char * result, void *arg)
 {
     static char me[] = "sense_handler"
     SnapScan_Scanner *pss = (SnapScan_Scanner *) arg
@@ -107,101 +107,101 @@ static Sane.Status sense_handler (Int scsi_fd, u_char * result, void *arg)
     char *sense_str = NULL, *as_str = NULL
     Sane.Status status = Sane.STATUS_GOOD
 
-    DBG (DL_CALL_TRACE, "%s(%ld, %p, %p)\n", me, (long) scsi_fd,
+    DBG(DL_CALL_TRACE, "%s(%ld, %p, %p)\n", me, (long) scsi_fd,
          (void *) result, (void *) arg)
 
     sense = result[2] & 0x0f
     asc = result[12]
     ascq = result[13]
-    if (pss)
+    if(pss)
     {
         pss.asi1 = result[18]
         pss.asi2 = result[19]
     }
-    if ((result[0] & 0x80) == 0)
+    if((result[0] & 0x80) == 0)
     {
-        DBG (DL_DATA_TRACE, "%s: sense key is invalid.\n", me)
+        DBG(DL_DATA_TRACE, "%s: sense key is invalid.\n", me)
         return Sane.STATUS_GOOD;    /* sense key invalid */
     } else {
-        DBG (DL_DATA_TRACE, "%s: sense key: 0x%02x, asc: 0x%02x, ascq: 0x%02x, i1: 0x%02x, i2: 0x%02x\n",
+        DBG(DL_DATA_TRACE, "%s: sense key: 0x%02x, asc: 0x%02x, ascq: 0x%02x, i1: 0x%02x, i2: 0x%02x\n",
         me, sense, asc, ascq, result[18], result[19])
     }
 
-    switch (sense)
+    switch(sense)
     {
     case 0x00:
         /* no sense */
         sense_str = "No sense."
-        DBG (DL_MINOR_INFO, "%s: %s\n", me, sense_str)
+        DBG(DL_MINOR_INFO, "%s: %s\n", me, sense_str)
         break
     case 0x02:
         /* not ready */
         sense_str = "Not ready."
-        DBG (DL_MINOR_INFO, "%s: %s\n", me, sense_str)
-        if (asc == 0x04  &&  ascq == 0x01)
+        DBG(DL_MINOR_INFO, "%s: %s\n", me, sense_str)
+        if(asc == 0x04  &&  ascq == 0x01)
         {
             /* warming up; byte 18 contains remaining seconds */
             as_str = "Logical unit is in process of becoming ready."
-            DBG (DL_MINOR_INFO, "%s: %s (%d seconds)\n", me, as_str, result[18])
+            DBG(DL_MINOR_INFO, "%s: %s(%d seconds)\n", me, as_str, result[18])
             status = Sane.STATUS_DEVICE_BUSY
-        DBG (DL_MINOR_INFO, "%s: %s\n", me, sense_str)
+        DBG(DL_MINOR_INFO, "%s: %s\n", me, sense_str)
         }
         break
     case 0x04:
         /* hardware error */
         sense_str = "Hardware error."
         /* byte 18 and 19 detail the hardware problems */
-        DBG (DL_MINOR_INFO, "%s: %s (0x%02x, 0x%02x)\n", me, sense_str, result[18],
+        DBG(DL_MINOR_INFO, "%s: %s(0x%02x, 0x%02x)\n", me, sense_str, result[18],
             result[19])
         status = Sane.STATUS_IO_ERROR
         break
     case 0x05:
         /* illegal request */
         sense_str = "Illegal request."
-        DBG (DL_MINOR_INFO, "%s: %s\n", me, sense_str)
-        if (asc == 0x25 && ascq == 0x00)
+        DBG(DL_MINOR_INFO, "%s: %s\n", me, sense_str)
+        if(asc == 0x25 && ascq == 0x00)
             as_str = "Logical unit not supported."
-            DBG (DL_MINOR_INFO, "%s: %s\n", me, as_str)
+            DBG(DL_MINOR_INFO, "%s: %s\n", me, as_str)
         status = Sane.STATUS_IO_ERROR
         break
     case 0x09:
         /* process error */
         sense_str = "Process error."
-        DBG (DL_MINOR_INFO, "%s: %s\n", me, sense_str)
-        if (asc == 0x00 && ascq == 0x05)
+        DBG(DL_MINOR_INFO, "%s: %s\n", me, sense_str)
+        if(asc == 0x00 && ascq == 0x05)
         {
             /* no documents in ADF */
             as_str = "End of data detected."
-            DBG (DL_MINOR_INFO, "%s: %s\n", me, as_str)
+            DBG(DL_MINOR_INFO, "%s: %s\n", me, as_str)
             status = Sane.STATUS_NO_DOCS
         }
-        else if (asc == 0x3b && ascq == 0x05)
+        else if(asc == 0x3b && ascq == 0x05)
         {
             /* paper jam in ADF */
             as_str = "Paper jam."
-            DBG (DL_MINOR_INFO, "%s: %s\n", me, as_str)
+            DBG(DL_MINOR_INFO, "%s: %s\n", me, as_str)
             status = Sane.STATUS_JAMMED
         }
-        else if (asc == 0x3b && ascq == 0x09)
+        else if(asc == 0x3b && ascq == 0x09)
         {
             /* scanning area exceeds end of paper in ADF */
             as_str = "Read past end of medium."
-            DBG (DL_MINOR_INFO, "%s: %s\n", me, as_str)
+            DBG(DL_MINOR_INFO, "%s: %s\n", me, as_str)
             status = Sane.STATUS_EOF
         }
         break
     case 0x0b:
         /* Aborted command */
         sense_str = "Aborted Command."
-        DBG (DL_MINOR_INFO, "%s: %s\n", me, sense_str)
+        DBG(DL_MINOR_INFO, "%s: %s\n", me, sense_str)
         status = Sane.STATUS_IO_ERROR
         break
     default:
-        DBG (DL_MINOR_ERROR, "%s: no handling for sense %x.\n", me, sense)
+        DBG(DL_MINOR_ERROR, "%s: no handling for sense %x.\n", me, sense)
         break
     }
 
-    if (pss)
+    if(pss)
     {
         pss.sense_str = sense_str
         pss.as_str = as_str
@@ -210,20 +210,20 @@ static Sane.Status sense_handler (Int scsi_fd, u_char * result, void *arg)
 }
 
 
-static Sane.Status open_scanner (SnapScan_Scanner *pss)
+static Sane.Status open_scanner(SnapScan_Scanner *pss)
 {
     Sane.Status status
-    DBG (DL_CALL_TRACE, "open_scanner\n")
-    if (!pss.opens)
+    DBG(DL_CALL_TRACE, "open_scanner\n")
+    if(!pss.opens)
     {
         if(pss.pdev.bus == SCSI)
         {
-            status = sanei_scsi_open (pss.devname, &(pss.fd),
+            status = sanei_scsi_open(pss.devname, &(pss.fd),
                 sense_handler, (void *) pss)
         }
         else
         {
-            status = snapscani_usb_open (pss.devname, &(pss.fd),
+            status = snapscani_usb_open(pss.devname, &(pss.fd),
                 sense_handler, (void *) pss)
         }
     }
@@ -232,28 +232,28 @@ static Sane.Status open_scanner (SnapScan_Scanner *pss)
         /* already open */
         status = Sane.STATUS_GOOD
     }
-    if (status == Sane.STATUS_GOOD)
+    if(status == Sane.STATUS_GOOD)
         pss.opens++
     return status
 }
 
-static void close_scanner (SnapScan_Scanner *pss)
+static void close_scanner(SnapScan_Scanner *pss)
 {
     static char me[] = "close_scanner"
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
-    if (pss.opens)
+    DBG(DL_CALL_TRACE, "%s\n", me)
+    if(pss.opens)
     {
         pss.opens--
-        if (!pss.opens)
+        if(!pss.opens)
         {
             if(pss.pdev.bus == SCSI)
             {
-                sanei_scsi_close (pss.fd)
+                sanei_scsi_close(pss.fd)
             }
             else if(pss.pdev.bus == USB)
             {
-                snapscani_usb_close (pss.fd)
+                snapscani_usb_close(pss.fd)
             }
         } else {
             DBG(DL_INFO, "%s: handles left: %d\n,",me, pss.opens)
@@ -265,7 +265,7 @@ static Sane.Status snapscan_cmd(SnapScan_Bus bus, Int fd, const void *src,
                 size_t src_size, void *dst, size_t * dst_size)
 {
     Sane.Status status
-    DBG (DL_CALL_TRACE, "snapscan_cmd\n")
+    DBG(DL_CALL_TRACE, "snapscan_cmd\n")
     if(bus == USB)
     {
         status = snapscani_usb_cmd(fd, src, src_size, dst, dst_size)
@@ -296,18 +296,18 @@ static Sane.Status snapscan_cmd(SnapScan_Bus bus, Int fd, const void *src,
 
 /*  buffer tools */
 
-static void zero_buf (u_char * buf, size_t len)
+static void zero_buf(u_char * buf, size_t len)
 {
     size_t i
 
-    for (i = 0;  i < len;  i++)
+    for(i = 0;  i < len;  i++)
         buf[i] = 0x00
 }
 
 
 #define BYTE_SIZE 8
 
-static u_short u_char_to_u_short (u_char * pc)
+static u_short u_char_to_u_short(u_char * pc)
 {
     u_short r = 0
     r |= pc[0]
@@ -316,20 +316,20 @@ static u_short u_char_to_u_short (u_char * pc)
     return r
 }
 
-static void u_short_to_u_charp (u_short x, u_char * pc)
+static void u_short_to_u_charp(u_short x, u_char * pc)
 {
     pc[0] = (0xFF00 & x) >> BYTE_SIZE
     pc[1] = (0x00FF & x)
 }
 
-static void u_int_to_u_char3p (u_int x, u_char * pc)
+static void u_int_to_u_char3p(u_int x, u_char * pc)
 {
     pc[0] = (0xFF0000 & x) >> 2 * BYTE_SIZE
     pc[1] = (0x00FF00 & x) >> BYTE_SIZE
     pc[2] = (0x0000FF & x)
 }
 
-static void u_int_to_u_char4p (u_int x, u_char * pc)
+static void u_int_to_u_char4p(u_int x, u_char * pc)
 {
     pc[0] = (0xFF000000 & x) >> 3 * BYTE_SIZE
     pc[1] = (0x00FF0000 & x) >> 2 * BYTE_SIZE
@@ -338,14 +338,14 @@ static void u_int_to_u_char4p (u_int x, u_char * pc)
 }
 
 /* Convert 'STRING   ' to 'STRING' by adding 0 after last non-space */
-static void remove_trailing_space (char *s)
+static void remove_trailing_space(char *s)
 {
     Int position
 
-    if (NULL == s)
+    if(NULL == s)
         return
 
-    for (position = strlen (s)
+    for(position = strlen(s)
          position > 0  &&  ' ' == s[position - 1]
          position--)
     {
@@ -354,11 +354,11 @@ static void remove_trailing_space (char *s)
     s[position] = 0
 }
 
-static void check_range (Int *v, Sane.Range r)
+static void check_range(Int *v, Sane.Range r)
 {
-    if (*v < r.min)
+    if(*v < r.min)
     *v = r.min
-    if (*v > r.max)
+    if(*v > r.max)
     *v = r.max
 }
 
@@ -371,21 +371,21 @@ static void check_range (Int *v, Sane.Range r)
 #define INQUIRY_PRODUCT       16    /* Offset in reply data to product id */
 #define INQUIRY_REV           32    /* Offset in reply data to revision level */
 #define INQUIRY_PRL2          36    /* Product Revision Level 2 (AGFA) */
-#define INQUIRY_HCFG          37    /* Hardware Configuration (AGFA) */
+#define INQUIRY_HCFG          37    /* Hardware Configuration(AGFA) */
 #define INQUIRY_HWST          40    /* Hardware status */
 #define INQUIRY_HWMI          41    /* HARDWARE Model ID */
-#define INQUIRY_PIX_PER_LINE  42    /* Pixels per scan line (AGFA) */
-#define INQUIRY_BYTE_PER_LINE 44    /* Bytes per scan line (AGFA) */
-#define INQUIRY_NUM_LINES     46    /* number of scan lines (AGFA) */
-#define INQUIRY_OPT_RES       48    /* optical resolution (AGFA) */
-#define INQUIRY_SCAN_SPEED    51    /* scan speed (AGFA) */
-#define INQUIRY_EXPTIME1      52    /* exposure time, first digit (AGFA) */
-#define INQUIRY_EXPTIME2      53    /* exposure time, second digit (AGFA) */
-#define INQUIRY_G2R_DIFF      54    /* green to red difference (AGFA) */
-#define INQUIRY_B2R_DIFF      55    /* green to red difference (AGFA) */
-#define INQUIRY_FIRMWARE      96    /* firmware date and time (AGFA) */
+#define INQUIRY_PIX_PER_LINE  42    /* Pixels per scan line(AGFA) */
+#define INQUIRY_BYTE_PER_LINE 44    /* Bytes per scan line(AGFA) */
+#define INQUIRY_NUM_LINES     46    /* number of scan lines(AGFA) */
+#define INQUIRY_OPT_RES       48    /* optical resolution(AGFA) */
+#define INQUIRY_SCAN_SPEED    51    /* scan speed(AGFA) */
+#define INQUIRY_EXPTIME1      52    /* exposure time, first digit(AGFA) */
+#define INQUIRY_EXPTIME2      53    /* exposure time, second digit(AGFA) */
+#define INQUIRY_G2R_DIFF      54    /* green to red difference(AGFA) */
+#define INQUIRY_B2R_DIFF      55    /* green to red difference(AGFA) */
+#define INQUIRY_FIRMWARE      96    /* firmware date and time(AGFA) */
 #define INQUIRY_BYTE_PER_LINE_MSB    132   /* ?? top byte of bytes per scan line - epson 2480 */
-#define INQUIRY_EPSON_HCFG   138    /* ?? Hardware configuration (Epson) */
+#define INQUIRY_EPSON_HCFG   138    /* ?? Hardware configuration(Epson) */
 
 
 /* a mini-inquiry reads only the first 36 bytes of inquiry data, and
@@ -393,7 +393,7 @@ static void check_range (Int *v, Sane.Range r)
    must point to character buffers of size at least 8 and 17
    respectively */
 
-static Sane.Status mini_inquiry (SnapScan_Bus bus, Int fd, char *vendor, char *model)
+static Sane.Status mini_inquiry(SnapScan_Bus bus, Int fd, char *vendor, char *model)
 {
     static const char *me = "mini_inquiry"
     size_t read_bytes
@@ -403,17 +403,17 @@ static Sane.Status mini_inquiry (SnapScan_Bus bus, Int fd, char *vendor, char *m
 
     read_bytes = 36
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
-    status = snapscan_cmd (bus, fd, cmd, sizeof (cmd), data, &read_bytes)
-    CHECK_STATUS (status, me, "snapscan_cmd")
+    DBG(DL_CALL_TRACE, "%s\n", me)
+    status = snapscan_cmd(bus, fd, cmd, sizeof(cmd), data, &read_bytes)
+    CHECK_STATUS(status, me, "snapscan_cmd")
 
-    memcpy (vendor, data + 8, 7)
+    memcpy(vendor, data + 8, 7)
     vendor[7] = 0
-    memcpy (model, data + 16, 16)
+    memcpy(model, data + 16, 16)
     model[16] = 0
 
-    remove_trailing_space (vendor)
-    remove_trailing_space (model)
+    remove_trailing_space(vendor)
+    remove_trailing_space(model)
 
     return Sane.STATUS_GOOD
 }
@@ -435,16 +435,16 @@ static char *snapscani_debug_data(char *str,const Sane.Byte *data, Int len) {
     return str
 }
 
-static Sane.Status inquiry (SnapScan_Scanner *pss)
+static Sane.Status inquiry(SnapScan_Scanner *pss)
 {
     static const char *me = "inquiry"
     char tmpstr[150]; /* TODO: Remove */
     Sane.Status status
-    switch (pss.pdev.model)
+    switch(pss.pdev.model)
     {
     case PERFECTION2480:
     case PERFECTION3490:
-        if (pss.firmware_loaded)
+        if(pss.firmware_loaded)
           pss.read_bytes = INQUIRY_RET_LEN_EPSON
         else
           pss.read_bytes = INQUIRY_RET_LEN
@@ -458,29 +458,29 @@ static Sane.Status inquiry (SnapScan_Scanner *pss)
         break
     }
 
-    zero_buf (pss.cmd, MAX_SCSI_CMD_LEN)
+    zero_buf(pss.cmd, MAX_SCSI_CMD_LEN)
     pss.cmd[0] = INQUIRY
     pss.cmd[4] = pss.read_bytes
-    DBG (DL_CALL_TRACE, "%s\n", me)
-    status = snapscan_cmd (pss.pdev.bus,
+    DBG(DL_CALL_TRACE, "%s\n", me)
+    status = snapscan_cmd(pss.pdev.bus,
                pss.fd,
                pss.cmd,
                INQUIRY_LEN,
                pss.buf,
                &pss.read_bytes)
-    CHECK_STATUS (status, me, "snapscan_cmd")
+    CHECK_STATUS(status, me, "snapscan_cmd")
 
     /* record current parameters */
     {
         char exptime[4] = {' ', '.', ' ', 0]
         exptime[0] = (char) (pss.buf[INQUIRY_EXPTIME1] + '0')
         exptime[2] = (char) (pss.buf[INQUIRY_EXPTIME2] + '0')
-        pss.ms_per_line = atof (exptime)*(float) pss.buf[INQUIRY_SCAN_SPEED]
-        DBG (DL_DATA_TRACE, "%s: exposure time: %s ms\n", me, exptime)
-        DBG (DL_DATA_TRACE, "%s: ms per line: %f\n", me, pss.ms_per_line)
+        pss.ms_per_line = atof(exptime)*(float) pss.buf[INQUIRY_SCAN_SPEED]
+        DBG(DL_DATA_TRACE, "%s: exposure time: %s ms\n", me, exptime)
+        DBG(DL_DATA_TRACE, "%s: ms per line: %f\n", me, pss.ms_per_line)
     }
 
-    switch (pss.pdev.model)
+    switch(pss.pdev.model)
     {
     case SNAPSCAN:
     case ACER300F:
@@ -491,10 +491,10 @@ static Sane.Status inquiry (SnapScan_Scanner *pss)
         break
     case PERFECTION2480:
     case PERFECTION3490:
-        if (pss.firmware_loaded)
+        if(pss.firmware_loaded)
         {
             snapscani_debug_data(tmpstr, pss.buf+120, 19)
-            DBG (DL_DATA_TRACE, "%s: Epson additional inquiry data:\n%s\n", me, tmpstr)
+            DBG(DL_DATA_TRACE, "%s: Epson additional inquiry data:\n%s\n", me, tmpstr)
             pss.hconfig_epson = pss.buf[INQUIRY_EPSON_HCFG]
         }
         /* fall through */
@@ -504,10 +504,10 @@ static Sane.Status inquiry (SnapScan_Scanner *pss)
         u_char r_off, g_off, b_off
         signed char g = (pss.buf[INQUIRY_G2R_DIFF] & 0x80) ? -(pss.buf[INQUIRY_G2R_DIFF] & 0x7F) : pss.buf[INQUIRY_G2R_DIFF]
         signed char b = (pss.buf[INQUIRY_B2R_DIFF] & 0x80) ? -(pss.buf[INQUIRY_B2R_DIFF] & 0x7F) : pss.buf[INQUIRY_B2R_DIFF]
-        DBG (DL_DATA_TRACE, "%s: G2R_DIFF: %d\n", me, pss.buf[INQUIRY_G2R_DIFF])
-        DBG (DL_DATA_TRACE, "%s: B2R_DIFF: %d\n", me, pss.buf[INQUIRY_B2R_DIFF])
+        DBG(DL_DATA_TRACE, "%s: G2R_DIFF: %d\n", me, pss.buf[INQUIRY_G2R_DIFF])
+        DBG(DL_DATA_TRACE, "%s: B2R_DIFF: %d\n", me, pss.buf[INQUIRY_B2R_DIFF])
 
-        min_diff = MIN (MIN (b, g), 0)
+        min_diff = MIN(MIN(b, g), 0)
         r_off = (u_char) (0 - min_diff)
         g_off = (u_char) (g - min_diff)
         b_off = (u_char) (b - min_diff)
@@ -515,7 +515,7 @@ static Sane.Status inquiry (SnapScan_Scanner *pss)
         pss.chroma_offset[G_CHAN] = g_off
         pss.chroma_offset[B_CHAN] = b_off
         pss.chroma = MAX(MAX(r_off, g_off), b_off)
-        DBG (DL_DATA_TRACE,
+        DBG(DL_DATA_TRACE,
             "%s: Chroma offsets=%d; Red=%u, Green:=%u, Blue=%u\n",
             me, pss.chroma,
             pss.chroma_offset[R_CHAN],
@@ -526,18 +526,18 @@ static Sane.Status inquiry (SnapScan_Scanner *pss)
     }
 
     pss.actual_res =
-        u_char_to_u_short (pss.buf + INQUIRY_OPT_RES)
+        u_char_to_u_short(pss.buf + INQUIRY_OPT_RES)
 
     pss.pixels_per_line =
-        u_char_to_u_short (pss.buf + INQUIRY_PIX_PER_LINE)
+        u_char_to_u_short(pss.buf + INQUIRY_PIX_PER_LINE)
     pss.bytes_per_line =
-        u_char_to_u_short (pss.buf + INQUIRY_BYTE_PER_LINE)
-    if ((pss.pdev.model == PERFECTION2480) || (pss.pdev.model == PERFECTION3490))
+        u_char_to_u_short(pss.buf + INQUIRY_BYTE_PER_LINE)
+    if((pss.pdev.model == PERFECTION2480) || (pss.pdev.model == PERFECTION3490))
         pss.bytes_per_line += pss.buf[INQUIRY_BYTE_PER_LINE_MSB] << 16
     pss.lines =
-        u_char_to_u_short (pss.buf + INQUIRY_NUM_LINES) - pss.chroma
+        u_char_to_u_short(pss.buf + INQUIRY_NUM_LINES) - pss.chroma
     /* effective buffer size must be a whole number of scan lines */
-    if (pss.lines)
+    if(pss.lines)
         pss.buf_sz = (pss.phys_buf_sz/pss.bytes_per_line)*pss.bytes_per_line
     else
         pss.buf_sz = 0
@@ -545,12 +545,12 @@ static Sane.Status inquiry (SnapScan_Scanner *pss)
     pss.expected_read_bytes = 0
     pss.read_bytes = 0
     pss.hwst = pss.buf[INQUIRY_HWST]
-    if ((pss.pdev.bus == USB) && !(pss.hwst & 0x02))
+    if((pss.pdev.bus == USB) && !(pss.hwst & 0x02))
     {
         pss.firmware_loaded = Sane.TRUE
     }
     pss.hconfig = pss.buf[INQUIRY_HCFG]
-    switch (pss.pdev.model)
+    switch(pss.pdev.model)
     {
     case PERFECTION1270:
     case PERFECTION1670:
@@ -566,36 +566,36 @@ static Sane.Status inquiry (SnapScan_Scanner *pss)
         break
     default:
         pss.bpp = 8
-        if (pss.hconfig & HCFG_ADC)
+        if(pss.hconfig & HCFG_ADC)
             pss.bpp = 10
         break
     }
-    DBG (DL_DATA_TRACE,
+    DBG(DL_DATA_TRACE,
         "%s: hardware config = 0x%02x\n",
         me,
         pss.hconfig)
-    DBG (DL_DATA_TRACE,
+    DBG(DL_DATA_TRACE,
         "%s: bits per pixel = %lu\n",
         me,
         (u_long) pss.bpp)
-    DBG (DL_DATA_TRACE,
+    DBG(DL_DATA_TRACE,
         "%s: pixels per scan line = %lu\n",
         me,
         (u_long) pss.pixels_per_line)
-    DBG (DL_DATA_TRACE,
+    DBG(DL_DATA_TRACE,
         "%s: bytes per scan line = %lu\n",
         me,
         (u_long) pss.bytes_per_line)
-    DBG (DL_DATA_TRACE,
+    DBG(DL_DATA_TRACE,
         "%s: number of scan lines = %lu\n",
         me,
         (u_long) pss.lines)
-    DBG (DL_DATA_TRACE,
+    DBG(DL_DATA_TRACE,
          "%s: effective buffer size = %lu bytes, %lu lines\n",
          me,
         (u_long) pss.buf_sz,
         (u_long) (pss.lines ? pss.buf_sz / pss.lines : 0))
-    DBG (DL_DATA_TRACE,
+    DBG(DL_DATA_TRACE,
         "%s: expected total scan data: %lu bytes\n",
         me,
         (u_long) pss.bytes_remaining)
@@ -603,48 +603,48 @@ static Sane.Status inquiry (SnapScan_Scanner *pss)
     return status
 }
 
-static Sane.Status test_unit_ready (SnapScan_Scanner *pss)
+static Sane.Status test_unit_ready(SnapScan_Scanner *pss)
 {
     static const char *me = "test_unit_ready"
     char cmd[] = {TEST_UNIT_READY, 0, 0, 0, 0, 0]
     Sane.Status status
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
-    status = snapscan_cmd (pss.pdev.bus, pss.fd, cmd, sizeof (cmd), NULL, NULL)
-    CHECK_STATUS (status, me, "snapscan_cmd")
+    DBG(DL_CALL_TRACE, "%s\n", me)
+    status = snapscan_cmd(pss.pdev.bus, pss.fd, cmd, sizeof(cmd), NULL, NULL)
+    CHECK_STATUS(status, me, "snapscan_cmd")
     return status
 }
 
-static void reserve_unit (SnapScan_Scanner *pss)
+static void reserve_unit(SnapScan_Scanner *pss)
 {
     static const char *me = "reserve_unit"
     char cmd[] = {RESERVE_UNIT, 0, 0, 0, 0, 0]
     Sane.Status status
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
-    status = snapscan_cmd (pss.pdev.bus, pss.fd, cmd, sizeof (cmd), NULL, NULL)
-    if (status != Sane.STATUS_GOOD)
+    DBG(DL_CALL_TRACE, "%s\n", me)
+    status = snapscan_cmd(pss.pdev.bus, pss.fd, cmd, sizeof(cmd), NULL, NULL)
+    if(status != Sane.STATUS_GOOD)
     {
-        DBG (DL_MAJOR_ERROR,
+        DBG(DL_MAJOR_ERROR,
             "%s: scsi command error: %s\n",
             me,
-            Sane.strstatus (status))
+            Sane.strstatus(status))
     }
 }
 
-static void release_unit (SnapScan_Scanner *pss)
+static void release_unit(SnapScan_Scanner *pss)
 {
     static const char *me = "release_unit"
     char cmd[] = {RELEASE_UNIT, 0, 0, 0, 0, 0]
     Sane.Status status
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
-    status = snapscan_cmd (pss.pdev.bus, pss.fd, cmd, sizeof (cmd), NULL, NULL)
-    if (status != Sane.STATUS_GOOD)
+    DBG(DL_CALL_TRACE, "%s\n", me)
+    status = snapscan_cmd(pss.pdev.bus, pss.fd, cmd, sizeof(cmd), NULL, NULL)
+    if(status != Sane.STATUS_GOOD)
     {
-        DBG (DL_MAJOR_ERROR,
+        DBG(DL_MAJOR_ERROR,
             "%s: scsi command error: %s\n",
-            me, Sane.strstatus (status))
+            me, Sane.strstatus(status))
     }
 }
 
@@ -684,20 +684,20 @@ static void release_unit (SnapScan_Scanner *pss)
 #define DTCQ_GAMMA_GREEN14_16BIT 0xa7
 #define DTCQ_GAMMA_BLUE14_16BIT 0xa8
 
-static Sane.Status send (SnapScan_Scanner *pss, u_char dtc, u_char dtcq)
+static Sane.Status send(SnapScan_Scanner *pss, u_char dtc, u_char dtcq)
 {
     static char me[] = "send"
     Sane.Status status
     u_short tl;            /* transfer length */
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
+    DBG(DL_CALL_TRACE, "%s\n", me)
 
-    zero_buf (pss.buf, SEND_LENGTH)
+    zero_buf(pss.buf, SEND_LENGTH)
 
-    switch (dtc)
+    switch(dtc)
     {
     case DTC_HALFTONE:        /* halftone mask */
-        switch (dtcq)
+        switch(dtcq)
         {
         case DTCQ_HALFTONE_BW8:
             tl = 64;        /* bw 8x8 table */
@@ -712,14 +712,14 @@ static Sane.Status send (SnapScan_Scanner *pss, u_char dtc, u_char dtcq)
             tl = 3 * 256;    /* rgb 16x16 tables */
             break
         default:
-            DBG (DL_MAJOR_ERROR, "%s: bad halftone data type qualifier 0x%x\n",
+            DBG(DL_MAJOR_ERROR, "%s: bad halftone data type qualifier 0x%x\n",
                  me, dtcq)
             return Sane.STATUS_INVAL
         }
         break
     case DTC_GAMMA:        /* gamma function */
     case DTC_GAMMA2:
-        switch (dtcq)
+        switch(dtcq)
         {
         case DTCQ_GAMMA_GRAY8:    /* 8-bit tables */
         case DTCQ_GAMMA_RED8:
@@ -758,7 +758,7 @@ static Sane.Status send (SnapScan_Scanner *pss, u_char dtc, u_char dtcq)
             tl = 32768
             break
         default:
-            DBG (DL_MAJOR_ERROR, "%s: bad gamma data type qualifier 0x%x\n",
+            DBG(DL_MAJOR_ERROR, "%s: bad gamma data type qualifier 0x%x\n",
                  me, dtcq)
             return Sane.STATUS_INVAL
         }
@@ -770,7 +770,7 @@ static Sane.Status send (SnapScan_Scanner *pss, u_char dtc, u_char dtcq)
         tl = calibration_line_length(pss)
         break
     default:
-        DBG (DL_MAJOR_ERROR, "%s: unsupported data type code 0x%x\n",
+        DBG(DL_MAJOR_ERROR, "%s: unsupported data type code 0x%x\n",
              me, (unsigned) dtc)
         return Sane.STATUS_INVAL
     }
@@ -781,9 +781,9 @@ static Sane.Status send (SnapScan_Scanner *pss, u_char dtc, u_char dtcq)
     pss.buf[7] = (tl >> 8) & 0xff
     pss.buf[8] = tl & 0xff
 
-    status = snapscan_cmd (pss.pdev.bus, pss.fd, pss.buf, SEND_LENGTH + tl,
+    status = snapscan_cmd(pss.pdev.bus, pss.fd, pss.buf, SEND_LENGTH + tl,
                              NULL, NULL)
-    CHECK_STATUS (status, me, "snapscan_cmd")
+    CHECK_STATUS(status, me, "snapscan_cmd")
     return status
 }
 
@@ -791,18 +791,18 @@ import snapscan-data.c"
 static Sane.Status send_calibration_5150(SnapScan_Scanner *pss)
 {
     static const Int length = sizeof(calibration_data_5150)
-    Sane.Byte* buf = malloc (length + SEND_LENGTH)
+    Sane.Byte* buf = malloc(length + SEND_LENGTH)
     Sane.Status status
-    zero_buf (buf, SEND_LENGTH)
+    zero_buf(buf, SEND_LENGTH)
     *buf = SEND
     *(buf + 2) = DTC_CALIBRATION
     *(buf + 6) = (length >> 16) & 0xff
     *(buf + 7) = (length >> 8) & 0xff
     *(buf + 8) = length & 0xff
     memcpy(buf + SEND_LENGTH, calibration_data_5150, length)
-    status = snapscan_cmd (
+    status = snapscan_cmd(
       pss.pdev.bus, pss.fd, buf, SEND_LENGTH + length, NULL, NULL)
-    free (buf)
+    free(buf)
     return status
 }
 
@@ -843,30 +843,30 @@ static Sane.Status send_calibration_5150(SnapScan_Scanner *pss)
 #define SET_WINDOW_P_BLUE_UNDER_COLOR      45
 #define SET_WINDOW_P_GREEN_UNDER_COLOR     44
 
-static Sane.Status prepare_set_window (SnapScan_Scanner *pss)
+static Sane.Status prepare_set_window(SnapScan_Scanner *pss)
 {
     static const char *me = "prepare_set_window"
     u_char *pc
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
-    zero_buf (pss.cmd, MAX_SCSI_CMD_LEN)
+    DBG(DL_CALL_TRACE, "%s\n", me)
+    zero_buf(pss.cmd, MAX_SCSI_CMD_LEN)
 
     /* basic command */
     pc = pss.cmd
     pc[0] = SET_WINDOW
-    u_int_to_u_char3p ((u_int) SET_WINDOW_TRANSFER_LEN,
+    u_int_to_u_char3p((u_int) SET_WINDOW_TRANSFER_LEN,
                        pc + SET_WINDOW_P_TRANSFER_LEN)
 
     /* header; we support only one window */
     pc += SET_WINDOW_LEN
-    u_short_to_u_charp (SET_WINDOW_DESC_LEN, pc + SET_WINDOW_P_DESC_LEN)
+    u_short_to_u_charp(SET_WINDOW_DESC_LEN, pc + SET_WINDOW_P_DESC_LEN)
 
     /* the sole window descriptor */
     pc += SET_WINDOW_HEADER_LEN
     pc[SET_WINDOW_P_WIN_ID] = 0
-    u_short_to_u_charp (pss.res, pc + SET_WINDOW_P_XRES)
-    u_short_to_u_charp (pss.res, pc + SET_WINDOW_P_YRES)
-    DBG (DL_CALL_TRACE, "%s Resolution: %d\n", me, pss.res)
+    u_short_to_u_charp(pss.res, pc + SET_WINDOW_P_XRES)
+    u_short_to_u_charp(pss.res, pc + SET_WINDOW_P_YRES)
+    DBG(DL_CALL_TRACE, "%s Resolution: %d\n", me, pss.res)
 
     pc[SET_WINDOW_P_BRIGHTNESS] = 128
     pc[SET_WINDOW_P_THRESHOLD] =
@@ -877,21 +877,21 @@ static Sane.Status prepare_set_window (SnapScan_Scanner *pss)
         SnapScan_Mode mode = pss.mode
         pss.bpp_scan = pss.val[OPT_BIT_DEPTH].w
 
-        if (pss.preview)
+        if(pss.preview)
         {
             mode = pss.preview_mode
-            if (pss.pdev.model != SCANWIT2720S)
+            if(pss.pdev.model != SCANWIT2720S)
                 pss.bpp_scan = 8
         }
 
-        DBG (DL_MINOR_INFO, "%s Mode: %d\n", me, mode)
-        switch (mode)
+        DBG(DL_MINOR_INFO, "%s Mode: %d\n", me, mode)
+        switch(mode)
         {
         case MD_COLOUR:
             pc[SET_WINDOW_P_COMPOSITION] = 0x05;    /* multi-level RGB */
             break
         case MD_BILEVELCOLOUR:
-            if (pss.halftone)
+            if(pss.halftone)
                 pc[SET_WINDOW_P_COMPOSITION] = 0x04;    /* halftone RGB */
             else
                 pc[SET_WINDOW_P_COMPOSITION] = 0x03;    /* bi-level RGB */
@@ -901,10 +901,10 @@ static Sane.Status prepare_set_window (SnapScan_Scanner *pss)
             pc[SET_WINDOW_P_COMPOSITION] = 0x02;    /* grayscale */
             break
         case MD_LINEART:
-            if (pss.halftone)
+            if(pss.halftone)
                 pc[SET_WINDOW_P_COMPOSITION] = 0x01;    /* b&w halftone */
             else
-                pc[SET_WINDOW_P_COMPOSITION] = 0x00;    /* b&w (lineart) */
+                pc[SET_WINDOW_P_COMPOSITION] = 0x00;    /* b&w(lineart) */
             pss.bpp_scan = 1
             break
         default:
@@ -912,7 +912,7 @@ static Sane.Status prepare_set_window (SnapScan_Scanner *pss)
         }
 
         pc[SET_WINDOW_P_BITS_PER_PIX] = pss.bpp_scan
-        DBG (DL_INFO, "%s: bits-per-pixel set to %d\n", me, (Int) pss.bpp_scan)
+        DBG(DL_INFO, "%s: bits-per-pixel set to %d\n", me, (Int) pss.bpp_scan)
     }
     /* the RIF bit is the high bit of the padding type */
     pc[SET_WINDOW_P_PADDING_TYPE] = 0x00 /*| (pss.negative ? 0x00 : 0x80) */ 
@@ -923,7 +923,7 @@ static Sane.Status prepare_set_window (SnapScan_Scanner *pss)
                                             halftone is
                                             actually used */
 
-    u_short_to_u_charp (0x0000, pc + SET_WINDOW_P_BIT_ORDERING);    /* used? */
+    u_short_to_u_charp(0x0000, pc + SET_WINDOW_P_BIT_ORDERING);    /* used? */
     pc[SET_WINDOW_P_COMPRESSION_TYPE] = 0;    /* none */
     pc[SET_WINDOW_P_COMPRESSION_ARG] = 0;    /* none applicable */
     if(pss.pdev.model != ACER300F
@@ -935,7 +935,7 @@ static Sane.Status prepare_set_window (SnapScan_Scanner *pss)
        pss.pdev.model != PRISA610
     ) {
         pc[SET_WINDOW_P_DEBUG_MODE] = 2;        /* use full 128k buffer */
-        if (pss.mode != MD_LINEART)
+        if(pss.mode != MD_LINEART)
         {
             pc[SET_WINDOW_P_GAMMA_NO] = 0x01;   /* downloaded gamma table */
         }
@@ -948,7 +948,7 @@ static Sane.Status prepare_set_window (SnapScan_Scanner *pss)
     return Sane.STATUS_GOOD
 }
 
-static Sane.Status set_window (SnapScan_Scanner *pss)
+static Sane.Status set_window(SnapScan_Scanner *pss)
 {
     static const char *me = "set_window"
     Sane.Status status
@@ -956,9 +956,9 @@ static Sane.Status set_window (SnapScan_Scanner *pss)
     u_char *pc
     Int pos_factor
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
+    DBG(DL_CALL_TRACE, "%s\n", me)
     status = prepare_set_window(pss)
-    CHECK_STATUS (status, me, "prepare_set_window")
+    CHECK_STATUS(status, me, "prepare_set_window")
 
     pc = pss.cmd
 
@@ -968,7 +968,7 @@ static Sane.Status set_window (SnapScan_Scanner *pss)
     /* the sole window descriptor */
     pc += SET_WINDOW_HEADER_LEN
 
-    switch (pss.pdev.model)
+    switch(pss.pdev.model)
     {
         case PRISA5000:
         case PRISA5000E:
@@ -1004,113 +1004,113 @@ static Sane.Status set_window (SnapScan_Scanner *pss)
             (Int) (pos_factor*IN_PER_MM*Sane.UNFIX(pss.bry))
 
         /* Check for brx > tlx and bry > tly */
-        if (brxp <= tlxp) {
-            tlxp = MAX (0, brxp - 75)
+        if(brxp <= tlxp) {
+            tlxp = MAX(0, brxp - 75)
         }
-        if (bryp <= tlyp) {
-            tlyp = MAX (0, bryp - 75)
+        if(bryp <= tlyp) {
+            tlyp = MAX(0, bryp - 75)
         }
 
-        u_int_to_u_char4p (tlxp, pc + SET_WINDOW_P_TLX)
-        u_int_to_u_char4p (tlyp, pc + SET_WINDOW_P_TLY)
-        u_int_to_u_char4p (MAX (((unsigned) (brxp - tlxp)), 75),
+        u_int_to_u_char4p(tlxp, pc + SET_WINDOW_P_TLX)
+        u_int_to_u_char4p(tlyp, pc + SET_WINDOW_P_TLY)
+        u_int_to_u_char4p(MAX(((unsigned) (brxp - tlxp)), 75),
                            pc + SET_WINDOW_P_WIDTH)
-        u_int_to_u_char4p (MAX (((unsigned) (bryp - tlyp)), 75),
+        u_int_to_u_char4p(MAX(((unsigned) (bryp - tlyp)), 75),
                            pc + SET_WINDOW_P_LENGTH)
-        DBG (DL_INFO, "%s Width:  %d\n", me, brxp-tlxp)
-        DBG (DL_INFO, "%s Length: %d\n", me, bryp-tlyp)
+        DBG(DL_INFO, "%s Width:  %d\n", me, brxp-tlxp)
+        DBG(DL_INFO, "%s Length: %d\n", me, bryp-tlyp)
     }
 
     source = 0x0
-    if (pss.preview) {
+    if(pss.preview) {
         source |= 0x80; /* no high quality in preview */
     }
     else {
         source |= 0x40; /* no preview */
     }
-    if (!pss.highquality) {
+    if(!pss.highquality) {
         source |= 0x80; /* no high quality */
     }
-    if ((pss.pdev.model == PERFECTION2480) || (pss.pdev.model == PERFECTION3490)) {
+    if((pss.pdev.model == PERFECTION2480) || (pss.pdev.model == PERFECTION3490)) {
         source |= 0x40; /* 2480/3490 always need no_preview bit */
     }
-    if (pss.source == SRC_TPO) {
+    if(pss.source == SRC_TPO) {
         source |= 0x08
     }
-    if (pss.source == SRC_ADF) {
+    if(pss.source == SRC_ADF) {
         source |= 0x10
     }
     pc[SET_WINDOW_P_OPERATION_MODE] = source
-    DBG (DL_MINOR_INFO, "%s: operation mode set to 0x%02x\n", me, (Int) source)
+    DBG(DL_MINOR_INFO, "%s: operation mode set to 0x%02x\n", me, (Int) source)
 
     do {
-        status = snapscan_cmd (pss.pdev.bus, pss.fd, pss.cmd,
+        status = snapscan_cmd(pss.pdev.bus, pss.fd, pss.cmd,
                   SET_WINDOW_TOTAL_LEN, NULL, NULL)
-        if (status == Sane.STATUS_DEVICE_BUSY) {
-            DBG (DL_MINOR_INFO, "%s: waiting for scanner to warm up\n", me)
-            wait_scanner_ready (pss)
+        if(status == Sane.STATUS_DEVICE_BUSY) {
+            DBG(DL_MINOR_INFO, "%s: waiting for scanner to warm up\n", me)
+            wait_scanner_ready(pss)
         }
-    } while (status == Sane.STATUS_DEVICE_BUSY)
+    } while(status == Sane.STATUS_DEVICE_BUSY)
 
-    CHECK_STATUS (status, me, "snapscan_cmd")
+    CHECK_STATUS(status, me, "snapscan_cmd")
     return status
 }
 
-static Sane.Status set_window_autofocus (SnapScan_Scanner *copy)
+static Sane.Status set_window_autofocus(SnapScan_Scanner *copy)
 {
     static char me[] = "set_window_autofocus"
     Sane.Status status
 
-    DBG (DL_CALL_TRACE, "%s(%p)\n", me, (void*)copy)
+    DBG(DL_CALL_TRACE, "%s(%p)\n", me, (void*)copy)
 
     copy.res = copy.actual_res
-    status = prepare_set_window (copy)
-    CHECK_STATUS (status, me, "prepare_set_window")
+    status = prepare_set_window(copy)
+    CHECK_STATUS(status, me, "prepare_set_window")
 
-    u_int_to_u_char4p (1700, copy.cmd + SET_WINDOW_DESC + SET_WINDOW_P_TLY)
+    u_int_to_u_char4p(1700, copy.cmd + SET_WINDOW_DESC + SET_WINDOW_P_TLY)
     /* fill in width & height */
-    u_int_to_u_char4p (2550, copy.cmd + SET_WINDOW_DESC + SET_WINDOW_P_WIDTH)
-    u_int_to_u_char4p (128, copy.cmd + SET_WINDOW_DESC + SET_WINDOW_P_LENGTH)
+    u_int_to_u_char4p(2550, copy.cmd + SET_WINDOW_DESC + SET_WINDOW_P_WIDTH)
+    u_int_to_u_char4p(128, copy.cmd + SET_WINDOW_DESC + SET_WINDOW_P_LENGTH)
 
     copy.cmd[SET_WINDOW_DESC + SET_WINDOW_P_BITS_PER_PIX] = 12
     copy.cmd[SET_WINDOW_DESC + SET_WINDOW_P_OPERATION_MODE] = 0x49; /* focusing mode */
-    return snapscan_cmd (copy.pdev.bus, copy.fd, copy.cmd,
+    return snapscan_cmd(copy.pdev.bus, copy.fd, copy.cmd,
                 SET_WINDOW_TOTAL_LEN, NULL, NULL)
 }
 
 #define SET_FRAME_LEN	10
 
-static Sane.Status set_frame (SnapScan_Scanner *pss, Sane.Byte frame_no)
+static Sane.Status set_frame(SnapScan_Scanner *pss, Sane.Byte frame_no)
 {
     static const char *me = "set_frame"
     Sane.Status status
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
-    DBG (DL_VERBOSE, "%s setting frame to %d\n", me, frame_no)
-    zero_buf (pss.cmd, MAX_SCSI_CMD_LEN)
+    DBG(DL_CALL_TRACE, "%s\n", me)
+    DBG(DL_VERBOSE, "%s setting frame to %d\n", me, frame_no)
+    zero_buf(pss.cmd, MAX_SCSI_CMD_LEN)
     pss.cmd[0] = OBJECT_POSITION
     pss.cmd[1] = 2;          /* Absolute position used here to select the frame */
     pss.cmd[4] = frame_no
 
-    status = snapscan_cmd (pss.pdev.bus, pss.fd, pss.cmd, SET_FRAME_LEN, NULL, NULL)
-    CHECK_STATUS (status, me, "snapscan_cmd")
+    status = snapscan_cmd(pss.pdev.bus, pss.fd, pss.cmd, SET_FRAME_LEN, NULL, NULL)
+    CHECK_STATUS(status, me, "snapscan_cmd")
 
     return status
 }
 
-static Sane.Status set_focus (SnapScan_Scanner *pss, Int focus)
+static Sane.Status set_focus(SnapScan_Scanner *pss, Int focus)
 {
     static const char *me = "set_focus"
     Sane.Status status
 
-    DBG (DL_CALL_TRACE, "%s(%d)\n", me, focus)
-    zero_buf (pss.cmd, MAX_SCSI_CMD_LEN)
+    DBG(DL_CALL_TRACE, "%s(%d)\n", me, focus)
+    zero_buf(pss.cmd, MAX_SCSI_CMD_LEN)
     pss.cmd[0] = OBJECT_POSITION
     pss.cmd[1] = 4;          /* Rotate object but here it sets the focus point */
     pss.cmd[3] = (focus >> 8) & 0xFF
     pss.cmd[4] = focus & 0xFF
-    status = snapscan_cmd (pss.pdev.bus, pss.fd, pss.cmd, SET_FRAME_LEN, NULL, NULL)
-    CHECK_STATUS (status, me, "snapscan_cmd")
+    status = snapscan_cmd(pss.pdev.bus, pss.fd, pss.cmd, SET_FRAME_LEN, NULL, NULL)
+    CHECK_STATUS(status, me, "snapscan_cmd")
     return status
 }
 
@@ -1121,35 +1121,35 @@ static Int get_8 (u_char *p)
     return b
 }
 
-static double get_val (u_char *p, Int len, Int x)
+static double get_val(u_char *p, Int len, Int x)
 {
 	return get_8 (p + ((x + len) << 1)) / 255.0
 }
 
-static double sum_pixel_differences (u_char *p, Int len)
+static double sum_pixel_differences(u_char *p, Int len)
 {
 	double v, m, s
 	Int i
 
 	s = 0
-	for (i = 0; i < len-1; i++) {
-		v = get_val (p, len, i)
-		m = get_val (p, len, i+1)
-		s += fabs (v - m)
+	for(i = 0; i < len-1; i++) {
+		v = get_val(p, len, i)
+		m = get_val(p, len, i+1)
+		s += fabs(v - m)
 	}
 	return s
 }
 
-static Sane.Status scan (SnapScan_Scanner *pss)
+static Sane.Status scan(SnapScan_Scanner *pss)
 {
     static const char *me = "scan"
     Sane.Status status
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
-    zero_buf (pss.cmd, MAX_SCSI_CMD_LEN)
+    DBG(DL_CALL_TRACE, "%s\n", me)
+    zero_buf(pss.cmd, MAX_SCSI_CMD_LEN)
     pss.cmd[0] = SCAN
-    status = snapscan_cmd (pss.pdev.bus, pss.fd, pss.cmd, SCAN_LEN, NULL, NULL)
-    CHECK_STATUS (status, me, "snapscan_cmd")
+    status = snapscan_cmd(pss.pdev.bus, pss.fd, pss.cmd, SCAN_LEN, NULL, NULL)
+    CHECK_STATUS(status, me, "snapscan_cmd")
     return status
 }
 
@@ -1159,29 +1159,29 @@ static Sane.Status scan (SnapScan_Scanner *pss)
 #define READ_TRANSTIME 0x80
 
 /* number of bytes expected must be in pss.expected_read_bytes */
-static Sane.Status scsi_read (SnapScan_Scanner *pss, u_char read_type)
+static Sane.Status scsi_read(SnapScan_Scanner *pss, u_char read_type)
 {
     static const char *me = "scsi_read"
     Sane.Status status
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
-    zero_buf (pss.cmd, MAX_SCSI_CMD_LEN)
+    DBG(DL_CALL_TRACE, "%s\n", me)
+    zero_buf(pss.cmd, MAX_SCSI_CMD_LEN)
     pss.cmd[0] = READ
     pss.cmd[2] = read_type
-    if (read_type == READ_TRANSTIME && pss.pdev.model == PERFECTION2480)
+    if(read_type == READ_TRANSTIME && pss.pdev.model == PERFECTION2480)
         pss.cmd[5] = 1
 
-    u_int_to_u_char3p (pss.expected_read_bytes, pss.cmd + 6)
+    u_int_to_u_char3p(pss.expected_read_bytes, pss.cmd + 6)
 
     pss.read_bytes = pss.expected_read_bytes
 
-    status = snapscan_cmd (pss.pdev.bus, pss.fd, pss.cmd,
+    status = snapscan_cmd(pss.pdev.bus, pss.fd, pss.cmd,
                  READ_LEN, pss.buf, &pss.read_bytes)
-    CHECK_STATUS (status, me, "snapscan_cmd")
+    CHECK_STATUS(status, me, "snapscan_cmd")
     return status
 }
 
-static Sane.Status get_focus (SnapScan_Scanner *pss)
+static Sane.Status get_focus(SnapScan_Scanner *pss)
 {
     static const char *me = "get_focus"
     Int focus_point, max_focus_point
@@ -1191,52 +1191,52 @@ static Sane.Status get_focus (SnapScan_Scanner *pss)
 
     copy = *pss
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
+    DBG(DL_CALL_TRACE, "%s\n", me)
     reserve_unit(&copy)
 
-    status = set_window_autofocus (&copy)
-    CHECK_STATUS (status, me, "set_window_autofocus")
+    status = set_window_autofocus(&copy)
+    CHECK_STATUS(status, me, "set_window_autofocus")
 
-    status = inquiry (&copy)
-    CHECK_STATUS (status, me, "inquiry")
+    status = inquiry(&copy)
+    CHECK_STATUS(status, me, "inquiry")
 
-    status = scan (&copy)
-    CHECK_STATUS (status, me, "scan")
+    status = scan(&copy)
+    CHECK_STATUS(status, me, "scan")
 
-    status = set_frame (&copy, copy.frame_no)
-    CHECK_STATUS (status, me, "set_frame")
+    status = set_frame(&copy, copy.frame_no)
+    CHECK_STATUS(status, me, "set_frame")
 
-    DBG (DL_VERBOSE, "%s: Expected number of bytes for each read %d\n", me, (Int)copy.bytes_per_line)
-    DBG (DL_VERBOSE, "%s: Expected number of pixels per line %d\n", me, (Int)copy.pixels_per_line)
+    DBG(DL_VERBOSE, "%s: Expected number of bytes for each read %d\n", me, (Int)copy.bytes_per_line)
+    DBG(DL_VERBOSE, "%s: Expected number of pixels per line %d\n", me, (Int)copy.pixels_per_line)
     max_focus_point = -1
     max = -1
-    for (focus_point = 0; focus_point <= 0x300; focus_point += 6) {
-        status = set_focus (&copy, focus_point)
-        CHECK_STATUS (status, me, "set_focus")
+    for(focus_point = 0; focus_point <= 0x300; focus_point += 6) {
+        status = set_focus(&copy, focus_point)
+        CHECK_STATUS(status, me, "set_focus")
 
         copy.expected_read_bytes = copy.bytes_per_line
-        status = scsi_read (&copy, READ_IMAGE)
-        CHECK_STATUS (status, me, "scsi_read")
+        status = scsi_read(&copy, READ_IMAGE)
+        CHECK_STATUS(status, me, "scsi_read")
 
-        sum = sum_pixel_differences (copy.buf, copy.pixels_per_line)
+        sum = sum_pixel_differences(copy.buf, copy.pixels_per_line)
 
-        if (sum > max) {
+        if(sum > max) {
             max = sum
             max_focus_point = focus_point
         }
     }
     pss.focus = max_focus_point
-    DBG (DL_VERBOSE, "%s: Focus point found to be at 0x%x\n", me, max_focus_point)
-    release_unit (&copy)
+    DBG(DL_VERBOSE, "%s: Focus point found to be at 0x%x\n", me, max_focus_point)
+    release_unit(&copy)
 
-    wait_scanner_ready (&copy)
-    CHECK_STATUS (status, me, "wait_scanner_ready")
+    wait_scanner_ready(&copy)
+    CHECK_STATUS(status, me, "wait_scanner_ready")
 
     return status
 }
 
 /*
-static Sane.Status request_sense (SnapScan_Scanner *pss)
+static Sane.Status request_sense(SnapScan_Scanner *pss)
 {
     static const char *me = "request_sense"
     size_t read_bytes = 0
@@ -1246,29 +1246,29 @@ static Sane.Status request_sense (SnapScan_Scanner *pss)
 
     read_bytes = 20
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
-    status = snapscan_cmd (pss.pdev.bus, pss.fd, cmd, sizeof (cmd),
+    DBG(DL_CALL_TRACE, "%s\n", me)
+    status = snapscan_cmd(pss.pdev.bus, pss.fd, cmd, sizeof(cmd),
                data, &read_bytes)
-    if (status != Sane.STATUS_GOOD)
+    if(status != Sane.STATUS_GOOD)
     {
-        DBG (DL_MAJOR_ERROR, "%s: scsi command error: %s\n",
-             me, Sane.strstatus (status))
+        DBG(DL_MAJOR_ERROR, "%s: scsi command error: %s\n",
+             me, Sane.strstatus(status))
     }
     else
     {
-        status = sense_handler (pss.fd, data, (void *) pss)
+        status = sense_handler(pss.fd, data, (void *) pss)
     }
     return status
 }
 */
 
-static Sane.Status send_diagnostic (SnapScan_Scanner *pss)
+static Sane.Status send_diagnostic(SnapScan_Scanner *pss)
 {
     static const char *me = "send_diagnostic"
     u_char cmd[] = {SEND_DIAGNOSTIC, 0x04, 0, 0, 0, 0]    /* self-test */
     Sane.Status status
 
-    if (pss.pdev.model == PRISA620
+    if(pss.pdev.model == PRISA620
         ||
      pss.pdev.model == PRISA610
         ||
@@ -1280,28 +1280,28 @@ static Sane.Status send_diagnostic (SnapScan_Scanner *pss)
     {
         return Sane.STATUS_GOOD
     }
-    DBG (DL_CALL_TRACE, "%s\n", me)
+    DBG(DL_CALL_TRACE, "%s\n", me)
 
-    status = snapscan_cmd (pss.pdev.bus, pss.fd, cmd, sizeof (cmd), NULL, NULL)
-    CHECK_STATUS (status, me, "snapscan_cmd")
+    status = snapscan_cmd(pss.pdev.bus, pss.fd, cmd, sizeof(cmd), NULL, NULL)
+    CHECK_STATUS(status, me, "snapscan_cmd")
     return status
 }
 
-static Sane.Status wait_scanner_ready (SnapScan_Scanner *pss)
+static Sane.Status wait_scanner_ready(SnapScan_Scanner *pss)
 {
     static char me[] = "wait_scanner_ready"
     Sane.Status status
     Int retries
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
+    DBG(DL_CALL_TRACE, "%s\n", me)
 
     /* if the tray is returning to the start position
        no time to wait is returned by the scanner. We'll
        try several times and sleep 1 second between each try. */
-    for (retries = 20; retries; retries--)
+    for(retries = 20; retries; retries--)
     {
-        status = test_unit_ready (pss)
-        switch (status)
+        status = test_unit_ready(pss)
+        switch(status)
         {
         case Sane.STATUS_GOOD:
             return status
@@ -1309,32 +1309,32 @@ static Sane.Status wait_scanner_ready (SnapScan_Scanner *pss)
             /* first additional sense byte contains time to wait */
             {
                 Int delay = pss.asi1
-                if (delay > 0)
+                if(delay > 0)
                 {
-                    DBG (0,
+                    DBG(0,
                         "Scanner warming up - waiting %d seconds.\n",
                         delay)
-                    sleep (delay)
+                    sleep(delay)
                 }
                 else
                 {
                     /* This seems to happen for Epson scanners. Return
                        Sane.STATUS_GOOD and hope the scanner accepts the
                        next command... */
-                    DBG (DL_CALL_TRACE, "%s: No timeout specified, returning immediately\n", me)
+                    DBG(DL_CALL_TRACE, "%s: No timeout specified, returning immediately\n", me)
                     return Sane.STATUS_GOOD
                 }
             }
             break
         case Sane.STATUS_IO_ERROR:
             /* hardware error; bail */
-            DBG (DL_MAJOR_ERROR, "%s: hardware error detected.\n", me)
+            DBG(DL_MAJOR_ERROR, "%s: hardware error detected.\n", me)
             return status
         case Sane.STATUS_JAMMED:
         case Sane.STATUS_NO_DOCS:
             return status
         default:
-            DBG (DL_MAJOR_ERROR,
+            DBG(DL_MAJOR_ERROR,
                 "%s: unhandled request_sense result; trying again.\n",
                 me)
             break
@@ -1350,7 +1350,7 @@ static Sane.Status wait_scanner_ready (SnapScan_Scanner *pss)
 #define NUM_CALIBRATION_LINES_EPSON 48
 #define NUM_CALIBRATION_LINES_EPSON_BLACK 128
 
-static Sane.Status calibrate_epson (SnapScan_Scanner *pss)
+static Sane.Status calibrate_epson(SnapScan_Scanner *pss)
 {
     u_char *buf, *pbuf
     Int *bins
@@ -1369,41 +1369,41 @@ static Sane.Status calibrate_epson (SnapScan_Scanner *pss)
     Int bytes_per_bin = 1
 
     /* in 16 bit mode we get two bytes of cal data per bin */
-    if (pss.bpp_scan == 16)
+    if(pss.bpp_scan == 16)
         bytes_per_bin = 2
 
     /* calculate number of bins depending on mode and resolution
      * colour mode requires bins for each of rgb
      * full resolution doubles it because of second sensor line */
-    if (is_colour_mode(actual_mode(pss))) {
+    if(is_colour_mode(actual_mode(pss))) {
         num_bins *= 3
     }
-    if (pss.res >= (Int)pss.actual_res) {
+    if(pss.res >= (Int)pss.actual_res) {
         num_bins *= 2
     }
 
     /* allocate memory for bins, all the red, then green, then blue */
-    bins = (Int *) malloc (num_bins * sizeof (Int))
-    if (!bins) {
-        DBG (DL_MAJOR_ERROR, "%s: out of memory allocating bins, %ld bytes.", me, (u_long)num_bins * sizeof (Int))
+    bins = (Int *) malloc(num_bins * sizeof(Int))
+    if(!bins) {
+        DBG(DL_MAJOR_ERROR, "%s: out of memory allocating bins, %ld bytes.", me, (u_long)num_bins * sizeof(Int))
         return Sane.STATUS_NO_MEM
     }
 
     /* allocate buffer for receive data */
     expected_read_bytes = pixels_per_line * 3 * 4
-    buf = (u_char *) malloc (expected_read_bytes)
-    if (!buf) {
-        DBG (DL_MAJOR_ERROR, "%s: out of memory allocating calibration, %ld bytes.", me, (u_long)expected_read_bytes)
-        free (bins)
+    buf = (u_char *) malloc(expected_read_bytes)
+    if(!buf) {
+        DBG(DL_MAJOR_ERROR, "%s: out of memory allocating calibration, %ld bytes.", me, (u_long)expected_read_bytes)
+        free(bins)
         return Sane.STATUS_NO_MEM
     }
 
     loop_inc = expected_read_bytes / (num_bins * bytes_per_bin)
 
     /* do two passes, first pass does basic calibration, second does transparency adaptor if in use */
-    for (pass = 0; pass < 2; pass++) {
-        if (pass == 1) {
-            if (pss.source == SRC_TPO) {
+    for(pass = 0; pass < 2; pass++) {
+        if(pass == 1) {
+            if(pss.source == SRC_TPO) {
                 /* pass 1 is for black level calibration of transparency adaptor */
                 cal_lines = NUM_CALIBRATION_LINES_EPSON_BLACK
                 dtc = READ_CALIBRATION_BLACK
@@ -1412,47 +1412,47 @@ static Sane.Status calibrate_epson (SnapScan_Scanner *pss)
         }
 
         /* empty the bins */
-        for (i = 0; i < num_bins; i++)
+        for(i = 0; i < num_bins; i++)
             bins[i] = 0
 
-        for (i = 0; i < cal_lines; i += loop_inc) {
+        for(i = 0; i < cal_lines; i += loop_inc) {
             /* get the calibration data */
-            zero_buf (pss.cmd, MAX_SCSI_CMD_LEN)
+            zero_buf(pss.cmd, MAX_SCSI_CMD_LEN)
             pss.cmd[0] = READ
             pss.cmd[2] = dtc
             pss.cmd[5] = cal_lines
-            if (cal_lines - i > loop_inc)
+            if(cal_lines - i > loop_inc)
                 expected_read_bytes = loop_inc * (num_bins * bytes_per_bin)
             else
                 expected_read_bytes = (cal_lines - i) * (num_bins * bytes_per_bin)
 
-            u_int_to_u_char3p (expected_read_bytes, pss.cmd + 6)
+            u_int_to_u_char3p(expected_read_bytes, pss.cmd + 6)
             read_bytes = expected_read_bytes
 
-            status = snapscan_cmd (pss.pdev.bus, pss.fd, pss.cmd,
+            status = snapscan_cmd(pss.pdev.bus, pss.fd, pss.cmd,
                          READ_LEN, buf, &read_bytes)
 
-            if (status != Sane.STATUS_GOOD) {
+            if(status != Sane.STATUS_GOOD) {
                 DBG(DL_MAJOR_ERROR, "%s: %s command failed: %s\n", me, "read_cal_2480", Sane.strstatus(status))
-                free (bins)
-                free (buf)
+                free(bins)
+                free(buf)
                 return status
             }
 
-            if (read_bytes != expected_read_bytes) {
-                DBG (DL_MAJOR_ERROR, "%s: read %lu of %lu calibration data\n", me, (u_long) read_bytes, (u_long) expected_read_bytes)
-                free (bins)
-                free (buf)
+            if(read_bytes != expected_read_bytes) {
+                DBG(DL_MAJOR_ERROR, "%s: read %lu of %lu calibration data\n", me, (u_long) read_bytes, (u_long) expected_read_bytes)
+                free(bins)
+                free(buf)
                 return Sane.STATUS_IO_ERROR
             }
 
             /* add calibration results into bins */
             pbuf = buf
-            for (j = 0; j < (Int)expected_read_bytes / (num_bins * bytes_per_bin); j++) {
-              for (k = 0; k < num_bins; k++) {
+            for(j = 0; j < (Int)expected_read_bytes / (num_bins * bytes_per_bin); j++) {
+              for(k = 0; k < num_bins; k++) {
                 bins[k] += *pbuf++
                 /* add in second byte for 16bit mode */
-                if (bytes_per_bin == 2) {
+                if(bytes_per_bin == 2) {
                   bins[k] += *pbuf++ * 256
 		}
               }
@@ -1460,10 +1460,10 @@ static Sane.Status calibrate_epson (SnapScan_Scanner *pss)
         }
 
         /* now make averages */
-        for (k = 0; k < num_bins; k++) {
+        for(k = 0; k < num_bins; k++) {
             bins[k] /= cal_lines
             /* also divide by 64 for 16bit mode */
-            if (bytes_per_bin == 2)
+            if(bytes_per_bin == 2)
               bins[k] /= 64
         }
         /* now fill up result buffer */
@@ -1472,8 +1472,8 @@ static Sane.Status calibrate_epson (SnapScan_Scanner *pss)
         /* create data to send back: start with r g b values, and follow with differences
          * to previous value */
         pbuf = pss.buf + SEND_LENGTH
-        if (is_colour_mode(actual_mode(pss))) {
-            for (k = 0; k < num_bins / 3; k++) {
+        if(is_colour_mode(actual_mode(pss))) {
+            for(k = 0; k < num_bins / 3; k++) {
                 *pbuf++ = bins[k] - r
                 r = bins[k]
                 *pbuf++ = bins[k + num_bins/3] - g
@@ -1482,61 +1482,61 @@ static Sane.Status calibrate_epson (SnapScan_Scanner *pss)
                 b = bins[k + 2*num_bins/3]
             }
         } else {
-            for (k = 0; k < num_bins; k++) {
+            for(k = 0; k < num_bins; k++) {
                 *pbuf++ = bins[k] - g
                 g = bins[k]
             }
         }
 
-        /* send back the calibration data; round up transfer length (to match windows driver) */
-        zero_buf (pss.buf, SEND_LENGTH)
+        /* send back the calibration data; round up transfer length(to match windows driver) */
+        zero_buf(pss.buf, SEND_LENGTH)
         pss.buf[0] = SEND
         pss.buf[2] = dtc
         tl = (num_bins + 0xff) & ~0xff
-        u_int_to_u_char3p (tl, pss.buf + 6)
-        status = snapscan_cmd (pss.pdev.bus, pss.fd, pss.buf, SEND_LENGTH + tl,
+        u_int_to_u_char3p(tl, pss.buf + 6)
+        status = snapscan_cmd(pss.pdev.bus, pss.fd, pss.buf, SEND_LENGTH + tl,
                                  NULL, NULL)
-        if (status != Sane.STATUS_GOOD) {
+        if(status != Sane.STATUS_GOOD) {
             DBG(DL_MAJOR_ERROR, "%s: %s command failed: %s\n", me, "send_cal_2480", Sane.strstatus(status))
-            free (bins)
-            free (buf)
+            free(bins)
+            free(buf)
             return status
         }
     }
 
-    free (bins)
-    free (buf)
+    free(bins)
+    free(buf)
     return Sane.STATUS_GOOD
 }
 
-static Sane.Status read_calibration_data (SnapScan_Scanner *pss, void *buf, u_char num_lines)
+static Sane.Status read_calibration_data(SnapScan_Scanner *pss, void *buf, u_char num_lines)
 {
     static const char *me = "read_calibration_data"
     Sane.Status status
     size_t expected_read_bytes = num_lines * calibration_line_length(pss)
     size_t read_bytes
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
-    zero_buf (pss.cmd, MAX_SCSI_CMD_LEN)
+    DBG(DL_CALL_TRACE, "%s\n", me)
+    zero_buf(pss.cmd, MAX_SCSI_CMD_LEN)
     pss.cmd[0] = READ
     pss.cmd[2] = READ_CALIBRATION
     pss.cmd[5] = num_lines
-    u_int_to_u_char3p (expected_read_bytes, pss.cmd + 6)
+    u_int_to_u_char3p(expected_read_bytes, pss.cmd + 6)
     read_bytes = expected_read_bytes
 
-    status = snapscan_cmd (pss.pdev.bus, pss.fd, pss.cmd,
+    status = snapscan_cmd(pss.pdev.bus, pss.fd, pss.cmd,
                  READ_LEN, buf, &read_bytes)
-    CHECK_STATUS (status, me, "snapscan_cmd")
+    CHECK_STATUS(status, me, "snapscan_cmd")
 
     if(read_bytes != expected_read_bytes) {
-    DBG (DL_MAJOR_ERROR, "%s: read %lu of %lu calibration data\n", me, (u_long) read_bytes, (u_long) expected_read_bytes)
+    DBG(DL_MAJOR_ERROR, "%s: read %lu of %lu calibration data\n", me, (u_long) read_bytes, (u_long) expected_read_bytes)
     return Sane.STATUS_IO_ERROR
     }
 
     return Sane.STATUS_GOOD
 }
 
-static Sane.Status calibrate (SnapScan_Scanner *pss)
+static Sane.Status calibrate(SnapScan_Scanner *pss)
 {
     Int r
     Int c
@@ -1545,36 +1545,36 @@ static Sane.Status calibrate (SnapScan_Scanner *pss)
     Sane.Status status
     Int line_length = calibration_line_length(pss)
 
-    if ((pss.pdev.model == PERFECTION2480) ||
+    if((pss.pdev.model == PERFECTION2480) ||
         (pss.pdev.model == PERFECTION3490)) {
-        return calibrate_epson (pss)
+        return calibrate_epson(pss)
     }
 
-    if (pss.pdev.model == PRISA5150)
+    if(pss.pdev.model == PRISA5150)
     {
         return send_calibration_5150(pss)
     }
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
+    DBG(DL_CALL_TRACE, "%s\n", me)
 
-    if (line_length) {
+    if(line_length) {
         Int num_lines = pss.phys_buf_sz / line_length
-        if (num_lines > NUM_CALIBRATION_LINES)
+        if(num_lines > NUM_CALIBRATION_LINES)
         {
             num_lines = NUM_CALIBRATION_LINES
-        } else if (num_lines == 0)
+        } else if(num_lines == 0)
         {
-            DBG(DL_MAJOR_ERROR, "%s: scsi request size underflow (< %d bytes)", me, line_length)
+            DBG(DL_MAJOR_ERROR, "%s: scsi request size underflow(< %d bytes)", me, line_length)
             return Sane.STATUS_IO_ERROR
         }
         buf = (u_char *) malloc(num_lines * line_length)
-        if (!buf)
+        if(!buf)
         {
-            DBG (DL_MAJOR_ERROR, "%s: out of memory allocating calibration, %d bytes.", me, num_lines * line_length)
+            DBG(DL_MAJOR_ERROR, "%s: out of memory allocating calibration, %d bytes.", me, num_lines * line_length)
             return Sane.STATUS_NO_MEM
         }
 
-        DBG (DL_MAJOR_ERROR, "%s: reading calibration data (%d lines)\n", me, num_lines)
+        DBG(DL_MAJOR_ERROR, "%s: reading calibration data(%d lines)\n", me, num_lines)
         status = read_calibration_data(pss, buf, num_lines)
         CHECK_STATUS(status, me, "read_calibration_data")
 
@@ -1586,7 +1586,7 @@ static Sane.Status calibrate (SnapScan_Scanner *pss)
             pss.buf[c + SEND_LENGTH] = sum / num_lines
         }
 
-        status = send (pss, DTC_CALIBRATION, 1)
+        status = send(pss, DTC_CALIBRATION, 1)
         CHECK_STATUS(status, me, "send calibration")
         free(buf)
     }
@@ -1608,32 +1608,32 @@ static Sane.Status download_firmware(SnapScan_Scanner * pss)
     zero_buf((unsigned char *)cModel, 255)
     sprintf(cModelName, "%d", bModelNo)
     DBG(DL_INFO, "Looking up %s\n", cModelName)
-    if (pss.pdev.firmware_filename) {
+    if(pss.pdev.firmware_filename) {
         firmware = pss.pdev.firmware_filename
-    } else if (default_firmware_filename) {
+    } else if(default_firmware_filename) {
         firmware = default_firmware_filename
     } else {
-        DBG (0,
+        DBG(0,
             "%s: No firmware entry found in config file %s.\n",
             me,
             SNAPSCAN_CONFIG_FILE
         )
         status = Sane.STATUS_INVAL
     }
-    if (status == Sane.STATUS_GOOD)
+    if(status == Sane.STATUS_GOOD)
     {
         cdbLength = 10
         DBG(DL_INFO, "Downloading %s\n", firmware)
         fd = fopen(firmware,"rb")
         if(fd == NULL)
         {
-            DBG (0, "Cannot open firmware file %s.\n", firmware)
-            DBG (0, "Edit the firmware file entry in %s.\n", SNAPSCAN_CONFIG_FILE)
+            DBG(0, "Cannot open firmware file %s.\n", firmware)
+            DBG(0, "Edit the firmware file entry in %s.\n", SNAPSCAN_CONFIG_FILE)
             status = Sane.STATUS_INVAL
         }
         else
         {
-            switch (pss.pdev.model)
+            switch(pss.pdev.model)
             {
             case PRISA610:
             case PRISA310:
@@ -1688,7 +1688,7 @@ static Sane.Status download_firmware(SnapScan_Scanner * pss)
             DBG(DL_INFO, "Size of firmware: %lu\n", (u_long) bufLength)
             pCDB = (unsigned char *)malloc(bufLength + cdbLength)
             pFwBuf = pCDB + cdbLength
-            zero_buf (pCDB, cdbLength)
+            zero_buf(pCDB, cdbLength)
             (void)fread(pFwBuf,1,bufLength,fd)
 
             *pCDB = SEND
@@ -1697,7 +1697,7 @@ static Sane.Status download_firmware(SnapScan_Scanner * pss)
             *(pCDB + 7) = (bufLength >> 8) & 0xff
             *(pCDB + 8) = bufLength  & 0xff
 
-            status = snapscan_cmd (
+            status = snapscan_cmd(
                 pss.pdev.bus, pss.fd, pCDB, bufLength+cdbLength, NULL, NULL)
             pss.firmware_loaded = Sane.TRUE
 
@@ -1764,10 +1764,10 @@ static Sane.Status download_firmware(SnapScan_Scanner * pss)
  * Fixes for Epson 3490 and 16 bit scan mode
  *
  * Revision 1.40  2005/09/28 22:09:26  oliver-guest
- * Re-enabled enhanced inquiry command for Epson scanners (duh\!)
+ * Re-enabled enhanced inquiry command for Epson scanners(duh\!)
  *
  * Revision 1.39  2005/09/28 21:33:10  oliver-guest
- * Added 16 bit option for Epson scanners (untested)
+ * Added 16 bit option for Epson scanners(untested)
  *
  * Revision 1.38  2005/09/25 08:19:12  oliver-guest
  * Removed debugging code for Epson scanners
@@ -1797,13 +1797,13 @@ static Sane.Status download_firmware(SnapScan_Scanner * pss)
  * Added support for Epson 1270
  *
  * Revision 1.29  2004/10/03 17:34:36  hmg-guest
- * 64 bit platform fixes (bug #300799).
+ * 64 bit platform fixes(bug #300799).
  *
  * Revision 1.28  2004/09/02 20:59:11  oliver-guest
  * Added support for Epson 2480
  *
  * Revision 1.27  2004/04/02 20:19:24  oliver-guest
- * Various bugfixes for gamma correction (thanks to Robert Tsien)
+ * Various bugfixes for gamma correction(thanks to Robert Tsien)
  *
  * Revision 1.26  2003/11/07 23:26:49  oliver-guest
  * Final bugfixes for bascic support of Epson 1670
@@ -1868,7 +1868,7 @@ static Sane.Status download_firmware(SnapScan_Scanner * pss)
  * Revision 1.23  2001/12/08 11:53:31  oliverschwartz
  * - Additional logging in sense handler
  * - Fix wait_scanner_ready() if device reports busy
- * - Fix scanning mode (preview/normal)
+ * - Fix scanning mode(preview/normal)
  *
  * Revision 1.22  2001/11/27 23:16:17  oliverschwartz
  * - Fix color alignment for SnapScan 600
@@ -1906,7 +1906,7 @@ static Sane.Status download_firmware(SnapScan_Scanner * pss)
  * Added model AGFA 1236U
  *
  * Revision 1.13  2001/09/09 18:06:32  oliverschwartz
- * add changes from Acer (new models; automatic firmware upload for USB scanners); fix distorted colour scans after greyscale scans (call set_window only in Sane.start); code cleanup
+ * add changes from Acer(new models; automatic firmware upload for USB scanners); fix distorted colour scans after greyscale scans(call set_window only in Sane.start); code cleanup
  *
  * Revision 1.12  2001/04/10 13:00:31  sable
  * Moving sanei_usb_* to snapscani_usb*
@@ -1919,7 +1919,7 @@ static Sane.Status download_firmware(SnapScan_Scanner * pss)
  * Support for 1212U_2
  *
  * Revision 1.9  2000/11/10 01:01:59  sable
- * USB (kind of) autodetection
+ * USB(kind of) autodetection
  *
  * Revision 1.8  2000/11/01 01:26:43  sable
  * Support for 1212U

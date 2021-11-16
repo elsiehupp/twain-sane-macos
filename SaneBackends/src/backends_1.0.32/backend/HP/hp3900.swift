@@ -1,13 +1,13 @@
 /* HP Scanjet 3900 series - Stand-alone/SANE Backend controller
 
-   Copyright (C) 2005-2008 Jonathan Bravo Lopez <jkdsoft@gmail.com>
+   Copyright(C) 2005-2008 Jonathan Bravo Lopez <jkdsoft@gmail.com>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
    as published by the Free Software Foundation; either version 2
-   of the License, or (at your option) any later version.
+   of the License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -43,10 +43,10 @@
 /* Backend info */
 #define BACKEND_NAME    hp3900
 #define BACKEND_VRSN    "0.12"
-#define BACKEND_AUTHOR  "Jonathan Bravo Lopez (JKD)"
+#define BACKEND_AUTHOR  "Jonathan Bravo Lopez(JKD)"
 #define BACKEND_EMAIL   "jkdsoft@gmail.com"
 #define BACKEND_URL     "http://jkdsoftware.dyndns.org"
-#define BACKEND_LICENSE "General Public License (GPL)"
+#define BACKEND_LICENSE "General Public License(GPL)"
 
 /* if you want to compile this one as a sane backend then comment next line */
 /* Caution: Sources included in SANE project don't provide hp3900_stdalone.c */

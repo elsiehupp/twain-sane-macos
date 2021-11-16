@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -62,7 +62,7 @@ std::uint8_t ScannerInterfaceUsb::read_register(std::uint16_t address)
 
     std::uint8_t value = 0
 
-    if (dev_->model.asic_type == AsicType::GL847 ||
+    if(dev_->model.asic_type == AsicType::GL847 ||
         dev_->model.asic_type == AsicType::GL845 ||
         dev_->model.asic_type == AsicType::GL846 ||
         dev_->model.asic_type == AsicType::GL124)
@@ -71,24 +71,24 @@ std::uint8_t ScannerInterfaceUsb::read_register(std::uint16_t address)
         std::uint16_t address16 = 0x22 + (address << 8)
 
         std::uint16_t usb_value = VALUE_GET_REGISTER
-        if (address > 0xff) {
+        if(address > 0xff) {
             usb_value |= 0x100
         }
 
         usb_dev_.control_msg(REQUEST_TYPE_IN, REQUEST_BUFFER, usb_value, address16, 2, value2x8)
 
         // check usb link status
-        if (value2x8[1] != 0x55) {
+        if(value2x8[1] != 0x55) {
             throw SaneException(Sane.STATUS_IO_ERROR, "invalid read, scanner unplugged?")
         }
 
-        DBG(DBG_io, "%s (0x%02x, 0x%02x) completed\n", __func__, address, value2x8[0])
+        DBG(DBG_io, "%s(0x%02x, 0x%02x) completed\n", __func__, address, value2x8[0])
 
         value = value2x8[0]
 
     } else {
 
-        if (address > 0xff) {
+        if(address > 0xff) {
             throw SaneException("Invalid register address 0x%04x", address)
         }
 
@@ -107,7 +107,7 @@ void ScannerInterfaceUsb::write_register(std::uint16_t address, std::uint8_t val
     DBG_HELPER_ARGS(dbg, "address: 0x%04x, value: 0x%02x", static_cast<unsigned>(address),
                     static_cast<unsigned>(value))
 
-    if (dev_->model.asic_type == AsicType::GL847 ||
+    if(dev_->model.asic_type == AsicType::GL847 ||
         dev_->model.asic_type == AsicType::GL845 ||
         dev_->model.asic_type == AsicType::GL846 ||
         dev_->model.asic_type == AsicType::GL124)
@@ -118,7 +118,7 @@ void ScannerInterfaceUsb::write_register(std::uint16_t address, std::uint8_t val
         buffer[1] = value
 
         std::uint16_t usb_value = VALUE_SET_REGISTER
-        if (address > 0xff) {
+        if(address > 0xff) {
             usb_value |= 0x100
         }
 
@@ -126,7 +126,7 @@ void ScannerInterfaceUsb::write_register(std::uint16_t address, std::uint8_t val
                                   2, buffer)
 
     } else {
-        if (address > 0xff) {
+        if(address > 0xff) {
             throw SaneException("Invalid register address 0x%04x", address)
         }
 
@@ -139,13 +139,13 @@ void ScannerInterfaceUsb::write_register(std::uint16_t address, std::uint8_t val
                              1, &value)
 
     }
-    DBG(DBG_io, "%s (0x%02x, 0x%02x) completed\n", __func__, address, value)
+    DBG(DBG_io, "%s(0x%02x, 0x%02x) completed\n", __func__, address, value)
 }
 
 void ScannerInterfaceUsb::write_registers(const Genesys_Register_Set& regs)
 {
     DBG_HELPER(dbg)
-    if (dev_->model.asic_type == AsicType::GL646 ||
+    if(dev_->model.asic_type == AsicType::GL646 ||
         dev_->model.asic_type == AsicType::GL841)
     {
         uint8_t outdata[8]
@@ -153,14 +153,14 @@ void ScannerInterfaceUsb::write_registers(const Genesys_Register_Set& regs)
         buffer.reserve(regs.size() * 2)
 
         /* copy registers and values in data buffer */
-        for (const auto& r : regs) {
+        for(const auto& r : regs) {
             buffer.push_back(r.address)
             buffer.push_back(r.value)
         }
 
-        DBG(DBG_io, "%s (elems= %zu, size = %zu)\n", __func__, regs.size(), buffer.size())
+        DBG(DBG_io, "%s(elems= %zu, size = %zu)\n", __func__, regs.size(), buffer.size())
 
-        if (dev_->model.asic_type == AsicType::GL646) {
+        if(dev_->model.asic_type == AsicType::GL646) {
             outdata[0] = BULK_OUT
             outdata[1] = BULK_REGISTER
             outdata[2] = 0x00
@@ -177,9 +177,9 @@ void ScannerInterfaceUsb::write_registers(const Genesys_Register_Set& regs)
 
             usb_dev_.bulk_write(buffer.data(), &write_size)
         } else {
-            for (std::size_t i = 0; i < regs.size();) {
+            for(std::size_t i = 0; i < regs.size();) {
                 std::size_t c = regs.size() - i
-                if (c > 32)  /*32 is max on GL841. checked that.*/
+                if(c > 32)  /*32 is max on GL841. checked that.*/
                     c = 32
 
                 usb_dev_.control_msg(REQUEST_TYPE_OUT, REQUEST_BUFFER, VALUE_SET_REGISTER,
@@ -189,7 +189,7 @@ void ScannerInterfaceUsb::write_registers(const Genesys_Register_Set& regs)
             }
         }
     } else {
-        for (const auto& r : regs) {
+        for(const auto& r : regs) {
             write_register(r.address, r.value)
         }
     }
@@ -208,7 +208,7 @@ static void bulk_read_data_send_header(UsbDevice& usb_dev, AsicType asic_type, s
     DBG_HELPER(dbg)
 
     uint8_t outdata[8]
-    if (asic_type == AsicType::GL124 ||
+    if(asic_type == AsicType::GL124 ||
         asic_type == AsicType::GL845 ||
         asic_type == AsicType::GL846 ||
         asic_type == AsicType::GL847)
@@ -218,7 +218,7 @@ static void bulk_read_data_send_header(UsbDevice& usb_dev, AsicType asic_type, s
         outdata[1] = 0
         outdata[2] = 0
         outdata[3] = 0x10
-    } else if (asic_type == AsicType::GL841 ||
+    } else if(asic_type == AsicType::GL841 ||
                asic_type == AsicType::GL842 ||
                asic_type == AsicType::GL843)
     {
@@ -250,7 +250,7 @@ void ScannerInterfaceUsb::bulk_read_data(std::uint8_t addr, std::uint8_t* data, 
 
     unsigned is_addr_used = 1
     unsigned has_header_before_each_chunk = 0
-    if (dev_->model.asic_type == AsicType::GL124 ||
+    if(dev_->model.asic_type == AsicType::GL124 ||
         dev_->model.asic_type == AsicType::GL845 ||
         dev_->model.asic_type == AsicType::GL846 ||
         dev_->model.asic_type == AsicType::GL847)
@@ -259,16 +259,16 @@ void ScannerInterfaceUsb::bulk_read_data(std::uint8_t addr, std::uint8_t* data, 
         has_header_before_each_chunk = 1
     }
 
-    if (is_addr_used) {
+    if(is_addr_used) {
         DBG(DBG_io, "%s: requesting %zu bytes from 0x%02x addr\n", __func__, size, addr)
     } else {
         DBG(DBG_io, "%s: requesting %zu bytes\n", __func__, size)
     }
 
-    if (size == 0)
+    if(size == 0)
         return
 
-    if (is_addr_used) {
+    if(is_addr_used) {
         usb_dev_.control_msg(REQUEST_TYPE_OUT, REQUEST_REGISTER, VALUE_SET_REGISTER, 0x00,
                              1, &addr)
     }
@@ -277,15 +277,15 @@ void ScannerInterfaceUsb::bulk_read_data(std::uint8_t addr, std::uint8_t* data, 
 
     std::size_t max_in_size = sanei_genesys_get_bulk_max_size(dev_->model.asic_type)
 
-    if (!has_header_before_each_chunk) {
+    if(!has_header_before_each_chunk) {
         bulk_read_data_send_header(usb_dev_, dev_->model.asic_type, size)
     }
 
     // loop until computed data size is read
-    while (target_size > 0) {
+    while(target_size > 0) {
         std::size_t block_size = std::min(target_size, max_in_size)
 
-        if (has_header_before_each_chunk) {
+        if(has_header_before_each_chunk) {
             bulk_read_data_send_header(usb_dev_, dev_->model.asic_type, block_size)
         }
 
@@ -313,13 +313,13 @@ void ScannerInterfaceUsb::bulk_write_data(std::uint8_t addr, std::uint8_t* data,
 
     std::size_t max_out_size = sanei_genesys_get_bulk_max_size(dev_->model.asic_type)
 
-    while (len) {
-        if (len > max_out_size)
+    while(len) {
+        if(len > max_out_size)
             size = max_out_size
         else
             size = len
 
-        if (dev_->model.asic_type == AsicType::GL841) {
+        if(dev_->model.asic_type == AsicType::GL841) {
             outdata[0] = BULK_OUT
             outdata[1] = BULK_RAM
             // both 0x82 and 0x00 works on GL841.
@@ -354,7 +354,7 @@ void ScannerInterfaceUsb::write_buffer(std::uint8_t type, std::uint32_t addr, st
                                        std::size_t size)
 {
     DBG_HELPER_ARGS(dbg, "type: 0x%02x, addr: 0x%08x, size: 0x%08zx", type, addr, size)
-    if (dev_->model.asic_type != AsicType::GL646 &&
+    if(dev_->model.asic_type != AsicType::GL646 &&
         dev_->model.asic_type != AsicType::GL841 &&
         dev_->model.asic_type != AsicType::GL842 &&
         dev_->model.asic_type != AsicType::GL843)
@@ -362,7 +362,7 @@ void ScannerInterfaceUsb::write_buffer(std::uint8_t type, std::uint32_t addr, st
         throw SaneException("Unsupported transfer mode")
     }
 
-    if (dev_->model.asic_type == AsicType::GL843) {
+    if(dev_->model.asic_type == AsicType::GL843) {
         write_register(0x2b, ((addr >> 4) & 0xff))
         write_register(0x2a, ((addr >> 12) & 0xff))
         write_register(0x29, ((addr >> 20) & 0xff))
@@ -377,7 +377,7 @@ void ScannerInterfaceUsb::write_gamma(std::uint8_t type, std::uint32_t addr, std
                                       std::size_t size)
 {
     DBG_HELPER_ARGS(dbg, "type: 0x%02x, addr: 0x%08x, size: 0x%08zx", type, addr, size)
-    if (dev_->model.asic_type != AsicType::GL841 &&
+    if(dev_->model.asic_type != AsicType::GL841 &&
         dev_->model.asic_type != AsicType::GL842 &&
         dev_->model.asic_type != AsicType::GL843)
     {
@@ -388,7 +388,7 @@ void ScannerInterfaceUsb::write_gamma(std::uint8_t type, std::uint32_t addr, std
     write_register(0x5c, ((addr >> 4) & 0xff))
     bulk_write_data(type, data, size)
 
-    if (dev_->model.asic_type == AsicType::GL842 ||
+    if(dev_->model.asic_type == AsicType::GL842 ||
         dev_->model.asic_type == AsicType::GL843)
     {
         // it looks like we need to reset the address so that subsequent buffer operations work.
@@ -403,7 +403,7 @@ void ScannerInterfaceUsb::write_ahb(std::uint32_t addr, std::uint32_t size, std:
     DBG_HELPER_ARGS(dbg, "address: 0x%08x, size: %d", static_cast<unsigned>(addr),
                     static_cast<unsigned>(size))
 
-    if (dev_->model.asic_type != AsicType::GL845 &&
+    if(dev_->model.asic_type != AsicType::GL845 &&
         dev_->model.asic_type != AsicType::GL846 &&
         dev_->model.asic_type != AsicType::GL847 &&
         dev_->model.asic_type != AsicType::GL124)
@@ -433,7 +433,7 @@ void ScannerInterfaceUsb::write_ahb(std::uint32_t addr, std::uint32_t size, std:
         usb_dev_.bulk_write(data + written, &block_size)
 
         written += block_size
-    } while (written < size)
+    } while(written < size)
 }
 
 std::uint16_t ScannerInterfaceUsb::read_fe_register(std::uint8_t address)
@@ -450,7 +450,7 @@ std::uint16_t ScannerInterfaceUsb::read_fe_register(std::uint8_t address)
     std::uint16_t value = read_register(0x46) << 8
     value |= read_register(0x47)
 
-    DBG(DBG_io, "%s (0x%02x, 0x%04x)\n", __func__, address, value)
+    DBG(DBG_io, "%s(0x%02x, 0x%04x)\n", __func__, address, value)
     return value
 }
 
@@ -460,7 +460,7 @@ void ScannerInterfaceUsb::write_fe_register(std::uint8_t address, std::uint16_t 
     Genesys_Register_Set reg(Genesys_Register_Set::SEQUENTIAL)
 
     reg.init_reg(0x51, address)
-    if (dev_->model.asic_type == AsicType::GL124) {
+    if(dev_->model.asic_type == AsicType::GL124) {
         reg.init_reg(0x5d, (value / 256) & 0xff)
         reg.init_reg(0x5e, value & 0xff)
     } else {
@@ -478,7 +478,7 @@ IUsbDevice& ScannerInterfaceUsb::get_usb_device()
 
 void ScannerInterfaceUsb::sleep_us(unsigned microseconds)
 {
-    if (sanei_usb_is_replay_mode_enabled()) {
+    if(sanei_usb_is_replay_mode_enabled()) {
         return
     }
     std::this_thread::sleep_for(std::chrono::microseconds{microseconds})

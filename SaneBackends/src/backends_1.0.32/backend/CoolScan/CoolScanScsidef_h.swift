@@ -6,7 +6,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -50,7 +50,7 @@
  */
 
 static inline void
-setbitfield (unsigned char *pageaddr, Int mask, Int shift, Int val) \
+setbitfield(unsigned char *pageaddr, Int mask, Int shift, Int val) \
 {
   *pageaddr = (*pageaddr & ~(mask << shift)) | ((val & mask) << shift)
 }
@@ -58,7 +58,7 @@ setbitfield (unsigned char *pageaddr, Int mask, Int shift, Int val) \
 /* ------------------------------------------------------------------------- */
 
 static inline void
-resetbitfield (unsigned char *pageaddr, Int mask, Int shift, Int val) \
+resetbitfield(unsigned char *pageaddr, Int mask, Int shift, Int val) \
 {
   *pageaddr = (*pageaddr & ~(mask << shift)) | (((!val) & mask) << shift)
 }
@@ -66,23 +66,23 @@ resetbitfield (unsigned char *pageaddr, Int mask, Int shift, Int val) \
 /* ------------------------------------------------------------------------- */
 
 static inline Int
-getbitfield (unsigned char *pageaddr, Int mask, Int shift) \
+getbitfield(unsigned char *pageaddr, Int mask, Int shift) \
 {
-  return ((*pageaddr >> shift) & mask)
+  return((*pageaddr >> shift) & mask)
 }
 
 /* ------------------------------------------------------------------------- */
 
 static inline Int
-getnbyte (unsigned char *pnt, Int nbytes) \
+getnbyte(unsigned char *pnt, Int nbytes) \
 {
   unsigned Int result = 0
   var i: Int
 
 #ifdef DEBUG
-  assert (nbytes < 5)
+  assert(nbytes < 5)
 #endif
-  for (i = 0; i < nbytes; i++)
+  for(i = 0; i < nbytes; i++)
     result = (result << 8) | (pnt[i] & 0xff)
   return result
 }
@@ -90,14 +90,14 @@ getnbyte (unsigned char *pnt, Int nbytes) \
 /* ------------------------------------------------------------------------- */
 
 static inline void
-putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes) \
+putnbyte(unsigned char *pnt, unsigned Int value, unsigned Int nbytes) \
 {
   var i: Int
 
 #ifdef DEBUG
-  assert (nbytes < 5)
+  assert(nbytes < 5)
 #endif
-  for (i = nbytes - 1; i >= 0; i--)
+  for(i = nbytes - 1; i >= 0; i--)
     \
     {
       pnt[i] = value & 0xff
@@ -155,7 +155,7 @@ scsiblk
 static unsigned char inquiryC[] =
 {INQUIRY, 0x00, 0x00, 0x00, 0x1f, 0x00]
 static scsiblk inquiry =
-{inquiryC, sizeof (inquiryC)]
+{inquiryC, sizeof(inquiryC)]
 
 #define get_inquiry_periph_qual(in)             getbitfield(in, 0x07, 5)
 #define IN_periph_qual_lun                    0x00
@@ -189,7 +189,7 @@ static unsigned char test_unit_readyC[] =
 ]
 
 static scsiblk test_unit_ready =
-{test_unit_readyC, sizeof (test_unit_readyC)]
+{test_unit_readyC, sizeof(test_unit_readyC)]
 
 /* ==================================================================== */
 
@@ -199,7 +199,7 @@ static unsigned char reserve_unitC[] =
 ]
 
 static scsiblk reserve_unit =
-{reserve_unitC, sizeof (reserve_unitC)]
+{reserve_unitC, sizeof(reserve_unitC)]
 
 /* ==================================================================== */
 
@@ -209,7 +209,7 @@ static unsigned char release_unitC[] =
 ]
 
 static scsiblk release_unit =
-{release_unitC, sizeof (release_unitC)]
+{release_unitC, sizeof(release_unitC)]
 
 /* ==================================================================== */
 
@@ -222,7 +222,7 @@ static unsigned char mode_senseC[] =
 #define get_MS_MUD(b)		getnbyte(b+(0x04+((Int)*(b+0x3)))+0x4,2)
 
 static scsiblk mode_sense =
-{mode_senseC, sizeof (mode_senseC)]
+{mode_senseC, sizeof(mode_senseC)]
 
 /* ==================================================================== */
 
@@ -236,13 +236,13 @@ static unsigned char set_windowC[] =
 #define set_SW_xferlen(sb, len) putnbyte(sb + 0x06, len, 3)
 
 static scsiblk set_window =
-{set_windowC, sizeof (set_windowC)]
+{set_windowC, sizeof(set_windowC)]
 
 /* ==================================================================== */
 
 static unsigned char get_windowC[] =
 {
-  GET_WINDOW, 0x01,		/* opcode, lun, misc (should be 0x01? */
+  GET_WINDOW, 0x01,		/* opcode, lun, misc(should be 0x01? */
   0x00, 0x00, 0x00,		/* reserved */
   0x00,				/* Window identifier */
   0x00, 0x00, 0x00,		/* transfer length; needs to be get */
@@ -252,7 +252,7 @@ static unsigned char get_windowC[] =
 #define set_WindowID_wid(sb, val) sb[5] = val
 
 static scsiblk get_window =
-{get_windowC, sizeof (get_windowC)]
+{get_windowC, sizeof(get_windowC)]
 
 /* ==================================================================== */
 
@@ -269,7 +269,7 @@ static unsigned char window_parameter_data_blockC[] =
 
 static scsiblk window_parameter_data_block =
 {
-  window_parameter_data_blockC, sizeof (window_parameter_data_blockC)
+  window_parameter_data_blockC, sizeof(window_parameter_data_blockC)
 ]
 
 
@@ -341,10 +341,10 @@ static unsigned char window_descriptor_blockC[] =
    /* Reserved */
   0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0,			/* 0x28 */
-   /* X-axis pixel count (1-2592 */
+   /* X-axis pixel count(1-2592 */
 #define get_WD_xpixels(sb) getnbyte(sb + 0x28, 4)
   0, 0, 0, 0,			/* 0x2c */
- /* Y-axis pixel count (1-3888) */
+ /* Y-axis pixel count(1-3888) */
 #define get_WD_ypixels(sb) getnbyte(sb + 0x2c, 4)
   0x01,				/* 0x30 */
 				/* Reserved, negative/positive
@@ -428,40 +428,40 @@ static unsigned char window_descriptor_blockC[] =
 					/* Reserved */
   0, 0, 0, 0, 0, 0, 0, 0,
   0,				/* 0x49 */
-  /* R exposure time adjustment [0, 12-200] */
+  /* R exposure time adjustment[0, 12-200] */
 #define set_WD_exposure_R(b, val) putnbyte(b + 0x49, val, 1)
 #define get_WD_exposure_R(b) getnbyte(b + 0x49, 1)
   0,				/* 0x4a */
-  /* G exposure time adjustment [0, 12-200] */
+  /* G exposure time adjustment[0, 12-200] */
 #define set_WD_exposure_G(b, val) putnbyte(b + 0x4a, val, 1)
 #define get_WD_exposure_G(b) getnbyte(b + 0x4a, 1)
   0,				/* 0x4b */
-  /* B exposure time adjustment [0, 12-200] */
+  /* B exposure time adjustment[0, 12-200] */
 #define set_WD_exposure_B(b, val) putnbyte(b + 0x4b, val, 1)
 #define get_WD_exposure_B(b) getnbyte(b + 0x4b, 1)
   0, 0, 0, 0,			/* 0x4c */
   /* Reserved */
   0, 0,
   0,				/* 0x52 */
-  /* Amount of R shift [0, 128+-15] */
+  /* Amount of R shift[0, 128+-15] */
 #define set_WD_shift_R(b, val)	putnbyte(b + 0x52, val, 1)
 #define get_WD_shift_R(b) getnbyte(b + 0x52, 1)
   0,				/* 0x53 */
-				/* Amount of G shift [0, 128+-15] */
+				/* Amount of G shift[0, 128+-15] */
 #define set_WD_shift_G(b, val) putnbyte(b + 0x53, val, 1)
 #define get_WD_shift_G(b) getnbyte(b + 0x53, 1)
   0,				/* 0x54 */
-				/* Amount of B shift [0, 128+-15] */
+				/* Amount of B shift[0, 128+-15] */
 #define set_WD_shift_B(b, val) putnbyte(b + 0x54, val, 1)
 #define get_WD_shift_B(b) getnbyte(b + 0x54, 1)
   0,				/* R0x55 */
-				/* Amount of R offset [0-255] */
+				/* Amount of R offset[0-255] */
   0,				/* R0x56 */
-				/* Amount of G offset [0-255] */
+				/* Amount of G offset[0-255] */
   0,				/* R0x57 */
-				/* Amount of B offset [0-255] */
+				/* Amount of B offset[0-255] */
   0, 0,				/* 0x58 */
-  /* Maximum resolution (for GET WINDOW: [2700]) */
+  /* Maximum resolution(for GET WINDOW: [2700]) */
 #define get_WD_maxres(b) getnbyte(b + 0x58, 2)
   0, 0,				/* 0x5a */
 				/* Reserved */
@@ -482,11 +482,11 @@ static unsigned char window_descriptor_blockC[] =
   0,				/* R0x60 */
   /* LS-1000: reserved. LS-20: B B/W reference point */
   0,				/* R0x61 */
-  /* R exposure time unit [0-7] (LS-1000); [0, 2-1] (LS-20) */
+  /* R exposure time unit[0-7] (LS-1000); [0, 2-1] (LS-20) */
   0,				/* R0x62 */
-  /* G exposure time unit [0-7] (LS-1000); [0, 2-1] (LS-20) */
+  /* G exposure time unit[0-7] (LS-1000); [0, 2-1] (LS-20) */
   0,				/* R0x63 */
-  /* B exposure time unit [0-7] (LS-1000); [0, 2-1] (LS-20) */
+  /* B exposure time unit[0-7] (LS-1000); [0, 2-1] (LS-20) */
   0,				/* 0x64 */
   /* Reserved */
   0,				/* 0x65 */
@@ -494,24 +494,24 @@ static unsigned char window_descriptor_blockC[] =
 #define set_WD_stop(b, val) setbitfield(b+0x65, 0x01, 0, val)
 #define get_WD_stop(b)	getbitfield(b+0x65, 0x01, 0)
   0,				/* R0x66 */
-  /* R gain [0-4] (LS-1000), [0-255] (LS-20) */
+  /* R gain[0-4] (LS-1000), [0-255] (LS-20) */
   0,				/* R0x67 */
-  /* G gain [0-4] (LS-1000), [0-255] (LS-20) */
+  /* G gain[0-4] (LS-1000), [0-255] (LS-20) */
   0,				/* R0x68 */
-  /* B gain [0-4] (LS-1000), [0-255] (LS-20) */
+  /* B gain[0-4] (LS-1000), [0-255] (LS-20) */
   0, 0, 0, 0,			/* R0x69 */
-  /* R exposure time variable [0, 64-65535] */
+  /* R exposure time variable[0, 64-65535] */
   0, 0, 0, 0,			/* R0x6d */
-  /* G exposure time variable [0, 64-65535] */
+  /* G exposure time variable[0, 64-65535] */
   0, 0, 0, 0,			/* R0x71 */
-    /* B exposure time variable [0, 64-65535] */
+    /* B exposure time variable[0, 64-65535] */
   /* 0x75 (last) */
 
 ]
 
 static scsiblk window_descriptor_block =
 {
-  window_descriptor_blockC, sizeof (window_descriptor_blockC)
+  window_descriptor_blockC, sizeof(window_descriptor_blockC)
 ]
 
 
@@ -583,7 +583,7 @@ static unsigned char window_descriptor_blockC_LS30[] =
 
 static scsiblk window_descriptor_block_LS30 =
 {
-  window_descriptor_blockC, sizeof (window_descriptor_blockC_LS30)
+  window_descriptor_blockC, sizeof(window_descriptor_blockC_LS30)
 ]
 
 /* ==================================================================== */
@@ -605,7 +605,7 @@ static unsigned char scanC[] =
 ]
 
 static scsiblk scan =
-{scanC, sizeof (scanC)]
+{scanC, sizeof(scanC)]
 #define set_SC_xfer_length(sb, val) sb[0x04] = (unsigned char)val
 
 /* ==================================================================== */
@@ -630,7 +630,7 @@ static unsigned char sreadC[] =
 ]
 
 static scsiblk sread =
-{sreadC, sizeof (sreadC)]
+{sreadC, sizeof(sreadC)]
 #define set_R_data1_code(sb, val) sb[0x01] = val
 #define set_R_datatype_code(sb, val) sb[0x02] = val
 #define R_datatype_imagedata		0x00
@@ -700,7 +700,7 @@ static unsigned char sendC[] =
   SEND, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 ]
 static scsiblk send =
-{sendC, sizeof (sendC)]
+{sendC, sizeof(sendC)]
 
 #define set_S_datatype_code(sb, val) sb[0x02] = (unsigned char)val
 #define S_datatype_imagedatai		0x00
@@ -743,13 +743,13 @@ static unsigned char object_positionC[] =
 
 static scsiblk object_position =
 {
-  object_positionC, sizeof (object_positionC)
+  object_positionC, sizeof(object_positionC)
 ]
 /* ==================================================================== */
 static unsigned char autofocusC[] =
 {
   AUTO_FOCUS, 0x00, 0x00, 0x00,
-  0x00,				/* transfer length (0|8) */
+  0x00,				/* transfer length(0|8) */
   0x00				/* Control byte */
 ]
 #define set_AF_transferlength(b, val)  b[0x04] = (unsigned char)val
@@ -759,7 +759,7 @@ static unsigned char autofocusC[] =
 #define AF_Point_length		8
 
 static scsiblk autofocus =
-{autofocusC, sizeof (autofocusC)]
+{autofocusC, sizeof(autofocusC)]
 
 /* ==================================================================== */
 
@@ -770,7 +770,7 @@ static unsigned char command_c1_C[] =
   0x00, 0x00			       /* transfer length*/
 ]
 static scsiblk command_c1 =
-{command_c1_C, sizeof (command_c1_C)]
+{command_c1_C, sizeof(command_c1_C)]
 /* ==================================================================== */
 
 static unsigned char autofocusLS30C[] =
@@ -794,7 +794,7 @@ static unsigned char autofocuspos[] =
 #define AF_Point_length		8
 
 static scsiblk autofocusLS30 =
-{autofocusLS30C, sizeof (autofocusLS30C)]
+{autofocusLS30C, sizeof(autofocusLS30C)]
 /* ==================================================================== */
 
 static unsigned char commande1C[] =
@@ -804,7 +804,7 @@ static unsigned char commande1C[] =
   0x0d, 0x00			       /* transfer length*/
 ]
 static scsiblk commande1 =
-{commande1C, sizeof (commande1C)]
+{commande1C, sizeof(commande1C)]
 
 /* ==================================================================== */
 /*
@@ -816,7 +816,7 @@ static unsigned char request_senseC[] =
 
 static scsiblk request_sense =
 {
-  request_senseC, sizeof (request_senseC)
+  request_senseC, sizeof(request_senseC)
 ]
 */
 /* defines for request sense return block */

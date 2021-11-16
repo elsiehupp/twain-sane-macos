@@ -45,25 +45,25 @@ import ../../sanei/sanei_usb.c"
  * @return 1 on success, else 0
  */
 static Int
-test_init (Int expected)
+test_init(Int expected)
 {
   /* initialize USB */
-  printf ("%s starting ...\n", __func__)
-  sanei_usb_init ()
-  if (initialized == 0)
+  printf("%s starting ...\n", __func__)
+  sanei_usb_init()
+  if(initialized == 0)
     {
-      printf ("ERROR: sanei_usb not initialized!\n")
+      printf("ERROR: sanei_usb not initialized!\n")
       return 0
     }
-  if (initialized != expected)
+  if(initialized != expected)
     {
-      printf ("ERROR: incorrect use count, expected %d, got %d!\n", expected,
+      printf("ERROR: incorrect use count, expected %d, got %d!\n", expected,
 	      initialized)
       return 0
     }
 
-  printf ("sanei_usb initialized, use count is %d ...\n", initialized)
-  printf ("%s success\n\n", __func__)
+  printf("sanei_usb initialized, use count is %d ...\n", initialized)
+  printf("%s success\n\n", __func__)
   return 1
 }
 
@@ -73,20 +73,20 @@ test_init (Int expected)
  * @return 1 on success, else 0
  */
 static Int
-test_exit (Int expected)
+test_exit(Int expected)
 {
-  printf ("%s starting ...\n", __func__)
+  printf("%s starting ...\n", __func__)
 
   /* end of USB use test */
-  sanei_usb_exit ()
-  if (initialized != expected)
+  sanei_usb_exit()
+  if(initialized != expected)
     {
-      printf ("ERROR: incorrect use count, expected %d, got %d!\n", expected,
+      printf("ERROR: incorrect use count, expected %d, got %d!\n", expected,
 	      initialized)
       return 0
     }
 
-  printf ("%s success\n\n", __func__)
+  printf("%s success\n\n", __func__)
   return 1
 }
 
@@ -97,24 +97,24 @@ test_exit (Int expected)
  * @return 1 on success, else 0
  */
 static Int
-count_detected (Int expected)
+count_detected(Int expected)
 {
   Int num = 0
   var i: Int
 
-  for (i = 0; i < device_number; i++)
+  for(i = 0; i < device_number; i++)
     {
-      if (devices[i].missing == 0 && devices[i].devname != NULL)
+      if(devices[i].missing == 0 && devices[i].devname != NULL)
 	{
 	  num++
 	}
     }
-  if (num != expected)
+  if(num != expected)
     {
-      printf ("ERROR: %d detected devices, expected %d!\n", num, expected)
+      printf("ERROR: %d detected devices, expected %d!\n", num, expected)
       return 0
     }
-  printf ("%d devices still detected.\n", num)
+  printf("%d devices still detected.\n", num)
   return 1
 }
 
@@ -124,10 +124,10 @@ count_detected (Int expected)
  * @return nothing
  */
 static void
-create_mock_device (char *devname, device_list_type * device)
+create_mock_device(char *devname, device_list_type * device)
 {
-  memset (device, 0, sizeof (device_list_type))
-  device.devname = strdup (devname)
+  memset(device, 0, sizeof(device_list_type))
+  device.devname = strdup(devname)
   device.vendor = 0xdead
   device.product = 0xbeef
 #if defined(HAVE_LIBUSB_LEGACY) || defined(HAVE_LIBUSB)
@@ -149,7 +149,7 @@ create_mock_device (char *devname, device_list_type * device)
  * @return 1 on success, else 0
  */
 static Int
-test_store_device (void)
+test_store_device(void)
 {
   Int current_number
   Int expected
@@ -157,27 +157,27 @@ test_store_device (void)
   Int found
   device_list_type mock
 
-  create_mock_device ("mock", &mock)
+  create_mock_device("mock", &mock)
 
   /* first test store when there is no more room
    * to store device */
   current_number = device_number
   device_number = MAX_DEVICES
   /* give unused devices a name so strcmp() won't crash. */
-  for (i = current_number; i < MAX_DEVICES; i++)
+  for(i = current_number; i < MAX_DEVICES; i++)
     devices[i].devname = ""
 
-  store_device (mock)
+  store_device(mock)
   /* there should be no more devices */
-  if (device_number > MAX_DEVICES)
+  if(device_number > MAX_DEVICES)
     {
-      printf ("ERROR: store past end of device list!\n")
+      printf("ERROR: store past end of device list!\n")
       return 0
     }
   /* walk device list to be sure mock device hasn't been stored */
-  for (i = 0; i < MAX_DEVICES; i++)
+  for(i = 0; i < MAX_DEVICES; i++)
     {
-      if (devices[i].devname && !strcmp (devices[i].devname, mock.devname))
+      if(devices[i].devname && !strcmp(devices[i].devname, mock.devname))
 	{
 	  printf
 	    ("ERROR: device stored although there were no place for it!\n")
@@ -188,82 +188,82 @@ test_store_device (void)
   /* restore device_number */
   device_number = current_number
   /* reset unused devnames to NULL */
-  for (i = current_number; i < MAX_DEVICES; i++)
+  for(i = current_number; i < MAX_DEVICES; i++)
     devices[i].devname = NULL
   expected = device_number + 1
 
   /* store mock device */
-  store_device (mock)
+  store_device(mock)
   found = 0
-  for (i = 0; i < MAX_DEVICES && !found; i++)
+  for(i = 0; i < MAX_DEVICES && !found; i++)
     {
-      if (devices[i].devname && !strcmp (devices[i].devname, mock.devname))
+      if(devices[i].devname && !strcmp(devices[i].devname, mock.devname))
 	{
 	  found = 1
 	}
     }
-  if (device_number != expected || !found)
+  if(device_number != expected || !found)
     {
-      printf ("ERROR: mock device not stored !\n")
+      printf("ERROR: mock device not stored !\n")
       return 0
     }
 
   /* scan devices should mark it as missing, and device_number should decrease */
-  sanei_usb_scan_devices ()
+  sanei_usb_scan_devices()
   found = 0
-  for (i = 0; i < MAX_DEVICES && !found; i++)
+  for(i = 0; i < MAX_DEVICES && !found; i++)
     {
-      if (devices[i].devname
+      if(devices[i].devname
 	  && devices[i].missing == 1
-	  && !strcmp (devices[i].devname, mock.devname))
+	  && !strcmp(devices[i].devname, mock.devname))
 	{
 	  found = 1
 	}
     }
-  if (device_number != expected || !found)
+  if(device_number != expected || !found)
     {
-      printf ("ERROR: mock device still present !\n")
+      printf("ERROR: mock device still present !\n")
       return 0
     }
 
   /* second scan devices should mark missing to 2 */
-  sanei_usb_scan_devices ()
+  sanei_usb_scan_devices()
   found = 0
-  for (i = 0; i < MAX_DEVICES && !found; i++)
+  for(i = 0; i < MAX_DEVICES && !found; i++)
     {
-      if (devices[i].devname
+      if(devices[i].devname
 	  && devices[i].missing == 2
-	  && !strcmp (devices[i].devname, mock.devname))
+	  && !strcmp(devices[i].devname, mock.devname))
 	{
 	  found = 1
 	}
     }
-  if (device_number != expected || !found)
+  if(device_number != expected || !found)
     {
-      printf ("ERROR: mock device slot not reusable !\n")
+      printf("ERROR: mock device slot not reusable !\n")
       return 0
     }
 
   /* store mock device again, slot in devices should be reused
    * and device_number shouldn't change */
-  create_mock_device ("mock2", &mock)
-  store_device (mock)
+  create_mock_device("mock2", &mock)
+  store_device(mock)
   found = 0
-  for (i = 0; i < MAX_DEVICES && !found; i++)
+  for(i = 0; i < MAX_DEVICES && !found; i++)
     {
-      if (devices[i].devname && !strcmp (devices[i].devname, mock.devname))
+      if(devices[i].devname && !strcmp(devices[i].devname, mock.devname))
 	{
 	  found = 1
 	}
     }
-  if (device_number != expected || !found)
+  if(device_number != expected || !found)
     {
-      printf ("ERROR: mock device not stored !\n")
+      printf("ERROR: mock device not stored !\n")
       return 0
     }
 
   /* last rescan to wipe mock device out */
-  sanei_usb_scan_devices ()
+  sanei_usb_scan_devices()
 
   return 1
 }
@@ -272,14 +272,14 @@ test_store_device (void)
  * @return count of opened devices
  */
 static Int
-get_opened (void)
+get_opened(void)
 {
   Int num = 0
   var i: Int
 
-  for (i = 0; i < device_number; i++)
+  for(i = 0; i < device_number; i++)
     {
-      if (devices[i].missing == 0 && devices[i].devname != NULL
+      if(devices[i].missing == 0 && devices[i].devname != NULL
 	  && devices[i].open == Sane.TRUE)
 	{
 	  num++
@@ -294,16 +294,16 @@ get_opened (void)
  * @return 1 on success, else 0
  */
 static Int
-count_opened (Int expected)
+count_opened(Int expected)
 {
   Int num = get_opened()
 
-  if (num != expected)
+  if(num != expected)
     {
-      printf ("ERROR: %d opened devices, expected %d!\n", num, expected)
+      printf("ERROR: %d opened devices, expected %d!\n", num, expected)
       return 0
     }
-  printf ("%d devices still opened.\n", num)
+  printf("%d devices still opened.\n", num)
   return 1
 }
 
@@ -314,7 +314,7 @@ count_opened (Int expected)
  * @return 1 on success, else 0
  */
 static Int
-test_open_all (Int * dn, Int expected)
+test_open_all(Int * dn, Int expected)
 {
   Int opened = 0
   var i: Int
@@ -323,49 +323,49 @@ test_open_all (Int * dn, Int expected)
 
   /* loop on detected devices and open them */
   last = -1
-  for (i = 0; i < device_number; i++)
+  for(i = 0; i < device_number; i++)
     {
-      if (devices[i].missing == 0 && devices[i].devname != NULL)
+      if(devices[i].missing == 0 && devices[i].devname != NULL)
 	{
 	  /* open device */
-	  status = sanei_usb_open (devices[i].devname, dn + opened)
-	  if (status == Sane.STATUS_GOOD)
+	  status = sanei_usb_open(devices[i].devname, dn + opened)
+	  if(status == Sane.STATUS_GOOD)
 	    {
 	      opened++
 	      last = i
 	    }
 	  else
 	    {
-              if (status == Sane.STATUS_ACCESS_DENIED ||
+              if(status == Sane.STATUS_ACCESS_DENIED ||
                   status == Sane.STATUS_DEVICE_BUSY)
                 {
                   expected--
                 }
               else
                 {
-	          printf ("ERROR: couldn't open device %s!\n",
+	          printf("ERROR: couldn't open device %s!\n",
                           devices[i].devname)
 	          return 0
                 }
 	    }
 	}
     }
-  printf ("opened %d devices\n", opened)
+  printf("opened %d devices\n", opened)
 
   /* try to reopen an opened device when there is one */
-  if (last >= 0)
+  if(last >= 0)
     {
-      status = sanei_usb_open (devices[last].devname, dn + opened)
-      if (status == Sane.STATUS_GOOD)
+      status = sanei_usb_open(devices[last].devname, dn + opened)
+      if(status == Sane.STATUS_GOOD)
 	{
-	  printf ("ERROR: unexpected success when opening %s twice!\n",
+	  printf("ERROR: unexpected success when opening %s twice!\n",
 		  devices[last].devname)
 	  return 0
 	}
     }
 
   /* there should be as many opened devices than detected devices */
-  return count_opened (expected)
+  return count_opened(expected)
 }
 
 /** test opening invalid device
@@ -373,15 +373,15 @@ test_open_all (Int * dn, Int expected)
  * @return 1 on success, else 0
  */
 static Int
-test_open_invalid (void)
+test_open_invalid(void)
 {
   Sane.Status status
   Int dn
 
-  status = sanei_usb_open ("invalid device", &dn)
-  if (status == Sane.STATUS_GOOD)
+  status = sanei_usb_open("invalid device", &dn)
+  if(status == Sane.STATUS_GOOD)
     {
-      printf ("ERROR: unexpected success opening invalid device!\n")
+      printf("ERROR: unexpected success opening invalid device!\n")
       return 0
     }
   return 1
@@ -394,22 +394,22 @@ test_open_invalid (void)
  * @return 1 on success, else 0
  */
 static Int
-test_close_all (Int * dn, Int expected)
+test_close_all(Int * dn, Int expected)
 {
   Int closed = 0
   var i: Int
 
   /* loop on detected devices and open them */
-  for (i = 0; i < expected; i++)
+  for(i = 0; i < expected; i++)
     {
       /* close device */
-      sanei_usb_close (dn[i])
+      sanei_usb_close(dn[i])
       closed++
     }
-  printf ("closed %d devices\n", closed)
+  printf("closed %d devices\n", closed)
 
   /* there should be any more opened devices */
-  return count_opened (0)
+  return count_opened(0)
 }
 
 
@@ -420,7 +420,7 @@ test_close_all (Int * dn, Int expected)
  * @return 1 on success, else 0
  */
 static Int
-test_claim_all (Int * dn, Int expected)
+test_claim_all(Int * dn, Int expected)
 {
   Int claimed = 0
   var i: Int
@@ -428,50 +428,50 @@ test_claim_all (Int * dn, Int expected)
   device_list_type mock
 
   claimed = 0
-  for (i = 0; i < expected; i++)
+  for(i = 0; i < expected; i++)
     {
-      status = sanei_usb_claim_interface (dn[i], devices[dn[i]].interface_nr)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_usb_claim_interface(dn[i], devices[dn[i]].interface_nr)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  printf ("ERROR: couldn't claim interface 0 on device %d!\n", dn[i])
+	  printf("ERROR: couldn't claim interface 0 on device %d!\n", dn[i])
 	}
       else
 	{
 	  claimed++
 	}
     }
-  if (claimed != expected)
+  if(claimed != expected)
     {
-      printf ("ERROR: expected %d claimed interfaces, got %d!\n", expected,
+      printf("ERROR: expected %d claimed interfaces, got %d!\n", expected,
 	      claimed)
       return 0
     }
-  printf ("%d devices claimed...\n\n", claimed)
+  printf("%d devices claimed...\n\n", claimed)
 
   /* try to claim invalid device entry */
-  status = sanei_usb_claim_interface (device_number, 0)
-  if (status == Sane.STATUS_GOOD)
+  status = sanei_usb_claim_interface(device_number, 0)
+  if(status == Sane.STATUS_GOOD)
     {
-      printf ("ERROR: could claim interface 0 on invalid device!\n")
+      printf("ERROR: could claim interface 0 on invalid device!\n")
       return 0
     }
 
   /* create a mock device and make it missing by rescanning */
-  create_mock_device ("mock", &mock)
-  store_device (mock)
-  sanei_usb_scan_devices ()
+  create_mock_device("mock", &mock)
+  store_device(mock)
+  sanei_usb_scan_devices()
 
   /* try to claim interface on missing device */
-  status = sanei_usb_claim_interface (device_number - 1, 0)
-  if (status == Sane.STATUS_GOOD)
+  status = sanei_usb_claim_interface(device_number - 1, 0)
+  if(status == Sane.STATUS_GOOD)
     {
-      printf ("ERROR: could claim interface 0 on invalid device!\n")
+      printf("ERROR: could claim interface 0 on invalid device!\n")
       return 0
     }
 
   /* remove mock device */
   device_number--
-  free (devices[device_number].devname)
+  free(devices[device_number].devname)
   devices[device_number].devname = NULL
 
   return 1
@@ -485,7 +485,7 @@ test_claim_all (Int * dn, Int expected)
  * @return 1 on success, else 0
  */
 static Int
-test_release_all (Int * dn, Int expected)
+test_release_all(Int * dn, Int expected)
 {
   Int released = 0
   var i: Int
@@ -493,13 +493,13 @@ test_release_all (Int * dn, Int expected)
   device_list_type mock
 
   released = 0
-  for (i = 0; i < expected; i++)
+  for(i = 0; i < expected; i++)
     {
       status =
-	sanei_usb_release_interface (dn[i], devices[dn[i]].interface_nr)
-      if (status != Sane.STATUS_GOOD)
+	sanei_usb_release_interface(dn[i], devices[dn[i]].interface_nr)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  printf ("ERROR: couldn't release interface 0 on device %d!\n",
+	  printf("ERROR: couldn't release interface 0 on device %d!\n",
 		  dn[i])
 	}
       else
@@ -507,38 +507,38 @@ test_release_all (Int * dn, Int expected)
 	  released++
 	}
     }
-  if (released != expected)
+  if(released != expected)
     {
-      printf ("ERROR: expected %d released interfaces, got %d!\n", expected,
+      printf("ERROR: expected %d released interfaces, got %d!\n", expected,
 	      released)
       return 0
     }
-  printf ("%d devices released...\n\n", released)
+  printf("%d devices released...\n\n", released)
 
   /* try to release invalid device entry */
-  status = sanei_usb_release_interface (device_number, 0)
-  if (status == Sane.STATUS_GOOD)
+  status = sanei_usb_release_interface(device_number, 0)
+  if(status == Sane.STATUS_GOOD)
     {
-      printf ("ERROR: could release interface 0 on invalid device!\n")
+      printf("ERROR: could release interface 0 on invalid device!\n")
       return 0
     }
 
   /* create a mock device and make it missing by rescanning */
-  create_mock_device ("mock", &mock)
-  store_device (mock)
-  sanei_usb_scan_devices ()
+  create_mock_device("mock", &mock)
+  store_device(mock)
+  sanei_usb_scan_devices()
 
   /* try to claim interface on missing device */
-  status = sanei_usb_release_interface (device_number - 1, 0)
-  if (status == Sane.STATUS_GOOD)
+  status = sanei_usb_release_interface(device_number - 1, 0)
+  if(status == Sane.STATUS_GOOD)
     {
-      printf ("ERROR: could release interface 0 on invalid device!\n")
+      printf("ERROR: could release interface 0 on invalid device!\n")
       return 0
     }
 
   /* remove mock device */
   device_number--
-  free (devices[device_number].devname)
+  free(devices[device_number].devname)
   devices[device_number].devname = NULL
 
   return 1
@@ -551,7 +551,7 @@ test_release_all (Int * dn, Int expected)
  * @return 1 on success, else 0
  */
 static Int
-test_vendor_by_devname (void)
+test_vendor_by_devname(void)
 {
   var i: Int
   Sane.Status status
@@ -559,58 +559,58 @@ test_vendor_by_devname (void)
   device_list_type mock
 
   /* loop on detected devices and open them */
-  for (i = 0; i < device_number; i++)
+  for(i = 0; i < device_number; i++)
     {
-      if (devices[i].missing == 0 && devices[i].devname != NULL)
+      if(devices[i].missing == 0 && devices[i].devname != NULL)
 	{
 	  /* get device id */
-	  status = sanei_usb_get_vendor_product_byname (devices[i].devname,
+	  status = sanei_usb_get_vendor_product_byname(devices[i].devname,
 							&vendor, &product)
-	  if (status != Sane.STATUS_GOOD)
+	  if(status != Sane.STATUS_GOOD)
 	    {
-	      printf ("ERROR: couldn't query device %s!\n",
+	      printf("ERROR: couldn't query device %s!\n",
 		      devices[i].devname)
 	      return 0
 	    }
-	  if (vendor == 0 || product == 0)
+	  if(vendor == 0 || product == 0)
 	    {
-	      printf ("ERROR: incomplete device id for %s!\n",
+	      printf("ERROR: incomplete device id for %s!\n",
 		      devices[i].devname)
 	      return 0
 	    }
-	  printf ("%s is %04x:%04x\n", devices[i].devname, vendor, product)
+	  printf("%s is %04x:%04x\n", devices[i].devname, vendor, product)
 	}
     }
 
   /* add mock device */
-  create_mock_device ("mock", &mock)
-  store_device (mock)
-  status = sanei_usb_get_vendor_product_byname ("mock", &vendor, &product)
-  if (status != Sane.STATUS_GOOD)
+  create_mock_device("mock", &mock)
+  store_device(mock)
+  status = sanei_usb_get_vendor_product_byname("mock", &vendor, &product)
+  if(status != Sane.STATUS_GOOD)
     {
-      printf ("ERROR: getting vendor for mock devname!\n")
+      printf("ERROR: getting vendor for mock devname!\n")
       return 0
     }
-  if (vendor != mock.vendor || product != mock.product)
+  if(vendor != mock.vendor || product != mock.product)
     {
-      printf ("ERROR: wrong vendor/product for mock devname!\n")
+      printf("ERROR: wrong vendor/product for mock devname!\n")
       return 0
     }
   /* remove mock device */
   device_number--
-  free (devices[device_number].devname)
+  free(devices[device_number].devname)
   devices[device_number].devname = NULL
 
   /* try go get id for an invalid devname */
-  status = sanei_usb_get_vendor_product_byname ("invalid devname",
+  status = sanei_usb_get_vendor_product_byname("invalid devname",
 						&vendor, &product)
-  if (status == Sane.STATUS_GOOD)
+  if(status == Sane.STATUS_GOOD)
     {
-      printf ("ERROR: unexpected success getting id for invalid devname!\n")
+      printf("ERROR: unexpected success getting id for invalid devname!\n")
       return 0
     }
 
-  printf ("\n")
+  printf("\n")
   return 1
 }
 
@@ -621,7 +621,7 @@ test_vendor_by_devname (void)
  * @return 1 on success, else 0
  */
 static Int
-test_vendor_by_id (void)
+test_vendor_by_id(void)
 {
   var i: Int
   Sane.Status status
@@ -629,57 +629,57 @@ test_vendor_by_id (void)
   device_list_type mock
 
   /* loop on detected devices and open them */
-  for (i = 0; i < device_number; i++)
+  for(i = 0; i < device_number; i++)
     {
-      if (devices[i].missing == 0 && devices[i].devname != NULL)
+      if(devices[i].missing == 0 && devices[i].devname != NULL)
 	{
 	  /* get device id */
-	  status = sanei_usb_get_vendor_product (i, &vendor, &product)
-	  if (status != Sane.STATUS_GOOD)
+	  status = sanei_usb_get_vendor_product(i, &vendor, &product)
+	  if(status != Sane.STATUS_GOOD)
 	    {
-	      printf ("ERROR: couldn't query device %d!\n", i)
+	      printf("ERROR: couldn't query device %d!\n", i)
 	      return 0
 	    }
-	  if (vendor == 0 || product == 0)
+	  if(vendor == 0 || product == 0)
 	    {
-	      printf ("ERROR: incomplete device id for %d!\n", i)
+	      printf("ERROR: incomplete device id for %d!\n", i)
 	      return 0
 	    }
-	  printf ("%d is %04x:%04x\n", i, vendor, product)
+	  printf("%d is %04x:%04x\n", i, vendor, product)
 	}
     }
 
   /* add mock device */
-  create_mock_device ("mock", &mock)
-  store_device (mock)
+  create_mock_device("mock", &mock)
+  store_device(mock)
   status =
-    sanei_usb_get_vendor_product (device_number - 1, &vendor, &product)
-  if (status != Sane.STATUS_GOOD)
+    sanei_usb_get_vendor_product(device_number - 1, &vendor, &product)
+  if(status != Sane.STATUS_GOOD)
     {
-      printf ("ERROR: getting vendor for mock devname!\n")
+      printf("ERROR: getting vendor for mock devname!\n")
       return 0
     }
-  if (vendor != mock.vendor || product != mock.product)
+  if(vendor != mock.vendor || product != mock.product)
     {
-      printf ("ERROR: wrong vendor/product for mock devname!\n")
+      printf("ERROR: wrong vendor/product for mock devname!\n")
       return 0
     }
   /* remove mock device */
   device_number--
-  free (devices[device_number].devname)
+  free(devices[device_number].devname)
   devices[device_number].devname = NULL
 
   /* try go get id for an invalid id */
   status =
-    sanei_usb_get_vendor_product (device_number + 1, &vendor, &product)
-  if (status == Sane.STATUS_GOOD)
+    sanei_usb_get_vendor_product(device_number + 1, &vendor, &product)
+  if(status == Sane.STATUS_GOOD)
     {
       printf
 	("ERROR: unexpected success getting vendor for invalid devname!\n")
       return 0
     }
 
-  printf ("\n")
+  printf("\n")
   return 1
 }
 
@@ -687,18 +687,18 @@ test_vendor_by_id (void)
  * @return 1 on success, else 0
  */
 static Int
-test_timeout (void)
+test_timeout(void)
 {
 #if defined(HAVE_LIBUSB_LEGACY) || defined(HAVE_LIBUSB)
   Int timeout = libusb_timeout
 
-  sanei_usb_set_timeout (5000)
-  if (libusb_timeout != 5000)
+  sanei_usb_set_timeout(5000)
+  if(libusb_timeout != 5000)
     {
-      printf ("ERROR: failed to set timeout\n")
+      printf("ERROR: failed to set timeout\n")
       return 1
     }
-  sanei_usb_set_timeout (timeout)
+  sanei_usb_set_timeout(timeout)
 #endif
   return 1
 }
@@ -710,25 +710,25 @@ test_timeout (void)
  * @return always 1
  */
 static Int
-test_scan_devices (Int detected, Int opened)
+test_scan_devices(Int detected, Int opened)
 {
   Int rc
 
-  printf ("rescanning for devices ...\n")
-  sanei_usb_scan_devices ()
-  rc = count_detected (detected)
-  if (!rc)
+  printf("rescanning for devices ...\n")
+  sanei_usb_scan_devices()
+  rc = count_detected(detected)
+  if(!rc)
     {
-      printf ("ERROR: scanning devices change detected count!\n")
+      printf("ERROR: scanning devices change detected count!\n")
       return 0
     }
-  rc = count_opened (opened)
-  if (!rc)
+  rc = count_opened(opened)
+  if(!rc)
     {
-      printf ("ERROR: scanning devices change opened count!\n")
+      printf("ERROR: scanning devices change opened count!\n")
       return 0
     }
-  printf ("\n")
+  printf("\n")
   return 1
 }
 
@@ -748,16 +748,16 @@ static char *expected_device
  * @return return Sane.STATUS_GOOD
  */
 static Sane.Status
-dummy_attach (const char *dev)
+dummy_attach(const char *dev)
 {
-  dummy_flag = (strcmp (expected_device, dev) == 0)
-  if (dummy_flag)
+  dummy_flag = (strcmp(expected_device, dev) == 0)
+  if(dummy_flag)
     {
-      printf ("success attaching to %s...\n", dev)
+      printf("success attaching to %s...\n", dev)
     }
   else
     {
-      printf ("failed attaching to %s...\n", dev)
+      printf("failed attaching to %s...\n", dev)
     }
   return Sane.STATUS_GOOD
 }
@@ -768,178 +768,178 @@ dummy_attach (const char *dev)
  * @return 1 on success, else 0
  */
 static Int
-test_attach (void)
+test_attach(void)
 {
   device_list_type mock
 
   /* add mock device and try to attach to it */
   dummy_flag = 0
-  create_mock_device ("mock", &mock)
+  create_mock_device("mock", &mock)
   expected_device = mock.devname
-  store_device (mock)
-  sanei_usb_attach_matching_devices ("usb 0xdead 0xbeef", dummy_attach)
+  store_device(mock)
+  sanei_usb_attach_matching_devices("usb 0xdead 0xbeef", dummy_attach)
 
   /* flag must be set */
-  if (dummy_flag != 1)
+  if(dummy_flag != 1)
     {
-      printf ("ERROR: couldn't attach to 'usb xdead 0xbeef' device!\n")
+      printf("ERROR: couldn't attach to 'usb xdead 0xbeef' device!\n")
       return 0
     }
 
   /* attach by devname */
   dummy_flag = 0
-  sanei_usb_attach_matching_devices (mock.devname, dummy_attach)
+  sanei_usb_attach_matching_devices(mock.devname, dummy_attach)
   /* flag must be set */
-  if (dummy_flag != 1)
+  if(dummy_flag != 1)
     {
-      printf ("ERROR: couldn't attach to 'mock' device!\n")
+      printf("ERROR: couldn't attach to 'mock' device!\n")
       return 0
     }
 
   /* attach to bogus device */
   dummy_flag = 0
-  sanei_usb_attach_matching_devices ("usb 0x0001 0x0001", dummy_attach)
+  sanei_usb_attach_matching_devices("usb 0x0001 0x0001", dummy_attach)
 
   /* flag must not be set */
-  if (dummy_flag != 0)
+  if(dummy_flag != 0)
     {
-      printf ("ERROR: shouldn't be attached to bogus device!\n")
+      printf("ERROR: shouldn't be attached to bogus device!\n")
       return 0
     }
 
   /* attach by bogus devname */
-  sanei_usb_attach_matching_devices ("bogus", dummy_attach)
+  sanei_usb_attach_matching_devices("bogus", dummy_attach)
 
   /* flag must not be set */
-  if (dummy_flag != 0)
+  if(dummy_flag != 0)
     {
-      printf ("ERROR: shouldn't be attached to bogus device!\n")
+      printf("ERROR: shouldn't be attached to bogus device!\n")
       return 0
     }
 
   /* remove mock device */
   device_number--
-  free (devices[device_number].devname)
+  free(devices[device_number].devname)
   devices[device_number].devname = NULL
   dummy_flag = 0
 
   return 1
 }
 
-func Int main (Int __Sane.unused__ argc, char **argv)
+func Int main(Int __Sane.unused__ argc, char **argv)
 {
   Int detected, opened, i
   Int dn[MAX_DEVICES]
 
 #ifdef HAVE_LIBUSB_LEGACY
-  printf ("\n%s built with old libusb\n\n", argv[0])
+  printf("\n%s built with old libusb\n\n", argv[0])
 #endif
 #ifdef HAVE_LIBUSB
-  printf ("\n%s built with libusb-1.0\n\n", argv[0])
+  printf("\n%s built with libusb-1.0\n\n", argv[0])
 #endif
 #ifdef HAVE_USBCALLS
-  printf ("\n%s built with usbcalls\n\n", argv[0])
+  printf("\n%s built with usbcalls\n\n", argv[0])
 #endif
 #if !defined(HAVE_LIBUSB_LEGACY) && !defined(HAVE_LIBUSB) && !defined(HAVE_USBCALLS)
-  printf ("\n%s relying on deprecated scanner kernel module\n", argv[0])
+  printf("\n%s relying on deprecated scanner kernel module\n", argv[0])
 #endif
 
   /* start sanei_usb */
-  assert (test_init (1))
+  assert(test_init(1))
 
   /* test timeout function */
-  assert (test_timeout ())
+  assert(test_timeout())
 
   /* count available devices */
   detected = 0
-  for (i = 0; i < device_number; i++)
+  for(i = 0; i < device_number; i++)
     {
-      if (devices[i].missing == 0 && devices[i].devname != NULL)
+      if(devices[i].missing == 0 && devices[i].devname != NULL)
 	{
 	  detected++
 	}
     }
-  printf ("%d devices found.\n", detected)
+  printf("%d devices found.\n", detected)
 
   /* rescan devices : detected count shouldn't change */
-  assert (test_scan_devices (detected, 0))
+  assert(test_scan_devices(detected, 0))
 
   /* test corner cases with mock device */
-  assert (test_store_device ())
+  assert(test_store_device())
 
   /* get vendor/product id for all available devices devname */
-  assert (test_vendor_by_devname ())
+  assert(test_vendor_by_devname())
 
   /* get vendor/product id for all available devices id */
-  assert (test_vendor_by_id ())
+  assert(test_vendor_by_id())
 
   /* open all available devices */
-  assert (test_open_all (dn, detected))
+  assert(test_open_all(dn, detected))
 
   opened = get_opened()
 
   /* rescan devices : detected and opened count shouldn't change */
-  assert (test_scan_devices (detected, opened))
+  assert(test_scan_devices(detected, opened))
 
   /* try to open an inexisting device */
-  assert (test_open_invalid ())
+  assert(test_open_invalid())
 
   /* increase sanei _sub use count */
-  assert (test_init (2))
+  assert(test_init(2))
 
   /* there should be still as many detected devices */
-  assert (count_detected (detected))
+  assert(count_detected(detected))
 
   /* there should be still as many opened devices */
-  assert (count_opened (opened))
+  assert(count_opened(opened))
 
-  assert (test_exit (1))
+  assert(test_exit(1))
 
   /* there should be still as many opened devices */
-  assert (count_opened (opened))
+  assert(count_opened(opened))
 
   /* count devices again , sanei_usb_exit() shouldn't have
    * change the count */
-  assert (count_detected (detected))
+  assert(count_detected(detected))
 
   /* claim all available devices */
-  assert (test_claim_all (dn, opened))
+  assert(test_claim_all(dn, opened))
 
   /* then release them all */
-  assert (test_release_all (dn, opened))
+  assert(test_release_all(dn, opened))
 
   /* close all opened devices */
-  assert (test_close_all (dn, opened))
+  assert(test_close_all(dn, opened))
 
   /* check there is no opened device */
-  assert (count_opened (0))
+  assert(count_opened(0))
 
   /* finally free resources */
-  assert (test_exit (0))
+  assert(test_exit(0))
 
   /* check there is no more devices */
-  assert (count_detected (0))
+  assert(count_detected(0))
 
   /* test attach matching device with a mock */
-  assert (test_attach ())
+  assert(test_attach())
 
   /* try to call sanei_usb_exit() when it not initialized */
-  assert (test_exit (0))
+  assert(test_exit(0))
 
   /* scan devices when sanei usb is not initialized */
-  assert (test_scan_devices (0, 0))
+  assert(test_scan_devices(0, 0))
 
   /* we re start use of sanei usb so we check we have left it
    * it he correct state after "closing" it. */
-  printf ("\n============================================================\n")
-  printf ("restart use of sanei usb after having freed all resources...\n\n")
-  assert (test_init (1))
+  printf("\n============================================================\n")
+  printf("restart use of sanei usb after having freed all resources...\n\n")
+  assert(test_init(1))
 
   /* we should have the same initial count of detected devices */
-  assert (count_detected (detected))
+  assert(count_detected(detected))
 
   /* finally free resources */
-  assert (test_exit (0))
+  assert(test_exit(0))
 
   /* all the tests are OK ! */
   return 0

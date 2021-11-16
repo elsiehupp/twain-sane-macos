@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2000-2003 Jochen Eisinger <jochen.eisinger@gmx.net>
+   Copyright(C) 2000-2003 Jochen Eisinger <jochen.eisinger@gmx.net>
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -74,7 +74,7 @@ public const char ** sanei_pa4s2_devices(void)
  *
  * Opens *dev as pa4s2 device.
  *
- * @param dev IO port address ("0x378", "0x278", or "0x3BC")
+ * @param dev IO port address("0x378", "0x278", or "0x3BC")
  * @param fd file descriptor
  *
  * @return
@@ -84,13 +84,13 @@ public const char ** sanei_pa4s2_devices(void)
  * - Sane.STATUS_IO_ERROR - if the port couldn't be accessed
  *
  */
-public Sane.Status sanei_pa4s2_open (const char *dev, Int *fd)
+public Sane.Status sanei_pa4s2_open(const char *dev, Int *fd)
 
 /** Open pa4s2 SCSI-over-parallel device
  *
  * Opens *dev as pa4s2 SCSI-over-parallel device.
  *
- * @param dev IO port address ("0x378", "0x278", or "0x3BC")
+ * @param dev IO port address("0x378", "0x278", or "0x3BC")
  * @param fd file descriptor
  *
  * @return
@@ -100,13 +100,13 @@ public Sane.Status sanei_pa4s2_open (const char *dev, Int *fd)
  * - Sane.STATUS_IO_ERROR - if the port couldn't be accessed
  *
  */
-public Sane.Status sanei_pa4s2_scsi_pp_open (const char *dev, Int *fd)
+public Sane.Status sanei_pa4s2_scsi_pp_open(const char *dev, Int *fd)
 
 /** Close pa4s2 device
  *
  * @param fd file descriptor
  */
-public void sanei_pa4s2_close (Int fd)
+public void sanei_pa4s2_close(Int fd)
 
 /** Set/get options
  *
@@ -114,12 +114,12 @@ public void sanei_pa4s2_close (Int fd)
  * Sane.TRUE. These options should be set before the first device is opened
  *
  * @param options pointer to options
- * @param set set (Sane.TRUE) or get (Sane.FALSE) options
+ * @param set set(Sane.TRUE) or get(Sane.FALSE) options
  *
  * @return
  * - Sane.STATUS_GOOD - on success
  */
-public Sane.Status sanei_pa4s2_options (u_int * options, Int set)
+public Sane.Status sanei_pa4s2_options(u_int * options, Int set)
 
 /** Enables/disable device
  *
@@ -127,13 +127,13 @@ public Sane.Status sanei_pa4s2_options (u_int * options, Int set)
  * data can be read/written.
  *
  * @param fd file descriptor
- * @param enable enable (Sane.TRUE) or disable (Sane.FALSE) device
+ * @param enable enable(Sane.TRUE) or disable(Sane.FALSE) device
  *
  * @return
  * - Sane.STATUS_GOOD - on success
  * - Sane.STATUS_INVAL - if fd is invalid or device not in use
  */
-public Sane.Status sanei_pa4s2_enable (Int fd, Int enable)
+public Sane.Status sanei_pa4s2_enable(Int fd, Int enable)
 
 /** Select a register
  *
@@ -149,7 +149,7 @@ public Sane.Status sanei_pa4s2_enable (Int fd, Int enable)
  *
  * @sa sanei_pa4s2_readbyte(), sanei_pa4s2_readend()
  */
-public Sane.Status sanei_pa4s2_readbegin (Int fd, u_char reg)
+public Sane.Status sanei_pa4s2_readbegin(Int fd, u_char reg)
 
 /** Return port status information
  *
@@ -160,7 +160,7 @@ public Sane.Status sanei_pa4s2_readbegin (Int fd, u_char reg)
  * - Sane.STATUS_GOOD - on success
  * - Sane.STATUS_INVAL - if fd is invalid or device not in use
  */
-public Sane.Status sanei_pa4s2_scsi_pp_get_status (Int fd, u_char *status)
+public Sane.Status sanei_pa4s2_scsi_pp_get_status(Int fd, u_char *status)
 
 /** Selects a register number on a SCSI-over-parallel scanner
  *
@@ -171,7 +171,7 @@ public Sane.Status sanei_pa4s2_scsi_pp_get_status (Int fd, u_char *status)
  * - Sane.STATUS_GOOD - on success
  * - Sane.STATUS_INVAL - if fd is invalid
  */
-public Sane.Status sanei_pa4s2_scsi_pp_reg_select (Int fd, Int reg)
+public Sane.Status sanei_pa4s2_scsi_pp_reg_select(Int fd, Int reg)
 
 /** Read a register
  *
@@ -187,7 +187,7 @@ public Sane.Status sanei_pa4s2_scsi_pp_reg_select (Int fd, Int reg)
  *
  * @sa sanei_pa4s2_readbegin(), sanei_pa4s2_readend()
  */
-public Sane.Status sanei_pa4s2_readbyte (Int fd, u_char * val)
+public Sane.Status sanei_pa4s2_readbyte(Int fd, u_char * val)
 
 /** Terminate reading sequence
  *
@@ -201,7 +201,7 @@ public Sane.Status sanei_pa4s2_readbyte (Int fd, u_char * val)
  * - Sane.STATUS_INVAL - if fd is invalid or device not in use
  * @sa sanei_pa4s2_readbegin(), sanei_pa4s2_readbyte()
  */
-public Sane.Status sanei_pa4s2_readend (Int fd)
+public Sane.Status sanei_pa4s2_readend(Int fd)
 
 /** Write a register
  *
@@ -213,6 +213,6 @@ public Sane.Status sanei_pa4s2_readend (Int fd)
  * - Sane.STATUS_GOOD - on success
  * - Sane.STATUS_INVAL - if fd is invalid or device not in use
  */
-public Sane.Status sanei_pa4s2_writebyte (Int fd, u_char reg, u_char val)
+public Sane.Status sanei_pa4s2_writebyte(Int fd, u_char reg, u_char val)
 
 #endif

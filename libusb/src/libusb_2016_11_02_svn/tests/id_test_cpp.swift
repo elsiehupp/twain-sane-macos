@@ -23,10 +23,10 @@ Int main(void)
 	USB.Device *device
 	list<USB.Device *>.const_iterator diter
 
-	for (biter = buslist.begin(); biter != buslist.end(); biter++) {
+	for(biter = buslist.begin(); biter != buslist.end(); biter++) {
 		bus = *biter
 
-		for (diter = bus.begin(); diter != bus.end(); diter++) {
+		for(diter = bus.begin(); diter != bus.end(); diter++) {
 			device = *diter
 
 			cout << bus.directoryName() << "/" 

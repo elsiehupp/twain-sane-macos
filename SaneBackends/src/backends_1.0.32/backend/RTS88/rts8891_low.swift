@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2007-2013 stef.dev@free.fr
+   Copyright(C) 2007-2013 stef.dev@free.fr
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -60,10 +60,10 @@ import rts8891_low
 
 /* init rts8891 library */
 static void
-rts8891_low_init (void)
+rts8891_low_init(void)
 {
-  DBG_INIT ()
-  DBG (DBG_info, "RTS8891 low-level  functions, version %d.%d-%d\n",
+  DBG_INIT()
+  DBG(DBG_info, "RTS8891 low-level  functions, version %d.%d-%d\n",
        Sane.CURRENT_MAJOR, V_MINOR, RTS8891_BUILD)
 }
 
@@ -76,7 +76,7 @@ rts8891_low_init (void)
  * must be escaped with a zero
  */
 static Sane.Status
-rts8891_write_all (Int devnum, Sane.Byte * regs, Int count)
+rts8891_write_all(Int devnum, Sane.Byte * regs, Int count)
 {
   Sane.Status status = Sane.STATUS_GOOD
   Sane.Byte local_regs[RTS8891_MAX_REGISTERS]
@@ -85,16 +85,16 @@ rts8891_write_all (Int devnum, Sane.Byte * regs, Int count)
   unsigned var i: Int, j
   char message[256 * 5]
 
-  if (DBG_LEVEL > DBG_io)
+  if(DBG_LEVEL > DBG_io)
     {
-      for (i = 0; i < (unsigned Int) count; i++)
+      for(i = 0; i < (unsigned Int) count; i++)
 	{
-	  if (i != 0xb3)
-	    sprintf (message + 5 * i, "0x%02x ", regs[i])
+	  if(i != 0xb3)
+	    sprintf(message + 5 * i, "0x%02x ", regs[i])
 	  else
-	    sprintf (message + 5 * i, "---- ")
+	    sprintf(message + 5 * i, "---- ")
 	}
-      DBG (DBG_io, "rts8891_write_all : write_all(0x00,%d)=%s\n", count,
+      DBG(DBG_io, "rts8891_write_all : write_all(0x00,%d)=%s\n", count,
 	   message)
     }
 
@@ -102,10 +102,10 @@ rts8891_write_all (Int devnum, Sane.Byte * regs, Int count)
   /* b0, b1 abd b3 values may be scribled, but that isn't important */
   /* since they are read-only registers                             */
   j = 0
-  for (i = 0; i < 0xb3; i++)
+  for(i = 0; i < 0xb3; i++)
     {
       local_regs[j] = regs[i]
-      if (local_regs[j] == 0xaa && i < 0xb3)
+      if(local_regs[j] == 0xaa && i < 0xb3)
 	{
 	  j++
 	  local_regs[j] = 0x00
@@ -116,13 +116,13 @@ rts8891_write_all (Int devnum, Sane.Byte * regs, Int count)
   buffer[1] = 0
   buffer[2] = 0x00
   buffer[3] = 0xb3
-  for (i = 0; i < j; i++)
+  for(i = 0; i < j; i++)
     buffer[i + 4] = local_regs[i]
   /* the USB block is size + 4 bytes of header long */
   size = j + 4
-  if (sanei_usb_write_bulk (devnum, buffer, &size) != Sane.STATUS_GOOD)
+  if(sanei_usb_write_bulk(devnum, buffer, &size) != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error,
+      DBG(DBG_error,
 	   "rts88xx_write_all : write registers part 1 failed ...\n")
       return Sane.STATUS_IO_ERROR
     }
@@ -132,13 +132,13 @@ rts8891_write_all (Int devnum, Sane.Byte * regs, Int count)
   buffer[1] = 0xb4
   buffer[2] = 0x00
   buffer[3] = size
-  for (i = 0; i < size; i++)
+  for(i = 0; i < size; i++)
     buffer[i + 4] = regs[0xb4 + i]
   /* the USB block is size + 4 bytes of header long */
   size += 4
-  if (sanei_usb_write_bulk (devnum, buffer, &size) != Sane.STATUS_GOOD)
+  if(sanei_usb_write_bulk(devnum, buffer, &size) != Sane.STATUS_GOOD)
     {
-      DBG (DBG_error,
+      DBG(DBG_error,
 	   "rts88xx_write_all : write registers part 2 failed ...\n")
       return Sane.STATUS_IO_ERROR
     }
@@ -148,49 +148,49 @@ rts8891_write_all (Int devnum, Sane.Byte * regs, Int count)
 
 /* this functions "commits" pending scan command */
 static Sane.Status
-rts8891_commit (Int devnum, Sane.Byte value)
+rts8891_commit(Int devnum, Sane.Byte value)
 {
   Sane.Status status
   Sane.Byte reg
 
   reg = value
-  sanei_rts88xx_write_reg (devnum, 0xd3, &reg)
-  sanei_rts88xx_cancel (devnum)
-  sanei_rts88xx_write_control (devnum, 0x08)
-  status = sanei_rts88xx_write_control (devnum, 0x08)
+  sanei_rts88xx_write_reg(devnum, 0xd3, &reg)
+  sanei_rts88xx_cancel(devnum)
+  sanei_rts88xx_write_control(devnum, 0x08)
+  status = sanei_rts88xx_write_control(devnum, 0x08)
   return status
 }
 
 /* this functions reads button status */
 static Sane.Status
-rts8891_read_buttons (Int devnum, Int * mask)
+rts8891_read_buttons(Int devnum, Int * mask)
 {
   Sane.Status status = Sane.STATUS_GOOD
   Sane.Byte reg
 
   /* check CONTROL_REG */
-  sanei_rts88xx_read_reg (devnum, CONTROL_REG, &reg)
+  sanei_rts88xx_read_reg(devnum, CONTROL_REG, &reg)
 
   /* read 'base' button status */
-  sanei_rts88xx_read_reg (devnum, 0x25, &reg)
-  DBG (DBG_io, "rts8891_read_buttons: r25=0x%02x\n", reg)
+  sanei_rts88xx_read_reg(devnum, 0x25, &reg)
+  DBG(DBG_io, "rts8891_read_buttons: r25=0x%02x\n", reg)
   *mask |= reg
 
   /* read 'extended' button status */
-  sanei_rts88xx_read_reg (devnum, 0x1a, &reg)
-  DBG (DBG_io, "rts8891_read_buttons: r1a=0x%02x\n", reg)
+  sanei_rts88xx_read_reg(devnum, 0x1a, &reg)
+  DBG(DBG_io, "rts8891_read_buttons: r1a=0x%02x\n", reg)
   *mask |= reg << 8
 
   /* clear register r25 */
   reg = 0x00
-  sanei_rts88xx_write_reg (devnum, 0x25, &reg)
+  sanei_rts88xx_write_reg(devnum, 0x25, &reg)
 
   /* clear register r1a */
-  sanei_rts88xx_read_reg (devnum, 0x1a, &reg)
+  sanei_rts88xx_read_reg(devnum, 0x1a, &reg)
   reg = 0x00
-  status = sanei_rts88xx_write_reg (devnum, 0x1a, &reg)
+  status = sanei_rts88xx_write_reg(devnum, 0x1a, &reg)
 
-  DBG (DBG_info, "rts8891_read_buttons: mask=0x%04x\n", *mask)
+  DBG(DBG_info, "rts8891_read_buttons: mask=0x%04x\n", *mask)
   return status
 }
 
@@ -202,32 +202,32 @@ rts8891_read_buttons (Int devnum, Int * mask)
  * it, we read data count one more time before reading.
  */
 static Sane.Status
-rts8891_simple_scan (Int devnum, Sane.Byte * regs, Int regcount,
+rts8891_simple_scan(Int devnum, Sane.Byte * regs, Int regcount,
 		     Int format, Sane.Word total, unsigned char *image)
 {
   Sane.Word count, read, len, dummy
   Sane.Status status = Sane.STATUS_GOOD
   Sane.Byte control
 
-  rts8891_write_all (devnum, regs, regcount)
-  rts8891_commit (devnum, format)
+  rts8891_write_all(devnum, regs, regcount)
+  rts8891_commit(devnum, format)
 
   read = 0
   count = 0
-  while (count == 0)
+  while(count == 0)
     {
-      status = sanei_rts88xx_data_count (devnum, &count)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_rts88xx_data_count(devnum, &count)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (DBG_error, "simple_scan: failed to wait for data\n")
+	  DBG(DBG_error, "simple_scan: failed to wait for data\n")
 	  return status
 	}
-      if (count == 0)
+      if(count == 0)
 	{
-	  status = sanei_rts88xx_read_reg (devnum, CONTROL_REG, &control)
-	  if (((control & 0x08) == 0) || (status != Sane.STATUS_GOOD))
+	  status = sanei_rts88xx_read_reg(devnum, CONTROL_REG, &control)
+	  if(((control & 0x08) == 0) || (status != Sane.STATUS_GOOD))
 	    {
-	      DBG (DBG_error, "simple_scan: failed to wait for data\n")
+	      DBG(DBG_error, "simple_scan: failed to wait for data\n")
 	      return Sane.STATUS_IO_ERROR
 	    }
 	}
@@ -235,30 +235,30 @@ rts8891_simple_scan (Int devnum, Sane.Byte * regs, Int regcount,
 
   /* data reading */
   read = 0
-  while ((read < total) && (count != 0 || (control & 0x08) == 0x08))
+  while((read < total) && (count != 0 || (control & 0x08) == 0x08))
     {
       /* sync ? */
-      status = sanei_rts88xx_data_count (devnum, &dummy)
+      status = sanei_rts88xx_data_count(devnum, &dummy)
 
       /* read */
-      if (count > 0)
+      if(count > 0)
 	{
 	  len = count
 	  /* read even size unless last chunk */
-	  if ((len & 1) && (read + len < total))
+	  if((len & 1) && (read + len < total))
 	    {
 	      len++
 	    }
-	  if (len > RTS88XX_MAX_XFER_SIZE)
+	  if(len > RTS88XX_MAX_XFER_SIZE)
 	    {
 	      len = RTS88XX_MAX_XFER_SIZE
 	    }
-	  if (len > 0)
+	  if(len > 0)
 	    {
-	      status = sanei_rts88xx_read_data (devnum, &len, image + read)
-	      if (status != Sane.STATUS_GOOD)
+	      status = sanei_rts88xx_read_data(devnum, &len, image + read)
+	      if(status != Sane.STATUS_GOOD)
 		{
-		  DBG (DBG_error,
+		  DBG(DBG_error,
 		       "simple_scan: failed to read from scanner\n")
 		  return status
 		}
@@ -267,33 +267,33 @@ rts8891_simple_scan (Int devnum, Sane.Byte * regs, Int regcount,
 	}
 
       /* don't try to read data count if we have enough data */
-      if (read < total)
+      if(read < total)
 	{
-	  status = sanei_rts88xx_data_count (devnum, &count)
+	  status = sanei_rts88xx_data_count(devnum, &count)
 	}
       else
 	{
 	  count = 0
 	}
-      if (count == 0)
+      if(count == 0)
 	{
-	  sanei_rts88xx_read_reg (devnum, CONTROL_REG, &control)
+	  sanei_rts88xx_read_reg(devnum, CONTROL_REG, &control)
 	}
     }
 
   /* sanity check */
-  if (read < total)
+  if(read < total)
     {
-      DBG (DBG_io2, "simple_scan: ERROR, %d bytes missing ... \n",
+      DBG(DBG_io2, "simple_scan: ERROR, %d bytes missing ... \n",
 	   total - read)
     }
 
   /* wait for the motor to stop */
   do
     {
-      sanei_rts88xx_read_reg (devnum, CONTROL_REG, &control)
+      sanei_rts88xx_read_reg(devnum, CONTROL_REG, &control)
     }
-  while ((control & 0x08) == 0x08)
+  while((control & 0x08) == 0x08)
 
   return status
 }
@@ -303,20 +303,20 @@ rts8891_simple_scan (Int devnum, Sane.Byte * regs, Int regcount,
   * value is the value used in d3 register for a scan.
   */
 static Int
-rts8891_data_format (Int dpi, Int sensor)
+rts8891_data_format(Int dpi, Int sensor)
 {
   Sane.Byte reg = 0x00
 
   /* it seems that lower nibble is a divisor */
-  if (sensor == SENSOR_TYPE_BARE || sensor == SENSOR_TYPE_XPA)
+  if(sensor == SENSOR_TYPE_BARE || sensor == SENSOR_TYPE_XPA)
     {
-      switch (dpi)
+      switch(dpi)
 	{
 	case 75:
 	  reg = 0x02
 	  break
 	case 150:
-	  if (sensor == SENSOR_TYPE_BARE)
+	  if(sensor == SENSOR_TYPE_BARE)
 	    reg = 0x0e
 	  else
 	    reg = 0x0b
@@ -325,28 +325,28 @@ rts8891_data_format (Int dpi, Int sensor)
 	  reg = 0x17
 	  break
 	case 600:
-	  if (sensor == SENSOR_TYPE_BARE)
+	  if(sensor == SENSOR_TYPE_BARE)
 	    reg = 0x02
 	  else
 	    reg = 0x0e
 	  break
 	case 1200:
-	  if (sensor == SENSOR_TYPE_BARE)
+	  if(sensor == SENSOR_TYPE_BARE)
 	    reg = 0x17
 	  else
 	    reg = 0x05
 	  break
 	}
     }
-  if (sensor == SENSOR_TYPE_4400 || sensor == SENSOR_TYPE_4400_BARE)
+  if(sensor == SENSOR_TYPE_4400 || sensor == SENSOR_TYPE_4400_BARE)
     {
-      switch (dpi)
+      switch(dpi)
 	{
 	case 75:
 	  reg = 0x02
 	  break
 	case 150:
-	  if (sensor == SENSOR_TYPE_4400)
+	  if(sensor == SENSOR_TYPE_4400)
 	    reg = 0x0b
 	  else
 	    reg = 0x17
@@ -355,13 +355,13 @@ rts8891_data_format (Int dpi, Int sensor)
 	  reg = 0x17
 	  break
 	case 600:
-	  if (sensor == SENSOR_TYPE_4400)
+	  if(sensor == SENSOR_TYPE_4400)
 	    reg = 0x0e
 	  else
 	    reg = 0x02
 	  break
 	case 1200:
-	  if (sensor == SENSOR_TYPE_4400)
+	  if(sensor == SENSOR_TYPE_4400)
 	    reg = 0x05
 	  else
 	    reg = 0x17
@@ -375,7 +375,7 @@ rts8891_data_format (Int dpi, Int sensor)
  * set up default values for a 75xdpi, 150 ydpi scan
  */
 static void
-rts8891_set_default_regs (Sane.Byte * scanner_regs)
+rts8891_set_default_regs(Sane.Byte * scanner_regs)
 {
   Sane.Byte default_75[RTS8891_MAX_REGISTERS] =
     { 0xe5, 0x41, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x0a, 0x0a, 0x0a, 0x70,
@@ -406,24 +406,24 @@ rts8891_set_default_regs (Sane.Byte * scanner_regs)
     0x00, 0x00, 0x00, 0x00
   ]
   unsigned var i: Int
-  for (i = 0; i < RTS8891_MAX_REGISTERS; i++)
+  for(i = 0; i < RTS8891_MAX_REGISTERS; i++)
     scanner_regs[i] = default_75[i]
 }
 
 static Sane.Status
-rts8891_move (struct Rts8891_Device *device, Sane.Byte * regs,
+rts8891_move(struct Rts8891_Device *device, Sane.Byte * regs,
 	      Int distance, Bool forward)
 {
   Sane.Status status = Sane.STATUS_GOOD
   Sane.Byte regs10, regs11
 
-  DBG (DBG_proc, "rts8891_move: start\n")
-  DBG (DBG_io, "rts8891_move: %d lines %s, sensor=%d\n", distance,
+  DBG(DBG_proc, "rts8891_move: start\n")
+  DBG(DBG_io, "rts8891_move: %d lines %s, sensor=%d\n", distance,
        forward == Sane.TRUE ? "forward" : "backward", device.sensor)
 
   /* prepare scan */
-  rts8891_set_default_regs (regs)
-  if (device.sensor != SENSOR_TYPE_4400
+  rts8891_set_default_regs(regs)
+  if(device.sensor != SENSOR_TYPE_4400
       && device.sensor != SENSOR_TYPE_4400_BARE)
     {
       regs10 = 0x20
@@ -491,7 +491,7 @@ rts8891_move (struct Rts8891_Device *device, Sane.Byte * regs,
   regs[0xe9] = 0x02
 
   /* hp4400 sensors */
-  if (device.sensor == SENSOR_TYPE_4400
+  if(device.sensor == SENSOR_TYPE_4400
       || device.sensor == SENSOR_TYPE_4400_BARE)
     {
       regs[0x13] = 0x39;	/* 0x20 */
@@ -513,14 +513,14 @@ rts8891_move (struct Rts8891_Device *device, Sane.Byte * regs,
   /* disable CCD */
   regs[0] = 0xf5
 
-  sanei_rts88xx_set_status (device.devnum, regs, regs10, regs11)
-  sanei_rts88xx_set_scan_area (regs, distance, distance + 1, 100, 200)
-  sanei_rts88xx_set_gain (regs, 16, 16, 16)
-  sanei_rts88xx_set_offset (regs, 127, 127, 127)
+  sanei_rts88xx_set_status(device.devnum, regs, regs10, regs11)
+  sanei_rts88xx_set_scan_area(regs, distance, distance + 1, 100, 200)
+  sanei_rts88xx_set_gain(regs, 16, 16, 16)
+  sanei_rts88xx_set_offset(regs, 127, 127, 127)
 
   /* forward/backward */
   /* 0x2c is forward, 0x24 backward */
-  if (forward == Sane.TRUE)
+  if(forward == Sane.TRUE)
     {				/* forward */
       regs[0x36] = regs[0x36] | 0x08
     }
@@ -530,10 +530,10 @@ rts8891_move (struct Rts8891_Device *device, Sane.Byte * regs,
     }
 
   /* write registers values */
-  status = rts8891_write_all (device.devnum, regs, RTS8891_MAX_REGISTERS)
+  status = rts8891_write_all(device.devnum, regs, RTS8891_MAX_REGISTERS)
 
   /* commit it */
-  rts8891_commit (device.devnum, 0x00)
+  rts8891_commit(device.devnum, 0x00)
 
   return status
 }
@@ -542,29 +542,29 @@ rts8891_move (struct Rts8891_Device *device, Sane.Byte * regs,
   * wait for the scanning head to reach home position
   */
 static Sane.Status
-rts8891_wait_for_home (struct Rts8891_Device *device, Sane.Byte * regs)
+rts8891_wait_for_home(struct Rts8891_Device *device, Sane.Byte * regs)
 {
   Sane.Status status = Sane.STATUS_GOOD
   Sane.Byte motor, sensor, reg
 
-  DBG (DBG_proc, "rts8891_wait_for_home: start\n")
+  DBG(DBG_proc, "rts8891_wait_for_home: start\n")
 
   /* wait for controller home bit to raise, no timeout */
   /* at each loop we check that motor is on, then that the sensor bit it cleared */
   do
     {
-      sanei_rts88xx_read_reg (device.devnum, CONTROL_REG, &motor)
-      sanei_rts88xx_read_reg (device.devnum, CONTROLER_REG, &sensor)
+      sanei_rts88xx_read_reg(device.devnum, CONTROL_REG, &motor)
+      sanei_rts88xx_read_reg(device.devnum, CONTROLER_REG, &sensor)
     }
-  while ((motor & 0x08) && ((sensor & 0x02) == 0))
+  while((motor & 0x08) && ((sensor & 0x02) == 0))
 
   /* flag that device has finished parking */
   device.parking=Sane.FALSE
 
   /* check for error */
-  if (((motor & 0x08) == 0x00) && ((sensor & 0x02) == 0))
+  if(((motor & 0x08) == 0x00) && ((sensor & 0x02) == 0))
     {
-      DBG (DBG_error,
+      DBG(DBG_error,
 	   "rts8891_wait_for_home: error, motor stopped before head parked\n")
       status = Sane.STATUS_INVAL
     }
@@ -572,18 +572,18 @@ rts8891_wait_for_home (struct Rts8891_Device *device, Sane.Byte * regs)
   /* re-enable CCD */
   regs[0] = regs[0] & 0xef
 
-  sanei_rts88xx_cancel (device.devnum)
+  sanei_rts88xx_cancel(device.devnum)
 
   /* reset ? so we don't need to read data */
   reg = 0
   /* b7: movement on/off, b3-b0 : movement divisor */
-  sanei_rts88xx_write_reg (device.devnum, 0x33, &reg)
-  sanei_rts88xx_write_reg (device.devnum, 0x33, &reg)
+  sanei_rts88xx_write_reg(device.devnum, 0x33, &reg)
+  sanei_rts88xx_write_reg(device.devnum, 0x33, &reg)
   /* movement direction */
-  sanei_rts88xx_write_reg (device.devnum, 0x36, &reg)
-  sanei_rts88xx_cancel (device.devnum)
+  sanei_rts88xx_write_reg(device.devnum, 0x36, &reg)
+  sanei_rts88xx_cancel(device.devnum)
 
-  DBG (DBG_proc, "rts8891_wait_for_home: end\n")
+  DBG(DBG_proc, "rts8891_wait_for_home: end\n")
   return status
 }
 
@@ -593,35 +593,35 @@ rts8891_wait_for_home (struct Rts8891_Device *device, Sane.Byte * regs)
   * messing scanner status
   */
 static Sane.Status
-rts8891_park (struct Rts8891_Device *device, Sane.Byte *regs, Bool wait)
+rts8891_park(struct Rts8891_Device *device, Sane.Byte *regs, Bool wait)
 {
   Sane.Status status = Sane.STATUS_GOOD
 
-  DBG (DBG_proc, "rts8891_park: start\n")
+  DBG(DBG_proc, "rts8891_park: start\n")
 
   device.parking=Sane.TRUE
-  rts8891_move (device, regs, 8000, Sane.FALSE)
+  rts8891_move(device, regs, 8000, Sane.FALSE)
 
   if(wait==Sane.TRUE)
     {
-      status = rts8891_wait_for_home (device,regs)
+      status = rts8891_wait_for_home(device,regs)
     }
 
-  DBG (DBG_proc, "rts8891_park: end\n")
+  DBG(DBG_proc, "rts8891_park: end\n")
   return status
 }
 
 /* reads data from scanner.
  * First we wait for some data to be available and then loop reading
  * from scanner until the required amount is reached.
- * We handle non blocking I/O by returning immediately (with Sane.STATUS_BUSY)
+ * We handle non blocking I/O by returning immediately(with Sane.STATUS_BUSY)
  * if there is no data available from scanner. But once read is started,
  * all the required amount is read. Once wait for data succeeded, we still poll
  * for data in order no to read it too fast, but we don' take care of non blocking
  * mode since we cope with it on first data wait.
  */
 static Sane.Status
-read_data (struct Rts8891_Session *session, Sane.Byte * dest, Int length)
+read_data(struct Rts8891_Session *session, Sane.Byte * dest, Int length)
 {
   Sane.Status status = Sane.STATUS_GOOD
   Int count, read, len, dummy
@@ -630,27 +630,27 @@ read_data (struct Rts8891_Session *session, Sane.Byte * dest, Int length)
   Sane.Byte control = 0x08
   unsigned char buffer[RTS88XX_MAX_XFER_SIZE]
 
-  DBG (DBG_proc, "read_data: start\n")
-  DBG (DBG_proc, "read_data: requiring %d bytes\n", length)
+  DBG(DBG_proc, "read_data: start\n")
+  DBG(DBG_proc, "read_data: requiring %d bytes\n", length)
 
   /* wait for data being available and handle non blocking mode */
   /* only when data reading hasn't produce any data yet */
-  if (dev.read == 0)
+  if(dev.read == 0)
     {
       do
 	{
-	  status = sanei_rts88xx_data_count (dev.devnum, &count)
-	  if (status != Sane.STATUS_GOOD)
+	  status = sanei_rts88xx_data_count(dev.devnum, &count)
+	  if(status != Sane.STATUS_GOOD)
 	    {
-	      DBG (DBG_error, "read_data: failed to wait for data\n")
+	      DBG(DBG_error, "read_data: failed to wait for data\n")
 	      return status
 	    }
-	  if (count == 0)
+	  if(count == 0)
 	    {
-	      sanei_rts88xx_read_reg (dev.devnum, CONTROL_REG, &control)
-	      if ((control & 0x08) == 0 && (count == 0))
+	      sanei_rts88xx_read_reg(dev.devnum, CONTROL_REG, &control)
+	      if((control & 0x08) == 0 && (count == 0))
 		{
-		  DBG (DBG_error,
+		  DBG(DBG_error,
 		       "read_data: scanner stopped being busy before data are available\n")
 		  return Sane.STATUS_IO_ERROR
 		}
@@ -659,33 +659,33 @@ read_data (struct Rts8891_Session *session, Sane.Byte * dest, Int length)
 	  /* in case there is no data, we return BUSY since this mean    */
 	  /* that scanning head hasn't reach is position and data hasn't */
 	  /* come yet */
-	  if (session.non_blocking && count == 0)
+	  if(session.non_blocking && count == 0)
 	    {
 
 	      dev.regs[LAMP_REG] = 0x8d
-	      sanei_rts88xx_write_reg (dev.devnum, LAMP_REG,
+	      sanei_rts88xx_write_reg(dev.devnum, LAMP_REG,
 				       &(dev.regs[LAMP_REG]))
-	      DBG (DBG_io, "read_data: no data available\n")
-	      DBG (DBG_proc, "read_data: end\n")
+	      DBG(DBG_io, "read_data: no data available\n")
+	      DBG(DBG_proc, "read_data: end\n")
 	      return Sane.STATUS_DEVICE_BUSY
 	    }
 	}
-      while (count == 0)
+      while(count == 0)
     }
   else
     {				/* start of read for a new block */
-      status = sanei_rts88xx_data_count (dev.devnum, &count)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_rts88xx_data_count(dev.devnum, &count)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (DBG_error, "read_data: failed to wait for data\n")
+	  DBG(DBG_error, "read_data: failed to wait for data\n")
 	  return status
 	}
-      if (count == 0)
+      if(count == 0)
 	{
-	  sanei_rts88xx_read_reg (dev.devnum, CONTROL_REG, &control)
-	  if ((control & 0x08) == 0 && (count == 0))
+	  sanei_rts88xx_read_reg(dev.devnum, CONTROL_REG, &control)
+	  if((control & 0x08) == 0 && (count == 0))
 	    {
-	      DBG (DBG_error,
+	      DBG(DBG_error,
 		   "read_data: scanner stopped being busy before data are available\n")
 	      return Sane.STATUS_IO_ERROR
 	    }
@@ -697,60 +697,60 @@ read_data (struct Rts8891_Session *session, Sane.Byte * dest, Int length)
 
   /* now loop reading data until we have the amount requested */
   /* we also take care of not reading too much data           */
-  while (read < length && dev.read < dev.to_read
+  while(read < length && dev.read < dev.to_read
 	 && ((control & 0x08) == 0x08))
     {
       /* used to sync */
-      if (dev.read == 0)
+      if(dev.read == 0)
 	{
-	  status = sanei_rts88xx_data_count (dev.devnum, &dummy)
-	  if (status != Sane.STATUS_GOOD)
+	  status = sanei_rts88xx_data_count(dev.devnum, &dummy)
+	  if(status != Sane.STATUS_GOOD)
 	    {
-	      DBG (DBG_error, "read_data: failed to read data count\n")
+	      DBG(DBG_error, "read_data: failed to read data count\n")
 	      return status
 	    }
 	}
 
       /* if there is data to read, read it */
-      if (count > 0)
+      if(count > 0)
 	{
 	  len = count
 
-	  if (len > RTS88XX_MAX_XFER_SIZE)
+	  if(len > RTS88XX_MAX_XFER_SIZE)
 	    {
 	      len = RTS88XX_MAX_XFER_SIZE
 	    }
 
 	  /* we only read even size blocks of data */
-	  if (len & 1)
+	  if(len & 1)
 	    {
-	      DBG (DBG_io, "read_data: round to next even number\n")
+	      DBG(DBG_io, "read_data: round to next even number\n")
 	      len++
 	    }
 
-	  if (len > length - read)
+	  if(len > length - read)
 	    {
 	      len = length - read
 	    }
 
-	  status = sanei_rts88xx_read_data (dev.devnum, &len, dest + read)
-	  if (status != Sane.STATUS_GOOD)
+	  status = sanei_rts88xx_read_data(dev.devnum, &len, dest + read)
+	  if(status != Sane.STATUS_GOOD)
 	    {
-	      DBG (DBG_error, "read_data: failed to read from scanner\n")
+	      DBG(DBG_error, "read_data: failed to read from scanner\n")
 	      return status
 	    }
 
 	  /* raw data tracing */
-	  if (DBG_LEVEL >= DBG_io2)
+	  if(DBG_LEVEL >= DBG_io2)
 	    {
 	      /* open a new file only when no data scanned */
-	      if (dev.read == 0)
+	      if(dev.read == 0)
 		{
-		  raw = fopen ("raw_data.pnm", "wb")
-		  if (raw != NULL)
+		  raw = fopen("raw_data.pnm", "wb")
+		  if(raw != NULL)
 		    {
 		      /* PNM header */
-		      fprintf (raw, "P%c\n%d %d\n255\n",
+		      fprintf(raw, "P%c\n%d %d\n255\n",
 			       session.params.format ==
 			       Sane.FRAME_RGB
 			       || session.emulated_gray ==
@@ -758,34 +758,34 @@ read_data (struct Rts8891_Session *session, Sane.Byte * dest, Int length)
 			       dev.lines)
 		    }
 		}
-	      if (raw != NULL)
+	      if(raw != NULL)
 		{
-		  fwrite (dest + read, 1, len, raw)
+		  fwrite(dest + read, 1, len, raw)
 		}
 	    }
 
 	  /* move pointer and counter */
 	  read += len
 	  dev.read += len
-	  DBG (DBG_io2, "read_data: %d/%d\n", dev.read, dev.to_read)
+	  DBG(DBG_io2, "read_data: %d/%d\n", dev.read, dev.to_read)
 	}
 
       /* in fast scan mode, read data count
        * in slow scan, head moves by the amount of data read */
-      status = sanei_rts88xx_data_count (dev.devnum, &count)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_rts88xx_data_count(dev.devnum, &count)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (DBG_error, "read_data: failed to read data count\n")
+	  DBG(DBG_error, "read_data: failed to read data count\n")
 	  return status
 	}
 
       /* if no data, check if still scanning */
-      if (count == 0 && dev.read < dev.to_read)
+      if(count == 0 && dev.read < dev.to_read)
 	{
-	  sanei_rts88xx_read_reg (dev.devnum, CONTROL_REG, &control)
-	  if ((control & 0x08) == 0x00)
+	  sanei_rts88xx_read_reg(dev.devnum, CONTROL_REG, &control)
+	  if((control & 0x08) == 0x00)
 	    {
-	      DBG (DBG_error,
+	      DBG(DBG_error,
 		   "read_data: scanner stopped being busy before data are available\n")
 	      return Sane.STATUS_IO_ERROR
 	    }
@@ -793,55 +793,55 @@ read_data (struct Rts8891_Session *session, Sane.Byte * dest, Int length)
     }
 
   /* end of physical reads */
-  if (dev.read >= dev.to_read)
+  if(dev.read >= dev.to_read)
     {
       /* check there is no more data in case of a bug */
-      sanei_rts88xx_data_count (dev.devnum, &count)
-      if (count > 0)
+      sanei_rts88xx_data_count(dev.devnum, &count)
+      if(count > 0)
 	{
-	  DBG (DBG_warn,
+	  DBG(DBG_warn,
 	       "read_data: %d bytes are still available from scanner\n",
 	       count)
 
 	  /* flush left-over data */
-	  while (count > 0)
+	  while(count > 0)
 	    {
 	      len = count
-	      if (len > RTS88XX_MAX_XFER_SIZE)
+	      if(len > RTS88XX_MAX_XFER_SIZE)
 		{
 		  len = RTS88XX_MAX_XFER_SIZE
 		}
 
 	      /* we only read even size blocks of data */
-	      if (len & 1)
+	      if(len & 1)
 		{
 		  len++
 		}
-	      sanei_rts88xx_read_data (dev.devnum, &len, buffer)
-	      sanei_rts88xx_data_count (dev.devnum, &count)
+	      sanei_rts88xx_read_data(dev.devnum, &len, buffer)
+	      sanei_rts88xx_data_count(dev.devnum, &count)
 	    }
 	}
 
       /* wait for motor to stop at the end of the scan */
       do
 	{
-	  sanei_rts88xx_read_reg (dev.devnum, CONTROL_REG, &control)
+	  sanei_rts88xx_read_reg(dev.devnum, CONTROL_REG, &control)
 	}
-      while ((control & 0x08) != 0)
+      while((control & 0x08) != 0)
 
       /* close log file if needed */
-      if (DBG_LEVEL >= DBG_io2)
+      if(DBG_LEVEL >= DBG_io2)
 	{
-	  if (raw != NULL)
+	  if(raw != NULL)
 	    {
-	      fclose (raw)
+	      fclose(raw)
 	      raw = NULL
 	    }
 	}
     }
 
-  DBG (DBG_io, "read_data: read %d bytes from scanner\n", length)
-  DBG (DBG_proc, "read_data: end\n")
+  DBG(DBG_io, "read_data: read %d bytes from scanner\n", length)
+  DBG(DBG_proc, "read_data: end\n")
   return status
 }
 

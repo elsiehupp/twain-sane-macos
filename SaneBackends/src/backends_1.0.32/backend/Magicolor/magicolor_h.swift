@@ -7,7 +7,7 @@
  * Based on Kazuhiro Sasayama previous
  * Work on epson.[ch] file from the SANE package.
  * Please see those files for original copyrights.
- * Copyright (C) 2006 Tower Technologies
+ * Copyright(C) 2006 Tower Technologies
  * Author: Alessandro Zummo <a.zummo@towertech.it>
  *
  * This file is part of the SANE package.
@@ -49,8 +49,8 @@ import Sane.sanei_backend
 
 #define MAGICOLOR_CONFIG_FILE "magicolor.conf"
 
-#define NUM_OF_HEX_ELEMENTS (16)        /* number of hex numbers per line for data dump */
-#define DEVICE_NAME_LEN (16)    /* length of device name in extended status */
+#define NUM_OF_HEX_ELEMENTS(16)        /* number of hex numbers per line for data dump */
+#define DEVICE_NAME_LEN(16)    /* length of device name in extended status */
 
 
 
@@ -174,7 +174,7 @@ struct Magicolor_Device
 
 typedef struct Magicolor_Device Magicolor_Device
 
-/* Structure holding an instance of a scanner (i.e. scanner has been opened) */
+/* Structure holding an instance of a scanner(i.e. scanner has been opened) */
 struct Magicolor_Scanner
 {
 	struct Magicolor_Scanner *next
@@ -206,7 +206,7 @@ struct Magicolor_Scanner
 	 * to ignore */
 	Int bytes_read_in_line
 	Sane.Byte *line_buffer
-	/* How many bytes are scanned per line (multiple of 512 bytes */
+	/* How many bytes are scanned per line(multiple of 512 bytes */
 	Int scan_bytes_per_line
 ]
 

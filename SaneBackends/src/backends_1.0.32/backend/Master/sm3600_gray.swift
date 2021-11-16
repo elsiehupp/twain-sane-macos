@@ -1,11 +1,11 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) Marian Eichholz 2001
+   Copyright(C) Marian Eichholz 2001
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -208,52 +208,52 @@ static TState ReadNextGrayLine(PTInstance this)
 
   iWrite=0
 
-  while (iWrite<this.state.cxMax) /* max 1 time in reality */
+  while(iWrite<this.state.cxMax) /* max 1 time in reality */
     {
-      while (iWrite<this.state.cxMax &&
+      while(iWrite<this.state.cxMax &&
 	     this.state.iBulkReadPos<this.state.cchBulk)
 	this.state.ppchLines[0][iWrite++] += /* add! */
 	  this.state.pchBuf[this.state.iBulkReadPos++]<<4
-      if (iWrite<this.state.cxMax) /* we need an additional chunk */
+      if(iWrite<this.state.cxMax) /* we need an additional chunk */
 	{
-	  if (this.state.bLastBulk)
+	  if(this.state.bLastBulk)
 	      return Sane.STATUS_EOF
 	  this.state.cchBulk=BulkReadBuffer(this,this.state.pchBuf,
 					     USB_CHUNK_SIZE)
 	  dprintf(DEBUG_SCAN,"bulk read: %d byte(s), line #%d\n",
 		  this.state.cchBulk, this.state.iLine)
-	  if (this.bWriteRaw)
+	  if(this.bWriteRaw)
 	    fwrite(this.state.pchBuf,1,this.state.cchBulk,this.fhScan)
 	  INST_ASSERT()
-	  if (this.state.cchBulk!=USB_CHUNK_SIZE)
+	  if(this.state.cchBulk!=USB_CHUNK_SIZE)
 	    this.state.bLastBulk=true
 	  this.state.iBulkReadPos=0
 	}
     } /* while raw line buffer acquiring */
   this.state.iLine++
   iDot=0; chBits=0; /* init pixelbuffer */
-  for (nInterpolator=50, iWrite=0, iRead=0
+  for(nInterpolator=50, iWrite=0, iRead=0
        iRead<this.state.cxMax
        iRead++)
     {
       nInterpolator+=this.state.nFixAspect
-      if (nInterpolator<100) continue; /* res. reduction */
+      if(nInterpolator<100) continue; /* res. reduction */
       nInterpolator-=100
-      if (iWrite>=this.state.cchLineOut) continue
+      if(iWrite>=this.state.cchLineOut) continue
       /* dprintf(DEBUG_SCAN," i=%d",iTo); */
-      if (this.mode==gray)
+      if(this.mode==gray)
 	  this.state.pchLineOut[iWrite++]=
 	    this.state.ppchLines[0][iRead]>>4
       else
 	{
 	  unsigned char chBit; /* 1=white */
-	  if (this.mode==line)
+	  if(this.mode==line)
 	    chBit=(this.state.ppchLines[0][iRead]<LINE_THRESHOLD)
 	  else
 	    {
 	      short nError=this.state.ppchLines[0][iRead]
 	      /* printf("(%d)",nError); */
-	      if (nError>=0xFF0)
+	      if(nError>=0xFF0)
 		{
 		  nError-=0xFF0
 		  chBit=0
@@ -264,7 +264,7 @@ static TState ReadNextGrayLine(PTInstance this)
 		 algorithm from heart, I have no idea, if
 		 there is room for improvement in the
 		 coefficients.  If You know, please drop
-		 me a line (eichholz@computer.org, 1.4.2001) */
+		 me a line(eichholz@computer.org, 1.4.2001) */
 #define FASTDITHER
 #ifdef FASTDITHER
 	      this.state.ppchLines[0][iRead+1]+=(nError>>2); /* 8/16 */
@@ -278,14 +278,14 @@ static TState ReadNextGrayLine(PTInstance this)
 	    }
 	  chBits=(chBits<<1)|chBit
 	  iDot++
-	  if (iDot==8 && iWrite<this.state.cchLineOut)
+	  if(iDot==8 && iWrite<this.state.cchLineOut)
 	    {
 	      this.state.pchLineOut[iWrite++]=chBits
 	      iDot=0; chBits=0
 	    }
 	} /* gray pixel postprocessing */
     } /* line postprocessing */
-  if (iDot && iWrite<this.state.cchLineOut)
+  if(iDot && iWrite<this.state.cchLineOut)
     this.state.pchLineOut[iWrite++]=chBits
   /* cycle the history lines and clear the preread buffer*/
   {
@@ -308,12 +308,12 @@ TState StartScanGray(TInstance *this)
 {
   unsigned char  *puchRegs
   Int             i
-  if (this.state.bScanning)
+  if(this.state.bScanning)
     return SetError(this,Sane.STATUS_DEVICE_BUSY,"scan active")
   memset(&(this.state),0,sizeof(TScanState))
   this.state.ReadProc  =ReadNextGrayLine
   puchRegs=NULL
-  switch (this.param.res)
+  switch(this.param.res)
   {
   case 75:  puchRegs=uchRegs075; break
   case 100: puchRegs=uchRegs100; break
@@ -351,14 +351,14 @@ TState StartScanGray(TInstance *this)
   this.state.pchBuf=malloc(USB_CHUNK_SIZE)
   this.state.cBacklog=2
   this.state.ppchLines=calloc(this.state.cBacklog,sizeof(short *))
-  if (!this.state.pchBuf || !this.state.ppchLines)
+  if(!this.state.pchBuf || !this.state.ppchLines)
     return FreeState(this,SetError(this,
 				   Sane.STATUS_NO_MEM,"no buffers available"))
-  for (i=0; i<this.state.cBacklog; i++)
+  for(i=0; i<this.state.cBacklog; i++)
     {
       this.state.ppchLines[i]=calloc(this.state.cxMax+1,
 				      sizeof(short)); /* 1 dummy at right edge */
-      if (!this.state.ppchLines[i])
+      if(!this.state.ppchLines[i])
 	return FreeState(this,SetError(this,
 				       Sane.STATUS_NO_MEM,"no buffers available"))
     }
@@ -370,7 +370,7 @@ TState StartScanGray(TInstance *this)
     : (this.state.cxPixel+7)/8
 
   this.state.pchLineOut = malloc(this.state.cchLineOut)
-  if (!this.state.pchLineOut)
+  if(!this.state.pchLineOut)
     return FreeState(this,SetError(this,
 				   Sane.STATUS_NO_MEM,
 				   "no buffers available"))

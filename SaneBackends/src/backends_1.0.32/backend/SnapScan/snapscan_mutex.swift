@@ -1,12 +1,12 @@
 /*
   Mutex implementation for SnapScan backend
 
-  Copyright (C) 2000, 2004 Henrik Johansson, Oliver Schwartz
+  Copyright(C) 2000, 2004 Henrik Johansson, Oliver Schwartz
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License as
   published by the Free Software Foundation; either version 2 of the
-  License, or (at your option) any later version.
+  License, or(at your option) any later version.
 
   This program is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -121,7 +121,7 @@ static unsigned Int snapscani_bernstein(const unsigned char* str)
     unsigned Int hash = 5381; /* some arbitrary number */
     Int c
 
-    while (*str)
+    while(*str)
     {
         c = *str++
         hash = ((hash << 5) + hash) + c
@@ -134,27 +134,27 @@ static Int snapscani_mutex_open(snapscan_mutex_t* sem_id, const char* dev)
     static const char *me = "snapscani_mutex_open"
     key_t ipc_key = -1
 
-    if (strstr(dev, "libusb:") == dev)
+    if(strstr(dev, "libusb:") == dev)
     {
         key_t ipc_key = (key_t) snapscani_bernstein((const unsigned char*) dev+7)
-	DBG (DL_INFO, "%s: using IPC key 0x%08x for device %s\n",
+	DBG(DL_INFO, "%s: using IPC key 0x%08x for device %s\n",
 	     me, ipc_key, dev)
     }
     else
     {
       ipc_key = ftok(dev, 0x12)
 
-	if (ipc_key == -1)
+	if(ipc_key == -1)
 	{
-	  DBG (DL_MAJOR_ERROR, "%s: could not obtain IPC key for device %s: %s\n", me, dev, strerror(errno))
+	  DBG(DL_MAJOR_ERROR, "%s: could not obtain IPC key for device %s: %s\n", me, dev, strerror(errno))
 	    return 0
 	}
     }
 
     *sem_id = semget( ipc_key, 1, IPC_CREAT | 0660 )
-    if (*sem_id == -1)
+    if(*sem_id == -1)
     {
-        DBG (DL_MAJOR_ERROR, "%s: semget failed: %s\n", me, strerror(errno))
+        DBG(DL_MAJOR_ERROR, "%s: semget failed: %s\n", me, strerror(errno))
 	return 0
     }
 

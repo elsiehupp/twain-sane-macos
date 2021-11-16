@@ -1,6 +1,6 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 1997 David Mosberger-Tang
-   Copyright (C) 2003 Julien BLACHE <jb@jblache.org>
+   Copyright(C) 1997 David Mosberger-Tang
+   Copyright(C) 2003 Julien BLACHE <jb@jblache.org>
       AF-independent code + IPv6
 
    This file is part of the SANE package.
@@ -8,7 +8,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -51,13 +51,13 @@ typedef struct Net_Device
   {
     struct Net_Device *next
     const char *name
-#if defined (HAVE_GETADDRINFO) && defined (HAVE_GETNAMEINFO)
+#if defined(HAVE_GETADDRINFO) && defined(HAVE_GETNAMEINFO)
     struct addrinfo *addr
     struct addrinfo *addr_used
 #else
     struct sockaddr addr
 #endif /* HAVE_GETADDRINFO && HAVE_GETNAMEINFO */
-    Int ctl;			/* socket descriptor (or -1) */
+    Int ctl;			/* socket descriptor(or -1) */
     Wire wire
     Int auth_active
   }
@@ -71,14 +71,14 @@ typedef struct Net_Scanner
     Int options_valid;			/* are the options current? */
     Sane.Option_Descriptor_Array opt, local_opt
 
-    Sane.Word handle;		/* remote handle (it's a word, not a ptr!) */
+    Sane.Word handle;		/* remote handle(it's a word, not a ptr!) */
 
     Int data;			/* data socket descriptor */
     Int reclen_buf_offset
     u_char reclen_buf[4]
     size_t bytes_remaining;	/* how many bytes left in this record? */
 
-    /* device (host) info: */
+    /* device(host) info: */
     Net_Device *hw
   }
 Net_Scanner

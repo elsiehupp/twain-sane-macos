@@ -2,12 +2,12 @@
  * @brief functions to convert scanner data into image data
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (c) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(c) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.01 - initial version
  * - 0.02 - fixed fnColor42() to return 16bit values instead of
- *          only 12bit (this is the maximum the scanner can)
+ *          only 12bit(this is the maximum the scanner can)
  *        - added scaling function u12image_ScaleX()
  * .
  * <hr>
@@ -16,7 +16,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -199,7 +199,7 @@ static void fnColorDirect( U12_Device *dev, void *pb, void *img, u_long len )
 	src  = (Sane.Byte*)img
 	dest = (RGBByteDef*)pb
 
-	for ( len = dev.DataInf.dwAsicPixelsPerPlane; len; len--, src++, dest++) {
+	for( len = dev.DataInf.dwAsicPixelsPerPlane; len; len--, src++, dest++) {
 
 		dest.Red   = *src
 		dest.Green = src[dev.DataInf.dwAsicPixelsPerPlane]
@@ -222,7 +222,7 @@ static void fnColor42( U12_Device *dev, void *pb, void *img, u_long len )
 	src  = (u_short*)img
 	dest = (RGBUShortDef*)pb
 
-	for ( i = dev.DataInf.dwAsicPixelsPerPlane; i; i--, src++, dest++) {
+	for( i = dev.DataInf.dwAsicPixelsPerPlane; i; i--, src++, dest++) {
 
 		dest.Red   = (*src) << 4
 		dest.Green = (src[dev.DataInf.dwAsicPixelsPerPlane]) << 4
@@ -459,7 +459,7 @@ static Int imageSetupScanSettings( U12_Device *dev, ImgDef *img )
 /* CHECK: We have now two methods for setting the brightness...
 */
 	DBG( _DBG_INFO, "* brightness = %i\n", dev.DataInf.siBrightness )
-	if ( dev.DataInf.siBrightness < 0) {
+	if( dev.DataInf.siBrightness < 0) {
 		brightness = (u_short)(_DEF_BW_THRESHOLD -
 			       (255 - _DEF_BW_THRESHOLD) * dev.DataInf.siBrightness /127)
 	} else {
@@ -580,7 +580,7 @@ static Sane.Status u12image_SetupScanSettings( U12_Device *dev, ImgDef *img )
 				wPreviewScanned = dev.DataInf.xyAppDpi.y * 8
 		} else {
 
-			DBG( _DBG_INFO, "* Sample lines (%u - %u)...\n",
+			DBG( _DBG_INFO, "* Sample lines(%u - %u)...\n",
 						  dev.DataInf.xyPhyDpi.y, dev.DataInf.xyAppDpi.y )
 			dev.scan.DoSample = fnSampleLines
 			dev.DataInf.wYSum = dev.DataInf.xyPhyDpi.y - dev.DataInf.xyAppDpi.y

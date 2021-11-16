@@ -1,6 +1,6 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 1997, 1998 Franck Schnefra, Michel Roelofs,
+   Copyright(C) 1997, 1998 Franck Schnefra, Michel Roelofs,
    Emmanuel Blot, Mikko Tyolajarvi, David Mosberger-Tang, Wolfgang Goeller,
    Petter Reinholdtsen, Gary Plewa, Sebastien Sable, Oliver Schwartz
    and Kevin Charter
@@ -10,7 +10,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -54,11 +54,11 @@
 
 typedef struct source Source
 
-typedef Int (*SourceRemaining) (Source *ps)
-typedef Int (*SourceBytesPerLine) (Source *ps)
-typedef Int (*SourcePixelsPerLine) (Source *ps)
-typedef Sane.Status (*SourceGet) (Source *ps, Sane.Byte *pbuf, Int *plen)
-typedef Sane.Status (*SourceDone) (Source *ps)
+typedef Int(*SourceRemaining) (Source *ps)
+typedef Int(*SourceBytesPerLine) (Source *ps)
+typedef Int(*SourcePixelsPerLine) (Source *ps)
+typedef Sane.Status(*SourceGet) (Source *ps, Sane.Byte *pbuf, Int *plen)
+typedef Sane.Status(*SourceDone) (Source *ps)
 
 #define SOURCE_GUTS \
     SnapScan_Scanner *pss;\
@@ -73,7 +73,7 @@ struct source
     SOURCE_GUTS
 ]
 
-static Sane.Status Source_init (Source *pself,
+static Sane.Status Source_init(Source *pself,
                                 SnapScan_Scanner *pss,
                                 SourceRemaining remaining,
                                 SourceBytesPerLine bytesPerLine,

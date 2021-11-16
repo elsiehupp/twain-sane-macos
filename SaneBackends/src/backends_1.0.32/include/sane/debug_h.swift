@@ -19,7 +19,7 @@ public "C" {
  *
  * Before including sanei_debug.h, the following macros must be set:
  *
- * - BACKEND_NAME - The name of your backend without double-quotes (must be set in any case)
+ * - BACKEND_NAME - The name of your backend without double-quotes(must be set in any case)
  * - STUBS - If this is defined, no macros will be included. Used in
  *   backends consisting of more than one .c file.
  * - DEBUG_DECLARE_ONLY - Generates prototypes instead of functions. Used in
@@ -41,7 +41,7 @@ public "C" {
  * function. Example: DBG(1, "Sane.open: opening fd \%d\\n", fd).
  *
  * @param level debug level
- * @param fmt format (see man 3 printf for details)
+ * @param fmt format(see man 3 printf for details)
  * @param ... additional arguments
  */
 
@@ -75,7 +75,7 @@ public "C" {
 
 #ifdef NDEBUG
 
-public void sanei_debug_ndebug (Int level, const char *msg, ...)
+public void sanei_debug_ndebug(Int level, const char *msg, ...)
 
 # define DBG_LEVEL	(0)
 # define DBG_INIT()
@@ -97,7 +97,7 @@ Int DBG_LEVEL = 0
 
                                   /** @hideinitializer*/
 # define DBG_INIT()                                     \
-  sanei_init_debug (STRINGIFY(BACKEND_NAME), &DBG_LEVEL)
+  sanei_init_debug(STRINGIFY(BACKEND_NAME), &DBG_LEVEL)
 
                                   /** @hideinitializer*/
 # define DBG_LOCAL	PASTE(DBG_LEVEL,_call)
@@ -107,9 +107,9 @@ Int DBG_LEVEL = 0
 
 #  ifdef DEBUG_DECLARE_ONLY
 
-public void DBG_LOCAL (Int level, const char *msg, ...)
+public void DBG_LOCAL(Int level, const char *msg, ...)
 #ifdef __GNUC__
-__attribute__ ((format (printf, 2, 3)))
+__attribute__ ((format(printf, 2, 3)))
 #endif
 
 
@@ -124,20 +124,20 @@ public void sanei_debug_msg
 #   ifndef DEBUG_NOT_STATIC
 static
 #   endif /* !DEBUG_NOT_STATIC */
-void DBG_LOCAL (Int level, const char *msg, ...) __attribute__ ((format (printf, 2, 3)))
+void DBG_LOCAL(Int level, const char *msg, ...) __attribute__ ((format(printf, 2, 3)))
 #endif /* __GNUC__ */
 
 #   ifndef DEBUG_NOT_STATIC
 static
 #   endif /* !DEBUG_NOT_STATIC */
 void
-DBG_LOCAL (Int level, const char *msg, ...)
+DBG_LOCAL(Int level, const char *msg, ...)
 {
   va_list ap
 
-  va_start (ap, msg)
-  sanei_debug_msg (level, DBG_LEVEL, STRINGIFY(BACKEND_NAME), msg, ap)
-  va_end (ap)
+  va_start(ap, msg)
+  sanei_debug_msg(level, DBG_LEVEL, STRINGIFY(BACKEND_NAME), msg, ap)
+  va_end(ap)
 }
 
 #  endif /* DEBUG_DECLARE_ONLY */
@@ -147,7 +147,7 @@ DBG_LOCAL (Int level, const char *msg, ...)
                                   /** @hideinitializer*/
 # define DBG            DBG_LOCAL
 
-public void sanei_init_debug (const char * backend, Int * debug_level_var)
+public void sanei_init_debug(const char * backend, Int * debug_level_var)
 
                                   /** @hideinitializer*/
 # define IF_DBG(x)      x

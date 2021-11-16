@@ -1,18 +1,18 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2020 Ralph Little <skelband@gmail.com>
-   Copyright (C) 2003 Martijn van Oosterhout <kleptog@svana.org>
-   Copyright (C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
+   Copyright(C) 2020 Ralph Little <skelband@gmail.com>
+   Copyright(C) 2003 Martijn van Oosterhout <kleptog@svana.org>
+   Copyright(C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
 
    Originally copied from HP3300 testtools. Original notice follows:
 
-   Copyright (C) 2001 Bertrik Sikken (bertrik@zonnet.nl)
+   Copyright(C) 2001 Bertrik Sikken(bertrik@zonnet.nl)
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
    as published by the Free Software Foundation; either version 2
-   of the License, or (at your option) any later version.
+   of the License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -131,7 +131,7 @@ typedef enum
 EOptionIndex
 
 /*
- * Array mapping (optSensor* - optGroupSensors - 1) to the bit mask of the
+ * Array mapping(optSensor* - optGroupSensors - 1) to the bit mask of the
  * corresponding sensor bit that we get from the scanner.
  * All sensor bits are reported as a complete 16-bit word with individual bits set
  * to indicate that the sensor has been activated.
@@ -259,14 +259,14 @@ static void _InitOptions(TScanner *s)
     s.aGammaTableG = malloc( NUM_GAMMA_ENTRIES * sizeof( Int ) )
     s.aGammaTableB = malloc( NUM_GAMMA_ENTRIES * sizeof( Int ) )
 
-    for (j = 0; j < NUM_GAMMA_ENTRIES; j++) {
+    for(j = 0; j < NUM_GAMMA_ENTRIES; j++) {
       s.aGammaTableR[j] = j
       s.aGammaTableG[j] = j
       s.aGammaTableB[j] = j
     }
   }
 
-  for (i = optCount; i < optLast; i++) {
+  for(i = optCount; i < optLast; i++) {
 
     pDesc = &s.aOptions[i]
     pVal = &s.aValues[i]
@@ -281,7 +281,7 @@ static void _InitOptions(TScanner *s)
     pDesc.constraint_type = Sane.CONSTRAINT_NONE
     pDesc.cap    = 0
 
-    switch (i) {
+    switch(i) {
 
     case optCount:
       pDesc.title  = Sane.TITLE_NUM_OPTIONS
@@ -554,17 +554,17 @@ static Int _ReportDevice(TScannerModel *pModel, const char *pszDeviceName)
   HP5400_DBG(DBG_MSG, "hp5400: _ReportDevice '%s'\n", pszDeviceName)
 
   pNew = malloc(sizeof(TDevListEntry))
-  if (!pNew) {
+  if(!pNew) {
     HP5400_DBG(DBG_ERR, "no mem\n")
     return -1
   }
 
   /* add new element to the end of the list */
-  if (_pFirstSaneDev == NULL) {
+  if(_pFirstSaneDev == NULL) {
     _pFirstSaneDev = pNew
   }
   else {
-    for (pDev = _pFirstSaneDev; pDev.pNext; pDev = pDev.pNext) {
+    for(pDev = _pFirstSaneDev; pDev.pNext; pDev = pDev.pNext) {
       
     }
     pDev.pNext = pNew
@@ -586,15 +586,15 @@ static Int _ReportDevice(TScannerModel *pModel, const char *pszDeviceName)
 }
 
 static Sane.Status
-attach_one_device (Sane.String_Const devname)
+attach_one_device(Sane.String_Const devname)
 {
   const char * filename = (const char*) devname
-  if (HP5400Detect (filename, _ReportDevice) < 0)
+  if(HP5400Detect(filename, _ReportDevice) < 0)
     {
-      HP5400_DBG (DBG_MSG, "attach_one_device: couldn't attach %s\n", devname)
+      HP5400_DBG(DBG_MSG, "attach_one_device: couldn't attach %s\n", devname)
       return Sane.STATUS_INVAL
     }
-  HP5400_DBG (DBG_MSG, "attach_one_device: attached %s successfully\n", devname)
+  HP5400_DBG(DBG_MSG, "attach_one_device: attached %s successfully\n", devname)
   return Sane.STATUS_GOOD
 }
 
@@ -602,7 +602,7 @@ attach_one_device (Sane.String_Const devname)
 /*****************************************************************************/
 
 Sane.Status
-Sane.init (Int * piVersion, Sane.Auth_Callback pfnAuth)
+Sane.init(Int * piVersion, Sane.Auth_Callback pfnAuth)
 {
   FILE *conf_fp;		/* Config file stream  */
   Sane.Char line[PATH_MAX]
@@ -620,58 +620,58 @@ Sane.init (Int * piVersion, Sane.Auth_Callback pfnAuth)
   InitHp5400_internal()
 
 
-  DBG_INIT ()
+  DBG_INIT()
 
-  HP5400_DBG (DBG_MSG, "Sane.init: SANE hp5400 backend version %d.%d-%d (from %s)\n",
+  HP5400_DBG(DBG_MSG, "Sane.init: SANE hp5400 backend version %d.%d-%d(from %s)\n",
        Sane.CURRENT_MAJOR, V_MINOR, BUILD, PACKAGE_STRING)
 
-  sanei_usb_init ()
+  sanei_usb_init()
 
-  conf_fp = sanei_config_open (HP5400_CONFIG_FILE)
+  conf_fp = sanei_config_open(HP5400_CONFIG_FILE)
 
   iNumSaneDev = 0
 
-  if (conf_fp)
+  if(conf_fp)
     {
-      HP5400_DBG (DBG_MSG, "Reading config file\n")
+      HP5400_DBG(DBG_MSG, "Reading config file\n")
 
-      while (sanei_config_read (line, sizeof (line), conf_fp))
+      while(sanei_config_read(line, sizeof(line), conf_fp))
 	{
 	  ++nline
 
-	  if (str)
+	  if(str)
 	    {
-	      free (str)
+	      free(str)
 	    }
 
-	  proper_str = sanei_config_get_string (line, &str)
+	  proper_str = sanei_config_get_string(line, &str)
 
 	  /* Discards white lines and comments */
-	  if (!str || proper_str == line || str[0] == '#')
+	  if(!str || proper_str == line || str[0] == '#')
 	    {
-	      HP5400_DBG (DBG_MSG, "Discarding line %d\n", nline)
+	      HP5400_DBG(DBG_MSG, "Discarding line %d\n", nline)
 	    }
 	  else
 	    {
 	      /* If line's not blank or a comment, then it's the device
 	       * filename or a usb directive. */
-	      HP5400_DBG (DBG_MSG, "Trying to attach %s\n", line)
-	      sanei_usb_attach_matching_devices (line, attach_one_device)
+	      HP5400_DBG(DBG_MSG, "Trying to attach %s\n", line)
+	      sanei_usb_attach_matching_devices(line, attach_one_device)
 	    }
 	}			/* while */
-      fclose (conf_fp)
+      fclose(conf_fp)
     }
   else
     {
-      HP5400_DBG (DBG_ERR, "Unable to read config file \"%s\": %s\n",
-	   HP5400_CONFIG_FILE, strerror (errno))
-      HP5400_DBG (DBG_MSG, "Using default built-in values\n")
-      attach_one_device (usb_devfile)
+      HP5400_DBG(DBG_ERR, "Unable to read config file \"%s\": %s\n",
+	   HP5400_CONFIG_FILE, strerror(errno))
+      HP5400_DBG(DBG_MSG, "Using default built-in values\n")
+      attach_one_device(usb_devfile)
     }
 
-  if (piVersion != NULL)
+  if(piVersion != NULL)
     {
-      *piVersion = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, BUILD)
+      *piVersion = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, BUILD)
     }
 
   return Sane.STATUS_GOOD
@@ -679,23 +679,23 @@ Sane.init (Int * piVersion, Sane.Auth_Callback pfnAuth)
 
 
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   TDevListEntry *pDev, *pNext
-  HP5400_DBG (DBG_MSG, "Sane.exit\n")
+  HP5400_DBG(DBG_MSG, "Sane.exit\n")
 
   /* free device list memory */
-  if (_pSaneDevList)
+  if(_pSaneDevList)
     {
-      for (pDev = _pFirstSaneDev; pDev; pDev = pNext)
+      for(pDev = _pFirstSaneDev; pDev; pDev = pNext)
 	{
 	  pNext = pDev.pNext
-	  free (pDev.devname)
+	  free(pDev.devname)
 	  /* pDev.dev.name is the same pointer that pDev.devname */
-	  free (pDev)
+	  free(pDev)
 	}
       _pFirstSaneDev = 0
-      free (_pSaneDevList)
+      free(_pSaneDevList)
       _pSaneDevList = 0
     }
 
@@ -705,28 +705,28 @@ Sane.exit (void)
 
 
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 {
   TDevListEntry *pDev
   var i: Int
 
-  HP5400_DBG (DBG_MSG, "Sane.get_devices\n")
+  HP5400_DBG(DBG_MSG, "Sane.get_devices\n")
 
   local_only = local_only
 
-  if (_pSaneDevList)
+  if(_pSaneDevList)
     {
-      free (_pSaneDevList)
+      free(_pSaneDevList)
     }
 
-  _pSaneDevList = malloc (sizeof (*_pSaneDevList) * (iNumSaneDev + 1))
-  if (!_pSaneDevList)
+  _pSaneDevList = malloc(sizeof(*_pSaneDevList) * (iNumSaneDev + 1))
+  if(!_pSaneDevList)
     {
-      HP5400_DBG (DBG_MSG, "no mem\n")
+      HP5400_DBG(DBG_MSG, "no mem\n")
       return Sane.STATUS_NO_MEM
     }
   i = 0
-  for (pDev = _pFirstSaneDev; pDev; pDev = pDev.pNext)
+  for(pDev = _pFirstSaneDev; pDev; pDev = pDev.pNext)
     {
       _pSaneDevList[i++] = &pDev.dev
     }
@@ -739,36 +739,36 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
 
 
 Sane.Status
-Sane.open (Sane.String_Const name, Sane.Handle * h)
+Sane.open(Sane.String_Const name, Sane.Handle * h)
 {
   TScanner *s
 
-  HP5400_DBG (DBG_MSG, "Sane.open: %s\n", name)
+  HP5400_DBG(DBG_MSG, "Sane.open: %s\n", name)
 
   /* check the name */
-  if (strlen (name) == 0)
+  if(strlen(name) == 0)
     {
       /* default to first available device */
       name = _pFirstSaneDev.dev.name
     }
 
-  s = malloc (sizeof (TScanner))
-  if (!s)
+  s = malloc(sizeof(TScanner))
+  if(!s)
     {
-      HP5400_DBG (DBG_MSG, "malloc failed\n")
+      HP5400_DBG(DBG_MSG, "malloc failed\n")
       return Sane.STATUS_NO_MEM
     }
 
-  memset (s, 0, sizeof (TScanner));	/* Clear everything to zero */
-  if (HP5400Open (&s.HWParams, name) < 0)
+  memset(s, 0, sizeof(TScanner));	/* Clear everything to zero */
+  if(HP5400Open(&s.HWParams, name) < 0)
     {
       /* is this OK ? */
-      HP5400_DBG (DBG_ERR, "HP5400Open failed\n")
-      free ((void *) s)
+      HP5400_DBG(DBG_ERR, "HP5400Open failed\n")
+      free((void *) s)
       return Sane.STATUS_INVAL;	/* is this OK? */
     }
-  HP5400_DBG (DBG_MSG, "Handle=%d\n", s.HWParams.iXferHandle)
-  _InitOptions (s)
+  HP5400_DBG(DBG_MSG, "Handle=%d\n", s.HWParams.iXferHandle)
+  _InitOptions(s)
   *h = s
 
   /* Turn on lamp by default at startup */
@@ -779,33 +779,33 @@ Sane.open (Sane.String_Const name, Sane.Handle * h)
 
 
 void
-Sane.close (Sane.Handle h)
+Sane.close(Sane.Handle h)
 {
   TScanner *s
 
-  HP5400_DBG (DBG_MSG, "Sane.close\n")
+  HP5400_DBG(DBG_MSG, "Sane.close\n")
 
   s = (TScanner *) h
 
   /* turn of scanner lamp */
-  SetLamp (&s.HWParams, FALSE)
+  SetLamp(&s.HWParams, FALSE)
 
   /* close scanner */
-  HP5400Close (&s.HWParams)
+  HP5400Close(&s.HWParams)
 
   /* free scanner object memory */
-  free ((void *) s)
+  free((void *) s)
 }
 
 
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle h, Int n)
+Sane.get_option_descriptor(Sane.Handle h, Int n)
 {
   TScanner *s
 
-  HP5400_DBG (DBG_MSG, "Sane.get_option_descriptor %d\n", n)
+  HP5400_DBG(DBG_MSG, "Sane.get_option_descriptor %d\n", n)
 
-  if ((n < optCount) || (n >= optLast))
+  if((n < optCount) || (n >= optLast))
     {
       return NULL
     }
@@ -816,28 +816,28 @@ Sane.get_option_descriptor (Sane.Handle h, Int n)
 
 
 Sane.Status
-Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
+Sane.control_option(Sane.Handle h, Int n, Sane.Action Action,
 		     void *pVal, Int * pInfo)
 {
   TScanner *s
   Int info
 
-  HP5400_DBG (DBG_MSG, "Sane.control_option: option %d, action %d\n", n, Action)
+  HP5400_DBG(DBG_MSG, "Sane.control_option: option %d, action %d\n", n, Action)
 
   s = (TScanner *) h
   info = 0
 
-  switch (Action)
+  switch(Action)
     {
     case Sane.ACTION_GET_VALUE:
-      switch (n)
+      switch(n)
 	{
 
 	  /* Get options of type Sane.Word */
 	case optBRX:
 	case optTLX:
 	  *(Sane.Word *) pVal = s.aValues[n].w
-	  HP5400_DBG (DBG_MSG,
+	  HP5400_DBG(DBG_MSG,
 	       "Sane.control_option: Sane.ACTION_GET_VALUE %d = %d\n", n,
 	       *(Sane.Word *) pVal)
 	  break
@@ -845,14 +845,14 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 	case optBRY:
 	case optTLY:
 	  *(Sane.Word *) pVal = s.aValues[n].w
-	  HP5400_DBG (DBG_MSG,
+	  HP5400_DBG(DBG_MSG,
 	       "Sane.control_option: Sane.ACTION_GET_VALUE %d = %d\n", n,
 	       *(Sane.Word *) pVal)
 	  break
 
 	case optCount:
 	case optDPI:
-	  HP5400_DBG (DBG_MSG,
+	  HP5400_DBG(DBG_MSG,
 	       "Sane.control_option: Sane.ACTION_GET_VALUE %d = %d\n", n,
 	       (Int) s.aValues[n].w)
 	  *(Sane.Word *) pVal = s.aValues[n].w
@@ -862,8 +862,8 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 	case optGammaTableRed:
 	case optGammaTableGreen:
 	case optGammaTableBlue:
-	  HP5400_DBG (DBG_MSG, "Reading gamma table\n")
-	  memcpy (pVal, s.aValues[n].wa, s.aOptions[n].size)
+	  HP5400_DBG(DBG_MSG, "Reading gamma table\n")
+	  memcpy(pVal, s.aValues[n].wa, s.aOptions[n].size)
 	  break
 
 	case optSensorScanTo:
@@ -878,18 +878,18 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 	case optSensorCopiesDown:
         case optSensorColourBW:
           {
-            HP5400_DBG (DBG_MSG, "Reading sensor state\n")
+            HP5400_DBG(DBG_MSG, "Reading sensor state\n")
 
             uint16_t sensorMap
-            if (GetSensors(&s.HWParams, &sensorMap) != 0)
+            if(GetSensors(&s.HWParams, &sensorMap) != 0)
               {
-                HP5400_DBG (DBG_ERR,
+                HP5400_DBG(DBG_ERR,
                      "Sane.control_option: Sane.ACTION_SET_VALUE could not retrieve sensors\n")
                 return Sane.STATUS_IO_ERROR
 
               }
 
-            HP5400_DBG (DBG_MSG, "Sensor state=%x\n", sensorMap)
+            HP5400_DBG(DBG_MSG, "Sensor state=%x\n", sensorMap)
 
             // Add read flags to what we already have so that we can report them when requested.
             s.sensorMap |= sensorMap
@@ -903,43 +903,43 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 
         case optSensorCopyCount:
             {
-              HP5400_DBG (DBG_MSG, "Reading copy count\n")
+              HP5400_DBG(DBG_MSG, "Reading copy count\n")
 
               TPanelInfo panelInfo
-              if (GetPanelInfo(&s.HWParams, &panelInfo) != 0)
+              if(GetPanelInfo(&s.HWParams, &panelInfo) != 0)
                 {
-                  HP5400_DBG (DBG_ERR,
+                  HP5400_DBG(DBG_ERR,
                        "Sane.control_option: Sane.ACTION_SET_VALUE could not retrieve panel info\n")
                   return Sane.STATUS_IO_ERROR
 
                 }
 
-              HP5400_DBG (DBG_MSG, "Copy count setting=%u\n", panelInfo.copycount)
+              HP5400_DBG(DBG_MSG, "Copy count setting=%u\n", panelInfo.copycount)
               *(Sane.Word *) pVal = panelInfo.copycount
               break
             }
 
         case optSensorColourBWState:
             {
-              HP5400_DBG (DBG_MSG, "Reading BW/Colour setting\n")
+              HP5400_DBG(DBG_MSG, "Reading BW/Colour setting\n")
 
               TPanelInfo panelInfo
-              if (GetPanelInfo(&s.HWParams, &panelInfo) != 0)
+              if(GetPanelInfo(&s.HWParams, &panelInfo) != 0)
                 {
-                  HP5400_DBG (DBG_ERR,
+                  HP5400_DBG(DBG_ERR,
                        "Sane.control_option: Sane.ACTION_SET_VALUE could not retrieve panel info\n")
                   return Sane.STATUS_IO_ERROR
 
                 }
 
-              HP5400_DBG (DBG_MSG, "BW/Colour setting=%u\n", panelInfo.bwcolour)
+              HP5400_DBG(DBG_MSG, "BW/Colour setting=%u\n", panelInfo.bwcolour)
 
               // Just for safety:
-              if (panelInfo.bwcolour < 1)
+              if(panelInfo.bwcolour < 1)
                 {
                   panelInfo.bwcolour = 1
                 }
-              else if (panelInfo.bwcolour > 2)
+              else if(panelInfo.bwcolour > 2)
                 {
                   panelInfo.bwcolour = 2
                 }
@@ -950,7 +950,7 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 #if 0
 	  /* Get options of type Bool */
 	case optLamp:
-	  GetLamp (&s.HWParams, &fLampIsOn)
+	  GetLamp(&s.HWParams, &fLampIsOn)
 	  *(Bool *) pVal = fLampIsOn
 	  break
 
@@ -960,19 +960,19 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 	  break
 #endif
 	default:
-	  HP5400_DBG (DBG_MSG, "Sane.ACTION_GET_VALUE: Invalid option (%d)\n", n)
+	  HP5400_DBG(DBG_MSG, "Sane.ACTION_GET_VALUE: Invalid option(%d)\n", n)
 	}
       break
 
 
     case Sane.ACTION_SET_VALUE:
-      if (s.fScanning)
+      if(s.fScanning)
 	{
-	  HP5400_DBG (DBG_ERR,
+	  HP5400_DBG(DBG_ERR,
 	       "Sane.control_option: Sane.ACTION_SET_VALUE not allowed during scan\n")
 	  return Sane.STATUS_INVAL
 	}
-      switch (n)
+      switch(n)
 	{
 
 	case optCount:
@@ -984,10 +984,10 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 	  {
             // Check against legal values.
 	    Sane.Word value = *(Sane.Word *) pVal
-	    if ((value < s.aOptions[n].constraint.range.min) ||
+	    if((value < s.aOptions[n].constraint.range.min) ||
 	        (value > s.aOptions[n].constraint.range.max))
               {
-	        HP5400_DBG (DBG_ERR,
+	        HP5400_DBG(DBG_ERR,
 	                   "Sane.control_option: Sane.ACTION_SET_VALUE out of range X value\n")
                 return Sane.STATUS_INVAL
               }
@@ -1003,10 +1003,10 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
           {
             // Check against legal values.
             Sane.Word value = *(Sane.Word *) pVal
-            if ((value < s.aOptions[n].constraint.range.min) ||
+            if((value < s.aOptions[n].constraint.range.min) ||
                 (value > s.aOptions[n].constraint.range.max))
               {
-                HP5400_DBG (DBG_ERR,
+                HP5400_DBG(DBG_ERR,
                            "Sane.control_option: Sane.ACTION_SET_VALUE out of range Y value\n")
                 return Sane.STATUS_INVAL
               }
@@ -1024,15 +1024,15 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 
             // First check too large.
             Sane.Word maxRes = setResolutions[setResolutions[0]]
-            if (dpiValue > maxRes)
+            if(dpiValue > maxRes)
               {
                 dpiValue = maxRes
               }
             else // Check smaller values: if not exact match, pick next higher available.
               {
-                for (Int resIdx = 1; resIdx <= setResolutions[0]; resIdx++)
+                for(Int resIdx = 1; resIdx <= setResolutions[0]; resIdx++)
                   {
-                    if (dpiValue <= setResolutions[resIdx])
+                    if(dpiValue <= setResolutions[resIdx])
                       {
                         dpiValue = setResolutions[resIdx]
                         break
@@ -1049,8 +1049,8 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 	case optGammaTableRed:
 	case optGammaTableGreen:
 	case optGammaTableBlue:
-	  HP5400_DBG (DBG_MSG, "Writing gamma table\n")
-	  memcpy (s.aValues[n].wa, pVal, s.aOptions[n].size)
+	  HP5400_DBG(DBG_MSG, "Writing gamma table\n")
+	  memcpy(s.aValues[n].wa, pVal, s.aOptions[n].size)
 	  break
 
         case optSensorColourBWState:
@@ -1058,30 +1058,30 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
               String bwColour = (String)pVal
               Sane.Word bwColourValue
 
-              if (strcmp(bwColour, Sane.VALUE_SCAN_MODE_COLOR) == 0)
+              if(strcmp(bwColour, Sane.VALUE_SCAN_MODE_COLOR) == 0)
                 {
                   bwColourValue = 1
                 }
-              else if (strcmp(bwColour, Sane.VALUE_SCAN_MODE_GRAY) == 0)
+              else if(strcmp(bwColour, Sane.VALUE_SCAN_MODE_GRAY) == 0)
                 {
                   bwColourValue = 2
                 }
               else
                 {
-                  HP5400_DBG (DBG_ERR,
+                  HP5400_DBG(DBG_ERR,
                        "Sane.control_option: Sane.ACTION_SET_VALUE invalid colour/bw mode\n")
                   return Sane.STATUS_INVAL
                 }
 
-              HP5400_DBG (DBG_MSG, "Setting BW/Colour state=%d\n", bwColourValue)
+              HP5400_DBG(DBG_MSG, "Setting BW/Colour state=%d\n", bwColourValue)
 
               /*
                * Now write it with the other panel settings back to the scanner.
                *
                */
-              if (SetColourBW(&s.HWParams, bwColourValue) != 0)
+              if(SetColourBW(&s.HWParams, bwColourValue) != 0)
                 {
-                  HP5400_DBG (DBG_ERR,
+                  HP5400_DBG(DBG_ERR,
                        "Sane.control_option: Sane.ACTION_SET_VALUE could not set colour/BW mode\n")
                   return Sane.STATUS_IO_ERROR
                 }
@@ -1091,24 +1091,24 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
         case optSensorCopyCount:
             {
               Sane.Word copyCount = *(Sane.Word *) pVal
-              if (copyCount < 0)
+              if(copyCount < 0)
                 {
                   copyCount = 0
                 }
-              else if (copyCount > 99)
+              else if(copyCount > 99)
                 {
                   copyCount = 99
                 }
 
-              HP5400_DBG (DBG_MSG, "Setting Copy Count=%d\n", copyCount)
+              HP5400_DBG(DBG_MSG, "Setting Copy Count=%d\n", copyCount)
 
               /*
                * Now write it with the other panel settings back to the scanner.
                *
                */
-              if (SetCopyCount(&s.HWParams, copyCount) != 0)
+              if(SetCopyCount(&s.HWParams, copyCount) != 0)
                 {
-                  HP5400_DBG (DBG_ERR,
+                  HP5400_DBG(DBG_ERR,
                        "Sane.control_option: Sane.ACTION_SET_VALUE could not set copy count\n")
                   return Sane.STATUS_IO_ERROR
 
@@ -1129,9 +1129,9 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 	  break
 #endif
 	default:
-	  HP5400_DBG (DBG_ERR, "Sane.ACTION_SET_VALUE: Invalid option (%d)\n", n)
+	  HP5400_DBG(DBG_ERR, "Sane.ACTION_SET_VALUE: Invalid option(%d)\n", n)
 	}
-      if (pInfo != NULL)
+      if(pInfo != NULL)
 	{
 	  *pInfo = info
 	}
@@ -1142,7 +1142,7 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 
 
     default:
-      HP5400_DBG (DBG_ERR, "Invalid action (%d)\n", Action)
+      HP5400_DBG(DBG_ERR, "Invalid action(%d)\n", Action)
       return Sane.STATUS_INVAL
     }
 
@@ -1152,22 +1152,22 @@ Sane.control_option (Sane.Handle h, Int n, Sane.Action Action,
 
 
 Sane.Status
-Sane.get_parameters (Sane.Handle h, Sane.Parameters * p)
+Sane.get_parameters(Sane.Handle h, Sane.Parameters * p)
 {
   TScanner *s
-  HP5400_DBG (DBG_MSG, "Sane.get_parameters\n")
+  HP5400_DBG(DBG_MSG, "Sane.get_parameters\n")
 
   s = (TScanner *) h
 
   /* first do some checks */
-  if (s.aValues[optTLX].w >= s.aValues[optBRX].w)
+  if(s.aValues[optTLX].w >= s.aValues[optBRX].w)
     {
-      HP5400_DBG (DBG_ERR, "TLX should be smaller than BRX\n")
+      HP5400_DBG(DBG_ERR, "TLX should be smaller than BRX\n")
       return Sane.STATUS_INVAL;	/* proper error code? */
     }
-  if (s.aValues[optTLY].w >= s.aValues[optBRY].w)
+  if(s.aValues[optTLY].w >= s.aValues[optBRY].w)
     {
-      HP5400_DBG (DBG_ERR, "TLY should be smaller than BRY\n")
+      HP5400_DBG(DBG_ERR, "TLY should be smaller than BRY\n")
       return Sane.STATUS_INVAL;	/* proper error code? */
     }
 
@@ -1176,7 +1176,7 @@ Sane.get_parameters (Sane.Handle h, Sane.Parameters * p)
   p.last_frame = Sane.TRUE
 
   p.depth = 8
-  if (s.ScanParams.iLines)	/* Initialised by doing a scan */
+  if(s.ScanParams.iLines)	/* Initialised by doing a scan */
     {
       p.pixels_per_line = s.ScanParams.iBytesPerLine / 3
       p.lines = s.ScanParams.iLines
@@ -1184,10 +1184,10 @@ Sane.get_parameters (Sane.Handle h, Sane.Parameters * p)
     }
   else
     {
-      p.lines = MM_TO_PIXEL (s.aValues[optBRY].w - s.aValues[optTLY].w,
+      p.lines = MM_TO_PIXEL(s.aValues[optBRY].w - s.aValues[optTLY].w,
 			      s.aValues[optDPI].w)
       p.pixels_per_line =
-	MM_TO_PIXEL (s.aValues[optBRX].w - s.aValues[optTLX].w,
+	MM_TO_PIXEL(s.aValues[optBRX].w - s.aValues[optTLX].w,
 		     s.aValues[optDPI].w)
       p.bytes_per_line = p.pixels_per_line * 3
     }
@@ -1198,18 +1198,18 @@ Sane.get_parameters (Sane.Handle h, Sane.Parameters * p)
 #define BUFFER_READ_HEADER_SIZE 32
 
 Sane.Status
-Sane.start (Sane.Handle h)
+Sane.start(Sane.Handle h)
 {
   TScanner *s
   Sane.Parameters par
 
-  HP5400_DBG (DBG_MSG, "Sane.start\n")
+  HP5400_DBG(DBG_MSG, "Sane.start\n")
 
   s = (TScanner *) h
 
-  if (Sane.get_parameters (h, &par) != Sane.STATUS_GOOD)
+  if(Sane.get_parameters(h, &par) != Sane.STATUS_GOOD)
     {
-      HP5400_DBG (DBG_MSG, "Invalid scan parameters (Sane.get_parameters)\n")
+      HP5400_DBG(DBG_MSG, "Invalid scan parameters(Sane.get_parameters)\n")
       return Sane.STATUS_INVAL
     }
   s.iLinesLeft = par.lines
@@ -1224,27 +1224,27 @@ Sane.start (Sane.Handle h)
   s.ScanParams.iColourOffset = 0
 
   s.ScanParams.iTop =
-    MM_TO_PIXEL (s.aValues[optTLY].w + s.HWParams.iTopLeftY, HW_LPI)
+    MM_TO_PIXEL(s.aValues[optTLY].w + s.HWParams.iTopLeftY, HW_LPI)
   s.ScanParams.iLeft =
-    MM_TO_PIXEL (s.aValues[optTLX].w + s.HWParams.iTopLeftX, HW_DPI)
+    MM_TO_PIXEL(s.aValues[optTLX].w + s.HWParams.iTopLeftX, HW_DPI)
 
   /* Note: All measurements passed to the scanning routines must be in HW_LPI */
   s.ScanParams.iWidth =
-    MM_TO_PIXEL (s.aValues[optBRX].w - s.aValues[optTLX].w, HW_LPI)
+    MM_TO_PIXEL(s.aValues[optBRX].w - s.aValues[optTLX].w, HW_LPI)
   s.ScanParams.iHeight =
-    MM_TO_PIXEL (s.aValues[optBRY].w - s.aValues[optTLY].w, HW_LPI)
+    MM_TO_PIXEL(s.aValues[optBRY].w - s.aValues[optTLY].w, HW_LPI)
 
   /* After the scanning, the iLines and iBytesPerLine will be filled in */
 
   /* copy gamma table */
-  WriteGammaCalibTable (s.HWParams.iXferHandle, s.aGammaTableR,
+  WriteGammaCalibTable(s.HWParams.iXferHandle, s.aGammaTableR,
 			s.aGammaTableG, s.aGammaTableB)
 
   /* prepare the actual scan */
   /* We say normal here. In future we should have a preview flag to set preview mode */
-  if (InitScan (SCAN_TYPE_NORMAL, &s.ScanParams, &s.HWParams) != 0)
+  if(InitScan(SCAN_TYPE_NORMAL, &s.ScanParams, &s.HWParams) != 0)
     {
-      HP5400_DBG (DBG_MSG, "Invalid scan parameters (InitScan)\n")
+      HP5400_DBG(DBG_MSG, "Invalid scan parameters(InitScan)\n")
       return Sane.STATUS_INVAL
     }
 
@@ -1258,7 +1258,7 @@ Sane.start (Sane.Handle h)
 
 
 Sane.Status
-Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
+Sane.read(Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 {
 
   /* Read actual scan from the circular buffer */
@@ -1267,34 +1267,34 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
   TScanner *s
   char *buffer = (char*)buf
 
-  HP5400_DBG (DBG_MSG, "Sane.read: request %d bytes \n", maxlen)
+  HP5400_DBG(DBG_MSG, "Sane.read: request %d bytes \n", maxlen)
 
   s = (TScanner *) h
 
   /* nothing has been read for the moment */
   *len = 0
-  if (!s.fScanning || s.fCanceled)
+  if(!s.fScanning || s.fCanceled)
     {
-      HP5400_DBG (DBG_MSG, "Sane.read: we're not scanning.\n")
+      HP5400_DBG(DBG_MSG, "Sane.read: we're not scanning.\n")
       return Sane.STATUS_EOF
     }
 
 
   /* if we read all the lines return EOF */
-  if (s.ScanParams.iLinesRead == s.ScanParams.iLines)
+  if(s.ScanParams.iLinesRead == s.ScanParams.iLines)
     {
 /*    FinishScan( &s.HWParams );        *** FinishScan called in Sane.cancel */
-      HP5400_DBG (DBG_MSG, "Sane.read: EOF\n")
+      HP5400_DBG(DBG_MSG, "Sane.read: EOF\n")
       return Sane.STATUS_EOF
     }
 
   /* read as many lines the buffer may contain and while there are lines to be read */
-  while ((*len + s.ScanParams.iBytesPerLine <= maxlen)
+  while((*len + s.ScanParams.iBytesPerLine <= maxlen)
 	 && (s.ScanParams.iLinesRead < s.ScanParams.iLines))
     {
 
       /* get one more line from the circular buffer */
-      CircBufferGetLine (s.HWParams.iXferHandle, &s.HWParams.pipe, buffer)
+      CircBufferGetLine(s.HWParams.iXferHandle, &s.HWParams.pipe, buffer)
 
       /* increment pointer, size and line number */
       buffer += s.ScanParams.iBytesPerLine
@@ -1302,25 +1302,25 @@ Sane.read (Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
       s.ScanParams.iLinesRead++
     }
 
-  HP5400_DBG (DBG_MSG, "Sane.read: %d bytes read\n", *len)
+  HP5400_DBG(DBG_MSG, "Sane.read: %d bytes read\n", *len)
 
   return Sane.STATUS_GOOD
 }
 
 
 void
-Sane.cancel (Sane.Handle h)
+Sane.cancel(Sane.Handle h)
 {
   TScanner *s
 
-  HP5400_DBG (DBG_MSG, "Sane.cancel\n")
+  HP5400_DBG(DBG_MSG, "Sane.cancel\n")
 
   s = (TScanner *) h
 
   /* to be implemented more thoroughly */
 
   /* Make sure the scanner head returns home */
-  FinishScan (&s.HWParams)
+  FinishScan(&s.HWParams)
 
   s.fCanceled = TRUE
   s.fScanning = FALSE
@@ -1328,14 +1328,14 @@ Sane.cancel (Sane.Handle h)
 
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle h, Bool m)
+Sane.set_io_mode(Sane.Handle h, Bool m)
 {
-  HP5400_DBG (DBG_MSG, "Sane.set_io_mode %s\n", m ? "non-blocking" : "blocking")
+  HP5400_DBG(DBG_MSG, "Sane.set_io_mode %s\n", m ? "non-blocking" : "blocking")
 
   /* prevent compiler from complaining about unused parameters */
   h = h
 
-  if (m)
+  if(m)
     {
       return Sane.STATUS_UNSUPPORTED
     }
@@ -1344,9 +1344,9 @@ Sane.set_io_mode (Sane.Handle h, Bool m)
 
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle h, Int * fd)
+Sane.get_select_fd(Sane.Handle h, Int * fd)
 {
-  HP5400_DBG (DBG_MSG, "Sane.select_fd\n")
+  HP5400_DBG(DBG_MSG, "Sane.select_fd\n")
 
   /* prevent compiler from complaining about unused parameters */
   h = h

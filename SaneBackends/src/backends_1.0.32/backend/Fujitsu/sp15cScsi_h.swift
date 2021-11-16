@@ -8,7 +8,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -55,7 +55,7 @@
  * Silenced some compilation warnings.
  *
  * Revision 1.3  2000/08/12 15:09:37  pere
- * Merge devel (v1.0.3) into head branch.
+ * Merge devel(v1.0.3) into head branch.
  *
  * Revision 1.1.2.4  2000/03/14 17:47:12  abel
  * new version of the Sharp backend added.
@@ -64,7 +64,7 @@
  * Make lint_catcher static to avoid link problems with duplicate symbols.
  *
  * Revision 1.1.2.2  2000/01/26 03:51:48  pere
- * Updated backends sp15c (v1.12) and m3096g (v1.11).
+ * Updated backends sp15c(v1.12) and m3096g(v1.11).
  *
  * Revision 1.7  2000/01/05 05:27:34  bentson
  * indent to barfin' GNU style
@@ -92,7 +92,7 @@
 /****************************************************/
 
 static inline void
-setbitfield (unsigned char *pageaddr, Int mask, Int shift, Int val) \
+setbitfield(unsigned char *pageaddr, Int mask, Int shift, Int val) \
 {
   *pageaddr = (*pageaddr & ~(mask << shift)) | ((val & mask) << shift)
 }
@@ -100,7 +100,7 @@ setbitfield (unsigned char *pageaddr, Int mask, Int shift, Int val) \
 /* ------------------------------------------------------------------------- */
 
 static inline void
-resetbitfield (unsigned char *pageaddr, Int mask, Int shift, Int val) \
+resetbitfield(unsigned char *pageaddr, Int mask, Int shift, Int val) \
 {
   *pageaddr = (*pageaddr & ~(mask << shift)) | (((!val) & mask) << shift)
 }
@@ -108,23 +108,23 @@ resetbitfield (unsigned char *pageaddr, Int mask, Int shift, Int val) \
 /* ------------------------------------------------------------------------- */
 
 static inline Int
-getbitfield (unsigned char *pageaddr, Int mask, Int shift) \
+getbitfield(unsigned char *pageaddr, Int mask, Int shift) \
 {
-  return ((*pageaddr >> shift) & mask)
+  return((*pageaddr >> shift) & mask)
 }
 
 /* ------------------------------------------------------------------------- */
 
 static inline Int
-getnbyte (unsigned char *pnt, Int nbytes) \
+getnbyte(unsigned char *pnt, Int nbytes) \
 {
   unsigned Int result = 0
   var i: Int
 
 #ifdef DEBUG
-  assert (nbytes < 5)
+  assert(nbytes < 5)
 #endif
-  for (i = 0; i < nbytes; i++)
+  for(i = 0; i < nbytes; i++)
     result = (result << 8) | (pnt[i] & 0xff)
   return result
 }
@@ -132,14 +132,14 @@ getnbyte (unsigned char *pnt, Int nbytes) \
 /* ------------------------------------------------------------------------- */
 
 static inline void
-putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes) \
+putnbyte(unsigned char *pnt, unsigned Int value, unsigned Int nbytes) \
 {
   var i: Int
 
 #ifdef DEBUG
-  assert (nbytes < 5)
+  assert(nbytes < 5)
 #endif
-  for (i = nbytes - 1; i >= 0; i--)
+  for(i = nbytes - 1; i >= 0; i--)
     \
     {
       pnt[i] = value & 0xff
@@ -181,21 +181,21 @@ scsiblk
 static unsigned char reserve_unitC[] =
 {RESERVE_UNIT, 0x00, 0x00, 0x00, 0x00, 0x00]
 static scsiblk reserve_unitB =
-{reserve_unitC, sizeof (reserve_unitC)]
+{reserve_unitC, sizeof(reserve_unitC)]
 
 /* ==================================================================== */
 
 static unsigned char release_unitC[] =
 {RELEASE_UNIT, 0x00, 0x00, 0x00, 0x00, 0x00]
 static scsiblk release_unitB =
-{release_unitC, sizeof (release_unitC)]
+{release_unitC, sizeof(release_unitC)]
 
 /* ==================================================================== */
 
 static unsigned char inquiryC[] =
 {INQUIRY, 0x00, 0x00, 0x00, 0x1f, 0x00]
 static scsiblk inquiryB =
-{inquiryC, sizeof (inquiryC)]
+{inquiryC, sizeof(inquiryC)]
 
 #define set_IN_return_size(icb,val)        icb[0x04]=val
 #define set_IN_length(out,n)               out[0x04]=n-5
@@ -221,7 +221,7 @@ static scsiblk inquiryB =
 static unsigned char request_senseC[] =
 {REQUEST_SENSE, 0x00, 0x00, 0x00, 0x00, 0x00]
 static scsiblk request_senseB =
-{request_senseC, sizeof (request_senseC)]
+{request_senseC, sizeof(request_senseC)]
 
 #define set_RS_allocation_length(sb,val) sb[0x04] = (unsigned char)val
 /* defines for request sense return block */
@@ -244,14 +244,14 @@ static scsiblk request_senseB =
 static unsigned char send_diagnosticC[] =
 {SEND_DIAGNOSTIC, 0x04, 0x00, 0x00, 0x00, 0x00]
 static scsiblk send_diagnosticB =
-{send_diagnosticC, sizeof (send_diagnosticC)]
+{send_diagnosticC, sizeof(send_diagnosticC)]
 
 /* ==================================================================== */
 
 static unsigned char test_unit_readyC[] =
 {TEST_UNIT_READY, 0x00, 0x00, 0x00, 0x00, 0x00]
 static scsiblk test_unit_readyB =
-{test_unit_readyC, sizeof (test_unit_readyC)]
+{test_unit_readyC, sizeof(test_unit_readyC)]
 
 /* ==================================================================== */
 
@@ -259,7 +259,7 @@ static unsigned char set_windowC[] =
 {SET_WINDOW, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,]
       /* opcode,  lun,  _____4 X reserved____,  _transfer length,  ctl */
 static scsiblk set_windowB =
-{set_windowC, sizeof (set_windowC)]
+{set_windowC, sizeof(set_windowC)]
 #define set_SW_xferlen(sb, len) putnbyte(sb + 0x06, len, 3)
 #define get_SW_xferlen(sb) getnbyte(sb + 0x06, 3)
 
@@ -268,7 +268,7 @@ static scsiblk set_windowB =
 static unsigned char set_subwindowC[] =
 {SET_SUBWINDOW]
 static scsiblk set_subwindowB =
-{set_subwindowC, sizeof (set_subwindowC)]
+{set_subwindowC, sizeof(set_subwindowC)]
 
 /* ==================================================================== */
 
@@ -276,7 +276,7 @@ static unsigned char object_positionC[] =
 {OBJECT_POSITION, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
 					 /* ADF, _____Count_____,  ________Reserved______, Ctl */
 static scsiblk object_positionB =
-{object_positionC, sizeof (object_positionC)]
+{object_positionC, sizeof(object_positionC)]
 
 #define set_OP_autofeed(b,val) setbitfield(b+0x01, 0x07, 0, val)
 #define OP_Discharge	0x00
@@ -287,7 +287,7 @@ static unsigned char media_checkC[] =
 {MEDIA_CHECK, 0x00, 0x00, 0x00, 0x00, 0x00]
 				 /* ADF, _Reserved_, Len,  Ctl */
 static scsiblk media_checkB =
-{media_checkC, sizeof (media_checkC)]
+{media_checkC, sizeof(media_checkC)]
 
 #define set_MC_return_size(sb,val)   sb[0x04]=val
 #define get_MC_adf_status(sb)     sb[0x00]
@@ -299,13 +299,13 @@ static unsigned char media_parameter_data_blockC[] =
   0x00
 ]
 static scsiblk media_parameter_data_blockB =
-{media_parameter_data_blockC, sizeof (media_parameter_data_blockC)]
+{media_parameter_data_blockC, sizeof(media_parameter_data_blockC)]
 /* ==================================================================== */
 
 static unsigned char sendC[] =
 {SEND, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
 static scsiblk sendB =
-{sendC, sizeof (sendC)]
+{sendC, sizeof(sendC)]
 
 #define set_S_datatype_code(sb, val) sb[0x02] = (unsigned char)val
 #define S_datatype_imagedatai		0x00
@@ -336,7 +336,7 @@ static unsigned char readC[] =
 {READ, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
 	 /* Type, rsvd, type qual, __xfer length__, Ctl */
 static scsiblk readB =
-{readC, sizeof (readC)]
+{readC, sizeof(readC)]
 
 #define set_R_datatype_code(sb, val) sb[0x02] = val
 #define R_datatype_imagedata		0x00
@@ -348,14 +348,14 @@ static scsiblk readB =
 static unsigned char mode_selectC[] =
 {MODE_SELECT, 0x10, 0x00, 0x00, 0x00, 0x00]
 static scsiblk mode_selectB =
-{mode_selectC, sizeof (mode_selectC)]
+{mode_selectC, sizeof(mode_selectC)]
 
 /* ==================================================================== */
 
 static unsigned char mode_senseC[] =
 {MODE_SENSE, 0x18, 0x03, 0x00, 0x00, 0x00, /* PF set, page type 03 */ ]
 static scsiblk mode_senseB =
-{mode_senseC, sizeof (mode_senseC)]
+{mode_senseC, sizeof(mode_senseC)]
 
 #define set_MS_DBD(b, val)  setbitfield(b, 0x01, 3, (val?1:0))
 #define set_MS_len(b, val)	putnbyte(b+0x04, val, 1)
@@ -366,7 +366,7 @@ static scsiblk mode_senseB =
 static unsigned char scanC[] =
 {SCAN, 0x00, 0x00, 0x00, 0x00, 0x00]
 static scsiblk scanB =
-{scanC, sizeof (scanC)]
+{scanC, sizeof(scanC)]
 
 #define set_SC_xfer_length(sb, val) sb[0x04] = (unsigned char)val
 
@@ -380,7 +380,7 @@ static unsigned char window_parameter_data_blockC[] =
   0x00, 0x00,			/* Window Descriptor Length */
 ]
 static scsiblk window_parameter_data_blockB =
-{window_parameter_data_blockC, sizeof (window_parameter_data_blockC)]
+{window_parameter_data_blockC, sizeof(window_parameter_data_blockC)]
 
 #define set_WDPB_wdblen(sb, len) putnbyte(sb + 0x06, len, 2)
 #define get_WDPB_wdblen(sb) getnbyte(sb + 0x06, 2)
@@ -524,7 +524,7 @@ static unsigned char window_descriptor_blockC[] =
 ]
 
 static scsiblk window_descriptor_blockB =
-{window_descriptor_blockC, sizeof (window_descriptor_blockC)]
+{window_descriptor_blockC, sizeof(window_descriptor_blockC)]
 
 /* ==================================================================== */
 

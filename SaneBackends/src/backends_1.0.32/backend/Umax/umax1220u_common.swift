@@ -1,17 +1,17 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 1999 Paul Mackerras
-   Copyright (C) 2000 Adrian Perez Jorge
-   Copyright (C) 2001 Frank Zago
-   Copyright (C) 2001 Marcio Teixeira
-   Parts copyright (C) 2006 Patrick Lessard
+   Copyright(C) 1999 Paul Mackerras
+   Copyright(C) 2000 Adrian Perez Jorge
+   Copyright(C) 2001 Frank Zago
+   Copyright(C) 2001 Marcio Teixeira
+   Parts copyright(C) 2006 Patrick Lessard
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -82,10 +82,10 @@ import math
 /* These values are empirically determined and are given
  * in 1/600 inch units. If UMAX_MAX_HEIGHT is too large,
  * the scanner may grind its gears. I assume there is a
- * physical limit to UMAX_MAX_WIDTH as well (based on the
+ * physical limit to UMAX_MAX_WIDTH as well(based on the
  * sensor size) but I do not know what it is. The current
  * value can be increased beyond what it is now, but you
- * gain nothing in usable scan area (you only scan more
+ * gain nothing in usable scan area(you only scan more
  * of the underside of the scanner's plastic lid).
  */
 
@@ -254,7 +254,7 @@ typedef unsigned char UMAX_Status_Byte
 
 #if 0
 static void
-unused_operations ()
+unused_operations()
 {
   /* These operations are unused anywhere in the driver */
 
@@ -302,29 +302,29 @@ unused_operations ()
 
 #if 0
 static Sane.Status
-calib (UMAX_Handle * scan)
+calib(UMAX_Handle * scan)
 {
   unsigned char buf[65536]
   opc5[11] = 0x30
   opd2[7]  = 0x30
-  CHK (get_pixels (scan, opc5, opb8, opd2, ope, 24, 0, buff))
+  CHK(get_pixels(scan, opc5, opb8, opd2, ope, 24, 0, buff))
 
   opc5[11] = 0x40
   opd2[7]  = 0x40
-  CHK (get_pixels (scan, opc5, opb8, opd2, ope, 24, 0, buff))
+  CHK(get_pixels(scan, opc5, opb8, opd2, ope, 24, 0, buff))
 
   opd2[6] = 8
   opd2[7] = 0x30
-  CHK (get_pixels (scan, opc6, opb9, opd2, ope, 0x200, 1, buff))
+  CHK(get_pixels(scan, opc6, opb9, opd2, ope, 0x200, 1, buff))
 
   opc7[10] = 0xec
   opd2[6]  = 0xc
   opd2[7]  = 0x40
-  CHK (get_pixels (scan, opc7, opb10, opd2, ope, 5300, 1, buff))
+  CHK(get_pixels(scan, opc7, opb10, opd2, ope, 5300, 1, buff))
 
   opc7[10] = 0xed
   opd2[6]  = 0xd
-  CHK (get_pixels (scan, opc7, opb10, opd2, ope, 5300, 0, buff))
+  CHK(get_pixels(scan, opc7, opb10, opd2, ope, 5300, 0, buff))
   return Sane.STATUS_GOOD
 }
 #endif
@@ -337,31 +337,31 @@ calib (UMAX_Handle * scan)
  * there. If you know what this does, please let me know!
  */
 static Sane.Status
-xxxops (UMAX_Handle * scan)
+xxxops(UMAX_Handle * scan)
 {
   Sane.Status res
 
-  DBG (9, "doing xxxops\n")
+  DBG(9, "doing xxxops\n")
 
-  CHK (sanei_pv8630_write_byte (scan.fd, PV8630_RMODE, 0x02))
+  CHK(sanei_pv8630_write_byte(scan.fd, PV8630_RMODE, 0x02))
 
-  CHK (sanei_pv8630_write_byte (scan.fd, PV8630_UNKNOWN, 0x0E))
-  CHK (sanei_pv8630_write_byte (scan.fd, PV8630_RDATA, 0x40))
-  CHK (sanei_pv8630_write_byte (scan.fd, PV8630_UNKNOWN, 0x06))
-  CHK (sanei_pv8630_xpect_byte (scan.fd, PV8630_RSTATUS, 0x38, 0xFF))
+  CHK(sanei_pv8630_write_byte(scan.fd, PV8630_UNKNOWN, 0x0E))
+  CHK(sanei_pv8630_write_byte(scan.fd, PV8630_RDATA, 0x40))
+  CHK(sanei_pv8630_write_byte(scan.fd, PV8630_UNKNOWN, 0x06))
+  CHK(sanei_pv8630_xpect_byte(scan.fd, PV8630_RSTATUS, 0x38, 0xFF))
 
-  CHK (sanei_pv8630_write_byte (scan.fd, PV8630_UNKNOWN, 0x07))
-  CHK (sanei_pv8630_xpect_byte (scan.fd, PV8630_RSTATUS, 0x38, 0xFF))
+  CHK(sanei_pv8630_write_byte(scan.fd, PV8630_UNKNOWN, 0x07))
+  CHK(sanei_pv8630_xpect_byte(scan.fd, PV8630_RSTATUS, 0x38, 0xFF))
 
-  CHK (sanei_pv8630_write_byte (scan.fd, PV8630_UNKNOWN, 0x04))
-  CHK (sanei_pv8630_xpect_byte (scan.fd, PV8630_RSTATUS, 0xF8, 0xFF))
+  CHK(sanei_pv8630_write_byte(scan.fd, PV8630_UNKNOWN, 0x04))
+  CHK(sanei_pv8630_xpect_byte(scan.fd, PV8630_RSTATUS, 0xF8, 0xFF))
 
-  CHK (sanei_pv8630_write_byte (scan.fd, PV8630_UNKNOWN, 0x05))
-  CHK (sanei_pv8630_xpect_byte (scan.fd, PV8630_UNKNOWN, 0x05, 0xFF))
+  CHK(sanei_pv8630_write_byte(scan.fd, PV8630_UNKNOWN, 0x05))
+  CHK(sanei_pv8630_xpect_byte(scan.fd, PV8630_UNKNOWN, 0x05, 0xFF))
 
-  CHK (sanei_pv8630_write_byte (scan.fd, PV8630_UNKNOWN, 0x04))
+  CHK(sanei_pv8630_write_byte(scan.fd, PV8630_UNKNOWN, 0x04))
 
-  CHK (sanei_pv8630_write_byte (scan.fd, PV8630_RMODE, 0x1E))
+  CHK(sanei_pv8630_write_byte(scan.fd, PV8630_RMODE, 0x1E))
 
   return res
 }
@@ -371,24 +371,24 @@ Apparently sends the two synchronization characters followed
 by the command length, followed by the command number
 */
 static Sane.Status
-usync (UMAX_Handle * scan, UMAX_Cmd cmd, Int len)
+usync(UMAX_Handle * scan, UMAX_Cmd cmd, Int len)
 {
   UMAX_Status_Byte s0, s4
   Sane.Status res
   unsigned char buf[4]
   size_t nb
 
-  DBG (80, "usync: len = %d, cmd = %d\n", len, cmd)
+  DBG(80, "usync: len = %d, cmd = %d\n", len, cmd)
 
   buf[0] = UMAX_SYNC1
   buf[1] = UMAX_SYNC2
 
   nb = 2
-  CHK (sanei_pv8630_flush_buffer (scan.fd))
-  CHK (sanei_pv8630_prep_bulkwrite (scan.fd, nb))
-  CHK (sanei_pv8630_bulkwrite (scan.fd, buf, &nb))
+  CHK(sanei_pv8630_flush_buffer(scan.fd))
+  CHK(sanei_pv8630_prep_bulkwrite(scan.fd, nb))
+  CHK(sanei_pv8630_bulkwrite(scan.fd, buf, &nb))
 
-  CHK (sanei_pv8630_wait_byte
+  CHK(sanei_pv8630_wait_byte
        (scan.fd, PV8630_RSTATUS, UMAX_OK, UMAX_STATUS_MASK, 20))
 
   buf[0] = len >> 16
@@ -397,14 +397,14 @@ usync (UMAX_Handle * scan, UMAX_Cmd cmd, Int len)
   buf[3] = cmd
 
   nb = 4
-  CHK (sanei_pv8630_flush_buffer (scan.fd))
-  CHK (sanei_pv8630_prep_bulkwrite (scan.fd, nb))
-  CHK (sanei_pv8630_bulkwrite (scan.fd, buf, &nb))
+  CHK(sanei_pv8630_flush_buffer(scan.fd))
+  CHK(sanei_pv8630_prep_bulkwrite(scan.fd, nb))
+  CHK(sanei_pv8630_bulkwrite(scan.fd, buf, &nb))
 
-  CHK (sanei_pv8630_read_byte (scan.fd, PV8630_RDATA, &s0))
-  CHK (sanei_pv8630_read_byte (scan.fd, PV8630_RSTATUS, &s4))
+  CHK(sanei_pv8630_read_byte(scan.fd, PV8630_RDATA, &s0))
+  CHK(sanei_pv8630_read_byte(scan.fd, PV8630_RSTATUS, &s4))
 
-  DBG (90, "usync: s0 = %#x s4 = %#x\n", s0, s4)
+  DBG(90, "usync: s0 = %#x s4 = %#x\n", s0, s4)
 
   return Sane.STATUS_GOOD
 }
@@ -416,7 +416,7 @@ every character gets escaped buf must be at least twice as
 large as dlen.
 */
 static Int
-bescape (const unsigned char *data, Int dlen, unsigned char *buf, Int blen)
+bescape(const unsigned char *data, Int dlen, unsigned char *buf, Int blen)
 {
   const unsigned char *p
   unsigned char *q
@@ -425,10 +425,10 @@ bescape (const unsigned char *data, Int dlen, unsigned char *buf, Int blen)
 
   p = data
   q = buf
-  for (i = 0; i < dlen; ++i)
+  for(i = 0; i < dlen; ++i)
     {
       c = *p++
-      if (c == UMAX_ESCAPE
+      if(c == UMAX_ESCAPE
           || (c == UMAX_SYNC2 && i > 0 && p[-2] == UMAX_SYNC1))
         *q++ = UMAX_ESCAPE
       *q++ = c
@@ -441,7 +441,7 @@ bescape (const unsigned char *data, Int dlen, unsigned char *buf, Int blen)
 /* Write */
 
 static Sane.Status
-cwrite (UMAX_Handle * scan, UMAX_Cmd cmd, size_t len, const unsigned char *data,
+cwrite(UMAX_Handle * scan, UMAX_Cmd cmd, size_t len, const unsigned char *data,
         UMAX_Status_Byte * s)
 {
   Sane.Status res
@@ -450,38 +450,38 @@ cwrite (UMAX_Handle * scan, UMAX_Cmd cmd, size_t len, const unsigned char *data,
   static unsigned char *escaped = NULL
   static size_t escaped_size = 0
 
-  DBG (80, "cwrite: cmd = %d, len = %lu\n", cmd, (u_long) len)
+  DBG(80, "cwrite: cmd = %d, len = %lu\n", cmd, (u_long) len)
 
-  CHK (usync (scan, cmd | CMD_WRITE, len))
+  CHK(usync(scan, cmd | CMD_WRITE, len))
 
-  if (len <= 0)
+  if(len <= 0)
     return Sane.STATUS_GOOD
 
-  if (escaped_size < len * 2)
+  if(escaped_size < len * 2)
     {
       escaped_size = len * 2
-      if (escaped)
-        free (escaped)
-      escaped = malloc (escaped_size)
-      if (escaped == NULL)
+      if(escaped)
+        free(escaped)
+      escaped = malloc(escaped_size)
+      if(escaped == NULL)
         return Sane.STATUS_NO_MEM
     }
 
-  len = bescape (data, len, escaped, len * 2)
+  len = bescape(data, len, escaped, len * 2)
 
-  CHK (sanei_pv8630_wait_byte
+  CHK(sanei_pv8630_wait_byte
        (scan.fd, PV8630_RSTATUS, UMAX_OK, UMAX_STATUS_MASK, 20))
 
-  CHK (sanei_pv8630_flush_buffer (scan.fd))
-  CHK (sanei_pv8630_prep_bulkwrite (scan.fd, len))
-  CHK (sanei_pv8630_bulkwrite (scan.fd, escaped, &len))
+  CHK(sanei_pv8630_flush_buffer(scan.fd))
+  CHK(sanei_pv8630_prep_bulkwrite(scan.fd, len))
+  CHK(sanei_pv8630_bulkwrite(scan.fd, escaped, &len))
 
-  CHK (sanei_pv8630_read_byte (scan.fd, PV8630_RSTATUS, &s4))
-  CHK (sanei_pv8630_read_byte (scan.fd, PV8630_RDATA, &s0))
+  CHK(sanei_pv8630_read_byte(scan.fd, PV8630_RSTATUS, &s4))
+  CHK(sanei_pv8630_read_byte(scan.fd, PV8630_RDATA, &s0))
 
-  DBG (90, "cwrite: s0 = %#x s4 = %#x\n", s0, s4)
+  DBG(90, "cwrite: s0 = %#x s4 = %#x\n", s0, s4)
 
-  if (s)
+  if(s)
     *s = s0
 
   return Sane.STATUS_GOOD
@@ -490,32 +490,32 @@ cwrite (UMAX_Handle * scan, UMAX_Cmd cmd, size_t len, const unsigned char *data,
 /* Read */
 
 static Sane.Status
-cread (UMAX_Handle * scan, UMAX_Cmd cmd, size_t len, unsigned char *data,
+cread(UMAX_Handle * scan, UMAX_Cmd cmd, size_t len, unsigned char *data,
        UMAX_Status_Byte * s)
 {
   Sane.Status res
   UMAX_Status_Byte s0, s4
 
-  DBG (80, "cread: cmd = %d, len = %lu\n", cmd, (u_long) len)
+  DBG(80, "cread: cmd = %d, len = %lu\n", cmd, (u_long) len)
 
-  CHK (usync (scan, cmd | CMD_READ, len))
+  CHK(usync(scan, cmd | CMD_READ, len))
 
-  if (len > 0)
+  if(len > 0)
     {
-      CHK (sanei_pv8630_wait_byte
+      CHK(sanei_pv8630_wait_byte
            (scan.fd, PV8630_RSTATUS, UMAX_OK_WITH_MOTOR, UMAX_STATUS_MASK,
             2000))
 
-      while (len > 0)
+      while(len > 0)
         {
           size_t req, n
 
           req = n = (len > 0xf000) ? 0xf000 : len
-          CHK (sanei_pv8630_prep_bulkread (scan.fd, n))
-          CHK (sanei_pv8630_bulkread (scan.fd, data, &n))
-          if (n < req)
+          CHK(sanei_pv8630_prep_bulkread(scan.fd, n))
+          CHK(sanei_pv8630_bulkread(scan.fd, data, &n))
+          if(n < req)
             {
-              DBG (1, "qread: Expecting to read %lu, only got %lu\n", (u_long) req, (u_long) n)
+              DBG(1, "qread: Expecting to read %lu, only got %lu\n", (u_long) req, (u_long) n)
               return Sane.STATUS_IO_ERROR
             }
           data += n
@@ -523,12 +523,12 @@ cread (UMAX_Handle * scan, UMAX_Cmd cmd, size_t len, unsigned char *data,
         }
     }
 
-  CHK (sanei_pv8630_read_byte (scan.fd, PV8630_RSTATUS, &s4))
-  CHK (sanei_pv8630_read_byte (scan.fd, PV8630_RDATA, &s0))
+  CHK(sanei_pv8630_read_byte(scan.fd, PV8630_RSTATUS, &s4))
+  CHK(sanei_pv8630_read_byte(scan.fd, PV8630_RDATA, &s0))
 
-  DBG (90, "cwrite: s0 = %#x s4 = %#x\n", s0, s4)
+  DBG(90, "cwrite: s0 = %#x s4 = %#x\n", s0, s4)
 
-  if (s)
+  if(s)
     *s = s0
 
   return Sane.STATUS_GOOD
@@ -539,7 +539,7 @@ cread (UMAX_Handle * scan, UMAX_Cmd cmd, size_t len, unsigned char *data,
 /* Seems to be like cwrite, with a verification option */
 
 static Sane.Status
-cwritev (UMAX_Handle * scan, UMAX_Cmd cmd, size_t len, const unsigned char *data,
+cwritev(UMAX_Handle * scan, UMAX_Cmd cmd, size_t len, const unsigned char *data,
          UMAX_Status_Byte * s)
 {
   Sane.Status res
@@ -547,16 +547,16 @@ cwritev (UMAX_Handle * scan, UMAX_Cmd cmd, size_t len, const unsigned char *data
 
   /* Write out the opcode */
 
-  CHK (cwrite (scan, cmd, len, data, s))
-  if (len <= 0)
+  CHK(cwrite(scan, cmd, len, data, s))
+  if(len <= 0)
     return Sane.STATUS_GOOD
 
   /* Read the opcode back */
 
-  CHK (cread (scan, cmd, len, buf, NULL))
-  if (bcmp (buf, data, len))
+  CHK(cread(scan, cmd, len, buf, NULL))
+  if(bcmp(buf, data, len))
     {
-      DBG (1, "cwritev: verification failed\n")
+      DBG(1, "cwritev: verification failed\n")
       return Sane.STATUS_IO_ERROR
     }
   return Sane.STATUS_GOOD
@@ -566,34 +566,34 @@ cwritev (UMAX_Handle * scan, UMAX_Cmd cmd, size_t len, const unsigned char *data
 /* Send command */
 
 static Sane.Status
-csend (UMAX_Handle * scan, UMAX_Cmd cmd)
+csend(UMAX_Handle * scan, UMAX_Cmd cmd)
 {
-  DBG (80, "csend: cmd = %d\n", cmd)
+  DBG(80, "csend: cmd = %d\n", cmd)
 
-  return usync (scan, cmd, 0)
+  return usync(scan, cmd, 0)
 }
 
 /* Lamp control */
 
 static Sane.Status
-cwritev_opc1_lamp_ctrl (UMAX_Handle * scan, UMAX_Lamp_State state)
+cwritev_opc1_lamp_ctrl(UMAX_Handle * scan, UMAX_Lamp_State state)
 {
   unsigned char opc1[16] = {
     0x01, 0x00, 0x01, 0x70, 0x00, 0x00, 0x60, 0x2f, 0x13, 0x05,
     0x00, 0x00, 0x00, 0x80, 0xf0, 0x00
   ]
 
-  DBG (9, "cwritev_opc1: set lamp state = %s\n",
+  DBG(9, "cwritev_opc1: set lamp state = %s\n",
        (state == UMAX_LAMP_OFF) ? "off" : "on")
   opc1[14] = (state == UMAX_LAMP_OFF) ? 0x90 : 0xf0
-  return cwritev (scan, CMD_2, 16, opc1, NULL)
+  return cwritev(scan, CMD_2, 16, opc1, NULL)
 }
 
 
 /* Restore Head 1220U */
 
 static Sane.Status
-cwritev_opb3_restore (UMAX_Handle * scan)
+cwritev_opb3_restore(UMAX_Handle * scan)
 {
   unsigned char opb3[35] = {
     0x00, 0x00, 0x04, 0x00, 0x02, 0x00, 0x00, 0x0c, 0x00, 0x03,
@@ -604,9 +604,9 @@ cwritev_opb3_restore (UMAX_Handle * scan)
 
   Sane.Status res
 
-  DBG (9, "cwritev_opb3_restore:\n")
-  CHK (cwritev (scan, CMD_8, 35, opb3, NULL))
-  CHK (csend (scan, CMD_40))
+  DBG(9, "cwritev_opb3_restore:\n")
+  CHK(cwritev(scan, CMD_8, 35, opb3, NULL))
+  CHK(csend(scan, CMD_40))
   return Sane.STATUS_GOOD
 }
 
@@ -614,7 +614,7 @@ cwritev_opb3_restore (UMAX_Handle * scan)
 /* Restore Head 2100U */
 
 static Sane.Status
-cwritev_opb3_restore_2100U (UMAX_Handle * scan)
+cwritev_opb3_restore_2100U(UMAX_Handle * scan)
 {
   unsigned char opb3[36] = {
     0x00, 0x00, 0x04, 0x00, 0x02, 0x00, 0x00, 0x0c, 0x00, 0x03,
@@ -625,9 +625,9 @@ cwritev_opb3_restore_2100U (UMAX_Handle * scan)
 
   Sane.Status res
 
-  DBG (9, "cwritev_opb3_restore:\n")
-  CHK (cwritev (scan, CMD_8, 36, opb3, NULL))
-  CHK (csend (scan, CMD_40))
+  DBG(9, "cwritev_opb3_restore:\n")
+  CHK(cwritev(scan, CMD_8, 36, opb3, NULL))
+  CHK(csend(scan, CMD_40))
   return Sane.STATUS_GOOD
 }
 
@@ -636,13 +636,13 @@ cwritev_opb3_restore_2100U (UMAX_Handle * scan)
 
 /*
 This function seems to perform various things. First, it loads a default
-gamma information (which is used for the calibration scan), returns the
+gamma information(which is used for the calibration scan), returns the
 head to the park position, and turns the lamp on. This function used to
 be split up into two parts, umaxinit and umaxinit2.
 */
 
 static Sane.Status
-umaxinit (UMAX_Handle * scan)
+umaxinit(UMAX_Handle * scan)
 {
   unsigned char opb[34] = {
     0x00, 0x00, 0x04, 0x00, 0x02, 0x00, 0x00, 0x0c, 0x00, 0x03,
@@ -684,19 +684,19 @@ umaxinit (UMAX_Handle * scan)
   var i: Int
   unsigned char *p
 
-  DBG (3, "umaxinit called\n")
+  DBG(3, "umaxinit called\n")
 
-  CHK (csend (scan, CMD_0))
-  CHK (xxxops (scan))
+  CHK(csend(scan, CMD_0))
+  CHK(xxxops(scan))
 
-  CHK (cwritev (scan, CMD_8, 34, opb, &s))
-  CHK (cread (scan, CMD_8, 35, opbx, &s))
+  CHK(cwritev(scan, CMD_8, 34, opb, &s))
+  CHK(cread(scan, CMD_8, 35, opbx, &s))
 
-  CHK (cwritev (scan, CMD_8, 35, opb1, &s))
+  CHK(cwritev(scan, CMD_8, 35, opb1, &s))
 
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
 
-  DBG (4, "umaxinit: checkpoint 2:\n")
+  DBG(4, "umaxinit: checkpoint 2:\n")
 
   /* The following code appears to send three 256 entry, 8-bit gamma tables
    * to the scanner
@@ -705,110 +705,110 @@ umaxinit (UMAX_Handle * scan)
   *p++ = 0
   *p++ = 0
   *p++ = 0
-  for (i = 0; i < 256; ++i)
+  for(i = 0; i < 256; ++i)
     *p++ = i
-  for (i = 0; i < 256; ++i)
+  for(i = 0; i < 256; ++i)
     *p++ = i
-  for (i = 0; i < 256; ++i)
+  for(i = 0; i < 256; ++i)
     *p++ = i
   *p++ = 0xaa
   *p++ = 0xaa
 
-  res = cwritev (scan, CMD_4, p - ramp, ramp, &s)
-  if (res != Sane.STATUS_GOOD)
+  res = cwritev(scan, CMD_4, p - ramp, ramp, &s)
+  if(res != Sane.STATUS_GOOD)
     {
-      DBG (4, "umaxinit: Writing ramp 1 failed (is this a 2000U?)\n")
+      DBG(4, "umaxinit: Writing ramp 1 failed(is this a 2000U?)\n")
     }
-  CHK (cwritev (scan, CMD_8, 35, opb1, &s))
+  CHK(cwritev(scan, CMD_8, 35, opb1, &s))
 
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
 
-  DBG (4, "umaxinit: checkpoint 3:\n")
+  DBG(4, "umaxinit: checkpoint 3:\n")
 
   /* The following code appears to send a 256 entry, 16-bit gamma table
    * to the scanner
    */
   p = ramp
-  for (i = 0; i < 256; ++i)
+  for(i = 0; i < 256; ++i)
     {
       *p++ = i
       *p++ = 0
     }
 
-  res = cwrite (scan, CMD_4, p - ramp, ramp, &s)
-  if (res != Sane.STATUS_GOOD)
+  res = cwrite(scan, CMD_4, p - ramp, ramp, &s)
+  if(res != Sane.STATUS_GOOD)
     {
-      DBG (4, "umaxinit: Writing ramp 2 failed (is this a 2000U?)\n")
+      DBG(4, "umaxinit: Writing ramp 2 failed(is this a 2000U?)\n")
     }
-  CHK (cwritev (scan, CMD_8, 35, opb2, &s))
+  CHK(cwritev(scan, CMD_8, 35, opb2, &s))
 
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
 
-  DBG (4, "umaxinit: checkpoint 4:\n")
+  DBG(4, "umaxinit: checkpoint 4:\n")
 
   /* The following code appears to send a 256 entry, 16-bit gamma table
    * to the scanner.
    */
   p = ramp
-  for (i = 0; i < 256; ++i)
+  for(i = 0; i < 256; ++i)
     {
       *p++ = i
       *p++ = 4
     }
 
-  res = cwritev (scan, CMD_4, p - ramp, ramp, &s)
-  if (res != Sane.STATUS_GOOD)
+  res = cwritev(scan, CMD_4, p - ramp, ramp, &s)
+  if(res != Sane.STATUS_GOOD)
     {
-      DBG (4, "umaxinit: Writing ramp 3 failed (is this a 2000U?)\n")
+      DBG(4, "umaxinit: Writing ramp 3 failed(is this a 2000U?)\n")
     }
-  CHK (cwritev (scan, CMD_8, 35, opb1, &s))
+  CHK(cwritev(scan, CMD_8, 35, opb1, &s))
 
-  CHK (cwritev (scan, CMD_2, 16, opc, NULL))
-  CHK (cwritev (scan, CMD_1, 8, opd, NULL))
-  CHK (csend (scan, CMD_0))
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
+  CHK(cwritev(scan, CMD_2, 16, opc, NULL))
+  CHK(cwritev(scan, CMD_1, 8, opd, NULL))
+  CHK(csend(scan, CMD_0))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
 
-  DBG (4, "umaxinit: checkpoint 5: s = %#x\n", s)
+  DBG(4, "umaxinit: checkpoint 5: s = %#x\n", s)
 
-  if ((s & 0x40) == 0)
+  if((s & 0x40) == 0)
     {
-      DBG (4, "umaxinit: turning on lamp and restoring\n")
-      CHK (cwritev_opc1_lamp_ctrl (scan, UMAX_LAMP_ON))
-      CHK (cwritev_opb3_restore (scan))
+      DBG(4, "umaxinit: turning on lamp and restoring\n")
+      CHK(cwritev_opc1_lamp_ctrl(scan, UMAX_LAMP_ON))
+      CHK(cwritev_opb3_restore(scan))
 
-      for (i = 0; i < 60; ++i)
+      for(i = 0; i < 60; ++i)
         {
-          CHK (cread (scan, CMD_2, 0, NULL, &s))
-          DBG (4, "umaxinit: s = %#x\n", s)
-          if ((s & 0x40) != 0)
+          CHK(cread(scan, CMD_2, 0, NULL, &s))
+          DBG(4, "umaxinit: s = %#x\n", s)
+          if((s & 0x40) != 0)
             break
-          DBG (4, "umaxinit: sleeping\n")
-          usleep (500000)
+          DBG(4, "umaxinit: sleeping\n")
+          usleep(500000)
         }
     }
 
-  DBG (4, "umaxinit: checkpoint 6\n")
+  DBG(4, "umaxinit: checkpoint 6\n")
 
-  CHK (csend (scan, CMD_0))
+  CHK(csend(scan, CMD_0))
 
   /* The following stuff used to be in umaxinit2() */
 
-  DBG (4, "umaxinit: checkpoint 7\n")
+  DBG(4, "umaxinit: checkpoint 7\n")
 
-  CHK (xxxops (scan))
-  CHK (csend (scan, CMD_0))
-  CHK (xxxops (scan))
+  CHK(xxxops(scan))
+  CHK(csend(scan, CMD_0))
+  CHK(xxxops(scan))
 
-  CHK (cwritev (scan, CMD_8, 34, opb4, &s))
-  CHK (cread (scan, CMD_8, 35, opbx, &s))
-  CHK (cread (scan, CMD_2, 16, opcx, &s))
+  CHK(cwritev(scan, CMD_8, 34, opb4, &s))
+  CHK(cread(scan, CMD_8, 35, opbx, &s))
+  CHK(cread(scan, CMD_2, 16, opcx, &s))
 
-  CHK (cwritev (scan, CMD_2, 16, opc, NULL))
-  CHK (cwritev (scan, CMD_1, 8, opd, NULL))
-  CHK (csend (scan, CMD_0))
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
+  CHK(cwritev(scan, CMD_2, 16, opc, NULL))
+  CHK(cwritev(scan, CMD_1, 8, opd, NULL))
+  CHK(csend(scan, CMD_0))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
 
-  DBG (4, "umaxinit: checkpoint 8: s = %d\n", s)
+  DBG(4, "umaxinit: checkpoint 8: s = %d\n", s)
 
   return Sane.STATUS_GOOD
 }
@@ -816,7 +816,7 @@ umaxinit (UMAX_Handle * scan)
 /* Initialize and turn lamp on 2100U */
 
 static Sane.Status
-umaxinit_2100U (UMAX_Handle * scan)
+umaxinit_2100U(UMAX_Handle * scan)
 {
 
   unsigned char opx[36]
@@ -826,20 +826,20 @@ umaxinit_2100U (UMAX_Handle * scan)
   Sane.Status res
   UMAX_Status_Byte s
 
-  DBG (3, "umaxinit called\n")
+  DBG(3, "umaxinit called\n")
 
-  CHK (xxxops (scan))
-  CHK (csend (scan, CMD_0))
+  CHK(xxxops(scan))
+  CHK(csend(scan, CMD_0))
 
   /* Turn lamp on */
 
-  cwritev_opc1_lamp_ctrl (scan, UMAX_LAMP_ON)
+  cwritev_opc1_lamp_ctrl(scan, UMAX_LAMP_ON)
 
-  CHK (cread (scan, CMD_8, 36, opx, &s))
-  CHK (cread (scan, CMD_2, 16, opy, &s))
-  CHK (csend (scan, CMD_0))
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
-  CHK (csend (scan, CMD_0))
+  CHK(cread(scan, CMD_8, 36, opx, &s))
+  CHK(cread(scan, CMD_2, 16, opy, &s))
+  CHK(csend(scan, CMD_0))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
+  CHK(csend(scan, CMD_0))
 
   return Sane.STATUS_GOOD
 }
@@ -848,7 +848,7 @@ umaxinit_2100U (UMAX_Handle * scan)
 /* Move head 1220U */
 
 static Sane.Status
-move (UMAX_Handle * scan, Int distance, UMAX_Speed fine)
+move(UMAX_Handle * scan, Int distance, UMAX_Speed fine)
 {
   unsigned char opc4[16] = {
     0x01, XXXX, XXXX, XXXX, 0x00, 0x00, 0x60, 0x2f, XXXX, XXXX,
@@ -882,12 +882,12 @@ move (UMAX_Handle * scan, Int distance, UMAX_Speed fine)
   Bool rev = distance < 0
   Int skip = (rev ? -distance : distance) - 1
 
-  DBG (9, "move: distance = %d, scanner_ypos = %d\n", distance,
+  DBG(9, "move: distance = %d, scanner_ypos = %d\n", distance,
        scan.scanner_ypos)
 
-  PAD_ARRAY (buf, 512)
+  PAD_ARRAY(buf, 512)
 
-  if (distance == 0)
+  if(distance == 0)
     return Sane.STATUS_GOOD
 
   opc4[1] = skip << 6
@@ -895,7 +895,7 @@ move (UMAX_Handle * scan, Int distance, UMAX_Speed fine)
   opc4[3] = (rev ? 0x20 : 0x70) + ((skip >> 10) & 0xf)
   opc4[9] = rev ? 0x01 : 0x05
 
-  if (fine == UMAX_FINE)
+  if(fine == UMAX_FINE)
     {
       opc4[8]  = 0x2f
       opc4[14] = 0xa4
@@ -910,31 +910,31 @@ move (UMAX_Handle * scan, Int distance, UMAX_Speed fine)
     (fine == UMAX_FINE ? distance : 2 * distance + (rev ? -1 : 1))
   scan.scanner_ypos = (scan.scanner_ypos + (rev ? 0 : 3)) & ~3
 
-  CHK (cwrite (scan, CMD_2, 16, opc4, &s))
-  CHK (cwrite (scan, CMD_8, 35, rev ? opb7 : opb5, &s))
+  CHK(cwrite(scan, CMD_2, 16, opc4, &s))
+  CHK(cwrite(scan, CMD_8, 35, rev ? opb7 : opb5, &s))
 
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
-  DBG (10, "move: checkpoint 1: s = %d\n", s)
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
+  DBG(10, "move: checkpoint 1: s = %d\n", s)
 
-  CHK (csend (scan, CMD_0))
-  if (rev)
-    CHK (cwrite (scan, CMD_4, 3, ope2, &s))
+  CHK(csend(scan, CMD_0))
+  if(rev)
+    CHK(cwrite(scan, CMD_4, 3, ope2, &s))
   else
-    CHK (cwrite (scan, CMD_4, 8, ope, &s))
+    CHK(cwrite(scan, CMD_4, 8, ope, &s))
 
 
-  CHK (csend (scan, CMD_40))
+  CHK(csend(scan, CMD_40))
 
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
 
-  DBG (10, "move: checkpoint 2: s = %d\n", s)
+  DBG(10, "move: checkpoint 2: s = %d\n", s)
 
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
-  DBG (10, "move: checkpoint 3: s = %d\n", s)
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
+  DBG(10, "move: checkpoint 3: s = %d\n", s)
 
-  CHK (cread (scan, CMD_4, 512, buf, &s))
+  CHK(cread(scan, CMD_4, 512, buf, &s))
 
-  CHK_ARRAY (buf, 512)
+  CHK_ARRAY(buf, 512)
 
   return res
 }
@@ -944,7 +944,7 @@ move (UMAX_Handle * scan, Int distance, UMAX_Speed fine)
 /* Move head 2100U */
 
 static Sane.Status
-move_2100U (UMAX_Handle * scan, Int distance, UMAX_Speed fine)
+move_2100U(UMAX_Handle * scan, Int distance, UMAX_Speed fine)
 {
 
 
@@ -979,12 +979,12 @@ move_2100U (UMAX_Handle * scan, Int distance, UMAX_Speed fine)
   Bool rev = distance < 0
   Int skip = (rev ? -distance : distance) - 1
 
-  DBG (9, "move: distance = %d, scanner_ypos = %d\n", distance,
+  DBG(9, "move: distance = %d, scanner_ypos = %d\n", distance,
        scan.scanner_ypos)
 
-  PAD_ARRAY (buf, 512)
+  PAD_ARRAY(buf, 512)
 
-  if (distance == 0)
+  if(distance == 0)
     return Sane.STATUS_GOOD
 
   opc4[1] = skip << 6
@@ -992,7 +992,7 @@ move_2100U (UMAX_Handle * scan, Int distance, UMAX_Speed fine)
   opc4[3] = (rev ? 0x20 : 0x70) + ((skip >> 10) & 0x0f)
   opc4[9] = rev ? 0x01 : 0x05
 
-  if (fine == UMAX_FINE)
+  if(fine == UMAX_FINE)
     {
       opc4[8]  = 0x2b
       opc4[14] = 0xa4
@@ -1007,31 +1007,31 @@ move_2100U (UMAX_Handle * scan, Int distance, UMAX_Speed fine)
     (fine == UMAX_FINE ? distance : 2 * distance + (rev ? -1 : 1))
   scan.scanner_ypos = (scan.scanner_ypos + (rev ? 0 : 3)) & ~3
 
-  CHK (cwrite (scan, CMD_2, 16, opc4, &s))
-  CHK (cwrite (scan, CMD_8, 36, rev ? opb7 : opb5, &s))
+  CHK(cwrite(scan, CMD_2, 16, opc4, &s))
+  CHK(cwrite(scan, CMD_8, 36, rev ? opb7 : opb5, &s))
 
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
-  DBG (10, "move: checkpoint 1: s = %d\n", s)
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
+  DBG(10, "move: checkpoint 1: s = %d\n", s)
 
-  CHK (csend (scan, CMD_0))
+  CHK(csend(scan, CMD_0))
 
-  if (rev)
-    CHK (cwrite (scan, CMD_4, 3, ope2, &s))
+  if(rev)
+    CHK(cwrite(scan, CMD_4, 3, ope2, &s))
   else
-    CHK (cwrite (scan, CMD_4, 8, ope, &s))
+    CHK(cwrite(scan, CMD_4, 8, ope, &s))
 
-  CHK (csend (scan, CMD_40))
+  CHK(csend(scan, CMD_40))
 
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
 
-  DBG (10, "move: checkpoint 2: s = %d\n", s)
+  DBG(10, "move: checkpoint 2: s = %d\n", s)
 
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
-  DBG (10, "move: checkpoint 3: s = %d\n", s)
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
+  DBG(10, "move: checkpoint 3: s = %d\n", s)
 
-  CHK (cread (scan, CMD_4, 512, buf, &s))
+  CHK(cread(scan, CMD_4, 512, buf, &s))
 
-  CHK_ARRAY (buf, 512)
+  CHK_ARRAY(buf, 512)
 
   return res
 }
@@ -1040,33 +1040,33 @@ move_2100U (UMAX_Handle * scan, Int distance, UMAX_Speed fine)
 /* Get pixel image 1220U */
 
 static Sane.Status
-get_pixels (UMAX_Handle * scan, unsigned char *op2, unsigned char *op8,
+get_pixels(UMAX_Handle * scan, unsigned char *op2, unsigned char *op8,
             unsigned char *op1, unsigned char *op4, Int len, Int zpos,
             unsigned char *buf)
 {
   Sane.Status res
   UMAX_Status_Byte s
 
-  DBG (9, "get_pixels: len = %d, zpos = %d\n", len, zpos)
+  DBG(9, "get_pixels: len = %d, zpos = %d\n", len, zpos)
 
-  if (zpos == 0)
-    CHK (csend (scan, CMD_0))
+  if(zpos == 0)
+    CHK(csend(scan, CMD_0))
 
-  CHK (cwrite (scan, CMD_2, 16, op2, &s))
-  CHK (cwrite (scan, CMD_8, 35, op8, &s))
-  CHK (cwrite (scan, CMD_1, 8, op1, &s))
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
+  CHK(cwrite(scan, CMD_2, 16, op2, &s))
+  CHK(cwrite(scan, CMD_8, 35, op8, &s))
+  CHK(cwrite(scan, CMD_1, 8, op1, &s))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
 
-  if (zpos == 1)
-    CHK (csend (scan, CMD_0))
+  if(zpos == 1)
+    CHK(csend(scan, CMD_0))
 
-  CHK (cwrite (scan, CMD_4, 8, op4, &s))
-  CHK (csend (scan, CMD_40))
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
+  CHK(cwrite(scan, CMD_4, 8, op4, &s))
+  CHK(csend(scan, CMD_40))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
 
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
 
-  CHK (cread (scan, CMD_4, len, buf, &s))
+  CHK(cread(scan, CMD_4, len, buf, &s))
   return Sane.STATUS_GOOD
 }
 
@@ -1074,35 +1074,35 @@ get_pixels (UMAX_Handle * scan, unsigned char *op2, unsigned char *op8,
 /* Get pixel image 2100U */
 
 static Sane.Status
-get_pixels_2100U (UMAX_Handle * scan, unsigned char *op2, unsigned char *op8,
+get_pixels_2100U(UMAX_Handle * scan, unsigned char *op2, unsigned char *op8,
             unsigned char *op1, unsigned char *op4, Int len, Int zpos,
             unsigned char *buf)
 {
   Sane.Status res
   UMAX_Status_Byte s
 
-  DBG (9, "get_pixels: len = %d, zpos = %d\n", len, zpos)
+  DBG(9, "get_pixels: len = %d, zpos = %d\n", len, zpos)
 
-  CHK (cwrite (scan, CMD_2, 16, op2, &s))
-  CHK (cwrite (scan, CMD_8, 36, op8, &s))
+  CHK(cwrite(scan, CMD_2, 16, op2, &s))
+  CHK(cwrite(scan, CMD_8, 36, op8, &s))
 
-  if (zpos == 1)
-    CHK (cwritev (scan, CMD_1, 8, op1, &s))
+  if(zpos == 1)
+    CHK(cwritev(scan, CMD_1, 8, op1, &s))
   else
-    CHK (cwrite (scan, CMD_1, 8, op1, &s))
+    CHK(cwrite(scan, CMD_1, 8, op1, &s))
 
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
 
-  if (zpos == 1)
-    CHK (csend (scan, CMD_0))
+  if(zpos == 1)
+    CHK(csend(scan, CMD_0))
 
-  CHK (cwrite (scan, CMD_4, 8, op4, &s))
-  CHK (csend (scan, CMD_40))
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
+  CHK(cwrite(scan, CMD_4, 8, op4, &s))
+  CHK(csend(scan, CMD_40))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
 
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
 
-  CHK (cread (scan, CMD_4, len, buf, &s))
+  CHK(cread(scan, CMD_4, len, buf, &s))
   return Sane.STATUS_GOOD
 }
 
@@ -1110,7 +1110,7 @@ get_pixels_2100U (UMAX_Handle * scan, unsigned char *op2, unsigned char *op8,
 /* This function locates the black stripe under scanner lid */
 
 static Int
-locate_black_stripe (unsigned char *img, Int w, Int h)
+locate_black_stripe(unsigned char *img, Int w, Int h)
 {
   Int epos, ecnt, x, y
   unsigned char *p
@@ -1118,26 +1118,26 @@ locate_black_stripe (unsigned char *img, Int w, Int h)
   epos = 0
   ecnt = 0
   p = img
-  for (x = 0; x < w; ++x, ++p)
+  for(x = 0; x < w; ++x, ++p)
     {
       Int d, dmax = 0, dpos = 0
       unsigned char *q = img + x
-      for (y = 1; y < h; ++y, q += w)
+      for(y = 1; y < h; ++y, q += w)
         {
           d = q[0] - q[w]
-          if (d > dmax)
+          if(d > dmax)
             {
               dmax = d
               dpos = y
             }
         }
-      if (dmax > 0)
+      if(dmax > 0)
         {
           epos += dpos
           ++ecnt
         }
     }
-  if (ecnt == 0)
+  if(ecnt == 0)
     epos = 70
   else
     epos = (epos + ecnt / 2) / ecnt
@@ -1148,7 +1148,7 @@ locate_black_stripe (unsigned char *img, Int w, Int h)
 /* To find the lowest head position 1220U */
 
 static Sane.Status
-find_zero (UMAX_Handle * scan)
+find_zero(UMAX_Handle * scan)
 {
   unsigned char opc3[16] = {
     0xb4, 0x00, 0x00, 0x70, 0x00, 0x00, 0x60, 0x2f, 0x2f, 0x05,
@@ -1171,34 +1171,34 @@ find_zero (UMAX_Handle * scan)
   Int s
   unsigned char *img
 
-  DBG (9, "find_zero:\n")
+  DBG(9, "find_zero:\n")
 
-  img = malloc (54000)
-  if (img == 0)
+  img = malloc(54000)
+  if(img == 0)
     {
-      DBG (1, "out of memory (need 54000)\n")
+      DBG(1, "out of memory(need 54000)\n")
       return Sane.STATUS_NO_MEM
     }
 
-  CHK (csend (scan, CMD_0))
-  CHK (get_pixels (scan, opc3, opb6, opd1, ope1, 54000, 1, img))
+  CHK(csend(scan, CMD_0))
+  CHK(get_pixels(scan, opc3, opb6, opd1, ope1, 54000, 1, img))
 
 #ifdef DEBUG_CALIBRATION
   {
     Int w = 300, h = 180
-    FILE *f2 = fopen ("find_zero.pgm", "wb")
-    fprintf (f2, "P5\n%d %d\n255\n", w, h)
-    fwrite (img, 1, w * h, f2)
-    fclose (f2)
+    FILE *f2 = fopen("find_zero.pgm", "wb")
+    fprintf(f2, "P5\n%d %d\n255\n", w, h)
+    fwrite(img, 1, w * h, f2)
+    fclose(f2)
   }
 #endif
 
-  s = locate_black_stripe (img, 300, 180)
+  s = locate_black_stripe(img, 300, 180)
   scan.scanner_yorg = scan.scanner_ypos + s + 64
   scan.scanner_ypos += 180 + 3
   scan.scanner_ypos &= ~3
 
-  free (img)
+  free(img)
   return Sane.STATUS_GOOD
 }
 
@@ -1206,7 +1206,7 @@ find_zero (UMAX_Handle * scan)
 /* To find the lowest head position 2100U */
 
 static Sane.Status
-find_zero_2100U (UMAX_Handle * scan)
+find_zero_2100U(UMAX_Handle * scan)
 {
   unsigned char opc3[16] = {
     0xb4, 0x00, 0x00, 0x70, 0x00, 0x00, 0x60, 0x2f, 0x2b, 0x05,
@@ -1229,34 +1229,34 @@ find_zero_2100U (UMAX_Handle * scan)
   Int s
   unsigned char *img
 
-  DBG (9, "find_zero:\n")
+  DBG(9, "find_zero:\n")
 
-  img = malloc (54000)
-  if (img == 0)
+  img = malloc(54000)
+  if(img == 0)
     {
-      DBG (1, "out of memory (need 54000)\n")
+      DBG(1, "out of memory(need 54000)\n")
       return Sane.STATUS_NO_MEM
     }
 
-  CHK (csend (scan, CMD_0))
-  CHK (get_pixels_2100U (scan, opc3, opb6, opd1, ope1, 54000, 1, img))
+  CHK(csend(scan, CMD_0))
+  CHK(get_pixels_2100U(scan, opc3, opb6, opd1, ope1, 54000, 1, img))
 
 #ifdef DEBUG_CALIBRATION
   {
     Int w = 300, h = 180
-    FILE *f2 = fopen ("find_zero.pgm", "wb")
-    fprintf (f2, "P5\n%d %d\n255\n", w, h)
-    fwrite (img, 1, w * h, f2)
-    fclose (f2)
+    FILE *f2 = fopen("find_zero.pgm", "wb")
+    fprintf(f2, "P5\n%d %d\n255\n", w, h)
+    fwrite(img, 1, w * h, f2)
+    fclose(f2)
   }
 #endif
 
-  s = locate_black_stripe (img, 300, 180)
+  s = locate_black_stripe(img, 300, 180)
   scan.scanner_yorg = scan.scanner_ypos + s + 64
   scan.scanner_ypos += 180 + 3
   scan.scanner_ypos &= ~3
 
-  free (img)
+  free(img)
   return Sane.STATUS_GOOD
 }
 
@@ -1276,7 +1276,7 @@ Format of caldata:
 
 */
 static Sane.Status
-get_caldata (UMAX_Handle * scan, Int color)
+get_caldata(UMAX_Handle * scan, Int color)
 {
   unsigned char opc9[16] = {
     XXXX, 0x00, 0x00, 0x70, 0x00, 0x00, 0x60, 0x00, 0x17, 0x05,
@@ -1305,21 +1305,21 @@ get_caldata (UMAX_Handle * scan, Int color)
   Int l  = w * h
   var i: Int, x, y
 
-  PAD_ARRAY (scan.caldata, 16070)
+  PAD_ARRAY(scan.caldata, 16070)
 
-  DBG (9, "get_caldata: color = %d\n", color)
+  DBG(9, "get_caldata: color = %d\n", color)
 
-  p = malloc (l)
-  if (p == 0)
+  p = malloc(l)
+  if(p == 0)
     {
-      DBG (1, "out of memory (need %d)\n", l)
+      DBG(1, "out of memory(need %d)\n", l)
       return Sane.STATUS_NO_MEM
     }
-  memset (scan.caldata, 0, 3 * 5100)
+  memset(scan.caldata, 0, 3 * 5100)
 
-  CHK (csend (scan, CMD_0))
+  CHK(csend(scan, CMD_0))
   opc9[0] = h + 4
-  if (color)
+  if(color)
     {
       opc9[13]  = 0x03
       opb11[23] = 0xc4
@@ -1336,17 +1336,17 @@ get_caldata (UMAX_Handle * scan, Int color)
       opd4[7]   = 0x40
     }
 
-  /* Do a test scan of the calibration strip (which is located
+  /* Do a test scan of the calibration strip(which is located
    * under the scanner's lid */
 
-  CHK (get_pixels (scan, opc9, opb11, opd4, ope, l, 0, p))
+  CHK(get_pixels(scan, opc9, opb11, opd4, ope, l, 0, p))
 
 #ifdef DEBUG_CALIBRATION
   {
-    FILE *f2 = fopen ("calibration.pgm", "wb")
-    fprintf (f2, "P5\n%d %d\n255\n", w, h)
-    fwrite (p, 1, w * h, f2)
-    fclose (f2)
+    FILE *f2 = fopen("calibration.pgm", "wb")
+    fprintf(f2, "P5\n%d %d\n255\n", w, h)
+    fwrite(p, 1, w * h, f2)
+    fclose(f2)
   }
 #endif
 
@@ -1356,41 +1356,41 @@ get_caldata (UMAX_Handle * scan, Int color)
   /* The following loop computes the gain for each of the CCD pixel
    * elements.
    */
-  for (x = 0; x < w; ++x)
+  for(x = 0; x < w; ++x)
     {
       Int t = 0, gn
       double av, gain
 
-      for (y = 0; y < h; ++y)
+      for(y = 0; y < h; ++y)
         t += p[x + y * w]
       av = (double) t / h
       gain = 250 / av
       gn = (Int) ((gain - 0.984) * 102.547 + 0.5)
-      if (gn < 0)
+      if(gn < 0)
         gn = 0
-      else if (gn > 255)
+      else if(gn > 255)
         gn = 255
       scan.caldata[x + x0] = gn
     }
 
   /* Gamma table for blue */
 
-  for (i = 0; i < 256; ++i)
+  for(i = 0; i < 256; ++i)
     scan.caldata[i + 3 * 5100 + 0] = i
 
   /* Gamma table for green */
 
-  for (i = 0; i < 256; ++i)
+  for(i = 0; i < 256; ++i)
     scan.caldata[i + 3 * 5100 + 256] = i
 
   /* Gamma table for red */
 
-  for (i = 0; i < 256; ++i)
+  for(i = 0; i < 256; ++i)
     scan.caldata[i + 3 * 5100 + 512] = i
 
-  free (p)
+  free(p)
 
-  CHK_ARRAY (scan.caldata, 16070)
+  CHK_ARRAY(scan.caldata, 16070)
   return Sane.STATUS_GOOD
 }
 
@@ -1409,7 +1409,7 @@ Format of caldata:
 
 */
 static Sane.Status
-get_caldata_2100U (UMAX_Handle * scan, Int color)
+get_caldata_2100U(UMAX_Handle * scan, Int color)
 {
   unsigned char opc9[16] = {
     XXXX, 0x00, 0x00, 0x70, 0x00, 0x00, 0x60, 0x00, 0x15, 0x05,
@@ -1469,24 +1469,24 @@ get_caldata_2100U (UMAX_Handle * scan, Int color)
   Int t, gn
   double av, pct
 
-  PAD_ARRAY (scan.caldata, 16070)
+  PAD_ARRAY(scan.caldata, 16070)
 
-  DBG (9, "get_caldata: color = %d\n", color)
+  DBG(9, "get_caldata: color = %d\n", color)
 
-  p = malloc (l)
-  if (p == 0)
+  p = malloc(l)
+  if(p == 0)
     {
-      DBG (1, "out of memory (need %d)\n", l)
+      DBG(1, "out of memory(need %d)\n", l)
       return Sane.STATUS_NO_MEM
     }
-  memset (scan.caldata, 0, 3 * 5100)
+  memset(scan.caldata, 0, 3 * 5100)
 
-  CHK (csend (scan, CMD_0))
-  CHK (csend (scan, CMD_0))
+  CHK(csend(scan, CMD_0))
+  CHK(csend(scan, CMD_0))
 
   opc9[0] = h + 4
 
-  if (color)
+  if(color)
     {
       opc9[10]  = 0xb6
       opc9[11]  = 0x3b
@@ -1515,16 +1515,16 @@ get_caldata_2100U (UMAX_Handle * scan, Int color)
       opd4[7]   = 0x20
     }
 
-  /* Do a test scan of the calibration strip (which is located
+  /* Do a test scan of the calibration strip(which is located
    * under the scanner's lid */
-  CHK (get_pixels_2100U (scan, opc9, opb11, opd4, ope, l, 0, p))
+  CHK(get_pixels_2100U(scan, opc9, opb11, opd4, ope, l, 0, p))
 
 #ifdef DEBUG_CALIBRATION
   {
-    FILE *f2 = fopen ("calibration.pgm", "wb")
-    fprintf (f2, "P5\n%d %d\n255\n", w, h)
-    fwrite (p, 1, w * h, f2)
-    fclose (f2)
+    FILE *f2 = fopen("calibration.pgm", "wb")
+    fprintf(f2, "P5\n%d %d\n255\n", w, h)
+    fwrite(p, 1, w * h, f2)
+    fclose(f2)
   }
 #endif
 
@@ -1534,10 +1534,10 @@ get_caldata_2100U (UMAX_Handle * scan, Int color)
   /* The following loop computes the gain for each of the CCD pixel
    * elements.
    */
-  for (x = 0; x < w; x++)
+  for(x = 0; x < w; x++)
     {
       t = 0
-      for (y = 0; y < h; y++)
+      for(y = 0; y < h; y++)
         t += p[x + y * w]
       av = (double) t / h
       pct = 100.0 - (av * 100.0) / 250
@@ -1548,31 +1548,31 @@ get_caldata_2100U (UMAX_Handle * scan, Int color)
       gn = gn * av
 
 
-      if (gn < 0)
+      if(gn < 0)
         gn = 0
-      else if (gn > 127)
+      else if(gn > 127)
         gn = 127
       scan.caldata[x + x0] = gn
     }
 
   /* Gamma table for blue */
 
-  for (i = 0; i < 256; i++)
+  for(i = 0; i < 256; i++)
     scan.caldata[i + 3 * 5100 + 0] = ggamma[i]
 
   /* Gamma table for green */
 
-  for (i = 0; i < 256; i++)
+  for(i = 0; i < 256; i++)
     scan.caldata[i + 3 * 5100 + 256] = ggamma[i]
 
   /* Gamma table for red */
 
-  for (i = 0; i < 256; i++)
+  for(i = 0; i < 256; i++)
     scan.caldata[i + 3 * 5100 + 512] = ggamma[i]
 
-  free (p)
+  free(p)
 
-  CHK_ARRAY (scan.caldata, 16070)
+  CHK_ARRAY(scan.caldata, 16070)
   return Sane.STATUS_GOOD
 }
 
@@ -1581,7 +1581,7 @@ get_caldata_2100U (UMAX_Handle * scan, Int color)
 /* Sends scan user parameters from frontend 1220U */
 
 static Sane.Status
-send_scan_parameters (UMAX_Handle * scan)
+send_scan_parameters(UMAX_Handle * scan)
 {
   Sane.Status res
   UMAX_Status_Byte s
@@ -1649,28 +1649,28 @@ send_scan_parameters (UMAX_Handle * scan)
   opdgo[6]  = scan.color ? 0x88 : 0x8c
   opdgo[7]  = scan.color ? 0x00 : 0x40
 
-  DBG (3, "send_scan_parameters: xskip = %d, yskip = %d\n", scan.xskip,
+  DBG(3, "send_scan_parameters: xskip = %d, yskip = %d\n", scan.xskip,
        scan.yskip)
 
-  CHK (csend (scan, CMD_0))
-  CHK (csend (scan, CMD_0))
-  CHK (cwritev (scan, CMD_2, 16, opcgo, &s))
-  CHK (cwritev (scan, CMD_8, 35, opbgo, &s))
-  CHK (cwritev (scan, CMD_1, 8, opdgo, &s))
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
-  DBG (4, "send_scan_parameters: checkpoint 1: s = %d\n", s)
+  CHK(csend(scan, CMD_0))
+  CHK(csend(scan, CMD_0))
+  CHK(cwritev(scan, CMD_2, 16, opcgo, &s))
+  CHK(cwritev(scan, CMD_8, 35, opbgo, &s))
+  CHK(cwritev(scan, CMD_1, 8, opdgo, &s))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
+  DBG(4, "send_scan_parameters: checkpoint 1: s = %d\n", s)
 
-  /* Loads the new calibration data (that was computed by get_caldata) into the
+  /* Loads the new calibration data(that was computed by get_caldata) into the
      scanner */
 
   scan.caldata[16068] = subsamp[scan.xsamp]
   scan.caldata[16069] = subsamp[scan.ysamp]
-  CHK (cwrite (scan, CMD_4, 16070, scan.caldata, &s))
+  CHK(cwrite(scan, CMD_4, 16070, scan.caldata, &s))
 
-  CHK (csend (scan, CMD_40))
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
+  CHK(csend(scan, CMD_40))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
 
-  DBG (4, "send_scan_parameters: checkpoint 2: s = %d\n", s)
+  DBG(4, "send_scan_parameters: checkpoint 2: s = %d\n", s)
 
   return Sane.STATUS_GOOD
 }
@@ -1678,7 +1678,7 @@ send_scan_parameters (UMAX_Handle * scan)
 /* Sends scan user parameters from frontend 2100U */
 
 static Sane.Status
-send_scan_parameters_2100U (UMAX_Handle * scan)
+send_scan_parameters_2100U(UMAX_Handle * scan)
 {
   Sane.Status res
   UMAX_Status_Byte s
@@ -1745,28 +1745,28 @@ send_scan_parameters_2100U (UMAX_Handle * scan)
   opdgo[6]  = scan.color ? 0x8f : 0x86
   opdgo[7]  = scan.color ? 0x40 : 0x20
 
-  DBG (3, "send_scan_parameters: xskip = %d, yskip = %d\n", scan.xskip,
+  DBG(3, "send_scan_parameters: xskip = %d, yskip = %d\n", scan.xskip,
        scan.yskip)
 
-  CHK (csend (scan, CMD_0))
-  CHK (csend (scan, CMD_0))
-  CHK (cwritev (scan, CMD_2, 16, opcgo, &s))
-  CHK (cwritev (scan, CMD_8, 36, opbgo, &s))
-  CHK (cwritev (scan, CMD_1, 8, opdgo, &s))
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
-  DBG (4, "send_scan_parameters: checkpoint 1: s = %d\n", s)
+  CHK(csend(scan, CMD_0))
+  CHK(csend(scan, CMD_0))
+  CHK(cwritev(scan, CMD_2, 16, opcgo, &s))
+  CHK(cwritev(scan, CMD_8, 36, opbgo, &s))
+  CHK(cwritev(scan, CMD_1, 8, opdgo, &s))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
+  DBG(4, "send_scan_parameters: checkpoint 1: s = %d\n", s)
 
-  /* Loads the new calibration data (that was computed by get_caldata) into the
+  /* Loads the new calibration data(that was computed by get_caldata) into the
      scanner */
 
   scan.caldata[16068] = subsamp[scan.xsamp]
   scan.caldata[16069] = subsamp[scan.ysamp]
-  CHK (cwrite (scan, CMD_4, 16070, scan.caldata, &s))
+  CHK(cwrite(scan, CMD_4, 16070, scan.caldata, &s))
 
-  CHK (csend (scan, CMD_40))
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
+  CHK(csend(scan, CMD_40))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
 
-  DBG (4, "send_scan_parameters: checkpoint 2: s = %d\n", s)
+  DBG(4, "send_scan_parameters: checkpoint 2: s = %d\n", s)
 
   return Sane.STATUS_GOOD
 }
@@ -1774,13 +1774,13 @@ send_scan_parameters_2100U (UMAX_Handle * scan)
 /* Read raw data */
 
 static Sane.Status
-read_raw_data (UMAX_Handle * scan, unsigned char *data, Int len)
+read_raw_data(UMAX_Handle * scan, unsigned char *data, Int len)
 {
   Sane.Status res
   UMAX_Status_Byte s
 
-  CHK (cread (scan, CMD_2, 0, NULL, &s))
-  CHK (cread (scan, CMD_4, len, data, &s))
+  CHK(cread(scan, CMD_2, 0, NULL, &s))
+  CHK(cread(scan, CMD_4, len, data, &s))
 
   return Sane.STATUS_GOOD
 }
@@ -1788,7 +1788,7 @@ read_raw_data (UMAX_Handle * scan, unsigned char *data, Int len)
 /* Read raw strip color */
 
 static Sane.Status
-read_raw_strip_color (UMAX_Handle * scan)
+read_raw_strip_color(UMAX_Handle * scan)
 {
   /**
      yres = 75   => ydpi = 150 => ysamp = 2 => yoff_scale = 8
@@ -1812,27 +1812,27 @@ read_raw_strip_color (UMAX_Handle * scan)
   Sane.Status res
   Int lines_to_read = scan.hexp
 
-  DBG (9, "read_raw_strip_color: hexp = %d, bh = %d\n", scan.hexp, scan.bh)
+  DBG(9, "read_raw_strip_color: hexp = %d, bh = %d\n", scan.hexp, scan.bh)
 
-  if (scan.maxh == -1)
+  if(scan.maxh == -1)
     {
-      DBG (10, "read_raw_strip_color: filling buffer for the first time\n")
-      if (lines_to_read > scan.bh)
+      DBG(10, "read_raw_strip_color: filling buffer for the first time\n")
+      if(lines_to_read > scan.bh)
         lines_to_read = scan.bh
 
-      CHK (read_raw_data (scan, scan.p, lines_to_read * linelen))
+      CHK(read_raw_data(scan, scan.p, lines_to_read * linelen))
       scan.maxh = lines_to_read - hextra
     }
   else
     {
-      DBG (10, "read_raw_strip_color: reading new rows into buffer\n")
-      memmove (scan.p, scan.p + (scan.bh - hextra) * linelen,
+      DBG(10, "read_raw_strip_color: reading new rows into buffer\n")
+      memmove(scan.p, scan.p + (scan.bh - hextra) * linelen,
                hextra * linelen)
 
-      if (lines_to_read > (scan.bh - hextra))
+      if(lines_to_read > (scan.bh - hextra))
         lines_to_read = scan.bh - hextra
 
-      CHK (read_raw_data
+      CHK(read_raw_data
            (scan, scan.p + hextra * linelen, lines_to_read * linelen))
       scan.maxh = lines_to_read
     }
@@ -1847,7 +1847,7 @@ read_raw_strip_color (UMAX_Handle * scan)
 /* Read raw strip grey */
 
 static Sane.Status
-read_raw_strip_gray (UMAX_Handle * scan)
+read_raw_strip_gray(UMAX_Handle * scan)
 {
   const Int linelen = scan.w
 
@@ -1855,13 +1855,13 @@ read_raw_strip_gray (UMAX_Handle * scan)
 
   Int lines_to_read = scan.bh
 
-  DBG (9, "read_raw_strip_gray: hexp = %d\n", scan.hexp)
+  DBG(9, "read_raw_strip_gray: hexp = %d\n", scan.hexp)
 
-  if (lines_to_read > scan.hexp)
+  if(lines_to_read > scan.hexp)
     lines_to_read = scan.hexp
   scan.hexp -= lines_to_read
 
-  CHK (read_raw_data (scan, scan.p, lines_to_read * linelen))
+  CHK(read_raw_data(scan, scan.p, lines_to_read * linelen))
 
   scan.maxh = lines_to_read
   scan.x = 0
@@ -1874,18 +1874,18 @@ read_raw_strip_gray (UMAX_Handle * scan)
 /* Read raw strip */
 
 static Sane.Status
-read_raw_strip (UMAX_Handle * scan)
+read_raw_strip(UMAX_Handle * scan)
 {
-  if (scan.color)
-      return read_raw_strip_color (scan)
+  if(scan.color)
+      return read_raw_strip_color(scan)
   else
-      return read_raw_strip_gray (scan)
+      return read_raw_strip_gray(scan)
 }
 
 /* Set scan user pamaters Frontend */
 
 static Sane.Status
-UMAX_set_scan_parameters (UMAX_Handle * scan,
+UMAX_set_scan_parameters(UMAX_Handle * scan,
                           const Int color,
                           const Int xo,
                           const Int yo,
@@ -1900,27 +1900,27 @@ UMAX_set_scan_parameters (UMAX_Handle * scan,
   Int right = xo + w * 600 / xres
   Int bottom = yo + h * 600 / yres
 
-  DBG (2, "UMAX_set_scan_parameters:\n")
-  DBG (2, "color = %d             \n", color)
-  DBG (2, "xo    = %d, yo     = %d\n", xo, yo)
-  DBG (2, "w     = %d, h      = %d\n", w, h)
-  DBG (2, "xres  = %d, yres   = %d\n", xres, yres)
-  DBG (2, "left  = %d, top    = %d\n", left, top)
-  DBG (2, "right = %d, bottom = %d\n", right, bottom)
+  DBG(2, "UMAX_set_scan_parameters:\n")
+  DBG(2, "color = %d             \n", color)
+  DBG(2, "xo    = %d, yo     = %d\n", xo, yo)
+  DBG(2, "w     = %d, h      = %d\n", w, h)
+  DBG(2, "xres  = %d, yres   = %d\n", xres, yres)
+  DBG(2, "left  = %d, top    = %d\n", left, top)
+  DBG(2, "right = %d, bottom = %d\n", right, bottom)
 
-  if ((left < 0) || (right > UMAX_MAX_WIDTH))
+  if((left < 0) || (right > UMAX_MAX_WIDTH))
     return Sane.STATUS_INVAL
 
-  if ((top < 0) || (bottom > UMAX_MAX_HEIGHT))
+  if((top < 0) || (bottom > UMAX_MAX_HEIGHT))
     return Sane.STATUS_INVAL
 
-  if (((right - left) < 10) || ((bottom - top) < 10))
+  if(((right - left) < 10) || ((bottom - top) < 10))
     return Sane.STATUS_INVAL
 
-  if ((xres != 75) && (xres != 150) && (xres != 300) && (xres != 600))
+  if((xres != 75) && (xres != 150) && (xres != 300) && (xres != 600))
     return Sane.STATUS_INVAL
 
-  if ((yres != 75) && (yres != 150) && (yres != 300) && (yres != 600))
+  if((yres != 75) && (yres != 150) && (yres != 300) && (yres != 600))
     return Sane.STATUS_INVAL
 
   /* If we get this far, begin initializing the data
@@ -1950,13 +1950,13 @@ UMAX_set_scan_parameters (UMAX_Handle * scan,
      xres = 300  =>  xdpi = 600  (xsamp = 2)
      xres = 600  =>  xdpi = 600  (xsamp = 1)
 
-     Physical Y resolution choice (if color):
+     Physical Y resolution choice(if color):
      yres = 75    =>  ydpi = 150  (ysamp = 2)
      yres = 150   =>  ydpi = 150  (ysamp = 1)
      yres = 300   =>  ydpi = 300  (ysamp = 1)
      yres = 600   =>  ydpi = 600  (ysamp = 1)
 
-     Physical Y resolution choice (if not color):
+     Physical Y resolution choice(if not color):
      yres = 75    =>  ydpi = 300  (ysamp = 4)
      yres = 150   =>  ydpi = 300  (ysamp = 2)
      yres = 300   =>  ydpi = 300  (ysamp = 1)
@@ -1964,9 +1964,9 @@ UMAX_set_scan_parameters (UMAX_Handle * scan,
    */
 
   scan.xdpi = 600
-  if (yres <= 150 && color)
+  if(yres <= 150 && color)
     scan.ydpi = 150
-  else if (yres > 300)
+  else if(yres > 300)
     scan.ydpi = 600
   else
     scan.ydpi = 300
@@ -1980,15 +1980,15 @@ UMAX_set_scan_parameters (UMAX_Handle * scan,
 /* Start actual scan 1220U */
 
 static Sane.Status
-UMAX_start_scan (UMAX_Handle * scan)
+UMAX_start_scan(UMAX_Handle * scan)
 {
   Sane.Status res
   Int linelen
   Int yd
 
-  DBG (3, "UMAX_start_scan called\n")
+  DBG(3, "UMAX_start_scan called\n")
 
-  if (scan.color)
+  if(scan.color)
     {
       const Int yoff_scale = 600 * scan.ysamp / scan.ydpi
       const Int hextra = 8 / yoff_scale
@@ -2004,18 +2004,18 @@ UMAX_start_scan (UMAX_Handle * scan)
 
   scan.bh = BUFFER_SIZE / linelen
 
-  scan.p = malloc (scan.bh * linelen)
-  if (scan.p == 0)
+  scan.p = malloc(scan.bh * linelen)
+  if(scan.p == 0)
     return Sane.STATUS_NO_MEM
 
-  DBG (4, "UMAX_start_scan: bh = %d, linelen = %d\n", scan.bh, linelen)
+  DBG(4, "UMAX_start_scan: bh = %d, linelen = %d\n", scan.bh, linelen)
 
   scan.maxh = -1
   scan.done = 0
 
   /* Initialize the scanner and position the scan head */
 
-  CHK (umaxinit (scan))
+  CHK(umaxinit(scan))
 
   /* This scans in the black and white calibration strip that
    * is located under the scanner's lid. The scan of that strip
@@ -2024,18 +2024,18 @@ UMAX_start_scan (UMAX_Handle * scan)
    */
 
   scan.scanner_ypos = 0
-  CHK (move (scan, 196, UMAX_NOT_FINE))
-  CHK (find_zero (scan))
-  CHK (move (scan, scan.scanner_yorg - 232 - scan.scanner_ypos, UMAX_FINE))
-  CHK (get_caldata (scan, scan.color))
+  CHK(move(scan, 196, UMAX_NOT_FINE))
+  CHK(find_zero(scan))
+  CHK(move(scan, scan.scanner_yorg - 232 - scan.scanner_ypos, UMAX_FINE))
+  CHK(get_caldata(scan, scan.color))
 
   /* This moves the head back to the starting position */
 
   yd = scan.scanner_yorg + scan.yo - scan.scanner_ypos
-  if (yd < 0)
-    CHK (move (scan, yd, UMAX_FINE))
-  if (yd > 300)
-    CHK (move (scan, (yd - 20) / 2, UMAX_NOT_FINE))
+  if(yd < 0)
+    CHK(move(scan, yd, UMAX_FINE))
+  if(yd > 300)
+    CHK(move(scan, (yd - 20) / 2, UMAX_NOT_FINE))
   yd = scan.scanner_yorg + scan.yo - scan.scanner_ypos
 
   scan.yskip = yd / (600 / scan.ydpi)
@@ -2043,10 +2043,10 @@ UMAX_start_scan (UMAX_Handle * scan)
 
   /* Read in the first chunk of raw data */
 
-  CHK (send_scan_parameters (scan))
-  CHK (read_raw_strip (scan))
+  CHK(send_scan_parameters(scan))
+  CHK(read_raw_strip(scan))
 
-  DBG (4, "UMAX_start_scan successful\n")
+  DBG(4, "UMAX_start_scan successful\n")
 
   return Sane.STATUS_GOOD
 }
@@ -2055,15 +2055,15 @@ UMAX_start_scan (UMAX_Handle * scan)
 /* Start actual scan 2100U */
 
 static Sane.Status
-UMAX_start_scan_2100U (UMAX_Handle * scan)
+UMAX_start_scan_2100U(UMAX_Handle * scan)
 {
   Sane.Status res
   Int linelen
   Int yd
 
-  DBG (3, "UMAX_start_scan called\n")
+  DBG(3, "UMAX_start_scan called\n")
 
-  if (scan.color)
+  if(scan.color)
     {
       const Int yoff_scale = 600 * scan.ysamp / scan.ydpi
       const Int hextra = 8 / yoff_scale
@@ -2079,18 +2079,18 @@ UMAX_start_scan_2100U (UMAX_Handle * scan)
 
   scan.bh = BUFFER_SIZE / linelen
 
-  scan.p = malloc (scan.bh * linelen)
-  if (scan.p == 0)
+  scan.p = malloc(scan.bh * linelen)
+  if(scan.p == 0)
     return Sane.STATUS_NO_MEM
 
-  DBG (4, "UMAX_start_scan: bh = %d, linelen = %d\n", scan.bh, linelen)
+  DBG(4, "UMAX_start_scan: bh = %d, linelen = %d\n", scan.bh, linelen)
 
   scan.maxh = -1
   scan.done = 0
 
   /* Initialize the scanner and position the scan head */
 
-  CHK (umaxinit_2100U (scan))
+  CHK(umaxinit_2100U(scan))
 
   /* This scans in the black and white calibration strip that
    * is located under the scanner's lid. The scan of that strip
@@ -2099,18 +2099,18 @@ UMAX_start_scan_2100U (UMAX_Handle * scan)
    */
 
   scan.scanner_ypos = 0
-  CHK (move_2100U (scan, 196, UMAX_NOT_FINE))
-  CHK (find_zero_2100U (scan))
-  CHK (move_2100U (scan, scan.scanner_yorg - 232 - scan.scanner_ypos, UMAX_FINE))
-  CHK (get_caldata_2100U (scan, scan.color))
+  CHK(move_2100U(scan, 196, UMAX_NOT_FINE))
+  CHK(find_zero_2100U(scan))
+  CHK(move_2100U(scan, scan.scanner_yorg - 232 - scan.scanner_ypos, UMAX_FINE))
+  CHK(get_caldata_2100U(scan, scan.color))
 
   /* This moves the head back to the starting position */
 
   yd = scan.scanner_yorg + scan.yo - scan.scanner_ypos
-  if (yd < 0)
-    CHK (move_2100U (scan, yd, UMAX_FINE))
-  if (yd > 300)
-    CHK (move_2100U (scan, (yd - 20) / 2, UMAX_NOT_FINE))
+  if(yd < 0)
+    CHK(move_2100U(scan, yd, UMAX_FINE))
+  if(yd > 300)
+    CHK(move_2100U(scan, (yd - 20) / 2, UMAX_NOT_FINE))
   yd = scan.scanner_yorg + scan.yo - scan.scanner_ypos
 
   scan.yskip = yd / (600 / scan.ydpi)
@@ -2118,10 +2118,10 @@ UMAX_start_scan_2100U (UMAX_Handle * scan)
 
   /* Read in the first chunk of raw data */
 
-  CHK (send_scan_parameters_2100U (scan))
-  CHK (read_raw_strip (scan))
+  CHK(send_scan_parameters_2100U(scan))
+  CHK(read_raw_strip(scan))
 
-  DBG (4, "UMAX_start_scan successful\n")
+  DBG(4, "UMAX_start_scan successful\n")
 
   return Sane.STATUS_GOOD
 }
@@ -2129,43 +2129,43 @@ UMAX_start_scan_2100U (UMAX_Handle * scan)
 /* Set lamp state */
 
 static Sane.Status
-UMAX_set_lamp_state (UMAX_Handle * scan, UMAX_Lamp_State state)
+UMAX_set_lamp_state(UMAX_Handle * scan, UMAX_Lamp_State state)
 {
   Sane.Status res
 
-  DBG (3, "UMAX_set_lamp_state: state = %d\n", (Int) state)
+  DBG(3, "UMAX_set_lamp_state: state = %d\n", (Int) state)
 
-  CHK (csend (scan, CMD_0))
-  CHK (cwritev_opc1_lamp_ctrl (scan, state))
+  CHK(csend(scan, CMD_0))
+  CHK(cwritev_opc1_lamp_ctrl(scan, state))
   return Sane.STATUS_GOOD
 }
 
 /* Park head 1220U */
 
 static Sane.Status
-UMAX_park_head (UMAX_Handle * scan)
+UMAX_park_head(UMAX_Handle * scan)
 {
   Sane.Status res
   UMAX_Status_Byte s
   var i: Int
 
-  DBG (3, "UMAX_park_head called\n")
+  DBG(3, "UMAX_park_head called\n")
 
-  CHK (csend (scan, CMD_0))
+  CHK(csend(scan, CMD_0))
   /* WARNING: Must call cwritev_opc1_lamp_ctrl before cwritev_opb3_restore,
    * otherwise the head moves the wrong way and makes ugly grinding noises. */
 
-  CHK (cwritev_opc1_lamp_ctrl (scan, UMAX_LAMP_ON))
-  CHK (cwritev_opb3_restore (scan))
+  CHK(cwritev_opc1_lamp_ctrl(scan, UMAX_LAMP_ON))
+  CHK(cwritev_opb3_restore(scan))
 
-  for (i = 0; i < 60; ++i)
+  for(i = 0; i < 60; ++i)
     {
-      CHK (cread (scan, CMD_2, 0, NULL, &s))
-      DBG (4, "UMAX_park_head: s = %#x\n", s)
-      if ((s & 0x40) != 0)
+      CHK(cread(scan, CMD_2, 0, NULL, &s))
+      DBG(4, "UMAX_park_head: s = %#x\n", s)
+      if((s & 0x40) != 0)
         break
-      DBG (4, "UMAX_park_head: sleeping\n")
-      usleep (500000)
+      DBG(4, "UMAX_park_head: sleeping\n")
+      usleep(500000)
     }
 
   scan.scanner_ypos = 0
@@ -2177,33 +2177,33 @@ UMAX_park_head (UMAX_Handle * scan)
 /* Park head 2100U */
 
 static Sane.Status
-UMAX_park_head_2100U (UMAX_Handle * scan)
+UMAX_park_head_2100U(UMAX_Handle * scan)
 {
   Sane.Status res
   UMAX_Status_Byte s
   var i: Int
 
-  DBG (3, "UMAX_park_head called\n")
+  DBG(3, "UMAX_park_head called\n")
 
-  CHK (csend (scan, CMD_0))
+  CHK(csend(scan, CMD_0))
   /* WARNING: Must call cwritev_opc1_lamp_ctrl before cwritev_opb3_restore,
    * otherwise the head moves the wrong way and makes ugly grinding noises. */
 
-  CHK (cwritev_opc1_lamp_ctrl (scan, UMAX_LAMP_ON))
-  CHK (cwritev_opb3_restore_2100U (scan))
+  CHK(cwritev_opc1_lamp_ctrl(scan, UMAX_LAMP_ON))
+  CHK(cwritev_opb3_restore_2100U(scan))
 
-  for (i = 0; i < 60; ++i)
+  for(i = 0; i < 60; ++i)
     {
-      CHK (cread (scan, CMD_2, 0, NULL, &s))
-      DBG (4, "UMAX_park_head: s = %#x\n", s)
-      if ((s & 0x40) != 0)
+      CHK(cread(scan, CMD_2, 0, NULL, &s))
+      DBG(4, "UMAX_park_head: s = %#x\n", s)
+      if((s & 0x40) != 0)
         break
-      DBG (4, "UMAX_park_head: sleeping\n")
-      usleep (500000)
+      DBG(4, "UMAX_park_head: sleeping\n")
+      usleep(500000)
     }
 
-  /* CHK (csend (scan, CMD_0))
-  CHK (csend (scan, CMD_0)); */
+  /* CHK(csend(scan, CMD_0))
+  CHK(csend(scan, CMD_0)); */
 
   scan.scanner_ypos = 0
 
@@ -2214,12 +2214,12 @@ UMAX_park_head_2100U (UMAX_Handle * scan)
 /* Finish scan */
 
 static Sane.Status
-UMAX_finish_scan (UMAX_Handle * scan)
+UMAX_finish_scan(UMAX_Handle * scan)
 {
-  DBG (3, "UMAX_finish_scan:\n")
+  DBG(3, "UMAX_finish_scan:\n")
 
-  if (scan.p)
-    free (scan.p)
+  if(scan.p)
+    free(scan.p)
   scan.p = NULL
   return Sane.STATUS_GOOD
 }
@@ -2228,10 +2228,10 @@ UMAX_finish_scan (UMAX_Handle * scan)
 /* RGB decoding for a color scan */
 
 static Sane.Status
-UMAX_get_rgb (UMAX_Handle * scan, unsigned char *rgb)
+UMAX_get_rgb(UMAX_Handle * scan, unsigned char *rgb)
 {
 
-  if (scan.color)
+  if(scan.color)
     {
       const Int linelen = 3 * scan.w
       const Int yoff_scale = 600 * scan.ysamp / scan.ydpi
@@ -2255,10 +2255,10 @@ UMAX_get_rgb (UMAX_Handle * scan, unsigned char *rgb)
       rgb[2] = base[0]
     }
 
-  if (!(((scan.x + 1) == scan.w) && ((scan.y + 1) == scan.maxh)))
+  if(!(((scan.x + 1) == scan.w) && ((scan.y + 1) == scan.maxh)))
     {
       ++scan.x
-      if (scan.x == scan.w)
+      if(scan.x == scan.w)
         {
           ++scan.y
           scan.x = 0
@@ -2266,74 +2266,74 @@ UMAX_get_rgb (UMAX_Handle * scan, unsigned char *rgb)
       return Sane.STATUS_GOOD
     }
 
-  if (scan.hexp <= 0)
+  if(scan.hexp <= 0)
     {
-      DBG (4, "UMAX_get_rgb: setting done flag\n")
+      DBG(4, "UMAX_get_rgb: setting done flag\n")
       scan.done = 1
       return Sane.STATUS_GOOD
     }
 
-  return read_raw_strip (scan)
+  return read_raw_strip(scan)
 }
 
 /* Close device */
 
 static Sane.Status
-UMAX_close_device (UMAX_Handle * scan)
+UMAX_close_device(UMAX_Handle * scan)
 {
-  DBG (3, "UMAX_close_device:\n")
-  sanei_usb_close (scan.fd)
+  DBG(3, "UMAX_close_device:\n")
+  sanei_usb_close(scan.fd)
   return Sane.STATUS_GOOD
 }
 
 /* Open device */
 
 static Sane.Status
-UMAX_open_device (UMAX_Handle * scan, const char *dev)
+UMAX_open_device(UMAX_Handle * scan, const char *dev)
 {
   Sane.Word vendor
   Sane.Word product
   Sane.Status res
 
-  DBG (3, "UMAX_open_device: `%s'\n", dev)
+  DBG(3, "UMAX_open_device: `%s'\n", dev)
 
-  res = sanei_usb_open (dev, &scan.fd)
-  if (res != Sane.STATUS_GOOD)
+  res = sanei_usb_open(dev, &scan.fd)
+  if(res != Sane.STATUS_GOOD)
     {
-      DBG (1, "UMAX_open_device: couldn't open device `%s': %s\n", dev,
-           Sane.strstatus (res))
+      DBG(1, "UMAX_open_device: couldn't open device `%s': %s\n", dev,
+           Sane.strstatus(res))
       return res
     }
 
 #ifndef NO_AUTODETECT
   /* We have opened the device. Check that it is a USB scanner. */
-  if (sanei_usb_get_vendor_product (scan.fd, &vendor, &product) !=
+  if(sanei_usb_get_vendor_product(scan.fd, &vendor, &product) !=
       Sane.STATUS_GOOD)
     {
-      DBG (1, "UMAX_open_device: sanei_usb_get_vendor_product failed\n")
+      DBG(1, "UMAX_open_device: sanei_usb_get_vendor_product failed\n")
       /* This is not a USB scanner, or SANE or the OS doesn't support it. */
-      sanei_usb_close (scan.fd)
+      sanei_usb_close(scan.fd)
       scan.fd = -1
       return Sane.STATUS_UNSUPPORTED
     }
 
   /* Make sure we have a UMAX scanner */
-  if (vendor != 0x1606)
+  if(vendor != 0x1606)
     {
-      DBG (1, "UMAX_open_device: incorrect vendor\n")
-      sanei_usb_close (scan.fd)
+      DBG(1, "UMAX_open_device: incorrect vendor\n")
+      sanei_usb_close(scan.fd)
       scan.fd = -1
       return Sane.STATUS_UNSUPPORTED
     }
 
   /* Now check whether it is a scanner we know about */
-  switch (product)
+  switch(product)
     {
     case ASTRA_2000U:
       /* The UMAX Astra 2000U is only partially supported by
          this driver. Expect severe color problems! :)
        */
-      DBG (1,
+      DBG(1,
            "UMAX_open_device: Scanner is a 2000U. Expect color problems :)\n")
       scan.model = ASTRA_2000U
       break
@@ -2344,22 +2344,22 @@ UMAX_open_device (UMAX_Handle * scan, const char *dev)
        scan.model = ASTRA_1220U
       break
     default:
-      DBG (1, "UMAX_open_device: unknown product number\n")
-      sanei_usb_close (scan.fd)
+      DBG(1, "UMAX_open_device: unknown product number\n")
+      sanei_usb_close(scan.fd)
       scan.fd = -1
       return Sane.STATUS_UNSUPPORTED
     }
 #endif
 
-  res = csend (scan, CMD_0)
-  if (res != Sane.STATUS_GOOD)
-    UMAX_close_device (scan)
-  CHK (res)
+  res = csend(scan, CMD_0)
+  if(res != Sane.STATUS_GOOD)
+    UMAX_close_device(scan)
+  CHK(res)
 
-  res = xxxops (scan)
-  if (res != Sane.STATUS_GOOD)
-    UMAX_close_device (scan)
-  CHK (res)
+  res = xxxops(scan)
+  if(res != Sane.STATUS_GOOD)
+    UMAX_close_device(scan)
+  CHK(res)
 
   return Sane.STATUS_GOOD
 }
@@ -2367,9 +2367,9 @@ UMAX_open_device (UMAX_Handle * scan, const char *dev)
 /* Get scanner model name */
 
 static const char *
-UMAX_get_device_name (UMAX_Handle * scan)
+UMAX_get_device_name(UMAX_Handle * scan)
 {
-  switch (scan.model)
+  switch(scan.model)
     {
     case ASTRA_1220U:
       return "Astra 1220U"

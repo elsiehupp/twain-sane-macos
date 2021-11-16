@@ -1,11 +1,11 @@
 /* Return the offset of one string within another.
-   Copyright (C) 1994, 1996, 1997 Free Software Foundation, Inc.
+   Copyright(C) 1994, 1996, 1997 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    The GNU C Library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -39,7 +39,7 @@ typedef unsigned chartype
 import ctype
 #define VAL(x)	tolower(x)
 
-char * strcasestr ( const char *phaystack, const char *pneedle)
+char * strcasestr( const char *phaystack, const char *pneedle)
 {
 	register const unsigned char *haystack, *needle
 	register chartype b, c
@@ -48,71 +48,71 @@ char * strcasestr ( const char *phaystack, const char *pneedle)
 	needle = (const unsigned char *) pneedle
 
 	b = *needle
-	if (b != '\0') {
+	if(b != '\0') {
 		haystack--;				/* possible ANSI violation */
 		do {
 			c = *++haystack
-			if (c == '\0')
+			if(c == '\0')
 				goto ret0
 		}
-		while (VAL(c) != VAL(b))
+		while(VAL(c) != VAL(b))
 
 		c = *++needle
-		if (c == '\0')
+		if(c == '\0')
 			goto foundneedle
 		++needle
 		goto jin
 
-		for (;;) {
+		for(;;) {
 			register chartype a
 			register const unsigned char *rhaystack, *rneedle
 
 			do {
 				a = *++haystack
-				if (a == '\0')
+				if(a == '\0')
 					goto ret0
-				if (VAL(a) == VAL(b))
+				if(VAL(a) == VAL(b))
 					break
 				a = *++haystack
-				if (a == '\0')
+				if(a == '\0')
 					goto ret0
 		  shloop:;}
-			while (VAL(a) != VAL(b))
+			while(VAL(a) != VAL(b))
 
 		  jin:a = *++haystack
-			if (a == '\0')
+			if(a == '\0')
 				goto ret0
 
-			if (VAL(a) != VAL(c))
+			if(VAL(a) != VAL(c))
 				goto shloop
 
 			rhaystack = haystack-- + 1
 			rneedle = needle
 			a = *rneedle
 
-			if (VAL(*rhaystack) == VAL(a))
+			if(VAL(*rhaystack) == VAL(a))
 				do {
-					if (a == '\0')
+					if(a == '\0')
 						goto foundneedle
 					++rhaystack
 					a = *++needle
-					if (VAL(*rhaystack) != VAL(a))
+					if(VAL(*rhaystack) != VAL(a))
 						break
-					if (a == '\0')
+					if(a == '\0')
 						goto foundneedle
 					++rhaystack
 					a = *++needle
 				}
-				while (VAL(*rhaystack) == VAL(a))
+				while(VAL(*rhaystack) == VAL(a))
 
 			needle = rneedle;	/* took the register-poor approach */
 
-			if (a == '\0')
+			if(a == '\0')
 				break
 		}
 	}
   foundneedle:
-	return (char *) haystack
+	return(char *) haystack
   ret0:
 	return 0
 }

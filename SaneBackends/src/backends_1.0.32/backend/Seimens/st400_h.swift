@@ -4,7 +4,7 @@
 #define ST400_CONFIG_FILE		"st400.conf"
 #define ST400_DEFAULT_DEVICE	"/dev/scanner"
 
-/* maximum scanning area in inch (guessed) */
+/* maximum scanning area in inch(guessed) */
 #define ST400_MAX_X		8.5
 #define ST400_MAX_Y		12.0
 
@@ -33,7 +33,7 @@ typedef struct {
 
 	size_t bits;			/* 6 or 8 */
 	unsigned long bufsize;	/* internal buffer of scanner */
-	unsigned long maxread;	/* max bytes to read in a cmd (0 = no limit) */
+	unsigned long maxread;	/* max bytes to read in a cmd(0 = no limit) */
 	Int *dpi_list;		/* NULL for default list */
 
 	char *Sane.vendor

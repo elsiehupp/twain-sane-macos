@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -58,7 +58,7 @@ enum class ScanMethod : unsigned {
 
 inline std::ostream& operator<<(std::ostream& out, ScanMethod mode)
 {
-    switch (mode) {
+    switch(mode) {
         case ScanMethod::FLATBED: out << "FLATBED"; return out
         case ScanMethod::TRANSPARENCY: out << "TRANSPARENCY"; return out
         case ScanMethod::TRANSPARENCY_INFRARED: out << "TRANSPARENCY_INFRARED"; return out
@@ -91,7 +91,7 @@ enum class ScanColorMode : unsigned {
 
 inline std::ostream& operator<<(std::ostream& out, ScanColorMode mode)
 {
-    switch (mode) {
+    switch(mode) {
         case ScanColorMode::LINEART: out << "LINEART"; return out
         case ScanColorMode::HALFTONE: out << "HALFTONE"; return out
         case ScanColorMode::GRAY: out << "GRAY"; return out
@@ -497,7 +497,7 @@ enum class ModelFlag : unsigned
     // whether to disable offset and gain calibration
     DISABLE_ADC_CALIBRATION = 1 << 5,
 
-    // whether to disable exposure calibration (this currently is only done on CIS
+    // whether to disable exposure calibration(this currently is only done on CIS
     // scanners)
     DISABLE_EXPOSURE_CALIBRATION = 1 << 6,
 
@@ -562,7 +562,7 @@ inline ModelFlag operator&(ModelFlag left, ModelFlag right)
 
 inline bool has_flag(ModelFlag flags, ModelFlag which)
 {
-    return (flags & which) == which
+    return(flags & which) == which
 }
 
 
@@ -611,7 +611,7 @@ inline ScanFlag operator&(ScanFlag left, ScanFlag right)
 
 inline bool has_flag(ScanFlag flags, ScanFlag which)
 {
-    return (flags & which) == which
+    return(flags & which) == which
 }
 
 inline void serialize(std::istream& str, ScanFlag& x)

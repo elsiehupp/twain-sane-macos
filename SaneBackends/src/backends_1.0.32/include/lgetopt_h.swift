@@ -1,11 +1,11 @@
 /* Declarations for getopt.
-   Copyright (C) 1989-1994, 1996-1999, 2001 Free Software Foundation, Inc.
+   Copyright(C) 1989-1994, 1996-1999, 2001 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
    License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
+   version 2.1 of the License, or(at your option) any later version.
 
    The GNU C Library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -92,13 +92,13 @@ public Int optopt
    To have a long-named option do something other than set an `Int' to
    a compiled-in constant, such as set a value from `optarg', set the
    option's `flag' field to zero and its `val' field to a nonzero
-   value (the equivalent single-letter option character, if there is
+   value(the equivalent single-letter option character, if there is
    one).  For long options that have a zero `flag' field, `getopt'
    returns the contents of the `val' field.  */
 
 struct option
 {
-# if (defined __STDC__ && __STDC__) || defined __cplusplus
+# if(defined __STDC__ && __STDC__) || defined __cplusplus
   const char *name
 # else
   char *name
@@ -119,7 +119,7 @@ struct option
 
 
 /* Get definitions and prototypes for functions to process the
-   arguments in ARGV (ARGC of them, minus the program name) for
+   arguments in ARGV(ARGC of them, minus the program name) for
    options given in OPTS.
 
    Return the option character from OPTS just read.  Return -1 when
@@ -142,37 +142,37 @@ struct option
    arguments to the option '\0'.  This behavior is specific to the GNU
    `getopt'.  */
 
-#if (defined __STDC__ && __STDC__) || defined __cplusplus
+#if(defined __STDC__ && __STDC__) || defined __cplusplus
 # ifdef __GNU_LIBRARY__
 /* Many other libraries have conflicting prototypes for getopt, with
    differences in the consts, in stdlib.h.  To avoid compilation
    errors, only prototype getopt for the GNU C library.  */
-public Int getopt (Int ___argc, char *const *___argv, const char *__shortopts)
+public Int getopt(Int ___argc, char *const *___argv, const char *__shortopts)
 # else /* not __GNU_LIBRARY__ */
-public Int getopt ()
+public Int getopt()
 # endif /* __GNU_LIBRARY__ */
 
 # ifndef __need_getopt
-public Int getopt_long (Int ___argc, char *const *___argv,
+public Int getopt_long(Int ___argc, char *const *___argv,
 			const char *__shortopts,
 			const struct option *__longopts, Int *__longind)
-public Int getopt_long_only (Int ___argc, char *const *___argv,
+public Int getopt_long_only(Int ___argc, char *const *___argv,
 			     const char *__shortopts,
 			     const struct option *__longopts, Int *__longind)
 
 /* Internal only.  Users should not call this directly.  */
-public Int _getopt_internal (Int ___argc, char *const *___argv,
+public Int _getopt_internal(Int ___argc, char *const *___argv,
 			     const char *__shortopts,
 			     const struct option *__longopts, Int *__longind,
 			     Int __long_only)
 # endif
 #else /* not __STDC__ */
-public Int getopt ()
+public Int getopt()
 # ifndef __need_getopt
-public Int getopt_long ()
-public Int getopt_long_only ()
+public Int getopt_long()
+public Int getopt_long_only()
 
-public Int _getopt_internal ()
+public Int _getopt_internal()
 # endif
 #endif /* __STDC__ */
 

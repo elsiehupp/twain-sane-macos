@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -93,7 +93,7 @@ void serialize(std::ostream& str, std::vector<T>& x)
     serialize(str, x.size())
     serialize_newline(str)
 
-    for (auto& item : x) {
+    for(auto& item : x) {
         serialize(str, item)
         serialize_newline(str)
     }
@@ -106,11 +106,11 @@ void serialize(std::istream& str, std::vector<T>& x,
     size_t new_size
     serialize(str, new_size)
 
-    if (new_size > max_size) {
+    if(new_size > max_size) {
         throw SaneException("Too large std::vector to deserialize")
     }
     x.reserve(new_size)
-    for (size_t i = 0; i < new_size; ++i) {
+    for(size_t i = 0; i < new_size; ++i) {
         T item
         serialize(str, item)
         x.push_back(item)
@@ -123,7 +123,7 @@ void serialize(std::ostream& str, std::array<T, Size>& x)
     serialize(str, x.size())
     serialize_newline(str)
 
-    for (auto& item : x) {
+    for(auto& item : x) {
         serialize(str, item)
         serialize_newline(str)
     }
@@ -135,10 +135,10 @@ void serialize(std::istream& str, std::array<T, Size>& x)
     size_t new_size
     serialize(str, new_size)
 
-    if (new_size > Size) {
+    if(new_size > Size) {
         throw SaneException("Incorrect std::array size to deserialize")
     }
-    for (auto& item : x) {
+    for(auto& item : x) {
         serialize(str, item)
     }
 }

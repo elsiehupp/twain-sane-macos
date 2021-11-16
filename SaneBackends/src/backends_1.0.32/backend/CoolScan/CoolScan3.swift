@@ -7,7 +7,7 @@
  * coolscan3.c is based on coolscan2.c, a work of András Major, Ariel Garcia
  * and Giuseppe Sacco.
  *
- * Copyright (C) 2007-08 Tower Technologies
+ * Copyright(C) 2007-08 Tower Technologies
  * Author: Alessandro Zummo <a.zummo@towertech.it>
  *
  * This file is part of the SANE package.
@@ -48,7 +48,7 @@ import Sane.sanei_backend	/* must be last */
 #define CS3_REVISION 0
 #define CS3_CONFIG_FILE "coolscan3.conf"
 
-#define WSIZE (sizeof (Sane.Word))
+#define WSIZE(sizeof(Sane.Word))
 
 
 /* ========================================================================= */
@@ -316,7 +316,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 
 	authorize = authorize;	/* to shut up compiler */
 
-	if (version_code)
+	if(version_code)
 		*version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, 0)
 
 	sanei_usb_init()
@@ -331,7 +331,7 @@ Sane.exit(void)
 
 	DBG(10, "%s\n", __func__)
 
-	for (i = 0; i < n_device_list; i++) {
+	for(i = 0; i < n_device_list; i++) {
 		cs3_xfree((void *)device_list[i]->name)
 		cs3_xfree((void *)device_list[i]->vendor)
 		cs3_xfree((void *)device_list[i]->model)
@@ -350,23 +350,23 @@ Sane.get_devices(const Sane.Device *** list, Bool local_only)
 
 	DBG(10, "%s\n", __func__)
 
-	if (device_list)
+	if(device_list)
 		DBG(6,
 		    "Sane.get_devices(): Device list already populated, not probing again.\n")
 	else {
-		if (open_devices) {
+		if(open_devices) {
 			DBG(4,
 			    "Sane.get_devices(): Devices open, not scanning for scanners.\n")
 			return Sane.STATUS_IO_ERROR
 		}
 
 		config = sanei_config_open(CS3_CONFIG_FILE)
-		if (config) {
+		if(config) {
 			DBG(4, "Sane.get_devices(): Reading config file.\n")
-			while (sanei_config_read(line, sizeof(line), config)) {
+			while(sanei_config_read(line, sizeof(line), config)) {
 				p = line
 				p += strspn(line, " \t")
-				if (strlen(p) && (p[0] != '\n')
+				if(strlen(p) && (p[0] != '\n')
 				    && (p[0] != '#'))
 					cs3_open(line, CS3_INTERFACE_UNKNOWN,
 						 NULL)
@@ -401,7 +401,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 	DBG(10, "%s\n", __func__)
 
 	status = cs3_open(name, CS3_INTERFACE_UNKNOWN, &s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	*h = (Sane.Handle) s
@@ -413,20 +413,20 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 	s.resx_n_list = s.resy_n_list = 0
 
 	status = cs3_full_inquiry(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	status = cs3_mode_select(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	/* option descriptors */
 
-	for (i_option = 0; i_option < CS3_N_OPTIONS; i_option++) {
+	for(i_option = 0; i_option < CS3_N_OPTIONS; i_option++) {
 		o.name = o.title = o.desc = NULL
 		o.type = o.unit = o.cap = o.constraint_type = o.size = 0
 		o.constraint.range = NULL;	/* only one union member needs to be NULLed */
-		switch (i_option) {
+		switch(i_option) {
 		case CS3_OPTION_NUM:
 			o.name = ""
 			o.title = Sane.TITLE_NUM_OPTIONS
@@ -474,12 +474,12 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.unit = Sane.UNIT_NONE
 			o.size = WSIZE
 			o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
-			if (s.type != CS3_TYPE_LS2000 && s.type != CS3_TYPE_LS4000
+			if(s.type != CS3_TYPE_LS2000 && s.type != CS3_TYPE_LS4000
 					&& s.type != CS3_TYPE_LS5000 && s.type != CS3_TYPE_LS8000)
 				o.cap |= Sane.CAP_INACTIVE
 			o.constraint_type = Sane.CONSTRAINT_RANGE
-			range = (Sane.Range *) cs3_xmalloc (sizeof (Sane.Range))
-			if (! range)
+			range = (Sane.Range *) cs3_xmalloc(sizeof(Sane.Range))
+			if(! range)
 				  alloc_failed = 1
 			else
 				  {
@@ -502,7 +502,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			word_list =
 				(Sane.Word *) cs3_xmalloc(2 *
 							  sizeof(Sane.Word))
-			if (!word_list)
+			if(!word_list)
 				alloc_failed = 1
 			else {
 				word_list[1] = 8
@@ -522,7 +522,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.constraint_type = Sane.CONSTRAINT_RANGE
 			range = (Sane.Range *)
 				cs3_xmalloc(sizeof(Sane.Range))
-			if (!range)
+			if(!range)
 				alloc_failed = 1
 			else {
 				range.min = Sane.FIX(0.)
@@ -542,7 +542,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.constraint_type = Sane.CONSTRAINT_RANGE
 			range = (Sane.Range *)
 				cs3_xmalloc(sizeof(Sane.Range))
-			if (!range)
+			if(!range)
 				alloc_failed = 1
 			else {
 				range.min = Sane.FIX(50.)
@@ -562,7 +562,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.constraint_type = Sane.CONSTRAINT_RANGE
 			range = (Sane.Range *)
 				cs3_xmalloc(sizeof(Sane.Range))
-			if (!range)
+			if(!range)
 				alloc_failed = 1
 			else {
 				range.min = Sane.FIX(50.)
@@ -582,7 +582,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.constraint_type = Sane.CONSTRAINT_RANGE
 			range = (Sane.Range *)
 				cs3_xmalloc(sizeof(Sane.Range))
-			if (!range)
+			if(!range)
 				alloc_failed = 1
 			else {
 				range.min = Sane.FIX(50.)
@@ -601,7 +601,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.constraint_type = Sane.CONSTRAINT_RANGE
 			range = (Sane.Range *)
 				cs3_xmalloc(sizeof(Sane.Range))
-			if (!range)
+			if(!range)
 				alloc_failed = 1
 			else {
 				range.min = 0
@@ -620,7 +620,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.constraint_type = Sane.CONSTRAINT_RANGE
 			range = (Sane.Range *)
 				cs3_xmalloc(sizeof(Sane.Range))
-			if (!range)
+			if(!range)
 				alloc_failed = 1
 			else {
 				range.min = 0
@@ -639,7 +639,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.constraint_type = Sane.CONSTRAINT_RANGE
 			range = (Sane.Range *)
 				cs3_xmalloc(sizeof(Sane.Range))
-			if (!range)
+			if(!range)
 				alloc_failed = 1
 			else {
 				range.min = 0
@@ -654,7 +654,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.desc = "Load next slide"
 			o.type = Sane.TYPE_BUTTON
 			o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
-			if (s.n_frames > 1)
+			if(s.n_frames > 1)
 				o.cap |= Sane.CAP_INACTIVE
 			break
 		case CS3_OPTION_AUTOLOAD:
@@ -664,7 +664,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.type = Sane.TYPE_BOOL
 			o.size = WSIZE
 			o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
-			if (s.n_frames > 1)
+			if(s.n_frames > 1)
 				o.cap |= Sane.CAP_INACTIVE
 			break
 		case CS3_OPTION_EJECT:
@@ -684,11 +684,11 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 		case CS3_OPTION_RESX:
 		case CS3_OPTION_RES:
 		case CS3_OPTION_PREVIEW_RESOLUTION:
-			if (i_option == CS3_OPTION_PREVIEW_RESOLUTION) {
+			if(i_option == CS3_OPTION_PREVIEW_RESOLUTION) {
 				o.name = "preview-resolution"
 				o.title = "Preview resolution"
 				o.desc = "Scanning resolution for preview mode in dpi, affecting both x and y directions"
-			} else if (i_option == CS3_OPTION_RES) {
+			} else if(i_option == CS3_OPTION_RES) {
 				o.name = "resolution"
 				o.title = "Resolution"
 				o.desc = "Scanning resolution in dpi, affecting both x and y directions"
@@ -701,20 +701,20 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.unit = Sane.UNIT_DPI
 			o.size = WSIZE
 			o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
-			if (i_option == CS3_OPTION_RESX)
+			if(i_option == CS3_OPTION_RESX)
 				o.cap |= Sane.CAP_INACTIVE |
 					Sane.CAP_ADVANCED
-			if (i_option == CS3_OPTION_PREVIEW_RESOLUTION)
+			if(i_option == CS3_OPTION_PREVIEW_RESOLUTION)
 				o.cap |= Sane.CAP_ADVANCED
 			o.constraint_type = Sane.CONSTRAINT_WORD_LIST
 			word_list =
 				(Sane.Word *) cs3_xmalloc((s.resx_n_list + 1)
 							  *
 							  sizeof(Sane.Word))
-			if (!word_list)
+			if(!word_list)
 				alloc_failed = 1
 			else {
-				for (i_list = 0; i_list < s.resx_n_list
+				for(i_list = 0; i_list < s.resx_n_list
 				     i_list++)
 					word_list[i_list + 1] =
 						s.resx_list[i_list]
@@ -736,10 +736,10 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 				(Sane.Word *) cs3_xmalloc((s.resy_n_list + 1)
 							  *
 							  sizeof(Sane.Word))
-			if (!word_list)
+			if(!word_list)
 				alloc_failed = 1
 			else {
-				for (i_list = 0; i_list < s.resy_n_list
+				for(i_list = 0; i_list < s.resy_n_list
 				     i_list++)
 					word_list[i_list + 1] =
 						s.resy_list[i_list]
@@ -764,12 +764,12 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.unit = Sane.UNIT_NONE
 			o.size = WSIZE
 			o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
-			if (s.n_frames <= 1)
+			if(s.n_frames <= 1)
 				o.cap |= Sane.CAP_INACTIVE
 			o.constraint_type = Sane.CONSTRAINT_RANGE
 			range = (Sane.Range *)
 				cs3_xmalloc(sizeof(Sane.Range))
-			if (!range)
+			if(!range)
 				alloc_failed = 1
 			else {
 				range.min = 1
@@ -786,12 +786,12 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.unit = Sane.UNIT_NONE
 			o.size = WSIZE
 			o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
-			if (s.n_frames <= 1)
+			if(s.n_frames <= 1)
 				o.cap |= Sane.CAP_INACTIVE
 			o.constraint_type = Sane.CONSTRAINT_RANGE
 			range = (Sane.Range *)
 				cs3_xmalloc(sizeof(Sane.Range))
-			if (!range)
+			if(!range)
 				alloc_failed = 1
 			else {
 				range.min = 1
@@ -811,7 +811,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.constraint_type = Sane.CONSTRAINT_RANGE
 			range = (Sane.Range *)
 				cs3_xmalloc(sizeof(Sane.Range))
-			if (!range)
+			if(!range)
 				alloc_failed = 1
 			else {
 				range.min = Sane.FIX(0.)
@@ -831,7 +831,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.size = WSIZE
 			o.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 			o.constraint_type = Sane.CONSTRAINT_RANGE
-			if (!range)
+			if(!range)
 				alloc_failed = 1
 			else {
 				range = (Sane.Range *)
@@ -853,7 +853,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.constraint_type = Sane.CONSTRAINT_RANGE
 			range = (Sane.Range *)
 				cs3_xmalloc(sizeof(Sane.Range))
-			if (!range)
+			if(!range)
 				alloc_failed = 1
 			else {
 				range.min = 0
@@ -873,7 +873,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.constraint_type = Sane.CONSTRAINT_RANGE
 			range = (Sane.Range *)
 				cs3_xmalloc(sizeof(Sane.Range))
-			if (!range)
+			if(!range)
 				alloc_failed = 1
 			else {
 				range.min = 0
@@ -893,7 +893,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.constraint_type = Sane.CONSTRAINT_RANGE
 			range = (Sane.Range *)
 				cs3_xmalloc(sizeof(Sane.Range))
-			if (!range)
+			if(!range)
 				alloc_failed = 1
 			else {
 				range.min = 0
@@ -921,7 +921,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.constraint_type = Sane.CONSTRAINT_RANGE
 			range = (Sane.Range *)
 				cs3_xmalloc(sizeof(Sane.Range))
-			if (!range)
+			if(!range)
 				alloc_failed = 1
 			else {
 				range.min = s.focus_min
@@ -950,7 +950,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.constraint_type = Sane.CONSTRAINT_RANGE
 			range = (Sane.Range *)
 				cs3_xmalloc(sizeof(Sane.Range))
-			if (!range)
+			if(!range)
 				alloc_failed = 1
 			else {
 				range.min = 0
@@ -971,7 +971,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 			o.constraint_type = Sane.CONSTRAINT_RANGE
 			range = (Sane.Range *)
 				cs3_xmalloc(sizeof(Sane.Range))
-			if (!range)
+			if(!range)
 				alloc_failed = 1
 			else {
 				range.min = 0
@@ -1019,7 +1019,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 	s.resy = s.resy_max
 	s.res_independent = Sane.FALSE
 	s.res_preview = s.resx_max / 10
-	if (s.res_preview < s.resx_min)
+	if(s.res_preview < s.resx_min)
 		s.res_preview = s.resx_min
 	s.xmin = 0
 	s.xmax = s.boundaryx - 1
@@ -1036,7 +1036,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 	s.line_buf = NULL
 	s.n_line_buf = 0
 
-	if (alloc_failed) {
+	if(alloc_failed) {
 		cs3_close(s)
 		return Sane.STATUS_NO_MEM
 	}
@@ -1062,7 +1062,7 @@ Sane.get_option_descriptor(Sane.Handle h, Int n)
 
 	DBG(24, "%s, option %i\n", __func__, n)
 
-	if ((n >= 0) && (n < CS3_N_OPTIONS))
+	if((n >= 0) && (n < CS3_N_OPTIONS))
 		return &s.option_list[n]
 	else
 		return NULL
@@ -1079,10 +1079,10 @@ Sane.control_option(Sane.Handle h, Int n, Sane.Action a, void *v,
 
 	DBG(24, "%s, option %i, action %i.\n", __func__, n, a)
 
-	switch (a) {
+	switch(a) {
 	case Sane.ACTION_GET_VALUE:
 
-		switch (n) {
+		switch(n) {
 		case CS3_OPTION_NUM:
 			*(Sane.Word *) v = CS3_N_OPTIONS
 			break
@@ -1117,21 +1117,21 @@ Sane.control_option(Sane.Handle h, Int n, Sane.Action a, void *v,
 			*(Sane.Word *) v = Sane.FIX(s.exposure_b)
 			break
 		case CS3_OPTION_LUT_R:
-			if (!(s.lut_r))
+			if(!(s.lut_r))
 				return Sane.STATUS_INVAL
-			for (pixel = 0; pixel < s.n_lut; pixel++)
+			for(pixel = 0; pixel < s.n_lut; pixel++)
 				((Sane.Word *) v)[pixel] = s.lut_r[pixel]
 			break
 		case CS3_OPTION_LUT_G:
-			if (!(s.lut_g))
+			if(!(s.lut_g))
 				return Sane.STATUS_INVAL
-			for (pixel = 0; pixel < s.n_lut; pixel++)
+			for(pixel = 0; pixel < s.n_lut; pixel++)
 				((Sane.Word *) v)[pixel] = s.lut_g[pixel]
 			break
 		case CS3_OPTION_LUT_B:
-			if (!(s.lut_b))
+			if(!(s.lut_b))
 				return Sane.STATUS_INVAL
-			for (pixel = 0; pixel < s.n_lut; pixel++)
+			for(pixel = 0; pixel < s.n_lut; pixel++)
 				((Sane.Word *) v)[pixel] = s.lut_b[pixel]
 			break
 		case CS3_OPTION_EJECT:
@@ -1198,31 +1198,31 @@ Sane.control_option(Sane.Handle h, Int n, Sane.Action a, void *v,
 			*(Sane.Word *) v = s.aewb
 			break
 		default:
-			DBG(4, "%s: Unknown option (bug?).\n", __func__)
+			DBG(4, "%s: Unknown option(bug?).\n", __func__)
 			return Sane.STATUS_INVAL
 		}
 		break
 
 	case Sane.ACTION_SET_VALUE:
-		if (s.scanning)
+		if(s.scanning)
 			return Sane.STATUS_INVAL
 		/* XXX do this for all elements of arrays */
-		switch (o.type) {
+		switch(o.type) {
 		case Sane.TYPE_BOOL:
-			if ((*(Sane.Word *) v != Sane.TRUE)
+			if((*(Sane.Word *) v != Sane.TRUE)
 			    && (*(Sane.Word *) v != Sane.FALSE))
 				return Sane.STATUS_INVAL
 			break
 		case Sane.TYPE_INT:
 		case Sane.TYPE_FIXED:
-			switch (o.constraint_type) {
+			switch(o.constraint_type) {
 			case Sane.CONSTRAINT_RANGE:
-				if (*(Sane.Word *) v <
+				if(*(Sane.Word *) v <
 				    o.constraint.range.min) {
 					*(Sane.Word *) v =
 						o.constraint.range.min
 					flags |= Sane.INFO_INEXACT
-				} else if (*(Sane.Word *) v >
+				} else if(*(Sane.Word *) v >
 					   o.constraint.range.max) {
 					*(Sane.Word *) v =
 						o.constraint.range.max
@@ -1242,7 +1242,7 @@ Sane.control_option(Sane.Handle h, Int n, Sane.Action a, void *v,
 		case Sane.TYPE_GROUP:
 			break
 		}
-		switch (n) {
+		switch(n) {
 		case CS3_OPTION_NUM:
 			return Sane.STATUS_INVAL
 			break
@@ -1257,7 +1257,7 @@ Sane.control_option(Sane.Handle h, Int n, Sane.Action a, void *v,
 			s.samples_per_scan = *(Sane.Word *) v
 			break
 		case CS3_OPTION_DEPTH:
-			if (*(Sane.Word *) v > s.maxbits)
+			if(*(Sane.Word *) v > s.maxbits)
 				return Sane.STATUS_INVAL
 
 			s.depth = *(Sane.Word *) v
@@ -1285,21 +1285,21 @@ Sane.control_option(Sane.Handle h, Int n, Sane.Action a, void *v,
 			s.exposure_b = Sane.UNFIX(*(Sane.Word *) v)
 			break
 		case CS3_OPTION_LUT_R:
-			if (!(s.lut_r))
+			if(!(s.lut_r))
 				return Sane.STATUS_INVAL
-			for (pixel = 0; pixel < s.n_lut; pixel++)
+			for(pixel = 0; pixel < s.n_lut; pixel++)
 				s.lut_r[pixel] = ((Sane.Word *) v)[pixel]
 			break
 		case CS3_OPTION_LUT_G:
-			if (!(s.lut_g))
+			if(!(s.lut_g))
 				return Sane.STATUS_INVAL
-			for (pixel = 0; pixel < s.n_lut; pixel++)
+			for(pixel = 0; pixel < s.n_lut; pixel++)
 				s.lut_g[pixel] = ((Sane.Word *) v)[pixel]
 			break
 		case CS3_OPTION_LUT_B:
-			if (!(s.lut_b))
+			if(!(s.lut_b))
 				return Sane.STATUS_INVAL
-			for (pixel = 0; pixel < s.n_lut; pixel++)
+			for(pixel = 0; pixel < s.n_lut; pixel++)
 				s.lut_b[pixel] = ((Sane.Word *) v)[pixel]
 			break
 		case CS3_OPTION_LOAD:
@@ -1316,7 +1316,7 @@ Sane.control_option(Sane.Handle h, Int n, Sane.Action a, void *v,
 			break
 
 		case CS3_OPTION_FRAME_COUNT:
-			if (*(Sane.Word *) v > (s.n_frames - s.i_frame + 1))
+			if(*(Sane.Word *) v > (s.n_frames - s.i_frame + 1))
 				return Sane.STATUS_INVAL
 			s.frame_count = *(Sane.Word *) v
 			flags |= Sane.INFO_RELOAD_PARAMS
@@ -1363,7 +1363,7 @@ Sane.control_option(Sane.Handle h, Int n, Sane.Action a, void *v,
 			break
 		case CS3_OPTION_FOCUS_ON_CENTRE:
 			s.focus_on_centre = *(Sane.Word *) v
-			if (s.focus_on_centre) {
+			if(s.focus_on_centre) {
 				s.option_list[CS3_OPTION_FOCUSX].cap |=
 					Sane.CAP_INACTIVE
 				s.option_list[CS3_OPTION_FOCUSY].cap |=
@@ -1396,7 +1396,7 @@ Sane.control_option(Sane.Handle h, Int n, Sane.Action a, void *v,
 			break
 		default:
 			DBG(4,
-			    "Error: Sane.control_option(): Unknown option number (bug?).\n")
+			    "Error: Sane.control_option(): Unknown option number(bug?).\n")
 			return Sane.STATUS_INVAL
 			break
 		}
@@ -1409,7 +1409,7 @@ Sane.control_option(Sane.Handle h, Int n, Sane.Action a, void *v,
 		break
 	}
 
-	if (i)
+	if(i)
 		*i = flags
 
 	return Sane.STATUS_GOOD
@@ -1423,9 +1423,9 @@ Sane.get_parameters(Sane.Handle h, Sane.Parameters * p)
 
 	DBG(10, "%s\n", __func__)
 
-	if (!s.scanning) {	/* only recalculate when not scanning */
+	if(!s.scanning) {	/* only recalculate when not scanning */
 		status = cs3_convert_options(s)
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 			return status
 	}
 
@@ -1433,7 +1433,7 @@ Sane.get_parameters(Sane.Handle h, Sane.Parameters * p)
 		s.n_colors * s.logical_width * s.bytes_per_pixel
 
 #ifdef Sane.FRAME_RGBI
-	if (s.infrared) {
+	if(s.infrared) {
 		p.format = Sane.FRAME_RGBI
 
 	} else {
@@ -1459,21 +1459,21 @@ Sane.start(Sane.Handle h)
 
 	DBG(10, "%s\n", __func__)
 
-	if (s.scanning)
+	if(s.scanning)
 		return Sane.STATUS_INVAL
 
-	if (s.n_frames > 1 && s.frame_count == 0) {
+	if(s.n_frames > 1 && s.frame_count == 0) {
 		DBG(4, "%s: no more frames\n", __func__)
 		return Sane.STATUS_NO_DOCS
 	}
 
-	if (s.n_frames > 1) {
+	if(s.n_frames > 1) {
 		DBG(4, "%s: scanning frame at position %d, %d to go\n",
 		    __func__, s.i_frame, s.frame_count)
 	}
 
 	status = cs3_convert_options(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	s.i_line_buf = 0
@@ -1482,32 +1482,32 @@ Sane.start(Sane.Handle h)
 	s.scanning = Sane.TRUE
 
 	/* load if appropriate */
-	if (s.autoload) {
+	if(s.autoload) {
 		status = cs3_load(s)
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 			return status
 	}
 
 	/* check for documents */
 	status = cs3_scanner_ready(s, CS3_STATUS_NO_DOCS)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
-	if (s.status & CS3_STATUS_NO_DOCS)
+	if(s.status & CS3_STATUS_NO_DOCS)
 		return Sane.STATUS_NO_DOCS
 
-	if (s.autofocus) {
+	if(s.autofocus) {
 		status = cs3_autofocus(s)
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 			return status
 	}
 
-	if (s.aewb) {
+	if(s.aewb) {
 		status = cs3_autoexposure(s, 1)
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 			return status
-	} else if (s.ae) {
+	} else if(s.ae) {
 		status = cs3_autoexposure(s, 0)
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 			return status
 	}
 
@@ -1529,21 +1529,21 @@ Sane.read(Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 
 	DBG(32, "%s, maxlen = %i.\n", __func__, maxlen)
 
-	if (!s.scanning) {
+	if(!s.scanning) {
 		*len = 0
 		return Sane.STATUS_CANCELLED
 	}
 
 	/* transfer from buffer */
-	if (s.i_line_buf > 0) {
+	if(s.i_line_buf > 0) {
 		xfer_len_out = s.n_line_buf - s.i_line_buf
-		if (xfer_len_out > maxlen)
+		if(xfer_len_out > maxlen)
 			xfer_len_out = maxlen
 
 		memcpy(buf, &(s.line_buf[s.i_line_buf]), xfer_len_out)
 
 		s.i_line_buf += xfer_len_out
-		if (s.i_line_buf >= s.n_line_buf)
+		if(s.i_line_buf >= s.n_line_buf)
 			s.i_line_buf = 0
 
 		*len = xfer_len_out
@@ -1553,7 +1553,7 @@ Sane.read(Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 	xfer_len_line = s.n_colors * s.logical_width * s.bytes_per_pixel
 	xfer_len_in = xfer_len_line + (s.n_colors * s.odd_padding)
 
-	if ((xfer_len_in & 0x3f)) {
+	if((xfer_len_in & 0x3f)) {
 		Int d = ((xfer_len_in / 512) * 512) + 512
 		s.block_padding = d - xfer_len_in
 	}
@@ -1567,21 +1567,21 @@ Sane.read(Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 
 
 	/* Do not change the behaviour of older models, pad to 512 */
-	if ((s.type == CS3_TYPE_LS50) || (s.type == CS3_TYPE_LS5000)) {
+	if((s.type == CS3_TYPE_LS50) || (s.type == CS3_TYPE_LS5000)) {
 		xfer_len_in += s.block_padding
-		if (xfer_len_in & 0x3f)
+		if(xfer_len_in & 0x3f)
 			DBG(1, "BUG: %s, not a multiple of 64. (0x%06lx)\n",
 			    __func__, (long) xfer_len_in)
 	}
 
-	if (s.xfer_position + xfer_len_line > s.xfer_bytes_total)
+	if(s.xfer_position + xfer_len_line > s.xfer_bytes_total)
 		xfer_len_line = s.xfer_bytes_total - s.xfer_position;	/* just in case */
 
-	if (xfer_len_line == 0) {	/* no more data */
+	if(xfer_len_line == 0) {	/* no more data */
 		*len = 0
 
 		/* increment frame number if appropriate */
-		if (s.n_frames > 1 && --s.frame_count) {
+		if(s.n_frames > 1 && --s.frame_count) {
 			s.i_frame++
 		}
 
@@ -1589,12 +1589,12 @@ Sane.read(Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 		return Sane.STATUS_EOF
 	}
 
-	if (xfer_len_line != s.n_line_buf) {
+	if(xfer_len_line != s.n_line_buf) {
 		line_buf_new =
 			(Sane.Byte *) cs3_xrealloc(s.line_buf,
 						   xfer_len_line *
 						   sizeof(Sane.Byte))
-		if (!line_buf_new) {
+		if(!line_buf_new) {
 			*len = 0
 			return Sane.STATUS_NO_MEM
 		}
@@ -1615,27 +1615,27 @@ Sane.read(Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 	s.n_recv = xfer_len_in
 
 	status = cs3_issue_cmd(s)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		*len = 0
 		return status
 	}
 
-	for (index = 0; index < s.logical_width; index++) {
-		for (color = 0; color < s.n_colors; color++) {
+	for(index = 0; index < s.logical_width; index++) {
+		for(color = 0; color < s.n_colors; color++) {
 			Int where = s.bytes_per_pixel
 				* (s.n_colors * index + color)
 
 			m_avg_sum = 0.0
 
-			switch (s.bytes_per_pixel) {
+			switch(s.bytes_per_pixel) {
 			case 1:
 			{
 				/* target address */
 				s8 = (uint8_t *) & (s.line_buf[where])
 
-				if (s.samples_per_scan > 1) {
+				if(s.samples_per_scan > 1) {
 					/* calculate average of multi samples */
-					for (sample_pass = 0
+					for(sample_pass = 0
 							sample_pass < s.samples_per_scan
 							sample_pass++) {
 						/* source index */
@@ -1660,9 +1660,9 @@ Sane.read(Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 				/* target address */
 				s16 = (uint16_t *) & (s.line_buf[where])
 
-				if (s.samples_per_scan > 1) {
+				if(s.samples_per_scan > 1) {
 					/* calculate average of multi samples */
-					for (sample_pass = 0
+					for(sample_pass = 0
 							sample_pass < s.samples_per_scan
 							sample_pass++) {
 						/* source index */
@@ -1697,11 +1697,11 @@ Sane.read(Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 	s.xfer_position += xfer_len_line
 
 	xfer_len_out = xfer_len_line
-	if (xfer_len_out > maxlen)
+	if(xfer_len_out > maxlen)
 		xfer_len_out = maxlen
 
 	memcpy(buf, s.line_buf, xfer_len_out)
-	if (xfer_len_out < xfer_len_line)
+	if(xfer_len_out < xfer_len_line)
 		s.i_line_buf = xfer_len_out;	/* data left in the line buffer, read out next time */
 
 	*len = xfer_len_out
@@ -1715,7 +1715,7 @@ Sane.cancel(Sane.Handle h)
 
 	DBG(10, "%s, scanning = %d.\n", __func__, s.scanning)
 
-	if (s.scanning) {
+	if(s.scanning) {
 		cs3_init_buffer(s)
 		cs3_parse_cmd(s, "c0 00 00 00 00 00")
 		cs3_issue_cmd(s)
@@ -1731,9 +1731,9 @@ Sane.set_io_mode(Sane.Handle h, Bool m)
 
 	DBG(10, "%s\n", __func__)
 
-	if (!s.scanning)
+	if(!s.scanning)
 		return Sane.STATUS_INVAL
-	if (m == Sane.FALSE)
+	if(m == Sane.FALSE)
 		return Sane.STATUS_GOOD
 	else
 		return Sane.STATUS_UNSUPPORTED
@@ -1761,8 +1761,8 @@ cs3_trim(char *s)
 {
 	var i: Int, l = strlen(s)
 
-	for (i = l - 1; i > 0; i--) {
-		if (s[i] == ' ')
+	for(i = l - 1; i > 0; i--) {
+		if(s[i] == ' ')
 			s[i] = '\0'
 		else
 			break
@@ -1782,7 +1782,7 @@ cs3_open(const char *device, cs3_interface_t interface, cs3_t ** sp)
 	DBG(6, "%s, device = %s, interface = %i\n",
 	    __func__, device, interface)
 
-	if (!strncmp(device, "auto", 5)) {
+	if(!strncmp(device, "auto", 5)) {
 		try_interface = CS3_INTERFACE_SCSI
 		sanei_config_attach_matching_devices("scsi Nikon *",
 						     cs3_attach)
@@ -1796,7 +1796,7 @@ cs3_open(const char *device, cs3_interface_t interface, cs3_t ** sp)
 		return Sane.STATUS_GOOD
 	}
 
-	if ((s = (cs3_t *) cs3_xmalloc(sizeof(cs3_t))) == NULL)
+	if((s = (cs3_t *) cs3_xmalloc(sizeof(cs3_t))) == NULL)
 		return Sane.STATUS_NO_MEM
 	memset(s, 0, sizeof(cs3_t))
 
@@ -1812,10 +1812,10 @@ cs3_open(const char *device, cs3_interface_t interface, cs3_t ** sp)
 	s.send_buf = s.recv_buf = NULL
 	s.send_buf_size = s.recv_buf_size = 0
 
-	switch (interface) {
+	switch(interface) {
 	case CS3_INTERFACE_UNKNOWN:
-		for (i = 0; i < 2; i++) {
-			switch (i) {
+		for(i = 0; i < 2; i++) {
+			switch(i) {
 			case 1:
 				prefix = "usb:"
 				try_interface = CS3_INTERFACE_USB
@@ -1825,7 +1825,7 @@ cs3_open(const char *device, cs3_interface_t interface, cs3_t ** sp)
 				try_interface = CS3_INTERFACE_SCSI
 				break
 			}
-			if (!strncmp(device, prefix, strlen(prefix))) {
+			if(!strncmp(device, prefix, strlen(prefix))) {
 				const void *p = device + strlen(prefix)
 				cs3_xfree(s)
 				return cs3_open(p, try_interface, sp)
@@ -1841,7 +1841,7 @@ cs3_open(const char *device, cs3_interface_t interface, cs3_t ** sp)
 		    __func__, device)
 		status = sanei_scsi_open(device, &s.fd,
 					 cs3_scsi_sense_handler, s)
-		if (status != Sane.STATUS_GOOD) {
+		if(status != Sane.STATUS_GOOD) {
 			DBG(6, " ...failed: %s.\n", Sane.strstatus(status))
 			cs3_xfree(s)
 			return status
@@ -1852,7 +1852,7 @@ cs3_open(const char *device, cs3_interface_t interface, cs3_t ** sp)
 		DBG(6, "%s, trying to open %s, assuming USB interface\n",
 		    __func__, device)
 		status = sanei_usb_open(device, &s.fd)
-		if (status != Sane.STATUS_GOOD) {
+		if(status != Sane.STATUS_GOOD) {
 			DBG(6, " ...failed: %s.\n", Sane.strstatus(status))
 			cs3_xfree(s)
 			return status
@@ -1865,7 +1865,7 @@ cs3_open(const char *device, cs3_interface_t interface, cs3_t ** sp)
 
 	/* identify scanner */
 	status = cs3_page_inquiry(s, -1)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		cs3_close(s)
 		return status
 	}
@@ -1882,22 +1882,22 @@ cs3_open(const char *device, cs3_interface_t interface, cs3_t ** sp)
 	    __func__, s.vendor_string, s.product_string,
 	    s.revision_string)
 
-	if (!strncmp(s.product_string, "COOLSCANIII     ", 16))
+	if(!strncmp(s.product_string, "COOLSCANIII     ", 16))
 		s.type = CS3_TYPE_LS30
-	else if (!strncmp(s.product_string, "LS-40 ED        ", 16))
+	else if(!strncmp(s.product_string, "LS-40 ED        ", 16))
 		s.type = CS3_TYPE_LS40
-	else if (!strncmp(s.product_string, "LS-50 ED        ", 16))
+	else if(!strncmp(s.product_string, "LS-50 ED        ", 16))
 		s.type = CS3_TYPE_LS50
-	else if (!strncmp(s.product_string, "LS-2000         ", 16))
+	else if(!strncmp(s.product_string, "LS-2000         ", 16))
 		s.type = CS3_TYPE_LS2000
-	else if (!strncmp(s.product_string, "LS-4000 ED      ", 16))
+	else if(!strncmp(s.product_string, "LS-4000 ED      ", 16))
 		s.type = CS3_TYPE_LS4000
-	else if (!strncmp(s.product_string, "LS-5000 ED      ", 16))
+	else if(!strncmp(s.product_string, "LS-5000 ED      ", 16))
 		s.type = CS3_TYPE_LS5000
-	else if (!strncmp(s.product_string, "LS-8000 ED      ", 16))
+	else if(!strncmp(s.product_string, "LS-8000 ED      ", 16))
 		s.type = CS3_TYPE_LS8000
 
-	if (s.type != CS3_TYPE_UNKOWN)
+	if(s.type != CS3_TYPE_UNKOWN)
 		DBG(10,
 		    "%s, device identified as coolscan3 type #%i.\n",
 		    __func__, s.type)
@@ -1911,7 +1911,7 @@ cs3_open(const char *device, cs3_interface_t interface, cs3_t ** sp)
 	cs3_trim(s.product_string)
 	cs3_trim(s.revision_string)
 
-	if (sp)
+	if(sp)
 		*sp = s
 	else {
 		device_list_new =
@@ -1919,14 +1919,14 @@ cs3_open(const char *device, cs3_interface_t interface, cs3_t ** sp)
 						      (n_device_list +
 						       2) *
 						      sizeof(Sane.Device *))
-		if (!device_list_new)
+		if(!device_list_new)
 			return Sane.STATUS_NO_MEM
 		device_list = device_list_new
 		device_list[n_device_list] =
 			(Sane.Device *) cs3_xmalloc(sizeof(Sane.Device))
-		if (!device_list[n_device_list])
+		if(!device_list[n_device_list])
 			return Sane.STATUS_NO_MEM
-		switch (interface) {
+		switch(interface) {
 		case CS3_INTERFACE_UNKNOWN:
 			DBG(1, "BUG: cs3_open(): unknown interface.\n")
 			cs3_close(s)
@@ -1942,7 +1942,7 @@ cs3_open(const char *device, cs3_interface_t interface, cs3_t ** sp)
 
 		line = (char *) cs3_xmalloc(strlen(device) + strlen(prefix) +
 					    1)
-		if (!line)
+		if(!line)
 			alloc_failed = 1
 		else {
 			strcpy(line, prefix)
@@ -1951,7 +1951,7 @@ cs3_open(const char *device, cs3_interface_t interface, cs3_t ** sp)
 		}
 
 		line = (char *) cs3_xmalloc(strlen(s.vendor_string) + 1)
-		if (!line)
+		if(!line)
 			alloc_failed = 1
 		else {
 			strcpy(line, s.vendor_string)
@@ -1959,7 +1959,7 @@ cs3_open(const char *device, cs3_interface_t interface, cs3_t ** sp)
 		}
 
 		line = (char *) cs3_xmalloc(strlen(s.product_string) + 1)
-		if (!line)
+		if(!line)
 			alloc_failed = 1
 		else {
 			strcpy(line, s.product_string)
@@ -1968,7 +1968,7 @@ cs3_open(const char *device, cs3_interface_t interface, cs3_t ** sp)
 
 		device_list[n_device_list]->type = "film scanner"
 
-		if (alloc_failed) {
+		if(alloc_failed) {
 			cs3_xfree((void *)device_list[n_device_list]->name)
 			cs3_xfree((void *)device_list[n_device_list]->vendor)
 			cs3_xfree((void *)device_list[n_device_list]->model)
@@ -1992,7 +1992,7 @@ cs3_close(cs3_t * s)
 	cs3_xfree(s.lut_neutral)
 	cs3_xfree(s.line_buf)
 
-	switch (s.interface) {
+	switch(s.interface) {
 	case CS3_INTERFACE_UNKNOWN:
 		DBG(0, "BUG: %s: Unknown interface number.\n", __func__)
 		break
@@ -2014,7 +2014,7 @@ cs3_attach(const char *dev)
 {
 	Sane.Status status
 
-	if (try_interface == CS3_INTERFACE_UNKNOWN)
+	if(try_interface == CS3_INTERFACE_UNKNOWN)
 		return Sane.STATUS_UNSUPPORTED
 
 	status = cs3_open(dev, try_interface, NULL)
@@ -2047,17 +2047,17 @@ cs3_parse_sense_data(cs3_t * s)
 		(s.sense_key << 24) + (s.sense_asc << 16) +
 		(s.sense_ascq << 8) + s.sense_info
 
-	if (s.sense_key)
+	if(s.sense_key)
 		DBG(14, "sense code: %02lx-%02lx-%02lx-%02lx\n", s.sense_key,
 		    s.sense_asc, s.sense_ascq, s.sense_info)
 
-	switch (s.sense_key) {
+	switch(s.sense_key) {
 	case 0x00:
 		s.status = CS3_STATUS_READY
 		break
 
 	case 0x02:
-		switch (s.sense_asc) {
+		switch(s.sense_asc) {
 		case 0x04:
 			DBG(15, " processing\n")
 			s.status = CS3_STATUS_PROCESSING
@@ -2075,7 +2075,7 @@ cs3_parse_sense_data(cs3_t * s)
 		break
 
 	case 0x09:
-		if ((s.sense_code == 0x09800600)
+		if((s.sense_code == 0x09800600)
 		    || (s.sense_code == 0x09800601))
 			s.status = CS3_STATUS_REISSUE
 		break
@@ -2100,12 +2100,12 @@ cs3_init_buffer(cs3_t * s)
 static Sane.Status
 cs3_pack_byte(cs3_t * s, Sane.Byte byte)
 {
-	while (s.send_buf_size <= s.n_send) {
+	while(s.send_buf_size <= s.n_send) {
 		s.send_buf_size += 16
 		s.send_buf =
 			(Sane.Byte *) cs3_xrealloc(s.send_buf,
 						   s.send_buf_size)
-		if (!s.send_buf)
+		if(!s.send_buf)
 			return Sane.STATUS_NO_MEM
 	}
 
@@ -2137,25 +2137,25 @@ cs3_parse_cmd(cs3_t * s, char *text)
 	char c, h
 	Sane.Status status
 
-	for (i = 0; i < strlen(text); i += 2)
-		if (text[i] == ' ')
+	for(i = 0; i < strlen(text); i += 2)
+		if(text[i] == ' ')
 			i--;	/* a bit dirty... advance by -1+2=1 */
 		else {
-			if ((!isxdigit(text[i])) || (!isxdigit(text[i + 1])))
+			if((!isxdigit(text[i])) || (!isxdigit(text[i + 1])))
 				DBG(1,
 				    "BUG: cs3_parse_cmd(): Parser got invalid character.\n")
 			c = 0
-			for (j = 0; j < 2; j++) {
+			for(j = 0; j < 2; j++) {
 				h = tolower(text[i + j])
-				if ((h >= 'a') && (h <= 'f'))
+				if((h >= 'a') && (h <= 'f'))
 					c += 10 + h - 'a'
 				else
 					c += h - '0'
-				if (j == 0)
+				if(j == 0)
 					c <<= 4
 			}
 			status = cs3_pack_byte(s, c)
-			if (status != Sane.STATUS_GOOD)
+			if(status != Sane.STATUS_GOOD)
 				return status
 		}
 
@@ -2165,12 +2165,12 @@ cs3_parse_cmd(cs3_t * s, char *text)
 static Sane.Status
 cs3_grow_send_buffer(cs3_t * s)
 {
-	if (s.n_send > s.send_buf_size) {
+	if(s.n_send > s.send_buf_size) {
 		s.send_buf_size = s.n_send
 		s.send_buf =
 			(Sane.Byte *) cs3_xrealloc(s.send_buf,
 						   s.send_buf_size)
-		if (!s.send_buf)
+		if(!s.send_buf)
 			return Sane.STATUS_NO_MEM
 	}
 
@@ -2192,8 +2192,8 @@ cs3_issue_cmd(cs3_t * s)
 
 	s.status = CS3_STATUS_READY
 
-	if (!s.n_cmd)
-		switch (s.send_buf[0]) {
+	if(!s.n_cmd)
+		switch(s.send_buf[0]) {
 		case 0x00:
 		case 0x12:
 		case 0x15:
@@ -2222,15 +2222,15 @@ cs3_issue_cmd(cs3_t * s)
 			break
 		}
 
-	if (s.n_send < s.n_cmd) {
+	if(s.n_send < s.n_cmd) {
 		DBG(1,
 		    "BUG: cs3_issue_cmd(): Negative number of data out bytes requested.\n")
 		return Sane.STATUS_INVAL
 	}
 
 	n_data = s.n_send - s.n_cmd
-	if (s.n_recv > 0) {
-		if (n_data > 0) {
+	if(s.n_recv > 0) {
+		if(n_data > 0) {
 			DBG(1,
 			    "BUG: cs3_issue_cmd(): Both data in and data out requested.\n")
 			return Sane.STATUS_INVAL
@@ -2240,10 +2240,10 @@ cs3_issue_cmd(cs3_t * s)
 	}
 
 	s.recv_buf = (Sane.Byte *) cs3_xrealloc(s.recv_buf, s.n_recv)
-	if (!s.recv_buf)
+	if(!s.recv_buf)
 		return Sane.STATUS_NO_MEM
 
-	switch (s.interface) {
+	switch(s.interface) {
 	case CS3_INTERFACE_UNKNOWN:
 		DBG(1,
 		    "BUG: cs3_issue_cmd(): Unknown or uninitialized interface number.\n")
@@ -2258,15 +2258,15 @@ cs3_issue_cmd(cs3_t * s)
 
 	case CS3_INTERFACE_USB:
 		status = sanei_usb_write_bulk(s.fd, s.send_buf, &s.n_cmd)
-		if (status != Sane.STATUS_GOOD) {
+		if(status != Sane.STATUS_GOOD) {
 			DBG(1,
 			    "Error: cs3_issue_cmd(): Could not write command.\n")
 			return Sane.STATUS_IO_ERROR
 		}
 
-		switch (cs3_phase_check(s)) {
+		switch(cs3_phase_check(s)) {
 		case CS3_PHASE_OUT:
-			if (s.n_send - s.n_cmd < n_data || !n_data) {
+			if(s.n_send - s.n_cmd < n_data || !n_data) {
 				DBG(4,
 				    "Error: cs3_issue_cmd(): Unexpected data out phase.\n")
 				return Sane.STATUS_IO_ERROR
@@ -2277,7 +2277,7 @@ cs3_issue_cmd(cs3_t * s)
 			break
 
 		case CS3_PHASE_IN:
-			if (s.n_recv < n_data || !n_data) {
+			if(s.n_recv < n_data || !n_data) {
 				DBG(4,
 				    "Error: cs3_issue_cmd(): Unexpected data in phase.\n")
 				return Sane.STATUS_IO_ERROR
@@ -2292,7 +2292,7 @@ cs3_issue_cmd(cs3_t * s)
 			return Sane.STATUS_IO_ERROR
 
 		default:
-			if (n_data) {
+			if(n_data) {
 				DBG(4,
 				    "%s: Unexpected non-data phase, but n_data != 0 (%lu).\n",
 				    __func__, (u_long) n_data)
@@ -2303,7 +2303,7 @@ cs3_issue_cmd(cs3_t * s)
 
 		n_status = 8
 		status = sanei_usb_read_bulk(s.fd, status_buf, &n_status)
-		if (n_status != 8) {
+		if(n_status != 8) {
 			DBG(4,
 			    "Error: cs3_issue_cmd(): Failed to read 8 status bytes from USB.\n")
 			return Sane.STATUS_IO_ERROR
@@ -2317,7 +2317,7 @@ cs3_issue_cmd(cs3_t * s)
 		break
 	}
 
-	if (status_only)
+	if(status_only)
 		return Sane.STATUS_IO_ERROR
 	else
 		return status
@@ -2336,7 +2336,7 @@ cs3_phase_check(cs3_t * s)
 	DBG(40, "%s: returned phase = 0x%02x.\n", __func__,
 	    phase_recv_buf[0])
 
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return -1
 	else
 		return phase_recv_buf[0]
@@ -2351,25 +2351,25 @@ cs3_scanner_ready(cs3_t * s, Int flags)
 	Int retry = 3
 
 	do {
-		if (i >= 0)	/* dirty !!! */
+		if(i >= 0)	/* dirty !!! */
 			usleep(1000000)
 		/* test unit ready */
 		cs3_init_buffer(s)
-		for (i = 0; i < 6; i++)
+		for(i = 0; i < 6; i++)
 			cs3_pack_byte(s, 0x00)
 
 		status = cs3_issue_cmd(s)
-		if (status != Sane.STATUS_GOOD)
-			if (--retry < 0)
+		if(status != Sane.STATUS_GOOD)
+			if(--retry < 0)
 				return status
 
-		if (++count > 120) {	/* 120s timeout */
+		if(++count > 120) {	/* 120s timeout */
 			DBG(4, "Error: %s: Timeout expired.\n", __func__)
 			status = Sane.STATUS_IO_ERROR
 			break
 		}
 	}
-	while (s.status & ~flags);	/* until all relevant bits are 0 */
+	while(s.status & ~flags);	/* until all relevant bits are 0 */
 
 	return status
 }
@@ -2381,7 +2381,7 @@ cs3_page_inquiry(cs3_t * s, Int page)
 
 	size_t n
 
-	if (page >= 0) {
+	if(page >= 0) {
 
 		cs3_scanner_ready(s, CS3_STATUS_NO_DOCS)
 		cs3_init_buffer(s)
@@ -2390,7 +2390,7 @@ cs3_page_inquiry(cs3_t * s, Int page)
 		cs3_parse_cmd(s, "00 04 00")
 		s.n_recv = 4
 		status = cs3_issue_cmd(s)
-		if (status != Sane.STATUS_GOOD) {
+		if(status != Sane.STATUS_GOOD) {
 			DBG(4,
 			    "Error: cs3_page_inquiry(): Inquiry of page size failed: %s.\n",
 			    Sane.strstatus(status))
@@ -2404,7 +2404,7 @@ cs3_page_inquiry(cs3_t * s, Int page)
 
 	cs3_scanner_ready(s, CS3_STATUS_NO_DOCS)
 	cs3_init_buffer(s)
-	if (page >= 0) {
+	if(page >= 0) {
 		cs3_parse_cmd(s, "12 01")
 		cs3_pack_byte(s, page)
 		cs3_parse_cmd(s, "00")
@@ -2415,7 +2415,7 @@ cs3_page_inquiry(cs3_t * s, Int page)
 	s.n_recv = n
 
 	status = cs3_issue_cmd(s)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(4, "Error: %s: inquiry of page failed: %s.\n",
 		    __func__, Sane.strstatus(status))
 		return status
@@ -2434,11 +2434,11 @@ cs3_full_inquiry(cs3_t * s)
 	DBG(4, "%s\n", __func__)
 
 	status = cs3_page_inquiry(s, 0xc1)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	s.maxbits = s.recv_buf[82]
-	if (s.type == CS3_TYPE_LS30)	/* must be overridden, LS-30 claims to have 12 bits */
+	if(s.type == CS3_TYPE_LS30)	/* must be overridden, LS-30 claims to have 12 bits */
 		s.maxbits = 10
 
 	s.n_lut = 1
@@ -2456,7 +2456,7 @@ cs3_full_inquiry(cs3_t * s)
 		(cs3_pixel_t *) cs3_xrealloc(s.lut_neutral,
 					     s.n_lut * sizeof(cs3_pixel_t))
 
-	if (!s.lut_r || !s.lut_g || !s.lut_b || !s.lut_neutral) {
+	if(!s.lut_r || !s.lut_g || !s.lut_b || !s.lut_neutral) {
 		cs3_xfree(s.lut_r)
 		cs3_xfree(s.lut_g)
 		cs3_xfree(s.lut_b)
@@ -2464,7 +2464,7 @@ cs3_full_inquiry(cs3_t * s)
 		return Sane.STATUS_NO_MEM
 	}
 
-	for (pixel = 0; pixel < s.n_lut; pixel++) {
+	for(pixel = 0; pixel < s.n_lut; pixel++) {
 		s.lut_r[pixel] = s.lut_g[pixel] = s.lut_b[pixel] =
 			s.lut_neutral[pixel] = pixel
 	}
@@ -2497,7 +2497,7 @@ cs3_full_inquiry(cs3_t * s)
 		(unsigned Int *) cs3_xrealloc(s.resx_list,
 					      pitch_max *
 					      sizeof(unsigned Int))
-	for (pitch = 1; pitch <= pitch_max; pitch++)
+	for(pitch = 1; pitch <= pitch_max; pitch++)
 		s.resx_list[pitch - 1] = s.resx_max / pitch
 
 	/* generate resolution list for y */
@@ -2508,7 +2508,7 @@ cs3_full_inquiry(cs3_t * s)
 					      pitch_max *
 					      sizeof(unsigned Int))
 
-	for (pitch = 1; pitch <= pitch_max; pitch++)
+	for(pitch = 1; pitch <= pitch_max; pitch++)
 		s.resy_list[pitch - 1] = s.resy_max / pitch
 
 	s.unit_dpi = s.resx_max
@@ -2516,9 +2516,9 @@ cs3_full_inquiry(cs3_t * s)
 
 	DBG(4, " maximum depth:	%d\n", s.maxbits)
 	DBG(4, " focus:		%d/%d\n", s.focus_min, s.focus_max)
-	DBG(4, " resolution (x):	%d (%d-%d)\n", s.resx_optical,
+	DBG(4, " resolution(x):	%d(%d-%d)\n", s.resx_optical,
 	    s.resx_min, s.resx_max)
-	DBG(4, " resolution (y):	%d (%d-%d)\n", s.resy_optical,
+	DBG(4, " resolution(y):	%d(%d-%d)\n", s.resy_optical,
 	    s.resy_min, s.resy_max)
 	DBG(4, " frames:		%d\n", s.n_frames)
 	DBG(4, " frame offset:	%ld\n", s.frame_offset)
@@ -2545,7 +2545,7 @@ cs3_issue_and_execute(cs3_t * s)
 	DBG(10, "%s, opcode = %02x\n", __func__, s.send_buf[0])
 
 	status = cs3_issue_cmd(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	return cs3_execute(s)
@@ -2580,7 +2580,7 @@ cs3_load(cs3_t * s)
 	s.n_send += 13
 
 	status = cs3_grow_send_buffer(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	return cs3_issue_and_execute(s)
@@ -2597,7 +2597,7 @@ cs3_eject(cs3_t * s)
 	s.n_send += 13
 
 	status = cs3_grow_send_buffer(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	return cs3_issue_and_execute(s)
@@ -2614,7 +2614,7 @@ cs3_reset(cs3_t * s)
 	s.n_send += 13
 
 	status = cs3_grow_send_buffer(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	return cs3_issue_and_execute(s)
@@ -2667,7 +2667,7 @@ cs3_read_focus(cs3_t * s)
 	s.n_recv = 13
 
 	status = cs3_issue_cmd(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	s.focus =
@@ -2690,7 +2690,7 @@ cs3_autofocus(cs3_t * s)
 	cs3_convert_options(s)
 
 	status = cs3_read_focus(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	/* set parameter, autofocus */
@@ -2702,7 +2702,7 @@ cs3_autofocus(cs3_t * s)
 	/*cs3_parse_cmd(s, "00 00 00 00"); */
 
 	status = cs3_issue_and_execute(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	return cs3_read_focus(s)
@@ -2717,11 +2717,11 @@ cs3_autoexposure(cs3_t * s, Int wb)
 
 	cs3_scanner_ready(s, CS3_STATUS_NO_DOCS)
 	status = cs3_scan(s, wb ? CS3_SCAN_AE_WB : CS3_SCAN_AE)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	status = cs3_get_exposure(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	s.exposure = 1.
@@ -2740,13 +2740,13 @@ cs3_get_exposure(cs3_t * s)
 
 	DBG(6, "%s\n", __func__)
 
-	if ((s.type == CS3_TYPE_LS50) || (s.type == CS3_TYPE_LS5000))
+	if((s.type == CS3_TYPE_LS50) || (s.type == CS3_TYPE_LS5000))
 		colors = 3
 
 	cs3_scanner_ready(s, CS3_STATUS_NO_DOCS)
 
 	/* GET WINDOW */
-	for (i_color = 0; i_color < colors; i_color++) {	/* XXXXXXXXXXXXX CCCCCCCCCCCCC */
+	for(i_color = 0; i_color < colors; i_color++) {	/* XXXXXXXXXXXXX CCCCCCCCCCCCC */
 
 		cs3_init_buffer(s)
 		cs3_parse_cmd(s, "25 01 00 00 00")
@@ -2754,7 +2754,7 @@ cs3_get_exposure(cs3_t * s)
 		cs3_parse_cmd(s, "00 00 3a 00")
 		s.n_recv = 58
 		status = cs3_issue_cmd(s)
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 			return status
 
 		s.real_exposure[cs3_colors[i_color]] =
@@ -2789,10 +2789,10 @@ cs3_convert_options(cs3_t * s)
 	DBG(12, " depth = %d, bpp = %d, shift = %d\n",
 	    s.real_depth, s.bytes_per_pixel, s.shift_bits)
 
-	if (s.preview) {
+	if(s.preview) {
 		s.real_resx = s.res_preview
 		s.real_resy = s.res_preview
-	} else if (s.res_independent) {
+	} else if(s.res_independent) {
 		s.real_resx = s.resx
 		s.real_resy = s.resy
 	} else {
@@ -2809,11 +2809,11 @@ cs3_convert_options(cs3_t * s)
 	DBG(12, " resx = %d, resy = %d, pitchx = %d, pitchy = %d\n",
 	    s.real_resx, s.real_resy, s.real_pitchx, s.real_pitchy)
 
-	/* The prefix "real_" refers to data in device units (1/maxdpi),
+	/* The prefix "real_" refers to data in device units(1/maxdpi),
 	 * "logical_" refers to resolution-dependent data.
 	 */
 
-	if (s.xmin < s.xmax) {
+	if(s.xmin < s.xmax) {
 		xmin = s.xmin
 		xmax = s.xmax
 	} else {
@@ -2821,7 +2821,7 @@ cs3_convert_options(cs3_t * s)
 		xmax = s.xmin
 	}
 
-	if (s.ymin < s.ymax) {
+	if(s.ymin < s.ymax) {
 		ymin = s.ymin
 		ymax = s.ymax
 	} else {
@@ -2851,11 +2851,11 @@ cs3_convert_options(cs3_t * s)
 	    s.real_width, s.real_height)
 
 	s.odd_padding = 0
-	if ((s.bytes_per_pixel == 1) && (s.logical_width & 0x01)
+	if((s.bytes_per_pixel == 1) && (s.logical_width & 0x01)
 	    && (s.type != CS3_TYPE_LS30) && (s.type != CS3_TYPE_LS2000))
 		s.odd_padding = 1
 
-	if (s.focus_on_centre) {
+	if(s.focus_on_centre) {
 		s.real_focusx = s.real_xoffset + s.real_width / 2
 		s.real_focusy = s.real_yoffset + s.real_height / 2
 	} else {
@@ -2873,19 +2873,19 @@ cs3_convert_options(cs3_t * s)
 	s.real_exposure[3] = s.exposure * s.exposure_b * 100.
 
 	/* XXX IR? */
-	for (i_color = 0; i_color < 3; i_color++)
-		if (s.real_exposure[cs3_colors[i_color]] < 1)
+	for(i_color = 0; i_color < 3; i_color++)
+		if(s.real_exposure[cs3_colors[i_color]] < 1)
 			s.real_exposure[cs3_colors[i_color]] = 1
 
 	s.n_colors = 3;	/* XXXXXXXXXXXXXX CCCCCCCCCCCCCC */
-	if (s.infrared)
+	if(s.infrared)
 		s.n_colors = 4
 
 	s.xfer_bytes_total =
 		s.bytes_per_pixel * s.n_colors * s.logical_width *
 		s.logical_height
 
-	if (s.preview)
+	if(s.preview)
 		s.infrared = Sane.FALSE
 
 	return Sane.STATUS_GOOD
@@ -2910,7 +2910,7 @@ cs3_set_boundary(cs3_t * s)
 	cs3_pack_byte(s, (4 + s.n_frames * 16) & 0xff)
 	cs3_pack_byte(s, s.n_frames)
 	cs3_pack_byte(s, s.n_frames)
-	for (i_boundary = 0; i_boundary < s.n_frames; i_boundary++) {
+	for(i_boundary = 0; i_boundary < s.n_frames; i_boundary++) {
 		unsigned long lvalue = s.frame_offset * i_boundary +
 			s.subframe / s.unit_mm
 
@@ -2926,7 +2926,7 @@ cs3_set_boundary(cs3_t * s)
 
 	}
 	status = cs3_issue_cmd(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	return Sane.STATUS_GOOD
@@ -2941,10 +2941,10 @@ cs3_send_lut(cs3_t * s)
 
 	DBG(6, "%s\n", __func__)
 
-	for (color = 0; color < s.n_colors; color++) {
+	for(color = 0; color < s.n_colors; color++) {
 		/*cs3_scanner_ready(s, CS3_STATUS_READY); */
 
-		switch (color) {
+		switch(color) {
 		case 0:
 			lut = s.lut_r
 			break
@@ -2974,12 +2974,12 @@ cs3_send_lut(cs3_t * s)
 		cs3_pack_byte(s, (2 * s.n_lut) & 0xff);	/* XXX 2 bytes per point */
 		cs3_pack_byte(s, 0x00)
 
-		for (pixel = 0; pixel < s.n_lut; pixel++) {	/* XXX 2 bytes per point */
+		for(pixel = 0; pixel < s.n_lut; pixel++) {	/* XXX 2 bytes per point */
 			cs3_pack_word(s, lut[pixel])
 		}
 
 		status = cs3_issue_cmd(s)
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 			return status
 	}
 
@@ -2993,14 +2993,14 @@ cs3_set_window(cs3_t * s, cs3_scan_t type)
 	Sane.Status status = Sane.STATUS_INVAL
 
 	/* SET WINDOW */
-	for (color = 0; color < s.n_colors; color++) {
+	for(color = 0; color < s.n_colors; color++) {
 
 		DBG(8, "%s: color %d\n", __func__, cs3_colors[color])
 
 		cs3_scanner_ready(s, CS3_STATUS_READY)
 
 		cs3_init_buffer(s)
-		if ((s.type == CS3_TYPE_LS40)
+		if((s.type == CS3_TYPE_LS40)
 		    || (s.type == CS3_TYPE_LS4000)
 		    || (s.type == CS3_TYPE_LS50)
 		    || (s.type == CS3_TYPE_LS5000))
@@ -3030,7 +3030,7 @@ cs3_set_window(cs3_t * s, cs3_scan_t type)
 
 		cs3_pack_byte(s, 0x80 | (s.negative ? 0 : 1));	/* averaging, pos/neg */
 
-		switch (type) {	/* scanning kind */
+		switch(type) {	/* scanning kind */
 		case CS3_SCAN_NORMAL:
 			cs3_pack_byte(s, 0x01)
 			break
@@ -3044,13 +3044,13 @@ cs3_set_window(cs3_t * s, cs3_scan_t type)
 			DBG(1, "BUG: cs3_scan(): Unknown scanning type.\n")
 			return Sane.STATUS_INVAL
 		}
-		if (s.samples_per_scan == 1)
+		if(s.samples_per_scan == 1)
 			cs3_pack_byte(s, 0x02);	/* scanning mode single */
 		else
 			cs3_pack_byte(s, 0x10);	/* scanning mode multi */
 		cs3_pack_byte(s, 0x02);	/* color interleaving */
 		cs3_pack_byte(s, 0xff);	/* (ae) */
-		if (color == 3)	/* infrared */
+		if(color == 3)	/* infrared */
 			cs3_parse_cmd(s, "00 00 00 00");	/* automatic */
 		else {
 			DBG(4, "%s: exposure = %ld * 10ns\n", __func__,
@@ -3059,7 +3059,7 @@ cs3_set_window(cs3_t * s, cs3_scan_t type)
 		}
 
 		status = cs3_issue_cmd(s)
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 			return status
 	}
 
@@ -3076,7 +3076,7 @@ cs3_scan(cs3_t * s, cs3_scan_t type)
 
 	DBG(6, "%s, type = %d, colors = %d\n", __func__, type, s.n_colors)
 
-	switch (type) {
+	switch(type) {
 	case CS3_SCAN_NORMAL:
 		DBG(16, "%s: normal scan\n", __func__)
 		break
@@ -3090,39 +3090,39 @@ cs3_scan(cs3_t * s, cs3_scan_t type)
 
 	/* wait for device to be ready with document, and set device unit */
 	status = cs3_scanner_ready(s, CS3_STATUS_NO_DOCS)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
-	if (s.status & CS3_STATUS_NO_DOCS)
+	if(s.status & CS3_STATUS_NO_DOCS)
 		return Sane.STATUS_NO_DOCS
 
 	status = cs3_convert_options(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	status = cs3_set_boundary(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	cs3_set_focus(s)
 
 	cs3_scanner_ready(s, CS3_STATUS_READY)
 
-	if (type == CS3_SCAN_NORMAL)
+	if(type == CS3_SCAN_NORMAL)
 		cs3_send_lut(s)
 
 	status = cs3_set_window(s, type)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	status = cs3_get_exposure(s)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 /*	cs3_scanner_ready(s, CS3_STATUS_READY); */
 
 	cs3_init_buffer(s)
-	switch (s.n_colors) {
+	switch(s.n_colors) {
 	case 3:
 		cs3_parse_cmd(s, "1b 00 00 00 03 00 01 02 03")
 		break
@@ -3136,14 +3136,14 @@ cs3_scan(cs3_t * s, cs3_scan_t type)
 	}
 
 	status = cs3_issue_cmd(s)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		DBG(6, "scan setup failed\n")
 		return status
 	}
 
-	if (s.status == CS3_STATUS_REISSUE) {
+	if(s.status == CS3_STATUS_REISSUE) {
 		status = cs3_issue_cmd(s)
-		if (status != Sane.STATUS_GOOD)
+		if(status != Sane.STATUS_GOOD)
 			return status
 	}
 
@@ -3155,7 +3155,7 @@ cs3_xmalloc(size_t size)
 {
 	register void *value = malloc(size)
 
-	if (value == NULL) {
+	if(value == NULL) {
 		DBG(0, "error: %s: failed to malloc() %lu bytes.\n",
 		    __func__, (unsigned long) size)
 	}
@@ -3167,12 +3167,12 @@ cs3_xrealloc(void *p, size_t size)
 {
 	register void *value
 
-	if (!size)
+	if(!size)
 		return p
 
 	value = realloc(p, size)
 
-	if (value == NULL) {
+	if(value == NULL) {
 		DBG(0, "error: %s: failed to realloc() %lu bytes.\n",
 		    __func__, (unsigned long) size)
 	}
@@ -3183,6 +3183,6 @@ cs3_xrealloc(void *p, size_t size)
 static void
 cs3_xfree(void *p)
 {
-	if (p)
+	if(p)
           free(p)
 }

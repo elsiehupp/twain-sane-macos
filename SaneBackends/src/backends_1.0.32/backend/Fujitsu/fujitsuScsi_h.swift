@@ -21,7 +21,7 @@
 
 /*static inline void */
 static void
-setbitfield (unsigned char *pageaddr, Int mask, Int shift, Int val)
+setbitfield(unsigned char *pageaddr, Int mask, Int shift, Int val)
 {
   *pageaddr = (*pageaddr & ~(mask << shift)) | ((val & mask) << shift)
 }
@@ -30,23 +30,23 @@ setbitfield (unsigned char *pageaddr, Int mask, Int shift, Int val)
 
 /*static inline Int */
 static Int
-getbitfield (unsigned char *pageaddr, Int mask, Int shift)
+getbitfield(unsigned char *pageaddr, Int mask, Int shift)
 {
-  return ((*pageaddr >> shift) & mask)
+  return((*pageaddr >> shift) & mask)
 }
 
 /* ------------------------------------------------------------------------- */
 
 static Int
-getnbyte (unsigned char *pnt, Int nbytes)
+getnbyte(unsigned char *pnt, Int nbytes)
 {
   unsigned Int result = 0
   var i: Int
 
 #ifdef DEBUG
-  assert (nbytes < 5)
+  assert(nbytes < 5)
 #endif
-  for (i = 0; i < nbytes; i++)
+  for(i = 0; i < nbytes; i++)
     result = (result << 8) | (pnt[i] & 0xff)
   return result
 }
@@ -55,14 +55,14 @@ getnbyte (unsigned char *pnt, Int nbytes)
 
 /*static inline void */
 static void
-putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
+putnbyte(unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 {
   var i: Int
 
 #ifdef DEBUG
-  assert (nbytes < 5)
+  assert(nbytes < 5)
 #endif
-  for (i = nbytes - 1; i >= 0; i--)
+  for(i = nbytes - 1; i >= 0; i--)
 
     {
       pnt[i] = value & 0xff
@@ -143,7 +143,7 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 #define get_IN_vendor(in, buf)             strncpy(buf, (char *)in + 0x08, 0x08)
 #define get_IN_product(in, buf)            strncpy(buf, (char *)in + 0x10, 0x010)
 #define get_IN_version(in, buf)            strncpy(buf, (char *)in + 0x20, 0x04)
-#define get_IN_color_offset(in)            getnbyte (in+0x2A, 2) /* offset between colors */
+#define get_IN_color_offset(in)            getnbyte(in+0x2A, 2) /* offset between colors */
 
 /* these only in some scanners */
 #define get_IN_long_gray(in)               getbitfield(in+0x2C, 1, 1)
@@ -156,7 +156,7 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 #define get_IN_bg_fb(in)                   getbitfield(in+0x2D, 1, 1)
 #define get_IN_has_back(in)                getbitfield(in+0x2D, 1, 0)
 
-#define get_IN_duplex_offset(in)           getnbyte (in+0x2E, 2)
+#define get_IN_duplex_offset(in)           getnbyte(in+0x2E, 2)
 
 /* the VPD response */
 #define get_IN_page_length(in)             in[0x04]
@@ -534,7 +534,7 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 
 /* for 'GET DEVICE ID   ' */
 #define RD_gdi_len                      10
-#define get_RD_id_serial(in)            getnbyte (in, 4)
+#define get_RD_id_serial(in)            getnbyte(in, 4)
 
 /* ==================================================================== */
 /* SEND_DIAGNOSTIC */
@@ -869,7 +869,7 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 #define WD_wid_front 0x00
 #define WD_wid_back 0x80
 
-  /* 0x01 - Reserved (bits 7-1), AUTO (bit 0)
+  /* 0x01 - Reserved(bits 7-1), AUTO(bit 0)
    *        Use 0x00 for 3091, 3096
    */
 #define set_WD_auto(sb, val) setbitfield(sb + 0x01, 1, 0, val)
@@ -920,7 +920,7 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 
   /* 0x16 - Brightness
    *        3091 always use 0x00
-   *        3096 if in halftone mode, 8 levels supported (01-1F, 20-3F,
+   *        3096 if in halftone mode, 8 levels supported(01-1F, 20-3F,
    ..., E0-FF)
    *             use 0x00 for user defined dither pattern
    */
@@ -944,7 +944,7 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 #define set_WD_contrast(sb, val) sb[0x18] = val
 #define get_WD_contrast(sb) sb[0x18]
 
-  /* 0x19 - Image Composition (color mode)
+  /* 0x19 - Image Composition(color mode)
    *        3091 - use 0x00 for line art, 0x01 for halftone,
    *               0x02 for grayscale, 0x05 for color.
    *        3096 - same but minus color.
@@ -1026,9 +1026,9 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
   /* 0x22-0x27 - reserved */
 
   /* 0x28 - vendor unique id code, decides meaning of remaining bytes
-   *        0xc1 = color mode (fi-series)
-   *        0xc0 = weird mode (M3091 and M3092)
-   *        0x00 = mono mode (other M-series and fi-series)
+   *        0xc1 = color mode(fi-series)
+   *        0xc0 = weird mode(M3091 and M3092)
+   *        0x00 = mono mode(other M-series and fi-series)
    */
 #define set_WD_vendor_id_code(sb, val)  sb[0x28] = val
 #define get_WD_vendor_id_code(sb) sb[0x28]
@@ -1158,11 +1158,11 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 
 /*30-31 reserved*/
 
-/*32 wlf (see vuid 00)*/
+/*32 wlf(see vuid 00)*/
 
 /*33-34 reserved*/
 
-/*35-3d paper size (see vuid 00)*/
+/*35-3d paper size(see vuid 00)*/
 
 /*3e-3f reserved*/
 
@@ -1187,7 +1187,7 @@ putnbyte (unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 
 /*33-34 reserved*/
 
-/*35-3d paper size (see vuid 00)*/
+/*35-3d paper size(see vuid 00)*/
 
 /*3e-3f reserved*/
 

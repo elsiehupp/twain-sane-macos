@@ -2,7 +2,7 @@
  * @brief all the shading functions
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.01 - initial version
@@ -14,7 +14,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -57,7 +57,7 @@
 /* for DAC programming */
 #define _VALUE_CONFIG   0x51
 #define _DAC_RED        (Sane.Byte)(_VALUE_CONFIG | 0x00)
-#define _DAC_GREENCOLOR (Sane.Byte)(_VALUE_CONFIG | 0x04)
+#define _DAC_GREENCOLOR(Sane.Byte)(_VALUE_CONFIG | 0x04)
 #define _DAC_GREENMONO  (Sane.Byte)(_VALUE_CONFIG | 0x06)
 #define _DAC_BLUE       (Sane.Byte)(_VALUE_CONFIG | 0x08)
 
@@ -185,7 +185,7 @@ static Sane.Status u12shadingAdjustShadingWaveform( U12_Device *dev )
 
 		if( dev.shade.pHilight ) {
 
-			if ( dev.DataInf.wPhyDataType > COLOR_256GRAY ) {
+			if( dev.DataInf.wPhyDataType > COLOR_256GRAY ) {
 
 				cp.red.usp   = dev.bufs.b1.pShadingRam + _SHADING_BEGINX
 				cp.green.usp = cp.red.usp   + dev.regs.RD_Pixels
@@ -387,14 +387,14 @@ static Sane.Status u12shadingAdjustShadingWaveform( U12_Device *dev )
 
 	pRGB = (RGBUShortDef*)&dev.shade.pCcdDac.GainResize
 
-	if ( dev.DataInf.wPhyDataType > COLOR_256GRAY ) {
+	if( dev.DataInf.wPhyDataType > COLOR_256GRAY ) {
 
 		pwsum = (RGBUShortDef*)dev.bufs.b2.pSumBuf + _SHADING_BEGINX
 
 		for( var.dwValue = dev.regs.RD_Pixels - _SHADING_BEGINX
 		                                                      var.dwValue--;) {
 
-			if ((short)(pwsum.Red -= dev.shade.DarkOffset.Colors.Red) > 0) {
+			if((short)(pwsum.Red -= dev.shade.DarkOffset.Colors.Red) > 0) {
 				pwsum.Red = pwsum.Red * pRGB.Red / 100U
 				if( pwsum.Red > 0xfff )
 					pwsum.Red = 0xfff
@@ -408,7 +408,7 @@ static Sane.Status u12shadingAdjustShadingWaveform( U12_Device *dev )
 			} else
 				pwsum.Green = 0
 
-			if ((short)(pwsum.Blue -= dev.shade.DarkOffset.Colors.Blue) > 0) {
+			if((short)(pwsum.Blue -= dev.shade.DarkOffset.Colors.Blue) > 0) {
 				pwsum.Blue = pwsum.Blue * pRGB.Blue / 100U
 				if( pwsum.Blue > 0xfff )
 					pwsum.Blue = 0xfff
@@ -615,7 +615,7 @@ static Sane.Status u12shading_AdjustRGBGain( U12_Device *dev )
 				hi[2] = u12shading_SumGains(
 				            (Sane.Byte*)dev.bufs.b1.pShadingRam + 5120, 2560)
 
-				if (!hi[0] || !hi[1] || !hi[2] ) {
+				if(!hi[0] || !hi[1] || !hi[2] ) {
 					dev.shade.fStop = Sane.FALSE
 				} else {
 					u12shading_AdjustGain( dev, _CHANNEL_RED,   hi[0] )
@@ -707,7 +707,7 @@ static Sane.Status u12shadingAdjustDark( U12_Device *dev )
 		if( u12io_ReadOneShadingLine(dev,
 		                        (Sane.Byte*)dev.bufs.b1.pShadingRam, 512*2)) {
 
-			if ( dev.DataInf.wPhyDataType > COLOR_256GRAY ) {
+			if( dev.DataInf.wPhyDataType > COLOR_256GRAY ) {
 
 				wDarks[0] = u12shading_SumDarks(dev, dev.bufs.b1.pShadingRam)
 				wDarks[1] = u12shading_SumDarks(dev, dev.bufs.b1.pShadingRam +
@@ -745,7 +745,7 @@ static Sane.Status u12shadingAdjustDark( U12_Device *dev )
 	}
 
 	/* CalculateDarkDependOnCCD() */
-	if ( dev.DataInf.wPhyDataType > COLOR_256GRAY ) {
+	if( dev.DataInf.wPhyDataType > COLOR_256GRAY ) {
 		(*dev.fnDarkOffset)( dev, dev.shade.pCcdDac, _CHANNEL_RED   )
 		(*dev.fnDarkOffset)( dev, dev.shade.pCcdDac, _CHANNEL_GREEN )
 		(*dev.fnDarkOffset)( dev, dev.shade.pCcdDac, _CHANNEL_BLUE  )

@@ -1,12 +1,12 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2006 Tower Technologies
+   Copyright(C) 2006 Tower Technologies
    Author: Alessandro Zummo <a.zummo@towertech.it>
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -66,12 +66,12 @@ sanei_udp_socket(Int *fdp, Int broadcast)
 {
 	Int fd
 
-	if ((fd = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
+	if((fd = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
 		return Sane.STATUS_INVAL
 
-	if (broadcast) {
+	if(broadcast) {
 		Int opt = 1
-		if (setsockopt(fd, SOL_SOCKET, SO_BROADCAST,
+		if(setsockopt(fd, SOL_SOCKET, SO_BROADCAST,
 			       (char *) &opt, sizeof(opt)) < 0) {
 			close(fd)
 			return Sane.STATUS_INVAL
@@ -92,7 +92,7 @@ sanei_udp_connect(Int fd, const char *host, Int port)
 
 	h = gethostbyname(host)
 
-	if (h == NULL || h.h_addr_list[0] == NULL
+	if(h == NULL || h.h_addr_list[0] == NULL
 	    || h.h_addrtype != AF_INET)
 		return Sane.STATUS_INVAL
 
@@ -102,7 +102,7 @@ sanei_udp_connect(Int fd, const char *host, Int port)
 	saddr.sin_port = htons(port)
 	memcpy(&saddr.sin_addr, h.h_addr_list[0], h.h_length)
 
-	if ((err = connect(fd, (struct sockaddr *) &saddr,
+	if((err = connect(fd, (struct sockaddr *) &saddr,
 		     sizeof(struct sockaddr_in))) != 0) {
 		return Sane.STATUS_INVAL
 	}
@@ -123,16 +123,16 @@ sanei_udp_open(const char *host, Int port, Int *fdp)
 
 #ifdef HAVE_WINSOCK2_H
 	status = WSAStartup(MAKEWORD(2, 2), &wsaData)
-	if (status != 0)
+	if(status != 0)
 	    return Sane.STATUS_INVAL
 #endif
 
 	status = sanei_udp_socket(fdp, 0)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	status = sanei_udp_connect(*fdp, host, port)
-	if (status != Sane.STATUS_GOOD) {
+	if(status != Sane.STATUS_GOOD) {
 		close(*fdp)
 		return status
 	}
@@ -149,7 +149,7 @@ sanei_udp_open_broadcast(Int *fdp)
 	DBG(1, "%s\n", __func__)
 
 	status = sanei_udp_socket(fdp, 1)
-	if (status != Sane.STATUS_GOOD)
+	if(status != Sane.STATUS_GOOD)
 		return status
 
 	return status
@@ -196,7 +196,7 @@ sanei_udp_set_nonblock(Int fd, Bool nonblock)
 	long flags
 
 	flags = fcntl(fd, F_GETFL, 0L)
-	if (nonblock)
+	if(nonblock)
 		flags |= O_NONBLOCK
 	else
 		flags &= ~O_NONBLOCK
@@ -221,7 +221,7 @@ sanei_udp_recvfrom(Int fd, u_char * buf, Int count, char **fromp)
 
 	l = recvfrom(fd, buf, count, 0, (struct sockaddr *) &from, &fl)
 
-	if (l > 0 && fromp) {
+	if(l > 0 && fromp) {
 		*fromp = inet_ntoa(from.sin_addr)
 	}
 

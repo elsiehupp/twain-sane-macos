@@ -1,14 +1,14 @@
 /*
   Snapscan 1212U modifications for the Snapscan SANE backend
 
-  Copyright (C) 2000 Henrik Johansson
+  Copyright(C) 2000 Henrik Johansson
 
-  Henrik Johansson (henrikjo@post.urfors.se)
+  Henrik Johansson(henrikjo@post.urfors.se)
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License as
   published by the Free Software Foundation; either version 2 of the
-  License, or (at your option) any later version.
+  License, or(at your option) any later version.
 
   This program is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -52,14 +52,14 @@
 
      The Send Diagnostics SCSI command seems to hang some 1212U scanners.
      Bypassing this command fixes the problem. This bug was reported by
-     Dmitri (dmitri@advantrix.com).
+     Dmitri(dmitri@advantrix.com).
 
   0.3   2000-02-13
 
      The "Set window" command returns with status "Device busy" when the
      scanner is busy. One consequence is that some frontends exits with an
      error message if it's started when the scanner is warming up.
-     A solution was suggested by Dmitri (dmitri@advantrix.com)
+     A solution was suggested by Dmitri(dmitri@advantrix.com)
      The idea is that a SCSI command which returns "device busy" is stored
      in a "TODO" queue. The send command function is modified to first send
      commands in the queue before the intended command.
@@ -103,7 +103,7 @@ static Sane.Status snapscani_usb_cmd(Int fd, const void *src, size_t src_size,
     static const char me[] = "snapscani_usb_cmd"
     Int status
 
-    DBG (DL_CALL_TRACE, "%s(%d,0x%lx,%lu,0x%lx,0x%lx (%lu))\n", me,
+    DBG(DL_CALL_TRACE, "%s(%d,0x%lx,%lu,0x%lx,0x%lx(%lu))\n", me,
          fd, (u_long) src,(u_long) src_size,(u_long) dst, (u_long) dst_size,(u_long) (dst_size ? *dst_size : 0))
 
     while(bqhead) {
@@ -122,7 +122,7 @@ static Sane.Status snapscani_usb_cmd(Int fd, const void *src, size_t src_size,
 
     status = atomic_usb_cmd(fd,src,src_size,dst,dst_size)
 
-    if ((status == Sane.STATUS_DEVICE_BUSY) && is_queueable(src) ) {
+    if((status == Sane.STATUS_DEVICE_BUSY) && is_queueable(src) ) {
         enqueue_bq(fd,src,src_size)
         return Sane.STATUS_GOOD
     }
@@ -138,7 +138,7 @@ static Sane.Status atomic_usb_cmd(Int fd, const void *src, size_t src_size,
     Int status
     sigset_t all,oldset
 
-    DBG (DL_CALL_TRACE, "%s(%d,0x%lx,%lu,0x%lx,0x%lx (%lu))\n", me,
+    DBG(DL_CALL_TRACE, "%s(%d,0x%lx,%lu,0x%lx,0x%lx(%lu))\n", me,
          fd, (u_long) src,(u_long) src_size,(u_long) dst, (u_long) dst_size,(u_long) (dst_size ? *dst_size : 0))
 
     /* Prevent the calling process from being killed */
@@ -164,10 +164,10 @@ static Sane.Status snapscani_usb_open(const char *dev, Int *fdp,
 {
     static const char me[] = "snapscani_usb_open"
 
-    DBG (DL_CALL_TRACE, "%s(%s)\n", me, dev)
+    DBG(DL_CALL_TRACE, "%s(%s)\n", me, dev)
 
     if(!snapscani_mutex_open(&snapscan_mutex, dev)) {
-        DBG (DL_MAJOR_ERROR, "%s: Can't get semaphore\n", me)
+        DBG(DL_MAJOR_ERROR, "%s: Can't get semaphore\n", me)
         return Sane.STATUS_INVAL
     }
     usb_sense_handler=sense_handler
@@ -182,29 +182,29 @@ static void snapscani_usb_close(Int fd) {
     static const char me[] = "snapscani_usb_close"
     Sane.Word vendor_id, product_id
 
-    DBG (DL_CALL_TRACE, "%s(%d)\n", me, fd)
-    DBG (DL_DATA_TRACE,"1st read %ld write %ld\n", urb_counters.read_urbs, urb_counters.write_urbs)
+    DBG(DL_CALL_TRACE, "%s(%d)\n", me, fd)
+    DBG(DL_DATA_TRACE,"1st read %ld write %ld\n", urb_counters.read_urbs, urb_counters.write_urbs)
 
     /* Check if URB counting is needed. If yes, ensure the number of sent and
        received URBs is even.
        Odd number of URBs only cause problems with libusb and certain
        scanner models. On other scanner models, sending additional commands
-       seems to cause problems (e.g. 1212u_2).
+       seems to cause problems(e.g. 1212u_2).
        If sanei_usb_get_vendor_product returns an error there's probably no
        libusb, so everything's fine.
     */
-    if (sanei_usb_get_vendor_product(fd, &vendor_id, &product_id) == Sane.STATUS_GOOD)
+    if(sanei_usb_get_vendor_product(fd, &vendor_id, &product_id) == Sane.STATUS_GOOD)
     {
         /* Exclude 1212u_2 */
-        if (!((vendor_id == USB_VENDOR_AGFA) && (product_id == USB_PRODUCT_1212U2)))
+        if(!((vendor_id == USB_VENDOR_AGFA) && (product_id == USB_PRODUCT_1212U2)))
         {
-            if ((urb_counters.read_urbs & 0x01) && (urb_counters.write_urbs & 0x01))
+            if((urb_counters.read_urbs & 0x01) && (urb_counters.write_urbs & 0x01))
             {
                 char cmd[] = {TEST_UNIT_READY, 0, 0, 0, 0, 0]
 
-                snapscani_usb_cmd (fd, cmd, sizeof (cmd), NULL, 0)
+                snapscani_usb_cmd(fd, cmd, sizeof(cmd), NULL, 0)
             }
-            else if (urb_counters.read_urbs & 0x01)
+            else if(urb_counters.read_urbs & 0x01)
             {
                 size_t read_bytes
                 char cmd[] = {TEST_UNIT_READY, 0, 0, 0, 0, 0]
@@ -212,19 +212,19 @@ static void snapscani_usb_close(Int fd) {
                 char data[120]
 
                 read_bytes = 120
-                snapscani_usb_cmd (fd, cmd2, sizeof (cmd2), data, &read_bytes)
-                snapscani_usb_cmd (fd, cmd, sizeof (cmd), NULL, 0)
+                snapscani_usb_cmd(fd, cmd2, sizeof(cmd2), data, &read_bytes)
+                snapscani_usb_cmd(fd, cmd, sizeof(cmd), NULL, 0)
             }
-            else if (urb_counters.write_urbs & 0x01)
+            else if(urb_counters.write_urbs & 0x01)
             {
                 size_t read_bytes
                 char cmd[] = {INQUIRY, 0, 0, 0, 120, 0]
                 char data[120]
 
                 read_bytes = 120
-                snapscani_usb_cmd (fd, cmd, sizeof (cmd), data, &read_bytes)
+                snapscani_usb_cmd(fd, cmd, sizeof(cmd), data, &read_bytes)
             }
-            DBG (DL_DATA_TRACE,"2nd read %ld write %ld\n", urb_counters.read_urbs,
+            DBG(DL_DATA_TRACE,"2nd read %ld write %ld\n", urb_counters.read_urbs,
                 urb_counters.write_urbs)
         }
     }
@@ -282,11 +282,11 @@ static Sane.Status usb_write(Int fd, const void *buf, size_t n) {
 
     status = sanei_usb_write_bulk(fd, (const Sane.Byte*)buf, &bytes_written)
     if(bytes_written != n) {
-      DBG (DL_MAJOR_ERROR, "%s Only %lu bytes written\n",me, (u_long) bytes_written)
+      DBG(DL_MAJOR_ERROR, "%s Only %lu bytes written\n",me, (u_long) bytes_written)
         status = Sane.STATUS_IO_ERROR
     }
     urb_counters.write_urbs += (bytes_written + 7) / 8
-    DBG (DL_DATA_TRACE, "Written %lu bytes\n", (u_long) bytes_written)
+    DBG(DL_DATA_TRACE, "Written %lu bytes\n", (u_long) bytes_written)
     return status
 }
 
@@ -297,8 +297,8 @@ static Sane.Status usb_read(Int fd, void *buf, size_t n) {
     size_t bytes_read = n
 
     status = sanei_usb_read_bulk(fd, (Sane.Byte*)buf, &bytes_read)
-    if (bytes_read != n) {
-        DBG (DL_MAJOR_ERROR, "%s Only %lu bytes read\n",me, (u_long) bytes_read)
+    if(bytes_read != n) {
+        DBG(DL_MAJOR_ERROR, "%s Only %lu bytes read\n",me, (u_long) bytes_read)
         status = Sane.STATUS_IO_ERROR
     }
     urb_counters.read_urbs += ((63 + bytes_read) / 64)
@@ -329,8 +329,8 @@ static Sane.Status usb_read_status(Int fd, Int *scsistatus, Int *transaction_sta
     case GOOD:
         return Sane.STATUS_GOOD
     case CHECK_CONDITION:
-        if (usb_pss != NULL) {
-            if (command != REQUEST_SENSE) {
+        if(usb_pss != NULL) {
+            if(command != REQUEST_SENSE) {
                 return usb_request_sense(usb_pss)
             }
             else {
@@ -338,7 +338,7 @@ static Sane.Status usb_read_status(Int fd, Int *scsistatus, Int *transaction_sta
                 return Sane.STATUS_GOOD
             }
         } else {
-            DBG (DL_MAJOR_ERROR, "%s: scanner structure not set, returning default error\n",
+            DBG(DL_MAJOR_ERROR, "%s: scanner structure not set, returning default error\n",
                 me)
             return Sane.STATUS_DEVICE_BUSY
         }
@@ -359,7 +359,7 @@ static Sane.Status usb_cmd(Int fd, const void *src, size_t src_size,
   Int cmdlen,datalen
   char command
 
-  DBG (DL_CALL_TRACE, "%s(%d,0x%lx,%lu,0x%lx,0x%lx (%lu))\n", me,
+  DBG(DL_CALL_TRACE, "%s(%d,0x%lx,%lu,0x%lx,0x%lx(%lu))\n", me,
        fd, (u_long) src,(u_long) src_size,(u_long) dst, (u_long) dst_size,(u_long) (dst_size ? *dst_size : 0))
 
   /* Since the  "Send Diagnostic" command isn't supported by
@@ -432,7 +432,7 @@ static Int enqueue_bq(Int fd,const void *src, size_t src_size)
     static const char me[] = "enqueue_bq"
     struct usb_busy_queue *bqe
 
-    DBG (DL_CALL_TRACE, "%s(%d,%p,%lu)\n", me, fd,src, (u_long) src_size)
+    DBG(DL_CALL_TRACE, "%s(%d,%p,%lu)\n", me, fd,src, (u_long) src_size)
 
     if((bqe = malloc(sizeof(struct usb_busy_queue))) == NULL)
         return -1
@@ -462,7 +462,7 @@ static void dequeue_bq()
     static const char me[] = "dequeue_bq"
     struct usb_busy_queue *tbqe
 
-    DBG (DL_CALL_TRACE, "%s()\n", me)
+    DBG(DL_CALL_TRACE, "%s()\n", me)
 
     if(!bqhead)
         return
@@ -490,19 +490,19 @@ static Sane.Status usb_request_sense(SnapScan_Scanner *pss) {
 
     read_bytes = 20
 
-    DBG (DL_CALL_TRACE, "%s\n", me)
-    status = usb_cmd (pss.fd, cmd, sizeof (cmd), data, &read_bytes)
-    if (status != Sane.STATUS_GOOD)
+    DBG(DL_CALL_TRACE, "%s\n", me)
+    status = usb_cmd(pss.fd, cmd, sizeof(cmd), data, &read_bytes)
+    if(status != Sane.STATUS_GOOD)
     {
-        DBG (DL_MAJOR_ERROR, "%s: usb command error: %s\n",
-             me, Sane.strstatus (status))
+        DBG(DL_MAJOR_ERROR, "%s: usb command error: %s\n",
+             me, Sane.strstatus(status))
     }
     else
     {
-        if (usb_sense_handler) {
-            status = usb_sense_handler (pss.fd, data, (void *) pss)
+        if(usb_sense_handler) {
+            status = usb_sense_handler(pss.fd, data, (void *) pss)
         } else {
-            DBG (DL_MAJOR_ERROR, "%s: No sense handler for USB\n", me)
+            DBG(DL_MAJOR_ERROR, "%s: No sense handler for USB\n", me)
             status = Sane.STATUS_UNSUPPORTED
         }
     }
@@ -514,7 +514,7 @@ static Sane.Status snapscani_usb_shm_init(void)
 {
     unsigned Int shm_size = sizeof(struct urb_counters_t)
     urb_counters = (struct urb_counters_t*) malloc(shm_size)
-    if (urb_counters == NULL)
+    if(urb_counters == NULL)
     {
         return Sane.STATUS_NO_MEM
     }
@@ -525,9 +525,9 @@ static Sane.Status snapscani_usb_shm_init(void)
 
 static void snapscani_usb_shm_exit(void)
 {
-    if (urb_counters)
+    if(urb_counters)
     {
-        free ((void*)urb_counters)
+        free((void*)urb_counters)
         urb_counters = NULL
     }
 }
@@ -538,29 +538,29 @@ static Sane.Status snapscani_usb_shm_init(void)
 {
     unsigned Int shm_size = sizeof(struct urb_counters_t)
     void* shm_area = NULL
-    Int shm_id = shmget (IPC_PRIVATE, shm_size, IPC_CREAT | SHM_R | SHM_W)
-    if (shm_id == -1)
+    Int shm_id = shmget(IPC_PRIVATE, shm_size, IPC_CREAT | SHM_R | SHM_W)
+    if(shm_id == -1)
     {
-        DBG (DL_MAJOR_ERROR, "snapscani_usb_shm_init: cannot create shared memory segment: %s\n",
-            strerror (errno))
+        DBG(DL_MAJOR_ERROR, "snapscani_usb_shm_init: cannot create shared memory segment: %s\n",
+            strerror(errno))
         return Sane.STATUS_NO_MEM
     }
 
-    shm_area = shmat (shm_id, NULL, 0)
-    if (shm_area == (void *) -1)
+    shm_area = shmat(shm_id, NULL, 0)
+    if(shm_area == (void *) -1)
     {
-        DBG (DL_MAJOR_ERROR, "snapscani_usb_shm_init: cannot attach to shared memory segment: %s\n",
-            strerror (errno))
-        shmctl (shm_id, IPC_RMID, NULL)
+        DBG(DL_MAJOR_ERROR, "snapscani_usb_shm_init: cannot attach to shared memory segment: %s\n",
+            strerror(errno))
+        shmctl(shm_id, IPC_RMID, NULL)
         return Sane.STATUS_NO_MEM
     }
 
-    if (shmctl (shm_id, IPC_RMID, NULL) == -1)
+    if(shmctl(shm_id, IPC_RMID, NULL) == -1)
     {
-        DBG (DL_MAJOR_ERROR, "snapscani_usb_shm_init: cannot remove shared memory segment id: %s\n",
-            strerror (errno))
-        shmdt (shm_area)
-        shmctl (shm_id, IPC_RMID, NULL)
+        DBG(DL_MAJOR_ERROR, "snapscani_usb_shm_init: cannot remove shared memory segment id: %s\n",
+            strerror(errno))
+        shmdt(shm_area)
+        shmctl(shm_id, IPC_RMID, NULL)
         return Sane.STATUS_NO_MEM
     }
     urb_counters = (struct urb_counters_t*) shm_area
@@ -570,16 +570,16 @@ static Sane.Status snapscani_usb_shm_init(void)
 
 static void snapscani_usb_shm_exit(void)
 {
-    if (urb_counters)
+    if(urb_counters)
     {
-        shmdt (urb_counters)
+        shmdt(urb_counters)
         urb_counters = NULL
     }
 }
 #endif
 /*
  * Revision 1.22  2006/01/26 17:42:30  hmg-guest
- * Added #defines for SHM_R/W for cygwin (patch from Philip Aston <philipa@mail.com>).
+ * Added #defines for SHM_R/W for cygwin(patch from Philip Aston <philipa@mail.com>).
  *
  * Revision 1.21  2005/11/02 19:22:06  oliver-guest
  * Fixes for Benq 5000
@@ -588,7 +588,7 @@ static void snapscani_usb_shm_exit(void)
  * ZETA changes for SnapScan backend
  *
  * Revision 1.19  2004/10/03 17:34:36  hmg-guest
- * 64 bit platform fixes (bug #300799).
+ * 64 bit platform fixes(bug #300799).
  *
  * Revision 1.18  2004/06/16 19:52:26  oliver-guest
  * Don't enforce even number of URB packages on 1212u_2. Fixes bug #300753.
@@ -603,7 +603,7 @@ static void snapscani_usb_shm_exit(void)
  * Fixes for pthread implementation
  *
  * Revision 1.14  2004/04/08 22:48:13  oliver-guest
- * Use URB counting in snapscan-usb.c (thanks to Jose Alberto Reguero)
+ * Use URB counting in snapscan-usb.c(thanks to Jose Alberto Reguero)
  *
  * Revision 1.13  2003/11/08 09:50:27  oliver-guest
  * Fix TPO scanning range for Epson 1670

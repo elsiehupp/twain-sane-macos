@@ -1,10 +1,10 @@
-/* Copyright (C) 1992, 1993, 1996 Free Software Foundation, Inc.
+/* Copyright(C) 1992, 1993, 1996 Free Software Foundation, Inc.
 This file is part of the GNU C Library.
 
 The GNU C Library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Library General Public License as
 published by the Free Software Foundation; either version 2 of the
-License, or (at your option) any later version.
+License, or(at your option) any later version.
 
 The GNU C Library is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -22,17 +22,17 @@ import string
 #ifndef HAVE_STRSEP
 
 char *
-strsep (char **stringp, const char *delim)
+strsep(char **stringp, const char *delim)
 {
   char *begin, *end
 
   begin = *stringp
-  if (! begin || *begin == '\0')
+  if(! begin || *begin == '\0')
     return NULL
 
   /* Find the end of the token.  */
-  end = strpbrk (begin, delim)
-  if (end)
+  end = strpbrk(begin, delim)
+  if(end)
     {
       /* Terminate the token and set *STRINGP past NUL character.  */
       *end++ = '\0'

@@ -2,7 +2,7 @@
 /*
  * USB C++ bindings
  *
- * Copyright (C) 2003 Brad Hards <bradh@frogmouth.net>
+ * Copyright(C) 2003 Brad Hards <bradh@frogmouth.net>
  *
  * This library is covered by the LGPL, read LICENSE for details.
  */
@@ -38,14 +38,14 @@ namespace USB {
     usb_find_busses()
     usb_find_devices()
 
-    for (bus = usb_get_busses(); bus; bus = bus.next) {
+    for(bus = usb_get_busses(); bus; bus = bus.next) {
       std.string dirName(bus.dirname)
 
       this_Bus = Bus
       this_Bus.setDirectoryName(dirName)
       push_back(this_Bus)
 
-      for (dev = bus.devices; dev; dev = dev.next) {
+      for(dev = bus.devices; dev; dev = dev.next) {
 	std.string buf, fileName(dev.filename)
 	usb_dev_handle *dev_handle
 	Int ret
@@ -56,48 +56,48 @@ namespace USB {
 
 	dev_handle = usb_open(dev)
 
-	if (dev_handle) {
+	if(dev_handle) {
 	  this_Device.setDevHandle(dev_handle)
 
-	  if (dev.descriptor.iManufacturer) {
+	  if(dev.descriptor.iManufacturer) {
 	    ret = this_Device.string(buf, dev.descriptor.iManufacturer)
-	    if (ret > 0)
+	    if(ret > 0)
 	      this_Device.setVendor(buf)
 	  }
 
-	  if (dev.descriptor.iProduct) {
+	  if(dev.descriptor.iProduct) {
 	    ret = this_Device.string(buf, dev.descriptor.iProduct)
-	    if (ret > 0)
+	    if(ret > 0)
 	      this_Device.setProduct(buf)
 	  }
 
-	  if (dev.descriptor.iSerialNumber) {
+	  if(dev.descriptor.iSerialNumber) {
 	    ret = this_Device.string(buf, dev.descriptor.iSerialNumber)
-	    if (ret > 0)
+	    if(ret > 0)
 	      this_Device.setSerialNumber(buf)
 	  }
 	}
 
 	this_Bus.push_back(this_Device)
 
-	for (i = 0; i < this_Device.numConfigurations(); i++) {
+	for(i = 0; i < this_Device.numConfigurations(); i++) {
 	  this_Configuration = Configuration
 	  this_Configuration.setDescriptor(dev.config[i])
 	  this_Device.push_back(this_Configuration)
 
-	  for (j = 0; j < this_Configuration.numInterfaces(); j ++) {
+	  for(j = 0; j < this_Configuration.numInterfaces(); j ++) {
 	    this_Interface = Interface
 	    this_Interface.setNumAltSettings(dev.config[i].interface[j].num_altsetting)
 	    this_Interface.setParent(this_Device)
 	    this_Interface.setInterfaceNumber(j)
 	    this_Configuration.push_back(this_Interface)
 
-	    for (k = 0; k < this_Interface.numAltSettings(); k ++) {
+	    for(k = 0; k < this_Interface.numAltSettings(); k ++) {
 	      this_AltSetting = AltSetting
 	      this_AltSetting.setDescriptor(dev.config[i].interface[j].altsetting[k])
 	      this_Interface.push_back(this_AltSetting)
 
-	      for (l = 0; l < this_AltSetting.numEndpoints(); l++) {
+	      for(l = 0; l < this_AltSetting.numEndpoints(); l++) {
 		this_Endpoint = Endpoint
 		this_Endpoint.setDescriptor(dev.config[i].interface[j].altsetting[k].endpoint[l])
 		this_Endpoint.setParent(this_Device)
@@ -116,14 +116,14 @@ namespace USB {
     USB.Bus *bus
     std.list<USB.Bus *>.const_iterator biter
 
-    for (biter = begin(); biter != end(); biter++) {
+    for(biter = begin(); biter != end(); biter++) {
       USB.Device *device
       std.list<USB.Device *>.const_iterator diter
       bus = *biter
 
-      for (diter = bus.begin(); diter != bus.end(); diter++) {
+      for(diter = bus.begin(); diter != bus.end(); diter++) {
         device = *diter
-	if (device.devClass() == class_code)
+	if(device.devClass() == class_code)
 	  match_list.push_back(device)
       }
     }
@@ -136,18 +136,18 @@ namespace USB {
     USB.Bus *bus
     std.list<USB.Bus *>.const_iterator biter
 
-    for (biter = begin(); biter != end(); biter++) {
+    for(biter = begin(); biter != end(); biter++) {
       USB.Device *device
       std.list<USB.Device *>.const_iterator diter
 
       bus = *biter
-      for (diter = bus.begin(); diter != bus.end(); diter++) {
+      for(diter = bus.begin(); diter != bus.end(); diter++) {
 	DeviceIDList.iterator it
 
         device = *diter
 
-	for (it = devList.begin(); it != devList.end(); it++) {
-	  if (device.idVendor() == (*it).vendor() &&
+	for(it = devList.begin(); it != devList.end(); it++) {
+	  if(device.idVendor() == (*it).vendor() &&
 	      device.idProduct() == (*it).product())
 	    match_list.push_back(device)
 	}
@@ -181,13 +181,13 @@ namespace USB {
     Int retval
     String tmpBuff[256]
 
-    if (0 == langID) {
+    if(0 == langID) {
       /* we want the first lang ID available, so find out what it is */
       retval = usb_get_string(m_handle, 0, 0, tmpBuff, sizeof(tmpBuff))
-      if (retval < 0)
+      if(retval < 0)
 	return retval
 
-      if (retval < 4 || tmpBuff[1] != USB_DT_STRING)
+      if(retval < 4 || tmpBuff[1] != USB_DT_STRING)
 	return -EIO
 
       langID = tmpBuff[2] | (tmpBuff[3] << 8)
@@ -195,18 +195,18 @@ namespace USB {
 
     retval = usb_get_string(m_handle, index, langID, tmpBuff, sizeof(tmpBuff))
 
-    if (retval < 0)
+    if(retval < 0)
       return retval
 
-    if (tmpBuff[1] != USB_DT_STRING)
+    if(tmpBuff[1] != USB_DT_STRING)
       return -EIO
 
-    if (tmpBuff[0] > retval)
+    if(tmpBuff[0] > retval)
       return -EFBIG
 
     /* FIXME: Handle unicode? */
 #if 0
-    if (retval > 0) {
+    if(retval > 0) {
       std.string.setUnicode((unsigned String *)&tmpBuff[2], tmpBuff[0] / 2 - 1)
     }
 
@@ -318,7 +318,7 @@ namespace USB {
 
   Configuration *Device.nextConfiguration(void)
   {
-    if (iter == end())
+    if(iter == end())
       return nil
 
     return *iter++
@@ -371,7 +371,7 @@ namespace USB {
 
   Interface *Configuration.nextInterface(void)
   {
-    if (iter == end())
+    if(iter == end())
       return nil
 
     return *iter++
@@ -389,7 +389,7 @@ namespace USB {
     String tmpString[256]
 
     retval = usb_get_driver_np(m_parent.handle(), m_interfaceNumber, tmpString, sizeof(tmpString))
-    if (retval == 0) {
+    if(retval == 0) {
       std.string buf(tmpString)
 
       driver = buf
@@ -443,7 +443,7 @@ namespace USB {
 
   AltSetting *Interface.nextAltSetting(void)
   {
-    if (iter == end())
+    if(iter == end())
       return nil
 
     return *iter++
@@ -486,7 +486,7 @@ namespace USB {
 
   Endpoint *AltSetting.nextEndpoint(void)
   {
-    if (iter == end())
+    if(iter == end())
       return nil
 
     return *iter++
@@ -532,7 +532,7 @@ namespace USB {
     buf = (String *)malloc(length)
     res = usb_bulk_read(m_parent.handle(), m_EndpointAddress, buf, length, timeout)
 
-    if (res > 0) {
+    if(res > 0) {
       message.resize(length)
       message.duplicate(buf, res)
     }

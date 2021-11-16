@@ -5,7 +5,7 @@
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -56,7 +56,7 @@
    . .
    . . - Sane.start() : start image acquisition
    . .   - Sane.get_parameters() : returns actual scan parameters
-   . .   - Sane.read() : read image data (from pipe)
+   . .   - Sane.read() : read image data(from pipe)
    . .
    . . - Sane.cancel() : cancel operation
    . - Sane.close() : close opened scanner device
@@ -113,7 +113,7 @@ import Sane.sanei_backend
 #define	RT_CHANNEL_GREEN	2
 #define	RT_CHANNEL_BLUE		3
 
-typedef Int (*rts8801_callback) (void *param, unsigned bytes, void *data)
+typedef Int(*rts8801_callback) (void *param, unsigned bytes, void *data)
 
 #define DEBUG 1
 #define SCANNER_UNIT_TO_FIXED_MM(number) Sane.FIX(number * MM_PER_INCH / 1200)
@@ -213,15 +213,15 @@ static Int num_devices = 0
 static Int res_list[] =
   { 9, 50, 75, 100, 150, 200, 300, 400, 600, 1200 ]
 static const Sane.Range range_x =
-  { 0, Sane.FIX (215.9), Sane.FIX (MM_PER_INCH / 1200) ]
+  { 0, Sane.FIX(215.9), Sane.FIX(MM_PER_INCH / 1200) ]
 static const Sane.Range range_y =
-  { 0, Sane.FIX (298.7), Sane.FIX (MM_PER_INCH / 1200) ]
+  { 0, Sane.FIX(298.7), Sane.FIX(MM_PER_INCH / 1200) ]
 static const Sane.Range range_brightness =
   { 0, 255, 0 ]
 static const Sane.Range range_contrast =
   { 0, 255, 0 ]
 static const Sane.Range range_gamma =
-  { Sane.FIX (0.2), Sane.FIX(4.0), Sane.FIX(0.01) ]
+  { Sane.FIX(0.2), Sane.FIX(4.0), Sane.FIX(0.01) ]
 
 
 #define HP3500_COLOR_SCAN 0
@@ -231,12 +231,12 @@ static const Sane.Range range_gamma =
 
 static char const *scan_mode_list[HP3500_TOTAL_SCANS + 1] = { 0 ]
 
-static Sane.Status attachScanner (const char *name)
-static Sane.Status init_options (struct hp3500_data *scanner)
-static Int reader_process (void *)
-static void calculateDerivedValues (struct hp3500_data *scanner)
-static void do_reset (struct hp3500_data *scanner)
-static void do_cancel (struct hp3500_data *scanner)
+static Sane.Status attachScanner(const char *name)
+static Sane.Status init_options(struct hp3500_data *scanner)
+static Int reader_process(void *)
+static void calculateDerivedValues(struct hp3500_data *scanner)
+static void do_reset(struct hp3500_data *scanner)
+static void do_cancel(struct hp3500_data *scanner)
 static size_t max_string_size(char const **)
 
 /*
@@ -263,21 +263,21 @@ static const Sane.Device **devlist = 0
  * not support authentication.
  */
 Sane.Status
-Sane.init (Int * version_code, Sane.Auth_Callback authorize)
+Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 {
   authorize = authorize;	/* get rid of compiler warning */
 
-  DBG_INIT ()
-  DBG (10, "Sane.init\n")
+  DBG_INIT()
+  DBG(10, "Sane.init\n")
 
-  sanei_usb_init ()
-  sanei_thread_init ()
+  sanei_usb_init()
+  sanei_thread_init()
 
-  if (version_code)
-    *version_code = Sane.VERSION_CODE (Sane.CURRENT_MAJOR, V_MINOR, 0)
+  if(version_code)
+    *version_code = Sane.VERSION_CODE(Sane.CURRENT_MAJOR, V_MINOR, 0)
 
-  sanei_usb_find_devices (0x03f0, 0x2205, attachScanner)
-  sanei_usb_find_devices (0x03f0, 0x2005, attachScanner)
+  sanei_usb_find_devices(0x03f0, 0x2205, attachScanner)
+  sanei_usb_find_devices(0x03f0, 0x2005, attachScanner)
 
   return Sane.STATUS_GOOD
 }
@@ -291,11 +291,11 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
  * available. If the function executes successfully, it stores a
  * pointer to a NULL terminated array of pointers to Sane.Device
  * structures in *device_list. The returned list is guaranteed to
- * remain unchanged and valid until (a) another call to this function
- * is performed or (b) a call to Sane.exit() is performed. This
+ * remain unchanged and valid until(a) another call to this function
+ * is performed or(b) a call to Sane.exit() is performed. This
  * function can be called repeatedly to detect when new devices become
  * available. If argument local_only is true, only local devices are
- * returned (devices directly attached to the machine that SANE is
+ * returned(devices directly attached to the machine that SANE is
  * running on). If it is false, the device list includes all remote
  * devices that are accessible to the SANE library.
  *
@@ -305,20 +305,20 @@ Sane.init (Int * version_code, Sane.Auth_Callback authorize)
  * undesirable to call this function first.
  */
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
+Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 {
   var i: Int
   struct hp3500_data *dev
 
-  DBG (10, "Sane.get_devices %d\n", local_only)
+  DBG(10, "Sane.get_devices %d\n", local_only)
 
-  if (devlist)
-    free (devlist)
-  devlist = calloc (num_devices + 1, sizeof (Sane.Device *))
-  if (!devlist)
+  if(devlist)
+    free(devlist)
+  devlist = calloc(num_devices + 1, sizeof(Sane.Device *))
+  if(!devlist)
     return Sane.STATUS_NO_MEM
 
-  for (dev = first_dev, i = 0; i < num_devices; dev = dev.next)
+  for(dev = first_dev, i = 0; i < num_devices; dev = dev.next)
     devlist[i++] = &dev.sane
   devlist[i++] = 0
 
@@ -341,54 +341,54 @@ Sane.get_devices (const Sane.Device *** device_list, Bool local_only)
  * (if there is such a device).
  */
 Sane.Status
-Sane.open (Sane.String_Const name, Sane.Handle * handle)
+Sane.open(Sane.String_Const name, Sane.Handle * handle)
 {
   struct hp3500_data *dev = NULL
   struct hp3500_data *scanner = NULL
 
-  if (name[0] == 0)
+  if(name[0] == 0)
     {
-      DBG (10, "Sane.open: no device requested, using default\n")
-      if (first_dev)
+      DBG(10, "Sane.open: no device requested, using default\n")
+      if(first_dev)
 	{
 	  scanner = (struct hp3500_data *) first_dev
-	  DBG (10, "Sane.open: device %s found\n", first_dev.sane.name)
+	  DBG(10, "Sane.open: device %s found\n", first_dev.sane.name)
 	}
     }
   else
     {
-      DBG (10, "Sane.open: device %s requested\n", name)
+      DBG(10, "Sane.open: device %s requested\n", name)
 
-      for (dev = first_dev; dev; dev = dev.next)
+      for(dev = first_dev; dev; dev = dev.next)
 	{
-	  if (strcmp (dev.sane.name, name) == 0)
+	  if(strcmp(dev.sane.name, name) == 0)
 	    {
-	      DBG (10, "Sane.open: device %s found\n", name)
+	      DBG(10, "Sane.open: device %s found\n", name)
 	      scanner = (struct hp3500_data *) dev
 	    }
 	}
     }
 
-  if (!scanner)
+  if(!scanner)
     {
-      DBG (10, "Sane.open: no device found\n")
+      DBG(10, "Sane.open: no device found\n")
       return Sane.STATUS_INVAL
     }
 
   *handle = scanner
 
-  init_options (scanner)
+  init_options(scanner)
 
   scanner.resolution = 200
   scanner.request_mm.left = 0
   scanner.request_mm.top = 0
-  scanner.request_mm.right = SCANNER_UNIT_TO_FIXED_MM (10200)
-  scanner.request_mm.bottom = SCANNER_UNIT_TO_FIXED_MM (14100)
+  scanner.request_mm.right = SCANNER_UNIT_TO_FIXED_MM(10200)
+  scanner.request_mm.bottom = SCANNER_UNIT_TO_FIXED_MM(14100)
   scanner.mode = 0
   scanner.brightness = 128
   scanner.contrast = 64
   scanner.gamma = 2.2
-  calculateDerivedValues (scanner)
+  calculateDerivedValues(scanner)
 
   return Sane.STATUS_GOOD
 
@@ -399,10 +399,10 @@ Sane.open (Sane.String_Const name, Sane.Handle * handle)
  * An advanced method we don't support but have to define.
  */
 Sane.Status
-Sane.set_io_mode (Sane.Handle h, Bool non_blocking)
+Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
 {
-  DBG (10, "Sane.set_io_mode\n")
-  DBG (99, "%d %p\n", non_blocking, h)
+  DBG(10, "Sane.set_io_mode\n")
+  DBG(99, "%d %p\n", non_blocking, h)
   return Sane.STATUS_UNSUPPORTED
 }
 
@@ -411,12 +411,12 @@ Sane.set_io_mode (Sane.Handle h, Bool non_blocking)
  * An advanced method we don't support but have to define.
  */
 Sane.Status
-Sane.get_select_fd (Sane.Handle h, Int * fdp)
+Sane.get_select_fd(Sane.Handle h, Int * fdp)
 {
   struct hp3500_data *scanner = (struct hp3500_data *) h
-  DBG (10, "Sane.get_select_fd\n")
+  DBG(10, "Sane.get_select_fd\n")
   *fdp = scanner.pipe_r
-  DBG (99, "%p %d\n", h, *fdp)
+  DBG(99, "%p %d\n", h, *fdp)
   return Sane.STATUS_GOOD
 }
 
@@ -429,20 +429,20 @@ Sane.get_select_fd (Sane.Handle h, Int * fdp)
  * returns the option descriptor for option number n of the device
  * represented by handle h. Option number 0 is guaranteed to be a
  * valid option. Its value is an integer that specifies the number of
- * options that are available for device handle h (the count includes
+ * options that are available for device handle h(the count includes
  * option 0). If n is not a valid option index, the function returns
  * NULL. The returned option descriptor is guaranteed to remain valid
  * (and at the returned address) until the device is closed.
  */
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
   struct hp3500_data *scanner = handle
 
-  DBG (MSG_GET,
+  DBG(MSG_GET,
        "Sane.get_option_descriptor: \"%s\"\n", scanner.opt[option].name)
 
-  if ((unsigned) option >= NUM_OPTIONS)
+  if((unsigned) option >= NUM_OPTIONS)
     return NULL
   return &scanner.opt[option]
 }
@@ -459,7 +459,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
  * below.  The value of the option is passed through argument val. It
  * is a pointer to the memory that holds the option value. The memory
  * area pointed to by v must be big enough to hold the entire option
- * value (determined by member size in the corresponding option
+ * value(determined by member size in the corresponding option
  * descriptor).
  *
  * The only exception to this rule is that when setting the value of a
@@ -470,7 +470,7 @@ Sane.get_option_descriptor (Sane.Handle handle, Int option)
  * well the request has been met.
  */
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
 		     Sane.Action action, void *val, Int * info)
 {
   struct hp3500_data *scanner = (struct hp3500_data *) handle
@@ -479,36 +479,36 @@ Sane.control_option (Sane.Handle handle, Int option,
   Int dummy
   var i: Int
 
-  /* Make sure that all those statements involving *info cannot break (better
-   * than having to do "if (info) ..." everywhere!)
+  /* Make sure that all those statements involving *info cannot break(better
+   * than having to do "if(info) ..." everywhere!)
    */
-  if (info == 0)
+  if(info == 0)
     info = &dummy
 
   *info = 0
 
-  if (option >= NUM_OPTIONS)
+  if(option >= NUM_OPTIONS)
     return Sane.STATUS_INVAL
 
   cap = scanner.opt[option].cap
 
   /*
    * Sane.ACTION_GET_VALUE: We have to find out the current setting and
-   * return it in a human-readable form (often, text).
+   * return it in a human-readable form(often, text).
    */
-  if (action == Sane.ACTION_GET_VALUE)
+  if(action == Sane.ACTION_GET_VALUE)
     {
-      DBG (MSG_GET, "Sane.control_option: get value \"%s\"\n",
+      DBG(MSG_GET, "Sane.control_option: get value \"%s\"\n",
 	   scanner.opt[option].name)
-      DBG (11, "\tcap = %d\n", cap)
+      DBG(11, "\tcap = %d\n", cap)
 
-      if (!Sane.OPTION_IS_ACTIVE (cap))
+      if(!Sane.OPTION_IS_ACTIVE(cap))
 	{
-	  DBG (10, "\tinactive\n")
+	  DBG(10, "\tinactive\n")
 	  return Sane.STATUS_INVAL
 	}
 
-      switch (option)
+      switch(option)
 	{
 	case OPT_NUM_OPTS:
 	  *(Sane.Word *) val = NUM_OPTIONS
@@ -535,7 +535,7 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  return Sane.STATUS_GOOD
 
 	case OPT_MODE:
-	  strcpy ((Sane.Char *) val, scan_mode_list[scanner.mode])
+	  strcpy((Sane.Char *) val, scan_mode_list[scanner.mode])
 	  return Sane.STATUS_GOOD
 
 	case OPT_CONTRAST:
@@ -551,27 +551,27 @@ Sane.control_option (Sane.Handle handle, Int option,
 	  return Sane.STATUS_GOOD
 	}
     }
-  else if (action == Sane.ACTION_SET_VALUE)
+  else if(action == Sane.ACTION_SET_VALUE)
     {
-      DBG (10, "Sane.control_option: set value \"%s\"\n",
+      DBG(10, "Sane.control_option: set value \"%s\"\n",
 	   scanner.opt[option].name)
 
-      if (!Sane.OPTION_IS_ACTIVE (cap))
+      if(!Sane.OPTION_IS_ACTIVE(cap))
 	{
-	  DBG (10, "\tinactive\n")
+	  DBG(10, "\tinactive\n")
 	  return Sane.STATUS_INVAL
 	}
 
-      if (!Sane.OPTION_IS_SETTABLE (cap))
+      if(!Sane.OPTION_IS_SETTABLE(cap))
 	{
-	  DBG (10, "\tnot settable\n")
+	  DBG(10, "\tnot settable\n")
 	  return Sane.STATUS_INVAL
 	}
 
-      status = sanei_constrain_value (scanner.opt + option, val, info)
-      if (status != Sane.STATUS_GOOD)
+      status = sanei_constrain_value(scanner.opt + option, val, info)
+      if(status != Sane.STATUS_GOOD)
 	{
-	  DBG (10, "\tbad value\n")
+	  DBG(10, "\tbad value\n")
 	  return status
 	}
 
@@ -582,68 +582,68 @@ Sane.control_option (Sane.Handle handle, Int option,
        * sanei_constrain_value does. Hence no "else: invalid" branches
        * below.
        */
-      switch (option)
+      switch(option)
 	{
 	case OPT_RESOLUTION:
-	  if (scanner.resolution == *(Sane.Word *) val)
+	  if(scanner.resolution == *(Sane.Word *) val)
 	    {
 	      return Sane.STATUS_GOOD
 	    }
 	  scanner.resolution = (*(Sane.Word *) val)
-	  calculateDerivedValues (scanner)
+	  calculateDerivedValues(scanner)
 	  *info |= Sane.INFO_RELOAD_PARAMS
 	  return Sane.STATUS_GOOD
 
 	case OPT_TL_X:
-	  if (scanner.request_mm.left == *(Sane.Word *) val)
+	  if(scanner.request_mm.left == *(Sane.Word *) val)
 	    return Sane.STATUS_GOOD
 	  scanner.request_mm.left = *(Sane.Word *) val
-	  calculateDerivedValues (scanner)
-	  if (scanner.actual_mm.left != scanner.request_mm.left)
+	  calculateDerivedValues(scanner)
+	  if(scanner.actual_mm.left != scanner.request_mm.left)
 	    *info |= Sane.INFO_INEXACT
 	  *info |= Sane.INFO_RELOAD_PARAMS
 	  return Sane.STATUS_GOOD
 
 	case OPT_TL_Y:
-	  if (scanner.request_mm.top == *(Sane.Word *) val)
+	  if(scanner.request_mm.top == *(Sane.Word *) val)
 	    return Sane.STATUS_GOOD
 	  scanner.request_mm.top = *(Sane.Word *) val
-	  calculateDerivedValues (scanner)
-	  if (scanner.actual_mm.top != scanner.request_mm.top)
+	  calculateDerivedValues(scanner)
+	  if(scanner.actual_mm.top != scanner.request_mm.top)
 	    *info |= Sane.INFO_INEXACT
 	  *info |= Sane.INFO_RELOAD_PARAMS
 	  return Sane.STATUS_GOOD
 
 	case OPT_BR_X:
-	  if (scanner.request_mm.right == *(Sane.Word *) val)
+	  if(scanner.request_mm.right == *(Sane.Word *) val)
 	    {
 	      return Sane.STATUS_GOOD
 	    }
 	  scanner.request_mm.right = *(Sane.Word *) val
-	  calculateDerivedValues (scanner)
-	  if (scanner.actual_mm.right != scanner.request_mm.right)
+	  calculateDerivedValues(scanner)
+	  if(scanner.actual_mm.right != scanner.request_mm.right)
 	    *info |= Sane.INFO_INEXACT
 	  *info |= Sane.INFO_RELOAD_PARAMS
 	  return Sane.STATUS_GOOD
 
 	case OPT_BR_Y:
-	  if (scanner.request_mm.bottom == *(Sane.Word *) val)
+	  if(scanner.request_mm.bottom == *(Sane.Word *) val)
 	    {
 	      return Sane.STATUS_GOOD
 	    }
 	  scanner.request_mm.bottom = *(Sane.Word *) val
-	  calculateDerivedValues (scanner)
-	  if (scanner.actual_mm.bottom != scanner.request_mm.bottom)
+	  calculateDerivedValues(scanner)
+	  if(scanner.actual_mm.bottom != scanner.request_mm.bottom)
 	    *info |= Sane.INFO_INEXACT
 	  *info |= Sane.INFO_RELOAD_PARAMS
 	  return Sane.STATUS_GOOD
 
 	case OPT_MODE:
-	  for (i = 0; scan_mode_list[i]; ++i)
+	  for(i = 0; scan_mode_list[i]; ++i)
 	    {
-	      if (!strcmp ((Sane.Char const *) val, scan_mode_list[i]))
+	      if(!strcmp((Sane.Char const *) val, scan_mode_list[i]))
 		{
-		  DBG (10, "Setting scan mode to %s (request: %s)\n",
+		  DBG(10, "Setting scan mode to %s(request: %s)\n",
 		       scan_mode_list[i], (Sane.Char const *) val)
 		  scanner.mode = i
 		  return Sane.STATUS_GOOD
@@ -673,39 +673,39 @@ Sane.control_option (Sane.Handle handle, Int option,
  *
  */
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   struct hp3500_data *scanner = handle
   Int defaultFds[2]
   Int ret
 
-  DBG (10, "Sane.start\n")
+  DBG(10, "Sane.start\n")
 
-  if (scanner.sfd < 0)
+  if(scanner.sfd < 0)
     {
       /* first call */
-      DBG (10, "Sane.start opening USB device\n")
-      if (sanei_usb_open (scanner.sane.name, &(scanner.sfd)) !=
+      DBG(10, "Sane.start opening USB device\n")
+      if(sanei_usb_open(scanner.sane.name, &(scanner.sfd)) !=
 	  Sane.STATUS_GOOD)
 	{
-	  DBG (MSG_ERR,
+	  DBG(MSG_ERR,
 	       "Sane.start: open of %s failed:\n", scanner.sane.name)
 	  return Sane.STATUS_INVAL
 	}
     }
 
-  calculateDerivedValues (scanner)
+  calculateDerivedValues(scanner)
 
-  DBG (10, "\tbytes per line = %d\n", scanner.bytes_per_scan_line)
-  DBG (10, "\tpixels_per_line = %d\n", scanner.scan_width_pixels)
-  DBG (10, "\tlines = %d\n", scanner.scan_height_pixels)
+  DBG(10, "\tbytes per line = %d\n", scanner.bytes_per_scan_line)
+  DBG(10, "\tpixels_per_line = %d\n", scanner.scan_width_pixels)
+  DBG(10, "\tlines = %d\n", scanner.scan_height_pixels)
 
 
   /* create a pipe, fds[0]=read-fd, fds[1]=write-fd */
-  if (pipe (defaultFds) < 0)
+  if(pipe(defaultFds) < 0)
     {
-      DBG (MSG_ERR, "ERROR: could not create pipe\n")
-      do_cancel (scanner)
+      DBG(MSG_ERR, "ERROR: could not create pipe\n")
+      do_cancel(scanner)
       return Sane.STATUS_IO_ERROR
     }
 
@@ -714,24 +714,24 @@ Sane.start (Sane.Handle handle)
 
   ret = Sane.STATUS_GOOD
 
-  scanner.reader_pid = sanei_thread_begin (reader_process, scanner)
-  time (&scanner.last_scan)
+  scanner.reader_pid = sanei_thread_begin(reader_process, scanner)
+  time(&scanner.last_scan)
 
-  if (!sanei_thread_is_valid (scanner.reader_pid))
+  if(!sanei_thread_is_valid(scanner.reader_pid))
     {
-      DBG (MSG_ERR, "cannot fork reader process.\n")
-      DBG (MSG_ERR, "%s", strerror (errno))
+      DBG(MSG_ERR, "cannot fork reader process.\n")
+      DBG(MSG_ERR, "%s", strerror(errno))
       ret = Sane.STATUS_IO_ERROR
     }
 
-  if (sanei_thread_is_forked ())
+  if(sanei_thread_is_forked())
     {
-      close (scanner.pipe_w)
+      close(scanner.pipe_w)
     }
 
-  if (ret == Sane.STATUS_GOOD)
+  if(ret == Sane.STATUS_GOOD)
     {
-      DBG (10, "Sane.start: ok\n")
+      DBG(10, "Sane.start: ok\n")
     }
 
   return ret
@@ -745,7 +745,7 @@ Sane.start (Sane.Handle handle)
  * From the SANE spec:
  * This function is used to obtain the current scan parameters. The
  * returned parameters are guaranteed to be accurate between the time
- * a scan has been started (Sane.start() has been called) and the
+ * a scan has been started(Sane.start() has been called) and the
  * completion of that request. Outside of that window, the returned
  * values are best-effort estimates of what the parameters will be
  * when Sane.start() gets invoked.
@@ -757,14 +757,14 @@ Sane.start (Sane.Handle handle)
  * to a parameter structure.
  */
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
   struct hp3500_data *scanner = (struct hp3500_data *) handle
 
 
-  DBG (10, "Sane.get_parameters\n")
+  DBG(10, "Sane.get_parameters\n")
 
-  calculateDerivedValues (scanner)
+  calculateDerivedValues(scanner)
 
   params.format =
     (scanner.mode == HP3500_COLOR_SCAN) ? Sane.FRAME_RGB : Sane.FRAME_GRAY
@@ -776,10 +776,10 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
   params.bytes_per_line = scanner.bytes_per_scan_line
 
   params.last_frame = 1
-  DBG (10, "\tdepth %d\n", params.depth)
-  DBG (10, "\tlines %d\n", params.lines)
-  DBG (10, "\tpixels_per_line %d\n", params.pixels_per_line)
-  DBG (10, "\tbytes_per_line %d\n", params.bytes_per_line)
+  DBG(10, "\tdepth %d\n", params.depth)
+  DBG(10, "\tlines %d\n", params.lines)
+  DBG(10, "\tpixels_per_line %d\n", params.pixels_per_line)
+  DBG(10, "\tbytes_per_line %d\n", params.bytes_per_line)
   return Sane.STATUS_GOOD
 }
 
@@ -797,14 +797,14 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
  * represented by handle h.  Argument buf is a pointer to a memory
  * area that is at least maxlen bytes long.  The number of bytes
  * returned is stored in *len. A backend must set this to zero when
- * the call fails (i.e., when a status other than Sane.STATUS_GOOD is
+ * the call fails(i.e., when a status other than Sane.STATUS_GOOD is
  * returned).
  *
  * When the call succeeds, the number of bytes returned can be
  * anywhere in the range from 0 to maxlen bytes.
  */
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * buf,
+Sane.read(Sane.Handle handle, Sane.Byte * buf,
 	   Int max_len, Int * len)
 {
   struct hp3500_data *scanner = (struct hp3500_data *) handle
@@ -813,29 +813,29 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf,
 
   *len = 0
 
-  nread = read (source, buf, max_len)
-  DBG (30, "Sane.read: read %ld bytes of %ld\n",
+  nread = read(source, buf, max_len)
+  DBG(30, "Sane.read: read %ld bytes of %ld\n",
        (long) nread, (long) max_len)
 
-  if (nread < 0)
+  if(nread < 0)
     {
-      if (errno == EAGAIN)
+      if(errno == EAGAIN)
 	{
 	  return Sane.STATUS_GOOD
 	}
       else
 	{
-	  do_cancel (scanner)
+	  do_cancel(scanner)
 	  return Sane.STATUS_IO_ERROR
 	}
     }
 
   *len = nread
 
-  if (nread == 0)
+  if(nread == 0)
     {
-      close (source)
-      DBG (10, "Sane.read: pipe closed\n")
+      close(source)
+      DBG(10, "Sane.read: pipe closed\n")
       return Sane.STATUS_EOF
     }
 
@@ -851,7 +851,7 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf,
  * batch - quoting David Mosberger-Tang:
  *
  * > In other words, the idea is to have Sane.start() be called, and
- * > collect as many images as the frontend wants (which could in turn
+ * > collect as many images as the frontend wants(which could in turn
  * > consist of multiple frames each as indicated by frame-type) and
  * > when the frontend is done, it should call Sane.cancel().
  * > Sometimes it's better to think of Sane.cancel() as "Sane.stop()"
@@ -859,7 +859,7 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf,
  * > well, that's why we stuck with "cancel".
  *
  * The current consensus regarding duplex and ADF scans seems to be
- * the following call sequence: Sane.start; Sane.read (repeat until
+ * the following call sequence: Sane.start; Sane.read(repeat until
  * EOF); Sane.start; Sane.read...  and then call Sane.cancel if the
  * batch is at an end. I.e. do not call Sane.cancel during the run but
  * as soon as you get a Sane.STATUS_NO_DOCS.
@@ -867,24 +867,24 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf,
  * From the SANE spec:
  * This function is used to immediately or as quickly as possible
  * cancel the currently pending operation of the device represented by
- * handle h.  This function can be called at any time (as long as
+ * handle h.  This function can be called at any time(as long as
  * handle h is a valid handle) but usually affects long-running
- * operations only (such as image is acquisition). It is safe to call
- * this function asynchronously (e.g., from within a signal handler).
+ * operations only(such as image is acquisition). It is safe to call
+ * this function asynchronously(e.g., from within a signal handler).
  * It is important to note that completion of this operation does not
  * imply that the currently pending operation has been cancelled. It
  * only guarantees that cancellation has been initiated. Cancellation
- * completes only when the cancelled call returns (typically with a
+ * completes only when the cancelled call returns(typically with a
  * status value of Sane.STATUS_CANCELLED).  Since the SANE API does
  * not require any other operations to be re-entrant, this implies
  * that a frontend must not call any other operation until the
  * cancelled operation has returned.
  */
 void
-Sane.cancel (Sane.Handle h)
+Sane.cancel(Sane.Handle h)
 {
-  DBG (10, "Sane.cancel\n")
-  do_cancel ((struct hp3500_data *) h)
+  DBG(10, "Sane.cancel\n")
+  do_cancel((struct hp3500_data *) h)
 }
 
 
@@ -898,11 +898,11 @@ Sane.cancel (Sane.Handle h)
  * this function returns, handle h must not be used anymore.
  */
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
-  DBG (10, "Sane.close\n")
-  do_reset (handle)
-  do_cancel (handle)
+  DBG(10, "Sane.close\n")
+  do_reset(handle)
+  do_cancel(handle)
 }
 
 
@@ -912,7 +912,7 @@ Sane.close (Sane.Handle handle)
  * From the SANE spec:
  * This function must be called to terminate use of a backend. The
  * function will first close all device handles that still might be
- * open (it is recommended to close device handles explicitly through
+ * open(it is recommended to close device handles explicitly through
  * a call to Sane.clo-se(), but backends are required to release all
  * resources upon a call to this function). After this function
  * returns, no function other than Sane.init() may be called
@@ -921,21 +921,21 @@ Sane.close (Sane.Handle handle)
  * released properly.
  */
 void
-Sane.exit (void)
+Sane.exit(void)
 {
   struct hp3500_data *dev, *next
 
-  DBG (10, "Sane.exit\n")
+  DBG(10, "Sane.exit\n")
 
-  for (dev = first_dev; dev; dev = next)
+  for(dev = first_dev; dev; dev = next)
     {
       next = dev.next
-      free (dev.devicename)
-      free (dev)
+      free(dev.devicename)
+      free(dev)
     }
 
-  if (devlist)
-    free (devlist)
+  if(devlist)
+    free(devlist)
 }
 
 /*
@@ -943,27 +943,27 @@ Sane.exit (void)
  */
 
 static Sane.Status
-attachScanner (const char *devicename)
+attachScanner(const char *devicename)
 {
   struct hp3500_data *dev
 
-  DBG (15, "attach_scanner: %s\n", devicename)
+  DBG(15, "attach_scanner: %s\n", devicename)
 
-  for (dev = first_dev; dev; dev = dev.next)
+  for(dev = first_dev; dev; dev = dev.next)
     {
-      if (strcmp (dev.sane.name, devicename) == 0)
+      if(strcmp(dev.sane.name, devicename) == 0)
 	{
-	  DBG (5, "attach_scanner: scanner already attached (is ok)!\n")
+	  DBG(5, "attach_scanner: scanner already attached(is ok)!\n")
 	  return Sane.STATUS_GOOD
 	}
     }
 
 
-  if (NULL == (dev = malloc (sizeof (*dev))))
+  if(NULL == (dev = malloc(sizeof(*dev))))
     return Sane.STATUS_NO_MEM
-  memset (dev, 0, sizeof (*dev))
+  memset(dev, 0, sizeof(*dev))
 
-  dev.devicename = strdup (devicename)
+  dev.devicename = strdup(devicename)
   dev.sfd = -1
   dev.last_scan = 0
   dev.reader_pid = (Sane.Pid) -1
@@ -977,23 +977,23 @@ attachScanner (const char *devicename)
   ++num_devices
   *new_dev = dev
 
-  DBG (15, "attach_scanner: done\n")
+  DBG(15, "attach_scanner: done\n")
 
   return Sane.STATUS_GOOD
 }
 
 static Sane.Status
-init_options (struct hp3500_data *scanner)
+init_options(struct hp3500_data *scanner)
 {
   var i: Int
   Sane.Option_Descriptor *opt
 
-  memset (scanner.opt, 0, sizeof (scanner.opt))
+  memset(scanner.opt, 0, sizeof(scanner.opt))
 
-  for (i = 0; i < NUM_OPTIONS; ++i)
+  for(i = 0; i < NUM_OPTIONS; ++i)
     {
       scanner.opt[i].name = "filler"
-      scanner.opt[i].size = sizeof (Sane.Word)
+      scanner.opt[i].size = sizeof(Sane.Word)
       scanner.opt[i].cap = Sane.CAP_INACTIVE
     }
 
@@ -1014,8 +1014,8 @@ init_options (struct hp3500_data *scanner)
   opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 
   opt = scanner.opt + OPT_GEOMETRY_GROUP
-  opt.title = Sane.I18N ("Geometry")
-  opt.desc = Sane.I18N ("Geometry Group")
+  opt.title = Sane.I18N("Geometry")
+  opt.desc = Sane.I18N("Geometry Group")
   opt.type = Sane.TYPE_GROUP
   opt.constraint_type = Sane.CONSTRAINT_NONE
 
@@ -1059,7 +1059,7 @@ init_options (struct hp3500_data *scanner)
   opt.constraint.range = &range_y
   opt.cap = Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT
 
-  if (!scan_mode_list[0])
+  if(!scan_mode_list[0])
     {
       scan_mode_list[HP3500_COLOR_SCAN] = Sane.VALUE_SCAN_MODE_COLOR
       scan_mode_list[HP3500_GRAY_SCAN] = Sane.VALUE_SCAN_MODE_GRAY
@@ -1068,8 +1068,8 @@ init_options (struct hp3500_data *scanner)
     }
 
   opt = scanner.opt + OPT_MODE_GROUP
-  opt.title = Sane.I18N ("Scan Mode Group")
-  opt.desc = Sane.I18N ("Scan Mode Group")
+  opt.title = Sane.I18N("Scan Mode Group")
+  opt.desc = Sane.I18N("Scan Mode Group")
   opt.type = Sane.TYPE_GROUP
   opt.constraint_type = Sane.CONSTRAINT_NONE
 
@@ -1115,54 +1115,54 @@ init_options (struct hp3500_data *scanner)
 }
 
 static void
-do_reset (struct hp3500_data *scanner)
+do_reset(struct hp3500_data *scanner)
 {
   scanner = scanner;		/* kill warning */
 }
 
 static void
-do_cancel (struct hp3500_data *scanner)
+do_cancel(struct hp3500_data *scanner)
 {
-  if (sanei_thread_is_valid (scanner.reader_pid))
+  if(sanei_thread_is_valid(scanner.reader_pid))
     {
 
-      if (sanei_thread_kill (scanner.reader_pid) == 0)
+      if(sanei_thread_kill(scanner.reader_pid) == 0)
 	{
 	  Int exit_status
 
-	  sanei_thread_waitpid (scanner.reader_pid, &exit_status)
+	  sanei_thread_waitpid(scanner.reader_pid, &exit_status)
 	}
-      sanei_thread_invalidate (scanner.reader_pid)
+      sanei_thread_invalidate(scanner.reader_pid)
     }
-  if (scanner.pipe_r >= 0)
+  if(scanner.pipe_r >= 0)
     {
-      close (scanner.pipe_r)
+      close(scanner.pipe_r)
       scanner.pipe_r = -1
     }
 }
 
 static void
-calculateDerivedValues (struct hp3500_data *scanner)
+calculateDerivedValues(struct hp3500_data *scanner)
 {
 
-  DBG (12, "calculateDerivedValues\n")
+  DBG(12, "calculateDerivedValues\n")
 
   /* Convert the Sane.FIXED values for the scan area into 1/1200 inch
    * scanner units */
 
   scanner.fullres_pixels.left =
-    FIXED_MM_TO_SCANNER_UNIT (scanner.request_mm.left)
+    FIXED_MM_TO_SCANNER_UNIT(scanner.request_mm.left)
   scanner.fullres_pixels.top =
-    FIXED_MM_TO_SCANNER_UNIT (scanner.request_mm.top)
+    FIXED_MM_TO_SCANNER_UNIT(scanner.request_mm.top)
   scanner.fullres_pixels.right =
-    FIXED_MM_TO_SCANNER_UNIT (scanner.request_mm.right)
+    FIXED_MM_TO_SCANNER_UNIT(scanner.request_mm.right)
   scanner.fullres_pixels.bottom =
-    FIXED_MM_TO_SCANNER_UNIT (scanner.request_mm.bottom)
+    FIXED_MM_TO_SCANNER_UNIT(scanner.request_mm.bottom)
 
-  DBG (12, "\tleft margin: %u\n", scanner.fullres_pixels.left)
-  DBG (12, "\ttop margin: %u\n", scanner.fullres_pixels.top)
-  DBG (12, "\tright margin: %u\n", scanner.fullres_pixels.right)
-  DBG (12, "\tbottom margin: %u\n", scanner.fullres_pixels.bottom)
+  DBG(12, "\tleft margin: %u\n", scanner.fullres_pixels.left)
+  DBG(12, "\ttop margin: %u\n", scanner.fullres_pixels.top)
+  DBG(12, "\tright margin: %u\n", scanner.fullres_pixels.right)
+  DBG(12, "\tbottom margin: %u\n", scanner.fullres_pixels.bottom)
 
 
   scanner.scan_width_pixels =
@@ -1171,16 +1171,16 @@ calculateDerivedValues (struct hp3500_data *scanner)
   scanner.scan_height_pixels =
     scanner.resolution * (scanner.fullres_pixels.bottom -
 			   scanner.fullres_pixels.top) / 1200
-  if (scanner.mode == HP3500_LINEART_SCAN)
+  if(scanner.mode == HP3500_LINEART_SCAN)
     scanner.bytes_per_scan_line = (scanner.scan_width_pixels + 7) / 8
-  else if (scanner.mode == HP3500_GRAY_SCAN)
+  else if(scanner.mode == HP3500_GRAY_SCAN)
     scanner.bytes_per_scan_line = scanner.scan_width_pixels
   else
     scanner.bytes_per_scan_line = scanner.scan_width_pixels * 3
 
-  if (scanner.scan_width_pixels < 1)
+  if(scanner.scan_width_pixels < 1)
     scanner.scan_width_pixels = 1
-  if (scanner.scan_height_pixels < 1)
+  if(scanner.scan_height_pixels < 1)
     scanner.scan_height_pixels = 1
 
   scanner.actres_pixels.left =
@@ -1193,17 +1193,17 @@ calculateDerivedValues (struct hp3500_data *scanner)
     scanner.actres_pixels.top + scanner.scan_height_pixels
 
   scanner.actual_mm.left =
-    SCANNER_UNIT_TO_FIXED_MM (scanner.fullres_pixels.left)
+    SCANNER_UNIT_TO_FIXED_MM(scanner.fullres_pixels.left)
   scanner.actual_mm.top =
-    SCANNER_UNIT_TO_FIXED_MM (scanner.fullres_pixels.top)
+    SCANNER_UNIT_TO_FIXED_MM(scanner.fullres_pixels.top)
   scanner.actual_mm.bottom =
-    SCANNER_UNIT_TO_FIXED_MM (scanner.scan_width_pixels * 1200 /
+    SCANNER_UNIT_TO_FIXED_MM(scanner.scan_width_pixels * 1200 /
 			      scanner.resolution)
   scanner.actual_mm.right =
-    SCANNER_UNIT_TO_FIXED_MM (scanner.scan_height_pixels * 1200 /
+    SCANNER_UNIT_TO_FIXED_MM(scanner.scan_height_pixels * 1200 /
 			      scanner.resolution)
 
-  DBG (12, "calculateDerivedValues: ok\n")
+  DBG(12, "calculateDerivedValues: ok\n")
 }
 
 /* From here on in we have the original code written for the scanner demo */
@@ -1230,19 +1230,19 @@ static unsigned sram_size = 0
 static Int udh
 
 static Int
-rt_execute_commands (void)
+rt_execute_commands(void)
 {
   Sane.Status result
   size_t bytes
 
-  if (!command_bytes_outstanding)
+  if(!command_bytes_outstanding)
     return 0
 
   bytes = command_bytes_outstanding
 
-  result = sanei_usb_write_bulk (udh, /* 0x02, */ command_buffer, &bytes)
+  result = sanei_usb_write_bulk(udh, /* 0x02, */ command_buffer, &bytes)
 
-  if (result == Sane.STATUS_GOOD && receive_bytes_outstanding)
+  if(result == Sane.STATUS_GOOD && receive_bytes_outstanding)
     {
       unsigned char readbuf[MAX_READ_BYTES]
       Int total_read = 0
@@ -1250,36 +1250,36 @@ rt_execute_commands (void)
       do
 	{
 	  bytes = receive_bytes_outstanding - total_read
-	  result = sanei_usb_read_bulk (udh,
+	  result = sanei_usb_read_bulk(udh,
 					/* 0x81, */
 					readbuf + total_read, &bytes)
-	  if (result == Sane.STATUS_GOOD)
+	  if(result == Sane.STATUS_GOOD)
 	    total_read += bytes
 	  else
 	    break
 	}
-      while (total_read < receive_bytes_outstanding)
-      if (result == Sane.STATUS_GOOD)
+      while(total_read < receive_bytes_outstanding)
+      if(result == Sane.STATUS_GOOD)
 	{
 	  unsigned char *readptr
 	  var i: Int
 
-	  for (i = 0, readptr = readbuf
+	  for(i = 0, readptr = readbuf
 	       i < command_reads_outstanding
 	       readptr += command_readbytes_outstanding[i++])
 	    {
-	      memcpy (command_readmem_outstanding[i],
+	      memcpy(command_readmem_outstanding[i],
 		      readptr, command_readbytes_outstanding[i])
 	    }
 	}
     }
   receive_bytes_outstanding = command_reads_outstanding =
     command_bytes_outstanding = 0
-  return (result == Sane.STATUS_GOOD) ? 0 : -1
+  return(result == Sane.STATUS_GOOD) ? 0 : -1
 }
 
 static Int
-rt_queue_command (Int command,
+rt_queue_command(Int command,
 		  Int reg,
 		  Int count,
 		  Int bytes, void const *data_, Int readbytes, void *readdata)
@@ -1291,12 +1291,12 @@ rt_queue_command (Int command,
   /* We add "bytes" here to account for the possibility that all of the
    * data bytes are 0xaa and hence require a following 0x00 byte.
    */
-  if (command_bytes_outstanding + len + bytes > MAX_COMMANDS_BYTES ||
+  if(command_bytes_outstanding + len + bytes > MAX_COMMANDS_BYTES ||
       (readbytes &&
        ((command_reads_outstanding >= MAX_READ_COMMANDS) ||
 	(receive_bytes_outstanding >= MAX_READ_BYTES))))
     {
-      if (rt_execute_commands () < 0)
+      if(rt_execute_commands() < 0)
 	return -1
     }
 
@@ -1306,17 +1306,17 @@ rt_queue_command (Int command,
   *buffer++ = reg
   *buffer++ = count >> 8
   *buffer++ = count
-  while (bytes--)
+  while(bytes--)
     {
       *buffer++ = *data
-      if (*data++ == 0xaa)
+      if(*data++ == 0xaa)
 	{
 	  *buffer++ = 0
 	  ++len
 	}
     }
   command_bytes_outstanding += len
-  if (readbytes)
+  if(readbytes)
     {
       command_readbytes_outstanding[command_reads_outstanding] = readbytes
       command_readmem_outstanding[command_reads_outstanding] = readdata
@@ -1328,92 +1328,92 @@ rt_queue_command (Int command,
 }
 
 static Int
-rt_send_command_immediate (Int command,
+rt_send_command_immediate(Int command,
 			   Int reg,
 			   Int count,
 			   Int bytes,
 			   void *data, Int readbytes, void *readdata)
 {
-  rt_queue_command (command, reg, count, bytes, data, readbytes, readdata)
-  return rt_execute_commands ()
+  rt_queue_command(command, reg, count, bytes, data, readbytes, readdata)
+  return rt_execute_commands()
 }
 
 static Int
-rt_queue_read_register (Int reg, Int bytes, void *data)
+rt_queue_read_register(Int reg, Int bytes, void *data)
 {
-  return rt_queue_command (RTCMD_GETREG, reg, bytes, 0, 0, bytes, data)
+  return rt_queue_command(RTCMD_GETREG, reg, bytes, 0, 0, bytes, data)
 }
 
 static Int
-rt_read_register_immediate (Int reg, Int bytes, void *data)
+rt_read_register_immediate(Int reg, Int bytes, void *data)
 {
-  if (rt_queue_read_register (reg, bytes, data) < 0)
+  if(rt_queue_read_register(reg, bytes, data) < 0)
     return -1
-  return rt_execute_commands ()
+  return rt_execute_commands()
 }
 
 static Int
-rt_queue_set_register (Int reg, Int bytes, void *data)
+rt_queue_set_register(Int reg, Int bytes, void *data)
 {
-  return rt_queue_command (RTCMD_SETREG, reg, bytes, bytes, data, 0, 0)
+  return rt_queue_command(RTCMD_SETREG, reg, bytes, bytes, data, 0, 0)
 }
 
 static Int
-rt_set_register_immediate (Int reg, Int bytes, void *data)
+rt_set_register_immediate(Int reg, Int bytes, void *data)
 {
-  if (reg < 0xb3 && reg + bytes > 0xb3)
+  if(reg < 0xb3 && reg + bytes > 0xb3)
     {
       Int bytes_in_first_block = 0xb3 - reg
 
-      if (rt_set_register_immediate (reg, bytes_in_first_block, data) < 0 ||
-	  rt_set_register_immediate (0xb4, bytes - bytes_in_first_block - 1,
+      if(rt_set_register_immediate(reg, bytes_in_first_block, data) < 0 ||
+	  rt_set_register_immediate(0xb4, bytes - bytes_in_first_block - 1,
 				     (char *) data + bytes_in_first_block +
 				     1) < 0)
 	return -1
       return 0
     }
-  if (rt_queue_set_register (reg, bytes, data) < 0)
+  if(rt_queue_set_register(reg, bytes, data) < 0)
     return -1
-  return rt_execute_commands ()
+  return rt_execute_commands()
 }
 
 static Int
-rt_set_one_register (Int reg, Int val)
+rt_set_one_register(Int reg, Int val)
 {
   char r = val
 
-  return rt_set_register_immediate (reg, 1, &r)
+  return rt_set_register_immediate(reg, 1, &r)
 }
 
 static Int
-rt_write_sram (Int bytes, void *data_)
+rt_write_sram(Int bytes, void *data_)
 {
   unsigned char *data = (unsigned char *) data_
 
   /* The number of bytes passed in could be much larger than we can transmit
    * (0xffc0) bytes. With 0xaa escapes it could be even larger. Accordingly
    * we need to count the 0xaa escapes and write in chunks if the number of
-   * bytes would otherwise exceed a limit (I have used 0xf000 as the limit).
+   * bytes would otherwise exceed a limit(I have used 0xf000 as the limit).
    */
-  while (bytes > 0)
+  while(bytes > 0)
     {
       Int now = 0
       Int bufsize = 0
 
-      while (now < bytes && bufsize < 0xf000)
+      while(now < bytes && bufsize < 0xf000)
 	{
 	  var i: Int
 
 	  /* Try to avoid writing part pages */
-	  for (i = 0; i < 32 && now < bytes; ++i)
+	  for(i = 0; i < 32 && now < bytes; ++i)
 	    {
 	      ++bufsize
-	      if (data[now++] == 0xaa)
+	      if(data[now++] == 0xaa)
 		++bufsize
 	    }
 	}
 
-      if (rt_send_command_immediate (RTCMD_WRITESRAM, 0, now, now, data, 0,
+      if(rt_send_command_immediate(RTCMD_WRITESRAM, 0, now, now, data, 0,
 				     0) < 0)
 	return -1
       bytes -= now
@@ -1423,14 +1423,14 @@ rt_write_sram (Int bytes, void *data_)
 }
 
 static Int
-rt_read_sram (Int bytes, void *data_)
+rt_read_sram(Int bytes, void *data_)
 {
   unsigned char *data = (unsigned char *) data_
 
-  while (bytes > 0)
+  while(bytes > 0)
     {
       Int now = (bytes > 0xf000) ? 0xf000 : bytes
-      if (rt_send_command_immediate (RTCMD_READSRAM, 0, bytes, 0, 0, bytes,
+      if(rt_send_command_immediate(RTCMD_READSRAM, 0, bytes, 0, 0, bytes,
 				     data) < 0)
 	return -1
       bytes -= now
@@ -1440,54 +1440,54 @@ rt_read_sram (Int bytes, void *data_)
 }
 
 static Int
-rt_set_sram_page (Int page)
+rt_set_sram_page(Int page)
 {
   unsigned char regs[2]
 
   regs[0] = page
   regs[1] = page >> 8
 
-  return rt_set_register_immediate (0x91, 2, regs)
+  return rt_set_register_immediate(0x91, 2, regs)
 }
 
 static Int
-rt_detect_sram (unsigned *totalbytes, unsigned char *r93setting)
+rt_detect_sram(unsigned *totalbytes, unsigned char *r93setting)
 {
   char data[0x818]
   char testbuf[0x818]
   unsigned i
   Int test_values[] = { 6, 2, 1, -1 ]
 
-  for (i = 0; i < sizeof (data); ++i)
+  for(i = 0; i < sizeof(data); ++i)
     data[i] = i % 0x61
 
 
-  for (i = 0; test_values[i] != -1; ++i)
+  for(i = 0; test_values[i] != -1; ++i)
     {
-      if (rt_set_one_register (0x93, test_values[i]) ||
-	  rt_set_sram_page (0x81) ||
-	  rt_write_sram (0x818, data) ||
-	  rt_set_sram_page (0x81) || rt_read_sram (0x818, testbuf))
+      if(rt_set_one_register(0x93, test_values[i]) ||
+	  rt_set_sram_page(0x81) ||
+	  rt_write_sram(0x818, data) ||
+	  rt_set_sram_page(0x81) || rt_read_sram(0x818, testbuf))
 	return -1
-      if (!memcmp (testbuf, data, 0x818))
+      if(!memcmp(testbuf, data, 0x818))
 	{
 	  sram_access_method = test_values[i]
-	  if (r93setting)
+	  if(r93setting)
 	    *r93setting = sram_access_method
 	  break
 	}
     }
-  if (!sram_access_method)
+  if(!sram_access_method)
     return -1
 
-  for (i = 0; i < 16; ++i)
+  for(i = 0; i < 16; ++i)
     {
       Int j
       char write_data[32]
       char read_data[32]
       Int pagesetting
 
-      for (j = 0; j < 16; j++)
+      for(j = 0; j < 16; j++)
 	{
 	  write_data[j * 2] = j * 2
 	  write_data[j * 2 + 1] = i
@@ -1496,17 +1496,17 @@ rt_detect_sram (unsigned *totalbytes, unsigned char *r93setting)
       pagesetting = i * 4096
 
 
-      if (rt_set_sram_page (pagesetting) < 0 ||
-	  rt_write_sram (32, write_data) < 0)
+      if(rt_set_sram_page(pagesetting) < 0 ||
+	  rt_write_sram(32, write_data) < 0)
 	return -1
-      if (i)
+      if(i)
 	{
-	  if (rt_set_sram_page (0) < 0 || rt_read_sram (32, read_data) < 0)
+	  if(rt_set_sram_page(0) < 0 || rt_read_sram(32, read_data) < 0)
 	    return -1
-	  if (!memcmp (read_data, write_data, 32))
+	  if(!memcmp(read_data, write_data, 32))
 	    {
 	      sram_size = i * 0x20000
-	      if (totalbytes)
+	      if(totalbytes)
 		*totalbytes = sram_size
 	      return 0
 	    }
@@ -1516,31 +1516,31 @@ rt_detect_sram (unsigned *totalbytes, unsigned char *r93setting)
 }
 
 static Int
-rt_get_available_bytes (void)
+rt_get_available_bytes(void)
 {
   unsigned char data[3]
 
-  if (rt_queue_command (RTCMD_BYTESAVAIL, 0, 3, 0, 0, 3, data) < 0 ||
-      rt_execute_commands () < 0)
+  if(rt_queue_command(RTCMD_BYTESAVAIL, 0, 3, 0, 0, 3, data) < 0 ||
+      rt_execute_commands() < 0)
     return -1
-  return ((unsigned) data[0]) |
+  return((unsigned) data[0]) |
     ((unsigned) data[1] << 8) | ((unsigned) data[2] << 16)
 }
 
 static Int
-rt_get_data (Int bytes, void *data)
+rt_get_data(Int bytes, void *data)
 {
   Int total = 0
 
-  while (bytes)
+  while(bytes)
     {
       Int bytesnow = bytes
 
-      if (bytesnow > 0xffc0)
+      if(bytesnow > 0xffc0)
 	bytesnow = 0xffc0
-      if (rt_queue_command
+      if(rt_queue_command
 	  (RTCMD_READBYTES, 0, bytesnow, 0, 0, bytesnow, data) < 0
-	  || rt_execute_commands () < 0)
+	  || rt_execute_commands() < 0)
 	return -1
       total += bytesnow
       bytes -= bytesnow
@@ -1550,47 +1550,47 @@ rt_get_data (Int bytes, void *data)
 }
 
 static Int
-rt_is_moving (void)
+rt_is_moving(void)
 {
   char r
 
-  if (rt_read_register_immediate (REG_MOVE_CONTROL_TEST, 1, &r) < 0)
+  if(rt_read_register_immediate(REG_MOVE_CONTROL_TEST, 1, &r) < 0)
     return -1
-  if (r == 0x08)
+  if(r == 0x08)
     return 1
   return 0
 }
 
 static Int
-rt_is_rewound (void)
+rt_is_rewound(void)
 {
   char r
 
-  if (rt_read_register_immediate (0x1d, 1, &r) < 0)
+  if(rt_read_register_immediate(0x1d, 1, &r) < 0)
     return -1
-  if (r & 0x02)
+  if(r & 0x02)
     return 1
   return 0
 }
 
 static Int
-rt_set_direction_forwards (unsigned char *regs)
+rt_set_direction_forwards(unsigned char *regs)
 {
   regs[0xc6] |= 0x08
   return 0
 }
 
 static Int
-rt_set_direction_rewind (unsigned char *regs)
+rt_set_direction_rewind(unsigned char *regs)
 {
   regs[0xc6] &= 0xf7
   return 0
 }
 
 static Int
-rt_set_stop_when_rewound (unsigned char *regs, Int stop)
+rt_set_stop_when_rewound(unsigned char *regs, Int stop)
 {
-  if (stop)
+  if(stop)
     regs[0xb2] |= 0x10
   else
     regs[0xb2] &= 0xef
@@ -1598,87 +1598,87 @@ rt_set_stop_when_rewound (unsigned char *regs, Int stop)
 }
 
 static Int
-rt_start_moving (void)
+rt_start_moving(void)
 {
-  if (rt_set_one_register (REG_MOVE_CONTROL_TEST, 2) < 0 ||
-      rt_set_one_register (REG_MOVE_CONTROL_TEST, 2) < 0 ||
-      rt_set_one_register (REG_MOVE_CONTROL_TEST, 0) < 0 ||
-      rt_set_one_register (REG_MOVE_CONTROL_TEST, 0) < 0 ||
-      rt_set_one_register (REG_MOVE_CONTROL_TEST, 8) < 0 ||
-      rt_set_one_register (REG_MOVE_CONTROL_TEST, 8) < 0)
+  if(rt_set_one_register(REG_MOVE_CONTROL_TEST, 2) < 0 ||
+      rt_set_one_register(REG_MOVE_CONTROL_TEST, 2) < 0 ||
+      rt_set_one_register(REG_MOVE_CONTROL_TEST, 0) < 0 ||
+      rt_set_one_register(REG_MOVE_CONTROL_TEST, 0) < 0 ||
+      rt_set_one_register(REG_MOVE_CONTROL_TEST, 8) < 0 ||
+      rt_set_one_register(REG_MOVE_CONTROL_TEST, 8) < 0)
     return -1
   return 0
 }
 
 static Int
-rt_stop_moving (void)
+rt_stop_moving(void)
 {
-  if (rt_set_one_register (REG_MOVE_CONTROL_TEST, 2) < 0 ||
-      rt_set_one_register (REG_MOVE_CONTROL_TEST, 2) < 0 ||
-      rt_set_one_register (REG_MOVE_CONTROL_TEST, 0) < 0 ||
-      rt_set_one_register (REG_MOVE_CONTROL_TEST, 0) < 0)
+  if(rt_set_one_register(REG_MOVE_CONTROL_TEST, 2) < 0 ||
+      rt_set_one_register(REG_MOVE_CONTROL_TEST, 2) < 0 ||
+      rt_set_one_register(REG_MOVE_CONTROL_TEST, 0) < 0 ||
+      rt_set_one_register(REG_MOVE_CONTROL_TEST, 0) < 0)
     return -1
   return 0
 }
 
 static Int
-rt_set_powersave_mode (Int enable)
+rt_set_powersave_mode(Int enable)
 {
   unsigned char r
 
-  if (rt_read_register_immediate (REG_MOVE_CONTROL_TEST, 1, &r) < 0)
+  if(rt_read_register_immediate(REG_MOVE_CONTROL_TEST, 1, &r) < 0)
     return -1
-  if (r & 0x04)
+  if(r & 0x04)
     {
-      if (enable == 1)
+      if(enable == 1)
 	return 0
       r &= ~0x04
     }
   else
     {
-      if (enable == 0)
+      if(enable == 0)
 	return 0
       r |= 0x04
     }
-  if (rt_set_one_register (REG_MOVE_CONTROL_TEST, r) < 0 ||
-      rt_set_one_register (REG_MOVE_CONTROL_TEST, r) < 0)
+  if(rt_set_one_register(REG_MOVE_CONTROL_TEST, r) < 0 ||
+      rt_set_one_register(REG_MOVE_CONTROL_TEST, r) < 0)
     return -1
   return 0
 }
 
 static Int
-rt_turn_off_lamp (void)
+rt_turn_off_lamp(void)
 {
-  return rt_set_one_register (0x3a, 0)
+  return rt_set_one_register(0x3a, 0)
 }
 
 static Int
-rt_turn_on_lamp (void)
+rt_turn_on_lamp(void)
 {
   char r3ab[2]
   char r10
   char r58
 
-  if (rt_read_register_immediate (0x3a, 1, r3ab) < 0 ||
-      rt_read_register_immediate (0x10, 1, &r10) < 0 ||
-      rt_read_register_immediate (0x58, 1, &r58) < 0)
+  if(rt_read_register_immediate(0x3a, 1, r3ab) < 0 ||
+      rt_read_register_immediate(0x10, 1, &r10) < 0 ||
+      rt_read_register_immediate(0x58, 1, &r58) < 0)
     return -1
   r3ab[0] |= 0x80
   r3ab[1] = 0x40
   r10 |= 0x01
   r58 &= 0x0f
-  if (rt_set_register_immediate (0x3a, 2, r3ab) < 0 ||
-      rt_set_one_register (0x10, r10) < 0 ||
-      rt_set_one_register (0x58, r58) < 0)
+  if(rt_set_register_immediate(0x3a, 2, r3ab) < 0 ||
+      rt_set_one_register(0x10, r10) < 0 ||
+      rt_set_one_register(0x58, r58) < 0)
     return -1
   return 0
 }
 
 static Int
-rt_set_value_lsbfirst (unsigned char *regs,
+rt_set_value_lsbfirst(unsigned char *regs,
 		       Int firstreg, Int totalregs, unsigned value)
 {
-  while (totalregs--)
+  while(totalregs--)
     {
       regs[firstreg++] = value & 0xff
       value >>= 8
@@ -1688,10 +1688,10 @@ rt_set_value_lsbfirst (unsigned char *regs,
 
 #if 0
 static Int
-rt_set_value_msbfirst (unsigned char *regs,
+rt_set_value_msbfirst(unsigned char *regs,
 		       Int firstreg, Int totalregs, unsigned value)
 {
-  while (totalregs--)
+  while(totalregs--)
     {
       regs[firstreg + totalregs] = value & 0xff
       value >>= 8
@@ -1701,71 +1701,71 @@ rt_set_value_msbfirst (unsigned char *regs,
 #endif
 
 static Int
-rt_set_ccd_shift_clock_multiplier (unsigned char *regs, unsigned value)
+rt_set_ccd_shift_clock_multiplier(unsigned char *regs, unsigned value)
 {
-  return rt_set_value_lsbfirst (regs, 0xf0, 3, value)
+  return rt_set_value_lsbfirst(regs, 0xf0, 3, value)
 }
 
 static Int
-rt_set_ccd_clock_reset_interval (unsigned char *regs, unsigned value)
+rt_set_ccd_clock_reset_interval(unsigned char *regs, unsigned value)
 {
-  return rt_set_value_lsbfirst (regs, 0xf9, 3, value)
+  return rt_set_value_lsbfirst(regs, 0xf9, 3, value)
 }
 
 static Int
-rt_set_ccd_clamp_clock_multiplier (unsigned char *regs, unsigned value)
+rt_set_ccd_clamp_clock_multiplier(unsigned char *regs, unsigned value)
 {
-  return rt_set_value_lsbfirst (regs, 0xfc, 3, value)
+  return rt_set_value_lsbfirst(regs, 0xfc, 3, value)
 }
 
 static Int
-rt_set_movement_pattern (unsigned char *regs, unsigned value)
+rt_set_movement_pattern(unsigned char *regs, unsigned value)
 {
-  return rt_set_value_lsbfirst (regs, 0xc0, 3, value)
+  return rt_set_value_lsbfirst(regs, 0xc0, 3, value)
 }
 
 static Int
-rt_set_motor_movement_clock_multiplier (unsigned char *regs, unsigned value)
+rt_set_motor_movement_clock_multiplier(unsigned char *regs, unsigned value)
 {
   regs[0x40] = (regs[0x40] & ~0xc0) | (value << 6)
   return 0
 }
 
 static Int
-rt_set_motor_type (unsigned char *regs, unsigned value)
+rt_set_motor_type(unsigned char *regs, unsigned value)
 {
   regs[0xc9] = (regs[0xc9] & 0xf8) | (value & 0x7)
   return 0
 }
 
 static Int
-rt_set_noscan_distance (unsigned char *regs, unsigned value)
+rt_set_noscan_distance(unsigned char *regs, unsigned value)
 {
-  DBG (10, "Setting distance without scanning to %d\n", value)
-  return rt_set_value_lsbfirst (regs, 0x60, 2, value)
+  DBG(10, "Setting distance without scanning to %d\n", value)
+  return rt_set_value_lsbfirst(regs, 0x60, 2, value)
 }
 
 static Int
-rt_set_total_distance (unsigned char *regs, unsigned value)
+rt_set_total_distance(unsigned char *regs, unsigned value)
 {
-  DBG (10, "Setting total distance to %d\n", value)
-  return rt_set_value_lsbfirst (regs, 0x62, 2, value)
+  DBG(10, "Setting total distance to %d\n", value)
+  return rt_set_value_lsbfirst(regs, 0x62, 2, value)
 }
 
 static Int
-rt_set_scanline_start (unsigned char *regs, unsigned value)
+rt_set_scanline_start(unsigned char *regs, unsigned value)
 {
-  return rt_set_value_lsbfirst (regs, 0x66, 2, value)
+  return rt_set_value_lsbfirst(regs, 0x66, 2, value)
 }
 
 static Int
-rt_set_scanline_end (unsigned char *regs, unsigned value)
+rt_set_scanline_end(unsigned char *regs, unsigned value)
 {
-  return rt_set_value_lsbfirst (regs, 0x6c, 2, value)
+  return rt_set_value_lsbfirst(regs, 0x6c, 2, value)
 }
 
 static Int
-rt_set_basic_calibration (unsigned char *regs,
+rt_set_basic_calibration(unsigned char *regs,
 			  Int redoffset1,
 			  Int redoffset2,
 			  Int redgain,
@@ -1787,7 +1787,7 @@ rt_set_basic_calibration (unsigned char *regs,
 }
 
 static Int
-rt_set_calibration_addresses (unsigned char *regs,
+rt_set_calibration_addresses(unsigned char *regs,
 			      unsigned redaddr,
 			      unsigned greenaddr,
 			      unsigned blueaddr,
@@ -1801,33 +1801,33 @@ rt_set_calibration_addresses (unsigned char *regs,
 
   regs[0x84] = redaddr
   regs[0x8e] = (regs[0x8e] & 0x0f) | ((redaddr >> 4) & 0xf0)
-  rt_set_value_lsbfirst (regs, 0x85, 2, greenaddr)
-  rt_set_value_lsbfirst (regs, 0x87, 2, blueaddr)
+  rt_set_value_lsbfirst(regs, 0x85, 2, greenaddr)
+  rt_set_value_lsbfirst(regs, 0x87, 2, blueaddr)
 
   /* I don't know what the next three are used for, but each buffer commencing
    * at 0x80 and 0x82 needs to hold a full scan line.
    */
 
-  rt_set_value_lsbfirst (regs, 0x80, 2, endpage)
-  rt_set_value_lsbfirst (regs, 0x82, 2, endpage + scanline_pages)
-  rt_set_value_lsbfirst (regs, 0x89, 2, endpage + scanline_pages * 2)
+  rt_set_value_lsbfirst(regs, 0x80, 2, endpage)
+  rt_set_value_lsbfirst(regs, 0x82, 2, endpage + scanline_pages)
+  rt_set_value_lsbfirst(regs, 0x89, 2, endpage + scanline_pages * 2)
 
   /* I don't know what this is, but it seems to be a number of pages that can hold
    * 16 complete scan lines, but not calculated as an offset from any other page
    */
 
-  rt_set_value_lsbfirst (regs, 0x51, 2, (48 * (width + 1) + 31) / 32)
+  rt_set_value_lsbfirst(regs, 0x51, 2, (48 * (width + 1) + 31) / 32)
 
   /* I don't know what this is either, but this is what the Windows driver does */
-  rt_set_value_lsbfirst (regs, 0x8f, 2, 0x1c00)
+  rt_set_value_lsbfirst(regs, 0x8f, 2, 0x1c00)
   return 0
 }
 
 static Int
-rt_set_lamp_duty_cycle (unsigned char *regs,
+rt_set_lamp_duty_cycle(unsigned char *regs,
 			Int enable, Int frequency, Int offduty)
 {
-  if (enable)
+  if(enable)
     regs[0x3b] |= 0x80
   else
     regs[0x3b] &= 0x7f
@@ -1839,23 +1839,23 @@ rt_set_lamp_duty_cycle (unsigned char *regs,
 }
 
 static Int
-rt_set_data_feed_on (unsigned char *regs)
+rt_set_data_feed_on(unsigned char *regs)
 {
   regs[0xb2] &= ~0x04
   return 0
 }
 
 static Int
-rt_set_data_feed_off (unsigned char *regs)
+rt_set_data_feed_off(unsigned char *regs)
 {
   regs[0xb2] |= 0x04
   return 0
 }
 
 static Int
-rt_enable_ccd (unsigned char *regs, Int enable)
+rt_enable_ccd(unsigned char *regs, Int enable)
 {
-  if (enable)
+  if(enable)
     regs[0x00] &= ~0x10
   else
     regs[0x00] |= 0x10
@@ -1863,7 +1863,7 @@ rt_enable_ccd (unsigned char *regs, Int enable)
 }
 
 static Int
-rt_set_cdss (unsigned char *regs, Int val1, Int val2)
+rt_set_cdss(unsigned char *regs, Int val1, Int val2)
 {
   regs[0x28] = (regs[0x28] & 0xe0) | (val1 & 0x1f)
   regs[0x2a] = (regs[0x2a] & 0xe0) | (val2 & 0x1f)
@@ -1871,7 +1871,7 @@ rt_set_cdss (unsigned char *regs, Int val1, Int val2)
 }
 
 static Int
-rt_set_cdsc (unsigned char *regs, Int val1, Int val2)
+rt_set_cdsc(unsigned char *regs, Int val1, Int val2)
 {
   regs[0x29] = (regs[0x29] & 0xe0) | (val1 & 0x1f)
   regs[0x2b] = (regs[0x2b] & 0xe0) | (val2 & 0x1f)
@@ -1886,9 +1886,9 @@ rt_update_after_setting_cdss2 (unsigned char *regs)
 
   regs[0x2a] = (regs[0x2a] & 0xe0) | (value & 0x1f)
 
-  if (fullcolour)
+  if(fullcolour)
     value *= 3
-  if ((regs[0x40] & 0xc0) == 0x40)
+  if((regs[0x40] & 0xc0) == 0x40)
     value += 17
   else
     value += 16
@@ -1899,9 +1899,9 @@ rt_update_after_setting_cdss2 (unsigned char *regs)
 }
 
 static Int
-rt_set_cph0s (unsigned char *regs, Int on)
+rt_set_cph0s(unsigned char *regs, Int on)
 {
-  if (on)
+  if(on)
     regs[0x2d] |= 0x20;		/* 1200dpi horizontal coordinate space */
   else
     regs[0x2d] &= ~0x20;	/* 600dpi horizontal coordinate space */
@@ -1909,7 +1909,7 @@ rt_set_cph0s (unsigned char *regs, Int on)
 }
 
 static Int
-rt_set_cvtr_lm (unsigned char *regs, Int val1, Int val2, Int val3)
+rt_set_cvtr_lm(unsigned char *regs, Int val1, Int val2, Int val3)
 {
   regs[0x28] = (regs[0x28] & ~0xe0) | (val1 << 5)
   regs[0x29] = (regs[0x29] & ~0xe0) | (val2 << 5)
@@ -1918,7 +1918,7 @@ rt_set_cvtr_lm (unsigned char *regs, Int val1, Int val2, Int val3)
 }
 
 static Int
-rt_set_cvtr_mpt (unsigned char *regs, Int val1, Int val2, Int val3)
+rt_set_cvtr_mpt(unsigned char *regs, Int val1, Int val2, Int val3)
 {
   regs[0x3c] = (val1 & 0x0f) | (val2 << 4)
   regs[0x3d] = (regs[0x3d] & 0xf0) | (val3 & 0x0f)
@@ -1926,7 +1926,7 @@ rt_set_cvtr_mpt (unsigned char *regs, Int val1, Int val2, Int val3)
 }
 
 static Int
-rt_set_cvtr_wparams (unsigned char *regs,
+rt_set_cvtr_wparams(unsigned char *regs,
 		     unsigned fpw, unsigned bpw, unsigned w)
 {
   regs[0x31] = (w & 0x0f) | ((bpw << 4) & 0x30) | (fpw << 6)
@@ -1934,9 +1934,9 @@ rt_set_cvtr_wparams (unsigned char *regs,
 }
 
 static Int
-rt_enable_movement (unsigned char *regs, Int enable)
+rt_enable_movement(unsigned char *regs, Int enable)
 {
-  if (enable)
+  if(enable)
     regs[0xc3] |= 0x80
   else
     regs[0xc3] &= ~0x80
@@ -1944,14 +1944,14 @@ rt_enable_movement (unsigned char *regs, Int enable)
 }
 
 static Int
-rt_set_scan_frequency (unsigned char *regs, Int frequency)
+rt_set_scan_frequency(unsigned char *regs, Int frequency)
 {
   regs[0x64] = (regs[0x64] & 0xf0) | (frequency & 0x0f)
   return 0
 }
 
 static Int
-rt_set_merge_channels (unsigned char *regs, Int on)
+rt_set_merge_channels(unsigned char *regs, Int on)
 {
   /* RGBRGB instead of RRRRR...GGGGG...BBBB */
   regs[0x2f] &= ~0x14
@@ -1960,16 +1960,16 @@ rt_set_merge_channels (unsigned char *regs, Int on)
 }
 
 static Int
-rt_set_channel (unsigned char *regs, Int channel)
+rt_set_channel(unsigned char *regs, Int channel)
 {
   regs[0x2f] = (regs[0x2f] & ~0xc0) | (channel << 6)
   return 0
 }
 
 static Int
-rt_set_single_channel_scanning (unsigned char *regs, Int on)
+rt_set_single_channel_scanning(unsigned char *regs, Int on)
 {
-  if (on)
+  if(on)
     regs[0x2f] |= 0x20
   else
     regs[0x2f] &= ~0x20
@@ -1977,9 +1977,9 @@ rt_set_single_channel_scanning (unsigned char *regs, Int on)
 }
 
 static Int
-rt_set_colour_mode (unsigned char *regs, Int on)
+rt_set_colour_mode(unsigned char *regs, Int on)
 {
-  if (on)
+  if(on)
     regs[0x2f] |= 0x02
   else
     regs[0x2f] &= ~0x02
@@ -1987,50 +1987,50 @@ rt_set_colour_mode (unsigned char *regs, Int on)
 }
 
 static Int
-rt_set_horizontal_resolution (unsigned char *regs, Int resolution)
+rt_set_horizontal_resolution(unsigned char *regs, Int resolution)
 {
   Int base_resolution = 300
 
-  if (regs[0x2d] & 0x20)
+  if(regs[0x2d] & 0x20)
     base_resolution *= 2
-  if (regs[0xd3] & 0x08)
+  if(regs[0xd3] & 0x08)
     base_resolution *= 2
   regs[0x7a] = base_resolution / resolution
   return 0
 }
 
 static Int
-rt_set_last_sram_page (unsigned char *regs, Int pagenum)
+rt_set_last_sram_page(unsigned char *regs, Int pagenum)
 {
-  rt_set_value_lsbfirst (regs, 0x8b, 2, pagenum)
+  rt_set_value_lsbfirst(regs, 0x8b, 2, pagenum)
   return 0
 }
 
 static Int
-rt_set_step_size (unsigned char *regs, Int stepsize)
+rt_set_step_size(unsigned char *regs, Int stepsize)
 {
-  rt_set_value_lsbfirst (regs, 0xe2, 2, stepsize)
-  rt_set_value_lsbfirst (regs, 0xe0, 2, 0)
+  rt_set_value_lsbfirst(regs, 0xe2, 2, stepsize)
+  rt_set_value_lsbfirst(regs, 0xe0, 2, 0)
   return 0
 }
 
 static Int
-rt_set_all_registers (void const *regs_)
+rt_set_all_registers(void const *regs_)
 {
   char regs[255]
 
-  memcpy (regs, regs_, 255)
+  memcpy(regs, regs_, 255)
   regs[0x32] &= ~0x40
 
-  if (rt_set_one_register (0x32, regs[0x32]) < 0 ||
-      rt_set_register_immediate (0, 255, regs) < 0 ||
-      rt_set_one_register (0x32, regs[0x32] | 0x40) < 0)
+  if(rt_set_one_register(0x32, regs[0x32]) < 0 ||
+      rt_set_register_immediate(0, 255, regs) < 0 ||
+      rt_set_one_register(0x32, regs[0x32] | 0x40) < 0)
     return -1
   return 0
 }
 
 static Int
-rt_adjust_misc_registers (unsigned char *regs)
+rt_adjust_misc_registers(unsigned char *regs)
 {
   /* Mostly unknown purposes - probably no need to adjust */
   regs[0xc6] = (regs[0xc6] & 0x0f) | 0x20;	/* Purpose unknown - appears to do nothing */
@@ -2049,39 +2049,39 @@ rt_adjust_misc_registers (unsigned char *regs)
 				  NVR_DATA_SIZE) * 2 + 1)
 
 static Int
-rt_nvram_enable_controller (Int enable)
+rt_nvram_enable_controller(Int enable)
 {
   unsigned char r
 
-  if (rt_read_register_immediate (0x1d, 1, &r) < 0)
+  if(rt_read_register_immediate(0x1d, 1, &r) < 0)
     return -1
-  if (enable)
+  if(enable)
     r |= 1
   else
     r &= ~1
-  return rt_set_one_register (0x1d, r)
+  return rt_set_one_register(0x1d, r)
 
 }
 
 static Int
-rt_nvram_init_command (void)
+rt_nvram_init_command(void)
 {
   unsigned char regs[13]
 
-  if (rt_read_register_immediate (0x10, 13, regs) < 0)
+  if(rt_read_register_immediate(0x10, 13, regs) < 0)
     return -1
   regs[2] |= 0xf0
   regs[4] = (regs[4] & 0x1f) | 0x60
-  return rt_set_register_immediate (0x10, 13, regs)
+  return rt_set_register_immediate(0x10, 13, regs)
 }
 
 static Int
-rt_nvram_init_stdvars (Int block, Int *addrbits, unsigned char *basereg)
+rt_nvram_init_stdvars(Int block, Int *addrbits, unsigned char *basereg)
 {
   Int bitsneeded
   Int capacity
 
-  switch (block)
+  switch(block)
     {
     case 0:
       bitsneeded = 7
@@ -2098,14 +2098,14 @@ rt_nvram_init_stdvars (Int block, Int *addrbits, unsigned char *basereg)
     default:
       bitsneeded = 0
       capacity = 1
-      while (capacity < block)
+      while(capacity < block)
 	capacity <<= 1, ++bitsneeded
       break
     }
 
   *addrbits = bitsneeded
 
-  if (rt_read_register_immediate (0x10, 1, basereg) < 0)
+  if(rt_read_register_immediate(0x10, 1, basereg) < 0)
     return -1
 
   *basereg &= ~0x60
@@ -2113,30 +2113,30 @@ rt_nvram_init_stdvars (Int block, Int *addrbits, unsigned char *basereg)
 }
 
 static void
-rt_nvram_set_half_bit (unsigned char *buffer,
+rt_nvram_set_half_bit(unsigned char *buffer,
 		       Int value, unsigned char stdbits, Int whichhalf)
 {
   *buffer = stdbits | (value ? 0x40 : 0) | (whichhalf ? 0x20 : 0)
 }
 
 static void
-rt_nvram_set_command_bit (unsigned char *buffer,
+rt_nvram_set_command_bit(unsigned char *buffer,
 			  Int value, unsigned char stdbits)
 {
-  rt_nvram_set_half_bit (buffer, value, stdbits, 0)
-  rt_nvram_set_half_bit (buffer + 1, value, stdbits, 1)
+  rt_nvram_set_half_bit(buffer, value, stdbits, 0)
+  rt_nvram_set_half_bit(buffer + 1, value, stdbits, 1)
 }
 
 static void
-rt_nvram_set_addressing_bits (unsigned char *buffer,
+rt_nvram_set_addressing_bits(unsigned char *buffer,
 			      Int location,
 			      Int addressingbits, unsigned char stdbits)
 {
   Int currentbit = 1 << (addressingbits - 1)
 
-  while (addressingbits--)
+  while(addressingbits--)
     {
-      rt_nvram_set_command_bit (buffer,
+      rt_nvram_set_command_bit(buffer,
 				(location & currentbit) ? 1 : 0, stdbits)
       buffer += 2
       currentbit >>= 1
@@ -2145,23 +2145,23 @@ rt_nvram_set_addressing_bits (unsigned char *buffer,
 
 #if 0
 static Int
-rt_nvram_enable_write (Int addressingbits, Int enable, unsigned char stdbits)
+rt_nvram_enable_write(Int addressingbits, Int enable, unsigned char stdbits)
 {
   unsigned char cmdbuffer[NVR_MAX_COMMAND_SIZE]
   Int cmdsize = 6 + addressingbits * 2
 
-  rt_nvram_set_command_bit (cmdbuffer, 1, stdbits)
-  rt_nvram_set_command_bit (cmdbuffer + 2, 0, stdbits)
-  rt_nvram_set_command_bit (cmdbuffer + 4, 0, stdbits)
-  rt_nvram_set_command_bit (cmdbuffer + 6, enable, stdbits)
-  if (addressingbits > 1)
-    rt_nvram_set_addressing_bits (cmdbuffer + 8, 0, addressingbits - 1,
+  rt_nvram_set_command_bit(cmdbuffer, 1, stdbits)
+  rt_nvram_set_command_bit(cmdbuffer + 2, 0, stdbits)
+  rt_nvram_set_command_bit(cmdbuffer + 4, 0, stdbits)
+  rt_nvram_set_command_bit(cmdbuffer + 6, enable, stdbits)
+  if(addressingbits > 1)
+    rt_nvram_set_addressing_bits(cmdbuffer + 8, 0, addressingbits - 1,
 				  stdbits)
 
-  if (rt_nvram_enable_controller (1) < 0 ||
-      rt_send_command_immediate (RTCMD_NVRAMCONTROL, 0, cmdsize, cmdsize,
+  if(rt_nvram_enable_controller(1) < 0 ||
+      rt_send_command_immediate(RTCMD_NVRAMCONTROL, 0, cmdsize, cmdsize,
 				 cmdbuffer, 0, 0) < 0
-      || rt_nvram_enable_controller (0) < 0)
+      || rt_nvram_enable_controller(0) < 0)
     {
       return -1
     }
@@ -2169,7 +2169,7 @@ rt_nvram_enable_write (Int addressingbits, Int enable, unsigned char stdbits)
 }
 
 static Int
-rt_nvram_write (Int block, Int location, char const *data, Int bytes)
+rt_nvram_write(Int block, Int location, char const *data, Int bytes)
 {
   Int addressingbits
   unsigned char stdbits
@@ -2179,68 +2179,68 @@ rt_nvram_write (Int block, Int location, char const *data, Int bytes)
   Int cmdsize
 
   /* This routine doesn't appear to work, but I can't see anything wrong with it */
-  if (rt_nvram_init_stdvars (block, &addressingbits, &stdbits) < 0)
+  if(rt_nvram_init_stdvars(block, &addressingbits, &stdbits) < 0)
     return -1
 
   cmdsize = (addressingbits + 8) * 2 + 6
   address_bits = cmdbuffer + 6
   data_bits = address_bits + (addressingbits * 2)
 
-  rt_nvram_set_command_bit (cmdbuffer, 1, stdbits)
-  rt_nvram_set_command_bit (cmdbuffer + 2, 0, stdbits)
-  rt_nvram_set_command_bit (cmdbuffer + 4, 1, stdbits)
+  rt_nvram_set_command_bit(cmdbuffer, 1, stdbits)
+  rt_nvram_set_command_bit(cmdbuffer + 2, 0, stdbits)
+  rt_nvram_set_command_bit(cmdbuffer + 4, 1, stdbits)
 
-  if (rt_nvram_init_command () < 0 ||
-      rt_nvram_enable_write (addressingbits, 1, stdbits) < 0)
+  if(rt_nvram_init_command() < 0 ||
+      rt_nvram_enable_write(addressingbits, 1, stdbits) < 0)
     return -1
 
-  while (bytes--)
+  while(bytes--)
     {
       var i: Int
 
-      rt_nvram_set_addressing_bits (address_bits, location, addressingbits,
+      rt_nvram_set_addressing_bits(address_bits, location, addressingbits,
 				    stdbits)
-      rt_nvram_set_addressing_bits (data_bits, *data++, 8, stdbits)
+      rt_nvram_set_addressing_bits(data_bits, *data++, 8, stdbits)
 
-      if (rt_nvram_enable_controller (1) < 0 ||
-	  rt_send_command_immediate (RTCMD_NVRAMCONTROL, 0, cmdsize, cmdsize,
+      if(rt_nvram_enable_controller(1) < 0 ||
+	  rt_send_command_immediate(RTCMD_NVRAMCONTROL, 0, cmdsize, cmdsize,
 				     cmdbuffer, 0, 0) < 0
-	  || rt_nvram_enable_controller (0) < 0)
+	  || rt_nvram_enable_controller(0) < 0)
 	return -1
 
-      if (rt_nvram_enable_controller (1) < 0)
+      if(rt_nvram_enable_controller(1) < 0)
 	return -1
-      for (i = 0; i < cmdsize; ++i)
+      for(i = 0; i < cmdsize; ++i)
 	{
 	  unsigned char r
 	  unsigned char cmd
 
-	  rt_nvram_set_half_bit (&cmd, 0, stdbits, i & 1)
-	  if (rt_send_command_immediate
+	  rt_nvram_set_half_bit(&cmd, 0, stdbits, i & 1)
+	  if(rt_send_command_immediate
 	      (RTCMD_NVRAMCONTROL, 0, 1, 1, &cmd, 0, 0) < 0
-	      || rt_read_register_immediate (0x10, 1, &r) < 0)
+	      || rt_read_register_immediate(0x10, 1, &r) < 0)
 	    {
 	      return -1
 	    }
-	  else if (r & 0x80)
+	  else if(r & 0x80)
 	    {
 	      break
 	    }
 	}
-      if (rt_nvram_enable_controller (0) < 0)
+      if(rt_nvram_enable_controller(0) < 0)
 	return -1
 
       ++location
     }
 
-  if (rt_nvram_enable_write (addressingbits, 0, stdbits) < 0)
+  if(rt_nvram_enable_write(addressingbits, 0, stdbits) < 0)
     return -1
   return 0
 }
 #endif
 
 static Int
-rt_nvram_read (Int block, Int location, unsigned char *data, Int bytes)
+rt_nvram_read(Int block, Int location, unsigned char *data, Int bytes)
 {
   Int addressingbits
   unsigned char stdbits
@@ -2249,49 +2249,49 @@ rt_nvram_read (Int block, Int location, unsigned char *data, Int bytes)
   unsigned char readbit_command[2]
   Int cmdsize
 
-  if (rt_nvram_init_stdvars (block, &addressingbits, &stdbits) < 0)
+  if(rt_nvram_init_stdvars(block, &addressingbits, &stdbits) < 0)
     return -1
 
   cmdsize = addressingbits * 2 + 7
   address_bits = cmdbuffer + 6
 
-  rt_nvram_set_command_bit (cmdbuffer, 1, stdbits)
-  rt_nvram_set_command_bit (cmdbuffer + 2, 1, stdbits)
-  rt_nvram_set_command_bit (cmdbuffer + 4, 0, stdbits)
-  rt_nvram_set_half_bit (cmdbuffer + cmdsize - 1, 0, stdbits, 0)
+  rt_nvram_set_command_bit(cmdbuffer, 1, stdbits)
+  rt_nvram_set_command_bit(cmdbuffer + 2, 1, stdbits)
+  rt_nvram_set_command_bit(cmdbuffer + 4, 0, stdbits)
+  rt_nvram_set_half_bit(cmdbuffer + cmdsize - 1, 0, stdbits, 0)
 
-  rt_nvram_set_half_bit (readbit_command, 0, stdbits, 1)
-  rt_nvram_set_half_bit (readbit_command + 1, 0, stdbits, 0)
+  rt_nvram_set_half_bit(readbit_command, 0, stdbits, 1)
+  rt_nvram_set_half_bit(readbit_command + 1, 0, stdbits, 0)
 
-  if (rt_nvram_init_command () < 0)
+  if(rt_nvram_init_command() < 0)
     return -1
 
-  while (bytes--)
+  while(bytes--)
     {
       char c = 0
       unsigned char r
       var i: Int
 
-      rt_nvram_set_addressing_bits (address_bits, location, addressingbits,
+      rt_nvram_set_addressing_bits(address_bits, location, addressingbits,
 				    stdbits)
 
-      if (rt_nvram_enable_controller (1) < 0 ||
-	  rt_send_command_immediate (RTCMD_NVRAMCONTROL, 0x1d, cmdsize,
+      if(rt_nvram_enable_controller(1) < 0 ||
+	  rt_send_command_immediate(RTCMD_NVRAMCONTROL, 0x1d, cmdsize,
 				     cmdsize, cmdbuffer, 0, 0) < 0)
 	return -1
 
-      for (i = 0; i < 8; ++i)
+      for(i = 0; i < 8; ++i)
 	{
 	  c <<= 1
 
-	  if (rt_send_command_immediate
+	  if(rt_send_command_immediate
 	      (RTCMD_NVRAMCONTROL, 0x1d, 2, 2, readbit_command, 0, 0) < 0
-	      || rt_read_register_immediate (0x10, 1, &r) < 0)
+	      || rt_read_register_immediate(0x10, 1, &r) < 0)
 	    return -1
-	  if (r & 0x80)
+	  if(r & 0x80)
 	    c |= 1
 	}
-      if (rt_nvram_enable_controller (0) < 0)
+      if(rt_nvram_enable_controller(0) < 0)
 	return -1
 
       *data++ = c
@@ -2442,84 +2442,84 @@ struct dcalibdata
   Int firstrowdone
 ]
 
-static void dump_registers (unsigned char const *)
+static void dump_registers(unsigned char const *)
 static Int
-rts8801_rewind (void)
+rts8801_rewind(void)
 {
   unsigned char regs[255]
   Int n
   Int tg_setting = RT_DOUBLE_TG
 
-  rt_read_register_immediate (0, 255, regs)
+  rt_read_register_immediate(0, 255, regs)
 
-  rt_set_noscan_distance (regs, 59998)
-  rt_set_total_distance (regs, 59999)
+  rt_set_noscan_distance(regs, 59998)
+  rt_set_total_distance(regs, 59999)
 
-  rt_set_stop_when_rewound (regs, 0)
+  rt_set_stop_when_rewound(regs, 0)
 
-  rt_set_one_register (0xc6, 0)
-  rt_set_one_register (0xc6, 0)
+  rt_set_one_register(0xc6, 0)
+  rt_set_one_register(0xc6, 0)
 
 
-  rt_set_direction_rewind (regs)
+  rt_set_direction_rewind(regs)
 
-  rt_set_step_size (regs, 0x55)
+  rt_set_step_size(regs, 0x55)
   regs[0x39] = 3
   regs[0xc3] = (regs[0xc3] & 0xf8) | 0x86
   regs[0xc6] = (regs[0xc6] & 0xf8) | 4
 
-  rt_set_horizontal_resolution (regs, 25)
-  rt_set_ccd_shift_clock_multiplier (regs, tg_info[tg_setting].tg_cph0p)
-  rt_set_ccd_clock_reset_interval (regs, tg_info[tg_setting].tg_crsp)
-  rt_set_ccd_clamp_clock_multiplier (regs, tg_info[tg_setting].tg_cclpp)
-  rt_set_cdss (regs, tg_info[tg_setting].tg_cdss1,
+  rt_set_horizontal_resolution(regs, 25)
+  rt_set_ccd_shift_clock_multiplier(regs, tg_info[tg_setting].tg_cph0p)
+  rt_set_ccd_clock_reset_interval(regs, tg_info[tg_setting].tg_crsp)
+  rt_set_ccd_clamp_clock_multiplier(regs, tg_info[tg_setting].tg_cclpp)
+  rt_set_cdss(regs, tg_info[tg_setting].tg_cdss1,
 	       tg_info[tg_setting].tg_cdss2)
-  rt_set_cdsc (regs, tg_info[tg_setting].tg_cdsc1,
+  rt_set_cdsc(regs, tg_info[tg_setting].tg_cdsc1,
 	       tg_info[tg_setting].tg_cdsc2)
   rt_update_after_setting_cdss2 (regs)
-  rt_set_cvtr_wparams (regs, 3, 0, 6)
-  rt_set_cvtr_mpt (regs, 15, 15, 15)
-  rt_set_cvtr_lm (regs, 7, 7, 7)
-  rt_set_motor_type (regs, 2)
+  rt_set_cvtr_wparams(regs, 3, 0, 6)
+  rt_set_cvtr_mpt(regs, 15, 15, 15)
+  rt_set_cvtr_lm(regs, 7, 7, 7)
+  rt_set_motor_type(regs, 2)
 
-  if (DBG_LEVEL >= 5)
-    dump_registers (regs)
+  if(DBG_LEVEL >= 5)
+    dump_registers(regs)
 
-  rt_set_all_registers (regs)
-  rt_set_one_register (0x2c, regs[0x2c])
+  rt_set_all_registers(regs)
+  rt_set_one_register(0x2c, regs[0x2c])
 
-  rt_start_moving ()
+  rt_start_moving()
 
-  while (!rt_is_rewound () &&
-	 ((n = rt_get_available_bytes ()) > 0 || rt_is_moving () > 0))
+  while(!rt_is_rewound() &&
+	 ((n = rt_get_available_bytes()) > 0 || rt_is_moving() > 0))
     {
-      if (n)
+      if(n)
 	{
 	  char buffer[0xffc0]
 
-	  if (n > (Int) sizeof (buffer))
-	    n = sizeof (buffer)
-	  rt_get_data (n, buffer)
+	  if(n > (Int) sizeof(buffer))
+	    n = sizeof(buffer)
+	  rt_get_data(n, buffer)
 	}
       else
 	{
-	  usleep (10000)
+	  usleep(10000)
 	}
     }
 
-  rt_stop_moving ()
+  rt_stop_moving()
   return 0
 }
 
 static Int cancelled_scan = 0
 
 static unsigned
-get_lsbfirst_int (unsigned char const *p, Int n)
+get_lsbfirst_int(unsigned char const *p, Int n)
 {
   unsigned value = *p++
   Int shift = 8
 
-  while (--n)
+  while(--n)
     {
       unsigned now = *p++
       value |= now << shift
@@ -2531,7 +2531,7 @@ get_lsbfirst_int (unsigned char const *p, Int n)
 static Int
 convert_c6 (var i: Int)
 {
-  switch (i)
+  switch(i)
     {
     case 3:
       return 1
@@ -2546,111 +2546,111 @@ convert_c6 (var i: Int)
 }
 
 static void
-dump_registers (unsigned char const *regs)
+dump_registers(unsigned char const *regs)
 {
   var i: Int = 0
   long pixels
 
-  DBG (5, "Scan commencing with registers:\n")
-  while (i < 255)
+  DBG(5, "Scan commencing with registers:\n")
+  while(i < 255)
     {
       Int j = 0
       char buffer[80]
 
       buffer[0] = 0
 
-      sprintf (buffer + strlen (buffer), "%02x:", i)
-      while (j < 8)
+      sprintf(buffer + strlen(buffer), "%02x:", i)
+      while(j < 8)
 	{
-	  sprintf (buffer + strlen (buffer), " %02x", regs[i++])
+	  sprintf(buffer + strlen(buffer), " %02x", regs[i++])
 	  j++
 	}
-      sprintf (buffer + strlen (buffer), " -")
-      while (j++ < 16 && i < 255)
-	sprintf (buffer + strlen (buffer), " %02x", regs[i++])
-      DBG (5, "    %s\n", buffer)
+      sprintf(buffer + strlen(buffer), " -")
+      while(j++ < 16 && i < 255)
+	sprintf(buffer + strlen(buffer), " %02x", regs[i++])
+      DBG(5, "    %s\n", buffer)
     }
 
-  DBG (5, "  Position:\n")
-  DBG (5, "    Distance without scanning:       %u\n",
-       get_lsbfirst_int (regs + 0x60, 2))
-  DBG (5, "    Total distance:                  %u\n",
-       get_lsbfirst_int (regs + 0x62, 2))
-  DBG (5, "    Scanning distance:               %u\n",
-       get_lsbfirst_int (regs + 0x62, 2) - get_lsbfirst_int (regs + 0x60, 2))
-  DBG (5, "    Direction:                       %s\n",
+  DBG(5, "  Position:\n")
+  DBG(5, "    Distance without scanning:       %u\n",
+       get_lsbfirst_int(regs + 0x60, 2))
+  DBG(5, "    Total distance:                  %u\n",
+       get_lsbfirst_int(regs + 0x62, 2))
+  DBG(5, "    Scanning distance:               %u\n",
+       get_lsbfirst_int(regs + 0x62, 2) - get_lsbfirst_int(regs + 0x60, 2))
+  DBG(5, "    Direction:                       %s\n",
        (regs[0xc6] & 0x08) ? "forward" : "rewind")
-  DBG (5, "    Motor:                           %s\n",
+  DBG(5, "    Motor:                           %s\n",
        (regs[0xc3] & 0x80) ? "enabled" : "disabled")
-  if (regs[0x7a])
-    DBG (5, "    X range:                         %u-%u\n",
-	 get_lsbfirst_int (regs + 0x66, 2) / regs[0x7a],
-	 get_lsbfirst_int (regs + 0x6c, 2) / regs[0x7a])
-  DBG (5, "  TG Info:\n")
-  DBG (5, "    CPH0P:                           %06x\n",
-       get_lsbfirst_int (regs + 0xf0, 3))
-  DBG (5, "    CRSP:                            %06x\n",
-       get_lsbfirst_int (regs + 0xf9, 3))
-  DBG (5, "    CCLPP:                           %06x\n",
-       get_lsbfirst_int (regs + 0xfc, 3))
-  DBG (5, "    CPH0S:                           %d\n",
+  if(regs[0x7a])
+    DBG(5, "    X range:                         %u-%u\n",
+	 get_lsbfirst_int(regs + 0x66, 2) / regs[0x7a],
+	 get_lsbfirst_int(regs + 0x6c, 2) / regs[0x7a])
+  DBG(5, "  TG Info:\n")
+  DBG(5, "    CPH0P:                           %06x\n",
+       get_lsbfirst_int(regs + 0xf0, 3))
+  DBG(5, "    CRSP:                            %06x\n",
+       get_lsbfirst_int(regs + 0xf9, 3))
+  DBG(5, "    CCLPP:                           %06x\n",
+       get_lsbfirst_int(regs + 0xfc, 3))
+  DBG(5, "    CPH0S:                           %d\n",
        (regs[0x2d] & 0x20) ? 1 : 0)
-  DBG (5, "    CDSS1:                           %02x\n", regs[0x28] & 0x1f)
-  DBG (5, "    CDSC1:                           %02x\n", regs[0x29] & 0x1f)
-  DBG (5, "    CDSS2:                           %02x\n", regs[0x2a] & 0x1f)
-  DBG (5, "    CDSC2:                           %02x\n", regs[0x2b] & 0x1f)
+  DBG(5, "    CDSS1:                           %02x\n", regs[0x28] & 0x1f)
+  DBG(5, "    CDSC1:                           %02x\n", regs[0x29] & 0x1f)
+  DBG(5, "    CDSS2:                           %02x\n", regs[0x2a] & 0x1f)
+  DBG(5, "    CDSC2:                           %02x\n", regs[0x2b] & 0x1f)
 
-  DBG (5, "  Resolution specific:\n")
-  if (!regs[0x7a])
-    DBG (5, "    Horizontal resolution:           Denominator is zero!\n")
+  DBG(5, "  Resolution specific:\n")
+  if(!regs[0x7a])
+    DBG(5, "    Horizontal resolution:           Denominator is zero!\n")
   else
-    DBG (5, "    Horizontal resolution:           %u\n", 300
+    DBG(5, "    Horizontal resolution:           %u\n", 300
 	 * ((regs[0x2d] & 0x20) ? 2 : 1)
 	 * ((regs[0xd3] & 0x08) ? 2 : 1) / regs[0x7a])
-  DBG (5, "    Derived vertical resolution:     %u\n",
+  DBG(5, "    Derived vertical resolution:     %u\n",
        400 * (regs[0xc3] & 0x1f) * convert_c6 (regs[0xc6] & 0x7) /
        (regs[0x39] + 1))
-  DBG (5, "    Register D3:3                    %u\n",
+  DBG(5, "    Register D3:3                    %u\n",
        (regs[0xd3] & 0x08) ? 1 : 0)
-  DBG (5, "    Register 39:                     %u\n", regs[0x39])
-  DBG (5, "    Register C3:0-5:                 %u\n", regs[0xc3] & 0x1f)
-  DBG (5, "    Register C6:0-2:                 %u\n", regs[0xc6] & 0x7)
-  DBG (5, "    Motor movement clock multiplier: %u\n", regs[0x40] >> 6)
-  DBG (5, "    Step Size:                       %04x\n",
-       get_lsbfirst_int (regs + 0xe2, 2))
-  DBG (5, "    Frequency:                       %u\n", regs[0x64] & 0xf)
-  DBG (5, "  Colour registers\n")
-  DBG (5, "    Register 2F:                     %02x\n", regs[0x2f])
-  DBG (5, "    Register 2C:                     %02x\n", regs[0x2c])
-  if (regs[0x7a])
+  DBG(5, "    Register 39:                     %u\n", regs[0x39])
+  DBG(5, "    Register C3:0-5:                 %u\n", regs[0xc3] & 0x1f)
+  DBG(5, "    Register C6:0-2:                 %u\n", regs[0xc6] & 0x7)
+  DBG(5, "    Motor movement clock multiplier: %u\n", regs[0x40] >> 6)
+  DBG(5, "    Step Size:                       %04x\n",
+       get_lsbfirst_int(regs + 0xe2, 2))
+  DBG(5, "    Frequency:                       %u\n", regs[0x64] & 0xf)
+  DBG(5, "  Colour registers\n")
+  DBG(5, "    Register 2F:                     %02x\n", regs[0x2f])
+  DBG(5, "    Register 2C:                     %02x\n", regs[0x2c])
+  if(regs[0x7a])
     {
-      DBG (5, "  Scan data estimates:\n")
+      DBG(5, "  Scan data estimates:\n")
       pixels =
-	(long) (get_lsbfirst_int (regs + 0x62, 2) -
-		get_lsbfirst_int (regs + 0x60,
-				  2)) * (long) (get_lsbfirst_int (regs + 0x6c,
+	(long) (get_lsbfirst_int(regs + 0x62, 2) -
+		get_lsbfirst_int(regs + 0x60,
+				  2)) * (long) (get_lsbfirst_int(regs + 0x6c,
 								  2) -
-						get_lsbfirst_int (regs + 0x66,
+						get_lsbfirst_int(regs + 0x66,
 								  2)) /
 	regs[0x7a]
-      DBG (5, "    Pixels:                          %ld\n", pixels)
-      DBG (5, "    Bytes at 24BPP:                  %ld\n", pixels * 3)
-      DBG (5, "    Bytes at 1BPP:                   %ld\n", pixels / 8)
+      DBG(5, "    Pixels:                          %ld\n", pixels)
+      DBG(5, "    Bytes at 24BPP:                  %ld\n", pixels * 3)
+      DBG(5, "    Bytes at 1BPP:                   %ld\n", pixels / 8)
     }
-  DBG (5, "\n")
+  DBG(5, "\n")
 }
 
 static Int
-constrain (Int val, Int min, Int max)
+constrain(Int val, Int min, Int max)
 {
-  if (val < min)
+  if(val < min)
     {
-      DBG (10, "Clipped %d to %d\n", val, min)
+      DBG(10, "Clipped %d to %d\n", val, min)
       val = min
     }
-  else if (val > max)
+  else if(val > max)
     {
-      DBG (10, "Clipped %d to %d\n", val, max)
+      DBG(10, "Clipped %d to %d\n", val, max)
       val = max
     }
   return val
@@ -2671,13 +2671,13 @@ sram_dump_byte(FILE *fp,
   unsigned lidx = leftstart + idx
 
   putc(' ', fp)
-  if (rightstart < rightlimit && leftstart < leftlimit && left[lidx] != right[ridx])
+  if(rightstart < rightlimit && leftstart < leftlimit && left[lidx] != right[ridx])
     fputs("<b>", fp)
-  if (leftstart < leftlimit)
+  if(leftstart < leftlimit)
     fprintf(fp, "%02x", left[lidx])
   else
     fputs("  ", fp)
-  if (rightstart < rightlimit && leftstart < leftlimit && left[lidx] != right[ridx])
+  if(rightstart < rightlimit && leftstart < leftlimit && left[lidx] != right[ridx])
     fputs("</b>", fp)
 }
 
@@ -2689,19 +2689,19 @@ dump_sram_to_file(char const *fname,
   FILE *fp = fopen(fname, "w")
   rt_set_sram_page(0)
 
-  if (fp)
+  if(fp)
     {
       unsigned char buf[1024]
       unsigned loc = 0
 
       fprintf(fp, "<html><head></head><body><pre>\n")
-      while (loc < end_calibration_offset)
+      while(loc < end_calibration_offset)
         {
           unsigned byte = 0
 
           rt_read_sram(1024, buf)
 
-          while (byte < 1024)
+          while(byte < 1024)
             {
               unsigned idx = 0
 
@@ -2709,12 +2709,12 @@ dump_sram_to_file(char const *fname,
               do
                 {
 		  sram_dump_byte(fp, buf, byte, 1024, expected, loc, end_calibration_offset, idx)
-                } while (++idx & 0x7)
+                } while(++idx & 0x7)
               fprintf(fp, " -")
               do
                 {
 		  sram_dump_byte(fp, buf, byte, 1024, expected, loc, end_calibration_offset, idx)
-                } while (++idx & 0x7)
+                } while(++idx & 0x7)
 
               idx = 0
               fputs("     ", fp)
@@ -2722,12 +2722,12 @@ dump_sram_to_file(char const *fname,
               do
                 {
                   sram_dump_byte(fp, expected, loc, end_calibration_offset, buf, byte, 1024, idx)
-                } while (++idx & 0x7)
+                } while(++idx & 0x7)
               fprintf(fp, " -")
               do
                 {
                   sram_dump_byte(fp, expected, loc, end_calibration_offset, buf, byte, 1024, idx)
-                } while (++idx & 0x7)
+                } while(++idx & 0x7)
 
 
               fputs("\n", fp)
@@ -2742,7 +2742,7 @@ dump_sram_to_file(char const *fname,
 #endif
 
 static Int
-rts8801_doscan (unsigned width,
+rts8801_doscan(unsigned width,
 		unsigned height,
 		unsigned colour,
 		unsigned red_green_offset,
@@ -2775,14 +2775,14 @@ rts8801_doscan (unsigned width,
   unsigned rows_supplied = 0
 
   calib_info = calib_info;	/* Kill warning */
-  if (cancelled_scan)
+  if(cancelled_scan)
     return -1
-  rt_start_moving ()
+  rt_start_moving()
 
   channels = 3
   rowbytes = width * 3
 
-  switch (colour)
+  switch(colour)
     {
     case HP3500_GRAY_SCAN:
       output_rowbytes = width
@@ -2801,16 +2801,16 @@ rts8801_doscan (unsigned width,
     red_green_offset + green_blue_offset + intra_channel_offset + 1
   rows_to_begin = buffered_rows
   rowbuffer_bytes = buffered_rows * rowbytes
-  row_buffer = (unsigned char *) malloc (rowbuffer_bytes)
-  output_buffer = (unsigned char *) malloc (rowbytes)
+  row_buffer = (unsigned char *) malloc(rowbuffer_bytes)
+  output_buffer = (unsigned char *) malloc(rowbytes)
 
-  for (i = j = 0; i < channels; ++i)
+  for(i = j = 0; i < channels; ++i)
     {
-      if (i == 1)
+      if(i == 1)
 	j += red_green_offset
-      else if (i == 2)
+      else if(i == 2)
 	j += green_blue_offset
-      if (merged_channels)
+      if(merged_channels)
 	channel_data[i][1 - oddfirst] = row_buffer + rowbytes * j + i
       else
 	channel_data[i][1 - oddfirst] = row_buffer + rowbytes * j + width * i
@@ -2818,57 +2818,57 @@ rts8801_doscan (unsigned width,
 	channel_data[i][1 - oddfirst] + rowbytes * intra_channel_offset
     }
 
-  while (((n = rt_get_available_bytes ()) > 0 || rt_is_moving () > 0)
+  while(((n = rt_get_available_bytes()) > 0 || rt_is_moving() > 0)
 	 && !cancelled_scan)
     {
-      if (n == 1 && (rt_is_moving () || rt_get_available_bytes () != 1))
+      if(n == 1 && (rt_is_moving() || rt_get_available_bytes() != 1))
 	n = 0
-      if (n > 0)
+      if(n > 0)
 	{
 	 unsigned char buffer[0xffc0]
 
-	  if (n > 0xffc0)
+	  if(n > 0xffc0)
 	    n = 0xffc0
-	  else if ((n > 1) && (n & 1))
+	  else if((n > 1) && (n & 1))
 	    --n
-	  if (rt_get_data (n, buffer) >= 0)
+	  if(rt_get_data(n, buffer) >= 0)
 	    {
 	      unsigned char *bufnow = buffer
 
-	      while (n)
+	      while(n)
 		{
 		  Int numcopy = rowbytes - bytenow
 
-		  if (numcopy > n)
+		  if(numcopy > n)
 		    numcopy = n
 
-		  memcpy (row_buffer + rownow * rowbytes + bytenow,
+		  memcpy(row_buffer + rownow * rowbytes + bytenow,
 		  	  bufnow, numcopy)
 		  bytenow += numcopy
 		  bufnow += numcopy
 		  n -= numcopy
 
-		  if (bytenow == rowbytes)
+		  if(bytenow == rowbytes)
 		    {
-		      if (!rows_to_begin || !--rows_to_begin)
+		      if(!rows_to_begin || !--rows_to_begin)
 			{
 			  unsigned char *outnow = output_buffer
                           unsigned x
 
-			  for (i = x = 0
+			  for(i = x = 0
 			       x < width
 			       ++x, i += merged_channels ? channels : 1)
 			    {
-			      for (j = 0; j < channels; ++j)
+			      for(j = 0; j < channels; ++j)
 				{
 				  unsigned pix =
 				    (unsigned char) channel_data[j][i & 1][i]
 
-                                  if (postprocess_gains && postprocess_offsets)
+                                  if(postprocess_gains && postprocess_offsets)
                                   {
                                     Int ppidx = j * width + x
 
-                                    pix = constrain ( pix
+                                    pix = constrain( pix
                                                        * postprocess_gains[ppidx]
                                                        - postprocess_offsets[ppidx],
                                                       0,
@@ -2878,16 +2878,16 @@ rts8801_doscan (unsigned width,
 				}
 			    }
 
-			  if (colour == HP3500_GRAY_SCAN || colour == HP3500_LINEART_SCAN)
+			  if(colour == HP3500_GRAY_SCAN || colour == HP3500_LINEART_SCAN)
 			    {
 			      unsigned char const *in_now = output_buffer
 			      Int	bit = 7
 
 			      outnow = output_buffer
-			      for (i = 0; i < width; ++i)
+			      for(i = 0; i < width; ++i)
 				{
 
-				  if (colour == HP3500_GRAY_SCAN)
+				  if(colour == HP3500_GRAY_SCAN)
 				    {
 				      *outnow++ = ((unsigned) in_now[0] * 2989 +
 						   (unsigned) in_now[1] * 5870 +
@@ -2895,11 +2895,11 @@ rts8801_doscan (unsigned width,
 				    }
 				  else
 				    {
-				      if (bit == 7)
+				      if(bit == 7)
 					*outnow = ((in_now[1] < 0x80) ? 0x80 : 0)
-				      else if (in_now[1] < 0x80)
+				      else if(in_now[1] < 0x80)
 					*outnow |= (1 << bit)
-				      if (bit == 0)
+				      if(bit == 0)
 					{
 					  ++outnow
 					  bit = 7
@@ -2912,43 +2912,43 @@ rts8801_doscan (unsigned width,
 				  in_now += 3
 				}
 			    }
-			  if (rows_supplied++ < height &&
+			  if(rows_supplied++ < height &&
 			      !((*cbfunc) (params, output_rowbytes, output_buffer)))
 			    break
 
-			  for (i = 0; i < channels; ++i)
+			  for(i = 0; i < channels; ++i)
 			    {
-			      for (j = 0; j < 2; ++j)
+			      for(j = 0; j < 2; ++j)
 				{
 				  channel_data[i][j] += rowbytes
-				  if (channel_data[i][j] - row_buffer >=
+				  if(channel_data[i][j] - row_buffer >=
 				      rowbuffer_bytes)
 				    channel_data[i][j] -= rowbuffer_bytes
 				}
 			    }
 			}
 		      ++total_rows
-		      if (++rownow == buffered_rows)
+		      if(++rownow == buffered_rows)
 			rownow = 0
 		      bytenow = 0
 		    }
 		}
 	    }
-	  DBG (30, "total_rows = %d\r", total_rows)
+	  DBG(30, "total_rows = %d\r", total_rows)
 	}
       else
 	{
-	  usleep (10000)
+	  usleep(10000)
 	}
     }
-  DBG (10, "\n")
-  if (n < 0)
+  DBG(10, "\n")
+  if(n < 0)
     result = -1
 
-  free (output_buffer)
-  free (row_buffer)
+  free(output_buffer)
+  free(row_buffer)
 
-  rt_stop_moving ()
+  rt_stop_moving()
   return result
 }
 
@@ -2961,20 +2961,20 @@ static unsigned char r93setting
 #define RTS8801_F_ODDX			8
 
 static Int
-find_resolution_index (unsigned resolution)
+find_resolution_index(unsigned resolution)
 {
   Int res = 0
 
-  for (res = 0; resparms[res].resolution != resolution; ++res)
+  for(res = 0; resparms[res].resolution != resolution; ++res)
     {
-      if (!resparms[res].resolution)
+      if(!resparms[res].resolution)
 	return -1
     }
   return res
 }
 
 static Int
-rts8801_fullscan (unsigned x,
+rts8801_fullscan(unsigned x,
 		  unsigned y,
 		  unsigned w,
 		  unsigned h,
@@ -3003,98 +3003,98 @@ rts8801_fullscan (unsigned x,
   unsigned green_blue_offset
   unsigned total_offsets
 
-  ires = find_resolution_index (xresolution)
-  jres = find_resolution_index (yresolution)
+  ires = find_resolution_index(xresolution)
+  jres = find_resolution_index(yresolution)
 
-  if (ires < 0 || jres < 0)
+  if(ires < 0 || jres < 0)
     return -1
 
   /* Set scan parameters */
 
-  rt_read_register_immediate (0, 255, regs)
+  rt_read_register_immediate(0, 255, regs)
   regs[255] = 0
 
-  rt_enable_ccd (regs, 1)
-  rt_enable_movement (regs, 1)
-  rt_set_scan_frequency (regs, 1)
+  rt_enable_ccd(regs, 1)
+  rt_enable_movement(regs, 1)
+  rt_set_scan_frequency(regs, 1)
 
-  rt_adjust_misc_registers (regs)
+  rt_adjust_misc_registers(regs)
 
-  rt_set_cvtr_wparams (regs, 3, 0, 6)
-  rt_set_cvtr_mpt (regs, 15, 15, 15)
-  rt_set_cvtr_lm (regs, 7, 7, 7)
-  rt_set_motor_type (regs, 2)
+  rt_set_cvtr_wparams(regs, 3, 0, 6)
+  rt_set_cvtr_mpt(regs, 15, 15, 15)
+  rt_set_cvtr_lm(regs, 7, 7, 7)
+  rt_set_motor_type(regs, 2)
 
-  if (rt_nvram_read (0, 0x7b, &offdutytime, 1) < 0 || offdutytime >= 15)
+  if(rt_nvram_read(0, 0x7b, &offdutytime, 1) < 0 || offdutytime >= 15)
     {
       offdutytime = 6
     }
-  rt_set_lamp_duty_cycle (regs, 1,	/* On */
+  rt_set_lamp_duty_cycle(regs, 1,	/* On */
 			  10,	/* Frequency */
 			  offdutytime);	/* Off duty time */
 
-  rt_set_movement_pattern (regs, 0x800000)
+  rt_set_movement_pattern(regs, 0x800000)
 
-  rt_set_direction_forwards (regs)
-  rt_set_stop_when_rewound (regs, 0)
+  rt_set_direction_forwards(regs)
+  rt_set_stop_when_rewound(regs, 0)
 
-  rt_set_calibration_addresses (regs, 0, 0, 0, 0, 0)
+  rt_set_calibration_addresses(regs, 0, 0, 0, 0, 0)
 
-  rt_set_basic_calibration (regs,
+  rt_set_basic_calibration(regs,
 			    calib_info[0], calib_info[1], calib_info[2],
 			    calib_info[3], calib_info[4], calib_info[5],
 			    calib_info[6], calib_info[7], calib_info[8])
   regs[0x0b] = 0x70;		/* If set to 0x71, the alternative, all values are low */
   regs[0x40] &= 0xc0
 
-  if (red_calib_offset >= 0
+  if(red_calib_offset >= 0
       && green_calib_offset >= 0
       && blue_calib_offset >= 0)
     {
-      rt_set_calibration_addresses (regs, red_calib_offset,
+      rt_set_calibration_addresses(regs, red_calib_offset,
 				    green_calib_offset, blue_calib_offset,
 				    end_calib_offset,
 				    w)
       regs[0x40] |= 0x2f
     }
-  else if (end_calib_offset >= 0)
+  else if(end_calib_offset >= 0)
     {
-      rt_set_calibration_addresses (regs, 0x600, 0x600, 0x600,
+      rt_set_calibration_addresses(regs, 0x600, 0x600, 0x600,
 				    end_calib_offset, w)
     }
 
-  rt_set_channel (regs, RT_CHANNEL_ALL)
-  rt_set_single_channel_scanning (regs, 0)
-  rt_set_merge_channels (regs, 1)
-  rt_set_colour_mode (regs, 1)
+  rt_set_channel(regs, RT_CHANNEL_ALL)
+  rt_set_single_channel_scanning(regs, 0)
+  rt_set_merge_channels(regs, 1)
+  rt_set_colour_mode(regs, 1)
 
-  rt_set_last_sram_page (regs, (local_sram_size - 1) >> 5)
+  rt_set_last_sram_page(regs, (local_sram_size - 1) >> 5)
 
   scan_frequency = resparms[jres].scan_frequency
-  rt_set_cph0s (regs, resparms[ires].cph0s)
-  if (resparms[ires].d3_bit_3_value)
+  rt_set_cph0s(regs, resparms[ires].cph0s)
+  if(resparms[ires].d3_bit_3_value)
     regs[0xd3] |= 0x08
   else
     regs[0xd3] &= 0xf7
 
-  if (flags & RTS8801_F_SUPPRESS_MOVEMENT)
+  if(flags & RTS8801_F_SUPPRESS_MOVEMENT)
     regs[0xc3] &= 0x7f
 
   regs[0xb2] &= 0xf7
 
-  rt_set_horizontal_resolution (regs, xresolution)
+  rt_set_horizontal_resolution(regs, xresolution)
 
-  rt_set_scanline_start (regs,
+  rt_set_scanline_start(regs,
 			 x * (1200 / xresolution) /
 			 (resparms[ires].cph0s ? 1 : 2) /
 			 (resparms[ires].d3_bit_3_value ? 1 : 2))
-  rt_set_scanline_end (regs,
+  rt_set_scanline_end(regs,
 		       (x +
 			w) * (1200 / xresolution) /
 		       (resparms[ires].cph0s ? 1 : 2) /
 		       (resparms[ires].d3_bit_3_value ? 1 : 2))
 
-  if (flags & RTS8801_F_NO_DISPLACEMENTS)
+  if(flags & RTS8801_F_NO_DISPLACEMENTS)
     {
       red_green_offset = green_blue_offset = intra_channel_offset = 0
     }
@@ -3105,27 +3105,27 @@ rts8801_fullscan (unsigned x,
       intra_channel_offset = resparms[jres].intra_channel_offset
     }
   total_offsets = red_green_offset + green_blue_offset + intra_channel_offset
-  if (y > total_offsets + 2)
+  if(y > total_offsets + 2)
     y -= total_offsets
   h += total_offsets
 
-  if (yresolution > 75 && !(flags & RTS8801_F_SUPPRESS_MOVEMENT))
+  if(yresolution > 75 && !(flags & RTS8801_F_SUPPRESS_MOVEMENT))
     {
-      Int rmres = find_resolution_index (50)
+      Int rmres = find_resolution_index(50)
 
-      if (rmres >= 0)
+      if(rmres >= 0)
 	{
 	  Int factor = yresolution / 50
 	  Int fastres = y / factor
 	  Int remainder = y % factor
 
-	  while (remainder < 2)
+	  while(remainder < 2)
 	    {
 		--fastres
 		remainder += factor
 	    }
 
-	  if (fastres >= 3)
+	  if(fastres >= 3)
 	    {
 	      y = remainder
 
@@ -3135,22 +3135,22 @@ rts8801_fullscan (unsigned x,
 	      rt_set_scan_frequency(regs, 1)
 
 	      tg_setting = resparms[rmres].tg
-	      rt_set_ccd_shift_clock_multiplier (regs, tg_info[tg_setting].tg_cph0p)
-	      rt_set_ccd_clock_reset_interval (regs, tg_info[tg_setting].tg_crsp)
-	      rt_set_ccd_clamp_clock_multiplier (regs, tg_info[tg_setting].tg_cclpp)
+	      rt_set_ccd_shift_clock_multiplier(regs, tg_info[tg_setting].tg_cph0p)
+	      rt_set_ccd_clock_reset_interval(regs, tg_info[tg_setting].tg_crsp)
+	      rt_set_ccd_clamp_clock_multiplier(regs, tg_info[tg_setting].tg_cclpp)
 
-	      rt_set_one_register (0xc6, 0)
-	      rt_set_one_register (0xc6, 0)
+	      rt_set_one_register(0xc6, 0)
+	      rt_set_one_register(0xc6, 0)
 
-	      rt_set_step_size (regs, resparms[rmres].step_size)
+	      rt_set_step_size(regs, resparms[rmres].step_size)
 
-	      rt_set_motor_movement_clock_multiplier (regs,
+	      rt_set_motor_movement_clock_multiplier(regs,
 						      resparms[rmres].
 							  motor_movement_clock_multiplier)
 
-	      rt_set_cdss (regs, tg_info[tg_setting].tg_cdss1,
+	      rt_set_cdss(regs, tg_info[tg_setting].tg_cdss1,
 			   tg_info[tg_setting].tg_cdss2)
-	      rt_set_cdsc (regs, tg_info[tg_setting].tg_cdsc1,
+	      rt_set_cdsc(regs, tg_info[tg_setting].tg_cdsc1,
 			   tg_info[tg_setting].tg_cdsc2)
 	      rt_update_after_setting_cdss2 (regs)
 
@@ -3158,45 +3158,45 @@ rts8801_fullscan (unsigned x,
 	      regs[0xc3] = (regs[0xc3] & 0xf8) | resparms[rmres].reg_c3_value
 	      regs[0xc6] = (regs[0xc6] & 0xf8) | resparms[rmres].reg_c6_value
 
-	      rt_set_data_feed_off (regs)
+	      rt_set_data_feed_off(regs)
 
-	      rt_set_all_registers (regs)
+	      rt_set_all_registers(regs)
 
-  	      rt_set_one_register (0x2c, regs[0x2c])
+  	      rt_set_one_register(0x2c, regs[0x2c])
 
-	      if (DBG_LEVEL >= 5)
-	        dump_registers (regs)
+	      if(DBG_LEVEL >= 5)
+	        dump_registers(regs)
 
-	      rt_start_moving ()
-	      while (rt_is_moving ())
+	      rt_start_moving()
+	      while(rt_is_moving())
 	    }
 	}
     }
 
 
-  rt_set_noscan_distance (regs, y * scan_frequency - 1)
-  rt_set_total_distance (regs, scan_frequency * (y + h) - 1)
+  rt_set_noscan_distance(regs, y * scan_frequency - 1)
+  rt_set_total_distance(regs, scan_frequency * (y + h) - 1)
 
-  rt_set_scan_frequency (regs, scan_frequency)
+  rt_set_scan_frequency(regs, scan_frequency)
 
   tg_setting = resparms[jres].tg
 
-  rt_set_ccd_shift_clock_multiplier (regs, tg_info[tg_setting].tg_cph0p)
-  rt_set_ccd_clock_reset_interval (regs, tg_info[tg_setting].tg_crsp)
-  rt_set_ccd_clamp_clock_multiplier (regs, tg_info[tg_setting].tg_cclpp)
+  rt_set_ccd_shift_clock_multiplier(regs, tg_info[tg_setting].tg_cph0p)
+  rt_set_ccd_clock_reset_interval(regs, tg_info[tg_setting].tg_crsp)
+  rt_set_ccd_clamp_clock_multiplier(regs, tg_info[tg_setting].tg_cclpp)
 
-  rt_set_one_register (0xc6, 0)
-  rt_set_one_register (0xc6, 0)
+  rt_set_one_register(0xc6, 0)
+  rt_set_one_register(0xc6, 0)
 
-  rt_set_step_size (regs, resparms[jres].step_size)
+  rt_set_step_size(regs, resparms[jres].step_size)
 
-  rt_set_motor_movement_clock_multiplier (regs,
+  rt_set_motor_movement_clock_multiplier(regs,
 					  resparms[jres].
 					  motor_movement_clock_multiplier)
 
-  rt_set_cdss (regs, tg_info[tg_setting].tg_cdss1,
+  rt_set_cdss(regs, tg_info[tg_setting].tg_cdss1,
 	       tg_info[tg_setting].tg_cdss2)
-  rt_set_cdsc (regs, tg_info[tg_setting].tg_cdsc1,
+  rt_set_cdsc(regs, tg_info[tg_setting].tg_cdsc1,
 	       tg_info[tg_setting].tg_cdsc2)
   rt_update_after_setting_cdss2 (regs)
 
@@ -3204,16 +3204,16 @@ rts8801_fullscan (unsigned x,
   regs[0xc3] = (regs[0xc3] & 0xf8) | resparms[jres].reg_c3_value
   regs[0xc6] = (regs[0xc6] & 0xf8) | resparms[jres].reg_c6_value
 
-  rt_set_data_feed_on (regs)
+  rt_set_data_feed_on(regs)
 
-  rt_set_all_registers (regs)
+  rt_set_all_registers(regs)
 
-  rt_set_one_register (0x2c, regs[0x2c])
+  rt_set_one_register(0x2c, regs[0x2c])
 
-  if (DBG_LEVEL >= 5)
-    dump_registers (regs)
+  if(DBG_LEVEL >= 5)
+    dump_registers(regs)
 
-  result = rts8801_doscan (w,
+  result = rts8801_doscan(w,
 			   h,
 			   colour,
 			   red_green_offset,
@@ -3227,18 +3227,18 @@ rts8801_fullscan (unsigned x,
 }
 
 static Int
-accumfunc (struct dcalibdata *dcd, Int bytes, char *data)
+accumfunc(struct dcalibdata *dcd, Int bytes, char *data)
 {
   unsigned char *c = (unsigned char *) data
 
-  while (bytes > 0)
+  while(bytes > 0)
     {
-      if (dcd.firstrowdone)
+      if(dcd.firstrowdone)
 	dcd.buffers[dcd.channelnow][dcd.pixelnow - dcd.pixelsperrow] = *c
-      if (++dcd.channelnow >= 3)
+      if(++dcd.channelnow >= 3)
 	{
 	  dcd.channelnow = 0
-	  if (++dcd.pixelnow == dcd.pixelsperrow)
+	  if(++dcd.pixelnow == dcd.pixelsperrow)
 	    ++dcd.firstrowdone
 	}
       c++
@@ -3248,22 +3248,22 @@ accumfunc (struct dcalibdata *dcd, Int bytes, char *data)
 }
 
 static Int
-calcmedian (unsigned char const *data,
+calcmedian(unsigned char const *data,
 	    Int pixel, Int pixels_per_row, Int elements)
 {
   Int tallies[256]
   var i: Int
   Int elemstogo = elements / 2
 
-  memset (tallies, 0, sizeof (tallies))
+  memset(tallies, 0, sizeof(tallies))
   data += pixel
-  for (i = 0; i < elements; ++i)
+  for(i = 0; i < elements; ++i)
     {
       ++tallies[*data]
       data += pixels_per_row
     }
   i = 0
-  while (elemstogo - tallies[i] > 0)
+  while(elemstogo - tallies[i] > 0)
     elemstogo -= tallies[i++]
   return i
 }
@@ -3275,13 +3275,13 @@ struct calibdata
 ]
 
 static Int
-storefunc (struct calibdata *cd, Int bytes, char *data)
+storefunc(struct calibdata *cd, Int bytes, char *data)
 {
-  if (cd.space > 0)
+  if(cd.space > 0)
     {
-      if (bytes > cd.space)
+      if(bytes > cd.space)
 	bytes = cd.space
-      memcpy (cd.buffer, data, bytes)
+      memcpy(cd.buffer, data, bytes)
       cd.buffer += bytes
       cd.space -= bytes
     }
@@ -3289,15 +3289,15 @@ storefunc (struct calibdata *cd, Int bytes, char *data)
 }
 
 static unsigned
-sum_channel (unsigned char *p, Int n, Int bytwo)
+sum_channel(unsigned char *p, Int n, Int bytwo)
 {
   unsigned v = 0
 
-  while (n-- > 0)
+  while(n-- > 0)
     {
       v += *p
       p += 3
-      if (bytwo)
+      if(bytwo)
 	p += 3
     }
   return v
@@ -3311,7 +3311,7 @@ static Int do_warmup = 1
 #define	DETAILED_PASS_GAINS_SECONDPASS	2
 
 static Int
-rts8801_scan (unsigned x,
+rts8801_scan(unsigned x,
 	      unsigned y,
 	      unsigned w,
 	      unsigned h,
@@ -3357,28 +3357,28 @@ rts8801_scan (unsigned x,
 
   /* Initialise and power up */
 
-  rt_set_all_registers (initial_regs)
-  rt_set_powersave_mode (0)
+  rt_set_all_registers(initial_regs)
+  rt_set_powersave_mode(0)
 
   /* Initial rewind in case scanner is stuck away from home position */
 
-  rts8801_rewind ()
+  rts8801_rewind()
 
   /* Detect SRAM */
 
-  rt_detect_sram (&local_sram_size, &r93setting)
+  rt_detect_sram(&local_sram_size, &r93setting)
 
   /* Warm up the lamp */
 
-  DBG (10, "Warming up the lamp\n")
+  DBG(10, "Warming up the lamp\n")
 
-  rt_turn_on_lamp ()
-  if (do_warmup)
-    sleep (25)
+  rt_turn_on_lamp()
+  if(do_warmup)
+    sleep(25)
 
   /* Basic calibration */
 
-  DBG (10, "Calibrating (stage 1)\n")
+  DBG(10, "Calibrating(stage 1)\n")
 
   calib_info[2] = calib_info[5] = calib_info[8] = 1
 
@@ -3387,7 +3387,7 @@ rts8801_scan (unsigned x,
 
   rt_turn_off_lamp()
 
-  for (i = 0; i < 6; ++i)
+  for(i = 0; i < 6; ++i)
     {
       aiBestOffset[i] = 0xbf
       aiPassed[i] = 0
@@ -3395,36 +3395,36 @@ rts8801_scan (unsigned x,
 
   do
     {
-      DBG (30, "Initial calibration pass commences\n")
+      DBG(30, "Initial calibration pass commences\n")
 
       onechanged = 0
-      for (i = 0; i < 3; ++i)
+      for(i = 0; i < 3; ++i)
         {
 	  calib_info[i * 3] = aiBestOffset[i]
 	  calib_info[i * 3 + 1] = aiBestOffset[i + 3]
         }
 
       cd.buffer = calibbuf
-      cd.space = sizeof (calibbuf)
-      DBG (30, "Commencing scan for initial calibration pass\n")
-      rts8801_fullscan (1401, iCalibY, 100, 2, 400, resolution,
+      cd.space = sizeof(calibbuf)
+      DBG(30, "Commencing scan for initial calibration pass\n")
+      rts8801_fullscan(1401, iCalibY, 100, 2, 400, resolution,
 			HP3500_COLOR_SCAN, (rts8801_callback) storefunc, &cd,
 			calib_info, iMoveFlags, -1, -1, -1, -1, 0, 0)
-      DBG (30, "Completed scan for initial calibration pass\n")
+      DBG(30, "Completed scan for initial calibration pass\n")
       iMoveFlags = RTS8801_F_SUPPRESS_MOVEMENT | RTS8801_F_NO_DISPLACEMENTS
       iCalibY = 2
 
-      for (i = 0; i < 6; ++i)
+      for(i = 0; i < 6; ++i)
 	{
 	  Int sum
 
-	  if (aiBestOffset[i] >= 255 || aiPassed[i] > 2)
+	  if(aiBestOffset[i] >= 255 || aiPassed[i] > 2)
 	    continue
-	  sum = sum_channel (calibbuf + i, 50, 1)
-	  DBG (20, "channel[%d] sum = %d (target %d)\n", i, sum,
+	  sum = sum_channel(calibbuf + i, 50, 1)
+	  DBG(20, "channel[%d] sum = %d(target %d)\n", i, sum,
 	       iCalibTarget)
 
-	  if (sum < iCalibTarget)
+	  if(sum < iCalibTarget)
             {
               onechanged = 1
               ++aiBestOffset[i]
@@ -3434,19 +3434,19 @@ rts8801_scan (unsigned x,
               ++aiPassed[i]
             }
 	}
-      DBG (30, "Initial calibration pass completed\n")
+      DBG(30, "Initial calibration pass completed\n")
     }
-  while (onechanged)
+  while(onechanged)
 
-  DBG (20, "Offsets calculated\n")
+  DBG(20, "Offsets calculated\n")
 
   rt_turn_on_lamp()
   usleep(500000)
 
   tdetail_buffer =
-    (unsigned char *) malloc (w * 3 * detailed_calibration_rows)
+    (unsigned char *) malloc(w * 3 * detailed_calibration_rows)
 
-  for (i = 0; i < 3; ++i)
+  for(i = 0; i < 3; ++i)
     {
       calib_info[i * 3 + 2] = 1
       aiPassed[i] = 0
@@ -3461,31 +3461,31 @@ rts8801_scan (unsigned x,
       dcdt.buffers[2] = (dcdt.buffers[1] + w * detailed_calibration_rows)
       dcdt.pixelsperrow = w
       dcdt.pixelnow = dcdt.channelnow = dcdt.firstrowdone = 0
-      DBG (20, "Scanning for part 2 of initial calibration\n")
-      rts8801_fullscan (x, 4, w, detailed_calibration_rows + 1, resolution,
+      DBG(20, "Scanning for part 2 of initial calibration\n")
+      rts8801_fullscan(x, 4, w, detailed_calibration_rows + 1, resolution,
 			resolution, HP3500_COLOR_SCAN,
 			(rts8801_callback) accumfunc, &dcdt, calib_info,
 			RTS8801_F_SUPPRESS_MOVEMENT | RTS8801_F_NO_DISPLACEMENTS, -1, -1, -1, -1, 0, 0)
-      DBG (20, "Scan for part 2 of initial calibration completed\n")
+      DBG(20, "Scan for part 2 of initial calibration completed\n")
 
       onechanged = 0
-      for (i = 0; i < 3; ++i)
+      for(i = 0; i < 3; ++i)
 	{
 	  Int largest = 1
 
-          if (aiPassed[i] > 2 || calib_info[i * 3 + 2] >= 63)
+          if(aiPassed[i] > 2 || calib_info[i * 3 + 2] >= 63)
             continue
 
- 	  for (j = 0; j < w; ++j)
+ 	  for(j = 0; j < w; ++j)
 	    {
 	      Int val =
-		calcmedian (dcdt.buffers[i], j, w, detailed_calibration_rows)
+		calcmedian(dcdt.buffers[i], j, w, detailed_calibration_rows)
 
-	      if (val > largest)
+	      if(val > largest)
 		largest = val
 	    }
 
-	  if (largest < 0xe0)
+	  if(largest < 0xe0)
             {
               ++calib_info[i * 3 + 2]
               onechanged = 1
@@ -3496,22 +3496,22 @@ rts8801_scan (unsigned x,
             }
 	}
     }
-  while (onechanged)
+  while(onechanged)
 
-  for (i = 0; i < 3; ++i)
+  for(i = 0; i < 3; ++i)
     {
-      DBG (10, "Channel [%d] gain=%02x  offset=%02x\n",
+      DBG(10, "Channel[%d] gain=%02x  offset=%02x\n",
 	   i, calib_info[i * 3] + 2, calib_info[i * 3])
     }
 
-  DBG (20, "Gain factors calculated\n")
+  DBG(20, "Gain factors calculated\n")
 
   /* Stage 2 calibration */
 
-  DBG (10, "Calibrating (stage 2)\n")
+  DBG(10, "Calibrating(stage 2)\n")
 
   detail_buffer =
-    (unsigned char *) malloc (w * 3 * detailed_calibration_rows)
+    (unsigned char *) malloc(w * 3 * detailed_calibration_rows)
 
   dcd.buffers[0] = detail_buffer
   dcd.buffers[1] = (detail_buffer + w * detailed_calibration_rows)
@@ -3520,11 +3520,11 @@ rts8801_scan (unsigned x,
 
 
   /* And now for the detailed calibration */
-  resolution_index = find_resolution_index (resolution)
+  resolution_index = find_resolution_index(resolution)
   base_resolution = 300
-  if (resparms[resolution_index].cph0s)
+  if(resparms[resolution_index].cph0s)
     base_resolution *= 2
-  if (resparms[resolution_index].d3_bit_3_value)
+  if(resparms[resolution_index].d3_bit_3_value)
     base_resolution *= 2
   resolution_divisor = base_resolution / resolution
 
@@ -3536,21 +3536,21 @@ rts8801_scan (unsigned x,
     green_calibration_offset + w * resolution_divisor * 2
   end_calibration_offset =
     blue_calibration_offset + w * resolution_divisor * 2
-  pDetailedCalib = (unsigned char *) malloc (calibration_size)
+  pDetailedCalib = (unsigned char *) malloc(calibration_size)
 
-  memset (pDetailedCalib, 0, calibration_size)
+  memset(pDetailedCalib, 0, calibration_size)
 
-  for (i = 0; i < 3; ++i)
+  for(i = 0; i < 3; ++i)
     {
       Int idx =
         (i == 0) ? red_calibration_offset :
         (i == 1) ? green_calibration_offset :
                        blue_calibration_offset
 
-      for (j = 0; j < 256; j++)
+      for(j = 0; j < 256; j++)
         {
           /* Gamma table - appears to be 256 byte pairs for each input
-           * range (so the first entry cover inputs in the range 0 to 1,
+           * range(so the first entry cover inputs in the range 0 to 1,
            * the second 1 to 2, and so on), mapping that input range
            * (including the fractional parts within it) to an output
            * range.
@@ -3559,9 +3559,9 @@ rts8801_scan (unsigned x,
           pDetailedCalib[i * 512 + j * 2 + 1] = j
         }
 
-      for (j = 0; j < w; ++j)
+      for(j = 0; j < w; ++j)
         {
-          for (k = 0; k < resolution_divisor; ++k)
+          for(k = 0; k < resolution_divisor; ++k)
             {
               pDetailedCalib[idx++] = 0
               pDetailedCalib[idx++] = 0x80
@@ -3569,20 +3569,20 @@ rts8801_scan (unsigned x,
         }
     }
 
-  rt_set_sram_page (0)
-  rt_set_one_register (0x93, r93setting)
-  rt_write_sram (calibration_size, pDetailedCalib)
+  rt_set_sram_page(0)
+  rt_set_one_register(0x93, r93setting)
+  rt_write_sram(calibration_size, pDetailedCalib)
 
   postprocess_gains = (double *) malloc(sizeof(double) * 3 * w)
   postprocess_offsets = (double *) malloc(sizeof(double) * 3 * w)
 
-  for (pass = 0; pass < DETAILED_PASS_COUNT; ++pass)
+  for(pass = 0; pass < DETAILED_PASS_COUNT; ++pass)
     {
       Int ppidx = 0
 
-      DBG (10, "Performing detailed calibration scan %d\n", pass)
+      DBG(10, "Performing detailed calibration scan %d\n", pass)
 
-      switch (pass)
+      switch(pass)
       {
       case DETAILED_PASS_OFFSETS:
         rt_turn_off_lamp()
@@ -3596,7 +3596,7 @@ rts8801_scan (unsigned x,
       }
 
       dcd.pixelnow = dcd.channelnow = dcd.firstrowdone = 0
-      rts8801_fullscan (x, iCalibY, w, detailed_calibration_rows + 1,
+      rts8801_fullscan(x, iCalibY, w, detailed_calibration_rows + 1,
                         resolution, resolution, HP3500_COLOR_SCAN,
                         (rts8801_callback) accumfunc, &dcd,
 			calib_info,
@@ -3607,16 +3607,16 @@ rts8801_scan (unsigned x,
 			end_calibration_offset,
 			0, 0)
 
-      DBG (10, " Detailed calibration scan %d completed\n", pass)
+      DBG(10, " Detailed calibration scan %d completed\n", pass)
 
-      for (i = 0; i < 3; ++i)
+      for(i = 0; i < 3; ++i)
         {
           Int idx =
             (i == 0) ? red_calibration_offset :
 	    (i == 1) ? green_calibration_offset :
                        blue_calibration_offset
 
-          for (j = 0; j < w; ++j)
+          for(j = 0; j < w; ++j)
             {
               double multnow = 0x80
               Int offnow = 0
@@ -3627,9 +3627,9 @@ rts8801_scan (unsigned x,
 
               {
                 double denom1 =
-                  calcmedian (dcd.buffers[i], j, w, detailed_calibration_rows)
+                  calcmedian(dcd.buffers[i], j, w, detailed_calibration_rows)
 
-		switch (pass)
+		switch(pass)
                   {
                   case DETAILED_PASS_OFFSETS:
                     /* The offset is the number needed to be subtracted from "black" at detailed gain = 0x80,
@@ -3642,7 +3642,7 @@ rts8801_scan (unsigned x,
 
                   case DETAILED_PASS_GAINS_FIRSTPASS:
                     multnow = 128.0 / denom1 * 0x20; /* Then bring it up to whatever we need to hit 192 */
-                    if (multnow > 255)
+                    if(multnow > 255)
                       multnow = 255
                     offnow = pDetailedCalib[idx]
                     break
@@ -3651,13 +3651,13 @@ rts8801_scan (unsigned x,
                     multnow = 255.0 / denom1 * contrast_adjust * pDetailedCalib[idx+1]; /* And finally to 255 */
                     offnow = pDetailedCalib[idx] - brightness_adjust * 0x80 / multnow
 
-                    if (offnow < 0)
+                    if(offnow < 0)
                       {
                         postprocess_offsets[ppidx] = multnow * offnow / 0x80
                         offnow = 0
                         needs_postprocessed_calibration = 1
                       }
-                    else if (offnow > 255)
+                    else if(offnow > 255)
                       {
                         postprocess_offsets[ppidx] = multnow * (offnow - 255) / 0x80
                         offnow = 255
@@ -3667,7 +3667,7 @@ rts8801_scan (unsigned x,
                       {
                         postprocess_offsets[ppidx] = 0
                       }
-                    if (multnow > 255)
+                    if(multnow > 255)
                       {
                         postprocess_gains[ppidx] = multnow / 255
                         multnow = 255
@@ -3680,10 +3680,10 @@ rts8801_scan (unsigned x,
                     break
                   }
               }
-              if (offnow > 255)
+              if(offnow > 255)
                 offnow = 255
 
-              for (k = 0; k < resolution_divisor; ++k)
+              for(k = 0; k < resolution_divisor; ++k)
                 {
                   pDetailedCalib[idx++] = offnow;         /* Subtract this value from the result  at gains = 0x80*/
                   pDetailedCalib[idx++] = multnow;        /* Then multiply by this value divided by 0x80	*/
@@ -3692,7 +3692,7 @@ rts8801_scan (unsigned x,
             }
         }
 
-      if (pass == DETAILED_PASS_GAINS_SECONDPASS)
+      if(pass == DETAILED_PASS_GAINS_SECONDPASS)
         {
            /* Build gamma table */
            unsigned char *redgamma = pDetailedCalib
@@ -3704,15 +3704,15 @@ rts8801_scan (unsigned x,
            *redgamma++ = *bluegamma++ = *greengamma++ = 0
 
            /* The windows driver does a linear interpolation for the next 19 boundaries */
-           val = pow (20.0l / 255, invgamma) * 255
+           val = pow(20.0l / 255, invgamma) * 255
 
-	   for (j = 1; j <= 20; ++j)
+	   for(j = 1; j <= 20; ++j)
              {
                *redgamma++ = *bluegamma++ = *greengamma++ = val * j / 20 + 0.5
                *redgamma++ = *bluegamma++ = *greengamma++ = val * j / 20 + 0.5
              }
 
-           for (; j <= 255; ++j)
+           for(; j <= 255; ++j)
              {
                val = pow((double) j / 255, invgamma) * 255
 
@@ -3722,67 +3722,67 @@ rts8801_scan (unsigned x,
            *redgamma++ = *bluegamma++ = *greengamma++ = 255
         }
 
-      DBG (10, "\n")
+      DBG(10, "\n")
 
-      rt_set_sram_page (0)
-      rt_set_one_register (0x93, r93setting)
-      rt_write_sram (calibration_size, pDetailedCalib)
+      rt_set_sram_page(0)
+      rt_set_one_register(0x93, r93setting)
+      rt_write_sram(calibration_size, pDetailedCalib)
     }
 
   /* And finally, perform the scan */
-  DBG (10, "Scanning\n")
+  DBG(10, "Scanning\n")
 
-  rts8801_rewind ()
+  rts8801_rewind()
 
-  rts8801_fullscan (x, y, w, h, resolution, resolution, colour, cbfunc, param,
+  rts8801_fullscan(x, y, w, h, resolution, resolution, colour, cbfunc, param,
 		    calib_info, 0,
 		    red_calibration_offset, green_calibration_offset,
 		    blue_calibration_offset, end_calibration_offset,
                     needs_postprocessed_calibration ? postprocess_offsets : 0,
                     needs_postprocessed_calibration ? postprocess_gains : 0)
 
-  rt_turn_off_lamp ()
+  rt_turn_off_lamp()
 
-  rts8801_rewind ()
-  rt_set_powersave_mode (1)
+  rts8801_rewind()
+  rt_set_powersave_mode(1)
 
-  if (pDetailedCalib)
-    free (pDetailedCalib)
-  if (detail_buffer)
-    free (detail_buffer)
-  if (tdetail_buffer)
+  if(pDetailedCalib)
+    free(pDetailedCalib)
+  if(detail_buffer)
+    free(detail_buffer)
+  if(tdetail_buffer)
     free(tdetail_buffer)
-  if (postprocess_gains)
+  if(postprocess_gains)
     free(postprocess_gains)
-  if (postprocess_offsets)
+  if(postprocess_offsets)
     free(postprocess_offsets)
   return 0
 }
 
 static Int
-writefunc (struct hp3500_write_info *winfo, Int bytes, char *data)
+writefunc(struct hp3500_write_info *winfo, Int bytes, char *data)
 {
   static Int warned = 0
 
-  if (bytes > winfo.bytesleft)
+  if(bytes > winfo.bytesleft)
     {
-      if (!warned)
+      if(!warned)
 	{
 	  warned = 1
-	  DBG (1, "Overflow protection triggered\n")
-	  rt_stop_moving ()
+	  DBG(1, "Overflow protection triggered\n")
+	  rt_stop_moving()
 	}
       bytes = winfo.bytesleft
-      if (!bytes)
+      if(!bytes)
 	return 0
     }
   winfo.bytesleft -= bytes
-  return write (winfo.scanner.pipe_w, data, bytes) == bytes
+  return write(winfo.scanner.pipe_w, data, bytes) == bytes
 }
 
 #ifdef _POSIX_SOURCE
 static void
-sigtermHandler (Int signal)
+sigtermHandler(Int signal)
 {
   signal = signal;		/* get rid of compiler warning */
   cancelled_scan = 1
@@ -3790,7 +3790,7 @@ sigtermHandler (Int signal)
 #endif
 
 static Int
-reader_process (void *pv)
+reader_process(void *pv)
 {
   struct hp3500_data *scanner = pv
   time_t t
@@ -3800,32 +3800,32 @@ reader_process (void *pv)
   struct hp3500_write_info winfo
   Int status
 
-  if (sanei_thread_is_forked ())
+  if(sanei_thread_is_forked())
     {
-      close (scanner.pipe_r)
+      close(scanner.pipe_r)
 
-      sigfillset (&ignore_set)
-      sigdelset (&ignore_set, SIGTERM)
-#if     defined (__APPLE__) && defined (__MACH__)
-      sigdelset (&ignore_set, SIGUSR2)
+      sigfillset(&ignore_set)
+      sigdelset(&ignore_set, SIGTERM)
+#if     defined(__APPLE__) && defined(__MACH__)
+      sigdelset(&ignore_set, SIGUSR2)
 #endif
-      sigprocmask (SIG_SETMASK, &ignore_set, 0)
+      sigprocmask(SIG_SETMASK, &ignore_set, 0)
 
-      sigemptyset (&sigterm_set)
-      sigaddset (&sigterm_set, SIGTERM)
+      sigemptyset(&sigterm_set)
+      sigaddset(&sigterm_set, SIGTERM)
 
-      memset (&act, 0, sizeof (act))
+      memset(&act, 0, sizeof(act))
 #ifdef     _POSIX_SOURCE
       act.sa_handler = sigtermHandler
 #endif
-      sigaction (SIGTERM, &act, 0)
+      sigaction(SIGTERM, &act, 0)
     }
 
   /* Warm up the lamp again if our last scan ended more than 5 minutes ago. */
-  time (&t)
+  time(&t)
   do_warmup = (t - scanner.last_scan) > 300
 
-  if (getenv ("HP3500_NOWARMUP") && atoi (getenv ("HP3500_NOWARMUP")) > 0)
+  if(getenv("HP3500_NOWARMUP") && atoi(getenv("HP3500_NOWARMUP")) > 0)
     do_warmup = 0
 
   udh = scanner.sfd
@@ -3836,17 +3836,17 @@ reader_process (void *pv)
   winfo.bytesleft =
     scanner.bytes_per_scan_line * scanner.scan_height_pixels
 
-  if (getenv ("HP3500_SLEEP"))
+  if(getenv("HP3500_SLEEP"))
     {
-      Int seconds = atoi (getenv ("HP3500_SLEEP"))
+      Int seconds = atoi(getenv("HP3500_SLEEP"))
 
-      DBG (1, "Backend process %d sleeping for %d seconds\n", getpid (),
+      DBG(1, "Backend process %d sleeping for %d seconds\n", getpid(),
 	   seconds)
-      sleep (seconds)
+      sleep(seconds)
     }
-  DBG (10, "Scanning at %ddpi, mode=%s\n", scanner.resolution,
+  DBG(10, "Scanning at %ddpi, mode=%s\n", scanner.resolution,
        scan_mode_list[scanner.mode])
-  if (rts8801_scan
+  if(rts8801_scan
       (scanner.actres_pixels.left + 250 * scanner.resolution / 1200,
        scanner.actres_pixels.top + 599 * scanner.resolution / 1200,
        scanner.actres_pixels.right - scanner.actres_pixels.left,
@@ -3856,20 +3856,20 @@ reader_process (void *pv)
        scanner.gamma) >= 0)
     status = Sane.STATUS_GOOD
   status = Sane.STATUS_IO_ERROR
-  close (scanner.pipe_w)
+  close(scanner.pipe_w)
   return status
 }
 
 static size_t
-max_string_size (char const **strings)
+max_string_size(char const **strings)
 {
   size_t size, max_size = 0
   Int i
 
-  for (i = 0; strings[i]; ++i)
+  for(i = 0; strings[i]; ++i)
     {
-      size = strlen (strings[i]) + 1
-      if (size > max_size)
+      size = strlen(strings[i]) + 1
+      if(size > max_size)
 	max_size = size
     }
   return max_size

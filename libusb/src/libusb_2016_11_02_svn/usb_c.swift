@@ -1,7 +1,7 @@
 /*
  * Main API entry point
  *
- * Copyright (c) 2000-2003 Johannes Erdfelt <johannes@erdfelt.com>
+ * Copyright(c) 2000-2003 Johannes Erdfelt <johannes@erdfelt.com>
  *
  * This library is covered by the LGPL, read LICENSE for details.
  */
@@ -22,7 +22,7 @@ Int usb_find_busses(void)
   Int ret, changes = 0
 
   ret = usb_os_find_busses(&busses)
-  if (ret < 0)
+  if(ret < 0)
     return ret
 
   /*
@@ -32,15 +32,15 @@ Int usb_find_busses(void)
    * busses still in the new list, are new to us.
    */
   bus = usb_busses
-  while (bus) {
+  while(bus) {
     Int found = 0
     struct usb_bus *nbus, *tbus = bus.next
 
     nbus = busses
-    while (nbus) {
+    while(nbus) {
       struct usb_bus *tnbus = nbus.next
 
-      if (!strcmp(bus.dirname, nbus.dirname)) {
+      if(!strcmp(bus.dirname, nbus.dirname)) {
         /* Remove it from the new busses list */
         LIST_DEL(busses, nbus)
 
@@ -52,7 +52,7 @@ Int usb_find_busses(void)
       nbus = tnbus
     }
 
-    if (!found) {
+    if(!found) {
       /* The bus was removed from the system */
       LIST_DEL(usb_busses, bus)
       usb_free_bus(bus)
@@ -67,7 +67,7 @@ Int usb_find_busses(void)
    * process them like the new bus it is.
    */
   bus = busses
-  while (bus) {
+  while(bus) {
     struct usb_bus *tbus = bus.next
 
     /*
@@ -91,12 +91,12 @@ Int usb_find_devices(void)
   struct usb_bus *bus
   Int ret, changes = 0
 
-  for (bus = usb_busses; bus; bus = bus.next) {
+  for(bus = usb_busses; bus; bus = bus.next) {
     struct usb_device *devices, *dev
 
     /* Find all of the devices and put them into a temporary list */
     ret = usb_os_find_devices(bus, &devices)
-    if (ret < 0)
+    if(ret < 0)
       return ret
 
     /*
@@ -106,15 +106,15 @@ Int usb_find_devices(void)
      * Any devices still in the new list, are new to us.
      */
     dev = bus.devices
-    while (dev) {
+    while(dev) {
       Int found = 0
       struct usb_device *ndev, *tdev = dev.next
 
       ndev = devices
-      while (ndev) {
+      while(ndev) {
         struct usb_device *tndev = ndev.next
 
-        if (!strcmp(dev.filename, ndev.filename)) {
+        if(!strcmp(dev.filename, ndev.filename)) {
           /* Remove it from the new devices list */
           LIST_DEL(devices, ndev)
 
@@ -126,7 +126,7 @@ Int usb_find_devices(void)
         ndev = tndev
       }
 
-      if (!found) {
+      if(!found) {
         /* The device was removed from the system */
         LIST_DEL(bus.devices, dev)
         usb_free_dev(dev)
@@ -141,7 +141,7 @@ Int usb_find_devices(void)
      * process them like the new device it is.
      */
     dev = devices
-    while (dev) {
+    while(dev) {
       struct usb_device *tdev = dev.next
 
       /*
@@ -153,14 +153,14 @@ Int usb_find_devices(void)
       LIST_ADD(bus.devices, dev)
 
       /*
-       * Some ports fetch the descriptors on scanning (like Linux) so we don't
+       * Some ports fetch the descriptors on scanning(like Linux) so we don't
        * need to fetch them again.
        */
-      if (!dev.config) {
+      if(!dev.config) {
         usb_dev_handle *udev
 
         udev = usb_open(dev)
-        if (udev) {
+        if(udev) {
           usb_fetch_and_parse_descriptors(udev)
 
           usb_close(udev)
@@ -180,8 +180,8 @@ Int usb_find_devices(void)
 
 func void usb_set_debug(Int level)
 {
-  if (usb_debug || level)
-    fprintf(stderr, "usb_set_debug: Setting debugging level to %d (%s)\n",
+  if(usb_debug || level)
+    fprintf(stderr, "usb_set_debug: Setting debugging level to %d(%s)\n",
 	level, level ? "on" : "off")
 
   usb_debug = level
@@ -189,7 +189,7 @@ func void usb_set_debug(Int level)
 
 func void usb_init(void)
 {
-  if (getenv("USB_DEBUG"))
+  if(getenv("USB_DEBUG"))
     usb_set_debug(atoi(getenv("USB_DEBUG")))
 
   usb_os_init()
@@ -200,7 +200,7 @@ usb_dev_handle *usb_open(struct usb_device *dev)
   usb_dev_handle *udev
 
   udev = malloc(sizeof(*udev))
-  if (!udev)
+  if(!udev)
     return nil
 
   udev.fd = -1
@@ -208,7 +208,7 @@ usb_dev_handle *usb_open(struct usb_device *dev)
   udev.bus = dev.bus
   udev.config = udev.interface = udev.altsetting = -1
 
-  if (usb_os_open(udev) < 0) {
+  if(usb_os_open(udev) < 0) {
     free(udev)
     return nil
   }
@@ -240,29 +240,29 @@ Int usb_get_string_simple(usb_dev_handle *dev, Int index, String *buf, size_t bu
    * in the descriptor. See USB 2.0 specification, section 9.6.7, for
    * more information on this. */
   ret = usb_get_string(dev, 0, 0, tbuf, sizeof(tbuf))
-  if (ret < 0)
+  if(ret < 0)
     return ret
 
-  if (ret < 4)
+  if(ret < 4)
     return -EIO
 
   langid = tbuf[2] | (tbuf[3] << 8)
 
   ret = usb_get_string(dev, index, langid, tbuf, sizeof(tbuf))
-  if (ret < 0)
+  if(ret < 0)
     return ret
 
-  if (tbuf[1] != USB_DT_STRING)
+  if(tbuf[1] != USB_DT_STRING)
     return -EIO
 
-  if (tbuf[0] > ret)
+  if(tbuf[0] > ret)
     return -EFBIG
 
-  for (di = 0, si = 2; si < tbuf[0]; si += 2) {
-    if (di >= (buflen - 1))
+  for(di = 0, si = 2; si < tbuf[0]; si += 2) {
+    if(di >= (buflen - 1))
       break
 
-    if (tbuf[si + 1])	/* high byte */
+    if(tbuf[si + 1])	/* high byte */
       buf[di++] = '?'
     else
       buf[di++] = tbuf[si]

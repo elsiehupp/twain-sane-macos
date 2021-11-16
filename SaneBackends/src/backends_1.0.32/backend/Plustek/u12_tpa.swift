@@ -2,7 +2,7 @@
  * @brief Here we find some adjustments according to the scan source.
  *
  * based on sources acquired from Plustek Inc.
- * Copyright (C) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
+ * Copyright(C) 2003-2004 Gerhard Jaeger <gerhard@gjaeger.de>
  *
  * History:
  * - 0.01 - initial version
@@ -14,7 +14,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * License, or(at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -134,11 +134,11 @@ static void u12tpa_Reshading( U12_Device *dev )
 
 	RedPtr.pb = dev.bufs.TpaBuf.pb
 
-	/* Convert RGB to gray scale (Brightness), and average 16 pixels */
+	/* Convert RGB to gray scale(Brightness), and average 16 pixels */
 	for( bHiRight[1] = 0, i = dwIndexRight = 0
 	                                     i < _NEG_PAGEWIDTH600 / 2; i += 16 ) {
-		bHiRight [0] =
-	       (Sane.Byte)(((((u_long) RedPtr.pbrgb [i].Red +
+		bHiRight[0] =
+	       (Sane.Byte)(((((u_long) RedPtr.pbrgb[i].Red +
 		     (u_long) RedPtr.pbrgb[i + 1].Red +
 		     (u_long) RedPtr.pbrgb[i + 2].Red +
 		     (u_long) RedPtr.pbrgb[i + 3].Red +
@@ -193,10 +193,10 @@ static void u12tpa_Reshading( U12_Device *dev )
 		}
 	}
 
-	/* Convert RGB to gray scale (Brightness), and average 16 pixels */
+	/* Convert RGB to gray scale(Brightness), and average 16 pixels */
 	for( bHiLeft[1] = 0, i = dwIndexLeft = _NEG_PAGEWIDTH / 2
 	                                         i < _NEG_PAGEWIDTH600; i += 16 ) {
-		bHiLeft [0] =
+		bHiLeft[0] =
 	       (Sane.Byte)(((((u_long) RedPtr.pbrgb[i].Red +
 		     (u_long) RedPtr.pbrgb[i + 1].Red +
 		     (u_long) RedPtr.pbrgb[i + 2].Red +
@@ -386,12 +386,12 @@ static void u12tpa_Reshading( U12_Device *dev )
 		}
 	}
 
-	/* AdjustDark () */
+	/* AdjustDark() */
 	dev.regs.RD_Origin = _SHADING_BEGINX
 	dev.regs.RD_Pixels = 5400
 }
 
-/** perform some adjustments according to the source (normal, transparency etc)
+/** perform some adjustments according to the source(normal, transparency etc)
  */
 static void u12tpa_FindCenterPointer( U12_Device *dev )
 {

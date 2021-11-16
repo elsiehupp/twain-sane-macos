@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -36,7 +36,7 @@ inline void print_location(std::ostream& out, const char* function, const char* 
 template<class T, class U>
 void check_equal(const T& t, const U& u, const char* function, const char* path, unsigned line)
 {
-    if (!(t == u)) {
+    if(!(t == u)) {
         s_num_failures++
         std::cerr << "FAILURE at "
         print_location(std::cerr, function, path, line)
@@ -51,7 +51,7 @@ void check_equal(const T& t, const U& u, const char* function, const char* path,
 
 inline void check_true(bool x, const char* function, const char* path, unsigned line)
 {
-    if (x) {
+    if(x) {
         s_num_successes++
         std::cerr << "SUCCESS at "
     } else {
@@ -88,21 +88,21 @@ inline void check_raises_raised_unexpected(const char* function, const char* pat
 }
 
 #define ASSERT_EQ(x, y)  do { check_equal((x), (y), __func__, __FILE__, __LINE__); } \
-                         while (false)
+                         while(false)
 #define ASSERT_TRUE(x)  do { check_true(bool(x), __func__, __FILE__, __LINE__); } \
-                        while (false)
+                        while(false)
 #define ASSERT_FALSE(x)  do { check_true(!bool(x), __func__, __FILE__, __LINE__); } \
-                         while (false)
+                         while(false)
 
 #define ASSERT_RAISES(x, T) \
     do { try { \
         x; \
         check_raises_did_not_raise(__func__, __FILE__, __LINE__); \
-    } catch (const T&) { \
+    } catch(const T&) { \
         check_raises_success(__func__, __FILE__, __LINE__); \
-    } catch (...) { \
+    } catch(...) { \
         check_raises_raised_unexpected(__func__, __FILE__, __LINE__); \
-    } } while (false)
+    } } while(false)
 
 Int finish_tests()
 

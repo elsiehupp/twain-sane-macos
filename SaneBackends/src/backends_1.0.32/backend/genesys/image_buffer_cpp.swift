@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2019 Povilas Kanapickas <povilas@radix.lt>
+   Copyright(C) 2019 Povilas Kanapickas <povilas@radix.lt>
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -67,11 +67,11 @@ bool ImageBuffer::get_data(std::size_t size, std::uint8_t* out_data)
     ]
 
     // first, read remaining data from buffer
-    if (available() > 0) {
+    if(available() > 0) {
         copy_buffer()
     }
 
-    if (out_data == out_data_end) {
+    if(out_data == out_data_end) {
         return true
     }
 
@@ -81,13 +81,13 @@ bool ImageBuffer::get_data(std::size_t size, std::uint8_t* out_data)
         buffer_offset_ = 0
 
         std::size_t size_to_read = size_
-        if (remaining_size_ != BUFFER_SIZE_UNSET) {
+        if(remaining_size_ != BUFFER_SIZE_UNSET) {
             size_to_read = std::min<std::uint64_t>(size_to_read, remaining_size_)
             remaining_size_ -= size_to_read
         }
 
         std::size_t aligned_size_to_read = size_to_read
-        if (remaining_size_ == 0 && last_read_multiple_ != BUFFER_SIZE_UNSET) {
+        if(remaining_size_ == 0 && last_read_multiple_ != BUFFER_SIZE_UNSET) {
             aligned_size_to_read = align_multiple_ceil(size_to_read, last_read_multiple_)
         }
 
@@ -96,11 +96,11 @@ bool ImageBuffer::get_data(std::size_t size, std::uint8_t* out_data)
 
         copy_buffer()
 
-        if (remaining_size_ == 0 && out_data < out_data_end) {
+        if(remaining_size_ == 0 && out_data < out_data_end) {
             got_data = false
         }
 
-    } while (out_data < out_data_end && got_data)
+    } while(out_data < out_data_end && got_data)
 
     return got_data
 }

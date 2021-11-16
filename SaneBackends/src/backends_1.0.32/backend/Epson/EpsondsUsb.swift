@@ -1,7 +1,7 @@
 /*
  * epsonds-usb.h - Epson ESC/I-2 driver, USB device list.
  *
- * Copyright (C) 2015 Tower Technologies
+ * Copyright(C) 2015 Tower Technologies
  * Author: Alessandro Zummo <a.zummo@towertech.it>
  *
  * This file is part of the SANE package.
@@ -27,7 +27,7 @@ public Int epsonds_get_number_of_ids(void)
 /*
  * epsonds-usb.c - Epson ESC/I-2 driver, USB device list.
  *
- * Copyright (C) 2015 Tower Technologies
+ * Copyright(C) 2015 Tower Technologies
  * Author: Alessandro Zummo <a.zummo@towertech.it>
  *
  * This file is part of the SANE package.
@@ -55,5 +55,5 @@ Sane.Word epsonds_usb_product_ids[] = {
 
 Int epsonds_get_number_of_ids(void)
 {
-	return sizeof (epsonds_usb_product_ids) / sizeof (Sane.Word)
+	return sizeof(epsonds_usb_product_ids) / sizeof(Sane.Word)
 }

@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 1998, 1999 Kazuya Fukuda, Abel Deuring
+   Copyright(C) 1998, 1999 Kazuya Fukuda, Abel Deuring
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -378,7 +378,7 @@ mode_sense_param
 typedef struct mode_sense_subdevice
 {
   /* This definition reflects the JX250. The JX330 would need a slightly
-     different definition, but the bytes used right now (for ADF and FSU)
+     different definition, but the bytes used right now(for ADF and FSU)
      are identical.
   */
     Sane.Byte mode_data_length

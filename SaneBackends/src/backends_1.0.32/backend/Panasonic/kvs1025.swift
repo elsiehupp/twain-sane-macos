@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2008, Panasonic Russia Ltd.
+   Copyright(C) 2008, Panasonic Russia Ltd.
 */
 /* sane - Scanner Access Now Easy.
    Panasonic KV-S1020C / KV-S1025C USB scanners.
@@ -60,7 +60,7 @@
 #define Sane.TITLE_DBLFEED          Sane.I18N("Double feed detection")
 
 #define Sane.DESC_DUPLEX \
-Sane.I18N("Enable Duplex (Dual-Sided) Scanning")
+Sane.I18N("Enable Duplex(Dual-Sided) Scanning")
 #define Sane.DESC_PAPER_SIZE \
 Sane.I18N("Physical size of the paper in the ADF")
 #define Sane.DESC_AUTOSEP \
@@ -89,47 +89,47 @@ Sane.I18N("Automatic separation")
 
 /* Prototypes of SANE backend functions, see kvs1025.c */
 
-Sane.Status Sane.init (Int * version_code,
+Sane.Status Sane.init(Int * version_code,
 		       Sane.Auth_Callback /* __Sane.unused__ authorize */ )
 
-void Sane.exit (void)
+void Sane.exit(void)
 
-Sane.Status Sane.get_devices (const Sane.Device *** device_list,
+Sane.Status Sane.get_devices(const Sane.Device *** device_list,
 			      Bool /*__Sane.unused__ local_only*/ )
 
-Sane.Status Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
+Sane.Status Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 
-void Sane.close (Sane.Handle handle)
+void Sane.close(Sane.Handle handle)
 
-const Sane.Option_Descriptor *Sane.get_option_descriptor (Sane.Handle
+const Sane.Option_Descriptor *Sane.get_option_descriptor(Sane.Handle
 							  handle,
 							  Int option)
 
-Sane.Status Sane.control_option (Sane.Handle handle, Int option,
+Sane.Status Sane.control_option(Sane.Handle handle, Int option,
 				 Sane.Action action, void *val,
 				 Int * info)
-Sane.Status Sane.get_parameters (Sane.Handle handle,
+Sane.Status Sane.get_parameters(Sane.Handle handle,
 				 Sane.Parameters * params)
 
-Sane.Status Sane.start (Sane.Handle handle)
+Sane.Status Sane.start(Sane.Handle handle)
 
-Sane.Status Sane.read (Sane.Handle handle, Sane.Byte * buf,
+Sane.Status Sane.read(Sane.Handle handle, Sane.Byte * buf,
 		       Int max_len, Int * len)
 
-void Sane.cancel (Sane.Handle handle)
+void Sane.cancel(Sane.Handle handle)
 
-Sane.Status Sane.set_io_mode (Sane.Handle h, Bool m)
+Sane.Status Sane.set_io_mode(Sane.Handle h, Bool m)
 
-Sane.Status Sane.get_select_fd (Sane.Handle h, Int * fd)
+Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fd)
 
-Sane.String_Const Sane.strstatus (Sane.Status status)
+Sane.String_Const Sane.strstatus(Sane.Status status)
 
 #endif /* #ifndef __KVS1025_H */
 
 
 /*
-   Copyright (C) 2008, Panasonic Russia Ltd.
-   Copyright (C) 2010-2011, m. allan noah
+   Copyright(C) 2008, Panasonic Russia Ltd.
+   Copyright(C) 2010-2011, m. allan noah
 */
 /* sane - Scanner Access Now Easy.
    Panasonic KV-S1020C / KV-S1025C USB scanners.
@@ -169,112 +169,112 @@ import Sane.sanei_debug
 /* Init the KV-S1025 SANE backend. This function must be called before any other
    SANE function can be called. */
 Sane.Status
-Sane.init (Int * version_code,
+Sane.init(Int * version_code,
 	   Sane.Auth_Callback __Sane.unused__ authorize)
 {
   Sane.Status status
 
-  DBG_INIT ()
+  DBG_INIT()
 
-  DBG (DBG_Sane.init, "Sane.init\n")
+  DBG(DBG_Sane.init, "Sane.init\n")
 
-  DBG (DBG_error,
+  DBG(DBG_error,
        "This is panasonic KV-S1020C / KV-S1025C version %d.%d build %d\n",
        V_MAJOR, V_MINOR, V_BUILD)
 
-  if (version_code)
+  if(version_code)
     {
-      *version_code = Sane.VERSION_CODE (V_MAJOR, V_MINOR, V_BUILD)
+      *version_code = Sane.VERSION_CODE(V_MAJOR, V_MINOR, V_BUILD)
     }
 
   /* Initialize USB */
-  sanei_usb_init ()
+  sanei_usb_init()
 
-  status = kv_enum_devices ()
-  if (status)
+  status = kv_enum_devices()
+  if(status)
     return status
 
-  DBG (DBG_proc, "Sane.init: leave\n")
+  DBG(DBG_proc, "Sane.init: leave\n")
   return Sane.STATUS_GOOD
 }
 
 /* Terminate the KV-S1025 SANE backend */
 void
-Sane.exit (void)
+Sane.exit(void)
 {
-  DBG (DBG_proc, "Sane.exit: enter\n")
+  DBG(DBG_proc, "Sane.exit: enter\n")
 
-  kv_exit ()
+  kv_exit()
 
-  DBG (DBG_proc, "Sane.exit: exit\n")
+  DBG(DBG_proc, "Sane.exit: exit\n")
 }
 
 /* Get device list */
 Sane.Status
-Sane.get_devices (const Sane.Device *** device_list,
+Sane.get_devices(const Sane.Device *** device_list,
 		  Bool __Sane.unused__ local_only)
 {
-  DBG (DBG_proc, "Sane.get_devices: enter\n")
-  kv_get_devices_list (device_list)
-  DBG (DBG_proc, "Sane.get_devices: leave\n")
+  DBG(DBG_proc, "Sane.get_devices: enter\n")
+  kv_get_devices_list(device_list)
+  DBG(DBG_proc, "Sane.get_devices: leave\n")
   return Sane.STATUS_GOOD
 }
 
 /* Open device, return the device handle */
 Sane.Status
-Sane.open (Sane.String_Const devicename, Sane.Handle * handle)
+Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 {
-  return kv_open_by_name (devicename, handle)
+  return kv_open_by_name(devicename, handle)
 }
 
 /* Close device */
 void
-Sane.close (Sane.Handle handle)
+Sane.close(Sane.Handle handle)
 {
-  DBG (DBG_proc, "Sane.close: enter\n")
-  kv_close ((PKV_DEV) handle)
-  DBG (DBG_proc, "Sane.close: leave\n")
+  DBG(DBG_proc, "Sane.close: enter\n")
+  kv_close((PKV_DEV) handle)
+  DBG(DBG_proc, "Sane.close: leave\n")
 }
 
 /* Get option descriptor */
 const Sane.Option_Descriptor *
-Sane.get_option_descriptor (Sane.Handle handle, Int option)
+Sane.get_option_descriptor(Sane.Handle handle, Int option)
 {
-  return kv_get_option_descriptor ((PKV_DEV) handle, option)
+  return kv_get_option_descriptor((PKV_DEV) handle, option)
 }
 
 /* Control option */
 Sane.Status
-Sane.control_option (Sane.Handle handle, Int option,
+Sane.control_option(Sane.Handle handle, Int option,
 		     Sane.Action action, void *val, Int * info)
 {
-  return kv_control_option ((PKV_DEV) handle, option, action, val, info)
+  return kv_control_option((PKV_DEV) handle, option, action, val, info)
 }
 
 /* Get scan parameters */
 Sane.Status
-Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
+Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 {
   PKV_DEV dev = (PKV_DEV) handle
 
   Int side = dev.current_side == SIDE_FRONT ? 0 : 1
 
-  DBG (DBG_proc, "Sane.get_parameters: enter\n")
+  DBG(DBG_proc, "Sane.get_parameters: enter\n")
 
-  if (!(dev.scanning))
+  if(!(dev.scanning))
     {
       /* Setup the parameters for the scan. (guessed value) */
       Int resolution = dev.val[OPT_RESOLUTION].w
-      Int width, length, depth = kv_get_depth (kv_get_mode (dev))
+      Int width, length, depth = kv_get_depth(kv_get_mode(dev))
 
-      DBG (DBG_proc, "Sane.get_parameters: initial settings\n")
-      kv_calc_paper_size (dev, &width, &length)
+      DBG(DBG_proc, "Sane.get_parameters: initial settings\n")
+      kv_calc_paper_size(dev, &width, &length)
 
-      DBG (DBG_error, "Resolution = %d\n", resolution)
-      DBG (DBG_error, "Paper width = %d, height = %d\n", width, length)
+      DBG(DBG_error, "Resolution = %d\n", resolution)
+      DBG(DBG_error, "Paper width = %d, height = %d\n", width, length)
 
       /* Prepare the parameters for the caller. */
-      dev.params[0].format = kv_get_mode (dev) == SM_COLOR ?
+      dev.params[0].format = kv_get_mode(dev) == SM_COLOR ?
 	Sane.FRAME_RGB : Sane.FRAME_GRAY
 
       dev.params[0].last_frame = Sane.TRUE
@@ -286,119 +286,119 @@ Sane.get_parameters (Sane.Handle handle, Sane.Parameters * params)
 	(dev.params[0].pixels_per_line / 8) * depth
       dev.params[0].lines = (length * resolution) / 1200
 
-      memcpy (&dev.params[1], &dev.params[0], sizeof (Sane.Parameters))
+      memcpy(&dev.params[1], &dev.params[0], sizeof(Sane.Parameters))
     }
 
   /* Return the current values. */
-  if (params)
+  if(params)
     *params = (dev.params[side])
 
-  DBG (DBG_proc, "Sane.get_parameters: exit\n")
+  DBG(DBG_proc, "Sane.get_parameters: exit\n")
   return Sane.STATUS_GOOD
 }
 
 /* Start scanning */
 Sane.Status
-Sane.start (Sane.Handle handle)
+Sane.start(Sane.Handle handle)
 {
   Sane.Status status
   PKV_DEV dev = (PKV_DEV) handle
   Bool dev_ready
   KV_CMD_RESPONSE rs
 
-  DBG (DBG_proc, "Sane.start: enter\n")
-  if (!dev.scanning)
+  DBG(DBG_proc, "Sane.start: enter\n")
+  if(!dev.scanning)
     {
       /* open device */
-      if (!kv_already_open (dev))
+      if(!kv_already_open(dev))
 	{
-	  DBG (DBG_proc, "Sane.start: need to open device\n")
-	  status = kv_open (dev)
-	  if (status)
+	  DBG(DBG_proc, "Sane.start: need to open device\n")
+	  status = kv_open(dev)
+	  if(status)
 	    {
 	      return status
 	    }
 	}
       /* Begin scan */
-      DBG (DBG_proc, "Sane.start: begin scan\n")
+      DBG(DBG_proc, "Sane.start: begin scan\n")
 
       /* Get necessary parameters */
-      Sane.get_parameters (dev, NULL)
+      Sane.get_parameters(dev, NULL)
 
       dev.current_page = 0
       dev.current_side = SIDE_FRONT
 
       /* The scanner must be ready. */
-      status = CMD_test_unit_ready (dev, &dev_ready)
-      if (status || !dev_ready)
+      status = CMD_test_unit_ready(dev, &dev_ready)
+      if(status || !dev_ready)
 	{
 	  return Sane.STATUS_DEVICE_BUSY
 	}
 
-      if (!strcmp (dev.val[OPT_MANUALFEED].s, "off"))
+      if(!strcmp(dev.val[OPT_MANUALFEED].s, "off"))
 	{
-	  status = CMD_get_document_existanse (dev)
-	  if (status)
+	  status = CMD_get_document_existanse(dev)
+	  if(status)
 	    {
-	      DBG (DBG_proc, "Sane.start: exit with no more docs\n")
+	      DBG(DBG_proc, "Sane.start: exit with no more docs\n")
 	      return status
 	    }
 	}
 
       /* Set window */
-      status = CMD_reset_window (dev)
-      if (status)
+      status = CMD_reset_window(dev)
+      if(status)
 	{
 	  return status
 	}
 
-      status = CMD_set_window (dev, SIDE_FRONT, &rs)
-      if (status)
+      status = CMD_set_window(dev, SIDE_FRONT, &rs)
+      if(status)
 	{
-	  DBG (DBG_proc, "Sane.start: error setting window\n")
+	  DBG(DBG_proc, "Sane.start: error setting window\n")
 	  return status
 	}
 
-      if (rs.status)
+      if(rs.status)
 	{
-	  DBG (DBG_proc, "Sane.start: error setting window\n")
-	  DBG (DBG_proc,
+	  DBG(DBG_proc, "Sane.start: error setting window\n")
+	  DBG(DBG_proc,
 	       "Sane.start: sense_key=0x%x, ASC=0x%x, ASCQ=0x%x\n",
-	       get_RS_sense_key (rs.sense),
-	       get_RS_ASC (rs.sense), get_RS_ASCQ (rs.sense))
+	       get_RS_sense_key(rs.sense),
+	       get_RS_ASC(rs.sense), get_RS_ASCQ(rs.sense))
 	  return Sane.STATUS_DEVICE_BUSY
 	}
 
-      if (IS_DUPLEX (dev))
+      if(IS_DUPLEX(dev))
 	{
-	  status = CMD_set_window (dev, SIDE_BACK, &rs)
+	  status = CMD_set_window(dev, SIDE_BACK, &rs)
 
-	  if (status)
+	  if(status)
 	    {
-	      DBG (DBG_proc, "Sane.start: error setting window\n")
+	      DBG(DBG_proc, "Sane.start: error setting window\n")
 	      return status
 	    }
-	  if (rs.status)
+	  if(rs.status)
 	    {
-	      DBG (DBG_proc, "Sane.start: error setting window\n")
-	      DBG (DBG_proc,
+	      DBG(DBG_proc, "Sane.start: error setting window\n")
+	      DBG(DBG_proc,
 		   "Sane.start: sense_key=0x%x, "
 		   "ASC=0x%x, ASCQ=0x%x\n",
-		   get_RS_sense_key (rs.sense),
-		   get_RS_ASC (rs.sense), get_RS_ASCQ (rs.sense))
+		   get_RS_sense_key(rs.sense),
+		   get_RS_ASC(rs.sense), get_RS_ASCQ(rs.sense))
 	      return Sane.STATUS_INVAL
 	    }
 	}
 
       /* Scan */
-      status = CMD_scan (dev)
-      if (status)
+      status = CMD_scan(dev)
+      if(status)
 	{
 	  return status
 	}
 
-      status = AllocateImageBuffer (dev)
-      if (status)
+      status = AllocateImageBuffer(dev)
+      if(status)
 	{
 	  return status
 	}
@@ -407,13 +407,13 @@ Sane.start (Sane.Handle handle)
   else
     {
       /* renew page */
-      if (IS_DUPLEX (dev))
+      if(IS_DUPLEX(dev))
 	{
-	  if (dev.current_side == SIDE_FRONT)
+	  if(dev.current_side == SIDE_FRONT)
 	    {
 	      /* back image data already read, so just return */
 	      dev.current_side = SIDE_BACK
-	      DBG (DBG_proc, "Sane.start: duplex back\n")
+	      DBG(DBG_proc, "Sane.start: duplex back\n")
 	      status = Sane.STATUS_GOOD
               goto cleanup
 	    }
@@ -428,11 +428,11 @@ Sane.start (Sane.Handle handle)
 	  dev.current_page++
 	}
     }
-  DBG (DBG_proc, "Sane.start: NOW SCANNING page\n")
+  DBG(DBG_proc, "Sane.start: NOW SCANNING page\n")
 
   /* Read image data */
-  status = ReadImageData (dev, dev.current_page)
-  if (status)
+  status = ReadImageData(dev, dev.current_page)
+  if(status)
     {
       dev.scanning = 0
       return status
@@ -441,18 +441,18 @@ Sane.start (Sane.Handle handle)
   /* Get picture element size */
   {
     Int width, height
-    status = CMD_read_pic_elements (dev, dev.current_page,
+    status = CMD_read_pic_elements(dev, dev.current_page,
 				    SIDE_FRONT, &width, &height)
-    if (status)
+    if(status)
       return status
   }
 
-  if (IS_DUPLEX (dev))
+  if(IS_DUPLEX(dev))
     {
       Int width, height
-      status = CMD_read_pic_elements (dev, dev.current_page,
+      status = CMD_read_pic_elements(dev, dev.current_page,
 				      SIDE_BACK, &width, &height)
-      if (status)
+      if(status)
 	return status
     }
 
@@ -461,30 +461,30 @@ Sane.start (Sane.Handle handle)
   /* at this point, we are only looking at the front image */
   /* of simplex or duplex data, back side has already exited */
   /* so, we do both sides now, if required */
-  if (dev.val[OPT_SWDESKEW].w){
+  if(dev.val[OPT_SWDESKEW].w){
     buffer_deskew(dev,SIDE_FRONT)
   }
-  if (dev.val[OPT_SWCROP].w){
+  if(dev.val[OPT_SWCROP].w){
     buffer_crop(dev,SIDE_FRONT)
   }
-  if (dev.val[OPT_SWDESPECK].w){
+  if(dev.val[OPT_SWDESPECK].w){
     buffer_despeck(dev,SIDE_FRONT)
   }
-  if (dev.val[OPT_SWDEROTATE].w || dev.val[OPT_ROTATE].w){
+  if(dev.val[OPT_SWDEROTATE].w || dev.val[OPT_ROTATE].w){
     buffer_rotate(dev,SIDE_FRONT)
   }
 
-  if (IS_DUPLEX (dev)){
-    if (dev.val[OPT_SWDESKEW].w){
+  if(IS_DUPLEX(dev)){
+    if(dev.val[OPT_SWDESKEW].w){
       buffer_deskew(dev,SIDE_BACK)
     }
-    if (dev.val[OPT_SWCROP].w){
+    if(dev.val[OPT_SWCROP].w){
       buffer_crop(dev,SIDE_BACK)
     }
-    if (dev.val[OPT_SWDESPECK].w){
+    if(dev.val[OPT_SWDESPECK].w){
       buffer_despeck(dev,SIDE_BACK)
     }
-    if (dev.val[OPT_SWDEROTATE].w || dev.val[OPT_ROTATE].w){
+    if(dev.val[OPT_SWDEROTATE].w || dev.val[OPT_ROTATE].w){
       buffer_rotate(dev,SIDE_BACK)
     }
   }
@@ -492,48 +492,48 @@ Sane.start (Sane.Handle handle)
   cleanup:
 
   /* check if we need to skip this page */
-  if (dev.val[OPT_SWSKIP].w && buffer_isblank(dev,dev.current_side)){
-    DBG (DBG_proc, "Sane.start: blank page, recurse\n")
+  if(dev.val[OPT_SWSKIP].w && buffer_isblank(dev,dev.current_side)){
+    DBG(DBG_proc, "Sane.start: blank page, recurse\n")
     return Sane.start(handle)
   }
 
-  DBG (DBG_proc, "Sane.start: exit\n")
+  DBG(DBG_proc, "Sane.start: exit\n")
   return status
 }
 
 Sane.Status
-Sane.read (Sane.Handle handle, Sane.Byte * buf,
+Sane.read(Sane.Handle handle, Sane.Byte * buf,
 	   Int max_len, Int * len)
 {
   PKV_DEV dev = (PKV_DEV) handle
   Int side = dev.current_side == SIDE_FRONT ? 0 : 1
 
   Int size = max_len
-  if (!dev.scanning)
+  if(!dev.scanning)
     return Sane.STATUS_EOF
 
-  if (size > dev.img_size[side])
+  if(size > dev.img_size[side])
     size = dev.img_size[side]
 
-  if (size == 0)
+  if(size == 0)
     {
       *len = size
       return Sane.STATUS_EOF
     }
 
-  if (dev.val[OPT_INVERSE].w &&
-      (kv_get_mode (dev) == SM_BINARY || kv_get_mode (dev) == SM_DITHER))
+  if(dev.val[OPT_INVERSE].w &&
+      (kv_get_mode(dev) == SM_BINARY || kv_get_mode(dev) == SM_DITHER))
     {
       var i: Int
       unsigned char *p = dev.img_pt[side]
-      for (i = 0; i < size; i++)
+      for(i = 0; i < size; i++)
 	{
 	  buf[i] = ~p[i]
 	}
     }
   else
     {
-      memcpy (buf, dev.img_pt[side], size)
+      memcpy(buf, dev.img_pt[side], size)
     }
 
   /*hexdump(DBG_error, "img data", buf, 128); */
@@ -541,35 +541,35 @@ Sane.read (Sane.Handle handle, Sane.Byte * buf,
   dev.img_pt[side] += size
   dev.img_size[side] -= size
 
-  DBG (DBG_proc, "Sane.read: %d bytes to read, "
+  DBG(DBG_proc, "Sane.read: %d bytes to read, "
        "%d bytes read, EOF=%s  %d\n",
        max_len, size, dev.img_size[side] == 0 ? "True" : "False", side)
 
-  if (len)
+  if(len)
     {
       *len = size
     }
-  if (dev.img_size[side] == 0)
+  if(dev.img_size[side] == 0)
     {
-      if (!strcmp (dev.val[OPT_FEEDER_MODE].s, "single"))
-	if ((IS_DUPLEX (dev) && side) || !IS_DUPLEX (dev))
+      if(!strcmp(dev.val[OPT_FEEDER_MODE].s, "single"))
+	if((IS_DUPLEX(dev) && side) || !IS_DUPLEX(dev))
 	  dev.scanning = 0
     }
   return Sane.STATUS_GOOD
 }
 
 void
-Sane.cancel (Sane.Handle handle)
+Sane.cancel(Sane.Handle handle)
 {
   PKV_DEV dev = (PKV_DEV) handle
-  DBG (DBG_proc, "Sane.cancel: scan canceled.\n")
+  DBG(DBG_proc, "Sane.cancel: scan canceled.\n")
   dev.scanning = 0
 
-  kv_close (dev)
+  kv_close(dev)
 }
 
 Sane.Status
-Sane.set_io_mode (Sane.Handle h, Bool m)
+Sane.set_io_mode(Sane.Handle h, Bool m)
 {
   h=h
   m=m
@@ -577,7 +577,7 @@ Sane.set_io_mode (Sane.Handle h, Bool m)
 }
 
 Sane.Status
-Sane.get_select_fd (Sane.Handle h, Int * fd)
+Sane.get_select_fd(Sane.Handle h, Int * fd)
 {
   h=h
   fd=fd

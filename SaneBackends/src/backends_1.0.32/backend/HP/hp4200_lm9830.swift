@@ -1,13 +1,13 @@
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2000 Adrian Perez Jorge
+   Copyright(C) 2000 Adrian Perez Jorge
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -45,8 +45,8 @@
 #define INPUT_SIGNAL_POLARITY_NEGATIVE 0
 #define INPUT_SIGNAL_POLARITY_POSITIVE 1
 #define CDS_OFF 0
-#define CDS_ON (1 << 1)
-#define SENSOR_EVENODD (1 << 2)
+#define CDS_ON(1 << 1)
+#define SENSOR_EVENODD(1 << 2)
 #define SENSOR_STANDARD 0
 #define SENSOR_RESOLUTION_300 0
 #define SENSOR_RESOLUTION_600 (1 << 3)
@@ -55,32 +55,32 @@
 #define PHI1_POLARITY_POSITIVE 0
 #define PHI1_POLARITY_NEGATIVE 1
 #define PHI2_POLARITY_POSITIVE 0
-#define PHI2_POLARITY_NEGATIVE (1 << 1)
+#define PHI2_POLARITY_NEGATIVE(1 << 1)
 #define RS_POLARITY_POSITIVE 0
-#define RS_POLARITY_NEGATIVE (1 << 2)
+#define RS_POLARITY_NEGATIVE(1 << 2)
 #define CP1_POLARITY_POSITIVE 0
-#define CP1_POLARITY_NEGATIVE (1 << 3)
+#define CP1_POLARITY_NEGATIVE(1 << 3)
 #define CP2_POLARITY_POSITIVE 0
-#define CP2_POLARITY_NEGATIVE (1 << 4)
+#define CP2_POLARITY_NEGATIVE(1 << 4)
 #define TR1_POLARITY_POSITIVE 0
-#define TR1_POLARITY_NEGATIVE (1 << 5)
+#define TR1_POLARITY_NEGATIVE(1 << 5)
 #define TR2_POLARITY_POSITIVE 0
-#define TR2_POLARITY_NEGATIVE (1 << 6)
+#define TR2_POLARITY_NEGATIVE(1 << 6)
 
 #define PHI1_OFF 0
 #define PHI1_ACTIVE 1
 #define PHI2_OFF 0
-#define PHI2_ACTIVE (1 << 1)
+#define PHI2_ACTIVE(1 << 1)
 #define RS_OFF 0
-#define RS_ACTIVE (1 << 2)
+#define RS_ACTIVE(1 << 2)
 #define CP1_OFF 0
-#define CP1_ACTIVE (1 << 3)
+#define CP1_ACTIVE(1 << 3)
 #define CP2_OFF 0
-#define CP2_ACTIVE (1 << 4)
+#define CP2_ACTIVE(1 << 4)
 #define TR1_OFF 0
-#define TR1_ACTIVE (1 << 5)
+#define TR1_ACTIVE(1 << 5)
 #define TR2_OFF 0
-#define TR2_ACTIVE (1 << 6)
+#define TR2_ACTIVE(1 << 6)
 #define NUMBER_OF_TR_PULSES(n) (((n) - 1) << 7)
 
 #define TR_PULSE_DURATION(n) ((n) & 0x0f)
@@ -90,15 +90,15 @@
 #define CIS_TR1_TIMING_MODE1 1
 #define CIS_TR1_TIMING_MODE2 2
 #define FAKE_OPTICAL_BLACK_PIXELS_OFF 0
-#define FAKE_OPTICAL_BLACK_PIXELS_ON (1 << 2)
+#define FAKE_OPTICAL_BLACK_PIXELS_ON(1 << 2)
 
 #define PIXEL_RATE_3_CHANNELS 0
 #define LINE_RATE_3_CHANNELS 1
 #define MODEA_1_CHANNEL 4
 #define MODEB_1_CHANNEL 5
 #define GRAY_CHANNEL_RED 0
-#define GRAY_CHANNEL_GREEN (1 << 3)
-#define GRAY_CHANNEL_BLU (2 << 3)
+#define GRAY_CHANNEL_GREEN(1 << 3)
+#define GRAY_CHANNEL_BLU(2 << 3)
 
 #define TR_RED(n) ((n) << 5)
 #define TR_GREEN(n) ((n) << 6)
@@ -126,17 +126,17 @@
 #define SRAM_BANDWIDTH_4 0
 #define SRAM_BANDWIDTH_8 (1 << 4)
 #define SCANNING_FULL_DUPLEX 0
-#define SCANNING_HALF_DUPLEX (1 << 5)
+#define SCANNING_HALF_DUPLEX(1 << 5)
 
 #define FULL_STEPPING 0
 #define MICRO_STEPPING 1
 #define CURRENT_SENSING_PHASES(n) (((n) - 1) << 1)
 #define PHASE_A_POLARITY_POSITIVE 0
-#define PHASE_A_POLARITY_NEGATIVE (1 << 2)
+#define PHASE_A_POLARITY_NEGATIVE(1 << 2)
 #define PHASE_B_POLARITY_POSITIVE 0
-#define PHASE_B_POLARITY_NEGATIVE (1 << 3)
+#define PHASE_B_POLARITY_NEGATIVE(1 << 3)
 #define STEPPER_MOTOR_TRISTATE 0
-#define STEPPER_MOTOR_OUTPUT (1 << 4)
+#define STEPPER_MOTOR_OUTPUT(1 << 4)
 
 #define ACCELERATION_PROFILE_STOPPED(n) (n)
 #define ACCELERATION_PROFILE_25P(n) ((n) << 2)
@@ -155,7 +155,7 @@
 #define PAPER_SENSOR_1_NO_STOP_SCAN  0
 #define PAPER_SENSOR_1_STOP_SCAN     (1 << 2)
 #define PAPER_SENSOR_2_POLARITY_LOW  0
-#define PAPER_SENSOR_2_POLARITY_HIGH (1 << 3)
+#define PAPER_SENSOR_2_POLARITY_HIGH(1 << 3)
 #define PAPER_SENSOR_2_TRIGGER_LEVEL 0
 #define PAPER_SENSOR_2_TRIGGER_EDGE  (1 << 4)
 #define PAPER_SENSOR_2_NO_STOP_SCAN  0
@@ -184,14 +184,14 @@
 
 /* sane - Scanner Access Now Easy.
 
-   Copyright (C) 2000 Adrian Perez Jorge
+   Copyright(C) 2000 Adrian Perez Jorge
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -229,114 +229,114 @@
 import hp4200_lm9830
 
 static Sane.Status
-lm9830_read_register (Int fd, unsigned char reg, unsigned char *data)
+lm9830_read_register(Int fd, unsigned char reg, unsigned char *data)
 {
   Sane.Status retval
 
-  if (!data)
+  if(!data)
     return -Sane.STATUS_INVAL
-  retval = sanei_pv8630_write_byte (fd, PV8630_REPPADDRESS, reg)
-  if (retval != Sane.STATUS_GOOD)
+  retval = sanei_pv8630_write_byte(fd, PV8630_REPPADDRESS, reg)
+  if(retval != Sane.STATUS_GOOD)
     return retval
-  return sanei_pv8630_read_byte (fd, PV8630_RDATA, data)
+  return sanei_pv8630_read_byte(fd, PV8630_RDATA, data)
 }
 
 static Sane.Status
-lm9830_write_register (Int fd, unsigned char reg, unsigned char value)
+lm9830_write_register(Int fd, unsigned char reg, unsigned char value)
 {
   Sane.Status retval
 
-  retval = sanei_pv8630_write_byte (fd, PV8630_REPPADDRESS, reg)
-  if (retval != Sane.STATUS_GOOD)
+  retval = sanei_pv8630_write_byte(fd, PV8630_REPPADDRESS, reg)
+  if(retval != Sane.STATUS_GOOD)
     return retval
 
-  return sanei_pv8630_write_byte (fd, PV8630_RDATA, value)
+  return sanei_pv8630_write_byte(fd, PV8630_RDATA, value)
 }
 
 #ifdef DEBUG
 static Int
-lm9830_dump_registers (Int fd)
+lm9830_dump_registers(Int fd)
 {
   var i: Int
   unsigned char value = 0
 
-  for (i = 0; i < 0x80; i++)
+  for(i = 0; i < 0x80; i++)
     {
-      lm9830_read_register (fd, i, &value)
-      printf ("%.2x:0x%.2x", i, value)
-      if ((i + 1) % 8)
-	printf (", ")
+      lm9830_read_register(fd, i, &value)
+      printf("%.2x:0x%.2x", i, value)
+      if((i + 1) % 8)
+	printf(", ")
       else
-	printf ("\n")
+	printf("\n")
     }
-  puts ("")
+  puts("")
   return 0
 }
 #endif
 
 #if 0
 static Int
-pv8630_reset_buttons (Int fd)
+pv8630_reset_buttons(Int fd)
 {
-  lm9830_write_register (fd, 0x59, 0x10)
-  lm9830_write_register (fd, 0x59, 0x90)
+  lm9830_write_register(fd, 0x59, 0x10)
+  lm9830_write_register(fd, 0x59, 0x90)
   return 0
 }
 #endif
 
 #if 0
 static Int
-lm9830_lamp_off (Int fd)
+lm9830_lamp_off(Int fd)
 {
-  lm9830_write_register (fd, 0x07, 0x00)
-  lm9830_write_register (fd, 0x2c, 0x00)
-  lm9830_write_register (fd, 0x2d, 0x01)
-  lm9830_write_register (fd, 0x2e, 0x3f)
-  lm9830_write_register (fd, 0x2f, 0xff)
+  lm9830_write_register(fd, 0x07, 0x00)
+  lm9830_write_register(fd, 0x2c, 0x00)
+  lm9830_write_register(fd, 0x2d, 0x01)
+  lm9830_write_register(fd, 0x2e, 0x3f)
+  lm9830_write_register(fd, 0x2f, 0xff)
   return 0
 }
 
 static Int
-lm9830_lamp_on (Int fd)
+lm9830_lamp_on(Int fd)
 {
-  lm9830_write_register (fd, 0x07, 0x00)
-  lm9830_write_register (fd, 0x2c, 0x3f)
-  lm9830_write_register (fd, 0x2d, 0xff)
-  lm9830_write_register (fd, 0x2e, 0x00)
-  lm9830_write_register (fd, 0x2f, 0x01)
+  lm9830_write_register(fd, 0x07, 0x00)
+  lm9830_write_register(fd, 0x2c, 0x3f)
+  lm9830_write_register(fd, 0x2d, 0xff)
+  lm9830_write_register(fd, 0x2e, 0x00)
+  lm9830_write_register(fd, 0x2f, 0x01)
   return 0
 }
 #endif
 
 #if 0
 /*
- * This function prints what button was pressed (the time before this
+ * This function prints what button was pressed(the time before this
  * code was executed).
  */
 
 static Int
-hp4200c_what_button (Int fd)
+hp4200c_what_button(Int fd)
 {
   unsigned char button
 
-  pv8630_read_buttons (fd, &button)
+  pv8630_read_buttons(fd, &button)
 
-  if (button & 0x08)
-    puts ("Scan")
-  if (button & 0x10)
-    puts ("Copy")
-  if (button & 0x20)
-    puts ("E-mail")
-  if ((button & 0x38) == 0)
-    puts ("None")
+  if(button & 0x08)
+    puts("Scan")
+  if(button & 0x10)
+    puts("Copy")
+  if(button & 0x20)
+    puts("E-mail")
+  if((button & 0x38) == 0)
+    puts("None")
 
-  pv8630_reset_buttons (fd)
+  pv8630_reset_buttons(fd)
   return 0
 }
 #endif
 
 static Int
-lm9830_ini_scanner (Int fd, unsigned char *regs)
+lm9830_ini_scanner(Int fd, unsigned char *regs)
 {
 #ifdef unused
   unsigned char inittable[] = {
@@ -359,43 +359,43 @@ lm9830_ini_scanner (Int fd, unsigned char *regs)
   unsigned char *regdata
   unsigned var i: Int
 
-  sanei_pv8630_write_byte (fd, PV8630_RMODE, 0x02)
-  for (i = 0; i < sizeof (daisy); i++)
+  sanei_pv8630_write_byte(fd, PV8630_RMODE, 0x02)
+  for(i = 0; i < sizeof(daisy); i++)
     {
-      sanei_pv8630_write_byte (fd, PV8630_RDATA, daisy[i])
+      sanei_pv8630_write_byte(fd, PV8630_RDATA, daisy[i])
     }
-  sanei_pv8630_write_byte (fd, PV8630_RMODE, 0x16)
-  lm9830_write_register (fd, 0x42, 0x06)
+  sanei_pv8630_write_byte(fd, PV8630_RMODE, 0x16)
+  lm9830_write_register(fd, 0x42, 0x06)
 
-  if (!regs)
+  if(!regs)
     return 0
   /*    regdata = inittable; */
   else
     regdata = regs
 
-  for (i = 8; i < 0x60; i++)
+  for(i = 8; i < 0x60; i++)
     {
-      lm9830_write_register (fd, i, regdata[i])
+      lm9830_write_register(fd, i, regdata[i])
     }
-  for (i = 0x60; i < 0x70; i++)
+  for(i = 0x60; i < 0x70; i++)
     {
-      lm9830_write_register (fd, i, 0)
+      lm9830_write_register(fd, i, 0)
     }
-  lm9830_write_register (fd, 0x70, 0x70)
-  for (i = 0x71; i < 0x80; i++)
+  lm9830_write_register(fd, 0x70, 0x70)
+  for(i = 0x71; i < 0x80; i++)
     {
-      lm9830_write_register (fd, i, 0)
+      lm9830_write_register(fd, i, 0)
     }
   return 0
 }
 
 static Int
-lm9830_reset (Int fd)
+lm9830_reset(Int fd)
 {
-  lm9830_write_register (fd, 0x07, 0x08)
-  usleep (100)
-  lm9830_write_register (fd, 0x07, 0x00)
-  usleep (100)
+  lm9830_write_register(fd, 0x07, 0x08)
+  usleep(100)
+  lm9830_write_register(fd, 0x07, 0x00)
+  usleep(100)
 
   return 0
 }

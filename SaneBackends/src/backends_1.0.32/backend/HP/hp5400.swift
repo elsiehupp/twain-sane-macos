@@ -1,18 +1,18 @@
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 20020 Ralph Little <skelband@gmail.com>
-   Copyright (C) 2003 Martijn van Oosterhout <kleptog@svana.org>
-   Copyright (C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
+   Copyright(C) 20020 Ralph Little <skelband@gmail.com>
+   Copyright(C) 2003 Martijn van Oosterhout <kleptog@svana.org>
+   Copyright(C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
 
    Originally copied from HP3300 testtools. Original notice follows:
 
-   Copyright (C) 2001 Bertrik Sikken (bertrik@zonnet.nl)
+   Copyright(C) 2001 Bertrik Sikken(bertrik@zonnet.nl)
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
    as published by the Free Software Foundation; either version 2
-   of the License, or (at your option) any later version.
+   of the License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -81,7 +81,7 @@ typedef struct
   void *buffer;			/* Pointer to memory allocated for buffer */
   Int roff, goff, boff;		/* Offset into buffer of rows to be copied *next* */
   Int bufstart, bufend;		/* What is currently the valid buffer */
-  Int bpp;			/* Bytes per pixel per colour (1 or 2) */
+  Int bpp;			/* Bytes per pixel per colour(1 or 2) */
   Int linelength, pixels;	/* Bytes per line from scanner */
   Int transfersize;		/* Number of bytes to transfer resulting image */
   Int blksize;			/* Size of blocks to pull from scanner */
@@ -110,8 +110,8 @@ THWParams
 /* The scanner needs a Base DPI off which all it's calibration and
  * offset/size parameters are based.  For the time being this is the same as
  * the iDpi but maybe we want it separate. This is because while this field
- * would have limited values (300,600,1200,2400) the x/y dpi can vary. The
- * windows interface seems to allow 200dpi (though I've never tried it). We
+ * would have limited values(300,600,1200,2400) the x/y dpi can vary. The
+ * windows interface seems to allow 200dpi(though I've never tried it). We
  * need to decide how these values are related to the HW coordinates. */
 
 
@@ -119,10 +119,10 @@ typedef struct
 {
   Int iDpi;			/* horizontal resolution */
   Int iLpi;			/* vertical resolution */
-  Int iTop;			/* in HW coordinates (units HW_LPI) */
-  Int iLeft;			/* in HW coordinates (units HW_LPI) */
-  Int iWidth;			/* in HW coordinates (units HW_LPI) */
-  Int iHeight;			/* in HW coordinates (units HW_LPI) */
+  Int iTop;			/* in HW coordinates(units HW_LPI) */
+  Int iLeft;			/* in HW coordinates(units HW_LPI) */
+  Int iWidth;			/* in HW coordinates(units HW_LPI) */
+  Int iHeight;			/* in HW coordinates(units HW_LPI) */
 
   Int iBytesPerLine;		/* Resulting bytes per line */
   Int iLines;			/* Resulting lines of image */
@@ -152,20 +152,20 @@ TPanelInfo
 
 
 /* sane - Scanner Access Now Easy.
-   Copyright (C) 2003 Martijn van Oosterhout <kleptog@svana.org>
-   Copyright (C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
+   Copyright(C) 2003 Martijn van Oosterhout <kleptog@svana.org>
+   Copyright(C) 2003 Thomas Soumarmon <thomas.soumarmon@cogitae.net>
 
    This file was initially copied from the hp3300 testools and adjusted to
    suit. Original copyright notice follows:
 
-   Copyright (C) 2001 Bertrik Sikken (bertrik@zonnet.nl)
+   Copyright(C) 2001 Bertrik Sikken(bertrik@zonnet.nl)
 
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
    as published by the Free Software Foundation; either version 2
-   of the License, or (at your option) any later version.
+   of the License, or(at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
