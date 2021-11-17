@@ -1,0 +1,186 @@
+[escl"
+manpage = "sane-escl"
+url = "https://support.apple.com/en-us/HT201311"
+comment = "The eSCL backend for sane supports AirScan/eSCL devices that announce themselves on mDNS as _uscan._utcp or _uscans._utcp"
+
+devicetype = "scanner"
+
+[mfg]
+mfg = "Brother"
+url = "https://www.brother.ee/support/drivers"
+
+[mfg.model]
+model = "DCP-L2530DW"
+interface = "WiFi"
+status = "good"
+comment = "All resolutions supported."
+
+[mfg.model]
+model = "HL-L258DW"
+interface = "WiFi"
+status = "good"
+comment = "All resolutions supported."
+
+[mfg]
+mfg = "Canon"
+url = "https://www.canon-europe.com/support/"
+
+[mfg.model]
+model = "PIXMA MG5765"
+interface = "WiFi"
+status = "good"
+comment = "All resolutions supported."
+
+[mfg.model]
+model = "PIXMA G7050"
+interface = "Ethernet WiFi"
+status = "untested"
+comment = "Testers needed!"
+
+[mfg.model]
+model = "IR C3520"
+interface = "WiFi"
+status = "good"
+comment = "All resolutions supported, Flatted and ADF supported."
+
+[mfg.model]
+model = "PIXMA TS3100 Series"
+interface = "WiFi"
+status = "good"
+comment = "All resolutions supported."
+
+[mfg.model]
+model = "PIXMA TS3300 Series"
+interface = "WiFi"
+status = "good"
+comment = "All resolutions supported."
+
+[mfg.model]
+model = "PIXMA TS5351"
+interface = "WiFi"
+status = "good"
+comment = "All resolutions supported."
+
+[mfg.model]
+model = "PIXMA TS6150"
+interface = "Wifi"
+status = "untested"
+comment = "Testers needed!"
+
+[mfg.model]
+model = "PIXMA TS8050"
+interface = "Wifi"
+status = "untested"
+comment = "Testers needed!"
+
+[mfg.model]
+model = "PIXMA TS9100 Series"
+interface = "Wifi"
+status = "untested"
+comment = "Testers needed!"
+
+[mfg.model]
+model = "PIXMA TR4540 Series"
+interface = "Wifi"
+status = "good"
+comment = "All resolutions supported, Flatted and ADF supported."
+
+[mfg.model]
+model = "PIXMA TR8500 Series"
+interface = "Ethernet WiFi"
+status = "good"
+comment = "All resolutions supported, Flatted and ADF supported."
+
+[mfg.model]
+model = "PIXMA TR8520"
+interface = "Ethernet WiFi"
+status = "good"
+comment = "All resolutions supported, Flatted and ADF supported."
+
+[mfg]
+mfg = "Epson"
+url = "http://download.ebz.epson.net/dsc/search/01/search/?OSC=LX"
+
+[mfg.model]
+model = "ET-3750"
+interface = "WiFi"
+status = "good"
+comment = "All resolutions supported, Flatted and ADF supported."
+
+[mfg.model]
+model = "ET-4750"
+interface = "WiFi"
+status = "good"
+comment = "All resolutions supported, Flatted and ADF supported."
+
+[mfg]
+mfg = "HP"
+url = "https://support.hp.com/us-en/drivers/printers"
+
+[mfg.model]
+model = "DeskJet 2710"
+interface = "WiFi"
+status = "good"
+comment = "All resolutions supported"
+
+[mfg.model]
+model = "DeskJet 2723"
+interface = "WiFi"
+status = "good"
+comment = "All resolutions supported."
+
+[mfg.model]
+model = "DeskJet 3760"
+interface = "WiFi"
+status = "good"
+comment = "All resolutions supported."
+
+[mfg.model]
+model = "LaserJet MFP M28w"
+interface = "WiFi"
+status = "untested"
+comment = "Testers needed!"
+
+[mfg.model]
+model = "LaserJet FlowMFP M578"
+interface = "WiFi"
+status = "basic"
+comment = "Issues with duplex ADF"
+
+[mfg.model]
+model = "LaserJet MFP M630"
+interface = "WiFi"
+status = "basic"
+comment = "Issues with duplex ADF"
+
+[mfg.model]
+model = "OfficeJet 4630"
+interface = "WiFi"
+status = "untested"
+comment = "Testers needed!"
+
+[mfg.model]
+model = "OfficeJet Pro 8610"
+interface = "Ethernet WiFi"
+status = "good"
+comment = "All resolutions supported, Flatted and ADF supported."
+
+[mfg]
+mfg = "Ricoh"
+url = "http://support.ricoh.com/bb/html/dr_ut_e/re2/"
+
+[mfg.model]
+model = "SP3710S"
+interface = "WiFi"
+status = "untested"
+comment = "Testers needed!"
+
+[mfg]
+mfg = "Xerox"
+url = "https://www.support.xerox.com/"
+
+[mfg.model]
+model = "VERSALINK C7220"
+interface = "WiFi"
+status = "good"
+comment = "All resolutions supported, Flatted and ADF supported."

@@ -1,0 +1,48 @@
+[mustek_usb"
+version = "1.0-18 (unmaintained)"
+manpage = "sane-mustek_usb"
+url = "http://www.meier-geinitz.de/sane/mustek_usb-backend/"
+comment = "Only the USB scanners mentioned below are supported. For BearPaws, look at the Plustek, MA-1509, and gt68xx backends."
+devicetype = "scanner"
+
+[mfg]
+mfg = "Mustek"
+url = "http://www.mustek.com/"
+url = "http://www.mustek.com.tw/"
+url = "http://www.mustek.de/"
+
+[mfg.model]
+model = "ScanExpress 600 CU"
+interface = "USB"
+usbid = ["0x055f", "0x0002"]
+status = "complete"
+
+[mfg.model]
+model = "ScanExpress 1200 CU"
+interface = "USB"
+usbid = ["0x055f", "0x0001"]
+status = "complete"
+
+[mfg.model]
+model = "ScanExpress 1200 CU Plus"
+interface = "USB"
+usbid = ["0x055f", "0x0008"]
+status = "complete"
+
+[mfg.model]
+model = "ScanExpress 1200 UB"
+interface = "USB"
+usbid = ["0x055f", "0x0006"]
+status = "complete"
+comment = "For the UB Plus, see gt68xx backend"
+
+[mfg]
+mfg = "Trust"
+url = "http://www.trust-site.com"
+
+[mfg.model]
+model = "Compact Scan USB 19200"
+interface = "USB"
+usbid = ["0x055f", "0x0006"]
+status = "complete"
+comment = "Mustek 1200 UB compatible"

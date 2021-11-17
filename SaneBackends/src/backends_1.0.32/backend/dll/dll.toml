@@ -1,0 +1,7 @@
+[dll"    # name of backend
+version = "1.0.13 (unmaintained)"
+manpage = "sane-dll"
+url = "mailto:henning@meier-geinitz.de"
+
+devicetype = :meta
+description = "Dynamic loading of shared-library backends."
