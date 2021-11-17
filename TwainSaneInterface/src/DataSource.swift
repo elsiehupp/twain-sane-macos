@@ -1,5 +1,4 @@
 import Twain
-import Twain
 
 import DataSource
 import SaneDevice
