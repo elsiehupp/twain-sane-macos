@@ -1,0 +1,29 @@
+
+
+[
+{"backend": "hp3500"},
+{"version": "1.1 (unmaintained)"},
+{"manpage": "sane-hp3500"},
+{"url": "http://projects.troy.rollo.name/rt-scanners/"},
+{"comment": "HP3500 series scanners."},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Hewlett-Packard"},
+{"url": "http://www.hp.com"},
+
+{"model": "ScanJet 3500C"},
+{"interface": ["USB"]},
+{"usbid": ["0x03f0", "0x2205"]},
+{"status": "good"},
+
+{"model": "ScanJet 3530C"},
+{"interface": ["USB"]},
+{"usbid": ["0x03f0", "0x2005"]},
+{"status": "good"},
+
+{"model": "ScanJet 3570C"},
+{"interface": ["USB"]},
+{"usbid": ["0x03f0", "0x2005"]},
+{"status": "good"}
+]

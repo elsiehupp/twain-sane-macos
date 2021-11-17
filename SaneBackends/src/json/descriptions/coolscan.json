@@ -1,0 +1,30 @@
+
+[
+{"backend": "coolscan"},
+{"version": "0.4.3 (unmaintained)"},
+{"url": "http://andreas.rick.free.fr/sane/"},
+{"manpage": "sane-coolscan"},
+{"devicetype": "scanner"},
+
+{"mfg": "Nikon"},
+{"url": "http://www.nikon.com/"},
+{"model": "LS-20"},
+{"interface": ["SCSI"]},
+{"comment": "The LS-20 has been replaced by the LS-30"},
+{"status": "basic"},
+
+{"model": "LS-30"},
+{"interface": ["SCSI"]},
+{"comment": "alpha: only 24/30 bit RGB + 32/40 bit RGBI"},
+{"status": "basic"},
+
+{"model": "LS-2000"},
+{"interface": ["SCSI"]},
+{"comment": "alpha: only 24/36 bit + RGB 32/48 bit RGBI"},
+{"status": "basic"},
+
+{"model": "LS-1000"},
+{"interface": ["SCSI"]},
+{"comment": "Doesn't support gamma correction"},
+{"status": "basic"}
+]

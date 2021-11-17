@@ -1,0 +1,53 @@
+[
+{"backend": "canon_pp"},
+{"manpage": "sane-canon_pp"},
+{"version": "0.33 (unmaintained)"},
+
+{"url": "http://canon-fb330p.sourceforge.net"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Canon"},
+{"url": "http://www.canon.com/"},
+
+{"model": "CanoScan FB310P"},
+{"interface": ["Parport (ECP)"]},
+{"status": "unsupported"},
+{"comment": "Rebadged Avision, different command set"},
+
+{"model": "CanoScan FB610P"},
+{"interface": ["Parport (ECP)"]},
+{"status": "unsupported"},
+{"comment": "Rebadged Avision, different command set"},
+
+{"model": "CanoScan FB320P"},
+{"interface": ["Parport (ECP)"]},
+{"status": "basic"},
+{"comment": "Newly added support"},
+
+{"model": "CanoScan FB620P"},
+{"interface": ["Parport (ECP)"]},
+{"status": "basic"},
+{"comment": "Newly added support"},
+
+{"model": "CanoScan FB330P"},
+{"interface": ["Parport (ECP)"]},
+{"status": "good"},
+
+{"model": "CanoScan FB630P"},
+{"interface": ["Parport (ECP)"]},
+{"status": "good"},
+
+{"model": "CanoScan N340P"},
+{"interface": ["Parport (ECP)"]},
+{"status": "good"},
+
+{"model": "CanoScan N640P"},
+{"interface": ["Parport (ECP)"]},
+{"status": "good"},
+
+{"model": "CanoScan N640P ex"},
+{"interface": ["Parport (ECP)"]},
+{"status": "good"},
+{"comment": "Just an N640P in a different box?"}
+]

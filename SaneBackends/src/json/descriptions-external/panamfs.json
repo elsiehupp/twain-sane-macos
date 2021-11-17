@@ -1,0 +1,41 @@
+
+[
+{"backend": "panamfs"},
+{"version": "1.0.0"},
+{"url": "http://panasonic.net/pcc/support/fax/common/table/linuxdriver.html"},
+{"comment": "External backend made by panasonic."},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Panasonic"},
+{"url": "http://panasonic.net/"},
+
+
+{"model": "DP-MC210"},
+{"status": "untested"},
+{"comment": "No report yet."},
+
+{"model": "DP-MB250"},
+{"status": "untested"},
+{"comment": "No report yet."},
+
+{"model": "DP-MB300 series"},
+{"status": "untested"},
+{"comment": "No report yet."},
+
+{"model": "KX-MB1500 series"},
+{"status": "untested"},
+{"comment": "No report yet."},
+
+{"model": "KX-MB2000 series"},
+{"status": "untested"},
+{"comment": "No report yet."},
+
+{"model": "KX-MB3000 series"},
+{"status": "untested"},
+{"comment": "No report yet."},
+
+{"model": "KX-MC6000 series"},
+{"status": "untested"},
+{"comment": "No report yet."}
+]

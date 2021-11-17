@@ -1,0 +1,18 @@
+
+[
+{"backend": "lhii"},
+{"version": "0.42"},
+{"url": "http://www.sane-project.org/backends/lhii/lhii-v0.2.tgz"},
+{"comment": "This backend is for old handscanners with proprietary adapter cards. You also need a kernel driver. You may find such drivers at that page: http://www.willamowius.de/scanner.html ."},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Mustek"},
+{"comment": "Other models may also be supported."},
+
+{"model": "CG-6000"},
+{"status": "untested"},
+{"interface": ["Proprietary"]},
+{"url": "http://www.sane-project.org/backends/lhii/gi1904-v0.2.tgz"},
+{"comment": "Old handscanner. Hasn't been tested for a long time but once worked. See link for the linux kernel driver that's necessary to run the scanner."}
+]

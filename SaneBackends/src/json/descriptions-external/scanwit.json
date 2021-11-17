@@ -1,0 +1,20 @@
+
+
+[
+{"backend": "scanwit"},
+{"url": "ftp://ftp.mccme.ru/users/ushakov/scanwit"},
+{"version": "(2001-10-10)"},
+
+{"comment": "The backend is not included because it lacks code for safe detection of the scanner and documentation."},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Benq (Acer)"},
+{"url": "http://www.benq.com"},
+{"comment": "Formerly Acer Peripherals"},
+
+{"model": "ScanWit 2720S"},
+{"interface": ["SCSI"]},
+{"status": "basic"},
+{"comment": "Usable, but not complete"}
+]

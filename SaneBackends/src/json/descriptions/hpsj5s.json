@@ -1,0 +1,17 @@
+
+[
+{"backend": "hpsj5s"},
+{"version": "0.03 (unmaintained)"},
+{"manpage": "sane-hpsj5s"},
+{"url": "http://hpsj5s.sourceforge.net/"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Hewlett-Packard"},
+{"url": "http://www.hp.com/"},
+
+{"model": "ScanJet 5s"},
+{"interface": ["Parport (EPP)"]},
+{"comment": "Requires libieee1284 library. Only gray mode."},
+{"status": "minimal"}
+]

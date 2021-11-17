@@ -1,0 +1,19 @@
+
+[
+{"backend": "brother-mfc4600"},
+{"version": "0.42"},
+{"url": "http://sourceforge.net/projects/brother-mfc"},
+
+
+{"devicetype": "scanner"},
+
+{"mfg": "Brother"},
+{"url": "http://www.brother.com/"},
+
+{"model": "MFC 4600"},
+{"status": "basic"},
+{"url": "http://sourceforge.net/projects/brother-mfc"},
+{"interface": ["USB"]},
+{"usbid": ["0x04f9", "0x0111"]},
+{"comment": "Only USB version of this scanner is supported. Please report how well it works. See link."}
+]

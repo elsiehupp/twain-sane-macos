@@ -1,0 +1,15 @@
+[
+{"backend": "dell1600n_net"},
+{"version": "unmaintained (2006-05-29)"},
+{"devicetype": "scanner"},
+{"url": "Jon Chambers <jon@jon.demon.co.uk>"},
+
+{"mfg": "Dell"},
+{"url": "http://www.dell.com/"},
+
+{"model": "1600n"},
+{"interface": ["Ethernet", "USB"]},
+{"usbid": ["0x413c", "0x5250"]},
+{"status": "basic"},
+{"comment": "Supports colour and monochrome scans over ethernet (USB not supported)"}
+]

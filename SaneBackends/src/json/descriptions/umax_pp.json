@@ -1,0 +1,49 @@
+
+[
+{"backend": "umax_pp"},
+{"version": "1 (unmaintained)"},
+{"manpage": "sane-umax_pp"},
+
+{"url": "http://umax1220p.sourceforge.net/"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "UMAX"},
+{"url": "http://www.umax.com.tw/"},
+{"comment": "These scanners are known to have the same ASIC family."},
+
+{"model": "Astra 1220P"},
+{"interface": ["Parport (EPP/ECP)"]},
+{"status": "good"},
+
+{"model": "Astra 2000P"},
+{"interface": ["Parport (EPP/ECP)"]},
+{"status": "good"},
+
+{"model": "Astra 1600P"},
+{"interface": ["Parport (EPP/ECP)"]},
+{"status": "good"},
+
+{"model": "Astra 600P"},
+{"interface": ["Parport (SPP/ECP)"]},
+{"status": "unsupported"},
+{"comment": "untested, but should be close to 610P"},
+
+{"model": "Astra 610P"},
+{"interface": ["Parport (SPP/ECP)"]},
+{"status": "good"},
+
+{"mfg": "Hewlett-Packard"},
+
+{"model": "Scanjet 3200C"},
+{"interface": ["Parport (EPP/ECP)"]},
+{"status": "good"},
+{"comment": "works (relabelled 1220P and 2000P)"},
+
+{"mfg": "Genius"},
+
+{"model": "ColorPage-Life Pro"},
+{"interface": ["Parport (EPP/ECP)"]},
+{"status": "good"},
+{"comment": "works (relabelled 1220P and 2000P)"}
+]

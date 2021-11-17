@@ -1,0 +1,58 @@
+
+[
+{"backend": "artec"},
+{"version": "unmaintained"},
+{"manpage": "sane-artec"},
+{"url": "http://www4.infi.net/~cpinkham/sane/sane-artec-doc.html"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Artec/Ultima"},
+{"url": "http://www.artecusa.com/"},
+
+{"model": "AT3"},
+{"interface": ["SCSI"]},
+{"status": "complete"},
+{"comment": "all modes working"},
+
+{"model": "A6000C"},
+{"interface": ["SCSI"]},
+{"status": "complete"},
+{"comment": "all modes working"},
+
+{"model": "A6000C PLUS"},
+{"interface": ["SCSI"]},
+{"status": "complete"},
+{"comment": "f/w <= v1.92 basic, f/w >= v1.93 OK"},
+
+{"model": "AT6"},
+{"status": "good"},
+{"interface": ["SCSI"]},
+{"comment": "Scan head needs to return home before another scan can be started."},
+
+{"model": "AT12"},
+{"interface": ["SCSI"]},
+{"status": "complete"},
+{"comment": "all modes working"},
+
+{"model": "AM12S"},
+{"interface": ["SCSI"]},
+{"status": "complete"},
+{"comment": "all modes working"},
+
+{"mfg": "BlackWidow"},
+{"url": "http://www.blackwidow.co.uk/"},
+
+{"model": "BW4800SP"},
+{"interface": ["SCSI"]},
+{"status": "complete"},
+{"comment": "rebadged Artec AT3"},
+
+{"mfg": "Plustek"},
+{"url": "http://www.plustek.com/"},
+
+{"model": "OpticPro 19200S"},
+{"interface": ["SCSI"]},
+{"status": "complete"},
+{"comment": "rebadged Artec AM12S"}
+]

@@ -1,0 +1,22 @@
+
+[
+{"backend": "ricoh"},
+{"version": "unmaintained"},
+
+{"manpage": "sane-ricoh"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Ricoh"},
+{"url": "http://www.ricoh.com/"},
+
+{"model": "Ricoh IS50"},
+{"interface": ["SCSI"]},
+{"status": "basic"},
+
+
+{"model": "Ricoh IS60"},
+{"interface": ["SCSI"]},
+{"status": "basic"}
+
+]

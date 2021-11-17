@@ -1,0 +1,19 @@
+
+[
+{"backend": "geniusvp2"},
+{"version": "0.2"},
+{"manpage": "sane-geniusvp2"},
+{"url": "http://sourceforge.net/projects/geniusvp2/"},
+{"comment": "Supports color mode, bit depth of 8, 75-600 dpi resolution"},
+
+
+{"devicetype": "scanner"},
+
+{"mfg": "Genius"},
+{"url": "http://www.genius-kye.com/"},
+
+{"model": "ColorPage-Vivid Pro II"},
+{"status": "basic"},
+{"interface": ["Parport (EPP)"]},
+{"comment": "Similar to Primax Colorado Direct 9600, but with EICI 091000 ASIC"}
+]

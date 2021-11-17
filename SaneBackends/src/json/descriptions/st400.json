@@ -1,0 +1,21 @@
+[
+{"credit": "ST400 backend .desc by Ingo Wilken"},
+{"backend": "st400"},
+{"version": "1.6 (unmaintained)"},
+{"manpage": "sane-st400"},
+{"url": "http://www.informatik.uni-oldenburg.de/~ingo/sane/"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Siemens"},
+{"url": "http://www.siemens.de/"},
+{"model": "ST400"},
+{"interface": ["SCSI"]},
+{"comment": "6 bit gray"},
+{"status": "basic"},
+
+{"model": "ST800"},
+{"interface": ["SCSI"]},
+{"comment": "6 bit gray"},
+{"status": "basic"}
+]

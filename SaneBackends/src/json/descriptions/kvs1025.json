@@ -1,0 +1,25 @@
+[
+{"backend": "kvs1025"},
+{"version": "unmaintained"},
+{"manpage": "sane-kvs1025"},
+{"comment": "New backend for SANE release 1.0.21, see sane-kvs1025 manpage"},
+{"devicetype": "scanner"},
+
+{"mfg": "Panasonic"},
+{"url": "http://www.panasonic.com/"},
+
+{"model": "KV-S1020C"},
+{"interface": ["USB"]},
+{"usbid": ["0x04da", "0x1007"]},
+{"status": "good"},
+
+{"model": "KV-S1025C"},
+{"interface": ["USB"]},
+{"usbid": ["0x04da", "0x1006"]},
+{"status": "good"},
+
+{"model": "KV-S1045C"},
+{"interface": ["USB"]},
+{"usbid": ["0x04da", "0x1010"]},
+{"status": "good"}
+]

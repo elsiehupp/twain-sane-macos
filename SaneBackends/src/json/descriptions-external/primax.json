@@ -1,0 +1,42 @@
+[
+{"backend": "primax"},
+{"version": "1.1.beta1"},
+{"manpage": "sane-primax"},
+{"url": "http://px-backend.sourceforge.net"},
+{"comment": "This backend is not included because it depends on the code of the primax command line program. Therefore the author wants to keep it in the primax CVS tree."},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Primax"},
+{"url": "http://www.primax.nl/"},
+
+{"model": "Colorado Direct 300"},
+{"interface": ["Parport"]},
+{"status": "good"},
+
+{"model": "Colorado Direct 600/30bit"},
+{"interface": ["Parport"]},
+{"status": "untested"},
+
+{"mfg": "Network"},
+
+{"model": "Scanny MM100"},
+{"interface": ["Parport"]},
+{"status": "good"},
+
+{"mfg": "Storm"},
+
+{"model": "Totalscan"},
+{"interface": ["Parport"]},
+{"status": "untested"},
+
+{"model": "ImageWave"},
+{"interface": ["Parport"]},
+{"status": "untested"},
+
+{"mfg": "Genius"},
+
+{"model": "Colorpage-Vivid+"},
+{"interface": ["Parport"]},
+{"status": "untested"}
+]

@@ -1,0 +1,43 @@
+
+[
+{"backend": "bh"},
+{"version": "1.0-4 (unmaintained)"},
+{"manpage": "sane-bh"},
+{"url": "http://www.martoneconsulting.com/sane-bh.html"},
+{"comment": "Supports Copiscan II scanners with Remote SCSI Controller (RSC) interface"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Bell and Howell"},
+{"url": "http://www.bhscanners.com/"},
+
+{"model": "COPISCAN II 6338"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+{"comment": "Duplex Scanner with ACE - development model"},
+
+{"model": "COPISCAN II 2135"},
+{"status": "untested"},
+{"interface": ["SCSI"]},
+{"comment": "Simplex Scanner"},
+
+{"model": "COPISCAN II 2137(A)"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+{"comment": "Simplex Scanner (with ACE) - limited testing"},
+
+{"model": "COPISCAN II 2138A"},
+{"status": "untested"},
+{"interface": ["SCSI"]},
+{"comment": "Simplex Scanner with ACE"},
+
+{"model": "COPISCAN II 3238"},
+{"status": "untested"},
+{"interface": ["SCSI"]},
+{"comment": "Simplex Scanner"},
+
+{"model": "COPISCAN II 3338(A)"},
+{"status": "untested"},
+{"interface": ["SCSI"]},
+{"comment": "Simplex Scanner (with ACE)"}
+]

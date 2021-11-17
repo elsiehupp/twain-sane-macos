@@ -1,0 +1,24 @@
+
+[
+{"backend": "canon630u"},
+{"manpage": "sane-canon630u"},
+{"version": "0.1 (unmaintained)"},
+
+{"url": "http://canon-fb630u.sourceforge.net/"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Canon"},
+{"url": "http://www.canon.com/"},
+{"model": "CanoScan fb630u"},
+{"interface": ["USB"]},
+{"usbid": ["0x04a9", "0x2204"]},
+{"comment": "OK"},
+{"status": "good"},
+
+{"model": "CanoScan fb636u"},
+{"interface": ["USB"]},
+{"usbid": ["0x04a9", "0x2204"]},
+{"status": "good"},
+{"comment": "OK"}
+]

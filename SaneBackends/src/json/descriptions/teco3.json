@@ -1,0 +1,46 @@
+
+[
+{"backend": "teco3"},
+{"version": "1.0-1 (unmaintained)"},
+{"manpage": "sane-teco3"},
+{"url": "http://www.zago.net/sane/#teco3"},
+
+{"devicetype": "scanner"},
+
+
+{"mfg": "Relisys"},
+{"url": "http://www.tecoimage.com.tw/"},
+{"model": "Infinity Scorpio"},
+{"comment": "sub model VM3552"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+
+{"mfg": "Plustek"},
+{"model": "OpticPro 2400SP"},
+{"comment": "sub model VM3552"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"mfg": "PIOTECH"},
+{"url": "http://www.image-land.com/"},
+{"model": "Splendeur 3024"},
+{"comment": "sub model VM3552"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+
+{"mfg": "Trust"},
+{"model": "Imagery 2400 SP"},
+{"comment": "sub model VM3552"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+
+{"model": "Imagery 4800 SP+"},
+{"comment": "sub model VM3552"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+
+{"model": "Imagery 9600 SP"},
+{"comment": "sub model VM3552"},
+{"interface": ["SCSI"]},
+{"status": "untested"}
+]

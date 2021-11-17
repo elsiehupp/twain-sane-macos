@@ -1,0 +1,33 @@
+
+[
+{"backend": "canon_lide70"},
+{"new": "yes"},
+{"url": "http://www.juergen-ernst.de/info_sane.html"},
+{"version": "0"},
+{"manpage": "sane-canon_lide70"},
+{"devicetype": "scanner"},
+
+{"mfg": "Canon"},
+{"url": "http://www.canon.com/"},
+
+{"model": "CanoScan LiDE 70"},
+{"interface": ["USB"]},
+{"url": "http://www.juergen-ernst.de/info_sane.html"},
+{"usbid": ["0x04a9", "0x2225"]},
+{"status": "basic"},
+{"comment": "Please test!"},
+
+{"model": "CanoScan LiDE 600"},
+{"interface": ["USB"]},
+{"url": "http://www.juergen-ernst.de/info_sane.html"},
+{"usbid": ["0x04a9", "0x2224"]},
+{"status": "basic"},
+{"comment": "Please test!"},
+
+{"model": "CanoScan LiDE 600F"},
+{"interface": ["USB"]},
+{"url": "http://www.juergen-ernst.de/info_sane.html"},
+{"usbid": ["0x04a9", "0x2224"]},
+{"status": "basic"},
+{"comment": "Please test!"}
+]

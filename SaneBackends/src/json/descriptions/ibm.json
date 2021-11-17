@@ -1,0 +1,36 @@
+
+
+[
+{"backend": "ibm"},
+{"url": "http://www.meier-geinitz.de/sane/ibm-backend/"},
+{"version": "1.0-4 (unmaintained)"},
+
+{"manpage": "sane-ibm"},
+{"comment": "This backend has had only limited testing. It needs more work especially for the Ricoh scanners. Patches are welcome."},
+
+{"devicetype": "scanner"},
+
+{"mfg": "IBM"},
+{"url": "http://www.ibm.com/"},
+
+{"model": "2456"},
+{"interface": ["SCSI"]},
+{"status": "basic"},
+{"comment": "Was reported to work long time ago. Reports are welcome."},
+
+{"mfg": "Ricoh"},
+{"model": "IS-410"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+{"comment": "Untested, please report!"},
+
+{"model": "IS-420"},
+{"interface": ["SCSI"]},
+{"status": "basic"},
+{"comment": "Works at least in flatbed mode."},
+
+{"model": "IS-430"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+{"comment": "Untested, please report!"}
+]

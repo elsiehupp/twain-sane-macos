@@ -1,0 +1,90 @@
+
+[
+{"backend": "pieusb"},
+{"version": "1.0 (unmaintained)"},
+{"new": "no"},
+{"manpage": "sane-pieusb"},
+{"url": "https://github.com/kkaempf/sane-backends"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "PIE"},
+{"url": "http://www.scanace.com"},
+
+{"model": "PowerSlide 3600"},
+{"interface": ["USB"]},
+{"usbid": ["0x05e3", "0x0142"]},
+{"status": "untested"},
+{"comment": "Identical to Reflecta DigitDia 3600"},
+
+{"model": "PowerSlide 3650"},
+{"interface": ["USB"]},
+{"usbid": ["0x05e3", "0x0142"]},
+{"status": "basic"},
+{"comment": "Identical to Reflecta DigitDia 4000"},
+
+{"model": "PowerSlide 4000"},
+{"interface": ["USB"]},
+{"usbid": ["0x05e3", "0x0142"]},
+{"status": "basic"},
+{"comment": "Identical to Reflecta DigitDia 5000"},
+
+{"model": "PowerSlide 5000"},
+{"interface": ["USB"]},
+{"usbid": ["0x05e3", "0x0142"]},
+{"status": "basic"},
+{"comment": "Identical to Reflecta DigitDia 6000"},
+
+{"mfg": "Reflecta"},
+{"url": "https://reflecta.de"},
+
+{"model": "Reflecta ProScan 10T"},
+{"interface": ["USB"]},
+{"usbid": ["0x05e3", "0x0145"]},
+{"status": "basic"},
+
+{"model": "Reflecta ProScan 7200"},
+{"interface": ["USB"]},
+{"usbid": ["0x05e3", "0x0145"]},
+{"status": "good"},
+{"comment": "Similar to PrimeFilm 7250 scanner from Pacific Image Electronics"},
+
+{"model": "CrystalScan 3600"},
+{"interface": ["USB"]},
+{"usbid": ["0x05e3", "0x0145"]},
+{"status": "basic"},
+
+{"model": "CrystalScan 7200"},
+{"interface": ["USB"]},
+{"status": "untested"},
+
+{"model": "Reflecta CrystalScan 7250"},
+{"interface": ["USB"]},
+{"usbid": ["0x05e3", "0x0145"]},
+{"status": "basic"},
+{"comment": "Similar to PrimeFilm 7250 scanner from Pacific Image Electronics"},
+
+{"model": "DigitDia 3600"},
+{"interface": ["USB"]},
+{"usbid": ["0x05e3", "0x0142"]},
+{"status": "untested"},
+{"comment": "Identical to Pacific Image Electronics PowerSlide 3600 scanner"},
+
+{"model": "DigitDia 4000"},
+{"interface": ["USB"]},
+{"usbid": ["0x05e3", "0x0142"]},
+{"status": "basic"},
+{"comment": "Identical to Pacific Image Electronics PowerSlide 3650 scanner"},
+
+{"model": "DigitDia 5000"},
+{"interface": ["USB"]},
+{"usbid": ["0x05e3", "0x0142"]},
+{"status": "untested"},
+{"comment": "Identical to Pacific Image Electronics PowerSlide 4000 scanner"},
+
+{"model": "Reflecta DigitDia 6000 Multiple Slide Scanner"},
+{"interface": ["USB"]},
+{"usbid": ["0x05e3", "0x0142"]},
+{"status": "good"},
+{"comment": "Identical to Pacific Image Electronics PowerSlide 5000 scanner"}
+]

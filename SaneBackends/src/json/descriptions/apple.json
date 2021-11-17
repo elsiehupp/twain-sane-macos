@@ -1,0 +1,25 @@
+[
+{"credit": "Apple backend .desc file by Milon Firikis."},
+{"backend": "apple"},
+{"version": "unmaintained"},
+{"manpage": "sane-apple"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Apple"},
+{"url": "http://developer.apple.com/"},
+{"model": "Apple Scanner"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+{"comment": "4bit, 16 shades of gray"},
+
+{"model": "OneScanner"},
+{"interface": ["SCSI"]},
+{"comment": "8bit, 256 shades of gray. The backend needs work especially in the quantization code but it may work."},
+{"status": "basic"},
+
+{"model": "Color OneScanner"},
+{"interface": ["SCSI"]},
+{"status": "minimal"},
+{"comment": "truecolor (needs much work) but it scans in non color modes."}
+]

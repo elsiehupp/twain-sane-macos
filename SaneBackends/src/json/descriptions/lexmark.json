@@ -1,0 +1,76 @@
+[
+{"backend": "lexmark"},
+{"version": "1.0-0 (unmaintained)"},
+{"manpage": "sane-lexmark"},
+{"url": "http://stef.dev.free.fr/sane/lexmark"},
+
+{"comment": "This backend supports lexmark x1100 series scanners."},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Lexmark"},
+{"url": "http://www.lexmark.com/"},
+
+{"model": "X1110"},
+{"interface": ["USB"]},
+{"usbid": ["0x043d", "0x007c"]},
+{"status": "untested"},
+
+{"model": "X1130"},
+{"interface": ["USB"]},
+{"usbid": ["0x043d", "0x007c"]},
+{"status": "good"},
+{"comment": "Supports 75, 150, 300, 600 dpi"},
+
+{"model": "X1140"},
+{"interface": ["USB"]},
+{"usbid": ["0x043d", "0x007c"]},
+{"status": "untested"},
+
+{"model": "X1150"},
+{"interface": ["USB"]},
+{"usbid": ["0x043d", "0x007c"]},
+{"status": "good"},
+{"comment": "Supports 75, 150, 300, 600 dpi"},
+
+{"model": "X1170"},
+{"interface": ["USB"]},
+{"usbid": ["0x043d", "0x007c"]},
+{"status": "good"},
+{"comment": "Supports 75, 150, 300, 600 dpi"},
+
+{"model": "X1180"},
+{"interface": ["USB"]},
+{"usbid": ["0x043d", "0x007c"]},
+{"status": "good"},
+
+{"model": "X1185"},
+{"interface": ["USB"]},
+{"usbid": ["0x043d", "0x007c"]},
+{"status": "good"},
+{"comment": "Tested with xscanimage. Supports 75, 150, 300, 600, 1200(600x1200) dpi resolutions. Does grayscale or colour scans in the following sizes: wallet, 3x5, 4x6, 5x7, 8x10, letter."},
+
+{"model": "X1195"},
+{"interface": ["USB"]},
+{"usbid": ["0x043d", "0x007c"]},
+{"status": "untested"},
+
+{"model": "X74"},
+{"interface": ["USB"]},
+{"usbid": ["0x043d", "0x0060"]},
+{"status": "good"},
+{"comment": "Supports 75, 150, 300, 600 dpi"},
+
+{"model": "X12xx"},
+{"interface": ["USB"]},
+{"usbid": ["0x043d", "0x007d"]},
+{"status": "good"},
+{"comment": "USB1.1 is OK, USB2.0 needs testing"},
+
+{"mfg": "Dell"},
+{"model": "A920"},
+{"interface": ["USB"]},
+{"usbid": ["0x413c", "0x5105"]},
+{"status": "good"},
+{"comment": "Relabelled X11xx model"}
+]

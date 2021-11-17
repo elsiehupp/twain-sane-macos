@@ -1,0 +1,27 @@
+[
+{"backend": "ma1509"},
+{"version": "1.0-3 (unmaintained)"},
+{"manpage": "sane-ma1509"},
+{"url": "http://www.meier-geinitz.de/sane/ma1509-backend/"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Mustek"},
+{"url": "http://www.mustek.com/"},
+{"url": "http://www.mustek.com.tw/"},
+{"url": "http://www.mustek.de/"},
+
+{"model": "BearPaw 1200 F"},
+{"interface": ["USB"]},
+{"usbid": ["0x055f", "0x0010"]},
+{"status": "good"},
+{"comment": "Works up to 600 dpi. No support for TA and ADF yet."},
+{"mfg": "Fujitsu"},
+{"url": "http://www.fujitsu.com/"},
+
+{"model": "fi-4110EOX/2/3"},
+{"interface": ["USB"]},
+{"usbid": ["0x04c5", "0x1040"]},
+{"status": "unsupported"},
+{"comment": "Uses ma1509 chip, but very different from other scanners supported by the ma1509 backend"}
+]

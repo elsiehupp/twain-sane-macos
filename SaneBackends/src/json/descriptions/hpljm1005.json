@@ -1,0 +1,28 @@
+[
+{"backend": "hpljm1005"},
+{"version": "0 (unmaintained)"},
+{"manpage": "sane-hpljm1005"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Hewlett-Packard"},
+{"url": "http://www.hp.com"},
+
+{"model": "LaserJet M1005 MFP"},
+{"interface": ["USB"]},
+{"usbid": ["0x03f0", "0x3b17"]},
+{"status": "good"},
+{"comment": "grayscale/color (24 bit), 75/100/150/200/300/600/1200 DPI"},
+
+{"model": "LaserJet M1120 MFP"},
+{"interface": ["USB"]},
+{"usbid": ["0x03f0", "0x5617"]},
+{"status": "good"},
+{"comment": "grayscale/color (24 bit), 75/100/150/200/300/600/1200 DPI"},
+
+{"model": "LaserJet M1120n MFP"},
+{"interface": ["USB"]},
+{"usbid": ["0x03f0", "0x5717"]},
+{"status": "good"},
+{"comment": "grayscale/color (24 bit), 75/100/150/200/300/600/1200 DPI"}
+]

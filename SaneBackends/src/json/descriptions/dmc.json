@@ -1,0 +1,14 @@
+[
+{"backend": "dmc"},
+{"version": "unmaintained"},
+{"manpage": "sane-dmc"},
+{"devicetype": "stillcam"},
+
+{"mfg": "Polaroid"},
+{"url": "http://www.polaroid.com/"},
+
+{"model": "DMC"},
+{"interface": ["SCSI"]},
+{"redacted-url": "http://digitalimage.polaroid.com/products/digital_imaging/digital_cameras/dmcsuite/dmc/"},
+{"status": "good"}
+]

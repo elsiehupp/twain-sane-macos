@@ -1,0 +1,40 @@
+[
+{"backend": "sharp"},
+{"version": "0.32 (unmaintained)"},
+{"url": "http://www.satzbau-gmbh.de/staff/abel/sane-sharp.html"},
+{"manpage": "sane-sharp"},
+{"devicetype": "scanner"},
+
+{"mfg": "Sharp"},
+{"url": "http://sharp-world.com/"},
+
+{"model": "JX-610"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+{"comment": ""},
+
+{"model": "JX-250"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+{"comment": ""},
+
+{"model": "JX-320"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+{"comment": ""},
+
+{"model": "JX-325"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+{"comment": ""},
+
+{"model": "JX-330"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+{"comment": ""},
+
+{"model": "JX-350"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+{"comment": ""}
+]

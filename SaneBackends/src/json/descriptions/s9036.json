@@ -1,0 +1,14 @@
+[
+{"backend": "s9036"},
+{"version": "unmaintained"},
+{"manpage": "sane-s9036"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Siemens"},
+{"url": "http://www.siemens.com/"},
+
+{"model": "9036 Flatbed scanner"},
+{"interface": ["SCSI"]},
+{"status": "basic"}
+]

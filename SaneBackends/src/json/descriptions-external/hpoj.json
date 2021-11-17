@@ -1,0 +1,19 @@
+
+[
+{"backend": "hpoj"},
+{"version": "(unmaintained)"},
+{"url": "http://hpoj.sourceforge.net/"},
+{"comment": "HPOJ is not maintained anymore. It's recommended to use the hpaio (hplip) backend instead of HPOJ."},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Hewlett-Packard"},
+{"url": "http://www.hp.com/go/all-in-one"},
+
+{"model": "Most HP OfficeJet, LaserJet, and PSC (Printer/Scanner/Copier) multi-function peripherals"},
+{"url": "http://hpoj.sourceforge.net/suplist.shtml"},
+{"interface": ["JetDirect", "Parport(ECP)", "USB"]},
+{"status": "good"},
+{"comment": "HPOJ is not maintained anymore. It's recommended to use the hpaio (hplip) backend instead of hpoj."},
+{"usbid": ["ignore"]}
+]

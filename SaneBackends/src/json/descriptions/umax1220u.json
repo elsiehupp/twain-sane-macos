@@ -1,0 +1,33 @@
+
+[
+{"backend": "umax1220u"},
+{"version": "unmaintained"},
+
+{"manpage": "sane-umax1220u"},
+{"url": "http://sourceforge.net/projects/umax1220u-sane"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "UMAX"},
+{"url": "http://www.umax.com/"},
+
+{"model": "Astra 1220U"},
+{"interface": ["USB"]},
+{"usbid": ["0x1606", "0x0010"]},
+{"status": "good"},
+
+{"model": "Astra 1600U"},
+{"interface": ["USB"]},
+{"usbid": ["0x1606", "0x0030"]},
+{"status": "good"},
+
+{"model": "Astra 2000U"},
+{"interface": ["USB"]},
+{"usbid": ["0x1606", "0x0030"]},
+{"status": "good"},
+
+{"model": "Astra 2100U"},
+{"interface": ["USB"]},
+{"usbid": ["0x1606", "0x0130"]},
+{"status": "good"}
+]

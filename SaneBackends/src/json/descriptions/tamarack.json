@@ -1,0 +1,27 @@
+
+[
+{"backend": "tamarack"},
+{"version": "unmaintained"},
+
+{"manpage": "sane-tamarack"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Tamarack"},
+{"redacted-url": "http://www.tamarack.net/"},
+
+{"model": "Artiscan 6000C"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+{"comment": "3 pass, 300 DPI"},
+
+{"model": "Artiscan 8000C"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+{"comment": "3 pass, 400 DPI"},
+
+{"model": "Artiscan 12000C"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+{"comment": "3 pass, 600 DPI"}
+]

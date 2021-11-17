@@ -1,0 +1,57 @@
+
+
+[
+{"backend": "canon"},
+{"manpage": "sane-canon"},
+{"version": "1.12 (unmaintained)"},
+
+{"url": "http://www.rzg.mpg.de/~mpd/sane/"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Canon"},
+{"url": "http://www.canon.com/"},
+
+{"model": "CanoScan 300"},
+{"interface": ["SCSI"]},
+{"comment": "1 pass; flatbed scanner"},
+{"status": "good"},
+
+{"model": "CanoScan 600"},
+{"interface": ["SCSI"]},
+{"comment": "1 pass; flatbed scanner"},
+{"status": "good"},
+
+{"model": "CanoScan 620S"},
+{"interface": ["SCSI"]},
+{"comment": "1 pass; flatbed scanner"},
+{"status": "good"},
+
+{"model": "CanoScan 1200S"},
+{"interface": ["SCSI"]},
+{"comment": "1 pass; flatbed scanner"},
+{"status": "good"},
+
+{"model": "CanoScan 2700F"},
+{"interface": ["SCSI"]},
+{"comment": "1 pass; film scanner"},
+{"status": "good"},
+
+{"model": "CanoScan 2710S"},
+{"interface": ["SCSI"]},
+{"comment": "1 pass; 36bit film scanner"},
+{"status": "good"},
+
+{"model": "IX-4015"},
+{"interface": ["SCSI"]},
+{"comment": "1 pass; flatbed scanner"},
+{"status": "good"},
+
+{"mfg": "Apple"},
+{"url": "http://www.apple.com/"},
+
+{"model": "Color OneScanner 600/27"},
+{"interface": ["SCSI"]},
+{"comment": "Rebadged CanoScan 300"},
+{"status": "good"}
+]

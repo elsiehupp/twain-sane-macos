@@ -1,0 +1,60 @@
+
+[
+{"backend": "matsushita"},
+{"version": "1.0-7 (unmaintained)"},
+{"manpage": "sane-matsushita"},
+{"url": "http://www.zago.net/sane"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Panasonic"},
+{"url": "http://www.panasonic.com/"},
+
+{"model": "KV-SS25"},
+{"interface": ["SCSI"]},
+{"status": "complete"},
+
+{"model": "KV-SS25D"},
+{"interface": ["SCSI"]},
+{"status": "complete"},
+
+{"model": "KV-SS50"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"model": "KV-SS55"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"model": "KV-SS50EX"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"model": "KV-SS55EX"},
+{"interface": ["SCSI"]},
+{"status": "minimal"},
+{"comment": "no color, no high resolution, no automatic cropping"},
+
+{"model": "KV-SS850"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"model": "KV-SS855"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"model": "KV-S2025C"},
+{"interface": ["SCSI"]},
+{"status": "minimal"},
+{"comment": "no color, no high resolution, no automatic cropping"},
+
+{"model": "KV-S2045C"},
+{"interface": ["SCSI"]},
+{"status": "minimal"},
+{"comment": "no color, no high resolution, no automatic cropping"},
+
+{"model": "KV-S2065L"},
+{"interface": ["SCSI"]},
+{"status": "minimal"},
+{"comment": "no color, no high resolution, no automatic cropping"}
+]

@@ -1,0 +1,20 @@
+
+[
+{"backend": "hp3770"},
+{"version": "0.0"},
+{"url": "http://www.cyberbaladeur.fr/telechargement.html"},
+{"comment": "This backend can't be added to the SANE distribution because it consists of binary-only code."},
+
+
+{"devicetype": "scanner"},
+
+{"mfg": "Hewlett Packard"},
+{"url": "http://www.hp.com/"},
+
+{"model": "ScanJet 3770"},
+{"status": "basic"},
+{"interface": ["USB"]},
+{"usbid": ["0x03f0", "0x2505"]},
+{"url": "http://ftp.cyberbaladeur.fr/3770.tar.gz"},
+{"comment": "External backend. Binary-only Linux i386 code. Not supported by the SANE developers. Is reported to scan only a small area? Scanning of slides or negatives is not implemented."}
+]

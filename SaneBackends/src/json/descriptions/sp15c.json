@@ -1,0 +1,21 @@
+
+[
+{"backend": "sp15c"},
+{"version": "unmaintained"},
+{"manpage": "sane-sp15c"},
+{"redacted-url": "http://www.aa.net/~bentson/sane.html"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Fujitsu"},
+{"url": "http://www.fcpa.fujitsu.com/products/scanners/"},
+{"url": "http://www.fujitsu.com/"},
+
+{"model": "ScanPartner 15C"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+
+{"model": "ScanPartner 600C"},
+{"interface": ["SCSI"]},
+{"status": "good"}
+]

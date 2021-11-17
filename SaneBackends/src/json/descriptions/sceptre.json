@@ -1,0 +1,22 @@
+
+[
+{"backend": "sceptre"},
+{"version": "1.0-10 (unmaintained)"},
+{"manpage": "sane-sceptre"},
+{"url": "http://www.zago.net/sane/"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Sceptre"},
+{"url": "http://www.sceptre.com/"},
+{"model": "Vividscan S1200"},
+{"interface": ["SCSI"]},
+{"status": "basic"},
+
+{"mfg": "Komodo"},
+{"url": "http://www.komodo.com/"},
+{"model": "S1200"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+{"comment": "rebadged Sceptre S1200"}
+]

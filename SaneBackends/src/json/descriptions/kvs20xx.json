@@ -1,0 +1,39 @@
+
+[
+{"backend": "kvs20xx"},
+{"version": "unmaintained"},
+{"manpage": "sane-kvs20xx"},
+{"comment": "New backend for SANE release 1.0.22, see sane-kvs20xx manpage"},
+{"devicetype": "scanner"},
+
+{"mfg": "Panasonic"},
+{"url": "http://www.panasonic.com/"},
+
+{"model": "KV-S2025C"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"model": "KV-S2026C"},
+{"interface": ["USB", "SCSI"]},
+{"usbid": ["0x04da", "0x1000"]},
+{"status": "untested"},
+
+{"model": "KV-S2028C"},
+{"interface": ["USB"]},
+{"usbid": ["0x04da", "0x100a"]},
+{"status": "untested"},
+
+{"model": "KV-S2045C"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"model": "KV-S2046C"},
+{"interface": ["USB", "SCSI"]},
+{"usbid": ["0x04da", "0x1001"]},
+{"status": "untested"},
+
+{"model": "KV-S2048C"},
+{"interface": ["USB"]},
+{"usbid": ["0x04da", "0x1009"]},
+{"status": "untested"}
+]

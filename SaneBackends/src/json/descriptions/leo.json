@@ -1,0 +1,25 @@
+[
+{"backend": "leo"},
+{"version": "1.0-10 (unmaintained)"},
+{"manpage": "sane-leo"},
+{"url": "http://www.zago.net/sane/#leo"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "LEO"},
+{"model": "LEOScan S3"},
+{"interface": ["SCSI"]},
+{"comment": "FCC ID LUZFS1130"},
+{"status": "good"},
+
+{"mfg": "Across Technologies"},
+{"model": "FS-1130"},
+{"interface": ["SCSI"]},
+{"comment": "FCC ID LUZFS1130"},
+{"status": "good"},
+
+{"mfg": "Genius"},
+{"model": "FS-1130 Colorpage Scanner"},
+{"interface": ["SCSI"]},
+{"status": "good"}
+]

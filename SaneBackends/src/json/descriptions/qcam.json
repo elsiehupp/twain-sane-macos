@@ -1,0 +1,20 @@
+[
+{"backend": "qcam"},
+{"version": "unmaintained"},
+{"manpage": "sane-qcam"},
+
+{"devicetype": "vidcam"},
+
+{"mfg": "Connectix"},
+{"redacted-url": "http://www.connectix.com/"},
+
+{"model": "Color QuickCam"},
+{"interface": ["Parport"]},
+{"status": "good"},
+{"comment": "Requires root privileges."},
+
+{"model": "Greyscale QuickCam"},
+{"interface": ["Parport"]},
+{"status": "minimal"},
+{"comment": "Requires root privileges. Partly working."}
+]

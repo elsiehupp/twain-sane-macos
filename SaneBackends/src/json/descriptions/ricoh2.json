@@ -1,0 +1,31 @@
+[
+{"backend": "ricoh2"},
+{"version": "1.0 (unmaintained)"},
+{"manpage": "sane-ricoh2"},
+{"url": "http://www.ricoh.com/"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Ricoh"},
+{"url": "http://www.ricoh.com/"},
+
+{"model": "SG-3100SFNw"},
+{"status": "basic"},
+{"interface": ["USB"]},
+{"usbid": ["0x05ca", "0x0439"]},
+
+{"model": "SG-3100SNw"},
+{"status": "basic"},
+{"interface": ["USB"]},
+{"usbid": ["0x05ca", "0x0438"]},
+
+{"model": "SP-100SU"},
+{"status": "untested"},
+{"interface": ["USB"]},
+{"usbid": ["0x05ca", "0x042c"]},
+
+{"model": "SP-111SU/SP-112SU"},
+{"status": "basic"},
+{"interface": ["USB"]},
+{"usbid": ["0x05ca", "0x0448"]}
+]

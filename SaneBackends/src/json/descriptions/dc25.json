@@ -1,0 +1,17 @@
+[
+{"credit": "Kodak DC25 backend .desc file by Peter Fales"},
+{"backend": "dc25"},
+{"version": "1.2 (unmaintained)"},
+{"manpage": "sane-dc25"},
+{"url": "mailto:peter@fales-lorenz.net"},
+{"devicetype": "stillcam"},
+{"mfg": "Kodak"},
+{"url": "http://www.kodak.com/global/en/service/digCam/dc25/dc25.shtml"},
+{"model": "DC25"},
+{"status": "complete"},
+{"interface": ["Serial port"]},
+{"model": "DC20"},
+{"status": "basic"},
+{"interface": ["Serial port"]},
+{"comment": "DC-20 untested by author but reported to work"}
+]

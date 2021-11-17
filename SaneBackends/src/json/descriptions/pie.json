@@ -1,0 +1,85 @@
+
+[
+{"backend": "pie"},
+{"version": "1.0 (unmaintained)"},
+{"manpage": "sane-pie"},
+{"url": "http://www.munton.demon.co.uk/sane"},
+
+{"devicetype": "scanner"},
+
+{"mfg": "Devcom"},
+{"url": "http://www.blackwidow.co.uk/"},
+
+{"model": "9636PRO"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+
+{"model": "9636S"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"model": "9630S"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"mfg": "PIE"},
+{"url": "http://www.scanace.com/"},
+
+{"model": "ScanAce 1236S"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+
+{"model": "ScanAce 1230S"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+
+{"model": "ScanAce II"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"model": "ScanAce III"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+
+{"model": "ScanAce Plus"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"model": "ScanAce II Plus"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"model": "ScanAce III Plus"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"model": "ScanAce V"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"model": "ScanAce ScanMedia"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"model": "ScanAce ScanMedia II"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"model": "ScanAce 630S"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"model": "ScanAce 636S"},
+{"interface": ["SCSI"]},
+{"status": "untested"},
+
+{"mfg": "Adlib"},
+
+{"model": "JetScan630"},
+{"interface": ["SCSI"]},
+{"status": "good"},
+
+{"model": "JetScan636PRO"},
+{"interface": ["SCSI"]},
+{"status": "untested"}
+]

@@ -1,0 +1,15 @@
+
+[
+{"credit": "gphoto2 backend .desc file by Peter S. Fales"},
+{"backend": "gphoto2"},
+{"version": "0.0 (unmaintained)"},
+{"manpage": "sane-gphoto2"},
+{"url": "mailto:peter@fales-lorenz.net"},
+
+{"devicetype": "api"},
+
+{"desc": "Multiple cameras supported by the gphoto2 libraries"},
+{"url": "http://www.gphoto.org"},
+{"interface": ["serial port", "USB"]},
+{"comment": "The long-term plan is to support all the cameras supported by the gphoto2 libraries (currently over 140 models). However, at this stage, only a handful of cameras are definitely known to work with SANE. Other cameras will probably work if the native file format is EXIF or JPEG. Testers welcome!"}
+]

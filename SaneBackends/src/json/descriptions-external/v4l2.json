@@ -1,0 +1,11 @@
+
+[
+{"backend": "v4l2"},
+{"version": "(19991125)"},
+{"manpage": "sane-v4l2"},
+{"url": "http://video.inodes.org/sane-v4l2/"},
+{"comment": "The status of this backend is unknown. It hasn't been updated for years. The v4l2 API is now in Linux 2.5 but it's not clear if the v4l2 backend is compatible to that API."},
+
+{"devicetype": "api"},
+{"desc": "Interface to Video For Linux 2 API"}
+]
