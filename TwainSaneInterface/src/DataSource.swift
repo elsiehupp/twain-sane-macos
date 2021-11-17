@@ -7,1471 +7,1246 @@ import Image
 import Alerts
 
 
-class DataSource:
+class DataSource {
 
-public:
-    DataSource()
-    ~DataSource()
-    TW_UINT16 Entry(pTW_IDENTITY pOrigin,
-                     TW_UINT32    DG,
-                     TW_UINT16    DAT,
-                     TW_UINT16    MSG,
-                     TW_MEMREF    pData)
-    TW_UINT16 CallBack(TW_UINT16 MSG)
+    private var origin: Twain.Identity
+    private var saneDevice: SaneDevice
+    private var twainStatus: Int
 
-    TW_UINT16 SetStatus(TW_UINT16 status, TW_UINT16 retval = TWRC_FAILURE)
-    TW_UINT16 BuildEnumeration(pTW_CAPABILITY capability, TW_UINT16 type, TW_UINT32 numItems,
-                                TW_UINT32 currentIndex, TW_UINT32 defaultIndex, void * values)
-    TW_UINT16 BuildArray(pTW_CAPABILITY capability, TW_UINT16 type, TW_UINT32 numItems,
-                          void * values)
-    TW_UINT16 BuildRange(pTW_CAPABILITY capability, TW_UINT16 type, TW_UINT32 min, TW_UINT32 max,
-                          TW_UINT32 step, TW_UINT32 defvalue, TW_UINT32 value)
-    TW_UINT16 BuildRange(pTW_CAPABILITY capability, TW_UINT16 type, TW_FIX32 min, TW_FIX32 max,
-                          TW_FIX32 step, TW_FIX32 defvalue, TW_FIX32 value)
-    TW_UINT16 BuildOneValue(pTW_CAPABILITY capability, TW_UINT16 type, TW_UINT32 value)
-    TW_UINT16 BuildOneValue(pTW_CAPABILITY capability, TW_UINT16 type, TW_FIX32 value)
-
-private:
-    TW_UINT16 Capability(TW_UINT16 MSG, pTW_CAPABILITY capability)
-    TW_UINT16 Identity(TW_UINT16 MSG, pTW_IDENTITY identity)
-    TW_UINT16 PendingXfers(TW_UINT16 MSG, pTW_PENDINGXFERS pendingxfers)
-    TW_UINT16 SetupMemXfer(TW_UINT16 MSG, pTW_SETUPMEMXFER setupmemxfer)
-    TW_UINT16 Status(TW_UINT16 MSG, pTW_STATUS status)
-    TW_UINT16 UserInterface(TW_UINT16 MSG, pTW_USERINTERFACE userinterface)
-    TW_UINT16 XferGroup(TW_UINT16 MSG, pTW_UINT32 xfergroup)
-    TW_UINT16 CustomDSData(TW_UINT16 MSG, pTW_CUSTOMDSDATA customdsdata)
-    TW_UINT16 ImageInfo(TW_UINT16 MSG, pTW_IMAGEINFO imageinfo)
-    TW_UINT16 ImageLayout(TW_UINT16 MSG, pTW_IMAGELAYOUT imagelayout)
-    TW_UINT16 ImageMemXfer(TW_UINT16 MSG, pTW_IMAGEMEMXFER imagememxfer)
-    TW_UINT16 ImageNativeXfer(TW_UINT16 MSG, pTW_UINT32 handle)
-    TW_UINT16 Palette8 (TW_UINT16 MSG, pTW_PALETTE8 palette8)
-
-    pTW_IDENTITY origin
-    SaneDevice * sanedevice
-    TW_UINT16 twainstatus
-
-    enum State {
+    private enum state: State {
         STATE_3 = 3,
         STATE_4 = 4,
         STATE_5 = 5,
         STATE_6 = 6,
         STATE_7 = 7
-    } state
-
-    TW_UINT16 cap_XferMech
-
-    TW_UINT32 writtenlines
-    Bool uionly
-    Bool indicators
-}
-
-
-DataSource.DataSource() : origin(nil),
-                            sanedevice(nil),
-                            twainstatus(TWCC_SUCCESS),
-                            state(STATE_3),
-                            cap_XferMech(TWSX_NATIVE),
-                            indicators(true) {}
-
-
-DataSource.~DataSource() {
-
-    if(sanedevice) delete sanedevice
-}
-
-
-TW_UINT16 DataSource.Entry(pTW_IDENTITY pOrigin,
-                             TW_UINT32    DG,
-                             TW_UINT16    DAT,
-                             TW_UINT16    MSG,
-                             TW_MEMREF    pData) {
-
-    origin = pOrigin
-
-    if(DG != DG_CONTROL || DAT != DAT_STATUS) twainstatus = TWCC_SUCCESS
-
-    switch(DG) {
-
-        case DG_CONTROL:
-
-            switch(DAT) {
-
-                case DAT_CAPABILITY:
-
-                    return Capability(MSG, (pTW_CAPABILITY) pData)
-                    break
-/*
-                case DAT_EVENT:
-
-                    // Not applicable to Mac OS X
-                    return SetStatus(TWCC_BADPROTOCOL)
-                    break
-*/
-                case DAT_IDENTITY:
-
-                    return Identity(MSG, (pTW_IDENTITY) pData)
-                    break
-
-                case DAT_PENDINGXFERS:
-
-                    return PendingXfers(MSG, (pTW_PENDINGXFERS) pData)
-                    break
-
-                case DAT_SETUPMEMXFER:
-
-                    return SetupMemXfer(MSG, (pTW_SETUPMEMXFER) pData)
-                    break
-
-                case DAT_STATUS:
-
-                    return Status(MSG, (pTW_STATUS) pData)
-                    break
-
-                case DAT_USERINTERFACE:
-
-                    return UserInterface(MSG, (pTW_USERINTERFACE) pData)
-                    break
-
-                case DAT_XFERGROUP:
-
-                    return XferGroup(MSG, (pTW_UINT32) pData)
-                    break
-
-                case DAT_CUSTOMDSDATA:
-
-                    return CustomDSData(MSG, (pTW_CUSTOMDSDATA) pData)
-                    break
-
-                default:
-
-                    return SetStatus(TWCC_BADPROTOCOL)
-                    break
-            }
-            break
-
-        case DG_IMAGE:
-
-            switch(DAT) {
-
-                case DAT_IMAGEINFO:
-
-                    return ImageInfo(MSG, (pTW_IMAGEINFO) pData)
-                    break
-
-                case DAT_IMAGELAYOUT:
-
-                    return ImageLayout(MSG, (pTW_IMAGELAYOUT) pData)
-                    break
-
-                case DAT_IMAGEMEMXFER:
-
-                    return ImageMemXfer(MSG, (pTW_IMAGEMEMXFER) pData)
-                    break
-
-                case DAT_IMAGENATIVEXFER:
-
-                    return ImageNativeXfer(MSG, (pTW_UINT32) pData)
-                    break
-
-                case DAT_PALETTE8:
-
-                    return Palette8 (MSG, (pTW_PALETTE8) pData)
-                    break
-
-                default:
-
-                    return SetStatus(TWCC_BADPROTOCOL)
-                    break
-            }
-            break
-
-        default:
-
-            return SetStatus(TWCC_BADPROTOCOL)
-            break
-    }
-}
-
-
-TW_UINT16 DataSource.CallBack(TW_UINT16 MSG) {
-
-    TW_CALLBACK callback = { nil, 0, MSG }
-
-    switch(MSG) {
-
-        case MSG_XFERREADY:
-
-            if(state != STATE_5) return SetStatus(TWCC_SEQERROR)
-            state = STATE_6
-            return DSM_Entry(origin, nil, DG_CONTROL, DAT_CALLBACK,
-                              MSG_INVOKE_CALLBACK, (TW_MEMREF) &callback)
-            break
-
-        case MSG_CLOSEDSREQ:
-
-            if(state < STATE_5 || state > STATE_7) return SetStatus(TWCC_SEQERROR)
-            if(uionly) {
-                sanedevice.HideUI()
-                state = STATE_4
-            }
-            else
-                state = STATE_5
-            return DSM_Entry(origin, nil, DG_CONTROL, DAT_CALLBACK,
-                              MSG_INVOKE_CALLBACK, (TW_MEMREF) &callback)
-            break
-
-        case MSG_CLOSEDSOK:
-
-            if(state != STATE_5) return SetStatus(TWCC_SEQERROR)
-            sanedevice.HideUI()
-            state = STATE_4
-            return DSM_Entry(origin, nil, DG_CONTROL, DAT_CALLBACK,
-                              MSG_INVOKE_CALLBACK, (TW_MEMREF) &callback)
-            break
-
-        default:
-
-            return SetStatus(TWCC_BADPROTOCOL)
-            break
-    }
-}
-
-
-TW_UINT16 DataSource.Capability(TW_UINT16 MSG, pTW_CAPABILITY capability) {
-
-    switch(MSG) {
-
-        case MSG_GET:
-        case MSG_GETCURRENT:
-        case MSG_GETDEFAULT:
-        case MSG_QUERYSUPPORT:
-
-            if(state < STATE_4 || state > STATE_7) return SetStatus(TWCC_SEQERROR)
-            break
-
-        case MSG_SET:
-        case MSG_RESET:
-
-            if(state != STATE_4) return SetStatus(TWCC_SEQERROR)
-            break
-
-        default:
-
-            return SetStatus(TWCC_BADPROTOCOL)
-            break
     }
 
-    switch(capability.Cap) {
+    private var cap_XferMech: Int
 
-        case CAP_XFERCOUNT:
+    private var writtenlines: Int
+    private var uionly: Bool
+    private var indicators: Bool
 
-            switch(MSG) {
 
-                case MSG_GET:
-                case MSG_GETCURRENT:
-                case MSG_GETDEFAULT:
-                case MSG_RESET:
+    public func DataSource() {
+        origin(nil)
+        saneDevice(nil)
+        twainStatus(TWCC_SUCCESS)
+        state(STATE_3)
+        cap_XferMech(TWSX_NATIVE)
+        indicators(true)
+    }
 
-                    return BuildOneValue(capability, TWTY_INT16, (TW_UINT32) -1)
-                    break
 
-                case MSG_SET:
+    // public func ~DataSource() {
+    //     if(saneDevice) delete saneDevice
+    // }
 
-                    if(capability.ConType != TWON_ONEVALUE) return SetStatus(TWCC_BADVALUE)
-                    if(((pTW_ONEVALUE) *(Handle) capability.hContainer).Item != (TW_UINT32) -1)
-                        return SetStatus(TWCC_BADVALUE)
-                    return TWRC_SUCCESS
-                    break
 
-                case MSG_QUERYSUPPORT:
+    public func Entry(
+        pOrigin: Twain.Identity,
+        DG: Int,
+        DAT: Int,
+        message: Int,
+        pData: Twain.MemoryReference) -> Int {
 
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET | TWQC_SET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
-                    break
+        self.origin = pOrigin
 
-                default:
-                    // All cases handled
-                    break
-            }
+        if DG != DG_CONTROL || DAT != DAT_STATUS {
+            self.twainStatus = TWCC_SUCCESS
+        }
 
-        case ICAP_COMPRESSION:
+        switch DG {
 
-            switch(MSG) {
+            case DG_CONTROL:
 
-                case MSG_GET:
-                case MSG_GETCURRENT:
-                case MSG_GETDEFAULT:
+                switch DAT {
 
-                    return BuildOneValue(capability, TWTY_UINT16, TWCP_NONE)
-                    break
+                    case DAT_CAPABILITY:
+                        return Capability(message, Twain.Capability(pData))
 
-                case MSG_QUERYSUPPORT:
+                    // case DAT_EVENT:
+                    //     // Not applicable to Mac OS X
+                    //     return SetStatus(TWCC_BADPROTOCOL)
 
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT)
-                    break
+                    case DAT_IDENTITY:
+                        return Identity(message, Twain.Identity(pData))
 
-                default:
+                    case DAT_PENDINGXFERS:
+                        return PendingTransfers(message, Twain.PendingTransfers(pData))
 
-                    return SetStatus(TWCC_CAPBADOPERATION)
-                    break
-            }
+                    case DAT_SETUPMEMXFER:
+                        return SetupMemoryTransfer(message, Twain.SetupMemoryTransfer(pData))
 
-        case ICAP_PIXELTYPE:
+                    case DAT_STATUS:
+                        return Status(message, Twain.Status(pData))
 
-            switch(MSG) {
+                    case DAT_USERINTERFACE:
+                        return UserInterface(message, Twain.UserInterface(pData))
 
-                case MSG_GET:
+                    case DAT_XFERGROUP:
+                        return TransferGroup(message, Int(pData))
 
-                    return sanedevice.GetPixelType(capability, false)
-                    break
+                    case DAT_CUSTOMDSDATA:
+                        return CustomDSData(message, Twain.CustomDSData(pData))
 
-                case MSG_GETCURRENT:
+                    default:
+                        return SetStatus(TWCC_BADPROTOCOL)
+                }
+                break
 
-                    return sanedevice.GetPixelType(capability, true)
-                    break
+            case DG_IMAGE:
 
-                case MSG_GETDEFAULT:
+                switch DAT {
 
-                    return sanedevice.GetPixelTypeDefault(capability)
-                    break
+                    case DAT_IMAGEINFO:
+                        return ImageInfo(message, Twain.ImageInfo(pData))
 
-                case MSG_SET:
+                    case DAT_IMAGELAYOUT:
+                        return ImageLayout(message, Twain.ImageLayout(pData))
 
-                    return sanedevice.SetPixelType(capability)
-                    break
+                    case DAT_IMAGEMEMXFER:
+                        return ImageMemoryTransfer(message, Twain.ImageMemoryTransfer(pData))
 
-                case MSG_RESET:
+                    case DAT_IMAGENATIVEXFER:
+                        return ImageNativeTransfer(message, Int(pData))
 
-                    return sanedevice.SetPixelType(nil)
-                    break
+                    case DAT_PALETTE8:
+                        return Palette8(message, Twain.Palette8(pData))
 
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET | TWQC_SET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
-                    break
-
-                default:
-                    // All cases handled
-                    break
-            }
-
-        case ICAP_UNITS:
-
-            switch(MSG) {
-
-                case MSG_GET:
-                case MSG_GETCURRENT:
-                case MSG_GETDEFAULT:
-                case MSG_RESET:
-
-                    return BuildOneValue(capability, TWTY_UINT16, TWUN_INCHES)
-                    break
-
-                case MSG_SET:
-
-                    if(capability.ConType != TWON_ONEVALUE) return SetStatus(TWCC_BADVALUE)
-                    if(((pTW_ONEVALUE) *(Handle) capability.hContainer).Item != TWUN_INCHES)
-                        return SetStatus(TWCC_BADVALUE)
-                    return TWRC_SUCCESS
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET | TWQC_SET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
-                    break
-
-                default:
-                    // All cases handled
-                    break
-            }
-
-        case ICAP_XFERMECH:
-
-            switch(MSG) {
-
-                case MSG_GET: {
-
-                    TW_UINT16 mechs[] =  { TWSX_NATIVE, TWSX_MEMORY }
-                    return BuildEnumeration(capability, TWTY_UINT16,
-                                             sizeof(mechs) / sizeof(TW_UINT16),
-                                             (cap_XferMech == TWSX_NATIVE ? 0 : 1), 0, mechs)
-                    break
+                    default:
+                        return SetStatus(TWCC_BADPROTOCOL)
                 }
 
-                case MSG_GETCURRENT:
+            default:
+                return SetStatus(TWCC_BADPROTOCOL)
+        }
+    }
 
-                    return BuildOneValue(capability, TWTY_UINT16, cap_XferMech)
-                    break
 
-                case MSG_GETDEFAULT:
+    public func CallBack(message: Int) -> Int {
 
-                    return BuildOneValue(capability, TWTY_UINT16, TWSX_NATIVE)
-                    break
+        var callback: TW_CALLBACK = [ nil, 0, message ]
 
-                case MSG_SET:
+        switch message {
 
-                    if(capability.ConType != TWON_ONEVALUE) return SetStatus(TWCC_BADVALUE)
-                    cap_XferMech = ((pTW_ONEVALUE) *(Handle) capability.hContainer).Item
-                    if(cap_XferMech != TWSX_NATIVE && cap_XferMech != TWSX_MEMORY) {
-                        cap_XferMech = TWSX_NATIVE
-                        return TWRC_CHECKSTATUS
-                    }
-                    return TWRC_SUCCESS
-                    break
-
-                case MSG_RESET:
-
-                    cap_XferMech = TWSX_NATIVE
-                    return BuildOneValue(capability, TWTY_INT16, cap_XferMech)
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET | TWQC_SET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
-                    break
-
-                default:
-                    // All cases handled
-                    break
-            }
-
-        case CAP_SUPPORTEDCAPS:
-
-            switch(MSG) {
-
-                case MSG_GET: {
-
-                    TW_UINT16 caps[] = {
-                        CAP_XFERCOUNT,
-                        ICAP_COMPRESSION,
-                        ICAP_PIXELTYPE,
-                        ICAP_UNITS,
-                        ICAP_XFERMECH,
-                        CAP_SUPPORTEDCAPS,
-                        CAP_INDICATORS,
-                        CAP_UICONTROLLABLE,
-                        CAP_DEVICEONLINE,
-                        CAP_ENABLEDSUIONLY,
-                        ICAP_BRIGHTNESS,
-                        ICAP_CONTRAST,
-                        ICAP_PHYSICALWIDTH,
-                        ICAP_PHYSICALHEIGHT,
-                        ICAP_XNATIVERESOLUTION,
-                        ICAP_YNATIVERESOLUTION,
-                        ICAP_XRESOLUTION,
-                        ICAP_YRESOLUTION,
-                        ICAP_BITORDER,
-                        ICAP_PIXELFLAVOR,
-                        ICAP_PLANARCHUNKY,
-                        ICAP_BITDEPTH
-                    }
-                    return BuildArray(capability, TWTY_UINT16,
-                                       sizeof(caps) / sizeof(TW_UINT16), caps)
-                    break
+            case MSG_XFERREADY:
+                if state != STATE_5 {
+                    return SetStatus(TWCC_SEQERROR)
                 }
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET)
-                    break
-
-                default:
-
-                    return SetStatus(TWCC_CAPBADOPERATION)
-                    break
-            }
-
-        case CAP_INDICATORS:
-
-            switch(MSG) {
-
-                case MSG_GET:
-                case MSG_GETCURRENT:
-
-                    return BuildOneValue(capability, TWTY_BOOL, indicators)
-                    break
-
-                case MSG_GETDEFAULT:
-
-                    return BuildOneValue(capability, TWTY_BOOL, true)
-                    break
-
-                case MSG_SET:
-
-                    if(capability.ConType != TWON_ONEVALUE) return SetStatus(TWCC_BADVALUE)
-                    indicators = ((pTW_ONEVALUE) *(Handle) capability.hContainer).Item
-                    return TWRC_SUCCESS
-                    break
-
-                case MSG_RESET:
-
-                    indicators = true
-                    return BuildOneValue(capability, TWTY_BOOL, indicators)
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET | TWQC_SET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
-                    break
-
-                default:
-                    // All cases handled
-                    break
-            }
-
-        case CAP_UICONTROLLABLE:
-
-            switch(MSG) {
-
-                case MSG_GET:
-
-                    return BuildOneValue(capability, TWTY_BOOL, true)
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET)
-                    break
-
-                default:
-
-                    return SetStatus(TWCC_CAPBADOPERATION)
-                    break
-            }
-
-        case CAP_DEVICEONLINE:
-
-            switch(MSG) {
-
-                case MSG_GET:
-
-                    return BuildOneValue(capability, TWTY_BOOL, true)
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET)
-                    break
-
-                default:
-
-                    return SetStatus(TWCC_CAPBADOPERATION)
-                    break
-            }
-
-        case CAP_ENABLEDSUIONLY:
-
-            switch(MSG) {
-
-                case MSG_GET:
-
-                    return BuildOneValue(capability, TWTY_BOOL, true)
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET)
-                    break
-
-                default:
-
-                    return SetStatus(TWCC_CAPBADOPERATION)
-                    break
-            }
-
-        case ICAP_BRIGHTNESS:
-
-            switch(MSG) {
-
-                case MSG_GET:
-
-                    return sanedevice.GetBrightness(capability, false)
-                    break
-
-                case MSG_GETCURRENT:
-
-                    return sanedevice.GetBrightness(capability, true)
-                    break
-
-                case MSG_GETDEFAULT:
-
-                    return sanedevice.GetBrightnessDefault(capability)
-                    break
-
-                case MSG_SET:
-
-                    return sanedevice.SetBrightness(capability)
-                    break
-
-                case MSG_RESET:
-
-                    return sanedevice.SetBrightness(nil)
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET | TWQC_SET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
-                    break
-
-                default:
-                    // All cases handled
-                    break
-            }
-
-        case ICAP_CONTRAST:
-
-            switch(MSG) {
-
-                case MSG_GET:
-
-                    return sanedevice.GetContrast(capability, false)
-                    break
-
-                case MSG_GETCURRENT:
-
-                    return sanedevice.GetContrast(capability, true)
-                    break
-
-                case MSG_GETDEFAULT:
-
-                    return sanedevice.GetContrastDefault(capability)
-                    break
-
-                case MSG_SET:
-
-                    return sanedevice.SetContrast(capability)
-                    break
-
-                case MSG_RESET:
-
-                    return sanedevice.SetContrast(nil)
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET | TWQC_SET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
-                    break
-
-                default:
-                    // All cases handled
-                    break
-            }
-
-        case ICAP_PHYSICALWIDTH:
-
-            switch(MSG) {
-
-                case MSG_GET:
-                case MSG_GETCURRENT:
-                case MSG_GETDEFAULT:
-
-                    return sanedevice.GetPhysicalWidth(capability)
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT)
-                    break
-
-                default:
-
-                    return SetStatus(TWCC_CAPBADOPERATION)
-                    break
-            }
-
-        case ICAP_PHYSICALHEIGHT:
-
-            switch(MSG) {
-
-                case MSG_GET:
-                case MSG_GETCURRENT:
-                case MSG_GETDEFAULT:
-
-                    return sanedevice.GetPhysicalHeight(capability)
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT)
-                    break
-
-                default:
-
-                    return SetStatus(TWCC_CAPBADOPERATION)
-                    break
-            }
-
-        case ICAP_XNATIVERESOLUTION:
-
-            switch(MSG) {
-
-                case MSG_GET:
-                case MSG_GETCURRENT:
-                case MSG_GETDEFAULT:
-
-                    return sanedevice.GetXNativeResolution(capability)
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT)
-                    break
-
-                default:
-
-                    return SetStatus(TWCC_CAPBADOPERATION)
-                    break
-            }
-
-        case ICAP_YNATIVERESOLUTION:
-
-            switch(MSG) {
-
-                case MSG_GET:
-                case MSG_GETCURRENT:
-                case MSG_GETDEFAULT:
-
-                    return sanedevice.GetYNativeResolution(capability)
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT)
-                    break
-
-                default:
-
-                    return SetStatus(TWCC_CAPBADOPERATION)
-                    break
-            }
-
-        case ICAP_XRESOLUTION:
-
-            switch(MSG) {
-
-                case MSG_GET:
-
-                    return sanedevice.GetXResolution(capability, false)
-                    break
-
-                case MSG_GETCURRENT:
-
-                    return sanedevice.GetXResolution(capability, true)
-                    break
-
-                case MSG_GETDEFAULT:
-
-                    return sanedevice.GetXResolutionDefault(capability)
-                    break
-
-                case MSG_SET:
-
-                    return sanedevice.SetXResolution(capability)
-                    break
-
-                case MSG_RESET:
-
-                    return sanedevice.SetXResolution(nil)
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET | TWQC_SET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
-                    break
-
-                default:
-                    // All cases handled
-                    break
-            }
-
-        case ICAP_YRESOLUTION:
-
-            switch(MSG) {
-
-                case MSG_GET:
-
-                    return sanedevice.GetYResolution(capability, false)
-                    break
-
-                case MSG_GETCURRENT:
-
-                    return sanedevice.GetYResolution(capability, true)
-                    break
-
-                case MSG_GETDEFAULT:
-
-                    return sanedevice.GetYResolutionDefault(capability)
-                    break
-
-                case MSG_SET:
-
-                    return sanedevice.SetYResolution(capability)
-                    break
-
-                case MSG_RESET:
-
-                    return sanedevice.SetYResolution(nil)
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET | TWQC_SET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
-                    break
-
-                default:
-                    // All cases handled
-                    break
-            }
-
-        case ICAP_BITORDER:
-
-            switch(MSG) {
-
-                case MSG_GET:
-                case MSG_GETCURRENT:
-                case MSG_GETDEFAULT:
-                case MSG_RESET:
-
-                    return BuildOneValue(capability, TWTY_UINT16, TWBO_MSBFIRST)
-                    break
-
-                case MSG_SET:
-
-                    if(capability.ConType != TWON_ONEVALUE) return SetStatus(TWCC_BADVALUE)
-                    if(((pTW_ONEVALUE) *(Handle) capability.hContainer).Item != TWBO_MSBFIRST)
-                        return SetStatus(TWCC_BADVALUE)
-                    return TWRC_SUCCESS
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET | TWQC_SET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
-                    break
-
-                default:
-                    // All cases handled
-                    break
-            }
-
-        case ICAP_PIXELFLAVOR:
-
-            switch(MSG) {
-
-                case MSG_GET:
-                case MSG_GETCURRENT:
-                case MSG_GETDEFAULT:
-
-                    return BuildOneValue(capability, TWTY_UINT16, TWPF_CHOCOLATE)
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT)
-                    break
-
-                default:
-
-                    return SetStatus(TWCC_CAPBADOPERATION)
-                    break
-            }
-
-        case ICAP_PLANARCHUNKY:
-
-            switch(MSG) {
-
-                case MSG_GET:
-                case MSG_GETCURRENT:
-                case MSG_GETDEFAULT:
-
-                    return BuildOneValue(capability, TWTY_UINT16, TWPC_CHUNKY)
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT)
-                    break
-
-                default:
-
-                    return SetStatus(TWCC_CAPBADOPERATION)
-                    break
-            }
-
-        case ICAP_BITDEPTH:
-
-            switch(MSG) {
-
-                case MSG_GET:
-
-                    return sanedevice.GetBitDepth(capability, false)
-                    break
-
-                case MSG_GETCURRENT:
-
-                    return sanedevice.GetBitDepth(capability, true)
-                    break
-
-                case MSG_GETDEFAULT:
-
-                    return sanedevice.GetBitDepthDefault(capability)
-                    break
-
-                case MSG_SET:
-
-                    return sanedevice.SetBitDepth(capability)
-                    break
-
-                case MSG_RESET:
-
-                    return sanedevice.SetBitDepth(nil)
-                    break
-
-                case MSG_QUERYSUPPORT:
-
-                    return BuildOneValue(capability, TWTY_INT32, TWQC_GET | TWQC_SET |
-                                          TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
-                    break
-
-                default:
-                    // All cases handled
-                    break
-            }
-
-        default:
-
-            return SetStatus(TWCC_CAPUNSUPPORTED)
-            break
-    }
-}
-
-
-TW_UINT16 DataSource.Identity(TW_UINT16 MSG, pTW_IDENTITY identity) {
-
-    switch(MSG) {
-
-        case MSG_GET:
-
-            if(state < STATE_3 || state > STATE_7) return SetStatus(TWCC_SEQERROR)
-
-            String text
-
-            CFBundleRef bundle
-            bundle = CFBundleGetBundleWithIdentifier(BNDLNAME)
-
-            UInt32 version
-            version = CFBundleGetVersionNumber(bundle)
-            identity.Version.MajorNum =
-                10 * ((version & 0xF0000000) >> 28) + ((version & 0x0F000000) >> 24)
-            identity.Version.MinorNum = (version & 0x00F00000) >> 20
-
-            text = CFBundleCopyLocalizedString(bundle, CFSTR("twain-language"), nil, nil)
-            identity.Version.Language = CFStringGetIntValue(text)
-            CFRelease(text)
-            text = CFBundleCopyLocalizedString(bundle, CFSTR("twain-country"), nil, nil)
-            identity.Version.Country = CFStringGetIntValue(text)
-            CFRelease(text)
-
-            text = (String) CFBundleGetValueForInfoDictionaryKey(bundle, CFSTR("CFBundleVersion"))
-            CFStringGetPascalString(text, identity.Version.Info, sizeof(TW_STR32), kCFStringEncodingASCII)
-
-            identity.ProtocolMajor = TWON_PROTOCOLMAJOR
-            identity.ProtocolMinor = TWON_PROTOCOLMINOR
-            identity.SupportedGroups = DG_CONTROL | DG_IMAGE
-
-            // These can’t be localized and can only use ASCII
-            // ... or the TWAINBridge used by Image Capture will refuse to use the interface
-            // According to the TWAIN standard any string is localizable(using the locale’s default encoding)
-            // ... but I guess Apple doesn’t read the standard the same way I do
-            strcpy((String *) identity.Manufacturer, (String *) "\pMattias Ellert")
-            strcpy((String *) identity.ProductFamily, (String *) "\pSANE")
-            strcpy((String *) identity.ProductName, (String *) "\pSANE"); // This one is in the DeviceInfo.plist file
-
-            return TWRC_SUCCESS
-            break
-
-        case MSG_OPENDS:
-
-            if(state != STATE_3) return SetStatus(TWCC_SEQERROR)
-            sanedevice = SaneDevice(this)
-            if(!sanedevice) return SetStatus(TWCC_LOWMEMORY)
-            if(!sanedevice.GetSaneHandle()) {
-                // Don’t put up the No Device alert when called from TWAINBridge
-                if(!origin || strncasecmp((String *) origin.ProductName, (String *) "\pTWAINBridge", 12) != 0)
-                    NoDevice()
-                delete sanedevice
-                sanedevice = nil
-                return SetStatus(TWCC_OPERATIONERROR)
-            }
-            state = STATE_4
-            return TWRC_SUCCESS
-            break
-
-        case MSG_CLOSEDS:
-
-            if(state != STATE_4) return SetStatus(TWCC_SEQERROR)
-            if(sanedevice) delete sanedevice
-            sanedevice = nil
-            state = STATE_3
-            return TWRC_SUCCESS
-            break
-
-        default:
-
-            return SetStatus(TWCC_BADPROTOCOL)
-            break
-    }
-}
-
-
-TW_UINT16 DataSource.PendingXfers(TW_UINT16 MSG, pTW_PENDINGXFERS pendingxfers) {
-
-    switch(MSG) {
-
-        case MSG_ENDXFER:
-
-            if(state < STATE_6 || state > STATE_7) return SetStatus(TWCC_SEQERROR)
-            if(state == STATE_7) sanedevice.DequeueImage()
-            pendingxfers.Count = (sanedevice.GetImage() ? 1 : 0)
-            if(pendingxfers.Count != 0)
                 state = STATE_6
-            else
-                state = STATE_5
-            return TWRC_SUCCESS
-            break
+                return DSM_Entry(
+                    origin,
+                    nil,
+                    DG_CONTROL,
+                    DAT_CALLBACK,
+                    MSG_INVOKE_CALLBACK,
+                    Twain.MemoryReference(callback))
 
-        case MSG_GET:
+            case MSG_CLOSEDSREQ:
+                if state < STATE_5 || state > STATE_7 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                if self.uionly {
+                    saneDevice.HideUI()
+                    state = STATE_4
+                } else {
+                    state = STATE_5
+                }
+                return DSM_Entry(
+                    origin,
+                    nil,
+                    DG_CONTROL,
+                    DAT_CALLBACK,
+                    MSG_INVOKE_CALLBACK,
+                    Twain.MemoryReference(callback))
 
-            if(state < STATE_4 || state > STATE_7) return SetStatus(TWCC_SEQERROR)
-            pendingxfers.Count = (sanedevice.GetImage() ? 1 : 0)
-            return TWRC_SUCCESS
-            break
+            case MSG_CLOSEDSOK:
+                if state != STATE_5 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                saneDevice.HideUI()
+                state = STATE_4
+                return DSM_Entry(
+                    origin,
+                    nil,
+                    DG_CONTROL,
+                    DAT_CALLBACK,
+                    MSG_INVOKE_CALLBACK,
+                    Twain.MemoryReference(callback))
 
-        case MSG_RESET:
-
-            if(state != STATE_6) return SetStatus(TWCC_SEQERROR)
-            pendingxfers.Count = 0
-            state = STATE_5
-            return TWRC_SUCCESS
-            break
-
-        default:
-
-            return SetStatus(TWCC_BADPROTOCOL)
-            break
+            default:
+                return SetStatus(TWCC_BADPROTOCOL)
+        }
     }
-}
 
 
-TW_UINT16 DataSource.SetupMemXfer(TW_UINT16 MSG, pTW_SETUPMEMXFER setupmemxfer) {
+    private func Capability(message: Int, capability: Twain.Capability) -> Int {
 
-    switch(MSG) {
+        switch message  {
+            case MSG_GET || MSG_GETCURRENT || MSG_GETDEFAULT || MSG_QUERYSUPPORT:
+                if state < STATE_4 || state > STATE_7 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
 
-        case MSG_GET:
+            case MSG_SET || MSG_RESET:
+                if state != STATE_4 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
 
-            if(state < STATE_4 || state > STATE_6) return SetStatus(TWCC_SEQERROR)
-            if(state != STATE_6) {
-                setupmemxfer.MinBufSize = TWON_DONTCARE32
-                setupmemxfer.MaxBufSize = TWON_DONTCARE32
-                setupmemxfer.Preferred = TWON_DONTCARE32
+            default:
+                return SetStatus(TWCC_BADPROTOCOL)
+        }
+
+        switch capability.Cap {
+            case CAP_XFERCOUNT:
+                switch message  {
+                    case MSG_GET || MSG_GETCURRENT || MSG_GETDEFAULT || MSG_RESET:
+                        return BuildOneValue(capability, TWTY_INT16, Int(-1))
+
+                    case MSG_SET:
+                        if capability.ConType != TWON_ONEVALUE {
+                            return SetStatus(TWCC_BADVALUE)
+                        }
+                        if Twain.ONEVALUE(Handle(capability.hContainer).Item) != Int(-1) {
+                            return SetStatus(TWCC_BADVALUE)
+                        }
+                        return TWRC_SUCCESS
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_SET | TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
+
+                    default:
+                        // All cases handled
+                        break
+                }
+
+            case ICAP_COMPRESSION:
+                switch message {
+
+                    case MSG_GET || MSG_GETCURRENT || MSG_GETDEFAULT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_UINT16,
+                            TWCP_NONE)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_GETDEFAULT | TWQC_GETCURRENT)
+
+                    default:
+                        return SetStatus(TWCC_CAPBADOPERATION)
+                }
+
+            case ICAP_PIXELTYPE:
+                switch message {
+                    case MSG_GET:
+                        return saneDevice.GetPixelType(capability, false)
+
+                    case MSG_GETCURRENT:
+                        return saneDevice.GetPixelType(capability, true)
+
+                    case MSG_GETDEFAULT:
+                        return saneDevice.GetPixelTypeDefault(capability)
+
+                    case MSG_SET:
+                        return saneDevice.SetPixelType(capability)
+
+                    case MSG_RESET:
+                        return saneDevice.SetPixelType(nil)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_SET | TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
+
+                    default:
+                        // All cases handled
+                        break
+                }
+
+            case ICAP_UNITS:
+                switch message {
+                    case MSG_GET || MSG_GETCURRENT || MSG_GETDEFAULT || MSG_RESET:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_UINT16,
+                            TWUN_INCHES)
+
+                    case MSG_SET:
+                        if capability.ConType != TWON_ONEVALUE {
+                            return SetStatus(TWCC_BADVALUE)
+                        }
+                        if Twain.ONEVALUE(Handle(capability.hContainer).Item) != TWUN_INCHES {
+                            return SetStatus(TWCC_BADVALUE)
+                        }
+                        return TWRC_SUCCESS
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_SET | TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
+
+                    default:
+                        // All cases handled
+                        break
+                }
+
+            case ICAP_XFERMECH:
+                switch message {
+                    case MSG_GET: {
+                        let mechs: Int = [ TWSX_NATIVE, TWSX_MEMORY ]
+                        return BuildEnumeration(
+                            capability,
+                            TWTY_UINT16,
+                            sizeof(mechs) / sizeof(Int),
+                            (cap_XferMech == TWSX_NATIVE ? 0 : 1),
+                            0,
+                            mechs)
+                    }
+
+                    case MSG_GETCURRENT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_UINT16,
+                            cap_XferMech)
+
+                    case MSG_GETDEFAULT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_UINT16,
+                            TWSX_NATIVE)
+
+                    case MSG_SET:
+                        if capability.ConType != TWON_ONEVALUE {
+                            return SetStatus(TWCC_BADVALUE)
+                        }
+                        self.cap_XferMech = Twain.ONEVALUE(Handle(capability.hContainer).Item)
+                        if self.cap_XferMech != TWSX_NATIVE && self.cap_XferMech != TWSX_MEMORY {
+                            self.cap_XferMech = TWSX_NATIVE
+                            return TWRC_CHECKSTATUS
+                        }
+                        return TWRC_SUCCESS
+
+                    case MSG_RESET:
+                        self.cap_XferMech = TWSX_NATIVE
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT16,
+                            cap_XferMech)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_SET | TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
+
+                    default:
+                        // All cases handled
+                        break
+                }
+
+            case CAP_SUPPORTEDCAPS:
+                switch message {
+                    case MSG_GET: {
+                        let caps: Int = [
+                            CAP_XFERCOUNT,
+                            ICAP_COMPRESSION,
+                            ICAP_PIXELTYPE,
+                            ICAP_UNITS,
+                            ICAP_XFERMECH,
+                            CAP_SUPPORTEDCAPS,
+                            CAP_INDICATORS,
+                            CAP_UICONTROLLABLE,
+                            CAP_DEVICEONLINE,
+                            CAP_ENABLEDSUIONLY,
+                            ICAP_BRIGHTNESS,
+                            ICAP_CONTRAST,
+                            ICAP_PHYSICALWIDTH,
+                            ICAP_PHYSICALHEIGHT,
+                            ICAP_XNATIVERESOLUTION,
+                            ICAP_YNATIVERESOLUTION,
+                            ICAP_XRESOLUTION,
+                            ICAP_YRESOLUTION,
+                            ICAP_BITORDER,
+                            ICAP_PIXELFLAVOR,
+                            ICAP_PLANARCHUNKY,
+                            ICAP_BITDEPTH
+                        ]
+                        return BuildArray(
+                            capability,
+                            TWTY_UINT16,
+                            sizeof(caps) / sizeof(Int),
+                            caps)
+                    }
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET)
+
+                    default:
+                        return SetStatus(TWCC_CAPBADOPERATION)
+                }
+
+            case CAP_INDICATORS:
+                switch message {
+                    case MSG_GET || MSG_GETCURRENT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_BOOL,
+                            indicators)
+
+                    case MSG_GETDEFAULT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_BOOL,
+                            true)
+
+                    case MSG_SET:
+                        if capability.ConType != TWON_ONEVALUE {
+                            return SetStatus(TWCC_BADVALUE)
+                        }
+                        self.indicators = Twain.ONEVALUE(Handle(capability.hContainer).Item)
+                        return TWRC_SUCCESS
+
+                    case MSG_RESET:
+                        self.indicators = true
+                        return BuildOneValue(
+                            capability,
+                            TWTY_BOOL,
+                            indicators)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_SET | TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
+
+                    default:
+                        // All cases handled
+                        break
+                }
+
+            case CAP_UICONTROLLABLE:
+                switch message {
+                    case MSG_GET:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_BOOL,
+                            true)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET)
+
+                    default:
+                        return SetStatus(TWCC_CAPBADOPERATION)
+                }
+
+            case CAP_DEVICEONLINE:
+                switch message {
+                    case MSG_GET:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_BOOL,
+                            true)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET)
+
+                    default:
+                        return SetStatus(TWCC_CAPBADOPERATION)
+                }
+
+            case CAP_ENABLEDSUIONLY:
+                switch message {
+                    case MSG_GET:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_BOOL,
+                            true)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET)
+
+                    default:
+                        return SetStatus(TWCC_CAPBADOPERATION)
+                }
+
+            case ICAP_BRIGHTNESS:
+                switch message {
+                    case MSG_GET:
+                        return saneDevice.GetBrightness(capability, false)
+
+                    case MSG_GETCURRENT:
+                        return saneDevice.GetBrightness(capability, true)
+
+                    case MSG_GETDEFAULT:
+                        return saneDevice.GetBrightnessDefault(capability)
+
+                    case MSG_SET:
+                        return saneDevice.SetBrightness(capability)
+
+                    case MSG_RESET:
+                        return saneDevice.SetBrightness(nil)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_SET | TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
+
+                    default:
+                        // All cases handled
+                        break
+                }
+
+            case ICAP_CONTRAST:
+                switch message {
+                    case MSG_GET:
+                        return saneDevice.GetContrast(capability, false)
+
+                    case MSG_GETCURRENT:
+                        return saneDevice.GetContrast(capability, true)
+
+                    case MSG_GETDEFAULT:
+                        return saneDevice.GetContrastDefault(capability)
+
+                    case MSG_SET:
+                        return saneDevice.SetContrast(capability)
+
+                    case MSG_RESET:
+                        return saneDevice.SetContrast(nil)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_SET | TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
+
+                    default:
+                        // All cases handled
+                        break
+                }
+
+            case ICAP_PHYSICALWIDTH:
+                switch message {
+                    case MSG_GET || MSG_GETCURRENT || MSG_GETDEFAULT:
+                        return saneDevice.GetPhysicalWidth(capability)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_GETDEFAULT | TWQC_GETCURRENT)
+
+                    default:
+                        return SetStatus(TWCC_CAPBADOPERATION)
+                }
+
+            case ICAP_PHYSICALHEIGHT:
+                switch message {
+                    case MSG_GET || MSG_GETCURRENT || MSG_GETDEFAULT:
+                        return saneDevice.GetPhysicalHeight(capability)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_GETDEFAULT | TWQC_GETCURRENT)
+
+                    default:
+                        return SetStatus(TWCC_CAPBADOPERATION)
+                }
+
+            case ICAP_XNATIVERESOLUTION:
+                switch message {
+                    case MSG_GET || MSG_GETCURRENT || MSG_GETDEFAULT:
+                        return saneDevice.GetXNativeResolution(capability)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_GETDEFAULT | TWQC_GETCURRENT)
+
+                    default:
+                        return SetStatus(TWCC_CAPBADOPERATION)
+                }
+
+            case ICAP_YNATIVERESOLUTION:
+                switch message {
+                    case MSG_GET || MSG_GETCURRENT || MSG_GETDEFAULT:
+                        return saneDevice.GetYNativeResolution(capability)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_GETDEFAULT | TWQC_GETCURRENT)
+
+                    default:
+                        return SetStatus(TWCC_CAPBADOPERATION)
+                }
+
+            case ICAP_XRESOLUTION:
+                switch message {
+                    case MSG_GET:
+                        return saneDevice.GetXResolution(capability, false)
+
+                    case MSG_GETCURRENT:
+                        return saneDevice.GetXResolution(capability, true)
+
+                    case MSG_GETDEFAULT:
+                        return saneDevice.GetXResolutionDefault(capability)
+
+                    case MSG_SET:
+                        return saneDevice.SetXResolution(capability)
+
+                    case MSG_RESET:
+                        return saneDevice.SetXResolution(nil)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_SET | TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
+
+                    default:
+                        // All cases handled
+                        break
+                }
+
+            case ICAP_YRESOLUTION:
+                switch(message) {
+                    case MSG_GET:
+                        return saneDevice.GetYResolution(capability, false)
+
+                    case MSG_GETCURRENT:
+                        return saneDevice.GetYResolution(capability, true)
+
+                    case MSG_GETDEFAULT:
+                        return saneDevice.GetYResolutionDefault(capability)
+
+                    case MSG_SET:
+                        return saneDevice.SetYResolution(capability)
+
+                    case MSG_RESET:
+                        return saneDevice.SetYResolution(nil)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_SET | TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
+
+                    default:
+                        // All cases handled
+                        break
+                }
+
+            case ICAP_BITORDER:
+                switch message {
+                    case MSG_GET || MSG_GETCURRENT || MSG_GETDEFAULT || MSG_RESET:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_UINT16,
+                            TWBO_MSBFIRST)
+
+                    case MSG_SET:
+                        if capability.ConType != TWON_ONEVALUE {
+                            return SetStatus(TWCC_BADVALUE)
+                        }
+                        if Twain.ONEVALUE(Handle(capability.hContainer).Item) != TWBO_MSBFIRST {
+                            return SetStatus(TWCC_BADVALUE)
+                        }
+                        return TWRC_SUCCESS
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_SET | TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
+
+                    default:
+                        // All cases handled
+                        break
+                }
+
+            case ICAP_PIXELFLAVOR:
+                switch message {
+                    case MSG_GET || MSG_GETCURRENT || MSG_GETDEFAULT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_UINT16,
+                            TWPF_CHOCOLATE)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_GETDEFAULT | TWQC_GETCURRENT)
+
+                    default:
+                        return SetStatus(TWCC_CAPBADOPERATION)
+                }
+
+            case ICAP_PLANARCHUNKY:
+                switch message {
+                    case MSG_GET || MSG_GETCURRENT || MSG_GETDEFAULT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_UINT16,
+                            TWPC_CHUNKY)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_GETDEFAULT | TWQC_GETCURRENT)
+
+                    default:
+                        return SetStatus(TWCC_CAPBADOPERATION)
+                }
+
+            case ICAP_BITDEPTH:
+                switch message {
+                    case MSG_GET:
+                        return saneDevice.GetBitDepth(capability, false)
+
+                    case MSG_GETCURRENT:
+                        return saneDevice.GetBitDepth(capability, true)
+
+                    case MSG_GETDEFAULT:
+                        return saneDevice.GetBitDepthDefault(capability)
+
+                    case MSG_SET:
+                        return saneDevice.SetBitDepth(capability)
+
+                    case MSG_RESET:
+                        return saneDevice.SetBitDepth(nil)
+
+                    case MSG_QUERYSUPPORT:
+                        return BuildOneValue(
+                            capability,
+                            TWTY_INT32,
+                            TWQC_GET | TWQC_SET | TWQC_GETDEFAULT | TWQC_GETCURRENT | TWQC_RESET)
+
+                    default:
+                        // All cases handled
+                        break
+                }
+
+            default:
+                return SetStatus(TWCC_CAPUNSUPPORTED)
+        }
+    }
+
+
+    private func Identity(message: Int, identity: Twain.Identity) -> Int {
+
+        switch message {
+            case MSG_GET:
+                if state < STATE_3 || state > STATE_7 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+
+                var text: String
+
+                let bundle: CFBundleRef = CFBundleGetBundleWithIdentifier(BNDLNAME)
+
+                var version: Int
+                version = CFBundleGetVersionNumber(bundle)
+                identity.Version.MajorNum =
+                    10 * ((version & 0xF0000000) >> 28) + ((version & 0x0F000000) >> 24)
+                identity.Version.MinorNum = (version & 0x00F00000) >> 20
+
+                text = CFBundleCopyLocalizedString(bundle, CFSTR("twain-language"), nil, nil)
+                identity.Version.Language = CFStringGetIntValue(text)
+                CFRelease(text)
+                text = CFBundleCopyLocalizedString(bundle, CFSTR("twain-country"), nil, nil)
+                identity.Version.Country = CFStringGetIntValue(text)
+                CFRelease(text)
+
+                text = String(CFBundleGetValueForInfoDictionaryKey(bundle, CFSTR("CFBundleVersion")))
+                CFStringGetPascalString(text, identity.Version.Info, sizeof(TW_STR32), kCFStringEncodingASCII)
+
+                identity.ProtocolMajor = TWON_PROTOCOLMAJOR
+                identity.ProtocolMinor = TWON_PROTOCOLMINOR
+                identity.SupportedGroups = DG_CONTROL | DG_IMAGE
+
+                // These can’t be localized and can only use ASCII
+                // ... or the TWAINBridge used by Image Capture will refuse to use the interface
+                // According to the TWAIN standard any string is localizable(using the locale’s default encoding)
+                // ... but I guess Apple doesn’t read the standard the same way I do
+                identity.Manufacturer = "Mattias Ellert"
+                identity.ProductFamily = "SANE"
+                identity.ProductName = "SANE" // This one is in the DeviceInfo.plist file
+
                 return TWRC_SUCCESS
-            }
-            else
-                return sanedevice.GetImage().TwainSetupMemXfer(setupmemxfer)
-            break
 
-        default:
-
-            return SetStatus(TWCC_BADPROTOCOL)
-            break
-    }
-}
-
-
-TW_UINT16 DataSource.Status(TW_UINT16 MSG, pTW_STATUS status) {
-
-    switch(MSG) {
-
-        case MSG_GET:
-
-            if(state < STATE_4 || state > STATE_7) return SetStatus(TWCC_SEQERROR)
-            status.ConditionCode = twainstatus
-            status.Reserved = 0
-            twainstatus = TWCC_SUCCESS
-            return TWRC_SUCCESS
-            break
-
-        default:
-
-            return SetStatus(TWCC_BADPROTOCOL)
-            break
-    }
-}
-
-
-TW_UINT16 DataSource.UserInterface(TW_UINT16 MSG, pTW_USERINTERFACE userinterface) {
-
-    switch(MSG) {
-
-        case MSG_DISABLEDS:
-
-            if(state != STATE_5) return SetStatus(TWCC_SEQERROR)
-            sanedevice.HideUI()
-            state = STATE_4
-            return TWRC_SUCCESS
-            break
-
-        case MSG_ENABLEDS:
-
-            if(state != STATE_4) return SetStatus(TWCC_SEQERROR)
-            uionly = false
-            if(userinterface.ShowUI) {
-                sanedevice.ShowUI(uionly)
-                userinterface.ModalUI = false
-            }
-            state = STATE_5
-            if(!userinterface.ShowUI) {
-                if(sanedevice.Scan(true, indicators))
-                    CallBack(MSG_XFERREADY)
-                else
+            case MSG_OPENDS:
+                if state != STATE_3 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                self.saneDevice = SaneDevice(this)
+                if !saneDevice {
+                    return SetStatus(TWCC_LOWMEMORY)
+                }
+                if !saneDevice.GetSaneHandle() {
+                    // Don’t put up the No Device alert when called from TWAINBridge
+                    if !origin || strncasecmp(String(origin.ProductName), String("TWAINBridge"), 12) != 0 {
+                        NoDevice()
+                    }
+                    // delete saneDevice
+                    self.saneDevice = nil
                     return SetStatus(TWCC_OPERATIONERROR)
-            }
-            return TWRC_SUCCESS
-            break
+                }
+                state = STATE_4
+                return TWRC_SUCCESS
 
-        case MSG_ENABLEDSUIONLY:
+            case MSG_CLOSEDS:
+                if state != STATE_4 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                // if self.saneDevice {
+                //     delete saneDevice
+                // }
+                self.saneDevice = nil
+                state = STATE_3
+                return TWRC_SUCCESS
 
-            if(state != STATE_4) return SetStatus(TWCC_SEQERROR)
-            uionly = true
-            sanedevice.ShowUI(uionly)
-            userinterface.ModalUI = false
-            state = STATE_5
-            return TWRC_SUCCESS
-            break
-
-        default:
-
-            return SetStatus(TWCC_BADPROTOCOL)
-            break
+            default:
+                return SetStatus(TWCC_BADPROTOCOL)
+        }
     }
-}
 
 
-TW_UINT16 DataSource.XferGroup(TW_UINT16 MSG, pTW_UINT32 xfergroup) {
+    private func PendingTransfers(message: Int, pendingTransfers: Twain.PendingTransfers) -> Int {
+        switch message {
+            case MSG_ENDXFER:
+                if state < STATE_6 || state > STATE_7 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                if state == STATE_7 {
+                    saneDevice.DequeueImage()
+                }
+                pendingTransfers.Count = (saneDevice.GetImage() ? 1 : 0)
+                if pendingTransfers.Count != 0 {
+                    state = STATE_6
+                } else {
+                    state = STATE_5
+                }
+                return TWRC_SUCCESS
 
-    switch(MSG) {
+            case MSG_GET:
+                if state < STATE_4 || state > STATE_7 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                pendingTransfers.Count = (saneDevice.GetImage() ? 1 : 0)
+                return TWRC_SUCCESS
 
-        case MSG_GET:
+            case MSG_RESET:
+                if state != STATE_6 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                pendingTransfers.Count = 0
+                state = STATE_5
+                return TWRC_SUCCESS
 
-            if(state < STATE_4 || state > STATE_6) return SetStatus(TWCC_SEQERROR)
-            *xfergroup = DG_IMAGE
-            return TWRC_SUCCESS
-            break
-
-        case MSG_SET:
-
-            if(state != STATE_6) return SetStatus(TWCC_SEQERROR)
-            if(*xfergroup != DG_IMAGE) return SetStatus(TWCC_BADPROTOCOL)
-            return TWRC_SUCCESS
-            break
-
-        default:
-
-            return SetStatus(TWCC_BADPROTOCOL)
-            break
+            default:
+                return SetStatus(TWCC_BADPROTOCOL)
+        }
     }
-}
 
 
-TW_UINT16 DataSource.CustomDSData(TW_UINT16 MSG, pTW_CUSTOMDSDATA customdsdata) {
+    private func SetupMemoryTransfer(message: Int, setupMemTransfer: Twain.SetupMemoryTransfer) -> Int {
+        switch message {
+            case MSG_GET:
+                if state < STATE_4 || state > STATE_6 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                if state != STATE_6 {
+                    setupMemTransfer.MinBufSize = TWON_DONTCARE32
+                    setupMemTransfer.MaxBufSize = TWON_DONTCARE32
+                    setupMemTransfer.Preferred = TWON_DONTCARE32
+                    return TWRC_SUCCESS
+                } else {
+                    return saneDevice.GetImage().TwainSetupMemXfer(setupMemTransfer)
+                }
 
-    switch(MSG) {
-
-        case MSG_GET:
-
-            if(state != STATE_4) return SetStatus(TWCC_SEQERROR)
-            return sanedevice.GetCustomData(customdsdata)
-            break
-
-        case MSG_SET:
-
-            if(state != STATE_4) return SetStatus(TWCC_SEQERROR)
-            return sanedevice.SetCustomData(customdsdata)
-            break
-
-        default:
-
-            return SetStatus(TWCC_BADPROTOCOL)
-            break
+            default:
+                return SetStatus(TWCC_BADPROTOCOL)
+        }
     }
-}
 
 
-TW_UINT16 DataSource.ImageInfo(TW_UINT16 MSG, pTW_IMAGEINFO imageinfo) {
+    private func Status(message: Int, status: Twain.Status) -> Int {
+        switch message {
+            case MSG_GET:
+                if state < STATE_4 || state > STATE_7 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                status.ConditionCode = twainStatus
+                status.Reserved = 0
+                self.twainStatus = TWCC_SUCCESS
+                return TWRC_SUCCESS
 
-    switch(MSG) {
-
-        case MSG_GET:
-
-            if(state < STATE_6 || state > STATE_7) return SetStatus(TWCC_SEQERROR)
-            return sanedevice.GetImage().TwainImageInfo(imageinfo)
-            break
-
-        default:
-
-            return SetStatus(TWCC_BADPROTOCOL)
-            break
+            default:
+                return SetStatus(TWCC_BADPROTOCOL)
+        }
     }
-}
 
 
-TW_UINT16 DataSource.ImageLayout(TW_UINT16 MSG, pTW_IMAGELAYOUT imagelayout) {
+    private func UserInterface(message: Int, userInterface: Twain.UserInterface) -> Int {
+        switch message {
+            case MSG_DISABLEDS:
+                if state != STATE_5 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                saneDevice.HideUI()
+                state = STATE_4
+                return TWRC_SUCCESS
 
-    switch(MSG) {
+            case MSG_ENABLEDS:
+                if state != STATE_4 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                self.uionly = false
+                if userInterface.ShowUI {
+                    saneDevice.ShowUI(uionly)
+                    userInterface.ModalUI = false
+                }
+                state = STATE_5
+                if !userInterface.ShowUI {
+                    if saneDevice.Scan(true, indicators) {
+                        CallBack(MSG_XFERREADY)
+                    } else {
+                        return SetStatus(TWCC_OPERATIONERROR)
+                    }
+                }
+                return TWRC_SUCCESS
 
-        case MSG_GET:
+            case MSG_ENABLEDSUIONLY:
+                if state != STATE_4 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                self.uionly = true
+                saneDevice.ShowUI(uionly)
+                userInterface.ModalUI = false
+                state = STATE_5
+                return TWRC_SUCCESS
 
-            if(state < STATE_4 || state > STATE_6) return SetStatus(TWCC_SEQERROR)
-            if(sanedevice.GetImage()) return sanedevice.GetImage().TwainImageLayout(imagelayout)
-            return sanedevice.GetLayout(imagelayout)
-            break
-
-        case MSG_SET:
-
-            if(state != STATE_4) return SetStatus(TWCC_SEQERROR)
-            return sanedevice.SetLayout(imagelayout)
-            break
-
-        default:
-
-            return SetStatus(TWCC_BADPROTOCOL)
-            break
+            default:
+                return SetStatus(TWCC_BADPROTOCOL)
+        }
     }
-}
 
 
-TW_UINT16 DataSource.ImageMemXfer(TW_UINT16 MSG, pTW_IMAGEMEMXFER imagememxfer) {
+    private func TransferGroup(message: Int, transferGroup: Int) -> Int {
+        switch message {
+            case MSG_GET:
+                if state < STATE_4 || state > STATE_6 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                *transferGroup = DG_IMAGE
+                return TWRC_SUCCESS
 
-    switch(MSG) {
+            case MSG_SET:
+                if state != STATE_6 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                if *transferGroup != DG_IMAGE {
+                    return SetStatus(TWCC_BADPROTOCOL)
+                }
+                return TWRC_SUCCESS
 
-        case MSG_GET:
+            default:
+                return SetStatus(TWCC_BADPROTOCOL)
+        }
+    }
 
-            if(state < STATE_6 || state > STATE_7) return SetStatus(TWCC_SEQERROR)
-            if(state == STATE_6) {
+
+    private func CustomDSData(message: Int, customDSData: Twain.CustomDSData) -> Int {
+        switch message {
+            case MSG_GET:
+                if state != STATE_4 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                return saneDevice.GetCustomData(customDSData)
+
+            case MSG_SET:
+                if state != STATE_4 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                return saneDevice.SetCustomData(customDSData)
+
+            default:
+                return SetStatus(TWCC_BADPROTOCOL)
+        }
+    }
+
+
+    private func ImageInfo(message: Int, imageInfo: Twain.ImageInfo) -> Int {
+        switch(message) {
+            case MSG_GET:
+                if state < STATE_6 || state > STATE_7 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                return saneDevice.GetImage().TwainImageInfo(imageInfo)
+
+            default:
+                return SetStatus(TWCC_BADPROTOCOL)
+        }
+    }
+
+
+    private func ImageLayout(message: Int, imageLayout: Twain.ImageLayout) -> Int {
+        switch message {
+            case MSG_GET:
+                if state < STATE_4 || state > STATE_6 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                if saneDevice.GetImage() {
+                    return saneDevice.GetImage().TwainImageLayout(imageLayout)
+                }
+                return saneDevice.GetLayout(imageLayout)
+
+            case MSG_SET:
+                if state != STATE_4 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                return saneDevice.SetLayout(imageLayout)
+
+            default:
+                return SetStatus(TWCC_BADPROTOCOL)
+        }
+    }
+
+
+    private func ImageMemoryTransfer(message: Int, imageMemoryTransfer: Twain.ImageMemoryTransfer) -> Int {
+        switch message {
+            case MSG_GET:
+                if state < STATE_6 || state > STATE_7 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                if state == STATE_6 {
+                    state = STATE_7
+                    self.writtenlines = 0
+                }
+                return saneDevice.GetImage().TwainImageMemXfer(imageMemoryTransfer, &writtenlines)
+
+            default:
+                return SetStatus(TWCC_BADPROTOCOL)
+        }
+    }
+
+
+    private func ImageNativeTransfer(message: Int, handle: Int) -> Int {
+        switch message {
+            case MSG_GET:
+                if state != STATE_6 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                if !saneDevice.GetImage() {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                handle = Int(saneDevice.GetImage().MakePict())
                 state = STATE_7
-                writtenlines = 0
-            }
-            return sanedevice.GetImage().TwainImageMemXfer(imagememxfer, &writtenlines)
-            break
+                return TWRC_XFERDONE
 
-        default:
-
-            return SetStatus(TWCC_BADPROTOCOL)
-            break
+            default:
+                return SetStatus(TWCC_BADPROTOCOL)
+        }
     }
-}
 
 
-TW_UINT16 DataSource.ImageNativeXfer(TW_UINT16 MSG, pTW_UINT32 handle) {
+    private func Palette8(message: Int, palette8: Twain.Palette8) -> Int {
+        switch message {
+            case MSG_GET:
+                if state < STATE_4 || state > STATE_6 {
+                    return SetStatus(TWCC_SEQERROR)
+                }
+                return saneDevice.GetImage().TwainPalette8(palette8, &twainStatus)
 
-    switch(MSG) {
-
-        case MSG_GET:
-
-            if(state != STATE_6) return SetStatus(TWCC_SEQERROR)
-            if(!sanedevice.GetImage()) return SetStatus(TWCC_SEQERROR)
-            *handle = (TW_UINT32) sanedevice.GetImage().MakePict()
-            state = STATE_7
-            return TWRC_XFERDONE
-            break
-
-        default:
-
-            return SetStatus(TWCC_BADPROTOCOL)
-            break
+            default:
+                return SetStatus(TWCC_BADPROTOCOL)
+        }
     }
-}
 
 
-TW_UINT16 DataSource.Palette8 (TW_UINT16 MSG, pTW_PALETTE8 palette8) {
+    static let ItemSize: Int = [
+        sizeof(TW_INT8),
+        sizeof(TW_INT16),
+        sizeof(TWTY_INT8),
+        sizeof(TWTY_INT16),
+        sizeof(TWTY_INT32),
+        sizeof(TWTY_UINT8),
+        sizeof(TWTY_UINT16),
+        sizeof(TWTY_UINT32),
+        sizeof(TWTY_BOOL),
+        sizeof(TWTY_FIX32),
+        sizeof(TWTY_FRAME),
+        sizeof(TWTY_STR32),
+        sizeof(TWTY_STR64),
+        sizeof(TWTY_STR128),
+        sizeof(TWTY_STR255),
+        sizeof(TWTY_STR1024),
+        sizeof(TWTY_UNI512),
+    ]
 
-    switch(MSG) {
 
-        case MSG_GET:
+    public func BuildArray(capability: Twain.Capability, type: Int, numItems: Int,
+                            values: any) -> Int {
 
-            if(state < STATE_4 || state > STATE_6) return SetStatus(TWCC_SEQERROR)
-            return sanedevice.GetImage().TwainPalette8 (palette8, &twainstatus)
-            break
+        capability.hContainer = TW_HANDLE(NewHandle(sizeof(TW_ARRAY) - sizeof(TW_UINT8) +
+                                            numItems * ItemSize[type]))
+        if !capability.hContainer {
+            return SetStatus(TWCC_LOWMEMORY)
+        }
 
-        default:
+        capability.ConType = TWON_ARRAY
 
-            return SetStatus(TWCC_BADPROTOCOL)
-            break
+        HLock(Handle(capability).hContainer)
+        let pArray: Twain.ARRAY = Twain.ARRAY(Handle(capability.hContainer))
+        pArray.ItemType = type
+        pArray.NumItems = numItems
+        memcpy(pArray.ItemList, values, numItems * ItemSize[type])
+        HUnlock(Handle(capability).hContainer)
+
+        return TWRC_SUCCESS
     }
-}
 
 
-static let short ItemSize[] = {
-    sizeof(TW_INT8),
-    sizeof(TW_INT16),
-    sizeof(TWTY_INT8),
-    sizeof(TWTY_INT16),
-    sizeof(TWTY_INT32),
-    sizeof(TWTY_UINT8),
-    sizeof(TWTY_UINT16),
-    sizeof(TWTY_UINT32),
-    sizeof(TWTY_BOOL),
-    sizeof(TWTY_FIX32),
-    sizeof(TWTY_FRAME),
-    sizeof(TWTY_STR32),
-    sizeof(TWTY_STR64),
-    sizeof(TWTY_STR128),
-    sizeof(TWTY_STR255),
-    sizeof(TWTY_STR1024),
-    sizeof(TWTY_UNI512),
-}
+    public func BuildEnumeration(capability: Twain.Capability, type: Int, numItems: Int,
+                                    currentIndex: Int, defaultIndex: Int, values: any) -> Int {
+
+        capability.hContainer = TW_HANDLE(NewHandle(sizeof(TW_ENUMERATION) - sizeof(TW_UINT8) +
+                                            numItems * ItemSize[type]))
+        if !capability.hContainer {
+            return SetStatus(TWCC_LOWMEMORY)
+        }
+
+        capability.ConType = TWON_ENUMERATION
+
+        HLock(Handle(capability).hContainer)
+        var pEnumeration: Twain.ENUMERATION = Twain.ENUMERATION(Handle(capability).hContainer)
+        pEnumeration.ItemType = type
+        pEnumeration.NumItems = numItems
+        pEnumeration.CurrentIndex = currentIndex
+        pEnumeration.DefaultIndex = defaultIndex
+        memcpy(pEnumeration.ItemList, values, numItems * ItemSize[type])
+        HUnlock(Handle(capability).hContainer)
+
+        return TWRC_SUCCESS
+    }
 
 
-TW_UINT16 DataSource.BuildArray(pTW_CAPABILITY capability, TW_UINT16 type,
-                                  TW_UINT32 numItems, void * values) {
+    public func BuildOneValue(capability: Twain.Capability, type: Int, value: Int) -> Int {
 
-    capability.hContainer = (TW_HANDLE) NewHandle(sizeof(TW_ARRAY) - sizeof(TW_UINT8) +
-                                        numItems * ItemSize[type])
-    if(!capability.hContainer) return SetStatus(TWCC_LOWMEMORY)
+        capability.hContainer = TW_HANDLE(NewHandle(sizeof(TW_ONEVALUE)))
+        if !capability.hContainer {
+            return SetStatus(TWCC_LOWMEMORY)
+        }
 
-    capability.ConType = TWON_ARRAY
+        capability.ConType = TWON_ONEVALUE
 
-    HLock((Handle) capability.hContainer)
-    pTW_ARRAY pArray = (pTW_ARRAY) *(Handle) capability.hContainer
-    pArray.ItemType = type
-    pArray.NumItems = numItems
-    memcpy(pArray.ItemList, values, numItems * ItemSize[type])
-    HUnlock((Handle) capability.hContainer)
+        HLock(Handle(capability).hContainer)
+        var pOneValue: Twain.ONEVALUE = Twain.ONEVALUE(Handle(capability).hContainer)
+        pOneValue.ItemType = type
+        pOneValue.Item = value
+        HUnlock(Handle(capability).hContainer)
 
-    return TWRC_SUCCESS
-}
-
-
-TW_UINT16 DataSource.BuildEnumeration(pTW_CAPABILITY capability, TW_UINT16 type,
-                                        TW_UINT32 numItems, TW_UINT32 currentIndex,
-                                        TW_UINT32 defaultIndex, void * values) {
-
-    capability.hContainer = (TW_HANDLE) NewHandle(sizeof(TW_ENUMERATION) - sizeof(TW_UINT8) +
-                                        numItems * ItemSize[type])
-    if(!capability.hContainer) return SetStatus(TWCC_LOWMEMORY)
-
-    capability.ConType = TWON_ENUMERATION
-
-    HLock((Handle) capability.hContainer)
-    pTW_ENUMERATION pEnumeration = (pTW_ENUMERATION) *(Handle) capability.hContainer
-    pEnumeration.ItemType = type
-    pEnumeration.NumItems = numItems
-    pEnumeration.CurrentIndex = currentIndex
-    pEnumeration.DefaultIndex = defaultIndex
-    memcpy(pEnumeration.ItemList, values, numItems * ItemSize[type])
-    HUnlock((Handle) capability.hContainer)
-
-    return TWRC_SUCCESS
-}
+        return TWRC_SUCCESS
+    }
 
 
-TW_UINT16 DataSource.BuildOneValue(pTW_CAPABILITY capability, TW_UINT16 type, TW_UINT32 value) {
+    public func BuildOneValue(capability: Twain.Capability, type: Int, value: Twain.Fix32) -> Int {
+        capability.hContainer = TW_HANDLE(NewHandle(sizeof(TW_ONEVALUE)))
+        if !capability.hContainer {
+            return SetStatus(TWCC_LOWMEMORY)
+        }
 
-    capability.hContainer = (TW_HANDLE) NewHandle(sizeof(TW_ONEVALUE))
-    if(!capability.hContainer) return SetStatus(TWCC_LOWMEMORY)
+        capability.ConType = TWON_ONEVALUE
 
-    capability.ConType = TWON_ONEVALUE
+        HLock(Handle(capability).hContainer)
+        var pOneValue: Twain.ONEVALUE = Twain.ONEVALUE(Handle(capability).hContainer)
+        pOneValue.ItemType = type
+        pOneValue.Item = Int(value)
+        HUnlock(Handle(capability).hContainer)
 
-    HLock((Handle) capability.hContainer)
-    pTW_ONEVALUE pOneValue = (pTW_ONEVALUE) *(Handle) capability.hContainer
-    pOneValue.ItemType = type
-    pOneValue.Item = value
-    HUnlock((Handle) capability.hContainer)
-
-    return TWRC_SUCCESS
-}
-
-
-TW_UINT16 DataSource.BuildOneValue(pTW_CAPABILITY capability, TW_UINT16 type, TW_FIX32 value) {
-
-    capability.hContainer = (TW_HANDLE) NewHandle(sizeof(TW_ONEVALUE))
-    if(!capability.hContainer) return SetStatus(TWCC_LOWMEMORY)
-
-    capability.ConType = TWON_ONEVALUE
-
-    HLock((Handle) capability.hContainer)
-    pTW_ONEVALUE pOneValue = (pTW_ONEVALUE) *(Handle) capability.hContainer
-    pOneValue.ItemType = type
-    pOneValue.Item = *((TW_UINT32*) &value)
-    HUnlock((Handle) capability.hContainer)
-
-    return TWRC_SUCCESS
-}
+        return TWRC_SUCCESS
+    }
 
 
-TW_UINT16 DataSource.BuildRange(pTW_CAPABILITY capability, TW_UINT16 type,
-                                  TW_UINT32 min, TW_UINT32 max, TW_UINT32 step,
-                                  TW_UINT32 defvalue, TW_UINT32 value) {
+    public func BuildRange(capability: Twain.Capability, type: Int, min: Int, max: Int,
+                            step: Int, defaultValue: Int, value: Int) -> Int {
 
-    capability.hContainer = (TW_HANDLE) NewHandle(sizeof(TW_RANGE))
-    if(!capability.hContainer) return SetStatus(TWCC_LOWMEMORY)
+        capability.hContainer = TW_HANDLE(NewHandle(sizeof(TW_RANGE)))
+        if !capability.hContainer {
+            return SetStatus(TWCC_LOWMEMORY)
+        }
 
-    capability.ConType = TWON_RANGE
+        capability.ConType = TWON_RANGE
 
-    HLock((Handle) capability.hContainer)
-    pTW_RANGE pRange = (pTW_RANGE) *(Handle) capability.hContainer
-    pRange.ItemType = type
-    pRange.MinValue = min
-    pRange.MaxValue = max
-    pRange.StepSize = step
-    pRange.DefaultValue = defvalue
-    pRange.CurrentValue = value
-    HUnlock((Handle) capability.hContainer)
+        HLock(Handle(capability).hContainer)
+        var pRange: Twain.RANGE = Twain.RANGE(Handle(capability).hContainer)
+        pRange.ItemType = type
+        pRange.MinValue = min
+        pRange.MaxValue = max
+        pRange.StepSize = step
+        pRange.DefaultValue = defaultValue
+        pRange.CurrentValue = value
+        HUnlock(Handle(capability).hContainer)
 
-    return TWRC_SUCCESS
-}
-
-
-TW_UINT16 DataSource.BuildRange(pTW_CAPABILITY capability, TW_UINT16 type,
-                                  TW_FIX32 min, TW_FIX32 max, TW_FIX32 step,
-                                  TW_FIX32 defvalue, TW_FIX32 value) {
-
-    capability.hContainer = (TW_HANDLE) NewHandle(sizeof(TW_RANGE))
-    if(!capability.hContainer) return SetStatus(TWCC_LOWMEMORY)
-
-    capability.ConType = TWON_RANGE
-
-    HLock((Handle) capability.hContainer)
-    pTW_RANGE pRange = (pTW_RANGE) *(Handle) capability.hContainer
-    pRange.ItemType = type
-    pRange.MinValue = *((TW_UINT32*) &min)
-    pRange.MaxValue = *((TW_UINT32*) &max)
-    pRange.StepSize = *((TW_UINT32*) &step)
-    pRange.DefaultValue = *((TW_UINT32*) &defvalue)
-    pRange.CurrentValue = *((TW_UINT32*) &value)
-    HUnlock((Handle) capability.hContainer)
-
-    return TWRC_SUCCESS
-}
+        return TWRC_SUCCESS
+    }
 
 
-TW_UINT16 DataSource.SetStatus(TW_UINT16 status, TW_UINT16 retval) {
+    public func BuildRange(capability: Twain.Capability, type: Int, min: Twain.Fix32, max: Twain.Fix32,
+                            step: Twain.Fix32, defaultValue: Twain.Fix32, value: Twain.Fix32) -> Int {
 
-    twainstatus = status
-    return retval
+        capability.hContainer = TW_HANDLE(NewHandle(sizeof(TW_RANGE)))
+        if !capability.hContainer {
+            return SetStatus(TWCC_LOWMEMORY)
+        }
+
+        capability.ConType = TWON_RANGE
+
+        HLock(Handle(capability).hContainer)
+        var pRange: Twain.RANGE = Twain.RANGE(Handle(capability).hContainer)
+        pRange.ItemType = type
+        pRange.MinValue = Int(min)
+        pRange.MaxValue = Int(max)
+        pRange.StepSize = Int(step)
+        pRange.DefaultValue = Int(defaultValue)
+        pRange.CurrentValue = Int(value)
+        HUnlock(Handle(capability).hContainer)
+
+        return TWRC_SUCCESS
+    }
+
+
+    public func SetStatus(status: Int, returnValue: Int = Twain.RcFailure) -> Int {
+        self.twainStatus = status
+        return returnValue
+    }
+
 }

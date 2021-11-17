@@ -171,9 +171,9 @@ hexdump(Int level, const char *comment, unsigned char *p, Int l)
   DBG(level, "%s\n", comment)
 
   ptr = line
-  *ptr = '\0'
+  *ptr = "\0"
   asc_ptr = asc_buf
-  *asc_ptr = '\0'
+  *asc_ptr = "\0"
 
   for(i = 0; i < l; i++, p++)
     {
@@ -183,9 +183,9 @@ hexdump(Int level, const char *comment, unsigned char *p, Int l)
 	    {
 	      DBG(level, "%s    %s\n", line, asc_buf)
 	      ptr = line
-	      *ptr = '\0'
+	      *ptr = "\0"
 	      asc_ptr = asc_buf
-	      *asc_ptr = '\0'
+	      *asc_ptr = "\0"
 	    }
 	  sprintf(ptr, "%3.3d:", i)
 	  ptr += 4
@@ -200,7 +200,7 @@ hexdump(Int level, const char *comment, unsigned char *p, Int l)
 	  asc_ptr += sprintf(asc_ptr, ".")
 	}
     }
-  *ptr = '\0'
+  *ptr = "\0"
   DBG(level, "%s    %s\n", line, asc_buf)
 }
 
@@ -488,16 +488,16 @@ teco_set_window(Teco_Scanner * dev)
   window[7] = window_size - 8
 
   /* X and Y resolution */
-  Ito16 (dev.x_resolution, &window[10])
-  Ito16 (dev.y_resolution, &window[12])
+  Ito16(dev.x_resolution, &window[10])
+  Ito16(dev.y_resolution, &window[12])
 
   /* Upper Left(X,Y) */
-  Ito32 (dev.x_tl, &window[14])
-  Ito32 (dev.y_tl, &window[18])
+  Ito32(dev.x_tl, &window[14])
+  Ito32(dev.y_tl, &window[18])
 
   /* Width and length */
-  Ito32 (dev.width, &window[22])
-  Ito32 (dev.length, &window[26])
+  Ito32(dev.width, &window[22])
+  Ito32(dev.length, &window[26])
 
   /* Image Composition */
   switch(dev.scan_mode)
@@ -595,7 +595,7 @@ get_filled_data_length(Teco_Scanner * dev, size_t * to_read)
 
   DBG(DBG_info, "%d %d  -  %d %d\n",
        dev.params.lines, B16TOI(&dev.buffer[12]),
-       dev.params.bytes_per_line, B16TOI(&dev.buffer[14]))
+       dev.params.bytesPerLine, B16TOI(&dev.buffer[14]))
 
   if(dev.real_bytes_left == 0)
     {
@@ -611,18 +611,18 @@ get_filled_data_length(Teco_Scanner * dev, size_t * to_read)
       switch(dev.scan_mode)
 	{
 	case TECO_BW:
-	  dev.params.bytes_per_line = B16TOI(&dev.buffer[14])
-	  dev.params.pixels_per_line = dev.params.bytes_per_line * 8
+	  dev.params.bytesPerLine = B16TOI(&dev.buffer[14])
+	  dev.params.pixels_per_line = dev.params.bytesPerLine * 8
 	  break
 
 	case TECO_GRAYSCALE:
 	  dev.params.pixels_per_line = B16TOI(&dev.buffer[14])
-	  dev.params.bytes_per_line = dev.params.pixels_per_line
+	  dev.params.bytesPerLine = dev.params.pixels_per_line
 	  break
 
 	case TECO_COLOR:
 	  dev.params.pixels_per_line = B16TOI(&dev.buffer[14])
-	  dev.params.bytes_per_line = dev.params.pixels_per_line * 3
+	  dev.params.bytesPerLine = dev.params.pixels_per_line * 3
 	  if(dev.buffer[17] == 0x07)
 	    {
 	      /* There is no RAM extension present. The colors will
@@ -1239,9 +1239,9 @@ teco_adjust_raster(Teco_Scanner * dev, size_t size_in)
       /* Adjust the line number relative to the image. */
       line -= dev.line
 
-      offset = dev.image_end + line * dev.params.bytes_per_line
+      offset = dev.image_end + line * dev.params.bytesPerLine
 
-      assert(offset <= (dev.image_size - dev.params.bytes_per_line))
+      assert(offset <= (dev.image_size - dev.params.bytesPerLine))
 
       /* Copy the raster to the temporary image. */
       {
@@ -1267,7 +1267,7 @@ teco_adjust_raster(Teco_Scanner * dev, size_t size_in)
 	{
 	  /* This raster completes a new line */
 	  dev.line++
-	  dev.image_end += dev.params.bytes_per_line
+	  dev.image_end += dev.params.bytesPerLine
 	}
 
       dev.raster_num++
@@ -1291,7 +1291,7 @@ teco_fill_image(Teco_Scanner * dev)
   assert(dev.real_bytes_left > 0)
 
   /* Copy the complete lines, plus the incompletes
-   * ones. We don't keep the real end of data used
+   * ones. We don"t keep the real end of data used
    * in image, so we copy the biggest possible.
    */
   if(dev.scan_mode == TECO_COLOR)
@@ -1307,7 +1307,7 @@ teco_fill_image(Teco_Scanner * dev)
 
       /* todo: teco2 too */
       /* Check that we can at least one line. */
-      if(dev.raster_ahead + dev.image_end + dev.params.bytes_per_line >
+      if(dev.raster_ahead + dev.image_end + dev.params.bytesPerLine >
 	  dev.image_size)
 	{
 	  /* Probably reached the end of the buffer.
@@ -1350,7 +1350,7 @@ teco_fill_image(Teco_Scanner * dev)
 	}
 
       DBG(DBG_info, "teco_fill_image: to read   = %ld bytes(bpl=%d)\n",
-	   (long) size, dev.params.bytes_per_line)
+	   (long) size, dev.params.bytesPerLine)
 
       MKSCSI_READ_10 (cdb, 0, 0, size)
 
@@ -1516,7 +1516,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 
   while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if(dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == "#")	/* ignore line comments */
 	continue
       len = strlen(dev_name)
 
@@ -1922,7 +1922,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	  dev.params.format = Sane.FRAME_GRAY
 	  dev.params.pixels_per_line =
 	    ((dev.width * dev.x_resolution) / 300) & ~0x7
-	  dev.params.bytes_per_line = dev.params.pixels_per_line / 8
+	  dev.params.bytesPerLine = dev.params.pixels_per_line / 8
 	  dev.params.depth = 1
 	  dev.color_shift = 0
 	  break
@@ -1930,7 +1930,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	  dev.params.format = Sane.FRAME_GRAY
 	  dev.params.pixels_per_line =
 	    ((dev.width * dev.x_resolution) / 300)
-	  dev.params.bytes_per_line = dev.params.pixels_per_line
+	  dev.params.bytesPerLine = dev.params.pixels_per_line
 	  dev.params.depth = 8
 	  dev.color_shift = 0
 	  break
@@ -1938,13 +1938,13 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	  dev.params.format = Sane.FRAME_RGB
 	  dev.params.pixels_per_line =
 	    ((dev.width * dev.x_resolution) / 300)
-	  dev.params.bytes_per_line = dev.params.pixels_per_line * 3
+	  dev.params.bytesPerLine = dev.params.pixels_per_line * 3
 	  dev.params.depth = 8
 
 	  /* If the scanner does not have enough memory, it will
 	   * send the raw rasters instead of returning a full
 	   * interleaved line. Unfortunately this does not work well,
-	   * because I don't know how to compute the color
+	   * because I don"t know how to compute the color
 	   * shifting. So here is the result of some trial and error
 	   * process. This is ignored if the scanner has a RAM
 	   * module.
@@ -2023,10 +2023,10 @@ Sane.start(Sane.Handle handle)
        * Align image_size to a multiple of lines. (important)
        */
       dev.raster_ahead =
-	(2 * dev.color_shift + 1) * dev.params.bytes_per_line
+	(2 * dev.color_shift + 1) * dev.params.bytesPerLine
       dev.image_size = dev.buffer_size + dev.raster_ahead
       dev.image_size =
-	dev.image_size - (dev.image_size % dev.params.bytes_per_line)
+	dev.image_size - (dev.image_size % dev.params.bytesPerLine)
       dev.image = malloc(dev.image_size)
       if(dev.image == NULL)
 	{
@@ -2071,8 +2071,8 @@ Sane.start(Sane.Handle handle)
   dev.image_end = 0
   dev.image_begin = 0
 
-  dev.bytes_left = dev.params.bytes_per_line * dev.params.lines
-  dev.real_bytes_left = dev.params.bytes_per_line * dev.params.lines
+  dev.bytes_left = dev.params.bytesPerLine * dev.params.lines
+  dev.real_bytes_left = dev.params.bytesPerLine * dev.params.lines
 
   dev.scanning = Sane.TRUE
 

@@ -49,16 +49,16 @@ import sys/time
 #define DEBUG_NOT_STATIC
 import Sane.sanei_debug
 
-/* Please note: ASSERT won't go away if you define NDEBUG, it just won't
+/* Please note: ASSERT won"t go away if you define NDEBUG, it just won"t
  * output a message when ASSERT fails. So if "cond" does anything, it will
  * be executed, even if NDEBUG is defined...
  */
-#define	ASSERT(cond, retval)	do { 					\
+#define	ASSERT(cond, returnValue)	do { 					\
 				if(!(cond)) { 				\
 					DBG(2, "assertion %s failed\n",	\
 					STRINGIFY(cond));		\
-					if(retval >= 0)		\
-						return retval;		\
+					if(returnValue >= 0)		\
+						return returnValue;		\
 					else				\
 						return;			\
 				}					\

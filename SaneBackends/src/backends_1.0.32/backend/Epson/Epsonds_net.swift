@@ -136,7 +136,7 @@ epsonds_net_read(epsonds_scanner *s, unsigned char *buf, ssize_t wanted,
 	}
 
 	/* validate header */
-	if(header[0] != 'I' || header[1] != 'S') {
+	if(header[0] != "I" || header[1] != "S") {
 		DBG(1, "header mismatch: %02X %02x\n", header[0], header[1])
 		*status = Sane.STATUS_IO_ERROR
 		return 0
@@ -226,8 +226,8 @@ epsonds_net_write(epsonds_scanner *s, unsigned Int cmd, const unsigned char *buf
 	memset(h1, 0x00, 12)
 	memset(h2, 0x00, 8)
 
-	h1[0] = 'I'
-	h1[1] = 'S'
+	h1[0] = "I"
+	h1[1] = "S"
 
 	h1[2] = cmd >> 8;	// packet type
 	h1[3] = cmd;		// data type

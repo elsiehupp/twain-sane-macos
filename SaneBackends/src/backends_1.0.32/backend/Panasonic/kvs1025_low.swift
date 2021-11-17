@@ -715,7 +715,7 @@ CMD_set_window(PKV_DEV dev, Int side, PKV_CMD_RESPONSE rs)
   memset(&hdr, 0, sizeof(hdr))
   memset(window, 0, size)
 
-  Ito16 (66, &window[6]);	/* Window descriptor block length */
+  Ito16(66, &window[6]);	/* Window descriptor block length */
 
   /* Set window data */
 
@@ -875,7 +875,7 @@ CMD_read_pic_elements(PKV_DEV dev, Int page, Int side,
 	  dev.params[s].lines = *height ? *height
 	    : dev.val[OPT_LANDSCAPE].w ? (*width * 3) / 4 : (*width * 4) / 3
 	  dev.params[s].pixels_per_line = *width
-	  dev.params[s].bytes_per_line =
+	  dev.params[s].bytesPerLine =
 	    (dev.params[s].pixels_per_line / 8) * depth
 	}
       else
@@ -1036,8 +1036,8 @@ AllocateImageBuffer(PKV_DEV dev)
   Int *size = dev.bytes_to_read
   Int sides = IS_DUPLEX(dev) ? 2 : 1
   var i: Int
-  size[0] = dev.params[0].bytes_per_line * dev.params[0].lines
-  size[1] = dev.params[1].bytes_per_line * dev.params[1].lines
+  size[0] = dev.params[0].bytesPerLine * dev.params[0].lines
+  size[1] = dev.params[1].bytesPerLine * dev.params[1].lines
 
   DBG(DBG_proc, "AllocateImageBuffer: enter\n")
 
@@ -1045,7 +1045,7 @@ AllocateImageBuffer(PKV_DEV dev)
     {
       Sane.Byte *p
       DBG(DBG_proc, "AllocateImageBuffer: size(%c)=%d\n",
-	   i ? 'B' : 'F', size[i])
+	   i ? "B" : "F", size[i])
 
       if(dev.img_buffers[i] == NULL)
 	{
@@ -1286,7 +1286,7 @@ buffer_deskew(PKV_DEV s, Int side)
       goto cleanup
     }
   }
-  /* backside images can use a 'flipped' version of frontside data */
+  /* backside images can use a "flipped" version of frontside data */
   else{
     s.deskew_slope *= -1
     s.deskew_vals[0]
@@ -1335,10 +1335,10 @@ buffer_crop(PKV_DEV s, Int side)
     DBG(15, "buffer_crop: t:%d b:%d l:%d r:%d\n",
       s.crop_vals[0],s.crop_vals[1],s.crop_vals[2],s.crop_vals[3])
 
-    /* we don't listen to the 'top' value, since the top is not padded */
+    /* we don"t listen to the "top" value, since the top is not padded */
     /*s.crop_vals[0] = 0;*/
   }
-  /* backside images can use a 'flipped' version of frontside data */
+  /* backside images can use a "flipped" version of frontside data */
   else{
     Int left  = s.crop_vals[2]
     Int right = s.crop_vals[3]
@@ -1359,14 +1359,14 @@ buffer_crop(PKV_DEV s, Int side)
 
   /* update image size counter to new, smaller size */
   s.img_size[side_index]
-    = s.params[side_index].lines * s.params[side_index].bytes_per_line
+    = s.params[side_index].lines * s.params[side_index].bytesPerLine
 
   cleanup:
   DBG(10, "buffer_crop: finish\n")
   return ret
 }
 
-/* Look in image for disconnected 'spots' of the requested size.
+/* Look in image for disconnected "spots" of the requested size.
  * Replace the spots with the average color of the surrounding pixels.
  * FIXME: should we do this before we binarize instead of after? */
 Sane.Status
@@ -1397,7 +1397,7 @@ func Int buffer_isblank(PKV_DEV s, Int side)
 {
   Sane.Status ret = Sane.STATUS_GOOD
   Int side_index = (side == SIDE_FRONT)?0:1
-  Int status = 0
+  status: Int = 0
 
   DBG(10, "buffer_isblank: start\n")
 
@@ -1461,7 +1461,7 @@ buffer_rotate(PKV_DEV s, Int side)
 
   /* update image size counter to new, smaller size */
   s.img_size[side_index]
-    = s.params[side_index].lines * s.params[side_index].bytes_per_line
+    = s.params[side_index].lines * s.params[side_index].bytesPerLine
 
   cleanup:
   DBG(10, "buffer_rotate: finished\n")

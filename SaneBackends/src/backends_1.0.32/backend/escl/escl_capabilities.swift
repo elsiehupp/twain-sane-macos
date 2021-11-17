@@ -42,7 +42,7 @@ struct cap
 
 /**
  * \fn static Sane.String_Const convert_elements(Sane.String_Const str)
- * \brief Function that converts the 'color modes' of the scanner(color/gray) to be understood by SANE.
+ * \brief Function that converts the "color modes" of the scanner(color/gray) to be understood by SANE.
  *
  * \return Sane.VALUE_SCAN_MODE_GRAY / Sane.VALUE_SCAN_MODE_COLOR / Sane.VALUE_SCAN_MODE_LINEART; NULL otherwise
  */
@@ -63,7 +63,7 @@ convert_elements(Sane.String_Const str)
 /**
  * \fn static Sane.String_Const *char_to_array(Sane.String_Const *tab, Int *tabsize, Sane.String_Const mode, Int good_array)
  * \brief Function that creates the character arrays to put inside :
- *        the 'color modes', the 'content types', the 'document formats' and the 'supported intents'.
+ *        the "color modes", the "content types", the "document formats" and the "supported intents".
  *
  * \return board(the allocated array)
  */
@@ -99,7 +99,7 @@ char_to_array(Sane.String_Const *tab, Int *tabsize, Sane.String_Const mode, Int 
 
 /**
  * \fn static Int *int_to_array(Int *tab, Int *tabsize, Int cont)
- * \brief Function that creates the integer array to put inside the 'supported resolutions'.
+ * \brief Function that creates the integer array to put inside the "supported resolutions".
  *
  * \return board(the allocated array)
  */
@@ -178,7 +178,7 @@ find_nodes_c(xmlNode *node)
  * \return 0
  */
 static Int
-find_valor_of_array_variables(xmlNode *node, capabilities_t *scanner, Int type)
+find_valor_of_array_variables(xmlNode *node, capabilities_t *scanner, type: Int)
 {
     const char *name = (const char *)node.name
     if(strcmp(name, "ColorMode") == 0) {
@@ -254,7 +254,7 @@ find_valor_of_array_variables(xmlNode *node, capabilities_t *scanner, Int type)
  * \return 0
  */
 static Int
-find_value_of_int_variables(xmlNode *node, capabilities_t *scanner, Int type)
+find_value_of_int_variables(xmlNode *node, capabilities_t *scanner, type: Int)
 {
     Int MaxWidth = 0
     Int MaxHeight = 0
@@ -362,7 +362,7 @@ find_struct_variables(xmlNode *node, capabilities_t *scanner)
  * \return 0
  */
 static Int
-find_true_variables(xmlNode *node, capabilities_t *scanner, Int type)
+find_true_variables(xmlNode *node, capabilities_t *scanner, type: Int)
 {
     const char *name = (const char *)node.name
     if(strcmp(name, "MinWidth") == 0 ||
@@ -392,7 +392,7 @@ find_true_variables(xmlNode *node, capabilities_t *scanner, Int type)
  * \return 0
  */
 static Int
-print_xml_c(xmlNode *node, ESCL_Device *device, capabilities_t *scanner, Int type)
+print_xml_c(xmlNode *node, ESCL_Device *device, capabilities_t *scanner, type: Int)
 {
     while(node) {
         if(node.type == XML_ELEMENT_NODE) {
@@ -433,7 +433,7 @@ print_xml_c(xmlNode *node, ESCL_Device *device, capabilities_t *scanner, Int typ
 static void
 _reduce_color_modes(capabilities_t *scanner)
 {
-    Int type = 0
+    type: Int = 0
     for(type = 0; type < 3; type++) {
          if(scanner.caps[type].ColorModesSize) {
 	     if(scanner.caps[type].default_format &&
@@ -457,8 +457,8 @@ _reduce_color_modes(capabilities_t *scanner)
 /**
  * \fn capabilities_t *escl_capabilities(const ESCL_Device *device, Sane.Status *status)
  * \brief Function that finally recovers all the capabilities of the scanner, using curl.
- *        This function is called in the 'Sane.open' function and it's the equivalent of
- *        the following curl command : "curl http(s)://'ip':'port'/eSCL/ScannerCapabilities".
+ *        This function is called in the "Sane.open" function and it"s the equivalent of
+ *        the following curl command : "curl http(s)://"ip":"port"/eSCL/ScannerCapabilities".
  *
  * \return scanner(the structure that stocks all the capabilities elements)
  */
@@ -487,7 +487,7 @@ escl_capabilities(ESCL_Device *device, Sane.Status *status)
     curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, (void *)var)
     CURLcode res = curl_easy_perform(curl_handle)
     if(res != CURLE_OK) {
-        DBG( 1, "The scanner didn't respond: %s\n", curl_easy_strerror(res))
+        DBG( 1, "The scanner didn"t respond: %s\n", curl_easy_strerror(res))
         *status = Sane.STATUS_INVAL
         goto clean_data
     }

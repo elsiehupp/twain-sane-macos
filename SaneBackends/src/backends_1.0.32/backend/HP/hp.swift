@@ -160,7 +160,7 @@ void sanei_hp_init_openfd(void)
 typedef struct
 {
   Int lines
-  Int bytes_per_line;     /* as received from scanner */
+  Int bytesPerLine;     /* as received from scanner */
   Int bits_per_channel
   hp_bool_t out8;         /* This flag is set and only set, when data with */
                           /* depths > 8 is to be mapped to 8 bit output. */
@@ -348,7 +348,7 @@ static char *hp_backend_version = "1.06"
       - remove inlines
    V 0.88, 20-Jul-2000, PK:
       - Use sanei_config_read()
-      - don't write chars < 32 to DBG
+      - don"t write chars < 32 to DBG
    V 0.88, 09-Jul-2000, PK:
       - Add front button support by Chris S. Cowles, Houston, Texas,
         c_cowles@ieee.org
@@ -362,7 +362,7 @@ static char *hp_backend_version = "1.06"
         (Jens Heise, <heisbeee@calvados.zrz.TU-Berlin.DE>)
       - add option enable-image-buffering
    V 0.85, 30-Jan-2000, PK:
-      - correct and enhance data widths > 8 (Ewald de Wit  <ewald@pobox.com>)
+      - correct and enhance data widths > 8(Ewald de Wit  <ewald@pobox.com>)
       - enable data width for all scanners
       - PhotoSmart: exposure "Off" changed to "Default"
       - PhotoSmart: even if max. datawidth 24 is reported, allow 30 bits.
@@ -384,10 +384,10 @@ static char *hp_backend_version = "1.06"
       - Marian Szebenyi: close pipe(endless loop on Digital UNIX)
 
    V 0.82, 28-Feb-99, Ewald de Wit <ewald@pobox.com>:
-      - add options 'exposure time' and 'data width'
+      - add options "exposure time" and "data width"
 
    V 0.81, 11-Jan-99, PK:
-      - occasionally 'scan from ADF' was active for Photoscanner
+      - occasionally "scan from ADF" was active for Photoscanner
 
    V 0.80, 10-Jan-99, PK:
       - fix problem with scan size for ADF-scan
@@ -489,7 +489,7 @@ sanei_hp_dbgdump(const void * bufp, size_t len)
       strcat(line, "  ")
       for(i = offset; i < offset + 16 && i < (Int)len; i++)
       {
-	  sprintf(pt, "%c", isprint(buf[i]) ? buf[i] : '.')
+	  sprintf(pt, "%c", isprint(buf[i]) ? buf[i] : ".")
           strcat(line, pt)
       }
       DBG(16,"%s\n",line)
@@ -570,7 +570,7 @@ hp_device_info_create(const char *devname)
 
  k = sizeof(info.devname)
  strncpy(info.devname, devname, k)
- info.devname[k-1] = '\0'
+ info.devname[k-1] = "\0"
  info.max_model = -1
  info.active_xpa = -1
 
@@ -868,7 +868,7 @@ hp_read_config(void)
   hp_init_config(&df_config)
   config = &df_config
   is_df_config = 1
-  cu_device[0] = '\0'
+  cu_device[0] = "\0"
 
   DBG(1, "hp_read_config: hp backend v%s starts reading config file\n",
       hp_backend_version)
@@ -883,9 +883,9 @@ hp_read_config(void)
           while(nl > 0)
           {
             nl--
-            if(   (buf[nl] == ' ') || (buf[nl] == '\t')
-                || (buf[nl] == '\r') || (buf[nl] == '\n'))
-              buf[nl] = '\0'
+            if(   (buf[nl] == " ") || (buf[nl] == "\t")
+                || (buf[nl] == "\r") || (buf[nl] == "\n"))
+              buf[nl] = "\0"
             else
               break
           }
@@ -893,7 +893,7 @@ hp_read_config(void)
           DBG(1, "hp_read_config: processing line <%s>\n", buf)
 
           nargs = sscanf(buf, "%s%s%s", arg1, arg2, arg3)
-          if((nargs <= 0) || (arg1[0] == '#')) continue
+          if((nargs <= 0) || (arg1[0] == "#")) continue
 
           /* Option to process ? */
           if((strcmp(arg1, "option") == 0) && (nargs >= 2))
@@ -953,11 +953,11 @@ hp_read_config(void)
               memcpy(&dev_config, &df_config, sizeof(dev_config))
               config = &dev_config;   /* Start reading a device config */
             }
-            if(cu_device[0] != '\0')  /* Did we work on a device ? */
+            if(cu_device[0] != "\0")  /* Did we work on a device ? */
             {
               memcpy(hp_global_config_get(), &dev_config,sizeof(dev_config))
               hp_attach_matching_devices(hp_global_config_get(), cu_device)
-              cu_device[0] = '\0'
+              cu_device[0] = "\0"
             }
 
             /* Initialize new device with default config */
@@ -968,12 +968,12 @@ hp_read_config(void)
             strcpy(cu_device, dev_name);    /* Save the device name */
           }
         }
-        if(cu_device[0] != '\0')  /* Did we work on a device ? */
+        if(cu_device[0] != "\0")  /* Did we work on a device ? */
         {
           memcpy(hp_global_config_get(), &dev_config, sizeof(dev_config))
           DBG(1, "hp_read_config: attach %s\n", cu_device)
           hp_attach_matching_devices(hp_global_config_get(), cu_device)
-          cu_device[0] = '\0'
+          cu_device[0] = "\0"
         }
       fclose(fp)
       DBG(1, "hp_read_config: reset to default config\n")

@@ -52,7 +52,7 @@
    (feedback to:  dc25-devel@fales-lorenz.net)
 
    This backend is based heavily on the dc20ctrl package by Ugo
-   Paternostro <paterno@dsi.unifi.it>.  I've attached his header below:
+   Paternostro <paterno@dsi.unifi.it>.  I"ve attached his header below:
 
  ***************************************************************************
 
@@ -317,7 +317,7 @@ static Int comet_to_pixmap(unsigned char *, struct pixmap *)
    (feedback to:  dc25-devel@fales-lorenz.net)
 
    This backend is based heavily on the dc20ctrl package by Ugo
-   Paternostro <paterno@dsi.unifi.it>.  I've attached his header below:
+   Paternostro <paterno@dsi.unifi.it>.  I"ve attached his header below:
 
  ***************************************************************************
 
@@ -610,7 +610,7 @@ static unsigned char init_pck[] = INIT_PCK
 
 /*
  * List of speeds to try to establish connection with the camera.
- * Check 9600 first, as it's the speed the camera comes up in, then
+ * Check 9600 first, as it"s the speed the camera comes up in, then
  * 115200, as that is the one most likely to be configured from a
  * previous run
  */
@@ -888,7 +888,7 @@ read_data(Int fd, unsigned char *buf, Int sz)
 
       /*
        * If this is not the first time through, then it must be
-       * a retry - signal the camera that we didn't like what
+       * a retry - signal the camera that we didn"t like what
        * we got.  In either case, start filling the packet
        */
       if(retries != 1)
@@ -1091,7 +1091,7 @@ interpolate_vertically(const unsigned char ccd[],
 	  Int this_vertical_interpolation
 
 	  /*
-	   * PSF: I don't understand all this code, but I've found pictures
+	   * PSF: I don"t understand all this code, but I"ve found pictures
 	   * where up_intensity or down_intensity are zero, resulting in a
 	   * divide by zero error.  It looks like this only happens when
 	   * up_ccd or down_ccd are also zero, so we just set the intensity
@@ -1385,7 +1385,7 @@ make_gamma_table(Int range)
   unsigned char *gamma_table
   if((gamma_table = malloc(range * sizeof(unsigned char))) == NULL)
     {
-      DBG(1, "make_gamma_table: can't allocate memory for gamma table\n")
+      DBG(1, "make_gamma_table: can"t allocate memory for gamma table\n")
       return NULL
     }
   for(i = 0; i < range; i++)
@@ -1490,7 +1490,7 @@ comet_to_pixmap(unsigned char *pic, struct pixmap *pp)
 {
   unsigned char *ccd
   short *horizontal_interpolation, *red, *green, *blue
-  Int retval = 0
+  returnValue: Int = 0
 
   if(pic == NULL)
     {
@@ -1555,9 +1555,9 @@ comet_to_pixmap(unsigned char *pic, struct pixmap *pp)
     }
 
   /* Output pixmap structure */
-  retval = output_rgb(red, green, blue, low_i, high_i, pp)
+  returnValue = output_rgb(red, green, blue, low_i, high_i, pp)
 
-  return retval
+  return returnValue
 }
 
 static Int
@@ -1986,7 +1986,7 @@ shoot(Int fd)
       if(CameraInfo.model == 0x25)
 	{
 	  /*
-	   * If we don't put this in, the next read will time out
+	   * If we don"t put this in, the next read will time out
 	   * and return failure.  Does the DC-20 need it too?
 	   */
 	  sleep(3)
@@ -2026,7 +2026,7 @@ erase(Int fd)
     {
       /*
        * This block may really apply to the DC20 also, but since I
-       * don't have one, it's hard to say for sure.  On the DC25, erase
+       * don"t have one, it"s hard to say for sure.  On the DC25, erase
        * takes long enough that the read may timeout without returning
        * any data before the erase is complete.   We let this happen
        * up to 4 times, then give up.
@@ -2109,23 +2109,23 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
   if(!fp)
     {
       /* default to /dev/ttyS0 instead of insisting on config file */
-      DBG(1, "Sane.init:  missing config file '%s'\n", DC25_CONFIG_FILE)
+      DBG(1, "Sane.init:  missing config file "%s"\n", DC25_CONFIG_FILE)
     }
   else
     {
       while(sanei_config_read(dev_name, sizeof(dev_name), fp))
 	{
-	  dev_name[sizeof(dev_name) - 1] = '\0'
+	  dev_name[sizeof(dev_name) - 1] = "\0"
 	  DBG(20, "Sane.init:  config- %s", dev_name)
 
-	  if(dev_name[0] == '#')
+	  if(dev_name[0] == "#")
 	    continue;		/* ignore line comments */
 	  len = strlen(dev_name)
 	  if(!len)
 	    continue;		/* ignore empty lines */
 	  if(strncmp(dev_name, "port=", 5) == 0)
 	    {
-	      p = strchr(dev_name, '/')
+	      p = strchr(dev_name, "/")
 	      if(p)
 		{
 		  strcpy(tty_name, p)
@@ -2383,7 +2383,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 	       */
 	      parms.format =
 		(CameraInfo.model == 0x25) ? Sane.FRAME_RGB : Sane.FRAME_GRAY
-	      parms.bytes_per_line = 80 * 3
+	      parms.bytesPerLine = 80 * 3
 	      parms.pixels_per_line = 80
 	      parms.lines = 60
 	    }
@@ -2392,13 +2392,13 @@ Sane.control_option(Sane.Handle handle, Int option,
 	      parms.format = Sane.FRAME_RGB
 	      if(dc20_info.flags.low_res)
 		{
-		  parms.bytes_per_line = 320 * 3
+		  parms.bytesPerLine = 320 * 3
 		  parms.pixels_per_line = 320
 		  parms.lines = 243
 		}
 	      else
 		{
-		  parms.bytes_per_line = 500 * 3
+		  parms.bytesPerLine = 500 * 3
 		  parms.pixels_per_line = 500
 		  parms.lines = 373
 		}
@@ -2429,13 +2429,13 @@ Sane.control_option(Sane.Handle handle, Int option,
 
 	      if(dc20_info.flags.low_res)
 		{
-		  parms.bytes_per_line = 320 * 3
+		  parms.bytesPerLine = 320 * 3
 		  parms.pixels_per_line = 320
 		  parms.lines = 243
 		}
 	      else
 		{
-		  parms.bytes_per_line = 500 * 3
+		  parms.bytesPerLine = 500 * 3
 		  parms.pixels_per_line = 500
 		  parms.lines = 373
 		}
@@ -2606,7 +2606,7 @@ Sane.start(Sane.Handle handle)
     {
 
       /*
-       * Don't allow picture unless there is room in the
+       * Don"t allow picture unless there is room in the
        * camera.
        */
       if(CameraInfo.pic_left == 0)
@@ -2683,7 +2683,7 @@ Sane.start(Sane.Handle handle)
        */
       parms.format =
 	(CameraInfo.model == 0x25) ? Sane.FRAME_RGB : Sane.FRAME_GRAY
-      parms.bytes_per_line = 80 * 3;	/* 80 pixels, 3 colors */
+      parms.bytesPerLine = 80 * 3;	/* 80 pixels, 3 colors */
       parms.pixels_per_line = 80
       parms.lines = 60
 
@@ -2749,7 +2749,7 @@ Sane.start(Sane.Handle handle)
 	  DBG(5, "Sane.start: hi-res image\n")
 	  n = 122
 
-	  parms.bytes_per_line = 500 * 3;	/* 3 colors */
+	  parms.bytesPerLine = 500 * 3;	/* 3 colors */
 	  parms.pixels_per_line = 500
 	  parms.lines = 373
 
@@ -2761,7 +2761,7 @@ Sane.start(Sane.Handle handle)
 	  n = 61
 	  DBG(5, "Sane.start: low-res image\n")
 
-	  parms.bytes_per_line = 320 * 3;	/* 3 Colors */
+	  parms.bytesPerLine = 320 * 3;	/* 3 Colors */
 	  parms.pixels_per_line = 320
 	  parms.lines = 243
 
@@ -2888,14 +2888,14 @@ Sane.read(Sane.Handle __Sane.unused__ handle, Sane.Byte * data,
   else
     {
       var i: Int
-      Int filesize = parms.bytes_per_line * parms.lines
+      Int filesize = parms.bytesPerLine * parms.lines
 
       /*
        * If outbytes is zero, then this is the first time
-       * we've been called, so update the contrast table.
+       * we"ve been called, so update the contrast table.
        * The formula is something I came up with that has the
        * following properties:
-       * 1) It's a smooth curve that provides the effect I wanted
+       * 1) It"s a smooth curve that provides the effect I wanted
        *    (bright pixels are made brighter, dim pixels are made
        *    dimmer)
        * 2) The contrast parameter can be adjusted to provide
@@ -2923,7 +2923,7 @@ Sane.read(Sane.Handle __Sane.unused__ handle, Sane.Byte * data,
 	    }
 	}
 
-      /* We're done, so return EOF */
+      /* We"re done, so return EOF */
       if(outbytes >= filesize)
 	{
 	  free_pixmap(pp)
@@ -3002,7 +3002,7 @@ Sane.set_io_mode(Sane.Handle __Sane.unused__ handle,
     }
   else
     {
-      /* We aren't currently scanning */
+      /* We aren"t currently scanning */
       return Sane.STATUS_INVAL
     }
 }

@@ -210,12 +210,12 @@ send_scan_param(pixma_t * s)
   uint8_t *data
 
   data = pixma_newcmd(&mp.cb, cmd_scan_param, 0x2e, 0)
-  pixma_set_be16 (s.param.xdpi | 0x1000, data + 0x04)
-  pixma_set_be16 (s.param.ydpi | 0x1000, data + 0x06)
-  pixma_set_be32 (s.param.x, data + 0x08)
-  pixma_set_be32 (s.param.y, data + 0x0c)
-  pixma_set_be32 (mp.raw_width, data + 0x10)
-  pixma_set_be32 (s.param.h, data + 0x14)
+  pixma_set_be16(s.param.xdpi | 0x1000, data + 0x04)
+  pixma_set_be16(s.param.ydpi | 0x1000, data + 0x06)
+  pixma_set_be32(s.param.x, data + 0x08)
+  pixma_set_be32(s.param.y, data + 0x0c)
+  pixma_set_be32(mp.raw_width, data + 0x10)
+  pixma_set_be32(s.param.h, data + 0x14)
 
   if(s.param.channels == 1)
     {
@@ -297,7 +297,7 @@ send_time(pixma_t * s)
   pixma_get_time(&now, NULL)
   t = localtime(&now)
   strftime((char *) data, 16, "%y/%m/%d %H:%M", t)
-  PDBG(pixma_dbg(3, "Sending time: '%s'\n", (char *) data))
+  PDBG(pixma_dbg(3, "Sending time: "%s"\n", (char *) data))
   return pixma_exec(s, &mp.cb)
 }
 
@@ -392,7 +392,7 @@ read_error_info(pixma_t * s, void *buf, unsigned size)
   if(buf && len < size)
     {
       size = len
-      /* NOTE: I've absolutely no idea what the returned data mean. */
+      /* NOTE: I"ve absolutely no idea what the returned data mean. */
       memcpy(buf, data, size)
       error = len
     }
@@ -456,7 +456,7 @@ step1 (pixma_t * s)
         }
 
       // ignore result from calibrate()
-      // don't interrupt @ PIXMA_STATUS_BUSY
+      // don"t interrupt @ PIXMA_STATUS_BUSY
       error = 0
     }
   if(error >= 0)
@@ -667,7 +667,7 @@ mp730_fill_buffer(pixma_t * s, pixma_imagebuf_t * ib)
 	    return error
 
 	  bytes_received = error
-	  block_size = pixma_get_be16 (header + 4)
+	  block_size = pixma_get_be16(header + 4)
 	  mp.last_block = ((header[2] & 0x28) == 0x28)
 	  if(mp.last_block)
 	    {    /* end of image */
@@ -746,7 +746,7 @@ mp730_finish_scan(pixma_t * s)
       query_status(s)
       activate(s, 0)
 
-      // MF57x0 devices don't require abort_session() after the last page
+      // MF57x0 devices don"t require abort_session() after the last page
       if(!aborted &&
           (s.param.source == PIXMA_SOURCE_ADF ||
            s.param.source == PIXMA_SOURCE_ADFDUP) &&

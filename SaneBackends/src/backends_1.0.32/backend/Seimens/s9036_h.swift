@@ -65,7 +65,7 @@ typedef struct S9036_Scanner
     Sane.Parameters params
 
     size_t bufsize;		/* about SCSI_MAX_REQUEST_SIZE */
-    Sane.Byte *buffer;		/* buffer of size 'bufsize' */
+    Sane.Byte *buffer;		/* buffer of size "bufsize" */
     Sane.Byte *bufstart;	/* Start of data for next read */
     size_t in_buffer;		/* bytes already in buffer */
 

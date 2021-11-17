@@ -138,7 +138,7 @@ namespace USB {
 		std.list<Endpoint *>.const_iterator iter
 
 		void setDescriptor(struct usb_interface_descriptor)
-		/* we don't use a normal usb_interface_descriptor */
+		/* we don"t use a normal usb_interface_descriptor */
 		/* because that would bring in the endpoint list */
 		u_int8_t m_Length
 		u_int8_t m_DescriptorType
@@ -384,7 +384,7 @@ namespace USB {
 		std.list<Interface *>.const_iterator iter
 
 		void setDescriptor(struct usb_config_descriptor)
-		/* we don't use a normal usb_config_descriptor */
+		/* we don"t use a normal usb_config_descriptor */
 		/* because that would bring in the interface list */
 		u_int8_t  m_Length
 		u_int8_t  m_DescriptorType
@@ -448,7 +448,7 @@ namespace USB {
 		 * This method returns a number containing the vendor
 		 * (manufacturer) identification number. These are allocated
 		 * by the USB Implementers Forum, and you can construct a
-		 * lookup based on the number to get the manufacturer's name,
+		 * lookup based on the number to get the manufacturer"s name,
 		 * even if the device does not contain a vendor string.
 		 *
 		 * \see Vendor()
@@ -467,9 +467,9 @@ namespace USB {
 		u_int16_t idProduct(void)
 
 		/**
-		 * \brief The product's revision ID, as provided by the device.
+		 * \brief The product"s revision ID, as provided by the device.
 		 *
-		 * This method returns a number containing the product's revision.
+		 * This method returns a number containing the product"s revision.
 		 * This revision level is nominally binary coded decimal, but
 		 * hexadecimal revision levels are not uncommon. The binary coded
 		 * decimal version nominally has a major version in the high byte,
@@ -478,17 +478,17 @@ namespace USB {
 		u_int16_t idRevision(void)
 
 		/**
-		 * \brief The device's USB class, as provided by the device.
+		 * \brief The device"s USB class, as provided by the device.
 		 *
-		 * This method returns a number containing the device's class.
-		 * These are defined by the USB Implementer's Forum.
+		 * This method returns a number containing the device"s class.
+		 * These are defined by the USB Implementer"s Forum.
 		 *
 		 * A code of Zero is special(and common) - it means that the
 		 * class is found in the Interface descriptor, rather than in the
 		 * Device descriptor.
 		 * 
 		 * A code of 0xFF is also special(and far too common) - it means
-		 * that the manufacturer didn't conform to one of the defined 
+		 * that the manufacturer didn"t conform to one of the defined 
 		 * class specifications, and chose to implement a vendor specified
 		 * protocol.
 		 *
@@ -496,19 +496,19 @@ namespace USB {
 		u_int8_t devClass(void)
 
 		/**
-		 * \brief The device's USB subclass, as provided by the device.
+		 * \brief The device"s USB subclass, as provided by the device.
 		 *
-		 * This method returns a number containing the device's subclass.
-		 * These subclasses are defined by the USB Implementer's Forum,
+		 * This method returns a number containing the device"s subclass.
+		 * These subclasses are defined by the USB Implementer"s Forum,
 		 * and only have meaning in the context of a specified class. 
 		 */
 		u_int8_t devSubClass(void)
 
 		/**
-		 * \brief The device's USB protocol, as provided by the device.
+		 * \brief The device"s USB protocol, as provided by the device.
 		 *
-		 * This method returns a number containing the device's protocol.
-		 * These protocols are defined by the USB Implementer's Forum, and
+		 * This method returns a number containing the device"s protocol.
+		 * These protocols are defined by the USB Implementer"s Forum, and
 		 * only have meaning in the context of a specified class and
 		 * subclass. 
 		 */
@@ -519,7 +519,7 @@ namespace USB {
 		 * \brief The vendor name string, as provided by the device.
 		 *
 		 * This method returns a string containing the name of the 
-		 * device's vendor(manufacturer), as encoded into the device.
+		 * device"s vendor(manufacturer), as encoded into the device.
 		 *
 		 * Note that not all devices contain a vendor name, and also
 		 * that under some operating systems you may not be able to
@@ -534,7 +534,7 @@ namespace USB {
 		 * \brief The product name string, as provided by the device.
 		 *
 		 * This method returns a string containing the name of the 
-		 * device's product name, as encoded into the device.
+		 * device"s product name, as encoded into the device.
 		 *
 		 * Note that not all devices contain a product name, and also
 		 * that under some operating systems you may not be able to
@@ -729,7 +729,7 @@ namespace USB {
 	 *
 	 * DeviceID provides a list of(vendor, product) identification
 	 * pairs. It is intended for use in a list of device numbers to
-	 * search for, but there is no reason why it couldn't be used for a
+	 * search for, but there is no reason why it couldn"t be used for a
 	 * general purpose(vendor,product) tuple if you had some reason for
 	 * this.
 	 *

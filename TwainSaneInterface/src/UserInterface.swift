@@ -15,7 +15,7 @@ import Set
 
 class UserInterface {
 
-    private var sanedevice: SaneDevice
+    private var saneDevice: SaneDevice
 
     private var window: WindowRef
     private var optionGroupBoxControl: ControlRef
@@ -131,7 +131,7 @@ class UserInterface {
                     count++
                 }
                 else {
-                    if(uc == '0') zeros++
+                    if(uc == "0") zeros++
                     CFStringDelete(text, CFRangeMake(cix, 1))
                 }
             }
@@ -147,11 +147,11 @@ class UserInterface {
         Int count = 0
         while(cix >= 0) {
             UniChar uc = CFStringGetCharacterAtIndex(text, cix)
-            if(uc >= '0' && uc <= '9') {
+            if(uc >= "0" && uc <= "9") {
                 if(count && count % 3 == 0) CFStringInsert(text, cix + 1, sep1000)
                 count++
             }
-            else if(uc != '-' || cix != 0)
+            else if(uc != "-" || cix != 0)
                 CFStringDelete(text, CFRangeMake(cix, 1))
             cix--
         }
@@ -166,7 +166,7 @@ class UserInterface {
     static func ChangeDeviceHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent,
                                         void * inUserData) -> OSStatus {
 
-        let userinterface: UserInterface = (UserInterface *) inUserData
+        let userInterface: UserInterface = (UserInterface *) inUserData
 
         var control: ControlRef
         var osstat: OSStatus = GetEventParameter(inEvent, kEventParamDirectObject, typeControlRef, nil,
@@ -174,7 +174,7 @@ class UserInterface {
         assert(osstat == noErr)
 
         let device: Int = GetControl32BitValue(control) - 1
-        let newDevice: Int = userinterface.ChangeDevice(device)
+        let newDevice: Int = userInterface.ChangeDevice(device)
         if device != newDevice {
             SetControl32BitValue(control, newDevice + 1)
         }
@@ -186,14 +186,14 @@ class UserInterface {
     static func ProcessCommandHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent,
                                         void * inUserData) -> OSStatus {
 
-        let userinterface: UserInterface = (UserInterface *) inUserData
+        let userInterface: UserInterface = (UserInterface *) inUserData
 
         HICommandExtended cmd
         var osstat: OSStatus = GetEventParameter(inEvent, kEventParamDirectObject, typeHICommand, nil,
                                             sizeof(HICommandExtended), nil, &cmd)
         assert(osstat == noErr)
 
-        userinterface.ProcessCommand(cmd.commandID)
+        userInterface.ProcessCommand(cmd.commandID)
 
         return CallNextEventHandler(inHandlerCallRef, inEvent)
     }
@@ -202,9 +202,9 @@ class UserInterface {
     static func ChangeOptionGroupHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent,
                                             void * inUserData) -> OSStatus {
 
-        let userinterface: UserInterface = (UserInterface *) inUserData
+        let userInterface: UserInterface = (UserInterface *) inUserData
 
-        userinterface.ChangeOptionGroup()
+        userInterface.ChangeOptionGroup()
 
         return CallNextEventHandler(inHandlerCallRef, inEvent)
     }
@@ -213,23 +213,23 @@ class UserInterface {
     static func ScrollBarLiveAction(control: ControlRef, SInt16 part) {
 
         WindowRef window = GetControlOwner(control)
-        let userinterface: UserInterface = (UserInterface *) GetWRefCon(window)
+        let userInterface: UserInterface = (UserInterface *) GetWRefCon(window)
 
-        userinterface.Scroll(part)
+        userInterface.Scroll(part)
     }
 
 
     static func ChangeOptionHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent,
                                         void * inUserData) -> OSStatus {
 
-        let userinterface: UserInterface = (UserInterface *) inUserData
+        let userInterface: UserInterface = (UserInterface *) inUserData
 
         control: ControlRef
         var osstat: OSStatus = GetEventParameter(inEvent, kEventParamDirectObject, typeControlRef, nil,
                                             sizeof(ControlRef), nil, &control)
         assert(osstat == noErr)
 
-        userinterface.ChangeOption(control)
+        userInterface.ChangeOption(control)
 
         return noErr
     }
@@ -238,9 +238,9 @@ class UserInterface {
     static func CreateSliderNumberStringProc(control: ControlRef, value: Int) -> String {
 
         let window: WindowRef = GetControlOwner(control)
-        let userinterface: UserInterface = (UserInterface *) GetWRefCon(window)
+        let userInterface: UserInterface = (UserInterface *) GetWRefCon(window)
 
-        return userinterface.CreateSliderNumberString(control, value)
+        return userInterface.CreateSliderNumberString(control, value)
     }
 
 
@@ -255,14 +255,14 @@ class UserInterface {
         control: ControlRef = (ControlRef) inUserData
 
         WindowRef window = GetControlOwner(control)
-        let userinterface: UserInterface = (UserInterface *) GetWRefCon(window)
+        let userInterface: UserInterface = (UserInterface *) GetWRefCon(window)
 
         String oldtext
         oserr = GetControlData(control, kControlEntireControl, kControlEditTextCFStringTag,
                                 sizeof(String), &oldtext, nil)
         assert(oserr == noErr)
 
-        OSStatus retval = CallNextEventHandler(inHandlerCallRef, inEvent)
+        OSStatus returnValue = CallNextEventHandler(inHandlerCallRef, inEvent)
 
         String newtext
         oserr = GetControlData(control, kControlEntireControl, kControlEditTextCFStringTag,
@@ -272,20 +272,20 @@ class UserInterface {
         if(CFStringCompare(oldtext, newtext, 0) != kCFCompareEqualTo) {
 
             EventLoopTimerRef timer
-            osstat = GetControlProperty(control, 'SANE', 'timr', sizeof(EventLoopTimerRef),
+            osstat = GetControlProperty(control, "SANE", "timr", sizeof(EventLoopTimerRef),
                                         nil, &timer)
             assert(osstat == noErr)
 
             osstat = SetEventLoopTimerNextFireTime(timer, 2 * kEventDurationSecond)
             assert(osstat == noErr)
 
-            userinterface.Invalidate(control)
+            userInterface.Invalidate(control)
         }
 
         CFRelease(oldtext)
         CFRelease(newtext)
 
-        return retval
+        return returnValue
     }
 
 
@@ -294,9 +294,9 @@ class UserInterface {
         control: ControlRef = (ControlRef) inUserData
 
         WindowRef window = GetControlOwner(control)
-        let userinterface: UserInterface = (UserInterface *) GetWRefCon(window)
+        let userInterface: UserInterface = (UserInterface *) GetWRefCon(window)
 
-        userinterface.Validate(control)
+        userInterface.Validate(control)
     }
 
 
@@ -311,7 +311,7 @@ class UserInterface {
         assert(osstat == noErr)
 
         EventLoopTimerRef timer
-        osstat = GetControlProperty(control, 'SANE', 'timr', sizeof(EventLoopTimerRef), nil, &timer)
+        osstat = GetControlProperty(control, "SANE", "timr", sizeof(EventLoopTimerRef), nil, &timer)
         assert(osstat == noErr)
 
         osstat = RemoveEventLoopTimer(timer)
@@ -321,12 +321,12 @@ class UserInterface {
     }
 
 
-    func void SetGammaTableCallback(control: ControlRef, Float * table) {
+    func SetGammaTableCallback(control: ControlRef, Float * table) {
 
         let window: WindowRef = GetControlOwner(control)
-        let userinterface: UserInterface = (UserInterface *) GetWRefCon(window)
+        let userInterface: UserInterface = (UserInterface *) GetWRefCon(window)
 
-        userinterface.SetGammaTable(control, table)
+        userInterface.SetGammaTable(control, table)
     }
 
 
@@ -336,18 +336,18 @@ class UserInterface {
         var osstat: OSStatus
         var oserr: OSErr
 
-        let userinterface: UserInterface = (UserInterface *) inUserData
+        let userInterface: UserInterface = (UserInterface *) inUserData
 
         control: ControlRef
         osstat = GetEventParameter(inEvent, kEventParamDirectObject, typeControlRef, nil,
                                     sizeof(ControlRef), nil, &control)
         assert(osstat == noErr)
 
-        var i: UInt32
+        var i: Int
         oserr = GetMenuItemRefCon(GetControlPopupMenuHandle(control), GetControl32BitValue(control), &i)
         assert(oserr == noErr)
 
-        userinterface.SetScanArea(i >> 16, i & 0xFFFF)
+        userInterface.SetScanArea(i >> 16, i & 0xFFFF)
 
         return CallNextEventHandler(inHandlerCallRef, inEvent)
     }
@@ -356,27 +356,27 @@ class UserInterface {
     static func DrawPreviewSelectionHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent,
                                                 void * inUserData) -> OSStatus {
 
-        let userinterface: UserInterface = (UserInterface *) inUserData
+        let userInterface: UserInterface = (UserInterface *) inUserData
 
-        OSStatus retval = CallNextEventHandler(inHandlerCallRef, inEvent)
+        OSStatus returnValue = CallNextEventHandler(inHandlerCallRef, inEvent)
 
-        userinterface.DrawPreviewSelection()
+        userInterface.DrawPreviewSelection()
 
-        return retval
+        return returnValue
     }
 
 
     static func TrackPreviewSelectionHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent,
                                                 void * inUserData) -> OSStatus {
 
-        let userinterface: UserInterface = UserInterface(inUserData)
+        let userInterface: UserInterface = UserInterface(inUserData)
 
         var point: Point
         var osstat: OSStatus = GetEventParameter(inEvent, kEventParamMouseLocation, typeQDPoint, nil,
                                             sizeof(Point), nil, &point)
         assert(osstat == noErr)
 
-        userinterface.TrackPreviewSelection(point)
+        userInterface.TrackPreviewSelection(point)
 
         return noErr
     }
@@ -385,21 +385,21 @@ class UserInterface {
     static func PreviewMouseMovedHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent,
                                             void * inUserData) -> OSStatus {
 
-        var userinterface: UserInterface = UserInterface(inUserData)
+        var userInterface: UserInterface = UserInterface(inUserData)
 
         var point: Point
         var osstat: OSStatus = GetEventParameter(inEvent, kEventParamMouseLocation, typeQDPoint, nil,
                                             sizeof(Point), nil, &point)
         assert(osstat == noErr)
 
-        userinterface.PreviewMouseMoved(point)
+        userInterface.PreviewMouseMoved(point)
 
         return noErr
     }
 
 
     public UserInterface(SaneDevice * sd, Int currentdevice, Bool uionly) {
-        sanedevice(sd)
+        saneDevice(sd)
         canpreview(false)
         bootstrap(false)
         preview(nil)
@@ -475,7 +475,7 @@ class UserInterface {
         MenuItemIndex deviceItem
         MenuItemIndex selectedItem = 0
         for(Int device = 0; ; device++) {
-            String deviceString = sanedevice.CreateName(device)
+            String deviceString = saneDevice.CreateName(device)
             if(!deviceString) break
             osstat = AppendMenuItemTextWithCFString(deviceMenu, deviceString, kMenuItemAttrIgnoreMeta,
                                                     0, &deviceItem)
@@ -550,12 +550,12 @@ class UserInterface {
         }
         else {
             title = CFBundleCopyLocalizedString(bundle, CFSTR("Scan"), nil, nil)
-            MakeButtonControl(rootcontrol, &controlrect, title, 'scan', true, nil, 0)
+            MakeButtonControl(rootcontrol, &controlrect, title, "scan", true, nil, 0)
             CFRelease(title)
         }
 
         title = CFBundleCopyLocalizedString(bundle, CFSTR("Preview"), nil, nil)
-        previewButton = MakeButtonControl(rootcontrol, &controlrect, title, 'prvw', true, nil, 0)
+        previewButton = MakeButtonControl(rootcontrol, &controlrect, title, "prvw", true, nil, 0)
         CFRelease(title)
 
         title = CFBundleCopyLocalizedString(bundle, CFSTR("Cancel"), nil, nil)
@@ -582,32 +582,32 @@ class UserInterface {
     public func ChangeDevice(device: Int) -> Int {
 
         if(preview) ClosePreview()
-        Int newDevice = sanedevice.ChangeDevice(device)
+        Int newDevice = saneDevice.ChangeDevice(device)
         if(newDevice == device) BuildOptionGroupBox(true)
         return newDevice
     }
 
 
-    public func ProcessCommand(command: UInt32) {
+    public func ProcessCommand(command: Int) {
 
         while(!invalid.empty())
             Validate(*invalid.begin())
 
         switch(command) {
             case kHICommandOK:
-                sanedevice.CallBack(MSG_CLOSEDSOK)
+                saneDevice.CallBack(MSG_CLOSEDSOK)
                 break
-            case 'scan':
-                if(sanedevice.Scan()) sanedevice.CallBack(MSG_XFERREADY)
+            case "scan":
+                if(saneDevice.Scan()) saneDevice.CallBack(MSG_XFERREADY)
                 break
-            case 'prvw':
+            case "prvw":
                 OpenPreview()
                 break
             case kHICommandCancel:
-                sanedevice.CallBack(MSG_CLOSEDSREQ)
+                saneDevice.CallBack(MSG_CLOSEDSREQ)
                 break
             case kHICommandAbout:
-                About(window, sanedevice.GetSaneVersion())
+                About(window, saneDevice.GetSaneVersion())
                 break
         }
     }
@@ -697,7 +697,7 @@ class UserInterface {
         Int ix = GetControlReference(control) >> 16
 
         let Sane.Option_Descriptor * optdesc =
-            Sane.get_option_descriptor(sanedevice.GetSaneHandle(), option)
+            Sane.get_option_descriptor(saneDevice.GetSaneHandle(), option)
 
         var status: Sane.Status
         Int info
@@ -707,7 +707,7 @@ class UserInterface {
 
             case Sane.TYPE_BOOL: {
                 Bool value = GetControl32BitValue(control)
-                status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                             Sane.ACTION_SET_VALUE, &value, &info)
                 assert(status == Sane.STATUS_GOOD)
                 break
@@ -719,7 +719,7 @@ class UserInterface {
                 switch(optdesc.constraint_type) {
                     case Sane.CONSTRAINT_RANGE:
                         value = optdesc.constraint.range.min +
-                            UInt32 (GetControl32BitValue(control) * std.max(optdesc.constraint.range.quant, 1))
+                            Int (GetControl32BitValue(control) * std.max(optdesc.constraint.range.quant, 1))
                         break
                     case Sane.CONSTRAINT_WORD_LIST:
                         value = optdesc.constraint.word_list[GetControl32BitValue(control)]
@@ -730,11 +730,11 @@ class UserInterface {
                 }
                 if(optdesc.size > sizeof(Sane.Word)) {
                     Sane.Word * optval = Sane.Word[optdesc.size / sizeof(Sane.Word)]
-                    status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                    status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                                 Sane.ACTION_GET_VALUE, optval, nil)
                     assert(status == Sane.STATUS_GOOD)
                     optval[ix] = value
-                    status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                    status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                                 Sane.ACTION_SET_VALUE, optval, &info)
                     assert(status == Sane.STATUS_GOOD)
                     delete[] optval
@@ -768,7 +768,7 @@ class UserInterface {
                         }
                         viewrect.bottom = value
                     }
-                    status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                    status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                                 Sane.ACTION_SET_VALUE, &value, &info)
                     assert(status == Sane.STATUS_GOOD)
                 }
@@ -788,7 +788,7 @@ class UserInterface {
             case Sane.TYPE_STRING: {
                 String value = String[optdesc.size]
                 strcpy(value, optdesc.constraint.string_list[GetControl32BitValue(control) - 1])
-                status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                             Sane.ACTION_SET_VALUE, value, &info)
                 assert(status == Sane.STATUS_GOOD)
                 delete[] value
@@ -796,7 +796,7 @@ class UserInterface {
             }
 
             case Sane.TYPE_BUTTON: {
-                status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                             Sane.ACTION_SET_VALUE, nil, &info)
                 assert(status == Sane.STATUS_GOOD)
                 break
@@ -818,7 +818,7 @@ class UserInterface {
     public func UpdateOption(option: Int) {
 
         let Sane.Option_Descriptor * optdesc =
-            Sane.get_option_descriptor(sanedevice.GetSaneHandle(), option)
+            Sane.get_option_descriptor(saneDevice.GetSaneHandle(), option)
 
         control: ControlRef = optionControl[option]
 
@@ -830,7 +830,7 @@ class UserInterface {
 
             case Sane.TYPE_BOOL: {
                 Bool value
-                status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                             Sane.ACTION_GET_VALUE, &value, nil)
                 assert(status == Sane.STATUS_GOOD)
                 SetControl32BitValue(control, value)
@@ -846,7 +846,7 @@ class UserInterface {
                     assert(osstat == noErr)
                     if(ckind.kind == kControlKindGroupBox) {
                         Sane.Word * optval = Sane.Word[optdesc.size / sizeof(Sane.Word)]
-                        status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                        status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                                     Sane.ACTION_GET_VALUE, optval, nil)
                         assert(status == Sane.STATUS_GOOD)
 
@@ -865,7 +865,7 @@ class UserInterface {
                                 switch(optdesc.constraint_type) {
                                     case Sane.CONSTRAINT_RANGE:
                                         SetControl32BitValue(subControl,
-                                                            UInt32 (optval[ix] - optdesc.constraint.range.min) /
+                                                            Int (optval[ix] - optdesc.constraint.range.min) /
                                                             std.max(optdesc.constraint.range.quant, 1))
                                         break
                                     case Sane.CONSTRAINT_WORD_LIST:
@@ -886,13 +886,13 @@ class UserInterface {
                     }
                 }
                 else {
-                    status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                    status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                                 Sane.ACTION_GET_VALUE, &value, nil)
                     assert(status == Sane.STATUS_GOOD)
 
                     switch(optdesc.constraint_type) {
                         case Sane.CONSTRAINT_RANGE:
-                            SetControl32BitValue(control, UInt32 (value - optdesc.constraint.range.min) /
+                            SetControl32BitValue(control, Int (value - optdesc.constraint.range.min) /
                                                 std.max(optdesc.constraint.range.quant, 1))
                             break
                         case Sane.CONSTRAINT_WORD_LIST:
@@ -913,7 +913,7 @@ class UserInterface {
 
             case Sane.TYPE_STRING: {
                 String value = String[optdesc.size]
-                status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                             Sane.ACTION_GET_VALUE, value, nil)
                 assert(status == Sane.STATUS_GOOD)
                 for(Int j = 0; optdesc.constraint.string_list[j] != nil; j++) {
@@ -939,7 +939,7 @@ class UserInterface {
         let option: Int = GetControlReference(control) & 0xFFFF
 
         let optdesc: Sane.Option_Descriptor =
-            Sane.get_option_descriptor(sanedevice.GetSaneHandle(), option)
+            Sane.get_option_descriptor(saneDevice.GetSaneHandle(), option)
 
         let optval: Sane.Word = Sane.Word[optdesc.size / sizeof(Sane.Word)]
 
@@ -983,7 +983,7 @@ class UserInterface {
         var status: Sane.Status
         var info: Int
 
-        status = Sane.control_option(sanedevice.GetSaneHandle(), option, Sane.ACTION_SET_VALUE, optval, &info)
+        status = Sane.control_option(saneDevice.GetSaneHandle(), option, Sane.ACTION_SET_VALUE, optval, &info)
         assert(status == Sane.STATUS_GOOD)
 
         delete[] optval
@@ -1001,12 +1001,12 @@ class UserInterface {
 
         var opttop: Int
         var optleft: Int
-        sanedevice.GetAreaOptions(&opttop, &optleft)
+        saneDevice.GetAreaOptions(&opttop, &optleft)
 
         Sane.Word xquant =
-            std.max(Sane.get_option_descriptor(sanedevice.GetSaneHandle(), optleft).constraint.range.quant, 1)
+            std.max(Sane.get_option_descriptor(saneDevice.GetSaneHandle(), optleft).constraint.range.quant, 1)
         Sane.Word yquant =
-            std.max(Sane.get_option_descriptor(sanedevice.GetSaneHandle(), opttop).constraint.range.quant, 1)
+            std.max(Sane.get_option_descriptor(saneDevice.GetSaneHandle(), opttop).constraint.range.quant, 1)
 
         if(width == 0 || height == 0)
             viewrect = maxrect
@@ -1064,7 +1064,7 @@ class UserInterface {
         if preview {
             DrawOneControl(previewPictControl)
         }
-        sanedevice.SetRect(&viewrect)
+        saneDevice.SetRect(&viewrect)
     }
 
 
@@ -1074,17 +1074,17 @@ class UserInterface {
 
         var opttop: Int
         var optleft: Int
-        sanedevice.GetAreaOptions(&opttop, &optleft)
+        saneDevice.GetAreaOptions(&opttop, &optleft)
 
         let xquant: Sane.Word =
-            std.max(Sane.get_option_descriptor(sanedevice.GetSaneHandle(), optleft).constraint.range.quant, 1)
+            std.max(Sane.get_option_descriptor(saneDevice.GetSaneHandle(), optleft).constraint.range.quant, 1)
         let yquant: Sane.Word =
-            std.max(Sane.get_option_descriptor(sanedevice.GetSaneHandle(), opttop).constraint.range.quant, 1)
+            std.max(Sane.get_option_descriptor(saneDevice.GetSaneHandle(), opttop).constraint.range.quant, 1)
 
         var selectitem: MenuItemIndex = 0
         var defaultitem: MenuItemIndex = 0
         for(MenuItemIndex item = 1; item <= GetControl32BitMaximum(scanareacontrol) && !selectitem; item++) {
-            UInt32 i
+            Int i
             oserr = GetMenuItemRefCon(GetControlPopupMenuHandle(scanareacontrol), item, &i)
             assert(oserr == noErr)
             short Int width = i >> 16
@@ -1140,7 +1140,7 @@ class UserInterface {
         var optbottom: Int
         var optright: Int
 
-        sanedevice.GetAreaOptions(&opttop, &optleft, &optbottom, &optright)
+        saneDevice.GetAreaOptions(&opttop, &optleft, &optbottom, &optright)
 
         for i in 4 {
 
@@ -1151,22 +1151,22 @@ class UserInterface {
             switch(i) {
                 case 0:
                     optdesc =
-                        (opttop ? Sane.get_option_descriptor(sanedevice.GetSaneHandle(), opttop) : nil)
+                        (opttop ? Sane.get_option_descriptor(saneDevice.GetSaneHandle(), opttop) : nil)
                     optval = viewrect.top
                     break
                 case 1:
                     optdesc =
-                        (optleft ? Sane.get_option_descriptor(sanedevice.GetSaneHandle(), optleft) : nil)
+                        (optleft ? Sane.get_option_descriptor(saneDevice.GetSaneHandle(), optleft) : nil)
                     optval = viewrect.left
                     break
                 case 2:
                     optdesc =
-                        (optbottom ? Sane.get_option_descriptor(sanedevice.GetSaneHandle(), optbottom) : nil)
+                        (optbottom ? Sane.get_option_descriptor(saneDevice.GetSaneHandle(), optbottom) : nil)
                     optval = viewrect.bottom
                     break
                 case 3:
                     optdesc =
-                        (optright ? Sane.get_option_descriptor(sanedevice.GetSaneHandle(), optright) : nil)
+                        (optright ? Sane.get_option_descriptor(saneDevice.GetSaneHandle(), optright) : nil)
                     optval = viewrect.right
                     break
             }
@@ -1229,10 +1229,10 @@ class UserInterface {
         let option: Int = GetControlReference(control) & 0xFFFF
 
         let optdesc: Sane.Option_Descriptor =
-            Sane.get_option_descriptor(sanedevice.GetSaneHandle(), option)
+            Sane.get_option_descriptor(saneDevice.GetSaneHandle(), option)
 
         return CreateNumberString(optdesc.constraint.range.min +
-                                UInt32 (value * std.max(optdesc.constraint.range.quant, 1)),
+                                Int (value * std.max(optdesc.constraint.range.quant, 1)),
                                 optdesc.type)
     }
 
@@ -1256,7 +1256,7 @@ class UserInterface {
         let ix: Int = GetControlReference(control) >> 16
 
         let Sane.Option_Descriptor * optdesc =
-            Sane.get_option_descriptor(sanedevice.GetSaneHandle(), option)
+            Sane.get_option_descriptor(saneDevice.GetSaneHandle(), option)
 
         var status: Sane.Status
         var info: Int
@@ -1291,17 +1291,17 @@ class UserInterface {
                 while(cix < CFStringGetLength(text)) {
                     UniChar uc = CFStringGetCharacterAtIndex(text, cix)
                     Bool del = true
-                    if(uc == '-') {
+                    if(uc == "-") {
                         if(cix == 0)
                             del = false
                     }
-                    else if(uc == '.') {
+                    else if(uc == ".") {
                         if(optdesc.type == Sane.TYPE_FIXED && !dec) {
                             del = false
                             dec = true
                         }
                     }
-                    else if(uc >= '0' && uc <= '9') {
+                    else if(uc >= "0" && uc <= "9") {
                         del = false
                     }
                     if(del)
@@ -1333,17 +1333,17 @@ class UserInterface {
 
                 if(optdesc.size > sizeof(Sane.Word)) {
                     Sane.Word * optval = Sane.Word[optdesc.size / sizeof(Sane.Word)]
-                    status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                    status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                                 Sane.ACTION_GET_VALUE, optval, nil)
                     assert(status == Sane.STATUS_GOOD)
                     optval[ix] = value
-                    status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                    status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                                 Sane.ACTION_SET_VALUE, optval, &info)
                     assert(status == Sane.STATUS_GOOD)
                     delete[] optval
                 }
                 else {
-                    status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                    status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                                 Sane.ACTION_SET_VALUE, &value, &info)
                     assert(status == Sane.STATUS_GOOD)
                 }
@@ -1351,7 +1351,7 @@ class UserInterface {
             }
 
             case Sane.TYPE_STRING: {
-                String text
+                var text: String
                 oserr = GetControlData(control, kControlEntireControl, kControlEditTextCFStringTag,
                                         sizeof(String), &text, nil)
                 assert(oserr == noErr)
@@ -1360,7 +1360,7 @@ class UserInterface {
                 CFStringGetCString(text, value, optdesc.size, kCFStringEncodingUTF8)
                 CFRelease(text)
 
-                status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                             Sane.ACTION_SET_VALUE, value, &info)
                 assert(status == Sane.STATUS_GOOD)
 
@@ -1415,8 +1415,8 @@ class UserInterface {
         optionControl.clear()
         scanareacontrol = nil
 
-        sanedevice.GetRect(&viewrect)
-        sanedevice.GetMaxRect(&maxrect)
+        saneDevice.GetRect(&viewrect)
+        saneDevice.GetMaxRect(&maxrect)
 
         MenuRef optionGroupMenu
         MenuItemIndex optionGroupItem = 0
@@ -1458,7 +1458,7 @@ class UserInterface {
         Int geometrycount = 0
 
         for(Int option = 1; let Sane.Option_Descriptor * optdesc =
-            Sane.get_option_descriptor(sanedevice.GetSaneHandle(), option); option++) {
+            Sane.get_option_descriptor(saneDevice.GetSaneHandle(), option); option++) {
 
             if(optdesc.type == Sane.TYPE_GROUP) {
 
@@ -1551,7 +1551,7 @@ class UserInterface {
                             controlrect.top = controlrect.bottom + 16
 
                         Bool optval
-                        status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                        status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                                     Sane.ACTION_GET_VALUE, &optval, nil)
                         assert(status == Sane.STATUS_GOOD)
 
@@ -1577,7 +1577,7 @@ class UserInterface {
                             controlrect.top = controlrect.bottom + 16
 
                             Sane.Word * optval = Sane.Word[optdesc.size / sizeof(Sane.Word)]
-                            status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                            status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                                         Sane.ACTION_GET_VALUE, optval, nil)
                             assert(status == Sane.STATUS_GOOD)
 
@@ -1648,7 +1648,7 @@ class UserInterface {
                             assert(oserr == noErr)
 
                             Sane.Word * optval = Sane.Word[optdesc.size / sizeof(Sane.Word)]
-                            status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                            status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                                         Sane.ACTION_GET_VALUE, optval, nil)
                             assert(status == Sane.STATUS_GOOD)
 
@@ -1670,7 +1670,7 @@ class UserInterface {
 
                                         partcontrolrect.top = partcontrolrect.bottom + 10
 
-                                        String text = CreateNumberString(optval[i], optdesc.type)
+                                        var text: String = CreateNumberString(optval[i], optdesc.type)
 
                                         partcontrol = MakeEditTextControl(control, &partcontrolrect,
                                                                         num, text, false, desc,
@@ -1692,7 +1692,7 @@ class UserInterface {
                                                                         &timer)
                                         assert(osstat == noErr)
 
-                                        osstat = SetControlProperty(partcontrol, 'SANE', 'timr',
+                                        osstat = SetControlProperty(partcontrol, "SANE", "timr",
                                                                     sizeof(EventLoopTimerRef), &timer)
                                         assert(osstat == noErr)
 
@@ -1712,10 +1712,10 @@ class UserInterface {
                                         partcontrolrect.top = partcontrolrect.bottom + 16
 
                                         Int minimum = 0
-                                        Int maximum = UInt32 (optdesc.constraint.range.max -
+                                        Int maximum = Int (optdesc.constraint.range.max -
                                                                 optdesc.constraint.range.min) /
                                             std.max(optdesc.constraint.range.quant, 1)
-                                        Int value = UInt32 (optval[i] - optdesc.constraint.range.min) /
+                                        Int value = Int (optval[i] - optdesc.constraint.range.min) /
                                             std.max(optdesc.constraint.range.quant, 1)
 
                                         partcontrol = MakeSliderControl(control, &partcontrolrect, num,
@@ -1745,7 +1745,7 @@ class UserInterface {
                                         MenuItemIndex selectedItem = 1
 
                                         for(Int j = 1; j <= optdesc.constraint.word_list[0]; j++) {
-                                            String text = CreateNumberString
+                                            var text: String = CreateNumberString
                                                 (optdesc.constraint.word_list[j], optdesc.type)
                                             osstat = AppendMenuItemTextWithCFString
                                                 (theMenu, text, kMenuItemAttrIgnoreMeta, 0, &newItem)
@@ -1800,11 +1800,11 @@ class UserInterface {
                                         controlrect.top = controlrect.bottom + 16
 
                                     Sane.Word optval
-                                    status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                                    status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                                                 Sane.ACTION_GET_VALUE, &optval, nil)
                                     assert(status == Sane.STATUS_GOOD)
 
-                                    String text = CreateNumberString(optval, optdesc.type)
+                                    var text: String = CreateNumberString(optval, optdesc.type)
 
                                     control = MakeEditTextControl(userPaneControl, &controlrect, title,
                                                                 text, false, desc, option)
@@ -1824,7 +1824,7 @@ class UserInterface {
                                                                     TextTimerUPP, control, &timer)
                                     assert(osstat == noErr)
 
-                                    osstat = SetControlProperty(control, 'SANE', 'timr',
+                                    osstat = SetControlProperty(control, "SANE", "timr",
                                                                 sizeof(EventLoopTimerRef), &timer)
                                     assert(osstat == noErr)
 
@@ -1844,15 +1844,15 @@ class UserInterface {
                                     controlrect.top = controlrect.bottom + 16
 
                                     Sane.Word optval
-                                    status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                                    status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                                                 Sane.ACTION_GET_VALUE, &optval, nil)
                                     assert(status == Sane.STATUS_GOOD)
 
                                     Int minimum = 0
-                                    Int maximum = UInt32 (optdesc.constraint.range.max -
+                                    Int maximum = Int (optdesc.constraint.range.max -
                                                             optdesc.constraint.range.min) /
                                         std.max(optdesc.constraint.range.quant, 1)
-                                    Int value = UInt32 (optval - optdesc.constraint.range.min) /
+                                    Int value = Int (optval - optdesc.constraint.range.min) /
                                         std.max(optdesc.constraint.range.quant, 1)
 
                                     control = MakeSliderControl(userPaneControl, &controlrect, title,
@@ -1879,7 +1879,7 @@ class UserInterface {
                                         controlrect.top = controlrect.bottom + 16
 
                                     Sane.Word optval
-                                    status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                                    status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                                                 Sane.ACTION_GET_VALUE, &optval, nil)
                                     assert(status == Sane.STATUS_GOOD)
 
@@ -1891,7 +1891,7 @@ class UserInterface {
                                     MenuItemIndex selectedItem = 1
 
                                     for(Int j = 1; j <= optdesc.constraint.word_list[0]; j++) {
-                                        String text =
+                                        var text: String =
                                             CreateNumberString(optdesc.constraint.word_list[j],
                                                         optdesc.type)
                                         osstat = AppendMenuItemTextWithCFString(theMenu, text,
@@ -1928,7 +1928,7 @@ class UserInterface {
                                         controlrect.top = controlrect.bottom + 16
 
                                     String optval = String[optdesc.size]
-                                    status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                                    status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                                                 Sane.ACTION_GET_VALUE, optval, nil)
                                     assert(status == Sane.STATUS_GOOD)
 
@@ -1941,7 +1941,7 @@ class UserInterface {
 
                                     for(Int j = 0; optdesc.constraint.string_list[j] != nil; j++) {
 
-                                        String text = CFStringCreateWithCString
+                                        var text: String = CFStringCreateWithCString
                                             (nil, dgettext("sane-backends",
                                                             optdesc.constraint.string_list[j]),
                                             kCFStringEncodingUTF8)
@@ -1989,11 +1989,11 @@ class UserInterface {
                                     controlrect.top = controlrect.bottom + 16
 
                                 String optval = String[optdesc.size]
-                                status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                                status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                                             Sane.ACTION_GET_VALUE, optval, nil)
                                 assert(status == Sane.STATUS_GOOD)
 
-                                String text =
+                                var text: String =
                                     CFStringCreateWithCString(nil, dgettext("sane-backends", optval),
                                                             kCFStringEncodingUTF8)
 
@@ -2016,7 +2016,7 @@ class UserInterface {
                                                                 TextTimerUPP, control, &timer)
                                 assert(osstat == noErr)
 
-                                osstat = SetControlProperty(control, 'SANE', 'timr',
+                                osstat = SetControlProperty(control, "SANE", "timr",
                                                             sizeof(EventLoopTimerRef), &timer)
                                 assert(osstat == noErr)
 
@@ -2037,7 +2037,7 @@ class UserInterface {
                                     controlrect.top = controlrect.bottom + 16
 
                                 String optval = String[optdesc.size]
-                                status = Sane.control_option(sanedevice.GetSaneHandle(), option,
+                                status = Sane.control_option(saneDevice.GetSaneHandle(), option,
                                                             Sane.ACTION_GET_VALUE, optval, nil)
                                 assert(status == Sane.STATUS_GOOD)
 
@@ -2050,7 +2050,7 @@ class UserInterface {
 
                                 for(Int j = 0; optdesc.constraint.string_list[j] != nil; j++) {
 
-                                    String text = CFStringCreateWithCString
+                                    var text: String = CFStringCreateWithCString
                                         (nil, dgettext("sane-backends",
                                                         optdesc.constraint.string_list[j]),
                                         kCFStringEncodingUTF8)
@@ -2205,7 +2205,7 @@ class UserInterface {
                         if(scanarea[i].width <= 0 || scanarea[i].height <= 0) {
                             String name = CFStringCreateWithCString(nil, scanarea[i].name,
                                                                         kCFStringEncodingUTF8)
-                            String text =
+                            var text: String =
                                 CFBundleCopyLocalizedString(bundle, name, nil, nil)
                             CFRelease(name)
                             osstat = AppendMenuItemTextWithCFString(scanareamenu, text, kMenuItemAttrIgnoreMeta,
@@ -2257,7 +2257,7 @@ class UserInterface {
                                 }
                                 if(w <= maxrect.right - maxrect.left + mm && h <= maxrect.bottom - maxrect.top + mm) {
 
-                                    String text
+                                    var text: String
 
                                     if(strcmp(scanarea[i].name, "cm") == 0) {
                                         String unit =
@@ -2398,16 +2398,16 @@ class UserInterface {
         }
 
         Int opttop, optleft, optbottom, optright
-        sanedevice.GetAreaOptions(&opttop, &optleft, &optbottom, &optright)
+        saneDevice.GetAreaOptions(&opttop, &optleft, &optbottom, &optright)
 
         let Sane.Option_Descriptor * optdesctop =
-            (opttop    ? Sane.get_option_descriptor(sanedevice.GetSaneHandle(), opttop)    : nil)
+            (opttop    ? Sane.get_option_descriptor(saneDevice.GetSaneHandle(), opttop)    : nil)
         let Sane.Option_Descriptor * optdescleft =
-            (optleft   ? Sane.get_option_descriptor(sanedevice.GetSaneHandle(), optleft)   : nil)
+            (optleft   ? Sane.get_option_descriptor(saneDevice.GetSaneHandle(), optleft)   : nil)
         let Sane.Option_Descriptor * optdescbottom =
-            (optbottom ? Sane.get_option_descriptor(sanedevice.GetSaneHandle(), optbottom) : nil)
+            (optbottom ? Sane.get_option_descriptor(saneDevice.GetSaneHandle(), optbottom) : nil)
         let Sane.Option_Descriptor * optdescright =
-            (opttop    ? Sane.get_option_descriptor(sanedevice.GetSaneHandle(), optright)  : nil)
+            (opttop    ? Sane.get_option_descriptor(saneDevice.GetSaneHandle(), optright)  : nil)
 
         canpreview = (optdesctop && optdescleft && optdescbottom && optdescright &&
                     Sane.OPTION_IS_ACTIVE(optdesctop.cap) && Sane.OPTION_IS_SETTABLE(optdesctop.cap) &&
@@ -2439,7 +2439,7 @@ class UserInterface {
 
         var saveres: Sane.Resolution
 
-        sanedevice.GetResolution(&saveres)
+        saneDevice.GetResolution(&saveres)
 
         let margin: Sane.Word = std.max(viewrect.bottom - viewrect.top, viewrect.right - viewrect.left) / 4
 
@@ -2506,19 +2506,19 @@ class UserInterface {
             ClosePreview()
         }
 
-        sanedevice.SetRect(&previewrect)
+        saneDevice.SetRect(&previewrect)
 
-        sanedevice.SetResolution(&res)
+        saneDevice.SetResolution(&res)
 
-        sanedevice.SetPreview(Sane.TRUE)
+        saneDevice.SetPreview(Sane.TRUE)
 
-        var image: Image = sanedevice.Scan(false)
+        var image: Image = saneDevice.Scan(false)
 
-        sanedevice.SetPreview(Sane.FALSE)
+        saneDevice.SetPreview(Sane.FALSE)
 
-        sanedevice.SetResolution(&saveres)
+        saneDevice.SetResolution(&saveres)
 
-        sanedevice.SetRect(&viewrect)
+        saneDevice.SetRect(&viewrect)
 
         if !image {
             return
@@ -2766,7 +2766,7 @@ class UserInterface {
             DrawOneControl(previewPictControl)
         }
 
-        sanedevice.SetRect(&viewrect)
+        saneDevice.SetRect(&viewrect)
 
         selrect.top = pictrect.top +
             (2LL * (viewrect.top - previewrect.top) * (pictrect.bottom - pictrect.top) +

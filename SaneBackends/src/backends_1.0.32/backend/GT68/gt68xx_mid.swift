@@ -77,7 +77,7 @@ struct GT68xx_Line_Reader
 
 #if 0
   /** Number of bytes in the returned scanlines */
-  Int bytes_per_line
+  Int bytesPerLine
 
   /** Number of bytes per pixel in the returned scanlines */
   Int bytes_per_pixel
@@ -205,7 +205,7 @@ static Sane.Status
 gt68xx_delay_buffer_init(GT68xx_Delay_Buffer * delay,
 			  Int pixels_per_line, Int delay_count)
 {
-  Int bytes_per_line
+  Int bytesPerLine
   Int line_count, i
 
   if(pixels_per_line <= 0)
@@ -221,20 +221,20 @@ gt68xx_delay_buffer_init(GT68xx_Delay_Buffer * delay,
       return Sane.STATUS_INVAL
     }
 
-  bytes_per_line = pixels_per_line * sizeof(unsigned Int)
+  bytesPerLine = pixels_per_line * sizeof(unsigned Int)
 
   delay.line_count = line_count = delay_count + 1
   delay.read_index = 0
   delay.write_index = delay_count
 
-  delay.mem_block = (Sane.Byte *) malloc(bytes_per_line * line_count)
+  delay.mem_block = (Sane.Byte *) malloc(bytesPerLine * line_count)
   if(!delay.mem_block)
     {
       DBG(3, "gt68xx_delay_buffer_init: no memory for delay block\n")
       return Sane.STATUS_NO_MEM
     }
   /* make sure that we will see if one of the uninitialized lines get displayed */
-  for(i = 0; i < bytes_per_line * line_count; i++)
+  for(i = 0; i < bytesPerLine * line_count; i++)
     delay.mem_block[i] = i % 256
 
   delay.lines =
@@ -249,7 +249,7 @@ gt68xx_delay_buffer_init(GT68xx_Delay_Buffer * delay,
 
   for(i = 0; i < line_count; ++i)
     delay.lines[i] =
-      (unsigned Int *) (delay.mem_block + i * bytes_per_line)
+      (unsigned Int *) (delay.mem_block + i * bytesPerLine)
 
   return Sane.STATUS_GOOD
 }
@@ -371,7 +371,7 @@ unpack_16_le_rgb(Sane.Byte * src, unsigned Int *dst,
 
 
 static Sane.Status
-line_read_gray_8 (GT68xx_Line_Reader * reader,
+line_read_gray_8(GT68xx_Line_Reader * reader,
 		  unsigned Int **buffer_pointers_return)
 {
   Sane.Status status
@@ -390,7 +390,7 @@ line_read_gray_8 (GT68xx_Line_Reader * reader,
 }
 
 static Sane.Status
-line_read_gray_double_8 (GT68xx_Line_Reader * reader,
+line_read_gray_double_8(GT68xx_Line_Reader * reader,
 			 unsigned Int **buffer_pointers_return)
 {
   Sane.Status status
@@ -460,7 +460,7 @@ line_read_gray_double_12 (GT68xx_Line_Reader * reader,
 }
 
 static Sane.Status
-line_read_gray_16 (GT68xx_Line_Reader * reader,
+line_read_gray_16(GT68xx_Line_Reader * reader,
 		   unsigned Int **buffer_pointers_return)
 {
   Sane.Status status
@@ -478,7 +478,7 @@ line_read_gray_16 (GT68xx_Line_Reader * reader,
 }
 
 static Sane.Status
-line_read_gray_double_16 (GT68xx_Line_Reader * reader,
+line_read_gray_double_16(GT68xx_Line_Reader * reader,
 			  unsigned Int **buffer_pointers_return)
 {
   Sane.Status status

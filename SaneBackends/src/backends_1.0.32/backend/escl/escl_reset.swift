@@ -41,7 +41,7 @@ write_callback(void __Sane.unused__*str,
 /**
  * \fn void escl_scanner(const ESCL_Device *device, char *result)
  * \brief Function that resets the scanner after each scan, using curl.
- *        This function is called in the 'Sane.cancel' function.
+ *        This function is called in the "Sane.cancel" function.
  */
 void
 escl_scanner(const ESCL_Device *device, char *result)

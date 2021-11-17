@@ -12,7 +12,7 @@
    Dynamic rasterization code was taken from the epjistsu backend by
    m. allan noah <kitno455 at gmail dot com>
 
-   Software processing for deskew, crop and dspeckle are inspired by allan's
+   Software processing for deskew, crop and dspeckle are inspired by allan"s
    noah work in the fujitsu backend
 
    This file is part of the SANE package.
@@ -422,7 +422,7 @@ static void genesys_send_offset_and_shading(Genesys_Device* dev, const Genesys_S
     DBG_HELPER_ARGS(dbg, "(size = %d)", size)
   Int start_address
 
-  /* ASIC higher than gl843 doesn't have register 2A/2B, so we route to
+  /* ASIC higher than gl843 doesn"t have register 2A/2B, so we route to
    * a per ASIC shading data loading function if available.
    * It is also used for scanners using SHDAREA */
     if(dev.cmd_set.has_send_shading_data()) {
@@ -1231,7 +1231,7 @@ void scanner_search_strip(Genesys_Device& dev, bool forward, bool black)
 
     wait_until_buffer_non_empty(&dev)
 
-    // now we're on target, we can read data
+    // now we"re on target, we can read data
     auto image = read_unshuffled_image_from_scanner(&dev, session, session.output_total_bytes)
 
     scanner_stop_action(dev)
@@ -1254,7 +1254,7 @@ void scanner_search_strip(Genesys_Device& dev, bool forward, bool black)
 
         wait_until_buffer_non_empty(&dev)
 
-        // now we're on target, we can read data
+        // now we"re on target, we can read data
         image = read_unshuffled_image_from_scanner(&dev, session, session.output_total_bytes)
 
         scanner_stop_action(dev)
@@ -2306,7 +2306,7 @@ void sanei_genesys_calculate_zmod(bool two_table,
 /**
  * scans a white area with motor and lamp off to get the per CCD pixel offset
  * that will be used to compute shading coefficient
- * @param dev scanner's device
+ * @param dev scanner"s device
  */
 static void genesys_shading_calibration_impl(Genesys_Device* dev, const Genesys_Sensor& sensor,
                                              Genesys_Register_Set& local_reg,
@@ -2471,7 +2471,7 @@ static void genesys_dark_shading_by_dummy_pixel(Genesys_Device* dev, const Genes
   dev.dark_average_data.clear()
   dev.dark_average_data.resize(dev.average_size, 0)
 
-  /* we average values on 'the left' where CCD pixels are under casing and
+  /* we average values on "the left" where CCD pixels are under casing and
      give darkest values. We then use these as dummy dark calibration */
     if(dev.settings.xres <= sensor.full_resolution / 2) {
       skip = 4
@@ -2864,7 +2864,7 @@ compute_coefficient(unsigned Int coeff, unsigned Int target, unsigned Int value)
  *  off = (dark_average*bright_target - bright_average*dark_target)/(bright_target - dark_target)
  *  gain = (bright_target - dark_target)/(bright_average - dark_average)*coeff
  *
- * @param dev scanner's device
+ * @param dev scanner"s device
  * @param shading_data memory area where to store the computed shading coefficients
  * @param pixels_per_line number of pixels per line
  * @param words_per_color memory words per color channel
@@ -3045,7 +3045,7 @@ static std::array<unsigned, 3> color_order_to_cmat(ColorOrder color_order)
  * Computes shading coefficient using formula in data sheet. 16bit data values
  * manipulated here are little endian. For now we assume deletion scanning type
  * and that there is always 3 channels.
- * @param dev scanner's device
+ * @param dev scanner"s device
  * @param shading_data memory area where to store the computed shading coefficients
  * @param pixels_per_line number of pixels per line
  * @param channels number of color channels(actually 1 or 3)
@@ -3114,7 +3114,7 @@ static void compute_coefficients(Genesys_Device * dev,
  * Computes shading coefficient using formula in data sheet. 16bit data values
  * manipulated here are little endian. Data is in planar form, ie grouped by
  * lines of the same color component.
- * @param dev scanner's device
+ * @param dev scanner"s device
  * @param shading_data memory area where to store the computed shading coefficients
  * @param factor averaging factor when the calibration scan is done at a higher resolution
  * than the final scan
@@ -3452,7 +3452,7 @@ static void genesys_send_shading_coefficient(Genesys_Device* dev, const Genesys_
     case SensorId::CCD_HP3670:
     case SensorId::CCD_HP2400:
       target_code = 0xe000
-            // offset is dependent on ccd_pixels_per_system_pixel(), but we couldn't use this in
+            // offset is dependent on ccd_pixels_per_system_pixel(), but we couldn"t use this in
             // common code previously.
             // FIXME: use sensor.ccd_pixels_per_system_pixel()
       if(dev.settings.xres<=300)
@@ -3587,7 +3587,7 @@ static void genesys_send_shading_coefficient(Genesys_Device* dev, const Genesys_
 /**
  * search calibration cache list for an entry matching required scan.
  * If one is found, set device calibration with it
- * @param dev scanner's device
+ * @param dev scanner"s device
  * @return false if no matching cache entry has been
  * found, true if one has been found and used.
  */
@@ -3609,7 +3609,7 @@ genesys_restore_calibration(Genesys_Device * dev, Genesys_Sensor& sensor)
     {
         if(sanei_genesys_is_compatible_calibration(dev, session, &cache, false)) {
             dev.frontend = cache.frontend
-          /* we don't restore the gamma fields */
+          /* we don"t restore the gamma fields */
           sensor.exposure = cache.sensor.exposure
 
             dev.calib_session = cache.session
@@ -3740,7 +3740,7 @@ static void genesys_flatbed_calibration(Genesys_Device* dev, Genesys_Sensor& sen
         }
     }
 
-  /* we always use sensor pixel number when the ASIC can't handle multi-segments sensor */
+  /* we always use sensor pixel number when the ASIC can"t handle multi-segments sensor */
     if(!has_flag(dev.model.flags, ModelFlag::SIS_SENSOR)) {
         pixels_per_line = static_cast<std::uint32_t>((dev.model.x_size * dev.settings.xres) /
                                                      MM_PER_INCH)
@@ -3891,8 +3891,8 @@ static void genesys_sheetfed_calibration(Genesys_Device* dev, Genesys_Sensor& se
         throw
     }
 
-    // in case we haven't black shading data, build it from black pixels of white calibration
-    // FIXME: shouldn't we use genesys_dark_shading_by_dummy_pixel() ?
+    // in case we haven"t black shading data, build it from black pixels of white calibration
+    // FIXME: shouldn"t we use genesys_dark_shading_by_dummy_pixel() ?
     if(!has_flag(dev.model.flags, ModelFlag::DARK_CALIBRATION)) {
         genesys_dark_shading_by_constant(*dev)
     }
@@ -4035,7 +4035,7 @@ static void init_regs_for_scan(Genesys_Device& dev, const Genesys_Sensor& sensor
     {
         /*  Fast move to scan area:
 
-            We don't move fast the whole distance since it would involve computing
+            We don"t move fast the whole distance since it would involve computing
             acceleration/deceleration distance for scan resolution. So leave a remainder for it so
             scan makes the final move tuning
         */
@@ -4084,7 +4084,7 @@ static void genesys_start_scan(Genesys_Device* dev, bool lamp_off)
 
   /* set top left x and y values by scanning the internals if flatbed scanners */
     if(!dev.model.is_sheetfed) {
-        // TODO: check we can drop this since we cannot have the scanner's head wandering here
+        // TODO: check we can drop this since we cannot have the scanner"s head wandering here
         dev.parking = false
         dev.cmd_set.move_back_home(dev, true)
     }
@@ -4112,8 +4112,8 @@ static void genesys_start_scan(Genesys_Device* dev, bool lamp_off)
   /* try to use cached calibration first */
   if(!genesys_restore_calibration(dev, sensor))
     {
-        // calibration : sheetfed scanners can't calibrate before each scan.
-        // also don't run calibration for those scanners where all passes are disabled
+        // calibration : sheetfed scanners can"t calibrate before each scan.
+        // also don"t run calibration for those scanners where all passes are disabled
         bool shading_disabled =
                 has_flag(dev.model.flags, ModelFlag::DISABLE_ADC_CALIBRATION) &&
                 has_flag(dev.model.flags, ModelFlag::DISABLE_EXPOSURE_CALIBRATION) &&
@@ -4407,7 +4407,7 @@ static Sane.Parameters calculate_scan_parameters(const Genesys_Device& dev,
     params.depth = settings.depth
     params.lines = pipeline.get_output_height()
     params.pixels_per_line = pipeline.get_output_width()
-    params.bytes_per_line = pipeline.get_output_row_bytes()
+    params.bytesPerLine = pipeline.get_output_row_bytes()
 
     return params
 }
@@ -4532,9 +4532,9 @@ static std::string calibration_filename(Genesys_Device *currdev)
         std::snprintf(filename, sizeof(filename), "%s.cal", currdev.file_name.c_str())
       for(i=0;i<strlen(filename);i++)
         {
-          if(filename[i]==':'||filename[i]==PATH_SEP)
+          if(filename[i]==":"||filename[i]==PATH_SEP)
             {
-              filename[i]='_'
+              filename[i]="_"
             }
         }
     }
@@ -4781,7 +4781,7 @@ static void init_options(Genesys_Scanner* s)
   init_gamma_vector_option(s, OPT_GAMMA_VECTOR_B)
 
   /* currently, there are only gamma table options in this group,
-   * so if the scanner doesn't support gamma table, disable the
+   * so if the scanner doesn"t support gamma table, disable the
    * whole group */
     if(!has_flag(model.flags, ModelFlag::CUSTOM_GAMMA)) {
       s.opt[OPT_ENHANCEMENT_GROUP].cap |= Sane.CAP_INACTIVE
@@ -4887,7 +4887,7 @@ static void init_options(Genesys_Scanner* s)
   s.opt[OPT_LAMP_OFF_TIME].desc =
     Sane.I18N
     ("The lamp will be turned off after the given time(in minutes). "
-     "A value of 0 means, that the lamp won't be turned off.")
+     "A value of 0 means, that the lamp won"t be turned off.")
   s.opt[OPT_LAMP_OFF_TIME].type = Sane.TYPE_INT
   s.opt[OPT_LAMP_OFF_TIME].unit = Sane.UNIT_NONE
   s.opt[OPT_LAMP_OFF_TIME].constraint_type = Sane.CONSTRAINT_RANGE
@@ -5129,23 +5129,23 @@ static Genesys_Device* attach_device_by_name(Sane.String_Const devname, bool may
 
     for(auto& dev : *s_devices) {
         if(dev.file_name == devname) {
-            DBG(DBG_info, "%s: device `%s' was already in device list\n", __func__, devname)
+            DBG(DBG_info, "%s: device `%s" was already in device list\n", __func__, devname)
             return &dev
         }
     }
 
-  DBG(DBG_info, "%s: trying to open device `%s'\n", __func__, devname)
+  DBG(DBG_info, "%s: trying to open device `%s"\n", __func__, devname)
 
     UsbDevice usb_dev
 
     usb_dev.open(devname)
-    DBG(DBG_info, "%s: device `%s' successfully opened\n", __func__, devname)
+    DBG(DBG_info, "%s: device `%s" successfully opened\n", __func__, devname)
 
     auto vendor_id = usb_dev.get_vendor_id()
     auto product_id = usb_dev.get_product_id()
     auto bcd_device = UsbDeviceEntry::BCD_DEVICE_NOT_SET
     if(s_attach_device_by_name_evaluate_bcd_device) {
-        // when the device is already known before scanning, we don't want to call get_bcd_device()
+        // when the device is already known before scanning, we don"t want to call get_bcd_device()
         // when iterating devices, as that will interfere with record/replay during testing.
         bcd_device = usb_dev.get_bcd_device()
     }
@@ -5216,7 +5216,7 @@ static void probe_genesys_devices()
     auto status = sanei_configure_attach(GENESYS_CONFIG_FILE, &config,
                                          config_attach_genesys, NULL)
     if(status == Sane.STATUS_ACCESS_DENIED) {
-        dbg.vlog(DBG_error0, "Critical error: Couldn't access configuration file '%s'",
+        dbg.vlog(DBG_error0, "Critical error: Couldn"t access configuration file "%s"",
                  GENESYS_CONFIG_FILE)
     }
     TIE(status)
@@ -5227,7 +5227,7 @@ static void probe_genesys_devices()
 /**
  * This should be changed if one of the substructures of
    Genesys_Calibration_Cache change, but it must be changed if there are
-   changes that don't change size -- at least for now, as we store most
+   changes that don"t change size -- at least for now, as we store most
    of Genesys_Calibration_Cache as is.
 */
 static const char* CALIBRATION_IDENT = "Sane.genesys"
@@ -5242,7 +5242,7 @@ bool read_calibration(std::istream& str, Genesys_Device::Calibration& calibratio
     serialize(str, ident)
 
     if(ident != CALIBRATION_IDENT) {
-        DBG(DBG_info, "%s: Incorrect calibration file '%s' header\n", __func__, path.c_str())
+        DBG(DBG_info, "%s: Incorrect calibration file "%s" header\n", __func__, path.c_str())
         return false
     }
 
@@ -5250,7 +5250,7 @@ bool read_calibration(std::istream& str, Genesys_Device::Calibration& calibratio
     serialize(str, version)
 
     if(version != CALIBRATION_VERSION) {
-        DBG(DBG_info, "%s: Incorrect calibration file '%s' version\n", __func__, path.c_str())
+        DBG(DBG_info, "%s: Incorrect calibration file "%s" version\n", __func__, path.c_str())
         return false
     }
 
@@ -5454,11 +5454,11 @@ static void Sane.open_impl(Sane.String_Const devicename, Sane.Handle * handle)
         }
 
         if(dev) {
-            DBG(DBG_info, "%s: found `%s' in devlist\n", __func__, dev.file_name.c_str())
+            DBG(DBG_info, "%s: found `%s" in devlist\n", __func__, dev.file_name.c_str())
         } else if(is_testing_mode()) {
-            DBG(DBG_info, "%s: couldn't find `%s' in devlist, not attaching", __func__, devicename)
+            DBG(DBG_info, "%s: couldn"t find `%s" in devlist, not attaching", __func__, devicename)
         } else {
-            DBG(DBG_info, "%s: couldn't find `%s' in devlist, trying attach\n", __func__,
+            DBG(DBG_info, "%s: couldn"t find `%s" in devlist, trying attach\n", __func__,
                 devicename)
             dbg.status("attach_device_by_name")
             dev = attach_device_by_name(devicename, true)
@@ -5468,7 +5468,7 @@ static void Sane.open_impl(Sane.String_Const devicename, Sane.Handle * handle)
         // empty devicename or "genesys" -> use first device
         if(!s_devices.empty()) {
             dev = &s_devices.front()
-            DBG(DBG_info, "%s: empty devicename, trying `%s'\n", __func__, dev.file_name.c_str())
+            DBG(DBG_info, "%s: empty devicename, trying `%s"\n", __func__, dev.file_name.c_str())
         }
     }
 
@@ -5494,7 +5494,7 @@ static void Sane.open_impl(Sane.String_Const devicename, Sane.Handle * handle)
     } else {
         dev.interface = std::unique_ptr<ScannerInterfaceUsb>{new ScannerInterfaceUsb{dev}]
 
-        dbg.vstatus("open device '%s'", dev.file_name.c_str())
+        dbg.vstatus("open device "%s"", dev.file_name.c_str())
         dev.interface.get_usb_device().open(dev.file_name.c_str())
         dbg.clear()
 
@@ -5605,7 +5605,7 @@ Sane.close_impl(Sane.Handle handle)
     // we need this to avoid these ASIC getting stuck in bulk writes
     catch_all_exceptions(__func__, [&](){ dev.interface.get_usb_device().reset(); })
 
-    // not freeing dev because it's in the dev list
+    // not freeing dev because it"s in the dev list
     catch_all_exceptions(__func__, [&](){ dev.interface.get_usb_device().close(); })
 
     s_scanners.erase(it)
@@ -5846,7 +5846,7 @@ static void get_option_value(Genesys_Scanner* s, Int option, void* val)
             break
         }
     default:
-      DBG(DBG_warn, "%s: can't get unknown option %d\n", __func__, option)
+      DBG(DBG_warn, "%s: can"t get unknown option %d\n", __func__, option)
     }
     print_option(dbg, *s, option, val)
 }
@@ -5875,7 +5875,7 @@ static void set_calibration_value(Genesys_Scanner* s, const char* val)
     dev.calibration_cache = std::move(new_calibration)
     dev.calib_file = new_calib_path
     s.calibration_file = new_calib_path
-    DBG(DBG_info, "%s: Calibration filename set to '%s':\n", __func__, new_calib_path.c_str())
+    DBG(DBG_info, "%s: Calibration filename set to "%s":\n", __func__, new_calib_path.c_str())
 }
 
 /* sets an option , called by Sane.control_option */
@@ -6138,7 +6138,7 @@ static void set_option_value(Genesys_Scanner* s, Int option, void *val, Int* myi
             break
         }
         default: {
-            DBG(DBG_warn, "%s: can't set unknown option %d\n", __func__, option)
+            DBG(DBG_warn, "%s: can"t set unknown option %d\n", __func__, option)
         }
     }
 }
@@ -6164,7 +6164,7 @@ void Sane.control_option_impl(Sane.Handle handle, Int option,
 
     if(s.scanning) {
         throw SaneException(Sane.STATUS_DEVICE_BUSY,
-                            "don't call this function while scanning(option = %s(%d))",
+                            "don"t call this function while scanning(option = %s(%d))",
                             s.opt[option].name, option)
     }
     if(option >= NUM_OPTIONS || option < 0) {
@@ -6219,7 +6219,7 @@ void Sane.get_parameters_impl(Sane.Handle handle, Sane.Parameters* params)
     Genesys_Scanner* s = reinterpret_cast<Genesys_Scanner*>(handle)
     auto* dev = s.dev
 
-  /* don't recompute parameters once data reading is active, ie during scan */
+  /* don"t recompute parameters once data reading is active, ie during scan */
     if(!dev.read_active) {
         calc_parameters(s)
     }
@@ -6228,8 +6228,8 @@ void Sane.get_parameters_impl(Sane.Handle handle, Sane.Parameters* params)
 
       /* in the case of a sheetfed scanner, when full height is specified
        * we override the computed line number with -1 to signal that we
-       * don't know the real document height.
-       * We don't do that doing buffering image for digital processing
+       * don"t know the real document height.
+       * We don"t do that doing buffering image for digital processing
        */
         if(dev.model.is_sheetfed &&
             s.pos_bottom_right_y == s.opt[OPT_BR_Y].constraint.range.max)
@@ -6277,7 +6277,7 @@ void Sane.start_impl(Sane.Handle handle)
     }
 
     // First make sure we have a current parameter set.  Some of the
-    // parameters will be overwritten below, but that's OK.
+    // parameters will be overwritten below, but that"s OK.
 
     calc_parameters(s)
     genesys_start_scan(dev, s.lamp_off)

@@ -24,7 +24,7 @@ public "C" {
  *   backends consisting of more than one .c file.
  * - DEBUG_DECLARE_ONLY - Generates prototypes instead of functions. Used in
  *   backends consisting of more than one .c file.
- * - DEBUG_NOT_STATIC - Doesn't generate static functions. Used in header files if
+ * - DEBUG_NOT_STATIC - Doesn"t generate static functions. Used in header files if
  *   they are include in more than one .c file.
  *
  * @{
@@ -37,7 +37,7 @@ public "C" {
  */
 
 /** @def DBG(level, fmt, ...)
- * Print a message at debug level `level' or higher using a printf-like
+ * Print a message at debug level `level" or higher using a printf-like
  * function. Example: DBG(1, "Sane.open: opening fd \%d\\n", fd).
  *
  * @param level debug level

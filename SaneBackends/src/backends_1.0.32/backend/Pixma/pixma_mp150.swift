@@ -383,7 +383,7 @@ typedef struct mp150_t
   unsigned data_left_len
   uint8_t adf_state;            /* handle adf scanning */
   unsigned scale;               /* Scale factor for lower resolutions, the
-                                 * scanner doesn't support. We scale down the
+                                 * scanner doesn"t support. We scale down the
                                  * image after scanning minimum possible
                                  * resolution.
                                  */
@@ -595,7 +595,7 @@ send_gamma_table(pixma_t * s)
     {
       data = pixma_newcmd(&mp.cb, cmd_gamma, 4096 + 8, 0)
       data[0] = (s.param.channels == 3) ? 0x10 : 0x01
-      pixma_set_be16 (0x1004, data + 2)
+      pixma_set_be16(0x1004, data + 2)
       if(lut)
         {
           /* PDBG(pixma_dbg(4, "*send_gamma_table***** Use 4096 bytes from LUT ***** \n")); */
@@ -616,7 +616,7 @@ send_gamma_table(pixma_t * s)
       /* Gamma table for 2nd+ generation: 1024 * uint16_le */
       data = pixma_newcmd(&mp.cb, cmd_gamma, 1024 * 2 + 8, 0)
       data[0] = 0x10
-      pixma_set_be16 (0x0804, data + 2)
+      pixma_set_be16(0x0804, data + 2)
       if(lut)
         {
           /* PDBG(pixma_dbg(4, "*send_gamma_table***** Use 1024 * 2 bytes from LUT ***** \n")); */
@@ -659,7 +659,7 @@ calc_raw_width(const mp150_t * mp, const pixma_scan_param_t * param)
 }
 
 static Int
-is_gray_16 (pixma_t * s)
+is_gray_16(pixma_t * s)
 {
   return(s.param.mode == PIXMA_SCAN_MODE_GRAY_16)
 }
@@ -696,14 +696,14 @@ send_scan_param(pixma_t * s)
       PDBG(pixma_dbg(4, "*send_scan_param gen. 1-2 ***** Setting: xdpi=%hi ydpi=%hi  x=%i y=%i  wx=%i ***** \n",
                            xdpi, ydpi, x-xs, y, wx))
       data = pixma_newcmd(&mp.cb, cmd_scan_param, 0x30, 0)
-      pixma_set_be16 (xdpi | 0x8000, data + 0x04)
-      pixma_set_be16 (ydpi | 0x8000, data + 0x06)
-      pixma_set_be32 (x, data + 0x08)
+      pixma_set_be16(xdpi | 0x8000, data + 0x04)
+      pixma_set_be16(ydpi | 0x8000, data + 0x06)
+      pixma_set_be32(x, data + 0x08)
       if(mp.generation == 2)
-        pixma_set_be32 (x - s.param.xs, data + 0x08)
-      pixma_set_be32 (y, data + 0x0c)
-      pixma_set_be32 (wx, data + 0x10)
-      pixma_set_be32 (h, data + 0x14)
+        pixma_set_be32(x - s.param.xs, data + 0x08)
+      pixma_set_be32(y, data + 0x0c)
+      pixma_set_be32(wx, data + 0x10)
+      pixma_set_be32(h, data + 0x14)
       data[0x18] = (s.param.channels != 1) ? 0x08 : 0x04
       data[0x19] = ((s.param.software_lineart) ? 8 : s.param.depth)
                     * s.param.channels;   /* bits per pixel */
@@ -731,12 +731,12 @@ send_scan_param(pixma_t * s)
           data[0x03] = 0x01
         }
       data[0x05] = pixma_calc_calibrate(s)
-      pixma_set_be16 (xdpi | 0x8000, data + 0x08)
-      pixma_set_be16 (ydpi | 0x8000, data + 0x0a)
-      pixma_set_be32 (x - xs, data + 0x0c)
-      pixma_set_be32 (y, data + 0x10)
-      pixma_set_be32 (wx, data + 0x14)
-      pixma_set_be32 (h, data + 0x18)
+      pixma_set_be16(xdpi | 0x8000, data + 0x08)
+      pixma_set_be16(ydpi | 0x8000, data + 0x0a)
+      pixma_set_be32(x - xs, data + 0x0c)
+      pixma_set_be32(y, data + 0x10)
+      pixma_set_be32(wx, data + 0x14)
+      pixma_set_be32(h, data + 0x18)
       /*PDBG(pixma_dbg(4, "*send_scan_param gen. 3+ ***** Setting: channels=%hi depth=%hi ***** \n",
                        s.param.channels, s.param.depth));*/
       data[0x1c] = ((s.param.channels != 1) || (is_gray_16(s)) ? 0x08 : 0x04)
@@ -744,7 +744,7 @@ send_scan_param(pixma_t * s)
       data[0x1d] = ((s.param.software_lineart) ? 8 : s.param.depth)
                     * (is_gray_16(s) ? 3 : s.param.channels); /* bits per pixel */
 
-      data[0x1f] = 0x01;        /* This one also seen at 0. Don't know yet what's used for */
+      data[0x1f] = 0x01;        /* This one also seen at 0. Don"t know yet what"s used for */
       data[0x20] = 0xff
       if(is_scanning_jpeg(s))
         {
@@ -820,7 +820,7 @@ send_time(pixma_t * s)
   pixma_get_time(&now, NULL)
   t = localtime(&now)
   strftime((char *) data, 16, "%y/%m/%d %H:%M", t)
-  PDBG(pixma_dbg(3, "Sending time: '%s'\n", (char *) data))
+  PDBG(pixma_dbg(3, "Sending time: "%s"\n", (char *) data))
   return pixma_exec(s, &mp.cb)
 }
 #endif
@@ -835,11 +835,11 @@ read_image_block(pixma_t * s, uint8_t * header, uint8_t * data)
   Int error, datalen
 
   memset(cmd, 0, sizeof(cmd))
-  pixma_set_be16 (cmd_read_image, cmd)
+  pixma_set_be16(cmd_read_image, cmd)
   if((mp.last_block & 0x20) == 0)
-    pixma_set_be32 ((IMAGE_BLOCK_SIZE / 65536) * 65536 + 8, cmd + 0xc)
+    pixma_set_be32((IMAGE_BLOCK_SIZE / 65536) * 65536 + 8, cmd + 0xc)
   else
-    pixma_set_be32 (32 + 8, cmd + 0xc)
+    pixma_set_be32(32 + 8, cmd + 0xc)
 
   mp.state = state_transfering
   mp.cb.reslen =
@@ -884,7 +884,7 @@ read_error_info(pixma_t * s, void *buf, unsigned size)
   if(buf && len < size)
     {
       size = len
-      /* NOTE: I've absolutely no idea what the returned data mean. */
+      /* NOTE: I"ve absolutely no idea what the returned data mean. */
       memcpy(buf, data, size)
       error = len
     }
@@ -926,7 +926,7 @@ handle_interrupt(pixma_t * s, Int timeout)
    * oo: original
    * tt: target
    * rr: scan resolution
-   * poll event with 'scanimage -A' */
+   * poll event with "scanimage -A" */
   if(s.cfg.pid == MG5300_PID
       || s.cfg.pid == MG5400_PID
       || s.cfg.pid == MG6200_PID
@@ -963,7 +963,7 @@ handle_interrupt(pixma_t * s, Int timeout)
      * ADF status in buf[8] 01 = ADF empty; 02 = ADF filled
      * ADF orientation in buf[16] 01=Portrait; 02=Landscape
      *
-     * ToDo: maybe this if isn't needed
+     * ToDo: maybe this if isn"t needed
      */
     if(s.cfg.pid == TR4500_PID || s.cfg.pid == MX340_PID)
       {
@@ -1072,8 +1072,8 @@ shrink_image(uint8_t * dptr, uint8_t * sptr, unsigned xs, unsigned w,
 {
   unsigned i, ic
   uint16_t pixel
-  uint8_t *dst = dptr;  /* don't change dptr */
-  uint8_t *src = sptr;  /* don't change sptr */
+  uint8_t *dst = dptr;  /* don"t change dptr */
+  uint8_t *src = sptr;  /* don"t change sptr */
 
   /*PDBG(pixma_dbg(4, "%s: w=%d, wx=%d, c=%d, scale=%d\n",
                    __func__, w, wx, c, scale))
@@ -1256,7 +1256,7 @@ mp150_open(pixma_t * s)
   if(s.cfg.pid >= MP250_PID)
     mp.generation = 4
 
-  if(s.cfg.pid >= MG2100_PID)        /* this scanners generation doesn't need */
+  if(s.cfg.pid >= MG2100_PID)        /* this scanners generation doesn"t need */
     mp.generation = 5;                 /* special image conversion @ high dpi */
 
   /* And exceptions to be added here */
@@ -1539,7 +1539,7 @@ mp150_fill_buffer(pixma_t * s, pixma_imagebuf_t * ib)
   if(mp.state == state_warmup)
     {
       RET_IF_ERR(wait_until_ready(s))
-      pixma_sleep(1000000);	/* No need to sleep, actually, but Window's driver
+      pixma_sleep(1000000);	/* No need to sleep, actually, but Window"s driver
 				 * sleep 1.5 sec. */
       mp.state = state_scanning
       mp.last_block = 0
@@ -1577,7 +1577,7 @@ mp150_fill_buffer(pixma_t * s, pixma_imagebuf_t * ib)
           mp.last_block = 0x38;        /* end scan in mp150_finish_scan() */
           if(error == PIXMA_ECANCELED)
             {
-               /* NOTE: I see this in traffic logs but I don't know its meaning. */
+               /* NOTE: I see this in traffic logs but I don"t know its meaning. */
                read_error_info(s, NULL, 0)
             }
           return error
@@ -1585,7 +1585,7 @@ mp150_fill_buffer(pixma_t * s, pixma_imagebuf_t * ib)
 
       bytes_received = error
       /*PDBG(pixma_dbg(4, "*mp150_fill_buffer***** %u bytes received by read_image_block *****\n", bytes_received));*/
-      block_size = pixma_get_be32 (header + 12)
+      block_size = pixma_get_be32(header + 12)
       mp.last_block = header[8] & 0x38
       if((header[8] & ~0x38) != 0)
         {
@@ -1627,7 +1627,7 @@ mp150_finish_scan(pixma_t * s)
       if(mp.generation <= 2 || !is_scanning_from_adf(s) || mp.last_block == 0x38)
         {
           PDBG(pixma_dbg(4, "*mp150_finish_scan***** abort session  *****\n"))
-          error = abort_session(s);  /* FIXME: it probably doesn't work in duplex mode! */
+          error = abort_session(s);  /* FIXME: it probably doesn"t work in duplex mode! */
           if(error < 0)
             PDBG(pixma_dbg(1, "WARNING:abort_session() failed %d\n", error))
 
@@ -1745,7 +1745,7 @@ const pixma_config_t pixma_mp150_devices[] = {
   DEVICE("Canon PIXMA MX330", "MX330", MX330_PID, 0, 1200, 0, 0, 638, 1050, PIXMA_CAP_CIS | PIXMA_CAP_ADF),
   DEVICE("Canon PIXMA MX860", "MX860", MX860_PID, 0, 2400, 0, 0, 638, 1050, PIXMA_CAP_CIS | PIXMA_CAP_ADFDUP),
 /* width and height adjusted to flatbed size 21.8 x 30.2 cm^2 respective
- * Not sure if anything's going wrong here, leaving as is
+ * Not sure if anything"s going wrong here, leaving as is
   DEVICE("Canon PIXMA MX860", "MX860", MX860_PID, 0, 2400, 0, 0, 638, 880, PIXMA_CAP_CIS | PIXMA_CAP_ADFDUP),*/
 
   /* PIXMA 2010 vintage */
@@ -1768,7 +1768,7 @@ const pixma_config_t pixma_mp150_devices[] = {
   DEVICE("Canon PIXMA MP270", "MP270", MP270_PID, 0, 1200, 0, 0, 638, 877, PIXMA_CAP_CIS),
 
   /* Latest devices(2010) Generation 4 CIS */
-  DEVICE("Canon PIXMA MP280",  "MP280",  MP280_PID, 0, 600, 0, 0, 638, 877, PIXMA_CAP_CIS), /* TODO: 1200dpi doesn't work yet */
+  DEVICE("Canon PIXMA MP280",  "MP280",  MP280_PID, 0, 600, 0, 0, 638, 877, PIXMA_CAP_CIS), /* TODO: 1200dpi doesn"t work yet */
   DEVICE("Canon PIXMA MP495",  "MP495",  MP495_PID, 0, 600, 0, 0, 638, 877, PIXMA_CAP_CIS), /* ToDo: max. scan resolution = 1200x600dpi */
   DEVICE("Canon PIXMA MG5100", "MG5100", MG5100_PID, 0, 1200, 0, 0, 638, 877, PIXMA_CAP_CIS),
   DEVICE("Canon PIXMA MG5200", "MG5200", MG5200_PID, 0, 2400, 0, 0, 638, 877, PIXMA_CAP_CIS),

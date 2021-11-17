@@ -32,8 +32,8 @@ addr_name(uint16_t addr)
     case DATA:
       return "DATA"
       break
-    case STATUS:
-      return "STATUS"
+    case Status:
+      return "Status"
       break
     case CONTROL:
       return "CONTROL"
@@ -66,7 +66,7 @@ inb(Int fd, uint16_t addr)
     case DATA:
       rc = ioctl(fd, PPRDATA, &val)
       break
-    case STATUS:
+    case Status:
       rc = ioctl(fd, PPRSTATUS, &val)
       break
     case CONTROL:
@@ -462,8 +462,8 @@ setadresses(Int fd, uint16_t start, uint16_t end)
 
 #ifdef HAVE_LINUX_PPDEV_H
 /** @brief open parallel port device
- * opens parallel port's low level device in EPP mode
- * @param devicename nam of the real device or the special value 'auto'
+ * opens parallel port"s low level device in EPP mode
+ * @param devicename nam of the real device or the special value "auto"
  * @return file descriptor in cas of successn -1 otherwise
  */
 static Int
@@ -644,7 +644,7 @@ build_correction(P5_Device * dev, unsigned Int dpi, unsigned Int mode,
       j++
       if(j > MAX_RESOLUTIONS)
 	{
-	  DBG(DBG_error, "build_correction: couldn't find calibration!\n")
+	  DBG(DBG_error, "build_correction: couldn"t find calibration!\n")
 	  return Sane.STATUS_INVAL
 	}
     }
@@ -711,9 +711,9 @@ build_correction(P5_Device * dev, unsigned Int dpi, unsigned Int mode,
  * @param mode color, gray level or lineart.
  * @param dpi desired scan resolution.
  * @param startx coordinate of the first pixel to scan in
- * scan's resolution coordinate
+ * scan"s resolution coordinate
  * @param width width of the scanned area
- * scanner's physical scan aread.
+ * scanner"s physical scan aread.
  * @return Sane.STATUS_GOOD if scan is successfully started
  */
 static Sane.Status
@@ -893,7 +893,7 @@ read_line(P5_Device * dev, uint8_t * data, size_t length, Int ltr,
   cnt = (255 + length / factor) / 256
   while((counter > cnt && retry == 1) || (counter > cnt && read == 0))
     {
-      /* read data from scanner, first and last byte aren't picture data */
+      /* read data from scanner, first and last byte aren"t picture data */
       read_data(dev.fd, inbuffer, length / factor + 2)
 
       /* image correction */
@@ -1018,10 +1018,10 @@ wait_document(Int fd, uint8_t detector)
   write_reg(fd, REG2, 0x90)
   write_reg(fd, REGF, 0x82)
   write_reg(fd, REG0, 0x00)
-  val = inb(fd, STATUS) & 0xf8
+  val = inb(fd, Status) & 0xf8
   if(val != 0xf8)
     {
-      DBG(DBG_error, "wait_document: unexpected STATUS value 0x%02x instead of 0xf8", val)
+      DBG(DBG_error, "wait_document: unexpected Status value 0x%02x instead of 0xf8", val)
     }
   if(count >= 20)
     {
@@ -1477,7 +1477,7 @@ sheetfed_calibration(P5_Device * dev)
       white_data[j] = 0
     }
 
-  /* read lines and gather black and white ones until enough for sensor's
+  /* read lines and gather black and white ones until enough for sensor"s
    * native resolution */
   do
     {

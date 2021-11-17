@@ -204,7 +204,7 @@ static Sane.Status
 trigger_scan(Int fd)
 {
   static struct scsi_start_scan_cmd cmd
-  static char   window_id_list[1] = { '\0' ] /* scan start data out */
+  static char   window_id_list[1] = { "\0" ] /* scan start data out */
   static size_t wl_size = 1
   Sane.Status status
   DBG(11, ">> trigger scan\n")

@@ -8,16 +8,16 @@ let commandProcessEvent: EventTypeSpec = [ kEventClassCommand, kEventCommandProc
 
 
 static var cbdevice: SaneDevice = nil
-static var cbresult: UInt32 = 0
+static var cbresult: Int = 0
 
 
-func SaneCallbackDevice(sanedevice: SaneDevice) {
-    cbdevice = sanedevice
+func SaneCallbackDevice(saneDevice: SaneDevice) {
+    cbdevice = saneDevice
     cbresult = 0
 }
 
 
-func SaneCallbackResult() -> UInt32 {
+func SaneCallbackResult() -> Int {
     cbdevice = nil
     return cbresult
 }

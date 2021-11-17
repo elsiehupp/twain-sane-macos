@@ -143,7 +143,7 @@ stop_scan(Int fd)
 {
   fd = fd; /* silence compilation warnings */
 
-  /* XXX don't know how to stop the scanner. To be tested ! */
+  /* XXX don"t know how to stop the scanner. To be tested ! */
 #if 0
   const Byte scsi_rewind[] =
   {
@@ -298,7 +298,7 @@ set_window(S9036_Scanner * s)
   /* Warning ! The following structure SEEMS to be an valid SCSI-2
      SET_WINDOW command.  But e.g. the limits for the window are only
      2 Bytes instead of 4.  The scanner was built at about 1990, so
-     SCSI-2 wasn't available for development...
+     SCSI-2 wasn"t available for development...
    */
 
   struct
@@ -407,7 +407,7 @@ request_more_data(S9036_Scanner * s)
 {
   Sane.Status status
   Int lines_available
-  Int bytes_per_line
+  Int bytesPerLine
 
   status = start_scan(s.fd, Sane.TRUE)
   if(status != Sane.STATUS_GOOD)
@@ -415,9 +415,9 @@ request_more_data(S9036_Scanner * s)
 
   wait_ready(s.fd)
 
-  status = get_read_sizes(s.fd, &lines_available, &bytes_per_line, 0)
+  status = get_read_sizes(s.fd, &lines_available, &bytesPerLine, 0)
 
-  if(!lines_available || bytes_per_line != s.params.bytes_per_line)
+  if(!lines_available || bytesPerLine != s.params.bytesPerLine)
     {
       return Sane.STATUS_INVAL
     }
@@ -451,7 +451,7 @@ read_more_data(S9036_Scanner * s)
   Sane.Status status
   size_t size
   Int lines_read
-  Int bpl = s.params.bytes_per_line
+  Int bpl = s.params.bytesPerLine
   unsigned var i: Int
 
   if(s.lines_in_scanner == 0)
@@ -471,7 +471,7 @@ read_more_data(S9036_Scanner * s)
       /* Request as much lines as would fit into the buffer ... */
       lines_read = s.bufsize / bpl
 
-      /* buffer is too small for one line: we can't handle this */
+      /* buffer is too small for one line: we can"t handle this */
       if(!lines_read)
 	return Sane.STATUS_INVAL
 
@@ -480,7 +480,7 @@ read_more_data(S9036_Scanner * s)
 	lines_read = s.lines_in_scanner
 
       set_size(&cmd[6], 3, lines_read)
-      size = lines_read * s.params.bytes_per_line
+      size = lines_read * s.params.bytesPerLine
 
       DBG(1, "Requesting %d lines, in scanner: %d, total: %d\n", lines_read,
 	   s.lines_in_scanner, s.params.lines)
@@ -500,10 +500,10 @@ read_more_data(S9036_Scanner * s)
 	  return Sane.STATUS_IO_ERROR
 	}
 
-      if(size != (unsigned Int) lines_read * s.params.bytes_per_line)
+      if(size != (unsigned Int) lines_read * s.params.bytesPerLine)
 	{
 	  DBG(1, "sanei_scsi_cmd(): got %lu bytes, expected %d\n",
-	       (u_long) size, lines_read * s.params.bytes_per_line)
+	       (u_long) size, lines_read * s.params.bytesPerLine)
 	  return Sane.STATUS_INVAL
 	}
 
@@ -580,7 +580,7 @@ attach(const char *devname, S9036_Device ** devp)
 
   if(result[0] != 6 || strncmp((char *)result + 36, "AGFA03", 6))
     {
-      DBG(1, "attach: device doesn't look like a Siemens 9036 scanner\n")
+      DBG(1, "attach: device doesn"t look like a Siemens 9036 scanner\n")
       return Sane.STATUS_INVAL
     }
 
@@ -846,7 +846,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 
   while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if(dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == "#")	/* ignore line comments */
 	continue
       len = strlen(dev_name)
 
@@ -1114,7 +1114,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	  s.params.lines = height * dots_per_mm + 0.5
 	}
 
-      s.params.bytes_per_line =
+      s.params.bytesPerLine =
 	(s.params.pixels_per_line + (8 - s.params.depth))
 	/ (8 / s.params.depth)
     }
@@ -1134,7 +1134,7 @@ Sane.start(Sane.Handle handle)
     do_cancel(s)
 
   /* First make sure we have a current parameter set.  Some of the
-     parameters will be overwritten below, but that's OK.  */
+     parameters will be overwritten below, but that"s OK.  */
   status = Sane.get_parameters(s, 0)
   if(status != Sane.STATUS_GOOD)
     return status
@@ -1192,9 +1192,9 @@ Sane.start(Sane.Handle handle)
   wait_ready(s.fd)
 
   {
-    Int lines_available = 0, bytes_per_line = 0, total_lines = 0
+    Int lines_available = 0, bytesPerLine = 0, total_lines = 0
 
-    status = get_read_sizes(s.fd, &lines_available, &bytes_per_line,
+    status = get_read_sizes(s.fd, &lines_available, &bytesPerLine,
 			     &total_lines)
     if(status != Sane.STATUS_GOOD)
       {
@@ -1204,17 +1204,17 @@ Sane.start(Sane.Handle handle)
 	return status
       }
 
-    if(!lines_available || !bytes_per_line || !total_lines)
+    if(!lines_available || !bytesPerLine || !total_lines)
       {
 	DBG(1, "open: invalid_sizes(): %d, %d, %d\n",
-	     lines_available, bytes_per_line, total_lines)
+	     lines_available, bytesPerLine, total_lines)
 	do_cancel(s)
 	return Sane.STATUS_INVAL
       }
 
     s.params.lines = total_lines
-    s.params.bytes_per_line = bytes_per_line
-    s.params.pixels_per_line = bytes_per_line * (8 / s.params.depth)
+    s.params.bytesPerLine = bytesPerLine
+    s.params.pixels_per_line = bytesPerLine * (8 / s.params.depth)
 
     s.lines_in_scanner = lines_available
     s.lines_read = 0

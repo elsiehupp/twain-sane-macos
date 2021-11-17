@@ -54,8 +54,8 @@ static Int mustek_scsi_pp_get_time(void)
  *
  * @return
  * - Sane.STATUS_GOOD - on success
- * - Sane.STATUS_INVAL - if the port address can't be interpreted
- * - Sane.STATUS_IO_ERROR - if the device file for a port couldn't be accessed
+ * - Sane.STATUS_INVAL - if the port address can"t be interpreted
+ * - Sane.STATUS_IO_ERROR - if the device file for a port couldn"t be accessed
  */
 static Sane.Status mustek_scsi_pp_open(const char *dev, Int *fd)
 

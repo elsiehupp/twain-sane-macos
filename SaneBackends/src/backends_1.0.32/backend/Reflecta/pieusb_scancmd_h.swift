@@ -136,7 +136,7 @@ struct Pieusb_Scan_Parameters {
     Sane.Byte filterOffset1; /* 0x08 in the logs, but may also be set to 0x16, they seem to be used in “line”-format only. */
     Sane.Byte filterOffset2; /* 0x08 in the logs, but may also be set to 0x16, they seem to be used in “line”-format only. */
     Int period; /* Seems to be unused */
-    Int scsiTransferRate; /* Don't use, values cannot be trusted */
+    Int scsiTransferRate; /* Don"t use, values cannot be trusted */
     Int availableLines; /* The number of currently available scanned lines. Value depends on color format. Returns a value >0 if PARAM is called while scanning is in progress */
     Sane.Byte motor; /* Motor direction in bit 0 */
 ]
@@ -165,7 +165,7 @@ struct Pieusb_Mode {
     Sane.Byte colorFormat
       /* 0x04 = index, cf. INQUIRY
        * bit 7-3 : 0 (unused)
-       * bit 2 : Index = scanned data are lines preceded by a two-byte index, 'RR', 'GG', 'BB', or 'II'
+       * bit 2 : Index = scanned data are lines preceded by a two-byte index, "RR", "GG", "BB", or "II"
        * bit 1 : Line =  scanned data are(probably) lines in RGBI order(needs testing)
        * bit 0 : Pixel = scanned data are always RGB-pixels, i.e. 3x2 bytes at depth = 16 bits, 3 bytes
        *                 at depth = 8 bits, and 3 packed bytes at depth = 1. This is also the case in
@@ -209,7 +209,7 @@ struct Pieusb_Settings {
       /* Current light level. The stability of the light source is tested during
        * warming up. The check starts with a light value 7 or 6, and decrements
        * it when the light warms up. At a light value of 4, the scanner produces
-       * stable scans(i.e. successive “white” scan values don't differ more
+       * stable scans(i.e. successive “white” scan values don"t differ more
        * than 0x200). */
     Int minimumExposureTime
       /* Fixed value: 0x0b79 (2937) */

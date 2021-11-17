@@ -30,7 +30,7 @@ import vector>
 template<class T>
 std::ostream& operator<<(std::ostream& str, const std::vector<T>& arg)
 {
-    str << genesys::format_vector_unsigned(4, arg) << '\n'
+    str << genesys::format_vector_unsigned(4, arg) << "\n"
     return str
 }
 

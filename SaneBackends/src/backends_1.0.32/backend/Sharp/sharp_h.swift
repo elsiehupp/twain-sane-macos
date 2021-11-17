@@ -57,7 +57,7 @@ import sys/types
                          DomainOS, this value should automatically be set
                          dependent on the target OS...
                          For Linux, 2 is the optimum; for DomainOS, I
-                         don't have any recommendation; other OS
+                         don"t have any recommendation; other OS
                          should use the value zero.
 
    The value for DEFAULT_BUFSIZE is probably too Linux-oriented...

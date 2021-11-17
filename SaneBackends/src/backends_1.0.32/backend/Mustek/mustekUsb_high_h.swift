@@ -566,11 +566,11 @@ usb_high_scan_evaluate_pixel_rate(Mustek_Usb_Device * dev)
 
 static Sane.Status usb_high_scan_calibration_rgb_24 (Mustek_Usb_Device * dev)
 
-static Sane.Status usb_high_scan_calibration_mono_8 (Mustek_Usb_Device * dev)
+static Sane.Status usb_high_scan_calibration_mono_8(Mustek_Usb_Device * dev)
 
 static Sane.Status usb_high_scan_prepare_rgb_24 (Mustek_Usb_Device * dev)
 
-static Sane.Status usb_high_scan_prepare_mono_8 (Mustek_Usb_Device * dev)
+static Sane.Status usb_high_scan_prepare_mono_8(Mustek_Usb_Device * dev)
 
 static Sane.Status
 usb_high_scan_get_rgb_24_bit_line(Mustek_Usb_Device * dev,
@@ -584,6 +584,6 @@ usb_high_scan_get_mono_8_bit_line(Mustek_Usb_Device * dev,
 
 static Sane.Status usb_high_scan_backtrack_rgb_24 (Mustek_Usb_Device * dev)
 
-static Sane.Status usb_high_scan_backtrack_mono_8 (Mustek_Usb_Device * dev)
+static Sane.Status usb_high_scan_backtrack_mono_8(Mustek_Usb_Device * dev)
 
 #endif /* mustek_usb_high_h */

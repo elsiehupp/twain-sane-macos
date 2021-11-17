@@ -18,7 +18,7 @@
  * The connection is now made in Sane.start and ended in Sane.cancel.
  * 01/01/13 Now with adf, the scan can be padded to make up the full page length,
  * or the page can terminate at the end of the paper. This is a selectable option.
- * 25/11/12 Using avahi now for net autodiscovery. Use configure option --with-avahi to make sure it's enabled
+ * 25/11/12 Using avahi now for net autodiscovery. Use configure option --with-avahi to make sure it"s enabled
  * 1/5/17 patched to use local pointer for avahi callback
  */
 
@@ -156,7 +156,7 @@ If you want to use the test backend, for example with sane-troubleshoot, you sho
 #define KODAKAIO_REVISION	7
 #define KODAKAIO_BUILD		3
 
-/* for usb(but also used for net though it's not required). */
+/* for usb(but also used for net though it"s not required). */
 #define MAX_BLOCK_SIZE		32768
 
 #define SCANNER_READ_TIMEOUT	15
@@ -252,26 +252,26 @@ char RawScanPath[] = ""; /* empty path means no raw scan file is made */
 */
 
 /* kodak command strings */
-static unsigned char KodakEsp_V[]      = {0x1b,'S','V',0,0,0,0,0]  /* version?? */
-static unsigned char KodakEsp_v[]      = {0x1b,'s','v',0,0,0,0,0]  /* reply to version?? */
-static unsigned char KodakEsp_Lock[]   = {0x1b,'S','L',0,0,0,0,0] /* Locks scanner */
-static unsigned char KodakEsp_UnLock[] = {0x1b,'S','U',0,0,0,0,0] /* Unlocks scanner */
-static unsigned char KodakEsp_Ack[]    = {0x1b,'S','S',0,0,0,0,0] /* Acknowledge for all commands */
+static unsigned char KodakEsp_V[]      = {0x1b,"S","V",0,0,0,0,0]  /* version?? */
+static unsigned char KodakEsp_v[]      = {0x1b,"s","v",0,0,0,0,0]  /* reply to version?? */
+static unsigned char KodakEsp_Lock[]   = {0x1b,"S","L",0,0,0,0,0] /* Locks scanner */
+static unsigned char KodakEsp_UnLock[] = {0x1b,"S","U",0,0,0,0,0] /* Unlocks scanner */
+static unsigned char KodakEsp_Ack[]    = {0x1b,"S","S",0,0,0,0,0] /* Acknowledge for all commands */
 /* the bytes after esc S S 0 may indicate status: S S 0 1 = docs in adf */
-static unsigned char KodakEsp_F[]      = {0x1b,'S','F',0,0,0,0,0] /* Purpose not known? colour balance?*/
-static unsigned char KodakEsp_Comp[]   = {0x1b,'S','C',3,8,3,0,0] /* 3,8,3,1,0 does compression. */
+static unsigned char KodakEsp_F[]      = {0x1b,"S","F",0,0,0,0,0] /* Purpose not known? colour balance?*/
+static unsigned char KodakEsp_Comp[]   = {0x1b,"S","C",3,8,3,0,0] /* 3,8,3,1,0 does compression. */
 /* The compression method is unknown */
-/* static unsigned char KodakEsp_E[]   = {0x1b,'S','E',1,0,0,0,0]  NET Purpose not known */
+/* static unsigned char KodakEsp_E[]   = {0x1b,"S","E",1,0,0,0,0]  NET Purpose not known */
 /* the extra 1 below could be despeckle option? maybe only for Hero 9.1 but no errors with ESP5250 */
-static unsigned char KodakEsp_E[]      = {0x1b,'S','E',1,1,0,0,0]
-static unsigned char KodakEsp_Go[]     = {0x1b,'S','G',0,0,0,0,0] /* Starts the scan */
+static unsigned char KodakEsp_E[]      = {0x1b,"S","E",1,1,0,0,0]
+static unsigned char KodakEsp_Go[]     = {0x1b,"S","G",0,0,0,0,0] /* Starts the scan */
 /* Other commands are: D(resolution), O(top left), Z(bottom right), R, G, B(curves) */
 
 /* What is the relationship between these and the ranges in cap? */
 static Int kodakaio_resolution_list[] = {75, 150, 300, 600, 1200]
 static Int kodakaio_depth_list[] = {1,8] /* The first value is the number of following entries */
 
-/* strings to try and match the model ';' separator
+/* strings to try and match the model ";" separator
 static unsigned char SupportedMatchString[] = "KODAK ESP;KODAK HERO;KODAK OFFICE HERO;ADVENT WiFi AIO;"; */
 
 static struct KodakaioCap kodakaio_cap[] = {
@@ -669,7 +669,7 @@ print_params(const Sane.Parameters params, Int level)
 	DBG(level, "formats: binary=?, grey=%d, colour=%d\n",Sane.FRAME_GRAY, Sane.FRAME_RGB )
 	DBG(level, "params.format          = %d\n", params.format)
 	DBG(level, "params.last_frame      = %d\n", params.last_frame)
-	DBG(level, "params.bytes_per_line  = %d\n", params.bytes_per_line)
+	DBG(level, "params.bytesPerLine  = %d\n", params.bytesPerLine)
 	DBG(level, "params.pixels_per_line = %d\n", params.pixels_per_line)
 	DBG(level, "params.lines           = %d\n", params.lines)
 	DBG(level, "params.depth           = %d\n", params.depth)
@@ -682,7 +682,7 @@ print_status(KodakAio_Scanner *s,Int level)
 	DBG(level, "s.bytes_unread          = %d\n", s.bytes_unread)
 /*
 	DBG(level, "params.last_frame      = %d\n", params.last_frame)
-	DBG(level, "params.bytes_per_line  = %d\n", params.bytes_per_line)
+	DBG(level, "params.bytesPerLine  = %d\n", params.bytesPerLine)
 	DBG(level, "params.pixels_per_line = %d\n", params.pixels_per_line)
 	DBG(level, "params.lines           = %d\n", params.lines)
 	DBG(level, "params.depth           = %d\n", params.depth)
@@ -916,7 +916,7 @@ In NET mode the timeout is in kodakaio_net_read
 					}
 				}
 				else {
-					/*  If we've encountered another type of error, return */
+					/*  If we"ve encountered another type of error, return */
 					return n
 				}
 			}
@@ -1160,7 +1160,7 @@ cmd_get_scanning_parameters(Sane.Handle handle,
 			    Int *lines)
 {
 /* data_pixels is per line.
-Old mc cmd read this stuff from the scanner. I don't think kodak can do that easily */
+Old mc cmd read this stuff from the scanner. I don"t think kodak can do that easily */
 
 	KodakAio_Scanner *s = (KodakAio_Scanner *) handle
 	Sane.Status status = Sane.STATUS_GOOD
@@ -1192,7 +1192,7 @@ cmd_set_color_curve(Sane.Handle handle, unsigned char col)
 	unsigned char tx_curve[256]
 	var i: Int; /* 7/9/14 was unsigned char and that stopped the loop that made the linear curve from going to 255 */
 	DBG(32, "%s: start\n", __func__)
-	tx_col[0]=0x1b; tx_col[1]='S'; tx_col[2]='K'; tx_col[3]=col; tx_col[4]=0; tx_col[5]=0; tx_col[6]=0; tx_col[7]=0
+	tx_col[0]=0x1b; tx_col[1]="S"; tx_col[2]="K"; tx_col[3]=col; tx_col[4]=0; tx_col[5]=0; tx_col[6]=0; tx_col[7]=0
 /* linear curve now but could send tailor made curves in future */
 	for(i=0;i<=255;++i) tx_curve[i]=i; /* 7/9/14 was i<255 the missing elements caused speckles */
 
@@ -1229,7 +1229,7 @@ cmd_set_scanning_parameters(Sane.Handle handle,
 	unsigned char bufread[8]
 	var i: Int
 
-/*don't know the purpose of F yet. windows USB repeated 4 x why? does it affect the colour balance?*/
+/*don"t know the purpose of F yet. windows USB repeated 4 x why? does it affect the colour balance?*/
 	DBG(8, "%s\n", __func__)
 	for(i=0;i<4;++i) {
 		kodakaio_txrxack(s, KodakEsp_F, bufread)
@@ -1238,7 +1238,7 @@ cmd_set_scanning_parameters(Sane.Handle handle,
 /*	kodakaio_txrxack(s, KodakEsp_F, bufread);  for net, just once */
 
 /* Source? bed /ADF */
-	tx_S[0]=0x1b; tx_S[1]='S'; tx_S[2]='S'; tx_S[3]=source; tx_S[4]=0; tx_S[5]=0; tx_S[6]=0; tx_S[7]=0
+	tx_S[0]=0x1b; tx_S[1]="S"; tx_S[2]="S"; tx_S[3]=source; tx_S[4]=0; tx_S[5]=0; tx_S[6]=0; tx_S[7]=0
 	kodakaio_txrxack(s, tx_S, bufread)
 
 /* Compression */
@@ -1246,8 +1246,8 @@ cmd_set_scanning_parameters(Sane.Handle handle,
 
 /* DPI resolution */
 	tx_dpi[0]=0x1b
-	tx_dpi[1]='S'
-	tx_dpi[2]='D'
+	tx_dpi[1]="S"
+	tx_dpi[2]="D"
 	tx_dpi[3]=resolution & 0xff
 	tx_dpi[4]=(resolution >> 8) & 0xff
 	tx_dpi[5]=resolution & 0xff
@@ -1255,11 +1255,11 @@ cmd_set_scanning_parameters(Sane.Handle handle,
 	tx_dpi[7]=0
 	kodakaio_txrxack(s, tx_dpi, bufread)
 
-/* colour curves don't seem to be sent for usb preview
+/* colour curves don"t seem to be sent for usb preview
 but it seems to do no harm to send them */
-	cmd_set_color_curve(s, 'R')
-	cmd_set_color_curve(s, 'G')
-	cmd_set_color_curve(s, 'B')
+	cmd_set_color_curve(s, "R")
+	cmd_set_color_curve(s, "G")
+	cmd_set_color_curve(s, "B")
 
 
 /* Origin top left s.tl_x and s.tl_y are in optres units
@@ -1267,8 +1267,8 @@ this command needs actual DPI units*/
 	DBG(20, "%s: left(DPI)=%d, top(DPI)=%d\n", __func__, tl_x , tl_y)
 
 	tx_topleft[0]=0x1b
-	tx_topleft[1]='S'
-	tx_topleft[2]='O'
+	tx_topleft[1]="S"
+	tx_topleft[2]="O"
 	tx_topleft[3]=(tl_x) & 0xff
 	tx_topleft[4]=((tl_x) >> 8) & 0xff
 	tx_topleft[5]=(tl_y) & 0xff
@@ -1279,8 +1279,8 @@ this command needs actual DPI units*/
 /* Z width height note the s.width and s.height are in optres units
 this command needs actual DPI units*/
 	tx_widthheight[0]=0x1b
-	tx_widthheight[1]='S'
-	tx_widthheight[2]='Z'
+	tx_widthheight[1]="S"
+	tx_widthheight[2]="Z"
 	tx_widthheight[3]=(width) & 0xff
 	tx_widthheight[4]=((width) >> 8) & 0xff
 	tx_widthheight[5]=(height) & 0xff
@@ -1298,7 +1298,7 @@ this command needs actual DPI units*/
 func Int cmparray(unsigned char *array1, unsigned char *array2, size_t len)
 {
 /* compares len bytes of the arrays returns 0 if they match
-returns the first mismatch position if they don't match */
+returns the first mismatch position if they don"t match */
 unsigned var i: Int
 	for(i=0; i<len; ++i)
 	{
@@ -1326,12 +1326,12 @@ if no padding option return EOF
 	if(s.ack && s.val[OPT_PADDING].w) {
 		/* do padding of whole block*/
 		/* memset(buf, 0x80, *len);  need to work out the background colour for this */
-		lines = *len / s.params.bytes_per_line
+		lines = *len / s.params.bytesPerLine
 		for(line=0; line < lines; ++line) {
 			for(i=0; i< s.params.pixels_per_line; ++i) {
-				buf[line * s.params.bytes_per_line + i] = s.background[0]; /*red */
-				buf[line * s.params.bytes_per_line + s.params.pixels_per_line + i] = s.background[1];  /*green */
-				buf[line * s.params.bytes_per_line + 2 * s.params.pixels_per_line + i] = s.background[2];  /*blue */
+				buf[line * s.params.bytesPerLine + i] = s.background[0]; /*red */
+				buf[line * s.params.bytesPerLine + s.params.pixels_per_line + i] = s.background[1];  /*green */
+				buf[line * s.params.bytesPerLine + 2 * s.params.pixels_per_line + i] = s.background[2];  /*blue */
 			}
 		}
 		s.bytes_unread -= *len
@@ -1381,18 +1381,18 @@ But it seems that the scanner takes care of that, and gives you the ack as a sep
 		DBG(min(1,DBG_READ), "%s: tiny read, got %lu bytes of %lu\n", __func__, (unsigned long) bytecount, (unsigned long) *len)
 		return Sane.STATUS_IO_ERROR
 	}
-	lines = *len / s.params.bytes_per_line
+	lines = *len / s.params.bytesPerLine
 	if(lines > 1) {
-		/* store average colour as background. That's not the ideal method but it's easy to implement. What's it used for? */
+		/* store average colour as background. That"s not the ideal method but it"s easy to implement. What"s it used for? */
 		s.background[0] = 0
 		s.background[1] = 0
 		s.background[2] = 0
 
 		for(line=0; line < lines; ++line) {
 			for(i=0; i< s.params.pixels_per_line; ++i) {
-				s.background[0] += buf[line * s.params.bytes_per_line + i]; /*red */
-				s.background[1] += buf[line * s.params.bytes_per_line + s.params.pixels_per_line + i];  /*green */
-				s.background[2] += buf[line * s.params.bytes_per_line + 2 * s.params.pixels_per_line + i];  /*blue */
+				s.background[0] += buf[line * s.params.bytesPerLine + i]; /*red */
+				s.background[1] += buf[line * s.params.bytesPerLine + s.params.pixels_per_line + i];  /*green */
+				s.background[2] += buf[line * s.params.bytesPerLine + 2 * s.params.pixels_per_line + i];  /*blue */
 			}
 		}
 		s.background[0] = s.background[0] / (lines * s.params.pixels_per_line)
@@ -1449,12 +1449,12 @@ k_set_model(KodakAio_Scanner * s, const char *model, size_t len)
 		return Sane.STATUS_NO_MEM
 
 	memcpy(buf, model, len)
-	buf[len] = '\0'
+	buf[len] = "\0"
 
 	p = &buf[len - 1]
 
-	while(*p == ' ') {
-		*p = '\0'
+	while(*p == " ") {
+		*p = "\0"
 		p--
 	}
 
@@ -1463,7 +1463,7 @@ k_set_model(KodakAio_Scanner * s, const char *model, size_t len)
 
 	dev.model = strndup((const char *) buf, len)
 	dev.sane.model = dev.model
-	DBG(10, "%s: model is '%s'\n", __func__, dev.model)
+	DBG(10, "%s: model is "%s"\n", __func__, dev.model)
 
 	free(buf)
 
@@ -1635,16 +1635,16 @@ k_set_scanning_parameters(KodakAio_Scanner * s)
 	}
 
 	/* Calculate how many bytes are really used per line */
-	s.params.bytes_per_line = ceil(s.params.pixels_per_line * s.params.depth / 8.0)
+	s.params.bytesPerLine = ceil(s.params.pixels_per_line * s.params.depth / 8.0)
 	if(s.val[OPT_MODE].w == MODE_COLOR)
-		s.params.bytes_per_line *= 3
+		s.params.bytesPerLine *= 3
 
 	/* Calculate how many bytes per line will be returned by the scanner.
 	magicolor needed this because it uses padding so scan bytes per line != image bytes per line.
 	 * The values needed for this are returned by get_scanning_parameters */
 	s.scan_bytes_per_line = 3 * ceil(scan_pixels_per_line); /* we always scan in colour 8 bit */
 	s.data_len = s.scan_bytes_per_line * floor(s.height * dpi / optres + 0.5); /* NB this is the length for a full scan */
-	DBG(5, "Check: scan_bytes_per_line = %d  s.params.bytes_per_line = %d \n", s.scan_bytes_per_line, s.params.bytes_per_line)
+	DBG(5, "Check: scan_bytes_per_line = %d  s.params.bytesPerLine = %d \n", s.scan_bytes_per_line, s.params.bytesPerLine)
 
 /* k_setup_block_mode at the start of each page for adf to work */
 	status = k_setup_block_mode(s)
@@ -1707,11 +1707,11 @@ uncompressed data is RRRR...GGGG...BBBB  per line */
 		threshold = 255 - (Int) (Sane.UNFIX(s.val[OPT_THRESHOLD].w) * 255.0 / 100.0 + 0.5); /* 255 - for the grey scale version */
 		DBG(20, "%s: threshold: %d\n", __func__, threshold)
 
-		while((max_length >= s.params.bytes_per_line) && (s.ptr < s.end)) {
+		while((max_length >= s.params.bytesPerLine) && (s.ptr < s.end)) {
 			Int bytes_to_copy = s.scan_bytes_per_line - s.bytes_read_in_line
 			/* First, fill the line buffer for the current line: */
 			bytes_available = (s.end - s.ptr)
-			/* Don't copy more than we have buffer and available */
+			/* Don"t copy more than we have buffer and available */
 			if(bytes_to_copy > bytes_available)
 				bytes_to_copy = bytes_available
 
@@ -1727,11 +1727,11 @@ uncompressed data is RRRR...GGGG...BBBB  per line */
 			line points to the current byte in the input s.line_buffer
 			data points to the output buffer*/
 			if((s.bytes_read_in_line >= s.scan_bytes_per_line) &&
-			    (s.params.bytes_per_line <= max_length))
+			    (s.params.bytesPerLine <= max_length))
 			{
 				Int i
 				Sane.Byte *line = s.line_buffer
-				*length += s.params.bytes_per_line
+				*length += s.params.bytesPerLine
 
 				for(i=0; i< s.params.pixels_per_line; ++i) {
 				/* different behaviour for each mode */
@@ -1769,7 +1769,7 @@ uncompressed data is RRRR...GGGG...BBBB  per line */
 				if(RawScan != NULL) {
 					for(i=0; i< s.scan_bytes_per_line; ++i) fputc(s.line_buffer[i],RawScan)
 				}
-				max_length -= s.params.bytes_per_line
+				max_length -= s.params.bytesPerLine
 				s.bytes_read_in_line -= s.scan_bytes_per_line
 			}
 		}
@@ -1837,7 +1837,7 @@ k_init_parametersta(KodakAio_Scanner * s)
 	}
 	DBG(20, "%s: bit depth = s.params.depth = %d\n", __func__,s.params.depth)
 	s.params.last_frame = Sane.TRUE
-	s.params.bytes_per_line = 3 * ceil(s.params.depth * s.params.pixels_per_line / 8.0)
+	s.params.bytesPerLine = 3 * ceil(s.params.depth * s.params.pixels_per_line / 8.0)
 
 /* kodak only scans in color and conversion to grey or lineart is done in the driver
 		s.params.format = Sane.FRAME_RGB; */
@@ -1846,7 +1846,7 @@ k_init_parametersta(KodakAio_Scanner * s)
 	else if(s.val[OPT_MODE].w == MODE_LINEART) s.params.format = Sane.FRAME_GRAY
 	else s.params.format = Sane.FRAME_GRAY
 
-	DBG(20, "%s: format=%d, bytes_per_line=%d, lines=%d\n", __func__, s.params.format, s.params.bytes_per_line, s.params.lines)
+	DBG(20, "%s: format=%d, bytesPerLine=%d, lines=%d\n", __func__, s.params.format, s.params.bytesPerLine, s.params.lines)
 	return(s.params.lines >= -1) ? Sane.STATUS_GOOD : Sane.STATUS_INVAL
 }
 
@@ -1870,7 +1870,7 @@ k_read(struct KodakAio_Scanner *s)
 	unsigned char rx[8]
 
 /* monitors progress of blocks and calls cmd_read_data to get each block
-you don't know how many blocks there will be in advance because their size may be determined by the scanner*/
+you don"t know how many blocks there will be in advance because their size may be determined by the scanner*/
 	Sane.Status status = Sane.STATUS_GOOD
 	size_t buf_len = 0
 
@@ -2003,11 +2003,11 @@ split_scanner_name(const char *name, char * IP, unsigned Int *model)
 	if(strncmp(device, "net:", 4) == 0)
 		device = &device[4]
 
-	qm = strchr(device, '?')
+	qm = strchr(device, "?")
 	if(qm != NULL) {
 		size_t len = qm-device
 		strncpy(IP, device, len)
-		IP[len] = '\0'
+		IP[len] = "\0"
 		qm++
 		if(strncmp(qm, "model=", 6) == 0) {
 			qm += 6
@@ -2170,7 +2170,7 @@ scanner_create(struct Kodak_Device *dev, Sane.Status *status)
 }
 
 static struct KodakAio_Scanner *
-device_detect(const char *name, Int type, Sane.Status *status)
+device_detect(const char *name, type: Int, Sane.Status *status)
 {
 	struct KodakAio_Scanner *s
 	struct Kodak_Device *dev
@@ -2305,7 +2305,7 @@ static void resolve_callback(
 
     switch(event) {
         case AVAHI_RESOLVER_FAILURE:
-            DBG(min(1,DBG_AUTO), "(Resolver) Failed to resolve service '%s' of type '%s' in domain '%s': %s\n", name, type, domain, avahi_strerror(avahi_client_errno(avahi_service_resolver_get_client(r))))
+            DBG(min(1,DBG_AUTO), "(Resolver) Failed to resolve service "%s" of type "%s" in domain "%s": %s\n", name, type, domain, avahi_strerror(avahi_client_errno(avahi_service_resolver_get_client(r))))
             break
 
         case AVAHI_RESOLVER_FOUND: {
@@ -2333,7 +2333,7 @@ static void resolve_callback(
 	if(pid_pair_list != NULL && vid_pair_list != NULL) {
 		ProcessAvahiDevice(name, vidvalue, pidvalue, a)
 	}
-	else DBG(min(10,DBG_AUTO), "didn't call ProcessAvahiDevice\n")
+	else DBG(min(10,DBG_AUTO), "didn"t call ProcessAvahiDevice\n")
 
 	if(vid_pair_list != NULL) {
 		avahi_free(vidkey)
@@ -2374,7 +2374,7 @@ static void browse_callback(
             return
 
         case AVAHI_BROWSER_NEW:
-            DBG(min(5,DBG_AUTO), "(Browser) NEW: service '%s' of type '%s' in domain '%s'\n", name, type, domain)
+            DBG(min(5,DBG_AUTO), "(Browser) NEW: service "%s" of type "%s" in domain "%s"\n", name, type, domain)
 
             /* We ignore the returned resolver object. In the callback
                function we free it. If the server is terminated before
@@ -2382,12 +2382,12 @@ static void browse_callback(
                the resolver for us. */
 
             if(!(avahi_service_resolver_new(c, interface, protocol, name, type, domain, AVAHI_PROTO_UNSPEC, 0, resolve_callback, c)))
-                DBG(min(1,DBG_AUTO), "Failed to resolve service '%s': %s\n", name, avahi_strerror(avahi_client_errno(c)))
+                DBG(min(1,DBG_AUTO), "Failed to resolve service "%s": %s\n", name, avahi_strerror(avahi_client_errno(c)))
 
             break
 
         case AVAHI_BROWSER_REMOVE:
-            DBG(min(1,DBG_AUTO), "(Browser) REMOVE: service '%s' of type '%s' in domain '%s'\n", name, type, domain)
+            DBG(min(1,DBG_AUTO), "(Browser) REMOVE: service "%s" of type "%s" in domain "%s"\n", name, type, domain)
             break
 
         case AVAHI_BROWSER_ALL_FOR_NOW:
@@ -2473,7 +2473,7 @@ fail:
 
 
 static Sane.Status
-attach(const char *name, Int type)
+attach(const char *name, type: Int)
 {
 	Sane.Status status
 	KodakAio_Scanner *s
@@ -3145,7 +3145,7 @@ change_source(KodakAio_Scanner *s, Int optindex, char *value)
 	Int force_max = Sane.FALSE
 	Bool dummy
 
-	DBG(5, "%s: optindex = %d, source = '%s'\n", __func__, optindex,
+	DBG(5, "%s: optindex = %d, source = "%s"\n", __func__, optindex,
 	    value)
 
 	if(s.val[OPT_SOURCE].w == optindex)
@@ -3494,7 +3494,7 @@ Sane.read(Sane.Handle handle, Sane.Byte *data, Int max_length,
 	k_copy_image_data(s, data, max_length, length)
 
 	DBG(18, "%d lines read, status: %s\n",
-		*length / s.params.bytes_per_line, Sane.strstatus(status))
+		*length / s.params.bytesPerLine, Sane.strstatus(status))
 
 	/* continue reading if appropriate */
 	if(status == Sane.STATUS_GOOD)

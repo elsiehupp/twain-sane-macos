@@ -224,7 +224,7 @@ sanei_pieusb_cmd_slide(Int device_number, slide_action action, struct Pieusb_Com
     DBG(DBG_info_scan, "sanei_pieusb_cmd_slide(0x%02x)\n", action)
 
     _prep_scsi_cmd(command, SCSI_SLIDE, SLIDE_DATA_SIZE)
-    memset(data, '\0', SLIDE_DATA_SIZE)
+    memset(data, "\0", SLIDE_DATA_SIZE)
     data[0] = action
     data[1] = 0x01
 
@@ -259,7 +259,7 @@ sanei_pieusb_cmd_get_sense(Int device_number, struct Pieusb_Sense* sense, struct
 
     _prep_scsi_cmd(command, SCSI_REQUEST_SENSE, size)
 
-    memset(data, '\0', size)
+    memset(data, "\0", size)
     st = sanei_pieusb_command(device_number, command, data, size)
     if(st != PIEUSB_STATUS_GOOD) {
       status.pieusb_status = st
@@ -314,7 +314,7 @@ sanei_pieusb_cmd_get_scan_frame(Int device_number, Int index, struct Pieusb_Scan
 
     /* Ask scanner to prepare the scan frame with the given index. Only SCSI_COMMAND_LEN bytes of data. */
     _prep_scsi_cmd(command, SCSI_WRITE, SCSI_COMMAND_LEN)
-    memset(data, '\0', SCSI_COMMAND_LEN)
+    memset(data, "\0", SCSI_COMMAND_LEN)
     data[0] = SCSI_SCAN_FRAME | 0x80; /* set bit 7 means prepare read */
     data[4] = index
 
@@ -328,7 +328,7 @@ sanei_pieusb_cmd_get_scan_frame(Int device_number, Int index, struct Pieusb_Scan
     /* Read scan frame */
     _prep_scsi_cmd(command, SCSI_READ, size)
 
-    memset(data, '\0', size)
+    memset(data, "\0", size)
     status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
 
     /* Decode data */
@@ -359,7 +359,7 @@ sanei_pieusb_cmd_17(Int device_number, Int value, struct Pieusb_Command_Status *
     DBG(DBG_info_scan, "sanei_pieusb_cmd_17(%d)\n", value)
 
     _prep_scsi_cmd(command, SCSI_WRITE, CMD_17_SIZE)
-    memset(data, '\0', CMD_17_SIZE)
+    memset(data, "\0", CMD_17_SIZE)
     _set_short(SCSI_CMD_17, data, 0)
     _set_short(2, data, 2)
     _set_short(value, data, 4)
@@ -395,7 +395,7 @@ sanei_pieusb_cmd_get_shading_parms(Int device_number, struct Pieusb_Shading_Para
 
     /* Ask scanner to prepare the scan frame with the given index. Only SCSI_COMMAND_LEN bytes of data. */
     _prep_scsi_cmd(command, SCSI_WRITE, SCSI_COMMAND_LEN)
-    memset(data, '\0', PREP_READ_SIZE)
+    memset(data, "\0", PREP_READ_SIZE)
     data[0] = SCSI_CALIBRATION_INFO | 0x80; /* set bit 7 means prepare read */
 
     status.pieusb_status = sanei_pieusb_command(device_number, command, data, PREP_READ_SIZE)
@@ -406,7 +406,7 @@ sanei_pieusb_cmd_get_shading_parms(Int device_number, struct Pieusb_Shading_Para
     /* Read shading parameters */
     _prep_scsi_cmd(command, SCSI_READ, size)
 
-    memset(data, '\0', size)
+    memset(data, "\0", size)
     status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
     if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
       return
@@ -441,7 +441,7 @@ sanei_pieusb_cmd_get_shading_parms(Int device_number, struct Pieusb_Shading_Para
  * determine the current line size and the number of available lines.\n
  * If there is scanned data available, it should be read. Waiting too long
  * causes the scan to stop, probably because a buffer is filled to its limits
- * (if so, it is approximately 2Mb in size). I haven't tried what happens if you
+ * (if so, it is approximately 2Mb in size). I haven"t tried what happens if you
  * start reading after a stop. Reading to fast causes the scanner to return
  * a busy status, which is not a problem.
  * This is a SCSI READ command(code 0x08). It is distinguished from the other
@@ -461,7 +461,7 @@ sanei_pieusb_cmd_get_scanned_lines(Int device_number, Sane.Byte* data, Int lines
     DBG(DBG_info_scan, "sanei_pieusb_cmd_get_scanned_lines(): %d lines(%d bytes)\n", lines, size)
 
     _prep_scsi_cmd(command, SCSI_READ, lines)
-    memset(data, '\0', size)
+    memset(data, "\0", size)
 
     status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
 }
@@ -493,7 +493,7 @@ sanei_pieusb_cmd_set_scan_frame(Int device_number, Int index, struct Pieusb_Scan
     DBG(DBG_info_scan, " index = %d\n", index)
 
     /* Code data */
-    memset(data, '\0', size)
+    memset(data, "\0", size)
     _set_short(SCSI_SCAN_FRAME, data, 0)
     _set_short(size-4, data, 2); /* size: one frame, 5 shorts */
     _set_short(index, data, 4)
@@ -529,7 +529,7 @@ sanei_pieusb_cmd_set_exposure_time(Int device_number, struct Pieusb_Exposure_Tim
 
     for(i = 0; i < 3; ++i) { /* R, G, B */
       _prep_scsi_cmd(command, SCSI_WRITE, EXPOSURE_DATA_SIZE)
-      memset(data, '\0', EXPOSURE_DATA_SIZE)
+      memset(data, "\0", EXPOSURE_DATA_SIZE)
       exptime = &(time.color[i])
       _set_short(SCSI_EXPOSURE, data, 0)
       _set_short(EXPOSURE_DATA_SIZE-4, data, 2); /* short: RGB, short: value */
@@ -566,7 +566,7 @@ sanei_pieusb_cmd_set_highlight_shadow(Int device_number, struct Pieusb_Highlight
 
     for(i = 0; i < 3; ++i) { /* R, G, B */
       _prep_scsi_cmd(command, SCSI_WRITE, HIGHLIGHT_SHADOW_SIZE)
-      memset(data, '\0', HIGHLIGHT_SHADOW_SIZE)
+      memset(data, "\0", HIGHLIGHT_SHADOW_SIZE)
       color = &(hgltshdw.color[i])
       _set_short(SCSI_HIGHLIGHT_SHADOW, data, 0)
       _set_short(HIGHLIGHT_SHADOW_SIZE-4, data, 2); /* short: RGB, short: value */
@@ -602,7 +602,7 @@ sanei_pieusb_cmd_get_parameters(Int device_number, struct Pieusb_Scan_Parameters
     DBG(DBG_info_scan, "sanei_pieusb_cmd_get_parameters()\n")
 
     _prep_scsi_cmd(command, SCSI_PARAM, size)
-    memset(data, '\0', size)
+    memset(data, "\0", size)
 
     status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
     if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
@@ -666,7 +666,7 @@ sanei_pieusb_cmd_inquiry(Int device_number, struct Pieusb_Scanner_Properties* in
     DBG(DBG_info_scan, "sanei_pieusb_cmd_inquiry()\n")
 
     _prep_scsi_cmd(command, SCSI_INQUIRY, size)
-    memset(data, '\0', INQUIRY_SIZE); /* size may be less than INQUIRY_SIZE, so prevent returning noise */
+    memset(data, "\0", INQUIRY_SIZE); /* size may be less than INQUIRY_SIZE, so prevent returning noise */
 
     status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
     if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
@@ -711,7 +711,7 @@ sanei_pieusb_cmd_inquiry(Int device_number, struct Pieusb_Scanner_Properties* in
     _copy_bytes((Sane.Byte*)(inq.timestamp), data+124, 20)
     _copy_bytes((Sane.Byte*)(inq.signature), data+144, 40)
     /* remove newline in signature */
-    for(k=0; k<40; k++) if(inq.signature[k]==0x0a || inq.signature[k]==0x0d) inq.signature[k]=' '
+    for(k=0; k<40; k++) if(inq.signature[k]==0x0a || inq.signature[k]==0x0d) inq.signature[k]=" "
 #undef INQUIRY_SIZE
 }
 
@@ -779,7 +779,7 @@ sanei_pieusb_cmd_set_mode(Int device_number, struct Pieusb_Mode* mode, struct Pi
      * d: 7f    line threshold
      * e: 00 00
      */
-    memset(data, '\0', size)
+    memset(data, "\0", size)
     _set_byte(size-1, data, 1)
     _set_short(mode.resolution, data, 2)
     _set_byte(mode.passes, data, 4)
@@ -823,7 +823,7 @@ sanei_pieusb_cmd_get_ccd_mask(Int device_number, Sane.Byte* mask, Int mask_size,
 
     _prep_scsi_cmd(command, SCSI_COPY, mask_size)
 
-    memset(mask, '\0', mask_size)
+    memset(mask, "\0", mask_size)
     status.pieusb_status = sanei_pieusb_command(device_number, command, mask, mask_size)
 }
 
@@ -850,7 +850,7 @@ sanei_pieusb_cmd_get_mode(Int device_number, struct Pieusb_Mode* mode, struct Pi
     DBG(DBG_info_scan, "sanei_pieusb_cmd_get_mode()\n")
 
     _prep_scsi_cmd(command, SCSI_MODE_SENSE, size)
-    memset(data, '\0', size)
+    memset(data, "\0", size)
 
     status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
     if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
@@ -906,7 +906,7 @@ sanei_pieusb_cmd_get_mode(Int device_number, struct Pieusb_Mode* mode, struct Pi
  * 1. sanei_pieusb_cmd_test_unit_ready()\n
  * 2. sanei_pieusb_cmd_get_ccd_mask()\n
  * 3. sanei_pieusb_cmd_stop_scan: abort scanning process\n\n
- * In the 'scan and output scan data' phase, the slide is scanned while data is
+ * In the "scan and output scan data" phase, the slide is scanned while data is
  * read in the mean time. Available command during this phase:\n
  * 1. sanei_pieusb_cmd_test_unit_ready()\n
  * 2. sanei_pieusb_cmd_get_scanned_lines()\n
@@ -952,7 +952,7 @@ sanei_pieusb_cmd_stop_scan(Int device_number, struct Pieusb_Command_Status *stat
  * mode = 1: Returns the scan head to the resting position, after a short move
  * forward. If this command is left out between two scans, the second scan is
  * up-down-mirrored, and scanning starts where the proevious scan stopped.\n
- * mode = 2: Resets the scan head an then moves it forward depending on 'size',
+ * mode = 2: Resets the scan head an then moves it forward depending on "size",
  * but it is a bit unpredictable to what position. The scanner may attempt to
  * move the head past its physical end position. The mode is not implemented.\n
  * mode = 3: This command positions the scan head to the start of the slide.\n
@@ -978,7 +978,7 @@ sanei_pieusb_cmd_set_scan_head(Int device_number, Int mode, Int steps, struct Pi
     _prep_scsi_cmd(command, SCSI_SET_SCAN_HEAD, size)
 
     /* Code data */
-    memset(data, '\0', size)
+    memset(data, "\0", size)
     switch(mode) {
         case 1:
             data[0] = 2
@@ -1031,7 +1031,7 @@ sanei_pieusb_cmd_get_gain_offset(Int device_number, struct Pieusb_Settings* sett
 
     _prep_scsi_cmd(command, SCSI_READ_GAIN_OFFSET, size)
 
-    memset(data, '\0', size)
+    memset(data, "\0", size)
     status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
     if(status.pieusb_status != PIEUSB_STATUS_GOOD) {
         return
@@ -1097,7 +1097,7 @@ sanei_pieusb_cmd_set_gain_offset(Int device_number, struct Pieusb_Settings* sett
     DBG(DBG_info, " extra entries = %02x\n", settings.extraEntries)
 
     /* Code data */
-    memset(data, '\0', size)
+    memset(data, "\0", size)
     _set_shorts(settings.exposureTime, data, 3)
     for(k = 0; k < 3; k++) {
       val[k] = settings.offset[k]
@@ -1170,12 +1170,12 @@ sanei_pieusb_cmd_read_state(Int device_number, struct Pieusb_Scanner_State* stat
     Sane.Byte data[GET_STATE_SIZE]
     Int size = GET_STATE_SIZE
 
-    /* Execute READ STATUS command */
+    /* Execute READ Status command */
     DBG(DBG_info_scan, "sanei_pieusb_cmd_read_state()\n")
 
     _prep_scsi_cmd(command, SCSI_READ_STATE, size)
 
-    memset(data, '\0', size)
+    memset(data, "\0", size)
     status.pieusb_status = sanei_pieusb_command(device_number, command, data, size)
 
     if(status.pieusb_status == PIEUSB_STATUS_WARMING_UP
@@ -1202,7 +1202,7 @@ sanei_pieusb_cmd_read_state(Int device_number, struct Pieusb_Scanner_State* stat
 static void
 _prep_scsi_cmd(Sane.Byte* command, Sane.Byte code, Sane.Word size)
 {
-    memset(command, '\0', SCSI_COMMAND_LEN)
+    memset(command, "\0", SCSI_COMMAND_LEN)
     command[0] = code
     command[3] = (size>>8) & 0xFF; /* lsb first */
     command[4] = size & 0xFF

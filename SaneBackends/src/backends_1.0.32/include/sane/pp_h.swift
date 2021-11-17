@@ -48,7 +48,7 @@
 import sys/types
 import sane/sane
 
-/** some modes, we'd like to see/use. */
+/** some modes, we"d like to see/use. */
 enum sanei_pp_mode {
   	SANEI_PP_MODE_SPP  = (1<<1), 		/**< SPP */
 	SANEI_PP_MODE_BIDI = (1<<2), 		/**< BIDI */

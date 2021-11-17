@@ -188,7 +188,7 @@ hp_data_alloc(HpData this, size_t sz)
  /*
   * mike@easysw.com:
   *
-  * The following code is REQUIRED so that pointers, etc. aren't
+  * The following code is REQUIRED so that pointers, etc. aren"t
   * misaligned.  This causes MAJOR problems on all SPARC, ALPHA,
   * and MIPS processors, and possibly others.
   *
@@ -481,7 +481,7 @@ hp_accessor_choice_set(HpAccessor _this, HpData data, void * valp)
 
   for(choice = this.choices; choice; choice = choice.next)
     {
-      /* Skip choices which aren't in strlist. */
+      /* Skip choices which aren"t in strlist. */
       if(!*strlist || strcmp(*strlist, choice.name) != 0)
 	  continue
       strlist++
@@ -513,7 +513,7 @@ hp_accessor_choice_setint(HpAccessor _this,  HpData data, Int val)
 
   for(choice = this.choices; choice; choice = choice.next)
     {
-      /* Skip choices which aren't in strlist. */
+      /* Skip choices which aren"t in strlist. */
       if(!*strlist || strcmp(*strlist, choice.name) != 0)
 	  continue
       strlist++
@@ -776,7 +776,7 @@ _gamma_vector_unscale(HpAccessorVector __Sane.unused__ this, Sane.Fixed fval)
 {
   unsigned short unscaled = fval / Sane.FIX(1.0)
   if(unscaled > 255) unscaled = 255
-  unscaled = 255 - unscaled;  /* Don't know why. But this is how it works. */
+  unscaled = 255 - unscaled;  /* Don"t know why. But this is how it works. */
 
   return unscaled
 }
@@ -785,7 +785,7 @@ static Sane.Fixed
 _gamma_vector_scale(HpAccessorVector __Sane.unused__ this, unsigned short val)
 {
   Sane.Fixed scaled
-  val = 255-val;     /* Don't know why. But this is how it works. */
+  val = 255-val;     /* Don"t know why. But this is how it works. */
   scaled = val * Sane.FIX(1.0)
 
   return scaled
@@ -959,7 +959,7 @@ hp_accessor_geometry_getint(HpAccessor _this, HpData data)
 }
 
 /*
- * we should implement hp_accessor_geometry_setint, but we don't
+ * we should implement hp_accessor_geometry_setint, but we don"t
  * need it yet...
  */
 

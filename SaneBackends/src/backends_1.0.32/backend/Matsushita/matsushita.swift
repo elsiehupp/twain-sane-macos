@@ -487,7 +487,7 @@ hexdump(Int level, const char *comment, unsigned char *p, Int l)
 	{
 	  if(ptr != line)
 	    {
-	      *ptr = '\0'
+	      *ptr = "\0"
 	      DBG(level, "%s\n", line)
 	      ptr = line
 	    }
@@ -497,7 +497,7 @@ hexdump(Int level, const char *comment, unsigned char *p, Int l)
       sprintf(ptr, " %2.2x", *p)
       ptr += 3
     }
-  *ptr = '\0'
+  *ptr = "\0"
   DBG(level, "%s\n", line)
 }
 
@@ -1391,18 +1391,18 @@ matsushita_set_window(Matsushita_Scanner * dev, Int side)
   window[8] = side
 
   /* X and Y resolution */
-  Ito16 (dev.resolution, &window[10])
-  Ito16 (dev.resolution, &window[12])
+  Ito16(dev.resolution, &window[10])
+  Ito16(dev.resolution, &window[12])
 
   /* Upper Left(X,Y) */
-  Ito32 (dev.x_tl, &window[14])
-  Ito32 (dev.y_tl, &window[18])
+  Ito32(dev.x_tl, &window[14])
+  Ito32(dev.y_tl, &window[18])
 
   /* Width and length */
-  Ito32 (dev.width, &window[22])
-  Ito32 (dev.length, &window[26])
-  Ito32 (dev.width, &window[56]);	/* again, verso? */
-  Ito32 (dev.length, &window[60]);	/* again, verso? */
+  Ito32(dev.width, &window[22])
+  Ito32(dev.length, &window[26])
+  Ito32(dev.width, &window[56]);	/* again, verso? */
+  Ito32(dev.length, &window[60]);	/* again, verso? */
 
   /* Brightness */
   window[30] = 255 - dev.val[OPT_BRIGHTNESS].w
@@ -1549,7 +1549,7 @@ matsushita_fill_image(Matsushita_Scanner * dev)
 	}
 
       DBG(DBG_info, "Sane.read: to read   = %ld bytes(bpl=%d)\n",
-	   (long) size, dev.params.bytes_per_line)
+	   (long) size, dev.params.bytesPerLine)
 
       MKSCSI_READ_10 (cdb, 0, 0, size)
       cdb.data[4] = dev.page_num;	/* May be cdb.data[3] too? */
@@ -1729,7 +1729,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 
   while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if(dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == "#")	/* ignore line comments */
 	continue
       len = strlen(dev_name)
 
@@ -2214,7 +2214,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	{
 	  dev.params.depth = dev.depth
 	}
-      dev.params.bytes_per_line =
+      dev.params.bytesPerLine =
 	(dev.params.pixels_per_line / 8) * dev.params.depth
       dev.params.lines = (dev.length * dev.resolution) / 1200
     }
@@ -2324,8 +2324,8 @@ Sane.start(Sane.Handle handle)
 	}
     }
 
-  dev.bytes_left = dev.params.bytes_per_line * dev.params.lines
-  dev.real_bytes_left = dev.params.bytes_per_line * dev.params.lines
+  dev.bytes_left = dev.params.bytesPerLine * dev.params.lines
+  dev.real_bytes_left = dev.params.bytesPerLine * dev.params.lines
   if(dev.depth == 4)
     {
       /* Every byte read will be expanded into 2 bytes. */

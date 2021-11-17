@@ -243,7 +243,7 @@ md5_process_bytes(const void *buffer, size_t len, struct md5_ctx *ctx)
     {
 #if !_STRING_ARCH_unaligned
 /* To check alignment gcc has an appropriate operator.  Other
-   compilers don't.  */
+   compilers don"t.  */
 # if __GNUC__ >= 2
 #  define UNALIGNED_P(p) (((md5_uintptr) p) % __alignof__ (md5_uint32) != 0)
 # else

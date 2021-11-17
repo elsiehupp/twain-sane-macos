@@ -129,7 +129,7 @@ sanei_lm983x_write( Int fd, Sane.Byte reg,
 			     result, max_len + _CMD_BYTE_CNT)
 
 			if( size < _CMD_BYTE_CNT ) {
-				DBG( 1, "sanei_lm983x_write: couldn't even send command\n" )
+				DBG( 1, "sanei_lm983x_write: couldn"t even send command\n" )
 				return Sane.STATUS_IO_ERROR
 			}
 			DBG( 1, "sanei_lm983x_write: trying again\n" )
@@ -241,7 +241,7 @@ Bool sanei_lm983x_reset( Int fd )
 
 			res = sanei_lm983x_write_byte( fd, 0x07, 0 )
 
-			/* We will attempt to reset it but we really don't do
+			/* We will attempt to reset it but we really don"t do
 			 * anything if this fails
 			 */
 			if( res == Sane.STATUS_GOOD ) {

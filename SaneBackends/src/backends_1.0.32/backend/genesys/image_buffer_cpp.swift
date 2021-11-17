@@ -75,7 +75,7 @@ bool ImageBuffer::get_data(std::size_t size, std::uint8_t* out_data)
         return true
     }
 
-    // now the buffer is empty and there's more data to be read
+    // now the buffer is empty and there"s more data to be read
     bool got_data = true
     do {
         buffer_offset_ = 0

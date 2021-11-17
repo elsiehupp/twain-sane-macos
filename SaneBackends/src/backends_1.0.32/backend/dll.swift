@@ -41,7 +41,7 @@
    dynamic linking to load backends on demand.  */
 
 /* Please increase version number with every change
-   (don't forget to update dll.desc) */
+   (don"t forget to update dll.desc) */
 #define DLL_VERSION "1.0.13"
 
 #ifdef _AIX
@@ -101,7 +101,7 @@ posix_dlsym(void *handle, const char *func)
 # pragma GCC diagnostic ignored "-Wpragmas" /* backward compatibility */
 # pragma GCC diagnostic ignored "-Wcast-function-type"
 
-  /* Older versions of dlopen() don't define RTLD_NOW and RTLD_LAZY.
+  /* Older versions of dlopen() don"t define RTLD_NOW and RTLD_LAZY.
      They all seem to use a mode of 1 to indicate RTLD_NOW and some do
      not support RTLD_LAZY at all.  Hence, unless defined, we define
      both macros as 1 to play it safe.  */
@@ -305,7 +305,7 @@ add_backend(const char *name, struct backend **bep)
 {
   struct backend *be, *prev
 
-  DBG(3, "add_backend: adding backend `%s'\n", name)
+  DBG(3, "add_backend: adding backend `%s"\n", name)
 
   if(strcmp(name, "dll") == 0)
     {
@@ -316,8 +316,8 @@ add_backend(const char *name, struct backend **bep)
   for(prev = 0, be = first_backend; be; prev = be, be = be.next)
     if(strcmp(be.name, name) == 0)
       {
-	DBG(1, "add_backend: `%s' is already there\n", name)
-	/* move to front so we preserve order that we'd get with
+	DBG(1, "add_backend: `%s" is already there\n", name)
+	/* move to front so we preserve order that we"d get with
 	   dynamic loading: */
 	if(prev)
 	  {
@@ -384,7 +384,7 @@ load(struct backend *be)
 		be.loaded = 1
 		be.handle = 0
 		for(i = 0; i < NUM_OPS; ++i) be.op[i] = op_unsupported
-  		DBG(2, "dlopen()ing `%s'\n", path)
+  		DBG(2, "dlopen()ing `%s"\n", path)
 		id=load_add_on(path)
 		if(id < 0)
 		{
@@ -404,7 +404,7 @@ load(struct backend *be)
     }
 	if(id < 0)
    	{
-		DBG(2, "load: couldn't find %s\n",path)
+		DBG(2, "load: couldn"t find %s\n",path)
      	return Sane.STATUS_INVAL
    	}
   return Sane.STATUS_GOOD
@@ -487,7 +487,7 @@ load(struct backend *be)
 	  return Sane.STATUS_NO_MEM
 	}
     }
-  DBG(3, "load: searching backend `%s' in `%s'\n", be.name, src)
+  DBG(3, "load: searching backend `%s" in `%s"\n", be.name, src)
 
   orig_src = src
   dir = strsep(&src, DIR_SEP)
@@ -502,22 +502,22 @@ load(struct backend *be)
       snprintf(libname, sizeof(libname), "%s/" PREFIX "%s" POSTFIX,
 		dir, be.name, V_MAJOR)
 #endif
-      DBG(4, "load: trying to load `%s'\n", libname)
+      DBG(4, "load: trying to load `%s"\n", libname)
       fp = fopen(libname, "r")
       if(fp)
 	break
-      DBG(4, "load: couldn't open `%s' (%s)\n", libname, strerror(errno))
+      DBG(4, "load: couldn"t open `%s" (%s)\n", libname, strerror(errno))
 
 #ifdef ALT_POSTFIX
       /* Some platforms have two ways of storing their libraries, try both
 	 postfixes */
       snprintf(libname, sizeof(libname), "%s/" PREFIX "%s" ALT_POSTFIX,
 		dir, be.name, V_MAJOR)
-      DBG(4, "load: trying to load `%s'\n", libname)
+      DBG(4, "load: trying to load `%s"\n", libname)
       fp = fopen(libname, "r")
       if(fp)
 	break
-      DBG(4, "load: couldn't open `%s' (%s)\n", libname, strerror(errno))
+      DBG(4, "load: couldn"t open `%s" (%s)\n", libname, strerror(errno))
 #endif
 
       dir = strsep(&src, DIR_SEP)
@@ -526,12 +526,12 @@ load(struct backend *be)
     free(orig_src)
   if(!fp)
     {
-      DBG(1, "load: couldn't find backend `%s' (%s)\n",
+      DBG(1, "load: couldn"t find backend `%s" (%s)\n",
 	   be.name, strerror(errno))
       return Sane.STATUS_INVAL
     }
   fclose(fp)
-  DBG(3, "load: dlopen()ing `%s'\n", libname)
+  DBG(3, "load: dlopen()ing `%s"\n", libname)
 
 #ifdef HAVE_DLOPEN
   be.handle = dlopen(libname, mode)
@@ -628,7 +628,7 @@ load(struct backend *be)
 # undef POSTFIX
 #else /* HAVE_DLL */
   DBG(1,
-       "load: ignoring attempt to load `%s'; compiled without dl support\n",
+       "load: ignoring attempt to load `%s"; compiled without dl support\n",
        be.name)
   return Sane.STATUS_UNSUPPORTED
 #endif /* HAVE_DLL */
@@ -648,7 +648,7 @@ init(struct backend *be)
 	return status
     }
 
-  DBG(3, "init: initializing backend `%s'\n", be.name)
+  DBG(3, "init: initializing backend `%s"\n", be.name)
 
   status = (*(op_init_t)be.op[OP_INIT]) (&version, auth_callback)
   if(status != Sane.STATUS_GOOD)
@@ -657,11 +657,11 @@ init(struct backend *be)
   if(Sane.VERSION_MAJOR(version) != Sane.CURRENT_MAJOR)
     {
       DBG(1,
-	   "init: backend `%s' has a wrong major version(%d instead of %d)\n",
+	   "init: backend `%s" has a wrong major version(%d instead of %d)\n",
 	   be.name, Sane.VERSION_MAJOR(version), Sane.CURRENT_MAJOR)
       return Sane.STATUS_INVAL
     }
-  DBG(4, "init: backend `%s' is version %d.%d.%d\n", be.name,
+  DBG(4, "init: backend `%s" is version %d.%d.%d\n", be.name,
        Sane.VERSION_MAJOR(version), Sane.VERSION_MINOR(version),
        Sane.VERSION_BUILD(version))
 
@@ -688,14 +688,14 @@ add_alias(const char *line_param)
   if(!*command)
     return
 
-  line = strchr(command, '#')
+  line = strchr(command, "#")
   if(line)
-    *line = '\0'
+    *line = "\0"
 
   line = strpbrk(command, " \t")
   if(!line)
     return
-  *line++ = '\0'
+  *line++ = "\0"
 
   if(strcmp(command, "alias") == 0)
     cmd = CMD_ALIAS
@@ -713,10 +713,10 @@ add_alias(const char *line_param)
       newname = sanei_config_skip_whitespace(line)
       if(!*newname)
 	return
-      if(*newname == '\"')
+      if(*newname == "\"")
 	{
 	  ++newname
-	  newend = strchr(newname, '\"')
+	  newend = strchr(newname, "\"")
 	}
       else
 	newend = strpbrk(newname, " \t")
@@ -741,12 +741,12 @@ add_alias(const char *line_param)
       if(alias.oldname)
 	{
 	  strncpy(alias.oldname, oldname, oldlen)
-	  alias.oldname[oldlen] = '\0'
+	  alias.oldname[oldlen] = "\0"
 	  if(cmd == CMD_ALIAS)
 	    {
 	      alias.newname = alias.oldname + oldlen + 1
 	      strncpy(alias.newname, newname, newlen)
-	      alias.newname[newlen] = '\0'
+	      alias.newname[newlen] = "\0"
 	    }
 	  else
 	    alias.newname = NULL
@@ -772,9 +772,9 @@ read_config(const char *conffile)
   fp = sanei_config_open(conffile)
   if(!fp)
     {
-      DBG(1, "Sane.init/read_config: Couldn't open config file(%s): %s\n",
+      DBG(1, "Sane.init/read_config: Couldn"t open config file(%s): %s\n",
            conffile, strerror(errno))
-      return; /* don't insist on config file */
+      return; /* don"t insist on config file */
     }
 
   DBG(5, "Sane.init/read_config: reading %s\n", conffile)
@@ -792,15 +792,15 @@ read_config(const char *conffile)
           continue
         }
       /* ignore line comments */
-      if(backend_name[0] == '#')
+      if(backend_name[0] == "#")
         {
           free(backend_name)
           continue
         }
       /* ignore comments after backend names */
-      comment = strchr(backend_name, '#')
+      comment = strchr(backend_name, "#")
       if(comment)
-        *comment = '\0'
+        *comment = "\0"
       add_backend(backend_name, 0)
       free(backend_name)
     }
@@ -832,7 +832,7 @@ read_dlld(void)
     {
       snprintf(dlldir, sizeof(dlldir), "%s%s", dir, "/dll.d")
 
-      DBG(4, "Sane.init/read_dlld: attempting to open directory `%s'\n", dlldir)
+      DBG(4, "Sane.init/read_dlld: attempting to open directory `%s"\n", dlldir)
 
       dlld = opendir(dlldir)
       if(dlld)
@@ -840,7 +840,7 @@ read_dlld(void)
 	  /* length of path to parent dir of dll.d/ */
 	  plen = strlen(dir) + 1
 
-	  DBG(3, "Sane.init/read_dlld: using config directory `%s'\n", dlldir)
+	  DBG(3, "Sane.init/read_dlld: using config directory `%s"\n", dlldir)
 	  break
 	}
     }
@@ -856,14 +856,14 @@ read_dlld(void)
   while((dllconf = readdir(dlld)) != NULL)
     {
       /* dotfile(or directory) */
-      if(dllconf.d_name[0] == '.')
+      if(dllconf.d_name[0] == ".")
         continue
 
       len = strlen(dllconf.d_name)
 
       /* backup files */
-      if((dllconf.d_name[len-1] == '~')
-          || (dllconf.d_name[len-1] == '#'))
+      if((dllconf.d_name[len-1] == "~")
+          || (dllconf.d_name[len-1] == "#"))
         continue
 
       snprintf(conffile, sizeof(conffile), "%s/%s", dlldir, dllconf.d_name)
@@ -914,7 +914,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
     {
       if(!preloaded_backends[i].name)
 	continue
-      DBG(3, "Sane.init: adding backend `%s' (preloaded)\n", preloaded_backends[i].name)
+      DBG(3, "Sane.init: adding backend `%s" (preloaded)\n", preloaded_backends[i].name)
       preloaded_backends[i].next = first_backend
       first_backend = &preloaded_backends[i]
     }
@@ -935,12 +935,12 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 
   fp = sanei_config_open(DLL_ALIASES_FILE)
   if(!fp)
-    return Sane.STATUS_GOOD;	/* don't insist on aliases file */
+    return Sane.STATUS_GOOD;	/* don"t insist on aliases file */
 
   DBG(5, "Sane.init: reading %s\n", DLL_ALIASES_FILE)
   while(sanei_config_read(config_line, sizeof(config_line), fp))
     {
-      if(config_line[0] == '#')	/* ignore line comments */
+      if(config_line[0] == "#")	/* ignore line comments */
 	continue
 
       len = strlen(config_line)
@@ -990,7 +990,7 @@ Sane.exit(void)
 	{
 	  if(be.inited)
 	    {
-	      DBG(3, "Sane.exit: calling backend `%s's exit function\n",
+	      DBG(3, "Sane.exit: calling backend `%s"s exit function\n",
 		   be.name)
 	      (*(op_exit_t)be.op[OP_EXIT]) ()
 	    }
@@ -1054,7 +1054,7 @@ Sane.exit(void)
   DBG(3, "Sane.exit: finished\n")
 }
 
-/* Note that a call to get_devices() implies that we'll have to load
+/* Note that a call to get_devices() implies that we"ll have to load
    all backends.  To avoid this, you can call Sane.open() directly
    (assuming you know the name of the backend/device).  This is
    appropriate for the command-line interface of SANE, for example.
@@ -1116,7 +1116,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 	      if(strlen(alias.oldname) <= len)
 		continue
 	      if(strncmp(alias.oldname, be.name, len) == 0
-		  && alias.oldname[len] == ':'
+		  && alias.oldname[len] == ":"
 		  && strcmp(&alias.oldname[len + 1], be_list[i]->name) == 0)
 		break
 	    }
@@ -1137,7 +1137,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 	  else
 	    {
 	      /* create a new device entry with a device name that is the
-	         sum of the backend name a colon and the backend's device
+	         sum of the backend name a colon and the backend"s device
 	         name: */
 	      len = strlen(be.name) + 1 + strlen(be_list[i]->name)
 	      mem = malloc(sizeof(*dev) + len + 1)
@@ -1180,7 +1180,7 @@ Sane.open(Sane.String_Const full_name, Sane.Handle * meta_handle)
   Sane.Status status
   struct alias *alias
 
-  DBG(3, "Sane.open: trying to open `%s'\n", full_name)
+  DBG(3, "Sane.open: trying to open `%s"\n", full_name)
 
   for(alias = first_alias; alias != NULL; alias = alias.next)
     {
@@ -1193,7 +1193,7 @@ Sane.open(Sane.String_Const full_name, Sane.Handle * meta_handle)
 	}
     }
 
-  dev_name = strchr(full_name, ':')
+  dev_name = strchr(full_name, ":")
 
   Int is_fakeusb = 0, is_fakeusbdev = 0, is_fakeusbout = 0
 
@@ -1228,7 +1228,7 @@ Sane.open(Sane.String_Const full_name, Sane.Handle * meta_handle)
       {
         ++dev_name; // skip colon
 
-        const char* path_end = strchr(dev_name, ':')
+        const char* path_end = strchr(dev_name, ":")
         if(path_end == NULL)
           {
             DBG(0, "%s: the device name does not contain path\n", __func__)
@@ -1237,7 +1237,7 @@ Sane.open(Sane.String_Const full_name, Sane.Handle * meta_handle)
         fakeusbout_path = strndup(dev_name, path_end - dev_name)
 
         full_name = path_end + 1; // skip colon
-        dev_name = strchr(full_name, ':')
+        dev_name = strchr(full_name, ":")
       }
 
       if(dev_name)

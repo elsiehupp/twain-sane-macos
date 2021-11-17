@@ -78,7 +78,7 @@ void CommandSetCommon::set_xpa_lamp_power(Genesys_Device& dev, bool set) const
         GenesysRegisterSettingSet regs_off
     ]
 
-    // FIXME: BUG: we're not clearing the registers to the previous state when returning back when
+    // FIXME: BUG: we"re not clearing the registers to the previous state when returning back when
     // turning off the lamp
     LampSettings settings[] = {
         {   ModelId::CANON_4400F, ScanMethod::TRANSPARENCY, {}, {} },

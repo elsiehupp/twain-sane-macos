@@ -120,7 +120,7 @@ func Int e2_send(Epson_Scanner * s, void *buf, size_t buf_size, size_t reply_len
 
 		for(k = 0; k < buf_size; k++) {
 			DBG(125, "buf[%d] %02x %c\n", k, s[k],
-			    isprint(s[k]) ? s[k] : '.')
+			    isprint(s[k]) ? s[k] : ".")
 		}
 	}
 
@@ -183,7 +183,7 @@ e2_recv(Epson_Scanner *s, void *buf, ssize_t buf_size,
 				*status = Sane.STATUS_INVAL
 		}
 	} else if(s.hw.connection == Sane.EPSON_USB) {
-		/* !!! only report an error if we don't read anything */
+		/* !!! only report an error if we don"t read anything */
 		if(n) {
 			*status =
 				sanei_usb_read_bulk(s.fd, (Sane.Byte *) buf,
@@ -211,7 +211,7 @@ e2_recv(Epson_Scanner *s, void *buf, ssize_t buf_size,
 
 		for(k = 0; k < n; k++)
 			DBG(127, "buf[%d] %02x %c\n", k, s[k],
-			    isprint(s[k]) ? s[k] : '.')
+			    isprint(s[k]) ? s[k] : ".")
 	}
 
 	return n
@@ -299,7 +299,7 @@ e2_recv_info_block(Epson_Scanner * s, unsigned char *scanner_status,
 		return Sane.STATUS_UNSUPPORTED
 	}
 
-	/* check the first byte: if it's not STX, bail out */
+	/* check the first byte: if it"s not STX, bail out */
 	if(info[0] != STX) {
 		DBG(1, "%s: expecting STX, got %02X\n", __func__, info[0])
 		return Sane.STATUS_INVAL

@@ -71,7 +71,7 @@ sanei_ir_create_norm_histogram(const Sane.Parameters * params,
                            double ** histogram)
 
 /**
- * @brief Implements Yen's thresholding method
+ * @brief Implements Yen"s thresholding method
  *
  * @param[in] params describes image
  * @param[in] norm_histo points to a normalized histogram
@@ -97,7 +97,7 @@ sanei_ir_threshold_yen(const Sane.Parameters * params,
                          double * norm_histo, Int *thresh)
 
 /**
- * @brief Implements Otsu's thresholding method
+ * @brief Implements Otsu"s thresholding method
  *
  * @param[in] params describes image
  * @param[in] norm_histo points to a normalized histogram
@@ -211,7 +211,7 @@ Sane.Status sanei_ir_ln_table(Int len, double **lut_ln)
  * This routine is based on the observation that the relation between the infrared value
  * ired and the red value red of an image point can be described by ired = b + a * ln(red).
  * First points are randomly sampled to calculate the linear regression coefficient a.
- * Then ired' = ired - a  * ln(red) is calculated for each pixel. Finally, the ir' image
+ * Then ired" = ired - a  * ln(red) is calculated for each pixel. Finally, the ir" image
  * is scaled between 0 and maximal value. For the logarithms a lookup table is used.
  * Negative films show very little spectral overlap but positive film usually has to be
  * cleaned. As we do a statistical measure of the film here dark margins and lumps of
@@ -262,13 +262,13 @@ sanei_ir_filter_mean(const Sane.Parameters * params,
  * - Sane.STATUS_GOOD - success
  * - Sane.STATUS_NO_MEM - if out of memory
  *
- * This routine follows the concept of Crnojevic's MAD(median of the absolute deviations
+ * This routine follows the concept of Crnojevic"s MAD(median of the absolute deviations
  * from the median) filter. The first median filter step is replaced with a mean filter.
  * The dirty pixels which we wish to remove are always darker than the real signal. But
  * at high resolutions the scanner may generate some noise and the ired cleaning step can
  * reverse things. So a maximum filter will not do.
  * The second median is replaced by a mean filter to reduce computation time. In spite of
- * these changes Crnojevic's recommendations for the choice of the parameters "a" and "b"
+ * these changes Crnojevic"s recommendations for the choice of the parameters "a" and "b"
  * are still valid when scaled to the color depth.
  *
  * @reco Crnojevic recommends 10 < a_val < 30 and 50 < b_val < 100 for 8 bit color depth
@@ -345,7 +345,7 @@ sanei_ir_dilate(const Sane.Parameters * params, Sane.Uint * mask_img,
  *
  * @param[in]  params pointer to image description
  * @param[in]  dist_map integer pointer to map of closest distances
- * @param[in]  inner crop within(!=0) or outside(==0) the image's edges
+ * @param[in]  inner crop within(!=0) or outside(==0) the image"s edges
  * @param[out] edges pointer to array holding top, bottom, left
  *             and right edges
  *
@@ -368,7 +368,7 @@ sanei_ir_find_crop(const Sane.Parameters * params,
  * @param[in] expand the dirt mask before replacing the pixels
  * @param[in] win_size size of adaptive mean filtering window
  * @param[in] smooth triangular filter whole image for grain removal
- * @param[in] inner find crop within or outside the image's edges
+ * @param[in] inner find crop within or outside the image"s edges
  * @param[out] crop array of 4 integers, if non-NULL, top, bottom,
  *             left and right values for cropping are returned.
  *

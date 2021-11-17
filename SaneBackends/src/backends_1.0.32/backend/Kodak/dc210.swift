@@ -84,7 +84,7 @@ PictureInfo
 typedef struct DC210_s
   {
     Int fd;			/* file descriptor to talk to it */
-    char *tty_name;		/* the tty port name it's on */
+    char *tty_name;		/* the tty port name it"s on */
     speed_t baud;		/* current tty speed */
     Bool scanning;		/* currently scanning an image? */
     unsigned char model
@@ -562,7 +562,7 @@ send_pck(Int fd, unsigned char *pck)
   Int n
   unsigned char r = 0xf0;	/* prime the loop with a "camera busy" */
 
-  /* keep trying if camera says it's busy */
+  /* keep trying if camera says it"s busy */
   while(r == 0xf0)
     {
       /*
@@ -649,7 +649,7 @@ init_dc210 (DC210 * camera)
 # if defined(__sgi)
   tty_new.c_cflag &= ~CNEW_RTSCTS
 # else
-/* OS/2 doesn't have CRTSCTS - will this work for them? */
+/* OS/2 doesn"t have CRTSCTS - will this work for them? */
 #  ifdef CRTSCTS
   tty_new.c_cflag &= ~CRTSCTS
 #  endif
@@ -859,7 +859,7 @@ end_of_data(Int fd)
   unsigned char c
 
   do
-    {				/* loop until the camera isn't busy */
+    {				/* loop until the camera isn"t busy */
       if(read(fd, &c, 1) != 1)
 	{
 	  DBG(2, "end_of_data: error: read returned -1\n")
@@ -952,23 +952,23 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
   if(!fp)
     {
       /* default to /dev/whatever instead of insisting on config file */
-      DBG(1, "%s:  missing config file '%s'\n", f, DC210_CONFIG_FILE)
+      DBG(1, "%s:  missing config file "%s"\n", f, DC210_CONFIG_FILE)
     }
   else
     {
       while(sanei_config_read(dev_name, sizeof(dev_name), fp))
 	{
-	  dev_name[sizeof(dev_name) - 1] = '\0'
+	  dev_name[sizeof(dev_name) - 1] = "\0"
 	  DBG(20, "%s:  config- %s\n", f, dev_name)
 
-	  if(dev_name[0] == '#')
+	  if(dev_name[0] == "#")
 	    continue;		/* ignore line comments */
 	  len = strlen(dev_name)
 	  if(!len)
 	    continue;		/* ignore empty lines */
 	  if(strncmp(dev_name, "port=", 5) == 0)
 	    {
-	      p = strchr(dev_name, '/')
+	      p = strchr(dev_name, "/")
 	      if(p)
 		Camera.tty_name = strdup(p)
 	      DBG(20, "Config file port=%s\n", Camera.tty_name)
@@ -1047,7 +1047,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
   if(Camera.pic_taken == 0)
     {
       Camera.current_picture_number = 0
-      parms.bytes_per_line = 0
+      parms.bytesPerLine = 0
       parms.pixels_per_line = 0
       parms.lines = 0
     }
@@ -1056,13 +1056,13 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
       Camera.current_picture_number = 1
       if(Camera.Pictures[Camera.current_picture_number - 1].low_res)
 	{
-	  parms.bytes_per_line = 640 * 3
+	  parms.bytesPerLine = 640 * 3
 	  parms.pixels_per_line = 640
 	  parms.lines = 480
 	}
       else
 	{
-	  parms.bytes_per_line = 1152 * 3
+	  parms.bytesPerLine = 1152 * 3
 	  parms.pixels_per_line = 1152
 	  parms.lines = 864
 	}
@@ -1208,17 +1208,17 @@ Sane.control_option(Sane.Handle handle, Int option,
 	case DC210_OPT_IMAGE_NUMBER:
 	  Camera.current_picture_number = *(Sane.Word *) value
 	  myinfo |= Sane.INFO_RELOAD_PARAMS
-	  /* get the image's resolution */
+	  /* get the image"s resolution */
 
 	  if(Camera.Pictures[Camera.current_picture_number - 1].low_res)
 	    {
-	      parms.bytes_per_line = 640 * 3
+	      parms.bytesPerLine = 640 * 3
 	      parms.pixels_per_line = 640
 	      parms.lines = 480
 	    }
 	  else
 	    {
-	      parms.bytes_per_line = 1152 * 3
+	      parms.bytesPerLine = 1152 * 3
 	      parms.pixels_per_line = 1152
 	      parms.lines = 864
 	    }
@@ -1233,7 +1233,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 	      /*
 	       * DC210 thumbnail are 96x72x8x3
 	       */
-	      parms.bytes_per_line = 96 * 3
+	      parms.bytesPerLine = 96 * 3
 	      parms.pixels_per_line = 96
 	      parms.lines = 72
 	    }
@@ -1241,13 +1241,13 @@ Sane.control_option(Sane.Handle handle, Int option,
 	    {
 	      if(Camera.Pictures[Camera.current_picture_number - 1].low_res)
 		{
-		  parms.bytes_per_line = 640 * 3
+		  parms.bytesPerLine = 640 * 3
 		  parms.pixels_per_line = 640
 		  parms.lines = 480
 		}
 	      else
 		{
-		  parms.bytes_per_line = 1152 * 3
+		  parms.bytesPerLine = 1152 * 3
 		  parms.pixels_per_line = 1152
 		  parms.lines = 864
 		}
@@ -1275,13 +1275,13 @@ Sane.control_option(Sane.Handle handle, Int option,
 	  /* set params according to resolution settings */
 	  if(dc210_opt_lowres)
 	    {
-	      parms.bytes_per_line = 640 * 3
+	      parms.bytesPerLine = 640 * 3
 	      parms.pixels_per_line = 640
 	      parms.lines = 480
 	    }
 	  else
 	    {
-	      parms.bytes_per_line = 1152 * 3
+	      parms.bytesPerLine = 1152 * 3
 	      parms.pixels_per_line = 1152
 	      parms.lines = 864
 	    }
@@ -1299,13 +1299,13 @@ Sane.control_option(Sane.Handle handle, Int option,
  */
 	      if(dc210_opt_lowres)
 		{
-		  parms.bytes_per_line = 640 * 3
+		  parms.bytesPerLine = 640 * 3
 		  parms.pixels_per_line = 640
 		  parms.lines = 480
 		}
 	      else
 		{
-		  parms.bytes_per_line = 1152 * 3
+		  parms.bytesPerLine = 1152 * 3
 		  parms.pixels_per_line = 1152
 		  parms.lines = 864
 		}
@@ -1466,7 +1466,7 @@ Sane.start(Sane.Handle handle)
     {
 
       /*
-       * Don't allow picture unless there is room in the
+       * Don"t allow picture unless there is room in the
        * camera.
        */
       if(Camera.pic_left == 0)
@@ -1495,7 +1495,7 @@ Sane.start(Sane.Handle handle)
 	  return Sane.STATUS_INVAL
 	}
 
-      parms.bytes_per_line = 96 * 3
+      parms.bytesPerLine = 96 * 3
       parms.pixels_per_line = 96
       parms.lines = 72
 
@@ -1540,7 +1540,7 @@ Sane.start(Sane.Handle handle)
       (void) jpeg_start_decompress(&cinfo)
     }
 
-  Camera.scanning = Sane.TRUE;	/* don't overlap scan requests */
+  Camera.scanning = Sane.TRUE;	/* don"t overlap scan requests */
   total_bytes_read = 0
 
   return Sane.STATUS_GOOD

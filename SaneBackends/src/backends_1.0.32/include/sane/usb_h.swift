@@ -48,7 +48,7 @@
  * - Access to device
  * files as used by the Linux kernel USB scanner driver is supported. FreeBSD
  * and OpenBSD with their uscanner drivers also work this way. However,
- * detection and control messages aren't supported on these platforms.
+ * detection and control messages aren"t supported on these platforms.
  * - Access using libusb(where available).
  *
  * A general remark: Do not mix sanei_usb functions with "normal" file-related
@@ -291,7 +291,7 @@ sanei_usb_get_vendor_product_byname(Sane.String_Const devname,
  *
  * @return
  * - Sane.STATUS_GOOD - if the ids could be determined
- * - Sane.STATUS_UNSUPPORTED - if the OS doesn't support detection of ids
+ * - Sane.STATUS_UNSUPPORTED - if the OS doesn"t support detection of ids
  */
 public Sane.Status
 sanei_usb_get_vendor_product(Int dn, Sane.Word * vendor,
@@ -328,7 +328,7 @@ sanei_usb_find_devices(Int vendor, Int product,
  *
  * @return
  * - Sane.STATUS_GOOD - on success
- * - Sane.STATUS_ACCESS_DENIED - if the file couldn't be accessed due to
+ * - Sane.STATUS_ACCESS_DENIED - if the file couldn"t be accessed due to
  *   permissions
  * - Sane.STATUS_INVAL - on every other error
  */
@@ -572,7 +572,7 @@ sanei_usb_set_altinterface(Int dn, Int alternate)
 
 /** Get some information from the device descriptor
  *
- * Sometimes it's useful to know something about revisions and
+ * Sometimes it"s useful to know something about revisions and
  * other stuff reported by the USB system
  *
  * @param dn device number

@@ -93,7 +93,7 @@ void MotorSlopeTable::slice_steps(unsigned count, unsigned step_multiplier)
 void MotorSlopeTable::expand_table(unsigned count, unsigned step_multiplier)
 {
     if(table.empty()) {
-        throw SaneException("Can't expand empty table")
+        throw SaneException("Can"t expand empty table")
     }
     count = align_multiple_ceil(count, step_multiplier)
     table.resize(table.size() + count, table.back())
@@ -174,38 +174,38 @@ MotorSlopeTable create_slope_table_for_speed(const MotorSlope& slope, unsigned t
 std::ostream& operator<<(std::ostream& out, const MotorSlope& slope)
 {
     out << "MotorSlope{\n"
-        << "    initial_speed_w: " << slope.initial_speed_w << '\n'
-        << "    max_speed_w: " << slope.max_speed_w << '\n'
-        << "    a: " << slope.acceleration << '\n'
-        << '}'
+        << "    initial_speed_w: " << slope.initial_speed_w << "\n"
+        << "    max_speed_w: " << slope.max_speed_w << "\n"
+        << "    a: " << slope.acceleration << "\n"
+        << "}"
     return out
 }
 
 std::ostream& operator<<(std::ostream& out, const MotorProfile& profile)
 {
     out << "MotorProfile{\n"
-        << "    max_exposure: " << profile.max_exposure << '\n'
-        << "    step_type: " << profile.step_type << '\n'
-        << "    motor_vref: " << profile.motor_vref << '\n'
-        << "    resolutions: " << format_indent_braced_list(4, profile.resolutions) << '\n'
-        << "    scan_methods: " << format_indent_braced_list(4, profile.scan_methods) << '\n'
-        << "    slope: " << format_indent_braced_list(4, profile.slope) << '\n'
-        << '}'
+        << "    max_exposure: " << profile.max_exposure << "\n"
+        << "    step_type: " << profile.step_type << "\n"
+        << "    motor_vref: " << profile.motor_vref << "\n"
+        << "    resolutions: " << format_indent_braced_list(4, profile.resolutions) << "\n"
+        << "    scan_methods: " << format_indent_braced_list(4, profile.scan_methods) << "\n"
+        << "    slope: " << format_indent_braced_list(4, profile.slope) << "\n"
+        << "}"
     return out
 }
 
 std::ostream& operator<<(std::ostream& out, const Genesys_Motor& motor)
 {
     out << "Genesys_Motor{\n"
-        << "    id: " << motor.id << '\n'
-        << "    base_ydpi: " << motor.base_ydpi << '\n'
+        << "    id: " << motor.id << "\n"
+        << "    base_ydpi: " << motor.base_ydpi << "\n"
         << "    profiles: "
         << format_indent_braced_list(4, format_vector_indent_braced(4, "MotorProfile",
-                                                                    motor.profiles)) << '\n'
+                                                                    motor.profiles)) << "\n"
         << "    fast_profiles: "
         << format_indent_braced_list(4, format_vector_indent_braced(4, "MotorProfile",
-                                                                    motor.fast_profiles)) << '\n'
-        << '}'
+                                                                    motor.fast_profiles)) << "\n"
+        << "}"
     return out
 }
 

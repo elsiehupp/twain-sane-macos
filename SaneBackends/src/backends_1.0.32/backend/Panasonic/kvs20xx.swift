@@ -157,19 +157,19 @@ void kvs20xx_init_options(struct scanner *)
 void kvs20xx_init_window(struct scanner *s, struct window *wnd, Int wnd_id)
 
 static inline u16
-swap_bytes16 (u16 x)
+swap_bytes16(u16 x)
 {
   return x << 8 | x >> 8
 }
 static inline u32
-swap_bytes32 (u32 x)
+swap_bytes32(u32 x)
 {
   return x << 24 | x >> 24 |
     (x & (u32) 0x0000ff00UL) << 8 | (x & (u32) 0x00ff0000UL) >> 8
 }
 
 static inline void
-copy16 (u8 * p, u16 x)
+copy16(u8 * p, u16 x)
 {
   memcpy(p, (u8 *) &x, sizeof(x))
 }
@@ -599,8 +599,8 @@ Sane.start(Sane.Handle handle)
       Sane.get_parameters(s, NULL)
       s.saved_dummy_size = s.dummy_size = dummy_length
 	? (dummy_length * s.val[RESOLUTION].w / 1200 - 1)
-	* s.params.bytes_per_line : 0
-      s.side_size = s.params.lines * s.params.bytes_per_line
+	* s.params.bytesPerLine : 0
+      s.side_size = s.params.lines * s.params.bytesPerLine
 
       s.data = realloc(s.data, duplex ? s.side_size * 2 : s.side_size)
       if(!s.data)
@@ -692,7 +692,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
     {
       if(color)
 	{
-	  unsigned ls = s.params.bytes_per_line
+	  unsigned ls = s.params.bytesPerLine
 	  unsigned i, a = s.side == SIDE_FRONT ? 0 : ls / 3
 	  u8 *data
 	  *len = (*len / ls) * ls
@@ -702,7 +702,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
 	}
       else
 	{
-	  unsigned ls = s.params.bytes_per_line
+	  unsigned ls = s.params.bytesPerLine
 	  unsigned i = s.side == SIDE_FRONT ? 0 : ls
 	  unsigned head = ls - (s.read % ls)
 	  unsigned tail = (*len - head) % ls
@@ -725,7 +725,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
     {
       if(color)
 	{
-	  unsigned i, ls = s.params.bytes_per_line
+	  unsigned i, ls = s.params.bytesPerLine
 	  u8 *data = s.data + s.read
 	  *len = (*len / ls) * ls
 	  for(i = 0; i < *len / ls; buf += ls, data += ls, i++)

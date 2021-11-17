@@ -168,7 +168,7 @@ typedef struct
   Int fScanning;		/* TRUE if actively scanning */
 } TScanner
 
-/* functions to manage backend's options */
+/* functions to manage backend"s options */
 static void options_init(TScanner * scanner)
 static void options_free(TScanner * scanner)
 
@@ -180,7 +180,7 @@ static Sane.Status attach_one_device(Sane.String_Const devname)
 /* capabilities */
 static Sane.Status bknd_colormodes(TScanner * scanner, Int model)
 static void bknd_constrains(TScanner * scanner, Int source,
-			     Int type)
+			     type: Int)
 static Sane.Status bknd_depths(TScanner * scanner, Int model)
 static Sane.Status bknd_info(TScanner * scanner)
 static Sane.Status bknd_models(TScanner * scanner)
@@ -193,7 +193,7 @@ static void Color_Negative(Sane.Byte * buffer, Int size,
 static void Color_to_Gray(Sane.Byte * buffer, Int size, Int depth)
 static void Gray_to_Lineart(Sane.Byte * buffer, Int size,
 			     Int threshold)
-static void Depth_16_to_8 (Sane.Byte * from_buffer, Int size,
+static void Depth_16_to_8(Sane.Byte * from_buffer, Int size,
 			   Sane.Byte * to_buffer)
 
 /* gamma functions */
@@ -540,7 +540,7 @@ static void
 Silent_Compile(void)
 {
   /*
-     There are some functions in hp3900_rts8822.c that aren't used yet.
+     There are some functions in hp3900_rts8822.c that aren"t used yet.
      To avoid compilation warnings we will use them here
    */
 
@@ -555,7 +555,7 @@ Silent_Compile(void)
 }
 
 static void
-bknd_constrains(TScanner * scanner, Int source, Int type)
+bknd_constrains(TScanner * scanner, Int source, type: Int)
 {
   struct st_coords *coords = Constrains_Get(device, source)
 
@@ -771,7 +771,7 @@ get_button_status(TScanner * s)
 }
 
 static void
-Depth_16_to_8 (Sane.Byte * from_buffer, Int size, Sane.Byte * to_buffer)
+Depth_16_to_8(Sane.Byte * from_buffer, Int size, Sane.Byte * to_buffer)
 {
   if((from_buffer != NULL) && (to_buffer != NULL))
     {
@@ -1778,9 +1778,9 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 	  proper_str = sanei_config_get_string(line, &str)
 
 	  /* Discards white lines and comments */
-	  if((str != NULL) && (proper_str != line) && (str[0] != '#'))
+	  if((str != NULL) && (proper_str != line) && (str[0] != "#"))
 	    {
-	      /* If line's not blank or a comment, then it's the device
+	      /* If line"s not blank or a comment, then it"s the device
 	       * filename or a usb directive. */
 	      sanei_usb_attach_matching_devices(line, attach_one_device)
 	    }
@@ -1983,7 +1983,7 @@ option_get(TScanner * scanner, Int optid, void *result)
 	case opt_model:
 	case opt_chipname:
 	  strncpy(result, scanner.aValues[optid].s, scanner.aOptions[optid].size)
-	  ((char*)result)[scanner.aOptions[optid].size-1] = '\0'
+	  ((char*)result)[scanner.aOptions[optid].size-1] = "\0"
 
 	  break
 
@@ -2286,7 +2286,7 @@ Sane.get_parameters(Sane.Handle h, Sane.Parameters * p)
 	  p.depth = depth
 	  p.lines = coords.height
 	  p.pixels_per_line = coords.width
-	  p.bytes_per_line = bpl
+	  p.bytesPerLine = bpl
 
 	  DBG(DBG_FNC, " -> Depth : %i\n", depth)
 	  DBG(DBG_FNC, " -> Height: %i\n", coords.height)
@@ -2586,7 +2586,7 @@ Sane.read(Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 		  if(RTS_Debug.EnableGamma == TRUE)
 		    gamma_apply(s, buffer, emul_len, s.ScanParams.depth)
 
-		  /* if we are scanning negatives, let's invert colors */
+		  /* if we are scanning negatives, let"s invert colors */
 		  if(s.ScanParams.scantype == ST_NEG)
 		    {
 		      if(s.cnv.negative == FALSE)
@@ -2611,7 +2611,7 @@ Sane.read(Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 			  /* case 1: treated separately as lineart */
 			  /*case 12: in the future */
 			case 8:
-			  Depth_16_to_8 (buffer, emul_len, buffer)
+			  Depth_16_to_8(buffer, emul_len, buffer)
 			  emul_len /= 2
 			  break
 			}
@@ -2620,9 +2620,9 @@ Sane.read(Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
 		  /* lineart mode ? */
 		  if(s.cnv.colormode == CM_LINEART)
 		    {
-		      /* I didn't see any scanner supporting lineart mode.
+		      /* I didn"t see any scanner supporting lineart mode.
 		         Windows drivers scan in grayscale and then convert image to lineart
-		         so let's perform conversion */
+		         so let"s perform conversion */
 		      Int rest = emul_len % 8
 
 		      Gray_to_Lineart(buffer, emul_len, s.cnv.threshold)

@@ -113,7 +113,7 @@ import hp
 # define Sane.NAME_MATRIX_TYPE "matrix-type"
 # define Sane.TITLE_MATRIX_TYPE Sane.I18N("Color Matrix")
 /* FIXME: better description */
-# define Sane.DESC_MATRIX_TYPE Sane.I18N("Set the scanner's color matrix.")
+# define Sane.DESC_MATRIX_TYPE Sane.I18N("Set the scanner"s color matrix.")
 #endif
 
 #ifndef Sane.NAME_MATRIX_RGB
@@ -346,7 +346,7 @@ const Sane.Option_Descriptor * sanei_hp_optset_saneoption(HpOptSet this,
 #endif
 #endif
 
-/* To be done: don't reallocate choice accessors */
+/* To be done: don"t reallocate choice accessors */
 /* #define HP_ALLOC_CHOICEACC_ONCE 1 */
 /*
 #define HP_EXPERIMENTAL
@@ -400,7 +400,7 @@ static Sane.Status hp_probe_parameter_support_table(enum hp_device_compat_e
 
 #define HP_EOL -9999
 
-/* Don't need requiries for commands that are probed */
+/* Don"t need requiries for commands that are probed */
 #define HP_PROBE_SCL_COMMAND 1
 
 /* Scale factor for vectors(gtk seems not to like vectors/curves
@@ -494,7 +494,7 @@ hp_probe_parameter_support_table(enum hp_device_compat_e compat,
  ]
 
  eptr = getenv("Sane.HP_CHK_TABLE")
- if((eptr != NULL) && (*eptr == '0'))
+ if((eptr != NULL) && (*eptr == "0"))
    return Sane.STATUS_EOF
 
  for(k = 0; k < (Int)(sizeof(support_table)/sizeof(support_table[0])); k++)
@@ -865,7 +865,7 @@ hp_option_set(HpOption this, HpData data, void * valp, Int * info)
   if(!old_val)
       return Sane.STATUS_NO_MEM
 
-  sval[0] = '\0'
+  sval[0] = "\0"
   if(this.descriptor.type == Sane.TYPE_INT)
     sprintf(sval," value=%d", *(Int*)valp)
 
@@ -995,7 +995,7 @@ hp_option_updateEnable(HpOption this, HpOptSet optset, HpData data,
 static hp_bool_t
 hp_option_isInternal(HpOption this)
 {
-  return this.descriptor.name[0] == '_'
+  return this.descriptor.name[0] == "_"
 }
 
 
@@ -1043,7 +1043,7 @@ _probe_int(_HpOption this, HpScsi scsi, HpOptSet __Sane.unused__ optset, HpData 
   if(minval >= maxval)
       return Sane.STATUS_UNSUPPORTED
 
-  /* If we don't have an accessor, get one */
+  /* If we don"t have an accessor, get one */
   if(!this.data_acsr)
   {
       if(!(this.data_acsr = sanei_hp_accessor_int_new(data)))
@@ -1084,7 +1084,7 @@ _probe_int_brightness(_HpOption this, HpScsi scsi, HpOptSet __Sane.unused__ opts
   if(minval >= maxval)
       return Sane.STATUS_UNSUPPORTED
 
-  /* If we don't have an accessor, get one */
+  /* If we don"t have an accessor, get one */
   if(!this.data_acsr)
   {
       if(!(this.data_acsr = sanei_hp_accessor_int_new(data)))
@@ -1115,7 +1115,7 @@ _probe_resolution(_HpOption this, HpScsi scsi, HpOptSet __Sane.unused__ optset,
   if(minval >= maxval)
       return Sane.STATUS_UNSUPPORTED
 
-  /* If we don't have an accessor, get one */
+  /* If we don"t have an accessor, get one */
   if(!this.data_acsr)
   {
     if(!(this.data_acsr = sanei_hp_accessor_int_new(data)))
@@ -1166,7 +1166,7 @@ _probe_bool(_HpOption this, HpScsi scsi, HpOptSet __Sane.unused__ optset,
   if(scl)
       RETURN_IF_FAIL( sanei_hp_scl_inquire(scsi, scl, &val, 0, 0) )
 
-  /* If we don't have an accessor, get one */
+  /* If we don"t have an accessor, get one */
   if(!this.data_acsr)
   {
       if(!(this.data_acsr = sanei_hp_accessor_bool_new(data)))
@@ -1198,7 +1198,7 @@ _probe_change_doc(_HpOption this, HpScsi scsi, HpOptSet __Sane.unused__ optset,
   if( status != Sane.STATUS_GOOD )
     return Sane.STATUS_UNSUPPORTED
 
-  /* If we don't have an accessor, get one */
+  /* If we don"t have an accessor, get one */
   if(!this.data_acsr)
   {
       if(!(this.data_acsr = sanei_hp_accessor_bool_new(data)))
@@ -1234,7 +1234,7 @@ _probe_unload(_HpOption this, HpScsi scsi, HpOptSet __Sane.unused__ optset,
   if( status != Sane.STATUS_GOOD )
     return Sane.STATUS_UNSUPPORTED
 
-  /* If we don't have an accessor, get one */
+  /* If we don"t have an accessor, get one */
   if(!this.data_acsr)
   {
       if(!(this.data_acsr = sanei_hp_accessor_bool_new(data)))
@@ -1257,7 +1257,7 @@ _probe_calibrate(_HpOption this, HpScsi scsi, HpOptSet __Sane.unused__ optset,
   Int download_calib_file = 1
   enum hp_device_compat_e compat
 
-  /* The OfficeJets don't seem to support calibration, so we'll
+  /* The OfficeJets don"t seem to support calibration, so we"ll
    * remove it from the option list to reduce frontend clutter. */
   if((sanei_hp_device_probe(&compat, scsi) == Sane.STATUS_GOOD) &&
       (compat & HP_COMPAT_OJ_1150C)) {
@@ -1280,7 +1280,7 @@ _probe_calibrate(_HpOption this, HpScsi scsi, HpOptSet __Sane.unused__ optset,
   /* And the desired ID of 10963 does not work. So we have to trust */
   /* the evaluated HP model number. */
 
-  /* If we don't have an accessor, get one */
+  /* If we don"t have an accessor, get one */
   if(!this.data_acsr)
   {
       if(!(this.data_acsr = sanei_hp_accessor_bool_new(data)))
@@ -1359,7 +1359,7 @@ _probe_choice(_HpOption this, HpScsi scsi, HpOptSet optset, HpData data)
   enum hp_device_compat_e compat
 
   RETURN_IF_FAIL( sanei_hp_scl_inquire(scsi, scl, &val, &minval, &maxval) )
-  DBG(3, "choice_option_probe: '%s': val, min, max = %d, %d, %d\n",
+  DBG(3, "choice_option_probe: "%s": val, min, max = %d, %d, %d\n",
       this.descriptor.name, val, minval, maxval)
 
   info = sanei_hp_device_info_get( sanei_hp_scsi_devicename  (scsi) )
@@ -1442,16 +1442,16 @@ _probe_each_choice(_HpOption this, HpScsi scsi, HpOptSet __Sane.unused__ optset,
   const HpDeviceInfo *info
 
   RETURN_IF_FAIL( sanei_hp_scl_inquire(scsi, scl, &val, &minval, &maxval) )
-  DBG(3, "choice_option_probe_each: '%s': val, min, max = %d, %d, %d\n",
+  DBG(3, "choice_option_probe_each: "%s": val, min, max = %d, %d, %d\n",
       this.descriptor.name, val, minval, maxval)
-  DBG(3, "choice_option_probe_each: test all values for '%s' separately\n",
+  DBG(3, "choice_option_probe_each: test all values for "%s" separately\n",
       this.descriptor.name)
 
   info = sanei_hp_device_info_get( sanei_hp_scsi_devicename  (scsi) )
   choices = _make_probed_choice_list(scsi, scl, this.descriptor.choices,
                                      minval, maxval)
 
-  DBG(3, "choice_option_probe_each: restore previous value %d for '%s'\n",
+  DBG(3, "choice_option_probe_each: restore previous value %d for "%s"\n",
       val, this.descriptor.name)
                                     /* Restore current value */
   RETURN_IF_FAIL( sanei_hp_scl_set(scsi, scl, val) )
@@ -1461,7 +1461,7 @@ _probe_each_choice(_HpOption this, HpScsi scsi, HpOptSet __Sane.unused__ optset,
   if(!choices)
       return Sane.STATUS_UNSUPPORTED
 
-  /* If we don't have an accessor, get one */
+  /* If we don"t have an accessor, get one */
 #ifdef HP_ALLOC_CHOICEACC_ONCE
   if(!this.data_acsr)
 #endif
@@ -1496,7 +1496,7 @@ _probe_ps_exposure_time(_HpOption this, HpScsi scsi, HpOptSet __Sane.unused__ op
 
     info = sanei_hp_device_info_get( sanei_hp_scsi_devicename  (scsi) )
 
-    /* If we don't have an accessor, get one */
+    /* If we don"t have an accessor, get one */
 #ifdef HP_ALLOC_CHOICEACC_ONCE
     if(!this.data_acsr)
 #endif
@@ -1548,7 +1548,7 @@ _probe_scan_type(_HpOption this, HpScsi scsi, HpOptSet __Sane.unused__ optset,
   }
 
   /* Inquire XPA capability is supported only by IIcx and 6100c/4c/3c. */
-  /* But more devices support XPA scan window. So don't inquire XPA cap. */
+  /* But more devices support XPA scan window. So don"t inquire XPA cap. */
   if( compat & (  HP_COMPAT_2CX | HP_COMPAT_4C | HP_COMPAT_4P
                  | HP_COMPAT_5P | HP_COMPAT_5100C | HP_COMPAT_6200C) &&
        !(compat&HP_COMPAT_OJ_1150C) )
@@ -1568,7 +1568,7 @@ _probe_scan_type(_HpOption this, HpScsi scsi, HpOptSet __Sane.unused__ optset,
 
   info = sanei_hp_device_info_get( sanei_hp_scsi_devicename  (scsi) )
 
-  /* If we don't have an accessor, get one */
+  /* If we don"t have an accessor, get one */
 #ifdef HP_ALLOC_CHOICEACC_ONCE
   if(!this.data_acsr)
 #endif
@@ -1598,7 +1598,7 @@ _probe_mirror_horiz(_HpOption this, HpScsi scsi, HpOptSet __Sane.unused__ optset
   const HpDeviceInfo *info
 
   RETURN_IF_FAIL( sanei_hp_scl_inquire(scsi, scl, &val, &minval, &maxval) )
-  DBG(3, "probe_mirror_horiz: '%s': val, min, max = %d, %d, %d\n",
+  DBG(3, "probe_mirror_horiz: "%s": val, min, max = %d, %d, %d\n",
       this.descriptor.name, val, minval, maxval)
 
   /* Look if the device supports the(?) inquire secondary scan-direction */
@@ -1613,7 +1613,7 @@ _probe_mirror_horiz(_HpOption this, HpScsi scsi, HpOptSet __Sane.unused__ optset
   if(!choices)
       return Sane.STATUS_UNSUPPORTED
 
-  /* If we don't have an accessor, get one */
+  /* If we don"t have an accessor, get one */
 #ifdef HP_ALLOC_CHOICEACC_ONCE
   if(!this.data_acsr)
 #endif
@@ -1657,7 +1657,7 @@ _probe_mirror_vert(_HpOption this, HpScsi scsi, HpOptSet __Sane.unused__ optset,
   if(!choices)
       return Sane.STATUS_UNSUPPORTED
 
-  /* If we don't have an accessor, get one */
+  /* If we don"t have an accessor, get one */
 #ifdef HP_ALLOC_CHOICEACC_ONCE
   if(!this.data_acsr)
 #endif
@@ -1689,7 +1689,7 @@ static Sane.Status _probe_front_button(_HpOption this, HpScsi scsi,
 
   _set_size(this, data, sizeof(Bool))
 
-  /* If we don't have an accessor, get one */
+  /* If we don"t have an accessor, get one */
   if(!this.data_acsr)
   {
       if( !(this.data_acsr = sanei_hp_accessor_bool_new(data)) )
@@ -1815,7 +1815,7 @@ _probe_custom_gamma(_HpOption this, HpScsi scsi, HpOptSet __Sane.unused__ optset
     RETURN_IF_FAIL( sanei_hp_scl_inquire(scsi, scl, &val, 0, 0) )
   }
 
-  /* If we don't have an accessor, get one */
+  /* If we don"t have an accessor, get one */
   if(!this.data_acsr)
   {
       if(!(this.data_acsr = sanei_hp_accessor_bool_new(data)))
@@ -1877,7 +1877,7 @@ _probe_vector(_HpOption this, HpScsi scsi, HpOptSet optset, HpData data)
       assert(type.scl)
 
       RETURN_IF_FAIL( _probe_download_type(scl, scsi) )
-      /* If we don't have an accessor, get one */
+      /* If we don"t have an accessor, get one */
 #ifdef HP_ALLOC_CHOICEACC_ONCE
       if(!this.data_acsr)
 #endif
@@ -1898,7 +1898,7 @@ _probe_vector(_HpOption this, HpScsi scsi, HpOptSet optset, HpData data)
       super = hp_optset_get(optset, type.super)
       assert(super)
 
-      /* If we don't have an accessor, get one */
+      /* If we don"t have an accessor, get one */
 #ifdef HP_ALLOC_CHOICEACC_ONCE
       if(!this.data_acsr)
 #endif
@@ -1986,7 +1986,7 @@ static Sane.Status
 _probe_num_options(_HpOption this, HpScsi __Sane.unused__ scsi,
                     HpOptSet __Sane.unused__ optset, HpData data)
 {
-  /* If we don't have an accessor, get one */
+  /* If we don"t have an accessor, get one */
   if(!this.data_acsr)
   {
       if(!(this.data_acsr = sanei_hp_accessor_int_new(data)))
@@ -2139,7 +2139,7 @@ _program_geometry(HpOption this, HpScsi scsi, HpOptSet optset, HpData data)
  {
    value = 0
    DBG(3,"program_geometry: set %c-pos to %d\n",
-       (scl == SCL_X_POS) ? 'x' : 'y', value)
+       (scl == SCL_X_POS) ? "x" : "y", value)
  }
  else if( scl == SCL_X_EXTENT )
  {
@@ -2472,13 +2472,13 @@ get_calib_filename(HpScsi scsi)
 
   strcpy(calib_filename, homedir)
   strcat(calib_filename, "/.sane/calib-hp")
-  if( devname && devname[0] ) /* Replace '/' by "+-" */
+  if( devname && devname[0] ) /* Replace "/" by "+-" */
     {
       cf = calib_filename + strlen(calib_filename)
-      *(cf++) = ':'
+      *(cf++) = ":"
       while(*devname)
       {
-        if(*devname == '/') *(cf++) = '+', *(cf++) = '-'
+        if(*devname == "/") *(cf++) = "+", *(cf++) = "-"
         else *(cf++) = *devname
         devname++
       }
@@ -2703,7 +2703,7 @@ _program_scan_type(HpOption this, HpScsi scsi, HpOptSet optset, HpData data)
 0xfc,0x02,0x7c,0x01,0xfc,0x01,0x7c,0x00,0xfc,0x00,0x7c,0x00,0x00
      ]
 
-    sanei_hp_scl_set(scsi, SCL_RESERVED1, 0); /* don't know */
+    sanei_hp_scl_set(scsi, SCL_RESERVED1, 0); /* don"t know */
     sanei_hp_scl_set(scsi, SCL_10952, 0);     /* Calibration mode */
 
     if(   sanei_hp_is_active_xpa(scsi)
@@ -2774,7 +2774,7 @@ _program_unload(HpOption this, HpScsi scsi, HpOptSet optset, HpData data)
    }
    else
    {
-     DBG(3, "program_unload: Command 'Ready to unload' not supported\n")
+     DBG(3, "program_unload: Command "Ready to unload" not supported\n")
    }
   }
   return hp_option_download(this, data, optset, scsi)
@@ -2835,7 +2835,7 @@ _program_ps_exposure_time(HpOption this, HpScsi scsi,
     /* Negatives get some extra blue to penetrate the orange mask and less
        red to not saturate the red channel; R:G:B = 100:200:300 */
 
-    /* We don't use the 100% case. It may cause mechanical problems */
+    /* We don"t use the 100% case. It may cause mechanical problems */
     if((option < 1) || (option > 9)) return 0
     RETURN_IF_FAIL( sanei_hp_scl_upload_binary(scsi, SCL_CALIB_MAP,
                &calib_size, &calib_buf) )
@@ -2890,7 +2890,7 @@ _program_scanmode(HpOption this, HpScsi scsi, HpOptSet optset, HpData data)
     HpOption option
     Int is_preview = 0
 
-    /* Preview uses maximum 8 bit. So we don't need to check data width */
+    /* Preview uses maximum 8 bit. So we don"t need to check data width */
     option = hp_optset_getByName(optset, Sane.NAME_PREVIEW)
     if( option )
       is_preview = hp_option_getint(option, data)
@@ -3106,7 +3106,7 @@ _enable_data_width(HpOption __Sane.unused__ this, HpOptSet optset, HpData data,
 }
 
 static hp_bool_t
-_enable_out8 (HpOption __Sane.unused__ this, HpOptSet optset, HpData data,
+_enable_out8(HpOption __Sane.unused__ this, HpOptSet optset, HpData data,
               const HpDeviceInfo *info)
 {
   if(hp_optset_isEnabled(optset, data, Sane.NAME_BIT_DEPTH, info))
@@ -3123,7 +3123,7 @@ _enable_calibrate(HpOption __Sane.unused__ this, HpOptSet optset, HpData data,
 {
   HpOption 	media	= hp_optset_get(optset, MEDIA)
 
-  /* If we don't have the media button, we should have calibrate */
+  /* If we don"t have the media button, we should have calibrate */
   if( !media ) return 1
 
   return hp_option_getint(media, data) == HP_MEDIA_PRINT
@@ -4187,7 +4187,7 @@ sanei_hp_optset_new(HpOptSet * newp, HpScsi scsi, HpDevice dev)
   if(!this)
       return Sane.STATUS_NO_MEM
 
-  /* FIXME: more DBG's */
+  /* FIXME: more DBG"s */
   for(ptr = hp_options; *ptr; ptr++)
     {
       HpOptionDescriptor desc = *ptr
@@ -4205,7 +4205,7 @@ sanei_hp_optset_new(HpOptSet * newp, HpScsi scsi, HpDevice dev)
 	  continue
       if(FAILED(status))
 	{
-	  DBG(1, "Option '%s': probe failed: %s\n", desc.name,
+	  DBG(1, "Option "%s": probe failed: %s\n", desc.name,
 	      Sane.strstatus(status))
 	  sanei_hp_free(this)
 	  return status
@@ -4326,33 +4326,33 @@ sanei_hp_optset_guessParameters(HpOptSet this, HpData data,
   case HP_SCANMODE_HALFTONE: /* Halftone */
       p.format = Sane.FRAME_GRAY
       p.depth  = 1
-      p.bytes_per_line  = (p.pixels_per_line + 7) / 8
+      p.bytesPerLine  = (p.pixels_per_line + 7) / 8
       break
   case HP_SCANMODE_GRAYSCALE: /* Grayscale */
       p.format = Sane.FRAME_GRAY
       p.depth  = 8
-      p.bytes_per_line  = p.pixels_per_line
+      p.bytesPerLine  = p.pixels_per_line
       if( !sanei_hp_optset_output_8bit(this, data) )
       {
         data_width = sanei_hp_optset_data_width(this, data)
         if( data_width > 8 )
         {
           p.depth *= 2
-          p.bytes_per_line *= 2
+          p.bytesPerLine *= 2
         }
       }
       break
   case HP_SCANMODE_COLOR: /* RGB */
       p.format = Sane.FRAME_RGB
       p.depth = 8
-      p.bytes_per_line  = 3 * p.pixels_per_line
+      p.bytesPerLine  = 3 * p.pixels_per_line
       if( !sanei_hp_optset_output_8bit(this, data) )
       {
         data_width = sanei_hp_optset_data_width(this, data)
         if( data_width > 24 )
         {
           p.depth *= 2
-          p.bytes_per_line *= 2
+          p.bytesPerLine *= 2
         }
       }
       break

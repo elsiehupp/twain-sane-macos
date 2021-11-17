@@ -370,7 +370,7 @@ static void gl842_init_motor_regs_scan(Genesys_Device* dev,
         dist += (fast_table.table.size() / step_multiplier) * 2
     }
 
-    // make sure when don't insane value : XXX STEF XXX in this case we should
+    // make sure when don"t insane value : XXX STEF XXX in this case we should
     // fall back to single table move
     if(dist < feedl) {
         feedl -= dist
@@ -380,7 +380,7 @@ static void gl842_init_motor_regs_scan(Genesys_Device* dev,
 
     reg.set24(REG_FEEDL, feedl)
 
-    // doesn't seem to matter that much
+    // doesn"t seem to matter that much
     std::uint32_t z1, z2
     sanei_genesys_calculate_zmod(use_fast_fed,
                                  exposure,
@@ -445,7 +445,7 @@ static void gl842_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
         reg.find_reg(REG_0x03).value &= ~REG_0x03_AVEENB
     }
 
-    // FIXME: we probably don't need to set exposure to registers at this point. It was this way
+    // FIXME: we probably don"t need to set exposure to registers at this point. It was this way
     // before a refactor.
     sanei_genesys_set_lamp_power(dev, sensor, *reg,
                                  !has_flag(session.params.flags, ScanFlag::DISABLE_LAMP))
@@ -846,7 +846,7 @@ void CommandSetGl842::send_gamma_table(Genesys_Device* dev, const Genesys_Sensor
     std::vector<uint16_t> ggamma = get_gamma_table(dev, sensor, GENESYS_GREEN)
     std::vector<uint16_t> bgamma = get_gamma_table(dev, sensor, GENESYS_BLUE)
 
-    // copy sensor specific's gamma tables
+    // copy sensor specific"s gamma tables
     for(unsigned i = 0; i < size; i++) {
         gamma[i * 2 + size * 0 + 0] = rgamma[i] & 0xff
         gamma[i * 2 + size * 0 + 1] = (rgamma[i] >> 8) & 0xff

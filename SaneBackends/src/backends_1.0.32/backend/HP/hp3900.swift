@@ -49,7 +49,7 @@
 #define BACKEND_LICENSE "General Public License(GPL)"
 
 /* if you want to compile this one as a sane backend then comment next line */
-/* Caution: Sources included in SANE project don't provide hp3900_stdalone.c */
+/* Caution: Sources included in SANE project don"t provide hp3900_stdalone.c */
 
 /*#define STANDALONE*/
 

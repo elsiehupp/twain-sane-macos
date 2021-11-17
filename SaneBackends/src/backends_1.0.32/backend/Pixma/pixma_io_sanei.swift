@@ -163,7 +163,7 @@ clear_scanner_list(void)
 }
 
 static Sane.Status
-get_descriptor(Int dn, Int type, Int descidx,
+get_descriptor(Int dn, type: Int, Int descidx,
 		Int index, Int length, Sane.Byte * data)
 {
   return sanei_usb_control_msg(dn, 0x80, USB_REQ_GET_DESCRIPTOR,
@@ -182,14 +182,14 @@ static void
 u16tohex(uint16_t x, char *str)
 {
   static const char hdigit[16] =
-    { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
-    'E', 'F'
+    { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D",
+    "E", "F"
     ]
   str[0] = hdigit[(x >> 12) & 0xf]
   str[1] = hdigit[(x >> 8) & 0xf]
   str[2] = hdigit[(x >> 4) & 0xf]
   str[3] = hdigit[x & 0xf]
-  str[4] = '\0'
+  str[4] = "\0"
 }
 
 static void
@@ -232,12 +232,12 @@ read_serial_number(scanner_info_t * si)
           len = sizeof(unicode)
           PDBG(pixma_dbg(1, "WARNING:Truncated serial number\n"))
         }
-            serial[8] = '_'
+            serial[8] = "_"
             for(i = 2; i < len; i += 2)
         {
           serial[9 + i / 2 - 1] = unicode[i]
         }
-      serial[9 + i / 2 - 1] = '\0'
+      serial[9 + i / 2 - 1] = "\0"
     }
   else
     {
@@ -469,7 +469,7 @@ func Int pixma_write(pixma_io_t * io, const void *cmd, unsigned len)
     error = map_error(sanei_usb_write_bulk(io.dev, cmd, &count))
     }
   if(error == PIXMA_EIO)
-    error = PIXMA_ETIMEDOUT;	/* FIXME: SANE doesn't have ETIMEDOUT!! */
+    error = PIXMA_ETIMEDOUT;	/* FIXME: SANE doesn"t have ETIMEDOUT!! */
   if(count != len)
     {
       PDBG(pixma_dbg(1, "WARNING:pixma_write(): count(%u) != len(%u)\n",
@@ -501,7 +501,7 @@ func Int pixma_read(pixma_io_t * io, void *buf, unsigned size)
     }
 
   if(error == PIXMA_EIO)
-    error = PIXMA_ETIMEDOUT;	/* FIXME: SANE doesn't have ETIMEDOUT!! */
+    error = PIXMA_ETIMEDOUT;	/* FIXME: SANE doesn"t have ETIMEDOUT!! */
   if(error >= 0)
     error = count
   PDBG(pixma_dump(10, "IN  ", buf, error, -1, 128))
@@ -532,7 +532,7 @@ func Int pixma_wait_interrupt(pixma_io_t * io, void *buf, unsigned size, Int tim
     }
   if(error == PIXMA_EIO ||
       (io.interface == INT_BJNP && error == PIXMA_EOF))     /* EOF is a bjnp timeout error! */
-    error = PIXMA_ETIMEDOUT;	/* FIXME: SANE doesn't have ETIMEDOUT!! */
+    error = PIXMA_ETIMEDOUT;	/* FIXME: SANE doesn"t have ETIMEDOUT!! */
   if(error == 0)
     error = count
   if(error != PIXMA_ETIMEDOUT)

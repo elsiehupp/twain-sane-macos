@@ -117,7 +117,7 @@ enum Rts8891_Configure_Option
 ]
 
 /** Scanner object. This struct holds information useful for
- * the functions defined in SANE's standard. Information closer
+ * the functions defined in SANE"s standard. Information closer
  * to the hardware are in the Rts8891_Device structure. There is
  * as many session structure than frontends using the scanner.
  */

@@ -8,7 +8,7 @@
 
 /* -------------------------------------------------------------------------
  * This option list has to contain all options for all scanners supported by
- * this driver. If a certain scanner cannot handle a certain option, there's
+ * this driver. If a certain scanner cannot handle a certain option, there"s
  * still the possibility to say so, later.
  */
 enum fujitsu_Option
@@ -308,7 +308,7 @@ struct fujitsu
 
   /* --------------------------------------------------------------------- */
   /* immutable values which are hard coded because they are not in vpd     */
-  /* this section replaces all the old 'switch(s.model)' code            */
+  /* this section replaces all the old "switch(s.model)" code            */
 
   /* the scan size in 1/1200th inches, NOT basic_units or sane units */
   Int max_x
@@ -323,7 +323,7 @@ struct fujitsu
   Int color_interlace;  /* different models interlace colors differently     */
   Int duplex_interlace; /* different models interlace sides differently      */
   Int jpeg_interlace;   /* different models interlace jpeg sides differently */
-  Int cropping_mode;    /* lower-end scanners don't crop from paper size      */
+  Int cropping_mode;    /* lower-end scanners don"t crop from paper size      */
   Int ghs_in_rs
   Int window_gamma
   Int endorser_string_len
@@ -331,10 +331,10 @@ struct fujitsu
   Int has_short_pixelsize; /* m3091/2 put weird stuff at end, ignore it */
 
   Int broken_diag_serial;   /* some scanners are just plain borked */
-  Int need_q_table;         /* some scanners won't work without these */
+  Int need_q_table;         /* some scanners won"t work without these */
   Int need_diag_preread
-  Int hopper_before_op;     /* some scanners don't like OP when hopper empty */
-  Int no_wait_after_op;     /* some scanners don't like TUR after OP */
+  Int hopper_before_op;     /* some scanners don"t like OP when hopper empty */
+  Int no_wait_after_op;     /* some scanners don"t like TUR after OP */
 
   Int has_vuid_mono;    /* mono set window data */
   Int has_vuid_3091;    /* 3091/2 set window data */
@@ -345,7 +345,7 @@ struct fujitsu
 
   /* --------------------------------------------------------------------- */
   /* immutable values which are set during serial number probing scanner   */
-  char serial_name[28];        /* 16 char model, ':', 10 byte serial, null */
+  char serial_name[28];        /* 16 char model, ":", 10 byte serial, null */
 
   /* --------------------------------------------------------------------- */
   /* struct with pointers to device/vendor/model names, and a type value */
@@ -525,9 +525,9 @@ struct fujitsu
 	Sane.Frame format
 	Bool last_frame
 	Int lines
-	Int depth; ( binary=1, gray=8, color=8 (!24) )
+	Int depth; ( binary=1, gray=8, color=8(!24) )
 	Int pixels_per_line
-	Int bytes_per_line
+	Int bytesPerLine
   */
   Sane.Parameters u_params
   Sane.Parameters s_params
@@ -619,7 +619,7 @@ struct fujitsu
   Int hw_duplex_sw
   Int hw_density_sw
 
-  /* values which are used to track the frontend's access to sensors  */
+  /* values which are used to track the frontend"s access to sensors  */
   char hw_data_avail[NUM_OPTIONS-OPT_TOP]
 ]
 
@@ -938,7 +938,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
          - get_hardware_status now works before calling Sane.start
          - avoid unnecessary reload of options when using source=fb
       v2, 2002-08-08, OS
-         - bugfix. Imprinter didn't print the first time after
+         - bugfix. Imprinter didn"t print the first time after
            switching on the scanner
          - bugfix. reader_generic_passthrough ignored the number of bytes
            returned by the scanner
@@ -981,8 +981,8 @@ static size_t maxStringSize(const Sane.String_Const strings[])
            with x=100 and y=100 dpi with an fi4120 resulted in an image
            with 100,75 dpi
          - Bugfix: Set the default value of gamma to 0x80 for all scanners
-           that don't have built in gamma patterns
-         - Bugfix: fi-4530 and fi-4210 don't support standard paper size
+           that don"t have built in gamma patterns
+         - Bugfix: fi-4530 and fi-4210 don"t support standard paper size
       v15 2003-12-16, OS
          - Bugfix: pagewidth and pageheight were disabled for the fi-4530C
       v16 2004-02-20, OS
@@ -1014,7 +1014,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
          - reverse now divided by mode
          - re-write Sane.fix/unfix value handling
          - fix several bugs in options code
-         - some options' ranges modified by other options vals
+         - some options" ranges modified by other options vals
          - added advanced read-only options for all
            known hardware sensors and buttons
          - rewrote hw status function
@@ -1032,11 +1032,11 @@ static size_t maxStringSize(const Sane.String_Const strings[])
          - use sanei_scsi_open_extended() to set buffer size
          - fix some compiler warns: 32&64 bit gcc
       v26 2006-05-23, MAN
-         - don't send scanner control(F1) if unsupported
+         - don"t send scanner control(F1) if unsupported
       v27 2006-05-30, MAN
          - speed up hexdump(adeuring A T gmx D O T net)
          - duplex request same size block from both sides
-         - don't #include or call sanei_thread
+         - don"t #include or call sanei_thread
          - split usb/scsi command DBG into 25 and 30
       v28 2006-06-01, MAN
          - Sane.read() usleep if scanner is busy
@@ -1046,7 +1046,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
            handles own looping on busy
       v29 2006-06-04, MAN
          - M3091/2 Color mode support(duplex still broken)
-         - all sensors option names start with 'button-'
+         - all sensors option names start with "button-"
          - rewrite Sane.read and helpers to use buffers,
            currently an extreme waste of ram, but should
            work with saned and scanimage -T
@@ -1061,10 +1061,10 @@ static size_t maxStringSize(const Sane.String_Const strings[])
          - add error msg if VPD missing or non-extended
          - remove references to color_lineart and ht units
          - rework init_model to support more known models
-         - don't send paper size data if using flatbed
+         - don"t send paper size data if using flatbed
       v31 2006-06-13, MAN
          - add 5220C usb id
-         - don't show ink level buttons if no imprinter
+         - don"t show ink level buttons if no imprinter
          - run ghs/rs every second instead of every other
       v32 2006-06-14, MAN
          - add 4220C2 usb id
@@ -1087,7 +1087,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
          - brightness/contrast support via LUT
          - merge global mode page buffers
       v38 2006-07-15, MAN
-         - add 'useless noise' debug level(35)
+         - add "useless noise" debug level(35)
          - move mode sense probe errors to DBG 35
       v39 2006-07-17, MAN
          - rewrite contrast slope math for readability
@@ -1153,13 +1153,13 @@ static size_t maxStringSize(const Sane.String_Const strings[])
 	 - add mode sense for color interlacing? (page code 32)
 	 - more debug output in init_ms()
       v58 2008-04-19, MAN
-         - page code 32 is not color interlacing, rename to 'unknown'
+         - page code 32 is not color interlacing, rename to "unknown"
          - increase number of bytes in response buffer of init_ms()
          - protect debug modification code in init_ms() if NDEBUG is set
          - proper async Sane.cancel support
          - re-enable JPEG support
          - replace s.img_count with s.side
-         - Sane.get_parameters(): don't round up larger than current paper size
+         - Sane.get_parameters(): don"t round up larger than current paper size
          - Sane.start() rewritten, shorter, more clear
          - return values are Sane.Status, not Int
          - hide unused functions
@@ -1167,7 +1167,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
          - add fi-6140 usb ID, and fi-6x40 color mode
       v60 2008-04-27, MAN
          - move call to sanei_usb_init() from Sane.init() to find_scanners
-	 - free Sane.devArray before calloc'ing a new one
+	 - free Sane.devArray before calloc"ing a new one
       v61 2008-05-11, MAN
          - minor cleanups to init_ms()
 	 - add fi-5530C2 usb id
@@ -1180,7 +1180,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
 	 - add unused get_window()
       v63 2008-05-21, MAN
          - use sane 1.1.0 well-known option names for some buttons
-	 - remove 'button-' from other buttons and sensors
+	 - remove "button-" from other buttons and sensors
       v64 2008-05-28, MAN
          - strcpy device_name[] instead of strdup/free *device_name
 	 - add send/read diag commands to get scanner serial number
@@ -1223,7 +1223,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
       v71 2008-07-13, MAN
          - disable overscan option if vpd does not tell overscan size
 	 - fi-5110EOX crops scan area based on absolute maximum, not paper
-	 - fi-5530C/2 and fi-5650C can't handle 10 bit LUT via USB
+	 - fi-5530C/2 and fi-5650C can"t handle 10 bit LUT via USB
 	 - fi-5900 has background color, though it reports otherwise
       v72 2008-07-13, MAN
 	 - use mode_sense to determine background color support
@@ -1232,7 +1232,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
 	 - correct overscan dimension calculation
 	 - provide correct overscan size overrides for fi-5110C and fi-4x20C2
 	 - add fi-6130 usb ID
-	 - fi-5750C can't handle 10 bit LUT via USB
+	 - fi-5750C can"t handle 10 bit LUT via USB
       v74 2008-08-02, MAN
 	 - replace global scsi blocks with local ones in each function
       v75 2008-08-07, ReneR
@@ -1242,11 +1242,11 @@ static size_t maxStringSize(const Sane.String_Const strings[])
 	 - override said values for fi-4220C, fi-4220C2 and fi-5220C
       v77 2008-08-26, MAN
 	 - override flatbed maximum area for fi-6230C and fi-6240C
-	 - set PF bit in all mode_select(6) CDB's
+	 - set PF bit in all mode_select(6) CDB"s
 	 - set Sane.CAP_INACTIVE on all disabled options
          - fix bug in mode_select page for sleep timer
       v78 2008-08-26, MAN
-	 - recent model names(fi-6xxx) don't end in 'C'
+	 - recent model names(fi-6xxx) don"t end in "C"
          - simplify flatbed area overrides
          - call scanner_control to change source during Sane.start
       v79 2008-10-01, MAN
@@ -1264,7 +1264,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
       v82 2008-10-31, MAN
          - improved front-side endorser vpd detection
          - send scanner_control_ric during Sane.read of each side
-         - add fi-6770A and fi-6670A USB ID's
+         - add fi-6770A and fi-6670A USB ID"s
       v83 2008-11-06, MAN
          - round binary bpl and Bpl up to byte boundary
          - use s.params instead of user data in set_window()
@@ -1283,7 +1283,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
          - track frontend reading sensor/button values to reload
          - deactivate double feed options if df-action == default
       v88 2009-01-21, MAN
-         - don't export private symbols
+         - don"t export private symbols
       v89 2009-02-20, MAN
          - fi-4750 returns random garbage to serial number queries
       v90 2009-02-23, MAN
@@ -1301,7 +1301,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
          - add side option to show which duplex image is being transferred
          - convert front and simplex buffers to use much less ram
          - add lowmemory option which makes duplex back buffer small too
-         - refactor image handling code to track eof's instead of lengths
+         - refactor image handling code to track eof"s instead of lengths
          - do color deinterlacing after reading from scanner, before buffering
       v95 2009-06-02, MAN
          - scanner_control_ric should return a subset of the possible errors
@@ -1314,7 +1314,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
       v98 2010-02-09, MAN(SANE 1.0.21)
          - clean up #include lines and copyright
          - add Sane.I18N to static strings
-         - don't fail if scsi buffer is too small
+         - don"t fail if scsi buffer is too small
          - disable bg_color for S1500
          - enable flatbed for M3092
       v99 2010-05-14, MAN
@@ -1342,7 +1342,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
          - cache software crop/deskew parameters for use on backside of duplex
          - fi-6110 does not support bgcolor or prepick
       v106 2011-01-30, MAN(SANE 1.0.22)
-         - don't call mode_select with a page code the scanner does not support
+         - don"t call mode_select with a page code the scanner does not support
       v107 2011-11-03, MAN
          - M3091 does not support scanner_control(adf)
          - Correct buffer overflow in read_from_3091duplex()
@@ -1365,7 +1365,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
          - correct max_y_fb for fi-62x0 series
          - add must_fully_buffer helper routine
          - add hwdeskewcrop option, with fallback to software versions
-         - add 'actual' param to get_pixelsize for post-scan
+         - add "actual" param to get_pixelsize for post-scan
          - add recent model VPD params
          - only set params.lines = -1 when using ald without buffering
          - fix bugs in background color when using software deskew
@@ -1374,7 +1374,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
          - split read payloads into new debug level
          - add paper-protect, staple-detect and df-recovery options
       v112 2013-02-22, MAN
-         - some scanners(fi-6x70 and later) don't enable IPC by default
+         - some scanners(fi-6x70 and later) don"t enable IPC by default
       v113 2013-02-24, MAN
          - support for ScanSnap iX500
          - fix bug with jpeg de-interlacing code
@@ -1409,7 +1409,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
          - call get_pixelsize after start_scan, not before
          - extend get_pixelsize to request backside data
          - stop using backup/restore_params
-         - don't use extended get_pixelsize on M3091 or M3092
+         - don"t use extended get_pixelsize on M3091 or M3092
          - call software crop code on backside images too
       v120 2014-01-29, MAN
          - only call hopper_before_op code at batch start
@@ -1419,7 +1419,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
          - improve jpeg duplex parsing code
          - simplify jpeg ifdefs
          - add offtimer option for more recent scanners
-         - don't print 0 length line in hexdump
+         - don"t print 0 length line in hexdump
       v122 2014-10-28, MAN
          - add support for object_position halt
          - call object_position halt in check_for_cancel when requested
@@ -1707,7 +1707,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
           lp = line
 
           /* ignore comments */
-          if(*lp == '#')
+          if(*lp == "#")
             continue
 
           /* skip empty lines */
@@ -1744,11 +1744,11 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
               }
           }
           else if((strncmp("usb", lp, 3) == 0) && isspace(lp[3])) {
-              DBG(15, "Sane.get_devices: looking for '%s'\n", lp)
+              DBG(15, "Sane.get_devices: looking for "%s"\n", lp)
               sanei_usb_attach_matching_devices(lp, attach_one_usb)
           }
           else if((strncmp("scsi", lp, 4) == 0) && isspace(lp[4])) {
-              DBG(15, "Sane.get_devices: looking for '%s'\n", lp)
+              DBG(15, "Sane.get_devices: looking for "%s"\n", lp)
               sanei_config_attach_matching_devices(lp, attach_one_scsi)
           }
           else{
@@ -1759,7 +1759,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
   }
 
   else {
-      DBG(5, "Sane.get_devices: missing required config file '%s'!\n",
+      DBG(5, "Sane.get_devices: missing required config file "%s"!\n",
         FUJITSU_CONFIG_FILE)
   }
 
@@ -1842,7 +1842,7 @@ attach_one(const char *device_name, Int connType)
   Int ret
 
   DBG(10, "attach_one: start\n")
-  DBG(15, "attach_one: looking for '%s'\n", device_name)
+  DBG(15, "attach_one: looking for "%s"\n", device_name)
 
   for(s = fujitsu_devList; s; s = s.next) {
     if(strcmp(s.device_name, device_name) == 0){
@@ -1908,7 +1908,7 @@ attach_one(const char *device_name, Int connType)
     return ret
   }
 
-  /* sets SANE option 'values' to good defaults */
+  /* sets SANE option "values" to good defaults */
   ret = init_user(s)
   if(ret != Sane.STATUS_GOOD) {
     disconnect_fd(s)
@@ -2046,7 +2046,7 @@ init_inquire(struct fujitsu *s)
   }
 
   if(get_IN_periph_devtype(in) != IN_periph_devtype_scanner){
-    DBG(5, "The device at '%s' is not a scanner.\n", s.device_name)
+    DBG(5, "The device at "%s" is not a scanner.\n", s.device_name)
     return Sane.STATUS_INVAL
   }
 
@@ -2059,15 +2059,15 @@ init_inquire(struct fujitsu *s)
   s.version_name[4] = 0
 
   /* gobble trailing spaces */
-  for(i = 7; s.vendor_name[i] == ' ' && i >= 0; i--)
+  for(i = 7; s.vendor_name[i] == " " && i >= 0; i--)
     s.vendor_name[i] = 0
-  for(i = 15; s.model_name[i] == ' ' && i >= 0; i--)
+  for(i = 15; s.model_name[i] == " " && i >= 0; i--)
     s.model_name[i] = 0
-  for(i = 3; s.version_name[i] == ' ' && i >= 0; i--)
+  for(i = 3; s.version_name[i] == " " && i >= 0; i--)
     s.version_name[i] = 0
 
   if(strcmp("FUJITSU", s.vendor_name)) {
-    DBG(5, "The device at '%s' is reported to be made by '%s'\n", s.device_name, s.vendor_name)
+    DBG(5, "The device at "%s" is reported to be made by "%s"\n", s.device_name, s.vendor_name)
     DBG(5, "This backend only supports Fujitsu products.\n")
     return Sane.STATUS_INVAL
   }
@@ -2081,7 +2081,7 @@ init_inquire(struct fujitsu *s)
   s.color_raster_offset = get_IN_color_offset(in)
   DBG(15, "  color offset: %d lines\n",s.color_raster_offset)
 
-  /* FIXME: we don't store all of these? */
+  /* FIXME: we don"t store all of these? */
   DBG(15, "  long gray scan: %d\n",get_IN_long_gray(in))
   DBG(15, "  long color scan: %d\n",get_IN_long_color(in))
 
@@ -2205,9 +2205,9 @@ init_vpd(struct fujitsu *s)
   /* Special case- some scanners will under-report the amount of
    * valid vpd that they send, and return the default length.
    * Adding 4 more bytes allows us to include the overscan info.
-   * Scanners that don't support overscan seem to have all zeros
+   * Scanners that don"t support overscan seem to have all zeros
    * in these bytes, so no harm is done.
-   * This may be an 'off-by-four' error in the firmware. */
+   * This may be an "off-by-four" error in the firmware. */
   else if(payload_len == 0x5f){
     payload_len += 4
   }
@@ -2565,7 +2565,7 @@ init_vpd(struct fujitsu *s)
   s.has_comp_JPG3 = get_IN_compression_JPG_INDEP(in)
   DBG(15, "  compression JPG3: %d\n", s.has_comp_JPG3)
 
-  /* FIXME: we don't store these? */
+  /* FIXME: we don"t store these? */
   DBG(15, "  back endorser mech: %d\n", get_IN_endorser_b_mech(in))
   DBG(15, "  back endorser stamp: %d\n", get_IN_endorser_b_stamp(in))
   DBG(15, "  back endorser elec: %d\n", get_IN_endorser_b_elec(in))
@@ -2724,7 +2724,7 @@ init_ms(struct fujitsu *s)
 
   /* some of the following probes will produce errors */
   /* so we reduce the dbg level to reduce the noise */
-  /* however, if user builds with NDEBUG, we can't do that */
+  /* however, if user builds with NDEBUG, we can"t do that */
   /* so we protect the code with the following macro */
   IF_DBG( oldDbg=DBG_LEVEL; )
   IF_DBG( if(DBG_LEVEL < 35){ DBG_LEVEL = 0; } )
@@ -3180,7 +3180,7 @@ init_model(struct fujitsu *s)
     s.has_MS_prepick=0
   }
 
-  /* also includes the 'Z' models */
+  /* also includes the "Z" models */
   else if(strstr(s.model_name,"fi-6130")
    || strstr(s.model_name,"fi-6140")){
 
@@ -3190,7 +3190,7 @@ init_model(struct fujitsu *s)
     s.max_y_by_res[1].len = 151512
   }
 
-  /* also includes the 'Z' models */
+  /* also includes the "Z" models */
   else if(strstr(s.model_name,"fi-6230")
    || strstr(s.model_name,"fi-6240")){
 
@@ -3239,7 +3239,7 @@ init_model(struct fujitsu *s)
     s.can_mode[MODE_LINEART] = 2
     s.can_mode[MODE_GRAYSCALE] = 2
 
-    /* don't bother with this one */
+    /* don"t bother with this one */
     s.can_mode[MODE_HALFTONE] = 0
   }
 
@@ -3258,7 +3258,7 @@ init_model(struct fujitsu *s)
     /* lies */
     s.adbits = 8
 
-    /* don't bother with this one */
+    /* don"t bother with this one */
     s.can_mode[MODE_HALFTONE] = 0
   }
 
@@ -3425,7 +3425,7 @@ init_user(struct fujitsu *s)
   s.u_endorser_dir=DIR_TTB
   strcpy((char *)s.u_endorser_string,"%05ud")
 
-  /* more recent machines default to this being 'on',  *
+  /* more recent machines default to this being "on",  *
    * which causes the scanner to ingest multiple pages *
    * even when the user only wants one */
   s.buff_mode = MSEL_OFF
@@ -3524,7 +3524,7 @@ init_interlace(struct fujitsu *s)
 
     /* some of the following probes will produce errors */
     /* so we reduce the dbg level to reduce the noise */
-    /* however, if user builds with NDEBUG, we can't do that */
+    /* however, if user builds with NDEBUG, we can"t do that */
     /* so we protect the code with the following macro */
     IF_DBG( oldDbg=DBG_LEVEL; )
     IF_DBG( if(DBG_LEVEL < 35){ DBG_LEVEL = 0; } )
@@ -4914,7 +4914,7 @@ Sane.get_option_descriptor(Sane.Handle handle, Int option)
   if(option==OPT_LOW_MEM){
     opt.name = "lowmemory"
     opt.title = Sane.I18N("Low Memory")
-    opt.desc = Sane.I18N("Limit driver memory usage for use in embedded systems. Causes some duplex transfers to alternate sides on each call to Sane.read. Value of option 'side' can be used to determine correct image. This option should only be used with custom front-end software.")
+    opt.desc = Sane.I18N("Limit driver memory usage for use in embedded systems. Causes some duplex transfers to alternate sides on each call to Sane.read. Value of option "side" can be used to determine correct image. This option should only be used with custom front-end software.")
     opt.type = Sane.TYPE_BOOL
     opt.unit = Sane.UNIT_NONE
     opt.size = sizeof(Sane.Word)
@@ -5062,7 +5062,7 @@ Sane.get_option_descriptor(Sane.Handle handle, Int option)
     opt.unit = Sane.UNIT_NONE
     opt.size = sizeof(Sane.Word)
 
-    /*old type can't do this?*/
+    /*old type can"t do this?*/
     if((s.has_endorser_f && s.endorser_type_f != ET_OLD)
      || (s.has_endorser_b && s.endorser_type_b != ET_OLD)){
       opt.cap=Sane.CAP_SOFT_SELECT | Sane.CAP_SOFT_DETECT | Sane.CAP_ADVANCED
@@ -5573,7 +5573,7 @@ Sane.control_option(Sane.Handle handle, Int option,
   if(action == Sane.ACTION_GET_VALUE) {
       Sane.Word * val_p = (Sane.Word *) val
 
-      DBG(20, "Sane.control_option: get value for '%s' (%d)\n", s.opt[option].name,option)
+      DBG(20, "Sane.control_option: get value for "%s" (%d)\n", s.opt[option].name,option)
 
       switch(option) {
 
@@ -6193,10 +6193,10 @@ Sane.control_option(Sane.Handle handle, Int option,
       Sane.Word val_c
       Sane.Status status
 
-      DBG(20, "Sane.control_option: set value for '%s' (%d)\n", s.opt[option].name,option)
+      DBG(20, "Sane.control_option: set value for "%s" (%d)\n", s.opt[option].name,option)
 
       if( s.started ) {
-        DBG(5, "Sane.control_option: can't set, device busy\n")
+        DBG(5, "Sane.control_option: can"t set, device busy\n")
         return Sane.STATUS_DEVICE_BUSY
       }
 
@@ -6211,13 +6211,13 @@ Sane.control_option(Sane.Handle handle, Int option,
         return status
       }
 
-      /* may have been changed by constrain, so don't copy until now */
+      /* may have been changed by constrain, so don"t copy until now */
       val_c = *(Sane.Word *)val
 
       /*
        * Note - for those options which can assume one of a list of
        * valid values, we can safely assume that they will have
-       * exactly one of those values because that's what
+       * exactly one of those values because that"s what
        * sanei_constrain_value does. Hence no "else: invalid" branches
        * below.
        */
@@ -6831,7 +6831,7 @@ get_hardware_status(struct fujitsu *s, Int option)
   DBG(10, "get_hardware_status: start\n")
 
   /* only run this if frontend has already read the last time we got it */
-  /* or if we don't care for such bookkeeping(private use) */
+  /* or if we don"t care for such bookkeeping(private use) */
   if(!option || !s.hw_data_avail[option-OPT_TOP]) {
 
       DBG(15, "get_hardware_status: running\n")
@@ -7289,7 +7289,7 @@ diag_preread(struct fujitsu *s)
   set_SD_preread_yres(out,s.resolution_y)
   /* call helper function, scanner wants lies about paper width */
   set_SD_preread_paper_width(out, get_page_width(s))
-  /* don't call helper function, scanner wants actual length?  */
+  /* don"t call helper function, scanner wants actual length?  */
   set_SD_preread_paper_length(out, s.page_height)
   set_SD_preread_composition(out, s.s_mode)
 
@@ -7647,9 +7647,9 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   params.lines = s.u_params.lines
   params.depth = s.u_params.depth
   params.pixels_per_line = s.u_params.pixels_per_line
-  params.bytes_per_line = s.u_params.bytes_per_line
+  params.bytesPerLine = s.u_params.bytesPerLine
 
-  /* we won't know the end until we get to it */
+  /* we won"t know the end until we get to it */
   if(s.ald && !must_fully_buffer(s)){
     DBG(15, "Sane.get_parameters: hand-scanner mode\n")
     params.lines = -1
@@ -7696,7 +7696,7 @@ update_params(struct fujitsu * s)
         % max(s.ppl_mod_by_mode[s.s_mode], s.ppl_mod_by_mode[s.u_mode])
     }
 
-    params.bytes_per_line = params.pixels_per_line * 3
+    params.bytesPerLine = params.pixels_per_line * 3
   }
   else if(s.s_mode == MODE_GRAYSCALE) {
     params.depth = 8
@@ -7713,14 +7713,14 @@ update_params(struct fujitsu * s)
         % max(s.ppl_mod_by_mode[s.s_mode], s.ppl_mod_by_mode[s.u_mode])
     }
 
-    params.bytes_per_line = params.pixels_per_line
+    params.bytesPerLine = params.pixels_per_line
   }
   else {
     params.depth = 1
     params.format = Sane.FRAME_GRAY
     params.pixels_per_line -= params.pixels_per_line
       % max(s.ppl_mod_by_mode[s.s_mode], s.ppl_mod_by_mode[s.u_mode])
-    params.bytes_per_line = params.pixels_per_line / 8
+    params.bytesPerLine = params.pixels_per_line / 8
   }
 
   DBG(15,"update_params: x: max=%d, page=%d, gpw=%d, res=%d\n",
@@ -7733,7 +7733,7 @@ update_params(struct fujitsu * s)
     s.tl_x, s.br_x, s.tl_y, s.br_y)
 
   DBG(15,"update_params: params: ppl=%d, Bpl=%d, lines=%d\n",
-    params.pixels_per_line, params.bytes_per_line, params.lines)
+    params.pixels_per_line, params.bytesPerLine, params.lines)
 
   DBG(15,"update_params: params: format=%d, depth=%d, last=%d\n",
     params.format, params.depth, params.last_frame)
@@ -7758,20 +7758,20 @@ update_u_params(struct fujitsu * s)
   /* for most machines, it is the same, so we just copy */
   memcpy(&(s.u_params), &(s.s_params), sizeof(Sane.Parameters))
 
-  /* some scanners don't support the user's mode, so params differ */
-  /* but not in jpeg mode. we don't support that. */
+  /* some scanners don"t support the user"s mode, so params differ */
+  /* but not in jpeg mode. we don"t support that. */
   if(must_downsample(s)){
 
     /* making gray from a color scan */
     if(s.u_mode == MODE_GRAYSCALE) {
       params.format = Sane.FRAME_GRAY
-      params.bytes_per_line = params.pixels_per_line
+      params.bytesPerLine = params.pixels_per_line
     }
     /* making binary from a gray or color scan */
     else if(s.u_mode == MODE_LINEART) {
       params.depth = 1
       params.format = Sane.FRAME_GRAY
-      params.bytes_per_line = params.pixels_per_line / 8
+      params.bytesPerLine = params.pixels_per_line / 8
     }
 
     DBG(15,"update_u_params: x: max=%d, page=%d, gpw=%d, res=%d\n",
@@ -7784,7 +7784,7 @@ update_u_params(struct fujitsu * s)
       s.tl_x, s.br_x, s.tl_y, s.br_y)
 
     DBG(15,"update_u_params: params: ppl=%d, Bpl=%d, lines=%d\n",
-      params.pixels_per_line, params.bytes_per_line, params.lines)
+      params.pixels_per_line, params.bytesPerLine, params.lines)
 
     DBG(15,"update_u_params: params: format=%d, depth=%d, last=%d\n",
       params.format, params.depth, params.last_frame)
@@ -7962,10 +7962,10 @@ Sane.start(Sane.Handle handle)
   }
 
   /* set clean defaults with new sheet of paper */
-  /* don't reset the transfer vars on backside of duplex page */
+  /* don"t reset the transfer vars on backside of duplex page */
   /* otherwise buffered back page will be lost */
   /* ingest paper with adf(no-op for fb) */
-  /* don't call object pos or scan on back side of duplex scan */
+  /* don"t call object pos or scan on back side of duplex scan */
   if(s.side == SIDE_FRONT || s.source == SOURCE_ADF_BACK || s.source == SOURCE_CARD_BACK){
 
       s.bytes_rx[0]=0
@@ -8015,11 +8015,11 @@ Sane.start(Sane.Handle handle)
 
       /* store the number of front bytes */
       if( s.source != SOURCE_ADF_BACK && s.source != SOURCE_CARD_BACK ){
-        s.bytes_tot[SIDE_FRONT] = s.s_params.bytes_per_line * s.s_params.lines
+        s.bytes_tot[SIDE_FRONT] = s.s_params.bytesPerLine * s.s_params.lines
         s.buff_tot[SIDE_FRONT] = s.buffer_size
 
         /* the front buffer is normally very small, but some scanners or
-         * option combinations can't handle it, so we make a big one */
+         * option combinations can"t handle it, so we make a big one */
         if(
           (s.s_mode == MODE_COLOR && s.color_interlace == COLOR_INTERLACE_3091)
           || must_fully_buffer(s)
@@ -8035,11 +8035,11 @@ Sane.start(Sane.Handle handle)
       /* store the number of back bytes */
       if( s.source == SOURCE_ADF_DUPLEX || s.source == SOURCE_ADF_BACK
 	|| s.source == SOURCE_CARD_DUPLEX || s.source == SOURCE_CARD_BACK ){
-        s.bytes_tot[SIDE_BACK] = s.s_params.bytes_per_line * s.s_params.lines
+        s.bytes_tot[SIDE_BACK] = s.s_params.bytesPerLine * s.s_params.lines
         s.buff_tot[SIDE_BACK] = s.bytes_tot[SIDE_BACK]
 
         /* the back buffer is normally very large, but some scanners or
-         * option combinations don't need it, so we make a small one */
+         * option combinations don"t need it, so we make a small one */
         if(s.low_mem || s.source == SOURCE_ADF_BACK || s.source == SOURCE_CARD_BACK
          || s.duplex_interlace == DUPLEX_INTERLACE_NONE)
           s.buff_tot[SIDE_BACK] = s.buffer_size
@@ -8233,7 +8233,7 @@ scanner_control(struct fujitsu *s, Int function)
 
     DBG(15, "scanner_control: function %d\n",function)
 
-    /* don't really need to ask for adf if that's the only option */
+    /* don"t really need to ask for adf if that"s the only option */
     /* doing so causes the 3091 to complain */
     if(function == SC_function_adf && !s.has_flatbed && !s.has_return_path){
       DBG(10, "scanner_control: adf function not required\n")
@@ -8439,7 +8439,7 @@ set_window(struct fujitsu *s)
 
   set_WD_brightness(desc1, 0)
   if(s.brightness_steps){
-    /*convert our common -127 to +127 range into HW's range
+    /*convert our common -127 to +127 range into HW"s range
      *FIXME: this code assumes hardware range of 0-255 */
     set_WD_brightness(desc1, s.brightness+128)
   }
@@ -8448,7 +8448,7 @@ set_window(struct fujitsu *s)
 
   set_WD_contrast(desc1, 0)
   if(s.contrast_steps){
-    /*convert our common -127 to +127 range into HW's range
+    /*convert our common -127 to +127 range into HW"s range
      *FIXME: this code assumes hardware range of 0-255 */
     set_WD_contrast(desc1, s.contrast+128)
   }
@@ -8591,7 +8591,7 @@ set_window(struct fujitsu *s)
     /* call helper function, scanner wants lies about paper width */
     set_WD_paper_width_X(desc1, get_page_width(s))
 
-    /* don't call helper function, scanner wants actual length?  */
+    /* don"t call helper function, scanner wants actual length?  */
     set_WD_paper_length_Y(desc1, s.page_height)
   }
 
@@ -8696,13 +8696,13 @@ get_pixelsize(struct fujitsu *s, Int actual)
 
       /* bytes per line differs by mode */
       if(s.s_mode == MODE_COLOR) {
-        s.s_params.bytes_per_line = s.s_params.pixels_per_line * 3
+        s.s_params.bytesPerLine = s.s_params.pixels_per_line * 3
       }
       else if(s.s_mode == MODE_GRAYSCALE) {
-        s.s_params.bytes_per_line = s.s_params.pixels_per_line
+        s.s_params.bytesPerLine = s.s_params.pixels_per_line
       }
       else {
-        s.s_params.bytes_per_line = s.s_params.pixels_per_line / 8
+        s.s_params.bytesPerLine = s.s_params.pixels_per_line / 8
       }
 
       /* some scanners can request that the driver clean img */
@@ -8714,7 +8714,7 @@ get_pixelsize(struct fujitsu *s, Int actual)
       }
 
       DBG(15, "get_pixelsize: scan_x=%d, Bpl=%d, scan_y=%d\n",
-        s.s_params.pixels_per_line, s.s_params.bytes_per_line, s.s_params.lines )
+        s.s_params.pixels_per_line, s.s_params.bytesPerLine, s.s_params.lines )
 
       /* the user params are usually the same */
       s.u_params.pixels_per_line = s.s_params.pixels_per_line
@@ -8722,13 +8722,13 @@ get_pixelsize(struct fujitsu *s, Int actual)
 
       /* bytes per line differs by mode */
       if(s.u_mode == MODE_COLOR) {
-        s.u_params.bytes_per_line = s.u_params.pixels_per_line * 3
+        s.u_params.bytesPerLine = s.u_params.pixels_per_line * 3
       }
       else if(s.u_mode == MODE_GRAYSCALE) {
-        s.u_params.bytes_per_line = s.u_params.pixels_per_line
+        s.u_params.bytesPerLine = s.u_params.pixels_per_line
       }
       else {
-        s.u_params.bytes_per_line = s.u_params.pixels_per_line / 8
+        s.u_params.bytesPerLine = s.u_params.pixels_per_line / 8
       }
 
     }
@@ -8785,7 +8785,7 @@ object_position(struct fujitsu *s, Int action)
 /*
  * Issues SCAN command.
  *
- * (This doesn't actually read anything, it just tells the scanner
+ * (This doesn"t actually read anything, it just tells the scanner
  * to start scanning.)
  */
 static Sane.Status
@@ -8825,7 +8825,7 @@ start_scan(struct fujitsu *s)
 }
 
 /* checks started and cancelled flags in scanner struct,
- * sends cancel command to scanner if required. don't call
+ * sends cancel command to scanner if required. don"t call
  * this function asynchronously, wait for pending operation */
 static Sane.Status
 check_for_cancel(struct fujitsu *s)
@@ -8959,7 +8959,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
       return ret
     }
 
-    /* buffer back side, but don't get too far ahead of the front! */
+    /* buffer back side, but don"t get too far ahead of the front! */
     if(s.bytes_rx[SIDE_BACK] < s.bytes_rx[SIDE_FRONT] + s.buffer_size){
       ret = read_from_scanner(s, SIDE_BACK)
       if(ret){
@@ -9018,7 +9018,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
   return ret
 }
 
-/* bare jpeg images don't contain resolution, but JFIF APP0 does, so we add */
+/* bare jpeg images don"t contain resolution, but JFIF APP0 does, so we add */
 static Sane.Status
 inject_jfif_header(struct fujitsu *s, Int side)
 {
@@ -9066,7 +9066,7 @@ read_from_JPEGduplex(struct fujitsu *s)
       return ret
     }
 
-    /* we don't know if the following read will give us front or back data
+    /* we don"t know if the following read will give us front or back data
      * so we only get enough to fill whichever is smaller(and not yet done) */
     if(!s.eof_rx[SIDE_FRONT]){
       Int avail = s.buff_tot[SIDE_FRONT] - s.buff_rx[SIDE_FRONT]
@@ -9098,7 +9098,7 @@ read_from_JPEGduplex(struct fujitsu *s)
       return ret
     }
 
-    /* fi-6770A gets mad if you 'read' too soon on usb, see if it is ready */
+    /* fi-6770A gets mad if you "read" too soon on usb, see if it is ready */
     if(!s.bytes_rx[SIDE_FRONT] && s.connection == CONNECTION_USB){
       DBG(15, "read: start of usb page, checking RIC\n")
       ret = scanner_control_ric(s,bytes,SIDE_FRONT)
@@ -9186,7 +9186,7 @@ read_from_JPEGduplex(struct fujitsu *s)
             }
 
             /* found image block. images are not interlaced */
-            /* copy to front, don't change RST */
+            /* copy to front, don"t change RST */
             else if(in[i] >= 0xd0 && in[i] <= 0xd7
               && s.jpeg_interlace == JPEG_INTERLACE_NONE){
                 s.jpeg_stage = JPEG_STAGE_FRONT
@@ -9373,7 +9373,7 @@ read_from_3091duplex(struct fujitsu *s)
     return ret
   }
 
-  /* we don't know if the following read will give us front,back or both data
+  /* we don"t know if the following read will give us front,back or both data
    * so we only get enough to fill whichever is smaller(and not yet done) */
   if(!s.eof_rx[SIDE_FRONT]){
     Int avail = s.buff_tot[SIDE_FRONT] - s.buff_rx[SIDE_FRONT]
@@ -9387,7 +9387,7 @@ read_from_3091duplex(struct fujitsu *s)
   }
 
   /* all requests must end on a line boundary */
-  bytes -= (bytes % s.s_params.bytes_per_line)
+  bytes -= (bytes % s.s_params.bytesPerLine)
 
   DBG(15, "read_from_3091duplex: front img: to:%d rx:%d tx:%d li:%d\n",
       s.bytes_tot[SIDE_FRONT], s.bytes_rx[SIDE_FRONT],
@@ -9450,7 +9450,7 @@ read_from_3091duplex(struct fujitsu *s)
   }
 
   /* loop thru all lines in read buffer */
-  for(i=0;i<inLen/s.s_params.bytes_per_line;i++){
+  for(i=0;i<inLen/s.s_params.bytesPerLine;i++){
 
       /* start is front */
       if(s.lines_rx[SIDE_FRONT] < off){
@@ -9473,10 +9473,10 @@ read_from_3091duplex(struct fujitsu *s)
       }
 
       if(s.s_mode == MODE_COLOR && s.color_interlace == COLOR_INTERLACE_3091){
-        copy_3091 (s, in + i*s.s_params.bytes_per_line, s.s_params.bytes_per_line, side)
+        copy_3091 (s, in + i*s.s_params.bytesPerLine, s.s_params.bytesPerLine, side)
       }
       else{
-        copy_buffer(s, in + i*s.s_params.bytes_per_line, s.s_params.bytes_per_line, side)
+        copy_buffer(s, in + i*s.s_params.bytesPerLine, s.s_params.bytesPerLine, side)
       }
   }
 
@@ -9521,13 +9521,13 @@ read_from_scanner(struct fujitsu *s, Int side)
       bytes = avail
 
     /* all requests must end on line boundary */
-    bytes -= (bytes % s.s_params.bytes_per_line)
+    bytes -= (bytes % s.s_params.bytesPerLine)
 
     /* some larger scanners require even bytes per block */
     /* so we get even lines, but not on the last block */
     /* cause odd number of lines would never finish */
     if(bytes % 2 && bytes < remain){
-       bytes -= s.s_params.bytes_per_line
+       bytes -= s.s_params.bytesPerLine
     }
 
     /* jpeg scans leave space for JFIF header at start of image */
@@ -9550,7 +9550,7 @@ read_from_scanner(struct fujitsu *s, Int side)
       return ret
     }
 
-    /* fi-6770A gets mad if you 'read' too soon on usb, see if it is ready */
+    /* fi-6770A gets mad if you "read" too soon on usb, see if it is ready */
     if(!s.bytes_rx[side] && s.connection == CONNECTION_USB){
       DBG(15, "read_from_scanner: start of usb page, checking RIC\n")
       ret = scanner_control_ric(s,bytes,side)
@@ -9668,10 +9668,10 @@ copy_3091(struct fujitsu *s, unsigned char * buf, Int len, Int side)
   boff = (s.color_raster_offset+s.blue_offset) * s.resolution_y/300
 
   /* loop thru all lines in read buffer */
-  for(i=0;i<len;i+=s.s_params.bytes_per_line){
+  for(i=0;i<len;i+=s.s_params.bytesPerLine){
 
       /* red at start of line */
-      dest = s.lines_rx[side] * s.s_params.bytes_per_line
+      dest = s.lines_rx[side] * s.s_params.bytesPerLine
 
       if(dest >= 0 && dest < s.bytes_tot[side]){
         for(j=0; j<s.s_params.pixels_per_line; j++){
@@ -9680,7 +9680,7 @@ copy_3091(struct fujitsu *s, unsigned char * buf, Int len, Int side)
       }
 
       /* green is in middle of line */
-      dest = (s.lines_rx[side] - goff) * s.s_params.bytes_per_line
+      dest = (s.lines_rx[side] - goff) * s.s_params.bytesPerLine
 
       if(dest >= 0 && dest < s.bytes_tot[side]){
         for(j=0; j<s.s_params.pixels_per_line; j++){
@@ -9689,7 +9689,7 @@ copy_3091(struct fujitsu *s, unsigned char * buf, Int len, Int side)
       }
 
       /* blue is at end of line */
-      dest = (s.lines_rx[side] - boff) * s.s_params.bytes_per_line
+      dest = (s.lines_rx[side] - boff) * s.s_params.bytesPerLine
 
       if(dest >= 0 && dest < s.bytes_tot[side]){
         for(j=0; j<s.s_params.pixels_per_line; j++){
@@ -9702,7 +9702,7 @@ copy_3091(struct fujitsu *s, unsigned char * buf, Int len, Int side)
 
   /* even if we have read data, we may not have any
    * full lines loaded yet, so we may have to lie */
-  i = (s.lines_rx[side]-goff) * s.s_params.bytes_per_line
+  i = (s.lines_rx[side]-goff) * s.s_params.bytesPerLine
   if(i < 0){
     i = 0
   }
@@ -9769,7 +9769,7 @@ copy_buffer(struct fujitsu *s, unsigned char * buf, Int len, Int side)
 {
   Sane.Status ret=Sane.STATUS_GOOD
   var i: Int, j
-  Int bwidth = s.s_params.bytes_per_line
+  Int bwidth = s.s_params.bytesPerLine
   Int pwidth = s.s_params.pixels_per_line
 
   DBG(10, "copy_buffer: start\n")
@@ -9823,7 +9823,7 @@ copy_buffer(struct fujitsu *s, unsigned char * buf, Int len, Int side)
   }
 
   s.bytes_rx[side] += len
-  s.lines_rx[side] += len/s.s_params.bytes_per_line
+  s.lines_rx[side] += len/s.s_params.bytesPerLine
 
   if(s.bytes_rx[side] == s.bytes_tot[side]){
     s.eof_rx[side] = 1
@@ -9992,9 +9992,9 @@ downsample_from_buffer(struct fujitsu *s, Sane.Byte * buf,
  * > collect as many images as the frontend wants(which could in turn
  * > consist of multiple frames each as indicated by frame-type) and
  * > when the frontend is done, it should call Sane.cancel().
- * > Sometimes it's better to think of Sane.cancel() as "Sane.stop()"
+ * > Sometimes it"s better to think of Sane.cancel() as "Sane.stop()"
  * > but that name would have had some misleading connotations as
- * > well, that's why we stuck with "cancel".
+ * > well, that"s why we stuck with "cancel".
  *
  * The current consensus regarding duplex and ADF scans seems to be
  * the following call sequence: Sane.start; Sane.read(repeat until
@@ -10487,7 +10487,7 @@ do_scsi_cmd(struct fujitsu *s, Int runRS, Int shortTime,
   ret = sanei_scsi_cmd2(s.fd, cmdBuff, cmdLen, outBuff, outLen, inBuff, inLen)
 
   if(ret != Sane.STATUS_GOOD && ret != Sane.STATUS_EOF){
-    DBG(5,"do_scsi_cmd: return '%s'\n",Sane.strstatus(ret))
+    DBG(5,"do_scsi_cmd: return "%s"\n",Sane.strstatus(ret))
     return ret
   }
 
@@ -10556,7 +10556,7 @@ do_usb_cmd(struct fujitsu *s, Int runRS, Int shortTime,
         return Sane.STATUS_IO_ERROR
     }
     if(ret != Sane.STATUS_GOOD){
-        DBG(5,"cmd: return error '%s'\n",Sane.strstatus(ret))
+        DBG(5,"cmd: return error "%s"\n",Sane.strstatus(ret))
         return ret
     }
     if(usb_cmdLen != USB_COMMAND_LEN){
@@ -10580,7 +10580,7 @@ do_usb_cmd(struct fujitsu *s, Int runRS, Int shortTime,
             return Sane.STATUS_IO_ERROR
         }
         if(ret != Sane.STATUS_GOOD){
-            DBG(5,"out: return error '%s'\n",Sane.strstatus(ret))
+            DBG(5,"out: return error "%s"\n",Sane.strstatus(ret))
             return ret
         }
         if(usb_outLen != outLen){
@@ -10610,7 +10610,7 @@ do_usb_cmd(struct fujitsu *s, Int runRS, Int shortTime,
         }
 
         if(ret != Sane.STATUS_GOOD){
-            DBG(5,"in: return error '%s'\n",Sane.strstatus(ret))
+            DBG(5,"in: return error "%s"\n",Sane.strstatus(ret))
             return ret
         }
 
@@ -10643,7 +10643,7 @@ do_usb_cmd(struct fujitsu *s, Int runRS, Int shortTime,
         return Sane.STATUS_IO_ERROR
     }
     if(ret2 != Sane.STATUS_GOOD){
-        DBG(5,"stat: return error '%s'\n",Sane.strstatus(ret2))
+        DBG(5,"stat: return error "%s"\n",Sane.strstatus(ret2))
         return ret2
     }
     if(usb_statLen != USB_STATUS_LEN){
@@ -10687,7 +10687,7 @@ do_usb_cmd(struct fujitsu *s, Int runRS, Int shortTime,
           return Sane.STATUS_IO_ERROR
         }
         if(ret2 != Sane.STATUS_GOOD){
-          DBG(5,"rs: return error '%s'\n",Sane.strstatus(ret2))
+          DBG(5,"rs: return error "%s"\n",Sane.strstatus(ret2))
           return ret2
         }
 
@@ -10753,7 +10753,7 @@ wait_scanner(struct fujitsu *s)
   }
 
   if(ret != Sane.STATUS_GOOD) {
-    DBG(5, "wait_scanner: error '%s'\n", Sane.strstatus(ret))
+    DBG(5, "wait_scanner: error "%s"\n", Sane.strstatus(ret))
   }
 
   DBG(10, "wait_scanner: finish\n")
@@ -10815,7 +10815,7 @@ get_page_width(struct fujitsu *s)
       return s.page_width
   }
 
-  /* can't overscan larger than scanner max */
+  /* can"t overscan larger than scanner max */
   if(width > s.max_x){
       return s.max_x
   }
@@ -10844,7 +10844,7 @@ get_page_height(struct fujitsu *s)
       return s.page_height
   }
 
-  /* can't overscan larger than scanner max */
+  /* can"t overscan larger than scanner max */
   if(height > s.max_y){
       return s.max_y
   }
@@ -10933,7 +10933,7 @@ static void
 hexdump(Int level, char *comment, unsigned char *p, Int l)
 {
   var i: Int
-  char line[70]; /* 'xxx: xx xx ... xx xx abc */
+  char line[70]; /* "xxx: xx xx ... xx xx abc */
   char *hex = line+4
   char *bin = line+53
 
@@ -10963,14 +10963,14 @@ hexdump(Int level, char *comment, unsigned char *p, Int l)
     /* the hex section */
     sprintf(hex, " %2.2x", *p)
     hex += 3
-    *hex = ' '
+    *hex = " "
 
     /* the char section */
     if(*p >= 0x20 && *p <= 0x7e){
       *bin=*p
     }
     else{
-      *bin='.'
+      *bin="."
     }
     bin++
   }
@@ -10981,7 +10981,7 @@ hexdump(Int level, char *comment, unsigned char *p, Int l)
 }
 
 /**
- * An advanced method we don't support but have to define.
+ * An advanced method we don"t support but have to define.
  */
 Sane.Status
 Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
@@ -10992,7 +10992,7 @@ Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
 }
 
 /**
- * An advanced method we don't support but have to define.
+ * An advanced method we don"t support but have to define.
  */
 Sane.Status
 Sane.get_select_fd(Sane.Handle h, Int *fdp)
@@ -11032,7 +11032,7 @@ buffer_deskew(struct fujitsu *s, Int side)
       goto cleanup
     }
   }
-  /* backside images can use a 'flipped' version of frontside data */
+  /* backside images can use a "flipped" version of frontside data */
   else{
     s.deskew_slope *= -1
     s.deskew_vals[0] = s.s_params.pixels_per_line - s.deskew_vals[0]
@@ -11105,7 +11105,7 @@ buffer_crop(struct fujitsu *s, Int side)
   update_u_params(s)
 
   /* update image size counter to new, smaller size */
-  s.bytes_rx[side] = s.s_params.lines * s.s_params.bytes_per_line
+  s.bytes_rx[side] = s.s_params.lines * s.s_params.bytesPerLine
   s.buff_rx[side] = s.bytes_rx[side]
 
   cleanup:
@@ -11113,7 +11113,7 @@ buffer_crop(struct fujitsu *s, Int side)
   return ret
 }
 
-/* Look in image for disconnected 'spots' of the requested size.
+/* Look in image for disconnected "spots" of the requested size.
  * Replace the spots with the average color of the surrounding pixels.
  * FIXME: should we do this before we binarize instead of after? */
 static Sane.Status
@@ -11140,7 +11140,7 @@ static Int
 buffer_isblank(struct fujitsu *s, Int side)
 {
   Sane.Status ret = Sane.STATUS_GOOD
-  Int status = 0
+  status: Int = 0
 
   DBG(10, "buffer_isblank: start\n")
 

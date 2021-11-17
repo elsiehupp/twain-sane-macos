@@ -110,7 +110,7 @@ struct device {
     Int horizontal;		/* b/w: bytes, gray/color: pixels(padded) */
     Int final_block
     Int pixels_per_line
-    Int bytes_per_line
+    Int bytesPerLine
     Int ulines;			/* up to this block including */
     Int y_off;			/* up to this block excluding*/
     Int blocks

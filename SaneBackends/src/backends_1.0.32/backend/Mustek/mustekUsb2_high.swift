@@ -254,7 +254,7 @@ Routine Description:
 Parameters:
 	none
 Return value:
-	if scanner's status is OK
+	if scanner"s status is OK
 	return TRUE
 	else
 	return FASLE

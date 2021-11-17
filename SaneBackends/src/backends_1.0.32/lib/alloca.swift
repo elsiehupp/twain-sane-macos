@@ -33,7 +33,7 @@ import lalloca
 import blockinput
 #endif
 
-/* If compiling with GCC 2, this file's not needed.  */
+/* If compiling with GCC 2, this file"s not needed.  */
 #if !defined(__GNUC__) || __GNUC__ < 2
 
 /* If someone has defined alloca as a macro,
@@ -74,9 +74,9 @@ typedef char *pointer
 
 /* Different portions of Emacs need to call different versions of
    malloc.  The Emacs executable needs alloca to call xmalloc, because
-   ordinary malloc isn't protected from input signals.  On the other
+   ordinary malloc isn"t protected from input signals.  On the other
    hand, the utilities in lib-src need alloca to call malloc; some of
-   them are very simple, and don't have an xmalloc routine.
+   them are very simple, and don"t have an xmalloc routine.
 
    Non-Emacs programs expect this to call xmalloc.
 
@@ -108,7 +108,7 @@ static Int stack_dir;		/* 1 or -1 once known.  */
 static void
 find_stack_direction()
 {
-  static char *addr = NULL;	/* Address of first `dummy', once known.  */
+  static char *addr = NULL;	/* Address of first `dummy", once known.  */
   auto char dummy;		/* To get stack address.  */
 
   if(addr == NULL)
@@ -130,7 +130,7 @@ find_stack_direction()
 #endif /* STACK_DIRECTION == 0 */
 
 /* An "alloca header" is used to:
-   (a) chain together all alloca'ed blocks
+   (a) chain together all alloca"ed blocks
    (b) keep track of stack depth.
 
    It is very important that sizeof(header) agree with malloc
@@ -157,7 +157,7 @@ static header *last_alloca_header = NULL;	/* -> last alloca header.  */
    the procedure that called alloca.  Originally, this space
    was supposed to be taken from the current stack frame of the
    caller, but that method cannot be made to work for some
-   implementations of C, for example under Gould's UTX/32.  */
+   implementations of C, for example under Gould"s UTX/32.  */
 
 pointer
 alloca(size)
@@ -171,7 +171,7 @@ alloca(size)
     find_stack_direction()
 #endif
 
-  /* Reclaim garbage, defined as all alloca'd storage that
+  /* Reclaim garbage, defined as all alloca"d storage that
      was allocated from deeper in the stack than currently. */
 
   {
@@ -310,7 +310,7 @@ struct stk_stat
   ]
 
 /* The following structure describes the data structure which trails
-   any stack segment.  I think that the description in 'asdef' is
+   any stack segment.  I think that the description in "asdef" is
    out of date.  I only describe the parts that I am sure about.  */
 
 struct stk_trailer
@@ -436,10 +436,10 @@ i00afunc(long address)
   stkl = CRAY_STACKSEG_END()
   ssptr = (struct stack_segment_linkage *) stkl
 
-  /* If one subtracts 'size' from the end of the segment,
+  /* If one subtracts "size" from the end of the segment,
      one has the address of the first word of the segment.
 
-     If this is not the first segment, 'pseg' will be
+     If this is not the first segment, "pseg" will be
      nonzero.  */
 
   pseg = ssptr.sspseg
@@ -468,8 +468,8 @@ i00afunc(long address)
   result = address - this_segment
 
   /* If you subtract pseg from the current end of the stack,
-     you get the address of the previous stack segment's end.
-     This seems a little convoluted to me, but I'll bet you save
+     you get the address of the previous stack segment"s end.
+     This seems a little convoluted to me, but I"ll bet you save
      a cycle somewhere.  */
 
   while(pseg != 0)

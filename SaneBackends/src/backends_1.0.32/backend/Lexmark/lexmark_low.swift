@@ -292,8 +292,8 @@ rts88xx_write_regs(Int devnum, Int start, Sane.Byte * source,
 }
 
 /*
- * reads 'needed' bytes of scanned data into 'data'. Actual number of bytes get
- * is returned in 'size'
+ * reads "needed" bytes of scanned data into "data". Actual number of bytes get
+ * is returned in "size"
  */
 static Sane.Status
 rts88xx_read_data(Int devnum, size_t needed, Sane.Byte * data,
@@ -312,7 +312,7 @@ rts88xx_read_data(Int devnum, size_t needed, Sane.Byte * data,
   read_cmd[2] = (*size >> 8) & 0xff
   read_cmd[1] = (*size >> 16) & 0xff
 
-  /* send header for 'get scanned data' */
+  /* send header for "get scanned data" */
   cmd_size = 4
   status = low_usb_bulk_write(devnum, read_cmd, &cmd_size)
   if(status != Sane.STATUS_GOOD)
@@ -1208,7 +1208,7 @@ sanei_lexmark_low_open_device(Lexmark_Device * dev)
     }
 
   /* we use register 0xb0 to identify details about models   */
-  /* this register isn't overwritten during normal operation */
+  /* this register isn"t overwritten during normal operation */
   if(shadow_regs[0xb0] == 0x2c && dev.model.sensor_type == X1100_B2_SENSOR)
     {
       variant = shadow_regs[0xb0]
@@ -1321,7 +1321,7 @@ low_is_home_line(Lexmark_Device * dev, unsigned char *buffer)
      we are in a white region and look for the start of a black region. We save
      this index as the transition from white to black. We also save where we
      change from black back to white. We continue checking for transitions
-     until the end of the check region. If we don't have exactly two
+     until the end of the check region. If we don"t have exactly two
      transitions when we reach the end we return Sane.FALSE.
 
      The final check compares the transition indices to the nominal values
@@ -1546,7 +1546,7 @@ sanei_lexmark_low_move_fwd(Int distance, Lexmark_Device * dev,
   /* set horizontal resolution */
   regs[0x79] = 0x40
   regs[0x7a] = 0x01
-  /* don't buffer data for this scan */
+  /* don"t buffer data for this scan */
   regs[0xb2] = 0x04
   /* Motor enable & Coordinate space denominator */
   regs[0xc3] = 0x81
@@ -2342,7 +2342,7 @@ low_get_start_loc(Int resolution, Int * vert_start,
 	  *hor_start = 0x6b
 	  break
 	default:
-	  /* If we're here we have an invalid resolution */
+	  /* If we"re here we have an invalid resolution */
 	  return Sane.STATUS_INVAL
 	}
       break
@@ -2363,12 +2363,12 @@ low_get_start_loc(Int resolution, Int * vert_start,
 	  *hor_start = 0x4b
 	  break
 	default:
-	  /* If we're here we have an invalid resolution */
+	  /* If we"re here we have an invalid resolution */
 	  return Sane.STATUS_INVAL
 	}
       break
     default:
-      /* If we're here we have an unknown dev.model.sensor_type */
+      /* If we"re here we have an unknown dev.model.sensor_type */
       return Sane.STATUS_INVAL
     }
   /* Calculate vertical start distance at 600dpi */
@@ -2390,7 +2390,7 @@ low_get_start_loc(Int resolution, Int * vert_start,
       *vert_start = start_600 * 2
       break
     default:
-      /* If we're here we have an invalid resolution */
+      /* If we"re here we have an invalid resolution */
       return Sane.STATUS_INVAL
     }
 
@@ -4181,7 +4181,7 @@ sanei_lexmark_low_set_scan_regs(Lexmark_Device * dev, Int resolution,
 
       if(isColourScan)
 	{
-	  /* 600 dpi color doesn't work for X74 yet */
+	  /* 600 dpi color doesn"t work for X74 yet */
 	  if(dev.model.sensor_type == X74_SENSOR)
 	    return Sane.STATUS_INVAL
 
@@ -4636,7 +4636,7 @@ sanei_lexmark_low_set_scan_regs(Lexmark_Device * dev, Int resolution,
     {
       DBG(5, "sanei_lexmark_low_set_scan_regs(): 1200 DPI resolution\n")
 
-      /* 1200 dpi doesn't work for X74 yet */
+      /* 1200 dpi doesn"t work for X74 yet */
       if(dev.model.sensor_type == X74_SENSOR)
 	return Sane.STATUS_INVAL
 
@@ -4847,7 +4847,7 @@ sanei_lexmark_low_start_scan(Lexmark_Device * dev)
 	{
 	  scan_head_moving = Sane.FALSE
 	}
-      /* F.O. Should be a timeout here so we don't hang if something breaks */
+      /* F.O. Should be a timeout here so we don"t hang if something breaks */
 #ifdef FAKE_USB
       scan_head_moving = Sane.FALSE
 #endif
@@ -4889,12 +4889,12 @@ sanei_lexmark_low_start_scan(Lexmark_Device * dev)
 	  /* data_size is set from Sane.get_parameters() */
 	  dev.bytes_remaining = dev.data_size
 	  /* Initialize the read buffer */
-	  read_buffer_init(dev, dev.params.bytes_per_line)
+	  read_buffer_init(dev, dev.params.bytesPerLine)
 	  return Sane.STATUS_GOOD
 
 	}
       size = 4
-      /* I'm not sure why the Windows driver does this - probably a timeout? */
+      /* I"m not sure why the Windows driver does this - probably a timeout? */
       low_usb_bulk_write(devnum, command5_block, &size)
       size = 0x1
       low_usb_bulk_read(devnum, &read_result, &size)
@@ -4935,7 +4935,7 @@ sanei_lexmark_low_read_scan_data(Sane.Byte * data, Int size,
 	isGrayScan = Sane.TRUE
     }
 
-  /* Check if we have a transfer buffer. Create one and fill it if we don't */
+  /* Check if we have a transfer buffer. Create one and fill it if we don"t */
   if(dev.transfer_buffer == NULL)
     {
       if(dev.bytes_remaining > 0)
@@ -5077,7 +5077,7 @@ sanei_lexmark_low_read_scan_data(Sane.Byte * data, Int size,
   DBG(2, "    read_pointer: %p\n", dev.read_buffer.readptr)
   DBG(2, "    bytes_read %lu\n", (u_long) bytes_read)
 
-  /* if no more bytes to xfer and read buffer empty we're at the end */
+  /* if no more bytes to xfer and read buffer empty we"re at the end */
   if((dev.bytes_remaining == 0) && read_buffer_is_empty(dev.read_buffer))
     {
       if(!dev.eof)
@@ -5369,7 +5369,7 @@ read_buffer_add_bit_lineart(Read_Buffer * rb, Sane.Byte * byte_pointer,
   /* last bit in the line? */
   if(rb.bit_counter == rb.max_lineart_offset)
     {
-      /* Check if we're at the last byte of the line - error if not */
+      /* Check if we"re at the last byte of the line - error if not */
       if(rb.gray_offset != rb.max_gray_offset)
 	{
 	  DBG(5, "read_buffer_add_bit_lineart:\n")
@@ -5568,7 +5568,7 @@ sanei_lexmark_low_offset_calibration(Lexmark_Device * dev)
   average = 255
 
   /* loop on ranges until one fits. Then adjust offset, first loop is
-   * always done. TODO detect overflow by 'noise looking' data pattern */
+   * always done. TODO detect overflow by "noise looking" data pattern */
   while(((i > 0) && (average > dev.sensor.offset_threshold))
 	 || (i == OFFSET_RANGES))
     {
@@ -5836,7 +5836,7 @@ sanei_lexmark_low_shading_calibration(Lexmark_Device * dev)
   yoffset = -1
   /* the very first lines of the scan may include the dark dot used
    * locate park position. We find the first line free of it in the scan.
-   * We can't use is_home_line since it modifies data.
+   * We can"t use is_home_line since it modifies data.
    */
   for(y = 0; (y < lines) && (yoffset == y - 1); y++)
     {
@@ -5880,7 +5880,7 @@ sanei_lexmark_low_shading_calibration(Lexmark_Device * dev)
 
   /* computes coefficients */
   /* there are 8 lines usable for shading calibration at 150 dpi, between
-     bottom of "home position" dot and the start of the scanner's window
+     bottom of "home position" dot and the start of the scanner"s window
      assembly, we only use 7 of them */
   if(yoffset + (8 * 4) / regs[0x7a] < lines)
     lines = yoffset + (8 * 4) / regs[0x7a]
@@ -6084,7 +6084,7 @@ sanei_lexmark_low_assign_model(Lexmark_Device * dev,
 	dn++
     }
 
-  /* we hit the end of list, so we don't know about the current model */
+  /* we hit the end of list, so we don"t know about the current model */
   if(!found)
     {
       DBG(1,

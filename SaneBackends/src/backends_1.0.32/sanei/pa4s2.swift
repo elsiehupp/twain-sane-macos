@@ -363,11 +363,11 @@ pa4s2_init(Sane.Status *status)
   DBG(3, "pa4s2_init: the application is now root\n")
   DBG(3, "pa4s2_init: this is a high security risk...\n")
 
-  DBG(6, "pa4s2_init: ... you'd better start praying\n")
+  DBG(6, "pa4s2_init: ... you"d better start praying\n")
 
-  /* PS: no, i don't trust myself either */
+  /* PS: no, i don"t trust myself either */
 
-  /* PPS: i'd try rsbac or similar if i were you */
+  /* PPS: i"d try rsbac or similar if i were you */
 
 #endif
 
@@ -403,7 +403,7 @@ pa4s2_open(const char *dev, Sane.Status * status)
 
     base = strtol(dev, &end, 0)
 
-    if((end == dev) || (*end != '\0'))
+    if((end == dev) || (*end != "\0"))
       {
 
 	DBG(1, "pa4s2_open: `%s` is not a valid port number\n", dev)
@@ -589,7 +589,7 @@ pa4s2_readbegin_epp(Int fd, u_char reg)
 {
 
 #if defined(HAVE_LIBIEEE1284)
-  DBG(6, "pa4s2_readbegin_epp: selecting register %u at '%s'\n",
+  DBG(6, "pa4s2_readbegin_epp: selecting register %u at "%s"\n",
        (Int) reg, pplist.portv[fd]->name)
 #else
   DBG(6, "pa4s2_readbegin_epp: selecting register %u at 0x%03lx\n",
@@ -611,7 +611,7 @@ pa4s2_readbyte_epp(Int fd)
   u_char val = inbyte4 (fd)
 
 #if defined(HAVE_LIBIEEE1284)
-  DBG(6, "pa4s2_readbyte_epp: reading value 0x%02x from '%s'\n",
+  DBG(6, "pa4s2_readbyte_epp: reading value 0x%02x from "%s"\n",
        (Int) val, pplist.portv[fd]->name)
 #else
   DBG(6, "pa4s2_readbyte_epp: reading value 0x%02x at 0x%03lx\n",
@@ -639,7 +639,7 @@ pa4s2_readbegin_uni(Int fd, u_char reg)
 {
 
 #if defined(HAVE_LIBIEEE1284)
-  DBG(6, "pa4s2_readbegin_uni: selecting register %u for '%s'\n",
+  DBG(6, "pa4s2_readbegin_uni: selecting register %u for "%s"\n",
        (Int) reg, pplist.portv[fd]->name)
 #else
   DBG(6, "pa4s2_readbegin_uni: selecting register %u at 0x%03lx\n",
@@ -667,7 +667,7 @@ pa4s2_readbyte_uni(Int fd)
   outbyte2 (fd, 0x04)
 
 #if defined(HAVE_LIBIEEE1284)
-  DBG(6, "pa4s2_readbyte_uni: reading value 0x%02x from '%s'\n",
+  DBG(6, "pa4s2_readbyte_uni: reading value 0x%02x from "%s"\n",
        (Int) val, pplist.portv[fd]->name)
 #else
   DBG(6, "pa4s2_readbyte_uni: reading value 0x%02x at 0x%03lx\n",
@@ -690,7 +690,7 @@ pa4s2_readbegin_nib(Int fd, u_char reg)
 {
 
 #if defined(HAVE_LIBIEEE1284)
-  DBG(6, "pa4s2_readbegin_nib: selecting register %u at '%s'\n",
+  DBG(6, "pa4s2_readbegin_nib: selecting register %u at "%s"\n",
        (Int) reg, pplist.portv[fd]->name)
 #else
   DBG(6, "pa4s2_readbegin_nib: selecting register %u at 0x%03lx\n",
@@ -722,7 +722,7 @@ pa4s2_readbyte_nib(Int fd)
   outbyte2 (fd, 0x04)
 
 #if defined(HAVE_LIBIEEE1284)
-  DBG(6, "pa4s2_readbyte_nib: reading value 0x%02x from '%s'\n",
+  DBG(6, "pa4s2_readbyte_nib: reading value 0x%02x from "%s"\n",
   	(Int) val, pplist.portv[fd]->name)
 #else
   DBG(6, "pa4s2_readbyte_nib: reading value 0x%02x at 0x%03lx\n",
@@ -744,13 +744,13 @@ pa4s2_writebyte_any(Int fd, u_char reg, u_char val)
 {
 
   /* somebody from Mustek asked me once, why I was writing the same
-     value repeatedly to a port. Well, actually I don't know, it just
+     value repeatedly to a port. Well, actually I don"t know, it just
      works. Maybe the repeated writes could be replaced by appropriate
      delays or even left out completely.
    */
 #if defined(HAVE_LIBIEEE1284)
   DBG(6, "pa4s2_writebyte_any: writing value 0x%02x"
-       " in reg %u to '%s'\n", (Int) val, (Int) reg, pplist.portv[fd]->name)
+       " in reg %u to "%s"\n", (Int) val, (Int) reg, pplist.portv[fd]->name)
 #else
   DBG(6, "pa4s2_writebyte_any: writing value 0x%02x"
        " in reg %u at 0x%03lx\n", (Int) val, (Int) reg, port[fd].base)
@@ -863,7 +863,7 @@ pa4s2_close(Int fd, Sane.Status * status)
   DBG(4, "pa4s2_close: fd=%d\n", fd)
 
 #if defined(HAVE_LIBIEEE1284)
-  DBG(6, "pa4s2_close: this is port '%s'\n", pplist.portv[fd]->name)
+  DBG(6, "pa4s2_close: this is port "%s"\n", pplist.portv[fd]->name)
 #else
   DBG(6, "pa4s2_close: this is port 0x%03lx\n", port[fd].base)
 #endif
@@ -887,10 +887,10 @@ pa4s2_close(Int fd, Sane.Status * status)
     {
 
 #if defined(HAVE_LIBIEEE1284)
-      DBG(1, "pa4s2_close: can't free port '%s' (%s)\n",
+      DBG(1, "pa4s2_close: can"t free port "%s" (%s)\n",
       		pplist.portv[fd]->name, pa4s2_libieee1284_errorstr(result))
 #else
-      DBG(1, "pa4s2_close: can't free port 0x%03lx\n", port[fd].base)
+      DBG(1, "pa4s2_close: can"t free port 0x%03lx\n", port[fd].base)
 #endif
 
       DBG(5, "pa4s2_close: returning Sane.STATUS_IO_ERROR\n")
@@ -989,7 +989,7 @@ sanei_pa4s2_scsi_pp_get_status(Int fd, u_char *status)
 
       DBG(2, "sanei_pa4s2_scsi_pp_get_status: port is not in use\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG(4, "sanei_pa4s2_scsi_pp_get_status: port is '%s'\n",
+      DBG(4, "sanei_pa4s2_scsi_pp_get_status: port is "%s"\n",
       		pplist.portv[fd]->name)
 #else
       DBG(6, "sanei_pa4s2_scsi_pp_get_status: port is 0x%03lx\n",
@@ -1006,7 +1006,7 @@ sanei_pa4s2_scsi_pp_get_status(Int fd, u_char *status)
 
       DBG(2, "sanei_pa4s2_scsi_pp_get_status: port is not enabled\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG(4, "sanei_pa4s2_scsi_pp_get_status: port is '%s'\n",
+      DBG(4, "sanei_pa4s2_scsi_pp_get_status: port is "%s"\n",
       		pplist.portv[fd]->name)
 #else
       DBG(6, "sanei_pa4s2_scsi_pp_get_status: port is 0x%03lx\n",
@@ -1055,7 +1055,7 @@ sanei_pa4s2_scsi_pp_reg_select(Int fd, Int reg)
 
       DBG(2, "sanei_pa4s2_scsi_pp_reg_select: port is not in use\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG(4, "sanei_pa4s2_scsi_pp_get_status: port is '%s'\n",
+      DBG(4, "sanei_pa4s2_scsi_pp_get_status: port is "%s"\n",
       		pplist.portv[fd]->name)
 #else
       DBG(6, "sanei_pa4s2_scsi_pp_get_status: port is 0x%03lx\n",
@@ -1072,7 +1072,7 @@ sanei_pa4s2_scsi_pp_reg_select(Int fd, Int reg)
 
       DBG(2, "sanei_pa4s2_scsi_pp_reg_select: port is not enabled\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG(4, "sanei_pa4s2_scsi_pp_get_status: port is '%s'\n",
+      DBG(4, "sanei_pa4s2_scsi_pp_get_status: port is "%s"\n",
       		pplist.portv[fd]->name)
 #else
       DBG(6, "sanei_pa4s2_scsi_pp_get_status: port is 0x%03lx\n",
@@ -1085,7 +1085,7 @@ sanei_pa4s2_scsi_pp_reg_select(Int fd, Int reg)
     }
 
 #if defined(HAVE_LIBIEEE1284)
-  DBG(6, "sanei_pa4s2_scsi_pp_reg_select: selecting register %u at port '%s'\n",
+  DBG(6, "sanei_pa4s2_scsi_pp_reg_select: selecting register %u at port "%s"\n",
        (Int) reg, pplist.portv[fd]->name)
 #else
   DBG(6, "sanei_pa4s2_scsi_pp_reg_select: selecting register %u at 0x%03lx\n",
@@ -1103,7 +1103,7 @@ sanei_pa4s2_scsi_pp_reg_select(Int fd, Int reg)
 
 /*
  * The SCSI-over-parallel scanners need to be handled a bit differently
- * when opened, as they don't return a valid ASIC ID, so this can't be
+ * when opened, as they don"t return a valid ASIC ID, so this can"t be
  * used for detecting valid read modes
  */
 Sane.Status
@@ -1115,7 +1115,7 @@ sanei_pa4s2_scsi_pp_open(const char *dev, Int *fd)
 
   TEST_DBG_INIT()
 
-  DBG(4, "sanei_pa4s2_scsi_pp_open: called for device '%s'\n", dev)
+  DBG(4, "sanei_pa4s2_scsi_pp_open: called for device "%s"\n", dev)
   DBG(5, "sanei_pa4s2_scsi_pp_open: trying to connect to port\n")
 
   if((*fd = pa4s2_open(dev, &status)) == -1)
@@ -1162,7 +1162,7 @@ sanei_pa4s2_scsi_pp_open(const char *dev, Int *fd)
     }
 
   /* FIXME: it would be nice to try to use a better mode here, but how to
-   * know if it's going to work? */
+   * know if it"s going to work? */
 
   DBG(4, "sanei_pa4s2_scsi_pp_open: returning Sane.STATUS_GOOD\n")
 
@@ -1178,7 +1178,7 @@ sanei_pa4s2_open(const char *dev, Int *fd)
 
   TEST_DBG_INIT()
 
-  DBG(4, "sanei_pa4s2_open: called for device '%s'\n", dev)
+  DBG(4, "sanei_pa4s2_open: called for device "%s"\n", dev)
   DBG(5, "sanei_pa4s2_open: trying to connect to port\n")
 
   if((*fd = pa4s2_open(dev, &status)) == -1)
@@ -1333,7 +1333,7 @@ sanei_pa4s2_close(Int fd)
 
       DBG(2, "sanei_pa4s2_close: port is not in use\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is "%s"\n", pplist.portv[fd]->name)
 #else
       DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
@@ -1384,7 +1384,7 @@ sanei_pa4s2_enable(Int fd, Int enable)
 
       DBG(2, "sanei_pa4s2_enable: port is not in use\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is "%s"\n", pplist.portv[fd]->name)
 #else
       DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
@@ -1419,7 +1419,7 @@ sanei_pa4s2_enable(Int fd, Int enable)
     {
 
 #if defined(HAVE_LIBIEEE1284)
-      DBG(4, "sanei_pa4s2_enable: enable port '%s'\n", pplist.portv[fd]->name)
+      DBG(4, "sanei_pa4s2_enable: enable port "%s"\n", pplist.portv[fd]->name)
 #else
       DBG(4, "sanei_pa4s2_enable: enable port 0x%03lx\n", port[fd].base)
 
@@ -1453,7 +1453,7 @@ sanei_pa4s2_enable(Int fd, Int enable)
     {
 
 #if defined(HAVE_LIBIEEE1284)
-      DBG(4, "sanei_pa4s2_enable: disable port '%s'\n",
+      DBG(4, "sanei_pa4s2_enable: disable port "%s"\n",
       		pplist.portv[fd]->name)
 #else
       DBG(4, "sanei_pa4s2_enable: disable port 0x%03lx\n", port[fd].base)
@@ -1498,7 +1498,7 @@ sanei_pa4s2_readbegin(Int fd, u_char reg)
 
       DBG(2, "sanei_pa4s2_readbegin: port is not in use\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is "%s"\n", pplist.portv[fd]->name)
 #else
       DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
@@ -1513,7 +1513,7 @@ sanei_pa4s2_readbegin(Int fd, u_char reg)
 
       DBG(2, "sanei_pa4s2_readbegin: port is not enabled\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is "%s"\n", pplist.portv[fd]->name)
 #else
       DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
@@ -1549,7 +1549,7 @@ sanei_pa4s2_readbegin(Int fd, u_char reg)
       DBG(1, "sanei_pa4s2_readbegin: port info broken\n")
       DBG(3, "sanei_pa4s2_readbegin: invalid port mode\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is "%s"\n", pplist.portv[fd]->name)
 #else
       DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
@@ -1598,7 +1598,7 @@ sanei_pa4s2_readbyte(Int fd, u_char * val)
 
       DBG(2, "sanei_pa4s2_readbyte: port is not in use\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is "%s"\n", pplist.portv[fd]->name)
 #else
       DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
@@ -1613,7 +1613,7 @@ sanei_pa4s2_readbyte(Int fd, u_char * val)
 
       DBG(2, "sanei_pa4s2_readbyte: port is not enabled\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is "%s"\n", pplist.portv[fd]->name)
 #else
       DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
@@ -1626,7 +1626,7 @@ sanei_pa4s2_readbyte(Int fd, u_char * val)
   DBG(4, "sanei_pa4s2_readbyte: we hope, the backend called\n")
   DBG(4, "sanei_pa4s2_readbyte: readbegin, so the port is ok...\n")
 
-  DBG(6, "sanei_pa4s2_readbyte: this means, I did not check it - it's\n")
+  DBG(6, "sanei_pa4s2_readbyte: this means, I did not check it - it"s\n")
   DBG(6, "sanei_pa4s2_readbyte: not my fault, if your PC burns down.\n")
 
   switch(port[fd].mode)
@@ -1655,7 +1655,7 @@ sanei_pa4s2_readbyte(Int fd, u_char * val)
     default:
 
       DBG(1, "sanei_pa4s2_readbyte: port info broken\n")
-      DBG(2, "sanei_pa4s2_readbyte: probably the port wasn't"
+      DBG(2, "sanei_pa4s2_readbyte: probably the port wasn"t"
 	   " correct configured...\n")
       DBG(3, "sanei_pa4s2_readbyte: invalid port mode\n")
       DBG(6, "sanei_pa4s2_readbyte: port mode %u\n",
@@ -1704,7 +1704,7 @@ sanei_pa4s2_readend(Int fd)
 
       DBG(2, "sanei_pa4s2_readend: port is not in use\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is "%s"\n", pplist.portv[fd]->name)
 #else
       DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
@@ -1719,7 +1719,7 @@ sanei_pa4s2_readend(Int fd)
 
       DBG(2, "sanei_pa4s2_readend: port is not enabled\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is "%s"\n", pplist.portv[fd]->name)
 #else
       DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
@@ -1732,7 +1732,7 @@ sanei_pa4s2_readend(Int fd)
   DBG(4, "sanei_pa4s2_readend: we hope, the backend called\n")
   DBG(4, "sanei_pa4s2_readend: readbegin, so the port is ok...\n")
 
-  DBG(6, "sanei_pa4s2_readend: this means, I did not check it - it's\n")
+  DBG(6, "sanei_pa4s2_readend: this means, I did not check it - it"s\n")
   DBG(6, "sanei_pa4s2_readend: not my fault, if your PC burns down.\n")
 
   switch(port[fd].mode)
@@ -1761,7 +1761,7 @@ sanei_pa4s2_readend(Int fd)
     default:
 
       DBG(1, "sanei_pa4s2_readend: port info broken\n")
-      DBG(2, "sanei_pa4s2_readend: probably the port wasn't"
+      DBG(2, "sanei_pa4s2_readend: probably the port wasn"t"
 	   " correct configured...\n")
       DBG(3, "sanei_pa4s2_readend: invalid port mode\n")
       DBG(6, "sanei_pa4s2_readend: port mode %u\n",
@@ -1808,7 +1808,7 @@ sanei_pa4s2_writebyte(Int fd, u_char reg, u_char val)
 
       DBG(2, "sanei_pa4s2_writebyte: port is not in use\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is "%s"\n", pplist.portv[fd]->name)
 #else
       DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
@@ -1823,7 +1823,7 @@ sanei_pa4s2_writebyte(Int fd, u_char reg, u_char val)
 
       DBG(2, "sanei_pa4s2_writebyte: port is not enabled\n")
 #if defined(HAVE_LIBIEEE1284)
-      DBG(6, "sanei_pa4s2_close: port is '%s'\n", pplist.portv[fd]->name)
+      DBG(6, "sanei_pa4s2_close: port is "%s"\n", pplist.portv[fd]->name)
 #else
       DBG(6, "sanei_pa4s2_close: port is 0x%03lx\n", port[fd].base)
 #endif
@@ -1919,7 +1919,7 @@ sanei_pa4s2_open(const char *dev, Int *fd)
   DBG(6, "sanei_pa4s2_open: on x86 architectures. Furthermore it\n")
   DBG(6, "sanei_pa4s2_open: needs ioperm() and inb()/outb() calls.\n")
   DBG(6, "sanei_pa4s2_open: alternatively it makes use of libieee1284\n")
-  DBG(6, "sanei_pa4s2_open: (which isn't present either)\n")
+  DBG(6, "sanei_pa4s2_open: (which isn"t present either)\n")
   DBG(5, "sanei_pa4s2_open: returning Sane.STATUS_INVAL\n")
 
   return Sane.STATUS_INVAL
@@ -1957,7 +1957,7 @@ sanei_pa4s2_enable(Int fd, Int enable)
     DBG(2, "sanei_pa4s2_enable: value %d is invalid\n", enable)
 
   DBG(3, "sanei_pa4s2_enable: A4S2 support not compiled\n")
-  DBG(6, "sanei_pa4s2_enable: oops, I think there's someone going to\n")
+  DBG(6, "sanei_pa4s2_enable: oops, I think there"s someone going to\n")
   DBG(6, "sanei_pa4s2_enable: produce a lot of garbage...\n")
   DBG(5, "sanei_pa4s2_enable: returning Sane.STATUS_INVAL\n")
 
@@ -1975,8 +1975,8 @@ sanei_pa4s2_readbegin(Int fd, u_char reg)
   DBG(2, "sanei_pa4s2_readbegin: fd %d is invalid\n", fd)
 
   DBG(3, "sanei_pa4s2_readbegin: A4S2 support not compiled\n")
-  DBG(6, "sanei_pa4s2_readbegin: don't look - this is going to be\n")
-  DBG(6, "sanei_pa4s2_readbegin: worse then you'd expect...\n")
+  DBG(6, "sanei_pa4s2_readbegin: don"t look - this is going to be\n")
+  DBG(6, "sanei_pa4s2_readbegin: worse then you"d expect...\n")
   DBG(5, "sanei_pa4s2_readbegin: returning Sane.STATUS_INVAL\n")
 
   return Sane.STATUS_INVAL
@@ -2010,7 +2010,7 @@ sanei_pa4s2_readend(Int fd)
   DBG(4, "sanei_pa4s2_readend: called for fd %d\n", fd)
   DBG(2, "sanei_pa4s2_readend: fd %d is invalid\n", fd)
   DBG(3, "sanei_pa4s2_readend: A4S2 support not compiled\n")
-  DBG(6, "sanei_pa4s2_readend: it's too late anyway\n")
+  DBG(6, "sanei_pa4s2_readend: it"s too late anyway\n")
   DBG(5, "sanei_pa4s2_readend: returning Sane.STATUS_INVAL\n")
 
   return Sane.STATUS_INVAL
@@ -2027,7 +2027,7 @@ sanei_pa4s2_writebyte(Int fd, u_char reg, u_char val)
        "value = %u\n", fd, (Int) reg, (Int) val)
   DBG(2, "sanei_pa4s2_writebyte: fd %d is invalid\n", fd)
   DBG(3, "sanei_pa4s2_writebyte: A4S2 support not compiled\n")
-  DBG(6, "sanei_pa4s2_writebyte: whatever backend you're using, tell\n")
+  DBG(6, "sanei_pa4s2_writebyte: whatever backend you"re using, tell\n")
   DBG(6, "sanei_pa4s2_writebyte: the maintainer his code has bugs...\n")
   DBG(5, "sanei_pa4s2_writebyte: returning Sane.STATUS_INVAL\n")
 

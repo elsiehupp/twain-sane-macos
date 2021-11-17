@@ -59,7 +59,7 @@ import linux/parport
  */
 #define MAX_RESOLUTIONS 8
 
-/**> sensor's number of pixels 8.5' @ 300 dpi */
+/**> sensor"s number of pixels 8.5" @ 300 dpi */
 #define MAX_SENSOR_PIXELS     2550
 
 /**> number of lines to skip when doing calibration */
@@ -110,7 +110,7 @@ typedef struct P5_Model
   /* @} */
 
   /** @name scan area description
-   * Minimal and maximal values. It's easier to have dedicated members instead
+   * Minimal and maximal values. It"s easier to have dedicated members instead
    * of searching these values in the dpi lists. They are initialized from dpi
    * lists.
    */
@@ -210,8 +210,8 @@ typedef struct P5_Device
    * The scan done by the hardware can be different from the one at the SANE
    * frontend session. For instance:
    *  - xdpy and ydpi may be different to accommodate hardware capabilities.
-   *  - many CCD scanners need to scan more lines to correct the 'line
-   *  distance shift' effect.
+   *  - many CCD scanners need to scan more lines to correct the "line
+   *  distance shift" effect.
    *  - emulated modes(lineart from gray scan, or gray scan for color one)
    */
   /* @{ */
@@ -219,7 +219,7 @@ typedef struct P5_Device
   Int ydpi;		/** real vertical resolution */
   Int lines;		/** physical lines to scan */
   Int pixels;		/** physical width of scan area */
-  Int bytes_per_line;	/** number of bytes per line */
+  Int bytesPerLine;	/** number of bytes per line */
   Int xstart;		/** x start coordinate */
   Int ystart;		/** y start coordinate */
   Int mode;		/** color, gray or lineart mode */
@@ -271,7 +271,7 @@ typedef struct P5_Device
 
 
 #define DATA    0
-#define STATUS  1
+#define Status  1
 #define CONTROL 2
 #define EPPADR  3
 #define EPPDATA 4

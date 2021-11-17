@@ -70,7 +70,7 @@ typedef enum
   }
 Sane.Status
 
-/* following are for later sane version, older frontends won't support */
+/* following are for later sane version, older frontends won"t support */
 #if 0
 #define Sane.STATUS_WARMING_UP 12 /* lamp not ready, please retry */
 #define Sane.STATUS_HW_LOCKED  13 /* scanner mechanism locked for transport */
@@ -199,7 +199,7 @@ typedef struct
   {
     Sane.Frame format
     Bool last_frame
-    Int bytes_per_line
+    Int bytesPerLine
     Int pixels_per_line
     Int lines
     Int depth

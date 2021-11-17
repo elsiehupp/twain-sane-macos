@@ -14,7 +14,7 @@
  *        - for selecting the port-mode this driver uses
  * - 0.33 - added code to use faster portmodes
  * - 0.34 - added sample code for changing from ECP to PS/2 bidi mode
- * - 0.35 - added Kevins' changes(new function miscSetFastMode())
+ * - 0.35 - added Kevins" changes(new function miscSetFastMode())
  *        - moved function initPageSettings() to module models.c
  * - 0.36 - added random generator
  *        - added additional debug messages
@@ -26,7 +26,7 @@
  * - 0.38 - fixed a small bug in MiscGetModelName()
  * - 0.39 - added forceMode support
  * - 0.40 - no changes
- * - 0.41 - merged Kevins' patch to make EPP(ECP) work
+ * - 0.41 - merged Kevins" patch to make EPP(ECP) work
  * - 0.42 - changed get_fast_time to _GET_TIME
  *        - changed include names
  * - 0.43 - added LINUX_26 stuff
@@ -343,7 +343,7 @@ static Int miscSetFastMode( pScanData ps )
 		}
 	}
 
-	/* reaching this point, we're back in SPP mode and there's no need
+	/* reaching this point, we"re back in SPP mode and there"s no need
 	 * to restore at shutdown...
 	 */
 	ps.IO.lastPortMode = 0xFFFF
@@ -406,12 +406,12 @@ static Int miscSetPortMode( pScanData ps )
 **
 **  based on "Random Number Generators: Good Ones Are Hard to Find",
 **  S.K. Park and K.W. Miller, Communications of the ACM 31:10 (Oct 1988),
-**  and "Two Fast Implementations of the 'Minimal Standard' Random
+**  and "Two Fast Implementations of the "Minimal Standard" Random
 **  Number Generator", David G. Carta, Comm. ACM 33, 1 (Jan 1990), p. 87-88
 **
 **  linear congruential generator f(z) = 16807 z mod(2 ** 31 - 1)
 **
-**  uses L. Schrage's method to avoid overflow problems
+**  uses L. Schrage"s method to avoid overflow problems
 */
 static Long miscNextLongRand( Long seed )
 {
@@ -489,7 +489,7 @@ _LOC Int MiscReinitStruct( pScanData ps )
 _LOC Int MiscInitPorts( pScanData ps, Int port )
 {
 #ifdef __KERNEL__
-	Int status
+	status: Int
 
 	if( NULL == ps )
 		return _E_NULLPTR
@@ -548,9 +548,9 @@ _LOC Int MiscInitPorts( pScanData ps, Int port )
 	}
 
 	if( sanei_pp_uses_directio()) {
-		DBG( DBG_LOW, "We're using direct I/O\n" )
+		DBG( DBG_LOW, "We"re using direct I/O\n" )
 	} else {
-		DBG( DBG_LOW, "We're using libIEEE1284 I/O\n" )
+		DBG( DBG_LOW, "We"re using libIEEE1284 I/O\n" )
 	}
 
 	if( ps.IO.portMode == _PORT_NONE ) {
@@ -575,7 +575,7 @@ _LOC void MiscRestorePort( pScanData ps )
 
     DBG(DBG_LOW,"MiscRestorePort()\n")
 
-	/* don't restore if not necessary */
+	/* don"t restore if not necessary */
 	if( 0xFFFF == ps.IO.lastPortMode ) {
 	    DBG(DBG_LOW,"- no need to restore portmode !\n")
 		return

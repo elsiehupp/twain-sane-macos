@@ -97,7 +97,7 @@ import mustek_pp_drivers
 
 
 /* auth callback... since basic user authentication is done by saned, this
- * callback mechanism isn't used */
+ * callback mechanism isn"t used */
 Sane.Auth_Callback Sane.auth
 
 /* count of present devices */
@@ -195,7 +195,7 @@ do_stop(Mustek_pp_Handle *hndl)
 		while(wait(&exit_status) != hndl.reader)
 
 		DBG((exit_status == Sane.STATUS_GOOD ? 3 : 1),
-			       "do_stop: reader_process terminated with status ``%s''\n",
+			       "do_stop: reader_process terminated with status ``%s""\n",
 			       Sane.strstatus(exit_status))
 		hndl.reader = 0
 		hndl.dev.func.stop(hndl)
@@ -219,8 +219,8 @@ do_stop(Mustek_pp_Handle *hndl)
  *      Make sure that the parport is released again by the child process
  *      under all circumstances, because otherwise the parent process may no
  *      longer be able to claim it(they share the same file descriptor, and
- *      the kernel doesn't release the child's claim because the file
- *      descriptor isn't cleaned up). If that would happen, the lamp may stay
+ *      the kernel doesn"t release the child"s claim because the file
+ *      descriptor isn"t cleaned up). If that would happen, the lamp may stay
  *      on and may not return to its home position, unless the scanner
  *      frontend is restarted.
  *      (This happens only when sanei_pa4s2 uses libieee1284 AND
@@ -258,7 +258,7 @@ reader_process(Mustek_pp_Handle * hndl, Int pipe)
 	sigemptyset(&sigterm_set)
 	sigaddset(&sigterm_set, SIGTERM)
 
-	if(!(buffer = malloc(hndl.params.bytes_per_line)))
+	if(!(buffer = malloc(hndl.params.bytesPerLine)))
 		return Sane.STATUS_NO_MEM
 
 	if(!(fp = fdopen(pipe, "w")))
@@ -272,7 +272,7 @@ reader_process(Mustek_pp_Handle * hndl, Int pipe)
 	if((status = hndl.dev.func.start(hndl)) != Sane.STATUS_GOOD)
 		return status
 
-        size = hndl.params.bytes_per_line
+        size = hndl.params.bytesPerLine
   	elem = 1
 
 	for(line=0; line<hndl.params.lines ; line++) {
@@ -284,7 +284,7 @@ reader_process(Mustek_pp_Handle * hndl, Int pipe)
                 if(getppid() == 1) {
                     /* The parent process has died. Stop the scan(to make
                        sure that the lamp is off and returns home). This is
-                       a safety measure to make sure that we don't break
+                       a safety measure to make sure that we don"t break
                        the scanner in case the frontend crashes. */
 		    DBG(1, "reader_process: front-end died; aborting.\n")
                     hndl.dev.func.stop(hndl)
@@ -322,7 +322,7 @@ Sane.attach(Sane.String_Const port, Sane.String_Const name, Int driver, Int info
 {
 	Mustek_pp_Device	*dev
 
-	DBG(3, "Sane.attach: attaching device ``%s'' to port %s(driver %s v%s by %s)\n",
+	DBG(3, "Sane.attach: attaching device ``%s"" to port %s(driver %s v%s by %s)\n",
 			name, port, Mustek_pp_Drivers[driver].driver,
 				Mustek_pp_Drivers[driver].version,
 				Mustek_pp_Drivers[driver].author)
@@ -656,7 +656,7 @@ attach_device(String *driver, String *name,
   if(found == 0)
     {
       DBG(1, "Sane.init: no scanner detected\n")
-      DBG(3, "Sane.init: either the driver name ``%s'' is invalid, or no scanner was detected\n", *driver)
+      DBG(3, "Sane.init: either the driver name ``%s"" is invalid, or no scanner was detected\n", *driver)
     }
 
   free(*name)
@@ -680,7 +680,7 @@ attach_device(String *driver, String *name,
  * 	version of the backend is returned. The value of authorize is stored in
  * 	the global variable Sane.auth.
  *
- * 	Next the configuration file is read. If it isn't present, all drivers
+ * 	Next the configuration file is read. If it isn"t present, all drivers
  * 	are auto-probed with default values(port 0x378, with and without TA).
  *
  * 	The configuration file is expected to contain lines of the form
@@ -727,7 +727,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 
       for(device_no = 0; devices[device_no] != NULL; device_no++)
         {
-	  DBG(3, "Sane.init: trying ``%s''\n", devices[device_no])
+	  DBG(3, "Sane.init: trying ``%s""\n", devices[device_no])
           for(driver_no=0 ; driver_no<MUSTEK_PP_NUM_DRIVERS ; driver_no++)
 	    {
 	      Mustek_pp_Drivers[driver_no].init(CAP_NOTHING, devices[device_no],
@@ -748,7 +748,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
   while(sanei_config_read(config_line, 1023, fp))
     {
       line++
-      if((!*config_line) || (*config_line == '#'))
+      if((!*config_line) || (*config_line == "#"))
 	continue
 
       config_line_ptr = config_line
@@ -767,7 +767,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 	  config_line_ptr = sanei_config_skip_whitespace(config_line_ptr)
 	  if(!*config_line_ptr)
 	    {
-	      DBG(1, "Sane.init: parse error in line %d after ``scanner''\n",
+	      DBG(1, "Sane.init: parse error in line %d after ``scanner""\n",
 		line)
 	      continue
 	    }
@@ -775,7 +775,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 	  config_line_ptr = sanei_config_get_string(config_line_ptr, &name)
 	  if((name == NULL) || (!*name))
 	    {
-	      DBG(1, "Sane.init: parse error in line %d after ``scanner''\n",
+	      DBG(1, "Sane.init: parse error in line %d after ``scanner""\n",
 		line)
 	      if(name != NULL)
 		free(name)
@@ -787,7 +787,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 	  if(!*config_line_ptr)
 	    {
 	      DBG(1, "Sane.init: parse error in line %d after "
-		"``scanner %s''\n", line, name)
+		"``scanner %s""\n", line, name)
 	      free(name)
 	      name = 0
 	      continue
@@ -797,7 +797,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 	  if((port == NULL) || (!*port))
 	    {
 	      DBG(1, "Sane.init: parse error in line %d after "
-		"``scanner %s''\n", line, name)
+		"``scanner %s""\n", line, name)
 	      free(name)
 	      name = 0
 	      if(port != NULL)
@@ -810,7 +810,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 	  if(!*config_line_ptr)
 	    {
 	      DBG(1, "Sane.init: parse error in line %d after "
-		"``scanner %s %s''\n", line, name, port)
+		"``scanner %s %s""\n", line, name, port)
 	      free(name)
 	      free(port)
 	      name = 0
@@ -822,7 +822,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 	  if((driver == NULL) || (!*driver))
 	    {
 	      DBG(1, "Sane.init: parse error in line %d after "
-		"``scanner %s %s''\n", line, name, port)
+		"``scanner %s %s""\n", line, name, port)
 	      free(name)
 	      name = 0
 	      free(port)
@@ -844,7 +844,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 		  (strcasecmp(option_ta, "use_ta") != 0))
 		{
 		  DBG(1, "Sane.init: parse error in line %d after "
-			"``scanner %s %s %s''\n", line, name, port, driver)
+			"``scanner %s %s %s""\n", line, name, port, driver)
 		  free(name)
 		  free(port)
 		  free(driver)
@@ -880,7 +880,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
           config_line_ptr = sanei_config_skip_whitespace(config_line_ptr)
           if(!*config_line_ptr)
 	    {
-	      DBG(1, "Sane.init: parse error in line %d after ``option''\n",
+	      DBG(1, "Sane.init: parse error in line %d after ``option""\n",
 	        line)
 	      continue
 	    }
@@ -888,7 +888,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
           config_line_ptr = sanei_config_get_string(config_line_ptr, &optname)
           if((optname == NULL) || (!*optname))
 	    {
-	      DBG(1, "Sane.init: parse error in line %d after ``option''\n",
+	      DBG(1, "Sane.init: parse error in line %d after ``option""\n",
 	        line)
 	      if(optname != NULL)
 	        free(optname)
@@ -899,7 +899,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
           if(*config_line_ptr)
 	    {
               /* The option has a value.
-                 No need to check the value; that's up to the backend */
+                 No need to check the value; that"s up to the backend */
 	      config_line_ptr = sanei_config_get_string(config_line_ptr,
                                                          &optval)
 
@@ -909,7 +909,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
           if(*config_line_ptr)
 	    {
 	      DBG(1, "Sane.init: parse error in line %d after "
-		        "``option %s %s''\n", line, optname,
+		        "``option %s %s""\n", line, optname,
 		        (optval == 0 ? "" : optval))
 	      free(optname)
 	      if(optval)
@@ -939,7 +939,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 	  else if(!name)
 	    {
 	      DBG(1, "Sane.init: parse error in line %d: unexpected "
-                      " ``option''\n", line)
+                      " ``option""\n", line)
 	      free(optname)
 	      if(optval)
                  free(optval)
@@ -1072,7 +1072,7 @@ Sane.get_devices(const Sane.Device *** device_list,
  * 	opens a device and prepares it for operation
  *
  * Description:
- * 	The device identified by ``devicename'' is looked
+ * 	The device identified by ``devicename"" is looked
  * 	up in the list, or if devicename is zero, the
  * 	first device from the list is taken.
  *
@@ -1106,7 +1106,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 
 		if(!dev) {
 
-			DBG(1, "Sane.open: unknown devicename ``%s''\n", devicename)
+			DBG(1, "Sane.open: unknown devicename ``%s""\n", devicename)
 			return Sane.STATUS_INVAL
 
 		}
@@ -1118,7 +1118,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 		return Sane.STATUS_INVAL
 	}
 
-	DBG(3, "Sane.open: Using device ``%s'' (driver %s v%s by %s)\n",
+	DBG(3, "Sane.open: Using device ``%s"" (driver %s v%s by %s)\n",
 			dev.name, dev.func.driver, dev.func.version, dev.func.author)
 
 	if((hndl = malloc(sizeof(Mustek_pp_Handle))) == NULL) {
@@ -1163,7 +1163,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
                  option cannot be handled ?
                  The driver should have reasonable built-in defaults, so
                  an illegal option value or an unknown option should not
-                 be fatal. Therefore, it's probably ok to ignore the error. */
+                 be fatal. Therefore, it"s probably ok to ignore the error. */
            }
         }
 
@@ -1179,7 +1179,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
  *
  * Description:
  * 	The handle is searched in the list of active handles.
- * 	If it's found, the handle is removed.
+ * 	If it"s found, the handle is removed.
  *
  * 	If the associated device is still scanning, the process
  * 	is cancelled.
@@ -1246,7 +1246,7 @@ Sane.get_option_descriptor(Sane.Handle handle, Int option)
 
   if((unsigned) option >= NUM_OPTIONS)
     {
-      DBG(2, "Sane.get_option_descriptor: option %d doesn't exist\n", option)
+      DBG(2, "Sane.get_option_descriptor: option %d doesn"t exist\n", option)
       return NULL
     }
 
@@ -1262,9 +1262,9 @@ Sane.get_option_descriptor(Sane.Handle handle, Int option)
  *	while scanning options cannot be read or written. next a basic
  *	check whether the request is valid is done.
  *
- *	Depending on ``action'' the value of the option is either read
+ *	Depending on ``action"" the value of the option is either read
  *	(in the first block) or written(in the second block). auto
- *	values aren't supported.
+ *	values aren"t supported.
  *
  *	before a value is written, some checks are performed. Depending
  *	on the option, that is written, other options also change
@@ -1289,7 +1289,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 
   if((unsigned Int) option >= NUM_OPTIONS)
     {
-      DBG(2, "Sane.control_option: option %d doesn't exist\n", option)
+      DBG(2, "Sane.control_option: option %d doesn"t exist\n", option)
       return Sane.STATUS_INVAL
     }
 
@@ -1297,7 +1297,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 
   if(!Sane.OPTION_IS_ACTIVE(cap))
     {
-      DBG(2, "Sane.control_option: option %d isn't active\n", option)
+      DBG(2, "Sane.control_option: option %d isn"t active\n", option)
       return Sane.STATUS_INVAL
     }
 
@@ -1344,7 +1344,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 
       if(!Sane.OPTION_IS_SETTABLE(cap))
 	{
-	  DBG(2, "Sane.control_option: option can't be set(%s)\n",
+	  DBG(2, "Sane.control_option: option can"t be set(%s)\n",
 			  hndl.opt[option].name)
 	  return Sane.STATUS_INVAL
 	}
@@ -1636,16 +1636,16 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
       hndl.params.pixels_per_line = (hndl.bottomX - hndl.topX) * hndl.res
 	/ hndl.dev.maxres
 
-      hndl.params.bytes_per_line = hndl.params.pixels_per_line
+      hndl.params.bytesPerLine = hndl.params.pixels_per_line
 
       switch(hndl.mode)
 	{
 
 	case MODE_BW:
-	  hndl.params.bytes_per_line /= 8
+	  hndl.params.bytesPerLine /= 8
 
 	  if((hndl.params.pixels_per_line % 8) != 0)
-	    hndl.params.bytes_per_line++
+	    hndl.params.bytesPerLine++
 
 	  hndl.params.depth = 1
 	  break
@@ -1657,9 +1657,9 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 
 	case MODE_COLOR:
 	  hndl.params.depth = hndl.depth
-	  hndl.params.bytes_per_line *= 3
+	  hndl.params.bytesPerLine *= 3
 	  if(hndl.depth > 8)
-	    hndl.params.bytes_per_line *= 2
+	    hndl.params.bytesPerLine *= 2
 	  hndl.params.format = Sane.FRAME_RGB
 	  break
 
@@ -1671,7 +1671,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	hndl.dev.maxres
     }
   else
-      DBG(2, "Sane.get_parameters: can't set parameters while scanning\n")
+      DBG(2, "Sane.get_parameters: can"t set parameters while scanning\n")
 
   if(params != NULL)
     *params = hndl.params
@@ -1760,7 +1760,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
   }
 
   if(hndl.state != STATE_SCANNING) {
-	  DBG(1, "Sane.read: device isn't scanning\n")
+	  DBG(1, "Sane.read: device isn"t scanning\n")
 	  return Sane.STATUS_INVAL
   }
 
@@ -1877,7 +1877,7 @@ Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 
 	if(fcntl(hndl.pipe, F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0) {
 
-		DBG(1, "Sane.set_io_mode: can't set io mode\n")
+		DBG(1, "Sane.set_io_mode: can"t set io mode\n")
 
 		return Sane.STATUS_IO_ERROR
 

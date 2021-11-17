@@ -414,7 +414,7 @@ putnbyte(unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 #define set_MSEL_xferlen(sb, val) sb[0x04] = (unsigned char)val
 
 /* MS payloads are combined 4 byte header and 8 or 10 byte page
- * there is also 'descriptor block' & 'vendor-specific block'
+ * there is also "descriptor block" & "vendor-specific block"
  * but fujitsu seems not to use these */
 /* 10 byte page only used by dropout? */
 #define MSEL_header_len           4
@@ -520,19 +520,19 @@ putnbyte(unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 
 #define set_RD_xferlen(in, len) putnbyte(in + 3, len, 2)
 
-/* for 'FIRST READ DATE \0YMD' */
+/* for "FIRST READ DATE \0YMD" */
 #define RD_frd_len                      10
 #define get_RD_date_status(in)          in[0]
 #define RD_date_stored			0
 #define RD_date_not_stored		0xff
 
-/* for 'GET FIRST DATE  ' */
+/* for "GET FIRST DATE  " */
 #define RD_gfd_len                      10
 #define get_RD_date_year(in)            in[1]
 #define get_RD_date_month(in)           in[2]
 #define get_RD_date_date(in)            in[3]
 
-/* for 'GET DEVICE ID   ' */
+/* for "GET DEVICE ID   " */
 #define RD_gdi_len                      10
 #define get_RD_id_serial(in)            getnbyte(in, 4)
 

@@ -189,7 +189,7 @@ import linux/types /* used later in this header */
 #  define GET_USER_RET get_user_ret
 
 /* starting with 2.4.0-test8, they removed the put_user_ret and get_user_ret
- * macros, so we recode'em
+ * macros, so we recode"em
  */
 #if defined(LINUX_24) || defined(LINUX_26)
 #ifndef put_user_ret
@@ -232,7 +232,7 @@ import linux/types /* used later in this header */
 #  define test_and_change_bit(nr,addr) change_bit((nr),(addr))
 #endif
 
-/* 2.1.30 removed these functions. Let's define them, just in case */
+/* 2.1.30 removed these functions. Let"s define them, just in case */
 #if LINUX_VERSION_CODE > VERSION_CODE(2,1,29)
 #  define queue_task_irq      queue_task
 #  define queue_task_irq_off  queue_task

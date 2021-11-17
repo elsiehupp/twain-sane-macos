@@ -136,7 +136,7 @@ typedef struct tagIMAGEROWS
 #define G_DIRECTION                     0
 #define B_DIRECTION                     0
 
-/* use for adjust AD's offset*/
+/* use for adjust AD"s offset*/
 
 /* for Reflective*/
 #define REFL_DARK_MAX_LEVEL             20

@@ -87,7 +87,7 @@ sanei_magic_despeck(Sane.Parameters * params, Sane.Byte * buffer,
   Sane.Status ret = Sane.STATUS_GOOD
 
   Int pw = params.pixels_per_line
-  Int bw = params.bytes_per_line
+  Int bw = params.bytesPerLine
   Int h  = params.lines
   Int bt = bw*h
 
@@ -128,7 +128,7 @@ sanei_magic_despeck(Sane.Parameters * params, Sane.Byte * buffer,
 
             Int tmp[3]
 
-            /* don't count pixels in the window */
+            /* don"t count pixels in the window */
             if(k != -1 && k != diam && l != -1 && l != diam)
               continue
 
@@ -187,7 +187,7 @@ sanei_magic_despeck(Sane.Parameters * params, Sane.Byte * buffer,
 
             Int tmp = 0
 
-            /* don't count pixels in the window */
+            /* don"t count pixels in the window */
             if(k != -1 && k != diam && l != -1 && l != diam)
               continue
 
@@ -237,7 +237,7 @@ sanei_magic_despeck(Sane.Parameters * params, Sane.Byte * buffer,
         for(k=-1; k<diam+1; k++){
           for(l=-1; l<diam+1; l++){
 
-            /* don't count pixels in the window */
+            /* don"t count pixels in the window */
             if(k != -1 && k != diam && l != -1 && l != diam)
               continue
 
@@ -364,7 +364,7 @@ sanei_magic_findEdges(Sane.Parameters * params, Sane.Byte * buffer,
   }
 
   /* loop thru top and bottom lists, look for l and r extremes
-   * NOTE: We don't look above the top or below the bottom found previously.
+   * NOTE: We don"t look above the top or below the bottom found previously.
    * This prevents issues with adf scanners that pad the image after the
    * paper runs out(usually with white) */
   DBG(5, "sanei_magic_findEdges: bb0:%d tb0:%d b:%d t:%d\n",
@@ -438,7 +438,7 @@ sanei_magic_crop(Sane.Parameters * params, Sane.Byte * buffer,
 
   Sane.Status ret = Sane.STATUS_GOOD
 
-  Int bwidth = params.bytes_per_line
+  Int bwidth = params.bytesPerLine
 
   Int pixels = 0
   Int bytes = 0
@@ -488,7 +488,7 @@ sanei_magic_crop(Sane.Parameters * params, Sane.Byte * buffer,
   /* update the params struct with the new image size */
   params.lines = bot-top
   params.pixels_per_line = pixels
-  params.bytes_per_line = bytes
+  params.bytesPerLine = bytes
 
   cleanup:
   if(line)
@@ -532,14 +532,14 @@ sanei_magic_findSkew(Sane.Parameters * params, Sane.Byte * buffer,
   /* get buffers for edge detection */
   topBuf = sanei_magic_getTransY(params,dpiY,buffer,1)
   if(!topBuf){
-    DBG(5, "sanei_magic_findSkew: can't gTY\n")
+    DBG(5, "sanei_magic_findSkew: can"t gTY\n")
     ret = Sane.STATUS_NO_MEM
     goto cleanup
   }
 
   botBuf = sanei_magic_getTransY(params,dpiY,buffer,0)
   if(!botBuf){
-    DBG(5, "sanei_magic_findSkew: can't gTY\n")
+    DBG(5, "sanei_magic_findSkew: can"t gTY\n")
     ret = Sane.STATUS_NO_MEM
     goto cleanup
   }
@@ -553,7 +553,7 @@ sanei_magic_findSkew(Sane.Parameters * params, Sane.Byte * buffer,
   }
   DBG(15,"top: %04.04f %d %d\n",TSlope,TXInter,TYInter)
 
-  /* slope is too shallow, don't want to divide by 0 */
+  /* slope is too shallow, don"t want to divide by 0 */
   if(fabs(TSlope) < 0.0001){
     DBG(15,"sanei_magic_findSkew: slope too shallow: %0.08f\n",TSlope)
     ret = Sane.STATUS_UNSUPPORTED
@@ -613,7 +613,7 @@ sanei_magic_rotate(Sane.Parameters * params, Sane.Byte * buffer,
   double slopeCos = cos(slopeRad)
 
   Int pwidth = params.pixels_per_line
-  Int bwidth = params.bytes_per_line
+  Int bwidth = params.bytesPerLine
   Int height = params.lines
   Int depth = 1
 
@@ -731,14 +731,14 @@ sanei_magic_isBlank(Sane.Parameters * params, Sane.Byte * buffer,
     /* loop over all rows, find density of each */
     for(i=0; i<params.lines; i++){
       Int rowsum = 0
-      Sane.Byte * ptr = buffer + params.bytes_per_line*i
+      Sane.Byte * ptr = buffer + params.bytesPerLine*i
 
-      /* loop over all columns, sum the 'darkness' of the pixels */
-      for(j=0; j<params.bytes_per_line; j++){
+      /* loop over all columns, sum the "darkness" of the pixels */
+      for(j=0; j<params.bytesPerLine; j++){
         rowsum += 255 - ptr[j]
       }
 
-      imagesum += (double)rowsum/params.bytes_per_line/255
+      imagesum += (double)rowsum/params.bytesPerLine/255
     }
 
   }
@@ -747,7 +747,7 @@ sanei_magic_isBlank(Sane.Parameters * params, Sane.Byte * buffer,
     /* loop over all rows, find density of each */
     for(i=0; i<params.lines; i++){
       Int rowsum = 0
-      Sane.Byte * ptr = buffer + params.bytes_per_line*i
+      Sane.Byte * ptr = buffer + params.bytesPerLine*i
 
       /* loop over all columns, sum the pixels */
       for(j=0; j<params.pixels_per_line; j++){
@@ -780,7 +780,7 @@ sanei_magic_isBlank(Sane.Parameters * params, Sane.Byte * buffer,
 }
 
 /* Divide the image into 1/2 inch squares, skipping a 1/4 inch
- * margin on all sides. If all squares are under the user's density,
+ * margin on all sides. If all squares are under the user"s density,
  * signal our caller to skip the image entirely, by returning
  * Sane.STATUS_NO_DOCS */
 Sane.Status
@@ -818,7 +818,7 @@ sanei_magic_isBlank2 (Sane.Parameters * params, Sane.Byte * buffer,
         for(y=0; y<yhalf; y++){
 
           /* skip the top and left 1/4 inch */
-          Int offset = (yquarter + yb*yhalf + y) * params.bytes_per_line
+          Int offset = (yquarter + yb*yhalf + y) * params.bytesPerLine
             + (xquarter + xb*xhalf) * Bpp
           Sane.Byte * ptr = buffer + offset
 
@@ -852,7 +852,7 @@ sanei_magic_isBlank2 (Sane.Parameters * params, Sane.Byte * buffer,
         for(y=0; y<yhalf; y++){
 
           /* skip the top and left 1/4 inch */
-          Int offset = (yquarter + yb*yhalf + y) * params.bytes_per_line
+          Int offset = (yquarter + yb*yhalf + y) * params.bytesPerLine
             + (xquarter + xb*xhalf) / 8
           Sane.Byte * ptr = buffer + offset
 
@@ -905,7 +905,7 @@ sanei_magic_findTurn(Sane.Parameters * params, Sane.Byte * buffer,
 
     /* loop over some rows, count segment lengths */
     for(i=0; i<params.lines; i+=dpiY/20){
-      Sane.Byte * ptr = buffer + params.bytes_per_line*i
+      Sane.Byte * ptr = buffer + params.bytesPerLine*i
       Int color = 0
       Int len   = 0
       Int sum   = 0
@@ -952,7 +952,7 @@ sanei_magic_findTurn(Sane.Parameters * params, Sane.Byte * buffer,
 
         /*convert color to gray*/
         for(k=0; k<depth; k++) {
-          curr += ptr[j*params.bytes_per_line+k]
+          curr += ptr[j*params.bytesPerLine+k]
         }
         curr /= depth
 
@@ -980,7 +980,7 @@ sanei_magic_findTurn(Sane.Parameters * params, Sane.Byte * buffer,
 
     /* loop over some rows, count segment lengths */
     for(i=0; i<params.lines; i+=dpiY/30){
-      Sane.Byte * ptr = buffer + params.bytes_per_line*i
+      Sane.Byte * ptr = buffer + params.bytesPerLine*i
       Int color = 0
       Int len   = 0
       Int sum   = 0
@@ -1013,7 +1013,7 @@ sanei_magic_findTurn(Sane.Parameters * params, Sane.Byte * buffer,
 
       /* loop over all rows */
       for(j=0; j<params.lines; j++){
-        Int curr = ptr[j*params.bytes_per_line + i/8] >> (7-(i%8)) & 1
+        Int curr = ptr[j*params.bytesPerLine + i/8] >> (7-(i%8)) & 1
 
         /*count segment length*/
         if(curr != color || j==params.lines-1){
@@ -1060,7 +1060,7 @@ sanei_magic_turn(Sane.Parameters * params, Sane.Byte * buffer,
 {
   Sane.Status ret = Sane.STATUS_GOOD
   Int opwidth, ipwidth = params.pixels_per_line
-  Int obwidth, ibwidth = params.bytes_per_line
+  Int obwidth, ibwidth = params.bytesPerLine
   Int oheight, iheight = params.lines
   Int depth = 1
 
@@ -1245,7 +1245,7 @@ sanei_magic_turn(Sane.Parameters * params, Sane.Byte * buffer,
 
   /*update input params*/
   params.pixels_per_line = opwidth
-  params.bytes_per_line = obwidth
+  params.bytesPerLine = obwidth
   params.lines = oheight
 
   cleanup:
@@ -1263,7 +1263,7 @@ sanei_magic_turn(Sane.Parameters * params, Sane.Byte * buffer,
 /* Repeatedly call getLine to find the best range of slope and offset.
  * Shift the ranges thru 4 different positions to avoid splitting data
  * across multiple bins(false positive). Home-in on the most likely upper
- * line of the paper inside the image. Return the 'best' edge. */
+ * line of the paper inside the image. Return the "best" edge. */
 static Sane.Status
 getTopEdge(Int width, Int height, Int resolution,
   Int * buff, double * finSlope, Int * finXInter, Int * finYInter)
@@ -1374,7 +1374,7 @@ getTopEdge(Int width, Int height, Int resolution,
 
 /* Loop thru a transition array, and use a simplified Hough transform
  * to divide likely edges into a 2-d array of bins. Then weight each
- * bin based on its angle and offset. Return the 'best' bin. */
+ * bin based on its angle and offset. Return the "best" bin. */
 static Sane.Status
 getLine(Int height, Int width, Int * buff,
   Int slopes, double minSlope, double maxSlope,
@@ -1417,7 +1417,7 @@ getLine(Int height, Int width, Int * buff,
   /* build an array of pretty-print values for slope */
   slopeCenter = calloc(slopes,sizeof(double))
   if(!slopeCenter){
-    DBG(5,"getLine: can't load slopeCenter\n")
+    DBG(5,"getLine: can"t load slopeCenter\n")
     ret = Sane.STATUS_NO_MEM
     goto cleanup
   }
@@ -1425,14 +1425,14 @@ getLine(Int height, Int width, Int * buff,
   /* build an array of scaling factors for slope */
   slopeScale = calloc(slopes,sizeof(Int))
   if(!slopeScale){
-    DBG(5,"getLine: can't load slopeScale\n")
+    DBG(5,"getLine: can"t load slopeScale\n")
     ret = Sane.STATUS_NO_MEM
     goto cleanup
   }
 
   for(j=0;j<slopes;j++){
 
-    /* find central value of this 'bucket' */
+    /* find central value of this "bucket" */
     slopeCenter[j] = (
       (double)j*(maxSlope-minSlope)/slopes+minSlope
       + (double)(j+1)*(maxSlope-minSlope)/slopes+minSlope
@@ -1446,7 +1446,7 @@ getLine(Int height, Int width, Int * buff,
   /* build an array of pretty-print values for offset */
   offsetCenter = calloc(offsets,sizeof(double))
   if(!offsetCenter){
-    DBG(5,"getLine: can't load offsetCenter\n")
+    DBG(5,"getLine: can"t load offsetCenter\n")
     ret = Sane.STATUS_NO_MEM
     goto cleanup
   }
@@ -1454,14 +1454,14 @@ getLine(Int height, Int width, Int * buff,
   /* build an array of scaling factors for offset */
   offsetScale = calloc(offsets,sizeof(Int))
   if(!offsetScale){
-    DBG(5,"getLine: can't load offsetScale\n")
+    DBG(5,"getLine: can"t load offsetScale\n")
     ret = Sane.STATUS_NO_MEM
     goto cleanup
   }
 
   for(j=0;j<offsets;j++){
 
-    /* find central value of this 'bucket'*/
+    /* find central value of this "bucket"*/
     offsetCenter[j] = (
       (double)j/offsets*(maxOffset-minOffset)+minOffset
       + (double)(j+1)/offsets*(maxOffset-minOffset)+minOffset
@@ -1472,17 +1472,17 @@ getLine(Int height, Int width, Int * buff,
     offsetScale[j] = 101 - fabs(offsetCenter[j])*100/absMaxOffset
   }
 
-  /* build 2-d array of 'density', divided into slope and offset ranges */
+  /* build 2-d array of "density", divided into slope and offset ranges */
   lines = calloc(slopes, sizeof(Int *))
   if(!lines){
-    DBG(5,"getLine: can't load lines\n")
+    DBG(5,"getLine: can"t load lines\n")
     ret = Sane.STATUS_NO_MEM
     goto cleanup
   }
 
   for(i=0;i<slopes;i++){
     if(!(lines[i] = calloc(offsets, sizeof(Int)))){
-      DBG(5,"getLine: can't load lines %d\n",i)
+      DBG(5,"getLine: can"t load lines %d\n",i)
       ret = Sane.STATUS_NO_MEM
       goto cleanup
     }
@@ -1565,7 +1565,7 @@ getLine(Int height, Int width, Int * buff,
     }
   }
 
-  /* don't forget to cleanup */
+  /* don"t forget to cleanup */
   cleanup:
   for(i=0;i<slopes;i++){
     if(lines[i])
@@ -1589,7 +1589,7 @@ getLine(Int height, Int width, Int * buff,
 
 /* find the left side of paper by moving a line
  * perpendicular to top slope across the image
- * the 'left-most' point on the paper is the
+ * the "left-most" point on the paper is the
  * one with the smallest X intercept
  * return x and y intercepts */
 static Sane.Status
@@ -1674,7 +1674,7 @@ getLeftEdge(Int width, Int height, Int * top, Int * bot,
 }
 
 /* Loop thru the image and look for first color change in each column.
- * Return a malloc'd array. Caller is responsible for freeing. */
+ * Return a malloc"d array. Caller is responsible for freeing. */
 Int *
 sanei_magic_getTransY(
   Sane.Parameters * params, Int dpi, Sane.Byte * buffer, Int top)
@@ -1806,7 +1806,7 @@ sanei_magic_getTransY(
 }
 
 /* Loop thru the image height and look for first color change in each row.
- * Return a malloc'd array. Caller is responsible for freeing. */
+ * Return a malloc"d array. Caller is responsible for freeing. */
 Int *
 sanei_magic_getTransX(
   Sane.Parameters * params, Int dpi, Sane.Byte * buffer, Int left)
@@ -1816,7 +1816,7 @@ sanei_magic_getTransX(
   var i: Int, j, k
   Int winLen = 9
 
-  Int bwidth = params.bytes_per_line
+  Int bwidth = params.bytesPerLine
   Int width = params.pixels_per_line
   Int height = params.lines
   Int depth = 1

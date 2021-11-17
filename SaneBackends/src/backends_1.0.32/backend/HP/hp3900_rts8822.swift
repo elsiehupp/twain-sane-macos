@@ -41,7 +41,7 @@
 
 
 /*
- This code is still a bit ugly due to it's the result of applying
+ This code is still a bit ugly due to it"s the result of applying
  reverse engineering techniques to windows driver. So at this
  moment what you see is exactly what windows driver does.
  And so many global vars exist that will be erased when driver
@@ -272,7 +272,7 @@ static void RTS_Setup_SensorTiming(struct st_device *dev, Int mytiming,
 static void RTS_Setup_Shading(Sane.Byte * Regs,
 			       struct st_scanparams *scancfg,
 			       struct st_hwdconfig *hwdcfg,
-			       Int bytes_per_line)
+			       Int bytesPerLine)
 
 static Int Scan_Start(struct st_device *dev)
 
@@ -330,7 +330,7 @@ static Int Refs_Save(struct st_device *dev, Int left_leading,
 static Int Refs_Set(struct st_device *dev, Sane.Byte * Regs,
 			  struct st_scanparams *myscan)
 
-/* Coordinates' constrains functions */
+/* Coordinates" constrains functions */
 static Int Constrains_Check(struct st_device *dev, Int Resolution,
 				  Int scantype,
 				  struct st_coords *mycoords)
@@ -393,7 +393,7 @@ static Int Head_Relocate(struct st_device *dev, Int speed,
 
 /* Motor functions */
 static Sane.Byte *Motor_AddStep(Sane.Byte * steps, Int * bwriten,
-				 Int step)
+				 step: Int)
 static Int Motor_Change(struct st_device *dev, Sane.Byte * buffer,
 			      Sane.Byte value)
 static Int Motor_GetFromResolution(Int resolution)
@@ -590,11 +590,11 @@ static char get_byte(double value)
 static void
 RTS_Free(struct st_device *dev)
 {
-  /* this function frees space of devices's variable */
+  /* this function frees space of devices"s variable */
 
   if(dev != NULL)
     {
-      /* next function shouldn't be necessary but I can NOT assure that other
+      /* next function shouldn"t be necessary but I can NOT assure that other
          programmers will call Free_Config before this function */
       Free_Config(dev)
 
@@ -620,7 +620,7 @@ RTS_Free(struct st_device *dev)
 static struct st_device *
 RTS_Alloc()
 {
-  /* this function allocates space for device's variable */
+  /* this function allocates space for device"s variable */
 
   struct st_device *dev = NULL
 
@@ -709,7 +709,7 @@ RTS_Scanner_Init(struct st_device *dev)
 
   rst = ERROR
 
-  /* gets usb type of this scanner if it's not already set by user */
+  /* gets usb type of this scanner if it"s not already set by user */
   if(RTS_Debug.usbtype == -1)
     RTS_Debug.usbtype = RTS_USBType(dev)
 
@@ -1276,7 +1276,7 @@ Load_Config(struct st_device *dev)
   /* load chipset configuration */
   Load_Chipset(dev)
 
-  /* load scanner's buttons */
+  /* load scanner"s buttons */
   Load_Buttons(dev)
 
   /* load scanner area constrains */
@@ -1332,7 +1332,7 @@ Load_Config(struct st_device *dev)
 static Int
 LoadImagingParams(struct st_device *dev, Int inifile)
 {
-  DBG(DBG_FNC, "> LoadImagingParams(inifile='%i'):\n", inifile)
+  DBG(DBG_FNC, "> LoadImagingParams(inifile="%i"):\n", inifile)
 
   scan.startpos = get_value(SCAN_PARAM, STARTPOS, 0, inifile)
   scan.leftleading = get_value(SCAN_PARAM, LEFTLEADING, 0, inifile)
@@ -2001,7 +2001,7 @@ GainOffset_Get(struct st_device *dev)
     }
   else
     {
-      /* null values, let's reset them */
+      /* null values, let"s reset them */
       for(a = CL_RED; a <= CL_BLUE; a++)
 	{
 	  gain[a] = 0
@@ -2041,8 +2041,8 @@ Scanmode_maxres(struct st_device *dev, Int scantype, Int colormode)
 
   if(rst == 0)
     {
-      /* There isn't any mode for these arguments.
-         Most devices doesn't support specific setup to scan in lineart mode
+      /* There isn"t any mode for these arguments.
+         Most devices doesn"t support specific setup to scan in lineart mode
          so they use gray colormode. Lets check this case */
       if(colormode == CM_LINEART)
 	rst = Scanmode_maxres(dev, scantype, CM_GRAY)
@@ -2075,8 +2075,8 @@ Scanmode_minres(struct st_device *dev, Int scantype, Int colormode)
 
   if(rst == 0)
     {
-      /* There isn't any mode for these arguments.
-         Most devices doesn't support specific setup to scan in lineart mode
+      /* There isn"t any mode for these arguments.
+         Most devices doesn"t support specific setup to scan in lineart mode
          so they use gray colormode. Lets check this case */
       if(colormode == CM_LINEART)
 	rst = Scanmode_minres(dev, scantype, CM_GRAY)
@@ -2115,8 +2115,8 @@ Scanmode_fitres(struct st_device *dev, Int scantype, Int colormode,
 
   if(rst == nullres)
     {
-      /* There isn't any mode for these arguments.
-         Most devices doesn't support specific setup to scan in lineart mode
+      /* There isn"t any mode for these arguments.
+         Most devices doesn"t support specific setup to scan in lineart mode
          so they use gray colormode. Lets check this case */
       if(colormode != CM_LINEART)
 	{
@@ -2160,9 +2160,9 @@ RTS_GetScanmode(struct st_device *dev, Int scantype, Int colormode,
 
   if(rst == -1)
     {
-      /* There isn't any mode for these arguments.
-         May be given resolution isn't supported by chipset.
-         Most devices doesn't support specific setup to scan in lineart mode
+      /* There isn"t any mode for these arguments.
+         May be given resolution isn"t supported by chipset.
+         Most devices doesn"t support specific setup to scan in lineart mode
          so they use gray colormode. Lets check this case */
       if((colormode == CM_LINEART) || (colormode == 3))
 	rst = RTS_GetScanmode(dev, scantype, CM_GRAY, resolution)
@@ -2581,7 +2581,7 @@ Head_ParkHome(struct st_device *dev, Int bWait, Int movement)
 
       memcpy(Regs, dev.init_regs, RT_BUFFER_LEN * sizeof(Sane.Byte))
 
-      /* Lets wait if it's required when is already executing */
+      /* Lets wait if it"s required when is already executing */
       if(bWait != FALSE)
 	{
 	  if(RTS_WaitScanEnd(dev, 0x3a98) != OK)
@@ -2609,7 +2609,7 @@ Head_ParkHome(struct st_device *dev, Int bWait, Int movement)
 	  DBG(DBG_FNC,
 	       "->   Head_ParkHome: Lamp is not at home, lets move\n")
 
-	  /* it isn't */
+	  /* it isn"t */
 	  dev.status.parkhome = TRUE
 
 	  if((movement != -1) && (movement < dev.motormove_count))
@@ -2619,7 +2619,7 @@ Head_ParkHome(struct st_device *dev, Int bWait, Int movement)
 	    }
 	  else
 	    {
-	      /* debug this code. Shouldn't have any relationship with offsets */
+	      /* debug this code. Shouldn"t have any relationship with offsets */
 	      if(default_gain_offset.edcg2[CL_BLUE] < 4)
 		mymotor.scanmotorsteptype =
 		  default_gain_offset.edcg2[CL_BLUE]
@@ -2678,13 +2678,13 @@ Motor_Move(struct st_device *dev, Sane.Byte * Regs,
       /* set motor direction(polarity) */
       data_bitset(&cpRegs[0xd9], 0x80, mtrpos.options >> 3);	/*e------- */
 
-      /* next value doesn't seem to have any effect */
+      /* next value doesn"t seem to have any effect */
       data_bitset(&cpRegs[0xd9], 0x0f, mtrpos.options);		       /*----efgh*/
 
       /* 0 enable/1 disable motor */
       data_bitset(&cpRegs[0xdd], 0x80, mtrpos.options >> 4);	/*d------- */
 
-      /* next value doesn't seem to have any effect */
+      /* next value doesn"t seem to have any effect */
       data_bitset(&cpRegs[0xdd], 0x40, mtrpos.options >> 4);		       /*-d------*/
 
       switch(mymotor.scanmotorsteptype)
@@ -2703,7 +2703,7 @@ Motor_Move(struct st_device *dev, Sane.Byte * Regs,
 	  break
 	default:
 	  step_type = 0
-	  break;		/* shouldn't be used */
+	  break;		/* shouldn"t be used */
 	}
 
       coord_y = (mtrpos.coord_y * step_type) & 0xffff
@@ -2953,7 +2953,7 @@ Load_Motormoves(struct st_device *dev)
 
   DBG(DBG_FNC, "> Load_Motormoves\n")
 
-  /* if there is already any movement loaded let's free it */
+  /* if there is already any movement loaded let"s free it */
   if(dev.motormove != NULL)
     Free_Motormoves(dev)
 
@@ -2993,7 +2993,7 @@ Load_Motormoves(struct st_device *dev)
 }
 
 static Sane.Byte *
-Motor_AddStep(Sane.Byte * steps, Int * bwriten, Int step)
+Motor_AddStep(Sane.Byte * steps, Int * bwriten, step: Int)
 {
   steps = (Sane.Byte *) realloc(steps, sizeof(Sane.Byte) * (*bwriten + 3))
   if(steps != NULL)
@@ -3653,7 +3653,7 @@ Init_USBData(struct st_device *dev)
   if((resource != NULL) && (data > 1))
     memcpy(&dev.init_regs[0x104], resource, data)
 
-  /* this bit is set but I don't know its purpose */
+  /* this bit is set but I don"t know its purpose */
   dev.init_regs[0x01] |= 0x40;	      /*-1------*/
 
   dev.init_regs[0x124] = 0x94
@@ -4090,7 +4090,7 @@ Lamp_Status_Get(struct st_device *dev, Sane.Byte * flb_lamp,
 {
   /* The only reason that I think windows driver uses two variables to get
      which lamp is switched on instead of one variable is that some chipset
-     model could have both lamps switched on, so I'm maintaining such var */
+     model could have both lamps switched on, so I"m maintaining such var */
 
   Int rst = ERROR;		/* default */
 
@@ -4341,7 +4341,7 @@ RTS_DMA_Write(struct st_device *dev, Int dmacs, Int options,
 		}
 	      else
 		{
-		  /* for some reason it's not possible to allocate space to check
+		  /* for some reason it"s not possible to allocate space to check
 		     sent buffer so we just write data */
 		  Bulk_Operation(dev, BLK_WRITE, size, buffer, &transferred)
 		  rst = OK
@@ -4391,7 +4391,7 @@ RTS_DMA_CheckType(struct st_device *dev, Sane.Byte * Regs)
 		    b = 0
 		}
 
-	      /* let's send buffer with different ram types and compare
+	      /* let"s send buffer with different ram types and compare
 	         incoming buffer until getting the right type */
 
 	      for(a = 4; a >= 0; a--)
@@ -4428,7 +4428,7 @@ RTS_DMA_CheckType(struct st_device *dev, Sane.Byte * Regs)
 			{
 			  Int data = 0
 
-			  /* buffers are equal so we've found the right ram type */
+			  /* buffers are equal so we"ve found the right ram type */
 			  memset(out_buffer, 0, 0x20)
 			  for(b = 0; b < 0x20; b += 2)
 			    out_buffer[b] = b
@@ -7713,10 +7713,10 @@ Scan_Read_BufferA(struct st_device *dev, Int buffer_size, Int arg2,
       while((buffer_size > 0) && (rst == OK)
 	     && (dev.status.cancel == FALSE))
 	{
-	  /* Check if we've already started */
+	  /* Check if we"ve already started */
 	  if(rd.Starting == TRUE)
 	    {
-	      /* Get channels per dot and channel's size in bytes */
+	      /* Get channels per dot and channel"s size in bytes */
 	      Sane.Byte data
 
 	      rd.Channels_per_dot = 1
@@ -7763,7 +7763,7 @@ Scan_Read_BufferA(struct st_device *dev, Int buffer_size, Int arg2,
 		      iAmount = min(iAmount, rd.Max_Size)
 		    }
 
-		  /* Allocate buffer to read image if it's necessary */
+		  /* Allocate buffer to read image if it"s necessary */
 		  if((rd.RDSize == 0) && (iAmount <= buffer_size))
 		    {
 		      ptImg = ptBuffer
@@ -7812,7 +7812,7 @@ Scan_Read_BufferA(struct st_device *dev, Int buffer_size, Int arg2,
 			  iAmount = (Int) transferred
 			  if(iAmount != 0)
 			    {
-			      /* Lets copy data into DMABuffer if it's necessary */
+			      /* Lets copy data into DMABuffer if it"s necessary */
 			      if(ptImg != ptBuffer)
 				{
 				  Sane.Byte *ptDMABuffer
@@ -7890,7 +7890,7 @@ Scan_Read_BufferA(struct st_device *dev, Int buffer_size, Int arg2,
 	      buffer_size -= iAmount
 	      *bytes_transferred += iAmount
 
-	      /* if there isn't any data in DMABuffer we can point RDStart
+	      /* if there isn"t any data in DMABuffer we can point RDStart
 	         to the beginning of DMABuffer */
 	      if(rd.RDSize == 0)
 		rd.RDStart = rd.DMABuffer
@@ -7920,7 +7920,7 @@ static Int
 Reading_BufferSize_Get(struct st_device *dev, Sane.Byte channels_per_dot,
 			Int channel_size)
 {
-  /* returns the amount of bytes in scanner's buffer ready to be read */
+  /* returns the amount of bytes in scanner"s buffer ready to be read */
 
   Int rst
 
@@ -8074,7 +8074,7 @@ Scan_Start(struct st_device *dev)
       memset(&hwdcfg, 0, sizeof(struct st_hwdconfig))
 
       /* wait till lamp is at home(should use timeout
-         windows driver doesn't use it)
+         windows driver doesn"t use it)
        */
       tick = GetTickCount() + 10000
       while((Head_IsAtHome(dev, Regs) == FALSE)
@@ -8132,7 +8132,7 @@ if(Calib_test(dev, Regs, &myCalib, &scancfg) == OK )
 
       if(RTS_Debug.calibrate != 0)
 	{
-	  /* Let's calibrate */
+	  /* Let"s calibrate */
 	  if((scancfg.colormode != CM_COLOR) && (scancfg.channel == 3))
 	    scancfg.colormode = CM_COLOR
 
@@ -8172,7 +8172,7 @@ if(Calib_test(dev, Regs, &myCalib, &scancfg) == OK )
       else
 	{
 	  /*5b1e */
-	  /*Don't calibrate */
+	  /*Don"t calibrate */
 	  if(scan.scantype == ST_NORMAL)
 	    {
 	      Lamp_Status_Set(dev, NULL, TRUE, FLB_LAMP)
@@ -8481,13 +8481,13 @@ RTS_Setup_Motor(struct st_device *dev, Sane.Byte * Regs,
 	  /* set motor direction(polarity) */
 	  data_bitset(&Regs[0xd9], 0x80, somevalue >> 3);	/*e------- */
 
-	  /* next value doesn't seem to have any effect */
+	  /* next value doesn"t seem to have any effect */
 	  data_bitset(&Regs[0xd9], 0x0f, somevalue);			       /*----efgh*/
 
 	  /* 0 enable/1 disable motor */
 	  data_bitset(&Regs[0xdd], 0x80, somevalue >> 4);	/*d------- */
 
-	  /* next value doesn't seem to have any effect */
+	  /* next value doesn"t seem to have any effect */
 	  data_bitset(&Regs[0xdd], 0x40, somevalue >> 4);		       /*-d------*/
 
 	  switch(sm.scanmotorsteptype)
@@ -8572,7 +8572,7 @@ RTS_Setup_Motor(struct st_device *dev, Sane.Byte * Regs,
 	    }
 	  else
 	    {
-	      /* this scanner hasn't got any motorcurve */
+	      /* this scanner hasn"t got any motorcurve */
 
 	      /* set last step of accurve.smearing table(same as accurve.normalscan) */
 	      data_lsb_set(&Regs[0xe4], myvalue, 3)
@@ -8684,7 +8684,7 @@ RTS_Setup_Line_Distances(struct st_device *dev, Sane.Byte * Regs,
 
   if(arrangeline == FIX_BY_HARD)
     {
-      /* we don't need to arrange retrieved line */
+      /* we don"t need to arrange retrieved line */
       Int mylinedistance, myevenodddist
 
       mylinedistance =
@@ -8763,23 +8763,23 @@ RTS_Setup_Depth(Sane.Byte * Regs, struct st_scanparams *scancfg,
 		 Int mycolormode)
 {
   /* channels_per_line = channels_per_dot * scan.width
-     bytes_per_line = channels_per_line * bits_per_channel
+     bytesPerLine = channels_per_line * bits_per_channel
    */
 
-  Int bytes_per_line = 0
+  Int bytesPerLine = 0
 
   if((scancfg != NULL) && (Regs != NULL))
     {
       Int channels_per_line =
 	data_bitget(&Regs[0x12], 0xc0) * scancfg.coord.width
 
-      bytes_per_line = channels_per_line
+      bytesPerLine = channels_per_line
 
-      /* set bits per channel in shading correction's register(0x1cf) */
+      /* set bits per channel in shading correction"s register(0x1cf) */
       if(mycolormode == CM_LINEART)
 	{
 	  /* lineart mode */
-	  bytes_per_line = (bytes_per_line + 7) / 8
+	  bytesPerLine = (bytesPerLine + 7) / 8
 	  data_bitset(&Regs[0x1cf], 0x30, 3);		    /*--11----*/
 	}
       else
@@ -8789,12 +8789,12 @@ RTS_Setup_Depth(Sane.Byte * Regs, struct st_scanparams *scancfg,
 	    {
 	    case 16:
 	      /* 16 bits per channel */
-	      bytes_per_line *= 2
+	      bytesPerLine *= 2
 	      data_bitset(&Regs[0x1cf], 0x30, 2);			    /*--10----*/
 	      break
 	    case 12:
 	      /* 12 bits per channel */
-	      bytes_per_line *= 2
+	      bytesPerLine *= 2
 	      data_bitset(&Regs[0x1cf], 0x30, 1);			    /*--01----*/
 	      break
 	    default:
@@ -8805,16 +8805,16 @@ RTS_Setup_Depth(Sane.Byte * Regs, struct st_scanparams *scancfg,
 	}
     }
 
-  return bytes_per_line
+  return bytesPerLine
 }
 
 static void
 RTS_Setup_Shading(Sane.Byte * Regs, struct st_scanparams *scancfg,
-		   struct st_hwdconfig *hwdcfg, Int bytes_per_line)
+		   struct st_hwdconfig *hwdcfg, Int bytesPerLine)
 {
   DBG(DBG_FNC,
-       "> RTS_Setup_Shading(*Regs, *scancfg, *hwdcfg, bytes_per_line=%i)\n",
-       bytes_per_line)
+       "> RTS_Setup_Shading(*Regs, *scancfg, *hwdcfg, bytesPerLine=%i)\n",
+       bytesPerLine)
 
   if((Regs != NULL) && (hwdcfg != NULL))
     {
@@ -8876,7 +8876,7 @@ RTS_Setup_Shading(Sane.Byte * Regs, struct st_scanparams *scancfg,
 	{
 	case 3:		/* 3 channels per dot */
 	  /* 528d */
-	  dots_count = bytes_per_line / 3;	/* 882 */
+	  dots_count = bytesPerLine / 3;	/* 882 */
 	  myvalue =
 	    (((sensor_line_distance + 1) * dots_count) + v160c_block_size -
 	     1) / v160c_block_size
@@ -8893,7 +8893,7 @@ RTS_Setup_Shading(Sane.Byte * Regs, struct st_scanparams *scancfg,
 	  data_wide_bitset(&Regs[0x1c5], 0xfffff, (myvalue / 16) + 1)
 	  break
 	case 2:		/* 2 channels per dot */
-	  dots_count = bytes_per_line / 2
+	  dots_count = bytesPerLine / 2
 	  myvalue =
 	    (((sensor_line_distance + 1) * dots_count) + v160c_block_size -
 	     1) / v160c_block_size
@@ -8904,7 +8904,7 @@ RTS_Setup_Shading(Sane.Byte * Regs, struct st_scanparams *scancfg,
 	  data_wide_bitset(&Regs[0x1c3], 0xffff, myvalue);	/* 16 lower bits */
 	  break
 	default:
-	  dots_count = bytes_per_line
+	  dots_count = bytesPerLine
 	  break
 	}
 
@@ -9077,7 +9077,7 @@ RTS_Setup(struct st_device *dev, Sane.Byte * Regs,
 
       if(sm != NULL)
 	{
-	  Int dummyline, iLineDistance, resolution_ratio, bytes_per_line
+	  Int dummyline, iLineDistance, resolution_ratio, bytesPerLine
 	  struct st_coords rts_coords
 
 	  iLineDistance = 0
@@ -9111,7 +9111,7 @@ RTS_Setup(struct st_device *dev, Sane.Byte * Regs,
 	  RTS_Setup_Channels(dev, Regs, scancfg, mycolormode)
 
 	  /* setup depth */
-	  bytes_per_line = RTS_Setup_Depth(Regs, scancfg, mycolormode)
+	  bytesPerLine = RTS_Setup_Depth(Regs, scancfg, mycolormode)
 
 	  /* f61 */
 
@@ -9132,7 +9132,7 @@ RTS_Setup(struct st_device *dev, Sane.Byte * Regs,
 	  RTS_Setup_Gamma(Regs, hwdcfg)
 
 	  /* setup shading correction */
-	  RTS_Setup_Shading(Regs, scancfg, hwdcfg, bytes_per_line)
+	  RTS_Setup_Shading(Regs, scancfg, hwdcfg, bytesPerLine)
 
 	  /* setup stepper motor */
 	  hwdcfg.startpos =
@@ -10325,7 +10325,7 @@ RTS_GetImage(struct st_device *dev, Sane.Byte * Regs,
 	{
 	  struct st_scanparams *myscancfg
 
-	  /* let's make a copy of scan config */
+	  /* let"s make a copy of scan config */
 	  myscancfg =
 	    (struct st_scanparams *) malloc(sizeof(struct st_scanparams))
 	  if(myscancfg != NULL)
@@ -11167,7 +11167,7 @@ Lamp_PWM_CheckStable(struct st_device *dev, Int resolution,
 		max(maximus[CL_GREEN],
 		     max(maximus[CL_BLUE], maximus[CL_RED]))
 
-	      /*breaks when colour intensity increases 'diff' or lower */
+	      /*breaks when colour intensity increases "diff" or lower */
 	      if(abs(maxbigger - last_colour) < diff)
 		{
 		  DBG(DBG_FNC, " -> PWM is ready\n")
@@ -11604,7 +11604,7 @@ Calib_AdcGain(struct st_device *dev, struct st_calibration_config *calibcfg,
   if(myRegs != NULL)
     {
       struct st_scanparams *scancfg;	/*f17c */
-      Int bytes_per_line, bytes_to_next_colour, bytes_per_pixel
+      Int bytesPerLine, bytes_to_next_colour, bytes_per_pixel
 
       /* get register values to perform adc gain calibration */
       memcpy(myRegs, &calibdata.Regs, sizeof(Sane.Byte) * RT_BUFFER_LEN)
@@ -11642,12 +11642,12 @@ Calib_AdcGain(struct st_device *dev, struct st_calibration_config *calibcfg,
 	    case CM_LINEART:
 	      bytes_to_next_colour = 0
 	      bytes_per_pixel = 1
-	      bytes_per_line = scancfg.coord.width
+	      bytesPerLine = scancfg.coord.width
 	      break
 	    default:		/* CM_COLOR */
 	      /* c027 */
 	      bytes_to_next_colour = 1
-	      bytes_per_line = scancfg.coord.width * 3
+	      bytesPerLine = scancfg.coord.width * 3
 	      if(scancfg.samplerate == LINE_RATE)
 		{
 		  bytes_to_next_colour = scancfg.coord.width
@@ -11659,8 +11659,8 @@ Calib_AdcGain(struct st_device *dev, struct st_calibration_config *calibcfg,
 	    }
 
 	  /*7fc7 */
-	  scancfg.v157c = bytes_per_line
-	  scancfg.bytesperline = bytes_per_line
+	  scancfg.v157c = bytesPerLine
+	  scancfg.bytesperline = bytesPerLine
 
 	  /* select type of gain parameters to set */
 	  if(arg2 != 0)
@@ -11680,7 +11680,7 @@ Calib_AdcGain(struct st_device *dev, struct st_calibration_config *calibcfg,
 	  image =
 	    (Sane.Byte *) malloc(sizeof(Sane.Byte) *
 				  ((scancfg.coord.height +
-				    16) * bytes_per_line))
+				    16) * bytesPerLine))
 	  if(image != NULL)
 	    {
 	      /* Lets read image */
@@ -11720,7 +11720,7 @@ Calib_AdcGain(struct st_device *dev, struct st_calibration_config *calibcfg,
 				 myheight < scancfg.coord.height; myheight++)
 			      for(a = CL_RED; a <= CL_BLUE; a++)
 				chn_sum[a] +=
-				  *(pimage + (bytes_per_line * myheight) +
+				  *(pimage + (bytesPerLine * myheight) +
 				    (bytes_to_next_colour * a))
 
 			  /*816e */
@@ -11832,7 +11832,7 @@ Calib_AdcGain(struct st_device *dev, struct st_calibration_config *calibcfg,
 				     scancfg.resolution_y,
 				     image,
 				     (scancfg.coord.height +
-				      16) * bytes_per_line)
+				      16) * bytesPerLine)
 		    }
 
 		  /* check if peak values are above offset average target + 5 */
@@ -12624,7 +12624,7 @@ Calib_WhiteShading_3 (struct st_device *dev,
   struct st_scanparams scancfg;	/*f170 */
   Int myWidth;		/*f14c */
   Int lf168, bytes_per_pixel
-  Int bytes_per_line
+  Int bytesPerLine
   /**/ Int a
   double lf1a4[3]
   Int otherheight;		/*f150 */
@@ -12680,25 +12680,25 @@ Calib_WhiteShading_3 (struct st_device *dev,
     case CM_LINEART:
       myWidth = scancfg.coord.width
       lf168 = 0
-      bytes_per_line = ((scancfg.depth + 7) / 8) * myWidth
+      bytesPerLine = ((scancfg.depth + 7) / 8) * myWidth
       bytes_per_pixel = 1
       break
     default:			/* CM_COLOR */
       myWidth = scancfg.coord.width * 3
-      bytes_per_line = ((scancfg.depth + 7) / 8) * myWidth
+      bytesPerLine = ((scancfg.depth + 7) / 8) * myWidth
       lf168 = (scancfg.samplerate == LINE_RATE) ? scancfg.coord.width : 1
       bytes_per_pixel = (scancfg.samplerate == PIXEL_RATE) ? 3 : 1
       break
     }
 
   /*a1e8 */
-  scancfg.v157c = bytes_per_line
-  scancfg.bytesperline = bytes_per_line
+  scancfg.v157c = bytesPerLine
+  scancfg.bytesperline = bytesPerLine
 
   for(a = 0; a < 3; a++)
     lf1a4[a] = (calibcfg.WRef[a] * (1 << scancfg.depth)) >> 8
 
-  /* debug this code because if it's correct, lf130 and lf12c are always 2 */
+  /* debug this code because if it"s correct, lf130 and lf12c are always 2 */
   otherheight = calibcfg.WShadingHeight - 3
   otherheight -= (otherheight - 4)
   otherheight2 = otherheight / 2
@@ -12718,7 +12718,7 @@ Calib_WhiteShading_3 (struct st_device *dev,
     }
 
   scanbuffer =
-    (Sane.Byte *) malloc(((scancfg.coord.height + 16) * bytes_per_line) *
+    (Sane.Byte *) malloc(((scancfg.coord.height + 16) * bytesPerLine) *
 			  sizeof(Sane.Byte))
   if(scanbuffer == NULL)
     {
@@ -13114,7 +13114,7 @@ Calib_WhiteShading_3 (struct st_device *dev,
 		     scancfg.resolution_x,
 		     scancfg.resolution_y,
 		     scanbuffer,
-		     (scancfg.coord.height + 16) * bytes_per_line)
+		     (scancfg.coord.height + 16) * bytesPerLine)
     }
 
   free(buffer1)
@@ -13145,7 +13145,7 @@ Calib_BlackShading(struct st_device *dev,
   Int a
   Int mheight;		/*efe0 */
   Int current_line;	/*efe4 */
-  Int bytes_per_line;	/*efd8 */
+  Int bytesPerLine;	/*efd8 */
   Int position;		/*lefcc */
   Int leff0, lf010, lefd0
   Sane.Byte *buffer;		/*efd4 */
@@ -13186,14 +13186,14 @@ Calib_BlackShading(struct st_device *dev,
 
   if(scancfg.colormode != CM_COLOR)
     {
-      bytes_per_line = scancfg.coord.width
+      bytesPerLine = scancfg.coord.width
       leff0 = 0
       lf010 = 1
     }
   else
     {
       /*876c */
-      bytes_per_line = scancfg.coord.width * 3
+      bytesPerLine = scancfg.coord.width * 3
       if(scancfg.samplerate == LINE_RATE)
 	{
 	  leff0 = scancfg.coord.width
@@ -13206,8 +13206,8 @@ Calib_BlackShading(struct st_device *dev,
 	}
     }
 
-  scancfg.v157c = bytes_per_line
-  scancfg.bytesperline = bytes_per_line
+  scancfg.v157c = bytesPerLine
+  scancfg.bytesperline = bytesPerLine
 
   mylong = 1 << (16 - scancfg.depth)
   if((myRegs[0x1bf] & 0x18) != 0)
@@ -13240,7 +13240,7 @@ Calib_BlackShading(struct st_device *dev,
 
       b = 0
 
-      while(b < bytes_per_line)
+      while(b < bytesPerLine)
 	{
 	  if(scancfg.colormode != CM_COLOR)
 	    {
@@ -13272,7 +13272,7 @@ Calib_BlackShading(struct st_device *dev,
   /* Allocate buffer to read image */
   mheight = scancfg.coord.height
   buffer =
-    (Sane.Byte *) malloc(((scancfg.coord.height + 16) * bytes_per_line) *
+    (Sane.Byte *) malloc(((scancfg.coord.height + 16) * bytesPerLine) *
 			  sizeof(Sane.Byte))
   if(buffer == NULL)
     return ERROR
@@ -13295,7 +13295,7 @@ Calib_BlackShading(struct st_device *dev,
       return ERROR
     }
 
-  /* myRegs isn't going to be used anymore */
+  /* myRegs isn"t going to be used anymore */
   free(myRegs)
   myRegs = NULL
 
@@ -13318,7 +13318,7 @@ Calib_BlackShading(struct st_device *dev,
 		     CM_COLOR,
 		     scancfg.resolution_x,
 		     scancfg.resolution_y,
-		     buffer, (scancfg.coord.height + 16) * bytes_per_line)
+		     buffer, (scancfg.coord.height + 16) * bytesPerLine)
     }
 
   if(scancfg.depth > 8)
@@ -13327,7 +13327,7 @@ Calib_BlackShading(struct st_device *dev,
       memset(&dbvalue, 0, 6 * sizeof(double))
       position = 0
 
-      if(bytes_per_line > 0)
+      if(bytesPerLine > 0)
 	{
 	  do
 	    {
@@ -13374,7 +13374,7 @@ Calib_BlackShading(struct st_device *dev,
 			    }
 			}
 		      /*8d0b */
-		      ptr += (bytes_per_line * 2)
+		      ptr += (bytesPerLine * 2)
 		      current_line++
 		    }
 		  while(current_line < mheight)
@@ -13428,7 +13428,7 @@ Calib_BlackShading(struct st_device *dev,
 
 	      position++
 	    }
-	  while(position < bytes_per_line)
+	  while(position < bytesPerLine)
 	}
     }
   else
@@ -13437,7 +13437,7 @@ Calib_BlackShading(struct st_device *dev,
       memset(&dbvalue, 0, 6 * sizeof(double))
       position = 0
 
-      if(bytes_per_line > 0)
+      if(bytesPerLine > 0)
 	{
 	  do
 	    {
@@ -13493,7 +13493,7 @@ Calib_BlackShading(struct st_device *dev,
 			sumatorio += *ptr
 		      /*9067 */
 		      /* Point to the next pixel under current line */
-		      ptr += bytes_per_line
+		      ptr += bytesPerLine
 		      current_line++
 		    }
 		  while(current_line < mheight)
@@ -13576,7 +13576,7 @@ Calib_BlackShading(struct st_device *dev,
 	      /*92d8 */
 	      position++
 	    }
-	  while(position < bytes_per_line)
+	  while(position < bytesPerLine)
 	}
     }
 
@@ -14206,7 +14206,7 @@ Chipset_Reset(struct st_device *dev)
 
   DBG(DBG_FNC, "+ Chipset_Reset:\n")
 
-  /* I've found two ways to reset chipset. Next one will stay commented
+  /* I"ve found two ways to reset chipset. Next one will stay commented
      rst = ERROR
      if(Read_Byte(dev.usb_handle, 0xe800, &data) == OK)
      {
@@ -14456,7 +14456,7 @@ WShading_Calibrate(struct st_device *dev, Sane.Byte * Regs,
   struct st_gain_offset myCalibTable
   struct st_scanparams *myscancfg
   Sane.Byte *myRegs;		/*f1bc */
-  Int bytes_per_line
+  Int bytesPerLine
   /**/ Int x, y, a, C
   Sane.Byte *pattern;		/*f164 */
   double sumatorio
@@ -14515,17 +14515,17 @@ WShading_Calibrate(struct st_device *dev, Sane.Byte * Regs,
 
   myscancfg.sensorresolution = 0
 
-  bytes_per_line =
+  bytesPerLine =
     myscancfg.coord.width * (((myscancfg.colormode == CM_COLOR) ? 3 : 1) *
 			      ((myscancfg.depth > 8) ? 2 : 1))
 
   /*a1e8 */
-  myscancfg.v157c = bytes_per_line
-  myscancfg.bytesperline = bytes_per_line
+  myscancfg.v157c = bytesPerLine
+  myscancfg.bytesperline = bytesPerLine
 
   /* allocate space for pattern */
   pattern =
-    (Sane.Byte *) malloc(((myscancfg.coord.height) * bytes_per_line) *
+    (Sane.Byte *) malloc(((myscancfg.coord.height) * bytesPerLine) *
 			  sizeof(Sane.Byte))
   if(pattern == NULL)
     return ERROR
@@ -14546,12 +14546,12 @@ WShading_Calibrate(struct st_device *dev, Sane.Byte * Regs,
 
       bytes_per_channel = (myscancfg.depth > 8) ? 2 : 1
 
-      avg_colors = (Sane.Byte *) malloc(sizeof(Sane.Byte) * bytes_per_line)
+      avg_colors = (Sane.Byte *) malloc(sizeof(Sane.Byte) * bytesPerLine)
 
       if(avg_colors != NULL)
 	{
 	  wshading.ptr = 0
-	  wshading.count = bytes_per_line / bytes_per_channel
+	  wshading.count = bytesPerLine / bytes_per_channel
 
 	  if(wshading.rates != NULL)
 	    {
@@ -14571,7 +14571,7 @@ WShading_Calibrate(struct st_device *dev, Sane.Byte * Regs,
 		  data =
 		    data_lsb_get(pattern +
 				  ((x * bytes_per_channel) +
-				   (bytes_per_line * y)), bytes_per_channel)
+				   (bytesPerLine * y)), bytes_per_channel)
 		  sumatorio += data
 		}
 
@@ -14612,7 +14612,7 @@ WShading_Calibrate(struct st_device *dev, Sane.Byte * Regs,
 			 CM_COLOR,
 			 scancfg.resolution_x,
 			 scancfg.resolution_y,
-			 pattern, (myscancfg.coord.height) * bytes_per_line)
+			 pattern, (myscancfg.coord.height) * bytesPerLine)
 	}
 
 #ifdef developing
@@ -14649,7 +14649,7 @@ WShading_Calibrate(struct st_device *dev, Sane.Byte * Regs,
 		       CM_COLOR,
 		       scancfg.resolution_x,
 		       scancfg.resolution_y,
-		       pattern, (myscancfg.coord.height) * bytes_per_line)
+		       pattern, (myscancfg.coord.height) * bytesPerLine)
 
 	/* export coefficients */
 	archivo = fopen("wShading.txt", "w")
@@ -14678,7 +14678,7 @@ motor_pos(struct st_device *dev, Sane.Byte * Regs,
   struct st_gain_offset myCalibTable
   struct st_scanparams *myscancfg
   Sane.Byte *myRegs;		/*f1bc */
-  Int bytes_per_line
+  Int bytesPerLine
   /**/ Int a, C
   Sane.Byte *scanbuffer;	/*f164 */
   Int gainmode
@@ -14727,14 +14727,14 @@ motor_pos(struct st_device *dev, Sane.Byte * Regs,
   myscancfg.coord.top = 100
   myscancfg.coord.height = 30
 
-  bytes_per_line = myscancfg.coord.width * 3
+  bytesPerLine = myscancfg.coord.width * 3
 
   /*a1e8 */
-  myscancfg.v157c = bytes_per_line
-  myscancfg.bytesperline = bytes_per_line
+  myscancfg.v157c = bytesPerLine
+  myscancfg.bytesperline = bytesPerLine
 
   scanbuffer =
-    (Sane.Byte *) malloc(((myscancfg.coord.height + 16) * bytes_per_line) *
+    (Sane.Byte *) malloc(((myscancfg.coord.height + 16) * bytesPerLine) *
 			  sizeof(Sane.Byte))
   if(scanbuffer == NULL)
     return ERROR
@@ -14774,7 +14774,7 @@ motor_pos(struct st_device *dev, Sane.Byte * Regs,
 			 myscancfg.resolution_x,
 			 myscancfg.resolution_y,
 			 scanbuffer,
-			 (myscancfg.coord.height + 16) * bytes_per_line)
+			 (myscancfg.coord.height + 16) * bytesPerLine)
 	}
     }
 
@@ -14811,7 +14811,7 @@ Calib_BlackShading_jkd(struct st_device *dev, Sane.Byte * Regs,
   struct st_gain_offset myCalibTable
   struct st_scanparams *myscancfg
   Sane.Byte *myRegs;		/*f1bc */
-  Int bytes_per_line
+  Int bytesPerLine
   /**/ Int x, y, a, C
   Sane.Byte *scanbuffer;	/*f164 */
   double sumatorio
@@ -14867,14 +14867,14 @@ Calib_BlackShading_jkd(struct st_device *dev, Sane.Byte * Regs,
   myscancfg.coord.top = 1
   myscancfg.coord.height = calibcfg.BShadingHeight
 
-  bytes_per_line = myscancfg.coord.width * 3
+  bytesPerLine = myscancfg.coord.width * 3
 
   /*a1e8 */
-  myscancfg.v157c = bytes_per_line
-  myscancfg.bytesperline = bytes_per_line
+  myscancfg.v157c = bytesPerLine
+  myscancfg.bytesperline = bytesPerLine
 
   scanbuffer =
-    (Sane.Byte *) malloc(((myscancfg.coord.height + 16) * bytes_per_line) *
+    (Sane.Byte *) malloc(((myscancfg.coord.height + 16) * bytesPerLine) *
 			  sizeof(Sane.Byte))
   if(scanbuffer == NULL)
     return ERROR
@@ -14900,18 +14900,18 @@ Calib_BlackShading_jkd(struct st_device *dev, Sane.Byte * Regs,
 
   if(rst != ERROR)
     {
-      jkd_black = (Sane.Byte *) malloc(bytes_per_line)
+      jkd_black = (Sane.Byte *) malloc(bytesPerLine)
 
       if(jkd_black != NULL)
 	{
-	  jkd_blackbpl = bytes_per_line
+	  jkd_blackbpl = bytesPerLine
 
-	  for(x = 0; x < bytes_per_line; x++)
+	  for(x = 0; x < bytesPerLine; x++)
 	    {
 	      sumatorio = 0
 
 	      for(y = 0; y < myscancfg.coord.height + 16; y++)
-		sumatorio += scanbuffer[x + (bytes_per_line * y)]
+		sumatorio += scanbuffer[x + (bytesPerLine * y)]
 
 	      sumatorio /= myscancfg.coord.height + 16
 	      a = sumatorio
@@ -14929,7 +14929,7 @@ Calib_BlackShading_jkd(struct st_device *dev, Sane.Byte * Regs,
 		       myscancfg.resolution_x,
 		       myscancfg.resolution_y,
 		       scanbuffer,
-		       (myscancfg.coord.height + 16) * bytes_per_line)
+		       (myscancfg.coord.height + 16) * bytesPerLine)
       }
     }
 
@@ -14946,7 +14946,7 @@ Calib_test(struct st_device *dev, Sane.Byte * Regs,
   struct st_gain_offset myCalibTable
   struct st_scanparams *myscancfg
   Sane.Byte *myRegs;		/*f1bc */
-  Int bytes_per_line
+  Int bytesPerLine
   /**/ Int a, C
   Sane.Byte *scanbuffer;	/*f164 */
   Int gainmode
@@ -14995,14 +14995,14 @@ Calib_test(struct st_device *dev, Sane.Byte * Regs,
   myscancfg.coord.top = 100
   myscancfg.coord.height = 30
 
-  bytes_per_line = myscancfg.coord.width * 3
+  bytesPerLine = myscancfg.coord.width * 3
 
   /*a1e8 */
-  myscancfg.v157c = bytes_per_line
-  myscancfg.bytesperline = bytes_per_line
+  myscancfg.v157c = bytesPerLine
+  myscancfg.bytesperline = bytesPerLine
 
   scanbuffer =
-    (Sane.Byte *) malloc(((myscancfg.coord.height + 16) * bytes_per_line) *
+    (Sane.Byte *) malloc(((myscancfg.coord.height + 16) * bytesPerLine) *
 			  sizeof(Sane.Byte))
   if(scanbuffer == NULL)
     return ERROR
@@ -15040,7 +15040,7 @@ Calib_test(struct st_device *dev, Sane.Byte * Regs,
 			 myscancfg.resolution_x,
 			 myscancfg.resolution_y,
 			 scanbuffer,
-			 (myscancfg.coord.height + 16) * bytes_per_line)
+			 (myscancfg.coord.height + 16) * bytesPerLine)
 	}
     }
 

@@ -669,7 +669,7 @@ accessory(Microtek_Scanner *ms)
 
 
 /********************************************************************/
-/* start the scanner a-scannin'                                     */
+/* start the scanner a-scannin"                                     */
 /********************************************************************/
 static Sane.Status
 start_scan(Microtek_Scanner *ms)
@@ -705,7 +705,7 @@ start_scan(Microtek_Scanner *ms)
 
 
 /********************************************************************/
-/* stop the scanner a-scannin'                                      */
+/* stop the scanner a-scannin"                                      */
 /********************************************************************/
 static Sane.Status
 stop_scan(Microtek_Scanner *ms)
@@ -735,7 +735,7 @@ stop_scan(Microtek_Scanner *ms)
 static Sane.Status
 get_scan_status(Microtek_Scanner *ms,
 		Int *busy,
-		Int *bytes_per_line,
+		Int *bytesPerLine,
 		Int *lines)
 {
   uint8_t data[6], comm[6] = { 0x0F, 0, 0, 0, 0x06, 0 ]
@@ -754,11 +754,11 @@ get_scan_status(Microtek_Scanner *ms,
       return status
     }
     *busy = data[0]
-    *bytes_per_line = (data[1]) + (data[2] << 8)
+    *bytesPerLine = (data[1]) + (data[2] << 8)
     *lines = (data[3]) + (data[4] << 8) + (data[5] << 16)
 
     DBG(20, "get_scan_status(%lu): %d, %d, %d  -> #%d\n",
-	(u_long) lenp, *busy, *bytes_per_line, *lines, retry)
+	(u_long) lenp, *busy, *bytesPerLine, *lines, retry)
     DBG(20, "> %2x %2x %2x %2x %2x %2x\n",
 	    data[0], data[1], data[2], data[3], data[4], data[5])
     if(*busy != 0) {
@@ -811,7 +811,7 @@ download_gamma(Microtek_Scanner *ms)
   Sane.Status status
 
   DBG(23, ".download_gamma...\n")
-  /* skip if scanner doesn't take 'em */
+  /* skip if scanner doesn"t take "em */
   if(!(ms.gamma_entries)) {
     DBG(23, ".download_gamma:  no entries; skipping\n")
     return Sane.STATUS_GOOD
@@ -828,7 +828,7 @@ download_gamma(Microtek_Scanner *ms)
   commsize = 10 + (ms.gamma_entries * ms.gamma_entry_size)
   comm = calloc(commsize, sizeof(uint8_t))
   if(comm == NULL) {
-    DBG(23, ".download_gamma:  couldn't allocate %d bytes for comm buffer!\n",
+    DBG(23, ".download_gamma:  couldn"t allocate %d bytes for comm buffer!\n",
 	commsize)
     return Sane.STATUS_NO_MEM
   }
@@ -1016,9 +1016,9 @@ download_calibration(Microtek_Scanner *ms, uint8_t *comm,
 
   comm[6] = 0x00
   switch(letter) {
-  case 'R': comm[7] = 0x40; break
-  case 'G': comm[7] = 0x80; break
-  case 'B': comm[7] = 0xc0; break
+  case "R": comm[7] = 0x40; break
+  case "G": comm[7] = 0x80; break
+  case "B": comm[7] = 0xc0; break
   default: /* XXXXXXX */ break
   }
 
@@ -1526,7 +1526,7 @@ parse_inquiry(Microtek_Info *mi, unsigned char *result)
   mi.unit_type                  = (Sane.Byte)(result[59] & 0xC0)
 
   mi.doc_size_code              = (Sane.Byte)result[60]
-  /* we'll compute the max sizes after we know base resolution... */
+  /* we"ll compute the max sizes after we know base resolution... */
 
   /* why are these things set in two places(and probably wrong anyway)? */
   mi.cont_settings              = (Int)((result[61] & 0xf0) >> 4)
@@ -1597,7 +1597,7 @@ parse_inquiry(Microtek_Info *mi, unsigned char *result)
     break
   }
 
-  /* Our max_x,y is in pixels. `Some scanners think in 1/8", though.' */
+  /* Our max_x,y is in pixels. `Some scanners think in 1/8", though." */
   /* max pixel is, of course, total - 1                               */
   switch(mi.doc_size_code) {
   case 0x00:
@@ -1698,13 +1698,13 @@ parse_inquiry(Microtek_Info *mi, unsigned char *result)
   */
 
   /* This is not how the vague documentation specifies this register.
-     We're going to take it literally here -- i.e. if the bit is
-     set, the scanner supports the value, otherwise it doesn't.
+     We"re going to take it literally here -- i.e. if the bit is
+     set, the scanner supports the value, otherwise it doesn"t.
      (The docs say all lower values are always supported.  This is
      not the case for the StudioScan IIsi, at least, which only
      specifies 0x02==1024-byte table, and only supports that, too.)
 
-     All-in-all, it doesn't matter, since we take the largest
+     All-in-all, it doesn"t matter, since we take the largest
      allowed LUT size anyway.
   */
   if(result[66] & 0x08)
@@ -1765,7 +1765,7 @@ parse_inquiry(Microtek_Info *mi, unsigned char *result)
 
   /* The E2 lies... */
   if(mi.model_code == 0x64) {
-    DBG(4, "parse_inquiry:  The E2 lies about it's 3-pass heritage.\n")
+    DBG(4, "parse_inquiry:  The E2 lies about it"s 3-pass heritage.\n")
     mi.does_3pass = 1
     mi.modes &= ~MI_MODES_ONEPASS
   }
@@ -1796,10 +1796,10 @@ dump_inquiry(Microtek_Info *mi, unsigned char *result)
   DBG(1, "===== Scanner ID...\n")
   DBG(1, "Device Type Code: 0x%02x\n", mi.device_type)
   DBG(1, "Model Code: 0x%02x\n", mi.model_code)
-  DBG(1, "Vendor Name: '%s'   Model Name: '%s'\n",
+  DBG(1, "Vendor Name: "%s"   Model Name: "%s"\n",
 	  mi.vendor_id, mi.model_name)
-  DBG(1, "Vendor Specific String: '%s'\n", mi.vendor_string)
-  DBG(1, "Firmware Rev: '%s'\n", mi.revision_num)
+  DBG(1, "Vendor Specific String: "%s"\n", mi.vendor_string)
+  DBG(1, "Firmware Rev: "%s"\n", mi.revision_num)
   DBG(1,
 	  "SCSI F/W version: %1d.%1d     Scanner F/W version: %1d.%1d\n",
 	  mi.SCSI_firmware_ver_major, mi.SCSI_firmware_ver_minor,
@@ -1832,7 +1832,7 @@ dump_inquiry(Microtek_Info *mi, unsigned char *result)
 	  mi.max_x, mi.max_y)
   DBG(1, "Frame units:  %s%s\n",
 	  (mi.unit_type & MI_UNIT_PIXELS) ? "pixels  " : "",
-	  (mi.unit_type & MI_UNIT_8TH_INCH) ? "1/8\"'s " : "")
+	  (mi.unit_type & MI_UNIT_8TH_INCH) ? "1/8\""s " : "")
   DBG(1, "# of built-in halftones: %d   Downloadable patterns? %s\n",
 	  mi.pattern_count, (mi.pattern_dwnld) ? "Yes" : "No")
 
@@ -1964,9 +1964,9 @@ dump_suspect_inquiry(unsigned char *result)
   DBG(1, "===== Scanner ID...\n")
   DBG(1, "Device Type Code: 0x%02x\n", device_type)
   DBG(1, "Model Code: 0x%02x\n", model_code)
-  DBG(1, "Vendor Name: '%s'   Model Name: '%s'\n",
+  DBG(1, "Vendor Name: "%s"   Model Name: "%s"\n",
 	  vendor_id, model_name)
-  DBG(1, "Firmware Rev: '%s'\n", revision_num)
+  DBG(1, "Firmware Rev: "%s"\n", revision_num)
   DBG(1,
 	  "SCSI F/W version: %1d.%1d     Scanner F/W version: %1d.%1d\n",
 	  SCSI_firmware_ver_major, SCSI_firmware_ver_minor,
@@ -2000,7 +2000,7 @@ id_microtek(uint8_t *result, char **model_string)
       !(strncmp("MII SC23", (char *)&(result[8]), 8)) ||  /* the other 600ZS */
       !(strncmp("MII SC25", (char *)&(result[8]), 8)) ||  /* some other 600GS */
       !(strncmp("AGFA    ", (char *)&(result[8]), 8)) ||  /* Arcus II */
-      !(strncmp("Microtek", (char *)&(result[8]), 8)) ||  /* some 35t+'s */
+      !(strncmp("Microtek", (char *)&(result[8]), 8)) ||  /* some 35t+"s */
       !(strncmp("Polaroid", (char *)&(result[8]), 8)) ||  /* SprintScan 35LE */
       !(strncmp("        ", (char *)&(result[8]), 8)) ) {
     switch(result[62]) {
@@ -2060,7 +2060,7 @@ id_microtek(uint8_t *result, char **model_string)
       *model_string = "TR3";      forcewarn = 1; break
     default :
       /* this might be a newer scanner, which uses the SCSI II command set. */
-      /* that's unfortunate, but we'll warn the user anyway....             */
+      /* that"s unfortunate, but we"ll warn the user anyway....             */
       response_data_format = (Sane.Byte)(result[3])
       if(response_data_format == 0x02) {
 	DBG(15, "id_microtek:  (uses new SCSI II command set)\n")
@@ -2073,7 +2073,7 @@ id_microtek(uint8_t *result, char **model_string)
 	  DBG(1, "brand-new Microtek scanner, which uses\n")
 	  DBG(1, "a new SCSI II command set.            \n")
 	  DBG(1, "\n")
-	  DBG(1, "Try the `microtek2' backend instead.  \n")
+	  DBG(1, "Try the `microtek2" backend instead.  \n")
 	  DBG(1, "\n")
 	  DBG(1, "\n")
 	  DBG(1, "\n")
@@ -2100,9 +2100,9 @@ id_microtek(uint8_t *result, char **model_string)
       DBG(1, "include a description of the scanner, \n")
       DBG(1, "including the base optical resolution.\n")
       DBG(1, "\n")
-      DBG(1, "You'll find complete instructions for \n")
+      DBG(1, "You"ll find complete instructions for \n")
       DBG(1, "submitting an error/debug log in the  \n")
-      DBG(1, "'sane-microtek' man-page.             \n")
+      DBG(1, ""sane-microtek" man-page.             \n")
       DBG(1, "\n")
       DBG(1, "\n")
       DBG(1, "\n")
@@ -2159,7 +2159,7 @@ attach_scanner(const char *devicename, Microtek_Device **devp)
   }
 
   if(id_microtek(result, &model_string) != Sane.STATUS_GOOD) {
-      DBG(15, "attach_scanner:  device doesn't look like a Microtek scanner.")
+      DBG(15, "attach_scanner:  device doesn"t look like a Microtek scanner.")
       if(DBG_LEVEL >= 5) dump_suspect_inquiry(result)
       return Sane.STATUS_INVAL
   }
@@ -2224,7 +2224,7 @@ static Sane.Status end_scan(Microtek_Scanner *s, Sane.Status ostat)
       sanei_scsi_close(s.sfd)
       s.sfd = -1
     }
-    /* free the buffers we malloc'ed */
+    /* free the buffers we malloc"ed */
     if(s.scsi_buffer != NULL) {
       free(s.scsi_buffer)
       s.scsi_buffer = NULL
@@ -2250,7 +2250,7 @@ static Sane.Status end_scan(Microtek_Scanner *s, Sane.Status ostat)
 
 
 /* number of lines of calibration data returned by scanner */
-#define STRIPS 12  /* well, that's what it seems to be for the E6 */
+#define STRIPS 12  /* well, that"s what it seems to be for the E6 */
 
 
 /* simple comparison for the qsort below */
@@ -2299,7 +2299,7 @@ static void calc_calibration(uint8_t *caldata, uint8_t *scanline[],
     sort_values(sorted, scanline, i)
     q1 = sorted[STRIPS / 4];       /* first quartile */
     q3 = sorted[STRIPS * 3 / 4];   /* third quartile */
-    bot = q1 - 3 * (q3 - q1) / 2;  /* quick'n'easy bounds */
+    bot = q1 - 3 * (q3 - q1) / 2;  /* quick"n"easy bounds */
     top = q3 + 3 * (q3 - q1) / 2
 
     for(j=0; j<STRIPS; j++) {
@@ -2327,7 +2327,7 @@ static void calc_calibration(uint8_t *caldata, uint8_t *scanline[],
 /********************************************************************/
 /* Calibrate scanner CCD, the "real" way.                           */
 /*  This stuff is not documented in the command set, but this is    */
-/*  what Microtek's TWAIN driver seems to do, more or less, on an   */
+/*  what Microtek"s TWAIN driver seems to do, more or less, on an   */
 /*  E6 at least.  What other scanners will do this???               */
 /********************************************************************/
 
@@ -2344,7 +2344,7 @@ static Sane.Status do_real_calibrate(Microtek_Scanner *s)
 
   DBG(10, "do_real_calibrate...\n")
 
-  /* tell scanner to read it's little chart */
+  /* tell scanner to read it"s little chart */
   if((status = start_calibration(s)) != Sane.STATUS_GOOD) return status
   if((status = get_scan_status(s, &busy, &linewidth, &lines))
       != Sane.STATUS_GOOD) {
@@ -2383,7 +2383,7 @@ static Sane.Status do_real_calibrate(Microtek_Scanner *s)
     return((statusA != Sane.STATUS_GOOD) ? statusA : status)
   }
   /* calculate calibration data for each element and download */
-  for(letter = 'R'; letter != 'X'; ) {
+  for(letter = "R"; letter != "X"; ) {
     DBG(23, "do_real_calibrate:  working on %c\n", letter)
     for(spot=0, i=0; spot < linewidth * STRIPS * 3; spot += linewidth) {
       if(input[spot+1] == letter) {
@@ -2405,10 +2405,10 @@ static Sane.Status do_real_calibrate(Microtek_Scanner *s)
       return status
     }
     switch(letter) {
-    case 'R': letter = 'G'; break
-    case 'G': letter = 'B'; break
-    case 'B':
-    default:  letter = 'X'; break
+    case "R": letter = "G"; break
+    case "G": letter = "B"; break
+    case "B":
+    default:  letter = "X"; break
     }
   }
   /* clean up */
@@ -2421,7 +2421,7 @@ static Sane.Status do_real_calibrate(Microtek_Scanner *s)
 
 
 /********************************************************************/
-/* Cause scanner to calibrate, but don't really scan anything       */
+/* Cause scanner to calibrate, but don"t really scan anything       */
 /*           (i.e. do everything but read data)                     */
 /********************************************************************/
 static Sane.Status do_precalibrate(Sane.Handle handle)
@@ -2437,7 +2437,7 @@ static Sane.Status do_precalibrate(Sane.Handle handle)
     Int y1 = s.y1
     Int y2 = s.y2
     /* some small range, but large enough to cause the scanner
-       to think it'll scan *something*... */
+       to think it"ll scan *something*... */
     s.y1 = 0
     s.y2 =
       (s.resolution > s.dev.info.base_resolution) ?
@@ -2791,9 +2791,9 @@ pack_goofyrgb_data(Microtek_Scanner *s, size_t nlines)
 	 seg < nlines * 3
 	 seg++, pt += s.ppl + 2) {
       switch(*pt) {
-      case 'R': dr += rb.bpl;  break
-      case 'G': dg += rb.bpl;  break
-      case 'B': db += rb.bpl;  break
+      case "R": dr += rb.bpl;  break
+      case "G": dg += rb.bpl;  break
+      case "B": db += rb.bpl;  break
       }
     }
     ar = rb.size - (rb.complete_count + rb.red_extra * 3)
@@ -2823,9 +2823,9 @@ pack_goofyrgb_data(Microtek_Scanner *s, size_t nlines)
     sb++; /* skip first byte in line(two byte header) */
     id = *sb
     switch(id) {
-    case 'R': spot = rb.tail_red;  break
-    case 'G': spot = rb.tail_green;  break
-    case 'B': spot = rb.tail_blue;  break
+    case "R": spot = rb.tail_red;  break
+    case "G": spot = rb.tail_green;  break
+    case "B": spot = rb.tail_blue;  break
     default:
       DBG(18, "pack_goofy:  missing scanline RGB header!\n")
       return Sane.STATUS_IO_ERROR
@@ -2855,9 +2855,9 @@ pack_goofyrgb_data(Microtek_Scanner *s, size_t nlines)
       }
     }
     switch(id) {
-    case 'R': rb.tail_red   = spot; rb.red_extra   += rb.ppl; break
-    case 'G': rb.tail_green = spot; rb.green_extra += rb.ppl; break
-    case 'B': rb.tail_blue  = spot; rb.blue_extra  += rb.ppl; break
+    case "R": rb.tail_red   = spot; rb.red_extra   += rb.ppl; break
+    case "G": rb.tail_green = spot; rb.green_extra += rb.ppl; break
+    case "B": rb.tail_blue  = spot; rb.blue_extra  += rb.ppl; break
     }
   }
 
@@ -3071,13 +3071,13 @@ Sane.init(Int *version_code, Sane.Auth_Callback authorize)
   fp = sanei_config_open(MICROTEK_CONFIG_FILE)
   if(!fp) {
     /* default to /dev/scanner instead of insisting on config file */
-    DBG(1, "Sane.init:  missing config file '%s'\n", MICROTEK_CONFIG_FILE)
+    DBG(1, "Sane.init:  missing config file "%s"\n", MICROTEK_CONFIG_FILE)
     attach_scanner("/dev/scanner", 0)
     return Sane.STATUS_GOOD
   }
   while(sanei_config_read(dev_name, sizeof(dev_name), fp)) {
     DBG(23, "Sane.init:  config-> %s\n", dev_name)
-    if(dev_name[0] == '#') continue;	/* ignore comments */
+    if(dev_name[0] == "#") continue;	/* ignore comments */
     if(!(strncmp("noprecal", dev_name, 8))) {
       DBG(23,
 	  "Sane.init:  Clever Precalibration will be forcibly disabled...\n")
@@ -3235,7 +3235,7 @@ Sane.open(Sane.String_Const devicename,
 	(scanner.red_lut == NULL) ||
 	(scanner.green_lut == NULL) ||
 	(scanner.blue_lut == NULL)) {
-      DBG(23, "Sane.open:  unable to allocate space for %d-entry LUT's;\n",
+      DBG(23, "Sane.open:  unable to allocate space for %d-entry LUT"s;\n",
 	  scanner.gamma_entries)
       DBG(23, "            so, gamma tables now DISABLED.\n")
       free(scanner.gray_lut)
@@ -3273,7 +3273,7 @@ Sane.open(Sane.String_Const devicename,
   scanner.cancel = Sane.FALSE
 
   DBG(23, "Sane.open:  init clever cache...\n")
-  /* clear out that clever cache, so it doesn't match anything */
+  /* clear out that clever cache, so it doesn"t match anything */
   {
     Int j
     for(j=0; j<10; j++)
@@ -3301,7 +3301,7 @@ Sane.close(Sane.Handle handle)
   Microtek_Scanner *ms = handle
 
   DBG(10, "Sane.close...\n")
-  /* free malloc'ed stuff(strdup counts too!) */
+  /* free malloc"ed stuff(strdup counts too!) */
   free((void *) ms.sod[OPT_MODE].constraint.string_list)
   free((void *) ms.sod[OPT_SOURCE].constraint.string_list)
   free(ms.val[OPT_MODE].s)
@@ -3728,7 +3728,7 @@ Sane.get_parameters(Sane.Handle handle,
 
 
     {
-      /* need to 'round' things properly!  XXXXXXXX */
+      /* need to "round" things properly!  XXXXXXXX */
       Int widthpix
       double dots_per_mm = s.resolution / MM_PER_INCH
       double units_per_mm =
@@ -3740,7 +3740,7 @@ Sane.get_parameters(Sane.Handle handle,
       DBG(23, "Sane.get_parameters:  units_per_mm:  %f\n", units_per_mm)
 
       /* calculate frame coordinates...
-       *  scanner coords are in 'units' -- pixels or 1/8"
+       *  scanner coords are in "units" -- pixels or 1/8"
        *  option coords are MM
        */
       s.x1 = (Int)(Sane.UNFIX(s.val[OPT_TL_X].w) * units_per_mm + 0.5)
@@ -3802,14 +3802,14 @@ Sane.get_parameters(Sane.Handle handle,
       s.params.format = Sane.FRAME_GRAY
       s.params.depth = 1
       s.filter = MS_FILT_CLEAR
-      s.params.bytes_per_line = s.params.pixels_per_line / 8
+      s.params.bytesPerLine = s.params.pixels_per_line / 8
       break
     case MS_MODE_GRAY:
       s.multibit = Sane.TRUE
       s.params.format = Sane.FRAME_GRAY
       s.params.depth = s.bits_per_color
       s.filter = MS_FILT_CLEAR
-      s.params.bytes_per_line = s.params.pixels_per_line
+      s.params.bytesPerLine = s.params.pixels_per_line
       break
     case MS_MODE_COLOR:
       s.multibit = Sane.TRUE
@@ -3817,18 +3817,18 @@ Sane.get_parameters(Sane.Handle handle,
 	s.params.format = Sane.FRAME_RGB
 	s.params.depth = s.bits_per_color
 	s.filter = MS_FILT_CLEAR
-	s.params.bytes_per_line = s.params.pixels_per_line * 3
+	s.params.bytesPerLine = s.params.pixels_per_line * 3
       } else { /* a three-pass color scan */
 	s.params.depth = s.bits_per_color
 	/* this will be correctly set in Sane.start */
 	s.params.format = Sane.FRAME_RED
-	s.params.bytes_per_line = s.params.pixels_per_line
+	s.params.bytesPerLine = s.params.pixels_per_line
       }
       break
     }
 
     DBG(23, "Sane.get_parameters:  lines: %d  ppl: %d  bpl: %d\n",
-	s.params.lines, s.params.pixels_per_line, s.params.bytes_per_line)
+	s.params.lines, s.params.pixels_per_line, s.params.bytesPerLine)
 
     /* also fixed in Sane.start for multi-pass scans */
     s.params.last_frame = Sane.TRUE;  /* ?? XXXXXXXX */
@@ -4014,7 +4014,7 @@ Sane.start_guts(Sane.Handle handle)
 
   s.params.lines = s.unscanned_lines
   s.params.pixels_per_line = s.dest_ppl
-  s.params.bytes_per_line = s.dest_pixel_bpl
+  s.params.bytesPerLine = s.dest_pixel_bpl
 
   /* calculate maximum line capacity of SCSI buffer */
   s.max_scsi_lines = SCSI_BUFF_SIZE / (s.pixel_bpl + s.header_bpl)
@@ -4026,7 +4026,7 @@ Sane.start_guts(Sane.Handle handle)
   s.scsi_buffer = (uint8_t *) malloc(SCSI_BUFF_SIZE * sizeof(uint8_t))
   if(s.scsi_buffer == NULL) return Sane.STATUS_NO_MEM
 
-  /* what's a good initial size for this? */
+  /* what"s a good initial size for this? */
   s.rb = ring_alloc(s.max_scsi_lines * s.dest_pixel_bpl,
       s.dest_pixel_bpl, s.dest_ppl)
 
@@ -4075,7 +4075,7 @@ Sane.read_guts(Sane.Handle handle, Sane.Byte *dest_buffer,
   *ret_length = 0; /* default: no data */
   /* we have been cancelled... */
   if(s.cancel) return end_scan(s, Sane.STATUS_CANCELLED)
-  /* we're not really scanning!... */
+  /* we"re not really scanning!... */
   if(!(s.scanning)) return Sane.STATUS_INVAL
   /* we are done scanning... */
   if(s.undelivered_bytes <= 0) return end_scan(s, Sane.STATUS_EOF)

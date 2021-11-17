@@ -18,7 +18,7 @@
 
    Note: The exception that is mentioned in the other source files is
    not here. If a case arises where you need the rights that that
-   exception gives you, Please do contact me, and we'll work something
+   exception gives you, Please do contact me, and we"ll work something
    out.
 
    R.E.Wolff@BitWizard.nl
@@ -239,20 +239,20 @@ attach(const char *devname, Tamarack_Device **devp)
   if(status != Sane.STATUS_GOOD)
     return status
 
-  result[33]= '\0'
-  p = strchr(result+16,' ')
-  if(p) *p = '\0'
+  result[33]= "\0"
+  p = strchr(result+16," ")
+  if(p) *p = "\0"
   model = strdup(result+16)
 
-  result[16]= '\0'
-  p = strchr(result+8,' ')
-  if(p) *p = '\0'
+  result[16]= "\0"
+  p = strchr(result+8," ")
+  if(p) *p = "\0"
   mfg = strdup(result+8)
 
   DBG(1, "attach: Inquiry gives mfg=%s, model=%s.\n", mfg, model)
 
   if(strcmp(mfg, "TAMARACK") != 0) {
-    DBG(1, "attach: device doesn't look like a Tamarack scanner "
+    DBG(1, "attach: device doesn"t look like a Tamarack scanner "
 	   "(result[0]=%#02x)\n", result[0])
     return Sane.STATUS_INVAL
   }
@@ -331,7 +331,7 @@ scan_area_and_windows(Tamarack_Scanner *s)
 {
   struct def_win_par dwp
 
-  memset(&dwp,'\0',sizeof(dwp))
+  memset(&dwp,"\0",sizeof(dwp))
   dwp.dwph.opc = TAMARACK_SCSI_AREA_AND_WINDOWS
   set_triple(dwp.dwph.len,8 + sizeof(dwp.wdb))
 
@@ -385,7 +385,7 @@ scan_area_and_windows(Tamarack_Scanner *s)
   dwp.wdb.exposure   = 0x6f;        /* XXX Option? */
   dwp.wdb.compr_type = 0
 
-  /* XXX Shouldn't this be sizeof(dwp) */
+  /* XXX Shouldn"t this be sizeof(dwp) */
   return sanei_scsi_cmd(s.fd, &dwp, (10+8+38), 0, 0)
 }
 
@@ -399,7 +399,7 @@ mode_select(Tamarack_Scanner *s)
     struct tamarack_page page
   } c
 
-  memset(&c, '\0', sizeof(c))
+  memset(&c, "\0", sizeof(c))
   c.cmd.opc = TAMARACK_SCSI_MODE_SELECT
   c.cmd.pad0[0] = 0x10;    /* Suddenly the pad bytes are no long pad... */
   c.cmd.pad0[1] = 0
@@ -432,7 +432,7 @@ start_scan(Tamarack_Scanner *s)
     unsigned char winid[1]
   } c
 
-  memset(&c,'\0',sizeof(c))
+  memset(&c,"\0",sizeof(c))
   c.cmd.opc = TAMARACK_SCSI_START_STOP
   c.cmd.len = sizeof(c.winid)
   c.winid[0] = WINID
@@ -443,7 +443,7 @@ start_scan(Tamarack_Scanner *s)
 static Sane.Status
 stop_scan(Tamarack_Scanner *s)
 {
-  /* XXX I don't think a TAMARACK can stop in mid-scan. Just stop
+  /* XXX I don"t think a TAMARACK can stop in mid-scan. Just stop
      sending it requests for data....
    */
   return sanei_scsi_cmd(s.fd, stop, sizeof(stop), 0, 0)
@@ -474,7 +474,7 @@ do_cancel(Tamarack_Scanner *s)
     {
       Int exit_status
 
-      /* ensure child knows it's time to stop: */
+      /* ensure child knows it"s time to stop: */
       sanei_thread_kill(s.reader_pid)
       sanei_thread_waitpid(s.reader_pid, &exit_status)
       sanei_thread_invalidate(s.reader_pid)
@@ -527,7 +527,7 @@ get_image_status(Tamarack_Scanner *s)
   if((status != Sane.STATUS_GOOD) && (status != Sane.STATUS_DEVICE_BUSY))
     return status
 
-  s.params.bytes_per_line =
+  s.params.bytesPerLine =
     result[ 8] | (result[ 7] << 8) | (result[6] << 16)
   s.params.lines =
     result[11] | (result[10] << 8) | (result[9] << 16)
@@ -535,17 +535,17 @@ get_image_status(Tamarack_Scanner *s)
   switch(s.mode) {
   case DITHERED:
   case THRESHOLDED:
-    s.params.pixels_per_line = 8 * s.params.bytes_per_line
+    s.params.pixels_per_line = 8 * s.params.bytesPerLine
     break
   case GREYSCALE:
   case TRUECOLOR:
-    s.params.pixels_per_line =     s.params.bytes_per_line
+    s.params.pixels_per_line =     s.params.bytesPerLine
     break
   }
 
 
-  DBG(1, "get_image_status: bytes_per_line=%d, lines=%d\n",
-      s.params.bytes_per_line, s.params.lines)
+  DBG(1, "get_image_status: bytesPerLine=%d, lines=%d\n",
+      s.params.bytesPerLine, s.params.lines)
   return Sane.STATUS_GOOD
 }
 
@@ -562,7 +562,7 @@ read_data(Tamarack_Scanner *s, Sane.Byte *buf, Int lines, Int bpl)
 #endif
 
   nbytes = bpl * lines
-  memset(&cmd,'\0',sizeof(cmd))
+  memset(&cmd,"\0",sizeof(cmd))
   cmd.opc = 0x28
   set_triple(cmd.len,nbytes)
 
@@ -813,7 +813,7 @@ init_options(Tamarack_Scanner *s)
    while the main process can go about to do more important things
    (such as recognizing when the user presses a cancel button).
 
-   WARNING: Since this is executed as a subprocess, it's NOT possible
+   WARNING: Since this is executed as a subprocess, it"s NOT possible
    to update any of the variables in the main process(in particular
    the scanner state cannot be updated).  */
 static Int
@@ -849,7 +849,7 @@ reader_process(void *scanner)
   if(!fp)
     return 1
 
-  bpl = s.params.bytes_per_line
+  bpl = s.params.bytesPerLine
 
   lines_per_buffer = sanei_scsi_max_request_size / bpl
   if(!lines_per_buffer)
@@ -860,7 +860,7 @@ reader_process(void *scanner)
   if(lines_per_buffer > Sane.UNFIX(s.val[OPT_RESOLUTION].w))
       lines_per_buffer = Sane.UNFIX(s.val[OPT_RESOLUTION].w)
 
-  DBG(3, "lines_per_buffer=%d, bytes_per_line=%d\n", lines_per_buffer, bpl)
+  DBG(3, "lines_per_buffer=%d, bytesPerLine=%d\n", lines_per_buffer, bpl)
 
   data = malloc(lines_per_buffer * bpl)
 
@@ -926,7 +926,7 @@ Sane.init(Int *version_code, Sane.Auth_Callback authorize)
   }
 
   while(sanei_config_read(dev_name, sizeof(dev_name), fp)) {
-    if(dev_name[0] == '#')		/* ignore line comments */
+    if(dev_name[0] == "#")		/* ignore line comments */
       continue
     len = strlen(dev_name)
 
@@ -1279,7 +1279,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
     height = Sane.UNFIX(s.val[OPT_BR_Y].w - s.val[OPT_TL_Y].w)
     dpi    = Sane.UNFIX(s.val[OPT_RESOLUTION].w)
     s.mode = make_mode(s.val[OPT_MODE].s)
-    DBG(1, "got mode '%s' -> %d.\n", s.val[OPT_MODE].s, s.mode)
+    DBG(1, "got mode "%s" -> %d.\n", s.val[OPT_MODE].s, s.mode)
     /* make best-effort guess at what parameters will look like once
        scanning starts.  */
     if(dpi > 0.0 && width > 0.0 && height > 0.0) {
@@ -1290,15 +1290,15 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
     }
     if((s.mode == THRESHOLDED) || (s.mode == DITHERED)) {
       s.params.format = Sane.FRAME_GRAY
-      s.params.bytes_per_line = (s.params.pixels_per_line + 7) / 8
+      s.params.bytesPerLine = (s.params.pixels_per_line + 7) / 8
       s.params.depth = 1
     } else if(s.mode == GREYSCALE) {
       s.params.format = Sane.FRAME_GRAY
-      s.params.bytes_per_line = s.params.pixels_per_line
+      s.params.bytesPerLine = s.params.pixels_per_line
       s.params.depth = 8
     } else {
       s.params.format = Sane.FRAME_RED + s.pass
-      s.params.bytes_per_line = s.params.pixels_per_line
+      s.params.bytesPerLine = s.params.pixels_per_line
       s.params.depth = 8
     }
     s.pass = 0
@@ -1315,7 +1315,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
   DBG(1, "Got parameters: format:%d, ppl: %d, bpl:%d, depth:%d, "
 	   "last %d pass %d\n",
 	   s.params.format, s.params.pixels_per_line,
-	   s.params.bytes_per_line, s.params.depth,
+	   s.params.bytesPerLine, s.params.depth,
 	   s.params.last_frame, s.pass)
   return Sane.STATUS_GOOD
 }
@@ -1329,7 +1329,7 @@ Sane.start(Sane.Handle handle)
   Int fds[2]
 
   /* First make sure we have a current parameter set.  Some of the
-     parameters will be overwritten below, but that's OK.  */
+     parameters will be overwritten below, but that"s OK.  */
   status = Sane.get_parameters(s, 0)
 
   if(status != Sane.STATUS_GOOD)
@@ -1345,7 +1345,7 @@ Sane.start(Sane.Handle handle)
 	  /* Force gray-scale mode when previewing.  */
 	  s.mode = GREYSCALE
 	  s.params.format = Sane.FRAME_GRAY
-	  s.params.bytes_per_line = s.params.pixels_per_line
+	  s.params.bytesPerLine = s.params.pixels_per_line
 	  s.params.last_frame = Sane.TRUE
 	}
       }

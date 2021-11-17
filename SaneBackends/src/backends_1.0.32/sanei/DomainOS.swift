@@ -115,7 +115,7 @@ struct DomainServerCommon
 
    This file defines a server for Apollo Domain/OS systems.  It does all
 of the scsi_$ calls that are needed for SANE.  This is necessary because
-Domain/OS will not allow a child process to access a parent's SCSI
+Domain/OS will not allow a child process to access a parent"s SCSI
 device.  The interface is through a common, mapped area.  Mutex locks
 are used to prevent concurrency problems, and eventcounts are used to
 notify a waiting process that its request has completed.
@@ -127,7 +127,7 @@ that it will exit when the application exits.
 
     Upon startup, the program is invoked with the path to an object that
 needs to be mapped for communication.  The parent process will have
-already initialized the 'public' eventcounts and locks, and will be
+already initialized the "public" eventcounts and locks, and will be
 waiting for the ResultReady eventcount to be incremented.  After
 initialization, the server will increment this eventcount, and wait for
 an incoming request, which is signified by the CommandAvailable
@@ -188,7 +188,7 @@ static struct
    } *DomainFdInfo
 
 /* This function is called error might have occurred, but it would be one that I
-don't know how to handle, or never expect to happen.  */
+don"t know how to handle, or never expect to happen.  */
 static void DomainErrorCheck(status_$t status, const char *message)
    {
    char *subsystem, *module, *code
@@ -218,7 +218,7 @@ pfm_$fh_func_val_t FaultHandler(pfm_$fault_rec_t *FaultStatusPtr)
       {
       case fault_$quit:
          pfm_$release_fault_handler(FaultHandle, &status)
-         DomainErrorCheck(status, "Can't release fault handler")
+         DomainErrorCheck(status, "Can"t release fault handler")
          return pfm_$return_to_faulting_code
       default:
          DBG(0, "Unrecognized fault type %08x, exiting\n", FaultStatusPtr.status.all)
@@ -241,7 +241,7 @@ static void DomainSCSIOpen(void)
          break
 
    /* Acquire the device */
-   DBG(1, "DomainSCSIOpen: dev='%s', fd=%d\n", com.open_path, fd)
+   DBG(1, "DomainSCSIOpen: dev="%s", fd=%d\n", com.open_path, fd)
    len = strlen(com.open_path)
    scsi_$acquire((char *)com.open_path, len, &scsi_handle, &com.CommandStatus)
    if(com.CommandStatus.all != status_$ok)
@@ -257,7 +257,7 @@ static void DomainSCSIOpen(void)
       DBG(2, "DomainSCSIOpen: acquire OK, handle is %x\n", scsi_handle)
       /* Create/map the data area */
       tmpnam(com.open_path)
-      DBG(2, "DomainSCSIOpen: Data block name will be '%s'\n", com.open_path)
+      DBG(2, "DomainSCSIOpen: Data block name will be "%s"\n", com.open_path)
       DataBasePtr = ms_$crmapl(com.open_path, strlen(com.open_path), 0, DomainMaxDataSize + DomainSenseSize, ms_$cowriters, &com.CommandStatus)
       DomainErrorCheck(com.CommandStatus, "Creating Data Area")
       assert((((Int)DataBasePtr) & 0x3ff) == 0);  /* Relies on Domain/OS mapping new objects on page boundary */
@@ -316,7 +316,7 @@ static void DomainSCSIClose(void)
    }
 
 
-/* I have never seen this called, and I'm not sure what to do with it, so I
+/* I have never seen this called, and I"m not sure what to do with it, so I
 guarantee that it will generate a fault, and I can add support for it.  */
 static void DomainSCSIFlushAll(void)
    {
@@ -456,7 +456,7 @@ static void DomainSCSIWait(void)
          {
          DBG(3, "first words of buffer are:\n")
          for(return_count = 0; return_count < com.dst_size; return_count++)
-            DBG(3, "%02X%c", ((unsigned char *)DomainFdInfo[com.fd].DomainSCSIPtr)[return_count], (return_count % 16) == 15 ? '\n' : ' ')
+            DBG(3, "%02X%c", ((unsigned char *)DomainFdInfo[com.fd].DomainSCSIPtr)[return_count], (return_count % 16) == 15 ? "\n" : " ")
          DBG(3, "\n")
          }
       }
@@ -490,10 +490,10 @@ static void DomainSCSIEnter(void)
 
       /* If we supported multiple outstanding requests for one device, this would be
          a good breakpoint.  We would store the op_id in a private place, and construct
-         a queue for each device.  This complicates things, and SANE doesn't seem to need
-         it, so it won't be implemented.  The current server architecture does the wait
+         a queue for each device.  This complicates things, and SANE doesn"t seem to need
+         it, so it won"t be implemented.  The current server architecture does the wait
          automatically, and status for the entire operation is returned.  This means that
-         the sanei_scsi_req_enter and sanei_scsi_req_wait calls don't make sense, and
+         the sanei_scsi_req_enter and sanei_scsi_req_wait calls don"t make sense, and
          should generate an error. */
       DomainSCSIWait()
       }
@@ -522,22 +522,22 @@ static void sanei_DomainOS_init(char *path)
    status_$t status
    unsigned long length_mapped
 
-   DBG(1, "Starting Domain SANE Server, common area path = '%s'\n", path)
+   DBG(1, "Starting Domain SANE Server, common area path = "%s"\n", path)
    com = ms_$mapl(path, strlen(path), 0, sizeof(struct DomainServerCommon), ms_$cowriters, ms_$wr, true, &length_mapped, &status)
-   DomainErrorCheck(status, "Can't open common area")
+   DomainErrorCheck(status, "Can"t open common area")
    if(length_mapped < sizeof(struct DomainServerCommon))
       {
-      DBG(0, "Error - can't open common area '%s' to required length\n", path)
+      DBG(0, "Error - can"t open common area "%s" to required length\n", path)
       DBG(0, " Required length = %lx, returned length = %lx\n", sizeof(struct DomainServerCommon), length_mapped)
       exit(EXIT_FAILURE)
       }
    /* Make the file temporary, so it will disappear when it is closed */
    ms_$mk_temporary(com, &status)
-   DomainErrorCheck(status, "Can't make common file temporary")
+   DomainErrorCheck(status, "Can"t make common file temporary")
    DBG(2, "Domain Server common area mapped, length is %lx\n", length_mapped)
    /* The communication area is open, give the initial response */
    ec2_$advance(&com.ResultReady, &status)
-   DomainErrorCheck(status, "Can't advance ResultReady EC after startup")
+   DomainErrorCheck(status, "Can"t advance ResultReady EC after startup")
    /* Enter the command loop */
    CommandAvailablePtr[0] = &com.CommandAvailable
    CommandTriggerValue = ec2_$read(com.CommandAvailable) + 1
@@ -545,7 +545,7 @@ static void sanei_DomainOS_init(char *path)
 /*   pfm_$inhibit();*/
    /* Establish the fault handler */
    FaultHandle = pfm_$establish_fault_handler(pfm_$all_faults, 0, FaultHandler, &status)
-   DomainErrorCheck(status, "Can't establish fault handler")
+   DomainErrorCheck(status, "Can"t establish fault handler")
    done = 0
    do
       {
@@ -567,24 +567,24 @@ static void sanei_DomainOS_init(char *path)
          case Open:
             DomainSCSIOpen()
             ec2_$advance(&com.CommandAccepted, &status)
-            DomainErrorCheck(status, "Can't advance CommandAccepted EC on open")
+            DomainErrorCheck(status, "Can"t advance CommandAccepted EC on open")
             break
          case Close:
             DomainSCSIClose()
             ec2_$advance(&com.CommandAccepted, &status)
-            DomainErrorCheck(status, "Can't advance CommandAccepted EC on close")
+            DomainErrorCheck(status, "Can"t advance CommandAccepted EC on close")
             break
          case Enter:
             DomainSCSIEnter()
             ec2_$advance(&com.CommandAccepted, &status)
-            DomainErrorCheck(status, "Can't advance CommandAccepted EC on enter")
+            DomainErrorCheck(status, "Can"t advance CommandAccepted EC on enter")
             break
          case Exit:
             done = 1
             /* This lets the parent know that the command was accepted.  It can be
                used to avoid sending a signal.  */
             ec2_$advance(&com.CommandAccepted, &status)
-            DomainErrorCheck(status, "Can't advance CommandAccepted EC on exit")
+            DomainErrorCheck(status, "Can"t advance CommandAccepted EC on exit")
             break
          default:
             DBG(1, "Invalid command %x received\n", com.opcode)
@@ -592,7 +592,7 @@ static void sanei_DomainOS_init(char *path)
       DBG(2, "Command processing complete\n")
       }
    while(!done)
-   /* This would be a good place to close all devices, but for now we'll assume
+   /* This would be a good place to close all devices, but for now we"ll assume
       they have already been closed by a well-behaved program */
    /* Unmap the common area */
    ms_$unmap(com, sizeof(struct DomainServerCommon), &status)

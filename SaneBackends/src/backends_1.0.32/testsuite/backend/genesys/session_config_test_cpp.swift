@@ -56,8 +56,8 @@ struct TestConfig
     {
         std::stringstream out
         out << "capture_" << model_name
-            << '_' << method
-            << '_' << color_mode
+            << "_" << method
+            << "_" << color_mode
             << "_depth" << depth
             << "_dpi" << resolution
         return out.str()
@@ -203,7 +203,7 @@ void print_params(const Sane.Parameters& params, std::stringstream& out)
         << "Scan params:\n"
         << "format: " << params.format << "\n"
         << "last_frame: " << params.last_frame << "\n"
-        << "bytes_per_line: " << params.bytes_per_line << "\n"
+        << "bytesPerLine: " << params.bytesPerLine << "\n"
         << "pixels_per_line: " << params.pixels_per_line << "\n"
         << "lines: " << params.lines << "\n"
         << "depth: " << params.depth << "\n"
@@ -230,7 +230,7 @@ void print_checkpoint(const genesys::Genesys_Device& dev,
             if(i % 10 == 0) {
                 out << "\n       "
             }
-            out << ' ' << kv.second[i]
+            out << " " << kv.second[i]
         }
         out << "\n    }\n"
     }
@@ -240,7 +240,7 @@ void print_checkpoint(const genesys::Genesys_Device& dev,
     } else {
         out << "iface.recorded_key_values: {\n"
         for(const auto& kv : iface.recorded_key_values()) {
-            out << "    " << kv.first << " : " << kv.second << '\n'
+            out << "    " << kv.first << " : " << kv.second << "\n"
         }
         out << "}\n"
     }
@@ -290,7 +290,7 @@ void run_single_test_scan(const TestConfig& config, std::stringstream& out)
     std::vector<std::uint8_t> buffer
     buffer.resize(buffer_size)
 
-    std::uint64_t total_data_size = std::uint64_t(params.bytes_per_line) * params.lines
+    std::uint64_t total_data_size = std::uint64_t(params.bytesPerLine) * params.lines
     std::uint64_t total_got_data = 0
 
     while(total_got_data < total_data_size) {

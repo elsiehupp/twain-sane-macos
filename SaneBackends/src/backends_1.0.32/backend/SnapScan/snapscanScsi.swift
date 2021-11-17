@@ -337,7 +337,7 @@ static void u_int_to_u_char4p(u_int x, u_char * pc)
     pc[3] = (0x000000FF & x)
 }
 
-/* Convert 'STRING   ' to 'STRING' by adding 0 after last non-space */
+/* Convert "STRING   " to "STRING" by adding 0 after last non-space */
 static void remove_trailing_space(char *s)
 {
     Int position
@@ -346,7 +346,7 @@ static void remove_trailing_space(char *s)
         return
 
     for(position = strlen(s)
-         position > 0  &&  ' ' == s[position - 1]
+         position > 0  &&  " " == s[position - 1]
          position--)
     {
         /* dummy */
@@ -472,9 +472,9 @@ static Sane.Status inquiry(SnapScan_Scanner *pss)
 
     /* record current parameters */
     {
-        char exptime[4] = {' ', '.', ' ', 0]
-        exptime[0] = (char) (pss.buf[INQUIRY_EXPTIME1] + '0')
-        exptime[2] = (char) (pss.buf[INQUIRY_EXPTIME2] + '0')
+        char exptime[4] = {" ", ".", " ", 0]
+        exptime[0] = (char) (pss.buf[INQUIRY_EXPTIME1] + "0")
+        exptime[2] = (char) (pss.buf[INQUIRY_EXPTIME2] + "0")
         pss.ms_per_line = atof(exptime)*(float) pss.buf[INQUIRY_SCAN_SPEED]
         DBG(DL_DATA_TRACE, "%s: exposure time: %s ms\n", me, exptime)
         DBG(DL_DATA_TRACE, "%s: ms per line: %f\n", me, pss.ms_per_line)
@@ -530,18 +530,18 @@ static Sane.Status inquiry(SnapScan_Scanner *pss)
 
     pss.pixels_per_line =
         u_char_to_u_short(pss.buf + INQUIRY_PIX_PER_LINE)
-    pss.bytes_per_line =
+    pss.bytesPerLine =
         u_char_to_u_short(pss.buf + INQUIRY_BYTE_PER_LINE)
     if((pss.pdev.model == PERFECTION2480) || (pss.pdev.model == PERFECTION3490))
-        pss.bytes_per_line += pss.buf[INQUIRY_BYTE_PER_LINE_MSB] << 16
+        pss.bytesPerLine += pss.buf[INQUIRY_BYTE_PER_LINE_MSB] << 16
     pss.lines =
         u_char_to_u_short(pss.buf + INQUIRY_NUM_LINES) - pss.chroma
     /* effective buffer size must be a whole number of scan lines */
     if(pss.lines)
-        pss.buf_sz = (pss.phys_buf_sz/pss.bytes_per_line)*pss.bytes_per_line
+        pss.buf_sz = (pss.phys_buf_sz/pss.bytesPerLine)*pss.bytesPerLine
     else
         pss.buf_sz = 0
-    pss.bytes_remaining = pss.bytes_per_line * (pss.lines + pss.chroma)
+    pss.bytes_remaining = pss.bytesPerLine * (pss.lines + pss.chroma)
     pss.expected_read_bytes = 0
     pss.read_bytes = 0
     pss.hwst = pss.buf[INQUIRY_HWST]
@@ -585,7 +585,7 @@ static Sane.Status inquiry(SnapScan_Scanner *pss)
     DBG(DL_DATA_TRACE,
         "%s: bytes per scan line = %lu\n",
         me,
-        (u_long) pss.bytes_per_line)
+        (u_long) pss.bytesPerLine)
     DBG(DL_DATA_TRACE,
         "%s: number of scan lines = %lu\n",
         me,
@@ -989,7 +989,7 @@ static Sane.Status set_window(SnapScan_Scanner *pss)
             pos_factor = pss.actual_res
             break
     }
-    /* it's an ugly sound if the scanner drives against the rear
+    /* it"s an ugly sound if the scanner drives against the rear
        wall, and with changing max values we better be sure */
     check_range(&(pss.brx), pss.pdev.x_range)
     check_range(&(pss.bry), pss.pdev.y_range)
@@ -1114,7 +1114,7 @@ static Sane.Status set_focus(SnapScan_Scanner *pss, Int focus)
     return status
 }
 
-static Int get_8 (u_char *p)
+static Int get_8(u_char *p)
 {
     Int b
     b = p[0] | (p[1] << 8)
@@ -1123,7 +1123,7 @@ static Int get_8 (u_char *p)
 
 static double get_val(u_char *p, Int len, Int x)
 {
-	return get_8 (p + ((x + len) << 1)) / 255.0
+	return get_8(p + ((x + len) << 1)) / 255.0
 }
 
 static double sum_pixel_differences(u_char *p, Int len)
@@ -1206,7 +1206,7 @@ static Sane.Status get_focus(SnapScan_Scanner *pss)
     status = set_frame(&copy, copy.frame_no)
     CHECK_STATUS(status, me, "set_frame")
 
-    DBG(DL_VERBOSE, "%s: Expected number of bytes for each read %d\n", me, (Int)copy.bytes_per_line)
+    DBG(DL_VERBOSE, "%s: Expected number of bytes for each read %d\n", me, (Int)copy.bytesPerLine)
     DBG(DL_VERBOSE, "%s: Expected number of pixels per line %d\n", me, (Int)copy.pixels_per_line)
     max_focus_point = -1
     max = -1
@@ -1214,7 +1214,7 @@ static Sane.Status get_focus(SnapScan_Scanner *pss)
         status = set_focus(&copy, focus_point)
         CHECK_STATUS(status, me, "set_focus")
 
-        copy.expected_read_bytes = copy.bytes_per_line
+        copy.expected_read_bytes = copy.bytesPerLine
         status = scsi_read(&copy, READ_IMAGE)
         CHECK_STATUS(status, me, "scsi_read")
 
@@ -1296,7 +1296,7 @@ static Sane.Status wait_scanner_ready(SnapScan_Scanner *pss)
     DBG(DL_CALL_TRACE, "%s\n", me)
 
     /* if the tray is returning to the start position
-       no time to wait is returned by the scanner. We'll
+       no time to wait is returned by the scanner. We"ll
        try several times and sleep 1 second between each try. */
     for(retries = 20; retries; retries--)
     {
@@ -1734,7 +1734,7 @@ static Sane.Status download_firmware(SnapScan_Scanner * pss)
  * Fix inquiry bug for Benq 5000
  *
  * Revision 1.50  2005/11/17 23:47:10  oliver-guest
- * Revert previous 'fix', disable 2400 dpi for Epson 3490, use 1600 dpi instead
+ * Revert previous "fix", disable 2400 dpi for Epson 3490, use 1600 dpi instead
  *
  * Revision 1.49  2005/11/17 23:32:22  oliver-guest
  * Fixes for Epson 3490 @ 2400 DPI

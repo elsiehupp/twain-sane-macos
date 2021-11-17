@@ -291,7 +291,7 @@ static Sane.Option_Descriptor sod[] = {
   {				/* opt_read_only */
    "read-only",
    Sane.I18N("Read only test-option"),
-   Sane.I18N("Let's see whether frontends can treat this right"),
+   Sane.I18N("Let"s see whether frontends can treat this right"),
    Sane.TYPE_INT,
    Sane.UNIT_PERCENT,
    sizeof(Sane.Word),
@@ -1011,7 +1011,7 @@ get_line(char *buf, Int len, FILE * f)
 {
   do
     fgets(buf, len, f)
-  while(*buf == '#')
+  while(*buf == "#")
 }
 
 static Int
@@ -1022,7 +1022,7 @@ getparmfromfile(void)
   char buf[1024]
 
   parms.depth = 8
-  parms.bytes_per_line = parms.pixels_per_line = parms.lines = 0
+  parms.bytesPerLine = parms.pixels_per_line = parms.lines = 0
   if((fn = fopen(filename, "rb")) == NULL)
     {
       DBG(1, "getparmfromfile: unable to open file \"%s\"\n", filename)
@@ -1032,7 +1032,7 @@ getparmfromfile(void)
   /* Skip comments. */
   do
     get_line(buf, sizeof(buf), fn)
-  while(*buf == '#')
+  while(*buf == "#")
   if(!strncmp(buf, "P4", 2))
     {
       /* Binary monochrome. */
@@ -1061,11 +1061,11 @@ getparmfromfile(void)
   /* Skip comments. */
   do
     get_line(buf, sizeof(buf), fn)
-  while(*buf == '#')
+  while(*buf == "#")
   sscanf(buf, "%d %d", &x, &y)
 
   parms.last_frame = Sane.TRUE
-  parms.bytes_per_line = (ppm_type == ppm_bitmap) ? (x + 7) / 8 : x
+  parms.bytesPerLine = (ppm_type == ppm_bitmap) ? (x + 7) / 8 : x
   parms.pixels_per_line = x
   if(hand_scanner)
     parms.lines = -1
@@ -1083,7 +1083,7 @@ getparmfromfile(void)
       else
 	{
 	  parms.format = Sane.FRAME_RGB
-	  parms.bytes_per_line *= 3
+	  parms.bytesPerLine *= 3
 	}
     }
   fclose(fn)
@@ -1155,7 +1155,7 @@ Sane.start(Sane.Handle handle)
     {
       /* Skip comments. */
       get_line(buf, sizeof(buf), infile)
-      if(*buf != '#')
+      if(*buf != "#")
 	nlines++
     }
 
@@ -1271,7 +1271,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * data,
       len /= 3
     }
   else
-    /* Suck in as much of the file as possible, since it's already in the
+    /* Suck in as much of the file as possible, since it"s already in the
        correct format. */
     len = fread(data, 1, max_length, infile)
 

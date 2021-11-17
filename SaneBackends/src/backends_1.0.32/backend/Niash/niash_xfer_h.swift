@@ -17,7 +17,7 @@
 
 /*
     Provides a simple interface to read and write data from the scanner,
-    without any knowledge whether it's a parallel or USB scanner
+    without any knowledge whether it"s a parallel or USB scanner
 */
 
 #ifndef _NIASH_XFER_H_

@@ -322,8 +322,8 @@ pieusb_initialize_device_definition(Pieusb_Device_Definition* dev, Pieusb_Scanne
       return Sane.STATUS_NO_MEM
     memcpy(buf, inq.vendor, 8)
     pp = buf + 8
-    *pp-- = '\0'
-    while(*pp == ' ') *pp-- = '\0'
+    *pp-- = "\0"
+    while(*pp == " ") *pp-- = "\0"
     dev.sane.vendor = buf
 
     /* Create 0-terminated string without trailing spaces for model */
@@ -332,8 +332,8 @@ pieusb_initialize_device_definition(Pieusb_Device_Definition* dev, Pieusb_Scanne
       return Sane.STATUS_NO_MEM
     memcpy(buf, inq.product, 16)
     pp = buf + 16
-    *pp-- = '\0'
-    while(*pp == ' ') *pp-- = '\0'
+    *pp-- = "\0"
+    while(*pp == " ") *pp-- = "\0"
     dev.sane.model = buf
 
     dev.sane.type = "film scanner"
@@ -346,8 +346,8 @@ pieusb_initialize_device_definition(Pieusb_Device_Definition* dev, Pieusb_Scanne
       return Sane.STATUS_NO_MEM
     memcpy(buf, inq.productRevision, 4)
     pp = buf + 4
-    *pp-- = '\0'
-    while(*pp == ' ') *pp-- = '\0'
+    *pp-- = "\0"
+    while(*pp == " ") *pp-- = "\0"
     dev.version = buf
 
     dev.model = inq.model
@@ -453,7 +453,7 @@ pieusb_initialize_device_definition(Pieusb_Device_Definition* dev, Pieusb_Scanne
     dev.gain_adjust_list[8] = SCAN_GAIN_ADJUST_30
     dev.gain_adjust_list[9] = 0
 
-    /*TODO: create from inq.colorDepths? Maybe not: didn't experiment with
+    /*TODO: create from inq.colorDepths? Maybe not: didn"t experiment with
      * 4 and 12 bit depths. Don;t know how they behave. */
     dev.bpp_list[0] = 3; /* count */
     dev.bpp_list[1] = 1
@@ -505,10 +505,10 @@ pieusb_print_inquiry(Pieusb_Device_Definition * dev)
   DBG(DBG_inquiry, "INQUIRY:\n")
   DBG(DBG_inquiry, "========\n")
   DBG(DBG_inquiry, "\n")
-  DBG(DBG_inquiry, "vendor........................: '%s'\n", dev.sane.vendor)
-  DBG(DBG_inquiry, "product.......................: '%s'\n", dev.sane.model)
+  DBG(DBG_inquiry, "vendor........................: "%s"\n", dev.sane.vendor)
+  DBG(DBG_inquiry, "product.......................: "%s"\n", dev.sane.model)
   DBG(DBG_inquiry, "model  .......................: 0x%04x\n", dev.model)
-  DBG(DBG_inquiry, "version.......................: '%s'\n", dev.version)
+  DBG(DBG_inquiry, "version.......................: "%s"\n", dev.version)
 
   DBG(DBG_inquiry, "X resolution..................: %d dpi\n",
        dev.maximum_resolution_x)
@@ -602,11 +602,11 @@ pieusb_print_inquiry(Pieusb_Device_Definition * dev)
 
   DBG(DBG_inquiry, "x0,y0 x1,y1...................: %d,%d %d,%d\n",
        dev.x0, dev.y0, dev.x1, dev.y1)
-  DBG(DBG_inquiry, "production....................: '%s'\n",
+  DBG(DBG_inquiry, "production....................: "%s"\n",
        dev.production)
-  DBG(DBG_inquiry, "timestamp.....................: '%s'\n",
+  DBG(DBG_inquiry, "timestamp.....................: "%s"\n",
        dev.timestamp)
-  DBG(DBG_inquiry, "signature.....................: '%s'\n",
+  DBG(DBG_inquiry, "signature.....................: "%s"\n",
        dev.signature)
 
 }
@@ -715,7 +715,7 @@ sanei_pieusb_init_options(Pieusb_Scanner* scanner)
     /* skip the auto-calibration phase before the scan */
     scanner.opt[OPT_SHADING_ANALYSIS].name = "shading-analysis"
     scanner.opt[OPT_SHADING_ANALYSIS].title = "Perform shading analysis"
-    scanner.opt[OPT_SHADING_ANALYSIS].desc = "Collect shading reference data before scanning the image. If set to 'no', this option may be overridden by the scanner."
+    scanner.opt[OPT_SHADING_ANALYSIS].desc = "Collect shading reference data before scanning the image. If set to "no", this option may be overridden by the scanner."
     scanner.opt[OPT_SHADING_ANALYSIS].type = Sane.TYPE_BOOL
     scanner.opt[OPT_SHADING_ANALYSIS].unit = Sane.UNIT_NONE
     scanner.opt[OPT_SHADING_ANALYSIS].constraint_type = Sane.CONSTRAINT_NONE
@@ -898,14 +898,14 @@ sanei_pieusb_init_options(Pieusb_Scanner* scanner)
     /* save shading data */
     scanner.opt[OPT_SAVE_SHADINGDATA].name = "save-shading-data"
     scanner.opt[OPT_SAVE_SHADINGDATA].title = "Save shading data"
-    scanner.opt[OPT_SAVE_SHADINGDATA].desc = "Save shading data in 'pieusb.shading'"
+    scanner.opt[OPT_SAVE_SHADINGDATA].desc = "Save shading data in "pieusb.shading""
     scanner.opt[OPT_SAVE_SHADINGDATA].type = Sane.TYPE_BOOL
     scanner.val[OPT_SAVE_SHADINGDATA].w = Sane.FALSE
 
     /* save CCD mask */
     scanner.opt[OPT_SAVE_CCDMASK].name = "save-ccdmask"
     scanner.opt[OPT_SAVE_CCDMASK].title = "Save CCD mask"
-    scanner.opt[OPT_SAVE_CCDMASK].desc = "Save CCD mask 'pieusb.ccd'"
+    scanner.opt[OPT_SAVE_CCDMASK].desc = "Save CCD mask "pieusb.ccd""
     scanner.opt[OPT_SAVE_CCDMASK].type = Sane.TYPE_BOOL
     scanner.val[OPT_SAVE_CCDMASK].w = Sane.FALSE
 
@@ -1190,7 +1190,7 @@ max_string_size(Sane.String_Const const strings[])
     return max_size
 }
 
-/* From MR's pie.c */
+/* From MR"s pie.c */
 
 /* ------------------------- PIEUSB_CORRECT_SHADING -------------------------- */
 
@@ -1239,7 +1239,7 @@ sanei_pieusb_correct_shading(struct Pieusb_Scanner *scanner, struct Pieusb_Read_
     free(width_to_loc)
 }
 
-/* === functions copied from MR's code === */
+/* === functions copied from MR"s code === */
 
 /**
  *
@@ -1261,9 +1261,9 @@ sanei_pieusb_post(Pieusb_Scanner *scanner, uint16_t **in_img, Int planes)
 
   memcpy(&parameters, &scanner.scan_parameters, sizeof(Sane.Parameters))
   parameters.format = Sane.FRAME_GRAY
-  parameters.bytes_per_line = parameters.pixels_per_line
+  parameters.bytesPerLine = parameters.pixels_per_line
   if(parameters.depth > 8)
-    parameters.bytes_per_line *= 2
+    parameters.bytesPerLine *= 2
   parameters.last_frame = 0
 
   DBG(DBG_info, "pie_usb_post: %d ppl, %d lines, %d bits, %d planes, %d dpi\n",
@@ -1439,7 +1439,7 @@ pieusb_write_pnm_file(char *filename, Sane.Uint *data, Int depth,
           }
           break
       case 8:
-          fprintf(out, "P%c\n%d\n%d\n%d\n", channels == 1 ? '5' : '6', pixels_per_line, lines, 255)
+          fprintf(out, "P%c\n%d\n%d\n%d\n", channels == 1 ? "5" : "6", pixels_per_line, lines, 255)
           for(r = 0; r < lines; r++) {
               for(c = 0; c < pixels_per_line; c++) {
                   for(ch = 0; ch < channels; ch++) {
@@ -1451,7 +1451,7 @@ pieusb_write_pnm_file(char *filename, Sane.Uint *data, Int depth,
           }
           break
       case 16:
-          fprintf(out, "P%c\n%d\n%d\n%d\n", channels == 1 ? '5' : '6', pixels_per_line, lines, 65535)
+          fprintf(out, "P%c\n%d\n%d\n%d\n", channels == 1 ? "5" : "6", pixels_per_line, lines, 65535)
           for(r = 0; r < lines; r++) {
               for(c = 0; c < pixels_per_line; c++) {
                   for(ch = 0; ch < channels; ch++) {
@@ -1529,7 +1529,7 @@ func Int sanei_pieusb_analyse_options(struct Pieusb_Scanner *scanner)
             DBG(DBG_info_sane, "Option %s = %d ignored during preview\n", scanner.opt[OPT_INVERT_IMAGE].name, scanner.val[OPT_INVERT_IMAGE].w)
         }
     } else if(strcmp(scanner.val[OPT_MODE].s,Sane.VALUE_SCAN_MODE_LINEART)==0) {
-        /* Can we do any post processing in lineart? Needs testing to see what's possible */
+        /* Can we do any post processing in lineart? Needs testing to see what"s possible */
         if(scanner.val[OPT_BIT_DEPTH].w != 1) {
             DBG(DBG_info_sane, "Option %s = %d ignored in lineart mode(will use 1)\n", scanner.opt[OPT_BIT_DEPTH].name, scanner.val[OPT_BIT_DEPTH].w)
         }
@@ -1555,7 +1555,7 @@ func Int sanei_pieusb_analyse_options(struct Pieusb_Scanner *scanner)
             DBG(DBG_info_sane, "Option %s = %d ignored in lineart mode(irrelevant)\n", scanner.opt[OPT_TRANSFORM_TO_SRGB].name, scanner.val[OPT_TRANSFORM_TO_SRGB].w)
         }
     } else if(strcmp(scanner.val[OPT_MODE].s,Sane.VALUE_SCAN_MODE_HALFTONE)==0) {
-        /* Can we do any post processing in halftone? Needs testing to see what's possible */
+        /* Can we do any post processing in halftone? Needs testing to see what"s possible */
         if(scanner.val[OPT_BIT_DEPTH].w != 1) {
             DBG(DBG_info_sane, "Option %s = %d ignored in halftone mode(will use 1)\n", scanner.opt[OPT_BIT_DEPTH].name, scanner.val[OPT_BIT_DEPTH].w)
         }
@@ -1584,7 +1584,7 @@ func Int sanei_pieusb_analyse_options(struct Pieusb_Scanner *scanner)
         /* Can we do any post processing in gray mode? */
         /* Can we obtain a single color channel in this mode? How? */
         /* Is this just RGB with luminance trasformation? */
-        /* Needs testing to see what's possible */
+        /* Needs testing to see what"s possible */
         /* Only do 8 or 16 bit scans */
         if(scanner.val[OPT_BIT_DEPTH].w == 1) {
             DBG(DBG_info_sane, "Option %s = %d ignored in gray mode(will use 8)\n", scanner.opt[OPT_BIT_DEPTH].name, scanner.val[OPT_BIT_DEPTH].w)
@@ -1696,10 +1696,10 @@ static void pieusb_calculate_shading(struct Pieusb_Scanner *scanner, Sane.Byte* 
             for(k = 0; k < shading_height*4; k++) {
                 /* Save at right color */
                 switch(*p) {
-                    case 'R': ci = 0; break
-                    case 'G': ci = 1; break
-                    case 'B': ci = 2; break
-                    case 'I': ci = 3; break
+                    case "R": ci = 0; break
+                    case "G": ci = 1; break
+                    case "B": ci = 2; break
+                    case "I": ci = 3; break
                     default: ci = -1; break; /* ignore line */
                 }
                 /* Add scanned data to reference line and keep track of maximum */
@@ -2008,7 +2008,7 @@ sanei_pieusb_set_gain_offset(Pieusb_Scanner * scanner, const char *calibration_m
             updateGain2 (scanner, 0, gain)
             updateGain2 (scanner, 1, gain)
             updateGain2 (scanner, 2, gain)
-            /* Don't correct IR, hampers cleaning process... */
+            /* Don"t correct IR, hampers cleaning process... */
             break
         case SCAN_FILTER_INFRARED:
             updateGain2 (scanner, 3, gain)
@@ -2148,32 +2148,32 @@ sanei_pieusb_get_parameters(Pieusb_Scanner * scanner, Int *parameter_bytes)
     if(strcmp(mode, Sane.VALUE_SCAN_MODE_LINEART) == 0) {
         scanner.scan_parameters.format = Sane.FRAME_GRAY
         scanner.scan_parameters.depth = 1
-        scanner.scan_parameters.bytes_per_line = parameters.bytes/3
+        scanner.scan_parameters.bytesPerLine = parameters.bytes/3
     } else if(strcmp(mode, Sane.VALUE_SCAN_MODE_HALFTONE) == 0) {
         scanner.scan_parameters.format = Sane.FRAME_GRAY
         scanner.scan_parameters.depth = 1
-        scanner.scan_parameters.bytes_per_line = parameters.bytes/3
+        scanner.scan_parameters.bytesPerLine = parameters.bytes/3
     } else if(strcmp(mode, Sane.VALUE_SCAN_MODE_GRAY) == 0) {
         scanner.scan_parameters.format = Sane.FRAME_GRAY
         scanner.scan_parameters.depth = scanner.val[OPT_BIT_DEPTH].w
-        scanner.scan_parameters.bytes_per_line = parameters.bytes/3
+        scanner.scan_parameters.bytesPerLine = parameters.bytes/3
     } else if(strcmp(mode, Sane.VALUE_SCAN_MODE_RGBI) == 0) {
         scanner.scan_parameters.format = Sane.FRAME_RGB; /* was: Sane.FRAME_RGBI */
         scanner.scan_parameters.depth = scanner.val[OPT_BIT_DEPTH].w
-        scanner.scan_parameters.bytes_per_line = 4*parameters.bytes
+        scanner.scan_parameters.bytesPerLine = 4*parameters.bytes
     } else { /* Sane.VALUE_SCAN_MODE_COLOR, with and without option clean image set */
         scanner.scan_parameters.format = Sane.FRAME_RGB
         scanner.scan_parameters.depth = scanner.val[OPT_BIT_DEPTH].w
-        scanner.scan_parameters.bytes_per_line = 3*parameters.bytes
+        scanner.scan_parameters.bytesPerLine = 3*parameters.bytes
     }
     scanner.scan_parameters.lines = parameters.lines
     scanner.scan_parameters.pixels_per_line = parameters.width
     scanner.scan_parameters.last_frame = Sane.TRUE
 
-    DBG(DBG_info_sane,"sanei_pieusb_get_parameters(): mode '%s'\n", mode)
+    DBG(DBG_info_sane,"sanei_pieusb_get_parameters(): mode "%s"\n", mode)
     DBG(DBG_info_sane," format = %d\n", scanner.scan_parameters.format)
     DBG(DBG_info_sane," depth = %d\n", scanner.scan_parameters.depth)
-    DBG(DBG_info_sane," bytes_per_line = %d\n", scanner.scan_parameters.bytes_per_line)
+    DBG(DBG_info_sane," bytesPerLine = %d\n", scanner.scan_parameters.bytesPerLine)
     DBG(DBG_info_sane," lines = %d\n", scanner.scan_parameters.lines)
     DBG(DBG_info_sane," pixels_per_line = %d\n", scanner.scan_parameters.pixels_per_line)
     DBG(DBG_info_sane," last_frame = %d\n", scanner.scan_parameters.last_frame)
@@ -2215,7 +2215,7 @@ sanei_pieusb_get_scan_data(Pieusb_Scanner * scanner, Int parameter_bytes)
     while(lines_remaining > 0) {
         Int lines
         /* Read lines */
-        /* The amount of bytes_per_line varies with color format setting; only 'pixel' and 'index' implemented */
+        /* The amount of bytesPerLine varies with color format setting; only "pixel" and "index" implemented */
         ppl = parameters.pixels_per_line
         switch(scanner.mode.colorFormat) {
 	    case SCAN_COLOR_FORMAT_PIXEL: /* Pixel */
@@ -2407,11 +2407,11 @@ static double getGain(Int gain)
 {
     Int k
 
-    /* Actually an error, but don't be picky */
+    /* Actually an error, but don"t be picky */
     if(gain <= 0) {
         return gains[0]
     }
-    /* A gain > 63 is also an error, but don't be picky */
+    /* A gain > 63 is also an error, but don"t be picky */
     if(gain >= 60) {
         return(gain-55)*(gains[12]-gains[11])/5 + gains[11]
     }

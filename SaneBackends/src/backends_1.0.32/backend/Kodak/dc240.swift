@@ -87,7 +87,7 @@ PictureInfo
 typedef struct DC240_s
 {
   Int fd;			/* file descriptor to talk to it */
-  char *tty_name;		/* the tty port name it's on */
+  char *tty_name;		/* the tty port name it"s on */
   speed_t baud;			/* current tty speed */
   Bool scanning;		/* currently scanning an image? */
   Sane.Byte model
@@ -601,7 +601,7 @@ send_pck(Int fd, Sane.Byte * pck)
   DBG(127, "send_pck<%x %x %x %x %x %x %x %x>\n",
        pck[0], pck[1], pck[2], pck[3], pck[4], pck[5], pck[6], pck[7])
 
-  /* keep trying if camera says it's busy */
+  /* keep trying if camera says it"s busy */
   while(r == 0xf0)
     {
       if(write(fd, (char *) pck, 8) != 8)
@@ -687,7 +687,7 @@ init_dc240 (DC240 * camera)
 # if defined(__sgi)
   tty_new.c_cflag &= ~CNEW_RTSCTS
 # else
-/* OS/2 doesn't have CRTSCTS - will this work for them? */
+/* OS/2 doesn"t have CRTSCTS - will this work for them? */
 #  ifdef CRTSCTS
   tty_new.c_cflag &= ~CRTSCTS
 #  endif
@@ -865,7 +865,7 @@ get_info(DC240 * camera)
 
   n = read_dir("\\PCCARD\\DCIM\\*.*")
 
-  /* If we've already got a folder_list, free it up before starting
+  /* If we"ve already got a folder_list, free it up before starting
    * the new one
    */
   if(folder_list != NULL)
@@ -882,9 +882,9 @@ get_info(DC240 * camera)
   for(e = dir_head, n = 0; e; e = e.next, n++)
     {
       folder_list[n] = (String *) strdup(e.name)
-      if(strchr((char *) folder_list[n], ' '))
+      if(strchr((char *) folder_list[n], " "))
 	{
-	  *strchr((char *) folder_list[n], ' ') = '\0'
+	  *strchr((char *) folder_list[n], " ") = "\0"
 	}
     }
   folder_list[n] = NULL
@@ -912,7 +912,7 @@ read_data(Int fd, Sane.Byte * buf, Int sz)
 
       /*
        * If this is not the first time through, then it must be
-       * a retry - signal the camera that we didn't like what
+       * a retry - signal the camera that we didn"t like what
        * we got.  In either case, start filling the packet
        */
       if(retries != 1)
@@ -993,7 +993,7 @@ end_of_data(Int fd)
   Sane.Byte c
 
   do
-    {				/* loop until the camera isn't busy */
+    {				/* loop until the camera isn"t busy */
       if((n = read(fd, &c, 1)) == -1)
 	{
 	  DBG(1, "end_of_data: error: read returned -1\n")
@@ -1011,7 +1011,7 @@ end_of_data(Int fd)
 	}
       sleep(1);		/* not too fast */
     }
-/* It's not documented, but we see a d1 after snapping a picture */
+/* It"s not documented, but we see a d1 after snapping a picture */
   while(c == 0xf0 || c == 0xd1)
 
   /* Accck!  Not busy, but not a good end of data either */
@@ -1102,23 +1102,23 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
   if(!fp)
     {
       /* default to /dev/whatever instead of insisting on config file */
-      DBG(1, "%s:  missing config file '%s'\n", f, DC240_CONFIG_FILE)
+      DBG(1, "%s:  missing config file "%s"\n", f, DC240_CONFIG_FILE)
     }
   else
     {
       while(sanei_config_read(dev_name, sizeof(dev_name), fp))
 	{
-	  dev_name[sizeof(dev_name) - 1] = '\0'
+	  dev_name[sizeof(dev_name) - 1] = "\0"
 	  DBG(20, "%s:  config- %s\n", f, dev_name)
 
-	  if(dev_name[0] == '#')
+	  if(dev_name[0] == "#")
 	    continue;		/* ignore line comments */
 	  len = strlen(dev_name)
 	  if(!len)
 	    continue;		/* ignore empty lines */
 	  if(strncmp(dev_name, "port=", 5) == 0)
 	    {
-	      p = strchr(dev_name, '/')
+	      p = strchr(dev_name, "/")
 	      if(p)
 		Camera.tty_name = strdup(p)
 	      DBG(20, "Config file port=%s\n", Camera.tty_name)
@@ -1184,7 +1184,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
   if(Camera.pic_taken == 0)
     {
       Camera.current_picture_number = 0
-      parms.bytes_per_line = 0
+      parms.bytesPerLine = 0
       parms.pixels_per_line = 0
       parms.lines = 0
     }
@@ -1325,13 +1325,13 @@ Sane.control_option(Sane.Handle handle, Int option,
     {
     case Sane.ACTION_SET_VALUE:
 
-      /* Can't set disabled options */
+      /* Can"t set disabled options */
       if(!Sane.OPTION_IS_ACTIVE(sod[option].cap))
 	{
 	  return(Sane.STATUS_INVAL)
 	}
 
-      /* initialize info to zero - we'll OR in various values later */
+      /* initialize info to zero - we"ll OR in various values later */
       if(info)
 	*info = 0
 
@@ -1352,7 +1352,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 
 	  myinfo |= Sane.INFO_RELOAD_PARAMS
 
-	  /* get the image's resolution, unless the camera has no
+	  /* get the image"s resolution, unless the camera has no
 	   * pictures yet
 	   */
 	  if(Camera.pic_taken != 0)
@@ -1472,7 +1472,7 @@ Sane.control_option(Sane.Handle handle, Int option,
       break
 
     case Sane.ACTION_GET_VALUE:
-      /* Can't return status for disabled options */
+      /* Can"t return status for disabled options */
       if(!Sane.OPTION_IS_ACTIVE(sod[option].cap))
 	{
 	  return(Sane.STATUS_INVAL)
@@ -1624,7 +1624,7 @@ Sane.start(Sane.Handle handle)
     return Sane.STATUS_EOF
 
 /*
- * This shouldn't normally happen, but we allow it as a special case
+ * This shouldn"t normally happen, but we allow it as a special case
  * when batch/autoinc are in effect.  The first illegal picture number
  * terminates the scan
  */
@@ -1636,7 +1636,7 @@ Sane.start(Sane.Handle handle)
   if(dc240_opt_snap)
     {
       /*
-       * Don't allow picture unless there is room in the
+       * Don"t allow picture unless there is room in the
        * camera.
        */
       if(Camera.pic_left == 0)
@@ -1667,7 +1667,7 @@ Sane.start(Sane.Handle handle)
        */
 
       if(parms.pixels_per_line != 160 ||
-	  parms.bytes_per_line != 160 * 3 || parms.lines != 120)
+	  parms.bytesPerLine != 160 * 3 || parms.lines != 120)
 	{
 	  DBG(1, "Sane.start: fixme! thumbnail image size is wrong\n")
 	  return Sane.STATUS_INVAL
@@ -1702,7 +1702,7 @@ Sane.start(Sane.Handle handle)
     strcat(path, (char *) folder_list[current_folder])
     strcat(path, "\\")
     strcat(path, e.name)
-    path[strlen(path) - 3] = '\0'
+    path[strlen(path) - 3] = "\0"
     strcat(path, ".JPG")
 
     DBG(9, "%s: pic to read is %d name is %s\n", f, n, path)
@@ -1750,7 +1750,7 @@ Sane.start(Sane.Handle handle)
     linebuffer_index = 0
   }
 
-  Camera.scanning = Sane.TRUE;	/* don't overlap scan requests */
+  Camera.scanning = Sane.TRUE;	/* don"t overlap scan requests */
 
   return Sane.STATUS_GOOD
 }
@@ -1807,8 +1807,8 @@ Sane.read(Sane.Handle __Sane.unused__ handle, Sane.Byte * data,
 
 	  myinfo |= Sane.INFO_RELOAD_OPTIONS | Sane.INFO_RELOAD_PARAMS
 	  strcpy((char *) filename_buf,
-		  strrchr((char *) name_buf + 1, '\\') + 1)
-	  strcpy(strrchr((char *) filename_buf, '.'), "JPG")
+		  strrchr((char *) name_buf + 1, "\\") + 1)
+	  strcpy(strrchr((char *) filename_buf, "."), "JPG")
 	  dir_delete((String) filename_buf)
 
 	}
@@ -1820,7 +1820,7 @@ Sane.read(Sane.Handle __Sane.unused__ handle, Sane.Byte * data,
 
 	      myinfo |= Sane.INFO_RELOAD_PARAMS
 
-	      /* get the image's resolution */
+	      /* get the image"s resolution */
 	      set_res(Camera.Pictures[Camera.current_picture_number - 1].
 		       low_res)
 	    }
@@ -1906,7 +1906,7 @@ Sane.set_io_mode(Sane.Handle __Sane.unused__ handle, Bool
     }
   else
     {
-      /* We aren't currently scanning */
+      /* We aren"t currently scanning */
       return Sane.STATUS_INVAL
     }
 }
@@ -1945,7 +1945,7 @@ get_pictures_info(void)
   if(num_pictures != Camera.pic_taken)
     {
       DBG(2,
-	   "%s: warning: Number of pictures in directory(%d) doesn't match camera status table(%d).  Using directory count\n",
+	   "%s: warning: Number of pictures in directory(%d) doesn"t match camera status table(%d).  Using directory count\n",
 	   f, num_pictures, Camera.pic_taken)
       Camera.pic_taken = num_pictures
       image_range.max = num_pictures
@@ -2103,7 +2103,7 @@ snap_pic(Int fd)
 static Int
 read_dir(String dir)
 {
-  Int retval = 0
+  returnValue: Int = 0
   Sane.Byte buf[256]
   Sane.Byte *next_buf
   Int i, entries
@@ -2156,7 +2156,7 @@ read_dir(String dir)
       return -1
     }
 
-  /* Determine if it's time to read another 256 byte buffer from the camera */
+  /* Determine if it"s time to read another 256 byte buffer from the camera */
 
   next_buf = ((Sane.Byte *) & dir_buf2) + 256
   while(dir_buf2 + 2 + CAMDIRENTRYSIZE * entries >= (Sane.Byte *) next_buf)
@@ -2174,13 +2174,13 @@ read_dir(String dir)
   for(i = 0; i < entries; i++)
 
     {
-      /* Hack: I don't know what attr is used for, so setting it
+      /* Hack: I don"t know what attr is used for, so setting it
        * to zero is a convenient way to put in the null terminator
        */
       get_attr(i) = 0
       DBG(127, "%s: entry=%s\n", f, get_name(i))
 
-      if((get_name(i))[0] == '.')
+      if((get_name(i))[0] == ".")
 	{
 	  continue
 	}
@@ -2191,7 +2191,7 @@ read_dir(String dir)
 	  DBG(1, "%s: error: failed to insert dir entry\n", f)
 	  return -1
 	}
-      retval++
+      returnValue++
     }
 
   if(end_of_data(Camera.fd) == -1)
@@ -2200,7 +2200,7 @@ read_dir(String dir)
       return -1
     }
 
-  return retval
+  return returnValue
 }
 
 /*
@@ -2218,7 +2218,7 @@ read_info(String fname)
   strcat(path, (char *) folder_list[current_folder])
   strcat(path, "\\")
   strcat(path, fname)
-  path[strlen(path) - 3] = '\0'
+  path[strlen(path) - 3] = "\0"
   strcat(path, ".JPG")
 
   if(send_pck(Camera.fd, pic_info_pck) == -1)
@@ -2279,7 +2279,7 @@ send_data(Sane.Byte * buf)
   buf[59] = csum
   DBG(127, "%s: about to send data block\n", f)
 
-  /* keep trying if camera says it's busy */
+  /* keep trying if camera says it"s busy */
   while(r == 0xf0)
     {
       if(write(Camera.fd, (char *) buf, 60) != 60)
@@ -2387,7 +2387,7 @@ dir_delete(String fname)
 	  return(0)
 	}
     }
-  DBG(1, "dir_delete: Couldn't find entry %s in dir list\n", fname)
+  DBG(1, "dir_delete: Couldn"t find entry %s in dir list\n", fname)
   return -1
 }
 
@@ -2399,19 +2399,19 @@ set_res(Int lowres)
 {
   if(dc240_opt_thumbnails)
     {
-      parms.bytes_per_line = 160 * 3
+      parms.bytesPerLine = 160 * 3
       parms.pixels_per_line = 160
       parms.lines = 120
     }
   else if(lowres)
     {
-      parms.bytes_per_line = LOWRES_WIDTH * 3
+      parms.bytesPerLine = LOWRES_WIDTH * 3
       parms.pixels_per_line = LOWRES_WIDTH
       parms.lines = LOWRES_HEIGHT
     }
   else
     {
-      parms.bytes_per_line = HIGHRES_WIDTH * 3
+      parms.bytesPerLine = HIGHRES_WIDTH * 3
       parms.pixels_per_line = HIGHRES_WIDTH
       parms.lines = HIGHRES_HEIGHT
     }

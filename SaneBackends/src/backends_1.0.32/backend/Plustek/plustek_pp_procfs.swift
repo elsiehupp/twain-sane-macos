@@ -307,7 +307,7 @@ static inline void destroy_proc_entry( struct proc_dir_entry *root,
 	proc_unregister( root, (*d)->low_ino )
 	kfree(*d)
 #else
-	DBG(DBG_HIGH, "pt_drv: proc del '%s' root='%s'\n", (*d)->name, root.name)
+	DBG(DBG_HIGH, "pt_drv: proc del "%s" root="%s"\n", (*d)->name, root.name)
 
 	remove_proc_entry((*d)->name, root )
 #endif

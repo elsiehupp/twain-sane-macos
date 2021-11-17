@@ -267,7 +267,7 @@ typedef enum
   STATUS_IO_ERROR,
   STATUS_ACCESS_ERROR
 }
-STATUS
+Status
 
 
 /* For ScanObj */
@@ -297,7 +297,7 @@ RGBColor
 
 /* debug levels */
 #define DBG_CRIT 	0	/* Critical errors thatshould be printed even
-				   if user hasn't enabled debugging -- use
+				   if user hasn"t enabled debugging -- use
 				   with care and only after Sane.open has been
 				   called */
 #define DBG_ERR 	1	/* Other errors */
@@ -548,13 +548,13 @@ RGBColor
 #define		MOTOR_STEP_TRIGER_POSITION15_8	0x16
 #define		MOTOR_STEP_TRIGER_POSITION23_16	0x17
 #define		CHIP_STATUS_A				0x18	/*reserve */
-#define		CHIP_STRING_0				0x19	/*0x45'E' */
-#define		CHIP_STRING_1				0x1a	/*0x53'S' */
-#define		CHIP_STRING_2				0x1b	/*0x43'C' */
-#define		CHIP_STRING_3				0x1c	/*0x41'A' */
-#define		CHIP_STRING_4				0x1d	/*0x4E'N' */
-#define		CHIP_STRING_5				0x1e	/*0x30'0' */
-#define		CHIP_STRING_6				0x1f	/*0x31'1' */
+#define		CHIP_STRING_0				0x19	/*0x45"E" */
+#define		CHIP_STRING_1				0x1a	/*0x53"S" */
+#define		CHIP_STRING_2				0x1b	/*0x43"C" */
+#define		CHIP_STRING_3				0x1c	/*0x41"A" */
+#define		CHIP_STRING_4				0x1d	/*0x4E"N" */
+#define		CHIP_STRING_5				0x1e	/*0x30"0" */
+#define		CHIP_STRING_6				0x1f	/*0x31"1" */
 #define ES01_8C_RestartMotorSynPixelNumberM16LSB	0x8c
 #define ES01_8D_RestartMotorSynPixelNumberM16MSB	0x8d
 #define ES01_90_Lamp0PWM				0x90
@@ -1211,107 +1211,107 @@ RGBColor
 #define		ES01_2CF_VALID_PIXEL_PARAMETER_OF_SEGMENT16	0x2CF
 
 /* forward declarations */
-static STATUS OpenScanChip(PAsic chip)
-static STATUS CloseScanChip(PAsic chip)
-static STATUS SafeInitialChip(PAsic chip)
-static STATUS DRAM_Test(PAsic chip)
+static Status OpenScanChip(PAsic chip)
+static Status CloseScanChip(PAsic chip)
+static Status SafeInitialChip(PAsic chip)
+static Status DRAM_Test(PAsic chip)
 #if Sane.UNUSED
-static STATUS SetPowerSave(PAsic chip)
+static Status SetPowerSave(PAsic chip)
 #endif
-static STATUS SetLineTimeAndExposure(PAsic chip)
-static STATUS CCDTiming(PAsic chip)
-static STATUS IsCarriageHome(PAsic chip, Bool * LampHome, Bool * TAHome)
-static STATUS InitTiming(PAsic chip)
-static STATUS GetChipStatus(PAsic chip, Sane.Byte Selector, Sane.Byte * ChipStatus)
-static STATUS SetAFEGainOffset(PAsic chip)
-static STATUS SetLEDTime(PAsic chip)
-static STATUS SetScanMode(PAsic chip, Sane.Byte bScanBits)
-static STATUS SetPackAddress(PAsic chip, unsigned short wXResolution,
+static Status SetLineTimeAndExposure(PAsic chip)
+static Status CCDTiming(PAsic chip)
+static Status IsCarriageHome(PAsic chip, Bool * LampHome, Bool * TAHome)
+static Status InitTiming(PAsic chip)
+static Status GetChipStatus(PAsic chip, Sane.Byte Selector, Sane.Byte * ChipStatus)
+static Status SetAFEGainOffset(PAsic chip)
+static Status SetLEDTime(PAsic chip)
+static Status SetScanMode(PAsic chip, Sane.Byte bScanBits)
+static Status SetPackAddress(PAsic chip, unsigned short wXResolution,
 			      unsigned short wWidth, unsigned short wX, double XRatioAdderDouble,
 			      double XRatioTypeDouble,
 			      Sane.Byte byClear_Pulse_Width,
 			      unsigned short * PValidPixelNumber)
-static STATUS SetExtraSetting(PAsic chip, unsigned short wXResolution,
+static Status SetExtraSetting(PAsic chip, unsigned short wXResolution,
 			       unsigned short wCCD_PixelNumber, Bool isCaribrate)
 
 
 /* Forward declarations */
 
-static STATUS Mustek_SendData(PAsic chip, unsigned short reg, Sane.Byte data)
-static STATUS Mustek_SendData2Byte(PAsic chip, unsigned short reg, Sane.Byte data)
-static STATUS Mustek_ReceiveData(PAsic chip, Sane.Byte * reg)
-static STATUS Mustek_WriteAddressLineForRegister(PAsic chip, Sane.Byte x)
-static STATUS WriteIOControl(PAsic chip, unsigned short wValue, unsigned short wIndex,
+static Status Mustek_SendData(PAsic chip, unsigned short reg, Sane.Byte data)
+static Status Mustek_SendData2Byte(PAsic chip, unsigned short reg, Sane.Byte data)
+static Status Mustek_ReceiveData(PAsic chip, Sane.Byte * reg)
+static Status Mustek_WriteAddressLineForRegister(PAsic chip, Sane.Byte x)
+static Status WriteIOControl(PAsic chip, unsigned short wValue, unsigned short wIndex,
 			      unsigned short wLength, Sane.Byte * lpbuf)
-static STATUS ReadIOControl(PAsic chip, unsigned short wValue, unsigned short wIndex,
+static Status ReadIOControl(PAsic chip, unsigned short wValue, unsigned short wIndex,
 			     unsigned short wLength, Sane.Byte * lpbuf)
-static STATUS Mustek_DMARead(PAsic chip, unsigned Int size, Sane.Byte * lpdata)
-static STATUS Mustek_DMAWrite(PAsic chip, unsigned Int size, Sane.Byte * lpdata)
-static STATUS Mustek_ClearFIFO(PAsic chip)
-static STATUS SetRWSize(PAsic chip, Sane.Byte ReadWrite, unsigned Int size)
+static Status Mustek_DMARead(PAsic chip, unsigned Int size, Sane.Byte * lpdata)
+static Status Mustek_DMAWrite(PAsic chip, unsigned Int size, Sane.Byte * lpdata)
+static Status Mustek_ClearFIFO(PAsic chip)
+static Status SetRWSize(PAsic chip, Sane.Byte ReadWrite, unsigned Int size)
 
 /* Open Scanner by Scanner Name and return Chip Information */
-static STATUS Asic_Open(PAsic chip, Sane.Byte *pDeviceName)
+static Status Asic_Open(PAsic chip, Sane.Byte *pDeviceName)
 /* Close Scanner */
-static STATUS Asic_Close(PAsic chip)
+static Status Asic_Close(PAsic chip)
 #if Sane.UNUSED
 /* Release Scanner Resource */
-static STATUS Asic_Release(PAsic chip)
+static Status Asic_Release(PAsic chip)
 #endif
 /* Initialize Scanner Parameters */
-static STATUS Asic_Initialize(PAsic chip)
+static Status Asic_Initialize(PAsic chip)
 /* Set Scan Window */
-static STATUS Asic_SetWindow(PAsic chip, Sane.Byte bScanBits,
+static Status Asic_SetWindow(PAsic chip, Sane.Byte bScanBits,
 			      unsigned short wXResolution, unsigned short wYResolution,
 			      unsigned short wX, unsigned short wY, unsigned short wWidth, unsigned short wLength)
 /* Turn Lamp  ON or OFF */
-static STATUS Asic_TurnLamp(PAsic chip, Bool isLampOn)
+static Status Asic_TurnLamp(PAsic chip, Bool isLampOn)
 /* Turn TA ON or OFF */
-static STATUS Asic_TurnTA(PAsic chip, Bool isTAOn)
+static Status Asic_TurnTA(PAsic chip, Bool isTAOn)
 /* Reset some parameter of asic */
-static STATUS Asic_Reset(PAsic chip)
+static Status Asic_Reset(PAsic chip)
 /* Set scan source */
-static STATUS Asic_SetSource(PAsic chip, LIGHTSOURCE lsLightSource)
+static Status Asic_SetSource(PAsic chip, LIGHTSOURCE lsLightSource)
 /* Start scanner to scan */
-static STATUS Asic_ScanStart(PAsic chip)
+static Status Asic_ScanStart(PAsic chip)
 /* Stop scanner to scan */
-static STATUS Asic_ScanStop(PAsic chip)
+static Status Asic_ScanStop(PAsic chip)
 /* Read One Scan Line When Scanning */
-static STATUS Asic_ReadImage(PAsic chip, Sane.Byte * pBuffer, unsigned short LinesCount)
+static Status Asic_ReadImage(PAsic chip, Sane.Byte * pBuffer, unsigned short LinesCount)
 #if Sane.UNUSED
 /* To Check Hard Key */
-static STATUS Asic_CheckFunctionKey(PAsic chip, Sane.Byte * key)
+static Status Asic_CheckFunctionKey(PAsic chip, Sane.Byte * key)
 #endif
 /* To Check if TA id connected */
-static STATUS Asic_IsTAConnected(PAsic chip, Bool *hasTA)
+static Status Asic_IsTAConnected(PAsic chip, Bool *hasTA)
 #if Sane.UNUSED
 /* Download GammaTable to Scanner */
-static STATUS Asic_DownloadGammaTable(PAsic chip, void * lpBuffer)
+static Status Asic_DownloadGammaTable(PAsic chip, void * lpBuffer)
 #endif
 /* For AdjustAD Calculate Scanner*/
-static STATUS Asic_ReadCalibrationData(PAsic chip, void * pBuffer,
+static Status Asic_ReadCalibrationData(PAsic chip, void * pBuffer,
 					unsigned Int dwXferBytes, Sane.Byte bScanBits)
 /* Set motor move or not */
-static STATUS Asic_SetMotorType(PAsic chip, Bool isMotorMove, Bool isUniformSpeed)
+static Status Asic_SetMotorType(PAsic chip, Bool isMotorMove, Bool isUniformSpeed)
 /* Move Motor Forward or Backward */
-static STATUS Asic_MotorMove(PAsic chip, Bool isForward, unsigned Int dwTotalSteps)
+static Status Asic_MotorMove(PAsic chip, Bool isForward, unsigned Int dwTotalSteps)
 /* Move Motor to Home. */
 /* If isTA is TRUE, move TA to home, else move Lamp to home */
-static STATUS Asic_CarriageHome(PAsic chip, Bool isTA)
+static Status Asic_CarriageHome(PAsic chip, Bool isTA)
 /* For ShadingTable */
-static STATUS Asic_SetShadingTable(PAsic chip, unsigned short * lpWhiteShading,
+static Status Asic_SetShadingTable(PAsic chip, unsigned short * lpWhiteShading,
 				    unsigned short * lpDarkShading,
 				    unsigned short wXResolution, unsigned short wWidth, unsigned short wX)
 /* Wait motor move to home. isTA no used */
-static STATUS Asic_WaitCarriageHome(PAsic chip, Bool isTA)
+static Status Asic_WaitCarriageHome(PAsic chip, Bool isTA)
 /* Wait until asic idle */
-static STATUS Asic_WaitUnitReady(PAsic chip)
+static Status Asic_WaitUnitReady(PAsic chip)
 /* Set Scan Parameter to Scanner */
-static STATUS Asic_SetCalibrate(PAsic chip, Sane.Byte bScanBits, unsigned short wXResolution,
+static Status Asic_SetCalibrate(PAsic chip, Sane.Byte bScanBits, unsigned short wXResolution,
 				 unsigned short wYResolution, unsigned short wX, unsigned short wY,
 				 unsigned short wWidth, unsigned short wLength, Bool isShading)
 /* Set AFE  Parameter to Scanner */
-static STATUS Asic_SetAFEGainOffset(PAsic chip)
+static Status Asic_SetAFEGainOffset(PAsic chip)
 
 /* ---------------------- asic motor defines -------------------------- */
 
@@ -1393,27 +1393,27 @@ typedef struct tagLLF_MOTORMOVE
   unsigned short wScanBackHomeExtSteps
 } LLF_MOTORMOVE
 
-static STATUS CalculateMotorTable(LLF_CALCULATEMOTORTABLE *
+static Status CalculateMotorTable(LLF_CALCULATEMOTORTABLE *
 				   lpCalculateMotorTable, unsigned short wYResolution)
-static STATUS LLFCalculateMotorTable(LLF_CALCULATEMOTORTABLE *
+static Status LLFCalculateMotorTable(LLF_CALCULATEMOTORTABLE *
 				      lpCalculateMotorTable)
-static STATUS LLFSetMotorCurrentAndPhase(PAsic chip,
+static Status LLFSetMotorCurrentAndPhase(PAsic chip,
 					  LLF_MOTOR_CURRENT_AND_PHASE *
 					  MotorCurrentAndPhase)
-static STATUS SetMotorStepTable(PAsic chip, LLF_MOTORMOVE * MotorStepsTable,
+static Status SetMotorStepTable(PAsic chip, LLF_MOTORMOVE * MotorStepsTable,
 				 unsigned short wStartY, unsigned Int dwScanImageSteps,
 				 unsigned short wYResolution)
-static STATUS LLFSetMotorTable(PAsic chip,
+static Status LLFSetMotorTable(PAsic chip,
 				LLF_SETMOTORTABLE * LLF_SetMotorTable)
-static STATUS SetMotorCurrent(PAsic chip, unsigned short dwMotorSpeed,
+static Status SetMotorCurrent(PAsic chip, unsigned short dwMotorSpeed,
 			       LLF_MOTOR_CURRENT_AND_PHASE * CurrentPhase)
-static STATUS LLFMotorMove(PAsic chip, LLF_MOTORMOVE * LLF_MotorMove)
+static Status LLFMotorMove(PAsic chip, LLF_MOTORMOVE * LLF_MotorMove)
 #if Sane.UNUSED
-static STATUS LLFStopMotorMove(PAsic chip)
+static Status LLFStopMotorMove(PAsic chip)
 #endif
-static STATUS LLFSetRamAddress(PAsic chip, unsigned Int dwStartAddr,
+static Status LLFSetRamAddress(PAsic chip, unsigned Int dwStartAddr,
 				unsigned Int dwEndAddr, Sane.Byte byAccessTarget)
-static STATUS LLFRamAccess(PAsic chip, LLF_RAMACCESS * RamAccess)
-static STATUS MotorBackHome(PAsic chip, Sane.Byte WaitOrNoWait)
+static Status LLFRamAccess(PAsic chip, LLF_RAMACCESS * RamAccess)
+static Status MotorBackHome(PAsic chip, Sane.Byte WaitOrNoWait)
 
 #endif

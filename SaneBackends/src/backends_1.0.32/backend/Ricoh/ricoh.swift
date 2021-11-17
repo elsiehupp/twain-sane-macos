@@ -144,7 +144,7 @@ attach(const char *devnam, Ricoh_Device ** devp)
       || (strncmp((char *)ibuf.product, "IS50", 4) != 0
 	  && strncmp((char *)ibuf.product, "IS60", 4) != 0))
     {
-      DBG(1, "attach: device doesn't look like the Ricoh scanner I know\n")
+      DBG(1, "attach: device doesn"t look like the Ricoh scanner I know\n")
       sanei_scsi_close(fd)
       return(Sane.STATUS_INVAL)
     }
@@ -241,7 +241,7 @@ attach(const char *devnam, Ricoh_Device ** devp)
   dev.info.image_mode_default = wbuf.image_comp
 
   /* if you throw the MRIF bit the brightness control reverses too */
-  /* so I reverse the reversal in software for symmetry's sake */
+  /* so I reverse the reversal in software for symmetry"s sake */
   /* I should make this into an option */
 
   if(wbuf.image_comp == RICOH_GRAYSCALE || wbuf.image_comp == RICOH_DITHERED_MONOCHROME)
@@ -506,7 +506,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
       /* read config file */
       while(sanei_config_read(line, sizeof(line), fp))
         {
-          if(line[0] == '#')           /* ignore line comments */
+          if(line[0] == "#")           /* ignore line comments */
             continue
           len = strlen(line)
 
@@ -579,7 +579,7 @@ Sane.open(Sane.String_Const devnam, Sane.Handle * handle)
   Ricoh_Scanner *s
   DBG(11, ">> Sane.open\n")
 
-  if(devnam[0] == '\0')
+  if(devnam[0] == "\0")
     {
       for(dev = first_dev; dev; dev = dev.next)
         {
@@ -762,15 +762,15 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
       if(strcmp(mode, Sane.VALUE_SCAN_MODE_LINEART) == 0 || strcmp(mode, Sane.VALUE_SCAN_MODE_HALFTONE) == 0)
         {
           s.params.format = Sane.FRAME_GRAY
-          s.params.bytes_per_line = s.params.pixels_per_line / 8
+          s.params.bytesPerLine = s.params.pixels_per_line / 8
 	  /* the Ricoh truncates to the byte boundary, so: chop! */
-          s.params.pixels_per_line = s.params.bytes_per_line * 8
+          s.params.pixels_per_line = s.params.bytesPerLine * 8
           s.params.depth = 1
         }
       else /* if(strcmp(mode, Sane.VALUE_SCAN_MODE_GRAY) == 0) */
         {
           s.params.format = Sane.FRAME_GRAY
-          s.params.bytes_per_line = s.params.pixels_per_line
+          s.params.bytesPerLine = s.params.pixels_per_line
           s.params.depth = 8
         }
       s.params.last_frame = Sane.TRUE
@@ -780,7 +780,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
     *params = s.params
 
   DBG(1, "%d pixels per line, %d bytes, %d lines high, total %lu bytes, "
-       "dpi=%d\n", s.params.pixels_per_line, s.params.bytes_per_line,
+       "dpi=%d\n", s.params.pixels_per_line, s.params.bytesPerLine,
        s.params.lines, (u_long) s.bytes_to_read, s.val[OPT_Y_RESOLUTION].w)
 
   DBG(11, "<< Sane.get_parameters\n")
@@ -800,7 +800,7 @@ Sane.start(Sane.Handle handle)
   DBG(11, ">> Sane.start\n")
 
   /* First make sure we have a current parameter set.  Some of the
-     parameters will be overwritten below, but that's OK.  */
+     parameters will be overwritten below, but that"s OK.  */
   status = Sane.get_parameters(s, 0)
   if(status != Sane.STATUS_GOOD)
     return status
@@ -847,7 +847,7 @@ Sane.start(Sane.Handle handle)
 
   wbuf.image_comp = s.image_composition
   /* if you throw the MRIF bit the brightness control reverses too */
-  /* so I reverse the reversal in software for symmetry's sake */
+  /* so I reverse the reversal in software for symmetry"s sake */
   if(wbuf.image_comp == RICOH_GRAYSCALE || wbuf.image_comp == RICOH_DITHERED_MONOCHROME)
     {
       if(wbuf.image_comp == RICOH_GRAYSCALE)
@@ -868,7 +868,7 @@ Sane.start(Sane.Handle handle)
     }
 
   wbuf.threshold = 0
-  wbuf.bits_per_pixel = s.bpp
+  wbuf.bitsPerPixel = s.bpp
 
   wbuf.halftone_pattern[0] = 2
   wbuf.halftone_pattern[1] = 0
@@ -934,14 +934,14 @@ Sane.start(Sane.Handle handle)
   status = ricoh_wait_ready(s)
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(1, "GET DATA STATUS failed: %s\n", Sane.strstatus(status))
+      DBG(1, "GET DATA Status failed: %s\n", Sane.strstatus(status))
       return(status)
     }
 
-  s.bytes_to_read = s.params.bytes_per_line * s.params.lines
+  s.bytes_to_read = s.params.bytesPerLine * s.params.lines
 
   DBG(1, "%d pixels per line, %d bytes, %d lines high, total %lu bytes, "
-       "dpi=%d\n", s.params.pixels_per_line, s.params.bytes_per_line,
+       "dpi=%d\n", s.params.pixels_per_line, s.params.bytesPerLine,
        s.params.lines, (u_long) s.bytes_to_read, s.val[OPT_Y_RESOLUTION].w)
 
   s.scanning = Sane.TRUE

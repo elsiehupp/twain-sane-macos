@@ -90,7 +90,7 @@ enum P5_Options
   OPT_STANDARD_GROUP,
   OPT_MODE,			/** set the mode: color, grey levels or lineart */
   OPT_PREVIEW,			/** set up for preview */
-  OPT_RESOLUTION,		/** set scan's resolution */
+  OPT_RESOLUTION,		/** set scan"s resolution */
   /* @} */
 
   /** @name geometry group
@@ -139,7 +139,7 @@ typedef struct P5_Option
 
 /**
  * Frontend session. This struct holds information useful for
- * the functions defined in SANE's standard. Information closer
+ * the functions defined in SANE"s standard. Information closer
  * to the hardware are in the P5_Device structure. There is
  * as many session structure than frontends using the backend.
  */

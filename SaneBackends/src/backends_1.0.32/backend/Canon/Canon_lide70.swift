@@ -171,7 +171,7 @@ attach_scanner(const char *devicename, Canon_Device ** devp)
   dev = malloc(sizeof(*dev))
   if(!dev)
     return Sane.STATUS_NO_MEM
-  memset(dev, '\0', sizeof(Canon_Device));	/* clear structure */
+  memset(dev, "\0", sizeof(Canon_Device));	/* clear structure */
 
   DBG(4, "attach_scanner: opening %s\n", devicename)
 
@@ -247,7 +247,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 
   while(sanei_config_read(config_line, sizeof(config_line), fp))
     {
-      if(config_line[0] == '#')
+      if(config_line[0] == "#")
 	continue;		/* ignore line comments */
 
       len = strlen(config_line)
@@ -553,9 +553,9 @@ print_options(CANON_Handle * chndl)
     {
       od = &chndl.opt[option_number]
       DBG(50, "-----> number: %d\n", option_number)
-      DBG(50, "         name: `%s'\n", od.name)
-      DBG(50, "        title: `%s'\n", od.title)
-      DBG(50, "  description: `%s'\n", od.desc)
+      DBG(50, "         name: `%s"\n", od.name)
+      DBG(50, "        title: `%s"\n", od.title)
+      DBG(50, "  description: `%s"\n", od.desc)
       DBG(50, "         type: %s\n",
 	   od.type == Sane.TYPE_BOOL ? "Sane.TYPE_BOOL" :
 	   od.type == Sane.TYPE_INT ? "Sane.TYPE_INT" :
@@ -573,7 +573,7 @@ print_options(CANON_Handle * chndl)
 	   od.unit == Sane.UNIT_MICROSECOND ? "Sane.UNIT_MICROSECOND" :
 	   "unknown")
       DBG(50, "         size: %d\n", od.size)
-      caps[0] = '\0'
+      caps[0] = "\0"
       if(od.cap & Sane.CAP_SOFT_SELECT)
 	strcat(caps, "Sane.CAP_SOFT_SELECT ")
       if(od.cap & Sane.CAP_HARD_SELECT)
@@ -832,7 +832,7 @@ Sane.control_option(Sane.Handle handle, Int option, Sane.Action action,
 	  break
 	case opt_mode:		/* String(list) options */
 	  strcpy(value, chndl.val[option].s)
-	  DBG(4, "Sane.control_option: get option %d(%s), value=`%s'\n",
+	  DBG(4, "Sane.control_option: get option %d(%s), value=`%s"\n",
 	       option, chndl.opt[option].name, (String) value)
 	  break
 	case opt_resolution:
@@ -881,7 +881,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   if(chndl.graymode == 1)
     {
       chndl.params.format = Sane.FRAME_GRAY
-      chndl.params.bytes_per_line = w
+      chndl.params.bytesPerLine = w
     }
   else if(chndl.graymode == 2)
     {
@@ -891,13 +891,13 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
       if((chndl.params.pixels_per_line % 8) != 0)
 	w++
 
-      chndl.params.bytes_per_line = w
+      chndl.params.bytesPerLine = w
       chndl.params.depth = 1
     }
   else
     {
       chndl.params.format = Sane.FRAME_RGB
-      chndl.params.bytes_per_line = w * 3
+      chndl.params.bytesPerLine = w * 3
     }
 
   *params = chndl.params

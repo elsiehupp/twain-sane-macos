@@ -46,7 +46,7 @@ import Sane.sanei_scsi
 import Sane.sanei_config
 import Sane.sanei_thread
 
-/* 1-2 SCSI STATUS BYTE KEYS                      */
+/* 1-2 SCSI Status BYTE KEYS                      */
 #define HS2P_SCSI_STATUS_GOOD			0x00
 #define HS2P_SCSI_STATUS_CHECK			0x02
 #define HS2P_SCSI_STATUS_BUSY			0x08
@@ -142,7 +142,7 @@ static struct ASCQ ascq_errmsg[74] = {
   {0x0000, "No additional sense information"},
   {0x0002, "End of Medium detected"},
   {0x0005, "End of Data detected"},
-  {0x0400, "Logical unit not ready. Don't know why."},
+  {0x0400, "Logical unit not ready. Don"t know why."},
   {0x0401, "Logical unit is in process of becoming ready."},
   {0x0403, "Logical unit not ready. Manual intervention required."},
   {0x0500, "Logical unit does not respond to selection."},
@@ -463,7 +463,7 @@ typedef struct page
 {
   Sane.Byte code;		/* 7:PS; 6:Reserved; 5-0:Page Code            */
   Sane.Byte len;		/* set to 14 when MPC=02H and 6 otherwise     */
-  Sane.Byte parameter[14];	/* either 14 or 6, so let's allow room for 14 */
+  Sane.Byte parameter[14];	/* either 14 or 6, so let"s allow room for 14 */
 } MPP;				/* Mode Page Parameters */
 typedef struct mode_pages
 {
@@ -658,8 +658,8 @@ typedef struct scsi_start_scan_cmd
  * 1-3-10 SEND DIAGNOSTIC */
 
 /* BinaryFilter Byte
- * bit7: Noise Removal '1':removal
- * bit6: Smoothing     '1':smoothing
+ * bit7: Noise Removal "1":removal
+ * bit6: Smoothing     "1":smoothing
  * bits5-2: ignored
  * bits1-0: Noise Removal Matrix
  * 00:3x3    01:4x4
@@ -689,8 +689,8 @@ struct val_id grayfilter[] = {
 ]
 
 static Sane.String_Const paddingtype_list[] = {
-  "Pad with 0's to byte boundary",
-  "Pad with 1's to byte boundary",
+  "Pad with 0"s to byte boundary",
+  "Pad with 1"s to byte boundary",
   "Truncate to byte boundary",
   NULL
 ]
@@ -784,7 +784,7 @@ static struct
      * 11H-7FH Reserved
      */
   {
-  0x80, "CCITT G3, 1-dimensional(MH) Padding with 0's to byte boundary"}
+  0x80, "CCITT G3, 1-dimensional(MH) Padding with 0"s to byte boundary"}
   /* 80H-FFH Reserved(Vendor Unique) */
 ]
 static struct
@@ -820,7 +820,7 @@ static String gamma_list[6] = {
 
 struct window_section
 {				/* 32 bytes */
-  Sane.Byte sef;		/*byte1 7-2:ignored 1:SEF '0'-invalid section; '1'-valid section */
+  Sane.Byte sef;		/*byte1 7-2:ignored 1:SEF "0"-invalid section; "1"-valid section */
   Sane.Byte ignored0
   Sane.Byte ulx[4]
   Sane.Byte uly[4]
@@ -908,8 +908,8 @@ struct hs2p_window_data
 				 *        6-3: Reserved
 				 *        2-0: Padding Type:
 				 *             00H Reserved
-				 *             01H Pad with 0's to byte boundary
-				 *             02H Pad with 1's to byte boundary
+				 *             01H Pad with 0"s to byte boundary
+				 *             02H Pad with 1"s to byte boundary
 				 *             03H Truncate to byte boundary
 				 *             04H-FFH Reserved
 				 */
@@ -1150,8 +1150,8 @@ typedef struct maintenance_data
 /* ADF status 1byte:
  * 7-3:Reserved
  *   2:Reserved
- *   1: '0'-ADF cover closed; '1'-ADF cover open
- *   0: '0'-Document on ADF; '1'-No document on ADF
+ *   1: "0"-ADF cover closed; "1"-ADF cover open
+ *   0: "0"-Document on ADF; "1"-No document on ADF
  *
 */
 
@@ -1175,15 +1175,15 @@ struct IPU_Auto_PhotoLetter
    * 00 Default
    * 01 Peak Detection Soft
    * 10 Peak Detection Sharp
-   * 11 Don't Use
+   * 11 Don"t Use
    */
   Sane.Byte byte12
 
   Sane.Byte black_correction;	/* Black correction strength: 0-255 sharpest-softest */
   Sane.Byte edge_sep[4];	/* Edge Separation strengths: 0-255 sharpest-softest 1-4 */
   Sane.Byte white_background_sep_strength;	/* 0-255 sharpest-softest */
-  Sane.Byte byte19;		/* 7-1:Reversed; 0:White mode    '0'-Default;    '1'-Sharp */
-  Sane.Byte byte20;		/* 7-1:Reversed; 0:Halftone mode '0'-widen dots; '1'-Default */
+  Sane.Byte byte19;		/* 7-1:Reversed; 0:White mode    "0"-Default;    "1"-Sharp */
+  Sane.Byte byte20;		/* 7-1:Reversed; 0:Halftone mode "0"-widen dots; "1"-Default */
   Sane.Byte halftone_sep_levela
   Sane.Byte halftone_sep_levelb
   Sane.Byte byte23;		/* 7-4:Reversed; 3-0:Adjustment of separation level: usually fixed to 0 */
@@ -1259,7 +1259,7 @@ typedef struct scsi_object_position_cmd
   Sane.Byte control;		/* 7-6:Vendor Unique; 5-2:Reserved; 1:Flag; 0:Link */
 } POSITION
 
-/* 1-3-16 GET DATA BUFFER STATUS */
+/* 1-3-16 GET DATA BUFFER Status */
 typedef struct scsi_get_data_buffer_status_cmd
 {
   Sane.Byte opcode;		/* 34H */
@@ -1280,7 +1280,7 @@ typedef struct scsi_status_data
   Sane.Byte free[3];		/* Available Space Data `Buffer */
   Sane.Byte filled[3];		/* Scan Data Available(Filled Data Bufferj) */
 } STATUS_DATA
-/* BUFFER STATUS DATA FORMAT */
+/* BUFFER Status DATA FORMAT */
 typedef struct scsi_buffer_status
 {
   STATUS_HDR hdr
@@ -1374,10 +1374,10 @@ ScannerDump(HS2P_Scanner * s)
 
   DBG(DBG_info, "\n\n")
   DBG(DBG_info, ">> ScannerDump:\n")
-  DBG(DBG_info, "SANE Device: '%s' Vendor: '%s' Model: '%s' Type: '%s'\n",
+  DBG(DBG_info, "SANE Device: "%s" Vendor: "%s" Model: "%s" Type: "%s"\n",
        sdev.name, sdev.vendor, sdev.model, sdev.type)
 
-  DBG(DBG_info, "Type: '%s' Vendor: '%s' Product: '%s' Revision: '%s'\n",
+  DBG(DBG_info, "Type: "%s" Vendor: "%s" Product: "%s" Revision: "%s"\n",
        print_devtype(info.devtype), info.vendor, info.product,
        info.revision)
 
@@ -1755,7 +1755,7 @@ sense_handler(Int __Sane.unused__ scsi_fd, u_char * sense_buffer, void *sd)
        "EOM: %d ILI: %d MissingBytes: %lu\n", ErrorCode, ValidData, EOM,
        ILI, MissingBytes)
 
-  memset(print_sense, '\0', sizeof(print_sense))
+  memset(print_sense, "\0", sizeof(print_sense))
   for(i = 0; i < 16; i++)
     sprintf(print_sense + strlen(print_sense), "%02x ", sense_buffer[i])
   DBG(DBG_sense, "sense_handler: sense=%s\n", print_sense)
@@ -1767,13 +1767,13 @@ sense_handler(Int __Sane.unused__ scsi_fd, u_char * sense_buffer, void *sd)
     }
 
   skey = lookup_sensekey_errmsg(sense);	/* simple sequential search */
-  DBG(DBG_sense, "sense_handler: sense_key=%#x '%s - %s'\n", skey.key,
+  DBG(DBG_sense, "sense_handler: sense_key=%#x "%s - %s"\n", skey.key,
        skey.meaning, skey.description)
 
   DBG(DBG_sense, "Looking up ascq=(%#x,%#x)=%#x\n", asc, ascq,
        (asc << 8) | ascq)
   ascq_key = lookup_ascq_errmsg((asc << 8) | ascq);	/* simple sequential search */
-  DBG(DBG_sense, "sense_handler: ascq=(%#x,%#x): %#x '%s'\n", asc, ascq,
+  DBG(DBG_sense, "sense_handler: ascq=(%#x,%#x): %#x "%s"\n", asc, ascq,
        ascq_key.codequalifier, ascq_key.description)
 
   /* handle each sense key: Translate from HS2P message to Sane.STATUS_ message
@@ -1852,7 +1852,7 @@ sense_handler(Int __Sane.unused__ scsi_fd, u_char * sense_buffer, void *sd)
       case 0x0403:		/* LUN not ready. Manual intervention needed */
 	status = Sane.STATUS_IO_ERROR
 	break
-      case 0x0500:		/* LUN doesn't respond to selection */
+      case 0x0500:		/* LUN doesn"t respond to selection */
 	status = Sane.STATUS_INVAL
 	break
       case 0x0700:		/* Multiple peripheral devices selected */
@@ -2053,13 +2053,13 @@ sense_handler(Int __Sane.unused__ scsi_fd, u_char * sense_buffer, void *sd)
       default:			/* Should never get here */
 	status = Sane.STATUS_INVAL
 	DBG(DBG_sense,
-	     "sense_handler: 'Undocumented code': ascq=(%#x,%#x)\n",
+	     "sense_handler: "Undocumented code": ascq=(%#x,%#x)\n",
 	     asc & 0xFF00, ascq & 0x00FF)
 	break
       }
 
 
-  DBG(DBG_proc, "sense_handler %s: '%s'-'%s' '%s' return:%d\n", sense_str,
+  DBG(DBG_proc, "sense_handler %s: "%s"-"%s" "%s" return:%d\n", sense_str,
        skey.meaning, skey.description, ascq_key.description, status)
   return status
 }
@@ -2205,7 +2205,7 @@ mode_sense(Int fd, MP * buf, Sane.Byte page_code)
   nbytes = sizeof(msp)
 
   DBG(DBG_info,
-       ">>>>> mode_sense: Zero'ing ModeSenseCommand msc and msp structures\n")
+       ">>>>> mode_sense: Zero"ing ModeSenseCommand msc and msp structures\n")
 
   memset(&cmd, 0, sizeof(cmd));	/* Fill cmd struct with zeros */
   memset(&msp, 0, sizeof(msp));	/* Fill msp struct with zeros */
@@ -2254,8 +2254,8 @@ mode_sense(Int fd, MP * buf, Sane.Byte page_code)
     {
       /* nbytes = (page_code==2)? 14 : 6; */
       DBG(DBG_info, ">> >> got %lu bytes from scanner\n", (u_long) nbytes)
-      nbytes -= 4;		/* we won't copy 4 byte hdr */
-      DBG(DBG_info, ">>>>> copying from msp to calling function's buf\n"
+      nbytes -= 4;		/* we won"t copy 4 byte hdr */
+      DBG(DBG_info, ">>>>> copying from msp to calling function"s buf\n"
 	   ">>>>> msp.page_size=%lu bytes=%lu buf_size=%lu\n",
 	   (u_long) sizeof(msp.page), (u_long) nbytes,
 	   (u_long) sizeof(*buf))
@@ -2504,7 +2504,7 @@ is_valid_endorser_character(char c)
   if(i == 0x27)
     return Sane.TRUE;		/* ` */
   if(i >= 0x2C && i <= 0x2F)
-    return Sane.TRUE;		/* '-./ */
+    return Sane.TRUE;		/* "-./ */
   if(i == 0x20)
     return Sane.TRUE;		/* space */
   if(i >= 0x41 && i <= 0x5A)
@@ -2529,7 +2529,7 @@ set_endorser_string(Int fd, String s)
   Sane.Status status
   DBG(DBG_proc, ">> set_endorser_string %s\n", s)
 
-  for(i = 0, t = s; *t != '\0' && i < 19; i++)
+  for(i = 0, t = s; *t != "\0" && i < 19; i++)
     {
       DBG(DBG_info, "CHAR=%c\n", *t)
       if(!is_valid_endorser_character(*t++))
@@ -2541,7 +2541,7 @@ set_endorser_string(Int fd, String s)
   out.cmd.opcode = HS2P_SCSI_SEND_DATA;	/* 2AH              */
   out.cmd.dtc = 0x80;		/* Endorser Data    */
   _lto3b(len, &out.cmd.len[0]);	/* 19 bytes max     */
-  memset(&out.endorser[0], ' ', 19);	/* fill with spaces */
+  memset(&out.endorser[0], " ", 19);	/* fill with spaces */
   memcpy(&out.endorser[0], s, len)
 
   status = sanei_scsi_cmd(fd, &out, sizeof(out), NULL, NULL)
@@ -2831,7 +2831,7 @@ read_adf_status(Int fd, Sane.Byte * adf_status_byte)
 */
 
 /* OBJECT POSITION        */
-/* GET DATA BUFFER STATUS */
+/* GET DATA BUFFER Status */
 
 /* 1-3-4 MODE SELECT */
 
@@ -2913,7 +2913,7 @@ get_data_status(Int fd, STATUS_DATA * dbs)
   Sane.Status status
   DBG(DBG_proc, ">> get_data_status %lu\n", (unsigned long) bufsize)
 
-  /* Set up GET DATA BUFFER STATUS cmd */
+  /* Set up GET DATA BUFFER Status cmd */
   memset(&cmd, 0, sizeof(cmd));	/* CLEAR cmd */
   cmd.opcode = HS2P_SCSI_GET_BUFFER_STATUS
   cmd.wait &= ~0x01;		/* unset Wait bit0 */
@@ -3129,7 +3129,7 @@ connection_parameters(Int fd, MP_CXN * settings, Bool flag)
       /* Fill in struct then hand off to mode_select */
       memset(&buf, 0, sizeof(buf));	/* Fill struct with zeros */
       memcpy(&buf, settings, nbytes)
-      /* Make sure calling function didn't change these bytes           */
+      /* Make sure calling function didn"t change these bytes           */
       memset(&buf.hdr, 0, sizeof(buf.hdr));	/* Make sure 4bytes are 0 */
       buf.code = PAGE_CODE_CONNECTION;	/* bits5-0: Page Code 02H */
       buf.code &= ~(1 << 7);	/* Bit7 PS is set to 0    */

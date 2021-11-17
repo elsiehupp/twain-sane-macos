@@ -287,7 +287,7 @@ static void usb_SetMCLK( Plustek_Device *dev, ScanParam *param )
 }
 
 /** usb_SetDarkShading
- * download the dark shading data to Merlins' DRAM
+ * download the dark shading data to Merlins" DRAM
  */
 static Bool usb_SetDarkShading( Plustek_Device *dev, u_char channel,
                                      void *coeff_buffer, u_short wCount )
@@ -325,7 +325,7 @@ static Bool usb_SetDarkShading( Plustek_Device *dev, u_char channel,
 }
 
 /** usb_SetWhiteShading
- * download the white shading data to Merlins' DRAM
+ * download the white shading data to Merlins" DRAM
  */
 static Bool usb_SetWhiteShading( Plustek_Device *dev, u_char channel,
                                       void *data_buffer, u_short wCount )
@@ -1299,7 +1299,7 @@ static Bool usb_AdjustOffset( Plustek_Device *dev )
 
 	if( usb_IsCISDevice(dev)) {
 	    /*
-		 * if we have dark shading strip, there's no need to switch
+		 * if we have dark shading strip, there"s no need to switch
 	     * the lamp off
 		 */
 		if( dev.usbDev.pSource.DarkShadOrgY >= 0 ) {
@@ -1563,8 +1563,8 @@ static void usb_GetDarkShading( Plustek_Device *dev, u_short *pwDest,
 
 /** usb_AdjustDarkShading
  * fine calibration part 1 - read the black calibration area and write
- * the black line data to the offset coefficient data in Merlins' DRAM
- * If there's no black line available, we can use the min pixel value
+ * the black line data to the offset coefficient data in Merlins" DRAM
+ * If there"s no black line available, we can use the min pixel value
  * from coarse calibration...
  */
 static Bool usb_AdjustDarkShading( Plustek_Device *dev )
@@ -1612,7 +1612,7 @@ static Bool usb_AdjustDarkShading( Plustek_Device *dev )
 			m_ScanParam.Size.dwBytes *= 3
     }
 
-	/* if we have dark shading strip, there's no need to switch
+	/* if we have dark shading strip, there"s no need to switch
 	 * the lamp off
 	 */
 	if( dev.usbDev.pSource.DarkShadOrgY >= 0 ) {
@@ -2603,7 +2603,7 @@ usb_DoCalibration( Plustek_Device *dev )
      */
 	DBG( _DBG_INFO, "...goto shading position\n" )
 
-	/* HEINER: Currently not clear why Plustek didn't use the ShadingOriginY
+	/* HEINER: Currently not clear why Plustek didn"t use the ShadingOriginY
 	 *         for all modes
 	 * It should be okay to remove this and reference to the ShadingOriginY
 	 */
@@ -2645,7 +2645,7 @@ usb_DoCalibration( Plustek_Device *dev )
 
 	usb_PrepareCalibration( dev )
 
-	/** this won't work for Plustek devices!!!
+	/** this won"t work for Plustek devices!!!
 	 */
 #if 0
 	if( scaps.workaroundFlag & _WAF_BYPASS_CALIBRATION ||

@@ -209,12 +209,12 @@ static void
 print_gamma_table(Int *tablePtr, Int count)
 {
   char str[200]
-  str[0] = '\0'
+  str[0] = "\0"
   DBG(5, "Gamma Table Size: %d\n", count)
   for(var i: Int=0; i<count; ++i) {
     if(i%16 == 0 && strlen(str) > 0) {
       DBG(5, "%s\n", str)
-      str[0] = '\0'
+      str[0] = "\0"
     }
     sprintf(str + strlen(str), " %04X", tablePtr[i])
   }
@@ -484,7 +484,7 @@ init_options(Test_Device * test_device)
   od = &test_device.opt[opt_scan_source]
   od.name = Sane.NAME_SCAN_SOURCE
   od.title = Sane.TITLE_SCAN_SOURCE
-  od.desc = Sane.I18N("If Automatic Document Feeder is selected, the feeder will be 'empty' after 10 scans.")
+  od.desc = Sane.I18N("If Automatic Document Feeder is selected, the feeder will be "empty" after 10 scans.")
   od.type = Sane.TYPE_STRING
   od.unit = Sane.UNIT_NONE
   od.size = max_string_size(source_list)
@@ -796,7 +796,7 @@ init_options(Test_Device * test_device)
   od.title = Sane.I18N("(1/6) Bool soft select soft detect")
   od.desc =
     Sane.I18N("(1/6) Bool test option that has soft select and soft "
-	       "detect(and advanced) capabilities. That's just a "
+	       "detect(and advanced) capabilities. That"s just a "
 	       "normal bool option.")
   od.type = Sane.TYPE_BOOL
   od.unit = Sane.UNIT_NONE
@@ -815,7 +815,7 @@ init_options(Test_Device * test_device)
   od.desc =
     Sane.I18N("(2/6) Bool test option that has hard select and soft "
 	       "detect(and advanced) capabilities. That means the "
-	       "option can't be set by the frontend but by the user "
+	       "option can"t be set by the frontend but by the user "
 	       "(e.g. by pressing a button at the device).")
   od.type = Sane.TYPE_BOOL
   od.unit = Sane.UNIT_NONE
@@ -833,8 +833,8 @@ init_options(Test_Device * test_device)
   od.title = Sane.I18N("(3/6) Bool hard select")
   od.desc = Sane.I18N("(3/6) Bool test option that has hard select "
 			"(and advanced) capabilities. That means the option "
-			"can't be set by the frontend but by the user "
-			"(e.g. by pressing a button at the device) and can't "
+			"can"t be set by the frontend but by the user "
+			"(e.g. by pressing a button at the device) and can"t "
 			"be read by the frontend.")
   od.type = Sane.TYPE_BOOL
   od.unit = Sane.UNIT_NONE
@@ -1304,21 +1304,21 @@ read_option(String line, String option_string,
 	  return Sane.STATUS_INVAL
 	if(strlen(word) == 0)
 	  {
-	    DBG(3, "read_option: option `%s' requires parameter\n",
+	    DBG(3, "read_option: option `%s" requires parameter\n",
 		 option_string)
 	    return Sane.STATUS_INVAL
 	  }
 	if(strcmp(word, "true") != 0 && strcmp(word, "false") != 0)
 	  {
-	    DBG(3, "read_option: option `%s' requires parameter "
-		 "`true' or `false'\n", option_string)
+	    DBG(3, "read_option: option `%s" requires parameter "
+		 "`true" or `false"\n", option_string)
 	    return Sane.STATUS_INVAL
 	  }
 	else if(strcmp(word, "true") == 0)
 	  *(Bool *) value = Sane.TRUE
 	else
 	  *(Bool *) value = Sane.FALSE
-	DBG(3, "read_option: set option `%s' to %s\n", option_string,
+	DBG(3, "read_option: set option `%s" to %s\n", option_string,
 	     *(Bool *) value == Sane.TRUE ? "true" : "false")
 	break
       }
@@ -1333,19 +1333,19 @@ read_option(String line, String option_string,
 	int_value = (Int) strtol(word, &end, 0)
 	if(end == word)
 	  {
-	    DBG(3, "read_option: option `%s' requires parameter\n",
+	    DBG(3, "read_option: option `%s" requires parameter\n",
 		 option_string)
 	    return Sane.STATUS_INVAL
 	  }
 	else if(errno)
 	  {
-	    DBG(3, "read_option: option `%s': can't parse parameter `%s' "
+	    DBG(3, "read_option: option `%s": can"t parse parameter `%s" "
 		 "(%s)\n", option_string, word, strerror(errno))
 	    return Sane.STATUS_INVAL
 	  }
 	else
 	  {
-	    DBG(3, "read_option: set option `%s' to %d\n", option_string,
+	    DBG(3, "read_option: set option `%s" to %d\n", option_string,
 		 int_value)
 	    *(Int *) value = int_value
 	  }
@@ -1363,19 +1363,19 @@ read_option(String line, String option_string,
 	double_value = strtod(word, &end)
 	if(end == word)
 	  {
-	    DBG(3, "read_option: option `%s' requires parameter\n",
+	    DBG(3, "read_option: option `%s" requires parameter\n",
 		 option_string)
 	    return Sane.STATUS_INVAL
 	  }
 	else if(errno)
 	  {
-	    DBG(3, "read_option: option `%s': can't parse parameter `%s' "
+	    DBG(3, "read_option: option `%s": can"t parse parameter `%s" "
 		 "(%s)\n", option_string, word, strerror(errno))
 	    return Sane.STATUS_INVAL
 	  }
 	else
 	  {
-	    DBG(3, "read_option: set option `%s' to %.0f\n", option_string,
+	    DBG(3, "read_option: set option `%s" to %.0f\n", option_string,
 		 double_value)
 	    fixed_value = Sane.FIX(double_value)
 	    *(Sane.Fixed *) value = fixed_value
@@ -1389,13 +1389,13 @@ read_option(String line, String option_string,
 	  return Sane.STATUS_INVAL
 	if(strlen(word) == 0)
 	  {
-	    DBG(3, "read_option: option `%s' requires parameter\n",
+	    DBG(3, "read_option: option `%s" requires parameter\n",
 		 option_string)
 	    return Sane.STATUS_INVAL
 	  }
 	else
 	  {
-	    DBG(3, "read_option: set option `%s' to `%s'\n", option_string,
+	    DBG(3, "read_option: set option `%s" to `%s"\n", option_string,
 		 word)
 	    if(*(String *) value)
 	      free(*(String *) value)
@@ -1427,7 +1427,7 @@ reader_process(Test_Device * test_device, Int fd)
   DBG(2, "(child) reader_process: test_device=%p, fd=%d\n",
        (void *) test_device, fd)
 
-  bytes_total = test_device.lines * test_device.bytes_per_line
+  bytes_total = test_device.lines * test_device.bytesPerLine
   status = init_picture_buffer(test_device, &buffer, &buffer_size)
   if(status != Sane.STATUS_GOOD)
     return status
@@ -1526,7 +1526,7 @@ finish_pass(Test_Device * test_device)
     }
   if(sanei_thread_is_valid(test_device.reader_pid))
     {
-      Int status
+      status: Int
       Sane.Pid pid
 
       DBG(2, "finish_pass: terminating reader process %ld\n",
@@ -1568,9 +1568,9 @@ print_options(Test_Device * test_device)
     {
       od = &test_device.opt[option_number]
       DBG(0, "-----> number: %d\n", option_number)
-      DBG(0, "         name: `%s'\n", od.name)
-      DBG(0, "        title: `%s'\n", od.title)
-      DBG(0, "  description: `%s'\n", od.desc)
+      DBG(0, "         name: `%s"\n", od.name)
+      DBG(0, "        title: `%s"\n", od.title)
+      DBG(0, "  description: `%s"\n", od.desc)
       DBG(0, "         type: %s\n",
 	   od.type == Sane.TYPE_BOOL ? "Sane.TYPE_BOOL" :
 	   od.type == Sane.TYPE_INT ? "Sane.TYPE_INT" :
@@ -1588,7 +1588,7 @@ print_options(Test_Device * test_device)
 	   od.unit == Sane.UNIT_MICROSECOND ? "Sane.UNIT_MICROSECOND" :
 	   "unknown")
       DBG(0, "         size: %d\n", od.size)
-      caps[0] = '\0'
+      caps[0] = "\0"
       if(od.cap & Sane.CAP_SOFT_SELECT)
 	strcat(caps, "Sane.CAP_SOFT_SELECT ")
       if(od.cap & Sane.CAP_HARD_SELECT)
@@ -1645,7 +1645,7 @@ Sane.init(Int * __Sane.unused__ version_code, Sane.Auth_Callback __Sane.unused__
   if(inited)
     DBG(3, "Sane.init: warning: already inited\n")
 
-  // Setup initial values of string options. Call free initially in case we've
+  // Setup initial values of string options. Call free initially in case we"ve
   // already called Sane.init and these values are already non-null.
   free(init_mode)
   init_mode = strdup(Sane.VALUE_SCAN_MODE_GRAY)
@@ -1692,7 +1692,7 @@ Sane.init(Int * __Sane.unused__ version_code, Sane.Auth_Callback __Sane.unused__
   if(fp)
     {
       linenumber = 0
-      DBG(4, "Sane.init: reading config file `%s'\n", TEST_CONFIG_FILE)
+      DBG(4, "Sane.init: reading config file `%s"\n", TEST_CONFIG_FILE)
       while(sanei_config_read(line, sizeof(line), fp))
 	{
 	  if(word)
@@ -1708,7 +1708,7 @@ Sane.init(Int * __Sane.unused__ version_code, Sane.Auth_Callback __Sane.unused__
 		   linenumber)
 	      continue
 	    }
-	  if(word[0] == '#')
+	  if(word[0] == "#")
 	    {
 	      DBG(5,
 		   "Sane.init: config file line %3d: ignoring comment line\n",
@@ -1716,7 +1716,7 @@ Sane.init(Int * __Sane.unused__ version_code, Sane.Auth_Callback __Sane.unused__
 	      continue
 	    }
 
-	  DBG(5, "Sane.init: config file line %3d: `%s'\n",
+	  DBG(5, "Sane.init: config file line %3d: `%s"\n",
 	       linenumber, line)
 	  if(read_option(line, "number_of_devices", param_int,
 			   &init_number_of_devices) == Sane.STATUS_GOOD)
@@ -1809,7 +1809,7 @@ Sane.init(Int * __Sane.unused__ version_code, Sane.Auth_Callback __Sane.unused__
 			   &init_br_y) == Sane.STATUS_GOOD)
 	    continue
 
-	  DBG(3, "sane-init: I don't know how to handle option `%s'\n",
+	  DBG(3, "sane-init: I don"t know how to handle option `%s"\n",
 	       word)
 	}			/* while */
       if(word)
@@ -1818,7 +1818,7 @@ Sane.init(Int * __Sane.unused__ version_code, Sane.Auth_Callback __Sane.unused__
     }				/* if */
   else
     {
-      DBG(3, "Sane.init: couldn't find config file(%s), using default "
+      DBG(3, "Sane.init: couldn"t find config file(%s), using default "
 	   "settings\n", TEST_CONFIG_FILE)
     }
 
@@ -1838,7 +1838,7 @@ Sane.init(Int * __Sane.unused__ version_code, Sane.Auth_Callback __Sane.unused__
       test_device.sane.type = "virtual device"
       test_device.sane.model = "frontend-tester"
       snprintf(number_string, sizeof(number_string), "%d", num)
-      number_string[sizeof(number_string) - 1] = '\0'
+      number_string[sizeof(number_string) - 1] = "\0"
       test_device.name = strdup(number_string)
       if(!test_device.name)
 	goto fail_name
@@ -1856,7 +1856,7 @@ Sane.init(Int * __Sane.unused__ version_code, Sane.Auth_Callback __Sane.unused__
       test_device.options_initialized = Sane.FALSE
       sanei_thread_initialize(test_device.reader_pid)
       test_device.pipe = -1
-      DBG(4, "Sane.init: new device: `%s' is a %s %s %s\n",
+      DBG(4, "Sane.init: new device: `%s" is a %s %s %s\n",
 	   test_device.sane.name, test_device.sane.vendor,
 	   test_device.sane.model, test_device.sane.type)
     }
@@ -1975,15 +1975,15 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
     }
   if(!test_device)
     {
-      DBG(1, "Sane.open: device `%s' not found\n", devicename)
+      DBG(1, "Sane.open: device `%s" not found\n", devicename)
       return Sane.STATUS_INVAL
     }
   if(test_device.open)
     {
-      DBG(1, "Sane.open: device `%s' already open\n", devicename)
+      DBG(1, "Sane.open: device `%s" already open\n", devicename)
       return Sane.STATUS_DEVICE_BUSY
     }
-  DBG(2, "Sane.open: opening device `%s', handle = %p\n", test_device.name,
+  DBG(2, "Sane.open: opening device `%s", handle = %p\n", test_device.name,
        (void *) test_device)
   test_device.open = Sane.TRUE
   *handle = test_device
@@ -2301,7 +2301,7 @@ Sane.control_option(Sane.Handle handle, Int option, Sane.Action action,
 	      break
 	    }
 	  strcpy(test_device.val[option].s, (String) value)
-	  DBG(4, "Sane.control_option: set option %d(%s) to `%s'\n",
+	  DBG(4, "Sane.control_option: set option %d(%s) to `%s"\n",
 	       option, test_device.opt[option].name, (String) value)
 	  break
 	case opt_int_array:	/* Word array */
@@ -2527,7 +2527,7 @@ Sane.control_option(Sane.Handle handle, Int option, Sane.Action action,
 	case opt_string_constraint_long_string_list:
 	case opt_scan_source:
 	  strcpy(value, test_device.val[option].s)
-	  DBG(4, "Sane.control_option: get option %d(%s), value=`%s'\n",
+	  DBG(4, "Sane.control_option: get option %d(%s), value=`%s"\n",
 	       option, test_device.opt[option].name, (String) value)
 	  break
 	case opt_depth:	/* Int + word list options */
@@ -2652,10 +2652,10 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
       if(test_device.val[opt_three_pass].w == Sane.TRUE)
 	{
 	  if(test_device.val[opt_three_pass_order].s[test_device.pass]
-	      == 'R')
+	      == "R")
 	    p.format = Sane.FRAME_RED
 	  else if(test_device.val[opt_three_pass_order].s[test_device.pass]
-		   == 'G')
+		   == "G")
 	    p.format = Sane.FRAME_GREEN
 	  else
 	    p.format = Sane.FRAME_BLUE
@@ -2682,11 +2682,11 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
     channels = 3
 
   if(p.depth == 1)
-    p.bytes_per_line = channels * (Int) ((p.pixels_per_line + 7) / 8)
+    p.bytesPerLine = channels * (Int) ((p.pixels_per_line + 7) / 8)
   else				/* depth == 8 || depth == 16 */
-    p.bytes_per_line = channels * p.pixels_per_line * ((p.depth + 7) / 8)
+    p.bytesPerLine = channels * p.pixels_per_line * ((p.depth + 7) / 8)
 
-  test_device.bytes_per_line = p.bytes_per_line
+  test_device.bytesPerLine = p.bytesPerLine
 
   p.pixels_per_line -= test_device.val[opt_ppl_loss].w
   if(p.pixels_per_line < 1)
@@ -2721,7 +2721,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   DBG(3, "Sane.get_parameters: lines=%d\n", p.lines)
   DBG(3, "Sane.get_parameters: depth=%d\n", p.depth)
   DBG(3, "Sane.get_parameters: pixels_per_line=%d\n", p.pixels_per_line)
-  DBG(3, "Sane.get_parameters: bytes_per_line=%d\n", p.bytes_per_line)
+  DBG(3, "Sane.get_parameters: bytesPerLine=%d\n", p.bytesPerLine)
 
   if(params)
     *params = *p
@@ -2798,9 +2798,9 @@ Sane.start(Sane.Handle handle)
       test_device.scanning = Sane.FALSE
       return Sane.STATUS_INVAL
     }
-  if(test_device.params.bytes_per_line == 0)
+  if(test_device.params.bytesPerLine == 0)
     {
-      DBG(1, "Sane.start: bytes_per_line == 0\n")
+      DBG(1, "Sane.start: bytesPerLine == 0\n")
       test_device.scanning = Sane.FALSE
       return Sane.STATUS_INVAL
     }
@@ -2842,7 +2842,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * data,
   Int max_scan_length
   ssize_t bytes_read
   size_t read_count
-  Int bytes_total = test_device.lines * test_device.bytes_per_line
+  Int bytes_total = test_device.lines * test_device.bytesPerLine
 
 
   DBG(4, "Sane.read: handle=%p, data=%p, max_length = %d, length=%p\n",
@@ -2938,7 +2938,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * data,
       status = finish_pass(test_device)
       if(status != Sane.STATUS_GOOD)
 	{
-	  DBG(1, "Sane.read: finish_pass returned `%s'\n",
+	  DBG(1, "Sane.read: finish_pass returned `%s"\n",
 	       Sane.strstatus(status))
 	  return status
 	}
@@ -3045,7 +3045,7 @@ Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
       if(fcntl(test_device.pipe,
 		 F_SETFL, non_blocking ? O_NONBLOCK : 0) < 0)
 	{
-	  DBG(1, "Sane.set_io_mode: can't set io mode")
+	  DBG(1, "Sane.set_io_mode: can"t set io mode")
 	  return Sane.STATUS_INVAL
 	}
     }

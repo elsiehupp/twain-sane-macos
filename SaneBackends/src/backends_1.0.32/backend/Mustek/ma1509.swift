@@ -138,7 +138,7 @@ print_data_buffer(const Sane.Byte * buffer, size_t len)
   Sane.Byte buffer_byte[5]
   const Sane.Byte *pp
 
-  buffer_byte_list[0] = '\0'
+  buffer_byte_list[0] = "\0"
   for(pp = buffer; pp < (buffer + len); pp++)
     {
       sprintf((String) buffer_byte, " %02x", *pp)
@@ -146,7 +146,7 @@ print_data_buffer(const Sane.Byte * buffer, size_t len)
       if(((pp - buffer) % 0x10 == 0x0f) || (pp >= (buffer + len - 1)))
 	{
 	  DBG(5, "buffer: %s\n", buffer_byte_list)
-	  buffer_byte_list[0] = '\0'
+	  buffer_byte_list[0] = "\0"
 	}
     }
 }
@@ -319,7 +319,7 @@ attach(Sane.String_Const devname, Ma1509_Device ** devp)
     }
   if(status == Sane.STATUS_UNSUPPORTED)
     {
-      DBG(3, "attach: can't detect vendor/product, trying anyway\n")
+      DBG(3, "attach: can"t detect vendor/product, trying anyway\n")
     }
   else if(vendor != 0x055f || product != 0x0010)
     {
@@ -355,7 +355,7 @@ attach(Sane.String_Const devname, Ma1509_Device ** devp)
 
   if((result[0] & 0x1f) != 0x06)
     {
-      DBG(1, "attach: device %s doesn't look like a scanner at all(%d)\n",
+      DBG(1, "attach: device %s doesn"t look like a scanner at all(%d)\n",
 	   devname, result[0] & 0x1f)
       return Sane.STATUS_INVAL
     }
@@ -364,12 +364,12 @@ attach(Sane.String_Const devname, Ma1509_Device ** devp)
     {
       /* print out inquiry */
       DBG(5, "attach: inquiry output:\n")
-      inquiry_byte_list[0] = '\0'
-      inquiry_text_list[0] = '\0'
+      inquiry_byte_list[0] = "\0"
+      inquiry_text_list[0] = "\0"
       for(pp = result; pp < (result + INQ_LEN); pp++)
 	{
 	  sprintf((String) inquiry_text, "%c",
-		   (*pp < 127) && (*pp > 31) ? *pp : '.')
+		   (*pp < 127) && (*pp > 31) ? *pp : ".")
 	  strcat((String) inquiry_text_list,
 		  (String) inquiry_text)
 	  sprintf((String) inquiry_byte, " %02x", *pp)
@@ -378,15 +378,15 @@ attach(Sane.String_Const devname, Ma1509_Device ** devp)
 	  if((pp - result) % 0x10 == 0x0f)
 	    {
 	      DBG(5, "%s  %s\n", inquiry_byte_list, inquiry_text_list)
-	      inquiry_byte_list[0] = '\0'
-	      inquiry_text_list[0] = '\0'
+	      inquiry_byte_list[0] = "\0"
+	      inquiry_text_list[0] = "\0"
 	    }
 	}
     }
 
   /* get firmware revision as BCD number:             */
-  fw_revision = (result[32] - '0') << 8 | (result[34] - '0') << 4
-    | (result[35] - '0')
+  fw_revision = (result[32] - "0") << 8 | (result[34] - "0") << 4
+    | (result[35] - "0")
   DBG(4, "attach: firmware revision %d.%02x\n", fw_revision >> 8,
        fw_revision & 0xff)
 
@@ -779,7 +779,7 @@ set_window(Ma1509_Scanner * s)
   *cp++ = 0x00;			/* contrast, not impl.          */
   *cp++ = 0x00;			/* ???               .          */
 
-  /* Note that 'image composition' has no meaning for the SE series     */
+  /* Note that "image composition" has no meaning for the SE series     */
   /* Mode selection is accomplished solely by bits/pixel(1, 8, 24)     */
   if(strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_COLOR) == 0)
     {
@@ -822,7 +822,7 @@ calibration(Ma1509_Scanner * s)
   if(!buffer)
     {
       DBG(1,
-	   "calibration: couldn't malloc %lu bytes for calibration buffer\n",
+	   "calibration: couldn"t malloc %lu bytes for calibration buffer\n",
 	   (u_long) (total_size * 3))
       return Sane.STATUS_NO_MEM
     }
@@ -849,7 +849,7 @@ calibration(Ma1509_Scanner * s)
   if(!calibration_buffer)
     {
       DBG(1,
-	   "calibration: couldn't malloc %d bytes for calibration buffer\n",
+	   "calibration: couldn"t malloc %d bytes for calibration buffer\n",
 	   ppl)
       return Sane.STATUS_NO_MEM
     }
@@ -915,7 +915,7 @@ send_gamma(Ma1509_Scanner * s)
   buffer = malloc(total_size)
   if(!buffer)
     {
-      DBG(1, "send_gamma: couldn't malloc %lu bytes for gamma  buffer\n",
+      DBG(1, "send_gamma: couldn"t malloc %lu bytes for gamma  buffer\n",
 	   (u_long) total_size)
       return Sane.STATUS_NO_MEM
     }
@@ -1131,13 +1131,13 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
   if(!fp)
     {
       /* default to /dev/usb/scanner0 instead of insisting on config file */
-      DBG(3, "Sane.init: couldn't find config file(%s), trying "
+      DBG(3, "Sane.init: couldn"t find config file(%s), trying "
 	   "/dev/usb/scanner0 directly\n", MA1509_CONFIG_FILE)
       attach("/dev/usb/scanner0", 0)
       return Sane.STATUS_GOOD
     }
   linenumber = 0
-  DBG(4, "Sane.init: reading config file `%s'\n", MA1509_CONFIG_FILE)
+  DBG(4, "Sane.init: reading config file `%s"\n", MA1509_CONFIG_FILE)
   while(sanei_config_read(line, sizeof(line), fp))
     {
       word = 0
@@ -1152,7 +1152,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 	    free(word)
 	  continue
 	}
-      if(word[0] == '#')
+      if(word[0] == "#")
 	{
 	  DBG(5, "Sane.init: config file line %d: ignoring comment line\n",
 	       linenumber)
@@ -1198,7 +1198,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 		}
 	      else if(errno)
 		{
-		  DBG(3, "sane-init: config file line %d: warmup-time `%s' "
+		  DBG(3, "sane-init: config file line %d: warmup-time `%s" "
 		       "is invalid(%s); using default(%d)\n", linenumber,
 		       word, strerror(errno), warmup_time)
 		}
@@ -1217,7 +1217,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 	  else
 	    {
 	      DBG(3, "Sane.init: config file line %d: ignoring unknown "
-		   "option `%s'\n", linenumber, word)
+		   "option `%s"\n", linenumber, word)
 	      if(word)
 		free(word)
 	      word = 0
@@ -1226,7 +1226,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
       else
 	{
 	  new_dev_len = 0
-	  DBG(4, "Sane.init: config file line %d: trying to attach `%s'\n",
+	  DBG(4, "Sane.init: config file line %d: trying to attach `%s"\n",
 	       linenumber, line)
 	  sanei_usb_attach_matching_devices(line, attach_one_device)
 	  if(word)
@@ -1325,7 +1325,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 
   if(!dev)
     {
-      DBG(1, "Sane.open: %s doesn't seem to exist\n", devicename)
+      DBG(1, "Sane.open: %s doesn"t seem to exist\n", devicename)
       return Sane.STATUS_INVAL
     }
 
@@ -1344,7 +1344,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
   status = sanei_usb_open(s.hw.sane.name, &s.fd)
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(1, "Sane.open: couldn't open %s: %s\n", s.hw.sane.name,
+      DBG(1, "Sane.open: couldn"t open %s: %s\n", s.hw.sane.name,
 	   Sane.strstatus(status))
       return status
     }
@@ -1352,7 +1352,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
   status = turn_lamp(s, Sane.TRUE)
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(1, "Sane.open: couldn't turn on lamp: %s\n",
+      DBG(1, "Sane.open: couldn"t turn on lamp: %s\n",
 	   Sane.strstatus(status))
       return status
     }
@@ -1360,7 +1360,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
   status = turn_lamp(s, Sane.TRUE)
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(1, "Sane.open: couldn't turn on lamp: %s\n",
+      DBG(1, "Sane.open: couldn"t turn on lamp: %s\n",
 	   Sane.strstatus(status))
       return status
     }
@@ -1400,7 +1400,7 @@ Sane.close(Sane.Handle handle)
   status = turn_lamp(s, Sane.FALSE)
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(1, "Sane.close: couldn't turn off lamp: %s\n",
+      DBG(1, "Sane.close: couldn"t turn off lamp: %s\n",
 	   Sane.strstatus(status))
       return
     }
@@ -1485,7 +1485,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 
   if(s.scanning)
     {
-      DBG(3, "Sane.control_option: don't use while scanning(option %s)\n",
+      DBG(3, "Sane.control_option: don"t use while scanning(option %s)\n",
 	   s.opt[option].name)
       return Sane.STATUS_DEVICE_BUSY
     }
@@ -1701,20 +1701,20 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
       if(strcmp(mode, Sane.VALUE_SCAN_MODE_LINEART) == 0)
 	{
 	  s.params.format = Sane.FRAME_GRAY
-	  s.params.bytes_per_line = (s.params.pixels_per_line + 7) / 8
+	  s.params.bytesPerLine = (s.params.pixels_per_line + 7) / 8
 	  s.params.depth = 1
 	}
       else if(strcmp(mode, Sane.VALUE_SCAN_MODE_GRAY) == 0)
 	{
 	  s.params.format = Sane.FRAME_GRAY
-	  s.params.bytes_per_line = s.params.pixels_per_line
+	  s.params.bytesPerLine = s.params.pixels_per_line
 	  s.params.depth = 8
 	}
       else
 	{
-	  /* it's one of the color modes... */
+	  /* it"s one of the color modes... */
 
-	  s.params.bytes_per_line = 3 * s.params.pixels_per_line
+	  s.params.bytesPerLine = 3 * s.params.pixels_per_line
 	  s.params.depth = 8
 	  s.params.format = Sane.FRAME_RGB
 	}
@@ -1726,7 +1726,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
        s.params.format, s.params.last_frame ? "true" : "false",
        s.params.depth)
   DBG(4, "Sane.get_parameters: lines = %d; ppl = %d; bpl = %d\n",
-       s.params.lines, s.params.pixels_per_line, s.params.bytes_per_line)
+       s.params.lines, s.params.pixels_per_line, s.params.bytesPerLine)
 
   return Sane.STATUS_GOOD
 }
@@ -1830,8 +1830,8 @@ Sane.start(Sane.Handle handle)
       goto stop_scanner_and_return
     }
 
-  s.params.bytes_per_line = s.hw.bpl
-  s.params.pixels_per_line = s.params.bytes_per_line
+  s.params.bytesPerLine = s.hw.bpl
+  s.params.pixels_per_line = s.params.bytesPerLine
   if(strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_COLOR) == 0)
     s.params.pixels_per_line /= 3
   else if(strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART) == 0)

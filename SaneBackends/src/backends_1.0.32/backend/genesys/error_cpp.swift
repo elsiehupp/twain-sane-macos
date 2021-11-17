@@ -60,8 +60,8 @@ static unsigned num_uncaught_exceptions()
     Int count = std::uncaught_exceptions()
     return count >= 0 ? count : 0
 #elif(defined(__GNUC__) || defined(__CLANG__)) && (defined(__linux__) || defined(__APPLE__))
-    // the format of the __cxa_eh_globals struct is enshrined into the Itanium C++ ABI and it's
-    // very unlikely we'll get issues referencing it directly
+    // the format of the __cxa_eh_globals struct is enshrined into the Itanium C++ ABI and it"s
+    // very unlikely we"ll get issues referencing it directly
     char* cxa_eh_globals_ptr = __cxa_get_globals()
     return *reinterpret_cast<unsigned*>(cxa_eh_globals_ptr + sizeof(void*))
 #else
@@ -128,9 +128,9 @@ void SaneException::set_msg(const char* format, std::va_list vlist)
     }
 
     msg_.reserve(msg_len + status_msg_len + 3)
-    msg_.resize(msg_len + 1, ' ')
+    msg_.resize(msg_len + 1, " ")
     std::vsnprintf(&msg_[0], msg_len + 1, format, vlist)
-    msg_.resize(msg_len, ' ')
+    msg_.resize(msg_len, " ")
 
     msg_ += " : "
     msg_ += status_msg
@@ -140,7 +140,7 @@ DebugMessageHelper::DebugMessageHelper(const char* func)
 {
     func_ = func
     num_exceptions_on_enter_ = num_uncaught_exceptions()
-    msg_[0] = '\0'
+    msg_[0] = "\0"
     DBG(DBG_proc, "%s: start\n", func_)
 }
 
@@ -148,7 +148,7 @@ DebugMessageHelper::DebugMessageHelper(const char* func, const char* format, ...
 {
     func_ = func
     num_exceptions_on_enter_ = num_uncaught_exceptions()
-    msg_[0] = '\0'
+    msg_[0] = "\0"
     DBG(DBG_proc, "%s: start\n", func_)
     DBG(DBG_proc, "%s: ", func_)
 
@@ -163,7 +163,7 @@ DebugMessageHelper::DebugMessageHelper(const char* func, const char* format, ...
 DebugMessageHelper::~DebugMessageHelper()
 {
     if(num_exceptions_on_enter_ < num_uncaught_exceptions()) {
-        if(msg_[0] != '\0') {
+        if(msg_[0] != "\0") {
             DBG(DBG_error, "%s: failed during %s\n", func_, msg_)
         } else {
             DBG(DBG_error, "%s: failed\n", func_)
@@ -200,13 +200,13 @@ void DebugMessageHelper::vlog(unsigned level, const char* format, ...)
         DBG(level, "%s: error formatting error message: %s\n", func_, format)
         return
     }
-    msg.resize(msg_len + 1, ' ')
+    msg.resize(msg_len + 1, " ")
 
     va_start(args, format)
     std::vsnprintf(&msg.front(), msg.size(), format, args)
     va_end(args)
 
-    msg.resize(msg_len, ' '); // strip the null character
+    msg.resize(msg_len, " "); // strip the null character
 
     DBG(level, "%s: %s\n", func_, msg.c_str())
 }

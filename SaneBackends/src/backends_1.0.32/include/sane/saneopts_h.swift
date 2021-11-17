@@ -39,7 +39,7 @@
 
    This file declares common option names, titles, and descriptions.  A
    backend is not limited to these options but for the sake of
-   consistency it's better to use options declared here when appropriate.
+   consistency it"s better to use options declared here when appropriate.
 */
 
 /* This file defines several option NAMEs, TITLEs and DESCs
@@ -143,7 +143,7 @@
 #define Sane.NAME_FOCUS			"focus"
 #define Sane.NAME_AUTOFOCUS		"autofocus"
 
-/* well known options from 'SENSORS' group*/
+/* well known options from "SENSORS" group*/
 #define Sane.NAME_SCAN			"scan"
 #define Sane.NAME_EMAIL			"email"
 #define Sane.NAME_FAX			"fax"
@@ -234,7 +234,7 @@
 #define Sane.TITLE_FOCUS		Sane.I18N("Focus position")
 #define Sane.TITLE_AUTOFOCUS		Sane.I18N("Autofocus")
 
-/* well known options from 'SENSORS' group*/
+/* well known options from "SENSORS" group*/
 #define Sane.TITLE_SCAN			"Scan button"
 #define Sane.TITLE_EMAIL		"Email button"
 #define Sane.TITLE_FAX			"Fax button"
@@ -448,7 +448,7 @@ Sane.I18N("Focus position for manual focus")
 #define Sane.DESC_AUTOFOCUS \
 Sane.I18N("Perform autofocus before scan")
 
-/* well known options from 'SENSORS' group*/
+/* well known options from "SENSORS" group*/
 #define Sane.DESC_SCAN		Sane.I18N("Scan button")
 #define Sane.DESC_EMAIL		Sane.I18N("Email button")
 #define Sane.DESC_FAX		Sane.I18N("Fax button")

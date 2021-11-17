@@ -402,7 +402,7 @@ Sane.get_devices(const Sane.Device *** list, Bool local_only)
 	    {
 	      p = line
 	      p += strspn(line, " \t")
-	      if(strlen(p) && (p[0] != '\n') && (p[0] != '#'))
+	      if(strlen(p) && (p[0] != "\n") && (p[0] != "#"))
 		cs2_open(line, CS2_INTERFACE_UNKNOWN, NULL)
 	    }
 	  fclose(config)
@@ -1442,12 +1442,12 @@ Sane.get_parameters(Sane.Handle h, Sane.Parameters * p)
   if(s.infrared_stage == CS2_INFRARED_OUT)
     {
       p.format = Sane.FRAME_GRAY
-      p.bytes_per_line = s.logical_width * s.bytes_per_pixel
+      p.bytesPerLine = s.logical_width * s.bytes_per_pixel
     }
   else
     {
       p.format = Sane.FRAME_RGB;	/* XXXXXXXX CCCCCCCCCC */
-      p.bytes_per_line =
+      p.bytesPerLine =
 	s.n_colour_out * s.logical_width * s.bytes_per_pixel
     }
   p.last_frame = Sane.TRUE
@@ -1846,14 +1846,14 @@ cs2_open(const char *device, cs2_interface_t interface, cs2_t ** sp)
     }
 
   strncpy(s.vendor_string, (char *)s.recv_buf + 8, 8)
-  s.vendor_string[8] = '\0'
+  s.vendor_string[8] = "\0"
   strncpy(s.product_string, (char *)s.recv_buf + 16, 16)
-  s.product_string[16] = '\0'
+  s.product_string[16] = "\0"
   strncpy(s.revision_string, (char *)s.recv_buf + 32, 4)
-  s.revision_string[4] = '\0'
+  s.revision_string[4] = "\0"
 
   DBG(10,
-       "cs2_open(): Inquiry reveals: vendor = '%s', product = '%s', revision = '%s'.\n",
+       "cs2_open(): Inquiry reveals: vendor = "%s", product = "%s", revision = "%s".\n",
        s.vendor_string, s.product_string, s.revision_string)
 
   if(!strncmp(s.product_string, "COOLSCANIII     ", 16))
@@ -2093,7 +2093,7 @@ cs2_parse_cmd(cs2_t * s, char *text)
   Sane.Status status
 
   for(i = 0; i < strlen(text); i += 2)
-    if(text[i] == ' ')
+    if(text[i] == " ")
       i--;			/* a bit dirty... advance by -1+2=1 */
     else
       {
@@ -2103,10 +2103,10 @@ cs2_parse_cmd(cs2_t * s, char *text)
 	for(j = 0; j < 2; j++)
 	  {
 	    h = tolower(text[i + j])
-	    if((h >= 'a') && (h <= 'f'))
-	      c += 10 + h - 'a'
+	    if((h >= "a") && (h <= "f"))
+	      c += 10 + h - "a"
 	    else
-	      c += h - '0'
+	      c += h - "0"
 	    if(j == 0)
 	      c <<= 4
 	  }
@@ -2817,7 +2817,7 @@ cs2_scan(cs2_t * s, cs2_scan_t type)
 
   cs2_scanner_ready(s, CS2_STATUS_READY)
   cs2_init_buffer(s)
-  /* Ariel - the '0b' byte in the 'else' part seems to be wrong, should be 0 */
+  /* Ariel - the "0b" byte in the "else" part seems to be wrong, should be 0 */
   if((s.type == CS2_TYPE_LS50) || (s.type == CS2_TYPE_LS5000))
     cs2_parse_cmd(s, "15 10 00 00 14 00 00 00 00 08 00 00 00 00 00 00 00 01 03 06 00 00")
   else
@@ -3015,7 +3015,7 @@ cs2_scan(cs2_t * s, cs2_scan_t type)
     return status
   if(s.status == CS2_STATUS_REISSUE)
     {
-      /* Make sure we don't affect the behaviour for other scanners */
+      /* Make sure we don"t affect the behaviour for other scanners */
       if((s.type == CS2_TYPE_LS50) || (s.type == CS2_TYPE_LS5000))
         {
           cs2_init_buffer(s)

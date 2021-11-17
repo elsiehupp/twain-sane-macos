@@ -152,7 +152,7 @@ import hp5590_low
 
 /* Custom assert() macro */
 #define hp5590_low_assert(exp) if(!(exp)) { \
-  DBG(DBG_err, "Assertion '%s' failed at %s:%u\n", #exp, __FILE__, __LINE__);\
+  DBG(DBG_err, "Assertion "%s" failed at %s:%u\n", #exp, __FILE__, __LINE__);\
   return Sane.STATUS_INVAL; \
 }
 
@@ -194,7 +194,7 @@ struct usb_in_usb_ctrl_setup {
 
 /* Structure describing bulk read state, because bulk reads will be done in
  * pages, but function caller uses its own buffer, whose size is certainly
- * different. Also, each bulk read page is ACK'ed by special command
+ * different. Also, each bulk read page is ACK"ed by special command
  * so total pages received should be tracked as well
  */
 struct bulk_read_state
@@ -226,7 +226,7 @@ hp5590_get_ack(Int dn,
   uint8_t       status
   Sane.Status   ret
 
-  /* Bypass reading acknowledge if the device doesn't need it */
+  /* Bypass reading acknowledge if the device doesn"t need it */
   if(proto_flags & PF_NO_USB_IN_USB_ACK)
     return Sane.STATUS_GOOD
 
@@ -344,7 +344,7 @@ hp5590_control_msg(Int dn,
       ctrl.bRequest = request
       ctrl.wValue = htons(value)
       ctrl.wIndex = htons(index)
-      ctrl.wLength = htole16 (size)
+      ctrl.wLength = htole16(size)
 
       DBG(DBG_usb, "%s: USB-in-USB: sending control msg\n", __func__)
       /* Send USB-in-USB control message */
@@ -414,7 +414,7 @@ hp5590_control_msg(Int dn,
       ctrl.bRequest = request
       ctrl.wValue = htons(value)
       ctrl.wIndex = htons(index)
-      ctrl.wLength = htole16 (size)
+      ctrl.wLength = htole16(size)
 
       DBG(DBG_usb, "%s: USB-in-USB: sending control msg\n", __func__)
       /* Send USB-in-USB control message */
@@ -540,7 +540,7 @@ hp5590_control_msg(Int dn,
  * Returns
  * Sane.STATUS_GOOD - command verified successfully and CORE is ready
  * Sane.STATUS_IO_ERROR - command verification failed
- * Sane.STATUS_DEVICE_BUSY - command verified successfully but CORE isn't ready
+ * Sane.STATUS_DEVICE_BUSY - command verified successfully but CORE isn"t ready
  * all other Sane.Status values - otherwise
  */
 static Sane.Status
@@ -761,7 +761,7 @@ hp5590_bulk_read(Int dn,
   /* Check if requested data would fit into the buffer */
   if(size > bulk_read_state.buffer_size)
     {
-      DBG(DBG_err, "Data requested won't fit in the bulk read buffer "
+      DBG(DBG_err, "Data requested won"t fit in the bulk read buffer "
            "(requested: %u, buffer size: %u\n", size,
            bulk_read_state.buffer_size)
       return Sane.STATUS_NO_MEM
@@ -774,8 +774,8 @@ hp5590_bulk_read(Int dn,
            "(available: %u, requested: %u)\n",
            __func__, bulk_read_state.bytes_available, size)
 
-      /* IMPORTANT! 'next_pages' means 'request and receive next_pages pages in
-       * one bulk transfer request '. Windows driver uses 4 pages between each
+      /* IMPORTANT! "next_pages" means "request and receive next_pages pages in
+       * one bulk transfer request ". Windows driver uses 4 pages between each
        * request.  The more pages are received between requests the less the
        * scanner does scan head re-positioning thus improving scanning speed.
        * On the other hand, scanner expects that all of the requested pages
@@ -792,7 +792,7 @@ hp5590_bulk_read(Int dn,
       DBG(DBG_usb, "%s: USB-in-USB: total pages done: %u\n",
            __func__, bulk_read_state.total_pages)
 
-      /* Send another bulk request for 'next_pages' before first
+      /* Send another bulk request for "next_pages" before first
        * page or next necessary one
        */
       if(   bulk_read_state.total_pages == 1

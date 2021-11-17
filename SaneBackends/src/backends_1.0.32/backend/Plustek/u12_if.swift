@@ -209,10 +209,10 @@ static Bool u12if_IsDeviceSupported( U12_Device *dev )
  */
 static Sane.Status u12if_usbattach( Sane.String_Const dev_name )
 {
-	if( USB_devname[0] == '\0' ) {
+	if( USB_devname[0] == "\0" ) {
 		DBG( _DBG_INFO, "Found device at >%s<\n", dev_name )
 		strncpy( USB_devname, dev_name, 1023 )
-		USB_devname[1023] = '\0'
+		USB_devname[1023] = "\0"
 	} else {
 		DBG( _DBG_INFO, "Device >%s< ignoring\n", dev_name )
 	}
@@ -243,7 +243,7 @@ static Bool usbDev_autodetect( Sane.Word *vendor, Sane.Word *product )
 
 		sanei_usb_find_devices( v, p, u12if_usbattach )
 
-		if( USB_devname[0] != '\0' ) {
+		if( USB_devname[0] != "\0" ) {
 
 			*vendor  = v
 			*product = p
@@ -268,7 +268,7 @@ static Int u12if_open( U12_Device *dev )
 
 	DBG( _DBG_INFO, "u12if_open(%s,%s)\n", dev.name, dev.usbId )
 
-	USB_devname[0] = '\0'
+	USB_devname[0] = "\0"
 
 #ifdef _FAKE_DEVICE
 	dev.name      = strdup( "auto" )
@@ -279,7 +279,7 @@ static Int u12if_open( U12_Device *dev )
 #else
 	if( !strcmp( dev.name, "auto" )) {
 
-		if( dev.usbId[0] == '\0' ) {
+		if( dev.usbId[0] == "\0" ) {
 
 			if( !usbDev_autodetect( &vendor, &product )) {
 				DBG( _DBG_ERROR, "No supported device found!\n" )
@@ -293,7 +293,7 @@ static Int u12if_open( U12_Device *dev )
 
 			sanei_usb_find_devices( vendor, product, u12if_usbattach )
 
-			if( USB_devname[0] == '\0' ) {
+			if( USB_devname[0] == "\0" ) {
 				DBG( _DBG_ERROR, "No matching device found!\n" )
         		return -1
 			}
@@ -326,11 +326,11 @@ static Int u12if_open( U12_Device *dev )
 
 		DBG(_DBG_INFO,"Vendor ID=0x%04X, Product ID=0x%04X\n",vendor,product)
 
-		if( dev.usbId[0] != '\0' ) {
+		if( dev.usbId[0] != "\0" ) {
 
 			if( 0 != strcmp( dev.usbId, devStr )) {
 				DBG( _DBG_ERROR, "Specified Vendor and Product ID "
-								 "doesn't match with the ones\n"
+								 "doesn"t match with the ones\n"
 								 "in the config file\n" )
 				sanei_usb_close( handle )
 		        return -1
@@ -342,12 +342,12 @@ static Int u12if_open( U12_Device *dev )
 
 	} else {
 
-		DBG( _DBG_INFO, "Can't get vendor & product ID from driver...\n" )
+		DBG( _DBG_INFO, "Can"t get vendor & product ID from driver...\n" )
 
 		/* if the ioctl stuff is not supported by the kernel and we have
 		 * nothing specified, we have to give up...
 		*/
-		if( dev.usbId[0] == '\0' ) {
+		if( dev.usbId[0] == "\0" ) {
 			DBG( _DBG_ERROR, "Cannot autodetect Vendor an Product ID, "
 							 "please specify in config file.\n" )
 			sanei_usb_close( handle )
@@ -382,7 +382,7 @@ static Int u12if_open( U12_Device *dev )
 		                "0x%04X-0x%04X\n", vendor, product )
 
 	if( was_empty )
-		dev.usbId[0] = '\0'
+		dev.usbId[0] = "\0"
 
 	/* now initialize the device */
 	if( Sane.STATUS_GOOD != u12_initDev( dev, handle, vendor )) {

@@ -1340,7 +1340,7 @@ Return value:
 static Bool
 Reflective_LineCalibration16Bits()
 {
-  STATUS status
+  Status status
   Sane.Byte * lpWhiteData
   Sane.Byte * lpDarkData
   unsigned Int dwWhiteTotalSize

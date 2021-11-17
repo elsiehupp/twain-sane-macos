@@ -226,12 +226,12 @@ void write_tiff_file(const std::string& filename, const void* data, Int depth, I
     TIFFSetField(image, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG)
     TIFFSetField(image, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT)
 
-    std::size_t bytes_per_line = (pixels_per_line * channels * depth + 7) / 8
+    std::size_t bytesPerLine = (pixels_per_line * channels * depth + 7) / 8
     const std::uint8_t* data_ptr = reinterpret_cast<const std::uint8_t*>(data)
 
-    // we don't need to handle endian because libtiff will handle that
+    // we don"t need to handle endian because libtiff will handle that
     for(Int iline = 0; iline < lines; ++iline) {
-        const auto* line_data = data_ptr + bytes_per_line * iline
+        const auto* line_data = data_ptr + bytesPerLine * iline
         TIFFWriteScanline(image, const_cast<std::uint8_t*>(line_data), iline, 0)
     }
     TIFFClose(image)

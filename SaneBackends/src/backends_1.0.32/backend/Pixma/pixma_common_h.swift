@@ -136,7 +136,7 @@ struct pixma_scan_ops_t
      *  scanner to a known state in this function. */
   Int(*open) (pixma_t *)
 
-    /** Free resources allocated by the subdriver. Don't forget to send abort
+    /** Free resources allocated by the subdriver. Don"t forget to send abort
      *  command to the scanner if it is scanning. */
   void(*close) (pixma_t *)
 
@@ -160,8 +160,8 @@ struct pixma_scan_ops_t
      *  scan(). */
   void(*finish_scan) (pixma_t *)
 
-    /** [Optional] Wait for a user's event, e.g. button event. \a timeout is
-     *  in milliseconds. If an event occurred before it's timed out, flags in
+    /** [Optional] Wait for a user"s event, e.g. button event. \a timeout is
+     *  in milliseconds. If an event occurred before it"s timed out, flags in
      *  \a s.events should be set accordingly.
      *  \see PIXMA_EV_* */
   void(*wait_event) (pixma_t * s, Int timeout)
@@ -177,10 +177,10 @@ struct pixma_scan_ops_t
 
 /** \name Functions for read and write big-endian integer values */
 /**@{*/
-void pixma_set_be16 (uint16_t x, uint8_t * buf)
-void pixma_set_be32 (uint32_t x, uint8_t * buf)
-uint16_t pixma_get_be16 (const uint8_t * buf)
-uint32_t pixma_get_be32 (const uint8_t * buf)
+void pixma_set_be16(uint16_t x, uint8_t * buf)
+void pixma_set_be32(uint32_t x, uint8_t * buf)
+uint16_t pixma_get_be16(const uint8_t * buf)
+uint32_t pixma_get_be32(const uint8_t * buf)
 /**@}*/
 
 /** \name Utility functions */
@@ -222,7 +222,7 @@ void pixma_set_debug_level(Int level)
 void pixma_hexdump(Int level, const void *d_, unsigned len)
 
 /* len:   length of data or error code.
-   size:  if >= 0, force to print 'size' bytes.
+   size:  if >= 0, force to print "size" bytes.
    max:   maximum number of bytes to print(-1 means no limit). */
 void pixma_dump(Int level, const char *type, const void *data, Int len,
 		 Int size, Int max)

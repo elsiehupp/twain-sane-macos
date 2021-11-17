@@ -118,7 +118,7 @@ static void u12map_Adjust( U12_Device *dev, Int which, Sane.Byte *buf )
 
 	/* adjust brightness(b) and contrast(c) using the function:
 	 *
-	 * s'(x,y) = (s(x,y) + b) * c
+	 * s"(x,y) = (s(x,y) + b) * c
 	 * b = [-127, 127]
 	 * c = [0,2]
 	 */

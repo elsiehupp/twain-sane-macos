@@ -175,7 +175,7 @@ typedef const struct mode_param
 #define COLOR_TRUE48		4  /* not sure if this should be the same as 32 */
 #define COLOR_TRUE36		5
 
-/* We don't support halftone mode now --> Plustek statement for USB */
+/* We don"t support halftone mode now --> Plustek statement for USB */
 #define COLOR_GRAY16		6
 
 #define _MEASURE_BASE		300UL
@@ -223,7 +223,7 @@ typedef const struct mode_param
 #define _E_INTERNAL	  (_FIRST_ERR-7)	/* internal error					*/
 #define _E_BUSY		  (_FIRST_ERR-8)	/* device is already in use			*/
 #define _E_ABORT	  (_FIRST_ERR-9)	/* operation aborted				*/
-#define	_E_LOCK		  (_FIRST_ERR-10)	/* can't lock resource				*/
+#define	_E_LOCK		  (_FIRST_ERR-10)	/* can"t lock resource				*/
 #define _E_NOSUPP	  (_FIRST_ERR-11)	/* feature or device not supported  */
 #define _E_NORESOURCE(_FIRST_ERR-12)	/* out of memo, resource busy...    */
 #define _E_VERSION	  (_FIRST_ERR-19)	/* version conflict					*/
@@ -233,7 +233,7 @@ typedef const struct mode_param
 #define _E_NO_PORT	  (_FIRST_ERR-23)	/* requested port does not exist	*/
 #define _E_REGISTER	  (_FIRST_ERR-24)	/* cannot register this device		*/
 #define _E_SEQUENCE	  (_FIRST_ERR-30)	/* caller sequence does not match	*/
-#define _E_NO_ASIC	  (_FIRST_ERR-31)	/* can't detect ASIC            	*/
+#define _E_NO_ASIC	  (_FIRST_ERR-31)	/* can"t detect ASIC            	*/
 
 #ifdef __KERNEL__
 # define _E_FAULT     (-EFAULT)
@@ -344,18 +344,18 @@ typedef const struct mode_param
 /*.............................................................................
  * the ioctl interface
  */
-#define _PTDRV_OPEN_DEVICE 	    _IOW('x', 1, unsigned short)/* open			 */
-#define _PTDRV_GET_CAPABILITIES _IOR('x', 2, ScannerCaps)	/* get caps		 */
-#define _PTDRV_GET_LENSINFO 	_IOR('x', 3, LensInfo)		/* get lenscaps	 */
-#define _PTDRV_PUT_IMAGEINFO 	_IOW('x', 4, ImgDef)		/* put image info*/
-#define _PTDRV_GET_CROPINFO 	_IOR('x', 5, CropInfo)		/* get crop		 */
-#define _PTDRV_SET_ENV 			_IOWR('x',6, ScanInfo)		/* set env.		 */
-#define _PTDRV_START_SCAN 		_IOR('x', 7, StartScan)		/* start scan 	 */
-#define _PTDRV_STOP_SCAN 		_IOWR('x', 8, short)		/* stop scan 	 */
-#define _PTDRV_CLOSE_DEVICE 	_IO('x',  9)				/* close 		 */
-#define _PTDRV_ACTION_BUTTON	_IOR('x', 10, unsigned char)/* rd act. button*/
-#define _PTDRV_ADJUST           _IOR('x', 11, AdjDef)		/* adjust driver */
-#define _PTDRV_SETMAP           _IOR('x', 12, MapDef)		/* download gamma*/
+#define _PTDRV_OPEN_DEVICE 	    _IOW("x", 1, unsigned short)/* open			 */
+#define _PTDRV_GET_CAPABILITIES _IOR("x", 2, ScannerCaps)	/* get caps		 */
+#define _PTDRV_GET_LENSINFO 	_IOR("x", 3, LensInfo)		/* get lenscaps	 */
+#define _PTDRV_PUT_IMAGEINFO 	_IOW("x", 4, ImgDef)		/* put image info*/
+#define _PTDRV_GET_CROPINFO 	_IOR("x", 5, CropInfo)		/* get crop		 */
+#define _PTDRV_SET_ENV 			_IOWR("x",6, ScanInfo)		/* set env.		 */
+#define _PTDRV_START_SCAN 		_IOR("x", 7, StartScan)		/* start scan 	 */
+#define _PTDRV_STOP_SCAN 		_IOWR("x", 8, short)		/* stop scan 	 */
+#define _PTDRV_CLOSE_DEVICE 	_IO("x",  9)				/* close 		 */
+#define _PTDRV_ACTION_BUTTON	_IOR("x", 10, unsigned char)/* rd act. button*/
+#define _PTDRV_ADJUST           _IOR("x", 11, AdjDef)		/* adjust driver */
+#define _PTDRV_SETMAP           _IOR("x", 12, MapDef)		/* download gamma*/
 
 /*
  * this version MUST match the one inside the driver to make sure, that

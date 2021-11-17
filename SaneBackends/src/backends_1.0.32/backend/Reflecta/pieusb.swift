@@ -138,7 +138,7 @@ static const Sane.Device **devlist = NULL
 
 /**
  * Initializes the debugging system, the USB system, the version code and
- * 'attaches' available scanners, i.e. creates device definitions for all
+ * "attaches" available scanners, i.e. creates device definitions for all
  * scanner devices found.
  *
  * @param version_code
@@ -210,9 +210,9 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
     } else {
         while(sanei_config_read(config_line, sizeof(config_line), fp)) {
             /* Ignore line comments and empty lines */
-            if(config_line[0] == '#') continue
+            if(config_line[0] == "#") continue
             if(strlen(config_line) == 0) continue
-            /* Ignore lines which do not begin with 'usb ' */
+            /* Ignore lines which do not begin with "usb " */
             if(strncmp(config_line, "usb ", 4) != 0) continue
             /* Parse vendor-id, product-id and model number and add to list */
             DBG(DBG_info_sane, "Sane.init() config file parsing %s\n", config_line)
@@ -515,7 +515,7 @@ Sane.get_option_descriptor(Sane.Handle handle, Int option)
 }
 
 /**
- * Set or inquire the current value of option number 'option' of the device
+ * Set or inquire the current value of option number "option" of the device
  * represented by the given handle.
  *
  * @param handle Scanner handle
@@ -539,7 +539,7 @@ Sane.control_option(Sane.Handle handle, Int option, Sane.Action action,
         *info = 0
     }
 
-    /* Don't set or get options while the scanner is busy */
+    /* Don"t set or get options while the scanner is busy */
     if(scanner.scanning) {
         DBG(DBG_error,"Device busy scanning, no option returned\n")
         return Sane.STATUS_DEVICE_BUSY
@@ -780,7 +780,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
         if(scanner.scanning) {
             /* Sane.start() initialized a Sane.Parameters struct in the scanner */
             DBG(DBG_info_sane, "Sane.get_parameters from scanner values\n")
-            params.bytes_per_line = scanner.scan_parameters.bytes_per_line
+            params.bytesPerLine = scanner.scan_parameters.bytesPerLine
             params.depth = scanner.scan_parameters.depth
             params.format = scanner.scan_parameters.format
             params.last_frame = scanner.scan_parameters.last_frame
@@ -824,11 +824,11 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
             }
             DBG(DBG_info_sane, "  colors: %d\n", colors)
             if(params.depth == 1) {
-                params.bytes_per_line = colors * (params.pixels_per_line + 7)/8
+                params.bytesPerLine = colors * (params.pixels_per_line + 7)/8
             } else if(params.depth <= 8) {
-                params.bytes_per_line = colors * params.pixels_per_line
+                params.bytesPerLine = colors * params.pixels_per_line
             } else if(params.depth <= 16) {
-                params.bytes_per_line = 2 * colors * params.pixels_per_line
+                params.bytesPerLine = 2 * colors * params.pixels_per_line
             }
             params.last_frame = Sane.TRUE
         }
@@ -836,7 +836,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
         DBG(DBG_info_sane,"Sane.get_parameters(): SANE parameters\n")
         DBG(DBG_info_sane," format = %d\n",params.format)
         DBG(DBG_info_sane," last_frame = %d\n",params.last_frame)
-        DBG(DBG_info_sane," bytes_per_line = %d\n",params.bytes_per_line)
+        DBG(DBG_info_sane," bytesPerLine = %d\n",params.bytesPerLine)
         DBG(DBG_info_sane," pixels_per_line = %d\n",params.pixels_per_line)
         DBG(DBG_info_sane," lines = %d\n",params.lines)
         DBG(DBG_info_sane," depth = %d\n",params.depth)
@@ -870,7 +870,7 @@ Sane.start(Sane.Handle handle)
     Bool shading_correction_relevant
     Bool infrared_post_processing_relevant
     Sane.Status st
-    Int bytes_per_line
+    Int bytesPerLine
 
     Int shading_width
     Int shading_idx
@@ -1107,7 +1107,7 @@ Sane.start(Sane.Handle handle)
          *
          * Obtain shading data
          * Get parameters from scanner.device.shading_parameters[0] although
-         * it's 45 lines, scanner.ccd_mask_size pixels, 16 bit depth in all cases.
+         * it"s 45 lines, scanner.ccd_mask_size pixels, 16 bit depth in all cases.
          *
          * ------------------------------------------------------------------ */
         if(sanei_pieusb_get_shading_data(scanner) != Sane.STATUS_GOOD) {
@@ -1156,7 +1156,7 @@ Sane.start(Sane.Handle handle)
      * Read scan parameters & wait until ready for reading
      *
      * ---------------------------------------------------------------------- */
-    if(sanei_pieusb_get_parameters(scanner, &bytes_per_line) != Sane.STATUS_GOOD) {
+    if(sanei_pieusb_get_parameters(scanner, &bytesPerLine) != Sane.STATUS_GOOD) {
         sanei_pieusb_cmd_stop_scan(scanner.device_number, &status)
         scanner.scanning = Sane.FALSE
         return Sane.STATUS_IO_ERROR
@@ -1198,7 +1198,7 @@ Sane.start(Sane.Handle handle)
      * Read all image data into the buffer
      *
      * ---------------------------------------------------------------------- */
-    if(sanei_pieusb_get_scan_data(scanner, bytes_per_line) != Sane.STATUS_GOOD) {
+    if(sanei_pieusb_get_scan_data(scanner, bytesPerLine) != Sane.STATUS_GOOD) {
         scanner.scanning = Sane.FALSE
         return Sane.STATUS_IO_ERROR
     }
@@ -1358,7 +1358,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
         return_size = scanner.buffer.bytes_unread
     } else {
         /* Should not happen in this implementation - all data read by Sane.start() */
-        DBG(DBG_error, "Sane.read(): shouldn't be here...\n")
+        DBG(DBG_error, "Sane.read(): shouldn"t be here...\n")
         return Sane.STATUS_IO_ERROR
     }
 

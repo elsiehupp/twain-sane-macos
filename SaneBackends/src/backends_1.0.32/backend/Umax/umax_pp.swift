@@ -97,7 +97,7 @@ import dmalloc
  *              2       for warnings
  *              3       for additional information
  *              4       for debug information
- *              5       for code flow protocol(there isn't any)
+ *              5       for code flow protocol(there isn"t any)
  *              129     if you want to know which parameters are unused
  */
 
@@ -208,15 +208,15 @@ umax_pp_attach(SANEI_Config * config, const char *devname)
 
   sanei_umax_pp_setastra(atoi((Sane.Char *) config.values[CFG_ASTRA]))
 
-  /* if the name begins with a slash, it's a device, else it's an addr */
-  if((devname[0] == '/'))
+  /* if the name begins with a slash, it"s a device, else it"s an addr */
+  if((devname[0] == "/"))
     {
       name = devname
     }
   else
     {
-      if((devname[0] == '0')
-          && ((devname[1] == 'x') || (devname[1] == 'X')))
+      if((devname[0] == "0")
+          && ((devname[1] == "x") || (devname[1] == "X")))
         prt = strtol(devname + 2, NULL, 16)
       else
         prt = atoi(devname)
@@ -224,7 +224,7 @@ umax_pp_attach(SANEI_Config * config, const char *devname)
 
   for(i = 0; i < num_devices; i++)
     {
-      if(devname[0] == '/')
+      if(devname[0] == "/")
         {
           if(strcmp(devlist[i].ppdevice, devname) == 0)
             return Sane.STATUS_GOOD
@@ -258,7 +258,7 @@ umax_pp_attach(SANEI_Config * config, const char *devname)
 
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(2, "umax_pp_attach: couldn't attach to `%s' (%s)\n", devname,
+      DBG(2, "umax_pp_attach: couldn"t attach to `%s" (%s)\n", devname,
            Sane.strstatus(status))
       DEBUG()
       return status
@@ -319,7 +319,7 @@ umax_pp_attach(SANEI_Config * config, const char *devname)
         dev.sane.vendor = strdup(val)
   dev.sane.type = "flatbed scanner"
 
-  if(devname[0] == '/')
+  if(devname[0] == "/")
     dev.ppdevice = strdup(devname)
   else
     dev.port = strdup(devname)
@@ -330,7 +330,7 @@ umax_pp_attach(SANEI_Config * config, const char *devname)
       dev.max_res = 1200
       dev.ccd_res = 600
       dev.max_h_size = 5100
-      dev.max_v_size = 7000 - 8;       /* -8: workaround 'y overflow bug at 600 dpi' */
+      dev.max_v_size = 7000 - 8;       /* -8: workaround "y overflow bug at 600 dpi" */
     }
   else
     {                           /* Astra 610 */
@@ -369,14 +369,14 @@ umax_pp_try_ports(SANEI_Config * config, char **ports)
         {
           if(rc != Sane.STATUS_GOOD)
             {
-              DBG(3, "umax_pp_try_ports: trying port `%s'\n", ports[i])
+              DBG(3, "umax_pp_try_ports: trying port `%s"\n", ports[i])
               rc = umax_pp_attach(config, ports[i])
               if(rc != Sane.STATUS_GOOD)
-                DBG(3, "umax_pp_try_ports: couldn't attach to port `%s'\n",
+                DBG(3, "umax_pp_try_ports: couldn"t attach to port `%s"\n",
                      ports[i])
               else
                 DBG(3,
-                     "umax_pp_try_ports: attach to port `%s' successful\n",
+                     "umax_pp_try_ports: attach to port `%s" successful\n",
                      ports[i])
             }
           free(ports[i])
@@ -424,11 +424,11 @@ umax_pp_configure_attach(SANEI_Config * config, const char *devname,
   Sane.Char *token
   Sane.Status status = Sane.STATUS_INVAL
 
-  /* check for mandatory 'port' token */
+  /* check for mandatory "port" token */
   lp = sanei_config_get_string(devname, &token)
   if(strncmp(token, "port", 4) != 0)
     {
-      DBG(3, "umax_pp_configure_attach: invalid port line `%s'\n", devname)
+      DBG(3, "umax_pp_configure_attach: invalid port line `%s"\n", devname)
       free(token)
       return Sane.STATUS_INVAL
     }
@@ -1062,9 +1062,9 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
   Int rc, prt = 0
   char *name = NULL
 
-  DBG(3, "open: device `%s'\n", devicename)
+  DBG(3, "open: device `%s"\n", devicename)
 
-  /* if no device given or 'umax_pp' default value given */
+  /* if no device given or "umax_pp" default value given */
   if(devicename == NULL || devicename[0] == 0
       || strncmp(devicename, "umax_pp", 7) == 0)
     {
@@ -1079,8 +1079,8 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
            devlist[0].sane.name, devlist[0].port, devlist[0].ppdevice)
       if(devlist[0].port != NULL)
         {
-          if((devlist[0].port[0] == '0')
-              && ((devlist[0].port[1] == 'x') || (devlist[0].port[1] == 'X')))
+          if((devlist[0].port[0] == "0")
+              && ((devlist[0].port[1] == "x") || (devlist[0].port[1] == "X")))
             prt = strtol(devlist[0].port + 2, NULL, 16)
           else
             prt = atoi(devlist[0].port)
@@ -1105,7 +1105,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 
       if(i >= num_devices)
         {
-          DBG(2, "open: device doesn't exist\n")
+          DBG(2, "open: device doesn"t exist\n")
           DEBUG()
           return Sane.STATUS_INVAL
         }
@@ -1114,19 +1114,19 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 
       if(devlist[i].ppdevice != NULL)
         {
-          if(devlist[i].ppdevice[0] == '/')
+          if(devlist[i].ppdevice[0] == "/")
             {
               name = devlist[i].ppdevice
             }
         }
       else
         {
-          if((devlist[i].port[0] == '0')
-              && ((devlist[i].port[1] == 'x') || (devlist[i].port[1] == 'X')))
+          if((devlist[i].port[0] == "0")
+              && ((devlist[i].port[1] == "x") || (devlist[i].port[1] == "X")))
             prt = strtol(devlist[i].port + 2, NULL, 16)
           else
             prt = atoi(devlist[i].port)
-          DBG(64, "open: devlist[i].port='%s' -> port=0x%X\n",
+          DBG(64, "open: devlist[i].port="%s" -> port=0x%X\n",
                devlist[i].port, prt)
         }
       rc = sanei_umax_pp_open(prt, name)
@@ -1315,7 +1315,7 @@ Sane.get_option_descriptor(Sane.Handle handle, Int option)
 
   if((unsigned) option >= NUM_OPTIONS)
     {
-      DBG(2, "get_option_descriptor: option %d doesn't exist\n", option)
+      DBG(2, "get_option_descriptor: option %d doesn"t exist\n", option)
       DEBUG()
       return NULL
     }
@@ -1348,7 +1348,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 
   if((unsigned Int) option >= NUM_OPTIONS)
     {
-      DBG(2, "control_option: option doesn't exist\n")
+      DBG(2, "control_option: option doesn"t exist\n")
       return Sane.STATUS_INVAL
     }
 
@@ -1357,7 +1357,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 
   if(!Sane.OPTION_IS_ACTIVE(cap))
     {
-      DBG(2, "control_option: option isn't active\n")
+      DBG(2, "control_option: option isn"t active\n")
       return Sane.STATUS_INVAL
     }
 
@@ -1416,7 +1416,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 
       if(!Sane.OPTION_IS_SETTABLE(cap))
         {
-          DBG(2, "control_option: option can't be set\n")
+          DBG(2, "control_option: option can"t be set\n")
           return Sane.STATUS_INVAL
         }
 
@@ -1974,12 +1974,12 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
     ((dev.BottomX - dev.TopX) * dpi) / dev.desc.ccd_res
   if(dev.color == UMAX_PP_MODE_COLOR)
     {
-      dev.params.bytes_per_line = dev.params.pixels_per_line * 3
+      dev.params.bytesPerLine = dev.params.pixels_per_line * 3
       dev.params.format = Sane.FRAME_RGB
     }
   else
     {
-      dev.params.bytes_per_line = dev.params.pixels_per_line
+      dev.params.bytesPerLine = dev.params.pixels_per_line
       dev.params.format = Sane.FRAME_GRAY
     }
   dev.params.depth = 8
@@ -2052,7 +2052,7 @@ Sane.start(Sane.Handle handle)
     {
       delta = umax_pp_get_sync(dev.dpi)
       points = 2 * delta
-      /* first lines are 'garbage' for 610P */
+      /* first lines are "garbage" for 610P */
       if(sanei_umax_pp_getastra() < 1210)
         points *= 2
       DBG(64, "Sane.start:umax_pp_start(%d,%d,%d,%d,%d,1,%X,%X)\n",
@@ -2122,7 +2122,7 @@ Sane.start(Sane.Handle handle)
   dev.bufread = 0
   dev.read = 0
 
-  /* leading lines for 610P aren't complete in color mode */
+  /* leading lines for 610P aren"t complete in color mode */
   /* and should be discarded                              */
   if((sanei_umax_pp_getastra() < 1210)
       && (dev.color == UMAX_PP_MODE_COLOR))
@@ -2259,7 +2259,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
           lbuf = (Sane.Byte *) malloc(dev.bufsize + UMAX_PP_RESERVE)
           if(lbuf == NULL)
             {
-              DBG(1, "Sane.read: couldn't allocate %ld bytes\n",
+              DBG(1, "Sane.read: couldn"t allocate %ld bytes\n",
                    dev.bufsize + UMAX_PP_RESERVE)
               return Sane.STATUS_NO_MEM
             }
@@ -2271,7 +2271,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
                   switch(sanei_umax_pp_getastra())
                     {
                     case 610:
-                      /* green value: sync'ed */
+                      /* green value: sync"ed */
                       lbuf[x * dev.bpp + y * ll + 1 + UMAX_PP_RESERVE] =
                         dev.buf[x + y * ll + 2 * dev.tw + UMAX_PP_RESERVE]
 
@@ -2286,7 +2286,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
 
                       break
                     default:
-                      /* red value: sync'ed */
+                      /* red value: sync"ed */
                       lbuf[x * dev.bpp + y * ll + UMAX_PP_RESERVE] =
                         dev.buf[x + y * ll + 2 * dev.tw + UMAX_PP_RESERVE]
 

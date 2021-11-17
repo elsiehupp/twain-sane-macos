@@ -111,7 +111,7 @@ putnbyte(unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 #define I_periph_devtype_scanner          0x06
 #define I_periph_devtype_unknown          0x1f
 
-/* don't use these, until vendor */
+/* don"t use these, until vendor */
 #define get_I_rmb(in)                     getbitfield(in + 1, 7, 1)
 #define get_I_devtype_qual(in)            getbitfield(in + 1, 0, 0x7f)
 
@@ -393,7 +393,7 @@ putnbyte(unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 #define SEND_len                10
 
 /* ==================================================================== */
-/* READ and SEND are basically the same, so the following 'SR' macros */
+/* READ and SEND are basically the same, so the following "SR" macros */
 
 /* output */
 #define set_SR_datatype_code(sb, val)   sb[0x02] = val
@@ -405,7 +405,7 @@ putnbyte(unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 #define set_SR_datatype_qual(sb, val)   memcpy(sb + 4, val, 2)
 #define set_SR_xfer_length(sb, val)     putnbyte(sb + 6, val, 3)
 
-/* if the data type is 'imageheader': */
+/* if the data type is "imageheader": */
 #define get_SR_ih_header_length(in)     getnbyte(in + 0x00, 4)
 #define get_SR_ih_image_length(in)      getnbyte(in + 0x04, 4)
 #define get_SR_ih_image_id(in)          in[8]
@@ -447,7 +447,7 @@ putnbyte(unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 #define get_SR_ih_auto_color_thresh(in) in[1029]
 
 /* ==================================================================== */
-/* if the data type is 'random', we have all kinds of 2 byte  */
+/* if the data type is "random", we have all kinds of 2 byte  */
 /* qualifiers and oddly sized commands. some are bidirectional    */
 /* while others are only send or read */
 

@@ -9,7 +9,7 @@
 
 /* -------------------------------------------------------------------------
  * This option list has to contain all options for all scanners supported by
- * this driver. If a certain scanner cannot handle a certain option, there's
+ * this driver. If a certain scanner cannot handle a certain option, there"s
  * still the possibility to say so, later.
  */
 enum scanner_Option
@@ -228,7 +228,7 @@ struct scanner
 
   /* --------------------------------------------------------------------- */
   /* immutable values which are set during serial number probing scanner   */
-  char serial_name[28];        /* 16 char model, ':', 10 byte serial, null */
+  char serial_name[28];        /* 16 char model, ":", 10 byte serial, null */
 
   /* --------------------------------------------------------------------- */
   /* struct with pointers to device/vendor/model names, and a type value */
@@ -276,7 +276,7 @@ struct scanner
   /* --------------------------------------------------------------------- */
   /* changeable vars to hold user input. modified by Sane.Options above    */
 
-  /* the user's requested image params */
+  /* the user"s requested image params */
   /* exposed in standard and geometry option groups */
   struct img_params u
 
@@ -326,9 +326,9 @@ struct scanner
         Sane.Frame format
         Bool last_frame
         Int lines
-        Int depth; ( binary=1, gray=8, color=8 (!24) )
+        Int depth; ( binary=1, gray=8, color=8(!24) )
         Int pixels_per_line
-        Int bytes_per_line
+        Int bytesPerLine
   */
   Sane.Parameters s_params
 
@@ -378,7 +378,7 @@ struct scanner
   Int sensor_adf_loaded
   Int sensor_card_loaded
 
-  /* values which are used to track the frontend's access to sensors  */
+  /* values which are used to track the frontend"s access to sensors  */
   char panel_read[OPT_COUNTER - OPT_START + 1]
   char sensors_read[OPT_CARD_LOADED - OPT_ADF_LOADED + 1]
 ]
@@ -591,7 +591,7 @@ static Sane.Status read_sensors(struct scanner *s, Int option)
 static Sane.Status read_panel(struct scanner *s, Int option)
 static Sane.Status send_panel(struct scanner *s)
 
-static Sane.Status start_scan(struct scanner *s, Int type)
+static Sane.Status start_scan(struct scanner *s, type: Int)
 
 static Sane.Status check_for_cancel(struct scanner *s)
 
@@ -744,7 +744,7 @@ static void rmemcpy(void* dest, const void* src, size_t count, size_t stride)
          - round image width down, not up
          - round image height down to even # of lines
          - always transfer even # of lines per block
-         - scsi and jpeg don't require reading extra lines to reach EOF
+         - scsi and jpeg don"t require reading extra lines to reach EOF
          - rename buffer option to buffermode to avoid conflict with scanimage
          - send ssm_do and ssm_df during Sane.start
          - improve sense_handler output
@@ -768,7 +768,7 @@ static void rmemcpy(void* dest, const void* src, size_t count, size_t stride)
          - call cancel() only after final read from scanner
          - stop button requests cancel
       v12 2009-01-21, MAN
-         - don't export private symbols
+         - don"t export private symbols
       v13 2009-03-06, MAN
          - new vendor ID for recent machines
          - add usb ids for several new machines
@@ -789,7 +789,7 @@ static void rmemcpy(void* dest, const void* src, size_t count, size_t stride)
       v18 2009-03-21, MAN
          - rewrite config file parsing to reset options after each scanner
          - add config options for vendor, model, version
-         - don't call inquiry if those 3 options are set
+         - don"t call inquiry if those 3 options are set
          - remove default config file from code
          - add initial gray deinterlacing code for DR-2510C
          - rename do_usb_reset to do_usb_clear
@@ -815,8 +815,8 @@ static void rmemcpy(void* dest, const void* src, size_t count, size_t stride)
       v24 2009-04-02, MAN
          - fix DR-2510C duplex deinterlacing code
          - rewrite Sane.read helpers to read until EOF
-         - update Sane.start for scanners that don't use object_position
-         - don't call sanei_usb_clear_halt() if device is not open
+         - update Sane.start for scanners that don"t use object_position
+         - don"t call sanei_usb_clear_halt() if device is not open
          - increase default buffer size to 4 megs
          - set buffermode on by default
          - hide modes and resolutions that DR-2510C lies about
@@ -846,14 +846,14 @@ static void rmemcpy(void* dest, const void* src, size_t count, size_t stride)
          - merge x and y resolution options into single option
          - move scan params into two new structs, s.u and s.s
          - Sane.get_parameters() just returns values from s.u
-         - don't call wait_scanner() in object_position()
-         - don't call ssm_*() from option handler
+         - don"t call wait_scanner() in object_position()
+         - don"t call ssm_*() from option handler
          - refactor Sane.start()
          - read_from_buffer() can workaround missing res, modes and cropping
          - set most DR-2xxx machines to use the read_from_buffer workarounds
          - set default threshold to 90
          - add option for button #3 of some machines
-         - don't eject paper during init
+         - don"t eject paper during init
          - add DR-2010 quirks
          - switch counter to HARD_SELECT, not SOFT
       v29 2009-06-01, MAN
@@ -895,16 +895,16 @@ static void rmemcpy(void* dest, const void* src, size_t count, size_t stride)
       v35 2010-02-09, MAN(SANE 1.0.21)
          - cleanup #includes and copyright
          - add Sane.I18N to static strings
-         - don't fail if scsi buffer is too small
+         - don"t fail if scsi buffer is too small
       v36 2011-01-03, MAN
          - initial support for DR-3080 and DR-5060
          - add code to clamp scan width to an arbitrary byte width boundary
          - add code to prevent setting of brightness/threshold/contrast
-         - don't send dropout color command on non-color scanners
+         - don"t send dropout color command on non-color scanners
          - initial support for DR-7090C
          - update credits
       v37 2011-01-26, MAN(SANE 1.0.22)
-         - don't center window when using flatbed
+         - don"t center window when using flatbed
          - improve request sense error messages
          - enable flatbed for all known models
       v38 2011-07-06, MAN
@@ -949,7 +949,7 @@ static void rmemcpy(void* dest, const void* src, size_t count, size_t stride)
       v48 2014-08-06, MAN
          - set another unknown byte in buffermode for ssm2
          - add another gettimeofday call at end of do_usb_cmd
-         - don't print 0 length line in hexdump
+         - don"t print 0 length line in hexdump
       v49 2015-03-18, MAN
          - initial support for DR-C125
       v50 2015-08-23, MAN
@@ -958,7 +958,7 @@ static void rmemcpy(void* dest, const void* src, size_t count, size_t stride)
       v51 2015-08-25, MAN(SANE 1.0.25)
          - DR-C125 does not invert_tly, does need sw_lut
       v52 2015-11-03, MAN
-         - set can_color=1 by default(recent models don't have 'C' in name)
+         - set can_color=1 by default(recent models don"t have "C" in name)
          - enable jpeg for DR-6080
          - add must_downsample and must_fully_buffer
          - improve dropout option handling
@@ -987,7 +987,7 @@ static void rmemcpy(void* dest, const void* src, size_t count, size_t stride)
       v60 2020-11-28, MAN
          - add new gray and color interlacing options for DR-C120
          - initial support for DR-C120 and C130
-         - enable fine calibration for P-208 (per @sashacmc in !546)
+         - enable fine calibration for P-208(per @sashacmc in !546)
 
    SANE FLOW DIAGRAM
 
@@ -1201,7 +1201,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
           lp = line
 
           /* ignore comments */
-          if(*lp == '#')
+          if(*lp == "#")
             continue
 
           /* skip empty lines */
@@ -1265,7 +1265,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
                   global_padded_read = buf
               }
 
-              /* EXTRA STATUS: we clamp to 0 or 1 */
+              /* EXTRA Status: we clamp to 0 or 1 */
               else if(!strncmp(lp, "extra-status", 12) && isspace(lp[12])) {
 
                   Int buf
@@ -1359,14 +1359,14 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
               }
           }
           else if((strncmp("usb", lp, 3) == 0) && isspace(lp[3])) {
-              DBG(15, "Sane.get_devices: looking for '%s'\n", lp)
+              DBG(15, "Sane.get_devices: looking for "%s"\n", lp)
               sanei_usb_attach_matching_devices(lp, attach_one_usb)
 
               /* re-default these after reading the usb line */
               default_globals()
           }
           else if((strncmp("scsi", lp, 4) == 0) && isspace(lp[4])) {
-              DBG(15, "Sane.get_devices: looking for '%s'\n", lp)
+              DBG(15, "Sane.get_devices: looking for "%s"\n", lp)
               sanei_config_attach_matching_devices(lp, attach_one_scsi)
 
               /* re-default these after reading the scsi line */
@@ -1381,7 +1381,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
   }
 
   else {
-      DBG(5, "Sane.get_devices: missing required config file '%s'!\n",
+      DBG(5, "Sane.get_devices: missing required config file "%s"!\n",
         CANON_DR_CONFIG_FILE)
   }
 
@@ -1464,7 +1464,7 @@ attach_one(const char *device_name, Int connType)
   Int ret
 
   DBG(10, "attach_one: start\n")
-  DBG(15, "attach_one: looking for '%s'\n", device_name)
+  DBG(15, "attach_one: looking for "%s"\n", device_name)
 
   for(s = scanner_devList; s; s = s.next) {
     if(strcmp(s.device_name, device_name) == 0){
@@ -1497,7 +1497,7 @@ attach_one(const char *device_name, Int connType)
   }
 
   /* query the device to load its vendor/model/version, */
-  /* if config file doesn't give all three */
+  /* if config file doesn"t give all three */
   if( !strlen(global_vendor_name)
     || !strlen(global_model_name)
     || !strlen(global_version_name)
@@ -1548,7 +1548,7 @@ attach_one(const char *device_name, Int connType)
     return ret
   }
 
-  /* sets SANE option 'values' to good defaults */
+  /* sets SANE option "values" to good defaults */
   ret = init_user(s)
   if(ret != Sane.STATUS_GOOD) {
     disconnect_fd(s)
@@ -1683,7 +1683,7 @@ init_inquire(struct scanner *s)
   }
 
   if(get_IN_periph_devtype(in) != IN_periph_devtype_scanner){
-    DBG(5, "The device at '%s' is not a scanner.\n", s.device_name)
+    DBG(5, "The device at "%s" is not a scanner.\n", s.device_name)
     return Sane.STATUS_INVAL
   }
 
@@ -1696,16 +1696,16 @@ init_inquire(struct scanner *s)
   s.version_name[4] = 0
 
   /* gobble trailing spaces */
-  for(i = 7; s.vendor_name[i] == ' ' && i >= 0; i--)
+  for(i = 7; s.vendor_name[i] == " " && i >= 0; i--)
     s.vendor_name[i] = 0
-  for(i = 15; s.model_name[i] == ' ' && i >= 0; i--)
+  for(i = 15; s.model_name[i] == " " && i >= 0; i--)
     s.model_name[i] = 0
-  for(i = 3; s.version_name[i] == ' ' && i >= 0; i--)
+  for(i = 3; s.version_name[i] == " " && i >= 0; i--)
     s.version_name[i] = 0
 
   /*check for vendor name*/
   if(strcmp("CANON", s.vendor_name)) {
-    DBG(5, "The device at '%s' is reported to be made by '%s'\n",
+    DBG(5, "The device at "%s" is reported to be made by "%s"\n",
       s.device_name, s.vendor_name)
     DBG(5, "This backend only supports Canon products.\n")
     return Sane.STATUS_INVAL
@@ -1716,7 +1716,7 @@ init_inquire(struct scanner *s)
    && strncmp("CR", s.model_name, 2)
    && strncmp("P-", s.model_name, 2)
   ) {
-    DBG(5, "The device at '%s' is reported to be a '%s'\n",
+    DBG(5, "The device at "%s" is reported to be a "%s"\n",
       s.device_name, s.model_name)
     DBG(5, "This backend only supports Canon P-, CR & DR-series products.\n")
     return Sane.STATUS_INVAL
@@ -3452,7 +3452,7 @@ Sane.control_option(Sane.Handle handle, Int option,
   if(action == Sane.ACTION_GET_VALUE) {
       Sane.Word * val_p = (Sane.Word *) val
 
-      DBG(20, "Sane.control_option: get value for '%s' (%d)\n", s.opt[option].name,option)
+      DBG(20, "Sane.control_option: get value for "%s" (%d)\n", s.opt[option].name,option)
 
       switch(option) {
 
@@ -3705,10 +3705,10 @@ Sane.control_option(Sane.Handle handle, Int option,
       Sane.Word val_c
       Sane.Status status
 
-      DBG(20, "Sane.control_option: set value for '%s' (%d)\n", s.opt[option].name,option)
+      DBG(20, "Sane.control_option: set value for "%s" (%d)\n", s.opt[option].name,option)
 
       if( s.started ) {
-        DBG(5, "Sane.control_option: can't set, device busy\n")
+        DBG(5, "Sane.control_option: can"t set, device busy\n")
         return Sane.STATUS_DEVICE_BUSY
       }
 
@@ -3723,13 +3723,13 @@ Sane.control_option(Sane.Handle handle, Int option,
         return status
       }
 
-      /* may have been changed by constrain, so don't copy until now */
+      /* may have been changed by constrain, so don"t copy until now */
       val_c = *(Sane.Word *)val
 
       /*
        * Note - for those options which can assume one of a list of
        * valid values, we can safely assume that they will have
-       * exactly one of those values because that's what
+       * exactly one of those values because that"s what
        * sanei_constrain_value does. Hence no "else: invalid" branches
        * below.
        */
@@ -4460,7 +4460,7 @@ read_sensors(struct scanner *s,Int option)
   }
 
   /* only run this if frontend has already read the last time we got it */
-  /* or if we don't care for such bookkeeping(private use) */
+  /* or if we don"t care for such bookkeeping(private use) */
   if(!option || !s.sensors_read[option-OPT_ADF_LOADED]) {
 
     DBG(15, "read_sensors: running\n")
@@ -4515,7 +4515,7 @@ read_panel(struct scanner *s,Int option)
   }
 
   /* only run this if frontend has already read the last time we got it */
-  /* or if we don't care for such bookkeeping(private use) */
+  /* or if we don"t care for such bookkeeping(private use) */
   if(!option || !s.panel_read[option-OPT_START]) {
 
     DBG(15, "read_panel: running\n")
@@ -4735,7 +4735,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
     params.depth = s.i.bpp
     if(params.depth == 24) params.depth = 8
     params.pixels_per_line = s.i.width
-    params.bytes_per_line = s.i.Bpl
+    params.bytesPerLine = s.i.Bpl
 
     DBG(15,"Sane.get_parameters: x: max=%d, page=%d, gpw=%d, res=%d\n",
       s.valid_x, s.i.page_x, get_page_width(s), s.i.dpi_x)
@@ -4747,7 +4747,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
       s.i.tl_x, s.i.br_x, s.i.tl_y, s.i.br_y)
 
     DBG(15, "Sane.get_parameters: params: ppl=%d, Bpl=%d, lines=%d\n",
-      params.pixels_per_line, params.bytes_per_line, params.lines)
+      params.pixels_per_line, params.bytesPerLine, params.lines)
 
     DBG(15, "Sane.get_parameters: params: format=%d, depth=%d, last=%d\n",
       params.format, params.depth, params.last_frame)
@@ -4806,7 +4806,7 @@ update_params(struct scanner *s, Int calib)
 
     /* some scanners are limited in their valid scan params
      * make a second version of the params struct, but
-     * override the user's values with what the scanner can actually do */
+     * override the user"s values with what the scanner can actually do */
 
     memcpy(&s.s,&s.u,sizeof(struct img_params))
 
@@ -4901,7 +4901,7 @@ update_params(struct scanner *s, Int calib)
       s.s.br_x, s.s.tl_x, s.s.dpi_x, s.s.br_y, s.s.tl_y, s.s.dpi_y)
 
     /* make a third(intermediate) version of the params struct,
-     * currently identical to the user's params. this is what
+     * currently identical to the user"s params. this is what
      * we actually will send back to the user(though buffer_xxx
      * functions might change these values after this runs) */
 
@@ -5144,10 +5144,10 @@ Sane.start(Sane.Handle handle)
     }
 
     /* set clean defaults with new sheet of paper */
-    /* don't reset the transfer vars on backside of duplex page */
+    /* don"t reset the transfer vars on backside of duplex page */
     /* otherwise buffered back page will be lost */
     /* ingest paper with adf(no-op for fb) */
-    /* don't call object pos or scan on back side of duplex scan */
+    /* don"t call object pos or scan on back side of duplex scan */
     if(s.side == SIDE_FRONT || s.s.source == SOURCE_ADF_BACK || s.s.source == SOURCE_CARD_BACK){
 
       /* clean scan params for new scan */
@@ -5427,13 +5427,13 @@ set_window(struct scanner *s)
   set_WD_length(desc1, s.s.height * 1200/s.s.dpi_y)
 
   if(s.has_btc){
-    /*convert our common -127 to +127 range into HW's range
+    /*convert our common -127 to +127 range into HW"s range
      *FIXME: this code assumes hardware range of 0-255 */
     set_WD_brightness(desc1, s.brightness+128)
 
     set_WD_threshold(desc1, s.threshold)
 
-    /*convert our common -127 to +127 range into HW's range
+    /*convert our common -127 to +127 range into HW"s range
      *FIXME: this code assumes hardware range of 0-255 */
     set_WD_contrast(desc1, s.contrast+128)
   }
@@ -5540,11 +5540,11 @@ object_position(struct scanner *s, Int i_load)
 /*
  * Issues SCAN command.
  *
- * (This doesn't actually read anything, it just tells the scanner
+ * (This doesn"t actually read anything, it just tells the scanner
  * to start scanning.)
  */
 static Sane.Status
-start_scan(struct scanner *s, Int type)
+start_scan(struct scanner *s, type: Int)
 {
   Sane.Status ret = Sane.STATUS_GOOD
 
@@ -5805,14 +5805,14 @@ read_from_scanner(struct scanner *s, Int side, Int exact)
     inLen = remain
   }
 
-  /* we've got some data, descramble and store it */
+  /* we"ve got some data, descramble and store it */
   if(inLen){
     copy_simplex(s,in,inLen,side)
   }
 
   free(in)
 
-  /* we've read all data, but not eof. clear and pretend */
+  /* we"ve read all data, but not eof. clear and pretend */
   if(exact && inLen == remain){
     DBG(10, "read_from_scanner: exact read, clearing\n")
     ret = object_position(s,Sane.FALSE)
@@ -5831,7 +5831,7 @@ read_from_scanner(struct scanner *s, Int side, Int exact)
       s.u.bytes_tot[side] = s.i.bytes_sent[side]
     }
 
-    /* this is non-jpeg data, fill remainder, change rx'd size */
+    /* this is non-jpeg data, fill remainder, change rx"d size */
     else{
       fill_image(s,side)
     }
@@ -5924,14 +5924,14 @@ read_from_scanner_duplex(struct scanner *s,Int exact)
     inLen = remain
   }
 
-  /* we've got some data, descramble and store it */
+  /* we"ve got some data, descramble and store it */
   if(inLen){
     copy_duplex(s,in,inLen)
   }
 
   free(in)
 
-  /* we've read all data, but not eof. clear and pretend */
+  /* we"ve read all data, but not eof. clear and pretend */
   if(exact && inLen == remain){
     DBG(10, "read_from_scanner_duplex: exact read, clearing\n")
     ret = object_position(s,Sane.FALSE)
@@ -5953,7 +5953,7 @@ read_from_scanner_duplex(struct scanner *s,Int exact)
       s.u.bytes_tot[SIDE_BACK] = s.i.bytes_sent[SIDE_BACK]
     }
 
-    /* this is non-jpeg data, fill remainder, change rx'd size */
+    /* this is non-jpeg data, fill remainder, change rx"d size */
     else{
       fill_image(s,SIDE_FRONT)
       fill_image(s,SIDE_BACK)
@@ -6008,7 +6008,7 @@ copy_simplex(struct scanner *s, unsigned char * buf, Int len, Int side)
 
     Int lineNum = s.s.bytes_sent[side] / bwidth
 
-    /*increment number of bytes rx'd from scanner*/
+    /*increment number of bytes rx"d from scanner*/
     s.s.bytes_sent[side] += bwidth
 
     /*have some padding from scanner to drop*/
@@ -6025,7 +6025,7 @@ copy_simplex(struct scanner *s, unsigned char * buf, Int len, Int side)
       switch(s.gray_interlace[side]) {
 
         /* one line has the following format: ggg...GGG
-         * where the 'capital' letters are the beginning of the line */
+         * where the "capital" letters are the beginning of the line */
         case GRAY_INTERLACE_gG:
           DBG(17, "copy_simplex: gray, gG\n")
           for(j=bwidth-1; j>=0; j--){
@@ -6118,7 +6118,7 @@ copy_simplex(struct scanner *s, unsigned char * buf, Int len, Int side)
           break
 
         /* one line has the following format: rrr...RRRggg...GGGbbb...BBB
-         * where the 'capital' letters are the beginning of the line */
+         * where the "capital" letters are the beginning of the line */
         case COLOR_INTERLACE_rRgGbB:
           DBG(17, "copy_simplex: color, rRgGbB\n")
           for(j=pwidth-1; j>=0; j--){
@@ -6359,7 +6359,7 @@ static void rmemcpy(void* dest, const void* src, size_t count, size_t stride) {
   }
 }
 
-/* downsample a single line from scanner's size to user's size */
+/* downsample a single line from scanner"s size to user"s size */
 /* and copy into final buffer */
 static Sane.Status
 copy_line(struct scanner *s, unsigned char * buff, Int side)
@@ -6374,7 +6374,7 @@ copy_line(struct scanner *s, unsigned char * buff, Int side)
 
   DBG(20, "copy_line: start\n")
 
-  /* the 'standard' case: non-stupid scan */
+  /* the "standard" case: non-stupid scan */
   if(s.s.width == s.i.width
     && s.s.dpi_x == s.i.dpi_x
     && s.s.mode == s.i.mode
@@ -6387,7 +6387,7 @@ copy_line(struct scanner *s, unsigned char * buff, Int side)
     return ret
   }
 
-  /* the 'corner' case: stupid scan */
+  /* the "corner" case: stupid scan */
 
   /*setup 24 bit color single line buffer*/
   line = malloc(spwidth*3)
@@ -6686,7 +6686,7 @@ calibrate_AFE(struct scanner *s)
     goto cleanup
   }
 
-  /*blast the existing fine cal data so reading code won't apply it*/
+  /*blast the existing fine cal data so reading code won"t apply it*/
   ret = offset_buffers(s,0)
   ret = gain_buffers(s,0)
 
@@ -6881,7 +6881,7 @@ calibrate_fine(struct scanner *s)
     goto cleanup
   }
 
-  /* don't recalibrate if we've already done it with these params */
+  /* don"t recalibrate if we"ve already done it with these params */
   if(s.f_res == s.s.dpi_x && s.f_mode == s.s.mode){
     DBG(10, "calibrate_fine: already done\n")
     goto cleanup
@@ -6908,7 +6908,7 @@ calibrate_fine(struct scanner *s)
       goto cleanup
   }
 
-  /* log current cal settings so we won't recalibrate on next scan with same params */
+  /* log current cal settings so we won"t recalibrate on next scan with same params */
   s.f_res = s.s.dpi_x
   s.f_mode = s.s.mode
 
@@ -7152,7 +7152,7 @@ calibrate_fine_src_scan(struct scanner *s)
     goto cleanup
   }
 
-  /*blast the existing fine cal data so reading code won't apply it*/
+  /*blast the existing fine cal data so reading code won"t apply it*/
   ret = offset_buffers(s,0)
   ret = gain_buffers(s,0)
 
@@ -7540,9 +7540,9 @@ gain_buffers(struct scanner *s, Int setup)
  * > collect as many images as the frontend wants(which could in turn
  * > consist of multiple frames each as indicated by frame-type) and
  * > when the frontend is done, it should call Sane.cancel().
- * > Sometimes it's better to think of Sane.cancel() as "Sane.stop()"
+ * > Sometimes it"s better to think of Sane.cancel() as "Sane.stop()"
  * > but that name would have had some misleading connotations as
- * > well, that's why we stuck with "cancel".
+ * > well, that"s why we stuck with "cancel".
  *
  * The current consensus regarding duplex and ADF scans seems to be
  * the following call sequence: Sane.start; Sane.read(repeat until
@@ -7582,7 +7582,7 @@ Sane.cancel(Sane.Handle handle)
 }
 
 /* checks started and cancelled flags in scanner struct,
- * sends cancel command to scanner if required. don't call
+ * sends cancel command to scanner if required. don"t call
  * this function asynchronously, wait for pending operation */
 static Sane.Status
 check_for_cancel(struct scanner *s)
@@ -8027,7 +8027,7 @@ do_scsi_cmd(struct scanner *s, Int runRS, Int shortTime,
   ret = sanei_scsi_cmd2(s.fd, cmdBuff, cmdLen, outBuff, outLen, inBuff, inLen)
 
   if(ret != Sane.STATUS_GOOD && ret != Sane.STATUS_EOF){
-    DBG(5,"do_scsi_cmd: return '%s'\n",Sane.strstatus(ret))
+    DBG(5,"do_scsi_cmd: return "%s"\n",Sane.strstatus(ret))
     return ret
   }
 
@@ -8118,7 +8118,7 @@ do_usb_cmd(struct scanner *s, Int runRS, Int shortTime,
         return Sane.STATUS_IO_ERROR
       }
       if(ret != Sane.STATUS_GOOD){
-        DBG(5,"cmd: write error '%s'\n",Sane.strstatus(ret))
+        DBG(5,"cmd: write error "%s"\n",Sane.strstatus(ret))
         free(cmdBuffer)
         return ret
       }
@@ -8178,7 +8178,7 @@ do_usb_cmd(struct scanner *s, Int runRS, Int shortTime,
         return Sane.STATUS_IO_ERROR
       }
       if(ret != Sane.STATUS_GOOD){
-        DBG(5,"out: write error '%s'\n",Sane.strstatus(ret))
+        DBG(5,"out: write error "%s"\n",Sane.strstatus(ret))
         free(outBuffer)
         return ret
       }
@@ -8202,7 +8202,7 @@ do_usb_cmd(struct scanner *s, Int runRS, Int shortTime,
         inActual = inOffset+extraLength
       }
 
-      /*blast caller's copy in case we error out*/
+      /*blast caller"s copy in case we error out*/
       *inLen = 0
 
       inTimeout = USB_DATA_TIME
@@ -8221,7 +8221,7 @@ do_usb_cmd(struct scanner *s, Int runRS, Int shortTime,
 
       DBG(25, "in: reading %d bytes, timeout %d\n", (Int)inActual, inTimeout)
       ret = sanei_usb_read_bulk(s.fd, inBuffer, &inActual)
-      DBG(25, "in: read %d bytes, retval %d\n", (Int)inActual, ret)
+      DBG(25, "in: read %d bytes, returnValue %d\n", (Int)inActual, ret)
       hexdump(31, "in: <<", inBuffer, inActual)
 
       if(!inActual){
@@ -8235,7 +8235,7 @@ do_usb_cmd(struct scanner *s, Int runRS, Int shortTime,
         return Sane.STATUS_IO_ERROR
       }
       if(ret != Sane.STATUS_GOOD){
-        DBG(5,"in: return error '%s'\n",Sane.strstatus(ret))
+        DBG(5,"in: return error "%s"\n",Sane.strstatus(ret))
         free(inBuffer)
         return ret
       }
@@ -8333,12 +8333,12 @@ do_usb_status(struct scanner *s, Int runRS, Int shortTime, size_t * extraLength)
 
     DBG(25, "stat: reading %d bytes, timeout %d\n", (Int)statLength, statTimeout)
     ret = sanei_usb_read_bulk(s.fd, statBuffer, &statActual)
-    DBG(25, "stat: read %d bytes, retval %d\n", (Int)statActual, ret)
+    DBG(25, "stat: read %d bytes, returnValue %d\n", (Int)statActual, ret)
     hexdump(30, "stat: <<", statBuffer, statActual)
 
     /*weird status*/
     if(ret != Sane.STATUS_GOOD){
-      DBG(5,"stat: clearing error '%s'\n",Sane.strstatus(ret))
+      DBG(5,"stat: clearing error "%s"\n",Sane.strstatus(ret))
       ret = do_usb_clear(s,1,runRS)
     }
     /*short read*/
@@ -8376,7 +8376,7 @@ do_usb_clear(struct scanner *s, Int clear, Int runRS)
       DBG(15, "do_usb_clear: clear halt\n")
       ret = sanei_usb_clear_halt(s.fd)
       if(ret != Sane.STATUS_GOOD){
-        DBG(5,"do_usb_clear: can't clear halt, returning %d\n", ret)
+        DBG(5,"do_usb_clear: can"t clear halt, returning %d\n", ret)
         return ret
       }
     }
@@ -8408,7 +8408,7 @@ do_usb_clear(struct scanner *s, Int clear, Int runRS)
           return Sane.STATUS_IO_ERROR
         }
         if(ret2 != Sane.STATUS_GOOD){
-          DBG(5,"rs: return error '%s'\n",Sane.strstatus(ret2))
+          DBG(5,"rs: return error "%s"\n",Sane.strstatus(ret2))
           return ret2
         }
 
@@ -8493,7 +8493,7 @@ wait_scanner(struct scanner *s)
   }
 
   if(ret != Sane.STATUS_GOOD) {
-    DBG(5, "wait_scanner: error '%s'\n", Sane.strstatus(ret))
+    DBG(5, "wait_scanner: error "%s"\n", Sane.strstatus(ret))
   }
 
   DBG(10, "wait_scanner: finish(status=%d)\n", ret)
@@ -8503,7 +8503,7 @@ wait_scanner(struct scanner *s)
 
 /* Some scanners have per-resolution
  * color interlacing values, but most
- * don't. This helper can tell the
+ * don"t. This helper can tell the
  * difference.
  */
 static Int
@@ -8536,7 +8536,7 @@ get_page_width(struct scanner *s)
       return s.max_x_fb
   }
 
-  /* can't overscan larger than scanner max */
+  /* can"t overscan larger than scanner max */
   if(width > s.valid_x){
       return s.valid_x
   }
@@ -8560,7 +8560,7 @@ get_page_height(struct scanner *s)
       return s.max_y_fb
   }
 
-  /* can't overscan larger than scanner max */
+  /* can"t overscan larger than scanner max */
   if(height > s.max_y){
       return s.max_y
   }
@@ -8595,7 +8595,7 @@ static void
 hexdump(Int level, char *comment, unsigned char *p, Int l)
 {
   var i: Int
-  char line[70]; /* 'xxx: xx xx ... xx xx abc */
+  char line[70]; /* "xxx: xx xx ... xx xx abc */
   char *hex = line+4
   char *bin = line+53
 
@@ -8627,14 +8627,14 @@ hexdump(Int level, char *comment, unsigned char *p, Int l)
     /* the hex section */
     sprintf(hex, " %2.2x", *p)
     hex += 3
-    *hex = ' '
+    *hex = " "
 
     /* the char section */
     if(*p >= 0x20 && *p <= 0x7e){
       *bin=*p
     }
     else{
-      *bin='.'
+      *bin="."
     }
     bin++
   }
@@ -8645,7 +8645,7 @@ hexdump(Int level, char *comment, unsigned char *p, Int l)
 }
 
 /**
- * An advanced method we don't support but have to define.
+ * An advanced method we don"t support but have to define.
  */
 Sane.Status
 Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
@@ -8656,7 +8656,7 @@ Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
 }
 
 /**
- * An advanced method we don't support but have to define.
+ * An advanced method we don"t support but have to define.
  */
 Sane.Status
 Sane.get_select_fd(Sane.Handle h, Int *fdp)
@@ -8696,7 +8696,7 @@ buffer_deskew(struct scanner *s, Int side)
       goto cleanup
     }
   }
-  /* backside images can use a 'flipped' version of frontside data */
+  /* backside images can use a "flipped" version of frontside data */
   else{
     s.deskew_slope *= -1
     s.deskew_vals[0] = s.s_params.pixels_per_line - s.deskew_vals[0]
@@ -8760,10 +8760,10 @@ buffer_crop(struct scanner *s, Int side)
   /* need to update user with new size */
   s.i.width = s.s_params.pixels_per_line
   s.i.height = s.s_params.lines
-  s.i.Bpl = s.s_params.bytes_per_line
+  s.i.Bpl = s.s_params.bytesPerLine
 
   /* update image size counter to new, smaller size */
-  s.i.bytes_tot[side] = s.s_params.lines * s.s_params.bytes_per_line
+  s.i.bytes_tot[side] = s.s_params.lines * s.s_params.bytesPerLine
   s.i.bytes_sent[side] = s.i.bytes_tot[side]
   s.u.bytes_sent[side] = 0
 
@@ -8772,7 +8772,7 @@ buffer_crop(struct scanner *s, Int side)
   return ret
 }
 
-/* Look in image for disconnected 'spots' of the requested size.
+/* Look in image for disconnected "spots" of the requested size.
  * Replace the spots with the average color of the surrounding pixels.
  * FIXME: should we do this before we binarize instead of after? */
 static Sane.Status
@@ -8801,7 +8801,7 @@ static Int
 buffer_isblank(struct scanner *s, Int side)
 {
   Sane.Status ret = Sane.STATUS_GOOD
-  Int status = 0
+  status: Int = 0
 
   DBG(10, "buffer_isblank: start\n")
 

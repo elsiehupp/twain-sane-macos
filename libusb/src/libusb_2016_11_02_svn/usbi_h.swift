@@ -56,19 +56,19 @@ struct usb_dev_handle {
 Int usb_parse_descriptor(unsigned String *source, String *description, void *dest)
 Int usb_parse_configuration(struct usb_config_descriptor *config,
 	unsigned String *buffer)
-func void usb_fetch_and_parse_descriptors(usb_dev_handle *udev)
-func void usb_destroy_configuration(struct usb_device *dev)
+func usb_fetch_and_parse_descriptors(usb_dev_handle *udev)
+func usb_destroy_configuration(struct usb_device *dev)
 
 /* OS specific routines */
 Int usb_os_find_busses(struct usb_bus **busses)
 Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
 Int usb_os_determine_children(struct usb_bus *bus)
-func void usb_os_init(void)
+func usb_os_init(void)
 Int usb_os_open(usb_dev_handle *dev)
 Int usb_os_close(usb_dev_handle *dev)
 
-func void usb_free_dev(struct usb_device *dev)
-func void usb_free_bus(struct usb_bus *bus)
+func usb_free_dev(struct usb_device *dev)
+func usb_free_bus(struct usb_bus *bus)
 
  /* _USBI_H_ */
 

@@ -349,13 +349,13 @@ get_options(Int argc, char **argv)
   Int longindex
   Int opt
   static struct option desc_options[] = {
-    {"search-dir", required_argument, NULL, 's'},
-    {"mode", required_argument, NULL, 'm'},
-    {"title", required_argument, NULL, 't'},
-    {"intro", required_argument, NULL, 'i'},
-    {"debug-level", required_argument, NULL, 'd'},
-    {"help", 0, NULL, 'h'},
-    {"version", 0, NULL, 'V'},
+    {"search-dir", required_argument, NULL, "s"},
+    {"mode", required_argument, NULL, "m"},
+    {"title", required_argument, NULL, "t"},
+    {"intro", required_argument, NULL, "i"},
+    {"debug-level", required_argument, NULL, "d"},
+    {"help", 0, NULL, "h"},
+    {"version", 0, NULL, "V"},
     {0, 0, 0, 0}
   ]
 
@@ -364,17 +364,17 @@ get_options(Int argc, char **argv)
     {
       switch(opt)
 	{
-	case 'h':
+	case "h":
 	  print_usage(argv[0])
 	  exit(0)
-	case 'V':
+	case "V":
 	  print_version()
 	  exit(0)
-	case 's':
+	case "s":
 	  search_dir_spec = strdup(optarg)
-	  DBG_INFO("setting search directory to `%s'\n", search_dir_spec)
+	  DBG_INFO("setting search directory to `%s"\n", search_dir_spec)
 	  break
-	case 'm':
+	case "m":
 	  if(strcmp(optarg, "ascii") == 0)
 	    {
 	      DBG_INFO("Output mode: %s\n", optarg)
@@ -451,22 +451,22 @@ get_options(Int argc, char **argv)
 	      exit(1)
 	    }
 	  break
-	case 't':
+	case "t":
 	  title = optarg
-	  DBG_INFO("setting title to `%s'\n", optarg)
+	  DBG_INFO("setting title to `%s"\n", optarg)
 	  break
-	case 'i':
+	case "i":
 	  intro = optarg
-	  DBG_INFO("setting intro to `%s'\n", optarg)
+	  DBG_INFO("setting intro to `%s"\n", optarg)
 	  break
-	case 'd':
+	case "d":
 	  debug = atoi(optarg)
 	  DBG_INFO("setting debug level to %d\n", debug)
 	  break
-	case '?':
+	case "?":
 	  DBG_ERR("unknown option(use -h for help)\n")
 	  return Sane.FALSE
-	case ':':
+	case ":":
 	  DBG_ERR("missing parameter(use -h for help)\n")
 	  return Sane.FALSE
 	default:
@@ -567,7 +567,7 @@ update_url_list(url_entry * first_url, char *new_url)
     }
   if(!url)
     {
-      DBG_ERR("update_url_list: couldn't calloc url_entry\n")
+      DBG_ERR("update_url_list: couldn"t calloc url_entry\n")
       exit(1)
     }
   url.name = new_url
@@ -583,13 +583,13 @@ get_token(const char *str, char **string_const)
 
   str = sanei_config_skip_whitespace(str)
 
-  if(*str == '"')
+  if(*str == """)
     {
       start = ++str
-      while(*str && (*str != '"' || *(str - 1) == '\\'))
+      while(*str && (*str != """ || *(str - 1) == "\\"))
 	++str
       len = str - start
-      if(*str == '"')
+      if(*str == """)
 	++str
       else
 	start = 0;		/* final double quote is missing */
@@ -650,9 +650,9 @@ read_keyword(String line, String keyword_token,
 	  }
 	/* remove escaped quotations */
 	while((pos = strstr(word, "\\\"")) != 0)
-	  *pos = ' '
+	  *pos = " "
 
-	DBG_DBG("read_keyword: set entry `%s' to `%s'\n", keyword_token,
+	DBG_DBG("read_keyword: set entry `%s" to `%s"\n", keyword_token,
 		 word)
 	*(String *) argument = strdup(word)
 	break
@@ -671,8 +671,8 @@ read_keyword(String line, String keyword_token,
 	  }
 	/* remove escaped quotations */
 	while((pos = strstr(word, "\\\"")) != 0)
-	  *pos = ' '
-	DBG_INFO("read_keyword: set first entry of `%s' to `%s'\n", keyword_token,
+	  *pos = " "
+	DBG_INFO("read_keyword: set first entry of `%s" to `%s"\n", keyword_token,
 		 word)
 	strings[0] = strdup(word)
 	if(word)
@@ -687,8 +687,8 @@ read_keyword(String line, String keyword_token,
 	  }
 	/* remove escaped quotations */
 	while((pos = strstr(word, "\\\"")) != 0)
-	  *pos = ' '
-	DBG_INFO("read_keyword: set second entry of `%s' to `%s'\n", keyword_token,
+	  *pos = " "
+	DBG_INFO("read_keyword: set second entry of `%s" to `%s"\n", keyword_token,
 		 word)
 	strings[1] = strdup(word)
 	* (String **) argument = strings
@@ -708,8 +708,8 @@ read_keyword(String line, String keyword_token,
 	  }
 	/* remove escaped quotations */
 	while((pos = strstr(word, "\\\"")) != 0)
-	  *pos = ' '
-	DBG_INFO("read_keyword: set first entry of `%s' to `%s'\n", keyword_token,
+	  *pos = " "
+	DBG_INFO("read_keyword: set first entry of `%s" to `%s"\n", keyword_token,
 		 word)
 	strings[0] = strdup(word)
 	if(word)
@@ -724,8 +724,8 @@ read_keyword(String line, String keyword_token,
 	  }
 	/* remove escaped quotations */
 	while((pos = strstr(word, "\\\"")) != 0)
-	  *pos = ' '
-	DBG_INFO("read_keyword: set second entry of `%s' to `%s'\n", keyword_token,
+	  *pos = " "
+	DBG_INFO("read_keyword: set second entry of `%s" to `%s"\n", keyword_token,
 		 word)
 	strings[1] = strdup(word)
 	if(word)
@@ -740,8 +740,8 @@ read_keyword(String line, String keyword_token,
 	  }
 	/* remove escaped quotations */
 	while((pos = strstr(word, "\\\"")) != 0)
-	  *pos = ' '
-	DBG_INFO("read_keyword: set third entry of `%s' to `%s'\n", keyword_token,
+	  *pos = " "
+	DBG_INFO("read_keyword: set third entry of `%s" to `%s"\n", keyword_token,
 		 word)
 	strings[2] = strdup(word)
 	* (String **) argument = strings
@@ -799,28 +799,28 @@ read_files(void)
   enum level current_level = level_backend
   char *search_dir = search_dir_spec, *end = 0
 
-  DBG_INFO("looking for .desc files in `%s'\n", search_dir_spec)
+  DBG_INFO("looking for .desc files in `%s"\n", search_dir_spec)
 
   while(search_dir && search_dir[0])
     {
-      end = strchr(search_dir, ':')
+      end = strchr(search_dir, ":")
       if(end)
-	end[0] = '\0'
-      DBG_INFO("reading directory `%s'\n", search_dir)
+	end[0] = "\0"
+      DBG_INFO("reading directory `%s"\n", search_dir)
 
       if(stat(search_dir, &stat_buf) < 0)
 	{
-	  DBG_ERR("cannot stat `%s' (%s)\n", search_dir, strerror(errno))
+	  DBG_ERR("cannot stat `%s" (%s)\n", search_dir, strerror(errno))
 	  return Sane.FALSE
 	}
       if(!S_ISDIR(stat_buf.st_mode))
 	{
-	  DBG_ERR("`%s' is not a directory\n", search_dir)
+	  DBG_ERR("`%s" is not a directory\n", search_dir)
 	  return Sane.FALSE
 	}
       if((dir = opendir(search_dir)) == 0)
 	{
-	  DBG_ERR("cannot read directory `%s' (%s)\n", search_dir,
+	  DBG_ERR("cannot read directory `%s" (%s)\n", search_dir,
 		   strerror(errno))
 	  return Sane.FALSE
 	}
@@ -842,7 +842,7 @@ read_files(void)
 	      fp = fopen(file_name, "r")
 	      if(!fp)
 		{
-		  DBG_ERR("can't open desc file: %s(%s)\n", file_name,
+		  DBG_ERR("can"t open desc file: %s(%s)\n", file_name,
 			   strerror(errno))
 		  return Sane.FALSE
 		}
@@ -872,7 +872,7 @@ read_files(void)
 				  if(current_model.status == status_unknown)
 				    {
 				      DBG_INFO
-					("Backend `%s': `%s' `%s' does not have a status\n",
+					("Backend `%s": `%s" `%s" does not have a status\n",
 					 current_backend.name,
 					 current_mfg.name,
 					 current_model.name)
@@ -881,7 +881,7 @@ read_files(void)
 				  if(!current_model.interface)
 				    {
 				      DBG_INFO
-					("Backend `%s': `%s' `%s' does not have an interface\n",
+					("Backend `%s": `%s" `%s" does not have an interface\n",
 					 current_backend.name,
 					 current_mfg.name,
 					 current_model.name)
@@ -892,7 +892,7 @@ read_files(void)
 				      if((!current_model.usb_vendor_id || !current_model.usb_product_id)
 					  && !current_model.ignore_usb_id)
 					{
-					  DBG_INFO("`%s' seems to provide a USB device "
+					  DBG_INFO("`%s" seems to provide a USB device "
 						    "without :usbid(%s %s)\n",
 						    current_backend.name,
 						    current_mfg.name,
@@ -909,17 +909,17 @@ read_files(void)
 		    }
 		  if(no_status)
 		    {
-		      DBG_WARN("Backend `%s': %d devices without :status\n",
+		      DBG_WARN("Backend `%s": %d devices without :status\n",
 				current_backend.name, no_status)
 		    }
 		  if(no_interface)
 		    {
-		      DBG_WARN("Backend `%s': %d devices without :interface\n",
+		      DBG_WARN("Backend `%s": %d devices without :interface\n",
 				current_backend.name, no_interface)
 		    }
 		  if(no_usbids)
 		    {
-		      DBG_WARN("Backend `%s': %d USB devices without :usbid\n",
+		      DBG_WARN("Backend `%s": %d USB devices without :usbid\n",
 				current_backend.name, no_usbids)
 		    }
 		}
@@ -944,7 +944,7 @@ read_files(void)
 		      word = 0
 		      continue
 		    }
-		  if(word[0] == ';')
+		  if(word[0] == ";")
 		    {
 		      DBG_DBG("ignoring comment line\n")
 		      free(word)
@@ -959,7 +959,7 @@ read_files(void)
 		    {
 		      backend_entry *be = first_backend, *prev_be =
 			0, *new_be = 0
-		      DBG_INFO("creating backend entry `%s'\n",
+		      DBG_INFO("creating backend entry `%s"\n",
 				string_entry)
 
 		      new_be = calloc(1, sizeof(backend_entry))
@@ -1011,7 +1011,7 @@ read_files(void)
 		    }
 		  if(!current_backend)
 		    {
-		      DBG_ERR("use `:backend' keyword first\n")
+		      DBG_ERR("use `:backend" keyword first\n")
 		      return Sane.FALSE
 		    }
 		  if(read_keyword
@@ -1021,13 +1021,13 @@ read_files(void)
 		      if(current_backend.version)
 			{
 			  DBG_WARN
-			    ("overwriting version of backend `%s' to `%s'"
-			     "(was: `%s')\n", current_backend.name,
+			    ("overwriting version of backend `%s" to `%s""
+			     "(was: `%s")\n", current_backend.name,
 			     string_entry, current_backend.version,
 			     current_backend.version)
 			}
 
-		      DBG_INFO("setting version of backend `%s' to `%s'\n",
+		      DBG_INFO("setting version of backend `%s" to `%s"\n",
 				current_backend.name, string_entry)
 		      current_backend.version = string_entry
 		      continue
@@ -1042,55 +1042,55 @@ read_files(void)
 			  if(current_model.status != status_unknown)
 			    {
 			      DBG_WARN
-				("overwriting status of model `%s' (backend `%s')\n",
+				("overwriting status of model `%s" (backend `%s")\n",
 				 current_model.name, current_backend.name)
 			    }
 			  if(strcmp(string_entry, ":minimal") == 0)
 			    {
 			      DBG_INFO
-				("setting status of model `%s' to `minimal'\n",
+				("setting status of model `%s" to `minimal"\n",
 				 current_model.name)
 			      current_model.status = status_minimal
 			    }
 			  else if(strcmp(string_entry, ":basic") == 0)
 			    {
 			      DBG_INFO
-				("setting status of model `%s' to `basic'\n",
+				("setting status of model `%s" to `basic"\n",
 				 current_model.name)
 			      current_model.status = status_basic
 			    }
 			  else if(strcmp(string_entry, ":good") == 0)
 			    {
 			      DBG_INFO
-				("setting status of model `%s' to `good'\n",
+				("setting status of model `%s" to `good"\n",
 				 current_model.name)
 			      current_model.status = status_good
 			    }
 			  else if(strcmp(string_entry, ":complete") == 0)
 			    {
 			      DBG_INFO
-				("setting status of model `%s' to `complete'\n",
+				("setting status of model `%s" to `complete"\n",
 				 current_model.name)
 			      current_model.status = status_complete
 			    }
 			  else if(strcmp(string_entry, ":untested") == 0)
 			    {
 			      DBG_INFO
-				("setting status of model `%s' to `untested'\n",
+				("setting status of model `%s" to `untested"\n",
 				 current_model.name)
 			      current_model.status = status_untested
 			    }
 			  else if(strcmp(string_entry, ":unsupported") == 0)
 			    {
 			      DBG_INFO
-				("setting status of model `%s' to `unsupported'\n",
+				("setting status of model `%s" to `unsupported"\n",
 				 current_model.name)
 			      current_model.status = status_unsupported
 			    }
 			  else
 			    {
 			      DBG_ERR
-				("unknown status of model `%s': `%s' (backend `%s')\n",
+				("unknown status of model `%s": `%s" (backend `%s")\n",
 				 current_model.name, string_entry,
 				 current_backend.name)
 			      current_model.status = status_untested
@@ -1099,7 +1099,7 @@ read_files(void)
 			  break
 			default:
 			  DBG_ERR
-			    ("level %d not implemented for :status(backend `%s')\n",
+			    ("level %d not implemented for :status(backend `%s")\n",
 			     current_level, current_backend.name)
 			  return Sane.FALSE
 			}
@@ -1126,8 +1126,8 @@ read_files(void)
 			}
 		      else
 			{
-			  DBG_ERR("unknown :new parameter of backend `%s': "
-				   "`%s'\n", current_backend.name,
+			  DBG_ERR("unknown :new parameter of backend `%s": "
+				   "`%s"\n", current_backend.name,
 				   string_entry)
 			  current_backend.new = Sane.FALSE
 			  return Sane.FALSE
@@ -1141,12 +1141,12 @@ read_files(void)
 		      if(current_backend.manpage)
 			{
 			  DBG_WARN
-			    ("overwriting manpage of backend `%s' to `%s'"
-			     "(was: `%s')\n", current_backend.name,
+			    ("overwriting manpage of backend `%s" to `%s""
+			     "(was: `%s")\n", current_backend.name,
 			     string_entry, current_backend.manpage)
 			}
 
-		      DBG_INFO("setting manpage of backend `%s' to `%s'\n",
+		      DBG_INFO("setting manpage of backend `%s" to `%s"\n",
 				current_backend.name, string_entry)
 		      current_backend.manpage = string_entry
 		      continue
@@ -1160,8 +1160,8 @@ read_files(void)
 		      type = current_backend.type
 
 		      DBG_INFO
-			("adding `%s' to list of device types of backend "
-			 "`%s'\n", string_entry, current_backend.name)
+			("adding `%s" to list of device types of backend "
+			 "`%s"\n", string_entry, current_backend.name)
 
 		      if(type)
 			{
@@ -1180,38 +1180,38 @@ read_files(void)
 		      type.type = type_unknown
 		      if(strcmp(string_entry, ":scanner") == 0)
 			{
-			  DBG_INFO("setting device type of backend `%s' to "
+			  DBG_INFO("setting device type of backend `%s" to "
 				    "scanner\n", current_backend.name)
 			  type.type = type_scanner
 			}
 		      else if(strcmp(string_entry, ":stillcam") == 0)
 			{
-			  DBG_INFO("setting device type of backend `%s' to "
+			  DBG_INFO("setting device type of backend `%s" to "
 				    "still camera\n", current_backend.name)
 			  type.type = type_stillcam
 			}
 		      else if(strcmp(string_entry, ":vidcam") == 0)
 			{
-			  DBG_INFO("setting device type of backend `%s' to "
+			  DBG_INFO("setting device type of backend `%s" to "
 				    "video camera\n", current_backend.name)
 			  type.type = type_vidcam
 			}
 		      else if(strcmp(string_entry, ":api") == 0)
 			{
-			  DBG_INFO("setting device type of backend `%s' to "
+			  DBG_INFO("setting device type of backend `%s" to "
 				    "API\n", current_backend.name)
 			  type.type = type_api
 			}
 		      else if(strcmp(string_entry, ":meta") == 0)
 			{
-			  DBG_INFO("setting device type of backend `%s' to "
+			  DBG_INFO("setting device type of backend `%s" to "
 				    "meta\n", current_backend.name)
 			  type.type = type_meta
 			}
 		      else
 			{
 			  DBG_ERR
-			    ("unknown device type of backend `%s': `%s'\n",
+			    ("unknown device type of backend `%s": `%s"\n",
 			     current_backend.name, string_entry)
 			  type.type = type_unknown
 			  return Sane.FALSE
@@ -1228,14 +1228,14 @@ read_files(void)
 		      if(!current_type)
 			{
 			  DBG_ERR
-			    ("use `:devicetype' keyword first(backend `%s')\n",
+			    ("use `:devicetype" keyword first(backend `%s")\n",
 			     current_backend.name)
 			  return Sane.FALSE
 			}
 		      if(current_type.type < type_meta)
 			{
 			  DBG_ERR
-			    ("use `:desc' for `:api' and `:meta' only(backend `%s')\n",
+			    ("use `:desc" for `:api" and `:meta" only(backend `%s")\n",
 			     current_backend.name)
 			  return Sane.FALSE
 			}
@@ -1244,13 +1244,13 @@ read_files(void)
 			{
 			  DBG_WARN
 			    ("overwriting description of  device type of "
-			     "backend `%s' to `%s' (was: `%s')\n",
+			     "backend `%s" to `%s" (was: `%s")\n",
 			     current_backend.name, string_entry,
 			     current_type.desc)
 			}
 
 		      DBG_INFO
-			("setting description of backend `%s' to `%s'\n",
+			("setting description of backend `%s" to `%s"\n",
 			 current_backend.name, string_entry)
 		      current_type.desc = calloc(1, sizeof(desc_entry))
 		      if(!current_type.desc)
@@ -1272,14 +1272,14 @@ read_files(void)
 		      if(!current_type)
 			{
 			  DBG_ERR
-			    ("use `:devicetype' keyword first(backend `%s')\n",
+			    ("use `:devicetype" keyword first(backend `%s")\n",
 			     current_backend.name)
 			  return Sane.FALSE
 			}
 		      if(current_type.type >= type_meta)
 			{
 			  DBG_ERR
-			    ("use `:mfg' for hardware devices only(backend `%s')\n",
+			    ("use `:mfg" for hardware devices only(backend `%s")\n",
 			     current_backend.name)
 			  return Sane.FALSE
 			}
@@ -1304,7 +1304,7 @@ read_files(void)
 			  return Sane.FALSE
 			}
 		      mfg.name = string_entry
-		      DBG_INFO("adding mfg entry %s to backend `%s'\n",
+		      DBG_INFO("adding mfg entry %s to backend `%s"\n",
 				string_entry, current_backend.name)
 		      current_mfg = mfg
 		      current_model = 0
@@ -1320,7 +1320,7 @@ read_files(void)
 		      if(!current_type)
 			{
 			  DBG_ERR
-			    ("use `:devicetype' keyword first(backend `%s')\n",
+			    ("use `:devicetype" keyword first(backend `%s")\n",
 			     current_backend.name)
 			  return Sane.FALSE
 			}
@@ -1328,7 +1328,7 @@ read_files(void)
 			  && current_level != level_model)
 			{
 			  DBG_ERR
-			    ("use `:mfg' keyword first(backend `%s')\n",
+			    ("use `:mfg" keyword first(backend `%s")\n",
 			     current_backend.name)
 			  return Sane.FALSE
 			}
@@ -1355,7 +1355,7 @@ read_files(void)
 		      model.name = string_entry
 		      model.status = status_unknown
 		      DBG_INFO
-			("adding model entry %s to manufacturer `%s'\n",
+			("adding model entry %s to manufacturer `%s"\n",
 			 string_entry, current_mfg.name)
 		      current_model = model
 		      current_level = level_model
@@ -1368,21 +1368,21 @@ read_files(void)
 		      if(!current_model)
 			{
 			  DBG_WARN
-			    ("ignored `%s' :interface, only allowed for "
+			    ("ignored `%s" :interface, only allowed for "
 			     "hardware devices\n", current_backend.name)
 			  continue
 			}
 
 		      if(current_model.interface)
 			{
-			  DBG_WARN("overwriting `%s's interface of model "
-				    "`%s' to `%s' (was: `%s')\n",
+			  DBG_WARN("overwriting `%s"s interface of model "
+				    "`%s" to `%s" (was: `%s")\n",
 				    current_backend.name,
 				    current_model.name, string_entry,
 				    current_model.interface)
 			}
 
-		      DBG_INFO("setting interface of model `%s' to `%s'\n",
+		      DBG_INFO("setting interface of model `%s" to `%s"\n",
 				current_model.name, string_entry)
 		      current_model.interface = string_entry
 		      continue
@@ -1394,16 +1394,16 @@ read_files(void)
 		      if(!current_model)
 			{
 			  DBG_WARN
-			    ("ignored `%s' :scsi, only allowed for "
+			    ("ignored `%s" :scsi, only allowed for "
 			     "hardware devices\n", current_backend.name)
 			  continue
 			}
 
-		      DBG_INFO("setting scsi vendor and product ids of model `%s' to `%s/%s'\n",
+		      DBG_INFO("setting scsi vendor and product ids of model `%s" to `%s/%s"\n",
 				current_model.name, three_string_entry[0], three_string_entry[1])
 		      if(strcasecmp(three_string_entry[0], "ignore") == 0)
 			 {
-				DBG_INFO("Ignoring `%s's scsi-entries of `%s'\n",
+				DBG_INFO("Ignoring `%s"s scsi-entries of `%s"\n",
 						current_backend.name,
 						current_model.name)
 				continue
@@ -1427,13 +1427,13 @@ read_files(void)
 		      if(!current_model)
 			{
 			  DBG_WARN
-			    ("ignored `%s' :usbid, only allowed for "
+			    ("ignored `%s" :usbid, only allowed for "
 			     "hardware devices\n", current_backend.name)
 			  continue
 			}
 		      if(strcasecmp(two_string_entry[0], "ignore") == 0)
 			{
-			  DBG_INFO("Ignoring `%s's USB ids of `%s'\n",
+			  DBG_INFO("Ignoring `%s"s USB ids of `%s"\n",
 				    current_backend.name,
 				    current_model.name)
 			  current_model.ignore_usb_id = Sane.TRUE
@@ -1441,25 +1441,25 @@ read_files(void)
 			}
 		      if(!check_hex(two_string_entry[0]))
 			{
-			  DBG_WARN("`%s's USB vendor id of `%s' is "
+			  DBG_WARN("`%s"s USB vendor id of `%s" is "
 				    "not a lowercase 4-digit hex number: "
-				    "`%s'\n", current_backend.name,
+				    "`%s"\n", current_backend.name,
 				    current_model.name, two_string_entry[0])
 			  continue
 			}
 		      if(!check_hex(two_string_entry[1]))
 			{
-			  DBG_WARN("`%s's USB product id of `%s' is "
+			  DBG_WARN("`%s"s USB product id of `%s" is "
 				    "not a lowercase 4-digit hex number: "
-				    "`%s'\n", current_backend.name,
+				    "`%s"\n", current_backend.name,
 				    current_model.name, two_string_entry[1])
 			  continue
 			}
 
 		      if(current_model.usb_vendor_id || current_model.usb_product_id)
 			{
-			  DBG_WARN("overwriting `%s's USB ids of model "
-				    "`%s' to `%s/%s' (was: `%s/%s')\n",
+			  DBG_WARN("overwriting `%s"s USB ids of model "
+				    "`%s" to `%s/%s" (was: `%s/%s")\n",
 				    current_backend.name,
 				    current_model.name, two_string_entry[0],
 				    two_string_entry[1],
@@ -1467,7 +1467,7 @@ read_files(void)
 				    current_model.usb_product_id)
 			}
 
-		      DBG_INFO("setting USB vendor and product ids of model `%s' to `%s/%s'\n",
+		      DBG_INFO("setting USB vendor and product ids of model `%s" to `%s/%s"\n",
 				current_model.name, two_string_entry[0], two_string_entry[1])
 		      current_model.usb_vendor_id = two_string_entry[0]
 		      current_model.usb_product_id = two_string_entry[1]
@@ -1482,15 +1482,15 @@ read_files(void)
 			  current_backend.url =
 			    update_url_list(current_backend.url,
 					     string_entry)
-			  DBG_INFO("adding `%s' to list of urls of backend "
-				    "`%s'\n", string_entry,
+			  DBG_INFO("adding `%s" to list of urls of backend "
+				    "`%s"\n", string_entry,
 				    current_backend.name)
 			  break
 			case level_mfg:
 			  current_mfg.url =
 			    update_url_list(current_mfg.url, string_entry)
-			  DBG_INFO("adding `%s' to list of urls of mfg "
-				    "`%s'\n", string_entry,
+			  DBG_INFO("adding `%s" to list of urls of mfg "
+				    "`%s"\n", string_entry,
 				    current_mfg.name)
 			  break
 			case level_desc:
@@ -1498,21 +1498,21 @@ read_files(void)
 			    update_url_list(current_type.desc.url,
 					     string_entry)
 			  DBG_INFO
-			    ("adding `%s' to list of urls of description "
-			     "for backend `%s'\n", string_entry,
+			    ("adding `%s" to list of urls of description "
+			     "for backend `%s"\n", string_entry,
 			     current_backend.name)
 			  break
 			case level_model:
 			  current_model.url =
 			    update_url_list(current_model.url,
 					     string_entry)
-			  DBG_INFO("adding `%s' to list of urls of model "
-				    "`%s'\n", string_entry,
+			  DBG_INFO("adding `%s" to list of urls of model "
+				    "`%s"\n", string_entry,
 				    current_model.name)
 			  break
 			default:
 			  DBG_ERR
-			    ("level %d not implemented for :url(backend `%s')\n",
+			    ("level %d not implemented for :url(backend `%s")\n",
 			     current_level, current_backend.name)
 			  return Sane.FALSE
 			}
@@ -1526,36 +1526,36 @@ read_files(void)
 			{
 			case level_backend:
 			  current_backend.comment = string_entry
-			  DBG_INFO("setting comment of backend %s to `%s'\n",
+			  DBG_INFO("setting comment of backend %s to `%s"\n",
 				    current_backend.name, string_entry)
 			  break
 			case level_mfg:
 			  current_mfg.comment = string_entry
 			  DBG_INFO
-			    ("setting comment of manufacturer %s to `%s'\n",
+			    ("setting comment of manufacturer %s to `%s"\n",
 			     current_mfg.name, string_entry)
 			  break
 			case level_desc:
 			  current_type.desc.comment = string_entry
 			  DBG_INFO("setting comment of description for "
-				    "backend %s to `%s'\n",
+				    "backend %s to `%s"\n",
 				    current_backend.name, string_entry)
 			  break
 			case level_model:
 			  current_model.comment = string_entry
-			  DBG_INFO("setting comment of model %s to `%s'\n",
+			  DBG_INFO("setting comment of model %s to `%s"\n",
 				    current_model.name, string_entry)
 			  break
 			default:
 			  DBG_ERR
-			    ("level %d not implemented for `:comment' (backend `%s')\n",
+			    ("level %d not implemented for `:comment" (backend `%s")\n",
 			     current_level, current_backend.name)
 			  return Sane.FALSE
 			}
 		      continue
 		    }
 		  DBG_ERR
-		    ("unknown keyword token in line `%s' of file `%s'\n",
+		    ("unknown keyword token in line `%s" of file `%s"\n",
 		     line, file_name)
 		  return Sane.FALSE
 		}		/* while(sanei_config_readline) */
@@ -1564,7 +1564,7 @@ read_files(void)
 	}			/* while(direntry) */
       if(closedir(dir) != 0)
 	{
-	  DBG_ERR("cannot close directory `%s' (%s)\n", search_dir,
+	  DBG_ERR("cannot close directory `%s" (%s)\n", search_dir,
 		   strerror(errno))
 	  return Sane.FALSE
 	}
@@ -1577,7 +1577,7 @@ read_files(void)
   desc_name = 0
   if(!first_backend)
     {
-      DBG_ERR("Couldn't find any .desc file\n")
+      DBG_ERR("Couldn"t find any .desc file\n")
       return Sane.FALSE
     }
   return Sane.TRUE
@@ -1592,7 +1592,7 @@ create_model_record(model_entry * model)
   model_record = calloc(1, sizeof(model_record_entry))
   if(!model_record)
     {
-      DBG_ERR("create_model_record: couldn't calloc model_record_entry\n")
+      DBG_ERR("create_model_record: couldn"t calloc model_record_entry\n")
       exit(1)
     }
   model_record.name = model.name
@@ -1727,13 +1727,13 @@ update_mfg_record_list(mfg_record_entry * first_mfg_record, mfg_entry * mfg,
 
   if(!mfg_record)
     {
-      /* Manufacturer doesn't exist yet */
+      /* Manufacturer doesn"t exist yet */
       url_entry *url = mfg.url
 
       mfg_record = calloc(1, sizeof(mfg_record_entry))
       if(!mfg_record)
 	{
-	  DBG_ERR("update_mfg_record_list: couldn't calloc "
+	  DBG_ERR("update_mfg_record_list: couldn"t calloc "
 		   "mfg_record_entry\n")
 	  exit(1)
 	}
@@ -1835,12 +1835,12 @@ ascii_print_backends(void)
       type_entry *type = be.type
 
       if(be.name)
-	printf("backend `%s'\n", be.name)
+	printf("backend `%s"\n", be.name)
       else
 	printf("backend *none*\n")
 
       if(be.version)
-	printf(" version `%s'\n", be.version)
+	printf(" version `%s"\n", be.version)
       else
 	printf(" version *none*\n")
 
@@ -1848,21 +1848,21 @@ ascii_print_backends(void)
 	printf(" NEW!\n")
 
       if(be.manpage)
-	printf(" manpage `%s'\n", be.manpage)
+	printf(" manpage `%s"\n", be.manpage)
       else
 	printf(" manpage *none*\n")
 
       if(url)
 	while(url)
 	  {
-	    printf(" url `%s'\n", url.name)
+	    printf(" url `%s"\n", url.name)
 	    url = url.next
 	  }
       else
 	printf(" url *none*\n")
 
       if(be.comment)
-	printf(" comment `%s'\n", be.comment)
+	printf(" comment `%s"\n", be.comment)
       else
 	printf(" comment *none*\n")
 
@@ -1893,18 +1893,18 @@ ascii_print_backends(void)
 	    if(type.desc)
 	      {
 		url_entry *url = type.desc.url
-		printf("  desc `%s'\n", type.desc.desc)
+		printf("  desc `%s"\n", type.desc.desc)
 		if(url)
 		  while(url)
 		    {
-		      printf("   url `%s'\n", url.name)
+		      printf("   url `%s"\n", url.name)
 		      url = url.next
 		    }
 		else
 		  printf("   url *none*\n")
 
 		if(type.desc.comment)
-		  printf("   comment `%s'\n", type.desc.comment)
+		  printf("   comment `%s"\n", type.desc.comment)
 		else
 		  printf("   comment *none*\n")
 	      }
@@ -1919,18 +1919,18 @@ ascii_print_backends(void)
 		    model_entry *model = mfg.model
 		    url_entry *url = mfg.url
 
-		    printf("  mfg `%s'\n", mfg.name)
+		    printf("  mfg `%s"\n", mfg.name)
 		    if(url)
 		      while(url)
 			{
-			  printf("   url `%s'\n", url.name)
+			  printf("   url `%s"\n", url.name)
 			  url = url.next
 			}
 		    else
 		      printf("   url *none*\n")
 
 		    if(mfg.comment)
-		      printf("   comment `%s'\n", mfg.comment)
+		      printf("   comment `%s"\n", mfg.comment)
 		    else
 		      printf("   comment *none*\n")
 
@@ -1938,19 +1938,19 @@ ascii_print_backends(void)
 		      while(model)
 			{
 			  url_entry *url = model.url
-			  printf("   model `%s'\n", model.name)
+			  printf("   model `%s"\n", model.name)
 			  if(model.interface)
-			    printf("    interface `%s'\n", model.interface)
+			    printf("    interface `%s"\n", model.interface)
 			  else
 			    printf("    interface *none*\n")
 
 			  if(model.usb_vendor_id)
-			    printf("    usb-vendor-id `%s'\n", model.usb_vendor_id)
+			    printf("    usb-vendor-id `%s"\n", model.usb_vendor_id)
 			  else
 			    printf("    usb-vendor-id *none*\n")
 
 			  if(model.usb_product_id)
-			    printf("    usb-product-id `%s'\n", model.usb_product_id)
+			    printf("    usb-product-id `%s"\n", model.usb_product_id)
 			  else
 			    printf("    usb-product-id *none*\n")
 
@@ -1982,14 +1982,14 @@ ascii_print_backends(void)
 			  if(url)
 			    while(url)
 			      {
-				printf("    url `%s'\n", url.name)
+				printf("    url `%s"\n", url.name)
 				url = url.next
 			      }
 			  else
 			    printf("    url *none*\n")
 
 			  if(model.comment)
-			    printf("    comment `%s'\n", model.comment)
+			    printf("    comment `%s"\n", model.comment)
 			  else
 			    printf("    comment *none*\n")
 
@@ -2021,9 +2021,9 @@ clean_string(char *c)
 
   aux = malloc(strlen(c) * sizeof(char) * 6)
 
-  *aux = '\0'
+  *aux = "\0"
 
-  while(*c != '\0')
+  while(*c != "\0")
     {
 
       /*limit to printable ASCII only*/
@@ -2034,16 +2034,16 @@ clean_string(char *c)
 
       switch(*c)
 	{
-	case '<':
+	case "<":
 	  aux = strcat(aux, "&lt;")
 	  break
-	case '>':
+	case ">":
 	  aux = strcat(aux, "&gt;")
 	  break
-	case '\'':
+	case "\"":
 	  aux = strcat(aux, "&apos;")
 	  break
-	case '&':
+	case "&":
 	  aux = strcat(aux, "&amp;")
 	  break
 	default:
@@ -2162,7 +2162,7 @@ xml_print_backends(void)
 		    if(url)
 		      while(url)
 			{
-			  printf("  <url>`%s'</url>\n",
+			  printf("  <url>`%s"</url>\n",
 				  clean_string(url.name))
 			  url = url.next
 			}
@@ -2397,29 +2397,29 @@ html_generate_anchor_name(device_type dev_type, char *manufacturer_name)
 
   if(!name)
     {
-      DBG_ERR("html_generate_anchor_name: couldn't malloc\n")
+      DBG_ERR("html_generate_anchor_name: couldn"t malloc\n")
       return 0
     }
 
   switch(dev_type)
     {
     case type_scanner:
-      type_char = 'S'
+      type_char = "S"
       break
     case type_stillcam:
-      type_char = 'C'
+      type_char = "C"
       break
     case type_vidcam:
-      type_char = 'V'
+      type_char = "V"
       break
     case type_meta:
-      type_char = 'M'
+      type_char = "M"
       break
     case type_api:
-      type_char = 'A'
+      type_char = "A"
       break
     default:
-      type_char = 'Z'
+      type_char = "Z"
       break
     }
 
@@ -2429,7 +2429,7 @@ html_generate_anchor_name(device_type dev_type, char *manufacturer_name)
   while(*pointer)
     {
       if(!isalnum(*pointer))
-	*pointer = '-'
+	*pointer = "-"
       else
 	*pointer = toupper(*pointer)
       pointer++
@@ -2797,7 +2797,7 @@ html_print_header(void)
     ("<p>If you have new information or corrections, please file a\n"
      "<a href=\"bugs.html\">bug report</a>\n"
      "with as many details as possible. Also please tell us if your scanner\n"
-     "isn't mentioned in this list at all.</p>\n"
+     "isn"t mentioned in this list at all.</p>\n"
      "<p>For an explanation of the tables, see the\n"
      "<a href=\"#legend\">legend</a>.\n")
 }
@@ -2905,11 +2905,11 @@ html_print_legend_status(void)
      "        It may be supported by other backends, however.\n")
   printf
     ("      <li><font color=" COLOR_UNTESTED ">untested</font> means the "
-     "        device may be supported but couldn't be tested. Be very "
+     "        device may be supported but couldn"t be tested. Be very "
      "        careful and report success/failure.\n"
      "      <li><font color=" COLOR_MINIMAL ">minimal</font> means that the\n"
      "        device is detected and scans at least in one mode. But the quality\n"
-     "        is bad or important features won't work.\n")
+     "        is bad or important features won"t work.\n")
   printf
     ("      <li><font color=" COLOR_BASIC ">basic</font> means it works at\n"
      "        least in the most important modes but quality is not perfect.\n"
@@ -3350,7 +3350,7 @@ print_usermap_header(void)
      )
 
   printf
-     ("# If your scanner isn't listed below, you can add it as explained above.\n"
+     ("# If your scanner isn"t listed below, you can add it as explained above.\n"
      "#\n"
      "# If your scanner is supported by some external backend(brother, epkowa,\n"
      "# hpaio, etc) please ask the author of the backend to provide proper\n"
@@ -3396,7 +3396,7 @@ print_db_header(void)
   print_header_comment()
   printf
     ("#\n"
-     "# The entries below are used to detect a USB device when it's plugged in\n"
+     "# The entries below are used to detect a USB device when it"s plugged in\n"
      "# and then run a script to change the ownership and\n"
      "# permissions on the \"device node\" used by libusb.\n"
      "# Sample entry(replace 0xVVVV and 0xPPPP with vendor ID and product ID\n"
@@ -3414,7 +3414,7 @@ print_db_header(void)
      , DEVOWNER, DEVGROUP, DEVMODE)
 
   printf
-     ("# If your scanner isn't listed below, you can add it as explained above.\n"
+     ("# If your scanner isn"t listed below, you can add it as explained above.\n"
      "#\n"
      "# If your scanner is supported by some external backend(brother, epkowa,\n"
      "# hpaio, etc) please ask the author of the backend to provide proper\n"
@@ -3474,7 +3474,7 @@ print_udev_header(void)
      "#\n"
      )
   printf
-     ("# If your scanner isn't listed below, you can add it as explained above.\n"
+     ("# If your scanner isn"t listed below, you can add it as explained above.\n"
      "#\n"
      "# If your scanner is supported by some external backend(brother, epkowa,\n"
      "# hpaio, etc) please ask the author of the backend to provide proper\n"
@@ -3554,7 +3554,7 @@ print_udev(void)
     }
 
   printf("\n# The following rule will disable USB autosuspend for the device\n")
-  printf("ENV{libSane.matched}==\"yes\", RUN+=\"/bin/sh -c 'if test -e /sys/$env{DEVPATH}/power/control; then echo on > /sys/$env{DEVPATH}/power/control; elif test -e /sys/$env{DEVPATH}/power/level; then echo on > /sys/$env{DEVPATH}/power/level; fi'\"\n")
+  printf("ENV{libSane.matched}==\"yes\", RUN+=\"/bin/sh -c "if test -e /sys/$env{DEVPATH}/power/control; then echo on > /sys/$env{DEVPATH}/power/control; elif test -e /sys/$env{DEVPATH}/power/level; then echo on > /sys/$env{DEVPATH}/power/level; fi"\"\n")
 
   printf("\nLABEL=\"libSane.usb_rules_end\"\n\n")
 
@@ -3657,7 +3657,7 @@ print_udevhwdb_header(void)
      "# but are treated accordingly.\n"
      "#\n")
   printf
-     ("# If your SCSI scanner isn't listed below, you can add it to a new rules\n"
+     ("# If your SCSI scanner isn"t listed below, you can add it to a new rules\n"
      "# file under /etc/udev/rules.d/.\n"
      "#\n"
      "# If your scanner is supported by some external backend(brother, epkowa,\n"
@@ -3756,7 +3756,7 @@ print_hwdb_header(void)
      "# hwdb file for supported USB devices\n"
      "#\n")
   printf
-     ("# If your scanner isn't listed below, you can add it to a new hwdb file\n"
+     ("# If your scanner isn"t listed below, you can add it to a new hwdb file\n"
      "# under /etc/udev/hwdb.d/.\n"
      "#\n"
      "# If your scanner is supported by some external backend(brother, epkowa,\n"
@@ -3979,7 +3979,7 @@ print_hal(Int new)
 
 func Int main(Int argc, char **argv)
 {
-  program_name = strrchr(argv[0], '/')
+  program_name = strrchr(argv[0], "/")
   if(program_name)
     ++program_name
   else

@@ -100,7 +100,7 @@
 
 #define Sane.NAME_ENDORSER_STRING  "endorser-string"
 #define Sane.TITLE_ENDORSER_STRING "Endorser String"
-#define Sane.DESC_ENDORSER_STRING  "valid characters: [0-9][ :#`'-./][A-Z][a-z]"
+#define Sane.DESC_ENDORSER_STRING  "valid characters: [0-9][ :#`"-./][A-Z][a-z]"
 
 #define Sane.NAME_BARCODE_SEARCH_COUNT "barcode-search-count"
 #define Sane.TITLE_BARCODE_SEARCH_COUNT "Barcode Search Count"
@@ -149,7 +149,7 @@
 
 #define Sane.NAME_SCAN_WAIT_MODE "scan-wait-mode"
 #define Sane.TITLE_SCAN_WAIT_MODE "Scan Wait Mode "
-#define Sane.DESC_SCAN_WAIT_MODE "Enables the scanner's start button"
+#define Sane.DESC_SCAN_WAIT_MODE "Enables the scanner"s start button"
 
 #define Sane.NAME_ACE_FUNCTION "ace-function"
 #define Sane.TITLE_ACE_FUNCTION "ACE Function"
@@ -297,7 +297,7 @@ typedef enum
   OPT_FEEDER_GROUP,
   OPT_SCAN_SOURCE,		/* scan source(eg. Flatbed, ADF) */
   OPT_DUPLEX,			/* scan both sides of the page */
-  OPT_SCAN_WAIT_MODE,		/* Enables the scanner's Start Button */
+  OPT_SCAN_WAIT_MODE,		/* Enables the scanner"s Start Button */
   OPT_PREFEED,
   OPT_ENDORSER,			/* Endorser(off,on) */
   OPT_ENDORSER_STRING,		/* Endorser String */

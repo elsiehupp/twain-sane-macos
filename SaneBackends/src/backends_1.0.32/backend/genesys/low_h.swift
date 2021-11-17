@@ -114,7 +114,7 @@ import vector>
 #define GENESYS_HAS_PAGE_LOADED_SW   (1 << 4)       /**< scanner has paper in detection */
 #define GENESYS_HAS_OCR_SW           (1 << 5)       /**< scanner has OCR button */
 #define GENESYS_HAS_POWER_SW         (1 << 6)       /**< scanner has power button */
-#define GENESYS_HAS_CALIBRATE        (1 << 7)       /**< scanner has 'calibrate' software button to start calibration */
+#define GENESYS_HAS_CALIBRATE        (1 << 7)       /**< scanner has "calibrate" software button to start calibration */
 #define GENESYS_HAS_EXTRA_SW         (1 << 8)       /**< scanner has extra function button */
 
 /* USB control message values */

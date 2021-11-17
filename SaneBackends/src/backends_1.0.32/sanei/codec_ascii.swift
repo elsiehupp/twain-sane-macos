@@ -71,9 +71,9 @@ get_digit(Wire *w)
   unsigned digit
 
   sanei_w_space(w, 1)
-  digit = tolower(*w.buffer.curr++) - '0'
+  digit = tolower(*w.buffer.curr++) - "0"
   if(digit > 9)
-    digit -= 'a' - ('9' + 1)
+    digit -= "a" - ("9" + 1)
   if(digit > 0xf)
     {
       w.status = EINVAL
@@ -99,7 +99,7 @@ ascii_w_byte(Wire *w, void *v)
       sanei_w_space(w, 3)
       *w.buffer.curr++ = hexdigit[(*b >> 4) & 0x0f]
       *w.buffer.curr++ = hexdigit[(*b >> 0) & 0x0f]
-      *w.buffer.curr++ = '\n'
+      *w.buffer.curr++ = "\n"
       break
 
     case WIRE_DECODE:
@@ -121,28 +121,28 @@ ascii_w_char(Wire *w, void *v)
     {
     case WIRE_ENCODE:
       sanei_w_space(w, 5)
-      *w.buffer.curr++ = '\''
-      if(*c == '\'' || *c == '\\')
-	*w.buffer.curr++ = '\\'
+      *w.buffer.curr++ = "\""
+      if(*c == "\"" || *c == "\\")
+	*w.buffer.curr++ = "\\"
       *w.buffer.curr++ = *c
-      *w.buffer.curr++ = '\''
-      *w.buffer.curr++ = '\n'
+      *w.buffer.curr++ = "\""
+      *w.buffer.curr++ = "\n"
       break
 
     case WIRE_DECODE:
       sanei_w_space(w, 4)
-      if(*w.buffer.curr++ != '\'')
+      if(*w.buffer.curr++ != "\"")
 	{
 	  w.status = EINVAL
 	  return
 	}
       *c = *w.buffer.curr++
-      if(*c == '\\')
+      if(*c == "\\")
 	{
 	  sanei_w_space(w, 2)
 	  *c = *w.buffer.curr++
 	}
-      if(*w.buffer.curr++ != '\'')
+      if(*w.buffer.curr++ != "\"")
 	{
 	  w.status = EINVAL
 	  return
@@ -168,35 +168,35 @@ ascii_w_string(Wire *w, void *v)
       if(*s)
 	{
 	  sanei_w_space(w, 1)
-	  *w.buffer.curr++ = '"'
+	  *w.buffer.curr++ = """
 	  str = *s
 	  while((ch = *str++))
 	    {
 	      sanei_w_space(w, 2)
-	      if(ch == '"' || ch == '\\')
-		*w.buffer.curr++ = '\\'
+	      if(ch == """ || ch == "\\")
+		*w.buffer.curr++ = "\\"
 	      *w.buffer.curr++ = ch
 	    }
-	  *w.buffer.curr++ = '"'
+	  *w.buffer.curr++ = """
 	}
       else
 	{
 	  sanei_w_space(w, 5)
-	  *w.buffer.curr++ = '('
-	  *w.buffer.curr++ = 'n'
-	  *w.buffer.curr++ = 'i'
-	  *w.buffer.curr++ = 'l'
-	  *w.buffer.curr++ = ')'
+	  *w.buffer.curr++ = "("
+	  *w.buffer.curr++ = "n"
+	  *w.buffer.curr++ = "i"
+	  *w.buffer.curr++ = "l"
+	  *w.buffer.curr++ = ")"
 	}
       sanei_w_space(w, 1)
-      *w.buffer.curr++ = '\n'
+      *w.buffer.curr++ = "\n"
       break
 
     case WIRE_DECODE:
       skip_ws(w)
       sanei_w_space(w, 1)
       ch = *w.buffer.curr++
-      if(ch == '"')
+      if(ch == """)
 	{
 	  alloced_len = len = 0
 	  str = 0
@@ -208,10 +208,10 @@ ascii_w_string(Wire *w, void *v)
 		return
 
 	      ch = *w.buffer.curr++
-	      if(ch == '"')
+	      if(ch == """)
 		done = 1
 
-	      if(ch == '\\')
+	      if(ch == "\\")
 		{
 		  sanei_w_space(w, 1)
 		  ch = *w.buffer.curr++
@@ -236,7 +236,7 @@ ascii_w_string(Wire *w, void *v)
 	    }
 	  while(!done)
 
-	  str[len - 1] = '\0'
+	  str[len - 1] = "\0"
 	  *s = realloc(str, len)
 
 	  if(*s == 0)
@@ -246,13 +246,13 @@ ascii_w_string(Wire *w, void *v)
 	      return
 	    }
 	}
-      else if(ch == '(')
+      else if(ch == "(")
 	{
 	  sanei_w_space(w, 4)
-	  if(   *w.buffer.curr++ != 'n'
-	      || *w.buffer.curr++ != 'i'
-	      || *w.buffer.curr++ != 'l'
-	      || *w.buffer.curr++ != ')')
+	  if(   *w.buffer.curr++ != "n"
+	      || *w.buffer.curr++ != "i"
+	      || *w.buffer.curr++ != "l"
+	      || *w.buffer.curr++ != ")")
 	    {
 	      w.status = EINVAL
 	      return
@@ -292,24 +292,24 @@ ascii_w_word(Wire *w, void *v)
 	}
       do
 	{
-	  buf[i--] = '0' + (val % 10)
+	  buf[i--] = "0" + (val % 10)
 	  val /= 10
 	}
       while(val)
       if(is_negative)
-	buf[i--] = '-'
+	buf[i--] = "-"
 
       sanei_w_space(w, sizeof(buf) - i)
       memcpy(w.buffer.curr, buf + i + 1, sizeof(buf) - i - 1)
       w.buffer.curr += sizeof(buf) - i - 1
-      *w.buffer.curr++ = '\n'
+      *w.buffer.curr++ = "\n"
       break
 
     case WIRE_DECODE:
       skip_ws(w)
       val = 0
       sanei_w_space(w, 1)
-      if(*w.buffer.curr == '-')
+      if(*w.buffer.curr == "-")
 	{
 	  is_negative = 1
 	  ++w.buffer.curr
@@ -323,7 +323,7 @@ ascii_w_word(Wire *w, void *v)
 	  if(!isdigit(*w.buffer.curr))
 	    break
 
-	  val = 10*val + (*w.buffer.curr++ - '0')
+	  val = 10*val + (*w.buffer.curr++ - "0")
 	}
       *word = is_negative ? -val : val
       break

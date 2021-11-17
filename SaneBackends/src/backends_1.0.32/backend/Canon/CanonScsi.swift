@@ -46,7 +46,7 @@ static Sane.Status
 test_unit_ready(Int fd)
 {
   static u_char cmd[6]
-  Int status
+  status: Int
   DBG(31, ">> test_unit_ready\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -61,7 +61,7 @@ static Sane.Status
 request_sense(Int fd, void *buf, size_t *buf_size)
 {
   static u_char cmd[6]
-  Int status
+  status: Int
   DBG(31, ">> request_sense\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -78,7 +78,7 @@ static Sane.Status
 inquiry(Int fd, Int evpd, void *buf, size_t *buf_size)
 {
   static u_char cmd[6]
-  Int status
+  status: Int
   DBG(31, ">> inquiry\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -97,7 +97,7 @@ static Sane.Status
 mode_select(Int fd)
 {
   static u_char cmd[6 + 12]
-  Int status
+  status: Int
   DBG(31, ">> mode_select\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -119,7 +119,7 @@ static Sane.Status
 reserve_unit(Int fd)
 {
   static u_char cmd[6]
-  Int status
+  status: Int
   DBG(31, ">> reserve_unit\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -135,7 +135,7 @@ static Sane.Status
 release_unit(Int fd)
 {
   static u_char cmd[6]
-  Int status
+  status: Int
   DBG(31, ">> release_unit\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -151,7 +151,7 @@ static Sane.Status
 mode_sense(Int fd, void *buf, size_t *buf_size)
 {
   static u_char cmd[6]
-  Int status
+  status: Int
   DBG(31, ">> mode_sense\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -168,7 +168,7 @@ static Sane.Status
 scan(Int fd)
 {
   static u_char cmd[6 + 1]
-  Int status
+  status: Int
   DBG(31, ">> scan\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -184,7 +184,7 @@ static Sane.Status
 send_diagnostic(Int fd)
 {
   static u_char cmd[6]
-  Int status
+  status: Int
   DBG(31, ">> send_diagnostic\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -200,7 +200,7 @@ static Sane.Status
 set_window(Int fd, void *data)
 {
   static u_char cmd[10]
-  Int status
+  status: Int
   DBG(31, ">> set_window\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -216,7 +216,7 @@ static Sane.Status
 get_window(Int fd, void *buf, size_t *buf_size)
 {
   static u_char cmd[10]
-  Int status
+  status: Int
   DBG(31, ">> get_window\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -233,7 +233,7 @@ static Sane.Status
 read_data(Int fd, void *buf, size_t *buf_size)
 {
   static u_char cmd[10]
-  Int status
+  status: Int
   DBG(31, ">> read_data\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -251,7 +251,7 @@ static Sane.Status
 medium_position(Int fd)
 {
   static u_char cmd[10]
-  Int status
+  status: Int
   DBG(31, ">> medium_position\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -267,7 +267,7 @@ static Sane.Status
 execute_shading(Int fd)
 {
   static u_char cmd[10]
-  Int status
+  status: Int
   DBG(31, ">> execute shading\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -283,9 +283,9 @@ static Sane.Status
 execute_auto_focus(Int fd, Int AF, Int speed, Int AE, Int count)
 {
   static u_char cmd[10]
-  Int status
+  status: Int
   DBG(7, ">> execute_auto_focus\n")
-  DBG(7, ">> focus: mode='%d', speed='%d', AE='%d', count='%d'\n",
+  DBG(7, ">> focus: mode="%d", speed="%d", AE="%d", count="%d"\n",
        AF, speed, AE, count)
 
   memset(cmd, 0, sizeof(cmd))
@@ -307,7 +307,7 @@ static Sane.Status
 set_adf_mode(Int fd, u_char priority)
 {
   static u_char cmd[6]
-  Int status
+  status: Int
 
   memset(cmd, 0, sizeof(cmd))
   cmd[0] = 0xd4
@@ -322,7 +322,7 @@ static Sane.Status
 get_scan_mode(Int fd, u_char page, void *buf, size_t *buf_size)
 {
   static u_char cmd[6]
-  Int status
+  status: Int
   Int PageLen = 0x00
 
   memset(cmd, 0, sizeof(cmd))
@@ -350,7 +350,7 @@ get_scan_mode(Int fd, u_char page, void *buf, size_t *buf_size)
       break
     }
 
-  DBG(31, "get scan mode: cmd[4]='0x%0X'\n", cmd[4])
+  DBG(31, "get scan mode: cmd[4]="0x%0X"\n", cmd[4])
   status = sanei_scsi_cmd2 (fd, cmd, sizeof(cmd), NULL, 0, buf, buf_size)
 
   DBG(31, "<< get scan mode\n")
@@ -363,7 +363,7 @@ define_scan_mode(Int fd, u_char page, void *data)
   static u_char cmd[6]
   u_char pdata[36]
   size_t i
-  Int status, pdatalen
+  status: Int, pdatalen
   DBG(31, ">> define scan mode\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -381,11 +381,11 @@ define_scan_mode(Int fd, u_char page, void *data)
     : (page == SCAN_CONTROL_CON_FB1200) ? 19 : 32)
 
   for(i = 0; i < sizeof(cmd); i++)
-    DBG(31, "define scan mode: cmd[%d]='0x%0X'\n", (Int) i,
+    DBG(31, "define scan mode: cmd[%d]="0x%0X"\n", (Int) i,
     cmd[i])
 
   for(i = 0; i < sizeof(pdata); i++)
-    DBG(31, "define scan mode: pdata[%d]='0x%0X'\n", (Int) i,
+    DBG(31, "define scan mode: pdata[%d]="0x%0X"\n", (Int) i,
     pdata[i])
 
   pdatalen = (page == TRANSPARENCY_UNIT) ? 12
@@ -404,7 +404,7 @@ get_density_curve(Int fd, Int component, void *buf, size_t *buf_size,
 		   Int transfer_data_type)
 {
   static u_char cmd[10]
-  Int status
+  status: Int
   DBG(31, ">> get_density_curve\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -426,7 +426,7 @@ static Sane.Status
 get_density_curve_data_format(Int fd, void *buf, size_t *buf_size)
 {
   static u_char cmd[10]
-  Int status
+  status: Int
   DBG(31, ">> get_density_curve_data_format\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -449,7 +449,7 @@ set_density_curve(Int fd, Int component, void *buf, size_t *buf_size,
 		   Int transfer_data_type)
 {
   static u_char cmd[10]
-  Int status
+  status: Int
   DBG(31, ">> set_density_curve\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -473,7 +473,7 @@ set_density_curve(Int fd, Int component, void *buf, size_t *buf_size,
 /* set_density_curve_data_format(Int fd, void *buf, size_t *buf_size) */
 /* { */
 /*   static u_char cmd[10]; */
-/*   Int status, i; */
+/*   status: Int, i; */
 /*   DBG(31, ">> set_density_curve_data_format\n"); */
 
 /*   memset(cmd, 0, sizeof(cmd)); */
@@ -495,7 +495,7 @@ static Sane.Status
 get_power_on_timer(Int fd, void *buf, size_t *buf_size)
 {
   static u_char cmd[10]
-  Int status
+  status: Int
   DBG(31, ">> get power on timer\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -514,7 +514,7 @@ static Sane.Status
 get_film_status(Int fd, void *buf, size_t *buf_size)
 {
   static u_char cmd[10]
-  Int status
+  status: Int
   DBG(31, ">> get film status\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -532,7 +532,7 @@ static Sane.Status
 get_data_status(Int fd, void *buf, size_t *buf_size)
 {
   static u_char cmd[10]
-  Int status
+  status: Int
   DBG(31, ">> get_data_status\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -549,7 +549,7 @@ static Sane.Status
 reset_scanner(Int fd)
 {
   static u_char cmd[6]
-  Int status
+  status: Int
   DBG(31, ">> reset_scanner\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -565,7 +565,7 @@ execute_calibration(Int fd)
 {
   static u_char cmd[6]
   u_char data[2]
-  Int status
+  status: Int
   DBG(31, ">> execute_calibration\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -583,7 +583,7 @@ static Sane.Status
 get_calibration_status(Int fd, void *buf, size_t *buf_size)
 {
   static u_char cmd[6]
-  Int status
+  status: Int
   DBG(31, ">> get_calibration_status\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -600,7 +600,7 @@ static Sane.Status
 get_switch_status(Int fd, void *buf, size_t *buf_size)
 {
   static u_char cmd[6]
-  Int status
+  status: Int
   DBG(31, ">> get_switch_status\n")
 
   memset(cmd, 0, sizeof(cmd))
@@ -634,7 +634,7 @@ static Sane.Status
 cancel(Int fd)
 {
   static u_char cmd[10]
-  Int status
+  status: Int
   DBG(31, ">> cancel_FB1200S\n")
 
   memset(cmd, 0, sizeof(cmd))

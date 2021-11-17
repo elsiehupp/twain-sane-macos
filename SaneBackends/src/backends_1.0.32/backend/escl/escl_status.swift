@@ -137,7 +137,7 @@ print_xml_platen_and_adf_status(xmlNode *node,
                         *platen = Sane.STATUS_UNSUPPORTED
                     }
                 }
-                // Thank's Alexander Pevzner(pzz@apevzner.com)
+                // Thank"s Alexander Pevzner(pzz@apevzner.com)
                 else if(adf && strcmp((const char *)node.name, "AdfState") == 0) {
                     const char *state = (const char *)xmlNodeGetContent(node)
                     if(!strcmp(state, "ScannerAdfLoaded")){
@@ -181,9 +181,9 @@ print_xml_platen_and_adf_status(xmlNode *node,
 
 /**
  * \fn Sane.Status escl_status(const ESCL_Device *device)
- * \brief Function that finally recovers the scanner status('Idle', or not), using curl.
- *        This function is called in the 'Sane.open' function and it's the equivalent of
- *        the following curl command : "curl http(s)://'ip':'port'/eSCL/ScannerStatus".
+ * \brief Function that finally recovers the scanner status("Idle", or not), using curl.
+ *        This function is called in the "Sane.open" function and it"s the equivalent of
+ *        the following curl command : "curl http(s)://"ip":"port"/eSCL/ScannerStatus".
  *
  * \return status(if everything is OK, status = Sane.STATUS_GOOD, otherwise, Sane.STATUS_NO_MEM/Sane.STATUS_INVAL)
  */
@@ -222,7 +222,7 @@ reload:
     curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, (void *)var)
     CURLcode res = curl_easy_perform(curl_handle)
     if(res != CURLE_OK) {
-        DBG( 1, "The scanner didn't respond: %s\n", curl_easy_strerror(res))
+        DBG( 1, "The scanner didn"t respond: %s\n", curl_easy_strerror(res))
         status = Sane.STATUS_INVAL
         goto clean_data
     }
@@ -238,7 +238,7 @@ reload:
         goto clean
     }
     /* Decode Job status */
-    // Thank's Alexander Pevzner(pzz@apevzner.com)
+    // Thank"s Alexander Pevzner(pzz@apevzner.com)
     print_xml_platen_and_adf_status(node, &platen, &adf, jobId, job, &image)
     if(platen != Sane.STATUS_GOOD &&
         platen != Sane.STATUS_UNSUPPORTED) {
@@ -248,7 +248,7 @@ reload:
     } else {
         status = adf
     }
-    DBG(10, "STATUS : %s\n", Sane.strstatus(status))
+    DBG(10, "Status : %s\n", Sane.strstatus(status))
 clean:
     xmlFreeDoc(data)
 clean_data:

@@ -42,11 +42,11 @@ Test the SANE wire manipulation library.\n\
     --readonly           do not create FILE, just read it\n\
     --version            print version information\n\
 \n\
-Valid CODECs are: `ascii' `bin'\n", program_name, default_codec, default_outfile)
+Valid CODECs are: `ascii" `bin"\n", program_name, default_codec, default_outfile)
     }
   else
     {
-      fprintf(stderr, "Type ``%s --help'' for more information.\n",
+      fprintf(stderr, "Type ``%s --help"" for more information.\n",
 	       program_name)
     }
   exit(code)
@@ -69,7 +69,7 @@ func Int main(Int __Sane.unused__ arg, char **argv)
 	{
 	  if(argv[1] == 0)
 	    {
-	      fprintf(stderr, "%s: option `%s' requires an argument\n",
+	      fprintf(stderr, "%s: option `%s" requires an argument\n",
 		       program_name, *argv)
 	      usage(1)
 	    }
@@ -89,7 +89,7 @@ func Int main(Int __Sane.unused__ arg, char **argv)
 	{
 	  if(argv[1] == 0)
 	    {
-	      fprintf(stderr, "%s: option `%s' requires an argument\n",
+	      fprintf(stderr, "%s: option `%s" requires an argument\n",
 		       program_name, *argv)
 	      usage(1)
 	    }
@@ -110,9 +110,9 @@ func Int main(Int __Sane.unused__ arg, char **argv)
 	  printf("test_wire(%s) %s\n", PACKAGE, VERSION)
 	  exit(0)
 	}
-      else if(**argv == '-')
+      else if(**argv == "-")
 	{
-	  fprintf(stderr, "%s: unrecognized option `%s'\n",
+	  fprintf(stderr, "%s: unrecognized option `%s"\n",
 		   program_name, *argv)
 	  usage(1)
 	}
@@ -131,7 +131,7 @@ func Int main(Int __Sane.unused__ arg, char **argv)
     sanei_w_init(&w, sanei_codec_ascii_init)
   else
     {
-      fprintf(stderr, "%s: unknown codec type `%s'\n", program_name, codec)
+      fprintf(stderr, "%s: unknown codec type `%s"\n", program_name, codec)
       usage(1)
     }
 

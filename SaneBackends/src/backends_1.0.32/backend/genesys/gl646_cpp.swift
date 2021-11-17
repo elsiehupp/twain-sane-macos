@@ -420,8 +420,8 @@ static void gl646_gpio_output_enable(IUsbDevice& usb_dev, uint8_t value)
 }
 
 /**
- * stop scanner's motor
- * @param dev scanner's device
+ * stop scanner"s motor
+ * @param dev scanner"s device
  */
 static void gl646_stop_motor(Genesys_Device* dev)
 {
@@ -504,7 +504,7 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
         regs.find_reg(0x01).value &= ~REG_0x01_CISSET
     }
 
-    // if device has no calibration, don't enable shading correction
+    // if device has no calibration, don"t enable shading correction
     if(has_flag(dev.model.flags, ModelFlag::DISABLE_SHADING_CALIBRATION) ||
         has_flag(session.params.flags, ScanFlag::DISABLE_SHADING))
     {
@@ -634,8 +634,8 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
     unsigned forward_steps = motor.fwdbwd
     unsigned backward_steps = motor.fwdbwd
 
-    // the steps count must be different by at most 128, otherwise it's impossible to construct
-    // a proper backtracking curve. We're using slightly lower limit to allow at least a minimum
+    // the steps count must be different by at most 128, otherwise it"s impossible to construct
+    // a proper backtracking curve. We"re using slightly lower limit to allow at least a minimum
     // distance between accelerations(forward_steps, backward_steps)
     if(slope_table1.table.size() > slope_table2.table.size() + 100) {
         slope_table2.expand_table(slope_table1.table.size() - 100, 1)
@@ -652,13 +652,13 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
 
     if(forward_steps > 255) {
         if(backward_steps < (forward_steps - 255)) {
-            throw SaneException("Can't set backtracking parameters without skipping image")
+            throw SaneException("Can"t set backtracking parameters without skipping image")
         }
         backward_steps -= forward_steps - 255
     }
     if(backward_steps > 255) {
         if(forward_steps < (backward_steps - 255)) {
-            throw SaneException("Can't set backtracking parameters without skipping image")
+            throw SaneException("Can"t set backtracking parameters without skipping image")
         }
         forward_steps -= backward_steps - 255
     }
@@ -669,7 +669,7 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
     regs.find_reg(0x23).value = backward_steps
 
   /* CIS scanners read one line per color channel
-   * since gray mode use 'add' we also read 3 channels even not in
+   * since gray mode use "add" we also read 3 channels even not in
    * color mode */
     if(dev.model.is_cis) {
         regs.set24(REG_LINCNT, session.output_line_count * 3)
@@ -708,7 +708,7 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
   /* but head has moved due to shading calibration => dev.scanhead_position_primary */
   if(feedl > 0)
     {
-      /* TODO clean up this when I'll fully understand.
+      /* TODO clean up this when I"ll fully understand.
        * for now, special casing each motor */
         switch(dev.model.motor_id) {
             case MotorId::MD_5345:
@@ -862,7 +862,7 @@ void CommandSetGl646::init_regs_for_scan_session(Genesys_Device* dev, const Gene
 
 /**
  * Set all registers to default values after init
- * @param dev scannerr's device to set
+ * @param dev scannerr"s device to set
  */
 static void
 gl646_init_regs(Genesys_Device * dev)
@@ -1202,7 +1202,7 @@ static void gl646_set_fe(Genesys_Device* dev, const Genesys_Sensor& sensor, uint
                 dev.interface.write_fe_register(0x20 + i, dev.frontend.get_offset(i))
             }
       break
-      /* just can't have it to work ....
+      /* just can"t have it to work ....
          case SensorId::CCD_HP2300:
          case SensorId::CCD_HP2400:
          case SensorId::CCD_HP3670:
@@ -1230,7 +1230,7 @@ void CommandSetGl646::set_fe(Genesys_Device* dev, const Genesys_Sensor& sensor, 
 /**
  * enters or leaves power saving mode
  * limited to AFE for now.
- * @param dev scanner's device
+ * @param dev scanner"s device
  * @param enable true to enable power saving, false to leave it
  */
 void CommandSetGl646::save_power(Genesys_Device* dev, bool enable) const
@@ -1408,7 +1408,7 @@ void CommandSetGl646::load_document(Genesys_Device* dev) const
 
   if(count == 300)
     {
-      throw SaneException(Sane.STATUS_JAMMED, "can't load document")
+      throw SaneException(Sane.STATUS_JAMMED, "can"t load document")
     }
 
   /* when loading OK, document is here */
@@ -1520,7 +1520,7 @@ void CommandSetGl646::eject_document(Genesys_Device* dev) const
   /* set up to fast move before scan then move until document is detected */
   regs.init_reg(0x01, 0xb0)
 
-  /* AGOME, 2 slopes motor moving , eject 'backward' */
+  /* AGOME, 2 slopes motor moving , eject "backward" */
   regs.init_reg(0x02, 0x5d)
 
   /* motor feeding steps to 119880 */
@@ -1641,7 +1641,7 @@ void CommandSetGl646::end_scan(Genesys_Device* dev, Genesys_Register_Set* reg,
 
 /**
  * parks head
- * @param dev scanner's device
+ * @param dev scanner"s device
  * @param wait_until_home true if the function waits until head parked
  */
 void CommandSetGl646::move_back_home(Genesys_Device* dev, bool wait_until_home) const
@@ -1738,7 +1738,7 @@ void CommandSetGl646::move_back_home(Genesys_Device* dev, bool wait_until_home) 
     // starts scan
     {
         // this is effectively the same as dev.cmd_set.begin_scan(dev, sensor, &dev.reg, true)
-        // except that we don't modify the head position calculations
+        // except that we don"t modify the head position calculations
 
         // FIXME: SEQUENTIAL not really needed in this case
         Genesys_Register_Set scan_local_reg(Genesys_Register_Set::SEQUENTIAL)
@@ -1787,7 +1787,7 @@ void CommandSetGl646::move_back_home(Genesys_Device* dev, bool wait_until_home) 
 
 /**
  * init registers for shading calibration
- * we assume that scanner's head is on an area suiting shading calibration.
+ * we assume that scanner"s head is on an area suiting shading calibration.
  * We scan a full scan width area by the shading line number for the device
  */
 void CommandSetGl646::init_regs_for_shading(Genesys_Device* dev, const Genesys_Sensor& sensor,
@@ -1895,7 +1895,7 @@ void CommandSetGl646::send_gamma_table(Genesys_Device* dev, const Genesys_Sensor
 
 /** @brief this function does the led calibration.
  * this function does the led calibration by scanning one line of the calibration
- * area below scanner's top on white strip. The scope of this function is
+ * area below scanner"s top on white strip. The scope of this function is
  * currently limited to the XP200
  */
 SensorExposure CommandSetGl646::led_calibration(Genesys_Device* dev, const Genesys_Sensor& sensor,
@@ -2028,7 +2028,7 @@ SensorExposure CommandSetGl646::led_calibration(Genesys_Device* dev, const Genes
   while(!acceptable && turn < 100)
 
   DBG(DBG_info,"%s: acceptable exposure: 0x%04x,0x%04x,0x%04x\n", __func__, expr, expg, expb)
-    // BUG: we don't store the result of the last iteration to the sensor
+    // BUG: we don"t store the result of the last iteration to the sensor
     return calib_sensor.exposure
 }
 
@@ -2175,10 +2175,10 @@ static void ad_fe_offset_calibration(Genesys_Device* dev, const Genesys_Sensor& 
 
 /**
  * This function does the offset calibration by scanning one line of the calibration
- * area below scanner's top. There is a black margin and the remaining is white.
+ * area below scanner"s top. There is a black margin and the remaining is white.
  * genesys_search_start() must have been called so that the offsets and margins
  * are already known.
- * @param dev scanner's device
+ * @param dev scanner"s device
 */
 void CommandSetGl646::offset_calibration(Genesys_Device* dev, const Genesys_Sensor& sensor,
                                          Genesys_Register_Set& regs) const
@@ -2195,7 +2195,7 @@ void CommandSetGl646::offset_calibration(Genesys_Device* dev, const Genesys_Sens
         return
     }
 
-  /* setup for a RGB scan, one full sensor's width line */
+  /* setup for a RGB scan, one full sensor"s width line */
   /* resolution is the one from the final scan          */
     unsigned resolution = dev.settings.xres
     unsigned channels = 3
@@ -2334,7 +2334,7 @@ void CommandSetGl646::coarse_gain_calibration(Genesys_Device* dev, const Genesys
   float average[3]
   char title[32]
 
-  /* setup for a RGB scan, one full sensor's width line */
+  /* setup for a RGB scan, one full sensor"s width line */
   /* resolution is the one from the final scan          */
     unsigned channels = 3
 
@@ -2455,7 +2455,7 @@ void CommandSetGl646::coarse_gain_calibration(Genesys_Device* dev, const Genesys
 }
 
 /**
- * sets up the scanner's register for warming up. We scan 2 lines without moving.
+ * sets up the scanner"s register for warming up. We scan 2 lines without moving.
  *
  */
 void CommandSetGl646::init_regs_for_warmup(Genesys_Device* dev, const Genesys_Sensor& sensor,
@@ -2509,7 +2509,7 @@ void CommandSetGl646::init_regs_for_warmup(Genesys_Device* dev, const Genesys_Se
 
 /* *
  * initialize ASIC : registers, motor tables, and gamma tables
- * then ensure scanner's head is at home
+ * then ensure scanner"s head is at home
  * @param dev device description of the scanner to initialize
  */
 void CommandSetGl646::init(Genesys_Device* dev) const
@@ -2532,7 +2532,7 @@ void CommandSetGl646::init(Genesys_Device* dev) const
 
   const auto& sensor = sanei_genesys_find_sensor_any(dev)
 
-  /* if scanning session hasn't been initialized, set it up */
+  /* if scanning session hasn"t been initialized, set it up */
   if(!dev.already_initialized)
     {
       dev.dark_average_data.clear()
@@ -2693,7 +2693,7 @@ static void simple_scan(Genesys_Device* dev, const Genesys_Sensor& sensor,
 
     wait_until_buffer_non_empty(dev, true)
 
-    // now we're on target, we can read data
+    // now we"re on target, we can read data
     sanei_genesys_read_data_from_scanner(dev, data.data(), size)
 
   /* in case of CIS scanner, we must reorder data */
@@ -2737,7 +2737,7 @@ static void simple_scan(Genesys_Device* dev, const Genesys_Sensor& sensor,
 
 /**
  * update the status of the required sensor in the scanner session
- * the button fields are used to make events 'sticky'
+ * the button fields are used to make events "sticky"
  */
 void CommandSetGl646::update_hardware_sensors(Genesys_Scanner* session) const
 {
@@ -2866,7 +2866,7 @@ static void write_control(Genesys_Device* dev, const Genesys_Sensor& sensor, Int
   uint8_t control[4]
   uint32_t addr = 0xdead
 
-  /* 2300 does not write to 'control' */
+  /* 2300 does not write to "control" */
     if(dev.model.motor_id == MotorId::HP2300) {
         return
     }
@@ -2892,7 +2892,7 @@ static void write_control(Genesys_Device* dev, const Genesys_Sensor& sensor, Int
   switch(dev.model.motor_id)
     {
         case MotorId::XP200:
-      /* we put scan's dpi, not motor one */
+      /* we put scan"s dpi, not motor one */
             control[0] = resolution & 0xff
             control[1] = (resolution >> 8) & 0xff
       control[2] = dev.control[4]

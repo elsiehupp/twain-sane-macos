@@ -178,7 +178,7 @@ import sane/sanei_debug
 #define EPSON_LEVEL_D7		12
 #define EPSON_LEVEL_D8		13
 
-/* there is also a function level "A5", which I'm ignoring here until somebody can
+/* there is also a function level "A5", which I"m ignoring here until somebody can
  * convince me that this is still needed. The A5 level was for the GT-300, which
  * was(is) a monochrome only scanner. So if somebody really wants to use this
  * scanner with SANE get in touch with me and we can work something out - khk
@@ -759,7 +759,7 @@ print_params(const Sane.Parameters params)
 {
 	DBG(6, "params.format          = %d\n", params.format)
 	DBG(6, "params.last_frame      = %d\n", params.last_frame)
-	DBG(6, "params.bytes_per_line  = %d\n", params.bytes_per_line)
+	DBG(6, "params.bytesPerLine  = %d\n", params.bytesPerLine)
 	DBG(6, "params.pixels_per_line = %d\n", params.pixels_per_line)
 	DBG(6, "params.lines           = %d\n", params.lines)
 	DBG(6, "params.depth           = %d\n", params.depth)
@@ -976,7 +976,7 @@ static Sane.Status detect_scsi(struct Epson_Scanner *s)
 
 	if(strncmp(vendor, "EPSON", 5) != 0) {
 		DBG(1,
-		    "%s: device doesn't look like an EPSON scanner\n",
+		    "%s: device doesn"t look like an EPSON scanner\n",
 		    __func__)
 		return Sane.STATUS_INVAL
 	}
@@ -1080,7 +1080,7 @@ scanner_create(struct Epson_Device *dev, Sane.Status *status)
 }
 
 static struct Epson_Scanner *
-device_detect(const char *name, Int type, Bool assume_valid, Sane.Status *status)
+device_detect(const char *name, type: Int, Bool assume_valid, Sane.Status *status)
 {
 	struct Epson_Scanner *s
 	struct Epson_Device *dev
@@ -1184,7 +1184,7 @@ close:
 
 
 static Sane.Status
-attach(const char *name, Int type)
+attach(const char *name, type: Int)
 {
 	Sane.Status status
 	Epson_Scanner *s
@@ -1501,12 +1501,12 @@ init_options(Epson_Scanner *s)
 		Sane.CONSTRAINT_STRING_LIST
 
 	/*
-	 * special handling for D1 function level - at this time I'm not
-	 * testing for D1, I'm just assuming that all D level scanners will
+	 * special handling for D1 function level - at this time I"m not
+	 * testing for D1, I"m just assuming that all D level scanners will
 	 * behave the same way. This has to be confirmed with the next D-level
 	 * scanner
 	 */
-	if(s.hw.cmd.level[0] == 'D') {
+	if(s.hw.cmd.level[0] == "D") {
 		s.opt[OPT_GAMMA_CORRECTION].size =
 			max_string_size(gamma_list_d)
 		s.opt[OPT_GAMMA_CORRECTION].constraint.string_list =
@@ -2164,7 +2164,7 @@ change_source(Epson_Scanner *s, Int optindex, char *value)
 	Int force_max = Sane.FALSE
 	Bool dummy
 
-	DBG(1, "%s: optindex = %d, source = '%s'\n", __func__, optindex,
+	DBG(1, "%s: optindex = %d, source = "%s"\n", __func__, optindex,
 	    value)
 
 	/* reset the scanner when we are changing the source setting -
@@ -2241,7 +2241,7 @@ change_source(Epson_Scanner *s, Int optindex, char *value)
 	}
 
 	/* special handling for FilmScan 200 */
-	if(s.hw.cmd.level[0] == 'F')
+	if(s.hw.cmd.level[0] == "F")
 		activateOption(s, OPT_FILM_TYPE, &dummy)
 
 	s.opt[OPT_BR_X].constraint.range = s.hw.x_range
@@ -2568,7 +2568,7 @@ Sane.start(Sane.Handle handle)
 	/*
 	 * set focus after we set scanning parameters because the scanner will
 	 * use the middle of the scanning area for autofocus. If we want to
-	 * support a defined x,y position for autofocus, we'd need to send
+	 * support a defined x,y position for autofocus, we"d need to send
 	 * specific scanning paramters just for autofocus.
 	 */
 	if(s.hw.focusSupport == Sane.TRUE) {
@@ -2660,7 +2660,7 @@ Sane.start(Sane.Handle handle)
 			if(s.line_buffer[i] != NULL)
 				free(s.line_buffer[i])
 
-			s.line_buffer[i] = malloc(s.params.bytes_per_line)
+			s.line_buffer[i] = malloc(s.params.bytesPerLine)
 			if(s.line_buffer[i] == NULL) {
 				DBG(1, "out of memory(line %d)\n", __LINE__)
 				return Sane.STATUS_NO_MEM
@@ -2673,7 +2673,7 @@ Sane.start(Sane.Handle handle)
 	 * the buffer will have to hold the image data plus
 	 * an error code in the extended handshaking mode.
 	 */
-	s.buf = realloc(s.buf, (s.lcount * s.params.bytes_per_line) + 1)
+	s.buf = realloc(s.buf, (s.lcount * s.params.bytesPerLine) + 1)
 	if(s.buf == NULL)
 		return Sane.STATUS_NO_MEM
 
@@ -2704,7 +2704,7 @@ Sane.start(Sane.Handle handle)
 		status = e2_start_ext_scan(s)
 
 		/* sometimes the scanner gives an io error when
-		 * it's warming up.
+		 * it"s warming up.
 		 */
 		if(status == Sane.STATUS_IO_ERROR) {
 			status = e2_wait_warm_up(s)
@@ -2731,7 +2731,7 @@ Sane.start(Sane.Handle handle)
 }
 
 static inline Int
-get_color(Int status)
+get_color(status: Int)
 {
 	switch((status >> 2) & 0x03) {
 	case 1:
@@ -2782,12 +2782,12 @@ Sane.read(Sane.Handle handle, Sane.Byte *data, Int max_length,
 
 	DBG(18, "moving data %p %p, %d(%d lines)\n",
 		s.ptr, s.end,
-		max_length, max_length / s.params.bytes_per_line)
+		max_length, max_length / s.params.bytesPerLine)
 
 	e2_copy_image_data(s, data, max_length, length)
 
 	DBG(18, "%d lines read, eof: %d, canceling: %d, status: %d\n",
-		*length / s.params.bytes_per_line,
+		*length / s.params.bytesPerLine,
 		s.canceling, s.eof, status)
 
 	/* continue reading if appropriate */

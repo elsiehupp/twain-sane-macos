@@ -878,7 +878,7 @@ void test_node_calibrate_8bit()
     auto out_data = stack.get_all_data()
 
     Data expected_data = {
-        // note that we don't handle rounding properly in the implementation
+        // note that we don"t handle rounding properly in the implementation
         0x80, 0xc1, 0x41
     ]
 
@@ -914,7 +914,7 @@ void test_node_calibrate_16bit()
     auto out_data = stack.get_all_data()
 
     Data expected_data = {
-        // note that we don't handle rounding properly in the implementation
+        // note that we don"t handle rounding properly in the implementation
         0x00, 0x80, 0xff, 0xbf, 0x00, 0x40
     ]
 

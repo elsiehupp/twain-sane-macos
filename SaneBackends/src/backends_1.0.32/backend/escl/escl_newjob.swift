@@ -69,7 +69,7 @@ static const char settings[] =
 
 /**
  * \fn static size_t download_callback(void *str, size_t size, size_t nmemb, void *userp)
- * \brief Callback function that stocks in memory the content of the 'job'. Example below :
+ * \brief Callback function that stocks in memory the content of the "job". Example below :
  *        "Trying 192.168.14.150...
  *         TCP_NODELAY set
  *         Connected to 192.168.14.150 (192.168.14.150) port 80
@@ -88,7 +88,7 @@ static const char settings[] =
  *         <
  *         Closing connection 0"
  *
- * \return realsize(size of the content needed -> the 'job')
+ * \return realsize(size of the content needed -> the "job")
  */
 static size_t
 download_callback(void *str, size_t size, size_t nmemb, void *userp)
@@ -120,11 +120,11 @@ add_support_option(char *key, Int val)
 /**
  * \fn char *escl_newjob(capabilities_t *scanner, const ESCL_Device *device, Sane.Status *status)
  * \brief Function that, using curl, uploads the data(composed by the scanner capabilities) to the
- *        server to download the 'job' and recover the 'new job' (char *result), in LOCATION.
- *        This function is called in the 'Sane.start' function and it's the equivalent of the
- *        following curl command : "curl -v POST -d cap.xml http(s)://'ip':'port'/eSCL/ScanJobs".
+ *        server to download the "job" and recover the "new job" (char *result), in LOCATION.
+ *        This function is called in the "Sane.start" function and it"s the equivalent of the
+ *        following curl command : "curl -v POST -d cap.xml http(s)://"ip":"port"/eSCL/ScanJobs".
  *
- * \return result(the 'new job', situated in LOCATION)
+ * \return result(the "new job", situated in LOCATION)
  */
 char *
 escl_newjob(capabilities_t *scanner, const ESCL_Device *device, Sane.Status *status)
@@ -286,16 +286,16 @@ wake_up_device:
             if(download.memory != NULL) {
                 char *tmp_location = strstr(download.memory, "Location:")
                 if(tmp_location) {
-                    temporary = strchr(tmp_location, '\r')
+                    temporary = strchr(tmp_location, "\r")
                     if(temporary == NULL)
-                        temporary = strchr(tmp_location, '\n')
+                        temporary = strchr(tmp_location, "\n")
                     if(temporary != NULL) {
-                       *temporary = '\0'
-                       location = strrchr(tmp_location,'/')
+                       *temporary = "\0"
+                       location = strrchr(tmp_location,"/")
                        if(location) {
                           result = strdup(location)
                           DBG( 1, "Create NewJob : %s\n", result)
-                          *temporary = '\n'
+                          *temporary = "\n"
                           wakup_count = 0
                        }
                     }

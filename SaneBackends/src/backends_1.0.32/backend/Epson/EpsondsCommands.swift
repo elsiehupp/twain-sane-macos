@@ -72,22 +72,22 @@ esci2_parse_block(char *buf, Int len, void *userdata, Sane.Status(*cb)(void *use
 
 		char param[4]
 
-		while(*start != '#' && start < end)
+		while(*start != "#" && start < end)
 			start++
 
-		if(*start != '#')
+		if(*start != "#")
 			break
 
 		param[0] = *++start
 		param[1] = *++start
 		param[2] = *++start
-		param[3] = '\0'
+		param[3] = "\0"
 
 		if(strncmp("---", param, 3) == 0)
 			break
 
 		/* ugly hack to skip over GMT in RESA */
-		if(strncmp("GMT", param, 3) == 0 && *(start + 5) == 'h') {
+		if(strncmp("GMT", param, 3) == 0 && *(start + 5) == "h") {
 			start = start + 4 + 0x100
 			continue
 		}
@@ -97,7 +97,7 @@ esci2_parse_block(char *buf, Int len, void *userdata, Sane.Status(*cb)(void *use
 			Int tlen
 			char *next = start
 
-			while(*next != '#' && *next != 0x00 && next < end)
+			while(*next != "#" && *next != 0x00 && next < end)
 				next++
 
 			tlen = next - start - 1
@@ -142,7 +142,7 @@ esci2_check_header(const char *cmd, const char *buf, unsigned Int *more)
 	/* INFOx0000100#.... */
 
 	/* read the answer len */
-	if(buf[4] != 'x') {
+	if(buf[4] != "x") {
 		DBG(1, "unknown type in header: %c\n", buf[4])
 		return 0
 	}
@@ -179,7 +179,7 @@ static Sane.Status esci2_cmd(epsonds_scanner* s,
 	// merge ParameterBlock size
 	sprintf(header, "%4.4sx%07x", cmd, (unsigned Int)plen)
 
-	// send RequestBlock, request immediate response if there's no payload
+	// send RequestBlock, request immediate response if there"s no payload
 	status = eds_txrx(s, header, len, rbuf, (plen > 0) ? 0 : 64)
 	if(status != Sane.STATUS_GOOD) {
 		return status
@@ -271,15 +271,15 @@ static Int decode_value(char *buf, Int len)
 	char tmp[10]
 
 	memcpy(tmp, buf, len)
-	tmp[len] = '\0'
+	tmp[len] = "\0"
 
-	if(buf[0] == 'd' && len == 4) {
+	if(buf[0] == "d" && len == 4) {
 		return strtol(buf + 1, NULL, 10)
-	} else if(buf[0] == 'i' && len == 8) {
+	} else if(buf[0] == "i" && len == 8) {
 		return strtol(buf + 1, NULL, 10)
-	} else if(buf[0] == 'x' && len == 8) {
+	} else if(buf[0] == "x" && len == 8) {
 		return strtol(buf + 1, NULL, 16)
-	} else if(buf[0] == 'h' && len == 4) {
+	} else if(buf[0] == "h" && len == 4) {
 		return strtol(buf + 1, NULL, 16)
 	}
 
@@ -293,10 +293,10 @@ static char *decode_binary(char *buf, Int len)
 	Int hl
 
 	memcpy(tmp, buf, 4)
-	tmp[4] = '\0'
+	tmp[4] = "\0"
 	len -= 4
 
-	if(buf[0] != 'h')
+	if(buf[0] != "h")
 		return NULL
 
 	hl = strtol(tmp + 1, NULL, 16)
@@ -305,7 +305,7 @@ static char *decode_binary(char *buf, Int len)
 
 		char *v = malloc(hl + 1)
 		memcpy(v, buf + 4, hl)
-		v[hl] = '\0'
+		v[hl] = "\0"
 
 		return v
 	}
@@ -321,8 +321,8 @@ static char *decode_string(char *buf, Int len)
 
 	/* trim white space at the end */
 	p = s + strlen(s)
-	while(*--p == ' ')
-		*p = '\0'
+	while(*--p == " ")
+		*p = "\0"
 
 	return s
 }
@@ -331,7 +331,7 @@ static void debug_token(Int level, const char *func, char *token, Int len)
 {
 	char *tdata = malloc(len + 1)
 	memcpy(tdata, token + 3, len)
-	tdata[len] = '\0'
+	tdata[len] = "\0"
 
 	DBG(level, "%s: %3.3s / %s / %d\n", func, token, tdata, len)
 
@@ -347,7 +347,7 @@ static Sane.Status info_cb(void *userdata, char *token, Int len)
 		debug_token(DBG_LEVEL, __func__, token, len)
 	}
 
-	/* pointer to the token's value */
+	/* pointer to the token"s value */
 	value = token + 3
 
 	/* nrd / nrdBUSY */
@@ -672,7 +672,7 @@ static Sane.Status capa_cb(void *userdata, char *token, Int len)
 
 		char *p = token + 3 + 4
 
-		if(p[0] == 'i') {
+		if(p[0] == "i") {
 
 			Int min = decode_value(p, 8)
 			Int max = decode_value(p + 8, 8)
@@ -689,7 +689,7 @@ static Sane.Status capa_cb(void *userdata, char *token, Int len)
 
 		char *p = token + 3 + 4
 
-		if(p[0] == 'i') {
+		if(p[0] == "i") {
 
 			var i: Int
 			Int count = (len - 4) / 8
@@ -800,7 +800,7 @@ static Sane.Status img_cb(void *userdata, char *token, Int len)
 
 	/* psti0000256i0000000i0000945 / 24 */
 
-	/* integer comparison first so it's faster */
+	/* integer comparison first so it"s faster */
 	if(len == 24 && strncmp("pst", token, 3) == 0) {
 
 		s.dummy = decode_value(token + 3 + 8, 8)
@@ -823,7 +823,7 @@ static Sane.Status img_cb(void *userdata, char *token, Int len)
 	/* typIMGA or typIMGB */
 	if(len == 4 && strncmp("typ", token, 3) == 0) {
 
-		if(token[6] == 'B')
+		if(token[6] == "B")
 			s.backside = 1
 		else
 			s.backside = 0
@@ -841,13 +841,13 @@ static Sane.Status img_cb(void *userdata, char *token, Int len)
 		DBG(1, "%s: error on option %3.3s, cause %4.4s\n",
 			__func__, option, cause)
 
-		if(cause[0] == 'P' && cause[1] == 'J')
+		if(cause[0] == "P" && cause[1] == "J")
 			return Sane.STATUS_JAMMED
 
-		if(cause[0] == 'P' && cause[1] == 'E')
+		if(cause[0] == "P" && cause[1] == "E")
 			return Sane.STATUS_NO_DOCS
 
-		if(cause[0] == 'O' && cause[1] == 'P' && cause[2] == 'N')
+		if(cause[0] == "O" && cause[1] == "P" && cause[2] == "N")
 			return Sane.STATUS_COVER_OPEN
 
 		return Sane.STATUS_IO_ERROR

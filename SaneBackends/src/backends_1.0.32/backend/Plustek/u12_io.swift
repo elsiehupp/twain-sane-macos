@@ -52,7 +52,7 @@
 /** Format:
  * cacheLen[0]  =  ASIC-ID
  * cacheLen[1]  =  SCANSTATE ?
- * cacheLen[2]  =  REG-STATUS ?
+ * cacheLen[2]  =  REG-Status ?
  * cacheLen[3]  =  ??
  * cacheLen[4]  =  FIFO-LEN(RED)   HiByte  LW
  * cacheLen[5]  =  FIFO-LEN(RED)   LoByte  LW
@@ -463,7 +463,7 @@ static void u12io_DataToScanner( U12_Device *dev , Sane.Byte bValue )
 	outb_ctrl( dev.fd, _CTRL_END_DATAWRITE )
 }
 
-/** Write data to specific ASIC's register
+/** Write data to specific ASIC"s register
  */
 static Sane.Status u12io_DataToRegister( U12_Device *dev,
                                          Sane.Byte reg, Sane.Byte data )
@@ -487,7 +487,7 @@ static Sane.Status u12io_DataToRegister( U12_Device *dev,
 	return Sane.STATUS_GOOD
 }
 
-/** Write data-buffer to specific ASIC's register
+/** Write data-buffer to specific ASIC"s register
  *  The format in the buffer is
  *  reg(0),val(0),reg(1),val(1),..., reg(len-1),val(len-1)
  */

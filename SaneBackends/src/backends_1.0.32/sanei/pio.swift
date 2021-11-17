@@ -109,13 +109,13 @@ import Sane.saneopts
 
 #define PORT_DEV	"/dev/port"
 
-/*    base    278 (lpt2)
+/*    base    278(lpt2)
 
               ioport  stat    ctrl
       offs    0       1       2
       len     1       1       1     */
 
-/* Port definitions(`N' at end begin of label means negated signal) */
+/* Port definitions(`N" at end begin of label means negated signal) */
 
 #define PIO_IOPORT		0	/* rel. addr io port      */
 
@@ -430,7 +430,7 @@ pio_open(const char *dev, Sane.Status * status)
 
     if((end == dev) || *end)
       {
-	DBG(1, "sanei_pio_open: `%s' is not a valid port number\n", dev)
+	DBG(1, "sanei_pio_open: `%s" is not a valid port number\n", dev)
 	*status = Sane.STATUS_INVAL
 	return -1
       }

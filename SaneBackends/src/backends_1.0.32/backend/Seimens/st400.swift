@@ -43,7 +43,7 @@ vim: ts=4 sw=4 noexpandtab
    Pascal source).  Both are quite primitive, and so is this backend...
 
    Version numbers of this backend follow SANE version scheme:  The first
-   number is SANE's major version(i.e. the version of the SANE API that
+   number is SANE"s major version(i.e. the version of the SANE API that
    this backend conforms to), the second is the version of this backend.
    Thus, version 1.2 is the second release of this backend for SANE v1.
 
@@ -56,7 +56,7 @@ vim: ts=4 sw=4 noexpandtab
                       it was only used to track down a bug in saned.  Some
 					  minor cleanups.  Removed illegal version check(only
 					  frontends should do this).  Made "maxread" and "delay"
-					  config options instead of compile-time #define's.
+					  config options instead of compile-time #define"s.
 					  Added model check via INQUIRY, and related changes.
    1.4 (29 Jun 1999): New config options to configure scanner models.
 					  See st400.conf for details.  These options are only
@@ -385,7 +385,7 @@ st400_fill_scanner_buffer( ST400_Device *dev )
 	if( dev.status.eof )
 		return Sane.STATUS_EOF
 
-	dev.wh = dev.model.bufsize / dev.params.bytes_per_line
+	dev.wh = dev.model.bufsize / dev.params.bytesPerLine
 	if( dev.wh > dev.lines_to_read )
 		dev.wh = dev.lines_to_read
 	DBG(DVAR, "dev.wh = %hu\n", dev.wh)
@@ -400,7 +400,7 @@ st400_fill_scanner_buffer( ST400_Device *dev )
 
 	dev.wy += dev.wh
 	dev.lines_to_read -= dev.wh
-	dev.bytes_in_scanner = dev.wh * dev.params.bytes_per_line
+	dev.bytes_in_scanner = dev.wh * dev.params.bytesPerLine
 
 	return Sane.STATUS_GOOD
 }
@@ -582,7 +582,7 @@ st400_config_get_single_arg(char *opt, unsigned long *argP, size_t linenum)
 	if( sscanf(opt, "%lu%n", argP, &n) == 1 ) {
 		opt += n
 		opt = (char *)sanei_config_skip_whitespace(opt)
-		if( *opt == '\0' )
+		if( *opt == "\0" )
 			return Sane.STATUS_GOOD
 		else {
 			DBG(DERR, "extraneous arguments at line %lu: %s\n", (u_long)linenum, opt)
@@ -692,7 +692,7 @@ Sane.init( Int *versionP, Sane.Auth_Callback authorize )
 		while( sanei_config_read(line, sizeof(line), fp) ) {
 			++linenum
 			str = line
-			if( str[0] == '#' )
+			if( str[0] == "#" )
 				continue;	/* ignore comments */
 			str = (char *)sanei_config_skip_whitespace(str)
 			len = strlen(str)
@@ -1087,18 +1087,18 @@ Sane.get_parameters( Sane.Handle handle, Sane.Parameters *paramsP )
 				dev.params.pixels_per_line += 7
 				dev.params.pixels_per_line &= ~7
 
-				/*dev.params.bytes_per_line = (dev.params.pixels_per_line + 7)/8;*/
-				dev.params.bytes_per_line = dev.params.pixels_per_line/8
+				/*dev.params.bytesPerLine = (dev.params.pixels_per_line + 7)/8;*/
+				dev.params.bytesPerLine = dev.params.pixels_per_line/8
 			}
 			else
-				dev.params.bytes_per_line = dev.params.pixels_per_line
+				dev.params.bytesPerLine = dev.params.pixels_per_line
 
 			dev.x = Sane.UNFIX(dev.val[OPT_TL_X]) * dots_per_mm + 0.5
 			dev.y = Sane.UNFIX(dev.val[OPT_TL_Y]) * dots_per_mm + 0.5
 			dev.w = dev.params.pixels_per_line
 			dev.h = dev.params.lines
 
-			DBG(DVAR, "parameters: bpl=%d, x=%hu, y=%hu, w=%hu, h=%hu\n", (Int)dev.params.bytes_per_line, dev.x, dev.y, dev.w, dev.h)
+			DBG(DVAR, "parameters: bpl=%d, x=%hu, y=%hu, w=%hu, h=%hu\n", (Int)dev.params.bytesPerLine, dev.x, dev.y, dev.w, dev.h)
 		}
 	}
 

@@ -883,7 +883,7 @@ get_lineart_line_101x(Mustek_pp_Handle * dev, Sane.Byte * buf)
 
   get_grayscale_line_101x(dev, gbuf)
 
-  memset(buf, 0xFF, dev.params.bytes_per_line)
+  memset(buf, 0xFF, dev.params.bytesPerLine)
 
   for(ctr = 0; ctr < dev.params.pixels_per_line; ctr++)
     buf[ctr >> 3] ^= ((gbuf[ctr] > priv.bw) ? (1 << (7 - ctr % 8)) : 0)
@@ -898,7 +898,7 @@ get_color_line_101x(Mustek_pp_Handle * dev, Sane.Byte * buf)
   Int gotline = 0, ctr
   Int gored, goblue, gogreen
   mustek_pp_ccd300_priv *priv = dev.priv
-  Int step = priv.line_step
+  step: Int = priv.line_step
 
   do
     {
@@ -1085,7 +1085,7 @@ return_home_1013 (Mustek_pp_Handle * dev)
   Int ctr
   mustek_pp_ccd300_priv *priv = dev.priv
 
-  /* 1013 can't return home all alone, nowait ignored */
+  /* 1013 can"t return home all alone, nowait ignored */
 
   for(ctr = 0; ctr < 4500; ctr++)
     {
@@ -1600,7 +1600,7 @@ ccd300_init(Int options, Sane.String_Const port,
 
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(2, "ccd300_init: couldn't attach to port ``%s'' (%s)\n",
+      DBG(2, "ccd300_init: couldn"t attach to port ``%s"" (%s)\n",
 	   port, Sane.strstatus(status))
       return status
     }
@@ -1624,7 +1624,7 @@ ccd300_init(Int options, Sane.String_Const port,
 
   ccd &= (asic == CCD300_ASIC1013 ? 0x04 : 0x05)
 
-  DBG(3, "ccd_init: found scanner on port ``%s'' (ASIC id %#02x, CCD %d)\n",
+  DBG(3, "ccd_init: found scanner on port ``%s"" (ASIC id %#02x, CCD %d)\n",
        port, asic, ccd)
 
   return attach(port, name, MUSTEK_PP_CCD300, options)
@@ -1663,7 +1663,7 @@ ccd300_open(String port, Int caps, Int * fd)
       return Sane.STATUS_INVAL
     }
 
-  DBG(3, "ccd300_open: called for port ``%s''\n", port)
+  DBG(3, "ccd300_open: called for port ``%s""\n", port)
 
   status = sanei_pa4s2_open(port, fd)
 
@@ -1680,7 +1680,7 @@ ccd300_setup(Sane.Handle handle)
   mustek_pp_ccd300_priv *priv
   unsigned char asic, ccd
 
-  DBG(3, "ccd300_setup: called for port ``%s''\n", dev.dev.port)
+  DBG(3, "ccd300_setup: called for port ``%s""\n", dev.dev.port)
 
   if((priv = malloc(sizeof(mustek_pp_ccd300_priv))) == NULL)
     {
@@ -1722,7 +1722,7 @@ ccd300_close(Sane.Handle handle)
   Mustek_pp_Handle *dev = handle
   mustek_pp_ccd300_priv *priv = dev.priv
 
-  DBG(3, "ccd300_close: called for port ``%s''\n", dev.dev.port)
+  DBG(3, "ccd300_close: called for port ``%s""\n", dev.dev.port)
 
   sanei_pa4s2_enable(dev.fd, Sane.TRUE)
   lamp(dev, Sane.FALSE)
@@ -1743,7 +1743,7 @@ ccd300_config(Sane.Handle handle, Sane.String_Const optname,
   mustek_pp_ccd300_priv *priv = dev.priv
   Int value = -1
 
-  DBG(3, "ccd300_config: called for port ``%s'' (%s%s%s)\n",
+  DBG(3, "ccd300_config: called for port ``%s"" (%s%s%s)\n",
        dev.dev.port,
        optname, (optval ? " = " : ""), (optval ? optval : ""))
 
@@ -1752,7 +1752,7 @@ ccd300_config(Sane.Handle handle, Sane.String_Const optname,
 
       if(!optval)
 	{
-	  DBG(1, "ccd300_config: missing value for option ``bw''\n")
+	  DBG(1, "ccd300_config: missing value for option ``bw""\n")
 	  return Sane.STATUS_INVAL
 	}
 
@@ -1762,7 +1762,7 @@ ccd300_config(Sane.Handle handle, Sane.String_Const optname,
       if((value < 0) || (value > 255))
 	{
 	  DBG(1,
-	       "ccd300_config: value ``%s'' for option ``bw'' is out of range(0 <= bw <= 255)\n",
+	       "ccd300_config: value ``%s"" for option ``bw"" is out of range(0 <= bw <= 255)\n",
 	       optval)
 	  return Sane.STATUS_INVAL
 	}
@@ -1775,7 +1775,7 @@ ccd300_config(Sane.Handle handle, Sane.String_Const optname,
 
       if(!optval)
 	{
-	  DBG(1, "ccd300_config: missing value for option ``waitbank''\n")
+	  DBG(1, "ccd300_config: missing value for option ``waitbank""\n")
 	  return Sane.STATUS_INVAL
 	}
 
@@ -1784,7 +1784,7 @@ ccd300_config(Sane.Handle handle, Sane.String_Const optname,
       if(value < 0)
 	{
 	  DBG(1,
-	       "ccd300_config: value ``%s'' for option ``waitbank'' is out of range(>= 0)\n",
+	       "ccd300_config: value ``%s"" for option ``waitbank"" is out of range(>= 0)\n",
 	       optval)
 	  return Sane.STATUS_INVAL
 	}
@@ -1796,7 +1796,7 @@ ccd300_config(Sane.Handle handle, Sane.String_Const optname,
 
       if(!optval)
 	{
-	  DBG(1, "ccd300_config: missing value for option ``top''\n")
+	  DBG(1, "ccd300_config: missing value for option ``top""\n")
 	  return Sane.STATUS_INVAL
 	}
 
@@ -1805,7 +1805,7 @@ ccd300_config(Sane.Handle handle, Sane.String_Const optname,
       if(value < 0)
 	{
 	  DBG(1,
-	       "ccd300_config: value ``%s'' for option ``top'' is out of range(>= 0)\n",
+	       "ccd300_config: value ``%s"" for option ``top"" is out of range(>= 0)\n",
 	       optval)
 	  return Sane.STATUS_INVAL
 	}
@@ -1814,7 +1814,7 @@ ccd300_config(Sane.Handle handle, Sane.String_Const optname,
     }
   else
     {
-      DBG(1, "ccd300_config: unknown option ``%s''", optname)
+      DBG(1, "ccd300_config: unknown option ``%s""", optname)
       return Sane.STATUS_INVAL
     }
 
@@ -1829,7 +1829,7 @@ ccd300_stop(Sane.Handle handle)
   mustek_pp_ccd300_priv *priv = dev.priv
   Int cnt
 
-  DBG(3, "ccd300_stop: stopping scan operating on port ``%s''\n",
+  DBG(3, "ccd300_stop: stopping scan operating on port ``%s""\n",
        dev.dev.port)
 
   sanei_pa4s2_enable(dev.fd, Sane.TRUE)
@@ -1866,7 +1866,7 @@ ccd300_start(Sane.Handle handle)
   Mustek_pp_Handle *dev = handle
   mustek_pp_ccd300_priv *priv = dev.priv
 
-  DBG(3, "ccd300_start: called for port ``%s''\n", dev.dev.port)
+  DBG(3, "ccd300_start: called for port ``%s""\n", dev.dev.port)
 
   if(dev.res <= 100)
     priv.hwres = 100
@@ -2022,7 +2022,7 @@ ccd300_read(Sane.Handle handle, Sane.Byte * buffer)
   Mustek_pp_Handle *dev = handle
   mustek_pp_ccd300_priv *priv = dev.priv
 
-  DBG(3, "ccd300_read: receiving one line from port ``%s''\n",
+  DBG(3, "ccd300_read: receiving one line from port ``%s""\n",
        dev.dev.port)
 
   sanei_pa4s2_enable(dev.fd, Sane.TRUE)

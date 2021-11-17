@@ -673,7 +673,7 @@ bool ImagePipelineNodeExtract::get_next_row_data(std::uint8_t* out_data)
         current_line_++
         return got_data
     }
-    // now we're sure that the following holds:
+    // now we"re sure that the following holds:
     // offset_y_ <= current_line_ < offset_y_ + source_.get_height())
     got_data &= source_.get_next_row_data(cached_line_.data())
 
@@ -683,7 +683,7 @@ bool ImagePipelineNodeExtract::get_next_row_data(std::uint8_t* out_data)
     auto x_pad_after = width_ > x_src_width ? width_ - x_src_width : 0
 
     if(get_pixel_format_depth(format) < 8) {
-        // we need to copy pixels one-by-one as there's no per-bit addressing
+        // we need to copy pixels one-by-one as there"s no per-bit addressing
         for(std::size_t i = 0; i < x_src_width; ++i) {
             auto pixel = get_raw_pixel_from_row(cached_line_.data(), i + offset_x_, format)
             set_raw_pixel_to_row(out_data, i, pixel, format)

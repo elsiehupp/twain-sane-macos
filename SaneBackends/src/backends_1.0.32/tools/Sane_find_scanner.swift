@@ -199,14 +199,14 @@ hexdump(const char *comment, unsigned char *buf, const Int length)
 
       if((i % 16) == 0)
 	{
-	  /* It's a new line */
+	  /* It"s a new line */
 	  printf("  %s    %s\n", line, asc_buf)
 
 	start:
 	  ptr = line
-	  *ptr = '\0'
+	  *ptr = "\0"
 	  asc_ptr = asc_buf
-	  *asc_ptr = '\0'
+	  *asc_ptr = "\0"
 
 	  ptr += sprintf(ptr, "  %3.3d:", i)
 	}
@@ -221,7 +221,7 @@ scanner_do_scsi_inquiry(unsigned char *buffer, Int sfd)
   size_t size
   Sane.Status status
 
-  memset(buffer, '\0', 256);	/* clear buffer */
+  memset(buffer, "\0", 256);	/* clear buffer */
 
   size = 5;			/* first get only 5 bytes to get size of
 				   inquiry_return_block */
@@ -279,19 +279,19 @@ scanner_identify_scsi_scanner(unsigned char *buffer, Int sfd,
   get_scsi_inquiry_version((char *) buffer, (char *) version)
 
   pp = &vendor[7]
-  vendor[8] = '\0'
-  while(pp >= vendor && (*pp == ' ' || *pp >= 127))
-    *pp-- = '\0'
+  vendor[8] = "\0"
+  while(pp >= vendor && (*pp == " " || *pp >= 127))
+    *pp-- = "\0"
 
   pp = &product[15]
-  product[16] = '\0'
-  while(pp >= product && (*pp == ' ' || *pp >= 127))
-    *pp-- = '\0'
+  product[16] = "\0"
+  while(pp >= product && (*pp == " " || *pp >= 127))
+    *pp-- = "\0"
 
   pp = &version[3]
-  version[4] = '\0'
-  while(pp >= version && (*pp == ' ' || *(pp - 1) >= 127))
-    *pp-- = '\0'
+  version[4] = "\0"
+  while(pp >= version && (*pp == " " || *(pp - 1) >= 127))
+    *pp-- = "\0"
 
   device_found = Sane.TRUE
   printf("found SCSI %s \"%s %s %s\" at %s\n",
@@ -357,7 +357,7 @@ check_usb_file(char *file_name)
       if(force)
 	{
 	  if(verbose > 1)
-	    printf("checking %s even though doesn't look like a "
+	    printf("checking %s even though doesn"t look like a "
 		    "USB device...", file_name)
 	}
       else
@@ -807,7 +807,7 @@ get_libusb_string_descriptor(libusb_device_handle *hdl, Int index)
   size = buffer[0] - 2
   for(i = 0; i < (size / 2); i++)
     buffer[i] = buffer[2 + 2 * i]
-  buffer[i] = '\0'
+  buffer[i] = "\0"
 
   return(char *) buffer
 }
@@ -1108,19 +1108,19 @@ scan_directory(char *dir_name)
   if(stat(dir_name, &stat_buf) < 0)
     {
       if(verbose > 1)
-	printf("cannot stat `%s' (%s)\n", dir_name, strerror(errno))
+	printf("cannot stat `%s" (%s)\n", dir_name, strerror(errno))
       return 0
     }
   if(!S_ISDIR(stat_buf.st_mode))
     {
       if(verbose > 1)
-	printf("`%s' is not a directory\n", dir_name)
+	printf("`%s" is not a directory\n", dir_name)
       return 0
     }
   if((dir = opendir(dir_name)) == 0)
     {
       if(verbose > 1)
-	printf("cannot read directory `%s' (%s)\n", dir_name,
+	printf("cannot read directory `%s" (%s)\n", dir_name,
 		strerror(errno))
       return 0
     }
@@ -1153,7 +1153,7 @@ get_next_file(char *dir_name, DIR * dir)
 }
 
 #if defined(WIN32_SCSI)
-/* Return a list of potential scanners. There's a lot of hardcoded values here that might break on a system with lots of scsi devices. */
+/* Return a list of potential scanners. There"s a lot of hardcoded values here that might break on a system with lots of scsi devices. */
 static char **build_scsi_dev_list(void)
 {
 	char **dev_list
@@ -1420,19 +1420,19 @@ parse_file(char *filename)
   while(sanei_config_read(line, PATH_MAX, parsefile))
     {
       if(verbose > 2)
-	printf("parsing line: `%s'\n", line)
+	printf("parsing line: `%s"\n", line)
       p = sanei_config_get_string(line, &token)
-      if(!token || !p || token[0] == '\0')
+      if(!token || !p || token[0] == "\0")
 	continue
-      if(token[1] != ':')
+      if(token[1] != ":")
 	{
 	  if(verbose > 2)
-	    printf("missing `:'?\n")
+	    printf("missing `:"?\n")
 	  continue
 	}
       switch(token[0])
 	{
-	case 'T':
+	case "T":
 	  if(dev)
 	    check_libusb_device(dev, Sane.TRUE)
 	  dev = calloc(1, sizeof(struct usb_device))
@@ -1442,7 +1442,7 @@ parse_file(char *filename)
 	  current_as = -1
 	  current_ep = -1
 	  break
-	case 'D':
+	case "D":
 	  if(parse_bcd("Ver=", line, &number))
 	    dev.descriptor.bcdUSB = number
 	  if(parse_num("Cls=", line, 16, &number))
@@ -1457,7 +1457,7 @@ parse_file(char *filename)
 	    dev.descriptor.bNumConfigurations = number
 	  dev.config = calloc(number, sizeof(struct usb_config_descriptor))
 	  break
-	case 'P':
+	case "P":
 	  if(parse_num("Vendor=", line, 16, &number))
 	    dev.descriptor.idVendor = number
 	  if(parse_num("ProdID=", line, 16, &number))
@@ -1465,7 +1465,7 @@ parse_file(char *filename)
 	  if(parse_bcd("Rev=", line, &number))
 	    dev.descriptor.bcdDevice = number
 	  break
-	case 'C':
+	case "C":
 	  current_if = -1
 	  current_as = -1
 	  current_ep = -1
@@ -1483,7 +1483,7 @@ parse_file(char *filename)
 	  if(parse_num("MxPwr=", line, 10, &number))
 	    dev.config[current_config].MaxPower = number / 2
 	  break
-	case 'I':
+	case "I":
 	  current_ep = -1
 	  if(parse_num("If#=", line, 10, &number))
 	    {
@@ -1493,7 +1493,7 @@ parse_file(char *filename)
 		  current_as = -1
 		  dev.config[current_config].interface[current_if].altsetting
 		    = calloc(20, sizeof(struct usb_interface_descriptor))
-		  /* Can't read number of altsettings */
+		  /* Can"t read number of altsettings */
 		  dev.config[current_config].interface[current_if].num_altsetting = 1
 		}
 	      else
@@ -1522,7 +1522,7 @@ parse_file(char *filename)
 	    dev.config[current_config].interface[current_if].altsetting[current_as].bInterfaceProtocol
 	      = number
 	  break
-	case 'E':
+	case "E":
 	  current_ep++
 	  if(parse_num("Ad=", line, 16, &number))
 	    dev.config[current_config].interface[current_if].altsetting[current_as]
@@ -1537,8 +1537,8 @@ parse_file(char *filename)
 	    dev.config[current_config].interface[current_if].altsetting[current_as]
 	      .endpoint[current_ep].bInterval = number
 	  break
-	case 'S':
-	case 'B':
+	case "S":
+	case "B":
 	  continue
 	default:
 	  if(verbose > 1)
@@ -1559,7 +1559,7 @@ func Int main(Int argc, char **argv)
   char **dev_list, **usb_dev_list, *dev_name, **ap
   Int enable_pp_checks = Sane.FALSE
 
-  prog_name = strrchr(argv[0], '/')
+  prog_name = strrchr(argv[0], "/")
   if(prog_name)
     ++prog_name
   else
@@ -1567,42 +1567,42 @@ func Int main(Int argc, char **argv)
 
   for(ap = argv + 1; ap < argv + argc; ++ap)
     {
-      if((*ap)[0] != '-')
+      if((*ap)[0] != "-")
 	break
       switch((*ap)[1])
 	{
-	case '?':
-	case 'h':
+	case "?":
+	case "h":
 	  usage(0)
 	  exit(0)
 
-	case 'v':
+	case "v":
 	  ++verbose
 	  break
 
-	case 'q':
+	case "q":
 	  --verbose
 	  break
 
-	case 'f':
+	case "f":
 	  force = Sane.TRUE
 	  break
 
-	case 'p':
+	case "p":
 	  enable_pp_checks = Sane.TRUE
 	  break
 
-	case 'F':
+	case "F":
 #ifdef HAVE_LIBUSB_LEGACY
 	  parse_file((char *) (*(++ap)))
 #elif defined(HAVE_LIBUSB)
 	  printf("option -F not implemented with libusb-1.0\n")
 #else
-	  printf("libusb not available: option -F can't be used\n")
+	  printf("libusb not available: option -F can"t be used\n")
 #endif
 	  exit(0)
 
-	case '-':
+	case "-":
 	  if(!strcmp((*ap), "--help"))
 	    {
 	      usage(0)
@@ -1878,7 +1878,7 @@ func Int main(Int argc, char **argv)
       if(strlen(dev_name) == 0)
 	continue;		/* Empty device names ... */
 
-      if(dev_name[strlen(dev_name) - 1] == '/')
+      if(dev_name[strlen(dev_name) - 1] == "/")
 	{
 	  /* check whole directories */
 	  DIR *dir
@@ -1902,7 +1902,7 @@ func Int main(Int argc, char **argv)
       if(verbose > 0)
 	printf
 	  ("  # Your SCSI scanner was detected. It may or may not be "
-	   "supported by SANE. Try\n  # scanimage -L and read the backend's "
+	   "supported by SANE. Try\n  # scanimage -L and read the backend"s "
 	   "manpage.\n")
     }
   else
@@ -1933,7 +1933,7 @@ func Int main(Int argc, char **argv)
       if(strlen(dev_name) == 0)
 	continue;		/* Empty device names ... */
 
-      if(dev_name[strlen(dev_name) - 1] == '/')
+      if(dev_name[strlen(dev_name) - 1] == "/")
 	{
 	  /* check whole directories */
 	  DIR *dir
@@ -2048,20 +2048,20 @@ func Int main(Int argc, char **argv)
 	    printf
 	      ("  # Your USB scanner was(probably) detected. It "
 	       "may or may not be supported by\n  # SANE. Try scanimage "
-	       "-L and read the backend's manpage.\n")
+	       "-L and read the backend"s manpage.\n")
 	}
       else if(verbose > 0)
 	printf
 	  ("  # Your USB scanner was detected. It may or may not "
 	   "be supported by\n  # SANE. Try scanimage -L and read the "
-	   "backend's manpage.\n")
+	   "backend"s manpage.\n")
       if(unknown_found && verbose > 0)
 	printf
-	  ("  # `UNKNOWN vendor and product' means that there seems to be a "
+	  ("  # `UNKNOWN vendor and product" means that there seems to be a "
 	   "scanner at this\n  # device file but the vendor and product ids "
-	   "couldn't be identified.\n  # Currently identification only works "
+	   "couldn"t be identified.\n  # Currently identification only works "
 	   "with Linux versions >= 2.4.8. You may\n  # need to configure your "
-	   "backend manually, see the backend's manpage.\n")
+	   "backend manually, see the backend"s manpage.\n")
     }
   else
     {
@@ -2090,7 +2090,7 @@ func Int main(Int argc, char **argv)
     printf("\n  # Not checking for parallel port scanners.\n")
   if(verbose > 0)
     printf("\n  # Most Scanners connected to the parallel port or other "
-	    "proprietary ports\n  # can't be detected by this program.\n")
+	    "proprietary ports\n  # can"t be detected by this program.\n")
 #ifdef HAVE_GETUID
   if(getuid())
     if(verbose > 0)

@@ -54,7 +54,7 @@ import tiffio		/* dbg_tiff_save */
 /* headers */
 
 static void dump_shading(struct st_calibration *myCalib)
-static char *dbg_scantype(Int type)
+static char *dbg_scantype(type: Int)
 static void dbg_scanmodes(struct st_device *dev)
 static void dbg_motorcurves(struct st_device *dev)
 static void dbg_motormoves(struct st_device *dev)
@@ -128,7 +128,7 @@ dump_shading(struct st_calibration *myCalib)
 }
 
 static char *
-dbg_scantype(Int type)
+dbg_scantype(type: Int)
 {
   switch(type)
     {
@@ -763,7 +763,7 @@ dbg_buffer(Int level, char *title, Sane.Byte * buffer, Int size,
 			  memset(&text, 0, sizeof(text))
 			}
 		      data = _B0 (buffer[cont])
-		      text[col] = (data > 31) ? data : '·'
+		      text[col] = (data > 31) ? data : "·"
 		      snprintf(sdata, 80, "%02x ", data)
 		      sline = strcat(sline, sdata)
 		      col++

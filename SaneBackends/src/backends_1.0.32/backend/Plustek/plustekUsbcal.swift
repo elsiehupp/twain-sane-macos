@@ -10,7 +10,7 @@
  * Copyright(C) 2001-2007 Gerhard Jaeger <gerhard@gjaeger.de><br>
  * Large parts Copyright(C) 2003 Christopher Montgomery <monty@xiph.org>
  *
- * Montys' comment:
+ * Montys" comment:
  * The basic premise: The stock Plustek-usbshading.c in the plustek
  * driver is effectively nonfunctional for Canon CanoScan scanners.
  * These scanners rely heavily on all calibration steps, especially
@@ -20,7 +20,7 @@
  * scanners with widely varying characteristics... none of which I own
  * or can test.
  *
- * Therefore, I'm splitting out a few calibration functions I need
+ * Therefore, I"m splitting out a few calibration functions I need
  * to modify for the CanoScan which allows me to simplify things
  * greatly for the CanoScan without worrying about breaking other
  * scanners, as well as reuse the vast majority of the Plustek
@@ -35,7 +35,7 @@
  *         - added the usage of the swGain and swOffset values, to allow
  *           tweaking the calibration results on a sensor base
  * - 0.47  - moved usb_HostSwap() to plustek_usbhw.c
- *         - fixed problem in cano_AdjustLightsource(), so that it won't
+ *         - fixed problem in cano_AdjustLightsource(), so that it won"t
  *           stop too early.
  * - 0.48  - cleanup
  * - 0.49  - a_bRegs is now part of the device structure
@@ -153,7 +153,7 @@ cano_PrepareToReadBlackCal( Plustek_Device *dev )
 
 	if( strip_state != 2 ) {
 	    /*
-		 * if we have a dark shading strip, there's no need to switch
+		 * if we have a dark shading strip, there"s no need to switch
 	     * the lamp off, leave in on a go to that strip
 		 */
 		if( dev.usbDev.pSource.DarkShadOrgY >= 0 ) {
@@ -228,7 +228,7 @@ cano_adjLampSetting( u_short *min, u_short *max, u_short *off, u_short val )
 		*min = newoff
 		*off = twice<bisect?twice:bisect
 
-		/* as we have already set the maximum value, there's no need
+		/* as we have already set the maximum value, there"s no need
 		 * for this channel to recalibrate.
 		 */
 		if( *off > 0x3FFF ) {
@@ -248,7 +248,7 @@ cano_adjLampSetting( u_short *min, u_short *max, u_short *off, u_short val )
  * [Monty changes]: On the CanoScan at least, the default lamp
  * settings are several *hundred* percent too high and vary from
  * scanner-to-scanner by 20-50%. This is only for CIS devices
- * where the lamp_off parameter is adjustable; I'd make it more general,
+ * where the lamp_off parameter is adjustable; I"d make it more general,
  * but I only have the CIS hardware to test.
  */
 static Int
@@ -310,7 +310,7 @@ cano_AdjustLightsource( Plustek_Device *dev )
 	}
 
 	/* we probably should preset gain to some reasonably good value
-	 * i.e. 0x0a as it's done by Canon within their Windoze driver!
+	 * i.e. 0x0a as it"s done by Canon within their Windoze driver!
 	 */
 #ifdef _TWEAK_GAIN
 	for( i=0x3b; i<0x3e; i++ )
@@ -447,7 +447,7 @@ cano_AdjustLightsource( Plustek_Device *dev )
 		/* now decide what to do:
 		 * if we were too bright, we have to rerun the loop in any
 		 * case
-		 * if we're too dark, we should rerun it too, but we can
+		 * if we"re too dark, we should rerun it too, but we can
 		 * compensate that using higher gain values later
 		 */
 		if( i >= 10 ) {
@@ -502,7 +502,7 @@ cano_adjGainSetting( u_char *min, u_char *max, u_char *gain,u_long val )
  * the maximum white value.
  * Affects register 0x3b, 0x3c and 0x3d
  *
- * adjLightsource, above, steals most of this function's thunder.
+ * adjLightsource, above, steals most of this function"s thunder.
  */
 static Bool
 cano_AdjustGain( Plustek_Device *dev )
@@ -665,7 +665,7 @@ cano_GetNewOffset(Plustek_Device *dev, u_long *val, Int channel, signed char *lo
 
 	if(tweak_offset[channel]) {
 
-		/* if we're too black, we're likely off the low end */
+		/* if we"re too black, we"re likely off the low end */
 		if( val[channel] <= 16 ) {
 			low[channel] =  now[channel]
 			now[channel] = (now[channel]+high[channel])/2
@@ -743,7 +743,7 @@ cano_GetNewOffset(Plustek_Device *dev, u_long *val, Int channel, signed char *lo
  */
 
 /* Move this to a bisection-based algo and correct some fenceposts
-   Plustek's example code disagrees with NatSemi's docs; going by the
+   Plustek"s example code disagrees with NatSemi"s docs; going by the
    docs works better, I will assume the docs are correct. --Monty */
 
 static Int
@@ -1206,12 +1206,12 @@ cano_DoCalibration( Plustek_Device *dev )
 	DBG( _DBG_INFO, "cano_DoCalibration()\n" )
 
 	if( _IS_PLUSTEKMOTOR(hw.motorModel)){
-		DBG( _DBG_ERROR, "altCalibration can't work with this "
+		DBG( _DBG_ERROR, "altCalibration can"t work with this "
 		                 "Plustek motor control setup\n" )
-		return Sane.FALSE; /* can't cal this  */
+		return Sane.FALSE; /* can"t cal this  */
 	}
 
-	/* Don't allow calibration settings from the other driver to confuse our
+	/* Don"t allow calibration settings from the other driver to confuse our
 	 * use of a few of its functions.
 	 */
 	save_waf = scaps.workaroundFlag
@@ -1356,7 +1356,7 @@ cano_DoCalibration( Plustek_Device *dev )
 		                      m_ScanParam.bDataType == SCANDATATYPE_Color?1:0)
 	}
 
-	/* Lamp on if it's not */
+	/* Lamp on if it"s not */
 	cano_LampOnAfterCalibration(dev)
 	strip_state = 0
 

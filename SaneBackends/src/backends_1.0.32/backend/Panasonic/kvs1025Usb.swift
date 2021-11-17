@@ -298,7 +298,7 @@ kv_usb_escape(PKV_DEV dev,
       Sane.Status ret
 
       memset(data, 0, 12)
-      Ito32 (size, data)
+      Ito32(size, data)
       data[5] = 0x02;		/* container type: data block */
       data[6] = 0xb0;		/* code */
 

@@ -89,7 +89,7 @@ bin_w_string(Wire *w, void *v)
       if(len == 0)
 	*s = 0
       else if(w.status == 0)
-	*(*s + len - 1) = '\0'
+	*(*s + len - 1) = "\0"
     }
 }
 

@@ -97,7 +97,7 @@ import Sane.sanei_config
 #define NET_CONFIG_FILE "net.conf"
 
 /* Please increase version number with every change
-   (don't forget to update net.desc) */
+   (don"t forget to update net.desc) */
 
 /* define the version string depending on which network code is used */
 #if defined(HAVE_GETADDRINFO) && defined(HAVE_GETNAMEINFO)
@@ -126,7 +126,7 @@ static Int saned_port
 #endif /* !NET_USES_AF_INDEP */
 
 /* This variable is only needed, if the depth is 16bit/channel and
-   client/server have different endianness.  A value of -1 means, that there's
+   client/server have different endianness.  A value of -1 means, that there"s
    no hang over; otherwise the value has to be casted to Sane.Byte.  hang_over
    means, that there is a remaining byte from a previous call to Sane.read,
    which could not be byte-swapped, e.g. because the frontend requested an odd
@@ -135,7 +135,7 @@ static Int saned_port
 static Int hang_over
 
 /* This variable is only needed, if the depth is 16bit/channel and
-   client/server have different endianness.  A value of -1 means, that there's
+   client/server have different endianness.  A value of -1 means, that there"s
    no left over; otherwise the value has to be casted to Sane.Byte.  left_over
    means, that there is a remaining byte from a previous call to Sane.read,
    which already is in the correct byte order, but could not be returned,
@@ -270,13 +270,13 @@ add_device(const char *name, Net_Device ** ndp)
   he = gethostbyname(name)
   if(!he)
     {
-      DBG(1, "add_device: can't get address of host %s\n", name)
+      DBG(1, "add_device: can"t get address of host %s\n", name)
       return Sane.STATUS_IO_ERROR
     }
 
   if(he.h_addrtype != AF_INET)
     {
-      DBG(1, "add_device: don't know how to deal with addr family %d\n",
+      DBG(1, "add_device: don"t know how to deal with addr family %d\n",
 	   he.h_addrtype)
       return Sane.STATUS_INVAL
     }
@@ -341,7 +341,7 @@ connect_dev(Net_Device * dev)
       if(addrp.ai_family != AF_INET)
 # endif /* ENABLE_IPV6 */
 	{
-	  DBG(1, "connect_dev: [%d] don't know how to deal with addr family %d\n",
+	  DBG(1, "connect_dev: [%d] don"t know how to deal with addr family %d\n",
 	       i, addrp.ai_family)
 	  continue
 	}
@@ -380,7 +380,7 @@ connect_dev(Net_Device * dev)
 
   if(connected != Sane.TRUE)
     {
-      DBG(1, "connect_dev: couldn't connect to host(see messages above)\n")
+      DBG(1, "connect_dev: couldn"t connect to host(see messages above)\n")
       return Sane.STATUS_IO_ERROR
     }
 
@@ -404,7 +404,7 @@ connect_dev(Net_Device * dev)
 
   if(dev.addr.sa_family != AF_INET)
     {
-      DBG(1, "connect_dev: don't know how to deal with addr family %d\n",
+      DBG(1, "connect_dev: don"t know how to deal with addr family %d\n",
 	   dev.addr.sa_family)
       return Sane.STATUS_IO_ERROR
     }
@@ -442,7 +442,7 @@ connect_dev(Net_Device * dev)
   DBG(3, "connect_dev: connection succeeded\n")
 #endif /* NET_USES_AF_INDEP */
 
-  /* We're connected now, so reset SO_SNDTIMEO to the default value of 0 */
+  /* We"re connected now, so reset SO_SNDTIMEO to the default value of 0 */
   if(connect_timeout > 0)
     {
       tv.tv_sec = 0
@@ -463,7 +463,7 @@ connect_dev(Net_Device * dev)
     struct protoent *p
     p = getprotobyname("tcp")
     if(p == 0)
-      DBG(1, "connect_dev: cannot look up `tcp' protocol number")
+      DBG(1, "connect_dev: cannot look up `tcp" protocol number")
     else
       level = p.p_proto
   }
@@ -579,7 +579,7 @@ fetch_options(Net_Scanner * s)
 	malloc(s.opt.num_options * sizeof(s.local_opt.desc))
       if(!s.local_opt.desc)
 	{
-	  DBG(1, "fetch_options: couldn't malloc s.local_opt.desc\n")
+	  DBG(1, "fetch_options: couldn"t malloc s.local_opt.desc\n")
 	  return Sane.STATUS_NO_MEM
 	}
       for(option_number = 0
@@ -590,7 +590,7 @@ fetch_options(Net_Scanner * s)
 	    malloc(sizeof(Sane.Option_Descriptor))
 	  if(!s.local_opt.desc[option_number])
 	    {
-	      DBG(1, "fetch_options: couldn't malloc "
+	      DBG(1, "fetch_options: couldn"t malloc "
 		   "s.local_opt.desc[%d]\n", option_number)
 	      return Sane.STATUS_NO_MEM
 	    }
@@ -662,7 +662,7 @@ do_authorization(Net_Device * dev, String resource)
 	DBG(1, "do_authorization: no auth_callback present\n")
       free(net_resource)
     }
-  else /* Is this necessary? If we don't have these few bytes we will get
+  else /* Is this necessary? If we don"t have these few bytes we will get
 	  in trouble later anyway */
     {
       DBG(1, "do_authorization: not enough memory for net_resource\n")
@@ -715,12 +715,12 @@ net_avahi_resolve_callback(AvahiServiceResolver *r, AvahiIfIndex interface, Avah
   switch(event)
     {
       case AVAHI_RESOLVER_FAILURE:
-	DBG(1, "net_avahi_resolve_callback: failed to resolve service '%s' of type '%s' in domain '%s': %s\n",
+	DBG(1, "net_avahi_resolve_callback: failed to resolve service "%s" of type "%s" in domain "%s": %s\n",
 	     name, type, domain, avahi_strerror(avahi_client_errno(avahi_service_resolver_get_client(r))))
 	break
 
       case AVAHI_RESOLVER_FOUND:
-	DBG(3, "net_avahi_resolve_callback: service '%s' of type '%s' in domain '%s':\n", name, type, domain)
+	DBG(3, "net_avahi_resolve_callback: service "%s" of type "%s" in domain "%s":\n", name, type, domain)
 
 	avahi_address_snprint(a, sizeof(a), address)
 	t = avahi_string_list_to_string(txt)
@@ -737,11 +737,11 @@ net_avahi_resolve_callback(AvahiServiceResolver *r, AvahiIfIndex interface, Avah
 	/* Try first with the name */
 	if(add_device(host_name, NULL) != Sane.STATUS_GOOD)
 	  {
-	    DBG(1, "net_avahi_resolve_callback: couldn't add backend with name %s\n", host_name)
+	    DBG(1, "net_avahi_resolve_callback: couldn"t add backend with name %s\n", host_name)
 
 	    /* Then try the raw IP address */
 	    if(add_device(t, NULL) != Sane.STATUS_GOOD)
-	      DBG(1, "net_avahi_resolve_callback: couldn't add backend with IP address %s either\n", t)
+	      DBG(1, "net_avahi_resolve_callback: couldn"t add backend with IP address %s either\n", t)
 	  }
 
 	avahi_free(t)
@@ -773,7 +773,7 @@ net_avahi_browse_callback(AvahiServiceBrowser *b, AvahiIfIndex interface, AvahiP
 	return
 
       case AVAHI_BROWSER_NEW:
-	DBG(3, "net_avahi_browse_callback: NEW: service '%s' of type '%s' in domain '%s'\n", name, type, domain)
+	DBG(3, "net_avahi_browse_callback: NEW: service "%s" of type "%s" in domain "%s"\n", name, type, domain)
 
 	/* The server will actually be added to our list in the resolver callback */
 
@@ -786,11 +786,11 @@ net_avahi_browse_callback(AvahiServiceBrowser *b, AvahiIfIndex interface, AvahiP
 	proto = AVAHI_PROTO_INET
 #endif /* ENABLE_IPV6 */
 	if(!(avahi_service_resolver_new(avahi_client, interface, protocol, name, type, domain, proto, 0, net_avahi_resolve_callback, NULL)))
-	  DBG(2, "net_avahi_browse_callback: failed to resolve service '%s': %s\n", name, avahi_strerror(avahi_client_errno(avahi_client)))
+	  DBG(2, "net_avahi_browse_callback: failed to resolve service "%s": %s\n", name, avahi_strerror(avahi_client_errno(avahi_client)))
 	break
 
       case AVAHI_BROWSER_REMOVE:
-	DBG(3, "net_avahi_browse_callback: REMOVE: service '%s' of type '%s' in domain '%s'\n", name, type, domain)
+	DBG(3, "net_avahi_browse_callback: REMOVE: service "%s" of type "%s" in domain "%s"\n", name, type, domain)
 	/* With the current architecture, we cannot safely remove a server from the list */
 	break
 
@@ -1002,7 +1002,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
   else
     {
       saned_port = htons(6566)
-      DBG(1, "Sane.init: could not find `sane-port' service(%s); using default "
+      DBG(1, "Sane.init: could not find `sane-port" service(%s); using default "
 	   "port %d\n", strerror(errno), ntohs(saned_port))
     }
 #endif /* !NET_USES_AF_INDEP */
@@ -1013,7 +1013,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
     {
       while(sanei_config_read(device_name, sizeof(device_name), fp))
 	{
-	  if(device_name[0] == '#')	/* ignore line comments */
+	  if(device_name[0] == "#")	/* ignore line comments */
 	    continue
 	  len = strlen(device_name)
 
@@ -1022,18 +1022,18 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 
 	  /*
 	   * Check for net backend options.
-	   * Anything that isn't an option is a saned host.
+	   * Anything that isn"t an option is a saned host.
 	   */
 	  if(strstr(device_name, "connect_timeout") != NULL)
 	    {
-	      /* Look for the = sign; if it's not there, error out */
-	      optval = strchr(device_name, '=')
+	      /* Look for the = sign; if it"s not there, error out */
+	      optval = strchr(device_name, "=")
 
 	      if(!optval)
 		continue
 
 	      optval = sanei_config_skip_whitespace(++optval)
-	      if((optval != NULL) && (*optval != '\0'))
+	      if((optval != NULL) && (*optval != "\0"))
 		{
 		  connect_timeout = atoi(optval)
 
@@ -1070,27 +1070,27 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 	  while((host = strsep(&next, ":")))
 	    {
 #ifdef ENABLE_IPV6
-	      if(host[0] == '[')
+	      if(host[0] == "[")
 		{
-		  /* skip '[' (host[0]) */
+		  /* skip "[" (host[0]) */
 		  host++
-		  /* get the rest of the IPv6 addr(we're screwed if ] is missing)
+		  /* get the rest of the IPv6 addr(we"re screwed if ] is missing)
 		   * Is it worth checking for the matching ] ? Not for now. */
 		  strsep(&next, "]")
 		  /* add back the ":" that got removed by the strsep() */
-		  host[strlen(host)] = ':'
+		  host[strlen(host)] = ":"
 		  /* host now holds the IPv6 address */
 
-		  /* skip the ':' that could be after ] (avoids a call to strsep() */
-		  if(next[0] == ':')
+		  /* skip the ":" that could be after ] (avoids a call to strsep() */
+		  if(next[0] == ":")
 		    next++
 		}
 
 	      /*
 	       * if the IPv6 is last in the list, the strsep() call in the while()
-	       * will return a string with the first char being '\0'. Skip it.
+	       * will return a string with the first char being "\0". Skip it.
 	       */
-	      if(host[0] == '\0')
+	      if(host[0] == "\0")
 		  continue
 #endif /* ENABLE_IPV6 */
 #if WITH_AVAHI
@@ -1184,7 +1184,7 @@ Sane.exit(void)
   DBG(3, "Sane.exit: finished.\n")
 }
 
-/* Note that a call to get_devices() implies that we'll have to
+/* Note that a call to get_devices() implies that we"ll have to
    connect to all remote hosts.  To avoid this, you can call
    Sane.open() directly(assuming you know the name of the
    backend/device).  This is appropriate for the command-line
@@ -1283,12 +1283,12 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 #endif /* ENABLE_IPV6 */
 
 	  /* create a new device entry with a device name that is the
-	     sum of the backend name a colon and the backend's device
+	     sum of the backend name a colon and the backend"s device
 	     name: */
 	  len = strlen(dev.name) + 1 + strlen(reply.device_list[i]->name)
 
 #ifdef ENABLE_IPV6
-	  if(strchr(dev.name, ':') != NULL)
+	  if(strchr(dev.name, ":") != NULL)
 	    {
 	      len += 2
 	      IPv6 = Sane.TRUE
@@ -1384,26 +1384,26 @@ Sane.open(Sane.String_Const full_name, Sane.Handle * meta_handle)
 #ifdef ENABLE_IPV6
   /*
    * Check whether a numerical IPv6 host was specified
-   * [2001:42:42::12] <== check for '[' as full_name[0]
+   * [2001:42:42::12] <== check for "[" as full_name[0]
    * ex: [2001:42:42::12]:test:0 (syntax taken from Apache 2)
    */
-  if(full_name[0] == '[')
+  if(full_name[0] == "[")
     {
       v6addr = Sane.TRUE
-      tmp_name = strchr(full_name, ']')
+      tmp_name = strchr(full_name, "]")
       if(!tmp_name)
 	{
-	  DBG(1, "Sane.open: incorrect host address: missing matching ']'\n")
+	  DBG(1, "Sane.open: incorrect host address: missing matching "]"\n")
 	  return Sane.STATUS_INVAL
 	}
     }
   else
     tmp_name = full_name
 
-  dev_name = strchr(tmp_name, ':')
+  dev_name = strchr(tmp_name, ":")
 #else /* !ENABLE_IPV6 */
 
-  dev_name = strchr(full_name, ':')
+  dev_name = strchr(full_name, ":")
 #endif /* ENABLE_IPV6 */
 
   if(dev_name)
@@ -1449,18 +1449,18 @@ Sane.open(Sane.String_Const full_name, Sane.Handle * meta_handle)
       if(v6addr == Sane.TRUE)
 	{
 	  memcpy(tmp, full_name + 1, dev_name - full_name - 2)
-	  tmp[dev_name - full_name - 2] = '\0'
+	  tmp[dev_name - full_name - 2] = "\0"
 	}
       else
 	{
 	  memcpy(tmp, full_name, dev_name - full_name)
-	  tmp[dev_name - full_name] = '\0'
+	  tmp[dev_name - full_name] = "\0"
 	}
 
 # else /* !ENABLE_IPV6 */
 
       memcpy(tmp, full_name, dev_name - full_name)
-      tmp[dev_name - full_name] = '\0'
+      tmp[dev_name - full_name] = "\0"
 # endif /* ENABLE_IPV6 */
 
       nd_name = tmp
@@ -1482,7 +1482,7 @@ Sane.open(Sane.String_Const full_name, Sane.Handle * meta_handle)
 	      return Sane.STATUS_NO_MEM
 	    }
 	  memcpy(nd_name, full_name + 1, strlen(full_name) - 2)
-	  nd_name[strlen(full_name) - 2] = '\0'
+	  nd_name[strlen(full_name) - 2] = "\0"
 	}
       else
 	nd_name = (char *) full_name
@@ -1499,7 +1499,7 @@ Sane.open(Sane.String_Const full_name, Sane.Handle * meta_handle)
   if(!nd_name[0])
     {
       /* Unlike other backends, we never allow an empty backend-name.
-         Otherwise, it's possible that Sane.open("") will result in
+         Otherwise, it"s possible that Sane.open("") will result in
          endless looping(consider the case where NET is the first
          backend...) */
 
@@ -1662,7 +1662,7 @@ Sane.close(Sane.Handle handle)
       s.hw.wire.status = 0
       sanei_w_option_descriptor_array(&s.hw.wire, &s.opt)
       if(s.hw.wire.status)
-	DBG(1, "Sane.close: couldn't free sanei_w_option_descriptor_array "
+	DBG(1, "Sane.close: couldn"t free sanei_w_option_descriptor_array "
 	     "(%s)\n", Sane.strstatus(s.hw.wire.status))
     }
 
@@ -1743,7 +1743,7 @@ Sane.control_option(Sane.Handle handle, Int option,
   switch(s.opt.desc[option]->type)
     {
     case Sane.TYPE_BUTTON:
-    case Sane.TYPE_GROUP:	/* shouldn't happen... */
+    case Sane.TYPE_GROUP:	/* shouldn"t happen... */
       /* the SANE standard defines that the option size of a BUTTON or
          GROUP is IGNORED.  */
       value_size = 0
@@ -1764,7 +1764,7 @@ Sane.control_option(Sane.Handle handle, Int option,
   if(value && (action != Sane.ACTION_SET_VALUE))
     memset(value, 0, value_size)
 
-  /* for SET_AUTO the parameter ``value'' is ignored */
+  /* for SET_AUTO the parameter ``value"" is ignored */
   if(action == Sane.ACTION_SET_AUTO)
     value_size = 0
 
@@ -2142,7 +2142,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * data, Int max_length,
   is_even = 1
   *length = 0
 
-  /* If there's a left over, i.e. a byte already in the correct byte order,
+  /* If there"s a left over, i.e. a byte already in the correct byte order,
      return it immediately; otherwise read may fail with a Sane.STATUS_EOF and
      the caller never can read the last byte */
   if((depth == 16) && (server_big_endian != client_big_endian))
@@ -2151,7 +2151,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * data, Int max_length,
 	{
 	  DBG(3, "Sane.read: left_over from previous call, return "
 	       "immediately\n")
-	  /* return the byte, we've currently scanned; hang_over becomes
+	  /* return the byte, we"ve currently scanned; hang_over becomes
 	     left_over */
 	  *data = (Sane.Byte) left_over
 	  left_over = -1
@@ -2162,7 +2162,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * data, Int max_length,
 
   if(s.data < 0)
     {
-      DBG(1, "Sane.read: data pipe doesn't exist, scan cancelled?\n")
+      DBG(1, "Sane.read: data pipe doesn"t exist, scan cancelled?\n")
       return Sane.STATUS_CANCELLED
     }
 
@@ -2248,7 +2248,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * data, Int max_length,
 
   *length = nread
   /* Check whether we are scanning with a depth of 16 bits/pixel and whether
-     server and client have different byte order. If this is true, then it's
+     server and client have different byte order. If this is true, then it"s
      necessary to check whether read returned an odd number. If an odd number
      has been returned, we must save the last byte.
   */
@@ -2259,7 +2259,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * data, Int max_length,
       /* special case: 1 byte scanned and hang_over */
       if((nread == 1) && (hang_over > -1))
 	{
-	  /* return the byte, we've currently scanned; hang_over becomes
+	  /* return the byte, we"ve currently scanned; hang_over becomes
 	     left_over */
 	  left_over = hang_over
 	  hang_over = -1
@@ -2270,7 +2270,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * data, Int max_length,
         is_even = 1
       else
         is_even = 0
-      /* check, whether there's a hang over from a previous call
+      /* check, whether there"s a hang over from a previous call
 	 in this case we memcopy the data up one byte */
       if((nread > 1) && (hang_over > -1))
 	{
@@ -2361,7 +2361,7 @@ Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
   DBG(3, "Sane.set_io_mode: non_blocking = %d\n", non_blocking)
   if(s.data < 0)
     {
-      DBG(1, "Sane.set_io_mode: pipe doesn't exist\n")
+      DBG(1, "Sane.set_io_mode: pipe doesn"t exist\n")
       return Sane.STATUS_INVAL
     }
 
@@ -2383,7 +2383,7 @@ Sane.get_select_fd(Sane.Handle handle, Int * fd)
 
   if(s.data < 0)
     {
-      DBG(1, "Sane.get_select_fd: pipe doesn't exist\n")
+      DBG(1, "Sane.get_select_fd: pipe doesn"t exist\n")
       return Sane.STATUS_INVAL
     }
 

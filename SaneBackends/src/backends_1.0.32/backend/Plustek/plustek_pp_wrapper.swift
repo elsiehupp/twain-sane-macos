@@ -124,7 +124,7 @@ static Int ppDev_open( const char *dev_name, void *misc )
 		handle = open( dev_name, O_RDONLY )
 
 	if( handle  < 0 ) {
-	    DBG( _DBG_ERROR, "open: can't open %s as a device\n", dev_name )
+	    DBG( _DBG_ERROR, "open: can"t open %s as a device\n", dev_name )
     	return handle
 	}
 
@@ -323,15 +323,15 @@ static Int ppDev_setMap( Plustek_Device *dev, Sane.Word *map,
  */
 static Int ppDev_stopScan( Plustek_Device *dev, short *mode )
 {
-	Int retval, tmp
+	returnValue: Int, tmp
 
 	/* save this one... */
 	tmp = *mode
 
 	if( dev.adj.direct_io )
-		retval = PtDrvIoctl( _PTDRV_STOP_SCAN, mode )
+		returnValue = PtDrvIoctl( _PTDRV_STOP_SCAN, mode )
 	else
-		retval = ioctl( dev.fd, _PTDRV_STOP_SCAN, mode )
+		returnValue = ioctl( dev.fd, _PTDRV_STOP_SCAN, mode )
 
 	/* ... and use it here */
 	if( 0 == tmp ) {
@@ -342,7 +342,7 @@ static Int ppDev_stopScan( Plustek_Device *dev, short *mode )
 	}else
 		sleep( 1 )
 
-	return retval
+	return returnValue
 }
 
 /**

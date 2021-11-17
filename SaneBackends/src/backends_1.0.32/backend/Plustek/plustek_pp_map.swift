@@ -187,7 +187,7 @@ static void mapBuildLinearMap( pScanData ps )
 
 /** create a mapping table
  *  in the original code this map will be created by the TWAIN application
- *  and the is being downloaded to the driver, as I don't have the code
+ *  and the is being downloaded to the driver, as I don"t have the code
  *  we have to try to build up such a table here
  */
 _LOC void MapInitialize( pScanData ps )
@@ -227,7 +227,7 @@ _LOC void MapAdjust( pScanData ps, Int which )
 	}
 
 	/* adjust brightness(b) and contrast(c) using the function:
-	 * s'(x,y) = (s(x,y) + b) * c
+	 * s"(x,y) = (s(x,y) + b) * c
 	 * b = [-127, 127]
 	 * c = [0,2]
 	 */

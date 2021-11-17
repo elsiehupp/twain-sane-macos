@@ -113,7 +113,7 @@ sanei_udp_connect(Int fd, const char *host, Int port)
 Sane.Status
 sanei_udp_open(const char *host, Int port, Int *fdp)
 {
-	Int status
+	status: Int
 #ifdef HAVE_WINSOCK2_H
 	WSADATA wsaData
 #endif
@@ -143,7 +143,7 @@ sanei_udp_open(const char *host, Int port, Int *fdp)
 Sane.Status
 sanei_udp_open_broadcast(Int *fdp)
 {
-	Int status
+	status: Int
 
 	DBG_INIT()
 	DBG(1, "%s\n", __func__)

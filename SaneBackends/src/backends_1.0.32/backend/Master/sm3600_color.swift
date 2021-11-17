@@ -96,9 +96,9 @@ static TState ReadNextColorLine(PTInstance this)
       if(this.state.iLine>2*this.state.ySensorSkew)
 	{
 	  bVisible=true
-	  iOffsetR=(this.state.szOrder[0]-'0')*this.state.cxMax
-	  iOffsetG=(this.state.szOrder[1]-'0')*this.state.cxMax
-	  iOffsetB=(this.state.szOrder[2]-'0')*this.state.cxMax
+	  iOffsetR=(this.state.szOrder[0]-"0")*this.state.cxMax
+	  iOffsetG=(this.state.szOrder[1]-"0")*this.state.cxMax
+	  iOffsetB=(this.state.szOrder[2]-"0")*this.state.cxMax
 	  for(nInterpolator=100, iWrite=0, iRead=0
 	       iRead<3*this.state.cxMax && iWrite<this.state.cchLineOut
 	       iRead++)

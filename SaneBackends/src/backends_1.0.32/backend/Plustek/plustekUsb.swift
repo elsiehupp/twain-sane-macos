@@ -42,7 +42,7 @@
  *        - added support for LiDE25 (pid 0x2220)
  * - 0.50 - minor fix for startup reset
  *          removed unnecessary calls to usbio_ResetLM983x()
- *          1200DPI CIS devices don't use GrayFromColor any longer
+ *          1200DPI CIS devices don"t use GrayFromColor any longer
  * - 0.51 - added Syscan to the vendor list
  *        - added SCANFLAG_Calibration handling
  * - 0.52 - added _WAF_LOFF_ON_START and _WAF_INC_DARKTGT
@@ -133,17 +133,17 @@ static Bool usb_normFileName( char *fname, char* buffer, u_long max_len )
 
 	src = fname
 	dst = buffer
-	while( *src != '\0' ) {
+	while( *src != "\0" ) {
 
-		if((*src == '/') || isspace(*src) || ispunct(*src))
-			*dst = '_'
+		if((*src == "/") || isspace(*src) || ispunct(*src))
+			*dst = "_"
 		else
 			*dst = *src
 
 		dst++
 		src++
 	}
-	*dst = '\0'
+	*dst = "\0"
 
 	return Sane.TRUE
 }
@@ -341,7 +341,7 @@ static Int usb_CheckForPlustekDevice( Int handle, Plustek_Device *dev )
 
 	/*
 	 * Plustek uses the misc IO 12 to get the PCB ID
-	 * (PCB = printed circuit board), so it's possible to have one
+	 * (PCB = printed circuit board), so it"s possible to have one
 	 * product ID and up to 7 different devices...
 	 */
 	DBG( _DBG_INFO, "Trying to get the pcbID of a Plustek device...\n" )
@@ -381,7 +381,7 @@ static Int usb_CheckForPlustekDevice( Int handle, Plustek_Device *dev )
 
 	/* now roam through the setting list... */
 	strncpy( tmp, dev.usbId, 13 )
-	tmp[13] = '\0'
+	tmp[13] = "\0"
 
 	sprintf( pcbStr, "-%u", pcbID )
 	strcat( tmp, pcbStr )
@@ -581,7 +581,7 @@ static Int usbDev_open( Plustek_Device *dev, DevList *devs, Int keep_lock )
 	/* devs is NULL, when called from Sane.start */
 	if( devs ) {
 
-		dn[0] = '\0'
+		dn[0] = "\0"
 		if( !strcmp( dev.name, "auto" )) {
 
 			/* use the first "unattached"... */
@@ -662,11 +662,11 @@ static Int usbDev_open( Plustek_Device *dev, DevList *devs, Int keep_lock )
 
 		DBG(_DBG_INFO,"Vendor ID=0x%04X, Product ID=0x%04X\n",vendor,product)
 
-		if( dev.usbId[0] != '\0' ) {
+		if( dev.usbId[0] != "\0" ) {
 
 			if( 0 != strcmp( dev.usbId, devStr )) {
 				DBG( _DBG_ERROR, "Specified Vendor and Product ID "
-								 "doesn't match with the ones\n"
+								 "doesn"t match with the ones\n"
 								 "in the config file\n" )
 				sanei_access_unlock( dev.sane.name )
 				sanei_usb_close( handle )
@@ -679,12 +679,12 @@ static Int usbDev_open( Plustek_Device *dev, DevList *devs, Int keep_lock )
 
 	} else {
 
-		DBG( _DBG_INFO, "Can't get vendor & product ID from driver...\n" )
+		DBG( _DBG_INFO, "Can"t get vendor & product ID from driver...\n" )
 
 		/* if the ioctl stuff is not supported by the kernel and we have
 		 * nothing specified, we have to give up...
 		 */
-		if( dev.usbId[0] == '\0' ) {
+		if( dev.usbId[0] == "\0" ) {
 			DBG( _DBG_ERROR, "Cannot autodetect Vendor an Product ID, "
 							 "please specify in config file.\n" )
 			sanei_access_unlock( dev.sane.name )
@@ -735,7 +735,7 @@ static Int usbDev_open( Plustek_Device *dev, DevList *devs, Int keep_lock )
 
 	/*
 	 * Plustek uses the misc IO 1/2 to get the PCB ID
-	 * (PCB = printed circuit board), so it's possible to have one
+	 * (PCB = printed circuit board), so it"s possible to have one
 	 * product ID and up to 7 different devices...
 	 */
 	if( 0x07B3 == vendor ) {
@@ -743,7 +743,7 @@ static Int usbDev_open( Plustek_Device *dev, DevList *devs, Int keep_lock )
 		handle = usb_CheckForPlustekDevice( handle, dev )
 
 		if( was_empty )
-			dev.usbId[0] = '\0'
+			dev.usbId[0] = "\0"
 
 		if( handle >= 0 ) {
 			if( !keep_lock )
@@ -756,7 +756,7 @@ static Int usbDev_open( Plustek_Device *dev, DevList *devs, Int keep_lock )
 		/* now roam through the setting list... */
 		lc = 13
 		strncpy( devStr, dev.usbId, lc )
-		devStr[lc] = '\0'
+		devStr[lc] = "\0"
 
 		if( 0x400 == vendor ) {
 			if((dev.adj.mov < 0) || (dev.adj.mov > 1)) {
@@ -769,9 +769,9 @@ static Int usbDev_open( Plustek_Device *dev, DevList *devs, Int keep_lock )
 		}
 
 		if( was_empty )
-			dev.usbId[0] = '\0'
+			dev.usbId[0] = "\0"
 
-		/* if we don't use the PCD ID extension...
+		/* if we don"t use the PCD ID extension...
 		 */
 		for( i = 0; NULL != Settings[i].pIDString; i++ ) {
 
@@ -1137,7 +1137,7 @@ usbDev_Prepare( Plustek_Device *dev, Sane.Byte *buf )
 	DBG( _DBG_INFO, "usbDev_PrepareScan()\n" )
 
 	/* check the current position of the sensor and move it back
-	 * to it's home position if necessary...
+	 * to it"s home position if necessary...
 	 */
 	if( !usb_IsSheetFedDevice(dev))
 		usb_SensorStatus( dev )

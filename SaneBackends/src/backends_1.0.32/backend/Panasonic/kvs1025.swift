@@ -282,7 +282,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 
       dev.params[0].depth = depth > 8 ? 8 : depth
 
-      dev.params[0].bytes_per_line =
+      dev.params[0].bytesPerLine =
 	(dev.params[0].pixels_per_line / 8) * depth
       dev.params[0].lines = (length * resolution) / 1200
 

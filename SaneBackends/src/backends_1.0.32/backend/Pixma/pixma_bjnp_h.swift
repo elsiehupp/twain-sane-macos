@@ -69,7 +69,7 @@ public void sanei_bjnp_init(void)
  * been found.
  * Serial is the address of the scanner in human readable form of max
  * SERIAL_MAX characters
- * @param conf_devices list of pre-configures device URI's to attach
+ * @param conf_devices list of pre-configures device URI"s to attach
  * @param attach attach function
  * @param pixma_devices device informatio needed by attach function
  *
@@ -103,7 +103,7 @@ sanei_bjnp_find_devices(const char **conf_devices,
  *
  * @return
  * - Sane.STATUS_GOOD - on success
- * - Sane.STATUS_ACCESS_DENIED - if the file couldn't be accessed due to
+ * - Sane.STATUS_ACCESS_DENIED - if the file couldn"t be accessed due to
  *   permissions
  * - Sane.STATUS_INVAL - on every other error
  */

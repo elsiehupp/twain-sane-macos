@@ -157,7 +157,7 @@ sanei_pieusb_convert_status(PIEUSB_Status status)
 
 
 /**
- * hex dump 'size' bytes starting at 'ptr'
+ * hex dump "size" bytes starting at "ptr"
  */
 static void
 _hexdump(char *msg, unsigned char *ptr, Int size)
@@ -198,7 +198,7 @@ _hexdump(char *msg, unsigned char *ptr, Int size)
 	    while(lptr < ptr)
 	    {
 	        unsigned char c = *lptr & 0x7f
-		fprintf(stderr, "%c", ((c < 0x20)||(c == 0x7f)) ? '.' : c)
+		fprintf(stderr, "%c", ((c < 0x20)||(c == 0x7f)) ? "." : c)
 		lptr++
 	    }
 	    fprintf(stderr, "\n")
@@ -279,7 +279,7 @@ sanei_pieusb_command(Int device_number, Sane.Byte command[], Sane.Byte data[], I
       /* A check sense may be a busy state in disguise
        * It is also practical to execute a request sense command by
        * default. The calling function should interpret
-       * PIEUSB_STATUS_CHECK_SENSE as 'sense data available'. */
+       * PIEUSB_STATUS_CHECK_SENSE as "sense data available". */
 
       sanei_pieusb_cmd_get_sense(device_number, &sense, &senseStatus, &ret)
       if(senseStatus.pieusb_status != PIEUSB_STATUS_GOOD) {
@@ -519,7 +519,7 @@ _pieusb_scsi_command(Int device_number, Sane.Byte command[], Sane.Byte data[], I
 
   st = _ieee_command(device_number, IEEE1284_SCSI)
   if(st != Sane.STATUS_GOOD) {
-    DBG(DBG_error, "\t\t_pieusb_scsi_command can't prep scsi cmd: %d\n", st)
+    DBG(DBG_error, "\t\t_pieusb_scsi_command can"t prep scsi cmd: %d\n", st)
     return USB_STATUS_ERROR
   }
 

@@ -146,7 +146,7 @@ typedef struct support
     Int min
     Int max
     Int normal
-    Int step
+    step: Int
 } support_t
 
 typedef struct capabilities
@@ -457,7 +457,7 @@ escl_add_in_list(ESCL_Device *current)
 
 /**
  * \fn Sane.Status escl_device_add(Int port_nb, const char *model_name, char *ip_address, char *type)
- * \brief Function that browses my list('for' loop) and returns the "escl_add_in_list" function to
+ * \brief Function that browses my list("for" loop) and returns the "escl_add_in_list" function to
  *        adds all the element needed to my list :
  *        the port number, the model name, the ip address and the type of the url(http / https).
  *
@@ -526,7 +526,7 @@ escl_device_add(Int port_nb,
 
 /**
  * \fn static inline size_t max_string_size(const Sane.String_Const strings[])
- * \brief Function that browses the string('for' loop) and counts the number of character in the string.
+ * \brief Function that browses the string("for" loop) and counts the number of character in the string.
  *        --> this allows to know the maximum size of the string.
  *
  * \return max_size + 1 (the size max)
@@ -586,9 +586,9 @@ get_vendor(char *search)
 /**
  * \fn static Sane.Device *convertFromESCLDev(ESCL_Device *cdev)
  * \brief Function that checks if the url of the received scanner is secured or not(http / https).
- *        --> if the url is not secured, our own url will be composed like "http://'ip':'port'".
- *        --> else, our own url will be composed like "https://'ip':'port'".
- *        AND, it's in this function that we gather all the information of the url(that were in our list) :
+ *        --> if the url is not secured, our own url will be composed like "http://"ip":"port"".
+ *        --> else, our own url will be composed like "https://"ip":"port"".
+ *        AND, it"s in this function that we gather all the information of the url(that were in our list) :
  *        the model_name, the port, the ip, and the type of url.
  *        SO, leaving this function, we have in memory the complete url.
  *
@@ -656,9 +656,9 @@ freedev:
 
 /**
  * \fn Sane.Status Sane.init(Int *version_code, Sane.Auth_Callback authorize)
- * \brief Function that's called before any other SANE function ; it's the first SANE function called.
+ * \brief Function that"s called before any other SANE function ; it"s the first SANE function called.
  *        --> this function checks the SANE config. and can check the authentication of the user if
- *        'authorize' value is more than Sane.TRUE.
+ *        "authorize" value is more than Sane.TRUE.
  *        In this case, it will be necessary to define an authentication method.
  *
  * \return Sane.STATUS_GOOD(everything is OK)
@@ -682,7 +682,7 @@ Sane.init(Int *version_code, Sane.Auth_Callback __Sane.unused__ authorize)
  * \brief Function that must be called to terminate use of a backend.
  *        This function will first close all device handles that still might be open.
  *        --> by freeing all the elements of my list.
- *        After this function, no function other than 'Sane.init' may be called.
+ *        After this function, no function other than "Sane.init" may be called.
  */
 void
 Sane.exit(void)
@@ -705,8 +705,8 @@ Sane.exit(void)
 /**
  * \fn static Sane.Status attach_one_config(SANEI_Config *config, const char *line)
  * \brief Function that implements a configuration file to the user :
- *        if the user can't detect some devices, he will be able to force their detection with this config' file to use them.
- *        Thus, this function parses the config' file to use the device of the user with the information below :
+ *        if the user can"t detect some devices, he will be able to force their detection with this config" file to use them.
+ *        Thus, this function parses the config" file to use the device of the user with the information below :
  *        the type of protocol(http/https), the ip, the port number, and the model name.
  *
  * \return escl_add_in_list(escl_device) if the parsing worked, Sane.STATUS_GOOD otherwise.
@@ -808,8 +808,8 @@ attach_one_config(SANEI_Config __Sane.unused__ *config, const char *line,
 
 /**
  * \fn Sane.Status Sane.get_devices(const Sane.Device ***device_list, Bool local_only)
- * \brief Function that searches for connected devices and places them in our 'device_list'. ('for' loop)
- *        If the attribute 'local_only' is worth Sane.FALSE, we only returns the connected devices locally.
+ * \brief Function that searches for connected devices and places them in our "device_list". ("for" loop)
+ *        If the attribute "local_only" is worth Sane.FALSE, we only returns the connected devices locally.
  *
  * \return Sane.STATUS_GOOD if devlist != NULL ; Sane.STATUS_NO_MEM otherwise.
  */
@@ -894,7 +894,7 @@ _get_resolution(escl_Sane.t *handler, Int resol)
  * \fn static Sane.Status init_options(Sane.String_Const name, escl_Sane.t *s)
  * \brief Function thzt initializes all the needed options of the received scanner
  *        (the resolution / the color / the margins) thanks to the information received with
- *        the 'escl_capabilities' function, called just before.
+ *        the "escl_capabilities" function, called just before.
  *
  * \return status(if everything is OK, status = Sane.STATUS_GOOD)
  */
@@ -1016,7 +1016,7 @@ init_options_small(Sane.String_Const name_source, escl_Sane.t *s)
  * \fn static Sane.Status init_options(Sane.String_Const name, escl_Sane.t *s)
  * \brief Function thzt initializes all the needed options of the received scanner
  *        (the resolution / the color / the margins) thanks to the information received with
- *        the 'escl_capabilities' function, called just before.
+ *        the "escl_capabilities" function, called just before.
  *
  * \return status(if everything is OK, status = Sane.STATUS_GOOD)
  */
@@ -1345,7 +1345,7 @@ escl_parse_name(Sane.String_Const name, ESCL_Device *device)
 
     if(strncmp(name, "unix:", 5) == 0) {
         Sane.String_Const socket = name + 5
-        name = strchr(socket, ':')
+        name = strchr(socket, ":")
         if(name == NULL)
             return Sane.STATUS_INVAL
         device.unix_socket = strndup(socket, name - socket)
@@ -1363,7 +1363,7 @@ escl_parse_name(Sane.String_Const name, ESCL_Device *device)
         return Sane.STATUS_INVAL
     }
 
-    port_str = strchr(host, ':')
+    port_str = strchr(host, ":")
     if(port_str == NULL) {
         DBG(1, "Port missing from URL: %s", name)
         return Sane.STATUS_INVAL
@@ -1397,7 +1397,7 @@ _get_hack(Sane.String_Const name, ESCL_Device *device)
   fp = sanei_config_open(ESCL_CONFIG_FILE)
   if(!fp)
     {
-      DBG(2, "_get_hack: couldn't access %s\n", ESCL_CONFIG_FILE)
+      DBG(2, "_get_hack: couldn"t access %s\n", ESCL_CONFIG_FILE)
       DBG(3, "_get_hack: exit\n")
     }
 
@@ -1425,10 +1425,10 @@ finish_hack:
 
 /**
  * \fn Sane.Status Sane.open(Sane.String_Const name, Sane.Handle *h)
- * \brief Function that establishes a connection with the device named by 'name',
- *        and returns a 'handler' using 'Sane.Handle *h', representing it.
- *        Thus, it's this function that calls the 'escl_status' function firstly,
- *        then the 'escl_capabilities' function, and, after, the 'init_options' function.
+ * \brief Function that establishes a connection with the device named by "name",
+ *        and returns a "handler" using "Sane.Handle *h", representing it.
+ *        Thus, it"s this function that calls the "escl_status" function firstly,
+ *        then the "escl_capabilities" function, and, after, the "init_options" function.
  *
  * \return status(if everything is OK, status = Sane.STATUS_GOOD, otherwise, Sane.STATUS_NO_MEM/Sane.STATUS_INVAL)
  */
@@ -1476,7 +1476,7 @@ Sane.open(Sane.String_Const name, Sane.Handle *h)
     handler.ps.format = Sane.FRAME_RGB
     handler.ps.pixels_per_line = MM_TO_PIXEL(handler.val[OPT_BR_X].w, 300.0)
     handler.ps.lines = MM_TO_PIXEL(handler.val[OPT_BR_Y].w, 300.0)
-    handler.ps.bytes_per_line = handler.ps.pixels_per_line * 3
+    handler.ps.bytesPerLine = handler.ps.pixels_per_line * 3
     status = Sane.get_parameters(handler, 0)
     if(status != Sane.STATUS_GOOD) {
         escl_free_handler(handler)
@@ -1492,9 +1492,9 @@ Sane.open(Sane.String_Const name, Sane.Handle *h)
 
 /**
  * \fn void Sane.cancel(Sane.Handle h)
- * \brief Function that's used to, immediately or as quickly as possible, cancel the currently
- *        pending operation of the device represented by 'Sane.Handle h'.
- *        This functions calls the 'escl_scanner' functions, that resets the scan operations.
+ * \brief Function that"s used to, immediately or as quickly as possible, cancel the currently
+ *        pending operation of the device represented by "Sane.Handle h".
+ *        This functions calls the "escl_scanner" functions, that resets the scan operations.
  */
 void
 Sane.cancel(Sane.Handle h)
@@ -1515,8 +1515,8 @@ Sane.cancel(Sane.Handle h)
 
 /**
  * \fn void Sane.close(Sane.Handle h)
- * \brief Function that closes the communication with the device represented by 'Sane.Handle h'.
- *        This function must release the resources that were allocated to the opening of 'h'.
+ * \brief Function that closes the communication with the device represented by "Sane.Handle h".
+ *        This function must release the resources that were allocated to the opening of "h".
  */
 void
 Sane.close(Sane.Handle h)
@@ -1531,7 +1531,7 @@ Sane.close(Sane.Handle h)
 /**
  * \fn const Sane.Option_Descriptor *Sane.get_option_descriptor(Sane.Handle h, Int n)
  * \brief Function that retrieves a descriptor from the n number option of the scanner
- *        represented by 'h'.
+ *        represented by "h".
  *        The descriptor remains valid until the machine is closed.
  *
  * \return s.opt + n
@@ -1549,14 +1549,14 @@ Sane.get_option_descriptor(Sane.Handle h, Int n)
 
 /**
  * \fn Sane.Status Sane.control_option(Sane.Handle h, Int n, Sane.Action a, void *v, Int *i)
- * \brief Function that defines the actions to perform for the 'n' option of the machine,
- *        represented by 'h', if the action is 'a'.
+ * \brief Function that defines the actions to perform for the "n" option of the machine,
+ *        represented by "h", if the action is "a".
  *        There are 3 types of possible actions :
- *        --> Sane.ACTION_GET_VALUE: 'v' must be used to provide the value of the option.
- *        --> Sane.ACTION_SET_VALUE: The option must take the 'v' value.
+ *        --> Sane.ACTION_GET_VALUE: "v" must be used to provide the value of the option.
+ *        --> Sane.ACTION_SET_VALUE: The option must take the "v" value.
  *        --> Sane.ACTION_SET_AUTO: The backend or machine must affect the option with an appropriate value.
- *        Moreover, the parameter 'i' is used to provide additional information about the state of
- *        'n' option if Sane.ACTION_SET_VALUE has been performed.
+ *        Moreover, the parameter "i" is used to provide additional information about the state of
+ *        "n" option if Sane.ACTION_SET_VALUE has been performed.
  *
  * \return Sane.STATUS_GOOD if everything is OK, otherwise, Sane.STATUS_NO_MEM/Sane.STATUS_INVAL
  */
@@ -1681,7 +1681,7 @@ static Bool
 _go_next_page(Sane.Status status,
               Sane.Status job)
 {
-   // Thank's Alexander Pevzner(pzz@apevzner.com)
+   // Thank"s Alexander Pevzner(pzz@apevzner.com)
    Sane.Status st = Sane.STATUS_NO_DOCS
    switch(status) {
       case Sane.STATUS_GOOD:
@@ -1702,7 +1702,7 @@ _go_next_page(Sane.Status status,
 
 /**
  * \fn Sane.Status Sane.start(Sane.Handle h)
- * \brief Function that initiates acquisition of an image from the device represented by handle 'h'.
+ * \brief Function that initiates acquisition of an image from the device represented by handle "h".
  *        This function calls the "escl_newjob" function and the "escl_scan" function.
  *
  * \return status(if everything is OK, status = Sane.STATUS_GOOD, otherwise, Sane.STATUS_NO_MEM/Sane.STATUS_INVAL)
@@ -1812,7 +1812,7 @@ Sane.start(Sane.Handle h)
          }
        }
        else
-          DBG(10, "Don't have Thresold\n")
+          DBG(10, "Don"t have Thresold\n")
 
        if(handler.scanner.sharpen) {
           DBG(10, "Have Sharpen\n")
@@ -1827,7 +1827,7 @@ Sane.start(Sane.Handle h)
          }
        }
        else
-          DBG(10, "Don't have Sharpen\n")
+          DBG(10, "Don"t have Sharpen\n")
 
        if(handler.scanner.contrast) {
           DBG(10, "Have Contrast\n")
@@ -1842,7 +1842,7 @@ Sane.start(Sane.Handle h)
           }
        }
        else
-          DBG(10, "Don't have Contrast\n")
+          DBG(10, "Don"t have Contrast\n")
 
        if(handler.scanner.brightness) {
           DBG(10, "Have Brightness\n")
@@ -1857,7 +1857,7 @@ Sane.start(Sane.Handle h)
           }
        }
        else
-          DBG(10, "Don't have Brightness\n")
+          DBG(10, "Don"t have Brightness\n")
 
        handler.result = escl_newjob(handler.scanner, handler.device, &status)
        if(status != Sane.STATUS_GOOD)
@@ -1908,7 +1908,7 @@ Sane.start(Sane.Handle h)
     handler.ps.depth = 8
     handler.ps.pixels_per_line = w
     handler.ps.lines = he
-    handler.ps.bytes_per_line = w * bps
+    handler.ps.bytesPerLine = w * bps
     handler.ps.last_frame = Sane.TRUE
     handler.ps.format = Sane.FRAME_RGB
     handler.scanner.work = Sane.FALSE
@@ -1919,9 +1919,9 @@ Sane.start(Sane.Handle h)
 
 /**
  * \fn Sane.Status Sane.get_parameters(Sane.Handle h, Sane.Parameters *p)
- * \brief Function that retrieves the device parameters represented by 'h' and stores them in 'p'.
+ * \brief Function that retrieves the device parameters represented by "h" and stores them in "p".
  *        This function is normally used after "Sane.start".
- *        It's in this function that we choose to assign the default color. (Color or Monochrome)
+ *        It"s in this function that we choose to assign the default color. (Color or Monochrome)
  *
  * \return status(if everything is OK, status = Sane.STATUS_GOOD, otherwise, Sane.STATUS_NO_MEM/Sane.STATUS_INVAL)
  */
@@ -1940,7 +1940,7 @@ Sane.get_parameters(Sane.Handle h, Sane.Parameters *p)
         p.format = Sane.FRAME_RGB
         p.pixels_per_line = handler.ps.pixels_per_line
         p.lines = handler.ps.lines
-        p.bytes_per_line = handler.ps.bytes_per_line
+        p.bytesPerLine = handler.ps.bytesPerLine
     }
     return(status)
 }
@@ -1948,10 +1948,10 @@ Sane.get_parameters(Sane.Handle h, Sane.Parameters *p)
 
 /**
  * \fn Sane.Status Sane.read(Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *len)
- * \brief Function that's used to read image data from the device represented by handle 'h'.
- *        The argument 'buf' is a pointer to a memory area that is at least 'maxlen' bytes long.
- *        The number of bytes returned is stored in '*len'.
- *        --> When the call succeeds, the number of bytes returned can be anywhere in the range from 0 to 'maxlen' bytes.
+ * \brief Function that"s used to read image data from the device represented by handle "h".
+ *        The argument "buf" is a pointer to a memory area that is at least "maxlen" bytes long.
+ *        The number of bytes returned is stored in "*len".
+ *        --> When the call succeeds, the number of bytes returned can be anywhere in the range from 0 to "maxlen" bytes.
  *
  * \return Sane.STATUS_GOOD(if everything is OK, otherwise, Sane.STATUS_NO_MEM/Sane.STATUS_INVAL)
  */
@@ -2028,9 +2028,9 @@ Sane.set_io_mode(Sane.Handle __Sane.unused__ handle, Bool __Sane.unused__ non_bl
 
 /**
  * \fn void escl_curl_url(CURL *handle, const ESCL_Device *device, Sane.String_Const path)
- * \brief Uses the device info in 'device' and the path from 'path' to construct
+ * \brief Uses the device info in "device" and the path from "path" to construct
  *        a full URL.  Sets this URL and any necessary connection options into
- *        'handle'.
+ *        "handle".
  */
 void
 escl_curl_url(CURL *handle, const ESCL_Device *device, Sane.String_Const path)

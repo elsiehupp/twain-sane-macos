@@ -124,7 +124,7 @@
 
 #define SRAM_DRIVER_CURRENT(n) ((n) << 2)
 #define SRAM_BANDWIDTH_4 0
-#define SRAM_BANDWIDTH_8 (1 << 4)
+#define SRAM_BANDWIDTH_8(1 << 4)
 #define SCANNING_FULL_DUPLEX 0
 #define SCANNING_HALF_DUPLEX(1 << 5)
 
@@ -231,24 +231,24 @@ import hp4200_lm9830
 static Sane.Status
 lm9830_read_register(Int fd, unsigned char reg, unsigned char *data)
 {
-  Sane.Status retval
+  Sane.Status returnValue
 
   if(!data)
     return -Sane.STATUS_INVAL
-  retval = sanei_pv8630_write_byte(fd, PV8630_REPPADDRESS, reg)
-  if(retval != Sane.STATUS_GOOD)
-    return retval
+  returnValue = sanei_pv8630_write_byte(fd, PV8630_REPPADDRESS, reg)
+  if(returnValue != Sane.STATUS_GOOD)
+    return returnValue
   return sanei_pv8630_read_byte(fd, PV8630_RDATA, data)
 }
 
 static Sane.Status
 lm9830_write_register(Int fd, unsigned char reg, unsigned char value)
 {
-  Sane.Status retval
+  Sane.Status returnValue
 
-  retval = sanei_pv8630_write_byte(fd, PV8630_REPPADDRESS, reg)
-  if(retval != Sane.STATUS_GOOD)
-    return retval
+  returnValue = sanei_pv8630_write_byte(fd, PV8630_REPPADDRESS, reg)
+  if(returnValue != Sane.STATUS_GOOD)
+    return returnValue
 
   return sanei_pv8630_write_byte(fd, PV8630_RDATA, value)
 }

@@ -25,14 +25,14 @@ AC_DEFUN([LIBUSB_FIND_PATH],
    if test -n "$$2"; then
         libusb_cv_path="$$2"
    else
-        libusb_cache=`echo $1 | sed 'y%./+-%__p_%'`
+        libusb_cache=`echo $1 | sed "y%./+-%__p_%"`
 
         AC_CACHE_VAL(libusb_cv_path_$libusb_cache,
         [
         libusb_cv_path="NONE"
         dirs="$3"
         libusb_save_IFS=$IFS
-        IFS=':'
+        IFS=":"
         for dir in $PATH; do
           dirs="$dirs $dir"
         done
@@ -58,7 +58,7 @@ AC_DEFUN([LIBUSB_FIND_PATH],
 
         ])
 
-      eval "libusb_cv_path=\"`echo '$libusb_cv_path_'$libusb_cache`\""
+      eval "libusb_cv_path=\"`echo "$libusb_cv_path_"$libusb_cache`\""
 
    fi
 

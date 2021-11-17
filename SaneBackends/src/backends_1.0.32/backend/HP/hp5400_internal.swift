@@ -147,15 +147,15 @@ PACKED
  *
  * 44 bytes in total.
  *
- * Since we don't know what the other things mean, I will assume that they
+ * Since we don"t know what the other things mean, I will assume that they
  * mean the same things for Get and SET. For SET, we will have to GET, change
  * what we wish change and SET it back otherwise goodness knows what evil
  * we will unleash.
  *
  * Note that for setting, different values in the buffer seem to apply between the copy count
- * and the colour/BW switch setting. I don't know what that means at the moment.
+ * and the colour/BW switch setting. I don"t know what that means at the moment.
  *
- * I'm calling it PanelInfo because I can't think of anything better.
+ * I"m calling it PanelInfo because I can"t think of anything better.
  * That may change as the other values are revealed.
  *
  */
@@ -500,11 +500,11 @@ func Int SetCopyCount(THWParams * pHWParams, Sane.Word copyCount)
 {
 
   /*
-   * I don't know what most of these things are but it is
+   * I don"t know what most of these things are but it is
    * necessary to send something sane otherwise we get an error from the scanner.
    * I got these settings from a USB trace.
    * Hopefully, we will learn what it is all about at some point
-   * and hopefully it doesn't screw with other settings.
+   * and hopefully it doesn"t screw with other settings.
    *
    */
   uint8_t packetImage[] = {0x02, 0x06, 0x32, 0x01,
@@ -539,11 +539,11 @@ func Int SetColourBW(THWParams * pHWParams, Sane.Word colourBW)
 {
 
   /*
-   * I don't know what most of these things are but it is
+   * I don"t know what most of these things are but it is
    * necessary to send something sane otherwise we get an error from the scanner.
    * I got these settings from a USB trace.
    * Hopefully, we will learn what it is all about at some point
-   * and hopefully it doesn't screw with other settings.
+   * and hopefully it doesn"t screw with other settings.
    *
    */
   uint8_t packetImage[] = {0x03, 0x06, 0x32, 0x01,
@@ -631,7 +631,7 @@ func Int SetCalibration(Int iHandle, Int numPixels, unsigned Int *low_vals[3],
 {
   char cmd[8]
   /* unsigned char cmd[8]; */ /* should fix the compilation warning
-				 but I don't have a scanner right now
+				 but I don"t have a scanner right now
 				 to check that the fix does not break
 				 calibration */
 
@@ -651,7 +651,7 @@ func Int SetCalibration(Int iHandle, Int numPixels, unsigned Int *low_vals[3],
   struct CalBlock *calinfo
 
   /**
-   we did scan test at 300 dpi, so we don't have all the needed pixels.
+   we did scan test at 300 dpi, so we don"t have all the needed pixels.
    To fill the gap, we loop
    */
   Int numLoop = max(1, dpi / 300)
@@ -907,7 +907,7 @@ func Int CircBufferGetLine(Int iHandle, TDataPipe * p, void *pabLine)
       for(i = 0; i < p.pixels; i++)
 	{
 	  /* pointer move goes a little bit faster than vector access */
-	  /* Although I wouldn't be surprised if the compiler worked that out anyway.
+	  /* Although I wouldn"t be surprised if the compiler worked that out anyway.
 	   * No matter, this is easier to read :) */
 	  *(itPix++) = *(itR++)
 	  *(itPix++) = *(itG++)
@@ -944,7 +944,7 @@ func Int CircBufferGetLine(Int iHandle, TDataPipe * p, void *pabLine)
 
   assert(p.bufstart <= p.bufend)
 
-  /* If we've used a whole block at the beginning, move it */
+  /* If we"ve used a whole block at the beginning, move it */
   if(p.bufstart > p.blksize)
     {
       memmove(
@@ -1126,7 +1126,7 @@ func Int DoScan(Int iHandle, struct ScanRequest *req, const char *filename, Int 
   file = fopen(filename, "w+b")
   if(!file)
     {
-      HP5400_DBG(DBG_MSG, "Couldn't open outputfile(%s)\n", strerror(errno))
+      HP5400_DBG(DBG_MSG, "Couldn"t open outputfile(%s)\n", strerror(errno))
       return -1
     }
 
@@ -1466,7 +1466,7 @@ func Int InitScan(enum ScanType scantype, TScanParams * pParams,
   /* Pass the results back to the parent */
   pParams.iBytesPerLine = htonl(res.xsize)
 
-  /* Hide the extra lines we're scanning */
+  /* Hide the extra lines we"re scanning */
   pParams.iLines = htons(res.ysize)
 
   return ret;			/* 0 is good, -1 is bad */
@@ -1722,21 +1722,21 @@ func Int HP5400Open(THWParams * params, const char *filename)
 	       "Sorry, unknown scanner version. Attempted match on :\n")
 	i = 0
 	while( i < numVersions ) {
-		HP5400_DBG(DBG_MSG, "* '%s'\n", MatchVersions[i] .strVersion)
+		HP5400_DBG(DBG_MSG, "* "%s"\n", MatchVersions[i] .strVersion)
 		i++
 	}
-	HP5400_DBG(DBG_MSG, "Version is '%s'\n", szVersion)
+	HP5400_DBG(DBG_MSG, "Version is "%s"\n", szVersion)
 	goto hp5400_close_exit
     }
 #else
-  HP5400_DBG(DBG_MSG, "Warning, Version match is disabled. Version is '%s'\n",
+  HP5400_DBG(DBG_MSG, "Warning, Version match is disabled. Version is "%s"\n",
        szVersion)
 #endif /* NO_STRING_VERSION_MATCH */
 
   params.iXferHandle = iHandle
 
   /* Start the lamp warming up */
-  /* No point checking the return value, we don't care anyway */
+  /* No point checking the return value, we don"t care anyway */
   WriteByte(iHandle, 0x0000, 0x01)
 
   /* Success */
@@ -1797,14 +1797,14 @@ func Int HP5400Detect(const char *filename,
 	       "Sorry, unknown scanner version. Attempted match on :\n")
 	i = 0
 	while( i < numVersions ) {
-		HP5400_DBG(DBG_MSG, "* '%s'\n", MatchVersions[i] .strVersion)
+		HP5400_DBG(DBG_MSG, "* "%s"\n", MatchVersions[i] .strVersion)
 		i++
 	}
-	HP5400_DBG(DBG_MSG, "Version is '%s'\n", szVersion)
+	HP5400_DBG(DBG_MSG, "Version is "%s"\n", szVersion)
 	goto hp5400_close_exit
     }
 #else
-  HP5400_DBG(DBG_MSG, "Warning, Version match is disabled. Version is '%s'\n",
+  HP5400_DBG(DBG_MSG, "Warning, Version match is disabled. Version is "%s"\n",
        szVersion)
 #endif /* NO_STRING_VERSION_MATCH */
 

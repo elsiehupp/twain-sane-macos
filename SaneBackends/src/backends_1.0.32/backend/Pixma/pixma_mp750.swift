@@ -223,7 +223,7 @@ is_ccd_grayscale(pixma_t * s)
   return(has_ccd_sensor(s) && (s.param.channels == 1))
 }
 
-/* CCD sensors don't have a Grayscale mode, but use color mode instead */
+/* CCD sensors don"t have a Grayscale mode, but use color mode instead */
 static unsigned
 get_cis_ccd_line_size(pixma_t * s)
 {
@@ -238,12 +238,12 @@ send_scan_param(pixma_t * s)
   uint8_t *data
 
   data = pixma_newcmd(&mp.cb, cmd_scan_param, 0x2e, 0)
-  pixma_set_be16 (s.param.xdpi | 0x8000, data + 0x04)
-  pixma_set_be16 (s.param.ydpi | 0x8000, data + 0x06)
-  pixma_set_be32 (s.param.x, data + 0x08)
-  pixma_set_be32 (s.param.y, data + 0x0c)
-  pixma_set_be32 (mp.raw_width, data + 0x10)
-  pixma_set_be32 (mp.raw_height, data + 0x14)
+  pixma_set_be16(s.param.xdpi | 0x8000, data + 0x04)
+  pixma_set_be16(s.param.ydpi | 0x8000, data + 0x06)
+  pixma_set_be32(s.param.x, data + 0x08)
+  pixma_set_be32(s.param.y, data + 0x0c)
+  pixma_set_be32(mp.raw_width, data + 0x10)
+  pixma_set_be32(mp.raw_height, data + 0x14)
   data[0x18] = 8;		/* 8 = color, 4 = grayscale(?) */
   /* GH: No, there is no grayscale for CCD devices, Windows shows same  */
   data[0x19] = s.param.depth * ((is_ccd_grayscale(s)) ? 3 : s.param.channels);	/* bits per pixel */
@@ -278,7 +278,7 @@ request_image_block_ex(pixma_t * s, unsigned *size, uint8_t * info,
   Int error
 
   memset(mp.cb.buf, 0, 10)
-  pixma_set_be16 (cmd_read_image, mp.cb.buf)
+  pixma_set_be16(cmd_read_image, mp.cb.buf)
   mp.cb.buf[7] = *size >> 8
   mp.cb.buf[8] = 4 | flag
   mp.cb.reslen = pixma_cmd_transaction(s, mp.cb.buf, 10, mp.cb.buf, 6)
@@ -289,7 +289,7 @@ request_image_block_ex(pixma_t * s, unsigned *size, uint8_t * info,
       if(mp.cb.reslen == 6)
         {
           *info = mp.cb.buf[2]
-          *size = pixma_get_be16 (mp.cb.buf + 4)
+          *size = pixma_get_be16(mp.cb.buf + 4)
         }
       else
         {
@@ -346,7 +346,7 @@ read_error_info(pixma_t * s, void *buf, unsigned size)
     {
       if(len < size)
         size = len
-      /* NOTE: I've absolutely no idea what the returned data mean. */
+      /* NOTE: I"ve absolutely no idea what the returned data mean. */
       memcpy(buf, data, size)
       error = len
     }
@@ -498,20 +498,20 @@ calc_component_shifting(pixma_t * s)
 static void
 workaround_first_command(pixma_t * s)
 {
-  /* FIXME: Send a dummy command because the device doesn't response to the
+  /* FIXME: Send a dummy command because the device doesn"t response to the
      first command that is sent directly after the USB interface has been
-     set up. Why? USB isn't set up properly? */
+     set up. Why? USB isn"t set up properly? */
   uint8_t cmd[10]
   Int error
 
   if(s.cfg.pid == MP750_PID)
-    return;			/* MP750 doesn't have this problem(?) */
+    return;			/* MP750 doesn"t have this problem(?) */
 
   PDBG(pixma_dbg
 	(1,
-	 "Work-around for the problem: device doesn't response to the first command.\n"))
+	 "Work-around for the problem: device doesn"t response to the first command.\n"))
   memset(cmd, 0, sizeof(cmd))
-  pixma_set_be16 (cmd_calibrate, cmd)
+  pixma_set_be16(cmd_calibrate, cmd)
   error = pixma_write(s.io, cmd, 10)
   if(error != 10)
     {

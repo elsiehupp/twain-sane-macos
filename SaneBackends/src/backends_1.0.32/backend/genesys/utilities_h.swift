@@ -250,7 +250,7 @@ private:
     std::ios_base::fmtflags flags_
     std::streamsize width_ = 0
     std::streamsize precision_ = 0
-    Char fill_ = ' '
+    Char fill_ = " "
 ]
 
 using StreamStateSaver = BasicStreamStateSaver<char, std::char_traits<char>>
@@ -258,7 +258,7 @@ using StreamStateSaver = BasicStreamStateSaver<char, std::char_traits<char>>
 template<class T>
 std::string format_indent_braced_list(unsigned indent, const T& x)
 {
-    std::string indent_str(indent, ' ')
+    std::string indent_str(indent, " ")
     std::ostringstream out
     out << x
     auto formatted_str = out.str()
@@ -270,9 +270,9 @@ std::string format_indent_braced_list(unsigned indent, const T& x)
     for(std::size_t i = 0; i < formatted_str.size(); ++i) {
         out_str += formatted_str[i]
 
-        if(formatted_str[i] == '\n' &&
+        if(formatted_str[i] == "\n" &&
             i < formatted_str.size() - 1 &&
-            formatted_str[i + 1] != '\n')
+            formatted_str[i + 1] != "\n")
         {
             out_str += indent_str
         }
@@ -284,7 +284,7 @@ template<class T>
 std::string format_vector_unsigned(unsigned indent, const std::vector<T>& arg)
 {
     std::ostringstream out
-    std::string indent_str(indent, ' ')
+    std::string indent_str(indent, " ")
 
     out << "std::vector<T>{ "
     for(const auto& el : arg) {
@@ -301,11 +301,11 @@ std::string format_vector_indent_braced(unsigned indent, const char* type,
     if(arg.empty()) {
         return "{}"
     }
-    std::string indent_str(indent, ' ')
+    std::string indent_str(indent, " ")
     std::stringstream out
     out << "std::vector<" << type << ">{\n"
     for(const auto& item : arg) {
-        out << indent_str << format_indent_braced_list(indent, item) << '\n'
+        out << indent_str << format_indent_braced_list(indent, item) << "\n"
     }
     out << "}"
     return out.str()

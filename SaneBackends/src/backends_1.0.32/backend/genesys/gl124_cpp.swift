@@ -370,7 +370,7 @@ gl124_init_registers(Genesys_Device * dev)
     sanei_genesys_set_dpihw(dev.reg, dpihw_sensor.register_dpihw)
 }
 
-/** @brief * Set register values of 'special' ti type frontend
+/** @brief * Set register values of "special" ti type frontend
  * Registers value are taken from the frontend register data
  * set.
  * @param dev device owning the AFE
@@ -577,7 +577,7 @@ static void gl124_init_motor_regs_scan(Genesys_Device* dev,
         dist += fast_table.table.size() * 2
     }
 
-  /* get sure we don't use insane value */
+  /* get sure we don"t use insane value */
     if(dist < feedl) {
         feedl -= dist
     } else {
@@ -586,7 +586,7 @@ static void gl124_init_motor_regs_scan(Genesys_Device* dev,
 
     reg.set24(REG_FEEDL, feedl)
 
-  /* doesn't seem to matter that much */
+  /* doesn"t seem to matter that much */
     sanei_genesys_calculate_zmod(use_fast_fed,
 				  scan_exposure_time,
                                  scan_table.table,
@@ -724,7 +724,7 @@ static void gl124_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
 
     // MAXWD is expressed in 2 words unit
 
-    // BUG: we shouldn't multiply by channels here
+    // BUG: we shouldn"t multiply by channels here
     reg.set24(REG_MAXWD, session.output_line_bytes_raw * session.params.channels *
                               session.optical_resolution / session.full_resolution)
     reg.set24(REG_LPERIOD, exposure_time)
@@ -1148,7 +1148,7 @@ void move_to_calibration_area(Genesys_Device* dev, const Genesys_Sensor& sensor,
 }
 
 /* this function does the led calibration by scanning one line of the calibration
-   area below scanner's top on white strip.
+   area below scanner"s top on white strip.
 
 -needs working coarse/gain
 */
@@ -1252,7 +1252,7 @@ static void gl124_init_memory_layout(Genesys_Device* dev)
 
 /**
  * initialize backend and ASIC : registers, motor tables, and gamma tables
- * then ensure scanner's head is at home
+ * then ensure scanner"s head is at home
  */
 void CommandSetGl124::init(Genesys_Device* dev) const
 {

@@ -52,7 +52,7 @@ Int usb_os_close(usb_dev_handle *dev)
     return 0
 
   if(close(dev.fd) == -1)
-    /* Failing trying to close a file really isn't an error, so return 0 */
+    /* Failing trying to close a file really isn"t an error, so return 0 */
     USB_ERROR_STR(0, "tried to close device fd %d: %s", dev.fd,
 	strerror(errno))
 
@@ -80,7 +80,7 @@ Int usb_claim_interface(usb_dev_handle *dev, Int interface)
   ret = ioctl(dev.fd, IOCTL_USB_CLAIMINTF, &interface)
   if(ret < 0) {
     if(errno == EBUSY && usb_debug > 0)
-      fprintf(stderr, "Check that you have permissions to write to %s/%s and, if you don't, that you set up hotplug(http://linux-hotplug.sourceforge.net/) correctly.\n", dev.bus.dirname, dev.device.filename)
+      fprintf(stderr, "Check that you have permissions to write to %s/%s and, if you don"t, that you set up hotplug(http://linux-hotplug.sourceforge.net/) correctly.\n", dev.bus.dirname, dev.device.filename)
 
     USB_ERROR_STR(-errno, "could not claim interface %d: %s", interface,
 	strerror(errno))
@@ -172,7 +172,7 @@ static Int usb_urb_transfer(usb_dev_handle *dev, Int ep, Int urbtype,
    * HACK: The use of urb.usercontext is a hack to get threaded applications
    * sort of working again. Threaded support is still not recommended, but
    * this should allow applications to work in the common cases. Basically,
-   * if we get the completion for an URB we're not waiting for, then we update
+   * if we get the completion for an URB we"re not waiting for, then we update
    * the usercontext pointer to 1 for the other threads URB and it will see
    * the change after it wakes up from the the timeout. Ugly, but it works.
    */
@@ -204,7 +204,7 @@ static Int usb_urb_transfer(usb_dev_handle *dev, Int ep, Int urbtype,
     urb.buffer_length = requested
     urb.signr = 0
     urb.actual_length = 0
-    urb.number_of_packets = 0;	/* don't do isochronous yet */
+    urb.number_of_packets = 0;	/* don"t do isochronous yet */
     urb.usercontext = nil
 
     ret = ioctl(dev.fd, IOCTL_USB_SUBMITURB, &urb)
@@ -241,7 +241,7 @@ restart:
     }
 
     /*
-     * If there was an error, that wasn't EAGAIN(no completion), then
+     * If there was an error, that wasn"t EAGAIN(no completion), then
      * something happened during the reaping and we should return that
      * error now
      */
@@ -251,7 +251,7 @@ restart:
     bytesdone += urb.actual_length
   } while((ret == 0 || urb.usercontext) && bytesdone < size && urb.actual_length == requested)
 
-  /* If the URB didn't complete in success or error, then let's unlink it */
+  /* If the URB didn"t complete in success or error, then let"s unlink it */
   if(ret < 0 && !urb.usercontext) {
     Int rc
 
@@ -267,7 +267,7 @@ restart:
     /*
      * When the URB is unlinked, it gets moved to the completed list and
      * then we need to reap it or else the next time we call this function,
-     * we'll get the previous completion and exit early
+     * we"ll get the previous completion and exit early
      */
     ioctl(dev.fd, IOCTL_USB_REAPURB, &context)
 
@@ -295,8 +295,8 @@ Int usb_bulk_read(usb_dev_handle *dev, Int ep, String *bytes, Int size,
 }
 
 /*
- * FIXME: Packetize large buffers here. 2.4 HCDs(atleast, haven't checked
- * 2.5 HCDs yet) don't handle multi-packet Interrupt transfers. So we need
+ * FIXME: Packetize large buffers here. 2.4 HCDs(atleast, haven"t checked
+ * 2.5 HCDs yet) don"t handle multi-packet Interrupt transfers. So we need
  * to lookup the endpoint packet size and packetize appropriately here.
  */
 Int usb_interrupt_write(usb_dev_handle *dev, Int ep, String *bytes, Int size,
@@ -324,14 +324,14 @@ Int usb_os_find_busses(struct usb_bus **busses)
 
   dir = opendir(usb_path)
   if(!dir)
-    USB_ERROR_STR(-errno, "couldn't opendir(%s): %s", usb_path,
+    USB_ERROR_STR(-errno, "couldn"t opendir(%s): %s", usb_path,
 	strerror(errno))
 
   while((entry = readdir(dir)) != nil) {
     struct usb_bus *bus
 
     /* Skip anything starting with a . */
-    if(entry.d_name[0] == '.')
+    if(entry.d_name[0] == ".")
       continue
 
     if(!strchr("0123456789", entry.d_name[strlen(entry.d_name) - 1])) {
@@ -374,7 +374,7 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
 
   dir = opendir(dirpath)
   if(!dir)
-    USB_ERROR_STR(-errno, "couldn't opendir(%s): %s", dirpath,
+    USB_ERROR_STR(-errno, "couldn"t opendir(%s): %s", dirpath,
 	strerror(errno))
 
   while((entry = readdir(dir)) != nil) {
@@ -385,7 +385,7 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
     var i: Int, fd, ret
 
     /* Skip anything starting with a . */
-    if(entry.d_name[0] == '.')
+    if(entry.d_name[0] == ".")
       continue
 
     dev = malloc(sizeof(*dev))
@@ -405,7 +405,7 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
       fd = open(filename, O_RDONLY)
       if(fd < 0) {
         if(usb_debug >= 2)
-          fprintf(stderr, "usb_os_find_devices: Couldn't open %s\n",
+          fprintf(stderr, "usb_os_find_devices: Couldn"t open %s\n",
                   filename)
 
         free(dev)
@@ -417,14 +417,14 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
     ret = ioctl(fd, IOCTL_USB_CONNECTINFO, &connectinfo)
     if(ret < 0) {
       if(usb_debug)
-        fprintf(stderr, "usb_os_find_devices: couldn't get connect info\n")
+        fprintf(stderr, "usb_os_find_devices: couldn"t get connect info\n")
     } else
       dev.devnum = connectinfo.devnum
 
     ret = read(fd, (void *)device_desc, DEVICE_DESC_LENGTH)
     if(ret < 0) {
       if(usb_debug)
-        fprintf(stderr, "usb_os_find_devices: Couldn't read descriptor\n")
+        fprintf(stderr, "usb_os_find_devices: Couldn"t read descriptor\n")
 
       free(dev)
 
@@ -434,7 +434,7 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
     /*
      * Linux kernel converts the words in this descriptor to CPU endian, so
      * we use the undocumented W character for usb_parse_descriptor() that
-     * doesn't convert endianess when parsing the descriptor
+     * doesn"t convert endianess when parsing the descriptor
      */
     usb_parse_descriptor(device_desc, "bbWbbbbWWWbbbb", &dev.descriptor)
 
@@ -446,16 +446,16 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
 
     /* Now try to fetch the rest of the descriptors */
     if(dev.descriptor.bNumConfigurations > USB_MAXCONFIG)
-      /* Silent since we'll try again later */
+      /* Silent since we"ll try again later */
       goto err
 
     if(dev.descriptor.bNumConfigurations < 1)
-      /* Silent since we'll try again later */
+      /* Silent since we"ll try again later */
       goto err
 
     dev.config = (struct usb_config_descriptor *)malloc(dev.descriptor.bNumConfigurations * sizeof(struct usb_config_descriptor))
     if(!dev.config)
-      /* Silent since we'll try again later */
+      /* Silent since we"ll try again later */
       goto err
 
     memset(dev.config, 0, dev.descriptor.bNumConfigurations *
@@ -555,7 +555,7 @@ Int usb_os_determine_children(struct usb_bus *bus)
     command.data = &portinfo
     ret = ioctl(fd, IOCTL_USB_IOCTL, &command)
     if(ret < 0) {
-      /* errno == ENOSYS means the device probably wasn't a hub */
+      /* errno == ENOSYS means the device probably wasn"t a hub */
       if(errno != ENOSYS && usb_debug > 1)
         fprintf(stderr, "error obtaining child information: %s\n",
 		strerror(errno))
@@ -619,7 +619,7 @@ static Int check_usb_vfs(let String *dirname)
 
   while((entry = readdir(dir)) != nil) {
     /* Skip anything starting with a . */
-    if(entry.d_name[0] == '.')
+    if(entry.d_name[0] == ".")
       continue
 
     /* We assume if we find any files that it must be the right place */
@@ -632,7 +632,7 @@ static Int check_usb_vfs(let String *dirname)
   return found
 }
 
-func void usb_os_init(void)
+func usb_os_init(void)
 {
   /* Find the path to the virtual filesystem */
   if(getenv("USB_DEVFS_PATH")) {
@@ -640,7 +640,7 @@ func void usb_os_init(void)
       strncpy(usb_path, getenv("USB_DEVFS_PATH"), sizeof(usb_path) - 1)
       usb_path[sizeof(usb_path) - 1] = 0
     } else if(usb_debug)
-      fprintf(stderr, "usb_os_init: couldn't find USB VFS in USB_DEVFS_PATH\n")
+      fprintf(stderr, "usb_os_init: couldn"t find USB VFS in USB_DEVFS_PATH\n")
   }
 
   if(!usb_path[0]) {

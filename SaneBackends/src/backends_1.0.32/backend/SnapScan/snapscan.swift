@@ -540,7 +540,7 @@ static Sane.Status add_scsi_device(Sane.String_Const full_name)
         return Sane.STATUS_GOOD
     }
 
-    vendor[0] = model[0] = '\0'
+    vendor[0] = model[0] = "\0"
 
     DBG(DL_VERBOSE, "%s: Detected(kind of) a SCSI device\n", me)
 
@@ -598,7 +598,7 @@ static Sane.Status add_usb_device(Sane.String_Const full_name) {
         return Sane.STATUS_GOOD
     }
 
-    vendor[0] = model[0] = '\0'
+    vendor[0] = model[0] = "\0"
 
     DBG(DL_VERBOSE, "%s: Detected(kind of) an USB device\n", me)
     bus_type = USB
@@ -738,7 +738,7 @@ Sane.Status Sane.init(Int *version_code,
             len = strlen(dev_name)
             if(!len)
                 continue;                /* ignore empty lines */
-            if(dev_name[0] == '#')        /* ignore line comments */
+            if(dev_name[0] == "#")        /* ignore line comments */
                 continue
             if(strncasecmp(dev_name, FIRMWARE_KW, strlen(FIRMWARE_KW)) == 0) {
                 if(!default_firmware_filename) {
@@ -1083,8 +1083,8 @@ Sane.Status Sane.get_parameters(Sane.Handle h,
             DBG(DL_DATA_TRACE, "%s: Using source chain data\n", me)
             /* use what the source chain says */
             p.pixels_per_line = pss.psrc.pixelsPerLine(pss.psrc)
-            p.bytes_per_line = pss.psrc.bytesPerLine(pss.psrc)
-            /* p.lines = pss.psrc.remaining(pss.psrc)/p.bytes_per_line; */
+            p.bytesPerLine = pss.psrc.bytesPerLine(pss.psrc)
+            /* p.lines = pss.psrc.remaining(pss.psrc)/p.bytesPerLine; */
             p.lines = pss.lines
         }
         else
@@ -1092,10 +1092,10 @@ Sane.Status Sane.get_parameters(Sane.Handle h,
             DBG(DL_DATA_TRACE, "%s: Using current data\n", me)
             /* estimate based on current data */
             p.pixels_per_line = pss.pixels_per_line
-            p.bytes_per_line = pss.bytes_per_line
+            p.bytesPerLine = pss.bytesPerLine
             p.lines = pss.lines
             if(mode == MD_BILEVELCOLOUR)
-                p.bytes_per_line = p.pixels_per_line*3
+                p.bytesPerLine = p.pixels_per_line*3
         }
     }
     else
@@ -1117,14 +1117,14 @@ Sane.Status Sane.get_parameters(Sane.Handle h,
         {
         case MD_COLOUR:
         case MD_BILEVELCOLOUR:
-            p.bytes_per_line = 3 * p.pixels_per_line * ((pss.bpp_scan+7)/8)
+            p.bytesPerLine = 3 * p.pixels_per_line * ((pss.bpp_scan+7)/8)
             break
         case MD_LINEART:
-            p.bytes_per_line = (p.pixels_per_line + 7) / 8
+            p.bytesPerLine = (p.pixels_per_line + 7) / 8
             break
         default:
             /* greyscale */
-            p.bytes_per_line = p.pixels_per_line * ((pss.bpp_scan+7)/8)
+            p.bytesPerLine = p.pixels_per_line * ((pss.bpp_scan+7)/8)
             break
         }
     }
@@ -1147,7 +1147,7 @@ Sane.Status Sane.get_parameters(Sane.Handle h,
     DBG(DL_DATA_TRACE,
          "%s: bytes per line = %ld\n",
          me,
-         (long) p.bytes_per_line)
+         (long) p.bytesPerLine)
 
     return status
 }
@@ -1296,7 +1296,7 @@ static Sane.Status start_reader(SnapScan_Scanner *pss)
 
         if(!sanei_thread_is_valid(pss.child))
         {
-            /* we'll have to read in blocking mode */
+            /* we"ll have to read in blocking mode */
             DBG(DL_MAJOR_ERROR,
                  "%s: Error while calling sanei_thread_begin; must read in blocking mode.\n",
                  me)
@@ -1602,10 +1602,10 @@ static Sane.Status measure_transfer_rate(SnapScan_Scanner *pss)
 	if((pss.pdev.model == PERFECTION2480) || (pss.pdev.model == PERFECTION3490))
 	{
 	    /* Epson 2480: read a multiple of bytes per line, limit to less than 0xfff0 */
-	    if(pss.bytes_per_line > 0xfff0)
+	    if(pss.bytesPerLine > 0xfff0)
         	pss.expected_read_bytes = 0xfff0
 	    else
-                pss.expected_read_bytes = (0xfff0 / pss.bytes_per_line) * pss.bytes_per_line
+                pss.expected_read_bytes = (0xfff0 / pss.bytesPerLine) * pss.bytesPerLine
 	}
 	else
             pss.expected_read_bytes =
@@ -1619,11 +1619,11 @@ static Sane.Status measure_transfer_rate(SnapScan_Scanner *pss)
     }
     else
     {
-        /* we don't have a ring buffer. The test requires transferring one
+        /* we don"t have a ring buffer. The test requires transferring one
            scan line of data(rounded up to next 128 byte boundary). */
 
-        DBG(DL_VERBOSE, "%s: we don't have a ring buffer.\n", me)
-        pss.expected_read_bytes = pss.bytes_per_line
+        DBG(DL_VERBOSE, "%s: we don"t have a ring buffer.\n", me)
+        pss.expected_read_bytes = pss.bytesPerLine
 
         if(pss.expected_read_bytes%128)
         {
@@ -1726,9 +1726,9 @@ Sane.Status Sane.start(Sane.Handle h)
          "%s: after measuring speed:\n\t%lu bytes per scan line\n"
          "\t%f milliseconds per scan line.\n\t==>%f bytes per millisecond\n",
          me,
-         (u_long) pss.bytes_per_line,
+         (u_long) pss.bytesPerLine,
          pss.ms_per_line,
-         pss.bytes_per_line/pss.ms_per_line)
+         pss.bytesPerLine/pss.ms_per_line)
 
 
     if(pss.val[OPT_QUALITY_CAL].b && (pss.usb_vendor != USB_VENDOR_EPSON))
@@ -1837,7 +1837,7 @@ Sane.Status Sane.read(Sane.Handle h,
             me)
         break
     case ST_SCAN_INIT:
-        /* we've read some data */
+        /* we"ve read some data */
         pss.state = ST_SCANNING
         break
     case ST_CANCEL_INIT:
@@ -1888,7 +1888,7 @@ void Sane.cancel(Sane.Handle h)
                 cancelRead = Sane.TRUE
             }
 
-            /* give'em 10 seconds 'til done...*/
+            /* give"em 10 seconds "til done...*/
             alarm(10)
             res = sanei_thread_waitpid( pss.child, 0 )
             alarm(0)
@@ -2022,7 +2022,7 @@ Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fd)
  * Added deinterlacing for Epson 3490
  *
  * Revision 1.59  2005/11/02 22:12:54  oliver-guest
- * Correct cut'n'paste error
+ * Correct cut"n"paste error
  *
  * Revision 1.58  2005/11/02 19:22:06  oliver-guest
  * Fixes for Benq 5000
@@ -2070,11 +2070,11 @@ Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fd)
  * Added support for Epson 2480
  *
  * Revision 1.43  2004/06/16 19:52:26  oliver-guest
- * Don't enforce even number of URB packages on 1212u_2. Fixes bug #300753.
+ * Don"t enforce even number of URB packages on 1212u_2. Fixes bug #300753.
  *
  * Revision 1.42  2004/06/15 12:17:37  hmg-guest
  * Only use __attribute__ if gcc is used for compilation. Some other compilers
- * don't know __attribute__ and therefore can't compile sane-backends without this
+ * don"t know __attribute__ and therefore can"t compile sane-backends without this
  * fix. See bug #300803.
  *
  * Revision 1.41  2004/05/26 22:37:01  oliver-guest
@@ -2177,7 +2177,7 @@ Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fd)
  * Added language translation support(Sane.I18N)
  *
  * Revision 1.39  2002/01/23 20:40:54  oliverschwartz
- * Don't use quantization for scan area parameter
+ * Don"t use quantization for scan area parameter
  * Improve recognition of Acer 320U
  * Version 1.4.7
  *
@@ -2399,10 +2399,10 @@ Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fd)
  * Fixed problems with cancellation. Works fine with my system now.
  *
  * Revision 1.44  1999/09/02 05:28:01  charter
- * Added Gary Plewa's name to the list of copyrighted contributors.
+ * Added Gary Plewa"s name to the list of copyrighted contributors.
  *
  * Revision 1.43  1999/09/02 05:23:54  charter
- * Added Gary Plewa's patch for the Acer PRISA 620s.
+ * Added Gary Plewa"s patch for the Acer PRISA 620s.
  *
  * Revision 1.42  1999/09/02 02:05:34  charter
  * Check-in of revision 1.42 (release 0.7 of the backend).
@@ -2423,14 +2423,14 @@ Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fd)
  * Formatting(whitespace) changes.
  *
  * Revision 1.38  1998/09/07  06:06:01  charter
- * Merged in Wolfgang Goeller's changes(Vuego 310S, bugfixes).
+ * Merged in Wolfgang Goeller"s changes(Vuego 310S, bugfixes).
  *
  * Revision 1.37  1998/08/06  06:16:39  charter
  * Now using Sane.config_attach_matching_devices() in Sane.snapscan_init().
  * Change contributed by David Mosberger-Tang.
  *
  * Revision 1.36  1998/05/11  17:02:53  charter
- * Added Mikko's threshold stuff.
+ * Added Mikko"s threshold stuff.
  *
  * Revision 1.35  1998/03/10 23:43:23  eblot
  * Bug correction
@@ -2456,7 +2456,7 @@ Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fd)
  *
  * Revision 1.31  1998/02/01  03:36:40  charter
  * Now check for BRX < TLX and BRY < TLY and whether the area of the
- * scanning window is approaching zero in set_window. I'm setting a
+ * scanning window is approaching zero in set_window. I"m setting a
  * minimum window size of 75x75 hardware pixels(0.25 inches a side).
  * If the area falls to zero, the scanner seems to hang in the middle
  * of the set_window command.
@@ -2468,14 +2468,14 @@ Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fd)
  *
  * Revision 1.29  1998/01/31  21:09:19  charter
  * Fixed another problem with add_device(): if mini_inquiry ends
- * up indirectly invoking the sense handler, there'll be a segfault
- * because the sense_handler isn't set. Had to fix sense_handler so
+ * up indirectly invoking the sense handler, there"ll be a segfault
+ * because the sense_handler isn"t set. Had to fix sense_handler so
  * it can handle a NULL pss pointer and then use the sanei_scsi stuff
  * everywhere. This error is most likely to occur if the scanner is
  * turned off.
  *
  * Revision 1.28  1998/01/31  18:45:22  charter
- * Last fix botched, produced a compile error. Thought I'd already
+ * Last fix botched, produced a compile error. Thought I"d already
  * compiled successfully.
  *
  * Revision 1.27  1998/01/31  18:32:42  charter
@@ -2497,7 +2497,7 @@ Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fd)
  * that use lower case.
  * Now have debug level defines instead of raw numbers, and better debug
  * information categories.
- * Don't complain at debug level 0 when a snapscan isn't found on a
+ * Don"t complain at debug level 0 when a snapscan isn"t found on a
  * requested device.
  * Changed CHECK_STATUS to take caller parameter instead of always
  * assuming an available string "me".
@@ -2521,8 +2521,8 @@ Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fd)
  *
  * Revision 1.20  1998/01/25  08:53:14  charter
  * Have added bi-level colour mode, with halftones too.
- * Can now select preview mode(but it's an advanced option, since
- * you usually don't want to do it).
+ * Can now select preview mode(but it"s an advanced option, since
+ * you usually don"t want to do it).
  *
  * Revision 1.19  1998/01/25  02:25:02  charter
  * Fixed bug: preview mode gives blank image at initial startup.
@@ -2546,9 +2546,9 @@ Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fd)
  * a few nasty things as well.
  *
  * Revision 1.16  1998/01/23  07:40:23  charter
- * Reindented using GNU convention at David Mosberger-Tang's request.
- * Also applied David's patch fixing problems on 64-bit architectures.
- * Now using scanner's reported speed to gauge amount of data to request
+ * Reindented using GNU convention at David Mosberger-Tang"s request.
+ * Also applied David"s patch fixing problems on 64-bit architectures.
+ * Now using scanner"s reported speed to gauge amount of data to request
  * in a read on the scsi fd---nonblocking mode operates better now.
  * Fixed stupid bug I introduced in preview mode data transfer.
  *
@@ -2568,10 +2568,10 @@ Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fd)
  * Added copyright info.
  * Also now seem to have cancellation working. This requires using a
  * new scanner state variable and checking in all the right places
- * in the reader child and the Sane.snapscan_read function. I've
+ * in the reader child and the Sane.snapscan_read function. I"ve
  * tested it using both blocking and nonblocking I/O and it seems
  * to work both ways.
- * I've also switched to GTK+-0.99.2 and sane-0.69, and the
+ * I"ve also switched to GTK+-0.99.2 and sane-0.69, and the
  * mysterious problems with the preview window have disappeared.
  * Problems with scanimage doing weird things to options have also
  * gone away and the frontends seem more stable.
@@ -2580,19 +2580,19 @@ Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fd)
  * Inoperative code largely #defined out; I had the preview window
  * working correctly by having the window coordinates properly
  * constrained, but now the preview window bombs with a floating-
- * point error each time... I'm not sure yet what happened.
- * I've also figured out that we need to use reserve_unit and
+ * point error each time... I"m not sure yet what happened.
+ * I"ve also figured out that we need to use reserve_unit and
  * release_unit in order to cancel scans in progress. This works
- * under scanimage, but I can't seem to find a way to fit cancellation
+ * under scanimage, but I can"t seem to find a way to fit cancellation
  * into xscanimage properly.
  *
  * Revision 1.11  1998/01/20  22:42:08  charter
- * Applied Franck's patch from Dec 17; preview mode is now grayscale.
+ * Applied Franck"s patch from Dec 17; preview mode is now grayscale.
  *
  * Revision 1.10  1997/12/10  23:33:12  charter
  * Slight change to some floating-point computations in the brightness
- * and contrast stuff. The controls don't seem to do anything to the
- * scanner though(I think these aren't actually supported in the
+ * and contrast stuff. The controls don"t seem to do anything to the
+ * scanner though(I think these aren"t actually supported in the
  * SnapScan).
  *
  * Revision 1.9  1997/11/26  15:40:50  charter
@@ -2610,7 +2610,7 @@ Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fd)
  * seems to cut down on cpu hogging(though there is still a hit).
  *
  * Revision 1.6  1997/11/03  07:45:54  charter
- * Added the predef_window stuff. I've tried it with 6x4, and it seems
+ * Added the predef_window stuff. I"ve tried it with 6x4, and it seems
  * to work; I think something gets inconsistent if a preview is
  * performed though.
  *
@@ -2620,7 +2620,7 @@ Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fd)
  * scanner structure members. Things are a bit cleaned up.
  *
  * Revision 1.4  1997/11/02  23:35:28  charter
- * After much grief.... I can finally scan reliably. Now it's a matter
+ * After much grief.... I can finally scan reliably. Now it"s a matter
  * of getting the band arrangement sorted out.
  *
  * Revision 1.3  1997/10/30  07:36:37  charter
@@ -2630,7 +2630,7 @@ Sane.Status Sane.get_select_fd(Sane.Handle h, Int * fd)
  * Revision 1.2  1997/10/14  06:00:11  charter
  * Option manipulation and some basic SCSI commands done; the basics
  * for scanning are written but there are bugs. A full scan always hangs
- * the SCSI driver, and preview mode scans complete but it isn't clear
+ * the SCSI driver, and preview mode scans complete but it isn"t clear
  * whether any meaningful data is received.
  *
  * Revision 1.1  1997/10/13  02:25:54  charter

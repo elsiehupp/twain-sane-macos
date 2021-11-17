@@ -45,7 +45,7 @@
  * Read buffer
  *
  * Data obtained from the scanner cannot be presented to the frontend immediately.
- * The scanner returns data in the 'index' or 'line' color format, which means it
+ * The scanner returns data in the "index" or "line" color format, which means it
  * returns data in batches which contain a single color of a scan line.
  *
  * These must finally be converted into the SANE data format(data for a single
@@ -174,7 +174,7 @@ sanei_pieusb_buffer_create(struct Pieusb_Read_Buffer* buffer, Int width, Int hei
 	close(buffer.data_file)
         buffer.data_file = 0
         buffer.data = NULL
-        DBG(DBG_error, "sanei_pieusb_buffer_create(): error calling lseek() to 'stretch' the file to %d bytes\n", buffer_size_bytes-1)
+        DBG(DBG_error, "sanei_pieusb_buffer_create(): error calling lseek() to "stretch" the file to %d bytes\n", buffer_size_bytes-1)
 	perror("sanei_pieusb_buffer_create(): error calling lseek()")
         return Sane.STATUS_INVAL
     }
@@ -277,21 +277,21 @@ sanei_pieusb_buffer_put_single_color_line(struct Pieusb_Read_Buffer* buffer, San
     /* Check index code */
     c = -1
     switch(color) {
-        case 'R':
+        case "R":
             c = buffer.color_index_red
             break
-        case 'G':
+        case "G":
             c = buffer.color_index_green
             break
-        case 'B':
+        case "B":
             c = buffer.color_index_blue
             break
-        case 'I':
+        case "I":
             c = buffer.color_index_infrared
             break
     }
     if(c == -1) {
-        DBG(DBG_error, "sanei_pieusb_buffer_put_single_color_line(): color '%c' not specified when buffer was created\n", color)
+        DBG(DBG_error, "sanei_pieusb_buffer_put_single_color_line(): color "%c" not specified when buffer was created\n", color)
         return 0
     }
     DBG(DBG_info_buffer, "sanei_pieusb_buffer_put_single_color_line() line color = %d(0=R, 1=G, 2=B, 3=I)\n",c)

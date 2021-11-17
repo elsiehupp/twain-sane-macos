@@ -168,7 +168,7 @@ device_list_type
 #define MAX_DEVICES 100
 
 /**
- * per-device information, using the functions' parameters dn as index */
+ * per-device information, using the functions" parameters dn as index */
 static device_list_type devices[MAX_DEVICES]
 
 /**
@@ -217,7 +217,7 @@ static libusb_context *sanei_usb_ctx
 #endif /* HAVE_LIBUSB */
 
 #if defined(__APPLE__)
-/* macOS won't configure several USB scanners(i.e. ScanSnap 300M) because their
+/* macOS won"t configure several USB scanners(i.e. ScanSnap 300M) because their
  * descriptors are vendor specific.  As a result the device will get configured
  * later during sanei_usb_open making it safe to ignore the configuration check
  * on these platforms. */
@@ -226,12 +226,12 @@ static libusb_context *sanei_usb_ctx
 
 #if defined(__linux__)
 /* From /usr/src/linux/driver/usb/scanner.h */
-#define SCANNER_IOCTL_VENDOR _IOR('U', 0x20, Int)
-#define SCANNER_IOCTL_PRODUCT _IOR('U', 0x21, Int)
-#define SCANNER_IOCTL_CTRLMSG _IOWR('U', 0x22, devrequest)
+#define SCANNER_IOCTL_VENDOR _IOR("U", 0x20, Int)
+#define SCANNER_IOCTL_PRODUCT _IOR("U", 0x21, Int)
+#define SCANNER_IOCTL_CTRLMSG _IOWR("U", 0x22, devrequest)
 /* Older(unofficial) IOCTL numbers for Linux < v2.4.13 */
-#define SCANNER_IOCTL_VENDOR_OLD _IOR('u', 0xa0, Int)
-#define SCANNER_IOCTL_PRODUCT_OLD _IOR('u', 0xa1, Int)
+#define SCANNER_IOCTL_VENDOR_OLD _IOR("u", 0xa0, Int)
+#define SCANNER_IOCTL_PRODUCT_OLD _IOR("u", 0xa1, Int)
 
 /* From /usr/src/linux/include/linux/usb.h */
 typedef struct
@@ -290,7 +290,7 @@ print_buffer(const Sane.Byte * buffer, Int size)
 	    sprintf(pp, "%c",
 		     (buffer[line * NUM_COLUMNS + column] < 127) &&
 		     (buffer[line * NUM_COLUMNS + column] > 31) ?
-		     buffer[line * NUM_COLUMNS + column] : '.')
+		     buffer[line * NUM_COLUMNS + column] : ".")
 	  else
 	    sprintf(pp, " ")
 	  pp += 1
@@ -376,7 +376,7 @@ kernel_get_vendor_product(Int fd, const char *name, Int *vendorID, Int *productI
 #endif /* !defined(HAVE_LIBUSB_LEGACY) && !defined(HAVE_LIBUSB) */
 
 /**
- * store the given device in device list if it isn't already
+ * store the given device in device list if it isn"t already
  * in it
  * @param device device to store if new
  */
@@ -504,7 +504,7 @@ Sane.Status sanei_usb_testing_enable_replay(Sane.String_Const path,
   testing_mode = sanei_usb_testing_mode_replay
   testing_development_mode = development_mode
 
-  // TODO: we'll leak if no one ever inits Sane.usb properly
+  // TODO: we"ll leak if no one ever inits Sane.usb properly
   testing_xml_path = strdup(path)
   testing_xml_doc = xmlReadFile(testing_xml_path, NULL, 0)
   if(!testing_xml_doc)
@@ -731,7 +731,7 @@ static char* sanei_xml_get_hex_data_slow_path(xmlNode* node, xmlChar* content, x
       if(*cur_content == 0)
         break
 
-      // don't use stroul because it will parse in big-endian and data is in
+      // don"t use stroul because it will parse in big-endian and data is in
       // little endian
       uint8_t c = *cur_content
       int8_t ci = sanei_xml_char_types[c]
@@ -758,14 +758,14 @@ static char* sanei_xml_get_hex_data_slow_path(xmlNode* node, xmlChar* content, x
   return ret_data
 }
 
-// Parses hex data in XML text node in the format of '00 11 ab 3f', etc. to
+// Parses hex data in XML text node in the format of "00 11 ab 3f", etc. to
 // binary string. The size is returned as *size. The caller is responsible for
 // freeing the returned value
 static char* sanei_xml_get_hex_data(xmlNode* node, size_t* size)
 {
   xmlChar* content = xmlNodeGetContent(node)
 
-  // let's overallocate to simplify the implementation. We expect the string
+  // let"s overallocate to simplify the implementation. We expect the string
   // to be deallocated soon anyway
   char* ret_data = malloc(strlen((const char*)content) / 2 + 2)
   char* cur_ret_data = ret_data
@@ -794,7 +794,7 @@ static char* sanei_xml_get_hex_data(xmlNode* node, size_t* size)
       if(*cur_content == 0)
         break
 
-      // don't use stroul because it will parse in big-endian and data is in
+      // don"t use stroul because it will parse in big-endian and data is in
       // little endian
       int8_t ci1 = sanei_xml_char_types[(uint8_t)*cur_content]
       int8_t ci2 = sanei_xml_char_types[(uint8_t)*(cur_content + 1)]
@@ -824,9 +824,9 @@ static char* sanei_binary_to_hex_data(const char* data, size_t size,
       if(i + 1 != size)
       {
         if((i + 1) % 32 == 0)
-          hex_data[hex_size++] = '\n'
+          hex_data[hex_size++] = "\n"
         else
-          hex_data[hex_size++] = ' '
+          hex_data[hex_size++] = " "
       }
     }
   hex_data[hex_size] = 0
@@ -843,7 +843,7 @@ static void sanei_xml_set_data(xmlNode* node, const char* data)
 }
 
 // Writes binary data to XML node as a child text node in the hex format of
-// '00 11 ab 3f'.
+// "00 11 ab 3f".
 static void sanei_xml_set_hex_data(xmlNode* node, const char* data,
                                    size_t size)
 {
@@ -1221,7 +1221,7 @@ static Sane.Status sanei_usb_testing_init()
           memset(&device, 0, sizeof(device))
           device.devname = strdup(testing_xml_path)
 
-          // other code shouldn't depend on method because testing_mode is
+          // other code shouldn"t depend on method because testing_mode is
           // sanei_usb_testing_mode_replay
           device.method = sanei_usb_method_libusb
           device.vendor = device_id
@@ -1624,7 +1624,7 @@ static void kernel_scan_devices(void)
 
       if(stat(dir_name, &stat_buf) < 0)
 	{
-	  DBG(5, "%s: can't stat %s: %s\n", __func__, dir_name,
+	  DBG(5, "%s: can"t stat %s: %s\n", __func__, dir_name,
 	       strerror(errno))
 	  continue
 	}
@@ -1660,7 +1660,7 @@ static void kernel_scan_devices(void)
 		fd = open(devname, O_RDWR)
 	      if(fd < 0)
 		{
-		  DBG(5, "%s: couldn't open %s: %s\n", __func__, devname,
+		  DBG(5, "%s: couldn"t open %s: %s\n", __func__, devname,
 		       strerror(errno))
 		  continue
 		}
@@ -1741,7 +1741,7 @@ static void libusb_scan_devices(void)
 		  if(dev.config[0].interface[interface].num_altsetting == 0 ||
 		      !dev.config[0].interface[interface].altsetting)
 		    {
-		      DBG(1, "%s: device 0x%04x/0x%04x doesn't "
+		      DBG(1, "%s: device 0x%04x/0x%04x doesn"t "
 			   "have an altsetting for interface %d\n", __func__,
 			   dev.descriptor.idVendor, dev.descriptor.idProduct,
 			   interface)
@@ -1762,7 +1762,7 @@ static void libusb_scan_devices(void)
 	      if(!found)
 		DBG(5,
 		     "%s: device 0x%04x/0x%04x, interface %d "
-                     "doesn't look like a "
+                     "doesn"t look like a "
 		     "scanner(%d/%d)\n", __func__, dev.descriptor.idVendor,
 		     dev.descriptor.idProduct, interface,
 		     dev.descriptor.bDeviceClass,
@@ -1916,7 +1916,7 @@ static void libusb_scan_devices(void)
 		if((config0->interface[interface].num_altsetting == 0)
 		    || !config0->interface[interface].altsetting)
 		  {
-		    DBG(1, "%s: device 0x%04x/0x%04x doesn't "
+		    DBG(1, "%s: device 0x%04x/0x%04x doesn"t "
 			 "have an altsetting for interface %d\n", __func__,
 			 vid, pid, interface)
 		    continue
@@ -1937,7 +1937,7 @@ static void libusb_scan_devices(void)
 	  if(!found)
 	    DBG(5,
 		 "%s: device 0x%04x/0x%04x, interface %d "
-		 "doesn't look like a scanner(%d/%d)\n", __func__,
+		 "doesn"t look like a scanner(%d/%d)\n", __func__,
 		 vid, pid, interface, desc.bDeviceClass,
 		 (config0->interface[interface].num_altsetting != 0)
 		 ? config0->interface[interface].altsetting[0].bInterfaceClass : -1)
@@ -2101,7 +2101,7 @@ sanei_usb_get_vendor_product_byname(Sane.String_Const devname,
 
   if(!found)
     {
-      DBG(1, "sanei_usb_get_vendor_product_byname: can't find device `%s' in list\n", devname)
+      DBG(1, "sanei_usb_get_vendor_product_byname: can"t find device `%s" in list\n", devname)
       return Sane.STATUS_INVAL
     }
 
@@ -2150,7 +2150,7 @@ sanei_usb_get_vendor_product(Int dn, Sane.Word * vendor,
 
   if(!vendorID || !productID)
     {
-      DBG(3, "sanei_usb_get_vendor_product: device %d: Your OS doesn't "
+      DBG(3, "sanei_usb_get_vendor_product: device %d: Your OS doesn"t "
 	   "seem to support detection of vendor+product ids\n", dn)
       return Sane.STATUS_UNSUPPORTED
     }
@@ -2332,9 +2332,9 @@ static void sanei_xml_indent_child(xmlNode* parent, unsigned indent_count)
   indent_count *= 4
 
   xmlChar* indent_str = malloc(indent_count + 2)
-  indent_str[0] = '\n'
-  memset(indent_str + 1, ' ', indent_count)
-  indent_str[indent_count + 1] = '\0'
+  indent_str[0] = "\n"
+  memset(indent_str + 1, " ", indent_count)
+  indent_str[indent_count + 1] = "\0"
 
   xmlAddChild(parent, xmlNewText(indent_str))
   free(indent_str)
@@ -2419,10 +2419,10 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
   Int devcount
   Bool found = Sane.FALSE
 
-  DBG(5, "sanei_usb_open: trying to open device `%s'\n", devname)
+  DBG(5, "sanei_usb_open: trying to open device `%s"\n", devname)
   if(!dn)
     {
-      DBG(1, "sanei_usb_open: can't open `%s': dn == NULL\n", devname)
+      DBG(1, "sanei_usb_open: can"t open `%s": dn == NULL\n", devname)
       return Sane.STATUS_INVAL
     }
 
@@ -2434,7 +2434,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
 	{
 	  if(devices[devcount].open)
 	    {
-	      DBG(1, "sanei_usb_open: device `%s' already open\n", devname)
+	      DBG(1, "sanei_usb_open: device `%s" already open\n", devname)
 	      return Sane.STATUS_INVAL
 	    }
 	  found = Sane.TRUE
@@ -2444,7 +2444,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
 
   if(!found)
     {
-      DBG(1, "sanei_usb_open: can't find device `%s' in list\n", devname)
+      DBG(1, "sanei_usb_open: can"t find device `%s" in list\n", devname)
       return Sane.STATUS_INVAL
     }
 
@@ -2468,7 +2468,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
 	{
 	  Sane.Status status = Sane.STATUS_INVAL
 
-	  DBG(1, "sanei_usb_open: can't open device `%s': %s\n",
+	  DBG(1, "sanei_usb_open: can"t open device `%s": %s\n",
 	       devname, strerror(errno))
 	  if(errno == EPERM || errno == EACCES)
 	    {
@@ -2479,7 +2479,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
 	  else if(errno == EBUSY)
 	    {
 	      DBG(1, "Maybe the kernel scanner driver claims the "
-		   "scanner's interface?\n")
+		   "scanner"s interface?\n")
 	      status = Sane.STATUS_DEVICE_BUSY
 	    }
 	  return status
@@ -2490,7 +2490,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
       /* Set the configuration */
       if(!dev.config)
 	{
-	  DBG(1, "sanei_usb_open: device `%s' not configured?\n", devname)
+	  DBG(1, "sanei_usb_open: device `%s" not configured?\n", devname)
 	  return Sane.STATUS_INVAL
 	}
       if(dev.descriptor.bNumConfigurations > 1)
@@ -2545,7 +2545,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
 	  else if(errno == EBUSY)
 	    {
 	      DBG(1, "Maybe the kernel scanner driver claims the "
-		   "scanner's interface?\n")
+		   "scanner"s interface?\n")
 	      status = Sane.STATUS_DEVICE_BUSY
 	    }
 	  usb_close(devices[devcount].libusb_handle)
@@ -2612,7 +2612,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
 	{
 	  Sane.Status status = Sane.STATUS_INVAL
 
-	  DBG(1, "sanei_usb_open: can't open device `%s': %s\n",
+	  DBG(1, "sanei_usb_open: can"t open device `%s": %s\n",
 	       devname, sanei_libusb_strerror(result))
 	  if(result == LIBUSB_ERROR_ACCESS)
 	    {
@@ -2623,7 +2623,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
 	  else if(result == LIBUSB_ERROR_BUSY)
 	    {
 	      DBG(1, "Maybe the kernel scanner driver claims the "
-		   "scanner's interface?\n")
+		   "scanner"s interface?\n")
 	      status = Sane.STATUS_DEVICE_BUSY
 	    }
 	  else if(result == LIBUSB_ERROR_NO_MEM)
@@ -2637,7 +2637,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
       if(result < 0)
 	{
 	  DBG(1,
-	       "sanei_usb_open: could not get configuration for device `%s' (err %d)\n",
+	       "sanei_usb_open: could not get configuration for device `%s" (err %d)\n",
 	       devname, result)
 	  return Sane.STATUS_INVAL
 	}
@@ -2645,7 +2645,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
 #if !defined(SANEI_ALLOW_UNCONFIGURED_DEVICES)
       if(config == 0)
 	{
-	  DBG(1, "sanei_usb_open: device `%s' not configured?\n", devname)
+	  DBG(1, "sanei_usb_open: device `%s" not configured?\n", devname)
 	  return Sane.STATUS_INVAL
 	}
 #endif
@@ -2654,7 +2654,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
       if(result < 0)
 	{
 	  DBG(1,
-	       "sanei_usb_open: could not get device descriptor for device `%s' (err %d)\n",
+	       "sanei_usb_open: could not get device descriptor for device `%s" (err %d)\n",
 	       devname, result)
 	  return Sane.STATUS_INVAL
 	}
@@ -2663,7 +2663,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
       if(result < 0)
 	{
 	  DBG(1,
-	       "sanei_usb_open: could not get config[0] descriptor for device `%s' (err %d)\n",
+	       "sanei_usb_open: could not get config[0] descriptor for device `%s" (err %d)\n",
 	       devname, result)
 	  return Sane.STATUS_INVAL
 	}
@@ -2728,7 +2728,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
 	  else if(result == LIBUSB_ERROR_BUSY)
 	    {
 	      DBG(1, "Maybe the kernel scanner driver claims the "
-		   "scanner's interface?\n")
+		   "scanner"s interface?\n")
 	      status = Sane.STATUS_DEVICE_BUSY
 	    }
 
@@ -2745,7 +2745,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
 	  if(result < 0)
 	    {
 	      DBG(1,
-		   "sanei_usb_open: could not get config[%d] descriptor for device `%s' (err %d)\n",
+		   "sanei_usb_open: could not get config[%d] descriptor for device `%s" (err %d)\n",
 		   c, devname, result)
 	      continue
 	    }
@@ -2785,8 +2785,8 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
                           endpoint.bmAttributes & LIBUSB_TRANSFER_TYPE_MASK
 		      direction = endpoint.bEndpointAddress & LIBUSB_ENDPOINT_DIR_MASK
 
-                      // don't rely on LIBUSB_TRANSFER_TYPE_* mapping to
-                      // USB_ENDPOINT_TYPE_* even though they'll most likely be
+                      // don"t rely on LIBUSB_TRANSFER_TYPE_* mapping to
+                      // USB_ENDPOINT_TYPE_* even though they"ll most likely be
                       // the same
                       switch(transfer_type_libusb)
                         {
@@ -2817,7 +2817,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
 	}
 
 #else /* not HAVE_LIBUSB_LEGACY && not HAVE_LIBUSB */
-      DBG(1, "sanei_usb_open: can't open device `%s': "
+      DBG(1, "sanei_usb_open: can"t open device `%s": "
 	   "libusb support missing\n", devname)
       return Sane.STATUS_UNSUPPORTED
 #endif /* not HAVE_LIBUSB_LEGACY && not HAVE_LIBUSB */
@@ -2842,11 +2842,11 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
 	    status = Sane.STATUS_ACCESS_DENIED
 	  else if(errno == ENOENT)
 	    {
-	      DBG(5, "sanei_usb_open: open of `%s' failed: %s\n",
+	      DBG(5, "sanei_usb_open: open of `%s" failed: %s\n",
 		   devname, strerror(errno))
 	      return status
 	    }
-	  DBG(1, "sanei_usb_open: open of `%s' failed: %s\n",
+	  DBG(1, "sanei_usb_open: open of `%s" failed: %s\n",
 	       devname, strerror(errno))
 	  return status
 	}
@@ -2855,7 +2855,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
       if(flag >= 0)
 	{
 	  if(fcntl(devices[devcount].fd, F_SETFD, flag | FD_CLOEXEC) < 0)
-	    DBG(1, "sanei_usb_open: fcntl of `%s' failed: %s\n",
+	    DBG(1, "sanei_usb_open: fcntl of `%s" failed: %s\n",
 		 devname, strerror(errno))
 	}
 #endif
@@ -2891,7 +2891,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
       if(rc!=0)
 	{
 	  Sane.Status status = Sane.STATUS_INVAL
-	  DBG(1, "sanei_usb_open: can't open device `%s': %s\n",
+	  DBG(1, "sanei_usb_open: can"t open device `%s": %s\n",
 	       devname, strerror(rc))
 	  return status
 	}
@@ -2959,7 +2959,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
           }
         }
 #else
-      DBG(1, "sanei_usb_open: can't open device `%s': "
+      DBG(1, "sanei_usb_open: can"t open device `%s": "
 	   "usbcalls support missing\n", devname)
       return Sane.STATUS_UNSUPPORTED
 #endif /* HAVE_USBCALLS */
@@ -2983,7 +2983,7 @@ sanei_usb_open(Sane.String_Const devname, Int * dn)
 
   devices[devcount].open = Sane.TRUE
   *dn = devcount
-  DBG(3, "sanei_usb_open: opened usb device `%s' (*dn=%d)\n",
+  DBG(3, "sanei_usb_open: opened usb device `%s" (*dn=%d)\n",
        devname, devcount)
   return Sane.STATUS_GOOD
 }
@@ -3035,7 +3035,7 @@ sanei_usb_close(Int dn)
     {
       /* This call seems to be required by Linux xhci driver
        * even though it should be a no-op. Without it, the
-       * host or driver does not reset it's data toggle bit.
+       * host or driver does not reset it"s data toggle bit.
        * We intentionally ignore the return val */
       if(workaround)
         {
@@ -3050,7 +3050,7 @@ sanei_usb_close(Int dn)
     {
       /* This call seems to be required by Linux xhci driver
        * even though it should be a no-op. Without it, the
-       * host or driver does not reset it's data toggle bit.
+       * host or driver does not reset it"s data toggle bit.
        * We intentionally ignore the return val */
       if(workaround)
         {
@@ -3394,7 +3394,7 @@ sanei_usb_read_bulk(Int dn, Sane.Byte * buffer, size_t * size)
 	}
       else
 	{
-	  DBG(1, "sanei_usb_read_bulk: can't read without a bulk-in "
+	  DBG(1, "sanei_usb_read_bulk: can"t read without a bulk-in "
 	       "endpoint\n")
 	  return Sane.STATUS_INVAL
 	}
@@ -3423,7 +3423,7 @@ sanei_usb_read_bulk(Int dn, Sane.Byte * buffer, size_t * size)
 	}
       else
 	{
-	  DBG(1, "sanei_usb_read_bulk: can't read without a bulk-in "
+	  DBG(1, "sanei_usb_read_bulk: can"t read without a bulk-in "
 	       "endpoint\n")
 	  return Sane.STATUS_INVAL
 	}
@@ -3456,7 +3456,7 @@ sanei_usb_read_bulk(Int dn, Sane.Byte * buffer, size_t * size)
         DBG(1, "sanei_usb_read_bulk: rc = %d\n",rc);}
       else
       {
-          DBG(1, "sanei_usb_read_bulk: can't read without a bulk-in endpoint\n")
+          DBG(1, "sanei_usb_read_bulk: can"t read without a bulk-in endpoint\n")
           return Sane.STATUS_INVAL
       }
       if(rc || (ulNum!=ulToRead)) return Sane.STATUS_INVAL
@@ -3730,7 +3730,7 @@ sanei_usb_write_bulk(Int dn, const Sane.Byte * buffer, size_t * size)
 	}
       else
 	{
-	  DBG(1, "sanei_usb_write_bulk: can't write without a bulk-out "
+	  DBG(1, "sanei_usb_write_bulk: can"t write without a bulk-out "
 	       "endpoint\n")
 	  return Sane.STATUS_INVAL
 	}
@@ -3758,7 +3758,7 @@ sanei_usb_write_bulk(Int dn, const Sane.Byte * buffer, size_t * size)
 	}
       else
 	{
-	  DBG(1, "sanei_usb_write_bulk: can't write without a bulk-out "
+	  DBG(1, "sanei_usb_write_bulk: can"t write without a bulk-out "
 	       "endpoint\n")
 	  return Sane.STATUS_INVAL
 	}
@@ -3791,7 +3791,7 @@ sanei_usb_write_bulk(Int dn, const Sane.Byte * buffer, size_t * size)
       }
       else
       {
-          DBG(1, "sanei_usb_write_bulk: can't read without a bulk-out endpoint\n")
+          DBG(1, "sanei_usb_write_bulk: can"t read without a bulk-out endpoint\n")
           return Sane.STATUS_INVAL
       }
       if(rc) return Sane.STATUS_INVAL
@@ -4333,7 +4333,7 @@ sanei_usb_read_int(Int dn, Sane.Byte * buffer, size_t * size)
 	}
       else
 	{
-	  DBG(1, "sanei_usb_read_int: can't read without an Int "
+	  DBG(1, "sanei_usb_read_int: can"t read without an Int "
 	       "endpoint\n")
 	  return Sane.STATUS_INVAL
 	}
@@ -4358,7 +4358,7 @@ sanei_usb_read_int(Int dn, Sane.Byte * buffer, size_t * size)
 	}
       else
 	{
-	  DBG(1, "sanei_usb_read_int: can't read without an Int "
+	  DBG(1, "sanei_usb_read_int: can"t read without an Int "
 	       "endpoint\n")
 	  return Sane.STATUS_INVAL
 	}
@@ -4387,7 +4387,7 @@ sanei_usb_read_int(Int dn, Sane.Byte * buffer, size_t * size)
         }
       else
 	{
-	  DBG(1, "sanei_usb_read_int: can't read without an Int "
+	  DBG(1, "sanei_usb_read_int: can"t read without an Int "
 	       "endpoint\n")
 	  return Sane.STATUS_INVAL
 	}

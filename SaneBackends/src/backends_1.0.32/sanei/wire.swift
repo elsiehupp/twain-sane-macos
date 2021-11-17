@@ -552,14 +552,14 @@ sanei_w_parameters(Wire * w, Sane.Parameters * v)
   DBG(3, "sanei_w_parameters: wire %d\n", w.io.fd)
   sanei_w_frame(w, &v.format)
   sanei_w_bool(w, &v.last_frame)
-  sanei_w_word(w, &v.bytes_per_line)
+  sanei_w_word(w, &v.bytesPerLine)
   sanei_w_word(w, &v.pixels_per_line)
   sanei_w_word(w, &v.lines)
   sanei_w_word(w, &v.depth)
   if(w.direction != WIRE_FREE)
     DBG(4,
 	 "sanei_w_parameters: format/last/bpl/ppl/lines/depth = "
-	 "%d/%d/%d/%d/%d/%d\n", v.format, v.last_frame, v.bytes_per_line,
+	 "%d/%d/%d/%d/%d/%d\n", v.format, v.last_frame, v.bytesPerLine,
 	 v.pixels_per_line, v.lines, v.depth)
 }
 

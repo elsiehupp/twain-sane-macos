@@ -77,7 +77,7 @@ static u_char cdb_sizes[8] = {
  * the data, if necessary. When this function returns with a
  * Sane.STATUS_GOOD, the SCSI command has been completed.
  *
- * Note: I don't know about deferred commands.
+ * Note: I don"t know about deferred commands.
  */
 static Sane.Status sanei_umaxusb_cmd(Int fd, const void *src, size_t src_size, void *dst, size_t * dst_size)
 {
@@ -94,7 +94,7 @@ static Sane.Status sanei_umaxusb_cmd(Int fd, const void *src, size_t src_size, v
 	sanei_pv8630_wait_byte(fd, PV8630_RSTATUS, 0xf0, 0xff, 1000)
 	sanei_pv8630_write_byte(fd, PV8630_UNKNOWN, 0x04)
 
-	/* Send the CDB and check it's been received OK. */
+	/* Send the CDB and check it"s been received OK. */
 	sanei_pv8630_write_byte(fd, PV8630_RMODE, 0x16)
 	sanei_pv8630_flush_buffer(fd)
 	sanei_pv8630_prep_bulkwrite(fd, cmd_size)
@@ -117,7 +117,7 @@ static Sane.Status sanei_umaxusb_cmd(Int fd, const void *src, size_t src_size, v
 		return(Sane.STATUS_IO_ERROR)
 	}
 
-	/* Send the parameters and check they've been received OK. */
+	/* Send the parameters and check they"ve been received OK. */
 	if(param_size) {
 		sanei_pv8630_flush_buffer(fd)
 		sanei_pv8630_prep_bulkwrite(fd, param_size)
@@ -228,7 +228,7 @@ static Sane.Status pv8630_init_umaxusb_scanner(Int fd)
 /*
  * sanei_umaxusb_req_wait() and sanei_umaxusb_req_enter()
  *
- * I don't know if it is possible to queue the reads to the
+ * I don"t know if it is possible to queue the reads to the
  * scanner. So The queueing is disabled. The performance does not seems
  * to be bad anyway.
  */
@@ -266,7 +266,7 @@ sanei_umaxusb_open(const char *dev, Int *fdp,
 
 	status = sanei_usb_open(dev, fdp)
 	if(status != Sane.STATUS_GOOD) {
-		DBG(1, "sanei_umaxusb_open: open of `%s' failed: %s\n",
+		DBG(1, "sanei_umaxusb_open: open of `%s" failed: %s\n",
 			 dev, Sane.strstatus(status))
 		return status
     } else {
@@ -275,13 +275,13 @@ sanei_umaxusb_open(const char *dev, Int *fdp,
 
 		/* We have opened the device. Check that it is a USB scanner. */
 		if(sanei_usb_get_vendor_product(*fdp, &vendor, &product) != Sane.STATUS_GOOD) {
-			/* This is not a USB scanner, or SANE or the OS doesn't support it. */
+			/* This is not a USB scanner, or SANE or the OS doesn"t support it. */
 			sanei_usb_close(*fdp)
 			*fdp = -1
 			return Sane.STATUS_UNSUPPORTED
 		}
 
-		/* So it's a scanner. Does this backend support it?
+		/* So it"s a scanner. Does this backend support it?
 		 * Only the UMAX 2200 USB is currently supported. */
 		if((vendor != 0x1606) || (product != 0x0230)) {
 			sanei_usb_close(*fdp)
@@ -289,7 +289,7 @@ sanei_umaxusb_open(const char *dev, Int *fdp,
 			return Sane.STATUS_UNSUPPORTED
 		}
 
-		/* It's a good scanner. Initialize it.
+		/* It"s a good scanner. Initialize it.
 		 *
 		 * Note: pv8630_init_umaxusb_scanner() is for the UMAX
 		 * 2200. Other UMAX scanner might need a different

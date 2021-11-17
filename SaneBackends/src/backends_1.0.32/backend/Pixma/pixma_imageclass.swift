@@ -289,12 +289,12 @@ send_scan_param(pixma_t * s)
   uint8_t *data
 
   data = pixma_newcmd(&mf.cb, cmd_scan_param, 0x2e, 0)
-  pixma_set_be16 (s.param.xdpi | 0x1000, data + 0x04)
-  pixma_set_be16 (s.param.ydpi | 0x1000, data + 0x06)
-  pixma_set_be32 (s.param.x, data + 0x08)
-  pixma_set_be32 (s.param.y, data + 0x0c)
-  pixma_set_be32 (mf.raw_width, data + 0x10)
-  pixma_set_be32 (s.param.h, data + 0x14)
+  pixma_set_be16(s.param.xdpi | 0x1000, data + 0x04)
+  pixma_set_be16(s.param.ydpi | 0x1000, data + 0x06)
+  pixma_set_be32(s.param.x, data + 0x08)
+  pixma_set_be32(s.param.y, data + 0x0c)
+  pixma_set_be32(mf.raw_width, data + 0x10)
+  pixma_set_be32(s.param.h, data + 0x14)
   data[0x18] = (s.param.channels == 1) ? 0x04 : 0x08
   data[0x19] = s.param.channels * ((s.param.depth == 1) ? 8 : s.param.depth);	/* bits per pixel */
   data[0x1f] = 0x7f
@@ -329,7 +329,7 @@ request_image_block(pixma_t * s, unsigned flag, uint8_t * info,
   memset(mf.cb.buf, 0, 11)
   /* generation 2 scanners use cmd_read_image2.
    * MF6100, ... are exceptions */
-  pixma_set_be16 (((mf.generation >= 2
+  pixma_set_be16(((mf.generation >= 2
                     && s.cfg.pid != MF6100_PID) ? cmd_read_image2 : cmd_read_image), mf.cb.buf)
   mf.cb.buf[8] = flag
   mf.cb.buf[10] = 0x06
@@ -341,7 +341,7 @@ request_image_block(pixma_t * s, unsigned flag, uint8_t * info,
   if(mf.cb.reslen >= hlen)
     {
       *info = mf.cb.buf[2]
-      *size = pixma_get_be16 (mf.cb.buf + 6);    /* 16bit size */
+      *size = pixma_get_be16(mf.cb.buf + 6);    /* 16bit size */
       error = 0
 
       if(mf.generation >= 2 ||
@@ -350,7 +350,7 @@ request_image_block(pixma_t * s, unsigned flag, uint8_t * info,
           s.cfg.pid == MF8030_PID)
         {                                         /* 32bit size */
           *datalen = mf.cb.reslen - hlen
-          *size = (*datalen + hlen == 512) ? pixma_get_be32 (mf.cb.buf + 4) - *datalen : *size
+          *size = (*datalen + hlen == 512) ? pixma_get_be32(mf.cb.buf + 4) - *datalen : *size
           memcpy(data, mf.cb.buf + hlen, *datalen)
         }
      PDBG(pixma_dbg(11, "*request_image_block***** size = %u *****\n", *size))
@@ -420,7 +420,7 @@ read_error_info(pixma_t * s, void *buf, unsigned size)
   if(buf && len < size)
     {
       size = len
-      /* NOTE: I've absolutely no idea what the returned data mean. */
+      /* NOTE: I"ve absolutely no idea what the returned data mean. */
       memcpy(buf, data, size)
       error = len
     }
@@ -458,7 +458,7 @@ step1 (pixma_t * s)
   Int rec_tmo
   iclass_t *mf = (iclass_t *) s.subdriver
 
-  /* don't wait full timeout for 1st command */
+  /* don"t wait full timeout for 1st command */
   rec_tmo = s.rec_tmo;         /* save global timeout */
   s.rec_tmo = 2;               /* set timeout to 2 seconds */
   error = query_status(s)
@@ -729,7 +729,7 @@ iclass_fill_buffer(pixma_t * s, pixma_imagebuf_t * ib)
           mf.blk_len += first_block_size
           if(error < 0)
             {
-              /* NOTE: seen in traffic logs but don't know the meaning. */
+              /* NOTE: seen in traffic logs but don"t know the meaning. */
               read_error_info(s, NULL, 0)
               if(error == PIXMA_ECANCELED)
                 return error
@@ -849,7 +849,7 @@ iclass_finish_scan(pixma_t * s)
        * generation >= 2:
        * 0x38 = last block and ADF empty(generation >= 2)
        * 0x28 = last block and Paper in ADF(multi page scan)
-       * some generation 2 scanners don't use 0x38 for ADF empty => check status */
+       * some generation 2 scanners don"t use 0x38 for ADF empty => check status */
       if(mf.last_block==0x38                                  /* generation 2 scanner ADF empty */
           || (mf.generation == 1 && mf.last_block == 0x28)    /* generation 1 scanner last block */
           || (mf.generation >= 2 && !has_paper(s)))            /* check status: no paper in ADF */

@@ -120,7 +120,7 @@ public:
     #endif
     
 
-    void clear() { msg_[0] = '\n'; }
+    void clear() { msg_[0] = "\n"; }
 
     void log(unsigned level, const char* msg)
     void vlog(unsigned level, const char* format, ...)

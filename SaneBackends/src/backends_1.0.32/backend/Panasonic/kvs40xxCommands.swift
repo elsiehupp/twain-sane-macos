@@ -79,7 +79,7 @@ struct cmd
 ]
 struct response
 {
-  Int status
+  status: Int
   unsigned char data[RESPONSE_SIZE]
 ]
 
@@ -92,9 +92,9 @@ usb_send_command(struct scanner *s, struct cmd *c, struct response *r,
   u8 resp[sizeof(*h) + STATUS_SIZE]
   size_t sz = sizeof(*h) + MAX_CMD_SIZE
   memset(h, 0, sz)
-  h.length = cpu2be32 (sz)
-  h.type = cpu2be16 (COMMAND_BLOCK)
-  h.code = cpu2be16 (COMMAND_CODE)
+  h.length = cpu2be32(sz)
+  h.type = cpu2be16(COMMAND_BLOCK)
+  h.code = cpu2be16(COMMAND_CODE)
   memcpy(h + 1, c.cmd, c.cmd_size)
 
   st = sanei_usb_write_bulk(s.file, (const Sane.Byte *) h, &sz)
@@ -110,11 +110,11 @@ usb_send_command(struct scanner *s, struct cmd *c, struct response *r,
       sz = sizeof(*h) + c.data_size
       c.data_size = 0
       st = sanei_usb_read_bulk(s.file, (Sane.Byte *) h, &sz)
-      for(l = sz; !st && l != be2cpu32 (h.length); l += sz)
+      for(l = sz; !st && l != be2cpu32(h.length); l += sz)
 	{
 	  DBG(DBG_WARN, "usb wrong read(%d instead %d)\n",
-	       c.data_size, be2cpu32 (h.length))
-	  sz = be2cpu32 (h.length) - l
+	       c.data_size, be2cpu32(h.length))
+	  sz = be2cpu32(h.length) - l
 	  st = sanei_usb_read_bulk(s.file, ((Sane.Byte *) h) + l, &sz)
 
 	}
@@ -143,9 +143,9 @@ usb_send_command(struct scanner *s, struct cmd *c, struct response *r,
     {
       sz = sizeof(*h) + c.data_size
       memset(h, 0, sizeof(*h))
-      h.length = cpu2be32 (sizeof(*h) + c.data_size)
-      h.type = cpu2be16 (DATA_BLOCK)
-      h.code = cpu2be16 (DATA_CODE)
+      h.length = cpu2be32(sizeof(*h) + c.data_size)
+      h.type = cpu2be16(DATA_BLOCK)
+      h.code = cpu2be16(DATA_CODE)
       memcpy(h + 1, c.data, c.data_size)
       st = sanei_usb_write_bulk(s.file, (const Sane.Byte *) h, &sz)
       if(st)
@@ -156,7 +156,7 @@ usb_send_command(struct scanner *s, struct cmd *c, struct response *r,
   if(st || sz != sizeof(resp))
     return Sane.STATUS_IO_ERROR
 
-  r.status = be2cpu32 (*((u32 *) (resp + sizeof(*h))))
+  r.status = be2cpu32(*((u32 *) (resp + sizeof(*h))))
   return st
 }
 
@@ -350,7 +350,7 @@ kvs40xx_test_unit_ready(struct scanner * s)
 Sane.Status
 kvs40xx_set_timeout(struct scanner * s, Int timeout)
 {
-  u16 t = cpu2be16 ((u16) timeout)
+  u16 t = cpu2be16((u16) timeout)
   struct cmd c = {
     {0}, 10,
     NULL, 0,
@@ -360,7 +360,7 @@ kvs40xx_set_timeout(struct scanner * s, Int timeout)
   c.data_size = sizeof(t)
   c.cmd[0] = SET_TIMEOUT
   c.cmd[2] = 0x8d
-  copy16 (c.cmd + 7, cpu2be16 (sizeof(t)))
+  copy16(c.cmd + 7, cpu2be16(sizeof(t)))
   if(s.bus == USB)
     sanei_usb_set_timeout(timeout * 1000)
 
@@ -379,7 +379,7 @@ kvs40xx_set_window(struct scanner * s, Int wnd_id)
   c.data = &wnd
   c.data_size = sizeof(wnd)
   c.cmd[0] = SET_WINDOW
-  copy16 (c.cmd + 7, cpu2be16 (sizeof(wnd)))
+  copy16(c.cmd + 7, cpu2be16(sizeof(wnd)))
   kvs40xx_init_window(s, &wnd, wnd_id)
 
   return send_command(s, &c)
@@ -482,8 +482,8 @@ kvs40xx_read_picture_element(struct scanner * s, unsigned side,
   if(status)
     return status
   data = (u32 *) c.data
-  p.pixels_per_line = be2cpu32 (data[0])
-  p.lines = be2cpu32 (data[1])
+  p.pixels_per_line = be2cpu32(data[0])
+  p.lines = be2cpu32(data[1])
 
   return Sane.STATUS_GOOD
 }
@@ -573,7 +573,7 @@ inquiry(struct scanner * s, char *id)
   if(st)
     return st
   memcpy(id, (unsigned char *)c.data + 16, 16)
-  for(i = 0; i < 15 && id[i] != ' '; i++)
+  for(i = 0; i < 15 && id[i] != " "; i++)
   id[i] = 0
   return Sane.STATUS_GOOD
 }

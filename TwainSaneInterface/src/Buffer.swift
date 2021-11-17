@@ -1,125 +1,154 @@
 class Buffer {
 
-public:
-    Buffer()
-    Buffer(Size insize)
-    ~Buffer()
-    void SetSize(Size insize)
-    Size CheckSize()
-    Ptr GetPtr(Size datasize = 0)
-    void ReleasePtr(Size datasize)
-    void Write(void * data, Size datasize)
-    Handle Claim()
-private:
-    Handle handle
-    Size size
-    Size delta
-    Size offset
-    OSErr memError
-    Bool claimed
-}
+    private var handle: Handle
+    private var size: Size
+    private var delta: Size
+    private var offset: Size
+    private var memError: OSErr
+    private var claimed: Bool
 
-
-
-
-
-
-
-Buffer.Buffer() : handle(nil), size(0), delta(0), offset(0), memError(noErr),
-                    claimed(false) {}
-
-
-Buffer.Buffer(Size insize) : size(insize), delta(insize), offset(0), claimed(false) {
-
-    handle = NewHandle(size)
-    memError = MemError()
-}
-
-
-Buffer.~Buffer() {
-
-    if(handle && !claimed) DisposeHandle(handle)
-}
-
-
-func void Buffer.SetSize(Size insize) {
-
-    if(handle) return
-    size = insize
-    delta = insize
-    handle = NewHandle(size)
-    memError = MemError()
-}
-
-
-Size Buffer.CheckSize() {
-
-    if(!handle) return 0
-    if(claimed) return 0
-    if(memError) return 0
-    if(size == offset) {
-        size += delta
-        SetHandleSize(handle, size)
-        memError = MemError()
-        if(memError) return 0
+    public func Buffer() {
+        handle(nil)
+        size(0)
+        delta(0)
+        offset(0)
+        memError(noErr)
+        claimed(false)
     }
-    return size - offset
-}
 
 
-Ptr Buffer.GetPtr(Size datasize) {
+    public func Buffer(insize: Size) {
+        size(insize)
+        delta(insize)
+        offset(0)
+        claimed(false)
 
-    if(!handle) return nil
-    if(claimed) return nil
-    while(!memError && size < offset + datasize) {
-        size += delta
-        SetHandleSize(handle, size)
+        handle = NewHandle(size)
         memError = MemError()
     }
-    if(memError) return nil
-    HLock(handle)
-    return & ((*handle) [offset])
-}
 
 
-func void Buffer.ReleasePtr(Size datasize) {
-
-    if(!handle) return
-    if(claimed) return
-    if(memError) return
-    HUnlock(handle)
-    offset += datasize
-}
+    // public func ~Buffer() {
+    //     if handle && !claimed {
+    //         DisposeHandle(handle)
+    //     }
+    // }
 
 
-func void Buffer.Write(void * data, Size datasize) {
+    public func SetSize(insize: Size) {
 
-    if(!handle) return
-    if(claimed) return
-    while(!memError && size < offset + datasize) {
-        size += delta
-        SetHandleSize(handle, size)
-        memError = MemError()
+        if self.handle {
+            return
+        }
+        self.size = insize
+        self.delta = insize
+        self.handle = NewHandle(self.size)
+        self.memError = MemError()
     }
-    if(memError) return
-    HLock(handle)
-    memcpy(& ((*handle) [offset]), data, datasize)
-    HUnlock(handle)
-    offset += datasize
-}
 
 
-Handle Buffer.Claim() {
+    public func CheckSize() -> Size {
 
-    if(!handle) return nil
-    if(claimed) return nil
-    if(memError) return nil
-    if(size != offset) {
-        size = offset
-        SetHandleSize(handle, size)
-        memError = MemError()
-        if(memError) return nil
+        if !self.handle {
+            return 0
+        }
+        if self.claimed {
+            return 0
+        }
+        if self.memError {
+            return 0
+        }
+        if self.size == self.offset {
+            self.size += self.delta
+            SetHandleSize(self.handle, self.size)
+            self.memError = MemError()
+            if memError {
+                return 0
+            }
+        }
+        return size - offset
     }
-    claimed = true
-    return handle
+
+
+    public func GetPtr(datasize: Size = 0) -> Ptr {
+
+        if !self.handle {
+            return nil
+        }
+        if self.claimed {
+            return nil
+        }
+        while !self.memError && self.size < self.offset + self.datasize {
+            self.size += self.delta
+            SetHandleSize(self.handle, self.size)
+            self.memError = MemError()
+        }
+        if self.memError {
+            return nil
+        }
+        HLock(self.handle)
+        return self.handle[self.offset]
+    }
+
+
+    public func ReleasePtr(datasize: Size) {
+
+        if !self.handle {
+            return
+        }
+        if self.claimed {
+            return
+        }
+        if self.memError {
+            return
+        }
+        HUnlock(self.handle)
+        self.offset += self.datasize
+    }
+
+
+    public func Write(data: any, datasize: Size) {
+
+        if !self.handle {
+            return
+        }
+        if self.claimed {
+            return
+        }
+        while !self.memError && self.size < self.offset + self.datasize {
+            self.size += self.delta
+            SetHandleSize(self.handle, self.size)
+            self.memError = MemError()
+        }
+        if self.memError {
+            return
+        }
+        HLock(self.handle)
+        memcpy(self.handle[self.offset], self.data, self.datasize)
+        HUnlock(self.handle)
+        self.offset += self.datasize
+    }
+
+
+    public func Claim() -> Handle {
+        if !self.handle {
+            return nil
+        }
+        if self.claimed {
+            return nil
+        }
+        if self.memError {
+            return nil
+        }
+        if self.size != self.offset {
+            self.size = self.offset
+            SetHandleSize(self.handle, self.size)
+            self.memError = MemError()
+            if self.memError {
+                return nil
+            }
+        }
+        self.claimed = true
+        return self.handle
+    }
 }

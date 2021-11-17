@@ -10,7 +10,7 @@ import ieee1284
 
 #define ADDRESS_RESULT			0x20	/*Here we get result */
 
-/*Scanner functions(not all - some of them I can't identify)*/
+/*Scanner functions(not all - some of them I can"t identify)*/
 #define FUNCTION_SETUP_HARDWARE		0xA0
 
 /*Scanner hardware control flags:*/
@@ -90,7 +90,7 @@ static void ReadDataBlock(Sane.Byte * Buffer, Int length)
 /*Deselect all devices in chain on this port.*/
 static void daisy_deselect_all(struct parport *port)
 
-/*Select device with number 'daisy' in 'mode'.*/
+/*Select device with number "daisy" in "mode".*/
 static Int daisy_select(struct parport *port, Int daisy, Int mode)
 
 /*Setup address for device in chain on this port*/

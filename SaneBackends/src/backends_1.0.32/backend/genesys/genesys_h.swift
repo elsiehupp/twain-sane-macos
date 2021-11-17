@@ -57,9 +57,9 @@ import queue>
 #endif
 
 #if defined(_WIN32) || defined(HAVE_OS2_H)
-# define PATH_SEP	'\\'
+# define PATH_SEP	"\\"
 #else
-# define PATH_SEP	'/'
+# define PATH_SEP	"/"
 #endif
 
 

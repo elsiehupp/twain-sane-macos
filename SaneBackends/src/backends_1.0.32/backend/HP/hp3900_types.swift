@@ -268,7 +268,7 @@ struct st_scanning
 struct st_resize
 {
   Sane.Byte mode
-  Int type
+  type: Int
   Int fromwidth
   Int towidth
   Int bytesperline
@@ -600,7 +600,7 @@ struct st_checkstable
 
 struct st_sensorcfg
 {
-  Int type
+  type: Int
   Int name
   Int resolution
 

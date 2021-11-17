@@ -201,14 +201,14 @@ std::ostream& operator<<(std::ostream& out, const RegisterContainer<Value>& cont
 
     out << "RegisterContainer{\n"
     out << std::hex
-    out.fill('0')
+    out.fill("0")
 
     for(const auto& reg : container) {
         unsigned address_width = sizeof(reg.address) * 2
         unsigned value_width = sizeof(reg.value) * 2
 
         out << "    0x" << std::setw(address_width) << static_cast<unsigned>(reg.address)
-            << " = 0x" << std::setw(value_width) << static_cast<unsigned>(reg.value) << '\n'
+            << " = 0x" << std::setw(value_width) << static_cast<unsigned>(reg.value) << "\n"
     }
     out << "}"
     return out
@@ -223,7 +223,7 @@ public:
     using iterator = typename ContainerType::iterator
     using const_iterator = typename ContainerType::const_iterator
 
-    // FIXME: this shouldn't live here, but in a separate struct that contains Genesys_Register_Set
+    // FIXME: this shouldn"t live here, but in a separate struct that contains Genesys_Register_Set
     GenesysRegisterSetState state
 
     enum Options {
@@ -235,7 +235,7 @@ public:
         registers_.reserve(MAX_REGS)
     }
 
-    // by default the register set is sorted by address. In certain cases it's importand to send
+    // by default the register set is sorted by address. In certain cases it"s importand to send
     // the registers in certain order: use the SEQUENTIAL option for that
     Genesys_Register_Set(Options opts) : registers_{static_cast<ContainerType::Options>(opts)}
     {
@@ -490,7 +490,7 @@ std::ostream& operator<<(std::ostream& out, const RegisterSettingSet<Value>& con
 
     out << "RegisterSettingSet{\n"
     out << std::hex
-    out.fill('0')
+    out.fill("0")
 
     for(const auto& reg : container) {
         unsigned address_width = sizeof(reg.address) * 2
@@ -499,7 +499,7 @@ std::ostream& operator<<(std::ostream& out, const RegisterSettingSet<Value>& con
 
         out << "    0x" << std::setw(address_width) << static_cast<unsigned>(reg.address)
             << " = 0x" << std::setw(value_width) << static_cast<unsigned>(reg.value)
-            << " & 0x" << std::setw(mask_width) << static_cast<unsigned>(reg.mask) << '\n'
+            << " & 0x" << std::setw(mask_width) << static_cast<unsigned>(reg.mask) << "\n"
     }
     out << "}"
     return out

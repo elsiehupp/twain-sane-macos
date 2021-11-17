@@ -49,7 +49,7 @@
  * instead. The build system decides if fork() or threads are used.
  *
  * Please keep in mind that the behaviour of the child process depends
- * on if it's a process or thread especially concerning variables.
+ * on if it"s a process or thread especially concerning variables.
  *
  * In this file we use "task" as an umbrella term for process and thread.
  *
@@ -86,7 +86,7 @@ public Bool sanei_thread_is_forked(void)
 /** Is Sane.Pid valid pid?
  *
  * This function can be used to check if thread/fork creation worked
- * regardless of Sane.Pid's data type.
+ * regardless of Sane.Pid"s data type.
  *
  * @return
  * - Sane.TRUE - if pid is a valid process
@@ -190,7 +190,7 @@ public Sane.Pid sanei_thread_waitpid(Sane.Pid pid, Int *status)
  *
  * @return
  * - Sane.STATUS_GOOD - if the task finished without errors
- * - any other value - if the task finished unexpectantly or hasn't finished yet
+ * - any other value - if the task finished unexpectantly or hasn"t finished yet
  */
 public Sane.Status sanei_thread_get_status(Sane.Pid pid)
 

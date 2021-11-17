@@ -39,7 +39,7 @@
 
    OS/2
    Helper functions for the OS/2 port(using threads instead of forked
-   processes). Don't use them in the backends, they are used automatically by
+   processes). Don"t use them in the backends, they are used automatically by
    macros.
 
    Other OS:
@@ -384,24 +384,24 @@ restore_sigpipe( void )
 static Int
 eval_wp_result( Sane.Pid pid, Int wpres, Int pf )
 {
-	Int retval = Sane.STATUS_IO_ERROR
+	returnValue: Int = Sane.STATUS_IO_ERROR
 
 	if( wpres == pid ) {
 
 		if( WIFEXITED(pf)) {
-			retval = WEXITSTATUS(pf)
+			returnValue = WEXITSTATUS(pf)
 		} else {
 
 			if( !WIFSIGNALED(pf)) {
-				retval = Sane.STATUS_GOOD
+				returnValue = Sane.STATUS_GOOD
 			} else {
 				DBG( 1, "Child terminated by signal %d\n", WTERMSIG(pf))
 				if( WTERMSIG(pf) == SIGTERM )
-					retval = Sane.STATUS_GOOD
+					returnValue = Sane.STATUS_GOOD
 			}
 		}
 	}
-	return retval
+	return returnValue
 }
 #endif
 
@@ -454,9 +454,9 @@ sanei_thread_begin( Int(func)(void *args), void* args )
 	if( pid == 0 ) {
 
     	/* run in child context... */
-		Int status = func( args )
+		status: Int = func( args )
 
-		/* don't use exit() since that would run the atexit() handlers */
+		/* don"t use exit() since that would run the atexit() handlers */
 		_exit( status )
 	}
 

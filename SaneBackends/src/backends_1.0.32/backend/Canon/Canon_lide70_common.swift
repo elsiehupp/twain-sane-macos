@@ -3417,7 +3417,7 @@ preread(CANON_Handle * chndl, Sane.Byte * data, FILE * fp)
 			    }
 			  lineelement++
 			}
-		      offset += chndl.params.bytes_per_line
+		      offset += chndl.params.bytesPerLine
 		    }
 		  DBG(6, "line %ld written...\n", line)
 		}
@@ -3664,7 +3664,7 @@ CANON_open_device(CANON_Handle * scan, const char *dev)
   Sane.Word product
   Sane.Status res
 
-  DBG(3, "CANON_open_device: `%s'\n", dev)
+  DBG(3, "CANON_open_device: `%s"\n", dev)
 
   scan.fname = NULL
   scan.fp = NULL
@@ -3673,7 +3673,7 @@ CANON_open_device(CANON_Handle * scan, const char *dev)
 
   if(res != Sane.STATUS_GOOD)
     {
-      DBG(1, "CANON_open_device: couldn't open device `%s': %s\n", dev,
+      DBG(1, "CANON_open_device: couldn"t open device `%s": %s\n", dev,
 	   Sane.strstatus(res))
       return res
     }
@@ -3686,7 +3686,7 @@ CANON_open_device(CANON_Handle * scan, const char *dev)
       Sane.STATUS_GOOD)
     {
       DBG(1, "CANON_open_device: sanei_usb_get_vendor_product failed\n")
-      /* This is not a USB scanner, or SANE or the OS doesn't support it. */
+      /* This is not a USB scanner, or SANE or the OS doesn"t support it. */
       sanei_usb_close(scan.fd)
       scan.fd = -1
       return Sane.STATUS_UNSUPPORTED
@@ -3776,7 +3776,7 @@ CANON_start_scan(CANON_Handle * chndl)
 
   if(result < 0)
     {
-      DBG(1, "Can't talk on USB.\n")
+      DBG(1, "Can"t talk on USB.\n")
       return Sane.STATUS_IO_ERROR
     }
 

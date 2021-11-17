@@ -2,7 +2,7 @@
  * cderror.h
  *
  * Copyright(C) 1994, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
+ * This file is part of the Independent JPEG Group"s software.
  * For conditions of distribution and use, see the accompanying README file.
  *
  * This file defines the error and message codes for the cjpeg/djpeg
@@ -60,7 +60,7 @@ JMESSAGE(JERR_GIF_IMAGENOTFOUND, "Too few images in GIF file")
 JMESSAGE(JERR_GIF_NOT, "Not a GIF file")
 JMESSAGE(JTRC_GIF, "%ux%ux%d GIF image")
 JMESSAGE(JTRC_GIF_BADVERSION,
-	 "Warning: unexpected GIF version number '%c%c%c'")
+	 "Warning: unexpected GIF version number "%c%c%c"")
 JMESSAGE(JTRC_GIF_EXTENSION, "Ignoring GIF extension block of type 0x%02x")
 JMESSAGE(JTRC_GIF_NONSQUARE, "Caution: nonsquare pixels in input")
 JMESSAGE(JWRN_GIF_BADDATA, "Corrupt data in GIF file")

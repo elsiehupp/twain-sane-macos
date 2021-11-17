@@ -146,7 +146,7 @@ check_passwd(const char *upassword,
   else
     {
 
-      DBG(1, "check_passwd: received plain-text reply from user ``%s''\n",
+      DBG(1, "check_passwd: received plain-text reply from user ``%s""\n",
 	   username)
 
       return(strcmp(upassword, password) == 0)
@@ -169,7 +169,7 @@ sanei_authorize(const char *resource,
 
   INIT_RND()
 
-  DBG(4, "called for ``%s'' by %s\n", resource, backend)
+  DBG(4, "called for ``%s"" by %s\n", resource, backend)
 
   if(strlen(resource) > 127)
     DBG(1, "resource is longer than 127 chars...\n")
@@ -180,19 +180,19 @@ sanei_authorize(const char *resource,
 
   if(passwd_file == NULL)
     {
-      DBG(3, "could not open ``%s''...\n", passwd_filename)
+      DBG(3, "could not open ``%s""...\n", passwd_filename)
       return Sane.STATUS_GOOD
     }
 
   while(sanei_config_read(line, 1024, passwd_file))
     {
 
-      if(strchr(line, ':') != NULL)
+      if(strchr(line, ":") != NULL)
 	{
-	  if(strchr(strchr(line, ':') + 1, ':') != NULL)
+	  if(strchr(strchr(line, ":") + 1, ":") != NULL)
 	    {
 
-	      if(strcmp(strchr(strchr(line, ':') + 1, ':') + 1, resource)
+	      if(strcmp(strchr(strchr(line, ":") + 1, ":") + 1, resource)
 		  == 0)
 
 		{
@@ -214,7 +214,7 @@ sanei_authorize(const char *resource,
 
       fclose(passwd_file)
 
-      DBG(3, "could not find resource ``%s''...\n", resource)
+      DBG(3, "could not find resource ``%s""...\n", resource)
       return Sane.STATUS_GOOD
 
     }
@@ -241,24 +241,24 @@ sanei_authorize(const char *resource,
   while(sanei_config_read(line, 1024, passwd_file))
     {
 
-      if((strlen(line) > 0) && (line[strlen(line) - 1] == '\n'))
-	line[strlen(line) - 1] = '\n'
+      if((strlen(line) > 0) && (line[strlen(line) - 1] == "\n"))
+	line[strlen(line) - 1] = "\n"
 
-      if((strlen(line) > 0) && (line[strlen(line) - 1] == '\r'))
-	line[strlen(line) - 1] = '\r'
+      if((strlen(line) > 0) && (line[strlen(line) - 1] == "\r"))
+	line[strlen(line) - 1] = "\r"
 
 
       if((strncmp(line, username, strlen(username)) == 0) &&
-	  (((strchr(line, ':')) - line) == (signed) strlen(username)))
+	  (((strchr(line, ":")) - line) == (signed) strlen(username)))
 	{
 
-	  linep = strchr(line, ':') + 1
+	  linep = strchr(line, ":") + 1
 
-	  if((strchr(linep, ':') != NULL)
-	      && (strcmp(strchr(linep, ':') + 1, resource) == 0))
+	  if((strchr(linep, ":") != NULL)
+	      && (strcmp(strchr(linep, ":") + 1, resource) == 0))
 	    {
 
-	      *(strchr(linep, ':')) = 0
+	      *(strchr(linep, ":")) = 0
 
 
 	      if(check_passwd(password, linep, md5resource, username))

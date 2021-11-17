@@ -377,7 +377,7 @@ struct snapscan_scanner
     size_t bytes_remaining;       /* remaining bytes expected from scanner */
     size_t actual_res;            /* actual resolution */
     size_t lines;                 /* number of scan lines */
-    size_t bytes_per_line;        /* bytes per scan line */
+    size_t bytesPerLine;        /* bytes per scan line */
     size_t pixels_per_line;       /* pixels per scan line */
     u_char hconfig;               /* hardware configuration byte */
     u_char hconfig_epson;         /* additional hw configuration for some Epson scanners */
@@ -477,7 +477,7 @@ struct snapscan_scanner
  * Added support for Epson 2480
  *
  * Revision 1.29  2004/06/16 19:52:27  oliver-guest
- * Don't enforce even number of URB packages on 1212u_2. Fixes bug #300753.
+ * Don"t enforce even number of URB packages on 1212u_2. Fixes bug #300753.
  *
  * Revision 1.28  2004/04/08 21:53:10  oliver-guest
  * Use sanei_thread in snapscan backend
@@ -649,10 +649,10 @@ struct snapscan_scanner
  * Changed expected_data_len to bytes_remaining.
  *
  * Revision 1.29  1999/09/02 05:29:46  charter
- * Fixed the spelling of Petter's name(again).
+ * Fixed the spelling of Petter"s name(again).
  *
  * Revision 1.28  1999/09/02 05:28:50  charter
- * Added Gary Plewa's name to the list of contributors.
+ * Added Gary Plewa"s name to the list of contributors.
  *
  * Revision 1.27  1999/09/02 04:48:25  charter
  * Added models and strings for the Acer PRISA 620s(thanks to Gary Plewa).
@@ -669,10 +669,10 @@ struct snapscan_scanner
  * and contrast controls accidentally reintroduced previously.
  *
  * Revision 1.24  1998/09/07  06:04:58  charter
- * Merged in Wolfgang Goeller's changes(Vuego 310S, bugfixes).
+ * Merged in Wolfgang Goeller"s changes(Vuego 310S, bugfixes).
  *
  * Revision 1.23  1998/05/11  17:03:22  charter
- * Added Mikko's threshold stuff
+ * Added Mikko"s threshold stuff
  *
  * Revision 1.22  1998/03/10 23:43:05  eblot
  * Changing 310/600 models support(structure)
@@ -715,7 +715,7 @@ struct snapscan_scanner
  * Added rgb_lpr and gs_lpr so the user can tune scanning performance.
  *
  * Revision 1.10  1998/01/23  07:39:08  charter
- * Reindented using GNU convention at David Mosberger-Tang's request.
+ * Reindented using GNU convention at David Mosberger-Tang"s request.
  * Added ms_per_line to SnapScan_Scanner.
  *
  * Revision 1.9  1998/01/22  05:14:23  charter

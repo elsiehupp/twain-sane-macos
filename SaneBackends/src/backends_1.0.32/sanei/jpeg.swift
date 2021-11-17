@@ -14,7 +14,7 @@ typedef struct
     struct djpeg_dest_struct pub;	/* public fields */
 
     /* Usually these two pointers point to the same place: */
-    char *iobuffer;		/* fwrite's I/O buffer */
+    char *iobuffer;		/* fwrite"s I/O buffer */
     JSAMPROW pixrow;		/* decompressor output buffer */
     size_t buffer_width;	/* width of I/O buffer */
     JDIMENSION samples_per_row;	/* JSAMPLEs per output row */
@@ -203,7 +203,7 @@ sanei_jpeg_jinit_write_ppm(j_decompress_ptr cinfo)
       SIZEOF(JSAMPLE) != SIZEOF(char))
     {
       /* When quantizing, we need an output buffer for clrmap indexes
-       * that's separate from the physical I/O buffer.  We also need a
+       * that"s separate from the physical I/O buffer.  We also need a
        * separate buffer if pixel format translation must take place.
        */
       dest.pub.buffer = (*cinfo.mem.alloc_sarray)

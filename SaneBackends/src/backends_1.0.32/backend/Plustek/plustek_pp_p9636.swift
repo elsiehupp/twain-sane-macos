@@ -396,7 +396,7 @@ static void p9636Init98001( pScanData ps, Bool shading )
 	    ps.lpBppColorHomePos.wMaxSteps = 890
 	    ps.lpSppColorHomePos.wMaxSteps = 890
 /*
- * for less 75 Dpi Motor can't moveable in Some machine
+ * for less 75 Dpi Motor can"t moveable in Some machine
  *	    ps.lpEppColorHomePos.bExposureTime = 48
  */
 	    ps.lpEppColorHomePos.bExposureTime 	   = 64
@@ -1065,8 +1065,8 @@ _LOC Int P9636InitAsic( pScanData ps )
 
     ps.CloseScanPath( ps )
 
-    /* as the program parts concerning some CCDs don't handle TPA stuff,
-     * I assume that these devices won't have TPA functionality
+    /* as the program parts concerning some CCDs don"t handle TPA stuff,
+     * I assume that these devices won"t have TPA functionality
      */
     switch( ps.Device.bCCDID ) {
 

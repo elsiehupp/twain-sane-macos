@@ -844,7 +844,7 @@ kv_init_options(PKV_DEV dev)
   dev.opt[OPT_JPEG].title = Sane.I18N("jpeg compression")
   dev.opt[OPT_JPEG].desc =
     Sane.I18N
-    ("JPEG Image Compression with Q parameter, '0' - no compression")
+    ("JPEG Image Compression with Q parameter, "0" - no compression")
   dev.opt[OPT_JPEG].type = Sane.TYPE_INT
   dev.opt[OPT_JPEG].unit = Sane.UNIT_NONE
   dev.opt[OPT_JPEG].size = sizeof(Int)
@@ -1375,7 +1375,7 @@ hexdump(Int level, const char *comment, unsigned char *p, Int l)
 	{
 	  if(ptr != line)
 	    {
-	      *ptr = '\0'
+	      *ptr = "\0"
 	      DBG(level, "%s\n", line)
 	      ptr = line
 	    }
@@ -1385,7 +1385,7 @@ hexdump(Int level, const char *comment, unsigned char *p, Int l)
       sprintf(ptr, " %2.2x", *p)
       ptr += 3
     }
-  *ptr = '\0'
+  *ptr = "\0"
   DBG(level, "%s\n", line)
 }
 
@@ -1403,8 +1403,8 @@ kv_set_window_data(PKV_DEV dev,
   windowdata[0] = side
 
   /* X and Y resolution */
-  Ito16 (dev.val[OPT_RESOLUTION].w, &windowdata[2])
-  Ito16 (dev.val[OPT_RESOLUTION].w, &windowdata[4])
+  Ito16(dev.val[OPT_RESOLUTION].w, &windowdata[2])
+  Ito16(dev.val[OPT_RESOLUTION].w, &windowdata[4])
 
   /* Width and length */
   if(paper == 0)
@@ -1416,13 +1416,13 @@ kv_set_window_data(PKV_DEV dev,
       Int width = x_br - x_tl
       Int length = y_br - y_tl
       /* Upper Left(X,Y) */
-      Ito32 (x_tl, &windowdata[6])
-      Ito32 (y_tl, &windowdata[10])
+      Ito32(x_tl, &windowdata[6])
+      Ito32(y_tl, &windowdata[10])
 
-      Ito32 (width, &windowdata[14])
-      Ito32 (length, &windowdata[18])
-      Ito32 (width, &windowdata[48]);	/* device specific */
-      Ito32 (length, &windowdata[52]);	/* device specific */
+      Ito32(width, &windowdata[14])
+      Ito32(length, &windowdata[18])
+      Ito32(width, &windowdata[48]);	/* device specific */
+      Ito32(length, &windowdata[52]);	/* device specific */
     }
 
   /* Brightness */

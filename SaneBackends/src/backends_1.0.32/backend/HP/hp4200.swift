@@ -111,7 +111,7 @@ struct _ciclic_buffer_t
 				   line in the buffer space */
   Int can_consume;		/* num of bytes the ciclic buf can consume */
   Int current_line;		/* current scanned line */
-  Int first_good_line;		/* number of lines to fill the ``pipeline'' */
+  Int first_good_line;		/* number of lines to fill the ``pipeline"" */
   unsigned char *buffer_position;	/* pointer to the first byte that
 					   can be copied */
   Int pixel_position;		/* pixel position in current line */
@@ -486,7 +486,7 @@ hp4200_init_registers(HP4200_Scanner * s)
 
     /*
      * we are using a cache-like data structure so registers whose
-     * values were written to the lm9830 and aren't volatile, have
+     * values were written to the lm9830 and aren"t volatile, have
      * bit 0x100 activated.  This bit must be cleared if you want the
      * value to be written to the chip once cache_write() is called.
      */
@@ -495,7 +495,7 @@ hp4200_init_registers(HP4200_Scanner * s)
     memset(s.regs, 0, sizeof(s.regs))
 
     /*
-     * registers 0x00 - 0x07 are non-cacheable/volatile, so don't
+     * registers 0x00 - 0x07 are non-cacheable/volatile, so don"t
      * read the values using the cache.  Instead use direct functions
      * to read/write registers.
      */
@@ -668,7 +668,7 @@ hp4200_goto_home(HP4200_Scanner * s)
       unsigned char sensor_bit[2] = { 0x02, 0x10 ]
       /* sensor head is not returning */
 
-      /* let's see if it's already at home */
+      /* let"s see if it"s already at home */
       /* first put paper(head) sensor level sensitive */
       paper_sensor_reg = getreg(s, 0x58)
       old_paper_sensor_reg = paper_sensor_reg
@@ -834,7 +834,7 @@ compute_datalink_bandwidth(HP4200_Scanner * s)
   }
 
   /*
-   * During transfer rate calculation don't forward scanner sensor.
+   * During transfer rate calculation don"t forward scanner sensor.
    * Stay in the calibration region.
    */
 
@@ -968,7 +968,7 @@ write_gamma(HP4200_Scanner * s)
   var i: Int
   unsigned char gamma[1024]
   unsigned char read_gamma[1024]
-  Int retval
+  returnValue: Int
   size_t to_read
   size_t to_write
 
@@ -994,8 +994,8 @@ write_gamma(HP4200_Scanner * s)
       sanei_pv8630_prep_bulkread(s.fd, sizeof(read_gamma))
       to_read = sizeof(read_gamma)
       sanei_usb_read_bulk(s.fd, read_gamma, &to_read)
-      retval = memcmp(read_gamma, gamma, sizeof(read_gamma))
-      if(retval != 0)
+      returnValue = memcmp(read_gamma, gamma, sizeof(read_gamma))
+      if(returnValue != 0)
 	{
 	  DBG(DBG_error, "error: color %d has bad gamma table\n", color)
 	}
@@ -1013,7 +1013,7 @@ write_default_offset_gain(HP4200_Scanner * s, Sane.Byte * gain_offset,
 			   Int size, Int color)
 {
   Sane.Byte *check_data
-  Int retval
+  returnValue: Int
   size_t to_read
   size_t to_write
 
@@ -1033,9 +1033,9 @@ write_default_offset_gain(HP4200_Scanner * s, Sane.Byte * gain_offset,
   sanei_pv8630_prep_bulkread(s.fd, size)
   to_read = size
   sanei_usb_read_bulk(s.fd, check_data, &to_read)
-  retval = memcmp(gain_offset, check_data, size)
+  returnValue = memcmp(gain_offset, check_data, size)
   free(check_data)
-  if(retval != 0)
+  if(returnValue != 0)
     {
       DBG(DBG_error, "error: color %d has bad gain/offset table\n", color)
     }
@@ -1117,7 +1117,7 @@ compute_bytes_per_line(Int width_in_pixels, unsigned char hdpi_code,
   const Int dpi_qot_mul[] = { 1, 2, 1, 1, 1, 1, 1, 1 ]
   const Int dpi_qot_div[] = { 1, 3, 2, 3, 4, 6, 8, 12 ]
   Int pixels_per_line
-  Int bytes_per_line
+  Int bytesPerLine
   Int pixels_per_byte
   Int status_bytes
   const Int pixels_per_byte_mapping[] = { 8, 4, 2, 1 ]
@@ -1133,7 +1133,7 @@ compute_bytes_per_line(Int width_in_pixels, unsigned char hdpi_code,
 
   if(data_mode == 1)
     pixels_per_byte = 1;	/* should be 0.5 but later
-				   bytes_per_line will be multiplied
+				   bytesPerLine will be multiplied
 				   by 2, and also the number of status
 				   bytes, that in this case should be
 				   2.
@@ -1149,11 +1149,11 @@ compute_bytes_per_line(Int width_in_pixels, unsigned char hdpi_code,
   switch(AFE_operation)
     {
     case PIXEL_RATE_3_CHANNELS:
-      bytes_per_line = ((pixels_per_line * 3) / pixels_per_byte) +
+      bytesPerLine = ((pixels_per_line * 3) / pixels_per_byte) +
 	status_bytes
       break
     case MODEA_1_CHANNEL:
-      bytes_per_line = (pixels_per_line / pixels_per_byte) + status_bytes
+      bytesPerLine = (pixels_per_line / pixels_per_byte) + status_bytes
       break
     default:
       /* Not implemented! (yet?) and not used.
@@ -1162,20 +1162,20 @@ compute_bytes_per_line(Int width_in_pixels, unsigned char hdpi_code,
     }
 
   if(data_mode == 1)		/* see big note above */
-    bytes_per_line *= 2
+    bytesPerLine *= 2
 
-  return bytes_per_line
+  return bytesPerLine
 }
 
 static Int
-compute_pause_limit(hardware_parameters_t * hw_parms, Int bytes_per_line)
+compute_pause_limit(hardware_parameters_t * hw_parms, Int bytesPerLine)
 {
   Int coef_size
   const Int coef_mapping[] = { 16, 32 ]
   Int pause_limit
 
   coef_size = coef_mapping[hw_parms.sensor_resolution & 0x01]
-  pause_limit = hw_parms.SRAM_size - coef_size - (bytes_per_line / 1024) - 1
+  pause_limit = hw_parms.SRAM_size - coef_size - (bytesPerLine / 1024) - 1
 
   if(pause_limit > 2)
     pause_limit -= 2
@@ -1502,30 +1502,30 @@ do_coarse_calibration(HP4200_Scanner * s, struct coarse_t *coarse)
 	  }
 	else
 	  {
-	    Int retval
+	    returnValue: Int
 
 	    /* this code should check return value -1 for error */
 
-	    retval = compute_gain_offset(s.hw_parms.target_value.red,
+	    returnValue = compute_gain_offset(s.hw_parms.target_value.red,
 					  max_red, min_red,
 					  &red_gain, &red_offset,
 					  &max_red_gain, &min_red_offset)
-	    if(retval < 0)
+	    if(returnValue < 0)
 	      break
-	    retval |= compute_gain_offset(s.hw_parms.target_value.green,
+	    returnValue |= compute_gain_offset(s.hw_parms.target_value.green,
 					   max_green, min_green,
 					   &green_gain, &green_offset,
 					   &max_green_gain,
 					   &min_green_offset)
-	    if(retval < 0)
+	    if(returnValue < 0)
 	      break
-	    retval |= compute_gain_offset(s.hw_parms.target_value.blue,
+	    returnValue |= compute_gain_offset(s.hw_parms.target_value.blue,
 					   max_blue, min_blue,
 					   &blue_gain, &blue_offset,
 					   &max_blue_gain, &min_blue_offset)
-	    if(retval < 0)
+	    if(returnValue < 0)
 	      break
-	    calibrated = !retval
+	    calibrated = !returnValue
 	  }
 
 	setreg(s, 0x3b, red_gain)
@@ -2084,12 +2084,12 @@ ciclic_buffer_init_offset_correction(ciclic_buffer_t * cb, Int vres)
 }
 
 static Sane.Status
-ciclic_buffer_init(ciclic_buffer_t * cb, Int bytes_per_line,
+ciclic_buffer_init(ciclic_buffer_t * cb, Int bytesPerLine,
 		    Int vres, Int status_bytes)
 {
   cb.good_bytes = 0
   cb.num_lines = 12
-  cb.size = bytes_per_line * cb.num_lines
+  cb.size = bytesPerLine * cb.num_lines
   cb.can_consume = cb.size + cb.num_lines * status_bytes
 
   cb.buffer = malloc(cb.size)
@@ -2110,7 +2110,7 @@ ciclic_buffer_init(ciclic_buffer_t * cb, Int bytes_per_line,
     for(i = 0; i < cb.num_lines; i++)
       {
 	ptrs[i] = buffer
-	buffer += bytes_per_line
+	buffer += bytesPerLine
       }
   }
 
@@ -2151,7 +2151,7 @@ prepare_for_a_scan(HP4200_Scanner * s)
   hdpi_div = hdpi_mapping[hdpi_code]
 
   /* image_width is set to the correct number of pixels by calling
-     fxn.  This might be the reason we can't do high res full width
+     fxn.  This might be the reason we can"t do high res full width
      scans though...not sure.  */
   /*s.user_parms.image_width /= 4; */
   active_pixels_start = 0x40
@@ -2579,7 +2579,7 @@ add_device(Sane.String_Const name, HP4200_Device ** argpd)
     }
 
   /* open the device file, but read only or read/write to perform
-     ioctl's ? */
+     ioctl"s ? */
   if((status = sanei_usb_open(name, &fd)) != Sane.STATUS_GOOD)
     {
       DBG(DBG_error, "%s: open(%s) failed: %s\n", me, name,
@@ -2664,7 +2664,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
     {
       while(sanei_config_read(dev_name, sizeof(dev_name), fp))
 	{
-	  if(dev_name[0] == '#')	/* ignore line comments */
+	  if(dev_name[0] == "#")	/* ignore line comments */
 	    continue
 
 	  if(strlen(dev_name) == 0)
@@ -2941,7 +2941,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
 
   if((sanei_usb_open(dev.dev.name, &s.fd) != Sane.STATUS_GOOD))
     {
-      DBG(DBG_error, "%s: Can't open %s.\n", me, dev.dev.name)
+      DBG(DBG_error, "%s: Can"t open %s.\n", me, dev.dev.name)
       return Sane.STATUS_IO_ERROR;	/* fixme: return busy when file is
 					   being accessed already */
     }
@@ -3129,7 +3129,7 @@ compute_parameters(HP4200_Scanner * s)
     floor((opt_br_x - opt_tl_x) / MM_PER_INCH * resolution)
   s.runtime_parms.first_pixel = floor(opt_tl_x / MM_PER_INCH * resolution)
 
-  /* fixme: add support for more depth's and bpp's. */
+  /* fixme: add support for more depth"s and bpp"s. */
   s.runtime_parms.image_line_size = s.user_parms.image_width * 3
 }
 
@@ -3153,7 +3153,7 @@ Sane.get_parameters(Sane.Handle h, Sane.Parameters * p)
 
   p.lines = s.user_parms.lines_to_scan
   p.pixels_per_line = s.user_parms.image_width
-  p.bytes_per_line = s.runtime_parms.image_line_size
+  p.bytesPerLine = s.runtime_parms.image_line_size
 
   return Sane.STATUS_GOOD
 }
@@ -3180,7 +3180,7 @@ Sane.start(Sane.Handle h)
   write_gamma(s)
   hp4200_init_registers(s)
   lm9830_ini_scanner(s.fd, NULL)
-  /* um... do not call cache_write() here, don't know why :( */
+  /* um... do not call cache_write() here, don"t know why :( */
   do_coarse_calibration(s, &coarse)
   do_fine_calibration(s, &coarse)
   prepare_for_a_scan(s)

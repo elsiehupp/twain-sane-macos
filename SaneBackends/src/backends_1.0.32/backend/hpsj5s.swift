@@ -184,12 +184,12 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
   /*Read line by line */
   while(sanei_config_read(line, PATH_MAX, config_file))
     {
-      if((line[0] == '#') || (line[0] == '\0'))	/*comment line or empty line */
+      if((line[0] == "#") || (line[0] == "\0"))	/*comment line or empty line */
 	continue
       strcpy(scanner_path, line);	/*so, we choose last in file(uncommented) */
     }
 
-  fclose(config_file);		/*We don't need config file any more */
+  fclose(config_file);		/*We don"t need config file any more */
 
   /*sanei_config_attach_matching_devices(devname, attach_one); To do latter */
 
@@ -250,7 +250,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 
   DBG(2, "Sane.get_devices: local_only = %d\n", local_only)
 
-  if(scanner_d != -1)		/*Device is opened, so it's present. */
+  if(scanner_d != -1)		/*Device is opened, so it"s present. */
     {
       *device_list = devlist
       return Sane.STATUS_GOOD
@@ -314,7 +314,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
   if(scanner_d != -1)		/*scanner opened already! */
     return Sane.STATUS_DEVICE_BUSY
 
-  DBG(1, "Sane.open: scanner device path name is \'%s\'\n", scanner_path)
+  DBG(1, "Sane.open: scanner device path name is \"%s\"\n", scanner_path)
 
   scanner_d = OpenScanner(scanner_path)
   if(scanner_d == -1)
@@ -427,7 +427,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   parms.last_frame = Sane.TRUE;	/*For grayscale... */
   parms.lines = -1;		/*Unknown a priory */
   parms.pixels_per_line = LengthForRes(wResolution, wWidth);	/*For grayscale... */
-  parms.bytes_per_line = parms.pixels_per_line;	/*For grayscale... */
+  parms.bytesPerLine = parms.pixels_per_line;	/*For grayscale... */
   *params = parms
   return Sane.STATUS_GOOD
 }
@@ -543,7 +543,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * data,
       WriteScannerRegister(REGISTER_FUNCTION_CODE, 0xC8)
       WriteAddress(ADDRESS_RESULT)
       /*Test if we need this line for current resolution
-         (scanner doesn't control vertical resolution in hardware) */
+         (scanner doesn"t control vertical resolution in hardware) */
       wVerticalResolution -= wResolution
       if(wVerticalResolution > 0)
 	{
@@ -620,7 +620,7 @@ DetectScanner(void)
   Result1 = OutputCheck()
   Result2 = InputCheck()
 
-  if(!(Result1 || Result2))	/*If all are 0 - it's error */
+  if(!(Result1 || Result2))	/*If all are 0 - it"s error */
     {
       return 0
     }
@@ -1149,7 +1149,7 @@ CalibrateScanElements()
       while((timeout < 1000) &&
              ((bTest & 0x80) ? (bTest & 0x3F) <= 2 : (bTest & 0x3F) >= 5))
 
-      /*Let's read it... */
+      /*Let"s read it... */
       if(timeout < 1000)
       {
         CallFunctionWithParameter(0xCD, 0)
@@ -1163,7 +1163,7 @@ CalibrateScanElements()
       CallFunctionWithParameter(0x91, 0);	/*Stop engine. */
 
      /*Note: if first read failed, junk would be calculated, but if previous
-	read was succeeded, but last one failed, previous data'ld be used.
+	read was succeeded, but last one failed, previous data"ld be used.
      */
      for(Temp = 0, j = 0; j < 2570; j++)
      Temp += FilteredBuffer[j]
@@ -1216,7 +1216,7 @@ CalibrateScanElements()
     		while((timeout < 1000) &&
     	               ((bTest & 0x80) ? (bTest & 0x3F) <= 2 : (bTest & 0x3F) >= 5))
 
-    		/*Let's read it... */
+    		/*Let"s read it... */
     		if(timeout < 1000)
     		{
     		    CallFunctionWithParameter(0xCD, 0)
@@ -1226,13 +1226,13 @@ CalibrateScanElements()
 
     		    ReadDataBlock(FilteredBuffer, 2570)
     		}
-	    }/*5 times we read. I don't understand what for, but so does HP's driver.
+	    }/*5 times we read. I don"t understand what for, but so does HP"s driver.
 		Perhaps, we can optimize it in future.*/
 	    WriteScannerRegister(0x91, 0)
 	    usleep(10)
 
 	    for(Temp = 0,j = 0; j < 16;j++)
-		Temp += FilteredBuffer[509+j]; /*At this offset calcalates HP's driver.*/
+		Temp += FilteredBuffer[509+j]; /*At this offset calcalates HP"s driver.*/
 	    Temp /= 16
 
 	    if(Average > Temp)
@@ -1489,7 +1489,7 @@ func Int daisy_select(struct parport *port, Int daisy, Int mode)
     case M1284_ECPSWE:
       return cpp_daisy(port, 0xd0 + daisy) & S1284_NFAULT
       /*Nothing was told for BECP in Daisy chain specification.
-         May be it's wise to use ECP? */
+         May be it"s wise to use ECP? */
     case M1284_BECP:
       /*Others use compat mode */
     case M1284_NIBBLE:

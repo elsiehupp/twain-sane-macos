@@ -58,7 +58,7 @@
 
      The "Set window" command returns with status "Device busy" when the
      scanner is busy. One consequence is that some frontends exits with an
-     error message if it's started when the scanner is warming up.
+     error message if it"s started when the scanner is warming up.
      A solution was suggested by Dmitri(dmitri@advantrix.com)
      The idea is that a SCSI command which returns "device busy" is stored
      in a "TODO" queue. The send command function is modified to first send
@@ -101,7 +101,7 @@ static Sane.Status snapscani_usb_cmd(Int fd, const void *src, size_t src_size,
                     void *dst, size_t * dst_size)
 {
     static const char me[] = "snapscani_usb_cmd"
-    Int status
+    status: Int
 
     DBG(DL_CALL_TRACE, "%s(%d,0x%lx,%lu,0x%lx,0x%lx(%lu))\n", me,
          fd, (u_long) src,(u_long) src_size,(u_long) dst, (u_long) dst_size,(u_long) (dst_size ? *dst_size : 0))
@@ -135,7 +135,7 @@ static Sane.Status atomic_usb_cmd(Int fd, const void *src, size_t src_size,
 {
     static const char me[] = "atomic_usb_cmd"
 
-    Int status
+    status: Int
     sigset_t all,oldset
 
     DBG(DL_CALL_TRACE, "%s(%d,0x%lx,%lu,0x%lx,0x%lx(%lu))\n", me,
@@ -167,7 +167,7 @@ static Sane.Status snapscani_usb_open(const char *dev, Int *fdp,
     DBG(DL_CALL_TRACE, "%s(%s)\n", me, dev)
 
     if(!snapscani_mutex_open(&snapscan_mutex, dev)) {
-        DBG(DL_MAJOR_ERROR, "%s: Can't get semaphore\n", me)
+        DBG(DL_MAJOR_ERROR, "%s: Can"t get semaphore\n", me)
         return Sane.STATUS_INVAL
     }
     usb_sense_handler=sense_handler
@@ -190,8 +190,8 @@ static void snapscani_usb_close(Int fd) {
        Odd number of URBs only cause problems with libusb and certain
        scanner models. On other scanner models, sending additional commands
        seems to cause problems(e.g. 1212u_2).
-       If sanei_usb_get_vendor_product returns an error there's probably no
-       libusb, so everything's fine.
+       If sanei_usb_get_vendor_product returns an error there"s probably no
+       libusb, so everything"s fine.
     */
     if(sanei_usb_get_vendor_product(fd, &vendor_id, &product_id) == Sane.STATUS_GOOD)
     {
@@ -313,7 +313,7 @@ static Sane.Status usb_read_status(Int fd, Int *scsistatus, Int *transaction_sta
     static const char me[] = "usb_read_status"
     unsigned char status_buf[8]
     Int scsistat
-    Int status
+    status: Int
 
     RETURN_ON_FAILURE(usb_read(fd,status_buf,8))
 
@@ -355,15 +355,15 @@ static Sane.Status usb_cmd(Int fd, const void *src, size_t src_size,
                     void *dst, size_t * dst_size)
 {
   static const char me[] = "usb_cmd"
-  Int status,tstatus
+  status: Int,tstatus
   Int cmdlen,datalen
   char command
 
   DBG(DL_CALL_TRACE, "%s(%d,0x%lx,%lu,0x%lx,0x%lx(%lu))\n", me,
        fd, (u_long) src,(u_long) src_size,(u_long) dst, (u_long) dst_size,(u_long) (dst_size ? *dst_size : 0))
 
-  /* Since the  "Send Diagnostic" command isn't supported by
-     all Snapscan USB-scanners it's disabled .
+  /* Since the  "Send Diagnostic" command isn"t supported by
+     all Snapscan USB-scanners it"s disabled .
   */
   command = ((const char *)src)[0]
   if(command == SEND_DIAGNOSTIC)
@@ -591,7 +591,7 @@ static void snapscani_usb_shm_exit(void)
  * 64 bit platform fixes(bug #300799).
  *
  * Revision 1.18  2004/06/16 19:52:26  oliver-guest
- * Don't enforce even number of URB packages on 1212u_2. Fixes bug #300753.
+ * Don"t enforce even number of URB packages on 1212u_2. Fixes bug #300753.
  *
  * Revision 1.17  2004/06/06 14:50:36  oliver-guest
  * Use shared memory functions only when needed
@@ -618,7 +618,7 @@ static void snapscani_usb_shm_exit(void)
  * use sanei_usb_read_bulk() and sanei_usb_write_bulk()
  *
  * Revision 1.20  2002/04/27 14:36:25  oliverschwartz
- * Pass a char as 'proj' argument for ftok()
+ * Pass a char as "proj" argument for ftok()
  *
  * Revision 1.19  2002/04/10 21:00:33  oliverschwartz
  * Make bqelements static

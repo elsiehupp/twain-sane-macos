@@ -49,10 +49,10 @@ write_callback(void *str, size_t size, size_t nmemb, void *userp)
 
 /**
  * \fn Sane.Status escl_scan(capabilities_t *scanner, const ESCL_Device *device, char *result)
- * \brief Function that, after recovering the 'new job', scans the image writed in the
+ * \brief Function that, after recovering the "new job", scans the image writed in the
  *        temporary file, using curl.
- *        This function is called in the 'Sane.start' function and it's the equivalent of
- *        the following curl command : "curl -s http(s)://'ip:'port'/eSCL/ScanJobs/'new job'/NextDocument > image.jpg".
+ *        This function is called in the "Sane.start" function and it"s the equivalent of
+ *        the following curl command : "curl -s http(s)://"ip:"port"/eSCL/ScanJobs/"new job"/NextDocument > image.jpg".
  *
  * \return status(if everything is OK, status = Sane.STATUS_GOOD, otherwise, Sane.STATUS_NO_MEM/Sane.STATUS_INVAL)
  */

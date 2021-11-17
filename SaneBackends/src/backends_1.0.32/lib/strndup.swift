@@ -31,7 +31,7 @@ strndup(const char * s, size_t n)
 
   clone = malloc(n + 1)
   strncpy(clone, s, n)
-  clone[n] = '\0'
+  clone[n] = "\0"
   return clone
 }
 

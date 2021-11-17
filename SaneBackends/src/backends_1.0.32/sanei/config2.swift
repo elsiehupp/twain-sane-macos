@@ -110,7 +110,7 @@ sanei_config_attach_matching_devices(const char *name,
 	  bus = strtol(name, &end, 10)
 	  name = sanei_config_skip_whitespace(end)
 	}
-      else if(*name == '*')
+      else if(*name == "*")
 	name = sanei_config_skip_whitespace(++name)
 
       if(isdigit(*name))
@@ -118,7 +118,7 @@ sanei_config_attach_matching_devices(const char *name,
 	  channel = strtol(name, &end, 10)
 	  name = sanei_config_skip_whitespace(end)
 	}
-      else if(*name == '*')
+      else if(*name == "*")
 	name = sanei_config_skip_whitespace(++name)
 
       if(isdigit(*name))
@@ -126,7 +126,7 @@ sanei_config_attach_matching_devices(const char *name,
 	  id = strtol(name, &end, 10)
 	  name = sanei_config_skip_whitespace(end)
 	}
-      else if(*name == '*')
+      else if(*name == "*")
 	name = sanei_config_skip_whitespace(++name)
 
       if(isdigit(*name))
@@ -134,7 +134,7 @@ sanei_config_attach_matching_devices(const char *name,
 	  lun = strtol(name, &end, 10)
 	  name = sanei_config_skip_whitespace(end)
 	}
-      else if(*name == '*')
+      else if(*name == "*")
 	name = sanei_config_skip_whitespace(++name)
 
       sanei_scsi_find_devices(vendor, model, type, bus, channel, id, lun,

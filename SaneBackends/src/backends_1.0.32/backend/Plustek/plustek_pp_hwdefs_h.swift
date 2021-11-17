@@ -223,7 +223,7 @@ typedef struct
 
 typedef struct
 {
-    UShort wHomePos;		/* scanner's scanning home position	*/
+    UShort wHomePos;		/* scanner"s scanning home position	*/
     UShort wMaxSteps;		/* maximum steps for this scan		*/
     Byte   bExposureTime;	/* exposure time for one line		*/
     Byte   bMotorStep

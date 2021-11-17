@@ -109,39 +109,39 @@ sanei_ioperm(Int start, Int length, Int enable)
 static unsigned char
 sanei_inb(unsigned Int port)
 {
-  return _inp8 (port) & 0xFF
+  return _inp8(port) & 0xFF
 }
 
 static void
 sanei_outb(unsigned Int port, unsigned char value)
 {
-  _outp8 (port, value)
+  _outp8(port, value)
 }
 
 static void
 sanei_insb(unsigned Int port, unsigned char *addr, unsigned long count)
 {
-  _inps8 (port, (unsigned char *) addr, count)
+  _inps8(port, (unsigned char *) addr, count)
 }
 
 static void
 sanei_insl(unsigned Int port, unsigned char *addr, unsigned long count)
 {
-  _inps32 (port, (unsigned long *) addr, count)
+  _inps32(port, (unsigned long *) addr, count)
 }
 
 static void
 sanei_outsb(unsigned Int port, const unsigned char *addr,
 	     unsigned long count)
 {
-  _outps8 (port, (unsigned char *) addr, count)
+  _outps8(port, (unsigned char *) addr, count)
 }
 
 static void
 sanei_outsl(unsigned Int port, const unsigned char *addr,
 	     unsigned long count)
 {
-  _outps32 (port, (unsigned long *) addr, count)
+  _outps32(port, (unsigned long *) addr, count)
 }
 #endif /* OS/2 EMX case */
 
@@ -469,7 +469,7 @@ import dmalloc
 #define __IO__
 
 #define DATA                   gPort+0x00
-#define STATUS                 gPort+0x01
+#define Status                 gPort+0x01
 #define CONTROL                gPort+0x02
 #define EPPADDR                 gPort+0x03
 #define EPPDATA                gPort+0x04
@@ -582,7 +582,7 @@ static Int cmdSetGet(Int cmd, Int len, Int *buffer)
 
 
 static Int cmdGetBuffer(Int cmd, Int len, unsigned char *buffer)
-static Int cmdGetBuffer32 (Int cmd, Int len, unsigned char *buffer)
+static Int cmdGetBuffer32(Int cmd, Int len, unsigned char *buffer)
 static Int cmdGetBlockBuffer(Int cmd, Int len, Int window,
 			      unsigned char *buffer)
 
@@ -685,7 +685,7 @@ static float targetCode = 250.0
 /* global control vars */
 static Int gControl = 0
 static Int gData = 0
-static Int g674 = 0;		/* semble indiquer qu'on utilise les IRQ */
+static Int g674 = 0;		/* semble indiquer qu"on utilise les IRQ */
 static Int g67D = 0
 static Int g67E = 0
 static Int gEPAT = 0;		/* signals fast mode ? */
@@ -737,12 +737,12 @@ static Int gAutoSettings = 1
 static void Outb(Int port, Int value)
 
 /*****************************************************************************/
-/*         output 'size' bytes stored in 'source' on given port              */
+/*         output "size" bytes stored in "source" on given port              */
 /*****************************************************************************/
 static void Outsb(Int port, unsigned char *source, Int size)
 
 /*****************************************************************************/
-/*       output 'size' 32 bits words stored in 'source' on given port        */
+/*       output "size" 32 bits words stored in "source" on given port        */
 /*****************************************************************************/
 static void Outsw(Int port, unsigned char *source, Int size)
 
@@ -753,12 +753,12 @@ static void Outsw(Int port, unsigned char *source, Int size)
 static Int Inb(Int port)
 
 /*****************************************************************************/
-/*       input 'size' bytes from given port and store them in 'dest'         */
+/*       input "size" bytes from given port and store them in "dest"         */
 /*****************************************************************************/
 static void Insb(Int port, unsigned char *dest, Int size)
 
 /*****************************************************************************/
-/*     input 'size' 32 bits word from given port and store them in 'dest'    */
+/*     input "size" 32 bits word from given port and store them in "dest"    */
 /*****************************************************************************/
 static void Insw(Int port, unsigned char *dest, Int size)
 
@@ -916,7 +916,7 @@ sanei_parport_find_device(void)
 
 
 /*
- * gain direct access to IO port, and set parport to the 'right' mode
+ * gain direct access to IO port, and set parport to the "right" mode
  * returns 1 on success, 0 an failure
  */
 
@@ -996,11 +996,11 @@ func Int sanei_umax_pp_initPort(Int port, const char *name)
 	      switch(errno)
 		{
 		case ENOENT:
-		  DBG(1, "umax_pp: '%s' does not exist \n", name)
+		  DBG(1, "umax_pp: "%s" does not exist \n", name)
 		  break
 		case EACCES:
 		  DBG(1,
-		       "umax_pp: current user has not R/W permissions on '%s' \n",
+		       "umax_pp: current user has not R/W permissions on "%s" \n",
 		       name)
 		  break
 		}
@@ -1010,7 +1010,7 @@ func Int sanei_umax_pp_initPort(Int port, const char *name)
 	  /* claim port */
 	  if(ioctl(fd, PPCLAIM))
 	    {
-	      DBG(1, "umax_pp: cannot claim port '%s'\n", name)
+	      DBG(1, "umax_pp: cannot claim port "%s"\n", name)
 	    }
 	  else
 	    {
@@ -1019,7 +1019,7 @@ func Int sanei_umax_pp_initPort(Int port, const char *name)
 	      if(ioctl(fd, PPGETMODES, &modes))
 		{
 		  DBG(16,
-		       "umax_pp: ppdev couldn't gave modes for port '%s'\n",
+		       "umax_pp: ppdev couldn"t gave modes for port "%s"\n",
 		       name)
 		}
 	      else
@@ -1056,7 +1056,7 @@ func Int sanei_umax_pp_initPort(Int port, const char *name)
 
 #else
 	      DBG(16,
-		   "umax_pp: ppdev used to build SANE doesn't have PPGETMODES.\n")
+		   "umax_pp: ppdev used to build SANE doesn"t have PPGETMODES.\n")
 	      /* faking result */
 	      modes = 0xFFFFFFFF
 #endif
@@ -1072,13 +1072,13 @@ func Int sanei_umax_pp_initPort(Int port, const char *name)
 		  if(rc)
 		    {
 		      DBG(16,
-			   "umax_pp: ppdev couldn't negotiate mode IEEE1284_MODE_EPP for '%s' (ignored)\n",
+			   "umax_pp: ppdev couldn"t negotiate mode IEEE1284_MODE_EPP for "%s" (ignored)\n",
 			   name)
 		    }
 		  if(ioctl(fd, PPSETMODE, &mode))
 		    {
 		      DBG(16,
-			   "umax_pp: ppdev couldn't set mode to IEEE1284_MODE_EPP for '%s'\n",
+			   "umax_pp: ppdev couldn"t set mode to IEEE1284_MODE_EPP for "%s"\n",
 			   name)
 		      /* signal failure for ECP test */
 		      mode = 0
@@ -1086,7 +1086,7 @@ func Int sanei_umax_pp_initPort(Int port, const char *name)
 		  else
 		    {
 		      DBG(16,
-			   "umax_pp: mode set to PARPORT_MODE_EPP for '%s'\n",
+			   "umax_pp: mode set to PARPORT_MODE_EPP for "%s"\n",
 			   name)
 		    }
 		}
@@ -1098,16 +1098,16 @@ func Int sanei_umax_pp_initPort(Int port, const char *name)
 		  if(rc)
 		    {
 		      DBG(16,
-			   "umax_pp: ppdev couldn't negotiate mode IEEE1284_MODE_ECP for '%s' (ignored)\n",
+			   "umax_pp: ppdev couldn"t negotiate mode IEEE1284_MODE_ECP for "%s" (ignored)\n",
 			   name)
 		    }
 		  if(ioctl(fd, PPSETMODE, &mode))
 		    {
 		      DBG(16,
-			   "umax_pp: ppdev couldn't set mode to IEEE1284_MODE_ECP for '%s'\n",
+			   "umax_pp: ppdev couldn"t set mode to IEEE1284_MODE_ECP for "%s"\n",
 			   name)
 		      DBG(1,
-			   "port 0x%X can't be set to EPP or ECP, giving up ...\n",
+			   "port 0x%X can"t be set to EPP or ECP, giving up ...\n",
 			   port)
 
 		      mode = IEEE1284_MODE_COMPAT
@@ -1120,7 +1120,7 @@ func Int sanei_umax_pp_initPort(Int port, const char *name)
 		    {
 		      gECP = 1
 		      DBG(16,
-			   "umax_pp: mode set to PARPORT_MODE_ECP for '%s'\n",
+			   "umax_pp: mode set to PARPORT_MODE_ECP for "%s"\n",
 			   name)
 		    }
 		}
@@ -1175,11 +1175,11 @@ func Int sanei_umax_pp_initPort(Int port, const char *name)
 	      switch(errno)
 		{
 		case ENOENT:
-		  DBG(1, "umax_pp: '%s' does not exist \n", name)
+		  DBG(1, "umax_pp: "%s" does not exist \n", name)
 		  break
 		case EACCES:
 		  DBG(1,
-		       "umax_pp: current user has not read permissions on '%s' \n",
+		       "umax_pp: current user has not read permissions on "%s" \n",
 		       name)
 		  break
 		}
@@ -1250,7 +1250,7 @@ Outb(Int port, Int value)
   val = (unsigned char) value
   if(fd > 0)
     {
-      /* there should be ECR that doesn't go through ppdev */
+      /* there should be ECR that doesn"t go through ppdev */
       /* it will leave when all the I/O will be done with ppdev   */
       switch(port - gPort)
 	{
@@ -1415,7 +1415,7 @@ Inb(Int port)
   fd = sanei_umax_pp_getparport()
   if(fd > 0)
     {
-      /* there should be ECR that doesn't go through ppdev */
+      /* there should be ECR that doesn"t go through ppdev */
       /* it will leave when all the I/O will be done with ppdev   */
       switch(port - gPort)
 	{
@@ -1437,7 +1437,7 @@ Inb(Int port)
 		 __FILE__, __LINE__)
 	  res = val
 #ifdef IOLOG
-	  DBG(0, "inb  STATUS,%02X\n", res)
+	  DBG(0, "inb  Status,%02X\n", res)
 #endif
 	  return res
 
@@ -1638,7 +1638,7 @@ Outsw(Int port, unsigned char *source, Int size)
 }
 
 
-/* we're trying to gather information on the scanner here, */
+/* we"re trying to gather information on the scanner here, */
 /* and published it through an easy interface              */
 /* will turn it into a struct when 610P code will be done  */
 static Int scannerStatus = 0
@@ -1810,7 +1810,7 @@ ppdev_set_mode(Int mode)
 }
 #endif
 
-/* set parallel port mode to 'compatible'*/
+/* set parallel port mode to "compatible"*/
 static void
 compatMode(void)
 {
@@ -1823,7 +1823,7 @@ compatMode(void)
   Outb(ECR, 0x15)
 }
 
-/* set parallel port mode to 'bidirectionel'*/
+/* set parallel port mode to "bidirectionel"*/
 static void
 byteMode(void)
 {
@@ -1836,7 +1836,7 @@ byteMode(void)
   Outb(ECR, 0x35);		/* or 0x34 */
 }
 
-/* set parallel port mode to 'fifo'*/
+/* set parallel port mode to "fifo"*/
 static void
 ECPFifoMode(void)
 {
@@ -1871,13 +1871,13 @@ waitAck()
   Outb(CONTROL, 0x0C);		/* select printer + initialize printer */
   Outb(CONTROL, 0x0C)
   Outb(CONTROL, 0x0C)
-  breg = Inb(STATUS) & 0xF8
+  breg = Inb(Status) & 0xF8
   while((i < 1024) && ((breg & 0x04) == 0))
     {
       Outb(CONTROL, 0x0E);	/* autolinefeed ?.. */
       Outb(CONTROL, 0x0E)
       Outb(CONTROL, 0x0E)
-      breg = Inb(STATUS) & 0xF8
+      breg = Inb(Status) & 0xF8
       i++
       usleep(1000)
     }
@@ -1956,7 +1956,7 @@ waitFifoFull(void)
       breg = Inb(ECR)
       i++
     }
-  /* don't need to wait any longer */
+  /* don"t need to wait any longer */
   if(i < FIFO_WAIT)
     return 1
   i = 0
@@ -1990,12 +1990,12 @@ PS2Something(Int reg)
   Outb(CONTROL, 0x06)
   Outb(CONTROL, 0x06)
   Outb(CONTROL, 0x06)
-  breg = Inb(STATUS) & 0xF8
+  breg = Inb(Status) & 0xF8
   low = breg
   breg = breg & 0x08
   /* surely means register(0x10)=0x0B */
   /* since reg & 0x08 != 0, high and low nibble
-   * differ, but we don't care, since we surely expect it
+   * differ, but we don"t care, since we surely expect it
    * to be 0
    */
   if(breg != 0x08)
@@ -2012,7 +2012,7 @@ PS2Something(Int reg)
   Outb(CONTROL, 0x04)
   Outb(CONTROL, 0x04)
   if(breg != 0x08)
-    high = Inb(STATUS) & 0xF0
+    high = Inb(Status) & 0xF0
   return high + ((low & 0xF0) >> 4)
 }
 
@@ -2022,8 +2022,8 @@ PS2Read(void)
   Int res
   Int tmp
 
-  res = Inb(STATUS)
-  res = Inb(STATUS)
+  res = Inb(Status)
+  res = Inb(Status)
   res = res & 0xF0
   Outb(CONTROL, 5)
   Outb(CONTROL, 5)
@@ -2038,8 +2038,8 @@ PS2Read(void)
   Outb(CONTROL, 4)
   Outb(CONTROL, 4)
 
-  tmp = Inb(STATUS)
-  tmp = Inb(STATUS)
+  tmp = Inb(Status)
+  tmp = Inb(Status)
   tmp = (tmp & 0xF0) >> 4
   res = res | tmp
   Outb(CONTROL, 5)
@@ -2180,7 +2180,7 @@ sendCommand(Int cmd)
 	      tmp = (tmp & 0x1E) | 0x1
 	      Outb(CONTROL, tmp)
 	      Outb(CONTROL, tmp)
-	      Inb(STATUS)
+	      Inb(Status)
 	      tmp = tmp & 0x1E
 	      Outb(CONTROL, tmp)
 	      Outb(CONTROL, tmp)
@@ -2327,15 +2327,15 @@ PS2registerRead(Int reg)
   Outb(CONTROL, 3)
   Outb(CONTROL, 3)
   Outb(CONTROL, 3)
-  low = Inb(STATUS)
-  low = Inb(STATUS)
+  low = Inb(Status)
+  low = Inb(Status)
 
   /* get high nibble */
   Outb(CONTROL, 4)
   Outb(CONTROL, 4)
   Outb(CONTROL, 4)
-  high = Inb(STATUS)
-  high = Inb(STATUS)
+  high = Inb(Status)
+  high = Inb(Status)
 
   /* merge nibbles and return */
   high = (high & 0xF0) | ((low & 0xF0) >> 4)
@@ -2374,14 +2374,14 @@ PS2bufferRead(Int size, unsigned char *dest)
       Outb(CONTROL, bytel)
       Outb(CONTROL, bytel)
       Outb(CONTROL, bytel)
-      low = Inb(STATUS)
+      low = Inb(Status)
       if((low & 0x08) == 0)
 	{
 	  /* high nibble <> low nibble */
 	  Outb(CONTROL, bytel & 0x05)
 	  Outb(CONTROL, bytel & 0x05)
 	  Outb(CONTROL, bytel & 0x05)
-	  high = Inb(STATUS)
+	  high = Inb(Status)
 	}
       else
 	{
@@ -2396,14 +2396,14 @@ PS2bufferRead(Int size, unsigned char *dest)
       Outb(CONTROL, byteh)
       Outb(CONTROL, byteh)
       Outb(CONTROL, byteh)
-      low = Inb(STATUS)
+      low = Inb(Status)
       if((low & 0x08) == 0)
 	{
 	  /* high nibble <> low nibble */
 	  Outb(CONTROL, byteh & 0x05)
 	  Outb(CONTROL, byteh & 0x05)
 	  Outb(CONTROL, byteh & 0x05)
-	  high = Inb(STATUS)
+	  high = Inb(Status)
 	}
       else
 	{
@@ -2423,14 +2423,14 @@ PS2bufferRead(Int size, unsigned char *dest)
   Outb(CONTROL, bytel)
   Outb(CONTROL, bytel)
   Outb(CONTROL, bytel)
-  low = Inb(STATUS)
+  low = Inb(Status)
   if((low & 0x08) == 0)
     {
       /* high nibble <> low nibble */
       Outb(CONTROL, bytel & 0x05)
       Outb(CONTROL, bytel & 0x05)
       Outb(CONTROL, bytel & 0x05)
-      high = Inb(STATUS)
+      high = Inb(Status)
     }
   else
     {
@@ -2448,14 +2448,14 @@ PS2bufferRead(Int size, unsigned char *dest)
       Outb(CONTROL, byteh)
       Outb(CONTROL, byteh)
       Outb(CONTROL, byteh)
-      low = Inb(STATUS)
+      low = Inb(Status)
       if((low & 0x08) == 0)
 	{
 	  /* high nibble <> low nibble */
 	  Outb(CONTROL, byteh & 0x05)
 	  Outb(CONTROL, byteh & 0x05)
 	  Outb(CONTROL, byteh & 0x05)
-	  high = Inb(STATUS)
+	  high = Inb(Status)
 	}
       else
 	{
@@ -2481,14 +2481,14 @@ PS2bufferRead(Int size, unsigned char *dest)
   Outb(CONTROL, byteh)
   Outb(CONTROL, byteh)
   Outb(CONTROL, byteh)
-  low = Inb(STATUS)
+  low = Inb(Status)
   if((low & 0x08) == 0)
     {
       /* high nibble <> low nibble */
       Outb(CONTROL, byteh & 0x05)
       Outb(CONTROL, byteh & 0x05)
       Outb(CONTROL, byteh & 0x05)
-      high = Inb(STATUS)
+      high = Inb(Status)
     }
   else
     {
@@ -2568,7 +2568,7 @@ init001 (void)
 {
   var i: Int
   Int val
-  Int status
+  status: Int
 
   ClearRegister(0)
   Outb(CONTROL, 0x0C)
@@ -2599,7 +2599,7 @@ init001 (void)
   i = 256
   do
     {
-      status = Inb(STATUS)
+      status = Inb(Status)
       i--
     }
   while((i > 0) && ((status & 0x40)))
@@ -2687,7 +2687,7 @@ ECPconnect(void)
 {
   Int ret, control
 
-  /* these 3 lines set to 'inital mode' */
+  /* these 3 lines set to "inital mode" */
   byteMode();			/*Outb(ECR, 0x20); */
   Outb(DATA, 0x04);		/* gData */
   Outb(CONTROL, 0x0C);		/* gControl */
@@ -3396,11 +3396,11 @@ ECPbufferWrite(Int size, unsigned char *source)
       return
     }
   breg = Inb(ECR)
-  breg = (Inb(STATUS)) & 0xF8
+  breg = (Inb(Status)) & 0xF8
   n = 0
   while((n < 1024) && (breg != 0xF8))
     {
-      breg = (Inb(STATUS)) & 0xF8
+      breg = (Inb(Status)) & 0xF8
       n++
     }
   if(breg != 0xF8)
@@ -3615,13 +3615,13 @@ init005 (Int arg)
   return 0
 }
 
-/* write 1 byte in EPP mode, returning scnner's status */
+/* write 1 byte in EPP mode, returning scnner"s status */
 static Int
 EPPputByte610p(Int data)
 {
-  Int status, control
+  status: Int, control
 
-  status = Inb(STATUS) & 0xF8
+  status = Inb(Status) & 0xF8
   if((status != 0xC8) && (status != 0xC0) && (status != 0xD0))
     {
       DBG(0,
@@ -3638,14 +3638,14 @@ EPPputByte610p(Int data)
 static Int
 putByte610p(Int data)
 {
-  Int status, control, j
+  status: Int, control, j
 
   if(gMode == UMAX_PP_PARPORT_EPP)
     return EPPputByte610p(data)
   j = 0
   do
     {
-      status = Inb(STATUS) & 0xF8
+      status = Inb(Status) & 0xF8
       j++
     }
   while((j < 20) && (status & 0x08))
@@ -3662,7 +3662,7 @@ putByte610p(Int data)
 
   Outb(DATA, data)
   Outb(CONTROL, 0x07)
-  status = Inb(STATUS) & 0xF8
+  status = Inb(Status) & 0xF8
   if((status != 0x48) && (status != 0x40))
     {
       DBG(0,
@@ -3673,7 +3673,7 @@ putByte610p(Int data)
 
 
   Outb(CONTROL, 0x05)
-  status = Inb(STATUS) & 0xF8
+  status = Inb(Status) & 0xF8
   Outb(CONTROL, control)
   return status
 }
@@ -3683,11 +3683,11 @@ putByte610p(Int data)
 static Int
 sync610p(void)
 {
-  Int status
+  status: Int
 
   Outb(DATA, 0x40)
   Outb(CONTROL, 0x06)
-  status = Inb(STATUS) & 0xF8
+  status = Inb(Status) & 0xF8
   if(status != 0x38)
     {
       DBG(0, "sync610p failed(got 0x%02X expected 0x38)! (%s:%d)\n",
@@ -3695,7 +3695,7 @@ sync610p(void)
       return 0
     }
   Outb(CONTROL, 0x07)
-  status = Inb(STATUS) & 0xF8
+  status = Inb(Status) & 0xF8
   if(status != 0x38)
     {
       DBG(0, "sync610p failed(got 0x%02X expected 0x38)! (%s:%d)\n",
@@ -3703,7 +3703,7 @@ sync610p(void)
       return 0
     }
   Outb(CONTROL, 0x04)
-  status = Inb(STATUS) & 0xF8
+  status = Inb(Status) & 0xF8
   if(status != 0xF8)
     {
       DBG(0, "sync610p failed(got 0x%02X expected 0xF8)! (%s:%d)\n",
@@ -3720,7 +3720,7 @@ static Int
 EPPcmdSync610p(Int cmd)
 {
   Int word[5]
-  Int status
+  status: Int
   var i: Int
 
   word[0] = 0
@@ -3752,10 +3752,10 @@ EPPcmdSync610p(Int cmd)
   status = EPPgetStatus610p()
   if(status == 0xC0)
     for(i = 0; i < 10; i++)
-      status = Inb(STATUS) & 0xF8
+      status = Inb(Status) & 0xF8
   if(status != 0xC8)
     {
-      DBG(0, "EPPcmdSync610p: Found 0x%X expected 0xC8 (%s:%d)\n", status,
+      DBG(0, "EPPcmdSync610p: Found 0x%X expected 0xC8(%s:%d)\n", status,
 	   __FILE__, __LINE__)
       /*return 0; */
     }
@@ -3767,7 +3767,7 @@ EPPcmdSync610p(Int cmd)
     }
   if(status != 0xC8)
     {
-      DBG(0, "EPPcmdSync610p: Found 0x%X expected 0xC8 (%s:%d)\n", status,
+      DBG(0, "EPPcmdSync610p: Found 0x%X expected 0xC8(%s:%d)\n", status,
 	   __FILE__, __LINE__)
       /*return 0; */
     }
@@ -3799,7 +3799,7 @@ static Int
 cmdSync610p(Int cmd)
 {
   Int word[5]
-  Int status
+  status: Int
 
   if(gMode == UMAX_PP_PARPORT_EPP)
     return EPPcmdSync610p(cmd)
@@ -3845,11 +3845,11 @@ EPPgetStatus610p(void)
   control = Inb(CONTROL) & 0xA4
   control = control | 0xE0
   Outb(CONTROL, control)
-  status = Inb(STATUS) & 0xF8
+  status = Inb(Status) & 0xF8
   if(status & 0x08)
     {
       for(i = 1; i < 10; i++)
-	status = Inb(STATUS) & 0xF8
+	status = Inb(Status) & 0xF8
     }
   else
     {
@@ -3865,7 +3865,7 @@ getStatus610p(void)
   Int data, status
 
   byteMode()
-  status = Inb(STATUS) & 0xF8
+  status = Inb(Status) & 0xF8
   Outb(CONTROL, 0x26);		/* data reverse */
   data = Inb(DATA)
   scannerStatus = data
@@ -3901,12 +3901,12 @@ func Int sendLength610p(Int *cmd)
   if(wait == 0xC0)
     {
       byteMode()
-      wait = Inb(STATUS);	/* C0 expected */
+      wait = Inb(Status);	/* C0 expected */
       Outb(CONTROL, 0x26)
       ret = Inb(DATA);		/* 88 expected */
       Outb(CONTROL, 0x24)
       for(i = 0; i < 10; i++)
-	wait = Inb(STATUS);	/* C8 expected */
+	wait = Inb(Status);	/* C8 expected */
       byteMode()
     }
 
@@ -4028,7 +4028,7 @@ EPPconnect(void)
 {
   Int control
 
-  /* initial values, don't hardcode */
+  /* initial values, don"t hardcode */
   Outb(DATA, 0x04)
   Outb(CONTROL, 0x0C)
 
@@ -4209,19 +4209,19 @@ EPPWrite32Buffer(Int size, unsigned char *source)
 
 
 
-/* returns 0 if ERROR cleared in STATUS within 1024 inb, else 1 */
+/* returns 0 if ERROR cleared in Status within 1024 inb, else 1 */
 static Int
 WaitOnError(void)
 {
   Int c = 0
   Int count = 1024
-  Int status
+  status: Int
 
   do
     {
       do
 	{
-	  status = Inb(STATUS) & 0x08
+	  status = Inb(Status) & 0x08
 	  if(status != 0)
 	    {
 	      count--
@@ -4232,7 +4232,7 @@ WaitOnError(void)
       while((count > 0) && (status != 0))
       if(status == 0)
 	{
-	  status = Inb(STATUS) & 0x08
+	  status = Inb(Status) & 0x08
 	  if(status == 0)
 	    c = 0
 	}
@@ -4307,7 +4307,7 @@ ParportpausedBufferRead(Int size, unsigned char *dest)
     }
 
   /* from here, we read 1 byte, then size/4-1 32 bits words, and then
-     3 bytes, pausing on ERROR bit of STATUS */
+     3 bytes, pausing on ERROR bit of Status */
   size -= 4
 
   /* sanity test, seems to be wrongly handled ... */
@@ -4449,7 +4449,7 @@ static Int
 DirectpausedBufferRead(Int size, unsigned char *dest)
 {
   Int control
-  Int status
+  status: Int
   Int error
   Int word
   Int read
@@ -4469,7 +4469,7 @@ DirectpausedBufferRead(Int size, unsigned char *dest)
 	  size--
 	  dest++
 	  read++
-	  status = Inb(STATUS) & 0x1F
+	  status = Inb(Status) & 0x1F
 	  error = status & 0x08
 	}
       if(error)
@@ -4480,7 +4480,7 @@ DirectpausedBufferRead(Int size, unsigned char *dest)
     }
 
   /* from here, we read 1 byte, then size/4-1 32 bits words, and then
-     3 bytes, pausing on ERROR bit of STATUS */
+     3 bytes, pausing on ERROR bit of Status */
   size -= 4
 
   /* sanity test, seems to be wrongly handled ... */
@@ -4503,7 +4503,7 @@ DirectpausedBufferRead(Int size, unsigned char *dest)
 	readstatus:
 	  if(size > 0)
 	    {
-	      status = Inb(STATUS) & 0x1F
+	      status = Inb(Status) & 0x1F
 	      word = status & 0x10
 	      error = status & 0x08
 	    }
@@ -4527,7 +4527,7 @@ DirectpausedBufferRead(Int size, unsigned char *dest)
   if(!error)
     {
       c = 0
-      error = Inb(STATUS) & 0x08
+      error = Inb(Status) & 0x08
       if(error)
 	c = WaitOnError()
     }
@@ -4554,9 +4554,9 @@ DirectpausedBufferRead(Int size, unsigned char *dest)
 	      size--
 	      if(size)
 		{
-		  error = Inb(STATUS) & 0x08
+		  error = Inb(Status) & 0x08
 		  if(!error)
-		    error = Inb(STATUS) & 0x08
+		    error = Inb(Status) & 0x08
 		}
 	    }
 	  while((size > 0) && (!error))
@@ -4728,7 +4728,7 @@ SPPsendWord610p(Int *cmd)
 
   Outb(DATA, 0x55)
   Outb(CONTROL, 0x05)
-  status = Inb(STATUS) & 0xF8
+  status = Inb(Status) & 0xF8
   if(status != 0x88)
     {
       DBG(0, "SPPsendWord610p found 0x%02X expected 0x88  (%s:%d)\n", status,
@@ -4739,7 +4739,7 @@ SPPsendWord610p(Int *cmd)
 
   Outb(DATA, 0xAA)
   Outb(CONTROL, 0x05)
-  status = Inb(STATUS) & 0xF8
+  status = Inb(Status) & 0xF8
   if(status != 0x88)
     {
       DBG(0, "SPPsendWord610p found 0x%02X expected 0x88  (%s:%d)\n", status,
@@ -4752,7 +4752,7 @@ SPPsendWord610p(Int *cmd)
     {
       Outb(DATA, cmd[i])
       Outb(CONTROL, 0x05)
-      status = Inb(STATUS) & 0xF8
+      status = Inb(Status) & 0xF8
       if(status != 0x88)
 	{
 	  DBG(0, "SPPsendWord610p found 0x%02X expected 0x88  (%s:%d)\n",
@@ -4771,12 +4771,12 @@ SPPsendWord610p(Int *cmd)
 	   __FILE__, __LINE__)
       return 0
     }
-  status = Inb(STATUS) & 0xF8
+  status = Inb(Status) & 0xF8
   j = 0
   while((j < 256) && (status & 0x08))
     {
       j++
-      status = Inb(STATUS) & 0xF8
+      status = Inb(Status) & 0xF8
     }
   if((status != 0x80) && (status != 0xA0))
     {
@@ -4785,7 +4785,7 @@ SPPsendWord610p(Int *cmd)
       return 0
     }
   Outb(DATA, 0x7F)
-  status = Inb(STATUS) & 0xF8
+  status = Inb(Status) & 0xF8
   if(status != 0xC0)
     {
       DBG(0, "SPPsendWord610p found 0x%X expected 0xC0  (%s:%d)\n", status,
@@ -4804,7 +4804,7 @@ SPPsendWord610p(Int *cmd)
 	       __FILE__, __LINE__)
 	  return 0
 	}
-      status = Inb(STATUS) & 0xF8
+      status = Inb(Status) & 0xF8
       if((status != 0x80) && (status != 0xA0))
 	{
 	  DBG(0,
@@ -4813,7 +4813,7 @@ SPPsendWord610p(Int *cmd)
 	  return 0
 	}
       Outb(DATA, 0x7F)
-      status = Inb(STATUS) & 0xF8
+      status = Inb(Status) & 0xF8
       if(status != 0xC0)
 	{
 	  DBG(0, "SPPsendWord610p found 0x%X expected 0xC0  (%s:%d)\n",
@@ -4846,7 +4846,7 @@ EPPsendWord610p(Int *cmd)
   Int tmp, control
 
   /* send magic tag */
-  tmp = Inb(STATUS) & 0xF8
+  tmp = Inb(Status) & 0xF8
   if(tmp != 0xC8)
     {
       DBG(0,
@@ -4861,7 +4861,7 @@ EPPsendWord610p(Int *cmd)
   Outb(EPPDATA, 0x55)
 
   /* bit0 is timeout bit in EPP mode, should we take care of it ? */
-  tmp = Inb(STATUS) & 0xF8
+  tmp = Inb(Status) & 0xF8
   if(tmp != 0xC8)
     {
       DBG(0,
@@ -4877,7 +4877,7 @@ EPPsendWord610p(Int *cmd)
   Outb(CONTROL, control);	/* bit 7 + data reverse + reset */
   for(i = 0; i < 10; i++)
     {
-      tmp = Inb(STATUS) & 0xF8
+      tmp = Inb(Status) & 0xF8
       if(tmp != 0xC8)
 	{
 	  DBG(0,
@@ -4890,7 +4890,7 @@ EPPsendWord610p(Int *cmd)
   i = 0
   while((tmp == 0xC8) && (cmd[i] != -1))
     {
-      tmp = Inb(STATUS) & 0xF8
+      tmp = Inb(Status) & 0xF8
       control = (Inb(CONTROL) & 0x44) | 0x44;	/* !! */
       Outb(CONTROL, control)
       Outb(EPPDATA, cmd[i])
@@ -4901,11 +4901,11 @@ EPPsendWord610p(Int *cmd)
   Outb(DATA, 0xFF)
   control = (Inb(CONTROL) & 0x44) | 0xE4
   Outb(CONTROL, control);	/* data reverse + ????? */
-  tmp = Inb(STATUS) & 0xF8
+  tmp = Inb(Status) & 0xF8
   if(tmp == 0xC8)
     {
       for(i = 0; i < 9; i++)
-	tmp = Inb(STATUS) & 0xF8
+	tmp = Inb(Status) & 0xF8
       scannerStatus = tmp
     }
   else
@@ -4955,7 +4955,7 @@ sendWord(Int *cmd)
 static Int
 ringScanner(Int count, unsigned long delay)
 {
-  Int status
+  status: Int
   Int data
   Int control
   Int ret = 1
@@ -5042,11 +5042,11 @@ ringScanner(Int count, unsigned long delay)
     }
 
   /* OK ? */
-  status = Inb(STATUS) & 0xF8
+  status = Inb(Status) & 0xF8
   usleep(delay)
   if((status & 0xB8) != 0xB8)
     {
-      DBG(1, "status %d doesn't match! %s:%d\n", status, __FILE__, __LINE__)
+      DBG(1, "status %d doesn"t match! %s:%d\n", status, __FILE__, __LINE__)
       ret = 0
     }
 
@@ -5066,11 +5066,11 @@ ringScanner(Int count, unsigned long delay)
 	  Outb(DATA, 0x87)
 	  usleep(delay)
 	}
-      status = Inb(STATUS)
+      status = Inb(Status)
       /* status = 126 when scanner not connected .... */
       if((status & 0xB8) != 0x18)
 	{
-	  DBG(1, "status %d doesn't match! %s:%d\n", status, __FILE__,
+	  DBG(1, "status %d doesn"t match! %s:%d\n", status, __FILE__,
 	       __LINE__)
 	  ret = 0
 	}
@@ -5092,10 +5092,10 @@ ringScanner(Int count, unsigned long delay)
 	  Outb(DATA, 0x78)
 	  usleep(delay)
 	}
-      status = Inb(STATUS)
+      status = Inb(Status)
       if((status & 0x30) != 0x30)
 	{
-	  DBG(1, "status %d doesn't match! %s:%d\n", status, __FILE__,
+	  DBG(1, "status %d doesn"t match! %s:%d\n", status, __FILE__,
 	       __LINE__)
 	  ret = 0
 	}
@@ -5147,7 +5147,7 @@ static Int
 testVersion(Int no)
 {
   Int data
-  Int status
+  status: Int
   Int control
   Int count
   Int tmp
@@ -5206,12 +5206,12 @@ testVersion(Int no)
   Outb(DATA, tmp)
 
   /* test status */
-  status = Inb(STATUS)
-  status = Inb(STATUS)
+  status = Inb(Status)
+  status = Inb(Status)
   if((status & 0xB8) != 0)
     {
       /* 1600P fails here */
-      DBG(64, "status %d doesn't match! %s:%d\n", status, __FILE__,
+      DBG(64, "status %d doesn"t match! %s:%d\n", status, __FILE__,
 	   __LINE__)
       Outb(CONTROL, control)
       Outb(DATA, data)
@@ -5237,13 +5237,13 @@ testVersion(Int no)
       Outb(DATA, tmp)
 
       /* command received ? */
-      status = Inb(STATUS)
+      status = Inb(Status)
       status = ((status << 1) & 0x70) | (status & 0x80)
       if(status != count)
 	{
-	  /* since failure is expected, we don't alaways print */
+	  /* since failure is expected, we don"t alaways print */
 	  /* this message ...                                   */
-	  DBG(2, "status %d doesn't match count 0x%X! %s:%d\n", status,
+	  DBG(2, "status %d doesn"t match count 0x%X! %s:%d\n", status,
 	       count, __FILE__, __LINE__)
 	  Outb(CONTROL, control)
 	  Outb(DATA, data)
@@ -5344,7 +5344,7 @@ retry:
 	  if((reg != 0xC0) && (reg != 0xD0) && (reg != 0xC8))
 	    {
 	      /* status has changed while waiting */
-	      /* but it's too early               */
+	      /* but it"s too early               */
 	      DBG(0, "Unexpected reg19=0x%2X  (%s:%d)\n", reg, __FILE__,
 		   __LINE__)
 	    }
@@ -5395,7 +5395,7 @@ retry:
       DBG(0, "Blindly going on .....\n")
     }
 
-  /* check if 'finished status' received too early */
+  /* check if "finished status" received too early */
   if(((reg == 0xC0) || (reg == 0xD0)) && (i != len))
     {
       DBG(0, "sendLength failed: sent only %d bytes out of %d(%s:%d)\n", i,
@@ -5464,7 +5464,7 @@ sendData610p(Int *cmd, Int len)
       return 0
     }
 
-  /* check if 'finished status' received too early */
+  /* check if "finished status" received too early */
   if(i < len)
     {
       DBG(0, "sendData610p failed: sent only %d bytes out of %d(%s:%d)\n",
@@ -5523,7 +5523,7 @@ sendData(Int *cmd, Int len)
       DBG(0, "Blindly going on .....\n")
     }
 
-  /* check if 'finished status' received too early */
+  /* check if "finished status" received too early */
   if(((reg == 0xC0) || (reg == 0xD0)) && (i < len))
     {
       DBG(0, "sendData failed: sent only %d bytes out of %d(%s:%d)\n", i,
@@ -5612,17 +5612,17 @@ static Int
 receiveData610p(Int *cmd, Int len)
 {
   var i: Int
-  Int status
+  status: Int
 
   i = 0
   status = 0xD0
   byteMode()
   while(i < len)
     {
-      status = Inb(STATUS) & 0xF8
-      Outb(CONTROL, 0x26);	/* data reverse+ 'reg' */
+      status = Inb(Status) & 0xF8
+      Outb(CONTROL, 0x26);	/* data reverse+ "reg" */
       cmd[i] = Inb(DATA)
-      Outb(CONTROL, 0x24);	/* data reverse+ 'reg' */
+      Outb(CONTROL, 0x24);	/* data reverse+ "reg" */
       i++
     }
   if(status != 0xC0)
@@ -5632,7 +5632,7 @@ receiveData610p(Int *cmd, Int len)
       DBG(0, "Blindly going on .....\n")
     }
 
-  /* check if 'finished status' received to early */
+  /* check if "finished status" received to early */
   if((status == 0xC0) && (i != len))
     {
       DBG(0,
@@ -5672,7 +5672,7 @@ receiveData(Int *cmd, Int len)
       DBG(0, "Blindly going on .....\n")
     }
 
-  /* check if 'finished status' received to early */
+  /* check if "finished status" received to early */
   if(((reg == 0xC0) || (reg == 0xD0)) && (i != len))
     {
       DBG(0,
@@ -5817,7 +5817,7 @@ cmdSetDataBuffer(Int *data)
   unsigned char dest[2048]
 
   /* cmdSet(8,34,cmd2), but without prologue/epilogue */
-  /* set block length to 34 bytes on 'channel 8' */
+  /* set block length to 34 bytes on "channel 8" */
   sendWord(cmd1)
   DBG(16, "sendWord(cmd1) passed(%s:%d) \n", __FILE__, __LINE__)
 
@@ -5830,7 +5830,7 @@ cmdSetDataBuffer(Int *data)
       bloc8Decode(cmd2)
     }
 
-  /* set block length to 2048, write on 'channel 4' */
+  /* set block length to 2048, write on "channel 4" */
   sendWord(cmd3)
   DBG(16, "sendWord(cmd3) passed(%s:%d) \n", __FILE__, __LINE__)
 
@@ -5841,7 +5841,7 @@ cmdSetDataBuffer(Int *data)
     }
   TRACE(16, "sendData(data,2048) passed ...")
 
-  /* read back all data sent to 'channel 4' */
+  /* read back all data sent to "channel 4" */
   sendWord(cmd4)
   DBG(16, "sendWord(cmd4) passed(%s:%d) \n", __FILE__, __LINE__)
 
@@ -6019,7 +6019,7 @@ func Int initScanner610p(Int recover)
   CMDSYNC(0xC2)
   sleep(2)
 
-  /* means 'CONTINUE MOVE' */
+  /* means "CONTINUE MOVE" */
   CMDSYNC(0x00)
   while((scannerStatus & MOTOR_BIT) == 0)
     {
@@ -6053,7 +6053,7 @@ func Int initScanner610p(Int recover)
   CMDSYNC(0x00)
 
   /* this code has been added, without corresponding logs/
-   * it seem I just can't found 'real' parking command ...
+   * it seem I just can"t found "real" parking command ...
    */
   /* send park command */
   if(sanei_umax_pp_park() == 0)
@@ -6092,7 +6092,7 @@ func Int initScanner610p(Int recover)
 func Int sanei_umax_pp_initScanner(Int recover)
 {
   var i: Int
-  Int status
+  status: Int
   Int readcmd[64]
   /* in umax1220u, this buffer is opc[16] */
   Int sentcmd[17] =
@@ -6133,7 +6133,7 @@ func Int sanei_umax_pp_initScanner(Int recover)
 
   /* is the scanner busy parking ? */
   status = sanei_umax_pp_scannerStatus()
-  DBG(8, "INQUIRE SCANNER STATUS IS 0x%02X  (%s:%d)\n", status, __FILE__,
+  DBG(8, "INQUIRE SCANNER Status IS 0x%02X  (%s:%d)\n", status, __FILE__,
        __LINE__)
   if((!recover) && (status & MOTOR_BIT) == 0x00)
     {
@@ -6252,7 +6252,7 @@ func Int sanei_umax_pp_initScanner(Int recover)
       while((sanei_umax_pp_scannerStatus() & 0x90) != 0x90)
 
 
-      /* don't do automatic home sequence on recovery */
+      /* don"t do automatic home sequence on recovery */
       if(!recover)
 	{
 	  CMDSYNC(0x00)
@@ -6274,7 +6274,7 @@ func Int sanei_umax_pp_initScanner(Int recover)
 	    {
 	      /* the sleep is here to prevent */
 	      /* excessive CPU usage, can be  */
-	      /* removed, if we don't care    */
+	      /* removed, if we don"t care    */
 	      sleep(3)
 	      CMDSYNC(0xC2)
 	      DBG(16, "PARKING polling status is 0x%02X   (%s:%d)\n",
@@ -6332,7 +6332,7 @@ initTransport610p(void)
 
   /* set up to bidirectionnal */
   /* in fact we could add support for EPP */
-  /* but let's make 610 work first */
+  /* but let"s make 610 work first */
   if(gMode == UMAX_PP_PARPORT_BYTE)
     {
       byteMode()
@@ -6562,7 +6562,7 @@ initTransport1220P(Int recover)	/* ECP OK !! */
       ClearRegister(0)
       WRITESLOW(0x0E, 0x0A)
       SLOWNIBBLEREGISTERREAD(0x0F, 0x08)
-      /* resend value OR'ed 0x08 ? */
+      /* resend value OR"ed 0x08 ? */
       WRITESLOW(0x0F, 0x08)
       WRITESLOW(0x08, 0x10)
       disconnect()
@@ -6628,7 +6628,7 @@ probe610p(Int recover)
       return 0
     }
 
-  /* make sure we won't try 1220/200P later
+  /* make sure we won"t try 1220/200P later
    * since we got here, we have a 610, and in any case
    * NOT a 1220P/2000P, since no EPAT present */
   sanei_umax_pp_setastra(610)
@@ -6723,7 +6723,7 @@ func Int probeEPP(unsigned char *dest)
       if(reg == 0xFF)
 	{
 	  DBG(0,
-	       "*** It appears that EPP data transfer doesn't work    ***\n")
+	       "*** It appears that EPP data transfer doesn"t work    ***\n")
 	  DBG(0,
 	       "*** Please read SETTING EPP section in sane-umax_pp.5 ***\n")
 	}
@@ -6940,7 +6940,7 @@ func Int probeECP(unsigned char *dest)
   /* if ECP not available, fail */
   if(gECP != 1)
     {
-      DBG(1, "Hardware can't do ECP, giving up(%s:%d) ...\n", __FILE__,
+      DBG(1, "Hardware can"t do ECP, giving up(%s:%d) ...\n", __FILE__,
 	   __LINE__)
       return 0
     }
@@ -6959,11 +6959,11 @@ func Int probeECP(unsigned char *dest)
   Outb(CONTROL, 0x0C)
   for(i = 0; i < 256; i++)
     {
-      breg = (Inb(STATUS)) & 0xF8
+      breg = (Inb(Status)) & 0xF8
       if(breg != 0x48)
 	{
 	  DBG(0,
-	       "probeECP() failed at sync step %d, status=0x%02X, expected 0x48 (%s:%d)\n",
+	       "probeECP() failed at sync step %d, status=0x%02X, expected 0x48(%s:%d)\n",
 	       i, breg, __FILE__, __LINE__)
 	  return 0
 	}
@@ -6971,21 +6971,21 @@ func Int probeECP(unsigned char *dest)
   Outb(CONTROL, 0x0E)
   Outb(CONTROL, 0x0E)
   Outb(CONTROL, 0x0E)
-  breg = (Inb(STATUS)) & 0xF8
+  breg = (Inb(Status)) & 0xF8
   if(breg != 0x48)
     {
-      DBG(0, "probeECP() failed, status=0x%02X, expected 0x48 (%s:%d)\n",
+      DBG(0, "probeECP() failed, status=0x%02X, expected 0x48(%s:%d)\n",
 	   breg, __FILE__, __LINE__)
       return 0
     }
   Outb(CONTROL, 0x04)
   Outb(CONTROL, 0x04)
   Outb(CONTROL, 0x04)
-  breg = Inb(STATUS) & 0xF8
-  breg = (Inb(STATUS)) & 0xF8
+  breg = Inb(Status) & 0xF8
+  breg = (Inb(Status)) & 0xF8
   if(breg != 0xC8)
     {
-      DBG(0, "probeECP() failed, status=0x%02X, expected 0xC8 (%s:%d)\n",
+      DBG(0, "probeECP() failed, status=0x%02X, expected 0xC8(%s:%d)\n",
 	   breg, __FILE__, __LINE__)
       return 0
     }
@@ -7146,7 +7146,7 @@ func Int probeECP(unsigned char *dest)
       Outb(CONTROL, 0x04);	/* reset */
     }
 
-  /* prologue of the 'rotate test' */
+  /* prologue of the "rotate test" */
   ClearRegister(0)
   breg = PS2Something(0x10)
   if(breg != 0x0B)
@@ -7283,27 +7283,27 @@ func Int sanei_umax_pp_probeScanner(Int recover)
   tmp = ringScanner(2, 0)
   if(!tmp)
     {
-      DBG(1, "No scanner detected by 'ringScanner(2,0)'...\n")
+      DBG(1, "No scanner detected by "ringScanner(2,0)"...\n")
       tmp = ringScanner(5, 0)
       if(!tmp)
 	{
-	  DBG(1, "No scanner detected by 'ringScanner(5,0)'...\n")
+	  DBG(1, "No scanner detected by "ringScanner(5,0)"...\n")
 	  tmp = ringScanner(5, 10000)
 	  if(!tmp)
 	    {
-	      DBG(1, "No scanner detected by 'ringScanner(5,10000)'...\n")
+	      DBG(1, "No scanner detected by "ringScanner(5,10000)"...\n")
 	      tmp = ringScanner(5, 10000)
 	      if(!tmp)
 		{
 		  DBG(1,
-		       "No scanner detected by 'ringScanner(5,10000)'...\n")
+		       "No scanner detected by "ringScanner(5,10000)"...\n")
 		}
 	    }
 	}
     }
   if(!tmp)
     {
-      DBG(1, "No 1220P/2000P scanner detected by 'ringScanner()'...\n")
+      DBG(1, "No 1220P/2000P scanner detected by "ringScanner()"...\n")
     }
   DBG(16, "ringScanner passed...\n")
 
@@ -7329,7 +7329,7 @@ func Int sanei_umax_pp_probeScanner(Int recover)
     }
   DBG(16, "testVersion(0) passed...\n")
   /* must fail for 1220P and 2000P */
-  if(testVersion(1) == 0)	/* software doesn't do it for model 0x07 */
+  if(testVersion(1) == 0)	/* software doesn"t do it for model 0x07 */
     {				/* but it works ..                       */
       DBG(16, "testVersion(1) failed(expected) ... (%s:%d)\n", __FILE__,
 	   __LINE__)
@@ -7429,7 +7429,7 @@ func Int sanei_umax_pp_probeScanner(Int recover)
 	       gPort)
 	  return 0
 	}
-      /* probe for a 610p, since we can't detect an EPAT */
+      /* probe for a 610p, since we can"t detect an EPAT */
       DBG(1, "Trying 610p(%s:%d)\n", __FILE__, __LINE__)
       return probe610p(recover)
     }
@@ -7736,9 +7736,9 @@ func Int sanei_umax_pp_probeScanner(Int recover)
     }
   DBG(16, "fonc001() passed(%s:%d) \n", __FILE__, __LINE__)
   reg = registerRead(0x19) & 0xC8
-  /* if reg=E8 or D8 , we have a 'messed' scanner */
+  /* if reg=E8 or D8 , we have a "messed" scanner */
 
-  /* 4 transform buffers + 'void' are sent: 1 B&W, and 3 RGB ? */
+  /* 4 transform buffers + "void" are sent: 1 B&W, and 3 RGB ? */
   memset(initbuf, 0x00, 2048 * sizeof(Int))
   memset(voidbuf, 0x00, 2048 * sizeof(Int))
 
@@ -7773,7 +7773,7 @@ func Int sanei_umax_pp_probeScanner(Int recover)
   DBG(16, "cmdSetDataBuffer(voidbuf) passed... (%s:%d)\n", __FILE__,
        __LINE__)
 
-  /* everything above the FF 55 AA tag is 'void' */
+  /* everything above the FF 55 AA tag is "void" */
   /* it seems that the buffer is reused and only the beginning is initialized */
   for(i = 515; i < 2048; i++)
     initbuf[i] = voidbuf[i]
@@ -8005,7 +8005,7 @@ EPPcmdGet610p(Int cmd, Int len, Int *val)
   word[0] = len / 65536
   word[1] = len / 256 % 256
   word[2] = len % 256
-  word[3] = (cmd & 0x3F) | 0x80 | 0x40;	/* 0x40 means 'read' */
+  word[3] = (cmd & 0x3F) | 0x80 | 0x40;	/* 0x40 means "read" */
 
   connect610p()
   sync610p()
@@ -8071,7 +8071,7 @@ EPPcmdGet610p(Int cmd, Int len, Int *val)
   i = 0
   while(i < len)
     {
-      status = Inb(STATUS) & 0xF8
+      status = Inb(Status) & 0xF8
       if(status & 0x08)
 	{
 	  DBG(1,
@@ -8135,7 +8135,7 @@ cmdGet610p(Int cmd, Int len, Int *val)
   word[0] = len / 65536
   word[1] = len / 256 % 256
   word[2] = len % 256
-  word[3] = (cmd & 0x3F) | 0x80 | 0x40;	/* 0x40 means 'read' */
+  word[3] = (cmd & 0x3F) | 0x80 | 0x40;	/* 0x40 means "read" */
   word[4] = -1
 
   connect610p()
@@ -8286,7 +8286,7 @@ EPPcmdSet610p(Int cmd, Int len, Int *val)
 
   if(status != 0xC8)
     {
-      DBG(0, "EPPcmdSet610p: loop %d, found 0x%02X expected 0xC8 (%s:%d)\n",
+      DBG(0, "EPPcmdSet610p: loop %d, found 0x%02X expected 0xC8(%s:%d)\n",
 	   i, status, __FILE__, __LINE__)
       return 0
     }
@@ -8469,7 +8469,7 @@ cmdGet(Int cmd, Int len, Int *val)
   word[0] = len / 65536
   word[1] = len / 256 % 256
   word[2] = len % 256
-  word[3] = (cmd & 0x3F) | 0x80 | 0x40;	/* 0x40 means 'read' */
+  word[3] = (cmd & 0x3F) | 0x80 | 0x40;	/* 0x40 means "read" */
   word[4] = -1
 
   /* send header */
@@ -8594,7 +8594,7 @@ cmdSetGet(Int cmd, Int len, Int *val)
 static Int
 EPPcmdGetBuffer610p(Int cmd, Int len, unsigned char *buffer)
 {
-  Int status, i, tmp, control
+  status: Int, i, tmp, control
   Int word[5]
   Int count, needed, max
 #ifdef HAVE_LINUX_PPDEV_H
@@ -8702,7 +8702,7 @@ EPPcmdGetBuffer610p(Int cmd, Int len, unsigned char *buffer)
 		   tmp, __FILE__, __LINE__)
 	      return 0
 	    }
-	  status = Inb(STATUS) & 0xF8
+	  status = Inb(Status) & 0xF8
 	  if((status & 0x80) != 0x80)
 	    {
 	      disconnect610p()
@@ -8774,7 +8774,7 @@ EPPcmdGetBuffer610p(Int cmd, Int len, unsigned char *buffer)
 	    {
 		  for(loop = 0; (loop < needed) && (wait==0); loop++)
 		    {
-		      status = Inb(STATUS) & 0xF8
+		      status = Inb(Status) & 0xF8
 		      if((status != 0xD0) && (status != 0xC0)
 			  && (status != 0xC8))
 			{
@@ -8814,7 +8814,7 @@ EPPcmdGetBuffer610p(Int cmd, Int len, unsigned char *buffer)
 static Int
 cmdGetBuffer610p(Int cmd, Int len, unsigned char *buffer)
 {
-  Int status, i, tmp
+  status: Int, i, tmp
   Int word[5]
   Int read, needed, max
 
@@ -8877,7 +8877,7 @@ cmdGetBuffer610p(Int cmd, Int len, unsigned char *buffer)
 		   tmp, __FILE__, __LINE__)
 	      return 0
 	    }
-	  status = Inb(STATUS) & 0xF8
+	  status = Inb(Status) & 0xF8
 	  if((status & 0x80) == 0x00)
 	    disconnect610p()
 	  else
@@ -8893,17 +8893,17 @@ cmdGetBuffer610p(Int cmd, Int len, unsigned char *buffer)
 	{
 	  if(sanei_umax_pp_getfull() == 0)
 	    {
-	      status = Inb(STATUS) & 0xF8
+	      status = Inb(Status) & 0xF8
 	      if(status == 0xC8)
 		{
 		  for(tmp = 0; tmp < 18; tmp++)
-		    status = Inb(STATUS) & 0xF8
+		    status = Inb(Status) & 0xF8
 		  break
 		}
 	    }
-	  Outb(CONTROL, 0x26);	/* data reverse+ 'reg' */
+	  Outb(CONTROL, 0x26);	/* data reverse+ "reg" */
 	  buffer[read + i] = Inb(DATA)
-	  Outb(CONTROL, 0x24);	/* data reverse+ 'reg' */
+	  Outb(CONTROL, 0x24);	/* data reverse+ "reg" */
 	  i++
 	}
       byteMode()
@@ -9056,7 +9056,7 @@ cmdGetBuffer(Int cmd, Int len, unsigned char *buffer)
 
 /* 1 OK, 0 failed */
 static Int
-cmdGetBuffer32 (Int cmd, Int len, unsigned char *buffer)
+cmdGetBuffer32(Int cmd, Int len, unsigned char *buffer)
 {
   Int reg, tmp
   Int word[5], read
@@ -9427,7 +9427,7 @@ encodeHY(Int height, Int ypos, Int *motor)
  * x is start of scanning area
  * dpi is x resolution
  * color is non zero if scanning in color
- * bytes is on aoverride for bpl, since it sin't clear today when
+ * bytes is on aoverride for bpl, since it sin"t clear today when
  * the formula has to be applied
  */
 static void
@@ -9627,7 +9627,7 @@ bloc2Decode(Int *op)
     }
   else
     {
-      DBG(0, "\t.move and scan(head doesn't stop at each row)    \n")
+      DBG(0, "\t.move and scan(head doesn"t stop at each row)    \n")
     }
   DBG(0, "\n")
 }
@@ -10084,7 +10084,7 @@ move(Int distance, Int precision, unsigned char *buffer)
     {
       Dump(0x200, ptr, NULL)
     }
-  DBG(16, "MOVE STATUS IS 0x%02X  (%s:%d)\n", sanei_umax_pp_scannerStatus(),
+  DBG(16, "MOVE Status IS 0x%02X  (%s:%d)\n", sanei_umax_pp_scannerStatus(),
        __FILE__, __LINE__)
   CMDSYNC(0x00)
   return 1
@@ -10336,7 +10336,7 @@ func Int sanei_umax_pp_park(void)
     -1
   ]
 
-  Int status = 0x90
+  status: Int = 0x90
 
   CMDSYNC(0x00)
 
@@ -10354,7 +10354,7 @@ func Int sanei_umax_pp_park(void)
 
 
   status = sanei_umax_pp_scannerStatus()
-  DBG(16, "PARKING STATUS is 0x%02X(%s:%d)\n", status, __FILE__, __LINE__)
+  DBG(16, "PARKING Status is 0x%02X(%s:%d)\n", status, __FILE__, __LINE__)
   DBG(1, "Park command issued ...\n")
   return 1
 }
@@ -10401,7 +10401,7 @@ shadingCalibration1220p(Int color,
     }
 
   /* step back by 67 ticks:                     */
-  /* since we're going to scan 66 lines of data */
+  /* since we"re going to scan 66 lines of data */
   /* which are going to be used as calibration  */
   /* data                                       */
   /* we are on the white area just before       */
@@ -10414,7 +10414,7 @@ shadingCalibration1220p(Int color,
   /* get calibration data */
   /*
      if(sanei_umax_pp_getauto())
-     {                           auto settings doesn't use offset
+     {                           auto settings doesn"t use offset
      offset = 0x000
      }
      else
@@ -10478,7 +10478,7 @@ shadingCalibration1220p(Int color,
     size = width * 66
   if(getEPPMode() == 32)
     {
-      cmdGetBuffer32 (4, size, buffer)
+      cmdGetBuffer32(4, size, buffer)
     }
   else
     {
@@ -10578,7 +10578,7 @@ func Int sanei_umax_pp_scan(Int x, Int y, Int width, Int height, Int dpi, Int co
     sanei_umax_pp_setauto(0)
 
 
-  /* colors don't come in sync, so we must increase y */
+  /* colors don"t come in sync, so we must increase y */
   /* to have extra lines to reorder data             */
   if(sanei_umax_pp_getastra() > 610)
     {
@@ -10687,7 +10687,7 @@ func Int sanei_umax_pp_scan(Int x, Int y, Int width, Int height, Int dpi, Int co
       fout = fopen("out.pnm", "wb")
       if(fout == NULL)
 	{
-	  DBG(0, "Failed to open 'out.pnm', giving up....\n")
+	  DBG(0, "Failed to open "out.pnm", giving up....\n")
 	  gCancel = 1
 	}
       else
@@ -10718,7 +10718,7 @@ func Int sanei_umax_pp_scan(Int x, Int y, Int width, Int height, Int dpi, Int co
 	  read += len
 	}
 
-      /* in color mode we have to fill the 'reserve' area
+      /* in color mode we have to fill the "reserve" area
        * so that we can reorder data lines */
       while((read - dataoffset < reserve) && (!gCancel))
 	{
@@ -10766,10 +10766,10 @@ func Int sanei_umax_pp_scan(Int x, Int y, Int width, Int height, Int dpi, Int co
 	    {
 	      if(color >= RGB_MODE)
 		{
-		  /* using an image format that doesn't need   */
+		  /* using an image format that doesn"t need   */
 		  /* reordering would speed up write operation */
 
-		  /* don't forget remaining bytes from previous block */
+		  /* don"t forget remaining bytes from previous block */
 		  hp = (len + remain) / bpl
 		  remain = (len + remain) - hp * bpl
 		  switch(sanei_umax_pp_getastra())
@@ -10888,7 +10888,7 @@ func Int sanei_umax_pp_scan(Int x, Int y, Int width, Int height, Int dpi, Int co
  */
 func Int sanei_umax_pp_parkWait(void)
 {
-  Int status
+  status: Int
 
   /* check if head is at home */
   DBG(16, "entering parkWait ...\n")
@@ -11418,7 +11418,7 @@ func Int sanei_umax_pp_startScan(Int x, Int y, Int width, Int height, Int dpi,
 	      ptr = line + 6
 	      for(i = 0; (i < max) && ((ptr - line) < strlen(line)); i++)
 		{
-		  if(ptr[0] != '-')
+		  if(ptr[0] != "-")
 		    {
 		      sscanf(ptr, "%X", base + i)
 		    }
@@ -11908,7 +11908,7 @@ offsetCalibration1220p(Int color, Int *offRed, Int *offGreen, Int *offBlue)
     {
       CMDSETGET(2, 0x10, opsc48)
       CMDSETGET(8, 0x24, opsc38)
-      CMDSETGET(1, 0x08, opsc04);	/* scan std, no 'enhancing' */
+      CMDSETGET(1, 0x08, opsc04);	/* scan std, no "enhancing" */
       CMDSYNC(0xC2)
       if(sanei_umax_pp_scannerStatus() & 0x80)
 	{
@@ -12040,9 +12040,9 @@ offsetCalibration1220p(Int color, Int *offRed, Int *offGreen, Int *offBlue)
 /*
  * computes DC offset to have black pixel really black out of
  * CCD ie black gives 0
- * 610P doesn't implement method described in LM9811 datasheet
+ * 610P doesn"t implement method described in LM9811 datasheet
  * but scan a black line with decreasing offsets until the
- * scanned data reach a 'good black level'.
+ * scanned data reach a "good black level".
  * returns 1 and DC offsets in the corresponding vars on success .
  * On failure, returns 0.
  */
@@ -12356,7 +12356,7 @@ coarseGainCalibration610p(Int color, Int dcRed, Int dcGreen, Int dcBlue,
   xend = i
   DBG(32, "coarseGainCalibration610p: xstart=%d, xend=%d ->left=%d\n",
        xstart, xend, ((xend + xstart - w) / 2))
-  /* choose best 'left' position */
+  /* choose best "left" position */
   sanei_umax_pp_setLeft((xend + xstart - w) / 2)
 
   /* now do VGA calibration for green(=B&W channel) */
@@ -12672,7 +12672,7 @@ coarseGainCalibration1220p(Int color, Int dcRed, Int dcGreen,
   encodeDC(dcRed, dcGreen, dcBlue, motor)
   encodeVGA(0, *vgaGreen, 0, motor)
   if(color < RGB_MODE)
-    motor[0] = 0x01;		/* in BW, scan zone doesn't have an extra 4 points */
+    motor[0] = 0x01;		/* in BW, scan zone doesn"t have an extra 4 points */
   else
     motor[0] = 0x05;		/*  extra 4 points */
   motor[13] = 0xC0;		/* B&W */
@@ -12764,7 +12764,7 @@ coarseGainCalibration(Int color, Int dcRed, Int dcGreen, Int dcBlue,
  * computes PGA offset for each pixel of the ccd.
  * We scan a white area with PGA=0 and computes the
  * offset to push the result in the correctable range
- * returns 1 and PGA values in 'calibration' var on success .
+ * returns 1 and PGA values in "calibration" var on success .
  * On failure, returns 0.
  */
 static Int
@@ -12861,7 +12861,7 @@ shadingCalibration610p(Int color, Int dcRed, Int dcGreen, Int dcBlue,
   COMPLETIONWAIT
 
   /* picture height is scan area height minus y          */
-  /* then we subtract 14 or 6 lines that aren't scanned  */
+  /* then we subtract 14 or 6 lines that aren"t scanned  */
   if(color < RGB_MODE)
     h = h - y - 14
   else
@@ -12872,7 +12872,7 @@ shadingCalibration610p(Int color, Int dcRed, Int dcGreen, Int dcBlue,
        "shadingCalibration610p: trying to read 0x%06X bytes ... (%s:%d)\n",
        size, __FILE__, __LINE__)
   /* since we know that each scan line matches CCD width, we signals
-   * that data reading doesn't need to sync on each byte, but at each
+   * that data reading doesn"t need to sync on each byte, but at each
    * row end
    */
   sanei_umax_pp_setfull(1)
@@ -12982,7 +12982,7 @@ shadingCalibration(Int color, Int dcRed, Int dcGreen, Int dcBlue,
  * this is certainly gamma calibration
  * We scan a white area with PGA=0 and computes the
  * offset to push the result in the correctable range
- * returns 1 and PGA values in 'calibration' var on success .
+ * returns 1 and PGA values in "calibration" var on success .
  * On failure, returns 0.
  */
 static Int

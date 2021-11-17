@@ -2914,19 +2914,19 @@ void verify_usb_device_tables()
         const auto& model = device.model()
 
         if(model.x_size_calib_mm == 0.0f) {
-            throw SaneException("Calibration width can't be zero")
+            throw SaneException("Calibration width can"t be zero")
         }
 
         if(model.has_method(ScanMethod::FLATBED)) {
             if(model.y_size_calib_mm == 0.0f) {
-                throw SaneException("Calibration size can't be zero")
+                throw SaneException("Calibration size can"t be zero")
             }
         }
         if(model.has_method(ScanMethod::TRANSPARENCY) ||
             model.has_method(ScanMethod::TRANSPARENCY_INFRARED))
         {
             if(model.y_size_calib_ta_mm == 0.0f) {
-                throw SaneException("Calibration size can't be zero")
+                throw SaneException("Calibration size can"t be zero")
             }
         }
     }

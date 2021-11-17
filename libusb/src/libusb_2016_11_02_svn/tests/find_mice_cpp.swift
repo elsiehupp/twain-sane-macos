@@ -40,11 +40,11 @@ Int main(void)
 	for(iter = miceFound.begin(); iter != miceFound.end(); iter++) {
 		device = *iter
 
-		cout << hex << setw(4) << setfill('0')
+		cout << hex << setw(4) << setfill("0")
 			 << device.idVendor() << "  /  "
-			 << hex << setw(4) << setfill('0')
+			 << hex << setw(4) << setfill("0")
 			 << device.idProduct() << "  /  "
-			 << hex << setw(4) << setfill('0')
+			 << hex << setw(4) << setfill("0")
 			 << device.idRevision() << "       "
 			 << endl
 	}

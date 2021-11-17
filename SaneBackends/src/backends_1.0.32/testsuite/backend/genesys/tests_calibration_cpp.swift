@@ -49,10 +49,10 @@ Genesys_Calibration_Cache create_fake_calibration_entry()
         { 0x01, 0x03 },
         { 0x02, 0x05 },
         { 0x03, 0x11 },
-        { ' ', 0x80 }, // check whether space-like integer values are correctly serialized
-        { ',', 0x80 },
-        { '\r', '\n' },
-        { '\n', 0x00 },
+        { " ", 0x80 }, // check whether space-like integer values are correctly serialized
+        { ",", 0x80 },
+        { "\r", "\n" },
+        { "\n", 0x00 },
         { 0x25, 0x00 },
         { 0x26, 0x00 },
         { 0x28, 0x02 },

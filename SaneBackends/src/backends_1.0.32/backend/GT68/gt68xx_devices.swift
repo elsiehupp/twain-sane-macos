@@ -1047,7 +1047,7 @@ static GT68xx_Model lexmark_x73_model = {
   Sane.FALSE,			/* Is this a CIS scanner? */
   0				/* Which flags are needed for this scanner? */
     /* When using automatic gain pictures are too dark. Only some ad hoc tests for
-       lexmark x70 were done so far. WARNING: Don't use the Full scan option
+       lexmark x70 were done so far. WARNING: Don"t use the Full scan option
        with the above settings, otherwise the sensor may bump at the end of
        the sledge and the scanner may be damaged!  */
 ]
@@ -1150,7 +1150,7 @@ static GT68xx_Model plustek_u16b_model = {
     GT68XX_FLAG_NO_LINEMODE
     /* Which flags are needed for this scanner? */
     /* Tested with a U16B by Henning Meier-Geinitz. 600 dpi is maximum
-       vertically. Line mode does not work. That's a hardware/firmware
+       vertically. Line mode does not work. That"s a hardware/firmware
        issue. */
 ]
 

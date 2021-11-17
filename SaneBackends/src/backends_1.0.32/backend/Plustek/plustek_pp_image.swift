@@ -292,7 +292,7 @@ static void fnP96GrayDirect( pScanData ps, pVoid pBuf, pVoid pImg, ULong bl )
 
 /** This routine used in the condition:
  * 1) The data type is B/W or GrayScale.
- * 2) The required horizontal resolution doesn't exceed the optic spec.
+ * 2) The required horizontal resolution doesn"t exceed the optic spec.
  * 3) The required vertical resolution exceeds the optic spec.
  * So, the vertcal lines have to average with previous line to smooth the
  * image.
@@ -475,7 +475,7 @@ static Int imageP98SetupScanSettings( pScanData ps, pScanInfo pInf )
 		ps.wBrightness = pInf.siBrightness;   /* use internal tables for 	*/
 		ps.wContrast   = pInf.siContrast;		/* brightness and contrast	*/
 
-		pInf.siBrightness = 0;				/* don't use asic for threshold */
+		pInf.siBrightness = 0;				/* don"t use asic for threshold */
     }
 
 /* CHECK: We have now two methods for setting the brightness...
@@ -1147,7 +1147,7 @@ static Int imageP96SetupScanSettings( pScanData ps, pScanInfo pInf )
 		ps.wBrightness = pInf.siBrightness;   /* use internal tables for 	*/
 		ps.wContrast   = pInf.siContrast;		/* brightness and contrast	*/
 
-		pInf.siBrightness = 0;				/* don't use asic for threshold */
+		pInf.siBrightness = 0;				/* don"t use asic for threshold */
     }
     ps.DataInf.siBrightness = pInf.siBrightness
 

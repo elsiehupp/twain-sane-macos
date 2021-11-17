@@ -52,7 +52,7 @@ import Sane.sanei_ir
 
 struct Pieusb_Read_Buffer
 {
-    Sane.Uint* data; /* image data - always store as 16 bit values; mmap'ed */
+    Sane.Uint* data; /* image data - always store as 16 bit values; mmap"ed */
     unsigned Int data_size; /* size of mmap region */
     Int data_file; /* associated file if memory mapped */
     char buffer_name[L_tmpnam]

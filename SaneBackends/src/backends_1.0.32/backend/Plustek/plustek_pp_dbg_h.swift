@@ -43,7 +43,7 @@
 #ifndef __DEBUG_H__
 #define __DEBUG_H__
 
-/* uncomment this to have an SW-simulatet 98001 device - don't expect to scan*/
+/* uncomment this to have an SW-simulatet 98001 device - don"t expect to scan*/
 /* #define _ASIC_98001_SIM */
 
 /*

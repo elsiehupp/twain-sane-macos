@@ -282,7 +282,7 @@ Sane.start(Sane.Handle handle)
   Sane.Status status
 
   /* First make sure we have a current parameter set.  Some of the
-   * parameters will be overwritten below, but that's OK.  */
+   * parameters will be overwritten below, but that"s OK.  */
   DBG(2, "Sane.start\n")
   status = Sane.get_parameters(s, 0)
   if(status != Sane.STATUS_GOOD)
@@ -366,15 +366,15 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
       s.Sane.params.lines = s.sm3840_params.scanlines
       s.Sane.params.format =
 	s.sm3840_params.gray ? Sane.FRAME_GRAY : Sane.FRAME_RGB
-      s.Sane.params.bytes_per_line = s.sm3840_params.linelen
+      s.Sane.params.bytesPerLine = s.sm3840_params.linelen
       s.Sane.params.depth = s.sm3840_params.bpp
 
       if(s.sm3840_params.lineart || s.sm3840_params.halftone)
 	{
-	  s.Sane.params.bytes_per_line += 7
-	  s.Sane.params.bytes_per_line /= 8
+	  s.Sane.params.bytesPerLine += 7
+	  s.Sane.params.bytesPerLine /= 8
 	  s.Sane.params.depth = 1
-	  s.Sane.params.pixels_per_line = s.Sane.params.bytes_per_line * 8
+	  s.Sane.params.pixels_per_line = s.Sane.params.bytesPerLine * 8
 	}
 
       s.Sane.params.last_frame = Sane.TRUE

@@ -68,7 +68,7 @@
  * <mattias.ellert@tsl.uu.se>).
  *
  * Revision 1.10  2004/10/06 15:59:40  hmg-guest
- * Don't eject medium twice after each page.
+ * Don"t eject medium twice after each page.
  *
  * Revision 1.9  2004/06/20 00:34:10  ellert-guest
  * Missed one...
@@ -291,7 +291,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 
   while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if(dev_name[0] == '#')
+      if(dev_name[0] == "#")
         continue
       len = strlen(dev_name)
       if(!len)
@@ -828,7 +828,7 @@ Sane.start(Sane.Handle handle)
 
   swap_res(scanner)
 
-  DBG(10, "\tbytes per line = %d\n", bytes_per_line(scanner))
+  DBG(10, "\tbytes per line = %d\n", bytesPerLine(scanner))
   DBG(10, "\tpixels_per_line = %d\n", pixels_per_line(scanner))
   DBG(10, "\tlines = %d\n", lines_per_scan(scanner))
   DBG(10, "\tbrightness(halftone) = %d\n", scanner.brightness)
@@ -894,13 +894,13 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 
   params.pixels_per_line = pixels_per_line(scanner)
   params.lines = lines_per_scan(scanner)
-  params.bytes_per_line = bytes_per_line(scanner)
+  params.bytesPerLine = bytesPerLine(scanner)
   params.last_frame = 1
 
   DBG(10, "\tdepth %d\n", params.depth)
   DBG(10, "\tlines %d\n", params.lines)
   DBG(10, "\tpixels_per_line %d\n", params.pixels_per_line)
-  DBG(10, "\tbytes_per_line %d\n", params.bytes_per_line)
+  DBG(10, "\tbytes_per_line %d\n", params.bytesPerLine)
 /*************************/
   DBG(10, "\tlength %d\n", scanner.br_y - scanner.tl_y)
   DBG(10, "\t(nom.) width %d\n", scanner.br_x - scanner.tl_x)
@@ -1264,29 +1264,29 @@ sp15c_identify_scanner(struct sp15c *s)
 
   if(strncmp("FCPA    ", vendor, 8))
     {
-      DBG(5, "identify_scanner: \"%s\" isn't a Fujitsu product\n", vendor)
+      DBG(5, "identify_scanner: \"%s\" isn"t a Fujitsu product\n", vendor)
       return 1
     }
 
   pp = &vendor[8]
-  vendor[8] = ' '
-  while(*pp == ' ')
+  vendor[8] = " "
+  while(*pp == " ")
     {
-      *pp-- = '\0'
+      *pp-- = "\0"
     }
 
   pp = &product[0x10]
-  product[0x10] = ' '
-  while(*(pp - 1) == ' ')
+  product[0x10] = " "
+  while(*(pp - 1) == " ")
     {
-      *pp-- = '\0'
+      *pp-- = "\0"
     }                           /* leave one blank at the end! */
 
   pp = &version[4]
-  version[4] = ' '
-  while(*pp == ' ')
+  version[4] = " "
+  while(*pp == " ")
     {
-      *pp-- = '\0'
+      *pp-- = "\0"
     }
 
   if(get_IN_adf(s.buffer))
@@ -1303,9 +1303,9 @@ sp15c_identify_scanner(struct sp15c *s)
        s.autofeeder, get_IN_color_mode(s.buffer),
        get_IN_color_seq(s.buffer))
 
-  vendor[8] = '\0'
-  product[16] = '\0'
-  version[4] = '\0'
+  vendor[8] = "\0"
+  product[16] = "\0"
+  version[4] = "\0"
 
   strncpy(s.vendor, vendor, 9)
   strncpy(s.product, product, 17)
@@ -1321,7 +1321,7 @@ sp15c_do_inquiry(struct sp15c *s)
 
   DBG(10, "do_inquiry\n")
 
-  memset(s.buffer, '\0', 256);        /* clear buffer */
+  memset(s.buffer, "\0", 256);        /* clear buffer */
   set_IN_return_size(inquiryB.cmd, 96)
 
   ret = do_scsi_cmd(s.sfd, inquiryB.cmd, inquiryB.size, s.buffer, 96)
@@ -1368,7 +1368,7 @@ hexdump(Int level, char *comment, unsigned char *p, Int l)
         {
           if(ptr != line)
             {
-              *ptr = '\0'
+              *ptr = "\0"
               DBG(level, "%s\n", line)
               ptr = line
             }
@@ -1378,7 +1378,7 @@ hexdump(Int level, char *comment, unsigned char *p, Int l)
       sprintf(ptr, " %2.2x", *p)
       ptr += 3
     }
-  *ptr = '\0'
+  *ptr = "\0"
   DBG(level, "%s\n", line)
 }                               /* hexdump */
 
@@ -1597,7 +1597,7 @@ sp15c_free_scanner(struct sp15c *s)
   DBG(10, "sp15c_free_scanner\n")
 #if 0
   /* hmg: reports from several people show that this code ejects two pages
-     instead of one. So I've commented it out for now. */
+     instead of one. So I"ve commented it out for now. */
   ret = sp15c_object_discharge(s)
   if(ret)
     return ret
@@ -1686,7 +1686,7 @@ wait_scanner(struct sp15c *s)
 }                               /* wait_scanner */
 
 /* As noted above, this command has been supplanted by the
-   MEDIA CHECK command.  Nevertheless, it's still available
+   MEDIA CHECK command.  Nevertheless, it"s still available
    here in case some future need is discovered. */
 static Int
 sp15c_object_position(struct sp15c *s)
@@ -1730,7 +1730,7 @@ sp15c_media_check(struct sp15c *s)
       return Sane.STATUS_UNSUPPORTED
     }
 
-  memset(s.buffer, '\0', 256);        /* clear buffer */
+  memset(s.buffer, "\0", 256);        /* clear buffer */
   set_MC_return_size(media_checkB.cmd, 1)
 
   ret = do_scsi_cmd(s.sfd, media_checkB.cmd, media_checkB.size, s.buffer, 1)
@@ -1762,7 +1762,7 @@ do_cancel(struct sp15c *scanner)
     {
       Int exit_status
       DBG(10, "do_cancel: kill reader_process\n")
-      /* ensure child knows it's time to stop: */
+      /* ensure child knows it"s time to stop: */
       sanei_thread_kill(scanner.reader_pid)
       DBG(50, "wait for scanner to stop\n")
       sanei_thread_waitpid(scanner.reader_pid, &exit_status)
@@ -1819,7 +1819,7 @@ sp15c_set_window_param(struct sp15c *s, Int prescan)
 
   wait_scanner(s)
   DBG(10, "set_window_param\n")
-  memset(buffer_r, '\0', WDB_size_max);        /* clear buffer */
+  memset(buffer_r, "\0", WDB_size_max);        /* clear buffer */
   memcpy(buffer_r, window_descriptor_blockB.cmd,
           window_descriptor_blockB.size);       /* copy preset data */
 
@@ -1963,7 +1963,7 @@ reader_process(void *data)
   struct sp15c *scanner = (struct sp15c *) data
   Int pipe_fd = scanner.reader_pipe
 
-  Int status
+  status: Int
   unsigned Int data_left
   unsigned Int data_to_read
   FILE *fp
@@ -1994,13 +1994,13 @@ reader_process(void *data)
   fp = fdopen(pipe_fd, "w")
   if(!fp)
     {
-      DBG(1, "reader_process: couldn't open pipe!\n")
+      DBG(1, "reader_process: couldn"t open pipe!\n")
       return 1
     }
 
   DBG(10, "reader_process: starting to READ data\n")
 
-  data_left = bytes_per_line(scanner) *
+  data_left = bytesPerLine(scanner) *
     lines_per_scan(scanner)
 
   sp15c_trim_rowbufsize(scanner);      /* trim bufsize */
@@ -2021,7 +2021,7 @@ reader_process(void *data)
 
       if(scanner.composition == WD_comp_G4)
         {
-          data_to_read /= 2;    /* 'cause each byte holds two pixels */
+          data_to_read /= 2;    /* "cause each byte holds two pixels */
         }
       status = sp15c_read_data_block(scanner, data_to_read)
       if(status == 0)
@@ -2104,7 +2104,7 @@ lines_per_scan(struct sp15c *s)
 }                               /* lines_per_scan */
 
 static Int
-bytes_per_line(struct sp15c *s)
+bytesPerLine(struct sp15c *s)
 {
   Int bytes
   /* SEE PAGE 29 OF SANE SPEC!!! */
@@ -2121,13 +2121,13 @@ bytes_per_line(struct sp15c *s)
       bytes *= 3
     }
   return bytes
-}                               /* bytes_per_line */
+}                               /* bytesPerLine */
 
 static void
 sp15c_trim_rowbufsize(struct sp15c *s)
 {
   unsigned Int row_len
-  row_len = bytes_per_line(s)
+  row_len = bytesPerLine(s)
   if(s.row_bufsize >= row_len)
     {
       s.row_bufsize = s.row_bufsize - (s.row_bufsize % row_len)

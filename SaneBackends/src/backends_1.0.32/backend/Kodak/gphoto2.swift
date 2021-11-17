@@ -87,7 +87,7 @@ PictureInfo
 
 typedef struct GPHOTO2_s
 {
-  String port;		/* the port name it's on */
+  String port;		/* the port name it"s on */
   Int speed;		/* current port speed */
   String camera_name
   Bool scanning;		/* currently scanning an image? */
@@ -193,15 +193,15 @@ static Sane.Status converter_init(Sane.Handle handle)
 
 
 /* Please note!  Although intended to support multiple camera types
- * it's been tested with only cameras I have access to: the Kodak DC240
- * and the Directory Browse "camera."  I'm very interested
+ * it"s been tested with only cameras I have access to: the Kodak DC240
+ * and the Directory Browse "camera."  I"m very interested
  * in learning what it would take to support more cameras.  In
  * particular, the current incarnation will only support cameras
  * that directly generate jpeg files.
  *
  * Please report successes or failures using this backend!
  *
- * However, having said that, I've already found it to be quite useful
+ * However, having said that, I"ve already found it to be quite useful
  * even in its current form - one reason is that gphoto2 provides access
  * to the camera via USB which is not supported by the regular DC240
  * backend and is dramatically faster than the serial port.
@@ -287,7 +287,7 @@ import Sane.saneopts
 #define BACKEND_NAME	gphoto2
 import Sane.sanei_backend
 
-/* PSF 1/12/02 - gphoto2.h does a #include of config.h.  We don't have
+/* PSF 1/12/02 - gphoto2.h does a #include of config.h.  We don"t have
  * config.h by that name(we call it sane/config.h), so the #undef of
  * HAVE_CONFIG_H will cause it to skip that.
  */
@@ -756,7 +756,7 @@ get_info(void)
       n = 1
     }
 
-  /* If we've already got a folder_list, free it up before starting
+  /* If we"ve already got a folder_list, free it up before starting
    * the new one
    */
   if(folder_list != NULL)
@@ -778,9 +778,9 @@ get_info(void)
 	{
 	  gp_list_get_name(dir_list, n, &val)
 	  folder_list[n] = strdup(val)
-	  if(strchr((const char *) folder_list[n], ' '))
+	  if(strchr((const char *) folder_list[n], " "))
 	    {
-	      *strchr((const char *) folder_list[n], ' ') = '\0'
+	      *strchr((const char *) folder_list[n], " ") = "\0"
 	    }
 	}
       if(n == 0)
@@ -834,7 +834,7 @@ erase(void)
 }
 
 /*
- * change_res() - FIXME:  Would like to set resolution, but haven't figure
+ * change_res() - FIXME:  Would like to set resolution, but haven"t figure
  * 	out how to control that yet.
  */
 static Int
@@ -882,9 +882,9 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
        * options and combinations of options, that success without a config
        * file is unlikely.  So, give and return failure
        */
-      DBG(0, "warning: %s:  missing config file '%s'\n"
-	   "If you aren't using gphoto2, you should disable it in dll.conf.\n"
-	   "If you do want to use gphoto2, you'll need to install the config\n"
+      DBG(0, "warning: %s:  missing config file "%s"\n"
+	   "If you aren"t using gphoto2, you should disable it in dll.conf.\n"
+	   "If you do want to use gphoto2, you"ll need to install the config\n"
 	   "file in %s.\n", f, GPHOTO2_CONFIG_FILE, GPHOTO2_CONFIG_FILE)
 
       return Sane.STATUS_INVAL
@@ -893,10 +893,10 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
     {
       while(sanei_config_read(dev_name, sizeof(dev_name), fp))
 	{
-	  dev_name[sizeof(dev_name) - 1] = '\0'
+	  dev_name[sizeof(dev_name) - 1] = "\0"
 	  DBG(20, "%s:  config- %s\n", f, dev_name)
 
-	  if(dev_name[0] == '#')
+	  if(dev_name[0] == "#")
 	    continue;		/* ignore line comments */
 	  len = strlen(dev_name)
 	  if(!len)
@@ -1063,7 +1063,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
   if(Cam_data.pic_taken == 0)
     {
       Cam_data.current_picture_number = 0
-      parms.bytes_per_line = 0
+      parms.bytesPerLine = 0
       parms.pixels_per_line = 0
       parms.lines = 0
     }
@@ -1252,13 +1252,13 @@ Sane.control_option(Sane.Handle handle, Int option,
     {
     case Sane.ACTION_SET_VALUE:
 
-      /* Can't set disabled options */
+      /* Can"t set disabled options */
       if(!Sane.OPTION_IS_ACTIVE(sod[option].cap))
 	{
 	  return(Sane.STATUS_INVAL)
 	}
 
-      /* initialize info to zero - we'll OR in various values later */
+      /* initialize info to zero - we"ll OR in various values later */
       if(info)
 	*info = 0
 
@@ -1283,7 +1283,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 	   */
 	  myinfo |= Sane.INFO_RELOAD_PARAMS
 
-	  /* get the image's resolution, unless the camera has no
+	  /* get the image"s resolution, unless the camera has no
 	   * pictures yet
 	   */
 	  if(Cam_data.pic_taken != 0)
@@ -1418,7 +1418,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 
     case Sane.ACTION_GET_VALUE:
 
-      /* Can't return status for disabled options */
+      /* Can"t return status for disabled options */
       if(!Sane.OPTION_IS_ACTIVE(sod[option].cap))
 	{
 	  return(Sane.STATUS_INVAL)
@@ -1584,7 +1584,7 @@ Sane.start(Sane.Handle handle)
     return Sane.STATUS_EOF
 
 /*
- * This shouldn't normally happen, but we allow it as a special case
+ * This shouldn"t normally happen, but we allow it as a special case
  * when batch/autoinc are in effect.  The first illegal picture number
  * terminates the scan
  */
@@ -1596,7 +1596,7 @@ Sane.start(Sane.Handle handle)
   if(gphoto2_opt_snap)
     {
       /*
-       * Don't allow picture unless there is room in the
+       * Don"t allow picture unless there is room in the
        * camera.
        */
       if(Cam_data.pic_left == 0)
@@ -1638,7 +1638,7 @@ Sane.start(Sane.Handle handle)
   if(strcmp(GP_MIME_JPEG, mime_type) != 0)
     {
       DBG(0,
-	   "FIXME - Only jpeg files currently supported, can't do %s for file %s/%s\n",
+	   "FIXME - Only jpeg files currently supported, can"t do %s for file %s/%s\n",
 	   mime_type, cmdbuf, filename)
       return Sane.STATUS_INVAL
     }
@@ -1651,23 +1651,23 @@ Sane.start(Sane.Handle handle)
 
   /* Check if a linebuffer has been allocated.  If we had one
    * previously, free it up and allocate one for(possibly) new
-   * size.  parms.bytes_per_line is set by converter_init()
+   * size.  parms.bytesPerLine is set by converter_init()
    */
   if(linebuffer == NULL)
     {
-      linebuffer = malloc(parms.bytes_per_line)
+      linebuffer = malloc(parms.bytesPerLine)
     }
   else
     {
       free(linebuffer)
-      linebuffer = malloc(parms.bytes_per_line)
+      linebuffer = malloc(parms.bytesPerLine)
     }
   if(linebuffer == NULL)
     {
       return Sane.STATUS_INVAL
     }
 
-  Cam_data.scanning = Sane.TRUE;	/* don't overlap scan requests */
+  Cam_data.scanning = Sane.TRUE;	/* don"t overlap scan requests */
 
   return Sane.STATUS_GOOD
 }
@@ -1701,14 +1701,14 @@ Sane.read(Sane.Handle __Sane.unused__ handle, Sane.Byte * data,
 
   if(converter_scan_complete())
     {
-      Sane.Status retval
+      Sane.Status returnValue
 
       *length = 0
-      retval = converter_do_scan_complete_cleanup()
+      returnValue = converter_do_scan_complete_cleanup()
 
-      if(retval != Sane.STATUS_GOOD)
+      if(returnValue != Sane.STATUS_GOOD)
 	{
-	  return retval
+	  return returnValue
 	}
     }
 
@@ -1761,7 +1761,7 @@ Sane.set_io_mode(Sane.Handle __Sane.unused__ handle, Bool
     }
   else
     {
-      /* We aren't currently scanning */
+      /* We aren"t currently scanning */
       return Sane.STATUS_INVAL
     }
 }
@@ -1778,9 +1778,9 @@ Sane.get_select_fd(Sane.Handle __Sane.unused__ handle, Int __Sane.unused__ *  fd
 /*
  * get_pictures_info - load information about all pictures currently in
  *			camera:  Mainly the mapping of picture number
- *			to picture name.  We'ld like to get other
+ *			to picture name.  We"ld like to get other
  *			information such as image size, but the API
- *			doesn't provide any support for that.
+ *			doesn"t provide any support for that.
  */
 static PictureInfo *
 get_pictures_info(void)
@@ -1837,7 +1837,7 @@ get_pictures_info(void)
 
 /*
  * get_picture_info() - get info about picture p.  Currently we have no
- *	way to get information about a picture beyond it's name.
+ *	way to get information about a picture beyond it"s name.
  */
 static Int
 get_picture_info(PictureInfo * pic, Int p)
@@ -1877,8 +1877,8 @@ snap_pic(void)
 
   /*
    * This is needed when the camera has no files and the first picture
-   * is taken.  I guess it's because a folder needs to be created and
-   * the filesystem doesn't know about it.
+   * is taken.  I guess it"s because a folder needs to be created and
+   * the filesystem doesn"t know about it.
    */
   if(Cam_data.pic_taken == 0)
     {
@@ -1887,9 +1887,9 @@ snap_pic(void)
 
   CHECK_RET(gp_camera_capture(camera, GP_CAPTURE_IMAGE, &path, NULL))
 
-  /* Can't just increment picture count, because if the camera has
+  /* Can"t just increment picture count, because if the camera has
    * zero pictures we may not know the folder name.  Start over
-   * with get_info and get_pictures_info.  (We didn't have the call
+   * with get_info and get_pictures_info.  (We didn"t have the call
    * to init_gphoto2() here before, but that was causing us to not
    * see the new image - need to use a biggger hammer to get it to
    * re-read the camera directory
@@ -1930,7 +1930,7 @@ snap_pic(void)
 static Int
 read_dir(String dir, Bool read_files)
 {
-  Int retval = 0
+  returnValue: Int = 0
   Sane.Char f[] = "read_dir"
 
   /* Free up current list */
@@ -1956,9 +1956,9 @@ read_dir(String dir, Bool read_files)
       CHECK_RET(gp_camera_folder_list_folders(camera, dir, dir_list, NULL))
     }
 
-  retval = gp_list_count(dir_list)
+  returnValue = gp_list_count(dir_list)
 
-  return retval
+  return returnValue
 }
 
 /*
@@ -1987,13 +1987,13 @@ set_res(Int __Sane.unused__ lowres)
 {
   if(gphoto2_opt_thumbnails)
     {
-      parms.bytes_per_line = THUMB_WIDTH * 3
+      parms.bytesPerLine = THUMB_WIDTH * 3
       parms.pixels_per_line = THUMB_WIDTH
       parms.lines = THUMB_HEIGHT
     }
   else
     {
-      parms.bytes_per_line = HIGHRES_WIDTH * 3
+      parms.bytesPerLine = HIGHRES_WIDTH * 3
       parms.pixels_per_line = HIGHRES_WIDTH
       parms.lines = HIGHRES_HEIGHT
     }
@@ -2049,7 +2049,7 @@ converter_do_scan_complete_cleanup(void)
 	}
       myinfo |= Sane.INFO_RELOAD_OPTIONS | Sane.INFO_RELOAD_PARAMS
 
-      /* Too bad we don't have an API function for deleting a
+      /* Too bad we don"t have an API function for deleting a
        * list item.  Instead, we copy all the entries in the
        * current list, skipping over the deleted entry, and then
        * replace the current list with the new list.
@@ -2079,7 +2079,7 @@ converter_do_scan_complete_cleanup(void)
 
 	  myinfo |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
 
-	  /* get the image's resolution */
+	  /* get the image"s resolution */
 /* OLD:
 	      set_res(Cam_data.Pictures[Cam_data.current_picture_number - 1].
 		       low_res)
@@ -2181,7 +2181,7 @@ exit(1)
   dest_mgr = sanei_jpeg_jinit_write_ppm(&cinfo)
   (void) jpeg_start_decompress(&cinfo)
 
-  parms.bytes_per_line = cinfo.output_width * 3;	/* 3 colors */
+  parms.bytesPerLine = cinfo.output_width * 3;	/* 3 colors */
   parms.pixels_per_line = cinfo.output_width
   parms.lines = cinfo.output_height
 

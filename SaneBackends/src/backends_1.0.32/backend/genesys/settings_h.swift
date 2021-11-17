@@ -301,7 +301,7 @@ struct ScanSession {
     unsigned output_segment_pixel_group_count = 0
 
     // The number of bytes to skip at start of line during desegmentation.
-    // Currently it's always zero.
+    // Currently it"s always zero.
     unsigned output_segment_start_offset = 0
 
     // How many pixels the shading data is offset to the right from the acquired data. Calculated

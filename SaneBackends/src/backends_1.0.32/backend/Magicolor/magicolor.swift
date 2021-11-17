@@ -218,7 +218,7 @@ print_params(const Sane.Parameters params)
 {
 	DBG(6, "params.format          = %d\n", params.format)
 	DBG(6, "params.last_frame      = %d\n", params.last_frame)
-	DBG(6, "params.bytes_per_line  = %d\n", params.bytes_per_line)
+	DBG(6, "params.bytesPerLine  = %d\n", params.bytesPerLine)
 	DBG(6, "params.pixels_per_line = %d\n", params.pixels_per_line)
 	DBG(6, "params.lines           = %d\n", params.lines)
 	DBG(6, "params.depth           = %d\n", params.depth)
@@ -237,8 +237,8 @@ print_params(const Sane.Parameters params)
 #define MAGICOLOR_SNMP_DEVICE_TREE   ".1.3.6.1.4.1.18334.1.1.1.1.1"
 
 
-/* We don't have a packet wrapper, which holds packet size etc., so we
-   don't have to use a *read_raw and a *_read function... */
+/* We don"t have a packet wrapper, which holds packet size etc., so we
+   don"t have to use a *read_raw and a *_read function... */
 static Int
 sanei_magicolor_net_read(struct Magicolor_Scanner *s, unsigned char *buf, size_t wanted,
 		       Sane.Status * status)
@@ -272,7 +272,7 @@ sanei_magicolor_net_read(struct Magicolor_Scanner *s, unsigned char *buf, size_t
 }
 
 /* We need to optionally pad the buffer with 0x00 to send 64-byte chunks.
-   On the other hand, the 0x04 commands don't need this, so we need two
+   On the other hand, the 0x04 commands don"t need this, so we need two
    functions, one *_write function that pads the buffer and then calls
     *_write_raw */
 static Int
@@ -341,7 +341,7 @@ sanei_magicolor_net_open(struct Magicolor_Scanner *s)
 	buf[0] = cmd.net_wrapper_cmd
 	buf[1] = cmd.net_lock
 	buf[2] = 0x00
-	/* Copy the device's USB id to bytes 3-4: */
+	/* Copy the device"s USB id to bytes 3-4: */
 	buf[3] = s.hw.cap.id & 0xff
 	buf[4] = (s.hw.cap.id >> 8) & 0xff
 
@@ -432,7 +432,7 @@ static void dump_hex_buffer_dense(Int level, const unsigned char *buf, size_t bu
 }
 
 /* Create buffers containing the command and arguments. Length of reserved
- * buffer is returned. It's the caller's job to free the buffer! */
+ * buffer is returned. It"s the caller"s job to free the buffer! */
 static Int mc_create_buffer(Magicolor_Scanner *s, unsigned char cmd_type, unsigned char cmd,
 		      unsigned char **buf, unsigned char* arg1, size_t len1,
 		      Sane.Status *status)
@@ -541,7 +541,7 @@ mc_recv(Magicolor_Scanner * s, void *buf, ssize_t buf_size,
 	if(s.hw.connection == Sane.MAGICOLOR_NET) {
 		n = sanei_magicolor_net_read(s, buf, buf_size, status)
 	} else if(s.hw.connection == Sane.MAGICOLOR_USB) {
-		/* !!! only report an error if we don't read anything */
+		/* !!! only report an error if we don"t read anything */
 		n = buf_size;	/* buf_size gets overwritten */
 		*status =
 			sanei_usb_read_bulk(s.fd, (Sane.Byte *) buf,
@@ -958,7 +958,7 @@ cmd_request_push_button_status(Sane.Handle handle, unsigned char *bstatus)
 
 	DBG(1, "push button status: %02x ", bstatus[0])
 	switch(bstatus[0]) {
-		/* TODO: What's the response code for button pressed??? */
+		/* TODO: What"s the response code for button pressed??? */
 		default:
 			DBG(1, " unknown\n")
 			status = Sane.STATUS_UNSUPPORTED
@@ -1059,12 +1059,12 @@ mc_set_model(Magicolor_Scanner * s, const char *model, size_t len)
 		return Sane.STATUS_NO_MEM
 
 	memcpy(buf, model, len)
-	buf[len] = '\0'
+	buf[len] = "\0"
 
 	p = &buf[len - 1]
 
-	while(*p == ' ') {
-		*p = '\0'
+	while(*p == " ") {
+		*p = "\0"
 		p--
 	}
 
@@ -1073,7 +1073,7 @@ mc_set_model(Magicolor_Scanner * s, const char *model, size_t len)
 
 	dev.model = strndup((const char *) buf, len)
 	dev.sane.model = dev.model
-	DBG(10, "%s: model is '%s'\n", __func__, dev.model)
+	DBG(10, "%s: model is "%s"\n", __func__, dev.model)
 
 	free(buf)
 
@@ -1137,7 +1137,7 @@ mc_discover_capabilities(Magicolor_Scanner *s)
 
 	/* TODO: Is there any capability that we can extract from the
 	 *       device by some scanne command? So far, it looks like
-	 *       the device does not support any reporting. I don't even
+	 *       the device does not support any reporting. I don"t even
 	 *       see a way to determine which device we are talking to!
 	 */
 
@@ -1161,7 +1161,7 @@ mc_discover_capabilities(Magicolor_Scanner *s)
 static Sane.Status
 mc_setup_block_mode(Magicolor_Scanner *s)
 {
-	/* block_len should always be a multiple of bytes_per_line, so
+	/* block_len should always be a multiple of bytesPerLine, so
 	 * we retrieve only whole lines at once */
 	s.block_len = (Int)(0xff00/s.scan_bytes_per_line) * s.scan_bytes_per_line
 	s.blocks = s.data_len / s.block_len
@@ -1247,9 +1247,9 @@ mc_set_scanning_parameters(Magicolor_Scanner * s)
 	}
 
 	/* Calculate how many bytes are really used per line */
-	s.params.bytes_per_line = ceil(s.params.pixels_per_line * s.params.depth / 8.0)
+	s.params.bytesPerLine = ceil(s.params.pixels_per_line * s.params.depth / 8.0)
 	if(s.val[OPT_MODE].w == MODE_COLOR)
-		s.params.bytes_per_line *= 3
+		s.params.bytesPerLine *= 3
 
 	/* Calculate how many bytes per line will be returned by the scanner.
 	 * The values needed for this are returned by get_scannign_parameters */
@@ -1327,11 +1327,11 @@ mc_copy_image_data(Magicolor_Scanner * s, Sane.Byte * data, Int max_length,
 		Int bytes_available, scan_pixels_per_line = s.scan_bytes_per_line/3
 		*length = 0
 
-		while((max_length >= s.params.bytes_per_line) && (s.ptr < s.end)) {
+		while((max_length >= s.params.bytesPerLine) && (s.ptr < s.end)) {
 			Int bytes_to_copy = s.scan_bytes_per_line - s.bytes_read_in_line
 			/* First, fill the line buffer for the current line: */
 			bytes_available = (s.end - s.ptr)
-			/* Don't copy more than we have buffer and available */
+			/* Don"t copy more than we have buffer and available */
 			if(bytes_to_copy > bytes_available)
 				bytes_to_copy = bytes_available
 
@@ -1345,18 +1345,18 @@ mc_copy_image_data(Magicolor_Scanner * s, Sane.Byte * data, Int max_length,
 			 * with data from the scanner. If we have a complete line,
 			 * copy it over. */
 			if((s.bytes_read_in_line >= s.scan_bytes_per_line) &&
-			    (s.params.bytes_per_line <= max_length))
+			    (s.params.bytesPerLine <= max_length))
 			{
 				Int i
 				Sane.Byte *line = s.line_buffer
-				*length += s.params.bytes_per_line
+				*length += s.params.bytesPerLine
 				for(i=0; i< s.params.pixels_per_line; ++i) {
 					*data++ = line[0]
 					*data++ = line[scan_pixels_per_line]
 					*data++ = line[2 * scan_pixels_per_line]
 					line++
 				}
-				max_length -= s.params.bytes_per_line
+				max_length -= s.params.bytesPerLine
 				s.bytes_read_in_line -= s.scan_bytes_per_line
 			}
 		}
@@ -1369,16 +1369,16 @@ mc_copy_image_data(Magicolor_Scanner * s, Sane.Byte * data, Int max_length,
 		while((max_length != 0) && (s.ptr < s.end)) {
 			Int bytes_to_skip, bytes_to_copy
 			bytes_available = (s.end - s.ptr)
-			bytes_to_copy = s.params.bytes_per_line - s.bytes_read_in_line
+			bytes_to_copy = s.params.bytesPerLine - s.bytes_read_in_line
 			bytes_to_skip = s.scan_bytes_per_line - s.bytes_read_in_line
 
-			/* Don't copy more than we have buffer */
+			/* Don"t copy more than we have buffer */
 			if(bytes_to_copy > max_length) {
 				bytes_to_copy = max_length
 				bytes_to_skip = max_length
 			}
 
-			/* Don't copy/skip more bytes than we have read in */
+			/* Don"t copy/skip more bytes than we have read in */
 			if(bytes_to_copy > bytes_available)
 				bytes_to_copy = bytes_available
 			if(bytes_to_skip > bytes_available)
@@ -1455,7 +1455,7 @@ mc_init_parameters(Magicolor_Scanner * s)
 
 	s.params.last_frame = Sane.TRUE
 
-	s.params.bytes_per_line = ceil(s.params.depth * s.params.pixels_per_line / 8.0)
+	s.params.bytesPerLine = ceil(s.params.depth * s.params.pixels_per_line / 8.0)
 
 	switch(s.val[OPT_MODE].w) {
 	case MODE_BINARY:
@@ -1464,12 +1464,12 @@ mc_init_parameters(Magicolor_Scanner * s)
 		break
 	case MODE_COLOR:
 		s.params.format = Sane.FRAME_RGB
-		s.params.bytes_per_line *= 3
+		s.params.bytesPerLine *= 3
 		break
 	}
 
 
-	DBG(1, "%s: Parameters are format=%d, bytes_per_line=%d, lines=%d\n", __func__, s.params.format, s.params.bytes_per_line, s.params.lines)
+	DBG(1, "%s: Parameters are format=%d, bytesPerLine=%d, lines=%d\n", __func__, s.params.format, s.params.bytesPerLine, s.params.lines)
 	return(s.params.lines > 0) ? Sane.STATUS_GOOD : Sane.STATUS_INVAL
 }
 
@@ -1590,11 +1590,11 @@ split_scanner_name(const char *name, char * IP, unsigned Int *model)
 	if(strncmp(device, "net:", 4) == 0)
 		device = &device[4]
 
-	qm = strchr(device, '?')
+	qm = strchr(device, "?")
 	if(qm != NULL) {
 		size_t len = qm-device
 		strncpy(IP, device, len)
-		IP[len] = '\0'
+		IP[len] = "\0"
 		qm++
 		if(strncmp(qm, "model=", 6) == 0) {
 			qm += 6
@@ -1746,7 +1746,7 @@ scanner_create(struct Magicolor_Device *dev, Sane.Status *status)
 }
 
 static struct Magicolor_Scanner *
-device_detect(const char *name, Int type, Sane.Status *status)
+device_detect(const char *name, type: Int, Sane.Status *status)
 {
 	struct Magicolor_Scanner *s
 	struct Magicolor_Device *dev
@@ -1914,7 +1914,7 @@ mc_network_discovery_handle(struct snmp_pdu *pdu, snmp_discovery_data *magic)
 				   NETSNMP_OID_OUTPUT_NUMERIC)
 
 		snprint_objid(device, sizeof(device), vp.val.objid, value_len)
-		DBG(5, "%s: Device object ID is '%s'\n", __func__, device)
+		DBG(5, "%s: Device object ID is "%s"\n", __func__, device)
 
 		anOID_len = MAX_OID_LEN
 		read_objid(MAGICOLOR_SNMP_DEVICE_TREE, anOID, &anOID_len)
@@ -1934,11 +1934,11 @@ mc_network_discovery_handle(struct snmp_pdu *pdu, snmp_discovery_data *magic)
 	if(vp) {
 		size_t model_len = min(vp.val_len, sizeof(model) - 1)
 		memcpy(model, vp.val.string, model_len)
-		model[model_len] = '\0'
+		model[model_len] = "\0"
 		DBG(5, "%s: Found model: %s\n", __func__, model)
 	}
 
-	DBG(1, "%s: Detected device '%s' on IP %s\n",
+	DBG(1, "%s: Detected device "%s" on IP %s\n",
 	     __func__, model, ip_addr)
 
 	vp = pdu.variables
@@ -2042,7 +2042,7 @@ mc_network_discovery(const char*host)
 
 	/* Now send out the request and wait for responses for some time.
 	 * If we get a response, connect to that device(in the callback),
-	 * otherwise we probably don't have a magicolor device in the
+	 * otherwise we probably don"t have a magicolor device in the
 	 * LAN(or SNMP is turned off, in which case we have no way to detect
 	 * it.
 	 */
@@ -2050,7 +2050,7 @@ mc_network_discovery(const char*host)
 	if(host) {
 		/* sync request to given hostname, immediately read the reply */
 		netsnmp_pdu *response = 0
-		Int status = snmp_synch_response(ss, pdu, &response)
+		status: Int = snmp_synch_response(ss, pdu, &response)
  		if(status == STAT_SUCCESS && response.errstat == SNMP_ERR_NOERROR) {
 			magic.nr = mc_network_discovery_handle(response, &magic)
 		}
@@ -2118,7 +2118,7 @@ mc_network_discovery(const char*host)
 }
 
 static Sane.Status
-attach(const char *name, Int type)
+attach(const char *name, type: Int)
 {
 	Sane.Status status
 	Magicolor_Scanner *s
@@ -2703,7 +2703,7 @@ change_source(Magicolor_Scanner *s, Int optindex, char *value)
 	Int force_max = Sane.FALSE
 	Bool dummy
 
-	DBG(1, "%s: optindex = %d, source = '%s'\n", __func__, optindex,
+	DBG(1, "%s: optindex = %d, source = "%s"\n", __func__, optindex,
 	    value)
 
 	if(s.val[OPT_SOURCE].w == optindex)
@@ -3002,12 +3002,12 @@ Sane.read(Sane.Handle handle, Sane.Byte *data, Int max_length,
 
 	DBG(18, "moving data %p %p, %d(%d lines)\n",
 		s.ptr, s.end,
-		max_length, max_length / s.params.bytes_per_line)
+		max_length, max_length / s.params.bytesPerLine)
 
 	mc_copy_image_data(s, data, max_length, length)
 
 	DBG(18, "%d lines read, status: %d\n",
-		*length / s.params.bytes_per_line, status)
+		*length / s.params.bytesPerLine, status)
 
 	/* continue reading if appropriate */
 	if(status == Sane.STATUS_GOOD)

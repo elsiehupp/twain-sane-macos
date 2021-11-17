@@ -1274,7 +1274,7 @@ gt68xx_scanner_start_scan(GT68xx_Scanner * scanner,
 			   GT68xx_Scan_Request * request,
 			   GT68xx_Scan_Parameters * params)
 {
-  request.mbs = Sane.FALSE;	/* don't go home before real scan */
+  request.mbs = Sane.FALSE;	/* don"t go home before real scan */
   request.mds = Sane.TRUE
   request.mas = Sane.FALSE
   if(request.use_ta)
@@ -2565,7 +2565,7 @@ gt68xx_sheetfed_scanner_calibrate(GT68xx_Scanner * scanner)
   if(white != WHITE_LINES)
     {
       DBG(1,
-	   "gt68xx_sheetfed_scanner_calibrate: didn't find a white area\n")
+	   "gt68xx_sheetfed_scanner_calibrate: didn"t find a white area\n")
       return Sane.STATUS_INVAL
     }
 
@@ -2603,7 +2603,7 @@ gt68xx_sheetfed_scanner_calibrate(GT68xx_Scanner * scanner)
 	  return status
 	}
 
-      /* since auto afe is done at a fixed resolution, we don't need to
+      /* since auto afe is done at a fixed resolution, we don"t need to
        * do each each time, once is enough */
       scanner.auto_afe = Sane.FALSE
 

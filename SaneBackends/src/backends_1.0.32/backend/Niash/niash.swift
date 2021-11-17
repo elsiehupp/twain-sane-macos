@@ -366,7 +366,7 @@ static void
 _WarmUpLamp(TScanner * s, Int iMode)
 {
   Bool fLampOn
-  /* on startup don't care what was before
+  /* on startup don"t care what was before
      assume lamp was off, and the previous
      cal values can never be reached */
   if(iMode == WARMUP_AFTERSTART)
@@ -780,7 +780,7 @@ _ReportDevice(TScannerModel * pModel, const char *pszDeviceName)
 {
   TDevListEntry *pNew, *pDev
 
-  DBG(DBG_MSG, "niash: _ReportDevice '%s'\n", pszDeviceName)
+  DBG(DBG_MSG, "niash: _ReportDevice "%s"\n", pszDeviceName)
 
   pNew = malloc(sizeof(TDevListEntry))
   if(!pNew)
@@ -1048,7 +1048,7 @@ Sane.control_option(Sane.Handle h, Int n, Sane.Action Action,
 
         case optCalibrate:
           /*  although this option has nothing to read,
-             it's added here to avoid a warning when running scanimage --help */
+             it"s added here to avoid a warning when running scanimage --help */
           break
 #endif
 
@@ -1127,7 +1127,7 @@ Sane.control_option(Sane.Handle h, Int n, Sane.Action Action,
               if((Sane.GAMMA_SIZE / 16) && (i % (Sane.GAMMA_SIZE / 16)) == 0)
                 {
                   DBG(DBG_MSG, "%s\n", szTable)
-		  szTable[0] = '\0'
+		  szTable[0] = "\0"
                 }
               /* test for number print */
               if((Sane.GAMMA_SIZE / 64) && (i % (Sane.GAMMA_SIZE / 64)) == 0)
@@ -1251,7 +1251,7 @@ Sane.get_parameters(Sane.Handle h, Sane.Parameters * p)
   p.pixels_per_line =
     MM_TO_PIXEL(s.aValues[optBRX].w - s.aValues[optTLX].w,
                  s.aValues[optDPI].w)
-  p.bytes_per_line = pMode.bytesPerLine(p.pixels_per_line)
+  p.bytesPerLine = pMode.bytesPerLine(p.pixels_per_line)
 
   return Sane.STATUS_GOOD
 }

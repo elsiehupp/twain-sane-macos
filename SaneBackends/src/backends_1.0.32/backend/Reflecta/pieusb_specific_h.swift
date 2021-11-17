@@ -188,7 +188,7 @@ struct Pieusb_Device_Definition
     /* char *product; => sane.model */
     Sane.Word vendorId
     Sane.Word productId
-      /* USB id's like 0x05e3 0x0145, see pieusb.conf */
+      /* USB id"s like 0x05e3 0x0145, see pieusb.conf */
     String version; /* INQUIRY productRevision */
     Sane.Byte model; /* INQUIRY model */
     Sane.Byte flags; /* pieusb.conf flags */
@@ -286,9 +286,9 @@ struct Pieusb_Scanner
 
     /* Shading data and CCD-mask */
 #define PIEUSB_CCD_MASK_SIZE 0x1a1d  /* pieusb 5340; */ /* cyberview: 6685 0x1a1d */
-    Sane.Byte *ccd_mask; /* malloc'ed in Sane.open */
+    Sane.Byte *ccd_mask; /* malloc"ed in Sane.open */
     Int ccd_mask_size
-    Bool shading_data_present; /* don't correct shading if not present */
+    Bool shading_data_present; /* don"t correct shading if not present */
     Int shading_mean[SHADING_PARAMETERS_INFO_COUNT]; /* mean shading value for each color(average all 45 lines)  */
     Int shading_max[SHADING_PARAMETERS_INFO_COUNT]; /* maximum shading value for each color(for all 45 lines)  */
     Int* shading_ref[SHADING_PARAMETERS_INFO_COUNT]; /* 4 arrays of shading references for each pixel on a line and for each color */

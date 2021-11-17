@@ -8,7 +8,7 @@
 
 /* -------------------------------------------------------------------------
  * This option list has to contain all options for all scanners supported by
- * this driver. If a certain scanner cannot handle a certain option, there's
+ * this driver. If a certain scanner cannot handle a certain option, there"s
  * still the possibility to say so, later.
  */
 enum kodak_Option
@@ -132,7 +132,7 @@ struct scanner
   Int u_compr
 
   /* --------------------------------------------------------------------- */
-  /* values which are set by the scanner's post-scan image header          */
+  /* values which are set by the scanner"s post-scan image header          */
   Int i_bytes
   Int i_id
   Int i_dpi
@@ -337,7 +337,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
          - initial release
       v7 2010-02-10, MAN
          - add Sane.I18N to static strings
-         - don't fail if scsi buffer is too small
+         - don"t fail if scsi buffer is too small
 
    SANE FLOW DIAGRAM
 
@@ -517,7 +517,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
           lp = line
 
           /* ignore comments */
-          if(*lp == '#')
+          if(*lp == "#")
             continue
 
           /* skip empty lines */
@@ -558,7 +558,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
               }
           }
           else if((strncmp("scsi", lp, 4) == 0) && isspace(lp[4])) {
-              DBG(15, "Sane.get_devices: looking for '%s'\n", lp)
+              DBG(15, "Sane.get_devices: looking for "%s"\n", lp)
               sanei_config_attach_matching_devices(lp, attach_one)
           }
           else{
@@ -570,9 +570,9 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
   }
 
   else {
-      DBG(5, "Sane.get_devices: no config file '%s', using defaults\n",
+      DBG(5, "Sane.get_devices: no config file "%s", using defaults\n",
         KODAK_CONFIG_FILE)
-      DBG(15, "Sane.get_devices: looking for 'scsi KODAK'\n")
+      DBG(15, "Sane.get_devices: looking for "scsi KODAK"\n")
       sanei_config_attach_matching_devices("scsi KODAK", attach_one)
   }
 
@@ -612,7 +612,7 @@ attach_one(const char *device_name)
   Int ret
 
   DBG(10, "attach_one: start\n")
-  DBG(15, "attach_one: looking for '%s'\n", device_name)
+  DBG(15, "attach_one: looking for "%s"\n", device_name)
 
   for(s = scanner_devList; s; s = s.next) {
     if(strcmp(s.sane.name, device_name) == 0) {
@@ -665,7 +665,7 @@ attach_one(const char *device_name)
     return ret
   }
 
-  /* sets user 'values' to good defaults */
+  /* sets user "values" to good defaults */
   ret = init_user(s)
   if(ret != Sane.STATUS_GOOD) {
     disconnect_fd(s)
@@ -675,7 +675,7 @@ attach_one(const char *device_name)
     return ret
   }
 
-  /* sets SANE option 'values' to good defaults */
+  /* sets SANE option "values" to good defaults */
   ret = init_options(s)
   if(ret != Sane.STATUS_GOOD) {
     disconnect_fd(s)
@@ -770,12 +770,12 @@ init_inquire(struct scanner *s)
   }
 
   if(get_I_periph_qual(in) != I_periph_qual_valid){
-    DBG(5, "The device at '%s' has invalid periph_qual.\n", s.device_name)
+    DBG(5, "The device at "%s" has invalid periph_qual.\n", s.device_name)
     return Sane.STATUS_INVAL
   }
 
   if(get_I_periph_devtype(in) != I_periph_devtype_scanner){
-    DBG(5, "The device at '%s' is not a scanner.\n", s.device_name)
+    DBG(5, "The device at "%s" is not a scanner.\n", s.device_name)
     return Sane.STATUS_INVAL
   }
 
@@ -790,22 +790,22 @@ init_inquire(struct scanner *s)
   s.build_name[2] = 0
 
   /* gobble trailing spaces */
-  for(i = 7; s.vendor_name[i] == ' ' && i >= 0; i--)
+  for(i = 7; s.vendor_name[i] == " " && i >= 0; i--)
     s.vendor_name[i] = 0
-  for(i = 15; s.product_name[i] == ' ' && i >= 0; i--)
+  for(i = 15; s.product_name[i] == " " && i >= 0; i--)
     s.product_name[i] = 0
-  for(i = 3; s.version_name[i] == ' ' && i >= 0; i--)
+  for(i = 3; s.version_name[i] == " " && i >= 0; i--)
     s.version_name[i] = 0
-  for(i = 2; s.build_name[i] == ' ' && i >= 0; i--)
+  for(i = 2; s.build_name[i] == " " && i >= 0; i--)
     s.build_name[i] = 0
 
   if(strcmp("KODAK", s.vendor_name)) {
-    DBG(5, "The device at '%s' is reported to be made by '%s'\n", s.device_name, s.vendor_name)
+    DBG(5, "The device at "%s" is reported to be made by "%s"\n", s.device_name, s.vendor_name)
     DBG(5, "This backend only supports Kodak products.\n")
     return Sane.STATUS_INVAL
   }
 
-  DBG(15, "init_inquire: Found '%s' '%s' '%s' '%s' at '%s'\n",
+  DBG(15, "init_inquire: Found "%s" "%s" "%s" "%s" at "%s"\n",
     s.vendor_name, s.product_name, s.version_name, s.build_name,
     s.device_name)
 
@@ -1557,7 +1557,7 @@ Sane.control_option(Sane.Handle handle, Int option,
   if(action == Sane.ACTION_GET_VALUE) {
       Sane.Word * val_p = (Sane.Word *) val
 
-      DBG(20, "Sane.control_option: get value for '%s' (%d)\n", s.opt[option].name,option)
+      DBG(20, "Sane.control_option: get value for "%s" (%d)\n", s.opt[option].name,option)
 
       switch(option) {
 
@@ -1645,10 +1645,10 @@ Sane.control_option(Sane.Handle handle, Int option,
       Sane.Word val_c
       Sane.Status status
 
-      DBG(20, "Sane.control_option: set value for '%s' (%d)\n", s.opt[option].name,option)
+      DBG(20, "Sane.control_option: set value for "%s" (%d)\n", s.opt[option].name,option)
 
       if( s.started ) {
-        DBG(5, "Sane.control_option: can't set, device busy\n")
+        DBG(5, "Sane.control_option: can"t set, device busy\n")
         return Sane.STATUS_DEVICE_BUSY
       }
 
@@ -1663,13 +1663,13 @@ Sane.control_option(Sane.Handle handle, Int option,
         return status
       }
 
-      /* may have been changed by constrain, so don't copy until now */
+      /* may have been changed by constrain, so don"t copy until now */
       val_c = *(Sane.Word *)val
 
       /*
        * Note - for those options which can assume one of a list of
        * valid values, we can safely assume that they will have
-       * exactly one of those values because that's what
+       * exactly one of those values because that"s what
        * sanei_constrain_value does. Hence no "else: invalid" branches
        * below.
        */
@@ -1820,9 +1820,9 @@ Sane.control_option(Sane.Handle handle, Int option,
 	Sane.Frame format
 	Bool last_frame
 	Int lines
-	Int depth; ( binary=1, gray=8, color=8 (!24) )
+	Int depth; ( binary=1, gray=8, color=8(!24) )
 	Int pixels_per_line
-	Int bytes_per_line
+	Int bytesPerLine
 */
 Sane.Status
 Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
@@ -1851,7 +1851,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
         if(s.i_bpp == 1) {
             params.format = Sane.FRAME_GRAY
             params.depth = 1
-            params.bytes_per_line = params.pixels_per_line / 8
+            params.bytesPerLine = params.pixels_per_line / 8
 
 #ifdef Sane.FRAME_G42D
 	    /*G4 fax compression*/
@@ -1864,7 +1864,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
         else if(s.i_bpp == 8) {
             params.format = Sane.FRAME_GRAY
             params.depth = 8
-            params.bytes_per_line = params.pixels_per_line
+            params.bytesPerLine = params.pixels_per_line
 
 #ifdef Sane.FRAME_JPEG
 	    /*jpeg compression*/
@@ -1877,7 +1877,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
         else if(s.i_bpp == 24 || s.i_bpp == 96) {
             params.format = Sane.FRAME_RGB
             params.depth = 8
-            params.bytes_per_line = params.pixels_per_line * 3
+            params.bytesPerLine = params.pixels_per_line * 3
 
 #ifdef Sane.FRAME_JPEG
 	    /*jpeg compression*/
@@ -1924,20 +1924,20 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 
         /* bytes per line differs by mode */
         if(s.u_mode == MODE_COLOR) {
-            params.bytes_per_line = params.pixels_per_line * 3
+            params.bytesPerLine = params.pixels_per_line * 3
         }
         else if(s.u_mode == MODE_GRAYSCALE) {
-            params.bytes_per_line = params.pixels_per_line
+            params.bytesPerLine = params.pixels_per_line
         }
         else {
-            params.bytes_per_line = params.pixels_per_line / 8
+            params.bytesPerLine = params.pixels_per_line / 8
         }
 
     }
 
     DBG(15, "Sane.get_parameters: returning:\n")
     DBG(15, "  scan_x=%d, Bpl=%d, depth=%d\n",
-      params.pixels_per_line, params.bytes_per_line, params.depth )
+      params.pixels_per_line, params.bytesPerLine, params.depth )
 
     DBG(15, "  scan_y=%d, frame=%d, last=%d\n",
       params.lines, params.format, params.last_frame )
@@ -2067,7 +2067,7 @@ Sane.start(Sane.Handle handle)
       s.bytes_buf = 0
   }
 
-  /* grab new buffer if don't have one */
+  /* grab new buffer if don"t have one */
   if(!s.buffer) {
       DBG(15, "Sane.start: calloc buffer.\n")
       s.buffer = calloc(1,s.i_bytes)
@@ -2089,7 +2089,7 @@ Sane.start(Sane.Handle handle)
  * This routine issues a SCSI SET WINDOW command to the scanner, using the
  * values currently in the scanner data structure.
  * the scanner has 4 separate windows, and all must be set similarly,
- * even if you don't intend to acquire images from all of them.
+ * even if you don"t intend to acquire images from all of them.
  */
 static Sane.Status
 set_window(struct scanner *s)
@@ -2142,7 +2142,7 @@ set_window(struct scanner *s)
   set_WD_threshold(desc, s.u_threshold)
   set_WD_contrast(desc, 0)
   if(s.s_contrast_steps){
-    /*convert our common -127 to +127 range into HW's range
+    /*convert our common -127 to +127 range into HW"s range
      *FIXME: this code assumes hardware range of 1-255 */
     set_WD_contrast(desc, s.u_contrast+128)
   }
@@ -2679,9 +2679,9 @@ read_from_buffer(struct scanner *s, Sane.Byte * buf,
  * > collect as many images as the frontend wants(which could in turn
  * > consist of multiple frames each as indicated by frame-type) and
  * > when the frontend is done, it should call Sane.cancel().
- * > Sometimes it's better to think of Sane.cancel() as "Sane.stop()"
+ * > Sometimes it"s better to think of Sane.cancel() as "Sane.stop()"
  * > but that name would have had some misleading connotations as
- * > well, that's why we stuck with "cancel".
+ * > well, that"s why we stuck with "cancel".
  *
  * The current consensus regarding duplex and ADF scans seems to be
  * the following call sequence: Sane.start; Sane.read(repeat until
@@ -3047,7 +3047,7 @@ do_cmd(struct scanner *s, Int runRS, Int shortTime,
   ret = sanei_scsi_cmd2(s.fd, cmdBuff, cmdLen, outBuff, outLen, inBuff, inLen)
 
   if(ret != Sane.STATUS_GOOD && ret != Sane.STATUS_EOF){
-    DBG(5,"do_cmd: return '%s'\n",Sane.strstatus(ret))
+    DBG(5,"do_cmd: return "%s"\n",Sane.strstatus(ret))
     return ret
   }
 
@@ -3103,7 +3103,7 @@ wait_scanner(struct scanner *s)
   }
 
   if(ret != Sane.STATUS_GOOD) {
-    DBG(5, "wait_scanner: error '%s'\n", Sane.strstatus(ret))
+    DBG(5, "wait_scanner: error "%s"\n", Sane.strstatus(ret))
   }
 
   DBG(10, "wait_scanner: finish\n")
@@ -3151,7 +3151,7 @@ hexdump(Int level, char *comment, unsigned char *p, Int l)
         {
           if(ptr != line)
             {
-              *ptr = '\0'
+              *ptr = "\0"
               DBG(level, "%s\n", line)
               ptr = line
             }
@@ -3161,12 +3161,12 @@ hexdump(Int level, char *comment, unsigned char *p, Int l)
       sprintf(ptr, " %2.2x", *p)
       ptr += 3
     }
-  *ptr = '\0'
+  *ptr = "\0"
   DBG(level, "%s\n", line)
 }
 
 /**
- * An advanced method we don't support but have to define.
+ * An advanced method we don"t support but have to define.
  */
 Sane.Status
 Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
@@ -3177,7 +3177,7 @@ Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
 }
 
 /**
- * An advanced method we don't support but have to define.
+ * An advanced method we don"t support but have to define.
  */
 Sane.Status
 Sane.get_select_fd(Sane.Handle h, Int *fdp)

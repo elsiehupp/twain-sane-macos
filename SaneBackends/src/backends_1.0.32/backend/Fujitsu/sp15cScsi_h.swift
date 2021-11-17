@@ -67,7 +67,7 @@
  * Updated backends sp15c(v1.12) and m3096g(v1.11).
  *
  * Revision 1.7  2000/01/05 05:27:34  bentson
- * indent to barfin' GNU style
+ * indent to barfin" GNU style
  *
  * Revision 1.6  1999/12/03 20:56:44  bentson
  * add MEDIA CHECK command

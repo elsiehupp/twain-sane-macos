@@ -118,10 +118,10 @@ usb_HostSwap( void )
 	unsigned char *bytewise = (unsigned char *)&pattern
 
 	if( bytewise[0] == 0xfe ) {
-		DBG( _DBG_READ, "We're big-endian!  No need to swap!\n" )
+		DBG( _DBG_READ, "We"re big-endian!  No need to swap!\n" )
 		return 0
 	}
-	DBG( _DBG_READ, "We're little-endian!  NatSemi LM983x is big!\n" )
+	DBG( _DBG_READ, "We"re little-endian!  NatSemi LM983x is big!\n" )
 	DBG( _DBG_READ, "--> Must swap data!\n" )
 	return 1
 }
@@ -303,7 +303,7 @@ usb_SensorPaper( Plustek_Device *dev )
 	return(val & mask)
 }
 
-/** function for sheet-fed devices, to make sure, that there's
+/** function for sheet-fed devices, to make sure, that there"s
  * something to scan
  */
 static Bool
@@ -340,7 +340,7 @@ usb_Wait4ScanSample( Plustek_Device *dev )
 static Bool
 usb_WaitPos( Plustek_Device *dev, u_long to, Bool stay )
 {
-	Bool      retval
+	Bool      returnValue
 	u_char         value, mclk_div, mch
 	u_char         r[2]
 	u_short        ffs, step, min_ffs
@@ -390,7 +390,7 @@ usb_WaitPos( Plustek_Device *dev, u_long to, Bool stay )
 	gettimeofday( &start_time, NULL )
 	dwTicks = start_time.tv_sec + to
 	step    = 1
-	retval  = Sane.FALSE
+	returnValue  = Sane.FALSE
 
 	for(;;) {
 
@@ -432,14 +432,14 @@ usb_WaitPos( Plustek_Device *dev, u_long to, Bool stay )
 			} else {
 
 				if( !stay ) {
-					retval = Sane.TRUE
+					returnValue = Sane.TRUE
 					break
 				}
 			}
 			step++
 		}
 	}
-	return retval
+	return returnValue
 }
 
 /** function to move the sensor or if sheet-fed device, to move the paper.
@@ -450,7 +450,7 @@ usb_WaitPos( Plustek_Device *dev, u_long to, Bool stay )
 static Bool
 usb_ModuleMove( Plustek_Device *dev, u_char action, u_long dwStep )
 {
-	Bool    retval, ejected
+	Bool    returnValue, ejected
 	u_char       bReg2, reg7, mclk_div
 	u_short      wFastFeedStepSize
 	double       dMaxMoveSpeed
@@ -484,7 +484,7 @@ usb_ModuleMove( Plustek_Device *dev, u_char action, u_long dwStep )
 		hw.dMaxMoveSpeed += 0.8; /* was 0.6 */
 
 		DBG( _DBG_INFO2, "Ejecting paper...\n" )
-		retval  = Sane.TRUE
+		returnValue  = Sane.TRUE
 		ejected = Sane.FALSE
 		do {
 			if( usb_SensorPaper(dev)) {
@@ -502,7 +502,7 @@ usb_ModuleMove( Plustek_Device *dev, u_char action, u_long dwStep )
 			}
 
 			if( usb_IsEscPressed()) {
-				retval = Sane.FALSE
+				returnValue = Sane.FALSE
 				break
 			}
 		} while( usb_SensorPaper(dev))
@@ -525,7 +525,7 @@ usb_ModuleMove( Plustek_Device *dev, u_char action, u_long dwStep )
 		usbio_ReadReg( dev.fd, 0x02, &bReg2 )
 		hw.dMaxMoveSpeed = d
 		DBG( _DBG_INFO2, "...done\n" )
-		return retval
+		return returnValue
 	}
 
 	usbio_WriteReg( dev.fd, 0x0a, 0 )
@@ -608,7 +608,7 @@ usb_ModuleMove( Plustek_Device *dev, u_char action, u_long dwStep )
 		return Sane.TRUE
     }
 
-	retval = Sane.FALSE
+	returnValue = Sane.FALSE
 
 	/* start the sensor... */
 	if( usbio_WriteReg( dev.fd, 0x07, reg7 )) {
@@ -652,16 +652,16 @@ usb_ModuleMove( Plustek_Device *dev, u_char action, u_long dwStep )
 			}
 		} else {
 
-			retval = usb_WaitPos( dev, 200, Sane.TRUE )
+			returnValue = usb_WaitPos( dev, 200, Sane.TRUE )
 		}
 
 		usbio_WriteReg( dev.fd, 0x58, regs[0x58] )
 		usbio_ReadReg( dev.fd, 0x02, &bReg2 )
 	}
 
-	if( !retval )
+	if( !returnValue )
 		DBG( _DBG_ERROR, "Position NOT reached\n" )
-	return retval
+	return returnValue
 }
 
 /**
@@ -1006,7 +1006,7 @@ usb_AdjustCISLampSettings( Plustek_Device *dev, Bool on )
 }
 
 /** according to the flag field, we return the register and
- * it's mask to turn on/off the lamp.
+ * it"s mask to turn on/off the lamp.
  * @param flag - field to check
  * @param reg  - pointer to a var to receive the register value
  * @param msk  - pointer to a var to receive the mask value
@@ -1050,7 +1050,7 @@ usb_GetLampRegAndMask( u_long flag, Sane.Byte *reg, Sane.Byte *msk )
  * For non Plustek devices, it always returns DEV_LampReflection.
  * @param dev  - pointer to our device structure,
  *               it should contain all we need
- * @return - 0 if the scanner hasn't been used before, DEV_LampReflection
+ * @return - 0 if the scanner hasn"t been used before, DEV_LampReflection
  *           for the normal lamp, or DEV_LampTPA for negative/transparency
  *           lamp
  */
@@ -1129,7 +1129,7 @@ usb_GetLampStatus( Plustek_Device *dev )
 		}
 	}
 
-	DBG( _DBG_INFO, "LAMP-STATUS: 0x%08x(%s)\n",
+	DBG( _DBG_INFO, "LAMP-Status: 0x%08x(%s)\n",
 	                 iLampStatus, iLampStatus?"on":"off" )
 	return iLampStatus
 }
@@ -1452,7 +1452,7 @@ usb_ResetRegisters( Plustek_Device *dev )
 
 			/* At least CanoScan N650U can have a problem with writing
 			 * to register 0x59 due XHCI USB controller is too
-			 * fast for him. Simulate EHCI USB controller's
+			 * fast for him. Simulate EHCI USB controller"s
 			 * behavior here - wait 1ms.
 			 */
 			usleep(1000)
@@ -1577,7 +1577,7 @@ usb_StartLampTimer( Plustek_Device *dev )
 	s.sa_handler = usb_LampTimerIrq
 
 	if( sigaction( SIGALRM, &s, NULL ) < 0 )
-		DBG( _DBG_ERROR, "Can't setup timer-irq handler\n" )
+		DBG( _DBG_ERROR, "Can"t setup timer-irq handler\n" )
 
 	sigprocmask( SIG_UNBLOCK, &block, &pause_mask )
 

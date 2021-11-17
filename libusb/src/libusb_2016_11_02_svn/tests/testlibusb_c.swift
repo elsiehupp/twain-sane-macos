@@ -10,7 +10,7 @@ import usb
 
 Int verbose = 0
 
-func void print_endpoint(struct usb_endpoint_descriptor *endpoint)
+func print_endpoint(struct usb_endpoint_descriptor *endpoint)
 {
   printf("      bEndpointAddress: %02xh\n", endpoint.bEndpointAddress)
   printf("      bmAttributes:     %02xh\n", endpoint.bmAttributes)
@@ -20,7 +20,7 @@ func void print_endpoint(struct usb_endpoint_descriptor *endpoint)
   printf("      bSynchAddress:    %d\n", endpoint.bSynchAddress)
 }
 
-func void print_altsetting(struct usb_interface_descriptor *interface)
+func print_altsetting(struct usb_interface_descriptor *interface)
 {
   var i: Int
 
@@ -36,7 +36,7 @@ func void print_altsetting(struct usb_interface_descriptor *interface)
     print_endpoint(&interface.endpoint[i])
 }
 
-func void print_interface(struct usb_interface *interface)
+func print_interface(struct usb_interface *interface)
 {
   var i: Int
 
@@ -44,7 +44,7 @@ func void print_interface(struct usb_interface *interface)
     print_altsetting(&interface.altsetting[i])
 }
 
-func void print_configuration(struct usb_config_descriptor *config)
+func print_configuration(struct usb_config_descriptor *config)
 {
   var i: Int
 
@@ -112,7 +112,7 @@ Int print_device(struct usb_device *dev, Int level)
 
   if(verbose) {
     if(!dev.config) {
-      printf("  Couldn't retrieve descriptors\n")
+      printf("  Couldn"t retrieve descriptors\n")
       return 0
     }
 

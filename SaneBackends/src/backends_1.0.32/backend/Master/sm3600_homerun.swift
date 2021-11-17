@@ -142,8 +142,8 @@ static TLineType GetLineType(TInstance *this)
     }
   /* the bonsai line is supported only for curiosity */
   for(i=0; i<CCH_BONSAI; i++)
-    achLine[i]=achLine[i]/26+'0'; /* '0'...'9' */
-  achLine[CCH_BONSAI]='\0'
+    achLine[i]=achLine[i]/26+"0"; /* "0"..."9" */
+  achLine[CCH_BONSAI]="\0"
 
   i=200
   iHole=0
@@ -220,7 +220,7 @@ FakeCalibration()
 
 If DoOriginate() and this Calibration code is skipped,
 we should at least provide for some fake measurements.
-Thus a test scan of the scanner's inside is possible.
+Thus a test scan of the scanner"s inside is possible.
 
 ********************************************************************** */
 

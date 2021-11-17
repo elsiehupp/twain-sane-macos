@@ -440,7 +440,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * handle)
       device = first_device
       while(device && strcmp(device.file_name, name) != 0)
 	{
-	  DBG(DBG_info, "Sane.open: device %s doesn't match\n",
+	  DBG(DBG_info, "Sane.open: device %s doesn"t match\n",
 	       device.file_name)
 	  device = device.next
 	}
@@ -475,7 +475,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * handle)
   status = sanei_usb_open(device.file_name, &device.devnum)
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(DBG_warn, "Sane.open: couldn't open device `%s': %s\n",
+      DBG(DBG_warn, "Sane.open: couldn"t open device `%s": %s\n",
 	   device.file_name, Sane.strstatus(status))
       return status
     }
@@ -560,7 +560,7 @@ Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 
 
 /**
- * An advanced method we don't support but have to define.
+ * An advanced method we don"t support but have to define.
  */
 Sane.Status
 Sane.get_select_fd(Sane.Handle handle, Int * fdp)
@@ -677,7 +677,7 @@ set_automatic_value(Rts8891_Session * s, Int option, Int * myinfo)
       s.val[option].wa = s.dev.model.gamma
       break
     default:
-      DBG(DBG_warn, "set_automatic_value: can't set unknown option %d\n",
+      DBG(DBG_warn, "set_automatic_value: can"t set unknown option %d\n",
 	   option)
     }
 
@@ -831,7 +831,7 @@ set_option_value(Rts8891_Session * s, Int option, void *val,
       break
 
     default:
-      DBG(DBG_warn, "set_option_value: can't set unknown option %d\n",
+      DBG(DBG_warn, "set_option_value: can"t set unknown option %d\n",
 	   option)
     }
   return status
@@ -898,7 +898,7 @@ get_option_value(Rts8891_Session * s, Int option, void *val)
       memcpy(val, s.val[option].wa, s.opt[option].size)
       break
     default:
-      DBG(DBG_warn, "get_option_value: can't get unknown option %d\n",
+      DBG(DBG_warn, "get_option_value: can"t get unknown option %d\n",
 	   option)
     }
   return Sane.STATUS_GOOD
@@ -949,7 +949,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 
   if(s.scanning)
     {
-      DBG(DBG_warn, "Sane.control_option: don't call this function while "
+      DBG(DBG_warn, "Sane.control_option: don"t call this function while "
 	   "scanning(option = %s(%d))\n", s.opt[option].name, option)
       return Sane.STATUS_DEVICE_BUSY
     }
@@ -963,7 +963,7 @@ Sane.control_option(Sane.Handle handle, Int option,
       return Sane.STATUS_INVAL
     }
 
-  /* don't access an inactive option */
+  /* don"t access an inactive option */
   cap = s.opt[option].cap
   if(!Sane.OPTION_IS_ACTIVE(cap))
     {
@@ -1077,7 +1077,7 @@ Sane.start(Sane.Handle handle)
 
   DBG(DBG_proc, "Sane.start: start\n")
 
-  /* if already scanning, tell we're busy */
+  /* if already scanning, tell we"re busy */
   if(session.scanning == Sane.TRUE)
     {
       DBG(DBG_warn, "Sane.start: device is already scanning\n")
@@ -1189,27 +1189,27 @@ Sane.start(Sane.Handle handle)
       /* in case find_origin detected we need to change sensor */
       if(changed)
 	{
-	  /* for a sensor 'pair', we switch */
+	  /* for a sensor "pair", we switch */
 	  switch(dev.sensor)
 	    {
 	    case SENSOR_TYPE_BARE:
 	      DBG(DBG_info,
-		   "Sane.start: sensor changed to type 'SENSOR_TYPE_XPA'!\n")
+		   "Sane.start: sensor changed to type "SENSOR_TYPE_XPA"!\n")
 	      dev.sensor = SENSOR_TYPE_XPA
 	      break
 	    case SENSOR_TYPE_XPA:
 	      DBG(DBG_info,
-		   "Sane.start: sensor changed to type 'SENSOR_TYPE_BARE'!\n")
+		   "Sane.start: sensor changed to type "SENSOR_TYPE_BARE"!\n")
 	      dev.sensor = SENSOR_TYPE_BARE
 	      break
 	    case SENSOR_TYPE_4400:
 	      DBG(DBG_info,
-		   "Sane.start: sensor changed to type '4400 SENSOR_TYPE_4400_BARE'!\n")
+		   "Sane.start: sensor changed to type "4400 SENSOR_TYPE_4400_BARE"!\n")
 	      dev.sensor = SENSOR_TYPE_4400_BARE
 	      break
 	    case SENSOR_TYPE_4400_BARE:
 	      DBG(DBG_info,
-		   "Sane.start: sensor changed to type 'SENSOR_TYPE_4400'!\n")
+		   "Sane.start: sensor changed to type "SENSOR_TYPE_4400"!\n")
 	      dev.sensor = SENSOR_TYPE_4400
 	      break
 	    }
@@ -1385,7 +1385,7 @@ Sane.start(Sane.Handle handle)
 }
 
 /**
- * This function computes two set of parameters. The one for the SANE's standard
+ * This function computes two set of parameters. The one for the SANE"s standard
  * and the other for the hardware. Among these parameters are the bit depth, total
  * number of lines, total number of columns, extra line to read for data reordering...
  */
@@ -1465,7 +1465,7 @@ compute_parameters(Rts8891_Session * session)
   dev.xdpi = dpi
   dev.ydpi = dpi
 
-  /* handle bounds of motor's dpi range */
+  /* handle bounds of motor"s dpi range */
   if(dev.ydpi > dev.model.max_ydpi)
     {
       dev.ydpi = dev.model.max_ydpi
@@ -1496,26 +1496,26 @@ compute_parameters(Rts8891_Session * session)
     dev.xstart++
 
   /* computes bytes per line */
-  session.params.bytes_per_line = session.params.pixels_per_line
-  dev.bytes_per_line = dev.pixels
+  session.params.bytesPerLine = session.params.pixels_per_line
+  dev.bytesPerLine = dev.pixels
   if(session.params.format == Sane.FRAME_RGB
       || session.emulated_gray == Sane.TRUE)
     {
       if(session.emulated_gray != Sane.TRUE)
 	{
-	  session.params.bytes_per_line *= 3
+	  session.params.bytesPerLine *= 3
 	}
-      dev.bytes_per_line *= 3
+      dev.bytesPerLine *= 3
     }
-  session.to_send = session.params.bytes_per_line * session.params.lines
+  session.to_send = session.params.bytesPerLine * session.params.lines
 
-  /* in lineart mode we adjust bytes_per_line needed by frontend */
+  /* in lineart mode we adjust bytesPerLine needed by frontend */
   /* we do that here because we needed sent/to_send to be as if  */
   /* there was no lineart                                        */
   if(session.params.depth == 1)
     {
-      session.params.bytes_per_line =
-	(session.params.bytes_per_line + 7) / 8
+      session.params.bytesPerLine =
+	(session.params.bytesPerLine + 7) / 8
     }
 
   /* compute how many extra bytes we need to reorder data */
@@ -1525,16 +1525,16 @@ compute_parameters(Rts8891_Session * session)
     {
       dev.lds_r
 	= ((dev.model.ld_shift_r * dev.ydpi) / dev.model.max_ydpi)
-	* dev.bytes_per_line
+	* dev.bytesPerLine
       dev.lds_g
 	= ((dev.model.ld_shift_g * dev.ydpi) / dev.model.max_ydpi)
-	* dev.bytes_per_line
+	* dev.bytesPerLine
       dev.lds_b
 	= ((dev.model.ld_shift_b * dev.ydpi) / dev.model.max_ydpi)
-	* dev.bytes_per_line
+	* dev.bytesPerLine
       if(dev.xdpi == dev.model.max_xdpi)
 	{
-	  dev.ripple = 2 * dev.bytes_per_line
+	  dev.ripple = 2 * dev.bytesPerLine
 	}
     }
   else
@@ -1560,7 +1560,7 @@ compute_parameters(Rts8891_Session * session)
   /* we need to add extra line to handle line distance reordering  */
   /* highest correction value is the blue one for our case         */
   /* decrease y start to take these extra lines into account       */
-  dev.lines += (dev.lds_max + dev.ripple) / dev.bytes_per_line
+  dev.lines += (dev.lds_max + dev.ripple) / dev.bytesPerLine
 
   /* shading calibration is always 66 lines regardless of ydpi, so */
   /* we take this into account to compute ystart                    */
@@ -1580,7 +1580,7 @@ compute_parameters(Rts8891_Session * session)
 	}
       dev.ystart += yshift
     }
-  dev.ystart -= (dev.lds_max + dev.ripple) / dev.bytes_per_line
+  dev.ystart -= (dev.lds_max + dev.ripple) / dev.bytesPerLine
 
   /* 1200 and 600 dpi scans seems to have other timings that
    * need their own xstart */
@@ -1599,7 +1599,7 @@ compute_parameters(Rts8891_Session * session)
   dev.xstart += xshift
 
   dev.read = 0
-  dev.to_read = dev.lines * dev.bytes_per_line
+  dev.to_read = dev.lines * dev.bytesPerLine
 
   /* compute best size for scanned data buffer  */
   /* we must have a round number of lines, with */
@@ -1607,25 +1607,25 @@ compute_parameters(Rts8891_Session * session)
   if(dev.xdpi < dev.model.max_ydpi)
     {
       dev.data_size =
-	(PREFERED_BUFFER_SIZE / dev.bytes_per_line) * (dev.bytes_per_line)
+	(PREFERED_BUFFER_SIZE / dev.bytesPerLine) * (dev.bytesPerLine)
     }
   else
     {
       dev.data_size =
 	(((PREFERED_BUFFER_SIZE / 2) - dev.lds_max -
-	  dev.ripple) / dev.bytes_per_line) * dev.bytes_per_line
+	  dev.ripple) / dev.bytesPerLine) * dev.bytesPerLine
     }
 
   /* 32 lines minimum in buffer */
-  if(dev.data_size < 32 * dev.bytes_per_line)
-    dev.data_size = 32 * dev.bytes_per_line
+  if(dev.data_size < 32 * dev.bytesPerLine)
+    dev.data_size = 32 * dev.bytesPerLine
 
   /* buffer must be smaller than total amount to read from session */
   if(dev.data_size > dev.to_read)
     dev.data_size = dev.to_read
 
-  DBG(DBG_data, "compute_parameters: bytes_per_line    =%d\n",
-       session.params.bytes_per_line)
+  DBG(DBG_data, "compute_parameters: bytesPerLine    =%d\n",
+       session.params.bytesPerLine)
   DBG(DBG_data, "compute_parameters: depth             =%d\n",
        session.params.depth)
   DBG(DBG_data, "compute_parameters: lines             =%d\n",
@@ -1639,9 +1639,9 @@ compute_parameters(Rts8891_Session * session)
   DBG(DBG_data, "compute_parameters: ystart            =%d\n", dev.ystart)
   DBG(DBG_data, "compute_parameters: dev lines         =%d\n", dev.lines)
   DBG(DBG_data, "compute_parameters: dev extra lines   =%d\n",
-       (dev.lds_max + dev.ripple) / dev.bytes_per_line)
+       (dev.lds_max + dev.ripple) / dev.bytesPerLine)
   DBG(DBG_data, "compute_parameters: dev bytes per line=%d\n",
-       dev.bytes_per_line)
+       dev.bytesPerLine)
   DBG(DBG_data, "compute_parameters: dev pixels        =%d\n", dev.pixels)
   DBG(DBG_data, "compute_parameters: data size         =%d\n",
        dev.data_size)
@@ -1774,7 +1774,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
   sanei_rts88xx_write_reg(dev.devnum, LAMP_REG, &(dev.regs[LAMP_REG]))
 
   /* byte length for high dpi mode */
-  length = (session.params.bytes_per_line * 8) / session.params.depth
+  length = (session.params.bytesPerLine * 8) / session.params.depth
 
   /* checks if buffer has been pre filled with the extra data needed for */
   /* line distance reordering                                            */
@@ -1783,7 +1783,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
 	  || session.emulated_gray == Sane.TRUE))
     {
       /* the data need if the size of the highest line distance shift */
-      /* we must only read what's needed */
+      /* we must only read what"s needed */
       data_size = dev.data_size + dev.lds_max + dev.ripple
       if(dev.to_read - dev.read < data_size)
 	data_size = dev.to_read - dev.read
@@ -1808,7 +1808,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
   if(dev.read == 0 || dev.current >= dev.end)
     {
       /* effective buffer filling */
-      /* we must only read what's needed */
+      /* we must only read what"s needed */
       data_size = dev.data_size
       if(dev.to_read - dev.read < data_size)
 	data_size = dev.to_read - dev.read
@@ -1864,7 +1864,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
 		{
 		  /* in emulated gray mode we are always reading 3 bytes of raw data */
 		  /* at a time                                                        */
-		  switch(((session.sent * 3) % dev.bytes_per_line) % 6)
+		  switch(((session.sent * 3) % dev.bytesPerLine) % 6)
 		    {
 		    case 0:
 		    case 1:
@@ -1901,7 +1901,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
 		}
 	      else
 		{
-		  switch((session.sent % dev.bytes_per_line) % 6)
+		  switch((session.sent % dev.bytesPerLine) % 6)
 		    {
 		    case 0:
 		      buf[*len] = dev.current[dev.lds_r]
@@ -1935,8 +1935,8 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
 		{
 		  DBG(DBG_io,
 		       "Sane.read: rewind by %d bytes after %d bytes sent\n",
-		       dev.bytes_per_line, session.sent)
-		  dev.current -= dev.bytes_per_line
+		       dev.bytesPerLine, session.sent)
+		  dev.current -= dev.bytesPerLine
 		}
 	    }
 	  else if(dev.ydpi == session.val[OPT_RESOLUTION].w)
@@ -1998,7 +1998,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
 		  /* at a time, so we know where we are                               */
 		  val = (dev.current[dev.lds_g]
 			 + dev.current[dev.lds_g +
-					dev.bytes_per_line]) / 2
+					dev.bytesPerLine]) / 2
 		  if(session.params.depth == 1)
 		    {
 		      bit = 7 - (session.sent) % 8
@@ -2029,17 +2029,17 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
 		    case 0:
 		      buf[*len] = (dev.current[dev.lds_r]
 				   + dev.current[dev.lds_r +
-						  dev.bytes_per_line]) / 2
+						  dev.bytesPerLine]) / 2
 		      break
 		    case 1:
 		      buf[*len] = (dev.current[dev.lds_g]
 				   + dev.current[dev.lds_g +
-						  dev.bytes_per_line]) / 2
+						  dev.bytesPerLine]) / 2
 		      break
 		    case 2:
 		      buf[*len] = (dev.current[dev.lds_b]
 				   + dev.current[dev.lds_b +
-						  dev.bytes_per_line]) / 2
+						  dev.bytesPerLine]) / 2
 		      break
 		    }
 		  (*len)++
@@ -2049,8 +2049,8 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
 
 	      /* at the end of each line, we must count another one because */
 	      /* 2 lines are used to produce one                            */
-	      if((dev.current - dev.start) % dev.bytes_per_line == 0)
-		dev.current += dev.bytes_per_line
+	      if((dev.current - dev.start) % dev.bytesPerLine == 0)
+		dev.current += dev.bytesPerLine
 	    }
 	}
     }
@@ -2058,7 +2058,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
   /* if we exhausted data buffer, we prepare for the next read */
   /* in color mode, we need to copy the remainder of the      */
   /* buffer because of line distance handling, when blue data */
-  /* is exhausted, read and green haven't been fully read yet */
+  /* is exhausted, read and green haven"t been fully read yet */
   if(dev.current >= dev.end
       && (session.params.format == Sane.FRAME_RGB
 	  || session.emulated_gray == Sane.TRUE))
@@ -2113,7 +2113,7 @@ Sane.cancel(Sane.Handle handle)
   /* if scanning, abort and park head */
   if(session.scanning == Sane.TRUE)
     {
-      /* canceling while all data hasn't bee read */
+      /* canceling while all data hasn"t bee read */
       if(dev.read < dev.to_read)
 	{
 	  sanei_rts88xx_cancel(dev.devnum)
@@ -2160,7 +2160,7 @@ Sane.cancel(Sane.Handle handle)
  * presently active, a call to Sane.cancel() is performed first. After
  * this function returns, handle h must not be used anymore.
  *
- * Handle resources are free'd before disposing the handle. But devices
+ * Handle resources are free"d before disposing the handle. But devices
  * resources must not be mdofied, since it could be used or reused until
  * Sane.exit() is called.
  */
@@ -2327,7 +2327,7 @@ probe_rts8891_devices(void)
     (Sane.Option_Descriptor *) malloc(sizeof(Sane.Option_Descriptor))
   options[CFG_MODEL_NUMBER]->name = "modelnumber"
   options[CFG_MODEL_NUMBER]->desc =
-    "user provided scanner's internal model number"
+    "user provided scanner"s internal model number"
   options[CFG_MODEL_NUMBER]->type = Sane.TYPE_INT
   options[CFG_MODEL_NUMBER]->unit = Sane.UNIT_NONE
   options[CFG_MODEL_NUMBER]->size = sizeof(Sane.Word)
@@ -2353,7 +2353,7 @@ probe_rts8891_devices(void)
     (Sane.Option_Descriptor *) malloc(sizeof(Sane.Option_Descriptor))
   options[CFG_SENSOR_NUMBER]->name = "sensornumber"
   options[CFG_SENSOR_NUMBER]->desc =
-    "user provided scanner's internal sensor number"
+    "user provided scanner"s internal sensor number"
   options[CFG_SENSOR_NUMBER]->type = Sane.TYPE_INT
   options[CFG_SENSOR_NUMBER]->unit = Sane.UNIT_NONE
   options[CFG_SENSOR_NUMBER]->size = sizeof(Sane.Word)
@@ -2427,7 +2427,7 @@ config_attach_rts8891 (SANEI_Config * config, const char *devname,
  *
  * @return status Sane.STATUS_GOOD if no errors(even if no matching
  * 	    devices found)
- * 	   Sane.STATUS_NOM_MEM if there isn't enough memory to allocate the
+ * 	   Sane.STATUS_NOM_MEM if there isn"t enough memory to allocate the
  * 	   			device structure
  * 	   Sane.STATUS_UNSUPPORTED if the device if unknown by the backend
  * 	   Sane.STATUS_INVAL in case of other error
@@ -2457,13 +2457,13 @@ attach_rts8891 (const char *devicename)
   status = sanei_usb_open(devicename, &dn)
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(DBG_error, "attach_rts8891: couldn't open device `%s': %s\n",
+      DBG(DBG_error, "attach_rts8891: couldn"t open device `%s": %s\n",
 	   devicename, Sane.strstatus(status))
       return status
     }
   else
     {
-      DBG(DBG_info, "attach_rts8891: device `%s' successfully opened\n",
+      DBG(DBG_info, "attach_rts8891: device `%s" successfully opened\n",
 	   devicename)
     }
 
@@ -2472,7 +2472,7 @@ attach_rts8891 (const char *devicename)
   if(status != Sane.STATUS_GOOD)
     {
       DBG(DBG_error,
-	   "attach_rts8891: couldn't get vendor and product ids of device `%s': %s\n",
+	   "attach_rts8891: couldn"t get vendor and product ids of device `%s": %s\n",
 	   devicename, Sane.strstatus(status))
       sanei_usb_close(dn)
       DBG(DBG_proc, "attach_rts8891: exit\n")
@@ -2494,7 +2494,7 @@ attach_rts8891 (const char *devicename)
       if(rts8891_usb_device_list[dn].vendor_id == 0)
 	{
 	  DBG(DBG_info,
-	       "attach_rts8891: unknown device `%s': 0x%04x:0x%04x\n",
+	       "attach_rts8891: unknown device `%s": 0x%04x:0x%04x\n",
 	       devicename, vendor, product)
 	  DBG(DBG_proc, "attach_rts8891: exit\n")
 	  return Sane.STATUS_UNSUPPORTED
@@ -2541,7 +2541,7 @@ attach_rts8891 (const char *devicename)
   device.start_time.tv_sec = 0
 #endif
 
-  /* in case autodection au sensor doesn't work, use the given override */
+  /* in case autodection au sensor doesn"t work, use the given override */
   device.sensor = rtscfg.sensornumber
 
   /* copy configuration settings to device */
@@ -3128,7 +3128,7 @@ find_origin(struct Rts8891_Device *dev, Bool * changed)
     }
   if(dev.sensor == SENSOR_TYPE_4400 || dev.sensor == SENSOR_TYPE_4400_BARE)
     {
-      /* 4400 values / 'XPA' values */
+      /* 4400 values / "XPA" values */
       dev.regs[0x13] = 0x39;	/* 0x20 */
       dev.regs[0x14] = 0xf0;	/* 0xf8 */
       dev.regs[0x15] = 0x29;	/* 0x28 */
@@ -3267,7 +3267,7 @@ find_origin(struct Rts8891_Device *dev, Bool * changed)
   /* convert the detected value into max ydpi */
   dev.top_offset = (48 * dev.model.max_ydpi) / 300
 
-  /* no we're done */
+  /* no we"re done */
   free(image)
   free(data)
 
@@ -3304,7 +3304,7 @@ find_origin(struct Rts8891_Device *dev, Bool * changed)
 	  SET_DOUBLE(dev.regs, EXPOSURE_REG, 1030)
 	}
 
-      /* move by a fixed amount relative to the 'top' of the scanner */
+      /* move by a fixed amount relative to the "top" of the scanner */
       sanei_rts88xx_set_scan_area(dev.regs, height - sum + 10,
 				   height - sum + 11, 637, 893)
       rts8891_write_all(dev.devnum, dev.regs, dev.reg_count)
@@ -3389,7 +3389,7 @@ find_margin(struct Rts8891_Device *dev)
   dev.regs[0xd7] = 0x14
   dev.regs[0xd8] = 0xf6
 
-  dev.regs[0xda] = 0xa7;	/* XXX STEF XXX à l'origine, pas 'bare' */
+  dev.regs[0xda] = 0xa7;	/* XXX STEF XXX à l"origine, pas "bare" */
 
   dev.regs[0xe2] = 0x01
 
@@ -3495,7 +3495,7 @@ find_margin(struct Rts8891_Device *dev)
   dev.left_offset = ((x - 40) * dev.model.max_xdpi) / 150
   DBG(DBG_info, "find_margin: left_offset=%d pixels\n", x)
 
-  /* no we're done */
+  /* no we"re done */
   free(data)
 
   DBG(DBG_proc, "find_margin: exit\n")
@@ -3549,7 +3549,7 @@ initialize_device(struct Rts8891_Device *dev)
   /* sensor type the one for 4470c sold with XPA is slightly different
    * than those sold bare, for this model we always start with xpa type sensor,
    * and change it later if we detect black scans in find_origin(). In case the
-   * attach function set up the sensor type, we don't modify it */
+   * attach function set up the sensor type, we don"t modify it */
   if(dev.sensor == -1)
     {
       dev.sensor = device.model.sensor
@@ -4229,7 +4229,7 @@ init_device(struct Rts8891_Device *dev)
   rts8891_write_all(dev.devnum, dev.regs, dev.reg_count)
 
   /* now we are writing and reading back from memory, it is surely a memory test since the written data
-   * don't look useful at first glance
+   * don"t look useful at first glance
    */
   reg = 0x06
   sanei_rts88xx_write_reg(dev.devnum, 0x93, &reg)
@@ -4307,7 +4307,7 @@ init_device(struct Rts8891_Device *dev)
     }
   DBG(DBG_info, "init_device: memory set #3 passed\n")
 
-  /* we are writing page after page the same pattern, and reading at page 0 until we find we have 'wrapped' */
+  /* we are writing page after page the same pattern, and reading at page 0 until we find we have "wrapped" */
   /* this is surely some memory amount/number pages detection */
   dev.regs[0x91] = 0x00;	/* page 0 ? */
   dev.regs[0x92] = 0x00
@@ -4606,7 +4606,7 @@ static Sane.Status
 dark_calibration(struct Rts8891_Device *dev, Int mode, Int light)
 {
   Sane.Status status = Sane.STATUS_GOOD
-/* red, green and blue offset, within a 't'op and 'b'ottom value */
+/* red, green and blue offset, within a "t"op and "b"ottom value */
   Int ro = 250, tro = 250, bro = 0
   Int bo = 250, tbo = 250, bbo = 0
   Int go = 250, tgo = 250, bgo = 0
@@ -4855,7 +4855,7 @@ dark_calibration(struct Rts8891_Device *dev, Int mode, Int light)
 
 /*
  * do gain calibration. We do scans until averaged values of the area match
- * the target code. We're doing a dichotomy again.
+ * the target code. We"re doing a dichotomy again.
  */
 static Sane.Status
 gain_calibration(struct Rts8891_Device *dev, Int mode, Int light)
@@ -5103,7 +5103,7 @@ gain_calibration(struct Rts8891_Device *dev, Int mode, Int light)
 		}
 	      else
 		{
-		  /* since we'ra above target value, current gain becomes top value */
+		  /* since we"ra above target value, current gain becomes top value */
 		  trg = rg
 		  rg = (trg + brg) / 2
 		}
@@ -5223,7 +5223,7 @@ offset_calibration(struct Rts8891_Device *dev, Int mode, Int light)
 {
 
   Sane.Status status = Sane.STATUS_GOOD
-  /* red, green and blue offset, within a 't'op and 'b'ottom value */
+  /* red, green and blue offset, within a "t"op and "b"ottom value */
   Int ro = 250, tro = 250, bro = 123
   Int go = 250, tgo = 250, bgo = 123
   Int bo = 250, tbo = 250, bbo = 123
@@ -6141,7 +6141,7 @@ shading_calibration(struct Rts8891_Device *dev, Bool color, Int mode, Int light)
        sensor_name(dev.sensor), dev.sensor)
 
   width = dev.pixels
-  size = lines * dev.bytes_per_line
+  size = lines * dev.bytesPerLine
 
   image = (Sane.Byte *) malloc(size)
   if(image == NULL)
@@ -6152,7 +6152,7 @@ shading_calibration(struct Rts8891_Device *dev, Bool color, Int mode, Int light)
     }
   if(dev.shading_data != NULL)
     free(dev.shading_data)
-  dev.shading_data = (unsigned char *) malloc(dev.bytes_per_line)
+  dev.shading_data = (unsigned char *) malloc(dev.bytesPerLine)
   if(dev.shading_data == NULL)
     {
       free(image)
@@ -6318,7 +6318,7 @@ send_calibration_data(struct Rts8891_Session *session)
    * 675 CCD elements at 75 DPI. 16 bit per element. 1 or 3 channels.
    * there is a 0xFF marker at end of each coefficients row.
    * a gamma table comes first
-   * 75  DPI:  5600=1542+(675)*2*3+8                ->size rounded to 'upper 32'
+   * 75  DPI:  5600=1542+(675)*2*3+8                ->size rounded to "upper 32"
    * 150 DPI: 9664=675*2*2*3=1542+(675*2)*2*3+22
    * 17760                                        4         +18
    * 33952                                        8     +10
@@ -6543,7 +6543,7 @@ move_to_scan_area(struct Rts8891_Session *session)
 /* set up the shadow registers for scan, depending on scan parameters    */
 /* the ultimate goal is to have no direct access to registers, but to    */
 /* set them through helper functions                                     */
-/* NOTE : I couldn't manage to get scans that really uses gray settings. */
+/* NOTE : I couldn"t manage to get scans that really uses gray settings. */
 /* The windows driver is always scanning in color, so we do the same.   */
 /* For now, the only mode that could be done would be 300 dpi gray scan, */
 /* based on the register settings of find_origin()                       */
@@ -7608,7 +7608,7 @@ setup_scan_registers(struct Rts8891_Session *session, Sane.Byte *status1, Sane.B
 /* set up the shadow registers for scan, depending on scan parameters    */
 /* the ultimate goal is to have no direct access to registers, but to    */
 /* set them through helper functions                                     */
-/* NOTE : I couldn't manage to get scans that really uses gray settings. */
+/* NOTE : I couldn"t manage to get scans that really uses gray settings. */
 /* The windows driver is always scanning in color, so we do the same.   */
 /* For now, the only mode that could be done would be 300 dpi gray scan, */
 /* based on the register settings of find_origin()                       */
@@ -7707,7 +7707,7 @@ park_head(struct Rts8891_Device *dev, Bool wait)
 }
 
 /* update button status
- * button access is allowed during scan, which is useful for 'cancel' button
+ * button access is allowed during scan, which is useful for "cancel" button
  */
 static Sane.Status
 update_button_status(struct Rts8891_Session *session)
@@ -7716,7 +7716,7 @@ update_button_status(struct Rts8891_Session *session)
   Sane.Status status = Sane.STATUS_GOOD
   Bool lock = Sane.FALSE
 
-  /* while scanning, interface is reserved, so don't claim/release it */
+  /* while scanning, interface is reserved, so don"t claim/release it */
   if(session.scanning != Sane.TRUE)
     {
       lock = Sane.TRUE

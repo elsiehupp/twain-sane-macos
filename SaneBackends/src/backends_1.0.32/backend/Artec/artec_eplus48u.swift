@@ -18,7 +18,7 @@ import Sane.sanei_thread
 #define _MAX_ID_LEN 20
 
 /*Uncomment next line for button support. This
-  actually isn't supported by the frontends. */
+  actually isn"t supported by the frontends. */
 /*#define ARTEC48U_USE_BUTTONS 1*/
 
 #define ARTEC48U_PACKET_SIZE 64
@@ -613,8 +613,8 @@ persons:
     - Automatic AFE gain and offset setting.
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Please note:
-The calibration code from the gt68xxtest program isn't used here, since I
-couldn't get it working. I'm using my own calibration code, which is based
+The calibration code from the gt68xxtest program isn"t used here, since I
+couldn"t get it working. I"m using my own calibration code, which is based
 on wild assumptions based on the USB logs from the windoze driver.
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 It also contains code from the plustek backend
@@ -2066,7 +2066,7 @@ artec48u_device_new(Artec48U_Device ** dev_return)
 
   if(!dev)
     {
-      XDBG((3, "%s: couldn't malloc %lu bytes for device\n",
+      XDBG((3, "%s: couldn"t malloc %lu bytes for device\n",
 	     function_name, (u_long) sizeof(Artec48U_Device)))
       *dev_return = 0
       return Sane.STATUS_NO_MEM
@@ -2492,7 +2492,7 @@ artec48u_delay_buffer_init(Artec48U_Delay_Buffer * delay,
 			    Int pixels_per_line)
 {
   DECLARE_FUNCTION_NAME("artec48u_delay_buffer_init")
-    Int bytes_per_line
+    Int bytesPerLine
   Int line_count, i
 
   if(pixels_per_line <= 0)
@@ -2502,13 +2502,13 @@ artec48u_delay_buffer_init(Artec48U_Delay_Buffer * delay,
       return Sane.STATUS_INVAL
     }
 
-  bytes_per_line = pixels_per_line * sizeof(unsigned Int)
+  bytesPerLine = pixels_per_line * sizeof(unsigned Int)
 
   delay.line_count = line_count = 1
   delay.read_index = 0
   delay.write_index = 0
 
-  delay.mem_block = (Sane.Byte *) malloc(bytes_per_line * line_count)
+  delay.mem_block = (Sane.Byte *) malloc(bytesPerLine * line_count)
   if(!delay.mem_block)
     {
       XDBG((3, "%s: no memory for delay block\n", function_name))
@@ -2526,7 +2526,7 @@ artec48u_delay_buffer_init(Artec48U_Delay_Buffer * delay,
 
   for(i = 0; i < line_count; ++i)
     delay.lines[i] =
-      (unsigned Int *) (delay.mem_block + i * bytes_per_line)
+      (unsigned Int *) (delay.mem_block + i * bytesPerLine)
 
   return Sane.STATUS_GOOD
 }
@@ -2582,7 +2582,7 @@ unpack_16_le_mono(Sane.Byte * src, unsigned Int *dst,
 }
 
 static Sane.Status
-line_read_gray_8 (Artec48U_Line_Reader * reader,
+line_read_gray_8(Artec48U_Line_Reader * reader,
 		  unsigned Int **buffer_pointers_return)
 {
   Sane.Status status
@@ -2603,7 +2603,7 @@ line_read_gray_8 (Artec48U_Line_Reader * reader,
 }
 
 static Sane.Status
-line_read_gray_16 (Artec48U_Line_Reader * reader,
+line_read_gray_16(Artec48U_Line_Reader * reader,
 		   unsigned Int **buffer_pointers_return)
 {
   Sane.Status status
@@ -3640,7 +3640,7 @@ calculate_contrast(Artec48U_Scanner * s)
   -Gain, offset, exposure time
    It seems, that the gain values are actually constants. The windows driver always
    uses the values 0x0a,0x03,0x03, during calibration as well as during a normal
-   scan. The exposure values are set to 0x04 for black calibration. It's not necessary to
+   scan. The exposure values are set to 0x04 for black calibration. It"s not necessary to
    move the scan head during this stage.
    Calibration starts with default values for offset/exposure. These values are
    increased/decreased until the white and black values are within a specific range, defined
@@ -3658,7 +3658,7 @@ calculate_contrast(Artec48U_Scanner * s)
    because we have the shading values for every sensor/LED.
 
   Note:
-  For a CIS device, it's sufficient to determine those values once. It's not necessary, to
+  For a CIS device, it"s sufficient to determine those values once. It"s not necessary, to
   repeat the calibration sequence before every new scan. The windoze driver even saves the values
   to various files to avoid the quite lengthy calibration sequence. This backend can also save
   the values to files. For this purpose, the user has to create a hidden directory called
@@ -3893,7 +3893,7 @@ calibrate_scanner(Sane.Handle handle)
   s.dev.artec_48u_afe_params.r_offset = s.dev.afe_params.r_offset
   s.dev.artec_48u_afe_params.g_offset = s.dev.afe_params.g_offset
   s.dev.artec_48u_afe_params.b_offset = s.dev.afe_params.b_offset
-  /*don't forget the gain */
+  /*don"t forget the gain */
   s.dev.artec_48u_afe_params.r_pga = s.dev.afe_params.r_pga
   s.dev.artec_48u_afe_params.g_pga = s.dev.afe_params.g_pga
   s.dev.artec_48u_afe_params.b_pga = s.dev.afe_params.b_pga
@@ -4051,7 +4051,7 @@ reader_process(void * data)
       copy_scan_line(s)
       s.lines_to_read -= 1
       bytes_written =
-	write(fd, s.line_buffer, s.Sane.params.bytes_per_line)
+	write(fd, s.line_buffer, s.Sane.params.bytesPerLine)
 
       if(bytes_written < 0)
 	{
@@ -4455,7 +4455,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
       XDBG((3, "could not open device\n"))
       return status
     }
-  XDBG((2, "Sane.open: opening device `%s', handle = %p\n", dev.sane.name,
+  XDBG((2, "Sane.open: opening device `%s", handle = %p\n", dev.sane.name,
        (void *) dev))
 
   XDBG((1, "Sane.open - %s\n", dev.sane.name))
@@ -4469,7 +4469,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
     }
   /* We do not check anymore, whether the firmware is already loaded */
   /* because that caused problems after rebooting; furthermore, loading */
-  /* of the firmware is fast, therefore the test doesn't make much sense */
+  /* of the firmware is fast, therefore the test doesn"t make much sense */
   status = download_firmware_file(dev)
   if(status != Sane.STATUS_GOOD)
     {
@@ -4776,28 +4776,28 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   if(s.params.color == Sane.TRUE)
     {
       params.format = Sane.FRAME_RGB
-      params.bytes_per_line = s.params.pixel_xs * 3
+      params.bytesPerLine = s.params.pixel_xs * 3
     }
   else
     {
       params.format = Sane.FRAME_GRAY
-      params.bytes_per_line = s.params.pixel_xs
+      params.bytesPerLine = s.params.pixel_xs
       if(strcmp(str, mode_list[0]) == 0)
 	{
 	  params.depth = 1
-	  params.bytes_per_line = (s.params.pixel_xs + 7) / 8
+	  params.bytesPerLine = (s.params.pixel_xs + 7) / 8
 	  s.params.lineart = Sane.TRUE
 	}
     }
   if((resx == 1200) && (s.dev.is_epro == 0))
     {
       if(params.depth == 1)
-	params.bytes_per_line = (s.params.pixel_xs * 2 + 7) / 8
+	params.bytesPerLine = (s.params.pixel_xs * 2 + 7) / 8
       else
-	params.bytes_per_line *= 2
+	params.bytesPerLine *= 2
     }
   if(params.depth == 16)
-    params.bytes_per_line *= 2
+    params.bytesPerLine *= 2
   params.last_frame = Sane.TRUE
   params.pixels_per_line = s.params.pixel_xs
   if((resx == 1200) && (s.dev.is_epro == 0))
@@ -4929,7 +4929,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * data,
     {
       if(EAGAIN == errno)
 	{
-	  /* if we already had read the picture, so it's okay and stop */
+	  /* if we already had read the picture, so it"s okay and stop */
 	  if(s.eof == Sane.TRUE)
 	    {
 	      sanei_thread_waitpid(s.reader_pid, 0)
@@ -4952,7 +4952,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * data,
   *length = nread
   s.byte_cnt += nread
 
-  /* nothing read means that we're finished OR we had a problem... */
+  /* nothing read means that we"re finished OR we had a problem... */
   if(0 == nread)
     {
       if(0 == s.byte_cnt)
@@ -5071,7 +5071,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
     {
       XDBG((1, "Sane.init, >%s<\n", str))
       /* ignore line comments */
-      if(str[0] == '#')
+      if(str[0] == "#")
 	continue
       len = strlen(str)
       /* ignore empty lines */

@@ -530,7 +530,7 @@ typedef struct DeviceDef
 	Int         product;       /**< product ID                               */
 	DCapsDef    Caps;          /**< pointer to the attribute of current dev  */
 	HWDef       HwSetting;     /**< Pointer to the characteristics of device */
-	SrcAttrDef *pSource;       /**< Scanning src, it's equal to Caps.Normal  */
+	SrcAttrDef *pSource;       /**< Scanning src, it"s equal to Caps.Normal  */
 	                           /**< on the source that the user specified.   */
 	OrgDef      Normal;        /**< Reflection - Pix to adjust scanning orgs */
 	OrgDef      Positive;      /**< Pos film - Pix to adjust scanning orgs   */
@@ -692,7 +692,7 @@ typedef struct {
 
 	/**
 	 * here we define some ranges for better supporting
-	 * non-Plustek devices with it's different hardware
+	 * non-Plustek devices with it"s different hardware
 	 * we can set the MCLK and the motor PWM stuff for color
 	 * and gray modes(8bit and 14/16bit modes)
 	 *    0    1     2     3     4     5     6      7     8      9

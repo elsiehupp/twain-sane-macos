@@ -26,8 +26,8 @@ import sane/sanei_debug
 
 #ifdef HAVE_SYS_HW_H
   /* OS/2 i/o-port access compatibility macros: */
-# define inb(p)         _inp8 (p)
-# define outb(v,p)      _outp8 ((p),(v))
+# define inb(p)         _inp8(p)
+# define outb(v,p)      _outp8((p),(v))
 # define ioperm(b,l,o)  _portaccess((b),(b)+(l)-1)
 # define HAVE_IOPERM    1
 #endif
@@ -99,7 +99,7 @@ import limits
 # define sigdelset(set,signal)  do { *(set) &= ~sigmask(signal); } while(0)
 # define sigaction(sig,new,old) sigvec(sig,new,old)
 
-  /* Note: it's not safe to just declare our own "struct sigaction" since
+  /* Note: it"s not safe to just declare our own "struct sigaction" since
      some systems(e.g., some versions of OpenStep) declare that structure,
      but do not implement sigprocmask().  Hard to believe, aint it?  */
 # define SIGACTION              sigvec
@@ -139,7 +139,7 @@ public void ENTRY(exit) (void)
 #endif
 
 #ifndef STUBS
-/* Now redirect Sane.* calls to backend's functions: */
+/* Now redirect Sane.* calls to backend"s functions: */
 
 #define Sane.init(a,b)                  ENTRY(init) (a,b)
 #define Sane.get_devices(a,b)           ENTRY(get_devices) (a,b)

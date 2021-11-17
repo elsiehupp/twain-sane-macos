@@ -144,7 +144,7 @@ Sane.close(Sane.Handle handle)
     if( ! ms )
         return
 
-    /* free malloc'ed stuff */
+    /* free malloc"ed stuff */
     cleanup_scanner(ms)
 
     /* remove Scanner from linked list */
@@ -224,8 +224,8 @@ Sane.Status
 Sane.get_devices(const Sane.Device ***device_list, Bool local_only)
 {
     /* return a list of available devices; available here means that we get */
-    /* a positive response to an 'INQUIRY' and possibly to a */
-    /* 'READ SCANNER ATTRIBUTE' call */
+    /* a positive response to an "INQUIRY" and possibly to a */
+    /* "READ SCANNER ATTRIBUTE" call */
 
     static const Sane.Device **sd_list = NULL
     Microtek2_Device *md
@@ -256,7 +256,7 @@ Sane.get_devices(const Sane.Device ***device_list, Bool local_only)
 
     sd_list = (const Sane.Device **)
                malloc( (md_num_devices + 1) * sizeof(Sane.Device **))
-    DBG(100, "Sane.get_devices: sd_list=%p, malloc'd %lu bytes\n",
+    DBG(100, "Sane.get_devices: sd_list=%p, malloc"d %lu bytes\n",
 	(void *) sd_list, (u_long)  ((md_num_devices + 1) * sizeof(Sane.Device **)))
 
     if( ! sd_list )
@@ -273,7 +273,7 @@ Sane.get_devices(const Sane.Device ***device_list, Bool local_only)
         status = attach(md)
         if( status != Sane.STATUS_GOOD )
           {
-            DBG(10, "Sane.get_devices: attach status '%s'\n",
+            DBG(10, "Sane.get_devices: attach status "%s"\n",
                      Sane.strstatus(status))
             md = md.next
             continue
@@ -283,7 +283,7 @@ Sane.get_devices(const Sane.Device ***device_list, Bool local_only)
         status = scsi_test_unit_ready(md)
         if( status != Sane.STATUS_GOOD )
           {
-            DBG(10, "Sane.get_devices: test_unit_ready status '%s'\n",
+            DBG(10, "Sane.get_devices: test_unit_ready status "%s"\n",
                      Sane.strstatus(status))
             md = md.next
             continue
@@ -312,8 +312,8 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
     Int mode
     Int depth
     Int bits_pp_in;             /* bits per pixel from scanner */
-    Int bits_pp_out;            /* bits_per_pixel transferred to frontend */
-    Int bytes_per_line
+    Int bits_pp_out;            /* bitsPerPixel transferred to frontend */
+    Int bytesPerLine
     double x_pixel_per_mm
     double y_pixel_per_mm
     double x1_pixel
@@ -395,14 +395,14 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
 
 
       if( bits_pp_out == 1 )
-          bytes_per_line =  (width_pixel + 7 ) / 8
+          bytesPerLine =  (width_pixel + 7 ) / 8
       else
         {
-          bytes_per_line = ( width_pixel * bits_pp_out ) / 8 
+          bytesPerLine = ( width_pixel * bits_pp_out ) / 8 
           if( mode == MS_MODE_COLOR && mi.onepass )
-              bytes_per_line *= 3
+              bytesPerLine *= 3
         }
-      ms.params.bytes_per_line = (Int) bytes_per_line
+      ms.params.bytesPerLine = (Int) bytesPerLine
     }  /* if ms.scanning */
 
   if( params )
@@ -411,7 +411,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
   DBG(30,"Sane.get_parameters: format=%d, last_frame=%d, lines=%d\n",
         ms.params.format,ms.params.last_frame, ms.params.lines)
   DBG(30,"Sane.get_parameters: depth=%d, ppl=%d, bpl=%d\n",
-        ms.params.depth,ms.params.pixels_per_line, ms.params.bytes_per_line)
+        ms.params.depth,ms.params.pixels_per_line, ms.params.bytesPerLine)
 
   return Sane.STATUS_GOOD
 }
@@ -466,7 +466,7 @@ Sane.init(Int *version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 
     fp = sanei_config_open(MICROTEK2_CONFIG_FILE)
     if( fp == NULL )
-        DBG(10, "Sane.init: file not opened: '%s'\n", MICROTEK2_CONFIG_FILE)
+        DBG(10, "Sane.init: file not opened: "%s"\n", MICROTEK2_CONFIG_FILE)
     else
       {
         /* check config file for devices and associated options */
@@ -511,7 +511,7 @@ Sane.open(Sane.String_Const name, Sane.Handle *handle)
 #endif
 
 
-    DBG(30, "Sane.open: device='%s'\n", name)
+    DBG(30, "Sane.open: device="%s"\n", name)
 
     *handle = NULL
     md = md_first_dev
@@ -528,7 +528,7 @@ Sane.open(Sane.String_Const name, Sane.Handle *handle)
 
     if( ! md )
       {
-        DBG(10, "Sane.open: invalid device name '%s'\n", name)
+        DBG(10, "Sane.open: invalid device name "%s"\n", name)
         return Sane.STATUS_INVAL
       }
 
@@ -538,7 +538,7 @@ Sane.open(Sane.String_Const name, Sane.Handle *handle)
         return status
 
     ms = malloc(sizeof(Microtek2_Scanner))
-    DBG(100, "Sane.open: ms=%p, malloc'd %lu bytes\n",
+    DBG(100, "Sane.open: ms=%p, malloc"d %lu bytes\n",
 	(void *) ms, (u_long) sizeof(Microtek2_Scanner))
     if( ms == NULL )
       {
@@ -572,8 +572,8 @@ Sane.open(Sane.String_Const name, Sane.Handle *handle)
     *handle = ms
 
 #ifdef HAVE_AUTHORIZATION
-    /* check whether the file with the passwords exists. If it doesn't */
-    /* exist, we don't use any authorization */
+    /* check whether the file with the passwords exists. If it doesn"t */
+    /* exist, we don"t use any authorization */
 
     rc = stat(PASSWD_FILE, &st)
     if( rc == -1 && errno == ENOENT )
@@ -696,10 +696,10 @@ add_device_list(Sane.String_Const dev_name, Microtek2_Device **mdev)
       }
 
     len = strlen(hdev)
-    if( hdev[len - 1] == '\n' )
-        hdev[--len] = '\0'
+    if( hdev[len - 1] == "\n" )
+        hdev[--len] = "\0"
 
-    DBG(30, "add_device_list: device='%s'\n", hdev)
+    DBG(30, "add_device_list: device="%s"\n", hdev)
 
     /* check, if device is already known */
     md = md_first_dev
@@ -707,7 +707,7 @@ add_device_list(Sane.String_Const dev_name, Microtek2_Device **mdev)
       {
         if( strcmp(hdev, md.name) == 0 )
           {
-	    DBG(30, "add_device_list: device '%s' already in list\n", hdev)
+	    DBG(30, "add_device_list: device "%s" already in list\n", hdev)
 
             *mdev = md
             return Sane.STATUS_GOOD
@@ -716,7 +716,7 @@ add_device_list(Sane.String_Const dev_name, Microtek2_Device **mdev)
     }
 
     md = (Microtek2_Device *) malloc(sizeof(Microtek2_Device))
-    DBG(100, "add_device_list: md=%p, malloc'd %lu bytes\n",
+    DBG(100, "add_device_list: md=%p, malloc"d %lu bytes\n",
                          (void *) md, (u_long) sizeof(Microtek2_Device))
     if( md == NULL )
       {
@@ -763,12 +763,12 @@ attach(Microtek2_Device *md)
     Sane.Byte source_info
 
 
-    DBG(30, "attach: device='%s'\n", md.name)
+    DBG(30, "attach: device="%s"\n", md.name)
 
     status = scsi_inquiry( &md.info[MD_SOURCE_FLATBED], md.name )
     if( status != Sane.STATUS_GOOD )
       {
-	DBG(1, "attach: '%s'\n", Sane.strstatus(status))
+	DBG(1, "attach: "%s"\n", Sane.strstatus(status))
         return status
       }
 
@@ -782,7 +782,7 @@ attach(Microtek2_Device *md)
 
     /* Here we should insert a function, that stores all the relevant */
     /* information in the info structure in a more conveniant format */
-    /* in the device structure, e.g. the model name with a trailing '\0'. */
+    /* in the device structure, e.g. the model name with a trailing "\0". */
 
     status = check_inquiry(md, &model_string)
     if( status != Sane.STATUS_GOOD )
@@ -800,7 +800,7 @@ attach(Microtek2_Device *md)
                                   md.name, MD_SOURCE_FLATBED)
     if( status != Sane.STATUS_GOOD )
       {
-	DBG(1, "attach: '%s'\n", Sane.strstatus(status))
+	DBG(1, "attach: "%s"\n", Sane.strstatus(status))
         return status
       }
 
@@ -839,7 +839,7 @@ attach(Microtek2_Device *md)
     if( md.info[MD_SOURCE_FLATBED].option_device & MI_OPTDEV_SLIDE )
       {
         /* The Phantom 636cx indicates in its attributes that it supports */
-        /* slides, but it doesn't. Thus this command would fail. */
+        /* slides, but it doesn"t. Thus this command would fail. */
 
         if( ! (md.model_flags & MD_NO_SLIDE_MODE) )
           {
@@ -867,7 +867,7 @@ attach_one(const char *name)
     Microtek2_Device *md_tmp
 
 
-    DBG(30, "attach_one: name='%s'\n", name)
+    DBG(30, "attach_one: name="%s"\n", name)
 
     md_tmp = md_first_dev
     /* if add_device_list() adds an entry it does this at the beginning */
@@ -894,7 +894,7 @@ cancel_scan(Microtek2_Scanner *ms)
     status = scsi_read_image(ms, (uint8_t *) NULL, 1)
     if( status != Sane.STATUS_GOOD )
       {
-        DBG(1, "cancel_scan: cancel failed: '%s'\n", Sane.strstatus(status))
+        DBG(1, "cancel_scan: cancel failed: "%s"\n", Sane.strstatus(status))
         status = Sane.STATUS_IO_ERROR
       }
     else
@@ -1121,7 +1121,7 @@ check_option(const char *cp, Config_Options *co)
           }
       }
     else
-        DBG(30, "check_option: invalid option in '%s'\n", cp)
+        DBG(30, "check_option: invalid option in "%s"\n", cp)
 }
 
 
@@ -1157,7 +1157,7 @@ check_inquiry(Microtek2_Device *md, String *model_string)
          && strncmp("        ", mi.vendor, INQ_VENDOR_L) != 0
          && strncmp("AGFA    ", mi.vendor, INQ_VENDOR_L) != 0 )
       {
-        DBG(1, "check_inquiry: Device is not a Microtek, but '%.*s'\n",
+        DBG(1, "check_inquiry: Device is not a Microtek, but "%.*s"\n",
                 INQ_VENDOR_L, mi.vendor)
         return Sane.STATUS_IO_ERROR
       }
@@ -1183,7 +1183,7 @@ check_inquiry(Microtek2_Device *md, String *model_string)
           *model_string = "ScanMaker V300 / ColorPage-EP"
           /* The ScanMaker V300 (FW < 2.70) returns some values for the */
           /* "read image info" command in only two bytes */
-          /* and doesn't understand read_image_status */
+          /* and doesn"t understand read_image_status */
           md.model_flags |= MD_NO_RIS_COMMAND
           if( md.revision < 2.70 )
               md.model_flags |= MD_RII_TWO_BYTES
@@ -1226,7 +1226,7 @@ check_inquiry(Microtek2_Device *md, String *model_string)
           *model_string = "Phantom 330cx / Phantom 336cx / SlimScan C3"
           /* These models do not accept gamma tables. Apparently they */
           /* read the control bits and do not accept shading tables */
-          /* They also don't support enhancements(contrast, brightness...)*/
+          /* They also don"t support enhancements(contrast, brightness...)*/
           md.model_flags |= MD_NO_SLIDE_MODE
                           | MD_NO_GAMMA
 #ifndef NO_PHANTOMTYPE_SHADING
@@ -1261,7 +1261,7 @@ check_inquiry(Microtek2_Device *md, String *model_string)
         case 0x9a:
           *model_string = "Phantom 636cx / C6"
           /* The Phantom 636cx says it supports the SLIDE mode, but it */
-          /* doesn't. Thus inquring the attributes for slide mode would */
+          /* doesn"t. Thus inquring the attributes for slide mode would */
           /* fail. Also it does not accept gamma tables. Apparently */
           /* it reads the control bits and does not accept shading tables */
           md.model_flags |= MD_NO_SLIDE_MODE
@@ -1426,7 +1426,7 @@ do_authorization(char *resource)
     /* encrypted password. If several users are allowed to access a device */
     /* an entry must be created for each user. If no entry exists for device */
     /* or the file does not exist no authentication is necessary. If the */
-    /* file exists, but can't be opened the authentication fails */
+    /* file exists, but can"t be opened the authentication fails */
 
     Sane.Status status
     FILE *fp
@@ -1446,7 +1446,7 @@ do_authorization(char *resource)
     if( auth_callback == NULL )  /* frontend does not require authorization */
         return Sane.STATUS_GOOD
 
-    /* first check if an entry exists in for this device. If not, we don't */
+    /* first check if an entry exists in for this device. If not, we don"t */
     /* use authorization */
 
     fp = fopen(PASSWD_FILE, "r")
@@ -1471,7 +1471,7 @@ do_authorization(char *resource)
         p = index(linep, SEPARATOR)
         if( p )
           {
-            *p = '\0'
+            *p = "\0"
             device = linep
             if( strcmp(device, resource) == 0 )
               {
@@ -1502,7 +1502,7 @@ do_authorization(char *resource)
             p = index(linep, SEPARATOR)
             if( p == NULL )
                 continue
-            *p = '\0'
+            *p = "\0"
             device = linep
             if( strcmp( device, resource) != 0 ) /* not a matching entry */
                 continue
@@ -1512,16 +1512,16 @@ do_authorization(char *resource)
             if( p == NULL )
                 continue
 
-            *p = '\0'
+            *p = "\0"
             user = linep
             if( strncmp(user, username, Sane.MAX_USERNAME_LEN) != 0 )
-                continue;                  /* username doesn't match */
+                continue;                  /* username doesn"t match */
 
             linep = ++p
             /* rest of the line is considered to be the password */
             passwd = linep
             /* remove newline */
-            *(passwd + strlen(passwd) - 1) = '\0'
+            *(passwd + strlen(passwd) - 1) = "\0"
             p = crypt(password, SALT)
             if( strcmp(p, passwd) == 0 )
               {
@@ -1590,7 +1590,7 @@ dump_area(uint8_t *area, Int len, char *info)
               }
             sprintf(outbuf, "%c", isprint(area[o * BPL + i])
                                   ? area[o * BPL + i]
-                                  : '.')
+                                  : ".")
             outbuf += 1
           }
         outbuf = outputline
@@ -1668,9 +1668,9 @@ dump_attributes(Microtek2_Info *mi)
   DBG(1, "========================================\n")
   DBG(1, "Scanner ID...\n")
   DBG(1, "~~~~~~~~~~~~~\n")
-  DBG(1, "  Vendor Name%15s: '%s'\n", " ", mi.vendor)
-  DBG(1, "  Model Name%16s: '%s'\n", " ", mi.model)
-  DBG(1, "  Revision%18s: '%s'\n", " ", mi.revision)
+  DBG(1, "  Vendor Name%15s: "%s"\n", " ", mi.vendor)
+  DBG(1, "  Model Name%16s: "%s"\n", " ", mi.model)
+  DBG(1, "  Revision%18s: "%s"\n", " ", mi.revision)
   DBG(1, "  Model Code%16s: 0x%02x\n"," ", mi.model_code)
   switch(mi.model_code)
     {
@@ -1757,9 +1757,9 @@ dump_attributes(Microtek2_Info *mi)
                   (mi.onepass) ? "" : "es")
   DBG(1, "  Resolution%9s: X-max: %5d dpi\n%35sY-max: %5d dpi\n",
                   " ", mi.max_xresolution, " ",mi.max_yresolution)
-  DBG(1, "  Geometry%11s: Geometric width: %5d pts(%2.2f'')\n", " ",
+  DBG(1, "  Geometry%11s: Geometric width: %5d pts(%2.2f"")\n", " ",
           mi.geo_width, (float) mi.geo_width / (float) mi.opt_resolution)
-  DBG(1, "%23sGeometric height:%5d pts(%2.2f'')\n", " ",
+  DBG(1, "%23sGeometric height:%5d pts(%2.2f"")\n", " ",
           mi.geo_height, (float) mi.geo_height / (float) mi.opt_resolution)
   DBG(1, "  Optical resolution%1s: %d\n", " ", mi.opt_resolution)
 
@@ -1913,7 +1913,7 @@ parse_config_file(FILE *fp, Config_Temp **ct)
     while( sanei_config_read(s, sizeof(s), fp) )
       {
         DBG(100, "parse_config_file: read line: %s\n", s)
-        if( *s == '#' || *s == '\0' )  /* ignore empty lines and comments */
+        if( *s == "#" || *s == "\0" )  /* ignore empty lines and comments */
             continue
 
         if( strncmp( sanei_config_skip_whitespace(s), "option ", 7) == 0
@@ -1936,7 +1936,7 @@ parse_config_file(FILE *fp, Config_Temp **ct)
 
     while( ! feof(fp) && ! ferror(fp) )
       {
-        if( *s == '#' || *s == '\0' )  /* ignore empty lines and comments */
+        if( *s == "#" || *s == "\0" )  /* ignore empty lines and comments */
           {
             sanei_config_read(s, sizeof(s), fp)
             continue
@@ -2015,7 +2015,7 @@ init_options(Microtek2_Scanner *ms, uint8_t current_scan_source)
     var i: Int
     static Int first_call = 1;     /* indicates, whether option */
                                    /* descriptors must be initialized */
-       /* cannot be used as after a Sane.close the sod's must be initialized */
+       /* cannot be used as after a Sane.close the sod"s must be initialized */
 
     DBG(30, "init_options: handle=%p, source=%d\n", (void *) ms,
 	current_scan_source)
@@ -2233,7 +2233,7 @@ init_options(Microtek2_Scanner *ms, uint8_t current_scan_source)
             free((void *) md.custom_gamma_table[color])
         md.custom_gamma_table[color] =
                               (Int *) malloc(tablesize * sizeof(Int))
-        DBG(100, "init_options: md.custom_gamma_table[%d]=%p, malloc'd %lu bytes\n",
+        DBG(100, "init_options: md.custom_gamma_table[%d]=%p, malloc"d %lu bytes\n",
             color, (void *) md.custom_gamma_table[color], (u_long) (tablesize * sizeof(Int)))
         if( md.custom_gamma_table[color] == NULL )
           {
@@ -2969,7 +2969,7 @@ set_option_dependencies(Microtek2_Scanner *ms, Sane.Option_Descriptor *sod,
 
     else
       {
-        DBG(1, "set_option_dependencies: unknown mode '%s'\n",
+        DBG(1, "set_option_dependencies: unknown mode "%s"\n",
                 val[OPT_MODE].s )
         return Sane.STATUS_INVAL
       }
@@ -3571,7 +3571,7 @@ restore_gamma_options(Sane.Option_Descriptor *sod, Option_Value *val)
 {
 
     DBG(40, "restore_gamma_options: val=%p, sod=%p\n", (void *) val, (void *) sod)
-    /* if we don't have a gamma table return immediately */
+    /* if we don"t have a gamma table return immediately */
     if( ! val[OPT_GAMMA_MODE].s )
        return Sane.STATUS_GOOD
 
@@ -3734,7 +3734,7 @@ calculate_Sane.params(Microtek2_Scanner *ms)
         ms.params.last_frame = Sane.TRUE
     ms.params.lines = ms.src_remaining_lines
     ms.params.pixels_per_line = ms.ppl
-    ms.params.bytes_per_line = ms.real_bpl
+    ms.params.bytesPerLine = ms.real_bpl
     ms.params.depth = ms.bits_per_pixel_out
 
     return Sane.STATUS_GOOD
@@ -4004,7 +4004,7 @@ get_scan_mode_and_depth(Microtek2_Scanner *ms,
 {
     /* This function translates the strings for the possible modes and */
     /* bitdepth into a more conveniant format as needed for SET WINDOW. */
-    /* bits_per_pixel is the number of bits per color one pixel needs */
+    /* bitsPerPixel is the number of bits per color one pixel needs */
     /* when transferred from the scanner, bits_perpixel_out is the */
     /* number of bits per color one pixel uses when transferred to the */
     /* frontend. These may be different. For example, with a depth of 4 */
@@ -4141,12 +4141,12 @@ scsi_wait_for_image(Microtek2_Scanner *ms)
             return status
 
         /* status != GOOD && != BUSY */
-        DBG(1, "scsi_wait_for_image: '%s'\n", Sane.strstatus(status))
+        DBG(1, "scsi_wait_for_image: "%s"\n", Sane.strstatus(status))
         return status
       }
 
     /* BUSY after n retries */
-    DBG(1, "scsi_wait_for_image: '%s'\n", Sane.strstatus(status))
+    DBG(1, "scsi_wait_for_image: "%s"\n", Sane.strstatus(status))
     return status
 }
 
@@ -4177,7 +4177,7 @@ scsi_read_gamma(Microtek2_Scanner *ms, Int color)
     status = sanei_scsi_cmd(ms.sfd, readgamma, sizeof(readgamma),
                             result, &size)
     if( status != Sane.STATUS_GOOD ) {
-        DBG(1, "scsi_read_gamma: (L,R) read_gamma failed: status '%s'\n",
+        DBG(1, "scsi_read_gamma: (L,R) read_gamma failed: status "%s"\n",
                 Sane.strstatus(status))
         return status
     }
@@ -4208,7 +4208,7 @@ scsi_send_gamma(Microtek2_Scanner *ms)
         cmd = (uint8_t *) alloca(SG_CMD_L + 3 * ms.lut_size_bytes)
         if( cmd == NULL )
           {
-            DBG(1, "scsi_send_gamma: Couldn't get buffer for gamma table\n")
+            DBG(1, "scsi_send_gamma: Couldn"t get buffer for gamma table\n")
             return Sane.STATUS_IO_ERROR
           }
 
@@ -4227,7 +4227,7 @@ scsi_send_gamma(Microtek2_Scanner *ms)
 
         status = sanei_scsi_cmd(ms.sfd, cmd, size + SG_CMD_L, NULL, 0)
         if( status != Sane.STATUS_GOOD )
-                DBG(1, "scsi_send_gamma: '%s'\n", Sane.strstatus(status))
+                DBG(1, "scsi_send_gamma: "%s"\n", Sane.strstatus(status))
       }
 
     else  /* send gamma with 3 commands, one for each color */
@@ -4237,7 +4237,7 @@ scsi_send_gamma(Microtek2_Scanner *ms)
             cmd = (uint8_t *) alloca(SG_CMD_L + ms.lut_size_bytes)
             if( cmd == NULL )
               {
-                DBG(1, "scsi_send_gamma: Couldn't get buffer for gamma table\n")
+                DBG(1, "scsi_send_gamma: Couldn"t get buffer for gamma table\n")
                 return Sane.STATUS_IO_ERROR
               }
             SG_SET_CMD(cmd)
@@ -4257,7 +4257,7 @@ scsi_send_gamma(Microtek2_Scanner *ms)
 
             status = sanei_scsi_cmd(ms.sfd, cmd, size + SG_CMD_L, NULL, 0)
             if( status != Sane.STATUS_GOOD )
-                    DBG(1, "scsi_send_gamma: '%s'\n", Sane.strstatus(status))
+                    DBG(1, "scsi_send_gamma: "%s"\n", Sane.strstatus(status))
           }
 
       }
@@ -4279,12 +4279,12 @@ scsi_inquiry(Microtek2_Info *mi, char *device)
     Int sfd
 
 
-    DBG(30, "scsi_inquiry: mi=%p, device='%s'\n", (void *) mi, device)
+    DBG(30, "scsi_inquiry: mi=%p, device="%s"\n", (void *) mi, device)
 
     status = sanei_scsi_open(device, &sfd, scsi_sense_handler, 0)
     if( status != Sane.STATUS_GOOD )
       {
-        DBG(1, "scsi_inquiry: '%s'\n", Sane.strstatus(status))
+        DBG(1, "scsi_inquiry: "%s"\n", Sane.strstatus(status))
         return status
       }
 
@@ -4302,7 +4302,7 @@ scsi_inquiry(Microtek2_Info *mi, char *device)
     status = sanei_scsi_cmd(sfd, cmd, sizeof(cmd), result, &size)
     if( status != Sane.STATUS_GOOD )
       {
-        DBG(1, "scsi_inquiry: '%s'\n", Sane.strstatus(status))
+        DBG(1, "scsi_inquiry: "%s"\n", Sane.strstatus(status))
         sanei_scsi_close(sfd)
         return status
       }
@@ -4323,7 +4323,7 @@ scsi_inquiry(Microtek2_Info *mi, char *device)
     status = sanei_scsi_cmd(sfd, cmd, sizeof(cmd), result, &size)
     if( status != Sane.STATUS_GOOD )
       {
-        DBG(1, "scsi_inquiry: cmd '%s'\n", Sane.strstatus(status))
+        DBG(1, "scsi_inquiry: cmd "%s"\n", Sane.strstatus(status))
         sanei_scsi_close(sfd)
         return status
       }
@@ -4364,7 +4364,7 @@ scsi_read_attributes(Microtek2_Info *pmi, char *device, uint8_t scan_source)
 
     mi = &pmi[scan_source]
 
-    DBG(30, "scsi_read_attributes: mi=%p, device='%s', source=%d\n",
+    DBG(30, "scsi_read_attributes: mi=%p, device="%s", source=%d\n",
              (void *) mi, device, scan_source)
 
     RSA_CMD(readattributes)
@@ -4372,7 +4372,7 @@ scsi_read_attributes(Microtek2_Info *pmi, char *device, uint8_t scan_source)
     status = sanei_scsi_open(device, &sfd, scsi_sense_handler, 0)
     if( status != Sane.STATUS_GOOD )
       {
-        DBG(1, "scsi_read_attributes: open '%s'\n", Sane.strstatus(status))
+        DBG(1, "scsi_read_attributes: open "%s"\n", Sane.strstatus(status))
         return status
       }
 
@@ -4384,7 +4384,7 @@ scsi_read_attributes(Microtek2_Info *pmi, char *device, uint8_t scan_source)
                             sizeof(readattributes), result, &size)
     if( status != Sane.STATUS_GOOD )
       {
-        DBG(1, "scsi_read_attributes: cmd '%s'\n", Sane.strstatus(status))
+        DBG(1, "scsi_read_attributes: cmd "%s"\n", Sane.strstatus(status))
         sanei_scsi_close(sfd)
         return status
       }
@@ -4422,7 +4422,7 @@ scsi_read_attributes(Microtek2_Info *pmi, char *device, uint8_t scan_source)
     RSA_GEOHEIGHT(mi.geo_height, result)
     RSA_OPTRESOLUTION(mi.opt_resolution, result)
     RSA_DEPTH(mi.depth, result)
-    /* The X12USL doesn't say that it has 14bit */
+    /* The X12USL doesn"t say that it has 14bit */
     if( (&pmi[0])->model_code == 0xb0 )
         mi.depth |= MI_HASDEPTH_14
     RSA_SCANMODE(mi.scanmode, result)
@@ -4481,7 +4481,7 @@ scsi_read_control_bits(Microtek2_Scanner *ms)
 
     if( status != Sane.STATUS_GOOD )
       {
-        DBG(1, "scsi_read_control_bits: cmd '%s'\n", Sane.strstatus(status))
+        DBG(1, "scsi_read_control_bits: cmd "%s"\n", Sane.strstatus(status))
         return status
       }
 
@@ -4499,7 +4499,7 @@ scsi_read_control_bits(Microtek2_Scanner *ms)
                 ++count_1s
           }
       }
-    DBG(20, "read_control_bits: number of 1's in controlbytes: %d\n", count_1s)
+    DBG(20, "read_control_bits: number of 1"s in controlbytes: %d\n", count_1s)
 
     return Sane.STATUS_GOOD
 }
@@ -4519,7 +4519,7 @@ scsi_set_window(Microtek2_Scanner *ms, Int n) {   /* n windows, not yet */
 
     size = SW_CMD_L + SW_HEADER_L + n * SW_BODY_L
     setwindow = (uint8_t *) malloc(size)
-    DBG(100, "scsi_set_window: setwindow= %p, malloc'd %d Bytes\n",
+    DBG(100, "scsi_set_window: setwindow= %p, malloc"d %d Bytes\n",
               setwindow, size)
     if( setwindow == NULL )
       {
@@ -4560,8 +4560,8 @@ scsi_set_window(Microtek2_Scanner *ms, Int n) {   /* n windows, not yet */
     SW_SHADOW_M(POS, ms.shadow_m)
     SW_MIDTONE_M(POS, ms.midtone_m)
     SW_HIGHLIGHT_M(POS, ms.highlight_m)
-    /* the following properties are only referenced if it's a color scan */
-    /* but I guess they don't matter at a gray scan */
+    /* the following properties are only referenced if it"s a color scan */
+    /* but I guess they don"t matter at a gray scan */
     SW_BRIGHTNESS_R(POS, ms.brightness_r)
     SW_CONTRAST_R(POS, ms.contrast_r)
     SW_EXPOSURE_R(POS, ms.exposure_r)
@@ -4590,7 +4590,7 @@ scsi_set_window(Microtek2_Scanner *ms, Int n) {   /* n windows, not yet */
 
     status = sanei_scsi_cmd(ms.sfd, setwindow, size, NULL, 0)
     if( status != Sane.STATUS_GOOD )
-        DBG(1, "scsi_set_window: '%s'\n", Sane.strstatus(status))
+        DBG(1, "scsi_set_window: "%s"\n", Sane.strstatus(status))
 
     DBG(100, "scsi_set_window: free setwindow at %p\n", setwindow)
     free((void *) setwindow)
@@ -4622,7 +4622,7 @@ scsi_read_image_info(Microtek2_Scanner *ms)
     status = sanei_scsi_cmd(ms.sfd, cmd, sizeof(cmd), result, &size)
     if( status != Sane.STATUS_GOOD )
       {
-        DBG(1, "scsi_read_image_info: '%s'\n", Sane.strstatus(status))
+        DBG(1, "scsi_read_image_info: "%s"\n", Sane.strstatus(status))
         return status
       }
 
@@ -4700,7 +4700,7 @@ scsi_read_image(Microtek2_Scanner *ms, uint8_t *buffer, Int bytes_per_pixel)
       }
 
     if( status != Sane.STATUS_GOOD )
-        DBG(1, "scsi_read_image: '%s'\n", Sane.strstatus(status))
+        DBG(1, "scsi_read_image: "%s"\n", Sane.strstatus(status))
 
     if( md_dump > 3 )
         dump_area2(buffer, ms.transfer_length, "readimageresult")
@@ -4764,17 +4764,17 @@ scsi_read_image_status(Microtek2_Scanner *ms)
         We say we are going to try to read 1 byte of data(as recommended
         in the Microtek SCSI command documentation under "New Image Status")
         so that dubious SCSI host adapters(like the one in at least some
-        Microtek X6 USB scanners) don't get wedged trying to do a zero
+        Microtek X6 USB scanners) don"t get wedged trying to do a zero
         length read. However, we do not actually try to read this byte of
         data, as that wedges the USB scanner as well.
         IOW the SCSI command says we are going to read 1 byte, but in fact
-        we don't: */
+        we don"t: */
         /*cmd[8] = 1
         status = sanei_scsi_cmd(ms.sfd, cmd, sizeof(cmd), &dummy, 0); */
 
 
     if( status != Sane.STATUS_GOOD )
-        DBG(1, "scsi_read_image_status: '%s'\n", Sane.strstatus(status))
+        DBG(1, "scsi_read_image_status: "%s"\n", Sane.strstatus(status))
 
     return status
 }
@@ -4811,7 +4811,7 @@ scsi_read_shading(Microtek2_Scanner *ms, uint8_t *buffer, uint32_t length)
 
     status = sanei_scsi_cmd(ms.sfd, cmd, sizeof(cmd), buffer, &size)
     if( status != Sane.STATUS_GOOD )
-        DBG(1, "scsi_read_shading: '%s'\n", Sane.strstatus(status))
+        DBG(1, "scsi_read_shading: "%s"\n", Sane.strstatus(status))
 
     if( md_dump > 3)
         dump_area2(buffer,
@@ -4841,11 +4841,11 @@ scsi_send_shading(Microtek2_Scanner *ms,
              dark)
 
     cmd = (uint8_t *) malloc(SSI_CMD_L + length)
-    DBG(100, "scsi_send_shading: cmd=%p, malloc'd %d bytes\n",
+    DBG(100, "scsi_send_shading: cmd=%p, malloc"d %d bytes\n",
               cmd, SSI_CMD_L + length)
     if( cmd == NULL )
       {
-        DBG(1, "scsi_send_shading: Couldn't get buffer for shading table\n")
+        DBG(1, "scsi_send_shading: Couldn"t get buffer for shading table\n")
         return Sane.STATUS_NO_MEM
       }
 
@@ -4866,7 +4866,7 @@ scsi_send_shading(Microtek2_Scanner *ms,
 
     status = sanei_scsi_cmd(ms.sfd, cmd, size + SSI_CMD_L, NULL, 0)
     if( status != Sane.STATUS_GOOD )
-        DBG(1, "scsi_send_shading: '%s'\n", Sane.strstatus(status))
+        DBG(1, "scsi_send_shading: "%s"\n", Sane.strstatus(status))
 
     DBG(100, "free cmd at %p\n", cmd)
     free((void *) cmd)
@@ -4894,7 +4894,7 @@ scsi_read_system_status(Microtek2_Device *md, Int fd)
         status = sanei_scsi_open(md.name, &sfd, scsi_sense_handler, 0)
         if( status != Sane.STATUS_GOOD )
           {
-            DBG(1, "scsi_read_system_status: open '%s'\n",
+            DBG(1, "scsi_read_system_status: open "%s"\n",
                     Sane.strstatus(status))
             return status
           }
@@ -4912,7 +4912,7 @@ scsi_read_system_status(Microtek2_Device *md, Int fd)
 
     if( status != Sane.STATUS_GOOD )
       {
-        DBG(1, "scsi_read_system_status: cmd '%s'\n", Sane.strstatus(status))
+        DBG(1, "scsi_read_system_status: cmd "%s"\n", Sane.strstatus(status))
         sanei_scsi_close(sfd)
         return status
       }
@@ -4974,7 +4974,7 @@ scsi_request_sense(Microtek2_Scanner *ms)
 
     if( status != Sane.STATUS_GOOD )
       {
-        DBG(1, "scsi_request_sense: '%s'\n", Sane.strstatus(status))
+        DBG(1, "scsi_request_sense: "%s"\n", Sane.strstatus(status))
         return status
       }
 
@@ -4984,7 +4984,7 @@ scsi_request_sense(Microtek2_Scanner *ms)
     dump_area(buffer, RQS_LENGTH(buffer), "RequestSense")
     asl = RQS_ASL(buffer)
     if( (as_info_length = RQS_ASINFOLENGTH(buffer)) > 0 )
-        DBG(25, "scsi_request_sense: info '%.*s'\n",
+        DBG(25, "scsi_request_sense: info "%.*s"\n",
                 as_info_length, RQS_ASINFO(buffer))
 
     return Sane.STATUS_GOOD
@@ -5011,7 +5011,7 @@ scsi_send_system_status(Microtek2_Device *md, Int fd)
         status = sanei_scsi_open(md.name, &sfd, scsi_sense_handler, 0)
         if( status != Sane.STATUS_GOOD )
           {
-            DBG(1, "scsi_send_system_status: open '%s'\n",
+            DBG(1, "scsi_send_system_status: open "%s"\n",
                     Sane.strstatus(status))
             return status
           }
@@ -5050,7 +5050,7 @@ scsi_send_system_status(Microtek2_Device *md, Int fd)
 
     status = sanei_scsi_cmd(sfd, cmd, sizeof(cmd), NULL, 0)
     if( status != Sane.STATUS_GOOD )
-        DBG(1, "scsi_send_system_status: '%s'\n", Sane.strstatus(status))
+        DBG(1, "scsi_send_system_status: "%s"\n", Sane.strstatus(status))
 
     if( fd == -1 )
         sanei_scsi_close(sfd)
@@ -5059,7 +5059,7 @@ scsi_send_system_status(Microtek2_Device *md, Int fd)
 
 
 /*---------- scsi_sense_handler() --------------------------------------------*/
-/* rewritten 19.12.2001 for better Sane.STATUS return codes */
+/* rewritten 19.12.2001 for better Sane.Status return codes */
 
 static Sane.Status
 scsi_sense_handler(Int fd, u_char *sense, void *arg)
@@ -5082,7 +5082,7 @@ scsi_sense_handler(Int fd, u_char *sense, void *arg)
            "ASC(0x%02x), ASCQ(0x%02x)\n", sense_key, asc, ascq)
 
     if( (as_info_length = RQS_ASINFOLENGTH(sense)) > 0 )
-        DBG(5,"scsi_sense_handler: info: '%*s'\n",
+        DBG(5,"scsi_sense_handler: info: "%*s"\n",
                 as_info_length, RQS_ASINFO(sense))
 
     switch( sense_key )
@@ -5157,7 +5157,7 @@ scsi_sense_handler(Int fd, u_char *sense, void *arg)
           else if( asc == 0x54 && ascq == 0x00 )
             {
               DBG(5, "scsi_sense_handler: Media bumping\n")
-              return Sane.STATUS_JAMMED; /* Don't know if this is right! */
+              return Sane.STATUS_JAMMED; /* Don"t know if this is right! */
             }
           else if( asc == 0x55 && ascq == 0x00 )
             {
@@ -5225,7 +5225,7 @@ scsi_test_unit_ready(Microtek2_Device *md)
     status = sanei_scsi_open(md.name, &sfd, scsi_sense_handler, 0)
     if( status != Sane.STATUS_GOOD )
       {
-	DBG(1, "scsi_test_unit_ready: open '%s'\n", Sane.strstatus(status))
+	DBG(1, "scsi_test_unit_ready: open "%s"\n", Sane.strstatus(status))
 	return status
       }
 
@@ -5234,7 +5234,7 @@ scsi_test_unit_ready(Microtek2_Device *md)
 
     status = sanei_scsi_cmd(sfd, tur, sizeof(tur), NULL, 0)
     if( status != Sane.STATUS_GOOD )
-        DBG(1, "scsi_test_unit_ready: cmd '%s'\n", Sane.strstatus(status))
+        DBG(1, "scsi_test_unit_ready: cmd "%s"\n", Sane.strstatus(status))
 
     sanei_scsi_close(sfd)
     return status
@@ -5263,7 +5263,7 @@ Sane.start(Sane.Handle handle)
       {
         if(ms.control_bytes) free((void *)ms.control_bytes)
         ms.control_bytes = (uint8_t *) malloc(ms.n_control_bytes)
-        DBG(100, "Sane.start: ms.control_bytes=%p, malloc'd %lu bytes\n",
+        DBG(100, "Sane.start: ms.control_bytes=%p, malloc"d %lu bytes\n",
                              ms.control_bytes, (u_long) ms.n_control_bytes)
         if( ms.control_bytes == NULL )
           {
@@ -5287,7 +5287,7 @@ Sane.start(Sane.Handle handle)
 	  }
         if( status != Sane.STATUS_GOOD )
           {
-            DBG(1, "Sane.start: scsi_open: '%s'\n", Sane.strstatus(status))
+            DBG(1, "Sane.start: scsi_open: "%s"\n", Sane.strstatus(status))
             goto cleanup
           }
 
@@ -5372,7 +5372,7 @@ Sane.start(Sane.Handle handle)
         ms.word = (ms.lut_entry_size == 2)
 
         ms.gamma_table = (uint8_t *) malloc(3 * ms.lut_size_bytes )
-        DBG(100, "Sane.start: ms.gamma_table=%p, malloc'd %d bytes\n",
+        DBG(100, "Sane.start: ms.gamma_table=%p, malloc"d %d bytes\n",
                   ms.gamma_table, 3 * ms.lut_size_bytes)
         if( ms.gamma_table == NULL )
           {
@@ -5424,7 +5424,7 @@ Sane.start(Sane.Handle handle)
 
     if( !( md.model_flags & MD_NO_RIS_COMMAND ) )
       {
-        /* !!FIXME!! - hack for C6USB because RIS over USB doesn't wait until */
+        /* !!FIXME!! - hack for C6USB because RIS over USB doesn"t wait until */
         /* scanner ready */
         if(mi.model_code == 0x9a)
             sleep(2)
@@ -5559,7 +5559,7 @@ prepare_buffers(Microtek2_Scanner *ms)
             ms.buf.src_buffer[i] = (uint8_t *) malloc(ms.src_buffer_size
                                     + extra_buf_size)
             DBG(100, "prepare_buffers: ms.buf.src_buffer[%d]=%p,"
-                     "malloc'd %d bytes\n", i, ms.buf.src_buffer[i],
+                     "malloc"d %d bytes\n", i, ms.buf.src_buffer[i],
                      ms.src_buffer_size + extra_buf_size)
             if( ms.buf.src_buffer[i] == NULL )
               {
@@ -5578,7 +5578,7 @@ prepare_buffers(Microtek2_Scanner *ms)
         if( ms.buf.src_buf )
             free((void *) ms.buf.src_buf)
         ms.buf.src_buf = malloc(ms.src_buffer_size)
-        DBG(100, "Sane.start: ms.buf.src_buf=%p, malloc'd %d bytes\n",
+        DBG(100, "Sane.start: ms.buf.src_buf=%p, malloc"d %d bytes\n",
                             ms.buf.src_buf, ms.src_buffer_size)
         if( ms.buf.src_buf == NULL )
           {
@@ -5601,7 +5601,7 @@ prepare_buffers(Microtek2_Scanner *ms)
     if( ms.auto_adjust == 1 )
       {
         ms.temporary_buffer = (uint8_t *) malloc(ms.remaining_bytes)
-        DBG(100, "Sane.start: ms.temporary_buffer=%p, malloc'd %d bytes\n",
+        DBG(100, "Sane.start: ms.temporary_buffer=%p, malloc"d %d bytes\n",
                   ms.temporary_buffer, ms.remaining_bytes)
         if( ms.temporary_buffer == NULL )
           {
@@ -5615,7 +5615,7 @@ prepare_buffers(Microtek2_Scanner *ms)
 
     /* some data formats have additional information in a scan line, which */
     /* is not transferred to the frontend; real_bpl is the number of bytes */
-    /* per line, that is copied into the frontend's buffer */
+    /* per line, that is copied into the frontend"s buffer */
     ms.real_bpl = (uint32_t) ceil( ((double) ms.ppl *
                                       (double) ms.bits_per_pixel_out) / 8.0 )
     if( mi.onepass && ms.mode == MS_MODE_COLOR )
@@ -5863,8 +5863,8 @@ static Sane.Status
 condense_shading(Microtek2_Scanner *ms)
 {
     /* This function extracts the relevant shading pixels from */
-    /* the shading image according to the 1's in the result of */
-    /* 'read control bits', and stores them in a memory block. */
+    /* the shading image according to the 1"s in the result of */
+    /* "read control bits", and stores them in a memory block. */
     /* We will then have as many shading pixels as there are */
     /* pixels per line. The order of the pixels in the condensed */
     /* shading data block will always be left to right. The color */
@@ -5918,7 +5918,7 @@ condense_shading(Microtek2_Scanner *ms)
       }
     ms.condensed_shading_w = (uint8_t *)malloc(cond_length)
     DBG(100, "condense_shading: ms.condensed_shading_w=%p,"
-             "malloc'd %d bytes\n", ms.condensed_shading_w, cond_length)
+             "malloc"d %d bytes\n", ms.condensed_shading_w, cond_length)
     if( ms.condensed_shading_w == NULL )
       {
         DBG(1, "condense_shading: malloc for white table failed\n")
@@ -5938,7 +5938,7 @@ condense_shading(Microtek2_Scanner *ms)
           }
         ms.condensed_shading_d = (uint8_t *)malloc(cond_length)
         DBG(100, "condense_shading: ms.condensed_shading_d=%p,"
-                 " malloc'd %d bytes\n", ms.condensed_shading_d, cond_length)
+                 " malloc"d %d bytes\n", ms.condensed_shading_d, cond_length)
         if( ms.condensed_shading_d == NULL )
           {
             DBG(1, "condense_shading: malloc for dark table failed\n")
@@ -5961,7 +5961,7 @@ condense_shading(Microtek2_Scanner *ms)
         else
             flag = ((ms.control_bytes[byte] >> (7 - bit)) & 0x01)
 
-        if( flag == 1 ) /* flag==1 if byte's bit is set */
+        if( flag == 1 ) /* flag==1 if byte"s bit is set */
           {
             for( color = 0; color < 3; ++color )
               {
@@ -6099,7 +6099,7 @@ read_shading_image(Microtek2_Scanner *ms)
 
         ms.shading_image = malloc(ms.bpl * ms.src_remaining_lines)
         DBG(100, "read shading image: ms.shading_image=%p,"
-                 " malloc'd %d bytes\n",
+                 " malloc"d %d bytes\n",
                ms.shading_image, ms.bpl * ms.src_remaining_lines)
         if( ms.shading_image == NULL )
           {
@@ -6132,7 +6132,7 @@ read_shading_image(Microtek2_Scanner *ms)
 #endif
             if( status != Sane.STATUS_GOOD )
               {
-                DBG(1, "read_shading_image: read image failed: '%s'\n",
+                DBG(1, "read_shading_image: read image failed: "%s"\n",
                         Sane.strstatus(status))
                 return status
               }
@@ -6240,7 +6240,7 @@ read_shading_image(Microtek2_Scanner *ms)
 #endif
 
     ms.shading_image = malloc(ms.bpl * ms.src_remaining_lines)
-    DBG(100, "read shading image: ms.shading_image=%p, malloc'd %d bytes\n",
+    DBG(100, "read shading image: ms.shading_image=%p, malloc"d %d bytes\n",
               ms.shading_image, ms.bpl * ms.src_remaining_lines)
     if( ms.shading_image == NULL )
       {
@@ -6372,7 +6372,7 @@ prepare_shading_data(Microtek2_Scanner *ms, uint32_t lines, uint8_t **data)
   if( *data == NULL )
     {
       *data = (uint8_t *) malloc(length)
-      DBG(100, "prepare_shading_data: malloc'd %d bytes at %p\n",
+      DBG(100, "prepare_shading_data: malloc"d %d bytes at %p\n",
                 length, *data)
       if( *data == NULL )
         {
@@ -6383,7 +6383,7 @@ prepare_shading_data(Microtek2_Scanner *ms, uint32_t lines, uint8_t **data)
 
 #ifdef  MICROTEK2_CALIB_USE_MEDIAN
   sortbuf = malloc( lines * ms.lut_entry_size )
-  DBG(100, "prepare_shading_data: sortbuf= %p, malloc'd %d Bytes\n",
+  DBG(100, "prepare_shading_data: sortbuf= %p, malloc"d %d Bytes\n",
             (void *) sortbuf, lines * ms.lut_entry_size)
   if( sortbuf == NULL )
     {
@@ -6596,7 +6596,7 @@ read_cx_shading_image(Microtek2_Scanner *ms)
         ms.shading_image = NULL
       }
     ms.shading_image = malloc(shading_bytes)
-    DBG(100, "read_cx_shading: ms.shading_image=%p, malloc'd %d bytes\n",
+    DBG(100, "read_cx_shading: ms.shading_image=%p, malloc"d %d bytes\n",
            ms.shading_image, shading_bytes)
     if( ms.shading_image == NULL )
       {
@@ -6625,7 +6625,7 @@ read_cx_shading_image(Microtek2_Scanner *ms)
         status = scsi_read_shading(ms, buf, buffer_size)
         if( status != Sane.STATUS_GOOD )
           {
-            DBG(1, "read_cx_shading: '%s'\n", Sane.strstatus(status))
+            DBG(1, "read_cx_shading: "%s"\n", Sane.strstatus(status))
             return status
           }
         remaining_lines -= lines_to_read
@@ -6635,7 +6635,7 @@ read_cx_shading_image(Microtek2_Scanner *ms)
     status = calc_cx_shading_line(ms)
     if( status != Sane.STATUS_GOOD )
       {
-        DBG(1, "read_cx_shading: '%s'\n", Sane.strstatus(status))
+        DBG(1, "read_cx_shading: "%s"\n", Sane.strstatus(status))
         return status
       }
 
@@ -6670,7 +6670,7 @@ calc_cx_shading_line(Microtek2_Scanner *ms)
     status = Sane.STATUS_GOOD
 
     sortbuf = malloc( md.shading_length * sizeof(float) )
-    DBG(100, "calc_cx_shading: sortbuf= %p, malloc'd %lu Bytes\n",
+    DBG(100, "calc_cx_shading: sortbuf= %p, malloc"d %lu Bytes\n",
 	(void *) sortbuf, (u_long) (md.shading_length * sizeof(float)))
     if( sortbuf == NULL )
       {
@@ -6693,7 +6693,7 @@ calc_cx_shading_line(Microtek2_Scanner *ms)
         if( md.shading_table_w )
             free( (void *)md.shading_table_w )
         md.shading_table_w = (uint8_t *) malloc(shading_line_bytes)
-        DBG(100, "calc_cx_shading: md.shading_table_w=%p, malloc'd %d bytes\n",
+        DBG(100, "calc_cx_shading: md.shading_table_w=%p, malloc"d %d bytes\n",
                md.shading_table_w, shading_line_bytes)
         if( md.shading_table_w == NULL )
           {
@@ -6710,7 +6710,7 @@ calc_cx_shading_line(Microtek2_Scanner *ms)
         if( md.shading_table_d )
             free( (void *)md.shading_table_d)
         md.shading_table_d = (uint8_t *) malloc(shading_line_bytes)
-        DBG(100, "calc_cx_shading: md.shading_table_d=%p, malloc'd %d bytes\n",
+        DBG(100, "calc_cx_shading: md.shading_table_d=%p, malloc"d %d bytes\n",
                md.shading_table_d, shading_line_bytes)
 
         if( md.shading_table_d == NULL )
@@ -7413,13 +7413,13 @@ segreg_proc_data(Microtek2_Scanner *ms)
       {
         switch( *from )
           {
-            case 'R':
+            case "R":
               ++ms.buf.planes[0][MS_COLOR_RED]
               break
-            case 'G':
+            case "G":
               ++ms.buf.planes[0][MS_COLOR_GREEN]
               break
-            case 'B':
+            case "B":
               ++ms.buf.planes[0][MS_COLOR_BLUE]
               break
             default:
@@ -7609,7 +7609,7 @@ segreg_copy_pixels(Microtek2_Scanner *ms)
 
                 val *= f[color]
 
-                /* if scanner doesn't support brightness, contrast */
+                /* if scanner doesn"t support brightness, contrast */
                 if( md.model_flags & MD_NO_ENHANCEMENTS )
                   {
                      val += ( ( ms.brightness_m - 128 ) * 2 )
@@ -7737,7 +7737,7 @@ lplconcat_copy_pixels(Microtek2_Scanner *ms,
   float f[3];                            /* color balance factor */
   float val, maxval = 0
   Int color
-  Int step, scale1, scale2
+  step: Int, scale1, scale2
   var i: Int
 
 
@@ -7806,7 +7806,7 @@ lplconcat_copy_pixels(Microtek2_Scanner *ms,
 
               val *= f[color]; /* apply color balance */
 
-              /* if scanner doesn't support brightness, contrast ... */
+              /* if scanner doesn"t support brightness, contrast ... */
               if( md.model_flags & MD_NO_ENHANCEMENTS )
                 {
                    val += ( ( ms.brightness_m - 128 ) * 2 )
@@ -7988,7 +7988,7 @@ gray_copy_pixels(Microtek2_Scanner *ms,
     uint32_t pixel
     uint16_t val16
     uint8_t val8
-    Int step, scale1, scale2
+    step: Int, scale1, scale2
     float val, maxval = 0
     float s_w, s_d, shading_factor = 0
 
@@ -8224,7 +8224,7 @@ lineartfake_copy_pixels(Microtek2_Scanner *ms,
     uint8_t dest
     uint8_t val
     float s_d, s_w, maxval, shading_factor, grayval
-    Int step
+    step: Int
 
 
     DBG(30, "lineartfake_copy_pixels: from=%p,pixels=%d,threshold=%d,file=%p\n",

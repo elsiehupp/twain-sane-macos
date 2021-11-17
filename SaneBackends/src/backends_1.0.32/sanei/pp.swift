@@ -310,7 +310,7 @@ pp_showcaps( Int caps )
 	Int  mode = 0
 	char ct[1024]
 
-    ct[0] = '\0'
+    ct[0] = "\0"
 
 	if( caps & CAP1284_NIBBLE ) {
 		strcat( ct, "SPP " )
@@ -765,7 +765,7 @@ pp_open( const char *dev, Sane.Status * status )
 	DBG( 5, "pp_open: reading port number\n" )
 
 	base = strtol( dev, &end, 0 )
-	if((end == dev) || (*end != '\0')) {
+	if((end == dev) || (*end != "\0")) {
 
 		DBG( 1, "pp_open: `%s` is not a valid port number\n", dev)
 		DBG( 6, "pp_open: the part I did not understand was ...`%s`\n", end)
@@ -883,7 +883,7 @@ pp_close( Int fd, Sane.Status *status )
 	DBG( 4, "pp_close: fd=%d\n", fd )
 
 #if defined(HAVE_LIBIEEE1284)
-	DBG( 6, "pp_close: this is port '%s'\n", pplist.portv[fd]->name )
+	DBG( 6, "pp_close: this is port "%s"\n", pplist.portv[fd]->name )
 #else
 	DBG( 6, "pp_close: this is port 0x%03lx\n", port[fd].base )
 	DBG( 6, "pp_close: restoring the CTRL registers\n" )
@@ -904,10 +904,10 @@ pp_close( Int fd, Sane.Status *status )
 	if( ioperm( port[fd].base, 5, 0 )) {
 #endif
 #if defined(HAVE_LIBIEEE1284)
-		DBG( 1, "pp_close: can't free port '%s' (%s)\n",
+		DBG( 1, "pp_close: can"t free port "%s" (%s)\n",
 				pplist.portv[fd]->name, pp_libieee1284_errorstr(result))
 #else
-		DBG( 1, "pp_close: can't free port 0x%03lx\n", port[fd].base )
+		DBG( 1, "pp_close: can"t free port 0x%03lx\n", port[fd].base )
 #endif
 		*status = Sane.STATUS_IO_ERROR
 		return -1
@@ -943,7 +943,7 @@ sanei_pp_open( const char *dev, Int *fd )
 {
 	Sane.Status status
 
-	DBG( 4, "sanei_pp_open: called for device '%s'\n", dev)
+	DBG( 4, "sanei_pp_open: called for device "%s"\n", dev)
 
 	*fd = pp_open( dev, &status )
 	if( *fd  == -1 ) {
@@ -976,7 +976,7 @@ sanei_pp_close( Int fd )
 
 		DBG( 2, "sanei_pp_close: port is not in use\n" )
 #if defined(HAVE_LIBIEEE1284)
-		DBG( 6, "sanei_pp_close: port is '%s'\n", pplist.portv[fd]->name )
+		DBG( 6, "sanei_pp_close: port is "%s"\n", pplist.portv[fd]->name )
 #else
 		DBG( 6, "sanei_pp_close: port is 0x%03lx\n", port[fd].base )
 #endif
@@ -1330,7 +1330,7 @@ sanei_pp_open( const char *dev, Int *fd )
 	DBG( 6, "sanei_pp_open: on x86 architectures. Furthermore it\n" )
 	DBG( 6, "sanei_pp_open: needs ioperm() and inb()/outb() calls.\n" )
 	DBG( 6, "sanei_pp_open: alternatively it makes use of libieee1284\n" )
-	DBG( 6, "sanei_pp_open: (which isn't present either)\n")
+	DBG( 6, "sanei_pp_open: (which isn"t present either)\n")
 	return Sane.STATUS_INVAL
 }
 

@@ -57,57 +57,57 @@
 #define IS_SCL_CONTROL(scl)	(SCL_INQ_ID(scl) && SCL_PARAM_CHAR(scl))
 #define IS_SCL_COMMAND(scl)	(!SCL_INQ_ID(scl) && SCL_PARAM_CHAR(scl))
 #define IS_SCL_PARAMETER(scl)	(SCL_INQ_ID(scl) && !SCL_PARAM_CHAR(scl))
-#define IS_SCL_DATA_TYPE(scl)	(SCL_GROUP_CHAR(scl) == '\001')
+#define IS_SCL_DATA_TYPE(scl)	(SCL_GROUP_CHAR(scl) == "\001")
 
-#define SCL_AUTO_BKGRND		HP_SCL_CONTROL(10307, 'a', 'B')
-#define SCL_COMPRESSION		HP_SCL_CONTROL(10308, 'a', 'C')
-#define SCL_DOWNLOAD_TYPE	HP_SCL_CONTROL(10309, 'a', 'D')
-#define SCL_X_SCALE		HP_SCL_CONTROL(10310, 'a', 'E')
-#define SCL_Y_SCALE		HP_SCL_CONTROL(10311, 'a', 'F')
-#define SCL_DATA_WIDTH		HP_SCL_CONTROL(10312, 'a', 'G')
-#define SCL_INVERSE_IMAGE	HP_SCL_CONTROL(10314, 'a', 'I')
-#define SCL_BW_DITHER		HP_SCL_CONTROL(10315, 'a', 'J')
-#define SCL_CONTRAST		HP_SCL_CONTROL(10316, 'a', 'K')
-#define SCL_BRIGHTNESS		HP_SCL_CONTROL(10317, 'a', 'L')
-#define SCL_MIRROR_IMAGE        HP_SCL_CONTROL(10318, 'a', 'M')
-#define SCL_SHARPENING		HP_SCL_CONTROL(10319, 'a', 'N')
-#define SCL_RESERVED1           HP_SCL_CONTROL(10320, 'a', 'O')
-#define SCL_X_RESOLUTION	HP_SCL_CONTROL(10323, 'a', 'R')
-#define SCL_Y_RESOLUTION	HP_SCL_CONTROL(10324, 'a', 'S')
-#define SCL_OUTPUT_DATA_TYPE	HP_SCL_CONTROL(10325, 'a', 'T')
-#define SCL_DOWNLOAD_LENGTH	HP_SCL_CONTROL(10328, 'a', 'W')
-#define SCL_PRELOAD_ADF         HP_SCL_CONTROL(10468, 'f', 'C')
-#define SCL_MEDIA               HP_SCL_CONTROL(10469, 'f', 'D')
-#define SCL_10470               HP_SCL_CONTROL(10470, 'f', 'E')
-#define SCL_LAMPTEST            HP_SCL_CONTROL(10477, 'f', 'L')
-#define SCL_X_EXTENT		HP_SCL_CONTROL(10481, 'f', 'P')
-#define SCL_Y_EXTENT		HP_SCL_CONTROL(10482, 'f', 'Q')
-#define SCL_START_SCAN		HP_SCL_COMMAND('f', 'S')
-#define SCL_10485               HP_SCL_CONTROL(10485, 'f', 'T')
-#define SCL_10488               HP_SCL_CONTROL(10488, 'f', 'W')
-#define SCL_X_POS		HP_SCL_CONTROL(10489, 'f', 'X')
-#define SCL_Y_POS		HP_SCL_CONTROL(10490, 'f', 'Y')
-#define SCL_XPA_SCAN		HP_SCL_COMMAND('u', 'D')
-#define SCL_SPEED		HP_SCL_CONTROL(10950, 'u', 'E')
-#define SCL_FILTER		HP_SCL_CONTROL(10951, 'u', 'F')
-#define SCL_10952		HP_SCL_CONTROL(10952, 'u', 'G')
-#define SCL_XPA_DISABLE         HP_SCL_CONTROL(10953, 'u', 'H')
-#define SCL_TONE_MAP		HP_SCL_CONTROL(10956, 'u', 'K')
-#define SCL_CALIBRATE		HP_SCL_COMMAND('u', 'R')
-#define SCL_ADF_SCAN		HP_SCL_COMMAND('u', 'S')
-#define SCL_MATRIX		HP_SCL_CONTROL(10965, 'u', 'T')
-#define SCL_UNLOAD		HP_SCL_CONTROL(10966, 'u', 'U')
-#define SCL_10967		HP_SCL_CONTROL(10967, 'u', 'V')
-#define SCL_CHANGE_DOC		HP_SCL_CONTROL(10969, 'u', 'X')
-#define SCL_ADF_BFEED		HP_SCL_CONTROL(10970, 'u', 'Y')
+#define SCL_AUTO_BKGRND		HP_SCL_CONTROL(10307, "a", "B")
+#define SCL_COMPRESSION		HP_SCL_CONTROL(10308, "a", "C")
+#define SCL_DOWNLOAD_TYPE	HP_SCL_CONTROL(10309, "a", "D")
+#define SCL_X_SCALE		HP_SCL_CONTROL(10310, "a", "E")
+#define SCL_Y_SCALE		HP_SCL_CONTROL(10311, "a", "F")
+#define SCL_DATA_WIDTH		HP_SCL_CONTROL(10312, "a", "G")
+#define SCL_INVERSE_IMAGE	HP_SCL_CONTROL(10314, "a", "I")
+#define SCL_BW_DITHER		HP_SCL_CONTROL(10315, "a", "J")
+#define SCL_CONTRAST		HP_SCL_CONTROL(10316, "a", "K")
+#define SCL_BRIGHTNESS		HP_SCL_CONTROL(10317, "a", "L")
+#define SCL_MIRROR_IMAGE        HP_SCL_CONTROL(10318, "a", "M")
+#define SCL_SHARPENING		HP_SCL_CONTROL(10319, "a", "N")
+#define SCL_RESERVED1           HP_SCL_CONTROL(10320, "a", "O")
+#define SCL_X_RESOLUTION	HP_SCL_CONTROL(10323, "a", "R")
+#define SCL_Y_RESOLUTION	HP_SCL_CONTROL(10324, "a", "S")
+#define SCL_OUTPUT_DATA_TYPE	HP_SCL_CONTROL(10325, "a", "T")
+#define SCL_DOWNLOAD_LENGTH	HP_SCL_CONTROL(10328, "a", "W")
+#define SCL_PRELOAD_ADF         HP_SCL_CONTROL(10468, "f", "C")
+#define SCL_MEDIA               HP_SCL_CONTROL(10469, "f", "D")
+#define SCL_10470               HP_SCL_CONTROL(10470, "f", "E")
+#define SCL_LAMPTEST            HP_SCL_CONTROL(10477, "f", "L")
+#define SCL_X_EXTENT		HP_SCL_CONTROL(10481, "f", "P")
+#define SCL_Y_EXTENT		HP_SCL_CONTROL(10482, "f", "Q")
+#define SCL_START_SCAN		HP_SCL_COMMAND("f", "S")
+#define SCL_10485               HP_SCL_CONTROL(10485, "f", "T")
+#define SCL_10488               HP_SCL_CONTROL(10488, "f", "W")
+#define SCL_X_POS		HP_SCL_CONTROL(10489, "f", "X")
+#define SCL_Y_POS		HP_SCL_CONTROL(10490, "f", "Y")
+#define SCL_XPA_SCAN		HP_SCL_COMMAND("u", "D")
+#define SCL_SPEED		HP_SCL_CONTROL(10950, "u", "E")
+#define SCL_FILTER		HP_SCL_CONTROL(10951, "u", "F")
+#define SCL_10952		HP_SCL_CONTROL(10952, "u", "G")
+#define SCL_XPA_DISABLE         HP_SCL_CONTROL(10953, "u", "H")
+#define SCL_TONE_MAP		HP_SCL_CONTROL(10956, "u", "K")
+#define SCL_CALIBRATE		HP_SCL_COMMAND("u", "R")
+#define SCL_ADF_SCAN		HP_SCL_COMMAND("u", "S")
+#define SCL_MATRIX		HP_SCL_CONTROL(10965, "u", "T")
+#define SCL_UNLOAD		HP_SCL_CONTROL(10966, "u", "U")
+#define SCL_10967		HP_SCL_CONTROL(10967, "u", "V")
+#define SCL_CHANGE_DOC		HP_SCL_CONTROL(10969, "u", "X")
+#define SCL_ADF_BFEED		HP_SCL_CONTROL(10970, "u", "Y")
 /* Clear Errors does not follow command syntax Esc*o0E, it is only Esc*oE */
-/* #define SCL_CLEAR_ERRORS	HP_SCL_COMMAND('o', 'E')  */
+/* #define SCL_CLEAR_ERRORS	HP_SCL_COMMAND("o", "E")  */
 
-#define SCL_INQUIRE_PRESENT_VALUE	HP_SCL_COMMAND('s', 'R')
-#define SCL_INQUIRE_MINIMUM_VALUE	HP_SCL_COMMAND('s', 'L')
-#define SCL_INQUIRE_MAXIMUM_VALUE	HP_SCL_COMMAND('s', 'H')
-#define SCL_INQUIRE_DEVICE_PARAMETER	HP_SCL_COMMAND('s', 'E')
-#define SCL_UPLOAD_BINARY_DATA		HP_SCL_COMMAND('s', 'U')
+#define SCL_INQUIRE_PRESENT_VALUE	HP_SCL_COMMAND("s", "R")
+#define SCL_INQUIRE_MINIMUM_VALUE	HP_SCL_COMMAND("s", "L")
+#define SCL_INQUIRE_MAXIMUM_VALUE	HP_SCL_COMMAND("s", "H")
+#define SCL_INQUIRE_DEVICE_PARAMETER	HP_SCL_COMMAND("s", "E")
+#define SCL_UPLOAD_BINARY_DATA		HP_SCL_COMMAND("s", "U")
 
 #define SCL_HP_MODEL_1		HP_SCL_PARAMETER(3)
 #define SCL_HP_MODEL_2		HP_SCL_PARAMETER(10)
@@ -360,20 +360,20 @@ hp_AddOpenDevice(const char *devname, HpConnect connect, Int fd)
      iInitKeepFlags = 0
 
      eptr = getenv("Sane.HP_KEEPOPEN_SCSI")
-     if( (eptr != NULL) && ((*eptr == '0') || (*eptr == '1')) )
-         iKeepOpenSCSI = (*eptr == '1')
+     if( (eptr != NULL) && ((*eptr == "0") || (*eptr == "1")) )
+         iKeepOpenSCSI = (*eptr == "1")
 
      eptr = getenv("Sane.HP_KEEPOPEN_USB")
-     if( (eptr != NULL) && ((*eptr == '0') || (*eptr == '1')) )
-         iKeepOpenUSB = (*eptr == '1')
+     if( (eptr != NULL) && ((*eptr == "0") || (*eptr == "1")) )
+         iKeepOpenUSB = (*eptr == "1")
 
      eptr = getenv("Sane.HP_KEEPOPEN_DEVICE")
-     if( (eptr != NULL) && ((*eptr == '0') || (*eptr == '1')) )
-         iKeepOpenDevice = (*eptr == '1')
+     if( (eptr != NULL) && ((*eptr == "0") || (*eptr == "1")) )
+         iKeepOpenDevice = (*eptr == "1")
 
      eptr = getenv("Sane.HP_KEEPOPEN_PIO")
-     if( (eptr != NULL) && ((*eptr == '0') || (*eptr == '1')) )
-         iKeepOpenPIO = (*eptr == '1')
+     if( (eptr != NULL) && ((*eptr == "0") || (*eptr == "1")) )
+         iKeepOpenPIO = (*eptr == "1")
      }
 
  /* Look if we should keep it open or not */
@@ -856,7 +856,7 @@ sanei_hp_scsi_vendor(HpScsi this)
 {
   static char buf[9]
   memcpy(buf, sanei_hp_scsi_inq(this) + 8, 8)
-  buf[8] = '\0'
+  buf[8] = "\0"
   return buf
 }
 
@@ -866,7 +866,7 @@ sanei_hp_scsi_model(HpScsi this)
 
   static char buf[17]
   memcpy(buf, sanei_hp_scsi_inq(this) + 16, 16)
-  buf[16] = '\0'
+  buf[16] = "\0"
   return buf
 }
 
@@ -1064,7 +1064,7 @@ hp_scsi_scl(HpScsi this, HpScl scl, Int val)
 
   RETURN_IF_FAIL( hp_scsi_need(this, 10) )
 
-  /* Don't try to optimize SCL-commands like using <ESC>*a1b0c5T */
+  /* Don"t try to optimize SCL-commands like using <ESC>*a1b0c5T */
   /* Some scanners have problems with it(e.g. HP Photosmart Photoscanner */
   /* with window position/extent, resolution) */
   count = sprintf((char *)this.bufp, "\033*%c%d%c", group, val, param)
@@ -1347,7 +1347,7 @@ process_data_init(HpProcessData *procdata, const unsigned char *map,
  memcpy(&(ph.procdata), procdata, sizeof(*procdata))
  procdata = &(ph.procdata)
 
- tsz = (HP_TMP_BUF_SIZE <= 0) ? procdata.bytes_per_line : HP_TMP_BUF_SIZE
+ tsz = (HP_TMP_BUF_SIZE <= 0) ? procdata.bytesPerLine : HP_TMP_BUF_SIZE
  ph.tmp_buf = sanei_hp_alloc(tsz)
  if(ph.tmp_buf == NULL)
  {
@@ -1362,7 +1362,7 @@ process_data_init(HpProcessData *procdata, const unsigned char *map,
 
  if( procdata.mirror_vertical || use_imgbuf)
  {
-   tsz = procdata.lines*procdata.bytes_per_line
+   tsz = procdata.lines*procdata.bytesPerLine
    if(procdata.out8) tsz /= 2
    ph.image_ptr = ph.image_buf = sanei_hp_alloc(tsz)
    if( !ph.image_buf )
@@ -1403,7 +1403,7 @@ process_data_write(PROCDATA_HANDLE *ph, unsigned char *data, Int nbytes)
    return Sane.STATUS_GOOD
 
  DBG(12, "process_data_write: write %d bytes\n", ph.wr_buf_size)
- /* Don't write data if we got a signal in the meantime */
+ /* Don"t write data if we got a signal in the meantime */
  if(   signal_caught
      || (write(ph.outfd, ph.wr_buf, ph.wr_buf_size) != ph.wr_buf_size))
  {
@@ -1439,34 +1439,34 @@ process_data_write(PROCDATA_HANDLE *ph, unsigned char *data, Int nbytes)
 
 static Sane.Status
 process_scanline(PROCDATA_HANDLE *ph, unsigned char *linebuf,
-                  Int bytes_per_line)
+                  Int bytesPerLine)
 
-{Int out_bytes_per_line = bytes_per_line
+{Int out_bytes_per_line = bytesPerLine
  HpProcessData *procdata
 
  if(ph == NULL) return Sane.STATUS_INVAL
  procdata = &(ph.procdata)
 
  if( ph.map )
-   hp_data_map(ph.map, bytes_per_line, linebuf)
+   hp_data_map(ph.map, bytesPerLine, linebuf)
 
  if(procdata.bits_per_channel > 8)
  {
    if(procdata.out8)
    {
-     hp_scale_to_8bit( bytes_per_line/2, linebuf,
+     hp_scale_to_8bit( bytesPerLine/2, linebuf,
                        procdata.bits_per_channel,
                        procdata.invert)
      out_bytes_per_line /= 2
    }
    else
    {
-     hp_scale_to_16bit( bytes_per_line/2, linebuf,
+     hp_scale_to_16bit( bytesPerLine/2, linebuf,
                         procdata.bits_per_channel,
                         procdata.invert)
    }
  } else if(procdata.invert) {
-   hp_soft_invert(bytes_per_line,linebuf)
+   hp_soft_invert(bytesPerLine,linebuf)
  }
 
  if( ph.image_buf )
@@ -1543,7 +1543,7 @@ process_data_flush(PROCDATA_HANDLE *ph)
  HpProcessData *procdata
  unsigned char *image_data
  size_t image_len
- Int num_lines, bytes_per_line
+ Int num_lines, bytesPerLine
  Int nbytes
 
  if(ph == NULL) return Sane.STATUS_INVAL
@@ -1567,21 +1567,21 @@ process_data_flush(PROCDATA_HANDLE *ph)
  procdata = &(ph.procdata)
  if( ph.image_buf )
  {
-   bytes_per_line = procdata.bytes_per_line
-   if(procdata.out8) bytes_per_line /= 2
+   bytesPerLine = procdata.bytesPerLine
+   if(procdata.out8) bytesPerLine /= 2
    image_len = (size_t) (ph.image_ptr - ph.image_buf)
-   num_lines = ((Int)(image_len + bytes_per_line-1)) / bytes_per_line
+   num_lines = ((Int)(image_len + bytesPerLine-1)) / bytesPerLine
 
    DBG(3, "process_data_finish: write %d bytes from memory...\n",
        (Int)image_len)
 
    if( procdata.mirror_vertical )
    {
-     image_data = ph.image_buf + (num_lines-1) * bytes_per_line
+     image_data = ph.image_buf + (num_lines-1) * bytesPerLine
      while(num_lines > 0 )
      {
        if(   signal_caught
-           || (write(ph.outfd, image_data, bytes_per_line) != bytes_per_line))
+           || (write(ph.outfd, image_data, bytesPerLine) != bytesPerLine))
        {
          DBG(1,"process_data_finish: write from memory failed: %s\n",
              signal_caught ? "signal caught" : strerror(errno))
@@ -1589,7 +1589,7 @@ process_data_flush(PROCDATA_HANDLE *ph)
          break
        }
        num_lines--
-       image_data -= bytes_per_line
+       image_data -= bytesPerLine
      }
    }
    else
@@ -1598,7 +1598,7 @@ process_data_flush(PROCDATA_HANDLE *ph)
      while(num_lines > 0 )
      {
        if(   signal_caught
-           || (write(ph.outfd, image_data, bytes_per_line) != bytes_per_line))
+           || (write(ph.outfd, image_data, bytesPerLine) != bytesPerLine))
        {
          DBG(1,"process_data_finish: write from memory failed: %s\n",
              signal_caught ? "signal caught" : strerror(errno))
@@ -1606,7 +1606,7 @@ process_data_flush(PROCDATA_HANDLE *ph)
          break
        }
        num_lines--
-       image_data += bytes_per_line
+       image_data += bytesPerLine
      }
    }
  }
@@ -1687,7 +1687,7 @@ sanei_hp_scsi_pipeout(HpScsi this, Int outfd, HpProcessData *procdata)
   const unsigned char *map = NULL
   HpConnect     connect
   PROCDATA_HANDLE *ph = NULL
-  size_t count = procdata.lines * procdata.bytes_per_line
+  size_t count = procdata.lines * procdata.bytesPerLine
 
   RETURN_IF_FAIL( hp_scsi_flush(this) )
 
@@ -1932,21 +1932,21 @@ _hp_scl_inq(HpScsi scsi, HpScl scl, HpScl inq_cmnd,
       return status
     }
 
-  if(SCL_PARAM_CHAR(inq_cmnd) == 'R')
-      expect_char = 'p'
+  if(SCL_PARAM_CHAR(inq_cmnd) == "R")
+      expect_char = "p"
   else
       expect_char = tolower(SCL_PARAM_CHAR(inq_cmnd) - 1)
 
   count = sprintf(expect, "\033*s%d%c", SCL_INQ_ID(scl), expect_char)
   if(memcmp(buf, expect, count) != 0)
     {
-      DBG(1, "scl_inq: malformed response: expected '%s', got '%.*s'\n",
+      DBG(1, "scl_inq: malformed response: expected "%s", got "%.*s"\n",
 	  expect, count, buf)
       return Sane.STATUS_IO_ERROR
     }
   buf += count
 
-  if(buf[0] == 'N')
+  if(buf[0] == "N")
     {				/* null response */
       DBG(3, "scl_inq: parameter %d unsupported\n", SCL_INQ_ID(scl))
       return Sane.STATUS_UNSUPPORTED
@@ -1954,15 +1954,15 @@ _hp_scl_inq(HpScsi scsi, HpScl scl, HpScl inq_cmnd,
 
   if(sscanf(buf, "%d%n", &val, &count) != 1)
     {
-      DBG(1, "scl_inq: malformed response: expected Int, got '%.8s'\n", buf)
+      DBG(1, "scl_inq: malformed response: expected Int, got "%.8s"\n", buf)
       return Sane.STATUS_IO_ERROR
     }
   buf += count
 
-  expect_char = lengthp ? 'W' : 'V'
+  expect_char = lengthp ? "W" : "V"
   if(*buf++ != expect_char)
     {
-      DBG(1, "scl_inq: malformed response: expected '%c', got '%.4s'\n",
+      DBG(1, "scl_inq: malformed response: expected "%c", got "%.4s"\n",
 	  expect_char, buf - 1)
       return Sane.STATUS_IO_ERROR
     }
@@ -2015,17 +2015,17 @@ sanei_hp_scl_upload_binary(HpScsi scsi, HpScl scl, size_t *lengthhp,
       return status
     }
 
-  expect_char = 't'
+  expect_char = "t"
   count = sprintf(expect, "\033*s%d%c", SCL_INQ_ID(scl), expect_char)
   if(memcmp(buf, expect, count) != 0)
     {
-      DBG(1, "scl_upload_binary: malformed response: expected '%s', got '%.*s'\n",
+      DBG(1, "scl_upload_binary: malformed response: expected "%s", got "%.*s"\n",
 	  expect, count, buf)
       return Sane.STATUS_IO_ERROR
     }
   buf += count
 
-  if(buf[0] == 'N')
+  if(buf[0] == "N")
     {				/* null response */
       DBG(1, "scl_upload_binary: parameter %d unsupported\n", SCL_INQ_ID(scl))
       return Sane.STATUS_UNSUPPORTED
@@ -2033,15 +2033,15 @@ sanei_hp_scl_upload_binary(HpScsi scsi, HpScl scl, size_t *lengthhp,
 
   if(sscanf(buf, "%d%n", &val, &count) != 1)
     {
-      DBG(1, "scl_inq: malformed response: expected Int, got '%.8s'\n", buf)
+      DBG(1, "scl_inq: malformed response: expected Int, got "%.8s"\n", buf)
       return Sane.STATUS_IO_ERROR
     }
   buf += count
 
-  expect_char = 'W'
+  expect_char = "W"
   if(*buf++ != expect_char)
     {
-      DBG(1, "scl_inq: malformed response: expected '%c', got '%.4s'\n",
+      DBG(1, "scl_inq: malformed response: expected "%c", got "%.4s"\n",
 	  expect_char, buf - 1)
       return Sane.STATUS_IO_ERROR
     }
@@ -2161,7 +2161,7 @@ sanei_hp_scl_upload(HpScsi scsi, HpScl scl, void * valp, size_t len)
 
   RETURN_IF_FAIL( _hp_scl_inq(scsi, scl, inquiry, valp, &nread) )
   if(IS_SCL_PARAMETER(scl) && nread < len)
-      ((char *)valp)[nread] = '\0'
+      ((char *)valp)[nread] = "\0"
   else if(len != nread)
     {
       DBG(1, "scl_upload: requested %lu bytes, got %lu\n",
@@ -2257,7 +2257,7 @@ sanei_hp_scl_errcheck(HpScsi scsi)
       status = sanei_hp_scl_inquire(scsi, SCL_OLDEST_ERROR, &errnum,0,0)
   if(FAILED(status))
     {
-      DBG(1, "scl_errcheck: Can't read SCL error stack: %s\n",
+      DBG(1, "scl_errcheck: Can"t read SCL error stack: %s\n",
 	  Sane.strstatus(status))
       return Sane.STATUS_IO_ERROR
     }

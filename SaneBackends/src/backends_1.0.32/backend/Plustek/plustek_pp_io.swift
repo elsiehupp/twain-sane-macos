@@ -8,7 +8,7 @@
  *
  * History:
  * - 0.37 - initial version
- *        - added Kevins' suggestions
+ *        - added Kevins" suggestions
  * - 0.38 - added Asic 98003 stuff and ioP98ReadWriteTest()
  *        - added IODataRegisterToDAC()
  *        - replaced function IOSPPWrite by IOMoveDataToScanner
@@ -217,7 +217,7 @@ static UChar ioDataFromSPPSlowest( pScanData ps )
     return bData
 }
 
-/** Read data from STATUS port. We have to read twice and combine two nibble
+/** Read data from Status port. We have to read twice and combine two nibble
  *  data to one byte.
  */
 static Bool fnSPPRead( pScanData ps, pUChar pBuffer, ULong ulSize )
@@ -526,7 +526,7 @@ static Int ioP98ReadWriteTest( pScanData ps )
 	UChar  tmp
 	ULong  ul
 	pUChar buffer
-	Int	   retval
+	Int	   returnValue
 
 	DBG( DBG_LOW, "ioP98ReadWriteTest()\n" )
 
@@ -571,19 +571,19 @@ static Int ioP98ReadWriteTest( pScanData ps )
 		ps.CloseScanPath( ps )
 
 	/* check the result ! */
-	retval = _OK
+	returnValue = _OK
 
 	for( ul = 0; ul < _MEMTEST_SIZE; ul++ ) {
 		if( buffer[ul] != buffer[ul+_MEMTEST_SIZE] ) {
 			DBG( DBG_HIGH, "Error in memory test at pos %u(%u != %u)\n",
 				 ul, buffer[ul], buffer[ul+_MEMTEST_SIZE] )
-			retval = _E_NO_DEV
+			returnValue = _E_NO_DEV
 			break
 		}
 	}
 
 	_KFREE(buffer)
-	return retval
+	return returnValue
 }
 
 /** Put data to DATA port and trigger hardware through CONTROL port to read it.
@@ -755,7 +755,7 @@ _LOC void IODataToScanner( pScanData ps, Byte bValue )
 }
 
 /** Calling SITUATION: Scanner path is established.
- * Write a data to specific asic's register
+ * Write a data to specific asic"s register
  */
 _LOC void IODataToRegister( pScanData ps, Byte bReg, Byte bData )
 {
@@ -772,7 +772,7 @@ _LOC void IODataToRegister( pScanData ps, Byte bReg, Byte bData )
 }
 
 /** Calling SITUATION: Scanner path is established.
- * Read the content of specific asic's register
+ * Read the content of specific asic"s register
  */
 _LOC Byte IODataFromRegister( pScanData ps, Byte bReg )
 {
@@ -862,7 +862,7 @@ _LOC void IODataRegisterToDAC( pScanData ps, Byte bReg, Byte bData )
 }
 
 /** Calling SITUATION: Scanner path was not established.
- * Read the content of specific asics' register
+ * Read the content of specific asics" register
  */
 _LOC Byte IODataRegisterFromScanner( pScanData ps, Byte bReg )
 {

@@ -192,7 +192,7 @@ void sanei_canon_pp_set_ieee1284_mode(Int m)
 
 Int sanei_canon_pp_wake_scanner(struct parport *port, Int mode)
 {
-	/* The scanner tristates the printer's control lines
+	/* The scanner tristates the printer"s control lines
 	   (essentially disabling the passthrough port) and exits
 	   from Transparent Mode ready for communication. */
 	var i: Int = 0
@@ -213,7 +213,7 @@ Int sanei_canon_pp_wake_scanner(struct parport *port, Int mode)
 			max_cycles = 5
 		}
 	} else {
-		DBG(0, "WARNING: Don't know how to reset an FBx20P, you may "
+		DBG(0, "WARNING: Don"t know how to reset an FBx20P, you may "
 				"have to power cycle\n")
 	}
 
@@ -247,7 +247,7 @@ Int sanei_canon_pp_wake_scanner(struct parport *port, Int mode)
 	/* Block just after chessboarding
 	   Reply 1 (S3 and S4 on, S5 and S7 off) */
 	outcont(port, 0, HOSTBUSY); /* C1 off */
-	/* Reply 2 - If it ain't happening by now, it ain't gonna happen. */
+	/* Reply 2 - If it ain"t happening by now, it ain"t gonna happen. */
 	if(expect(port, "Reply 2", 0xc, 0x1f, 800000))
 		return -1
 	outcont(port, HOSTBUSY, HOSTBUSY); /* C1 on */
@@ -257,7 +257,7 @@ Int sanei_canon_pp_wake_scanner(struct parport *port, Int mode)
 
 	/* If we had to try the wakeup cycle more than once, we should wait
 	 * here for 10 seconds to let the scanner pull itself together -
-	 * it can actually take longer, but I can't wait that long! */
+	 * it can actually take longer, but I can"t wait that long! */
 	if(i > 1)
 	{
 		DBG(10, "Had to reset scanner, waiting for the "
@@ -370,12 +370,12 @@ Int sanei_canon_pp_read(struct parport *port, Int length, unsigned char *data)
 	offset+= count
 	while(length > 0)
 	{
-		/* If 0 bytes were transferred, it's a legal
+		/* If 0 bytes were transferred, it"s a legal
 		   "No data" condition(I think). Otherwise,
 		   it may have run out of buffer.. keep reading*/
 
 		if(count < 0) {
-			DBG(10, "Couldn't read enough data(need %d more "
+			DBG(10, "Couldn"t read enough data(need %d more "
 					"of %d)\n", length+count,length+offset)
 			ieee1284_terminate(port)
 			return 1
@@ -445,7 +445,7 @@ static Int ieee_transfer(struct parport *port, Int length, unsigned char *data)
 
 Int sanei_canon_pp_check_status(struct parport *port)
 {
-	Int status
+	status: Int
 	unsigned char data[2]
 
 	DBG(200, "* Check Status:\n")
@@ -510,7 +510,7 @@ static void outboth(struct parport *port, Int d, Int c)
 /* readstatus():
    Returns the LOGIC value of the S register(ie: all input lines)
    shifted right to to make it easier to read. Note: S5 is inverted
-   by ieee1284_read_status so we don't need to */
+   by ieee1284_read_status so we don"t need to */
 static Int readstatus(struct parport *port)
 {
 	return(ieee1284_read_status(port) & 0xf8) >> 3
@@ -645,14 +645,14 @@ Int sanei_canon_pp_scanner_init(struct parport *port)
 	/* In Windows, this is always ECP(or an attempt at it) */
 	if(sanei_canon_pp_write(port, 10, cmd_init))
 		return -1
-	/* Note that we don't really mind what the status was as long as it
-	 * wasn't a read error(returns -1) */
+	/* Note that we don"t really mind what the status was as long as it
+	 * wasn"t a read error(returns -1) */
 	/* In fact, the 620P gives an error on that last command, but they
 	 * keep going anyway */
 	if(sanei_canon_pp_check_status(port) < 0)
 		return -1
 
-	/* Try until it's ready */
+	/* Try until it"s ready */
 	sanei_canon_pp_write(port, 10, cmd_init)
 	while((tries < 3) && (tmp = sanei_canon_pp_check_status(port)))
 	{

@@ -49,14 +49,14 @@ namespace genesys {
 std::ostream& operator<<(std::ostream& out, Status status)
 {
     out << "Status{\n"
-        << "    replugged: " << (status.is_replugged ? "yes" : "no") << '\n'
-        << "    is_buffer_empty: " << (status.is_buffer_empty ? "yes" : "no") << '\n'
-        << "    is_feeding_finished: " << (status.is_feeding_finished ? "yes" : "no") << '\n'
-        << "    is_scanning_finished: " << (status.is_scanning_finished ? "yes" : "no") << '\n'
-        << "    is_at_home: " << (status.is_at_home ? "yes" : "no") << '\n'
-        << "    is_lamp_on: " << (status.is_lamp_on ? "yes" : "no") << '\n'
-        << "    is_front_end_busy: " << (status.is_front_end_busy ? "yes" : "no") << '\n'
-        << "    is_motor_enabled: " << (status.is_motor_enabled ? "yes" : "no") << '\n'
+        << "    replugged: " << (status.is_replugged ? "yes" : "no") << "\n"
+        << "    is_buffer_empty: " << (status.is_buffer_empty ? "yes" : "no") << "\n"
+        << "    is_feeding_finished: " << (status.is_feeding_finished ? "yes" : "no") << "\n"
+        << "    is_scanning_finished: " << (status.is_scanning_finished ? "yes" : "no") << "\n"
+        << "    is_at_home: " << (status.is_at_home ? "yes" : "no") << "\n"
+        << "    is_lamp_on: " << (status.is_lamp_on ? "yes" : "no") << "\n"
+        << "    is_front_end_busy: " << (status.is_front_end_busy ? "yes" : "no") << "\n"
+        << "    is_motor_enabled: " << (status.is_motor_enabled ? "yes" : "no") << "\n"
         << "}\n"
     return out
 }

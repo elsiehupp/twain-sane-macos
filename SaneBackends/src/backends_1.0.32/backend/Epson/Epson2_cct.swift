@@ -495,7 +495,7 @@ const struct Espon_profile Espon_cct_profiles[] = {
     {0, 0, 0, 0, 0, 0, 0, 0, 0}}}
 ]
 
-/* cat hw-data.c | grep '{"' | cut -d ',' -f1,2 | awk '{ print $0 " },"}' */
+/* cat hw-data.c | grep "{"" | cut -d "," -f1,2 | awk "{ print $0 " },"}" */
 
 const struct Espon_profile_map Espon_cct_models[] = {
   {"GT-10000", 0x05 },

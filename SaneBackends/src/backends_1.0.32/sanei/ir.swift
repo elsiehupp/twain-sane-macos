@@ -149,7 +149,7 @@ sanei_ir_accumulate_norm_histo(double * histo_data)
   return accum_data
 }
 
-/* Implements Yen's thresholding method
+/* Implements Yen"s thresholding method
  */
 Sane.Status
 sanei_ir_threshold_yen(const Sane.Parameters * params,
@@ -225,7 +225,7 @@ sanei_ir_threshold_yen(const Sane.Parameters * params,
 }
 
 
-/* Implements Otsu's thresholding method
+/* Implements Otsu"s thresholding method
  */
 Sane.Status
 sanei_ir_threshold_otsu(const Sane.Parameters * params,
@@ -468,9 +468,9 @@ sanei_ir_to_8bit(Sane.Parameters * params, const Sane.Uint *in_img,
   if(out_params)
     {
       memmove(out_params, params, sizeof(Sane.Parameters))
-      out_params.bytes_per_line = out_params.pixels_per_line
+      out_params.bytesPerLine = out_params.pixels_per_line
       if(params.format == Sane.FRAME_RGB)
-        out_params.bytes_per_line *= 3
+        out_params.bytesPerLine *= 3
       out_params.depth = 8
     }
 
@@ -615,7 +615,7 @@ sanei_ir_spectral_clean(const Sane.Parameters * params, double *lut_ln,
   DBG(10, "sanei_ir_spectral_clean: n = %d, ired(red) = %f * ln(red) + %f\n",
             ssize, rfac, radd)
 
-  /* now calculate ired' = ired - a  * ln(red) */
+  /* now calculate ired" = ired - a  * ln(red) */
   imin = INT_MAX
   imax = INT_MIN
   rptr = red_data

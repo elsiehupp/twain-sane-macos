@@ -140,7 +140,7 @@ debug_drv_read(Sane.Handle hndl, Sane.Byte *buffer)
 
 	Mustek_pp_Handle *dev = hndl
 
-	memset(buffer, 0, dev.params.bytes_per_line)
+	memset(buffer, 0, dev.params.bytesPerLine)
 }
 
 /*ARGSUSED*/

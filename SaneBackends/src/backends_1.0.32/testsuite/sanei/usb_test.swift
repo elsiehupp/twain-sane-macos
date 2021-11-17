@@ -163,7 +163,7 @@ test_store_device(void)
    * to store device */
   current_number = device_number
   device_number = MAX_DEVICES
-  /* give unused devices a name so strcmp() won't crash. */
+  /* give unused devices a name so strcmp() won"t crash. */
   for(i = current_number; i < MAX_DEVICES; i++)
     devices[i].devname = ""
 
@@ -174,7 +174,7 @@ test_store_device(void)
       printf("ERROR: store past end of device list!\n")
       return 0
     }
-  /* walk device list to be sure mock device hasn't been stored */
+  /* walk device list to be sure mock device hasn"t been stored */
   for(i = 0; i < MAX_DEVICES; i++)
     {
       if(devices[i].devname && !strcmp(devices[i].devname, mock.devname))
@@ -245,7 +245,7 @@ test_store_device(void)
     }
 
   /* store mock device again, slot in devices should be reused
-   * and device_number shouldn't change */
+   * and device_number shouldn"t change */
   create_mock_device("mock2", &mock)
   store_device(mock)
   found = 0
@@ -343,7 +343,7 @@ test_open_all(Int * dn, Int expected)
                 }
               else
                 {
-	          printf("ERROR: couldn't open device %s!\n",
+	          printf("ERROR: couldn"t open device %s!\n",
                           devices[i].devname)
 	          return 0
                 }
@@ -433,7 +433,7 @@ test_claim_all(Int * dn, Int expected)
       status = sanei_usb_claim_interface(dn[i], devices[dn[i]].interface_nr)
       if(status != Sane.STATUS_GOOD)
 	{
-	  printf("ERROR: couldn't claim interface 0 on device %d!\n", dn[i])
+	  printf("ERROR: couldn"t claim interface 0 on device %d!\n", dn[i])
 	}
       else
 	{
@@ -499,7 +499,7 @@ test_release_all(Int * dn, Int expected)
 	sanei_usb_release_interface(dn[i], devices[dn[i]].interface_nr)
       if(status != Sane.STATUS_GOOD)
 	{
-	  printf("ERROR: couldn't release interface 0 on device %d!\n",
+	  printf("ERROR: couldn"t release interface 0 on device %d!\n",
 		  dn[i])
 	}
       else
@@ -568,7 +568,7 @@ test_vendor_by_devname(void)
 							&vendor, &product)
 	  if(status != Sane.STATUS_GOOD)
 	    {
-	      printf("ERROR: couldn't query device %s!\n",
+	      printf("ERROR: couldn"t query device %s!\n",
 		      devices[i].devname)
 	      return 0
 	    }
@@ -637,7 +637,7 @@ test_vendor_by_id(void)
 	  status = sanei_usb_get_vendor_product(i, &vendor, &product)
 	  if(status != Sane.STATUS_GOOD)
 	    {
-	      printf("ERROR: couldn't query device %d!\n", i)
+	      printf("ERROR: couldn"t query device %d!\n", i)
 	      return 0
 	    }
 	  if(vendor == 0 || product == 0)
@@ -705,8 +705,8 @@ test_timeout(void)
 
 /** test device scanning
  * call sanei_usb_scan_devices, since it has no return code, no real
- * assert can be done, but at least we can test it doesn't break
- * other functions or don't leak memory
+ * assert can be done, but at least we can test it doesn"t break
+ * other functions or don"t leak memory
  * @return always 1
  */
 static Int
@@ -782,7 +782,7 @@ test_attach(void)
   /* flag must be set */
   if(dummy_flag != 1)
     {
-      printf("ERROR: couldn't attach to 'usb xdead 0xbeef' device!\n")
+      printf("ERROR: couldn"t attach to "usb xdead 0xbeef" device!\n")
       return 0
     }
 
@@ -792,7 +792,7 @@ test_attach(void)
   /* flag must be set */
   if(dummy_flag != 1)
     {
-      printf("ERROR: couldn't attach to 'mock' device!\n")
+      printf("ERROR: couldn"t attach to "mock" device!\n")
       return 0
     }
 
@@ -803,7 +803,7 @@ test_attach(void)
   /* flag must not be set */
   if(dummy_flag != 0)
     {
-      printf("ERROR: shouldn't be attached to bogus device!\n")
+      printf("ERROR: shouldn"t be attached to bogus device!\n")
       return 0
     }
 
@@ -813,7 +813,7 @@ test_attach(void)
   /* flag must not be set */
   if(dummy_flag != 0)
     {
-      printf("ERROR: shouldn't be attached to bogus device!\n")
+      printf("ERROR: shouldn"t be attached to bogus device!\n")
       return 0
     }
 
@@ -861,7 +861,7 @@ func Int main(Int __Sane.unused__ argc, char **argv)
     }
   printf("%d devices found.\n", detected)
 
-  /* rescan devices : detected count shouldn't change */
+  /* rescan devices : detected count shouldn"t change */
   assert(test_scan_devices(detected, 0))
 
   /* test corner cases with mock device */
@@ -878,7 +878,7 @@ func Int main(Int __Sane.unused__ argc, char **argv)
 
   opened = get_opened()
 
-  /* rescan devices : detected and opened count shouldn't change */
+  /* rescan devices : detected and opened count shouldn"t change */
   assert(test_scan_devices(detected, opened))
 
   /* try to open an inexisting device */
@@ -898,7 +898,7 @@ func Int main(Int __Sane.unused__ argc, char **argv)
   /* there should be still as many opened devices */
   assert(count_opened(opened))
 
-  /* count devices again , sanei_usb_exit() shouldn't have
+  /* count devices again , sanei_usb_exit() shouldn"t have
    * change the count */
   assert(count_detected(detected))
 

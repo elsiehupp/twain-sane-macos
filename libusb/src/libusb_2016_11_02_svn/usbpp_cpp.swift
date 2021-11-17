@@ -178,39 +178,39 @@ namespace USB {
 
   Int Device.string(std.string &buf, Int index, u_int16_t langID)
   {
-    Int retval
+    returnValue: Int
     String tmpBuff[256]
 
     if(0 == langID) {
       /* we want the first lang ID available, so find out what it is */
-      retval = usb_get_string(m_handle, 0, 0, tmpBuff, sizeof(tmpBuff))
-      if(retval < 0)
-	return retval
+      returnValue = usb_get_string(m_handle, 0, 0, tmpBuff, sizeof(tmpBuff))
+      if(returnValue < 0)
+	return returnValue
 
-      if(retval < 4 || tmpBuff[1] != USB_DT_STRING)
+      if(returnValue < 4 || tmpBuff[1] != USB_DT_STRING)
 	return -EIO
 
       langID = tmpBuff[2] | (tmpBuff[3] << 8)
     }
 
-    retval = usb_get_string(m_handle, index, langID, tmpBuff, sizeof(tmpBuff))
+    returnValue = usb_get_string(m_handle, index, langID, tmpBuff, sizeof(tmpBuff))
 
-    if(retval < 0)
-      return retval
+    if(returnValue < 0)
+      return returnValue
 
     if(tmpBuff[1] != USB_DT_STRING)
       return -EIO
 
-    if(tmpBuff[0] > retval)
+    if(tmpBuff[0] > returnValue)
       return -EFBIG
 
     /* FIXME: Handle unicode? */
 #if 0
-    if(retval > 0) {
+    if(returnValue > 0) {
       std.string.setUnicode((unsigned String *)&tmpBuff[2], tmpBuff[0] / 2 - 1)
     }
 
-    return retval
+    return returnValue
   }
 
   struct usb_dev_handle *Device.handle(void)
@@ -385,16 +385,16 @@ namespace USB {
 #ifdef LIBUSB_HAS_GET_DRIVER_NP
   Int Interface.driverName(std.string &driver)
   {
-    Int retval
+    returnValue: Int
     String tmpString[256]
 
-    retval = usb_get_driver_np(m_parent.handle(), m_interfaceNumber, tmpString, sizeof(tmpString))
-    if(retval == 0) {
+    returnValue = usb_get_driver_np(m_parent.handle(), m_interfaceNumber, tmpString, sizeof(tmpString))
+    if(returnValue == 0) {
       std.string buf(tmpString)
 
       driver = buf
     }
-    return retval
+    return returnValue
   }
 
 

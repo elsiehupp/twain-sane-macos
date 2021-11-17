@@ -261,7 +261,7 @@ typedef struct HS2P_Scanner
   Sane.Option_Descriptor opt[NUM_OPTIONS]
   Option_Value val[NUM_OPTIONS]
   Sane.Parameters params;	/* SANE image parameters */
-  /* additional values that don't fit into Option_Value representation */
+  /* additional values that don"t fit into Option_Value representation */
   Sane.Word gamma_table[GAMMA_LENGTH];	/* Custom Gray Gamma Table */
 
   /* state information - not options */
@@ -321,7 +321,7 @@ typedef struct
   double width, length;		/* paper dimensions in mm */
 } HS2P_Paper
 /* list of support paper sizes */
-/* 'custom' MUST be item 0; otherwise a width or length of 0 indicates
+/* "custom" MUST be item 0; otherwise a width or length of 0 indicates
  * the maximum value supported by the scanner
  */
 static const HS2P_Paper paper_sizes[] = {	/* Name, Width, Height in mm */
@@ -669,7 +669,7 @@ trim_spaces(char *s, size_t n)
     {
       if(*s && !isspace(*s))
 	break
-      *s = '\0'
+      *s = "\0"
     }
 }
 static Bool
@@ -693,9 +693,9 @@ get_list_index(const char *list[], char *s)	/* sequential search */
     if(strcmp(s, list[i]) == 0)
       return i;			/* FOUND */
 
-  /* unknown paper_list strings are treated as 'custom'     */
-  /* unknown compression_list strings are treated as 'none' */
-  /* unknown scan_source_list strings are treated as 'ADF'  */
+  /* unknown paper_list strings are treated as "custom"     */
+  /* unknown compression_list strings are treated as "none" */
+  /* unknown scan_source_list strings are treated as "ADF"  */
   return 0
 }
 
@@ -706,7 +706,7 @@ get_val_id_strndx(struct val_id *vi, Int len, Int val)
   for(i = 0; i < len; i++)
     if(vi[i].val == val)
       return vi[i].id;		/* FOUND */
-  return vi[0].id;		/* NOT FOUND so let's default to first */
+  return vi[0].id;		/* NOT FOUND so let"s default to first */
 }
 
 static Sane.Status
@@ -1527,7 +1527,7 @@ attach(Sane.String_Const devname, Int __Sane.unused__ connType,
     }
 
   DBG(DBG_info,
-       ">>> attach: reported devtype='%d', vendor='%.8s', product='%.16s', revision='%.4s'\n",
+       ">>> attach: reported devtype="%d", vendor="%.8s", product="%.16s", revision="%.4s"\n",
        ibuf.devtype, ibuf.vendor, ibuf.product, ibuf.revision)
   DBG(DBG_info,
        ">>> attach: reported RMB=%#x Ver=%#x ResponseDataFormat=%#x Length=%#x Byte7=%#x\n",
@@ -1702,10 +1702,10 @@ attach(Sane.String_Const devname, Int __Sane.unused__ connType,
   /* end_id 0=none,1=Yes,2=reserved;  should always be 0 or 1 */
   dev.info.hasEndorser = vbuf.end_id == 1 ? Sane.TRUE : Sane.FALSE
   for(i = 0; i < 20; i++)
-    dev.info.endorser_string[i] = '\0'
+    dev.info.endorser_string[i] = "\0"
 
-  /* ipu_id: Bit0: '0'-no IPU, '1'-has IPU
-   *         Bit1: '0'-no extended board, '1'-has extended board
+  /* ipu_id: Bit0: "0"-no IPU, "1"-has IPU
+   *         Bit1: "0"-no extended board, "1"-has extended board
    * should always be 0
    */
   dev.info.hasIPU = (vbuf.ipu_id & 0x01) == 0x01 ? Sane.TRUE : Sane.FALSE
@@ -1743,7 +1743,7 @@ attach(Sane.String_Const devname, Int __Sane.unused__ connType,
   dev.sane.type = strdup(device_string)
 
   /* ACE Image Data Processing  Binary Filters
-   * For IS450 this is set to 0x18 (0001 1000) if IPU installed, else 0x00
+   * For IS450 this is set to 0x18(0001 1000) if IPU installed, else 0x00
    * For IS420 this is set to 0x3C(0011 1100) if IPU installed, else 0x00
    */
   dev.info.supports_whiteframing =
@@ -1986,19 +1986,19 @@ parse_configuration_file(FILE * fp)
 	  DBG(DBG_proc,
 	       ">> parse_configuration_file: parsing config line \"%s\"\n",
 	       line)
-	  if(line[0] == '#')
+	  if(line[0] == "#")
 	    continue;		/* ignore line comments */
 	  for(s = line; isspace(*s); ++s);	/* skip white space: */
-	  for(t = s; *t != '\0'; t++)
+	  for(t = s; *t != "\0"; t++)
 	  for(--t; t > s && isspace(*t); t--)
-	  *(++t) = '\0';	/*trim trailing space */
+	  *(++t) = "\0";	/*trim trailing space */
 	  if(!strlen(s))
 	    continue;		/* ignore empty lines */
 	  if((t = strstr(s, "scsi ")) != NULL)
 	    {
 	      /*  scsi VENDOR MODEL TYPE BUS CHANNEL ID LUN */
 	      DBG(DBG_proc,
-		   ">> parse_configuration_file: config file line %d: trying to attach SCSI: %s'\n",
+		   ">> parse_configuration_file: config file line %d: trying to attach SCSI: %s"\n",
 		   linenumber, line)
 	      sanei_config_attach_matching_devices(t, attach_one_scsi)
 	    }
@@ -2006,7 +2006,7 @@ parse_configuration_file(FILE * fp)
 	    {
 	      /* /dev/scanner /dev/sg0 */
 	      DBG(DBG_proc,
-		   ">> parse_configuration_file: config file line %d: trying to attach SCSI: %s'\n",
+		   ">> parse_configuration_file: config file line %d: trying to attach SCSI: %s"\n",
 		   linenumber, line)
 	      sanei_config_attach_matching_devices(t, attach_one_scsi)
 	    }
@@ -2021,7 +2021,7 @@ parse_configuration_file(FILE * fp)
 		   ">> parse_configuration_file: config file line %d: OBSOLETE !! use the scsi keyword!\n",
 		   linenumber)
 	      DBG(DBG_proc,
-		   ">> parse_configuration_file:   (see man sane-avision for details): trying to attach SCSI: %s'\n",
+		   ">> parse_configuration_file:   (see man sane-avision for details): trying to attach SCSI: %s"\n",
 		   line)
 	    }
 	}
@@ -2171,7 +2171,7 @@ Sane.open(Sane.String_Const devnam, Sane.Handle * handle)
   HS2P_Scanner *s
   DBG(DBG_proc, "> Sane.open\n")
 
-  if(devnam[0] == '\0')
+  if(devnam[0] == "\0")
     {
       for(dev = first_dev; dev; dev = dev.next)
 	{
@@ -2269,7 +2269,7 @@ get_scan_mode_id(char *s)	/* sequential search */
     if(strcmp(s, scan_mode_list[i]) == 0)
       break
 
-  /* unknown strings are treated as 'lineart' */
+  /* unknown strings are treated as "lineart" */
   return scan_mode_list[i] ? i : 0
 }
 #endif
@@ -2940,7 +2940,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 	  return Sane.STATUS_GOOD
 	case OPT_SCAN_MODE:
 	  /* a string option */
-	  /* scan mode != lineart disables compression, setting it to  'none' */
+	  /* scan mode != lineart disables compression, setting it to  "none" */
 	  if(strcmp(s.val[option].s, (String) val))
 	    {
 	      if(info)
@@ -3118,28 +3118,28 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	  (strcmp(mode, SM_HALFTONE)) == 0)
 	{
 	  s.params.format = Sane.FRAME_GRAY
-	  s.params.bytes_per_line = s.params.pixels_per_line / 8
+	  s.params.bytesPerLine = s.params.pixels_per_line / 8
 	  /* if the scanner truncates to the byte boundary, so: chop! */
-	  s.params.pixels_per_line = s.params.bytes_per_line * 8
+	  s.params.pixels_per_line = s.params.bytesPerLine * 8
 	  s.params.depth = 1
 	}
       else			/* if(strcmp(mode, Sane.VALUE_SCAN_MODE_GRAY) == 0) */
 	{
 	  s.params.format = Sane.FRAME_GRAY
-	  s.params.bytes_per_line = s.params.pixels_per_line
+	  s.params.bytesPerLine = s.params.pixels_per_line
 	  s.params.depth = 8
 	}
       s.params.last_frame = Sane.TRUE
     }
   else
-    DBG(DBG_proc, "Sane.get_parameters: scanning, so can't get params\n")
+    DBG(DBG_proc, "Sane.get_parameters: scanning, so can"t get params\n")
 
   if(params)
     *params = s.params
 
   DBG(DBG_proc,
        "%d pixels per line, %d bytes per line, %d lines high, total %lu bytes, "
-       "dpi=%ld\n", s.params.pixels_per_line, s.params.bytes_per_line,
+       "dpi=%ld\n", s.params.pixels_per_line, s.params.bytesPerLine,
        s.params.lines, (u_long) s.bytes_to_read,
        (long) Sane.UNFIX(s.val[OPT_Y_RESOLUTION].w))
 
@@ -3272,13 +3272,13 @@ set_window_data(HS2P_Scanner * s, SWD * wbuf)
 
 
 
-  /* For each window(up to 2 if we're duplexing) */
+  /* For each window(up to 2 if we"re duplexing) */
   nwin = (s.val[OPT_DUPLEX].w == Sane.TRUE) ? 2 : 1
   for(i = 0; i < nwin; i++)
     {
       data = &(wbuf.data[i])
       data.window_id = i
-      data.auto_bit &= 0xFE;	/* Auto bit set to 0 since auto function isn't supported */
+      data.auto_bit &= 0xFE;	/* Auto bit set to 0 since auto function isn"t supported */
 
       _lto2b(xres, &data.xres[0]);	/* Set X resolution */
       _lto2b(yres, &data.yres[0]);	/* Set Y resolution */
@@ -3309,7 +3309,7 @@ set_window_data(HS2P_Scanner * s, SWD * wbuf)
 
       /* Byte 27, 347 Halftone Code: if HALFTONE, then either DITHER or ERROR_DIFFUSION */
       if(s.image_composition == HALFTONE)
-	{			/* Then let's use pattern selected by user */
+	{			/* Then let"s use pattern selected by user */
 	  data.halftone_code =
 	    (get_halftone_code_id(s.val[OPT_HALFTONE_CODE].s) ==
 	     0) ? DITHER : ERROR_DIFFUSION
@@ -3341,16 +3341,16 @@ set_window_data(HS2P_Scanner * s, SWD * wbuf)
       /* Bit Ordering:
        *     Manual Says DEFAULT: [1111 1111][1111 1000]
        * Bits15-8 reserved
-       * Bit7: '0'-Normal '1'-Mirroring
+       * Bit7: "0"-Normal "1"-Mirroring
        * Bit6-4: Reserved
-       * Bit3: '0'-arrangement from MSB in grayscale mode
-       *       '1'-arrangement from LSB in grayscale mode
-       *    2: '0'-unpacked 4-bits grayscale[DEFAULT]
-       *       '1'-packed 4-bits grayscale
-       *    1: '0'-output from LSB of each word[DEFAULT]
-       *       '1'-output from MSB of each word
-       *    0: '0'-output from bit 0 of each byte[DEFAULT]
-       *       '1'-output from bit 7 of each byte
+       * Bit3: "0"-arrangement from MSB in grayscale mode
+       *       "1"-arrangement from LSB in grayscale mode
+       *    2: "0"-unpacked 4-bits grayscale[DEFAULT]
+       *       "1"-packed 4-bits grayscale
+       *    1: "0"-output from LSB of each word[DEFAULT]
+       *       "1"-output from MSB of each word
+       *    0: "0"-output from bit 0 of each byte[DEFAULT]
+       *       "1"-output from bit 7 of each byte
        */
       _lto2b(0x007, &data.bit_ordering[0]);	/* Set to Packed4bitGray, MSB, MSbit */
 
@@ -3424,10 +3424,10 @@ Sane.start(Sane.Handle handle)	/* begin scanning */
   if(s.another_side)
     {
       /* Number of bytes to read for one side of sheet */
-      s.bytes_to_read = s.params.bytes_per_line * s.params.lines
+      s.bytes_to_read = s.params.bytesPerLine * s.params.lines
       DBG(DBG_info,
 	   "SIDE#2 %d pixels per line, %d bytes, %d lines high, dpi=%d\n",
-	   s.params.pixels_per_line, s.params.bytes_per_line,
+	   s.params.pixels_per_line, s.params.bytesPerLine,
 	   s.params.lines, (Int) s.val[OPT_Y_RESOLUTION].w)
       s.scanning = Sane.TRUE
       s.cancelled = Sane.FALSE
@@ -3442,7 +3442,7 @@ Sane.start(Sane.Handle handle)	/* begin scanning */
       return Sane.STATUS_DEVICE_BUSY
     }
 
-  /* Let's start a new scan */
+  /* Let"s start a new scan */
 
   if((status = Sane.get_parameters(s, 0)) != Sane.STATUS_GOOD)
     {				/* get preliminary parameters */
@@ -3591,7 +3591,7 @@ Sane.start(Sane.Handle handle)	/* begin scanning */
 	  s.fd = -1
 	  return(status)
 	}
-      /* We succeeded, so we don't need to upload this vector again(unless user modifies gamma table) */
+      /* We succeeded, so we don"t need to upload this vector again(unless user modifies gamma table) */
       s.val[OPT_CUSTOM_GAMMA].b = Sane.FALSE
     }
 
@@ -3667,7 +3667,7 @@ Sane.start(Sane.Handle handle)	/* begin scanning */
   status = hs2p_wait_ready(s)
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(DBG_error, "GET DATA STATUS failed: %s\n",
+      DBG(DBG_error, "GET DATA Status failed: %s\n",
 	   Sane.strstatus(status))
       return(status)
     }
@@ -3675,9 +3675,9 @@ Sane.start(Sane.Handle handle)	/* begin scanning */
   s.another_side = (mode == DUPLEX) ? Sane.TRUE : Sane.FALSE
   /* Number of bytes to read for one side of sheet */
   DBG(DBG_info, "ANOTHER SIDE = %s\n", (s.another_side) ? "TRUE" : "FALSE")
-  s.bytes_to_read = s.params.bytes_per_line * s.params.lines
+  s.bytes_to_read = s.params.bytesPerLine * s.params.lines
   DBG(DBG_info, "%d pixels per line, %d bytes, %d lines high, dpi=%d\n",
-       s.params.pixels_per_line, s.params.bytes_per_line,
+       s.params.pixels_per_line, s.params.bytesPerLine,
        s.params.lines, (Int) s.val[OPT_Y_RESOLUTION].w)
   s.scanning = Sane.TRUE
   s.cancelled = Sane.FALSE
@@ -3702,7 +3702,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
        (u_long) s.bytes_to_read)
 
   if(s.bytes_to_read == 0)
-    {				/* We've reached the end of one side of sheet */
+    {				/* We"ve reached the end of one side of sheet */
       if(!s.another_side)
 	{
 	  do_cancel(s)
@@ -3744,7 +3744,7 @@ pad:
 	  /* pad to requested length */
 	  for(i = start; i < bytes_requested; i++)
 	    buf[i] = color
-	  nread = bytes_requested;	/* we've padded to bytes_requested */
+	  nread = bytes_requested;	/* we"ve padded to bytes_requested */
 	  *len = nread
 	  s.bytes_to_read -= nread
 	}
@@ -3767,7 +3767,7 @@ pad:
 	   * If status != Sane.STATUS_GOOD, then sense_handler() has already
 	   * been called and the sanei.* functions have already gotten the
 	   * sense data buffer(which apparently clears the error condition)
-	   * so the following doesn't work:
+	   * so the following doesn"t work:
 	   get_sense_data(s.fd, &(s.hw.sense_data))
 	   print_sense_data(&(s.hw.sense_data))
 	   */

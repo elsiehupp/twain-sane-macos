@@ -104,7 +104,7 @@ static char lpr_desc[] = Sane.I18N(
     "Changing this parameter allows you to tune the speed at which "
     "data is read from the scanner during scans. If this is set too "
     "low, the scanner will have to stop periodically in the middle of "
-    "a scan; if it's set too high, X-based frontends may stop responding "
+    "a scan; if it"s set too high, X-based frontends may stop responding "
     "to X events and your system could bog down.")
 
 static char frame_desc[] = Sane.I18N(
@@ -254,7 +254,7 @@ static const Sane.Range positive_percent_range =
 static void control_options(SnapScan_Scanner *pss)
 
 /* init_options -- initialize the option set for a scanner; expects the
-   scanner structure's hardware configuration byte(hconfig) to be valid.
+   scanner structure"s hardware configuration byte(hconfig) to be valid.
 
    ARGS: a pointer to an existing scanner structure
    RET:  nothing
@@ -1818,7 +1818,7 @@ Sane.Status Sane.control_option(Sane.Handle h,
  * Disable bilevel colour / halftoning for Epson 3490
  *
  * Revision 1.31  2005/11/17 23:47:10  oliver-guest
- * Revert previous 'fix', disable 2400 dpi for Epson 3490, use 1600 dpi instead
+ * Revert previous "fix", disable 2400 dpi for Epson 3490, use 1600 dpi instead
  *
  * Revision 1.30  2005/11/15 20:11:18  oliver-guest
  * Enabled quality calibration for the Epson 3490

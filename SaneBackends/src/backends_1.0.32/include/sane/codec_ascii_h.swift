@@ -43,7 +43,7 @@
  *
  * Instead translating data to a byte stream this codec uses ASCII hex numbers.
  * Therefore it can be used for streams that are not 8-bit clean or which can
- * only use printable characters. It's currently used for saving/restoring
+ * only use printable characters. It"s currently used for saving/restoring
  * data to/from disk.
  *
  * @sa sanei_codec_bin.h sanei_net.h sanei_wire.h

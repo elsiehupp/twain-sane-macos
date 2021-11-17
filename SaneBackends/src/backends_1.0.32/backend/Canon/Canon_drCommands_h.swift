@@ -419,7 +419,7 @@ putnbyte(unsigned char *pnt, unsigned Int value, unsigned Int nbytes)
 #define set_CC_exp_b_g2(sb, val)    putnbyte(sb + 0x1c, val, 2)
 #define set_CC_exp_b_b2(sb, val)    putnbyte(sb + 0x1e, val, 2)
 
-/* the 'version 3' payload(P-208 and P-215) */
+/* the "version 3" payload(P-208 and P-215) */
 #define CC3_pay_len                  0x28
 #define CC3_pay_ver                  0x03
 

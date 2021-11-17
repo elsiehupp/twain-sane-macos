@@ -20,7 +20,7 @@
  *        - removed calls to ps.PositionLamp
  * - 0.34 - no changes
  * - 0.35 - removed _PTDRV_PUT_SCANNER_MODEL from ioctl interface
- *        - added Kevins' changes(MiscRestorePort)
+ *        - added Kevins" changes(MiscRestorePort)
  *        - added parameter legal and function PtDrvLegalRequested()
  * - 0.36 - removed a bug in the shutdown function
  *        - removed all OP600P specific stuff because of the Primax tests
@@ -171,7 +171,7 @@ public volatile unsigned long jiffies
 MODULE_AUTHOR("Gerhard Jaeger <gerhard@gjaeger.de>")
 MODULE_DESCRIPTION("Plustek parallelport-scanner driver")
 
-/* addresses this 'new' license feature... */
+/* addresses this "new" license feature... */
 #ifdef MODULE_LICENSE
 MODULE_LICENSE("GPL")
 #endif
@@ -578,7 +578,7 @@ static void ptdrvStartLampTimer( pScanData ps )
 	s.sa_handler = ptdrvLampTimerIrq
 
 	if(	sigaction( SIGALRM, &s, NULL ) < 0 ) {
-		DBG(DBG_HIGH,"pt_drv%u: Can't setup timer-irq handler\n",ps.devno)
+		DBG(DBG_HIGH,"pt_drv%u: Can"t setup timer-irq handler\n",ps.devno)
 	}
 
 	sigprocmask( SIG_UNBLOCK, &block, &pause_mask )
@@ -642,7 +642,7 @@ static void ptdrvStopLampTimer( pScanData ps )
  */
 static Int ptdrvOpen( pScanData ps, Int portBase )
 {
-	Int retval
+	returnValue: Int
 
 	DBG( DBG_HIGH, "ptdrvOpen(port=0x%x)\n", (int32_t)portBase )
 	if( NULL == ps )
@@ -651,10 +651,10 @@ static Int ptdrvOpen( pScanData ps, Int portBase )
 	/*
 	 * claim port resources...
 	 */
-	retval = MiscClaimPort(ps)
+	returnValue = MiscClaimPort(ps)
 
-	if( _OK != retval )
-		return retval
+	if( _OK != returnValue )
+		return returnValue
 
 	return MiscInitPorts( ps, portBase )
 }
@@ -695,7 +695,7 @@ static Int ptdrvClose( pScanData ps )
  */
 static Int ptdrvOpenDevice( pScanData ps )
 {
-	Int    retval, iobase
+	Int    returnValue, iobase
 	UShort asic
 	UChar  lastStat
 	UShort lastMode
@@ -766,14 +766,14 @@ static Int ptdrvOpenDevice( pScanData ps )
 	/*
 	 * try to find scanner again
 	 */
-	retval = ptdrvOpen( ps, iobase )
+	returnValue = ptdrvOpen( ps, iobase )
 
-	if( _OK == retval )
-		retval = DetectScanner( ps, asic )
+	if( _OK == returnValue )
+		returnValue = DetectScanner( ps, asic )
 	else
 		ptdrvStartLampTimer( ps )
 
-	return retval
+	return returnValue
 }
 
 /*.............................................................................
@@ -782,7 +782,7 @@ static Int ptdrvOpenDevice( pScanData ps )
  */
 static Int ptdrvInit( Int devno )
 {
-	Int       retval
+	Int       returnValue
 	pScanData ps
 
 	DBG( DBG_HIGH, "ptdrvInit(%u)\n", devno )
@@ -824,26 +824,26 @@ static Int ptdrvInit( Int devno )
 	/*
 	 * try to register the port
 	 */
-	retval = MiscRegisterPort( ps, port[devno] )
+	returnValue = MiscRegisterPort( ps, port[devno] )
 
-	if( _OK == retval ) {
-		retval = ptdrvOpen( ps, port[devno] )
+	if( _OK == returnValue ) {
+		returnValue = ptdrvOpen( ps, port[devno] )
 	}
 
 	/*
 	 * try to detect a scanner...
 	 */
-	if( _OK == retval ) {
-		retval = DetectScanner( ps, 0 )
+	if( _OK == returnValue ) {
+		returnValue = DetectScanner( ps, 0 )
 
 		/* do this here before releasing the port */
-		if( _OK == retval ) {
+		if( _OK == returnValue ) {
 			ptDrvSwitchLampOn( ps )
 		}
 		ptdrvClose( ps )
 	}
 
-	if( _OK == retval ) {
+	if( _OK == returnValue ) {
 
 #ifdef __KERNEL__
 		_PRINT( "pt_drv%u: %s found on port 0x%04x\n",
@@ -902,7 +902,7 @@ static Int ptdrvInit( Int devno )
 		ptdrvStartLampTimer( ps )
 	}
 
-	return retval
+	return returnValue
 }
 
 /*.............................................................................
@@ -966,7 +966,7 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 	UInt   size
 	ULong  argVal
 	Int    cancel
-	Int    retval
+	Int    returnValue
 
 	/*
  	 * do the preliminary stuff here
@@ -974,16 +974,16 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 	if( NULL == ps )
 		return _E_NULLPTR
 
-	retval = _OK
+	returnValue = _OK
 
 	dir  = _IOC_DIR(cmd)
 	size = _IOC_SIZE(cmd)
 
 	if((_IOC_WRITE == dir) && size && (size <= sizeof(ULong))) {
 
-    	if(( retval = getUserPtr( arg, &argVal, size))) {
-			DBG( DBG_HIGH, "ioctl() failed - result = %i\n", retval )
-      		return retval
+    	if(( returnValue = getUserPtr( arg, &argVal, size))) {
+			DBG( DBG_HIGH, "ioctl() failed - result = %i\n", returnValue )
+      		return returnValue
 		}
 	}
 
@@ -1001,7 +1001,7 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 			return _E_VERSION
 		}
 
-		retval = ptdrvOpenDevice( ps )
+		returnValue = ptdrvOpenDevice( ps )
       	break
 
 	/* close */
@@ -1187,10 +1187,10 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 			}
 
 			_ASSERT( ps.SetupScanSettings )
-      		retval = ps.SetupScanSettings( ps, &sInf )
+      		returnValue = ps.SetupScanSettings( ps, &sInf )
 
 			/* CHANGE preset map here */
-			if( _OK == retval ) {
+			if( _OK == returnValue ) {
 				MapInitialize( ps )
 				MapSetupDither( ps )
 
@@ -1210,8 +1210,8 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 
 			DBG( DBG_LOW, "ioctl(_PTDRV_START_SCAN)\n" )
 
-			retval = IOIsReadyForScan( ps )
-			if( _OK == retval ) {
+			returnValue = IOIsReadyForScan( ps )
+			if( _OK == returnValue ) {
 
 				ps.dwDitherIndex      = 0
 				ps.fScanningStatus    = _TRUE
@@ -1239,7 +1239,7 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 		/* we may use this to abort scanning! */
 		ps.fScanningStatus = _FALSE
 
-		/* when using this to cancel, then that's all */
+		/* when using this to cancel, then that"s all */
 		if( _FALSE == cancel ) {
 
 			MotorToHomePosition( ps )
@@ -1249,32 +1249,32 @@ static Int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 
 			/* if environment was never set */
     	  	if(!(ps.DataInf.dwVxdFlag & _VF_ENVIRONMENT_READY))
-        		retval = _E_SEQUENCE
+        		returnValue = _E_SEQUENCE
 
 	      	ps.DataInf.dwVxdFlag &= ~_VF_ENVIRONMENT_READY
 
 		} else {
 			DBG( DBG_LOW, "CANCEL Mode set\n" )
 		}
-		retval = putUserVal(retval, arg, size)
+		returnValue = putUserVal(returnValue, arg, size)
       	break
 
 	/* read the flag status register, when reading the action button, you must
-	 * only do this call and none of the other ioctl's
+	 * only do this call and none of the other ioctl"s
      * like open, etc or it will always show up as "1"
 	 */
 	case _PTDRV_ACTION_BUTTON:
 		DBG( DBG_LOW, "ioctl(_PTDRV_ACTION_BUTTON)\n" )
 		IODataRegisterFromScanner( ps, ps.RegStatus )
-      	retval = putUserVal( argVal, arg, size )
+      	returnValue = putUserVal( argVal, arg, size )
 		break
 
 	default:
-		retval = _E_NOSUPP
+		returnValue = _E_NOSUPP
       	break
 	}
 
-	return retval
+	return returnValue
 }
 
 /*.............................................................................
@@ -1284,7 +1284,7 @@ static Int ptdrvRead( pScanData ps, pUChar buffer, Int count )
 {
 	pUChar	scaleBuf
 	ULong	dwLinesRead = 0
-	Int 	retval      = _OK
+	Int 	returnValue      = _OK
 
 #ifdef _ASIC_98001_SIM
 #ifdef __KERNEL__
@@ -1292,7 +1292,7 @@ static Int ptdrvRead( pScanData ps, pUChar buffer, Int count )
 #else
 		DBG( DBG_LOW,
 #endif
-					"pt_drv : Software-Emulation active, can't read!\n" )
+					"pt_drv : Software-Emulation active, can"t read!\n" )
 	return _E_INVALID
 #endif
 
@@ -1378,7 +1378,7 @@ static Int ptdrvRead( pScanData ps, pUChar buffer, Int count )
   	MotorToHomePosition( ps )
 
 	if( _FALSE == ps.fScanningStatus ) {
-		retval = _E_ABORT
+		returnValue = _E_ABORT
 		goto ReadFinished
 	}
 
@@ -1400,19 +1400,19 @@ static Int ptdrvRead( pScanData ps, pUChar buffer, Int count )
     ptdrvLampWarmup( ps )
 
 	if( _FALSE == ps.fScanningStatus ) {
-		retval = _E_ABORT
+		returnValue = _E_ABORT
 		goto ReadFinished
 	}
 
-    retval = ps.Calibration( ps )
-	if( _OK != retval ) {
+    returnValue = ps.Calibration( ps )
+	if( _OK != returnValue ) {
 #ifdef __KERNEL__
 		_PRINT(
 #else
 		DBG( DBG_HIGH,
 #endif
 			"pt_drv%u: calibration failed, result = %i\n",
-														ps.devno, retval )
+														ps.devno, returnValue )
 		goto ReadFinished
 	}
 
@@ -1440,7 +1440,7 @@ static Int ptdrvRead( pScanData ps, pUChar buffer, Int count )
 
 	if( _FALSE == ps.fScanningStatus ) {
 		DBG( DBG_HIGH, "read aborted!\n" )
-		retval = _E_ABORT
+		returnValue = _E_ABORT
 		goto ReadFinished
 	}
 
@@ -1535,13 +1535,13 @@ static Int ptdrvRead( pScanData ps, pUChar buffer, Int count )
 	        }
 
       	} else {
-      		retval = _E_INTERNAL
+      		returnValue = _E_INTERNAL
 		}
 	}
 
 	if( _FALSE == ps.fScanningStatus ) {
 		DBG( DBG_HIGH, "read aborted!\n" )
-		retval = _E_ABORT
+		returnValue = _E_ABORT
 	}
 
 ReadFinished:
@@ -1559,10 +1559,10 @@ ReadFinished:
 	/*
 	 * on success return number of bytes red
 	 */
-	if( _OK == retval )
+	if( _OK == returnValue )
     	return(ps.DataInf.dwAppPhyBytesPerLine * dwLinesRead)
 
-   	return retval
+   	return returnValue
 }
 
 /*************************** the module interface ****************************/
@@ -1583,7 +1583,7 @@ Int init_module( void )
 {
     UInt devCount
     UInt i
-    Int  retval = _OK
+    Int  returnValue = _OK
     Int  result = _OK
 #if(defined(CONFIG_DEVFS_FS) && !defined(DEVFS_26_STYLE))
     char controlname[24]
@@ -1652,7 +1652,7 @@ Int init_module( void )
 				ProcFsRegisterDevice( PtDrvDevices[i] )
 				devCount++
 			} else {
-				retval = result
+				returnValue = result
 				ptdrvShutdown( PtDrvDevices[i] )
 				PtDrvDevices[i] = NULL
 			}
@@ -1675,18 +1675,18 @@ out_devfs:
 		ProcFsShutdown()
 
 #ifdef __KERNEL__
-		_PRINT( KERN_INFO "pt_drv : no device(s) detected, (%i)\n", retval )
+		_PRINT( KERN_INFO "pt_drv : no device(s) detected, (%i)\n", returnValue )
 #endif
 
 	} else {
 
 		DBG( DBG_HIGH, "pt_drv : init done, %u device(s) found\n", devCount )
-		retval = _OK
+		returnValue = _OK
 	}
 	DBG( DBG_HIGH, "---------------------------------------------\n" )
 
 	deviceScanning = _FALSE
-	return retval
+	return returnValue
 }
 
 /*.............................................................................

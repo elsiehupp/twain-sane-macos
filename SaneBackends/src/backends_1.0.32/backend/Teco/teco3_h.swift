@@ -340,7 +340,7 @@ typedef struct Teco_Scanner
   size_t bytes_per_raster;	/* bytes per raster. In B&W and Gray,
 				   that the same as
 				   param.bytes_per_lines. In Color,
-				   it's a third.
+				   it"s a third.
 				 */
 
   Sane.Byte *image;		/* keep the raw image here */
@@ -364,7 +364,7 @@ typedef struct Teco_Scanner
   Int raster_num;		/* for color scan, current raster read */
   Int raster_real;		/* real number of raster in the
 				   * scan. This is necessary since I
-				   * don't know how to reliably compute
+				   * don"t know how to reliably compute
 				   * the number of lines */
   Int raster_ahead;		/* max size of the incomplete lines */
   Int line;			/* current line of the scan */

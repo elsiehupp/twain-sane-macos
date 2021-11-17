@@ -99,7 +99,7 @@ rts8891_write_all(Int devnum, Sane.Byte * regs, Int count)
     }
 
   /* copy register set and escaping 0xaa values                     */
-  /* b0, b1 abd b3 values may be scribled, but that isn't important */
+  /* b0, b1 abd b3 values may be scribled, but that isn"t important */
   /* since they are read-only registers                             */
   j = 0
   for(i = 0; i < 0xb3; i++)
@@ -127,7 +127,7 @@ rts8891_write_all(Int devnum, Sane.Byte * regs, Int count)
       return Sane.STATUS_IO_ERROR
     }
 
-  size = count - 0xb4;		/*  we need to subtract one reg since b3 won't be written */
+  size = count - 0xb4;		/*  we need to subtract one reg since b3 won"t be written */
   buffer[0] = 0x88
   buffer[1] = 0xb4
   buffer[2] = 0x00
@@ -171,12 +171,12 @@ rts8891_read_buttons(Int devnum, Int * mask)
   /* check CONTROL_REG */
   sanei_rts88xx_read_reg(devnum, CONTROL_REG, &reg)
 
-  /* read 'base' button status */
+  /* read "base" button status */
   sanei_rts88xx_read_reg(devnum, 0x25, &reg)
   DBG(DBG_io, "rts8891_read_buttons: r25=0x%02x\n", reg)
   *mask |= reg
 
-  /* read 'extended' button status */
+  /* read "extended" button status */
   sanei_rts88xx_read_reg(devnum, 0x1a, &reg)
   DBG(DBG_io, "rts8891_read_buttons: r1a=0x%02x\n", reg)
   *mask |= reg << 8
@@ -266,7 +266,7 @@ rts8891_simple_scan(Int devnum, Sane.Byte * regs, Int regcount,
 	    }
 	}
 
-      /* don't try to read data count if we have enough data */
+      /* don"t try to read data count if we have enough data */
       if(read < total)
 	{
 	  status = sanei_rts88xx_data_count(devnum, &count)
@@ -574,7 +574,7 @@ rts8891_wait_for_home(struct Rts8891_Device *device, Sane.Byte * regs)
 
   sanei_rts88xx_cancel(device.devnum)
 
-  /* reset ? so we don't need to read data */
+  /* reset ? so we don"t need to read data */
   reg = 0
   /* b7: movement on/off, b3-b0 : movement divisor */
   sanei_rts88xx_write_reg(device.devnum, 0x33, &reg)
@@ -617,7 +617,7 @@ rts8891_park(struct Rts8891_Device *device, Sane.Byte *regs, Bool wait)
  * We handle non blocking I/O by returning immediately(with Sane.STATUS_BUSY)
  * if there is no data available from scanner. But once read is started,
  * all the required amount is read. Once wait for data succeeded, we still poll
- * for data in order no to read it too fast, but we don' take care of non blocking
+ * for data in order no to read it too fast, but we don" take care of non blocking
  * mode since we cope with it on first data wait.
  */
 static Sane.Status
@@ -634,7 +634,7 @@ read_data(struct Rts8891_Session *session, Sane.Byte * dest, Int length)
   DBG(DBG_proc, "read_data: requiring %d bytes\n", length)
 
   /* wait for data being available and handle non blocking mode */
-  /* only when data reading hasn't produce any data yet */
+  /* only when data reading hasn"t produce any data yet */
   if(dev.read == 0)
     {
       do
@@ -657,7 +657,7 @@ read_data(struct Rts8891_Session *session, Sane.Byte * dest, Int length)
 	    }
 
 	  /* in case there is no data, we return BUSY since this mean    */
-	  /* that scanning head hasn't reach is position and data hasn't */
+	  /* that scanning head hasn"t reach is position and data hasn"t */
 	  /* come yet */
 	  if(session.non_blocking && count == 0)
 	    {
@@ -754,7 +754,7 @@ read_data(struct Rts8891_Session *session, Sane.Byte * dest, Int length)
 			       session.params.format ==
 			       Sane.FRAME_RGB
 			       || session.emulated_gray ==
-			       Sane.TRUE ? '6' : '5', dev.pixels,
+			       Sane.TRUE ? "6" : "5", dev.pixels,
 			       dev.lines)
 		    }
 		}

@@ -563,8 +563,8 @@ shm_channel_reader_init(Shm_Channel * shm_channel)
 
   shm_channel_fd_safe_close(&shm_channel.writer_put_pipe[1])
 
-  /* Don't close reader_put_pipe[0] here.  Otherwise, if the channel writer
-   * process dies early, this process might get SIGPIPE - and I don't want to
+  /* Don"t close reader_put_pipe[0] here.  Otherwise, if the channel writer
+   * process dies early, this process might get SIGPIPE - and I don"t want to
    * mess with signals in the main process. */
   /* shm_channel_fd_safe_close(&shm_channel.reader_put_pipe[0]); */
 

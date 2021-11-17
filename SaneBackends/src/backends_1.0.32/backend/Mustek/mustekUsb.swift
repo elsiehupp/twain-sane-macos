@@ -211,14 +211,14 @@ calc_parameters(Mustek_Usb_Scanner * s)
   s.params.lines = s.height_dots
   if(s.params.lines < 0)
     s.params.lines = 0
-  s.params.bytes_per_line = s.params.pixels_per_line * s.params.depth / 8
+  s.params.bytesPerLine = s.params.pixels_per_line * s.params.depth / 8
     * s.channels
 
   DBG(4, "calc_parameters: format=%d\n", s.params.format)
   DBG(4, "calc_parameters: last frame=%d\n", s.params.last_frame)
   DBG(4, "calc_parameters: lines=%d\n", s.params.lines)
   DBG(4, "calc_parameters: pixels per line=%d\n", s.params.pixels_per_line)
-  DBG(4, "calc_parameters: bytes per line=%d\n", s.params.bytes_per_line)
+  DBG(4, "calc_parameters: bytes per line=%d\n", s.params.bytesPerLine)
   DBG(4, "calc_parameters: Pixels %dx%dx%d\n",
        s.params.pixels_per_line, s.params.lines, 1 << s.params.depth)
 
@@ -446,26 +446,26 @@ attach(Sane.String_Const devname, Mustek_Usb_Device ** devp,
       {
 	if(devp)
 	  *devp = dev
-	DBG(4, "attach: device `%s' was already in device list\n", devname)
+	DBG(4, "attach: device `%s" was already in device list\n", devname)
 	return Sane.STATUS_GOOD
       }
 
-  DBG(4, "attach: trying to open device `%s'\n", devname)
+  DBG(4, "attach: trying to open device `%s"\n", devname)
   status = sanei_usb_open(devname, &fd)
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(3, "attach: couldn't open device `%s': %s\n", devname,
+      DBG(3, "attach: couldn"t open device `%s": %s\n", devname,
 	   Sane.strstatus(status))
       return status
     }
-  DBG(4, "attach: device `%s' successfully opened\n", devname)
+  DBG(4, "attach: device `%s" successfully opened\n", devname)
 
   /* try to identify model */
-  DBG(4, "attach: trying to identify device `%s'\n", devname)
+  DBG(4, "attach: trying to identify device `%s"\n", devname)
   status = usb_low_identify_scanner(fd, &scanner_type)
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(1, "attach: device `%s' doesn't look like a supported scanner\n",
+      DBG(1, "attach: device `%s" doesn"t look like a supported scanner\n",
 	   devname)
       sanei_usb_close(fd)
       return status
@@ -473,14 +473,14 @@ attach(Sane.String_Const devname, Mustek_Usb_Device ** devp,
   sanei_usb_close(fd)
   if(scanner_type == MT_UNKNOWN)
     {
-      DBG(3, "attach: warning: couldn't identify device `%s', must set "
+      DBG(3, "attach: warning: couldn"t identify device `%s", must set "
 	   "type manually\n", devname)
     }
 
   dev = malloc(sizeof(Mustek_Usb_Device))
   if(!dev)
     {
-      DBG(1, "attach: couldn't malloc Mustek_Usb_Device\n")
+      DBG(1, "attach: couldn"t malloc Mustek_Usb_Device\n")
       return Sane.STATUS_NO_MEM
     }
 
@@ -721,14 +721,14 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
   if(!fp)
     {
       /* default to /dev/usb/scanner instead of insisting on config file */
-      DBG(3, "Sane.init: couldn't open config file `%s': %s. Using "
+      DBG(3, "Sane.init: couldn"t open config file `%s": %s. Using "
 	   "/dev/usb/scanner directly\n", MUSTEK_USB_CONFIG_FILE,
 	   strerror(errno))
       attach("/dev/usb/scanner", 0, Sane.FALSE)
       return Sane.STATUS_GOOD
     }
   linenumber = 0
-  DBG(4, "Sane.init: reading config file `%s'\n", MUSTEK_USB_CONFIG_FILE)
+  DBG(4, "Sane.init: reading config file `%s"\n", MUSTEK_USB_CONFIG_FILE)
 
   while(sanei_config_read(line, sizeof(line), fp))
     {
@@ -744,7 +744,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 	    free(word)
 	  continue
 	}
-      if(word[0] == '#')
+      if(word[0] == "#")
 	{
 	  DBG(5, "Sane.init: config file line %d: ignoring comment line\n",
 	       linenumber)
@@ -789,7 +789,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 	      if(errno)
 		{
 		  DBG(3,
-		       "sane-init: config file line %d: max_block_size `%s' "
+		       "sane-init: config file line %d: max_block_size `%s" "
 		       "is invalid(%s); using 8192 bytes\n", linenumber,
 		       word, strerror(errno))
 		  max_block_size = 8192
@@ -811,7 +811,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 		  /* this is a 1200 UB */
 		  new_dev[new_dev_len - 1]->chip.scanner_type = MT_1200UB
 		  new_dev[new_dev_len - 1]->sane.model = "1200 UB"
-		  DBG(3, "Sane.init: config file line %d: `%s' is a Mustek "
+		  DBG(3, "Sane.init: config file line %d: `%s" is a Mustek "
 		       "1200 UB\n", linenumber,
 		       new_dev[new_dev_len - 1]->sane.name)
 		}
@@ -832,7 +832,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 		  /* this is a 1200 CU */
 		  new_dev[new_dev_len - 1]->chip.scanner_type = MT_1200CU
 		  new_dev[new_dev_len - 1]->sane.model = "1200 CU"
-		  DBG(3, "Sane.init: config file line %d: `%s' is a Mustek "
+		  DBG(3, "Sane.init: config file line %d: `%s" is a Mustek "
 		       "1200 CU\n", linenumber,
 		       new_dev[new_dev_len - 1]->sane.name)
 		}
@@ -854,7 +854,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 		  new_dev[new_dev_len - 1]->chip.scanner_type
 		    = MT_1200CU_PLUS
 		  new_dev[new_dev_len - 1]->sane.model = "1200 CU Plus"
-		  DBG(3, "Sane.init: config file line %d: `%s' is a Mustek "
+		  DBG(3, "Sane.init: config file line %d: `%s" is a Mustek "
 		       "1200 CU Plus\n", linenumber,
 		       new_dev[new_dev_len - 1]->sane.name)
 		}
@@ -875,7 +875,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 		  /* this is a 600 CU */
 		  new_dev[new_dev_len - 1]->chip.scanner_type = MT_600CU
 		  new_dev[new_dev_len - 1]->sane.model = "600 CU"
-		  DBG(3, "Sane.init: config file line %d: `%s' is a Mustek "
+		  DBG(3, "Sane.init: config file line %d: `%s" is a Mustek "
 		       "600 CU\n", linenumber,
 		       new_dev[new_dev_len - 1]->sane.name)
 		}
@@ -901,7 +901,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
       else
 	{
 	  new_dev_len = 0
-	  DBG(4, "Sane.init: config file line %d: trying to attach `%s'\n",
+	  DBG(4, "Sane.init: config file line %d: trying to attach `%s"\n",
 	       linenumber, line)
 	  sanei_usb_attach_matching_devices(line, attach_one_device)
 	  if(word)
@@ -998,7 +998,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
   Mustek_Usb_Scanner *s
   Int value
 
-  DBG(5, "Sane.open: start(devicename = `%s')\n", devicename)
+  DBG(5, "Sane.open: start(devicename = `%s")\n", devicename)
 
   if(devicename[0])
     {
@@ -1009,19 +1009,19 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
       if(!dev)
 	{
 	  DBG(5,
-	       "Sane.open: couldn't find `%s' in devlist, trying attach)\n",
+	       "Sane.open: couldn"t find `%s" in devlist, trying attach)\n",
 	       devicename)
 	  RIE(attach(devicename, &dev, Sane.TRUE))
 	}
       else
-	DBG(5, "Sane.open: found `%s' in devlist\n", dev.name)
+	DBG(5, "Sane.open: found `%s" in devlist\n", dev.name)
     }
   else
     {
       /* empty devicname -> use first device */
       dev = first_dev
       if(dev)
-	DBG(5, "Sane.open: empty devicename, trying `%s'\n", dev.name)
+	DBG(5, "Sane.open: empty devicename, trying `%s"\n", dev.name)
     }
 
   if(!dev)
@@ -1054,7 +1054,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
   s.hw.scan_buffer = (Sane.Byte *) malloc(SCAN_BUFFER_SIZE * 2)
   if(!s.hw.scan_buffer)
     {
-      DBG(5, "Sane.open: couldn't malloc s.hw.scan_buffer(%d bytes)\n",
+      DBG(5, "Sane.open: couldn"t malloc s.hw.scan_buffer(%d bytes)\n",
 	   SCAN_BUFFER_SIZE * 2)
       return Sane.STATUS_NO_MEM
     }
@@ -1064,7 +1064,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
   s.hw.temp_buffer = (Sane.Byte *) malloc(SCAN_BUFFER_SIZE)
   if(!s.hw.temp_buffer)
     {
-      DBG(5, "Sane.open: couldn't malloc s.hw.temp_buffer(%d bytes)\n",
+      DBG(5, "Sane.open: couldn"t malloc s.hw.temp_buffer(%d bytes)\n",
 	   SCAN_BUFFER_SIZE)
       return Sane.STATUS_NO_MEM
     }
@@ -1185,7 +1185,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 
   if(s.scanning)
     {
-      DBG(1, "Sane.control_option: don't call this function while "
+      DBG(1, "Sane.control_option: don"t call this function while "
 	   "scanning\n")
       return Sane.STATUS_DEVICE_BUSY
     }
@@ -1233,7 +1233,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 	  strcpy(val, s.val[option].s)
 	  break
 	default:
-	  DBG(2, "Sane.control_option: can't get unknown option %d\n",
+	  DBG(2, "Sane.control_option: can"t get unknown option %d\n",
 	       option)
 	}
     }
@@ -1344,7 +1344,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 	  myinfo |= Sane.INFO_RELOAD_OPTIONS | Sane.INFO_RELOAD_PARAMS
 	  break
 	default:
-	  DBG(2, "Sane.control_option: can't set unknown option %d\n",
+	  DBG(2, "Sane.control_option: can"t set unknown option %d\n",
 	       option)
 	}
     }
@@ -1390,7 +1390,7 @@ Sane.start(Sane.Handle handle)
   DBG(5, "Sane.start: start\n")
 
   /* First make sure we have a current parameter set.  Some of the
-     parameters will be overwritten below, but that's OK.  */
+     parameters will be overwritten below, but that"s OK.  */
 
   s.total_bytes = 0
   s.total_lines = 0
@@ -1545,20 +1545,20 @@ Sane.cancel(Sane.Handle handle)
 
   status = usb_high_scan_stop_scan(s.hw)
   if(status != Sane.STATUS_GOOD)
-    DBG(3, "Sane.cancel: usb_high_scan_stop_scan returned `%s' for `%s'\n",
+    DBG(3, "Sane.cancel: usb_high_scan_stop_scan returned `%s" for `%s"\n",
 	 Sane.strstatus(status), s.hw.name)
   usb_high_scan_back_home(s.hw)
   if(status != Sane.STATUS_GOOD)
-    DBG(3, "Sane.cancel: usb_high_scan_back_home returned `%s' for `%s'\n",
+    DBG(3, "Sane.cancel: usb_high_scan_back_home returned `%s" for `%s"\n",
 	 Sane.strstatus(status), s.hw.name)
 
   if(s.scanning)
     {
       s.scanning = Sane.FALSE
-      if(s.total_bytes != (s.params.bytes_per_line * s.params.lines))
+      if(s.total_bytes != (s.params.bytesPerLine * s.params.lines))
 	DBG(1, "Sane.cancel: warning: scanned %d bytes, expected %d "
 	     "bytes\n", s.total_bytes,
-	     s.params.bytes_per_line * s.params.lines)
+	     s.params.bytesPerLine * s.params.lines)
       else
 	DBG(3, "Sane.cancel: scan finished, scanned %d bytes\n",
 	     s.total_bytes)

@@ -217,25 +217,25 @@ Sane.Status hopper_down(struct scanner *s)
 Sane.Status inquiry(struct scanner *s, char *id)
 
 static inline u16
-swap_bytes16 (u16 x)
+swap_bytes16(u16 x)
 {
   return x << 8 | x >> 8
 }
 static inline u32
-swap_bytes32 (u32 x)
+swap_bytes32(u32 x)
 {
   return x << 24 | x >> 24 |
     (x & (u32) 0x0000ff00UL) << 8 | (x & (u32) 0x00ff0000UL) >> 8
 }
 
 static inline void
-copy16 (u8 * p, u16 x)
+copy16(u8 * p, u16 x)
 {
   memcpy(p, (u8 *) &x, sizeof(x))
 }
 
 static inline void
-copy32 (u8 * p, u32 x)
+copy32(u8 * p, u32 x)
 {
   memcpy(p, (u8 *) &x, sizeof(x))
 }

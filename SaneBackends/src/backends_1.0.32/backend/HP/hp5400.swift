@@ -107,11 +107,11 @@ typedef struct
 }
 THWParams
 
-/* The scanner needs a Base DPI off which all it's calibration and
+/* The scanner needs a Base DPI off which all it"s calibration and
  * offset/size parameters are based.  For the time being this is the same as
  * the iDpi but maybe we want it separate. This is because while this field
  * would have limited values(300,600,1200,2400) the x/y dpi can vary. The
- * windows interface seems to allow 200dpi(though I've never tried it). We
+ * windows interface seems to allow 200dpi(though I"ve never tried it). We
  * need to decide how these values are related to the HW coordinates. */
 
 
@@ -129,7 +129,7 @@ typedef struct
   Int iLinesRead;		/* Lines of image already read */
 
   Int iColourOffset;		/* How far the colours are offset. Currently this is
-				 * set by the caller. This doesn't seem to be
+				 * set by the caller. This doesn"t seem to be
 				 * necessary anymore since the scanner is doing it
 				 * internally. Leave it for the time being as it
 				 * may be needed later. */

@@ -65,7 +65,7 @@ typedef struct Wire
   {
     Int version;		/* protocol version in use */
     WireDirection direction
-    Int status
+    status: Int
     Int allocated_memory
     struct
       {

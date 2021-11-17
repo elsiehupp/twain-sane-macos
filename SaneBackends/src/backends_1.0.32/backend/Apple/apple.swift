@@ -43,7 +43,7 @@ import sys/types
 
 
 /*
-Warning: if you uncomment the next line you 'll get
+Warning: if you uncomment the next line you "ll get
 zero functionality. All the scanner specific function
 such as Sane.read, attach and the others will return
 without doing  anything. This way you can run the backend
@@ -647,7 +647,7 @@ return Sane.STATUS_GOOD
 #else
 
   cmd[0] = APPLE_SCSI_REQUEST_SENSE
-  STORE8 (cmd + 4, sizeof(result))
+  STORE8(cmd + 4, sizeof(result))
   sanei_scsi_cmd(s.fd, cmd, sizeof(cmd), result, &size)
 
   if(result[7] != 14)
@@ -808,14 +808,14 @@ if(APPLE_MODEL_SELECT==COLORONESCANNER)
 
   if(!Apple_scanner)
     {
-      DBG(ERROR_MESSAGE, "attach: device doesn't look like an Apple scanner"
+      DBG(ERROR_MESSAGE, "attach: device doesn"t look like an Apple scanner"
 	   "(result[0]=%#02x)\n", result[0])
       return Sane.STATUS_INVAL
     }
 
   /* get firmware revision as BCD number: */
   fw_revision =
-    (result[32] - '0') << 8 | (result[34] - '0') << 4 | (result[35] - '0')
+    (result[32] - "0") << 8 | (result[34] - "0") << 4 | (result[35] - "0")
   DBG(USER_MESSAGE, "attach: firmware revision %d.%02x\n",
        fw_revision >> 8, fw_revision & 0xff)
 
@@ -920,66 +920,66 @@ return Sane.STATUS_GOOD
   if(s.hw.ScannerModel == COLORONESCANNER)
     {
       STORE24 (CMD + 6, 50)
-      STORE16 (WH + 6, 42)
+      STORE16(WH + 6, 42)
     }
   else
     {
       STORE24 (CMD + 6, 48)
-      STORE16 (WH + 6, 40)
+      STORE16(WH + 6, 40)
     }
 
 /* Store resolution. First X, the Y */
 
-  STORE16 (WP + 2, s.val[OPT_RESOLUTION].w)
-  STORE16 (WP + 4, s.val[OPT_RESOLUTION].w)
+  STORE16(WP + 2, s.val[OPT_RESOLUTION].w)
+  STORE16(WP + 4, s.val[OPT_RESOLUTION].w)
 
 /* Now the Scanner Window in Scanner Parameters */
 
-  STORE32 (WP + 6, s.ULx)
-  STORE32 (WP + 10, s.ULy)
-  STORE32 (WP + 14, s.Width)
-  STORE32 (WP + 18, s.Height)
+  STORE32(WP + 6, s.ULx)
+  STORE32(WP + 10, s.ULy)
+  STORE32(WP + 14, s.Width)
+  STORE32(WP + 18, s.Height)
 
 /* Now The Enhansment Group */
 
-  STORE8 (WP + 22, s.val[OPT_BRIGHTNESS].w)
-  STORE8 (WP + 23, s.val[OPT_THRESHOLD].w)
-  STORE8 (WP + 24, s.val[OPT_CONTRAST].w)
+  STORE8(WP + 22, s.val[OPT_BRIGHTNESS].w)
+  STORE8(WP + 23, s.val[OPT_THRESHOLD].w)
+  STORE8(WP + 24, s.val[OPT_CONTRAST].w)
 
 /* The Mode */
 
   if      (!strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_LINEART))
-    STORE8 (WP + 25, 0)
+    STORE8(WP + 25, 0)
   else if(!strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_HALFTONE))
-    STORE8 (WP + 25, 1)
+    STORE8(WP + 25, 1)
   else if(!strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_GRAY) ||
 	   !strcmp(s.val[OPT_MODE].s, "Gray16"))
-    STORE8 (WP + 25, 2)
+    STORE8(WP + 25, 2)
   else if(!strcmp(s.val[OPT_MODE].s, "BiColor"))
-    STORE8 (WP + 25, 3)
+    STORE8(WP + 25, 3)
   else if(!strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_COLOR))
-    STORE8 (WP + 25, 5)
+    STORE8(WP + 25, 5)
   else
     {
       DBG(ERROR_MESSAGE, "Cannot much mode %s\n", s.val[OPT_MODE].s)
       return Sane.STATUS_INVAL
     }
 
-  STORE8 (WP + 26, s.bpp)
+  STORE8(WP + 26, s.bpp)
 
 /* HalfTone */
 if(s.hw.ScannerModel != COLORONESCANNER)
   {
   if	  (!strcmp(s.val[OPT_HALFTONE_PATTERN].s, "spiral4x4"))
-    STORE16 (WP + 27, 0)
+    STORE16(WP + 27, 0)
   else if(!strcmp(s.val[OPT_HALFTONE_PATTERN].s, "bayer4x4"))
-    STORE16 (WP + 27, 1)
+    STORE16(WP + 27, 1)
   else if(!strcmp(s.val[OPT_HALFTONE_PATTERN].s, "download"))
-    STORE16 (WP + 27, 1)
+    STORE16(WP + 27, 1)
   else if(!strcmp(s.val[OPT_HALFTONE_PATTERN].s, "spiral8x8"))
-    STORE16 (WP + 27, 3)
+    STORE16(WP + 27, 3)
   else if(!strcmp(s.val[OPT_HALFTONE_PATTERN].s, "bayer8x8"))
-    STORE16 (WP + 27, 4)
+    STORE16(WP + 27, 4)
   else
     {
       DBG(ERROR_MESSAGE, "Cannot much haftone pattern %s\n",
@@ -988,7 +988,7 @@ if(s.hw.ScannerModel != COLORONESCANNER)
     }
   }
 /* Padding Type */
-  STORE8 (WP + 29, 3)
+  STORE8(WP + 29, 3)
 
   if(s.hw.ScannerModel == COLORONESCANNER)
     {
@@ -1022,12 +1022,12 @@ mode_select(Apple_Scanner * s)
   cmd[0] = APPLE_SCSI_MODE_SELECT
 
 /* Apple Hardware Magic */
-  STORE8 (CMD + 1, 0x10)
+  STORE8(CMD + 1, 0x10)
 
 /* Parameter list length */
-  STORE8 (CMD + 4, 12)
+  STORE8(CMD + 4, 12)
 
-  STORE8 (PP + 5, 6)
+  STORE8(PP + 5, 6)
 
   if(s.val[OPT_LAMP].w) *(PP+8) |= 1
 
@@ -1035,11 +1035,11 @@ mode_select(Apple_Scanner * s)
     {
     case APPLESCANNER:
       if      (!strcmp(s.val[OPT_GRAYMAP].s, "dark"))
-	STORE8 (PP + 6, 0)
+	STORE8(PP + 6, 0)
       else if(!strcmp(s.val[OPT_GRAYMAP].s, "normal"))
-	STORE8 (PP + 6, 1)
+	STORE8(PP + 6, 1)
       else if(!strcmp(s.val[OPT_GRAYMAP].s, "light"))
-	STORE8 (PP + 6, 2)
+	STORE8(PP + 6, 2)
       else
 	{
 	DBG(ERROR_MESSAGE, "Cannot mach GrayMap Function %s\n",
@@ -1047,7 +1047,7 @@ mode_select(Apple_Scanner * s)
 	return Sane.STATUS_INVAL
 	}
 				/* And the auto background threshold */
-      STORE8 (PP + 7, s.val[OPT_AUTOBACKGROUND_THRESHOLD].w)
+      STORE8(PP + 7, s.val[OPT_AUTOBACKGROUND_THRESHOLD].w)
       break
     case ONESCANNER:
       if(s.val[OPT_LED].w) *(PP+7) |= 4
@@ -1075,13 +1075,13 @@ mode_select(Apple_Scanner * s)
       if(s.val[OPT_CCD].w)		*(PP+8) |= 2
 
       if      (!strcmp(s.val[OPT_COLOR_SENSOR].s, "All"))
-	STORE8 (PP + 9, 0)
+	STORE8(PP + 9, 0)
       else if(!strcmp(s.val[OPT_COLOR_SENSOR].s, "Red"))
-	STORE8 (PP + 9, 1)
+	STORE8(PP + 9, 1)
       else if(!strcmp(s.val[OPT_COLOR_SENSOR].s, "Green"))
-	STORE8 (PP + 9, 2)
+	STORE8(PP + 9, 2)
       else if(!strcmp(s.val[OPT_COLOR_SENSOR].s, "Blue"))
-	STORE8 (PP + 9, 3)
+	STORE8(PP + 9, 3)
       else
 	{
 	DBG(ERROR_MESSAGE, "Cannot mach Color Sensor for gray scans %s\n",
@@ -1263,12 +1263,12 @@ calc_parameters(Apple_Scanner * s)
    was looping and segfaulting all the time with random order. The
    problem was the following:
 
-   * You select new let's say BR_X
+   * You select new let"s say BR_X
    * Sane.control_option returns info inexact(always for BR_X) but
      does not modify val because it fits under the constrained
      quantization.
 
-   Hm... Well Sane.control doesn't change the(double) value of val
+   Hm... Well Sane.control doesn"t change the(double) value of val
    but the Fixed interpatation may have been change(by 1 or something
    small).
 
@@ -1280,7 +1280,7 @@ calc_parameters(Apple_Scanner * s)
 
    This hack fixed the looping situation. Unfortunately SIGSEGV
    remains when you touch the slice bars(thouhg not all the
-   time). But it's OK if you select scan_area from the preview window
+   time). But it"s OK if you select scan_area from the preview window
    (cool).
 
  */
@@ -1308,7 +1308,7 @@ calc_parameters(Apple_Scanner * s)
 
   s.params.pixels_per_line = s.Width * s.val[OPT_RESOLUTION].w / 1200
   s.params.lines = s.Height * s.val[OPT_RESOLUTION].w / 1200
-  s.params.bytes_per_line = s.params.pixels_per_line * s.params.depth / 8
+  s.params.bytesPerLine = s.params.pixels_per_line * s.params.depth / 8
 
 
   DBG(VARIABLE_CONTROL, "format=%d\n", s.params.format)
@@ -1316,7 +1316,7 @@ calc_parameters(Apple_Scanner * s)
   DBG(VARIABLE_CONTROL, "lines=%d\n", s.params.lines)
   DBG(VARIABLE_CONTROL, "depth=%d(%d)\n", s.params.depth, s.bpp)
   DBG(VARIABLE_CONTROL, "pixels_per_line=%d\n", s.params.pixels_per_line)
-  DBG(VARIABLE_CONTROL, "bytes_per_line=%d\n", s.params.bytes_per_line)
+  DBG(VARIABLE_CONTROL, "bytesPerLine=%d\n", s.params.bytesPerLine)
   DBG(VARIABLE_CONTROL, "Pixels %dx%dx%d\n",
        s.params.pixels_per_line, s.params.lines, 1 << s.params.depth)
 
@@ -1814,7 +1814,7 @@ init_options(Apple_Scanner * s)
   /* Use volt_ref */
   s.opt[OPT_VOLT_REF].name = "volt-ref"
   s.opt[OPT_VOLT_REF].title = "Volt Reference"
-  s.opt[OPT_VOLT_REF].desc ="It's brightness equivalent."
+  s.opt[OPT_VOLT_REF].desc ="It"s brightness equivalent."
   s.opt[OPT_VOLT_REF].type = Sane.TYPE_BOOL
   if(s.hw.ScannerModel!=COLORONESCANNER)
     s.opt[OPT_VOLT_REF].cap |= Sane.CAP_INACTIVE
@@ -2153,7 +2153,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 
   while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if(dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == "#")	/* ignore line comments */
 	continue
 
       len = strlen(dev_name)
@@ -2406,7 +2406,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 	case OPT_MODE:
 /*
 TODO: This is to protect the mode string to be ruined from the dll?
-backend. I do not know why. It's definitely an overkill and should be
+backend. I do not know why. It"s definitely an overkill and should be
 eliminated.
 	  status = sanei_constrain_value(s.opt + option, s.val[option].s,
 					  info)
@@ -2632,7 +2632,7 @@ Sane.start(Sane.Handle handle)
   Sane.Status status
 
   /* First make sure we have a current parameter set.  Some of the
-     parameters will be overwritten below, but that's OK.  */
+     parameters will be overwritten below, but that"s OK.  */
 
   calc_parameters(s)
 
@@ -2735,7 +2735,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
      order to use the COLORONESCANNER you have to study the docs to
      see how it the parameters get modified before scan. From this
      starting point it should be trivial to use a ONESCANNER Int the
-     gray256 mode but I don't have one from these pets in home.  MF */
+     gray256 mode but I don"t have one from these pets in home.  MF */
 
 
   memset(get_data_status, 0, sizeof(get_data_status))
@@ -2925,7 +2925,7 @@ Sane.cancel(Sane.Handle handle)
       else
 	{
 	  DBG(FLOW_CONTROL, "Sane.cancel: Scan has not been Initiated "
-	       "yet(or it's over).\n")
+	       "yet(or it"s over).\n")
 	}
     }
 
@@ -2941,7 +2941,7 @@ DBG(FLOW_CONTROL,"Sane.set_io_mode: Entering.\n")
 
 if(non_blocking)
   {
-  DBG(FLOW_CONTROL, "Sane.set_io_mode: Don't call me please. "
+  DBG(FLOW_CONTROL, "Sane.set_io_mode: Don"t call me please. "
        "Unimplemented function\n")
   return Sane.STATUS_UNSUPPORTED
   }
@@ -2955,7 +2955,7 @@ Sane.get_select_fd(Sane.Handle handle, Int * fd)
   handle = handle;				/* silence gcc */
   fd = fd;						/* silence gcc */
 
-  DBG(FLOW_CONTROL, "Sane.get_select_fd: Don't call me please. "
+  DBG(FLOW_CONTROL, "Sane.get_select_fd: Don"t call me please. "
        "Unimplemented function\n")
   return Sane.STATUS_UNSUPPORTED
 }

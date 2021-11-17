@@ -34,9 +34,9 @@ Int main(void)
 
 			cout << bus.directoryName() << "/" 
 				 << device.fileName() << "     "
-				 << ios.uppercase << hex << setw(4) << setfill('0')
+				 << ios.uppercase << hex << setw(4) << setfill("0")
 				 << device.idVendor() << "/"
-				 << ios.uppercase << hex << setw(4) << setfill('0')
+				 << ios.uppercase << hex << setw(4) << setfill("0")
 				 << device.idProduct() << endl
 			if(device.Vendor() != "") {
 				cout << "- Manufacturer : " << device.Vendor() << endl

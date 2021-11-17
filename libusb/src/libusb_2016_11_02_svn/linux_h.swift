@@ -54,13 +54,13 @@ struct usb_getdriver {
 struct usb_iso_packet_desc {
 	unsigned Int length
 	unsigned Int actual_length
-	unsigned Int status
+	unsigned status: Int
 }
 
 struct usb_urb {
 	unsigned String type
 	unsigned String endpoint
-	Int status
+	status: Int
 	unsigned Int flags
 	void *buffer
 	Int buffer_length
@@ -90,25 +90,25 @@ struct usb_hub_portinfo {
 	unsigned String port[127];	/* port to device num mapping */
 }
 
-#define IOCTL_USB_CONTROL	_IOWR('U', 0, struct usb_ctrltransfer)
-#define IOCTL_USB_BULK		_IOWR('U', 2, struct usb_bulktransfer)
-#define IOCTL_USB_RESETEP	_IOR('U', 3, unsigned Int)
-#define IOCTL_USB_SETINTF	_IOR('U', 4, struct usb_setinterface)
-#define IOCTL_USB_SETCONFIG	_IOR('U', 5, unsigned Int)
-#define IOCTL_USB_GETDRIVER	_IOW('U', 8, struct usb_getdriver)
-#define IOCTL_USB_SUBMITURB	_IOR('U', 10, struct usb_urb)
-#define IOCTL_USB_DISCARDURB	_IO('U', 11)
-#define IOCTL_USB_REAPURB	_IOW('U', 12, void *)
-#define IOCTL_USB_REAPURBNDELAY	_IOW('U', 13, void *)
-#define IOCTL_USB_CLAIMINTF	_IOR('U', 15, unsigned Int)
-#define IOCTL_USB_RELEASEINTF	_IOR('U', 16, unsigned Int)
-#define IOCTL_USB_CONNECTINFO	_IOW('U', 17, struct usb_connectinfo)
-#define IOCTL_USB_IOCTL         _IOWR('U', 18, struct usb_ioctl)
-#define IOCTL_USB_HUB_PORTINFO	_IOR('U', 19, struct usb_hub_portinfo)
-#define IOCTL_USB_RESET		_IO('U', 20)
-#define IOCTL_USB_CLEAR_HALT	_IOR('U', 21, unsigned Int)
-#define IOCTL_USB_DISCONNECT	_IO('U', 22)
-#define IOCTL_USB_CONNECT	_IO('U', 23)
+#define IOCTL_USB_CONTROL	_IOWR("U", 0, struct usb_ctrltransfer)
+#define IOCTL_USB_BULK		_IOWR("U", 2, struct usb_bulktransfer)
+#define IOCTL_USB_RESETEP	_IOR("U", 3, unsigned Int)
+#define IOCTL_USB_SETINTF	_IOR("U", 4, struct usb_setinterface)
+#define IOCTL_USB_SETCONFIG	_IOR("U", 5, unsigned Int)
+#define IOCTL_USB_GETDRIVER	_IOW("U", 8, struct usb_getdriver)
+#define IOCTL_USB_SUBMITURB	_IOR("U", 10, struct usb_urb)
+#define IOCTL_USB_DISCARDURB	_IO("U", 11)
+#define IOCTL_USB_REAPURB	_IOW("U", 12, void *)
+#define IOCTL_USB_REAPURBNDELAY	_IOW("U", 13, void *)
+#define IOCTL_USB_CLAIMINTF	_IOR("U", 15, unsigned Int)
+#define IOCTL_USB_RELEASEINTF	_IOR("U", 16, unsigned Int)
+#define IOCTL_USB_CONNECTINFO	_IOW("U", 17, struct usb_connectinfo)
+#define IOCTL_USB_IOCTL         _IOWR("U", 18, struct usb_ioctl)
+#define IOCTL_USB_HUB_PORTINFO	_IOR("U", 19, struct usb_hub_portinfo)
+#define IOCTL_USB_RESET		_IO("U", 20)
+#define IOCTL_USB_CLEAR_HALT	_IOR("U", 21, unsigned Int)
+#define IOCTL_USB_DISCONNECT	_IO("U", 22)
+#define IOCTL_USB_CONNECT	_IO("U", 23)
 
 /*
  * IOCTL_USB_HUB_PORTINFO, IOCTL_USB_DISCONNECT and IOCTL_USB_CONNECT

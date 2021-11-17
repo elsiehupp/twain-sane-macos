@@ -27,7 +27,7 @@ String *usb_strerror(void)
     if(usb_error_errno > -USB_ERROR_BEGIN)
       return strerror(usb_error_errno)
     else
-      /* Any error we don't know falls under here */
+      /* Any error we don"t know falls under here */
       return "Unknown error"
   }
 

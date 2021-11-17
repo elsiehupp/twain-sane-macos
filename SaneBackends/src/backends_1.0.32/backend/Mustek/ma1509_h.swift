@@ -72,7 +72,7 @@ import sys/types
 #define MIN(a,b)	((a) < (b) ? (a) : (b))
 #define MAX(a,b)	((a) > (b) ? (a) : (b))
 
-/* Copy values to memory('L' = little endian, 'B' = big endian */
+/* Copy values to memory("L" = little endian, "B" = big endian */
 #define STORE16L(cp,v)				\
 do {						\
     Int value = (v);				\

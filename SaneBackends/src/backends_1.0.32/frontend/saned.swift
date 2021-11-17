@@ -511,7 +511,7 @@ get_free_handle(void)
       while(h != last_handle_checked)
     }
 
-  /* we're out of handles---alloc some more: */
+  /* we"re out of handles---alloc some more: */
   last_handle_checked = num_handles - 1
   num_handles += ALLOC_INCREMENT
   if(handle)
@@ -927,23 +927,23 @@ check_host(Int fd)
       res = NULL
 
       DBG(DBG_DBG,
-	   "check_host: remote host doesn't have same addr as local\n")
+	   "check_host: remote host doesn"t have same addr as local\n")
     }
 
   /* must be a remote host: check contents of PATH_NET_CONFIG or
-     /etc/hosts.equiv if former doesn't exist: */
+     /etc/hosts.equiv if former doesn"t exist: */
   for(j = 0; j < NELEMS(config_file_names); ++j)
     {
       DBG(DBG_DBG, "check_host: opening config file: %s\n",
 	   config_file_names[j])
-      if(config_file_names[j][0] == '/')
+      if(config_file_names[j][0] == "/")
 	fp = fopen(config_file_names[j], "r")
       else
 	fp = sanei_config_open(config_file_names[j])
       if(!fp)
 	{
 	  DBG(DBG_MSG,
-	       "check_host: can't open config file: %s(%s)\n",
+	       "check_host: can"t open config file: %s(%s)\n",
 	       config_file_names[j], strerror(errno))
 	  continue
 	}
@@ -952,11 +952,11 @@ check_host(Int fd)
 					      sizeof(config_line_buf), fp))
 	{
 	  config_line = config_line_buf; /* from now on, use a pointer */
-	  DBG(DBG_DBG, "check_host: config file line: `%s'\n", config_line)
-	  if(config_line[0] == '#')
+	  DBG(DBG_DBG, "check_host: config file line: `%s"\n", config_line)
+	  if(config_line[0] == "#")
 	    continue;           /* ignore comments */
 
-	  if(strchr(config_line, '='))
+	  if(strchr(config_line, "="))
 	    continue;           /* ignore lines with an = sign */
 
 	  len = strlen(config_line)
@@ -964,10 +964,10 @@ check_host(Int fd)
 	    continue;		/* ignore empty lines */
 
 	  /* look for a subnet specification */
-	  netmask = strchr(config_line, '/')
+	  netmask = strchr(config_line, "/")
 	  if(netmask != NULL)
 	    {
-	      *netmask = '\0'
+	      *netmask = "\0"
 	      netmask++
 	      DBG(DBG_DBG, "check_host: subnet with base IP = %s, CIDR netmask = %s\n",
 		   config_line, netmask)
@@ -975,10 +975,10 @@ check_host(Int fd)
 
 #ifdef ENABLE_IPV6
 	  /* IPv6 addresses are enclosed in[] */
-	  if(*config_line == '[')
+	  if(*config_line == "[")
 	    {
 	      config_line++
-	      tmp = strchr(config_line, ']')
+	      tmp = strchr(config_line, "]")
 	      if(tmp == NULL)
 		{
 		  DBG(DBG_ERR,
@@ -986,7 +986,7 @@ check_host(Int fd)
 		       config_line)
 		  continue
 		}
-	      *tmp = '\0'
+	      *tmp = "\0"
 	    }
 #endif /* ENABLE_IPV6 */
 
@@ -994,7 +994,7 @@ check_host(Int fd)
 	    {
 	      access_ok = 1
 	      DBG(DBG_DBG,
-		   "check_host: access granted from any host(`+')\n")
+		   "check_host: access granted from any host(`+")\n")
 	    }
 	  /* compare remote_ip(remote IP address) to the config_line */
 	  else if(strcasecmp(config_line, remote_ip) == 0)
@@ -1013,7 +1013,7 @@ check_host(Int fd)
 	  /* handle IP ranges, take care of the IPv4map stuff */
 	  else if(netmask != NULL)
 	    {
-	      if(strchr(config_line, ':') != NULL) /* is a v6 address */
+	      if(strchr(config_line, ":") != NULL) /* is a v6 address */
 		{
 		  if(SS_FAMILY(remote_address.ss) == AF_INET6)
 		    {
@@ -1091,10 +1091,10 @@ check_host(Int fd)
 	      if(err)
 		{
 		  DBG(DBG_DBG,
-		       "check_host: getaddrinfo for `%s' failed: %s\n",
+		       "check_host: getaddrinfo for `%s" failed: %s\n",
 		       config_line, gai_strerror(err))
-		  DBG(DBG_MSG, "check_host: entry isn't an IP address "
-		       "and can't be found in DNS\n")
+		  DBG(DBG_MSG, "check_host: entry isn"t an IP address "
+		       "and can"t be found in DNS\n")
 		  continue
 		}
 	      else
@@ -1195,7 +1195,7 @@ check_host(Int fd)
       DBG(DBG_ERR, "check_host: gethostbyname for local hostname failed: %s\n",
 	   hstrerror(h_errno))
 
-      /* Proceed even if the local hostname doesn't resolve */
+      /* Proceed even if the local hostname doesn"t resolve */
       if(h_errno != HOST_NOT_FOUND)
 	return Sane.STATUS_INVAL
     }
@@ -1221,28 +1221,28 @@ check_host(Int fd)
 	}
       else
 	{
-	  DBG(DBG_ERR, "check_host: can't get local address "
+	  DBG(DBG_ERR, "check_host: can"t get local address "
 	       "(only IPv4 is supported)\n")
 	}
 
       DBG(DBG_DBG,
-	   "check_host: remote host doesn't have same addr as local\n")
+	   "check_host: remote host doesn"t have same addr as local\n")
     }
 
   /* must be a remote host: check contents of PATH_NET_CONFIG or
-     /etc/hosts.equiv if former doesn't exist: */
+     /etc/hosts.equiv if former doesn"t exist: */
   for(j = 0; j < NELEMS(config_file_names); ++j)
     {
       DBG(DBG_DBG, "check_host: opening config file: %s\n",
 	   config_file_names[j])
-      if(config_file_names[j][0] == '/')
+      if(config_file_names[j][0] == "/")
 	fp = fopen(config_file_names[j], "r")
       else
 	fp = sanei_config_open(config_file_names[j])
       if(!fp)
 	{
 	  DBG(DBG_MSG,
-	       "check_host: can't open config file: %s(%s)\n",
+	       "check_host: can"t open config file: %s(%s)\n",
 	       config_file_names[j], strerror(errno))
 	  continue
 	}
@@ -1251,11 +1251,11 @@ check_host(Int fd)
 					      sizeof(config_line_buf), fp))
 	{
 	  config_line = config_line_buf; /* from now on, use a pointer */
-	  DBG(DBG_DBG, "check_host: config file line: `%s'\n", config_line)
-	  if(config_line[0] == '#')
+	  DBG(DBG_DBG, "check_host: config file line: `%s"\n", config_line)
+	  if(config_line[0] == "#")
 	    continue;           /* ignore comments */
 
-	  if(strchr(config_line, '='))
+	  if(strchr(config_line, "="))
 	    continue;           /* ignore lines with an = sign */
 
 	  len = strlen(config_line)
@@ -1263,10 +1263,10 @@ check_host(Int fd)
 	    continue;		/* ignore empty lines */
 
 	  /* look for a subnet specification */
-	  netmask = strchr(config_line, '/')
+	  netmask = strchr(config_line, "/")
 	  if(netmask != NULL)
 	    {
-	      *netmask = '\0'
+	      *netmask = "\0"
 	      netmask++
 	      DBG(DBG_DBG, "check_host: subnet with base IP = %s, CIDR netmask = %s\n",
 		   config_line, netmask)
@@ -1276,7 +1276,7 @@ check_host(Int fd)
 	    {
 	      access_ok = 1
 	      DBG(DBG_DBG,
-		   "check_host: access accepted from any host(`+')\n")
+		   "check_host: access accepted from any host(`+")\n")
 	    }
 	  else
 	    {
@@ -1298,16 +1298,16 @@ check_host(Int fd)
 	      else
 		{
 		  DBG(DBG_DBG,
-		       "check_host: inet_pton for `%s' failed\n",
+		       "check_host: inet_pton for `%s" failed\n",
 		       config_line)
 		  he = gethostbyname(config_line)
 		  if(!he)
 		    {
 		      DBG(DBG_DBG,
-			   "check_host: gethostbyname for `%s' failed: %s\n",
+			   "check_host: gethostbyname for `%s" failed: %s\n",
 			   config_line, hstrerror(h_errno))
-		      DBG(DBG_MSG, "check_host: entry isn't an IP address "
-			   "and can't be found in DNS\n")
+		      DBG(DBG_MSG, "check_host: entry isn"t an IP address "
+			   "and can"t be found in DNS\n")
 		      continue
 		    }
 		  if(!inet_ntop(he.h_addrtype, he.h_addr_list[0],
@@ -1698,7 +1698,7 @@ do_scan(Wire * w, Int h, Int data_fd)
 		 pass back this status to the client: */
 	      FD_CLR(be_fd, &rd_mask)
 	      be_fd = -1
-	      /* only set status_dirty if EOF hasn't been already detected */
+	      /* only set status_dirty if EOF hasn"t been already detected */
 	      if(status == Sane.STATUS_GOOD)
 		status_dirty = 1
 	      status = Sane.STATUS_EOF
@@ -1780,7 +1780,7 @@ do_scan(Wire * w, Int h, Int data_fd)
 	      reader = i;	/* restore reader index */
 	      status_dirty = 1
 	      DBG(DBG_MSG,
-		   "do_scan: status = `%s'\n", Sane.strstatus(status))
+		   "do_scan: status = `%s"\n", Sane.strstatus(status))
 	    }
 	  else
 	    store_reclen(buf, sizeof(buf), i, length)
@@ -1792,7 +1792,7 @@ do_scan(Wire * w, Int h, Int data_fd)
 	  reader = store_reclen(buf, sizeof(buf), reader, 0xffffffff)
 	  buf[reader] = status
 	  bytes_in_buf += 5
-	  DBG(DBG_MSG, "do_scan: statuscode `%s' was added to buffer\n",
+	  DBG(DBG_MSG, "do_scan: statuscode `%s" was added to buffer\n",
 	       Sane.strstatus(status))
 	}
 
@@ -1908,13 +1908,13 @@ process_request(Wire * w)
 	  resource = strdup(device_list[0]->name)
 	}
 
-	if(strchr(resource, ':'))
-	  *(strchr(resource, ':')) = 0
+	if(strchr(resource, ":"))
+	  *(strchr(resource, ":")) = 0
 
 	if(sanei_authorize(resource, "saned", auth_callback) !=
 	    Sane.STATUS_GOOD)
 	  {
-	    DBG(DBG_ERR, "process_request: access to resource `%s' denied\n",
+	    DBG(DBG_ERR, "process_request: access to resource `%s" denied\n",
 		 resource)
 	    free(resource)
 	    memset(&reply, 0, sizeof(reply));	/* avoid leaking bits */
@@ -1922,7 +1922,7 @@ process_request(Wire * w)
 	  }
 	else
 	  {
-	    DBG(DBG_MSG, "process_request: access to resource `%s' granted\n",
+	    DBG(DBG_MSG, "process_request: access to resource `%s" granted\n",
 		 resource)
 	    free(resource)
 	    memset(&reply, 0, sizeof(reply));	/* avoid leaking bits */
@@ -1999,7 +1999,7 @@ process_request(Wire * w)
 	    return 1
 	  }
 
-        /* Addresses CVE-2017-6318 (#315576, Debian BTS #853804) */
+        /* Addresses CVE-2017-6318(#315576, Debian BTS #853804) */
         /* This is done here(rather than in sanei/sanei_wire.c where
          * it should be done) to minimize scope of impact and amount
          * of code change.
@@ -2361,7 +2361,7 @@ handle_connection(Int fd)
     p = getprotobyname("tcp")
     if(p == 0)
       {
-	DBG(DBG_WARN, "handle_connection: cannot look up `tcp' protocol number")
+	DBG(DBG_WARN, "handle_connection: cannot look up `tcp" protocol number")
       }
     else
       level = p.p_proto
@@ -2550,17 +2550,17 @@ saned_avahi_group_callback(AvahiEntryGroup *g, AvahiEntryGroupState state, void 
     {
       case AVAHI_ENTRY_GROUP_ESTABLISHED:
 	/* The entry group has been established successfully */
-	DBG(DBG_INFO, "saned_avahi_group_callback: service '%s' successfully established\n", avahi_svc_name)
+	DBG(DBG_INFO, "saned_avahi_group_callback: service "%s" successfully established\n", avahi_svc_name)
 	break
 
       case AVAHI_ENTRY_GROUP_COLLISION:
 	/* A service name collision with a remote service
-	 * happened. Let's pick a new name */
+	 * happened. Let"s pick a new name */
 	n = avahi_alternative_service_name(avahi_svc_name)
 	avahi_free(avahi_svc_name)
 	avahi_svc_name = n
 
-	DBG(DBG_WARN, "saned_avahi_group_callback: service name collision, renaming service to '%s'\n", avahi_svc_name)
+	DBG(DBG_WARN, "saned_avahi_group_callback: service name collision, renaming service to "%s"\n", avahi_svc_name)
 
 	/* And recreate the services */
 	saned_create_avahi_services(avahi_entry_group_get_client(g))
@@ -2602,7 +2602,7 @@ saned_create_avahi_services(AvahiClient *c)
 
   if(avahi_entry_group_is_empty(avahi_group))
     {
-      DBG(DBG_INFO, "saned_create_avahi_services: adding service '%s'\n", avahi_svc_name)
+      DBG(DBG_INFO, "saned_create_avahi_services: adding service "%s"\n", avahi_svc_name)
 
       snprintf(txt, sizeof(txt), "protovers=%x", Sane.VERSION_CODE(V_MAJOR, V_MINOR, SANEI_NET_PROTOCOL_VERSION))
 
@@ -2621,7 +2621,7 @@ saned_create_avahi_services(AvahiClient *c)
 	      avahi_free(avahi_svc_name)
 	      avahi_svc_name = n
 
-	      DBG(DBG_WARN, "saned_create_avahi_services: service name collision, renaming service to '%s'\n", avahi_svc_name)
+	      DBG(DBG_WARN, "saned_create_avahi_services: service name collision, renaming service to "%s"\n", avahi_svc_name)
 
 	      avahi_entry_group_reset(avahi_group)
 
@@ -2731,10 +2731,10 @@ read_config(void)
     {
       while(sanei_config_read(config_line, sizeof(config_line), fp))
         {
-          if(config_line[0] == '#')
+          if(config_line[0] == "#")
             continue;           /* ignore line comments */
 
-	  optval = strchr(config_line, '=')
+	  optval = strchr(config_line, "=")
 	  if(optval == NULL)
 	    continue;           /* only interested in options, skip hosts */
 
@@ -2744,12 +2744,12 @@ read_config(void)
 
           /*
            * Check for saned options.
-           * Anything that isn't an option is a client.
+           * Anything that isn"t an option is a client.
            */
           if(strstr(config_line, "data_portrange") != NULL)
             {
               optval = sanei_config_skip_whitespace(++optval)
-              if((optval != NULL) && (*optval != '\0'))
+              if((optval != NULL) && (*optval != "\0"))
                 {
 		  val = strtol(optval, &endval, 10)
 		  if(optval == endval)
@@ -2763,7 +2763,7 @@ read_config(void)
 		      continue
 		    }
 
-		  optval = strchr(endval, '-')
+		  optval = strchr(endval, "-")
 		  if(optval == NULL)
 		    {
 		      DBG(DBG_ERR, "read_config: no end port value for data_portrange\n")
@@ -2802,7 +2802,7 @@ read_config(void)
             else if(strstr(config_line, "data_connect_timeout") != NULL)
             {
               optval = sanei_config_skip_whitespace(++optval)
-              if((optval != NULL) && (*optval != '\0'))
+              if((optval != NULL) && (*optval != "\0"))
               {
                 val = strtol(optval, &endval, 10)
                 if(optval == endval)
@@ -2845,7 +2845,7 @@ do_bindings_family(Int family, Int *nfds, struct pollfd **fds, struct addrinfo *
 
   for(resp = res, i = 0; resp != NULL; resp = resp.ai_next, i++)
     {
-      /* We're not interested */
+      /* We"re not interested */
       if(resp.ai_family != family)
 	continue
 
@@ -2887,8 +2887,8 @@ do_bindings_family(Int family, Int *nfds, struct pollfd **fds, struct addrinfo *
 	  /*
 	   * Binding a socket may fail with EADDRINUSE if we already bound
 	   * to an IPv6 addr returned by getaddrinfo(usually the first ones)
-	   * and we're trying to bind to an IPv4 addr now.
-	   * It can also fail because we're trying to bind an IPv6 socket and IPv6
+	   * and we"re trying to bind to an IPv4 addr now.
+	   * It can also fail because we"re trying to bind an IPv6 socket and IPv6
 	   * is not functional on this machine.
 	   * In any case, a bind() call returning an error is not necessarily fatal.
 	   */
@@ -2998,7 +2998,7 @@ do_bindings(Int *nfds, struct pollfd **fds)
 
   if(*nfds <= 0)
     {
-      DBG(DBG_ERR, "do_bindings: couldn't bind an address. Exiting.\n")
+      DBG(DBG_ERR, "do_bindings: couldn"t bind an address. Exiting.\n")
       bail_out(1)
     }
 }
@@ -3310,7 +3310,7 @@ run_standalone(char *user)
 	  handle_client(fd)
 
 	  if(run_once == Sane.TRUE)
-	    break; /* We have handled the only connection we're going to handle */
+	    break; /* We have handled the only connection we"re going to handle */
 	}
 
       if(run_once == Sane.TRUE)
@@ -3352,8 +3352,8 @@ run_inetd(char __Sane.unused__ *sock)
     {
       Int dave_null
 
-      /* Some backends really can't keep their dirty fingers off
-       * stdin/stdout/stderr; we work around them here so they don't
+      /* Some backends really can"t keep their dirty fingers off
+       * stdin/stdout/stderr; we work around them here so they don"t
        * mess up the network dialog and crash the remote net backend
        * by messing with the inetd socket.
        * For systemd this not an issue as systemd uses fd >= 3 for the
@@ -3373,7 +3373,7 @@ run_inetd(char __Sane.unused__ *sock)
         }
       while(fd < 3)
 
-      /* Our good'ole friend Dave Null to the rescue */
+      /* Our good"ole friend Dave Null to the rescue */
       dave_null = open("/dev/null", O_RDWR)
       if(dave_null < 0)
         {
@@ -3411,14 +3411,14 @@ static void usage(char *me, Int err)
   fprintf(stderr,
        "Usage: %s[OPTIONS]\n\n"
        " Options:\n\n"
-       "  -a, --alone[=user]	equal to `-l -D -u user'\n"
+       "  -a, --alone[=user]	equal to `-l -D -u user"\n"
        "  -l, --listen		run in standalone mode(listen for connection)\n"
-       "  -u, --user=user	run as `user'\n"
+       "  -u, --user=user	run as `user"\n"
        "  -D, --daemonize	run in background\n"
        "  -o, --once		exit after first client disconnects\n"
-       "  -d, --debug=level	set debug level `level' (default is 2)\n"
+       "  -d, --debug=level	set debug level `level" (default is 2)\n"
        "  -e, --stderr		output to stderr\n"
-       "  -b, --bind=addr	bind address `addr' (default all interfaces)\n"
+       "  -b, --bind=addr	bind address `addr" (default all interfaces)\n"
        "  -p, --port=port	bind port `port` (default sane-port or 6566)\n"
        "  -h, --help		show this help message and exit\n", me)
 
@@ -3430,16 +3430,16 @@ static Int debug
 static struct option long_options[] =
 {
 /* These options set a flag. */
-  {"help",	no_argument,		0, 'h'},
-  {"alone",	optional_argument,	0, 'a'},
-  {"listen",	no_argument,		0, 'l'},
-  {"user",	required_argument,	0, 'u'},
-  {"daemonize", no_argument,		0, 'D'},
-  {"once",	no_argument,		0, 'o'},
-  {"debug",	required_argument,	0, 'd'},
-  {"stderr",	no_argument,		0, 'e'},
-  {"bind",	required_argument,	0, 'b'},
-  {"port",	required_argument,	0, 'p'},
+  {"help",	no_argument,		0, "h"},
+  {"alone",	optional_argument,	0, "a"},
+  {"listen",	no_argument,		0, "l"},
+  {"user",	required_argument,	0, "u"},
+  {"daemonize", no_argument,		0, "D"},
+  {"once",	no_argument,		0, "o"},
+  {"debug",	required_argument,	0, "d"},
+  {"stderr",	no_argument,		0, "e"},
+  {"bind",	required_argument,	0, "b"},
+  {"port",	required_argument,	0, "p"},
   {0,		0,			0,  0 }
 ]
 
@@ -3453,7 +3453,7 @@ func Int main(Int argc, char *argv[])
 
   debug = DBG_WARN
 
-  prog_name = strrchr(argv[0], '/')
+  prog_name = strrchr(argv[0], "/")
   if(prog_name)
     ++prog_name
   else
@@ -3467,37 +3467,37 @@ func Int main(Int argc, char *argv[])
   while((c = getopt_long(argc, argv,"ha::lu:Dod:eb:p:", long_options, &long_index )) != -1)
     {
       switch(c) {
-      case 'a':
+      case "a":
 	run_mode = SANED_RUN_ALONE
 	run_foreground = Sane.FALSE
 	if(optarg)
 	  user = optarg
 	break
-      case 'l':
+      case "l":
 	run_mode = SANED_RUN_ALONE
 	break
-      case 'u':
+      case "u":
 	user = optarg
 	break
-      case 'D':
+      case "D":
 	run_foreground = Sane.FALSE
 	break
-      case 'o':
+      case "o":
 	run_once = Sane.TRUE
 	break
-      case 'd':
+      case "d":
 	debug = atoi(optarg)
 	break
-      case 'e':
+      case "e":
 	log_to_syslog = Sane.FALSE
 	break
-      case 'b':
+      case "b":
 	bind_addr = optarg
 	break
-      case 'p':
+      case "p":
 	bind_port = atoi(optarg)
 	break
-      case 'h':
+      case "h":
 	usage(argv[0], EXIT_SUCCESS)
 	break
       default:

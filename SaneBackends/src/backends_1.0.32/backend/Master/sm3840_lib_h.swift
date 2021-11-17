@@ -130,7 +130,7 @@ static Int write_vctl(p_usb_dev_handle udev, Int request, Int value,
 static Int read_vctl(p_usb_dev_handle udev, Int request, Int value,
 		      Int index, unsigned char *byte)
 
-static void download_lut8 (p_usb_dev_handle udev, Int dpi, Int incolor)
+static void download_lut8(p_usb_dev_handle udev, Int dpi, Int incolor)
 
 static void record_line(Int reset,
 			 p_usb_dev_handle udev,

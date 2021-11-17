@@ -79,7 +79,7 @@ Sane.Status
 sanei_Espon_scsi_inquiry(Int fd, Int page_code, void *buf, size_t * buf_size)
 {
   u_char cmd[6]
-  Int status
+  status: Int
 
   memset(cmd, 0, 6)
   cmd[0] = INQUIRY_COMMAND

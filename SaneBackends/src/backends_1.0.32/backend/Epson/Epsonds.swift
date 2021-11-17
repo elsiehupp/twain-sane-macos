@@ -337,7 +337,7 @@ print_params(const Sane.Parameters params)
 {
 	DBG(6, "params.format          = %d\n", params.format)
 	DBG(6, "params.last_frame      = %d\n", params.last_frame)
-	DBG(6, "params.bytes_per_line  = %d\n", params.bytes_per_line)
+	DBG(6, "params.bytesPerLine  = %d\n", params.bytesPerLine)
 	DBG(6, "params.pixels_per_line = %d\n", params.pixels_per_line)
 	DBG(6, "params.lines           = %d\n", params.lines)
 	DBG(6, "params.depth           = %d\n", params.depth)
@@ -526,7 +526,7 @@ scanner_create(struct epsonds_device *dev, Sane.Status *status)
 }
 
 static struct epsonds_scanner *
-device_detect(const char *name, Int type, Sane.Status *status)
+device_detect(const char *name, type: Int, Sane.Status *status)
 {
 	struct epsonds_scanner *s
 	struct epsonds_device *dev
@@ -647,7 +647,7 @@ close:
 
 
 static Sane.Status
-attach(const char *name, Int type)
+attach(const char *name, type: Int)
 {
 	Sane.Status status
 	epsonds_scanner * s
@@ -995,10 +995,10 @@ Sane.open(Sane.String_Const name, Sane.Handle *handle)
 	Sane.Status status
 	epsonds_scanner *s = NULL
 
-	DBG(7, "** %s: name = '%s'\n", __func__, name)
+	DBG(7, "** %s: name = "%s"\n", __func__, name)
 
 	/* probe if empty device name provided */
-	if(name[0] == '\0') {
+	if(name[0] == "\0") {
 
 		probe_devices(Sane.FALSE)
 
@@ -1115,7 +1115,7 @@ change_source(epsonds_scanner *s, Int optindex, char *value)
 	Int force_max = Sane.FALSE
 	Bool dummy
 
-	DBG(1, "%s: optindex = %d, source = '%s'\n", __func__, optindex,
+	DBG(1, "%s: optindex = %d, source = "%s"\n", __func__, optindex,
 	    value)
 
 	s.val[OPT_SOURCE].w = optindex
@@ -1435,7 +1435,7 @@ Sane.start(Sane.Handle handle)
 	}
 
 	/* allocate line buffer */
-	s.line_buffer = realloc(s.line_buffer, s.params.bytes_per_line)
+	s.line_buffer = realloc(s.line_buffer, s.params.bytesPerLine)
 	if(s.line_buffer == NULL)
 		return Sane.STATUS_NO_MEM
 
@@ -1465,7 +1465,7 @@ Sane.start(Sane.Handle handle)
 			s.val[OPT_ADF_MODE].w ? "DPLX" : "",
 			s.val[OPT_ADF_SKEW].w ? "SKEW" : "")
 
-		/* it seems that DFL only works in duplex mode, but it's
+		/* it seems that DFL only works in duplex mode, but it"s
 		 * also required to be enabled or duplex will be rejected.
 		 */
 
@@ -1615,11 +1615,11 @@ read_again:
 	}
 
 	/* just got a back side page, alloc ring buffer if necessary
-	 * we didn't before because dummy was not known
+	 * we didn"t before because dummy was not known
 	 */
 	if(s.backside) {
 
-		Int required = s.params.lines * (s.params.bytes_per_line + s.dummy)
+		Int required = s.params.lines * (s.params.bytesPerLine + s.dummy)
 
 		if(s.back.size < required) {
 
@@ -1651,7 +1651,7 @@ read_again:
 	if(read) {
 
 		DBG(20, " %d bytes read, %d lines, eof: %d, canceling: %d, status: %d, backside: %d\n",
-			read, read / (s.params.bytes_per_line + s.dummy),
+			read, read / (s.params.bytesPerLine + s.dummy),
 			s.canceling, s.eof, status, s.backside)
 
 		/* move data to the appropriate ring */

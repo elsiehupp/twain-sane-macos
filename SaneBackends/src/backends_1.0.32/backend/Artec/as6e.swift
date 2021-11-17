@@ -372,7 +372,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
 	  DBG(3, "buffer offset = %d\n", buffer_offset)
 	}
       else if(max_len > *len)
-	{			/*there's still room to send data */
+	{			/*there"s still room to send data */
 	  for(bytecounter = 0; bytecounter < (max_len - *len); bytecounter++)
 	    buf[bytecounter + buffer_offset] = linebuffer[bytecounter]
 	  DBG(3, "topping off buffer\n")
@@ -393,7 +393,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
 	      = linebuffer[bytecounter]
 	  s.scan_buffer_count += written
 	}
-    }				/*while there's space in the buffer */
+    }				/*while there"s space in the buffer */
   s.image_counter += *len
   DBG(3, "image ctr = %d bytes_to_read = %lu returning %d\n",
        s.image_counter, (u_long) s.bytes_to_read, *len)
@@ -427,7 +427,7 @@ Sane.start(Sane.Handle handle)
   Sane.Word numbytes
   Int scan_params[8]
   /* First make sure we have a current parameter set.  Some of the
-   * parameters will be overwritten below, but that's OK.  */
+   * parameters will be overwritten below, but that"s OK.  */
   DBG(2, "Sane.start\n")
   status = Sane.get_parameters(s, 0)
   if(status != Sane.STATUS_GOOD)
@@ -504,23 +504,23 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	  (strcmp(s.mode, Sane.VALUE_SCAN_MODE_HALFTONE) == 0))
 	{
 	  s.Sane.params.format = Sane.FRAME_GRAY
-	  s.Sane.params.bytes_per_line = (s.Sane.params.pixels_per_line + 7) / 8
+	  s.Sane.params.bytesPerLine = (s.Sane.params.pixels_per_line + 7) / 8
 	  s.Sane.params.depth = 1
 	}  */
 /*else*/ if((strcmp(mode, Sane.VALUE_SCAN_MODE_GRAY) == 0)
 	     || (strcmp(mode, Sane.VALUE_SCAN_MODE_LINEART) == 0))
 	{
 	  s.Sane.params.format = Sane.FRAME_GRAY
-	  s.Sane.params.bytes_per_line = s.Sane.params.pixels_per_line
+	  s.Sane.params.bytesPerLine = s.Sane.params.pixels_per_line
 	  s.Sane.params.depth = 8
 	}			/*grey frame */
       else
 	{
 	  s.Sane.params.format = Sane.FRAME_RGB
-	  s.Sane.params.bytes_per_line = 3 * s.Sane.params.pixels_per_line
+	  s.Sane.params.bytesPerLine = 3 * s.Sane.params.pixels_per_line
 	  s.Sane.params.depth = 8
 	}			/*color frame */
-      s.bytes_to_read = s.Sane.params.lines * s.Sane.params.bytes_per_line
+      s.bytes_to_read = s.Sane.params.lines * s.Sane.params.bytesPerLine
       s.Sane.params.last_frame = Sane.TRUE
     }				/*!scanning */
 
@@ -676,9 +676,9 @@ as6e_open(AS6E_Scan * s)
   char inpipe_desc[32], outpipe_desc[32], datapipe_desc[32]
   pid_t fork_result
   DBG(1, "as6e_open\n")
-  memset(inpipe_desc, '\0', sizeof(inpipe_desc))
-  memset(outpipe_desc, '\0', sizeof(outpipe_desc))
-  memset(datapipe_desc, '\0', sizeof(datapipe_desc))
+  memset(inpipe_desc, "\0", sizeof(inpipe_desc))
+  memset(outpipe_desc, "\0", sizeof(outpipe_desc))
+  memset(datapipe_desc, "\0", sizeof(datapipe_desc))
   if((pipe(ctloutpipe) == 0) && (pipe(ctlinpipe) == 0)
       && (pipe(datapipe) == 0))
     {
@@ -759,11 +759,11 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 
   while(fgets(dev_name, sizeof(dev_name), fp))
     {
-      if(dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == "#")	/* ignore line comments */
 	continue
       len = strlen(dev_name)
-      if(dev_name[len - 1] == '\n')
-	dev_name[--len] = '\0'
+      if(dev_name[len - 1] == "\n")
+	dev_name[--len] = "\0"
       if(!len)
 	continue;		/* ignore empty lines */
 /*      sanei_config_attach_matching_devices(dev_name, attach_one);*/
@@ -925,11 +925,11 @@ check_for_driver(const char *devname)
   path = getenv("PATH")
   if(!path)
     return 0
-  while(path[count] != '\0')
+  while(path[count] != "\0")
     {
-      memset(dir, '\0', sizeof(dir))
+      memset(dir, "\0", sizeof(dir))
       valid = 1
-      while((path[count] != ':') && (path[count] != '\0'))
+      while((path[count] != ":") && (path[count] != "\0"))
 	{
 	  /* prevent writing data, which are out of bounds */
 	  if((unsigned Int)(count - offset) < sizeof(dir))
@@ -952,7 +952,7 @@ check_for_driver(const char *devname)
                   }
               }
           }
-      if(path[count] == '\0')
+      if(path[count] == "\0")
 	return(0);		/* end of path --no driver found */
       count++
       offset = count

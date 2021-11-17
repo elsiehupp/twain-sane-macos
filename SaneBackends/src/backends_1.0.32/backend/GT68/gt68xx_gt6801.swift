@@ -118,7 +118,7 @@ static Sane.Status gt6801_stop_scan(GT68xx_Device * dev)
 
 import gt68xx_gt6801
 
-/* doesn't work with plustek scanner */
+/* doesn"t work with plustek scanner */
 Sane.Status
 gt6801_check_firmware(GT68xx_Device * dev, Bool * loaded)
 {
@@ -140,7 +140,7 @@ gt6801_check_firmware(GT68xx_Device * dev, Bool * loaded)
   return Sane.STATUS_GOOD
 }
 
-/* doesn't work with at least cytron scanner */
+/* doesn"t work with at least cytron scanner */
 Sane.Status
 gt6801_check_plustek_firmware(GT68xx_Device * dev, Bool * loaded)
 {
@@ -162,7 +162,7 @@ gt6801_check_plustek_firmware(GT68xx_Device * dev, Bool * loaded)
 
   /* check for correct answer */
   if((req[0] == 0) && (req[1] == 0x12) && (req[3] == 0x80))
-    /* req[3] is 0 if fw is not loaded, if loaded it's 0x80
+    /* req[3] is 0 if fw is not loaded, if loaded it"s 0x80
      * at least on my 1284u(gerhard@gjaeger.de)
      *
      * With the Genius scanners req[3] is 0x02/0x82. (hmg)
@@ -232,8 +232,8 @@ gt6801_download_firmware(GT68xx_Device * dev,
   RIE(gt68xx_device_req(dev, boot_req, boot_req))
 
 #if 0
-  /* hmg: the following isn't in my log: */
-  memset(boot_req, 0, sizeof(boot_req));	/* I don't know if this is needed */
+  /* hmg: the following isn"t in my log: */
+  memset(boot_req, 0, sizeof(boot_req));	/* I don"t know if this is needed */
   boot_req[0] = 0x01
   boot_req[1] = 0x01
   RIE(gt68xx_device_small_req(dev, boot_req, boot_req))
@@ -254,8 +254,8 @@ gt6801_get_power_status(GT68xx_Device * dev, Bool * power_ok)
 
   RIE(gt68xx_device_req(dev, req, req))
 
-  /* I don't know what power_ok = Sane.FALSE looks like... */
-  /* hmg: let's assume it's different from the usual 00 10 */
+  /* I don"t know what power_ok = Sane.FALSE looks like... */
+  /* hmg: let"s assume it"s different from the usual 00 10 */
   if(gt68xx_device_check_result(req, 0x10) == Sane.STATUS_GOOD)
     *power_ok = Sane.TRUE
   else

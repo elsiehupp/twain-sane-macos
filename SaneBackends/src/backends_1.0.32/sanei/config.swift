@@ -59,10 +59,10 @@ import Sane.sanei_debug
 
 #if defined(_WIN32) || defined(HAVE_OS2_H)
 # define DIR_SEP	";"
-# define PATH_SEP	'\\'
+# define PATH_SEP	"\\"
 #else
 # define DIR_SEP	":"
-# define PATH_SEP	'/'
+# define PATH_SEP	"/"
 #endif
 
 #define DEFAULT_DIRS	"." DIR_SEP STRINGIFY(PATH_Sane.CONFIG_DIR)
@@ -137,7 +137,7 @@ sanei_config_open(const char *filename)
   cfg_dir_list = sanei_config_get_paths()
   if(!cfg_dir_list)
     {
-      DBG(2, "sanei_config_open: could not find config file `%s'\n", filename)
+      DBG(2, "sanei_config_open: could not find config file `%s"\n", filename)
       return NULL
     }
 
@@ -146,18 +146,18 @@ sanei_config_open(const char *filename)
   for(next = copy; (dir = strsep(&next, DIR_SEP)) != 0; )
     {
       snprintf(result, sizeof(result), "%s%c%s", dir, PATH_SEP, filename)
-      DBG(4, "sanei_config_open: attempting to open `%s'\n", result)
+      DBG(4, "sanei_config_open: attempting to open `%s"\n", result)
       fp = fopen(result, "r")
       if(fp)
 	{
-	  DBG(3, "sanei_config_open: using file `%s'\n", result)
+	  DBG(3, "sanei_config_open: using file `%s"\n", result)
 	  break
 	}
     }
   free(copy)
 
   if(!fp)
-    DBG(2, "sanei_config_open: could not find config file `%s'\n", filename)
+    DBG(2, "sanei_config_open: could not find config file `%s"\n", filename)
 
   return fp
 }
@@ -178,13 +178,13 @@ sanei_config_get_string(const char *str, char **string_const)
 
   str = sanei_config_skip_whitespace(str)
 
-  if(*str == '"')
+  if(*str == """)
     {
       start = ++str
-      while(*str && *str != '"')
+      while(*str && *str != """)
 	++str
       len = str - start
-      if(*str == '"')
+      if(*str == """)
 	++str
       else
 	start = 0;		/* final double quote is missing */
@@ -218,7 +218,7 @@ sanei_config_read(char *str, Int n, FILE *stream)
       /* remove ending whitespaces */
    len = strlen( str)
    while( (0 < len) && (isspace( str[--len])) )
-      str[len] = '\0'
+      str[len] = "\0"
 
       /* remove starting whitespaces */
    start = str
@@ -259,7 +259,7 @@ sanei_configure_attach(const char *config_file, SANEI_Config * config,
   fp = sanei_config_open(config_file)
   if(!fp)
     {
-      DBG(2, "sanei_configure_attach: couldn't access %s\n", config_file)
+      DBG(2, "sanei_configure_attach: couldn"t access %s\n", config_file)
       DBG(3, "sanei_configure_attach: exit\n")
       return Sane.STATUS_ACCESS_DENIED
     }
@@ -278,14 +278,14 @@ sanei_configure_attach(const char *config_file, SANEI_Config * config,
 	continue
 
       /* skip comment line */
-      if(line[0] == '#')
+      if(line[0] == "#")
 	continue
 
       len = strlen(line)
 
       /* delete newline characters at end */
-      if(line[len - 1] == '\n')
-	line[--len] = '\0'
+      if(line[len - 1] == "\n")
+	line[--len] = "\0"
 
       lp2 = lp
 
@@ -323,7 +323,7 @@ sanei_configure_attach(const char *config_file, SANEI_Config * config,
 		      if(string == NULL)
 			{
 			  DBG(2,
-			       "sanei_configure_attach: couldn't find a string to parse")
+			       "sanei_configure_attach: couldn"t find a string to parse")
 			  return Sane.STATUS_INVAL
 			}
 		      wa[j] = strtol(string, NULL, 0)
@@ -341,7 +341,7 @@ sanei_configure_attach(const char *config_file, SANEI_Config * config,
 		      if(string == NULL)
 			{
 			  DBG(2,
-			       "sanei_configure_attach: couldn't find a string to parse")
+			       "sanei_configure_attach: couldn"t find a string to parse")
 			  return Sane.STATUS_INVAL
 			}
 		      if((strcmp(string, "1") == 0)
@@ -357,7 +357,7 @@ sanei_configure_attach(const char *config_file, SANEI_Config * config,
 			  else
 			    {
 			      DBG(2,
-				   "sanei_configure_attach: couldn't find a valid boolean value")
+				   "sanei_configure_attach: couldn"t find a valid boolean value")
 			      return Sane.STATUS_INVAL
 			    }
 			}
@@ -375,7 +375,7 @@ sanei_configure_attach(const char *config_file, SANEI_Config * config,
 		      if(string == NULL)
 			{
 			  DBG(2,
-			       "sanei_configure_attach: couldn't find a string to parse")
+			       "sanei_configure_attach: couldn"t find a string to parse")
 			  return Sane.STATUS_INVAL
 			}
 		      wa[j] = Sane.FIX(strtod(string, NULL))
@@ -387,7 +387,7 @@ sanei_configure_attach(const char *config_file, SANEI_Config * config,
 		  if(string == NULL)
 		    {
 		      DBG(2,
-			   "sanei_configure_attach: couldn't find a string value to parse")
+			   "sanei_configure_attach: couldn"t find a string value to parse")
 		      return Sane.STATUS_INVAL
 		    }
 		  value = string
@@ -422,7 +422,7 @@ sanei_configure_attach(const char *config_file, SANEI_Config * config,
 	  if(status != Sane.STATUS_GOOD)
 	    {
 	      DBG(1,
-		   "sanei_configure_attach: failed to parse option '%s', line '%s'\n",
+		   "sanei_configure_attach: failed to parse option "%s", line "%s"\n",
 		   token, line)
 	    }
 	  i++
@@ -439,7 +439,7 @@ sanei_configure_attach(const char *config_file, SANEI_Config * config,
 	   * sanei_usb_attach_matching_devices, sanei_config_attach_matching_devices
 	   * or other. This means 2 callback functions per backend using this
 	   * function. */
-	  DBG(3, "sanei_configure_attach: trying to attach with '%s'\n",
+	  DBG(3, "sanei_configure_attach: trying to attach with "%s"\n",
 	       lp2)
 	  if(attach!=NULL)
 	  	attach(config, lp2, data)

@@ -32,7 +32,7 @@ import limits
 
 /* The following contortions are an attempt to use the C preprocessor
     to determine an unsigned integral type that is 32 bits wide. An
-    alternative approach is to use autoconf's AC_CHECK_SIZEOF macro, but
+    alternative approach is to use autoconf"s AC_CHECK_SIZEOF macro, but
     doing that would require that the configure script compile and *run*
     the resulting executable. Locally running cross-compiled executables
     is usually not possible. */
@@ -48,9 +48,9 @@ typedef uintptr_t md5_uintptr
 #    define UINT_MAX_32_BITS 0xFFFFFFFF
 # endif
 
-/* If UINT_MAX isn't defined, assume it's a 32-bit type.
+/* If UINT_MAX isn"t defined, assume it"s a 32-bit type.
     This should be valid for all systems GNU cares about because
-    that doesn't include 16-bit systems, and only modern systems
+    that doesn"t include 16-bit systems, and only modern systems
     (that certainly have <limits) have 64+-bit integral types. */
 
 # ifndef UINT_MAX
@@ -107,7 +107,7 @@ struct md5_ctx
 
 /*
  * The following three functions are build up the low level used in
- * the functions `md5_stream' and `md5_buffer'.
+ * the functions `md5_stream" and `md5_buffer".
  */
 
 /* Initialize structure containing state of computation.
@@ -242,12 +242,12 @@ static let unsigned String fillbuf[64] = { 0x80, 0 /* , 0, 0, ... */ }
 
 void
 md5_init_ctx(struct md5_ctx *ctx)
-func void *
-func void ead_ctx(let struct md5_ctx *ctx, void *resbuf)
+func *
+func ead_ctx(let struct md5_ctx *ctx, void *resbuf)
 void *
 md5_finish_ctx(struct md5_ctx *ctx, void *resbuf)
 func Int md5_stream(FILE *stream, void *resblock)
-func void *
+func *
 md5_buffer(let String *buffer, size_t len, void *resblock)
 void
 md5_process_bytes(let void *buffer, size_t len, struct md5_ctx *ctx)
@@ -274,7 +274,7 @@ md5_init_ctx(struct md5_ctx *ctx)
 
     IMPORTANT: On some systems it is required that RESBUF is correctly
     aligned for a 32 bits value. */
-func void *
+func *
 md5_read_ctx(let struct md5_ctx *ctx, void *resbuf)
 {
     ((md5_uint32 *) resbuf)[0] = SWAP(ctx.A)
@@ -290,7 +290,7 @@ md5_read_ctx(let struct md5_ctx *ctx, void *resbuf)
 
     IMPORTANT: On some systems it is required that RESBUF is correctly
     aligned for a 32 bits value. */
-func void *
+func *
 md5_finish_ctx(struct md5_ctx *ctx, void *resbuf)
 {
     /* Take yet unprocessed bytes into account. */
@@ -373,7 +373,7 @@ func Int md5_stream(FILE *stream, void *resblock)
     result is always in little endian byte order, so that a byte-wise
     output yields to the wanted ASCII representation of the message
     digest. */
-func void *
+func *
 md5_buffer(let String *buffer, size_t len, void *resblock)
 {
     struct md5_ctx ctx
@@ -421,7 +421,7 @@ md5_process_bytes(let void *buffer, size_t len, struct md5_ctx *ctx)
         {
 #if !_STRING_ARCH_unaligned
 /* To check alignment gcc has an appropriate operator. Other
-    compilers don't. */
+    compilers don"t. */
 # if __GNUC__ >= 2
 #    define UNALIGNED_P(p) (((md5_uintptr) p) % __alignof__ (md5_uint32) != 0)
 # else

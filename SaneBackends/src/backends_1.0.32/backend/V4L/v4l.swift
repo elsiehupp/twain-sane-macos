@@ -143,25 +143,25 @@ attach(const char *devname, V4L_Device ** devp)
       if(v4l1_ioctl(v4lfd, VIDIOCGCAP, &capability) == -1)
 	{
 	  DBG(1,
-	       "attach: ioctl(%d, VIDIOCGCAP,..) failed on `%s': %s\n",
+	       "attach: ioctl(%d, VIDIOCGCAP,..) failed on `%s": %s\n",
 	       v4lfd, devname, strerror(errno))
 	  v4l1_close(v4lfd)
 	  return Sane.STATUS_INVAL
 	}
       if(!(VID_TYPE_CAPTURE & capability.type))
 	{
-	  DBG(1, "attach: device %s can't capture to memory -- exiting\n",
+	  DBG(1, "attach: device %s can"t capture to memory -- exiting\n",
 	       devname)
 	  v4l1_close(v4lfd)
 	  return Sane.STATUS_UNSUPPORTED
 	}
-      DBG(2, "attach: found videodev `%s' on `%s'\n", capability.name,
+      DBG(2, "attach: found videodev `%s" on `%s"\n", capability.name,
 	   devname)
       v4l1_close(v4lfd)
     }
   else
     {
-      DBG(1, "attach: failed to open device `%s': %s\n", devname,
+      DBG(1, "attach: failed to open device `%s": %s\n", devname,
 	   strerror(errno))
       return Sane.STATUS_INVAL
     }
@@ -229,20 +229,20 @@ update_parameters(V4L_Scanner * s)
       {
 	parms.format = Sane.FRAME_GRAY
 	parms.depth = 8
-	parms.bytes_per_line = s.window.width
+	parms.bytesPerLine = s.window.width
 	break
       }
     case VIDEO_PALETTE_RGB24:	/* 24bit RGB */
       {
 	parms.format = Sane.FRAME_RGB
 	parms.depth = 8
-	parms.bytes_per_line = s.window.width * 3
+	parms.bytesPerLine = s.window.width * 3
 	break
       }
     default:
       {
 	parms.format = Sane.FRAME_GRAY
-	parms.bytes_per_line = s.window.width
+	parms.bytesPerLine = s.window.width
 	break
       }
     }
@@ -287,7 +287,7 @@ init_options(V4L_Scanner * s)
   s.val[OPT_MODE].s = strdup(mode_list[0])
   if(!s.val[OPT_MODE].s)
     return Sane.STATUS_NO_MEM
-  s.opt[OPT_MODE].size = 1; /* '\0' */
+  s.opt[OPT_MODE].size = 1; /* "\0" */
   for(i = 0; mode_list[i] != 0; ++i)
     {
       Int len = strlen(mode_list[i]) + 1
@@ -309,7 +309,7 @@ init_options(V4L_Scanner * s)
     return Sane.STATUS_NO_MEM
   if(s.channel[0] == 0 || s.channel[1] == 0)
     s.opt[OPT_CHANNEL].cap |= Sane.CAP_INACTIVE
-  s.opt[OPT_CHANNEL].size = 1; /* '\0' */
+  s.opt[OPT_CHANNEL].size = 1; /* "\0" */
   for(i = 0; s.channel[i] != 0; ++i)
     {
       Int len = strlen(s.channel[i]) + 1
@@ -400,7 +400,7 @@ init_options(V4L_Scanner * s)
   /* colour */
   s.opt[OPT_COLOR].name = "color"
   s.opt[OPT_COLOR].title = "Picture color"
-  s.opt[OPT_COLOR].desc = "Sets the picture's color."
+  s.opt[OPT_COLOR].desc = "Sets the picture"s color."
   s.opt[OPT_COLOR].type = Sane.TYPE_INT
   s.opt[OPT_COLOR].constraint_type = Sane.CONSTRAINT_RANGE
   s.opt[OPT_COLOR].constraint.range = &u8_range
@@ -447,7 +447,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
   if(!fp)
     {
       DBG(2,
-	   "Sane.init: file `%s' not accessible(%s), trying /dev/video0\n",
+	   "Sane.init: file `%s" not accessible(%s), trying /dev/video0\n",
 	   V4L_CONFIG_FILE, strerror(errno))
 
       return attach("/dev/video0", 0)
@@ -455,7 +455,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 
   while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if(dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == "#")	/* ignore line comments */
 	continue
       len = strlen(dev_name)
 
@@ -463,7 +463,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 	continue;		/* ignore empty lines */
 
       /* Remove trailing space and trailing comments */
-      for(str = dev_name; *str && !isspace(*str) && *str != '#'; ++str)
+      for(str = dev_name; *str && !isspace(*str) && *str != "#"; ++str)
       attach(dev_name, 0)
     }
   fclose(fp)
@@ -542,7 +542,7 @@ Sane.open(Sane.String_Const devname, Sane.Handle * handle)
     dev = first_dev
   if(!dev)
     {
-      DBG(1, "Sane.open: device %s doesn't seem to be a v4l "
+      DBG(1, "Sane.open: device %s doesn"t seem to be a v4l "
 	   "device\n", devname)
       return Sane.STATUS_INVAL
     }
@@ -550,7 +550,7 @@ Sane.open(Sane.String_Const devname, Sane.Handle * handle)
   v4lfd = v4l1_open(devname, O_RDWR)
   if(v4lfd == -1)
     {
-      DBG(1, "Sane.open: can't open %s(%s)\n", devname, strerror(errno))
+      DBG(1, "Sane.open: can"t open %s(%s)\n", devname, strerror(errno))
       return Sane.STATUS_INVAL
     }
   s = malloc(sizeof(*s))
@@ -563,7 +563,7 @@ Sane.open(Sane.String_Const devname, Sane.Handle * handle)
 
   if(v4l1_ioctl(s.fd, VIDIOCGCAP, &s.capability) == -1)
     {
-      DBG(1, "Sane.open: ioctl(%d, VIDIOCGCAP,..) failed on `%s': %s\n",
+      DBG(1, "Sane.open: ioctl(%d, VIDIOCGCAP,..) failed on `%s": %s\n",
 	   s.fd, devname, strerror(errno))
       v4l1_close(s.fd)
       return Sane.STATUS_INVAL
@@ -603,7 +603,7 @@ Sane.open(Sane.String_Const devname, Sane.Handle * handle)
       channel.channel = i
       if(-1 == v4l1_ioctl(v4lfd, VIDIOCGCHAN, &channel))
 	{
-	  DBG(1, "Sane.open: can't ioctl VIDIOCGCHAN %s: %s\n", devname,
+	  DBG(1, "Sane.open: can"t ioctl VIDIOCGCHAN %s: %s\n", devname,
 	       strerror(errno))
 	  return Sane.STATUS_INVAL
 	}
@@ -625,7 +625,7 @@ Sane.open(Sane.String_Const devname, Sane.Handle * handle)
   s.channel[i] = 0
   if(-1 == v4l1_ioctl(v4lfd, VIDIOCGPICT, &s.pict))
     {
-      DBG(1, "Sane.open: can't ioctl VIDIOCGPICT %s: %s\n", devname,
+      DBG(1, "Sane.open: can"t ioctl VIDIOCGPICT %s: %s\n", devname,
 	   strerror(errno))
       return Sane.STATUS_INVAL
     }
@@ -643,7 +643,7 @@ Sane.open(Sane.String_Const devname, Sane.Handle * handle)
 
   if(-1 == v4l1_ioctl(s.fd, VIDIOCGWIN, &s.window))
     {
-      DBG(1, "Sane.open: can't ioctl VIDIOCGWIN %s: %s\n", devname,
+      DBG(1, "Sane.open: can"t ioctl VIDIOCGWIN %s: %s\n", devname,
 	   strerror(errno))
       return Sane.STATUS_INVAL
     }
@@ -652,7 +652,7 @@ Sane.open(Sane.String_Const devname, Sane.Handle * handle)
 
   /* already done in Sane.start
      if(-1 == v4l1_ioctl(v4lfd, VIDIOCGMBUF, &mbuf))
-     DBG(1, "Sane.open: can't ioctl VIDIOCGMBUF(no Fbuffer?)\n")
+     DBG(1, "Sane.open: can"t ioctl VIDIOCGMBUF(no Fbuffer?)\n")
    */
 
   status = init_options(s)
@@ -861,13 +861,13 @@ Sane.control_option(Sane.Handle handle, Int option,
 		    channel.channel = i
 		    if(-1 == v4l1_ioctl(s.fd, VIDIOCGCHAN, &channel))
 		      {
-			DBG(1, "Sane.open: can't ioctl VIDIOCGCHAN %s: %s\n",
+			DBG(1, "Sane.open: can"t ioctl VIDIOCGCHAN %s: %s\n",
 			     s.devicename, strerror(errno))
 			return Sane.STATUS_INVAL
 		      }
 		    if(-1 == v4l1_ioctl(s.fd, VIDIOCSCHAN, &channel))
 		      {
-			DBG(1, "Sane.open: can't ioctl VIDIOCSCHAN %s: %s\n",
+			DBG(1, "Sane.open: can"t ioctl VIDIOCSCHAN %s: %s\n",
 			     s.devicename, strerror(errno))
 			return Sane.STATUS_INVAL
 		      }
@@ -911,7 +911,7 @@ Sane.control_option(Sane.Handle handle, Int option,
     {
       if(!(cap & Sane.CAP_AUTOMATIC))
 	{
-	  DBG(1, "Sane.control_option: option can't be set automatically\n")
+	  DBG(1, "Sane.control_option: option can"t be set automatically\n")
 	  return Sane.STATUS_INVAL
 	}
       switch(option)
@@ -946,9 +946,9 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
       return Sane.STATUS_INVAL
     }
   parms.pixels_per_line = s.window.width
-  parms.bytes_per_line = s.window.width
+  parms.bytesPerLine = s.window.width
   if(parms.format == Sane.FRAME_RGB)
-    parms.bytes_per_line = s.window.width * 3
+    parms.bytesPerLine = s.window.width * 3
   parms.lines = s.window.height
   *params = parms
   return Sane.STATUS_GOOD
@@ -989,7 +989,7 @@ Sane.start(Sane.Handle handle)
       if(0 == buffer)
 	return Sane.STATUS_NO_MEM
       DBG(3, "Sane.start: V4L trying to read frame\n")
-      len = v4l1_read(s.fd, buffer, parms.bytes_per_line * parms.lines)
+      len = v4l1_read(s.fd, buffer, parms.bytesPerLine * parms.lines)
       DBG(3, "Sane.start: %d bytes read\n", len)
     }
   else
@@ -1017,7 +1017,7 @@ Sane.start(Sane.Handle handle)
       DBG(2, "Sane.start: mmapped frame %d x %d with palette %d\n",
 	   s.mmap.width, s.mmap.height, s.mmap.format)
 
-      /* We need to loop here to empty the read buffers, so we don't
+      /* We need to loop here to empty the read buffers, so we don"t
          get a stale image */
       for(loop = 0; loop <= s.mbuf.frames; loop++)
         {
@@ -1070,12 +1070,12 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
       DBG(1, "Sane.read: lenp == 0\n")
       return Sane.STATUS_INVAL
     }
-  if((s.buffercount + 1) > (parms.lines * parms.bytes_per_line))
+  if((s.buffercount + 1) > (parms.lines * parms.bytesPerLine))
     {
       *lenp = 0
       return Sane.STATUS_EOF
     ]
-  min = parms.lines * parms.bytes_per_line
+  min = parms.lines * parms.bytesPerLine
   if(min > (max_len + s.buffercount))
     min = (max_len + s.buffercount)
   if(s.is_mmap == Sane.FALSE)
@@ -1084,7 +1084,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
 	{
 	  *(buf + i - s.buffercount) = *(buffer + i)
 	]
-      *lenp = (parms.lines * parms.bytes_per_line - s.buffercount)
+      *lenp = (parms.lines * parms.bytesPerLine - s.buffercount)
       if(max_len < *lenp)
 	*lenp = max_len
       DBG(3, "Sane.read: transferred %d bytes(from %d to %d)\n", *lenp,
@@ -1097,7 +1097,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len,
 	{
 	  *(buf + i - s.buffercount) = *(buffer + i)
 	]
-      *lenp = (parms.lines * parms.bytes_per_line - s.buffercount)
+      *lenp = (parms.lines * parms.bytesPerLine - s.buffercount)
       if((i - s.buffercount) < *lenp)
 	*lenp = (i - s.buffercount)
       DBG(3, "Sane.read: transferred %d bytes(from %d to %d)\n", *lenp,
@@ -1114,7 +1114,7 @@ Sane.cancel(Sane.Handle handle)
 
   DBG(2, "Sane.cancel\n")
 
-  /* ??? buffer isn't checked in Sane.read? */
+  /* ??? buffer isn"t checked in Sane.read? */
   if(buffer)
     {
       if(s.is_mmap)

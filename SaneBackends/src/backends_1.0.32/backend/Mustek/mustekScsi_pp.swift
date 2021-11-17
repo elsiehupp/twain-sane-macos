@@ -81,13 +81,13 @@ static Int
 mustek_scsi_pp_get_time()
 {
   struct timeval tv
-  Int retval
+  returnValue: Int
 
   gettimeofday(&tv, 0)
 
-  retval = tv.tv_sec * 1000 + tv.tv_usec / 1000
+  returnValue = tv.tv_sec * 1000 + tv.tv_usec / 1000
 
-  return retval
+  return returnValue
 }
 
 static u_char mustek_scsi_pp_register = 0
@@ -647,7 +647,7 @@ static Sane.Status
 mustek_scsi_pp_test_ready(Int fd)
 {
   u_char status
-  Sane.Status retval
+  Sane.Status returnValue
 
   DBG(5, "mustek_scsi_pp_test_ready: entering with fd=%d\n", fd)
 
@@ -664,21 +664,21 @@ mustek_scsi_pp_test_ready(Int fd)
       return Sane.STATUS_INVAL
     }
 
-  retval = Sane.STATUS_GOOD
+  returnValue = Sane.STATUS_GOOD
 
   status &= 0xf0
 
   if(status == 0xf0)
     {
-      retval = Sane.STATUS_DEVICE_BUSY
+      returnValue = Sane.STATUS_DEVICE_BUSY
     }
   if(status & 0x40)
     {
-      retval = Sane.STATUS_DEVICE_BUSY
+      returnValue = Sane.STATUS_DEVICE_BUSY
     }
   if(!(status & 0x20))
     {
-      retval = Sane.STATUS_DEVICE_BUSY
+      returnValue = Sane.STATUS_DEVICE_BUSY
     }
 
   if(sanei_pa4s2_enable(fd, Sane.FALSE) != Sane.STATUS_GOOD)
@@ -687,7 +687,7 @@ mustek_scsi_pp_test_ready(Int fd)
       return Sane.STATUS_IO_ERROR
     }
 
-  if(retval == Sane.STATUS_GOOD)
+  if(returnValue == Sane.STATUS_GOOD)
     {
       DBG(5, "mustek_scsi_pp_test_ready: returning Sane.STATUS_GOOD\n")
     }
@@ -697,7 +697,7 @@ mustek_scsi_pp_test_ready(Int fd)
 	   "mustek_scsi_pp_test_ready: returning Sane.STATUS_DEVICE_BUSY\n")
     }
 
-  return retval
+  return returnValue
 }
 
 static Sane.Status
@@ -734,16 +734,16 @@ mustek_scsi_pp_cmd(Int fd, const void *src, size_t src_size,
 	  DBG(5, "mustek_scsi_pp_cmd: doing stop-specific stuff\n")
 
 	  /*
-	   * Remembers what flags were sent with a 'start' command, and
+	   * Remembers what flags were sent with a "start" command, and
 	   * replicate them with a stop command.
 	   */
 	  stop_cmd[4] = scan_options & 0xfe
 	  cmd = &stop_cmd[0]
 
 	  /*
-	   * In color mode at least, the scanner doesn't seem to like stopping at
-	   * the end. It's a bit of a horrible hack, but reading loads of bytes and
-	   * allowing 20 tries for the stop command is the only way I've found that
+	   * In color mode at least, the scanner doesn"t seem to like stopping at
+	   * the end. It"s a bit of a horrible hack, but reading loads of bytes and
+	   * allowing 20 tries for the stop command is the only way I"ve found that
 	   * solves the problem.
 	   */
 	  max_tries = 20
@@ -780,7 +780,7 @@ mustek_scsi_pp_cmd(Int fd, const void *src, size_t src_size,
 
   /*
    * Send the command itself in one block, then any extra input data in a second
-   * block. Not sure if that's necessary.
+   * block. Not sure if that"s necessary.
    */
   if(src_size < 6)
     {
@@ -790,7 +790,7 @@ mustek_scsi_pp_cmd(Int fd, const void *src, size_t src_size,
     }
 
   /*
-   * Retry the command several times, as occasionally it doesn't
+   * Retry the command several times, as occasionally it doesn"t
    * work first time.
    */
   do
@@ -857,7 +857,7 @@ mustek_scsi_pp_cmd(Int fd, const void *src, size_t src_size,
 
 	  scan_options = cmd[4]
 
-	  /* 'Start' command - wait for valid status */
+	  /* "Start" command - wait for valid status */
 	  mustek_scsi_pp_timeout = 70000
 	  stat = mustek_scsi_pp_wait_for_valid_status(fd)
 

@@ -1115,8 +1115,8 @@ reader_loop(pixma_Sane.t * ss)
       Int start = 0
 #ifndef NDEBUG
       pixma_dbg(1, "==== Button-controlled scan mode is enabled.\n")
-      pixma_dbg(1, "==== To proceed, press 'SCAN' or 'COLOR' button. "
-		 "To cancel, press 'GRAY' or 'END' button.\n")
+      pixma_dbg(1, "==== To proceed, press "SCAN" or "COLOR" button. "
+		 "To cancel, press "GRAY" or "END" button.\n")
 #endif
       while(pixma_wait_event(ss.s, 10) != 0)
         {
@@ -1208,7 +1208,7 @@ static Sane.Pid
 terminate_reader_task(pixma_Sane.t * ss, Int *exit_code)
 {
   Sane.Pid result, pid
-  Int status = 0
+  status: Int = 0
 
   pid = ss.reader_taskid
   if(!sanei_thread_is_valid(pid))
@@ -1653,7 +1653,7 @@ read_image(pixma_Sane.t * ss, void *buf, unsigned size, Int *readlen)
 Sane.Status
 Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 {
-  Int status, myversion, i
+  status: Int, myversion, i
   SANEI_Config config
 
   UNUSED(authorize)
@@ -1728,7 +1728,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * h)
   /* also get device id if we replay a xml file
    * otherwise name contains the xml filename
    * and further replay will fail  */
-  if(name[0] == '\0' || strstr(name, ".xml"))
+  if(name[0] == "\0" || strstr(name, ".xml"))
     name = pixma_get_device_id(0)
 
   /* Have we already opened the scanner? */
@@ -1892,8 +1892,8 @@ Sane.get_parameters(Sane.Handle h, Sane.Parameters * p)
   p.lines = sp.h
   p.depth = sp.depth
   p.pixels_per_line = sp.w
-  /* p.bytes_per_line = sp.line_size; NOTE: It should work this way, but it doesn't. No SANE frontend can cope with this. */
-  p.bytes_per_line = (sp.w * sp.channels * sp.depth) / 8
+  /* p.bytesPerLine = sp.line_size; NOTE: It should work this way, but it doesn"t. No SANE frontend can cope with this. */
+  p.bytesPerLine = (sp.w * sp.channels * sp.depth) / 8
   return Sane.STATUS_GOOD
 }
 
@@ -1999,7 +1999,7 @@ Sane.read(Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
   else
     {
       /* FIXME: Because there is no frontend that can cope with padding at
-         the end of line, we've to remove it here in the backend! */
+         the end of line, we"ve to remove it here in the backend! */
       PDBG(pixma_dbg(1, "*Sane.read***** Warning: padding may cause incomplete scan results\n"))
       sum = 0
       while(sum < maxlen)
@@ -2101,9 +2101,9 @@ Sane.get_select_fd(Sane.Handle h, Int * fd)
 
 /* CAUTION!
  * Remove generated files pixma_Sane.options.[ch] after editing SANE option
- * descriptors below OR do a 'make clean' OR manually generate them as described
+ * descriptors below OR do a "make clean" OR manually generate them as described
  * below.
- * However, make drops the circular dependency and the files won't be generated
+ * However, make drops the circular dependency and the files won"t be generated
  * again(see merge request sane-project/backends!491).
 
 BEGIN Sane.Option_Descriptor

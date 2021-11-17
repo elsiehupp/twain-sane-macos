@@ -304,7 +304,7 @@ hp5590_models[] = {
 #define DBG_cmds        40
 
 #define hp5590_cmds_assert(exp) if(!(exp)) { \
-  DBG(DBG_err, "Assertion '%s' failed at %s:%u\n", #exp, __FILE__, __LINE__);\
+  DBG(DBG_err, "Assertion "%s" failed at %s:%u\n", #exp, __FILE__, __LINE__);\
   return Sane.STATUS_INVAL; \
 }
 
@@ -377,7 +377,7 @@ struct init_resp
   uint16_t      max_dpi_x;              /* 09 60 = 2400 */
   uint16_t      max_dpi_y;              /* 09 60 = 2400 */
   uint16_t      max_pixels_x;           /* 4F B0 = 20400 (20400 / 2400 = 8.5")   */
-  uint16_t      max_pixels_y;           /* 6D E0 = 28128 (28128 / 2400 = 11.72") */
+  uint16_t      max_pixels_y;           /* 6D E0 = 28128(28128 / 2400 = 11.72") */
   uint8_t       pad2[8];                /* 00 00 00 00 00 00 00 00 */
   uint16_t      motor_param_normal;     /* 00 64 = 100 */
   uint16_t      motor_param_max;        /* 03 E8 = 1000 */
@@ -532,9 +532,9 @@ struct scan_params
                                  * color 75                             : 09 f0 =  2544 (3 * gray)
                                  *
                                  * bw 100                               : 00 6a =   106
-                                 * gray 100                             : 03 50 =   848 (8 * bw)
+                                 * gray 100                             : 03 50 =   848(8 * bw)
                                  * color 100(24)                        : 09 f0 =  2544 (3 * gray)
-                                 * color 100(48)                        : 13 e0 =  5088 (2 * color 24)
+                                 * color 100(48)                        : 13 e0 =  5088(2 * color 24)
                                  * color 100(48) TMA                    : 03 f0 = 1008
                                  *
                                  * bw 150                               : 06 a4 =  1700
@@ -547,7 +547,7 @@ struct scan_params
                                  * color 200(48)                        : 27 a8 = 10152
                                  *
                                  * bw 300                               : 01 3e =   318
-                                 * gray 300                             : 09 f4 =  2548 (8 * bw)
+                                 * gray 300                             : 09 f4 =  2548(8 * bw)
                                  * color 300                            : 1d dc =  7644 (3 * gray)
                                  * color 300(48) TMA                    : 0b e8 = 3048
                                  *
@@ -721,7 +721,7 @@ hp5590_init_scanner(Int dn,
               if(strcmp(id_buf, hp5590_models[i].vendor_id) != 0)
                 {
                   DBG(DBG_err, "%s: Vendor id mismatch for scanner HP%s - "
-                       "required  '%s', got '%s'\n",
+                       "required  "%s", got "%s"\n",
                        __func__,
                        hp5590_models[i].model,
                        hp5590_models[i].vendor_id, id_buf)
@@ -948,7 +948,7 @@ hp5590_inc_scan_count(Int dn,
 
   if(count != new_count)
     {
-      DBG(DBG_err, "Scan count wasn't set\n")
+      DBG(DBG_err, "Scan count wasn"t set\n")
       return Sane.STATUS_IO_ERROR
     }
 
@@ -1009,7 +1009,7 @@ hp5590_read_max_scan_count(Int dn,
  * 00F0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF     ...............
  *
  * Addr 0x00, len: 0x04 - scan count(little-endian)
- * Addr 0x1A, len: 0x0A - part number(w/o first 'CN' letters)
+ * Addr 0x1A, len: 0x0A - part number(w/o first "CN" letters)
  * Addr 0x10, len: 0x03 - max scan count(little-endian) (0C 13 0F)
  *
  */
@@ -1051,7 +1051,7 @@ hp5590_read_eeprom_all_cmd(Int dn,
       }
       p += n
     }
-    *p = '\0'
+    *p = "\0"
     DBG(DBG_verbose, "dump:%s\n", buf)
   }
 
@@ -1077,7 +1077,7 @@ hp5590_read_part_number(Int dn,
   if(ret != Sane.STATUS_GOOD)
     return ret
 
-  DBG(DBG_cmds, "Part number: '%s'\n", part_number)
+  DBG(DBG_cmds, "Part number: "%s"\n", part_number)
 
   return Sane.STATUS_GOOD
 }

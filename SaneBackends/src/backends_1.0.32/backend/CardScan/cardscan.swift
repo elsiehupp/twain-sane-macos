@@ -8,7 +8,7 @@
 
 /* -------------------------------------------------------------------------
  * This option list has to contain all options for all scanners supported by
- * this driver. If a certain scanner cannot handle a certain option, there's
+ * this driver. If a certain scanner cannot handle a certain option, there"s
  * still the possibility to say so, later.
  */
 enum scanner_Option
@@ -80,9 +80,9 @@ struct scanner
 	Sane.Frame format
 	Bool last_frame
 	Int lines
-	Int depth; ( binary=1, gray=8, color=8 (!24) )
+	Int depth; ( binary=1, gray=8, color=8(!24) )
 	Int pixels_per_line
-	Int bytes_per_line
+	Int bytesPerLine
   */
   Sane.Parameters params
 
@@ -540,7 +540,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
             lp = line
 
             /* ignore comments */
-            if(*lp == '#')
+            if(*lp == "#")
                 continue
 
             /* skip empty lines */
@@ -548,7 +548,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
                 continue
 
             if((strncmp("usb", lp, 3) == 0) && isspace(lp[3])) {
-                DBG(15, "Sane.get_devices: looking for '%s'\n", lp)
+                DBG(15, "Sane.get_devices: looking for "%s"\n", lp)
                 sanei_usb_attach_matching_devices(lp, attach_one)
             }
 
@@ -597,10 +597,10 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
     }
 
     else {
-        DBG(5, "Sane.get_devices: no config file '%s', using defaults\n",
+        DBG(5, "Sane.get_devices: no config file "%s", using defaults\n",
           CONFIG_FILE)
 
-        DBG(15, "Sane.get_devices: looking for 'usb 0x08F0 0x0005'\n")
+        DBG(15, "Sane.get_devices: looking for "usb 0x08F0 0x0005"\n")
         sanei_usb_attach_matching_devices("usb 0x08F0 0x0005", attach_one)
     }
 
@@ -639,7 +639,7 @@ attach_one(const char *device_name)
     Int ret, i
     Sane.Word vid, pid
 
-    DBG(10, "attach_one: start '%s'\n", device_name)
+    DBG(10, "attach_one: start "%s"\n", device_name)
 
     for(s = scanner_devList; s; s = s.next) {
         if(strcmp(s.sane.name, device_name) == 0) {
@@ -730,7 +730,7 @@ attach_one(const char *device_name)
       DBG(15, "attach_one: skipping calibration\n")
     }
 
-    /* set SANE option 'values' to good defaults */
+    /* set SANE option "values" to good defaults */
     DBG(15, "attach_one: init options\n")
 
     /* go ahead and setup the first opt, because
@@ -1051,7 +1051,7 @@ Sane.control_option(Sane.Handle handle, Int option,
   if(action == Sane.ACTION_GET_VALUE) {
       Sane.Word * val_p = (Sane.Word *) val
 
-      DBG(20, "Sane.control_option: get value for '%s' (%d)\n", s.opt[option].name,option)
+      DBG(20, "Sane.control_option: get value for "%s" (%d)\n", s.opt[option].name,option)
 
       switch(option) {
 
@@ -1073,10 +1073,10 @@ Sane.control_option(Sane.Handle handle, Int option,
       Int tmp
       Sane.Status status
 
-      DBG(20, "Sane.control_option: set value for '%s' (%d)\n", s.opt[option].name,option)
+      DBG(20, "Sane.control_option: set value for "%s" (%d)\n", s.opt[option].name,option)
 
       if( s.started ) {
-        DBG(5, "Sane.control_option: can't set, device busy\n")
+        DBG(5, "Sane.control_option: can"t set, device busy\n")
         return Sane.STATUS_DEVICE_BUSY
       }
 
@@ -1094,7 +1094,7 @@ Sane.control_option(Sane.Handle handle, Int option,
       /*
        * Note - for those options which can assume one of a list of
        * valid values, we can safely assume that they will have
-       * exactly one of those values because that's what
+       * exactly one of those values because that"s what
        * sanei_constrain_value does. Hence no "else: invalid" branches
        * below.
        */
@@ -1157,18 +1157,18 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   if(s.mode == MODE_COLOR) {
     params.format = Sane.FRAME_RGB
     params.depth = 8
-    params.bytes_per_line = params.pixels_per_line * 3
+    params.bytesPerLine = params.pixels_per_line * 3
   }
   else if(s.mode == MODE_GRAYSCALE) {
     params.format = Sane.FRAME_GRAY
     params.depth = 8
-    params.bytes_per_line = params.pixels_per_line
+    params.bytesPerLine = params.pixels_per_line
   }
 
   DBG(15, "\tdepth %d\n", params.depth)
   DBG(15, "\tlines %d\n", params.lines)
   DBG(15, "\tpixels_per_line %d\n", params.pixels_per_line)
-  DBG(15, "\tbytes_per_line %d\n", params.bytes_per_line)
+  DBG(15, "\tbytes_per_line %d\n", params.bytesPerLine)
 
   DBG(10, "Sane.get_parameters: finish\n")
 
@@ -1457,7 +1457,7 @@ read_from_scanner_gray(struct scanner *s)
 
         /*memcpy(s.buffer,buf+HEADER_SIZE,s.gray_block_size);*/
 
-        /* reorder the gray data into the struct's buffer */
+        /* reorder the gray data into the struct"s buffer */
         for(i=0;i<s.gray_block_size;i+=PIXELS_PER_LINE){
             for(j=0;j<PIXELS_PER_LINE;j++){
 
@@ -1522,7 +1522,7 @@ read_from_scanner_color(struct scanner *s)
 
         /*memcpy(s.buffer,buf+HEADER_SIZE,s.color_block_size);*/
 
-        /* reorder the color data into the struct's buffer */
+        /* reorder the color data into the struct"s buffer */
         for(i=0;i<s.color_block_size;i+=PIXELS_PER_LINE*3){
             for(j=0;j<PIXELS_PER_LINE;j++){
                 for(k=0;k<3;k++){
@@ -1746,7 +1746,7 @@ do_cmd(struct scanner *s, Int shortTime,
         return Sane.STATUS_IO_ERROR
     }
     if(ret != Sane.STATUS_GOOD){
-        DBG(5,"cmd: return error '%s'\n",Sane.strstatus(ret))
+        DBG(5,"cmd: return error "%s"\n",Sane.strstatus(ret))
         return ret
     }
     if(loc_cmdLen != cmdLen){
@@ -1770,7 +1770,7 @@ do_cmd(struct scanner *s, Int shortTime,
             return Sane.STATUS_IO_ERROR
         }
         if(ret != Sane.STATUS_GOOD){
-            DBG(5,"out: return error '%s'\n",Sane.strstatus(ret))
+            DBG(5,"out: return error "%s"\n",Sane.strstatus(ret))
             return ret
         }
         if(loc_outLen != outLen){
@@ -1795,7 +1795,7 @@ do_cmd(struct scanner *s, Int shortTime,
             DBG(5,"in: got EOF, continuing\n")
         }
         else if(ret != Sane.STATUS_GOOD){
-            DBG(5,"in: return error '%s'\n",Sane.strstatus(ret))
+            DBG(5,"in: return error "%s"\n",Sane.strstatus(ret))
             return ret
         }
 
@@ -1854,7 +1854,7 @@ hexdump(Int level, char *comment, unsigned char *p, Int l)
         {
           if(ptr != line)
             {
-              *ptr = '\0'
+              *ptr = "\0"
               DBG(level, "%s\n", line)
               ptr = line
             }
@@ -1864,12 +1864,12 @@ hexdump(Int level, char *comment, unsigned char *p, Int l)
       sprintf(ptr, " %2.2x", *p)
       ptr += 3
     }
-  *ptr = '\0'
+  *ptr = "\0"
   DBG(level, "%s\n", line)
 }
 
 /**
- * An advanced method we don't support but have to define.
+ * An advanced method we don"t support but have to define.
  */
 Sane.Status
 Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
@@ -1880,7 +1880,7 @@ Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
 }
 
 /**
- * An advanced method we don't support but have to define.
+ * An advanced method we don"t support but have to define.
  */
 Sane.Status
 Sane.get_select_fd(Sane.Handle h, Int *fdp)

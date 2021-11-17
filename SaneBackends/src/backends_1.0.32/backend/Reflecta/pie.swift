@@ -50,7 +50,7 @@
  * 17-9-2001 changed ADLIB to AdLib as the comparison is case sensitive and
  * 	     the scanner returns AdLib
  *
- * 7-5-2001 removed removal of '\n' after sanei_config_read()
+ * 7-5-2001 removed removal of "\n" after sanei_config_read()
  *	    free devlist allocated in Sane.get_devices() on Sane.exit()
  *
  * 2-3-2001 improved the reordering of RGB data in pie_reader_process()
@@ -62,7 +62,7 @@
  *
  * 30-9-2000 added ADLIB devices to scanner_str[]
  *
- * 29-9-2000 wasn't setting 'background is halftone bit' (BGHT) in halftone mode
+ * 29-9-2000 wasn"t setting "background is halftone bit" (BGHT) in halftone mode
  *
  * 27-9-2000 went public with build 4
  */
@@ -285,7 +285,7 @@ typedef struct Pie_Device
 }
 Pie_Device;
 
-/* This structure holds information about an instance of an 'opened' scanner */
+/* This structure holds information about an instance of an "opened" scanner */
 
 typedef struct Pie_Scanner
 {
@@ -317,7 +317,7 @@ typedef struct Pie_Scanner
   Int filter_offset1;		/* offsets between colors in indexed scan mode */
   Int filter_offset2;
 
-  Int bytes_per_line;		/* number of bytes per line */
+  Int bytesPerLine;		/* number of bytes per line */
 
 }
 Pie_Scanner;
@@ -638,9 +638,9 @@ pie_print_inquiry(Pie_Device * dev)
   DBG(DBG_inquiry, "INQUIRY:\n");
   DBG(DBG_inquiry, "========\n");
   DBG(DBG_inquiry, "\n");
-  DBG(DBG_inquiry, "vendor........................: '%s'\n", dev.vendor);
-  DBG(DBG_inquiry, "product.......................: '%s'\n", dev.product);
-  DBG(DBG_inquiry, "version.......................: '%s'\n", dev.version);
+  DBG(DBG_inquiry, "vendor........................: "%s"\n", dev.vendor);
+  DBG(DBG_inquiry, "product.......................: "%s"\n", dev.product);
+  DBG(DBG_inquiry, "version.......................: "%s"\n", dev.version);
 
   DBG(DBG_inquiry, "X resolution..................: %d dpi\n",
        dev.inquiry_x_res);
@@ -744,11 +744,11 @@ pie_get_inquiry_values(Pie_Device * dev, unsigned char *buffer)
   dev.inquiry_len = get_inquiry_additional_length(buffer) + 5;
 
   get_inquiry_vendor((char *) buffer, dev.vendor);
-  dev.vendor[8] = '\0';
+  dev.vendor[8] = "\0";
   get_inquiry_product((char *) buffer, dev.product);
-  dev.product[16] = '\0';
+  dev.product[16] = "\0";
   get_inquiry_version((char *) buffer, dev.version);
-  dev.version[4] = '\0';
+  dev.version[4] = "\0";
 
   dev.inquiry_x_res = get_inquiry_max_x_res(buffer);
   dev.inquiry_y_res = get_inquiry_max_y_res(buffer);
@@ -817,7 +817,7 @@ pie_do_inquiry(Int sfd, unsigned char *buffer)
   Sane.Status status;
 
   DBG(DBG_proc, "do_inquiry\n");
-  memset(buffer, '\0', 256);	/* clear buffer */
+  memset(buffer, "\0", 256);	/* clear buffer */
 
   size = 5;
 
@@ -867,25 +867,25 @@ pie_identify_scanner(Pie_Device * dev, Int sfd)
   get_inquiry_version((char *) inquiry_block, version);
 
   pp = &vendor[8];
-  vendor[8] = ' ';
-  while(*pp == ' ')
+  vendor[8] = " ";
+  while(*pp == " ")
     {
-      *pp-- = '\0';
+      *pp-- = "\0";
     }
 
   pp = &product[0x10];
-  product[0x10] = ' ';
-  while(*pp == ' ')
+  product[0x10] = " ";
+  while(*pp == " ")
     {
-      *pp-- = '\0';
+      *pp-- = "\0";
     }
 
   pp = &version[4];
 
-  version[4] = ' ';
-  while(*pp == ' ')
+  version[4] = " ";
+  while(*pp == " ")
     {
-      *pp-- = '\0';
+      *pp-- = "\0";
     }
 
   DBG(DBG_info, "Found %s scanner %s version %s on device %s\n", vendor,
@@ -933,11 +933,11 @@ pie_get_speeds(Pie_Device * dev)
       var i: Int;
       char buf[2];
 
-      buf[1] = '\0';
+      buf[1] = "\0";
 
       for(i = 0; i < speeds; i++)
 	{
-	  buf[0] = '1' + i;
+	  buf[0] = "1" + i;
 	  dev.speed_list[i] = strdup(buf);
 	}
 
@@ -983,7 +983,7 @@ pie_get_halftones(Pie_Device * dev, Int sfd)
       else
 	{
 	  /* now read the halftone data */
-	  memset(buffer, '\0', sizeof buffer);	/* clear buffer */
+	  memset(buffer, "\0", sizeof buffer);	/* clear buffer */
 
 	  size = 128;
 	  set_read_length(sread.cmd, size);
@@ -1046,7 +1046,7 @@ pie_get_cal_info(Pie_Device * dev, Int sfd)
   else
     {
       /* now read the cal data */
-      memset(buffer, '\0', sizeof buffer);	/* clear buffer */
+      memset(buffer, "\0", sizeof buffer);	/* clear buffer */
 
       size = 128;
       set_read_length(sread.cmd, size);
@@ -1749,13 +1749,13 @@ pie_perform_cal(Pie_Scanner * scanner, Int cal_index)
       /* which result buffer does this line belong to? */
       if(scanner.colormode == RGB)
 	{
-	  if(*rcv_buffer == 'R')
+	  if(*rcv_buffer == "R")
 	    result = red_result;
-	  else if(*rcv_buffer == 'G')
+	  else if(*rcv_buffer == "G")
 	    result = green_result;
-	  else if(*rcv_buffer == 'B')
+	  else if(*rcv_buffer == "B")
 	    result = blue_result;
-	  else if(*rcv_buffer == 'N')
+	  else if(*rcv_buffer == "N")
 	    result = neutral_result;
 	  else
 	    {
@@ -2201,7 +2201,7 @@ pie_mode_select(Pie_Scanner * scanner)
       else
 	{
 	  DBG(DBG_error,
-	       "pie_mode_select: scanner doesn't appear to support monochrome\n");
+	       "pie_mode_select: scanner doesn"t appear to support monochrome\n");
 	  return Sane.STATUS_UNSUPPORTED;
 	}
 
@@ -2428,7 +2428,7 @@ pie_get_params(Pie_Scanner * scanner)
 
       scanner.filter_offset1 = get_param_scan_filter_offset1 (buffer);
       scanner.filter_offset2 = get_param_scan_filter_offset2 (buffer);
-      scanner.bytes_per_line = get_param_scan_bytes(buffer);
+      scanner.bytesPerLine = get_param_scan_bytes(buffer);
 
       scanner.params.pixels_per_line = get_param_scan_width(buffer);
       scanner.params.lines = get_param_scan_lines(buffer);
@@ -2438,20 +2438,20 @@ pie_get_params(Pie_Scanner * scanner)
 	case RGB:
 	  scanner.params.format = Sane.FRAME_RGB;
 	  scanner.params.depth = 8;
-	  scanner.params.bytes_per_line = 3 * get_param_scan_bytes(buffer);
+	  scanner.params.bytesPerLine = 3 * get_param_scan_bytes(buffer);
 	  break;
 
 	case GRAYSCALE:
 	  scanner.params.format = Sane.FRAME_GRAY;
 	  scanner.params.depth = 8;
-	  scanner.params.bytes_per_line = get_param_scan_bytes(buffer);
+	  scanner.params.bytesPerLine = get_param_scan_bytes(buffer);
 	  break;
 
 	case HALFTONE:
 	case LINEART:
 	  scanner.params.format = Sane.FRAME_GRAY;
 	  scanner.params.depth = 1;
-	  scanner.params.bytes_per_line = get_param_scan_bytes(buffer);
+	  scanner.params.bytesPerLine = get_param_scan_bytes(buffer);
 	  break;
 	}
 
@@ -2527,26 +2527,26 @@ pie_give_scanner(Pie_Scanner * scanner)
 static Int
 pie_reader_process_indexed(Pie_Scanner * scanner, FILE * fp)
 {
-  Int status;
+  status: Int;
   Int lines;
   unsigned char *buffer, *reorder = NULL;
   unsigned char *red_buffer = NULL, *green_buffer = NULL;
   unsigned char *red_in = NULL, *red_out = NULL;
   unsigned char *green_in = NULL, *green_out = NULL;
   Int red_size = 0, green_size = 0;
-  Int bytes_per_line;
+  Int bytesPerLine;
   Int red_count = 0, green_count = 0;
 
   size_t size;
 
   DBG(DBG_read, "reading %d lines of %d bytes/line(indexed)\n",
-       scanner.params.lines, scanner.params.bytes_per_line);
+       scanner.params.lines, scanner.params.bytesPerLine);
 
   lines = scanner.params.lines;
-  bytes_per_line = scanner.bytes_per_line;
+  bytesPerLine = scanner.bytesPerLine;
 
   /* allocate receive buffer */
-  buffer = malloc(bytes_per_line + 2);
+  buffer = malloc(bytesPerLine + 2);
   if(!buffer)
     {
       return Sane.STATUS_NO_MEM;
@@ -2557,18 +2557,18 @@ pie_reader_process_indexed(Pie_Scanner * scanner, FILE * fp)
     {
       lines *= 3;
 
-      red_size = bytes_per_line * (scanner.filter_offset1 +
+      red_size = bytesPerLine * (scanner.filter_offset1 +
 				   scanner.filter_offset2 + 2);
-      green_size = bytes_per_line * (scanner.filter_offset2 + 2);
+      green_size = bytesPerLine * (scanner.filter_offset2 + 2);
 
       DBG(DBG_info2,
 	   "pie_reader_process_indexed: alloc %d lines(%d bytes) for red buffer\n",
-	   red_size / bytes_per_line, red_size);
+	   red_size / bytesPerLine, red_size);
       DBG(DBG_info2,
 	   "pie_reader_process_indexed: alloc %d lines(%d bytes) for green buffer\n",
-	   green_size / bytes_per_line, green_size);
+	   green_size / bytesPerLine, green_size);
 
-      reorder = malloc(scanner.params.bytes_per_line);
+      reorder = malloc(scanner.params.bytesPerLine);
       red_buffer = malloc(red_size);
       green_buffer = malloc(green_size);
 
@@ -2588,7 +2588,7 @@ pie_reader_process_indexed(Pie_Scanner * scanner, FILE * fp)
   while(lines--)
     {
       set_read_length(sread.cmd, 1);
-      size = bytes_per_line + 2;
+      size = bytesPerLine + 2;
 
       do
 	{
@@ -2602,15 +2602,15 @@ pie_reader_process_indexed(Pie_Scanner * scanner, FILE * fp)
 
       if(scanner.colormode == RGB)
 	{
-	  /* we're assuming that we get red before green before blue here */
+	  /* we"re assuming that we get red before green before blue here */
 	  switch(*buffer)
 	    {
-	    case 'R':
+	    case "R":
 	      /* copy to red buffer */
-	      memcpy(red_in, buffer + 2, bytes_per_line);
+	      memcpy(red_in, buffer + 2, bytesPerLine);
 
 	      /* advance in pointer, and check for wrap */
-	      red_in += bytes_per_line;
+	      red_in += bytesPerLine;
 	      if(red_in >= (red_buffer + red_size))
 		red_in = red_buffer;
 
@@ -2621,12 +2621,12 @@ pie_reader_process_indexed(Pie_Scanner * scanner, FILE * fp)
 		   red_count);
 	      break;
 
-	    case 'G':
+	    case "G":
 	      /* copy to green buffer */
-	      memcpy(green_in, buffer + 2, bytes_per_line);
+	      memcpy(green_in, buffer + 2, bytesPerLine);
 
 	      /* advance in pointer, and check for wrap */
-	      green_in += bytes_per_line;
+	      green_in += bytesPerLine;
 	      if(green_in >= (green_buffer + green_size))
 		green_in = green_buffer;
 
@@ -2637,7 +2637,7 @@ pie_reader_process_indexed(Pie_Scanner * scanner, FILE * fp)
 		   green_count);
 	      break;
 
-	    case 'B':
+	    case "B":
 	      /* check we actually have red and green data available */
 	      if(!red_count || !green_count)
 		{
@@ -2662,19 +2662,19 @@ pie_reader_process_indexed(Pie_Scanner * scanner, FILE * fp)
 		green = green_out;
 		blue = buffer + 2;
 
-		for(i = bytes_per_line; i > 0; i--)
+		for(i = bytesPerLine; i > 0; i--)
 		  {
 		    *dest++ = *red++;
 		    *dest++ = *green++;
 		    *dest++ = *blue++;
 		  }
-		fwrite(reorder, 1, scanner.params.bytes_per_line, fp);
+		fwrite(reorder, 1, scanner.params.bytesPerLine, fp);
 
 		/* advance out pointers, and check for wrap */
-		red_out += bytes_per_line;
+		red_out += bytesPerLine;
 		if(red_out >= (red_buffer + red_size))
 		  red_out = red_buffer;
-		green_out += bytes_per_line;
+		green_out += bytesPerLine;
 		if(green_out >= (green_buffer + green_size))
 		  green_out = green_buffer;
 	      }
@@ -2691,7 +2691,7 @@ pie_reader_process_indexed(Pie_Scanner * scanner, FILE * fp)
 	       "pie_reader_process_indexed: got a line(%lu bytes)\n", (u_long) size);
 
 	  /* just send the data on, assume filter bytes not present as per calibration case */
-	  fwrite(buffer, 1, scanner.params.bytes_per_line, fp);
+	  fwrite(buffer, 1, scanner.params.bytesPerLine, fp);
 	}
     }
 
@@ -2707,16 +2707,16 @@ pie_reader_process_indexed(Pie_Scanner * scanner, FILE * fp)
 static Int
 pie_reader_process(Pie_Scanner * scanner, FILE * fp)
 {
-  Int status;
+  status: Int;
   Int lines;
   unsigned char *buffer, *reorder;
   size_t size;
 
   DBG(DBG_read, "reading %d lines of %d bytes/line\n", scanner.params.lines,
-       scanner.params.bytes_per_line);
+       scanner.params.bytesPerLine);
 
-  buffer = malloc(scanner.params.bytes_per_line);
-  reorder = malloc(scanner.params.bytes_per_line);
+  buffer = malloc(scanner.params.bytesPerLine);
+  reorder = malloc(scanner.params.bytesPerLine);
   if(!buffer || !reorder)
     {
       free(buffer);
@@ -2729,7 +2729,7 @@ pie_reader_process(Pie_Scanner * scanner, FILE * fp)
   while(lines--)
     {
       set_read_length(sread.cmd, 1);
-      size = scanner.params.bytes_per_line;
+      size = scanner.params.bytesPerLine;
 
       do
 	{
@@ -2758,11 +2758,11 @@ pie_reader_process(Pie_Scanner * scanner, FILE * fp)
 	      *dest++ = *(src + 2 * offset);
 	      src++;
 	    }
-	  fwrite(reorder, 1, scanner.params.bytes_per_line, fp);
+	  fwrite(reorder, 1, scanner.params.bytesPerLine, fp);
 	}
       else
 	{
-	  fwrite(buffer, 1, scanner.params.bytes_per_line, fp);
+	  fwrite(buffer, 1, scanner.params.bytesPerLine, fp);
 	}
 
       fflush(fp);
@@ -2801,7 +2801,7 @@ reader_process_sigterm_handler(Int signal)
 static Int
 reader_process( void *data )	/* executed as a child process */
 {
-  Int status;
+  status: Int;
   FILE *fp;
   Pie_Scanner * scanner;
   sigset_t ignore_set;
@@ -2947,7 +2947,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 
   while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if(dev_name[0] == '#')
+      if(dev_name[0] == "#")
 	{
 	  continue;
 	}			/* ignore line comments */
@@ -3480,20 +3480,20 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   if(strcmp(mode, LINEART_STR) == 0 || strcmp(mode, HALFTONE_STR) == 0)
     {
       scanner.params.format = Sane.FRAME_GRAY;
-      scanner.params.bytes_per_line =
+      scanner.params.bytesPerLine =
 	(scanner.params.pixels_per_line + 7) / 8;
       scanner.params.depth = 1;
     }
   else if(strcmp(mode, GRAY_STR) == 0)
     {
       scanner.params.format = Sane.FRAME_GRAY;
-      scanner.params.bytes_per_line = scanner.params.pixels_per_line;
+      scanner.params.bytesPerLine = scanner.params.pixels_per_line;
       scanner.params.depth = 8;
     }
   else				/* RGB */
     {
       scanner.params.format = Sane.FRAME_RGB;
-      scanner.params.bytes_per_line = 3 * scanner.params.pixels_per_line;
+      scanner.params.bytesPerLine = 3 * scanner.params.pixels_per_line;
       scanner.params.depth = 8;
     }
 
@@ -3519,7 +3519,7 @@ Sane.start(Sane.Handle handle)
   Pie_Scanner *scanner = handle;
   Int fds[2];
   const char *mode;
-  Int status;
+  status: Int;
 
   DBG(DBG_Sane.init, "Sane.start\n");
 
@@ -3597,7 +3597,7 @@ Sane.start(Sane.Handle handle)
 	}
 #endif
 #if 0
-      scanner.params.bytes_per_line = scanner.device.row_len;
+      scanner.params.bytesPerLine = scanner.device.row_len;
       scanner.params.pixels_per_line = scanner.device.width_in_pixels;
       scanner.params.lines = scanner.device.length_in_pixels;
 
@@ -3624,9 +3624,9 @@ Sane.start(Sane.Handle handle)
       DBG(DBG_Sane.info, "length in pixels        = %u\n",
 	   scanner.device.length_in_pixels);
       DBG(DBG_Sane.info, "bits per pixel/color    = %u\n",
-	   scanner.device.bits_per_pixel);
+	   scanner.device.bitsPerPixel);
       DBG(DBG_Sane.info, "bytes per line          = %d\n",
-	   scanner.params.bytes_per_line);
+	   scanner.params.bytesPerLine);
       DBG(DBG_Sane.info, "pixels_per_line         = %d\n",
 	   scanner.params.pixels_per_line);
       DBG(DBG_Sane.info, "lines                   = %d\n",

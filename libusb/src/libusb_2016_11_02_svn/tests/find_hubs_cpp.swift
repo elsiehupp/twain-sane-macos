@@ -25,11 +25,11 @@ Int main(void)
 
 	for(iter = hubList.begin(); iter != hubList.end(); iter++) {
 		device = *iter
-		cout << hex << setw(2) << setfill('0')
+		cout << hex << setw(2) << setfill("0")
 			 << Int(device.devClass()) << "      " 
-			 << hex << setw(2) << setfill('0')
+			 << hex << setw(2) << setfill("0")
 			 << Int(device.devSubClass()) << "      "
-			 << hex << setw(2) << setfill('0')
+			 << hex << setw(2) << setfill("0")
 			 << Int(device.devProtocol()) << endl
 	}
 

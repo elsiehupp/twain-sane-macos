@@ -336,7 +336,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
           pVal = sanei_config_skip_whitespace( configBuf )
 
           /* skip comments */
-          if( *pVal == '#' ) continue
+          if( *pVal == "#" ) continue
 
           /* process named_scanner */
           valLen = strlen( "named_scanner:" )
@@ -417,7 +417,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
   while(select(sock + 1, &readFds, NULL, NULL, &selTimeVal))
     {
 
-      /* break if we've got no more storage space in array */
+      /* break if we"ve got no more storage space in array */
       if(iNextDevice >= MAX_SCANNERS)
         {
           DBG(1, "Sane.get_devices: more than %d devices, ignoring\n",
@@ -549,7 +549,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
   gOpenScanners[iHandle]->m_regName[REG_NAME_SIZE - 1] = 0
 
   /* chop off any domain(if any) */
-  if((pDot = strchr(gOpenScanners[iHandle]->m_regName, '.')))
+  if((pDot = strchr(gOpenScanners[iHandle]->m_regName, ".")))
     *pDot = 0
 
   DBG(5, "Sane.open: connected to %s:%d as %s\n", devicename, gScannerPort,
@@ -670,7 +670,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   params.lines = height
   params.depth = 8
   params.pixels_per_line = width
-  params.bytes_per_line = width * 3
+  params.bytesPerLine = width * 3
 
   return Sane.STATUS_GOOD
 
@@ -829,7 +829,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * data,
   /*  send the remainder of the current image */
   dataSize = pageInfo.m_bytesRemaining
 
-  /* unless there's not enough room in the output buffer */
+  /* unless there"s not enough room in the output buffer */
   if(dataSize > max_length)
     dataSize = max_length
 
@@ -1169,7 +1169,7 @@ MessageIsComplete(unsigned char *pData, size_t size)
   if(size < 8)
     return 0
 
-  /* :NOTE: we can't just cast to a short as data may not be aligned */
+  /* :NOTE: we can"t just cast to a short as data may not be aligned */
   dataSize = (((unsigned short) pData[6]) << 8) | pData[7]
 
   DBG(20, "MessageIsComplete: data size = %d\n", dataSize)
@@ -1760,7 +1760,7 @@ Int
 PopFromComBuf(struct ComBuf *pBuf, size_t datSize)
 {
 
-  /* check if we're trying to remove more data than is present */
+  /* check if we"re trying to remove more data than is present */
   if(datSize > pBuf.m_used)
     {
       pBuf.m_used = 0
@@ -1805,7 +1805,7 @@ ProcessPageData(struct ScannerState *pState)
 
   TIFF *pTiff = NULL
 
-  /* If there's no data then there's nothing to write */
+  /* If there"s no data then there"s nothing to write */
   if(!pState.m_buf.m_used)
     return 0
 

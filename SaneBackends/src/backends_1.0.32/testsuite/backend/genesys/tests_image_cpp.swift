@@ -536,7 +536,7 @@ void test_set_raw_channel_to_row()
 
 void test_convert_pixel_row_format()
 {
-    // The actual work is done in set_channel_to_row and get_channel_from_row, so we don't need
+    // The actual work is done in set_channel_to_row and get_channel_from_row, so we don"t need
     // to test all format combinations.
     using Data = std::vector<std::uint8_t>
 

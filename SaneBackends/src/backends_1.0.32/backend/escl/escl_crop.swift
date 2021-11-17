@@ -93,7 +93,7 @@ escl_crop_surface(capabilities_t *scanner,
           free(surface)
 	  surface = surface_crop
     }
-    // we don't need row pointers anymore
+    // we don"t need row pointers anymore
     scanner.img_data = surface
     scanner.img_size = (Int)(real_w * real_h * bps)
     scanner.img_read = 0

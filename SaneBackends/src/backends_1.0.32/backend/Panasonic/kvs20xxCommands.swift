@@ -62,7 +62,7 @@ struct cmd
 ]
 struct response
 {
-  Int status
+  status: Int
   unsigned char data[RESPONSE_SIZE]
 ]
 
@@ -164,9 +164,9 @@ usb_send_command(struct scanner *s, struct cmd *c, struct response *r,
   u8 resp[sizeof(*h) + STATUS_SIZE]
   size_t sz = sizeof(*h) + MAX_CMD_SIZE
   memset(h, 0, sz)
-  h.length = cpu2be32 (sz)
-  h.type = cpu2be16 (COMMAND_BLOCK)
-  h.code = cpu2be16 (COMMAND_CODE)
+  h.length = cpu2be32(sz)
+  h.type = cpu2be16(COMMAND_BLOCK)
+  h.code = cpu2be16(COMMAND_CODE)
   memcpy(h + 1, c.cmd, c.cmd_size)
 
   st = sanei_usb_write_bulk(s.file, (const Sane.Byte *) h, &sz)
@@ -198,9 +198,9 @@ usb_send_command(struct scanner *s, struct cmd *c, struct response *r,
     {
       sz = sizeof(*h) + c.data_size
       memset(h, 0, sizeof(*h))
-      h.length = cpu2be32 (sizeof(*h) + c.data_size)
-      h.type = cpu2be16 (DATA_BLOCK)
-      h.code = cpu2be16 (DATA_CODE)
+      h.length = cpu2be32(sizeof(*h) + c.data_size)
+      h.type = cpu2be16(DATA_BLOCK)
+      h.code = cpu2be16(DATA_CODE)
       memcpy(h + 1, c.data, c.data_size)
       st = sanei_usb_write_bulk(s.file, (const Sane.Byte *) h, &sz)
       if(st)
@@ -210,7 +210,7 @@ usb_send_command(struct scanner *s, struct cmd *c, struct response *r,
   st = sanei_usb_read_bulk(s.file, resp, &sz)
   if(st || sz != sizeof(resp))
     return Sane.STATUS_IO_ERROR
-  r.status = be2cpu32 (*((u32 *) (resp + sizeof(*h))))
+  r.status = be2cpu32(*((u32 *) (resp + sizeof(*h))))
   return st
 }
 
@@ -311,7 +311,7 @@ kvs20xx_test_unit_ready(struct scanner * s)
 Sane.Status
 kvs20xx_set_timeout(struct scanner * s, Int timeout)
 {
-  u16 t = cpu2be16 ((u16) timeout)
+  u16 t = cpu2be16((u16) timeout)
   struct cmd c = {
     {0},
     10,
@@ -321,7 +321,7 @@ kvs20xx_set_timeout(struct scanner * s, Int timeout)
   ]
   c.cmd[0] = SET_TIMEOUT
   c.cmd[2] = 0x8d
-  copy16 (c.cmd + 7, cpu2be16 (sizeof(t)))
+  copy16(c.cmd + 7, cpu2be16(sizeof(t)))
 
   c.data = &t
   c.data_size = sizeof(t)
@@ -344,7 +344,7 @@ kvs20xx_set_window(struct scanner * s, Int wnd_id)
     CMD_OUT
   ]
   c.cmd[0] = SET_WINDOW
-  copy16 (c.cmd + 7, cpu2be16 (sizeof(wnd)))
+  copy16(c.cmd + 7, cpu2be16(sizeof(wnd)))
 
   c.data = &wnd
   c.data_size = sizeof(wnd)
@@ -430,8 +430,8 @@ kvs20xx_read_picture_element(struct scanner * s, unsigned side,
   if(status)
     return status
   data = (u32 *) c.data
-  p.pixels_per_line = be2cpu32 (data[0])
-  p.lines = be2cpu32 (data[1])
+  p.pixels_per_line = be2cpu32(data[0])
+  p.lines = be2cpu32(data[1])
   return Sane.STATUS_GOOD
 }
 
@@ -485,6 +485,6 @@ get_adjust_data(struct scanner * s, unsigned *dummy_length)
   if(status)
     return status
   data = (u16 *) c.data
-  *dummy_length = be2cpu16 (data[0])
+  *dummy_length = be2cpu16(data[0])
   return Sane.STATUS_GOOD
 }

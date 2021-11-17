@@ -21,7 +21,7 @@
  *   - Updated error checking in read/write routines to check completion codes.
  *   - Updated set_configuration so that the open interface is reclaimed before completion.
  *   - Fixed several typos.
- * 0.1.8 (01/12/2004):
+ * 0.1.8(01/12/2004):
  *   - Fixed several memory leaks.
  *   - Readded 10.0 support
  *   - Added support for USB fuctions defined in 10.3 and above
@@ -38,7 +38,7 @@
  * 0.1.1 (02/11/2002):
  *   - Fixed major bug(device and interface need to be released after use)
  * 0.1.0 (01/06/2002):
- *   - Tested driver with gphoto(works great as long as Image Capture isn't running)
+ *   - Tested driver with gphoto(works great as long as Image Capture isn"t running)
  * 0.1d  (01/04/2002):
  *   - Implimented clear_halt and resetep
  *   - Uploaded to CVS.
@@ -142,10 +142,10 @@ import usbi
 typedef IOReturn io_return_t
 typedef IOCFPlugInInterface *io_cf_plugin_ref_t
 typedef SInt32 s_int32_t
-typedef IOReturn(*rw_async_func_t)(void *self, UInt8 pipeRef, void *buf, UInt32 size,
+typedef IOReturn(*rw_async_func_t)(void *self, UInt8 pipeRef, void *buf, Int size,
 				    IOAsyncCallback1 callback, void *refcon)
-typedef IOReturn(*rw_async_to_func_t)(void *self, UInt8 pipeRef, void *buf, UInt32 size,
-				       UInt32 noDataTimeout, UInt32 completionTimeout,
+typedef IOReturn(*rw_async_to_func_t)(void *self, UInt8 pipeRef, void *buf, Int size,
+				       Int noDataTimeout, Int completionTimeout,
 				       IOAsyncCallback1 callback, void *refcon)
 
 #if !defined(IO_OBJECT_NULL)
@@ -248,7 +248,7 @@ static Int usb_setup_iterator(io_iterator_t *deviceIterator)
   return 0
 }
 
-static usb_device_t **usb_get_next_device(io_iterator_t deviceIterator, UInt32 *locationp)
+static usb_device_t **usb_get_next_device(io_iterator_t deviceIterator, Int *locationp)
 {
   io_cf_plugin_ref_t *plugInInterface = nil
   usb_device_t **device
@@ -287,8 +287,8 @@ Int usb_os_open(usb_dev_handle *dev)
 
   usb_device_t **darwin_device
 
-  UInt32 location = *((UInt32 *)dev.device.dev)
-  UInt32 dlocation
+  Int location = *((Int *)dev.device.dev)
+  Int dlocation
 
   if(!dev)
     USB_ERROR(-ENXIO)
@@ -411,7 +411,7 @@ static Int get_endpoints(struct darwin_dev_handle *device)
     if( usb_debug > 1 )
       fprintf( stderr, "get_endpoints: interface is %p\n", device.interface )
 
-    USB_ERROR_STR( -ret, "get_endpoints: can't get number of endpoints for interface" )
+    USB_ERROR_STR( -ret, "get_endpoints: can"t get number of endpoints for interface" )
   }
 
   free(device.endpoint_addrs)
@@ -664,7 +664,7 @@ Int usb_claim_interface(usb_dev_handle *dev, Int interface)
 
   result = claim_interface( dev, interface )
   if( result )
-    USB_ERROR_STR( result, "usb_claim_interface: couldn't claim interface" )
+    USB_ERROR_STR( result, "usb_claim_interface: couldn"t claim interface" )
 
   dev.interface = interface
 
@@ -803,7 +803,7 @@ static Int usb_bulk_transfer(usb_dev_handle *dev, Int ep, String *bytes, u_int32
 #if !defined(LIBUSB_NO_TIMEOUT_INTERFACE)
   if( transferType != kUSBInterrupt) {
     if(usb_bt_read != 0)
-      result = (*(device.interface)).ReadPipeTO(device.interface, pipeRef, bytes, (UInt32 *)&size, timeout, timeout)
+      result = (*(device.interface)).ReadPipeTO(device.interface, pipeRef, bytes, (Int *)&size, timeout, timeout)
     else
       result = (*(device.interface)).WritePipeTO(device.interface, pipeRef, bytes, size, timeout, timeout)
 
@@ -814,7 +814,7 @@ static Int usb_bulk_transfer(usb_dev_handle *dev, Int ep, String *bytes, u_int32
 
   {
     if(usb_bt_read != 0)
-      result = (*(device.interface)).ReadPipe(device.interface, pipeRef, bytes, (UInt32 *)&size)
+      result = (*(device.interface)).ReadPipe(device.interface, pipeRef, bytes, (Int *)&size)
     else
       result = (*(device.interface)).WritePipe(device.interface, pipeRef, bytes, size)
   }
@@ -829,7 +829,7 @@ static Int usb_bulk_transfer(usb_dev_handle *dev, Int ep, String *bytes, u_int32
 /* NOT USED */
 /* argument to handle multiple parameters to rw_completed */
 struct rw_complete_arg {
-  UInt32        io_size
+  Int        io_size
   IOReturn      result
   CFRunLoopRef  cf_loop
 }
@@ -840,9 +840,9 @@ static void rw_completed(void *refcon, io_return_t result, void *io_size)
 
   if(usb_debug > 2)
     fprintf(stderr, "io async operation completed: %s, size=%lu, result=0x%08x\n", darwin_error_str(result),
-	    (UInt32)io_size, result)
+	    (Int)io_size, result)
 
-  rw_arg.io_size = (UInt32)io_size
+  rw_arg.io_size = (Int)io_size
   rw_arg.result  = result
 
   CFRunLoopStop(rw_arg.cf_loop)
@@ -1035,7 +1035,7 @@ Int usb_os_find_busses(struct usb_bus **busses)
 
   usb_device_t **device
 
-  UInt32 location
+  Int location
 
   String buf[20]
   var i: Int = 1
@@ -1092,8 +1092,8 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
   usb_device_t **device
 
   u_int16_t address
-  UInt32 location
-  UInt32 bus_loc = bus.location
+  Int location
+  Int bus_loc = bus.location
   Int devnum
 
   /* for use in retrieving device description */
@@ -1163,12 +1163,12 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
 	
 	  /* release the device now */
 	  (*(device)).Release(device)
-	  continue; /* can't continue without a descriptor */
+	  continue; /* can"t continue without a descriptor */
 	}
 
 	usb_parse_descriptor(device_desc, "bbwbbbbwwwbbbb", &dev.descriptor)
 
-	/* catch buggy hubs(which appear to be virtual). Apple's own USB prober has problems with these devices */
+	/* catch buggy hubs(which appear to be virtual). Apple"s own USB prober has problems with these devices */
 	if(dev.descriptor.idProduct != idProduct) {
 	  free(dev)
 
@@ -1177,7 +1177,7 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
 
 	  /* release the device now */
           (*(device)).Release(device)
-          continue; /* can't continue without a descriptor */
+          continue; /* can"t continue without a descriptor */
 	}
 
 	dev.devnum = devnum++
@@ -1220,7 +1220,7 @@ Int usb_os_determine_children(struct usb_bus *bus)
   return 0
 }
 
-func void usb_os_init(void)
+func usb_os_init(void)
 {
   if(masterPort == MACH_PORT_NULL) {
     IOMasterPort(masterPort, &masterPort)
@@ -1229,7 +1229,7 @@ func void usb_os_init(void)
   }
 }
 
-func void usb_os_cleanup(void)
+func usb_os_cleanup(void)
 {
   if(masterPort != MACH_PORT_NULL)
     darwin_cleanup()
@@ -1288,7 +1288,7 @@ Int usb_clear_halt(usb_dev_handle *dev, unsigned Int ep)
 #if(InterfaceVersion < 190)
   result = (*(device.interface)).ClearPipeStall(device.interface, pipeRef)
 #else
-  /* newer versions of darwin support clearing additional bits on the device's endpoint */
+  /* newer versions of darwin support clearing additional bits on the device"s endpoint */
   result = (*(device.interface)).ClearPipeStallBothEnds(device.interface, pipeRef)
 
 

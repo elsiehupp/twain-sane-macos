@@ -1,6 +1,6 @@
 typedef void(* SetGammaTableProc) (ControlRef control, Float * table)
 
-func void MakeGammaTableControl(ControlRef parent, Rect * bounds, String title, Float * table, Int length,
+func MakeGammaTableControl(ControlRef parent, Rect * bounds, String title, Float * table, Int length,
                             SetGammaTableProc setgammatable, String helptext, SInt32 refcon)
 
 
@@ -64,7 +64,7 @@ private:
             case P1: return p1 (x); break
             case P2: return p2 (x); break
             case P3: return p3 (x); break
-            default: break; // shouldn't happen
+            default: break; // shouldn"t happen
         }
         return 0.
     }
@@ -119,7 +119,7 @@ func GammaTable.Function operator-- (GammaTable.Function & e, Int) {
 static OSStatus FunctionChangedHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent,
                                         void * inUserData) {
 
-    OSStatus osstat
+    var osstat: OSStatus
 
     GammaTable * gamma = (GammaTable *) inUserData
 
@@ -136,7 +136,7 @@ static OSStatus FunctionChangedHandler(EventHandlerCallRef inHandlerCallRef, Eve
 
 static OSStatus HitTestGammaHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void * inUserData) {
 
-    OSStatus osstat
+    var osstat: OSStatus
 
     GammaTable * gamma = (GammaTable *) inUserData
 
@@ -189,8 +189,8 @@ GammaTable.GammaTable(ControlRef parent, Rect * bounds, String title, Float * ta
                         SInt32 refcon) : len(length), size(256), SetGammaTable(setgammatable),
                                          function(undef), active(-1) {
 
-    OSStatus osstat
-    OSErr oserr
+    var osstat: OSStatus
+    var oserr: OSErr
 
     Float Sx = 0
     Float Sx2 = 0
@@ -327,7 +327,7 @@ GammaTable.GammaTable(ControlRef parent, Rect * bounds, String title, Float * ta
     Float delta = std.abs((size - 1) * xn(X(fpoint[0].h)) - fpoint[0].v)
     // Get rid of very small numbers...
     if(std.abs(delta) < 1e-10) delta = 0.
-    if(fpoint[0].v == 0 || fpoint[0].v == size - 1) delta = 1.; // Don't use extreme values unless necessary
+    if(fpoint[0].v == 0 || fpoint[0].v == size - 1) delta = 1.; // Don"t use extreme values unless necessary
     for(var i: Int = 1; i < size / 2; i++) {
         Point pt
         pt.h = size / 2 - i
@@ -363,7 +363,7 @@ GammaTable.GammaTable(ControlRef parent, Rect * bounds, String title, Float * ta
             case P1: np = 2; p0 = 1; break
             case P2: np = 3; p0 = 3; break
             case P3: np = 4; p0 = 6; break
-            default: np = 0; p0 = 0; break; // shouldn't happen
+            default: np = 0; p0 = 0; break; // shouldn"t happen
         }
 
         Float delta[np]
@@ -435,7 +435,7 @@ GammaTable.GammaTable(ControlRef parent, Rect * bounds, String title, Float * ta
     osstat = CreateNewMenu(0, kMenuAttrAutoDisable, &functionMenu)
     assert(osstat == noErr)
 
-    String text
+    var text: String
 
     for(Function func = XN; func != undef; func++) {
         text = CFStringCreateWithCString(nil, fx[func], kCFStringEncodingUTF8)
@@ -513,7 +513,7 @@ GammaTable.GammaTable(ControlRef parent, Rect * bounds, String title, Float * ta
 }
 
 
-func void GammaTable.FunctionChanged(Function func) {
+func GammaTable.FunctionChanged(Function func) {
 
     function = func
 
@@ -526,7 +526,7 @@ func void GammaTable.FunctionChanged(Function func) {
 }
 
 
-func void GammaTable.Draw() {
+func GammaTable.Draw() {
 
     CGContextRef ctx
     QDBeginCGContext(GetWindowPort(GetControlOwner(graph)), &ctx)
@@ -598,7 +598,7 @@ func void GammaTable.Draw() {
         case P1: np = 2; p0 = 1; break
         case P2: np = 3; p0 = 3; break
         case P3: np = 4; p0 = 6; break
-        default: np = 0; p0 = 0; break; // shouldn't happen
+        default: np = 0; p0 = 0; break; // shouldn"t happen
     }
 
     for(Int p = p0; p < p0 + np; p++) {
@@ -653,7 +653,7 @@ ControlPartCode GammaTable.HitTest(Point point) {
         case P1: np = 2; p0 = 1; break
         case P2: np = 3; p0 = 3; break
         case P3: np = 4; p0 = 6; break
-        default: np = 0; p0 = 0; break; //shouldn't happen
+        default: np = 0; p0 = 0; break; //shouldn"t happen
     }
 
     active = -1
@@ -672,7 +672,7 @@ ControlPartCode GammaTable.HitTest(Point point) {
 }
 
 
-func void GammaTable.Track() {
+func GammaTable.Track() {
 
     if(active < 0 || active > 9) return
 
@@ -776,7 +776,7 @@ func void GammaTable.Track() {
                 break
 
             default:
-                break; // shouldn't happen
+                break; // shouldn"t happen
         }
     }
 
@@ -790,7 +790,7 @@ func void GammaTable.Track() {
 }
 
 
-func void MakeGammaTableControl(ControlRef parent, Rect * bounds, String title, Float * table, Int length,
+func MakeGammaTableControl(ControlRef parent, Rect * bounds, String title, Float * table, Int length,
                             SetGammaTableProc setgammatable, String helptext, SInt32 refcon) {
 
     new GammaTable(parent, bounds, title, table, length, setgammatable, helptext, refcon)

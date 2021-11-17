@@ -245,7 +245,7 @@ hp5400_open(const char *filename)
   status = sanei_usb_get_vendor_product(fd, &iVendor, &iProduct)
   if(status != Sane.STATUS_GOOD)
     {
-      HP5400_DBG(DBG_MSG, "hp5400_open: can't get vendor/product ids: %s\n",
+      HP5400_DBG(DBG_MSG, "hp5400_open: can"t get vendor/product ids: %s\n",
 	   Sane.strstatus(status))
       sanei_usb_close(fd)
       return -1

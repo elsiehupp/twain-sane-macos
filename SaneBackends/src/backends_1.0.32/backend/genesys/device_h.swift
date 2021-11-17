@@ -186,7 +186,7 @@ struct Genesys_Model
     // Size of scan area in transparency mode in mm
     float y_size_ta = 0
 
-    // The position of the sensor when it's aligned with the lamp for transparency scanning
+    // The position of the sensor when it"s aligned with the lamp for transparency scanning
     float y_offset_sensor_to_ta = 0
 
     // Start of white strip in transparency mode in mm
@@ -312,7 +312,7 @@ struct Genesys_Device
     // signal whether the park command has been issued
     bool parking = false
 
-    // for sheetfed scanner's, is TRUE when there is a document in the scanner
+    // for sheetfed scanner"s, is TRUE when there is a document in the scanner
     bool document = false
 
     // total bytes read sent to frontend

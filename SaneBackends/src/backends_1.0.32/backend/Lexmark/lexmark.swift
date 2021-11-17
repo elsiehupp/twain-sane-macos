@@ -95,7 +95,7 @@ static const Sane.Range gain_range = {
 
 /* for now known models(2 ...) have the same scan window geometry.
    coordinates are expressed in pixels, with a quantization factor of
-   8 to have 'even' coordinates at 75 dpi */
+   8 to have "even" coordinates at 75 dpi */
 static Sane.Range x_range = {
   0,				/* minimum */
   5104,				/* maximum */
@@ -369,12 +369,12 @@ attachLexmark(Sane.String_Const devname)
 #endif
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(1, "attachLexmark: couldn't open device `%s': %s\n", devname,
+      DBG(1, "attachLexmark: couldn"t open device `%s": %s\n", devname,
 	   Sane.strstatus(status))
       return status
     }
   else
-    DBG(2, "attachLexmark: device `%s' successfully opened\n", devname)
+    DBG(2, "attachLexmark: device `%s" successfully opened\n", devname)
 
 #ifdef FAKE_USB
   status = Sane.STATUS_GOOD
@@ -389,7 +389,7 @@ attachLexmark(Sane.String_Const devname)
   if(status != Sane.STATUS_GOOD)
     {
       DBG(1,
-	   "attachLexmark: couldn't get vendor and product ids of device `%s': %s\n",
+	   "attachLexmark: couldn"t get vendor and product ids of device `%s": %s\n",
 	   devname, Sane.strstatus(status))
 #ifndef FAKE_USB
       sanei_usb_close(dn)
@@ -400,14 +400,14 @@ attachLexmark(Sane.String_Const devname)
   sanei_usb_close(dn)
 #endif
 
-  DBG(2, "attachLexmark: testing device `%s': 0x%04x:0x%04x, variant=%d\n",
+  DBG(2, "attachLexmark: testing device `%s": 0x%04x:0x%04x, variant=%d\n",
        devname, vendor, product, variant)
   if(sanei_lexmark_low_assign_model(lexmark_device,
 				      devname,
 				      vendor,
 				      product, variant) != Sane.STATUS_GOOD)
     {
-      DBG(2, "attachLexmark: unsupported device `%s': 0x%04x:0x%04x\n",
+      DBG(2, "attachLexmark: unsupported device `%s": 0x%04x:0x%04x\n",
 	   devname, vendor, product)
       return Sane.STATUS_UNSUPPORTED
     }
@@ -481,13 +481,13 @@ probe_lexmark_devices(void)
   while(sanei_config_read(line, PATH_MAX, fp))
     {
       /* ignore comments */
-      if(line[0] == '#')
+      if(line[0] == "#")
 	continue
       len = strlen(line)
 
       /* delete newline characters at end */
-      if(line[len - 1] == '\n')
-	line[--len] = '\0'
+      if(line[len - 1] == "\n")
+	line[--len] = "\0"
 
       lp = sanei_config_skip_whitespace(line)
       /* skip empty lines */
@@ -1058,18 +1058,18 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 
   /* data_size is the size transferred from the scanner to the backend */
   /* therefore bitsperchannel is the same for gray and lineart */
-  /* note: bytes_per_line has been divided by 8 in lineart mode */
+  /* note: bytesPerLine has been divided by 8 in lineart mode */
   lexmark_device.data_size =
     channels * device_params.pixels_per_line * device_params.lines
 
   if(bitsperchannel == 1)
     {
-      device_params.bytes_per_line =
+      device_params.bytesPerLine =
 	(Int) ((7 + device_params.pixels_per_line) / 8)
     }
   else
     {
-      device_params.bytes_per_line =
+      device_params.bytesPerLine =
 	(Int) (channels * device_params.pixels_per_line)
     }
   DBG(2, "Sane.get_parameters: Data size determined as %ld\n",
@@ -1089,7 +1089,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   DBG(2, "  lines %d\n", device_params.lines)
   DBG(2, "  depth %d\n", device_params.depth)
   DBG(2, "  pixels_per_line %d\n", device_params.pixels_per_line)
-  DBG(2, "  bytes_per_line %d\n", device_params.bytes_per_line)
+  DBG(2, "  bytesPerLine %d\n", device_params.bytesPerLine)
 
   if(params != 0)
     {
@@ -1098,7 +1098,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
       params.lines = device_params.lines
       params.depth = device_params.depth
       params.pixels_per_line = device_params.pixels_per_line
-      params.bytes_per_line = device_params.bytes_per_line
+      params.bytesPerLine = device_params.bytesPerLine
     }
 
   return Sane.STATUS_GOOD
@@ -1128,7 +1128,7 @@ Sane.start(Sane.Handle handle)
 
   if((lexmark_device.params.lines == 0) ||
       (lexmark_device.params.pixels_per_line == 0) ||
-      (lexmark_device.params.bytes_per_line == 0))
+      (lexmark_device.params.bytesPerLine == 0))
     {
       DBG(2, "Sane.start: \n")
       DBG(2, "  ERROR: Zero size encountered in:\n")
@@ -1161,7 +1161,7 @@ Sane.start(Sane.Handle handle)
       /* Scan backwards until we find home */
       sanei_lexmark_low_search_home_bwd(lexmark_device)
     }
-  /* do calibration before offset detection , use sensor max dpi, not motor's one */
+  /* do calibration before offset detection , use sensor max dpi, not motor"s one */
   resolution = lexmark_device.val[OPT_RESOLUTION].w
   if(resolution > 600)
     {
@@ -1178,9 +1178,9 @@ Sane.start(Sane.Handle handle)
       return status
     }
 
-  /* At this point we're somewhere in the dot. We need to read a number of
+  /* At this point we"re somewhere in the dot. We need to read a number of
      lines greater than the diameter of the dot and determine how many lines
-     past the dot we've gone. We then use this information to see how far the
+     past the dot we"ve gone. We then use this information to see how far the
      scan head must move before starting the scan. */
   /* offset is in 600 dpi unit */
   offset = sanei_lexmark_low_find_start_line(lexmark_device)
@@ -1232,7 +1232,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * data,
   if(lexmark_device.device_cancelled)
     {
       DBG(2, "Sane.read: Device was cancelled\n")
-      /* We don't know how far we've gone, so search for home. */
+      /* We don"t know how far we"ve gone, so search for home. */
       sanei_lexmark_low_search_home_bwd(lexmark_device)
       return Sane.STATUS_EOF
     }

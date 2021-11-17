@@ -551,7 +551,7 @@ static Int _ReportDevice(TScannerModel *pModel, const char *pszDeviceName)
 {
   TDevListEntry *pNew, *pDev
 
-  HP5400_DBG(DBG_MSG, "hp5400: _ReportDevice '%s'\n", pszDeviceName)
+  HP5400_DBG(DBG_MSG, "hp5400: _ReportDevice "%s"\n", pszDeviceName)
 
   pNew = malloc(sizeof(TDevListEntry))
   if(!pNew) {
@@ -591,7 +591,7 @@ attach_one_device(Sane.String_Const devname)
   const char * filename = (const char*) devname
   if(HP5400Detect(filename, _ReportDevice) < 0)
     {
-      HP5400_DBG(DBG_MSG, "attach_one_device: couldn't attach %s\n", devname)
+      HP5400_DBG(DBG_MSG, "attach_one_device: couldn"t attach %s\n", devname)
       return Sane.STATUS_INVAL
     }
   HP5400_DBG(DBG_MSG, "attach_one_device: attached %s successfully\n", devname)
@@ -647,13 +647,13 @@ Sane.init(Int * piVersion, Sane.Auth_Callback pfnAuth)
 	  proper_str = sanei_config_get_string(line, &str)
 
 	  /* Discards white lines and comments */
-	  if(!str || proper_str == line || str[0] == '#')
+	  if(!str || proper_str == line || str[0] == "#")
 	    {
 	      HP5400_DBG(DBG_MSG, "Discarding line %d\n", nline)
 	    }
 	  else
 	    {
-	      /* If line's not blank or a comment, then it's the device
+	      /* If line"s not blank or a comment, then it"s the device
 	       * filename or a usb directive. */
 	      HP5400_DBG(DBG_MSG, "Trying to attach %s\n", line)
 	      sanei_usb_attach_matching_devices(line, attach_one_device)
@@ -956,7 +956,7 @@ Sane.control_option(Sane.Handle h, Int n, Sane.Action Action,
 
 	case optCalibrate:
 	  /*  although this option has nothing to read,
-	     it's added here to avoid a warning when running scanimage --help */
+	     it"s added here to avoid a warning when running scanimage --help */
 	  break
 #endif
 	default:
@@ -1180,7 +1180,7 @@ Sane.get_parameters(Sane.Handle h, Sane.Parameters * p)
     {
       p.pixels_per_line = s.ScanParams.iBytesPerLine / 3
       p.lines = s.ScanParams.iLines
-      p.bytes_per_line = s.ScanParams.iBytesPerLine
+      p.bytesPerLine = s.ScanParams.iBytesPerLine
     }
   else
     {
@@ -1189,7 +1189,7 @@ Sane.get_parameters(Sane.Handle h, Sane.Parameters * p)
       p.pixels_per_line =
 	MM_TO_PIXEL(s.aValues[optBRX].w - s.aValues[optTLX].w,
 		     s.aValues[optDPI].w)
-      p.bytes_per_line = p.pixels_per_line * 3
+      p.bytesPerLine = p.pixels_per_line * 3
     }
 
   return Sane.STATUS_GOOD
@@ -1220,7 +1220,7 @@ Sane.start(Sane.Handle h)
 
   /* Guessing here. 75dpi => 1, 2400dpi => 32 */
   /*  s.ScanParams.iColourOffset = s.aValues[optDPI].w / 75; */
-  /* now we don't need correction => corrected by scan request type ? */
+  /* now we don"t need correction => corrected by scan request type ? */
   s.ScanParams.iColourOffset = 0
 
   s.ScanParams.iTop =
@@ -1275,7 +1275,7 @@ Sane.read(Sane.Handle h, Sane.Byte * buf, Int maxlen, Int * len)
   *len = 0
   if(!s.fScanning || s.fCanceled)
     {
-      HP5400_DBG(DBG_MSG, "Sane.read: we're not scanning.\n")
+      HP5400_DBG(DBG_MSG, "Sane.read: we"re not scanning.\n")
       return Sane.STATUS_EOF
     }
 

@@ -350,7 +350,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * handle)
       device = devices
       while(device && strcmp(device.name, name) != 0)
 	{
-	  DBG(DBG_trace, "Sane.open: device %s doesn't match\n",
+	  DBG(DBG_trace, "Sane.open: device %s doesn"t match\n",
 	       device.name)
 	  device = device.next
 	}
@@ -375,7 +375,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * handle)
       device.fd = open_pp(device.name)
       if(device.fd < 0)
 	{
-	  DBG(DBG_error, "Sane.open: failed to open '%s' device!\n",
+	  DBG(DBG_error, "Sane.open: failed to open "%s" device!\n",
 	       device.name)
 	  return Sane.STATUS_INVAL
 	}
@@ -451,7 +451,7 @@ Sane.set_io_mode(Sane.Handle handle, Bool non_blocking)
 
 
 /**
- * An advanced method we don't support but have to define. At SANE API
+ * An advanced method we don"t support but have to define. At SANE API
  * level this function is meant to provide a file descriptor on which the
  * frontend can do select()/poll() to wait for data.
  */
@@ -553,7 +553,7 @@ set_automatic_value(P5_Session * s, Int option, Int * myinfo)
       *myinfo |= Sane.INFO_RELOAD_PARAMS
       break
     default:
-      DBG(DBG_warn, "set_automatic_value: can't set unknown option %d\n",
+      DBG(DBG_warn, "set_automatic_value: can"t set unknown option %d\n",
 	   option)
     }
 
@@ -618,7 +618,7 @@ set_option_value(P5_Session * s, Int option, void *val, Int * myinfo)
       break
 
     default:
-      DBG(DBG_warn, "set_option_value: can't set unknown option %d\n",
+      DBG(DBG_warn, "set_option_value: can"t set unknown option %d\n",
 	   option)
     }
   return status
@@ -667,7 +667,7 @@ get_option_value(P5_Session * s, Int option, void *val)
 
       /* unhandled options */
     default:
-      DBG(DBG_warn, "get_option_value: can't get unknown option %d\n",
+      DBG(DBG_warn, "get_option_value: can"t get unknown option %d\n",
 	   option)
     }
 
@@ -719,7 +719,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 
   if(s.scanning)
     {
-      DBG(DBG_warn, "Sane.control_option: don't call this function while "
+      DBG(DBG_warn, "Sane.control_option: don"t call this function while "
 	   "scanning(option = %s(%d))\n",
 	   s.options[option].descriptor.name, option)
       return Sane.STATUS_DEVICE_BUSY
@@ -734,7 +734,7 @@ Sane.control_option(Sane.Handle handle, Int option,
       return Sane.STATUS_INVAL
     }
 
-  /* don't access an inactive option */
+  /* don"t access an inactive option */
   cap = s.options[option].descriptor.cap
   if(!Sane.OPTION_IS_ACTIVE(cap))
     {
@@ -817,12 +817,12 @@ Sane.Status
 Sane.start(Sane.Handle handle)
 {
   struct P5_Session *session = handle
-  Int status = Sane.STATUS_GOOD
+  status: Int = Sane.STATUS_GOOD
   P5_Device *dev = session.dev
 
   DBG(DBG_proc, "Sane.start: start\n")
 
-  /* if already scanning, tell we're busy */
+  /* if already scanning, tell we"re busy */
   if(session.scanning == Sane.TRUE)
     {
       DBG(DBG_info, "Sane.start: device is already scanning\n")
@@ -876,7 +876,7 @@ Sane.start(Sane.Handle handle)
   dev.position = 0
   dev.top = 0
   /* compute amount of lines needed for lds correction */
-  dev.bottom = dev.bytes_per_line * 2 * dev.lds
+  dev.bottom = dev.bytesPerLine * 2 * dev.lds
   /* computes buffer size, 66 color lines plus eventual amount needed for lds */
   dev.size = dev.pixels * 3 * 66 + dev.bottom
   dev.buffer = (uint8_t *) malloc(dev.size)
@@ -902,7 +902,7 @@ Sane.start(Sane.Handle handle)
 }
 
 /** @brief compute scan parameters
- * This function computes two set of parameters. The one for the SANE's standard
+ * This function computes two set of parameters. The one for the SANE"s standard
  * and the other for the hardware. Among these parameters are the bit depth, total
  * number of lines, total number of columns, extra line to read for data reordering...
  * @param session fronted session to compute final scan parameters
@@ -988,7 +988,7 @@ compute_parameters(P5_Session * session)
   dev.xdpi = dpi
   dev.ydpi = dpi
 
-  /* handle bounds of motor's dpi range */
+  /* handle bounds of motor"s dpi range */
   if(dev.ydpi > dev.model.max_ydpi)
     {
       dev.ydpi = dev.model.max_ydpi
@@ -1020,28 +1020,28 @@ compute_parameters(P5_Session * session)
 
 
   /* computes bytes per line */
-  session.params.bytes_per_line = session.params.pixels_per_line
-  dev.bytes_per_line = dev.pixels
+  session.params.bytesPerLine = session.params.pixels_per_line
+  dev.bytesPerLine = dev.pixels
   if(session.params.format == Sane.FRAME_RGB)
     {
-      dev.bytes_per_line *= 3
+      dev.bytesPerLine *= 3
     }
 
-  /* in lineart mode we adjust bytes_per_line needed by frontend */
+  /* in lineart mode we adjust bytesPerLine needed by frontend */
   /* we do that here because we needed sent/to_send to be as if  */
   /* there was no lineart                                        */
   if(session.params.depth == 1)
     {
-      session.params.bytes_per_line =
-	(session.params.bytes_per_line + 7) / 8
+      session.params.bytesPerLine =
+	(session.params.bytesPerLine + 7) / 8
     }
 
-  session.params.bytes_per_line = dev.bytes_per_line
-  session.to_send = session.params.bytes_per_line * session.params.lines
-  session.params.bytes_per_line = dev.bytes_per_line
+  session.params.bytesPerLine = dev.bytesPerLine
+  session.to_send = session.params.bytesPerLine * session.params.lines
+  session.params.bytesPerLine = dev.bytesPerLine
 
-  DBG(DBG_data, "compute_parameters: bytes_per_line    =%d\n",
-       session.params.bytes_per_line)
+  DBG(DBG_data, "compute_parameters: bytesPerLine    =%d\n",
+       session.params.bytesPerLine)
   DBG(DBG_data, "compute_parameters: depth             =%d\n",
        session.params.depth)
   DBG(DBG_data, "compute_parameters: lines             =%d\n",
@@ -1053,7 +1053,7 @@ compute_parameters(P5_Session * session)
   DBG(DBG_data, "compute_parameters: ystart            =%d\n", dev.ystart)
   DBG(DBG_data, "compute_parameters: dev lines         =%d\n", dev.lines)
   DBG(DBG_data, "compute_parameters: dev bytes per line=%d\n",
-       dev.bytes_per_line)
+       dev.bytesPerLine)
   DBG(DBG_data, "compute_parameters: dev pixels        =%d\n", dev.pixels)
   DBG(DBG_data, "compute_parameters: lds               =%d\n", dev.lds)
 
@@ -1175,15 +1175,15 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
        * */
       count = available_bytes(dev.fd)
       DBG(DBG_io, "Sane.read: count=%d bytes\n", count)
-      if(count < dev.bytes_per_line && session.non_blocking == Sane.TRUE)
+      if(count < dev.bytesPerLine && session.non_blocking == Sane.TRUE)
 	{
-	  DBG(DBG_io, "Sane.read: scanner hasn't enough data available\n")
+	  DBG(DBG_io, "Sane.read: scanner hasn"t enough data available\n")
 	  DBG(DBG_proc, "Sane.read: exit\n")
 	  return Sane.STATUS_GOOD
 	}
 
       /* now we can wait for data here */
-      while(count < dev.bytes_per_line)
+      while(count < dev.bytesPerLine)
 	{
 	  /* test if document left the feeder, so we have to terminate the scan */
 	  status = test_document(dev.fd)
@@ -1193,13 +1193,13 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
 	      return Sane.STATUS_EOF
 	    }
 
-	  /* don't call scanner too often */
+	  /* don"t call scanner too often */
 	  usleep(10000)
 	  count = available_bytes(dev.fd)
 	}
 
       /** compute size of physical data to read
-       * on first read, position will be 0, while it will be 'bottom'
+       * on first read, position will be 0, while it will be "bottom"
        * for the subsequent reads.
        * We try to read a complete buffer */
       size = dev.size - dev.position
@@ -1221,8 +1221,8 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
 	}
       lines = read_line(dev,
 			 dev.buffer + dev.position,
-			 dev.bytes_per_line,
-			 size / dev.bytes_per_line,
+			 dev.bytesPerLine,
+			 size / dev.bytesPerLine,
 			 Sane.TRUE, x2, dev.mode, dev.calibrated)
 
       /* handle document end detection TODO try to recover the partial
@@ -1234,7 +1234,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
 	}
 
       /* gather lines until we have more than needed for lds */
-      dev.position += lines * dev.bytes_per_line
+      dev.position += lines * dev.bytesPerLine
       dev.top = dev.position
       if(dev.position > dev.bottom)
 	{
@@ -1259,7 +1259,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
 	  *len = max_len
 	}
       else
-	/* if we don't have enough, send all what we have */
+	/* if we don"t have enough, send all what we have */
 	{
 	  *len = dev.top - dev.position
 	}
@@ -1272,7 +1272,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
       else
 	{
 	  /* compute count of bytes for lds */
-	  count = dev.lds * dev.bytes_per_line
+	  count = dev.lds * dev.bytesPerLine
 
 	  /* adjust for lds as we copy data to frontend */
 	  for(i = 0; i < *len; i++)
@@ -1362,7 +1362,7 @@ Sane.cancel(Sane.Handle handle)
       if(session.sent < session.to_send)
 	{
 	  DBG(DBG_info, "Sane.cancel: aborting scan.\n")
-	  /* device hasn't finished scan, we are aborting it
+	  /* device hasn"t finished scan, we are aborting it
 	   * and we may have to do something specific for it here */
 	}
       else
@@ -1386,7 +1386,7 @@ Sane.cancel(Sane.Handle handle)
  * presently active, a call to Sane.cancel() is performed first. After
  * this function returns, handle h must not be used anymore.
  *
- * Handle resources are free'd before disposing the handle. But devices
+ * Handle resources are free"d before disposing the handle. But devices
  * resources must not be mdofied, since it could be used or reused until
  * Sane.exit() is called.
  */
@@ -1530,7 +1530,7 @@ Sane.exit(void)
 /** @brief probe for all supported devices
  * This functions tries to probe if any of the supported devices of
  * the backend is present. Each detected device will be added to the
- * 'devices' list
+ * "devices" list
  */
 static Sane.Status
 probe_p5_devices(void)
@@ -1550,7 +1550,7 @@ probe_p5_devices(void)
   cfg_options[CFG_MODEL_NAME] =
     (Sane.Option_Descriptor *) malloc(sizeof(Sane.Option_Descriptor))
   cfg_options[CFG_MODEL_NAME]->name = "modelname"
-  cfg_options[CFG_MODEL_NAME]->desc = "user provided scanner's model name"
+  cfg_options[CFG_MODEL_NAME]->desc = "user provided scanner"s model name"
   cfg_options[CFG_MODEL_NAME]->type = Sane.TYPE_INT
   cfg_options[CFG_MODEL_NAME]->unit = Sane.UNIT_NONE
   cfg_options[CFG_MODEL_NAME]->size = sizeof(Sane.Word)
@@ -1619,7 +1619,7 @@ config_attach(SANEI_Config __Sane.unused__ * config, const char *devname,
  *
  * @return status Sane.STATUS_GOOD if no errors(even if no matching
  * 	    devices found)
- * 	   Sane.STATUS_NOM_MEM if there isn't enough memory to allocate the
+ * 	   Sane.STATUS_NOM_MEM if there isn"t enough memory to allocate the
  * 	   			device structure
  * 	   Sane.STATUS_UNSUPPORTED if the device if unknown by the backend
  * 	   Sane.STATUS_INVAL in case of other error
@@ -1762,7 +1762,7 @@ init_options(struct P5_Session *session)
 
   /** @brief build resolution list
    * We merge xdpi and ydpi list to provide only one resolution option control.
-   * This is the most common case for backends and fronteds and give 'square'
+   * This is the most common case for backends and fronteds and give "square"
    * pixels. The SANE API allow to control x and y dpi independently, but this is
    * rarely done and may confuse both frontends and users. In case a dpi value exists
    * for one but not for the other, the backend will have to crop data so that the
@@ -1989,7 +1989,7 @@ probe(const char *devicename)
   fd = open_pp(devicename)
   if(fd < 0)
     {
-      DBG(DBG_error, "probe: failed to open '%s' device!\n", devicename)
+      DBG(DBG_error, "probe: failed to open "%s" device!\n", devicename)
       return NULL
     }
 

@@ -146,7 +146,7 @@ typedef struct Mustek_Scanner
   GETPARAMETERS getpara
   Bool bIsScanning
   Bool bIsReading
-  Sane.Word read_rows;		/* transfer image's lines */
+  Sane.Word read_rows;		/* transfer image"s lines */
   Sane.Byte *Scan_data_buf;	/*store Scanned data for transfer */
   Sane.Byte *Scan_data_buf_start;	/*point to data need to transfer */
   size_t scan_buffer_len;	/* length of data buf */

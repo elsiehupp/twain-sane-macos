@@ -91,7 +91,7 @@ static u_short a_wDarkShading[_SHADING_BUF]  = {0]
 #define _PT_CF_VERSION 0x0002
 
 /** function to read a text file and returns the string which starts which
- *  'id' string.
+ *  "id" string.
  *  no duplicate entries where detected, always the first occurrence will be
  *  red.
  * @param fp  - file pointer of file to read
@@ -120,11 +120,11 @@ usb_ReadSpecLine( FILE *fp, char *id, char* res )
 			if( 0 == strncmp( tmp, id, strlen(id))) {
 
 				ptr = &tmp[strlen(id)]
-        			if( '\0' == *ptr )
+        			if( "\0" == *ptr )
 					break
 
 				strcpy( res, ptr )
-				res[strlen(res)-1] = '\0'
+				res[strlen(res)-1] = "\0"
 				return Sane.TRUE
 			}
 		}
@@ -163,7 +163,7 @@ usb_ReadOtherLines( FILE *fp, char *except )
 		return NULL
 
 	ptr_base = ptr
-	*ptr     = '\0'
+	*ptr     = "\0"
 	ignore   = 0
 
 	/* roam through the file and examine each line... */
@@ -181,7 +181,7 @@ usb_ReadOtherLines( FILE *fp, char *except )
 					if( strlen( tmp ) > 0 ) {
 						strcpy( ptr, tmp )
 						ptr += strlen(tmp)
-						*ptr = '\0'
+						*ptr = "\0"
 					}
 				} else {
 					ignore = 1
@@ -189,7 +189,7 @@ usb_ReadOtherLines( FILE *fp, char *except )
 			}
 
 			/* newline in tmp string resets ignore flag */
-			if( strrchr(tmp, '\n')) {
+			if( strrchr(tmp, "\n")) {
 				ignore = 0
 			}
 		}
@@ -232,7 +232,7 @@ usb_ReadSamples( FILE *fp, char *which, u_long *dim, u_short *buffer )
 
 					/* get dimension */
 					diml = strtol(&tmp[strlen(which)], NULL, 10)
-					p = strchr( &tmp[strlen(which)], ':' )
+					p = strchr( &tmp[strlen(which)], ":" )
 					p++
 				} else {
 					ignore = 1
@@ -260,14 +260,14 @@ usb_ReadSamples( FILE *fp, char *which, u_long *dim, u_short *buffer )
 					buffer[c] = (u_short)val
 
 					/* more values? */
-					if( *next == ',') {
+					if( *next == ",") {
 						p = next+1
 						c++
 					} else {
 						p = next
 					}
 					/* reached the end? */
-					if( *next == '\0' ) {
+					if( *next == "\0" ) {
 
 						/* we probably have only parsed a part of a value
 						 * so we copy that back to the input buffer and
@@ -282,7 +282,7 @@ usb_ReadSamples( FILE *fp, char *which, u_long *dim, u_short *buffer )
 			}
 
 			/* newline in tmp string resets ignore flag */
-			if( strrchr(tmp, '\n')) {
+			if( strrchr(tmp, "\n")) {
 				ignore = 0
 			}
 		}
@@ -345,7 +345,7 @@ usb_CreatePrefix( Plustek_Device *dev, char *pfx, Bool add_bitdepth )
 		case SOURCE_Transparency: strcpy( pfx, "tpa-" ); break
 		case SOURCE_Negative:     strcpy( pfx, "neg-" ); break
 		case SOURCE_ADF:          strcpy( pfx, "adf-" ); break
-	    default:                  pfx[0] = '\0'; break
+	    default:                  pfx[0] = "\0"; break
 	}
 
 	sprintf( bd, "%u=", param.bBitDepth )

@@ -53,7 +53,7 @@ namespace genesys {
 
 // it would be best to use something like boost.serialization
 
-inline void serialize_newline(std::ostream& str) { str << '\n'; }
+inline void serialize_newline(std::ostream& str) { str << "\n"; }
 inline void serialize_newline(std::istream& str) { (void) str; }
 
 inline void serialize(std::ostream& str, bool x) { str << static_cast<unsigned>(x) << " "; }

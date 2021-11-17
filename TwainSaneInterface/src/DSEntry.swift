@@ -3,11 +3,12 @@ import DataSource
 
 var datasource: DataSource
 
-func TW_UINT16 DS_Entry(pTW_IDENTITY pOrigin,
-                    TW_UINT32    DG,
-                    TW_UINT16    DAT,
-                    TW_UINT16    MSG,
-                    TW_MEMREF    pData) {
+func DS_Entry(
+    pOrigin: Twain.Identity,
+    DG: Int,
+    DAT: Int,
+    message: Int,
+    pData: Twain.MemoryReference) -> Int {
 
-    return datasource.Entry(pOrigin, DG, DAT, MSG, pData)
+    return datasource.Entry(pOrigin, DG, DAT, message, pData)
 }

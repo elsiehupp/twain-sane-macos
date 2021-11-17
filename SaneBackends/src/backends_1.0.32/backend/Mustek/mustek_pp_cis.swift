@@ -301,7 +301,7 @@ Mustek_PP_1015_show_val(Int val)
 {
    /*
       Since we use a static temporary buffer, we must make sure that the
-      buffer isn't altered while it is still in use(typically because
+      buffer isn"t altered while it is still in use(typically because
       more than one value is converted in a printf statement).
       Therefore the buffer is organized as a ring buffer. If should contain
       at least 21 elements in order to be able to display all registers
@@ -467,7 +467,7 @@ Mustek_PP_1015_wait_bit(Mustek_PP_CIS_dev * dev, Mustek_PP_1015R_reg reg,
 
    mask = 1 << bit
 
-   /* We don't want to wait forever */
+   /* We don"t want to wait forever */
    while(dev.desc.state != STATE_CANCELLED)
    {
 #if defined(M1015_LOG_LL) || defined(M1015_LOG_HL)
@@ -577,7 +577,7 @@ Mustek_PP_1015_write_reg(Mustek_PP_CIS_dev * dev, Mustek_PP_1015W_reg reg, Sane.
 /******************************************************************************
  *
  * Writes 2 values to 2 adjecent registers.
- * It is probably equivalent to 2 simple write operations(but I'm not sure).
+ * It is probably equivalent to 2 simple write operations(but I"m not sure).
  *
  *   val1 is written to register[regNo]
  *   val2 is written to register[regNo+1]
@@ -614,7 +614,7 @@ Mustek_PP_1015_write_reg2(Mustek_PP_CIS_dev * dev, Mustek_PP_1015W_reg reg,
 /******************************************************************************
  *
  * Writes 3 values to 3 adjecent registers.
- * It is probably equivalent to 3 simple write operations(but I'm not sure).
+ * It is probably equivalent to 3 simple write operations(but I"m not sure).
  *
  *   val1 is written to register[regNo]
  *   val2 is written to register[regNo+1]
@@ -933,11 +933,11 @@ cis_set_ccd_channel(Mustek_PP_CIS_dev * dev)
 
    /*
       The TWAIN driver sets an extra bit in lineart mode.
-      When I do this too, I don't see any effect on the image.
+      When I do this too, I don"t see any effect on the image.
       Moreover, for 1 resolution, namely 400 dpi, the bank counter seems
       to behave strangely, and the synchronization get completely lost.
       I guess the software conversion from gray to lineart is good enough,
-      so I'll leave it like that.
+      so I"ll leave it like that.
 
       if(dev.CIS.setParameters)
       {
@@ -1034,9 +1034,9 @@ cis_config_ccd(Mustek_PP_CIS_dev * dev)
        * It seems that the TWAIN driver always adds 2 mm extra. When I do the
        * inverse calculation from the parameters that driver sends, I always
        * get a difference of exactly 2mm, at every resolution and for
-       * different positions of the scan area. Moreover, when I don't add this
+       * different positions of the scan area. Moreover, when I don"t add this
        * offset, the resulting scan seems to start 2mm to soon.
-       * I can't find this back in the backend of the TWAIN driver, but I
+       * I can"t find this back in the backend of the TWAIN driver, but I
        * assume that this 2mm offset is taken care off at the higher levels.
        */
       DBG(4, "cis_config_ccd: Skip count: %d\n",  skipCount)
@@ -1180,10 +1180,10 @@ cis_move_motor(Mustek_PP_CIS_dev * dev, Int steps) /* steps @ maxres */
 
    /*
     * Using the parameter settings for the 600 CP on a 1200 CP scanner
-    * doesn't work: the engine doesn't move and makes a sharp noise, which
-    * doesn't sound too healthy. It could be harmful to the motor !
+    * doesn"t work: the engine doesn"t move and makes a sharp noise, which
+    * doesn"t sound too healthy. It could be harmful to the motor !
     * Apparently, the same happens on a real 600 CP(reported by Disma
-    * Goggia), so it's probably better to always use the 1200 CP settings.
+    * Goggia), so it"s probably better to always use the 1200 CP settings.
     */
    dev.CIS.exposeTime <<= 1
    cis_config_ccd(dev)
@@ -1219,7 +1219,7 @@ cis_move_motor(Mustek_PP_CIS_dev * dev, Int steps) /* steps @ maxres */
 
    DBG(4, "cis_move_motor: 4x%d 2x%d 1x%d\n", quadSteps, biSteps, fullSteps)
    /* Note: the TWAIN driver opens the motor control register only
-      once before the loop, and closes it after the loop. I've tried this
+      once before the loop, and closes it after the loop. I"ve tried this
       too, but it resulted in inaccurate skip distances; therefore, the
       motor control register is now opened and closed for each step. */
 
@@ -1426,7 +1426,7 @@ cis_read_line_low_level(Mustek_PP_CIS_dev * dev, Sane.Byte * buf,
       Int calctr = 0
       Int pos = 0, nextPos = 1
       /* Step: eg: 600 DPI -> 700 DPI -> hres_step = 6/7 -> step = 1/7 */
-      Int step = Sane.FIX(1) - dev.CIS.hres_step
+      step: Int = Sane.FIX(1) - dev.CIS.hres_step
 
       /* Super-sampling */
       DBG(6, "cis_read_line_low_level: super-sampling\n")
@@ -1583,7 +1583,7 @@ cis_get_lineart_line(Mustek_PP_CIS_dev * dev, Sane.Byte * buf)
    Sane.Byte gbuf[MUSTEK_PP_CIS_MAX_H_PIXEL * 2]
 
    cis_get_grayscale_line(dev, gbuf)
-   memset(buf, 0xFF, dev.desc.params.bytes_per_line)
+   memset(buf, 0xFF, dev.desc.params.bytesPerLine)
 
    for(ctr = 0; ctr < dev.desc.params.pixels_per_line; ctr++)
       buf[ctr >> 3] ^= ((gbuf[ctr] > dev.bw_limit) ? (1 << (7 - ctr % 8)) : 0)
@@ -1654,7 +1654,7 @@ cis_maximize_dynamic_range(Mustek_PP_CIS_dev * dev)
    cis_config_ccd(dev)
 
    M1015_DISPLAY_REGS(dev, "before maximizing dynamic range")
-   dev.CIS.dontMove = Sane.TRUE; /* Don't move while calibrating */
+   dev.CIS.dontMove = Sane.TRUE; /* Don"t move while calibrating */
 
    if(!cis_wait_read_ready(dev) && dev.desc.state != STATE_CANCELLED)
    {
@@ -1781,7 +1781,7 @@ cis_measure_extremes(Mustek_PP_CIS_dev * dev, Sane.Byte* calib[3],
 
    dev.CIS.channel = first
 
-   /* Purge the banks first(there's always a 3-cycle delay) */
+   /* Purge the banks first(there"s always a 3-cycle delay) */
    for(channel = first; channel <= last; ++channel)
    {
       if(!cis_read_line(dev, &buf[channel%3][0], pixels,
@@ -1941,11 +1941,11 @@ cis_measure_delay(Mustek_PP_CIS_dev * dev)
 
    /*
     * Note: the TWAIN driver seems to have a fast EPP mode too. That one is
-    * tried first, and then they try the normal mode. I haven't figured out
-    * yet how the fast mode works, so I'll only check the normal mode for now.
-    * Moreover, from the behaviour that I've witnessed from the TWAIN driver,
-    * I must conclude that the fast mode probably doesn't work on my computer,
-    * so I can't test it anyhow.
+    * tried first, and then they try the normal mode. I haven"t figured out
+    * yet how the fast mode works, so I"ll only check the normal mode for now.
+    * Moreover, from the behaviour that I"ve witnessed from the TWAIN driver,
+    * I must conclude that the fast mode probably doesn"t work on my computer,
+    * so I can"t test it anyhow.
     */
    /* Gradually increase the delay till we have no more errors */
    for(d = 0; d < 75 /* 255 */  && dev.desc.state != STATE_CANCELLED; d += 5)
@@ -2073,8 +2073,8 @@ cis_calibrate(Mustek_PP_CIS_dev * dev)
     *
     *  - Repetitive read_line of 2048 bytes, interleaved with an unknown
     *    command. The number varies between 102 and 170 times, but there
-    *    doesn't seem to be any correlation with the current mode of the
-    *    scanner, so I assume that the exact number isn't really relevant.
+    *    doesn"t seem to be any correlation with the current mode of the
+    *    scanner, so I assume that the exact number isn"t really relevant.
     *    The values that are read are the one that were sent to the bank,
     *    rotated by 1 byte in my case.
     *
@@ -2084,15 +2084,15 @@ cis_calibrate(Mustek_PP_CIS_dev * dev)
     *    I assume that the buffer is read 100 times to allow the lamp to
     *    warm up and that the width of the black border is then being
     *    measured till it stabilizes. That would explain the minimum number
-    *    of 102 iterations that I've seen.
+    *    of 102 iterations that I"ve seen.
     *
     *  - reset the device
     *
     *  - move the motor 110 steps forward. The TWAIN driver moves 90 steps,
-    *    and I've used 90 steps for a long time too, but occasionally,
+    *    and I"ve used 90 steps for a long time too, but occasionally,
     *    90 steps is a fraction to short to reach the start of the
     *    calibration strip(the motor movements are not very accurate
-    *    an offset of 1 mm is not unusual). Therefore, I've increased it to
+    *    an offset of 1 mm is not unusual). Therefore, I"ve increased it to
     *    110 steps. This gives us an additional 1.6 mm slack, which should
     *    prevent calibration errors.
     *    (Note that the MUSTEK_PP_CIS_????CP_DEFAULT_SKIP constants have to
@@ -2110,7 +2110,7 @@ cis_calibrate(Mustek_PP_CIS_dev * dev)
    dev.desc.state = STATE_SCANNING
 
    cis_reset_device(dev)
-   cis_return_home(dev, Sane.FALSE);  /* Wait till it's home */
+   cis_return_home(dev, Sane.FALSE);  /* Wait till it"s home */
 
    /* Use maximum resolution during calibration; otherwise we may calibrate
       past the calibration strip. */
@@ -2140,7 +2140,7 @@ cis_calibrate(Mustek_PP_CIS_dev * dev)
    Mustek_PP_1015_write_reg_stop(dev)
 
    /* Next, we maximize the dynamic range of the scanner. During calibration
-      we don't want to extrapolate, so we limit the resolution if necessary */
+      we don"t want to extrapolate, so we limit the resolution if necessary */
 
    if(dev.CIS.hw_hres < dev.CIS.res)
       dev.CIS.res = dev.CIS.hw_hres
@@ -2168,7 +2168,7 @@ cis_calibrate(Mustek_PP_CIS_dev * dev)
          glass plate in order to find the position of the calibration strip
          and the start of the glass plate. */
       DBG(3, "cis_calibrate: running in calibration mode. Returning home.\n")
-      cis_return_home(dev, Sane.FALSE);  /* Wait till it's home */
+      cis_return_home(dev, Sane.FALSE);  /* Wait till it"s home */
    }
 
    return dev.desc.state != STATE_CANCELLED ? Sane.TRUE : Sane.FALSE
@@ -2203,7 +2203,7 @@ static Sane.Status cis_attach(Sane.String_Const port,
       Sane.Status altStatus
       Sane.String_Const altPort
 
-      DBG(2, "cis_attach: couldn't attach to `%s' (%s)\n", port,
+      DBG(2, "cis_attach: couldn"t attach to `%s" (%s)\n", port,
            Sane.strstatus(status))
 
       /* Make migration to libieee1284 painless for users that used
@@ -2218,7 +2218,7 @@ static Sane.Status cis_attach(Sane.String_Const port,
       altStatus = sanei_pa4s2_open(altPort, &fd)
       if(altStatus != Sane.STATUS_GOOD)
       {
-           DBG(2, "cis_attach: couldn't attach to alternative port `%s' "
+           DBG(2, "cis_attach: couldn"t attach to alternative port `%s" "
               "(%s)\n", altPort, Sane.strstatus(altStatus))
            return status; /* Return original status, not alternative status */
       }
@@ -2337,7 +2337,7 @@ Sane.Status cis_drv_open(String port, Int caps, Int *fd)
       Sane.Status altStatus
       Sane.String_Const altPort
 
-      DBG(2, "cis_attach: couldn't attach to `%s' (%s)\n", port,
+      DBG(2, "cis_attach: couldn"t attach to `%s" (%s)\n", port,
            Sane.strstatus(status))
 
       /* Make migration to libieee1284 painless for users that used
@@ -2352,7 +2352,7 @@ Sane.Status cis_drv_open(String port, Int caps, Int *fd)
       altStatus = sanei_pa4s2_open(altPort, fd)
       if(altStatus != Sane.STATUS_GOOD)
       {
-           DBG(2, "cis_attach: couldn't attach to alternative port `%s' "
+           DBG(2, "cis_attach: couldn"t attach to alternative port `%s" "
               "(%s)\n", altPort, Sane.strstatus(altStatus))
            return status; /* Return original status, not alternative status */
       }
@@ -2445,7 +2445,7 @@ Sane.Status cis_drv_config(Sane.Handle hndl, Sane.String_Const optname,
       DBG(3, "cis_drv_config: setting top skip value to %d\n",
               cisdev.top_skip)
 
-      /* Just to be cautious; we don't want the head to hit the bottom */
+      /* Just to be cautious; we don"t want the head to hit the bottom */
       if(cisdev.top_skip > 600) cisdev.top_skip = 600
       if(cisdev.top_skip < -600) cisdev.top_skip = -600
    }
@@ -2520,7 +2520,7 @@ void cis_drv_close(Sane.Handle hndl)
    sanei_pa4s2_enable(dev.fd, Sane.TRUE)
    cis_reset_device(cisdev)
    DBG(3, "cis_close: returning home.\n")
-   cis_return_home(cisdev, Sane.TRUE); /* Don't wait */
+   cis_return_home(cisdev, Sane.TRUE); /* Don"t wait */
    DBG(3, "cis_close: disabling fd.\n")
    sanei_pa4s2_enable(dev.fd, Sane.FALSE)
    DBG(3, "cis_close: closing fd.\n")
@@ -2643,7 +2643,7 @@ Sane.Status cis_drv_start(Sane.Handle hndl)
    sanei_pa4s2_enable(dev.fd, Sane.TRUE)
 
    cis_reset_device(cisdev)
-   cis_return_home(cisdev, Sane.TRUE); /* Don't wait here */
+   cis_return_home(cisdev, Sane.TRUE); /* Don"t wait here */
 
 #ifdef M1015_TRACE_REGS
    {
@@ -2823,7 +2823,7 @@ void cis_drv_stop(Sane.Handle hndl)
    DBG(9, "cis_drv_stop: resetting device(1)\n")
    cis_reset_device(cisdev)
    DBG(9, "cis_drv_stop: returning home\n")
-   cis_return_home(cisdev, Sane.TRUE); /* don't wait */
+   cis_return_home(cisdev, Sane.TRUE); /* don"t wait */
    DBG(9, "cis_drv_stop: resetting device(2)\n")
    cis_reset_device(cisdev)
    DBG(9, "cis_drv_stop: disabling fd\n")

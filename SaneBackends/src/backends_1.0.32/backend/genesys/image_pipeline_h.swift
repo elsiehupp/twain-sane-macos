@@ -425,7 +425,7 @@ std::size_t compute_pixel_shift_extra_width(std::size_t source_width,
                                             const std::vector<std::size_t>& shifts)
 
 // A pipeline node that extracts a sub-image from the image. Padding and cropping is done as needed.
-// The class can't pad to the left of the image currently, as only positive offsets are accepted.
+// The class can"t pad to the left of the image currently, as only positive offsets are accepted.
 class ImagePipelineNodeExtract : public ImagePipelineNode
 {
 public:

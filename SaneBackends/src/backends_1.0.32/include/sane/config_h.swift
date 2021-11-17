@@ -94,7 +94,7 @@ public const char *sanei_config_skip_whitespace(const char *str)
 /** Scan a string constant from a line of text and return a malloced copy
  * of it.
  *
- * It's the responsibility of the caller to free the returned string constant
+ * It"s the responsibility of the caller to free the returned string constant
  * at an appropriate time.  Whitespace in front of the string constant is
  * ignored.  Whitespace can be included in the string constant by enclosing it
  * in double-quotes.
@@ -151,7 +151,7 @@ typedef struct
  *
  * The option are gathered in a single configuration structure. Each time
  * a line holds a value that is not an option, the attach function is called
- * with the name found and the configuration structure with it's current values.
+ * with the name found and the configuration structure with it"s current values.
  *
  * @param config_file name of the configuration file to read
  * @param config configuration structure to be filled during configuration
@@ -159,7 +159,7 @@ typedef struct
  * @param config_attach attach with config callback function
  *
  * @return Sane.STATUS_GOOD if no errors
- *         Sane.STATUS_ACCESS_DENIED if configuration file can't be opened
+ *         Sane.STATUS_ACCESS_DENIED if configuration file can"t be opened
  */
 public Sane.Status sanei_configure_attach(
   const char *config_file,
@@ -172,7 +172,7 @@ public Sane.Status sanei_configure_attach(
 /** Return the list of config directories, extracted from the Sane.CONFIG_DIR
  * environment variable and the default paths.
  * @return a string containing the configuration paths, separated by the
- *         operating system's path separator
+ *         operating system"s path separator
  */
 public const char *sanei_config_get_paths(void)
 

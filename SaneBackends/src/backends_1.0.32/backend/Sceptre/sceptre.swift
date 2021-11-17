@@ -148,7 +148,7 @@ hexdump(Int level, const char *comment, unsigned char *p, Int l)
 	{
 	  if(ptr != line)
 	    {
-	      *ptr = '\0'
+	      *ptr = "\0"
 	      DBG(level, "%s\n", line)
 	      ptr = line
 	    }
@@ -158,7 +158,7 @@ hexdump(Int level, const char *comment, unsigned char *p, Int l)
       sprintf(ptr, " %2.2x", *p)
       ptr += 3
     }
-  *ptr = '\0'
+  *ptr = "\0"
   DBG(level, "%s\n", line)
 }
 
@@ -343,10 +343,10 @@ sceptre_get_status(Sceptre_Scanner * dev, size_t * data_left)
       return(Sane.STATUS_IO_ERROR)
     }
 
-  hexdump(DBG_info2, "GET BUFFER STATUS result", dev.buffer, 16)
+  hexdump(DBG_info2, "GET BUFFER Status result", dev.buffer, 16)
 
   /* Read the size left. The scanner returns the rest of the
-   * bytes to read, not just what's in its buffers. */
+   * bytes to read, not just what"s in its buffers. */
   *data_left = B32TOI(&dev.buffer[8])
 
   if(dev.raster_real == 0)
@@ -391,7 +391,7 @@ sceptre_adjust_raster(Sceptre_Scanner * dev, size_t size_in)
   DBG(DBG_proc, "sceptre_adjust_raster: enter\n")
 
   assert(dev.scan_mode == SCEPTRE_COLOR)
-  assert((size_in % dev.params.bytes_per_line) == 0)
+  assert((size_in % dev.params.bytesPerLine) == 0)
 
   if(size_in == 0)
     {
@@ -482,7 +482,7 @@ sceptre_adjust_raster(Sceptre_Scanner * dev, size_t size_in)
       /* Adjust the line number relative to the image. */
       line -= dev.line
 
-      offset = dev.image_end + line * dev.params.bytes_per_line
+      offset = dev.image_end + line * dev.params.bytesPerLine
 
       assert(offset <= (dev.image_size - dev.raster_size))
 
@@ -504,7 +504,7 @@ sceptre_adjust_raster(Sceptre_Scanner * dev, size_t size_in)
 	{
 	  /* This blue raster completes a new line */
 	  dev.line++
-	  dev.image_end += dev.params.bytes_per_line
+	  dev.image_end += dev.params.bytesPerLine
 	}
 
       dev.raster_num++
@@ -595,7 +595,7 @@ attach_scanner(const char *devicename, Sceptre_Scanner ** devp)
 
   /*
    * The S1200 has an area of 8.5 inches / 11.7 inches. (A4 like)
-   * That's roughly 215*297 mm
+   * That"s roughly 215*297 mm
    * The values are coded by
    *    size in inch * 600 dpi.
    * The maximums are:
@@ -933,7 +933,7 @@ sceptre_do_diag(Sceptre_Scanner * dev)
   return(status)
 }
 
-/* I'm not sure if the command sent is really set mode. The SCSI
+/* I"m not sure if the command sent is really set mode. The SCSI
  * command used is MODE SELECT, but no data is sent. Again, this is
  * not standard. */
 static Sane.Status
@@ -993,16 +993,16 @@ sceptre_set_window(Sceptre_Scanner * dev)
   window[7] = sizeof(window) - 8
 
   /* X and Y resolution */
-  Ito16 (dev.resolution, &window[10])
-  Ito16 (dev.resolution, &window[12])
+  Ito16(dev.resolution, &window[10])
+  Ito16(dev.resolution, &window[12])
 
   /* Upper Left(X,Y) */
-  Ito32 (dev.x_tl, &window[14])
-  Ito32 (dev.y_tl, &window[18])
+  Ito32(dev.x_tl, &window[14])
+  Ito32(dev.y_tl, &window[18])
 
   /* Width and length */
-  Ito32 (dev.width, &window[22])
-  Ito32 (dev.length, &window[26])
+  Ito32(dev.width, &window[22])
+  Ito32(dev.length, &window[26])
 
   /* Image Composition, Halftone and Depth */
   switch(dev.scan_mode)
@@ -1063,7 +1063,7 @@ sceptre_fill_image(Sceptre_Scanner * dev)
   assert(dev.real_bytes_left > 0)
 
   /* Copy the complete lines, plus the imcompletes
-   * ones. We don't keep the real end of data used
+   * ones. We don"t keep the real end of data used
    * in image, so we copy the biggest possible.
    *
    * This is a no-op for non color images.
@@ -1098,7 +1098,7 @@ sceptre_fill_image(Sceptre_Scanner * dev)
 	}
 
       /* Round down to a multiple of line size. */
-      size = size - (size % dev.params.bytes_per_line)
+      size = size - (size % dev.params.bytesPerLine)
 
       if(size == 0)
 	{
@@ -1109,7 +1109,7 @@ sceptre_fill_image(Sceptre_Scanner * dev)
 	}
 
       DBG(DBG_info, "sceptre_fill_image: to read   = %ld bytes(bpl=%d)\n",
-	   (long) size, dev.params.bytes_per_line)
+	   (long) size, dev.params.bytesPerLine)
 
       MKSCSI_READ_10 (cdb, 0, 0, size)
 
@@ -1333,7 +1333,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 
   while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if(dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == "#")	/* ignore line comments */
 	continue
       len = strlen(dev_name)
 
@@ -1735,7 +1735,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	  dev.params.pixels_per_line = (dev.width * x_dpi) / 600
 	  dev.params.pixels_per_line &= ~0x7;	/* round down to 8 */
 
-	  dev.params.bytes_per_line = (dev.params.pixels_per_line) / 8
+	  dev.params.bytesPerLine = (dev.params.pixels_per_line) / 8
 
 	  dev.params.lines = ((dev.length * dev.resolution) / 600)
 	  if((dev.params.lines) * 600 != (dev.length * dev.resolution))
@@ -1768,9 +1768,9 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 		}
 	    }
 
-	  dev.params.bytes_per_line = dev.params.pixels_per_line
+	  dev.params.bytesPerLine = dev.params.pixels_per_line
 	  if(dev.scan_mode == SCEPTRE_COLOR)
-	    dev.params.bytes_per_line *= 3
+	    dev.params.bytesPerLine *= 3
 
 	  /* lines number rounding rules:
 	   *   2n + [0.0 .. 2.0[  -> round to 2n
@@ -1801,7 +1801,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 
       DBG(DBG_proc, "color_shift = %d\n", dev.color_shift)
 
-      dev.bytes_left = dev.params.lines * dev.params.bytes_per_line
+      dev.bytes_left = dev.params.lines * dev.params.bytesPerLine
     }
 
   /* Return the current values. */
@@ -1837,7 +1837,7 @@ Sane.start(Sane.Handle handle)
        * rasters.
        */
       dev.raster_ahead =
-	(2 * dev.color_shift + 1) * dev.params.bytes_per_line
+	(2 * dev.color_shift + 1) * dev.params.bytesPerLine
       dev.image_size = dev.buffer_size + dev.raster_ahead
       dev.image = malloc(dev.image_size)
       if(dev.image == NULL)
@@ -1847,7 +1847,7 @@ Sane.start(Sane.Handle handle)
       dev.image_begin = 0
       dev.image_end = 0
 
-      dev.raster_size = dev.params.bytes_per_line / 3
+      dev.raster_size = dev.params.bytesPerLine / 3
       dev.raster_num = 0
       dev.raster_real = 0
       dev.line = 0
@@ -1912,7 +1912,7 @@ Sane.start(Sane.Handle handle)
 
     }
 
-  dev.bytes_left = dev.params.bytes_per_line * dev.params.lines
+  dev.bytes_left = dev.params.bytesPerLine * dev.params.lines
 
   dev.scanning = Sane.TRUE
 

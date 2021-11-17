@@ -55,14 +55,14 @@ import Sane.sane
 /** Check authorization for a resource
  *
  * This function looks for the file Sane.CONFIG_DIR/backend.users.
- * If this file doesn't exist, sanei_authorize always returns Sane.STATUS_GOOD.
+ * If this file doesn"t exist, sanei_authorize always returns Sane.STATUS_GOOD.
  * The file backend.users contains a list of usernames, passwords, and
  * resources:
  *
  * username:password:resource
  * username:password:resource
  *
- * If the requested resource isn't listed in this file, sanei_authorize
+ * If the requested resource isn"t listed in this file, sanei_authorize
  * return Sane.SATUS_GOOD. In all other cases, sanei_authorize sends a
  * challenge to the frontend of the form
  *

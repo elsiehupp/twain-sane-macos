@@ -76,7 +76,7 @@ import Sane.saneopts
 import Sane.sanei_scsi
 
 /* QUEUEDEBUG should be undefined unless you want to play
-   with the sanei_scsi.c under Linux and/or with the Linux's SG driver,
+   with the sanei_scsi.c under Linux and/or with the Linux"s SG driver,
    or your suspect problems with command queueing
 */
 #define QUEUEDEBUG
@@ -637,9 +637,9 @@ reader_process(NEC_Scanner *s)
 
   bytes_to_queue = s.bytes_to_read
 
-  max_bytes_per_read = s.dev.info.bufsize / s.params.bytes_per_line
+  max_bytes_per_read = s.dev.info.bufsize / s.params.bytesPerLine
   if(max_bytes_per_read)
-    max_bytes_per_read *= s.params.bytes_per_line
+    max_bytes_per_read *= s.params.bytesPerLine
   else
     /* this is a really tiny buffer..*/
     max_bytes_per_read = s.dev.info.bufsize
@@ -899,7 +899,7 @@ read_data(NEC_Scanner *s, Sane.Byte *buf, size_t * buf_size)
   return Sane.STATUS_GOOD
 }
 
-#else /* don't USE_FORK: */
+#else /* don"t USE_FORK: */
 
 static Sane.Status
 read_data(NEC_Scanner *s, Sane.Byte *buf, size_t * buf_size)
@@ -1048,7 +1048,7 @@ attach(const char *devnam, NEC_Device ** devp)
 
   if(sensedat.model == unknown)
     {
-      DBG(1, "attach: device doesn't look like a NEC scanner\n")
+      DBG(1, "attach: device doesn"t look like a NEC scanner\n")
       DBG(1, "      : Only PC-IN500/4C is supported.\n")
       sanei_scsi_close(fd)
       return(Sane.STATUS_INVAL)
@@ -1793,7 +1793,7 @@ do_cancel(NEC_Scanner * s)
     {
       Int exit_status
       Int count = 0
-      /* ensure child knows it's time to stop: */
+      /* ensure child knows it"s time to stop: */
 
       DBG(11, "stopping reader process\n")
       s.rdr_ctl.cancel = 1
@@ -1924,7 +1924,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
       lp = sanei_config_get_string(line, &word)
       if(word)
         {
-          if(word[0] != '#')
+          if(word[0] != "#")
             {
               if(strcmp(word, "option") == 0)
                 {
@@ -2007,7 +2007,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
                       new_dev_pool = new_devs
                       new_devs = np
                     }
-                  if(line[strlen(line)-1] == '\n')
+                  if(line[strlen(line)-1] == "\n")
                     line[strlen(line)-1] = 0
                   sanei_config_attach_matching_devices(line, &attach_and_list)
                   buffers[1] = buffers[0]
@@ -2034,7 +2034,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
         new_devs.dev.info.queued_reads = queued_reads[1]
       else
         new_devs.dev.info.queued_reads = 0
-      if(line[strlen(line)-1] == '\n')
+      if(line[strlen(line)-1] == "\n")
         line[strlen(line)-1] = 0
       np = new_devs.next
       free(new_devs)
@@ -2618,28 +2618,28 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   if(strcmp(mode, M_LINEART) == 0)
      {
        s.params.format = Sane.FRAME_GRAY
-       s.params.bytes_per_line = (s.params.pixels_per_line + 7) / 8
+       s.params.bytesPerLine = (s.params.pixels_per_line + 7) / 8
        s.params.depth = 1
        s.modes = MODES_LINEART
      }
   else if(strcmp(mode, M_GRAY) == 0)
      {
        s.params.format = Sane.FRAME_GRAY
-       s.params.bytes_per_line = s.params.pixels_per_line
+       s.params.bytesPerLine = s.params.pixels_per_line
        s.params.depth = 8
        s.modes = MODES_GRAY
      }
   else if(strcmp(mode, M_LINEART_COLOR) == 0)
     {
        s.params.format = Sane.FRAME_RGB
-       s.params.bytes_per_line = 3 * (s.params.pixels_per_line + 7) / 8
+       s.params.bytesPerLine = 3 * (s.params.pixels_per_line + 7) / 8
        s.params.depth = 8
        s.modes = MODES_LINEART_COLOR
     }
   else
      {
        s.params.format = Sane.FRAME_RGB
-       s.params.bytes_per_line = 3 * s.params.pixels_per_line
+       s.params.bytesPerLine = 3 * s.params.pixels_per_line
        s.params.depth = 8
        s.modes = MODES_COLOR
      }
@@ -2685,11 +2685,11 @@ send_ascii_gamma_tables(NEC_Scanner *s)
   memset(s.buffer, 0, 4106)
 
   i = sprint_gamma(s.val[OPT_GAMMA_VECTOR_R], &s.buffer[10])
-  s.buffer[10+i++] = '/'
+  s.buffer[10+i++] = "/"
   i += sprint_gamma(s.val[OPT_GAMMA_VECTOR_G], &s.buffer[10+i])
-  s.buffer[10+i++] = '/'
+  s.buffer[10+i++] = "/"
   i += sprint_gamma(s.val[OPT_GAMMA_VECTOR_B], &s.buffer[10+i])
-  s.buffer[10+i++] = '/'
+  s.buffer[10+i++] = "/"
   i += sprint_gamma(s.val[OPT_GAMMA_VECTOR], &s.buffer[10+i])
 
   DBG(12, "%s\n", &s.buffer[10])
@@ -2805,7 +2805,7 @@ send_threshold_data(NEC_Scanner *s)
 
   memset(cmd, 0, sizeof(cmd))
   /* maximum string length: 3 bytes for each number(they are
-     restricted to the range 0..255), 3 '/' and the null-byte,
+     restricted to the range 0..255), 3 "/" and the null-byte,
      total: 16 bytes.
   */
   len = sprintf((char *) &cmd[10], "%i/%i/%i/%i",
@@ -2834,7 +2834,7 @@ Sane.start(Sane.Handle handle)
   DBG(10, "<< Sane.start ")
 
   /* First make sure we have a current parameter set.  Some of the
-     parameters will be overwritten below, but that's OK.  */
+     parameters will be overwritten below, but that"s OK.  */
   status = Sane.get_parameters(s, 0)
   if(status != Sane.STATUS_GOOD)
     return status
@@ -3365,10 +3365,10 @@ Sane.start(Sane.Handle handle)
           }
 #endif
   if(strcmp(mode, M_LINEART_COLOR) != 0)
-    s.bytes_to_read = s.params.bytes_per_line * s.params.lines
+    s.bytes_to_read = s.params.bytesPerLine * s.params.lines
   else
     {
-      s.bytes_to_read = s.params.bytes_per_line * s.params.lines
+      s.bytes_to_read = s.params.bytesPerLine * s.params.lines
     }
 
 #ifdef USE_FORK
@@ -3402,7 +3402,7 @@ Sane.start(Sane.Handle handle)
       memset(&act, 0, sizeof(act))
       sigaction(SIGTERM, &act, 0)
 
-      /* don't use exit() since that would run the atexit() handlers... */
+      /* don"t use exit() since that would run the atexit() handlers... */
       _exit(reader_process(s))
     }
   else if(s.reader_pid == -1)
@@ -3416,7 +3416,7 @@ Sane.start(Sane.Handle handle)
 
 
   DBG(1, "%d pixels per line, %d bytes, %d lines high, total %lu bytes, "
-       "dpi=%d\n", s.params.pixels_per_line, s.params.bytes_per_line,
+       "dpi=%d\n", s.params.pixels_per_line, s.params.bytesPerLine,
        s.params.lines, (u_long) s.bytes_to_read, s.val[OPT_RESOLUTION].w)
 
   s.busy = Sane.FALSE
@@ -3540,19 +3540,19 @@ Sane.read_shuffled(Sane.Handle handle, Sane.Byte *dst_buf, Int max_len,
     {
       if(eight_bit_data)
         {
-          nread = s.dev.info.bufsize / s.params.bytes_per_line - 1
-          nread *= s.params.bytes_per_line
+          nread = s.dev.info.bufsize / s.params.bytesPerLine - 1
+          nread *= s.params.bytesPerLine
           if(nread > s.bytes_to_read)
             nread = s.bytes_to_read
-          max_line = nread / s.params.bytes_per_line
-          start_input = s.params.bytes_per_line
-          bytes_per_line_in = s.params.bytes_per_line
+          max_line = nread / s.params.bytesPerLine
+          start_input = s.params.bytesPerLine
+          bytes_per_line_in = s.params.bytesPerLine
         }
       else
         {
           bytes_per_line_in = (s.params.pixels_per_line + 7) / 8
           bytes_per_line_in *= 3
-          max_line = s.params.bytes_per_line + bytes_per_line_in
+          max_line = s.params.bytesPerLine + bytes_per_line_in
           max_line = s.dev.info.bufsize / max_line
           nread = max_line * bytes_per_line_in
           if(nread > s.bytes_to_read)
@@ -3586,7 +3586,7 @@ Sane.read_shuffled(Sane.Handle handle, Sane.Byte *dst_buf, Int max_len,
         }
 
 
-      s.buf_used = max_line * s.params.bytes_per_line
+      s.buf_used = max_line * s.params.bytesPerLine
       s.buf_pos = 0
       s.bytes_to_read -= nread
       dest = s.buffer
@@ -3595,7 +3595,7 @@ Sane.read_shuffled(Sane.Handle handle, Sane.Byte *dst_buf, Int max_len,
       if(eight_bit_data)
         for(line = 1; line <= max_line; line++)
           {
-            red = &(s.buffer[line * s.params.bytes_per_line])
+            red = &(s.buffer[line * s.params.bytesPerLine])
             green = &(red[max_pixel])
             blue = &(green[max_pixel])
             for(pixel = 0; pixel < max_pixel; pixel++)

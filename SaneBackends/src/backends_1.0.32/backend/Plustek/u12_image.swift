@@ -180,7 +180,7 @@ static Bool fnSamplePreview( U12_Device *dev )
 
 /** this function is used when
  * - the data type is B/W or GrayScale.
- * - the required horizontal resolution doesn't exceed the optic spec.
+ * - the required horizontal resolution doesn"t exceed the optic spec.
  * - the required vertical resolution exceeds the optic spec.
  */
 static void fnDataDirect( U12_Device *dev, void *src, void *dest, u_long len )

@@ -112,9 +112,9 @@ void sanei_genesys_write_file(const char* filename, const std::uint8_t* data, st
 unsigned sanei_genesys_get_bulk_max_size(AsicType asic_type)
 {
     /*  Genesys supports 0xFE00 maximum size in general, wheraus GL646 supports
-        0xFFC0. We use 0xF000 because that's the packet limit in the Linux usbmon
+        0xFFC0. We use 0xF000 because that"s the packet limit in the Linux usbmon
         USB capture stack. By default it limits packet size to b_size / 5 where
-        b_size is the size of the ring buffer. By default it's 300*1024, so the
+        b_size is the size of the ring buffer. By default it"s 300*1024, so the
         packet is limited 61440 without any visibility to acquiring software.
     */
     if(asic_type == AsicType::GL124 ||
@@ -136,7 +136,7 @@ void sanei_genesys_set_buffer_address(Genesys_Device* dev, uint32_t addr)
         dev.model.asic_type==AsicType::GL846 ||
         dev.model.asic_type==AsicType::GL124)
     {
-      DBG(DBG_warn, "%s: shouldn't be used for GL846+ ASICs\n", __func__)
+      DBG(DBG_warn, "%s: shouldn"t be used for GL846+ ASICs\n", __func__)
       return
     }
 
@@ -242,7 +242,7 @@ void scanner_register_rw_bits(Genesys_Device& dev, std::uint16_t address,
     dev.interface.write_register(address, reg_value)
 }
 
-/** read the number of valid words in scanner's RAM
+/** read the number of valid words in scanner"s RAM
  * ie registers 42-43-44
  */
 // candidate for moving into chip specific files?
@@ -313,7 +313,7 @@ void sanei_genesys_read_scancnt(Genesys_Device* dev, unsigned Int* words)
   DBG(DBG_proc, "%s: %d lines\n", __func__, *words)
 }
 
-/** @brief Check if the scanner's internal data buffer is empty
+/** @brief Check if the scanner"s internal data buffer is empty
  * @param *dev device to test for data
  * @param *empty return value
  * @return empty will be set to true if there is no scanned data.
@@ -597,7 +597,7 @@ void sanei_genesys_set_lamp_power(Genesys_Device* dev, const Genesys_Sensor& sen
             regs_set_exposure(dev.model.asic_type, regs, sensor.exposure)
         }
 
-        // we don't actually turn on lamp on infrared scan
+        // we don"t actually turn on lamp on infrared scan
         if((dev.model.model_id == ModelId::CANON_8400F ||
              dev.model.model_id == ModelId::CANON_8600F ||
              dev.model.model_id == ModelId::PLUSTEK_OPTICFILM_7200I ||
@@ -1394,7 +1394,7 @@ std::uint8_t compute_frontend_gain(float value, float target_value,
 
 /** @brief initialize device
  * Initialize backend and ASIC : registers, motor tables, and gamma tables
- * then ensure scanner's head is at home. Designed for gl846+ ASICs.
+ * then ensure scanner"s head is at home. Designed for gl846+ ASICs.
  * Detects cold boot(ie first boot since device plugged) in this case
  * an extensice setup up is done at hardware level.
  *
@@ -1434,7 +1434,7 @@ void sanei_genesys_asic_init(Genesys_Device* dev)
     }
   DBG(DBG_info, "%s: device is %s\n", __func__, cold ? "cold" : "warm")
 
-  /* don't do anything if backend is initialized and hardware hasn't been
+  /* don"t do anything if backend is initialized and hardware hasn"t been
    * replug */
   if(dev.already_initialized && !cold)
     {
@@ -1655,7 +1655,7 @@ void sanei_genesys_wait_for_home(Genesys_Device* dev)
         return
     }
 
-    // read initial status, if head isn't at home and motor is on we are parking, so we wait.
+    // read initial status, if head isn"t at home and motor is on we are parking, so we wait.
     // gl847/gl124 need 2 reads for reliable results
     auto status = scanner_read_status(*dev)
     dev.interface.sleep_ms(10)
@@ -1786,7 +1786,7 @@ Int sanei_genesys_get_lowest_dpi(Genesys_Device *dev)
  * Compares current settings with the cache entry and return
  * true if they are compatible.
  * A calibration cache is compatible if color mode and x dpi match the user
- * requested scan. In the case of CIS scanners, dpi isn't a criteria.
+ * requested scan. In the case of CIS scanners, dpi isn"t a criteria.
  * flatbed cache entries are considered too old and then expires if they
  * are older than the expiration time option, forcing calibration at least once
  * then given time. */

@@ -1116,7 +1116,7 @@ static Byte motorP96ReadDarkData( pScanData ps )
 			/* read data */
 			IOReadScannerImageData( ps, ps.pScanBuffer1, 512UL)
 
-		    /* 320 = 192 + 128 (128 is size to fetch data) */
+		    /* 320 = 192 + 128(128 is size to fetch data) */
 		    for(w = 192, wSum = 0; w < 320; w++)
 				wSum += (UShort)ps.pScanBuffer1[w];/* average data from 	  */
 													/* offset 192 and size 128*/
@@ -2110,7 +2110,7 @@ static void motorP96WaitBack( pScanData ps )
 		    p.pw = a_wMoveStepTable
 
 		if(--Data.bValue)
-		    *p.pw = 0;			    			/* don't step */
+		    *p.pw = 0;			    			/* don"t step */
 		else {
 		    Data.bValue = ps.bMotorSpeedData;  /* speed value       		 */
 		    *p.pw = w;			    			/* the ptr to pColorRunTable */
@@ -2186,7 +2186,7 @@ static void motorP98WaitBack( pScanData ps )
     for(w = wStayMaxStep, Data.bValue = ps.bMotorSpeedData,
 							    			dw = _NUMBER_OF_SCANSTEPS; dw; dw--) {
 		if(--Data.bValue) {
-		    *p.pw = 0;			    	/* don't step */
+		    *p.pw = 0;			    	/* don"t step */
 		} else {
 
 			/* speed value */
@@ -2816,7 +2816,7 @@ _LOC void MotorSetConstantMove( pScanData ps, Byte bMovePerStep )
 
     switch( bMovePerStep )
     {
-	case 0: 	/* doesn't move at all */
+	case 0: 	/* doesn"t move at all */
 	    for(dw = _NUMBER_OF_SCANSTEPS / 8; dw; dw--, p.pdw++) {
 
 			if( _ASIC_IS_98001 == ps.sCaps.AsicID )
@@ -3046,7 +3046,7 @@ _LOC void MotorP96ConstantMoveProc( pScanData ps, ULong dwLines )
 
 		    /*
 			 * 1) Forward will not reach the sensor.
-			 * 2) Backwarding, doesn't reach the sensor
+			 * 2) Backwarding, doesn"t reach the sensor
 			 */
 		    if(wQuotient) {
 

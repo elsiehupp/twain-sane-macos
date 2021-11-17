@@ -133,7 +133,7 @@ typedef struct Test_Device
   Int pipe
   FILE *pipe_handle
   Sane.Word pass
-  Sane.Word bytes_per_line
+  Sane.Word bytesPerLine
   Sane.Word pixels_per_line
   Sane.Word lines
   Int bytes_total

@@ -72,7 +72,7 @@ check_config_attach(SANEI_Config * config, const char *devname,
       return Sane.STATUS_INVAL
     }
 
-  fprintf(stdout, "attaching with devname '%s'\n", devname)
+  fprintf(stdout, "attaching with devname "%s"\n", devname)
   if(lastdevname != NULL)
     {
       free(lastdevname)
@@ -179,7 +179,7 @@ string_option(void)
     (Sane.Option_Descriptor *) malloc(sizeof(Sane.Option_Descriptor))
   options[i]->name = "modelname"
   options[i]->title = "model name"
-  options[i]->desc = "user provided scanner's model name"
+  options[i]->desc = "user provided scanner"s model name"
   options[i]->type = Sane.TYPE_STRING
   options[i]->unit = Sane.UNIT_NONE
   options[i]->size = 128
@@ -192,7 +192,7 @@ string_option(void)
     (Sane.Option_Descriptor *) malloc(sizeof(Sane.Option_Descriptor))
   options[i]->name = "vendor"
   options[i]->title = "vendor name"
-  options[i]->desc = "user provided scanner's vendor name"
+  options[i]->desc = "user provided scanner"s vendor name"
   options[i]->type = Sane.TYPE_STRING
   options[i]->unit = Sane.UNIT_NONE
   options[i]->size = 128
@@ -235,7 +235,7 @@ int_option(void)
     (Sane.Option_Descriptor *) malloc(sizeof(Sane.Option_Descriptor))
   options[i]->name = "modelnumber"
   options[i]->title = "model number"
-  options[i]->desc = "user provided scanner's model number"
+  options[i]->desc = "user provided scanner"s model number"
   options[i]->type = Sane.TYPE_INT
   options[i]->unit = Sane.UNIT_NONE
   options[i]->size = sizeof(Sane.Word)
@@ -278,7 +278,7 @@ wrong_range_int_option(void)
     (Sane.Option_Descriptor *) malloc(sizeof(Sane.Option_Descriptor))
   options[i]->name = "modelnumber"
   options[i]->title = "model number"
-  options[i]->desc = "user provided scanner's model number"
+  options[i]->desc = "user provided scanner"s model number"
   options[i]->type = Sane.TYPE_INT
   options[i]->unit = Sane.UNIT_NONE
   options[i]->size = sizeof(Sane.Word)
@@ -837,8 +837,8 @@ snapscan(void)
   options[i] =
     (Sane.Option_Descriptor *) malloc(sizeof(Sane.Option_Descriptor))
   options[i]->name = "firmware"
-  options[i]->title = "scanner's firmware path"
-  options[i]->desc = "user provided scanner's full path"
+  options[i]->title = "scanner"s firmware path"
+  options[i]->desc = "user provided scanner"s full path"
   options[i]->type = Sane.TYPE_STRING
   options[i]->unit = Sane.UNIT_NONE
   options[i]->size = sizeof(firmware)

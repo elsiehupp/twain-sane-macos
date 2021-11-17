@@ -189,7 +189,7 @@ attach(Sane.String_Const devname)
   status = sanei_usb_open(devname, &dn)
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(1, "attach: couldn't open device `%s': %s\n", devname,
+      DBG(1, "attach: couldn"t open device `%s": %s\n", devname,
            Sane.strstatus(status))
       return status
     }
@@ -198,7 +198,7 @@ attach(Sane.String_Const devname)
   if(status != Sane.STATUS_GOOD)
     {
       DBG(1,
-           "attach: couldn't get vendor and product ids of device `%s': %s\n",
+           "attach: couldn"t get vendor and product ids of device `%s": %s\n",
            devname, Sane.strstatus(status))
       sanei_usb_close(dn)
       return status
@@ -436,7 +436,7 @@ Sane.control_option(Sane.Handle handle,
         {
         case OPT_RESOLUTION:
           DBG(2,
-               "Setting value to default value of '%d' for option '%s'\n",
+               "Setting value to default value of "%d" for option "%s"\n",
                default_resolution,
                device.opt[option].name)
           device.val[option].w = default_resolution
@@ -444,7 +444,7 @@ Sane.control_option(Sane.Handle handle,
 
         case OPT_MODE:
           DBG(2,
-               "Setting value to default value of '%s' for option '%s'\n",
+               "Setting value to default value of "%s" for option "%s"\n",
                (Sane.String_Const) default_mode,
                device.opt[option].name)
           strcpy(device.val[option].s, default_mode)
@@ -475,7 +475,7 @@ Sane.control_option(Sane.Handle handle,
         {
         case OPT_RESOLUTION:
           DBG(2,
-               "Setting value to '%d' for option '%s'\n",
+               "Setting value to "%d" for option "%s"\n",
                *(Sane.Word *) value,
                device.opt[option].name)
           device.val[option].w = *(Sane.Word *) value
@@ -483,7 +483,7 @@ Sane.control_option(Sane.Handle handle,
 
         case OPT_MODE:
           DBG(2,
-               "Setting value to '%s' for option '%s'\n",
+               "Setting value to "%s" for option "%s"\n",
                (Sane.String_Const)value,
                device.opt[option].name)
           strcpy(device.val[option].s, value)
@@ -558,28 +558,28 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
   params.last_frame = Sane.TRUE
 
   params.pixels_per_line = WIDTH_PIXELS_300DPI
-  params.bytes_per_line = params.pixels_per_line
+  params.bytesPerLine = params.pixels_per_line
   params.lines = HEIGHT_PIXELS_300DPI
   params.depth = 8
 
   if(device.resolution == 600)
     {
-      params.bytes_per_line *= 2
+      params.bytesPerLine *= 2
       params.pixels_per_line *= 2
       params.lines *= 2
     }
 
   if(device.mode == SCAN_MODE_COLOR)
     {
-      params.bytes_per_line *= 3
+      params.bytesPerLine *= 3
     }
 
-  DBG(8, ">Sane.get_parameters: format = %s bytes_per_line = %d "
+  DBG(8, ">Sane.get_parameters: format = %s bytesPerLine = %d "
           "depth = %d "
           "pixels_per_line = %d "
           "lines = %d\n",
        (params.format == Sane.FRAME_RGB ? "rgb" : "gray"),
-       params.bytes_per_line,
+       params.bytesPerLine,
        params.depth,
        params.pixels_per_line,
        params.lines)
@@ -809,7 +809,7 @@ Sane.read(Sane.Handle handle,
   CHECK_IF(maxlen)
 
   /*
-  EOF has already been reached before or acquisition process hasn't
+  EOF has already been reached before or acquisition process hasn"t
   been initiated at all
   */
   if(device.bytes_to_read <= 0)
@@ -851,7 +851,7 @@ Sane.read(Sane.Handle handle,
        "%d bytes remain in the buffer\n",
        ricoh2_buffer_get_bytes_remain(device.buffer))
 
-  /* we've just reached expected data size */
+  /* we"ve just reached expected data size */
   if(device.bytes_to_read <= 0)
     {
       ricoh2_buffer_dispose(device.buffer)

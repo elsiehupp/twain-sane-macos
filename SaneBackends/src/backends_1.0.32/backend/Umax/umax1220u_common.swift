@@ -86,7 +86,7 @@ import math
  * sensor size) but I do not know what it is. The current
  * value can be increased beyond what it is now, but you
  * gain nothing in usable scan area(you only scan more
- * of the underside of the scanner's plastic lid).
+ * of the underside of the scanner"s plastic lid).
  */
 
 
@@ -104,7 +104,7 @@ import math
 #define BUFFER_SIZE 0x80000
 
 /* Constants that can be used with set_lamp_state to
- * control the state of the scanner's lamp
+ * control the state of the scanner"s lamp
  */
 typedef enum
 {
@@ -333,7 +333,7 @@ calib(UMAX_Handle * scan)
 /* This seems to configure the pv8630 chip somehow. I wish
  * all the magic numbers were defined as self-descriptive
  * constants somewhere. I made some guesses based on what
- * I found in "pv8630.c", but alas there wasn't enough in
+ * I found in "pv8630.c", but alas there wasn"t enough in
  * there. If you know what this does, please let me know!
  */
 static Sane.Status
@@ -1337,7 +1337,7 @@ get_caldata(UMAX_Handle * scan, Int color)
     }
 
   /* Do a test scan of the calibration strip(which is located
-   * under the scanner's lid */
+   * under the scanner"s lid */
 
   CHK(get_pixels(scan, opc9, opb11, opd4, ope, l, 0, p))
 
@@ -1516,7 +1516,7 @@ get_caldata_2100U(UMAX_Handle * scan, Int color)
     }
 
   /* Do a test scan of the calibration strip(which is located
-   * under the scanner's lid */
+   * under the scanner"s lid */
   CHK(get_pixels_2100U(scan, opc9, opb11, opd4, ope, l, 0, p))
 
 #ifdef DEBUG_CALIBRATION
@@ -1941,7 +1941,7 @@ UMAX_set_scan_parameters(UMAX_Handle * scan,
 
      It is not clear to me why the choice depends on
      whether we are scanning in color or not, but the
-     original code did this and I didn't want to mess
+     original code did this and I didn"t want to mess
      with it.
 
      Physical X resolution choice:
@@ -2018,7 +2018,7 @@ UMAX_start_scan(UMAX_Handle * scan)
   CHK(umaxinit(scan))
 
   /* This scans in the black and white calibration strip that
-   * is located under the scanner's lid. The scan of that strip
+   * is located under the scanner"s lid. The scan of that strip
    * is used to pick correct values for the CCD calibration
    * values
    */
@@ -2093,7 +2093,7 @@ UMAX_start_scan_2100U(UMAX_Handle * scan)
   CHK(umaxinit_2100U(scan))
 
   /* This scans in the black and white calibration strip that
-   * is located under the scanner's lid. The scan of that strip
+   * is located under the scanner"s lid. The scan of that strip
    * is used to pick correct values for the CCD calibration
    * values
    */
@@ -2295,12 +2295,12 @@ UMAX_open_device(UMAX_Handle * scan, const char *dev)
   Sane.Word product
   Sane.Status res
 
-  DBG(3, "UMAX_open_device: `%s'\n", dev)
+  DBG(3, "UMAX_open_device: `%s"\n", dev)
 
   res = sanei_usb_open(dev, &scan.fd)
   if(res != Sane.STATUS_GOOD)
     {
-      DBG(1, "UMAX_open_device: couldn't open device `%s': %s\n", dev,
+      DBG(1, "UMAX_open_device: couldn"t open device `%s": %s\n", dev,
            Sane.strstatus(res))
       return res
     }
@@ -2311,7 +2311,7 @@ UMAX_open_device(UMAX_Handle * scan, const char *dev)
       Sane.STATUS_GOOD)
     {
       DBG(1, "UMAX_open_device: sanei_usb_get_vendor_product failed\n")
-      /* This is not a USB scanner, or SANE or the OS doesn't support it. */
+      /* This is not a USB scanner, or SANE or the OS doesn"t support it. */
       sanei_usb_close(scan.fd)
       scan.fd = -1
       return Sane.STATUS_UNSUPPORTED

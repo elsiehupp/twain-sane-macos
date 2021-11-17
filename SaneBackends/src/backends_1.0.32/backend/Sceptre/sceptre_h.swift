@@ -352,7 +352,7 @@ typedef struct Sceptre_Scanner
   Int raster_num;		/* for colour scan, current raster read */
   Int raster_real;		/* real number of raster in the
 				   * scan. This is necessary since I
-				   * don't know how to reliably compute
+				   * don"t know how to reliably compute
 				   * the number of lines */
 
   Int raster_ahead;		/* max size of the incomplete lines */

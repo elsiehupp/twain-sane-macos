@@ -60,7 +60,7 @@ prepare_interface(struct usb_device *dev, usb_dev_handle ** handle)
   if(*handle == 0)
     {
       if(verbose > 1)
-	printf("    Couldn't open device: %s\n", usb_strerror())
+	printf("    Couldn"t open device: %s\n", usb_strerror())
       return 0
     }
 
@@ -69,7 +69,7 @@ prepare_interface(struct usb_device *dev, usb_dev_handle ** handle)
   if(result < 0)
     {
       if(verbose > 1)
-	printf("  Couldn't set configuration: %s\n", usb_strerror())
+	printf("  Couldn"t set configuration: %s\n", usb_strerror())
       usb_close(*handle)
       return 0
     }
@@ -78,7 +78,7 @@ prepare_interface(struct usb_device *dev, usb_dev_handle ** handle)
   if(result < 0)
     {
       if(verbose > 1)
-	printf("    Couldn't claim interface: %s\n", usb_strerror())
+	printf("    Couldn"t claim interface: %s\n", usb_strerror())
       usb_close(*handle)
       return 0
     }
@@ -177,7 +177,7 @@ check_gt6801 (struct usb_device *dev)
   if(result <= 0)
     {
       if(verbose > 2)
-	printf("    Couldn't send write control message(%s)\n",
+	printf("    Couldn"t send write control message(%s)\n",
 		strerror(errno))
       finish_interface(handle)
       return 0
@@ -187,7 +187,7 @@ check_gt6801 (struct usb_device *dev)
   if(result <= 0)
     {
       if(verbose > 2)
-	printf("    Couldn't send read control message(%s)\n",
+	printf("    Couldn"t send read control message(%s)\n",
 		strerror(errno))
       finish_interface(handle)
       return 0
@@ -206,7 +206,7 @@ check_gt6801 (struct usb_device *dev)
 
 /* Check for Grandtech GT-6816 */
 static char *
-check_gt6816 (struct usb_device *dev)
+check_gt6816(struct usb_device *dev)
 {
   char req[64]
   usb_dev_handle *handle
@@ -223,7 +223,7 @@ check_gt6816 (struct usb_device *dev)
     {
       if(verbose > 2)
 	printf
-	  ("    this is not a GT-6816 (bDeviceClass = %d, bInterfaceClass = %d)\n",
+	  ("    this is not a GT-6816(bDeviceClass = %d, bInterfaceClass = %d)\n",
 	   dev.descriptor.bDeviceClass,
 	   dev.config[0].interface[0].altsetting[0].bInterfaceClass)
       return 0
@@ -231,21 +231,21 @@ check_gt6816 (struct usb_device *dev)
   if(dev.descriptor.bcdUSB != 0x110)
     {
       if(verbose > 2)
-	printf("    this is not a GT-6816 (bcdUSB = 0x%x)\n",
+	printf("    this is not a GT-6816(bcdUSB = 0x%x)\n",
 		dev.descriptor.bcdUSB)
       return 0
     }
   if(dev.descriptor.bDeviceSubClass != 0x00)
     {
       if(verbose > 2)
-	printf("    this is not a GT-6816 (bDeviceSubClass = 0x%x)\n",
+	printf("    this is not a GT-6816(bDeviceSubClass = 0x%x)\n",
 		dev.descriptor.bDeviceSubClass)
       return 0
     }
   if(dev.descriptor.bDeviceProtocol != 0x00)
     {
       if(verbose > 2)
-	printf("    this is not a GT-6816 (bDeviceProtocol = 0x%x)\n",
+	printf("    this is not a GT-6816(bDeviceProtocol = 0x%x)\n",
 		dev.descriptor.bDeviceProtocol)
       return 0
     }
@@ -253,7 +253,7 @@ check_gt6816 (struct usb_device *dev)
   if(dev.config[0].bNumInterfaces != 0x01)
     {
       if(verbose > 2)
-	printf("    this is not a GT-6816 (bNumInterfaces = 0x%x)\n",
+	printf("    this is not a GT-6816(bNumInterfaces = 0x%x)\n",
 		dev.config[0].bNumInterfaces)
       return 0
     }
@@ -262,7 +262,7 @@ check_gt6816 (struct usb_device *dev)
   if(dev.config[0].interface[0].altsetting[0].bNumEndpoints != 2)
     {
       if(verbose > 2)
-	printf("    this is not a GT-6816 (bNumEndpoints = %d)\n",
+	printf("    this is not a GT-6816(bNumEndpoints = %d)\n",
 		dev.config[0].interface[0].altsetting[0].bNumEndpoints)
       return 0
     }
@@ -277,7 +277,7 @@ check_gt6816 (struct usb_device *dev)
     {
       if(verbose > 2)
 	printf
-	  ("    this is not a GT-6816 (bEndpointAddress = 0x%x, bmAttributes = 0x%x, "
+	  ("    this is not a GT-6816(bEndpointAddress = 0x%x, bmAttributes = 0x%x, "
 	   "wMaxPacketSize = 0x%x, bInterval = 0x%x)\n",
 	   dev.config[0].interface[0].altsetting[0].endpoint[0].
 	   bEndpointAddress,
@@ -298,7 +298,7 @@ check_gt6816 (struct usb_device *dev)
     {
       if(verbose > 2)
 	printf
-	  ("    this is not a GT-6816 (bEndpointAddress = 0x%x, bmAttributes = 0x%x, "
+	  ("    this is not a GT-6816(bEndpointAddress = 0x%x, bmAttributes = 0x%x, "
 	   "wMaxPacketSize = 0x%x, bInterval = 0x%x)\n",
 	   dev.config[0].interface[0].altsetting[0].endpoint[1].
 	   bEndpointAddress,
@@ -327,7 +327,7 @@ check_gt6816 (struct usb_device *dev)
   if(result <= 0)
     {
       if(verbose > 2)
-	printf("    Couldn't send write control message(%s)\n",
+	printf("    Couldn"t send write control message(%s)\n",
 		strerror(errno))
       finish_interface(handle)
       return 0
@@ -337,14 +337,14 @@ check_gt6816 (struct usb_device *dev)
   if(result <= 0)
     {
       /* Before firmware upload, 64 bytes are returned. Some libusb
-	 implementations/operating systems can't seem to cope with short
+	 implementations/operating systems can"t seem to cope with short
 	 packets. */
       result =
 	usb_control_msg(handle, 0xc0, 0x01, 0x2013, 0x3f00, req, 8, TIMEOUT)
       if(result <= 0)
 	{
 	  if(verbose > 2)
-	    printf("    Couldn't send read control message(%s)\n",
+	    printf("    Couldn"t send read control message(%s)\n",
 		    strerror(errno))
 	  finish_interface(handle)
 	  return 0
@@ -537,7 +537,7 @@ check_gt8911 (struct usb_device *dev)
     {
       if(verbose > 2)
 	printf
-	  ("    this is not a GT-8911 (check 12, couldn't send read control message(%s))\n",
+	  ("    this is not a GT-8911 (check 12, couldn"t send read control message(%s))\n",
 	   strerror(errno))
       finish_interface(handle)
       return 0
@@ -548,7 +548,7 @@ check_gt8911 (struct usb_device *dev)
     {
       if(verbose > 2)
 	printf
-	  ("    this is not a GT-8911 (check 13, couldn't send read control message(%s)\n",
+	  ("    this is not a GT-8911 (check 13, couldn"t send read control message(%s)\n",
 	   strerror(errno))
       finish_interface(handle)
       return 0
@@ -948,7 +948,7 @@ check_ma1509 (struct usb_device *dev)
       return 0
     }
 
-  /* This is a SCSI-over-USB chip, we'll read the inquiry */
+  /* This is a SCSI-over-USB chip, we"ll read the inquiry */
   result = prepare_interface(dev, &handle)
   if(!result)
     return "MA-1509?"
@@ -1185,7 +1185,7 @@ check_merlin(struct usb_device *dev)
   if(0 == result)
     {
       if(verbose > 2)
-	printf("  Couldn't access LM983x registers.\n")
+	printf("  Couldn"t access LM983x registers.\n")
       finish_interface(handle)
       return 0
     }
@@ -2242,7 +2242,7 @@ check_pv8630_lm9830 (struct usb_device *dev)
   if(result < 0)
     {
       if(verbose > 2)
-	printf("    Couldn't send write register number(%s)\n",
+	printf("    Couldn"t send write register number(%s)\n",
 		usb_strerror())
       finish_interface(handle)
       return 0
@@ -2253,7 +2253,7 @@ check_pv8630_lm9830 (struct usb_device *dev)
   if(result < 0)
     {
       if(verbose > 2)
-	printf("    Couldn't send register data(%s)\n",
+	printf("    Couldn"t send register data(%s)\n",
 		usb_strerror())
       finish_interface(handle)
       return 0
@@ -2264,7 +2264,7 @@ check_pv8630_lm9830 (struct usb_device *dev)
   if(result < 0)
     {
       if(verbose > 2)
-	printf("    Couldn't send read register number(%s)\n",
+	printf("    Couldn"t send read register number(%s)\n",
 		usb_strerror())
       finish_interface(handle)
       return 0
@@ -2275,7 +2275,7 @@ check_pv8630_lm9830 (struct usb_device *dev)
   if(result <= 0)
     {
       if(verbose > 2)
-	printf("    Couldn't read register data(%s)\n",
+	printf("    Couldn"t read register data(%s)\n",
 		usb_strerror())
       finish_interface(handle)
       return 0
@@ -2378,7 +2378,7 @@ check_m011 (struct usb_device *dev)
   if(result < 0)
     {
       if(verbose > 2)
-	printf("    Couldn't write register(%s)\n",
+	printf("    Couldn"t write register(%s)\n",
 		usb_strerror())
       finish_interface(handle)
       return 0
@@ -2390,7 +2390,7 @@ check_m011 (struct usb_device *dev)
   if(result <= 0)
     {
       if(verbose > 2)
-	printf("    Couldn't read register(%s)\n",
+	printf("    Couldn"t read register(%s)\n",
 		usb_strerror())
       finish_interface(handle)
       return 0
@@ -2558,7 +2558,7 @@ check_rts8858c(struct usb_device *dev)
   if(result <= 0)
     {
       if(verbose > 2)
-	printf("    Couldn't read registers\n")
+	printf("    Couldn"t read registers\n")
       finish_interface(handle)
       return 0
     }
@@ -2705,7 +2705,7 @@ check_rts88x1 (struct usb_device *dev)
   if(result <= 0)
     {
       if(verbose > 2)
-	printf("    Couldn't read registers\n")
+	printf("    Couldn"t read registers\n")
       finish_interface(handle)
       return 0
     }
@@ -2885,7 +2885,7 @@ check_sq113 (struct usb_device *dev)
   if(result < 0)
     {
       if(verbose > 2)
-	printf("    Couldn't set bank(%s)\n",
+	printf("    Couldn"t set bank(%s)\n",
 		usb_strerror())
       finish_interface(handle)
       return 0
@@ -2903,7 +2903,7 @@ check_sq113 (struct usb_device *dev)
   if(result < 0)
     {
       if(verbose > 2)
-	printf("    Couldn't write register(%s)\n",
+	printf("    Couldn"t write register(%s)\n",
 		usb_strerror())
       finish_interface(handle)
       return 0
@@ -2918,7 +2918,7 @@ check_sq113 (struct usb_device *dev)
   if(result < 0)
     {
       if(verbose > 2)
-	printf("    Couldn't set read register address(%s)\n",
+	printf("    Couldn"t set read register address(%s)\n",
 		usb_strerror())
       finish_interface(handle)
       return 0
@@ -2929,7 +2929,7 @@ check_sq113 (struct usb_device *dev)
   if(result < 0)
     {
       if(verbose > 2)
-	printf("    Couldn't read register(%s)\n",
+	printf("    Couldn"t read register(%s)\n",
 		usb_strerror())
       finish_interface(handle)
       return 0
@@ -3075,7 +3075,7 @@ check_rts8822 (struct usb_device *dev)
   if(result <= 0)
     {
       if(verbose > 2)
-	printf("    Couldn't send read control message(%s)\n",
+	printf("    Couldn"t send read control message(%s)\n",
 		strerror(errno))
       finish_interface(handle)
       return 0
@@ -3232,7 +3232,7 @@ check_hp5590 (struct usb_device *dev)
   if(result < 0)
     {
       if(verbose > 2)
-	printf("    Couldn't send send USB-in-USB command(%s)\n",
+	printf("    Couldn"t send send USB-in-USB command(%s)\n",
 		strerror(errno))
       return NULL
     }
@@ -3244,7 +3244,7 @@ check_hp5590 (struct usb_device *dev)
   if(result < 0)
     {
       if(verbose > 2)
-	printf("    Couldn't read USB-in-USB confirmation(%s)\n",
+	printf("    Couldn"t read USB-in-USB confirmation(%s)\n",
 		strerror(errno))
       finish_interface(handle)
       return NULL
@@ -3254,7 +3254,7 @@ check_hp5590 (struct usb_device *dev)
   if(status != 0x01)
     {
       if(verbose > 2)
-	printf("    Didn't get correct confirmation for USB-in-USB command "
+	printf("    Didn"t get correct confirmation for USB-in-USB command "
 		"(needed: 0x01, got: 0x%02x\n",
 		status)
       finish_interface(handle)
@@ -3277,7 +3277,7 @@ check_hp5590 (struct usb_device *dev)
       if(result < 0)
 	{
 	  if(verbose > 2)
-	    printf("    Couldn't read USB-in-USB data(%s)\n",
+	    printf("    Couldn"t read USB-in-USB data(%s)\n",
 		    strerror(errno))
 	  finish_interface(handle)
 	  return NULL
@@ -3305,7 +3305,7 @@ check_hp5590 (struct usb_device *dev)
   if(result < 0)
     {
       if(verbose > 2)
-	printf("    Couldn't send USB-in-USB data confirmation(%s)\n",
+	printf("    Couldn"t send USB-in-USB data confirmation(%s)\n",
 		strerror(errno))
       finish_interface(handle)
       return NULL
@@ -3318,7 +3318,7 @@ check_hp5590 (struct usb_device *dev)
   if(result < 0)
     {
       if(verbose > 2)
-	printf("    Couldn't read USB-in-USB confirmation for data confirmation(%s)\n",
+	printf("    Couldn"t read USB-in-USB confirmation for data confirmation(%s)\n",
 		strerror(errno))
       finish_interface(handle)
       return NULL
@@ -3328,7 +3328,7 @@ check_hp5590 (struct usb_device *dev)
   if(status != 0x01)
     {
       if(verbose > 2)
-	printf("    Didn't get correct confirmation for USB-in-USB command "
+	printf("    Didn"t get correct confirmation for USB-in-USB command "
 		"(needed: 0x01, got: 0x%02x\n",
 		status)
       finish_interface(handle)
@@ -3362,7 +3362,7 @@ check_usb_chip(struct usb_device *dev, Int verbosity, Bool from_file)
   chip_name = check_gt6801 (dev)
 
   if(!chip_name)
-    chip_name = check_gt6816 (dev)
+    chip_name = check_gt6816(dev)
 
   if(!chip_name)
     chip_name = check_gt8911 (dev)
@@ -3421,7 +3421,7 @@ check_usb_chip(struct usb_device *dev, Int verbosity, Bool from_file)
 	printf("<This USB chip looks like a %s(result from %s)>\n\n",
 		chip_name, PACKAGE_STRING)
       else
-	printf("<Couldn't determine the type of the USB chip(result from %s)>\n\n",
+	printf("<Couldn"t determine the type of the USB chip(result from %s)>\n\n",
 		PACKAGE_STRING)
     }
 
@@ -3708,7 +3708,7 @@ check_gt6801 (libusb_device_handle * handle,
   if(result <= 0)
     {
       if(verbose > 2)
-	printf("    Couldn't send write control message(%s)\n",
+	printf("    Couldn"t send write control message(%s)\n",
 		strerror(errno))
       return NULL
     }
@@ -3716,7 +3716,7 @@ check_gt6801 (libusb_device_handle * handle,
   if(result <= 0)
     {
       if(verbose > 2)
-	printf("    Couldn't send read control message(%s)\n",
+	printf("    Couldn"t send read control message(%s)\n",
 		strerror(errno))
       return NULL
     }
@@ -3738,7 +3738,7 @@ check_gt6801 (libusb_device_handle * handle,
  * @return a string with ASIC name, or NULL if not recognized
  */
 static char *
-check_gt6816 (libusb_device_handle * handle,
+check_gt6816(libusb_device_handle * handle,
 	       struct libusb_device_descriptor desc,
 	       struct libusb_config_descriptor *config0)
 {
@@ -3754,7 +3754,7 @@ check_gt6816 (libusb_device_handle * handle,
     {
       if(verbose > 2)
 	printf
-	  ("    this is not a GT-6816 (bDeviceClass = %d, bInterfaceClass = %d)\n",
+	  ("    this is not a GT-6816(bDeviceClass = %d, bInterfaceClass = %d)\n",
 	   desc.bDeviceClass,
 	   config0->interface[0].altsetting[0].bInterfaceClass)
       return 0
@@ -3762,20 +3762,20 @@ check_gt6816 (libusb_device_handle * handle,
   if(desc.bcdUSB != 0x110)
     {
       if(verbose > 2)
-	printf("    this is not a GT-6816 (bcdUSB = 0x%x)\n", desc.bcdUSB)
+	printf("    this is not a GT-6816(bcdUSB = 0x%x)\n", desc.bcdUSB)
       return 0
     }
   if(desc.bDeviceSubClass != 0x00)
     {
       if(verbose > 2)
-	printf("    this is not a GT-6816 (bDeviceSubClass = 0x%x)\n",
+	printf("    this is not a GT-6816(bDeviceSubClass = 0x%x)\n",
 		desc.bDeviceSubClass)
       return 0
     }
   if(desc.bDeviceProtocol != 0x00)
     {
       if(verbose > 2)
-	printf("    this is not a GT-6816 (bDeviceProtocol = 0x%x)\n",
+	printf("    this is not a GT-6816(bDeviceProtocol = 0x%x)\n",
 		desc.bDeviceProtocol)
       return 0
     }
@@ -3783,7 +3783,7 @@ check_gt6816 (libusb_device_handle * handle,
   if(config0->bNumInterfaces != 0x01)
     {
       if(verbose > 2)
-	printf("    this is not a GT-6816 (bNumInterfaces = 0x%x)\n",
+	printf("    this is not a GT-6816(bNumInterfaces = 0x%x)\n",
 		config0->bNumInterfaces)
       return 0
     }
@@ -3792,7 +3792,7 @@ check_gt6816 (libusb_device_handle * handle,
   if(config0->interface[0].altsetting[0].bNumEndpoints != 2)
     {
       if(verbose > 2)
-	printf("    this is not a GT-6816 (bNumEndpoints = %d)\n",
+	printf("    this is not a GT-6816(bNumEndpoints = %d)\n",
 		config0->interface[0].altsetting[0].bNumEndpoints)
       return 0
     }
@@ -3803,7 +3803,7 @@ check_gt6816 (libusb_device_handle * handle,
     {
       if(verbose > 2)
 	printf
-	  ("    this is not a GT-6816 (bEndpointAddress = 0x%x, bmAttributes = 0x%x, "
+	  ("    this is not a GT-6816(bEndpointAddress = 0x%x, bmAttributes = 0x%x, "
 	   "wMaxPacketSize = 0x%x, bInterval = 0x%x)\n",
 	   config0->interface[0].altsetting[0].endpoint[0].bEndpointAddress,
 	   config0->interface[0].altsetting[0].endpoint[0].bmAttributes,
@@ -3818,7 +3818,7 @@ check_gt6816 (libusb_device_handle * handle,
     {
       if(verbose > 2)
 	printf
-	  ("    this is not a GT-6816 (bEndpointAddress = 0x%x, bmAttributes = 0x%x, "
+	  ("    this is not a GT-6816(bEndpointAddress = 0x%x, bmAttributes = 0x%x, "
 	   "wMaxPacketSize = 0x%x, bInterval = 0x%x)\n",
 	   config0->interface[0].altsetting[0].endpoint[1].bEndpointAddress,
 	   config0->interface[0].altsetting[0].endpoint[1].bmAttributes,
@@ -3840,7 +3840,7 @@ check_gt6816 (libusb_device_handle * handle,
   if(result <= 0)
     {
       if(verbose > 2)
-	printf("    Couldn't send write control message(%s)\n",
+	printf("    Couldn"t send write control message(%s)\n",
 		strerror(errno))
       return NULL
     }
@@ -3848,13 +3848,13 @@ check_gt6816 (libusb_device_handle * handle,
   if(result <= 0)
     {
       /* Before firmware upload, 64 bytes are returned. Some libusb
-	 implementations/operating systems can't seem to cope with short
+	 implementations/operating systems can"t seem to cope with short
 	 packets. */
       result = libusb_control_transfer(handle, 0xc0, 0x01, 0x2013, 0x3f00, req, 8, TIMEOUT)
       if(result <= 0)
         {
           if(verbose > 2)
-	    printf("    Couldn't send read control message(%s)\n",
+	    printf("    Couldn"t send read control message(%s)\n",
 		    strerror(errno))
           return NULL
         }
@@ -4246,7 +4246,7 @@ check_merlin(libusb_device_handle * handle,
   if(0 == result)
     {
       if(verbose > 2)
-	printf("  Couldn't access LM983x registers.\n")
+	printf("  Couldn"t access LM983x registers.\n")
       return 0
     }
 
@@ -4289,7 +4289,7 @@ check_usb_chip(Int verbosity,
       if(ret < 0)
 	{
 	  if(verbose > 2)
-	    printf("couldn't set device to configuration %d\n",
+	    printf("couldn"t set device to configuration %d\n",
 		    config0->bConfigurationValue)
 	  return NULL
 	}
@@ -4313,7 +4313,7 @@ check_usb_chip(Int verbosity,
   	chip_name = check_gt6801 (hdl, desc, config0)
 
   if(!chip_name)
-  	chip_name = check_gt6816 (hdl, desc, config0)
+  	chip_name = check_gt6816(hdl, desc, config0)
 
   if(!chip_name)
     chip_name = check_genesys(hdl, desc, config0)
@@ -4325,7 +4325,7 @@ check_usb_chip(Int verbosity,
 		chip_name, PACKAGE_STRING)
       else
 	printf
-	  ("<Couldn't determine the type of the USB chip(result from %s)>\n\n",
+	  ("<Couldn"t determine the type of the USB chip(result from %s)>\n\n",
 	   PACKAGE_STRING)
     }
 

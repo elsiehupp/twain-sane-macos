@@ -128,7 +128,7 @@ public Sane.Status sanei_lm983x_write( Int fd, Sane.Byte reg,
  * - Sane.STATUS_GOOD     - on success
  * - Sane.STATUS_IO_ERROR - system read function failed
  * - Sane.STATUS_INVAL    - register out of range
- * - Sane.STATUS_EOF      - if nothing can't be read
+ * - Sane.STATUS_EOF      - if nothing can"t be read
  */
 public Sane.Status sanei_lm983x_read( Int fd, Sane.Byte reg,
                                       Sane.Byte *buffer, Sane.Word len,

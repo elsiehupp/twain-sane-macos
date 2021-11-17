@@ -300,7 +300,7 @@ eds_init_parameters(epsonds_scanner *s)
 	}
 
 	/*
-	 * Calculate bytes_per_pixel and bytes_per_line for
+	 * Calculate bytes_per_pixel and bytesPerLine for
 	 * any color depths.
 	 *
 	 * The default color depth is stored in mode_params.depth:
@@ -321,18 +321,18 @@ eds_init_parameters(epsonds_scanner *s)
 	case MODE_BINARY:
 	case MODE_GRAY:
 		s.params.format = Sane.FRAME_GRAY
-		s.params.bytes_per_line =
+		s.params.bytesPerLine =
 			s.params.pixels_per_line * s.params.depth / 8
 		break
 	case MODE_COLOR:
 		s.params.format = Sane.FRAME_RGB
-		s.params.bytes_per_line =
+		s.params.bytesPerLine =
 			3 * s.params.pixels_per_line * bytes_per_pixel
 		break
 	}
 
-	if(s.params.bytes_per_line == 0) {
-		DBG(1, "bytes_per_line is ZERO\n")
+	if(s.params.bytesPerLine == 0) {
+		DBG(1, "bytesPerLine is ZERO\n")
 		return Sane.STATUS_INVAL
 	}
 
@@ -362,7 +362,7 @@ eds_copy_image_from_ring(epsonds_scanner *s, Sane.Byte *data, Int max_length,
                    Int *length)
 {
 	Int lines, available
-	Int hw_line_size = (s.params.bytes_per_line + s.dummy)
+	Int hw_line_size = (s.params.bytesPerLine + s.dummy)
 
 	/* trim max_length to a multiple of hw_line_size */
 	max_length -= (max_length % hw_line_size)
@@ -374,7 +374,7 @@ eds_copy_image_from_ring(epsonds_scanner *s, Sane.Byte *data, Int max_length,
 
 	lines = max_length / hw_line_size
 
-	DBG(18, "copying %d lines(%d, %d)\n", lines, s.params.bytes_per_line, s.dummy)
+	DBG(18, "copying %d lines(%d, %d)\n", lines, s.params.bytesPerLine, s.dummy)
 
 	/* need more data? */
 	if(lines == 0) {
@@ -382,7 +382,7 @@ eds_copy_image_from_ring(epsonds_scanner *s, Sane.Byte *data, Int max_length,
 		return
 	}
 
-	*length = (lines * s.params.bytes_per_line)
+	*length = (lines * s.params.bytesPerLine)
 
 	/* we need to copy one line at time, skipping
 	 * dummy bytes at the end of each line
@@ -396,12 +396,12 @@ eds_copy_image_from_ring(epsonds_scanner *s, Sane.Byte *data, Int max_length,
 			var i: Int
 			Sane.Byte *p
 
-			eds_ring_read(s.current, s.line_buffer, s.params.bytes_per_line)
+			eds_ring_read(s.current, s.line_buffer, s.params.bytesPerLine)
 			eds_ring_skip(s.current, s.dummy)
 
 			p = s.line_buffer
 
-			for(i = 0; i < s.params.bytes_per_line; i++) {
+			for(i = 0; i < s.params.bytesPerLine; i++) {
 				*data++ = ~*p++
 			}
 		}
@@ -410,10 +410,10 @@ eds_copy_image_from_ring(epsonds_scanner *s, Sane.Byte *data, Int max_length,
 
 		while(lines--) {
 
-			eds_ring_read(s.current, data, s.params.bytes_per_line)
+			eds_ring_read(s.current, data, s.params.bytesPerLine)
 			eds_ring_skip(s.current, s.dummy)
 
-			data += s.params.bytes_per_line
+			data += s.params.bytesPerLine
 
 		}
 	}
@@ -474,7 +474,7 @@ Int eds_ring_read(ring_buffer *ring, Sane.Byte *buf, Int size)
 
 	/* limit read to available */
 	if(size > ring.fill) {
-		DBG(1, "not enough data in the ring, shouldn't happen\n")
+		DBG(1, "not enough data in the ring, shouldn"t happen\n")
 		size = ring.fill
 	}
 

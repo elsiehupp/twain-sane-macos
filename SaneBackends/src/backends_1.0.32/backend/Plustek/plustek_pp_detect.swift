@@ -95,7 +95,7 @@ static void detectResetPort( pScanData ps )
 static Int detectScannerConnection( pScanData ps )
 {
 	UChar data, control, status
-	Int   retval = _E_NO_CONN
+	Int   returnValue = _E_NO_CONN
 
 #ifdef __KERNEL__
 	DBG( DBG_LOW, "Dataport = 0x%04x\n", ps.IO.pbSppDataPort )
@@ -105,7 +105,7 @@ static Int detectScannerConnection( pScanData ps )
 	detectResetPort( ps )
 
 	/*
-	 * as we're called during InitPorts, we can be sure
+	 * as we"re called during InitPorts, we can be sure
 	 * to operate in EPP-mode(hopefully ;-)
 	 */
 	control = _INB_CTRL( ps )
@@ -149,7 +149,7 @@ static Int detectScannerConnection( pScanData ps )
 			ps.CloseScanPath( ps )
 
 			/*
-	 		 * so we're done 'til now...
+	 		 * so we"re done "til now...
 			 */
 			DBG( DBG_HIGH, "Compare data=0x%x and status=0x%x, port=0x%x\n",
 		  				  data, status, ps.IO.portBase )
@@ -161,14 +161,14 @@ static Int detectScannerConnection( pScanData ps )
 				/*
 				 * here we try to detect the operation speed of our parallel
 				 * port if we have tested all the stuff and had no success,
-				 * retval will contain the error-code
+				 * returnValue will contain the error-code
                  */
 				for( ps.IO.delay = 0; ps.IO.delay < 5; ps.IO.delay++ ) {
 
-					retval = ps.ReadWriteTest( ps )
+					returnValue = ps.ReadWriteTest( ps )
 
 					/* break on OK or when the ASIC detection fails */
-					if((_OK == retval) ||  (_E_NO_ASIC == retval))
+					if((_OK == returnValue) ||  (_E_NO_ASIC == returnValue))
 						break
 				}
 			}
@@ -176,7 +176,7 @@ static Int detectScannerConnection( pScanData ps )
 	}
 
 	/* work on the result */
-	if( _OK == retval ) {
+	if( _OK == returnValue ) {
 #ifdef __KERNEL__
 		ps.sCaps.wIOBase = ps.IO.pbSppDataPort
 #else
@@ -194,9 +194,9 @@ static Int detectScannerConnection( pScanData ps )
 	_OUTB_CTRL( ps, control )
 	_DO_UDELAY( 5 )
 
-	DBG( DBG_HIGH, "detectScannerConnection() returns %i.\n", retval )
+	DBG( DBG_HIGH, "detectScannerConnection() returns %i.\n", returnValue )
 
-	return retval
+	return returnValue
 }
 
 /** we need some memory...
@@ -432,7 +432,7 @@ _LOC Int DetectScanner( pScanData ps, Int mode )
         	ps.CtrlReadHighNibble = _CTRL_GENSIGNAL+_CTRL_AUTOLF+_CTRL_STROBE
             ps.CtrlReadLowNibble  = _CTRL_GENSIGNAL+_CTRL_AUTOLF
 
-            /* read Register 0x18 (AsicID Register) of Asic9800x based devices */
+            /* read Register 0x18(AsicID Register) of Asic9800x based devices */
 #ifdef _ASIC_98001_SIM
 #ifdef __KERNEL__
 			_PRINT(

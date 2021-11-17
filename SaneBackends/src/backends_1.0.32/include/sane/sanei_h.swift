@@ -77,7 +77,7 @@
  * The common way to contact the developers of SANE is the sane-devel
  * mailing list. See the <a
  * href="http://www.sane-project.org/mailing-lists.html">mailing list webpage</a>
- * for details. That's the place to ask questions, report bugs, or announce
+ * for details. That"s the place to ask questions, report bugs, or announce
  * a new backend.
  *
  */
@@ -117,7 +117,7 @@ public "C" {
  *
  * @return
  * - Sane.STATUS_GOOD     - on success
- * - Sane.STATUS_INVAL    - if the value doesn't fit inside the constraint
+ * - Sane.STATUS_INVAL    - if the value doesn"t fit inside the constraint
  *   or any other error occurred
  * @sa sanei_constrain_value()
  */
@@ -134,7 +134,7 @@ public "C" {
  *
  * @return
  * - Sane.STATUS_GOOD     - on success
- * - Sane.STATUS_INVAL    - if the function wasn't able to fit value into the
+ * - Sane.STATUS_INVAL    - if the function wasn"t able to fit value into the
  *   constraint or any other error occurred
  * @sa sanei_check_value()
  */

@@ -174,7 +174,7 @@ tcp_configure_device(const char *devname, Sane.Status(*list_one)(Sane.String_Con
     		devname would contain "tcp auto"
 
     		We find new devnames and feed them to
-    		`list_one_device' one by one
+    		`list_one_device" one by one
     */
     return list_one(devname)
 }

@@ -41,7 +41,7 @@
 #ifndef SG_ERR_H
 #define SG_ERR_H
 
-/* Linux sg error codes taken from Doug Gilbert's sg_utils:
+/* Linux sg error codes taken from Doug Gilbert"s sg_utils:
    http://www.torque.net/sg/ */
 
 /* Some of the following error/status codes are exchanged between the
@@ -50,7 +50,7 @@
    here is copied from drivers/scsi/scsi.h which is not visible in
    the user space. */
 
-/* The following are 'host_status' codes */
+/* The following are "host_status" codes */
 #ifndef DID_OK
 #define DID_OK 0x00
 #endif
@@ -84,7 +84,7 @@
 #define SG_ERR_DID_PASSTHROUGH  DID_PASSTHROUGH
 #define SG_ERR_DID_SOFT_ERROR   DID_SOFT_ERROR
 
-/* The following are 'driver_status' codes */
+/* The following are "driver_status" codes */
 #ifndef DRIVER_OK
 #define DRIVER_OK 0x00
 #endif

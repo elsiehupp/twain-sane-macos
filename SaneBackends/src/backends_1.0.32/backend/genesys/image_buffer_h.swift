@@ -61,7 +61,7 @@ public:
 
     std::size_t available() const { return curr_size_ - buffer_offset_; }
 
-    // allows adjusting the amount of data left so that we don't do a full size read from the
+    // allows adjusting the amount of data left so that we don"t do a full size read from the
     // producer on the last iteration. Set to BUFFER_SIZE_UNSET to ignore buffer size.
     std::uint64_t remaining_size() const { return remaining_size_; }
     void set_remaining_size(std::uint64_t bytes) { remaining_size_ = bytes; }

@@ -334,7 +334,7 @@ void genesys_init_motor_tables()
     motor.id = MotorId::CANON_5600F
     motor.base_ydpi = 2400
 
-    // FIXME: real limit is 134, but for some reason the motor can't acquire that speed.
+    // FIXME: real limit is 134, but for some reason the motor can"t acquire that speed.
     profile = MotorProfile()
     profile.slope = MotorSlope::create_from_steps(2500 * 2, 134 * 2, 1000)
     profile.step_type = StepType::HALF

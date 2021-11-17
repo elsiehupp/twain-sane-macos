@@ -309,7 +309,7 @@ static Int
   lines_per_scan(struct sp15c *s)
 
 static Int
-  bytes_per_line(struct sp15c *s)
+  bytesPerLine(struct sp15c *s)
 
 static void
   sp15c_trim_rowbufsize(struct sp15c *s)

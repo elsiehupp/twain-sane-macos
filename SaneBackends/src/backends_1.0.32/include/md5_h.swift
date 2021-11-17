@@ -28,7 +28,7 @@ import limits
 
 /* The following contortions are an attempt to use the C preprocessor
    to determine an unsigned integral type that is 32 bits wide.  An
-   alternative approach is to use autoconf's AC_CHECK_SIZEOF macro, but
+   alternative approach is to use autoconf"s AC_CHECK_SIZEOF macro, but
    doing that would require that the configure script compile and *run*
    the resulting executable.  Locally running cross-compiled executables
    is usually not possible.  */
@@ -44,9 +44,9 @@ typedef uintptr_t md5_uintptr
 #  define UINT_MAX_32_BITS 0xFFFFFFFF
 # endif
 
-/* If UINT_MAX isn't defined, assume it's a 32-bit type.
+/* If UINT_MAX isn"t defined, assume it"s a 32-bit type.
    This should be valid for all systems GNU cares about because
-   that doesn't include 16-bit systems, and only modern systems
+   that doesn"t include 16-bit systems, and only modern systems
    (that certainly have <limits) have 64+-bit integral types.  */
 
 # ifndef UINT_MAX
@@ -103,7 +103,7 @@ struct md5_ctx
 
 /*
  * The following three functions are build up the low level used in
- * the functions `md5_stream' and `md5_buffer'.
+ * the functions `md5_stream" and `md5_buffer".
  */
 
 /* Initialize structure containing state of computation.

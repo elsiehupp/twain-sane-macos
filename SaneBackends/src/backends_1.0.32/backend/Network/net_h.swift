@@ -71,7 +71,7 @@ typedef struct Net_Scanner
     Int options_valid;			/* are the options current? */
     Sane.Option_Descriptor_Array opt, local_opt
 
-    Sane.Word handle;		/* remote handle(it's a word, not a ptr!) */
+    Sane.Word handle;		/* remote handle(it"s a word, not a ptr!) */
 
     Int data;			/* data socket descriptor */
     Int reclen_buf_offset

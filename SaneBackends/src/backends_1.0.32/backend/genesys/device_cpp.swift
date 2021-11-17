@@ -208,58 +208,58 @@ std::ostream& operator<<(std::ostream& out, const Genesys_Device& dev)
 
     out << "Genesys_Device{\n"
         << std::hex
-        << "    vendorId: 0x" << dev.vendorId << '\n'
-        << "    productId: 0x" << dev.productId << '\n'
+        << "    vendorId: 0x" << dev.vendorId << "\n"
+        << "    productId: 0x" << dev.productId << "\n"
         << std::dec
-        << "    usb_mode: " << dev.usb_mode << '\n'
-        << "    file_name: " << dev.file_name << '\n'
-        << "    calib_file: " << dev.calib_file << '\n'
-        << "    force_calibration: " << dev.force_calibration << '\n'
-        << "    ignore_offsets: " << dev.ignore_offsets << '\n'
+        << "    usb_mode: " << dev.usb_mode << "\n"
+        << "    file_name: " << dev.file_name << "\n"
+        << "    calib_file: " << dev.calib_file << "\n"
+        << "    force_calibration: " << dev.force_calibration << "\n"
+        << "    ignore_offsets: " << dev.ignore_offsets << "\n"
         << "    model: (not printed)\n"
-        << "    reg: " << format_indent_braced_list(4, dev.reg) << '\n'
-        << "    initial_regs: " << format_indent_braced_list(4, dev.initial_regs) << '\n'
-        << "    settings: " << format_indent_braced_list(4, dev.settings) << '\n'
-        << "    frontend: " << format_indent_braced_list(4, dev.frontend) << '\n'
-        << "    frontend_initial: " << format_indent_braced_list(4, dev.frontend_initial) << '\n'
+        << "    reg: " << format_indent_braced_list(4, dev.reg) << "\n"
+        << "    initial_regs: " << format_indent_braced_list(4, dev.initial_regs) << "\n"
+        << "    settings: " << format_indent_braced_list(4, dev.settings) << "\n"
+        << "    frontend: " << format_indent_braced_list(4, dev.frontend) << "\n"
+        << "    frontend_initial: " << format_indent_braced_list(4, dev.frontend_initial) << "\n"
     if(!dev.memory_layout.regs.empty()) {
         out << "    memory_layout.regs: "
-            << format_indent_braced_list(4, dev.memory_layout.regs) << '\n'
+            << format_indent_braced_list(4, dev.memory_layout.regs) << "\n"
     }
-    out << "    gpo.regs: " << format_indent_braced_list(4, dev.gpo.regs) << '\n'
-        << "    motor: " << format_indent_braced_list(4, dev.motor) << '\n'
+    out << "    gpo.regs: " << format_indent_braced_list(4, dev.gpo.regs) << "\n"
+        << "    motor: " << format_indent_braced_list(4, dev.motor) << "\n"
         << "    control[0..6]: " << std::hex
-        << static_cast<unsigned>(dev.control[0]) << ' '
-        << static_cast<unsigned>(dev.control[1]) << ' '
-        << static_cast<unsigned>(dev.control[2]) << ' '
-        << static_cast<unsigned>(dev.control[3]) << ' '
-        << static_cast<unsigned>(dev.control[4]) << ' '
-        << static_cast<unsigned>(dev.control[5]) << '\n' << std::dec
-        << "    average_size: " << dev.average_size << '\n'
-        << "    calib_session: " << format_indent_braced_list(4, dev.calib_session) << '\n'
-        << "    gamma_override_tables[0].size(): " << dev.gamma_override_tables[0].size() << '\n'
-        << "    gamma_override_tables[1].size(): " << dev.gamma_override_tables[1].size() << '\n'
-        << "    gamma_override_tables[2].size(): " << dev.gamma_override_tables[2].size() << '\n'
-        << "    white_average_data.size(): " << dev.white_average_data.size() << '\n'
-        << "    dark_average_data.size(): " << dev.dark_average_data.size() << '\n'
-        << "    already_initialized: " << dev.already_initialized << '\n'
+        << static_cast<unsigned>(dev.control[0]) << " "
+        << static_cast<unsigned>(dev.control[1]) << " "
+        << static_cast<unsigned>(dev.control[2]) << " "
+        << static_cast<unsigned>(dev.control[3]) << " "
+        << static_cast<unsigned>(dev.control[4]) << " "
+        << static_cast<unsigned>(dev.control[5]) << "\n" << std::dec
+        << "    average_size: " << dev.average_size << "\n"
+        << "    calib_session: " << format_indent_braced_list(4, dev.calib_session) << "\n"
+        << "    gamma_override_tables[0].size(): " << dev.gamma_override_tables[0].size() << "\n"
+        << "    gamma_override_tables[1].size(): " << dev.gamma_override_tables[1].size() << "\n"
+        << "    gamma_override_tables[2].size(): " << dev.gamma_override_tables[2].size() << "\n"
+        << "    white_average_data.size(): " << dev.white_average_data.size() << "\n"
+        << "    dark_average_data.size(): " << dev.dark_average_data.size() << "\n"
+        << "    already_initialized: " << dev.already_initialized << "\n"
         << "    scanhead_position[PRIMARY]: "
     print_scan_position(out, dev, ScanHeadId::PRIMARY)
-    out << '\n'
+    out << "\n"
         << "    scanhead_position[SECONDARY]: "
     print_scan_position(out, dev, ScanHeadId::SECONDARY)
-    out << '\n'
-        << "    read_active: " << dev.read_active << '\n'
-        << "    parking: " << dev.parking << '\n'
-        << "    document: " << dev.document << '\n'
-        << "    total_bytes_read: " << dev.total_bytes_read << '\n'
-        << "    total_bytes_to_read: " << dev.total_bytes_to_read << '\n'
-        << "    session: " << format_indent_braced_list(4, dev.session) << '\n'
+    out << "\n"
+        << "    read_active: " << dev.read_active << "\n"
+        << "    parking: " << dev.parking << "\n"
+        << "    document: " << dev.document << "\n"
+        << "    total_bytes_read: " << dev.total_bytes_read << "\n"
+        << "    total_bytes_to_read: " << dev.total_bytes_to_read << "\n"
+        << "    session: " << format_indent_braced_list(4, dev.session) << "\n"
         << "    calibration_cache: (not printed)\n"
-        << "    line_count: " << dev.line_count << '\n'
+        << "    line_count: " << dev.line_count << "\n"
         << "    segment_order: "
-        << format_indent_braced_list(4, format_vector_unsigned(4, dev.segment_order)) << '\n'
-        << '}'
+        << format_indent_braced_list(4, format_vector_unsigned(4, dev.segment_order)) << "\n"
+        << "}"
     return out
 }
 

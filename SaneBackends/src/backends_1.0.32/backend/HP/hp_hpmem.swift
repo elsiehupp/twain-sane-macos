@@ -130,7 +130,7 @@ sanei_hp_free(void * ptr)
 
   assert(old && old != head)
   (old.next.prev = old.prev)->next = old.next
-  old.next = old.prev = 0;	/* so we can puke on multiple free's */
+  old.next = old.prev = 0;	/* so we can puke on multiple free"s */
   free(old)
 }
 

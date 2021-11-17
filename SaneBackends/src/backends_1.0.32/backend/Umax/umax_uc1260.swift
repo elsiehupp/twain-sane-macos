@@ -125,7 +125,7 @@ static unsigned char UC1260_INQUIRY[] =
 /* 78-79 fb max scan length in 0.01 inch */
 	0x05, 0x78,
 
-/* UTA parameters empirically determined on Peter Missel's unit */
+/* UTA parameters empirically determined on Peter Missel"s unit */
 /* 7a-7b uta x original point */
 	0x00, 0x77,
 

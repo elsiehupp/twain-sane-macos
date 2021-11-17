@@ -157,7 +157,7 @@ typedef struct Avision_HWEntry {
     /* does not keep the gamma though it advertices so */
   #define AV_DOES_NOT_KEEP_GAMMA((uint64_t)1<<19)
 
-    /* advertises ADF is BGR order, but isn't(or vice versa) */
+    /* advertises ADF is BGR order, but isn"t(or vice versa) */
   #define AV_ADF_BGR_ORDER_INVERT((uint64_t)1<<20)
 
     /* allows 12bit mode, though not flagged */
@@ -224,7 +224,7 @@ typedef struct Avision_HWEntry {
   #define AV_GAMMA_10 ((uint64_t)1<<41)
 
   /* Kodak i1120 has a different gamma table format(like a uint16/double array) */
-  #define AV_GAMMA_UINT16 ((uint64_t)1<<42)
+  #define AV_GAMMA_UINT16((uint64_t)1<<42)
 
   /* Kodak i1120 has single-sheet and multi-sheet scan modes. This option sets
      bitset3[7] which enables multi-sheet scan by default so there is no pause
@@ -1269,7 +1269,7 @@ static Avision_HWEntry Avision_Device_List[] =
     { NULL, NULL,
       0x0638, 0x0a18,
       "Avision", "AV600U Plus",
-      /* If this unit requires the AV_INT_STATUS flag, then we'll need to alter the code to deal with two different devices with the same USB id(AV610 above) */
+      /* If this unit requires the AV_INT_STATUS flag, then we"ll need to alter the code to deal with two different devices with the same USB id(AV610 above) */
       AV_GRAY_CALIB_BLUE | AV_ACCEL_TABLE | AV_NO_64BYTE_ALIGN | /* AV_INT_STATUS | */ AV_INT_BUTTON,
       { 0, {0, 0}, {{0, 0}, {0, 0}} }
     },
@@ -2478,8 +2478,8 @@ static const Int  hw_res_list_c5[] =
   ]
 static const Int  hw_res_list_generic[] =
   {
-    50, /* slower than 150 on the AV122/DM152, left for USB 1 host's preview */
-    75, /* slower than 150 on the AV122/DM152, left for USB 1 host's */
+    50, /* slower than 150 on the AV122/DM152, left for USB 1 host"s preview */
+    75, /* slower than 150 on the AV122/DM152, left for USB 1 host"s */
     150, 200, 300,
     /* 400,*/ /* AV122 simplex y-scaling and duplex interlacing corrupt */
     600, 1200, 2400, 4800,
@@ -2536,7 +2536,7 @@ static const uint8_t test_unit_ready[] =
   ]
 
 /* Remove #ifdef and this comment when this SCSI command is used for
-   something.  Keeping this definition around so we don't loose info
+   something.  Keeping this definition around so we don"t loose info
    about the protocol.
  */
 #ifdef ENABLE_AVISION_SCSI_GET_DATA_STATUS
@@ -2657,7 +2657,7 @@ static void debug_print_nvram_data(Int dbg_level, char* func,
   DBG(dbg_level, "%s: scan speed:            %d\n",
        func, nvram.scan_speed)
 
-  DBG(dbg_level, "%s: serial:                '%.24s'\n", /* 24 chars max */
+  DBG(dbg_level, "%s: serial:                "%.24s"\n", /* 24 chars max */
        func, nvram.serial)
 
   DBG(dbg_level, "%s: power saving time:     %d\n",
@@ -2673,9 +2673,9 @@ static void debug_print_nvram_data(Int dbg_level, char* func,
   DBG(dbg_level, "%s: jam count:             %d\n",
        func, get_quad(nvram.jam_count))
 
-  DBG(dbg_level, "%s: identify info:         '%.16s'\n", /* 16 chars max */
+  DBG(dbg_level, "%s: identify info:         "%.16s"\n", /* 16 chars max */
        func, nvram.identify_info)
-  DBG(dbg_level, "%s: formal_name:           '%.16s'\n", /* 16 chars max */
+  DBG(dbg_level, "%s: formal_name:           "%.16s"\n", /* 16 chars max */
        func, nvram.formal_name)
 }
 
@@ -2701,8 +2701,8 @@ static void debug_print_params(Int dbg_level, char* func, Sane.Parameters* param
   DBG(dbg_level, "%s: pixel_per_line: %d, lines: %d\n",
        func, params.pixels_per_line, params.lines)
 
-  DBG(dbg_level, "%s: depth: %d, bytes_per_line: %d\n",
-       func, params.depth, params.bytes_per_line)
+  DBG(dbg_level, "%s: depth: %d, bytesPerLine: %d\n",
+       func, params.depth, params.bytesPerLine)
 }
 
 static void debug_print_calib_format(Int dbg_level, char* func,
@@ -3032,7 +3032,7 @@ sense_handler(Int fd, u_char* sense, void* arg)
 	ADDITIONAL_SENSE(0x80,0x05, "Multi-feed(AV220,Kodak)")
 	ADDITIONAL_SENSE(0x80,0x06, "ADF prefeeding(OKI only)")
 	ADDITIONAL_SENSE(0x80,0x07, "Flatbed cover open(OKI only)"; status = Sane.STATUS_COVER_OPEN)
-	ADDITIONAL_SENSE(0x80,0x08, "FW module doesn't match with scanner")
+	ADDITIONAL_SENSE(0x80,0x08, "FW module doesn"t match with scanner")
         ADDITIONAL_SENSE(0x80,0x09, "Papers fed from multiple trays(DM272)")
         ADDITIONAL_SENSE(0x80,0x0A, "ADF Paper Start")
         ADDITIONAL_SENSE(0x80,0x0B, "Multiple ADF paper End and Start")
@@ -3940,7 +3940,7 @@ compute_parameters(Avision_Scanner* s)
   s.params.pixels_per_line = s.avdimen.hw_pixels_per_line * s.avdimen.xres / s.avdimen.hw_xres
   s.params.lines = s.avdimen.hw_lines * s.avdimen.xres / s.avdimen.hw_xres
   if(is_adf_scan(s))
-    /* we can't know how many lines we'll see with an ADF because that depends on the paper length */
+    /* we can"t know how many lines we"ll see with an ADF because that depends on the paper length */
     s.params.lines = -1
   if(s.c_mode == AV_THRESHOLDED || s.c_mode == AV_DITHERED)
     s.params.pixels_per_line -= s.params.pixels_per_line % 8
@@ -3952,39 +3952,39 @@ compute_parameters(Avision_Scanner* s)
     case AV_THRESHOLDED:
       s.params.format = Sane.FRAME_GRAY
       s.avdimen.hw_bytes_per_line = s.avdimen.hw_pixels_per_line / 8
-      s.params.bytes_per_line = s.params.pixels_per_line / 8
+      s.params.bytesPerLine = s.params.pixels_per_line / 8
       s.params.depth = 1
       break
     case AV_DITHERED:
       s.params.format = Sane.FRAME_GRAY
       s.avdimen.hw_bytes_per_line = s.avdimen.hw_pixels_per_line / 8
-      s.params.bytes_per_line = s.params.pixels_per_line / 8
+      s.params.bytesPerLine = s.params.pixels_per_line / 8
       s.params.depth = 1
       break
     case AV_GRAYSCALE:
       s.params.format = Sane.FRAME_GRAY
       s.avdimen.hw_bytes_per_line = s.avdimen.hw_pixels_per_line
-      s.params.bytes_per_line = s.params.pixels_per_line
+      s.params.bytesPerLine = s.params.pixels_per_line
       s.params.depth = 8
       break
     case AV_GRAYSCALE12:
     case AV_GRAYSCALE16:
       s.params.format = Sane.FRAME_GRAY
       s.avdimen.hw_bytes_per_line = s.avdimen.hw_pixels_per_line * 2
-      s.params.bytes_per_line = s.params.pixels_per_line * 2
+      s.params.bytesPerLine = s.params.pixels_per_line * 2
       s.params.depth = 16
       break
     case AV_TRUECOLOR:
       s.params.format = Sane.FRAME_RGB
       s.avdimen.hw_bytes_per_line = s.avdimen.hw_pixels_per_line * 3
-      s.params.bytes_per_line = s.params.pixels_per_line * 3
+      s.params.bytesPerLine = s.params.pixels_per_line * 3
       s.params.depth = 8
       break
     case AV_TRUECOLOR12:
     case AV_TRUECOLOR16:
       s.params.format = Sane.FRAME_RGB
       s.avdimen.hw_bytes_per_line = s.avdimen.hw_pixels_per_line * 3 * 2
-      s.params.bytes_per_line = s.params.pixels_per_line * 3 * 2
+      s.params.bytesPerLine = s.params.pixels_per_line * 3 * 2
       s.params.depth = 16
       break
     default:
@@ -4560,8 +4560,8 @@ get_accessories_info(Avision_Scanner* s)
        * an ADF model number will still be reported.  This happens on the
        * HP8200 series and possibly others.  In this case we need to reset the
        * the adf and try reading it again.  Skip this if the configuration says
-       * to do so, so that we don't fail out the scanner as being broken and
-       * unsupported if there isn't actually an ADF present.
+       * to do so, so that we don"t fail out the scanner as being broken and
+       * unsupported if there isn"t actually an ADF present.
        */
       DBG(3, "get_accessories_info: Found ADF model number but the ADF-present flag is not set. Trying to recover...\n")
       status = adf_reset(s)
@@ -4594,7 +4594,7 @@ get_accessories_info(Avision_Scanner* s)
 
 
 /* Returns a pointer to static char* strings or NULL for cancel(we do
-   not want to start memcmp'ing for the cancel case). */
+   not want to start memcmp"ing for the cancel case). */
 static const char*
 string_for_button(Avision_Scanner* s, Int button)
 {
@@ -4929,7 +4929,7 @@ get_duplex_info(Avision_Scanner* s)
        get_double(result.gray_line_difference))
   DBG(3, "get_duplex_info: [5-6]  Lineart line difference: %d\n",
        get_double(result.lineart_line_difference))
-  /* isn't this supposed to be result.info ?!? */
+  /* isn"t this supposed to be result.info ?!? */
   DBG(3, "get_duplex_info: [7]    Mode: %s%s%s%s\n",
        BIT(result.image_info,0)?" FLATBED_BGR":" FLATBED_RGB",
        BIT(result.image_info,1)?" ADF_BGR":" ADF_RGB",
@@ -5178,9 +5178,9 @@ attach(Sane.String_Const devname, Avision_ConnectionType con_type,
 
   debug_print_raw(6, "attach: raw data:\n", result, sizeof(result) )
 
-  DBG(3, "attach: [8-15]  Vendor id.:      '%8.8s'\n", result+8)
-  DBG(3, "attach: [16-31] Product id.:     '%16.16s'\n", result+16)
-  DBG(3, "attach: [32-35] Product rev.:    '%4.4s'\n", result+32)
+  DBG(3, "attach: [8-15]  Vendor id.:      "%8.8s"\n", result+8)
+  DBG(3, "attach: [16-31] Product id.:     "%16.16s"\n", result+16)
+  DBG(3, "attach: [32-35] Product rev.:    "%4.4s"\n", result+32)
 
   i = (result[36] >> 4) & 0x7
   switch(result[36] & 0x07) {
@@ -5531,7 +5531,7 @@ get_double( &(result[48] ) ))
       base_dpi = AVISION_BASE_RES
     } else {
       /* ZP: The right number is 2820, whether it is 40-41, 42-43, 44-45,
-       * 46-47 or 89-90 I don't know but I would bet for the last !
+       * 46-47 or 89-90 I don"t know but I would bet for the last !
        * ReneR: OK. We use it via the optical_res which we need anyway ...
        */
       base_dpi = dev.inquiry_optical_res
@@ -5627,7 +5627,7 @@ get_double( &(result[48] ) ))
     dev.read_stripe_size = 16
   else if(dev.inquiry_asic_type >= AV_ASIC_C5)
     dev.read_stripe_size = 32
-  else  /* tested on AV3200 with it's max of 300dpi @color */
+  else  /* tested on AV3200 with it"s max of 300dpi @color */
     dev.read_stripe_size = 8; /* maybe made dynamic on scan res ... */
 
   /* normally the data_dq is 0x0a0d - but some newer scanner hang with it ... */
@@ -6617,7 +6617,7 @@ send_gamma(Avision_Scanner* s)
 
 	  /* Emulate brightness and contrast(at least the Avision AV6[2,3]0
 	   * as well as many others do not have a hardware implementation,
-	   * --$. The function was taken from the GIMP source - maybe I'll
+	   * --$. The function was taken from the GIMP source - maybe I"ll
 	   * optimize it in the future(when I have spare time). */
 
 	  v1 /= 255
@@ -6946,7 +6946,7 @@ set_window(Avision_Scanner* s)
   Int transferlen
   Int paralen
 
-  Int bytes_per_line
+  Int bytesPerLine
   Int line_count
 
   struct {
@@ -7027,16 +7027,16 @@ set_window(Avision_Scanner* s)
     line_count *= 2
   }
 
-  bytes_per_line = s.avdimen.hw_bytes_per_line
+  bytesPerLine = s.avdimen.hw_bytes_per_line
 
-  set_double(cmd.window.avision.line_width, bytes_per_line)
+  set_double(cmd.window.avision.line_width, bytesPerLine)
   set_double(cmd.window.avision.line_count, line_count)
 
   /* here go the most significant bits if bigger than 16 bit */
   if(dev.inquiry_new_protocol && !(dev.hw.feature_type & AV_FUJITSU) ) {
     DBG(2, "set_window: large data-transfer support(>16bit)!\n")
     cmd.window.avision.type.normal.line_width_msb =
-      bytes_per_line >> 16
+      bytesPerLine >> 16
     cmd.window.avision.type.normal.line_count_msb =
       line_count >> 16
   }
@@ -7217,7 +7217,7 @@ get_background_raster(Avision_Scanner* s)
 
   struct command_read rcmd
   size_t size
-  Int bytes_per_line, i
+  Int bytesPerLine, i
   const Int bpp = color_mode_is_color(s.c_mode) ? 3 : 1
   const Int lines = s.val[OPT_BACKGROUND].w * (s.avdimen.interlaced_duplex ? 2 : 1)
 
@@ -7231,15 +7231,15 @@ get_background_raster(Avision_Scanner* s)
   }
 
   /* full width, always :-(, duplex *2 for front and rear */
-  bytes_per_line = dev.inquiry_background_raster_pixel *
+  bytesPerLine = dev.inquiry_background_raster_pixel *
     s.avdimen.hw_xres / dev.inquiry_optical_res
-  bytes_per_line *= bpp
+  bytesPerLine *= bpp
 
-  DBG(3, "get_background_raster: native raster pixels: %d, raster bytes_per_line: %d\n",
-       dev.inquiry_background_raster_pixel, bytes_per_line)
+  DBG(3, "get_background_raster: native raster pixels: %d, raster bytesPerLine: %d\n",
+       dev.inquiry_background_raster_pixel, bytesPerLine)
 
   /* according to spec only 8-bit gray or color, TODO: test for bi-level scans */
-  size = bytes_per_line * lines
+  size = bytesPerLine * lines
 
   DBG(3, "get_background_raster: buffer size: %ld\n", (long)size)
 
@@ -7261,7 +7261,7 @@ get_background_raster(Avision_Scanner* s)
   /* read the raster data */
   for(i = 0; i < lines;)
     {
-      uint8_t* dst_raster = background + bytes_per_line * i
+      uint8_t* dst_raster = background + bytesPerLine * i
       /* read stripe by stripe, or all in one chunk */
       size_t this_read, read_size
       Int this_lines
@@ -7275,7 +7275,7 @@ get_background_raster(Avision_Scanner* s)
       else {
 	this_lines = s.val[OPT_BACKGROUND].w
       }
-      this_read = bytes_per_line * this_lines
+      this_read = bytesPerLine * this_lines
 
       DBG(3, "get_background_raster: line: %d, lines: %d, %lu bytes\n",
 	   i, this_lines, (u_long) this_read)
@@ -7300,9 +7300,9 @@ get_background_raster(Avision_Scanner* s)
       f = fopen("background-raw.pnm", "w")
 
       write_pnm_header(f, (color_mode_is_color(s.c_mode) ? AV_TRUECOLOR : AV_GRAYSCALE), 8,
-			bytes_per_line / bpp, lines)
+			bytesPerLine / bpp, lines)
 
-      fwrite(background, 1, bytes_per_line * lines, f)
+      fwrite(background, 1, bytesPerLine * lines, f)
       fclose(f)
     }
 
@@ -7312,21 +7312,21 @@ get_background_raster(Avision_Scanner* s)
       /* TODO: add 16bit per sample code? */
       Int l, p
 
-      uint8_t* tmp_data = malloc(bytes_per_line)
+      uint8_t* tmp_data = malloc(bytesPerLine)
       for(l = 0; l < lines; ++l)
 	{
 	  uint8_t* out_data = tmp_data
-	  uint8_t* r_ptr = background + (bytes_per_line * l)
-	  uint8_t* g_ptr = r_ptr + bytes_per_line / bpp
-	  uint8_t* b_ptr = g_ptr + bytes_per_line / bpp
+	  uint8_t* r_ptr = background + (bytesPerLine * l)
+	  uint8_t* g_ptr = r_ptr + bytesPerLine / bpp
+	  uint8_t* b_ptr = g_ptr + bytesPerLine / bpp
 
-	  for(p = 0; p < bytes_per_line;) {
+	  for(p = 0; p < bytesPerLine;) {
 	    out_data[p++] = *(r_ptr++)
 	    out_data[p++] = *(g_ptr++)
 	    out_data[p++] = *(b_ptr++)
 	  }
 
-	  memcpy(background + (bytes_per_line * l), tmp_data, bytes_per_line)
+	  memcpy(background + (bytesPerLine * l), tmp_data, bytesPerLine)
 	}
 
       free(tmp_data)
@@ -7349,11 +7349,11 @@ get_background_raster(Avision_Scanner* s)
 	  if((dev.hw.feature_type & AV_BACKGROUND_QUIRK) && (s.avdimen.hw_xres >= 150))
 	    dst_i = i / 2 + ((i+1) % 2) * (lines / 2)
 
-	  dst_raster = deinterlaced + bytes_per_line * dst_i
-	  src_raster = background + bytes_per_line * i
+	  dst_raster = deinterlaced + bytesPerLine * dst_i
+	  src_raster = background + bytesPerLine * i
 
 	  DBG(3, "get_background_raster: deinterlaced %d -> %d\n", i, dst_i)
-	  memcpy(dst_raster, src_raster, bytes_per_line)
+	  memcpy(dst_raster, src_raster, bytesPerLine)
 	}
 
       free(background)
@@ -7370,13 +7370,13 @@ get_background_raster(Avision_Scanner* s)
     }
     else {
       f = fopen("background-rear.pnm", "w")
-      raster += bytes_per_line * s.val[OPT_BACKGROUND].w
+      raster += bytesPerLine * s.val[OPT_BACKGROUND].w
     }
 
     write_pnm_header(f, (color_mode_is_color(s.c_mode) ? AV_TRUECOLOR : AV_GRAYSCALE), 8,
-		      bytes_per_line / bpp, s.val[OPT_BACKGROUND].w)
+		      bytesPerLine / bpp, s.val[OPT_BACKGROUND].w)
 
-    fwrite(raster, 1, bytes_per_line * s.val[OPT_BACKGROUND].w, f)
+    fwrite(raster, 1, bytesPerLine * s.val[OPT_BACKGROUND].w, f)
     fclose(f)
   }
 
@@ -7389,7 +7389,7 @@ get_background_raster(Avision_Scanner* s)
       {
 	memmove(dst_ptr, src_ptr, s.avdimen.hw_bytes_per_line)
 	dst_ptr += s.avdimen.hw_bytes_per_line
-	src_ptr += bytes_per_line
+	src_ptr += bytesPerLine
       }
   }
 
@@ -7453,13 +7453,13 @@ get_background_raster(Avision_Scanner* s)
 	}
 	else {
 	  f = fopen("background-final-rear.pnm", "w")
-	  raster += s.params.bytes_per_line * s.val[OPT_BACKGROUND].w
+	  raster += s.params.bytesPerLine * s.val[OPT_BACKGROUND].w
 	}
 
 	write_pnm_header(f, (color_mode_is_color(s.c_mode) ? AV_TRUECOLOR : AV_GRAYSCALE), 8,
-			  s.params.bytes_per_line / bpp, s.val[OPT_BACKGROUND].w)
+			  s.params.bytesPerLine / bpp, s.val[OPT_BACKGROUND].w)
 
-	fwrite(raster, 1, s.params.bytes_per_line * s.val[OPT_BACKGROUND].w, f)
+	fwrite(raster, 1, s.params.bytesPerLine * s.val[OPT_BACKGROUND].w, f)
 	fclose(f)
       }
   }
@@ -7481,7 +7481,7 @@ reserve_unit(Avision_Scanner* s)
 }
 
 static Sane.Status
-release_unit(Avision_Scanner* s, Int type)
+release_unit(Avision_Scanner* s, type: Int)
 {
   char cmd[] =
     {AVISION_SCSI_RELEASE_UNIT, 0, 0, 0, 0, 0]
@@ -7619,7 +7619,7 @@ do_eof(Avision_Scanner *s)
 static Sane.Status
 do_cancel(Avision_Scanner* s)
 {
-  Int status
+  status: Int
 
   DBG(3, "do_cancel:\n")
 
@@ -7636,7 +7636,7 @@ do_cancel(Avision_Scanner* s)
   if(sanei_thread_is_valid(s.reader_pid)) {
     Int exit_status
 
-    /* ensure child knows it's time to stop: */
+    /* ensure child knows it"s time to stop: */
     sanei_thread_kill(s.reader_pid)
     sanei_thread_waitpid(s.reader_pid, &exit_status)
     sanei_thread_invalidate(s.reader_pid)
@@ -8052,7 +8052,7 @@ init_options(Avision_Scanner* s)
     s.opt[OPT_POWER_SAVE_TIME].cap |= Sane.CAP_INACTIVE
   s.opt[OPT_POWER_SAVE_TIME].name = "power-save-time"
   s.opt[OPT_POWER_SAVE_TIME].title = "Power save timer control"
-  s.opt[OPT_POWER_SAVE_TIME].desc = "Allows control of the scanner's power save timer, dimming or turning off the light."
+  s.opt[OPT_POWER_SAVE_TIME].desc = "Allows control of the scanner"s power save timer, dimming or turning off the light."
   s.opt[OPT_POWER_SAVE_TIME].type = Sane.TYPE_INT
   s.opt[OPT_POWER_SAVE_TIME].unit = Sane.UNIT_NONE
   s.opt[OPT_POWER_SAVE_TIME].constraint_type = Sane.CONSTRAINT_NONE
@@ -8075,7 +8075,7 @@ init_options(Avision_Scanner* s)
     s.opt[OPT_NVRAM].cap |= Sane.CAP_INACTIVE
   s.opt[OPT_NVRAM].name = "nvram-values"
   s.opt[OPT_NVRAM].title = "Obtain NVRAM values"
-  s.opt[OPT_NVRAM].desc = "Allows access obtaining the scanner's NVRAM values as pretty printed text."
+  s.opt[OPT_NVRAM].desc = "Allows access obtaining the scanner"s NVRAM values as pretty printed text."
   s.opt[OPT_NVRAM].type = Sane.TYPE_STRING
   s.opt[OPT_NVRAM].unit = Sane.UNIT_NONE
   s.opt[OPT_NVRAM].size = 1024
@@ -8102,7 +8102,7 @@ init_options(Avision_Scanner* s)
     s.opt[OPT_ADF_FLIP].cap |= Sane.CAP_INACTIVE
   s.opt[OPT_ADF_FLIP].name = "flip-page"
   s.opt[OPT_ADF_FLIP].title = "Flip document after duplex scanning"
-  s.opt[OPT_ADF_FLIP].desc = "Tells page-flipping document scanners to flip the paper back to its original orientation before dropping it in the output tray.  Turning this off might make scanning a little faster if you don't care about manually flipping the pages afterwards."
+  s.opt[OPT_ADF_FLIP].desc = "Tells page-flipping document scanners to flip the paper back to its original orientation before dropping it in the output tray.  Turning this off might make scanning a little faster if you don"t care about manually flipping the pages afterwards."
   s.opt[OPT_ADF_FLIP].type = Sane.TYPE_BOOL
   s.opt[OPT_ADF_FLIP].unit = Sane.UNIT_NONE
   s.opt[OPT_ADF_FLIP].size = sizeof(Sane.Word)
@@ -8119,7 +8119,7 @@ init_options(Avision_Scanner* s)
    while the main process can go about to do more important things
    (such as recognizing when the user presses a cancel button).
 
-   WARNING: Since this is executed as a subprocess, it's NOT possible
+   WARNING: Since this is executed as a subprocess, it"s NOT possible
    to update any of the variables in the main process(in particular
    the scanner state cannot be updated).  */
 
@@ -8312,7 +8312,7 @@ reader_process(void *data)
   DBG(3, "dev.scsi_buffer_size / 2: %d\n",
        dev.scsi_buffer_size / 2)
 
-  DBG(3, "bytes_per_line: %d, pixels_per_line: %d\n",
+  DBG(3, "bytesPerLine: %d, pixels_per_line: %d\n",
        s.avdimen.hw_bytes_per_line, s.avdimen.hw_pixels_per_line)
 
   DBG(3, "lines_per_stripe: %d, lines_per_output: %d\n",
@@ -8331,7 +8331,7 @@ reader_process(void *data)
     ip_history = malloc(s.avdimen.hw_bytes_per_line + out_size)
     out_data = ip_history + s.avdimen.hw_bytes_per_line
 
-    ip_data = malloc(s.params.bytes_per_line)
+    ip_data = malloc(s.params.bytesPerLine)
   }
   else {
     out_data = malloc(out_size)
@@ -8362,10 +8362,10 @@ reader_process(void *data)
     {
       uint8_t* background = s.background_raster
       if(s.duplex_rear_valid)
-	background += s.params.bytes_per_line * s.val[OPT_BACKGROUND].w
+	background += s.params.bytesPerLine * s.val[OPT_BACKGROUND].w
 
       DBG(5, "reader_process: dumping background raster\n")
-      fwrite(background, s.params.bytes_per_line, s.val[OPT_BACKGROUND].w, fp)
+      fwrite(background, s.params.bytesPerLine, s.val[OPT_BACKGROUND].w, fp)
     }
 
   /* Data read; loop until all data has been processed.  Might exit
@@ -8690,7 +8690,7 @@ reader_process(void *data)
 	      v2 = v < 0xFFFF ? v : 0xFFFF
 
 	      /* SANE Standard 3.2.1 "... bytes of each sample value are
-		 transmitted in the machine's native byte order." */
+		 transmitted in the machine"s native byte order." */
 	      *line_ptr = v2
 
 	      line_ptr += s.avdimen.hw_bytes_per_line
@@ -8853,7 +8853,7 @@ reader_process(void *data)
 		; /* silence compiler warning */
 	      }
 	    }
-	    fwrite(ip_data, s.params.bytes_per_line, 1, fp)
+	    fwrite(ip_data, s.params.bytesPerLine, 1, fp)
 	    ++line
 	  }
 	  /* copy one line of history for the next pass */
@@ -8883,12 +8883,12 @@ reader_process(void *data)
   /* maybe we need to fill in some white data */
   if(exit_status == Sane.STATUS_EOF && line < s.params.lines) {
     DBG(3, "reader_process: padding with white data\n")
-    memset(out_data, gray_mode ? 0xff : 0x00, s.params.bytes_per_line)
+    memset(out_data, gray_mode ? 0xff : 0x00, s.params.bytesPerLine)
 
     DBG(6, "reader_process: padding line %d - %d\n",
 	 line, s.params.lines)
     while(line < s.params.lines) {
-      fwrite(out_data, s.params.bytes_per_line, 1, fp)
+      fwrite(out_data, s.params.bytesPerLine, 1, fp)
       ++line
     }
   }
@@ -8899,12 +8899,12 @@ reader_process(void *data)
     long lines
     uint8_t* buffer
 
-    buffer = malloc(s.params.bytes_per_line)
-    lines = ftell(fp) / s.params.bytes_per_line
+    buffer = malloc(s.params.bytesPerLine)
+    lines = ftell(fp) / s.params.bytesPerLine
     rewind(fp)
 
     for(long line = 0; line < lines; line++) {
-      fread(buffer, s.params.bytes_per_line, 1, fp)
+      fread(buffer, s.params.bytesPerLine, 1, fp)
 
       if( (!s.duplex_rear_valid && (line < s.avdimen.offset.front.top)) ||
            (s.duplex_rear_valid && (line < s.avdimen.offset.rear.top)) ) {
@@ -8918,7 +8918,7 @@ reader_process(void *data)
         break; /* nothing more to write, so break out here */
       }
 
-      fwrite(buffer, s.params.bytes_per_line, 1, fp_fd)
+      fwrite(buffer, s.params.bytesPerLine, 1, fp_fd)
     }
   }
 
@@ -8953,7 +8953,7 @@ reader_process(void *data)
     if(exit_status == Sane.STATUS_EOF) {
       if(s.val[OPT_ADF_FLIP].w) {
         /* The page flip bit must be reset after every scan, but if the
-         * user doesn't care, there's no reason to reset.
+         * user doesn"t care, there"s no reason to reset.
          */
         status = set_window(s)
         if(status != Sane.STATUS_GOOD) {
@@ -8975,7 +8975,7 @@ reader_process(void *data)
     /* TODO:
     * else {
     *   spit out the page if an error was encountered...
-    *   assuming the error won't prevent it.
+    *   assuming the error won"t prevent it.
     * } */
   } else {
     fclose(fp)
@@ -9062,7 +9062,7 @@ Sane.reload_devices(void)
 	    continue
 	  }
 
-	  if(word[0] == '#') {
+	  if(word[0] == "#") {
 	    DBG(5, "Sane.reload_devices: config file line %d: ignoring comment line\n",
 		 linenumber)
 	    free(word)
@@ -9126,13 +9126,13 @@ Sane.reload_devices(void)
 		    linenumber)
 	    }
 	  else if(strcmp(word, "usb") == 0) {
-	    DBG(2, "Sane.reload_devices: config file line %d: trying to attach USB:`%s'\n",
+	    DBG(2, "Sane.reload_devices: config file line %d: trying to attach USB:`%s"\n",
 		 linenumber, line)
 	    /* try to attach USB device */
 	    sanei_usb_attach_matching_devices(line, attach_one_usb)
 	  }
 	  else if(strcmp(word, "scsi") == 0) {
-	    DBG(2, "Sane.reload_devices: config file line %d: trying to attach SCSI: %s'\n",
+	    DBG(2, "Sane.reload_devices: config file line %d: trying to attach SCSI: %s"\n",
 		 linenumber, line)
 
 	    /* the last time I verified(2003-03-18) this function
@@ -9142,7 +9142,7 @@ Sane.reload_devices(void)
 	  else {
 	    DBG(1, "Sane.reload_devices: config file line %d: OBSOLETE !! use the scsi keyword!\n",
 		linenumber)
-	    DBG(1, "Sane.reload_devices:   (see man sane-avision for details): trying to attach SCSI: %s'\n",
+	    DBG(1, "Sane.reload_devices:   (see man sane-avision for details): trying to attach SCSI: %s"\n",
 		line)
 
 	    /* the last time I verified(2003-03-18) this function
@@ -9318,9 +9318,9 @@ Sane.open(Sane.String_Const devicename, Sane.Handle *handle)
 
 	http://www.poynton.com/GammaFAQ.html
 
-     Avision's driver defaults to 2.2 though.
+     Avision"s driver defaults to 2.2 though.
 
-     MN: This is not true for at least Kodak i1120's windows driver.
+     MN: This is not true for at least Kodak i1120"s windows driver.
          Some real-world testing showed that a gamma of 1.0 is needed
          for this scanner to give decent scan results. Add an option for this...
   */
@@ -9830,14 +9830,14 @@ Sane.start(Sane.Handle handle)
   s.cancelled = Sane.FALSE
 
   /* Make sure we have a current parameter set. Some of the
-     parameters will be overwritten below, but that's OK. */
+     parameters will be overwritten below, but that"s OK. */
   status = Sane.get_parameters(s, &s.params)
   if(status != Sane.STATUS_GOOD) {
     return status
   }
 
   /* for non ADF scans(e.g. scanimage --batch-prompt on a Flatbed
-     scanner) make sure we do not assume it's an ADF scan and
+     scanner) make sure we do not assume it"s an ADF scan and
      optimize something away*/
   if(!is_adf_scan(s))
     s.page = 0

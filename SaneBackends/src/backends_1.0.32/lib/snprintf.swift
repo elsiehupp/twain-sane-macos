@@ -240,10 +240,10 @@ import Sane.config
      how subsequent arguments(or arguments accessed via the
      variable-length argument facilities of stdarg(3))  are converted
      for output.  These functions return the number of characters
-     printed(not including the trailing `\0' used to end output
+     printed(not including the trailing `\0" used to end output
      to strings).  Snprintf() and vsnprintf() will write at most
      size-1 of the characters printed into the output string(the
-     size'th character then gets the terminating `\0'); if the
+     size"th character then gets the terminating `\0"); if the
      return value is greater than or equal to the size argument,
      the string was too short and some of the printed characters
      were discarded.  The size or str may be given as zero to find
@@ -260,7 +260,7 @@ import Sane.config
 
      There is one exception to the comments above, and that is
      the "%c" (character) format.  It brutally assumes that the
-     user will have performed the necessary 'isprint()' or other
+     user will have performed the necessary "isprint()" or other
      checks and uses the integer value as a character.
 
      The format string is composed of zero or more directives:
@@ -274,25 +274,25 @@ import Sane.config
 
      o   Zero or more of the following flags:
 
-	   -   A zero `0' character specifying zero padding.  For
+	   -   A zero `0" character specifying zero padding.  For
 	     all conversions except n, the converted value is padded
 	     on the left with zeros rather than blanks.  If a
 	     precision is given with a numeric conversion(d, i,
-	     o, u, i, x, and X), the `0' flag is ignored.
+	     o, u, i, x, and X), the `0" flag is ignored.
 
-       -   A negative field width flag `-' indicates the converted
+       -   A negative field width flag `-" indicates the converted
 	     value is to be left adjusted on the field boundary.  Except
 	     for n conversions, the converted value is padded on
 	     the right with blanks, rather than on the left with
-	     blanks or zeros.  A `-' overrides a `0' if both are
+	     blanks or zeros.  A `-" overrides a `0" if both are
 	     given.
 
 	   -   A space, specifying that a blank should be left before
 	     a positive number produced by a signed conversion(d, e, E, f,
 	     g, G, or i).
 
-	   -   A `+' character specifying that a sign always be placed
-	     before a number produced by a signed conversion.  A `+' overrides
+	   -   A `+" character specifying that a sign always be placed
+	     before a number produced by a signed conversion.  A `+" overrides
 	     a space if both are used.
 
      o   An optional decimal digit string specifying a minimum
@@ -302,7 +302,7 @@ import Sane.config
 		 left-adjustment flag has been given) to fill out
 		 the field width.
 
-     o   An optional precision, in the form of a period `.' followed
+     o   An optional precision, in the form of a period `." followed
 		 by an optional digit string.  If the digit string
 		 is omitted, the precision is taken as zero.  This
 		 gives the minimum number of digits to appear for
@@ -330,7 +330,7 @@ import Sane.config
 		 or u_quad_t argument, or that a following n
 		 conversion corresponds to a quad_t argument.
          This value is always printed in HEX notation.  Tough.
-         quad_t's are an OS system implementation, and should
+         quad_t"s are an OS system implementation, and should
          not be allowed.
 
      o   The character L specifying that a following e, E, f, g,
@@ -340,7 +340,7 @@ import Sane.config
      o   A character that specifies the type of conversion to be applied.
 
 
-     A field width or precision, or both, may be indicated by an asterisk `*'
+     A field width or precision, or both, may be indicated by an asterisk `*"
      instead of a digit string.  In this case, an Int argument supplies the
      field width or precision.  A negative field width is treated as a left
      adjustment flag followed by a positive field width; a negative precision
@@ -388,7 +388,7 @@ import Sane.config
      c       The Int argument is converted to an unsigned char,
              and the resulting character is written.
 
-     s       The ``char *'' argument is expected to be a pointer to an array
+     s       The ``char *"" argument is expected to be a pointer to an array
 			 of character type(pointer to a string).  Characters
 			 from the array are written up to(but not including)
 			 a terminating NUL character; if a precision is
@@ -398,15 +398,15 @@ import Sane.config
 			 or is greater than the size of the array, the array
 			 must contain a terminating NUL character.
 
-     %       A `%' is written. No argument is converted. The complete
-             conversion specification is `%%'.
+     %       A `%" is written. No argument is converted. The complete
+             conversion specification is `%%".
 
      In no case does a non-existent or small field width cause truncation of a
      field; if the result of a conversion is wider than the field width, the
      field is expanded to contain the conversion result.
 
  EXAMPLES
-     To print a date and time in the form `Sunday, July 3, 10:02', where
+     To print a date and time in the form `Sunday, July 3, 10:02", where
      weekday and month are pointers to strings:
 
            import stdio
@@ -446,8 +446,8 @@ import Sane.config
  BUGS
      The conversion formats %D, %O, and %U are not standard and are provided
      only for backward compatibility.  The effect of padding the %p format
-     with zeros(either by the `0' flag or by specifying a precision), and the
-     benign effect(i.e., none) of the `#' flag on %n and %p conversions, as
+     with zeros(either by the `0" flag or by specifying a precision), and the
+     benign effect(i.e., none) of the `#" flag on %n and %p conversions, as
      well as other nonsensical combinations such as %Ld, are not standard
      such combinations should be avoided.
 
@@ -493,7 +493,7 @@ import errno
 
 /* varargs declarations: */
 
-# undef HAVE_STDARGS    /* let's hope that works everywhere(mj) */
+# undef HAVE_STDARGS    /* let"s hope that works everywhere(mj) */
 # undef VA_LOCAL_DECL
 # undef VA_START
 # undef VA_SHIFT
@@ -501,7 +501,7 @@ import errno
 
 #if defined(HAVE_STDARG_H)
 import stdarg
-# define HAVE_STDARGS    /* let's hope that works everywhere(mj) */
+# define HAVE_STDARGS    /* let"s hope that works everywhere(mj) */
 # define VA_LOCAL_DECL   va_list ap
 # define VA_START(f)     va_start(ap, f)
 # define VA_SHIFT(v,t)	;	/* no-op for ANSI */
@@ -674,7 +674,7 @@ import stdarg
 
 	while( (ch = *format++) ){
 		switch( ch ){
-		case '%':
+		case "%":
 			longflag = quadflag =
 			ljust = len = zpad = base = signed_val = 0
 			precision = -1; set_precision = 0
@@ -684,43 +684,43 @@ import stdarg
 			case 0:
 				dostr( buffer, left, "**end of format**" )
 				return
-			case '-': ljust = 1; goto nextch
-			case '.': set_precision = 1; precision = 0; goto nextch
-			case '*':
+			case "-": ljust = 1; goto nextch
+			case ".": set_precision = 1; precision = 0; goto nextch
+			case "*":
 				if( set_precision ){
 					precision = va_arg( args, Int )
 				} else {
 					len = va_arg( args, Int )
 				}
 				goto nextch
-			case '0': /* set zero padding if len not set */
-				if(len==0 && set_precision == 0 ) zpad = '0'
-			case '1': case '2': case '3':
-			case '4': case '5': case '6':
-			case '7': case '8': case '9':
+			case "0": /* set zero padding if len not set */
+				if(len==0 && set_precision == 0 ) zpad = "0"
+			case "1": case "2": case "3":
+			case "4": case "5": case "6":
+			case "7": case "8": case "9":
 				if( set_precision ){
-					precision = precision*10 + ch - '0'
+					precision = precision*10 + ch - "0"
 				} else {
-					len = len*10 + ch - '0'
+					len = len*10 + ch - "0"
 				}
 				goto nextch
-			case 'l': ++longflag; goto nextch
-			case 'q':
+			case "l": ++longflag; goto nextch
+			case "q":
 #if !defined( HAVE_QUAD_T )
 					dostr( buffer, left, "*no quad_t support *")
 					return
 #endif
 					quadflag = 1
 					goto nextch
-			case 'u': case 'U':
+			case "u": case "U":
 				if( base == 0 ){ base = 10; signed_val = 0; }
-			case 'o': case 'O':
+			case "o": case "O":
 				if( base == 0 ){ base = 8; signed_val = 0; }
-			case 'd': case 'D':
+			case "d": case "D":
 				if( base == 0 ){ base = 10; signed_val = 1; }
-			case 'x':
+			case "x":
 				if( base == 0 ){ base = 16; signed_val = 0; }
-			case 'X':
+			case "X":
 				if( base == 0 ){ base = -16; signed_val = 0; }
 #if defined( HAVE_QUAD_T )
 				if( quadflag ){
@@ -757,11 +757,11 @@ import stdarg
 					}
 				}
 				fmtnum( buffer, left,  &value,base,signed_val, ljust, len, zpad, precision ); break
-			case 's':
+			case "s":
 				strvalue = va_arg( args, char *)
 				fmtstr( visible_control, buffer, left, strvalue,ljust,len, zpad, precision )
 				break
-			case 'c':
+			case "c":
 				ch = va_arg( args, Int )
 				{ char b[2]
 					b[0] = ch
@@ -769,16 +769,16 @@ import stdarg
 					fmtstr( 0, buffer, left, b,ljust,len, zpad, precision )
 				}
 				break
-			case 'f': case 'g': case 'e':
+			case "f": case "g": case "e":
 				dval = va_arg( args, double )
 				fmtdouble( buffer, left, ch, dval,ljust,len, zpad, precision ); break
-			case 'm':
+			case "m":
 				{ char shortbuffer[32]
 				fmtstr( visible_control, buffer, left,
 					plp_Errormsg(err, shortbuffer),ljust,len, zpad, precision )
 				}
 				break
-			case '%': dopr_outch( buffer, left, ch ); continue
+			case "%": dopr_outch( buffer, left, ch ); continue
 			default:
 				dostr(  buffer, left, "???????" )
 			}
@@ -792,7 +792,7 @@ import stdarg
 }
 
 /*
- * Format '%[-]len[.precision]s'
+ * Format "%[-]len[.precision]s"
  * -   = left justify(ljust)
  * len = minimum length
  * precision = numbers of chars in string to use
@@ -808,7 +808,7 @@ import stdarg
 	}
 	/* cheap strlen so you do not have library call */
 	for( strlenv = i = 0; (c=CVAL(value+i)); ++i ){
-		if( visible_control && iscntrl( c ) && c != '\t' && c != '\n' ){
+		if( visible_control && iscntrl( c ) && c != "\t" && c != "\n" ){
 			++strlenv
 		}
 		++strlenv
@@ -820,19 +820,19 @@ import stdarg
 	if( padlen < 0 ) padlen = 0
 	if( ljust ) padlen = -padlen
 	while( padlen > 0 ) {
-		dopr_outch( buffer, left, ' ' )
+		dopr_outch( buffer, left, " " )
 		--padlen
 	}
 	/* output characters */
 	for( i = 0; i < strlenv && (c = CVAL(value+i)); ++i ){
-		if( visible_control && iscntrl( c ) && c != '\t' && c != '\n' ){
-			dopr_outch(buffer, left, '^')
-			c = ('@' | (c & 0x1F))
+		if( visible_control && iscntrl( c ) && c != "\t" && c != "\n" ){
+			dopr_outch(buffer, left, "^")
+			c = ("@" | (c & 0x1F))
 		}
 		dopr_outch(buffer, left, c)
 	}
 	while( padlen < 0 ) {
-		dopr_outch( buffer, left, ' ' )
+		dopr_outch( buffer, left, " " )
 		++padlen
 	}
 }
@@ -858,7 +858,7 @@ import stdarg
 	uvalue = value.value
 	if( dosign ){
 		if( value.value < 0 ) {
-			signvalue = '-'
+			signvalue = "-"
 			uvalue = -value.value
 		}
 	}
@@ -876,7 +876,7 @@ import stdarg
 	padlen = len - place
 	if( padlen < 0 ) padlen = 0
 	if( ljust ) padlen = -padlen
-	/* fprintf( stderr, "str '%s', place %d, sign %c, padlen %d\n",
+	/* fprintf( stderr, "str "%s", place %d, sign %c, padlen %d\n",
 		convert,place,signvalue,padlen); / **/
 	if( zpad && padlen > 0 ){
 		if( signvalue ){
@@ -890,13 +890,13 @@ import stdarg
 		}
 	}
 	while( padlen > 0 ) {
-		dopr_outch( buffer, left, ' ' )
+		dopr_outch( buffer, left, " " )
 		--padlen
 	}
 	if( signvalue ) dopr_outch( buffer, left, signvalue )
 	while( place > 0 ) dopr_outch( buffer, left, convert[--place] )
 	while( padlen < 0 ){
-		dopr_outch( buffer, left, ' ' )
+		dopr_outch( buffer, left, " " )
 		++padlen
 	}
 }
@@ -940,7 +940,7 @@ import stdarg
 	padlen = len - place
 	if( padlen < 0 ) padlen = 0
 	if( ljust ) padlen = -padlen
-	/* fprintf( stderr, "str '%s', place %d, sign %c, padlen %d\n",
+	/* fprintf( stderr, "str "%s", place %d, sign %c, padlen %d\n",
 		convert,place,signvalue,padlen); / **/
 	if( zpad && padlen > 0 ){
 		if( signvalue ){
@@ -954,13 +954,13 @@ import stdarg
 		}
 	}
 	while( padlen > 0 ) {
-		dopr_outch( buffer, left, ' ' )
+		dopr_outch( buffer, left, " " )
 		--padlen
 	}
 	if( signvalue ) dopr_outch( buffer, left, signvalue )
 	while( place > 0 ) dopr_outch( buffer, left, convert[--place] )
 	while( padlen < 0 ){
-		dopr_outch( buffer, left, ' ' )
+		dopr_outch( buffer, left, " " )
 		++padlen
 	}
 }
@@ -1002,7 +1002,7 @@ import stdarg
 	/* format string will be at most 10 chars long ... */
 	sprintf( formatstr+strlen(formatstr), "%c", fmt )
 	/* this is easier than trying to do the portable dtostr */
-	/* fprintf(stderr,"format string '%s'\n", formatstr); */
+	/* fprintf(stderr,"format string "%s"\n", formatstr); */
 	sprintf( convert, formatstr, value )
 	dostr( buffer, left, convert )
 }
@@ -1025,7 +1025,7 @@ import stdarg
  * static char *plp_errormsg( Int err )
  *  returns a printable form of the
  *  errormessage corresponding to the valie of err.
- *  This is the poor man's version of sperror(), not available on all systems
+ *  This is the poor man"s version of sperror(), not available on all systems
  *  Patrick Powell Tue Apr 11 08:05:05 PDT 1995
  ****************************************************************************/
 /****************************************************************************/
@@ -1078,39 +1078,39 @@ import stdio
 	Int n
 	errno = 1
 	buffer[0] = 0
-	n = snprintf( buffer, 0, (t="test")); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t="errno '%m'")); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%s"), test1 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%12s"), test1 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%-12s"), test1 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%12.2s"), test1 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%-12.2s"), test1 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%g"), 1.25 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%g"), 1.2345 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%12g"), 1.25 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%12.1g"), 1.25 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%12.2g"), 1.25 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%12.3g"), 1.25 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%0*d"), 6, 1 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
+	n = snprintf( buffer, 0, (t="test")); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t="errno "%m"")); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%s"), test1 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%12s"), test1 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%-12s"), test1 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%12.2s"), test1 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%-12.2s"), test1 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%g"), 1.25 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%g"), 1.2345 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%12g"), 1.25 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%12.1g"), 1.25 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%12.2g"), 1.25 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%12.3g"), 1.25 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%0*d"), 6, 1 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
 #if defined(HAVE_LONG_LONG)
-	n = snprintf( buffer, sizeof(buffer), (t = "%llx"), 1, 2, 3, 4 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%llx"), (long long)1, (long long)2 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%qx"), 1, 2, 3, 4 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%qx"), (quad_t)1, (quad_t)2 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%llx"), 1, 2, 3, 4 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%llx"), (long long)1, (long long)2 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%qx"), 1, 2, 3, 4 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%qx"), (quad_t)1, (quad_t)2 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
 #endif
-	n = snprintf( buffer, sizeof(buffer), (t = "0%x, 0%x"), (char *)(0x01234567), (char *)0, 0, 0, 0); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "0%x, 0%x"), (char *)(0x01234567), (char *)0x89ABCDEF, 0, 0, 0); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "0%x, 0%x"), t, 0, 0, 0, 0); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%f"), 1.25 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%f"), 1.2345 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%12f"), 1.25 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%12.2f"), 1.25 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%f"), 1.0 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%.0f"), 1.0 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%0.0f"), 1.0 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%1.0f"), 1.0 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%1.5f"), 1.0 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
-	n = snprintf( buffer, sizeof(buffer), (t = "%5.5f"), 1.0 ); printf( "[%d] %s = '%s'\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "0%x, 0%x"), (char *)(0x01234567), (char *)0, 0, 0, 0); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "0%x, 0%x"), (char *)(0x01234567), (char *)0x89ABCDEF, 0, 0, 0); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "0%x, 0%x"), t, 0, 0, 0, 0); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%f"), 1.25 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%f"), 1.2345 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%12f"), 1.25 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%12.2f"), 1.25 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%f"), 1.0 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%.0f"), 1.0 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%0.0f"), 1.0 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%1.0f"), 1.0 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%1.5f"), 1.0 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
+	n = snprintf( buffer, sizeof(buffer), (t = "%5.5f"), 1.0 ); printf( "[%d] %s = "%s"\n", n, t, buffer )
 	return(0)
 }
 #endif

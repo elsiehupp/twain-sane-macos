@@ -94,7 +94,7 @@ resolve_callback(AvahiServiceResolver *r, AVAHI_GCC_UNUSED AvahiIfIndex interfac
  * AvahiProtocol protocol, AvahiBrowserEvent event, const char *name,
  * const char *type, const char *domain,
  *                           AVAHI_GCC_UNUSED AvahiLookupResultFlags flags, void* userdata)
- * \brief Callback function that will browse tanks to 'avahi' the scanners
+ * \brief Callback function that will browse tanks to "avahi" the scanners
  * connected in network.
  */
 static void
@@ -134,7 +134,7 @@ browse_callback(AvahiServiceBrowser *b, AvahiIfIndex interface,
 /**
  * \fn static void client_callback(AvahiClient *c, AvahiClientState state,
  * AVAHI_GCC_UNUSED void *userdata)
- * \brief Callback Function that quit if it doesn't find a connected scanner,
+ * \brief Callback Function that quit if it doesn"t find a connected scanner,
  * possible thanks the "Hello Protocol".
  *        --> Waiting for a answer by the scanner to continue the avahi process.
  */
@@ -151,7 +151,7 @@ client_callback(AvahiClient *c, AvahiClientState state,
  * \fn ESCL_Device *escl_devices(Sane.Status *status)
  * \brief Function that calls all the avahi functions and then, recovers the
  * connected eSCL devices.
- *        This function is called in the 'Sane.get_devices' function.
+ *        This function is called in the "Sane.get_devices" function.
  *
  * \return NULL(the eSCL devices found)
  */

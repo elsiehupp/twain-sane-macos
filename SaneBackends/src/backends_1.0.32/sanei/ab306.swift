@@ -266,7 +266,7 @@ sanei_ab306_open(const char *dev, Int *fdp)
   base = strtol(dev, &end, 0)
   if(end == dev || *end)
     {
-      DBG(1, "sanei_ab306_open: `%s' is not a valid port number\n", dev)
+      DBG(1, "sanei_ab306_open: `%s" is not a valid port number\n", dev)
       return Sane.STATUS_INVAL
     }
 
@@ -404,7 +404,7 @@ sanei_ab306_cmd(Int fd, const void *src, size_t src_size,
     case 0x1b:	/* scsi START_STOP command */
       if(!cp[4])
 	{
-	  /* it's a STOP */
+	  /* it"s a STOP */
 	  ab306_abort(p)
 	  return Sane.STATUS_GOOD
 	}

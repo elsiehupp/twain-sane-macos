@@ -630,7 +630,7 @@ gt68xx_generic_setup_scan(GT68xx_Device * dev,
       if((dev.model.flags & GT68XX_FLAG_NO_LINEMODE) && line_mode && color)
 	{
 	  DBG(0,
-	       "gt68xx_generic_setup_scan: the scanner's memory is too small for "
+	       "gt68xx_generic_setup_scan: the scanner"s memory is too small for "
 	       "that combination of resolution, dpi and width\n")
 	  return Sane.STATUS_NO_MEM
 	}

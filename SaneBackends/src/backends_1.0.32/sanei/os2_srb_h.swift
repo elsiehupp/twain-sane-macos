@@ -2,7 +2,7 @@
  *                                                                         *
  *  ASPI Router Library                                                    *
  *                                                                         *
- *  This is a sample library which shows how to send SRB's to the          *
+ *  This is a sample library which shows how to send SRB"s to the          *
  *  ASPI Router device driver. USE AT YOUR OWN RISK!!                      *
  *                                                                         *
  *  Version 1.01 - June 1997                                               *

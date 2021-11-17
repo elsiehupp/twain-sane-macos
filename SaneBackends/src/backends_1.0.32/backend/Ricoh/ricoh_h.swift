@@ -49,7 +49,7 @@ import Sane.config
 #define RICOH_DITHERED_MONOCHROME 1
 #define RICOH_GRAYSCALE           2
 
-/* sizes for mode parameter's base_measurement_unit */
+/* sizes for mode parameter"s base_measurement_unit */
 #define INCHES                    0
 #define MILLIMETERS               1
 #define POINTS                    2
@@ -279,7 +279,7 @@ struct ricoh_window_data {
         Sane.Byte threshold
         Sane.Byte contrast
         Sane.Byte image_comp;        /* image composition(data type) */
-        Sane.Byte bits_per_pixel
+        Sane.Byte bitsPerPixel
         Sane.Byte halftone_pattern[2]
         Sane.Byte pad_type
         Sane.Byte bit_ordering[2]
@@ -306,7 +306,7 @@ struct measurements_units_page {
         Sane.Byte bmu
         Sane.Byte res1
         Sane.Byte mud[2]
-        Sane.Byte res2[2];  /* anybody know what `COH' may mean ??? */
+        Sane.Byte res2[2];  /* anybody know what `COH" may mean ??? */
 #if 0
         Sane.Byte more_pages[243]; /* maximum size 255 bytes(incl header) */
 #endif

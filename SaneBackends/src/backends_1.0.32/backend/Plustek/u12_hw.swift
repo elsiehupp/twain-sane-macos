@@ -921,7 +921,7 @@ static void u12hw_StartLampTimer( U12_Device *dev )
 	s.sa_handler = usb_LampTimerIrq
 
 	if( sigaction( SIGALRM, &s, NULL ) < 0 )
-		DBG( _DBG_ERROR, "Can't setup timer-irq handler\n" )
+		DBG( _DBG_ERROR, "Can"t setup timer-irq handler\n" )
 
 	sigprocmask( SIG_UNBLOCK, &block, &pause_mask )
 

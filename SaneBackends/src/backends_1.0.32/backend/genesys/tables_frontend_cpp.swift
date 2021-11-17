@@ -149,7 +149,7 @@ void genesys_init_frontend_tables()
     s_frontends.push_back(fe)
 
 
-    // reg3=0x02 for 50-600 dpi, 0x32 (0x12 also works well) at 1200
+    // reg3=0x02 for 50-600 dpi, 0x32(0x12 also works well) at 1200
     fe = Genesys_Frontend()
     fe.id = AdcId::WOLFSON_HP2400
     fe.layout = wolfson_layout

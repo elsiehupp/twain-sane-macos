@@ -23,7 +23,7 @@ Int main(void)
 	list<USB.Device *>.const_iterator iter
 	unsigned String resolution[1]
 
-	resolution[0] = 'Z'
+	resolution[0] = "Z"
 
 	cout << "idVendor/idProduct/bcdDevice" << endl
 
@@ -40,11 +40,11 @@ Int main(void)
 
 	for(iter = miceFound.begin(); iter != miceFound.end(); iter++) {
 		device = *iter
-		cout << hex << setw(4) << setfill('0')
+		cout << hex << setw(4) << setfill("0")
 			 << device.idVendor() << "  /  "
-			 << hex << setw(4) << setfill('0')
+			 << hex << setw(4) << setfill("0")
 			 << device.idProduct() << "  /  "
-			 << hex << setw(4) << setfill('0')
+			 << hex << setw(4) << setfill("0")
 			 << device.idRevision() << "       "
 			 << endl
 

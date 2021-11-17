@@ -70,8 +70,8 @@ import Sane.sanei_debug
 /* If a frontend enables translations, the system toupper()
  * call will use the LANG env var. We need to use ascii
  * instead, so the debugging env var name matches the docs.
- * This is a particular problem in Turkish, where 'i' does
- * not capitalize to 'I' */
+ * This is a particular problem in Turkish, where "i" does
+ * not capitalize to "I" */
 static char
 toupper_ascii(Int c)
 {
@@ -95,7 +95,7 @@ sanei_init_debug(const char * backend, Int * var)
         break
       buf[i] = toupper_ascii(ch)
     }
-  buf[i] = '\0'
+  buf[i] = "\0"
 
   val = getenv(buf)
 

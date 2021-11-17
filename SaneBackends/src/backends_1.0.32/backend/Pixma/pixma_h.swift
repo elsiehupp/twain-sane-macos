@@ -111,7 +111,7 @@ import inttypes          /* available in ISO C99 */
 
 /** \addtogroup API
  *  @{ */
-/** Don't forget to update the backend version in the SANE Backend specification
+/** Don"t forget to update the backend version in the SANE Backend specification
  *  file: doc/descriptions/pixma.desc !!!
  */
 /** \name Version of the driver */
@@ -381,7 +381,7 @@ struct pixma_scan_param_t
 /** PIXMA model information */
 struct pixma_config_t
 {
-  /* If you change this structure, don't forget to update the device list in
+  /* If you change this structure, don"t forget to update the device list in
    * subdrivers. */
   const char *name;	   /**< Model name. */
   const char *model;   /**< Short model */
@@ -463,7 +463,7 @@ Int pixma_scan(pixma_t *, pixma_scan_param_t * sp)
  *  \param[out] buf Pointer to the buffer
  *  \param[in] len Size of the buffer
  *
- *  \retval count Number of bytes written to the buffer or error. Possible
+ *  \returnValue count Number of bytes written to the buffer or error. Possible
  *  return value:
  *     - count = 0 for end of image
  *     - count = \a len
@@ -480,7 +480,7 @@ Int pixma_read_image_write(pixma_t *, Int fd)
 
 /** Cancel the scanning process. No effect if no scanning process is in
  *  progress. It can be called asynchronously e.g. within a signal
- *  handle. pixma_cancel() doesn't abort the operation immediately.  It
+ *  handle. pixma_cancel() doesn"t abort the operation immediately.  It
  *  guarantees that the current call or, at the latest, the next call to
  *  pixma_read_image() will return zero or an error(probably PIXMA_ECANCELED). */
 void pixma_cancel(pixma_t *)

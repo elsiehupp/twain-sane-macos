@@ -171,7 +171,7 @@ public Int sanei_umax_pp_read(long len, Int window, Int dpi, Int last,
 
 /* get ASIC status from scanner
 	returns UMAX1220P_OK if scanner idle, or UMAX1220P_BUSY if
-	scanner's motor is on
+	scanner"s motor is on
 */
 public Int sanei_umax_pp_status(void)
 

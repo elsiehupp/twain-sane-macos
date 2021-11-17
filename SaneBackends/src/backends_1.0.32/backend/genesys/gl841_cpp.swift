@@ -790,13 +790,13 @@ static void gl841_init_motor_regs_scan(Genesys_Device* dev, const Genesys_Sensor
   for z1/z2:
   in dokumentation mentioned variables a-d:
   a = time needed for acceleration, table 1
-  b = time needed for reg 0x1f... wouldn't that be reg0x1f*exposure_time?
+  b = time needed for reg 0x1f... wouldn"t that be reg0x1f*exposure_time?
   c = time needed for acceleration, table 1
-  d = time needed for reg 0x22... wouldn't that be reg0x22*exposure_time?
+  d = time needed for reg 0x22... wouldn"t that be reg0x22*exposure_time?
   z1 = (c+d-1) % exposure_time
   z2 = (a+b-1) % exposure_time
 */
-/* i don't see any effect of this. i can only guess that this will enhance
+/* i don"t see any effect of this. i can only guess that this will enhance
    sub-pixel accuracy
    z1 = (slope_0_time-1) % exposure_time
    z2 = (slope_0_time-1) % exposure_time
@@ -1468,7 +1468,7 @@ void CommandSetGl841::detect_document_end(Genesys_Device* dev) const
       DBG(DBG_info, "%s: no more document\n", __func__)
         dev.document = false
 
-      /* we can't rely on total_bytes_to_read since the frontend
+      /* we can"t rely on total_bytes_to_read since the frontend
        * might have been slow to read data, so we re-evaluate the
        * amount of data to scan form the hardware settings
        */
@@ -1640,7 +1640,7 @@ void CommandSetGl841::send_gamma_table(Genesys_Device* dev, const Genesys_Sensor
 
 
 /* this function does the led calibration by scanning one line of the calibration
-   area below scanner's top on white strip.
+   area below scanner"s top on white strip.
 
 -needs working coarse/gain
 */
@@ -1667,7 +1667,7 @@ static void ad_fe_offset_calibration(Genesys_Device* dev, const Genesys_Sensor& 
   Int bottom
   Int target
 
-  /* don't impact 3600 behavior since we can't test it */
+  /* don"t impact 3600 behavior since we can"t test it */
     if(dev.model.sensor_id == SensorId::CCD_PLUSTEK_OPTICPRO_3600) {
       return
     }
@@ -1699,7 +1699,7 @@ static void ad_fe_offset_calibration(Genesys_Device* dev, const Genesys_Sensor& 
 
     dev.cmd_set.init_regs_for_scan_session(dev, calib_sensor, &regs, session)
 
-    // FIXME: we're reading twice as much data for no reason
+    // FIXME: we"re reading twice as much data for no reason
     std::size_t total_size = session.output_line_bytes * 2
     std::vector<uint8_t> line(total_size)
 
@@ -1760,7 +1760,7 @@ static void ad_fe_offset_calibration(Genesys_Device* dev, const Genesys_Sensor& 
       turn++
   } while((top-bottom)>1 && turn < 100)
 
-  // FIXME: don't overwrite the calibrated values
+  // FIXME: don"t overwrite the calibrated values
   dev.frontend.set_offset(0, 0)
   dev.frontend.set_offset(1, 0)
   dev.frontend.set_offset(2, 0)
@@ -1771,7 +1771,7 @@ static void ad_fe_offset_calibration(Genesys_Device* dev, const Genesys_Sensor& 
 }
 
 /* this function does the offset calibration by scanning one line of the calibration
-   area below scanner's top. There is a black margin and the remaining is white.
+   area below scanner"s top. There is a black margin and the remaining is white.
 
 this function expects the slider to be where?
 */
@@ -2169,7 +2169,7 @@ void CommandSetGl841::init_regs_for_warmup(Genesys_Device* dev, const Genesys_Se
 
 /*
  * initialize ASIC : registers, motor tables, and gamma tables
- * then ensure scanner's head is at home
+ * then ensure scanner"s head is at home
  */
 void CommandSetGl841::init(Genesys_Device* dev) const
 {
@@ -2308,7 +2308,7 @@ void CommandSetGl841::asic_boot(Genesys_Device *dev, bool cold) const
         dev.interface.write_0x8c(0x10, 0xa4)
     }
 
-    // FIXME: we probably don't need this
+    // FIXME: we probably don"t need this
     const auto& sensor = sanei_genesys_find_sensor_any(dev)
     dev.cmd_set.set_fe(dev, sensor, AFE_INIT)
 }

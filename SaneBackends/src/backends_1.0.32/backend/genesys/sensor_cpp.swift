@@ -83,15 +83,15 @@ std::ostream& operator<<(std::ostream& out, const GenesysFrontendLayout& layout)
     StreamStateSaver state_saver{out]
 
     out << "GenesysFrontendLayout{\n"
-        << "    type: " << layout.type << '\n'
+        << "    type: " << layout.type << "\n"
         << std::hex
-        << "    offset_addr[0]: " << layout.offset_addr[0] << '\n'
-        << "    offset_addr[1]: " << layout.offset_addr[1] << '\n'
-        << "    offset_addr[2]: " << layout.offset_addr[2] << '\n'
-        << "    gain_addr[0]: " << layout.gain_addr[0] << '\n'
-        << "    gain_addr[1]: " << layout.gain_addr[1] << '\n'
-        << "    gain_addr[2]: " << layout.gain_addr[2] << '\n'
-        << '}'
+        << "    offset_addr[0]: " << layout.offset_addr[0] << "\n"
+        << "    offset_addr[1]: " << layout.offset_addr[1] << "\n"
+        << "    offset_addr[2]: " << layout.offset_addr[2] << "\n"
+        << "    gain_addr[0]: " << layout.gain_addr[0] << "\n"
+        << "    gain_addr[1]: " << layout.gain_addr[1] << "\n"
+        << "    gain_addr[2]: " << layout.gain_addr[2] << "\n"
+        << "}"
     return out
 }
 
@@ -100,59 +100,59 @@ std::ostream& operator<<(std::ostream& out, const Genesys_Frontend& frontend)
     StreamStateSaver state_saver{out]
 
     out << "Genesys_Frontend{\n"
-        << "    id: " << frontend.id << '\n'
-        << "    regs: " << format_indent_braced_list(4, frontend.regs) << '\n'
+        << "    id: " << frontend.id << "\n"
+        << "    regs: " << format_indent_braced_list(4, frontend.regs) << "\n"
         << std::hex
-        << "    reg2[0]: " << frontend.reg2[0] << '\n'
-        << "    reg2[1]: " << frontend.reg2[1] << '\n'
-        << "    reg2[2]: " << frontend.reg2[2] << '\n'
-        << "    layout: " << format_indent_braced_list(4, frontend.layout) << '\n'
-        << '}'
+        << "    reg2[0]: " << frontend.reg2[0] << "\n"
+        << "    reg2[1]: " << frontend.reg2[1] << "\n"
+        << "    reg2[2]: " << frontend.reg2[2] << "\n"
+        << "    layout: " << format_indent_braced_list(4, frontend.layout) << "\n"
+        << "}"
     return out
 }
 
 std::ostream& operator<<(std::ostream& out, const SensorExposure& exposure)
 {
     out << "SensorExposure{\n"
-        << "    red: " << exposure.red << '\n'
-        << "    green: " << exposure.green << '\n'
-        << "    blue: " << exposure.blue << '\n'
-        << '}'
+        << "    red: " << exposure.red << "\n"
+        << "    green: " << exposure.green << "\n"
+        << "    blue: " << exposure.blue << "\n"
+        << "}"
     return out
 }
 
 std::ostream& operator<<(std::ostream& out, const Genesys_Sensor& sensor)
 {
     out << "Genesys_Sensor{\n"
-        << "    sensor_id: " << static_cast<unsigned>(sensor.sensor_id) << '\n'
-        << "    full_resolution: " << sensor.full_resolution << '\n'
-        << "    optical_resolution: " << sensor.get_optical_resolution() << '\n'
-        << "    resolutions: " << format_indent_braced_list(4, sensor.resolutions) << '\n'
-        << "    channels: " << format_vector_unsigned(4, sensor.channels) << '\n'
-        << "    method: " << sensor.method << '\n'
-        << "    register_dpihw: " << sensor.register_dpihw << '\n'
-        << "    register_dpiset: " << sensor.register_dpiset << '\n'
-        << "    shading_factor: " << sensor.shading_factor << '\n'
-        << "    shading_pixel_offset: " << sensor.shading_pixel_offset << '\n'
-        << "    pixel_count_ratio: " << sensor.pixel_count_ratio << '\n'
-        << "    output_pixel_offset: " << sensor.output_pixel_offset << '\n'
-        << "    black_pixels: " << sensor.black_pixels << '\n'
-        << "    dummy_pixel: " << sensor.dummy_pixel << '\n'
-        << "    fau_gain_white_ref: " << sensor.fau_gain_white_ref << '\n'
-        << "    gain_white_ref: " << sensor.gain_white_ref << '\n'
-        << "    exposure: " << format_indent_braced_list(4, sensor.exposure) << '\n'
-        << "    exposure_lperiod: " << sensor.exposure_lperiod << '\n'
-        << "    segment_size: " << sensor.segment_size << '\n'
+        << "    sensor_id: " << static_cast<unsigned>(sensor.sensor_id) << "\n"
+        << "    full_resolution: " << sensor.full_resolution << "\n"
+        << "    optical_resolution: " << sensor.get_optical_resolution() << "\n"
+        << "    resolutions: " << format_indent_braced_list(4, sensor.resolutions) << "\n"
+        << "    channels: " << format_vector_unsigned(4, sensor.channels) << "\n"
+        << "    method: " << sensor.method << "\n"
+        << "    register_dpihw: " << sensor.register_dpihw << "\n"
+        << "    register_dpiset: " << sensor.register_dpiset << "\n"
+        << "    shading_factor: " << sensor.shading_factor << "\n"
+        << "    shading_pixel_offset: " << sensor.shading_pixel_offset << "\n"
+        << "    pixel_count_ratio: " << sensor.pixel_count_ratio << "\n"
+        << "    output_pixel_offset: " << sensor.output_pixel_offset << "\n"
+        << "    black_pixels: " << sensor.black_pixels << "\n"
+        << "    dummy_pixel: " << sensor.dummy_pixel << "\n"
+        << "    fau_gain_white_ref: " << sensor.fau_gain_white_ref << "\n"
+        << "    gain_white_ref: " << sensor.gain_white_ref << "\n"
+        << "    exposure: " << format_indent_braced_list(4, sensor.exposure) << "\n"
+        << "    exposure_lperiod: " << sensor.exposure_lperiod << "\n"
+        << "    segment_size: " << sensor.segment_size << "\n"
         << "    segment_order: "
-        << format_indent_braced_list(4, format_vector_unsigned(4, sensor.segment_order)) << '\n'
-        << "    stagger_x: " << sensor.stagger_x << '\n'
-        << "    stagger_y: " << sensor.stagger_y << '\n'
-        << "    use_host_side_calib: " << sensor.use_host_side_calib << '\n'
-        << "    custom_regs: " << format_indent_braced_list(4, sensor.custom_regs) << '\n'
-        << "    custom_fe_regs: " << format_indent_braced_list(4, sensor.custom_fe_regs) << '\n'
-        << "    gamma.red: " << sensor.gamma[0] << '\n'
-        << "    gamma.green: " << sensor.gamma[1] << '\n'
-        << "    gamma.blue: " << sensor.gamma[2] << '\n'
+        << format_indent_braced_list(4, format_vector_unsigned(4, sensor.segment_order)) << "\n"
+        << "    stagger_x: " << sensor.stagger_x << "\n"
+        << "    stagger_y: " << sensor.stagger_y << "\n"
+        << "    use_host_side_calib: " << sensor.use_host_side_calib << "\n"
+        << "    custom_regs: " << format_indent_braced_list(4, sensor.custom_regs) << "\n"
+        << "    custom_fe_regs: " << format_indent_braced_list(4, sensor.custom_fe_regs) << "\n"
+        << "    gamma.red: " << sensor.gamma[0] << "\n"
+        << "    gamma.green: " << sensor.gamma[1] << "\n"
+        << "    gamma.blue: " << sensor.gamma[2] << "\n"
         << "}"
     return out
 }

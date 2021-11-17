@@ -39,7 +39,7 @@
    If you do not wish that, delete this exception notice.
 */
 
-/* returns device model according to given product and vendor id's */
+/* returns device model according to given product and vendor id"s */
 static Int cfg_device_get(Int product, Int vendor)
 
 /* returns information and capabilities about selected chipset model */
@@ -163,35 +163,35 @@ static void hp4370_wrefs(Int res, Int scantype, Int *red, Int *green, Int *blue)
 /* DEPRECATED FUNCTIONS !!!!!!!!!!!!!!!!!!! */
 
 
-static Int get_value(Int section, Int option, Int defvalue, Int file)
+static Int get_value(Int section, Int option, Int defaultValue, Int file)
 
 /* HP Scanjet 3800 */
-static Int hp3800_calibreflective(Int option, Int defvalue)
-static Int hp3800_calibtransparent(Int option, Int defvalue)
-static Int hp3800_calibnegative(Int option, Int defvalue)
-static Int srt_hp3800_scanparam_get(Int option, Int defvalue)
+static Int hp3800_calibreflective(Int option, Int defaultValue)
+static Int hp3800_calibtransparent(Int option, Int defaultValue)
+static Int hp3800_calibnegative(Int option, Int defaultValue)
+static Int srt_hp3800_scanparam_get(Int option, Int defaultValue)
 
 /* UMAX Astra 4900 */
-static Int ua4900_calibreflective(Int option, Int defvalue)
-static Int ua4900_calibtransparent(Int option, Int defvalue)
-static Int ua4900_calibnegative(Int option, Int defvalue)
+static Int ua4900_calibreflective(Int option, Int defaultValue)
+static Int ua4900_calibtransparent(Int option, Int defaultValue)
+static Int ua4900_calibnegative(Int option, Int defaultValue)
 
 /* HP Scanjet 3970 */
-static Int hp3970_calibreflective(Int option, Int defvalue)
-static Int hp3970_calibtransparent(Int option, Int defvalue)
-static Int hp3970_calibnegative(Int option, Int defvalue)
-static Int srt_hp3970_scanparam_get(Int file, Int option, Int defvalue)
-static Int srt_hp3970_platform_get(Int option, Int defvalue)
+static Int hp3970_calibreflective(Int option, Int defaultValue)
+static Int hp3970_calibtransparent(Int option, Int defaultValue)
+static Int hp3970_calibnegative(Int option, Int defaultValue)
+static Int srt_hp3970_scanparam_get(Int file, Int option, Int defaultValue)
+static Int srt_hp3970_platform_get(Int option, Int defaultValue)
 
 /* HP Scanjet 4370 */
-static Int hp4370_calibreflective(Int option, Int defvalue)
-static Int hp4370_calibtransparent(Int option, Int defvalue)
-static Int hp4370_calibnegative(Int option, Int defvalue)
-static Int srt_hp4370_scanparam_get(Int file, Int option, Int defvalue)
+static Int hp4370_calibreflective(Int option, Int defaultValue)
+static Int hp4370_calibtransparent(Int option, Int defaultValue)
+static Int hp4370_calibnegative(Int option, Int defaultValue)
+static Int srt_hp4370_scanparam_get(Int file, Int option, Int defaultValue)
 
 /* HP Scanjet g3110 */
-static Int hpg3110_calibnegative(Int option, Int defvalue)
-static Int hpg3110_calibtransparent(Int option, Int defvalue)
+static Int hpg3110_calibnegative(Int option, Int defaultValue)
+static Int hpg3110_calibtransparent(Int option, Int defaultValue)
 
 /* ----- Implementation ----- */
 
@@ -472,7 +472,7 @@ static Int cfg_chipset_get(Int model, struct st_chip *chipset)
 	return rst
 }
 
-/** SEC: Device's Buttons ---------- */
+/** SEC: Device"s Buttons ---------- */
 
 static Int cfg_buttons_get(struct st_buttons *reg)
 {
@@ -2046,7 +2046,7 @@ static Int bq5550_motormove(Int item, struct st_motormove *reg)
 {
 	Int rst = ERROR
 
-	/* data is the same in all usb types and sensors so those args aren't needed */
+	/* data is the same in all usb types and sensors so those args aren"t needed */
 
 	if(reg != NULL)
 	{
@@ -2071,7 +2071,7 @@ static Int hp3800_motormove(Int item, struct st_motormove *reg)
 {
 	Int rst = ERROR
 
-	/* data is the same in all usb types and sensors so those args aren't needed */
+	/* data is the same in all usb types and sensors so those args aren"t needed */
 
 	if(reg != NULL)
 	{
@@ -3697,7 +3697,7 @@ static Int hp3970_timing_get(Int sensortype, Int tm, struct st_timing *reg)
 		} else
 		{
 			/* Sony S575 sensor timing values for each resolution and color mode
-					I haven't found any hp3970 scanner using sony sensor but windows drivers support this case */
+					I haven"t found any hp3970 scanner using sony sensor but windows drivers support this case */
 			struct st_timing data[] =
 			{
 				/* res , cnpp, {cvtrp1  2    3  }, cvtrw, cvtrfpw, cvtrbpw, {{cphp1       , cphp2, cphps, cphge, cphgo}, {cphp1       , cphp2, cphps, cphge, cphgo}, {cphp1       , cphp2, cphps, cphge, cphgo}, {cphp1       , cphp2, cphps, cphge, cphgo}, {cphp1       , cphp2, cphps, cphge, cphgo}, {cphp1       , cphp2, cphps, cphge, cphgo}}, cphbp2s, cphbp2e, clamps, clampe , {cdss1, cdss2}, {cdsc1, cdsc2}, {cdscs1, cdscs2}, {adcclkp 1 y 2             }, adcclkp2e */
@@ -4227,9 +4227,9 @@ static Int *cfg_motorcurve_get()
 
 /* DEPRECATED functions */
 
-static Int ua4900_calibreflective(Int option, Int defvalue)
+static Int ua4900_calibreflective(Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 
 	switch(option)
 	{
@@ -4318,9 +4318,9 @@ static Int ua4900_calibreflective(Int option, Int defvalue)
 	return rst
 }
 
-static Int hp3800_calibreflective(Int option, Int defvalue)
+static Int hp3800_calibreflective(Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 	switch(option)
 	{
 		case WSTRIPXPOS: rst = 0; break
@@ -4408,9 +4408,9 @@ static Int hp3800_calibreflective(Int option, Int defvalue)
 	return rst
 }
 
-static Int hp3970_calibreflective(Int option, Int defvalue)
+static Int hp3970_calibreflective(Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 	switch(option)
 	{
 		case WSTRIPXPOS: rst = 0; break
@@ -4498,9 +4498,9 @@ static Int hp3970_calibreflective(Int option, Int defvalue)
 	return rst
 }
 
-static Int hp4370_calibreflective(Int option, Int defvalue)
+static Int hp4370_calibreflective(Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 	switch(option)
 	{
 		case WSTRIPXPOS: rst = 0; break
@@ -4594,27 +4594,27 @@ static Int hp4370_calibreflective(Int option, Int defvalue)
 	return rst
 }
 
-static Int fc_calibreflective(Int option, Int defvalue)
+static Int fc_calibreflective(Int option, Int defaultValue)
 {
 	Int rst
 
 	switch(RTS_Debug.dev_model)
 	{
-		case UA4900: rst = ua4900_calibreflective(option, defvalue); break
+		case UA4900: rst = ua4900_calibreflective(option, defaultValue); break
 		case HPG2710:
-		case HP3800: rst = hp3800_calibreflective(option, defvalue); break
+		case HP3800: rst = hp3800_calibreflective(option, defaultValue); break
 		case HPG3010:
 		case HPG3110:
-		case HP4370: rst = hp4370_calibreflective(option, defvalue); break
-		default    : rst = hp3970_calibreflective(option, defvalue); break
+		case HP4370: rst = hp4370_calibreflective(option, defaultValue); break
+		default    : rst = hp3970_calibreflective(option, defaultValue); break
 	}
 
 	return rst
 }
 
-static Int ua4900_calibtransparent(Int option, Int defvalue)
+static Int ua4900_calibtransparent(Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 
 	switch(option)
 	{
@@ -4703,9 +4703,9 @@ static Int ua4900_calibtransparent(Int option, Int defvalue)
 	return rst
 }
 
-static Int hp3800_calibtransparent(Int option, Int defvalue)
+static Int hp3800_calibtransparent(Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 	switch(option)
 	{
 		case WSTRIPXPOS: rst = 0; break
@@ -4793,9 +4793,9 @@ static Int hp3800_calibtransparent(Int option, Int defvalue)
 	return rst
 }
 
-static Int hp3970_calibtransparent(Int option, Int defvalue)
+static Int hp3970_calibtransparent(Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 	switch(option)
 	{
 		case WSTRIPXPOS: rst = 0; break
@@ -4883,9 +4883,9 @@ static Int hp3970_calibtransparent(Int option, Int defvalue)
 	return rst
 }
 
-static Int hp4370_calibtransparent(Int option, Int defvalue)
+static Int hp4370_calibtransparent(Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 	switch(option)
 	{
 		case WSTRIPXPOS: rst = 0; break
@@ -4979,9 +4979,9 @@ static Int hp4370_calibtransparent(Int option, Int defvalue)
 	return rst
 }
 
-static Int hpg3110_calibtransparent(Int option, Int defvalue)
+static Int hpg3110_calibtransparent(Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 	switch(option)
 	{
 		case WSTRIPXPOS: rst = 0; break
@@ -5075,27 +5075,27 @@ static Int hpg3110_calibtransparent(Int option, Int defvalue)
 	return rst
 }
 
-static Int fc_calibtransparent(Int option, Int defvalue)
+static Int fc_calibtransparent(Int option, Int defaultValue)
 {
 	Int rst
 
 	switch(RTS_Debug.dev_model)
 	{
-		case UA4900: rst = ua4900_calibtransparent(option, defvalue); break
+		case UA4900: rst = ua4900_calibtransparent(option, defaultValue); break
 		case HPG2710:
-		case HP3800: rst = hp3800_calibtransparent(option, defvalue); break
+		case HP3800: rst = hp3800_calibtransparent(option, defaultValue); break
 		case HPG3010:
-		case HP4370: rst = hp4370_calibtransparent(option, defvalue); break
-		case HPG3110: rst = hpg3110_calibtransparent(option, defvalue); break
-		default    : rst = hp3970_calibtransparent(option, defvalue); break
+		case HP4370: rst = hp4370_calibtransparent(option, defaultValue); break
+		case HPG3110: rst = hpg3110_calibtransparent(option, defaultValue); break
+		default    : rst = hp3970_calibtransparent(option, defaultValue); break
 	}
 
 	return rst
 }
 
-static Int ua4900_calibnegative(Int option, Int defvalue)
+static Int ua4900_calibnegative(Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 
 	switch(option)
 	{
@@ -5184,9 +5184,9 @@ static Int ua4900_calibnegative(Int option, Int defvalue)
 	return rst
 }
 
-static Int hp3800_calibnegative(Int option, Int defvalue)
+static Int hp3800_calibnegative(Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 
 	switch(option)
 	{
@@ -5275,9 +5275,9 @@ static Int hp3800_calibnegative(Int option, Int defvalue)
 	return rst
 }
 
-static Int hp3970_calibnegative(Int option, Int defvalue)
+static Int hp3970_calibnegative(Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 
 	switch(option)
 	{
@@ -5366,9 +5366,9 @@ static Int hp3970_calibnegative(Int option, Int defvalue)
 	return rst
 }
 
-static Int hpg3110_calibnegative(Int option, Int defvalue)
+static Int hpg3110_calibnegative(Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 
 	switch(option)
 	{
@@ -5463,9 +5463,9 @@ static Int hpg3110_calibnegative(Int option, Int defvalue)
 	return rst
 }
 
-static Int hp4370_calibnegative(Int option, Int defvalue)
+static Int hp4370_calibnegative(Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 
 	switch(option)
 	{
@@ -5560,30 +5560,30 @@ static Int hp4370_calibnegative(Int option, Int defvalue)
 	return rst
 }
 
-static Int fc_calibnegative(Int option, Int defvalue)
+static Int fc_calibnegative(Int option, Int defaultValue)
 {
 	Int rst
 
 	switch(RTS_Debug.dev_model)
 	{
-		case UA4900: rst = ua4900_calibnegative(option, defvalue); break
+		case UA4900: rst = ua4900_calibnegative(option, defaultValue); break
 		case HPG2710:
-		case HP3800: rst = hp3800_calibnegative(option, defvalue); break
+		case HP3800: rst = hp3800_calibnegative(option, defaultValue); break
 		case HPG3010:
-		case HP4370: rst = hp4370_calibnegative(option, defvalue); break
-		case HPG3110: rst = hpg3110_calibnegative(option, defvalue); break
-		default    : rst = hp3970_calibnegative(option, defvalue); break
+		case HP4370: rst = hp4370_calibnegative(option, defaultValue); break
+		case HPG3110: rst = hpg3110_calibnegative(option, defaultValue); break
+		default    : rst = hp3970_calibnegative(option, defaultValue); break
 	}
 
 	return rst
 }
 
-static Int fc_scaninfo_get(Int option, Int defvalue)
+static Int fc_scaninfo_get(Int option, Int defaultValue)
 {
 	Int value[] = {1, 0, 0, 0, 0, 100]
 	Int ua4900_value[] = {1, 0xcdcdcdcd, 0xcdcdcdcd, 0xcdcdcdcd, 0xcdcdcdcd, 100]
 
-	Int rst = defvalue
+	Int rst = defaultValue
 	Int *myvalue = NULL
 
 	switch(RTS_Debug.dev_model)
@@ -5606,28 +5606,28 @@ static Int fc_scaninfo_get(Int option, Int defvalue)
 }
 
 /* fitcalibrate */
-static Int fitcalibrate_get(Int section, Int option, Int defvalue)
+static Int fitcalibrate_get(Int section, Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 
 	switch(section)
 	{
 		case CALIBREFLECTIVE:
-			rst = fc_calibreflective(option, defvalue); break
+			rst = fc_calibreflective(option, defaultValue); break
 		case CALIBTRANSPARENT:
-			rst = fc_calibtransparent(option, defvalue); break
+			rst = fc_calibtransparent(option, defaultValue); break
 		case CALIBNEGATIVEFILM:
-			rst = fc_calibnegative(option, defvalue); break
+			rst = fc_calibnegative(option, defaultValue); break
 		case SCANINFO:
-			rst = fc_scaninfo_get(option, defvalue); break
+			rst = fc_scaninfo_get(option, defaultValue); break
 	}
 
 	return rst
 }
 
-static Int srt_hp3800_scanparam_get(Int option, Int defvalue)
+static Int srt_hp3800_scanparam_get(Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 
 	/* t_rtinifile */
 	Int value3[] = {1, 0, 0, 0, 1, 12, 0, 1, 170, 140, 40, 30, 40, 30, 1500, 20, 0, 36, 0]
@@ -5661,9 +5661,9 @@ static Int srt_hp3800_scanparam_get(Int option, Int defvalue)
 	return rst
 }
 
-static Int srt_hp3970_scanparam_get(Int file, Int option, Int defvalue)
+static Int srt_hp3970_scanparam_get(Int file, Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 	/* s_rtinifile */
 	Int value1[] = {1, 0, 150, 0, 1, 6, 0, 0, 170, 140, 40, 30, 40, 30, 1500, 20, 0, 36, 360]
 	/* s_usb1inifile */
@@ -5710,7 +5710,7 @@ static Int srt_hp3970_scanparam_get(Int file, Int option, Int defvalue)
 	return rst
 }
 
-static Int srt_hp4370_scanparam_get(Int file, Int option, Int defvalue)
+static Int srt_hp4370_scanparam_get(Int file, Int option, Int defaultValue)
 {
 	/* s_rtinifile */
 	Int value1[] = {1, 0, 150, 0, 1, 6, 0, 0, 170, 140, 40, 30, 40, 30, 1500, 20, 0, 36, 360]
@@ -5722,7 +5722,7 @@ static Int srt_hp4370_scanparam_get(Int file, Int option, Int defvalue)
 	Int value4[] = {1, 0, 150, 0, 1, 12, 0, 0, 170, 140, 40, 30, 40, 30, 1500, 20, 0, 36, 0]
 	Int *value = NULL
 
-	Int rst = defvalue
+	Int rst = defaultValue
 
 	switch(file)
 	{
@@ -5759,9 +5759,9 @@ static Int srt_hp4370_scanparam_get(Int file, Int option, Int defvalue)
 	return rst
 }
 
-static Int srt_scancali_get(Int file, Int option, Int defvalue)
+static Int srt_scancali_get(Int file, Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 	/* s_rtinifile */
 	Int value1[] = {3, 3, 3, 14, 4, 4, 41, 41, 42, 41, 41, 42, 91, 91,
 	                53, 53, 48, 48, 104, 104, 59, 59, 64,64]
@@ -5816,9 +5816,9 @@ static Int srt_scancali_get(Int file, Int option, Int defvalue)
 	return rst
 }
 
-static Int srt_truegrayparam_get(Int file, Int option, Int defvalue)
+static Int srt_truegrayparam_get(Int file, Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 	/* s_rtinifile */
 	Int value1[] = {100, 30, 59, 11]
 	/* s_usb1inifile */
@@ -5849,9 +5849,9 @@ static Int srt_truegrayparam_get(Int file, Int option, Int defvalue)
 	return rst
 }
 
-static Int srt_caliparam_get(Int file, Int option, Int defvalue)
+static Int srt_caliparam_get(Int file, Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 	/* s_rtinifile */
 	Int value1[] = {0xffff]
 	/* s_usb1inifile */
@@ -5879,13 +5879,13 @@ static Int srt_caliparam_get(Int file, Int option, Int defvalue)
 	return rst
 }
 
-static Int srt_hp3800_platform_get(Int option, Int defvalue)
+static Int srt_hp3800_platform_get(Int option, Int defaultValue)
 {
 	/* s_rtinifile*/
 	Int value1[] = {100, 99, 1214636]
 
 	Int *value = value1
-	Int rst = defvalue
+	Int rst = defaultValue
 
 	if(value != NULL)
 	{
@@ -5900,13 +5900,13 @@ static Int srt_hp3800_platform_get(Int option, Int defvalue)
 	return rst
 }
 
-static Int srt_hp3970_platform_get(Int option, Int defvalue)
+static Int srt_hp3970_platform_get(Int option, Int defaultValue)
 {
 	/* s_rtinifile*/
 	Int value1[] = {128, 127, 1214636]
 
 	Int *value = value1
-	Int rst = defvalue
+	Int rst = defaultValue
 
 	if(value != NULL)
 	{
@@ -5922,11 +5922,11 @@ static Int srt_hp3970_platform_get(Int option, Int defvalue)
 }
 
 
-static Int srt_ua4900_platform_get(Int option, Int defvalue)
+static Int srt_ua4900_platform_get(Int option, Int defaultValue)
 {
 	Int value1[] = {128, 127, 1214636]
 	Int *value = value1
-	Int rst = defvalue
+	Int rst = defaultValue
 
 	if(value != NULL)
 	{
@@ -5941,13 +5941,13 @@ static Int srt_ua4900_platform_get(Int option, Int defvalue)
 	return rst
 }
 
-static Int srt_hp4370_platform_get(Int option, Int defvalue)
+static Int srt_hp4370_platform_get(Int option, Int defaultValue)
 {
 	/* t_rtinifile */
 	Int value3[] = {128, 127, 1214636]
 
 	Int *value = value3
-	Int rst = defvalue
+	Int rst = defaultValue
 
 	if(value != NULL)
 	{
@@ -5962,9 +5962,9 @@ static Int srt_hp4370_platform_get(Int option, Int defvalue)
 	return rst
 }
 
-static Int srt_scaninfo_get(Int file, Int option, Int defvalue)
+static Int srt_scaninfo_get(Int file, Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 	Int value1[] = {0, 0, 0, 0]
 	Int value2[] = {0, 0, 0, 0]
 	Int value3[] = {0, 0, 0, 0]
@@ -5993,9 +5993,9 @@ static Int srt_scaninfo_get(Int file, Int option, Int defvalue)
 	return rst
 }
 
-static Int srt_sec_get(Int file, Int section, Int option, Int defvalue)
+static Int srt_sec_get(Int file, Int section, Int option, Int defaultValue)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 
 	switch(section)
 	{
@@ -6003,51 +6003,51 @@ static Int srt_sec_get(Int file, Int section, Int option, Int defvalue)
 			switch(RTS_Debug.dev_model)
 			{
 				case HPG2710:
-				case HP3800: rst = srt_hp3800_scanparam_get(option, defvalue); break
+				case HP3800: rst = srt_hp3800_scanparam_get(option, defaultValue); break
 				case HPG3010:
 				case HPG3110:
-				case HP4370: rst = srt_hp4370_scanparam_get(file, option, defvalue); break
-				default    : rst = srt_hp3970_scanparam_get(file, option, defvalue); break
+				case HP4370: rst = srt_hp4370_scanparam_get(file, option, defaultValue); break
+				default    : rst = srt_hp3970_scanparam_get(file, option, defaultValue); break
 			}
 			break
 		case SCAN_CALI:
-			rst = srt_scancali_get(file, option, defvalue); break
+			rst = srt_scancali_get(file, option, defaultValue); break
 		case TRUE_GRAY_PARAM:
-			rst = srt_truegrayparam_get(file, option, defvalue); break
+			rst = srt_truegrayparam_get(file, option, defaultValue); break
 		case CALI_PARAM:
-			rst = srt_caliparam_get(file, option, defvalue); break
+			rst = srt_caliparam_get(file, option, defaultValue); break
 		case PLATFORM:
 			switch(RTS_Debug.dev_model)
 			{
 				case HPG2710:
-				case HP3800: rst = srt_hp3800_platform_get(option, defvalue); break
-				case UA4900: rst = srt_ua4900_platform_get(option, defvalue); break
+				case HP3800: rst = srt_hp3800_platform_get(option, defaultValue); break
+				case UA4900: rst = srt_ua4900_platform_get(option, defaultValue); break
 				case HPG3010:
 				case HPG3110:
-				case HP4370: rst = srt_hp4370_platform_get(option, defvalue); break
-				default    : rst = srt_hp3970_platform_get(option, defvalue); break
+				case HP4370: rst = srt_hp4370_platform_get(option, defaultValue); break
+				default    : rst = srt_hp3970_platform_get(option, defaultValue); break
 			}
 			break
 		case SCANINFO:
-			rst = srt_scaninfo_get(file, option, defvalue); break
+			rst = srt_scaninfo_get(file, option, defaultValue); break
 	}
 
 	return rst
 }
 
-static Int get_value(Int section, Int option, Int defvalue, Int file)
+static Int get_value(Int section, Int option, Int defaultValue, Int file)
 {
-	Int rst = defvalue
+	Int rst = defaultValue
 
 	switch(file)
 	{
 		case FITCALIBRATE:
-			rst = fitcalibrate_get(section, option, defvalue); break
+			rst = fitcalibrate_get(section, option, defaultValue); break
 		case S_RTINIFILE:
 		case S_USB1INIFILE:
 		case T_RTINIFILE:
 		case T_USB1INIFILE:
-			rst = srt_sec_get(file, section, option, defvalue); break
+			rst = srt_sec_get(file, section, option, defaultValue); break
 	}
 
 	return rst

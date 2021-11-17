@@ -8,7 +8,7 @@
 
 /* -------------------------------------------------------------------------
  * This option list has to contain all options for all scanners supported by
- * this driver. If a certain scanner cannot handle a certain option, there's
+ * this driver. If a certain scanner cannot handle a certain option, there"s
  * still the possibility to say so, later.
  */
 enum scanner_Option
@@ -521,7 +521,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
         - increase scan height ~1/2 inch due to head offset
         - change page length autodetection condition
       v18 2009-01-21, MAN
-         - don't export private symbols
+         - don"t export private symbols
       v19 2009-08-31, RG
          - rewritten calibration routines
       v20 2010-02-09, MAN(SANE 1.0.21 to 1.0.24)
@@ -548,7 +548,7 @@ static size_t maxStringSize(const Sane.String_Const strings[])
          - make adf_height_padding variable
          - make white_factor variable
       v27 2015-01-24, MAN
-         - don't override br_x and br_y
+         - don"t override br_x and br_y
          - call change_params after changing page_width
       v28 2015-03-23, MAN
          - call get_hardware_status before starting scan
@@ -744,7 +744,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
             lp = line
 
             /* ignore comments */
-            if(*lp == '#')
+            if(*lp == "#")
                 continue
 
             /* skip empty lines */
@@ -756,12 +756,12 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
 
                 lp += 8
                 lp = sanei_config_skip_whitespace(lp)
-                DBG(15, "Sane.get_devices: firmware '%s'\n", lp)
+                DBG(15, "Sane.get_devices: firmware "%s"\n", lp)
 
                 firmware_len = strlen(lp)
                 if(firmware_len > sizeof(global_firmware_filename) - 1)
                   {
-                    DBG(5, "Sane.get_devices: firmware file too long. ignoring '%s'\n", lp)
+                    DBG(5, "Sane.get_devices: firmware file too long. ignoring "%s"\n", lp)
                   }
                 else
                   {
@@ -769,7 +769,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
                   }
             }
             else if((strncmp("usb", lp, 3) == 0) && isspace(lp[3])) {
-                DBG(15, "Sane.get_devices: looking for '%s'\n", lp)
+                DBG(15, "Sane.get_devices: looking for "%s"\n", lp)
                 sanei_usb_attach_matching_devices(lp, attach_one)
             }
             else{
@@ -780,7 +780,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
     }
 
     else {
-        DBG(5, "Sane.get_devices: no config file '%s'!\n",
+        DBG(5, "Sane.get_devices: no config file "%s"!\n",
           CONFIG_FILE)
     }
 
@@ -850,7 +850,7 @@ attach_one(const char *name)
     struct scanner *s
     Int ret, i
 
-    DBG(10, "attach_one: start '%s'\n", name)
+    DBG(10, "attach_one: start "%s"\n", name)
 
     for(s = scanner_devList; s; s = s.next) {
         if(strcmp(s.sane.name, name) == 0) {
@@ -1039,7 +1039,7 @@ attach_one(const char *name)
         DBG(15, "attach_one: Found other\n")
     }
 
-    /* set SANE option 'values' to good defaults */
+    /* set SANE option "values" to good defaults */
     DBG(15, "attach_one: init options\n")
 
     /* go ahead and setup the first opt, because
@@ -1348,12 +1348,12 @@ get_ident(struct scanner *s)
     }
 
     /*hmm, similar to scsi?*/
-    for(i = 7; (in[i] == ' ' || in[i] == 0xff) && i >= 0; i--){
+    for(i = 7; (in[i] == " " || in[i] == 0xff) && i >= 0; i--){
         in[i] = 0
     }
     s.sane.vendor = strndup((char *)in, 8)
 
-    for(i = 23; (in[i] == ' ' || in[i] == 0xff) && i >= 8; i--){
+    for(i = 23; (in[i] == " " || in[i] == 0xff) && i >= 8; i--){
         in[i] = 0
     }
     s.sane.model= strndup((char *)in+8, 24)
@@ -1897,7 +1897,7 @@ Sane.control_option(Sane.Handle handle, Int option,
   if(action == Sane.ACTION_GET_VALUE) {
       Sane.Word * val_p = (Sane.Word *) val
 
-      DBG(20, "Sane.control_option: get value for '%s' (%d)\n", s.opt[option].name,option)
+      DBG(20, "Sane.control_option: get value for "%s" (%d)\n", s.opt[option].name,option)
 
       switch(option) {
 
@@ -2015,10 +2015,10 @@ Sane.control_option(Sane.Handle handle, Int option,
       Sane.Word val_c
       Sane.Status status
 
-      DBG(20, "Sane.control_option: set value for '%s' (%d)\n", s.opt[option].name,option)
+      DBG(20, "Sane.control_option: set value for "%s" (%d)\n", s.opt[option].name,option)
 
       if( s.started ) {
-        DBG(5, "Sane.control_option: can't set, device busy\n")
+        DBG(5, "Sane.control_option: can"t set, device busy\n")
         return Sane.STATUS_DEVICE_BUSY
       }
 
@@ -2033,13 +2033,13 @@ Sane.control_option(Sane.Handle handle, Int option,
         return status
       }
 
-      /* may have been changed by constraints, so don't copy until now */
+      /* may have been changed by constraints, so don"t copy until now */
       val_c = *(Sane.Word *)val
 
       /*
        * Note - for those options which can assume one of a list of
        * valid values, we can safely assume that they will have
-       * exactly one of those values because that's what
+       * exactly one of those values because that"s what
        * sanei_constrain_value does. Hence no "else: invalid" branches
        * below.
        */
@@ -2761,7 +2761,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   DBG(10, "Sane.get_parameters: start\n")
 
   params.pixels_per_line = s.front.width_pix
-  params.bytes_per_line = s.front.width_bytes
+  params.bytesPerLine = s.front.width_bytes
   if(!s.page_height){
     params.lines = -1
   }
@@ -2786,7 +2786,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   DBG(15, "\tdepth %d\n", params.depth)
   DBG(15, "\tlines %d\n", params.lines)
   DBG(15, "\tpixels_per_line %d\n", params.pixels_per_line)
-  DBG(15, "\tbytes_per_line %d\n", params.bytes_per_line)
+  DBG(15, "\tbytes_per_line %d\n", params.bytesPerLine)
 
   DBG(10, "Sane.get_parameters: finish\n")
 
@@ -2795,7 +2795,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 
 /*
  * Called by SANE when a page acquisition operation is to be started.
- * FIXME: won't handle SOURCE_ADF_BACK
+ * FIXME: won"t handle SOURCE_ADF_BACK
  */
 Sane.Status
 Sane.start(Sane.Handle handle)
@@ -3144,7 +3144,7 @@ coarsecal_get_line(struct scanner *s, struct image *img)
     while(!s.cal_image.done){
         ret = read_from_scanner(s,&s.cal_image)
         if(ret){
-            DBG(5, "coarsecal_get_line: can't read from scanner\n")
+            DBG(5, "coarsecal_get_line: can"t read from scanner\n")
             return ret
         }
     }
@@ -3202,7 +3202,7 @@ coarsecal_dark(struct scanner *s, unsigned char *pay)
         ret = coarsecal_get_line(s, &s.coarsecal)
 
         /* gather statistics: count the proportion of 0-valued pixels */
-        /* since the lamp is off, there's no point in looking at the green or blue data - they're all from the same sensor anyway */
+        /* since the lamp is off, there"s no point in looking at the green or blue data - they"re all from the same sensor anyway */
         zcount[0] = zcount[1] = 0
         avg[0] = avg[1] = 0
         maxval[0] = maxval[1] = 0
@@ -3621,7 +3621,7 @@ finecal_get_line(struct scanner *s, struct image *img)
     while(!s.cal_image.done){
         ret = read_from_scanner(s,&s.cal_image)
         if(ret){
-            DBG(5, "finecal_get_line: can't read from scanner\n")
+            DBG(5, "finecal_get_line: can"t read from scanner\n")
             return ret
         }
     }
@@ -3646,7 +3646,7 @@ finecal_get_line(struct scanner *s, struct image *img)
     return ret
 }
 
-/* roundf() is c99, so we provide our own, though this version won't return -0 */
+/* roundf() is c99, so we provide our own, though this version won"t return -0 */
 static float
 round2(float x)
 {
@@ -3728,7 +3728,7 @@ finecal(struct scanner *s)
         }
     }
 
-    /* keep track of the last iteration's pixel error.  If we overshoot, we can reduce the value of the gain slope */
+    /* keep track of the last iteration"s pixel error.  If we overshoot, we can reduce the value of the gain slope */
     last_error = malloc(s.lightcal.width_bytes * s.lightcal.pages * sizeof(float))
     if(!last_error)
     {
@@ -3808,7 +3808,7 @@ finecal(struct scanner *s)
                 float sum2 = variance[i][k]
                 avg_value[i][k] = sum / s.lightcal.width_pix
                 variance[i][k] = ((sum2 - (sum * sum / s.lightcal.width_pix)) / s.lightcal.width_pix)
-                /* if any color channel is too far out of whack, set cal_good to 0 so we'll iterate again */
+                /* if any color channel is too far out of whack, set cal_good to 0 so we"ll iterate again */
                 if(fabs(avg_value[i][k]) > 1.0 || variance[i][k] > 3.0)
                     cal_good = 0
             }
@@ -4395,7 +4395,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
 
         ret = read_from_scanner(s, &s.block_xfr)
         if(ret){
-            DBG(5, "Sane.read: can't read from scanner\n")
+            DBG(5, "Sane.read: can"t read from scanner\n")
             return ret
         }
 
@@ -4439,7 +4439,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
                     ret = copy_block_to_page(s, SIDE_FRONT)
 
                 if(ret){
-                    DBG(5, "Sane.read: can't copy to front/back\n")
+                    DBG(5, "Sane.read: can"t copy to front/back\n")
                     return ret
                 }
 
@@ -4464,7 +4464,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
             else { /*fi-60f*/
                 ret = copy_block_to_page(s, SIDE_FRONT)
                 if(ret){
-                    DBG(5, "Sane.read: can't copy to front/back\n")
+                    DBG(5, "Sane.read: can"t copy to front/back\n")
                     return ret
                 }
 
@@ -4718,7 +4718,7 @@ descramble_raw_gray(struct scanner *s, struct transfer * tp)
         for(col_out = 0; col_out < tp.image.width_pix; col_out++){
           Int col_in = col_out * tp.x_res/tp.image.x_res
           Int offset = col_in%tp.plane_width
-          Int step   = col_in/tp.plane_width
+          step: Int   = col_in/tp.plane_width
 
           *p_out = *(p_in + offset*3 + step)
           p_out++
@@ -4854,7 +4854,7 @@ copy_block_to_page(struct scanner *s,Int side)
       DBG(15, "copy_block_to_page: in %d out %d lastout %d\n", this_in_row, this_out_row, last_out_row)
       DBG(15, "copy_block_to_page: bs %d wb %d\n", page.bytes_scanned, page.image.width_bytes)
 
-      /* don't walk off the end of the output buffer */
+      /* don"t walk off the end of the output buffer */
       if(this_out_row >= page.image.height || this_out_row < 0){
           DBG(10, "copy_block_to_page: out of space? %d\n", side)
           DBG(10, "copy_block_to_page: rx:%d tx:%d tot:%d line:%d\n",
@@ -5254,7 +5254,7 @@ do_cmd(struct scanner *s, Int shortTime,
             return Sane.STATUS_IO_ERROR
         }
         if(ret != Sane.STATUS_GOOD){
-            DBG(5,"cmd: return error '%s'\n",Sane.strstatus(ret))
+            DBG(5,"cmd: return error "%s"\n",Sane.strstatus(ret))
             return ret
         }
         if(loc_cmdLen != cmdLen){
@@ -5279,7 +5279,7 @@ do_cmd(struct scanner *s, Int shortTime,
             return Sane.STATUS_IO_ERROR
         }
         if(ret != Sane.STATUS_GOOD){
-            DBG(5,"out: return error '%s'\n",Sane.strstatus(ret))
+            DBG(5,"out: return error "%s"\n",Sane.strstatus(ret))
             return ret
         }
         if(loc_outLen != outLen){
@@ -5306,7 +5306,7 @@ do_cmd(struct scanner *s, Int shortTime,
             DBG(5,"in: got EOF, continuing\n")
         }
         else if(ret != Sane.STATUS_GOOD){
-            DBG(5,"in: return error '%s'\n",Sane.strstatus(ret))
+            DBG(5,"in: return error "%s"\n",Sane.strstatus(ret))
             return ret
         }
 
@@ -5365,7 +5365,7 @@ hexdump(Int level, char *comment, unsigned char *p, Int l)
         {
           if(ptr != line)
             {
-              *ptr = '\0'
+              *ptr = "\0"
               DBG(level, "%s\n", line)
               ptr = line
             }
@@ -5375,12 +5375,12 @@ hexdump(Int level, char *comment, unsigned char *p, Int l)
       sprintf(ptr, " %2.2x", *p)
       ptr += 3
     }
-  *ptr = '\0'
+  *ptr = "\0"
   DBG(level, "%s\n", line)
 }
 
 /**
- * An advanced method we don't support but have to define.
+ * An advanced method we don"t support but have to define.
  */
 Sane.Status
 Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
@@ -5391,7 +5391,7 @@ Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
 }
 
 /**
- * An advanced method we don't support but have to define.
+ * An advanced method we don"t support but have to define.
  */
 Sane.Status
 Sane.get_select_fd(Sane.Handle h, Int *fdp)

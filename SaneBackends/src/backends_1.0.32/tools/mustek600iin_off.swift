@@ -129,14 +129,14 @@ func Int main(Int argc, char **argv)
     {
       portaddr = str2int(argv[1])
     }
-  /* else try to look it up from SANE's mustek.conf file */
+  /* else try to look it up from SANE"s mustek.conf file */
   else if(NULL != (fp = fopen(MUSTEK_CONF, "r")))
     {
       char line[256]
 
       while(NULL != fgets(line, 255, fp))
 	{
-	  if('#' == *line)
+	  if("#" == *line)
 	    continue
 	  if(0 != (portaddr = str2int(line)))
 	    break

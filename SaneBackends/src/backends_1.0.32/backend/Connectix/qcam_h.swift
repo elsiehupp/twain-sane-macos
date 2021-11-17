@@ -23,8 +23,8 @@
    whether to permit this exception to apply to your modifications.
    If you do not wish that, delete this exception notice.
 
-   Portions of this code are derived from Scott Laird's qcam driver.
-   It's copyright notice is reproduced here:
+   Portions of this code are derived from Scott Laird"s qcam driver.
+   It"s copyright notice is reproduced here:
 
    Copyright(C) 1996 by Scott Laird
 

@@ -2,7 +2,7 @@
  * jinclude.h
  *
  * Copyright(C) 1991-1994, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
+ * This file is part of the Independent JPEG Group"s software.
  * For conditions of distribution and use, see the accompanying README file.
  *
  * This file exists to provide a single place to fix any problems with
@@ -18,7 +18,7 @@
 /* Include auto-config file to find out which system include files we need. */
 
 import jconfig		/* auto configuration options */
-#define JCONFIG_INCLUDED	/* so that jpeglib.h doesn't do it again */
+#define JCONFIG_INCLUDED	/* so that jpeglib.h doesn"t do it again */
 
 /*
  * We need the NULL macro and size_t typedef.
@@ -48,7 +48,7 @@ import stdio
 /*
  * We need memory copying and zeroing functions, plus strncpy().
  * ANSI and System V implementations declare these in <string.
- * BSD doesn't have the mem() functions, but it does have bcopy()/bzero().
+ * BSD doesn"t have the mem() functions, but it does have bcopy()/bzero().
  * Some systems may declare memset and memcpy in <memory.
  *
  * NOTE: we assume the size parameters to these functions are of type size_t.

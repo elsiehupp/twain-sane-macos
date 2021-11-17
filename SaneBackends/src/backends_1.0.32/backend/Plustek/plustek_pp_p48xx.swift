@@ -110,7 +110,7 @@ static void p48xxSetMemoryBankForProgram( pScanData ps , Byte bBankAndSize )
 static Int p48xxDoTest( pScanData ps )
 {
 	UChar  tmpByte
-	Int	   retval
+	Int	   returnValue
 	ULong  adder, ul, cntr
 	pULong buffer
 
@@ -120,12 +120,12 @@ static Int p48xxDoTest( pScanData ps )
 	if( NULL == buffer )
 		return _E_ALLOC
 
-	retval = _E_NO_DEV
+	returnValue = _E_NO_DEV
 
 	/*
 	 * do a memory test to determine how much memory this unit has, in the
-     * process we can figure out if it's a 4830 or a 9630.  NOTE: the ram
-     * seems to be mirrored such that if you have a unit with only 32k it's
+     * process we can figure out if it"s a 4830 or a 9630.  NOTE: the ram
+     * seems to be mirrored such that if you have a unit with only 32k it"s
      * mirrored 4 times to fill the 128k(2k * (_MemBankMask + 1)) space,
      * so we will run a 32 bit incrementing pattern over the entire 128k and
      * look for the 1st page(2k) to fail
@@ -200,7 +200,7 @@ static Int p48xxDoTest( pScanData ps )
 
 	if( cntr == _BankAndSizeForTest ) {
 		DBG( DBG_LOW, "No memory ! No scanner...\n" )
-		return retval
+		return returnValue
 	}
 
 #ifdef DEBUG
@@ -223,7 +223,7 @@ static Int p48xxDoTest( pScanData ps )
        	if( tmpByte == 0x02 ) {
 
             /*
-             * as we currently can't automagically detect an A3I we have to
+             * as we currently can"t automagically detect an A3I we have to
              * use the override switch
              */
             if( _OVR_PLUSTEK_A3I == ps.ModelOverride ) {
@@ -240,7 +240,7 @@ static Int p48xxDoTest( pScanData ps )
 			DBG( DBG_LOW, "It seems we have a 9630\n" )
 		}
 
-		retval = _OK
+		returnValue = _OK
 
 	} else {
 
@@ -264,10 +264,10 @@ static Int p48xxDoTest( pScanData ps )
 			DBG( DBG_LOW, "It seems we have a 4830\n" )
 #endif
 
-		retval = _OK
+		returnValue = _OK
 	}
 
-	return retval
+	return returnValue
 }
 
 /*.............................................................................
@@ -295,7 +295,7 @@ static void p48xxSetAsicRegisters( pScanData ps )
  */
 static Int p48xxCheck4800Memory( pScanData ps )
 {
-	Int	   retval
+	Int	   returnValue
 	ULong  ul
 	pUChar buffer
 
@@ -305,7 +305,7 @@ static Int p48xxCheck4800Memory( pScanData ps )
 	if( NULL == buffer )
 		return _E_ALLOC
 
-	retval = _OK
+	returnValue = _OK
 
 	/* bank 0, size 2k */
 	ps.OpenScanPath( ps )
@@ -325,14 +325,14 @@ static Int p48xxCheck4800Memory( pScanData ps )
 		if( buffer[ul] != buffer[ul+1280] ) {
 			DBG( DBG_HIGH, "Error in memory test at pos %u(%u != %u)\n",
 							 ul, buffer[ul], buffer[ul+1280] )
-			retval = _E_NO_DEV
+			returnValue = _E_NO_DEV
 			break
 		}
 	}
 
 	_KFREE(buffer)
 
-    return retval
+    return returnValue
 }
 
 /*.............................................................................
@@ -377,7 +377,7 @@ static Int p48xxInitAllModules( pScanData ps )
  */
 static Int p48xxReadWriteTest( pScanData ps )
 {
-	Int retval
+	returnValue: Int
 
 	DBG( DBG_LOW, "p48xxReadWriteTest()\n" )
 
@@ -411,7 +411,7 @@ static Int p48xxReadWriteTest( pScanData ps )
 															   ps.RegAsicID )
         		ModelSet4800( ps )
       		} else {
-        		DBG( DBG_LOW, "Can't find your model, asic = 0x%x\n",
+        		DBG( DBG_LOW, "Can"t find your model, asic = 0x%x\n",
 														    ps.sCaps.AsicID )
         		return _E_NO_ASIC
         	}
@@ -424,19 +424,19 @@ static Int p48xxReadWriteTest( pScanData ps )
 	p48xxSetAsicRegisters( ps )
 
    	if( _ASIC_IS_96003 == ps.sCaps.AsicID ) {
-		retval = p48xxDoTest( ps )
+		returnValue = p48xxDoTest( ps )
 
 		/*
 		 * as we may now have detected another model, we have to set
 		 * the registers to their new values...
 		 * and maybe the modules have to be reset as well
 		 */
-		if( _OK == retval ) {
+		if( _OK == returnValue ) {
 			p48xxSetAsicRegisters( ps )
-			retval = p48xxInitAllModules( ps )
+			returnValue = p48xxInitAllModules( ps )
 		}
 
-		return retval
+		return returnValue
 	}
 
 	/*
@@ -823,7 +823,7 @@ _LOC Int P48xxInitAsic( pScanData ps )
 	ps.RegThresholdGapControl	= 0x27
 	ps.RegRedChShadingOffset   = 0x28
 	ps.RegGreenChShadingOffset = 0x29
-	ps.RegRedDCAdjust			= 0x27;  /* not sure why these are dup's */
+	ps.RegRedDCAdjust			= 0x27;  /* not sure why these are dup"s */
 	ps.RegGreenDCAdjust		= 0x28
 	ps.RegBlueDCAdjust			= 0x29
 	ps.RegBlueChShadingOffset	= 0x2a

@@ -45,7 +45,7 @@
 
 /* ========================================================================= */
 
-/* I'm using functions derived from Eric Youngdale's scsiinfo
+/* I"m using functions derived from Eric Youngdale"s scsiinfo
  * program here for dealing with parts of SCSI commands.
  */
 
@@ -108,7 +108,7 @@ putnbyte(unsigned char *pnt, unsigned Int value, unsigned Int nbytes) \
 
 /* ==================================================================== */
 
-/* Not all of these are defined in scsi.h, so we'll make sure
+/* Not all of these are defined in scsi.h, so we"ll make sure
  * we agree about them here...
  */
 #undef  WRITE_BUFFER		/* correct size write_buffer for scanner */
@@ -277,7 +277,7 @@ static scsiblk window_parameter_data_block =
 
 static unsigned char window_descriptor_blockC[] =
 {
-/* Any field marked with 'R' (e.g. R0x55) indicate a field provided for
+/* Any field marked with "R" (e.g. R0x55) indicate a field provided for
  * development. In normal operation, 0 is set here. If any other value is set,
  * operationis not guaranteed! */
 

@@ -81,7 +81,7 @@ public const char ** sanei_pa4s2_devices(void)
  * - Sane.STATUS_GOOD - on success
  * - Sane.STATUS_INVAL - if no scanner was found or the port number was wrong
  * - Sane.STATUS_DEVICE_BUSY - if the device is already in use
- * - Sane.STATUS_IO_ERROR - if the port couldn't be accessed
+ * - Sane.STATUS_IO_ERROR - if the port couldn"t be accessed
  *
  */
 public Sane.Status sanei_pa4s2_open(const char *dev, Int *fd)
@@ -97,7 +97,7 @@ public Sane.Status sanei_pa4s2_open(const char *dev, Int *fd)
  * - Sane.STATUS_GOOD - on success
  * - Sane.STATUS_INVAL - if no scanner was found or the port number was wrong
  * - Sane.STATUS_DEVICE_BUSY - if the device is already in use
- * - Sane.STATUS_IO_ERROR - if the port couldn't be accessed
+ * - Sane.STATUS_IO_ERROR - if the port couldn"t be accessed
  *
  */
 public Sane.Status sanei_pa4s2_scsi_pp_open(const char *dev, Int *fd)
@@ -123,7 +123,7 @@ public Sane.Status sanei_pa4s2_options(u_int * options, Int set)
 
 /** Enables/disable device
  *
- * When the device is disabled, the printer can be accessed, when it's enabled
+ * When the device is disabled, the printer can be accessed, when it"s enabled
  * data can be read/written.
  *
  * @param fd file descriptor

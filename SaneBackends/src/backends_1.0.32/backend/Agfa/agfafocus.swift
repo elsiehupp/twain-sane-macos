@@ -389,7 +389,7 @@ stop_scan(Int fd)
 {
   fd = fd;						/* silence gcc */
 
-  /* XXX don't know how to stop the scanner. To be tested ! */
+  /* XXX don"t know how to stop the scanner. To be tested ! */
 #if 0
   const Byte scsi_rewind[] =
   {
@@ -564,7 +564,7 @@ set_window(AgfaFocus_Scanner * s)
 
   /* Warning ! The following structure SEEMS to be a valid SCSI-2 SET_WINDOW
      command.  But e.g. the limits for the window are only 2 Bytes instead
-     of 4.  The scanner was built at about 1990, so SCSI-2 wasn't available
+     of 4.  The scanner was built at about 1990, so SCSI-2 wasn"t available
      for development...  */
 
   struct
@@ -750,7 +750,7 @@ request_more_data(AgfaFocus_Scanner * s)
 {
   Sane.Status status
   Int lines_available
-  Int bytes_per_line
+  Int bytesPerLine
 
   status = start_scan(s.fd, Sane.TRUE)
   if(status != Sane.STATUS_GOOD)
@@ -759,7 +759,7 @@ request_more_data(AgfaFocus_Scanner * s)
   if(!s.hw.disconnect)
     wait_ready(s.fd)
 
-  status = get_read_sizes(s.fd, &lines_available, &bytes_per_line, 0)
+  status = get_read_sizes(s.fd, &lines_available, &bytesPerLine, 0)
 
   if(!lines_available)
     return Sane.STATUS_INVAL
@@ -984,7 +984,7 @@ attach(const char *devname, AgfaFocus_Device ** devp)
 
   if(result[0] != 6 || strncmp((char *)result + 36, "AGFA0", 5))
     {
-      DBG(1, "attach: device doesn't look like a Siemens 9036 scanner\n")
+      DBG(1, "attach: device doesn"t look like a Siemens 9036 scanner\n")
       return Sane.STATUS_INVAL
     }
 
@@ -1026,7 +1026,7 @@ attach(const char *devname, AgfaFocus_Device ** devp)
     dev.type = AGFACOLOR
   } else {
     free(dev)
-    DBG(1, "attach: device looks like an AGFA scanner, but wasn't recognised\n")
+    DBG(1, "attach: device looks like an AGFA scanner, but wasn"t recognised\n")
     return Sane.STATUS_INVAL
   }
   dev.sane.type = "flatbed scanner"
@@ -1085,7 +1085,7 @@ do_cancel(AgfaFocus_Scanner * s)
     {
       Int exit_status
 
-      /* ensure child knows it's time to stop: */
+      /* ensure child knows it"s time to stop: */
       sanei_thread_kill(s.reader_pid)
       sanei_thread_waitpid(s.reader_pid, &exit_status)
       sanei_thread_invalidate(s.reader_pid)
@@ -1282,7 +1282,7 @@ init_options(AgfaFocus_Scanner * s)
   s.opt[OPT_AUTO_BRIGHTNESS].title = "Automatic brightness correction"
   s.opt[OPT_AUTO_BRIGHTNESS].desc = "Turns on automatic brightness correction of "
     "the acquired image. This makes the scanner do a two pass scan to analyse the "
-    "brightness of the image before it's scanned."
+    "brightness of the image before it"s scanned."
   s.opt[OPT_AUTO_BRIGHTNESS].type = Sane.TYPE_BOOL
   s.val[OPT_AUTO_BRIGHTNESS].b = Sane.FALSE
 
@@ -1433,7 +1433,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 
   while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if(dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == "#")	/* ignore line comments */
 	continue
       len = strlen(dev_name)
 
@@ -1823,7 +1823,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	      s.params.pixels_per_line += 8 - (s.params.pixels_per_line % 8)
 
 	    s.params.format = Sane.FRAME_GRAY
-	    s.params.bytes_per_line = s.params.pixels_per_line / 8
+	    s.params.bytesPerLine = s.params.pixels_per_line / 8
 	    s.bpp = s.params.depth = 1
 
 	    halftone = s.val[OPT_HALFTONE_PATTERN].s
@@ -1848,7 +1848,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	  s.image_composition = 2
 
           s.params.format = Sane.FRAME_GRAY
-          s.params.bytes_per_line = s.params.pixels_per_line
+          s.params.bytesPerLine = s.params.pixels_per_line
 	  s.bpp = 6
 	  s.params.depth = 8
 	  s.edge = s.val[OPT_SHARPEN].w
@@ -1859,7 +1859,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	  s.image_composition = 2
 
           s.params.format = Sane.FRAME_GRAY
-          s.params.bytes_per_line = s.params.pixels_per_line
+          s.params.bytesPerLine = s.params.pixels_per_line
 	  s.bpp = s.params.depth = 8
 
 	  break
@@ -1868,7 +1868,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	  s.image_composition = 5
 
           s.params.format = Sane.FRAME_RED
-          s.params.bytes_per_line = s.params.pixels_per_line
+          s.params.bytesPerLine = s.params.pixels_per_line
 	  s.bpp = 6
 	  s.params.depth = 8
 	  s.edge = s.val[OPT_SHARPEN].w
@@ -1879,7 +1879,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	  s.image_composition = 5
 
           s.params.format = Sane.FRAME_RED
-          s.params.bytes_per_line = s.params.pixels_per_line
+          s.params.bytesPerLine = s.params.pixels_per_line
           s.bpp = s.params.depth = 8
 
 	  break
@@ -1887,7 +1887,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 
       s.pass = 0
 
-      /*s.params.bytes_per_line =
+      /*s.params.bytesPerLine =
 	(s.params.pixels_per_line + (8 - s.params.depth))
 	/ (8 / s.params.depth);*/
     }
@@ -1911,7 +1911,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
    (such as recognizing when the user presses a cancel button).
 
 
-   WARNING: Since this is executed as a subprocess, it's NOT possible
+   WARNING: Since this is executed as a subprocess, it"s NOT possible
    to update any of the variables in the main process(in particular
    the scanner state cannot be updated).  */
 static Int
@@ -1924,7 +1924,7 @@ reader_process(void *scanner)
   Sane.Byte *data
   Int lines_read = 0
   Int lines_per_buffer
-  Int bytes_per_line = 0, total_lines = 0
+  Int bytesPerLine = 0, total_lines = 0
   var i: Int
   sigset_t sigterm_set
   sigset_t ignore_set
@@ -1948,7 +1948,7 @@ reader_process(void *scanner)
   if(!s.hw.disconnect)
     wait_ready(s.fd)
 
-  status = get_read_sizes(s.fd, &s.lines_available, &bytes_per_line, &total_lines)
+  status = get_read_sizes(s.fd, &s.lines_available, &bytesPerLine, &total_lines)
   if(status != Sane.STATUS_GOOD)
     {
       DBG(1, "open: get_read_sizes() failed: %s\n",
@@ -1958,26 +1958,26 @@ reader_process(void *scanner)
       return 1
     }
 
-  if(!s.lines_available || !bytes_per_line || !total_lines || bytes_per_line < s.params.bytes_per_line)
+  if(!s.lines_available || !bytesPerLine || !total_lines || bytesPerLine < s.params.bytesPerLine)
     {
       DBG(1, "open: invalid sizes: %d, %d, %d\n",
-	   s.lines_available, bytes_per_line, total_lines)
+	   s.lines_available, bytesPerLine, total_lines)
       do_cancel(s)
       close(fd)
       return 1
     }
 
-  lines_per_buffer = sanei_scsi_max_request_size / bytes_per_line
+  lines_per_buffer = sanei_scsi_max_request_size / bytesPerLine
   if(!lines_per_buffer)
     {
       close(fd)
       return 2;			/* resolution is too high */
     }
 
-  data = malloc(lines_per_buffer * bytes_per_line)
+  data = malloc(lines_per_buffer * bytesPerLine)
   if(!data)
     {
-      DBG(1, "open  malloc(%lu) failed.\n", (u_long) lines_per_buffer * bytes_per_line)
+      DBG(1, "open  malloc(%lu) failed.\n", (u_long) lines_per_buffer * bytesPerLine)
       do_cancel(s)
       close(fd)
       return 1
@@ -2006,7 +2006,7 @@ reader_process(void *scanner)
       DBG(1, "Requesting %d lines, in scanner: %d, total: %d\n", lines,
 	   s.lines_available, s.params.lines)
 
-      status = read_data(s, data, lines, bytes_per_line)
+      status = read_data(s, data, lines, bytesPerLine)
 
       if(status != Sane.STATUS_GOOD)
 	{
@@ -2021,7 +2021,7 @@ reader_process(void *scanner)
          requested, so we copy only what we wanted. */
 
       for(i = 0; i < lines; i++)
-	if(write(fd, data + i * bytes_per_line, s.params.bytes_per_line) != s.params.bytes_per_line)
+	if(write(fd, data + i * bytesPerLine, s.params.bytesPerLine) != s.params.bytesPerLine)
 	  {
 	    do_cancel(s)
 	    close(fd)
@@ -2043,13 +2043,13 @@ Sane.start(Sane.Handle handle)
   Int fds[2]
 
   /* First make sure we have a current parameter set.  Some of the
-     parameters will be overwritten below, but that's OK.  */
+     parameters will be overwritten below, but that"s OK.  */
 
   status = Sane.get_parameters(s, 0)
   if(status != Sane.STATUS_GOOD)
     return status
 
-  /* don't initialise scanner if we're doing a three-pass scan */
+  /* don"t initialise scanner if we"re doing a three-pass scan */
 
   if(s.pass == 0)
     {

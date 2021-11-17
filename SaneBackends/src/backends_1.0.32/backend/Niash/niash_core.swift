@@ -112,7 +112,7 @@ _ConvertMotorTable(unsigned char *pabOld, unsigned char *pabNew, Int iSize,
   OUT pHWParams     Hardware parameters, updated fields:
         fGamma16    TRUE if 16 bit gamma tables can be used
         fReg07      TRUE if reg07 is writeable
-        iBufferSize Size of scanner's internal buffer
+        iBufferSize Size of scanner"s internal buffer
 
   Returns TRUE if a NIASH chipset was found.
 *************************************************************************/
@@ -189,7 +189,7 @@ NiashOpen(THWParams * pHWParams, const char *pszName)
   iXferHandle = NiashXferOpen(pszName, &pHWParams.eModel)
   if(iXferHandle < 0)
     {
-      DBG(DBG_ERR, "NiashXferOpen failed for '%s'\n", pszName)
+      DBG(DBG_ERR, "NiashXferOpen failed for "%s"\n", pszName)
       return -1
     }
 

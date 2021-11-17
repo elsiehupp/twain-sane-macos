@@ -143,11 +143,11 @@ static const struct pixma_config_t *lookup_scanner(const char *makemodel,
             {
               /* possible match found, make sure it is not a partial match */
               /* MP600 and MP600R are different models! */
-              /* some models contain ranges, so check for a '-' too */
+              /* some models contain ranges, so check for a "-" too */
 
-              if((match[strlen(cfg.model)] == ' ') ||
-                  (match[strlen(cfg.model)] == '\0') ||
-                  (match[strlen(cfg.model)] == '-'))
+              if((match[strlen(cfg.model)] == " ") ||
+                  (match[strlen(cfg.model)] == "\0") ||
+                  (match[strlen(cfg.model)] == "-"))
                 {
                   PDBG( bjnp_dbg(LOG_DEBUG, "lookup_scanner: Scanner model found: Name %s(%s) matches %s\n", cfg.model, cfg.name, makemodel))
                   return cfg
@@ -165,8 +165,8 @@ u8tohex(char *string, const uint8_t *value, Int len )
   var i: Int
   Int x
   const char hdigit[16] =
-    { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
-    'e', 'f'
+    { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d",
+    "e", "f"
   ]
   for(i = 0; i < len; i++)
     {
@@ -174,7 +174,7 @@ u8tohex(char *string, const uint8_t *value, Int len )
       string[ 2 * i ] = hdigit[(x >> 4) & 0xf]
       string[ 2 * i + 1] = hdigit[x & 0xf]
     }
-  string[2 * len ] = '\0'
+  string[2 * len ] = "\0"
 }
 
 static void
@@ -206,22 +206,22 @@ bjnp_hexdump(Int level, const void *d_, unsigned len)
   while(ofs < plen)
     {
       char *p
-      line[0] = ' '
+      line[0] = " "
       u32tohex(ofs, line + 1)
-      line[9] = ':'
+      line[9] = ":"
       p = line + 10
       for(c = 0; c != 16 && (ofs + c) < plen; c++)
         {
           u8tohex(p, d + ofs + c, 1)
-          p[2] = ' '
+          p[2] = " "
           p += 3
           if(c == 7)
             {
-              p[0] = ' '
+              p[0] = " "
               p++
             }
         }
-      p[0] = '\0'
+      p[0] = "\0"
       bjnp_dbg(level, "%s\n", line)
       ofs += c
     }
@@ -337,8 +337,8 @@ parse_IEEE1284_to_model(char *scanner_id, char *model)
   char * model_str
 
   strncpy(s, scanner_id, BJNP_IEEE1284_MAX)
-  s[BJNP_IEEE1284_MAX - 1] = '\0'
-  model[0] = '\0'
+  s[BJNP_IEEE1284_MAX - 1] = "\0"
+  model[0] = "\0"
 
   tok = strtok(s, ";")
   while(tok != NULL)
@@ -349,7 +349,7 @@ parse_IEEE1284_to_model(char *scanner_id, char *model)
 	{
 	  model_str = tok + strlen("MDL:")
 	  strncpy(model, model_str, BJNP_MODEL_MAX)
-	  model[BJNP_MODEL_MAX -1] = '\0'
+	  model[BJNP_MODEL_MAX -1] = "\0"
 	  return 1
 	}
       tok = strtok(NULL, ";")
@@ -373,8 +373,8 @@ charTo2byte(char *d, const char *s, Int len)
   len = len / 2
   for(i = 0; i < len; i++)
     {
-      d[2 * i] = '\0'
-      if(s[i] == '\0')
+      d[2 * i] = "\0"
+      if(s[i] == "\0")
 	{
 	  done = 1
 	}
@@ -384,7 +384,7 @@ charTo2byte(char *d, const char *s, Int len)
 	  copied++
 	}
       else
-	d[2 * i + 1] = '\0'
+	d[2 * i + 1] = "\0"
     }
   return copied
 }
@@ -446,9 +446,9 @@ determine_scanner_serial(const char *hostname, const char * mac_address, char *s
     {
       /* make the string fit into the serial */
       /* if this is a FQDN, not an ip-address, remove domain part of the name */
-      if((dot = strchr(copy, '.')) != NULL)
+      if((dot = strchr(copy, ".")) != NULL)
         {
-          *dot = '\0'
+          *dot = "\0"
         }
     }
   /* check if name is still to long. If so use the mac-address */
@@ -470,14 +470,14 @@ split_uri(const char *devname, char *method, char *host, char *port,
   var i: Int
 
   strncpy(copy, devname, 1024)
-  copy[1023] = '\0'
+  copy[1023] = "\0"
   start = copy
 
 /*
  * retrieve method
  */
   i = 0
-  while((start[i] != '\0') && (start[i] != ':'))
+  while((start[i] != "\0") && (start[i] != ":"))
     {
       i++
     }
@@ -489,7 +489,7 @@ split_uri(const char *devname, char *method, char *host, char *port,
       return -1
     }
 
-  start[i] = '\0'
+  start[i] = "\0"
   strcpy(method, start)
   start = start + i + 3
 
@@ -497,33 +497,33 @@ split_uri(const char *devname, char *method, char *host, char *port,
  * retrieve host
  */
 
-  if(start[0] == '[')
+  if(start[0] == "[")
     {
       /* literal IPv6 address */
 
-      char *end_of_address = strchr(start, ']')
+      char *end_of_address = strchr(start, "]")
 
       if( ( end_of_address == NULL) ||
-           ( (end_of_address[1] != ':') && (end_of_address[1] != '/' ) &&  (end_of_address[1] != '\0' )) ||
+           ( (end_of_address[1] != ":") && (end_of_address[1] != "/" ) &&  (end_of_address[1] != "\0" )) ||
            ( (end_of_address - start) >= BJNP_HOST_MAX ) )
         {
           PDBG(bjnp_dbg(LOG_NOTICE, "split_uri: ERROR - Can not find hostname or address in %s\n", devname))
           return -1
         }
       next = end_of_address[1]
-      *end_of_address = '\0'
+      *end_of_address = "\0"
       strcpy(host, start + 1)
       start = end_of_address + 2
     }
   else
     {
       i = 0
-      while((start[i] != '\0') && (start[i] != '/') && (start[i] != ':'))
+      while((start[i] != "\0") && (start[i] != "/") && (start[i] != ":"))
         {
           i++
         }
       next = start[i]
-      start[i] = '\0'
+      start[i] = "\0"
       if((i == 0) || (i >= BJNP_HOST_MAX ) )
         {
           PDBG(bjnp_dbg(LOG_NOTICE, "split_uri: ERROR - Can not find hostname or address in %s\n", devname))
@@ -538,19 +538,19 @@ split_uri(const char *devname, char *method, char *host, char *port,
  * retrieve port number
  */
 
-  if(next != ':')
+  if(next != ":")
     strcpy(port, "")
   else
     {
-      char *end_of_port = strchr(start, '/')
+      char *end_of_port = strchr(start, "/")
       if(end_of_port == NULL)
         {
-          next = '\0'
+          next = "\0"
         }
       else
         {
           next = *end_of_port
-          *end_of_port = '\0'
+          *end_of_port = "\0"
         }
       if((strlen(start) == 0) || (strlen(start) >= BJNP_PORT_MAX ) )
         {
@@ -565,7 +565,7 @@ split_uri(const char *devname, char *method, char *host, char *port,
  * Retrieve arguments
  */
 
-  if(next == '/')
+  if(next == "/")
     {
     i = strlen(start)
     if( i >= BJNP_ARGS_MAX)
@@ -743,7 +743,7 @@ get_scanner_id(const Int dev_no, char *model)
    */
 
   struct BJNP_command cmd
-  struct IDENTITY *id
+  struct Identity *id
   char scanner_id[BJNP_IEEE1284_MAX]
   Int resp_len
   char resp_buf[BJNP_RESP_MAX]
@@ -768,19 +768,19 @@ get_scanner_id(const Int dev_no, char *model)
   PDBG(bjnp_dbg(LOG_DEBUG2, "get_scanner_id: scanner identity:\n"))
   PDBG(bjnp_hexdump(LOG_DEBUG2, resp_buf, resp_len))
 
-  id = (struct IDENTITY *) resp_buf
+  id = (struct Identity *) resp_buf
 
   if(device[dev_no].protocol == PROTOCOL_BJNP)
     {
       id_len = MIN(ntohl( id-> cmd.payload_len ) - sizeof(id-> payload.bjnp.id_len), BJNP_IEEE1284_MAX)
       strncpy(scanner_id, id.payload.bjnp.id, id_len)
-      scanner_id[id_len] = '\0'
+      scanner_id[id_len] = "\0"
     }
   else
     {
       id_len = MIN(ntohl( id-> cmd.payload_len ), BJNP_IEEE1284_MAX)
       strncpy(scanner_id, id.payload.mfnp.id, id_len)
-      scanner_id[id_len] = '\0'
+      scanner_id[id_len] = "\0"
     }
   PDBG(bjnp_dbg(LOG_INFO, "get_scanner_id: Scanner identity string = %s - length = %d\n", scanner_id, id_len))
 
@@ -1154,7 +1154,7 @@ bjnp_poll_scanner(Int devno, char type,char *hostname, char *user, Sane.Byte *st
 
   user_host_len =  sizeof( poll -> extensions.type2.user_host)
   snprintf(user_host, (user_host_len /2) ,"%s  %s", user, hostname)
-  user_host[ user_host_len /2 + 1] = '\0'
+  user_host[ user_host_len /2 + 1] = "\0"
 
   switch( type) {
     case 0:
@@ -1661,7 +1661,7 @@ bjnp_open_tcp(Int devno)
 		   host, port ) )
 
   gethostname(my_hostname, HOST_NAME_MAX)
-  my_hostname[HOST_NAME_MAX - 1] = '\0'
+  my_hostname[HOST_NAME_MAX - 1] = "\0"
   sprintf(pid_str, "Process ID = %d", getpid())
   bjnp_send_job_details(devno, my_hostname, getusername(), pid_str)
 
@@ -1802,7 +1802,7 @@ bjnp_allocate_device(Sane.String_Const devname,
       return BJNP_STATUS_INVAL
     }
 
-  /* Check if a device number is already allocated to any of the scanner's addresses */
+  /* Check if a device number is already allocated to any of the scanner"s addresses */
 
   cur = res
   while( cur != NULL)
@@ -1980,7 +1980,7 @@ Int add_timeout_to_uri(char *uri, Int timeout, Int max_len)
     }
 
   snprintf(uri, max_len -1, "%s://%s:%d/%s", method,host, port, args)
-  uri[max_len - 1] = '\0'
+  uri[max_len - 1] = "\0"
   return 0
 }
 
@@ -2239,7 +2239,7 @@ sanei_bjnp_find_devices(const char **conf_devices,
 
                       char bjnp_id[5]
                       strncpy(bjnp_id,  disc_resp-> response.BJNP_id, 4)
-                      bjnp_id[4] = '\0'
+                      bjnp_id[4] = "\0"
                       PDBG(bjnp_dbg(LOG_INFO,
                         "sanei_find_devices: Invalid discover response! Length = %d, Id = %s\n",
                         numbytes, bjnp_id ) )
@@ -2294,7 +2294,7 @@ sanei_bjnp_find_devices(const char **conf_devices,
  *
  * @return
  * - Sane.STATUS_GOOD - on success
- * - Sane.STATUS_ACCESS_DENIED - if the file couldn't be accessed due to
+ * - Sane.STATUS_ACCESS_DENIED - if the file couldn"t be accessed due to
  *   permissions
  * - Sane.STATUS_INVAL - on every other error
  */
@@ -2616,7 +2616,7 @@ sanei_bjnp_read_int(Int dn, Sane.Byte * buffer, size_t * size)
   memset(buffer, 0, *size)
 
   gethostname(hostname, 32)
-  hostname[32] = '\0'
+  hostname[32] = "\0"
 
 
   switch(device[dn].polling_status)

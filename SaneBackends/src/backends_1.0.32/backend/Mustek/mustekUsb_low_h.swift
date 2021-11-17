@@ -282,7 +282,7 @@ static Sane.Status usb_low_set_timing(ma1017 * chip, Sane.Byte data)
 static Sane.Status usb_low_set_sram_bank(ma1017 * chip, Banksize banksize)
 
 /* A8 */
-static Sane.Status usb_low_get_a8 (ma1017 * chip, Sane.Byte * value)
+static Sane.Status usb_low_get_a8(ma1017 * chip, Sane.Byte * value)
 
 static Sane.Status
 usb_low_set_cmt_table_length(ma1017 * chip, Sane.Byte table_length)
@@ -337,7 +337,7 @@ usb_low_move_motor_home(ma1017 * chip, Bool is_home,
 			 Bool is_backward)
 
 /* A16 */
-static Sane.Status usb_low_get_a16 (ma1017 * chip, Sane.Byte * value)
+static Sane.Status usb_low_get_a16(ma1017 * chip, Sane.Byte * value)
 
 static Sane.Status
 usb_low_set_image_dpi(ma1017 * chip, Bool is_optical600,
@@ -351,7 +351,7 @@ static Sane.Status usb_low_invert_image(ma1017 * chip, Bool is_invert)
 /* A17 + A18 + A19 */
 static Sane.Status usb_low_get_a17 (ma1017 * chip, Sane.Byte * value)
 
-static Sane.Status usb_low_get_a18 (ma1017 * chip, Sane.Byte * value)
+static Sane.Status usb_low_get_a18(ma1017 * chip, Sane.Byte * value)
 
 static Sane.Status usb_low_get_a19 (ma1017 * chip, Sane.Byte * value)
 

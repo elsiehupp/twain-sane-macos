@@ -580,14 +580,14 @@ artec_str_list_to_word_list(Sane.Word ** word_list_ptr, String str)
 
   /* make temp copy of input string(only hold 1024 for now) */
   strncpy(temp_str, str, 1023)
-  temp_str[1023] = '\0'
+  temp_str[1023] = "\0"
 
-  end = strchr(temp_str, ',')
+  end = strchr(temp_str, ",")
   while(end != NULL)
     {
       comma_count++
       start = end + 1
-      end = strchr(start, ',')
+      end = strchr(start, ",")
     }
 
   word_list = (Sane.Word *) calloc(comma_count + 1,
@@ -600,15 +600,15 @@ artec_str_list_to_word_list(Sane.Word ** word_list_ptr, String str)
 
   comma_count = 1
   start = temp_str
-  end = strchr(temp_str, ',')
+  end = strchr(temp_str, ",")
   while(end != NULL)
     {
-      *end = '\0'
+      *end = "\0"
       word_list[comma_count] = atol(start)
 
       start = end + 1
       comma_count++
-      end = strchr(start, ',')
+      end = strchr(start, ",")
     }
 
   word_list[comma_count] = atol(start)
@@ -739,7 +739,7 @@ sense_handler(Int fd, u_char * sense, void *arg)
 	}
       if(sense[19] & 0x10)
 	{
-	  /* docs say "reserved to '0'" */
+	  /* docs say "reserved to "0"" */
 	  DBG(2, "sense:  CCD control circuit Error\n")
 	  err++
 	}
@@ -750,7 +750,7 @@ sense_handler(Int fd, u_char * sense, void *arg)
 	}
       if(sense[19] & 0x40)
 	{
-	  /* docs say "reserved to '0'" */
+	  /* docs say "reserved to "0"" */
 	  DBG(2, "sense:  Lamp Error\n")
 	  err++
 	}
@@ -908,12 +908,12 @@ wait_ready(Int fd)
 	}
 
       /* status != GOOD && != BUSY */
-      DBG(9, "wait_ready: '%s'\n", Sane.strstatus(status))
+      DBG(9, "wait_ready: "%s"\n", Sane.strstatus(status))
       return status
     }
 
   /* BUSY after n retries */
-  DBG(9, "wait_ready: '%s'\n", Sane.strstatus(status))
+  DBG(9, "wait_ready: "%s"\n", Sane.strstatus(status))
   return status
 }
 
@@ -1054,7 +1054,7 @@ artec_reverse_line(Sane.Handle handle, Sane.Byte * data)
 
   DBG(8, "artec_reverse_line()\n")
 
-  len = s.params.bytes_per_line
+  len = s.params.bytesPerLine
   memcpy(tmp_buf, data, len)
 
   if(s.params.format == Sane.FRAME_RGB)	/* RGB format */
@@ -1177,7 +1177,7 @@ artec_buffer_line_offset(Sane.Handle handle, Int line_offset,
       tmp_line_buf = malloc(*len)
       if(tmp_line_buf == NULL)
 	{
-	  DBG(1, "couldn't allocate memory for temp line buffer\n")
+	  DBG(1, "couldn"t allocate memory for temp line buffer\n")
 	  return(Sane.STATUS_NO_MEM)
 	}
 
@@ -1187,7 +1187,7 @@ artec_buffer_line_offset(Sane.Handle handle, Int line_offset,
       line_buffer = malloc(r_buf_lines * sizeof(Sane.Byte *))
       if(line_buffer == NULL)
 	{
-	  DBG(1, "couldn't allocate memory for line buffer pointers\n")
+	  DBG(1, "couldn"t allocate memory for line buffer pointers\n")
 	  return(Sane.STATUS_NO_MEM)
 	}
 
@@ -1196,7 +1196,7 @@ artec_buffer_line_offset(Sane.Handle handle, Int line_offset,
 	  line_buffer[count] = malloc((*len) * sizeof(Sane.Byte))
 	  if(line_buffer[count] == NULL)
 	    {
-	      DBG(1, "couldn't allocate memory for line buffer %d\n",
+	      DBG(1, "couldn"t allocate memory for line buffer %d\n",
 		   count)
 	      return(Sane.STATUS_NO_MEM)
 	    }
@@ -1213,7 +1213,7 @@ artec_buffer_line_offset(Sane.Handle handle, Int line_offset,
       if(cur_line > r_buf_lines)
 	{
 	  /* copy the Red and Green portions out of the buffer */
-	  /* if scanner returns RRRRRRRRGGGGGGGGGBBBBBBBB format it's easier */
+	  /* if scanner returns RRRRRRRRGGGGGGGGGBBBBBBBB format it"s easier */
 	  if(s.hw.flags & ARTEC_FLAG_RGB_CHAR_SHIFT)
 	    {
 	      /* get the red line info from r_buf_lines ago */
@@ -1255,7 +1255,7 @@ artec_buffer_line_offset(Sane.Handle handle, Int line_offset,
       if(cur_line > r_buf_lines)
 	{
 	  /* copy the Red and Green portions out of the buffer */
-	  /* if scanner returns RRRRRRRRGGGGGGGGGBBBBBBBB format it's easier */
+	  /* if scanner returns RRRRRRRRGGGGGGGGGBBBBBBBB format it"s easier */
 	  if(s.hw.flags & ARTEC_FLAG_RGB_CHAR_SHIFT)
 	    {
 	      /* copy the red and green data in with the original blue */
@@ -1291,7 +1291,7 @@ artec_buffer_line_offset(Sane.Handle handle, Int line_offset,
 	}
       else
 	{
-	  /* if in the first r_buf_lines, then don't return anything */
+	  /* if in the first r_buf_lines, then don"t return anything */
 	  *len = 0
 	}
     }
@@ -1355,7 +1355,7 @@ artec_read_gamma_table(Sane.Handle handle)
       data = write_6 + 19
     }
 
-  /* FIXME: AT12 & AM12S ignore this, it's a reserved field */
+  /* FIXME: AT12 & AM12S ignore this, it"s a reserved field */
   write_6[10] = 0x08;		/* bitmask, bit 3 means mono type */
 
   if(!s.val[OPT_CUSTOM_GAMMA].w)
@@ -1366,7 +1366,7 @@ artec_read_gamma_table(Sane.Handle handle)
   DBG( 9, "Gamma Table\n" )
   DBG( 9, "==================================\n" )
 
-  prt_buf[0] = '\0'
+  prt_buf[0] = "\0"
   for(i = 0; i < s.gamma_length; i++)
     {
       if(DBG_LEVEL >= 9)
@@ -1433,7 +1433,7 @@ artec_send_gamma_table(Sane.Handle handle)
       write_6[2] = 0x03
     }
 
-  /* FIXME: AT12 & AM!2S ignore this, it's a reserved field */
+  /* FIXME: AT12 & AM!2S ignore this, it"s a reserved field */
   write_6[10] = 0x08;		/* bitmask, bit 3 means mono type */
 
   if(!s.val[OPT_CUSTOM_GAMMA].w)
@@ -1465,7 +1465,7 @@ artec_send_gamma_table(Sane.Handle handle)
 	  data = write_6 + 19
 	}
 
-      prt_buf[0] = '\0'
+      prt_buf[0] = "\0"
       for(i = 0; i < s.gamma_length; i++)
 	{
 	  if(DBG_LEVEL >= 9)
@@ -1664,7 +1664,7 @@ artec_set_scan_window(Sane.Handle handle)
       data[35] = 4
     }
 
-  /* NOTE: AT12 doesn't support mono according to docs. */
+  /* NOTE: AT12 doesn"t support mono according to docs. */
   data[48] = artec_get_str_index(filter_type_list,
 	  s.val[OPT_FILTER_TYPE].s);	/* filter mode */
 
@@ -1998,7 +1998,7 @@ artec_get_cap_data(ARTEC_Device * dev, Int fd)
 
   if(cap_model == -1)
     {
-      DBG(1, "unable to identify Artec model '%s', check artec.c\n",
+      DBG(1, "unable to identify Artec model "%s", check artec.c\n",
 	   dev.sane.model)
       return(Sane.STATUS_UNSUPPORTED)
     }
@@ -2071,13 +2071,13 @@ artec_get_cap_data(ARTEC_Device * dev, Int fd)
 
       DBG(50, "scanner capability data : \n")
       strncpy(info, (const char *) &cap_buf[0], 8)
-      info[8] = '\0'
+      info[8] = "\0"
       DBG(50, "  Vendor                    : %s\n", info)
       strncpy(info, (const char *) &cap_buf[8], 16)
-      info[16] = '\0'
+      info[16] = "\0"
       DBG(50, "  Device Name               : %s\n", info)
       strncpy(info, (const char *) &cap_buf[24], 4)
-      info[4] = '\0'
+      info[4] = "\0"
       DBG(50, "  Version Number            : %s\n", info)
       sprintf(info, "%d ", cap_buf[29])
       DBG(50, "  CCD Type                  : %s\n", info)
@@ -2123,7 +2123,7 @@ artec_get_cap_data(ARTEC_Device * dev, Int fd)
       sprintf(info, "%d ", (cap_buf[57] << 8) | cap_buf[58])
       DBG(50, "  Phys. Area Length         : %s\n", info)
 
-      /* fill in the information we've got from the scanner */
+      /* fill in the information we"ve got from the scanner */
 
       dev.width = ((float) ((cap_buf[55] << 8) | cap_buf[56])) / 1000
       dev.height = ((float) ((cap_buf[57] << 8) | cap_buf[58])) / 1000
@@ -2188,7 +2188,7 @@ dump_inquiry(unsigned char *result)
       for(j = 0; j < 16; j++)
 	{
 	  sprintf(tmp_buf, "%c",
-		   isprint(result[i + j]) ? result[i + j] : '.')
+		   isprint(result[i + j]) ? result[i + j] : ".")
 	  strcat( prt_buf, tmp_buf )
 	}
       strcat( prt_buf, "\n" )
@@ -2246,7 +2246,7 @@ attach(const char *devname, ARTEC_Device ** devp)
    */
   if(result[0] != 0x6)
     {
-      DBG(1, "attach: device doesn't look like a scanner at all.\n")
+      DBG(1, "attach: device doesn"t look like a scanner at all.\n")
       sanei_scsi_close(fd)
       return(Sane.STATUS_INVAL)
     }
@@ -2254,12 +2254,12 @@ attach(const char *devname, ARTEC_Device ** devp)
   /*
    * The BlackWidow BW4800SP is actually a rebadged AT3, with the vendor
    * string set to 8 spaces and the product to "Flatbed Scanner ".  So,
-   * if we have one of these, we'll make it look like an AT3.
+   * if we have one of these, we"ll make it look like an AT3.
    *
-   * For now, to be on the safe side, we'll also check the version number
+   * For now, to be on the safe side, we"ll also check the version number
    * since BlackWidow seems to have left that intact as "1.90".
    *
-   * Check that result[36] == 0x00 so we don't mistake a microtek scanner.
+   * Check that result[36] == 0x00 so we don"t mistake a microtek scanner.
    */
   if((result[36] == 0x00) &&
       (strncmp(result + 32, "1.90", 4) == 0) &&
@@ -2321,14 +2321,14 @@ attach(const char *devname, ARTEC_Device ** devp)
   if((strncmp(result + 8, "ULTIMA", 6) != 0) &&
       (strncmp(result + 8, "ARTEC", 5) != 0))
     {
-      DBG(1, "attach: device doesn't look like a Artec/ULTIMA scanner\n")
+      DBG(1, "attach: device doesn"t look like a Artec/ULTIMA scanner\n")
 
       strncpy(temp_result, result + 8, 8)
       temp_result[8] = 0x0
-      DBG(1, "attach: FOUND vendor = '%s'\n", temp_result)
+      DBG(1, "attach: FOUND vendor = "%s"\n", temp_result)
       strncpy(temp_result, result + 16, 16)
       temp_result[16] = 0x0
-      DBG(1, "attach: FOUND model  = '%s'\n", temp_result)
+      DBG(1, "attach: FOUND model  = "%s"\n", temp_result)
 
       sanei_scsi_close(fd)
       return(Sane.STATUS_INVAL)
@@ -2367,48 +2367,48 @@ attach(const char *devname, ARTEC_Device ** devp)
   /* get the model info */
   str = malloc(17)
   memcpy(str, result + 16, 16)
-  str[16] = ' '
+  str[16] = " "
   t = str + 16
-  while((*t == ' ') && (t > str))
+  while((*t == " ") && (t > str))
     {
-      *t = '\0'
+      *t = "\0"
       t--
     }
   dev.sane.model = str
 
   /* for some reason, the firmware revision is in the model info string on */
-  /* the A6000C PLUS scanners instead of in it's proper place */
+  /* the A6000C PLUS scanners instead of in it"s proper place */
   if(strstr(str, "A6000C PLUS") == str)
     {
-      str[11] = '\0'
+      str[11] = "\0"
       strncpy(product_revision, str + 12, 4)
     }
   else if(strstr(str, "AT3") == str)
     {
-      str[3] = '\0'
+      str[3] = "\0"
       strncpy(product_revision, str + 8, 4)
     }
   else
     {
-      /* get the product revision from it's normal place */
+      /* get the product revision from it"s normal place */
       strncpy(product_revision, result + 32, 4)
     }
-  product_revision[4] = ' '
-  t = strchr(product_revision, ' ')
+  product_revision[4] = " "
+  t = strchr(product_revision, " ")
   if(t)
-    *t = '\0'
+    *t = "\0"
   else
     t = "unknown revision"
 
   /* get the vendor info */
   str = malloc(9)
   memcpy(str, result + 8, 8)
-  str[8] = ' '
-  t = strchr(str, ' ')
-  *t = '\0'
+  str[8] = " "
+  t = strchr(str, " ")
+  *t = "\0"
   dev.sane.vendor = str
 
-  DBG(5, "scanner vendor: '%s', model: '%s', revision: '%s'\n",
+  DBG(5, "scanner vendor: "%s", model: "%s", revision: "%s"\n",
        dev.sane.vendor, dev.sane.model, product_revision)
 
   /* Artec docs say if bytes 36-43 = "ULTIMA  ", then supports read cap. data */
@@ -2881,7 +2881,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
       cp = artec_skip_whitespace(dev_name)
 
       /* ignore line comments and blank lines */
-      if((!*cp) || (*cp == '#'))
+      if((!*cp) || (*cp == "#"))
 	continue
 
       len = strlen(cp)
@@ -2890,7 +2890,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
       if(!len)
 	continue
 
-      DBG(50, "%s line: '%s', len = %lu\n", ARTEC_CONFIG_FILE, cp,
+      DBG(50, "%s line: "%s", len = %lu\n", ARTEC_CONFIG_FILE, cp,
 	   (u_long) len)
 
       /* check to see if they forced a vendor string in artec.conf */
@@ -2900,7 +2900,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 	  cp = artec_skip_whitespace(cp)
 
 	  strcpy(artec_vendor, cp)
-	  DBG(5, "Sane.init: Forced vendor string '%s' in %s.\n",
+	  DBG(5, "Sane.init: Forced vendor string "%s" in %s.\n",
 	       cp, ARTEC_CONFIG_FILE)
 	}
       /* OK, maybe they forced the model string in artec.conf */
@@ -2910,7 +2910,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 	  cp = artec_skip_whitespace(cp)
 
 	  strcpy(artec_model, cp)
-	  DBG(5, "Sane.init: Forced model string '%s' in %s.\n",
+	  DBG(5, "Sane.init: Forced model string "%s" in %s.\n",
 	       cp, ARTEC_CONFIG_FILE)
 	}
       /* well, nothing else to do but attempt the attach */
@@ -3315,7 +3315,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 		}
 
 	      if(s.val[option].w == Sane.FALSE)
-		{		/* don't bind */
+		{		/* don"t bind */
 		  s.opt[OPT_Y_RESOLUTION].cap &= ~Sane.CAP_INACTIVE
 		  s.opt[OPT_X_RESOLUTION].title =
 		    Sane.TITLE_SCAN_X_RESOLUTION
@@ -3375,7 +3375,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 		}
 	    }
 	  else
-	    /* don't use custom_gamma_table */
+	    /* don"t use custom_gamma_table */
 	    {
 	      s.opt[OPT_GAMMA_VECTOR].cap |= Sane.CAP_INACTIVE
 	      s.opt[OPT_GAMMA_VECTOR_R].cap |= Sane.CAP_INACTIVE
@@ -3484,38 +3484,38 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	  (strcmp(s.mode, Sane.VALUE_SCAN_MODE_HALFTONE) == 0))
 	{
 	  s.params.format = Sane.FRAME_GRAY
-	  s.params.bytes_per_line = (s.params.pixels_per_line + 7) / 8
+	  s.params.bytesPerLine = (s.params.pixels_per_line + 7) / 8
 	  s.params.depth = 1
 	  s.line_offset = 0
 
 	  /* round pixels_per_line up to the next full byte of pixels */
-	  /* this way we don't have to do bit buffering, pixels_per_line is */
+	  /* this way we don"t have to do bit buffering, pixels_per_line is */
 	  /* what is used in the set window command. */
-	  /* SANE expects the last byte in a line to be padded if it's not */
+	  /* SANE expects the last byte in a line to be padded if it"s not */
 	  /* full, so this should not affect scans in a negative way */
-	  s.params.pixels_per_line = s.params.bytes_per_line * 8
+	  s.params.pixels_per_line = s.params.bytesPerLine * 8
 	}
       else if(strcmp(s.mode, Sane.VALUE_SCAN_MODE_GRAY) == 0)
 	{
 	  s.params.format = Sane.FRAME_GRAY
-	  s.params.bytes_per_line = s.params.pixels_per_line
+	  s.params.bytesPerLine = s.params.pixels_per_line
 	  s.params.depth = 8
 	  s.line_offset = 0
 	}
       else
 	{
-	  s.params.bytes_per_line = s.params.pixels_per_line
+	  s.params.bytesPerLine = s.params.pixels_per_line
 	  s.params.depth = 8
 
 	  if(s.hw.flags & ARTEC_FLAG_ONE_PASS_SCANNER)
 	    {
 	      s.onepasscolor = Sane.TRUE
 	      s.params.format = Sane.FRAME_RGB
-	      s.params.bytes_per_line *= 3
+	      s.params.bytesPerLine *= 3
 
 	      /*
 	       * line offsets from documentation.
-	       * (I don't yet see a common formula I can easily use)
+	       * (I don"t yet see a common formula I can easily use)
 	       */
 	      /* FIXME: figure out a cleaner way to do this... */
 	      s.line_offset = 0;	/* default */
@@ -3586,7 +3586,7 @@ Sane.start(Sane.Handle handle)
     }
 
   /* First make sure we have a current parameter set.  Some of the */
-  /* parameters will be overwritten below, but that's OK.  */
+  /* parameters will be overwritten below, but that"s OK.  */
   status = Sane.get_parameters(s, 0)
   if(status != Sane.STATUS_GOOD)
     return status
@@ -3629,11 +3629,11 @@ Sane.start(Sane.Handle handle)
 	}
     }
 
-  s.bytes_to_read = s.params.bytes_per_line * s.params.lines
+  s.bytes_to_read = s.params.bytesPerLine * s.params.lines
 
   DBG(9, "%d pixels per line, %d bytes, %d lines high, xdpi = %d, "
        "ydpi = %d, btr = %lu\n",
-       s.params.pixels_per_line, s.params.bytes_per_line, s.params.lines,
+       s.params.pixels_per_line, s.params.bytesPerLine, s.params.lines,
        s.x_resolution, s.y_resolution, (u_long) s.bytes_to_read)
 
   /* DAL: For single pass scans and the first pass of a 3 pass scan */
@@ -3765,9 +3765,9 @@ artec_Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
   if(!s.scanning)
     return do_cancel(s)
 
-  remaining_rows = (s.bytes_to_read + s.params.bytes_per_line - 1) / s.params.bytes_per_line
-  max_read_rows = s.hw.max_read_size / s.params.bytes_per_line
-  max_ret_rows = max_len / s.params.bytes_per_line
+  remaining_rows = (s.bytes_to_read + s.params.bytesPerLine - 1) / s.params.bytesPerLine
+  max_read_rows = s.hw.max_read_size / s.params.bytesPerLine
+  max_ret_rows = max_len / s.params.bytesPerLine
 
   while(artec_get_status(s.fd) == 0)
     {
@@ -3782,26 +3782,26 @@ artec_Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
       DBG(50, "top of while loop, rr = %lu, mrr = %lu, rem = %lu\n",
 	   (u_long) rows_read, (u_long) max_ret_rows, (u_long) remaining_rows)
 
-      if(s.bytes_to_read - bytes_read <= s.params.bytes_per_line * max_read_rows)
+      if(s.bytes_to_read - bytes_read <= s.params.bytesPerLine * max_read_rows)
 	{
 	  nread = s.bytes_to_read - bytes_read
 	}
       else
 	{
-	  nread = s.params.bytes_per_line * max_read_rows
+	  nread = s.params.bytesPerLine * max_read_rows
 	}
-      lread = nread / s.params.bytes_per_line
+      lread = nread / s.params.bytesPerLine
 
       if((max_read_rows - rows_read) < lread)
 	{
 	  lread = max_read_rows - rows_read
-	  nread = lread * s.params.bytes_per_line
+	  nread = lread * s.params.bytesPerLine
 	}
 
       if((max_ret_rows - rows_read) < lread)
 	{
 	  lread = max_ret_rows - rows_read
-	  nread = lread * s.params.bytes_per_line
+	  nread = lread * s.params.bytesPerLine
 	}
 
       while((rows_available = artec_get_status(s.fd)) == 0)
@@ -3813,7 +3813,7 @@ artec_Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
       if(rows_available < lread)
 	{
 	  lread = rows_available
-	  nread = lread * s.params.bytes_per_line
+	  nread = lread * s.params.bytesPerLine
 	}
 
       /* This should never happen, but just in case... */
@@ -3823,8 +3823,8 @@ artec_Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
 	  lread = 1
 	}
 
-      DBG(50, "rows_available = %lu, params.lines = %d, bytes_per_line = %d\n",
-	   (u_long) rows_available, s.params.lines, s.params.bytes_per_line)
+      DBG(50, "rows_available = %lu, params.lines = %d, bytesPerLine = %d\n",
+	   (u_long) rows_available, s.params.lines, s.params.bytesPerLine)
       DBG(50, "bytes_to_read = %lu, max_len = %d, max_rows = %lu\n",
 	   (u_long) s.bytes_to_read, max_len, (u_long) max_ret_rows)
       DBG(50, "nread = %lu, lread = %lu, bytes_read = %lu, rows_read = %lu\n",
@@ -3851,10 +3851,10 @@ artec_Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
 	  for(line = 0; line < lread; line++)
 	    {
 	      memcpy(line_buf,
-		      temp_buf + (line * s.params.bytes_per_line),
-		      s.params.bytes_per_line)
+		      temp_buf + (line * s.params.bytesPerLine),
+		      s.params.bytesPerLine)
 
-	      nread = s.params.bytes_per_line
+	      nread = s.params.bytesPerLine
 
 	      artec_buffer_line_offset(s, s.line_offset, line_buf, &nread)
 
@@ -3877,7 +3877,7 @@ artec_Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
 		    }
 
 		  memcpy(buf + bytes_read, line_buf,
-			  s.params.bytes_per_line)
+			  s.params.bytesPerLine)
 		  bytes_read += nread
 		  rows_read++
 		}
@@ -3895,13 +3895,13 @@ artec_Sane.read(Sane.Handle handle, Sane.Byte * buf, Int max_len, Int * len)
 		      (s.hw.flags & ARTEC_FLAG_RGB_CHAR_SHIFT))
 		    {
 		      artec_line_rgb_to_byte_rgb(temp_buf +
-					  (line * s.params.bytes_per_line),
+					  (line * s.params.bytesPerLine),
 						  s.params.pixels_per_line)
 		    }
 		  if(s.hw.flags & ARTEC_FLAG_IMAGE_REV_LR)
 		    {
 		      artec_reverse_line(s, temp_buf +
-					  (line * s.params.bytes_per_line))
+					  (line * s.params.bytesPerLine))
 		    }
 		}
 	    }

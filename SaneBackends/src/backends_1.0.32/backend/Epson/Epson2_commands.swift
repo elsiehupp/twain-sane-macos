@@ -386,8 +386,8 @@ esci_set_gamma_table(Epson_Scanner * s)
 	Int n
 	Int table
 
-/*	static const char gamma_cmds[] = { 'M', 'R', 'G', 'B' ] */
-	static const char gamma_cmds[] = { 'R', 'G', 'B' ]
+/*	static const char gamma_cmds[] = { "M", "R", "G", "B" ] */
+	static const char gamma_cmds[] = { "R", "G", "B" ]
 
 	DBG(8, "%s\n", __func__)
 	if(!s.hw.cmd.set_gamma_table)
@@ -405,7 +405,7 @@ esci_set_gamma_table(Epson_Scanner * s)
 			for(i = 0; i < 256; i += 16) {
 				char gammaValues[16 * 3 + 1], newValue[4]
 
-				gammaValues[0] = '\0'
+				gammaValues[0] = "\0"
 
 				for(j = 0; j < 16; j++) {
 					sprintf(newValue, " %02x",
@@ -549,7 +549,7 @@ esci_request_extended_identity(Sane.Handle handle, unsigned char *buf)
 	    buf[62], buf[63], buf[64], buf[65])
 
 	memcpy(model, &buf[46], 16)
-	model[16] = '\0'
+	model[16] = "\0"
 	DBG(1, " model name      : %s\n", model)
 
 	DBG(1, "options:\n")
@@ -620,7 +620,7 @@ esci_request_scanner_status(Sane.Handle handle, unsigned char *buf)
 		return Sane.STATUS_INVAL
 
 	params[0] = FS
-	params[1] = 'F'
+	params[1] = "F"
 
 	status = e2_txrx(s, params, 2, buf, 16)
 	if(status != Sane.STATUS_GOOD)
@@ -716,7 +716,7 @@ esci_set_scanning_parameter(Sane.Handle handle, unsigned char *buf)
 		return Sane.STATUS_INVAL
 
 	params[0] = FS
-	params[1] = 'W'
+	params[1] = "W"
 
 	DBG(10, "resolution of main scan     : %lu\n", (unsigned long) le32atoh(&buf[0]))
 	DBG(10, "resolution of sub scan      : %lu\n", (unsigned long) le32atoh(&buf[4]))
@@ -768,7 +768,7 @@ esci_get_scanning_parameter(Sane.Handle handle, unsigned char *buf)
 		return Sane.STATUS_INVAL
 
 	params[0] = FS
-	params[1] = 'S'
+	params[1] = "S"
 
 	status = e2_txrx(s, params, 2, buf, 64)
 	if(status != Sane.STATUS_GOOD)
@@ -834,7 +834,7 @@ esci_enable_infrared(Sane.Handle handle)
 	}
 
 	params[0] = ESC
-	params[1] = '#'
+	params[1] = "#"
 
 	status = e2_cmd_simple(s, params, 2)
 	if(status != Sane.STATUS_GOOD)

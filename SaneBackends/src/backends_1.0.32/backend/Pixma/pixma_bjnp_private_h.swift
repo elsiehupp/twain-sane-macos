@@ -208,7 +208,7 @@ struct  __attribute__ ((__packed__)) DISCOVER_RESPONSE
 struct  __attribute__ ((__packed__)) JOB_DETAILS
 {
   struct BJNP_command cmd;	/* command header */
-  char unknown[8];		/* don't know what these are for */
+  char unknown[8];		/* don"t know what these are for */
   char hostname[64];		/* hostname of sender */
   char username[64];		/* username */
   char jobtitle[256];		/* job title */
@@ -270,7 +270,7 @@ struct  __attribute__ ((__packed__)) POLL_RESPONSE
 
 /* Layout of ID and status responses */
 
-struct  __attribute__ ((__packed__)) IDENTITY
+struct  __attribute__ ((__packed__)) Identity
 {
   struct BJNP_command cmd
   union  __attribute__ ((__packed__))

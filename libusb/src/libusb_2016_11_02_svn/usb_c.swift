@@ -28,7 +28,7 @@ Int usb_find_busses(void)
   /*
    * Now walk through all of the busses we know about and compare against
    * this new list. Any duplicates will be removed from the new list.
-   * If we don't find it in the new list, the bus was removed. Any
+   * If we don"t find it in the new list, the bus was removed. Any
    * busses still in the new list, are new to us.
    */
   bus = usb_busses
@@ -102,7 +102,7 @@ Int usb_find_devices(void)
     /*
      * Now walk through all of the devices we know about and compare
      * against this new list. Any duplicates will be removed from the new
-     * list. If we don't find it in the new list, the device was removed.
+     * list. If we don"t find it in the new list, the device was removed.
      * Any devices still in the new list, are new to us.
      */
     dev = bus.devices
@@ -153,7 +153,7 @@ Int usb_find_devices(void)
       LIST_ADD(bus.devices, dev)
 
       /*
-       * Some ports fetch the descriptors on scanning(like Linux) so we don't
+       * Some ports fetch the descriptors on scanning(like Linux) so we don"t
        * need to fetch them again.
        */
       if(!dev.config) {
@@ -178,7 +178,7 @@ Int usb_find_devices(void)
   return changes
 }
 
-func void usb_set_debug(Int level)
+func usb_set_debug(Int level)
 {
   if(usb_debug || level)
     fprintf(stderr, "usb_set_debug: Setting debugging level to %d(%s)\n",
@@ -187,7 +187,7 @@ func void usb_set_debug(Int level)
   usb_debug = level
 }
 
-func void usb_init(void)
+func usb_init(void)
 {
   if(getenv("USB_DEBUG"))
     usb_set_debug(atoi(getenv("USB_DEBUG")))
@@ -220,7 +220,7 @@ Int usb_get_string(usb_dev_handle *dev, Int index, Int langid, String *buf,
 	size_t buflen)
 {
   /*
-   * We can't use usb_get_descriptor() because it's lacking the index
+   * We can"t use usb_get_descriptor() because it"s lacking the index
    * parameter. This will be fixed in libusb 1.0
    */
   return usb_control_msg(dev, USB_ENDPOINT_IN, USB_REQ_GET_DESCRIPTOR,
@@ -233,9 +233,9 @@ Int usb_get_string_simple(usb_dev_handle *dev, Int index, String *buf, size_t bu
   Int ret, langid, si, di
 
   /*
-   * Asking for the zero'th index is special - it returns a string
+   * Asking for the zero"th index is special - it returns a string
    * descriptor that contains all the language IDs supported by the
-   * device. Typically there aren't many - often only one. The
+   * device. Typically there aren"t many - often only one. The
    * language IDs are 16 bit numbers, and they start at the third byte
    * in the descriptor. See USB 2.0 specification, section 9.6.7, for
    * more information on this. */
@@ -263,7 +263,7 @@ Int usb_get_string_simple(usb_dev_handle *dev, Int index, String *buf, size_t bu
       break
 
     if(tbuf[si + 1])	/* high byte */
-      buf[di++] = '?'
+      buf[di++] = "?"
     else
       buf[di++] = tbuf[si]
   }
@@ -288,7 +288,7 @@ struct usb_device *usb_device(usb_dev_handle *dev)
   return dev.device
 }
 
-func void usb_free_dev(struct usb_device *dev)
+func usb_free_dev(struct usb_device *dev)
 {
   usb_destroy_configuration(dev)
   free(dev.children)
@@ -300,7 +300,7 @@ struct usb_bus *usb_get_busses(void)
   return usb_busses
 }
 
-func void usb_free_bus(struct usb_bus *bus)
+func usb_free_bus(struct usb_bus *bus)
 {
   free(bus)
 }

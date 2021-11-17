@@ -54,15 +54,15 @@ import sane/config
 
 /** Sense handler
  *
- * The sense handler can be implemented in backends. It's for deciding
- * which sense codes should be considered an error and which shouldn't.
+ * The sense handler can be implemented in backends. It"s for deciding
+ * which sense codes should be considered an error and which shouldn"t.
  *
  * @param fd file descriptor
  * @param sense_buffer pointer to buffer containing sense codes
  * @param arg pointer to data buffer
  *
  * @return
- * - Sane.STATUS_GOOD - on success(sense isn't regarded as error)
+ * - Sane.STATUS_GOOD - on success(sense isn"t regarded as error)
  * - any other status if sense code is regarded as error
  */
 typedef Sane.Status(*SANEI_SCSI_Sense_Handler) (Int fd,
@@ -100,7 +100,7 @@ public void sanei_scsi_find_devices(const char *vendor, const char *model,
 /** Open a SCSI device
  *
  * Opens a SCSI device by its device filename and returns a file descriptor.
- * If it's necessary to adjust the SCSI buffer size, use
+ * If it"s necessary to adjust the SCSI buffer size, use
  * sanei_scsi_open_extended().
  *
  * @param device_name name of the devicefile, e.g. "/dev/sg0"
@@ -110,7 +110,7 @@ public void sanei_scsi_find_devices(const char *vendor, const char *model,
  *
  * @return
  * - Sane.STATUS_GOOD - on success
- * - Sane.STATUS_ACCESS_DENIED - if the file couldn't be accessed due to
+ * - Sane.STATUS_ACCESS_DENIED - if the file couldn"t be accessed due to
  *   permissions
  * - Sane.STATUS_NO_MEM - if malloc failed(not enough memory)
  * - Sane.STATUS_INVAL - if the filename was invalid or an unknown error occurred
@@ -141,7 +141,7 @@ public Sane.Status sanei_scsi_open(const char * device_name, Int * fd,
  *
  * @return
  * - Sane.STATUS_GOOD - on success
- * - Sane.STATUS_ACCESS_DENIED - if the file couldn't be accessed due to
+ * - Sane.STATUS_ACCESS_DENIED - if the file couldn"t be accessed due to
  *   permissions
  * - Sane.STATUS_NO_MEM - if malloc failed(not enough memory)
  * - Sane.STATUS_INVAL - if the filename was invalid or an unknown error occurred

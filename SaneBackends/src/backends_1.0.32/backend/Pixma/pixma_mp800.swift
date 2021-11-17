@@ -449,7 +449,7 @@ static Int send_gamma_table(pixma_t * s)
   {
     data = pixma_newcmd(&mp.cb, cmd_gamma, 4096 + 8, 0)
     data[0] = (s.param.channels == 3) ? 0x10 : 0x01
-    pixma_set_be16 (0x1004, data + 2)
+    pixma_set_be16(0x1004, data + 2)
     if(lut)
       {
         /* PDBG(pixma_dbg(4, "*send_gamma_table***** Use 4096 bytes from LUT ***** \n")); */
@@ -470,7 +470,7 @@ static Int send_gamma_table(pixma_t * s)
       /* Gamma table for 2nd+ generation: 1024 * uint16_le */
       data = pixma_newcmd(&mp.cb, cmd_gamma, 1024 * 2 + 8, 0)
       data[0] = 0x10
-      pixma_set_be16 (0x0804, data + 2)
+      pixma_set_be16(0x0804, data + 2)
       if(lut)
         {
           /* PDBG(pixma_dbg(4, "*send_gamma_table***** Use 1024 * 2 bytes from LUT ***** \n")); */
@@ -523,7 +523,7 @@ static Int is_color(pixma_t * s)
   return(s.param.mode == PIXMA_SCAN_MODE_COLOR)
 }
 
-static Int is_color_48 (pixma_t * s)
+static Int is_color_48(pixma_t * s)
 {
   return(s.param.mode == PIXMA_SCAN_MODE_COLOR_48)
 }
@@ -535,7 +535,7 @@ static Int is_color_negative(pixma_t * s)
 
 static Int is_color_all(pixma_t * s)
 {
-  return(is_color(s) || is_color_48 (s) || is_color_negative(s))
+  return(is_color(s) || is_color_48(s) || is_color_negative(s))
 }
 #endif
 
@@ -544,7 +544,7 @@ static Int is_gray(pixma_t * s)
   return(s.param.mode == PIXMA_SCAN_MODE_GRAY)
 }
 
-static Int is_gray_16 (pixma_t * s)
+static Int is_gray_16(pixma_t * s)
 {
   return(s.param.mode == PIXMA_SCAN_MODE_GRAY_16)
 }
@@ -556,7 +556,7 @@ static Int is_gray_negative(pixma_t * s)
 
 static Int is_gray_all(pixma_t * s)
 {
-  return(is_gray(s) || is_gray_16 (s) || is_gray_negative(s))
+  return(is_gray(s) || is_gray_16(s) || is_gray_negative(s))
 }
 
 static Int is_lineart(pixma_t * s)
@@ -569,7 +569,7 @@ static Int is_tpuir(pixma_t * s)
   return(s.param.mode == PIXMA_SCAN_MODE_TPUIR)
 }
 
-/* CCD sensors don't have neither a Grayscale mode nor a Lineart mode,
+/* CCD sensors don"t have neither a Grayscale mode nor a Lineart mode,
  * but use color mode instead */
 static unsigned get_cis_ccd_line_size(pixma_t * s)
 {
@@ -607,7 +607,7 @@ static unsigned calc_shifting(pixma_t * s)
           if(is_scanning_from_tpu(s))
             mp.color_shift = s.param.ydpi / 75
 
-          /* If you're trying to decipher this color-shifting code,
+          /* If you"re trying to decipher this color-shifting code,
              the following line is where the magic is revealed. */
           mp.shift[1] = mp.color_shift * get_cis_ccd_line_size(s)
           if(is_scanning_from_adf(s))
@@ -781,7 +781,7 @@ static unsigned calc_shifting(pixma_t * s)
       {
         case CS9000F_PID:
         case CS9000F_MII_PID:
-          if(is_color_48 (s) || is_gray_16 (s))
+          if(is_color_48(s) || is_gray_16(s))
           {
             mp.color_shift = 5
             mp.shift[1] = 0
@@ -817,7 +817,7 @@ static Int send_scan_param(pixma_t * s)
     /* tested for MP960, 9000F */
     /* add lines for color shifting */
     /* otherwise you cannot scan all lines defined for flatbed mode */
-    /* this shouldn't affect TPU mode */
+    /* this shouldn"t affect TPU mode */
     h2 = s.cfg.height * s.param.ydpi / 75 + shifting
     /* PDBG(pixma_dbg(4, "* send_scan_param: height calc(choose lesser) 2 %u = %u max. lines for scanner + %u lines for color shifting \n", h2, s.cfg.height * s.param.ydpi / 75, shifting )); */
   }
@@ -832,14 +832,14 @@ static Int send_scan_param(pixma_t * s)
   if(mp.generation <= 2)
   {
     data = pixma_newcmd(&mp.cb, cmd_scan_param, 0x30, 0)
-    pixma_set_be16 (s.param.xdpi | 0x8000, data + 0x04)
-    pixma_set_be16 (s.param.ydpi | 0x8000, data + 0x06)
-    pixma_set_be32 (s.param.x, data + 0x08)
+    pixma_set_be16(s.param.xdpi | 0x8000, data + 0x04)
+    pixma_set_be16(s.param.ydpi | 0x8000, data + 0x06)
+    pixma_set_be32(s.param.x, data + 0x08)
     if(mp.generation == 2)
-      pixma_set_be32 (s.param.x - s.param.xs, data + 0x08)
-    pixma_set_be32 (s.param.y, data + 0x0c)
-    pixma_set_be32 (raw_width, data + 0x10)
-    pixma_set_be32 (h, data + 0x14)
+      pixma_set_be32(s.param.x - s.param.xs, data + 0x08)
+    pixma_set_be32(s.param.y, data + 0x0c)
+    pixma_set_be32(raw_width, data + 0x10)
+    pixma_set_be32(h, data + 0x14)
     data[0x18] =
         ((s.param.channels != 1) || is_gray_all(s) || is_lineart(s)) ?
             0x08 : 0x04
@@ -875,7 +875,7 @@ static Int send_scan_param(pixma_t * s)
      * -----+-------+---------+---------------------------
      * 0x04 |   1   |   all   | 0x00
      * -----+-------+---------+---------------------------
-     * 0x05 |   1   |   all   | 0x01: This one also seen at 0. Don't know yet what's used for.
+     * 0x05 |   1   |   all   | 0x01: This one also seen at 0. Don"t know yet what"s used for.
      * -----+-------+---------+---------------------------
      *  ... |   1   |   all   | 0x00
      * -----+-------+---------+---------------------------
@@ -942,14 +942,14 @@ static Int send_scan_param(pixma_t * s)
     data[0x05] = pixma_calc_calibrate(s)
     /* the scanner controls the scan */
     /* no software control needed */
-    pixma_set_be16 (s.param.xdpi | 0x8000, data + 0x08)
-    pixma_set_be16 (s.param.ydpi | 0x8000, data + 0x0a)
+    pixma_set_be16(s.param.xdpi | 0x8000, data + 0x08)
+    pixma_set_be16(s.param.ydpi | 0x8000, data + 0x0a)
     /*PDBG(pixma_dbg(4, "*send_scan_param***** Setting: xdpi=%hi ydpi=%hi  x=%u y=%u  w=%u h=%u ***** \n",
      s.param.xdpi,s.param.ydpi,(s.param.x)-(s.param.xs),s.param.y,raw_width,h));*/
-    pixma_set_be32 (s.param.x - s.param.xs, data + 0x0c)
-    pixma_set_be32 (s.param.y, data + 0x10)
-    pixma_set_be32 (raw_width, data + 0x14)
-    pixma_set_be32 (h, data + 0x18)
+    pixma_set_be32(s.param.x - s.param.xs, data + 0x0c)
+    pixma_set_be32(s.param.y, data + 0x10)
+    pixma_set_be32(raw_width, data + 0x14)
+    pixma_set_be32(h, data + 0x18)
     data[0x1c] = ((s.param.channels != 1) || is_tpuir(s) || is_gray_all(s) || is_lineart(s)) ? 0x08 : 0x04
 
 #ifdef DEBUG_TPU_48
@@ -1069,7 +1069,7 @@ static Int send_time(pixma_t * s)
   pixma_get_time(&now, NULL)
   t = localtime(&now)
   strftime((char *) data, 16, "%y/%m/%d %H:%M", t)
-  PDBG(pixma_dbg(3, "Sending time: '%s'\n", (char *) data))
+  PDBG(pixma_dbg(3, "Sending time: "%s"\n", (char *) data))
   return pixma_exec(s, &mp.cb)
 }
 #endif
@@ -1084,11 +1084,11 @@ static Int read_image_block(pixma_t * s, uint8_t * header, uint8_t * data)
 
   memset(cmd, 0, sizeof(cmd))
   /* PDBG(pixma_dbg(4, "* read_image_block: last_block\n", mp.last_block)); */
-  pixma_set_be16 (cmd_read_image, cmd)
+  pixma_set_be16(cmd_read_image, cmd)
   if((mp.last_block & 0x20) == 0)
-    pixma_set_be32 ((IMAGE_BLOCK_SIZE / 65536) * 65536 + 8, cmd + 0xc)
+    pixma_set_be32((IMAGE_BLOCK_SIZE / 65536) * 65536 + 8, cmd + 0xc)
   else
-    pixma_set_be32 (32 + 8, cmd + 0xc)
+    pixma_set_be32(32 + 8, cmd + 0xc)
 
   mp.state = state_transfering
   mp.cb.reslen = pixma_cmd_transaction(s, cmd, sizeof(cmd), mp.cb.buf, 512); /* read 1st 512 bytes of image block */
@@ -1132,7 +1132,7 @@ static Int read_error_info(pixma_t * s, void *buf, unsigned size)
   if(buf && len < size)
   {
     size = len
-    /* NOTE: I've absolutely no idea what the returned data mean. */
+    /* NOTE: I"ve absolutely no idea what the returned data mean. */
     memcpy(buf, data, size)
     error = len
   }
@@ -1153,7 +1153,7 @@ static Int read_error_info(pixma_t * s, void *buf, unsigned size)
  */
 static Int handle_interrupt(pixma_t * s, Int timeout)
 {
-  uint8_t buf[64];      /* check max. packet size with 'lsusb -v' for "EP 9 IN" */
+  uint8_t buf[64];      /* check max. packet size with "lsusb -v" for "EP 9 IN" */
   Int len
 
   len = pixma_wait_interrupt(s.io, buf, sizeof(buf), timeout)
@@ -1172,7 +1172,7 @@ static Int handle_interrupt(pixma_t * s, Int timeout)
    * oo: original
    * tt: target
    * rr: scan resolution
-   * poll event with 'scanimage -A' */
+   * poll event with "scanimage -A" */
   if(s.cfg.pid == MG8200_PID)
   /* button no. in buf[7]
    * size in buf[10] 01=A4; 02=Letter; 08=10x15; 09=13x18; 0b=auto
@@ -1302,7 +1302,7 @@ static Int wait_until_ready(pixma_t * s)
 /* shift G image: RG|RG|RG|...                           */
 /*                  |  |  |                              */
 /* shift B image: RGBRGBRGB...                           */
-/* this doesn't affect the G and B images                */
+/* this doesn"t affect the G and B images                */
 /* G image will become the R image in the next run       */
 /* B image will become the G image in the next run       */
 /* the next line will become the B image in the next run */
@@ -1945,7 +1945,7 @@ static Int mp810_check_param(pixma_t * s, pixma_scan_param_t * sp)
   }
 
   /* for software lineart w must be a multiple of 8
-   * I don't know why is_lineart(s) doesn't work here */
+   * I don"t know why is_lineart(s) doesn"t work here */
   if(sp.software_lineart == 1 && sp.w % 8)
   {
     sp.w += 8 - (sp.w % 8)
@@ -2025,10 +2025,10 @@ static Int mp810_check_param(pixma_t * s, pixma_scan_param_t * sp)
      effective scan resolution, and any position calculations based on
      this would therefore be inaccurate.
 
-     To prevent this, we don't add the offset in case y = 0, which is
+     To prevent this, we don"t add the offset in case y = 0, which is
      typically the case during a preview scan(the scanner effectively
      adds the offset for us, see above). In that way we keep the
-     linearity and we don't affect the scan area during previews.
+     linearity and we don"t affect the scan area during previews.
      */
 
     if(sp.y > 0)
@@ -2213,9 +2213,9 @@ static Int mp810_scan(pixma_t * s)
     if((error >= 0) && !is_scanning_from_tpu(s))
     {
       var i: Int
-      /* FIXME: 48 bit flatbed scans don't need gamma tables
-       *        the code below doesn't run */
-      /*if(is_color_48 (s) || is_gray_16 (s))
+      /* FIXME: 48 bit flatbed scans don"t need gamma tables
+       *        the code below doesn"t run */
+      /*if(is_color_48(s) || is_gray_16(s))
        error = 0
        else*/
       for(i = (mp.generation >= 3) ? 3 : 1; i > 0 && error >= 0; i--)
@@ -2255,7 +2255,7 @@ static Int mp810_fill_buffer(pixma_t * s, pixma_imagebuf_t * ib)
     /* PDBG(pixma_dbg(4, "**mp810_fill_buffer***** warmup *****\n")); */
 
     RET_IF_ERR(wait_until_ready(s))
-    pixma_sleep(1000000); /* No need to sleep, actually, but Window's driver
+    pixma_sleep(1000000); /* No need to sleep, actually, but Window"s driver
                             * sleep 1.5 sec. */
     mp.state = state_scanning
     mp.last_block = 0
@@ -2287,7 +2287,7 @@ static Int mp810_fill_buffer(pixma_t * s, pixma_imagebuf_t * ib)
     {
       if(error == PIXMA_ECANCELED)
       {
-        /* NOTE: I see this in traffic logs but I don't know its meaning. */
+        /* NOTE: I see this in traffic logs but I don"t know its meaning. */
         read_error_info(s, NULL, 0)
       }
       return error
@@ -2295,7 +2295,7 @@ static Int mp810_fill_buffer(pixma_t * s, pixma_imagebuf_t * ib)
 
     bytes_received = error
     /*PDBG(pixma_dbg(4, "*mp810_fill_buffer***** %u bytes received by read_image_block *****\n", bytes_received));*/
-    block_size = pixma_get_be32 (header + 12)
+    block_size = pixma_get_be32(header + 12)
     mp.last_block = header[8] & 0x38
     if((header[8] & ~0x38) != 0)
     {
@@ -2351,7 +2351,7 @@ static void mp810_finish_scan(pixma_t * s)
       if(mp.generation <= 2 || !is_scanning_from_adf(s)
           || mp.last_block == 0x38)
       {
-        error = abort_session(s); /* FIXME: it probably doesn't work in duplex mode! */
+        error = abort_session(s); /* FIXME: it probably doesn"t work in duplex mode! */
         if(error < 0)
           PDBG(pixma_dbg(1, "WARNING:abort_session() failed %d\n", error))
 

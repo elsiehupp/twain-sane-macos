@@ -55,7 +55,7 @@
  *        - removed obsolete _WAF_BLACKFINE
  *        - LiDE20 does not seem to have a reliable black calibration area
  *          so the devices now will switch off the lamp for dark calibration
- *        - added Stephan Februarys' <stephanf@singnet.com.sg> LiDE25 changes
+ *        - added Stephan Februarys" <stephanf@singnet.com.sg> LiDE25 changes
  *        - fixed high-speed feature of CanoScan D660U
  *        - tweaked LiDE25, LiDE30 and N1220U settings
  *        - changed high-speed setting for UMAX 3400, due to bugreport #302317
@@ -2830,8 +2830,8 @@ static SetDef Settings[] =
 
 	/* Please add other devices here...
 	 * The first entry is a string, composed out of the vendor and product id,
-	 * it's used by the driver to select the device settings. For other devices
-	 * than those of Plustek, you'll not need to add the second '-' part
+	 * it"s used by the driver to select the device settings. For other devices
+	 * than those of Plustek, you"ll not need to add the second "-" part
 	 *
 	 * The second entry describes the capabilities of the device, you may find
 	 * one suitable for your scanner, for a better description of the entries

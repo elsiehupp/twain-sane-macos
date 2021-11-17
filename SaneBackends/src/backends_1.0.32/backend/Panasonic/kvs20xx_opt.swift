@@ -684,28 +684,28 @@ kvs20xx_init_window(struct scanner *s, struct window *wnd, Int wnd_id)
 {
   Int paper = str_index(paper_list, s.val[PAPER_SIZE].s)
   memset(wnd, 0, sizeof(struct window))
-  wnd.window_descriptor_block_length = cpu2be16 (64)
+  wnd.window_descriptor_block_length = cpu2be16(64)
 
   wnd.window_identifier = wnd_id
-  wnd.x_resolution = cpu2be16 (s.val[RESOLUTION].w)
-  wnd.y_resolution = cpu2be16 (s.val[RESOLUTION].w)
+  wnd.x_resolution = cpu2be16(s.val[RESOLUTION].w)
+  wnd.y_resolution = cpu2be16(s.val[RESOLUTION].w)
   if(!paper)
     {
       wnd.upper_left_x =
-	cpu2be32 (mm2scanner_units(s.val[TL_X].w))
+	cpu2be32(mm2scanner_units(s.val[TL_X].w))
       wnd.upper_left_y =
-	cpu2be32 (mm2scanner_units(s.val[TL_Y].w))
+	cpu2be32(mm2scanner_units(s.val[TL_Y].w))
       wnd.width =
-	cpu2be32 (mm2scanner_units(s.val[BR_X].w - s.val[TL_X].w))
+	cpu2be32(mm2scanner_units(s.val[BR_X].w - s.val[TL_X].w))
       wnd.length =
-	cpu2be32 (mm2scanner_units(s.val[BR_Y].w - s.val[TL_Y].w))
+	cpu2be32(mm2scanner_units(s.val[BR_Y].w - s.val[TL_Y].w))
     }
   else
     {
-      u32 w = cpu2be32 (mm2scanner_units(paper_sizes[paper].width))
-      u32 h = cpu2be32 (mm2scanner_units(paper_sizes[paper].height))
-      wnd.upper_left_x = cpu2be32 (mm2scanner_units(0))
-      wnd.upper_left_y = cpu2be32 (mm2scanner_units(0))
+      u32 w = cpu2be32(mm2scanner_units(paper_sizes[paper].width))
+      u32 h = cpu2be32(mm2scanner_units(paper_sizes[paper].height))
+      wnd.upper_left_x = cpu2be32(mm2scanner_units(0))
+      wnd.upper_left_y = cpu2be32(mm2scanner_units(0))
       if(!s.val[LANDSCAPE].b)
 	{
 	  wnd.document_width = wnd.width = w
@@ -723,7 +723,7 @@ kvs20xx_init_window(struct scanner *s, struct window *wnd, Int wnd_id)
   wnd.image_composition = mode_val[str_index(mode_list, s.val[MODE].s)]
   wnd.bit_per_pixel = bps_val[str_index(mode_list, s.val[MODE].s)]
   wnd.halftone_pattern = 0;	/*Does not supported */
-  wnd.bit_ordering = cpu2be16 (BIT_ORDERING)
+  wnd.bit_ordering = cpu2be16(BIT_ORDERING)
   wnd.compression_type = 0;	/*Does not supported */
   wnd.compression_argument = 0;	/*Does not supported */
 
@@ -793,7 +793,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
     Sane.FRAME_RGB : Sane.FRAME_GRAY
   p.last_frame = Sane.TRUE
   p.depth = bps_val[str_index(mode_list, s.val[MODE].s)]
-  p.bytes_per_line = p.depth * p.pixels_per_line / 8
+  p.bytesPerLine = p.depth * p.pixels_per_line / 8
   if(p.depth > 8)
     p.depth = 8
   if(params)

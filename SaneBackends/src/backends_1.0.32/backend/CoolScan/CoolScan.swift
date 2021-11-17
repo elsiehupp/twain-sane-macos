@@ -164,13 +164,13 @@ typedef struct Coolscan
     Int y_p_nres
 
 
-    Int tlx;			/* Left edge in 'Internal Length Units'. */
+    Int tlx;			/* Left edge in "Internal Length Units". */
     Int tly;			/* Top edge in ILU */
     Int brx;			/* Right edge in ILU. */
     Int bry;			/* Bottom edge in ILU. */
 
     Int bits_per_color;		/* bits per color(8/10/12) */
-    Int bits_per_pixel;		/* bits per pixel(24/30/40) */
+    Int bitsPerPixel;		/* bits per pixel(24/30/40) */
     Int negative;		/* Negative/positive object */
     Int dropoutcolor;		/* Which color to scan when gray */
     Int transfermode;		/**/
@@ -189,7 +189,7 @@ typedef struct Coolscan
     Int shift_R
     Int shift_G
     Int shift_B
-    Int set_auto;		/* 0 or 1, don't know what it is */
+    Int set_auto;		/* 0 or 1, don"t know what it is */
     Int preview;		/* 1 if preview */
     Int autofocus;		/* when to do autofocus */
 #define AF_NEVER            0x00
@@ -314,7 +314,7 @@ static char *scanner_str[] =
 
 #define known_scanners 4
 
-/* Comment this line if you haven't patched sane.h to include
+/* Comment this line if you haven"t patched sane.h to include
   Sane.FRAME_RGBA */
 /* #define HAS_IRED 1 */
 
@@ -869,12 +869,12 @@ coolscan_set_window_param_LS20 (Coolscan_t * s, Int prescan)
   Int ret
 
   wait_scanner(s)
-  memset(buffer_r, '\0', max_WDB_size);	/* clear buffer */
+  memset(buffer_r, "\0", max_WDB_size);	/* clear buffer */
   memcpy(buffer_r, window_descriptor_block.cmd,
 	  window_descriptor_block.size);	/* copy preset data */
 
   set_WD_wid(buffer_r, WD_wid_all);	/* window identifier */
-  set_WD_auto(buffer_r, s.set_auto);	/* 0 or 1: don't know what it is */
+  set_WD_auto(buffer_r, s.set_auto);	/* 0 or 1: don"t know what it is */
 
   set_WD_negative(buffer_r, s.negative);	/* Negative/positive slide */
 
@@ -1027,12 +1027,12 @@ coolscan_set_window_param_LS30 (Coolscan_t * s, Int wid, Int prescan)
   Int ret
 
   wait_scanner(s)
-  memset(buffer_r, '\0', max_WDB_size);	/* clear buffer */
+  memset(buffer_r, "\0", max_WDB_size);	/* clear buffer */
   memcpy(buffer_r, window_descriptor_block_LS30.cmd,
 	  window_descriptor_block_LS30.size);	/* copy preset data */
 
   set_WD_wid(buffer_r, wid);          	/* window identifier */
-  set_WD_auto(buffer_r, s.set_auto);	/* 0 or 1: don't know what it is */
+  set_WD_auto(buffer_r, s.set_auto);	/* 0 or 1: don"t know what it is */
 
   /* geometry */
   set_WD_Xres(buffer_r, resDivToVal(s.x_nres));	/* x resolution in dpi */
@@ -1193,7 +1193,7 @@ coolscan_get_window_param_LS30 (Coolscan_t * s, Int wid,Int prescanok)
   translen = window_parameter_data_block.size + window_descriptor_block_LS30.size
 
   /* prepare SCSI-BUFFER */
-  memset(s.buffer, '\0', max_WDB_size);	/* clear buffer */
+  memset(s.buffer, "\0", max_WDB_size);	/* clear buffer */
 
   set_SW_xferlen(get_window.cmd, translen);	/* Transfer length */
   get_window.cmd[5]= wid;                     	/* window identifier */
@@ -1257,7 +1257,7 @@ coolscan_get_window_param_LS20 (Coolscan_t * s)
   translen = window_parameter_data_block.size + window_descriptor_block.size
 
   /* prepare SCSI-BUFFER */
-  memset(s.buffer, '\0', max_WDB_size);	/* clear buffer */
+  memset(s.buffer, "\0", max_WDB_size);	/* clear buffer */
 
   set_SW_xferlen(get_window.cmd, translen);	/* Transfer length */
 
@@ -1585,7 +1585,7 @@ coolscan_do_inquiry(Coolscan_t * s)
   Int size
 
   DBG(10, "do_inquiry\n")
-  memset(s.buffer, '\0', 256);	/* clear buffer */
+  memset(s.buffer, "\0", 256);	/* clear buffer */
   size = 36;			/* Hardcoded, and as specified by Nikon */
   /* then get inquiry with actual size */
   set_inquiry_return_size(inquiry.cmd, size)
@@ -1618,29 +1618,29 @@ coolscan_identify_scanner(Coolscan_t * s)
 
   if(strncmp("Nikon   ", (char *)vendor, 8))
     {
-      DBG(5, "identify_scanner: \"%s\" isn't a Nikon product\n", vendor)
+      DBG(5, "identify_scanner: \"%s\" isn"t a Nikon product\n", vendor)
       return 1
     }				/* Not a Nikon product */
 
   pp = &vendor[8]
-  vendor[8] = ' '
-  while(*pp == ' ')
+  vendor[8] = " "
+  while(*pp == " ")
     {
-      *pp-- = '\0'
+      *pp-- = "\0"
     }
 
   pp = &product[0x10]
-  product[0x10] = ' '
-  while(*(pp - 1) == ' ')
+  product[0x10] = " "
+  while(*(pp - 1) == " ")
     {
-      *pp-- = '\0'
+      *pp-- = "\0"
     }				/* leave one blank at the end! */
 
   pp = &version[4]
-  version[4] = ' '
-  while(*pp == ' ')
+  version[4] = " "
+  while(*pp == " ")
     {
-      *pp-- = '\0'
+      *pp-- = "\0"
     }
 
   DBG(10, "Found Nikon scanner %sversion %s on device %s\n",
@@ -1920,7 +1920,7 @@ get_internal_info_LS20 (Coolscan_t * s)
 
   DBG(10, "get_internal_info\n")
   wait_scanner(s)
-  memset(s.buffer, '\0', DI_length);	/* clear buffer */
+  memset(s.buffer, "\0", DI_length);	/* clear buffer */
 
   set_R_datatype_code(sread.cmd, R_device_internal_info)
   set_R_datatype_qual_upper(sread.cmd, R_DQ_none)
@@ -2027,11 +2027,11 @@ coolscan_get_inquiry_values(Coolscan_t * s)
   s.inquiry_len = 36
 
   get_inquiry_vendor((char *)inquiry_block, (char *)s.vendor)
-  s.vendor[8] = '\0'
+  s.vendor[8] = "\0"
   get_inquiry_product((char *)inquiry_block, (char *)s.product)
-  s.product[16] = '\0'
+  s.product[16] = "\0"
   get_inquiry_version((char *)inquiry_block, (char *)s.version)
-  s.version[4] = '\0'
+  s.version[4] = "\0"
 
   if(s.inquiry_len < 36)
     {
@@ -2158,7 +2158,7 @@ hexdump(Int level, char *comment, unsigned char *p, Int l)
 	{
 	  if(ptr != line)
 	    {
-	      *ptr = '\0'
+	      *ptr = "\0"
 	      DBG(level, "%s\n", line)
 	      ptr = line
 	    }
@@ -2168,7 +2168,7 @@ hexdump(Int level, char *comment, unsigned char *p, Int l)
       sprintf(ptr, " %2.2x", *p)
       ptr += 3
     }
-  *ptr = '\0'
+  *ptr = "\0"
   DBG(level, "%s\n", line)
 }
 
@@ -2354,7 +2354,7 @@ do_cancel(Coolscan_t * scanner)
 
       DBG(10, "do_cancel: kill reader_process\n")
 
-      /* ensure child knows it's time to stop: */
+      /* ensure child knows it"s time to stop: */
       sanei_thread_kill(scanner.reader_pid)
       while(sanei_thread_waitpid(scanner.reader_pid, &exit_status) !=
                                                         scanner.reader_pid )
@@ -2654,7 +2654,7 @@ static Int RGBIfix(Coolscan_t * scanner,
   function:   RGBIfix16
 
   task:       Correct the infrared channel for 16 bit images
-              (doesn't do anything for now)
+              (doesn"t do anything for now)
 
   import:     unsigned char * rgbimat - RGBI - matrix from scanner
               Int size - number of pixels to correct
@@ -2854,7 +2854,7 @@ static Int RGBIfix1(unsigned char* rgbimat,unsigned char* orgbimat,
 static Int
 reader_process(void *data )
 {
-  Int status
+  status: Int
   unsigned var i: Int
   unsigned char h
   unsigned Int data_left
@@ -2895,7 +2895,7 @@ reader_process(void *data )
   fp = fdopen( scanner.reader_fds, "w")
   if(!fp)
     {
-      DBG(1, "reader_process: couldn't open pipe!\n")
+      DBG(1, "reader_process: couldn"t open pipe!\n")
       return 1
     }
 
@@ -3578,7 +3578,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 
   while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if(dev_name[0] == '#')
+      if(dev_name[0] == "#")
 	continue;		/* ignore line comments */
       len = strlen(dev_name)
 
@@ -3723,7 +3723,7 @@ Sane.get_option_descriptor(Sane.Handle handle, Int option)
    {
    if(ptr != line)
    {
-   *ptr = '\0'
+   *ptr = "\0"
    DBG(5, "%s\n", line)
    ptr = line
    }
@@ -3733,7 +3733,7 @@ Sane.get_option_descriptor(Sane.Handle handle, Int option)
    sprintf(ptr, " %4.4d", *p)
    ptr += 5
    }
-   *ptr = '\0'
+   *ptr = "\0"
    DBG(5, "%s\n", line)
    }
  */
@@ -4283,7 +4283,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   params.depth = scanner.bits_per_color>8?16:8
   params.pixels_per_line = pixels_per_line(scanner)
   params.lines = lines_per_scan(scanner)
-  params.bytes_per_line = write_bytes_per_line(scanner)
+  params.bytesPerLine = write_bytes_per_line(scanner)
   params.last_frame = 1
   return Sane.STATUS_GOOD
 }

@@ -135,7 +135,7 @@ sanei_Espon_net_read(Epson_Scanner *s, unsigned char *buf, ssize_t wanted,
 	}
 
 	/* validate header */
-	if(header[0] != 'I' || header[1] != 'S') {
+	if(header[0] != "I" || header[1] != "S") {
 		DBG(1, "header mismatch: %02X %02x\n", header[0], header[1])
 		*status = Sane.STATUS_IO_ERROR
 		return 0
@@ -218,14 +218,14 @@ sanei_Espon_net_write(Epson_Scanner *s, unsigned Int cmd, const unsigned char *b
 	memset(h1, 0x00, 12)
 	memset(h2, 0x00, 8)
 
-	h1[0] = 'I'
-	h1[1] = 'S'
+	h1[0] = "I"
+	h1[1] = "S"
 
 	h1[2] = cmd >> 8
 	h1[3] = cmd
 
 	h1[4] = 0x00
-	h1[5] = 0x0C; /* Don't know what's that */
+	h1[5] = 0x0C; /* Don"t know what"s that */
 
 	DBG(24, "H1[0]: %02x %02x %02x %02x\n", h1[0], h1[1], h1[2], h1[3])
 

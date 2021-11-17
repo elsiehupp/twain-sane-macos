@@ -51,7 +51,7 @@
 
 /**************************************************************************************
 If you get confused from all the structs(like I did when I first saw them),
-think of it as "C++ in C". If you're accustomed to OO and UML maybe the
+think of it as "C++ in C". If you"re accustomed to OO and UML maybe the
 following diagram helps you to make sense of it:
 
                        ------------------------
@@ -100,7 +100,7 @@ color scanning, a typical source chain would consist of an RGBRouter sitting on 
 of a SCSISource. In the get() method, RGBRouter will then call the get() method of
 the subsource, process the data and return it.
 
-I hope this makes sense to you(and I got the right idea of the original author's
+I hope this makes sense to you(and I got the right idea of the original author"s
 intention).
 ***********************************************************************************/
 
@@ -125,7 +125,7 @@ static Sane.Status Source_init(Source *pself,
 
 static Int Source_bytesPerLine(Source *pself)
 {
-    return pself.pss.bytes_per_line
+    return pself.pss.bytesPerLine
 }
 
 static Int Source_pixelsPerLine(Source *pself)
@@ -221,7 +221,7 @@ static Sane.Status SCSISource_init(SCSISource *pself, SnapScan_Scanner *pss)
         pself.scsi_buf_max = 0
         pself.scsi_buf_pos = 0
         pself.absolute_max =
-            (pss.phys_buf_sz/pss.bytes_per_line)*pss.bytes_per_line
+            (pss.phys_buf_sz/pss.bytesPerLine)*pss.bytesPerLine
     }
     return status
 }
@@ -259,7 +259,7 @@ static Sane.Status FDSource_get(Source *pself, Sane.Byte *pbuf, Int *plen)
                 /* No data currently available */
                 break
             }
-            /* It's an IO error */
+            /* It"s an IO error */
             DBG(DL_MAJOR_ERROR, "%s: read failed: %s\n",
                      __func__, strerror(errno))
             status = Sane.STATUS_IO_ERROR
@@ -298,7 +298,7 @@ static Sane.Status FDSource_init(FDSource *pself,
     if(status == Sane.STATUS_GOOD)
     {
         pself.fd = fd
-        pself.bytes_remaining = pss.bytes_per_line * (pss.lines + pss.chroma)
+        pself.bytes_remaining = pss.bytesPerLine * (pss.lines + pss.chroma)
     }
     return status
 }
@@ -617,7 +617,7 @@ static Sane.Status Expander_init(Expander *pself,
         if(pself.ch_buf == NULL)
         {
             DBG(DL_MAJOR_ERROR,
-                 "%s: couldn't allocate channel buffer.\n",
+                 "%s: couldn"t allocate channel buffer.\n",
                  __func__)
             status = Sane.STATUS_NO_MEM
         }
@@ -671,7 +671,7 @@ static Sane.Status create_Expander(SnapScan_Scanner *pss,
    add odd indexed pixels will have the same value. This is necessary because
    the real pixel values of the columns that are shifted down are not
    in the data for the first ch_offset lines. A better way to handle this would be to
-   scan in ch_offset extra lines of data, but I haven't figured out how to do this
+   scan in ch_offset extra lines of data, but I haven"t figured out how to do this
    yet.
 
 */
@@ -865,7 +865,7 @@ static Sane.Status Deinterlacer_init(Deinterlacer *pself,
         if(pself.ch_buf == NULL)
         {
             DBG(DL_MAJOR_ERROR,
-                 "%s: couldn't allocate channel buffer.\n",
+                 "%s: couldn"t allocate channel buffer.\n",
                  __func__)
             status = Sane.STATUS_NO_MEM
         }
@@ -1037,7 +1037,7 @@ static Sane.Status RGBRouter_get(Source *pself,
             ps.round_read =0
         }
 
-        /* Repack the whole scan line and copy to caller's buffer */
+        /* Repack the whole scan line and copy to caller"s buffer */
         while(remaining > 0  &&  ps.pos < ps.cb_line_size)
         {
             *pbuf++ = ps.xbuf[ps.pos++]
@@ -1270,7 +1270,7 @@ static Sane.Status create_source_chain(SnapScan_Scanner *pss,
  * Fix for Epson 3490 @ 3200 DPI for grayscale and lineart mode
  *
  * Revision 1.18  2005/11/17 23:47:11  oliver-guest
- * Revert previous 'fix', disable 2400 dpi for Epson 3490, use 1600 dpi instead
+ * Revert previous "fix", disable 2400 dpi for Epson 3490, use 1600 dpi instead
  *
  * Revision 1.17  2005/11/17 23:32:23  oliver-guest
  * Fixes for Epson 3490 @ 2400 DPI

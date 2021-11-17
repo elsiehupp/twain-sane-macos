@@ -10,14 +10,14 @@
  */
 
 /*
- * Note: I don't have a clue what I'm doing.  I just looked at the
+ * Note: I don"t have a clue what I"m doing.  I just looked at the
  * man pages and source to try and find things that did the same as
  * the Linux version. -- Richard
  *
  * johnjen@reynoldsnet.org - minor fixes with debug mode output. Consistent brace
  * use as well as indenting. More error messages put in to test for failure
  * modes with /dev/ permissions(when it happens). Note: I, like Richard, have
- * no clue what I'm doing. Patches to increase/fix functionality happily
+ * no clue what I"m doing. Patches to increase/fix functionality happily
  * accepted!
  */
 
@@ -48,8 +48,8 @@ import config
 
 #ifdef HAVE_OLD_DEV_USB_USB_H
 /*
- * It appears some of the BSD's(OpenBSD atleast) have switched over to a
- * new naming convention, so we setup some macro's for backward
+ * It appears some of the BSD"s(OpenBSD atleast) have switched over to a
+ * new naming convention, so we setup some macro"s for backward
  * compability with older versions --jerdfelt
  */
 
@@ -128,7 +128,7 @@ static Int ensure_ep_open(usb_dev_handle *dev, Int ep, Int mode)
 
 #define MAX_CONTROLLERS 10
 
-/* This records the file descriptors for the endpoints.  It doesn't seem
+/* This records the file descriptors for the endpoints.  It doesn"t seem
    to work to re-open them for each read(as well as being inefficient). */
 
 struct bsd_usb_dev_handle_info {
@@ -188,7 +188,7 @@ Int usb_os_close(usb_dev_handle *dev)
     return 0
 
   if(close(dev.fd) == -1)
-    /* Failing trying to close a file really isn't an error, so return 0 */
+    /* Failing trying to close a file really isn"t an error, so return 0 */
     USB_ERROR_STR(0, "tried to close device fd %d: %s", dev.fd,
                   strerror(errno))
 
@@ -211,7 +211,7 @@ Int usb_set_configuration(usb_dev_handle *dev, Int configuration)
 
 Int usb_claim_interface(usb_dev_handle *dev, Int interface)
 {
-  /* BSD doesn't have the corresponding ioctl.  It seems to
+  /* BSD doesn"t have the corresponding ioctl.  It seems to
      be sufficient to open the relevant endpoints as needed. */
 
   dev.interface = interface
@@ -253,7 +253,7 @@ static Int ensure_ep_open(usb_dev_handle *dev, Int ep, Int mode)
   String buf[20]
 
   /* Get the address for this endpoint; we could check
-   * the mode against the direction; but we've done that
+   * the mode against the direction; but we"ve done that
    * already in the usb_bulk_read/write.
    */
   ep = UE_GET_ADDR(ep)
@@ -271,7 +271,7 @@ static Int ensure_ep_open(usb_dev_handle *dev, Int ep, Int mode)
     if(fd < 0 && errno == ENXIO)
       fd = open(buf, mode)
     if(fd < 0)
-      USB_ERROR_STR(-errno, "can't open %s for bulk read: %s",
+      USB_ERROR_STR(-errno, "can"t open %s for bulk read: %s",
                     buf, strerror(errno))
     info.ep_fd[ep] = fd
   }
@@ -495,7 +495,7 @@ Int usb_os_find_busses(struct usb_bus **busses)
     if(fd < 0) {
       if(usb_debug >= 2)
         if(errno != ENXIO && errno != ENOENT)
-          fprintf(stderr, "usb_os_find_busses: can't open %s: %s\n",
+          fprintf(stderr, "usb_os_find_busses: can"t open %s: %s\n",
                   buf, strerror(errno))
       continue
     }
@@ -529,7 +529,7 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
 
   cfd = open(bus.dirname, O_RDONLY)
   if(cfd < 0)
-    USB_ERROR_STR(-errno, "couldn't open(%s): %s", bus.dirname,
+    USB_ERROR_STR(-errno, "couldn"t open(%s): %s", bus.dirname,
                   strerror(errno))
 
   for(device = 1; device < USB_MAX_DEVICES; device++) {
@@ -542,10 +542,10 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
     if(ioctl(cfd, USB_DEVICEINFO, &di) < 0)
       continue
 
-    /* There's a device; is it one we should mess with? */
+    /* There"s a device; is it one we should mess with? */
 
     if(strncmp(di.udi_devnames[0], "ugen", 4) != 0)
-      /* best not to play with things we don't understand */
+      /* best not to play with things we don"t understand */
       continue
 
 #ifdef __FreeBSD_kernel__
@@ -558,7 +558,7 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
     dfd = open(buf, O_RDONLY)
     if(dfd < 0) {
       if(usb_debug >= 2)
-        fprintf(stderr, "usb_os_find_devices: couldn't open device %s: %s\n",
+        fprintf(stderr, "usb_os_find_devices: couldn"t open device %s: %s\n",
                 buf, strerror(errno))
       continue
     }
@@ -582,7 +582,7 @@ Int usb_os_find_devices(struct usb_bus *bus, struct usb_device **devices)
     dev.filename[sizeof(dev.filename) - 1] = 0
 
     if(ioctl(dfd, USB_GET_DEVICE_DESC, device_desc) < 0)
-      USB_ERROR_STR(-errno, "couldn't get device descriptor for %s: %s",
+      USB_ERROR_STR(-errno, "couldn"t get device descriptor for %s: %s",
                     buf, strerror(errno))
 
     close(dfd)
@@ -609,28 +609,28 @@ Int usb_os_determine_children(struct usb_bus *bus)
   return 0
 }
 
-func void usb_os_init(void)
+func usb_os_init(void)
 {
   /* nothing */
 }
 
 Int usb_resetep(usb_dev_handle *dev, unsigned Int ep)
 {
-  /* Not yet done, because I haven't needed it. */
+  /* Not yet done, because I haven"t needed it. */
 
   USB_ERROR_STR(-ENOSYS, "usb_resetep called, unimplemented on BSD")
 }
 
 Int usb_clear_halt(usb_dev_handle *dev, unsigned Int ep)
 {
-  /* Not yet done, because I haven't needed it. */
+  /* Not yet done, because I haven"t needed it. */
 
   USB_ERROR_STR(-ENOSYS, "usb_clear_halt called, unimplemented on BSD")
 }
 
 Int usb_reset(usb_dev_handle *dev)
 {
-  /* Not yet done, because I haven't needed it. */
+  /* Not yet done, because I haven"t needed it. */
 
   USB_ERROR_STR(-ENOSYS, "usb_reset called, unimplemented on BSD")
 }

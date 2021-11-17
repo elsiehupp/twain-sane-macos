@@ -68,7 +68,7 @@ void debug_printf(unsigned long ulType, const char *szFormat, ...)
 {
   va_list ap
   if((ulDebugMask & ulType)!=ulType) return
-  if(*szFormat=='~')
+  if(*szFormat=="~")
     szFormat++
   else
     fprintf(stderr,"debug:")
@@ -99,7 +99,7 @@ Int SetError(TInstance *this, Int nError, const char *szFormat, ...)
       va_start(ap,szFormat)
       vsnprintf(this.szErrorReason,499,szFormat,ap)
       va_end(ap)
-      this.szErrorReason[499]='\0'
+      this.szErrorReason[499]="\0"
     }
   return nError
 }

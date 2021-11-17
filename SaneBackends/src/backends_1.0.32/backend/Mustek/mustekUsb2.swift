@@ -289,17 +289,17 @@ calc_parameters(Mustek_Scanner * s)
     {
     case Sane.FRAME_RGB:
       if(s.params.depth == 8)
-	s.params.bytes_per_line = s.params.pixels_per_line * 3
+	s.params.bytesPerLine = s.params.pixels_per_line * 3
       if(s.params.depth == 16)
-	s.params.bytes_per_line = s.params.pixels_per_line * 6
+	s.params.bytesPerLine = s.params.pixels_per_line * 6
       break
     case Sane.FRAME_GRAY:
       if(s.params.depth == 1)
-	s.params.bytes_per_line = s.params.pixels_per_line / 8
+	s.params.bytesPerLine = s.params.pixels_per_line / 8
       if(s.params.depth == 8)
-	s.params.bytes_per_line = s.params.pixels_per_line
+	s.params.bytesPerLine = s.params.pixels_per_line
       if(s.params.depth == 16)
-	s.params.bytes_per_line = s.params.pixels_per_line * 2
+	s.params.bytesPerLine = s.params.pixels_per_line * 2
       break
     default:
       DBG(DBG_DET, "Sane.star:sane params .format = %d\n", s.params.format)
@@ -416,7 +416,7 @@ init_options(Mustek_Scanner * s)
   s.opt[OPT_AUTO_WARMUP].name = "auto-warmup"
   s.opt[OPT_AUTO_WARMUP].title = Sane.I18N("Automatic warmup")
   s.opt[OPT_AUTO_WARMUP].desc =
-    Sane.I18N("Warm-up until the lamp's brightness is constant "
+    Sane.I18N("Warm-up until the lamp"s brightness is constant "
 	       "instead of insisting on 40 seconds warm-up time.")
   s.opt[OPT_AUTO_WARMUP].type = Sane.TYPE_BOOL
   s.opt[OPT_AUTO_WARMUP].unit = Sane.UNIT_NONE
@@ -1199,7 +1199,7 @@ static Bool
 GetKeyStatus(Sane.Byte * pKey)
 {
   Sane.Byte pKeyTemp = 0x00
-  STATUS status = Asic_CheckFunctionKey(&g_chip, &pKeyTemp)
+  Status status = Asic_CheckFunctionKey(&g_chip, &pKeyTemp)
   DBG(DBG_FUNC, "GetKeyStatus: start\n")
 
   if(STATUS_GOOD != Asic_Open(&g_chip, g_pDeviceFile))
@@ -2178,7 +2178,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 
   if(s.bIsScanning)
     {
-      DBG(DBG_ERR, "Sane.control_option: don't call this function while "
+      DBG(DBG_ERR, "Sane.control_option: don"t call this function while "
 	   "scanning\n")
       return Sane.STATUS_DEVICE_BUSY
     }
@@ -2222,7 +2222,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 	  strcpy(val, s.val[option].s)
 	  break
 	default:
-	  DBG(DBG_ERR, "Sane.control_option: can't get unknown option %d\n",
+	  DBG(DBG_ERR, "Sane.control_option: can"t get unknown option %d\n",
 	       option)
 	  
 	}
@@ -2317,7 +2317,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 	  myinfo |= Sane.INFO_RELOAD_PARAMS | Sane.INFO_RELOAD_OPTIONS
 	  break
 	default:
-	  DBG(DBG_ERR, "Sane.control_option: can't set unknown option %d\n",
+	  DBG(DBG_ERR, "Sane.control_option: can"t set unknown option %d\n",
 	       option)
 	}
     }
@@ -2347,8 +2347,8 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   DBG(DBG_INFO, "Sane.get_parameters :params.depth = %d\n", s.params.depth)
   DBG(DBG_INFO, "Sane.get_parameters :params.pixels_per_line = %d\n",
        s.params.pixels_per_line)
-  DBG(DBG_INFO, "Sane.get_parameters :params.bytes_per_line = %d\n",
-       s.params.bytes_per_line)
+  DBG(DBG_INFO, "Sane.get_parameters :params.bytesPerLine = %d\n",
+       s.params.bytesPerLine)
   DBG(DBG_INFO, "Sane.get_parameters :params.lines = %d\n", s.params.lines)
   if(params != NULL)
     *params = s.params
@@ -2435,7 +2435,7 @@ Sane.start(Sane.Handle handle)
 	   s.params.format)
     }
 
-  s.params.bytes_per_line = s.getpara.dwLineByteWidth
+  s.params.bytesPerLine = s.getpara.dwLineByteWidth
   s.params.lines = s.getpara.dwLength
 
   s.params.last_frame = TRUE

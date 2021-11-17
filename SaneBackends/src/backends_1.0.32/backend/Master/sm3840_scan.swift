@@ -779,7 +779,7 @@ setup_scan(p_usb_dev_handle udev, SM3840_Params * p)
   free(lightmap)
 
   if(!bpp16)
-    download_lut8 (udev, dpi, gray ? 0 : 1)
+    download_lut8(udev, dpi, gray ? 0 : 1)
 
   write_regs(udev, 4, 0x83, 0xa2, 0x85, 0x01, 0x83, 0x82, 0x85, 0x00)
   write_regs(udev, 1, 0x9d, 0x80)

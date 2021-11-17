@@ -48,17 +48,17 @@ char * strcasestr( const char *phaystack, const char *pneedle)
 	needle = (const unsigned char *) pneedle
 
 	b = *needle
-	if(b != '\0') {
+	if(b != "\0") {
 		haystack--;				/* possible ANSI violation */
 		do {
 			c = *++haystack
-			if(c == '\0')
+			if(c == "\0")
 				goto ret0
 		}
 		while(VAL(c) != VAL(b))
 
 		c = *++needle
-		if(c == '\0')
+		if(c == "\0")
 			goto foundneedle
 		++needle
 		goto jin
@@ -69,18 +69,18 @@ char * strcasestr( const char *phaystack, const char *pneedle)
 
 			do {
 				a = *++haystack
-				if(a == '\0')
+				if(a == "\0")
 					goto ret0
 				if(VAL(a) == VAL(b))
 					break
 				a = *++haystack
-				if(a == '\0')
+				if(a == "\0")
 					goto ret0
 		  shloop:;}
 			while(VAL(a) != VAL(b))
 
 		  jin:a = *++haystack
-			if(a == '\0')
+			if(a == "\0")
 				goto ret0
 
 			if(VAL(a) != VAL(c))
@@ -92,13 +92,13 @@ char * strcasestr( const char *phaystack, const char *pneedle)
 
 			if(VAL(*rhaystack) == VAL(a))
 				do {
-					if(a == '\0')
+					if(a == "\0")
 						goto foundneedle
 					++rhaystack
 					a = *++needle
 					if(VAL(*rhaystack) != VAL(a))
 						break
-					if(a == '\0')
+					if(a == "\0")
 						goto foundneedle
 					++rhaystack
 					a = *++needle
@@ -107,7 +107,7 @@ char * strcasestr( const char *phaystack, const char *pneedle)
 
 			needle = rneedle;	/* took the register-poor approach */
 
-			if(a == '\0')
+			if(a == "\0")
 				break
 		}
 	}

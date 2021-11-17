@@ -351,26 +351,26 @@ typedef struct Umax_Device
   Int			use_exposure_time_def_b;				    /* exposure time default */
 
   Int			wdb_len;						   /* use this length of WDB */
-  unsigned Int		width_in_pixels;				 /* that's the wanted width in pixels */
-  unsigned Int		length_in_pixels;				/* that's the wanted length in pixels */
-  unsigned Int		scanwidth;		       /* that's the width in pixels at x_coordinate_base dpi */
-  unsigned Int		scanlength;		      /* that's the length in pixels at y_coordinate_base dpi */
+  unsigned Int		width_in_pixels;				 /* that"s the wanted width in pixels */
+  unsigned Int		length_in_pixels;				/* that"s the wanted length in pixels */
+  unsigned Int		scanwidth;		       /* that"s the width in pixels at x_coordinate_base dpi */
+  unsigned Int		scanlength;		      /* that"s the length in pixels at y_coordinate_base dpi */
   unsigned Int		bytes_per_color;					     /* bytes per each color */
 
   unsigned Int		x_resolution;					     /* scan-resolution for x in dpi */
   unsigned Int		y_resolution;					     /* scan-resolution for y in dpi */
   double		scale_x;					  /* x-scaling of optical resolution */
   double		scale_y;					  /* y-scaling of optical resolution */
-  Int			upper_left_x;			     /* that's the left edge in points at 1200pt/inch */
-  Int			upper_left_y;			      /* that's the top edge in points at 1200pt/inch */
+  Int			upper_left_x;			     /* that"s the left edge in points at 1200pt/inch */
+  Int			upper_left_y;			      /* that"s the top edge in points at 1200pt/inch */
 
   unsigned Int		x_coordinate_base;			      /* x base in pixels/inch, normally 1200 */
   unsigned Int		y_coordinate_base;			      /* y base in pixels/inch, normally 1200 */
 
-  unsigned Int		bits_per_pixel;						 /* number of bits per pixel */
+  unsigned Int		bitsPerPixel;						 /* number of bits per pixel */
   Int			bits_per_pixel_code;				/* 1 = 24bpp, 4 = 30 bpp, 8 = 36 bpp */
   Int			gamma_input_bits_code;				/* 1 = 24bpp, 4 = 30 bpp, 8 = 36 bpp */
-  Int			set_auto;					    /* 0 or 1, don't know what it is */
+  Int			set_auto;					    /* 0 or 1, don"t know what it is */
   Int			preview;							     /* 1 if preview */
   Int			batch_scan;					  /* 1 = batch scan, 0 = normal scan */
   Int			batch_end;						  /* 1 = reposition scanhead */
@@ -380,7 +380,7 @@ typedef struct Umax_Device
   Int			reverse_multi;						   /* 1: invert color values */
   Int			WD_speed;				       /* is a combination of slow and smear */
   Int			slow;							       /* 1: slow scan speed */
-  Int			smear;				       /* 1: don't care about image smearing problem */
+  Int			smear;				       /* 1: don"t care about image smearing problem */
   Int			dor;								/* double resolution */
   Int			cbhs_range;					       /* 50,255 or 255+autoexposure */
   Int			fix_focus_position;					       /* fix focus position */

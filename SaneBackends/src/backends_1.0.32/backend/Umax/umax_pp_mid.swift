@@ -57,7 +57,7 @@ import Sane.sanei_debug
 import umax_pp_mid
 
 /* this function locks the parallel port so that other devices */
-/* won't interfere. Returns UMAX1220P_BUSY is port cannot be   */
+/* won"t interfere. Returns UMAX1220P_BUSY is port cannot be   */
 /* lock or UMAX1220P_OK if it is locked                        */
 static Int locked = 0
 #ifdef HAVE_LINUX_PPDEV_H
@@ -334,7 +334,7 @@ func Int sanei_umax_pp_start(Int x, Int y, Int width, Int height, Int dpi, Int c
   DBG(3, "sanei_umax_pp_start\n")
   if(lock_parport() == UMAX1220P_BUSY)
     return UMAX1220P_BUSY
-  /* end session isn't done by cancel any more */
+  /* end session isn"t done by cancel any more */
   sanei_umax_pp_endSession()
 
   if(autoset)
@@ -424,7 +424,7 @@ func Int sanei_umax_pp_lamp(Int on)
 
 func Int sanei_umax_pp_status(void)
 {
-  Int status
+  status: Int
 
   DBG(3, "sanei_umax_pp_status\n")
   if(lock_parport() == UMAX1220P_BUSY)

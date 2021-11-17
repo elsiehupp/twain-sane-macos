@@ -292,7 +292,7 @@ sanei_hp_device_support_probe(HpScsi scsi)
    sclsupport.checked = 1
 
    /* The OfficeJets seem to ignore brightness and contrast settings,
-    * so we'll pretend they're not supported at all. */
+    * so we"ll pretend they"re not supported at all. */
    if(((sclprobe[k]==SCL_BRIGHTNESS) || (sclprobe[k]==SCL_CONTRAST)) &&
        (sanei_hp_device_probe(&compat, scsi) == Sane.STATUS_GOOD) &&
        (compat & HP_COMPAT_OJ_1150C)) {
@@ -422,8 +422,8 @@ hp_nonscsi_device_new(HpDevice * newp, const char * devname, HpConnect connect)
 
   if(FAILED( sanei_hp_nonscsi_new(&scsi, devname, connect) ))
   {
-    DBG(1, "%s: Can't open nonscsi device\n", devname)
-    return Sane.STATUS_INVAL;	/* Can't open device */
+    DBG(1, "%s: Can"t open nonscsi device\n", devname)
+    return Sane.STATUS_INVAL;	/* Can"t open device */
   }
 
   /* reset scanner; returns all parameters to defaults */
@@ -495,8 +495,8 @@ sanei_hp_device_new(HpDevice * newp, const char * devname)
 
   if(FAILED( sanei_hp_scsi_new(&scsi, devname) ))
     {
-      DBG(1, "%s: Can't open scsi device\n", devname)
-      return Sane.STATUS_INVAL;	/* Can't open device */
+      DBG(1, "%s: Can"t open scsi device\n", devname)
+      return Sane.STATUS_INVAL;	/* Can"t open device */
     }
 
   if(sanei_hp_scsi_inq(scsi)[0] != 0x03
@@ -527,8 +527,8 @@ sanei_hp_device_new(HpDevice * newp, const char * devname)
   if(!this.sanedev.name || !str)
       return Sane.STATUS_NO_MEM
   this.sanedev.model = str
-  if((str = strchr(str, ' ')) != 0)
-      *str = '\0'
+  if((str = strchr(str, " ")) != 0)
+      *str = "\0"
   this.sanedev.vendor = "Hewlett-Packard"
   this.sanedev.type   = "flatbed scanner"
 

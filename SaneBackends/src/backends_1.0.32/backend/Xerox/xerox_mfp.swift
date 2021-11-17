@@ -111,7 +111,7 @@ static Int decompress(struct device __Sane.unused__ *dev,
     JSAMPARRAY buffer
 
     if((pInfile = fopen(infilename, "rb")) == NULL) {
-        fprintf(stderr, "can't open %s\n", infilename)
+        fprintf(stderr, "can"t open %s\n", infilename)
         return -1
     }
 
@@ -156,7 +156,7 @@ static Int decompress(struct device __Sane.unused__ *dev,
 #endif
 }
 
-/* copy from decoded jpeg image(dev.decData) into user's buffer(pDest) */
+/* copy from decoded jpeg image(dev.decData) into user"s buffer(pDest) */
 /* returns 0 if there is no data to copy */
 static Int copy_decompress_data(struct device *dev, unsigned char *pDest, Int maxlen, Int *destLen)
 {
@@ -195,7 +195,7 @@ static Int dump_to_tmp_file(struct device *dev)
     Int srcLen = dev.datalen
     FILE *pInfile
     if((pInfile = fopen(encTmpFileName, "a")) == NULL) {
-        fprintf(stderr, "can't open %s\n", encTmpFileName)
+        fprintf(stderr, "can"t open %s\n", encTmpFileName)
         return 0
     }
 
@@ -261,7 +261,7 @@ static Int dev_command(struct device *dev, Sane.Byte *cmd, size_t reqlen)
     }
 
     if(cmd[2] == CMD_READ_IMAGE) {
-        /* Read Image is raw data, don't need to read response */
+        /* Read Image is raw data, don"t need to read response */
         res = NULL
     }
 
@@ -645,7 +645,7 @@ static void set_parameters(struct device *dev)
     px_to_len = 1180.0 / dev.val[OPT_RESOLUTION].w
 #endif
     dev.para.pixels_per_line = dev.win_width / px_to_len
-    dev.para.bytes_per_line = dev.para.pixels_per_line
+    dev.para.bytesPerLine = dev.para.pixels_per_line
 
     if(!isSupportedDevice(dev)) {
 #if BETTER_BASEDPI
@@ -657,15 +657,15 @@ static void set_parameters(struct device *dev)
         dev.composition == MODE_HALFTONE) {
         dev.para.format = Sane.FRAME_GRAY
         dev.para.depth = 1
-        dev.para.bytes_per_line = (dev.para.pixels_per_line + 7) / 8
+        dev.para.bytesPerLine = (dev.para.pixels_per_line + 7) / 8
     } else if(dev.composition == MODE_GRAY8) {
         dev.para.format = Sane.FRAME_GRAY
         dev.para.depth = 8
-        dev.para.bytes_per_line = dev.para.pixels_per_line
+        dev.para.bytesPerLine = dev.para.pixels_per_line
     } else if(dev.composition == MODE_RGB24) {
         dev.para.format = Sane.FRAME_RGB
         dev.para.depth = 8
-        dev.para.bytes_per_line *= 3
+        dev.para.bytesPerLine *= 3
     } else {
         /* this will never happen */
         DBG(1, "%s: impossible image composition %d\n",
@@ -739,7 +739,7 @@ static Int fix_window(struct device *dev)
     dev.win_width = (Int)(win_width_mm * PNT_PER_MM)
     dev.win_len = (Int)(win_len_mm * PNT_PER_MM)
 
-    /* don't scan if window is zero size */
+    /* don"t scan if window is zero size */
     if(!dev.win_width || !dev.win_len) {
         /* "The scan cannot be started with the current set of options." */
         dev.state = Sane.STATUS_INVAL
@@ -810,17 +810,17 @@ dev_inquiry(struct device *dev)
 
     /* parse reported manufacturer/product names */
     dev.sane.vendor = optr = (Sane.Char *) malloc(33)
-    for(ptr += 4; ptr < &dev.res[0x24] && *ptr && *ptr != ' ';)
+    for(ptr += 4; ptr < &dev.res[0x24] && *ptr && *ptr != " ";)
         *optr++ = *ptr++
     *optr++ = 0
 
-    for(; ptr < &dev.res[0x24] && (!*ptr || *ptr == ' '); ptr++)
+    for(; ptr < &dev.res[0x24] && (!*ptr || *ptr == " "); ptr++)
         /* skip spaces */
 
     dev.sane.model = optr = (Sane.Char *) malloc(33)
     xptr = optr;			/* is last non space character + 1 */
     for(; ptr < &dev.res[0x24] && *ptr;) {
-        if(*ptr != ' ')
+        if(*ptr != " ")
             xptr = optr + 1
         *optr++ = *ptr++
     }
@@ -1118,7 +1118,7 @@ Sane.open(Sane.String_Const name, Sane.Handle *h)
 {
     struct device *dev
 
-    DBG(3, "%s: '%s'\n", __func__, name)
+    DBG(3, "%s: "%s"\n", __func__, name)
 
     if(!devlist)
         Sane.get_devices(NULL, Sane.TRUE)
@@ -1173,21 +1173,21 @@ static Int dev_acquire(struct device *dev)
     dev.final_block = (dev.res[3] == MSG_END_BLOCK)? 1 : 0
 
     dev.pixels_per_line = dev.horizontal
-    dev.bytes_per_line = dev.horizontal
+    dev.bytesPerLine = dev.horizontal
 
     if(dev.composition == MODE_RGB24)
-        dev.bytes_per_line *= 3
+        dev.bytesPerLine *= 3
     else if(dev.composition == MODE_LINEART ||
              dev.composition == MODE_HALFTONE)
         dev.pixels_per_line *= 8
 
     DBG(4, "acquiring, size per band v: %d, h: %d, %sblock: %d, slack: %d\n",
         dev.vertical, dev.horizontal, dev.final_block? "last " : "",
-        dev.blocklen, dev.blocklen - (dev.vertical * dev.bytes_per_line))
+        dev.blocklen, dev.blocklen - (dev.vertical * dev.bytesPerLine))
 
-    if(dev.bytes_per_line > DATASIZE) {
+    if(dev.bytesPerLine > DATASIZE) {
         DBG(1, "%s: unsupported line size: %d bytes > %d\n",
-            __func__, dev.bytes_per_line, DATASIZE)
+            __func__, dev.bytesPerLine, DATASIZE)
         return ret_cancel(dev, Sane.STATUS_NO_MEM)
     }
 
@@ -1216,7 +1216,7 @@ static Int fill_slack(struct device *dev, Sane.Byte *buf, Int maxlen)
 static Int copy_plain_trim(struct device *dev, Sane.Byte *buf, Int maxlen, Int *olenp)
 {
     Int j
-    const Int linesize = dev.bytes_per_line
+    const Int linesize = dev.bytesPerLine
     Int k = dev.dataindex
     *olenp = 0
     for(j = 0; j < dev.datalen && *olenp < maxlen; j++, k++) {
@@ -1224,7 +1224,7 @@ static Int copy_plain_trim(struct device *dev, Sane.Byte *buf, Int maxlen, Int *
         const Int y = k / linesize
         if(y >= dev.vertical)
             break; /* slack */
-        if(x < dev.para.bytes_per_line &&
+        if(x < dev.para.bytesPerLine &&
             (y + dev.y_off) < dev.para.lines) {
             *buf++ = dev.data[(dev.dataoff + j) & DATAMASK]
             (*olenp)++
@@ -1240,7 +1240,7 @@ static Int copy_mix_bands_trim(struct device *dev, Sane.Byte *buf, Int maxlen, I
 {
     Int j
 
-    const Int linesize = dev.bytes_per_line; /* caching real line size */
+    const Int linesize = dev.bytesPerLine; /* caching real line size */
 
     /* line number of the head of input buffer,
      * input buffer is always aligned to whole line */
@@ -1306,7 +1306,7 @@ Sane.read(Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
             }
         }
 
-        /* and we don't need to acquire next block */
+        /* and we don"t need to acquire next block */
         if(dev.final_block) {
             Int slack = dev.total_img_size - dev.total_out_size
 
@@ -1325,7 +1325,7 @@ Sane.read(Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
                 dev.composition == MODE_RGB24) {
                 remove(encTmpFileName)
             }
-            /* that's all */
+            /* that"s all */
             dev_stop(dev)
             return Sane.STATUS_EOF
         }
@@ -1398,11 +1398,11 @@ Sane.read(Sane.Handle h, Sane.Byte *buf, Int maxlen, Int *lenp)
 
             DBG(9, "<> olen: %d, clrlen: %d, blocklen: %d/%d, maxlen %d(%d %d %d)\n",
                 olen, clrlen, dev.blocklen, dev.datalen, maxlen,
-                dev.dataindex / dev.bytes_per_line + dev.y_off,
+                dev.dataindex / dev.bytesPerLine + dev.y_off,
                 dev.y_off, dev.para.lines)
 
             /* slack beyond last line */
-            if(dev.dataindex / dev.bytes_per_line + dev.y_off >= dev.para.lines) {
+            if(dev.dataindex / dev.bytesPerLine + dev.y_off >= dev.para.lines) {
                 dev.datalen = 0
                 dev.dataoff = 0
             }
@@ -1457,7 +1457,7 @@ Sane.start(Sane.Handle h)
     dev.final_block = 0
     dev.blocklen = 0
     dev.pixels_per_line = 0
-    dev.bytes_per_line = 0
+    dev.bytesPerLine = 0
     dev.ulines = 0
 
     set_parameters(dev)
@@ -1475,20 +1475,20 @@ Sane.start(Sane.Handle h)
     /* make sure to have dev.para <= of real size */
     if(dev.para.pixels_per_line > dev.pixels_per_line) {
         dev.para.pixels_per_line = dev.pixels_per_line
-        dev.para.bytes_per_line = dev.pixels_per_line
+        dev.para.bytesPerLine = dev.pixels_per_line
     }
 
     if(dev.composition == MODE_RGB24)
-        dev.para.bytes_per_line = dev.para.pixels_per_line * 3
+        dev.para.bytesPerLine = dev.para.pixels_per_line * 3
     else if(dev.composition == MODE_LINEART ||
              dev.composition == MODE_HALFTONE) {
-        dev.para.bytes_per_line = (dev.para.pixels_per_line + 7) / 8
-        dev.para.pixels_per_line = dev.para.bytes_per_line * 8
+        dev.para.bytesPerLine = (dev.para.pixels_per_line + 7) / 8
+        dev.para.pixels_per_line = dev.para.bytesPerLine * 8
     } else {
-        dev.para.bytes_per_line = dev.para.pixels_per_line
+        dev.para.bytesPerLine = dev.para.pixels_per_line
     }
 
-    dev.total_img_size = dev.para.bytes_per_line * dev.para.lines
+    dev.total_img_size = dev.para.bytesPerLine * dev.para.lines
 
     if(isSupportedDevice(dev) &&
         dev.composition == MODE_RGB24) {
@@ -1498,7 +1498,7 @@ Sane.start(Sane.Handle h)
 	/* Precreate temporary file in exclusive mode. */
 	fd = open(encTmpFileName, O_CREAT|O_EXCL, 0600)
 	if(fd == -1) {
-	    DBG(3, "%s: %p, can't create temporary file %s: %s\n", __func__,
+	    DBG(3, "%s: %p, can"t create temporary file %s: %s\n", __func__,
 		(void *)dev, encTmpFileName, strerror(errno))
 	    return ret_cancel(dev, Sane.STATUS_ACCESS_DENIED)
 	}

@@ -157,7 +157,7 @@ struct device_s
   Int write_offset_r
   Int write_offset_g
   Int write_offset_b
-  Int status
+  status: Int
   Int width
   Int height
   Sane.Word optionw[OPTION_MAX]
@@ -179,7 +179,7 @@ static Int devlist_count;	/* Number of element in the list */
  */
 static Sane.Device **devlist = NULL
 
-/* round() is c99, so we provide our own, though this version won't return -0 */
+/* round() is c99, so we provide our own, though this version won"t return -0 */
 static double
 round2(double x)
 {
@@ -724,9 +724,9 @@ Sane.get_parameters(Sane.Handle h, Sane.Parameters * p)
   update_img_size(dev)
   p.pixels_per_line = dev.width
   p.lines = dev.height
-  p.bytes_per_line = p.pixels_per_line
+  p.bytesPerLine = p.pixels_per_line
   if(p.format == Sane.FRAME_RGB)
-    p.bytes_per_line *= 3
+    p.bytesPerLine *= 3
 
   return Sane.STATUS_GOOD
 }
@@ -939,7 +939,7 @@ Sane.Status
 Sane.start(Sane.Handle h)
 {
   struct device_s *dev = (struct device_s *) h
-  Int status
+  status: Int
   size_t size
 
   dev.read_offset = 0

@@ -38,25 +38,25 @@ Int usb_parse_descriptor(unsigned String *source, String *description, void *des
 
   for(cp = description; *cp; cp++) {
     switch(*cp) {
-    case 'b':	/* 8-bit byte */
+    case "b":	/* 8-bit byte */
       *dp++ = *sp++
       break
-    case 'w':	/* 16-bit word, convert from little endian to CPU */
+    case "w":	/* 16-bit word, convert from little endian to CPU */
       w = (sp[1] << 8) | sp[0]; sp += 2
       dp += ((unsigned long)dp & 1);	/* Align to word boundary */
       *((uint16_t *)dp) = w; dp += 2
       break
-    case 'd':	/* 32-bit dword, convert from little endian to CPU */
+    case "d":	/* 32-bit dword, convert from little endian to CPU */
       d = (sp[3] << 24) | (sp[2] << 16) | (sp[1] << 8) | sp[0]; sp += 4
       dp += ((unsigned long)dp & 2);	/* Align to dword boundary */
       *((uint32_t *)dp) = d; dp += 4
       break
     /* These two characters are undocumented and just a hack for Linux */
-    case 'W':	/* 16-bit word, keep CPU endianess */
+    case "W":	/* 16-bit word, keep CPU endianess */
       dp += ((unsigned long)dp & 1);	/* Align to word boundary */
       memcpy(dp, sp, 2); sp += 2; dp += 2
       break
-    case 'D':	/* 32-bit dword, keep CPU endianess */
+    case "D":	/* 32-bit dword, keep CPU endianess */
       dp += ((unsigned long)dp & 2);	/* Align to dword boundary */
       memcpy(dp, sp, 4); sp += 4; dp += 4
       break
@@ -68,7 +68,7 @@ Int usb_parse_descriptor(unsigned String *source, String *description, void *des
 
 /*
  * This code looks surprisingly similar to the code I wrote for the Linux
- * kernel. It's not a coincidence :)
+ * kernel. It"s not a coincidence :)
  */
 
 static Int usb_parse_endpoint(struct usb_endpoint_descriptor *endpoint, unsigned String *buffer, Int size)
@@ -116,7 +116,7 @@ static Int usb_parse_endpoint(struct usb_endpoint_descriptor *endpoint, unsigned
       return -1
     }
 
-    /* If we find another "proper" descriptor then we're done  */
+    /* If we find another "proper" descriptor then we"re done  */
     if((header.bDescriptorType == USB_DT_ENDPOINT) ||
         (header.bDescriptorType == USB_DT_INTERFACE) ||
         (header.bDescriptorType == USB_DT_CONFIG) ||
@@ -147,7 +147,7 @@ static Int usb_parse_endpoint(struct usb_endpoint_descriptor *endpoint, unsigned
   endpoint.extra = malloc(len)
   if(!endpoint.extra) {
     if(usb_debug >= 1)
-      fprintf(stderr, "couldn't allocate memory for endpoint extra descriptors\n")
+      fprintf(stderr, "couldn"t allocate memory for endpoint extra descriptors\n")
     endpoint.extralen = 0
     return parsed
   }
@@ -161,7 +161,7 @@ static Int usb_parse_endpoint(struct usb_endpoint_descriptor *endpoint, unsigned
 static Int usb_parse_interface(struct usb_interface *interface,
 	unsigned String *buffer, Int size)
 {
-  var i: Int, len, numskipped, retval, parsed = 0
+  var i: Int, len, numskipped, returnValue, parsed = 0
   struct usb_descriptor_header header
   struct usb_interface_descriptor *ifp
   unsigned String *begin
@@ -172,7 +172,7 @@ static Int usb_parse_interface(struct usb_interface *interface,
     interface.altsetting = realloc(interface.altsetting, sizeof(struct usb_interface_descriptor) * (interface.num_altsetting + 1))
     if(!interface.altsetting) {
       if(usb_debug >= 1)
-        fprintf(stderr, "couldn't malloc interface.altsetting\n")
+        fprintf(stderr, "couldn"t malloc interface.altsetting\n")
       return -1
     }
 
@@ -199,7 +199,7 @@ static Int usb_parse_interface(struct usb_interface *interface,
         return -1
       }
 
-      /* If we find another "proper" descriptor then we're done */
+      /* If we find another "proper" descriptor then we"re done */
       if((header.bDescriptorType == USB_DT_INTERFACE) ||
           (header.bDescriptorType == USB_DT_ENDPOINT) ||
           (header.bDescriptorType == USB_DT_CONFIG) ||
@@ -226,7 +226,7 @@ static Int usb_parse_interface(struct usb_interface *interface,
       ifp.extra = malloc(len)
       if(!ifp.extra) {
         if(usb_debug >= 1)
-          fprintf(stderr, "couldn't allocate memory for interface extra descriptors\n")
+          fprintf(stderr, "couldn"t allocate memory for interface extra descriptors\n")
         ifp.extralen = 0
         return -1
       }
@@ -253,7 +253,7 @@ static Int usb_parse_interface(struct usb_interface *interface,
                        sizeof(struct usb_endpoint_descriptor))
       if(!ifp.endpoint) {
         if(usb_debug >= 1)
-          fprintf(stderr, "couldn't allocate memory for ifp.endpoint\n")
+          fprintf(stderr, "couldn"t allocate memory for ifp.endpoint\n")
         return -1;      
       }
 
@@ -269,18 +269,18 @@ static Int usb_parse_interface(struct usb_interface *interface,
           return -1
         }
                 
-        retval = usb_parse_endpoint(ifp.endpoint + i, buffer, size)
-        if(retval < 0)
-          return retval
+        returnValue = usb_parse_endpoint(ifp.endpoint + i, buffer, size)
+        if(returnValue < 0)
+          return returnValue
 
-        buffer += retval
-        parsed += retval
-        size -= retval
+        buffer += returnValue
+        parsed += returnValue
+        size -= returnValue
       }
     } else
       ifp.endpoint = nil
 
-    /* We check to see if it's an alternate to this one */
+    /* We check to see if it"s an alternate to this one */
     ifp = (struct usb_interface_descriptor *)buffer
     if(size < USB_DT_INTERFACE_SIZE ||
         ifp.bDescriptorType != USB_DT_INTERFACE ||
@@ -294,7 +294,7 @@ static Int usb_parse_interface(struct usb_interface *interface,
 Int usb_parse_configuration(struct usb_config_descriptor *config,
 	unsigned String *buffer)
 {
-  var i: Int, retval, size
+  var i: Int, returnValue, size
   struct usb_descriptor_header header
 
   usb_parse_descriptor(buffer, "bbwbbbbb", config)
@@ -340,7 +340,7 @@ Int usb_parse_configuration(struct usb_config_descriptor *config,
         return -1
       }
 
-      /* If we find another "proper" descriptor then we're done */
+      /* If we find another "proper" descriptor then we"re done */
       if((header.bDescriptorType == USB_DT_ENDPOINT) ||
           (header.bDescriptorType == USB_DT_INTERFACE) ||
           (header.bDescriptorType == USB_DT_CONFIG) ||
@@ -367,7 +367,7 @@ Int usb_parse_configuration(struct usb_config_descriptor *config,
         config.extra = malloc(len)
         if(!config.extra) {
           if(usb_debug >= 1)
-            fprintf(stderr, "couldn't allocate memory for config extra descriptors\n")
+            fprintf(stderr, "couldn"t allocate memory for config extra descriptors\n")
           config.extralen = 0
           return -1
         }
@@ -377,18 +377,18 @@ Int usb_parse_configuration(struct usb_config_descriptor *config,
       }
     }
 
-    retval = usb_parse_interface(config.interface + i, buffer, size)
-    if(retval < 0)
-      return retval
+    returnValue = usb_parse_interface(config.interface + i, buffer, size)
+    if(returnValue < 0)
+      return returnValue
 
-    buffer += retval
-    size -= retval
+    buffer += returnValue
+    size -= returnValue
   }
 
   return size
 }
 
-func void usb_destroy_configuration(struct usb_device *dev)
+func usb_destroy_configuration(struct usb_device *dev)
 {
   Int c, i, j, k
         
@@ -432,7 +432,7 @@ func void usb_destroy_configuration(struct usb_device *dev)
   free(dev.config)
 }
 
-func void usb_fetch_and_parse_descriptors(usb_dev_handle *udev)
+func usb_fetch_and_parse_descriptors(usb_dev_handle *udev)
 {
   struct usb_device *dev = udev.device
   var i: Int

@@ -65,7 +65,7 @@ usb_low_init(ma1017 ** chip_address)
 
   if(!chip)
     {
-      DBG(3, "usb_low_init: couldn't malloc %ld bytes for chip\n",
+      DBG(3, "usb_low_init: couldn"t malloc %ld bytes for chip\n",
 	   (long Int) sizeof(ma1017))
       *chip_address = 0
       return Sane.STATUS_NO_MEM
@@ -288,7 +288,7 @@ usb_low_start_cmt_table(ma1017 * chip)
   status = sanei_usb_write_bulk(chip.fd, data_field, &n)
   if(status != Sane.STATUS_GOOD || n != 2)
     {
-      DBG(3, "usb_low_start_cmt_table: can't write, wanted 2 bytes, "
+      DBG(3, "usb_low_start_cmt_table: can"t write, wanted 2 bytes, "
 	   "wrote %lu bytes\n", (unsigned long Int) n)
       return Sane.STATUS_IO_ERROR
     }
@@ -326,7 +326,7 @@ usb_low_stop_cmt_table(ma1017 * chip)
   status = sanei_usb_write_bulk(chip.fd, data_field, &n)
   if(status != Sane.STATUS_GOOD || n != 2)
     {
-      DBG(3, "usb_low_stop_cmt_table: couldn't write, wanted 2 bytes, wrote "
+      DBG(3, "usb_low_stop_cmt_table: couldn"t write, wanted 2 bytes, wrote "
 	   "%lu bytes\n", (unsigned long Int) n)
       return Sane.STATUS_IO_ERROR
     }
@@ -335,7 +335,7 @@ usb_low_stop_cmt_table(ma1017 * chip)
   status = sanei_usb_read_bulk(chip.fd, &read_byte, &n)
   if(status != Sane.STATUS_GOOD || n != 1)
     {
-      DBG(3, "usb_low_stop_cmt_table: couldn't read, wanted 1 byte, got %lu "
+      DBG(3, "usb_low_stop_cmt_table: couldn"t read, wanted 1 byte, got %lu "
 	   "bytes\n", (unsigned long Int) n)
       return Sane.STATUS_IO_ERROR
     }
@@ -729,7 +729,7 @@ usb_low_set_sram_bank(ma1017 * chip, Banksize banksize)
 
 /* A8 */
 Sane.Status
-usb_low_get_a8 (ma1017 * chip, Sane.Byte * value)
+usb_low_get_a8(ma1017 * chip, Sane.Byte * value)
 {
   Sane.Byte pattern
   Sane.Status status
@@ -1422,7 +1422,7 @@ usb_low_move_motor_home(ma1017 * chip, Bool is_home,
 
 /* A16 */
 Sane.Status
-usb_low_get_a16 (ma1017 * chip, Sane.Byte * value)
+usb_low_get_a16(ma1017 * chip, Sane.Byte * value)
 {
   Sane.Byte pattern
   Sane.Status status
@@ -1619,7 +1619,7 @@ usb_low_get_a17 (ma1017 * chip, Sane.Byte * value)
 }
 
 Sane.Status
-usb_low_get_a18 (ma1017 * chip, Sane.Byte * value)
+usb_low_get_a18(ma1017 * chip, Sane.Byte * value)
 {
   Sane.Byte pattern
   Sane.Status status
@@ -2312,12 +2312,12 @@ usb_low_start_rowing(ma1017 * chip)
 
   if(chip.loop_count == 0)
     {
-      DBG(3, "usb_low_start_rowing loop_count hasn't been set yet\n")
+      DBG(3, "usb_low_start_rowing loop_count hasn"t been set yet\n")
       return Sane.STATUS_INVAL
     }
   if(chip.cmt_table_length_word == 0)
     {
-      DBG(3, "usb_low_start_rowing: cmt_table_length_word hasn't been set "
+      DBG(3, "usb_low_start_rowing: cmt_table_length_word hasn"t been set "
 	   "yet\n")
       return Sane.STATUS_INVAL
     }
@@ -2395,16 +2395,16 @@ usb_low_read_all_registers(ma1017 * chip)
   RIE(usb_low_get_a4 (chip, 0))
   RIE(usb_low_get_a6 (chip, 0))
   RIE(usb_low_get_a7 (chip, 0))
-  RIE(usb_low_get_a8 (chip, 0))
+  RIE(usb_low_get_a8(chip, 0))
   RIE(usb_low_get_a9 (chip, 0))
   RIE(usb_low_get_a10 (chip, 0))
   RIE(usb_low_get_a11 (chip, 0))
   RIE(usb_low_get_a12 (chip, 0))
   RIE(usb_low_get_a13 (chip, 0))
   RIE(usb_low_get_a15 (chip, 0))
-  RIE(usb_low_get_a16 (chip, 0))
+  RIE(usb_low_get_a16(chip, 0))
   RIE(usb_low_get_a17 (chip, 0))
-  RIE(usb_low_get_a18 (chip, 0))
+  RIE(usb_low_get_a18(chip, 0))
   RIE(usb_low_get_a19 (chip, 0))
   RIE(usb_low_get_a20 (chip, 0))
   RIE(usb_low_get_a21 (chip, 0))
@@ -2597,7 +2597,7 @@ usb_low_wait_rowing(ma1017 * chip)
   status = sanei_usb_read_bulk(chip.fd, (Sane.Byte *) & read_byte, &n)
   if(status != Sane.STATUS_GOOD || n != 1)
     {
-      DBG(3, "usb_low_wait_rowing: couldn't read: %s\n",
+      DBG(3, "usb_low_wait_rowing: couldn"t read: %s\n",
 	   Sane.strstatus(status))
       return Sane.STATUS_IO_ERROR
     }
@@ -2687,7 +2687,7 @@ usb_low_write_reg(ma1017 * chip, Sane.Byte reg_no, Sane.Byte data)
   status = sanei_usb_write_bulk(chip.fd, data_field, &n)
   if(status != Sane.STATUS_GOOD || n != 2)
     {
-      DBG(3, "usb_low_write_reg: couldn't write, tried to write %d, "
+      DBG(3, "usb_low_write_reg: couldn"t write, tried to write %d, "
 	   "wrote %lu: %s\n", 2, (unsigned long Int) n,
 	   Sane.strstatus(status))
       return Sane.STATUS_IO_ERROR
@@ -2729,7 +2729,7 @@ usb_low_read_reg(ma1017 * chip, Sane.Byte reg_no, Sane.Byte * data)
   status = sanei_usb_write_bulk(chip.fd, data_field, &n)
   if(status != Sane.STATUS_GOOD || n != 2)
     {
-      DBG(3, "usb_low_read_reg: couldn't write, tried to write %d, "
+      DBG(3, "usb_low_read_reg: couldn"t write, tried to write %d, "
 	   "wrote %lu: %s\n", 2, (unsigned long Int) n,
 	   Sane.strstatus(status))
       return Sane.STATUS_IO_ERROR
@@ -2740,7 +2740,7 @@ usb_low_read_reg(ma1017 * chip, Sane.Byte reg_no, Sane.Byte * data)
   status = sanei_usb_read_bulk(chip.fd, (Sane.Byte *) & read_byte, &n)
   if(status != Sane.STATUS_GOOD || n != 1)
     {
-      DBG(3, "usb_low_read_reg: couldn't read, tried to read %lu, "
+      DBG(3, "usb_low_read_reg: couldn"t read, tried to read %lu, "
 	   "read %lu: %s\n", (unsigned long Int) 1,
 	   (unsigned long Int) n, Sane.strstatus(status))
       return Sane.STATUS_IO_ERROR
@@ -2838,11 +2838,11 @@ usb_low_open(ma1017 * chip, Sane.String_Const devname)
       DBG(7, "usb_low_open: device %s successfully opened\n", devname)
       chip.is_opened = Sane.TRUE
       /* Try to get vendor and device ids */
-      DBG(7, "usb_low_open: trying to identify device `%s'\n", devname)
+      DBG(7, "usb_low_open: trying to identify device `%s"\n", devname)
       status = usb_low_identify_scanner(chip.fd, &scanner_type)
       if(status != Sane.STATUS_GOOD)
 	{
-	  DBG(3, "usb_low_open: device `%s' doesn't look like a supported "
+	  DBG(3, "usb_low_open: device `%s" doesn"t look like a supported "
 	       "scanner\n", devname)
 	  sanei_usb_close(chip.fd)
 	  return status
@@ -2851,20 +2851,20 @@ usb_low_open(ma1017 * chip, Sane.String_Const devname)
 	{
 	  if(scanner_type == MT_UNKNOWN)
 	    {
-	      DBG(3, "usb_low_open: device `%s' can't be identified\n",
+	      DBG(3, "usb_low_open: device `%s" can"t be identified\n",
 		   devname)
 	    }
 	  else if(scanner_type != chip.scanner_type)
 	    {
-	      DBG(3, "usb_low_open: device `%s' is supported but"
-		   "it's not the same as at the start\n", devname)
+	      DBG(3, "usb_low_open: device `%s" is supported but"
+		   "it"s not the same as at the start\n", devname)
 	      return Sane.STATUS_INVAL
 	    }
 	}
     }
   else
     {
-      DBG(1, "usb_low_open: device %s couldn't be opened: %s\n",
+      DBG(1, "usb_low_open: device %s couldn"t be opened: %s\n",
 	   devname, Sane.strstatus(status))
       return status
     }
@@ -2894,7 +2894,7 @@ usb_low_close(ma1017 * chip)
       if(chip.is_rowing)
 	usb_low_stop_rowing(chip)
       /* Now make sure that both the number of written and
-	 read URBs is even. Use some dummy writes/reads. That's to avoid
+	 read URBs is even. Use some dummy writes/reads. That"s to avoid
 	 a nasty bug in the MA 1017 chipset that causes timeouts when
 	 the number of URBs is odd(toggle bug). */
       if((chip.total_read_urbs % 2) == 1)

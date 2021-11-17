@@ -1,5 +1,5 @@
 /** @file u12.c
- *  @brief SANE backend for USB scanner, based on Plusteks' ASIC P98003 and
+ *  @brief SANE backend for USB scanner, based on Plusteks" ASIC P98003 and
  *         the GeneSys Logic GL640 parallel-port to USB bridge.
  *
  * Based on source acquired from Plustek<br>
@@ -205,7 +205,7 @@ static Sane.Status drvClose( U12_Device *dev )
 			DBG( _DBG_INFO, "TIME END 1: %lus\n", time(NULL)-tsecs)
 		}
 
-		/* don't check the return values, simply do it */
+		/* don"t check the return values, simply do it */
 		u12if_stopScan( dev )
 		u12if_close   ( dev )
 	}
@@ -336,7 +336,7 @@ static Int reader_process( void *args )
 	act.sa_handler = usb_reader_process_sigterm_handler
 	sigaction( SIGUSR1, &act, 0 )
 
-	data_length = scanner.params.lines * scanner.params.bytes_per_line
+	data_length = scanner.params.lines * scanner.params.bytesPerLine
 
 	DBG( _DBG_PROC, "reader_process:"
 					"starting to READ data(%lu bytes)\n", data_length )
@@ -360,15 +360,15 @@ static Int reader_process( void *args )
 				break
 			}
 
-			write( scanner.w_pipe, buf, scanner.params.bytes_per_line )
-    		buf += scanner.params.bytes_per_line
+			write( scanner.w_pipe, buf, scanner.params.bytesPerLine )
+    		buf += scanner.params.bytesPerLine
 		}
 	}
 
 	close( scanner.w_pipe )
 	scanner.w_pipe = -1
 
-	/* on error, there's no need to clean up, as this is done by the parent */
+	/* on error, there"s no need to clean up, as this is done by the parent */
 	if( Sane.STATUS_GOOD != status ) {
 		DBG( _DBG_ERROR, "read failed, status = %i\n", (Int)status )
 		return status
@@ -404,7 +404,7 @@ static Sane.Status do_cancel( U12_Scanner *scanner, Bool closepipe )
 		/* kill our child process and wait until done */
 		sanei_thread_sendsig( scanner.reader_pid, SIGUSR1 )
 
-		/* give'em 10 seconds 'til done...*/
+		/* give"em 10 seconds "til done...*/
 		alarm(10)
 		res = sanei_thread_waitpid( scanner.reader_pid, 0 )
 		alarm(0)
@@ -666,13 +666,13 @@ static void decodeUsbIDs( char *src, char **dest )
 
 	if( isspace(src[len])) {
 		strncpy( tmp, &src[len+1], (strlen(src)-(len+1)))
-		tmp[(strlen(src)-(len+1))] = '\0'
+		tmp[(strlen(src)-(len+1))] = "\0"
 	}
 
 	name = tmp
 	name = sanei_config_skip_whitespace( name )
 
-	if( '\0' == name[0] ) {
+	if( "\0" == name[0] ) {
 		DBG( _DBG_Sane.INIT, "next device uses autodetection\n" )
 	} else {
 
@@ -953,7 +953,7 @@ Sane.Status Sane.init( Int *version_code, Sane.Auth_Callback authorize )
 	while( sanei_config_read( str, sizeof(str), fp)) {
 
 		DBG( _DBG_Sane.INIT, ">%s<\n", str )
-		if( str[0] == '#')		/* ignore line comments */
+		if( str[0] == "#")		/* ignore line comments */
     		continue
 
 		len = strlen(str)
@@ -986,7 +986,7 @@ Sane.Status Sane.init( Int *version_code, Sane.Auth_Callback authorize )
 		    char *tmp
 
 		    /* new section, try and attach previous device */
-		    if( config.devName[0] != '\0' ) {
+		    if( config.devName[0] != "\0" ) {
 				attach( config.devName, &config, 0 )
 			} else {
 				if( first_dev != NULL ) {
@@ -1014,7 +1014,7 @@ Sane.Status Sane.init( Int *version_code, Sane.Auth_Callback authorize )
 	fclose( fp )
 
     /* try to attach the last device in the config file... */
-	if( config.devName[0] != '\0' )
+	if( config.devName[0] != "\0" )
 		attach( config.devName, &config, 0 )
 
 	return Sane.STATUS_GOOD
@@ -1035,7 +1035,7 @@ void Sane.exit( void )
 		u12if_shutdown( dev )
 
 		/*
-		 * we're doin' this to avoid compiler warnings as dev.sane.name
+		 * we"re doin" this to avoid compiler warnings as dev.sane.name
 		 * is defined as const char*
 		 */
 		if( dev.sane.name )
@@ -1485,7 +1485,7 @@ Sane.Status Sane.get_parameters( Sane.Handle handle, Sane.Parameters *params )
 #endif
 	U12_Scanner *s = (U12_Scanner *)handle
 
-	/* if we're called from within, calc best guess
+	/* if we"re called from within, calc best guess
      * do the same, if Sane.get_parameters() is called
      * by a frontend before Sane.start() is called
      */
@@ -1513,19 +1513,19 @@ Sane.Status Sane.get_parameters( Sane.Handle handle, Sane.Parameters *params )
 #else
 		s.params.depth = 8
 		s.params.format = Sane.FRAME_RGB
-		s.params.bytes_per_line = 3 * s.params.pixels_per_line
+		s.params.bytesPerLine = 3 * s.params.pixels_per_line
 #endif
 
 #ifdef ALL_MODES
 		if( mp[s.val[OPT_MODE].w].color ) {
 			s.params.format = Sane.FRAME_RGB
-			s.params.bytes_per_line = 3 * s.params.pixels_per_line
+			s.params.bytesPerLine = 3 * s.params.pixels_per_line
 		} else {
 			s.params.format = Sane.FRAME_GRAY
 			if(s.params.depth == 1)
-				s.params.bytes_per_line = (s.params.pixels_per_line + 7) / 8
+				s.params.bytesPerLine = (s.params.pixels_per_line + 7) / 8
 			else
-				s.params.bytes_per_line = s.params.pixels_per_line *
+				s.params.bytesPerLine = s.params.pixels_per_line *
 														   s.params.depth / 8
 		}
 #endif
@@ -1599,7 +1599,7 @@ Sane.Status Sane.start( Sane.Handle handle )
 	 */
 	ndpi = s.val[OPT_RESOLUTION].w
 
-	/* exchange the values as we can't deal with negative heights and so on...*/
+	/* exchange the values as we can"t deal with negative heights and so on...*/
 	tmp = s.val[OPT_TL_X].w
 	if( tmp > s.val[OPT_BR_X].w ) {
 		DBG( _DBG_INFO, "exchanging BR-X - TL-X\n" )
@@ -1681,17 +1681,17 @@ Sane.Status Sane.start( Sane.Handle handle )
 	}
 
 	s.params.pixels_per_line = dev.DataInf.dwAppPixelsPerLine
-	s.params.bytes_per_line  = dev.DataInf.dwAppBytesPerLine
+	s.params.bytesPerLine  = dev.DataInf.dwAppBytesPerLine
 	s.params.lines           = dev.DataInf.dwAppLinesPerArea
 
 	DBG( _DBG_INFO, "* PixelPerLine = %u\n", s.params.pixels_per_line )
-	DBG( _DBG_INFO, "* BytesPerLine = %u\n", s.params.bytes_per_line  )
+	DBG( _DBG_INFO, "* BytesPerLine = %u\n", s.params.bytesPerLine  )
 	DBG( _DBG_INFO, "* Lines        = %u\n", s.params.lines  )
 
 	/* reset our timer...*/
 	tsecs = 0
 
-	s.buf = realloc( s.buf, (s.params.lines) * s.params.bytes_per_line )
+	s.buf = realloc( s.buf, (s.params.lines) * s.params.bytesPerLine )
 	if( NULL == s.buf ) {
 		DBG( _DBG_ERROR, "realloc failed\n" )
 		u12if_close( dev )
@@ -1767,9 +1767,9 @@ Sane.Status Sane.read( Sane.Handle handle, Sane.Byte *data,
 
 		if( EAGAIN == errno ) {
 
-            /* if we already had red the picture, so it's okay and stop */
+            /* if we already had red the picture, so it"s okay and stop */
 			if( s.bytes_read ==
-				(unsigned long)(s.params.lines * s.params.bytes_per_line)) {
+				(unsigned long)(s.params.lines * s.params.bytesPerLine)) {
 				sanei_thread_waitpid( s.reader_pid, 0 )
 				sanei_thread_invalidate( s.reader_pid )
 				drvClose( s.hw )
@@ -1789,7 +1789,7 @@ Sane.Status Sane.read( Sane.Handle handle, Sane.Byte *data,
 	*length        = nread
 	s.bytes_read += nread
 
-    /* nothing red means that we're finished OR we had a problem...*/
+    /* nothing red means that we"re finished OR we had a problem...*/
 	if( 0 == nread ) {
 
 		drvClose( s.hw )

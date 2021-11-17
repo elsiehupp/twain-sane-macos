@@ -854,7 +854,7 @@ usb_high_scan_exit(Mustek_Usb_Device * dev)
   DBG(5, "usb_high_scan_exit: start\n")
   if(!dev.chip)
     {
-      DBG(5, "usb_high_scan_exit: already exited(`%s')\n", dev.name)
+      DBG(5, "usb_high_scan_exit: already exited(`%s")\n", dev.name)
       return Sane.STATUS_INVAL
     }
 
@@ -1185,13 +1185,13 @@ usb_high_scan_line_calibration(Mustek_Usb_Device * dev)
       RIE(usb_high_scan_calibration_rgb_24 (dev))
       break
     case GRAY8EXT:
-      RIE(usb_high_scan_prepare_mono_8 (dev))
+      RIE(usb_high_scan_prepare_mono_8(dev))
       if(usb_mid_sensor_is600_mode(dev.chip, dev.x_dpi))
 	RIE(usb_high_scan_prepare_mono_signal_600_dpi(dev))
       else
 	RIE(usb_high_scan_prepare_mono_signal_300_dpi(dev))
       RIE(usb_mid_sensor_prepare_mono(dev.chip, dev.x_dpi))
-      RIE(usb_high_scan_calibration_mono_8 (dev))
+      RIE(usb_high_scan_calibration_mono_8(dev))
       break
     default:
       DBG(3, "usb_high_scan_line_calibration: mode not matched\n")
@@ -1223,7 +1223,7 @@ usb_high_scan_prepare_scan(Mustek_Usb_Device * dev)
       RIE(usb_mid_motor_prepare_rgb(dev.chip, dev.y_dpi))
       break
     case GRAY8EXT:
-      RIE(usb_high_scan_prepare_mono_8 (dev))
+      RIE(usb_high_scan_prepare_mono_8(dev))
       dev.get_line = &usb_high_scan_get_mono_8_bit_line
       dev.backtrack = &usb_high_scan_backtrack_mono_8
       if(usb_mid_sensor_is600_mode(dev.chip, dev.x_dpi))
@@ -1334,7 +1334,7 @@ usb_high_scan_detect_sensor(Mustek_Usb_Device * dev)
       break
     case MT_1200UB:
     case MT_1200CU_PLUS:
-    case MT_1200CU:		/* need to check if it's a 300600 or 600 dpi sensor */
+    case MT_1200CU:		/* need to check if it"s a 300600 or 600 dpi sensor */
       {
 	Sane.Byte *buffer
 	static Sane.Word l_temp = 0, r_temp = 0
@@ -1413,7 +1413,7 @@ usb_high_scan_detect_sensor(Mustek_Usb_Device * dev)
 	break
       }
     default:
-      DBG(5, "usb_high_scan_detect_sensor: I don't know this scanner type "
+      DBG(5, "usb_high_scan_detect_sensor: I don"t know this scanner type "
 	   "(%d)\n", dev.chip.scanner_type)
       return Sane.STATUS_INVAL
     }
@@ -2239,7 +2239,7 @@ usb_high_scan_calibration_rgb_24 (Mustek_Usb_Device * dev)
 }
 
 Sane.Status
-usb_high_scan_calibration_mono_8 (Mustek_Usb_Device * dev)
+usb_high_scan_calibration_mono_8(Mustek_Usb_Device * dev)
 {
   Sane.Word white_need
   Sane.Word dark_need
@@ -2652,7 +2652,7 @@ usb_high_scan_prepare_rgb_24 (Mustek_Usb_Device * dev)
 }
 
 Sane.Status
-usb_high_scan_prepare_mono_8 (Mustek_Usb_Device * dev)
+usb_high_scan_prepare_mono_8(Mustek_Usb_Device * dev)
 {
   Sane.Status status
 
@@ -2718,7 +2718,7 @@ usb_high_scan_backtrack_rgb_24 (Mustek_Usb_Device * dev)
 }
 
 Sane.Status
-usb_high_scan_backtrack_mono_8 (Mustek_Usb_Device * dev)
+usb_high_scan_backtrack_mono_8(Mustek_Usb_Device * dev)
 {
   Int i
   Sane.Status status

@@ -31,7 +31,7 @@
  *        - 12bit color-depth are now available for scanimage
  * - 0.37 - removed X/Y autocorrection, now correcting the stuff
  *          before scanning
- *        - applied Michaels' patch to solve the Sane.get_parameter problem<br>
+ *        - applied Michaels" patch to solve the Sane.get_parameter problem<br>
  *        - getting X-size of scan area from driver<br>
  *        - applied Michaels patch for OPT_RESOLUTION(Sane.INFO_INEXACT stuff)
  * - 0.38 - now using the information from the driver
@@ -59,14 +59,14 @@
  *        - changed readImage interface for USB devices
  *        - homeing of USB scanner is now working correctly
  * - 0.46 - added plustek-usbcal.c for extra CIS device calibration
- *          based on Montys' great work
+ *          based on Montys" great work
  *        - added altCalibration option
  *        - removed parallelport support --> new backend: plustek_pp
  *        - cleanup
  *        - added sanei_thread support
  * - 0.47 - added mov-option(model override)
  *        - removed drvOpen
- *        - added call to usb_StartLampTimer, when we're using
+ *        - added call to usb_StartLampTimer, when we"re using
  *          SIGALRM for lamp timer
  *        - closing now writer pipe, when reader_process is done
  * - 0.48 - added additional options
@@ -191,7 +191,7 @@ import plustek
 
 /** to disable the backend... */
 
-/* declare it here, as it's used in plustek-usbscan.c too :-( */
+/* declare it here, as it"s used in plustek-usbscan.c too :-( */
 static Bool  cancelRead
 static DevList   *usbDevs
 
@@ -319,7 +319,7 @@ drvclose( Plustek_Device *dev )
 			DBG( _DBG_INFO, "TIME END 1: %lus\n", time(NULL)-tsecs)
 		}
 
-		/* don't check the return values, simply do it */
+		/* don"t check the return values, simply do it */
 		usbDev_stopScan( dev )
 		usbDev_close   ( dev )
 		sanei_access_unlock( dev.sane.name )
@@ -492,7 +492,7 @@ reader_process( void *args )
 
 	thread_entry()
 
-	data_length = scanner.params.lines * scanner.params.bytes_per_line
+	data_length = scanner.params.lines * scanner.params.bytesPerLine
 
 	DBG( _DBG_PROC, "reader_process:"
 					"starting to READ data(%lu bytes)\n", data_length )
@@ -532,12 +532,12 @@ reader_process( void *args )
 				if((Int)status < 0 ) {
 					break
 				}
-				write( scanner.w_pipe, buf, scanner.params.bytes_per_line )
-				buf += scanner.params.bytes_per_line
+				write( scanner.w_pipe, buf, scanner.params.bytesPerLine )
+				buf += scanner.params.bytesPerLine
 			}
 		}
 	}
-	/* on error, there's no need to clean up, as this is done by the parent */
+	/* on error, there"s no need to clean up, as this is done by the parent */
 	lerrn = errno
 
 	close( scanner.w_pipe )
@@ -586,7 +586,7 @@ do_cancel( Plustek_Scanner *scanner, Bool closepipe )
 		/* kill our child process and wait until done */
 		sanei_thread_sendsig( scanner.reader_pid, SIGUSR1 )
 
-		/* give'em 10 seconds 'til done...*/
+		/* give"em 10 seconds "til done...*/
 		alarm(10)
 		res = sanei_thread_waitpid( scanner.reader_pid, 0 )
 		alarm(0)
@@ -949,7 +949,7 @@ init_options( Plustek_Scanner *s )
 		_DISABLE(OPT_CALIBRATE)
 	s.val[OPT_CALIBRATE].w = 0
 
-	/* it's currently not available for CCD devices */
+	/* it"s currently not available for CCD devices */
 	if( !usb_IsCISDevice(dev) && !dev.adj.altCalibrate)
 		_DISABLE(OPT_CALIBRATE)
 
@@ -1123,13 +1123,13 @@ decodeUsbIDs( char *src, char **dest )
 
 	if( isspace(src[len])) {
 		strncpy( tmp, &src[len+1], (strlen(src)-(len+1)))
-        tmp[(strlen(src)-(len+1))] = '\0'
+        tmp[(strlen(src)-(len+1))] = "\0"
 	}
 
 	name = tmp
 	name = sanei_config_skip_whitespace( name )
 
-	if( '\0' == name[0] ) {
+	if( "\0" == name[0] ) {
 		DBG( _DBG_Sane.INIT, "next device uses autodetection\n" )
 	} else {
 
@@ -1477,7 +1477,7 @@ Sane.init( Int *version_code, Sane.Auth_Callback authorize )
 	while( sanei_config_read( str, sizeof(str), fp)) {
 
 		DBG( _DBG_Sane.INIT, ">%s<\n", str )
-		if( str[0] == '#')		/* ignore line comments */
+		if( str[0] == "#")		/* ignore line comments */
 			continue
 
 		len = strlen(str)
@@ -1552,7 +1552,7 @@ Sane.init( Int *version_code, Sane.Auth_Callback authorize )
 		    char *tmp
 
 			/* new section, try and attach previous device */
-			if( config.devName[0] != '\0' ) {
+			if( config.devName[0] != "\0" ) {
 				attach( config.devName, &config, 0 )
 			} else {
 				if( first_dev != NULL ) {
@@ -1580,7 +1580,7 @@ Sane.init( Int *version_code, Sane.Auth_Callback authorize )
 	fclose(fp)
 
 	/* try to attach the last device in the config file... */
-	if( config.devName[0] != '\0' )
+	if( config.devName[0] != "\0" )
 		attach( config.devName, &config, 0 )
 
 	return Sane.STATUS_GOOD
@@ -1603,7 +1603,7 @@ Sane.exit( void )
 		/* call the shutdown function of each device... */
 		usbDev_shutdown( dev )
 
-		/* we're doin' this to avoid compiler warnings as dev.sane.name
+		/* we"re doin" this to avoid compiler warnings as dev.sane.name
 		 * is defined as const char*
 		 */
 		if( dev.sane.name )
@@ -1788,7 +1788,7 @@ do_calibration( void *args )
 
 	thread_entry()
 
-	/* if the device does only support color scanning, there's no need
+	/* if the device does only support color scanning, there"s no need
 	 * to calibrate the gray modes
 	 */
 	if(caps.workaroundFlag & _WAF_GRAY_FROM_COLOR)
@@ -2335,7 +2335,7 @@ Sane.get_parameters( Sane.Handle handle, Sane.Parameters *params )
 	Int scanmode
 	Plustek_Scanner *s = (Plustek_Scanner *)handle
 
-	/* if we're calling from within, calc best guess
+	/* if we"re calling from within, calc best guess
 	 * do the same, if Sane.get_parameters() is called
 	 * by a frontend before Sane.start() is called
 	 */
@@ -2359,13 +2359,13 @@ Sane.get_parameters( Sane.Handle handle, Sane.Parameters *params )
 
 		if( scanmode == COLOR_TRUE24 || scanmode == COLOR_TRUE48 ) {
 			s.params.format = Sane.FRAME_RGB
-			s.params.bytes_per_line = 3 * s.params.pixels_per_line
+			s.params.bytesPerLine = 3 * s.params.pixels_per_line
 		} else {
 			s.params.format = Sane.FRAME_GRAY
 			if(s.params.depth == 1)
-				s.params.bytes_per_line = (s.params.pixels_per_line + 7) / 8
+				s.params.bytesPerLine = (s.params.pixels_per_line + 7) / 8
 			else
-				s.params.bytes_per_line = s.params.pixels_per_line *
+				s.params.bytesPerLine = s.params.pixels_per_line *
 				                                           s.params.depth / 8
 		}
 
@@ -2400,7 +2400,7 @@ local_Sane.start(Plustek_Scanner *s, Int scanmode )
 
 	dev = s.hw
 
-	/* check if we're called from the option dialog! */
+	/* check if we"re called from the option dialog! */
 	if(usb_InCalibrationMode(dev))
 		crop.ImgDef.dwFlag = SCANFLAG_Calibration
 
@@ -2429,7 +2429,7 @@ local_Sane.start(Plustek_Scanner *s, Int scanmode )
 	 */
 	ndpi = s.val[OPT_RESOLUTION].w
 
-	/* exchange the values as we can't deal with
+	/* exchange the values as we can"t deal with
 	 * negative heights and so on...*/
 	tmp = s.val[OPT_TL_X].w
 	if( tmp > s.val[OPT_BR_X].w ) {
@@ -2488,7 +2488,7 @@ local_Sane.start(Plustek_Scanner *s, Int scanmode )
 
 	/* DataInf.dwAppPixelsPerLine = crop.dwPixelsPerLine;  */
 	s.params.pixels_per_line = crop.dwPixelsPerLine
-	s.params.bytes_per_line  = crop.dwBytesPerLine
+	s.params.bytesPerLine  = crop.dwBytesPerLine
 	s.params.lines           = crop.dwLinesPerArea
 
 	/* build a SCANINFO block and get ready to scan it */
@@ -2537,7 +2537,7 @@ local_Sane.start(Plustek_Scanner *s, Int scanmode )
 	DBG( _DBG_Sane.INIT, "dwflag = 0x%lx dwBytesLine = %ld\n",
 	                      dev.scanning.dwFlag, dev.scanning.dwBytesLine )
 	DBG( _DBG_Sane.INIT, "Lines          = %d\n", s.params.lines)
-	DBG( _DBG_Sane.INIT, "Bytes per Line = %d\n", s.params.bytes_per_line )
+	DBG( _DBG_Sane.INIT, "Bytes per Line = %d\n", s.params.bytesPerLine )
 	DBG( _DBG_Sane.INIT, "Bitdepth       = %d\n", s.params.depth )
 
 	if(usb_InCalibrationMode(dev)) {
@@ -2546,14 +2546,14 @@ local_Sane.start(Plustek_Scanner *s, Int scanmode )
 		s.buf = NULL
 	} else {
 
-		if(s.params.lines == 0 || s.params.bytes_per_line == 0) {
+		if(s.params.lines == 0 || s.params.bytesPerLine == 0) {
 			DBG( _DBG_ERROR, "nothing to scan!\n" )
 			usbDev_close( dev )
 			sanei_access_unlock( dev.sane.name )
 			return Sane.STATUS_INVAL
 		}
 
-		s.buf = realloc( s.buf, (s.params.lines) * s.params.bytes_per_line )
+		s.buf = realloc( s.buf, (s.params.lines) * s.params.bytesPerLine )
 		if( NULL == s.buf ) {
 			DBG( _DBG_ERROR, "realloc failed\n" )
 			usbDev_close( dev )
@@ -2701,9 +2701,9 @@ Sane.read( Sane.Handle handle, Sane.Byte *data,
 
 		if( EAGAIN == errno ) {
 
-			/* if we already had red the picture, so it's okay and stop */
+			/* if we already had red the picture, so it"s okay and stop */
 			if( s.bytes_read ==
-				(unsigned long)(s.params.lines * s.params.bytes_per_line)) {
+				(unsigned long)(s.params.lines * s.params.bytesPerLine)) {
 				sanei_thread_waitpid( s.reader_pid, 0 )
 				sanei_thread_invalidate( s.reader_pid )
 				s.scanning = Sane.FALSE
@@ -2724,7 +2724,7 @@ Sane.read( Sane.Handle handle, Sane.Byte *data,
 	*length        = nread
 	s.bytes_read += nread
 
-	/* nothing red means that we're finished OR we had a problem... */
+	/* nothing red means that we"re finished OR we had a problem... */
 	if( 0 == nread ) {
 
 		drvclose( s.hw )

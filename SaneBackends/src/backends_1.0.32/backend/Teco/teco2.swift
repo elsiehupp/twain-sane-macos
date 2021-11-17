@@ -477,14 +477,14 @@ hexdump(Int level, const char *comment, unsigned char *buf, const Int length)
 
       if((i % 16) == 0)
 	{
-	  /* It's a new line */
+	  /* It"s a new line */
 	  DBG(level, "  %s    %s\n", line, asc_buf)
 
 	start:
 	  ptr = line
-	  *ptr = '\0'
+	  *ptr = "\0"
 	  asc_ptr = asc_buf
-	  *asc_ptr = '\0'
+	  *asc_ptr = "\0"
 
 	  ptr += sprintf(ptr, "  %3.3d:", i)
 	}
@@ -839,16 +839,16 @@ teco_set_window(Teco_Scanner * dev)
   window[7] = size - 8
 
   /* X and Y resolution */
-  Ito16 (dev.x_resolution, &window[10])
-  Ito16 (dev.y_resolution, &window[12])
+  Ito16(dev.x_resolution, &window[10])
+  Ito16(dev.y_resolution, &window[12])
 
   /* Upper Left(X,Y) */
-  Ito32 (dev.x_tl, &window[14])
-  Ito32 (dev.y_tl, &window[18])
+  Ito32(dev.x_tl, &window[14])
+  Ito32(dev.y_tl, &window[18])
 
   /* Width and length */
-  Ito32 (dev.width, &window[22])
-  Ito32 (dev.length, &window[26])
+  Ito32(dev.width, &window[22])
+  Ito32(dev.length, &window[26])
 
   /* Image Composition */
   switch(dev.scan_mode)
@@ -887,13 +887,13 @@ teco_set_window(Teco_Scanner * dev)
 	{
 	case TECO_BW:
 	case TECO_GRAYSCALE:
-	  Ito16 (dev.params.bytes_per_line, &window[52])
+	  Ito16(dev.params.bytesPerLine, &window[52])
 	  break
 	case TECO_COLOR:
-	  Ito16 (dev.params.bytes_per_line / 3, &window[52])
+	  Ito16(dev.params.bytesPerLine / 3, &window[52])
 	  break
 	}
-      Ito16 (dev.params.lines, &window[54])
+      Ito16(dev.params.lines, &window[54])
     }
 
   hexdump(DBG_info2, "CDB:", cdb.data, cdb.len)
@@ -958,16 +958,16 @@ teco_get_scan_size(Teco_Scanner * dev)
   switch(dev.scan_mode)
     {
     case TECO_BW:
-      dev.params.bytes_per_line = B16TOI(&dev.buffer[14])
-      dev.params.pixels_per_line = dev.params.bytes_per_line * 8
+      dev.params.bytesPerLine = B16TOI(&dev.buffer[14])
+      dev.params.pixels_per_line = dev.params.bytesPerLine * 8
       break
     case TECO_GRAYSCALE:
       dev.params.pixels_per_line = B16TOI(&dev.buffer[14])
-      dev.params.bytes_per_line = dev.params.pixels_per_line
+      dev.params.bytesPerLine = dev.params.pixels_per_line
       break
     case TECO_COLOR:
       dev.params.pixels_per_line = B16TOI(&dev.buffer[14])
-      dev.params.bytes_per_line = dev.params.pixels_per_line * 3
+      dev.params.bytesPerLine = dev.params.pixels_per_line * 3
       break
     }
 #else
@@ -983,7 +983,7 @@ teco_get_scan_size(Teco_Scanner * dev)
 	if(dev.scan_mode == TECO_GRAYSCALE)
 	  {
 	    dev.params.pixels_per_line = 850
-	    dev.params.bytes_per_line = 850
+	    dev.params.bytesPerLine = 850
 	    dev.params.lines = 1170
 	    dev.bytes_per_raster = 850
 
@@ -1016,7 +1016,7 @@ teco_get_scan_size(Teco_Scanner * dev)
 		break
 	      }
 
-	    dev.params.bytes_per_line = dev.params.pixels_per_line * 3
+	    dev.params.bytesPerLine = dev.params.pixels_per_line * 3
 	    dev.bytes_per_raster = dev.params.pixels_per_line
 	  }
 	break
@@ -1036,12 +1036,12 @@ teco_get_scan_size(Teco_Scanner * dev)
 	    break
 	  }
 
-	dev.params.bytes_per_line = dev.params.pixels_per_line * 3
+	dev.params.bytesPerLine = dev.params.pixels_per_line * 3
 	dev.bytes_per_raster = dev.params.pixels_per_line
       }
 
 
-    s1 = dev.params.bytes_per_line * dev.params.lines
+    s1 = dev.params.bytesPerLine * dev.params.lines
     image_buf = malloc(s1)
     assert(image_buf)
     image_buf_begin = 0
@@ -2178,7 +2178,7 @@ teco_adjust_raster(Teco_Scanner * dev, size_t size_in)
   color = 0;			/* keep gcc quiet */
 
   assert(dev.scan_mode == TECO_COLOR)
-  assert((size_in % dev.params.bytes_per_line) == 0)
+  assert((size_in % dev.params.bytesPerLine) == 0)
 
   if(size_in == 0)
     {
@@ -2308,9 +2308,9 @@ teco_adjust_raster(Teco_Scanner * dev, size_t size_in)
       /* Adjust the line number relative to the image. */
       line -= dev.line
 
-      offset = dev.image_end + line * dev.params.bytes_per_line
+      offset = dev.image_end + line * dev.params.bytesPerLine
 
-      assert(offset <= (dev.image_size - dev.params.bytes_per_line))
+      assert(offset <= (dev.image_size - dev.params.bytesPerLine))
 
       /* Copy the raster to the temporary image. */
       {
@@ -2334,7 +2334,7 @@ teco_adjust_raster(Teco_Scanner * dev, size_t size_in)
 	{
 	  /* This blue raster completes a new line */
 	  dev.line++
-	  dev.image_end += dev.params.bytes_per_line
+	  dev.image_end += dev.params.bytesPerLine
 	}
 
       dev.raster_num++
@@ -2357,7 +2357,7 @@ teco_fill_image(Teco_Scanner * dev)
   assert(dev.real_bytes_left > 0)
 
   /* Copy the complete lines, plus the incompletes
-   * ones. We don't keep the real end of data used
+   * ones. We don"t keep the real end of data used
    * in image, so we copy the biggest possible.
    *
    * This is a no-op for non color images.
@@ -2387,7 +2387,7 @@ teco_fill_image(Teco_Scanner * dev)
 	size = 0x2000
 
       /* Round down to a multiple of line size. */
-      size = size - (size % dev.params.bytes_per_line)
+      size = size - (size % dev.params.bytesPerLine)
 
       if(size == 0)
 	{
@@ -2398,10 +2398,10 @@ teco_fill_image(Teco_Scanner * dev)
 	}
 
       DBG(DBG_info, "teco_fill_image: to read   = %ld bytes(bpl=%d)\n",
-	   (long) size, dev.params.bytes_per_line)
+	   (long) size, dev.params.bytesPerLine)
 
       MKSCSI_READ_10 (cdb, 0, 0, size)
-      cdb.data[5] = size / dev.params.bytes_per_line
+      cdb.data[5] = size / dev.params.bytesPerLine
 
       hexdump(DBG_info2, "teco_fill_image: READ_10 CDB", cdb.data, cdb.len)
 
@@ -2537,7 +2537,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 
   while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if(dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == "#")	/* ignore line comments */
 	continue
       len = strlen(dev_name)
 
@@ -2903,7 +2903,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 		  dev.opt[OPT_RESOLUTION].constraint.word_list =
 		    dev.resolutions_list
 
-		  /* If the resolution isn't in the list, set a default. */
+		  /* If the resolution isn"t in the list, set a default. */
 		  for(i = 1; i <= dev.resolutions_list[0]; i++)
 		    {
 		      if(dev.resolutions_list[i] >=
@@ -3056,7 +3056,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	  dev.params.pixels_per_line =
 	    ((dev.width * dev.x_resolution) /
 	     dev.def.x_resolution_max) & ~0x7
-	  dev.params.bytes_per_line = dev.params.pixels_per_line / 8
+	  dev.params.bytesPerLine = dev.params.pixels_per_line / 8
 	  dev.params.depth = 1
 	  dev.color_adjust = NULL
 	  break
@@ -3072,7 +3072,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	      /* Round up */
 	      dev.params.pixels_per_line += 1
 	    }
-	  dev.params.bytes_per_line = dev.params.pixels_per_line
+	  dev.params.bytesPerLine = dev.params.pixels_per_line
 	  dev.params.depth = 8
 	  dev.color_adjust = NULL
 	  break
@@ -3088,7 +3088,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	      /* Round up */
 	      dev.params.pixels_per_line += 1
 	    }
-	  dev.params.bytes_per_line = dev.params.pixels_per_line * 3
+	  dev.params.bytesPerLine = dev.params.pixels_per_line * 3
 	  dev.params.depth = 8
 
 	  if(dev.resolutions_list != NULL)
@@ -3176,7 +3176,7 @@ Sane.start(Sane.Handle handle)
       if(dev.color_adjust)
 	{
 	  dev.raster_ahead =
-	    (2 * dev.color_adjust.color_shift) * dev.params.bytes_per_line
+	    (2 * dev.color_adjust.color_shift) * dev.params.bytesPerLine
 	}
       else
 	{
@@ -3264,8 +3264,8 @@ Sane.start(Sane.Handle handle)
   dev.image_end = 0
   dev.image_begin = 0
 
-  dev.bytes_left = dev.params.bytes_per_line * dev.params.lines
-  dev.real_bytes_left = dev.params.bytes_per_line * dev.params.lines
+  dev.bytes_left = dev.params.bytesPerLine * dev.params.lines
+  dev.real_bytes_left = dev.params.bytesPerLine * dev.params.lines
 
   dev.scanning = Sane.TRUE
 

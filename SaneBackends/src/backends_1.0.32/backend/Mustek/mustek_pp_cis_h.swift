@@ -209,7 +209,7 @@ typedef struct Mustek_PP_CIS_dev
   Int bank_count
 
   /* those are used to count the hardware line the scanner is at, the
-     line the current bank is at and the lines we've scanned */
+     line the current bank is at and the lines we"ve scanned */
   Int line
   Int line_diff
   Int ccd_line

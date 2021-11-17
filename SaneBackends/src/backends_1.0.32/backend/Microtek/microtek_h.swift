@@ -183,7 +183,7 @@ typedef struct Microtek_Info {
 #define MI_COLSEQ_2PIXEL 0x11       /* Agfa StudioStar */
   Sane.Byte color_sequence;     /* color sequence spec. code         */
   Sane.Byte does_3pass;         /* allows 3-pass scanning?           */
-  Sane.Byte does_mode1;         /* allows MODE1 sense/select comm's? */
+  Sane.Byte does_mode1;         /* allows MODE1 sense/select comm"s? */
 #define MI_FMT_CAP_4BPP  0x01
 #define MI_FMT_CAP_10BPP 0x02
 #define MI_FMT_CAP_12BPP 0x04
@@ -300,7 +300,7 @@ typedef struct Microtek_Scanner {
 
   /* ...set by Sane.get_parameters  (i.e. parameters specified by options) */
   Sane.Parameters params;   /* format, lastframe, lines, depth, ppl, bpl */
-  Int x1;  /* in 'units' */
+  Int x1;  /* in "units" */
   Int y1
   Int x2
   Int y2

@@ -485,7 +485,7 @@ enum class ModelFlag : unsigned
     // no flags
     NONE = 0,
 
-    // scanner is not tested, print a warning as it's likely it won't work
+    // scanner is not tested, print a warning as it"s likely it won"t work
     UNTESTED = 1 << 0,
 
     // use 14-bit gamma table instead of 12-bit
@@ -537,10 +537,10 @@ enum class ModelFlag : unsigned
     // the scanner outputs 16-bit data that is byte-inverted
     SWAP_16BIT_DATA = 1 << 20,
 
-    // the scanner has transparency, but it's implemented using only one motor
+    // the scanner has transparency, but it"s implemented using only one motor
     UTA_NO_SECONDARY_MOTOR = 1 << 21,
 
-    // the scanner has transparency, but it's implemented using only one lamp
+    // the scanner has transparency, but it"s implemented using only one lamp
     TA_NO_SECONDARY_LAMP = 1 << 22,
 ]
 

@@ -71,7 +71,7 @@ import sys/types
 
 #define MAX_LINE_LEN            512   /* max length of entry in password file */
 #define PASSWD_FILE             STRINGIFY(PATH_Sane.CONFIG_DIR) PATH_SEP "auth"
-#define SEPARATOR               ':'   /* separator in that file */
+#define SEPARATOR               ":"   /* separator in that file */
 #define SALT                    "ab"  /* used by crypt() */
 
 #endif /* HAVE_AUTHORIZATION */
@@ -131,13 +131,13 @@ import sys/types
 #define INQ_GET_VERSION(d,s)    d = (s)[2] & 0x02
 #define INQ_VENDOR_L  	        8
 #define INQ_GET_VENDOR(d,s)     strncpy(d, &(s)[8], INQ_VENDOR_L); \
-                                d[INQ_VENDOR_L] = '\0'
+                                d[INQ_VENDOR_L] = "\0"
 #define INQ_MODEL_L             16
 #define INQ_GET_MODEL(d,s)      strncpy(d, &(s)[16], INQ_MODEL_L); \
-                                d[INQ_MODEL_L] = '\0'
+                                d[INQ_MODEL_L] = "\0"
 #define INQ_REV_L      	        4
 #define INQ_GET_REV(d,s)        strncpy(d, &(s)[32], INQ_REV_L); \
-                                d[INQ_REV_L] = '\0'
+                                d[INQ_REV_L] = "\0"
 #define INQ_GET_MODELCODE(d,s)  d = (s)[36]
 
 
@@ -349,7 +349,7 @@ import sys/types
 #define RSS_BUTTONCOUNT(s)      (s)[7]
 #define RSS_MFOCUS(s)           (s)[9]
 
-/* SEND SYSTEM STATUS */
+/* SEND SYSTEM Status */
 #define SSS_CMD(d)              (d)[0] = 0x2a; (d)[1] = 0x00; (d)[2] = 0x81; \
                                 (d)[3] = 0x00; (d)[4] = 0x00; (d)[5] = 0x00; \
                                 (d)[6] = 0x00; (d)[7] = 0x00; (d)[8] = 0x09; \
@@ -467,7 +467,7 @@ import sys/types
 #define SW_HIGHLIGHT_B(d,p)     (d)[60] = (p)
 
 
-/* READ IMAGE STATUS */
+/* READ IMAGE Status */
 #define RIS_SET_CMD(d)          (d)[0] = 0x28; (d)[1] = 0x00; (d)[2] = 0x83; \
                                 (d)[3] = 0x00; (d)[4] = 0x00; (d)[5] = 0x00; \
                                 (d)[6] = 0x00; (d)[7] = 0x00; (d)[8] = 0x00; \
@@ -923,7 +923,7 @@ typedef struct Microtek2_Device {
                                           /* scanline */
 #define MD_X6_SHORT_TRANSFER	     512  /* X6 USB crashes if you read
 					     too much */
-#define MD_NO_RIS_COMMAND           1024  /* doesn't like read_image_status */
+#define MD_NO_RIS_COMMAND           1024  /* doesn"t like read_image_status */
 #define MD_16BIT_TRANSFER           2048  /* transfers 10/12/14bit scans as */
                                           /* 16bit data */
 #define MD_CALIB_DIVISOR_600        4096  /* uses mi.calib_divisor=2 below
@@ -1096,7 +1096,7 @@ typedef struct Microtek2_Scanner {
     Int lut_entry_size;            /* size of one entry in lookup table */
     uint32_t lut_size_bytes;      /* size of LUT in bytes */
     uint8_t word;                 /* word transfer, used in some read cmds */
-    /* MS_COLOR_X must correspond to color field in READ IMAGE STATUS */
+    /* MS_COLOR_X must correspond to color field in READ IMAGE Status */
 #define MS_COLOR_RED                   0
 #define MS_COLOR_GREEN                 1
 #define MS_COLOR_BLUE                  2

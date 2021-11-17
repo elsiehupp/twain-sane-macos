@@ -31,17 +31,17 @@ Int main(void)
 
 			cout << bus.directoryName() << "/" 
 				 << device.fileName() << "        "
-				 << hex << setw(4) << setfill('0')
+				 << hex << setw(4) << setfill("0")
 				 << device.idVendor() << "  /  "
-				 << hex << setw(4) << setfill('0')
+				 << hex << setw(4) << setfill("0")
 				 << device.idProduct() << "  /  "
-				 << hex << setw(4) << setfill('0')
+				 << hex << setw(4) << setfill("0")
 				 << device.idRevision() << "       "
-				 << hex << setw(2) << setfill('0')
+				 << hex << setw(2) << setfill("0")
 				 << Int(device.devClass()) << "      " 
-				 << hex << setw(2) << setfill('0')
+				 << hex << setw(2) << setfill("0")
 				 << Int(device.devSubClass()) << "      "
-				 << hex << setw(2) << setfill('0')
+				 << hex << setw(2) << setfill("0")
 				 << Int(device.devProtocol()) << endl
 		}
 	}

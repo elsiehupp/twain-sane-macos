@@ -44,7 +44,7 @@ auth_callback(Sane.String_Const domain,
 	       Sane.Char *username,
 	       Sane.Char *password)
 {
-  printf("Client '%s' requested authorization.\nUser:\n", domain)
+  printf("Client "%s" requested authorization.\nUser:\n", domain)
   scanf("%s", username)
   printf("Password:\n")
   scanf("%s", password)
@@ -123,7 +123,7 @@ testsane(const char *dev_name)
 	   "Parm : stat=%s form=%d,lf=%d,bpl=%d,pixpl=%d,lin=%d,dep=%d\n",
 	   Sane.strstatus(bla),
 	   pars.format, pars.last_frame,
-	   pars.bytes_per_line, pars.pixels_per_line,
+	   pars.bytesPerLine, pars.pixels_per_line,
 	   pars.lines, pars.depth)
   if(bla != Sane.STATUS_GOOD)
     return

@@ -42,7 +42,7 @@ import stdio
 import Sane.config
 
 /*****************************************************************************/
-/*                 set port to 'idle state' and get iopl                     */
+/*                 set port to "idle state" and get iopl                     */
 /*****************************************************************************/
 public Int sanei_umax_pp_initPort(Int port, const char *name)
 public Int sanei_umax_pp_initScanner(Int recover)

@@ -143,7 +143,7 @@ static const struct vidcam_hardware vidcams[] = {
    stv680_dpi_color_adjust},
 
   {0x1183, 0x0001, USB_CLASS_VENDOR_SPEC,
-   "DigitalDream", "l'espion XS",
+   "DigitalDream", "l"espion XS",
    stv680_dpi_color_adjust},
 
   {0x041e, 0x4007, USB_CLASS_VENDOR_SPEC,
@@ -202,14 +202,14 @@ hexdump(Int level, const char *comment, unsigned char *buf, const Int length)
 
       if((i % 16) == 0)
 	{
-	  /* It's a new line */
+	  /* It"s a new line */
 	  DBG(level, "  %s    %s\n", line, asc_buf)
 
 	start:
 	  ptr = line
-	  *ptr = '\0'
+	  *ptr = "\0"
 	  asc_ptr = asc_buf
-	  *asc_ptr = '\0'
+	  *asc_ptr = "\0"
 
 	  ptr += sprintf(ptr, "  %3.3d:", i)
 	}
@@ -1161,7 +1161,7 @@ stv680_fill_image(Stv680_Vidcam * dev)
 
       DBG(DBG_info,
 	   "stv680_fill_image: size(read) = 0x%lx bytes(bpl=0x%lx)\n",
-	   (unsigned long) (size_t) size, (unsigned long) (size_t) dev.params.bytes_per_line)
+	   (unsigned long) (size_t) size, (unsigned long) (size_t) dev.params.bytesPerLine)
 
       memcpy(dev.image + dev.image_end, dev.buffer, size)
 
@@ -1550,7 +1550,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
       Sane.Word vendor
       Sane.Word product
 
-      if(line[0] == '#')	/* ignore line comments */
+      if(line[0] == "#")	/* ignore line comments */
 	continue
       len = strlen(line)
 
@@ -1804,7 +1804,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 	      dev.opt[OPT_RESOLUTION].constraint.word_list =
 		dev.resolutions_list
 
-	      /* If the resolution isn't in the list, set a default. */
+	      /* If the resolution isn"t in the list, set a default. */
 	      for(i = 1; i <= dev.resolutions_list[0]; i++)
 		{
 		  if(dev.resolutions_list[i] >= dev.val[OPT_RESOLUTION].w)
@@ -1868,7 +1868,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	}
       dev.params.format = Sane.FRAME_RGB
       dev.params.pixels_per_line = dev.x_resolution
-      dev.params.bytes_per_line =
+      dev.params.bytesPerLine =
 	dev.params.pixels_per_line * dev.bytes_pixel
       dev.params.depth = 8
       if(dev.resolutions_list != NULL)
@@ -1969,7 +1969,7 @@ Sane.start(Sane.Handle handle)
   dev.image_begin = 0
   /* real_byte_left is bulk read bytes, bytes_left is frontend buffer bytes */
   dev.real_bytes_left = dev.cwidth * dev.cheight
-  dev.bytes_left = dev.params.bytes_per_line * dev.params.lines
+  dev.bytes_left = dev.params.bytesPerLine * dev.params.lines
 
   dev.scanning = Sane.TRUE
 

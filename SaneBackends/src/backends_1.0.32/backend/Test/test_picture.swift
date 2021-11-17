@@ -50,7 +50,7 @@ init_picture_buffer(Test_Device * test_device, Sane.Byte ** buffer,
   Sane.Word pattern_size = 0, pattern_distance = 0
   Sane.Word line_count, b_size
   Sane.Word lines = 0
-  Sane.Word bpl = test_device.bytes_per_line
+  Sane.Word bpl = test_device.bytesPerLine
   Sane.Word ppl = test_device.pixels_per_line
   Sane.Byte *b
   Bool is_little_endian = little_endian()
@@ -73,7 +73,7 @@ init_picture_buffer(Test_Device * test_device, Sane.Byte ** buffer,
       b = malloc(b_size)
       if(!b)
 	{
-	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn"t malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
 
@@ -122,7 +122,7 @@ init_picture_buffer(Test_Device * test_device, Sane.Byte ** buffer,
       b = malloc(b_size)
       if(!b)
 	{
-	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn"t malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
       if(buffer)
@@ -222,7 +222,7 @@ init_picture_buffer(Test_Device * test_device, Sane.Byte ** buffer,
       b = malloc(b_size)
       if(!b)
 	{
-	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn"t malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
       if(buffer)
@@ -263,7 +263,7 @@ init_picture_buffer(Test_Device * test_device, Sane.Byte ** buffer,
       b = malloc(b_size)
       if(!b)
 	{
-	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn"t malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
       if(buffer)
@@ -312,7 +312,7 @@ init_picture_buffer(Test_Device * test_device, Sane.Byte ** buffer,
       b = malloc(b_size)
       if(!b)
 	{
-	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn"t malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
       if(buffer)
@@ -373,7 +373,7 @@ init_picture_buffer(Test_Device * test_device, Sane.Byte ** buffer,
       b = malloc(b_size)
       if(!b)
 	{
-	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn"t malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
       if(buffer)
@@ -440,7 +440,7 @@ init_picture_buffer(Test_Device * test_device, Sane.Byte ** buffer,
       b = malloc(b_size)
       if(!b)
 	{
-	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn"t malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
       if(buffer)
@@ -508,7 +508,7 @@ init_picture_buffer(Test_Device * test_device, Sane.Byte ** buffer,
       b = malloc(b_size)
       if(!b)
 	{
-	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn"t malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
       if(buffer)
@@ -588,7 +588,7 @@ init_picture_buffer(Test_Device * test_device, Sane.Byte ** buffer,
       b = malloc(b_size)
       if(!b)
 	{
-	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn"t malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
       if(buffer)
@@ -654,7 +654,7 @@ init_picture_buffer(Test_Device * test_device, Sane.Byte ** buffer,
       b = malloc(b_size)
       if(!b)
 	{
-	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn"t malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
       if(buffer)
@@ -760,7 +760,7 @@ init_picture_buffer(Test_Device * test_device, Sane.Byte ** buffer,
       b = malloc(b_size)
       if(!b)
 	{
-	  DBG(1, "(child) init_picture_buffer: couldn't malloc buffer\n")
+	  DBG(1, "(child) init_picture_buffer: couldn"t malloc buffer\n")
 	  return Sane.STATUS_NO_MEM
 	}
       if(buffer)

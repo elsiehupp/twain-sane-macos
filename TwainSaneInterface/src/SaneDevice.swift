@@ -14,15 +14,15 @@ import SaneCallback
 import Twain
 import UserInterface
 
-func S2T(s: Sane.Fixed) -> TW_FIX32 {
+func S2T(s: Sane.Fixed) -> Twain.Fix32 {
 
-    var t: TW_FIX32
+    var t: Twain.Fix32
     t.Whole = s >> 16
     t.Frac = s & 0xFFFF
     return t
 }
 
-func T2S(t: TW_FIX32) -> Sane.Fixed {
+func T2S(t: Twain.Fix32) -> Sane.Fixed {
 
     return(t.Whole << 16) + t.Frac
 }
@@ -71,7 +71,7 @@ class SaneDevice {
     private var optionIndex: map <std.string, Int>
 
     private var datasource: DataSource
-    private var userinterface: UserInterface
+    private var userInterface: UserInterface
     private var image: Image
 
 
@@ -106,7 +106,7 @@ class SaneDevice {
     public func SaneDevice(ds: DataSource) {
         currentDevice(-1)
         datasource(ds)
-        userinterface(nil)
+        userInterface(nil)
         image(nil)
 
         var status: Sane.Status
@@ -207,9 +207,9 @@ class SaneDevice {
 
 
 
-    public func CallBack(MSG: TW_UINT16) {
+    public func CallBack(message: Int) {
 
-        datasource.CallBack(MSG)
+        datasource.CallBack(message)
     }
 
 
@@ -282,7 +282,7 @@ class SaneDevice {
         if(!GetSaneHandle()) {
             var sanehandle: Sane.Handle
 
-            var result: UInt32
+            var result: Int
             do {
                 SaneCallbackDevice(this)
                 status = Sane.open(devicelist[currentDevice].name, &sanehandle)
@@ -334,29 +334,29 @@ class SaneDevice {
 
     public func ShowUI(uionly: Bool) {
 
-        userinterface = UserInterface(this, currentDevice, uionly)
+        userInterface = UserInterface(this, currentDevice, uionly)
     }
 
 
     public func HideUI() {
 
-        if(userinterface) {
-            delete(userinterface)
+        if(userInterface) {
+            delete(userInterface)
         }
-        userinterface = nil
+        userInterface = nil
     }
 
 
     public func HasUI() -> Bool {
 
-        return(userinterface != nil)
+        return(userInterface != nil)
     }
 
 
     public func ShowSheetWindow(window: WindowRef) {
 
-        if(userinterface) {
-            userinterface.ShowSheetWindow(window)
+        if(userInterface) {
+            userInterface.ShowSheetWindow(window)
         }
     }
 
@@ -407,18 +407,18 @@ class SaneDevice {
         controlrect.right = controlrect.left + 64
 
         var icon: IconRef
-        var contentinfo: ControlButtonContentInfo
-        var iconcontrol: ControlRef
+        var contentInfo: ControlButtonContentInfo
+        var iconControl: ControlRef
 
         oserr = GetIconRef(kOnSystemDisk, kSystemIconsCreator, kAlertStopIcon, &icon)
         assert(oserr == noErr)
 
-        contentinfo.contentType = kControlContentIconRef
-        contentinfo.u.iconRef = icon
-        osstat = CreateIconControl(nil, &controlrect, &contentinfo, true, &iconcontrol)
+        contentInfo.contentType = kControlContentIconRef
+        contentInfo.u.iconRef = icon
+        osstat = CreateIconControl(nil, &controlrect, &contentInfo, true, &iconControl)
         assert(osstat == noErr)
 
-        oserr = EmbedControl(iconcontrol, rootcontrol)
+        oserr = EmbedControl(iconControl, rootcontrol)
         assert(oserr == noErr)
 
         controlrect.top += 32
@@ -427,12 +427,12 @@ class SaneDevice {
         oserr = GetIconRef(kOnSystemDisk, "SANE", "APPL", &icon)
         assert(oserr == noErr)
 
-        contentinfo.contentType = kControlContentIconRef
-        contentinfo.u.iconRef = icon
-        osstat = CreateIconControl(nil, &controlrect, &contentinfo, true, &iconcontrol)
+        contentInfo.contentType = kControlContentIconRef
+        contentInfo.u.iconRef = icon
+        osstat = CreateIconControl(nil, &controlrect, &contentInfo, true, &iconControl)
         assert(osstat == noErr)
 
-        oserr = EmbedControl(iconcontrol, rootcontrol)
+        oserr = EmbedControl(iconControl, rootcontrol)
         assert(oserr == noErr)
 
         let bottom: Int = controlrect.bottom
@@ -540,18 +540,18 @@ class SaneDevice {
         controlrect.right = controlrect.left + 64
 
         var icon: IconRef
-        var contentinfo: ControlButtonContentInfo
-        var iconcontrol: ControlRef
+        var contentInfo: ControlButtonContentInfo
+        var iconControl: ControlRef
 
         oserr = GetIconRef(kOnSystemDisk, kSystemIconsCreator, kAlertStopIcon, &icon)
         assert(oserr == noErr)
 
-        contentinfo.contentType = kControlContentIconRef
-        contentinfo.u.iconRef = icon
-        osstat = CreateIconControl(nil, &controlrect, &contentinfo, true, &iconcontrol)
+        contentInfo.contentType = kControlContentIconRef
+        contentInfo.u.iconRef = icon
+        osstat = CreateIconControl(nil, &controlrect, &contentInfo, true, &iconControl)
         assert(osstat == noErr)
 
-        oserr = EmbedControl(iconcontrol, rootcontrol)
+        oserr = EmbedControl(iconControl, rootcontrol)
         assert(oserr == noErr)
 
         controlrect.top += 32
@@ -560,12 +560,12 @@ class SaneDevice {
         oserr = GetIconRef(kOnSystemDisk, "SANE", "APPL", &icon)
         assert(oserr == noErr)
 
-        contentinfo.contentType = kControlContentIconRef
-        contentinfo.u.iconRef = icon
-        osstat = CreateIconControl(nil, &controlrect, &contentinfo, true, &iconcontrol)
+        contentInfo.contentType = kControlContentIconRef
+        contentInfo.u.iconRef = icon
+        osstat = CreateIconControl(nil, &controlrect, &contentInfo, true, &iconControl)
         assert(osstat == noErr)
 
-        oserr = EmbedControl(iconcontrol, rootcontrol)
+        oserr = EmbedControl(iconControl, rootcontrol)
         assert(oserr == noErr)
 
         let bottom: Int = controlrect.bottom
@@ -623,7 +623,7 @@ class SaneDevice {
 
 
 
-    public func GetCustomData(customdata: pTW_CUSTOMDSDATA) -> TW_UINT16 {
+    public func GetCustomData(customdata: Twain.CustomDSData) -> Int {
 
         var dataDictionary: CFMutableDictionaryRef =
             CFDictionaryCreateMutable(nil, 0, &kCFTypeDictionaryKeyCallBacks,
@@ -652,7 +652,7 @@ class SaneDevice {
     }
 
 
-    public func SetCustomData(customdata: pTW_CUSTOMDSDATA) -> TW_UINT16 {
+    public func SetCustomData(customdata: Twain.CustomDSData) -> Int {
 
         var done: Bool = false
 
@@ -1288,7 +1288,7 @@ class SaneDevice {
 
 
 
-    public func GetPixelType(capability: pTW_CAPABILITY, onlyone: Bool) -> TW_UINT16 {
+    public func GetPixelType(capability: Twain.Capability, onlyone: Bool) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_SCAN_MODE]
         if(!option) {
@@ -1305,7 +1305,7 @@ class SaneDevice {
             return datasource.SetStatus(TWCC_CAPUNSUPPORTED)
         }
 
-        var pixeltype: TW_UINT16 = TW_UINT16(-1)
+        var pixeltype: Int = Int(-1)
 
         var optval: String = String[optdesc.size]
         var status: Sane.Status = Sane.control_option(GetSaneHandle(), option, Sane.ACTION_GET_VALUE, optval, nil)
@@ -1323,7 +1323,7 @@ class SaneDevice {
 
         // delete[] optval
 
-        if pixeltype == TW_UINT16(-1) {
+        if pixeltype == Int(-1) {
             return datasource.SetStatus(TWCC_BADVALUE)
         }
 
@@ -1353,10 +1353,10 @@ class SaneDevice {
                     i++
                 }
 
-                var pixeltypes: TW_UINT16 = []
+                var pixeltypes: Int = []
 
-                var numitems: TW_UINT32 = 0
-                var currentindex: TW_UINT32 = 0
+                var numitems: Int = 0
+                var currentindex: Int = 0
                 if(havebw) {
                     pixeltypes[numitems] = TWPT_BW
                     if(pixeltype == TWPT_BW) {
@@ -1388,7 +1388,7 @@ class SaneDevice {
     }
 
 
-    public func GetPixelTypeDefault(capability: pTW_CAPABILITY) -> TW_UINT16 {
+    public func GetPixelTypeDefault(capability: Twain.Capability) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_SCAN_MODE]
         if(!option) {
@@ -1423,7 +1423,7 @@ class SaneDevice {
             i++
         }
 
-        var pixeltype: TW_UINT16
+        var pixeltype: Int
 
         if havebw {
             pixeltype = TWPT_BW
@@ -1439,7 +1439,7 @@ class SaneDevice {
     }
 
 
-    public func SetPixelType(capability: pTW_CAPABILITY) -> TW_UINT16 {
+    public func SetPixelType(capability: Twain.Capability) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_SCAN_MODE]
         if(!option) {
@@ -1474,14 +1474,14 @@ class SaneDevice {
             i++
         }
 
-        var pixeltype: TW_UINT16
+        var pixeltype: Int
         var inexact: Bool = false
 
         if capability {
             if(capability.ConType != TWON_ONEVALUE) {
                 return datasource.SetStatus(TWCC_BADVALUE)
             }
-            pixeltype = pTW_ONEVALUE((Handle(capability.hContainer))).Item
+            pixeltype = Twain.ONEVALUE((Handle(capability.hContainer))).Item
             // fallback to gray if binary/lineart/halftone does not exist
             if(pixeltype == TWPT_BW && !havebw) {
                 pixeltype = TWPT_GRAY
@@ -1523,7 +1523,7 @@ class SaneDevice {
     }
 
 
-    public func GetBitDepth(capability: pTW_CAPABILITY, onlyone: Bool) -> TW_UINT16 {
+    public func GetBitDepth(capability: Twain.Capability, onlyone: Bool) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_BIT_DEPTH]
         if(!option) {
@@ -1560,19 +1560,19 @@ class SaneDevice {
             }
 
             case Sane.CONSTRAINT_WORD_LIST: {
-                let itemlist: pTW_UINT16 = TW_UINT16 [optdesc.constraint.word_list[0]]
-                var currentindex: TW_UINT32 = 0
+                let itemlist: Twain.UINT16 = Int [optdesc.constraint.word_list[0]]
+                var currentindex: Int = 0
                 for i in optdesc.constraint.word_list[0] {
                     itemlist[i] = optdesc.constraint.word_list[i + 1]
                     if(bitdepth == optdesc.constraint.word_list[i + 1]) {
                         currentindex = i
                     }
                 }
-                let retval: TW_UINT16 = datasource.BuildEnumeration(capability, TWTY_UINT16,
+                let returnValue: Int = datasource.BuildEnumeration(capability, TWTY_UINT16,
                                                                 optdesc.constraint.word_list[0],
                                                                 currentindex, 0, itemlist)
                 // delete[] itemlist
-                return retval
+                return returnValue
             }
 
             default:
@@ -1581,7 +1581,7 @@ class SaneDevice {
     }
 
 
-    public func GetBitDepthDefault(capability: pTW_CAPABILITY) -> TW_UINT16 {
+    public func GetBitDepthDefault(capability: Twain.Capability) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_BIT_DEPTH]
         if(!option) {
@@ -1611,7 +1611,7 @@ class SaneDevice {
     }
 
 
-    public func SetBitDepth(capability: pTW_CAPABILITY) -> TW_UINT16 {
+    public func SetBitDepth(capability: Twain.Capability) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_BIT_DEPTH]
         if(!option) {
@@ -1634,7 +1634,7 @@ class SaneDevice {
             if(capability.ConType != TWON_ONEVALUE) {
                 return datasource.SetStatus(TWCC_BADVALUE)
             }
-            bitdepth = pTW_ONEVALUE(Handle(capability.hContainer)).Item
+            bitdepth = Twain.ONEVALUE(Handle(capability.hContainer)).Item
         } else {
             switch(optdesc.constraint_type) {
                 case Sane.CONSTRAINT_RANGE:
@@ -1653,7 +1653,7 @@ class SaneDevice {
     }
 
 
-    public func GetXNativeResolution(capability: pTW_CAPABILITY) -> TW_UINT16 {
+    public func GetXNativeResolution(capability: Twain.Capability) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_SCAN_X_RESOLUTION]
         if(!option) {
@@ -1712,7 +1712,7 @@ class SaneDevice {
     }
 
 
-    public func GetYNativeResolution(capability: pTW_CAPABILITY) -> TW_UINT16 {
+    public func GetYNativeResolution(capability: Twain.Capability) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_SCAN_Y_RESOLUTION]
         if(!option) {
@@ -1766,7 +1766,7 @@ class SaneDevice {
     }
 
 
-    public func GetXResolution(capability: pTW_CAPABILITY, onlyone: Bool) -> TW_UINT16 {
+    public func GetXResolution(capability: Twain.Capability, onlyone: Bool) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_SCAN_X_RESOLUTION]
         if(!option) {
@@ -1818,9 +1818,9 @@ class SaneDevice {
             }
 
             case Sane.CONSTRAINT_WORD_LIST: {
-                let itemlist: pTW_FIX32 = TW_FIX32 [optdesc.constraint.word_list[0]]
-                var currentindex: TW_UINT32 = 0
-                var defaultindex: TW_UINT32 = 0
+                let itemlist: Twain.FIX32 = Twain.Fix32 [optdesc.constraint.word_list[0]]
+                var currentindex: Int = 0
+                var defaultindex: Int = 0
                 for i in optdesc.constraint.word_list[0] {
                     if(optdesc.type == Sane.TYPE_INT) {
                         itemlist[i] = S2T(Sane.INT2FIX(optdesc.constraint.word_list[i + 1]))
@@ -1835,11 +1835,11 @@ class SaneDevice {
                         currentindex = i
                     }
                 }
-                let retval: TW_UINT16 = datasource.BuildEnumeration(capability, TWTY_FIX32,
+                let returnValue: Int = datasource.BuildEnumeration(capability, TWTY_FIX32,
                                                                 optdesc.constraint.word_list[0],
                                                                 currentindex, defaultindex, itemlist)
                 // delete[] itemlist
-                return retval
+                return returnValue
             }
 
             default:
@@ -1852,7 +1852,7 @@ class SaneDevice {
     }
 
 
-    public func GetXResolutionDefault(capability: pTW_CAPABILITY) -> TW_UINT16 {
+    public func GetXResolutionDefault(capability: Twain.Capability) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_SCAN_X_RESOLUTION]
         if(!option) {
@@ -1876,7 +1876,7 @@ class SaneDevice {
     }
 
 
-    public func SetXResolution(capability: pTW_CAPABILITY) -> TW_UINT16 {
+    public func SetXResolution(capability: Twain.Capability) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_SCAN_X_RESOLUTION]
         if(!option) {
@@ -1903,9 +1903,9 @@ class SaneDevice {
                 return datasource.SetStatus(TWCC_BADVALUE)
             }
             if(optdesc.type == Sane.TYPE_INT) {
-                xres = FIX2INT(T2S(TW_FIX32(pTW_ONEVALUE(Handle(capability.hContainer)).Item)))
+                xres = FIX2INT(T2S(Twain.Fix32(Twain.ONEVALUE(Handle(capability.hContainer)).Item)))
             } else {
-                xres = T2S(TW_FIX32(pTW_ONEVALUE(Handle(capability.hContainer)).Item))
+                xres = T2S(Twain.Fix32(Twain.ONEVALUE(Handle(capability.hContainer)).Item))
             }
         } else {
             if(optdesc.type == Sane.TYPE_INT) {
@@ -1922,7 +1922,7 @@ class SaneDevice {
     }
 
 
-    public func GetYResolution(capability: pTW_CAPABILITY, onlyone: Bool) -> TW_UINT16 {
+    public func GetYResolution(capability: Twain.Capability, onlyone: Bool) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_SCAN_Y_RESOLUTION]
         if(!option) {
@@ -1971,9 +1971,9 @@ class SaneDevice {
             }
 
             case Sane.CONSTRAINT_WORD_LIST: {
-                let itemlist: pTW_FIX32 = TW_FIX32 [optdesc.constraint.word_list[0]]
-                var currentindex: TW_UINT32 = 0
-                var defaultindex: TW_UINT32 = 0
+                let itemlist: Twain.FIX32 = Twain.Fix32 [optdesc.constraint.word_list[0]]
+                var currentindex: Int = 0
+                var defaultindex: Int = 0
                 for i in optdesc.constraint.word_list[0] {
                     if(optdesc.type == Sane.TYPE_INT) {
                         itemlist[i] = S2T(Sane.INT2FIX(optdesc.constraint.word_list[i + 1]))
@@ -1988,11 +1988,11 @@ class SaneDevice {
                         currentindex = i
                     }
                 }
-                let retval: TW_UINT16 = datasource.BuildEnumeration(capability, TWTY_FIX32,
+                let returnValue: Int = datasource.BuildEnumeration(capability, TWTY_FIX32,
                                                                 optdesc.constraint.word_list[0],
                                                                 currentindex, defaultindex, itemlist)
                 // delete[] itemlist
-                return retval
+                return returnValue
             }
 
             default:
@@ -2005,7 +2005,7 @@ class SaneDevice {
     }
 
 
-    public func GetYResolutionDefault(capability: pTW_CAPABILITY) -> TW_UINT16 {
+    public func GetYResolutionDefault(capability: Twain.Capability) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_SCAN_Y_RESOLUTION]
         if(!option) {
@@ -2026,7 +2026,7 @@ class SaneDevice {
     }
 
 
-    public func SetYResolution(capability: pTW_CAPABILITY) -> TW_UINT16 {
+    public func SetYResolution(capability: Twain.Capability) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_SCAN_Y_RESOLUTION]
         if(!option) {
@@ -2050,9 +2050,9 @@ class SaneDevice {
                 return datasource.SetStatus(TWCC_BADVALUE)
             }
             if(optdesc.type == Sane.TYPE_INT) {
-                yres = FIX2INT(T2S(TW_FIX32(pTW_ONEVALUE(Handle(capability.hContainer)).Item)))
+                yres = FIX2INT(T2S(Twain.Fix32(Twain.ONEVALUE(Handle(capability.hContainer)).Item)))
             } else {
-                yres = T2S(TW_FIX32(pTW_ONEVALUE(Handle(capability.hContainer)).Item))
+                yres = T2S(Twain.Fix32(Twain.ONEVALUE(Handle(capability.hContainer)).Item))
             }
         } else {
             if(optdesc.type == Sane.TYPE_INT) {
@@ -2069,7 +2069,7 @@ class SaneDevice {
     }
 
 
-    public func GetPhysicalWidth(capability: pTW_CAPABILITY) -> TW_UINT16 {
+    public func GetPhysicalWidth(capability: Twain.Capability) -> Int {
 
         let loption: Int = optionIndex[Sane.NAME_SCAN_TL_X]
         let roption: Int = optionIndex[Sane.NAME_SCAN_BR_X]
@@ -2099,7 +2099,7 @@ class SaneDevice {
 
             case Sane.CONSTRAINT_RANGE: {
 
-                var maxwidth: TW_FIX32
+                var maxwidth: Twain.Fix32
                 if(roptdesc.type == Sane.TYPE_INT) {
                     maxwidth = S2T(Sane.FIX((roptdesc.constraint.range.max -
                                             loptdesc.constraint.range.min) / unitsPerInch))
@@ -2129,7 +2129,7 @@ class SaneDevice {
     }
 
 
-    public func GetPhysicalHeight(capability: pTW_CAPABILITY) -> TW_UINT16 {
+    public func GetPhysicalHeight(capability: Twain.Capability) -> Int {
 
         let toption: Int = optionIndex[Sane.NAME_SCAN_TL_Y]
         let boption: Int = optionIndex[Sane.NAME_SCAN_BR_Y]
@@ -2158,7 +2158,7 @@ class SaneDevice {
         switch(boptdesc.constraint_type) {
             case Sane.CONSTRAINT_RANGE: {
 
-                var maxheight: TW_FIX32
+                var maxheight: Twain.Fix32
                 if(boptdesc.type == Sane.TYPE_INT) {
                     maxheight = S2T(Sane.FIX((boptdesc.constraint.range.max -
                                                 toptdesc.constraint.range.min) / unitsPerInch))
@@ -2186,7 +2186,7 @@ class SaneDevice {
     }
 
 
-    public func GetBrightness(capability: pTW_CAPABILITY, onlyone: Bool) -> TW_UINT16 {
+    public func GetBrightness(capability: Twain.Capability, onlyone: Bool) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_BRIGHTNESS]
         if(!option) {
@@ -2238,9 +2238,9 @@ class SaneDevice {
 
             case Sane.CONSTRAINT_WORD_LIST: {
 
-                let itemlist: pTW_FIX32 = TW_FIX32 [optdesc.constraint.word_list[0]]
-                var currentindex: TW_UINT32 = 0
-                var defaultindex: TW_UINT32 = 0
+                let itemlist: Twain.FIX32 = Twain.Fix32 [optdesc.constraint.word_list[0]]
+                var currentindex: Int = 0
+                var defaultindex: Int = 0
                 for i in optdesc.constraint.word_list[0] {
                     if(optdesc.type == Sane.TYPE_INT) {
                         itemlist[i] = S2T(Sane.INT2FIX(optdesc.constraint.word_list[i + 1]))
@@ -2254,11 +2254,11 @@ class SaneDevice {
                         currentindex = i
                     }
                 }
-                let retval: TW_UINT16 = datasource.BuildEnumeration(capability, TWTY_FIX32,
+                let returnValue: Int = datasource.BuildEnumeration(capability, TWTY_FIX32,
                                                                 optdesc.constraint.word_list[0],
                                                                 currentindex, defaultindex, itemlist)
                 // delete[] itemlist
-                return retval
+                return returnValue
             }
 
             default:
@@ -2271,7 +2271,7 @@ class SaneDevice {
     }
 
 
-    public func GetBrightnessDefault(capability: pTW_CAPABILITY) -> TW_UINT16 {
+    public func GetBrightnessDefault(capability: Twain.Capability) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_BRIGHTNESS]
         if(!option) {
@@ -2292,7 +2292,7 @@ class SaneDevice {
     }
 
 
-    public func SetBrightness(capability: pTW_CAPABILITY) -> TW_UINT16 {
+    public func SetBrightness(capability: Twain.Capability) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_BRIGHTNESS]
         if(!option) {
@@ -2316,9 +2316,9 @@ class SaneDevice {
                 return datasource.SetStatus(TWCC_BADVALUE)
             }
             if(optdesc.type == Sane.TYPE_INT) {
-                brightness = FIX2INT(T2S(TW_FIX32(pTW_ONEVALUE(Handle(capability.hContainer)).Item)))
+                brightness = FIX2INT(T2S(Twain.Fix32(Twain.ONEVALUE(Handle(capability.hContainer)).Item)))
             } else {
-                brightness = T2S(TW_FIX32(pTW_ONEVALUE(Handle(capability.hContainer)).Item))
+                brightness = T2S(Twain.Fix32(Twain.ONEVALUE(Handle(capability.hContainer)).Item))
             }
         } else {
             brightness = 0
@@ -2331,7 +2331,7 @@ class SaneDevice {
     }
 
 
-    public func GetContrast(capability: pTW_CAPABILITY, onlyone: Bool) -> TW_UINT16 {
+    public func GetContrast(capability: Twain.Capability, onlyone: Bool) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_CONTRAST]
         if(!option) {
@@ -2380,9 +2380,9 @@ class SaneDevice {
             }
 
             case Sane.CONSTRAINT_WORD_LIST: {
-                let itemlist: pTW_FIX32 = TW_FIX32 [optdesc.constraint.word_list[0]]
-                var currentindex: TW_UINT32 = 0
-                var defaultindex: TW_UINT32 = 0
+                let itemlist: Twain.FIX32 = Twain.Fix32 [optdesc.constraint.word_list[0]]
+                var currentindex: Int = 0
+                var defaultindex: Int = 0
                 for i in optdesc.constraint.word_list[0] {
                     if(optdesc.type == Sane.TYPE_INT) {
                         itemlist[i] = S2T(Sane.INT2FIX(optdesc.constraint.word_list[i + 1]))
@@ -2396,11 +2396,11 @@ class SaneDevice {
                         currentindex = i
                     }
                 }
-                let retval: TW_UINT16 = datasource.BuildEnumeration(capability, TWTY_FIX32,
+                let returnValue: Int = datasource.BuildEnumeration(capability, TWTY_FIX32,
                                                                 optdesc.constraint.word_list[0],
                                                                 currentindex, defaultindex, itemlist)
                 // delete[] itemlist
-                return retval
+                return returnValue
             }
 
             default:
@@ -2413,7 +2413,7 @@ class SaneDevice {
     }
 
 
-    public func GetContrastDefault(capability: pTW_CAPABILITY) -> TW_UINT16 {
+    public func GetContrastDefault(capability: Twain.Capability) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_CONTRAST]
         if(!option) {
@@ -2434,7 +2434,7 @@ class SaneDevice {
     }
 
 
-    public func SetContrast(capability: pTW_CAPABILITY) -> TW_UINT16 {
+    public func SetContrast(capability: Twain.Capability) -> Int {
 
         var option: Int = optionIndex[Sane.NAME_CONTRAST]
         if(!option) {
@@ -2458,9 +2458,9 @@ class SaneDevice {
                 return datasource.SetStatus(TWCC_BADVALUE)
             }
             if(optdesc.type == Sane.TYPE_INT) {
-                contrast = FIX2INT(T2S(TW_FIX32(pTW_ONEVALUE(Handle(capability.hContainer)).Item)))
+                contrast = FIX2INT(T2S(Twain.Fix32(Twain.ONEVALUE(Handle(capability.hContainer)).Item)))
             } else {
-                contrast = T2S(TW_FIX32(pTW_ONEVALUE(Handle(capability.hContainer)).Item))
+                contrast = T2S(Twain.Fix32(Twain.ONEVALUE(Handle(capability.hContainer)).Item))
             }
         } else {
             contrast = 0
@@ -2473,7 +2473,7 @@ class SaneDevice {
     }
 
 
-    public func GetLayout(imagelayout: pTW_IMAGELAYOUT) -> TW_UINT16 {
+    public func GetLayout(imageLayout: Twain.ImageLayout) -> Int {
 
         var bounds: Rect
 
@@ -2487,26 +2487,26 @@ class SaneDevice {
         }
 
         if(bounds.type == Sane.TYPE_INT) {
-            imagelayout.Frame.Top    = S2T(Sane.FIX(bounds.top    / unitsPerInch))
-            imagelayout.Frame.Left   = S2T(Sane.FIX(bounds.left   / unitsPerInch))
-            imagelayout.Frame.Bottom = S2T(Sane.FIX(bounds.bottom / unitsPerInch))
-            imagelayout.Frame.Right  = S2T(Sane.FIX(bounds.right  / unitsPerInch))
+            imageLayout.Frame.Top    = S2T(Sane.FIX(bounds.top    / unitsPerInch))
+            imageLayout.Frame.Left   = S2T(Sane.FIX(bounds.left   / unitsPerInch))
+            imageLayout.Frame.Bottom = S2T(Sane.FIX(bounds.bottom / unitsPerInch))
+            imageLayout.Frame.Right  = S2T(Sane.FIX(bounds.right  / unitsPerInch))
         } else {
-            imagelayout.Frame.Top    = S2T(lround(bounds.top    / unitsPerInch))
-            imagelayout.Frame.Left   = S2T(lround(bounds.left   / unitsPerInch))
-            imagelayout.Frame.Bottom = S2T(lround(bounds.bottom / unitsPerInch))
-            imagelayout.Frame.Right  = S2T(lround(bounds.right  / unitsPerInch))
+            imageLayout.Frame.Top    = S2T(lround(bounds.top    / unitsPerInch))
+            imageLayout.Frame.Left   = S2T(lround(bounds.left   / unitsPerInch))
+            imageLayout.Frame.Bottom = S2T(lround(bounds.bottom / unitsPerInch))
+            imageLayout.Frame.Right  = S2T(lround(bounds.right  / unitsPerInch))
         }
 
-        imagelayout.DocumentNumber = 1
-        imagelayout.PageNumber = 1
-        imagelayout.FrameNumber = 1
+        imageLayout.DocumentNumber = 1
+        imageLayout.PageNumber = 1
+        imageLayout.FrameNumber = 1
 
         return TWRC_SUCCESS
     }
 
 
-    public func SetLayout(imagelayout: pTW_IMAGELAYOUT) -> TW_UINT16 {
+    public func SetLayout(imageLayout: Twain.ImageLayout) -> Int {
 
         var bounds: Rect
 
@@ -2526,15 +2526,15 @@ class SaneDevice {
         }
 
         if(bounds.type == Sane.TYPE_INT) {
-            bounds.top    = lround(Sane.UNFIX(T2S(imagelayout.Frame.Top))    * unitsPerInch)
-            bounds.left   = lround(Sane.UNFIX(T2S(imagelayout.Frame.Left))   * unitsPerInch)
-            bounds.bottom = lround(Sane.UNFIX(T2S(imagelayout.Frame.Bottom)) * unitsPerInch)
-            bounds.right  = lround(Sane.UNFIX(T2S(imagelayout.Frame.Right))  * unitsPerInch)
+            bounds.top    = lround(Sane.UNFIX(T2S(imageLayout.Frame.Top))    * unitsPerInch)
+            bounds.left   = lround(Sane.UNFIX(T2S(imageLayout.Frame.Left))   * unitsPerInch)
+            bounds.bottom = lround(Sane.UNFIX(T2S(imageLayout.Frame.Bottom)) * unitsPerInch)
+            bounds.right  = lround(Sane.UNFIX(T2S(imageLayout.Frame.Right))  * unitsPerInch)
         } else {
-            bounds.top    = lround(T2S(imagelayout.Frame.Top)    * unitsPerInch)
-            bounds.left   = lround(T2S(imagelayout.Frame.Left)   * unitsPerInch)
-            bounds.bottom = lround(T2S(imagelayout.Frame.Bottom) * unitsPerInch)
-            bounds.right  = lround(T2S(imagelayout.Frame.Right)  * unitsPerInch)
+            bounds.top    = lround(T2S(imageLayout.Frame.Top)    * unitsPerInch)
+            bounds.left   = lround(T2S(imageLayout.Frame.Left)   * unitsPerInch)
+            bounds.bottom = lround(T2S(imageLayout.Frame.Bottom) * unitsPerInch)
+            bounds.right  = lround(T2S(imageLayout.Frame.Right)  * unitsPerInch)
         }
 
         SetRect(&bounds)
@@ -2586,7 +2586,7 @@ class SaneDevice {
             scanImage.frame[scanImage.param.format] = iframe
 
             if(iframe == 0) {
-                // If we don't know the height, allocate memory for 12 inches
+                // If we don"t know the height, allocate memory for 12 inches
                 var lines: Int
                 if(scanImage.param.lines > 0) {
                     lines = scanImage.param.lines
@@ -2596,12 +2596,12 @@ class SaneDevice {
                     lines = lround(ceil(Sane.UNFIX(12 * scanImage.res.v)))
                 }
 
-                // Add one extra line so we don't trigger a resizing of the handle
+                // Add one extra line so we don"t trigger a resizing of the handle
                 if(scanImage.param.format == Sane.FRAME_GRAY ||
                     scanImage.param.format == Sane.FRAME_RGB) {
-                    dataBuffer.SetSize((lines + 1) * scanImage.param.bytes_per_line)
+                    dataBuffer.SetSize((lines + 1) * scanImage.param.bytesPerLine)
                 } else {
-                    dataBuffer.SetSize((lines + 1) * scanImage.param.bytes_per_line * 3)
+                    dataBuffer.SetSize((lines + 1) * scanImage.param.bytesPerLine * 3)
                 }
             }
 
@@ -2663,7 +2663,7 @@ class SaneDevice {
                 assert(osstat == noErr)
 
                 if(HasUI()) {
-                    userinterface.ShowSheetWindow(window)
+                    userInterface.ShowSheetWindow(window)
                 } else {
                     osstat = RepositionWindow(window, nil, kWindowAlertPositionOnMainScreen)
                     assert(osstat == noErr)
@@ -2716,7 +2716,7 @@ class SaneDevice {
         scanImage.imagedata = dataBuffer.Claim()
         assert(scanImage.imagedata)
 
-        let lines: Int = GetHandleSize(scanImage.imagedata) / scanImage.param.bytes_per_line
+        let lines: Int = GetHandleSize(scanImage.imagedata) / scanImage.param.bytesPerLine
         if(scanImage.param.format != Sane.FRAME_GRAY &&
             scanImage.param.format != Sane.FRAME_RGB) {
             lines /= 3

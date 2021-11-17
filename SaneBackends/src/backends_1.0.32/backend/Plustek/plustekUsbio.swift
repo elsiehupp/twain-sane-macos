@@ -105,7 +105,7 @@ static void dumpPic( char* name, Sane.Byte *buffer, u_long len, Int is_gray )
 
 	if( NULL == buffer ) {
 
-		DBG( _DBG_DPIC, "Creating file '%s'\n", name )
+		DBG( _DBG_DPIC, "Creating file "%s"\n", name )
 
 		fp = fopen( name, "w+b" )
 
@@ -131,7 +131,7 @@ static void dumpPic( char* name, Sane.Byte *buffer, u_long len, Int is_gray )
 	}
 
 	if( NULL == fp ) {
-		DBG( _DBG_DPIC, "Can not open file '%s'\n", name )
+		DBG( _DBG_DPIC, "Can not open file "%s"\n", name )
 		return
 	}
 
@@ -172,7 +172,7 @@ static void dumpregs( Int fd, Sane.Byte *cmp )
 	if( DBG_LEVEL < _DBG_DREGS )
 		return
 
-	buf[0] = '\0'
+	buf[0] = "\0"
 
 	if( fd >= 0 ) {
 		usbio_ReadReg(fd, 0x01, &regs[0x01])
@@ -209,7 +209,7 @@ static void dumpregs( Int fd, Sane.Byte *cmp )
 
 	if( cmp ) {
 
-		buf[0] = '\0'
+		buf[0] = "\0"
 
 		DBG( _DBG_DREGS, "Internal setting:\n" )
 		for( i = 0x0; i < 0x80; i++ ) {

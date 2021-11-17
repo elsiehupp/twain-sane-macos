@@ -684,21 +684,21 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters *p)
     case color:
       p.format=Sane.FRAME_RGB
       p.depth=8
-      p.bytes_per_line=p.pixels_per_line*3
+      p.bytesPerLine=p.pixels_per_line*3
       break
     case gray:
       p.format=Sane.FRAME_GRAY
       p.depth=8
-      p.bytes_per_line=p.pixels_per_line
+      p.bytesPerLine=p.pixels_per_line
       break
     case halftone:
     case line:
       p.format=Sane.FRAME_GRAY
       p.depth=1
-      p.bytes_per_line=(p.pixels_per_line+7)/8
+      p.bytesPerLine=(p.pixels_per_line+7)/8
       break
     }
-  DBG(DEBUG_INFO,"getting parameters(%d,%d)...\n",p.bytes_per_line,p.lines)
+  DBG(DEBUG_INFO,"getting parameters(%d,%d)...\n",p.bytesPerLine,p.lines)
   return Sane.STATUS_GOOD
 }
 

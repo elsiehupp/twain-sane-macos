@@ -252,7 +252,7 @@ struct Epson_Scanner
   Int line_distance;	/* current line distance */
   Int current_output_line;	/* line counter when color shuffling */
   Int lines_written;	/* debug variable */
-  Bool option_has_changed;	/* did one of the options change it's value? */
+  Bool option_has_changed;	/* did one of the options change it"s value? */
 ]
 
 typedef struct Epson_Scanner Epson_Scanner
@@ -334,7 +334,7 @@ typedef struct Epson_Scanner Epson_Scanner
    2003-10-27   Replaced DBG(0, ... with DBG(1, ...
    2003-09-12   Increment only once in loop to find USB scanners
                 Fix rounding problem when determining number of lines to scan
-   2003-08-21   Removed '//' comments - again ...
+   2003-08-21   Removed "//" comments - again ...
                 Added EPSON Kowa copyright message
    2003-08-15   Added support for GT-30000, with support for the ADF in simplex mode
                 Borrowed some code from the EPSON Kowa IScan version of the backend
@@ -397,11 +397,11 @@ typedef struct Epson_Scanner Epson_Scanner
                 Also added experimental code to use USB scanner probing. Need kernel patch
                 for this.
    2001-05-19   Version 0.2.05
-                fixed the year in the recent change log entries - I now that it's
+                fixed the year in the recent change log entries - I now that it"s
                 2001...
                 Finally fixed the TPU problem with B4 level scanners
    2001-05-13   Version 0.2.04
-                Removed check for '\n' before end of line
+                Removed check for "\n" before end of line
                 Free memory malloced in Sane.get_devices() in Sane.exit() again
    2001-04-22   Version 0.2.03
                 Check first if the scanner does support the set film type
@@ -424,7 +424,7 @@ typedef struct Epson_Scanner Epson_Scanner
                 are now printed in one line without the[epson] in
                 between the values. Values are only printed for
                 Debug levels >= 10.
-   2000-12-04   We've introduced the concept of inverting images
+   2000-12-04   We"ve introduced the concept of inverting images
                 when scanning from a TPU.  This is fine, but
                 the user supplied gamma tables no longer work.
                 This is because the data a frontend is going
@@ -454,7 +454,7 @@ typedef struct Epson_Scanner Epson_Scanner
                 sane/... include files.
    2000-07-26   Fixed problem with Perfection610: The variable
                 s.color_shuffle_line was never correctly initialized
-   2000-06-28   When closing the scanner device the data that's
+   2000-06-28   When closing the scanner device the data that"s
                 still in the scanner, waiting to be transferred
                 is flushed. This fixes the problem with scanimage -T
    2000-06-13   Invert image when scanning negative with TPU,
@@ -483,7 +483,7 @@ typedef struct Epson_Scanner Epson_Scanner
                 lines with "garbage" at the beginning of the scan are not
                 yet removed.
    2000-05-06   Added support for multiple EPSON scanners. At this time
-                this may not be bug free, but it's a start and it seems
+                this may not be bug free, but it"s a start and it seems
                 to work well with just one scanner.
    2000-04-06   Did some cleanup on the gamma correction part. The user
                 defined table is now initialized to gamma=1, the gamma
@@ -514,7 +514,7 @@ typedef struct Epson_Scanner Epson_Scanner
    2000-02-23   First stab at level D1 support, also added a test
                 for valid "set halftone" command to enable OPT_HALFTONE
    2000-02-21   Check for "warming up" in after Sane.start. This is
-                IMHO a horrible hack, but that's the only way without
+                IMHO a horrible hack, but that"s the only way without
                 a major redesign that will work. (KHK)
    2000-02-20   Added some cleanup on error conditions in attach()
                 Use new sanei_config_read() instead of fgets() for
@@ -545,13 +545,13 @@ typedef struct Epson_Scanner Epson_Scanner
    2000-01-24   reorganization of SCSI related "helper" functions
                 started support for user defined color correction -
                 this is not yet available via the UI(Christian Bucher)
-   2000-01-24   Removed C++ style comments '//' (KHK)
+   2000-01-24   Removed C++ style comments "//" (KHK)
 */
 
 
 /* #define TEST_IOCTL */
 
-/* DON'T CHANGE THE NEXT LINE ! */
+/* DON"T CHANGE THE NEXT LINE ! */
 /* #undef FORCE_COLOR_SHUFFLE */
 
 
@@ -655,7 +655,7 @@ import Sane.sanei_config
 #define  EPSON_LEVEL_D7         12
 #define  EPSON_LEVEL_D8         13
 
-/* there is also a function level "A5", which I'm ignoring here until somebody can
+/* there is also a function level "A5", which I"m ignoring here until somebody can
    convince me that this is still needed. The A5 level was for the GT-300, which
    was(is) a monochrome only scanner. So if somebody really wants to use this
    scanner with SANE get in touch with me and we can work something out - khk */
@@ -701,20 +701,20 @@ static EpsonCmdRec Espon_cmd[] = {
  *        |   |   |   |   |   |   |   |   |   |   |             |   |   |   |   |   |   |   |   |   |   |   |   |    |   |     |   |   |   |   |   |   |   |
  *        |   |   |   |   |   |   |   |   |   |   |             |   |   |   |   |   |   |   |   |   |   |   |   |    |   |     |   |   |   |   |   |   |   |
  */
-  {"A1", 'I', 0, 'F','S', 0, 'G', 0, 'R', 0, 'A', 0, {0,0,0},   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,   0,  0,    0,  0,  0,  0,  0,  0,  0,  0},
-  {"A2", 'I', 0, 'F','S', 0, 'G','D','R','H','A','L',{-3,3,0}, 'Z','B', 0, '@', 0,  0,  0,  0,  0,  0,  0,  0,  0,   0,  0,    0,  0,  0,  0,  0,  0,  0,  0},
-  {"B1", 'I', 0, 'F','S','C','G','D','R', 0, 'A', 0, {0,0,0},   0, 'B', 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,   0,  0,    0,  0,  0,  0,  0,  0,  0,  0},
-  {"B2", 'I', 0, 'F','S','C','G','D','R','H','A','L',{-3,3,0}, 'Z','B', 0, '@', 0,  0,  0,  0,  0,  0,  0,  0,  0,   0,  0,    0,  0,  0,  0,  0,  0,  0,  0},
-  {"B3", 'I', 0, 'F','S','C','G','D','R','H','A','L',{-3,3,0}, 'Z','B','M','@', 0,  0,  0,  0,  0,  0, 'm','f','e',  0,  0,    0,  0,  0,  0,  0,  0,  0,  0},
-  {"B4", 'I', 0, 'F','S','C','G','D','R','H','A','L',{-3,3,0}, 'Z','B','M','@','g','d', 0, 'z','Q','b','m','f','e',  0,  0,    0,  0,  0,  0,  0,  0,  0,  0},
-  {"B5", 'I', 0, 'F','S','C','G','D','R','H','A','L',{-3,3,0}, 'Z','B','M','@','g','d','K','z','Q','b','m','f','e',  0,  0,    0,  0,  0,  0,  0,  0,  0,  0},
-  {"B6", 'I', 0, 'F','S','C','G','D','R','H','A','L',{-3,3,0}, 'Z','B','M','@','g','d','K','z','Q','b','m','f','e',  0,  0,    0,  0,  0,  0,  0,  0,  0,  0},
-  {"B7", 'I', 0, 'F','S','C','G','D','R','H','A','L',{-4,3,0}, 'Z','B','M','@','g','d','K','z','Q','b','m','f','e','\f', 0,   '!','s','N', 0,  0, 't', 0,  0},
-  {"B8", 'I', 0, 'F','S','C','G','D','R','H','A','L',{-4,3,0}, 'Z','B','M','@','g','d','K','z','Q','b','m','f','e','\f', 0x19,'!','s','N', 0,  0,  0, 'p','q'},
-  {"F5", 'I', 0, 'F','S','C','G','D','R','H','A','L',{-3,3,0}, 'Z', 0, 'M','@','g','d','K','z','Q', 0, 'm','f','e','\f', 0,    0,  0, 'N','T','P', 0,  0,  0},
-  {"D1", 'I','i','F', 0, 'C','G','D','R', 0, 'A', 0, {0,0,0},  'Z', 0,  0, '@','g','d', 0, 'z', 0,  0,  0, 'f', 0,   0,  0,   '!', 0,  0,  0,  0,  0,  0,  0},
-  {"D7", 'I', 0, 'F', 0, 'C','G','D','R', 0, 'A', 0, {0,0,0},  'Z', 0,  0, '@','g','d', 0, 'z', 0,  0,  0, 'f', 0,   0,  0,   '!', 0,  0,  0,  0,  0,  0,  0},
-  {"D8", 'I','i','F', 0, 'C','G','D','R', 0, 'A', 0, {0,0,0},  'Z', 0,  0, '@','g','d', 0, 'z', 0,  0,  0, 'f','e',  0,  0,   '!', 0,  0,  0,  0,  0,  0,  0},
+  {"A1", "I", 0, "F","S", 0, "G", 0, "R", 0, "A", 0, {0,0,0},   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,   0,  0,    0,  0,  0,  0,  0,  0,  0,  0},
+  {"A2", "I", 0, "F","S", 0, "G","D","R","H","A","L",{-3,3,0}, "Z","B", 0, "@", 0,  0,  0,  0,  0,  0,  0,  0,  0,   0,  0,    0,  0,  0,  0,  0,  0,  0,  0},
+  {"B1", "I", 0, "F","S","C","G","D","R", 0, "A", 0, {0,0,0},   0, "B", 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,   0,  0,    0,  0,  0,  0,  0,  0,  0,  0},
+  {"B2", "I", 0, "F","S","C","G","D","R","H","A","L",{-3,3,0}, "Z","B", 0, "@", 0,  0,  0,  0,  0,  0,  0,  0,  0,   0,  0,    0,  0,  0,  0,  0,  0,  0,  0},
+  {"B3", "I", 0, "F","S","C","G","D","R","H","A","L",{-3,3,0}, "Z","B","M","@", 0,  0,  0,  0,  0,  0, "m","f","e",  0,  0,    0,  0,  0,  0,  0,  0,  0,  0},
+  {"B4", "I", 0, "F","S","C","G","D","R","H","A","L",{-3,3,0}, "Z","B","M","@","g","d", 0, "z","Q","b","m","f","e",  0,  0,    0,  0,  0,  0,  0,  0,  0,  0},
+  {"B5", "I", 0, "F","S","C","G","D","R","H","A","L",{-3,3,0}, "Z","B","M","@","g","d","K","z","Q","b","m","f","e",  0,  0,    0,  0,  0,  0,  0,  0,  0,  0},
+  {"B6", "I", 0, "F","S","C","G","D","R","H","A","L",{-3,3,0}, "Z","B","M","@","g","d","K","z","Q","b","m","f","e",  0,  0,    0,  0,  0,  0,  0,  0,  0,  0},
+  {"B7", "I", 0, "F","S","C","G","D","R","H","A","L",{-4,3,0}, "Z","B","M","@","g","d","K","z","Q","b","m","f","e","\f", 0,   "!","s","N", 0,  0, "t", 0,  0},
+  {"B8", "I", 0, "F","S","C","G","D","R","H","A","L",{-4,3,0}, "Z","B","M","@","g","d","K","z","Q","b","m","f","e","\f", 0x19,"!","s","N", 0,  0,  0, "p","q"},
+  {"F5", "I", 0, "F","S","C","G","D","R","H","A","L",{-3,3,0}, "Z", 0, "M","@","g","d","K","z","Q", 0, "m","f","e","\f", 0,    0,  0, "N","T","P", 0,  0,  0},
+  {"D1", "I","i","F", 0, "C","G","D","R", 0, "A", 0, {0,0,0},  "Z", 0,  0, "@","g","d", 0, "z", 0,  0,  0, "f", 0,   0,  0,   "!", 0,  0,  0,  0,  0,  0,  0},
+  {"D7", "I", 0, "F", 0, "C","G","D","R", 0, "A", 0, {0,0,0},  "Z", 0,  0, "@","g","d", 0, "z", 0,  0,  0, "f", 0,   0,  0,   "!", 0,  0,  0,  0,  0,  0,  0},
+  {"D8", "I","i","F", 0, "C","G","D","R", 0, "A", 0, {0,0,0},  "Z", 0,  0, "@","g","d", 0, "z", 0,  0,  0, "f","e",  0,  0,   "!", 0,  0,  0,  0,  0,  0,  0},
 ]
 
 
@@ -1003,7 +1003,7 @@ struct qf_param
   Sane.Word br_y
 ]
 
-/* gcc don't like to overwrite const field */
+/* gcc don"t like to overwrite const field */
 static /*const */ struct qf_param qf_params[] = {
   {0, 0, Sane.FIX(120.0), Sane.FIX(120.0)},
   {0, 0, Sane.FIX(148.5), Sane.FIX(210.0)},
@@ -1153,7 +1153,7 @@ send(Epson_Scanner * s, void *buf, size_t buf_size, Sane.Status * status)
 
     for(k = 0; k < buf_size; k++)
     {
-      DBG(125, "buf[%d] %02x %c\n", k, s[k], isprint(s[k]) ? s[k] : '.')
+      DBG(125, "buf[%d] %02x %c\n", k, s[k], isprint(s[k]) ? s[k] : ".")
     }
   }
 #endif
@@ -1212,7 +1212,7 @@ receive(Epson_Scanner * s, void *buf, ssize_t buf_size, Sane.Status * status)
   }
   else if(s.hw.connection == Sane.EPSON_USB)
   {
-    /* !!! only report an error if we don't read anything */
+    /* !!! only report an error if we don"t read anything */
     n = buf_size;               /* buf_size gets overwritten */
     *status = sanei_usb_read_bulk(s.fd, (Sane.Byte *) buf, (size_t *) & n)
     r_cmd_count += (n+63)/64; /* add # of packets, rounding up */
@@ -1233,7 +1233,7 @@ receive(Epson_Scanner * s, void *buf, ssize_t buf_size, Sane.Status * status)
 
     for(k = 0; k < n; k++)
     {
-      DBG(127, "buf[%d] %02x %c\n", k, s[k], isprint(s[k]) ? s[k] : '.')
+      DBG(127, "buf[%d] %02x %c\n", k, s[k], isprint(s[k]) ? s[k] : ".")
     }
   }
 #else
@@ -1246,8 +1246,8 @@ receive(Epson_Scanner * s, void *buf, ssize_t buf_size, Sane.Status * status)
     char tmp_str[NUM_OF_HEX_ELEMENTS * 3 + 1]
     char ascii_str[NUM_OF_HEX_ELEMENTS * 2 + 1]
 
-    hex_str[0] = '\0'
-    ascii_str[0] = '\0'
+    hex_str[0] = "\0"
+    ascii_str[0] = "\0"
 
     for(k = 0; k < buf_size; k++)
     {
@@ -1257,33 +1257,33 @@ receive(Epson_Scanner * s, void *buf, ssize_t buf_size, Sane.Status * status)
       strcpy(hex_str, tmp_str)
 
       /* add the character to the ascii string */
-      sprintf(tmp_str, "%s %c", ascii_str, isprint(s[k]) ? s[k] : '.')
+      sprintf(tmp_str, "%s %c", ascii_str, isprint(s[k]) ? s[k] : ".")
       strcpy(ascii_str, tmp_str)
 
       if((k % (NUM_OF_HEX_ELEMENTS)) == 0)
       {
-        if(k != 0)             /* don't do this the first time */
+        if(k != 0)             /* don"t do this the first time */
         {
           for(i = strlen(hex_str); i < (NUM_OF_HEX_ELEMENTS * 3); i++)
           {
-            hex_str[i] = ' '
+            hex_str[i] = " "
           }
-          hex_str[NUM_OF_HEX_ELEMENTS + 1] = '\0'
+          hex_str[NUM_OF_HEX_ELEMENTS + 1] = "\0"
 
           DBG(125, "recv buf[%05d]: %s   %s\n", hex_start, hex_str,
                ascii_str)
           hex_start = k
-          hex_str[0] = '\0'
-          ascii_str[0] = '\0'
+          hex_str[0] = "\0"
+          ascii_str[0] = "\0"
         }
       }
     }
 
     for(i = strlen(hex_str); i < NUM_OF_HEX_ELEMENTS * 3; i++)
     {
-      hex_str[i] = ' '
+      hex_str[i] = " "
     }
-    hex_str[NUM_OF_HEX_ELEMENTS + 1] = '\0'
+    hex_str[NUM_OF_HEX_ELEMENTS + 1] = "\0"
 
     DBG(125, "recv buf[%05d]: %s   %s\n", hex_start, hex_str, ascii_str)
   }
@@ -1368,7 +1368,7 @@ print_params(const Sane.Parameters params)
 {
   DBG(5, "params.format = %d\n", params.format)
   DBG(5, "params.last_frame = %d\n", params.last_frame)
-  DBG(5, "params.bytes_per_line = %d\n", params.bytes_per_line)
+  DBG(5, "params.bytesPerLine = %d\n", params.bytesPerLine)
   DBG(5, "params.pixels_per_line = %d\n", params.pixels_per_line)
   DBG(5, "params.lines = %d\n", params.lines)
   DBG(5, "params.depth = %d\n", params.depth)
@@ -1570,8 +1570,8 @@ set_gamma_table(Epson_Scanner * s)
   u_char gamma[257]
   Int n
   Int table
-/*      static const char gamma_cmds[] = { 'M', 'R', 'G', 'B' ] */
-  static const char gamma_cmds[] = { 'R', 'G', 'B' ]
+/*      static const char gamma_cmds[] = { "M", "R", "G", "B" ] */
+  static const char gamma_cmds[] = { "R", "G", "B" ]
 
 
   DBG(1, "set_gamma_table: starting.\n")
@@ -1596,7 +1596,7 @@ set_gamma_table(Epson_Scanner * s)
       {
         char gammaValues[16 * 3 + 1], newValue[4]
 
-        gammaValues[0] = '\0'
+        gammaValues[0] = "\0"
 
         for(j = 0; j < 16; j++)
         {
@@ -1733,7 +1733,7 @@ DetectSize:
  * every other condition is reported as an error.
  *
  * This function only gets called when we are dealing with a scanner that supports the
- * "warming up" code, so it's not a problem for B3 level scanners, that don't handle
+ * "warming up" code, so it"s not a problem for B3 level scanners, that don"t handle
  * request extended status commands.
  */
 
@@ -1786,7 +1786,7 @@ check_ext_status(Epson_Scanner * s, Int *max_x, Int *max_y)
     if(0 == strcmp("ES-9000H", s.hw.sane.model)
         || 0 == strcmp("GT-30000", s.hw.sane.model))
     {
-      /* set size of current sheet, but don't clobber zoom
+      /* set size of current sheet, but don"t clobber zoom
          settings(which should always be smaller than the
          detected sheet size) */
       double w, h
@@ -1919,7 +1919,7 @@ close_scanner(Epson_Scanner * s)
 
     param[0] = ESC
     param[1] = s.hw.cmd.request_status
-    param[2]='\0'
+    param[2]="\0"
     send(s,param,2,&status)
     receive(s,result,4,&status)
   }
@@ -1977,7 +1977,7 @@ open_scanner(Epson_Scanner * s)
     return Sane.STATUS_GOOD;    /* no need to open the scanner */
   }
 
-  /* don't do this for OS2: */
+  /* don"t do this for OS2: */
 #ifndef HAVE_OS2_H
 #if 0
   /* test the device name */
@@ -2132,7 +2132,7 @@ command(Epson_Scanner * s, u_char * cmd, size_t cmd_size,
 
   if(Sane.STATUS_GOOD != *status)
   {
-    /* this is necessary for the GT-8000. I don't know why, but
+    /* this is necessary for the GT-8000. I don"t know why, but
        it seems to fix the problem. It should not have any
        ill effects on other scanners.  */
     *status = Sane.STATUS_GOOD
@@ -2181,7 +2181,7 @@ command(Epson_Scanner * s, u_char * cmd, size_t cmd_size,
     }
     else if(s.hw.connection == Sane.EPSON_USB)
     {
-      /* we've already read the complete data */
+      /* we"ve already read the complete data */
     }
     else
     {
@@ -2238,7 +2238,7 @@ command(Epson_Scanner * s, u_char * cmd, size_t cmd_size,
  */
 
 static Sane.Status
-attach(const char *dev_name, Epson_Device * *devp, Int type)
+attach(const char *dev_name, Epson_Device * *devp, type: Int)
 {
   Sane.Status status
   Epson_Scanner *s = walloca(Epson_Scanner)
@@ -2362,7 +2362,7 @@ attach(const char *dev_name, Epson_Device * *devp, Int type)
             && strncmp((char *) buf + 16, "Expression", 10) != 0
             && strncmp((char *) buf + 16, "GT", 2) != 0))
     {
-      DBG(1, "attach: device doesn't look like an EPSON  scanner\n")
+      DBG(1, "attach: device doesn"t look like an EPSON  scanner\n")
       close_scanner(s)
       return Sane.STATUS_INVAL
     }
@@ -2555,7 +2555,7 @@ attach(const char *dev_name, Epson_Device * *devp, Int type)
   if(request_focus_position(s, &s.currentFocusPosition) ==
       Sane.STATUS_GOOD)
   {
-    DBG(1, "Enabling 'Set Focus' support\n")
+    DBG(1, "Enabling "Set Focus" support\n")
     s.hw.focusSupport = Sane.TRUE
     s.opt[OPT_FOCUS].cap &= ~Sane.CAP_INACTIVE
 
@@ -2574,7 +2574,7 @@ attach(const char *dev_name, Epson_Device * *devp, Int type)
   }
   else
   {
-    DBG(1, "Disabling 'Set Focus' support\n")
+    DBG(1, "Disabling "Set Focus" support\n")
     s.hw.focusSupport = Sane.FALSE
     s.opt[OPT_FOCUS].cap |= Sane.CAP_INACTIVE
     s.val[OPT_FOCUS].w = 0;    /* on glass - just in case */
@@ -2653,20 +2653,20 @@ attach(const char *dev_name, Epson_Device * *devp, Int type)
         Int len
 
         /* make sure that the end of string is marked */
-        device_name[DEVICE_NAME_LEN] = '\0'
+        device_name[DEVICE_NAME_LEN] = "\0"
 
         /* copy the string to an area where we can work with it */
         memcpy(device_name, buf + 0x1A, DEVICE_NAME_LEN)
-        end_ptr = strchr(device_name, ' ')
+        end_ptr = strchr(device_name, " ")
         if(end_ptr != NULL)
         {
-          *end_ptr = '\0'
+          *end_ptr = "\0"
         }
 
         len = strlen(device_name)
 
         str = malloc(len + 1)
-        str[len] = '\0'
+        str[len] = "\0"
 
         dev.sane.model = (char *) memcpy(str, device_name, len)
       }
@@ -2790,20 +2790,20 @@ attach(const char *dev_name, Epson_Device * *devp, Int type)
         Int len
 
         /* make sure that the end of string is marked */
-        device_name[DEVICE_NAME_LEN] = '\0'
+        device_name[DEVICE_NAME_LEN] = "\0"
 
         /* copy the string to an area where we can work with it */
         memcpy(device_name, buf + 0x1A, DEVICE_NAME_LEN)
-        end_ptr = strchr(device_name, ' ')
+        end_ptr = strchr(device_name, " ")
         if(end_ptr != NULL)
         {
-          *end_ptr = '\0'
+          *end_ptr = "\0"
         }
 
         len = strlen(device_name)
 
         str = malloc(len + 1)
-        str[len] = '\0'
+        str[len] = "\0"
 
         /* finally copy the device name to the structure */
         dev.sane.model = (char *) memcpy(str, device_name, len)
@@ -2939,7 +2939,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
       Int vendor, product
 
       DBG(4, "Sane.init, >%s<\n", line)
-      if(line[0] == '#')       /* ignore line comments */
+      if(line[0] == "#")       /* ignore line comments */
         continue
       len = strlen(line)
       if(!len)
@@ -2974,7 +2974,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
   }
 
   /* read the option section and assign the connection type to the
-     scanner structure - which we don't have at this time. So I have
+     scanner structure - which we don"t have at this time. So I have
      to come up with something :-) */
 
   return Sane.STATUS_GOOD
@@ -3175,12 +3175,12 @@ init_options(Epson_Scanner * s)
   s.opt[OPT_GAMMA_CORRECTION].type = Sane.TYPE_STRING
   s.opt[OPT_GAMMA_CORRECTION].constraint_type = Sane.CONSTRAINT_STRING_LIST
   /*
-   * special handling for D1 function level - at this time I'm not
-   * testing for D1, I'm just assuming that all D level scanners will
+   * special handling for D1 function level - at this time I"m not
+   * testing for D1, I"m just assuming that all D level scanners will
    * behave the same way. This has to be confirmed with the next D-level
    * scanner
    */
-  if(s.hw.cmd.level[0] == 'D')
+  if(s.hw.cmd.level[0] == "D")
   {
     s.opt[OPT_GAMMA_CORRECTION].size = max_string_size(gamma_list_d)
     s.opt[OPT_GAMMA_CORRECTION].constraint.string_list = gamma_list_d
@@ -4563,7 +4563,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 
 
   /*
-   * Calculate bytes_per_pixel and bytes_per_line for
+   * Calculate bytes_per_pixel and bytesPerLine for
    * any color depths.
    *
    * The default color depth is stored in mode_params.depth:
@@ -4582,7 +4582,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   {
     s.params.depth = 16;       /*
                                  * The frontends can only handle 8 or 16 bits
-                                 * for gray or color - so if it's more than 8,
+                                 * for gray or color - so if it"s more than 8,
                                  * it gets automatically set to 16. This works
                                  * as long as EPSON does not come out with a
                                  * scanner that can handle more than 16 bits
@@ -4605,13 +4605,13 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   if(mode_params[s.val[OPT_MODE].w].color)
   {
     s.params.format = Sane.FRAME_RGB
-    s.params.bytes_per_line =
+    s.params.bytesPerLine =
       3 * s.params.pixels_per_line * bytes_per_pixel
   }
   else
   {
     s.params.format = Sane.FRAME_GRAY
-    s.params.bytes_per_line =
+    s.params.bytesPerLine =
       s.params.pixels_per_line * s.params.depth / 8
   }
 
@@ -4710,7 +4710,7 @@ Sane.start(Sane.Handle handle)
     /*
      * set the focus position according to the extension used:
      * if the TPU is selected, then focus 2.5mm above the glass,
-     * otherwise focus on the glass. Scanners that don't support
+     * otherwise focus on the glass. Scanners that don"t support
      * this feature, will just ignore these calls.
      */
 
@@ -4762,8 +4762,8 @@ Sane.start(Sane.Handle handle)
    * The byte sequence mode was introduced in B5, for B[34] we need line sequence mode
    */
 
-  if((s.hw.cmd.level[0] == 'D' ||
-       (s.hw.cmd.level[0] == 'B' && s.hw.level >= 5)) &&
+  if((s.hw.cmd.level[0] == "D" ||
+       (s.hw.cmd.level[0] == "B" && s.hw.level >= 5)) &&
       mparam.mode_flags == 0x02)
   {
     status = set_color_mode(s, 0x13)
@@ -4898,7 +4898,7 @@ Sane.start(Sane.Handle handle)
       Sane.OPTION_IS_ACTIVE(s.opt[OPT_GAMMA_CORRECTION].cap))
   {
     Int val
-    if(s.hw.cmd.level[0] == 'D')
+    if(s.hw.cmd.level[0] == "D")
     {
       /*
        * The D1 level has only the two user defined gamma
@@ -5070,7 +5070,7 @@ Sane.start(Sane.Handle handle)
  *
  *   1) A preview always acquires an image that covers the entire
  *      scan surface.  This is necessary so the user can see not
- *      only what is, but also what isn't selected.
+ *      only what is, but also what isn"t selected.
  */
 
   left = Sane.UNFIX(s.val[OPT_TL_X].w) / 25.4 * ndpi + 0.5
@@ -5159,16 +5159,16 @@ Sane.start(Sane.Handle handle)
   /*
    * The set line count commands needs to be sent for certain scanners in
    * color mode. The D1 level requires it, we are however only testing for
-   * 'D' and not for the actual numeric level.
+   * "D" and not for the actual numeric level.
    */
 
-  if(((s.hw.cmd.level[0] == 'B') &&
+  if(((s.hw.cmd.level[0] == "B") &&
        ((s.hw.level >= 5) || ((s.hw.level >= 4) &&
                                 (!mode_params[s.val[OPT_MODE].w].color))))
-      || (s.hw.cmd.level[0] == 'D'))
+      || (s.hw.cmd.level[0] == "D"))
   {
     s.block = Sane.TRUE
-    lcount = sanei_scsi_max_request_size / s.params.bytes_per_line
+    lcount = sanei_scsi_max_request_size / s.params.bytesPerLine
 
     if(lcount >= 255)
     {
@@ -5186,7 +5186,7 @@ Sane.start(Sane.Handle handle)
      * for bi-level scanning. If a bit depth of 1 is selected, then
      * make sure the next lower even number is selected.
      */
-    if(s.hw.cmd.level[0] == 'D')
+    if(s.hw.cmd.level[0] == "D")
     {
       if(lcount % 2)
       {
@@ -5325,10 +5325,10 @@ Sane.start(Sane.Handle handle)
       if(s.line_buffer[i] != NULL)
         free(s.line_buffer[i])
 
-      s.line_buffer[i] = malloc(s.params.bytes_per_line)
+      s.line_buffer[i] = malloc(s.params.bytesPerLine)
       if(s.line_buffer[i] == NULL)
       {
-        /* free the memory we've malloced so far */
+        /* free the memory we"ve malloced so far */
         for(j = 0; j < i; j++)
         {
           free(s.line_buffer[j])
@@ -5352,7 +5352,7 @@ Sane.start(Sane.Handle handle)
   }
 
   s.eof = Sane.FALSE
-  s.buf = realloc(s.buf, lcount * s.params.bytes_per_line)
+  s.buf = realloc(s.buf, lcount * s.params.bytesPerLine)
   s.ptr = s.end = s.buf
   s.canceling = Sane.FALSE
 
@@ -5441,7 +5441,7 @@ read_data_block(Epson_Scanner * s, EpsonDataRec * result)
      */
 
     /*
-     * let's safe some stack space: If this is not the first go around,
+     * let"s safe some stack space: If this is not the first go around,
      * then just return the status and let the loop handle this - otherwise
      * we would run this function recursively.
      */
@@ -5584,8 +5584,8 @@ START_READ:
        * is already known(from last call to read_data_block()
        * We determine where to write the line from the color information
        * in the data block. At the end we want the order RGB, but the
-       * way the data is delivered does not guarantee this - actually it's
-       * most likely that the order is GRB if it's not RGB!
+       * way the data is delivered does not guarantee this - actually it"s
+       * most likely that the order is GRB if it"s not RGB!
        */
       switch(GET_COLOR(result))
       {
@@ -5773,7 +5773,7 @@ START_READ:
       reorder = Sane.FALSE;     /* reordering once is enough */
 
     if(s.params.format != Sane.FRAME_RGB)
-      reorder = Sane.FALSE;     /* don't reorder for BW or gray */
+      reorder = Sane.FALSE;     /* don"t reorder for BW or gray */
 
     if(reorder)
     {
@@ -5824,7 +5824,7 @@ START_READ:
 
       /*
        * If no bytes are returned, check if the scanner is already done, if so,
-       * we'll probably just return, but if there is more data to process get
+       * we"ll probably just return, but if there is more data to process get
        * the next batch.
        */
 
@@ -5964,18 +5964,18 @@ color_shuffle(Sane.Handle handle, Int *new_length)
 
     /*
      * The image data is in *buf, we know that the buffer contains s.end - s.buf( = length)
-     * bytes of data. The width of one line is in s.params.bytes_per_line
+     * bytes of data. The width of one line is in s.params.bytesPerLine
      */
 
     /*
      * The buffer area is supposed to have a number of full scan
-     * lines, let's test if this is the case.
+     * lines, let"s test if this is the case.
      */
 
-    if(length % s.params.bytes_per_line != 0)
+    if(length % s.params.bytesPerLine != 0)
     {
       DBG(1, "ERROR in size of buffer: %d / %d\n",
-           length, s.params.bytes_per_line)
+           length, s.params.bytesPerLine)
       return Sane.STATUS_INVAL
     }
 
@@ -5989,7 +5989,7 @@ color_shuffle(Sane.Handle handle, Int *new_length)
       source_ptr = data_ptr + 1
       dest_ptr = s.line_buffer[s.color_shuffle_line] + 1
 
-      for(i = 0; i < s.params.bytes_per_line / 3; i++)
+      for(i = 0; i < s.params.bytesPerLine / 3; i++)
       {
         *dest_ptr = *source_ptr
         dest_ptr += 3
@@ -6004,8 +6004,8 @@ color_shuffle(Sane.Handle handle, Int *new_length)
         dest_ptr =
           s.line_buffer[s.color_shuffle_line - s.line_distance] + 2
 
-/*                              while(source_ptr < s.line_buffer[s.color_shuffle_line] + s.params.bytes_per_line) */
-        for(loop = 0; loop < s.params.bytes_per_line / 3; loop++)
+/*                              while(source_ptr < s.line_buffer[s.color_shuffle_line] + s.params.bytesPerLine) */
+        for(loop = 0; loop < s.params.bytesPerLine / 3; loop++)
 
         {
           *dest_ptr = *source_ptr
@@ -6019,15 +6019,15 @@ color_shuffle(Sane.Handle handle, Int *new_length)
       source_ptr = data_ptr
       dest_ptr = s.line_buffer[s.color_shuffle_line + s.line_distance]
 
-/*                      while(source_ptr < s.line_buffer[s.color_shuffle_line] + s.params.bytes_per_line) */
-      for(loop = 0; loop < s.params.bytes_per_line / 3; loop++)
+/*                      while(source_ptr < s.line_buffer[s.color_shuffle_line] + s.params.bytesPerLine) */
+      for(loop = 0; loop < s.params.bytesPerLine / 3; loop++)
       {
         *dest_ptr = *source_ptr
         dest_ptr += 3
         source_ptr += 3
       }
 
-      data_ptr += s.params.bytes_per_line
+      data_ptr += s.params.bytesPerLine
 
       if(s.color_shuffle_line == s.line_distance)
       {
@@ -6050,8 +6050,8 @@ color_shuffle(Sane.Handle handle, Int *new_length)
         if((s.current_output_line >= s.line_distance) &&
             (s.current_output_line < s.params.lines + s.line_distance))
         {
-          memcpy(out_data_ptr, s.line_buffer[0], s.params.bytes_per_line)
-          out_data_ptr += s.params.bytes_per_line
+          memcpy(out_data_ptr, s.line_buffer[0], s.params.bytesPerLine)
+          out_data_ptr += s.params.bytesPerLine
 
           s.lines_written++
         }
@@ -6080,7 +6080,7 @@ color_shuffle(Sane.Handle handle, Int *new_length)
          */
 
         s.line_buffer[s.line_distance * 2] =
-          malloc(s.params.bytes_per_line)
+          malloc(s.params.bytesPerLine)
         if(s.line_buffer[s.line_distance * 2] == NULL)
         {
           var i: Int
@@ -6100,7 +6100,7 @@ color_shuffle(Sane.Handle handle, Int *new_length)
     }
 
     /*
-     * At this time we've used up all the new data from the scanner, some of
+     * At this time we"ve used up all the new data from the scanner, some of
      * it is still in the line_buffers, but we are ready to return some of it
      * to the front end software. To do so we have to adjust the size of the
      * data area and the *new_length variable.
@@ -6140,7 +6140,7 @@ get_identity_information(Sane.Handle handle)
 
   param[0] = ESC
   param[1] = s.hw.cmd.request_identity
-  param[2] = '\0'
+  param[2] = "\0"
 
   if(NULL == (ident = (EpsonIdent) command(s, param, 2, &status)))
   {
@@ -6210,7 +6210,7 @@ get_identity_information(Sane.Handle handle)
            ident.type, ident.level, dev.cmd.level)
     }
 
-    s.hw.level = dev.cmd.level[1] - '0'
+    s.hw.level = dev.cmd.level[1] - "0"
   }                             /* set command type and level */
 
 /*
@@ -6239,7 +6239,7 @@ get_identity_information(Sane.Handle handle)
     {
       switch(*buf)
       {
-      case 'R':
+      case "R":
         {
           Int val = buf[2] << 8 | buf[1]
 
@@ -6260,7 +6260,7 @@ get_identity_information(Sane.Handle handle)
           k = 3
           continue
         }
-      case 'A':
+      case "A":
         {
           x = buf[2] << 8 | buf[1]
           y = buf[4] << 8 | buf[3]
@@ -6392,7 +6392,7 @@ get_identity2_information(Sane.Handle handle)
 
   param[0] = ESC
   param[1] = s.hw.cmd.request_identity2
-  param[2] = '\0'
+  param[2] = "\0"
 
   send(s, param, 2, &status)
 
@@ -6450,7 +6450,7 @@ Sane.cancel(Sane.Handle handle)
     Int len
 
     /* malloc one line */
-    dummy = malloc(s.params.bytes_per_line)
+    dummy = malloc(s.params.bytesPerLine)
     if(dummy == NULL)
     {
       DBG(1, "Out of memory\n")
@@ -6465,7 +6465,7 @@ Sane.cancel(Sane.Handle handle)
 
       while(!s.eof &&
              Sane.STATUS_CANCELLED != Sane.read(s, dummy,
-                                                 s.params.bytes_per_line,
+                                                 s.params.bytesPerLine,
                                                  &len))
       {
         /* empty body, the while condition does the processing */
@@ -6494,7 +6494,7 @@ request_focus_position(Sane.Handle handle, u_char * position)
 
   param[0] = ESC
   param[1] = s.hw.cmd.request_focus_position
-  param[2] = '\0'
+  param[2] = "\0"
 
   send(s, param, 2, &status)
 
@@ -6547,7 +6547,7 @@ request_push_button_status(Sane.Handle handle, Bool * theButtonStatus)
 
   param[0] = ESC
   param[1] = s.hw.cmd.request_push_button_status
-  param[2] = '\0'
+  param[2] = "\0"
 
   send(s, param, 2, &status)
 

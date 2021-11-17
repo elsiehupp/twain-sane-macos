@@ -53,7 +53,7 @@
 
 /* --------------------------------------------------------------------------------------------------------- */
 
-/* I'm using functions derived from Eric Youngdale's scsiinfo
+/* I"m using functions derived from Eric Youngdale"s scsiinfo
  * program here for dealing with parts of SCSI commands.
  */
 
@@ -121,7 +121,7 @@ static inline void putnbyte1(unsigned char * pnt, unsigned Int value, unsigned I
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-/* Not all of these are defined in scsi.h, so we'll make sure
+/* Not all of these are defined in scsi.h, so we"ll make sure
  * we agree about them here...
  */
 #define TEST_UNIT_READY         0x00

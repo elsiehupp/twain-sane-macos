@@ -537,7 +537,7 @@ init_options(PINT_Scanner *s)
 static Sane.Status
 do_cancel(PINT_Scanner *s)
 {
-  /* FIXME: PINT doesn't have any good way to cancel ScanJets right now. */
+  /* FIXME: PINT doesn"t have any good way to cancel ScanJets right now. */
 #define gobble_up_buf_len 1024
   char buf[gobble_up_buf_len]
 
@@ -585,7 +585,7 @@ Sane.init(Int *version_code, Sane.Auth_Callback authorize)
 
   while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if(dev_name[0] == '#')		/* ignore line comments */
+      if(dev_name[0] == "#")		/* ignore line comments */
 	continue
       len = strlen(dev_name)
 
@@ -845,7 +845,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
       scanio.scan_x_resolution = s.val[OPT_RESOLUTION].w
       scanio.scan_y_resolution = s.val[OPT_RESOLUTION].w
 
-      /* set scan extents, in 1/1200'ths of an inch */
+      /* set scan extents, in 1/1200"ths of an inch */
       scanio.scan_x_origin = x0
       scanio.scan_y_origin = y0
       scanio.scan_width = width
@@ -907,7 +907,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
 
       /* Save all the PINT-computed values. */
       s.params.pixels_per_line = scanio.scan_pixels_per_line
-      s.params.bytes_per_line =
+      s.params.bytesPerLine =
 	(scanio.scan_bits_per_pixel * scanio.scan_pixels_per_line + 7) / 8
       s.params.lines = scanio.scan_lines
       s.params.depth = (scanio.scan_image_mode == SIM_COLOR) ?
@@ -934,7 +934,7 @@ Sane.start(Sane.Handle handle)
     return status
 
   DBG(1, "%d pixels per line, %d bytes, %d lines high, dpi=%d\n",
-      s.params.pixels_per_line, s.params.bytes_per_line, s.params.lines,
+      s.params.pixels_per_line, s.params.bytesPerLine, s.params.lines,
       s.val[OPT_RESOLUTION].w)
 
   /* The scan is triggered in Sane.read. */

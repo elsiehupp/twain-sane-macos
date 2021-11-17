@@ -195,7 +195,7 @@ static void modelInitMotor( pScanData ps )
 }
 
 /*.............................................................................
- * according to the models' capabilities, set the buffer stuff
+ * according to the models" capabilities, set the buffer stuff
  */
 static void modelSetBufferSizes( pScanData ps )
 {
@@ -374,7 +374,7 @@ _LOC void ModelSet600( pScanData ps )
 
 		ps.sCaps.Model = MODEL_OP_600P
 
-		/* for Plustek OpticPro 600P it's necessary to swap Red and Green
+		/* for Plustek OpticPro 600P it"s necessary to swap Red and Green
 		 * changed by mh moloch@nikocity.de
 		 */
 	 	ps.AsicRedColor   = _ASIC_GREENCOLOR

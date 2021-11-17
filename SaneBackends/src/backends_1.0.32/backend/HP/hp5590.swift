@@ -68,12 +68,12 @@ import Sane.sanei_net
 #define DBG_details     30
 
 #define hp5590_assert(exp) if(!(exp)) { \
-        DBG(DBG_err, "Assertion '%s' failed at %s:%u\n", #exp, __FILE__, __LINE__);\
+        DBG(DBG_err, "Assertion "%s" failed at %s:%u\n", #exp, __FILE__, __LINE__);\
         return Sane.STATUS_INVAL; \
 }
 
 #define hp5590_assert_void_return(exp) if(!(exp)) { \
-        DBG(DBG_err, "Assertion '%s' failed at %s:%u\n", #exp, __FILE__, __LINE__);\
+        DBG(DBG_err, "Assertion "%s" failed at %s:%u\n", #exp, __FILE__, __LINE__);\
         return; \
 }
 
@@ -132,8 +132,8 @@ sources_list[] = {
 #define Sane.DESC_TRAILING_LINES_MODE           Sane.I18N("raw = raw scan data, last = repeat last scan line, raster = b/w raster, "\
                                                           "white = white color, black = black color, color = RGB or gray color value")
 #define Sane.NAME_TRAILING_LINES_COLOR          "trailing-lines-color"
-#define Sane.TITLE_TRAILING_LINES_COLOR         Sane.I18N("RGB or gray color value for filling mode 'color'")
-#define Sane.DESC_TRAILING_LINES_COLOR          Sane.I18N("Color value for trailing lines filling mode 'color'. "\
+#define Sane.TITLE_TRAILING_LINES_COLOR         Sane.I18N("RGB or gray color value for filling mode "color"")
+#define Sane.DESC_TRAILING_LINES_COLOR          Sane.I18N("Color value for trailing lines filling mode "color". "\
                                                           "RGB color as r*65536+256*g+b or gray value(default=violet or gray)")
 
 #define BUTTON_PRESSED_VALUE_COUNT 11
@@ -295,7 +295,7 @@ static Sane.Status
 calc_image_params(struct hp5590_scanner *scanner,
                    unsigned Int *pixel_bits,
                    unsigned Int *pixels_per_line,
-                   unsigned Int *bytes_per_line,
+                   unsigned Int *bytesPerLine,
                    unsigned Int *lines,
                    unsigned long long *image_size)
 {
@@ -334,7 +334,7 @@ calc_image_params(struct hp5590_scanner *scanner,
   _image_size      = (unsigned long long) _lines * _bytes_per_line
 
   DBG(DBG_verbose, "%s: pixel_bits: %u, pixels_per_line: %u, "
-       "bytes_per_line: %u, lines: %u, image_size: %u\n",
+       "bytesPerLine: %u, lines: %u, image_size: %u\n",
        __func__,
        _pixel_bits, _pixels_per_line, _bytes_per_line, _lines, _image_size)
 
@@ -344,8 +344,8 @@ calc_image_params(struct hp5590_scanner *scanner,
   if(pixels_per_line)
     *pixels_per_line = _pixels_per_line
 
-  if(bytes_per_line)
-    *bytes_per_line = _bytes_per_line
+  if(bytesPerLine)
+    *bytesPerLine = _bytes_per_line
 
   if(lines)
     *lines = _lines
@@ -381,7 +381,7 @@ attach_usb_device(Sane.String_Const devname,
                            &info, hp_scanner_type) != 0)
     return Sane.STATUS_IO_ERROR
 
-  DBG(1, "%s: found HP%s scanner at '%s'\n",
+  DBG(1, "%s: found HP%s scanner at "%s"\n",
        __func__, info.model, devname)
 
   DBG(DBG_verbose, "%s: Reading max scan count\n", __func__)
@@ -973,7 +973,7 @@ Sane.control_option(Sane.Handle handle, Int option,
       if(!scanner.opts)
         return Sane.STATUS_INVAL
 
-      DBG(DBG_proc, "%s: get option '%s' value\n", __func__, scanner.opts[option].name)
+      DBG(DBG_proc, "%s: get option "%s" value\n", __func__, scanner.opts[option].name)
 
       if(option == HP5590_OPT_BR_X)
         {
@@ -1428,7 +1428,7 @@ Sane.Status Sane.get_parameters(Sane.Handle handle,
   ret = calc_image_params(scanner,
                            (unsigned Int *) &pixel_bits,
                            (unsigned Int *) &params.pixels_per_line,
-                           (unsigned Int *) &params.bytes_per_line,
+                           (unsigned Int *) &params.bytesPerLine,
                            (unsigned Int *) &params.lines, NULL)
   if(ret != Sane.STATUS_GOOD)
     return ret
@@ -1460,10 +1460,10 @@ Sane.Status Sane.get_parameters(Sane.Handle handle,
   }
 
 
-  DBG(DBG_proc, "format: %u, last_frame: %u, bytes_per_line: %u, "
+  DBG(DBG_proc, "format: %u, last_frame: %u, bytesPerLine: %u, "
        "pixels_per_line: %u, lines: %u, depth: %u\n",
        params.format, params.last_frame,
-       params.bytes_per_line, params.pixels_per_line,
+       params.bytesPerLine, params.pixels_per_line,
        params.lines, params.depth)
 
   return Sane.STATUS_GOOD
@@ -1475,7 +1475,7 @@ Sane.start(Sane.Handle handle)
 {
   struct hp5590_scanner *scanner = handle
   Sane.Status           ret
-  unsigned Int          bytes_per_line
+  unsigned Int          bytesPerLine
 
   DBG(DBG_proc, "%s\n", __func__)
 
@@ -1586,7 +1586,7 @@ Sane.start(Sane.Handle handle)
     }
 
   ret = calc_image_params(scanner, NULL, NULL,
-                           &bytes_per_line, NULL,
+                           &bytesPerLine, NULL,
                            &scanner.image_size)
   if(ret != Sane.STATUS_GOOD)
     {
@@ -1601,31 +1601,31 @@ Sane.start(Sane.Handle handle)
     {
       DBG(1, "Color 24/48 bits: checking if image size is correctly "
            "aligned on number of colors\n")
-      if(bytes_per_line % 3)
+      if(bytesPerLine % 3)
         {
-          DBG(DBG_err, "Color 24/48 bits: image size doesn't lined up on number of colors(3) "
+          DBG(DBG_err, "Color 24/48 bits: image size doesn"t lined up on number of colors(3) "
                "(image size: %llu, bytes per line %u)\n",
-               scanner.image_size, bytes_per_line)
+               scanner.image_size, bytesPerLine)
           hp5590_reset_scan_head(scanner.dn, scanner.proto_flags)
           return Sane.STATUS_INVAL
         }
       DBG(1, "Color 24/48 bits: image size is correctly aligned on number of colors "
            "(image size: %llu, bytes per line %u)\n",
-           scanner.image_size, bytes_per_line)
+           scanner.image_size, bytesPerLine)
 
       DBG(1, "Color 24/48 bits: checking if image size is correctly "
            "aligned on bytes per line\n")
-      if(scanner.image_size % bytes_per_line)
+      if(scanner.image_size % bytesPerLine)
         {
-          DBG(DBG_err, "Color 24/48 bits: image size doesn't lined up on bytes per line "
+          DBG(DBG_err, "Color 24/48 bits: image size doesn"t lined up on bytes per line "
                "(image size: %llu, bytes per line %u)\n",
-               scanner.image_size, bytes_per_line)
+               scanner.image_size, bytesPerLine)
           hp5590_reset_scan_head(scanner.dn, scanner.proto_flags)
           return Sane.STATUS_INVAL
         }
       DBG(1, "Color 24/48 bits: image size correctly aligned on bytes per line "
            "(images size: %llu, bytes per line: %u)\n",
-           scanner.image_size, bytes_per_line)
+           scanner.image_size, bytesPerLine)
     }
 
   DBG(DBG_verbose, "Final image size: %llu\n", scanner.image_size)
@@ -1676,14 +1676,14 @@ Sane.start(Sane.Handle handle)
 
 /******************************************************************************/
 static void
-invert_negative_colors(unsigned char *buf, unsigned Int bytes_per_line, struct hp5590_scanner *scanner)
+invert_negative_colors(unsigned char *buf, unsigned Int bytesPerLine, struct hp5590_scanner *scanner)
 {
   /* Invert lineart or negatives. */
   Int is_linear = (scanner.depth == DEPTH_BW)
   Int is_negative = (scanner.source == SOURCE_TMA_NEGATIVES)
   if(is_linear ^ is_negative)
     {
-      for(unsigned Int k = 0; k < bytes_per_line; k++)
+      for(unsigned Int k = 0; k < bytesPerLine; k++)
         buf[k] ^= 0xff
     }
 }
@@ -1694,7 +1694,7 @@ convert_gray_and_lineart(struct hp5590_scanner *scanner, Sane.Byte *data, Int si
 {
   unsigned Int pixels_per_line
   unsigned Int pixel_bits
-  unsigned Int bytes_per_line
+  unsigned Int bytesPerLine
   unsigned Int lines
   unsigned char *buf
   Sane.Status ret
@@ -1709,15 +1709,15 @@ convert_gray_and_lineart(struct hp5590_scanner *scanner, Sane.Byte *data, Int si
 
   ret = calc_image_params(scanner,
                            &pixel_bits,
-                           &pixels_per_line, &bytes_per_line,
+                           &pixels_per_line, &bytesPerLine,
                            NULL, NULL)
   if(ret != Sane.STATUS_GOOD)
     return ret
 
-  lines = size / bytes_per_line
+  lines = size / bytesPerLine
 
   buf = data
-  for(unsigned var i: Int = 0; i < lines; buf += bytes_per_line, ++i)
+  for(unsigned var i: Int = 0; i < lines; buf += bytesPerLine, ++i)
     {
       if(! scanner.eop_last_line_data)
         {
@@ -1726,7 +1726,7 @@ convert_gray_and_lineart(struct hp5590_scanner *scanner, Sane.Byte *data, Int si
               /* Test for last-line indicator pixel. If found, store last line
                * and optionally overwrite indicator pixel with neighbor value.
                */
-              unsigned Int j = bytes_per_line - 1
+              unsigned Int j = bytesPerLine - 1
               Int eop_found = 0
               if(scanner.depth == DEPTH_GRAY)
                 {
@@ -1745,16 +1745,16 @@ convert_gray_and_lineart(struct hp5590_scanner *scanner, Sane.Byte *data, Int si
                     }
                 }
 
-              invert_negative_colors(buf, bytes_per_line, scanner)
+              invert_negative_colors(buf, bytesPerLine, scanner)
 
               if(eop_found && (! scanner.eop_last_line_data))
                 {
                   DBG(DBG_verbose, "Found end-of-page at line %u in reading block.\n", i)
-                  scanner.eop_last_line_data = malloc(bytes_per_line)
+                  scanner.eop_last_line_data = malloc(bytesPerLine)
                   if(! scanner.eop_last_line_data)
                     return Sane.STATUS_NO_MEM
 
-                  memcpy(scanner.eop_last_line_data, buf, bytes_per_line)
+                  memcpy(scanner.eop_last_line_data, buf, bytesPerLine)
                   scanner.eop_last_line_data_rpos = 0
 
                   /* Fill trailing line buffer with requested color. */
@@ -1763,12 +1763,12 @@ convert_gray_and_lineart(struct hp5590_scanner *scanner, Sane.Byte *data, Int si
                       /* Black-white raster. */
                       if(scanner.depth == DEPTH_BW)
                         {
-                          memset(scanner.eop_last_line_data, 0xaa, bytes_per_line)
+                          memset(scanner.eop_last_line_data, 0xaa, bytesPerLine)
                         }
                       else
                         {
                           /* Gray. */
-                          for(unsigned Int k = 0; k < bytes_per_line; ++k)
+                          for(unsigned Int k = 0; k < bytesPerLine; ++k)
                             {
                               scanner.eop_last_line_data[k] = (k & 1 ? 0xff : 0)
                             }
@@ -1779,11 +1779,11 @@ convert_gray_and_lineart(struct hp5590_scanner *scanner, Sane.Byte *data, Int si
                       /* White. */
                       if(scanner.depth == DEPTH_BW)
                         {
-                          memset(scanner.eop_last_line_data, 0x00, bytes_per_line)
+                          memset(scanner.eop_last_line_data, 0x00, bytesPerLine)
                         }
                       else
                         {
-                          memset(scanner.eop_last_line_data, 0xff, bytes_per_line)
+                          memset(scanner.eop_last_line_data, 0xff, bytesPerLine)
                         }
                     }
                   else if(scanner.eop_trailing_lines_mode == TRAILING_LINES_MODE_BLACK)
@@ -1791,11 +1791,11 @@ convert_gray_and_lineart(struct hp5590_scanner *scanner, Sane.Byte *data, Int si
                       /* Black. */
                       if(scanner.depth == DEPTH_BW)
                         {
-                          memset(scanner.eop_last_line_data, 0xff, bytes_per_line)
+                          memset(scanner.eop_last_line_data, 0xff, bytesPerLine)
                         }
                       else
                         {
-                          memset(scanner.eop_last_line_data, 0x00, bytes_per_line)
+                          memset(scanner.eop_last_line_data, 0x00, bytesPerLine)
                         }
                     }
                   else if(scanner.eop_trailing_lines_mode == TRAILING_LINES_MODE_COLOR)
@@ -1803,12 +1803,12 @@ convert_gray_and_lineart(struct hp5590_scanner *scanner, Sane.Byte *data, Int si
                       if(scanner.depth == DEPTH_BW)
                         {
                           /* Black or white. */
-                          memset(scanner.eop_last_line_data, scanner.eop_trailing_lines_color & 0x01 ? 0x00 : 0xff, bytes_per_line)
+                          memset(scanner.eop_last_line_data, scanner.eop_trailing_lines_color & 0x01 ? 0x00 : 0xff, bytesPerLine)
                         }
                       else
                         {
                           /* Gray value */
-                          memset(scanner.eop_last_line_data, scanner.eop_trailing_lines_color & 0xff, bytes_per_line)
+                          memset(scanner.eop_last_line_data, scanner.eop_trailing_lines_color & 0xff, bytesPerLine)
                         }
                     }
                 }
@@ -1827,7 +1827,7 @@ convert_gray_and_lineart(struct hp5590_scanner *scanner, Sane.Byte *data, Int si
               if(! scanner.adf_next_page_lines_data)
                 {
                   unsigned Int n_rest_lines = lines - i
-                  unsigned Int buf_size = n_rest_lines * bytes_per_line
+                  unsigned Int buf_size = n_rest_lines * bytesPerLine
                   scanner.adf_next_page_lines_data = malloc(buf_size)
                   if(! scanner.adf_next_page_lines_data)
                     return Sane.STATUS_NO_MEM
@@ -1837,9 +1837,9 @@ convert_gray_and_lineart(struct hp5590_scanner *scanner, Sane.Byte *data, Int si
                   DBG(DBG_verbose, "ADF between pages: Save n=%u next page lines in buffer.\n", n_rest_lines)
                 }
               DBG(DBG_verbose, "ADF between pages: Store line %u of %u.\n", i, lines)
-              invert_negative_colors(buf, bytes_per_line, scanner)
-              memcpy(scanner.adf_next_page_lines_data + scanner.adf_next_page_lines_data_wpos, buf, bytes_per_line)
-              scanner.adf_next_page_lines_data_wpos += bytes_per_line
+              invert_negative_colors(buf, bytesPerLine, scanner)
+              memcpy(scanner.adf_next_page_lines_data + scanner.adf_next_page_lines_data_wpos, buf, bytesPerLine)
+              scanner.adf_next_page_lines_data_wpos += bytesPerLine
             }
 
           if(scanner.eop_trailing_lines_mode != TRAILING_LINES_MODE_RAW)
@@ -1847,7 +1847,7 @@ convert_gray_and_lineart(struct hp5590_scanner *scanner, Sane.Byte *data, Int si
               /* Copy last line data or corresponding color over trailing lines
                * data.
                */
-              memcpy(buf, scanner.eop_last_line_data, bytes_per_line)
+              memcpy(buf, scanner.eop_last_line_data, bytesPerLine)
             }
         }
     }
@@ -1874,7 +1874,7 @@ convert_to_rgb(struct hp5590_scanner *scanner, Sane.Byte *data, Int size)
   unsigned Int pixels_per_line
   unsigned Int pixel_bits
   unsigned Int bytes_per_color
-  unsigned Int bytes_per_line
+  unsigned Int bytesPerLine
   unsigned Int bytes_per_line_limit
   unsigned Int lines
   unsigned var i: Int, j
@@ -1898,15 +1898,15 @@ convert_to_rgb(struct hp5590_scanner *scanner, Sane.Byte *data, Int size)
 
   ret = calc_image_params(scanner,
                            &pixel_bits,
-                           &pixels_per_line, &bytes_per_line,
+                           &pixels_per_line, &bytesPerLine,
                            NULL, NULL)
   if(ret != Sane.STATUS_GOOD)
     return ret
 
-  lines = size / bytes_per_line
+  lines = size / bytesPerLine
   bytes_per_color = (pixel_bits + 7) / 8
 
-  bytes_per_line_limit = bytes_per_line
+  bytes_per_line_limit = bytesPerLine
   if((scanner.depth == DEPTH_COLOR_48) && (bytes_per_line_limit > 3))
     {
       /* Last-line indicator pixel has only 3 bytes instead of 6. */
@@ -1917,7 +1917,7 @@ convert_to_rgb(struct hp5590_scanner *scanner, Sane.Byte *data, Int size)
 
   DBG(DBG_verbose, "Converting row RGB to normal RGB\n")
 
-  DBG(DBG_verbose, "Bytes per line %u\n", bytes_per_line)
+  DBG(DBG_verbose, "Bytes per line %u\n", bytesPerLine)
   DBG(DBG_verbose, "Bytes per line limited %u\n", bytes_per_line_limit)
   DBG(DBG_verbose, "Bytes per color %u\n", bytes_per_color)
   DBG(DBG_verbose, "Pixels per line %u\n", pixels_per_line)
@@ -1931,7 +1931,7 @@ convert_to_rgb(struct hp5590_scanner *scanner, Sane.Byte *data, Int size)
   buf = bufptr
 
   ptr = data
-  for(j = 0; j < lines; ptr += bytes_per_line_limit, buf += bytes_per_line, j++)
+  for(j = 0; j < lines; ptr += bytes_per_line_limit, buf += bytesPerLine, j++)
     {
       for(i = 0; i < pixels_per_line; i++)
         {
@@ -1998,16 +1998,16 @@ convert_to_rgb(struct hp5590_scanner *scanner, Sane.Byte *data, Int size)
                     }
                 }
 
-              invert_negative_colors(buf, bytes_per_line, scanner)
+              invert_negative_colors(buf, bytesPerLine, scanner)
 
               if(eop_found && (! scanner.eop_last_line_data))
                 {
                   DBG(DBG_verbose, "Found end-of-page at line %u in reading block.\n", j)
-                  scanner.eop_last_line_data = malloc(bytes_per_line)
+                  scanner.eop_last_line_data = malloc(bytesPerLine)
                   if(! scanner.eop_last_line_data)
                     return Sane.STATUS_NO_MEM
 
-                  memcpy(scanner.eop_last_line_data, buf, bytes_per_line)
+                  memcpy(scanner.eop_last_line_data, buf, bytesPerLine)
                   scanner.eop_last_line_data_rpos = 0
 
                   /* Fill trailing line buffer with requested color. */
@@ -2016,7 +2016,7 @@ convert_to_rgb(struct hp5590_scanner *scanner, Sane.Byte *data, Int size)
                       /* Black-white raster. */
                       if(scanner.depth == DEPTH_COLOR_24)
                         {
-                          for(unsigned Int k = 0; k < bytes_per_line; ++k)
+                          for(unsigned Int k = 0; k < bytesPerLine; ++k)
                             {
                               scanner.eop_last_line_data[k] = (k % 6 < 3 ? 0xff : 0)
                             }
@@ -2024,7 +2024,7 @@ convert_to_rgb(struct hp5590_scanner *scanner, Sane.Byte *data, Int size)
                       else
                         {
                           /* Color48. */
-                          for(unsigned Int k = 0; k < bytes_per_line; ++k)
+                          for(unsigned Int k = 0; k < bytesPerLine; ++k)
                             {
                               scanner.eop_last_line_data[k] = (k % 12 < 6 ? 0xff : 0)
                             }
@@ -2032,11 +2032,11 @@ convert_to_rgb(struct hp5590_scanner *scanner, Sane.Byte *data, Int size)
                     }
                   else if(scanner.eop_trailing_lines_mode == TRAILING_LINES_MODE_WHITE)
                     {
-                      memset(scanner.eop_last_line_data, 0xff, bytes_per_line)
+                      memset(scanner.eop_last_line_data, 0xff, bytesPerLine)
                     }
                   else if(scanner.eop_trailing_lines_mode == TRAILING_LINES_MODE_BLACK)
                     {
-                      memset(scanner.eop_last_line_data, 0x00, bytes_per_line)
+                      memset(scanner.eop_last_line_data, 0x00, bytesPerLine)
                     }
                   else if(scanner.eop_trailing_lines_mode == TRAILING_LINES_MODE_COLOR)
                     {
@@ -2047,7 +2047,7 @@ convert_to_rgb(struct hp5590_scanner *scanner, Sane.Byte *data, Int size)
                       rgb[2] = scanner.eop_trailing_lines_color & 0xff
                       if(scanner.depth == DEPTH_COLOR_24)
                         {
-                          for(unsigned Int k = 0; k < bytes_per_line; ++k)
+                          for(unsigned Int k = 0; k < bytesPerLine; ++k)
                             {
                               scanner.eop_last_line_data[k] = rgb[k % 3]
                             }
@@ -2055,7 +2055,7 @@ convert_to_rgb(struct hp5590_scanner *scanner, Sane.Byte *data, Int size)
                       else
                         {
                           /* Color48. */
-                          for(unsigned Int k = 0; k < bytes_per_line; ++k)
+                          for(unsigned Int k = 0; k < bytesPerLine; ++k)
                             {
                               scanner.eop_last_line_data[k] = rgb[(k % 6) >> 1]
                             }
@@ -2077,7 +2077,7 @@ convert_to_rgb(struct hp5590_scanner *scanner, Sane.Byte *data, Int size)
               if(! scanner.adf_next_page_lines_data)
                 {
                   unsigned Int n_rest_lines = lines - j
-                  unsigned Int buf_size = n_rest_lines * bytes_per_line
+                  unsigned Int buf_size = n_rest_lines * bytesPerLine
                   scanner.adf_next_page_lines_data = malloc(buf_size)
                   if(! scanner.adf_next_page_lines_data)
                     return Sane.STATUS_NO_MEM
@@ -2087,9 +2087,9 @@ convert_to_rgb(struct hp5590_scanner *scanner, Sane.Byte *data, Int size)
                   DBG(DBG_verbose, "ADF between pages: Save n=%u next page lines in buffer.\n", n_rest_lines)
                 }
               DBG(DBG_verbose, "ADF between pages: Store line %u of %u.\n", j, lines)
-              invert_negative_colors(buf, bytes_per_line, scanner)
-              memcpy(scanner.adf_next_page_lines_data + scanner.adf_next_page_lines_data_wpos, buf, bytes_per_line)
-              scanner.adf_next_page_lines_data_wpos += bytes_per_line
+              invert_negative_colors(buf, bytesPerLine, scanner)
+              memcpy(scanner.adf_next_page_lines_data + scanner.adf_next_page_lines_data_wpos, buf, bytesPerLine)
+              scanner.adf_next_page_lines_data_wpos += bytesPerLine
             }
 
           if(scanner.eop_trailing_lines_mode != TRAILING_LINES_MODE_RAW)
@@ -2097,7 +2097,7 @@ convert_to_rgb(struct hp5590_scanner *scanner, Sane.Byte *data, Int size)
               /* Copy last line data or corresponding color over trailing lines
                * data.
                */
-              memcpy(buf, scanner.eop_last_line_data, bytes_per_line)
+              memcpy(buf, scanner.eop_last_line_data, bytesPerLine)
             }
         }
     }
@@ -2111,7 +2111,7 @@ convert_to_rgb(struct hp5590_scanner *scanner, Sane.Byte *data, Int size)
 static void
 read_data_from_temporary_buffer(struct hp5590_scanner *scanner,
     Sane.Byte * data, unsigned Int max_length,
-    unsigned Int bytes_per_line, Int *length)
+    unsigned Int bytesPerLine, Int *length)
 {
   *length = 0
   if(scanner && scanner.one_line_read_buffer)
@@ -2119,7 +2119,7 @@ read_data_from_temporary_buffer(struct hp5590_scanner *scanner,
     /* Copy scan data from temporary read buffer and return size copied data. */
     /* Release buffer, when no data left. */
     unsigned Int rest_len
-    rest_len = bytes_per_line - scanner.one_line_read_buffer_rpos
+    rest_len = bytesPerLine - scanner.one_line_read_buffer_rpos
     rest_len = (rest_len < max_length) ? rest_len : max_length
     if(rest_len > 0)
       {
@@ -2130,9 +2130,9 @@ read_data_from_temporary_buffer(struct hp5590_scanner *scanner,
       }
 
     DBG(DBG_verbose, "Copy scan data from temporary buffer: length = %u, rest in buffer = %u.\n",
-        *length, bytes_per_line - scanner.one_line_read_buffer_rpos)
+        *length, bytesPerLine - scanner.one_line_read_buffer_rpos)
 
-    if(scanner.one_line_read_buffer_rpos >= bytes_per_line)
+    if(scanner.one_line_read_buffer_rpos >= bytesPerLine)
       {
         DBG(DBG_verbose, "Release temporary buffer.\n")
         free(scanner.one_line_read_buffer)
@@ -2145,7 +2145,7 @@ read_data_from_temporary_buffer(struct hp5590_scanner *scanner,
 /******************************************************************************/
 static Sane.Status
 Sane.read_internal(struct hp5590_scanner * scanner, Sane.Byte * data,
-    Int max_length, Int * length, unsigned Int bytes_per_line)
+    Int max_length, Int * length, unsigned Int bytesPerLine)
 {
   Sane.Status ret
 
@@ -2160,16 +2160,16 @@ Sane.read_internal(struct hp5590_scanner * scanner, Sane.Byte * data,
     *length = (Int) scanner.transferred_image_size
 
   /* Align reading size to bytes per line. */
-  *length -= *length % bytes_per_line
+  *length -= *length % bytesPerLine
 
   if(scanner.depth == DEPTH_COLOR_48)
     {
       /* Note: The last-line indicator pixel uses only 24 bits(3 bytes), not
        * 48 bits(6 bytes).
        */
-      if(bytes_per_line > 3)
+      if(bytesPerLine > 3)
         {
-          length_limited = *length - *length % (bytes_per_line - 3)
+          length_limited = *length - *length % (bytesPerLine - 3)
         }
     }
 
@@ -2180,7 +2180,7 @@ Sane.read_internal(struct hp5590_scanner * scanner, Sane.Byte * data,
   if(max_length <= 0)
     {
       DBG(DBG_verbose, "Buffer too small for one scan line. Need at least %u bytes per line.\n",
-          bytes_per_line)
+          bytesPerLine)
       scanner.scanning = Sane.FALSE
       return Sane.STATUS_UNSUPPORTED
     }
@@ -2188,7 +2188,7 @@ Sane.read_internal(struct hp5590_scanner * scanner, Sane.Byte * data,
   if(scanner.one_line_read_buffer)
     {
       /* Copy scan data from temporary read buffer. */
-      read_data_from_temporary_buffer(scanner, data, max_length, bytes_per_line, length)
+      read_data_from_temporary_buffer(scanner, data, max_length, bytesPerLine, length)
       if(*length > 0)
         {
           DBG(DBG_verbose, "Return %d bytes, left %llu bytes.\n", *length, scanner.transferred_image_size)
@@ -2214,19 +2214,19 @@ Sane.read_internal(struct hp5590_scanner * scanner, Sane.Byte * data,
        */
       if(! scanner.one_line_read_buffer)
         {
-          scanner.one_line_read_buffer = malloc(bytes_per_line)
+          scanner.one_line_read_buffer = malloc(bytesPerLine)
           if(! scanner.one_line_read_buffer)
             return Sane.STATUS_NO_MEM
-          memset(scanner.one_line_read_buffer, 0, bytes_per_line)
+          memset(scanner.one_line_read_buffer, 0, bytesPerLine)
         }
 
       DBG(DBG_verbose, "Call buffer too small for one scan line. Use temporary read buffer for one line with %u bytes.\n",
-          bytes_per_line)
+          bytesPerLine)
 
       /* Scan and process next line in temporary buffer. */
       scan_data = scanner.one_line_read_buffer
-      scan_data_length = bytes_per_line
-      length_for_read = bytes_per_line
+      scan_data_length = bytesPerLine
+      length_for_read = bytesPerLine
       if(scanner.depth == DEPTH_COLOR_48)
         {
           /* The last-line indicator pixel uses only 24 bits(3 bytes), not 48
@@ -2252,12 +2252,12 @@ Sane.read_internal(struct hp5590_scanner * scanner, Sane.Byte * data,
           while(wpos < (unsigned Int) scan_data_length)
             {
               unsigned Int n1 = scan_data_length - wpos
-              unsigned Int n2 = bytes_per_line - scanner.eop_last_line_data_rpos
+              unsigned Int n2 = bytesPerLine - scanner.eop_last_line_data_rpos
               n1 = (n1 < n2) ? n1 : n2
               memcpy(scan_data + wpos, scanner.eop_last_line_data + scanner.eop_last_line_data_rpos, n1)
               wpos += n1
               scanner.eop_last_line_data_rpos += n1
-              if(scanner.eop_last_line_data_rpos >= bytes_per_line)
+              if(scanner.eop_last_line_data_rpos >= bytesPerLine)
                 scanner.eop_last_line_data_rpos = 0
             }
           read_from_scanner = (wpos == 0)
@@ -2353,12 +2353,12 @@ Sane.read_internal(struct hp5590_scanner * scanner, Sane.Byte * data,
  * Return number of lines copied.
  */
 static Int
-copy_n_last_lines(Sane.Byte * src, Int src_len, Sane.Byte * dst, Int n, unsigned Int bytes_per_line)
+copy_n_last_lines(Sane.Byte * src, Int src_len, Sane.Byte * dst, Int n, unsigned Int bytesPerLine)
 {
   DBG(DBG_proc, "%s\n", __func__)
   Int n_copy = MY_MIN(src_len, n)
-  Sane.Byte * src1 = src + (src_len - n_copy) * bytes_per_line
-  memcpy(dst, src1, n_copy * bytes_per_line)
+  Sane.Byte * src1 = src + (src_len - n_copy) * bytesPerLine
+  memcpy(dst, src1, n_copy * bytesPerLine)
   return n_copy
 }
 
@@ -2371,22 +2371,22 @@ copy_n_last_lines(Sane.Byte * src, Int src_len, Sane.Byte * dst, Int n, unsigned
  * color_48 : True = 2 byte , false = 1 byte per color.
  */
 static void
-shift_color_lines(Sane.Byte * buffer2, Int n_lines2, Sane.Byte * buffer1, Int n_lines1, Int color_idx, Int delta_lines, Bool color_48, unsigned Int bytes_per_line)
+shift_color_lines(Sane.Byte * buffer2, Int n_lines2, Sane.Byte * buffer1, Int n_lines1, Int color_idx, Int delta_lines, Bool color_48, unsigned Int bytesPerLine)
 {
   DBG(DBG_proc, "%s\n", __func__)
   for(Int i = n_lines2 - 1; i >= 0; --i) {
-    Sane.Byte * dst = buffer2 + i * bytes_per_line
+    Sane.Byte * dst = buffer2 + i * bytesPerLine
     Int ii = i - delta_lines
     Sane.Byte * src = NULL
     Int source_color_idx = color_idx
     if(ii >= 0) {
       /* Read from source and target buffer. */
-      src = buffer2 + ii * bytes_per_line
+      src = buffer2 + ii * bytesPerLine
     } else {
       ii += n_lines1
       if(ii >= 0) {
         /* Read from source only buffer. */
-        src = buffer1 + ii * bytes_per_line
+        src = buffer1 + ii * bytesPerLine
       } else {
         /* Read other color from source position. */
         src = dst
@@ -2394,9 +2394,9 @@ shift_color_lines(Sane.Byte * buffer2, Int n_lines2, Sane.Byte * buffer1, Int n_
       }
     }
     /* Copy selected color values. */
-    Int step = color_48 ? 2 : 1
+    step: Int = color_48 ? 2 : 1
     Int stride = 3 * step
-    for(unsigned Int pos = 0; pos < bytes_per_line; pos += stride) {
+    for(unsigned Int pos = 0; pos < bytesPerLine; pos += stride) {
       Int p1 = pos + step * source_color_idx
       Int p2 = pos + step * color_idx
       dst[p2] = src[p1]
@@ -2415,7 +2415,7 @@ shift_color_lines(Sane.Byte * buffer2, Int n_lines2, Sane.Byte * buffer1, Int n_
  * max_lines : Max number of lines in buffer1.
  */
 static void
-append_and_move_lines(Sane.Byte * buffer2, Int n_lines2, Sane.Byte * buffer1, unsigned Int * n_lines1_ptr, Int max_lines, unsigned Int bytes_per_line)
+append_and_move_lines(Sane.Byte * buffer2, Int n_lines2, Sane.Byte * buffer1, unsigned Int * n_lines1_ptr, Int max_lines, unsigned Int bytesPerLine)
 {
   DBG(DBG_proc, "%s\n", __func__)
   Int rest1 = max_lines - *n_lines1_ptr
@@ -2424,15 +2424,15 @@ append_and_move_lines(Sane.Byte * buffer2, Int n_lines2, Sane.Byte * buffer1, un
     Int shift1 = *n_lines1_ptr + copy2 - max_lines
     Int blen = MY_MIN(max_lines - shift1, (Int) *n_lines1_ptr)
     Sane.Byte * pdst = buffer1
-    Sane.Byte * psrc = pdst + shift1 * bytes_per_line
+    Sane.Byte * psrc = pdst + shift1 * bytesPerLine
     for(Int i = 0; i < blen; ++i) {
-      memcpy(pdst, psrc, bytes_per_line)
-      pdst += bytes_per_line
-      psrc += bytes_per_line
+      memcpy(pdst, psrc, bytesPerLine)
+      pdst += bytesPerLine
+      psrc += bytesPerLine
     }
     *n_lines1_ptr -= shift1
   }
-  Int n_copied = copy_n_last_lines(buffer2, n_lines2, buffer1 + *n_lines1_ptr * bytes_per_line, copy2, bytes_per_line)
+  Int n_copied = copy_n_last_lines(buffer2, n_lines2, buffer1 + *n_lines1_ptr * bytesPerLine, copy2, bytesPerLine)
   *n_lines1_ptr += n_copied
 }
 
@@ -2465,7 +2465,7 @@ Sane.read(Sane.Handle handle, Sane.Byte * data,
       if(ret != Sane.STATUS_GOOD)
         return ret
 
-      /* Don't free bulk read state, some bytes could be left
+      /* Don"t free bulk read state, some bytes could be left
        * for the next images from ADF
        */
       return Sane.STATUS_EOF
@@ -2481,15 +2481,15 @@ Sane.read(Sane.Handle handle, Sane.Byte * data,
         }
     }
 
-  unsigned Int bytes_per_line
+  unsigned Int bytesPerLine
   ret = calc_image_params(scanner,
                            NULL, NULL,
-                           &bytes_per_line,
+                           &bytesPerLine,
                            NULL, NULL)
   if(ret != Sane.STATUS_GOOD)
     return ret
 
-  ret = Sane.read_internal(scanner, data, max_length, length, bytes_per_line)
+  ret = Sane.read_internal(scanner, data, max_length, length, bytesPerLine)
 
   if((ret == Sane.STATUS_GOOD) && (scanner.dpi == 2400) &&
           ((scanner.depth == DEPTH_COLOR_48) || (scanner.depth == DEPTH_COLOR_24)))
@@ -2507,28 +2507,28 @@ Sane.read(Sane.Handle handle, Sane.Byte * data,
       if(! scanner.color_shift_line_buffer1)
         {
           scanner.color_shift_buffered_lines1 = 0
-          scanner.color_shift_line_buffer1 = malloc(bytes_per_line * offset_max)
+          scanner.color_shift_line_buffer1 = malloc(bytesPerLine * offset_max)
           if(! scanner.color_shift_line_buffer1)
             return Sane.STATUS_NO_MEM
-          memset(scanner.color_shift_line_buffer1, 0, bytes_per_line * offset_max)
+          memset(scanner.color_shift_line_buffer1, 0, bytesPerLine * offset_max)
         }
       if(! scanner.color_shift_line_buffer2)
         {
           scanner.color_shift_buffered_lines2 = 0
-          scanner.color_shift_line_buffer2 = malloc(bytes_per_line * offset_max)
+          scanner.color_shift_line_buffer2 = malloc(bytesPerLine * offset_max)
           if(! scanner.color_shift_line_buffer2)
             return Sane.STATUS_NO_MEM
-          memset(scanner.color_shift_line_buffer2, 0, bytes_per_line * offset_max)
+          memset(scanner.color_shift_line_buffer2, 0, bytesPerLine * offset_max)
         }
 
-      Int n_lines = *length / bytes_per_line
+      Int n_lines = *length / bytesPerLine
       scanner.color_shift_buffered_lines2 = MY_MIN(n_lines, offset_max)
-      copy_n_last_lines(data, n_lines, scanner.color_shift_line_buffer2, scanner.color_shift_buffered_lines2, bytes_per_line)
+      copy_n_last_lines(data, n_lines, scanner.color_shift_line_buffer2, scanner.color_shift_buffered_lines2, bytesPerLine)
 
-      shift_color_lines(data, n_lines, scanner.color_shift_line_buffer1, scanner.color_shift_buffered_lines1, 1, offset_part, color_48, bytes_per_line)
-      shift_color_lines(data, n_lines, scanner.color_shift_line_buffer1, scanner.color_shift_buffered_lines1, 0, offset_max, color_48, bytes_per_line)
+      shift_color_lines(data, n_lines, scanner.color_shift_line_buffer1, scanner.color_shift_buffered_lines1, 1, offset_part, color_48, bytesPerLine)
+      shift_color_lines(data, n_lines, scanner.color_shift_line_buffer1, scanner.color_shift_buffered_lines1, 0, offset_max, color_48, bytesPerLine)
 
-      append_and_move_lines(scanner.color_shift_line_buffer2, scanner.color_shift_buffered_lines2, scanner.color_shift_line_buffer1, &(scanner.color_shift_buffered_lines1), offset_max, bytes_per_line)
+      append_and_move_lines(scanner.color_shift_line_buffer2, scanner.color_shift_buffered_lines2, scanner.color_shift_line_buffer1, &(scanner.color_shift_buffered_lines1), offset_max, bytesPerLine)
     }
 
   return ret

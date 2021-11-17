@@ -231,9 +231,9 @@ hexdump(Int level, const char *comment, unsigned char *p, Int l)
   DBG(level, "%s\n", comment)
 
   ptr = line
-  *ptr = '\0'
+  *ptr = "\0"
   asc_ptr = asc_buf
-  *asc_ptr = '\0'
+  *asc_ptr = "\0"
 
   for(i = 0; i < l; i++, p++)
     {
@@ -243,9 +243,9 @@ hexdump(Int level, const char *comment, unsigned char *p, Int l)
 	    {
 	      DBG(level, "%s    %s\n", line, asc_buf)
 	      ptr = line
-	      *ptr = '\0'
+	      *ptr = "\0"
 	      asc_ptr = asc_buf
-	      *asc_ptr = '\0'
+	      *asc_ptr = "\0"
 	    }
 	  sprintf(ptr, "%3.3d:", i)
 	  ptr += 4
@@ -260,7 +260,7 @@ hexdump(Int level, const char *comment, unsigned char *p, Int l)
 	  asc_ptr += sprintf(asc_ptr, ".")
 	}
     }
-  *ptr = '\0'
+  *ptr = "\0"
   DBG(level, "%s    %s\n", line, asc_buf)
 }
 
@@ -659,16 +659,16 @@ teco_set_window(Teco_Scanner * dev)
   window[7] = size - 8
 
   /* X and Y resolution */
-  Ito16 (dev.x_resolution, &window[10])
-  Ito16 (dev.y_resolution, &window[12])
+  Ito16(dev.x_resolution, &window[10])
+  Ito16(dev.y_resolution, &window[12])
 
   /* Upper Left(X,Y) */
-  Ito32 (dev.x_tl, &window[14])
-  Ito32 (dev.y_tl, &window[18])
+  Ito32(dev.x_tl, &window[14])
+  Ito32(dev.y_tl, &window[18])
 
   /* Width and length */
-  Ito32 (dev.width, &window[22])
-  Ito32 (dev.length, &window[26])
+  Ito32(dev.width, &window[22])
+  Ito32(dev.length, &window[26])
 
   /* Image Composition */
   switch(dev.scan_mode)
@@ -749,7 +749,7 @@ get_filled_data_length(Teco_Scanner * dev, size_t * to_read)
 
   DBG(DBG_info, "%d %d  -  %d %d\n",
        dev.params.lines, B16TOI(&dev.buffer[12]),
-       dev.params.bytes_per_line, B16TOI(&dev.buffer[14]))
+       dev.params.bytesPerLine, B16TOI(&dev.buffer[14]))
 
   if(dev.real_bytes_left == 0)
     {
@@ -759,24 +759,24 @@ get_filled_data_length(Teco_Scanner * dev, size_t * to_read)
       switch(dev.scan_mode)
 	{
 	case TECO_BW:
-	  dev.params.bytes_per_line = B16TOI(&dev.buffer[14])
-	  dev.params.pixels_per_line = dev.params.bytes_per_line * 8
+	  dev.params.bytesPerLine = B16TOI(&dev.buffer[14])
+	  dev.params.pixels_per_line = dev.params.bytesPerLine * 8
 	  break
 
 	case TECO_GRAYSCALE:
 	  dev.params.pixels_per_line = B16TOI(&dev.buffer[14])
-	  dev.params.bytes_per_line = dev.params.pixels_per_line
+	  dev.params.bytesPerLine = dev.params.pixels_per_line
 	  break
 
 	case TECO_COLOR:
 	  dev.params.pixels_per_line = B16TOI(&dev.buffer[14])
 	  if(dev.def.pass == 3)
 	    {
-	      dev.params.bytes_per_line = dev.params.pixels_per_line
+	      dev.params.bytesPerLine = dev.params.pixels_per_line
 	    }
 	  else
 	    {
-	      dev.params.bytes_per_line = dev.params.pixels_per_line * 3
+	      dev.params.bytesPerLine = dev.params.pixels_per_line * 3
 	    }
 	  break
 	}
@@ -1002,7 +1002,7 @@ attach_scanner(const char *devicename, Teco_Scanner ** devp)
       return Sane.STATUS_INVAL
     }
 
-  /* Get the page 0x82. It doesn't appear to be useful yet. */
+  /* Get the page 0x82. It doesn"t appear to be useful yet. */
   teco_get_inquiry_82 (dev)
 
   teco_close(dev)
@@ -1311,7 +1311,7 @@ teco_fill_image(Teco_Scanner * dev)
 	size = dev.image_size - dev.image_end
 
       /* Always read a multiple of a line. */
-      size = size - (size % dev.params.bytes_per_line)
+      size = size - (size % dev.params.bytesPerLine)
 
       if(size == 0)
 	{
@@ -1322,7 +1322,7 @@ teco_fill_image(Teco_Scanner * dev)
 	}
 
       DBG(DBG_info, "teco_fill_image: to read   = %ld bytes(bpl=%d)\n",
-	   (long) size, dev.params.bytes_per_line)
+	   (long) size, dev.params.bytesPerLine)
 
       MKSCSI_READ_10 (cdb, 0, 0, size)
 
@@ -1340,7 +1340,7 @@ teco_fill_image(Teco_Scanner * dev)
 	}
 
       /* The size this scanner returns is always a multiple of lines. */
-      assert((size % dev.params.bytes_per_line) == 0)
+      assert((size % dev.params.bytesPerLine) == 0)
 
       DBG(DBG_info, "teco_fill_image: real bytes left = %ld\n",
 	   (long) dev.real_bytes_left)
@@ -1353,7 +1353,7 @@ teco_fill_image(Teco_Scanner * dev)
 	      /* Reorder the lines. The scanner gives color by color for
 	       * each line. */
 	      unsigned char *src = image
-	      Int nb_lines = size / dev.params.bytes_per_line
+	      Int nb_lines = size / dev.params.bytesPerLine
 	      var i: Int, j
 
 	      for(i = 0; i < nb_lines; i++)
@@ -1372,9 +1372,9 @@ teco_fill_image(Teco_Scanner * dev)
 		    }
 
 		  /* Copy the line back. */
-		  memcpy(src, dev.buffer, dev.params.bytes_per_line)
+		  memcpy(src, dev.buffer, dev.params.bytesPerLine)
 
-		  src += dev.params.bytes_per_line
+		  src += dev.params.bytesPerLine
 		}
 	    }
 	}
@@ -1494,7 +1494,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 
   while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if(dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == "#")	/* ignore line comments */
 	continue
       len = strlen(dev_name)
 
@@ -1908,7 +1908,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	  dev.params.format = Sane.FRAME_GRAY
 	  dev.params.pixels_per_line =
 	    ((dev.width * dev.x_resolution) / 300) & ~0x7
-	  dev.params.bytes_per_line = dev.params.pixels_per_line / 8
+	  dev.params.bytesPerLine = dev.params.pixels_per_line / 8
 	  dev.params.depth = 1
 	  dev.pass = 1
 	  break
@@ -1916,7 +1916,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	  dev.params.format = Sane.FRAME_GRAY
 	  dev.params.pixels_per_line =
 	    ((dev.width * dev.x_resolution) / 300)
-	  dev.params.bytes_per_line = dev.params.pixels_per_line
+	  dev.params.bytesPerLine = dev.params.pixels_per_line
 	  dev.params.depth = 8
 	  dev.pass = 1
 	  break
@@ -1925,7 +1925,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	  dev.params.pixels_per_line =
 	    ((dev.width * dev.x_resolution) / 300)
 	  dev.pass = dev.def.pass
-	  dev.params.bytes_per_line = dev.params.pixels_per_line * 3
+	  dev.params.bytesPerLine = dev.params.pixels_per_line * 3
 	  dev.params.depth = 8
 	  break
 	}
@@ -2010,7 +2010,7 @@ Sane.start(Sane.Handle handle)
 	}
 
 #if 0
-      /* The windows driver does that, but some scanners don't like it. */
+      /* The windows driver does that, but some scanners don"t like it. */
       teco_vendor_spec(dev)
       if(status)
 	{
@@ -2079,8 +2079,8 @@ Sane.start(Sane.Handle handle)
   dev.image_end = 0
   dev.image_begin = 0
 
-  dev.bytes_left = dev.params.bytes_per_line * dev.params.lines
-  dev.real_bytes_left = dev.params.bytes_per_line * dev.params.lines
+  dev.bytes_left = dev.params.bytesPerLine * dev.params.lines
+  dev.real_bytes_left = dev.params.bytesPerLine * dev.params.lines
 
   dev.scanning = Sane.TRUE
 

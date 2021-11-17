@@ -89,18 +89,18 @@ Image
 #define BATCH_COUNT_UNLIMITED -1
 
 static struct option basic_options[] = {
-  {"device-name", required_argument, NULL, 'd'},
-  {"list-devices", no_argument, NULL, 'L'},
-  {"formatted-device-list", required_argument, NULL, 'f'},
-  {"help", no_argument, NULL, 'h'},
-  {"verbose", no_argument, NULL, 'v'},
-  {"progress", no_argument, NULL, 'p'},
-  {"output-file", required_argument, NULL, 'o'},
-  {"test", no_argument, NULL, 'T'},
-  {"all-options", no_argument, NULL, 'A'},
-  {"version", no_argument, NULL, 'V'},
-  {"buffer-size", optional_argument, NULL, 'B'},
-  {"batch", optional_argument, NULL, 'b'},
+  {"device-name", required_argument, NULL, "d"},
+  {"list-devices", no_argument, NULL, "L"},
+  {"formatted-device-list", required_argument, NULL, "f"},
+  {"help", no_argument, NULL, "h"},
+  {"verbose", no_argument, NULL, "v"},
+  {"progress", no_argument, NULL, "p"},
+  {"output-file", required_argument, NULL, "o"},
+  {"test", no_argument, NULL, "T"},
+  {"all-options", no_argument, NULL, "A"},
+  {"version", no_argument, NULL, "V"},
+  {"buffer-size", optional_argument, NULL, "B"},
+  {"batch", optional_argument, NULL, "b"},
   {"batch-count", required_argument, NULL, OPTION_BATCH_COUNT},
   {"batch-start", required_argument, NULL, OPTION_BATCH_START_AT},
   {"batch-double", no_argument, NULL, OPTION_BATCH_DOUBLE},
@@ -109,8 +109,8 @@ static struct option basic_options[] = {
   {"batch-prompt", no_argument, NULL, OPTION_BATCH_PROMPT},
   {"format", required_argument, NULL, OPTION_FORMAT},
   {"accept-md5-only", no_argument, NULL, OPTION_MD5},
-  {"icc-profile", required_argument, NULL, 'i'},
-  {"dont-scan", no_argument, NULL, 'n'},
+  {"icc-profile", required_argument, NULL, "i"},
+  {"dont-scan", no_argument, NULL, "n"},
   {0, 0, NULL, 0}
 ]
 
@@ -201,22 +201,22 @@ auth_callback(Sane.String_Const resource,
 	      while(fgets(tmp, sizeof(tmp), pass_file))
 		{
 
-		  if((strlen(tmp) > 0) && (tmp[strlen(tmp) - 1] == '\n'))
+		  if((strlen(tmp) > 0) && (tmp[strlen(tmp) - 1] == "\n"))
 		    tmp[strlen(tmp) - 1] = 0
-		  if((strlen(tmp) > 0) && (tmp[strlen(tmp) - 1] == '\r'))
+		  if((strlen(tmp) > 0) && (tmp[strlen(tmp) - 1] == "\r"))
 		    tmp[strlen(tmp) - 1] = 0
 
-		  char *colon1 = strchr(tmp, ':')
+		  char *colon1 = strchr(tmp, ":")
 		  if(colon1 != NULL)
 		    {
 		      char *tmp_username = tmp
-		      *colon1 = '\0'
+		      *colon1 = "\0"
 
-		      char *colon2 = strchr(colon1 + 1, ':')
+		      char *colon2 = strchr(colon1 + 1, ":")
 		      if(colon2 != NULL)
 			{
 			  char *tmp_password = colon1 + 1
-			  *colon2 = '\0'
+			  *colon2 = "\0"
 
 			  if((strncmp(colon2 + 1, resource, len) == 0)
 			      && ((Int) strlen(colon2 + 1) == len))
@@ -272,7 +272,7 @@ auth_callback(Sane.String_Const resource,
   if(query_user == 1)
     uname = fgets(username, Sane.MAX_USERNAME_LEN, stdin)
 
-  if(uname != NULL && (strlen(username)) && (username[strlen(username) - 1] == '\n'))
+  if(uname != NULL && (strlen(username)) && (username[strlen(username) - 1] == "\n"))
     username[strlen(username) - 1] = 0
 
   if(query_user == 1)
@@ -349,7 +349,7 @@ print_unit(Sane.Unit unit)
       fputs("dpi", stdout)
       break
     case Sane.UNIT_PERCENT:
-      fputc('%', stdout)
+      fputc("%", stdout)
       break
     case Sane.UNIT_MICROSECOND:
       fputs("us", stdout)
@@ -412,7 +412,7 @@ print_option(Sane.Device * device, Int opt_num, const Sane.Option_Descriptor *op
     }
   else if(opt.type != Sane.TYPE_BUTTON)
     {
-      fputc(' ', stdout)
+      fputc(" ", stdout)
       if(opt.cap & Sane.CAP_AUTOMATIC)
 	{
 	  fputs("auto|", stdout)
@@ -510,7 +510,7 @@ print_option(Sane.Device * device, Int opt_num, const Sane.Option_Descriptor *op
               for(i = 0; i < opt.constraint.word_list[0]; ++i)
                 {
                   if(not_first)
-                    fputc('|', stdout)
+                    fputc("|", stdout)
 
                   not_first = Sane.TRUE
 
@@ -537,7 +537,7 @@ print_option(Sane.Device * device, Int opt_num, const Sane.Option_Descriptor *op
               for(i = 0; opt.constraint.string_list[i]; ++i)
                 {
                   if(i > 0)
-                    fputc('|', stdout)
+                    fputc("|", stdout)
 
                   fputs(opt.constraint.string_list[i], stdout)
                 }
@@ -620,7 +620,7 @@ print_option(Sane.Device * device, Int opt_num, const Sane.Option_Descriptor *op
 	    default:
 	      break
 	    }
-	  fputc(']', stdout)
+	  fputc("]", stdout)
 	}
     }
 
@@ -641,9 +641,9 @@ print_option(Sane.Device * device, Int opt_num, const Sane.Option_Descriptor *op
   for(str = opt.desc; *str; ++str)
     {
       ++column
-      if(*str == ' ')
+      if(*str == " ")
         last_break = str
-      else if(*str == '\n'){
+      else if(*str == "\n"){
         column=80
         last_break = str
       }
@@ -658,7 +658,7 @@ print_option(Sane.Device * device, Int opt_num, const Sane.Option_Descriptor *op
     }
   while(*start)
     fputc(*start++, stdout)
-  fputc('\n', stdout)
+  fputc("\n", stdout)
 }
 
 /* A scalar has the following syntax:
@@ -670,9 +670,9 @@ print_option(Sane.Device * device, Int opt_num, const Sane.Option_Descriptor *op
 
    U is an optional unit.  If not specified, the default unit is used.
    The following table lists which units are supported depending on
-   what the option's default unit is:
+   what the option"s default unit is:
 
-     Option's unit:	Allowed units:
+     Option"s unit:	Allowed units:
 
      Sane.UNIT_NONE:
      Sane.UNIT_PIXEL:	pel
@@ -710,15 +710,15 @@ parse_scalar(const Sane.Option_Descriptor * opt, const char *str,
       break
 
     case Sane.UNIT_BIT:
-      if(*str == 'b' || *str == 'B')
+      if(*str == "b" || *str == "B")
 	{
-	  if(*str++ == 'B')
+	  if(*str++ == "B")
 	    v *= 8
 	}
       break
 
     case Sane.UNIT_MM:
-      if(str[0] == '\0')
+      if(str[0] == "\0")
 	v *= 1.0;		/* default to mm */
       else if(strcmp(str, "mm") == 0)
 	str += sizeof("mm") - 1
@@ -727,9 +727,9 @@ parse_scalar(const Sane.Option_Descriptor * opt, const char *str,
 	  str += sizeof("cm") - 1
 	  v *= 10.0
 	}
-      else if(strcmp(str, "in") == 0 || *str == '"')
+      else if(strcmp(str, "in") == 0 || *str == """)
 	{
-	  if(*str++ != '"')
+	  if(*str++ != """)
 	    ++str
 	  v *= 25.4;		/* 25.4 mm/inch */
 	}
@@ -748,7 +748,7 @@ parse_scalar(const Sane.Option_Descriptor * opt, const char *str,
       break
 
     case Sane.UNIT_PERCENT:
-      if(*str == '%')
+      if(*str == "%")
 	++str
       break
 
@@ -770,7 +770,7 @@ parse_scalar(const Sane.Option_Descriptor * opt, const char *str,
 
 /* A vector has the following syntax:
 
-     [ '[' I ']' ] S { [','|'-'] [ '[' I ']' S }
+     [ "[" I "]" ] S { [","|"-"] [ "[" I "]" S }
 
    The number in brackets(I), if present, determines the index of the
    vector element to be set next.  If I is not present, the value of
@@ -793,18 +793,18 @@ parse_vector(const Sane.Option_Descriptor * opt, const char *str,
 {
   Sane.Word value, prev_value = 0
   Int index = -1, prev_index = 0
-  char *end, separator = '\0'
+  char *end, separator = "\0"
 
   /* initialize vector to all zeroes: */
   memset(vector, 0, vector_length * sizeof(Sane.Word))
 
   do
     {
-      if(*str == '[')
+      if(*str == "[")
 	{
 	  /* read index */
 	  index = strtol(++str, &end, 10)
-	  if(str == end || *end != ']')
+	  if(str == end || *end != "]")
 	    {
 	      fprintf(stderr, "%s: option --%s: closing bracket missing "
 		       "(rest of option: %s)\n", prog_name, opt.name, str)
@@ -828,7 +828,7 @@ parse_vector(const Sane.Option_Descriptor * opt, const char *str,
       if(!str)
         scanimage_exit(1)
 
-      if(*str && *str != '-' && *str != ',')
+      if(*str && *str != "-" && *str != ",")
 	{
 	  fprintf(stderr,
 		   "%s: option --%s: illegal separator(rest of option: %s)\n",
@@ -838,7 +838,7 @@ parse_vector(const Sane.Option_Descriptor * opt, const char *str,
 
       /* store value: */
       vector[index] = value
-      if(separator == '-')
+      if(separator == "-")
 	{
 	  /* interpolate */
 	  double v, slope
@@ -858,7 +858,7 @@ parse_vector(const Sane.Option_Descriptor * opt, const char *str,
       prev_value = value
       separator = *str++
     }
-  while(separator == ',' || separator == '-')
+  while(separator == "," || separator == "-")
 
   if(verbose > 2)
     {
@@ -870,7 +870,7 @@ parse_vector(const Sane.Option_Descriptor * opt, const char *str,
 	  fprintf(stderr, "%g ", Sane.UNFIX(vector[i]))
 	else
 	  fprintf(stderr, "%d ", vector[i])
-      fputc('\n', stderr)
+      fputc("\n", stderr)
     }
 }
 
@@ -944,7 +944,7 @@ fetch_options(Sane.Device * device)
 	    {
 	      window[0] = i
 	      all_options[option_count].name = "width"
-	      all_options[option_count].val = 'x'
+	      all_options[option_count].val = "x"
 	      window_option[0] = *opt
 	      window_option[0].title = "Scan width"
 	      window_option[0].desc = "Width of scan-area."
@@ -954,7 +954,7 @@ fetch_options(Sane.Device * device)
 	    {
 	      window[1] = i
 	      all_options[option_count].name = "height"
-	      all_options[option_count].val = 'y'
+	      all_options[option_count].val = "y"
 	      window_option[1] = *opt
 	      window_option[1].title = "Scan height"
 	      window_option[1].desc = "Height of scan-area."
@@ -963,14 +963,14 @@ fetch_options(Sane.Device * device)
 	  else if(strcmp(opt.name, Sane.NAME_SCAN_TL_X) == 0)
 	    {
 	      window[2] = i
-	      all_options[option_count].val = 'l'
+	      all_options[option_count].val = "l"
 	      window_option[2] = *opt
 	      window_option[2].name = "l"
 	    }
 	  else if(strcmp(opt.name, Sane.NAME_SCAN_TL_Y) == 0)
 	    {
 	      window[3] = i
-	      all_options[option_count].val = 't'
+	      all_options[option_count].val = "t"
 	      window_option[3] = *opt
 	      window_option[3].name = "t"
 	    }
@@ -1099,7 +1099,7 @@ process_backend_option(Sane.Handle device, Int optnum, const char *optarg)
 	    value = 0
 	  else
 	    {
-	      fprintf(stderr, "%s: option --%s: bad option value `%s'\n",
+	      fprintf(stderr, "%s: option --%s: bad option value `%s"\n",
 		       prog_name, opt.name, optarg)
 	      scanimage_exit(1)
 	    }
@@ -1136,7 +1136,7 @@ process_backend_option(Sane.Handle device, Int optnum, const char *optarg)
       break
 
     case Sane.TYPE_BUTTON:
-      value = 0;		/* value doesn't matter */
+      value = 0;		/* value doesn"t matter */
       break
 
     default:
@@ -1243,11 +1243,11 @@ write_png_header(Sane.Frame format, Int width, Int height, Int depth, Int dpi, c
 	    {
 	      if(is_gray_profile)
 	        {
-		  fprintf(stderr, "Ignoring 'GRAY' space ICC profile because the image is RGB.\n")
+		  fprintf(stderr, "Ignoring "GRAY" space ICC profile because the image is RGB.\n")
 	        }
 	      if(is_rgb_profile)
 	        {
-		  fprintf(stderr, "Ignoring 'RGB ' space ICC profile because the image is Grayscale.\n")
+		  fprintf(stderr, "Ignoring "RGB " space ICC profile because the image is Grayscale.\n")
 		}
 	    }
 	  free(icc_buffer)
@@ -1322,7 +1322,7 @@ advance(Image * image)
 	}
     }
   if(!image.data)
-    fprintf(stderr, "%s: can't allocate image buffer(%dx%d)\n",
+    fprintf(stderr, "%s: can"t allocate image buffer(%dx%d)\n",
 	     prog_name, image.width, image.height)
   return image.data
 }
@@ -1462,25 +1462,25 @@ scan_it(FILE *ofp)
 	    }
 #ifdef HAVE_LIBPNG
 	  if(output_format == OUTPUT_PNG)
-	    pngbuf = malloc(parm.bytes_per_line)
+	    pngbuf = malloc(parm.bytesPerLine)
 #endif
 #ifdef HAVE_LIBJPEG
 	  if(output_format == OUTPUT_JPEG)
-	    jpegbuf = malloc(parm.bytes_per_line)
+	    jpegbuf = malloc(parm.bytesPerLine)
 #endif
 
 	  if(must_buffer)
 	    {
-	      /* We're either scanning a multi-frame image or the
-		 scanner doesn't know what the eventual image height
+	      /* We"re either scanning a multi-frame image or the
+		 scanner doesn"t know what the eventual image height
 		 will be(common for hand-held scanners).  In either
 		 case, we need to buffer all data before we can write
 		 the image.  */
-	      image.width = parm.bytes_per_line
+	      image.width = parm.bytesPerLine
 
 	      if(parm.lines >= 0)
 		/* See advance(); we allocate one extra line so we
-		   don't end up realloc'ing in when the image has been
+		   don"t end up realloc"ing in when the image has been
 		   filled in.  */
 		image.height = parm.lines - STRIP_HEIGHT + 1
 	      else
@@ -1502,7 +1502,7 @@ scan_it(FILE *ofp)
 	  offset = parm.format - Sane.FRAME_RED
 	  image.x = image.y = 0
 	}
-      hundred_percent = ((uint64_t)parm.bytes_per_line) * parm.lines
+      hundred_percent = ((uint64_t)parm.bytesPerLine) * parm.lines
 	* ((parm.format == Sane.FRAME_RGB || parm.format == Sane.FRAME_GRAY) ? 1:3)
 
       while(1)
@@ -1594,13 +1594,13 @@ scan_it(FILE *ofp)
 	        {
 		  var i: Int = 0
 		  Int left = len
-		  while(pngrow + left >= parm.bytes_per_line)
+		  while(pngrow + left >= parm.bytesPerLine)
 		    {
-		      memcpy(pngbuf + pngrow, buffer + i, parm.bytes_per_line - pngrow)
+		      memcpy(pngbuf + pngrow, buffer + i, parm.bytesPerLine - pngrow)
 		      if(parm.depth == 1)
 			{
 			  Int j
-			  for(j = 0; j < parm.bytes_per_line; j++)
+			  for(j = 0; j < parm.bytesPerLine; j++)
 			    pngbuf[j] = ~pngbuf[j]
 			}
 #ifndef WORDS_BIGENDIAN
@@ -1609,7 +1609,7 @@ scan_it(FILE *ofp)
                       if(parm.depth == 16)
                         {
                           Int j
-                          for(j = 0; j < parm.bytes_per_line; j += 2)
+                          for(j = 0; j < parm.bytesPerLine; j += 2)
                             {
                               Sane.Byte LSB
                               LSB = pngbuf[j]
@@ -1619,8 +1619,8 @@ scan_it(FILE *ofp)
                         }
 #endif
 		      png_write_row(png_ptr, pngbuf)
-		      i += parm.bytes_per_line - pngrow
-		      left -= parm.bytes_per_line - pngrow
+		      i += parm.bytesPerLine - pngrow
+		      left -= parm.bytesPerLine - pngrow
 		      pngrow = 0
 		    }
 		  memcpy(pngbuf + pngrow, buffer + i, left)
@@ -1633,14 +1633,14 @@ scan_it(FILE *ofp)
 	        {
 		  var i: Int = 0
 		  Int left = len
-		  while(jpegrow + left >= parm.bytes_per_line)
+		  while(jpegrow + left >= parm.bytesPerLine)
 		    {
-		      memcpy(jpegbuf + jpegrow, buffer + i, parm.bytes_per_line - jpegrow)
+		      memcpy(jpegbuf + jpegrow, buffer + i, parm.bytesPerLine - jpegrow)
 		      if(parm.depth == 1)
 			{
 			  Int col1, col8
-			  JSAMPLE *buf8 = malloc(parm.bytes_per_line * 8)
-			  for(col1 = 0; col1 < parm.bytes_per_line; col1++)
+			  JSAMPLE *buf8 = malloc(parm.bytesPerLine * 8)
+			  for(col1 = 0; col1 < parm.bytesPerLine; col1++)
 			    for(col8 = 0; col8 < 8; col8++)
 			      buf8[col1 * 8 + col8] = jpegbuf[col1] & (1 << (8 - col8 - 1)) ? 0 : 0xff
 		          jpeg_write_scanlines(&cinfo, &buf8, 1)
@@ -1648,8 +1648,8 @@ scan_it(FILE *ofp)
 			} else {
 		          jpeg_write_scanlines(&cinfo, &jpegbuf, 1)
 			}
-		      i += parm.bytes_per_line - jpegrow
-		      left -= parm.bytes_per_line - jpegrow
+		      i += parm.bytesPerLine - jpegrow
+		      left -= parm.bytesPerLine - jpegrow
 		      jpegrow = 0
 		    }
 		  memcpy(jpegbuf + jpegrow, buffer + i, left)
@@ -1784,7 +1784,7 @@ cleanup:
     free(image.data)
 
 
-  expected_bytes = ((uint64_t)parm.bytes_per_line) * parm.lines *
+  expected_bytes = ((uint64_t)parm.bytesPerLine) * parm.lines *
     ((parm.format == Sane.FRAME_RGB
       || parm.format == Sane.FRAME_GRAY) ? 1 : 3)
   if(parm.lines < 0)
@@ -1870,26 +1870,26 @@ test_it(void)
 	   parm.format <= Sane.FRAME_BLUE ? format_name[parm.format]:"Unknown",
            parm.depth)
 
-  image.data = malloc(parm.bytes_per_line * 2)
+  image.data = malloc(parm.bytesPerLine * 2)
 
-  clean_buffer(image.data, parm.bytes_per_line * 2)
+  clean_buffer(image.data, parm.bytesPerLine * 2)
   fprintf(stderr, "%s: reading one scanline, %d bytes...\t", prog_name,
-	   parm.bytes_per_line)
-  status = Sane.read(device, image.data, parm.bytes_per_line, &len)
-  pass_fail(parm.bytes_per_line, len, image.data, status)
+	   parm.bytesPerLine)
+  status = Sane.read(device, image.data, parm.bytesPerLine, &len)
+  pass_fail(parm.bytesPerLine, len, image.data, status)
   if(status != Sane.STATUS_GOOD)
     goto cleanup
 
-  clean_buffer(image.data, parm.bytes_per_line * 2)
+  clean_buffer(image.data, parm.bytesPerLine * 2)
   fprintf(stderr, "%s: reading one byte...\t\t", prog_name)
   status = Sane.read(device, image.data, 1, &len)
   pass_fail(1, len, image.data, status)
   if(status != Sane.STATUS_GOOD)
     goto cleanup
 
-  for(i = 2; i < parm.bytes_per_line * 2; i *= 2)
+  for(i = 2; i < parm.bytesPerLine * 2; i *= 2)
     {
-      clean_buffer(image.data, parm.bytes_per_line * 2)
+      clean_buffer(image.data, parm.bytesPerLine * 2)
       fprintf(stderr, "%s: stepped read, %d bytes... \t", prog_name, i)
       status = Sane.read(device, image.data, i, &len)
       pass_fail(i, len, image.data, status)
@@ -1899,7 +1899,7 @@ test_it(void)
 
   for(i /= 2; i > 2; i /= 2)
     {
-      clean_buffer(image.data, parm.bytes_per_line * 2)
+      clean_buffer(image.data, parm.bytesPerLine * 2)
       fprintf(stderr, "%s: stepped read, %d bytes... \t", prog_name, i - 1)
       status = Sane.read(device, image.data, i - 1, &len)
       pass_fail(i - 1, len, image.data, status)
@@ -1943,7 +1943,7 @@ get_resolution(void)
 }
 
 static void
-scanimage_exit(Int status)
+scanimage_exit(status: Int)
 {
   if(device)
     {
@@ -1992,7 +1992,7 @@ static void print_options(Sane.Device * device, Int num_dev_options, Bool ro)
 	print_option(device, i, opt)
     }
   if(num_dev_options)
-    fputc('\n', stdout)
+    fputc("\n", stdout)
 }
 
 static Int guess_output_format(const char* output_file)
@@ -2003,9 +2003,9 @@ static Int guess_output_format(const char* output_file)
       return OUTPUT_PNM
     }
 
-  // if the user passes us a path with a known extension then he won't be surprised if we figure
+  // if the user passes us a path with a known extension then he won"t be surprised if we figure
   // out correct --format option. No warning is necessary in that case.
-  const char* extension = strrchr(output_file, '.')
+  const char* extension = strrchr(output_file, ".")
   if(extension != NULL)
     {
       struct {
@@ -2055,7 +2055,7 @@ func Int main(Int argc, char **argv)
 
   buffer_size = (32 * 1024);	/* default size */
 
-  prog_name = strrchr(argv[0], '/')
+  prog_name = strrchr(argv[0], "/")
   if(prog_name)
     ++prog_name
   else
@@ -2073,45 +2073,45 @@ func Int main(Int argc, char **argv)
     {
       switch(ch)
 	{
-	case ':':
-	case '?':
-	  break;		/* may be an option that we'll parse later on */
-	case 'd':
+	case ":":
+	case "?":
+	  break;		/* may be an option that we"ll parse later on */
+	case "d":
 	  devname = optarg
 	  break
-	case 'b':
+	case "b":
 	  /* This may have already been set by the batch-count flag */
 	  batch = 1
 	  format = optarg
 	  break
-	case 'h':
+	case "h":
 	  help = 1
 	  break
-	case 'i':		/* icc profile */
+	case "i":		/* icc profile */
 	  icc_profile = optarg
 	  break
-	case 'v':
+	case "v":
 	  ++verbose
 	  break
-	case 'p':
+	case "p":
           progress = 1
 	  break
-        case 'o':
+        case "o":
           output_file = optarg
           break
-	case 'B':
+	case "B":
           if(optarg)
 	    buffer_size = 1024 * atoi(optarg)
           else
 	    buffer_size = (1024 * 1024)
 	  break
-	case 'T':
+	case "T":
 	  test = 1
 	  break
-	case 'A':
+	case "A":
 	  all = 1
 	  break
-	case 'n':
+	case "n":
 	  dont_scan = 1
 	  break
 	case OPTION_BATCH_PRINT:
@@ -2160,7 +2160,7 @@ func Int main(Int argc, char **argv)
             }
           else
             {
-              fprintf(stderr, "Unknown output image format '%s'.\n", optarg)
+              fprintf(stderr, "Unknown output image format "%s".\n", optarg)
               fprintf(stderr, "Supported formats: pnm, tiff")
 #ifdef HAVE_LIBPNG
               fprintf(stderr, ", png")
@@ -2175,8 +2175,8 @@ func Int main(Int argc, char **argv)
 	case OPTION_MD5:
 	  accept_only_md5_auth = 1
 	  break
-	case 'L':
-	case 'f':
+	case "L":
+	case "f":
 	  {
 	    var i: Int = 0
 
@@ -2188,11 +2188,11 @@ func Int main(Int argc, char **argv)
 		scanimage_exit(1)
 	      }
 
-	    if(ch == 'L')
+	    if(ch == "L")
 	      {
 		for(i = 0; device_list[i]; ++i)
 		  {
-		    printf("device `%s' is a %s %s %s\n",
+		    printf("device `%s" is a %s %s %s\n",
 			    device_list[i]->name, device_list[i]->vendor,
 			    device_list[i]->model, device_list[i]->type)
 		  }
@@ -2207,7 +2207,7 @@ func Int main(Int argc, char **argv)
 		for(i = 0; device_list[i]; ++i)
 		  {
 		    start = optarg
-		    while(*start && (percent = strchr(start, '%')))
+		    while(*start && (percent = strchr(start, "%")))
 		      {
 			Int start_len = percent - start
 			percent++
@@ -2215,48 +2215,48 @@ func Int main(Int argc, char **argv)
 			  {
 			    switch(*percent)
 			      {
-			      case 'd':
+			      case "d":
 				text_arg = device_list[i]->name
-				ftype = 's'
+				ftype = "s"
 				break
-			      case 'v':
+			      case "v":
 				text_arg = device_list[i]->vendor
-				ftype = 's'
+				ftype = "s"
 				break
-			      case 'm':
+			      case "m":
 				text_arg = device_list[i]->model
-				ftype = 's'
+				ftype = "s"
 				break
-			      case 't':
+			      case "t":
 				text_arg = device_list[i]->type
-				ftype = 's'
+				ftype = "s"
 				break
-			      case 'i':
+			      case "i":
 				int_arg = i
-				ftype = 'i'
+				ftype = "i"
 				break
-			      case 'n':
+			      case "n":
 				text_arg = "\n"
-				ftype = 's'
+				ftype = "s"
 				break
-			      case '%':
+			      case "%":
 				text_arg = "%"
-				ftype = 's'
+				ftype = "s"
 				break
 			      default:
 				fprintf(stderr,
 					 "%s: unknown format specifier %%%c\n",
 					 prog_name, *percent)
                                 text_arg = "%"
-				ftype = 's'
+				ftype = "s"
 			      }
 			    printf("%.*s", start_len, start)
 			    switch(ftype)
 			      {
-			      case 's':
+			      case "s":
 				printf("%s", text_arg)
 				break
-			      case 'i':
+			      case "i":
 				printf("%i", int_arg)
 				break
 			      }
@@ -2264,7 +2264,7 @@ func Int main(Int argc, char **argv)
 			  }
 			else
 			  {
-			    /* last char of the string is a '%', ignore it */
+			    /* last char of the string is a "%", ignore it */
 			    start++
 			    break
 			  }
@@ -2273,7 +2273,7 @@ func Int main(Int argc, char **argv)
 		      printf("%s", start)
 		  }
 	      }
-	    if(i == 0 && ch != 'f')
+	    if(i == 0 && ch != "f")
 	      printf("\nNo scanners were identified. If you were expecting "
                 "something different,\ncheck that the scanner is plugged "
 		"in, turned on and detected by the\nsane-find-scanner tool "
@@ -2281,11 +2281,11 @@ func Int main(Int argc, char **argv)
 		"with this software(README, FAQ, manpages).\n")
 
 	    if(defdevname)
-	      printf("default device is `%s'\n", defdevname)
+	      printf("default device is `%s"\n", defdevname)
 	    scanimage_exit(0)
 	    break
 	  }
-	case 'V':
+	case "V":
 	  printf("scanimage(%s) %s; backend version %d.%d.%d\n", PACKAGE,
 		  VERSION, Sane.VERSION_MAJOR(version_code),
 		  Sane.VERSION_MINOR(version_code),
@@ -2315,8 +2315,8 @@ Parameters are separated by a blank from single-character options(e.g.\n\
                            can be specified: %%d(device name), %%v(vendor),\n\
                            %%m(model), %%t(type), %%i(index number), and\n\
                            %%n(newline)\n\
--b, --batch[=FORMAT]       working in batch mode, FORMAT is `out%%d.pnm' `out%%d.tif'\n\
-                           `out%%d.png' or `out%%d.jpg' by default depending on --format\n\
+-b, --batch[=FORMAT]       working in batch mode, FORMAT is `out%%d.pnm" `out%%d.tif"\n\
+                           `out%%d.png" or `out%%d.jpg" by default depending on --format\n\
                            This option is incompatible with --output-file.")
       printf("\
     --batch-start=#        page number to start naming files with\n\
@@ -2331,7 +2331,7 @@ Parameters are separated by a blank from single-character options(e.g.\n\
 -p, --progress             print progress messages\n\
 -o, --output-file=PATH     save output to the given file instead of stdout.\n\
                            This option is incompatible with --batch.\n\
--n, --dont-scan            only set options, don't actually scan\n\
+-n, --dont-scan            only set options, don"t actually scan\n\
 -T, --test                 test backend thoroughly\n\
 -A, --all-options          list all available backend options\n\
 -h, --help                 display this help message and exit\n\
@@ -2343,7 +2343,7 @@ Parameters are separated by a blank from single-character options(e.g.\n\
 
   if(batch && output_file != NULL)
     {
-      fprintf(stderr, "--batch and --output-file can't be used together.\n")
+      fprintf(stderr, "--batch and --output-file can"t be used together.\n")
       exit(1)
     }
 
@@ -2379,7 +2379,7 @@ Parameters are separated by a blank from single-character options(e.g.\n\
     {
       fprintf(stderr, "%s: open of device %s failed: %s\n",
 	       prog_name, devname, Sane.strstatus(status))
-      if(devname[0] == '/')
+      if(devname[0] == "/")
 	fprintf(stderr, "\nYou seem to have specified a UNIX device name, "
 		 "or filename instead of selecting\nthe SANE scanner or "
 		 "image acquisition device you want to use. As an example,\n"
@@ -2475,36 +2475,36 @@ Parameters are separated by a blank from single-character options(e.g.\n\
 	{
 	  switch(ch)
 	    {
-	    case ':':
-	    case '?':
+	    case ":":
+	    case "?":
 	      scanimage_exit(1);		/* error message is printed by getopt_long() */
 
-	    case 'd':
-	    case 'h':
-	    case 'p':
-            case 'o':
-	    case 'v':
-	    case 'V':
-	    case 'T':
-	    case 'B':
+	    case "d":
+	    case "h":
+	    case "p":
+            case "o":
+	    case "v":
+	    case "V":
+	    case "T":
+	    case "B":
 	      /* previously handled options */
 	      break
 
-	    case 'x':
+	    case "x":
 	      window_val_user[0] = 1
 	      parse_vector(&window_option[0], optarg, &window_val[0], 1)
 	      break
 
-	    case 'y':
+	    case "y":
 	      window_val_user[1] = 1
 	      parse_vector(&window_option[1], optarg, &window_val[1], 1)
 	      break
 
-	    case 'l':		/* tl-x */
+	    case "l":		/* tl-x */
 	      process_backend_option(device, window[2], optarg)
 	      break
 
-	    case 't':		/* tl-y */
+	    case "t":		/* tl-y */
 	      process_backend_option(device, window[3], optarg)
 	      break
 
@@ -2515,7 +2515,7 @@ Parameters are separated by a blank from single-character options(e.g.\n\
 	}
       if(optind < argc)
 	{
-	  fprintf(stderr, "%s: argument without option: `%s'; ", prog_name,
+	  fprintf(stderr, "%s: argument without option: `%s"; ", prog_name,
 		   argv[argc - 1])
 	  fprintf(stderr, "try %s --help\n", prog_name)
 	  scanimage_exit(1)
@@ -2542,14 +2542,14 @@ Parameters are separated by a blank from single-character options(e.g.\n\
       /* output device-specific help */
       if(help)
 	{
-	  printf("\nOptions specific to device `%s':\n", devname)
+	  printf("\nOptions specific to device `%s":\n", devname)
 	  print_options(device, num_dev_options, Sane.FALSE)
 	}
 
       /*  list all device-specific options */
       if(all)
 	{
-	  printf("\nAll options specific to device `%s':\n", devname)
+	  printf("\nAll options specific to device `%s":\n", devname)
 	  print_options(device, num_dev_options, Sane.TRUE)
 	  scanimage_exit(0)
 	}
@@ -2559,7 +2559,7 @@ Parameters are separated by a blank from single-character options(e.g.\n\
   if(help)
     {
       printf("\
-Type ``%s --help -d DEVICE'' to get list of all options for DEVICE.\n\
+Type ``%s --help -d DEVICE"" to get list of all options for DEVICE.\n\
 \n\
 List of available devices:", prog_name)
       status = Sane.get_devices(&device_list, Sane.FALSE)
@@ -2576,14 +2576,14 @@ List of available devices:", prog_name)
 		}
 	      if(column > 4)
 		{
-		  fputc(' ', stdout)
+		  fputc(" ", stdout)
 		  column += 1
 		}
 	      fputs(device_list[i]->name, stdout)
 	      column += strlen(device_list[i]->name)
 	    }
 	}
-      fputc('\n', stdout)
+      fputc("\n", stdout)
       scanimage_exit(0)
     }
 
@@ -2636,7 +2636,7 @@ List of available devices:", prog_name)
               ofp = fopen(output_file, "w")
               if(ofp == NULL)
                 {
-                  fprintf(stderr, "%s: could not open output file '%s', "
+                  fprintf(stderr, "%s: could not open output file "%s", "
                           "exiting\n", prog_name, output_file)
                   scanimage_exit(1)
                 }

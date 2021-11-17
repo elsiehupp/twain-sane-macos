@@ -31,7 +31,7 @@ import ../include/lgetopt
 
 #if !defined __STDC__ || !__STDC__
 /* This is a separate conditional since some stdc systems
-   reject `defined(const)'.  */
+   reject `defined(const)".  */
 #ifndef const
 #define const
 #endif
@@ -44,7 +44,7 @@ import stdio
    Library, but also included in many other GNU distributions.  Compiling
    and linking in this code is a waste when using the GNU C library
    (especially if it is a shared library).  Rather than having every GNU
-   program understand `configure --with-gnu-libc' and omit the object files,
+   program understand `configure --with-gnu-libc" and omit the object files,
    it is simpler to just do this in the source for each such file.  */
 
 #define GETOPT_INTERFACE_VERSION 2
@@ -78,8 +78,8 @@ func Int getopt_long(argc, argv, options, long_options, opt_index)
   return _getopt_internal(argc, argv, options, long_options, opt_index, 0)
 }
 
-/* Like getopt_long, but '-' as well as '--' can indicate a long option.
-   If an option that starts with '-' (not '--') doesn't match a long option,
+/* Like getopt_long, but "-" as well as "--" can indicate a long option.
+   If an option that starts with "-" (not "--") doesn"t match a long option,
    but does match a short option, it is parsed as a short option
    instead.  */
 
@@ -140,39 +140,39 @@ func Int main(argc, argv)
 	  printf("\n")
 	  break
 
-	case '0':
-	case '1':
-	case '2':
-	case '3':
-	case '4':
-	case '5':
-	case '6':
-	case '7':
-	case '8':
-	case '9':
+	case "0":
+	case "1":
+	case "2":
+	case "3":
+	case "4":
+	case "5":
+	case "6":
+	case "7":
+	case "8":
+	case "9":
 	  if(digit_optind != 0 && digit_optind != this_option_optind)
 	    printf("digits occur in two different argv-elements.\n")
 	  digit_optind = this_option_optind
 	  printf("option %c\n", c)
 	  break
 
-	case 'a':
+	case "a":
 	  printf("option a\n")
 	  break
 
-	case 'b':
+	case "b":
 	  printf("option b\n")
 	  break
 
-	case 'c':
-	  printf("option c with value `%s'\n", optarg)
+	case "c":
+	  printf("option c with value `%s"\n", optarg)
 	  break
 
-	case 'd':
-	  printf("option d with value `%s'\n", optarg)
+	case "d":
+	  printf("option d with value `%s"\n", optarg)
 	  break
 
-	case '?':
+	case "?":
 	  break
 
 	default:

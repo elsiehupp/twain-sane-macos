@@ -543,7 +543,7 @@ attach_scanner(const char *devicename, Umax_Device ** devp)
   dev = malloc(sizeof(*dev))
   if(!dev)
     return Sane.STATUS_NO_MEM
-  memset(dev, '\0', sizeof(Umax_Device));        /* clear structure */
+  memset(dev, "\0", sizeof(Umax_Device));        /* clear structure */
 
   DBG(4, "attach_scanner: opening %s\n", devicename)
 
@@ -614,7 +614,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
 
   while(sanei_config_read(config_line, sizeof(config_line), fp))
     {
-      if(config_line[0] == '#')
+      if(config_line[0] == "#")
         continue;                /* ignore line comments */
 
       len = strlen(config_line)
@@ -823,12 +823,12 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   if(optionGrayscaleValue == Sane.TRUE)
     {
       parms.format = Sane.FRAME_GRAY
-      parms.bytes_per_line = w
+      parms.bytesPerLine = w
     }
   else
     {
       parms.format = Sane.FRAME_RGB
-      parms.bytes_per_line = w * 3
+      parms.bytesPerLine = w * 3
     }
   *params = parms
   return rc

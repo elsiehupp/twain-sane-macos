@@ -40,8 +40,8 @@
    present, only the color camera is supported though the driver
    should be able to easily accommodate black and white cameras.
 
-   Portions of this code are derived from Scott Laird's qcam driver.
-   It's copyright notice is reproduced here:
+   Portions of this code are derived from Scott Laird"s qcam driver.
+   It"s copyright notice is reproduced here:
 
    Copyright(C) 1996 by Scott Laird
 
@@ -233,14 +233,14 @@ disable_ports(QC_Device * q)
 }
 
 /* We need a short delay loop -- something well under a millisecond.
-   Unfortunately, adding 2 usleep(1)'s to qc_command slowed it down by
-   a factor of over 1000 over the same loop with 2 usleep(0)'s, and
-   that's too slow -- qc_start was taking over a second to run.  This
+   Unfortunately, adding 2 usleep(1)"s to qc_command slowed it down by
+   a factor of over 1000 over the same loop with 2 usleep(0)"s, and
+   that"s too slow -- qc_start was taking over a second to run.  This
    seems to help, but if anyone has a good speed-independent pause
    routine, please tell me. -- Scott
 
-   If you're worried about hogging the CPU: don't worry, the qcam
-   interface leaves you no choice, so this doesn't make the situation
+   If you"re worried about hogging the CPU: don"t worry, the qcam
+   interface leaves you no choice, so this doesn"t make the situation
    any worse... */
 
 static Int
@@ -377,7 +377,7 @@ qc_lock(QC_Device * q)
 static Int
 qc_waithand(QC_Device * q, Int val)
 {
-  Int status
+  status: Int
 
   while(((status = read_lpstatus(q)) & CamRdy1) != val)
   return status
@@ -390,7 +390,7 @@ qc_waithand(QC_Device * q, Int val)
 static unsigned Int
 qc_waithand2 (QC_Device * q, Int val)
 {
-  unsigned Int status
+  unsigned status: Int
 
   do
     {
@@ -452,7 +452,7 @@ qc_readparam(QC_Device * q)
 static unsigned Int
 qc_getstatus(QC_Device * q)
 {
-  unsigned Int status
+  unsigned status: Int
 
   qc_send(q, QC_SEND_STATUS)
   status = qc_readparam(q)
@@ -673,7 +673,7 @@ qc_reset(QC_Device * q)
    off of a I/O port(rather than a filedescriptor).  Thus, to have
    something to select() on, we transfer the data through a pipe.
 
-   WARNING: Since this is executed as a subprocess, it's NOT possible
+   WARNING: Since this is executed as a subprocess, it"s NOT possible
    to update any of the variables in the main process(in particular
    the scanner state cannot be updated).  */
 
@@ -748,7 +748,7 @@ despeckle(Int width, Int height, Sane.Byte * in, Sane.Byte * out)
 }
 
 static void
-despeckle32 (Int width, Int height, Sane.Byte * in, Sane.Byte * out)
+despeckle32(Int width, Int height, Sane.Byte * in, Sane.Byte * out)
 {
   long x, i
   /* macros to make the code a little more readable, p=previous, n=next */
@@ -867,7 +867,7 @@ reader_process(QC_Scanner * s, Int in_fd, Int out_fd)
       DBG(3, "reader_process: got request for %lu bytes\n",
 	   (u_long) num_bytes)
 
-      /* Don't do this in Sane.start() since there may be a long
+      /* Don"t do this in Sane.start() since there may be a long
          timespan between it and the first Sane.read(), which would
          result in poor images.  */
       qc_send(q, QC_SEND_VIDEO_FRAME)
@@ -958,7 +958,7 @@ reader_process(QC_Scanner * s, Int in_fd, Int out_fd)
 	    }
 	  qc_readbytes(s, 0);	/* reset state machine */
 	}
-      /* we're done reading this frame: */
+      /* we"re done reading this frame: */
       DBG(2, "reader_process: frame complete\n")
 
       if(q.port_mode == QC_BIDIR)
@@ -983,7 +983,7 @@ reader_process(QC_Scanner * s, Int in_fd, Int out_fd)
 
 	  if(req.despeckle)
 	    {
-	      despeckle32 (width / 2, req.params.lines / 2, buffer, extra)
+	      despeckle32(width / 2, req.params.lines / 2, buffer, extra)
 	      src = extra
 	    }
 
@@ -1106,7 +1106,7 @@ attach(const char *devname, QC_Device ** devp)
   DBG(3, "attach: enter\n")
   errno = 0
   force_unidir = 0
-  if(devname[0] == 'u')
+  if(devname[0] == "u")
     {
       force_unidir = 1
       ++devname
@@ -1114,7 +1114,7 @@ attach(const char *devname, QC_Device ** devp)
   port = strtol(devname, &endp, 0)
   if(endp == devname || errno == ERANGE)
     {
-      DBG(1, "attach: invalid port address `%s'\n", devname)
+      DBG(1, "attach: invalid port address `%s"\n", devname)
       return Sane.STATUS_INVAL
     }
 
@@ -1466,21 +1466,21 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
   fp = sanei_config_open(QCAM_CONFIG_FILE)
   if(!fp)
     {
-      DBG(1, "Sane.init: file `%s' not accessible\n", QCAM_CONFIG_FILE)
+      DBG(1, "Sane.init: file `%s" not accessible\n", QCAM_CONFIG_FILE)
       return Sane.STATUS_INVAL
     }
 
   while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if(dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == "#")	/* ignore line comments */
 	continue
       len = strlen(dev_name)
 
       if(!len)
 	continue;		/* ignore empty lines */
 
-      for(str = dev_name; *str && !isspace(*str) && *str != '#'; ++str)
-      *str = '\0'
+      for(str = dev_name; *str && !isspace(*str) && *str != "#"; ++str)
+      *str = "\0"
 
       attach(dev_name, 0)
     }
@@ -1578,7 +1578,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
   init_options(s)
 
   /* The contrast option seems to have an effect for b&w cameras only,
-     so don't give the user the impression that this is a useful thing
+     so don"t give the user the impression that this is a useful thing
      to set... */
   if(s.hw.version == QC_COLOR)
     s.opt[OPT_CONTRAST].cap |= Sane.CAP_INACTIVE
@@ -1765,7 +1765,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 	case OPT_XFER_SCALE:
 	case OPT_DEPTH:
 	  if(!s.scanning && info && s.val[option].w != *(Sane.Word *) val)
-	    /* only signal the reload params if we're not scanning---no point
+	    /* only signal the reload params if we"re not scanning---no point
 	       in creating the frontend useless work */
 	    *info |= Sane.INFO_RELOAD_PARAMS
 	  /* fall through */
@@ -1881,7 +1881,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 
       s.params.pixels_per_line = s.val[OPT_BR_X].w - s.val[OPT_TL_X].w + 1
       s.params.pixels_per_line /= xfer_scale
-      s.params.pixels_per_line &= ~1UL;	/* ensure it's even */
+      s.params.pixels_per_line &= ~1UL;	/* ensure it"s even */
       if(s.params.pixels_per_line < 2)
 	s.params.pixels_per_line = 2
 
@@ -1890,7 +1890,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
       if(s.params.lines < 1)
 	s.params.lines = 1
 
-      s.params.bytes_per_line = Bpp * s.params.pixels_per_line
+      s.params.bytesPerLine = Bpp * s.params.pixels_per_line
       s.params.depth = 8
     }
   if(params)
@@ -2018,7 +2018,7 @@ Sane.start(Sane.Handle handle)
   undecimated_height = height * s.val[OPT_XFER_SCALE].w
 
   s.num_bytes = 0
-  s.bytes_per_frame = s.params.lines * s.params.bytes_per_line
+  s.bytes_per_frame = s.params.lines * s.params.bytesPerLine
 
   qc_send(q, QC_SET_NUM_V)
   qc_send(q, undecimated_height)
@@ -2204,7 +2204,7 @@ Sane.cancel(Sane.Handle handle)
       /* put descriptor in non-blocking i/o: */
       fcntl(s.from_child, F_SETFL, O_NONBLOCK)
 
-      /* read what's left over in the pipe/file buffer: */
+      /* read what"s left over in the pipe/file buffer: */
       do
 	{
 	  while((nread = read(s.from_child, buf, sizeof(buf))) > 0)

@@ -91,7 +91,7 @@ void UsbDevice::close()
     DBG_HELPER(dbg)
     assert_is_open()
 
-    // we can't do much if closing fails, so we close the device on our side regardless of the
+    // we can"t do much if closing fails, so we close the device on our side regardless of the
     // function succeeds
     Int device_num = device_num_
 

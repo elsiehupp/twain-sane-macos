@@ -109,7 +109,7 @@ size_t eds_recv(epsonds_scanner *s, void *buf, size_t length, Sane.Status *statu
 		n = epsonds_net_read(s, buf, length, status)
 	} else if(s.hw.connection == Sane.EPSONDS_USB) {
 
-		/* !!! only report an error if we don't read anything */
+		/* !!! only report an error if we don"t read anything */
 		if(n) {
 			*status = sanei_usb_read_bulk(s.fd, (Sane.Byte *)buf,
 						    (size_t *) &n)

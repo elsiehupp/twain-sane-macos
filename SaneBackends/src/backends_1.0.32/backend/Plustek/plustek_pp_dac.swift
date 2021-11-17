@@ -1,6 +1,6 @@
 /* @file plustek-pp_dac.c
  * @brief all the shading function formerly found in shading.c.
- *        don't ask me why I called this file dac.c...
+ *        don"t ask me why I called this file dac.c...
  *
  * based on sources acquired from Plustek Inc.
  * Copyright(C) 1998 Plustek Inc.
@@ -219,7 +219,7 @@ static Bool dacP98CheckChannelDarkLevel( pScanData ps )
     return  fDACStopFlag
 }
 
-/** Average left offset 30, 16 pixels as each color's dark level
+/** Average left offset 30, 16 pixels as each color"s dark level
  */
 static void dacP98FillChannelDarkLevelControl( pScanData ps )
 {

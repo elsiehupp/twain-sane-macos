@@ -24,7 +24,7 @@ Int main(void)
 	USB.Device *device
 	list<USB.Device *>.const_iterator diter
 	var i: Int, j
-	Int retval
+	returnValue: Int
 	string driver
 
 	for(biter = buslist.begin(); biter != buslist.end(); biter++) {
@@ -39,17 +39,17 @@ Int main(void)
 				USB.Interface *this_Interface
 				this_Interface = this_Configuration.firstInterface()
 				for(j=0; j < this_Configuration.numInterfaces(); j++) {
-					retval = this_Interface.driverName(driver)
-					if(0 == retval) {
+					returnValue = this_Interface.driverName(driver)
+					if(0 == returnValue) {
 						cout << bus.directoryName() << "/" 
 							 << device.fileName() << "     "
-							 << ios.uppercase << hex << setw(4) << setfill('0')
+							 << ios.uppercase << hex << setw(4) << setfill("0")
 							 << device.idVendor() << "/"
-							 << ios.uppercase << hex << setw(4) << setfill('0')
+							 << ios.uppercase << hex << setw(4) << setfill("0")
 							 << device.idProduct() << "    "
 							 << "driver: " << driver << endl
 					} else {
-						cout << "fetching driver string failed(" << retval << "): " << usb_strerror() << endl
+						cout << "fetching driver string failed(" << returnValue << "): " << usb_strerror() << endl
 						return EXIT_FAILURE
 					}
 					this_Interface = this_Configuration.nextInterface()

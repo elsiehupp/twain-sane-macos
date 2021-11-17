@@ -129,22 +129,22 @@ import epson2-commands
  */
 
 static struct EpsonCmd Espon_cmd[] = {
-  {"A1",'I', 0 ,'F','S', 0 ,'G', 0 ,'R', 0 ,'A', 0 ,{ 0, 0, 0}, 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 ,  0 , 0   , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 },
-  {"A2",'I', 0 ,'F','S', 0 ,'G','D','R','H','A','L',{-3, 3, 0},'Z','B', 0 ,'@', 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 ,  0 , 0   , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 },
-  {"B1",'I', 0 ,'F','S','C','G','D','R', 0 ,'A', 0 ,{ 0, 0, 0}, 0 ,'B', 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 ,  0 , 0   , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 },
-  {"B2",'I', 0 ,'F','S','C','G','D','R','H','A','L',{-3, 3, 0},'Z','B', 0 ,'@', 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 ,  0 , 0   , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 },
-  {"B3",'I', 0 ,'F','S','C','G','D','R','H','A','L',{-3, 3, 0},'Z','B','M','@', 0 , 0 , 0 , 0 , 0 , 0 ,'m','f','e',  0 , 0   , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 },
-  {"B4",'I', 0 ,'F','S','C','G','D','R','H','A','L',{-3, 3, 0},'Z','B','M','@','g','d', 0 ,'z','Q','b','m','f','e',  0 , 0   , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 },
-  {"B5",'I', 0 ,'F','S','C','G','D','R','H','A','L',{-3, 3, 0},'Z','B','M','@','g','d','K','z','Q','b','m','f','e',  0 , 0   , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 },
-  {"B6",'I', 0 ,'F','S','C','G','D','R','H','A','L',{-3, 3, 0},'Z','B','M','@','g','d','K','z','Q','b','m','f','e',  0 , 0   , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 },
-  {"B7",'I', 0 ,'F','S','C','G','D','R','H','A','L',{-4, 3, 0},'Z','B','M','@','g','d','K','z','Q','b','m','f','e','\f', 0   ,'!','s','N', 0 , 0 ,'t', 0 , 0 ,'I','F'},
-  {"B8",'I', 0 ,'F','S','C','G','D','R','H','A','L',{-4, 3, 0},'Z','B','M','@','g','d','K','z','Q','b','m','f','e','\f', 0x19,'!','s','N', 0 , 0 ,'t','p','q','I','F'},
-/* XXX 'f' probably not supported on F5 */
-  {"F5",'I', 0 ,'F','S','C','G','D','R','H','A','L',{-3, 3, 0},'Z', 0 ,'M','@','g','d','K','z','Q', 0 ,'m','f','e','\f', 0   , 0 , 0 ,'N','T','P', 0 , 0 , 0 , 0 , 0 },
-  {"D1",'I','i','F', 0 ,'C','G','D','R', 0 ,'A', 0 ,{ 0, 0, 0},'Z', 0 , 0 ,'@','g','d', 0 ,'z', 0 , 0 , 0 ,'f', 0 ,  0 , 0   ,'!', 0 , 0 , 0 , 0 ,'t', 0 , 0 , 0 , 0 },
-  {"D2",'I','i','F', 0 ,'C','G','D','R', 0 ,'A', 0 ,{ 0, 0, 0},'Z', 0 , 0 ,'@','g','d', 0 ,'z', 0 , 0 , 0 ,'f','e',  0 , 0   ,'!', 0 ,'N', 0 , 0 ,'t', 0 , 0 , 0 , 0 },
-  {"D7",'I','i','F', 0 ,'C','G','D','R', 0 ,'A', 0 ,{ 0, 0, 0},'Z', 0 , 0 ,'@','g','d', 0 ,'z', 0 , 0 , 0 ,'f','e','\f', 0   ,'!', 0 ,'N', 0 , 0 ,'t', 0 , 0 , 0 , 0 },
-  {"D8",'I','i','F', 0 ,'C','G','D','R', 0 ,'A', 0 ,{ 0, 0, 0},'Z', 0 , 0 ,'@','g','d', 0 ,'z', 0 , 0 , 0 ,'f','e','\f', 0   ,'!', 0 ,'N', 0 , 0 ,'t', 0 , 0 , 0 , 0 },
+  {"A1","I", 0 ,"F","S", 0 ,"G", 0 ,"R", 0 ,"A", 0 ,{ 0, 0, 0}, 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 ,  0 , 0   , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 },
+  {"A2","I", 0 ,"F","S", 0 ,"G","D","R","H","A","L",{-3, 3, 0},"Z","B", 0 ,"@", 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 ,  0 , 0   , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 },
+  {"B1","I", 0 ,"F","S","C","G","D","R", 0 ,"A", 0 ,{ 0, 0, 0}, 0 ,"B", 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 ,  0 , 0   , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 },
+  {"B2","I", 0 ,"F","S","C","G","D","R","H","A","L",{-3, 3, 0},"Z","B", 0 ,"@", 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 ,  0 , 0   , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 },
+  {"B3","I", 0 ,"F","S","C","G","D","R","H","A","L",{-3, 3, 0},"Z","B","M","@", 0 , 0 , 0 , 0 , 0 , 0 ,"m","f","e",  0 , 0   , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 },
+  {"B4","I", 0 ,"F","S","C","G","D","R","H","A","L",{-3, 3, 0},"Z","B","M","@","g","d", 0 ,"z","Q","b","m","f","e",  0 , 0   , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 },
+  {"B5","I", 0 ,"F","S","C","G","D","R","H","A","L",{-3, 3, 0},"Z","B","M","@","g","d","K","z","Q","b","m","f","e",  0 , 0   , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 },
+  {"B6","I", 0 ,"F","S","C","G","D","R","H","A","L",{-3, 3, 0},"Z","B","M","@","g","d","K","z","Q","b","m","f","e",  0 , 0   , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 },
+  {"B7","I", 0 ,"F","S","C","G","D","R","H","A","L",{-4, 3, 0},"Z","B","M","@","g","d","K","z","Q","b","m","f","e","\f", 0   ,"!","s","N", 0 , 0 ,"t", 0 , 0 ,"I","F"},
+  {"B8","I", 0 ,"F","S","C","G","D","R","H","A","L",{-4, 3, 0},"Z","B","M","@","g","d","K","z","Q","b","m","f","e","\f", 0x19,"!","s","N", 0 , 0 ,"t","p","q","I","F"},
+/* XXX "f" probably not supported on F5 */
+  {"F5","I", 0 ,"F","S","C","G","D","R","H","A","L",{-3, 3, 0},"Z", 0 ,"M","@","g","d","K","z","Q", 0 ,"m","f","e","\f", 0   , 0 , 0 ,"N","T","P", 0 , 0 , 0 , 0 , 0 },
+  {"D1","I","i","F", 0 ,"C","G","D","R", 0 ,"A", 0 ,{ 0, 0, 0},"Z", 0 , 0 ,"@","g","d", 0 ,"z", 0 , 0 , 0 ,"f", 0 ,  0 , 0   ,"!", 0 , 0 , 0 , 0 ,"t", 0 , 0 , 0 , 0 },
+  {"D2","I","i","F", 0 ,"C","G","D","R", 0 ,"A", 0 ,{ 0, 0, 0},"Z", 0 , 0 ,"@","g","d", 0 ,"z", 0 , 0 , 0 ,"f","e",  0 , 0   ,"!", 0 ,"N", 0 , 0 ,"t", 0 , 0 , 0 , 0 },
+  {"D7","I","i","F", 0 ,"C","G","D","R", 0 ,"A", 0 ,{ 0, 0, 0},"Z", 0 , 0 ,"@","g","d", 0 ,"z", 0 , 0 , 0 ,"f","e","\f", 0   ,"!", 0 ,"N", 0 , 0 ,"t", 0 , 0 , 0 , 0 },
+  {"D8","I","i","F", 0 ,"C","G","D","R", 0 ,"A", 0 ,{ 0, 0, 0},"Z", 0 , 0 ,"@","g","d", 0 ,"z", 0 , 0 , 0 ,"f","e","\f", 0   ,"!", 0 ,"N", 0 , 0 ,"t", 0 , 0 , 0 , 0 },
 ]
 
 
@@ -402,7 +402,7 @@ e2_set_cmd_level(Sane.Handle handle, unsigned char *level)
 		    level[0], level[1], dev.cmd.level)
 	}
 
-	s.hw.level = dev.cmd.level[1] - '0'
+	s.hw.level = dev.cmd.level[1] - "0"
 }
 
 Sane.Status
@@ -417,12 +417,12 @@ e2_set_model(Epson_Scanner * s, unsigned char *model, size_t len)
 		return Sane.STATUS_NO_MEM
 
 	memcpy(buf, model, len)
-	buf[len] = '\0'
+	buf[len] = "\0"
 
 	p = &buf[len - 1]
 
-	while(*p == ' ') {
-		*p = '\0'
+	while(*p == " ") {
+		*p = "\0"
 		p--
 	}
 
@@ -432,7 +432,7 @@ e2_set_model(Epson_Scanner * s, unsigned char *model, size_t len)
 	dev.model = strndup((const char *) buf, len)
 	dev.sane.model = dev.model
 
-	DBG(10, "%s: model is '%s'\n", __func__, dev.model)
+	DBG(10, "%s: model is "%s"\n", __func__, dev.model)
 
 	free(buf)
 
@@ -608,7 +608,7 @@ e2_discover_capabilities(Epson_Scanner *s)
 			area = buf + n
 
 			switch(*area) {
-			case 'R':
+			case "R":
 			{
 				Int val = area[2] << 8 | area[1]
 
@@ -616,7 +616,7 @@ e2_discover_capabilities(Epson_Scanner *s)
 				k = 3
 				continue
 			}
-			case 'A':
+			case "A":
 			{
 				x = area[2] << 8 | area[1]
 				y = area[4] << 8 | area[3]
@@ -952,8 +952,8 @@ e2_set_extended_scanning_parameters(Epson_Scanner * s)
 	 */
 
 	/* ESC C, set color */
-	if((s.hw.cmd.level[0] == 'D'
-	     || (s.hw.cmd.level[0] == 'B' && s.hw.level >= 5))
+	if((s.hw.cmd.level[0] == "D"
+	     || (s.hw.cmd.level[0] == "B" && s.hw.level >= 5))
 	    && mparam.flags == 0x02) {
 		buf[24] = 0x13
 	} else {
@@ -1013,7 +1013,7 @@ e2_set_extended_scanning_parameters(Epson_Scanner * s)
 
 	if(Sane.OPTION_IS_ACTIVE(s.opt[OPT_GAMMA_CORRECTION].cap)) {
 		char val
-		if(s.hw.cmd.level[0] == 'D') {
+		if(s.hw.cmd.level[0] == "D") {
 			/* The D1 level has only the two user defined gamma
 			 * settings.
 			 */
@@ -1121,8 +1121,8 @@ e2_set_scanning_parameters(Epson_Scanner * s)
 	 * The byte sequence mode was introduced in B5, for B[34] we need line sequence mode
 	 * XXX Check what to do for the FilmScan 200
 	 */
-	if((s.hw.cmd.level[0] == 'D'
-	     || (s.hw.cmd.level[0] == 'B' && s.hw.level >= 5))
+	if((s.hw.cmd.level[0] == "D"
+	     || (s.hw.cmd.level[0] == "B" && s.hw.level >= 5))
 	    && mparam.flags == 0x02)
 		color_mode = 0x13
 
@@ -1174,7 +1174,7 @@ e2_set_scanning_parameters(Epson_Scanner * s)
 	if(s.hw.cmd.set_gamma
 	    && Sane.OPTION_IS_ACTIVE(s.opt[OPT_GAMMA_CORRECTION].cap)) {
 		Int val
-		if(s.hw.cmd.level[0] == 'D') {
+		if(s.hw.cmd.level[0] == "D") {
 			/*
 			 * The D1 level has only the two user defined gamma
 			 * settings.
@@ -1311,7 +1311,7 @@ e2_setup_block_mode(Epson_Scanner * s)
 	if(s.hw.connection == Sane.EPSON_NET && e2_model(s, "LP-A500"))
 		maxreq = 64 * 1024
 
-	s.lcount = maxreq / s.params.bytes_per_line
+	s.lcount = maxreq / s.params.bytesPerLine
 
 	DBG(1, "max req size: %d, line count: %d\n", maxreq, s.lcount)
 
@@ -1337,7 +1337,7 @@ e2_setup_block_mode(Epson_Scanner * s)
 	 */
 
 	/* XXX check bith depth? */
-	if(s.hw.cmd.level[0] == 'D' && s.lcount > 3 && s.lcount % 2)
+	if(s.hw.cmd.level[0] == "D" && s.lcount > 3 && s.lcount % 2)
 		s.lcount -= 1
 
 	DBG(1, "final line count is %d\n", s.lcount)
@@ -1384,7 +1384,7 @@ e2_init_parameters(Epson_Scanner * s)
 	    Sane.UNFIX(s.val[OPT_BR_X].w), Sane.UNFIX(s.val[OPT_BR_Y].w))
 
 	/*
-	 * Calculate bytes_per_pixel and bytes_per_line for
+	 * Calculate bytes_per_pixel and bytesPerLine for
 	 * any color depths.
 	 *
 	 * The default color depth is stored in mode_params.depth:
@@ -1398,7 +1398,7 @@ e2_init_parameters(Epson_Scanner * s)
 	if(s.params.depth > 8) {
 		s.params.depth = 16;	/*
 					 * The frontends can only handle 8 or 16 bits
-					 * for gray or color - so if it's more than 8,
+					 * for gray or color - so if it"s more than 8,
 					 * it gets automatically set to 16. This works
 					 * as long as EPSON does not come out with a
 					 * scanner that can handle more than 16 bits
@@ -1421,24 +1421,24 @@ e2_init_parameters(Epson_Scanner * s)
 	case MODE_BINARY:
 	case MODE_GRAY:
 		s.params.format = Sane.FRAME_GRAY
-		s.params.bytes_per_line =
+		s.params.bytesPerLine =
 			s.params.pixels_per_line * s.params.depth / 8
 		break
 	case MODE_COLOR:
 		s.params.format = Sane.FRAME_RGB
-		s.params.bytes_per_line =
+		s.params.bytesPerLine =
 			3 * s.params.pixels_per_line * bytes_per_pixel
 		break
 #ifdef Sane.FRAME_IR
 	case MODE_INFRARED:
 		s.params.format = Sane.FRAME_IR
-		s.params.bytes_per_line =
+		s.params.bytesPerLine =
 			s.params.pixels_per_line * s.params.depth / 8
 		break
 #endif
 	}
 
-	if(s.params.bytes_per_line == 0)
+	if(s.params.bytesPerLine == 0)
 		return Sane.STATUS_INVAL
 
 	/*
@@ -1488,17 +1488,17 @@ e2_init_parameters(Epson_Scanner * s)
 	/*
 	 * The set line count commands needs to be sent for certain scanners in
 	 * color mode. The D1 level requires it, we are however only testing for
-	 * 'D' and not for the actual numeric level.
+	 * "D" and not for the actual numeric level.
 	 */
 
-	if((s.hw.cmd.level[0] == 'B') && (s.hw.level >= 5)) /* >= B5 */
+	if((s.hw.cmd.level[0] == "B") && (s.hw.level >= 5)) /* >= B5 */
 		e2_setup_block_mode(s)
 
-	else if((s.hw.cmd.level[0] == 'B') && (s.hw.level == 4) /* B4 !color */
+	else if((s.hw.cmd.level[0] == "B") && (s.hw.level == 4) /* B4 !color */
 		&& (!mode_params[s.val[OPT_MODE].w].color))
 		e2_setup_block_mode(s)
 
-	else if(s.hw.cmd.level[0] == 'D') /* Dx */
+	else if(s.hw.cmd.level[0] == "D") /* Dx */
 		e2_setup_block_mode(s)
 
 	return(s.params.lines > 0) ? Sane.STATUS_GOOD : Sane.STATUS_INVAL
@@ -1679,7 +1679,7 @@ e2_start_std_scan(Epson_Scanner * s)
 	params[0] = ESC
 	params[1] = s.hw.cmd.start_scanning
 
-	e2_send(s, params, 2, 6 + (s.lcount * s.params.bytes_per_line),
+	e2_send(s, params, 2, 6 + (s.lcount * s.params.bytesPerLine),
 		&status)
 
 	return status
@@ -1695,7 +1695,7 @@ e2_start_ext_scan(Epson_Scanner * s)
 	DBG(5, "%s\n", __func__)
 
 	params[0] = FS
-	params[1] = 'G'
+	params[1] = "G"
 
 	status = e2_txrx(s, params, 2, buf, 14)
 	if(status != Sane.STATUS_GOOD)
@@ -1959,15 +1959,15 @@ color_shuffle(Sane.Handle handle, Int *new_length)
 
 		/*
 		 * The image data is in *buf, we know that the buffer contains s.end - s.buf( = length)
-		 * bytes of data. The width of one line is in s.params.bytes_per_line
+		 * bytes of data. The width of one line is in s.params.bytesPerLine
 		 *
 		 * The buffer area is supposed to have a number of full scan
-		 * lines, let's test if this is the case.
+		 * lines, let"s test if this is the case.
 		 */
 
-		if(length % s.params.bytes_per_line != 0) {
+		if(length % s.params.bytesPerLine != 0) {
 			DBG(1, "error in buffer size: %d / %d\n", length,
-			    s.params.bytes_per_line)
+			    s.params.bytesPerLine)
 			return Sane.STATUS_INVAL
 		}
 
@@ -1980,7 +1980,7 @@ color_shuffle(Sane.Handle handle, Int *new_length)
 			source_ptr = data_ptr + 1
 			dest_ptr = s.line_buffer[s.color_shuffle_line] + 1
 
-			for(i = 0; i < s.params.bytes_per_line / 3; i++) {
+			for(i = 0; i < s.params.bytesPerLine / 3; i++) {
 				*dest_ptr = *source_ptr
 				dest_ptr += 3
 				source_ptr += 3
@@ -1994,9 +1994,9 @@ color_shuffle(Sane.Handle handle, Int *new_length)
 					s.line_buffer[s.color_shuffle_line -
 						       s.line_distance] + 2
 
-/*				while(source_ptr < s.line_buffer[s.color_shuffle_line] + s.params.bytes_per_line) */
+/*				while(source_ptr < s.line_buffer[s.color_shuffle_line] + s.params.bytesPerLine) */
 				for(loop = 0
-				     loop < s.params.bytes_per_line / 3
+				     loop < s.params.bytesPerLine / 3
 				     loop++) {
 					*dest_ptr = *source_ptr
 					dest_ptr += 3
@@ -2011,15 +2011,15 @@ color_shuffle(Sane.Handle handle, Int *new_length)
 				s.line_buffer[s.color_shuffle_line +
 					       s.line_distance]
 
-/*			while(source_ptr < s.line_buffer[s.color_shuffle_line] + s.params.bytes_per_line) */
-			for(loop = 0; loop < s.params.bytes_per_line / 3
+/*			while(source_ptr < s.line_buffer[s.color_shuffle_line] + s.params.bytesPerLine) */
+			for(loop = 0; loop < s.params.bytesPerLine / 3
 			     loop++) {
 				*dest_ptr = *source_ptr
 				dest_ptr += 3
 				source_ptr += 3
 			}
 
-			data_ptr += s.params.bytes_per_line
+			data_ptr += s.params.bytesPerLine
 
 			if(s.color_shuffle_line == s.line_distance) {
 				/*
@@ -2041,9 +2041,9 @@ color_shuffle(Sane.Handle handle, Int *new_length)
 					s.params.lines + s.line_distance)) {
 					memcpy(out_data_ptr,
 					       s.line_buffer[0],
-					       s.params.bytes_per_line)
+					       s.params.bytesPerLine)
 					out_data_ptr +=
-						s.params.bytes_per_line
+						s.params.bytesPerLine
 
 					s.lines_written++
 				}
@@ -2071,7 +2071,7 @@ color_shuffle(Sane.Handle handle, Int *new_length)
 				 */
 
 				s.line_buffer[s.line_distance * 2] =
-					malloc(s.params.bytes_per_line)
+					malloc(s.params.bytesPerLine)
 				if(s.line_buffer[s.line_distance * 2] ==
 				    NULL) {
 					DBG(1, "out of memory(line %d)\n",
@@ -2084,7 +2084,7 @@ color_shuffle(Sane.Handle handle, Int *new_length)
 		}
 
 		/*
-		 * At this time we've used up all the new data from the scanner, some of
+		 * At this time we"ve used up all the new data from the scanner, some of
 		 * it is still in the line_buffers, but we are ready to return some of it
 		 * to the front end software. To do so we have to adjust the size of the
 		 * data area and the *new_length variable.
@@ -2096,7 +2096,7 @@ color_shuffle(Sane.Handle handle, Int *new_length)
 }
 
 static inline Int
-get_color(Int status)
+get_color(status: Int)
 {
 	switch((status >> 2) & 0x03) {
 	case 1:
@@ -2230,7 +2230,7 @@ e2_block_read(struct Epson_Scanner *s)
 
 			/*
 			 * If no bytes are returned, check if the scanner is already done, if so,
-			 * we'll probably just return, but if there is more data to process get
+			 * we"ll probably just return, but if there is more data to process get
 			 * the next batch.
 			 */
 			if(new_length == 0 && s.end != s.ptr)

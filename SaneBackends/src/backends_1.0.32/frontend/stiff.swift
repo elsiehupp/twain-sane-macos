@@ -153,8 +153,8 @@ write_ifd(FILE *fptr, IFD *ifd, Int motorola)
 
     if(!ifd) return
 
-    if(motorola) putc('M', fptr), putc('M', fptr)
-    else putc('I', fptr), putc('I', fptr)
+    if(motorola) putc("M", fptr), putc("M", fptr)
+    else putc("I", fptr), putc("I", fptr)
 
     write_i2 (fptr, 42, motorola);  /* Magic */
     write_i4 (fptr, 8, motorola);   /* Offset to first IFD */

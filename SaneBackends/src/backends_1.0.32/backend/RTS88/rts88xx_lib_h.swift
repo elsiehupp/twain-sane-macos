@@ -162,7 +162,7 @@ Sane.Status sanei_rts88xx_data_count(Int devnum, Sane.Word * count)
 
 /*
  * wait for scanned data to be available, if busy is true, check is scanner is busy
- * while waiting. The number of data bytes of available data is returned in 'count'.
+ * while waiting. The number of data bytes of available data is returned in "count".
  */
 Sane.Status sanei_rts88xx_wait_data(Int devnum, Bool busy,
 				     Sane.Word * count)

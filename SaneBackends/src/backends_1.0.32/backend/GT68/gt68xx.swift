@@ -272,7 +272,7 @@ get_afe_values(Sane.String_Const cp, GT68xx_AFE_Parameters * afe)
 
           if(end == word)
             {
-              DBG(5, "get_afe_values: can't parse %d. parameter `%s'\n",
+              DBG(5, "get_afe_values: can"t parse %d. parameter `%s"\n",
                    i + 1, word)
               free(word)
               word = 0
@@ -280,7 +280,7 @@ get_afe_values(Sane.String_Const cp, GT68xx_AFE_Parameters * afe)
             }
           else if(errno)
             {
-              DBG(5, "get_afe_values: can't parse %d. parameter `%s' "
+              DBG(5, "get_afe_values: can"t parse %d. parameter `%s" "
                    "(%s)\n", i + 1, word, strerror(errno))
               free(word)
               word = 0
@@ -333,7 +333,7 @@ get_afe_values(Sane.String_Const cp, GT68xx_AFE_Parameters * afe)
         }
       else
         {
-          DBG(5, "get_afe_values: option `afe' needs 6  parameters\n")
+          DBG(5, "get_afe_values: option `afe" needs 6  parameters\n")
           return Sane.STATUS_INVAL
         }
     }
@@ -444,17 +444,17 @@ calc_parameters(GT68xx_Scanner * s)
   if(s.val[OPT_RESOLUTION].w > s.dev.model.optical_xdpi)
     s.params.pixels_per_line *=
       (s.val[OPT_RESOLUTION].w / s.dev.model.optical_xdpi)
-  s.params.bytes_per_line = s.params.pixels_per_line
+  s.params.bytesPerLine = s.params.pixels_per_line
   if(s.params.depth > 8)
     {
       s.params.depth = 16
-      s.params.bytes_per_line *= 2
+      s.params.bytesPerLine *= 2
     }
   else if(s.params.depth == 1)
-    s.params.bytes_per_line /= 8
+    s.params.bytesPerLine /= 8
 
   if(s.params.format == Sane.FRAME_RGB)
-    s.params.bytes_per_line *= 3
+    s.params.bytesPerLine *= 3
 
   DBG(5, "calc_parameters: exit\n")
   return status
@@ -617,7 +617,7 @@ init_options(GT68xx_Scanner * s)
   s.opt[OPT_AUTO_WARMUP].name = "auto-warmup"
   s.opt[OPT_AUTO_WARMUP].title = Sane.I18N("Automatic warmup")
   s.opt[OPT_AUTO_WARMUP].desc =
-    Sane.I18N("Warm-up until the lamp's brightness is constant "
+    Sane.I18N("Warm-up until the lamp"s brightness is constant "
                "instead of insisting on 60 seconds warm-up time.")
   s.opt[OPT_AUTO_WARMUP].type = Sane.TYPE_BOOL
   s.opt[OPT_AUTO_WARMUP].unit = Sane.UNIT_NONE
@@ -632,7 +632,7 @@ init_options(GT68xx_Scanner * s)
   s.opt[OPT_FULL_SCAN].title = Sane.I18N("Full scan")
   s.opt[OPT_FULL_SCAN].desc =
     Sane.I18N("Scan the complete scanning area including calibration strip. "
-               "Be careful. Don't select the full height. For testing only.")
+               "Be careful. Don"t select the full height. For testing only.")
   s.opt[OPT_FULL_SCAN].type = Sane.TYPE_BOOL
   s.opt[OPT_FULL_SCAN].unit = Sane.UNIT_NONE
   s.opt[OPT_FULL_SCAN].constraint_type = Sane.CONSTRAINT_NONE
@@ -688,7 +688,7 @@ init_options(GT68xx_Scanner * s)
   s.val[OPT_QUALITY_CAL].w = Sane.TRUE
   if(!debug_options)
     DISABLE(OPT_QUALITY_CAL)
-  /* we disable image correction for scanners that can't calibrate */
+  /* we disable image correction for scanners that can"t calibrate */
   if((s.dev.model.flags & GT68XX_FLAG_SHEET_FED)
     &&(!(s.dev.model.flags & GT68XX_FLAG_HAS_CALIBRATE)))
     {
@@ -893,20 +893,20 @@ attach(Sane.String_Const devname, GT68xx_Device ** devp, Bool may_wait)
           if(devp)
             *devp = dev
           dev.missing = Sane.FALSE
-          DBG(4, "attach: device `%s' was already in device list\n",
+          DBG(4, "attach: device `%s" was already in device list\n",
                devname)
           return Sane.STATUS_GOOD
         }
     }
 
-  DBG(4, "attach: trying to open device `%s'\n", devname)
+  DBG(4, "attach: trying to open device `%s"\n", devname)
   RIE(gt68xx_device_new(&dev))
   status = gt68xx_device_open(dev, devname)
   if(status == Sane.STATUS_GOOD)
-    DBG(4, "attach: device `%s' successfully opened\n", devname)
+    DBG(4, "attach: device `%s" successfully opened\n", devname)
   else
     {
-      DBG(4, "attach: couldn't open device `%s': %s\n", devname,
+      DBG(4, "attach: couldn"t open device `%s": %s\n", devname,
            Sane.strstatus(status))
       gt68xx_device_free(dev)
       if(devp)
@@ -917,7 +917,7 @@ attach(Sane.String_Const devname, GT68xx_Device ** devp, Bool may_wait)
   if(!gt68xx_device_is_configured(dev))
     {
       GT68xx_Model *model = NULL
-      DBG(2, "attach: Warning: device `%s' is not listed in device table\n",
+      DBG(2, "attach: Warning: device `%s" is not listed in device table\n",
            devname)
       DBG(2,
            "attach: If you have manually added it, use override in gt68xx.conf\n")
@@ -925,7 +925,7 @@ attach(Sane.String_Const devname, GT68xx_Device ** devp, Bool may_wait)
       status = gt68xx_device_set_model(dev, model)
       if(status != Sane.STATUS_GOOD)
         {
-          DBG(4, "attach: couldn't set model: %s\n",
+          DBG(4, "attach: couldn"t set model: %s\n",
                Sane.strstatus(status))
           gt68xx_device_free(dev)
           if(devp)
@@ -1009,22 +1009,22 @@ download_firmware_file(GT68xx_Device * dev)
                 STRINGIFY(PATH_Sane.DATA_DIR),
                 PATH_SEP, "sane", PATH_SEP, "gt68xx")
       strncpy(basename, dev.model.firmware_name, sizeof(basename) - 1)
-      basename[sizeof(basename) - 1] = '\0'
+      basename[sizeof(basename) - 1] = "\0"
     }
   else
     {
       /* absolute path */
       char *pos
       strncpy(filename, dev.model.firmware_name, sizeof(filename) - 1)
-      filename[sizeof(filename) - 1] = '\0'
+      filename[sizeof(filename) - 1] = "\0"
       strncpy(dirname, dev.model.firmware_name, sizeof(dirname) - 1)
-      dirname[sizeof(dirname) - 1] = '\0'
+      dirname[sizeof(dirname) - 1] = "\0"
 
       pos = strrchr(dirname, PATH_SEP[0])
       if(pos)
-        pos[0] = '\0'
+        pos[0] = "\0"
       strncpy(basename, pos + 1, sizeof(basename) - 1)
-      basename[sizeof(basename) - 1] = '\0'
+      basename[sizeof(basename) - 1] = "\0"
     }
 
   /* first, try to open with exact case */
@@ -1037,13 +1037,13 @@ download_firmware_file(GT68xx_Device * dev)
       struct dirent *direntry
 
       DBG(5,
-           "download_firmware_file: Couldn't open firmware file `%s': %s\n",
+           "download_firmware_file: Couldn"t open firmware file `%s": %s\n",
            filename, strerror(errno))
 
       dir = opendir(dirname)
       if(!dir)
         {
-          DBG(5, "download_firmware: couldn't open directory `%s': %s\n",
+          DBG(5, "download_firmware: couldn"t open directory `%s": %s\n",
                dirname, strerror(errno))
           status = Sane.STATUS_INVAL
         }
@@ -1059,7 +1059,7 @@ download_firmware_file(GT68xx_Device * dev)
                                       dirname, PATH_SEP, direntry.d_name)
                   if((len < 0) || (len >= (Int) sizeof(filename)))
                     {
-                      DBG(5, "download_firmware: filepath `%s%s%s' too long\n",
+                      DBG(5, "download_firmware: filepath `%s%s%s" too long\n",
                            dirname, PATH_SEP, direntry.d_name)
                       status = Sane.STATUS_INVAL
                     }
@@ -1069,7 +1069,7 @@ download_firmware_file(GT68xx_Device * dev)
           while(direntry != 0)
           if(direntry == 0)
             {
-              DBG(5, "download_firmware: file `%s' not found\n", filename)
+              DBG(5, "download_firmware: file `%s" not found\n", filename)
               status = Sane.STATUS_INVAL
             }
           closedir(dir)
@@ -1081,7 +1081,7 @@ download_firmware_file(GT68xx_Device * dev)
           if(!f)
             {
               DBG(5,
-                   "download_firmware_file: Couldn't open firmware file `%s': %s\n",
+                   "download_firmware_file: Couldn"t open firmware file `%s": %s\n",
                    filename, strerror(errno))
               status = Sane.STATUS_INVAL
             }
@@ -1089,7 +1089,7 @@ download_firmware_file(GT68xx_Device * dev)
 
       if(status != Sane.STATUS_GOOD)
         {
-          DBG(0, "Couldn't open firmware file(`%s'): %s\n",
+          DBG(0, "Couldn"t open firmware file(`%s"): %s\n",
                filename, strerror(errno))
         }
     }
@@ -1180,7 +1180,7 @@ static Sane.Status probe_gt68xx_devices(void)
   if(!fp)
     {
       /* default to /dev/usb/scanner instead of insisting on config file */
-      DBG(3, "Sane.init: couldn't open config file `%s': %s. Using "
+      DBG(3, "Sane.init: couldn"t open config file `%s": %s. Using "
            "/dev/usb/scanner directly\n", GT68XX_CONFIG_FILE,
            strerror(errno))
       attach("/dev/usb/scanner", 0, Sane.FALSE)
@@ -1191,7 +1191,7 @@ static Sane.Status probe_gt68xx_devices(void)
   DBG(5, "Sane.init: %s endian machine\n", little_endian ? "little" : "big")
 
   linenumber = 0
-  DBG(4, "Sane.init: reading config file `%s'\n", GT68XX_CONFIG_FILE)
+  DBG(4, "Sane.init: reading config file `%s"\n", GT68XX_CONFIG_FILE)
   while(sanei_config_read(line, sizeof(line), fp))
     {
       word = 0
@@ -1206,7 +1206,7 @@ static Sane.Status probe_gt68xx_devices(void)
             free(word)
           continue
         }
-      if(word[0] == '#')
+      if(word[0] == "#")
         {
           DBG(6, "Sane.init: config file line %d: ignoring comment line\n",
                linenumber)
@@ -1230,12 +1230,12 @@ static Sane.Status probe_gt68xx_devices(void)
                        new_dev[i]->model.firmware_name)
                 }
               if(i == 0)
-                DBG(5, "Sane.init: firmware %s can't be loaded, set device "
+                DBG(5, "Sane.init: firmware %s can"t be loaded, set device "
                      "first\n", word)
             }
           else
             {
-              DBG(3, "Sane.init: option `firmware' needs a parameter\n")
+              DBG(3, "Sane.init: option `firmware" needs a parameter\n")
             }
         }
       else if(strcmp(word, "vendor") == 0)
@@ -1254,12 +1254,12 @@ static Sane.Status probe_gt68xx_devices(void)
                        new_dev[i]->model.name, new_dev[i]->model.vendor)
                 }
               if(i == 0)
-                DBG(5, "Sane.init: can't set vendor name %s, set device "
+                DBG(5, "Sane.init: can"t set vendor name %s, set device "
                      "first\n", word)
             }
           else
             {
-              DBG(3, "Sane.init: option `vendor' needs a parameter\n")
+              DBG(3, "Sane.init: option `vendor" needs a parameter\n")
             }
         }
       else if(strcmp(word, "model") == 0)
@@ -1277,13 +1277,13 @@ static Sane.Status probe_gt68xx_devices(void)
                        new_dev[i]->model.name, new_dev[i]->model.model)
                 }
               if(i == 0)
-                DBG(5, "Sane.init: can't set model name %s, set device "
+                DBG(5, "Sane.init: can"t set model name %s, set device "
                      "first\n", word)
               free(word)
             }
           else
             {
-              DBG(3, "Sane.init: option `model' needs a parameter\n")
+              DBG(3, "Sane.init: option `model" needs a parameter\n")
             }
         }
       else if(strcmp(word, "override") == 0)
@@ -1303,7 +1303,7 @@ static Sane.Status probe_gt68xx_devices(void)
                     {
                       status = gt68xx_device_set_model(dev, model)
                       if(status != Sane.STATUS_GOOD)
-                        DBG(1, "Sane.init: couldn't override model: %s\n",
+                        DBG(1, "Sane.init: couldn"t override model: %s\n",
                              Sane.strstatus(status))
                       else
                         DBG(5, "Sane.init: new model set to %s\n",
@@ -1316,13 +1316,13 @@ static Sane.Status probe_gt68xx_devices(void)
                     }
                 }
               if(i == 0)
-                DBG(5, "Sane.init: can't override model to %s, set device "
+                DBG(5, "Sane.init: can"t override model to %s, set device "
                      "first\n", word)
               free(word)
             }
           else
             {
-              DBG(3, "Sane.init: option `override' needs a parameter\n")
+              DBG(3, "Sane.init: option `override" needs a parameter\n")
             }
         }
       else if(strcmp(word, "afe") == 0)
@@ -1345,15 +1345,15 @@ static Sane.Status probe_gt68xx_devices(void)
                 }
               if(i == 0)
                 DBG(5,
-                     "Sane.init: can't set afe values, set device first\n")
+                     "Sane.init: can"t set afe values, set device first\n")
             }
           else
-            DBG(3, "Sane.init: can't set afe values\n")
+            DBG(3, "Sane.init: can"t set afe values\n")
         }
       else
         {
           new_dev_len = 0
-          DBG(4, "Sane.init: config file line %d: trying to attach `%s'\n",
+          DBG(4, "Sane.init: config file line %d: trying to attach `%s"\n",
                linenumber, line)
           sanei_usb_attach_matching_devices(line, attach_one_device)
           if(word)
@@ -1458,7 +1458,7 @@ Sane.get_devices(const Sane.Device *** device_list, Bool local_only)
     {
       Sane.Device *Sane.device
 
-      /* don't return devices that have been unplugged */
+      /* don"t return devices that have been unplugged */
       if(dev.missing==Sane.FALSE)
         {
           Sane.device = malloc(sizeof(*Sane.device))
@@ -1492,7 +1492,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
   GT68xx_Scanner *s
   Bool power_ok
 
-  DBG(5, "Sane.open: start(devicename = `%s')\n", devicename)
+  DBG(5, "Sane.open: start(devicename = `%s")\n", devicename)
 
   if(devicename[0])
     {
@@ -1505,12 +1505,12 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
 
           if(!dev)
             {
-              DBG(5, "Sane.open: couldn't find `%s' in devlist, trying attach\n",
+              DBG(5, "Sane.open: couldn"t find `%s" in devlist, trying attach\n",
                    devicename)
               RIE(attach(devicename, &dev, Sane.TRUE))
             }
           else
-            DBG(5, "Sane.open: found `%s' in devlist\n", dev.model.name)
+            DBG(5, "Sane.open: found `%s" in devlist\n", dev.model.name)
         }
       else
         {
@@ -1518,7 +1518,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
           if(dev)
             {
               devicename = dev.file_name
-              DBG(5, "Sane.open: default empty devicename, using first device `%s'\n", devicename)
+              DBG(5, "Sane.open: default empty devicename, using first device `%s"\n", devicename)
             }
         }
     }
@@ -1529,7 +1529,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
       if(dev)
         {
           devicename = dev.file_name
-          DBG(5, "Sane.open: empty devicename, trying `%s'\n", devicename)
+          DBG(5, "Sane.open: empty devicename, trying `%s"\n", devicename)
         }
     }
 
@@ -1568,7 +1568,7 @@ Sane.open(Sane.String_Const devicename, Sane.Handle * handle)
           GT68xx_USB_Device_Entry *entry
 
           DBG(0,
-               "ERROR: You haven't chosen an override in gt68xx.conf. Please use \n")
+               "ERROR: You haven"t chosen an override in gt68xx.conf. Please use \n")
           DBG(0, "       one of the following: \n")
 
           for(entry = gt68xx_usb_device_list; entry.model; ++entry)
@@ -1722,7 +1722,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 
   if(s.scanning)
     {
-      DBG(1, "Sane.control_option: don't call this function while "
+      DBG(1, "Sane.control_option: don"t call this function while "
            "scanning(option = %s(%d))\n", s.opt[option].name, option)
 
       return Sane.STATUS_DEVICE_BUSY
@@ -1780,7 +1780,7 @@ Sane.control_option(Sane.Handle handle, Int option,
           s.dev.model.command_set.document_present(s.dev, val)
           break
         default:
-          DBG(2, "Sane.control_option: can't get unknown option %d\n",
+          DBG(2, "Sane.control_option: can"t get unknown option %d\n",
                option)
         }
     }
@@ -1923,7 +1923,7 @@ Sane.control_option(Sane.Handle handle, Int option,
           break
 
         default:
-          DBG(2, "Sane.control_option: can't set unknown option %d\n",
+          DBG(2, "Sane.control_option: can"t set unknown option %d\n",
                option)
         }
     }
@@ -1955,7 +1955,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   DBG(4, "Sane.get_parameters: format=%d, last_frame=%d, lines=%d\n",
        s.params.format, s.params.last_frame, s.params.lines)
   DBG(4, "Sane.get_parameters: pixels_per_line=%d, bytes per line=%d\n",
-       s.params.pixels_per_line, s.params.bytes_per_line)
+       s.params.pixels_per_line, s.params.bytesPerLine)
   DBG(3, "Sane.get_parameters: pixels %dx%dx%d\n",
        s.params.pixels_per_line, s.params.lines, 1 << s.params.depth)
 
@@ -1978,7 +1978,7 @@ Sane.start(Sane.Handle handle)
   DBG(5, "Sane.start: start\n")
 
   /* First make sure we have a current parameter set.  Some of the
-     parameters will be overwritten below, but that's OK.  */
+     parameters will be overwritten below, but that"s OK.  */
   RIE(calc_parameters(s))
 
   if(s.val[OPT_TL_X].w >= s.val[OPT_BR_X].w)
@@ -2010,7 +2010,7 @@ Sane.start(Sane.Handle handle)
   s.gamma_table = malloc(sizeof(Int) * gamma_size)
   if(!s.gamma_table)
     {
-      DBG(1, "Sane.start: couldn't malloc %d bytes for gamma table\n",
+      DBG(1, "Sane.start: couldn"t malloc %d bytes for gamma table\n",
            gamma_size)
       return Sane.STATUS_NO_MEM
     }
@@ -2057,7 +2057,7 @@ Sane.start(Sane.Handle handle)
   else
     scan_request.backtrack_lines = 0
 
-  /* don't call calibration for scanners that use sheetfed_calibrate */
+  /* don"t call calibration for scanners that use sheetfed_calibrate */
   if(!(s.dev.model.flags & GT68XX_FLAG_HAS_CALIBRATE))
     {
       RIE(gt68xx_scanner_calibrate(s, &scan_request))
@@ -2358,10 +2358,10 @@ Sane.cancel(Sane.Handle handle)
   if(s.scanning)
     {
       s.scanning = Sane.FALSE
-      if(s.total_bytes != (s.params.bytes_per_line * s.params.lines))
+      if(s.total_bytes != (s.params.bytesPerLine * s.params.lines))
         DBG(1, "Sane.cancel: warning: scanned %d bytes, expected %d "
              "bytes\n", s.total_bytes,
-             s.params.bytes_per_line * s.params.lines)
+             s.params.bytesPerLine * s.params.lines)
       else
         {
           struct timeval now
@@ -2380,7 +2380,7 @@ Sane.cancel(Sane.Handle handle)
 #endif
 
         }
-      /* some scanners don't like this command when cancelling a scan */
+      /* some scanners don"t like this command when cancelling a scan */
       sanei_usb_set_timeout(SHORT_TIMEOUT)
       gt68xx_device_fix_descriptor(s.dev)
       gt68xx_scanner_stop_scan(s)

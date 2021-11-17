@@ -649,7 +649,7 @@ static void gl846_init_optical_regs_scan(Genesys_Device* dev, const Genesys_Sens
     setup_image_pipeline(*dev, session)
 
   /* MAXWD is expressed in 4 words unit */
-    // BUG: we shouldn't multiply by channels here
+    // BUG: we shouldn"t multiply by channels here
     reg.set24(REG_MAXWD, (session.output_line_bytes_raw * session.params.channels >> 2))
     reg.set16(REG_LPERIOD, exposure_time)
     reg.set8(0x34, sensor.dummy_pixel)
@@ -759,7 +759,7 @@ ScanSession CommandSetGl846::calculate_scan_session(const Genesys_Device* dev,
     session.params.scan_method = settings.scan_method
     session.params.scan_mode = settings.scan_mode
     session.params.color_filter = settings.color_filter
-    // backtracking isn't handled well, so don't enable it
+    // backtracking isn"t handled well, so don"t enable it
     session.params.flags = flags
 
     compute_session(dev, session, sensor)
@@ -906,7 +906,7 @@ void CommandSetGl846::send_shading_data(Genesys_Device* dev, const Genesys_Senso
 
     unsigned length = static_cast<unsigned>(size / 3)
 
-    // we're using SHDAREA, thus we only need to upload part of the line
+    // we"re using SHDAREA, thus we only need to upload part of the line
     unsigned offset = dev.session.pixel_count_ratio.apply(
                 dev.session.params.startx * sensor.full_resolution / dev.session.params.xres)
     unsigned pixels = dev.session.pixel_count_ratio.apply(dev.session.optical_pixels_raw)
@@ -1056,7 +1056,7 @@ void CommandSetGl846::asic_boot(Genesys_Device* dev, bool cold) const
 
 /**
  * initialize backend and ASIC : registers, motor tables, and gamma tables
- * then ensure scanner's head is at home
+ * then ensure scanner"s head is at home
  */
 void CommandSetGl846::init(Genesys_Device* dev) const
 {

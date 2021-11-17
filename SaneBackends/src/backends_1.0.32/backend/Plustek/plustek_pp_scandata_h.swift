@@ -246,7 +246,7 @@ typedef struct scandata
 	Byte        b97003DarkB
 
 /* CHECK: to Scan!!!!  */
-	pUChar		pGetBufR;  /* NOTE: these aren't actually Red/Green buffer  */
+	pUChar		pGetBufR;  /* NOTE: these aren"t actually Red/Green buffer  */
 	pUChar		pGetBufG;  /*		pointers but instead are used 			*/
 	pUChar		pPutBufR;  /*		generically to point to the first 2		*/
 	pUChar		pPutBufG;  /*		color buffers as temp storage 			*/
@@ -426,7 +426,7 @@ typedef struct scandata
 	/* used only by ASIC9800x Part of the driver ! */
 	void(*ReInitAsic)				 (pScanData, Bool shading)
 
-	/* value used to read nibble's */
+	/* value used to read nibble"s */
 	Byte CtrlReadHighNibble
 	Byte CtrlReadLowNibble
 
@@ -470,9 +470,9 @@ typedef struct scandata
     Byte RegMotorControl
 #define _MotorDirForward	 0x01	/* go forward                */
 #define _MotorOn		     0x02	/* turn on motor             */
-#define _MotorIgnorePF	     0x04	/* motor rolling don't care  */
+#define _MotorIgnorePF	     0x04	/* motor rolling don"t care  */
 						            /* paper define flag         */
-#define _MotorFreeRun	     0x80	/*ScanState count don't stop */
+#define _MotorFreeRun	     0x80	/*ScanState count don"t stop */
 	    /* Following bits(bit 3 & 4 are depended on StatusPort  */
 	    /* bit-7:MotorType when it is 1:                         */
 #define _Motor1FullStep	     0x08	/* bit 4 is ignored          */

@@ -459,7 +459,7 @@ typedef struct CANON_Handle
 #define FLG_GRAY	0x01	/* grayscale */
 #define FLG_FORCE_CAL	0x02	/* force calibration */
 #define FLG_BUF		0x04	/* save scan to buffer instead of file */
-#define FLG_NO_INTERLEAVE 0x08	/* don't interleave r,g,b pixels; leave them
+#define FLG_NO_INTERLEAVE 0x08	/* don"t interleave r,g,b pixels; leave them
 				   in row format */
 #define FLG_PPM_HEADER	0x10	/* include PPM header in scan file */
 }
@@ -622,7 +622,7 @@ do_scan(CANON_Handle * s)
 	  line += (numbytes + level) / (s.width * 3)
 	  /* remainder(partial line) */
 	  level = (numbytes + level) % (s.width * 3)
-	  /* but if last line, don't store extra */
+	  /* but if last line, don"t store extra */
 	  if(line >= s.height)
 	    numbytes -= (line - s.height) * s.width * 3 + level
 	  if(fp)
@@ -677,7 +677,7 @@ do_scan(CANON_Handle * s)
 		  printf("%2d%%\r", line * 100 / s.height)
 		  fflush(stdout)
 #endif
-		  /* don't record any extra */
+		  /* don"t record any extra */
 		  if(line >= s.height)
 		    break
 		}
@@ -710,7 +710,7 @@ do_scan(CANON_Handle * s)
 static Int
 wait_for_return(Int fd)
 {
-  return read_poll_flag(fd, STATUS, STATUS_HOME, STATUS_HOME)
+  return read_poll_flag(fd, Status, STATUS_HOME, STATUS_HOME)
 }
 
 
@@ -740,14 +740,14 @@ plugin_cal(CANON_Handle * s)
   write_byte(fd, PARALLEL_PORT, 0x06)
 
   write_many(fd, 0x08, seq002, sizeof(seq002))
-  /* addr 0x28 isn't written */
+  /* addr 0x28 isn"t written */
   write_many(fd, 0x29, seq003, sizeof(seq003))
   /* Verification */
   buf = malloc(0x400)
   read_many(fd, 0x08, buf, sizeof(seq002))
   if(memcmp(seq002, buf, sizeof(seq002)))
     DBG(1, "seq002 verification error\n")
-  /* addr 0x28 isn't read */
+  /* addr 0x28 isn"t read */
   read_many(fd, 0x29, buf, sizeof(seq003))
   if(memcmp(seq003, buf, sizeof(seq003)))
     DBG(1, "seq003 verification error\n")
@@ -758,7 +758,7 @@ plugin_cal(CANON_Handle * s)
   lights_out(fd)
 
   /* Home motor */
-  read_byte(fd, STATUS, &result);	/* wants 2f or 2d */
+  read_byte(fd, Status, &result);	/* wants 2f or 2d */
   if(!(result & STATUS_HOME) /*0x2d */ )
     write_byte(fd, COMMAND, 0x02)
 
@@ -767,8 +767,8 @@ plugin_cal(CANON_Handle * s)
   /* Motor forward */
   write_byte(fd, COMMAND, 0x01)
   usleep(600000)
-  read_byte(fd, STATUS, &result);	/* wants 0c or 2c */
-  read_byte(fd, STATUS, &result);	/* wants 0c */
+  read_byte(fd, Status, &result);	/* wants 0c or 2c */
+  read_byte(fd, Status, &result);	/* wants 0c */
   /* Return home */
   write_byte(fd, COMMAND, 0x02)
 
@@ -805,10 +805,10 @@ plugin_cal(CANON_Handle * s)
   free(buf)
 
   /* Make sure STATUS_HOME */
-  read_byte(fd, STATUS, &result);	/* wants 0e */
+  read_byte(fd, Status, &result);	/* wants 0e */
   /* stepper forward */
   write_byte(fd, COMMAND, 0x01)
-  read_byte(fd, STATUS, &result);	/* wants 0c */
+  read_byte(fd, Status, &result);	/* wants 0c */
   /* not sure if this rigid read/write pattern is required */
   read_byte(fd, CLOCK_DIV, &result);	/* wants 04 */
   write_byte(fd, CLOCK_DIV, 0x04)
@@ -837,7 +837,7 @@ plugin_cal(CANON_Handle * s)
   write_byte(fd, COMMAND, 0x00)
   /* Scan */
   write_byte(fd, COMMAND, 0x03)
-  /* Wants 02 or 03, gets a bunch of 0's first */
+  /* Wants 02 or 03, gets a bunch of 0"s first */
   read_poll_min(fd, IMAGE_DATA_AVAIL, 2)
   write_byte(fd, COMMAND, 0x00)
 
@@ -846,7 +846,7 @@ plugin_cal(CANON_Handle * s)
   /* 300 dpi */
   write_word(fd, STEP_SIZE, 0x041a)
   write_word(fd, FAST_STEP, 0x0104)
-  /* Don't skip the black/white calibration area at the bottom of the
+  /* Don"t skip the black/white calibration area at the bottom of the
      scanner. */
   write_word(fd, SKIP_STEPS, 0x0000)
   write_byte(fd, BUFFER_LIMIT, 0x57)
@@ -865,7 +865,7 @@ plugin_cal(CANON_Handle * s)
   write_word(fd, LAMP_G_OFF, 0x0100)
   write_word(fd, LAMP_B_ON, 0x0017)
   write_word(fd, LAMP_B_OFF, 0x0100)
-  /* coming in, we've got 300dpi,
+  /* coming in, we"ve got 300dpi,
      data px start : 0x004b
      data px end  : 0x1437 for a total of 5100(13ec) 600-dpi pixels,
      (8.5 inches) or 2550 300-dpi pixels(7653 bytes).
@@ -903,12 +903,12 @@ plugin_cal(CANON_Handle * s)
   s.buf = NULL
 
   /* The trace gets a little iffy from here on out since the log files
-     are missing different urb's.  This is kind of a puzzled-out
+     are missing different urb"s.  This is kind of a puzzled-out
      compilation. */
 
   write_byte(fd, MICROSTEP, 0x13 /* pins active */ )
   write_byte(fd, STEP_PWM, 0x3f)
-  read_byte(fd, STATUS, &result);	/* wants 0c */
+  read_byte(fd, Status, &result);	/* wants 0c */
 
   /* Stepper home */
   write_byte(fd, COMMAND, 0x02)
@@ -924,12 +924,12 @@ plugin_cal(CANON_Handle * s)
   wait_for_return(fd)
   /* stepper forward small */
   write_byte(fd, COMMAND, 0x01)
-  read_byte(fd, STATUS, &result);	/* wants 0c */
+  read_byte(fd, Status, &result);	/* wants 0c */
   usleep(200000)
   write_byte(fd, STEP_PWM, 0x1f)
 
   /* Read in cal strip at bottom of scanner(to adjust gain/offset
-     tables.  Note that this isn't the brightest lighting condition.)
+     tables.  Note that this isn"t the brightest lighting condition.)
      At 300 dpi: black rows 0-25; white rows 30-75; beginning
      of glass 90.
      This produces 574k of data, so save it to a temp file. */
@@ -976,7 +976,7 @@ plugin_cal(CANON_Handle * s)
 #define NREGIONS 2
 
 /* Compute the offset/gain table from the calibration strip.  This is
-   somewhat more complicated than necessary because I don't hard-code the
+   somewhat more complicated than necessary because I don"t hard-code the
    strip widths; I try to figure out the regions based on the scan data.
    Theoretically, the region-finder should work for any number of distinct
    regions(but there are only 2 on this scanner.)
@@ -1007,7 +1007,7 @@ compute_ogn(char *calfilename)
   /* first line is data read buffer */
   newline = linebuf
   /* second line is a temporary holding spot in case the next line read
-     is the black/white transition, in which case we'll disregard this
+     is the black/white transition, in which case we"ll disregard this
      one. */
   oldline = linebuf + width
   /* column averages per region */
@@ -1058,7 +1058,7 @@ compute_ogn(char *calfilename)
 	      transition = 0
 	      reglines[region] = 0
 	    }
-	  /* Add oldline to the current region's average */
+	  /* Add oldline to the current region"s average */
 	  for(i = 0; i < width; i++)
 	    avg[i + region * width] += oldline[i]
 	  reglines[region]++
@@ -1083,7 +1083,7 @@ compute_ogn(char *calfilename)
       return Sane.STATUS_UNSUPPORTED
     }
 
-  /* Now we've got regions and sums.  Find averages and range. */
+  /* Now we"ve got regions and sums.  Find averages and range. */
   max_range[0] = max_range[1] = max_range[2] = 0.0
   for(i = 0; i < width; i++)
     {
@@ -1093,7 +1093,7 @@ compute_ogn(char *calfilename)
       /* white region */
       tmp2 = avg[i + width] /= reglines[1]
       /* Track largest range for each color.
-         If image is interleaved, use 'i%3', if not, 'i/(width/3)' */
+         If image is interleaved, use "i%3", if not, "i/(width/3)" */
       if((tmp2 - tmp1) > max_range[i / (width / 3)])
 	{
 	  max_range[i / (width / 3)] = tmp2 - tmp1
@@ -1140,7 +1140,7 @@ compute_ogn(char *calfilename)
 		     (avg[i + width] - avg[i])) - 1)
       offset = avg[i]
 #else
-      /* This doesn't work for some people.  For instance, a negative
+      /* This doesn"t work for some people.  For instance, a negative
          offset would be bad.  */
 
       /* Enhanced offset and gain calculation by M.Reinelt <reinelt@eunet.at>
@@ -1148,7 +1148,7 @@ compute_ogn(char *calfilename)
        * by changing gain and offset values for every pixel until the desired
        * values for black and white were reached, and finding an approximation
        * formula.
-       * Note that offset is linear, but gain isn't!
+       * Note that offset is linear, but gain isn"t!
        */
       offset = (double)3.53 * avg[i] - 125
       gain = (double)3861.0 * exp(-0.0168 * (avg[i + width] - avg[i]))
@@ -1251,7 +1251,7 @@ scan(CANON_Handle * opt)
   byte *buf
 
   /* Check status. (not in w2k driver) */
-  read_byte(fd, STATUS, &result);	/* wants 2f or 2d */
+  read_byte(fd, Status, &result);	/* wants 2f or 2d */
   if(!(result & STATUS_HOME) /*0x2d */ )
     return Sane.STATUS_DEVICE_BUSY
   /* or force it to return?
@@ -1262,7 +1262,7 @@ scan(CANON_Handle * opt)
   /* reserved? */
   read_byte(fd, 0x69, &result);	/* wants 0a */
 
-  read_byte(fd, STATUS, &result);	/* wants 0e */
+  read_byte(fd, Status, &result);	/* wants 0e */
   read_byte(fd, PAPER_SENSOR, &result);	/* wants 2b */
   write_byte(fd, PAPER_SENSOR, 0x2b)
   /* Color mode:
@@ -1273,10 +1273,10 @@ scan(CANON_Handle * opt)
   /* install the offset/gain table */
   install_ogn(fd)
 
-  read_byte(fd, STATUS, &result);	/* wants 0e */
+  read_byte(fd, Status, &result);	/* wants 0e */
   /* move forward to "glass 0" */
   write_byte(fd, COMMAND, 0x01)
-  read_byte(fd, STATUS, &result);	/* wants 0c */
+  read_byte(fd, Status, &result);	/* wants 0c */
 
   /* create gamma table */
   buf = malloc(0x400)
@@ -1395,7 +1395,7 @@ scan(CANON_Handle * opt)
     write_word(fd, STEP_SIZE, stepsize)
     write_word(fd, FAST_STEP, faststep)
     /* There sounds like a weird step disjoint at the end of skipsteps
-       at 75dpi, so I think that's why skipsteps=0 at 75dpi in the
+       at 75dpi, so I think that"s why skipsteps=0 at 75dpi in the
        Windows driver.  It still works at the normal 0x017a though. */
     /* cal strip is 0x17a steps, plus 2 300dpi microsteps per pixel */
     write_word(fd, SKIP_STEPS, 0x017a /* cal strip */  + opt.y1 * 2)
@@ -1502,7 +1502,7 @@ CANON_open_device(CANON_Handle * scan, const char *dev)
   Sane.Word product
   Sane.Status res
 
-  DBG(3, "CANON_open_device: `%s'\n", dev)
+  DBG(3, "CANON_open_device: `%s"\n", dev)
 
   scan.fname = NULL
   scan.fp = NULL
@@ -1511,7 +1511,7 @@ CANON_open_device(CANON_Handle * scan, const char *dev)
   res = sanei_usb_open(dev, &scan.fd)
   if(res != Sane.STATUS_GOOD)
     {
-      DBG(1, "CANON_open_device: couldn't open device `%s': %s\n", dev,
+      DBG(1, "CANON_open_device: couldn"t open device `%s": %s\n", dev,
 	   Sane.strstatus(res))
       return res
     }
@@ -1522,7 +1522,7 @@ CANON_open_device(CANON_Handle * scan, const char *dev)
       Sane.STATUS_GOOD)
     {
       DBG(1, "CANON_open_device: sanei_usb_get_vendor_product failed\n")
-      /* This is not a USB scanner, or SANE or the OS doesn't support it. */
+      /* This is not a USB scanner, or SANE or the OS doesn"t support it. */
       sanei_usb_close(scan.fd)
       scan.fd = -1
       return Sane.STATUS_UNSUPPORTED
@@ -1587,7 +1587,7 @@ CANON_start_scan(CANON_Handle * scanner)
   /* calibrate if needed */
   rv = init(scanner.fd)
   if(rv < 0) {
-      DBG(1, "Can't talk on USB.\n")
+      DBG(1, "Can"t talk on USB.\n")
       return Sane.STATUS_IO_ERROR
   }
   if((rv == 1)

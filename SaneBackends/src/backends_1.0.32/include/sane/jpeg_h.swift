@@ -2,7 +2,7 @@
  * cdjpeg.h
  *
  * Copyright(C) 1994-1996, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
+ * This file is part of the Independent JPEG Group"s software.
  * For conditions of distribution and use, see the accompanying README file.
  *
  * This file contains common declarations for the sample applications
@@ -17,7 +17,7 @@ import jerror		/* get library error codes too */
 import sane/sanei_cderror	/* get application-specific error codes */
 
 /*
- * Object interface for djpeg's output file encoding modules
+ * Object interface for djpeg"s output file encoding modules
  */
 
 typedef struct djpeg_dest_struct * djpeg_dest_ptr

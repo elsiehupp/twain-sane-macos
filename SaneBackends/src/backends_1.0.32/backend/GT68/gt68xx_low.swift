@@ -100,9 +100,9 @@ import gt68xx_shm_channel
 #define GT68XX_FLAG_OFFSET_INV      (1 << 2)	/* Offset control is inverted */
 #define GT68XX_FLAG_UNTESTED        (1 << 3)	/* Print a warning for these scanners */
 #define GT68XX_FLAG_SE_2400         (1 << 4)	/* Special quirks for SE 2400USB */
-#define GT68XX_FLAG_NO_STOP         (1 << 5)	/* Don't call stop_scan before the scan */
+#define GT68XX_FLAG_NO_STOP         (1 << 5)	/* Don"t call stop_scan before the scan */
 #define GT68XX_FLAG_CIS_LAMP        (1 << 6)	/* CIS sensor with lamp */
-#define GT68XX_FLAG_NO_POWER_STATUS(1 << 7)	/* get_power_status_doesn't work */
+#define GT68XX_FLAG_NO_POWER_STATUS(1 << 7)	/* get_power_status_doesn"t work */
 #define GT68XX_FLAG_NO_LINEMODE     (1 << 8)	/* Linemode does not work with this scanner */
 #define GT68XX_FLAG_SCAN_FROM_HOME  (1 << 9)	/* Move home after calibration */
 #define GT68XX_FLAG_USE_OPTICAL_X   (1 << 10)	/* Use optical xdpi for 50 dpi and below */
@@ -110,7 +110,7 @@ import gt68xx_shm_channel
 #define GT68XX_FLAG_SHEET_FED       (1 << 12)	/* we have a sheet fed scanner */
 #define GT68XX_FLAG_HAS_CALIBRATE   (1 << 13)	/* for sheet fed scanners that be calibrated with
                                                    an calibration sheet */
-#define GT68XX_FLAG_NO_CALIBRATE   (1 << 14)	/* don't calibrate, because calibration is broken */
+#define GT68XX_FLAG_NO_CALIBRATE   (1 << 14)	/* don"t calibrate, because calibration is broken */
 
 
 
@@ -158,7 +158,7 @@ struct GT68xx_USB_Device_Entry
 ]
 
 #define MAX_SCANNERS 50
-/* Looks like gcc doesn't like declarations without specificating the number
+/* Looks like gcc doesn"t like declarations without specificating the number
    of array elements at least when --enable-warnings is active */
 
 /** List of all supported devices.
@@ -557,7 +557,7 @@ struct GT68xx_Scan_Request
   Bool mds;	/**< Move during scan */
   Bool mas;	/**< Move after scan */
   Bool lamp;	/**< Lamp on/off */
-  Bool calculate;	/**< Don't scan, only calculate parameters */
+  Bool calculate;	/**< Don"t scan, only calculate parameters */
   Bool use_ta;	/**< Use the tansparency adapter */
   Bool backtrack;	/**< Enable backtracking */
   Bool backtrack_lines;  /**< How many lines to backtrack */
@@ -1073,7 +1073,7 @@ static Sane.Status gt68xx_device_read_finish(GT68xx_Device * dev)
  *
  * @return
  * - #Sane.STATUS_GOOD - success.
- * - #Sane.STATUS_IO_ERROR - the command wasn't successful
+ * - #Sane.STATUS_IO_ERROR - the command wasn"t successful
 */
 static Sane.Status
 gt68xx_device_check_result(GT68xx_Packet res, Sane.Byte command)
@@ -1085,8 +1085,8 @@ gt68xx_device_get_id(GT68xx_Device * dev)
 /** Read the device descriptor of the scanner.
  *
  * This function should be called before closing the device to make sure
- * that the device descriptor is properly stored in the scanner's memory.
- * If that's not done, the next try to get the config descriptor will
+ * that the device descriptor is properly stored in the scanner"s memory.
+ * If that"s not done, the next try to get the config descriptor will
  * result in a corrupted descriptor.
  *
  * @param dev device
@@ -1255,7 +1255,7 @@ gt68xx_device_new(GT68xx_Device ** dev_return)
 
   if(!dev)
     {
-      DBG(3, "gt68xx_device_new: couldn't malloc %lu bytes for device\n",
+      DBG(3, "gt68xx_device_new: couldn"t malloc %lu bytes for device\n",
 	   (u_long) sizeof(GT68xx_Device))
       *dev_return = 0
       return Sane.STATUS_NO_MEM
@@ -1982,7 +1982,7 @@ gt68xx_device_read_start(GT68xx_Device * dev)
 {
   CHECK_DEV_ACTIVE(dev, "gt68xx_device_read_start")
 #ifdef USE_FORK
-  /* Don't fork a separate process for every calibration scan. */
+  /* Don"t fork a separate process for every calibration scan. */
   if(dev.final_scan)
     return gt68xx_device_read_start_fork(dev)
 #endif /* USE_FORK */
@@ -2120,8 +2120,8 @@ gt68xx_device_check_result(GT68xx_Packet res, Sane.Byte command)
 	   "(expected: %2X %2X)\n", res[0], res[1], 0, command)
       return Sane.STATUS_IO_ERROR
     }
-  /* The Gt681xfw.usb firmware doesn't return the command byte
-     in the second byte, so we can't rely on that test */
+  /* The Gt681xfw.usb firmware doesn"t return the command byte
+     in the second byte, so we can"t rely on that test */
   if(res[1] != command)
     DBG(5, "gt68xx_device_check_result: warning: result was %2X %2X "
 	 "(expected: %2X %2X)\n", res[0], res[1], 0, command)

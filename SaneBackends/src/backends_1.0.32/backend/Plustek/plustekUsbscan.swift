@@ -244,7 +244,7 @@ usb_SetAsicDpiY( Plustek_Device *dev, u_short ydpi )
 	wDpi = (ydpi + wMinDpi - 1) / wMinDpi * wMinDpi
 
 	/*
-	 * HEINER: added '*2'
+	 * HEINER: added "*2"
 	 */
 	if( wDpi > sCaps.OpticDpi.y * 2 )
 		wDpi = sCaps.OpticDpi.y * 2
@@ -292,7 +292,7 @@ usb_SetColorAndBits( Plustek_Device *dev, ScanParam *pParam )
 			regs[0x26] = hw.bReg_0x26 & 0x7
 
 			/* if set to one channel color, we select the blue channel
-			 * as input source, this is the default, but I don't know
+			 * as input source, this is the default, but I don"t know
 			 * what happens, if we deselect this
 			 */
 			if( regs[0x26] & _ONE_CH_COLOR )
@@ -649,7 +649,7 @@ usb_GetMCLKDiv( Plustek_Device *dev )
 	return mclkdiv
 }
 
-/** Plusteks' poor-man MCLK calculation...
+/** Plusteks" poor-man MCLK calculation...
  * at least we give the master clock divider and adjust the step size
  * and integration time(for 14/16 bit modes)
  */
@@ -1273,7 +1273,7 @@ usb_SetScanParameters( Plustek_Device *dev, ScanParam *pParam )
 		usb_MotorSelect( dev, Sane.TRUE )
 	}
 
-	/* Reset LM983x's state machine before setting register values */
+	/* Reset LM983x"s state machine before setting register values */
 	if( !usbio_WriteReg( dev.fd, 0x18, 0x18 ))
 		return Sane.FALSE
 
@@ -1637,7 +1637,7 @@ usb_SaveImageInfo( Plustek_Device *dev, ImgDef *pInfo )
 	 */
 	if( usb_IsSheetFedDevice(dev)) {
 
-		Int step, div, org, xdpi
+		step: Int, div, org, xdpi
 
 		xdpi = usb_SetAsicDpiX( dev, pParam.UserDpi.x )
 

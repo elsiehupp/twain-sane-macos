@@ -707,9 +707,9 @@ hexdump(Int level, const char *comment, unsigned char *p, Int l)
   DBG(level, "%s\n", comment)
 
   ptr = line
-  *ptr = '\0'
+  *ptr = "\0"
   asc_ptr = asc_buf
-  *asc_ptr = '\0'
+  *asc_ptr = "\0"
 
   for(i = 0; i < l; i++, p++)
     {
@@ -719,9 +719,9 @@ hexdump(Int level, const char *comment, unsigned char *p, Int l)
 	    {
 	      DBG(level, "%s    %s\n", line, asc_buf)
 	      ptr = line
-	      *ptr = '\0'
+	      *ptr = "\0"
 	      asc_ptr = asc_buf
-	      *asc_ptr = '\0'
+	      *asc_ptr = "\0"
 	    }
 	  sprintf(ptr, "%3.3d:", i)
 	  ptr += 4
@@ -736,7 +736,7 @@ hexdump(Int level, const char *comment, unsigned char *p, Int l)
 	  asc_ptr += sprintf(asc_ptr, ".")
 	}
     }
-  *ptr = '\0'
+  *ptr = "\0"
   DBG(level, "%s    %s\n", line, asc_buf)
 }
 
@@ -1055,16 +1055,16 @@ leo_set_window(Leo_Scanner * dev)
   window[1] = sizeof(window) - 2
 
   /* X and Y resolution */
-  Ito16 (dev.x_resolution, &window[10])
-  Ito16 (dev.y_resolution, &window[12])
+  Ito16(dev.x_resolution, &window[10])
+  Ito16(dev.y_resolution, &window[12])
 
   /* Upper Left(X,Y) */
-  Ito32 (dev.x_tl, &window[14])
-  Ito32 (dev.y_tl, &window[18])
+  Ito32(dev.x_tl, &window[14])
+  Ito32(dev.y_tl, &window[18])
 
   /* Width and length */
-  Ito32 (dev.width, &window[22])
-  Ito32 (dev.length, &window[26])
+  Ito32(dev.width, &window[22])
+  Ito32(dev.length, &window[26])
 
 
   /* Image Composition */
@@ -1120,7 +1120,7 @@ leo_get_scan_size(Leo_Scanner * dev)
   if(size != 0x10)
     {
       DBG(DBG_error,
-	   "leo_get_scan_size: GET DATA BUFFER STATUS returned an invalid size(%ld)\n",
+	   "leo_get_scan_size: GET DATA BUFFER Status returned an invalid size(%ld)\n",
 	   (long) size)
       return Sane.STATUS_IO_ERROR
     }
@@ -1133,27 +1133,27 @@ leo_get_scan_size(Leo_Scanner * dev)
   /* The number of lines if the number of lines left plus the number
    * of lines already waiting in the buffer. */
   dev.params.lines = B16TOI(&dev.buffer[12]) +
-    (B24TOI(&dev.buffer[9]) / dev.params.bytes_per_line)
+    (B24TOI(&dev.buffer[9]) / dev.params.bytesPerLine)
 
   switch(dev.scan_mode)
     {
     case LEO_BW:
     case LEO_HALFTONE:
       dev.params.pixels_per_line &= ~0x7
-      dev.params.bytes_per_line = dev.params.pixels_per_line / 8
+      dev.params.bytesPerLine = dev.params.pixels_per_line / 8
       break
     case LEO_GRAYSCALE:
-      dev.params.bytes_per_line = dev.params.pixels_per_line
+      dev.params.bytesPerLine = dev.params.pixels_per_line
       break
     case LEO_COLOR:
-      dev.params.bytes_per_line = dev.params.pixels_per_line * 3
+      dev.params.bytesPerLine = dev.params.pixels_per_line * 3
       break
     }
 
   DBG(DBG_proc, "leo_get_scan_size: exit, status=%d\n", status)
 
   DBG(DBG_proc, "lines=%d, bpl=%d\n", dev.params.lines,
-       dev.params.bytes_per_line)
+       dev.params.bytesPerLine)
 
   return(status)
 }
@@ -1178,7 +1178,7 @@ get_filled_data_length(Leo_Scanner * dev, size_t * to_read)
   if(size != 0x10)
     {
       DBG(DBG_error,
-	   "get_filled_data_length: GET DATA BUFFER STATUS returned an invalid size(%ld)\n",
+	   "get_filled_data_length: GET DATA BUFFER Status returned an invalid size(%ld)\n",
 	   (long) size)
       return Sane.STATUS_IO_ERROR
     }
@@ -1569,7 +1569,7 @@ leo_fill_image(Leo_Scanner * dev)
 	size = 0x7fff
 
       /* Always read a multiple of a line. */
-      size = size - (size % dev.params.bytes_per_line)
+      size = size - (size % dev.params.bytesPerLine)
 
       if(size == 0)
 	{
@@ -1580,7 +1580,7 @@ leo_fill_image(Leo_Scanner * dev)
 	}
 
       DBG(DBG_info, "leo_fill_image: to read   = %ld bytes(bpl=%d)\n",
-	   (long) size, dev.params.bytes_per_line)
+	   (long) size, dev.params.bytesPerLine)
 
       MKSCSI_READ_10 (cdb, 0, 0, size)
 
@@ -1604,7 +1604,7 @@ leo_fill_image(Leo_Scanner * dev)
 	  /* Reorder the lines. The scanner gives color by color for
 	   * each line. */
 	  unsigned char *src = image
-	  Int nb_lines = size / dev.params.bytes_per_line
+	  Int nb_lines = size / dev.params.bytesPerLine
 	  var i: Int, j
 
 	  for(i = 0; i < nb_lines; i++)
@@ -1623,9 +1623,9 @@ leo_fill_image(Leo_Scanner * dev)
 		}
 
 	      /* Copy the line back. */
-	      memcpy(src, dev.buffer, dev.params.bytes_per_line)
+	      memcpy(src, dev.buffer, dev.params.bytesPerLine)
 
-	      src += dev.params.bytes_per_line
+	      src += dev.params.bytesPerLine
 	    }
 	}
 
@@ -1865,7 +1865,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
 
   while(sanei_config_read(dev_name, sizeof(dev_name), fp))
     {
-      if(dev_name[0] == '#')	/* ignore line comments */
+      if(dev_name[0] == "#")	/* ignore line comments */
 	continue
       len = strlen(dev_name)
 
@@ -2272,19 +2272,19 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	case LEO_HALFTONE:
 	  dev.params.format = Sane.FRAME_GRAY
 	  dev.params.pixels_per_line = dev.width & ~0x7
-	  dev.params.bytes_per_line = dev.params.pixels_per_line / 8
+	  dev.params.bytesPerLine = dev.params.pixels_per_line / 8
 	  dev.params.depth = 1
 	  break
 	case LEO_GRAYSCALE:
 	  dev.params.format = Sane.FRAME_GRAY
 	  dev.params.pixels_per_line = dev.width
-	  dev.params.bytes_per_line = dev.params.pixels_per_line
+	  dev.params.bytesPerLine = dev.params.pixels_per_line
 	  dev.params.depth = 8
 	  break
 	case LEO_COLOR:
 	  dev.params.format = Sane.FRAME_RGB
 	  dev.params.pixels_per_line = dev.width
-	  dev.params.bytes_per_line = dev.params.pixels_per_line * 3
+	  dev.params.bytesPerLine = dev.params.pixels_per_line * 3
 	  dev.params.depth = 8
 	  break
 	}
@@ -2379,8 +2379,8 @@ Sane.start(Sane.Handle handle)
   dev.image_end = 0
   dev.image_begin = 0
 
-  dev.bytes_left = dev.params.bytes_per_line * dev.params.lines
-  dev.real_bytes_left = dev.params.bytes_per_line * dev.params.lines
+  dev.bytes_left = dev.params.bytesPerLine * dev.params.lines
+  dev.real_bytes_left = dev.params.bytesPerLine * dev.params.lines
 
   dev.scanning = Sane.TRUE
 

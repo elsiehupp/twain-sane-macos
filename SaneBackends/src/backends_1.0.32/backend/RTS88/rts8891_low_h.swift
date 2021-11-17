@@ -198,7 +198,7 @@ struct Rts8891_Device
    * the one at the SANE level*/
   Int lines;		/* lines to scan */
   Int pixels;		/* width of scan area */
-  Int bytes_per_line;	/* number of bytes per line */
+  Int bytesPerLine;	/* number of bytes per line */
   Int xstart;		/* x start coordinate */
   Int ystart;		/* y start coordinate */
 

@@ -128,7 +128,7 @@ get_PNG_data(capabilities_t *scanner, Int *width, Int *height, Int *bps)
     if(png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS))
     	png_set_tRNS_to_alpha(png_ptr)
     if(bit_depth == 16)
-   	png_set_strip_16 (png_ptr)
+   	png_set_strip_16(png_ptr)
     else if(bit_depth < 8)
    	png_set_packing(png_ptr)
     // update info structure to apply transformations

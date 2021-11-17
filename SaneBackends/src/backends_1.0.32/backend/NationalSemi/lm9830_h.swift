@@ -10,7 +10,7 @@
 
 /* LM9830 registers(see lm9830 datasheet for a full description */
 #define IMAGE_DATA_AVAIL 0x01
-#define STATUS		0x02
+#define Status		0x02
 #define DATAPORT_TARGET	0x03
 #define DATAPORT_ADDR	0x04
 #define DATAPORT	0x06

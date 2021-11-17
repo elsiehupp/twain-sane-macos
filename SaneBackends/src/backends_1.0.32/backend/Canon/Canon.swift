@@ -189,7 +189,7 @@ typedef enum
 
   OPT_ADF_GROUP,		/* to allow display of options. */
   OPT_FLATBED_ONLY,		/* in case you have a sheetfeeder
-				   but don't want to use it. */
+				   but don"t want to use it. */
 
   OPT_TPU_GROUP,
   OPT_TPU_ON,
@@ -466,7 +466,7 @@ static char *option_name = [
    - Sane.exit() : terminate use of backend, free devicename and device-struture
 */
 
-/* This driver's flow:
+/* This driver"s flow:
 
  - Sane.init
  . - attach_one
@@ -957,7 +957,7 @@ do_gamma(CANON_Scanner * s)
   if(!strcmp(s.val[OPT_MODE].s, Sane.VALUE_SCAN_MODE_GRAY))
     {
       /* If scanning in gray mode, use the first curve for the
-         scanner's monochrome gamma component                    */
+         scanner"s monochrome gamma component                    */
       for(j = 0; j < 256; j++)
 	{
 	  if(!neg)
@@ -1069,7 +1069,7 @@ attach(const char *devnam, CANON_Device ** devp)
       || strncmp((char *) (ibuf + 8), "CANON", 5) != 0
       || strncmp((char *) (ibuf + 16), "IX-", 3) != 0)
     {
-      DBG(1, "attach: device doesn't look like a Canon scanner\n")
+      DBG(1, "attach: device doesn"t look like a Canon scanner\n")
       sanei_scsi_close(fd)
       fd = -1
       return(Sane.STATUS_INVAL)
@@ -1331,10 +1331,10 @@ attach(const char *devnam, CANON_Device ** devp)
       dev.info.has_fixed_resolutions = Sane.FALSE
     }
 
-  DBG(5, "dev.sane.name = '%s'\n", dev.sane.name)
-  DBG(5, "dev.sane.vendor = '%s'\n", dev.sane.vendor)
-  DBG(5, "dev.sane.model = '%s'\n", dev.sane.model)
-  DBG(5, "dev.sane.type = '%s'\n", dev.sane.type)
+  DBG(5, "dev.sane.name = "%s"\n", dev.sane.name)
+  DBG(5, "dev.sane.vendor = "%s"\n", dev.sane.vendor)
+  DBG(5, "dev.sane.model = "%s"\n", dev.sane.model)
+  DBG(5, "dev.sane.type = "%s"\n", dev.sane.type)
 
   if(dev.tpu.Status != TPU_STAT_NONE)
     get_tpu_stat(fd, dev);		/* Query TPU */
@@ -1469,7 +1469,7 @@ do_cancel(CANON_Scanner * s)
 	      return(Sane.STATUS_INVAL)
 	    }
 	  s.AF_NOW = Sane.TRUE
-	  DBG(1, "do_cancel AF_NOW = '%d'\n", s.AF_NOW)
+	  DBG(1, "do_cancel AF_NOW = "%d"\n", s.AF_NOW)
 	}
 
       DBG(21, "do_cancel: reset_flag = %d\n", s.reset_flag)
@@ -1737,7 +1737,7 @@ init_options(CANON_Scanner * s)
   /* Manual focus */
   s.opt[OPT_FOCUS].name = "focus"
   s.opt[OPT_FOCUS].title = Sane.I18N("Manual focus position")
-  s.opt[OPT_FOCUS].desc = Sane.I18N("Set the optical system's focus "
+  s.opt[OPT_FOCUS].desc = Sane.I18N("Set the optical system"s focus "
   "position by hand(default: 128).")
   s.opt[OPT_FOCUS].type = Sane.TYPE_INT
   s.opt[OPT_FOCUS].unit = Sane.UNIT_NONE
@@ -2211,13 +2211,13 @@ do_focus(CANON_Scanner * s)
   u_char ebuf[74]
   size_t buf_size
 
-  DBG(3, "do_focus: sending GET FILM STATUS\n")
+  DBG(3, "do_focus: sending GET FILM Status\n")
   memset(ebuf, 0, sizeof(ebuf))
   buf_size = 4
   status = get_film_status(s.fd, ebuf, &buf_size)
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(1, "do_focus: GET FILM STATUS failed\n")
+      DBG(1, "do_focus: GET FILM Status failed\n")
       if(status == Sane.STATUS_UNSUPPORTED)
 	return(Sane.STATUS_GOOD)
       else
@@ -2247,13 +2247,13 @@ do_focus(CANON_Scanner * s)
 	}
     }
 
-  DBG(3, "do_focus: sending GET FILM STATUS\n")
+  DBG(3, "do_focus: sending GET FILM Status\n")
   memset(ebuf, 0, sizeof(ebuf))
   buf_size = 4
   status = get_film_status(s.fd, ebuf, &buf_size)
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(1, "do_focus: GET FILM STATUS failed\n")
+      DBG(1, "do_focus: GET FILM Status failed\n")
       if(status == Sane.STATUS_UNSUPPORTED)
 	  return(Sane.STATUS_GOOD)
       else

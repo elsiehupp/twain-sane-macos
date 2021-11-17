@@ -52,17 +52,17 @@ std::ostream& operator<<(std::ostream& out, const Genesys_Settings& settings)
     StreamStateSaver state_saver{out]
 
     out << "Genesys_Settings{\n"
-        << "    xres: " << settings.xres << " yres: " << settings.yres << '\n'
-        << "    lines: " << settings.lines << '\n'
-        << "    pixels per line(actual): " << settings.pixels << '\n'
-        << "    pixels per line(requested): " << settings.requested_pixels << '\n'
-        << "    depth: " << settings.depth << '\n'
+        << "    xres: " << settings.xres << " yres: " << settings.yres << "\n"
+        << "    lines: " << settings.lines << "\n"
+        << "    pixels per line(actual): " << settings.pixels << "\n"
+        << "    pixels per line(requested): " << settings.requested_pixels << "\n"
+        << "    depth: " << settings.depth << "\n"
     auto prec = out.precision()
     out.precision(3)
-    out << "    tl_x: " << settings.tl_x << " tl_y: " << settings.tl_y << '\n'
+    out << "    tl_x: " << settings.tl_x << " tl_y: " << settings.tl_y << "\n"
     out.precision(prec)
-    out << "    scan_mode: " << settings.scan_mode << '\n'
-        << '}'
+    out << "    scan_mode: " << settings.scan_mode << "\n"
+        << "}"
     return out
 }
 
@@ -76,17 +76,17 @@ std::ostream& operator<<(std::ostream& out, const SetupParams& params)
         << "    xres: " << params.xres
             << " startx: " << params.startx
             << " pixels per line(actual): " << params.pixels
-            << " pixels per line(requested): " << params.requested_pixels << '\n'
+            << " pixels per line(requested): " << params.requested_pixels << "\n"
 
         << "    yres: " << params.yres
             << " lines: " << params.lines
-            << " starty: " << params.starty << (reverse ? " (reverse)" : "") << '\n'
+            << " starty: " << params.starty << (reverse ? " (reverse)" : "") << "\n"
 
-        << "    depth: " << params.depth << '\n'
-        << "    channels: " << params.channels << '\n'
-        << "    scan_mode: " << params.scan_mode << '\n'
-        << "    color_filter: " << params.color_filter << '\n'
-        << "    flags: " << params.flags << '\n'
+        << "    depth: " << params.depth << "\n"
+        << "    channels: " << params.channels << "\n"
+        << "    scan_mode: " << params.scan_mode << "\n"
+        << "    color_filter: " << params.color_filter << "\n"
+        << "    flags: " << params.flags << "\n"
         << "}"
     return out
 }
@@ -133,38 +133,38 @@ bool ScanSession::operator==(const ScanSession& other) const
 std::ostream& operator<<(std::ostream& out, const ScanSession& session)
 {
     out << "ScanSession{\n"
-        << "    computed: " << session.computed << '\n'
-        << "    full_resolution: " << session.full_resolution << '\n'
-        << "    optical_resolution: " << session.optical_resolution << '\n'
-        << "    optical_pixels: " << session.optical_pixels << '\n'
-        << "    optical_pixels_raw: " << session.optical_pixels_raw << '\n'
-        << "    optical_line_count: " << session.optical_line_count << '\n'
-        << "    output_resolution: " << session.output_resolution << '\n'
-        << "    output_startx: " << session.output_startx << '\n'
-        << "    output_pixels: " << session.output_pixels << '\n'
-        << "    output_line_bytes: " << session.output_line_bytes << '\n'
-        << "    output_line_bytes_raw: " << session.output_line_bytes_raw << '\n'
-        << "    output_line_count: " << session.output_line_count << '\n'
-        << "    num_staggered_lines: " << session.num_staggered_lines << '\n'
-        << "    color_shift_lines_r: " << session.color_shift_lines_r << '\n'
-        << "    color_shift_lines_g: " << session.color_shift_lines_g << '\n'
-        << "    color_shift_lines_b: " << session.color_shift_lines_b << '\n'
-        << "    max_color_shift_lines: " << session.max_color_shift_lines << '\n'
-        << "    enable_ledadd: " << session.enable_ledadd << '\n'
-        << "    stagger_x: " << session.stagger_x << '\n'
-        << "    stagger_y: " << session.stagger_y << '\n'
-        << "    segment_count: " << session.segment_count << '\n'
-        << "    pixel_startx: " << session.pixel_startx << '\n'
-        << "    pixel_endx: " << session.pixel_endx << '\n'
-        << "    pixel_count_ratio: " << session.pixel_count_ratio << '\n'
-        << "    conseq_pixel_dist: " << session.conseq_pixel_dist << '\n'
+        << "    computed: " << session.computed << "\n"
+        << "    full_resolution: " << session.full_resolution << "\n"
+        << "    optical_resolution: " << session.optical_resolution << "\n"
+        << "    optical_pixels: " << session.optical_pixels << "\n"
+        << "    optical_pixels_raw: " << session.optical_pixels_raw << "\n"
+        << "    optical_line_count: " << session.optical_line_count << "\n"
+        << "    output_resolution: " << session.output_resolution << "\n"
+        << "    output_startx: " << session.output_startx << "\n"
+        << "    output_pixels: " << session.output_pixels << "\n"
+        << "    output_line_bytes: " << session.output_line_bytes << "\n"
+        << "    output_line_bytes_raw: " << session.output_line_bytes_raw << "\n"
+        << "    output_line_count: " << session.output_line_count << "\n"
+        << "    num_staggered_lines: " << session.num_staggered_lines << "\n"
+        << "    color_shift_lines_r: " << session.color_shift_lines_r << "\n"
+        << "    color_shift_lines_g: " << session.color_shift_lines_g << "\n"
+        << "    color_shift_lines_b: " << session.color_shift_lines_b << "\n"
+        << "    max_color_shift_lines: " << session.max_color_shift_lines << "\n"
+        << "    enable_ledadd: " << session.enable_ledadd << "\n"
+        << "    stagger_x: " << session.stagger_x << "\n"
+        << "    stagger_y: " << session.stagger_y << "\n"
+        << "    segment_count: " << session.segment_count << "\n"
+        << "    pixel_startx: " << session.pixel_startx << "\n"
+        << "    pixel_endx: " << session.pixel_endx << "\n"
+        << "    pixel_count_ratio: " << session.pixel_count_ratio << "\n"
+        << "    conseq_pixel_dist: " << session.conseq_pixel_dist << "\n"
         << "    output_segment_pixel_group_count: "
-            << session.output_segment_pixel_group_count << '\n'
-        << "    shading_pixel_offset: " << session.shading_pixel_offset << '\n'
-        << "    buffer_size_read: " << session.buffer_size_read << '\n'
-        << "    enable_ledadd: " << session.enable_ledadd << '\n'
-        << "    use_host_side_calib: " << session.use_host_side_calib << '\n'
-        << "    params: " << format_indent_braced_list(4, session.params) << '\n'
+            << session.output_segment_pixel_group_count << "\n"
+        << "    shading_pixel_offset: " << session.shading_pixel_offset << "\n"
+        << "    buffer_size_read: " << session.buffer_size_read << "\n"
+        << "    enable_ledadd: " << session.enable_ledadd << "\n"
+        << "    use_host_side_calib: " << session.use_host_side_calib << "\n"
+        << "    params: " << format_indent_braced_list(4, session.params) << "\n"
         << "}"
     return out
 }
@@ -172,13 +172,13 @@ std::ostream& operator<<(std::ostream& out, const ScanSession& session)
 std::ostream& operator<<(std::ostream& out, const Sane.Parameters& params)
 {
     out << "Sane.Parameters{\n"
-        << "    format: " << static_cast<unsigned>(params.format) << '\n'
-        << "    last_frame: " << params.last_frame << '\n'
-        << "    bytes_per_line: " << params.bytes_per_line << '\n'
-        << "    pixels_per_line: " << params.pixels_per_line << '\n'
-        << "    lines: " << params.lines << '\n'
-        << "    depth: " << params.depth << '\n'
-        << '}'
+        << "    format: " << static_cast<unsigned>(params.format) << "\n"
+        << "    last_frame: " << params.last_frame << "\n"
+        << "    bytesPerLine: " << params.bytesPerLine << "\n"
+        << "    pixels_per_line: " << params.pixels_per_line << "\n"
+        << "    lines: " << params.lines << "\n"
+        << "    depth: " << params.depth << "\n"
+        << "}"
     return out
 }
 

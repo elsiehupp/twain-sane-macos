@@ -42,23 +42,23 @@ import Sane.sanei
 import Sane.saneopts
 
 static struct option basic_options[] = {
-	{"device-name", required_argument, NULL, 'd'},
-	{"level", required_argument, NULL, 'l'},
-	{"scan", no_argument, NULL, 's'},
-	{"recursion", required_argument, NULL, 'r'},
-	{"get-devices", required_argument, NULL, 'g'},
-	{"help", no_argument, NULL, 'h'}
+	{"device-name", required_argument, NULL, "d"},
+	{"level", required_argument, NULL, "l"},
+	{"scan", no_argument, NULL, "s"},
+	{"recursion", required_argument, NULL, "r"},
+	{"get-devices", required_argument, NULL, "g"},
+	{"help", no_argument, NULL, "h"}
 ]
 
 static void
 test_options(Sane.Device * device, Int can_do_recursive)
 
 enum message_level {
-	MSG,						/* info message */
+	message,						/* info message */
 	INF,						/* non-urgent warning */
 	WRN,						/* warning */
 	ERR,						/* error, test can continue */
-	FATAL,						/* error, test can't/mustn't continue */
+	FATAL,						/* error, test can"t/mustn"t continue */
 	BUG							/* bug in tstbackend */
 ]
 
@@ -67,7 +67,7 @@ Int message_number_err = 0
 #ifdef HAVE_LONG_LONG
 long long checks_done = 0
 #else
-/* It may overflow, but it's no big deal. */
+/* It may overflow, but it"s no big deal. */
 long Int checks_done = 0
 #endif
 
@@ -106,7 +106,7 @@ static Int check(enum message_level level, Int condition, const char *format, ..
 	char str[1000]
 	va_list args
 
-	if(level != MSG && level != INF) checks_done ++
+	if(level != message && level != INF) checks_done ++
 
 	if(condition != 0)
 		return condition
@@ -116,7 +116,7 @@ static Int check(enum message_level level, Int condition, const char *format, ..
 	va_end(args)
 
 	switch(level) {
-	case MSG:
+	case message:
 		printf("          %s\n", str)
 		break
 	case INF:					/* info */
@@ -232,7 +232,7 @@ test_parameters(Sane.Device * device, Sane.Parameters *params)
 	check(FATAL, ((p.depth == 1) ||
 				  (p.depth == 8) ||
 				  (p.depth == 16)),
-		  "parameter depth is neither 1, 8 or 16 (%d)", p.depth)
+		  "parameter depth is neither 1, 8 or 16(%d)", p.depth)
 
 	if(params) {
 		*params = p
@@ -424,16 +424,16 @@ test_options(Sane.Device * device, Int can_do_recursive)
 		if(opt.name && opt.name[0]) {
 			const char *p = opt.name
 
-			check(ERR, (*p >= 'a' && *p <= 'z'),
+			check(ERR, (*p >= "a" && *p <= "z"),
 				  "name for option[%d, %s] must start with in letter in[a..z]",
 				  option_num, opt.name)
 
 			p++
 
 			while(*p) {
-				check(ERR, ((*p >= 'a' && *p <= 'z') ||
-							(*p == '-') ||
-							(*p >= '0' && *p <= '9')),
+				check(ERR, ((*p >= "a" && *p <= "z") ||
+							(*p == "-") ||
+							(*p >= "0" && *p <= "9")),
 					  "name for option[%d, %s] must only have the letters[-a..z0..9]",
 					  option_num, opt.name)
 				p++
@@ -500,7 +500,7 @@ test_options(Sane.Device * device, Int can_do_recursive)
 			/* get with NULL info.
 			 *
 			 * The SANE standard is not explicit on that subject. I
-			 * consider that an inactive option shouldn't be read by a
+			 * consider that an inactive option shouldn"t be read by a
 			 * frontend because its value is meaningless. I think
 			 * that, in that case, Sane.STATUS_INVAL is an appropriate
 			 * return.
@@ -1090,7 +1090,7 @@ static char *get_option_value(Sane.Handle device, const char *option_name)
 				str[0] = 0
 			}
 		} else {
-			/* Shouldn't happen. */
+			/* Shouldn"t happen. */
 			strcpy(str, "backend default")
 		}
 
@@ -1182,7 +1182,7 @@ static void test_scan(Sane.Handle device)
 
 	if(test_level > 2) {
 		/* Do a scan, reading byte per byte */
-		check(MSG, 0, "TEST: scan byte per byte - %s", display_scan_parameters(device))
+		check(message, 0, "TEST: scan byte per byte - %s", display_scan_parameters(device))
 
 		test_parameters(device, &params)
 		status = Sane.start(device)
@@ -1208,7 +1208,7 @@ static void test_scan(Sane.Handle device)
 			  "Sane.set_io_mode with Sane.FALSE must return Sane.STATUS_GOOD")
 
 		/* Test Sane.get_select_fd */
-		fd = 0x76575;				/* won't exists */
+		fd = 0x76575;				/* won"t exists */
 		status = Sane.get_select_fd(device, &fd)
 		check(ERR, (status == Sane.STATUS_GOOD ||
 					status == Sane.STATUS_UNSUPPORTED),
@@ -1216,7 +1216,7 @@ static void test_scan(Sane.Handle device)
 			  Sane.strstatus(status))
 		if(status == Sane.STATUS_GOOD) {
 			check(ERR, (fd != 0x76575),
-				  "Sane.get_select_fd didn't set the fd although it should have")
+				  "Sane.get_select_fd didn"t set the fd although it should have")
 			check(ERR, (fd >= 0),
 				  "Sane.get_select_fd returned an invalid fd")
 		}
@@ -1233,9 +1233,9 @@ static void test_scan(Sane.Handle device)
 
 		test_parameters(device, &params)
 
-		if(params.bytes_per_line != 0 && params.lines != 0) {
+		if(params.bytesPerLine != 0 && params.lines != 0) {
 
-			to_read = params.bytes_per_line * params.lines
+			to_read = params.bytesPerLine * params.lines
 			while(Sane.TRUE) {
 				len = 76457645;		/* garbage */
 				guards_set(image, 1)
@@ -1289,7 +1289,7 @@ static void test_scan(Sane.Handle device)
 	/*
 	 * Do a partial scan
 	 */
-	check(MSG, 0, "TEST: partial scan - %s", display_scan_parameters(device))
+	check(message, 0, "TEST: partial scan - %s", display_scan_parameters(device))
 
 	status = Sane.start(device)
 	rc = check(ERR, (status == Sane.STATUS_GOOD),
@@ -1298,7 +1298,7 @@ static void test_scan(Sane.Handle device)
 
 	test_parameters(device, &params)
 
-	if(params.bytes_per_line != 0 && params.lines != 0) {
+	if(params.bytesPerLine != 0 && params.lines != 0) {
 
 		len = 10
 
@@ -1307,7 +1307,7 @@ static void test_scan(Sane.Handle device)
 		guards_check(image, 1)
 
 		check(ERR, (len == 1),
-			  "Sane.read() didn't return 1 byte as requested")
+			  "Sane.read() didn"t return 1 byte as requested")
 	}
 
 	Sane.cancel(device)
@@ -1316,7 +1316,7 @@ static void test_scan(Sane.Handle device)
 	/*
 	 * Do a scan, reading random length.
 	 */
-	check(MSG, 0, "TEST: scan random length - %s", display_scan_parameters(device))
+	check(message, 0, "TEST: scan random length - %s", display_scan_parameters(device))
 
 	test_parameters(device, &params)
 
@@ -1342,9 +1342,9 @@ static void test_scan(Sane.Handle device)
 
 	test_parameters(device, &params)
 
-	if(params.bytes_per_line != 0 && params.lines != 0) {
+	if(params.bytesPerLine != 0 && params.lines != 0) {
 
-		to_read = params.bytes_per_line * params.lines
+		to_read = params.bytesPerLine * params.lines
 		srandom(time(NULL))
 
 		while(Sane.TRUE) {
@@ -1375,7 +1375,7 @@ static void test_scan(Sane.Handle device)
 			/* The scanner cannot return 0. If it returns 0, we may
 			 * loop forever. */
 			rc = check(ERR, (len > 0),
-					   "backend didn't return any data - skipping test")
+					   "backend didn"t return any data - skipping test")
 			if(!rc) {
 				break
 			}
@@ -1408,7 +1408,7 @@ static void test_scan(Sane.Handle device)
 	/*
 	 * Do a scan with a fixed size and a big buffer
 	 */
-	check(MSG, 0, "TEST: scan with a big max_len - %s", display_scan_parameters(device))
+	check(message, 0, "TEST: scan with a big max_len - %s", display_scan_parameters(device))
 
 	test_parameters(device, &params)
 
@@ -1419,9 +1419,9 @@ static void test_scan(Sane.Handle device)
 
 	test_parameters(device, &params)
 
-	if(params.bytes_per_line != 0 && params.lines != 0) {
+	if(params.bytesPerLine != 0 && params.lines != 0) {
 
-		to_read = params.bytes_per_line * params.lines
+		to_read = params.bytesPerLine * params.lines
 		while(Sane.TRUE) {
 			ask_len = IMAGE_SIZE
 			len = rand();		/* garbage */
@@ -1447,7 +1447,7 @@ static void test_scan(Sane.Handle device)
 
 			/* If the scanner return 0, we may loop forever. */
 			rc = check(ERR, (len > 0),
-					   "backend didn't return any data - skipping test")
+					   "backend didn"t return any data - skipping test")
 			if(!rc) {
 				break
 			}
@@ -1641,13 +1641,13 @@ Sane.Status status
 	/* loop on detecting device to let time to plug/unplug scanners */
 	while(loop<time) {
 		/* print and free detected device list */
-		check(MSG, 0, "DETECTED DEVICES:")
+		check(message, 0, "DETECTED DEVICES:")
 		for(i=0; (*device_list)[i] != NULL; i++) {
 			dev = (*device_list)[i]
-			check(MSG, 0, "\t%s:%s %s:%s", dev.vendor, dev.name, dev.type, dev.model)
+			check(message, 0, "\t%s:%s %s:%s", dev.vendor, dev.name, dev.type, dev.model)
 		}
 		if(i==0) {
-			check(MSG, 0, "\tnone...")
+			check(message, 0, "\tnone...")
 		}
 		sleep(1)
 		(*device_list) = NULL
@@ -1710,15 +1710,15 @@ func Int main(Int argc, char **argv)
 	while((ch = getopt_long(argc, argv, "-v:d:l:r:g:h:s", basic_options,
 							  &index)) != EOF) {
 		switch(ch) {
-		case 'v':
+		case "v":
 			verbose_level = atoi(optarg)
 			break
 
-		case 'd':
+		case "d":
 			devname = strdup(optarg)
 			break
 
-		case 'l':
+		case "l":
 			test_level = atoi(optarg)
 			if(test_level < 0 || test_level > 4) {
 				fprintf(stderr, "invalid test_level\n")
@@ -1726,23 +1726,23 @@ func Int main(Int argc, char **argv)
 			}
 			break
 
-		case 's':
+		case "s":
 			default_scan = 1
 			break
 
-		case 'r':
+		case "r":
 			recursion_level = atoi(optarg)
 			break
 
-		case 'g':
+		case "g":
 			time = atoi(optarg)
 			break
 
-		case 'h':
+		case "h":
 			usage(argv[0])
 			return(0)
 
-		case '?':
+		case "?":
 			fprintf(stderr, "invalid option\n")
 			return(1)
 
@@ -1753,7 +1753,7 @@ func Int main(Int argc, char **argv)
 	}
 
 	/* First test */
-	check(MSG, 0, "TEST: init/exit")
+	check(message, 0, "TEST: init/exit")
 	for(i=0; i<10; i++) {
 		/* Test 1. init/exit with a version code */
 		status = Sane.init(&version_code, NULL)
@@ -1829,10 +1829,10 @@ func Int main(Int argc, char **argv)
 			   "no SANE devices found")
 	if(!rc) goto the_exit
 
-	check(MSG, 0, "using device %s", devname)
+	check(message, 0, "using device %s", devname)
 
 	/* Test open close */
-	check(MSG, 0, "TEST: open/close")
+	check(message, 0, "TEST: open/close")
 	for(i=0; i<10; i++) {
 		status = Sane.open(devname, &device)
 		rc = check(ERR, (status == Sane.STATUS_GOOD),
@@ -1852,7 +1852,7 @@ func Int main(Int argc, char **argv)
 
 
 	/* Test options */
-	check(MSG, 0, "TEST: options consistency")
+	check(message, 0, "TEST: options consistency")
 	status = Sane.open(devname, &device)
 	check(FATAL, (status == Sane.STATUS_GOOD),
 		  "Sane.open failed with %s for device %s", Sane.strstatus(status), devname)
@@ -1868,7 +1868,7 @@ func Int main(Int argc, char **argv)
 
 
 	/* Test scans */
-	check(MSG, 0, "TEST: scan test")
+	check(message, 0, "TEST: scan test")
 	status = Sane.init(&version_code, NULL)
 	check(FATAL, (status == Sane.STATUS_GOOD),
 		  "Sane.init failed with %s", Sane.strstatus(status))

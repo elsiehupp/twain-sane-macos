@@ -370,7 +370,7 @@ record_line(Int reset,
     }
 
   while(1)
-    {				/* We'll exit inside the loop... */
+    {				/* We"ll exit inside the loop... */
       usb_bulk_read(udev, 1, scan_line, linelen, rd_timeout)
       if(dpi == 1200)
 	{
@@ -830,7 +830,7 @@ set_lamp_timer(p_usb_dev_handle udev, Int timeout_in_mins)
 
 
 static void
-calculate_lut8 (double *poly, Int skip, unsigned char *dest)
+calculate_lut8(double *poly, Int skip, unsigned char *dest)
 {
   var i: Int
   double sum, x
@@ -868,7 +868,7 @@ calculate_lut8 (double *poly, Int skip, unsigned char *dest)
 }
 
 static void
-download_lut8 (p_usb_dev_handle udev, Int dpi, Int incolor)
+download_lut8(p_usb_dev_handle udev, Int dpi, Int incolor)
 {
   double color[10] = { 0.0, 1.84615261590892E-01, -2.19613868292657E-04,
     1.79549523214101E-07, -8.69378513113239E-11,
@@ -896,7 +896,7 @@ download_lut8 (p_usb_dev_handle udev, Int dpi, Int incolor)
 
       if(!incolor)
 	{
-	  calculate_lut8 (gray, 2, lut)
+	  calculate_lut8(gray, 2, lut)
 	  write_regs(udev, 6, 0xb0, 0x00, 0xb1, 0x20, 0xb2, 0x07, 0xb3, 0xff,
 		      0xb4, 0x2f, 0xb5, 0x07)
 	  write_vctl(udev, 0x0c, 0x0002, 0x1000, 0x00)
@@ -904,7 +904,7 @@ download_lut8 (p_usb_dev_handle udev, Int dpi, Int incolor)
 	}
       else
 	{
-	  calculate_lut8 (color, 2, lut)
+	  calculate_lut8(color, 2, lut)
 	  write_regs(udev, 6, 0xb0, 0x00, 0xb1, 0x10, 0xb2, 0x07, 0xb3, 0xff,
 		      0xb4, 0x1f, 0xb5, 0x07)
 	  write_vctl(udev, 0x0c, 0x0002, 0x1000, 0x00)
@@ -928,7 +928,7 @@ download_lut8 (p_usb_dev_handle udev, Int dpi, Int incolor)
 
       if(!incolor)
 	{
-	  calculate_lut8 (gray, 1, lut)
+	  calculate_lut8(gray, 1, lut)
 	  write_regs(udev, 6, 0xb0, 0x00, 0xb1, 0x40, 0xb2, 0x06, 0xb3, 0xff,
 		      0xb4, 0x5f, 0xb5, 0x06)
 	  write_vctl(udev, 0x0c, 0x0002, 0x2000, 0x00)
@@ -936,7 +936,7 @@ download_lut8 (p_usb_dev_handle udev, Int dpi, Int incolor)
 	}
       else
 	{
-	  calculate_lut8 (color, 1, lut)
+	  calculate_lut8(color, 1, lut)
 	  write_regs(udev, 6, 0xb0, 0x00, 0xb1, 0x20, 0xb2, 0x06, 0xb3, 0xff,
 		      0xb4, 0x3f, 0xb5, 0x06)
 	  write_vctl(udev, 0x0c, 0x0002, 0x2000, 0x00)

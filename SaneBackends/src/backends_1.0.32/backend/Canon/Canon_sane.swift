@@ -67,11 +67,11 @@ Sane.init(Int * version_code, Sane.Auth_Callback __Sane.unused__ authorize)
       /* while(fgets(line, sizeof(line), fp)) */
       while(sanei_config_read(line, sizeof(line), fp))
 	{
-	  if(line[0] == '#')	/* ignore line comments */
+	  if(line[0] == "#")	/* ignore line comments */
 	    continue
 	  len = strlen(line)
-	  /*if(line[len - 1] == '\n')
-	     line[--len] = '\0'; */
+	  /*if(line[len - 1] == "\n")
+	     line[--len] = "\0"; */
 
 	  if(!len)
 	    continue;		/* ignore empty lines */
@@ -143,7 +143,7 @@ Sane.open(Sane.String_Const devnam, Sane.Handle * handle)
 
   DBG(1, ">> Sane.open\n")
 
-  if(devnam[0] == '\0')
+  if(devnam[0] == "\0")
     {
       for(dev = first_dev; dev; dev = dev.next)
 	{
@@ -177,7 +177,7 @@ Sane.open(Sane.String_Const devnam, Sane.Handle * handle)
     {
       for(i = 0; i < 4; i++)
 	{
-	  s.gamma_map[i][0] = '\0'
+	  s.gamma_map[i][0] = "\0"
 	  s.gamma_table[i][0] = 0
 	}
       for(j = 1; j < 4096; ++j)
@@ -255,7 +255,7 @@ Sane.close(Sane.Handle handle)
 	  s.fd = -1
 	}
       s.AF_NOW = Sane.TRUE
-      DBG(1, "Sane.close AF_NOW = '%d'\n", s.AF_NOW)
+      DBG(1, "Sane.close AF_NOW = "%d"\n", s.AF_NOW)
     }
 
   if(s.fd != -1)
@@ -503,7 +503,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 	      if(info)
 		*info |= Sane.INFO_RELOAD_OPTIONS
 	      if(!s.val[option].w)
-		{		/* don't bind */
+		{		/* don"t bind */
 		  s.opt[OPT_Y_RESOLUTION].cap &= ~Sane.CAP_INACTIVE
 		  s.opt[OPT_X_RESOLUTION].title =
 		    Sane.TITLE_SCAN_X_RESOLUTION
@@ -582,7 +582,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 	      if(info)
 		*info |= Sane.INFO_RELOAD_OPTIONS
 	      if(!s.val[option].w)
-		{		/* don't bind */
+		{		/* don"t bind */
 		  s.opt[OPT_HILITE_R].cap &= ~Sane.CAP_INACTIVE
 		  s.opt[OPT_SHADOW_R].cap &= ~Sane.CAP_INACTIVE
 		  s.opt[OPT_HILITE_B].cap &= ~Sane.CAP_INACTIVE
@@ -638,7 +638,7 @@ Sane.control_option(Sane.Handle handle, Int option,
 	      s.hw.adf.Priority |= 0x03;	/* flatbed mode */
 	      s.hw.adf.Feeder &= 0x00;	/* autofeed off(default) */
 	      s.hw.adf.Status = ADF_STAT_DISABLED
-	    }		/* if it isn't connected, don't bother fixing */
+	    }		/* if it isn"t connected, don"t bother fixing */
 	  return Sane.STATUS_GOOD
 
 	case OPT_TPU_ON:
@@ -913,9 +913,9 @@ Sane.control_option(Sane.Handle handle, Int option,
 	      s.fd = -1
 	      return(Sane.STATUS_INVAL)
 	    }
-	  DBG(21, "AF_NOW before = '%d'\n", s.AF_NOW)
+	  DBG(21, "AF_NOW before = "%d"\n", s.AF_NOW)
 	  s.AF_NOW = Sane.TRUE
-	  DBG(21, "AF_NOW after = '%d'\n", s.AF_NOW)
+	  DBG(21, "AF_NOW after = "%d"\n", s.AF_NOW)
 	  sanei_scsi_close(s.fd)
 	  s.fd = -1
 	  return status
@@ -1046,13 +1046,13 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
          scanning starts.  */
       if(xres > 0 && yres > 0 && width > 0 && length > 0)
 	{
-	  DBG(11, "Sane.get_parameters: width='%d', xres='%d', mud='%d'\n",
+	  DBG(11, "Sane.get_parameters: width="%d", xres="%d", mud="%d"\n",
 	       width, xres, s.hw.info.mud)
 	  s.params.pixels_per_line = width * xres / s.hw.info.mud
-	  DBG(11, "Sane.get_parameters: length='%d', yres='%d', mud='%d'\n",
+	  DBG(11, "Sane.get_parameters: length="%d", yres="%d", mud="%d"\n",
 	       length, yres, s.hw.info.mud)
 	  s.params.lines = length * yres / s.hw.info.mud
-	  DBG(11, "Sane.get_parameters: pixels_per_line='%d', lines='%d'\n",
+	  DBG(11, "Sane.get_parameters: pixels_per_line="%d", lines="%d"\n",
 	       s.params.pixels_per_line, s.params.lines)
 	}
 
@@ -1061,36 +1061,36 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters *params)
       || !strcmp(mode, Sane.VALUE_SCAN_MODE_HALFTONE))
 	{
 	  s.params.format = Sane.FRAME_GRAY
-	  s.params.bytes_per_line = s.params.pixels_per_line / 8
+	  s.params.bytesPerLine = s.params.pixels_per_line / 8
 	  /* workaround rounding problems */
-	  s.params.pixels_per_line = s.params.bytes_per_line * 8
+	  s.params.pixels_per_line = s.params.bytesPerLine * 8
 	  s.params.depth = 1
 	}
       else if(!strcmp(mode, Sane.VALUE_SCAN_MODE_GRAY))
 	{
 	  s.params.format = Sane.FRAME_GRAY
-	  s.params.bytes_per_line = s.params.pixels_per_line
+	  s.params.bytesPerLine = s.params.pixels_per_line
 	  s.params.depth = 8
 	}
       else if(!strcmp(mode, Sane.VALUE_SCAN_MODE_COLOR)
       || !strcmp(mode, Sane.I18N("Fine color")))
 	{
 	  s.params.format = Sane.FRAME_RGB
-	  s.params.bytes_per_line = 3 * s.params.pixels_per_line
+	  s.params.bytesPerLine = 3 * s.params.pixels_per_line
 	  s.params.depth = 8
 	}
       else
 	{
 	  s.params.format = Sane.FRAME_RGB
-	  s.params.bytes_per_line = 6 * s.params.pixels_per_line
+	  s.params.bytesPerLine = 6 * s.params.pixels_per_line
 	  s.params.depth = 16
 	}
       s.params.last_frame = Sane.TRUE
     }
 
-  DBG(11, "Sane.get_parameters: xres='%d', yres='%d', pixels_per_line='%d', "
-    "bytes_per_line='%d', lines='%d'\n", s.xres, s.yres,
-    s.params.pixels_per_line, s.params.bytes_per_line, s.params.lines)
+  DBG(11, "Sane.get_parameters: xres="%d", yres="%d", pixels_per_line="%d", "
+    "bytesPerLine="%d", lines="%d"\n", s.xres, s.yres,
+    s.params.pixels_per_line, s.params.bytesPerLine, s.params.lines)
 
   if(params)
     *params = s.params
@@ -1186,7 +1186,7 @@ Sane.start(Sane.Handle handle)
     }
 
   /* First make sure we have a current parameter set.  Some of the
-     parameters will be overwritten below, but that's OK.  */
+     parameters will be overwritten below, but that"s OK.  */
   status = Sane.get_parameters(s, 0)
   if(status != Sane.STATUS_GOOD)
     return status
@@ -1261,7 +1261,7 @@ Sane.start(Sane.Handle handle)
   s.length = Sane.UNFIX(s.val[OPT_BR_Y].w - s.val[OPT_TL_Y].w)
     * s.hw.info.mud / MM_PER_INCH
 
-  DBG(11, "s.width='%d', s.length='%d'\n", s.width, s.length)
+  DBG(11, "s.width="%d", s.length="%d"\n", s.width, s.length)
 
   if(s.hw.info.model != CS2700 && s.hw.info.model != FS2710)
     {
@@ -1595,10 +1595,10 @@ Sane.start(Sane.Handle handle)
   status = get_data_status(s.fd, dbuf, &buf_size)
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(1, "GET DATA STATUS failed: %s\n", Sane.strstatus(status))
+      DBG(1, "GET DATA Status failed: %s\n", Sane.strstatus(status))
       return(status)
     }
-  DBG(5, ">> GET DATA STATUS\n")
+  DBG(5, ">> GET DATA Status\n")
   DBG(5, "Scan Data Available=%d\n", (dbuf[9] << 16) + (dbuf[10] << 8)
        + dbuf[11])
   DBG(5, "Magnified Width=%d\n", (dbuf[12] <<24) + (dbuf[13] << 16)
@@ -1609,22 +1609,22 @@ Sane.start(Sane.Handle handle)
        + (dbuf[22] << 8) + dbuf[23])
   DBG(5, "Filled Data Buffer=%d\n", (dbuf[24] << 24) + (dbuf[25] << 16)
        + (dbuf[26] << 8) + dbuf[27])
-  DBG(5, "<< GET DATA STATUS\n")
+  DBG(5, "<< GET DATA Status\n")
 
-  s.bytes_to_read = s.params.bytes_per_line * s.params.lines
+  s.bytes_to_read = s.params.bytesPerLine * s.params.lines
 
   if(s.hw.info.model == FB1200)
     {
       if(s.bytes_to_read != (((size_t) dbuf[9] << 16)
       + ((size_t) dbuf[10] << 8) + (size_t) dbuf[11]))
 	{
-	  s.params.bytes_per_line = (((size_t) dbuf[12] << 24)
+	  s.params.bytesPerLine = (((size_t) dbuf[12] << 24)
 	    + ((size_t) dbuf[13] << 16) + ((size_t) dbuf[14] << 8)
 	    + (size_t)dbuf[15])
 	  s.params.lines = (((size_t) dbuf[16] << 24)
 	    + ((size_t) dbuf[17] << 16) + ((size_t) dbuf[18] << 8)
 	    + (size_t) dbuf[19])
-	  s.bytes_to_read = s.params.bytes_per_line * s.params.lines
+	  s.bytes_to_read = s.params.bytesPerLine * s.params.lines
 
 	  mode_str = s.val[OPT_MODE].s
 	  if(!strcmp(mode_str, Sane.VALUE_SCAN_MODE_LINEART))
@@ -1632,23 +1632,23 @@ Sane.start(Sane.Handle handle)
 	      if(((600 < s.val[OPT_X_RESOLUTION].w)
 		|| (600 < s.val[OPT_Y_RESOLUTION].w)))
 		{
-		  s.params.bytes_per_line *= 2
+		  s.params.bytesPerLine *= 2
 		  s.params.lines /= 2
 		}
-	      s.params.pixels_per_line = s.params.bytes_per_line * 8
+	      s.params.pixels_per_line = s.params.bytesPerLine * 8
 	    }
 	  else if(!strcmp(mode_str, Sane.VALUE_SCAN_MODE_GRAY))
-	      s.params.pixels_per_line = s.params.bytes_per_line
+	      s.params.pixels_per_line = s.params.bytesPerLine
 	  else if(!strcmp(mode_str, Sane.VALUE_SCAN_MODE_COLOR)
 	    || !strcmp(mode_str, Sane.I18N("Fine color")))
-	      s.params.pixels_per_line = s.params.bytes_per_line / 3
+	      s.params.pixels_per_line = s.params.bytesPerLine / 3
 	  else
-	    s.params.pixels_per_line = s.params.bytes_per_line / 6
+	    s.params.pixels_per_line = s.params.bytesPerLine / 6
 	}
     }
 
   DBG(1, "%d pixels per line, %d bytes, %d lines high, total %lu bytes, "
-       "dpi=%d\n", s.params.pixels_per_line, s.params.bytes_per_line,
+       "dpi=%d\n", s.params.pixels_per_line, s.params.bytesPerLine,
        s.params.lines, (u_long) s.bytes_to_read,
        s.val[OPT_X_RESOLUTION].w)
 
@@ -1857,7 +1857,7 @@ read_fb620 (Sane.Handle handle, Sane.Byte *buf, Int max_len,
       /* buffer is empty: read in scan line and sort color data as shown
          above */
 
-      nread = s.params.bytes_per_line
+      nread = s.params.bytesPerLine
 
       if(nread > s.bytes_to_read)
 	nread = s.bytes_to_read
@@ -1870,7 +1870,7 @@ read_fb620 (Sane.Handle handle, Sane.Byte *buf, Int max_len,
 	  return(Sane.STATUS_IO_ERROR)
 	}
 
-      s.buf_used = s.params.bytes_per_line
+      s.buf_used = s.params.bytesPerLine
 
       out = s.outbuffer
       pixel_per_line = s.params.pixels_per_line
@@ -1932,10 +1932,10 @@ Int *len)
   status = get_data_status(s.fd, dbuf, &buf_size)
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(1, "GET DATA STATUS failed: %s\n", Sane.strstatus(status))
+      DBG(1, "GET DATA Status failed: %s\n", Sane.strstatus(status))
       return(status)
     }
-  DBG(5, ">> GET DATA STATUS\n")
+  DBG(5, ">> GET DATA Status\n")
   DBG(5, "Scan Data Available=%d\n", (dbuf[9] << 16) + (dbuf[10] << 8)
     + dbuf[11])
   DBG(5, "Rest Data=%d bytes\n", (dbuf[20] << 24) + (dbuf[21] << 16)
@@ -1944,7 +1944,7 @@ Int *len)
     + (dbuf[26] << 8) + dbuf[27])
   DBG(5, "temp file position:%u\n", (unsigned Int) lseek(s.tmpfile,
   0, SEEK_CUR))
-  DBG(5, "<< GET DATA STATUS\n")
+  DBG(5, "<< GET DATA Status\n")
 
   *len = 0
 
@@ -1966,7 +1966,7 @@ Int *len)
 
   if(s.buf_pos >= s.buf_used && s.bytes_to_read)
     {
-      nread = s.params.bytes_per_line / 2
+      nread = s.params.bytesPerLine / 2
 
       if(nread > s.bytes_to_read)
 	nread = s.bytes_to_read
@@ -1981,7 +1981,7 @@ Int *len)
 
       /**** save the primary scan data to tmpfile ****/
 
-      if((Int) s.bytes_to_read > s.params.bytes_per_line
+      if((Int) s.bytes_to_read > s.params.bytesPerLine
 	* s.params.lines / 2)
 	{
 	  remain = nread
@@ -2003,10 +2003,10 @@ Int *len)
 
 	  s.bytes_to_read -= nread
 
-	  if((Int) s.bytes_to_read <= s.params.bytes_per_line
+	  if((Int) s.bytes_to_read <= s.params.bytesPerLine
 	    * s.params.lines / 2)
 	    {
-	      if((Int) s.bytes_to_read < s.params.bytes_per_line
+	      if((Int) s.bytes_to_read < s.params.bytesPerLine
 		* s.params.lines / 2)
 		DBG(1, "warning: read more data for the primary scan "
 		  "than expected\n")
@@ -2025,8 +2025,8 @@ Int *len)
       /** the primary scan data from tmpfile and the secondary scan data
 	  are merged **/
 
-      s.buf_used = s.params.bytes_per_line
-      byte_per_line = s.params.bytes_per_line
+      s.buf_used = s.params.bytesPerLine
+      byte_per_line = s.params.bytesPerLine
       pixel_per_line = s.params.pixels_per_line
 
 

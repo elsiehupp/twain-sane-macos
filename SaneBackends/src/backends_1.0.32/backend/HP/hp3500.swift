@@ -396,7 +396,7 @@ Sane.open(Sane.String_Const name, Sane.Handle * handle)
 
 
 /**
- * An advanced method we don't support but have to define.
+ * An advanced method we don"t support but have to define.
  */
 Sane.Status
 Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
@@ -408,7 +408,7 @@ Sane.set_io_mode(Sane.Handle h, Bool non_blocking)
 
 
 /**
- * An advanced method we don't support but have to define.
+ * An advanced method we don"t support but have to define.
  */
 Sane.Status
 Sane.get_select_fd(Sane.Handle h, Int * fdp)
@@ -578,7 +578,7 @@ Sane.control_option(Sane.Handle handle, Int option,
       /*
        * Note - for those options which can assume one of a list of
        * valid values, we can safely assume that they will have
-       * exactly one of those values because that's what
+       * exactly one of those values because that"s what
        * sanei_constrain_value does. Hence no "else: invalid" branches
        * below.
        */
@@ -773,13 +773,13 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
   params.pixels_per_line = scanner.scan_width_pixels
   params.lines = scanner.scan_height_pixels
 
-  params.bytes_per_line = scanner.bytes_per_scan_line
+  params.bytesPerLine = scanner.bytes_per_scan_line
 
   params.last_frame = 1
   DBG(10, "\tdepth %d\n", params.depth)
   DBG(10, "\tlines %d\n", params.lines)
   DBG(10, "\tpixels_per_line %d\n", params.pixels_per_line)
-  DBG(10, "\tbytes_per_line %d\n", params.bytes_per_line)
+  DBG(10, "\tbytes_per_line %d\n", params.bytesPerLine)
   return Sane.STATUS_GOOD
 }
 
@@ -789,7 +789,7 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
  *
  * In this implementation, Sane.read does nothing much besides reading
  * data from a pipe and handing it back. On the other end of the pipe
- * there's the reader process which gets data from the scanner and
+ * there"s the reader process which gets data from the scanner and
  * stuffs it into the pipe.
  *
  * From the SANE spec:
@@ -854,9 +854,9 @@ Sane.read(Sane.Handle handle, Sane.Byte * buf,
  * > collect as many images as the frontend wants(which could in turn
  * > consist of multiple frames each as indicated by frame-type) and
  * > when the frontend is done, it should call Sane.cancel().
- * > Sometimes it's better to think of Sane.cancel() as "Sane.stop()"
+ * > Sometimes it"s better to think of Sane.cancel() as "Sane.stop()"
  * > but that name would have had some misleading connotations as
- * > well, that's why we stuck with "cancel".
+ * > well, that"s why we stuck with "cancel".
  *
  * The current consensus regarding duplex and ADF scans seems to be
  * the following call sequence: Sane.start; Sane.read(repeat until
@@ -1804,7 +1804,7 @@ rt_set_calibration_addresses(unsigned char *regs,
   rt_set_value_lsbfirst(regs, 0x85, 2, greenaddr)
   rt_set_value_lsbfirst(regs, 0x87, 2, blueaddr)
 
-  /* I don't know what the next three are used for, but each buffer commencing
+  /* I don"t know what the next three are used for, but each buffer commencing
    * at 0x80 and 0x82 needs to hold a full scan line.
    */
 
@@ -1812,13 +1812,13 @@ rt_set_calibration_addresses(unsigned char *regs,
   rt_set_value_lsbfirst(regs, 0x82, 2, endpage + scanline_pages)
   rt_set_value_lsbfirst(regs, 0x89, 2, endpage + scanline_pages * 2)
 
-  /* I don't know what this is, but it seems to be a number of pages that can hold
+  /* I don"t know what this is, but it seems to be a number of pages that can hold
    * 16 complete scan lines, but not calculated as an offset from any other page
    */
 
   rt_set_value_lsbfirst(regs, 0x51, 2, (48 * (width + 1) + 31) / 32)
 
-  /* I don't know what this is either, but this is what the Windows driver does */
+  /* I don"t know what this is either, but this is what the Windows driver does */
   rt_set_value_lsbfirst(regs, 0x8f, 2, 0x1c00)
   return 0
 }
@@ -2036,7 +2036,7 @@ rt_adjust_misc_registers(unsigned char *regs)
   regs[0xc6] = (regs[0xc6] & 0x0f) | 0x20;	/* Purpose unknown - appears to do nothing */
   regs[0x2e] = 0x86;		/* ???? - Always has this value */
   regs[0x30] = 2;		/* CCPL = 1 */
-  regs[0xc9] |= 0x38;		/* Doesn't have any obvious effect, but the Windows driver does this */
+  regs[0xc9] |= 0x38;		/* Doesn"t have any obvious effect, but the Windows driver does this */
   return 0
 }
 
@@ -2178,7 +2178,7 @@ rt_nvram_write(Int block, Int location, char const *data, Int bytes)
   unsigned char *data_bits
   Int cmdsize
 
-  /* This routine doesn't appear to work, but I can't see anything wrong with it */
+  /* This routine doesn"t appear to work, but I can"t see anything wrong with it */
   if(rt_nvram_init_stdvars(block, &addressingbits, &stdbits) < 0)
     return -1
 
@@ -2670,7 +2670,7 @@ sram_dump_byte(FILE *fp,
   unsigned ridx = rightstart + idx
   unsigned lidx = leftstart + idx
 
-  putc(' ', fp)
+  putc(" ", fp)
   if(rightstart < rightlimit && leftstart < leftlimit && left[lidx] != right[ridx])
     fputs("<b>", fp)
   if(leftstart < leftlimit)
@@ -3798,7 +3798,7 @@ reader_process(void *pv)
   sigset_t sigterm_set
   struct SIGACTION act
   struct hp3500_write_info winfo
-  Int status
+  status: Int
 
   if(sanei_thread_is_forked())
     {

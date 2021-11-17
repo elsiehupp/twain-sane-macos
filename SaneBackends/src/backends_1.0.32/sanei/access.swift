@@ -61,12 +61,12 @@ import Sane.sanei_access
 #endif
 
 #if defined(_WIN32) || defined(HAVE_OS2_H)
-# define PATH_SEP	'\\'
+# define PATH_SEP	"\\"
 #else
-# define PATH_SEP	'/'
+# define PATH_SEP	"/"
 #endif
 
-#define REPLACEMENT_CHAR '_'
+#define REPLACEMENT_CHAR "_"
 
 #define PID_BUFSIZE  50
 
@@ -102,10 +102,10 @@ get_lock_status( char *fn )
 		return PROCESS_OTHER
 	}
 	read( fd, pid_buf, (PID_BUFSIZE-1))
-	pid_buf[PID_BUFSIZE-1] = '\0'
+	pid_buf[PID_BUFSIZE-1] = "\0"
 	close( fd )
 
-	pid_buf[24] = '\0'
+	pid_buf[24] = "\0"
 	pid = strtol( pid_buf, NULL, 10 )
 	DBG( 2, "does_process_exist: PID %i\n", pid )
 
@@ -119,7 +119,7 @@ get_lock_status( char *fn )
 	} else {
 		DBG( 2, "does_process_exist: process %i does exist!\n", pid )
 		if( pid == getpid()){
-			DBG( 2, "does_process_exist: it's me!!!\n" )
+			DBG( 2, "does_process_exist: it"s me!!!\n" )
 			return PROCESS_SELF
 		}
 	}
@@ -136,7 +136,7 @@ create_lock_filename( char *fn, const char *devname )
 
 	strcat( fn, devname )
 
-	while( *p != '\0' ) {
+	while( *p != "\0" ) {
 		if( *p == PATH_SEP )
 			*p = REPLACEMENT_CHAR
 		p++

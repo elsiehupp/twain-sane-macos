@@ -49,11 +49,11 @@ import mustek_usb2_asic
 
 static Sane.Byte RegisterBankStatus = -1
 
-static STATUS
+static Status
 WriteIOControl(PAsic chip, unsigned short wValue, unsigned short wIndex, unsigned short wLength,
 		Sane.Byte * lpbuf)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
 
   status =
     sanei_usb_control_msg(chip.fd, 0x40, 0x01, wValue, wIndex, wLength,
@@ -67,11 +67,11 @@ WriteIOControl(PAsic chip, unsigned short wValue, unsigned short wIndex, unsigne
   return STATUS_GOOD
 }
 
-static STATUS
+static Status
 ReadIOControl(PAsic chip, unsigned short wValue, unsigned short wIndex, unsigned short wLength,
 	       Sane.Byte * lpbuf)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
 
   status =
     sanei_usb_control_msg(chip.fd, 0xc0, 0x01, wValue, wIndex, wLength,
@@ -85,10 +85,10 @@ ReadIOControl(PAsic chip, unsigned short wValue, unsigned short wIndex, unsigned
   return status
 }
 
-static STATUS
+static Status
 Mustek_ClearFIFO(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Sane.Byte buf[4]
   DBG(DBG_ASIC, "Mustek_ClearFIFO:Enter\n")
 
@@ -110,11 +110,11 @@ Mustek_ClearFIFO(PAsic chip)
 }
 
 
-static STATUS
+static Status
 Mustek_SendData(PAsic chip, unsigned short reg, Sane.Byte data)
 {
   Sane.Byte buf[4]
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   DBG(DBG_ASIC, "Mustek_SendData: Enter. reg=%x,data=%x\n", reg, data)
 
 
@@ -173,10 +173,10 @@ Mustek_SendData(PAsic chip, unsigned short reg, Sane.Byte data)
   return status
 }
 
-static STATUS
+static Status
 Mustek_ReceiveData(PAsic chip, Sane.Byte * reg)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Sane.Byte buf[4]
 
   DBG(DBG_ASIC, "Mustek_ReceiveData\n")
@@ -187,10 +187,10 @@ Mustek_ReceiveData(PAsic chip, Sane.Byte * reg)
   return status
 }
 
-static STATUS
+static Status
 Mustek_WriteAddressLineForRegister(PAsic chip, Sane.Byte x)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Sane.Byte buf[4]
 
   DBG(DBG_ASIC, "Mustek_WriteAddressLineForRegister: Enter\n")
@@ -206,10 +206,10 @@ Mustek_WriteAddressLineForRegister(PAsic chip, Sane.Byte x)
 }
 
 
-static STATUS
+static Status
 SetRWSize(PAsic chip, Sane.Byte ReadWrite, unsigned Int size)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   DBG(DBG_ASIC, "SetRWSize: Enter\n")
 
   if(ReadWrite == 0)
@@ -247,10 +247,10 @@ SetRWSize(PAsic chip, Sane.Byte ReadWrite, unsigned Int size)
   return STATUS_GOOD
 }
 
-static STATUS
+static Status
 Mustek_DMARead(PAsic chip, unsigned Int size, Sane.Byte * lpdata)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   unsigned var i: Int, buf[1]
   unsigned Int read_size
   size_t read_size_usb
@@ -303,10 +303,10 @@ Mustek_DMARead(PAsic chip, unsigned Int size, Sane.Byte * lpdata)
   return STATUS_GOOD
 }
 
-static STATUS
+static Status
 Mustek_DMAWrite(PAsic chip, unsigned Int size, Sane.Byte * lpdata)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   unsigned Int buf[1]
   unsigned var i: Int
   unsigned Int write_size
@@ -362,7 +362,7 @@ Mustek_DMAWrite(PAsic chip, unsigned Int size, Sane.Byte * lpdata)
 }
 
 
-static STATUS
+static Status
 Mustek_SendData2Byte(PAsic chip, unsigned short reg, Sane.Byte data)
 {
   static Bool isTransfer = FALSE
@@ -432,10 +432,10 @@ Mustek_SendData2Byte(PAsic chip, unsigned short reg, Sane.Byte data)
 
 /* ---------------------- asic motor functions ----------------------------- */
 
-static STATUS
+static Status
 LLFRamAccess(PAsic chip, LLF_RAMACCESS * RamAccess)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Sane.Byte a[2]
 
   DBG(DBG_ASIC, "LLFRamAccess:Enter\n")
@@ -499,12 +499,12 @@ LLFRamAccess(PAsic chip, LLF_RAMACCESS * RamAccess)
 }
 
 
-static STATUS
+static Status
 LLFSetMotorCurrentAndPhase(PAsic chip,
 			    LLF_MOTOR_CURRENT_AND_PHASE *
 			    MotorCurrentAndPhase)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Sane.Byte MotorPhase
 
   DBG(DBG_ASIC, "LLFSetMotorCurrentAndPhase:Enter\n")
@@ -1558,10 +1558,10 @@ LLFSetMotorCurrentAndPhase(PAsic chip,
 
 
 #if Sane.UNUSED
-static STATUS
+static Status
 LLFStopMotorMove(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   DBG(DBG_ASIC, "LLFStopMotorMove:Enter\n")
 
   Mustek_SendData(chip, ES01_F4_ActiveTriger, ACTION_TRIGER_DISABLE)
@@ -1573,10 +1573,10 @@ LLFStopMotorMove(PAsic chip)
 }
 #endif
 
-static STATUS
+static Status
 LLFSetMotorTable(PAsic chip, LLF_SETMOTORTABLE * LLF_SetMotorTable)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   LLF_RAMACCESS RamAccess
 
   DBG(DBG_ASIC, "LLFSetMotorTable:Enter\n")
@@ -1609,10 +1609,10 @@ LLFSetMotorTable(PAsic chip, LLF_SETMOTORTABLE * LLF_SetMotorTable)
   return status
 }
 
-static STATUS
+static Status
 LLFMotorMove(PAsic chip, LLF_MOTORMOVE * LLF_MotorMove)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   unsigned Int motor_steps
   Sane.Byte temp_motor_action
 
@@ -1751,11 +1751,11 @@ LLFMotorMove(PAsic chip, LLF_MOTORMOVE * LLF_MotorMove)
   return status
 }
 
-static STATUS
+static Status
 SetMotorStepTable(PAsic chip, LLF_MOTORMOVE * MotorStepsTable, unsigned short wStartY,
 		   unsigned Int dwScanImageSteps, unsigned short wYResolution)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   unsigned short wAccSteps = 511
   unsigned short wForwardSteps = 20
   Sane.Byte bDecSteps = 255
@@ -1891,11 +1891,11 @@ SetMotorStepTable(PAsic chip, LLF_MOTORMOVE * MotorStepsTable, unsigned short wS
   return status
 }
 
-static STATUS
+static Status
 CalculateMotorTable(LLF_CALCULATEMOTORTABLE * lpCalculateMotorTable,
 		     unsigned short wYResolution)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   unsigned short i
   unsigned short wEndSpeed, wStartSpeed
   unsigned short wScanAccSteps
@@ -1980,10 +1980,10 @@ CalculateMotorTable(LLF_CALCULATEMOTORTABLE * lpCalculateMotorTable,
   return status
 }
 
-static STATUS
+static Status
 LLFCalculateMotorTable(LLF_CALCULATEMOTORTABLE * LLF_CalculateMotorTable)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   unsigned short i
   double PI = 3.1415926535
   double x
@@ -2085,11 +2085,11 @@ LLFCalculateMotorTable(LLF_CALCULATEMOTORTABLE * LLF_CalculateMotorTable)
 }
 
 
-static STATUS
+static Status
 SetMotorCurrent(PAsic chip, unsigned short dwMotorSpeed,
 		 LLF_MOTOR_CURRENT_AND_PHASE * CurrentPhase)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   DBG(DBG_ASIC, "SetMotorCurrent:Enter\n")
 
   chip = chip
@@ -2135,10 +2135,10 @@ SetMotorCurrent(PAsic chip, unsigned short dwMotorSpeed,
 }
 
 
-static STATUS
+static Status
 MotorBackHome(PAsic chip, Sane.Byte WaitOrNoWait)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   unsigned short BackHomeMotorTable[512 * 8]
   LLF_CALCULATEMOTORTABLE CalMotorTable
   LLF_MOTOR_CURRENT_AND_PHASE CurrentPhase
@@ -2184,11 +2184,11 @@ MotorBackHome(PAsic chip, Sane.Byte WaitOrNoWait)
 }
 
 
-static STATUS
+static Status
 LLFSetRamAddress(PAsic chip, unsigned Int dwStartAddr, unsigned Int dwEndAddr,
 		  Sane.Byte byAccessTarget)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Sane.Byte * pStartAddr = (Sane.Byte *) & dwStartAddr
   Sane.Byte * pEndAddr = (Sane.Byte *) & dwEndAddr
 
@@ -2219,10 +2219,10 @@ LLFSetRamAddress(PAsic chip, unsigned Int dwStartAddr, unsigned Int dwEndAddr,
 
 /* ---------------------- medium level asic functions ---------------------- */
 
-static STATUS
+static Status
 InitTiming(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   DBG(DBG_ASIC, "InitTiming:Enter\n")
 
   chip.Timing.AFE_ADCCLK_Timing = 1010580480
@@ -2267,10 +2267,10 @@ InitTiming(PAsic chip)
   return status
 }
 
-static STATUS
+static Status
 OpenScanChip(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Sane.Byte x[4]
 
   DBG(DBG_ASIC, "OpenScanChip:Enter\n")
@@ -2310,10 +2310,10 @@ OpenScanChip(PAsic chip)
 }
 
 
-static STATUS
+static Status
 CloseScanChip(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Sane.Byte x[4]
 
   DBG(DBG_ASIC, "CloseScanChip:Enter\n")
@@ -2353,10 +2353,10 @@ CloseScanChip(PAsic chip)
 }
 
 
-static STATUS
+static Status
 SafeInitialChip(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
 
   DBG(DBG_ASIC, "SafeInitialChip:Enter\n")
 
@@ -2385,10 +2385,10 @@ SafeInitialChip(PAsic chip)
 }
 
 
-static STATUS
+static Status
 DRAM_Test(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   unsigned char *temps
   unsigned var i: Int
 
@@ -2532,10 +2532,10 @@ DRAM_Test(PAsic chip)
 }
 
 #if Sane.UNUSED
-static STATUS
+static Status
 SetPowerSave(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   DBG(DBG_ASIC, "SetPowerSave:Enter\n")
 
   if(chip.firmwarestate < FS_OPENED)
@@ -2552,10 +2552,10 @@ SetPowerSave(PAsic chip)
 }
 #endif
 
-static STATUS
+static Status
 SetLineTimeAndExposure(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   DBG(DBG_ASIC, "SetLineTimeAndExposure:Enter\n")
 
   if(chip.firmwarestate < FS_OPENED)
@@ -2584,10 +2584,10 @@ SetLineTimeAndExposure(PAsic chip)
 
 
 
-static STATUS
+static Status
 CCDTiming(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   unsigned Int dwPH1, dwPH2, dwPHRS, dwPHCP
 
   DBG(DBG_ASIC, "CCDTiming:Enter\n")
@@ -2701,10 +2701,10 @@ CCDTiming(PAsic chip)
   return status
 }
 
-static STATUS
+static Status
 IsCarriageHome(PAsic chip, Bool * LampHome, Bool * TAHome)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Sane.Byte temp
 
   DBG(DBG_ASIC, "IsCarriageHome:Enter\n")
@@ -2732,10 +2732,10 @@ IsCarriageHome(PAsic chip, Bool * LampHome, Bool * TAHome)
 }
 
 
-static STATUS
+static Status
 GetChipStatus(PAsic chip, Sane.Byte Selector, Sane.Byte * ChipStatus)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   DBG(DBG_ASIC, "GetChipStatus:Enter\n")
 
   status = Mustek_SendData(chip, ES01_8B_Status, Selector)
@@ -2755,10 +2755,10 @@ GetChipStatus(PAsic chip, Sane.Byte Selector, Sane.Byte * ChipStatus)
   return status
 }
 
-static STATUS
+static Status
 SetAFEGainOffset(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   var i: Int = 0
 
   DBG(DBG_ASIC, "SetAFEGainOffset:Enter\n")
@@ -2918,10 +2918,10 @@ SetAFEGainOffset(PAsic chip)
   return status
 }
 
-static STATUS
+static Status
 SetLEDTime(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   DBG(DBG_ASIC, "SetLEDTime:Enter\n")
 
   Mustek_SendData(chip, ES01_B8_ChannelRedExpStartPixelLSB,
@@ -2955,10 +2955,10 @@ SetLEDTime(PAsic chip)
   return status
 }
 
-static STATUS
+static Status
 SetScanMode(PAsic chip, Sane.Byte bScanBits)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Sane.Byte temp_f5_register = 0
   Sane.Byte GrayBWChannel
 
@@ -3019,12 +3019,12 @@ SetScanMode(PAsic chip, Sane.Byte bScanBits)
   return status
 }
 
-static STATUS
+static Status
 SetPackAddress(PAsic chip, unsigned short wXResolution, unsigned short wWidth, unsigned short wX,
 		double XRatioAdderDouble, double XRatioTypeDouble,
 		Sane.Byte byClear_Pulse_Width, unsigned short * PValidPixelNumber)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
 
   Sane.Byte OverLapPixel
   Sane.Byte TotalLineShift
@@ -3402,11 +3402,11 @@ SetPackAddress(PAsic chip, unsigned short wXResolution, unsigned short wWidth, u
   return status
 }
 
-static STATUS
+static Status
 SetExtraSetting(PAsic chip, unsigned short wXResolution, unsigned short wCCD_PixelNumber,
 		 Bool isCaribrate)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Sane.Byte byPHTG_PulseWidth, byPHTG_WaitWidth
   Sane.Byte temp_ff_register = 0
   Sane.Byte bThreshold = 128
@@ -3517,7 +3517,7 @@ SetExtraSetting(PAsic chip, unsigned short wXResolution, unsigned short wCCD_Pix
 /* ---------------------- high level asic functions ------------------------ */
 
 
-/* HOLD: We don't want to have global vid/pids */
+/* HOLD: We don"t want to have global vid/pids */
 static unsigned short ProductID = 0x0409
 static unsigned short VendorID = 0x055f
 
@@ -3532,10 +3532,10 @@ attach_one_scanner(Sane.String_Const devname)
   return Sane.STATUS_GOOD
 }
 
-static STATUS
+static Status
 Asic_Open(PAsic chip, Sane.Byte *pDeviceName)
 {
-  STATUS status
+  Status status
   Sane.Status Sane.status
 
   DBG(DBG_ASIC, "Asic_Open: Enter\n")
@@ -3619,10 +3619,10 @@ Asic_Open(PAsic chip, Sane.Byte *pDeviceName)
 }
 
 
-static STATUS
+static Status
 Asic_Close(PAsic chip)
 {
-  STATUS status
+  Status status
   DBG(DBG_ASIC, "Asic_Close: Enter\n")
 
   if(chip.firmwarestate < FS_OPENED)
@@ -3655,10 +3655,10 @@ Asic_Close(PAsic chip)
   return status
 }
 
-static STATUS
+static Status
 Asic_TurnLamp(PAsic chip, Bool isLampOn)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Sane.Byte PWM
 
   DBG(DBG_ASIC, "Asic_TurnLamp: Enter\n")
@@ -3693,7 +3693,7 @@ Asic_TurnLamp(PAsic chip, Bool isLampOn)
 }
 
 
-static STATUS
+static Status
 Asic_TurnTA(PAsic chip, Bool isTAOn)
 {
   Sane.Byte PWM
@@ -3727,10 +3727,10 @@ Asic_TurnTA(PAsic chip, Bool isTAOn)
   return STATUS_GOOD
 }
 
-static STATUS
+static Status
 Asic_WaitUnitReady(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Sane.Byte temp_status
   var i: Int = 0
 
@@ -3766,10 +3766,10 @@ Asic_WaitUnitReady(PAsic chip)
 }
 
 #if Sane.UNUSED
-static STATUS
+static Status
 Asic_Release(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   DBG(DBG_ASIC, "Asic_Release()\n")
 
   if(chip.firmwarestate > FS_ATTACHED)
@@ -3782,10 +3782,10 @@ Asic_Release(PAsic chip)
 }
 #endif
 
-static STATUS
+static Status
 Asic_Initialize(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   DBG(DBG_ASIC, "Asic_Initialize:Enter\n")
 
 
@@ -3814,12 +3814,12 @@ Asic_Initialize(PAsic chip)
   return status
 }
 
-static STATUS
+static Status
 Asic_SetWindow(PAsic chip, Sane.Byte bScanBits,
 		unsigned short wXResolution, unsigned short wYResolution,
 		unsigned short wX, unsigned short wY, unsigned short wWidth, unsigned short wLength)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
 
   unsigned short ValidPixelNumber
 
@@ -4269,10 +4269,10 @@ Asic_SetWindow(PAsic chip, Sane.Byte bScanBits,
   return status
 }
 
-static STATUS
+static Status
 Asic_Reset(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   DBG(DBG_ASIC, "Asic_Reset: Enter\n")
 
   chip.lsLightSource = LS_REFLECTIVE
@@ -4297,10 +4297,10 @@ Asic_Reset(PAsic chip)
   return status
 }
 
-static STATUS
+static Status
 Asic_SetSource(PAsic chip, LIGHTSOURCE lsLightSource)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   DBG(DBG_ASIC, "Asic_SetSource: Enter\n")
 
   chip.lsLightSource = lsLightSource
@@ -4323,10 +4323,10 @@ Asic_SetSource(PAsic chip, LIGHTSOURCE lsLightSource)
   return status
 }
 
-static STATUS
+static Status
 Asic_ScanStart(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   DBG(DBG_ASIC, "Asic_ScanStart: Enter\n")
 
   if(chip.firmwarestate != FS_OPENED)
@@ -4347,10 +4347,10 @@ Asic_ScanStart(PAsic chip)
   return status
 }
 
-static STATUS
+static Status
 Asic_ScanStop(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Sane.Byte temps[2]
   Sane.Byte buf[4]
 
@@ -4403,10 +4403,10 @@ Asic_ScanStop(PAsic chip)
   return status
 }
 
-static STATUS
+static Status
 Asic_ReadImage(PAsic chip, Sane.Byte * pBuffer, unsigned short LinesCount)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   unsigned Int dwXferBytes
 
   DBG(DBG_ASIC, "Asic_ReadImage: Enter : LinesCount = %d\n", LinesCount)
@@ -4421,7 +4421,7 @@ Asic_ReadImage(PAsic chip, Sane.Byte * pBuffer, unsigned short LinesCount)
   DBG(DBG_ASIC, "Asic_ReadImage: chip.dwBytesCountPerRow = %d\n",
        chip.dwBytesCountPerRow)
 
-  /* HOLD: an unsigned long can't be < 0
+  /* HOLD: an unsigned long can"t be < 0
   if(dwXferBytes < 0)
     {
       DBG(DBG_ASIC, "Asic_ReadImage: dwXferBytes <0\n")
@@ -4443,10 +4443,10 @@ Asic_ReadImage(PAsic chip, Sane.Byte * pBuffer, unsigned short LinesCount)
 
 
 #if Sane.UNUSED
-static STATUS
+static Status
 Asic_CheckFunctionKey(PAsic chip, Sane.Byte * key)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Sane.Byte bBuffer_1 = 0xff
   Sane.Byte bBuffer_2 = 0xff
 
@@ -4486,7 +4486,7 @@ Asic_CheckFunctionKey(PAsic chip, Sane.Byte * key)
 }
 #endif
 
-static STATUS
+static Status
 Asic_IsTAConnected(PAsic chip, Bool * hasTA)
 {
   Sane.Byte bBuffer_1 = 0xff
@@ -4513,10 +4513,10 @@ Asic_IsTAConnected(PAsic chip, Bool * hasTA)
 }
 
 #if Sane.UNUSED
-static STATUS
+static Status
 Asic_DownloadGammaTable(PAsic chip, void * lpBuffer)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   DBG(DBG_ASIC, "Asic_DownloadGammaTable()\n")
 
   chip.lpGammaTable = lpBuffer
@@ -4526,11 +4526,11 @@ Asic_DownloadGammaTable(PAsic chip, void * lpBuffer)
 }
 #endif
 
-static STATUS
+static Status
 Asic_ReadCalibrationData(PAsic chip, void * pBuffer,
 			  unsigned Int dwXferBytes, Sane.Byte bScanBits)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Sane.Byte * pCalBuffer
   unsigned Int dwTotalReadData
   unsigned Int dwReadImageData
@@ -4550,7 +4550,7 @@ Asic_ReadCalibrationData(PAsic chip, void * pBuffer,
       if(pCalBuffer == NULL)
 	{
 	  DBG(DBG_ERR,
-		   "Asic_ReadCalibrationData: Can't malloc bCalBuffer memory\n")
+		   "Asic_ReadCalibrationData: Can"t malloc bCalBuffer memory\n")
 	  return STATUS_MEM_ERROR
 	}
 
@@ -4592,10 +4592,10 @@ Asic_ReadCalibrationData(PAsic chip, void * pBuffer,
   return status
 }
 
-static STATUS
+static Status
 Asic_SetMotorType(PAsic chip, Bool isMotorMove, Bool isUniformSpeed)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   isUniformSpeed = isUniformSpeed
   DBG(DBG_ASIC, "Asic_SetMotorType:Enter\n")
 
@@ -4611,10 +4611,10 @@ Asic_SetMotorType(PAsic chip, Bool isMotorMove, Bool isUniformSpeed)
   return status
 }
 
-static STATUS
+static Status
 Asic_MotorMove(PAsic chip, Bool isForward, unsigned Int dwTotalSteps)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   unsigned short *NormalMoveMotorTable
   LLF_CALCULATEMOTORTABLE CalMotorTable
   LLF_MOTOR_CURRENT_AND_PHASE CurrentPhase
@@ -4675,10 +4675,10 @@ Asic_MotorMove(PAsic chip, Bool isForward, unsigned Int dwTotalSteps)
   return status
 }
 
-static STATUS
+static Status
 Asic_CarriageHome(PAsic chip, Bool isTA)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Bool LampHome, TAHome
   isTA = isTA
 
@@ -4694,12 +4694,12 @@ Asic_CarriageHome(PAsic chip, Bool isTA)
   return status
 }
 
-static STATUS
+static Status
 Asic_SetShadingTable(PAsic chip, unsigned short * lpWhiteShading,
 		      unsigned short * lpDarkShading,
 		      unsigned short wXResolution, unsigned short wWidth, unsigned short wX)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   unsigned short i, j, n
   unsigned short wValidPixelNumber
   double dbXRatioAdderDouble
@@ -4724,7 +4724,7 @@ Asic_SetShadingTable(PAsic chip, unsigned short * lpWhiteShading,
   DBG(DBG_ASIC, "wValidPixelNumber = %d\n", wValidPixelNumber)
 
   /* clear old Shading table, if it has. */
-  /*  first 4 element and latest 5 of Shading table can't been used */
+  /*  first 4 element and latest 5 of Shading table can"t been used */
   wShadingTableSize = (ShadingTableSize(wValidPixelNumber)) * sizeof(unsigned short)
   if(chip.lpShadingTable != NULL)
     {
@@ -4800,10 +4800,10 @@ Asic_SetShadingTable(PAsic chip, unsigned short * lpWhiteShading,
   return status
 }
 
-static STATUS
+static Status
 Asic_WaitCarriageHome(PAsic chip, Bool isTA)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   Bool LampHome, TAHome
   var i: Int
 
@@ -4830,12 +4830,12 @@ Asic_WaitCarriageHome(PAsic chip, Bool isTA)
   return status
 }
 
-static STATUS
+static Status
 Asic_SetCalibrate(PAsic chip, Sane.Byte bScanBits, unsigned short wXResolution,
 		   unsigned short wYResolution, unsigned short wX, unsigned short wY,
 		   unsigned short wWidth, unsigned short wLength, Bool isShading)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   unsigned short ValidPixelNumber
 
   unsigned short wPerLineNeedBufferSize = 0
@@ -5241,10 +5241,10 @@ Asic_SetCalibrate(PAsic chip, Sane.Byte bScanBits, unsigned short wXResolution,
 }
 
 
-static STATUS
+static Status
 Asic_SetAFEGainOffset(PAsic chip)
 {
-  STATUS status = STATUS_GOOD
+  Status status = STATUS_GOOD
   DBG(DBG_ASIC, "Asic_SetAFEGainOffset:Enter\n")
 
   status = SetAFEGainOffset(chip)

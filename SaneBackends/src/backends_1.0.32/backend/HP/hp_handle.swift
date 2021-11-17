@@ -337,7 +337,7 @@ hp_handle_uploadParameters(HpHandle this, HpScsi scsi, Int *scan_depth,
   RETURN_IF_FAIL( sanei_hp_scl_inquire(scsi, SCL_PIXELS_PER_LINE,
 				 &p.pixels_per_line,0,0) )
   RETURN_IF_FAIL( sanei_hp_scl_inquire(scsi, SCL_BYTES_PER_LINE,
-				 &p.bytes_per_line,0,0) )
+				 &p.bytesPerLine,0,0) )
   RETURN_IF_FAIL( sanei_hp_scl_inquire(scsi, SCL_NUMBER_OF_LINES,
 				 &p.lines,0,0))
   RETURN_IF_FAIL( sanei_hp_scl_inquire(scsi, SCL_DATA_WIDTH,
@@ -350,7 +350,7 @@ hp_handle_uploadParameters(HpHandle this, HpScsi scsi, Int *scan_depth,
       p.depth  = 1
       *scan_depth = 1
 
-      /* The OfficeJets don't seem to handle SCL_INVERSE_IMAGE, so we'll
+      /* The OfficeJets don"t seem to handle SCL_INVERSE_IMAGE, so we"ll
        * have to invert in software. */
       if((sanei_hp_device_probe(&compat, scsi) == Sane.STATUS_GOOD)
           && (compat & HP_COMPAT_OJ_1150C)) {
@@ -371,7 +371,7 @@ hp_handle_uploadParameters(HpHandle this, HpScsi scsi, Int *scan_depth,
         if(*out8)
         {
           p.depth = 8
-          p.bytes_per_line /= 2
+          p.bytesPerLine /= 2
         }
       }
       break
@@ -388,7 +388,7 @@ hp_handle_uploadParameters(HpHandle this, HpScsi scsi, Int *scan_depth,
         if(*out8)
         {
           p.depth = 8
-          p.bytes_per_line /= 2
+          p.bytesPerLine /= 2
         }
       }
       /* HP PhotoSmart does not invert when depth > 8. Lets do it by software */
@@ -674,18 +674,18 @@ sanei_hp_handle_startScan(HpHandle this)
   DBG(1, "start: %s to mirror image vertically\n", procdata.mirror_vertical ?
          "Request" : "No request" )
 
-  this.bytes_left = ( this.scan_params.bytes_per_line
+  this.bytes_left = ( this.scan_params.bytesPerLine
   		       * this.scan_params.lines )
 
   DBG(1, "start: %d pixels per line, %d bytes per line, %d lines high\n",
-      this.scan_params.pixels_per_line, this.scan_params.bytes_per_line,
+      this.scan_params.pixels_per_line, this.scan_params.bytesPerLine,
       this.scan_params.lines)
-  procdata.bytes_per_line = (Int)this.scan_params.bytes_per_line
+  procdata.bytesPerLine = (Int)this.scan_params.bytesPerLine
   if(procdata.out8)
   {
-    procdata.bytes_per_line *= 2
+    procdata.bytesPerLine *= 2
     DBG(1,"(scanner will send %d bytes per line, 8 bit output forced)\n",
-        procdata.bytes_per_line)
+        procdata.bytesPerLine)
   }
   procdata.lines = this.scan_params.lines
 

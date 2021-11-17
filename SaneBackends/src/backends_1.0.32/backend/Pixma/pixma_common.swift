@@ -96,12 +96,12 @@ static void
 u8tohex(uint8_t x, char *str)
 {
   static const char hdigit[16] =
-    { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
-    'e', 'f'
+    { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d",
+    "e", "f"
     ]
   str[0] = hdigit[(x >> 4) & 0xf]
   str[1] = hdigit[x & 0xf]
-  str[2] = '\0'
+  str[2] = "\0"
 }
 
 static void
@@ -131,24 +131,24 @@ pixma_hexdump(Int level, const void *d_, unsigned len)
   while(ofs < plen)
     {
       char *p
-      line[0] = ' '
+      line[0] = " "
       u32tohex(ofs, line + 1)
-      line[9] = ':'
+      line[9] = ":"
       p = line + 10
       for(c = 0; c != 16 && (ofs + c) < plen; c++)
         {
           u8tohex(d[ofs + c], p)
-          p[2] = ' '
+          p[2] = " "
           p += 3
           if(c == 7)
             {
-              p[0] = ' '
+              p[0] = " "
               p++
             }
         }
       for(c = 0; c < 4; c++)
         {
-          p[0] = ' '
+          p[0] = " "
           p++
         }
       for(c = 0; c != 16 && (ofs + c) < plen; c++)
@@ -156,15 +156,15 @@ pixma_hexdump(Int level, const void *d_, unsigned len)
           if(isprint(d[ofs + c]))
             p[0] = d[ofs + c]
           else
-            p[0] = '.'
+            p[0] = "."
           p++
           if(c == 7)
             {
-              p[0] = ' '
+              p[0] = " "
               p++
             }
         }
-      p[0] = '\0'
+      p[0] = "\0"
       pixma_dbg(level, "%s\n", line)
       ofs += c
     }
@@ -273,14 +273,14 @@ pixma_set_debug_level(Int level)
 }
 
 void
-pixma_set_be16 (uint16_t x, uint8_t * buf)
+pixma_set_be16(uint16_t x, uint8_t * buf)
 {
   buf[0] = x >> 8
   buf[1] = x
 }
 
 void
-pixma_set_be32 (uint32_t x, uint8_t * buf)
+pixma_set_be32(uint32_t x, uint8_t * buf)
 {
   buf[0] = x >> 24
   buf[1] = x >> 16
@@ -289,13 +289,13 @@ pixma_set_be32 (uint32_t x, uint8_t * buf)
 }
 
 uint16_t
-pixma_get_be16 (const uint8_t * buf)
+pixma_get_be16(const uint8_t * buf)
 {
   return((uint16_t) buf[0] << 8) | buf[1]
 }
 
 uint32_t
-pixma_get_be32 (const uint8_t * buf)
+pixma_get_be32(const uint8_t * buf)
 {
   return((uint32_t) buf[0] << 24) + ((uint32_t) buf[1] << 16) +
     ((uint32_t) buf[2] << 8) + buf[3]
@@ -356,7 +356,7 @@ pixma_r_to_ir(uint8_t * gptr, uint8_t * sptr, unsigned w, unsigned c)
 
 /* convert 24/48 bit RGB to 8/16 bit grayscale
  *
- * Formular: Y' = 0,2126 R' + 0,7152 G' + 0,0722 B'
+ * Formular: Y" = 0,2126 R" + 0,7152 G" + 0,0722 B"
  *
  * sptr: source color scale buffer
  * gptr: destination gray scale buffer
@@ -620,7 +620,7 @@ func Int pixma_check_result(pixma_cmdbuf_t * cb)
   len = (unsigned) cb.reslen
   if(len >= header_len)
     {
-      error = pixma_map_status_errno(pixma_get_be16 (r))
+      error = pixma_map_status_errno(pixma_get_be16(r))
       if(expected_reslen != 0)
         {
           if(len == expected_reslen)
@@ -673,7 +673,7 @@ func Int pixma_cmd_transaction(pixma_t * s, const void *cmd, unsigned cmdlen,
 
   /* When you send the start_session command while the scanner optic is
      going back to the home position after the last scan session has been
-     cancelled, you won't get the response before it arrives home. This takes
+     cancelled, you won"t get the response before it arrives home. This takes
      about 5 seconds. If the last session was succeeded, the scanner will
      immediately answer with PIXMA_STATUS_BUSY.
 
@@ -689,7 +689,7 @@ func Int pixma_cmd_transaction(pixma_t * s, const void *cmd, unsigned cmdlen,
 
 #ifndef HAVE_SANEI_USB_SET_TIMEOUT
         /* 1s timeout
-           Only needed, if sanei_usb_set_timeout() isn't available.
+           Only needed, if sanei_usb_set_timeout() isn"t available.
            pixma_read() has an internal timeout of 1 sec. */
         pixma_sleep(1000000)
 #endif
@@ -719,8 +719,8 @@ pixma_newcmd(pixma_cmdbuf_t * cb, unsigned cmd,
   memset(cb.buf, 0, cmdlen)
   cb.cmdlen = cmdlen
   cb.expected_reslen = reslen
-  pixma_set_be16 (cmd, cb.buf)
-  pixma_set_be16 (dataout + datain, cb.buf + cb.cmd_len_field_ofs)
+  pixma_set_be16(cmd, cb.buf)
+  pixma_set_be16(dataout + datain, cb.buf + cb.cmd_len_field_ofs)
   if(dataout != 0)
     return cb.buf + cb.cmd_header_len
   else
@@ -1263,7 +1263,7 @@ format_xml_response(const char *resp_details)
 
 func Int pixma_parse_xml_response(const char *xml_message)
 {
-  Int status = PIXMA_EPROTO
+  status: Int = PIXMA_EPROTO
   xmlDoc *doc = NULL
   xmlNode *node = NULL
   xmlChar *content = NULL

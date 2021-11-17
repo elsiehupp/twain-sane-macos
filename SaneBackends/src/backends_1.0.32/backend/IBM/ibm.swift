@@ -63,7 +63,7 @@ import Sane.config
 #define IBM_PAPER_LEGAL		9
 #define IBM_PAPER_LETTER	10
 
-/* sizes for mode parameter's base_measurement_unit */
+/* sizes for mode parameter"s base_measurement_unit */
 #define INCHES                    0
 #define MILLIMETERS               1
 #define POINTS                    2
@@ -294,7 +294,7 @@ typedef struct Ibm_Scanner
 /* next lines by mf */
     Int adf_state
 #define ADF_UNUSED  0             /* scan from flatbed, not ADF */
-#define ADF_ARMED   1             /* scan from ADF, everything's set up */
+#define ADF_ARMED   1             /* scan from ADF, everything"s set up */
 #define ADF_CLEANUP 2             /* eject paper from ADF on close */
 /* end lines by mf */
     size_t bytes_to_read
@@ -334,7 +334,7 @@ struct ibm_window_data {
         Sane.Byte threshold
         Sane.Byte contrast
         Sane.Byte image_comp;        /* image composition(data type) */
-        Sane.Byte bits_per_pixel
+        Sane.Byte bitsPerPixel
         Sane.Byte halftone_code;     /* halftone_pattern[0] in ricoh.h */
         Sane.Byte halftone_id;       /* halftone_pattern[1] in ricoh.h */
         Sane.Byte pad_type
@@ -363,7 +363,7 @@ struct measurements_units_page {
         Sane.Byte bmu
         Sane.Byte res1
         Sane.Byte mud[2]
-        Sane.Byte res2[2];  /* anybody know what `COH' may mean ??? */
+        Sane.Byte res2[2];  /* anybody know what `COH" may mean ??? */
 /* next 4 lines by mf */
 	Sane.Byte adf_page_code
 	Sane.Byte adf_parameter_length
@@ -549,7 +549,7 @@ attach(const char *devnam, Ibm_Device ** devp)
 	    && strncmp((char *)ibuf.product, "IS430", 5) == 0)
 	))
     {
-      DBG(1, "attach: device \"%s\" doesn't look like a scanner I know\n",
+      DBG(1, "attach: device \"%s\" doesn"t look like a scanner I know\n",
 	   devnam)
       sanei_scsi_close(fd)
       return(Sane.STATUS_INVAL)
@@ -654,7 +654,7 @@ attach(const char *devnam, Ibm_Device ** devp)
   dev.info.image_mode_default = wbuf.image_comp
 
   /* if you throw the MRIF bit the brightness control reverses too */
-  /* so I reverse the reversal in software for symmetry's sake */
+  /* so I reverse the reversal in software for symmetry"s sake */
   /* I should make this into an option */
 
   if(wbuf.image_comp == IBM_GRAYSCALE || wbuf.image_comp == IBM_DITHERED_MONOCHROME)
@@ -946,7 +946,7 @@ Sane.init(Int * version_code, Sane.Auth_Callback authorize)
       /* read config file */
       while(sanei_config_read(line, sizeof(line), fp))
         {
-          if(line[0] == '#')           /* ignore line comments */
+          if(line[0] == "#")           /* ignore line comments */
             continue
           len = strlen(line)
 
@@ -1014,7 +1014,7 @@ Sane.open(Sane.String_Const devnam, Sane.Handle * handle)
   Ibm_Scanner *s
   DBG(11, ">> Sane.open\n")
 
-  if(devnam[0] == '\0')
+  if(devnam[0] == "\0")
     {
       for(dev = first_dev; dev; dev = dev.next)
         {
@@ -1291,27 +1291,27 @@ Sane.get_parameters(Sane.Handle handle, Sane.Parameters * params)
 	  (strcmp(mode, Sane.VALUE_SCAN_MODE_HALFTONE)) == 0)
         {
           s.params.format = Sane.FRAME_GRAY
-          s.params.bytes_per_line = s.params.pixels_per_line / 8
+          s.params.bytesPerLine = s.params.pixels_per_line / 8
 	  /* the Ibm truncates to the byte boundary, so: chop! */
-          s.params.pixels_per_line = s.params.bytes_per_line * 8
+          s.params.pixels_per_line = s.params.bytesPerLine * 8
           s.params.depth = 1
         }
       else /* if(strcmp(mode, Sane.VALUE_SCAN_MODE_GRAY) == 0) */
         {
           s.params.format = Sane.FRAME_GRAY
-          s.params.bytes_per_line = s.params.pixels_per_line
+          s.params.bytesPerLine = s.params.pixels_per_line
           s.params.depth = 8
         }
       s.params.last_frame = Sane.TRUE
     }
   else
-    DBG(5, "Sane.get_parameters: scanning, so can't get params\n")
+    DBG(5, "Sane.get_parameters: scanning, so can"t get params\n")
 
   if(params)
     *params = s.params
 
   DBG(1, "%d pixels per line, %d bytes, %d lines high, total %lu bytes, "
-       "dpi=%d\n", s.params.pixels_per_line, s.params.bytes_per_line,
+       "dpi=%d\n", s.params.pixels_per_line, s.params.bytesPerLine,
        s.params.lines, (u_long) s.bytes_to_read, s.val[OPT_Y_RESOLUTION].w)
 
   DBG(11, "<< Sane.get_parameters\n")
@@ -1331,7 +1331,7 @@ Sane.start(Sane.Handle handle)
   DBG(11, ">> Sane.start\n")
 
   /* First make sure we have a current parameter set.  Some of the
-     parameters will be overwritten below, but that's OK.  */
+     parameters will be overwritten below, but that"s OK.  */
   status = Sane.get_parameters(s, 0)
   if(status != Sane.STATUS_GOOD)
     return status
@@ -1381,7 +1381,7 @@ Sane.start(Sane.Handle handle)
 
   wbuf.image_comp = s.image_composition
   /* if you throw the MRIF bit the brightness control reverses too */
-  /* so I reverse the reversal in software for symmetry's sake */
+  /* so I reverse the reversal in software for symmetry"s sake */
   if(wbuf.image_comp == IBM_GRAYSCALE || wbuf.image_comp == IBM_DITHERED_MONOCHROME)
     {
       if(wbuf.image_comp == IBM_GRAYSCALE)
@@ -1404,7 +1404,7 @@ Sane.start(Sane.Handle handle)
     }
 
   wbuf.threshold = 0
-  wbuf.bits_per_pixel = s.bpp
+  wbuf.bitsPerPixel = s.bpp
 
   wbuf.halftone_code = 2;     /* diithering */
   wbuf.halftone_id = 0x0A;    /* 8x8 Bayer pattenr */
@@ -1480,14 +1480,14 @@ Sane.start(Sane.Handle handle)
   status = ibm_wait_ready(s)
   if(status != Sane.STATUS_GOOD)
     {
-      DBG(1, "GET DATA STATUS failed: %s\n", Sane.strstatus(status))
+      DBG(1, "GET DATA Status failed: %s\n", Sane.strstatus(status))
       return(status)
     }
 
-  s.bytes_to_read = s.params.bytes_per_line * s.params.lines
+  s.bytes_to_read = s.params.bytesPerLine * s.params.lines
 
   DBG(1, "%d pixels per line, %d bytes, %d lines high, total %lu bytes, "
-       "dpi=%d\n", s.params.pixels_per_line, s.params.bytes_per_line,
+       "dpi=%d\n", s.params.pixels_per_line, s.params.bytesPerLine,
        s.params.lines, (u_long) s.bytes_to_read, s.val[OPT_Y_RESOLUTION].w)
 
   s.scanning = Sane.TRUE

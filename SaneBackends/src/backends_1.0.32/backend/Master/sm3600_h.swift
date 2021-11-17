@@ -192,7 +192,7 @@ typedef struct TInstance {
   FILE              *fhLog
   FILE              *fhScan
   Int                ichPageBuffer; /* write position in full page buffer */
-  Int                cchPageBuffer; /* total size of '' */
+  Int                cchPageBuffer; /* total size of "" */
   unsigned char     *pchPageBuffer; /* the humble buffer */
 } TInstance
 
