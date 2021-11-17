@@ -1,7 +1,5 @@
 #ifndef SANE_DS_DEVICE_H
-#define SANE_DS_DEVICE_H
-
-#include <Carbon/Carbon.h>
+#define SANE_DS_DEVICE_H32(
 #include <TWAIN/TWAIN.h>
 
 #include <sane/sane.h>

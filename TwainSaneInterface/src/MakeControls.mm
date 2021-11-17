@@ -1,8 +1,6 @@
 #ifndef SANE_DS_CONTROLS_H
 #define SANE_DS_CONTROLS_H
 
-#include <Carbon/Carbon.h>
-
 ControlRef MakeStaticTextControl (ControlRef parent, Rect * bounds, CFStringRef text,
                                   SInt16 just, bool small);
 

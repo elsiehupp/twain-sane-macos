@@ -1,8 +1,6 @@
 #ifndef SANE_DS_BUFFER_H
 #define SANE_DS_BUFFER_H
 
-#include <Carbon/Carbon.h>
-
 class Buffer {
 
 public:

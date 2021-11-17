@@ -1,8 +1,6 @@
 #ifndef SANE_DS_USERINTERFACE_H
 #define SANE_DS_USERINTERFACE_H
 
-#include <Carbon/Carbon.h>
-
 #include <sane/sane.h>
 
 #include <map>
