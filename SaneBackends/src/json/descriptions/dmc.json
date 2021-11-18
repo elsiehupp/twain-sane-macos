@@ -1,8 +1,10 @@
 [
-{"backend": "dmc"},
-{"version": "unmaintained"},
-{"manpage": "sane-dmc"},
-{"devicetype": "stillcam"},
+{"backend": [
+    {"name": "dmc"},
+    {"version": "unmaintained"},
+    {"manpage": "sane-dmc"},
+    {"devicetype": "stillcam"}
+]},
 
 {"mfg": "Polaroid"},
 {"url": "http://www.polaroid.com/"},

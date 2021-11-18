@@ -1,11 +1,12 @@
 
 [
-{"backend": "umax"},
-{"version": "1.0-41 (unmaintained)"},
-{"manpage": "sane-umax"},
-{"url": "http://www.rauch-domain.de/sane-umax/index.html"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "umax"},
+    {"version": "1.0-41 (unmaintained)"},
+    {"manpage": "sane-umax"},
+    {"url": "http://www.rauch-domain.de/sane-umax/index.html"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "UMAX"},
 {"url": "http://www.umax.com/"},

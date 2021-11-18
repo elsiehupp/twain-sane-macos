@@ -1,11 +1,11 @@
 
 [
-{"backend": "tamarack"},
-{"version": "unmaintained"},
-
-{"manpage": "sane-tamarack"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "tamarack"},
+    {"version": "unmaintained"},
+    {"manpage": "sane-tamarack"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Tamarack"},
 {"redacted-url": "http://www.tamarack.net/"},

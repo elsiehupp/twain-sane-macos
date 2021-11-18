@@ -1,9 +1,10 @@
 [
-{"backend": "hp5590"},
-{"version": "1.0.5"},
-{"manpage": "sane-hp5590"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "hp5590"},
+    {"version": "1.0.5"},
+    {"manpage": "sane-hp5590"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Hewlett-Packard"},
 {"url": "http://www.hp.com"},

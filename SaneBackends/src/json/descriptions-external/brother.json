@@ -1,12 +1,12 @@
 
 [
-{"backend": "brother"},
-{"version": "1.0.0"},
-{"url": "http://solutions.brother.com/linux/sol/printer/linux/sane_drivers.html"},
-{"comment": "External backend made by brother. As this software contains non-free parts, it can't be included into SANE. If you can't find your model here, please have a look at the brother website which contains the latest list."},
-
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "brother"},
+    {"version": "1.0.0"},
+    {"url": "http://solutions.brother.com/linux/sol/printer/linux/sane_drivers.html"},
+    {"comment": "External backend made by brother. As this software contains non-free parts, it can't be included into SANE. If you can't find your model here, please have a look at the brother website which contains the latest list."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Brother"},
 {"url": "http://www.brother.com/"},

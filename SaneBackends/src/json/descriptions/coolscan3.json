@@ -1,9 +1,11 @@
 [
-{"backend": "coolscan3"},
-{"version": "1.0.0 (unmaintained)"},
-{"manpage": "sane-coolscan3"},
+{"backend": [
+    {"name": "coolscan3"},
+    {"version": "1.0.0 (unmaintained)"},
+    {"manpage": "sane-coolscan3"},
+    {"devicetype": "scanner"}
+]},
 
-{"devicetype": "scanner"},
 {"mfg": "Nikon"},
 {"url": "http://www.nikon.com/"},
 

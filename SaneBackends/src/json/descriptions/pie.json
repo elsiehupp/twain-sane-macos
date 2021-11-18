@@ -1,11 +1,12 @@
 
 [
-{"backend": "pie"},
-{"version": "1.0 (unmaintained)"},
-{"manpage": "sane-pie"},
-{"url": "http://www.munton.demon.co.uk/sane"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "pie"},
+    {"version": "1.0 (unmaintained)"},
+    {"manpage": "sane-pie"},
+    {"url": "http://www.munton.demon.co.uk/sane"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Devcom"},
 {"url": "http://www.blackwidow.co.uk/"},

@@ -1,12 +1,12 @@
 [
-{"backend": "sm3840"},
-{"version": "1.1 (unmaintained)"},
-{"manpage": "sane-sm3840"},
-{"url": "http://www.ziplabel.com/sm3840/"},
-{"comment": "This reverse-engineered backend supports the USB ScanMaker 3840 model"},
-
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "sm3840"},
+    {"version": "1.1 (unmaintained)"},
+    {"manpage": "sane-sm3840"},
+    {"url": "http://www.ziplabel.com/sm3840/"},
+    {"comment": "This reverse-engineered backend supports the USB ScanMaker 3840 model"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Microtek"},
 {"url": "http://www.microtek.com/"},

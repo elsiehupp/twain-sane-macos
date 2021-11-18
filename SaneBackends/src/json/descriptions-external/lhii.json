@@ -1,11 +1,12 @@
 
 [
-{"backend": "lhii"},
-{"version": "0.42"},
-{"url": "http://www.sane-project.org/backends/lhii/lhii-v0.2.tgz"},
-{"comment": "This backend is for old handscanners with proprietary adapter cards. You also need a kernel driver. You may find such drivers at that page: http://www.willamowius.de/scanner.html ."},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "lhii"},
+    {"version": "0.42"},
+    {"url": "http://www.sane-project.org/backends/lhii/lhii-v0.2.tgz"},
+    {"comment": "This backend is for old handscanners with proprietary adapter cards. You also need a kernel driver. You may find such drivers at that page: http://www.willamowius.de/scanner.html ."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Mustek"},
 {"comment": "Other models may also be supported."},

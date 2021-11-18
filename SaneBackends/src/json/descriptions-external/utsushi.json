@@ -1,12 +1,14 @@
 [
 [
-{"comment": "Copyright (C) 2015-2021 Olaf Meeuwissen; License: GPL-3.0+; This file is part of the 'Utsushi' package."},
-{"backend": "utsushi"},
-{"url": "https://gitlab.com/utsushi/utsushi"}
+{"backend": [
+    {"name": "utsushi"},
+    {"comment": "Copyright (C) 2015-2021 Olaf Meeuwissen; License: GPL-3.0+; This file is part of the 'Utsushi' package."},
+    {"url": "https://gitlab.com/utsushi/utsushi"},
+    {"devicetype": "scanner"}
+]}
 
 ], [
 
-{"devicetype": "scanner"},
 {"mfg": "EPSON"},
 {"url": "http://www.epson.com/"}
 

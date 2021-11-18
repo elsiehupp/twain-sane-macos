@@ -1,10 +1,12 @@
 
 [
-{"backend": "coolscan"},
-{"version": "0.4.3 (unmaintained)"},
-{"url": "http://andreas.rick.free.fr/sane/"},
-{"manpage": "sane-coolscan"},
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "coolscan"},
+    {"version": "0.4.3 (unmaintained)"},
+    {"url": "http://andreas.rick.free.fr/sane/"},
+    {"manpage": "sane-coolscan"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Nikon"},
 {"url": "http://www.nikon.com/"},

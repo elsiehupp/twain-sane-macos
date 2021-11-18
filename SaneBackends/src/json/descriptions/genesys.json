@@ -1,11 +1,13 @@
 [
 [
-{"backend": "genesys"},
-{"version": "1.0-63"},
-{"manpage": "sane-genesys"},
-{"comment": "Only the USB scanners mentioned below are currently supported."},
-{"url": "http://www.meier-geinitz.de/sane/genesys-backend/"},
-{"devicetype": "scanner"}
+{"backend": [
+    {"name": "genesys"},
+    {"version": "1.0-63"},
+    {"manpage": "sane-genesys"},
+    {"comment": "Only the USB scanners mentioned below are currently supported."},
+    {"url": "http://www.meier-geinitz.de/sane/genesys-backend/"},
+    {"devicetype": "scanner"}
+]}
 
 ], [
 

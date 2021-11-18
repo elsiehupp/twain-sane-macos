@@ -1,13 +1,12 @@
 [
-{"backend": "rts8891"},
-{"version": "1.0-0 (unmaintained)"},
-{"manpage": "sane-rts8891"},
-{"url": "http://stef.dev.free.fr/sane/rts8891/index.html"},
-
-{"comment": "This backend supports Realtek RTS8891 ASIC bases scanners."},
-
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "rts8891"},
+    {"version": "1.0-0 (unmaintained)"},
+    {"manpage": "sane-rts8891"},
+    {"url": "http://stef.dev.free.fr/sane/rts8891/index.html"},
+    {"comment": "This backend supports Realtek RTS8891 ASIC based scanners."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "UMAX"},
 {"url": "http://www.umax.com.tw/"},

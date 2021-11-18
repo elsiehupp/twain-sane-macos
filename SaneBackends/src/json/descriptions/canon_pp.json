@@ -1,11 +1,11 @@
 [
-{"backend": "canon_pp"},
-{"manpage": "sane-canon_pp"},
-{"version": "0.33 (unmaintained)"},
-
-{"url": "http://canon-fb330p.sourceforge.net"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "canon_pp"},
+    {"manpage": "sane-canon_pp"},
+    {"version": "0.33 (unmaintained)"},
+    {"url": "http://canon-fb330p.sourceforge.net"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Canon"},
 {"url": "http://www.canon.com/"},

@@ -1,12 +1,12 @@
 
 [
-{"backend": "canon630u"},
-{"manpage": "sane-canon630u"},
-{"version": "0.1 (unmaintained)"},
-
-{"url": "http://canon-fb630u.sourceforge.net/"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "canon630u"},
+    {"manpage": "sane-canon630u"},
+    {"version": "0.1 (unmaintained)"},
+    {"url": "http://canon-fb630u.sourceforge.net/"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Canon"},
 {"url": "http://www.canon.com/"},

@@ -1,13 +1,11 @@
 [
-{"backend": "avision"},
-
-{"version": "Build: 296 (unmaintained)"},
-
-{"url": "http://exactcode.com/site/open_source/saneavision/"},
-
-{"manpage": "sane-avision"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "avision"},
+    {"version": "Build: 296 (unmaintained)"},
+    {"url": "http://exactcode.com/site/open_source/saneavision/"},
+    {"manpage": "sane-avision"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Avision"},
 {"url": "http://www.avision.com"},

@@ -1,10 +1,11 @@
 [
-{"credit": "Apple backend .desc file by Milon Firikis."},
-{"backend": "apple"},
-{"version": "unmaintained"},
-{"manpage": "sane-apple"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "apple"},
+    {"credit": "Apple backend .desc file by Milon Firikis."},
+    {"version": "unmaintained"},
+    {"manpage": "sane-apple"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Apple"},
 {"url": "http://developer.apple.com/"},

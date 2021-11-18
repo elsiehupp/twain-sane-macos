@@ -1,8 +1,10 @@
 [
-{"backend": "dell1600n_net"},
+{"backend": [
+{"name": "dell1600n_net"},
 {"version": "unmaintained (2006-05-29)"},
-{"devicetype": "scanner"},
 {"url": "Jon Chambers <jon@jon.demon.co.uk>"},
+{"devicetype": "scanner"}
+]},
 
 {"mfg": "Dell"},
 {"url": "http://www.dell.com/"},

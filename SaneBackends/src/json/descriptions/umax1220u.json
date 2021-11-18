@@ -1,12 +1,12 @@
 
 [
-{"backend": "umax1220u"},
-{"version": "unmaintained"},
-
-{"manpage": "sane-umax1220u"},
-{"url": "http://sourceforge.net/projects/umax1220u-sane"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "umax1220u"},
+    {"version": "unmaintained"},
+    {"manpage": "sane-umax1220u"},
+    {"url": "http://sourceforge.net/projects/umax1220u-sane"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "UMAX"},
 {"url": "http://www.umax.com/"},

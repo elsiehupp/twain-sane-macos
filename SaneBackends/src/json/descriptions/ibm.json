@@ -1,14 +1,12 @@
-
-
 [
-{"backend": "ibm"},
-{"url": "http://www.meier-geinitz.de/sane/ibm-backend/"},
-{"version": "1.0-4 (unmaintained)"},
-
-{"manpage": "sane-ibm"},
-{"comment": "This backend has had only limited testing. It needs more work especially for the Ricoh scanners. Patches are welcome."},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "ibm"},
+    {"url": "http://www.meier-geinitz.de/sane/ibm-backend/"},
+    {"version": "1.0-4 (unmaintained)"},
+    {"manpage": "sane-ibm"},
+    {"comment": "This backend has had only limited testing. It needs more work especially for the Ricoh scanners. Patches are welcome."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "IBM"},
 {"url": "http://www.ibm.com/"},

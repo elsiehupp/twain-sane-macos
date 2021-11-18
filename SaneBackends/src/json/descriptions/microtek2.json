@@ -1,11 +1,12 @@
 
 [
-{"backend": "microtek2"},
-{"version": "unmaintained"},
-{"manpage": "sane-microtek2"},
-{"url": "http://karstenfestag.gmxhome.de/linux.html"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "microtek2"},
+    {"version": "unmaintained"},
+    {"manpage": "sane-microtek2"},
+    {"url": "http://karstenfestag.gmxhome.de/linux.html"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Microtek"},
 {"url": "http://www.microtek.com/"},

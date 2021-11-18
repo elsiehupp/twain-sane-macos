@@ -1,11 +1,12 @@
 [
- {"credit": "Copyright (C) 2009-10 Alessandro Zummo; Released under GPLv2; This file is derived from epkowa.desc, Copyright (C) Olaf Meeuwissen; distributed with \"Image Scan!\" and released under GPL."},
-{"backend": "epson2"},
-{"version": "1.0.124 (unmaintained)"},
-{"new": "no"},
-{"manpage": "sane-epson2"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "epson2"},
+    {"version": "1.0.124 (unmaintained)"},
+    {"credit": "Copyright (C) 2009-10 Alessandro Zummo; Released under GPLv2; This file is derived from epkowa.desc, Copyright (C) Olaf Meeuwissen; distributed with \"Image Scan!\" and released under GPL."},
+    {"new": "no"},
+    {"manpage": "sane-epson2"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Epson"},
 {"url": "http://www.epson.com/"},

@@ -1,11 +1,12 @@
 
 [
-{"backend": "teco3"},
-{"version": "1.0-1 (unmaintained)"},
-{"manpage": "sane-teco3"},
-{"url": "http://www.zago.net/sane/#teco3"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "teco3"},
+    {"version": "1.0-1 (unmaintained)"},
+    {"manpage": "sane-teco3"},
+    {"url": "http://www.zago.net/sane/#teco3"},
+    {"devicetype": "scanner"}
+]},
 
 
 {"mfg": "Relisys"},

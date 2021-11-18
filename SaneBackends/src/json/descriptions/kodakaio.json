@@ -1,10 +1,12 @@
 [
-{"backend": "kodakaio"},
-{"url": "http://sourceforge.net/projects/cupsdriverkodak/"},
-{"version": "2.7.2"},
-{"manpage": "sane-kodakaio"},
-{"comment": "Backend for Kodak AiO ESP and Hero printers. Also possibly Advent AWL10"},
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "kodakaio"},
+    {"url": "http://sourceforge.net/projects/cupsdriverkodak/"},
+    {"version": "2.7.2"},
+    {"manpage": "sane-kodakaio"},
+    {"comment": "Backend for Kodak AiO ESP and Hero printers. Also possibly Advent AWL10"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Kodak"},
 {"url": "http://www.kodak.com/"},

@@ -1,12 +1,12 @@
 
 [
-{"backend": "umax_pp"},
-{"version": "1 (unmaintained)"},
-{"manpage": "sane-umax_pp"},
-
-{"url": "http://umax1220p.sourceforge.net/"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "umax_pp"},
+    {"version": "1 (unmaintained)"},
+    {"manpage": "sane-umax_pp"},
+    {"url": "http://umax1220p.sourceforge.net/"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "UMAX"},
 {"url": "http://www.umax.com.tw/"},

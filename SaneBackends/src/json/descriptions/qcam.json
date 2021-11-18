@@ -1,9 +1,10 @@
 [
-{"backend": "qcam"},
-{"version": "unmaintained"},
-{"manpage": "sane-qcam"},
-
-{"devicetype": "vidcam"},
+{"backend": [
+    {"name": "qcam"},
+    {"version": "unmaintained"},
+    {"manpage": "sane-qcam"},
+    {"devicetype": "vidcam"}
+]},
 
 {"mfg": "Connectix"},
 {"redacted-url": "http://www.connectix.com/"},

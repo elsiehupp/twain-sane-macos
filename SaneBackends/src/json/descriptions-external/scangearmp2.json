@@ -1,11 +1,12 @@
 [
 [
-{"backend": "canon_pixma"},
-{"version": "(external)"},
-{"url": "https://github.com/Ordissimo/scangearmp2/blob/master/README.md"},
-{"comment": "External binary-only backend for Linux i386 and x86_64?. See the website for the latest release."},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "canon_pixma"},
+    {"version": "(external)"},
+    {"url": "https://github.com/Ordissimo/scangearmp2/blob/master/README.md"},
+    {"comment": "External binary-only backend for Linux i386 and x86_64?. See the website for the latest release."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Canon"},
 {"url": "https://www.canon.com/"},

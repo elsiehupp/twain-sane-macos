@@ -1,10 +1,11 @@
 [
-{"backend": "ma1509"},
-{"version": "1.0-3 (unmaintained)"},
-{"manpage": "sane-ma1509"},
-{"url": "http://www.meier-geinitz.de/sane/ma1509-backend/"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "ma1509"},
+    {"version": "1.0-3 (unmaintained)"},
+    {"manpage": "sane-ma1509"},
+    {"url": "http://www.meier-geinitz.de/sane/ma1509-backend/"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Mustek"},
 {"url": "http://www.mustek.com/"},

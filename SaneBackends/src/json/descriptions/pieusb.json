@@ -1,12 +1,13 @@
 
 [
-{"backend": "pieusb"},
-{"version": "1.0 (unmaintained)"},
-{"new": "no"},
-{"manpage": "sane-pieusb"},
-{"url": "https://github.com/kkaempf/sane-backends"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "pieusb"},
+    {"version": "1.0 (unmaintained)"},
+    {"new": "no"},
+    {"manpage": "sane-pieusb"},
+    {"url": "https://github.com/kkaempf/sane-backends"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "PIE"},
 {"url": "http://www.scanace.com"},

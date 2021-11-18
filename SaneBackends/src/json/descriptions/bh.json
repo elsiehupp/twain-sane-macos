@@ -1,12 +1,13 @@
 
 [
-{"backend": "bh"},
-{"version": "1.0-4 (unmaintained)"},
-{"manpage": "sane-bh"},
-{"url": "http://www.martoneconsulting.com/sane-bh.html"},
-{"comment": "Supports Copiscan II scanners with Remote SCSI Controller (RSC) interface"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "bh"},
+    {"version": "1.0-4 (unmaintained)"},
+    {"manpage": "sane-bh"},
+    {"url": "http://www.martoneconsulting.com/sane-bh.html"},
+    {"comment": "Supports Copiscan II scanners with Remote SCSI Controller (RSC) interface"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Bell and Howell"},
 {"url": "http://www.bhscanners.com/"},

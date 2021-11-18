@@ -1,12 +1,13 @@
 
 
 [
-{"backend": "niash"},
-{"version": "0.3 (unmaintained)"},
-{"manpage": "sane-niash"},
-{"url": "http://sourceforge.net/projects/hp3300backend"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "niash"},
+    {"version": "0.3 (unmaintained)"},
+    {"manpage": "sane-niash"},
+    {"url": "http://sourceforge.net/projects/hp3300backend"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Hewlett-Packard"},
 {"url": "http://www.hp.com"},

@@ -1,11 +1,12 @@
 
 [
-{"backend": "sceptre"},
-{"version": "1.0-10 (unmaintained)"},
-{"manpage": "sane-sceptre"},
-{"url": "http://www.zago.net/sane/"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "sceptre"},
+    {"version": "1.0-10 (unmaintained)"},
+    {"manpage": "sane-sceptre"},
+    {"url": "http://www.zago.net/sane/"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Sceptre"},
 {"url": "http://www.sceptre.com/"},

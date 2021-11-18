@@ -1,11 +1,12 @@
 [
 [
-{"backend": "unsupported"},
-{"version": "2010-06-09"},
-{"url": "contrib.html"},
-{"comment": "The devices mentioned here are not supported by any SANE backend. However, there may be links to information about them or stand-alone programs."},
-
-{"devicetype": "scanner"}
+{"backend": [
+{"name": "unsupported"},
+    {"version": "2010-06-09"},
+    {"url": "contrib.html"},
+    {"comment": "The devices mentioned here are not supported by any SANE backend. However, there may be links to information about them or stand-alone programs."},
+    {"devicetype": "scanner"}
+]}
 
 ], [
 
@@ -1100,7 +1101,7 @@
 {"status": "unsupported"},
 {"comment": "Probably unsupported. See link for details."}
 
-],
+], [
 
 {"mfg": "Microtek"},
 {"url": "http://www.microtek.com/"},
@@ -1389,7 +1390,7 @@
 
 {"model": "2400 M"},
 {"interface": ["USB"]},
-{"url": "http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED"]},
+{"url": "http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED"},
 {"status": "unsupported"},
 {"comment": "Probably unsupported. No details known."},
 
@@ -1397,35 +1398,35 @@
 {"url": "http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED"},
 {"interface": ["USB"]},
 {"usbid": ["0x055f", "0x0400"]},
-{"comment": "Not supported. May be supported by mustek_usb2 backend later. See link for some information."]},
+{"comment": "Not supported. May be supported by mustek_usb2 backend later. See link for some information."},
 {"status": "unsupported"},
 
 {"model": "BearPaw 2448 CU Pro"},
 {"url": "unsupported/mustek-bearpaw-2448-cu-pro.html"},
 {"usbid": ["0x055f", "0x0408"]},
 {"interface": ["USB"]},
-{"comment": "Not supported. May be supported by mustek_usb2 backend later. See link for some information."]},
+{"comment": "Not supported. May be supported by mustek_usb2 backend later. See link for some information."},
 {"status": "unsupported"},
 
 {"model": "BearPaw 4800 TA Pro"},
 {"url": "unsupported/mustek-bearpaw-4800ta-pro.html"},
 {"interface": ["USB"]},
 {"usbid": ["0x055f", "0x1000"]},
-{"comment": "Not supported. See link for some information."]},
+{"comment": "Not supported. See link for some information."},
 {"status": "unsupported"},
 
 {"model": "BearPaw 4800 TA Pro II"},
 {"url": "unsupported/mustek-bearpaw-4800ta-pro-ii.html"},
 {"interface": ["USB"]},
 {"usbid": ["0x055f", "0x040a"]},
-{"comment": "Not supported. May be supported by mustek_usb2 backend later. See link for some information."]},
+{"comment": "Not supported. May be supported by mustek_usb2 backend later. See link for some information."},
 {"status": "unsupported"},
 
 {"model": "BearPaw 6400 TA Pro"},
 {"url": "http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED"},
 {"interface": ["USB"]},
 {"usbid": ["0x055f", "0x040b"]},
-{"comment": "Not supported. May be supported by mustek_usb2 backend later. See link for some information."]},
+{"comment": "Not supported. May be supported by mustek_usb2 backend later. See link for some information."},
 {"status": "unsupported"},
 
 {"model": "Paragon 800 II EP"},
@@ -1512,7 +1513,7 @@
 {"status": "unsupported"},
 {"comment": "Probably not supported. See link for details."}
 
-],
+], [
 
 {"mfg": "Olympus"},
 {"url": "http://www.olympus.com"},
@@ -1693,7 +1694,7 @@
 
 ], [
 
-;:mfg "Packard Bell"}
+{"mfg": "Packard Bell"}
 
 ], [
 
@@ -1930,7 +1931,7 @@
 
 {"model": "Colorado 1200p"},
 {"interface": ["Parport"]},
-{"url": "http://home2.swipnet.se/~w-25069/pxscan.html"]},
+{"url": "http://home2.swipnet.se/~w-25069/pxscan.html"},
 {"status": "unsupported"},
 {"comment": "Unsupported by SANE. But is reported to partly work with pxscan. See link."},
 
@@ -2406,9 +2407,9 @@
 {"model": "Powerlook 180"},
 {"url": "unsupported/umax-powerlook-180.html"},
 {"interface": ["USB"]},
-;{"usbid": ["0x3902", "0xc470" #correct?
+{"usbid": ["0x3902", "0xc470"]},
 {"status": "unsupported"},
-{"comment": "Probably not supported. See link for details."},
+{"comment": "Probably not supported. See link for details. usbid may not correct"},
 
 {"model": "Powerlook 1000 USB"},
 {"interface": ["USB"]},
@@ -2709,5 +2710,5 @@
 {"status": "unsupported"},
 {"comment": "Not Supported yet. See link for more details."}
 
-], [
-
+]
+]

@@ -1,11 +1,13 @@
 
 [
-{"backend": "canon_lide70"},
-{"new": "yes"},
-{"url": "http://www.juergen-ernst.de/info_sane.html"},
-{"version": "0"},
-{"manpage": "sane-canon_lide70"},
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "canon_lide70"},
+    {"new": "yes"},
+    {"url": "http://www.juergen-ernst.de/info_sane.html"},
+    {"version": "0"},
+    {"manpage": "sane-canon_lide70"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Canon"},
 {"url": "http://www.canon.com/"},

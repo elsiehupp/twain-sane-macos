@@ -1,11 +1,12 @@
 
 [
-{"backend": "matsushita"},
-{"version": "1.0-7 (unmaintained)"},
-{"manpage": "sane-matsushita"},
-{"url": "http://www.zago.net/sane"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "matsushita"},
+    {"version": "1.0-7 (unmaintained)"},
+    {"manpage": "sane-matsushita"},
+    {"url": "http://www.zago.net/sane"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Panasonic"},
 {"url": "http://www.panasonic.com/"},

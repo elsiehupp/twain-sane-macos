@@ -1,13 +1,13 @@
 
 
 [
-{"backend": "scanwit"},
-{"url": "ftp://ftp.mccme.ru/users/ushakov/scanwit"},
-{"version": "(2001-10-10)"},
-
-{"comment": "The backend is not included because it lacks code for safe detection of the scanner and documentation."},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "scanwit"},
+    {"url": "ftp://ftp.mccme.ru/users/ushakov/scanwit"},
+    {"version": "(2001-10-10)"},
+    {"comment": "The backend is not included because it lacks code for safe detection of the scanner and documentation."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Benq (Acer)"},
 {"url": "http://www.benq.com"},

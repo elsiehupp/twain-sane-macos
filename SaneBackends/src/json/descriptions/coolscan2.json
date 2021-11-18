@@ -1,10 +1,12 @@
 [
-{"backend": "coolscan2"},
-{"version": "0.1.8 (unmaintained)"},
-{"manpage": "sane-coolscan2"},
-{"url": "http://coolscan2.sourceforge.net/"},
+{"backend": [
+    {"name": "coolscan2"},
+    {"version": "0.1.8 (unmaintained)"},
+    {"manpage": "sane-coolscan2"},
+    {"url": "http://coolscan2.sourceforge.net/"},
+    {"devicetype": "scanner"}
+]},
 
-{"devicetype": "scanner"},
 {"mfg": "Nikon"},
 {"url": "http://www.nikon.com/"},
 

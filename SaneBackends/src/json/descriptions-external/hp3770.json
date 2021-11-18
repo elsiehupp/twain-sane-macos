@@ -1,12 +1,12 @@
 
 [
-{"backend": "hp3770"},
-{"version": "0.0"},
-{"url": "http://www.cyberbaladeur.fr/telechargement.html"},
-{"comment": "This backend can't be added to the SANE distribution because it consists of binary-only code."},
-
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "hp3770"},
+    {"version": "0.0"},
+    {"url": "http://www.cyberbaladeur.fr/telechargement.html"},
+    {"comment": "This backend can't be added to the SANE distribution because it consists of binary-only code."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Hewlett Packard"},
 {"url": "http://www.hp.com/"},

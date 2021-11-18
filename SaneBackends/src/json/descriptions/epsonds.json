@@ -1,12 +1,13 @@
 
 [
-{"comment": "Copyright (C) 2015 Alessandro Zummo; Released under GPLv2"},
-{"backend": "epsonds"},
-{"version": "1.0.18 (unmaintained)"},
-{"new": "no"},
-{"manpage": "sane-epsonds"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "epsonds"},
+    {"version": "1.0.18 (unmaintained)"},
+    {"comment": "Copyright (C) 2015 Alessandro Zummo; Released under GPLv2"},
+    {"new": "no"},
+    {"manpage": "sane-epsonds"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Epson"},
 {"url": "http://www.epson.com/"},

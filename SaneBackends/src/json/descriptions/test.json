@@ -1,11 +1,13 @@
 
 [
-{"backend": "test"},
-{"version": "1.0-28 (unmaintained)"},
-{"manpage": "sane-test"},
-{"url": "http://www.meier-geinitz.de/sane/test-backend/"},
-
-{"devicetype": "api"},
+{"backend": [
+    {"name": "test"},
+    {"version": "1.0-28 (unmaintained)"},
+    {"manpage": "sane-test"},
+    {"url": "http://www.meier-geinitz.de/sane/test-backend/"},
+    {"devicetype": "api"}
+]},
 
 {"desc": "Frontend-tester"},
-{"comment": "Backend for testing frontends. Also serves as example for SANE backend options."},
+{"comment": "Backend for testing frontends. Also serves as example for SANE backend options."}
+]

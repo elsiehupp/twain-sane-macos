@@ -1,11 +1,12 @@
 
 [
-{"backend": "primascan"},
-{"version": "0.42"},
-{"url": "http://www.geocities.com/trsh0101/index.html"},
-{"comment": "SANE backend and stand-alone program"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "primascan"},
+    {"version": "0.42"},
+    {"url": "http://www.geocities.com/trsh0101/index.html"},
+    {"comment": "SANE backend and stand-alone program"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Primax"},
 {"url": "http://www.primax.nl/"},
@@ -13,5 +14,5 @@
 {"model": "Colorado 2400U"},
 {"interface": ["USB"]},
 {"usbid": ["0x0461", "0x0346"]},
-{"status": "minimal"},
+{"status": "minimal"}
 ]

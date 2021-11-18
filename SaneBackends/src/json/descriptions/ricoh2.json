@@ -1,10 +1,11 @@
 [
-{"backend": "ricoh2"},
-{"version": "1.0 (unmaintained)"},
-{"manpage": "sane-ricoh2"},
-{"url": "http://www.ricoh.com/"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "ricoh2"},
+    {"version": "1.0 (unmaintained)"},
+    {"manpage": "sane-ricoh2"},
+    {"url": "http://www.ricoh.com/"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Ricoh"},
 {"url": "http://www.ricoh.com/"},

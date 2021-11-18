@@ -1,11 +1,12 @@
 [
 {"credit": "Kodak DC240 backend .desc file by Peter S. Fales"},
-{"backend": "dc240"},
+{"backend": [
+{"name": "dc240"},
 {"version": "0.0 (unmaintained)"},
 {"manpage": "sane-dc240"},
 {"url": "mailto:peter@fales-lorenz.net"},
-
-{"devicetype": "stillcam"},
+{"devicetype": "stillcam"}
+]},
 
 {"mfg": "Kodak"},
 {"url": "http://www.kodak.com/global/en/service/products/ekn006568.jhtml"},

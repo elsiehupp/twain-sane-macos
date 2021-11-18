@@ -1,10 +1,12 @@
 [
-{"backend": "mustek_usb"},
-{"version": "1.0-18 (unmaintained)"},
-{"manpage": "sane-mustek_usb"},
-{"url": "http://www.meier-geinitz.de/sane/mustek_usb-backend/"},
-{"comment": "Only the USB scanners mentioned below are supported. For BearPaws, look at the Plustek, MA-1509, and gt68xx backends."},
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "mustek_usb"},
+    {"version": "1.0-18 (unmaintained)"},
+    {"manpage": "sane-mustek_usb"},
+    {"url": "http://www.meier-geinitz.de/sane/mustek_usb-backend/"},
+    {"comment": "Only the USB scanners mentioned below are supported. For BearPaws, look at the Plustek, MA-1509, and gt68xx backends."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Mustek"},
 {"url": "http://www.mustek.com/"},

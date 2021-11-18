@@ -1,12 +1,13 @@
 
 [
-{"credit": "Copyright (C) 2010-11 Reinhold Kainhofer; Released under GPLv2"},
-{"backend": "magicolor"},
-{"version": "1.0.0 (unmaintained)"},
-{"manpage": "sane-magicolor"},
-{"url": "http://wiki.kainhofer.com/hardware/magicolor_scan"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "magicolor"},
+    {"version": "1.0.0 (unmaintained)"},
+    {"credit": "Copyright (C) 2010-11 Reinhold Kainhofer; Released under GPLv2"},
+    {"manpage": "sane-magicolor"},
+    {"url": "http://wiki.kainhofer.com/hardware/magicolor_scan"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "KONICA MINOLTA"},
 {"url": "http://www.konicaminolta.com/"},

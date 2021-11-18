@@ -1,10 +1,11 @@
 [
-{"backend": "leo"},
-{"version": "1.0-10 (unmaintained)"},
-{"manpage": "sane-leo"},
-{"url": "http://www.zago.net/sane/#leo"},
-
-{"devicetype": "scanner"},
+{"backend": [
+{"name": "leo"},
+    {"version": "1.0-10 (unmaintained)"},
+    {"manpage": "sane-leo"},
+    {"url": "http://www.zago.net/sane/#leo"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "LEO"},
 {"model": "LEOScan S3"},

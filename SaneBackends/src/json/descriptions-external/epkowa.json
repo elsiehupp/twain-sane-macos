@@ -1,17 +1,17 @@
 
 [
 [
-{"credit": "Copyright (C) 2004--2015 Olaf Meeuwissen\nCopyright (C) 2019 SEIKO EPSON Corporation"},
-{"comment": "This file is part of the \"Image Scan!\" documentation. The \"Image Scan!\" documentation is free software.\n\nYou can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation either version 2 of the License or at your option any later version."},
-{"sources": "This list of devices has been compiled using the following sources:\n\n* iscan-data-$version (see :version field below)\n\n* iscan-2.24.0/NEWS\n\n* iscan-2.24.0/backend/usb (since moved to iscan-data)\n\n* sane-backends/backend/epson_usb.c (CVS 1.18)\n\n* sane-backends/doc/descriptions/epson.desc (CVS 1.26)\n\n* http://www.freecolormanagement.com/sane/supported.html\n\n* http://www.sane-project.org/lists/sane-mfgs-cvs.html#Z-EPSON\n\n* http://www.epsondevelopers.com/\n\n* http://www.epson.com/ (several representative countries)\n\n* http://www.i-love-epson.co.jp/\n\n* messages on the sane-devel and LinuxPrinting.org epson-list\n\nmailing lists\n\nSome of the above sources may have moved or may no longer exist."},
+{"backend": [
+    {"name": "epkowa"},
+    {"version": "iscan 2.30.4/iscan-data 1.39.1"},
+    {"credit": "Copyright (C) 2004--2015 Olaf Meeuwissen\nCopyright (C) 2019 SEIKO EPSON Corporation"},
+    {"comment": "This file is part of the \"Image Scan!\" documentation. The \"Image Scan!\" documentation is free software.\n\nYou can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation either version 2 of the License or at your option any later version."},
+    {"sources": "This list of devices has been compiled using the following sources:\n\n* iscan-data-$version (see :version field below)\n\n* iscan-2.24.0/NEWS\n\n* iscan-2.24.0/backend/usb (since moved to iscan-data)\n\n* sane-backends/backend/epson_usb.c (CVS 1.18)\n\n* sane-backends/doc/descriptions/epson.desc (CVS 1.26)\n\n* http://www.freecolormanagement.com/sane/supported.html\n\n* http://www.sane-project.org/lists/sane-mfgs-cvs.html#Z-EPSON\n\n* http://www.epsondevelopers.com/\n\n* http://www.epson.com/ (several representative countries)\n\n* http://www.i-love-epson.co.jp/\n\n* messages on the sane-devel and LinuxPrinting.org epson-list\n\nmailing lists\n\nSome of the above sources may have moved or may no longer exist."},
+    {"url": "http://download.ebz.epson.net/dsc/search/01/search/?OSC=LX"},
+    {"devicetype": "scanner"}
+]},
 
-{"backend": "epkowa"},
-{"version": "iscan 2.30.4/iscan-data 1.39.1"},
-{"url": "http://download.ebz.epson.net/dsc/search/01/search/?OSC=LX"},
 
-
-
-{"devicetype": "scanner"},
 {"mfg": "EPSON"},
 {"url": "http://www.epson.com/"},
 {"comment": "SEIKO EPSON CORPORATION's marketing division divides the world in Japan and several overseas regions. The same scanner is marketed under different names in the various regions. I have assumed the Japan-centric point of view that the scanner names for the models marketed in Japan are \"canonical\". All the other model names are considered overseas.\n\nI have marked the models for which I have been able to download a product specification with an indication of the site.\n\nJP = http://www.i-love-epson.co.jp/ (in Japanese)\n\nAll command specs were downloaded from www.epsondevelopers.com.\n\nNote that the above location may have moved, may no longer exist or no longer provide (unfettered) access to the specifications.\n\nFor the :comment sections I have tried to stick to the following ordering\n\n- support limitations\n\n- additional requirements\n\n- other backends that claim support\n\n- correspondence to other models"}

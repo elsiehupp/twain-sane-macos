@@ -1,8 +1,10 @@
 [
-{"backend": "xerox_mfp"},
+{"backend": [
+{"name": "xerox_mfp"},
 {"version": "1.0-13"},
 {"manpage": "sane-xerox_mfp"},
-{"devicetype": "scanner"},
+{"devicetype": "scanner"}
+]},
 
 {"mfg": "Xerox"},
 {"url": "http://www.office.xerox.com/"},

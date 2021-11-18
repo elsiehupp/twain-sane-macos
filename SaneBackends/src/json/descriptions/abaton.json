@@ -1,10 +1,11 @@
 [
-{"backend": "abaton"},
-{"version": "unmaintained"},
-{"manpage": "sane-abaton"},
-{"url": "http://aix2.uottawa.ca/~s1204672/sane/"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "abaton"},
+    {"version": "unmaintained"},
+    {"manpage": "sane-abaton"},
+    {"url": "http://aix2.uottawa.ca/~s1204672/sane/"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Abaton"},
 {"url": "http://www.everex.com/"},

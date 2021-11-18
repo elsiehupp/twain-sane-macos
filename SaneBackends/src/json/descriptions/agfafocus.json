@@ -1,9 +1,10 @@
 [
-{"backend": "agfafocus"},
-{"version": "unmaintained"},
-{"manpage": "sane-agfafocus"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "agfafocus"},
+    {"version": "unmaintained"},
+    {"manpage": "sane-agfafocus"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "AGFA"},
 {"url": "http://www.agfa.com/"},

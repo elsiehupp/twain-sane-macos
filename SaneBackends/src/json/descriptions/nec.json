@@ -1,9 +1,11 @@
 [
-{"backend": "nec"},
-{"version": "0.12 (unmaintained)"},
-{"url": "http://www5a.biglobe.ne.jp/~saetaka/"},
-{"manpage": "sane-nec"},
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "nec"},
+    {"version": "0.12 (unmaintained)"},
+    {"url": "http://www5a.biglobe.ne.jp/~saetaka/"},
+    {"manpage": "sane-nec"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "NEC"},
 {"url": "http://www.nevt.co.jp/"},

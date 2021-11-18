@@ -1,11 +1,14 @@
 
 [
-{"backend": "hpaio"},
-{"version": ""},
-{"url": "http://hpinkjet.sourceforge.net/"},
-{"comment": "This backend isn't included in SANE because it is included in the HPLIP software."},
+{"backend": [
+    {"name": "hpaio"},
+    {"version": ""},
+    {"url": "http://hpinkjet.sourceforge.net/"},
+    {"comment": "This backend isn't included in SANE because it is included in the HPLIP software."},
+    {"devicetype": "scanner"}
+]},
 
-{"devicetype": "scanner"},
+
 {"mfg": "Hewlett-Packard"},
 {"url": "http://www.hp.com/united-states/consumer/gateway/printing_multifunction.html"},
 {"model": "HP 915 Inkjet All-in-one Printer"},

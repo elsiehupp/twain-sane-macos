@@ -1,12 +1,12 @@
 [
-{"backend": "lexmark"},
-{"version": "1.0-0 (unmaintained)"},
-{"manpage": "sane-lexmark"},
-{"url": "http://stef.dev.free.fr/sane/lexmark"},
-
-{"comment": "This backend supports lexmark x1100 series scanners."},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "lexmark"},
+    {"version": "1.0-0 (unmaintained)"},
+    {"manpage": "sane-lexmark"},
+    {"url": "http://stef.dev.free.fr/sane/lexmark"},
+    {"comment": "This backend supports lexmark x1100 series scanners."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Lexmark"},
 {"url": "http://www.lexmark.com/"},

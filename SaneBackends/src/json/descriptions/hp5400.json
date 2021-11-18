@@ -1,12 +1,13 @@
 [
-{"credit": "Copied from hp3300 testtools - Martijn van Oosterhout 22/02/2003"},
-{"backend": "hp5400"},
-{"version": "1.0-2 (unmaintained)"},
-{"manpage": "sane-hp5400"},
-{"url": "http://sourceforge.net/projects/hp5400backend"},
-{"comment": "HP5400 and HP5470 scanners. Prototype backend available"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "hp5400"},
+    {"version": "1.0-2 (unmaintained)"},
+    {"credit": "Copied from hp3300 testtools - Martijn van Oosterhout 22/02/2003"},
+    {"manpage": "sane-hp5400"},
+    {"url": "http://sourceforge.net/projects/hp5400backend"},
+    {"comment": "HP5400 and HP5470 scanners. Prototype backend available"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Hewlett-Packard"},
 {"url": "http://www.hp.com"},

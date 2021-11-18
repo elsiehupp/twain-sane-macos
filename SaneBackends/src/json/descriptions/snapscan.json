@@ -1,12 +1,13 @@
 [
 [
-{"backend": "SnapScan"},
-{"version": "1.4"},
-{"manpage": "sane-snapscan"},
-{"url": "http://snapscan.sourceforge.net/"},
-{"comment": "Supported bit depths: 24 bit (color), 48 bit (color, Epson) 8 bit (gray)"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "SnapScan"},
+    {"version": "1.4"},
+    {"manpage": "sane-snapscan"},
+    {"url": "http://snapscan.sourceforge.net/"},
+    {"comment": "Supported bit depths: 24 bit (color), 48 bit (color, Epson) 8 bit (gray)"},
+    {"devicetype": "scanner"}
+]},
 
 
 

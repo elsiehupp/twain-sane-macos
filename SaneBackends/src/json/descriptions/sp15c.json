@@ -1,11 +1,12 @@
 
 [
-{"backend": "sp15c"},
-{"version": "unmaintained"},
-{"manpage": "sane-sp15c"},
-{"redacted-url": "http://www.aa.net/~bentson/sane.html"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "sp15c"},
+    {"version": "unmaintained"},
+    {"manpage": "sane-sp15c"},
+    {"redacted-url": "http://www.aa.net/~bentson/sane.html"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Fujitsu"},
 {"url": "http://www.fcpa.fujitsu.com/products/scanners/"},

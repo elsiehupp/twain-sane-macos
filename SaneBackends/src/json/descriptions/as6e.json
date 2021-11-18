@@ -1,12 +1,13 @@
 
 
 [
-{"backend": "as6e"},
-{"version": "0.5 (unmaintained)"},
-{"manpage": "sane-as6e"},
-{"url": "http://as6edriver.sourceforge.net/"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "as6e"},
+    {"version": "0.5 (unmaintained)"},
+    {"manpage": "sane-as6e"},
+    {"url": "http://as6edriver.sourceforge.net/"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Artec/Ultima"},
 {"url": "http://www.artecusa.com/"},

@@ -1,12 +1,13 @@
 
 [
-{"backend": "epson"},
-{"version": "0.2.42 (unmaintained)"},
-{"new": "no"},
-{"manpage": "sane-epson"},
-{"url": "http://www.khk.net/sane"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "epson"},
+    {"version": "0.2.42 (unmaintained)"},
+    {"new": "no"},
+    {"manpage": "sane-epson"},
+    {"url": "http://www.khk.net/sane"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Epson"},
 {"url": "http://www.epson.com/"},

@@ -1,11 +1,12 @@
 
 [
-{"backend": "samsung"},
-{"version": "(external)"},
-{"url": "http://product.samsung.com/cgi-bin/nabc/support/b2c_support_product_results.jsp"},
-{"comment": "External binary-only backend for Linux i386 (and x86_64?). See the website for the latest release."},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "samsung"},
+    {"version": "(external)"},
+    {"url": "http://product.samsung.com/cgi-bin/nabc/support/b2c_support_product_results.jsp"},
+    {"comment": "External binary-only backend for Linux i386 (and x86_64?). See the website for the latest release."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Samsung"},
 {"url": "http://www.samsung.com/"},

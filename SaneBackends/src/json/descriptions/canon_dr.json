@@ -1,11 +1,13 @@
 
 [
-{"backend": "canon_dr"},
-{"url": "http://www.thebility.com/canon/"},
-{"version": "60"},
-{"manpage": "sane-canon_dr"},
-{"comment": "Backend updated for SANE release 1.0.32, see sane-canon_dr manpage"},
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "canon_dr"},
+    {"url": "http://www.thebility.com/canon/"},
+    {"version": "60"},
+    {"manpage": "sane-canon_dr"},
+    {"comment": "Backend updated for SANE release 1.0.32, see sane-canon_dr manpage"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Canon"},
 {"url": "http://www.canon.com/"},

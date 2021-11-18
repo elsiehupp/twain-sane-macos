@@ -1,10 +1,11 @@
 [
 [
-{"backend": "plustek"},
-{"version": "0.52"},
-{"manpage": "sane-plustek"},
-
-{"devicetype": "scanner"}
+{"backend": [
+    {"name": "plustek"},
+    {"version": "0.52"},
+    {"manpage": "sane-plustek"},
+    {"devicetype": "scanner"}
+]}
 
 ], [
 

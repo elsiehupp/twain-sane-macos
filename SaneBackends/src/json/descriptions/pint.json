@@ -1,10 +1,9 @@
-[
-{"backend": "pint"},
-{"version": "unmaintained"},
-{"manpage": "sane-pint"},
 
-{"devicetype": "api"},
-
-{"desc": "Scanners with the machine-independent PINT interface"},
-{"comment": "Haven't been tested for a long time. Handle with care."}
-]
+{"backend": [
+    {"name": "pint"},
+    {"version": "unmaintained"},
+    {"manpage": "sane-pint"},
+    {"devicetype": "api"},
+    {"desc": "Scanners with the machine-independent PINT interface"},
+    {"comment": "Haven't been tested for a long time. Handle with care."}
+]}

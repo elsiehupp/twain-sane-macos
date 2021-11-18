@@ -1,11 +1,12 @@
 
 [
-{"backend": "hpoj"},
-{"version": "(unmaintained)"},
-{"url": "http://hpoj.sourceforge.net/"},
-{"comment": "HPOJ is not maintained anymore. It's recommended to use the hpaio (hplip) backend instead of HPOJ."},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "hpoj"},
+    {"version": "(unmaintained)"},
+    {"url": "http://hpoj.sourceforge.net/"},
+    {"comment": "HPOJ is not maintained anymore. It's recommended to use the hpaio (hplip) backend instead of HPOJ."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Hewlett-Packard"},
 {"url": "http://www.hp.com/go/all-in-one"},

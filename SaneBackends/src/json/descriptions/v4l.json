@@ -1,13 +1,9 @@
-
-[
-{"backend": "v4l"},
-{"version": "1.0-3 (unmaintained)"},
-{"manpage": "sane-v4l"},
-{"url": "mailto:henning@meier-geinitz.de"},
-
-{"devicetype": "api"},
-
-
-{"desc": "Interface to Video For Linux API"},
-{"comment": "Supports video cameras and other devices accessed by the v4l kernel API, e.g. bttv devices. Quite a lot of known bugs."}
-]
+{"backend": [
+    {"name": "v4l"},
+    {"version": "1.0-3 (unmaintained)"},
+    {"manpage": "sane-v4l"},
+    {"url": "mailto:henning@meier-geinitz.de"},
+    {"devicetype": "api"},
+    {"desc": "Interface to Video For Linux API"},
+    {"comment": "Supports video cameras and other devices accessed by the v4l kernel API, e.g. bttv devices. Quite a lot of known bugs."}
+]}

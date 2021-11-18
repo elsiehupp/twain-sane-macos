@@ -1,11 +1,12 @@
 [
-{"backend": "primax"},
-{"version": "1.1.beta1"},
-{"manpage": "sane-primax"},
-{"url": "http://px-backend.sourceforge.net"},
-{"comment": "This backend is not included because it depends on the code of the primax command line program. Therefore the author wants to keep it in the primax CVS tree."},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "primax"},
+    {"version": "1.1.beta1"},
+    {"manpage": "sane-primax"},
+    {"url": "http://px-backend.sourceforge.net"},
+    {"comment": "This backend is not included because it depends on the code of the primax command line program. Therefore the author wants to keep it in the primax CVS tree."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Primax"},
 {"url": "http://www.primax.nl/"},

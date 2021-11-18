@@ -1,11 +1,12 @@
 
 [
-{"backend": "teco2"},
-{"version": "1.0-9 (unmaintained)"},
-{"manpage": "sane-teco2"},
-{"url": "http://gkall.hobby.nl/teco2.html"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "teco2"},
+    {"version": "1.0-9 (unmaintained)"},
+    {"manpage": "sane-teco2"},
+    {"url": "http://gkall.hobby.nl/teco2.html"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Relisys"},
 {"url": "http://www.relisys.com/"},

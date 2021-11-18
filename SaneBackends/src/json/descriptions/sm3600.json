@@ -1,10 +1,11 @@
 [
-{"backend": "sm3600"},
-{"version": "0.1 (unmaintained)"},
-{"manpage": "sane-sm3600"},
-{"url": "http://sm3600.sourceforge.net/"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "sm3600"},
+    {"version": "0.1 (unmaintained)"},
+    {"manpage": "sane-sm3600"},
+    {"url": "http://sm3600.sourceforge.net/"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Microtek"},
 {"url": "http://www.microtek.com/"},

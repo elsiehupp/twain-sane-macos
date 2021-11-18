@@ -1,13 +1,13 @@
 
 [
-{"backend": "cs3200f"},
-{"version": "0"},
-{"manpage": "sane-cs3200f"},
-{"redacted-url": "http://www.luser.com/temp/"},
-{"comment": "Backend is in experimental CVS"},
-
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "cs3200f"},
+    {"version": "0"},
+    {"manpage": "sane-cs3200f"},
+    {"redacted-url": "http://www.luser.com/temp/"},
+    {"comment": "Backend is in experimental CVS"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Canon"},
 {"url": "http://www.canon.com/"},

@@ -1,10 +1,11 @@
 
 [
-{"backend": "hp"},
-{"version": "unmaintained"},
-{"manpage": "sane-hp"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "hp"},
+    {"version": "unmaintained"},
+    {"manpage": "sane-hp"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Hewlett-Packard"},
 {"url": "http://www.hp.com/"},

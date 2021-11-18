@@ -1,12 +1,13 @@
 [
-{"backend": "viceo"},
-{"version": "0.6"},
-{"manpage": "sane-viceo"},
-{"url": "mailto:viceo@stevencherie.net"},
-{"url": "http://viceo.orcon.net.nz/"},
-{"comment": "Supports E3 and E4 family USB scanners from Genius, Primax, IBM. The backend is not included because the license situation is unclear. Also it only works on Linux and needs a a patch for the kernel scanner driver which isn't available on 2.6."},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "viceo"},
+    {"version": "0.6"},
+    {"manpage": "sane-viceo"},
+    {"url": "mailto:viceo@stevencherie.net"},
+    {"url": "http://viceo.orcon.net.nz/"},
+    {"comment": "Supports E3 and E4 family USB scanners from Genius, Primax, IBM. The backend is not included because the license situation is unclear. Also it only works on Linux and needs a a patch for the kernel scanner driver which isn't available on 2.6."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Genius"},
 {"url": "http://www.genius-kye.com/"},

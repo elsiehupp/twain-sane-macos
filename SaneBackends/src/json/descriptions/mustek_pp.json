@@ -1,13 +1,13 @@
 
 [
-{"backend": "mustek_pp"},
-{"version": "13 (unmaintained)"},
-{"manpage": "sane-mustek_pp"},
-
-{"url": "http://penguin-breeder.org/sane/mustek_pp/"},
-{"comment": "Supports CIS and CCD type parallel port scanners from Mustek."},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "mustek_pp"},
+    {"version": "13 (unmaintained)"},
+    {"manpage": "sane-mustek_pp"},
+    {"url": "http://penguin-breeder.org/sane/mustek_pp/"},
+    {"comment": "Supports CIS and CCD type parallel port scanners from Mustek."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Mustek"},
 {"url": "http://www.mustek.com/"},

@@ -1,13 +1,14 @@
 
 
 [
-{"backend": "hp3500"},
-{"version": "1.1 (unmaintained)"},
-{"manpage": "sane-hp3500"},
-{"url": "http://projects.troy.rollo.name/rt-scanners/"},
-{"comment": "HP3500 series scanners."},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "hp3500"},
+    {"version": "1.1 (unmaintained)"},
+    {"manpage": "sane-hp3500"},
+    {"url": "http://projects.troy.rollo.name/rt-scanners/"},
+    {"comment": "HP3500 series scanners."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Hewlett-Packard"},
 {"url": "http://www.hp.com"},

@@ -1,12 +1,13 @@
 
 [
-{"backend": "stv680"},
-{"version": "1.0-1 (unmaintained)"},
-{"manpage": "sane-stv680"},
-{"url": "http://gkall.hobby.nl/stv680-aiptek.html"},
-{"comment": "This vidcam backend is for the stv0680 chipset, See the website for more info."},
-
-{"devicetype": "vidcam"},
+{"backend": [
+    {"name": "stv680"},
+    {"version": "1.0-1 (unmaintained)"},
+    {"manpage": "sane-stv680"},
+    {"url": "http://gkall.hobby.nl/stv680-aiptek.html"},
+    {"comment": "This vidcam backend is for the stv0680 chipset, See the website for more info."},
+    {"devicetype": "vidcam"}
+]},
 
 {"mfg": "Aiptek"},
 {"url": "http://www.aiptek.com.tw"},

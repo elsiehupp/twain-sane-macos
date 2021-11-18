@@ -1,12 +1,13 @@
 
 [
-{"backend": "p5"},
-{"version": "1 (unmaintained)"},
-{"manpage": "sane-p5"},
-{"comment": "New backend for SANE release 1.0.21, see sane-p5 manpage"},
-{"url": "http://www.sane-project.org/"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "p5"},
+    {"version": "1 (unmaintained)"},
+    {"manpage": "sane-p5"},
+    {"comment": "New backend for SANE release 1.0.21, see sane-p5 manpage"},
+    {"url": "http://www.sane-project.org/"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "PRIMAX"},
 {"url": "http://www.primax.com.tw"},

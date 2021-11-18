@@ -1,10 +1,11 @@
 [
-{"backend": "microtek"},
-{"version": "0.13.1 (unmaintained)"},
-{"manpage": "sane-microtek"},
-{"url": "http://www.mir.com/mtek/"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "microtek"},
+    {"version": "0.13.1 (unmaintained)"},
+    {"manpage": "sane-microtek"},
+    {"url": "http://www.mir.com/mtek/"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Microtek"},
 {"url": "http://www.microtek.com/"},

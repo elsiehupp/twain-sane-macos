@@ -1,9 +1,10 @@
 [
-{"backend": "s9036"},
-{"version": "unmaintained"},
-{"manpage": "sane-s9036"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "s9036"},
+    {"version": "unmaintained"},
+    {"manpage": "sane-s9036"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Siemens"},
 {"url": "http://www.siemens.com/"},

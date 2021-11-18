@@ -1,10 +1,11 @@
 [
-{"backend": "hp4200"},
-{"version": "1.0-2 (unmaintained)"},
-{"manpage": "sane-hp4200"},
-{"url": "http://hp4200-backend.sourceforge.net"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "hp4200"},
+    {"version": "1.0-2 (unmaintained)"},
+    {"manpage": "sane-hp4200"},
+    {"url": "http://hp4200-backend.sourceforge.net"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Hewlett-Packard"},
 {"url": "http://www.hp.com/"},

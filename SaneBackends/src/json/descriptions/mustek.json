@@ -1,11 +1,12 @@
 [
-{"backend": "mustek"},
-{"version": "1.0-138 (unmaintained)"},
-{"manpage": "sane-mustek"},
-{"url": "http://www.meier-geinitz.de/sane/mustek-backend/"},
-{"comment": "Most Mustek SCSI scanners are supported by this backend. For USB scanners, look at the mustek_usb backend."},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "mustek"},
+    {"version": "1.0-138 (unmaintained)"},
+    {"manpage": "sane-mustek"},
+    {"url": "http://www.meier-geinitz.de/sane/mustek-backend/"},
+    {"comment": "Most Mustek SCSI scanners are supported by this backend. For USB scanners, look at the mustek_usb backend."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Mustek"},
 {"url": "http://www.mustek.com/"},

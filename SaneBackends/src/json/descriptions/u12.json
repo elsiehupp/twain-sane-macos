@@ -1,10 +1,11 @@
 [
     [
-{"backend": "u12"},
-{"version": "0.02"},
-{"manpage": "sane-u12"},
-
-{"devicetype": "scanner"}
+{"backend": [
+    {"name": "u12"},
+    {"version": "0.02"},
+    {"manpage": "sane-u12"},
+    {"devicetype": "scanner"}
+]}
 
 ], [
 

@@ -1,11 +1,12 @@
 [
 {"credit": "Kodak DC210 backend .desc file by Brian J. Murrell"},
-{"backend": "dc210"},
+{"backend": [
+{"name": "dc210"},
 {"version": "0.0 (unmaintained)"},
 {"manpage": "sane-dc210"},
 {"url": "mailto:peter@fales-lorenz.net"},
-
-{"devicetype": "stillcam"},
+{"devicetype": "stillcam"}
+]},
 
 {"mfg": "Kodak"},
 {"url": "http://www.kodak.com/global/en/service/digCam/dc210/dc210.shtml"},

@@ -1,10 +1,13 @@
 [
-{"backend": "kodak-twain"},
-{"version": "unknown"},
-{"url": "http://www.kodak.com/go/scanonlinux"},
-{"comment": "External backend developed by Kodak. Provides full access to the supported Kodak scanners by providing a SANE interface to the proprietary Kodak 32bit TWAIN stack. Several Linux distributions are supported."},
+{"backend": [
+    {"name": "kodak-twain"},
+    {"version": "unknown"},
+    {"url": "http://www.kodak.com/go/scanonlinux"},
+    {"comment": "External backend developed by Kodak. Provides full access to the supported Kodak scanners by providing a SANE interface to the proprietary Kodak 32bit TWAIN stack. Several Linux distributions are supported."},
+    {"devicetype": "scanner"}
+]},
 
-{"devicetype": "scanner"},
+
 {"mfg": "Kodak"},
 {"url": "http://www.kodak.com/"},
 

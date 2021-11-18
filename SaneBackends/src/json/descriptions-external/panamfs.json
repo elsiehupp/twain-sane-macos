@@ -1,11 +1,12 @@
 
 [
-{"backend": "panamfs"},
-{"version": "1.0.0"},
-{"url": "http://panasonic.net/pcc/support/fax/common/table/linuxdriver.html"},
-{"comment": "External backend made by panasonic."},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "panamfs"},
+    {"version": "1.0.0"},
+    {"url": "http://panasonic.net/pcc/support/fax/common/table/linuxdriver.html"},
+    {"comment": "External backend made by panasonic."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Panasonic"},
 {"url": "http://panasonic.net/"},

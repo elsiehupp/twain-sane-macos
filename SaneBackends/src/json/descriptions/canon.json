@@ -1,13 +1,13 @@
 
 
 [
-{"backend": "canon"},
-{"manpage": "sane-canon"},
-{"version": "1.12 (unmaintained)"},
-
-{"url": "http://www.rzg.mpg.de/~mpd/sane/"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "canon"},
+    {"manpage": "sane-canon"},
+    {"version": "1.12 (unmaintained)"},
+    {"url": "http://www.rzg.mpg.de/~mpd/sane/"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Canon"},
 {"url": "http://www.canon.com/"},

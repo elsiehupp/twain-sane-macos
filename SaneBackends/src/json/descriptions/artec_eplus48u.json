@@ -1,10 +1,12 @@
 
 [
-{"backend": "artec_eplus48u"},
-{"version": "unmaintained"},
-{"manpage": "sane-artec_eplus48u"},
-{"redacted-url": "http://www.angelfire.com/linux/crapsite/"},
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "artec_eplus48u"},
+    {"version": "unmaintained"},
+    {"manpage": "sane-artec_eplus48u"},
+    {"redacted-url": "http://www.angelfire.com/linux/crapsite/"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Artec/Ultima"},
 {"url": "http://www.artecusa.com/"},

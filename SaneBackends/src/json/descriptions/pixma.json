@@ -1,10 +1,11 @@
 [
-{"backend": "pixma"},
-{"version": "0.28.6 (unmaintained)"},
-{"manpage": "sane-pixma"},
-{"comment": "Devices marked as experimental are disabled by default. See the manual page for how to enable them."},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "pixma"},
+    {"version": "0.28.6 (unmaintained)"},
+    {"manpage": "sane-pixma"},
+    {"comment": "Devices marked as experimental are disabled by default. See the manual page for how to enable them."},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Canon"},
 {"url": "http://www.canon.com/"},

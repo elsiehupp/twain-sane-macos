@@ -1,11 +1,11 @@
 
 [
-{"backend": "brother-mfc4600"},
-{"version": "0.42"},
-{"url": "http://sourceforge.net/projects/brother-mfc"},
-
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "brother-mfc4600"},
+    {"version": "0.42"},
+    {"url": "http://sourceforge.net/projects/brother-mfc"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Brother"},
 {"url": "http://www.brother.com/"},

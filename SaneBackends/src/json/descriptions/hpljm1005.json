@@ -1,9 +1,10 @@
 [
-{"backend": "hpljm1005"},
-{"version": "0 (unmaintained)"},
-{"manpage": "sane-hpljm1005"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "hpljm1005"},
+    {"version": "0 (unmaintained)"},
+    {"manpage": "sane-hpljm1005"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Hewlett-Packard"},
 {"url": "http://www.hp.com"},

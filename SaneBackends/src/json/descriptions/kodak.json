@@ -1,10 +1,12 @@
 [
-{"backend": "kodak"},
-{"url": "http://www.thebility.com/kodak/"},
-{"version": "7"},
-{"manpage": "sane-kodak"},
-{"comment": "New backend for SANE release 1.0.21, see sane-kodak manpage"},
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "kodak"},
+    {"url": "http://www.thebility.com/kodak/"},
+    {"version": "7"},
+    {"manpage": "sane-kodak"},
+    {"comment": "New backend for SANE release 1.0.21, see sane-kodak manpage"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Kodak"},
 {"url": "http://www.kodak.com/"},

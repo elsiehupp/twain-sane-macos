@@ -1,10 +1,11 @@
 [
-{"backend": "escl"},
-{"manpage": "sane-escl"},
-{"url": "https://support.apple.com/en-us/HT201311"},
-{"comment": "The eSCL backend for sane supports AirScan/eSCL devices that announce themselves on mDNS as _uscan._utcp or _uscans._utcp"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "escl"},
+    {"manpage": "sane-escl"},
+    {"url": "https://support.apple.com/en-us/HT201311"},
+    {"comment": "The eSCL backend for sane supports AirScan/eSCL devices that announce themselves on mDNS as _uscan._utcp or _uscans._utcp"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Brother"},
 {"url": "https://www.brother.ee/support/drivers"},

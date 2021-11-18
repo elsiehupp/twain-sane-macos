@@ -1,11 +1,12 @@
 
 [
-{"backend": "hpsj5s"},
-{"version": "0.03 (unmaintained)"},
-{"manpage": "sane-hpsj5s"},
-{"url": "http://hpsj5s.sourceforge.net/"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "hpsj5s"},
+    {"version": "0.03 (unmaintained)"},
+    {"manpage": "sane-hpsj5s"},
+    {"url": "http://hpsj5s.sourceforge.net/"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Hewlett-Packard"},
 {"url": "http://www.hp.com/"},

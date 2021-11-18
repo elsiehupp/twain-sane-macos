@@ -1,11 +1,12 @@
 
 [
-{"backend": "artec"},
-{"version": "unmaintained"},
-{"manpage": "sane-artec"},
-{"url": "http://www4.infi.net/~cpinkham/sane/sane-artec-doc.html"},
-
-{"devicetype": "scanner"},
+{"backend": [
+    {"name": "artec"},
+    {"version": "unmaintained"},
+    {"manpage": "sane-artec"},
+    {"url": "http://www4.infi.net/~cpinkham/sane/sane-artec-doc.html"},
+    {"devicetype": "scanner"}
+]},
 
 {"mfg": "Artec/Ultima"},
 {"url": "http://www.artecusa.com/"},
