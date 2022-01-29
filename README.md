@@ -24,7 +24,7 @@ This package is the core of Mattias Ellert's project. It maps SANE's API to a TW
 
 ### `SanePreferencePane`
 
-This optional [Preference Pane](https://developer.apple.com/documentation/preferencepanes) package form Mattias Ellert's project makes it easier to configure the `sane-backends` drivers. If you don’t install this package you can still configure the `sane-backends` using a text editor in the Terminal. (This package does not compile and has not been adapted to Homebrew-installed `sane-backends`. Oddly, the compiled version of this did run correctly under macOS 11, even though the compiled `TwainSaneInterface` did not. I think this may just be due to how Preference Panes work.)
+This optional [Preference Pane](https://developer.apple.com/documentation/preferencepanes) package from Mattias Ellert's project makes it easier to configure the `sane-backends` drivers. If you don’t install this package you can still configure the `sane-backends` using a text editor in the Terminal. (This package does not compile and has not been adapted to Homebrew-installed `sane-backends`. Oddly, the compiled version of this did run correctly under macOS 11, even though the compiled `TwainSaneInterface` did not. I think this may just be due to how Preference Panes work.)
 
 > The contents of `SanePreferencePane` are licensed under the GPLv2.
 
