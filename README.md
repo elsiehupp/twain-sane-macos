@@ -16,19 +16,19 @@ Please feel free to fork this repository as a base for working on it yourself, a
 
 This repository includes three subdirectories:
 
-### `TwainSaneInterface`
+### [`./TwainSaneInterface`](./TwainSaneInterface)
 
 This package is the core of Mattias Ellert's project. It maps SANE's API to a TWAIN API and provides a graphical user interface for use within Apple Image Capture and macOS applications that use Image Capture as a scanner or camera interface. (This package does not compile and has not been adapted to Homebrew-installed `sane-backends`.)
 
 > The contents of `TwainSaneInterface` are licensed under the GPLv2.
 
-### `SanePreferencePane`
+### [`./SanePreferencePane`](./SanePreferencePane)
 
 This optional [Preference Pane](https://developer.apple.com/documentation/preferencepanes) package from Mattias Ellert's project makes it easier to configure the `sane-backends` drivers. If you don’t install this package you can still configure the `sane-backends` using a text editor in the Terminal. (This package does not compile and has not been adapted to Homebrew-installed `sane-backends`. Oddly, the compiled version of this did run correctly under macOS 11, even though the compiled `TwainSaneInterface` did not. I think this may just be due to how Preference Panes work.)
 
 > The contents of `SanePreferencePane` are licensed under the GPLv2.
 
-### `VirtualScanner`
+### [`./VirtualScanner`](./VirtualScanner)
 
 This is a sample project [from Apple's Developer documentation archive](https://developer.apple.com/library/archive/samplecode/VirtualScanner/Introduction/Intro.html). I have included it because does not seem to depend on `Carbon.framework`, though it still does not compile (albeit for different reasons.).
 
