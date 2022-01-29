@@ -1,33 +1,74 @@
-> ## Note
-> 
-> This repository aggregates the source code components available at [ellert.se/twain-sane](http://www.ellert.se/twain-sane/) for the purpose of setting up a Git workspace for the project of getting the TWAIN SANE Interface running in 64-bit for current versions of macOS.
-> 
-> ***The contents of this repository do not currently compile.***
-> 
-> I do not anticipate making progress on this project myself in the foreseeable future, as, among other things, I have very little experience with Cocoa and Objective-C, and learning macOS development is not a current focus for me.
-> 
-> Please feel free to fork this repository as a base for working on it yourself, and please do tag me if you make any progress!
-> 
-> — Elsie Hupp ([@elsiehupp](https://github.com/elsiehupp)) September 2021
+# TWAIN-SANE Interface for macOS
 
----
+## Introduction
 
-(Text below lightly adapted from [ellert.se/twain-sane](http://www.ellert.se/twain-sane/).)
+This repository aggregates the source code components available at [ellert.se/twain-sane](http://www.ellert.se/twain-sane/) for the purpose of setting up a Git workspace for the project of getting the TWAIN SANE Interface running in 64-bit for current versions of macOS.
 
-# TWAIN SANE Interface for MacOS X
+***The contents of this repository do not currently compile.***
 
-This is a TWAIN datasource for MacOS X that aquires images using the SANE backend libraries. The SANE backend libraries provide access to a large range of scanners connected through SCSI or USB. For a complete list see the documentation on [the SANE project homepage](http://www.sane-project.org/). It works with my HP SCSI scanner, and many people have reported success with a large number of different scanners. The feedback from users have helped the SANE developers to fix problems with various backends, so with each release of the SANE backends more of the MacOS X specific problems have been solved.
+I do not anticipate making progress on this project myself in the foreseeable future, as, among other things, I have very little experience with Cocoa and Objective-C, and learning macOS development is not a current focus for me.
 
-The TWAIN SANE interface is not a standalone application. It is designed to be used from within other applications. It works with applications supporting the TWAIN specification, which includes most applications on Mac OS X that handles images. However using it with Apple‘s Image Capture application has become increasingly tricky with every version of Mac OS X. You will have an easier experience if you choose any other application.
+Please feel free to fork this repository as a base for working on it yourself, and please do tag me if you make any progress!
 
-The TWAIN SANE Interface is provided as a binary package and as source code. To use the interface you only have to install the binary package. Before installing the TWAIN SANE Interface package you should install the libusb and the sane-backends binary packages.
+— Elsie Hupp ([@elsiehupp](https://github.com/elsiehupp)) September 2021
 
-There is also a optional SANE Preference Pane package available, which makes it easier to configure the sane-backends drivers. If you don’t install this package you can still configure the sane-backends using a text editor in the Terminal.
+## Repository Contents
 
-If you want to compile the sources you also have to install the gettext package. If you are cross-compiling using the MacOS X cross-compilation SDKs you need to install the corresponding SDKs for the used packages.
+This repository includes three subdirectories:
 
-The **latest version is 3.6**.
+### `TwainSaneInterface`
 
-## Localizations
+This package is the core of Mattias Ellert's project. It maps SANE's API to a TWAIN API and provides a graphical user interface for use within Apple Image Capture and macOS applications that use Image Capture as a scanner or camera interface. (This package does not compile and has not been adapted to Homebrew-installed `sane-backends`.)
 
-The TWAIN SANE Interface has been localized to the following languages: English, French, German, Italian, Japanese, Russian and Swedish. For most of the translation it relies on the localization support in the SANE backend libraries.
+> The contents of `TwainSaneInterface` are licensed under the GPLv2.
+
+### `SanePreferencePane`
+
+This optional [Preference Pane](https://developer.apple.com/documentation/preferencepanes) package form Mattias Ellert's project makes it easier to configure the `sane-backends` drivers. If you don’t install this package you can still configure the `sane-backends` using a text editor in the Terminal. (This package does not compile and has not been adapted to Homebrew-installed `sane-backends`. Oddly, the compiled version of this did run correctly under macOS 11, even though the compiled `TwainSaneInterface` did not. I think this may just be due to how Preference Panes work.)
+
+> The contents of `SanePreferencePane` are licensed under the GPLv2.
+
+### `VirtualScanner`
+
+This is a sample project [from Apple's Developer documentation archive](https://developer.apple.com/library/archive/samplecode/VirtualScanner/Introduction/Intro.html). I have included it because does not seem to depend on `Carbon.framework`, though it still does not compile (albeit for different reasons.).
+
+> The contents of `VirtualScanner` are licensed under Apple's version of the MIT License.
+
+## External Requirements
+
+After doing some further digging, I have simplified the contents of this repository to exclude the dependencies available through [Homebrew](https://brew.sh/). Rather than including an ancient version of the source code for `sane-backends`, I would encourage you to install the fully maintained Homebrew version using the following Terminal commands:
+
+### 1. Install Homebrew (if you haven't already):
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+### 2. Install `sane-backends`:
+
+```bash
+brew install sane-backends
+```
+
+The advantage with this approach is that the version you have installed will be completely up-to-date. I have not updated any of the code to dynamically linking to the Homebrew version, though, because I'm not sure exactly what would be involved.
+
+## Problem Statement
+
+Mattias Ellert's original code no longer compiles on current versions of macOS due to two prerequisite Apple libraries never making the jump to 64-bit:
+
+1. [`Carbon.framework`](https://en.wikipedia.org/wiki/Carbon_(API)) (Yes, we knew this fourteen years ago.)
+2. `ICADevices.framework` (Depends on `Carbon.framework`)
+
+Additionally, `TWAIN.framework` doesn't appear in Apple's current Developer documentation, but I checked on my Mac (running macOS 12.1), and `/System/Library/Frameworks/TWAIN.framework` is still there, so seemingly it's still current.
+
+Regardless, Apple no longer provides any current references for creating scanner drivers in particular. As best I can tell, approaches that might work for modernizing the TWAIN-SANE Interface are as follows:
+
+* At the very least, port the existing `TwainSaneInterface` (and maybe `SanePreferencePane`) code to access `sane-backends` dynamically, and port it from `Carbon.framework` to `Cocoa.framework` (or even SwiftUI).
+* Maybe create a wrapper for `sane-backends` using [`DriverKit`](https://developer.apple.com/documentation/driverkit), specifically [`USBDriverKit`](https://developer.apple.com/documentation/usbdriverkit) (though this would rule out `sane-backends` using parallel, SCSI, or any other non-USB interface)?
+* Maybe port the `TwainSaneInterface` from using `TWAIN.framework` to using `ImageCaptureCore` directly? (It's unclear to me whether `ImageCaptureCore` is only for client applicaitons or if it's for drivers, as well.)
+
+Note that `TwainSaneInterface` is written entirely in C and C++, not Objective-C. The only Objective-C file in the entire project is in `TwainSaneInterface` (though the `VirtualScanner` sample project is written in Objective-C). TWAIN is (as far as I can tell) basically a set of C headers, so any code accessing them would need to accept these. In order to access both TWAIN and Cocoa in the same project, it may be necessary to use [Objective-C++](https://objectivecpp.johnholdsworth.com/intro.html), which is just its own weird, weird beast.
+
+Anyway, I hope this updated commentary is helpful!
+
+— Elsie Hupp ([@elsiehupp](https://github.com/elsiehupp)) January 2022

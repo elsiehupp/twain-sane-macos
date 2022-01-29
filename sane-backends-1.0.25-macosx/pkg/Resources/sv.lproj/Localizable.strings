@@ -1,2 +1,0 @@
-"NoLibusbTitle" = "libusb hittades inte";
-"NoLibusbMessage" = "Vänligen installera libusb-paketet innan installationen av sane-backends-paketet.";
